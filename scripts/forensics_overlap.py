@@ -25,15 +25,19 @@ def _hashes(rows):
 
 def _one(args):
     path, g = args
-    t = pq.ParquetFile(path).read_row_group(g, columns=["seq_ix", *FEATURE_COLUMNS], use_threads=False)
-    x = np.column_stack([t.column(c).to_numpy() for c in FEATURE_COLUMNS]).astype(np.float32)
-    sent = np.isclose(x, SENTINEL, atol=1e-4).mean(axis=0)
+    cols = FEATURE_COLUMNS[:44] if g % 20 else FEATURE_COLUMNS  # sentinel stats on 5% of sequences
+    t = pq.ParquetFile(path).read_row_group(g, columns=["seq_ix", *cols], use_threads=False)
+    x = np.column_stack([t.column(c).to_numpy() for c in cols]).astype(np.float32)
+    sent = np.full(len(FEATURE_COLUMNS), np.nan)
+    if len(cols) == len(FEATURE_COLUMNS):
+        sent = np.isclose(x, SENTINEL, atol=1e-4).mean(axis=0)
+    x = x[:, :44]
     return (int(t.column("seq_ix")[0].as_py()), _hashes(x[:K]), _hashes(x[-K:]), sent)
 
 
 def main():
     jobs = [(f"datasets/{s}.parquet", g) for s, n in (("train", 10607), ("valid", 1873)) for g in range(n)]
-    with Pool(6) as pool:
+    with Pool(4) as pool:
         res = pool.map(_one, jobs, chunksize=32)
     split = ["train"] * 10607 + ["valid"] * 1873
     head_index = defaultdict(list)  # hash of a head row -> (seq idx, row offset)
@@ -53,6 +57,7 @@ def main():
     for (i, j), cnt in pairs.items():
         kinds[f"{split[i]}->{split[j]}"] += 1
     sent = np.stack([r[3] for r in res])
+    sent = sent[~np.isnan(sent[:, 0])]
     cols = np.flatnonzero(sent.mean(0) > 0)
     out = {
         "sequences": len(res),

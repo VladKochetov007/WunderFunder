@@ -3,8 +3,9 @@
 ## Target and baseline
 
 Goal: validation WP >= 0.80 (clipped weighted Pearson, METRIC.md). Organizer
-baseline 0.5896 (full). Best own model: GRU 256x2 + event features, full data 2
-epochs, 0.5958 on valid600 (E-007).
+baseline 0.5896 (full). Best own model: GRU 384x2 + event features, 3000 train
+seqs, epoch 0: 0.6096 on dev600 (E-028); CPU-budget GRU 256x2: 0.6036 (E-023).
+Single seed; second epochs on 3000 seqs overfit.
 
 ## Supported claims
 
