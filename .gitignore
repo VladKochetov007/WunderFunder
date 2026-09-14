@@ -1,0 +1,52 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv*/
+
+# Competition data: 33 GB of parquet, never versioned
+*.parquet
+*.arrow
+*.feather
+
+# Derived data caches (memmaps, feature stores)
+cache/
+*.npy
+*.npz
+*.memmap
+
+# Experiment outputs, checkpoints, trackers
+artifacts/
+runs/
+wandb/
+mlruns/
+lightning_logs/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Submission bundles are built from tracked sources
+submissions/
+*.zip
+!baseline/baseline_submission.zip
+
+# Native builds
+target/
+native/**/build/
+compile_commands.json
+
+# Tool caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.hypothesis/
+.ipynb_checkpoints/
+.numba_cache/
+.benchmarks/
+perf.data*
