@@ -1,0 +1,67 @@
+[project]
+name = "wnn-connectome"
+version = "0.1.0"
+description = "Research and submission code for the Wunder Alpha Connectome sequence prediction challenge"
+readme = "README.md"
+authors = [{ name = "Vlad Kochetov", email = "vladyslavdrrragonkoch@gmail.com" }]
+# The scorer runs python:3.11-slim-bookworm; anything shipped in a submission
+# must stay importable on 3.11. Research runs on the pinned .python-version.
+requires-python = ">=3.11,<3.14"
+# Runtime dependencies mirror the starter pack requirements the scorer is known
+# to provide. Do not add a package here unless the scorer image has it.
+dependencies = ["numpy==2.2.6", "onnxruntime==1.23.2", "pyarrow==19.0.1"]
+
+[dependency-groups]
+# Research only: GPU training, multicore kernels, analytics. Never imported by
+# submission code paths.
+research = [
+    "torch>=2.14,<2.15",
+    "numba>=0.61",
+    "polars>=1.30",
+    "scipy>=1.15",
+    "scikit-learn>=1.6",
+    "matplotlib>=3.10",
+    "tqdm>=4.67",
+    "onnx>=1.18",
+]
+dev = ["pytest>=8.4", "hypothesis>=6.130", "ruff>=0.12", "basedpyright>=1.30"]
+
+[tool.uv]
+default-groups = ["research", "dev"]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu130" }
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[build-system]
+requires = ["uv_build>=0.12.11,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "wnn"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "data: needs datasets/*.parquet (skipped when absent)",
+    "gpu: needs a CUDA device",
+    "slow: longer than a few seconds",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "NPY", "SIM"]
+ignore = ["E501"]
+
+[tool.basedpyright]
+pythonVersion = "3.11"
+include = ["src", "tests", "scripts"]
+typeCheckingMode = "standard"
