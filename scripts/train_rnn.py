@@ -143,8 +143,12 @@ def main():
     ap.add_argument("--train-source", choices=["train", "valid_devA"], default="train")
     ap.add_argument("--eval-source", choices=["dev", "devB"], default="dev")
     ap.add_argument("--init", default="", help="run name whose model.pt initializes weights")
+    ap.add_argument("--mask-weight", action="store_true",
+                    help="main loss only on is_scored rows (needs a validation train source)")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
+    if args.mask_weight and args.train_source == "train":
+        ap.error("--mask-weight needs is_scored, which train.parquet does not have")
 
     torch.manual_seed(args.seed)
     device = torch.device("cuda")
@@ -208,11 +212,12 @@ def main():
     best, t0, history = -1.0, time.time(), []
     for epoch in range(args.epochs):
         model.train()
-        for b, (x, y, _) in enumerate(train_loader):
+        for b, (x, y, scored) in enumerate(train_loader):
             inputs = build_inputs(x.to(device, non_blocking=True))
             y = y.to(device, non_blocking=True)
             steps = torch.arange(inputs.shape[1], device=device)[None].expand(inputs.shape[0], -1)
             valid = steps >= WARMUP
+            main_valid = valid & scored.to(device) if args.mask_weight else valid
             aux = shifted_targets(y, valid, shifts)
             h = None
             for s in range(0, inputs.shape[1], args.chunk):
@@ -220,7 +225,7 @@ def main():
                 with torch.autocast("cuda", dtype=torch.float16):
                     out, h = forward_chunk(model, inputs, sl, h)
                 h = detach_state(h)
-                loss = objective(out[..., :2], y[:, sl], valid[:, sl])
+                loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])
                 for j, (ya, va) in enumerate(aux):
                     loss = loss + args.aux_weight * objective(out[..., 2 + 2 * j : 4 + 2 * j], ya[:, sl], va[:, sl])
                 opt.zero_grad(set_to_none=True)
