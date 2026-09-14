@@ -41,3 +41,23 @@ Wins that remain:
   (5.6 vs 16.6 us); event deltas and flags are mostly zero.
 - Whole pipeline (features + model) in one native call removes ~18 us of numpy.
 - Model design: keep <= ~0.6 M FLOPs/row for margin on an unknown scorer vCPU.
+
+## Perf pass 2 (E-022): layout, allocations, approximations
+
+`native/src/rnn_fast.rs`: one 64-byte-aligned arena (bytemuck blocks, no
+unsafe) in read order, state+scratch in a second aligned arena, caller-owned
+output (no per-row allocation), normalization folded into a column-major input
+projection so zero inputs are skipped, fused branchless gate loop.
+`native/src/approx.rs`: exp as 2^n e^r (exact power of two from bits, degree-7
+core), sigmoid/tanh from it, erf by Abramowitz-Stegun 7.1.26; max errors vs
+f64 libm: sigmoid < 2e-6, tanh < 4e-6, GELU < 5e-6.
+
+| hidden x 2 | reference | FastRnn exact | FastRnn approx |
+|---|---:|---:|---:|
+| 256 | 150.5 us | 144.8 (1.04x) | 131.1 (1.15x) |
+| 192 | 93.3 | 82.1 (1.14x) | 74.8 (1.25x) |
+| 128 | 44.9 | 35.1 (1.28x) | 30.8 (1.46x) |
+
+Gains concentrate where non-matmul work is a large share (small hidden). The
+first attempt at exp by 2^8 squarings amplified f32 rounding to 5.7e-6 and was
+replaced. `x86-64-v3` portable builds are up to 13% slower than native.
