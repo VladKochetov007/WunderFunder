@@ -5,10 +5,10 @@ from __future__ import annotations
 import json
 
 import numpy as np
+from probe_class3_hgb import design
 from sklearn.ensemble import HistGradientBoostingClassifier, HistGradientBoostingRegressor
 from sklearn.metrics import roc_auc_score
 
-from probe_class3_hgb import design
 from wnn.data import SequenceFile, market_class
 from wnn.markov import markov_features
 from wnn.metric import block_scores
@@ -42,6 +42,7 @@ def main():
     cache = {id(s): (design(s.features, G), markov_features(s.features)) for s in tr + te}
     out = {}
     for name, use_markov in [("snapshot", False), ("snapshot+markov", True)]:
+
         def feats(s):
             a, m = cache[id(s)]
             return np.hstack([a, m]) if use_markov else a
@@ -52,10 +53,18 @@ def main():
         xte, yte = np.vstack([r[0] for r in rte]), np.concatenate([r[1] for r in rte])
         rem = np.concatenate([r[2] for r in rte])
         sub = np.random.default_rng(1).choice(len(xtr), min(len(xtr), 600_000), replace=False)
-        clf = HistGradientBoostingClassifier(max_iter=300, max_leaf_nodes=63).fit(xtr[sub], ytr[sub])
+        clf = HistGradientBoostingClassifier(max_iter=300, max_leaf_nodes=63).fit(
+            xtr[sub], ytr[sub]
+        )
         p = clf.predict_proba(xte)[:, 1]
-        auc = {f"{lo}-{hi}": round(float(roc_auc_score(yte[(rem >= lo) & (rem <= hi)], p[(rem >= lo) & (rem <= hi)])), 3)
-               for lo, hi in BUCKETS if ((rem >= lo) & (rem <= hi)).sum() > 100}
+        auc = {
+            f"{lo}-{hi}": round(
+                float(roc_auc_score(yte[(rem >= lo) & (rem <= hi)], p[(rem >= lo) & (rem <= hi)])),
+                3,
+            )
+            for lo, hi in BUCKETS
+            if ((rem >= lo) & (rem <= hi)).sum() > 100
+        }
         # metric-true regression on all rows
         preds = []
         for k in range(2):
@@ -64,9 +73,21 @@ def main():
             reg = HistGradientBoostingRegressor(max_iter=300, max_leaf_nodes=63)
             reg.fit(xs, ys, sample_weight=np.abs(np.clip(ys, -2, 2)) + 0.05)
             preds.append([reg.predict(feats(s)) for s in te])
-        pr = np.stack([np.stack([preds[0][i], preds[1][i]], 1) for i in range(len(te))]).astype(np.float32)
-        wp = float(np.nanmean(block_scores(np.stack([s.targets for s in te]), pr, np.stack([s.scored for s in te])).mean(1)))
-        out[name] = {"auc_overall": round(float(roc_auc_score(yte, p)), 3), "auc_by_rows_to_break": auc, "class3_wp": round(wp, 3)}
+        pr = np.stack([np.stack([preds[0][i], preds[1][i]], 1) for i in range(len(te))]).astype(
+            np.float32
+        )
+        wp = float(
+            np.nanmean(
+                block_scores(
+                    np.stack([s.targets for s in te]), pr, np.stack([s.scored for s in te])
+                ).mean(1)
+            )
+        )
+        out[name] = {
+            "auc_overall": round(float(roc_auc_score(yte, p)), 3),
+            "auc_by_rows_to_break": auc,
+            "class3_wp": round(wp, 3),
+        }
         print(name, json.dumps(out[name]), flush=True)
 
 
