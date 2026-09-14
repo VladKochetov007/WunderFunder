@@ -28,6 +28,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("name")
     ap.add_argument("--holdout", action="store_true")
+    ap.add_argument("--devB", action="store_true", help="score only dev half B")
     args = ap.parse_args()
     run = ROOT / "artifacts" / "runs" / args.name
     ckpt = torch.load(run / "model.pt", map_location="cpu", weights_only=False)
@@ -39,6 +40,10 @@ def main():
     dev, hold = valid_row_groups(ROOT / "datasets" / "valid.parquet")
     groups = hold if args.holdout else dev
     split = "holdout" if args.holdout else "dev"
+    if args.devB:
+        from wnn.splits import dev_halves
+
+        groups, split = dev_halves(ROOT / "datasets" / "valid.parquet")[1], "devB"
     loader = DataLoader(Sequences("valid", groups), batch_size=16, num_workers=2, prefetch_factor=1)
     scores, classes = [], []
     for x, y, m in loader:

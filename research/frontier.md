@@ -7,6 +7,12 @@ baseline 0.5896 (full). Best own model: GRU 384x2 + event features, 3000 train
 seqs, epoch 0: 0.6096 on dev600 (E-028); CPU-budget GRU 256x2: 0.6036 (E-023).
 Single seed; second epochs on 3000 seqs overfit.
 
+## Incident (E-032)
+
+train.parquet sha256 changed during the session without a write (2 runs failed
+with ZSTD corruption). Treat train-reading runs after ~02:30 as invalid until the
+file is restored from the archive and its hash verified. valid.parquet is intact.
+
 ## Supported claims
 
 - Targets move only on joint i0 bid+ask price events (H-001).

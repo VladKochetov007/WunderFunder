@@ -54,7 +54,7 @@ def main():
     for i, j, _, _ in links:
         pairs[(i, j)] += 1
     kinds = defaultdict(int)
-    for (i, j), cnt in pairs.items():
+    for (i, j) in pairs:
         kinds[f"{split[i]}->{split[j]}"] += 1
     sent = np.stack([r[3] for r in res])
     sent = sent[~np.isnan(sent[:, 0])]

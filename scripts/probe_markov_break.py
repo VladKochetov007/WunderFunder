@@ -43,7 +43,7 @@ def main():
     out = {}
     for name, use_markov in [("snapshot", False), ("snapshot+markov", True)]:
 
-        def feats(s):
+        def feats(s, use_markov=use_markov):
             a, m = cache[id(s)]
             return np.hstack([a, m]) if use_markov else a
 
