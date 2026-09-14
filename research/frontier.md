@@ -21,12 +21,15 @@ epochs, 0.5958 on valid600 (E-007).
 - H-005 dense native rewrite as big speedup: FLOP-bound, 112 vs 119 us.
 - H-008 event-lag state features fix class 3: event-row evaluation artifact.
 - H-010 snapshot queue features predict break direction early: AUC 0.55-0.59 beyond 20 rows.
+- H-011 in-context Markov transition statistics: no early break information.
+- H-012 class-3 scored rows near breaks: they are farther away.
+- H-013 i1 sign-cumsum lead-lag: AUC <= 0.53 in class 3.
 
 ## Live mechanisms
 
 | hypothesis | mechanism | evidence | next test |
 |---|---|---|---|
-| H-011 | in-context Markov transition stats | open | break AUC with online transition features |
+| H-015 | exact target definition on event clock | r 0.5-0.6 with crude levels | better level recovery; online label reconstruction |
 | H-007 | scored-row propensity weighting | AUC 0.82 | weighted training A/B |
 | H-006 | sparse input compute | microbench 3x | sparse projection in native model |
 
@@ -37,9 +40,20 @@ WP is an equal mean over sequences. With classes 0-2 at ~0.73 average and class 
 0.70 or every class far above current levels; the class-3 break-horizon result
 (H-010) makes this the binding constraint.
 
+## Bound (H-014)
+
+Perfect next-break knowledge within 20 rows gives class-3 WP 0.42; within 100
+rows 0.615. Measured direction AUC is 0.83 at 6-20 rows and ~0.55-0.60 beyond.
+With class shares ~25/17/19/38%, 0.80 overall requires classes 0-2 near 1.0 or
+class-3 break direction ~500 rows ahead. Current evidence says 0.80 is not
+reachable causally unless a new information source for class 3 appears.
+
 ## TODO
 
-- [ ] H-011 in-context Markov break features (probe, then GRU input)
+- [x] H-011 in-context Markov break features (refuted)
+- [ ] H-015 exact target definition; if exact, online per-sequence recalibration from reconstructed past labels
+- [ ] Visual analysis toolkit (fast renderer) of books, events, targets, mask
+- [ ] arXiv scout: queue-reactive, microprice, OFI, propagator, cross-impact
 - [ ] H-007 propensity-weighted loss A/B
 - [ ] Auxiliary targets at multiple horizons (Jane Street 8th-place pattern)
 - [ ] Online test-time adaptation: labels are future-derived only; check if past targets are reconstructible from later features
