@@ -21,7 +21,7 @@ from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch
 from wnn.metric import block_scores, score
 from wnn.nn import DualClockModel, RNNModel, weighted_corr_loss, weighted_mse_loss
 from wnn.resources import configure_torch, dataloader_budget
-from wnn.splits import valid_row_groups
+from wnn.splits import dev_halves, valid_row_groups
 
 ROOT = Path(__file__).resolve().parents[1]
 SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4
@@ -140,6 +140,9 @@ def main():
     ap.add_argument("--event-hidden", type=int, default=128)
     ap.add_argument("--class-balance", action="store_true",
                     help="sample train sequences so market-class shares match validation")
+    ap.add_argument("--train-source", choices=["train", "valid_devA"], default="train")
+    ap.add_argument("--eval-source", choices=["dev", "devB"], default="dev")
+    ap.add_argument("--init", default="", help="run name whose model.pt initializes weights")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
 
@@ -149,22 +152,30 @@ def main():
     out_dir = ROOT / "artifacts" / "runs" / args.name
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    train_idx = np.random.default_rng(args.seed).permutation(10607)[: args.train_seqs]
-    dev_groups, _ = valid_row_groups(ROOT / "datasets" / "valid.parquet")
-    n_valid = len(dev_groups) if args.full_valid else args.valid_seqs
-    valid_idx = np.random.default_rng(12345).permutation(dev_groups)[:n_valid]
+    valid_path = ROOT / "datasets" / "valid.parquet"
+    dev_groups, _ = valid_row_groups(valid_path)
+    dev_a, dev_b = dev_halves(valid_path)
+    train_split = "train"
+    if args.train_source == "valid_devA":
+        train_split = "valid"
+        train_idx = np.random.default_rng(args.seed).permutation(dev_a)[: args.train_seqs]
+    else:
+        train_idx = np.random.default_rng(args.seed).permutation(10607)[: args.train_seqs]
+    eval_groups = dev_b if args.eval_source == "devB" else dev_groups
+    n_valid = len(eval_groups) if args.full_valid else min(args.valid_seqs, len(eval_groups))
+    valid_idx = np.random.default_rng(12345).permutation(eval_groups)[:n_valid]
 
     workers, prefetch = dataloader_budget(args.batch * SEQ_BYTES)
     sampler = None
     if args.class_balance:
         classes = np.load(ROOT / "research" / "artifacts" / "market-classes-v1.npz")
-        tr_cls = classes["train"][train_idx]
+        tr_cls = classes[train_split][train_idx]
         va_share = np.array([(classes["valid"] == c).mean() for c in range(4)])
         tr_share = np.array([max((tr_cls == c).mean(), 1e-9) for c in range(4)])
         weights = np.where(tr_cls >= 0, va_share[np.clip(tr_cls, 0, 3)] / tr_share[np.clip(tr_cls, 0, 3)], 1.0)
         sampler = WeightedRandomSampler(torch.as_tensor(weights, dtype=torch.double), len(train_idx),
                                         replacement=True, generator=torch.Generator().manual_seed(args.seed))
-    train_loader = DataLoader(Sequences("train", train_idx), batch_size=args.batch, shuffle=sampler is None,
+    train_loader = DataLoader(Sequences(train_split, train_idx), batch_size=args.batch, shuffle=sampler is None,
                               sampler=sampler, drop_last=True, num_workers=workers, prefetch_factor=prefetch)
     valid_loader = DataLoader(Sequences("valid", valid_idx), batch_size=16, num_workers=2,
                               prefetch_factor=1)
@@ -172,7 +183,11 @@ def main():
     shifts = [int(v) for v in args.aux.split(",") if v]
     n_in = N_FEATURES + N_EVENT_FEATURES
     model = make_model(vars(args), n_in, 2 + 2 * len(shifts)).to(device)
-    fit_normalization(model, train_loader, device)
+    if args.init:
+        init = torch.load(ROOT / "artifacts" / "runs" / args.init / "model.pt", map_location="cpu", weights_only=False)
+        model.load_state_dict(init["model"])
+    else:
+        fit_normalization(model, train_loader, device)
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.wd)
     total = len(train_loader) * math.ceil(20_000 / args.chunk) * args.epochs
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=total,
@@ -223,7 +238,7 @@ def main():
                       f"lr {sched.get_last_lr()[0]:.2e} seq/s {rate:.1f}", flush=True)
         t_eval = time.time()
         res = evaluate(model, valid_loader, 4000, device)
-        res.update(epoch=epoch, eval_seconds=round(time.time() - t_eval, 1), split=f"dev{n_valid}")
+        res.update(epoch=epoch, eval_seconds=round(time.time() - t_eval, 1), split=f"{args.eval_source}{n_valid}")
         history.append(res)
         print("VALID", json.dumps(res), flush=True)
         if res["weighted_pearson"] > best:
