@@ -1,0 +1,44 @@
+question: >
+  Can a causal, row-by-row model reach clipped weighted Pearson >= 0.80 on the
+  Wunder Alpha Connectome validation set within the submission limits?
+target_claim: "Streaming submission scores >= 0.80 WP on full validation, trained on train only, and passes an independent leakage/rules audit."
+deliverable:
+  type: "submission zip"
+  schema: "solution.py with PredictionModel.predict(DataPoint) per docs/submission_guide.md; <= 20 MB; python 3.11; 1 vCPU; 60 min"
+baseline:
+  artifact: baseline/baseline_submission.zip
+  metrics: {valid_full_wp: 0.589595}
+verification:
+  tier: B
+  model_to_reality_gap: >
+    Private leaderboard uses a hidden test set and mask; validation mask is public,
+    test mask is not. Scorer CPU speed is unknown (local host is thermally limited).
+  public_metrics: ["WP on valid dev split (1505 seqs)", "per-class WP"]
+  private_metrics: ["WP on valid holdout split (368 seqs, sha256(seq_ix) % 5 == 0; research/artifacts/splits-v1.npz sha256 0a578e53...)", "streaming scorer WP on full valid via utils.ScorerStepByStep"]
+  invariants:
+    - "prediction at step s depends only on rows <= s of the same seq_ix (prefix-invariance tests)"
+    - "state reset on seq_ix change; warm-up rows return None"
+    - "no model fitting, tuning or probing reads holdout sequences or any validation targets/mask unless the run is declared a validation-fitted probe"
+    - "deterministic predictions across repeated runs"
+    - "streaming submission and batch research predictions agree"
+  falsifiers:
+    - "holdout WP more than 0.02 below dev WP"
+    - "streaming scorer disagrees with batch evaluation"
+    - "prefix-invariance test fails"
+scope:
+  allowed_data: ["datasets/train.parquet for fitting", "datasets/valid.parquet dev split for model selection", "holdout for grading only"]
+  allowed_tools: ["uv python env", "torch CUDA (research)", "numba/Rust native kernels", "sklearn"]
+  mutable_paths: ["src/", "scripts/", "native/", "tests/", "research/", "submissions/ (ignored)"]
+  forbidden_actions: ["external data", "editing utils.py or METRIC.md", "uncapped jobs (scripts/limited required)", "uploading submissions without user approval"]
+budgets:
+  cpu: "<= 80% of 16 threads via scripts/limited"
+  gpu: "<= 80% duty and memory on RTX 3060 6 GB"
+  ram: "job cap 20-30 GB, no swap"
+stop:
+  success: ["target_claim holds and an independent audit subagent finds no leak or rule violation"]
+  plateau: "three representation-changing hypotheses fail to move dev WP by >= 0.01"
+  abort: ["host instability", "evidence that 0.80 is unreachable under causal constraints (report with bound)"]
+human_gates: ["submission upload", "any use of validation data for final training"]
+assumptions:
+  - "Test set size similar to validation (37.46M rows) for the latency budget (~96 us/row)."
+  - "Earlier probes E-008..E-013 were fitted on validation sequences that include future holdout sequences; they informed hypotheses only, not model weights."
