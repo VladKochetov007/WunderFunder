@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Run a research command inside a transient systemd scope so it cannot take the
+# laptop down: CPU quota (default 80% of all logical CPUs), a hard memory cap
+# with swap disabled (the job is OOM-killed inside its cgroup, not the desktop),
+# and lowered CPU/IO priority.
+#
+#   scripts/limited .venv/bin/python scripts/train_rnn.py ...
+#
+# Overrides: WNN_CPU_PCT (default 80), WNN_MEM_MAX (default 30G).
+set -euo pipefail
+
+cpu_pct=${WNN_CPU_PCT:-80}
+mem_max=${WNN_MEM_MAX:-30G}
+threads=$(( $(nproc) * cpu_pct / 100 ))
+quota=$(( $(nproc) * cpu_pct ))%
+
+export WNN_THREADS=$threads
+export OMP_NUM_THREADS=${OMP_NUM_THREADS:-$threads}
+export MKL_NUM_THREADS=${MKL_NUM_THREADS:-$threads}
+export OPENBLAS_NUM_THREADS=${OPENBLAS_NUM_THREADS:-$threads}
+export NUMBA_NUM_THREADS=${NUMBA_NUM_THREADS:-$threads}
+export POLARS_MAX_THREADS=${POLARS_MAX_THREADS:-$threads}
+export ARROW_NUM_THREADS=${ARROW_NUM_THREADS:-$threads}
+
+exec systemd-run --user --scope --quiet \
+    -p CPUQuota="$quota" \
+    -p MemoryMax="$mem_max" \
+    -p MemorySwapMax=0 \
+    -- nice -n 10 ionice -c 3 "$@"
