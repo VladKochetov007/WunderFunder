@@ -61,3 +61,11 @@ f64 libm: sigmoid < 2e-6, tanh < 4e-6, GELU < 5e-6.
 Gains concentrate where non-matmul work is a large share (small hidden). The
 first attempt at exp by 2^8 squarings amplified f32 rounding to 5.7e-6 and was
 replaced. `x86-64-v3` portable builds are up to 13% slower than native.
+
+## Measurement caveat (E-041)
+
+ONNX Runtime latency measured inside `scripts/limited` is invalid: the cgroup CPU
+quota throttles its scheduling (7% quota 3.1 ms/row, 13% 1.5 ms, no quota
+0.22 ms for the same h256 graph). Time ORT pinned with `taskset -c N` and no
+quota scope. Single-thread Rust benchmarks (E-004, E-005, E-022) stayed below
+the quota and are unaffected.
