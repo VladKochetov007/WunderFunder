@@ -6,7 +6,7 @@ Goal: validation WP >= 0.80 (clipped weighted Pearson, METRIC.md). Organizer
 baseline 0.5896 (full). Best own model: GRU 384x2 + event features, 3000 train
 seqs, epoch 0: 0.6096 on dev600 (E-028); CPU-budget GRU 256x2: 0.6036 (E-023).
 Single seed; second epochs on 3000 seqs overfit.
-Best devB764: mask-weighted devA fine-tune 0.6306 (two seeds, E-030/E-033); plain fine-tune ~0.600.
+Best devB764: mask-weighted devA fine-tune 0.6339 (E-036); deployable train-only propensity-weighted GRU 256x2 0.6290 vs plain 0.5950 (E-038).
 
 ## Incident (E-032)
 

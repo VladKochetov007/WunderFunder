@@ -147,6 +147,7 @@ def main():
     ap.add_argument("--mask-weight", action="store_true",
                     help="main loss only on is_scored rows (needs a validation train source)")
     ap.add_argument("--propensity", default="", help="run name of a frozen PropensityNet; weights main loss by p(x)")
+    ap.add_argument("--prop-power", type=float, default=1.0, help="weights p(x)**power")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
     if args.mask_weight and args.train_source == "train":
@@ -223,7 +224,7 @@ def main():
             valid = steps >= WARMUP
             main_valid = valid & scored.to(device) if args.mask_weight else valid
             if prop_model is not None:
-                main_valid = valid.float() * propensity(prop_model, inputs)
+                main_valid = valid.float() * propensity(prop_model, inputs) ** args.prop_power
             aux = shifted_targets(y, valid, shifts)
             h = None
             for s in range(0, inputs.shape[1], args.chunk):
