@@ -46,8 +46,14 @@ class Sequences(Dataset):
         return torch.from_numpy(seq.features), torch.from_numpy(seq.targets), torch.from_numpy(scored)
 
 
+INPUT_PROPENSITY = None  # frozen PropensityNet appended as an input column when set
+
+
 def build_inputs(x):
-    return torch.cat([x, event_features_torch(x)], dim=-1)
+    inputs = torch.cat([x, event_features_torch(x)], dim=-1)
+    if INPUT_PROPENSITY is not None:
+        inputs = torch.cat([inputs, propensity(INPUT_PROPENSITY, inputs)[..., None].to(inputs.dtype)], dim=-1)
+    return inputs
 
 
 def shifted_targets(y, valid, shifts):
@@ -148,6 +154,7 @@ def main():
                     help="main loss only on is_scored rows (needs a validation train source)")
     ap.add_argument("--propensity", default="", help="run name of a frozen PropensityNet; weights main loss by p(x)")
     ap.add_argument("--prop-power", type=float, default=1.0, help="weights p(x)**power")
+    ap.add_argument("--prop-input", default="", help="run name of a frozen PropensityNet appended as an input feature")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
     if args.mask_weight and args.train_source == "train":
@@ -191,6 +198,10 @@ def main():
     shifts = [int(v) for v in args.aux.split(",") if v]
     prop_model = load_propensity(ROOT / "artifacts" / "runs" / args.propensity / "model.pt", device) if args.propensity else None
     n_in = N_FEATURES + N_EVENT_FEATURES
+    if args.prop_input:
+        global INPUT_PROPENSITY
+        INPUT_PROPENSITY = load_propensity(ROOT / "artifacts" / "runs" / args.prop_input / "model.pt", device)
+        n_in += 1
     model = make_model(vars(args), n_in, 2 + 2 * len(shifts)).to(device)
     if args.init:
         init = torch.load(ROOT / "artifacts" / "runs" / args.init / "model.pt", map_location="cpu", weights_only=False)
@@ -224,7 +235,7 @@ def main():
             valid = steps >= WARMUP
             main_valid = valid & scored.to(device) if args.mask_weight else valid
             if prop_model is not None:
-                main_valid = valid.float() * propensity(prop_model, inputs) ** args.prop_power
+                main_valid = valid.float() * propensity(prop_model, inputs[..., : N_FEATURES + N_EVENT_FEATURES]) ** args.prop_power
             aux = shifted_targets(y, valid, shifts)
             h = None
             for s in range(0, inputs.shape[1], args.chunk):

@@ -35,6 +35,12 @@ def main():
     a = ckpt["args"]
     n_out = 2 + 2 * len([v for v in a.get("aux", "").split(",") if v])
     device = torch.device("cuda")
+    if a.get("prop_input"):
+        import train_rnn
+
+        from wnn.propensity import load_propensity
+
+        train_rnn.INPUT_PROPENSITY = load_propensity(ROOT / "artifacts" / "runs" / a["prop_input"] / "model.pt", device)
     model = make_model(a, ckpt["n_in"], n_out).to(device)
     model.load_state_dict(ckpt["model"])
     dev, hold = valid_row_groups(ROOT / "datasets" / "valid.parquet")
