@@ -55,8 +55,10 @@ def configure_torch(gpu_fraction: float | None = None):
     return DutyCycle(gpu_fraction)
 
 
-def dataloader_budget(batch_bytes: int, ram_budget_bytes: int = 6 << 30, max_workers: int = 4):
+def dataloader_budget(batch_bytes: int, ram_budget_bytes: int | None = None, max_workers: int = 4):
     """Workers and prefetch so queued batches (workers * prefetch * batch) fit the RAM budget."""
+    if ram_budget_bytes is None:
+        ram_budget_bytes = int(float(os.environ.get("WNN_LOADER_RAM_GB", "6")) * (1 << 30))
     workers = max(1, min(max_workers, cpu_threads() // 2))
     prefetch = max(1, min(2, ram_budget_bytes // max(1, workers * batch_bytes)))
     return workers, int(prefetch)
