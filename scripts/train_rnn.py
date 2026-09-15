@@ -155,6 +155,8 @@ def main():
     ap.add_argument("--propensity", default="", help="run name of a frozen PropensityNet; weights main loss by p(x)")
     ap.add_argument("--prop-power", type=float, default=1.0, help="weights p(x)**power")
     ap.add_argument("--prop-input", default="", help="run name of a frozen PropensityNet appended as an input feature")
+    ap.add_argument("--swa-frac", type=float, default=0.0,
+                    help="average weights over the last fraction of optimizer steps; evaluate the average")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
     if args.mask_weight and args.train_source == "train":
@@ -213,6 +215,9 @@ def main():
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=total,
                                                 pct_start=0.05, final_div_factor=100)
     scaler = torch.amp.GradScaler()
+    swa_model = torch.optim.swa_utils.AveragedModel(model) if args.swa_frac > 0 else None
+    swa_start = int(total * (1.0 - args.swa_frac))
+    step_count = 0
 
     def objective(o, t, v):
         if args.loss == "corr":
@@ -253,6 +258,9 @@ def main():
                 scaler.step(opt)
                 scaler.update()
                 sched.step()
+                step_count += 1
+                if swa_model is not None and step_count >= swa_start:
+                    swa_model.update_parameters(model)
                 torch.cuda.synchronize()
                 duty.tick()
             if b % 20 == 0:
@@ -260,13 +268,14 @@ def main():
                 print(f"ep {epoch} batch {b}/{len(train_loader)} loss {loss.item():.4f} "
                       f"lr {sched.get_last_lr()[0]:.2e} seq/s {rate:.1f}", flush=True)
         t_eval = time.time()
-        res = evaluate(model, valid_loader, 4000, device)
+        eval_model = swa_model.module if swa_model is not None and step_count >= swa_start else model
+        res = evaluate(eval_model, valid_loader, 4000, device)
         res.update(epoch=epoch, eval_seconds=round(time.time() - t_eval, 1), split=f"{args.eval_source}{n_valid}")
         history.append(res)
         print("VALID", json.dumps(res), flush=True)
         if res["weighted_pearson"] > best:
             best = res["weighted_pearson"]
-            torch.save({"model": model.state_dict(), "args": vars(args), "n_in": n_in}, out_dir / "model.pt")
+            torch.save({"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in}, out_dir / "model.pt")
         t0 = time.time()
     (out_dir / "history.json").write_text(json.dumps(history, indent=1))
     print("BEST", best)
