@@ -149,8 +149,7 @@ def online_zscore_torch(x, eps: float = 1e-4):
     """Causal per-sequence running z-scores: stats at row t use rows <= t only. x: (B, T, F)."""
     import torch
 
-    x64 = x.double()
-    n = torch.arange(1, x.shape[1] + 1, device=x.device, dtype=torch.float64)[None, :, None]
-    mean = torch.cumsum(x64, 1) / n
-    var = torch.cumsum(x64 * x64, 1) / n - mean * mean
-    return ((x64 - mean) / torch.sqrt(var.clamp_min(0.0) + eps)).to(x.dtype)
+    n = torch.arange(1, x.shape[1] + 1, device=x.device, dtype=x.dtype)[None, :, None]
+    mean = torch.cumsum(x, 1) / n
+    var = torch.cumsum(x * x, 1).div_(n).sub_(mean * mean).clamp_min_(0.0)
+    return (x - mean).div_(var.add_(eps).sqrt_())
