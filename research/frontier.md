@@ -15,7 +15,7 @@ features, trained on train.parquet only with scoring-propensity^2 weights
 (propensity net fit on devA masks). Native Rust predictor, abi3 wheel built in
 python:3.11-slim-bookworm. Holdout (official scorer) 0.6333 vs baseline 0.5899;
 devB 0.6310/0.6314 (two seeds); 56 us/row incl scorer (~35 min for a
-validation-sized test). Independent audit pending before any claim.
+validation-sized test). Independent audit E-049: no look-ahead or leakage; crash and NaN issues fixed (E-050); open rules question on mask-derived training weights (user decision).
 
 ## Incident (E-032)
 

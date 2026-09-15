@@ -43,7 +43,7 @@ fn weights_from_dict(
 }
 
 /// Stateful twin of wnn.nn.RNNModel. Construct from `model.state_dict()` arrays.
-#[pyclass(name = "GruStepper", unsendable)]
+#[pyclass(name = "GruStepper")]
 struct PyGruStepper {
     inner: RnnModel,
 }
@@ -89,7 +89,7 @@ fn wnn_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
 
 /// Streaming predictor: event features + FastRnn, one row per call, no per-row allocation
 /// besides the returned 2-element array.
-#[pyclass(name = "Predictor", unsendable)]
+#[pyclass(name = "Predictor")]
 struct PyPredictor {
     features: crate::stream::StreamFeatures,
     model: crate::rnn_fast::FastRnn,
@@ -151,7 +151,8 @@ impl PyPredictor {
         }
         let (raw, event) = self.input.split_at_mut(crate::stream::N_RAW);
         raw.copy_from_slice(row);
-        self.features.update(row, event);
+        self.features.sanitize(raw);
+        self.features.update(raw, event);
         let n_out = self.model.n_out();
         if n_out == 2 {
             self.model.step(&self.input, &mut self.out);

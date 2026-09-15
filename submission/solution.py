@@ -1,7 +1,8 @@
 """Submission: native streaming GRU trained with scoring-propensity weights.
 
-Files next to this module: weights.npz (model state dict), wnn_native*.so
-(Rust event features + GRU, abi3 for CPython >= 3.11).
+Files next to this module: weights.npz (model state dict) and two builds of the
+Rust extension, v3/ (x86-64-v3: AVX2, FMA, BMI) and v2/ (x86-64-v2 baseline).
+The v3 build is loaded only when the CPU reports every flag it needs.
 """
 
 import os
@@ -15,9 +16,28 @@ from pathlib import Path
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
-if str(HERE) not in sys.path:
-    sys.path.insert(0, str(HERE))
+_V3_FLAGS = {"avx", "avx2", "bmi1", "bmi2", "f16c", "fma", "abm", "movbe", "xsave"}
 
+
+def _cpu_flags():
+    try:
+        with open("/proc/cpuinfo") as f:
+            for line in f:
+                if line.startswith("flags"):
+                    return set(line.split(":", 1)[1].split())
+    except OSError:
+        pass
+    return set()
+
+
+def _native_dir():
+    forced = os.environ.get("WNN_NATIVE_LEVEL")
+    if forced in ("v2", "v3"):
+        return HERE / forced
+    return HERE / ("v3" if _V3_FLAGS <= _cpu_flags() else "v2")
+
+
+sys.path.insert(0, str(_native_dir()))
 import wnn_native  # noqa: E402
 
 

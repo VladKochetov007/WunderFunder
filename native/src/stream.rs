@@ -39,6 +39,16 @@ impl StreamFeatures {
         *self = Self::default();
     }
 
+    /// Replaces non-finite values with the column's previous value (0 before the first row),
+    /// so a corrupt input reads as "unchanged" and cannot poison recurrent state.
+    pub fn sanitize(&self, row: &mut [f32]) {
+        for (j, v) in row.iter_mut().enumerate() {
+            if !v.is_finite() {
+                *v = if self.first { 0.0 } else { self.prev[j] };
+            }
+        }
+    }
+
     /// Writes the 99 event features for `row` into `out` and advances the state.
     pub fn update(&mut self, row: &[f32], out: &mut [f32]) {
         assert_eq!(row.len(), N_RAW, "row width");
@@ -122,6 +132,23 @@ mod tests {
         assert_eq!(out[66], 0.0);
         assert_eq!(out[77], 1.0);
         assert!((out[74] - (1.0f64.ln_1p() as f32)).abs() < 1e-7);
+    }
+
+    #[test]
+    fn sanitize_holds_previous_value_for_nonfinite_inputs() {
+        let mut s = StreamFeatures::default();
+        let mut out = [0.0; N_EVENT];
+        let mut first = row(f32::NAN);
+        s.sanitize(&mut first);
+        assert!(first.iter().all(|v| *v == 0.0));
+        s.update(&row(2.0), &mut out);
+        let mut bad = row(3.0);
+        bad[7] = f32::INFINITY;
+        bad[50] = f32::NAN;
+        s.sanitize(&mut bad);
+        assert_eq!(bad[7], 2.0);
+        assert_eq!(bad[50], 2.0);
+        assert_eq!(bad[8], 3.0);
     }
 
     #[test]

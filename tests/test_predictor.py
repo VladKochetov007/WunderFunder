@@ -63,3 +63,43 @@ def test_predictor_matches_trained_checkpoint_on_real_sequence():
     got = np.stack([p.step(r) for r in x])
     assert np.abs(got - want).max() < 2e-3
     assert np.corrcoef(got[:, 0], want[:, 0])[0, 1] > 0.99999
+
+
+def _thread_probe(code: str) -> int:
+    """Run code in a subprocess (an abort would kill pytest itself) and return its exit code."""
+    import subprocess
+    import sys
+
+    return subprocess.run([sys.executable, "-c", code], capture_output=True, timeout=120).returncode
+
+
+def test_predictor_survives_cross_thread_use():
+    code = (
+        "import threading, numpy as np, wnn_native\n"
+        "import torch\n"
+        "from wnn.nn import RNNModel\n"
+        "m = RNNModel(211, 8, 1).eval()\n"
+        "w = {k: np.ascontiguousarray(v.detach().numpy(), np.float32) for k, v in m.state_dict().items()}\n"
+        "p = wnn_native.Predictor(w)\n"
+        "out = []\n"
+        "t = threading.Thread(target=lambda: out.append(p.step(np.zeros(112, np.float32))))\n"
+        "t.start(); t.join()\n"
+        "assert len(out) == 1 and out[0].shape == (2,)\n"
+    )
+    assert _thread_probe(code) == 0
+
+
+def test_nonfinite_input_does_not_poison_state():
+    torch.manual_seed(0)
+    model = RNNModel(211, 16, 2).eval()
+    x = _synthetic(300)
+    clean = native.Predictor(_weights(model))
+    dirty = native.Predictor(_weights(model))
+    for i, r in enumerate(x):
+        a = clean.step(r)
+        bad = r.copy()
+        if i == 100:
+            bad[5] = np.nan
+        b = dirty.step(bad)
+    assert np.isfinite(b).all()
+    assert np.abs(a - b).max() < 1.0  # recovers instead of emitting a fixed fallback forever
