@@ -157,6 +157,7 @@ def main():
     ap.add_argument("--prop-input", default="", help="run name of a frozen PropensityNet appended as an input feature")
     ap.add_argument("--swa-frac", type=float, default=0.0,
                     help="average weights over the last fraction of optimizer steps; evaluate the average")
+    ap.add_argument("--train-classes", default="", help="comma-separated market classes to train on (oracle expert test)")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
     if args.mask_weight and args.train_source == "train":
@@ -177,6 +178,10 @@ def main():
         train_idx = np.random.default_rng(args.seed).permutation(dev_a)[: args.train_seqs]
     else:
         usable = np.array([g for g in range(10607) if g not in CORRUPT_TRAIN_ROW_GROUPS])
+        if args.train_classes:
+            keep = {int(c) for c in args.train_classes.split(",")}
+            cls = np.load(ROOT / "research" / "artifacts" / "market-classes-v1.npz")["train"]
+            usable = usable[np.isin(cls[usable], list(keep))]
         train_idx = np.random.default_rng(args.seed).permutation(usable)[: args.train_seqs]
     eval_groups = dev_b if args.eval_source == "devB" else dev_groups
     n_valid = len(eval_groups) if args.full_valid else min(args.valid_seqs, len(eval_groups))
