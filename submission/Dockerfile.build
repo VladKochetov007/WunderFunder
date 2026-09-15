@@ -1,0 +1,8 @@
+# Builds the wnn_native abi3 wheel against the scorer's base image (glibc of Debian bookworm).
+FROM python:3.11-slim-bookworm
+RUN apt-get update && apt-get install -y --no-install-recommends curl build-essential ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.94.0
+ENV PATH=/root/.cargo/bin:$PATH
+RUN pip install --no-cache-dir "maturin>=1.9,<2"
+WORKDIR /src
