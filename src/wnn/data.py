@@ -23,6 +23,9 @@ FEATURE_COLUMNS = [
 ] + [f"a{i}" for i in range(8)]
 TARGET_COLUMNS = ("t0", "t1")
 
+# Row groups that fail to decode in the local copy (research E-032/E-035).
+CORRUPT_TRAIN_ROW_GROUPS = frozenset({528})
+
 # Target values are integer multiples of one of these quanta (tick / scale).
 # Observed on validation; identifies the market class of a labelled sequence.
 TARGET_QUANTA = np.array([0.12543, 0.24133, 0.46854, 0.65687])

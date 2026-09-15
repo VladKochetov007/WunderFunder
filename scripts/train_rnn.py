@@ -16,7 +16,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 
-from wnn.data import N_FEATURES, WARMUP, SequenceFile, market_class
+from wnn.data import CORRUPT_TRAIN_ROW_GROUPS, N_FEATURES, WARMUP, SequenceFile, market_class
 from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch
 from wnn.metric import block_scores, score
 from wnn.nn import DualClockModel, RNNModel, weighted_corr_loss, weighted_mse_loss
@@ -166,7 +166,8 @@ def main():
         train_split = "valid"
         train_idx = np.random.default_rng(args.seed).permutation(dev_a)[: args.train_seqs]
     else:
-        train_idx = np.random.default_rng(args.seed).permutation(10607)[: args.train_seqs]
+        usable = np.array([g for g in range(10607) if g not in CORRUPT_TRAIN_ROW_GROUPS])
+        train_idx = np.random.default_rng(args.seed).permutation(usable)[: args.train_seqs]
     eval_groups = dev_b if args.eval_source == "devB" else dev_groups
     n_valid = len(eval_groups) if args.full_valid else min(args.valid_seqs, len(eval_groups))
     valid_idx = np.random.default_rng(12345).permutation(eval_groups)[:n_valid]
