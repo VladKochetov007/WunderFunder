@@ -81,3 +81,18 @@ def test_real_sequence_streaming_equivalence_and_target_clock():
     moved = np.any(np.diff(seq.targets, axis=0) != 0, axis=1)
     px_event = feats[1:, FEATURE_NAMES.index("ev_i0px")] > 0
     assert moved.any() and not (moved & ~px_event).any()
+
+
+def test_online_zscore_is_causal_and_matches_oracle():
+    torch = pytest.importorskip("torch")
+    from wnn.features import online_zscore_torch
+
+    x = torch.from_numpy(_synthetic(np.random.default_rng(9), t=200)[None])
+    z = online_zscore_torch(x)
+    for t in (0, 1, 57, 199):
+        prefix = x[0, : t + 1].double()
+        want = (prefix[-1] - prefix.mean(0)) / torch.sqrt(prefix.var(0, unbiased=False) + 1e-4)
+        torch.testing.assert_close(z[0, t].double(), want, atol=1e-4, rtol=0)
+    x2 = x.clone()
+    x2[:, 150:] += 7.0
+    torch.testing.assert_close(online_zscore_torch(x2)[:, :150], z[:, :150])

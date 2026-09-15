@@ -17,7 +17,7 @@ import torch
 from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 
 from wnn.data import CORRUPT_TRAIN_ROW_GROUPS, N_FEATURES, WARMUP, SequenceFile, market_class
-from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch
+from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch, online_zscore_torch
 from wnn.metric import block_scores, score
 from wnn.nn import DualClockModel, RNNModel, weighted_corr_loss, weighted_mse_loss
 from wnn.propensity import load_propensity, propensity
@@ -47,10 +47,13 @@ class Sequences(Dataset):
 
 
 INPUT_PROPENSITY = None  # frozen PropensityNet appended as an input column when set
+ONLINE_NORM = False  # append causal per-sequence z-scores of the 112 raw features
 
 
 def build_inputs(x):
     inputs = torch.cat([x, event_features_torch(x)], dim=-1)
+    if ONLINE_NORM:
+        inputs = torch.cat([inputs, online_zscore_torch(x)], dim=-1)
     if INPUT_PROPENSITY is not None:
         inputs = torch.cat([inputs, propensity(INPUT_PROPENSITY, inputs)[..., None].to(inputs.dtype)], dim=-1)
     return inputs
@@ -158,6 +161,7 @@ def main():
     ap.add_argument("--swa-frac", type=float, default=0.0,
                     help="average weights over the last fraction of optimizer steps; evaluate the average")
     ap.add_argument("--train-classes", default="", help="comma-separated market classes to train on (oracle expert test)")
+    ap.add_argument("--online-norm", action="store_true")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
     if args.mask_weight and args.train_source == "train":
@@ -205,6 +209,10 @@ def main():
     shifts = [int(v) for v in args.aux.split(",") if v]
     prop_model = load_propensity(ROOT / "artifacts" / "runs" / args.propensity / "model.pt", device) if args.propensity else None
     n_in = N_FEATURES + N_EVENT_FEATURES
+    if args.online_norm:
+        global ONLINE_NORM
+        ONLINE_NORM = True
+        n_in += N_FEATURES
     if args.prop_input:
         global INPUT_PROPENSITY
         INPUT_PROPENSITY = load_propensity(ROOT / "artifacts" / "runs" / args.prop_input / "model.pt", device)
