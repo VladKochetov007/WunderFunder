@@ -17,6 +17,15 @@ python:3.11-slim-bookworm. Holdout (official scorer) 0.6333 vs baseline 0.5899;
 devB 0.6310/0.6314 (two seeds); 56 us/row incl scorer (~35 min for a
 validation-sized test). Independent audit E-049: no look-ahead or leakage; crash and NaN issues fixed (E-050); open rules question on mask-derived training weights (user decision).
 
+## Decisions pending (campaign paused 2026-09-15)
+
+1. Rules: are training weights derived from validation is_scored allowed?
+   Candidate (holdout 0.6333) uses them; fallback `submissions/ab12_h128_plain_fallback`
+   (devB 0.5978) does not. Ask organizers if unclear.
+2. Validation data in final training (stacking measured 0.6389 devB, E-045).
+3. Hardware check (btrfs scrub, memtest) and restore train.parquet (E-032).
+Goal 0.80 is not supported by any tested information source (H-014, H-016, E-021).
+
 ## Incident (E-032)
 
 train.parquet sha256 changed during the session without a write (2 runs failed
