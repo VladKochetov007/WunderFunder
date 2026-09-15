@@ -8,6 +8,15 @@ seqs, epoch 0: 0.6096 on dev600 (E-028); CPU-budget GRU 256x2: 0.6036 (E-023).
 Single seed; second epochs on 3000 seqs overfit.
 Best devB764: mask-weighted devA fine-tune 0.6339 (E-036); train-only propensity^2-weighted GRU 256x2 0.6332 (E-039), 192x2 0.6317, 128x2 0.6310 (E-042, deployable candidate); plain 0.5950.
 
+## Submission candidate
+
+`submissions/ab9_pow2_h128/submission.zip` (1.2 MB): GRU 128x2 + causal event
+features, trained on train.parquet only with scoring-propensity^2 weights
+(propensity net fit on devA masks). Native Rust predictor, abi3 wheel built in
+python:3.11-slim-bookworm. Holdout (official scorer) 0.6333 vs baseline 0.5899;
+devB 0.6310/0.6314 (two seeds); 56 us/row incl scorer (~35 min for a
+validation-sized test). Independent audit pending before any claim.
+
 ## Incident (E-032)
 
 train.parquet sha256 changed during the session without a write (2 runs failed
