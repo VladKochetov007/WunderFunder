@@ -59,6 +59,7 @@ def dataloader_budget(batch_bytes: int, ram_budget_bytes: int | None = None, max
     """Workers and prefetch so queued batches (workers * prefetch * batch) fit the RAM budget."""
     if ram_budget_bytes is None:
         ram_budget_bytes = int(float(os.environ.get("WNN_LOADER_RAM_GB", "6")) * (1 << 30))
+    max_workers = min(max_workers, int(os.environ.get("WNN_LOADER_WORKERS", max_workers)))
     workers = max(1, min(max_workers, cpu_threads() // 2))
     prefetch = max(1, min(2, ram_budget_bytes // max(1, workers * batch_bytes)))
     return workers, int(prefetch)
