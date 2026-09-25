@@ -64,6 +64,13 @@ def weighted_mse_loss(pred, target, valid):
     return (w * (pred.float() - y) ** 2).sum() / w.sum().clamp_min(1e-8)
 
 
+def weighted_huber_loss(pred, target, valid, delta: float = 0.5):
+    """Huber on clip(y) with metric weights |clip(y)|; delta in target units."""
+    y = target.float().clamp(-METRIC_CLIP, METRIC_CLIP)
+    w = y.abs() * valid[..., None]
+    return (w * F.huber_loss(pred.float(), y, reduction="none", delta=delta)).sum() / w.sum().clamp_min(1e-8)
+
+
 class DualClockModel(nn.Module):
     """Row-clock GRU plus an event-clock GRU that steps only on i0 price events.
 

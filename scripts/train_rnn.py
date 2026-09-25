@@ -14,12 +14,15 @@ from pathlib import Path
 
 import numpy as np
 import torch
+import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 
 from wnn.data import CORRUPT_TRAIN_ROW_GROUPS, N_FEATURES, WARMUP, SequenceFile, market_class
 from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch, online_zscore_torch
+from wnn.gmetric import global_wp
 from wnn.metric import block_scores, score
-from wnn.nn import DualClockModel, RNNModel, weighted_corr_loss, weighted_mse_loss
+from wnn.nn import DualClockModel, RNNModel, weighted_corr_loss, weighted_huber_loss, weighted_mse_loss
+from wnn.outcomes import N_CODES, N_SP_AUX, ReadoutMoments, outcome_codes, readout, sequence_class, structure_labels
 from wnn.propensity import load_propensity, propensity
 from wnn.resources import configure_torch, dataloader_budget
 from wnn.splits import dev_halves, valid_row_groups
@@ -48,6 +51,8 @@ class Sequences(Dataset):
 
 INPUT_PROPENSITY = None  # frozen PropensityNet appended as an input column when set
 ONLINE_NORM = False  # append causal per-sequence z-scores of the 112 raw features
+READOUT = None  # (m1, m0) moment tables when the head is a softmax over outcome codes
+READOUT_TILTED = False
 
 
 def build_inputs(x):
@@ -110,7 +115,7 @@ def predict(model, x, chunk, device):
     for s in range(0, inputs.shape[1], chunk):
         with torch.autocast("cuda", dtype=torch.float16):
             out, state = forward_chunk(model, inputs, slice(s, s + chunk), state)
-        outs.append(out[..., :2].float())
+        outs.append(readout(out, *READOUT, tilted=READOUT_TILTED) if READOUT is not None else out[..., :2].float())
     return torch.cat(outs, dim=1).cpu().numpy()
 
 
@@ -123,6 +128,10 @@ def evaluate(model, loader, chunk, device):
         classes += [market_class(t) for t in y.numpy()]
     p, y, m = np.concatenate(preds), np.concatenate(ys), np.concatenate(masks)
     res = score(y, p, m)
+    res["per_seq_wp"] = res["weighted_pearson"]
+    g = global_wp(y, p, m)
+    res.update(global_t0=g["t0"], global_t1=g["t1"], weighted_pearson=g["wp"])
+    res["frac_abs_pred_gt2"] = float((np.abs(p[m]) > 2).mean())
     per = block_scores(y, p, m).mean(axis=1)
     cls = np.array(classes)
     res["by_class"] = {int(c): round(float(np.nanmean(per[cls == c])), 4) for c in np.unique(cls)}
@@ -143,7 +152,12 @@ def main():
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--wd", type=float, default=1e-2)
-    ap.add_argument("--loss", choices=["corr", "wmse", "mix"], default="mix")
+    ap.add_argument("--loss", choices=["corr", "wmse", "mix", "huber", "ce_joint"], default="mix")
+    ap.add_argument("--huber-delta", type=float, default=0.5)
+    ap.add_argument("--ce-tilt", action="store_true", help="weight code cross-entropy rows by mean |clip(y)|")
+    ap.add_argument("--ce-mse", type=float, default=0.0, help="add this weight x wMSE on the differentiable readout")
+    ap.add_argument("--aux-struct", type=float, default=0.0,
+                    help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
     ap.add_argument("--arch", choices=["gru", "dual"], default="gru")
@@ -217,7 +231,14 @@ def main():
         global INPUT_PROPENSITY
         INPUT_PROPENSITY = load_propensity(ROOT / "artifacts" / "runs" / args.prop_input / "model.pt", device)
         n_in += 1
-    model = make_model(vars(args), n_in, 2 + 2 * len(shifts)).to(device)
+    if args.loss == "ce_joint" and shifts:
+        ap.error("--aux is not supported with the outcome-code head")
+    n_out = N_CODES if args.loss == "ce_joint" else 2 + 2 * len(shifts)
+    struct_at = n_out
+    if args.aux_struct > 0:
+        n_out += N_SP_AUX + 3 + 4
+    model = make_model(vars(args), n_in, n_out).to(device)
+    moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
     if args.init:
         init = torch.load(ROOT / "artifacts" / "runs" / args.init / "model.pt", map_location="cpu", weights_only=False)
         model.load_state_dict(init["model"])
@@ -237,6 +258,8 @@ def main():
             return weighted_corr_loss(o, t, v)
         if args.loss == "wmse":
             return weighted_mse_loss(o, t, v)
+        if args.loss == "huber":
+            return weighted_huber_loss(o, t, v, args.huber_delta)
         return weighted_corr_loss(o, t, v) + 0.5 * weighted_mse_loss(o, t, v)
 
     print(json.dumps(vars(args)), flush=True)
@@ -255,13 +278,38 @@ def main():
             if prop_model is not None:
                 main_valid = valid.float() * propensity(prop_model, inputs[..., : N_FEATURES + N_EVENT_FEATURES]) ** args.prop_power
             aux = shifted_targets(y, valid, shifts)
+            if args.aux_struct > 0:
+                sp_lab, br_lab, cl_lab = structure_labels(y, sequence_class(y))
+                sw = main_valid.float()
+            if moments is not None:
+                codes = outcome_codes(y, sequence_class(y))
+                row_w = main_valid.float()
+                ce_w = row_w * y.float().clamp(-2, 2).abs().mean(-1) if args.ce_tilt else row_w
+                if epoch == 0:
+                    moments.update(codes, y, row_w)
             h = None
             for s in range(0, inputs.shape[1], args.chunk):
                 sl = slice(s, s + args.chunk)
                 with torch.autocast("cuda", dtype=torch.float16):
                     out, h = forward_chunk(model, inputs, sl, h)
                 h = detach_state(h)
-                loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])
+                if moments is not None:
+                    ce = F.cross_entropy(out.float().reshape(-1, N_CODES), codes[:, sl].reshape(-1), reduction="none")
+                    wv = ce_w[:, sl].reshape(-1)
+                    loss = (ce * wv).sum() / wv.sum().clamp_min(1e-8)
+                    if args.ce_mse > 0:
+                        pred = readout(out, *moments.tables(), tilted=args.ce_tilt)
+                        loss = loss + args.ce_mse * weighted_mse_loss(pred, y[:, sl], main_valid[:, sl])
+                else:
+                    loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])
+                if args.aux_struct > 0:
+                    o = out.float()
+                    wv = sw[:, sl].reshape(-1)
+                    ce = 0.0
+                    for a0, a1, lab in ((struct_at, struct_at + N_SP_AUX, sp_lab), (struct_at + N_SP_AUX, struct_at + N_SP_AUX + 3, br_lab),
+                                        (struct_at + N_SP_AUX + 3, struct_at + N_SP_AUX + 7, cl_lab)):
+                        ce = ce + F.cross_entropy(o[..., a0:a1].reshape(-1, a1 - a0), lab[:, sl].reshape(-1), reduction="none")
+                    loss = loss + args.aux_struct * (ce * wv).sum() / wv.sum().clamp_min(1e-8)
                 for j, (ya, va) in enumerate(aux):
                     loss = loss + args.aux_weight * objective(out[..., 2 + 2 * j : 4 + 2 * j], ya[:, sl], va[:, sl])
                 opt.zero_grad(set_to_none=True)
@@ -282,13 +330,18 @@ def main():
                       f"lr {sched.get_last_lr()[0]:.2e} seq/s {rate:.1f}", flush=True)
         t_eval = time.time()
         eval_model = swa_model.module if swa_model is not None and step_count >= swa_start else model
+        if moments is not None:
+            global READOUT, READOUT_TILTED
+            READOUT, READOUT_TILTED = moments.tables(), args.ce_tilt
         res = evaluate(eval_model, valid_loader, 4000, device)
         res.update(epoch=epoch, eval_seconds=round(time.time() - t_eval, 1), split=f"{args.eval_source}{n_valid}")
         history.append(res)
         print("VALID", json.dumps(res), flush=True)
         if res["weighted_pearson"] > best:
             best = res["weighted_pearson"]
-            torch.save({"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in}, out_dir / "model.pt")
+            torch.save({"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in,
+                        "readout": None if READOUT is None else [t.cpu() for t in READOUT],
+                        "readout_tilted": READOUT_TILTED}, out_dir / "model.pt")
         t0 = time.time()
     (out_dir / "history.json").write_text(json.dumps(history, indent=1))
     print("BEST", best)

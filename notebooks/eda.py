@@ -603,22 +603,24 @@ def _(
     from sklearn.linear_model import LogisticRegression
 
 
-    def branch_design(sel):
+    def branch_design(sel, sp=None):
+        sp = sp_sc if sp is None else sp
         _p = p_sc[sel].astype(np.float64)
         _oh = np.stack([(cls_sc[sel] == _k) for _k in range(4)], 1).astype(float)
-        _spf = np.log(sp_sc[sel].astype(float))
+        _spf = np.log(sp[sel].astype(float))
         _cols = [_p, _p[:, :1] * _p[:, 1:], np.tanh(_p / 3), _oh[:, 1:], _spf[:, None]]
         _cols += [_p * _oh[:, [_k]] for _k in range(4)] + [_p * _spf[:, None]]
         return np.column_stack(_cols)
 
 
-    def moment_tables(fit):
+    def moment_tables(fit, sp=None):
         """M1, M0 per (class, sp, branch) from rows `fit`: E[|t| t], E[|t|] for both targets."""
+        sp = sp_sc if sp is None else sp
         _yc = np.clip(y_sc, -2, 2).astype(np.float64)
         _m1, _m0 = {}, {}
-        for _key in set(zip(cls_sc[fit].tolist(), sp_sc[fit].tolist())):
+        for _key in set(zip(cls_sc[fit].tolist(), sp[fit].tolist())):
             for _b in range(3):
-                _s = fit & (cls_sc == _key[0]) & (sp_sc == _key[1]) & (branch_sc == _b)
+                _s = fit & (cls_sc == _key[0]) & (sp == _key[1]) & (branch_sc == _b)
                 if _s.sum() == 0:
                     continue
                 _w = np.abs(_yc[_s])
@@ -627,10 +629,11 @@ def _(
         return _m1, _m0
 
 
-    def rational_readout(probs, sel, m1, m0):
+    def rational_readout(probs, sel, m1, m0, sp=None):
+        sp = sp_sc if sp is None else sp
         _num = np.zeros((sel.sum(), 2))
         _den = np.full((sel.sum(), 2), 1e-9)
-        _c, _s = cls_sc[sel], sp_sc[sel]
+        _c, _s = cls_sc[sel], sp[sel]
         for (_k, _sp, _b), _v in m1.items():
             _r = (_c == _k) & (_s == _sp)
             _num[_r] += probs[_r, _b:_b + 1] * _v
@@ -653,7 +656,7 @@ def _(
     readout_table = pl.DataFrame([{"predictor": "baseline x class + table prior (linear WLS)", **stack_table.row(3, named=True) | {}},
                                   {"predictor": "logit branch probs -> rational readout", **wp_rows(y_sc[_B], readout_B.astype(np.float32))}]).drop("design", strict=False)
     mo.vstack([mo.md(f"branch AUC on half B from baseline outputs: above-ask {_auc_up:.3f}, below-bid {_auc_dn:.3f}"), readout_table])
-    return
+    return LogisticRegression, branch_design, moment_tables, rational_readout
 
 
 @app.cell
@@ -696,6 +699,142 @@ def _(
     sp_decode_table = pl.DataFrame([{"class": k, "rows": int((_Cv == k).sum()), "exact accuracy": round(float((_hat == _Yv)[_Cv == k].mean()), 4),
                                      "majority baseline": round(float(np.bincount(_Yv[_Cv == k]).max() / (_Cv == k).sum()), 4)} for k in range(4)])
     mo.vstack([mo.md("### Is spread decodable from the current book?\nGBM on the 22 i0 price columns + class, fit on 160 train sequences, scored on scored rows of 120 validation sequences (spread capped at 8)."), sp_decode_table])
+    return (sp_decoder,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## 7. Modeling plan implied by the law
+
+    **Output head: distribution over U, not two regressions.** Bins relative to the spread:
+    below the bid ($-U \in \{1,\dots,5^+\}$), inside ($U \in \{0,\dots,\text{sp}\}$, as position), above the ask
+    ($U-\text{sp} \in \{1,\dots,5^+\}$). Targets map to bins exactly through the inverse law.
+
+    **Loss.** Cross-entropy on U-bins, sample weight = scoring propensity$^\alpha$ (estimates $P(u\mid x)$
+    under the scored-row distribution). No $|y|$ weight in the loss: the metric tilt is applied at readout.
+    Optional small wMSE on the readout. Huber is dropped: it pulls toward the median while the metric
+    weights the tails.
+
+    **Readout (exact, analytic).** $g_k(u,\text{sp})$ from the law, times the class quantum, clipped to $\pm2$:
+    $p_k = \sum_u P(u\mid x)\,|g_k|\,g_k \big/ \sum_u P(u\mid x)\,|g_k|$. Bounded by construction, so no clip loss.
+
+    **Features to add.** Decoded spread in ticks (exact lookup for classes 2-3, learned for 0-1); class posterior
+    online; class-3 reconstructed tick path (distance to recent high/low, run length, last move direction,
+    up/down counts in windows, time since last tick move); a-column clocks as real-time proxies.
+
+    **Open lever.** If $F$'s horizon is found (H-045), past $U$ become observable online, giving each sequence
+    its own supervised signal (level, volatility, momentum sign).
+
+    **Next experiment (H-046).** Same small GRU on 2k train sequences, losses: old corr mix, wMSE, Huber,
+    CE-U + readout. Score global WP on validation.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## 8. What is F? Horizon probe (H-045)
+
+    $F(s) = \text{bid}(s) + U(s)$ is piecewise constant and changes only at book events. When $F$ switches
+    at event $s$ from $F^-$ to $F^+$, the horizon end has just crossed a price change, so the quote reaches
+    $F^+$ at some later row $c$. The lag $c - s$ is the realized horizon in rows. A fixed row horizon gives a
+    constant lag; a fixed real-time horizon gives lags that stretch in quiet periods and shrink in bursts.
+    """)
+    return
+
+
+@app.cell
+def _(BLUE, ORANGE, invert_targets, mo, np, pl, plt, recon3):
+    _rows = []
+    for _i, (_a, _b, _q, _x, _m) in recon3.items():
+        _sp, _u = invert_targets(_q)
+        _F = _b + _u
+        _ch = np.flatnonzero(np.diff(_F) != 0) + 1
+        _ch = _ch[(_ch > 99) & (_ch < 19000)]
+        _book_ev = np.r_[False, (np.diff(_a) != 0) | (np.diff(_b) != 0)]
+        _evc = np.cumsum(_book_ev)
+        for _s in _ch:
+            _f = _F[_s]
+            _j = np.flatnonzero(((_b[_s:] == _f) | (_a[_s:] == _f)))
+            _j = _j[_j > 0]
+            _hit = -1
+            if len(_j):
+                # first row after s where the touch moves onto F (entering, not already there)
+                for _jj in _j:
+                    _r = _s + _jj
+                    if not ((_b[_r - 1] == _f) or (_a[_r - 1] == _f)):
+                        _hit = _r
+                        break
+            _rows.append({"seq": _i, "row": int(_s), "dF": int(_F[_s] - _F[_s - 1]), "hit": _hit,
+                          "lag_rows": _hit - _s if _hit > 0 else -1,
+                          "lag_events": int(_evc[_hit] - _evc[_s]) if _hit > 0 else -1,
+                          "a2": float(_x[_s, 106]), "a3": float(_x[_s, 107]), "a5": float(_x[_s, 109]),
+                          "a6": float(_x[_s, 110]), "a7": float(_x[_s, 111])})
+    fchange = pl.DataFrame(_rows)
+    _ok = fchange.filter(pl.col("lag_rows") > 0)
+    fig_lag, _ax = plt.subplots(1, 3, figsize=(14, 3.4))
+    _ax[0].hist(np.log10(_ok["lag_rows"].to_numpy()), bins=60, color=BLUE)
+    _ax[0].set_xlabel("log10 lag in rows (F switch -> quote reaches F)")
+    _ax[1].hist(np.log10(1 + _ok["lag_events"].to_numpy()), bins=60, color=ORANGE)
+    _ax[1].set_xlabel("log10(1 + lag in book events)")
+    _ax[2].scatter(_ok["a3"].to_numpy(), np.log10(_ok["lag_rows"].to_numpy()), s=3, lw=0, alpha=0.4, color=BLUE)
+    _ax[2].set_xlabel("a3 at switch"); _ax[2].set_ylabel("log10 lag rows")
+    fig_lag.tight_layout()
+    mo.vstack([mo.md(f"F switches: {len(fchange):,}; reached later: {(fchange['lag_rows'] > 0).mean():.3f}"), fig_lag,
+               _ok.select([pl.col("lag_rows").quantile(q).alias(f"rows q{q}") for q in (0.1, 0.25, 0.5, 0.75, 0.9)]
+                          + [pl.col("lag_events").quantile(q).alias(f"events q{q}") for q in (0.1, 0.5, 0.9)])])
+    return
+
+
+@app.cell
+def _(
+    LogisticRegression,
+    branch_design,
+    branch_sc,
+    cls_valid,
+    half_sc,
+    mask_valid,
+    mo,
+    moment_tables,
+    np,
+    pl,
+    rational_readout,
+    rg_valid,
+    sp_decoder,
+    sp_sc,
+    valid_file,
+    wp_rows,
+    y_sc,
+    y_valid,
+):
+    # decoded spread on every scored row (single-row GBM fit on train), same readout pipeline keyed by decoded spread
+    _parts = []
+    for _i in range(len(y_valid)):
+        _r = np.flatnonzero(mask_valid[_i])
+        if len(_r) == 0:
+            continue
+        _x = valid_file.read(int(rg_valid[_i]), targets=False, mask=False).features[_r, 0:22]
+        _parts.append(np.c_[_x, np.full(len(_r), cls_valid[_i])])
+    sp_hat_sc = sp_decoder.predict(np.concatenate(_parts)).astype(np.int64)
+    _A, _B = ~half_sc, half_sc
+
+
+    def _pipeline(sp_key):
+        _fit = np.zeros_like(_A)
+        _fit[np.random.default_rng(0).choice(np.flatnonzero(_A), 600_000, replace=False)] = True
+        _clf = LogisticRegression(max_iter=300).fit(branch_design(_fit, sp_key), branch_sc[_fit])
+        _m1, _m0 = moment_tables(_A, sp_key)
+        return wp_rows(y_sc[_B], rational_readout(_clf.predict_proba(branch_design(_B, sp_key)), _B, _m1, _m0, sp_key).astype(np.float32))
+
+
+    decoded_readout_table = pl.DataFrame([
+        {"spread used": "oracle (from targets)", **_pipeline(np.minimum(sp_sc, 12))},
+        {"spread used": "decoded (single-row GBM)", **_pipeline(np.minimum(sp_hat_sc, 12))},
+        {"spread used": "none (all = 1)", **_pipeline(np.ones_like(sp_sc))},
+    ])
+    mo.vstack([mo.md(f"decoded spread exact accuracy on scored rows: {(np.minimum(sp_hat_sc, 8) == np.minimum(sp_sc, 8)).mean():.3f}"), decoded_readout_table])
     return
 
 
