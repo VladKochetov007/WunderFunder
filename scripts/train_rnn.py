@@ -1,7 +1,7 @@
 """Train a stateful GRU on GPU with truncated BPTT; select on the validation dev split.
 
     scripts/limited .venv/bin/python scripts/train_rnn.py --name gru --epochs 2 --aux 20,200
-The holdout split (wnn.splits) is never read here.
+The holdout split (wnn.splits) is read only with --eval-source holdout, for grading final fits.
 """
 
 from __future__ import annotations
@@ -166,8 +166,9 @@ def main():
     ap.add_argument("--event-hidden", type=int, default=128)
     ap.add_argument("--class-balance", action="store_true",
                     help="sample train sequences so market-class shares match validation")
-    ap.add_argument("--train-source", choices=["train", "valid_devA"], default="train")
-    ap.add_argument("--eval-source", choices=["dev", "devB"], default="dev")
+    ap.add_argument("--train-source", choices=["train", "valid_devA", "train+valid"], default="train",
+                    help="train+valid: all train sequences plus validation devA and devB (holdout never)")
+    ap.add_argument("--eval-source", choices=["dev", "devB", "holdout"], default="dev")
     ap.add_argument("--init", default="", help="run name whose model.pt initializes weights")
     ap.add_argument("--mask-weight", action="store_true",
                     help="main loss only on is_scored rows (needs a validation train source)")
@@ -190,9 +191,12 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
 
     valid_path = ROOT / "datasets" / "valid.parquet"
-    dev_groups, _ = valid_row_groups(valid_path)
+    dev_groups, hold_groups = valid_row_groups(valid_path)
     dev_a, dev_b = dev_halves(valid_path)
     train_split = "train"
+    extra_valid = None
+    if args.train_source == "train+valid":
+        extra_valid = np.r_[np.asarray(dev_a), np.asarray(dev_b)]
     if args.train_source == "valid_devA":
         train_split = "valid"
         train_idx = np.random.default_rng(args.seed).permutation(dev_a)[: args.train_seqs]
@@ -203,7 +207,7 @@ def main():
             cls = np.load(ROOT / "research" / "artifacts" / "market-classes-v1.npz")["train"]
             usable = usable[np.isin(cls[usable], list(keep))]
         train_idx = np.random.default_rng(args.seed).permutation(usable)[: args.train_seqs]
-    eval_groups = dev_b if args.eval_source == "devB" else dev_groups
+    eval_groups = {"devB": dev_b, "holdout": hold_groups}.get(args.eval_source, dev_groups)
     n_valid = len(eval_groups) if args.full_valid else min(args.valid_seqs, len(eval_groups))
     valid_idx = np.random.default_rng(12345).permutation(eval_groups)[:n_valid]
 
@@ -217,7 +221,10 @@ def main():
         weights = np.where(tr_cls >= 0, va_share[np.clip(tr_cls, 0, 3)] / tr_share[np.clip(tr_cls, 0, 3)], 1.0)
         sampler = WeightedRandomSampler(torch.as_tensor(weights, dtype=torch.double), len(train_idx),
                                         replacement=True, generator=torch.Generator().manual_seed(args.seed))
-    train_loader = DataLoader(Sequences(train_split, train_idx), batch_size=args.batch, shuffle=sampler is None,
+    train_ds = Sequences(train_split, train_idx)
+    if extra_valid is not None:
+        train_ds = torch.utils.data.ConcatDataset([train_ds, Sequences("valid", extra_valid)])
+    train_loader = DataLoader(train_ds, batch_size=args.batch, shuffle=sampler is None,
                               sampler=sampler, drop_last=True, num_workers=workers, prefetch_factor=prefetch)
     valid_loader = DataLoader(Sequences("valid", valid_idx), batch_size=16, num_workers=2,
                               prefetch_factor=1)
