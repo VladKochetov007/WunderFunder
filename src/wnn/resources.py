@@ -10,8 +10,8 @@ import os
 import time
 
 CPU_FRACTION = 0.8
-# Upper bound agreed with the user; WNN_GPU_FRACTION may only lower it.
-GPU_FRACTION = min(0.8, float(os.environ.get("WNN_GPU_FRACTION", "0.8")))
+# Upper bound agreed with the user (2026-09-25: 90%); WNN_GPU_FRACTION may only lower it.
+GPU_FRACTION = min(0.9, float(os.environ.get("WNN_GPU_FRACTION", "0.9")))
 
 
 def cpu_threads() -> int:

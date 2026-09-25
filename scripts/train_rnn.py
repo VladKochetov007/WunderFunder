@@ -104,7 +104,8 @@ def make_model(args_dict, n_in, n_out):
     if args_dict.get("arch", "gru") == "dual":
         return DualClockModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["event_hidden"],
                               args_dict["dropout"], n_out=n_out)
-    return RNNModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["dropout"], n_out=n_out)
+    return RNNModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["dropout"], n_out=n_out,
+                    cell=args_dict.get("cell", "gru"))
 
 
 @torch.no_grad()
@@ -161,6 +162,7 @@ def main():
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
     ap.add_argument("--arch", choices=["gru", "dual"], default="gru")
+    ap.add_argument("--cell", choices=["gru", "lstm"], default="gru")
     ap.add_argument("--event-hidden", type=int, default=128)
     ap.add_argument("--class-balance", action="store_true",
                     help="sample train sequences so market-class shares match validation")

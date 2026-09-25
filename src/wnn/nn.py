@@ -13,13 +13,16 @@ class RNNModel(nn.Module):
     """Input projection -> stacked GRU -> head fed by GRU output and the projection skip."""
 
     def __init__(
-        self, n_in: int, hidden: int = 256, layers: int = 2, dropout: float = 0.0, n_out: int = 2
+        self, n_in: int, hidden: int = 256, layers: int = 2, dropout: float = 0.0, n_out: int = 2,
+        cell: str = "gru",
     ):
         super().__init__()
         self.register_buffer("mean", torch.zeros(n_in))
         self.register_buffer("std", torch.ones(n_in))
         self.inp = nn.Linear(n_in, hidden)
-        self.gru = nn.GRU(
+        rnn = {"gru": nn.GRU, "lstm": nn.LSTM}[cell]
+        # Attribute name kept as ``gru`` so existing checkpoints and exporters stay valid.
+        self.gru = rnn(
             hidden,
             hidden,
             num_layers=layers,
