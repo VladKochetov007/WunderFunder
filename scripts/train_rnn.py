@@ -165,7 +165,9 @@ def make_model(args_dict, n_in, n_out):
         return DualClockModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["event_hidden"],
                               args_dict["dropout"], n_out=n_out)
     return RNNModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["dropout"], n_out=n_out,
-                    cell=args_dict.get("cell", "gru"))
+                    cell=args_dict.get("cell", "gru"), enc=args_dict.get("enc", "linear"),
+                    tok_dim=args_dict.get("tok_dim", 32), att_layers=args_dict.get("att_layers", 1),
+                    conv_k=args_dict.get("conv_k", 16))
 
 
 @torch.no_grad()
@@ -228,6 +230,11 @@ def main():
     ap.add_argument("--aux-weight", type=float, default=0.5)
     ap.add_argument("--arch", choices=["gru", "dual"], default="gru")
     ap.add_argument("--cell", choices=["gru", "lstm"], default="gru")
+    ap.add_argument("--enc", choices=["linear", "mlp", "tokens", "conv"], default="linear",
+                    help="per-row encoder before the recurrent cell (residual on the linear projection)")
+    ap.add_argument("--tok-dim", type=int, default=32)
+    ap.add_argument("--att-layers", type=int, default=1)
+    ap.add_argument("--conv-k", type=int, default=16)
     ap.add_argument("--event-hidden", type=int, default=128)
     ap.add_argument("--class-balance", action="store_true",
                     help="sample train sequences so market-class shares match validation")
