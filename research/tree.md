@@ -133,7 +133,7 @@ Next tree (root = "where does the remaining 0.01 to the top live?"):
    1b. E-124 on folds 2-3 to firm up the sign
 2. Diversity (main bottleneck; residual corr 0.99+)
    2a. [~] E-126: gain spread over all classes, larger on unscored rows, pooled < every class (cross-class
-       pooling loss -> try per-class blend weights). What IS the baseline's difference? decompose baseline-vs-GRU residual by class / clock / event
+       pooling loss; per-class weights refuted E-127). What IS the baseline's difference? decompose baseline-vs-GRU residual by class / clock / event
        type (symreg on the residual difference, reuse symreg_explain task=residual)
    2b. other families: temporal conv / state-space (S4/Mamba-like diagonal recurrence), event-time
        (update only on book events) model, tick-grammar Markov model for class 3 (src/wnn/markov.py)
