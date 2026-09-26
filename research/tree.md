@@ -143,6 +143,8 @@ Next tree (root = "where does the remaining 0.01 to the top live?"):
        train-unlike sequences; adversarially reweighted training (importance weights from adv AUC)
 3. Shift robustness (test = unseen instruments)
    3a. adversarial importance weights on train rows (clipped), judged on stress panel
+   3d. E-129: baseline blend gain rises with train-unlikeness (+0.0007 -> +0.0013) -> baseline weight on
+       test may belong above 0.3; extrapolate weight vs adv score before the next final
    3b. per-sequence normalisation of volume codes (instrument-invariant inputs)
    3c. crazy: invariant-risk penalty across chains (IRM / V-REx over chain groups)
 4. Explanation (long-term asset)
