@@ -155,6 +155,7 @@ Next tree (root = "where does the remaining 0.01 to the top live?"):
     E-136: monotone in every class, steepest class 3 (0.547 -> 0.385) -> condition on running propensity
     E-137: sequence-mean causal propensity tracks true density (corr 0.91 class 3)
     E-138: density-gated blend weights refuted (-0.0004..-0.0018) -> density must enter the model, not the blend
+    E-139: dense tercile = 54% of metric weight -> 2e is the highest-value open branch
 4. Explanation (long-term asset)
    4a. symbolic F-law for classes 0-2 (law only exact for class 3; find the approximate rule)
    4b. symbolic mask model -> propensity features (E-122 terms) in the loss weights
