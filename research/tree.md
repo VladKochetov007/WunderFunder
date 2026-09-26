@@ -98,3 +98,16 @@ period with a possibly softer mask; validation overstated test by ~0.022 (unifor
 - No cold-start penalty: WP by step bin flat (0.66-0.71), context length is not the bottleneck.
 - Levers left with evidence: ensembling diverse models (+0.002 LB baseline blend; +0.0014 seeds), distillation to
   keep ensemble gains at single-model speed, recency/extra data (train+valid K-fold), small class-1/2 GBM correction.
+
+## Morning update (2026-09-26 07:45)
+- D2 mask weighting: [x] propensity floor eps 0.03 +0.0020 (E-097); [-] eps 0.10 (E-102); [-] class-mass
+  weights beyond the floor (E-104); [x] true masks on valid rows +0.0006-0.0010 (E-098); [-] label-aware
+  selection model (+0.002 AUC only, E-103).
+- C5 aux heads: [x] next-change head +0.0014 (E-097), stacks with the floor (+0.0030 total, E-102);
+  [-] 2nd/4th-change horizons (E-107).
+- C3 distillation: [x] 3-teacher student +0.0013 alone; [-] adds little on top of floor+aux (E-102).
+- A4 explanations: [x] 4-term symbolic direction models per class (E-100/E-101), visual partial dependence
+  (E-106): the GRU already tracks every main effect; calibration exhausted (E-109).
+- Tooling: C++ symreg kernel 13x (E-105); vectorized decision sums 15x (E-108); N-member native packager.
+- Next: final fits ab33 (train+valid, floor + aux + true valid masks, 2 seeds) -> candidates:
+  single, 2-seed blend, GRU + baseline; Opus researchers (arch / micro / shift) pending.

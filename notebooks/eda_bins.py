@@ -187,5 +187,23 @@ def pdp_cell(ROOT, alt, mo, pl):
     return
 
 
+@app.cell(hide_code=True)
+def shift_cell(ROOT, alt, mo, pl):
+    sadv = pl.read_parquet(ROOT / "research" / "artifacts" / "seq_adv_wp.parquet").with_columns(
+        gru_minus_base=pl.col("ab30_eps_aux") - pl.col("baseline*0.25"), cls=pl.col("cls").cast(pl.Utf8))
+    _a = alt.Chart(sadv).mark_circle(size=14, opacity=0.5).encode(
+        x=alt.X("adv_rank:Q", title="train-unlikeness rank within class (0 = most train-like)"),
+        y=alt.Y("ab30_eps_aux:Q", title="per-sequence WP (lam 0.05), GRU"),
+        color=alt.Color("cls:N", scale=alt.Scale(range=["#2a78d6", "#eb6834", "#1baf7a", "#4a3aa7"])),
+        tooltip=["seq", "cls", alt.Tooltip("adv:Q", format=".4f"), alt.Tooltip("ab30_eps_aux:Q", format=".3f")]).properties(width=380, height=260)
+    _b = alt.Chart(sadv).mark_circle(size=14, opacity=0.5).encode(
+        x=alt.X("adv_rank:Q", title="train-unlikeness rank within class"), y=alt.Y("gru_minus_base:Q", title="GRU - baseline (per sequence)"),
+        color=alt.Color("cls:N", scale=alt.Scale(range=["#2a78d6", "#eb6834", "#1baf7a", "#4a3aa7"]))).properties(width=380, height=260)
+    _lo = _a.transform_loess("adv_rank", "ab30_eps_aux", groupby=["cls"]).mark_line(size=3)
+    _lo2 = _b.transform_loess("adv_rank", "gru_minus_base", groupby=["cls"]).mark_line(size=3)
+    mo.vstack([mo.md("### Shift: model quality vs train-unlikeness (stress panel basis)"), mo.hstack([_a + _lo, _b + _lo2])])
+    return
+
+
 if __name__ == "__main__":
     app.run()

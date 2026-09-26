@@ -25,6 +25,8 @@ def main():
     device = torch.device("cuda")
     model = make_model(ck["args"], ck["n_in"], ck["model"]["head.2.weight"].shape[0]).to(device)
     model.load_state_dict(ck["model"])
+    train_rnn.RAW_ONLY = bool(ck["args"].get("raw_only"))
+    train_rnn.ONLINE_NORM = bool(ck["args"].get("online_norm"))
     if ck.get("readout") is not None:
         train_rnn.READOUT = [t.to(device) for t in ck["readout"]]
         train_rnn.READOUT_TILTED = ck.get("readout_tilted", False)

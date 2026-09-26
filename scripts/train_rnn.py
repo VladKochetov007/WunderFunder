@@ -72,11 +72,15 @@ ONLINE_NORM = False  # append causal per-sequence z-scores of the 112 raw featur
 READOUT = None  # (m1, m0) moment tables when the head is a softmax over outcome codes
 READOUT_TILTED = False
 HEURISTICS = False  # append wnn.heuristics features (computed in loader workers)
+RAW_ONLY = False  # zero the event-feature block (organizer-style raw view; keeps n_in for native export)
 
 
 def build_inputs(x):
     raw, extra = x[..., :N_FEATURES], x[..., N_FEATURES:]
-    inputs = torch.cat([raw, event_features_torch(raw)], dim=-1)
+    ev = event_features_torch(raw)
+    if RAW_ONLY:
+        ev = torch.zeros_like(ev)
+    inputs = torch.cat([raw, ev], dim=-1)
     if ONLINE_NORM:
         inputs = torch.cat([inputs, online_zscore_torch(raw)], dim=-1)
     if extra.shape[-1]:
@@ -249,6 +253,7 @@ def main():
     ap.add_argument("--train-classes", default="", help="comma-separated market classes to train on (oracle expert test)")
     ap.add_argument("--online-norm", action="store_true")
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
+    ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
     if args.mask_weight and args.train_source == "train":
@@ -316,6 +321,9 @@ def main():
     shifts = [int(v) for v in args.aux.split(",") if v]
     prop_model = load_propensity(ROOT / "artifacts" / "runs" / args.propensity / "model.pt", device) if args.propensity else None
     n_in = N_FEATURES + N_EVENT_FEATURES
+    if args.raw_only:
+        global RAW_ONLY
+        RAW_ONLY = True
     if args.heuristics:
         global HEURISTICS
         from wnn.heuristics import K as N_HEUR
