@@ -241,6 +241,10 @@ def main():
                     help="with train+valid: each validation training sequence appears this many times per epoch")
     ap.add_argument("--init", default="", help="run name whose model.pt initializes weights")
     ap.add_argument("--freeze", default="", help="comma-separated parameter-name prefixes kept fixed, e.g. inp,gru")
+    ap.add_argument("--ema-teacher", type=float, default=0.0,
+                    help="mean-teacher consistency: weight of (out - EMA-model out)^2 on the two target outputs")
+    ap.add_argument("--ema-decay", type=float, default=0.999)
+    ap.add_argument("--eval-ema", action="store_true", help="evaluate and save the EMA weights instead of the raw ones")
     ap.add_argument("--mask-weight", action="store_true",
                     help="main loss only on is_scored rows (needs a validation train source)")
     ap.add_argument("--propensity", default="", help="run name of a frozen PropensityNet; weights main loss by p(x)")
@@ -374,6 +378,11 @@ def main():
                                                 pct_start=0.05, final_div_factor=100)
     scaler = torch.amp.GradScaler()
     swa_model = torch.optim.swa_utils.AveragedModel(model) if args.swa_frac > 0 else None
+    ema_model = None
+    if args.ema_teacher > 0 or args.eval_ema:
+        ema_model = torch.optim.swa_utils.AveragedModel(
+            model, multi_avg_fn=torch.optim.swa_utils.get_ema_multi_avg_fn(args.ema_decay))
+        ema_model.eval()
     swa_start = int(total * (1.0 - args.swa_frac))
     step_count = 0
 
@@ -434,12 +443,16 @@ def main():
                 ce_w = row_w * y.float().clamp(-2, 2).abs().mean(-1) if args.ce_tilt else row_w
                 if epoch == 0:
                     moments.update(codes, y, row_w)
-            h = None
+            h = h_ema = None
             for s in range(0, inputs.shape[1], args.chunk):
                 sl = slice(s, s + args.chunk)
                 with torch.autocast("cuda", dtype=torch.float16):
                     out, h = forward_chunk(model, inputs, sl, h)
                 h = detach_state(h)
+                if args.ema_teacher > 0:
+                    with torch.no_grad(), torch.autocast("cuda", dtype=torch.float16):
+                        out_ema, h_ema = forward_chunk(ema_model.module, inputs, sl, h_ema)
+                    h_ema = detach_state(h_ema)
                 if moments is not None:
                     ce = F.cross_entropy(out.float().reshape(-1, N_CODES), codes[:, sl].reshape(-1), reduction="none")
                     wv = ce_w[:, sl].reshape(-1)
@@ -476,6 +489,9 @@ def main():
                         loss = loss + args.aux_next * ((kmse + kbce) * kw).sum() / kw.sum().clamp_min(1e-8)
                 for j, (ya, va) in enumerate(aux):
                     loss = loss + args.aux_weight * objective(out[..., 2 + 2 * j : 4 + 2 * j], ya[:, sl], va[:, sl])
+                if args.ema_teacher > 0:
+                    cw = main_valid[:, sl].float()[..., None]
+                    loss = loss + args.ema_teacher * (cw * (out[..., :2].float() - out_ema[..., :2].float()) ** 2).sum() / cw.sum().clamp_min(1e-8)
                 opt.zero_grad(set_to_none=True)
                 scaler.scale(loss).backward()
                 scaler.unscale_(opt)
@@ -486,6 +502,8 @@ def main():
                 step_count += 1
                 if swa_model is not None and step_count >= swa_start:
                     swa_model.update_parameters(model)
+                if ema_model is not None:
+                    ema_model.update_parameters(model)
                 torch.cuda.synchronize()
                 duty.tick()
             if b % 20 == 0:
@@ -494,6 +512,8 @@ def main():
                       f"lr {sched.get_last_lr()[0]:.2e} seq/s {rate:.1f}", flush=True)
         t_eval = time.time()
         eval_model = swa_model.module if swa_model is not None and step_count >= swa_start else model
+        if args.eval_ema:
+            eval_model = ema_model.module
         if moments is not None:
             global READOUT, READOUT_TILTED
             READOUT, READOUT_TILTED = moments.tables(), args.ce_tilt
