@@ -104,6 +104,22 @@ def next_change_labels(y, valid):
     return rows_to, (jump > 0).float(), valid & has
 
 
+def kth_change_labels(y, valid, k):
+    """log1p(rows until the k-th later change of D = t0 - t1) and sign of D(k-th change) - D(now)."""
+    d = y[..., 0] - y[..., 1]
+    b, t = d.shape
+    changed = torch.zeros_like(d, dtype=torch.long)
+    changed[:, 1:] = (d[:, 1:] != d[:, :-1]).long()
+    cnt = torch.cumsum(changed, 1)  # changes up to and including each row, non-decreasing
+    pos = torch.searchsorted(cnt.contiguous(), (cnt + k).contiguous())  # first row reaching cnt + k
+    has = pos < t
+    j = pos.clamp(max=t - 1)
+    idx = torch.arange(t, device=y.device).expand(b, t)
+    rows_to = torch.log1p((j - idx).float())
+    move = torch.gather(d, 1, j) - d
+    return rows_to, (move > 0).float(), valid & has
+
+
 def shifted_targets(y, valid, shifts):
     """Training-only labels: the target ``sh`` rows later. Never used as an input."""
     out = []
@@ -201,6 +217,7 @@ def main():
     ap.add_argument("--distill-alpha", type=float, default=0.5, help="target = (1-a) y + a mean(teachers)")
     ap.add_argument("--aux-next", type=float, default=0.0,
                     help="weight of auxiliary heads: log rows to next target change (MSE) and its sign (BCE)")
+    ap.add_argument("--aux-next-k", default="", help="extra event horizons for the next-change aux heads, e.g. 2,4")
     ap.add_argument("--aux-struct", type=float, default=0.0,
                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
@@ -222,6 +239,7 @@ def main():
     ap.add_argument("--propensity", default="", help="run name of a frozen PropensityNet; weights main loss by p(x)")
     ap.add_argument("--prop-power", type=float, default=1.0, help="weights p(x)**power")
     ap.add_argument("--prop-eps", type=float, default=0.0, help="floor added to propensity weights (mask robustness)")
+    ap.add_argument("--class-weight", default="", help="per-market-class multipliers on the main loss weights, e.g. 1.19,1.32,2.02,0.79")
     ap.add_argument("--valid-true-mask", type=float, default=-1.0,
                     help="if >= 0: rows of sequences that carry a true scoring mask (validation) are weighted "
                          "c*(is_scored + this eps) instead of by the propensity net; c matches the mean propensity weight")
@@ -319,8 +337,9 @@ def main():
     if args.aux_struct > 0:
         n_out += N_SP_AUX + 3 + 4
     next_at = n_out
+    ks = [int(v) for v in args.aux_next_k.split(",") if v]
     if args.aux_next > 0:
-        n_out += 2
+        n_out += 2 + 2 * len(ks)
     model = make_model(vars(args), n_in, n_out).to(device)
     moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
     if args.init:
@@ -365,6 +384,9 @@ def main():
             if prop_model is not None:
                 main_valid = valid.float() * (propensity(prop_model, inputs[..., : N_FEATURES + N_EVENT_FEATURES]) ** args.prop_power
                                               + args.prop_eps)
+                if args.class_weight:
+                    cw = torch.tensor([float(v) for v in args.class_weight.split(",")], device=device)
+                    main_valid = main_valid * cw[sequence_class(y)][:, None]
                 if args.valid_true_mask >= 0:
                     sc = scored.to(device)
                     has_mask = sc.any(dim=1)
@@ -380,6 +402,7 @@ def main():
             if args.aux_next > 0:
                 nx_rows, nx_up, nx_ok = next_change_labels(y, valid)
                 nw = main_valid.float() * nx_ok.float() if main_valid.dtype != torch.bool else (main_valid & nx_ok).float()
+                kth = [kth_change_labels(y, valid, kk) for kk in ks]
             if moments is not None:
                 codes = outcome_codes(y, sequence_class(y))
                 row_w = main_valid.float()
@@ -420,6 +443,12 @@ def main():
                     mse = (o[..., next_at] - (nx_rows[:, sl] - 3.0) / 2.0) ** 2
                     bce = F.binary_cross_entropy_with_logits(o[..., next_at + 1], nx_up[:, sl], reduction="none")
                     loss = loss + args.aux_next * ((mse + bce) * wv).sum() / wv.sum().clamp_min(1e-8)
+                    for j, (kr, ku, kok) in enumerate(kth):
+                        kw = main_valid[:, sl].float() * kok[:, sl].float()
+                        col = next_at + 2 + 2 * j
+                        kmse = (o[..., col] - (kr[:, sl] - 4.0) / 2.0) ** 2
+                        kbce = F.binary_cross_entropy_with_logits(o[..., col + 1], ku[:, sl], reduction="none")
+                        loss = loss + args.aux_next * ((kmse + kbce) * kw).sum() / kw.sum().clamp_min(1e-8)
                 for j, (ya, va) in enumerate(aux):
                     loss = loss + args.aux_weight * objective(out[..., 2 + 2 * j : 4 + 2 * j], ya[:, sl], va[:, sl])
                 opt.zero_grad(set_to_none=True)

@@ -56,7 +56,7 @@ def _():
     _tot = clean.select(sum((wp_expr(m) for m in MODELS), []))
     mo.md("# EDA 2: where the score lives\n\nClean split (devB + holdout, never used for fitting). Global WP: "
           + ", ".join(f"**{m}** {wp_from_cols(_tot, m)[0]:.4f}" for m in MODELS))
-    return MODELS, alt, clean, mo, np, pl, wp_expr, wp_from_cols
+    return MODELS, ROOT, alt, clean, mo, np, pl, wp_expr, wp_from_cols
 
 
 @app.cell(hide_code=True)
@@ -148,6 +148,42 @@ def _(mo, pl, seq_chart, seq_table):
     _sel = seq_table if _sel is None or len(_sel) == 0 else pl.DataFrame(_sel) if not isinstance(_sel, pl.DataFrame) else _sel
     mo.vstack([mo.md(f"selected **{len(_sel)}** sequences; mean delta ab18 - base {float(_sel['delta'].mean()):+.4f}"),
                mo.ui.table(_sel.sort("delta"), page_size=10)])
+    return
+
+
+@app.cell(hide_code=True)
+def _(ROOT, mo, pl):
+    import json as _json
+    _rows = []
+    for _c in range(4):
+        _r = _json.loads((ROOT / "research" / "artifacts" / "symreg" / f"direction_c{_c}.json").read_text())
+        for _i, (_t, _v) in enumerate(zip(_r["terms"], _r["cum_wp_val"])):
+            _rows.append({"class": _c, "term": _i + 1, "expression": _t, "cumulative held-out corr": round(_v, 4)})
+    symbolic_table = pl.DataFrame(_rows)
+    _ref = pl.DataFrame({"class": [0, 1, 2, 3], "GRU direction corr (same rows)": [0.8049, 0.7871, 0.7317, 0.4827],
+                         "4-term formula": [0.7423, 0.7061, 0.6128, 0.4352], "corr(formula, GRU)": [0.917, 0.888, 0.834, 0.848]})
+    mo.vstack([mo.md("""## Symbolic explanations of direction (D = t0 - t1)
+    SISSO-style search over 114 causal heuristics + 112 raw columns (`src/wnn/symreg.py`), fit on chain folds 0-1,
+    held-out correlation on chain folds 2-3 (|y|-weighted). Four closed-form terms reproduce 84-92% of the GRU's
+    direction signal. Recent trade-volume flow appears in every class; book-shape codes dominate small-tick
+    classes; queue imbalance (ask-side volume code vs bid-side volume deviation) dominates class 3; class 2 alone
+    uses the second instrument's trades."""), _ref, symbolic_table])
+    return
+
+
+@app.cell(hide_code=True)
+def pdp_cell(ROOT, alt, mo, pl):
+    pdp = pl.read_parquet(ROOT / "research" / "artifacts" / "symreg" / "pdp_direction.parquet")
+    _long = pdp.unpivot(index=["cls", "term", "expr", "bin", "x", "weight"], on=["target_D", "gru_D"], variable_name="series", value_name="D")
+    _base = alt.Chart(_long).encode(
+        x=alt.X("x:Q", title="term value"), y=alt.Y("D:Q", title="weighted mean D"),
+        color=alt.Color("series:N", scale=alt.Scale(domain=["target_D", "gru_D"], range=["#0b0b0b", "#2a78d6"]), title=None),
+        tooltip=["cls", "term", "expr", alt.Tooltip("x:Q", format=".3f"), alt.Tooltip("D:Q", format=".3f")])
+    pdp_chart = (_base.mark_line(point=True, strokeWidth=2)
+                 .properties(width=190, height=150)
+                 .facet(row=alt.Row("cls:N", title="class"), column=alt.Column("term:N", title="symbolic term"))
+                 .resolve_scale(x="independent", y="independent"))
+    mo.vstack([mo.md("### Partial dependence of direction on each symbolic term (held-out chain folds 2-3)\nBlack: target; blue: GRU prediction."), pdp_chart])
     return
 
 

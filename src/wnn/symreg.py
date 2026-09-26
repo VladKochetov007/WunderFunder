@@ -148,6 +148,56 @@ def _apply_binary(a, b, op):
     return out
 
 
+_LIB = None
+
+
+def _native():
+    """ctypes handle to csrc/libsymreg_screen.so (built on first use with -O3 -march=native), or None."""
+    global _LIB
+    if _LIB is None:
+        import ctypes
+        import subprocess
+        from pathlib import Path
+
+        d = Path(__file__).resolve().parent / "csrc"
+        so = d / "libsymreg_screen.so"
+        src = d / "symreg_screen.cpp"
+        try:
+            if not so.exists() or so.stat().st_mtime < src.stat().st_mtime:
+                subprocess.run(["g++", "-O3", "-march=native", "-ffast-math", "-fopenmp", "-shared", "-fPIC", str(src), "-o", str(so)],
+                               check=True, capture_output=True)
+            lib = ctypes.CDLL(str(so))
+            f32 = np.ctypeslib.ndpointer(np.float32, flags="C_CONTIGUOUS")
+            f64 = np.ctypeslib.ndpointer(np.float64, flags="C_CONTIGUOUS")
+            lib.screen_unary.argtypes = [f32, ctypes.c_int64, ctypes.c_int64, f32, f32, ctypes.c_int, f64]
+            lib.screen_binary.argtypes = [f32, ctypes.c_int64, ctypes.c_int64, f32, f32, f64]
+            _LIB = lib
+        except (OSError, subprocess.CalledProcessError):
+            _LIB = False
+    return _LIB or None
+
+
+def screen_unary(Z, r, w, n_ops):
+    lib = _native()
+    if lib is None:
+        return _screen_unary(Z, r, w, n_ops)
+    zc = np.ascontiguousarray(Z.T, dtype=np.float32)
+    out = np.zeros((Z.shape[1], n_ops))
+    lib.screen_unary(zc, Z.shape[0], Z.shape[1], np.ascontiguousarray(r, np.float32), np.ascontiguousarray(w, np.float32), n_ops, out)
+    return out
+
+
+def screen_binary(V, r, w, n_ops):
+    lib = _native()
+    if lib is None or n_ops != 7:
+        return _screen_binary(V, r, w, n_ops)
+    vc = np.ascontiguousarray(V.T, dtype=np.float32)
+    m = V.shape[1]
+    out = np.zeros((m, m, 7))
+    lib.screen_binary(vc, V.shape[0], m, np.ascontiguousarray(r, np.float32), np.ascontiguousarray(w, np.float32), out)
+    return out
+
+
 def wpearson(y, p, w) -> float:
     sw = w.sum()
     my, mp = (w * y).sum() / sw, (w * p).sum() / sw
@@ -240,7 +290,7 @@ def fit(X, names, y, w, X_val=None, y_val=None, w_val=None, n_terms=5, top_m=60,
     design_v = [np.ones(len(y_val))] if X_val is not None else None
     r = y.copy()
     for it in range(n_terms):
-        s1 = np.abs(_screen_unary(Z, r, w, len(UNARY)))
+        s1 = np.abs(screen_unary(Z, r, w, len(UNARY)))
         flat = np.argsort(-s1.ravel())[:top_m]
         cands = [(("u", int(j // len(UNARY)), int(j % len(UNARY))), float(s1.ravel()[j])) for j in flat]
         if level2:
@@ -252,7 +302,7 @@ def fit(X, names, y, w, X_val=None, y_val=None, w_val=None, n_terms=5, top_m=60,
             sub = np.arange(len(r)) if len(r) <= screen_rows else np.sort(
                 np.random.default_rng(seed + it).choice(len(r), screen_rows, replace=False))
             V = np.column_stack([_eval_spec(c, Z[sub]) for c in pool])
-            s2 = np.abs(_screen_binary(V, r[sub], w[sub], len(BINARY)))
+            s2 = np.abs(screen_binary(V, r[sub], w[sub], len(BINARY)))
             m = len(pool)
             flat2 = np.argsort(-s2.ravel())[:3 * top_m]
             specs = []

@@ -3,7 +3,7 @@
     scripts/limited .venv/bin/python scripts/symreg_explain.py TASK [--cls K] [--terms 6]
 Tasks: direction (D = t0 - t1), residual (targets minus a cached model's predictions),
 mask (is_scored), level (S = t0 + t1), target0/target1 (raw targets).
-Fit on validation devA sequences, validate on devB + holdout. Base features are the
+Fit on chain folds 0-1 of validation, validate on chain folds 2-3 (no stream neighbours across). Base features are the
 heuristic library plus the 112 raw columns. Writes research/artifacts/symreg/<task>[_cK].json.
 """
 
@@ -17,7 +17,6 @@ import numpy as np
 
 from wnn import symreg
 from wnn.data import FEATURE_COLUMNS
-from wnn.splits import dev_halves
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -35,8 +34,12 @@ def main():
     seq, step, scored = h["seq"], h["step"], h["scored"]
     d = np.load(ROOT / "cache" / "valid_targets.npz")
     cls, rg = d["market_class"], d["row_group"]
-    dev_a, _ = dev_halves(ROOT / "datasets" / "valid.parquet")
-    in_a = np.isin(rg, np.asarray(dev_a))[seq]
+    # chain-grouped halves (cache/chain_folds.npz): fit on chain folds 0-1, validate on 2-3, so no
+    # validation sequence has a stream neighbour in the fit half
+    cf = np.load(ROOT / "cache" / "chain_folds.npz")
+    vmask = cf["split"] == "valid"
+    fold_map = dict(zip(cf["row_group"][vmask].tolist(), cf["fold"][vmask].tolist()))
+    in_a = (np.array([fold_map[int(g)] for g in rg]) < 2)[seq]
     y2 = d["y"][seq, step].astype(np.float64)
     yc = np.clip(y2, -2, 2)
     sel = np.ones(len(seq), bool) if a.cls < 0 else (cls[seq] == a.cls)

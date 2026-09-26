@@ -34,18 +34,29 @@ def _pred(spec):
     return p, float(scale or 1.0)
 
 
-def build_sums(spec, weights=None):
+def _sums6(y, p, sel):
+    """(B, 6) WP sums over the last axis for rows where sel; y, p already clipped float64."""
+    w = np.abs(y) * sel
+    wy, wp = w * y, w * p
+    return np.stack([w.sum(-1), wy.sum(-1), wp.sum(-1), (wy * y).sum(-1), (wp * p).sum(-1), (wy * p).sum(-1)], -1)
+
+
+def build_sums(spec, weights=None, chunk=100):
     """(B, 2 [scored/unscored], 2 targets, 6) sums; spec may be 'A' or blend list [(spec, w)]."""
     d = np.load(ROOT / "cache" / "valid_targets.npz")
     y, m = d["y"], d["mask"]
-    parts = [( _pred(s), w) for s, w in (weights or [(spec, 1.0)])]
+    parts = [(_pred(s), w) for s, w in (weights or [(spec, 1.0)])]
     req = np.arange(y.shape[1]) >= WARMUP
     out = np.zeros((len(y), 2, 2, 6))
-    for i in range(len(y)):
-        p = sum(w * sc * np.asarray(arr[i], dtype=np.float64) for (arr, sc), w in parts)
+    for a in range(0, len(y), chunk):
+        sl = slice(a, a + chunk)
+        p = sum(w * sc * np.asarray(arr[sl], dtype=np.float64) for (arr, sc), w in parts)
+        yc = np.clip(y[sl].astype(np.float64), -2, 2)
+        pc = np.clip(p, -2, 2)
+        ms = m[sl]
         for k in range(2):
-            out[i, 0, k] = wp_sums(y[i, :, k], p[:, k], m[i])
-            out[i, 1, k] = wp_sums(y[i, :, k], p[:, k], req & ~m[i])
+            out[sl, 0, k] = _sums6(yc[..., k], pc[..., k], ms)
+            out[sl, 1, k] = _sums6(yc[..., k], pc[..., k], req & ~ms)
     return out
 
 
