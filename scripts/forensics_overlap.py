@@ -37,7 +37,7 @@ def _one(args):
 
 def main():
     jobs = [(f"datasets/{s}.parquet", g) for s, n in (("train", 10607), ("valid", 1873)) for g in range(n)]
-    with Pool(4) as pool:
+    with Pool(int(__import__("os").environ.get("WNN_THREADS", "4"))) as pool:
         res = pool.map(_one, jobs, chunksize=32)
     split = ["train"] * 10607 + ["valid"] * 1873
     head_index = defaultdict(list)  # hash of a head row -> (seq idx, row offset)

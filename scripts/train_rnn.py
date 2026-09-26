@@ -33,10 +33,14 @@ EV_I0PX = N_FEATURES + FEATURE_NAMES.index("ev_i0px")
 
 
 class Sequences(Dataset):
-    def __init__(self, split: str, indices):
+    def __init__(self, split: str, indices, teachers=None):
         self.path = ROOT / "datasets" / f"{split}.parquet"
         self.indices = list(indices)
         self._file = None
+        # teachers: list of (name, scale); predictions are appended to targets as columns 2..3
+        self.teachers = teachers
+        self.split = split
+        self._teach = None
 
     def __len__(self):
         return len(self.indices)
@@ -46,22 +50,58 @@ class Sequences(Dataset):
             self._file = SequenceFile(self.path)
         seq = self._file.read(self.indices[i])
         scored = seq.scored if seq.scored is not None else np.zeros(len(seq.features), bool)
-        return torch.from_numpy(seq.features), torch.from_numpy(seq.targets), torch.from_numpy(scored)
+        x = seq.features
+        if HEURISTICS:
+            from wnn.heuristics import heuristic_features
+
+            x = np.concatenate([x, heuristic_features(x)], axis=1)
+        y = seq.targets
+        if self.teachers:
+            if self._teach is None:
+                rg = np.load(ROOT / "cache" / f"{self.split}_targets.npz")["row_group"]
+                self._pos = {int(g): i for i, g in enumerate(rg)}
+                self._teach = [(np.load(ROOT / "cache" / f"pred_{n}_{self.split}.npy", mmap_mode="r"), sc) for n, sc in self.teachers]
+            j = self._pos[int(self.indices[i])]
+            t = sum(sc * np.asarray(arr[j], dtype=np.float32) for arr, sc in self._teach) / len(self._teach)
+            y = np.concatenate([y, t.astype(np.float32)], axis=1)
+        return torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored)
 
 
 INPUT_PROPENSITY = None  # frozen PropensityNet appended as an input column when set
 ONLINE_NORM = False  # append causal per-sequence z-scores of the 112 raw features
 READOUT = None  # (m1, m0) moment tables when the head is a softmax over outcome codes
 READOUT_TILTED = False
+HEURISTICS = False  # append wnn.heuristics features (computed in loader workers)
 
 
 def build_inputs(x):
-    inputs = torch.cat([x, event_features_torch(x)], dim=-1)
+    raw, extra = x[..., :N_FEATURES], x[..., N_FEATURES:]
+    inputs = torch.cat([raw, event_features_torch(raw)], dim=-1)
     if ONLINE_NORM:
-        inputs = torch.cat([inputs, online_zscore_torch(x)], dim=-1)
+        inputs = torch.cat([inputs, online_zscore_torch(raw)], dim=-1)
+    if extra.shape[-1]:
+        inputs = torch.cat([inputs, extra], dim=-1)
     if INPUT_PROPENSITY is not None:
         inputs = torch.cat([inputs, propensity(INPUT_PROPENSITY, inputs)[..., None].to(inputs.dtype)], dim=-1)
     return inputs
+
+
+def next_change_labels(y, valid):
+    """Training-only labels from the future of the target stream: log1p(rows until the next change
+    of D = t0 - t1) and the sign of that change. Rows without a later change are masked out."""
+    d = y[..., 0] - y[..., 1]
+    b, t = d.shape
+    idx = torch.arange(t, device=y.device).expand(b, t)
+    changed = torch.zeros_like(d, dtype=torch.bool)
+    changed[:, 1:] = d[:, 1:] != d[:, :-1]
+    marker = torch.where(changed, idx, torch.full_like(idx, t))
+    nxt = torch.flip(torch.cummin(torch.flip(marker, [1]), 1).values, [1])  # first change at >= row
+    nxt = torch.cat([nxt[:, 1:], torch.full_like(nxt[:, :1], t)], 1)  # first change strictly after row
+    has = nxt < t
+    j = nxt.clamp(max=t - 1)
+    jump = torch.gather(d, 1, j) - torch.gather(d, 1, (j - 1).clamp(min=0))
+    rows_to = torch.log1p((nxt - idx).float())
+    return rows_to, (jump > 0).float(), valid & has
 
 
 def shifted_targets(y, valid, shifts):
@@ -157,6 +197,10 @@ def main():
     ap.add_argument("--huber-delta", type=float, default=0.5)
     ap.add_argument("--ce-tilt", action="store_true", help="weight code cross-entropy rows by mean |clip(y)|")
     ap.add_argument("--ce-mse", type=float, default=0.0, help="add this weight x wMSE on the differentiable readout")
+    ap.add_argument("--distill", default="", help="teacher runs name[*scale],...; cached pred_<name>_<split>.npy")
+    ap.add_argument("--distill-alpha", type=float, default=0.5, help="target = (1-a) y + a mean(teachers)")
+    ap.add_argument("--aux-next", type=float, default=0.0,
+                    help="weight of auxiliary heads: log rows to next target change (MSE) and its sign (BCE)")
     ap.add_argument("--aux-struct", type=float, default=0.0,
                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
@@ -168,17 +212,25 @@ def main():
                     help="sample train sequences so market-class shares match validation")
     ap.add_argument("--train-source", choices=["train", "valid_devA", "train+valid"], default="train",
                     help="train+valid: all train sequences plus validation devA and devB (holdout never)")
-    ap.add_argument("--eval-source", choices=["dev", "devB", "holdout"], default="dev")
+    ap.add_argument("--eval-source", choices=["dev", "devB", "holdout", "vfold"], default="dev")
+    ap.add_argument("--valid-fold", type=int, default=-1,
+                    help="K-fold over ALL validation sequences: train on train + other folds, evaluate on this fold")
+    ap.add_argument("--n-valid-folds", type=int, default=4)
     ap.add_argument("--init", default="", help="run name whose model.pt initializes weights")
     ap.add_argument("--mask-weight", action="store_true",
                     help="main loss only on is_scored rows (needs a validation train source)")
     ap.add_argument("--propensity", default="", help="run name of a frozen PropensityNet; weights main loss by p(x)")
     ap.add_argument("--prop-power", type=float, default=1.0, help="weights p(x)**power")
+    ap.add_argument("--prop-eps", type=float, default=0.0, help="floor added to propensity weights (mask robustness)")
+    ap.add_argument("--valid-true-mask", type=float, default=-1.0,
+                    help="if >= 0: rows of sequences that carry a true scoring mask (validation) are weighted "
+                         "c*(is_scored + this eps) instead of by the propensity net; c matches the mean propensity weight")
     ap.add_argument("--prop-input", default="", help="run name of a frozen PropensityNet appended as an input feature")
     ap.add_argument("--swa-frac", type=float, default=0.0,
                     help="average weights over the last fraction of optimizer steps; evaluate the average")
     ap.add_argument("--train-classes", default="", help="comma-separated market classes to train on (oracle expert test)")
     ap.add_argument("--online-norm", action="store_true")
+    ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
     if args.mask_weight and args.train_source == "train":
@@ -195,7 +247,18 @@ def main():
     dev_a, dev_b = dev_halves(valid_path)
     train_split = "train"
     extra_valid = None
-    if args.train_source == "train+valid":
+    fold_groups = None
+    if args.valid_fold >= 0:
+        all_valid = np.r_[np.asarray(dev_groups), np.asarray(hold_groups)]
+        # chain-grouped folds (cache/chain_folds.npz): sequences of one continuous stream share a fold
+        cf = np.load(ROOT / "cache" / "chain_folds.npz")
+        vmask = cf["split"] == "valid"
+        fold_map = dict(zip(cf["row_group"][vmask].tolist(), cf["fold"][vmask].tolist()))
+        fold_of = np.array([fold_map[int(g)] for g in all_valid]) % args.n_valid_folds
+        fold_groups = all_valid[fold_of == args.valid_fold]
+        if args.train_source == "train+valid":
+            extra_valid = all_valid[fold_of != args.valid_fold]
+    elif args.train_source == "train+valid":
         extra_valid = np.r_[np.asarray(dev_a), np.asarray(dev_b)]
     if args.train_source == "valid_devA":
         train_split = "valid"
@@ -207,7 +270,7 @@ def main():
             cls = np.load(ROOT / "research" / "artifacts" / "market-classes-v1.npz")["train"]
             usable = usable[np.isin(cls[usable], list(keep))]
         train_idx = np.random.default_rng(args.seed).permutation(usable)[: args.train_seqs]
-    eval_groups = {"devB": dev_b, "holdout": hold_groups}.get(args.eval_source, dev_groups)
+    eval_groups = {"devB": dev_b, "holdout": hold_groups, "vfold": fold_groups}.get(args.eval_source, dev_groups)
     n_valid = len(eval_groups) if args.full_valid else min(args.valid_seqs, len(eval_groups))
     valid_idx = np.random.default_rng(12345).permutation(eval_groups)[:n_valid]
 
@@ -221,9 +284,12 @@ def main():
         weights = np.where(tr_cls >= 0, va_share[np.clip(tr_cls, 0, 3)] / tr_share[np.clip(tr_cls, 0, 3)], 1.0)
         sampler = WeightedRandomSampler(torch.as_tensor(weights, dtype=torch.double), len(train_idx),
                                         replacement=True, generator=torch.Generator().manual_seed(args.seed))
-    train_ds = Sequences(train_split, train_idx)
+    teachers = None
+    if args.distill:
+        teachers = [(t.partition("*")[0], float(t.partition("*")[2] or 1.0)) for t in args.distill.split(",")]
+    train_ds = Sequences(train_split, train_idx, teachers)
     if extra_valid is not None:
-        train_ds = torch.utils.data.ConcatDataset([train_ds, Sequences("valid", extra_valid)])
+        train_ds = torch.utils.data.ConcatDataset([train_ds, Sequences("valid", extra_valid, teachers)])
     train_loader = DataLoader(train_ds, batch_size=args.batch, shuffle=sampler is None,
                               sampler=sampler, drop_last=True, num_workers=workers, prefetch_factor=prefetch)
     valid_loader = DataLoader(Sequences("valid", valid_idx), batch_size=16, num_workers=2,
@@ -232,6 +298,12 @@ def main():
     shifts = [int(v) for v in args.aux.split(",") if v]
     prop_model = load_propensity(ROOT / "artifacts" / "runs" / args.propensity / "model.pt", device) if args.propensity else None
     n_in = N_FEATURES + N_EVENT_FEATURES
+    if args.heuristics:
+        global HEURISTICS
+        from wnn.heuristics import K as N_HEUR
+
+        HEURISTICS = True
+        n_in += N_HEUR
     if args.online_norm:
         global ONLINE_NORM
         ONLINE_NORM = True
@@ -246,6 +318,9 @@ def main():
     struct_at = n_out
     if args.aux_struct > 0:
         n_out += N_SP_AUX + 3 + 4
+    next_at = n_out
+    if args.aux_next > 0:
+        n_out += 2
     model = make_model(vars(args), n_in, n_out).to(device)
     moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
     if args.init:
@@ -281,15 +356,30 @@ def main():
         for b, (x, y, scored) in enumerate(train_loader):
             inputs = build_inputs(x.to(device, non_blocking=True))
             y = y.to(device, non_blocking=True)
+            teach = None
+            if y.shape[-1] > 2:
+                teach, y = y[..., 2:4], y[..., :2]
             steps = torch.arange(inputs.shape[1], device=device)[None].expand(inputs.shape[0], -1)
             valid = steps >= WARMUP
             main_valid = valid & scored.to(device) if args.mask_weight else valid
             if prop_model is not None:
-                main_valid = valid.float() * propensity(prop_model, inputs[..., : N_FEATURES + N_EVENT_FEATURES]) ** args.prop_power
+                main_valid = valid.float() * (propensity(prop_model, inputs[..., : N_FEATURES + N_EVENT_FEATURES]) ** args.prop_power
+                                              + args.prop_eps)
+                if args.valid_true_mask >= 0:
+                    sc = scored.to(device)
+                    has_mask = sc.any(dim=1)
+                    if has_mask.any():
+                        true_w = sc.float() + args.valid_true_mask
+                        # scale so masked sequences carry the same total weight as their propensity weights would
+                        c = (main_valid[has_mask].sum() / (valid.float()[has_mask] * true_w[has_mask]).sum().clamp_min(1e-8))
+                        main_valid = torch.where(has_mask[:, None], valid.float() * true_w * c, main_valid)
             aux = shifted_targets(y, valid, shifts)
             if args.aux_struct > 0:
                 sp_lab, br_lab, cl_lab = structure_labels(y, sequence_class(y))
                 sw = main_valid.float()
+            if args.aux_next > 0:
+                nx_rows, nx_up, nx_ok = next_change_labels(y, valid)
+                nw = main_valid.float() * nx_ok.float() if main_valid.dtype != torch.bool else (main_valid & nx_ok).float()
             if moments is not None:
                 codes = outcome_codes(y, sequence_class(y))
                 row_w = main_valid.float()
@@ -309,6 +399,11 @@ def main():
                     if args.ce_mse > 0:
                         pred = readout(out, *moments.tables(), tilted=args.ce_tilt)
                         loss = loss + args.ce_mse * weighted_mse_loss(pred, y[:, sl], main_valid[:, sl])
+                elif teach is not None:
+                    yc = y[:, sl].float().clamp(-2, 2)
+                    tgt = (1 - args.distill_alpha) * yc + args.distill_alpha * teach[:, sl].float().clamp(-2, 2)
+                    w = yc.abs() * main_valid[:, sl][..., None]
+                    loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
                 else:
                     loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])
                 if args.aux_struct > 0:
@@ -319,6 +414,12 @@ def main():
                                         (struct_at + N_SP_AUX + 3, struct_at + N_SP_AUX + 7, cl_lab)):
                         ce = ce + F.cross_entropy(o[..., a0:a1].reshape(-1, a1 - a0), lab[:, sl].reshape(-1), reduction="none")
                     loss = loss + args.aux_struct * (ce * wv).sum() / wv.sum().clamp_min(1e-8)
+                if args.aux_next > 0:
+                    o = out.float()
+                    wv = nw[:, sl]
+                    mse = (o[..., next_at] - (nx_rows[:, sl] - 3.0) / 2.0) ** 2
+                    bce = F.binary_cross_entropy_with_logits(o[..., next_at + 1], nx_up[:, sl], reduction="none")
+                    loss = loss + args.aux_next * ((mse + bce) * wv).sum() / wv.sum().clamp_min(1e-8)
                 for j, (ya, va) in enumerate(aux):
                     loss = loss + args.aux_weight * objective(out[..., 2 + 2 * j : 4 + 2 * j], ya[:, sl], va[:, sl])
                 opt.zero_grad(set_to_none=True)

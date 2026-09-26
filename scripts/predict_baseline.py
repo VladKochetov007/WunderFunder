@@ -51,11 +51,12 @@ def main():
     split = sys.argv[1]
     groups = np.load(ROOT / "cache" / f"{split}_targets.npz")["row_group"]
     workers = int(os.environ.get("WNN_THREADS", "8"))
-    pred = np.empty((len(groups), 20_000, 2), np.float32)
+    pred = np.lib.format.open_memmap(ROOT / "cache" / f"pred_baseline_{split}.npy", mode="w+", dtype=np.float32,
+                                     shape=(len(groups), 20_000, 2))
     with ProcessPoolExecutor(workers) as ex:
         for i, p in enumerate(ex.map(_run, [(split, int(g)) for g in groups], chunksize=4)):
             pred[i] = p
-    np.save(ROOT / "cache" / f"pred_baseline_{split}.npy", pred)
+    pred.flush()
 
 
 if __name__ == "__main__":
