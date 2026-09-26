@@ -237,6 +237,8 @@ def main():
     ap.add_argument("--valid-fold", type=int, default=-1,
                     help="K-fold over ALL validation sequences: train on train + other folds, evaluate on this fold")
     ap.add_argument("--n-valid-folds", type=int, default=4)
+    ap.add_argument("--valid-repeat", type=int, default=1,
+                    help="with train+valid: each validation training sequence appears this many times per epoch")
     ap.add_argument("--init", default="", help="run name whose model.pt initializes weights")
     ap.add_argument("--mask-weight", action="store_true",
                     help="main loss only on is_scored rows (needs a validation train source)")
@@ -317,7 +319,8 @@ def main():
         teachers = [(t.partition("*")[0], float(t.partition("*")[2] or 1.0)) for t in args.distill.split(",")]
     train_ds = Sequences(train_split, train_idx, teachers)
     if extra_valid is not None:
-        train_ds = torch.utils.data.ConcatDataset([train_ds, Sequences("valid", extra_valid, teachers)])
+        valid_ds = Sequences("valid", extra_valid, teachers)
+        train_ds = torch.utils.data.ConcatDataset([train_ds] + [valid_ds] * args.valid_repeat)
     train_loader = DataLoader(train_ds, batch_size=args.batch, shuffle=sampler is None,
                               sampler=sampler, drop_last=True, num_workers=workers, prefetch_factor=prefetch)
     valid_loader = DataLoader(Sequences("valid", valid_idx), batch_size=16, num_workers=2,

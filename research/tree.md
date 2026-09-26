@@ -171,3 +171,10 @@ Next tree (root = "where does the remaining 0.01 to the top live?"):
 - [ ] crazy: gradient-reversal class/instrument adversary on the encoder (joins 3c invariance) -> stress panel
 - [ ] dual time-scale GRU (every event + every 20th event) -> event-time member 2b
 - [ ] crazy: sqrt-law impact-adjusted targets -> only as aux head (main target fixed by metric)
+
+## 16:40 plan after LB 0.6600 (research/plan-2026-09-26.md)
+- [x] LB: final_s4ft_base35 0.6600, final_s4_base35 0.6586 (E-144); fine-tune dose flat (E-145); 3-member too slow (E-146)
+- [-] test closer to valid (skeptic); domain weights/filtering; mirror augmentation; scaling; segment blend weights
+- [ ] 1 baseline-member valid fine-tune (X1)   [ ] 2 prop_v2 selection model (H-P3)   [ ] 3 i1-lead probe (H-P2)
+- [ ] 4 seed-sigma ladder   [ ] 5 native engine speedup -> 3rd member slot   [ ] 6 gcorr objective member
+- [ ] 7 final hygiene (FT on all valid, seed avg, soup)   [ ] 8 rows-to-next-event slice + dense class-3 view
