@@ -120,3 +120,30 @@ period with a possibly softer mask; validation overstated test by ~0.022 (unifor
       diversity (E-120); 3-member blend +0.0002 (E-121)
 - [x] explanations: level S (book-shape spread proxy + activity, E-117); mask per class (E-122)
 - [~] chunk 1000/500 (q8); valid true-mask fine-tune on K-fold models (q9); raw + plain-MSE member (q10)
+
+## 11:55 update: closed branches and the next tree
+- [x] chunk 500 weak (+0.0016 stress only, E-123); [-] chunk 1000
+- [x] valid true-mask fine-tune on K-fold models +0.0016 +- 0.0006, same sign on both folds (E-124)
+- [-] raw-only plain-MSE GRU as a diversity member (+0.0002, E-125): the baseline's diversity is not
+      its loss or its input view
+
+Next tree (root = "where does the remaining 0.01 to the top live?"):
+1. Final assembly (low risk)
+   1a. final_s4 + valid true-mask fine-tune (E-124) -> 0.7/0.3 with baseline -> docker verify
+   1b. E-124 on folds 2-3 to firm up the sign
+2. Diversity (main bottleneck; residual corr 0.99+)
+   2a. what IS the baseline's difference? decompose baseline-vs-GRU residual by class / clock / event
+       type (symreg on the residual difference, reuse symreg_explain task=residual)
+   2b. other families: temporal conv / state-space (S4/Mamba-like diagonal recurrence), event-time
+       (update only on book events) model, tick-grammar Markov model for class 3 (src/wnn/markov.py)
+   2c. different target parameterisation: predict F and spread separately, map through the law
+   2d. crazy: train on shuffled-class / mixed-quantum augmentations; model trained only on
+       train-unlike sequences; adversarially reweighted training (importance weights from adv AUC)
+3. Shift robustness (test = unseen instruments)
+   3a. adversarial importance weights on train rows (clipped), judged on stress panel
+   3b. per-sequence normalisation of volume codes (instrument-invariant inputs)
+   3c. crazy: invariant-risk penalty across chains (IRM / V-REx over chain groups)
+4. Explanation (long-term asset)
+   4a. symbolic F-law for classes 0-2 (law only exact for class 3; find the approximate rule)
+   4b. symbolic mask model -> propensity features (E-122 terms) in the loss weights
+5. Idea inbox: haiku r3_a (random books: greedy SMRP, optimal execution, present.pdf), pending
