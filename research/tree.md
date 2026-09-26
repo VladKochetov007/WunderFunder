@@ -111,3 +111,12 @@ period with a possibly softer mask; validation overstated test by ~0.022 (unifor
 - Tooling: C++ symreg kernel 13x (E-105); vectorized decision sums 15x (E-108); N-member native packager.
 - Next: final fits ab33 (train+valid, floor + aux + true valid masks, 2 seeds) -> candidates:
   single, 2-seed blend, GRU + baseline; Opus researchers (arch / micro / shift) pending.
+
+## 08:30 update
+- [x] stress panel (--stress) reproduces LB orderings at lambda 0.05 (E-110); weak evidence (few constraints)
+- [x] final candidate submissions/final_s4_base30 (0.7 final GRU + 0.3 baseline), blend weight optimal (E-113)
+- [-] distillation in final (E-116); online-norm properly scored (E-118); weight soup (E-119)
+- [-] diversity: our alternative GRUs / GBM subtract (E-115); raw view explains < half the baseline's
+      diversity (E-120); 3-member blend +0.0002 (E-121)
+- [x] explanations: level S (book-shape spread proxy + activity, E-117); mask per class (E-122)
+- [~] chunk 1000/500 (q8); valid true-mask fine-tune on K-fold models (q9); raw + plain-MSE member (q10)

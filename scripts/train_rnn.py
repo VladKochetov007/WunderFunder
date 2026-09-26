@@ -213,7 +213,7 @@ def main():
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--wd", type=float, default=1e-2)
-    ap.add_argument("--loss", choices=["corr", "wmse", "mix", "huber", "ce_joint"], default="mix")
+    ap.add_argument("--loss", choices=["corr", "wmse", "mix", "huber", "ce_joint", "mse"], default="mix")
     ap.add_argument("--huber-delta", type=float, default=0.5)
     ap.add_argument("--ce-tilt", action="store_true", help="weight code cross-entropy rows by mean |clip(y)|")
     ap.add_argument("--ce-mse", type=float, default=0.0, help="add this weight x wMSE on the differentiable readout")
@@ -231,7 +231,7 @@ def main():
     ap.add_argument("--event-hidden", type=int, default=128)
     ap.add_argument("--class-balance", action="store_true",
                     help="sample train sequences so market-class shares match validation")
-    ap.add_argument("--train-source", choices=["train", "valid_devA", "train+valid"], default="train",
+    ap.add_argument("--train-source", choices=["train", "valid_devA", "train+valid", "valid"], default="train",
                     help="train+valid: all train sequences plus validation devA and devB (holdout never)")
     ap.add_argument("--eval-source", choices=["dev", "devB", "holdout", "vfold"], default="dev")
     ap.add_argument("--valid-fold", type=int, default=-1,
@@ -283,7 +283,12 @@ def main():
             extra_valid = all_valid[fold_of != args.valid_fold]
     elif args.train_source == "train+valid":
         extra_valid = np.r_[np.asarray(dev_a), np.asarray(dev_b)]
-    if args.train_source == "valid_devA":
+    if args.train_source == "valid":
+        if fold_groups is None:
+            ap.error("--train-source valid needs --valid-fold (the held-out chain fold is excluded)")
+        train_split = "valid"
+        train_idx = np.random.default_rng(args.seed).permutation(np.setdiff1d(all_valid, fold_groups))
+    elif args.train_source == "valid_devA":
         train_split = "valid"
         train_idx = np.random.default_rng(args.seed).permutation(dev_a)[: args.train_seqs]
     else:
@@ -369,6 +374,10 @@ def main():
             return weighted_corr_loss(o, t, v)
         if args.loss == "wmse":
             return weighted_mse_loss(o, t, v)
+        if args.loss == "mse":  # unweighted MSE on clipped targets (organizer-baseline style)
+            yv = t.float().clamp(-2, 2)
+            vv = v[..., None].float()
+            return (vv * (o.float() - yv) ** 2).sum() / (vv.sum() * yv.shape[-1]).clamp_min(1e-8)
         if args.loss == "huber":
             return weighted_huber_loss(o, t, v, args.huber_delta)
         return weighted_corr_loss(o, t, v) + 0.5 * weighted_mse_loss(o, t, v)
