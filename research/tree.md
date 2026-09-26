@@ -151,3 +151,13 @@ Next tree (root = "where does the remaining 0.01 to the top live?"):
    4a. symbolic F-law for classes 0-2 (law only exact for class 3; find the approximate rule)
    4b. symbolic mask model -> propensity features (E-122 terms) in the loss weights
 5. Idea inbox: haiku r3_a (random books: greedy SMRP, optimal execution, present.pdf), pending
+
+## Idea triage r3_a (haiku, random books: greedy SMRP, optimal execution, present.pdf) -> test type
+- [ ] per-class GRUs, greedy member selection (diversity 2b) -> train 1 class-3-only GRU, residual corr + blend on stress
+- [ ] propagator-kernel (Gatheral) decay features of signed flow, 2-3 decay rates -> lift_probe --npy (1 h); nearest prior E-112 (refuted MO0/MO1 split, not decay basis)
+- [ ] volatility-regime-gated heads -> cheap: blend gain by realised-vol tercile first (like E-129)
+- [ ] crazy: 64-state quantized queue-imbalance model as blend member (tick-grammar Markov overlaps src/wnn/markov.py)
+- [ ] impact-decay deconvolution of volume into persistent/temporary parts -> lift_probe
+- [ ] crazy: gradient-reversal class/instrument adversary on the encoder (joins 3c invariance) -> stress panel
+- [ ] dual time-scale GRU (every event + every 20th event) -> event-time member 2b
+- [ ] crazy: sqrt-law impact-adjusted targets -> only as aux head (main target fixed by metric)
