@@ -147,6 +147,9 @@ Next tree (root = "where does the remaining 0.01 to the top live?"):
        test may belong above 0.3; E-131: optimum drifts 0.8 -> 0.6 with shift/lam, flat -> use 0.65
    3b. per-sequence normalisation of volume codes (instrument-invariant inputs)
    3c. crazy: invariant-risk penalty across chains (IRM / V-REx over chain groups)
+2e. [new] E-132: GRU 0.77 on sparsely scored vs 0.63 on densely scored sequences (0.14 gap, largest
+    sequence-level driver seen) -> find why dense-scored sequences are hard; possible targeted member
+    E-133: not target persistence (same change rate, runs), only partly move size (0.80 vs 0.70)
 4. Explanation (long-term asset)
    4a. symbolic F-law for classes 0-2 (law only exact for class 3; find the approximate rule)
    4b. symbolic mask model -> propensity features (E-122 terms) in the loss weights
