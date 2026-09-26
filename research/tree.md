@@ -130,6 +130,7 @@ period with a possibly softer mask; validation overstated test by ~0.022 (unifor
 Next tree (root = "where does the remaining 0.01 to the top live?"):
 1. Final assembly (low risk)
    1a. final_s4 + valid true-mask fine-tune (E-124) -> 0.7/0.3 with baseline -> docker verify
+       (E-128: fine-tune and blend additive, +0.0006..+0.0016 after blending)
    1b. E-124 on folds 2-3 to firm up the sign
 2. Diversity (main bottleneck; residual corr 0.99+)
    2a. [~] E-126: gain spread over all classes, larger on unscored rows, pooled < every class (cross-class
