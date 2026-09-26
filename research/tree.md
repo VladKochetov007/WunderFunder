@@ -153,7 +153,8 @@ Next tree (root = "where does the remaining 0.01 to the top live?"):
     E-134: true-mask fine-tune helps sparse-scored most, dense least -> dense gap needs another lever
     E-135: every model drops ~0.14 (data property); GRU lead over baseline +0.017 sparse vs +0.008 dense
     E-136: monotone in every class, steepest class 3 (0.547 -> 0.385) -> condition on running propensity
-    E-137: sequence-mean causal propensity tracks true density (corr 0.91 class 3) -> density-gated test ready
+    E-137: sequence-mean causal propensity tracks true density (corr 0.91 class 3)
+    E-138: density-gated blend weights refuted (-0.0004..-0.0018) -> density must enter the model, not the blend
 4. Explanation (long-term asset)
    4a. symbolic F-law for classes 0-2 (law only exact for class 3; find the approximate rule)
    4b. symbolic mask model -> propensity features (E-122 terms) in the loss weights
