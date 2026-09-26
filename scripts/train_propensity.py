@@ -44,6 +44,7 @@ def main():
     ap.add_argument("--heldout-fold", type=int, default=-1,
                     help="if >= 0: train on all validation sequences outside this chain fold (cache/chain_folds.npz), "
                          "evaluate on it; default: train devA, evaluate devB")
+    ap.add_argument("--dev-all", action="store_true", help="train on all dev sequences (devA + devB), evaluate on the holdout")
     args = ap.parse_args()
     torch.manual_seed(0)
     device = torch.device("cuda")
@@ -51,7 +52,10 @@ def main():
     out_dir = ROOT / "artifacts" / "runs" / args.name
     out_dir.mkdir(parents=True, exist_ok=True)
     dev_a, dev_b = dev_halves(ROOT / "datasets" / "valid.parquet")
-    if args.heldout_fold >= 0:
+    if args.dev_all:
+        from wnn.splits import valid_row_groups
+        dev_a, dev_b = valid_row_groups(ROOT / "datasets" / "valid.parquet")
+    elif args.heldout_fold >= 0:
         rg = np.load(ROOT / "cache" / "valid_targets.npz")["row_group"]
         cf = np.load(ROOT / "cache" / "chain_folds.npz")
         v = cf["split"] == "valid"
@@ -67,7 +71,7 @@ def main():
         model.mean.copy_(f.reshape(-1, f.shape[-1]).mean(0))
         model.std.copy_(f.reshape(-1, f.shape[-1]).std(0).clamp_min(1e-3))
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-2)
-    history = []
+    history, best_auc = [], -1.0
     for epoch in range(args.epochs):
         model.train()
         for x, _, m in train:
@@ -95,8 +99,10 @@ def main():
                "mean_p": round(float(p.mean()), 4)}
         history.append(res)
         print("PROP", json.dumps(res), flush=True)
-    torch.save({"model": model.state_dict(), "hidden": args.hidden, "n_in": N_FEATURES + N_EVENT_FEATURES},
-               out_dir / "model.pt")
+        if res["devB_auc"] > best_auc:  # keep the best epoch: the constant-lr last epoch can drift in calibration
+            best_auc = res["devB_auc"]
+            torch.save({"model": model.state_dict(), "hidden": args.hidden, "n_in": N_FEATURES + N_EVENT_FEATURES},
+                       out_dir / "model.pt")
     (out_dir / "history.json").write_text(json.dumps(history, indent=1))
 
 

@@ -191,3 +191,20 @@ Regime: noisy-label early learning (not algorithmic grokking); fine-tune gain li
 - [ ] L4 soup of FT children (DiWA)   [ ] L5 shrink & perturb   [ ] L6 self-distill alpha 0.7-1.0
 - [ ] L7 ELR   [ ] L8 uniqueness weights (bias check)   [ ] L9 SWAD / V-REx over chains
 - [ ] L10 zoneout   [ ] L11 SSL next-event heads   [ ] L12 TTT layer (long shot)   [ ] L14 minGRU
+
+## 22:30 frontier (conduct-creative-research contract, tier B)
+Contract: maximize public and private LB global WP; proxy = full valid, out-of-sample models, lambda
+0.02 (guards: lambda 0, stress 0.05); fold->LB transfer ~1:1 (forensic); seed noise: FT ~0.0008,
+full fit ~0.001 -> accept at > 2 sqrt(SE^2 + sigma_seed^2); 1 vCPU / 60 min / 20 MB; user uploads.
+Incumbent LB 0.6600 (final_s4ft_base35).
+
+Mechanism families (quality-diversity archive):
+- F1 learning dynamics [active, best lead]: EMA mean-teacher 4 ep +0.0037 fold 0 at the final epoch
+  (E-154), wd 0.1 12 ep +0.0033 at a selected epoch (E-153); confirmation on fold 1 + seed 4 running (q18).
+  Next: EMA 6 ep, lambda 0.5/2, decay 0.9995, EMA + wd 0.1; memorization anatomy (which rows decay).
+- F2 selection / mask [proven on LB]: prop_v2 (+0.0010 +- 0.0010, E-155), LP-FT (+0.0002-0.0003, E-148/E-158).
+- F3 diversity member [bottleneck]: gcorr objective member; native engine speedup for a 3rd member.
+- F4 EDA / explanation: rows-to-event slices (tool ready), queue-race curve (H-P1), propensity deciles.
+- F5 long shots (10-20% budget): SSL next-event heads, TTT layer, minGRU.
+Dead ends this round: FT soups, dropout, WiSE on in-distribution holdout, baseline-member core FT,
+extrapolated task vectors, V-REx (deprioritized: per-sequence Bayes risks differ).
