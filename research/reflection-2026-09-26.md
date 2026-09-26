@@ -54,3 +54,14 @@ Sign right 5/5; magnitude error ~+-0.001-0.002. Differences < 0.002 are not reso
    filtering (drop train sequences unlike valid), a genuinely different model family, or the dense-
    scored regime?
 3. How should the research process change (idea sources, evidence standard, proxy, LB use)?
+
+## Update 2026-09-27 02:40 (LB 0.6618, rank 18; top 0.6651)
+Trajectory: 0.6503 (scale) -> 0.6548 (recipe) -> 0.6569 (blend) -> 0.6586/0.6600 (mask levers, FT)
+-> 0.6601 (LP-FT) -> 0.6618 (EMA mean-teacher, 4 epochs). The last two same-parent or recipe steps
+transferred at 0.5-0.8x of offline estimates. Remaining gap +0.0033 = about one EMA-sized lever.
+Brainteaser reading: we sit in a label-noise-dominated, data-limited regime; every recent win is a
+variance reduction (true masks, fine-tune on scored rows, EMA). The panel found no metric free lunch.
+Candidates in that family: sharper selection weights (prop_v2), loss normalization matching the
+pooled metric, class-3 label denoising, distilled ensembles, and a genuinely diverse member.
+Throughput: training runs at ~15 seq/s with the GPU mostly idle (DutyCycle sleeps + host-side
+work + unpinned 287 MB batch copies); a verified speedup multiplies hypotheses per hour.
