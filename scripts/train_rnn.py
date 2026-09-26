@@ -284,10 +284,10 @@ def main():
     elif args.train_source == "train+valid":
         extra_valid = np.r_[np.asarray(dev_a), np.asarray(dev_b)]
     if args.train_source == "valid":
-        if fold_groups is None:
-            ap.error("--train-source valid needs --valid-fold (the held-out chain fold is excluded)")
+        # with --valid-fold: all valid minus the held-out chain fold; without: devA + devB (holdout never)
         train_split = "valid"
-        train_idx = np.random.default_rng(args.seed).permutation(np.setdiff1d(all_valid, fold_groups))
+        pool = np.setdiff1d(all_valid, fold_groups) if fold_groups is not None else np.asarray(dev_groups)
+        train_idx = np.random.default_rng(args.seed).permutation(pool)
     elif args.train_source == "valid_devA":
         train_split = "valid"
         train_idx = np.random.default_rng(args.seed).permutation(dev_a)[: args.train_seqs]
