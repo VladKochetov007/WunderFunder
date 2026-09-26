@@ -41,6 +41,9 @@ def main():
     ap.add_argument("--hidden", type=int, default=64)
     ap.add_argument("--epochs", type=int, default=4)
     ap.add_argument("--lr", type=float, default=2e-3)
+    ap.add_argument("--heldout-fold", type=int, default=-1,
+                    help="if >= 0: train on all validation sequences outside this chain fold (cache/chain_folds.npz), "
+                         "evaluate on it; default: train devA, evaluate devB")
     args = ap.parse_args()
     torch.manual_seed(0)
     device = torch.device("cuda")
@@ -48,6 +51,13 @@ def main():
     out_dir = ROOT / "artifacts" / "runs" / args.name
     out_dir.mkdir(parents=True, exist_ok=True)
     dev_a, dev_b = dev_halves(ROOT / "datasets" / "valid.parquet")
+    if args.heldout_fold >= 0:
+        rg = np.load(ROOT / "cache" / "valid_targets.npz")["row_group"]
+        cf = np.load(ROOT / "cache" / "chain_folds.npz")
+        v = cf["split"] == "valid"
+        fold_of = dict(zip(cf["row_group"][v].tolist(), cf["fold"][v].tolist()))
+        f = np.array([fold_of[int(g)] for g in rg])
+        dev_a, dev_b = rg[f != args.heldout_fold], rg[f == args.heldout_fold]
     train = DataLoader(Sequences("valid", dev_a), batch_size=16, shuffle=True, num_workers=2, prefetch_factor=1)
     test = DataLoader(Sequences("valid", dev_b), batch_size=16, num_workers=2, prefetch_factor=1)
     model = PropensityNet(N_FEATURES + N_EVENT_FEATURES, args.hidden).to(device)

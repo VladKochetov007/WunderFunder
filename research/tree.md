@@ -178,3 +178,16 @@ Next tree (root = "where does the remaining 0.01 to the top live?"):
 - [ ] 1 baseline-member valid fine-tune (X1)   [ ] 2 prop_v2 selection model (H-P3)   [ ] 3 i1-lead probe (H-P2)
 - [ ] 4 seed-sigma ladder   [ ] 5 native engine speedup -> 3rd member slot   [ ] 6 gcorr objective member
 - [ ] 7 final hygiene (FT on all valid, seed avg, soup)   [ ] 8 rows-to-next-event slice + dense class-3 view
+
+## L. Learning dynamics branch (2026-09-26 16:50, research/lit/learning_dynamics.md)
+Regime: noisy-label early learning (not algorithmic grokking); fine-tune gain lives in the head.
+- [x] L2 WiSE-FT alpha 0.5 ~= full FT at half the variance; extrapolation hurts (E-147)
+- [x] L3 head-only FT carries most of the gain; LP-FT +0.0002 over FT, clean (E-148)
+- [~] L1 12-epoch runs, wd 0.01 vs 0.1 (grokking / epoch-wise double descent) (q13 B)
+- [~] data learning curve 25/50/100% train (q13 C)
+- [~] baseline-member head FT and core FT on folds; final WiSE 0.5, final LP-FT, final baseline head FT (q14)
+- [~] prop_v2 PropensityNet (headroom: top-quintile AUC 0.725 vs 0.679, E-150) -> training weights (q15)
+- [-] i1 lead: +0.02..0.04 partial corr at full scale (E-149), low priority
+- [ ] L4 soup of FT children (DiWA)   [ ] L5 shrink & perturb   [ ] L6 self-distill alpha 0.7-1.0
+- [ ] L7 ELR   [ ] L8 uniqueness weights (bias check)   [ ] L9 SWAD / V-REx over chains
+- [ ] L10 zoneout   [ ] L11 SSL next-event heads   [ ] L12 TTT layer (long shot)   [ ] L14 minGRU

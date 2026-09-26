@@ -240,6 +240,7 @@ def main():
     ap.add_argument("--valid-repeat", type=int, default=1,
                     help="with train+valid: each validation training sequence appears this many times per epoch")
     ap.add_argument("--init", default="", help="run name whose model.pt initializes weights")
+    ap.add_argument("--freeze", default="", help="comma-separated parameter-name prefixes kept fixed, e.g. inp,gru")
     ap.add_argument("--mask-weight", action="store_true",
                     help="main loss only on is_scored rows (needs a validation train source)")
     ap.add_argument("--propensity", default="", help="run name of a frozen PropensityNet; weights main loss by p(x)")
@@ -363,7 +364,11 @@ def main():
         model.load_state_dict(init["model"])
     else:
         fit_normalization(model, train_loader, device)
-    opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.wd)
+    frozen = tuple(v for v in args.freeze.split(",") if v)
+    for pname, prm in model.named_parameters():
+        if frozen and pname.startswith(frozen):
+            prm.requires_grad_(False)
+    opt = torch.optim.AdamW([prm for prm in model.parameters() if prm.requires_grad], lr=args.lr, weight_decay=args.wd)
     total = len(train_loader) * math.ceil(20_000 / args.chunk) * args.epochs
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=total,
                                                 pct_start=0.05, final_div_factor=100)
