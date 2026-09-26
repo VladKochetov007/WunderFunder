@@ -30,6 +30,7 @@ def main():
     banned = ("t0_", "t1_", "S_", "D_", "t01_", "scored_frac", "ev_target", "row_group", "seq_ix", "split", "cls")
     feats = [c for c in df.columns if not any(c.startswith(b) for b in banned) and df[c].dtype in (pl.Float64, pl.Float32, pl.Int64)]
     out = {"n_features": len(feats), "by_class": {}}
+    valid_scores = {}
     for k in range(4):
         sub = df.filter(pl.col("cls") == k)
         X = sub.select(feats).to_numpy().astype(np.float64)
@@ -40,6 +41,9 @@ def main():
             m = HistGradientBoostingClassifier(max_iter=200, learning_rate=0.05, max_leaf_nodes=15, random_state=f).fit(X[a], y[a])
             oof[b] = m.predict_proba(X[b])[:, 1]
         auc = roc_auc_score(y, oof)
+        for g, v, sp in zip(sub["row_group"].to_list(), oof, y):
+            if sp == 1:
+                valid_scores[int(g)] = float(v)  # out-of-fold P(valid | stats): low = train-like
         # single-feature AUCs as an importance proxy robust to correlation
         single = np.array([abs(roc_auc_score(y, np.nan_to_num(X[:, j])) - 0.5) + 0.5 for j in range(len(feats))])
         top = np.argsort(-single)[:8]
@@ -50,6 +54,8 @@ def main():
                               "top_single_auc": [(feats[j], round(float(single[j]), 4)) for j in top], "pc_auc": pc_auc}
         print(k, json.dumps(out["by_class"][k]), flush=True)
     (ROOT / "research" / "artifacts" / "adversarial_validation.json").write_text(json.dumps(out, indent=1))
+    rg = np.load(ROOT / "cache" / "valid_targets.npz")["row_group"]
+    np.save(ROOT / "cache" / "adv_valid_score.npy", np.array([valid_scores.get(int(g), np.nan) for g in rg]))
 
 
 if __name__ == "__main__":

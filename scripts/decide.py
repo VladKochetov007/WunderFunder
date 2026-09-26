@@ -84,8 +84,29 @@ def _chains():
     return c["chain"][v][order], c["fold"][v][order]
 
 
+STRESS = False  # restrict to the 2/3 of validation sequences least like train (cache/adv_valid_score.npy)
+
+
+def _stress_keep():
+    s = np.load(ROOT / "cache" / "adv_valid_score.npy")
+    cls = np.load(ROOT / "cache" / "valid_targets.npz")["market_class"]
+    keep = np.zeros(len(s), bool)
+    for k in range(4):  # within class, so the class mix is unchanged
+        idx = np.flatnonzero(cls == k)
+        keep[idx[s[idx] >= np.nanquantile(s[idx], 1 / 3)]] = True
+    return keep
+
+
 def splits():
     rg = np.load(ROOT / "cache" / "valid_targets.npz")["row_group"]
+    if STRESS:
+        keep = _stress_keep()
+        base = _splits_plain(rg)
+        return {k: v[keep[v]] for k, v in base.items()}
+    return _splits_plain(rg)
+
+
+def _splits_plain(rg):
     if GROUPING == "chain":
         _, fold = _chains()
         out = {f"fold{k}": np.flatnonzero(fold == k) for k in range(4)}
@@ -132,9 +153,11 @@ def main():
     ap.add_argument("--weights", default="0.5")
     ap.add_argument("--grouping", choices=["chain", "dev"], default="chain")
     ap.add_argument("--n-boot", type=int, default=300)
+    ap.add_argument("--stress", action="store_true", help="only the 2/3 least train-like sequences per class (LB-ordering proxy)")
     a = ap.parse_args()
-    global GROUPING
+    global GROUPING, STRESS
     GROUPING = a.grouping
+    STRESS = a.stress
     lams = [float(v) for v in a.lam.split(",")]
     if a.mode == "cache":
         for mdl in a.models:
