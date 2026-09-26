@@ -151,6 +151,7 @@ Next tree (root = "where does the remaining 0.01 to the top live?"):
     sequence-level driver seen) -> find why dense-scored sequences are hard; possible targeted member
     E-133: not target persistence (same change rate, runs), only partly move size (0.80 vs 0.70)
     E-134: true-mask fine-tune helps sparse-scored most, dense least -> dense gap needs another lever
+    E-135: every model drops ~0.14 (data property); GRU lead over baseline +0.017 sparse vs +0.008 dense
 4. Explanation (long-term asset)
    4a. symbolic F-law for classes 0-2 (law only exact for class 3; find the approximate rule)
    4b. symbolic mask model -> propensity features (E-122 terms) in the loss weights
