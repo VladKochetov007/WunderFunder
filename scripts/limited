@@ -12,6 +12,7 @@ set -euo pipefail
 cpu_pct=${WNN_CPU_PCT:-80}
 mem_max=${WNN_MEM_MAX:-30G}
 threads=$(( $(nproc --all) * cpu_pct / 100 ))
+(( threads < 1 )) && threads=1
 quota=$(( $(nproc --all) * cpu_pct ))%
 
 export WNN_THREADS=$threads
