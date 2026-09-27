@@ -18,6 +18,16 @@ from __future__ import annotations
 import torch
 
 QUANTA = (0.12543, 0.24133, 0.46854, 0.65687)
+_QUANTA_CACHE: dict = {}
+
+
+def _quanta(device, dtype) -> torch.Tensor:
+    """QUANTA as a tensor, created once per (device, dtype): building it per call is a host->device copy
+    (a synchronizing operation in the training hot path)."""
+    key = (str(device), dtype)
+    if key not in _QUANTA_CACHE:
+        _QUANTA_CACHE[key] = torch.tensor(QUANTA, device=device, dtype=dtype)
+    return _QUANTA_CACHE[key]
 N_CLASS = 4
 N_SP = 7  # spread 1..6 ticks, 7 = 7 or more
 N_BELOW = 5  # -U = 1..4, 5 = 5 or more
@@ -47,7 +57,7 @@ def invert(t: torch.Tensor):
 
 def outcome_codes(y: torch.Tensor, cls: torch.Tensor) -> torch.Tensor:
     """(B, T, 2) float targets and (B,) classes -> (B, T) long codes in [0, N_CODES)."""
-    q = torch.tensor(QUANTA, device=y.device, dtype=y.dtype)[cls][:, None, None]
+    q = _quanta(y.device, y.dtype)[cls][:, None, None]
     t = torch.round(y / q).long()
     sp, u = invert(t)
     spb = sp.clamp(max=N_SP) - 1
@@ -97,7 +107,7 @@ N_SP_AUX = 12  # auxiliary spread head: 1..11 ticks, 12 = 12 or more
 
 def structure_labels(y: torch.Tensor, cls: torch.Tensor):
     """(B, T, 2) targets, (B,) classes -> spread bin (0..11), branch (0 below, 1 inside, 2 above), class per row."""
-    q = torch.tensor(QUANTA, device=y.device, dtype=y.dtype)[cls][:, None, None]
+    q = _quanta(y.device, y.dtype)[cls][:, None, None]
     sp, u = invert(torch.round(y / q).long())
     branch = torch.where(u < 0, 0, torch.where(u > sp, 2, 1))
     return sp.clamp(max=N_SP_AUX) - 1, branch, cls[:, None].expand_as(sp)

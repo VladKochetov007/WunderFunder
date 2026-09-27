@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import time
 from pathlib import Path
 
@@ -129,7 +130,7 @@ class StageTimer:
 
             warnings.simplefilter("always")
             warnings.showwarning = self._count_sync
-            torch.cuda.set_sync_debug_mode("warn")
+            torch.cuda.set_sync_debug_mode(os.environ.get("WNN_SYNC_DEBUG", "warn"))
         if self.enabled:
             ev = torch.cuda.Event(enable_timing=True)
             ev.record()
@@ -298,10 +299,10 @@ def shifted_targets(y, valid, shifts):
 @torch.no_grad()
 def fit_normalization(model, loader, device, batches=2):
     feats = []
-    for b, (x, _, _) in enumerate(loader):
+    for b, batch in enumerate(loader):
         if b >= batches:
             break
-        f = build_inputs(x.to(device))
+        f = build_inputs(batch[0].to(device))
         feats.append(f.reshape(-1, f.shape[-1])[::7])
     f = torch.cat(feats)
     model.mean.copy_(f.mean(0))
