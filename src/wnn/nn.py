@@ -21,7 +21,7 @@ class RNNModel(nn.Module):
         self.register_buffer("std", torch.ones(n_in))
         self.inp = nn.Linear(n_in, hidden)
         # Optional per-row encoders, added as residuals to the linear projection (research screening only;
-        # the native engine supports enc="linear").
+        # the native engine supports enc="linear" and "conv", the latter with true causal context).
         self.enc = enc
         if enc == "mlp":
             self.enc_norm = nn.LayerNorm(hidden)

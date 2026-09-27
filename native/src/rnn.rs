@@ -1,14 +1,37 @@
 //! Stateful single-row twin of `wnn.nn.RNNModel`:
 //! z = gelu(W_in (x - mean)/std + b); GRU stack; y = W2 gelu(W1 [h_last, z] + b1) + b2.
+//! With a conv encoder (enc="conv"), before the GRU:
+//! z += gelu(W_pw dwconv(z) + b_pw), dwconv a causal depthwise conv over the last `k` z rows
+//! (zeros before the sequence start, never reset inside a sequence).
 
 use crate::kernels::{gelu, gemv, sigmoid};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct GruLayer {
     pub w_ih: Vec<f32>,
     pub w_hh: Vec<f32>,
     pub b_ih: Vec<f32>,
     pub b_hh: Vec<f32>,
+}
+
+/// `conv_dw` (Conv1d(hidden, hidden, k, groups=hidden)) and `conv_pw` (Linear(hidden, hidden)).
+#[derive(Debug, Clone)]
+pub struct ConvEncoder {
+    pub k: usize,
+    /// hidden x k row-major (torch weight (hidden, 1, k)); tap k-1 multiplies the current row.
+    pub w_dw: Vec<f32>,
+    pub b_dw: Vec<f32>,
+    pub w_pw: Vec<f32>,
+    pub b_pw: Vec<f32>,
+}
+
+#[derive(Debug)]
+struct ConvState {
+    enc: ConvEncoder,
+    /// The last k pre-residual z rows, oldest first.
+    hist: Vec<f32>,
+    c: Vec<f32>,
+    p: Vec<f32>,
 }
 
 #[derive(Debug)]
@@ -24,6 +47,7 @@ pub struct RnnModel {
     b1: Vec<f32>,
     w2: Vec<f32>,
     b2: Vec<f32>,
+    conv: Option<ConvState>,
     // State and scratch, allocated once.
     h: Vec<f32>,
     x_norm: Vec<f32>,
@@ -38,6 +62,7 @@ pub struct RnnModel {
 #[derive(Debug, PartialEq, Eq)]
 pub struct ShapeError(pub String);
 
+#[derive(Debug, Clone)]
 pub struct RnnWeights {
     pub mean: Vec<f32>,
     pub std: Vec<f32>,
@@ -48,6 +73,7 @@ pub struct RnnWeights {
     pub b1: Vec<f32>,
     pub w2: Vec<f32>,
     pub b2: Vec<f32>,
+    pub conv: Option<ConvEncoder>,
 }
 
 fn expect(name: &str, got: usize, want: usize) -> Result<(), ShapeError> {
@@ -87,6 +113,15 @@ impl RnnModel {
         expect("head.0.weight", w.w1.len(), hidden * 2 * hidden)?;
         expect("head.0.bias", w.b1.len(), hidden)?;
         expect("head.2.weight", w.w2.len(), n_out * hidden)?;
+        if let Some(c) = &w.conv {
+            if c.k == 0 {
+                return Err(ShapeError("conv_dw: kernel size must be positive".into()));
+            }
+            expect("conv_dw.weight", c.w_dw.len(), hidden * c.k)?;
+            expect("conv_dw.bias", c.b_dw.len(), hidden)?;
+            expect("conv_pw.weight", c.w_pw.len(), hidden * hidden)?;
+            expect("conv_pw.bias", c.b_pw.len(), hidden)?;
+        }
         let layers = w.layers.len();
         Ok(Self {
             n_in,
@@ -101,6 +136,12 @@ impl RnnModel {
             b1: w.b1,
             w2: w.w2,
             b2: w.b2,
+            conv: w.conv.map(|enc| ConvState {
+                hist: vec![0.0; enc.k * hidden],
+                c: vec![0.0; hidden],
+                p: vec![0.0; hidden],
+                enc,
+            }),
             h: vec![0.0; layers * hidden],
             x_norm: vec![0.0; n_in],
             z: vec![0.0; hidden],
@@ -118,6 +159,9 @@ impl RnnModel {
 
     pub fn reset(&mut self) {
         self.h.fill(0.0);
+        if let Some(cv) = &mut self.conv {
+            cv.hist.fill(0.0);
+        }
     }
 
     pub fn step(&mut self, x: &[f32]) -> &[f32] {
@@ -133,6 +177,24 @@ impl RnnModel {
         }
         gemv(&self.w_in, &self.b_in, &self.x_norm, &mut self.z);
         self.z.iter_mut().for_each(|v| *v = gelu(*v));
+        if let Some(cv) = &mut self.conv {
+            let k = cv.enc.k;
+            cv.hist.copy_within(n.., 0);
+            cv.hist[(k - 1) * n..].copy_from_slice(&self.z);
+            for (ch, o) in cv.c.iter_mut().enumerate() {
+                let taps = &cv.enc.w_dw[ch * k..(ch + 1) * k];
+                *o = cv.enc.b_dw[ch]
+                    + taps
+                        .iter()
+                        .enumerate()
+                        .map(|(j, w)| w * cv.hist[j * n + ch])
+                        .sum::<f32>();
+            }
+            gemv(&cv.enc.w_pw, &cv.enc.b_pw, &cv.c, &mut cv.p);
+            for (zj, pj) in self.z.iter_mut().zip(&cv.p) {
+                *zj += gelu(*pj);
+            }
+        }
 
         for (k, layer) in self.layers.iter().enumerate() {
             let (before, rest) = self.h.split_at_mut(k * n);
@@ -203,6 +265,7 @@ mod tests {
             b1: v(hidden),
             w2: v(2 * hidden),
             b2: v(2),
+            conv: None,
         }
     }
 

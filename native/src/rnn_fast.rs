@@ -8,6 +8,10 @@
 //! - Gate and activation loops are branchless for vectorization, using
 //!   `approx` functions unless `Activations::Exact` is requested.
 //! - `step` writes into caller-provided output; nothing allocates per row.
+//! - Conv encoder (enc="conv"): the last k z rows sit in an aligned ring buffer;
+//!   taps are stored lag-major so the depthwise conv runs as 16-lane register
+//!   blocks over channels; the pointwise projection is stored column-major and
+//!   accumulated in 32-lane register blocks (no per-row horizontal sums).
 
 use std::ops::Range;
 
@@ -18,6 +22,8 @@ use crate::kernels::{gelu, sigmoid};
 use crate::rnn::{RnnWeights, ShapeError};
 
 const LANES: usize = 16;
+/// Output block of the column-major pointwise projection (4 AVX2 registers).
+const PW_BLOCK: usize = 32;
 
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C, align(64))]
@@ -67,6 +73,20 @@ pub enum Activations {
     Fast,
 }
 
+struct ConvIdx {
+    k: usize,
+    stride: usize, // hidden rounded up to LANES; padding lanes hold zero taps and values
+    taps: Range<usize>, // k x stride, lag-major: taps[j][c] = conv_dw.weight[c, 0, j]
+    b_dw: Range<usize>,
+    pw_stride: usize,   // hidden rounded up to PW_BLOCK
+    w_pw: Range<usize>, // hidden x pw_stride, column-major: w_pw[j][i] = conv_pw.weight[i, j]
+    b_pw: Range<usize>, // pw_stride
+    ring: Range<usize>, // k x stride pre-residual z rows; slot `pos` receives the next row
+    c: Range<usize>,
+    p: Range<usize>,
+    pos: usize,
+}
+
 struct LayerIdx {
     w_ih: Range<usize>,
     b_ih: Range<usize>,
@@ -83,6 +103,7 @@ pub struct FastRnn {
     state: Arena,
     w_in_cols: Range<usize>, // column-major hidden x n_in, folded normalization
     b_in: Range<usize>,
+    conv: Option<ConvIdx>,
     layers: Vec<LayerIdx>,
     w1: Range<usize>,
     b1: Range<usize>,
@@ -126,27 +147,7 @@ impl FastRnn {
         let hidden = w.b_in.len();
         let n_out = w.b2.len();
         // Validate by constructing the exact model's shape checks.
-        let check = RnnWeights {
-            mean: w.mean.clone(),
-            std: w.std.clone(),
-            w_in: w.w_in.clone(),
-            b_in: w.b_in.clone(),
-            layers: w
-                .layers
-                .iter()
-                .map(|l| crate::rnn::GruLayer {
-                    w_ih: l.w_ih.clone(),
-                    w_hh: l.w_hh.clone(),
-                    b_ih: l.b_ih.clone(),
-                    b_hh: l.b_hh.clone(),
-                })
-                .collect(),
-            w1: w.w1.clone(),
-            b1: w.b1.clone(),
-            w2: w.w2.clone(),
-            b2: w.b2.clone(),
-        };
-        crate::rnn::RnnModel::new(check)?;
+        crate::rnn::RnnModel::new(w.clone())?;
 
         // Fold normalization: W'[r][c] = W[r][c] / std[c]; b'[r] = b[r] - sum_c W'[r][c] mean[c].
         let mut cols = vec![0.0f32; hidden * n_in];
@@ -161,6 +162,39 @@ impl FastRnn {
         let mut weights = Arena::new();
         let w_in_cols = weights.push(&cols);
         let b_in = weights.push(&b_in);
+        let mut conv = w.conv.as_ref().map(|c| {
+            let stride = hidden.div_ceil(LANES) * LANES;
+            let mut taps = vec![0.0f32; c.k * stride];
+            for ch in 0..hidden {
+                for j in 0..c.k {
+                    taps[j * stride + ch] = c.w_dw[ch * c.k + j];
+                }
+            }
+            let mut b_dw = c.b_dw.clone();
+            b_dw.resize(stride, 0.0);
+            let pw_stride = hidden.div_ceil(PW_BLOCK) * PW_BLOCK;
+            let mut w_pw = vec![0.0f32; hidden * pw_stride];
+            for i in 0..hidden {
+                for j in 0..hidden {
+                    w_pw[j * pw_stride + i] = c.w_pw[i * hidden + j];
+                }
+            }
+            let mut b_pw = c.b_pw.clone();
+            b_pw.resize(pw_stride, 0.0);
+            ConvIdx {
+                k: c.k,
+                stride,
+                taps: weights.push(&taps),
+                b_dw: weights.push(&b_dw),
+                pw_stride,
+                w_pw: weights.push(&w_pw),
+                b_pw: weights.push(&b_pw),
+                ring: 0..0,
+                c: 0..0,
+                p: 0..0,
+                pos: 0,
+            }
+        });
         let layers = w
             .layers
             .iter()
@@ -183,6 +217,12 @@ impl FastRnn {
         let gh = state.zeros(3 * hidden);
         let cat = state.zeros(2 * hidden);
         let a = state.zeros(hidden);
+        // Conv state goes last: `step` splits the arena at the ring start.
+        if let Some(cv) = &mut conv {
+            cv.ring = state.zeros(cv.k * cv.stride);
+            cv.c = state.zeros(cv.stride);
+            cv.p = state.zeros(cv.pw_stride);
+        }
         debug_assert!(weights.len >= weights.as_ref().len());
         Ok(Self {
             n_in,
@@ -193,6 +233,7 @@ impl FastRnn {
             state,
             w_in_cols,
             b_in,
+            conv,
             layers,
             w1,
             b1,
@@ -215,9 +256,17 @@ impl FastRnn {
         self.n_out
     }
 
+    pub fn has_conv(&self) -> bool {
+        self.conv.is_some()
+    }
+
     pub fn reset(&mut self) {
         let h = self.h.clone();
         self.state.as_mut()[h].fill(0.0);
+        if let Some(cv) = &mut self.conv {
+            self.state.as_mut()[cv.ring.clone()].fill(0.0);
+            cv.pos = 0;
+        }
     }
 
     pub fn step(&mut self, x: &[f32], out: &mut [f32]) {
@@ -245,6 +294,9 @@ impl FastRnn {
             } else {
                 z.iter_mut().for_each(|v| *v = gelu(*v));
             }
+        }
+        if let Some(cv) = &mut self.conv {
+            conv_residual(cv, wts, st, self.z.clone(), fast);
         }
 
         for (k, li) in self.layers.iter().enumerate() {
@@ -307,10 +359,67 @@ impl FastRnn {
     }
 }
 
+/// z += gelu(W_pw dwconv(ring) + b_pw) after pushing z into the ring.
+#[inline(always)]
+fn conv_residual(cv: &mut ConvIdx, wts: &[f32], st: &mut [f32], z: Range<usize>, fast: bool) {
+    let (k, stride, n) = (cv.k, cv.stride, z.len());
+    let (lo, hi) = st.split_at_mut(cv.ring.start);
+    let z = &mut lo[z];
+    // State layout after `a`: [ring | c | p], each segment block-aligned.
+    let (ring, rest) = hi.split_at_mut(cv.c.start - cv.ring.start);
+    let (c, p) = rest.split_at_mut(cv.p.start - cv.c.start);
+    let (c, p) = (&mut c[..stride], &mut p[..cv.pw_stride]);
+    ring[cv.pos * stride..][..n].copy_from_slice(z);
+    // Tap j multiplies row t-(k-1)+j, which lives in slot (pos+1+j) mod k.
+    let taps = &wts[cv.taps.clone()];
+    let b_dw = &wts[cv.b_dw.clone()];
+    let first = if cv.pos + 1 == k { 0 } else { cv.pos + 1 };
+    for blk in (0..stride).step_by(LANES) {
+        let mut acc = [0.0f32; LANES];
+        acc.copy_from_slice(&b_dw[blk..blk + LANES]);
+        let mut slot = first;
+        for j in 0..k {
+            let w = &taps[j * stride + blk..][..LANES];
+            let r = &ring[slot * stride + blk..][..LANES];
+            for l in 0..LANES {
+                acc[l] += w[l] * r[l];
+            }
+            slot += 1;
+            if slot == k {
+                slot = 0;
+            }
+        }
+        c[blk..blk + LANES].copy_from_slice(&acc);
+    }
+    cv.pos = first;
+    // p = b_pw + sum_j W_pw[:, j] c[j], one register block of outputs at a time.
+    let (ps, cols, b_pw) = (cv.pw_stride, &wts[cv.w_pw.clone()], &wts[cv.b_pw.clone()]);
+    for blk in (0..ps).step_by(PW_BLOCK) {
+        let mut acc = [0.0f32; PW_BLOCK];
+        acc.copy_from_slice(&b_pw[blk..blk + PW_BLOCK]);
+        for (col, &cj) in cols.chunks_exact(ps).zip(&c[..n]) {
+            let col = &col[blk..blk + PW_BLOCK];
+            for l in 0..PW_BLOCK {
+                acc[l] += col[l] * cj;
+            }
+        }
+        p[blk..blk + PW_BLOCK].copy_from_slice(&acc);
+    }
+    if fast {
+        z.iter_mut()
+            .zip(p.iter())
+            .for_each(|(zj, pj)| *zj += gelu_fast(*pj));
+    } else {
+        z.iter_mut()
+            .zip(p.iter())
+            .for_each(|(zj, pj)| *zj += gelu(*pj));
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::rnn::{GruLayer, RnnModel};
+    use crate::rnn::{ConvEncoder, GruLayer, RnnModel};
 
     fn weights(n_in: usize, hidden: usize, layers: usize, seed: u64) -> RnnWeights {
         let mut s = seed | 1;
@@ -341,6 +450,7 @@ mod tests {
             b1: v(hidden, 0.1),
             w2: v(2 * hidden, 0.3),
             b2: v(2, 0.1),
+            conv: None,
         }
     }
 
@@ -360,9 +470,38 @@ mod tests {
             .collect()
     }
 
+    fn with_conv(mut w: RnnWeights, k: usize) -> RnnWeights {
+        let hidden = w.b_in.len();
+        let mut s = 0xA5A5_5A5A_1234_5678u64 ^ k as u64;
+        let mut v = |len: usize, scale: f32| -> Vec<f32> {
+            (0..len)
+                .map(|_| {
+                    s ^= s << 13;
+                    s ^= s >> 7;
+                    s ^= s << 17;
+                    ((s % 2001) as f32 / 1000.0 - 1.0) * scale
+                })
+                .collect()
+        };
+        w.conv = Some(ConvEncoder {
+            k,
+            w_dw: v(hidden * k, 0.5),
+            b_dw: v(hidden, 0.2),
+            w_pw: v(hidden * hidden, 0.4),
+            b_pw: v(hidden, 0.2),
+        });
+        w
+    }
+
     fn run_both(act: Activations, n_in: usize, hidden: usize, layers: usize) -> f32 {
-        let mut exact = RnnModel::new(weights(n_in, hidden, layers, 7)).unwrap();
-        let mut fast = FastRnn::new(weights(n_in, hidden, layers, 7), act).unwrap();
+        let w = weights(n_in, hidden, layers, 7);
+        run_pair(w, act)
+    }
+
+    fn run_pair(w: RnnWeights, act: Activations) -> f32 {
+        let n_in = w.mean.len();
+        let mut exact = RnnModel::new(w.clone()).unwrap();
+        let mut fast = FastRnn::new(w, act).unwrap();
         let mut out = vec![0.0; 2];
         let mut worst = 0.0f32;
         for x in inputs(n_in, 300) {
@@ -390,6 +529,47 @@ mod tests {
     fn fast_activations_stay_close_over_300_steps() {
         let err = run_both(Activations::Fast, 40, 33, 2);
         assert!(err < 1e-4, "{err}");
+    }
+
+    #[test]
+    fn conv_encoder_matches_reference_model() {
+        // k = 1 (current row only), k < hidden, odd hidden (padding lanes), k = 16 as trained.
+        for (n_in, hidden, layers, k) in [
+            (5, 3, 1, 1),
+            (40, 33, 2, 5),
+            (37, 20, 2, 16),
+            (30, 16, 1, 16),
+        ] {
+            let w = with_conv(weights(n_in, hidden, layers, 11), k);
+            let err = run_pair(w, Activations::Exact);
+            assert!(err < 2e-5, "n_in {n_in} hidden {hidden} k {k}: {err}");
+        }
+        let err = run_pair(with_conv(weights(40, 33, 2, 11), 16), Activations::Fast);
+        assert!(err < 1e-4, "fast: {err}");
+    }
+
+    #[test]
+    fn conv_reset_clears_the_ring() {
+        let mut m = FastRnn::new(with_conv(weights(12, 20, 2, 5), 16), Activations::Fast).unwrap();
+        let x = inputs(12, 40);
+        let mut first = vec![[0.0f32; 2]; 40];
+        let mut out = [0.0f32; 2];
+        for (r, o) in x.iter().zip(first.iter_mut()) {
+            m.step(r, o);
+        }
+        m.reset();
+        for (r, want) in x.iter().zip(&first) {
+            m.step(r, &mut out);
+            assert_eq!(&out, want);
+        }
+    }
+
+    #[test]
+    fn conv_bad_shape_is_rejected() {
+        let mut w = with_conv(weights(12, 8, 1, 5), 4);
+        w.conv.as_mut().unwrap().w_pw.pop();
+        let err = FastRnn::new(w, Activations::Fast).err().unwrap();
+        assert!(err.0.contains("conv_pw.weight"), "{}", err.0);
     }
 
     #[test]

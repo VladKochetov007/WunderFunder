@@ -38,6 +38,7 @@ fn main() {
         b1: v(h),
         w2: v(2 * h),
         b2: v(2),
+        conv: None,
     };
     let mut m = RnnModel::new(w).unwrap();
     let xs = v(n_in * 64);

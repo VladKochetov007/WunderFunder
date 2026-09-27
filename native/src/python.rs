@@ -4,7 +4,10 @@ use numpy::{PyArray1, PyReadonlyArray1, PyReadonlyArrayDyn};
 use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 
-use crate::rnn::{GruLayer, RnnModel, RnnWeights};
+use crate::rnn::{ConvEncoder, GruLayer, RnnModel, RnnWeights};
+
+/// Encoders this build understands (`wnn.nn.RNNModel(enc=...)`); packaging checks it.
+const ENCODERS: [&str; 2] = ["linear", "conv"];
 
 fn take(w: &mut HashMap<String, Vec<f32>>, key: &str) -> PyResult<Vec<f32>> {
     w.remove(key)
@@ -29,17 +32,49 @@ fn weights_from_dict(
             b_hh: take(&mut w, &format!("gru.bias_hh_l{k}"))?,
         });
     }
-    Ok(RnnWeights {
+    let b_in = take(&mut w, "inp.bias")?;
+    // enc="conv" is selected by the presence of its weights; k comes from conv_dw.weight (hidden, 1, k).
+    let conv = match w.remove("conv_dw.weight") {
+        None => None,
+        Some(w_dw) => {
+            let hidden = b_in.len();
+            if hidden == 0 || w_dw.len() % hidden != 0 {
+                return Err(PyValueError::new_err(format!(
+                    "conv_dw.weight: {} values is not a multiple of hidden {hidden}",
+                    w_dw.len()
+                )));
+            }
+            Some(ConvEncoder {
+                k: w_dw.len() / hidden,
+                w_dw,
+                b_dw: take(&mut w, "conv_dw.bias")?,
+                w_pw: take(&mut w, "conv_pw.weight")?,
+                b_pw: take(&mut w, "conv_pw.bias")?,
+            })
+        }
+    };
+    let out = RnnWeights {
         mean: take(&mut w, "mean")?,
         std: take(&mut w, "std")?,
         w_in: take(&mut w, "inp.weight")?,
-        b_in: take(&mut w, "inp.bias")?,
+        b_in,
         layers,
         w1: take(&mut w, "head.0.weight")?,
         b1: take(&mut w, "head.0.bias")?,
         w2: take(&mut w, "head.2.weight")?,
         b2: take(&mut w, "head.2.bias")?,
-    })
+        conv,
+    };
+    // A weight this engine does not consume means a model variant it would silently mis-run.
+    if !w.is_empty() {
+        let mut extra: Vec<_> = w.into_keys().collect();
+        extra.sort();
+        return Err(PyValueError::new_err(format!(
+            "unsupported weights (model variant not implemented natively): {}",
+            extra.join(", ")
+        )));
+    }
+    Ok(out)
 }
 
 /// Stateful twin of wnn.nn.RNNModel. Construct from `model.state_dict()` arrays.
@@ -84,6 +119,7 @@ impl PyGruStepper {
 fn wnn_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyGruStepper>()?;
     m.add_class::<PyPredictor>()?;
+    m.add("ENCODERS", ENCODERS)?;
     Ok(())
 }
 
@@ -128,6 +164,16 @@ impl PyPredictor {
             input: vec![0.0; n_in],
             out: [0.0; 2],
         })
+    }
+
+    /// "conv" or "linear": the encoder selected from the weights.
+    #[getter]
+    fn encoder(&self) -> &'static str {
+        if self.model.has_conv() {
+            "conv"
+        } else {
+            "linear"
+        }
     }
 
     fn reset(&mut self) {

@@ -1,7 +1,7 @@
 """Submission: blend of native streaming GRUs.
 
 members.json lists weight files (model state dicts of wnn.nn.RNNModel, head sliced to the two
-targets) with blend coefficients; the organizer baseline enters as an exact RNNModel rewrite
+targets) with blend coefficients and encoder ("linear" or "conv"); the organizer baseline enters as an exact RNNModel rewrite
 (scripts/convert_baseline.py) with its output scale folded into its coefficient. All members run
 in the Rust extension shipped as v3/ (x86-64-v3) and v2/ (x86-64-v2); v3 is loaded only when the
 CPU reports every flag it needs.
@@ -49,10 +49,21 @@ def _load(name):
         return {k: np.ascontiguousarray(w[k], dtype=np.float32) for k in w.files}
 
 
+def _predictor(m):
+    # enc="conv" members need a build that runs the conv encoder (older builds would ignore its weights).
+    enc = m.get("enc", "linear")
+    if enc not in getattr(wnn_native, "ENCODERS", ("linear",)):
+        raise RuntimeError(f"{m['weights']}: native build does not support enc={enc}")
+    p = wnn_native.Predictor(_load(m["weights"]), fast_activations=True)
+    if getattr(p, "encoder", "linear") != enc:
+        raise RuntimeError(f"{m['weights']}: weights select enc={p.encoder}, members.json says {enc}")
+    return p
+
+
 class PredictionModel:
     def __init__(self):
         spec = json.loads((HERE / "members.json").read_text())
-        self.members = [wnn_native.Predictor(_load(m["weights"]), fast_activations=True) for m in spec]
+        self.members = [_predictor(m) for m in spec]
         self.coef = [np.float32(m["coef"]) for m in spec]
         self.seq_ix = None
 
