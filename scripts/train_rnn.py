@@ -269,6 +269,18 @@ def next_change_labels(y, valid):
     return rows_to, (jump > 0).float(), valid & has
 
 
+def next_label_change(y):
+    """(B, T) index of the first row strictly after t where the target pair changes (T if none): the label is
+    identical on (t, next - 1], so a causal estimate made at row next - 1 is a valid target for row t."""
+    b, t, _ = y.shape
+    idx = torch.arange(t, device=y.device).expand(b, t)
+    changed = torch.zeros((b, t), dtype=torch.bool, device=y.device)
+    changed[:, 1:] = (y[:, 1:] != y[:, :-1]).any(-1)
+    marker = torch.where(changed, idx, torch.full_like(idx, t))
+    at_or_after = torch.flip(torch.cummin(torch.flip(marker, [1]), 1).values, [1])
+    return torch.cat([at_or_after[:, 1:], torch.full_like(at_or_after[:, :1], t)], 1)
+
+
 def kth_change_labels(y, valid, k):
     """log1p(rows until the k-th later change of D = t0 - t1) and sign of D(k-th change) - D(now)."""
     d = y[..., 0] - y[..., 1]
@@ -437,6 +449,10 @@ def main():
                     help="if > 0: multiply main-loss row weights by max(floor, 1/(1+since/tau)), since = rows since the "
                          "last i0 price event (causal input only; ideas_round4 B2)")
     ap.add_argument("--since-floor", type=float, default=0.25)
+    ap.add_argument("--td-alpha", type=float, default=0.0,
+                    help="TD targets (ideas_round4 B1b): mix the label with the EMA teacher's output at the last row "
+                         "before the next label change (same |y| weights); needs the EMA model")
+    ap.add_argument("--td-ramp", type=float, default=0.5, help="epochs over which td-alpha ramps up from 0")
     perf = ap.add_argument_group("throughput (see research/perf-2026-09-27.md)")
     perf.add_argument("--fast", action="store_true",
                       help="all verified throughput options: --sync-free --fused-adam --pin-memory --prop-cache")
@@ -583,7 +599,7 @@ def main():
     scaler = torch.amp.GradScaler(enabled=args.precision == "fp16")
     swa_model = torch.optim.swa_utils.AveragedModel(model) if args.swa_frac > 0 else None
     ema_model = None
-    if args.ema_teacher > 0 or args.eval_ema:
+    if args.ema_teacher > 0 or args.eval_ema or args.td_alpha > 0:
         if args.sync_free:
             ema_model = FastEMA(model, args.ema_decay)
         else:
@@ -674,6 +690,10 @@ def main():
                 ce_w = row_w * y.float().clamp(-2, 2).abs().mean(-1) if args.ce_tilt else row_w
                 if epoch == 0:
                     moments.update(codes, y, row_w)
+            if args.td_alpha > 0:
+                nxt_all = next_label_change(y)
+                ramp_steps = max(1, int(args.td_ramp * len(train_loader) * math.ceil(20_000 / args.chunk)))
+                td_a = args.td_alpha * min(1.0, step_count / ramp_steps)
             timer.mark("labels")
             h = h_ema = None
             for s in range(0, inputs.shape[1], args.chunk):
@@ -682,7 +702,7 @@ def main():
                     out, h = forward_chunk(model, inputs, sl, h)
                 h = detach_state(h)
                 timer.mark("forward")
-                if args.ema_teacher > 0:
+                if args.ema_teacher > 0 or args.td_alpha > 0:
                     with torch.no_grad(), torch.autocast("cuda", dtype=amp_dtype):
                         out_ema, h_ema = forward_chunk(ema_model.module, inputs, sl, h_ema)
                     h_ema = detach_state(h_ema)
@@ -696,6 +716,15 @@ def main():
                 elif teach is not None:
                     yc = y[:, sl].float().clamp(-2, 2)
                     tgt = (1 - args.distill_alpha) * yc + args.distill_alpha * teach[:, sl].float().clamp(-2, 2)
+                    w = yc.abs() * main_valid[:, sl][..., None]
+                    loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
+                elif args.td_alpha > 0:
+                    yc = y[:, sl].float().clamp(-2, 2)
+                    s_end = min(s + args.chunk, inputs.shape[1])
+                    jg = torch.clamp(nxt_all[:, sl], max=s_end) - 1  # last row of the constant-label run inside the chunk
+                    rows = torch.arange(s, s_end, device=device)[None]
+                    teach_t = torch.gather(out_ema[..., :2].float(), 1, (jg - s).clamp(min=0)[..., None].expand(-1, -1, 2))
+                    tgt = torch.where((jg > rows)[..., None], (1 - td_a) * yc + td_a * teach_t.clamp(-2, 2), yc)
                     w = yc.abs() * main_valid[:, sl][..., None]
                     loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
                 elif args.loss_norm == "running" and args.loss == "wmse":
