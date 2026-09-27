@@ -22,7 +22,7 @@ from wnn.data import CORRUPT_TRAIN_ROW_GROUPS, N_FEATURES, WARMUP, SequenceFile,
 from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch, online_zscore_torch
 from wnn.gmetric import global_wp
 from wnn.metric import block_scores, score
-from wnn.nn import DualClockModel, RNNModel, weighted_corr_loss, weighted_huber_loss, weighted_mse_loss
+from wnn.nn import DualClockModel, RNNModel, weighted_corr_loss, weighted_huber_loss, weighted_mse_loss, weighted_pooled_corr_loss
 from wnn.outcomes import N_CODES, N_SP_AUX, ReadoutMoments, outcome_codes, readout, sequence_class, structure_labels
 from wnn.propensity import load_propensity, propensity
 from wnn.resources import configure_torch, dataloader_budget
@@ -388,7 +388,7 @@ def main():
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--wd", type=float, default=1e-2)
-    ap.add_argument("--loss", choices=["corr", "wmse", "mix", "huber", "ce_joint", "mse"], default="mix")
+    ap.add_argument("--loss", choices=["corr", "wmse", "mix", "huber", "ce_joint", "mse", "gcorr", "wmse_gcorr"], default="mix")
     ap.add_argument("--huber-delta", type=float, default=0.5)
     ap.add_argument("--ce-tilt", action="store_true", help="weight code cross-entropy rows by mean |clip(y)|")
     ap.add_argument("--ce-mse", type=float, default=0.0, help="add this weight x wMSE on the differentiable readout")
@@ -453,6 +453,7 @@ def main():
                     help="TD targets (ideas_round4 B1b): mix the label with the EMA teacher's output at the last row "
                          "before the next label change (same |y| weights); needs the EMA model")
     ap.add_argument("--td-ramp", type=float, default=0.5, help="epochs over which td-alpha ramps up from 0")
+    ap.add_argument("--gcorr-weight", type=float, default=1.0, help="weight of the pooled-Pearson term in --loss wmse_gcorr")
     perf = ap.add_argument_group("throughput (see research/perf-2026-09-27.md)")
     perf.add_argument("--fast", action="store_true",
                       help="all verified throughput options: --sync-free --fused-adam --pin-memory --prop-cache")
@@ -620,6 +621,10 @@ def main():
             return (vv * (o.float() - yv) ** 2).sum() / (vv.sum() * yv.shape[-1]).clamp_min(1e-8)
         if args.loss == "huber":
             return weighted_huber_loss(o, t, v, args.huber_delta)
+        if args.loss == "gcorr":
+            return weighted_pooled_corr_loss(o, t, v)
+        if args.loss == "wmse_gcorr":
+            return weighted_mse_loss(o, t, v) + args.gcorr_weight * weighted_pooled_corr_loss(o, t, v)
         return weighted_corr_loss(o, t, v) + 0.5 * weighted_mse_loss(o, t, v)
 
     print(json.dumps(vars(args)), flush=True)
@@ -811,6 +816,10 @@ def main():
         res.update(epoch=epoch, eval_seconds=round(time.time() - t_eval, 1), split=f"{args.eval_source}{n_valid}")
         history.append(res)
         print("VALID", json.dumps(res), flush=True)
+        # snapshot every epoch (~1 MB): lets any epoch be re-read out later without selection on the eval set
+        torch.save({"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in, "epoch": epoch,
+                    "readout": None if READOUT is None else [t.cpu() for t in READOUT],
+                    "readout_tilted": READOUT_TILTED}, out_dir / f"model_ep{epoch}.pt")
         if res["weighted_pearson"] > best:
             best = res["weighted_pearson"]
             torch.save({"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in,

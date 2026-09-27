@@ -107,6 +107,22 @@ def weighted_corr_loss(pred, target, valid):
     return 1.0 - (rho * ok).sum() / ok.sum().clamp_min(1)
 
 
+def weighted_pooled_corr_loss(pred, target, valid):
+    """1 - mean over targets of the POOLED |clip(y)|-weighted Pearson over every row of every sequence in the batch:
+    the competition metric's form (global, not per sequence), so between-sequence levels count too."""
+    y = target.float().clamp(-METRIC_CLIP, METRIC_CLIP)
+    p = pred.float()
+    w = y.abs() * valid[..., None]
+    k = y.shape[-1]
+    w, y, p = w.reshape(-1, k), y.reshape(-1, k), p.reshape(-1, k)
+    ws = w.sum(0).clamp_min(1e-8)
+    my, mp = (w * y).sum(0) / ws, (w * p).sum(0) / ws
+    yc, pc = y - my, p - mp
+    cov = (w * yc * pc).sum(0) / ws
+    vy, vp = (w * yc * yc).sum(0) / ws, (w * pc * pc).sum(0) / ws
+    return 1.0 - (cov / torch.sqrt(vy * vp + 1e-12)).mean()
+
+
 def weighted_mse_loss(pred, target, valid):
     y = target.float().clamp(-METRIC_CLIP, METRIC_CLIP)
     w = y.abs() * valid[..., None]
