@@ -522,7 +522,7 @@ def main():
         train_ds = torch.utils.data.ConcatDataset([train_ds] + [valid_ds] * args.valid_repeat)
     train_loader = DataLoader(train_ds, batch_size=args.batch, shuffle=sampler is None,
                               sampler=sampler, drop_last=True, num_workers=workers, prefetch_factor=prefetch,
-                              pin_memory=args.pin_memory, persistent_workers=args.pin_memory and workers > 0)
+                              pin_memory=args.pin_memory)  # no persistent workers: they change the shuffle order (parity E-169)
     valid_loader = DataLoader(Sequences("valid", valid_idx), batch_size=16, num_workers=2,
                               prefetch_factor=1)
 
@@ -725,6 +725,7 @@ def main():
                 timer.mark("optimizer")
                 if args.parity_dump:
                     losses_trace.append(loss.detach().float())
+
                 step_count += 1
                 if swa_model is not None and step_count >= swa_start:
                     swa_model.update_parameters(model)
