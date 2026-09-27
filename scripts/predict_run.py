@@ -32,14 +32,22 @@ def main():
         train_rnn.READOUT_TILTED = ck.get("readout_tilted", False)
     groups = np.load(ROOT / "cache" / f"{split}_targets.npz")["row_group"]
     loader = DataLoader(Sequences(split, groups), batch_size=16, num_workers=2, prefetch_factor=1)
-    out = np.lib.format.open_memmap(ROOT / "cache" / f"pred_{name}_{split}.npy", mode="w+", dtype=np.float32,
-                                    shape=(len(groups), 20_000, 2))
+    final = ROOT / "cache" / f"pred_{name}_{split}.npy"
+    tmp = final.with_name(final.name + ".partial")  # renamed only after every sequence is written
+    out = np.lib.format.open_memmap(tmp, mode="w+", dtype=np.float32, shape=(len(groups), 20_000, 2))
     i = 0
     for x, _, _ in loader:
         p = predict(model, x, 4000, device)
         out[i:i + len(p)] = p[..., :2]
         i += len(p)
     out.flush()
+    del out
+    if i != len(groups):
+        raise RuntimeError(f"wrote {i} of {len(groups)} sequences")
+    stale = ROOT / "cache" / f"seqsums_{name}.npz"  # cached metric sums of an older prediction file
+    if stale.exists():
+        stale.unlink()
+    tmp.replace(final)
 
 
 if __name__ == "__main__":
