@@ -208,3 +208,15 @@ Mechanism families (quality-diversity archive):
 - F5 long shots (10-20% budget): SSL next-event heads, TTT layer, minGRU.
 Dead ends this round: FT soups, dropout, WiSE on in-distribution holdout, baseline-member core FT,
 extrapolated task vectors, V-REx (deprioritized: per-sequence Bayes risks differ).
+
+## 05:30 frontier (2026-09-27): typed by what moved the LB (research/game_changers.md)
+- A metric alignment: [x] pooled weighted-Pearson LP-FT +0.0004/+0.0005 over wMSE LP-FT on EMA parents (E-171);
+  [x] GRU weight 0.75 > 0.65 (+0.0004, analyst O1; holdout +0.0006, E-172); [~] running loss normalizer (q23e)
+- B selection alignment: [-] prop_v2 on EMA-4 (E-170); [~] stretch-age weights (q23e)
+- C variance reduction: [x] EMA-4 (LB 0.6618); [-] TD targets from the EMA teacher -0.0031 (E-174);
+  [x] seed noise measured: s4 - s3 pooled +0.0003 +- 0.0007 (E-176)
+- D second member: [x] a second EMA-4 GRU beats the organizer baseline as the partner, +0.0011..+0.0013 vs the
+  0.6618 blend structure on both folds (E-173/E-176) -> 2-GRU final (ab60 s4 + ab65 s3) building
+- E engineering: [x] --fast 1.48x single job, ~6.6x vs the old practice (E-169); [x] conv native port (E-175, unmerged)
+- Encoders: conv +0.0018 on the 2-epoch recipe (E-168); [~] conv on EMA-4 (q23e); LSTM out
+- Candidates: final_ema4_gclp_base25 (verified, forecast +0.0005); 2-GRU (pending holdout)
