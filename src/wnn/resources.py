@@ -10,8 +10,11 @@ import os
 import time
 
 CPU_FRACTION = 0.8
-# Upper bound agreed with the user (2026-09-25: 90%); WNN_GPU_FRACTION may only lower it.
+# GPU memory cap per process. Upper bound agreed with the user (2026-09-25: 90%); WNN_GPU_FRACTION may only lower it.
 GPU_FRACTION = min(0.9, float(os.environ.get("WNN_GPU_FRACTION", "0.9")))
+# GPU busy-time rate limit per job (DutyCycle). 1.0 = no throttling (the single-job fast path);
+# set WNN_GPU_DUTY below 1 only to deliberately share the GPU with other work.
+GPU_DUTY = min(1.0, float(os.environ.get("WNN_GPU_DUTY", "1.0")))
 
 
 def cpu_threads() -> int:
@@ -40,10 +43,11 @@ class DutyCycle:
         self._mark = self._clock()
 
 
-def configure_torch(gpu_fraction: float | None = None):
-    """Cap torch CPU threads and GPU memory; return a GPU DutyCycle for the train loop.
+def configure_torch(gpu_fraction: float | None = None, duty: float | None = None):
+    """Cap torch CPU threads and GPU memory; return a GPU DutyCycle, or None when not rate-limited.
 
-    Call ``duty.tick()`` right after ``torch.cuda.synchronize()`` at step ends.
+    The memory cap comes from WNN_GPU_FRACTION, the rate limit from WNN_GPU_DUTY (default 1.0 = none).
+    With a DutyCycle, call ``torch.cuda.synchronize()`` then ``duty.tick()`` at step ends.
     """
     import torch
 
@@ -52,7 +56,8 @@ def configure_torch(gpu_fraction: float | None = None):
     if torch.cuda.is_available():
         torch.cuda.set_per_process_memory_fraction(gpu_fraction)
         torch.backends.cudnn.benchmark = True
-    return DutyCycle(gpu_fraction)
+    duty = GPU_DUTY if duty is None else min(duty, GPU_DUTY)
+    return DutyCycle(duty) if duty < 1.0 else None
 
 
 def dataloader_budget(batch_bytes: int, ram_budget_bytes: int | None = None, max_workers: int = 4):

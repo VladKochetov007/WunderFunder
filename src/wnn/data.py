@@ -97,9 +97,10 @@ class SequenceFile:
         table = self._pf.read_row_group(index, columns=columns, use_threads=False)
         if table.num_rows != SEQUENCE_LENGTH:
             raise ValueError(f"row group {index} has {table.num_rows} rows")
-        features = np.empty((SEQUENCE_LENGTH, N_FEATURES), dtype=np.float32)
-        for j, name in enumerate(FEATURE_COLUMNS):
-            features[:, j] = table.column(name).to_numpy()
+        # column-major stack then one transpose: same values as filling columns into a row-major array,
+        # without 112 strided writes (tests/test_perf_parity.py checks bit identity)
+        features = np.ascontiguousarray(
+            np.stack([table.column(name).to_numpy() for name in FEATURE_COLUMNS], axis=0).astype(np.float32, copy=False).T)
         y = None
         if want_targets:
             y = np.column_stack([table.column(c).to_numpy() for c in TARGET_COLUMNS])

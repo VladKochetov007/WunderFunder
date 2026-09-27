@@ -33,10 +33,12 @@ EV_I0PX = N_FEATURES + FEATURE_NAMES.index("ev_i0px")
 
 
 class Sequences(Dataset):
-    def __init__(self, split: str, indices, teachers=None):
+    def __init__(self, split: str, indices, teachers=None, prop_cache=None):
         self.path = ROOT / "datasets" / f"{split}.parquet"
         self.indices = list(indices)
         self._file = None
+        # prop_cache: path of cache/propcache_<name>_<split>.npy (row group x 20000 float32), or None
+        self.prop_cache, self._prop = prop_cache, None
         # teachers: list of (name, scale); predictions are appended to targets as columns 2..3
         self.teachers = teachers
         self.split = split
@@ -64,7 +66,165 @@ class Sequences(Dataset):
             j = self._pos[int(self.indices[i])]
             t = sum(sc * np.asarray(arr[j], dtype=np.float32) for arr, sc in self._teach) / len(self._teach)
             y = np.concatenate([y, t.astype(np.float32)], axis=1)
+        if self.prop_cache is not None:
+            if self._prop is None:
+                self._prop = np.load(self.prop_cache, mmap_mode="r")
+            p = np.array(self._prop[self.indices[i]], dtype=np.float32)
+            return torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored), torch.from_numpy(p)
         return torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored)
+
+
+def true_mask_weights(main_valid, valid, scored, eps, branchless):
+    """Rows of sequences that carry a true scoring mask get c * valid * (is_scored + eps), with c chosen so
+    those sequences keep the total weight their propensity weights had; other sequences keep main_valid.
+
+    branchless=True computes the same rows and the same c without boolean indexing or a host-side branch
+    (no GPU->CPU sync); tests/test_perf_parity.py checks both against each other."""
+    true_w = scored.float() + eps
+    if branchless:
+        hm = scored.any(dim=1)[:, None]
+        c = (main_valid * hm).sum() / (valid.float() * true_w * hm).sum().clamp_min(1e-8)
+        return torch.where(hm, valid.float() * true_w * c, main_valid)
+    has_mask = scored.any(dim=1)
+    if has_mask.any():
+        c = main_valid[has_mask].sum() / (valid.float()[has_mask] * true_w[has_mask]).sum().clamp_min(1e-8)
+        return torch.where(has_mask[:, None], valid.float() * true_w * c, main_valid)
+    return main_valid
+
+
+def prop_cache_path(name, split):
+    """Propensity cache written by scripts/cache_propensity.py; refuses a cache built from other weights."""
+    import hashlib
+
+    path = ROOT / "cache" / f"propcache_{name}_{split}.npy"
+    meta = path.with_suffix(".json")
+    if not path.exists() or not meta.exists():
+        raise FileNotFoundError(f"{path} missing: run scripts/cache_propensity.py {name}")
+    want = hashlib.sha256((ROOT / "artifacts" / "runs" / name / "model.pt").read_bytes()).hexdigest()
+    got = json.loads(meta.read_text())
+    if got.get("model_sha256") != want:
+        raise RuntimeError(f"{path}: propensity weights changed since the cache was built")
+    return path
+
+
+class StageTimer:
+    """Per-stage GPU times from CUDA events plus CPU wait on the loader (research profiling only).
+
+    ``mark(name)`` records an event closing the stage that started at the previous mark; nothing is
+    synchronized until ``report()``, so profiling does not add host round trips to the step.
+    """
+
+    def __init__(self, enabled: bool, warmup: int = 0):
+        self.enabled, self.warmup = enabled, warmup
+        self.steps, self.cur, self.loader_wait = [], None, []
+        self.syncs = 0
+
+    def _count_sync(self, message, *a, **k):
+        if "synchroniz" in str(message):
+            self.syncs += 1
+
+    def start(self):
+        if self.enabled and len(self.steps) == self.warmup:
+            import warnings
+
+            warnings.simplefilter("always")
+            warnings.showwarning = self._count_sync
+            torch.cuda.set_sync_debug_mode("warn")
+        if self.enabled:
+            ev = torch.cuda.Event(enable_timing=True)
+            ev.record()
+            self.cur = {"_events": [("start", ev)], "_wall": time.perf_counter()}
+
+    def mark(self, name):
+        if self.enabled and self.cur is not None:
+            ev = torch.cuda.Event(enable_timing=True)
+            ev.record()
+            self.cur["_events"].append((name, ev))
+
+    def stop(self):
+        if self.enabled and self.cur is not None:
+            self.steps.append(self.cur)
+            self.cur = None
+
+    def report(self, warmup, batch):
+        torch.cuda.set_sync_debug_mode(0)
+        torch.cuda.synchronize()
+        rows, walls = [], []
+        for st in self.steps[warmup:]:
+            ev = st["_events"]
+            acc = {}
+            for (_, a), (name, b) in zip(ev[:-1], ev[1:]):
+                acc[name] = acc.get(name, 0.0) + a.elapsed_time(b)
+            acc["gpu_total"] = ev[0][1].elapsed_time(ev[-1][1])
+            rows.append(acc)
+        ends = [st["_wall"] for st in self.steps[warmup:]]
+        step_wall = np.median(np.diff(ends)) * 1000 if len(ends) > 2 else float("nan")
+        keys = sorted({k for r in rows for k in r})
+        med = {k: float(np.median([r.get(k, 0.0) for r in rows])) for k in keys}
+        med["loader_wait"] = float(np.median(self.loader_wait[warmup:])) * 1000 if self.loader_wait else 0.0
+        med["step_wall"] = float(step_wall)
+        med["seq_per_s"] = batch / (step_wall / 1000) if step_wall == step_wall else float("nan")
+        med["syncs_per_step"] = self.syncs / max(1, len(self.steps) - warmup)
+        return med
+
+
+class CudaPrefetcher:
+    """Iterate a DataLoader of pinned CPU batches, copying batch b+1 to the GPU on a side stream while
+    batch b is being consumed. Yields device tensors plus the CPU copy of ``scored``."""
+
+    def __init__(self, loader, device, timer=None):
+        self.loader, self.device, self.timer = loader, device, timer
+        self.stream = torch.cuda.Stream()
+
+    def _load(self, it):
+        t = time.perf_counter()
+        try:
+            x, y, scored, *rest = next(it)
+        except StopIteration:
+            return None
+        if self.timer is not None and self.timer.enabled:
+            self.timer.loader_wait.append(time.perf_counter() - t)
+        with torch.cuda.stream(self.stream):
+            dev = [v.to(self.device, non_blocking=True) for v in (x, y, scored, *rest)]
+        return dev, scored
+
+    def __iter__(self):
+        it = iter(self.loader)
+        nxt = self._load(it)
+        while nxt is not None:
+            torch.cuda.current_stream().wait_stream(self.stream)
+            dev, scored_cpu = nxt
+            for v in dev:
+                v.record_stream(torch.cuda.current_stream())
+            nxt = self._load(it)
+            yield dev, scored_cpu
+
+    def __len__(self):
+        return len(self.loader)
+
+
+class FastEMA:
+    """EMA of parameters without host syncs: same update as AveragedModel with get_ema_multi_avg_fn
+    (copy on the first call, then ``_foreach_lerp_``), but the counter lives on the host."""
+
+    def __init__(self, model, decay):
+        import copy
+
+        self.module = copy.deepcopy(model)
+        self.module.eval()
+        for p_ in self.module.parameters():
+            p_.requires_grad_(False)
+        self.decay, self.n = decay, 0
+
+    @torch.no_grad()
+    def update_parameters(self, model):
+        ema = [p_ for p_ in self.module.parameters()]
+        cur = [p_.detach() for p_ in model.parameters()]
+        if self.n == 0:
+            torch._foreach_copy_(ema, cur)
+        else:
+            torch._foreach_lerp_(ema, cur, 1.0 - self.decay)
+        self.n += 1
 
 
 INPUT_PROPENSITY = None  # frozen PropensityNet appended as an input column when set
@@ -269,13 +429,36 @@ def main():
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--seed", type=int, default=0)
+    perf = ap.add_argument_group("throughput (see research/perf-2026-09-27.md)")
+    perf.add_argument("--fast", action="store_true",
+                      help="all verified throughput options: --sync-free --fused-adam --pin-memory --prop-cache")
+    perf.add_argument("--sync-free", action="store_true", help="no per-step host<->GPU syncs in the train step")
+    perf.add_argument("--fused-adam", action="store_true", help="fused AdamW (GradScaler skips inf steps on device)")
+    perf.add_argument("--pin-memory", action="store_true", help="pinned persistent loaders + CUDA-stream prefetch")
+    perf.add_argument("--prop-cache", action="store_true",
+                      help="read propensity from cache/propcache_<name>_<split>.npy (scripts/cache_propensity.py)")
+    perf.add_argument("--precision", choices=["fp16", "bf16"], default="fp16",
+                      help="autocast dtype; bf16 trains without GradScaler")
+    perf.add_argument("--max-batches", type=int, default=0, help="stop each epoch after this many batches (harness)")
+    perf.add_argument("--profile-steps", type=int, default=0,
+                      help="time this many batches per stage (after --profile-warmup), print a table and exit")
+    perf.add_argument("--profile-warmup", type=int, default=5)
+    perf.add_argument("--parity-dump", default="", help="save per-step losses and final weights here, then exit")
+    perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     args = ap.parse_args()
+    if args.fast:
+        args.sync_free = args.fused_adam = args.pin_memory = args.prop_cache = True
+    if args.profile_steps:
+        args.max_batches = args.profile_warmup + args.profile_steps
     if args.mask_weight and args.train_source == "train":
         ap.error("--mask-weight needs is_scored, which train.parquet does not have")
 
     torch.manual_seed(args.seed)
     device = torch.device("cuda")
     duty = configure_torch()
+    if args.deterministic:
+        torch.backends.cudnn.benchmark = False
+        torch.backends.cudnn.deterministic = True
     out_dir = ROOT / "artifacts" / "runs" / args.name
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -329,12 +512,16 @@ def main():
     teachers = None
     if args.distill:
         teachers = [(t.partition("*")[0], float(t.partition("*")[2] or 1.0)) for t in args.distill.split(",")]
-    train_ds = Sequences(train_split, train_idx, teachers)
+    prop_cache = {}
+    if args.prop_cache and args.propensity:
+        prop_cache = {sp: prop_cache_path(args.propensity, sp) for sp in ("train", "valid")}
+    train_ds = Sequences(train_split, train_idx, teachers, prop_cache.get(train_split))
     if extra_valid is not None:
-        valid_ds = Sequences("valid", extra_valid, teachers)
+        valid_ds = Sequences("valid", extra_valid, teachers, prop_cache.get("valid"))
         train_ds = torch.utils.data.ConcatDataset([train_ds] + [valid_ds] * args.valid_repeat)
     train_loader = DataLoader(train_ds, batch_size=args.batch, shuffle=sampler is None,
-                              sampler=sampler, drop_last=True, num_workers=workers, prefetch_factor=prefetch)
+                              sampler=sampler, drop_last=True, num_workers=workers, prefetch_factor=prefetch,
+                              pin_memory=args.pin_memory, persistent_workers=args.pin_memory and workers > 0)
     valid_loader = DataLoader(Sequences("valid", valid_idx), batch_size=16, num_workers=2,
                               prefetch_factor=1)
 
@@ -379,17 +566,22 @@ def main():
     for pname, prm in model.named_parameters():
         if frozen and pname.startswith(frozen):
             prm.requires_grad_(False)
-    opt = torch.optim.AdamW([prm for prm in model.parameters() if prm.requires_grad], lr=args.lr, weight_decay=args.wd)
+    opt = torch.optim.AdamW([prm for prm in model.parameters() if prm.requires_grad], lr=args.lr, weight_decay=args.wd,
+                            fused=bool(args.fused_adam))
     total = len(train_loader) * math.ceil(20_000 / args.chunk) * args.epochs
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=total,
                                                 pct_start=0.05, final_div_factor=100)
-    scaler = torch.amp.GradScaler()
+    amp_dtype = torch.bfloat16 if args.precision == "bf16" else torch.float16
+    scaler = torch.amp.GradScaler(enabled=args.precision == "fp16")
     swa_model = torch.optim.swa_utils.AveragedModel(model) if args.swa_frac > 0 else None
     ema_model = None
     if args.ema_teacher > 0 or args.eval_ema:
-        ema_model = torch.optim.swa_utils.AveragedModel(
-            model, multi_avg_fn=torch.optim.swa_utils.get_ema_multi_avg_fn(args.ema_decay))
-        ema_model.eval()
+        if args.sync_free:
+            ema_model = FastEMA(model, args.ema_decay)
+        else:
+            ema_model = torch.optim.swa_utils.AveragedModel(
+                model, multi_avg_fn=torch.optim.swa_utils.get_ema_multi_avg_fn(args.ema_decay))
+            ema_model.eval()
     swa_start = int(total * (1.0 - args.swa_frac))
     step_count = 0
 
@@ -410,32 +602,51 @@ def main():
     print(f"loader workers {workers} prefetch {prefetch}; params "
           f"{sum(p.numel() for p in model.parameters()) / 1e6:.2f}M; steps {total}", flush=True)
 
+    timer = StageTimer(args.profile_steps > 0, args.profile_warmup)
+    losses_trace = []
     best, t0, history = -1.0, time.time(), []
     for epoch in range(args.epochs):
         model.train()
-        for b, (x, y, scored) in enumerate(train_loader):
-            inputs = build_inputs(x.to(device, non_blocking=True))
-            y = y.to(device, non_blocking=True)
+        batches = CudaPrefetcher(train_loader, device, timer) if args.pin_memory else train_loader
+        for b, batch in enumerate(batches):
+            if args.max_batches and b >= args.max_batches:
+                break
+            timer.start()
+            prop_cached = None
+            if args.pin_memory:
+                (x, y, scored_dev, *rest), scored = batch
+                if rest:
+                    prop_cached = rest[0]
+            else:
+                x, y, scored, *rest = batch
+                if rest:
+                    prop_cached = rest[0].to(device, non_blocking=True)
+                x = x.to(device, non_blocking=True)
+                y = y.to(device, non_blocking=True)
+                scored_dev = scored.to(device, non_blocking=True)
+            timer.mark("h2d")
+            inputs = build_inputs(x)
+            timer.mark("inputs")
             teach = None
             if y.shape[-1] > 2:
                 teach, y = y[..., 2:4], y[..., :2]
             steps = torch.arange(inputs.shape[1], device=device)[None].expand(inputs.shape[0], -1)
             valid = steps >= WARMUP
-            main_valid = valid & scored.to(device) if args.mask_weight else valid
+            main_valid = valid & scored_dev if args.mask_weight else valid
             if prop_model is not None:
-                main_valid = valid.float() * (propensity(prop_model, inputs[..., : N_FEATURES + N_EVENT_FEATURES]) ** args.prop_power
-                                              + args.prop_eps)
+                if prop_cached is not None:
+                    prob = prop_cached
+                elif args.prop_cache:
+                    raise RuntimeError("--prop-cache set but the batch carries no cached propensity")
+                else:
+                    prob = propensity(prop_model, inputs[..., : N_FEATURES + N_EVENT_FEATURES])
+                main_valid = valid.float() * (prob ** args.prop_power + args.prop_eps)
                 if args.class_weight:
                     cw = torch.tensor([float(v) for v in args.class_weight.split(",")], device=device)
                     main_valid = main_valid * cw[sequence_class(y)][:, None]
                 if args.valid_true_mask >= 0:
-                    sc = scored.to(device)
-                    has_mask = sc.any(dim=1)
-                    if has_mask.any():
-                        true_w = sc.float() + args.valid_true_mask
-                        # scale so masked sequences carry the same total weight as their propensity weights would
-                        c = (main_valid[has_mask].sum() / (valid.float()[has_mask] * true_w[has_mask]).sum().clamp_min(1e-8))
-                        main_valid = torch.where(has_mask[:, None], valid.float() * true_w * c, main_valid)
+                    main_valid = true_mask_weights(main_valid, valid, scored_dev, args.valid_true_mask, args.sync_free)
+            timer.mark("weights")
             aux = shifted_targets(y, valid, shifts)
             if args.aux_struct > 0:
                 sp_lab, br_lab, cl_lab = structure_labels(y, sequence_class(y))
@@ -450,14 +661,16 @@ def main():
                 ce_w = row_w * y.float().clamp(-2, 2).abs().mean(-1) if args.ce_tilt else row_w
                 if epoch == 0:
                     moments.update(codes, y, row_w)
+            timer.mark("labels")
             h = h_ema = None
             for s in range(0, inputs.shape[1], args.chunk):
                 sl = slice(s, s + args.chunk)
-                with torch.autocast("cuda", dtype=torch.float16):
+                with torch.autocast("cuda", dtype=amp_dtype):
                     out, h = forward_chunk(model, inputs, sl, h)
                 h = detach_state(h)
+                timer.mark("forward")
                 if args.ema_teacher > 0:
-                    with torch.no_grad(), torch.autocast("cuda", dtype=torch.float16):
+                    with torch.no_grad(), torch.autocast("cuda", dtype=amp_dtype):
                         out_ema, h_ema = forward_chunk(ema_model.module, inputs, sl, h_ema)
                     h_ema = detach_state(h_ema)
                 if moments is not None:
@@ -499,24 +712,45 @@ def main():
                 if args.ema_teacher > 0:
                     cw = main_valid[:, sl].float()[..., None]
                     loss = loss + args.ema_teacher * (cw * (out[..., :2].float() - out_ema[..., :2].float()) ** 2).sum() / cw.sum().clamp_min(1e-8)
+                timer.mark("loss")
                 opt.zero_grad(set_to_none=True)
                 scaler.scale(loss).backward()
+                timer.mark("backward")
                 scaler.unscale_(opt)
                 torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
                 scaler.step(opt)
                 scaler.update()
                 sched.step()
+                timer.mark("optimizer")
+                if args.parity_dump:
+                    losses_trace.append(loss.detach().float())
                 step_count += 1
                 if swa_model is not None and step_count >= swa_start:
                     swa_model.update_parameters(model)
                 if ema_model is not None:
                     ema_model.update_parameters(model)
-                torch.cuda.synchronize()
-                duty.tick()
+                if duty is not None:  # explicit rate limit (WNN_GPU_DUTY < 1): sync, then sleep
+                    torch.cuda.synchronize()
+                    duty.tick()
+                elif not args.sync_free:
+                    torch.cuda.synchronize()
+            timer.stop()
+            if args.profile_steps and b + 1 == args.max_batches:
+                break
             if b % 20 == 0:
                 rate = (b + 1) * args.batch / (time.time() - t0)
                 print(f"ep {epoch} batch {b}/{len(train_loader)} loss {loss.item():.4f} "
                       f"lr {sched.get_last_lr()[0]:.2e} seq/s {rate:.1f}", flush=True)
+        if args.profile_steps:
+            med = timer.report(args.profile_warmup, args.batch)
+            print("PROFILE", json.dumps({k: round(v, 2) for k, v in med.items()}), flush=True)
+            return
+        if args.parity_dump:
+            torch.save({"losses": torch.stack(losses_trace).cpu(), "model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
+                        "ema": None if ema_model is None else {k: v.detach().cpu() for k, v in ema_model.module.state_dict().items()}},
+                       args.parity_dump)
+            print("PARITY_DUMP", args.parity_dump, len(losses_trace), flush=True)
+            return
         t_eval = time.time()
         eval_model = swa_model.module if swa_model is not None and step_count >= swa_start else model
         if args.eval_ema:
