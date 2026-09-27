@@ -48,6 +48,26 @@ def test_predictor_matches_batch_on_synthetic(fast, atol):
     np.testing.assert_allclose(p.step(x[0]), got[0], atol=0)
 
 
+@pytest.mark.skipif("online_norm" not in getattr(native, "CAPABILITIES", ()),
+                    reason="installed wnn_native predates online_norm; rebuild it (maturin develop)")
+def test_online_norm_predictor_matches_batch_on_synthetic():
+    from wnn.features import online_zscore
+
+    torch.manual_seed(0)
+    model = RNNModel(323, 32, 2).eval()
+    x = _synthetic(3000) * np.float32(3.0)
+    inputs = np.concatenate([x, event_features(x), online_zscore(x)], -1)
+    with torch.no_grad():
+        want, _ = model(torch.from_numpy(inputs)[None])
+    p = native.Predictor(_weights(model), fast_activations=False, online_norm=True)
+    got = np.stack([p.step(r) for r in x])
+    np.testing.assert_allclose(got, want[0, :, :2].numpy(), atol=2e-5)
+    p.reset()  # running sums restart with the sequence
+    np.testing.assert_allclose(p.step(x[0]), got[0], atol=0)
+    with pytest.raises(ValueError, match="online_norm=false"):
+        native.Predictor(_weights(model))
+
+
 @pytest.mark.data
 @pytest.mark.skipif(not RUN.exists(), reason="trained checkpoint not present")
 def test_predictor_matches_trained_checkpoint_on_real_sequence():

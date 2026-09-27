@@ -3,6 +3,7 @@
 //! Layout (99 values): d[i0 prices 0..22], d[i0 volumes 22..44], d[i1 prices 52..74],
 //! 8 event flags, 3 log-counters since (i0 price, i0 trade, i1 price) events,
 //! 22 held i0 price deltas from the last i0 price event.
+//! `OnlineNorm` adds the optional 112 causal per-sequence z-scores of the raw row.
 
 pub const N_RAW: usize = 112;
 pub const N_EVENT: usize = 99;
@@ -98,12 +99,116 @@ impl StreamFeatures {
     }
 }
 
+/// Variance floor of `wnn.features.online_zscore_torch`.
+pub const ONLINE_EPS: f32 = 1e-4;
+
+/// Causal per-sequence z-scores of the raw features, the Rust twin of
+/// `wnn.features.online_zscore_torch` as training evaluates it on CUDA. With n rows seen (the
+/// current one included): mean = sum/n, var = max(sumsq/n - mean^2, 0),
+/// z = (x - mean) / sqrt(var + 1e-4).
+///
+/// The sums are float32 and accumulated in row order on purpose: CUDA `cumsum` along the time
+/// axis of a (B, T, F) tensor is a sequential float32 loop per column, so the features the model
+/// was trained on carry that rounding (up to ~2 z units late in a 20k-row sequence). f64 sums
+/// would be closer to the true statistics but not to what the model saw (native/ONLINE_NORM_PORT.md).
+/// Every later op is one float32 op in torch's order, with no reciprocal or FMA shortcuts.
+#[derive(Debug, Clone)]
+pub struct OnlineNorm {
+    n: u32,
+    sum: [f32; N_RAW],
+    sumsq: [f32; N_RAW],
+}
+
+impl Default for OnlineNorm {
+    fn default() -> Self {
+        Self {
+            n: 0,
+            sum: [0.0; N_RAW],
+            sumsq: [0.0; N_RAW],
+        }
+    }
+}
+
+impl OnlineNorm {
+    pub fn reset(&mut self) {
+        *self = Self::default();
+    }
+
+    /// Adds `row` to the running sums and writes its 112 z-scores into `out`.
+    pub fn update(&mut self, row: &[f32], out: &mut [f32]) {
+        assert_eq!(row.len(), N_RAW, "row width");
+        assert_eq!(out.len(), N_RAW, "z-score width");
+        self.n += 1;
+        let n = self.n as f32; // exact below 2^24 rows, like torch.arange in float32
+        for ((o, &x), (s, sq)) in out
+            .iter_mut()
+            .zip(row)
+            .zip(self.sum.iter_mut().zip(self.sumsq.iter_mut()))
+        {
+            *s += x;
+            *sq += x * x;
+            let mean = *s / n;
+            let var = (*sq / n - mean * mean).max(0.0);
+            *o = (x - mean) / (var + ONLINE_EPS).sqrt();
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     fn row(v: f32) -> [f32; N_RAW] {
         [v; N_RAW]
+    }
+
+    fn rows(n: usize) -> Vec<[f32; N_RAW]> {
+        (0..n)
+            .map(|r| std::array::from_fn(|c| ((r * 37 + c * 11) % 97) as f32 / 20.0 - 2.4))
+            .collect()
+    }
+
+    #[test]
+    fn online_norm_is_the_float32_prefix_computation_bit_for_bit() {
+        let rows = rows(3000);
+        let mut norm = OnlineNorm::default();
+        let mut out = [0.0f32; N_RAW];
+        for (t, r) in rows.iter().enumerate() {
+            norm.update(r, &mut out);
+            for c in [0, 5, 111] {
+                let prefix = rows[..=t].iter().map(|v| v[c]);
+                let s = prefix.clone().fold(0.0f32, |a, x| a + x);
+                let sq = prefix.fold(0.0f32, |a, x| a + x * x);
+                let n = (t + 1) as f32;
+                let mean = s / n;
+                let var = (sq / n - mean * mean).max(0.0);
+                let want = (r[c] - mean) / (var + 1e-4f32).sqrt();
+                assert_eq!(out[c].to_bits(), want.to_bits(), "t {t} c {c}");
+            }
+        }
+    }
+
+    #[test]
+    fn online_norm_tracks_two_pass_statistics_and_resets() {
+        let rows = rows(300);
+        let mut norm = OnlineNorm::default();
+        let mut out = [0.0f32; N_RAW];
+        for (t, r) in rows.iter().enumerate() {
+            norm.update(r, &mut out);
+            for c in [0, 5, 111] {
+                let xs: Vec<f64> = rows[..=t].iter().map(|v| v[c] as f64).collect();
+                let mean = xs.iter().sum::<f64>() / xs.len() as f64;
+                let var = xs.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / xs.len() as f64;
+                let want = (r[c] as f64 - mean) / (var + 1e-4).sqrt();
+                assert!((out[c] as f64 - want).abs() < 1e-3, "t {t} c {c}");
+            }
+        }
+        norm.reset();
+        norm.update(&rows[5], &mut out);
+        assert!(
+            out.iter().all(|v| *v == 0.0),
+            "first row of a sequence is its own mean"
+        );
     }
 
     #[test]

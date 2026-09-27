@@ -2,9 +2,10 @@
 
 members.json lists weight files (model state dicts of wnn.nn.RNNModel, head sliced to the two
 targets) with blend coefficients; the organizer baseline enters as an exact RNNModel rewrite
-(scripts/convert_baseline.py) with its output scale folded into its coefficient. All members run
-in the Rust extension shipped as v3/ (x86-64-v3) and v2/ (x86-64-v2); v3 is loaded only when the
-CPU reports every flag it needs.
+(scripts/convert_baseline.py) with its output scale folded into its coefficient. A member flagged
+"online_norm" also gets causal per-sequence z-scores of the raw row as inputs (n_in 323). All
+members run in the Rust extension shipped as v3/ (x86-64-v3) and v2/ (x86-64-v2); v3 is loaded
+only when the CPU reports every flag it needs.
 """
 
 import json
@@ -49,10 +50,16 @@ def _load(name):
         return {k: np.ascontiguousarray(w[k], dtype=np.float32) for k in w.files}
 
 
+def _predictor(member):
+    # Passed only when set: builds from before online-norm support lack the keyword.
+    kw = {"online_norm": True} if member.get("online_norm") else {}
+    return wnn_native.Predictor(_load(member["weights"]), fast_activations=True, **kw)
+
+
 class PredictionModel:
     def __init__(self):
         spec = json.loads((HERE / "members.json").read_text())
-        self.members = [wnn_native.Predictor(_load(m["weights"]), fast_activations=True) for m in spec]
+        self.members = [_predictor(m) for m in spec]
         self.coef = [np.float32(m["coef"]) for m in spec]
         self.seq_ix = None
 

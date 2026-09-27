@@ -145,6 +145,18 @@ class StreamingEventFeatures:
         return out
 
 
+def online_zscore(x: np.ndarray, eps: float = 1e-4) -> np.ndarray:
+    """NumPy twin of ``online_zscore_torch`` for one (T, F) sequence, bit-exact to the CUDA float32
+    run: CUDA cumsum along T is a sequential float32 loop per column (``np.cumsum`` in float32 is
+    the same loop), then the same float32 ops in the same order. CPU torch accumulates the float32
+    cumsum in double, which differs by up to ~2 z units late in a 20k-row sequence."""
+    x = np.asarray(x, dtype=np.float32)
+    n = np.arange(1, len(x) + 1, dtype=np.float32)[:, None]
+    mean = np.cumsum(x, 0, dtype=np.float32) / n
+    var = np.maximum(np.cumsum(x * x, 0, dtype=np.float32) / n - mean * mean, np.float32(0.0))
+    return (x - mean) / np.sqrt(var + np.float32(eps))
+
+
 def online_zscore_torch(x, eps: float = 1e-4):
     """Causal per-sequence running z-scores: stats at row t use rows <= t only. x: (B, T, F)."""
     import torch

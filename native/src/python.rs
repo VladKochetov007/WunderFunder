@@ -84,14 +84,19 @@ impl PyGruStepper {
 fn wnn_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyGruStepper>()?;
     m.add_class::<PyPredictor>()?;
+    // Optional Predictor inputs this build supports; packaging checks it before shipping a member.
+    m.add("CAPABILITIES", ("online_norm",))?;
     Ok(())
 }
 
-/// Streaming predictor: event features + FastRnn, one row per call, no per-row allocation
-/// besides the returned 2-element array.
+/// Streaming predictor: event features (+ online z-scores) + FastRnn, one row per call, no
+/// per-row allocation besides the returned 2-element array. Model input layout is
+/// [raw 112 | event 99], or with `online_norm` [raw 112 | event 99 | z-scores of raw 112]
+/// (`build_inputs` in scripts/train_rnn.py).
 #[pyclass(name = "Predictor")]
 struct PyPredictor {
     features: crate::stream::StreamFeatures,
+    norm: Option<crate::stream::OnlineNorm>,
     model: crate::rnn_fast::FastRnn,
     input: Vec<f32>,
     out: [f32; 2],
@@ -100,16 +105,19 @@ struct PyPredictor {
 #[pymethods]
 impl PyPredictor {
     #[new]
-    #[pyo3(signature = (weights, fast_activations=true))]
+    #[pyo3(signature = (weights, fast_activations=true, online_norm=false))]
     fn new(
         weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
         fast_activations: bool,
+        online_norm: bool,
     ) -> PyResult<Self> {
+        use crate::stream::{N_EVENT, N_RAW};
         let rnn_weights = weights_from_dict(weights)?;
         let n_in = rnn_weights.mean.len();
-        if n_in != crate::stream::N_RAW + crate::stream::N_EVENT {
+        let provided = N_RAW + N_EVENT + if online_norm { N_RAW } else { 0 };
+        if n_in != provided {
             return Err(PyValueError::new_err(format!(
-                "model expects {n_in} inputs, predictor provides 211"
+                "model expects {n_in} inputs, predictor provides {provided} (online_norm={online_norm})"
             )));
         }
         let act = if fast_activations {
@@ -124,6 +132,7 @@ impl PyPredictor {
         }
         Ok(Self {
             features: Default::default(),
+            norm: online_norm.then(Default::default),
             model,
             input: vec![0.0; n_in],
             out: [0.0; 2],
@@ -132,6 +141,9 @@ impl PyPredictor {
 
     fn reset(&mut self) {
         self.features.reset();
+        if let Some(norm) = &mut self.norm {
+            norm.reset();
+        }
         self.model.reset();
     }
 
@@ -149,10 +161,14 @@ impl PyPredictor {
                 row.len()
             )));
         }
-        let (raw, event) = self.input.split_at_mut(crate::stream::N_RAW);
+        let (raw, rest) = self.input.split_at_mut(crate::stream::N_RAW);
         raw.copy_from_slice(row);
         self.features.sanitize(raw);
+        let (event, zscores) = rest.split_at_mut(crate::stream::N_EVENT);
         self.features.update(raw, event);
+        if let Some(norm) = &mut self.norm {
+            norm.update(raw, zscores);
+        }
         let n_out = self.model.n_out();
         if n_out == 2 {
             self.model.step(&self.input, &mut self.out);

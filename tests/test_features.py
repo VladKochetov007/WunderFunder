@@ -96,3 +96,34 @@ def test_online_zscore_is_causal_and_matches_oracle():
     x2 = x.clone()
     x2[:, 150:] += 7.0
     torch.testing.assert_close(online_zscore_torch(x2)[:, :150], z[:, :150])
+
+
+def test_numpy_online_zscore_is_the_float32_sequential_computation():
+    torch = pytest.importorskip("torch")
+    from wnn.features import online_zscore, online_zscore_torch
+
+    x = _synthetic(np.random.default_rng(11), t=3000) * np.float32(3.0) + np.float32(1.5)
+    z = online_zscore(x)
+    assert z.dtype == np.float32
+    for t in (0, 1, 999, 2999):  # float32 prefix sums accumulated strictly in row order
+        s = sq = np.float32(0.0)
+        for v in x[: t + 1, 7]:
+            s, sq = s + v, sq + v * v
+        n = np.float32(t + 1)
+        mean = s / n
+        var = max(sq / n - mean * mean, np.float32(0.0))
+        assert z[t, 7] == (x[t, 7] - mean) / np.sqrt(var + np.float32(1e-4))
+    # CPU torch accumulates the cumsum in double: close, not equal.
+    np.testing.assert_allclose(z, online_zscore_torch(torch.from_numpy(x[None]))[0].numpy(), atol=5e-2)
+
+
+def test_numpy_online_zscore_matches_cuda_bit_for_bit():
+    torch = pytest.importorskip("torch")
+    if not torch.cuda.is_available():
+        pytest.skip("needs CUDA")
+    from wnn.features import online_zscore, online_zscore_torch
+
+    x = np.stack([_synthetic(np.random.default_rng(s), t=20_000) * np.float32(3.0) for s in (5, 6)])
+    got = online_zscore_torch(torch.from_numpy(x).cuda()).cpu().numpy()
+    for b in range(len(x)):
+        np.testing.assert_array_equal(got[b], online_zscore(x[b]))
