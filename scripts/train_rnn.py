@@ -430,6 +430,13 @@ def main():
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--loss-norm", choices=["chunk", "running"], default="chunk",
+                    help="wmse main loss divided by each chunk's weight sum (chunk) or by a running mean of it "
+                         "(running: rows keep the pooled metric's relative weights across chunks; brainteaser card B)")
+    ap.add_argument("--since-weight", type=float, default=0.0,
+                    help="if > 0: multiply main-loss row weights by max(floor, 1/(1+since/tau)), since = rows since the "
+                         "last i0 price event (causal input only; ideas_round4 B2)")
+    ap.add_argument("--since-floor", type=float, default=0.25)
     perf = ap.add_argument_group("throughput (see research/perf-2026-09-27.md)")
     perf.add_argument("--fast", action="store_true",
                       help="all verified throughput options: --sync-free --fused-adam --pin-memory --prop-cache")
@@ -604,6 +611,7 @@ def main():
           f"{sum(p.numel() for p in model.parameters()) / 1e6:.2f}M; steps {total}", flush=True)
 
     timer = StageTimer(args.profile_steps > 0, args.profile_warmup)
+    norm_ema = None  # running weight-sum normalizer for --loss-norm running
     losses_trace = []
     best, t0, history = -1.0, time.time(), []
     for epoch in range(args.epochs):
@@ -647,6 +655,10 @@ def main():
                     main_valid = main_valid * cw[sequence_class(y)][:, None]
                 if args.valid_true_mask >= 0:
                     main_valid = true_mask_weights(main_valid, valid, scored_dev, args.valid_true_mask, args.sync_free)
+            if args.since_weight > 0:
+                since = torch.expm1(inputs[..., N_FEATURES + FEATURE_NAMES.index("since_i0px")].float())
+                sw_rows = torch.clamp(1.0 / (1.0 + since / args.since_weight), min=args.since_floor)
+                main_valid = main_valid.float() * sw_rows
             timer.mark("weights")
             aux = shifted_targets(y, valid, shifts)
             if args.aux_struct > 0:
@@ -686,6 +698,12 @@ def main():
                     tgt = (1 - args.distill_alpha) * yc + args.distill_alpha * teach[:, sl].float().clamp(-2, 2)
                     w = yc.abs() * main_valid[:, sl][..., None]
                     loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
+                elif args.loss_norm == "running" and args.loss == "wmse":
+                    yc = y[:, sl].float().clamp(-2, 2)
+                    w = yc.abs() * main_valid[:, sl][..., None]
+                    wsum = w.sum().detach()
+                    norm_ema = wsum if norm_ema is None else 0.99 * norm_ema + 0.01 * wsum
+                    loss = (w * (out[..., :2].float() - yc) ** 2).sum() / norm_ema.clamp_min(1e-8)
                 else:
                     loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])
                 if args.aux_struct > 0:
