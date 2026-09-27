@@ -33,8 +33,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("name")
     ap.add_argument("--check", type=int, default=16)
-    ap.add_argument("--batch", type=int, default=32)
+    ap.add_argument("--batch", type=int, default=16)
     a = ap.parse_args()
+    if a.batch < 8:
+        # cuDNN picks an fp32-like GRU path for tiny batches (batch 1-4 differ from batch >= 8 by up to 0.09);
+        # training runs at batch >= 8, so the cache must be built in the same regime (measured 2026-09-27)
+        ap.error("--batch must be >= 8 to match the training-time propensity values")
     dev = torch.device("cuda")
     wpath = ROOT / "artifacts" / "runs" / a.name / "model.pt"
     sha = hashlib.sha256(wpath.read_bytes()).hexdigest()
