@@ -241,6 +241,8 @@ ONLINE_NORM = False  # append causal per-sequence z-scores of the 112 raw featur
 READOUT = None  # (m1, m0) moment tables when the head is a softmax over outcome codes
 READOUT_TILTED = False
 HEURISTICS = False  # append wnn.heuristics features (computed in loader workers)
+QUANT = False  # append wnn.quant order-flow features accumulated since the last i0 price event
+STATE_RESET = 0  # if > 0: zero the recurrent state every STATE_RESET rows (training and prediction)
 RAW_ONLY = False  # zero the event-feature block (organizer-style raw view; keeps n_in for native export)
 
 
@@ -250,6 +252,10 @@ def build_inputs(x):
     if RAW_ONLY:
         ev = torch.zeros_like(ev)
     inputs = torch.cat([raw, ev], dim=-1)
+    if QUANT:
+        from wnn.quant import quant_features_torch
+
+        inputs = torch.cat([inputs, quant_features_torch(raw)], dim=-1)
     if ONLINE_NORM:
         inputs = torch.cat([inputs, online_zscore_torch(raw)], dim=-1)
     if extra.shape[-1]:
@@ -378,7 +384,11 @@ def predict(model, x, chunk, device):
     model.eval()
     inputs = build_inputs(x.to(device, non_blocking=True))
     state, outs = None, []
+    if STATE_RESET:
+        chunk = min(chunk, STATE_RESET)
     for s in range(0, inputs.shape[1], chunk):
+        if STATE_RESET and s % STATE_RESET == 0:
+            state = None
         with torch.autocast("cuda", dtype=torch.float16):
             out, state = forward_chunk(model, inputs, slice(s, s + chunk), state)
         outs.append(readout(out, *READOUT, tilted=READOUT_TILTED) if READOUT is not None else out[..., :2].float())
@@ -490,6 +500,9 @@ def main():
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--quant-feats", action="store_true", help="append wnn.quant order-flow features")
+    ap.add_argument("--state-reset", type=int, default=0,
+                    help="zero the recurrent state every N rows in training and prediction (multiple of --chunk)")
     ap.add_argument("--loss-norm", choices=["chunk", "running"], default="chunk",
                     help="wmse main loss divided by each chunk's weight sum (chunk) or by a running mean of it "
                          "(running: rows keep the pooled metric's relative weights across chunks; brainteaser card B)")
@@ -541,6 +554,10 @@ def main():
     if args.epoch_samples and args.class_balance:
         ap.error("--epoch-samples cannot be combined with --class-balance")
 
+    if args.state_reset and args.state_reset % args.chunk:
+        ap.error("--state-reset must be a multiple of --chunk")
+    global STATE_RESET
+    STATE_RESET = args.state_reset
     torch.manual_seed(args.seed)
     device = torch.device("cuda")
     duty = configure_torch()
@@ -659,6 +676,12 @@ def main():
 
         HEURISTICS = True
         n_in += N_HEUR
+    if args.quant_feats:
+        global QUANT
+        from wnn.quant import N_QUANT
+
+        QUANT = True
+        n_in += N_QUANT
     if args.online_norm:
         global ONLINE_NORM
         ONLINE_NORM = True
@@ -833,6 +856,8 @@ def main():
             h = h_ema = None
             for s in range(0, inputs.shape[1], args.chunk):
                 sl = slice(s, s + args.chunk)
+                if args.state_reset and s % args.state_reset == 0:
+                    h = h_ema = None
                 with torch.autocast("cuda", dtype=amp_dtype):
                     out, h = forward_chunk(model, inputs, sl, h)
                 h = detach_state(h)

@@ -40,6 +40,8 @@ def main():
         parser.error("--gate-mode requires a gated checkpoint")
     train_rnn.RAW_ONLY = bool(ck["args"].get("raw_only"))
     train_rnn.ONLINE_NORM = bool(ck["args"].get("online_norm"))
+    train_rnn.STATE_RESET = int(ck["args"].get("state_reset") or 0)
+    train_rnn.QUANT = bool(ck["args"].get("quant_feats"))
     if ck.get("readout") is not None:
         train_rnn.READOUT = [t.to(device) for t in ck["readout"]]
         train_rnn.READOUT_TILTED = ck.get("readout_tilted", False)
