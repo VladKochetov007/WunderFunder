@@ -28,12 +28,13 @@ def _init():
     global _SF, _MV, _P
     from wnn.data import SequenceFile
     _SF = SequenceFile(ROOT / "datasets" / "valid.parquet")
-    _MV = pickle.load(open(ROOT / "cache" / "class3_moves_full.pkl", "rb"))
+    with (ROOT / "cache" / "class3_moves_full.pkl").open("rb") as source:
+        _MV = pickle.load(source)
     _P = np.load(ROOT / "cache" / "pred_ab30_eps_aux_valid.npy", mmap_mode="r")
 
 
 def _one(args):
-    i, g = args
+    i, g, known_only = args
     from wnn.ticks import reconstruct
     s = _SF.read(int(g))
     x = s.features
@@ -46,6 +47,17 @@ def _one(args):
     mid0, mid1 = (a + b).astype(float), (a1 + b1).astype(float)
     T = len(x)
     mch = np.flatnonzero(np.r_[False, np.diff(mid0) != 0])
+    known_lead = np.ones(T, bool)
+    if known_only:
+        i1_events = np.flatnonzero((x1[1:, :22] != x1[:-1, :22]).any(1)) + 1
+        codes = [tuple(row) for row in np.round(x1[np.r_[i1_events - 1, i1_events], :22], 4)]
+        n_events = len(i1_events)
+        unknown = np.zeros(T, np.int32)
+        unknown[i1_events] = [
+            (before, after) not in _MV[0]
+            for before, after in zip(codes[:n_events], codes[n_events:], strict=True)
+        ]
+        unknown = np.cumsum(unknown)
     t = np.arange(T)
     k = np.searchsorted(mch, t, side="right")  # next change index in mch
     has = k < len(mch)
@@ -54,13 +66,16 @@ def _one(args):
     sgn = np.zeros(T)
     sgn[has] = np.sign(mid0[nxt[has]] - mid0[nxt[has] - 1])
     last = k - 1
-    base = np.where(last >= 0, mid1[mch[np.maximum(last, 0)]], mid1[0])
+    base_row = np.where(last >= 0, mch[np.maximum(last, 0)], 0)
+    base = mid1[base_row]
+    if known_only:
+        known_lead = unknown == unknown[base_row]
     lead = mid1 - base
     p = np.asarray(_P[i], dtype=np.float64)
     D = p[:, 0] - p[:, 1]
     out = np.zeros((2, len(BUCKETS), 4, 4))
     for bi, (lo, hi) in enumerate(BUCKETS):
-        q = m & has & (d1 >= lo) & (d1 <= hi)
+        q = m & has & known_lead & (d1 >= lo) & (d1 <= hi)
         if q.any():
             Z = np.c_[np.ones(q.sum()), lead[q], sgn[q], D[q]]
             out[0, bi] = Z.T @ Z
@@ -68,7 +83,7 @@ def _one(args):
     starts = np.r_[0, mch]
     ends = np.r_[mch, T]
     mids = (starts + ends) // 2
-    ok = (mids >= 99) & (ends < T) & m[np.minimum(mids, T - 1)]
+    ok = (mids >= 99) & (ends < T) & m[np.minimum(mids, T - 1)] & known_lead[np.minimum(mids, T - 1)]
     for bi, (lo, hi) in enumerate(BUCKETS):
         sel = mids[ok & (ends - mids >= lo) & (ends - mids <= hi)]
         if len(sel):
@@ -96,17 +111,20 @@ def main():
     d = np.load(ROOT / "cache" / "valid_targets.npz")
     cls, rg, mask = d["market_class"], d["row_group"], d["mask"]
     idx = np.flatnonzero(cls == 3)
-    if len(sys.argv) > 1:
-        idx = idx[: int(sys.argv[1])]
+    known_only = "--known-only" in sys.argv[1:]
+    limits = [arg for arg in sys.argv[1:] if arg != "--known-only"]
+    if limits:
+        idx = idx[: int(limits[0])]
     _, fold = decide._chains()
     rate = mask.mean(1)
     q = np.quantile(rate[cls == 3], [1 / 3, 2 / 3])
     terc = np.digitize(rate, q)
     res = {}
     with ProcessPoolExecutor(int(os.environ.get("WNN_THREADS", "4")), initializer=_init) as ex:
-        for i, out in ex.map(_one, [(int(i), int(rg[i])) for i in idx], chunksize=4):
+        for i, out in ex.map(_one, [(int(i), int(rg[i]), known_only) for i in idx], chunksize=4):
             res[i] = out
-    np.savez(ROOT / "cache" / "probe_i1_lead.npz", idx=np.array(list(res)), M=np.stack(list(res.values())))
+    suffix = "_known" if known_only else ""
+    np.savez(ROOT / "cache" / f"probe_i1_lead{suffix}.npz", idx=np.array(list(res)), M=np.stack(list(res.values())))
     names = ["1-8", "9-32", "33-128", "129+"]
     for lev, lname in ((0, "row"), (1, "event")):
         print(f"== {lname} level: corr(lead, next i0 move sign) | partial given GRU direction | n")

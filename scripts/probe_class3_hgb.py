@@ -46,8 +46,13 @@ def main():
     train = [s for s in train if market_class(s.targets) == 3]
     test = [s for s in test if market_class(s.targets) == 3]
     print("class3 train", len(train), "test", len(test), flush=True)
-    for groups in [("vol",), ("vol", "dvol", "since"), ("vol", "dvol", "since", "trade"),
-                   ("vol", "dvol", "since", "trade", "i1"), ("vol", "dvol", "since", "trade", "i1", "a", "px")]:
+    for groups in [
+        ("vol",),
+        ("vol", "dvol", "since"),
+        ("vol", "dvol", "since", "trade"),
+        ("vol", "dvol", "since", "trade", "i1"),
+        ("vol", "dvol", "since", "trade", "i1", "a", "px"),
+    ]:
         xs = np.vstack([design(s.features, groups)[99::4] for s in train])
         preds = []
         for k in range(2):
@@ -56,7 +61,9 @@ def main():
             m = HistGradientBoostingRegressor(max_iter=300, learning_rate=0.1, max_leaf_nodes=63)
             m.fit(xs, ys, sample_weight=w)
             preds.append([m.predict(design(s.features, groups)) for s in test])
-        p = np.stack([np.stack([preds[0][i], preds[1][i]], 1) for i in range(len(test))]).astype(np.float32)
+        p = np.stack([np.stack([preds[0][i], preds[1][i]], 1) for i in range(len(test))]).astype(
+            np.float32
+        )
         y = np.stack([s.targets for s in test])
         mask = np.stack([s.scored for s in test])
         print(groups, round(float(np.nanmean(block_scores(y, p, mask).mean(1))), 3), flush=True)

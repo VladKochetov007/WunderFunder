@@ -13,7 +13,9 @@ from __future__ import annotations
 
 import numpy as np
 
-N_MARKOV_FEATURES = 12  # 2 context orders x (count, bid up, bid down, ask up, ask down, same-as-prev)
+N_MARKOV_FEATURES = (
+    12  # 2 context orders x (count, bid up, bid down, ask up, ask down, same-as-prev)
+)
 _PRIOR = 1.0
 
 

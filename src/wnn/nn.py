@@ -78,6 +78,42 @@ class RNNModel(nn.Module):
         return self.head(torch.cat([o, z], dim=-1)), h
 
 
+class GatedRNNModel(RNNModel):
+    """Factor the target pair into a shared level and gated movement size.
+
+    The sign head emits a probability, while the size head remains positive.
+    Their product is the conditional movement used by both target outputs.
+    The sign logit is returned after the ordinary auxiliary outputs for BCE.
+    """
+
+    def __init__(self, n_in: int, hidden: int = 128, layers: int = 2,
+                 dropout: float = 0.0, n_out: int = 2) -> None:
+        super().__init__(n_in, hidden, layers, dropout, n_out)
+        self.sign_head = nn.Sequential(
+            nn.Linear(2 * hidden, hidden), nn.GELU(), nn.Linear(hidden, 1)
+        )
+        self.gate_mode = "soft"
+
+    def forward(self, x: torch.Tensor, h: torch.Tensor | None = None
+                ) -> tuple[torch.Tensor, torch.Tensor]:
+        z = self.encode((x - self.mean) / self.std)
+        recurrent, h = self.gru(z, h)
+        features = torch.cat([recurrent, z], dim=-1)
+        raw = self.head(features)
+        sign_logit = self.sign_head(features)
+        soft_sign = torch.tanh(sign_logit.float() / 2)
+        if self.gate_mode == "hard":
+            gate = torch.where(sign_logit >= 0, 1.0, -1.0)
+        elif self.gate_mode == "confident":
+            gate = torch.where(soft_sign.abs() >= 0.5, soft_sign.sign(), soft_sign)
+        else:
+            gate = soft_sign
+        movement = gate * F.softplus(raw[..., 1:2].float())
+        pair = torch.cat([raw[..., :1].float() + movement,
+                          raw[..., :1].float() - movement], dim=-1)
+        return torch.cat([pair, raw[..., 2:].float(), sign_logit.float()], dim=-1), h
+
+
 def token_groups(n_in: int):
     """Column groups of the (112 raw + 99 event) input used as attention tokens."""
     raw = [(0, 22), (22, 44), (44, 52), (52, 74), (74, 96), (96, 104), (104, 112)]

@@ -6,11 +6,12 @@
 
 ``cache`` turns cache/pred_<MODEL>_valid.npy into cache/seqsums_<MODEL>.npz: per sequence
 and target, the six WP sums over scored rows and over unscored required rows. Global WP
-under a softened mask (unscored rows weighted by lam, the critic's test-mask model) is a
-merge of these sums. ``compare`` reports A - B per split (devA, devB, holdout, all) with a
-paired chain bootstrap and applies the rule: spend a leaderboard slot only if the gap exceeds
-2 sd and has the same sign on every fold (default: 4 chain-grouped folds; --grouping dev for the
-old devA/devB/holdout split, which leaks chain neighbours). Model names may carry a scale,
+under a softened mask (unscored rows weighted by lam) is a merge of these sums. Lam > 0 is
+a sensitivity check, not an estimate of the hidden test mask. ``compare`` reports A - B per
+split (devA, devB, holdout, all) with a paired chain bootstrap and a legacy statistical flag;
+that flag alone is not a submission decision. The default uses four chain-grouped folds;
+--grouping dev uses the old devA/devB/holdout split, which leaks chain neighbours.
+Model names may carry a scale,
 e.g. baseline*0.25.
 """
 
@@ -21,7 +22,7 @@ from pathlib import Path
 
 import numpy as np
 
-from wnn.gmetric import wp_from_sums, wp_sums
+from wnn.gmetric import wp_from_sums
 from wnn.splits import dev_halves, valid_row_groups
 
 ROOT = Path(__file__).resolve().parents[1]

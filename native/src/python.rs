@@ -84,7 +84,134 @@ impl PyGruStepper {
 fn wnn_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyGruStepper>()?;
     m.add_class::<PyPredictor>()?;
+    m.add_class::<PyEnsemblePredictor>()?;
     Ok(())
+}
+
+/// Several GRUs with one causal feature update and one Python call per row. Members read
+/// [raw 112 | event 99] (211 inputs) or, when trained with online norm, additionally the 112
+/// causal per-sequence z-scores of the raw row (323 inputs); z-scores are computed only if some
+/// member needs them.
+#[pyclass(name = "EnsemblePredictor")]
+struct PyEnsemblePredictor {
+    features: crate::stream::StreamFeatures,
+    norm: Option<crate::stream::OnlineNorm>,
+    widths: Vec<usize>,
+    models: Vec<crate::rnn_fast::FastRnn>,
+    input: Vec<f32>,
+    coefficients: Vec<f32>,
+    scratch: Vec<[f32; 2]>,
+    out: [f32; 2],
+}
+
+#[pymethods]
+impl PyEnsemblePredictor {
+    #[new]
+    #[pyo3(signature = (weights, coefficients, fast_activations=true))]
+    fn new(
+        weights: Vec<HashMap<String, PyReadonlyArrayDyn<'_, f32>>>,
+        coefficients: Vec<f32>,
+        fast_activations: bool,
+    ) -> PyResult<Self> {
+        if weights.is_empty() || weights.len() != coefficients.len() {
+            return Err(PyValueError::new_err(
+                "provide one coefficient for each nonempty model",
+            ));
+        }
+        if coefficients.iter().any(|v| !v.is_finite()) {
+            return Err(PyValueError::new_err("coefficients must be finite"));
+        }
+        let activation = if fast_activations {
+            crate::rnn_fast::Activations::Fast
+        } else {
+            crate::rnn_fast::Activations::Exact
+        };
+        use crate::stream::{N_EVENT, N_RAW};
+        let base = N_RAW + N_EVENT;
+        let mut models = Vec::with_capacity(weights.len());
+        let mut widths = Vec::with_capacity(weights.len());
+        for member in weights {
+            let parsed = weights_from_dict(member)?;
+            let width = parsed.mean.len();
+            if width != base && width != base + N_RAW {
+                return Err(PyValueError::new_err(format!(
+                    "model input width {width}; expected {base} or {} (online norm)",
+                    base + N_RAW
+                )));
+            }
+            widths.push(width);
+            let model = crate::rnn_fast::FastRnn::new(parsed, activation)
+                .map_err(|e| PyValueError::new_err(e.0))?;
+            if model.n_out() != 2 {
+                return Err(PyValueError::new_err("ensemble members need two outputs"));
+            }
+            models.push(model);
+        }
+        let needs_norm = widths.iter().any(|&w| w > base);
+        Ok(Self {
+            features: Default::default(),
+            norm: needs_norm.then(Default::default),
+            scratch: vec![[0.0; 2]; models.len()],
+            input: vec![0.0; if needs_norm { base + N_RAW } else { base }],
+            widths,
+            models,
+            coefficients,
+            out: [0.0; 2],
+        })
+    }
+
+    fn reset(&mut self) {
+        self.features.reset();
+        if let Some(norm) = &mut self.norm {
+            norm.reset();
+        }
+        for model in &mut self.models {
+            model.reset();
+        }
+    }
+
+    fn step<'py>(
+        &mut self,
+        py: Python<'py>,
+        row: PyReadonlyArray1<'py, f32>,
+    ) -> PyResult<Bound<'py, PyArray1<f32>>> {
+        let row = row
+            .as_slice()
+            .map_err(|e| PyValueError::new_err(e.to_string()))?;
+        if row.len() != crate::stream::N_RAW {
+            return Err(PyValueError::new_err(format!(
+                "expected 112 features, got {}",
+                row.len()
+            )));
+        }
+        let (raw, rest) = self.input.split_at_mut(crate::stream::N_RAW);
+        raw.copy_from_slice(row);
+        self.features.sanitize(raw);
+        let (event, zscores) = rest.split_at_mut(crate::stream::N_EVENT);
+        self.features.update(raw, event);
+        if let Some(norm) = &mut self.norm {
+            norm.update(raw, zscores);
+        }
+        self.out = [0.0; 2];
+        for (((model, scratch), coefficient), &width) in self
+            .models
+            .iter_mut()
+            .zip(self.scratch.iter_mut())
+            .zip(&self.coefficients)
+            .zip(&self.widths)
+        {
+            model.step(&self.input[..width], scratch);
+            for (total, value) in self.out.iter_mut().zip(scratch) {
+                *total += *coefficient * *value;
+            }
+        }
+        for value in &mut self.out {
+            if !value.is_finite() {
+                *value = 0.0;
+            }
+        }
+        Ok(PyArray1::from_slice(py, &self.out))
+    }
 }
 
 /// Streaming predictor: event features + FastRnn, one row per call, no per-row allocation

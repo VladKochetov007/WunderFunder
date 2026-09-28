@@ -3,7 +3,8 @@
     python scripts/verify_submission.py SUBMISSION.zip DATA.parquet OUT.npz
 Unzips into a temp dir, imports solution.PredictionModel, feeds every row via
 utils.DataPoint in file order, and records predictions, wall time per row, the
-official per-block result (utils.BlockAccumulator) and the global pooled WP.
+legacy starter-kit per-block result (utils.BlockAccumulator) and the official
+global pooled WP.
 Designed to run inside python:3.11-slim-bookworm with --cpus 1.
 """
 
@@ -79,7 +80,7 @@ def main():
     print({"load_s": round(load_s, 2), "us_per_row": round(1e6 * busy / rows, 1), "rows": rows,
            "block_wp": round(res["weighted_pearson"], 6), "global_wp": round(float(np.mean(g)), 6),
            "global_t0": round(g[0], 6), "global_t1": round(g[1], 6),
-           "eta_min_37M_rows": round(37.46e6 * busy / rows / 60, 1)})
+           "eta_min_39M_rows": round(39.4e6 * busy / rows / 60, 1)})
     np.savez(out, pred=p, y=y, mask=m)
 
 

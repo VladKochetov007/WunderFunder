@@ -15,6 +15,7 @@ import torch
 
 sys.path.insert(0, "scripts")
 from train_rnn import build_inputs, forward_chunk, make_model  # noqa: E402
+
 from wnn.data import SequenceFile, market_class  # noqa: E402
 from wnn.splits import valid_row_groups  # noqa: E402
 

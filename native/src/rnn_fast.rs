@@ -96,6 +96,117 @@ pub struct FastRnn {
     a: Range<usize>,
 }
 
+#[cfg(all(
+    target_arch = "x86_64",
+    target_feature = "avx2",
+    target_feature = "fma"
+))]
+#[inline(always)]
+fn dot(a: &[f32], b: &[f32]) -> f32 {
+    use std::arch::x86_64::*;
+
+    debug_assert_eq!(a.len(), b.len());
+    unsafe {
+        let mut s0 = _mm256_setzero_ps();
+        let mut s1 = _mm256_setzero_ps();
+        let mut s2 = _mm256_setzero_ps();
+        let mut s3 = _mm256_setzero_ps();
+        let mut i = 0;
+        while i + 32 <= a.len() {
+            s0 = _mm256_fmadd_ps(
+                _mm256_loadu_ps(a.as_ptr().add(i)),
+                _mm256_loadu_ps(b.as_ptr().add(i)),
+                s0,
+            );
+            s1 = _mm256_fmadd_ps(
+                _mm256_loadu_ps(a.as_ptr().add(i + 8)),
+                _mm256_loadu_ps(b.as_ptr().add(i + 8)),
+                s1,
+            );
+            s2 = _mm256_fmadd_ps(
+                _mm256_loadu_ps(a.as_ptr().add(i + 16)),
+                _mm256_loadu_ps(b.as_ptr().add(i + 16)),
+                s2,
+            );
+            s3 = _mm256_fmadd_ps(
+                _mm256_loadu_ps(a.as_ptr().add(i + 24)),
+                _mm256_loadu_ps(b.as_ptr().add(i + 24)),
+                s3,
+            );
+            i += 32;
+        }
+        let sum = _mm256_add_ps(_mm256_add_ps(s0, s1), _mm256_add_ps(s2, s3));
+        let mut lanes = [0.0f32; 8];
+        _mm256_storeu_ps(lanes.as_mut_ptr(), sum);
+        let mut result: f32 = lanes.iter().sum();
+        while i < a.len() {
+            result += a[i] * b[i];
+            i += 1;
+        }
+        result
+    }
+}
+
+#[cfg(all(
+    target_arch = "x86_64",
+    target_feature = "sse2",
+    not(all(target_feature = "avx2", target_feature = "fma"))
+))]
+#[inline(always)]
+fn dot(a: &[f32], b: &[f32]) -> f32 {
+    use std::arch::x86_64::*;
+
+    debug_assert_eq!(a.len(), b.len());
+    unsafe {
+        let mut s0 = _mm_setzero_ps();
+        let mut s1 = _mm_setzero_ps();
+        let mut s2 = _mm_setzero_ps();
+        let mut s3 = _mm_setzero_ps();
+        let mut i = 0;
+        while i + 16 <= a.len() {
+            s0 = _mm_add_ps(
+                s0,
+                _mm_mul_ps(
+                    _mm_loadu_ps(a.as_ptr().add(i)),
+                    _mm_loadu_ps(b.as_ptr().add(i)),
+                ),
+            );
+            s1 = _mm_add_ps(
+                s1,
+                _mm_mul_ps(
+                    _mm_loadu_ps(a.as_ptr().add(i + 4)),
+                    _mm_loadu_ps(b.as_ptr().add(i + 4)),
+                ),
+            );
+            s2 = _mm_add_ps(
+                s2,
+                _mm_mul_ps(
+                    _mm_loadu_ps(a.as_ptr().add(i + 8)),
+                    _mm_loadu_ps(b.as_ptr().add(i + 8)),
+                ),
+            );
+            s3 = _mm_add_ps(
+                s3,
+                _mm_mul_ps(
+                    _mm_loadu_ps(a.as_ptr().add(i + 12)),
+                    _mm_loadu_ps(b.as_ptr().add(i + 12)),
+                ),
+            );
+            i += 16;
+        }
+        let sum = _mm_add_ps(_mm_add_ps(s0, s1), _mm_add_ps(s2, s3));
+        let mut lanes = [0.0f32; 4];
+        _mm_storeu_ps(lanes.as_mut_ptr(), sum);
+        let mut result: f32 = lanes.iter().sum();
+        while i < a.len() {
+            result += a[i] * b[i];
+            i += 1;
+        }
+        result
+    }
+}
+
+#[cfg(not(all(target_arch = "x86_64", target_feature = "sse2")))]
 #[inline(always)]
 fn dot(a: &[f32], b: &[f32]) -> f32 {
     let mut acc = [0.0f32; LANES];
@@ -113,10 +224,71 @@ fn dot(a: &[f32], b: &[f32]) -> f32 {
     s
 }
 
+#[cfg(not(all(
+    target_arch = "x86_64",
+    target_feature = "avx2",
+    target_feature = "fma"
+)))]
 #[inline(always)]
 fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
     for ((o, row), bias) in out.iter_mut().zip(w.chunks_exact(x.len())).zip(b) {
         *o = dot(row, x) + bias;
+    }
+}
+
+/// Four output rows per pass: each x chunk is loaded once and feeds eight independent FMA
+/// chains, so the kernel is throughput- rather than latency-bound. Remaining rows use `dot`.
+#[cfg(all(
+    target_arch = "x86_64",
+    target_feature = "avx2",
+    target_feature = "fma"
+))]
+#[inline(always)]
+fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
+    use std::arch::x86_64::*;
+
+    let n = x.len();
+    let rows = out.len();
+    assert!(w.len() >= rows * n && b.len() >= rows);
+    let main = n / 16 * 16;
+    let blocks = rows / 4;
+    unsafe {
+        let xp = x.as_ptr();
+        for blk in 0..blocks {
+            let r0 = blk * 4;
+            let base = w.as_ptr().add(r0 * n);
+            let mut acc = [_mm256_setzero_ps(); 8];
+            let mut i = 0;
+            while i < main {
+                let x0 = _mm256_loadu_ps(xp.add(i));
+                let x1 = _mm256_loadu_ps(xp.add(i + 8));
+                for r in 0..4 {
+                    let wr = base.add(r * n + i);
+                    acc[2 * r] = _mm256_fmadd_ps(_mm256_loadu_ps(wr), x0, acc[2 * r]);
+                    acc[2 * r + 1] = _mm256_fmadd_ps(_mm256_loadu_ps(wr.add(8)), x1, acc[2 * r + 1]);
+                }
+                i += 16;
+            }
+            let s0 = _mm256_add_ps(acc[0], acc[1]);
+            let s1 = _mm256_add_ps(acc[2], acc[3]);
+            let s2 = _mm256_add_ps(acc[4], acc[5]);
+            let s3 = _mm256_add_ps(acc[6], acc[7]);
+            // hadd twice leaves [row0..row3 low half | row0..row3 high half].
+            let t = _mm256_hadd_ps(_mm256_hadd_ps(s0, s1), _mm256_hadd_ps(s2, s3));
+            let sum = _mm_add_ps(_mm256_castps256_ps128(t), _mm256_extractf128_ps(t, 1));
+            let mut lanes = [0.0f32; 4];
+            _mm_storeu_ps(lanes.as_mut_ptr(), sum);
+            for (r, lane) in lanes.iter().enumerate() {
+                let mut v = *lane;
+                for j in main..n {
+                    v += *base.add(r * n + j) * x[j];
+                }
+                out[r0 + r] = v + b[r0 + r];
+            }
+        }
+    }
+    for r in blocks * 4..rows {
+        out[r] = dot(&w[r * n..(r + 1) * n], x) + b[r];
     }
 }
 
@@ -401,6 +573,88 @@ mod tests {
             assert_eq!((base + r.start * 4) % 64, 0);
         }
         assert_eq!(m.state.as_ref().as_ptr() as usize % 64, 0);
+    }
+
+    #[test]
+    fn gemv_matches_naive_for_ragged_shapes() {
+        let mut s = 99u64;
+        let mut rnd = || {
+            s ^= s << 13;
+            s ^= s >> 7;
+            s ^= s << 17;
+            (s % 2001) as f32 / 1000.0 - 1.0
+        };
+        for rows in [1, 2, 3, 4, 5, 7, 8, 13, 384] {
+            for n in [1, 7, 8, 15, 16, 17, 33, 128, 211, 256] {
+                let w: Vec<f32> = (0..rows * n).map(|_| rnd()).collect();
+                let b: Vec<f32> = (0..rows).map(|_| rnd()).collect();
+                let x: Vec<f32> = (0..n).map(|_| rnd()).collect();
+                let mut out = vec![0.0; rows];
+                gemv(&w, &b, &x, &mut out);
+                for r in 0..rows {
+                    let want: f64 = b[r] as f64
+                        + (0..n).map(|j| w[r * n + j] as f64 * x[j] as f64).sum::<f64>();
+                    assert!((out[r] as f64 - want).abs() < 1e-4, "rows {rows} n {n} r {r}");
+                }
+            }
+        }
+    }
+
+    #[test]
+    #[ignore]
+    fn bench_step_breakdown() {
+        use std::time::Instant;
+        let (n_in, hidden) = (211, 128);
+        let mut m = FastRnn::new(weights(n_in, hidden, 2, 11), Activations::Fast).unwrap();
+        let xs = inputs(n_in, 2000);
+        let mut out = vec![0.0; 2];
+        let reps = 10;
+        let t = Instant::now();
+        for _ in 0..reps {
+            for x in &xs {
+                m.step(x, &mut out);
+            }
+        }
+        let step_us = t.elapsed().as_secs_f64() * 1e6 / (reps * xs.len()) as f64;
+        let w = vec![0.01f32; 3 * hidden * hidden];
+        let b = vec![0.0f32; 3 * hidden];
+        let h = vec![0.5f32; hidden];
+        let mut g = vec![0.0f32; 3 * hidden];
+        let t = Instant::now();
+        for _ in 0..reps * xs.len() {
+            for _ in 0..4 {
+                gemv(&w, &b, std::hint::black_box(&h), &mut g);
+                std::hint::black_box(&mut g);
+            }
+        }
+        let gemv_us = t.elapsed().as_secs_f64() * 1e6 / (reps * xs.len()) as f64;
+        let w1 = vec![0.01f32; 2 * hidden * hidden];
+        let cat = vec![0.5f32; 2 * hidden];
+        let mut a = vec![0.0f32; hidden];
+        let t = Instant::now();
+        for _ in 0..reps * xs.len() {
+            gemv(&w1, &b[..hidden], std::hint::black_box(&cat), &mut a);
+            std::hint::black_box(&mut a);
+        }
+        let head_us = t.elapsed().as_secs_f64() * 1e6 / (reps * xs.len()) as f64;
+        let t = Instant::now();
+        let mut z = vec![0.0f32; hidden];
+        let cols = vec![0.01f32; n_in * hidden];
+        for _ in 0..reps {
+            for x in &xs {
+                for (col, &xj) in cols.chunks_exact(hidden).zip(x) {
+                    if xj != 0.0 {
+                        for (o, w) in z.iter_mut().zip(col) {
+                            *o += w * xj;
+                        }
+                    }
+                }
+                std::hint::black_box(&mut z);
+            }
+        }
+        let saxpy_us = t.elapsed().as_secs_f64() * 1e6 / (reps * xs.len()) as f64;
+        eprintln!("input saxpy {saxpy_us:.2}us");
+        eprintln!("step {step_us:.2}us  4x gru gemv {gemv_us:.2}us  head gemv {head_us:.2}us");
     }
 
     #[test]

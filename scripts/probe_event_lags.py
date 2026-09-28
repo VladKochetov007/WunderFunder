@@ -52,8 +52,13 @@ def main():
         cs.append(c)
     per = block_scores(np.stack(ys), np.stack(ps), np.stack(ms)).mean(1)
     cs = np.array(cs)
-    print("overall", np.nanmean(per), {c: round(float(np.nanmean(per[cs == c])), 3) for c in range(4)},
-          "counts", np.bincount(cs))
+    print(
+        "overall",
+        np.nanmean(per),
+        {c: round(float(np.nanmean(per[cs == c])), 3) for c in range(4)},
+        "counts",
+        np.bincount(cs),
+    )
 
 
 if __name__ == "__main__":

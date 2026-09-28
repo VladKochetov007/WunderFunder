@@ -18,11 +18,11 @@ import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 
-from wnn.data import CORRUPT_TRAIN_ROW_GROUPS, N_FEATURES, WARMUP, SequenceFile, market_class
+from wnn.data import CORRUPT_TRAIN_ROW_GROUPS, N_FEATURES, TARGET_QUANTA, WARMUP, SequenceFile, market_class
 from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch, online_zscore_torch
 from wnn.gmetric import global_wp
 from wnn.metric import block_scores, score
-from wnn.nn import DualClockModel, RNNModel, weighted_corr_loss, weighted_huber_loss, weighted_mse_loss, weighted_pooled_corr_loss
+from wnn.nn import DualClockModel, GatedRNNModel, RNNModel, weighted_corr_loss, weighted_huber_loss, weighted_mse_loss, weighted_pooled_corr_loss
 from wnn.outcomes import N_CODES, N_SP_AUX, ReadoutMoments, outcome_codes, readout, sequence_class, structure_labels
 from wnn.propensity import load_propensity, propensity
 from wnn.resources import configure_torch, dataloader_budget
@@ -34,7 +34,7 @@ EV_I0PX = N_FEATURES + FEATURE_NAMES.index("ev_i0px")
 
 
 class Sequences(Dataset):
-    def __init__(self, split: str, indices, teachers=None, prop_cache=None):
+    def __init__(self, split: str, indices, teachers=None, prop_cache=None, quote_path=False):
         self.path = ROOT / "datasets" / f"{split}.parquet"
         self.indices = list(indices)
         self._file = None
@@ -44,6 +44,10 @@ class Sequences(Dataset):
         self.teachers = teachers
         self.split = split
         self._teach = None
+        self.quote_path = quote_path
+        self._quote = None
+        if teachers and quote_path:
+            raise ValueError("distillation and quote-path auxiliaries share target columns")
 
     def __len__(self):
         return len(self.indices)
@@ -67,6 +71,10 @@ class Sequences(Dataset):
             j = self._pos[int(self.indices[i])]
             t = sum(sc * np.asarray(arr[j], dtype=np.float32) for arr, sc in self._teach) / len(self._teach)
             y = np.concatenate([y, t.astype(np.float32)], axis=1)
+        if self.quote_path:
+            if self._quote is None:
+                self._quote = np.load(ROOT / "cache" / f"quote_path_{self.split}.npy", mmap_mode="r")
+            y = np.concatenate([y, np.asarray(self._quote[self.indices[i]], dtype=np.float32)], axis=1)
         if self.prop_cache is not None:
             if self._prop is None:
                 self._prop = np.load(self.prop_cache, mmap_mode="r")
@@ -281,6 +289,25 @@ def next_label_change(y):
     return torch.cat([at_or_after[:, 1:], torch.full_like(at_or_after[:, :1], t)], 1)
 
 
+def episode_redundancy_weight(y: torch.Tensor, scale: float, floor: float) -> torch.Tensor:
+    """Reduce duplicate class-3 targets in long offline label episodes.
+
+    Episode length uses future labels only to set training weights. It is never
+    added to model inputs or computed during inference.
+    """
+    batch, steps, _ = y.shape
+    row = torch.arange(steps, device=y.device)[None].expand(batch, -1)
+    changed = torch.ones((batch, steps), dtype=torch.bool, device=y.device)
+    changed[:, 1:] = (y[:, 1:] != y[:, :-1]).any(-1)
+    start = torch.cummax(torch.where(changed, row, 0), 1).values
+    marker = torch.where(changed, row, steps)
+    next_change = torch.flip(torch.cummin(torch.flip(marker, (1,)), 1).values, (1,))
+    end = torch.cat((next_change[:, 1:], torch.full_like(next_change[:, :1], steps)), 1)
+    length = (end - start).float()
+    weight = torch.rsqrt(1.0 + length / scale).clamp_min(floor)
+    return torch.where(sequence_class(y)[:, None] == 3, weight, 1.0)
+
+
 def kth_change_labels(y, valid, k):
     """log1p(rows until the k-th later change of D = t0 - t1) and sign of D(k-th change) - D(now)."""
     d = y[..., 0] - y[..., 1]
@@ -334,6 +361,9 @@ def detach_state(state):
 
 
 def make_model(args_dict, n_in, n_out):
+    if args_dict.get("arch") == "gated":
+        return GatedRNNModel(n_in, args_dict["hidden"], args_dict["layers"],
+                             args_dict["dropout"], n_out=n_out)
     if args_dict.get("arch", "gru") == "dual":
         return DualClockModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["event_hidden"],
                               args_dict["dropout"], n_out=n_out)
@@ -396,12 +426,22 @@ def main():
     ap.add_argument("--distill-alpha", type=float, default=0.5, help="target = (1-a) y + a mean(teachers)")
     ap.add_argument("--aux-next", type=float, default=0.0,
                     help="weight of auxiliary heads: log rows to next target change (MSE) and its sign (BCE)")
+    ap.add_argument("--aux-tier", type=float, default=0.0,
+                    help="class-3 winning-target tick-tier auxiliary CE; head discarded for prediction")
+    ap.add_argument("--aux-mask", type=float, default=0.0,
+                    help="validation-source scoring-mask auxiliary BCE; head discarded for prediction")
+    ap.add_argument("--aux-sign", type=float, default=0.0,
+                    help="current target-contrast direction BCE; head discarded for prediction")
+    ap.add_argument("--aux-quote", type=float, default=0.0,
+                    help="training-only class-3 future 8/24-book-event mean quote displacement MSE")
     ap.add_argument("--aux-next-k", default="", help="extra event horizons for the next-change aux heads, e.g. 2,4")
     ap.add_argument("--aux-struct", type=float, default=0.0,
                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
-    ap.add_argument("--arch", choices=["gru", "dual"], default="gru")
+    ap.add_argument("--arch", choices=["gru", "dual", "gated"], default="gru")
+    ap.add_argument("--gate-ce", type=float, default=0.0,
+                    help="BCE weight for the gated model's target-difference sign head")
     ap.add_argument("--cell", choices=["gru", "lstm"], default="gru")
     ap.add_argument("--enc", choices=["linear", "mlp", "tokens", "conv"], default="linear",
                     help="per-row encoder before the recurrent cell (residual on the linear projection)")
@@ -413,16 +453,24 @@ def main():
                     help="sample train sequences so market-class shares match validation")
     ap.add_argument("--train-source", choices=["train", "valid_devA", "train+valid", "valid"], default="train",
                     help="train+valid: all train sequences plus validation devA and devB (holdout never)")
+    ap.add_argument("--include-heldout-valid", action="store_true",
+                    help="final fit only: include the reserved validation block in training")
+    ap.add_argument("--valid-train-fraction", type=float, default=1.0,
+                    help="fixed chain subset of eligible validation training sequences for a data-volume comparison")
+    ap.add_argument("--epoch-samples", type=int, default=0,
+                    help="draw this many training sequences with replacement each epoch to match optimizer steps")
     ap.add_argument("--eval-source", choices=["dev", "devB", "holdout", "vfold"], default="dev")
     ap.add_argument("--valid-fold", type=int, default=-1,
                     help="K-fold over ALL validation sequences: train on train + other folds, evaluate on this fold")
     ap.add_argument("--n-valid-folds", type=int, default=4)
     ap.add_argument("--valid-repeat", type=int, default=1,
                     help="with train+valid: each validation training sequence appears this many times per epoch")
-    ap.add_argument("--init", default="", help="run name whose model.pt initializes weights")
+    ap.add_argument("--init", default="", help="run name whose model.pt initializes weights; NAME@epN loads model_epN.pt")
     ap.add_argument("--freeze", default="", help="comma-separated parameter-name prefixes kept fixed, e.g. inp,gru")
     ap.add_argument("--ema-teacher", type=float, default=0.0,
                     help="mean-teacher consistency: weight of (out - EMA-model out)^2 on the two target outputs")
+    ap.add_argument("--ema-metric-weight", action="store_true",
+                    help="weight teacher consistency by |clipped target|, matching the scored loss")
     ap.add_argument("--ema-decay", type=float, default=0.999)
     ap.add_argument("--eval-ema", action="store_true", help="evaluate and save the EMA weights instead of the raw ones")
     ap.add_argument("--mask-weight", action="store_true",
@@ -449,6 +497,9 @@ def main():
                     help="if > 0: multiply main-loss row weights by max(floor, 1/(1+since/tau)), since = rows since the "
                          "last i0 price event (causal input only; ideas_round4 B2)")
     ap.add_argument("--since-floor", type=float, default=0.25)
+    ap.add_argument("--episode-weight", type=float, default=0.0,
+                    help="scale for training-only inverse-sqrt class-3 target episode length")
+    ap.add_argument("--episode-floor", type=float, default=0.5)
     ap.add_argument("--td-alpha", type=float, default=0.0,
                     help="TD targets (ideas_round4 B1b): mix the label with the EMA teacher's output at the last row "
                          "before the next label change (same |y| weights); needs the EMA model")
@@ -471,12 +522,24 @@ def main():
     perf.add_argument("--parity-dump", default="", help="save per-step losses and final weights here, then exit")
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     args = ap.parse_args()
+    if args.aux_quote > 0 and args.distill:
+        ap.error("--aux-quote and --distill both use target columns 2:4")
     if args.fast:
         args.sync_free = args.fused_adam = args.pin_memory = args.prop_cache = True
     if args.profile_steps:
         args.max_batches = args.profile_warmup + args.profile_steps
     if args.mask_weight and args.train_source == "train":
         ap.error("--mask-weight needs is_scored, which train.parquet does not have")
+    if args.include_heldout_valid and (args.valid_fold >= 0 or args.train_source not in ("train+valid", "valid")):
+        ap.error("--include-heldout-valid is only for a final train+valid or valid fit")
+    if not 0 < args.valid_train_fraction <= 1:
+        ap.error("--valid-train-fraction must be in (0, 1]")
+    if args.valid_train_fraction < 1 and args.train_source not in ("train+valid", "valid"):
+        ap.error("--valid-train-fraction requires a validation training source")
+    if args.epoch_samples < 0 or (args.epoch_samples and args.valid_repeat != 1):
+        ap.error("--epoch-samples must be nonnegative and requires --valid-repeat 1")
+    if args.epoch_samples and args.class_balance:
+        ap.error("--epoch-samples cannot be combined with --class-balance")
 
     torch.manual_seed(args.seed)
     device = torch.device("cuda")
@@ -493,8 +556,8 @@ def main():
     train_split = "train"
     extra_valid = None
     fold_groups = None
+    all_valid = np.r_[np.asarray(dev_groups), np.asarray(hold_groups)]
     if args.valid_fold >= 0:
-        all_valid = np.r_[np.asarray(dev_groups), np.asarray(hold_groups)]
         # chain-grouped folds (cache/chain_folds.npz): sequences of one continuous stream share a fold
         cf = np.load(ROOT / "cache" / "chain_folds.npz")
         vmask = cf["split"] == "valid"
@@ -504,12 +567,36 @@ def main():
         if args.train_source == "train+valid":
             extra_valid = all_valid[fold_of != args.valid_fold]
     elif args.train_source == "train+valid":
-        extra_valid = np.r_[np.asarray(dev_a), np.asarray(dev_b)]
+        extra_valid = all_valid if args.include_heldout_valid else np.r_[np.asarray(dev_a), np.asarray(dev_b)]
+    valid_pool = None
+    if args.train_source == "valid":
+        valid_pool = (np.setdiff1d(all_valid, fold_groups) if fold_groups is not None
+                      else all_valid if args.include_heldout_valid else np.asarray(dev_groups))
+    elif extra_valid is not None:
+        valid_pool = np.asarray(extra_valid)
+    eligible_valid_count = 0 if valid_pool is None else len(valid_pool)
+    if valid_pool is not None and args.valid_train_fraction < 1:
+        cf = np.load(ROOT / "cache" / "chain_folds.npz")
+        vmask = cf["split"] == "valid"
+        chain_map = dict(zip(cf["row_group"][vmask].tolist(), cf["chain"][vmask].tolist()))
+        pool_chains = np.array([chain_map[int(group)] for group in valid_pool])
+        valid_classes = np.load(ROOT / "research/artifacts/market-classes-v1.npz")["valid"][valid_pool]
+        rng = np.random.default_rng(20260928)
+        selected_chains = []
+        for market_id in np.unique(valid_classes):
+            in_class = valid_classes == market_id
+            class_chains, class_sizes = np.unique(pool_chains[in_class], return_counts=True)
+            order = rng.permutation(len(class_chains))
+            target = max(1, round(in_class.sum() * args.valid_train_fraction))
+            stop = np.searchsorted(np.cumsum(class_sizes[order]), target, side="left") + 1
+            selected_chains.extend(class_chains[order[:stop]])
+        valid_pool = valid_pool[np.isin(pool_chains, selected_chains)]
+        if args.train_source == "train+valid":
+            extra_valid = valid_pool
     if args.train_source == "valid":
         # with --valid-fold: all valid minus the held-out chain fold; without: devA + devB (holdout never)
         train_split = "valid"
-        pool = np.setdiff1d(all_valid, fold_groups) if fold_groups is not None else np.asarray(dev_groups)
-        train_idx = np.random.default_rng(args.seed).permutation(pool)
+        train_idx = np.random.default_rng(args.seed).permutation(valid_pool)
     elif args.train_source == "valid_devA":
         train_split = "valid"
         train_idx = np.random.default_rng(args.seed).permutation(dev_a)[: args.train_seqs]
@@ -520,6 +607,8 @@ def main():
             cls = np.load(ROOT / "research" / "artifacts" / "market-classes-v1.npz")["train"]
             usable = usable[np.isin(cls[usable], list(keep))]
         train_idx = np.random.default_rng(args.seed).permutation(usable)[: args.train_seqs]
+    if fold_groups is not None and extra_valid is not None and np.intersect1d(extra_valid, fold_groups).size:
+        raise RuntimeError("held-out validation fold entered the training pool")
     eval_groups = {"devB": dev_b, "holdout": hold_groups, "vfold": fold_groups}.get(args.eval_source, dev_groups)
     n_valid = len(eval_groups) if args.full_valid else min(args.valid_seqs, len(eval_groups))
     valid_idx = np.random.default_rng(12345).permutation(eval_groups)[:n_valid]
@@ -540,10 +629,18 @@ def main():
     prop_cache = {}
     if args.prop_cache and args.propensity:
         prop_cache = {sp: prop_cache_path(args.propensity, sp) for sp in ("train", "valid")}
-    train_ds = Sequences(train_split, train_idx, teachers, prop_cache.get(train_split))
+    train_ds = Sequences(train_split, train_idx, teachers, prop_cache.get(train_split),
+                         quote_path=args.aux_quote > 0)
     if extra_valid is not None:
-        valid_ds = Sequences("valid", extra_valid, teachers, prop_cache.get("valid"))
+        valid_ds = Sequences("valid", extra_valid, teachers, prop_cache.get("valid"),
+                             quote_path=args.aux_quote > 0)
         train_ds = torch.utils.data.ConcatDataset([train_ds] + [valid_ds] * args.valid_repeat)
+    if args.epoch_samples:
+        sample_weights = np.ones(len(train_ds), dtype=np.float64)
+        if extra_valid is not None:
+            sample_weights[len(train_idx):] = eligible_valid_count / len(extra_valid)
+        sampler = WeightedRandomSampler(torch.from_numpy(sample_weights), args.epoch_samples,
+                                        replacement=True, generator=torch.Generator().manual_seed(args.seed))
     train_loader = DataLoader(train_ds, batch_size=args.batch, shuffle=sampler is None,
                               sampler=sampler, drop_last=True, num_workers=workers, prefetch_factor=prefetch,
                               pin_memory=args.pin_memory)  # no persistent workers: they change the shuffle order (parity E-169)
@@ -580,10 +677,24 @@ def main():
     ks = [int(v) for v in args.aux_next_k.split(",") if v]
     if args.aux_next > 0:
         n_out += 2 + 2 * len(ks)
+    tier_at = n_out
+    if args.aux_tier > 0:
+        n_out += 4
+    mask_at = n_out
+    if args.aux_mask > 0:
+        n_out += 1
+    sign_at = n_out
+    if args.aux_sign > 0:
+        n_out += 1
+    quote_at = n_out
+    if args.aux_quote > 0:
+        n_out += 2
     model = make_model(vars(args), n_in, n_out).to(device)
     moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
     if args.init:
-        init = torch.load(ROOT / "artifacts" / "runs" / args.init / "model.pt", map_location="cpu", weights_only=False)
+        init_run, _, init_epoch = args.init.partition("@ep")
+        init_file = f"model_ep{int(init_epoch)}.pt" if init_epoch else "model.pt"
+        init = torch.load(ROOT / "artifacts" / "runs" / init_run / init_file, map_location="cpu", weights_only=False)
         model.load_state_dict(init["model"])
     else:
         fit_normalization(model, train_loader, device)
@@ -628,6 +739,11 @@ def main():
         return weighted_corr_loss(o, t, v) + 0.5 * weighted_mse_loss(o, t, v)
 
     print(json.dumps(vars(args)), flush=True)
+    print(json.dumps({"source_train_sequences": len(train_idx),
+                      "eligible_valid_train_sequences": eligible_valid_count,
+                      "used_valid_train_sequences": len(extra_valid) if extra_valid is not None else
+                      len(train_idx) if train_split == "valid" else 0,
+                      "eval_sequences": n_valid}), flush=True)
     print(f"loader workers {workers} prefetch {prefetch}; params "
           f"{sum(p.numel() for p in model.parameters()) / 1e6:.2f}M; steps {total}", flush=True)
 
@@ -658,8 +774,12 @@ def main():
             inputs = build_inputs(x)
             timer.mark("inputs")
             teach = None
+            quote_label = None
             if y.shape[-1] > 2:
-                teach, y = y[..., 2:4], y[..., :2]
+                if args.aux_quote > 0:
+                    quote_label, y = y[..., 2:4], y[..., :2]
+                else:
+                    teach, y = y[..., 2:4], y[..., :2]
             steps = torch.arange(inputs.shape[1], device=device)[None].expand(inputs.shape[0], -1)
             valid = steps >= WARMUP
             main_valid = valid & scored_dev if args.mask_weight else valid
@@ -680,6 +800,10 @@ def main():
                 since = torch.expm1(inputs[..., N_FEATURES + FEATURE_NAMES.index("since_i0px")].float())
                 sw_rows = torch.clamp(1.0 / (1.0 + since / args.since_weight), min=args.since_floor)
                 main_valid = main_valid.float() * sw_rows
+            if args.episode_weight > 0:
+                main_valid = main_valid.float() * episode_redundancy_weight(
+                    y, args.episode_weight, args.episode_floor
+                )
             timer.mark("weights")
             aux = shifted_targets(y, valid, shifts)
             if args.aux_struct > 0:
@@ -689,6 +813,12 @@ def main():
                 nx_rows, nx_up, nx_ok = next_change_labels(y, valid)
                 nw = main_valid.float() * nx_ok.float() if main_valid.dtype != torch.bool else (main_valid & nx_ok).float()
                 kth = [kth_change_labels(y, valid, kk) for kk in ks]
+            if args.aux_tier > 0:
+                tier_label = (y.float().max(dim=-1).values / float(TARGET_QUANTA[3])).round().long().clamp(0, 3)
+                tier_weight = (main_valid.float() * (sequence_class(y) == 3)[:, None]
+                               * y.float().clamp(-2, 2).abs().mean(dim=-1))
+            if args.aux_mask > 0:
+                mask_rows = (valid & scored_dev.any(dim=1)[:, None]).float()
             if moments is not None:
                 codes = outcome_codes(y, sequence_class(y))
                 row_w = main_valid.float()
@@ -740,6 +870,13 @@ def main():
                     loss = (w * (out[..., :2].float() - yc) ** 2).sum() / norm_ema.clamp_min(1e-8)
                 else:
                     loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])
+                if args.arch == "gated" and args.gate_ce > 0:
+                    difference = y[:, sl, 0].float() - y[:, sl, 1].float()
+                    gate_weight = main_valid[:, sl].float() * difference.abs().clamp_max(2.0)
+                    gate_bce = F.binary_cross_entropy_with_logits(
+                        out[..., n_out].float(), (difference > 0).float(), reduction="none"
+                    )
+                    loss = loss + args.gate_ce * (gate_bce * gate_weight).sum() / gate_weight.sum().clamp_min(1e-8)
                 if args.aux_struct > 0:
                     o = out.float()
                     wv = sw[:, sl].reshape(-1)
@@ -760,11 +897,47 @@ def main():
                         kmse = (o[..., col] - (kr[:, sl] - 4.0) / 2.0) ** 2
                         kbce = F.binary_cross_entropy_with_logits(o[..., col + 1], ku[:, sl], reduction="none")
                         loss = loss + args.aux_next * ((kmse + kbce) * kw).sum() / kw.sum().clamp_min(1e-8)
+                if args.aux_tier > 0:
+                    ce = F.cross_entropy(
+                        out[..., tier_at:tier_at + 4].float().reshape(-1, 4),
+                        tier_label[:, sl].reshape(-1), reduction="none",
+                    )
+                    tw = tier_weight[:, sl].reshape(-1)
+                    loss = loss + args.aux_tier * (ce * tw).sum() / tw.sum().clamp_min(1e-8)
+                if args.aux_mask > 0:
+                    ce = F.binary_cross_entropy_with_logits(
+                        out[..., mask_at].float(), scored_dev[:, sl].float(),
+                        pos_weight=out.new_tensor(8.0), reduction="none",
+                    )
+                    mw = mask_rows[:, sl]
+                    loss = loss + args.aux_mask * (ce * mw).sum() / mw.sum().clamp_min(1.0)
+                if args.aux_sign > 0:
+                    clipped = y[:, sl].float().clamp(-2, 2)
+                    difference = clipped[..., 0] - clipped[..., 1]
+                    sign_weight = main_valid[:, sl].float() * difference.abs().clamp_max(2.0)
+                    sign_bce = F.binary_cross_entropy_with_logits(
+                        out[..., sign_at].float(), (difference > 0).float(), reduction="none"
+                    )
+                    loss = loss + args.aux_sign * (sign_bce * sign_weight).sum() / sign_weight.sum().clamp_min(1e-8)
+                if args.aux_quote > 0:
+                    label = quote_label[:, sl].float()
+                    quote_weight = (
+                        main_valid[:, sl].float()[..., None]
+                        * (sequence_class(y) == 3)[:, None, None]
+                        * torch.isfinite(label)
+                        * y[:, sl].float().clamp(-2, 2).abs().mean(-1, keepdim=True)
+                    )
+                    quote_error = (out[..., quote_at:quote_at + 2].float() - torch.nan_to_num(label)) ** 2
+                    loss = loss + args.aux_quote * (quote_error * quote_weight).sum() / quote_weight.sum().clamp_min(1e-8)
                 for j, (ya, va) in enumerate(aux):
                     loss = loss + args.aux_weight * objective(out[..., 2 + 2 * j : 4 + 2 * j], ya[:, sl], va[:, sl])
                 if args.ema_teacher > 0:
                     cw = main_valid[:, sl].float()[..., None]
-                    loss = loss + args.ema_teacher * (cw * (out[..., :2].float() - out_ema[..., :2].float()) ** 2).sum() / cw.sum().clamp_min(1e-8)
+                    consistency_scale = 1.0
+                    if args.ema_metric_weight:
+                        cw = cw * y[:, sl].float().clamp(-2, 2).abs()
+                        consistency_scale = 2.0  # preserve the original two-target loss scale
+                    loss = loss + args.ema_teacher * consistency_scale * (cw * (out[..., :2].float() - out_ema[..., :2].float()) ** 2).sum() / cw.sum().clamp_min(1e-8)
                 timer.mark("loss")
                 opt.zero_grad(set_to_none=True)
                 scaler.scale(loss).backward()
@@ -820,14 +993,18 @@ def main():
         torch.save({"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in, "epoch": epoch,
                     "readout": None if READOUT is None else [t.cpu() for t in READOUT],
                     "readout_tilted": READOUT_TILTED}, out_dir / f"model_ep{epoch}.pt")
-        if res["weighted_pearson"] > best:
+        improved = res["weighted_pearson"] > best
+        if improved:
             best = res["weighted_pearson"]
+        if improved or (args.include_heldout_valid and epoch == args.epochs - 1):
             torch.save({"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in,
                         "readout": None if READOUT is None else [t.cpu() for t in READOUT],
                         "readout_tilted": READOUT_TILTED}, out_dir / "model.pt")
         t0 = time.time()
     (out_dir / "history.json").write_text(json.dumps(history, indent=1))
     print("BEST", best)
+    if args.include_heldout_valid:
+        print("SELECTED_FINAL", history[-1]["weighted_pearson"])
 
 
 if __name__ == "__main__":
