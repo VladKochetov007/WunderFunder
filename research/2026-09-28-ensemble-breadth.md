@@ -36,3 +36,28 @@ queued, with the all-FT scan to follow.
 | arm | Δ λ0 fold 0 | verdict |
 |---|---|---|
 | A wd 0.1 | −0.0001 ± 0.0015 | rejected |
+
+## Result of Phase 1 (E-258 – E-260)
+
+- All-FT scan (831 pure chains): diversity members carry the gain. `keep_k4` (since-2 pair +
+  chunk-500 + online-norm) +0.0010 ± 0.0004, uniform over all four classes and both folds;
+  replacing the pair with EMA-6 seeds gains only in classes 0–2 (class 3 flat/negative).
+- Final holdout says ≈0 for every diversity variant (keep_k4 +0.00003 ± 0.0005). The disagreement
+  is class mix (48 isolated holdout sequences are 67% class 3), not neighbour contamination
+  (neighboured fold sequences also show the mixed analog positive).
+- Runtime side channel: the mixed ZIP's public/old runtime ratio 0.71 matches both members
+  running (local 0.76), not the v2 single-model fallback (0.50). Holdout λ0 has tracked the public
+  sign on all three tests so far; pure-chain folds over-predicted the mixed ZIP.
+- Class head is causally perfect at row 99 (368/368), enabling class-routed ensembles
+  (`submission/solution_routed.py`).
+- Brainteaser: every final fine-tune excluded the 368-sequence holdout (20% of labelled valid).
+  Full-valid fine-tunes (`ft_gclp.sh … finalall`) restore it; unmeasurable locally by design.
+
+## Upload candidates (all verified in the scorer image: v2 = v3, corr ≥ 0.99998 vs batch)
+
+| zip | members | evidence |
+|---|---|---|
+| `final_keep_k4_all` | since s4, since s3, ch500, onorm — all FT on all valid | fold +0.0010 (dev-FT analog), holdout 0.0000; + full-valid FT |
+| `final_since2_all` | since s4, since s3 — FT on all valid | isolates the full-valid FT lever vs the 0.6622 incumbent |
+| `final_keep_k4` | same as first, dev-only FT | isolates the diversity lever |
+| `final_routed_k4_all` | classes 0–2: EMA-6 ×2 + ch500 + onorm; class 3: keep_k4 | fold +0.0017 (selected post hoc), holdout ≈0 |
