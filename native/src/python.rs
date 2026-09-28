@@ -290,4 +290,29 @@ impl PyPredictor {
         }
         Ok(PyArray1::from_slice(py, &self.out))
     }
+
+    /// Like `step`, but returns every head output (targets, then auxiliary heads such as the
+    /// market-class logits), for callers that route on them.
+    fn step_all<'py>(
+        &mut self,
+        py: Python<'py>,
+        row: PyReadonlyArray1<'py, f32>,
+    ) -> PyResult<Bound<'py, PyArray1<f32>>> {
+        let row = row
+            .as_slice()
+            .map_err(|e| PyValueError::new_err(e.to_string()))?;
+        if row.len() != crate::stream::N_RAW {
+            return Err(PyValueError::new_err(format!(
+                "expected 112 features, got {}",
+                row.len()
+            )));
+        }
+        let (raw, event) = self.input.split_at_mut(crate::stream::N_RAW);
+        raw.copy_from_slice(row);
+        self.features.sanitize(raw);
+        self.features.update(raw, event);
+        let mut full = vec![0.0f32; self.model.n_out()];
+        self.model.step(&self.input, &mut full);
+        Ok(PyArray1::from_slice(py, &full))
+    }
 }

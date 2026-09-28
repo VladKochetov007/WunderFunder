@@ -2,7 +2,7 @@
 # Two-stage gcorr LP-FT on validation rows with true masks (recipe of ab63_gcorr / ab67_*_gcorr).
 #   scripts/ft_gclp.sh PARENT[@epN] OUT FOLD|final SEED [extra arch flags matching the parent]
 # FOLD=k trains on validation chains outside fold k and predicts all of valid;
-# FOLD=final trains on dev sequences (never the reserved holdout).
+# FOLD=final trains on dev sequences (never the reserved holdout); FOLD=finalall also on the holdout.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 parent=$1 out=$2 fold=$3 seed=$4; shift 4
@@ -10,6 +10,8 @@ PY=.venv/bin/python
 export WNN_GPU_FRACTION=${WNN_GPU_FRACTION:-0.25} WNN_LOADER_RAM_GB=${WNN_LOADER_RAM_GB:-4} WNN_LOADER_WORKERS=2
 if [[ $fold == final ]]; then
   split=(--eval-source holdout)
+elif [[ $fold == finalall ]]; then
+  split=(--eval-source holdout --include-heldout-valid)  # all valid; holdout score is in-sample
 else
   split=(--valid-fold "$fold" --eval-source vfold)
 fi
