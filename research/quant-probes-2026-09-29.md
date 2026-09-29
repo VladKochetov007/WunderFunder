@@ -229,3 +229,51 @@ member checked against PyTorch (max abs 2.7e-4 with fp16 weights), run in the sc
 the same hour). Upload B first; its public runtime calibrates whether A fits.
 Fold evidence for the recipe: h256 head-FT pair vs champion analog +0.0007 (all four folds non-negative);
 h256 + 2 x h128 kept ~70% of the pair gain in the fold-0/1 mixture study (parents, no FT).
+
+# Round 2 (2026-09-29 evening): after public 0.6639 (candB), leader 0.6677
+
+Public: candB (h256 + 2 x h128, head-FT) **0.6639** in 43 min (new best, +0.0017 over 0.6622); candA
+(2 x h256) 0.6629 in 35 min: the governor dropped one member early, so it ran mostly as a single h256.
+
+## EDA (OOF, 4 folds, candB analog 0.70082)
+- Per-class output scale, cross-fitted: -0.0001 (scales ~1.0): the ensemble is calibrated across classes.
+- Oracle per-sequence linear recalibration 0.744, scale-only 0.719: the headroom is in the per-sequence
+  level of the **future move** D = (t0-t1)/2 (oracle D level 0.727; class-3 level R^2 0.39, predicted
+  level sd half the target's). The half-sum level is not a lever (oracle lowers WP under |y| weights).
+- Long-memory causal features (expanding z, EMA deviations hl 500-8000, 1k/5k changes of i0/i1 mid codes and
+  activity clocks) do not predict the residual: |weighted corr| < 0.04, cross-fitted ridge negative in
+  every class. The per-sequence drift behaves like a random walk.
+- Train-unlike terciles (adversarial score, cv AUC ~0.99 per class): width and fine-tune gains are not
+  concentrated on train-unlike sequences; the larger public than fold gain is within LB noise.
+
+## Arms
+- EMA-6 hidden 256: overfits after epoch 3 (fold 0 0.7029 at ep3 -> 0.7011 ep5; fold 1 0.6774 -> 0.6732);
+  FT on the ep5 parent 0.6964/0.6687. Refuted; seed-4 runs stopped.
+- Hidden 384 (fold 0, seed 3): parent +0.0005..+0.0010 over h256, after head-FT -0.0003..-0.0006. Stop.
+- Class-conditional residual heads (h128, head-FT, fold 0 pair): +0.0003 (SD 0.0004), all classes small +.
+- **Distillation** (student trained on 0.5 y + 0.5 mean(h256 teachers)), fold 0 seed 3, head-FT:
+  h128 student vs h128 +0.0010 (SD 0.0005); vs a single h256 +0.0007 with the class split
+  0/1/2/3 = -0.0016/-0.0013/-0.0023/**+0.0052**: distillation fixes class 3 (label noise), width helps
+  classes 0-2. Seed-4 students and hidden-256 students queued.
+
+## Round 2 results (folds 0+1, pure chains, head-FT members)
+| arm | comparison | delta | fold 0 / 1 | note |
+|---|---|---:|---|---|
+| class-conditional heads (h128 pair) | vs h128 pair | -0.0001 | +0.0003 / +0.0001 pooled differently | refuted |
+| distilled h128 student pair | vs h128 pair | +0.0002 | +0.0006 / -0.0001 | weak |
+| online-norm h128 as 4th member | B + on128 vs B (fold 0) | -0.0002 | | refuted |
+| chunk-500 h128 as 4th member | B + c500 vs B | **+0.00035** | +0.0004 / +0.0003 | SD 0.0002 |
+| **distilled h256 student** (teachers h256 s3+s4, alpha 0.5) | vs h256 s3 | **+0.0016** | +0.0015 / +0.0014 | every class +, class 3 +0.0038 |
+| | vs h256 s4 | +0.0013 | +0.0013 / +0.0006 | |
+| B with the d256 student instead of h256 | vs B | +0.0004 | +0.0005 / +0.0004 | SD 0.0002 |
+| **C = d256 + 2 x h128 + c500** | vs B | **+0.00065** | +0.0007 / +0.0006 | SD 0.0002; ~+1 h128 of runtime |
+
+Adding more plain h128 seeds to B changes nothing (+0.00002); a second h256 in place of the h128s +0.00004.
+Final C members: find256_s3 (distilled from fin256_s3/s4 on train + all valid), fin128_s3/s4, finc500b_s3.
+
+## Upload candidate C (built 2026-09-29 evening, not uploaded)
+`candC_d256_2h128_c500.zip` (7.4 MB): find256_s3h (hidden 256 distilled from fin256_s3/s4, head-FT), fin128_s3h,
+fin128_s4h, finc500b_s3h (chunk-500 h128), 1/4 each, members in that order (the governor drops from the end).
+Parity vs PyTorch with fp16 weights: 2.4e-4 (d256), 4.2e-4 (c500). Scorer-image simulation: 166.8 us/row vs
+146.8 for candB in the same session -> ~49 min projected from candB's measured 43 min (governor budget 52).
+Fold expectation: +0.00065 over candB (folds 0/1 +0.0007/+0.0006, SD 0.0002).
