@@ -16,6 +16,7 @@ It replaces the Rust engine in `native/` for code that must stay in C++; Python 
 | `package_cpp.py` | submission ZIP: cp311 builds + `submission/solution_cpp.py` + exported weights |
 | `tests/test_parity.py` | streaming C++ vs full-sequence PyTorch float32 on validation sequences |
 | `bench/bench_kernels.cpp` | per-kernel timings at production shapes |
+| `tools/scorer_env.sh` | runnable scorer image (python:3.11-slim-bookworm, glibc 2.36) without docker |
 
 ```bash
 native_cpp/build.sh ~/venv311/bin/python v2 avx2 v3           # scorer builds (Python 3.11)
@@ -44,4 +45,6 @@ Python API: `wnn_cpp.Predictor(weights_dict, fast_activations=True)` and
 
 fp16 weight storage (`half_weights=True`, used by `solution_cpp.py`) is active on the v3 build only; v2 and
 avx2 builds run fp32, so CPU levels agree to ~1e-3 rather than 1e-6 (no measurable WP change).
-Not yet verified inside the real scorer image (no docker access on beleriand).
+Verified in the scorer image userland (`tools/scorer_env.sh`: bookworm glibc 2.36, Python 3.11, pinned
+numpy/pyarrow): all three levels load and give global WP 0.754262 on the 3-sequence smoke set, like the
+Rust engine; v3 fp16 57.8 us/row, avx2 100.2, v2 131.8, Rust v3 99.9 (2 members, same core).
