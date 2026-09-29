@@ -374,10 +374,15 @@ def make_model(args_dict, n_in, n_out):
     if args_dict.get("arch", "gru") == "dual":
         return DualClockModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["event_hidden"],
                               args_dict["dropout"], n_out=n_out)
+    class_heads = None
+    if args_dict.get("class_heads"):
+        # class logits sit after the targets, shifted-target aux outputs, spread (N_SP_AUX) and branch (3) logits
+        start = 2 + 2 * len([v for v in str(args_dict.get("aux", "")).split(",") if v]) + N_SP_AUX + 3
+        class_heads = (start, start + 4)
     return RNNModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["dropout"], n_out=n_out,
                     cell=args_dict.get("cell", "gru"), enc=args_dict.get("enc", "linear"),
                     tok_dim=args_dict.get("tok_dim", 32), att_layers=args_dict.get("att_layers", 1),
-                    conv_k=args_dict.get("conv_k", 16))
+                    conv_k=args_dict.get("conv_k", 16), class_heads=class_heads)
 
 
 @torch.no_grad()
@@ -501,6 +506,9 @@ def main():
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--class-heads", action="store_true",
+                    help="one residual target head per market class, mixed by the model's own class probabilities "
+                         "(needs --aux-struct > 0)")
     ap.add_argument("--quant-feats", action="store_true", help="append wnn.quant order-flow features")
     ap.add_argument("--quant-i1", action="store_true", help="with --quant-feats: also the i1 flow block")
     ap.add_argument("--state-reset", type=int, default=0,
@@ -556,6 +564,8 @@ def main():
     if args.epoch_samples and args.class_balance:
         ap.error("--epoch-samples cannot be combined with --class-balance")
 
+    if args.class_heads and args.aux_struct <= 0:
+        ap.error("--class-heads needs --aux-struct > 0 (the class logits come from that head)")
     if args.state_reset and args.state_reset % args.chunk:
         ap.error("--state-reset must be a multiple of --chunk")
     global STATE_RESET

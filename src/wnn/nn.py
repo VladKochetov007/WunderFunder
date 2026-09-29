@@ -15,8 +15,12 @@ class RNNModel(nn.Module):
     def __init__(
         self, n_in: int, hidden: int = 256, layers: int = 2, dropout: float = 0.0, n_out: int = 2,
         cell: str = "gru", enc: str = "linear", tok_dim: int = 32, att_layers: int = 1, conv_k: int = 16,
+        class_heads: tuple[int, int] | None = None,
     ):
         super().__init__()
+        # class_heads = (start, end) of the market-class logits inside the output vector: adds one residual
+        # target head per class, mixed by the model's own softmax class probabilities (causal soft MoE).
+        self.class_heads = class_heads
         self.register_buffer("mean", torch.zeros(n_in))
         self.register_buffer("std", torch.ones(n_in))
         self.inp = nn.Linear(n_in, hidden)
@@ -53,6 +57,11 @@ class RNNModel(nn.Module):
         self.head = nn.Sequential(
             nn.Linear(2 * hidden, hidden), nn.GELU(), nn.Linear(hidden, n_out)
         )
+        if class_heads is not None:
+            n_cls = class_heads[1] - class_heads[0]
+            self.class_res = nn.Sequential(nn.Linear(2 * hidden, hidden), nn.GELU(), nn.Linear(hidden, 2 * n_cls))
+            nn.init.zeros_(self.class_res[2].weight)
+            nn.init.zeros_(self.class_res[2].bias)
 
     def encode(self, xn):
         u = self.inp(xn)
@@ -75,7 +84,14 @@ class RNNModel(nn.Module):
     def forward(self, x, h=None):
         z = self.encode((x - self.mean) / self.std)
         o, h = self.gru(z, h)
-        return self.head(torch.cat([o, z], dim=-1)), h
+        feats = torch.cat([o, z], dim=-1)
+        out = self.head(feats)
+        if self.class_heads is not None:
+            a, b = self.class_heads
+            prob = torch.softmax(out[..., a:b].float(), dim=-1)
+            res = self.class_res(feats).float().reshape(*out.shape[:-1], b - a, 2)
+            out = torch.cat([out[..., :2].float() + (prob[..., None] * res).sum(-2), out[..., 2:].float()], dim=-1)
+        return out, h
 
 
 class GatedRNNModel(RNNModel):
