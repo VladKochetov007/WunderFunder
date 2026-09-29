@@ -66,6 +66,14 @@ struct Weights {
   std::vector<std::size_t> half_ih, half_hh;
   std::size_t half_h1 = 0;
   bool has_half = false;
+  // optional int8 copies (per-row scales) of the same matrices
+  struct Q8 {
+    kernels::Int8Vec q;
+    std::vector<float> scale;
+  };
+  std::vector<Q8> q8_ih, q8_hh;
+  Q8 q8_h1;
+  bool has_int8 = false;
 
 #if WNN_HAVE_F16
   void make_half() {
@@ -87,6 +95,18 @@ struct Weights {
     }
     half_h1 = offs.back();
     has_half = true;
+  }
+
+  void make_int8() {
+    for (const GruLayer& g : layers) {
+      Q8 a, b;
+      kernels::to_int8(arena.at(g.w_ih), 3 * hidden, g.in, a.q, a.scale);
+      kernels::to_int8(arena.at(g.w_hh), 3 * hidden, hidden, b.q, b.scale);
+      q8_ih.push_back(std::move(a));
+      q8_hh.push_back(std::move(b));
+    }
+    kernels::to_int8(arena.at(w_h1), head_hidden, 2 * hidden, q8_h1.q, q8_h1.scale);
+    has_int8 = true;
   }
 #endif
 
@@ -160,11 +180,18 @@ class Predictor {
   // fast: vectorised activation approximations (errors < 5e-6, as in the production Rust engine);
   // false: libm exp/tanh/erf.
   // half: store the dense matrices as fp16 (x86-64-v3 builds only; ignored elsewhere).
-  explicit Predictor(Weights w, bool fast = true, bool half = false) : w_(std::move(w)), fast_(fast) {
+  // int8: per-row int8 matrices instead (x86-64-v3 only; experimental, takes precedence over half).
+  explicit Predictor(Weights w, bool fast = true, bool half = false, bool int8 = false)
+      : w_(std::move(w)), fast_(fast) {
 #if WNN_HAVE_F16
-    if (half && (w_.hidden % 16) == 0) w_.make_half();
+    if (int8 && (w_.hidden % 16) == 0) {
+      w_.make_int8();
+    } else if (half && (w_.hidden % 16) == 0) {
+      w_.make_half();
+    }
 #else
     (void)half;
+    (void)int8;
 #endif
     const int H = w_.hidden, L = static_cast<int>(w_.layers.size());
     x_.resize(w_.n_in);
@@ -197,13 +224,27 @@ class Predictor {
     for (std::size_t l = 0; l < w_.layers.size(); ++l) {
       const GruLayer& g = w_.layers[l];
       float* h = h_.data() + l * H;
-      dense(g.w_ih, w_.has_half ? w_.half_ih[l] : 0, A.at(g.b_ih), layer_in, gi_.data(), 3 * H, g.in);
-      dense(g.w_hh, w_.has_half ? w_.half_hh[l] : 0, A.at(g.b_hh), h, gh_.data(), 3 * H, H);
+#if WNN_HAVE_F16
+      if (w_.has_int8) {
+        kernels::gemv_int8(w_.q8_ih[l].q.data(), w_.q8_ih[l].scale.data(), A.at(g.b_ih), layer_in, gi_.data(), 3 * H, g.in);
+        kernels::gemv_int8(w_.q8_hh[l].q.data(), w_.q8_hh[l].scale.data(), A.at(g.b_hh), h, gh_.data(), 3 * H, H);
+      } else
+#endif
+      {
+        dense(g.w_ih, w_.has_half ? w_.half_ih[l] : 0, A.at(g.b_ih), layer_in, gi_.data(), 3 * H, g.in);
+        dense(g.w_hh, w_.has_half ? w_.half_hh[l] : 0, A.at(g.b_hh), h, gh_.data(), 3 * H, H);
+      }
       gru_update(h, H);
       layer_in = h;
     }
     std::copy(layer_in, layer_in + H, cat_.begin());
-    dense(w_.w_h1, w_.half_h1, A.at(w_.b_h1), cat_.data(), head_.data(), w_.head_hidden, 2 * H);
+#if WNN_HAVE_F16
+    if (w_.has_int8)
+      kernels::gemv_int8(w_.q8_h1.q.data(), w_.q8_h1.scale.data(), A.at(w_.b_h1), cat_.data(), head_.data(),
+                         w_.head_hidden, 2 * H);
+    else
+#endif
+      dense(w_.w_h1, w_.half_h1, A.at(w_.b_h1), cat_.data(), head_.data(), w_.head_hidden, 2 * H);
     gelu(head_.data(), w_.head_hidden);
     kernels::gemv(A.at(w_.w_h2), A.at(w_.b_h2), head_.data(), out, 2, w_.head_hidden);
   }
@@ -211,6 +252,7 @@ class Predictor {
   int hidden() const { return w_.hidden; }
   bool fast() const { return fast_; }
   bool half() const { return w_.has_half; }
+  bool int8() const { return w_.has_int8; }
   bool online_norm() const { return w_.online_norm; }
 
  private:
@@ -265,8 +307,8 @@ class Predictor {
 // Weighted sum of member predictions (coefficients already include any output scale).
 class Ensemble {
  public:
-  void add(Weights w, float coef, bool fast = true, bool half = false) {
-    members_.emplace_back(std::move(w), fast, half);
+  void add(Weights w, float coef, bool fast = true, bool half = false, bool int8 = false) {
+    members_.emplace_back(std::move(w), fast, half, int8);
     coefs_.push_back(coef);
   }
   void reset() {

@@ -69,25 +69,31 @@ PYBIND11_MODULE(wnn_cpp, m) {
   m.attr("HALF_SUPPORTED") = wnn::kernels::half_supported();
 
   py::class_<wnn::Predictor>(m, "Predictor")
-      .def(py::init([](const py::dict& d, bool fast, bool half) { return wnn::Predictor(to_weights(d), fast, half); }),
-           py::arg("weights"), py::arg("fast_activations") = true, py::arg("half_weights") = false)
+      .def(py::init([](const py::dict& d, bool fast, bool half, bool int8) {
+             return wnn::Predictor(to_weights(d), fast, half, int8);
+           }),
+           py::arg("weights"), py::arg("fast_activations") = true, py::arg("half_weights") = false,
+           py::arg("int8_weights") = false)
       .def("reset", &wnn::Predictor::reset)
       .def("step", [](wnn::Predictor& p, const Array& row) { return step_row(p, row); }, py::arg("row"))
       .def("run", [](wnn::Predictor& p, const Array& x) { return run_sequence(p, x); }, py::arg("x"),
            "Reset, then predict every row of one sequence (T, 112) -> (T, 2).")
       .def_property_readonly("hidden", &wnn::Predictor::hidden)
       .def_property_readonly("half_weights", &wnn::Predictor::half)
+      .def_property_readonly("int8_weights", &wnn::Predictor::int8)
       .def_property_readonly("online_norm", &wnn::Predictor::online_norm);
 
   py::class_<wnn::Ensemble>(m, "Ensemble")
-      .def(py::init([](const std::vector<py::dict>& members, const std::vector<float>& coefs, bool fast, bool half) {
+      .def(py::init([](const std::vector<py::dict>& members, const std::vector<float>& coefs, bool fast, bool half,
+                       bool int8) {
              if (members.size() != coefs.size() || members.empty())
                throw std::invalid_argument("need one coefficient per member and at least one member");
              wnn::Ensemble e;
-             for (std::size_t i = 0; i < members.size(); ++i) e.add(to_weights(members[i]), coefs[i], fast, half);
+             for (std::size_t i = 0; i < members.size(); ++i) e.add(to_weights(members[i]), coefs[i], fast, half, int8);
              return e;
            }),
-           py::arg("members"), py::arg("coefs"), py::arg("fast_activations") = true, py::arg("half_weights") = false)
+           py::arg("members"), py::arg("coefs"), py::arg("fast_activations") = true, py::arg("half_weights") = false,
+           py::arg("int8_weights") = false)
       .def("reset", &wnn::Ensemble::reset)
       .def("step", [](wnn::Ensemble& e, const Array& row) { return step_row(e, row); }, py::arg("row"))
       .def("run", [](wnn::Ensemble& e, const Array& x) { return run_sequence(e, x); }, py::arg("x"))

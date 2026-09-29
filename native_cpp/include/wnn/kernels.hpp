@@ -9,6 +9,8 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <new>
 #include <stdexcept>
@@ -179,6 +181,63 @@ inline void gemv_half(const std::uint16_t* __restrict W, const float* __restrict
     __m256 a = _mm256_setzero_ps();
     for (int i = 0; i < in; i += 8) a = _mm256_fmadd_ps(load_h8(w + i), _mm256_loadu_ps(x + i), a);
     y[o] = hsum8(a) + b[o];
+  }
+}
+#endif
+
+// ---- int8 weight storage with one float scale per output row (x86-64-v3) -------------------------
+using Int8Vec = std::vector<std::int8_t, AlignedAllocator<std::int8_t>>;
+
+// Symmetric per-row quantisation: W[o, :] ~= scale[o] * q[o, :], q in [-127, 127].
+inline void to_int8(const float* W, int out, int in, Int8Vec& q, std::vector<float>& scale) {
+  q.assign(static_cast<std::size_t>(out) * in, 0);
+  scale.assign(out, 0.f);
+  for (int o = 0; o < out; ++o) {
+    const float* w = W + static_cast<std::size_t>(o) * in;
+    float m = 0.f;
+    for (int i = 0; i < in; ++i) m = std::max(m, std::fabs(w[i]));
+    const float s = m > 0.f ? m / 127.f : 1.f;
+    scale[o] = s;
+    for (int i = 0; i < in; ++i) q[static_cast<std::size_t>(o) * in + i] = static_cast<std::int8_t>(std::lrint(w[i] / s));
+  }
+}
+
+#if WNN_HAVE_F16
+inline __m256 load_i8x8(const std::int8_t* p) {
+  return _mm256_cvtepi32_ps(_mm256_cvtepi8_epi32(_mm_loadl_epi64(reinterpret_cast<const __m128i*>(p))));
+}
+
+// y[o] = b[o] + scale[o] * (q[o, :] . x); requires in % 16 == 0.
+inline void gemv_int8(const std::int8_t* __restrict Q, const float* __restrict scale, const float* __restrict b,
+                      const float* __restrict x, float* __restrict y, int out, int in) {
+  int o = 0;
+  for (; o + 4 <= out; o += 4) {
+    const std::int8_t* q0 = Q + static_cast<std::size_t>(o) * in;
+    const std::int8_t* q1 = q0 + in;
+    const std::int8_t* q2 = q1 + in;
+    const std::int8_t* q3 = q2 + in;
+    __m256 a0 = _mm256_setzero_ps(), a1 = a0, a2 = a0, a3 = a0, c0 = a0, c1 = a0, c2 = a0, c3 = a0;
+    for (int i = 0; i < in; i += 16) {
+      const __m256 x0 = _mm256_loadu_ps(x + i), x1 = _mm256_loadu_ps(x + i + 8);
+      a0 = _mm256_fmadd_ps(load_i8x8(q0 + i), x0, a0);
+      c0 = _mm256_fmadd_ps(load_i8x8(q0 + i + 8), x1, c0);
+      a1 = _mm256_fmadd_ps(load_i8x8(q1 + i), x0, a1);
+      c1 = _mm256_fmadd_ps(load_i8x8(q1 + i + 8), x1, c1);
+      a2 = _mm256_fmadd_ps(load_i8x8(q2 + i), x0, a2);
+      c2 = _mm256_fmadd_ps(load_i8x8(q2 + i + 8), x1, c2);
+      a3 = _mm256_fmadd_ps(load_i8x8(q3 + i), x0, a3);
+      c3 = _mm256_fmadd_ps(load_i8x8(q3 + i + 8), x1, c3);
+    }
+    y[o] = scale[o] * hsum8(_mm256_add_ps(a0, c0)) + b[o];
+    y[o + 1] = scale[o + 1] * hsum8(_mm256_add_ps(a1, c1)) + b[o + 1];
+    y[o + 2] = scale[o + 2] * hsum8(_mm256_add_ps(a2, c2)) + b[o + 2];
+    y[o + 3] = scale[o + 3] * hsum8(_mm256_add_ps(a3, c3)) + b[o + 3];
+  }
+  for (; o < out; ++o) {
+    const std::int8_t* q = Q + static_cast<std::size_t>(o) * in;
+    __m256 a = _mm256_setzero_ps();
+    for (int i = 0; i < in; i += 8) a = _mm256_fmadd_ps(load_i8x8(q + i), _mm256_loadu_ps(x + i), a);
+    y[o] = scale[o] * hsum8(a) + b[o];
   }
 }
 #endif

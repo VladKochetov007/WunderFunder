@@ -42,8 +42,12 @@ Python API: `wnn_cpp.Predictor(weights_dict, fast_activations=True)` and
 | one member, Python step loop, v3, hidden 128 | C++ fp16 17 us, C++ fp32 32 us, Rust 27 us (same core, min of 3-5) |
 | same, hidden 192 / 256 (weights exceed L2) | fp16 44 / 85 us, fp32 90 / 157 us, Rust 91 / 156 us |
 | fp16 weights vs fp32, 60 validation sequences | WP delta -0.000001, max abs prediction diff 1.2e-3 |
+| hidden 256 (h256_f0), 60 sequences: fp32 / fp16 / int8 per-row | 155 / 85 / 72 us/row; WP delta 0 / +1e-6 / -1.2e-5; max abs diff 0 / 5.5e-4 / 2.1e-2 |
 | scorer simulation (`verify_submission.py`, same 2 members, 3 sequences, one core) | C++ fp16 60 us/row, Rust 101 us/row; global WP 0.754262 for both |
 | projected time for a validation-sized test on this host (39.4M rows) | C++ 39 min, Rust 66 min (the scorer CPU is faster than this host) |
+
+`int8_weights=True` (per-row symmetric int8, v3 only) is experimental: 16% faster than fp16 at hidden 256
+with 40x larger prediction deviations, so it is not used by default.
 
 fp16 weight storage (`half_weights=True`, used by `solution_cpp.py`) is active on the v3 build only; v2 and
 avx2 builds run fp32, so CPU levels agree to ~1e-3 rather than 1e-6 (no measurable WP change).
