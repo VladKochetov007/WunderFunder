@@ -185,3 +185,32 @@ not a smooth function of width at this sample size; hidden 256 is.
    untouched folds 2/3.
 3. Deployment: a hidden-256 pair needs the fp16 C++ engine (branch `cpp-engine`) and is projected at ~50
    minutes, at the governor budget; h256 + 2 x h128 (~43 min) keeps ~70% of the pair gain.
+
+## Confirmation with the fine-tune stage and on untouched folds 2/3 (2026-09-29, day)
+Fine-tune = the champion's two-stage gcorr LP-FT on validation chains outside the held-out fold
+(`scripts/fold_ft.sh`); "head" = its first stage only (trunk frozen, lr 5e-4); "full" = both stages.
+New propensity nets prop_f2/prop_f3 and parents ref/refs4/h256/h256s4 were trained for folds 2 and 3.
+
+Folds 0+1 (seed pairs, pure chains):
+| pair | no FT | head FT | full FT | full FT, stage-2 lr 5e-5 |
+|---|---:|---:|---:|---:|
+| hidden 128 | 0.70000 | 0.70107 | 0.70088 | |
+| hidden 256 | 0.70078 | **0.70143** | 0.70070 | 0.70080 |
+
+Full-network fine-tuning erases the hidden-256 gain even at a 4x lower lr; head-only keeps it. Seed triples
+(3,4,5): h256 head-FT 0.70194 vs h128 head-FT 0.70124 (+0.0007, both folds).
+
+Untouched folds 2+3 and all four folds (seed pairs 3+4):
+| comparison | folds 2+3 | all folds | per fold 0/1/2/3 | SD (all) |
+|---|---:|---:|---|---:|
+| h256 parents vs h128 parents | +0.0009 | | f2 +0.0001, f3 +0.0019 | |
+| h256 head-FT vs h128 head-FT | +0.0007 | +0.0005 | +0.0005/+0.0007/+0.0003/+0.0014 | 0.0007 |
+| **h256 head-FT vs champion analog (h128 full FT)** | **+0.0009** | **+0.0007** | +0.0001/+0.0014/+0.0001/+0.0020 | 0.0007 |
+| h128 head-FT vs h128 full FT | +0.0002 | +0.0002 | -0.0004/+0.0007/-0.0002/+0.0006 | 0.0002 |
+
+Classes (all folds, h256 head-FT vs champion analog): 0 +0.0009, 1 +0.0017, 2 +0.0018, 3 +0.0003. On folds
+2+3 class 3 is slightly negative (-0.0003); the gain is in classes 0-2.
+Verdict: hidden-256 members with head-only fine-tuning are non-negative on every fold and ~+0.0007 over the
+champion recipe on average; the size is comparable to one public-LB comparison's noise (~0.0006), so a
+public upload is the remaining test. Final members (train + all valid, head FT on all valid):
+`scripts/final_job.sh`.
