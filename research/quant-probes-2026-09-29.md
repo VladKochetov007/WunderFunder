@@ -113,3 +113,75 @@ Seed-4 hidden-256 runs are queued to check a hidden-256 pair.
 quant(s3)+quant(s4) vs ref(s3)+ref(s4): **-0.0009** (SD 0.0006, P(<=0) 0.96), fold 0 -0.0007, fold 1
 -0.0011, every class negative (class 3 -0.0009). Seed 4 alone: -0.0016. The single-seed class-3 hint was
 noise; the explicit window sums slightly hurt (extra inputs, no new information).
+
+### Seed-ensemble curve (reference recipe, hidden 128, seeds 3-6) — saturates by K=3
+Mean over all K-subsets, pure chains, folds 0+1 (`scripts/seed_curve.py`):
+
+| K | mean WP | gain vs K-1 | min-max over subsets |
+|---:|---:|---:|---|
+| 1 | 0.69892 | | 0.69828-0.69971 |
+| 2 | 0.69967 | +0.00074 | 0.69930-0.70005 |
+| 3 | 0.69992 | +0.00025 | 0.69965-0.70014 |
+| 4 | 0.70004 | +0.00012 | |
+
+The single-model spread over seeds (0.0014) is larger than every feature/architecture effect tested here.
+
+### R7 follow-up: hidden-256 seed pair — the best arm so far
+h256(s3)+h256(s4) vs ref(s3)+ref(s4): **+0.0008** (SD 0.0008, P(<=0) 0.17), fold 0 +0.0009, fold 1
++0.0006, every class positive (0 +0.0003, 1 +0.0022, 2 +0.0020, 3 +0.0007). Pair WP 0.70078 vs the
+four-seed hidden-128 ensemble 0.70004: width beats more seeds at this point of the curve.
+Cost: C++ fp16 engine, scorer-image userland, one core of this host: 188 us/row for the pair (123 min
+for 39.4M rows here; ~49 min if the scorer is ~2.5x faster as the old public runtimes suggest), i.e. at
+the edge of the 52-minute governor budget. The Rust engine (157 us per hidden-256 member) cannot fit it.
+Hidden-192 pair queued as the cheaper middle point.
+
+### Seed curve extended to six hidden-128 seeds (3-8)
+| K | mean WP | gain vs K-1 |
+|---:|---:|---:|
+| 1 | 0.69872 | |
+| 2 | 0.69946 | +0.00074 |
+| 3 | 0.69971 | +0.00025 |
+| 4 | 0.69984 | +0.00012 |
+| 5 | 0.69991 | +0.00007 |
+| 6 | 0.69996 | +0.00005 |
+
+The hidden-128 seed ensemble plateaus at ~0.7000. The hidden-256 pair (0.70078) is **+0.0008** above all
+six hidden-128 seeds averaged (SD 0.0006; fold 0 +0.0006, fold 1 +0.0011): after two members, width is
+worth more than more seeds. A third hidden-256 seed is running to average over three different pairs.
+
+### Width mixtures at a lower inference cost (equal weights, vs the hidden-128 seed pair)
+| ensemble | WP | delta | fold 0 | fold 1 | C++ fp16 step cost (this host) |
+|---|---:|---:|---:|---:|---:|
+| h256 | 0.69945 | -0.00056 | -0.0001 | -0.0010 | 85 us |
+| h256 + h128 | 0.70017 | +0.00017 | +0.0005 | -0.0002 | 102 us |
+| h256 + 2 x h128 | 0.70058 | +0.00058 | +0.0007 | +0.0005 | 119 us |
+| h256(s4) + 2 x h128 (seeds 5, 6) | 0.70038 | +0.00038 | +0.0006 | +0.0001 | 119 us |
+| 2 x h256 | 0.70078 | +0.00078 | +0.0009 | +0.0006 | 170 us |
+| 2 x h256 + h128 | 0.70083 | +0.00083 | +0.0010 | +0.0007 | 187 us |
+
+Runtime calibration: the Rust two-member ZIP took 25m52s on the public scorer and 100 us/row in the local
+scorer-image simulation, so the scorer is ~2.4x faster than that simulation. Projected scorer time for
+39.4M rows: 2 x h256 ~50 min (at the 52-minute governor budget), h256 + 2 x h128 ~43 min, 2 x h128 ~16 min.
+
+### R8: width replicated over three seeds — hidden 256 is the one supported lever
+Averaged over every seed subset (`seed_curve.py`), pure chains, folds 0+1, fixed final epoch:
+
+| members | hidden 128 (seeds 3-8) | hidden 192 (seeds 3-4) | hidden 256 (seeds 3-5) |
+|---:|---:|---:|---:|
+| 1 | 0.69872 | 0.69894 | **0.70005** |
+| 2 | 0.69946 | 0.69970 | **0.70090** |
+| 3 | 0.69971 | | **0.70118** |
+
+Paired, chain bootstrap: h256 triple vs h128 triple **+0.0010** (SD 0.0008; fold 0 +0.0014, fold 1
++0.0008; classes +0.0003/+0.0022/+0.0025/+0.0016). The three h256 pairs vs the h128 pair: +0.0008,
++0.0007, +0.0012. Hidden 192 is indistinguishable from 128 (pair -0.0003, folds disagree), so the gain is
+not a smooth function of width at this sample size; hidden 256 is.
+
+## Summary for the next iteration
+1. Every feature/architecture probe (state reset, order-flow sums, i1 flow, class-3 expert, dual clock,
+   pooled-Pearson loss) is flat or negative once seed noise is handled with seed pairs.
+2. Hidden 256 members are ~+0.0013 per model over hidden 128 in this recipe; two of them beat any number
+   of hidden-128 seeds. Untested: hidden 256 with the fine-tune stage (LP-FT gcorr) and EMA-6, and on
+   untouched folds 2/3.
+3. Deployment: a hidden-256 pair needs the fp16 C++ engine (branch `cpp-engine`) and is projected at ~50
+   minutes, at the governor budget; h256 + 2 x h128 (~43 min) keeps ~70% of the pair gain.
