@@ -77,7 +77,7 @@ class PredictionModel:
         self.win_t0 = None  # measurement window starts after the first (cold) sequence
         self.win_rows = 0
         self.win_step = 0.0
-        _log(f"level={_LEVEL} members={self.k}")
+        _log(f"level={_LEVEL} members={self.k} half={wnn_cpp.HALF_SUPPORTED}")
 
     def _build(self):
         coefs = self.coefs[: self.k]
@@ -86,6 +86,7 @@ class PredictionModel:
             self.weights[: self.k],
             [float(c * scale) for c in coefs],
             fast_activations=True,
+            half_weights=True,  # fp16 dense weights on v3 builds (ignored on v2/avx2)
         )
 
     def _govern(self, now):

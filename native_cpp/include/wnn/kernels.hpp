@@ -8,10 +8,18 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
 #include <new>
 #include <stdexcept>
 #include <vector>
+
+#if defined(__F16C__) && defined(__AVX2__) && defined(__FMA__)
+#include <immintrin.h>
+#define WNN_HAVE_F16 1
+#else
+#define WNN_HAVE_F16 0
+#endif
 
 namespace wnn::kernels {
 
@@ -110,5 +118,69 @@ inline void saxpy_sparse(const float* __restrict Wt, const float* __restrict b, 
     for (int o = 0; o < out; ++o) y[o] += xi * w[o];
   }
 }
+
+
+// ---- half-precision weight storage (x86-64-v3: F16C + AVX2 + FMA) ------------------------------
+// Weights stored as IEEE fp16 halve the per-row weight stream; products and sums stay float32.
+using HalfVec = std::vector<std::uint16_t, AlignedAllocator<std::uint16_t>>;
+
+inline bool half_supported() { return WNN_HAVE_F16 != 0; }
+
+#if WNN_HAVE_F16
+inline HalfVec to_half(const float* v, std::size_t n) {
+  HalfVec h((n + 15) / 16 * 16, 0);
+  std::size_t i = 0;
+  for (; i + 8 <= n; i += 8)
+    _mm_storeu_si128(reinterpret_cast<__m128i*>(h.data() + i),
+                     _mm256_cvtps_ph(_mm256_loadu_ps(v + i), _MM_FROUND_TO_NEAREST_INT));
+  for (; i < n; ++i) h[i] = static_cast<std::uint16_t>(_cvtss_sh(v[i], _MM_FROUND_TO_NEAREST_INT));
+  return h;
+}
+
+inline __m256 load_h8(const std::uint16_t* p) {
+  return _mm256_cvtph_ps(_mm_loadu_si128(reinterpret_cast<const __m128i*>(p)));
+}
+
+inline float hsum8(__m256 v) {
+  __m128 s = _mm_add_ps(_mm256_castps256_ps128(v), _mm256_extractf128_ps(v, 1));
+  s = _mm_add_ps(s, _mm_movehl_ps(s, s));
+  s = _mm_add_ss(s, _mm_movehdup_ps(s));
+  return _mm_cvtss_f32(s);
+}
+
+// y[o] = b[o] + W[o, :] . x with fp16 row-major W; requires in % 16 == 0.
+inline void gemv_half(const std::uint16_t* __restrict W, const float* __restrict b, const float* __restrict x,
+                      float* __restrict y, int out, int in) {
+  int o = 0;
+  for (; o + 4 <= out; o += 4) {
+    const std::uint16_t* w0 = W + static_cast<std::size_t>(o) * in;
+    const std::uint16_t* w1 = w0 + in;
+    const std::uint16_t* w2 = w1 + in;
+    const std::uint16_t* w3 = w2 + in;
+    __m256 a0 = _mm256_setzero_ps(), a1 = a0, a2 = a0, a3 = a0, c0 = a0, c1 = a0, c2 = a0, c3 = a0;
+    for (int i = 0; i < in; i += 16) {
+      const __m256 x0 = _mm256_loadu_ps(x + i), x1 = _mm256_loadu_ps(x + i + 8);
+      a0 = _mm256_fmadd_ps(load_h8(w0 + i), x0, a0);
+      c0 = _mm256_fmadd_ps(load_h8(w0 + i + 8), x1, c0);
+      a1 = _mm256_fmadd_ps(load_h8(w1 + i), x0, a1);
+      c1 = _mm256_fmadd_ps(load_h8(w1 + i + 8), x1, c1);
+      a2 = _mm256_fmadd_ps(load_h8(w2 + i), x0, a2);
+      c2 = _mm256_fmadd_ps(load_h8(w2 + i + 8), x1, c2);
+      a3 = _mm256_fmadd_ps(load_h8(w3 + i), x0, a3);
+      c3 = _mm256_fmadd_ps(load_h8(w3 + i + 8), x1, c3);
+    }
+    y[o] = hsum8(_mm256_add_ps(a0, c0)) + b[o];
+    y[o + 1] = hsum8(_mm256_add_ps(a1, c1)) + b[o + 1];
+    y[o + 2] = hsum8(_mm256_add_ps(a2, c2)) + b[o + 2];
+    y[o + 3] = hsum8(_mm256_add_ps(a3, c3)) + b[o + 3];
+  }
+  for (; o < out; ++o) {
+    const std::uint16_t* w = W + static_cast<std::size_t>(o) * in;
+    __m256 a = _mm256_setzero_ps();
+    for (int i = 0; i < in; i += 8) a = _mm256_fmadd_ps(load_h8(w + i), _mm256_loadu_ps(x + i), a);
+    y[o] = hsum8(a) + b[o];
+  }
+}
+#endif
 
 }  // namespace wnn::kernels

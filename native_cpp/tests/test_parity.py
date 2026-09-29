@@ -46,10 +46,12 @@ def main() -> None:
     ap.add_argument("--seqs", type=int, default=3)
     ap.add_argument("--tol", type=float, default=2e-4)
     ap.add_argument("--exact", action="store_true", help="libm activations instead of the fast forms")
+    ap.add_argument("--half", action="store_true", help="fp16 weight storage (v3 builds)")
     args = ap.parse_args()
     ck = torch.load(ROOT / "artifacts" / "runs" / args.run / "model.pt", map_location="cpu", weights_only=False)
     weights = {k: v.float().numpy() for k, v in ck["model"].items()}
-    engine = wnn_cpp.Predictor(weights, fast_activations=not args.exact)
+    engine = wnn_cpp.Predictor(weights, fast_activations=not args.exact, half_weights=args.half)
+    print("half weights active:", engine.half_weights)
     f = SequenceFile(ROOT / "datasets" / "valid.parquet")
     worst = 0.0
     for g in np.linspace(0, len(f) - 1, args.seqs).astype(int):

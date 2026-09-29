@@ -7,7 +7,7 @@ It replaces the Rust engine in `native/` for code that must stay in C++; Python 
 | file | role |
 |---|---|
 | `include/wnn/event_features.hpp` | 99 causal event features from consecutive rows (exact twin of the Python class) |
-| `include/wnn/kernels.hpp` | aligned storage, blocked row-major gemv (16 lanes x 4 rows), sparse transposed saxpy |
+| `include/wnn/kernels.hpp` | aligned storage, blocked row-major gemv (16 lanes x 4 rows), sparse transposed saxpy, fp16-weight gemv (F16C) |
 | `include/wnn/activations.hpp` | exact and fast (vectorised, error < 5e-6) exp / sigmoid / tanh / erf / GELU |
 | `include/wnn/model.hpp` | `Weights` (state_dict names, one 64-byte aligned arena), `Predictor`, `Ensemble` |
 | `src/bindings.cpp` | pybind11 module `wnn_cpp` |
@@ -36,9 +36,11 @@ Python API: `wnn_cpp.Predictor(weights_dict, fast_activations=True)` and
 | parity vs PyTorch float32 (ref_f0, 3 sequences, fast activations) | max abs 2.5e-6, corr 1.00000000 |
 | parity vs the Rust engine (`native/`, same weights) | max abs 1.4e-6 |
 | glibc symbols needed by the cp311 builds | <= GLIBC_2.36 (bookworm) |
-| one member, Python step loop, v3 | C++ 30-32 us/row, Rust 25-27 us/row (same core, interleaved, min of 5) |
+| one member, Python step loop, v3, hidden 128 | C++ fp16 17 us, C++ fp32 32 us, Rust 27 us (same core, min of 3-5) |
+| same, hidden 192 / 256 (weights exceed L2) | fp16 44 / 85 us, fp32 90 / 157 us, Rust 91 / 156 us |
+| fp16 weights vs fp32, 60 validation sequences | WP delta -0.000001, max abs prediction diff 1.2e-3 |
 | scorer simulation (`verify_submission.py`, 2 members, 3 sequences) | runs, level v3 picked, governor active |
 
-Not yet verified inside the real scorer image (no docker access on beleriand). Next speed levers:
-explicit AVX2/AVX-512 intrinsics for the 384x128 GRU gemv and fp16 weight storage (halves the ~1 MB
-per-row weight stream, which exceeds L2 on this host).
+fp16 weight storage (`half_weights=True`, used by `solution_cpp.py`) is active on the v3 build only; v2 and
+avx2 builds run fp32, so CPU levels agree to ~1e-3 rather than 1e-6 (no measurable WP change).
+Not yet verified inside the real scorer image (no docker access on beleriand).

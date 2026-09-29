@@ -59,6 +59,34 @@ struct Weights {
   Arena arena;
   std::size_t w_inp_t = 0, b_inp = 0, w_h1 = 0, b_h1 = 0, w_h2 = 0, b_h2 = 0;
   std::vector<GruLayer> layers;
+  // optional fp16 copies of the dense matrices (GRU w_ih / w_hh per layer, head W1)
+  kernels::HalfVec half;
+  std::vector<std::size_t> half_ih, half_hh;
+  std::size_t half_h1 = 0;
+  bool has_half = false;
+
+#if WNN_HAVE_F16
+  void make_half() {
+    std::vector<std::pair<const float*, std::size_t>> parts;
+    for (const GruLayer& g : layers) {
+      parts.emplace_back(arena.at(g.w_ih), static_cast<std::size_t>(3 * hidden) * g.in);
+      parts.emplace_back(arena.at(g.w_hh), static_cast<std::size_t>(3 * hidden) * hidden);
+    }
+    parts.emplace_back(arena.at(w_h1), static_cast<std::size_t>(head_hidden) * 2 * hidden);
+    std::vector<std::size_t> offs;
+    for (const auto& [ptr, n] : parts) {
+      const kernels::HalfVec h = kernels::to_half(ptr, n);
+      offs.push_back(half.size());
+      half.insert(half.end(), h.begin(), h.end());
+    }
+    for (std::size_t l = 0; l < layers.size(); ++l) {
+      half_ih.push_back(offs[2 * l]);
+      half_hh.push_back(offs[2 * l + 1]);
+    }
+    half_h1 = offs.back();
+    has_half = true;
+  }
+#endif
 
   static Weights from(const WeightMap& m) {
     auto get = [&](const std::string& k) -> const Tensor& {
@@ -126,7 +154,13 @@ class Predictor {
  public:
   // fast: vectorised activation approximations (errors < 5e-6, as in the production Rust engine);
   // false: libm exp/tanh/erf.
-  explicit Predictor(Weights w, bool fast = true) : w_(std::move(w)), fast_(fast) {
+  // half: store the dense matrices as fp16 (x86-64-v3 builds only; ignored elsewhere).
+  explicit Predictor(Weights w, bool fast = true, bool half = false) : w_(std::move(w)), fast_(fast) {
+#if WNN_HAVE_F16
+    if (half && (w_.hidden % 16) == 0) w_.make_half();
+#else
+    (void)half;
+#endif
     const int H = w_.hidden, L = static_cast<int>(w_.layers.size());
     x_.resize(kInputs);
     h_.assign(static_cast<std::size_t>(L) * H, 0.f);
@@ -156,21 +190,35 @@ class Predictor {
     for (std::size_t l = 0; l < w_.layers.size(); ++l) {
       const GruLayer& g = w_.layers[l];
       float* h = h_.data() + l * H;
-      kernels::gemv(A.at(g.w_ih), A.at(g.b_ih), layer_in, gi_.data(), 3 * H, g.in);
-      kernels::gemv(A.at(g.w_hh), A.at(g.b_hh), h, gh_.data(), 3 * H, H);
+      dense(g.w_ih, w_.has_half ? w_.half_ih[l] : 0, A.at(g.b_ih), layer_in, gi_.data(), 3 * H, g.in);
+      dense(g.w_hh, w_.has_half ? w_.half_hh[l] : 0, A.at(g.b_hh), h, gh_.data(), 3 * H, H);
       gru_update(h, H);
       layer_in = h;
     }
     std::copy(layer_in, layer_in + H, cat_.begin());
-    kernels::gemv(A.at(w_.w_h1), A.at(w_.b_h1), cat_.data(), head_.data(), w_.head_hidden, 2 * H);
+    dense(w_.w_h1, w_.half_h1, A.at(w_.b_h1), cat_.data(), head_.data(), w_.head_hidden, 2 * H);
     gelu(head_.data(), w_.head_hidden);
     kernels::gemv(A.at(w_.w_h2), A.at(w_.b_h2), head_.data(), out, 2, w_.head_hidden);
   }
 
   int hidden() const { return w_.hidden; }
   bool fast() const { return fast_; }
+  bool half() const { return w_.has_half; }
 
  private:
+  // Dense layer from the fp32 arena, or from the fp16 copy when half storage is on.
+  void dense(std::size_t off32, std::size_t off16, const float* b, const float* x, float* y, int out, int in) const {
+#if WNN_HAVE_F16
+    if (w_.has_half) {
+      kernels::gemv_half(w_.half.data() + off16, b, x, y, out, in);
+      return;
+    }
+#else
+    (void)off16;
+#endif
+    kernels::gemv(w_.arena.at(off32), b, x, y, out, in);
+  }
+
   void gelu(float* v, int n) const {
     if (fast_) {
       for (int i = 0; i < n; ++i) v[i] = act::gelu_fast(v[i]);
@@ -208,8 +256,8 @@ class Predictor {
 // Weighted sum of member predictions (coefficients already include any output scale).
 class Ensemble {
  public:
-  void add(Weights w, float coef, bool fast = true) {
-    members_.emplace_back(std::move(w), fast);
+  void add(Weights w, float coef, bool fast = true, bool half = false) {
+    members_.emplace_back(std::move(w), fast, half);
     coefs_.push_back(coef);
   }
   void reset() {
