@@ -241,6 +241,7 @@ ONLINE_NORM = False  # append causal per-sequence z-scores of the 112 raw featur
 READOUT = None  # (m1, m0) moment tables when the head is a softmax over outcome codes
 READOUT_TILTED = False
 HEURISTICS = False  # append wnn.heuristics features (computed in loader workers)
+QUANT_I1 = False  # add the i1 order-flow block (cross-impact) to the quant features
 QUANT = False  # append wnn.quant order-flow features accumulated since the last i0 price event
 STATE_RESET = 0  # if > 0: zero the recurrent state every STATE_RESET rows (training and prediction)
 RAW_ONLY = False  # zero the event-feature block (organizer-style raw view; keeps n_in for native export)
@@ -255,7 +256,7 @@ def build_inputs(x):
     if QUANT:
         from wnn.quant import quant_features_torch
 
-        inputs = torch.cat([inputs, quant_features_torch(raw)], dim=-1)
+        inputs = torch.cat([inputs, quant_features_torch(raw, with_i1=QUANT_I1)], dim=-1)
     if ONLINE_NORM:
         inputs = torch.cat([inputs, online_zscore_torch(raw)], dim=-1)
     if extra.shape[-1]:
@@ -501,6 +502,7 @@ def main():
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--quant-feats", action="store_true", help="append wnn.quant order-flow features")
+    ap.add_argument("--quant-i1", action="store_true", help="with --quant-feats: also the i1 flow block")
     ap.add_argument("--state-reset", type=int, default=0,
                     help="zero the recurrent state every N rows in training and prediction (multiple of --chunk)")
     ap.add_argument("--loss-norm", choices=["chunk", "running"], default="chunk",
@@ -680,8 +682,10 @@ def main():
         global QUANT
         from wnn.quant import N_QUANT
 
+        global QUANT_I1
         QUANT = True
-        n_in += N_QUANT
+        QUANT_I1 = args.quant_i1
+        n_in += N_QUANT * (2 if args.quant_i1 else 1)
     if args.online_norm:
         global ONLINE_NORM
         ONLINE_NORM = True

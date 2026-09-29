@@ -42,6 +42,7 @@ def main():
     train_rnn.ONLINE_NORM = bool(ck["args"].get("online_norm"))
     train_rnn.STATE_RESET = int(ck["args"].get("state_reset") or 0)
     train_rnn.QUANT = bool(ck["args"].get("quant_feats"))
+    train_rnn.QUANT_I1 = bool(ck["args"].get("quant_i1"))
     if ck.get("readout") is not None:
         train_rnn.READOUT = [t.to(device) for t in ck["readout"]]
         train_rnn.READOUT_TILTED = ck.get("readout_tilted", False)

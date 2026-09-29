@@ -42,7 +42,10 @@ def pooled(s: np.ndarray) -> float:
 
 
 def load_fold(run: str, k: int, rows: np.ndarray) -> np.ndarray:
-    return np.load(ROOT / "cache" / f"pred_{run}_f{k}_valid.npy", mmap_mode="r")[rows]
+    """Fold predictions of RUN; "a+b+c" averages several runs (seed pairs = the deployed ensemble)."""
+    parts = [np.load(ROOT / "cache" / f"pred_{r}_f{k}_valid.npy", mmap_mode="r")[rows].astype(np.float32)
+             for r in run.split("+")]
+    return sum(parts) / len(parts)
 
 
 def main() -> None:

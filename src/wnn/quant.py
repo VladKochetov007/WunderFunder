@@ -20,36 +20,44 @@ from __future__ import annotations
 
 import numpy as np
 
-from wnn.data import I0
+from wnn.data import I0, I1
 
-N_QUANT = 22 + 4 + 4 + 1
+N_QUANT = 22 + 4 + 4 + 1  # per instrument block
 QUANT_NAMES = ([f"q_vol_since{j}" for j in range(22)] + [f"q_dv_since{j}" for j in range(4)]
                + [f"q_dp_since{j}" for j in range(4)] + ["q_n_trades"])
 _VOL = slice(I0.bid_vol.start, I0.ask_vol.stop)
 
 
-def quant_features_torch(raw):
-    """raw: (B, T, 112) tensor -> (B, T, N_QUANT) on the same device and dtype."""
+def _block(raw, prev, last, inst):
+    """Flow of instrument `inst` accumulated since the last i0 price event (index `last`)."""
     import torch
 
     b, t, _ = raw.shape
-    prev = torch.cat([raw[:, :1], raw[:, :-1]], dim=1)
-    px_event = (prev[..., I0.bid_px.start] != raw[..., I0.bid_px.start]) & (
-        prev[..., I0.ask_px.start] != raw[..., I0.ask_px.start])
-    dv = raw[..., I0.trade_vol]
-    dp = raw[..., I0.trade_px]
-    changed = (dv != prev[..., I0.trade_vol]).any(-1)
-    spread_codes = dv.amax(-1) - dv.amin(-1)
-    trade = changed & (spread_codes > 1e-6)
-    idx = torch.arange(t, device=raw.device).expand(b, t)
-    last = torch.cummax(torch.where(px_event, idx, torch.zeros_like(idx)), dim=1).values
-    vol = raw[..., _VOL]
+    dv = raw[..., inst.trade_vol]
+    dp = raw[..., inst.trade_px]
+    changed = (dv != prev[..., inst.trade_vol]).any(-1)
+    trade = changed & ((dv.amax(-1) - dv.amin(-1)) > 1e-6)
+    vol = raw[..., inst.bid_vol.start : inst.ask_vol.stop]
     vol_since = vol - torch.gather(vol, 1, last[..., None].expand(b, t, 22))
     tr = trade.to(raw.dtype)[..., None]
     flow = torch.cat([dv * tr, dp * tr, tr], dim=-1).double()  # float64 cumsum: exact segment differences
     cs = torch.cumsum(flow, dim=1)
     seg = (cs - torch.gather(cs, 1, last[..., None].expand(b, t, flow.shape[-1]))).to(raw.dtype)
     return torch.cat([vol_since, seg[..., :8], torch.log1p(seg[..., 8:9].clamp_min(0))], dim=-1)
+
+
+def quant_features_torch(raw, with_i1: bool = False):
+    """raw: (B, T, 112) -> (B, T, N_QUANT) i0 block, plus the i1 block (cross-impact) if with_i1."""
+    import torch
+
+    b, t, _ = raw.shape
+    prev = torch.cat([raw[:, :1], raw[:, :-1]], dim=1)
+    px_event = (prev[..., I0.bid_px.start] != raw[..., I0.bid_px.start]) & (
+        prev[..., I0.ask_px.start] != raw[..., I0.ask_px.start])
+    idx = torch.arange(t, device=raw.device).expand(b, t)
+    last = torch.cummax(torch.where(px_event, idx, torch.zeros_like(idx)), dim=1).values
+    blocks = [_block(raw, prev, last, I0)] + ([_block(raw, prev, last, I1)] if with_i1 else [])
+    return torch.cat(blocks, dim=-1)
 
 
 def quant_features(x: np.ndarray) -> np.ndarray:
