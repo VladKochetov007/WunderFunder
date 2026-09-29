@@ -76,7 +76,8 @@ PYBIND11_MODULE(wnn_cpp, m) {
       .def("run", [](wnn::Predictor& p, const Array& x) { return run_sequence(p, x); }, py::arg("x"),
            "Reset, then predict every row of one sequence (T, 112) -> (T, 2).")
       .def_property_readonly("hidden", &wnn::Predictor::hidden)
-      .def_property_readonly("half_weights", &wnn::Predictor::half);
+      .def_property_readonly("half_weights", &wnn::Predictor::half)
+      .def_property_readonly("online_norm", &wnn::Predictor::online_norm);
 
   py::class_<wnn::Ensemble>(m, "Ensemble")
       .def(py::init([](const std::vector<py::dict>& members, const std::vector<float>& coefs, bool fast, bool half) {

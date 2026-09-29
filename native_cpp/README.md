@@ -8,6 +8,7 @@ It replaces the Rust engine in `native/` for code that must stay in C++; Python 
 |---|---|
 | `include/wnn/event_features.hpp` | 99 causal event features from consecutive rows (exact twin of the Python class) |
 | `include/wnn/kernels.hpp` | aligned storage, blocked row-major gemv (16 lanes x 4 rows), sparse transposed saxpy, fp16-weight gemv (F16C) |
+| `include/wnn/online_norm.hpp` | causal float32 z-scores for `--online-norm` members (bit-exact CUDA cumsum order) |
 | `include/wnn/activations.hpp` | exact and fast (vectorised, error < 5e-6) exp / sigmoid / tanh / erf / GELU |
 | `include/wnn/model.hpp` | `Weights` (state_dict names, one 64-byte aligned arena), `Predictor`, `Ensemble` |
 | `src/bindings.cpp` | pybind11 module `wnn_cpp` |
@@ -36,6 +37,7 @@ Python API: `wnn_cpp.Predictor(weights_dict, fast_activations=True)` and
 |---|---|
 | parity vs PyTorch float32 (ref_f0, 3 sequences, fast activations) | max abs 2.5e-6, corr 1.00000000 |
 | parity vs the Rust engine (`native/`, same weights) | max abs 1.4e-6 |
+| parity vs PyTorch for an `--online-norm` member (z-scores from CUDA) | max abs 9.5e-7 (fp16 weights 1.1e-4) |
 | glibc symbols needed by the cp311 builds | <= GLIBC_2.36 (bookworm) |
 | one member, Python step loop, v3, hidden 128 | C++ fp16 17 us, C++ fp32 32 us, Rust 27 us (same core, min of 3-5) |
 | same, hidden 192 / 256 (weights exceed L2) | fp16 44 / 85 us, fp32 90 / 157 us, Rust 91 / 156 us |

@@ -1,7 +1,7 @@
 // Streaming GRU predictor: C++ twin of wnn.nn.RNNModel (enc="linear", cell="gru") evaluated one row
 // at a time, with the event features computed in place.
 //
-//   x   = [raw 112 | event 99]                 (EventFeatures)
+//   x   = [raw 112 | event 99 (| online z 112)] (EventFeatures, OnlineNorm for --online-norm members)
 //   z   = gelu(W_inp ((x - mean) / std) + b)    (hidden H)
 //   o   = GRU layers on z (PyTorch gate order r, z, n)
 //   y   = W2 gelu(W1 [o | z] + b1) + b2         (2 outputs: t0, t1)
@@ -21,6 +21,7 @@
 #include "wnn/activations.hpp"
 #include "wnn/event_features.hpp"
 #include "wnn/kernels.hpp"
+#include "wnn/online_norm.hpp"
 
 namespace wnn {
 
@@ -55,7 +56,8 @@ struct GruLayer {
 };
 
 struct Weights {
-  int hidden = 0, head_hidden = 0;
+  int hidden = 0, head_hidden = 0, n_in = 0;
+  bool online_norm = false;  // input includes the 112 causal z-scores (width kInputs + kRaw)
   Arena arena;
   std::size_t w_inp_t = 0, b_inp = 0, w_h1 = 0, b_h1 = 0, w_h2 = 0, b_h2 = 0;
   std::vector<GruLayer> layers;
@@ -98,9 +100,12 @@ struct Weights {
     const Tensor& inp = get("inp.weight");
     w.hidden = inp.dim(0);
     const int n_in = inp.dim(1);
-    if (n_in != kInputs)
+    if (n_in != kInputs && n_in != kInputs + kRaw)
       throw std::invalid_argument("model input width " + std::to_string(n_in) + ", engine supports " +
-                                  std::to_string(kInputs) + " (raw + event features)");
+                                  std::to_string(kInputs) + " (raw + event) or " + std::to_string(kInputs + kRaw) +
+                                  " (raw + event + online z-scores)");
+    w.n_in = n_in;
+    w.online_norm = n_in == kInputs + kRaw;
     const std::vector<float>& mean = get("mean").data;
     const std::vector<float>& sd = get("std").data;
     const std::vector<float>& bias = get("inp.bias").data;
@@ -162,7 +167,7 @@ class Predictor {
     (void)half;
 #endif
     const int H = w_.hidden, L = static_cast<int>(w_.layers.size());
-    x_.resize(kInputs);
+    x_.resize(w_.n_in);
     h_.assign(static_cast<std::size_t>(L) * H, 0.f);
     gi_.resize(3 * H);
     gh_.resize(3 * H);
@@ -173,6 +178,7 @@ class Predictor {
 
   void reset() {
     events_.reset();
+    online_.reset();
     std::fill(h_.begin(), h_.end(), 0.f);
   }
 
@@ -181,9 +187,10 @@ class Predictor {
     const int H = w_.hidden;
     std::copy(row, row + kRaw, x_.begin());
     events_.update(row, x_.data() + kRaw);
+    if (w_.online_norm) online_.update(row, x_.data() + kInputs);
     float* z = cat_.data() + H;  // the projection lives in the second half of the head input
     const Arena& A = w_.arena;
-    kernels::saxpy_sparse(A.at(w_.w_inp_t), A.at(w_.b_inp), x_.data(), z, H, kInputs);
+    kernels::saxpy_sparse(A.at(w_.w_inp_t), A.at(w_.b_inp), x_.data(), z, H, w_.n_in);
     gelu(z, H);
 
     const float* layer_in = z;
@@ -204,6 +211,7 @@ class Predictor {
   int hidden() const { return w_.hidden; }
   bool fast() const { return fast_; }
   bool half() const { return w_.has_half; }
+  bool online_norm() const { return w_.online_norm; }
 
  private:
   // Dense layer from the fp32 arena, or from the fp16 copy when half storage is on.
@@ -250,6 +258,7 @@ class Predictor {
   Weights w_;
   bool fast_;
   EventFeatures events_;
+  OnlineNorm online_;
   Vec x_, h_, gi_, gh_, gate_, cat_, head_;
 };
 

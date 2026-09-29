@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from wnn.data import SequenceFile  # noqa: E402
-from wnn.features import event_features_torch  # noqa: E402
+from wnn.features import event_features_torch, online_zscore_torch  # noqa: E402
 
 
 def torch_reference(ck: dict, x: np.ndarray) -> np.ndarray:
@@ -34,6 +34,10 @@ def torch_reference(ck: dict, x: np.ndarray) -> np.ndarray:
     with torch.no_grad():
         raw = torch.from_numpy(x)[None]
         inputs = torch.cat([raw, event_features_torch(raw)], dim=-1)
+        if ck["args"].get("online_norm"):
+            # the z-scores exactly as training computed them: float32 cumsum on CUDA
+            z = online_zscore_torch(raw.cuda()).cpu() if torch.cuda.is_available() else online_zscore_torch(raw)
+            inputs = torch.cat([inputs, z], dim=-1)
         out, _ = model(inputs)
     return out[0, :, :2].numpy()
 
