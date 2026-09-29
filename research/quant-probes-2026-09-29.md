@@ -214,3 +214,18 @@ Verdict: hidden-256 members with head-only fine-tuning are non-negative on every
 champion recipe on average; the size is comparable to one public-LB comparison's noise (~0.0006), so a
 public upload is the remaining test. Final members (train + all valid, head FT on all valid):
 `scripts/final_job.sh`.
+
+## Upload candidates (built 2026-09-29, not uploaded)
+Members: `scripts/final_job.sh` (train + all 1,873 valid, EMA-4 + since-weight, then head-only gcorr FT on all
+valid). Packaged with the C++ engine (`cpp-engine` branch, `native_cpp/package_cpp.py`, fp16 on v3), each
+member checked against PyTorch (max abs 2.7e-4 with fp16 weights), run in the scorer-image userland.
+
+| zip | members | sha256 | local sim us/row | projected scorer time* |
+|---|---|---|---:|---:|
+| candB_h256_2h128 | fin256_s3h, fin128_s3h, fin128_s4h (1/3 each) | 67dbdb63...23e9 | 168 | ~47 min |
+| candA_h256pair | fin256_s3h, fin256_s4h (1/2 each) | 5e7f7d91...ea3a | 201 | ~56 min (governor drops one member) |
+
+*Scorer ~2.36x faster than the local simulation (Rust pair: 25m52s public vs 96.9 us/row here, re-measured
+the same hour). Upload B first; its public runtime calibrates whether A fits.
+Fold evidence for the recipe: h256 head-FT pair vs champion analog +0.0007 (all four folds non-negative);
+h256 + 2 x h128 kept ~70% of the pair gain in the fold-0/1 mixture study (parents, no FT).
