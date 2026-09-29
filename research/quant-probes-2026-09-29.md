@@ -84,3 +84,32 @@ Re-read with this in mind:
 ### R4: class-3 expert (`--train-classes 3`, routed on class 3) — negative (fold 0)
 -0.0016 (SD 0.0006, P(<=0) 0.997): the joint model beats a class-3 specialist trained on fewer
 sequences. Stopped before fold 1.
+
+### R5: pooled weighted-Pearson + wMSE loss from scratch (`--loss wmse_gcorr`) — inside seed noise
++0.0003 vs reference seed 3 (SD 0.0005), -0.0006 vs reference seed 4. No evidence of an effect; not
+replicated further.
+
+### R6: dual-clock GRU (`--arch dual`, row GRU + event-clock GRU) in the EMA regime — no gain
+All fold sequences: fold 0 0.7001 vs 0.7005, fold 1 0.6752 vs 0.6765.
+
+### Engineering side result: C++ engine (branch `cpp-engine`, `native_cpp/`)
+Parity 2.5e-6 vs PyTorch fp32 and 1.4e-6 vs the Rust engine. With fp16 dense weights on v3 it runs
+hidden 128 at 17 us/row vs 27 (Rust) on this host, hidden 256 at 85 vs 156; fp16 changes WP by -1e-6 on
+60 sequences. A faster member means more members or a wider model inside the 60-minute budget.
+
+### Protocol fix: fixed final epoch
+`train_rnn.py` saves `model.pt` as the best epoch **on the held-out fold** (selection on the evaluation
+data). Only the hidden-256 runs peaked before the last epoch; their predictions were redone from
+`model_ep3.pt`, and `fold_job.sh` now always predicts from the fixed final epoch (`EVAL_EPOCH`, default 3).
+
+### R7: capacity, hidden 256 (EMA-4 recipe) — small gain, not worth its cost
+Fixed final epoch: +0.0006 vs the seed-3 reference (SD 0.0010; fold 0 +0.0007, fold 1 +0.0005;
+classes 1/2 +0.0023/+0.0027, class 3 +0.0003). Epoch curve: +0.003-0.004 after epoch 0, shrinking to
++0.0005 by epoch 3, i.e. the EMA-4 hidden-128 model catches up. One hidden-256 member costs ~4x a
+hidden-128 member in inference and scores -0.0006 below the two-seed hidden-128 pair (2x cost).
+Seed-4 hidden-256 runs are queued to check a hidden-256 pair.
+
+### R2 follow-up: order-flow features, seed pair vs reference seed pair — refuted
+quant(s3)+quant(s4) vs ref(s3)+ref(s4): **-0.0009** (SD 0.0006, P(<=0) 0.96), fold 0 -0.0007, fold 1
+-0.0011, every class negative (class 3 -0.0009). Seed 4 alone: -0.0016. The single-seed class-3 hint was
+noise; the explicit window sums slightly hurt (extra inputs, no new information).

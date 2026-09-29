@@ -16,5 +16,6 @@ recipe=(--train-source train+valid --valid-fold "$fold" --eval-source vfold --fu
         --since-weight 32 --since-floor 0.25 --seed "${SEED:-3}" --fast)
 echo "START $(date -Is) gpu=$gpu $run ${*}" >> "$log"
 scripts/limited .venv/bin/python scripts/train_rnn.py --name "$run" "${recipe[@]}" "$@" >> "$log" 2>&1
-scripts/limited .venv/bin/python scripts/predict_run.py "$run" valid >> "$log" 2>&1
+# fixed final epoch (no epoch selection on the held-out fold; model.pt is the best-on-fold snapshot)
+scripts/limited .venv/bin/python scripts/predict_run.py "$run" valid --epoch "${EVAL_EPOCH:-3}" >> "$log" 2>&1
 echo "DONE $(date -Is) $run" >> "$log"
