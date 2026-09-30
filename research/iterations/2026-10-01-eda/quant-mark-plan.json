@@ -1,0 +1,53 @@
+{
+  "id": "QMARK-EDA-01",
+  "status": "registered_before_feature_outcomes",
+  "primary_claim": "Past detected trade-code marks may predict the next mark beyond adaptation to the current sequence's frequencies; this is observable-code dependence, not identified aggressor flow or future-price predictability.",
+  "recipe_count": 1,
+  "data": {
+    "root": "/home/grinchenkoeg/WunderFunder-creative",
+    "features": "datasets/train.parquet, ONLY i0_dv0..i0_dv3; never targets, mask, validation features or predictions",
+    "metadata": "cache/chain_folds.npz and research/artifacts/market-classes-v1.npz for chain selection and descriptive stratification only; class metadata is historically target-derived",
+    "sampling": "Exclude every chain with a validation member, the entire chain containing train row_group528, and every chain selected in ../2026-10-01-deep/quant-inputs.json. Per remaining train-only chain choose its minimum train row_group. Within each of four metadata classes sort by SHA256('QMARK-EDA-01:'+chain_id), take first64, alternate sorted positions into halves0/1. Total256 distinct chains, one sequence each,128 per half. No replacement if a sequence has few detected marks.",
+    "partition": "Fit priors and centers on one half; evaluate only the opposite half; reverse once. Class never enters the predictor. This class-balanced exposed diagnostic design does not represent natural row/class proportions or fresh confirmation.",
+    "truncation": "Read each selected complete20000-row sequence to audit detector counts. Retain only its first4096 detected marks for all fitting/evaluation/nulls; no thinning between retained events. Empty sequences excluded from mark-loss denominators and counted; one-mark sequences retained. Reset predictor state at each sequence boundary, not across recovered chains."
+  },
+  "detector": {
+    "first_row": "Row0 cannot emit an event; initialize previous raw code from row0",
+    "rule": "At row t>=1, both current and immediately previous four-vector must be finite with all abs(values)<5.19; any exact float32 component change; current max-min>1e-6. Then emit current four-vector. Current observation determines whether an event exists, but mark probability uses only previous emitted marks. Invalid or neutral rows emit nothing; previous raw vector is nevertheless advanced, so first valid row after an invalid previous row is not emitted.",
+    "interpretation": "Coded non-neutral update, not a verified execution. Identical-code consecutive executions can be merged, transient resets can split one event, and threshold/sentinel rules can select marks. No whole-sequence median/rest-code estimation at inference.",
+    "frozen_eda_counts": ["total rows", "valid endpoint pairs", "invalid/extreme pairs", "all changed pairs", "valid changed neutral transitions", "detected events before/after cap", "detected fraction", "same-code holds", "gap1,2-8,9plus counts", "return-to-identical-four-vector after one intervening detected mark fraction", "row first/last detected event"]
+  },
+  "mark_encoding": {
+    "centers": "For each fit-half sequence retain at most512 evenly spaced events from its retained prefix. Each nonempty sequence has total weight1. Weighted median independently per each of4 columns gives fixed fit-only center vector; ties select smallest value whose cumulative weight reaches50%.",
+    "mark": "sum_j 2**j * 1[current_dv_j > center_j]. Exact tie maps to0. At most16 marks. No online recentering or class-specific center. Every code maps to a category; categories unseen in fitting remain possible and get positive probability.",
+    "audit": "Report fit centers, per-bit tie rates, category counts/entropy by half/class, and fraction of evaluation marks whose bits would differ under the other fitted half's centers (encoding-stability diagnostic only). Never select a better center afterward."
+  },
+  "predictors": {
+    "prior_global_pi": "Each nonempty fit sequence contributes its empirical16-category frequency vector with total weight1. pi=(sum frequency vectors +1/16)/(number_nonempty_sequences+1), so total uniform prior mass1 and strictly positive entries.",
+    "prior_transition_R": "For each fit sequence with at least2 marks, normalized16x16 transition counts contribute total weight1. R_ij=(summed_normalized_counts_ij +pi_j)/(row_sum_i+1). This is a fixed empirical conditional prior, not a fitted price model.",
+    "global_control": "G_n(j)=pi_j at every detected event",
+    "adaptive_frequency_control": "F_n(j)=(N_j_before_n +16*pi_j)/(n_previous_marks+16)",
+    "primary_adaptive_transition": "T_n(j)=(N_(previous_mark,j)_before_n +16*R_(previous_mark,j))/(N_previous_context_before_n+16). At the first detected event T=F=G=pi. Online counts reset each sequence. Current mark is scored before incrementing either frequency or transition counts. kappa=16 for both adaptive predictors; never tuned.",
+    "probability": "All probabilities strictly positive from priors. Log natural probabilities without posthoc clipping; assert finite positive p and row sums1 in correctness checks. No current raw code, current gap, class or sequence ID enters prediction of the current mark."
+  },
+  "surrogates": {
+    "seeds": [20261011,20261012,20261013],
+    "full": "For each evaluation sequence/seed, permute retained marks within that sequence, keeping exact counts and length. Reset and run same frozen predictors with causal online updates on that permuted order.",
+    "block128": "Independently permute marks inside each consecutive128-mark block; final partial block remains included and is also permuted. Preserves coarse position-local frequencies, destroys within-block adjacency. No horizon search.",
+    "rng": "Derive numpy default_rng seed from first8 SHA256 bytes interpreted little-endian of 'QMARK-EDA-01:{kind}:{seed}:{chain}'. Every permutation is fixed independent of outcomes.",
+    "claim_limit": "Offline order-destroying diagnostics see the entire retained mark sequence. They are not deployable predictors, causal features, calibrated randomization p-values or proof of pure market-event causality. Full shuffle controls stationary sequence mixture; block shuffle additionally preserves coarse frequency drift. Neither identifies why order matters."
+  },
+  "readouts": {
+    "primary": "Original-order mean per-chain logloss(F)-logloss(T), pooled and each fit/evaluation direction. Each chain is one sequence and contributes equally regardless of event count.",
+    "secondary": ["G,F,T mean logloss and perplexity; entropy of observed marks", "Event-weighted total logloss/total retained marks and corresponding gains", "First16 detected marks and subsequent marks separately", "Every metadata class and each diagnostic half, without selecting a favorable class", "Original gain minus average of3 full-shuffle gains, and original gain minus average of3 block128-shuffle gains; report all seeds too", "Lag1 empirical same-mark and lag1 mutual-information descriptive dependence; no IID chi-square p-value", "Mark counts min/median/max and cap-retention fraction", "Per-chain aggregate losses and counts for every condition, no full raw sequence dump"],
+    "uncertainty": "1000 bootstrap draws RNG20261021, resample whole evaluation chains within each of8 half-by-class strata, paired across predictors/conditions. Percentile95% CIs for pooled per-chain gain, event-weighted gain and original-minus-null gains. Priors/centers stay fixed; intervals omit nuisance-fit variability, previous selection and test shift. No rowwise IID standard errors.",
+    "encoding_warning": "Mean-per-chain and event-weighted estimates answer different questions. Class-balanced chain sampling is explicit; none is a competition-metric estimate."
+  },
+  "gate": {
+    "nominate_only_nuisance_feature_study": "Original per-chain gain>=1% of adaptive-frequency logloss, gain positive in each evaluation half, pooled conditional chain95% lower bound>0, and original-minus-block128 gain lower bound>0. Practical exploratory spending gate only; report full-shuffle result regardless. No price predictor or training is allocated here.",
+    "stop": "One recipe, fixed kappa/centers/nulls, all readouts. If gate fails, do not enlarge context, change detector/centering, remove an adverse class, add a logistic model or rerun a new sample. Missing support/timeout is insufficient evidence."
+  },
+  "correctness": ["Analytic prequential counts agree with a simple online loop on deterministic examples", "All-category probability vector at event n independent of current/future mark; row sums1 and positive unseen probabilities", "Prefix detector equality at raw row cuts99,5000,10000,19999 with fixed fit centers", "Prediction/logloss prefix equality at mark cuts1,16,128 with frozen priors; future-suffix mutation leaves prefix unchanged", "Surrogates preserve sequence counts; block128 preserves each block's counts", "Different sequence starts reset all online counts"],
+  "budget": {"threads_max": 2, "cpu_quota": "160%", "memory_max": "10G", "timeout_seconds": 900, "gpu": 0, "WP_queries": 0, "new_disk_max_mib": 50},
+  "provenance": "Freeze plan/code before root schedules run; create exclusive input manifest with selected IDs before feature reads, source file stat/footer hash, metadata/prior-sample/code/plan hashes. Save exclusive result and resource log, no overwrites. Dataset full-file content hash not claimed."
+}
