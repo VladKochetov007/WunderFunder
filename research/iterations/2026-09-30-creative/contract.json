@@ -1,0 +1,20 @@
+{
+  "iteration_id": "creative-20260930-01",
+  "status": "registered",
+  "question": "Which next experiment is most likely to improve the deployed Connectome ensemble after accounting for adaptive validation reuse, training-seed variation, and CPU inference cost?",
+  "objective_mode": "competition",
+  "deliverables": ["repair methodology problems 1-3 in repository skills", "independently proposed and reviewed hypothesis cards", "bounded CPU screens with reproducible artifacts", "ranked next experiments with explicit uncertainty"],
+  "verification_tier": "C",
+  "baseline": {"family": "candC / candV1", "reported_public_wp": 0.6641, "source": "research/quant-probes-2026-09-29.md", "public_score_independently_verified": false},
+  "source_commit": "0927b1e",
+  "metric": "mean of two global pooled Pearson correlations; target and prediction clipped to [-2,2]; weights abs(clipped target); exact need_prediction AND is_scored mask",
+  "evaluation_unit": "whole continuous chain; never independent rows",
+  "data_exposure": {"folds_0_1": "heavily adaptively reused; discovery only", "folds_2_3": "previously inspected for width and fine-tuning; not untouched", "old_holdout": "inspected and used in final fitting; not untouched", "fresh_confirmation_available": false},
+  "uncertainty": {"chain_bootstrap": "conditional on fixed fitted models; sampling uncertainty only", "training_seeds": "matched repeated training needed for recipe effects", "domain_shift": "separate unresolved uncertainty", "adaptive_selection": "no significance or unbiased confirmation claim from reused folds"},
+  "scope": {"data": "existing organizer data and prediction caches on beleriand", "local_edits": "isolated WunderFunder-creative worktree", "remote_edits": "isolated creative worktree only", "network": "SSH and primary research sources", "uploads": false, "new_gpu_training": false, "existing_jobs": "observe only"},
+  "budget": {"max_new_cpu_screen_families": 3, "cpu_threads_per_screen": 2, "parallel_cpu_screens": 1, "ram_gb_per_screen": 8, "screen_wall_minutes": 8, "gpu_hours": 0, "max_team_workers": 3},
+  "registration": "Commit candidate specification, comparison, readouts and stopping rule before each screen; append results separately. Any post-result change is a new exploratory attempt.",
+  "promotion": {"this_iteration": "rank next experiments only; no submission promotion or replicated-effect claim", "next_training_screen": "fixed recipe and epoch; paired candidate/control seeds; compare deployed ensemble contribution; report seed and chain uncertainty separately", "confirmation": "genuinely unexposed data if available; otherwise state exploratory status and use prospective external evaluation without retroactive retuning"},
+  "stop": ["one ideation/critique/probe/synthesis cycle complete", "three screen families exhausted", "shared-host contention or resource failure", "no discriminating screen without new heavy training"],
+  "invariants": ["causal inference within a sequence", "no true past-label feedback unless exactly reconstructible by that time", "no edits to existing running jobs or shared caches", "no claimed causation from predictive association", "no OLS, LARS, temporal-placebo or universal-Sharpe veto without task-specific justification"]
+}
