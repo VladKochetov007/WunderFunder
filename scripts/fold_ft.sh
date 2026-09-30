@@ -18,7 +18,7 @@ common=(--train-source valid --n-valid-folds 4 --full-valid --loss gcorr --mask-
         --valid-fold "$fold" --eval-source vfold "$@")
 echo "START $(date -Is) gpu=$gpu $out parent=${parent}_f${fold}@ep${PARENT_EP:-3} ${*}" >> "$log"
 scripts/limited .venv/bin/python scripts/train_rnn.py --name "${out}h" --init "${parent}_f${fold}@ep${PARENT_EP:-3}" \
-  --freeze inp,gru --lr 5e-4 "${common[@]}" >> "$log" 2>&1
+  --freeze "${FT_FREEZE:-inp,gru}" --lr 5e-4 "${common[@]}" >> "$log" 2>&1
 scripts/limited .venv/bin/python scripts/train_rnn.py --name "$out" --init "${out}h" --lr "${FT2_LR:-2e-4}" "${common[@]}" >> "$log" 2>&1
 scripts/limited .venv/bin/python scripts/predict_run.py "$out" valid >> "$log" 2>&1
 # head-only stage (trunk frozen) as its own candidate: cache/pred_NAMEH_fFOLD_valid.npy

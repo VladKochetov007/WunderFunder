@@ -377,6 +377,12 @@ def make_model(args_dict, n_in, n_out):
     if args_dict.get("arch") == "gated":
         return GatedRNNModel(n_in, args_dict["hidden"], args_dict["layers"],
                              args_dict["dropout"], n_out=n_out)
+    if args_dict.get("arch") == "tfm":
+        from wnn.xl_transformer import XLTransformer
+
+        return XLTransformer(n_in, d=args_dict.get("tfm_d", 256), layers=args_dict.get("tfm_layers", 6),
+                             heads=args_dict.get("tfm_heads", 8), ff=args_dict.get("tfm_ff", 1024),
+                             block=args_dict.get("tfm_block", 250), n_out=n_out, dropout=args_dict["dropout"])
     if args_dict.get("arch") == "twostream":
         from wnn.two_stream import TwoStreamModel
 
@@ -480,7 +486,12 @@ def main():
                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
-    ap.add_argument("--arch", choices=["gru", "dual", "gated", "attn", "twostream"], default="gru")
+    ap.add_argument("--arch", choices=["gru", "dual", "gated", "attn", "twostream", "tfm"], default="gru")
+    ap.add_argument("--tfm-d", type=int, default=256)
+    ap.add_argument("--tfm-layers", type=int, default=6)
+    ap.add_argument("--tfm-heads", type=int, default=8)
+    ap.add_argument("--tfm-ff", type=int, default=1024)
+    ap.add_argument("--tfm-block", type=int, default=250, help="rows per attention block (chunk must be a multiple)")
     ap.add_argument("--hidden1", type=int, default=0, help="--arch twostream: hidden size of the i1 stream (0 = --hidden)")
     ap.add_argument("--attn-k", type=int, default=32, help="--arch attn: ring of the last K i0 price-event tokens")
     ap.add_argument("--attn-d", type=int, default=64, help="--arch attn: attention width")

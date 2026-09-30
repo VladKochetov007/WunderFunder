@@ -376,3 +376,28 @@ clock (decoded quote changes), never on a proxy event stream.
   class-3 metric weight; |y|-weighted CE + metric-optimal decode mixed with the regression head by p(class 3) and a
   learned lambda, which settled at 0.41): pair vs h128 pair -0.0008 (folds -0.0005/-0.0010, SD 0.0004, class 3
   -0.0009); in C's blend -0.0003. Refuted (consistent with Vlad's E-071 CE heads).
+
+# Round 5 (2026-09-30 evening): maximum extractable signal
+## Ensemble ceiling of everything trained so far (folds 0+1, pure chains)
+- average of all 22 head-FT members (h128/h256/distilled/gen-2/attn/two-stream/class-heads/c500/...): 0.70277,
+  C analog (4 members) 0.70242 -> unlimited inference budget buys +0.0004 over C.
+- average of all ~75 members (parents, full-FT, refuted arms): 0.70249.
+- cross-fitted weights over 15 diverse members: +0.0002 over their equal-weight average.
+C already captures nearly all the signal these model families see.
+## High-capacity teacher: causal segment-recurrent Transformer (`src/wnn/xl_transformer.py`, `--arch tfm`)
+6 layers, d 256, 8 heads, ff 1024, blocks of 250 rows attending to themselves and the previous block per layer
+(memory carried across chunks, zero memory at sequence start), ALiBi; 4.9M parameters; chunk-invariant and causal
+(tested). Fold 0/1 runs in progress (lr 5e-4, EMA-4 recipe, head-only FT freezing inp/blocks/ln).
+
+## Target law, classes 0-2 (subagent, 200 train sequences per class, move tables on 150, scored on 50)
+- Targets change only at i0 price-code changes that MOVE ask or bid (>=99.98%); pure shape changes never change them.
+- Spread term is an exact function of the 22-column price code in every class on rows with both targets <= 0
+  (100.00% held out; tables of 53 / 490 / 3,793 / 24,307 codes for classes 3/2/1/0): refutes E-074, whose
+  inconsistency came from floored rows.
+- Losing side = -(sp + 2m), 1 <= m <= winner, m = clip(first adverse move of the loser's exit quote, 1, w): exact
+  (given true F) 99.8 / 99.3 / 94.5 / 86.0% for classes 3/2/1/0 vs 99.9 / 98.5 / 77.5 / 60.7% for the fixed floor.
+- Best F = round(mean mid over the next N ask/bid-move events): N = 4/6/6/8 for classes 3/2/1/0; exact (t0,t1)
+  80 / 62 / 42 / 26% of rows (58 / 38 / 21 / 13% of |y| weight). F is exact for |F-mid| < 1 tick (97/86/70/52%) and
+  fails for >= 2-tick moves in every class (<= 2-28%); no single event or row horizon fits both regimes.
+All unexplained parts are future-dependent; the known parts (spread, loser floor shape) are visible to the model.
+No new lever; aux targets from the future quote path were refuted earlier (E-251).
