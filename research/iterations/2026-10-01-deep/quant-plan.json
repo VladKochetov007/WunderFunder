@@ -1,0 +1,34 @@
+{
+  "id": "Q-DEEP-01",
+  "status": "frozen_plan_before_diagnostic",
+  "question": "Do quiet-book volume-code increments admit a stable small sparse-direction representation, and is its geometry materially better than raw/PCA capacity-matched coordinates?",
+  "claims": {
+    "physical": "Physical queue recovery requires additional identification of zero, sign, units and price-level identity. This diagnostic cannot establish it; failure of physical identification does not by itself reject a useful causal coordinate.",
+    "representation": "Separately preregistered predictive-representation feasibility claim: stable fixed sparse directions may reduce the burden of learning state-dependent flow features. Geometry is necessary for this representation, not evidence of future-target prediction beyond a GRU."
+  },
+  "data": {
+    "features_only": "datasets/train.parquet; only i0_p0..21, i0_v0..21, i0_dv0..3. Do not request t0,t1,validation data, scored masks or model predictions.",
+    "metadata": "cache/chain_folds.npz and research/artifacts/market-classes-v1.npz only for chain partition and descriptive stratification; market classes are historical label-derived metadata, never an inference input or new outcome.",
+    "sample": "For each train-containing chain take its minimum train row_group except known local-corruption row_group528. Group by that representative's market class. Sort representatives by SHA256('Q-DEEP-01:'+chain_id), retain first16 per class (64 total). Alternating sorted positions define halves A/B; one representative per chain so no chain crosses halves. Save selected IDs before reading feature values.",
+    "quiet": "All22 i0 price-code columns identical to preceding row, independently of volume/trade flags; this is observed code equality, not a claim that all latent queues remain identifiable.",
+    "eligible_increment": "Per side11 volume columns, consecutive-row difference nonzero with norm>1e-7, finite current/previous values and all abs(values)<5.19. Report sentinel/extreme exclusions and simultaneous bid/ask changes separately. No rank-Gauss inversion or nonlinear preprocessing.",
+    "sampling": "At most256 eligible quiet increments per sequence and side, deterministically evenly spaced over eligible row IDs. At most64 price-code-change increments per sequence/side retained for descriptive stress checks only. Report counts before subsampling. Each sequence has total fitting weight1 regardless of activity; each retained event is weighted1/n_selected_in_sequence. No metric-label weighting.",
+    "exposure": "All source data historically exposed; this chain split is a diagnostic stability partition, not fresh confirmation."
+  },
+  "model": {
+    "scale": "For each fitting half/side, uncentered per-column RMS of delta with floor1e-6, chain-equal weights; apply that fixed scale to the other half.",
+    "directions": "K=11 unit rays/lines in11 dimensions. Initialize with fitting-half PCA eigenvectors; perform exactly20 hard projective-kmeans iterations. Assign each unit increment to max absolute cosine; update each atom to the leading eigenvector of its chain-weighted assigned second moment. Empty clusters retain previous atom. No restarts or K/iteration tuning.",
+    "controls": "Raw coordinate axes, same fitting-half PCA basis, one random orthonormal basis from RNG seed20261001. Same11 atoms and best1/best2 linear-coefficient reconstruction; all comparisons use same fixed scaling. These are geometry controls, not predictive models.",
+    "error": "Relative L2 reconstruction error of normalized increments. Best2 searches all55 distinct atom pairs by exact two-column least squares; nearly collinear pairs use the best1 fit. Report fraction error<=0.1, median and p90; sequence-equal primary and sampled-event-weighted secondary.",
+    "stability": "Fit both halves separately for each side; map atoms back to original code units and match via Hungarian maximum absolute cosine. Report all11 cosines, count>=0.95, rank and condition number. No queue identity inferred from matching.",
+    "descriptive_slices": "Every market class, current-row causal trade indicator (dv changed and range>1e-6), and low/high previous-state magnitude relative to fitting-half median; price-change stress set separately. No best-slice selection or new fit per slice."
+  },
+  "gates": {
+    "sparse_representation": "Recommend a later predictive test only if each side and direction has sequence-equal best2 error<=0.1 on at least80% of quiet increments, matched atoms>=9/11 at cosine0.95, full rank with condition number<100, and coverage improves at least0.10 over the stronger raw/PCA control. These are engineering spending gates, not significance or physical identification.",
+    "physical": "Always unresolved by this diagnostic, even on a geometry pass. Unavailable true sizes, zeros, event timestamps and cause labels prevent a literal queue-intensity claim.",
+    "stop": "Exactly one recipe and its prescribed controls/slices. Do not add inverse CDF, nonlinear dictionary, new dimensions or select successful classes after results. Timeout or insufficient per-chain increments is insufficient evidence. A fail rejects this cheap fixed-line representation, not all causal coordinates."
+  },
+  "resources": {"cpu_quota": "160% on80-logical-CPU host via WNN_CPU_PCT=2", "threads_max": 2, "memory_max": "8G", "timeout_seconds": 480, "new_disk_max_mib": 20, "gpu": 0, "WP_queries": 0},
+  "artifacts": ["quant_geometry.py", "quant-inputs.json", "quant-result.json", "quant-run.log"],
+  "execution": "Root schedules the sole remote diagnostic. Before feature reads, record exact selected IDs, source metadata/file stat, script/plan/metadata SHA256 and source Parquet footer hash. Preserve results with exclusive creation. Dataset whole-file hashing is outside this bounded diagnostic; disclose that limitation."
+}
