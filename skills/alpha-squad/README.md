@@ -1,22 +1,54 @@
 # Alpha Squad
 
-Five hypothesis generators attacking from complementary angles. Mechanism over fit. Counterparty over correlation. Every hypothesis must identify who loses money and why.
+Five optional specialist lenses for testable market hypotheses. Use evidence and task fit to choose the lenses; their names do not imply independent expertise.
+
+## Shared task protocol
+
+The active research contract sets the objective, metric, permitted data, exposure history,
+resource limits and stopping rule. Use the [research controller](../../.agents/skills/conduct-creative-research/SKILL.md)
+for registration, adaptive-selection controls, uncertainty, grading and evidence records.
+These roles supply specialist questions; they do not replace that protocol.
+
+- **Prediction/competition:** validate information availability at inference time, split integrity,
+  incremental out-of-sample value on the task metric, and deployment constraints. A useful predictor
+  need not identify a causal treatment effect or a losing counterparty.
+- **Causal-effect research:** define the intervention, estimand and identification assumptions.
+  A DAG records assumptions; agreement with it, residualization or Double ML does not establish
+  identification. Instruments are one option, not a universal requirement.
+- **Trading:** additionally examine costs, capacity, exposure and a plausible mechanism. Counterparty
+  and constraint stories remain hypotheses unless supported by data.
+- Distinguish temporal causality (no unavailable future information) from causal identification
+  (effects of interventions). Predicting past returns is not itself leakage; negative controls
+  need a justified null and a resampling design that respects dependence.
+- Select only relevant roles and checks. Mark unavailable or irrelevant fields **unknown/N/A** with
+  reasons; do not invent timestamps, venues, corporate actions or institutional identities.
+  Use `/venue-expert` only if installed, relevant and supported by the available context.
+- Thresholds must be justified for this metric, sample, dependence and decision cost, and registered
+  before the comparison. No universal OLS, LARS, R², Sharpe or entropy veto applies. A failed screen
+  rejects the tested implementation or narrows the claim; it need not refute the whole mechanism.
+- Persona names and shared-model agreement are not independent evidence. Record initial proposals
+  separately, scope a critic independently, and decide using reproducible artifacts and the contract.
+- Use the contract's worker/compute limits and stop rules; default to one proposal/review cycle,
+  not repeated debate until agreement. Additional variants are additional exploratory trials.
+- Reuse established authorization and context. Ask the user only for material missing information
+  or actions outside authorized scope, not every routine transform or scientific interpretation.
+  Approval is not evidence of statistical validity.
+
+
 
 ## Philosophy
 
-- **Mechanism first** - no hypothesis without a causal diagram
-- **Counterparty required** - who loses money? why are they forced?
+- **Testable rationale** - an observable prediction and falsifier; a DAG when making causal-effect claims
+- **Economic context when relevant** - distinguish a supported mechanism from a counterparty story
 - **Complementary angles** - value, flows, networks, microstructure, mechanisms
-- **User decides** - agents advise and ask, never assume
-- **Deep by default** - dig until you understand
+- **Contract governs** - act within authorization, record assumptions and uncertainty
+- **Bounded investigation** - stop at the registered evidence or resource limit
 
 ## Shared Protocol
 
-Every hypothesis must:
-1. Identify the **counterparty** (who loses money)
-2. Specify the **constraint** (why they're forced)
-3. Estimate **decay** (when does this edge die)
-4. Trace to Paleologo's five sources: risk preferences, liquidity, funding, predictable flows, information
+Every hypothesis records a prediction, available inputs, baseline comparison, falsifier and cost.
+For trading mechanisms, add counterparty, constraint and decay estimates when supported.
+Paleologo's five sources are optional idea prompts; unknowns must remain explicit.
 
 ## Agents
 
@@ -37,29 +69,29 @@ Forced sellers, index reconstitutions, 13F crowding, liquidation signatures. Fin
 ### network-architect - Relationships & Propagation Lens
 Customer-supplier networks, lead-lag structures, contagion paths. Models how information travels along network edges.
 
-**Key trait**: Sector correlation is symptom. Supply chain is cause.
+**Key trait**: Test propagation against common-factor and timing explanations.
 
 ---
 
 ### book-physicist - Microstructure & Entropy Lens
 Order book as physical system. Structural models (Kyle, Glosten-Milgrom, Hawkes), entropy decomposition of book state, order informativity factoring. Finds alpha where information enters the book.
 
-**Key trait**: Entropy drop means someone knows something. The question is who.
+**Key trait**: Entropy changes need a defined estimator and competing explanations.
 
 ---
 
 ### causal-detective - Mechanisms & Confounding Lens
-Frisch-Waugh-Lovell orthogonalization, Double ML, placebo tests. Proves that the squad's hypotheses are causal, not confounded.
+Examines identification assumptions, information availability and justified negative controls. Uses residualization or Double ML only where their assumptions match the claim.
 
-**Key trait**: Correlation is unobserved confounding until proven otherwise
+**Key trait**: Separate predictive association from identified intervention effects.
 
 ---
 
-## Flow
+## Flow (only selected, applicable roles)
 
 ```mermaid
 flowchart TD
-    strat([mft-strategist 🔴]) --> sentinel["data-sentinel 🔵<br/>ALWAYS FIRST"]
+    strat([mft-strategist 🔴]) --> sentinel["data-sentinel 🔵<br/>Data audit"]
 
     sentinel --> squad
 
@@ -83,23 +115,21 @@ flowchart TD
 ```
 
 **Squad Output** (every hypothesis):
-- Mechanism diagram (DAG)
-- Counterparty identification
-- Constraint specification
-- Decay estimate
-- Paleologo source (risk preferences, liquidity, funding, predictable flows, information)
-- Required data (to Data Sentinel)
+- Observable prediction, comparison, falsifier and expected cost
+- Evidence-linked rationale and unresolved alternatives
+- Required data, availability and exposure status
+- Optional causal/trading fields: DAG, counterparty, constraint, decay and source classification
 
 ## Venue Context
 
-All agents invoke `/venue-expert` skill first for venue-specific microstructure context.
+Use documented venue context when available. An anonymized prediction task may have no identifiable venue; do not block or fabricate one.
 
 ## Key Rules
 
-1. **Counterparty required** - no hypothesis without identifying who loses
-2. **Mechanism required** - no hypothesis without a causal diagram
-3. **All five angles** - squad debates across lenses before finalizing
-4. **USER DECIDES** - agents present options, never assume
+1. **Task fit** - choose relevant lenses and applicable checks.
+2. **Evidence required** - make a scoped claim and an observable falsifier.
+3. **Bounded review** - one or two proposers and a separately scoped critic, within the contract.
+4. **Scoped verdicts** - record uncertainty and what the result does and does not establish.
 
 ---
 

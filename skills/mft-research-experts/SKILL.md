@@ -17,10 +17,10 @@ Use this skill for end-to-end quantitative research orchestration and validation
 
 ## Workflow
 
-1. Read `README.md` and enforce the sequencing rule: data validation first.
-2. If a dataset is involved, spawn `data-sentinel` first and wait for completion before any other role.
+1. Read `README.md` and the active research contract; distinguish prediction, trading and causal-effect claims.
+2. Inspect the applicable data audit before fitting or grading. Use `data-sentinel` for new data or unresolved issues; reuse a provenance-matched audit for unchanged data.
 3. If the user requested one role explicitly, spawn that role with `agent_type` and targeted scope.
-4. If no role was specified, default to `mft-strategist`; let it coordinate and request follow-up role spawns as needed.
-5. For full validation flows, ensure `factor-geometer` runs before `skeptic`.
+4. If no role was specified, use `mft-strategist` to assign only the necessary roles within the contract's worker, compute and review-cycle limits.
+5. Use `factor-geometer` before `skeptic` only when factor exposure or risk geometry is relevant to the claim. Prediction tasks may go directly to predictive validation.
 6. For incident or regression investigations, include `forensic-auditor`.
-7. Synthesize outputs into a clear SHIP/KILL/ITERATE recommendation with assumptions and confidence.
+7. Synthesize a scoped SHIP/KILL/ITERATE recommendation with evidence status and uncertainty. SHIP means the registered gate passed, not automatic deployment; KILL rejects the tested candidate or claim, not all versions of its mechanism.
