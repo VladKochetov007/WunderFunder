@@ -1,0 +1,17 @@
+{
+  "id": "CLOCK2-preexecution-correctness-amendment",
+  "registered_utc": "2026-09-30T22:37:27.624413+00:00",
+  "prior_commit": "f310c6b",
+  "prior_script_sha256": "06661c13c91c39474cb9b665fd65cd3af5b3b15c8b20a3b26a04b77d57579249",
+  "new_script_sha256": "a2e3d9931e01700f8c8ae5ef54c6c27f27867ea0d2b01483c4f2fbb3b2b18272",
+  "changes": [
+    "Equal-chain descriptive quantiles omit undefined ratios instead of substituting0; report valid and undefined chain counts.",
+    "Fit-bootstrap mean ratios broadcast denominators and report null for wholly undefined ratios.",
+    "Absent primary bootstrap CI cannot satisfy the descriptor."
+  ],
+  "scientific_recipe_changed": false,
+  "competition_data_execution_before_amendment": false,
+  "competition_outcomes_seen_before_amendment": false,
+  "verification": "clock-selftest.py passed after change; prior synthetic expectation failure retained separately.",
+  "reason": "Independent preexecution code review found undefined ratios incorrectly treated as observed zero in presentation summaries; aligns code with frozen null semantics."
+}

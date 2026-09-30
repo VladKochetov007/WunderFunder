@@ -18,6 +18,9 @@ def sha_arrays(*arrays):
 def save(path,obj):
     with Path(path).open('x') as f:json.dump(obj,f,indent=2,allow_nan=False);f.write('\n')
 def ratio(n,d):return float(n/d) if d else None
+def ratio_mean(n,d):
+    n,d=np.broadcast_arrays(np.asarray(n),np.asarray(d));ok=d>0
+    return float(np.mean(n[ok]/d[ok])) if np.any(ok) else None
 def ci(n,d):
     n,d=np.broadcast_arrays(np.asarray(n),np.asarray(d))
     ok=d>0
@@ -245,13 +248,13 @@ def main():
             extras={};gates={};interval_reports={}
             for name,st,bs in [('A',sa,ba),('B',sb,bb)]:
                 drop=np.array([chain_info[i]['drop_'+name] for i in select]);proxy_n=tt[:,2]
-                extras[name]=dict(known_events=sum(chain_info[i]['known_'+name] for i in select),total_code_events=int(tt[:,1].sum()),drop_proxy_numerator=int(drop.sum()),drop_proxy_denominator=int(proxy_n.sum()),drop_proxy_fraction=ratio(drop.sum(),proxy_n.sum()),drop_proxy_chain_ci95=ci(w@drop,w@proxy_n),equal_chain_drop_quantiles=qsummary(np.divide(drop,proxy_n,out=np.zeros_like(drop,dtype=float),where=proxy_n>0)),audit_event_weighted_bootstrap_tie_probability=ratio((bs['ties']*ctotal).sum(),BOOT*(ctotal*st['known'][0]).sum()),audit_event_weighted_bootstrap_absent_probability=ratio(((~bs['known'])*ctotal*st['known']).sum(),BOOT*(ctotal*st['known'][0]).sum()))
-                flips=metric_arrays(core[None],tt.sum(0,keepdims=True),st,bs)['xor_per_code_event'];extras[name]['fit_bootstrap_only_candidate_flip_mean']=float(np.mean(flips[0]/flips[1]));extras[name]['fit_bootstrap_only_candidate_flip_ci95']=ci(*flips)
+                extras[name]=dict(known_events=sum(chain_info[i]['known_'+name] for i in select),total_code_events=int(tt[:,1].sum()),drop_proxy_numerator=int(drop.sum()),drop_proxy_denominator=int(proxy_n.sum()),drop_proxy_fraction=ratio(drop.sum(),proxy_n.sum()),drop_proxy_chain_ci95=ci(w@drop,w@proxy_n),equal_chain_drop_quantiles=qsummary(drop[proxy_n>0]/proxy_n[proxy_n>0]),equal_chain_drop_valid_chains=int((proxy_n>0).sum()),equal_chain_drop_undefined_chains=int((proxy_n<=0).sum()),audit_event_weighted_bootstrap_tie_probability=ratio((bs['ties']*ctotal).sum(),BOOT*(ctotal*st['known'][0]).sum()),audit_event_weighted_bootstrap_absent_probability=ratio(((~bs['known'])*ctotal*st['known']).sum(),BOOT*(ctotal*st['known'][0]).sum()))
+                flips=metric_arrays(core[None],tt.sum(0,keepdims=True),st,bs)['xor_per_code_event'];extras[name]['fit_bootstrap_only_candidate_flip_mean']=ratio_mean(*flips);extras[name]['fit_bootstrap_only_candidate_flip_ci95']=ci(*flips)
                 gates[name]=dict(chains_with_drop_at_least_1pct=int(np.sum((proxy_n>0)&(drop>=.01*proxy_n))),chains=len(select))
             ints=np.array([chain_info[i]['closed_intervals'] for i in select],float)
             for block in ('i0_volume_code','i0_trade_code','i1_feature_code'):
                 data={k:np.array([chain_info[i]['interval_blocks'][block][k] for i in select],float) for k in ('updates','nonempty','at_least4')}
-                interval_reports[block]={k:dict(numerator=int(v.sum()),closed_intervals=int(ints.sum()),estimate=ratio(v.sum(),ints.sum()),conditional_chain_ci95=ci(w@v,w@ints),equal_chain_ratio_quantiles=qsummary(np.divide(v,ints,out=np.zeros_like(v),where=ints>0))) for k,v in data.items()}
+                interval_reports[block]={k:dict(numerator=int(v.sum()),closed_intervals=int(ints.sum()),estimate=ratio(v.sum(),ints.sum()),conditional_chain_ci95=ci(w@v,w@ints),equal_chain_ratio_quantiles=qsummary(v[ints>0]/ints[ints>0]),equal_chain_ratio_valid_chains=int((ints>0).sum()),equal_chain_ratio_undefined_chains=int((ints<=0).sum())) for k,v in data.items()}
                 interval_reports[block]['by_gap_bin']=[{k:sum(chain_info[i]['interval_blocks'][block]['by_gap_bin'][j][k] for i in select) for k in ('intervals','updates','nonempty')} for j in range(5)]
             result['by_class'][str(cl)]=dict(chains=len(select),sequences=sum(len(chain_info[i]['row_groups']) for i in select),rows=int(tt[:,0].sum()),code_events=int(tt[:,1].sum()),proxy_events=int(tt[:,2].sum()),pairs=reports,support_strata=ss,fresh_clock_summaries=extras,materiality_chain_counts=gates,interval_EDA_fixed_A=interval_reports)
         result['checks']['sufficient_statistics_match_direct_scan']=True
@@ -266,9 +269,9 @@ def main():
         for name,model in [('A',A),('B',B)]:
             save(args.output/('clock-fit-'+name+'.json'),dict(fit_chains=sample['fit_'+name],moves=[dict(previous=list(map(float,key[0])),current=list(map(float,key[1])),move=model['table'][key],chain_support=model['chain_support'][key],jump_counts=[dict(jump=list(j),count=n) for j,n in co.items()]) for key,co in model['trans'].items()]))
         result['data_after']=statfp(parquet);assert before==result['data_after'];result['checks']['data_fingerprint_stable']=True
-        c3=result['by_class']['3'];upper=c3['pairs']['A_B']['xor_per_code_event']['joint_fit_and_audit_chain_ci95'][1]
+        c3=result['by_class']['3'];interval=c3['pairs']['A_B']['xor_per_code_event']['joint_fit_and_audit_chain_ci95'];upper=interval[1] if interval is not None else None
         material=all(v['chains_with_drop_at_least_1pct']>=.9*v['chains'] for v in c3['materiality_chain_counts'].values())
-        result['decision']=dict(binary_partition_descriptor_pass=bool(upper<=.01 and material),joint_class3_xor_code_event_ci_upper=upper,both_maps_drop_ge1pct_on_ge90pct_chains=material,interpretation='Descriptive learned-partition stability only; old signed-key gate remains failed; no physical quote-truth, forecast improvement or training authorization.')
+        result['decision']=dict(binary_partition_descriptor_pass=bool(upper is not None and upper<=.01 and material),joint_class3_xor_code_event_ci_upper=upper,both_maps_drop_ge1pct_on_ge90pct_chains=material,interpretation='Descriptive learned-partition stability only; old signed-key gate remains failed; no physical quote-truth, forecast improvement or training authorization.')
         result['status']='complete'
     except Exception as ex:
         import traceback
