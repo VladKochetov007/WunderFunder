@@ -321,3 +321,15 @@ Checked: chunked == full forward exactly, future perturbation leaves the prefix 
 h128, 4 epochs EMA: +0.0017/+0.0022/+0.0007 after epoch 0, final parents 0.7002 vs 0.7005 (f0), 0.6765 vs 0.6765
 (f1). Head-FT: single -0.0002 (folds 0+1); fold-0 pair +0.0003 (SD 0.0004); as the 4th member in C instead of
 c500 -0.0004. Refuted: faster convergence to the same ceiling, like width, distillation and privileged teachers.
+
+## Decoded class-3 price level in ticks (`scripts/eda_ticks.py`) — no residual information
+Transition tables fitted on 1,500 class-3 train sequences (1,594 transitions; 18 unknown of 1.96M valid book
+events). Features on the decoded mid path: expanding z, distance to rolling max/min (500/2000/8000 rows),
+tick changes over 100/500/2000 rows, reversal fraction over the last 64 mid moves. Weighted corr with the
+d256-pair residual on class-3 pure valid rows: |corr| <= 0.044 with signs flipping between folds; cross-fitted
+ridge -0.012 / -0.006. No support/resistance, momentum or reversal-regime signal beyond the GRU.
+
+# Status after round 3
+Every direction tried since the 0.6640 submission converges to the same ceiling (~0.702 on folds 0+1 for the
+best 4-member blend): width, distillation (incl. privileged and gen-2), attention over events, class heads,
+per-class blending, discrete class-3 contexts, long-memory and decoded-level features.
