@@ -1,0 +1,695 @@
+{
+  "id": "A-quote-clock-deep-preflight",
+  "status": "frozen_before_data_diagnostic",
+  "registered_utc": "2026-09-30T22:00:17.834312+00:00",
+  "claim": "Determine whether clock replacement changes the event stream materially, and whether a train-fitted lookup is causal and semantically stable; no forecasting improvement claim.",
+  "selection_budget": {
+    "recipes": 1,
+    "gpu": 0,
+    "WP_queries": 0,
+    "threads_max": 2,
+    "memory_gib_max": 8,
+    "wall_seconds_max": 480
+  },
+  "inputs": {
+    "root": "/home/grinchenkoeg/WunderFunder",
+    "data": "datasets/train.parquet",
+    "chain_folds_sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+    "classes_sha256": "a805a6aab37f74120265a8abb6cad407b532e8ebae38290bdd8e7c80f6580fc2",
+    "descriptive_cached_table_sha256": "117f97e41389526ffb5e9c1f5fa4b1ad34b2af622226dc4cd0674590564a90a2"
+  },
+  "sampling": {
+    "unit": "whole chain",
+    "fit": "96 class-3 train-only chains, one minimum valid row-group per chain, SHA256 quoteclock-fit-20261001:<chain> ascending; exclude audit chains and ALL chains with any validation member.",
+    "audit": "8 train-only chains per class0..3 by SHA256 quoteclock-audit-20261001:<chain>, minimum row-group; exclude corrupt train row-group528; classes used only for diagnostics not candidate routing.",
+    "frozen_ids": {
+      "audit": [
+        {
+          "market_class": 0,
+          "chain": 1945,
+          "row_group": 609
+        },
+        {
+          "market_class": 0,
+          "chain": 1176,
+          "row_group": 4590
+        },
+        {
+          "market_class": 0,
+          "chain": 2641,
+          "row_group": 368
+        },
+        {
+          "market_class": 0,
+          "chain": 1917,
+          "row_group": 7418
+        },
+        {
+          "market_class": 0,
+          "chain": 1487,
+          "row_group": 5759
+        },
+        {
+          "market_class": 0,
+          "chain": 1933,
+          "row_group": 7489
+        },
+        {
+          "market_class": 0,
+          "chain": 572,
+          "row_group": 2188
+        },
+        {
+          "market_class": 0,
+          "chain": 656,
+          "row_group": 2503
+        },
+        {
+          "market_class": 1,
+          "chain": 1532,
+          "row_group": 5948
+        },
+        {
+          "market_class": 1,
+          "chain": 1381,
+          "row_group": 649
+        },
+        {
+          "market_class": 1,
+          "chain": 1912,
+          "row_group": 7406
+        },
+        {
+          "market_class": 1,
+          "chain": 1595,
+          "row_group": 6177
+        },
+        {
+          "market_class": 1,
+          "chain": 1527,
+          "row_group": 5912
+        },
+        {
+          "market_class": 1,
+          "chain": 1379,
+          "row_group": 2094
+        },
+        {
+          "market_class": 1,
+          "chain": 2139,
+          "row_group": 2731
+        },
+        {
+          "market_class": 1,
+          "chain": 2255,
+          "row_group": 8681
+        },
+        {
+          "market_class": 2,
+          "chain": 309,
+          "row_group": 1231
+        },
+        {
+          "market_class": 2,
+          "chain": 1733,
+          "row_group": 6674
+        },
+        {
+          "market_class": 2,
+          "chain": 257,
+          "row_group": 1039
+        },
+        {
+          "market_class": 2,
+          "chain": 926,
+          "row_group": 1174
+        },
+        {
+          "market_class": 2,
+          "chain": 2248,
+          "row_group": 8361
+        },
+        {
+          "market_class": 2,
+          "chain": 1550,
+          "row_group": 6024
+        },
+        {
+          "market_class": 2,
+          "chain": 2254,
+          "row_group": 1501
+        },
+        {
+          "market_class": 2,
+          "chain": 2407,
+          "row_group": 2920
+        },
+        {
+          "market_class": 3,
+          "chain": 899,
+          "row_group": 3509
+        },
+        {
+          "market_class": 3,
+          "chain": 1388,
+          "row_group": 89
+        },
+        {
+          "market_class": 3,
+          "chain": 993,
+          "row_group": 3835
+        },
+        {
+          "market_class": 3,
+          "chain": 1192,
+          "row_group": 4667
+        },
+        {
+          "market_class": 3,
+          "chain": 2191,
+          "row_group": 8431
+        },
+        {
+          "market_class": 3,
+          "chain": 1144,
+          "row_group": 440
+        },
+        {
+          "market_class": 3,
+          "chain": 1037,
+          "row_group": 4024
+        },
+        {
+          "market_class": 3,
+          "chain": 1757,
+          "row_group": 355
+        }
+      ],
+      "fit": [
+        {
+          "market_class": 3,
+          "chain": 1864,
+          "row_group": 1333
+        },
+        {
+          "market_class": 3,
+          "chain": 494,
+          "row_group": 1907
+        },
+        {
+          "market_class": 3,
+          "chain": 1970,
+          "row_group": 1332
+        },
+        {
+          "market_class": 3,
+          "chain": 594,
+          "row_group": 2286
+        },
+        {
+          "market_class": 3,
+          "chain": 1380,
+          "row_group": 1747
+        },
+        {
+          "market_class": 3,
+          "chain": 1782,
+          "row_group": 6888
+        },
+        {
+          "market_class": 3,
+          "chain": 1019,
+          "row_group": 3941
+        },
+        {
+          "market_class": 3,
+          "chain": 445,
+          "row_group": 1703
+        },
+        {
+          "market_class": 3,
+          "chain": 1812,
+          "row_group": 7000
+        },
+        {
+          "market_class": 3,
+          "chain": 2079,
+          "row_group": 2337
+        },
+        {
+          "market_class": 3,
+          "chain": 1894,
+          "row_group": 7319
+        },
+        {
+          "market_class": 3,
+          "chain": 2376,
+          "row_group": 949
+        },
+        {
+          "market_class": 3,
+          "chain": 84,
+          "row_group": 302
+        },
+        {
+          "market_class": 3,
+          "chain": 2553,
+          "row_group": 1923
+        },
+        {
+          "market_class": 3,
+          "chain": 44,
+          "row_group": 136
+        },
+        {
+          "market_class": 3,
+          "chain": 2000,
+          "row_group": 1705
+        },
+        {
+          "market_class": 3,
+          "chain": 709,
+          "row_group": 521
+        },
+        {
+          "market_class": 3,
+          "chain": 1722,
+          "row_group": 3735
+        },
+        {
+          "market_class": 3,
+          "chain": 2497,
+          "row_group": 6094
+        },
+        {
+          "market_class": 3,
+          "chain": 830,
+          "row_group": 747
+        },
+        {
+          "market_class": 3,
+          "chain": 833,
+          "row_group": 3251
+        },
+        {
+          "market_class": 3,
+          "chain": 2675,
+          "row_group": 10318
+        },
+        {
+          "market_class": 3,
+          "chain": 179,
+          "row_group": 681
+        },
+        {
+          "market_class": 3,
+          "chain": 994,
+          "row_group": 677
+        },
+        {
+          "market_class": 3,
+          "chain": 2607,
+          "row_group": 9279
+        },
+        {
+          "market_class": 3,
+          "chain": 1368,
+          "row_group": 5271
+        },
+        {
+          "market_class": 3,
+          "chain": 125,
+          "row_group": 471
+        },
+        {
+          "market_class": 3,
+          "chain": 2654,
+          "row_group": 10243
+        },
+        {
+          "market_class": 3,
+          "chain": 2057,
+          "row_group": 7930
+        },
+        {
+          "market_class": 3,
+          "chain": 1278,
+          "row_group": 2413
+        },
+        {
+          "market_class": 3,
+          "chain": 509,
+          "row_group": 1940
+        },
+        {
+          "market_class": 3,
+          "chain": 1774,
+          "row_group": 4975
+        },
+        {
+          "market_class": 3,
+          "chain": 1986,
+          "row_group": 2649
+        },
+        {
+          "market_class": 3,
+          "chain": 1024,
+          "row_group": 3960
+        },
+        {
+          "market_class": 3,
+          "chain": 1727,
+          "row_group": 6662
+        },
+        {
+          "market_class": 3,
+          "chain": 1554,
+          "row_group": 1248
+        },
+        {
+          "market_class": 3,
+          "chain": 2295,
+          "row_group": 7845
+        },
+        {
+          "market_class": 3,
+          "chain": 627,
+          "row_group": 2396
+        },
+        {
+          "market_class": 3,
+          "chain": 882,
+          "row_group": 3426
+        },
+        {
+          "market_class": 3,
+          "chain": 284,
+          "row_group": 1147
+        },
+        {
+          "market_class": 3,
+          "chain": 256,
+          "row_group": 169
+        },
+        {
+          "market_class": 3,
+          "chain": 2403,
+          "row_group": 330
+        },
+        {
+          "market_class": 3,
+          "chain": 922,
+          "row_group": 3604
+        },
+        {
+          "market_class": 3,
+          "chain": 2087,
+          "row_group": 2966
+        },
+        {
+          "market_class": 3,
+          "chain": 1018,
+          "row_group": 3935
+        },
+        {
+          "market_class": 3,
+          "chain": 321,
+          "row_group": 1280
+        },
+        {
+          "market_class": 3,
+          "chain": 342,
+          "row_group": 1339
+        },
+        {
+          "market_class": 3,
+          "chain": 1528,
+          "row_group": 5925
+        },
+        {
+          "market_class": 3,
+          "chain": 1070,
+          "row_group": 4167
+        },
+        {
+          "market_class": 3,
+          "chain": 652,
+          "row_group": 2775
+        },
+        {
+          "market_class": 3,
+          "chain": 2519,
+          "row_group": 496
+        },
+        {
+          "market_class": 3,
+          "chain": 904,
+          "row_group": 3526
+        },
+        {
+          "market_class": 3,
+          "chain": 508,
+          "row_group": 1809
+        },
+        {
+          "market_class": 3,
+          "chain": 1109,
+          "row_group": 142
+        },
+        {
+          "market_class": 3,
+          "chain": 1707,
+          "row_group": 6598
+        },
+        {
+          "market_class": 3,
+          "chain": 2165,
+          "row_group": 1137
+        },
+        {
+          "market_class": 3,
+          "chain": 2195,
+          "row_group": 1897
+        },
+        {
+          "market_class": 3,
+          "chain": 1012,
+          "row_group": 3907
+        },
+        {
+          "market_class": 3,
+          "chain": 2175,
+          "row_group": 8345
+        },
+        {
+          "market_class": 3,
+          "chain": 1979,
+          "row_group": 325
+        },
+        {
+          "market_class": 3,
+          "chain": 1463,
+          "row_group": 3411
+        },
+        {
+          "market_class": 3,
+          "chain": 263,
+          "row_group": 1057
+        },
+        {
+          "market_class": 3,
+          "chain": 503,
+          "row_group": 1927
+        },
+        {
+          "market_class": 3,
+          "chain": 1598,
+          "row_group": 1246
+        },
+        {
+          "market_class": 3,
+          "chain": 1403,
+          "row_group": 257
+        },
+        {
+          "market_class": 3,
+          "chain": 1506,
+          "row_group": 5819
+        },
+        {
+          "market_class": 3,
+          "chain": 816,
+          "row_group": 3190
+        },
+        {
+          "market_class": 3,
+          "chain": 1868,
+          "row_group": 1192
+        },
+        {
+          "market_class": 3,
+          "chain": 552,
+          "row_group": 301
+        },
+        {
+          "market_class": 3,
+          "chain": 464,
+          "row_group": 265
+        },
+        {
+          "market_class": 3,
+          "chain": 1461,
+          "row_group": 28
+        },
+        {
+          "market_class": 3,
+          "chain": 50,
+          "row_group": 171
+        },
+        {
+          "market_class": 3,
+          "chain": 149,
+          "row_group": 561
+        },
+        {
+          "market_class": 3,
+          "chain": 1227,
+          "row_group": 1146
+        },
+        {
+          "market_class": 3,
+          "chain": 2227,
+          "row_group": 2011
+        },
+        {
+          "market_class": 3,
+          "chain": 2257,
+          "row_group": 4605
+        },
+        {
+          "market_class": 3,
+          "chain": 2577,
+          "row_group": 634
+        },
+        {
+          "market_class": 3,
+          "chain": 1288,
+          "row_group": 4987
+        },
+        {
+          "market_class": 3,
+          "chain": 145,
+          "row_group": 552
+        },
+        {
+          "market_class": 3,
+          "chain": 664,
+          "row_group": 2543
+        },
+        {
+          "market_class": 3,
+          "chain": 1959,
+          "row_group": 275
+        },
+        {
+          "market_class": 3,
+          "chain": 2470,
+          "row_group": 9469
+        },
+        {
+          "market_class": 3,
+          "chain": 2475,
+          "row_group": 2461
+        },
+        {
+          "market_class": 3,
+          "chain": 1635,
+          "row_group": 5782
+        },
+        {
+          "market_class": 3,
+          "chain": 2719,
+          "row_group": 1722
+        },
+        {
+          "market_class": 3,
+          "chain": 1837,
+          "row_group": 2644
+        },
+        {
+          "market_class": 3,
+          "chain": 1215,
+          "row_group": 4750
+        },
+        {
+          "market_class": 3,
+          "chain": 1834,
+          "row_group": 7102
+        },
+        {
+          "market_class": 3,
+          "chain": 28,
+          "row_group": 80
+        },
+        {
+          "market_class": 3,
+          "chain": 2441,
+          "row_group": 1117
+        },
+        {
+          "market_class": 3,
+          "chain": 620,
+          "row_group": 2239
+        },
+        {
+          "market_class": 3,
+          "chain": 2286,
+          "row_group": 995
+        },
+        {
+          "market_class": 3,
+          "chain": 1621,
+          "row_group": 2772
+        },
+        {
+          "market_class": 3,
+          "chain": 1729,
+          "row_group": 30
+        },
+        {
+          "market_class": 3,
+          "chain": 1184,
+          "row_group": 4631
+        },
+        {
+          "market_class": 3,
+          "chain": 1269,
+          "row_group": 424
+        }
+      ]
+    },
+    "exposure": "Existing train side is exposed. Disjointness separates table fitting from this bounded audit, not independent generalization confirmation."
+  },
+  "recipe": {
+    "fit": "Stream 96 sequences, features and train labels. Same round4 full22 tuple keys, CLASS3_QUANTUM=.65687, modal target jump sign conversion as learn_moves. Keep full per-key counts and purity; independently fit modal per-code spread sampling each seventh row, as learn_spreads. No rows/targets from audit sequences enter fit.",
+    "audit": "Read 32 sequences with targets=False, mask=False. Compare EV_I0PX (x0 and x11 both changed), any full22 exact-code change, fresh direct decoded quote-change with proxy fallback, cached direct decoder (descriptive only), and fresh/cached spread-consistent reconstructed quote-change. Row0=False; unknown edges fallback exactly to proxy, no market-class routing.",
+    "readouts": [
+      "Per-sequence and per-class total rows excluding reset, code events, proxy events, known edges, unknown edges, known no-quote shape events, known quote events; all denominators explicit",
+      "2x2 EV_I0PX versus known direct quote mask; dropped proxy shape-events and missed decoded moves; candidate change fraction over rows and over proxy events",
+      "Fresh fit key supports and modal purities; audit support-weighted low-count and ambiguity rates; supported=at least20 observations and modal purity>=.95 descriptive only",
+      "Direct move versus spread-consistent reconstructed clock disagreement; cached-vs-fresh overlapping-key agreement; do not equate high agreement with true quote labels",
+      "Event gap quantiles p50/p90/p99/max for proxy and decoded clocks; unweighted counts only, no labels/score weights in audit",
+      "Causal prefix/chunk/stream equivalence at fixed cuts1,99,500,5000,19999; toy inconsistent spread case exposes semantic distinction; no target labels passed to online transform",
+      "Wall time, peak RSS, full selected/processed IDs, input hashes, no outcome selection"
+    ],
+    "fallback": "Unknown full22 transition retains existing EV_I0PX; known (0,0) means no update. No-change rows are not lookup failures. Rounding aliases counted separately.",
+    "timeout": "Stop at480s, preserve partial results and list unprocessed IDs; no shrink/resample/second recipe."
+  },
+  "decisions": {
+    "kill_exact_clock_repair": "If cached and fresh known class3 changes remove <1% of proxy events and miss <1% of decoded events, no meaningful clock distinction at this resolution. This spending decision is not a formal equivalence result.",
+    "semantics_blocker": "If direct-vs-spread reconstruction disagrees above0.1% of known code events or fresh overlapping keys disagree above1%, do not allocate GPU to this direct-mask implementation until discrepancy resolved.",
+    "coverage": "Full serving admission ultimately requires >=99% class3 event coverage with supported, independently audited train-fitted table; 96-chain fit low coverage is insufficient evidence, not a rejection of a possible full-train rebuild. Unknown other-class edges must fallback; known other-class keys are NOT certified by class3 label scale.",
+    "training": "No training allocated by this audit. Any candidate must beat same DualClock proxy control, row-GRU control and fixed C member replacement with paired seeds and fixed epochs; no automatic submission."
+  },
+  "provenance": "Historical cached table lacks manifest fit IDs, support counts and source hash. It remains descriptive comparator. Fresh fit has complete train-only manifest, but validates only limited class3 training support."
+}
