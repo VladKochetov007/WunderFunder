@@ -1,5 +1,7 @@
 # Sequence Prediction Challenge
 
+**Full experiment snapshot (1 October 2026):** [266 runs, 860 checkpoints, all logs and submission ZIPs](snapshot/2026-10-01/README.md). The highest recorded public submission is [V1, 0.6641](snapshot/2026-10-01/SOTA_STATE.md). This archive branch preserves the complete experiment assets; active research code is on [`quant-probes`](https://github.com/VladKochetov007/WunderFunder/tree/quant-probes) and the [creative iteration branch](https://github.com/VladKochetov007/WunderFunder/tree/research/creative-iteration-20260930).
+
 Predict `t0` and `t1`, two indicators of future price movements of instrument
 `i0`, from the L11 book-feature representation, trade and additional features.
 
