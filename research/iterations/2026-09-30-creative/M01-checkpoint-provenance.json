@@ -1,0 +1,275 @@
+{
+  "id": "M01-provenance",
+  "checked_utc": "2026-09-30T21:14:23.781891+00:00",
+  "original_workspace": "/home/grinchenkoeg/WunderFunder",
+  "original_workspace_commit": "0927b1e6622d7e7dfef17078801879ccda96e113",
+  "frozen_evaluation_commit": "6d2e963270e08e166d4cd675f556ee05b266bc08",
+  "manifest_sha256": "ddaa234d8f4c7925e88964c7deb1035777822b6e913de592d254271562a5bafa",
+  "generation_scripts": {
+    "scripts/fold_job.sh": "d25cbef0c8f1855927f5496b43bc4ce03107761060e9bf93b1c09497a68467ad",
+    "scripts/fold_ft.sh": "f4392dd8091c1e6e51ee78102103eb3d2bac7885a71d7b8c4c0438030203cab2",
+    "scripts/predict_run.py": "6d98ebda8ec559363db7d8997cf0512f4acf1459e198ce67da74e0a02dedc4f7",
+    "scripts/train_rnn.py": "f97047e6ef51f32097f2cbe2eefc7c57766771ebaed12ae8798a3c1b7efcd52f"
+  },
+  "entries": [
+    {
+      "run": "ft256_f0",
+      "fold": 0,
+      "seed": 3,
+      "hidden": 256,
+      "parent": "h256_f0@ep3",
+      "parent_epochs": 4,
+      "parent_eval_ema": true,
+      "ft_epochs": 1,
+      "ft_freeze": "inp,gru",
+      "ft_lr": 0.0005,
+      "prediction_cache_alias": "ft256H_f0",
+      "artifacts": {
+        "artifacts/logs/ft256_f0.log": "0d774d1f5e874e6f1cb3e64b53690b9612a4271feabc1b301ffa9e1a9ac8e617",
+        "artifacts/logs/h256_f0.log": "c8eac348ab4bb9659dcda2c433b65de045ed71cf09afbf83eb7061239beff8e6",
+        "artifacts/runs/h256_f0/model_ep3.pt": "91543c639cca4f52e52ee0629b28f8402b800e035cab3daf3f84da92d0665528",
+        "artifacts/runs/ft256_f0h/model.pt": "1af454e41be1287609ef94a3c9d705184397e472f9950333680feffccc3777da"
+      }
+    },
+    {
+      "run": "ft128_f0",
+      "fold": 0,
+      "seed": 3,
+      "hidden": 128,
+      "parent": "ref_f0@ep3",
+      "parent_epochs": 4,
+      "parent_eval_ema": true,
+      "ft_epochs": 1,
+      "ft_freeze": "inp,gru",
+      "ft_lr": 0.0005,
+      "prediction_cache_alias": "ft128H_f0",
+      "artifacts": {
+        "artifacts/logs/ft128_f0.log": "51f69918ff2ced05c137b1a2f813fee77a96bbf6cc1bed48fe16f8c46151200e",
+        "artifacts/logs/ref_f0.log": "ed89b9490de480b1b4efb153e15483f1dbaf0f5549ec7b422ae87c2b5c6ce215",
+        "artifacts/runs/ref_f0/model_ep3.pt": "2b33f71b77cc2e05459bd3c146d97be950c72ae5c9850371e1859936c9b5909b",
+        "artifacts/runs/ft128_f0h/model.pt": "a300fe7f24a9f993151d2f4aff2fcee47dd5f2daada88788a508275fd26dde62"
+      }
+    },
+    {
+      "run": "ft256_f1",
+      "fold": 1,
+      "seed": 3,
+      "hidden": 256,
+      "parent": "h256_f1@ep3",
+      "parent_epochs": 4,
+      "parent_eval_ema": true,
+      "ft_epochs": 1,
+      "ft_freeze": "inp,gru",
+      "ft_lr": 0.0005,
+      "prediction_cache_alias": "ft256H_f1",
+      "artifacts": {
+        "artifacts/logs/ft256_f1.log": "13fbfa944685a177ac5814a1e124976fe055d191d7f61e19044e7241fc8028a4",
+        "artifacts/logs/h256_f1.log": "0172d8698aac66b9cf42ce5b9e4ed9fa547cfe072272167cb790a1ae620ff91a",
+        "artifacts/runs/h256_f1/model_ep3.pt": "5539f6a0b2b544ba9ce687d49c9c5a5ac74db6cddb08675dfc08e47fe6aee44f",
+        "artifacts/runs/ft256_f1h/model.pt": "e78e9a016f5889c78504333e17186a09442ca0da511fdad68cff8ddae3ee1b4b"
+      }
+    },
+    {
+      "run": "ft128_f1",
+      "fold": 1,
+      "seed": 3,
+      "hidden": 128,
+      "parent": "ref_f1@ep3",
+      "parent_epochs": 4,
+      "parent_eval_ema": true,
+      "ft_epochs": 1,
+      "ft_freeze": "inp,gru",
+      "ft_lr": 0.0005,
+      "prediction_cache_alias": "ft128H_f1",
+      "artifacts": {
+        "artifacts/logs/ft128_f1.log": "11492c3202ae08b3dee0635643af3f0eef65d9930dea90a41451312c2a754f5c",
+        "artifacts/logs/ref_f1.log": "07af08b59f4dafd47e95caa310b360b682551a59ba0e630071fba1a7ee3ea973",
+        "artifacts/runs/ref_f1/model_ep3.pt": "e03ad2269206800a47ce818e70a38df903571f591f515cf20078f43c3ff240e4",
+        "artifacts/runs/ft128_f1h/model.pt": "e3e603fcd80c369a3e68a85bc671a1ef4255687cda42fc342e8682351f96d495"
+      }
+    },
+    {
+      "run": "ft256s4_f0",
+      "fold": 0,
+      "seed": 4,
+      "hidden": 256,
+      "parent": "h256s4_f0@ep3",
+      "parent_epochs": 4,
+      "parent_eval_ema": true,
+      "ft_epochs": 1,
+      "ft_freeze": "inp,gru",
+      "ft_lr": 0.0005,
+      "prediction_cache_alias": "ft256s4H_f0",
+      "artifacts": {
+        "artifacts/logs/ft256s4_f0.log": "4c8c74c1f006bfd8f4e3539981ae2fc27529b2a27eb632d137ac7d7b2ef0baa4",
+        "artifacts/logs/h256s4_f0.log": "fd9ab089dba15d0483557794c5e3c30ff793e33924d5d9aa45aaf8e34f1d2e03",
+        "artifacts/runs/h256s4_f0/model_ep3.pt": "d1e81c4710cbea08c9abf678c2e50164d7dbafd4e271b19fb9a5ba98c5183d4c",
+        "artifacts/runs/ft256s4_f0h/model.pt": "830372e562e50094249c7e885278681f1e3784a97b048acbf4ab681e81dd1b13"
+      }
+    },
+    {
+      "run": "ft128s4_f0",
+      "fold": 0,
+      "seed": 4,
+      "hidden": 128,
+      "parent": "refs4_f0@ep3",
+      "parent_epochs": 4,
+      "parent_eval_ema": true,
+      "ft_epochs": 1,
+      "ft_freeze": "inp,gru",
+      "ft_lr": 0.0005,
+      "prediction_cache_alias": "ft128s4H_f0",
+      "artifacts": {
+        "artifacts/logs/ft128s4_f0.log": "12af66c63bcdeee499d50a470a5bebaa6ab4b331fbfe8af4f71d2bb45837e041",
+        "artifacts/logs/refs4_f0.log": "e38688ab770cedc21addc0245ea803ee7014ebe196435cb57631ecb49df2ef8c",
+        "artifacts/runs/refs4_f0/model_ep3.pt": "5a8549ae71d4f02e8065902717a17405836f076ac88bfb6021a9f5b8951bb4bb",
+        "artifacts/runs/ft128s4_f0h/model.pt": "fe10fae821167d9251e9d891a0f16597f26659177df5f1ce635e5f11fa546ce8"
+      }
+    },
+    {
+      "run": "ft256s4_f1",
+      "fold": 1,
+      "seed": 4,
+      "hidden": 256,
+      "parent": "h256s4_f1@ep3",
+      "parent_epochs": 4,
+      "parent_eval_ema": true,
+      "ft_epochs": 1,
+      "ft_freeze": "inp,gru",
+      "ft_lr": 0.0005,
+      "prediction_cache_alias": "ft256s4H_f1",
+      "artifacts": {
+        "artifacts/logs/ft256s4_f1.log": "61fb04cfbd8629ac7dcc87051a168555030df80c0a6425379373306e9ad9e43c",
+        "artifacts/logs/h256s4_f1.log": "f2355f70f5625fd7e7a1fdabae9e76ba9424cd8b65a78cb453c55006a7aa8daa",
+        "artifacts/runs/h256s4_f1/model_ep3.pt": "5a47fcf3a3c8ba091d10c7ed71b5c583cb509f5d5793388a70750f2706861933",
+        "artifacts/runs/ft256s4_f1h/model.pt": "fe28b9544d6adce05ad2d7afc646548f4462270a46ab8c1b10a897ef43eec9fd"
+      }
+    },
+    {
+      "run": "ft128s4_f1",
+      "fold": 1,
+      "seed": 4,
+      "hidden": 128,
+      "parent": "refs4_f1@ep3",
+      "parent_epochs": 4,
+      "parent_eval_ema": true,
+      "ft_epochs": 1,
+      "ft_freeze": "inp,gru",
+      "ft_lr": 0.0005,
+      "prediction_cache_alias": "ft128s4H_f1",
+      "artifacts": {
+        "artifacts/logs/ft128s4_f1.log": "cb948c24376128dcad7076904ff673823142f42fdcf1c53c68f1ae632ad656c1",
+        "artifacts/logs/refs4_f1.log": "2e3df4ae8dd9f814e3dc301f76947de513ee4444aa097e338f725ef1f4b74b8c",
+        "artifacts/runs/refs4_f1/model_ep3.pt": "eee7578f5cc8e3a1beac8cf2a3fcdd31010fcb3987903261d4678c376e5ba646",
+        "artifacts/runs/ft128s4_f1h/model.pt": "62c692bd1a9fd3391cc14e2cd1d9df45ef97723b6e9531456d36fdd590333d7a"
+      }
+    },
+    {
+      "run": "ft256s5_f0",
+      "fold": 0,
+      "seed": 5,
+      "hidden": 256,
+      "parent": "h256s5_f0@ep3",
+      "parent_epochs": 4,
+      "parent_eval_ema": true,
+      "ft_epochs": 1,
+      "ft_freeze": "inp,gru",
+      "ft_lr": 0.0005,
+      "prediction_cache_alias": "ft256s5H_f0",
+      "artifacts": {
+        "artifacts/logs/ft256s5_f0.log": "453e06f167e417e3b8eff780c12c0ecae6180bd8a511bd26c0120ef014c29214",
+        "artifacts/logs/h256s5_f0.log": "b2ebece9beebe29bf73678f0a27395fdef39ab61ac485f0fbf06460047dec895",
+        "artifacts/runs/h256s5_f0/model_ep3.pt": "c1ca3414786b66323215cec54e81b1217f2e4dea5be0c71a85dd08390ba6fab4",
+        "artifacts/runs/ft256s5_f0h/model.pt": "f022f49f666e4434e22fd193cc505ec39340f0044a49fb0855148a11c7dd3d62"
+      }
+    },
+    {
+      "run": "ft128s5_f0",
+      "fold": 0,
+      "seed": 5,
+      "hidden": 128,
+      "parent": "refs5_f0@ep3",
+      "parent_epochs": 4,
+      "parent_eval_ema": true,
+      "ft_epochs": 1,
+      "ft_freeze": "inp,gru",
+      "ft_lr": 0.0005,
+      "prediction_cache_alias": "ft128s5H_f0",
+      "artifacts": {
+        "artifacts/logs/ft128s5_f0.log": "a7f344393d678350c7c0c92472c89cab90a49b3491dd582202d2d55123259e83",
+        "artifacts/logs/refs5_f0.log": "917eed3a37bd01a116bfc2849c863e0aca1c48d84dba495ac0727c51f676d329",
+        "artifacts/runs/refs5_f0/model_ep3.pt": "dd94f7b59b976ab67594259708c27dd70b71e7afc1b9c536743c43c7b3a6f3d5",
+        "artifacts/runs/ft128s5_f0h/model.pt": "dbbb7b9f1a1fbb2c5f8dd431fa1bd2c549391f30e8da07bf9cc71cdcbc14c02b"
+      }
+    },
+    {
+      "run": "ft256s5_f1",
+      "fold": 1,
+      "seed": 5,
+      "hidden": 256,
+      "parent": "h256s5_f1@ep3",
+      "parent_epochs": 4,
+      "parent_eval_ema": true,
+      "ft_epochs": 1,
+      "ft_freeze": "inp,gru",
+      "ft_lr": 0.0005,
+      "prediction_cache_alias": "ft256s5H_f1",
+      "artifacts": {
+        "artifacts/logs/ft256s5_f1.log": "efb389c280d4da5cd202a6bbbc71b4fba2c7b0b8957a1fe064c4aaf653fa7b74",
+        "artifacts/logs/h256s5_f1.log": "8598821e2c49c35fc699c64dddbf18f7e29fee4e703d21f125532497cefaea69",
+        "artifacts/runs/h256s5_f1/model_ep3.pt": "1c3148e144bbfe51eac8d3817e231ebf41501d0633188f04f073f318707e3a9f",
+        "artifacts/runs/ft256s5_f1h/model.pt": "9a11627e7a0466548a77ed8b3a189755e63215fd98dcfb48e9798e444dd3ff98"
+      }
+    },
+    {
+      "run": "ft128s5_f1",
+      "fold": 1,
+      "seed": 5,
+      "hidden": 128,
+      "parent": "refs5_f1@ep3",
+      "parent_epochs": 4,
+      "parent_eval_ema": true,
+      "ft_epochs": 1,
+      "ft_freeze": "inp,gru",
+      "ft_lr": 0.0005,
+      "prediction_cache_alias": "ft128s5H_f1",
+      "artifacts": {
+        "artifacts/logs/ft128s5_f1.log": "07ae9f48332f530f39cee719ec8c2a31a93c5bb48bc0929e7c3d76f7272f5845",
+        "artifacts/logs/refs5_f1.log": "8542cbd52124a7ff79b2d78c202d2d7b0cc05553c9c790dc4db59a2dd7643bae",
+        "artifacts/runs/refs5_f1/model_ep3.pt": "6ad846d810e6d15e906ccec96bb48054b3243c50b331a634894ef45f164b028f",
+        "artifacts/runs/ft128s5_f1h/model.pt": "b88d5d97e61af9e39e1d41eb34ab3f83d1a1726e59c02befd1f7d99f95859f10"
+      }
+    }
+  ],
+  "config_differences_beyond_width_and_identity": [
+    {
+      "seed": 3,
+      "fold": 0,
+      "stage": "parent",
+      "other_config_differences": {
+        "quant_i1": [
+          false,
+          null
+        ]
+      }
+    },
+    {
+      "seed": 3,
+      "fold": 1,
+      "stage": "parent",
+      "other_config_differences": {
+        "quant_i1": [
+          false,
+          null
+        ]
+      }
+    }
+  ],
+  "conclusion": "Logs support matched seeds and recipes at fixed parent epoch3 plus one head-only fine-tune. H cache aliases select the head-only stage; its single epoch has no checkpoint choice.",
+  "limitations": [
+    "Existing reused training runs, not fresh seed replications or unexposed confirmation.",
+    "Equal epochs and recipe do not imply equal FLOP or serving budgets across widths.",
+    "Seed3 parent config gained quant_i1:false between source versions; it is absent in the early h128 logs, with quant_feats:false in both.",
+    "Current generation scripts and checkpoints are hashed; historical logs do not cryptographically bind each prediction cache to its checkpoint. Evaluation result separately hashes current cache inputs."
+  ]
+}
