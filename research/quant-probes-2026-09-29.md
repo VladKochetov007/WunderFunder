@@ -344,3 +344,8 @@ fold models that saw other validation chains: valid-like data is worth ~+0.003).
 - `candV1_ft2.zip` (sha ea494921...319d): C's parents with a two-epoch head fine-tune.
 - `candV2_vr3.zip` (sha b13dfe87...9c75): all four members retrained with validation sequences repeated 3x.
 Both ~C's runtime (~49 min).
+
+## LB 2026-09-30: V1 0.6641 (41m42s), **V2 0.6611 (-0.0029)**, both 41m42s (C 48m52s: scorer speed varies ~15%)
+Upweighting validation 3x in parent training clearly hurts the test; a longer head fine-tune is neutral.
+Next LB probe: `candV3_trainonly.zip` (sha f7943bc6...0fe): C's four members with parents trained on TRAIN ONLY
+(`PARENT_SOURCE_MODE=train scripts/final_job.sh`), validation used only by the head fine-tune.
