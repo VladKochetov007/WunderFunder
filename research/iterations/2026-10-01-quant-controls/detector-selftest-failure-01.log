@@ -1,0 +1,11 @@
+self_test passed: online/vectorized parity, current/future independence, reset, smoothing, prefixes, permutations, detector, ties
+Traceback (most recent call last):
+  File "/Users/nb/Documents/wunder/WunderFunder-creative/research/iterations/2026-10-01-quant-controls/detector_control.py", line 383, in <module>
+    print(json.dumps(self_test(legacy), indent=2))
+  File "/Users/nb/Documents/wunder/WunderFunder-creative/research/iterations/2026-10-01-quant-controls/detector_control.py", line 197, in self_test
+    y, details = permute_raw(raw, seed, 42)
+  File "/Users/nb/Documents/wunder/WunderFunder-creative/research/iterations/2026-10-01-quant-controls/detector_control.py", line 104, in permute_raw
+    assert bit_multiset(vectors[start:stop], lengths[start:stop]) == bit_multiset(reconstructed_v, reconstructed_l)
+  File "/Users/nb/Documents/wunder/WunderFunder-creative/research/iterations/2026-10-01-quant-controls/detector_control.py", line 71, in bit_multiset
+    for vector, length in zip(vectors, lengths, strict=True):
+TypeError: zip() takes no keyword arguments
