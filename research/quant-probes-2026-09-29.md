@@ -333,3 +333,14 @@ ridge -0.012 / -0.006. No support/resistance, momentum or reversal-regime signal
 Every direction tried since the 0.6640 submission converges to the same ceiling (~0.702 on folds 0+1 for the
 best 4-member blend): width, distillation (incl. privileged and gen-2), attention over events, class heads,
 per-class blending, discrete class-3 contexts, long-memory and decoded-level features.
+
+## Shift robustness (train-only protocol, `scripts/trainonly_job.sh`)
+Train on train only, score all pure validation chains (streams never seen): reference 0.69566 (vs ~0.699 for
+fold models that saw other validation chains: valid-like data is worth ~+0.003).
+- `--level-aug 0.5` (per-sequence offsets on absolute volume codes): -0.0005 (SD 0.0005), class 3 -0.0023.
+- `--level-drop 0.5` (zero the absolute volume block): holdout 0.6897 vs 0.6906. Both refuted.
+
+## LB-only candidates (folds cannot measure test shift), built on C's architecture
+- `candV1_ft2.zip` (sha ea494921...319d): C's parents with a two-epoch head fine-tune.
+- `candV2_vr3.zip` (sha b13dfe87...9c75): all four members retrained with validation sequences repeated 3x.
+Both ~C's runtime (~49 min).

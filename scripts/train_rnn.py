@@ -521,6 +521,11 @@ def main():
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--level-aug", type=float, default=0.0,
+                    help="training only: add a per-sequence N(0, s) offset to every i0/i1 book volume code column "
+                         "(event features are differences, so only absolute levels move): robustness to new instruments")
+    ap.add_argument("--level-drop", type=float, default=0.0,
+                    help="training only: zero the absolute i0/i1 volume-code block of a sequence with this probability")
     ap.add_argument("--lookahead", default="",
                     help="PRIVILEGED (non-causal) teacher: comma list of row offsets L; appends raw row t+L as input")
     ap.add_argument("--train-half", type=int, default=-1,
@@ -834,7 +839,17 @@ def main():
                 y = y.to(device, non_blocking=True)
                 scored_dev = scored.to(device, non_blocking=True)
             timer.mark("h2d")
+            if args.level_aug > 0:
+                x = x.clone()
+                vol = torch.cat([torch.arange(22, 44), torch.arange(74, 96)]).to(x.device)
+                off = torch.randn(x.shape[0], 1, len(vol), device=x.device, dtype=x.dtype) * args.level_aug
+                x[..., vol] += off
             inputs = build_inputs(x)
+            if args.level_drop > 0:  # zero only the absolute raw volume block (event deltas/flags stay intact)
+                vol = torch.cat([torch.arange(22, 44), torch.arange(74, 96)]).to(x.device)
+                keep = (torch.rand(x.shape[0], 1, 1, device=x.device) >= args.level_drop).to(inputs.dtype)
+                inputs = inputs.clone()
+                inputs[..., vol] = inputs[..., vol] * keep
             timer.mark("inputs")
             teach = None
             quote_label = None
