@@ -1,0 +1,25 @@
+{
+  "started_utc": "2026-09-30T21:47:57.581113+00:00",
+  "plan_sha256": "0191250902acba03a4f28bf592a1ce91c40fd399718369ea18b00e418d0d7a14",
+  "receipt_dir": "/home/grinchenkoeg/WunderFunder-cleanup-20261001-20260930T214757Z",
+  "method": "Serial SHA256; nice=10, ionice best-effort7; open O_NOFOLLOW, dir_fd unlink; no train/predict processes launched.",
+  "limitations": "lsof/fuser are point-in-time checks; container visibility may be incomplete. Concurrent noncooperating opens between check and unlink cannot be excluded. No scheduled new training/prediction is permitted by orchestration.",
+  "own_processes": {
+    "argv": [
+      "ps",
+      "-u",
+      "1061",
+      "-o",
+      "pid,ppid,lstart,args"
+    ],
+    "returncode": 0,
+    "stdout": "    PID    PPID                  STARTED COMMAND\n 503893       1 Mon Sep 28 20:13:50 2026 tmux new-session -d -s kag_bc12_conditional CUDA_VISIBLE_DEVICES=6 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python runs/bc12_source/convergence/scripts/run_bc12_conditional.py > runs/bc12_conditional1.log 2>&1\n 521828       1 Mon Sep 28 20:37:37 2026 /home/grinchenkoeg/.vscode-server/code-04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1 --cli-data-dir /home/grinchenkoeg/.vscode-server/cli agent host\n 523925  503893 Mon Sep 28 20:38:22 2026 -bash\n2143855       1 Thu Sep 24 20:24:41 2026 bash -c cd /home/grinchenkoeg/connectome && .dashboardvenv/bin/python -m py_compile dashboard/app.py && nohup .dashboardvenv/bin/streamlit run dashboard/app.py --server.address 127.0.0.1 --server.port 18501 --server.headless true --browser.gatherUsageStats false > logs/dashboard.log 2>&1 < /dev/null & \n2143857 2143855 Thu Sep 24 20:24:41 2026 /home/grinchenkoeg/connectome/.dashboardvenv/bin/python .dashboardvenv/bin/streamlit run dashboard/app.py --server.address 127.0.0.1 --server.port 18501 --server.headless true --browser.gatherUsageStats false\n2222904 2222812 Wed Sep 30 21:47:57 2026 sshd: grinchenkoeg@notty\n2222915 2222904 Wed Sep 30 21:47:57 2026 python3 /home/grinchenkoeg/wunder_cleanup_executor_20261001.py /home/grinchenkoeg/wunder_cleanup_plan_20261001.json\n2222925 2222915 Wed Sep 30 21:47:57 2026 ps -u 1061 -o pid,ppid,lstart,args\n2916794       1 Thu Sep 10 19:44:14 2026 /usr/lib/systemd/systemd --user\n2916795 2916794 Thu Sep 10 19:44:14 2026 (sd-pam)\n2919663 2916794 Thu Sep 10 19:50:53 2026 /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only\n2951465       1 Thu Sep 10 20:40:58 2026 /home/grinchenkoeg/.vscode-server/code-1b6a188127eeaf9194f945eb6eb89a657e93c54c --cli-data-dir /home/grinchenkoeg/.vscode-server/cli agent host\n",
+    "stderr": "",
+    "observed_utc": "2026-09-30T21:47:57.665003+00:00"
+  },
+  "space_before": {
+    "available_bytes": 91942542585856,
+    "free_bytes": 96942651863040,
+    "total_bytes": 99602705072128
+  }
+}

@@ -1,0 +1,243 @@
+{
+  "iteration_id": "next-20261001-01",
+  "scope": "Market microstructure / quant features, not quantum computing",
+  "status": "scouted_not_tested",
+  "objective_mode": "competition",
+  "evidence_level": "Mechanism and implementation proposals only; literature does not establish incremental competition score",
+  "recommendation": "First finish the two already registered Transformer contribution comparisons. For genuinely different quant work, attempt one bounded train-only identifiability screen of sparse volume updates before another feature-training arm. Conditional flow innovations are a second, weaker-prior option. Do not reopen raw flow, MO0/MO1, timing, reset, class-routing or matured-label sweeps under new names.",
+  "selection_protocol": {
+    "current_round_new_quant_outcome_tests": 0,
+    "hypothesis_cards": 2,
+    "cards_are_not_executable_preregistrations": true,
+    "exposure": "All existing validation folds, former holdout and historical train diagnostic samples are adaptively exposed. Repartitioning, train-side cross-fitting and independent agents do not create fresh confirmation.",
+    "before_future_execution": "Freeze exact code, dictionary/model recipe, train row-group IDs, source/target/reference hashes, causal update order, unknown-value handling, maximum fitted variants and spending gate. Register the next CPU trial separately; it is outside the two Transformer comparisons authorized in contract.json.",
+    "outcome_unit": "Whole continuous chain; evaluate all eligible pure validation rows, not intervals retrospectively selected using their future endpoint.",
+    "discovery_screen": "A train-only mechanism/identifiability gate precedes one fixed residual-readout candidate versus its fixed raw-feature control on exposed folds 0/1. A screen failure rejects that implementation at that budget; it does not refute market microstructure theory.",
+    "future_training": "Only after a useful screen, compare one fixed feature recipe to the same reference with at least three matched training seeds, equal data/steps and explicit checkpoint rule. Report the mean paired recipe difference separately from the gain of averaging seed predictions.",
+    "confirmation": "None is currently available. Training-seed repetition addresses optimization variability; conditional chain bootstrap addresses chain sampling for fixed fits. Neither corrects adaptive selection or establishes hidden-test transfer. Prospective confirmation requires genuinely new data or a separately registered competition submission.",
+    "serving_gate": "Measure the actual C++ feature and model path on one CPU in the scorer image. Proposed feature latency targets are engineering budgets, not measured runtimes. C already has little dependable margin and public execution speed varies. No direct Transformer serving or additional ensemble member is assumed affordable."
+  },
+  "cards": [
+    {
+      "id": "Q01",
+      "rank": 1,
+      "title": "Recover sparse volume-update coordinates before testing state-dependent queue depletion",
+      "status": "not_tested",
+      "mechanism": "A queue's chance of emptying depends on both its current size and the rate/direction of replenishment and removal. Net changes of arbitrary volume codes can cancel additions and removals and mix different queues. A stable representation of individual updates could distinguish a busy replenished queue from a similarly sized queue under one-sided depletion.",
+      "literature_support": [
+        "S1",
+        "S2"
+      ],
+      "what_is_ours": "Recovering a sparse update dictionary from the anonymized competition codes and using its event intensities is a proposed representation, not a result or an identification theorem from the cited papers.",
+      "identifiable_observables": [
+        "Current and previous 22 i0 volume-code columns, and whether the 22 i0 price-code columns changed",
+        "A current-row trade-volume-code change to a non-neutral code, using the existing online detector; no whole-sequence median or future row may establish a current trade",
+        "Direction and magnitude of an already observed quote change only where a train-fitted price transition table knows the edge; unknown transitions remain explicitly unknown",
+        "Observed row/event counts; a0/a4 are not assumed to be an exactly decoded physical clock"
+      ],
+      "identification_limits": "E-090's full-rank PCA and ICA factors do not prove that volume codes are a globally fixed linear mixing of true queue sizes. A dictionary, if recovered, is initially identifiable only up to permutation, scale and sign. Calling a coordinate the best bid/ask queue requires additional train-side evidence linking removal, price transitions and queue replacement. Exact shares, order types and cancellation-versus-execution are not presently identified. Prediction using stable unnamed coordinates is possible without those economic claims, but would be a separately declared fallback hypothesis, not a post-failure relabeling of this queue mechanism.",
+      "cheapest_falsifier": {
+        "data": "Proposed: hash-select 64 train sequences per market class, whole chains assigned to two diagnostic halves before any measurements. Limit to 50000 no-price-change volume updates per side; fixed 11 atoms for each 11-column side. These historical train data remain exposed.",
+        "test": "Fit one sparse-direction dictionary to volume increments in one half, test reconstruction in the other, then reverse. Check whether most held-out increments can be reconstructed with at most two atoms and whether corresponding atoms align across the halves. Record errors for trade and non-trade rows separately; no label-score screen yet.",
+        "proposed_stop": "Stop before target fitting if relative reconstruction error exceeds 0.1 for more than 20% of test increments, or fewer than 9/11 atoms per side match across halves at absolute cosine 0.95. These thresholds are proposed usefulness gates and must be frozen, not tuned after viewing reconstruction results. Passing is necessary evidence for a cheap decoder, not proof of true queue recovery.",
+        "cpu_budget_proposal": "One implementation, one recipe, at most 2 CPU threads / 8 GiB / 480 seconds; timeout or ambiguous identification means insufficient evidence, not a larger automatic search. No GPU."
+      },
+      "conditional_feature_candidate": "Only after BOTH sparse increment reconstruction/stability and a separately preregistered train-side sign/level identification check pass: freeze the decoder and compute signed add/remove event EMAs at one fixed half-life of 32 volume events, resetting at sequence boundaries. Reconstruction alone does not identify physical replenishment/removal or current queue size and cannot allocate this physical-queue candidate. Use identified state plus rate asymmetry with explicit unknown flags, comparing against C and a capacity-matched raw-code state/rate control. An unnamed-coordinate predictive feature would require its own prospectively registered hypothesis; do not reinterpret a failed physical identification afterward.",
+      "closest_negative_evidence": [
+        {
+          "ref": "research/experiments.jsonl:E-090",
+          "finding": "ICA imbalance AUC 0.6214 versus raw 0.6202; a rotation of levels alone did not create material predictive information",
+          "difference": "Proposed identification uses sparsity of increments and stability of update coordinates, followed by state-dependent event rates; it does not merely rotate current levels"
+        },
+        {
+          "ref": "research/experiments.jsonl:E-215; scripts/probe_i1_flow_shock.py",
+          "finding": "Raw i0 4/16-event volume displacement decreased direction AUC in both folds",
+          "difference": "The rejected representation is signed net code displacement, not separately decoded replenishment/removal intensities"
+        },
+        {
+          "ref": "research/experiments.jsonl:E-088,E-089; research/quant-probes-2026-09-29.md:Round 1 flow features",
+          "finding": "Broad rate/depth heuristics and 31 since-price-event flow features did not help the GRU",
+          "difference": "This makes a successful decoding and incremental control comparison mandatory; textbook queue language alone is not a rationale for another feature sweep"
+        }
+      ],
+      "expected_value": "Low-to-moderate information value from a cheap negative result; low prior for a score gain. This is the most distinct remaining quant representation found, not the most likely way to beat C immediately.",
+      "serving_budget": {
+        "state": "Fixed small decoder matrix, about 44 add/remove EMA states, no per-sequence unbounded table",
+        "work": "At most two 11x11 projections on a volume update plus small EMA updates; decode-error fallback must be fixed",
+        "latency_target_not_measurement": "Less than 1 microsecond per row incremental average in native C++; reject or distill if it threatens the measured package budget"
+      },
+      "price_change_and_unknown_policy": "The dictionary preflight fits and assesses only no-price-code-change increments. Price-changing and undecodable increments must not be projected as if validated: flag them unknown and exclude them from decoded add/remove updates. A future stateful feature must freeze state reanchoring/decay across such events before execution; no full-sequence or future-dependent reset is permitted. No physical queue-state feature is currently executable."
+    },
+    {
+      "id": "Q02",
+      "rank": 2,
+      "title": "Conditional trade-mark surprise, rather than accumulated trade flow",
+      "status": "not_tested",
+      "mechanism": "Persistent, expected order flow can be absorbed differently from an unexpected trade. A model of the next observed trade mark yields the innovation after that mark arrives. Its interaction with the current book state may encode conditional aggressiveness that raw sums and unconditional EMAs obscure.",
+      "literature_support": [
+        "S3",
+        "S4"
+      ],
+      "what_is_ours": "Applying a conditional categorical predictor to anonymized trade-code marks is a prediction representation. The impact papers motivate the distinction between expected and unexpected flow; they do not imply that surprise observed now predicts future competition labels beyond C.",
+      "identifiable_observables": [
+        "The current trade's four trade-volume code signs relative to fixed train-only centering, treated as a categorical mark with at most 16 values rather than physical buy/sell labels",
+        "Past mark frequencies at fixed half-lives 4,16,64,256 trades, computed immediately before the current mark arrives",
+        "Current book-code state and already observed quote-change direction, without future impact classification"
+      ],
+      "identification_limits": "The mark categories are reproducible code patterns, not identified economic trade sides or metaorders. A future-quote-derived direction embedding may be learned on train-only diagnostic chains and frozen; it must be named a predictive embedding, not the true aggressor sign. Physical identification is unnecessary for a predictive screen. A high trade-mark forecast accuracy alone is not evidence of forecastable price movement.",
+      "cheapest_falsifier": {
+        "data": "Proposed: the same hash-selected train-chain diagnostic partition and a maximum of 200000 observed trades; current mark held out from its own features. Fit one multinomial logistic predictor with one fixed penalty, no model/order search.",
+        "test": "Compare mark log loss across diagnostic chain halves to a fixed stationary-frequency baseline. If useful, freeze its output and two derived features: current mark surprise and a directional innovation computed from a frozen train-only predictive mark embedding. Hold these features until the next observed trade; never use the true target residual online.",
+        "proposed_stop": "Stop if mark log loss fails to improve by at least 1% on either diagnostic half, or the online detector/unknown-code coverage is unstable. Passing only justifies a prediction screen. Register exact centering, penalty, embedding target and unknown behavior before fitting.",
+        "incremental_outcome_test_if_gate_passes": "One fixed ridge correction to C's contrast using the two features and their predeclared current-state interaction, fitted on the opposite exposed fold. Use the same correction capacity with raw marks and their frequency inputs as a control. Require a practical pooled WP gain against both C and that control, positive in each fold, before a GPU slot; freeze the numerical allocation gate beforehand. A linear innovation alone can be only a reparameterization of its inputs, so a gain against C without the raw-feature control is insufficient.",
+        "cpu_budget_proposal": "One recipe, at most 2 CPU threads / 8 GiB / 480 seconds per registered stage; no new training in the present round"
+      },
+      "closest_negative_evidence": [
+        {
+          "ref": "research/experiments.jsonl:E-112; scripts/micro_features.py",
+          "finding": "MO0/MO1 split trade EMAs failed across chain folds, with overall delta -0.0016 linear and -0.002 with interactions",
+          "difference": "The proposal forecasts each mark from prior flow and uses its innovation; it neither splits flow by future price impact nor revives MO0/MO1 EMAs"
+        },
+        {
+          "ref": "research/quant-probes-2026-09-29.md:Round 1; Round 4 data detective",
+          "finding": "Raw trade-flow integration and trade-side code restacking did not add stable signal",
+          "difference": "A conditional mark probability and innovation-by-state interaction must outperform a raw mark/frequency control, not just an old weak baseline"
+        },
+        {
+          "ref": "research/lit/opus_micro.md:H6; research/experiments.jsonl:E-239",
+          "finding": "Long-memory sign EMAs were inconclusive; retrospective target-residual ARMA was unavailable online",
+          "difference": "This is the previously unimplemented conditional-surprise part of H6, with a causal predictor of observed feature marks; no target residual is ever supplied"
+        }
+      ],
+      "expected_value": "Lower priority than Q01: a GRU may already estimate these conditional statistics, and impact theory is mostly about contemporaneous price response. Useful as a bounded test, not a presumed source of alpha.",
+      "serving_budget": {
+        "state": "64 floating-point mark-frequency states plus a fixed small classifier; less than 16 KiB parameters/state target",
+        "work": "Small classifier only on trade rows, hold features otherwise",
+        "latency_target_not_measurement": "Less than 1 microsecond per row incremental average in native C++; do not ship an extra recurrent member for this feature"
+      }
+    }
+  ],
+  "excluded_rediscoveries": [
+    {
+      "idea": "MO0/MO1 or trade-caused versus quote-caused flow",
+      "reason": "E-112 is a full negative following unstable small-sample literature-scout positives"
+    },
+    {
+      "idea": "Raw i0/i1 4/16-event displacement, since-price-event trade sums, generic queue imbalance",
+      "reason": "E-214/E-215, quant/quanti1 pairs and broad heuristic inputs already failed"
+    },
+    {
+      "idea": "Seasonal duration, six-event cycle, causal volatility, resets, dual clocks",
+      "reason": "E-240/E-242/E-246, periodic reset and dual-clock studies showed no useful ensemble lever"
+    },
+    {
+      "idea": "Matured true-label feedback or reconstructed price-level drift",
+      "reason": "The large gain used labels before actual maturity; honestly reconstructed feedback was null, and decoded-level/long-memory residual screens failed"
+    },
+    {
+      "idea": "Per-class expert/blend, loss of class-3 information declared a universal Bayes ceiling",
+      "reason": "Conditional heads/blends failed, but finite models and exposed screens cannot prove an information-theoretic ceiling"
+    },
+    {
+      "idea": "Exact message reconstruction or timestamp Hawkes model",
+      "reason": "The a-column clock semantics and event grouping are not verified sufficiently; stronger assumptions than row/event-clock feature tests"
+    }
+  ],
+  "transformer_readout_and_plan": {
+    "status_at_scout_creation": "Read existing logs only; new fixed-mixture screens pending separately frozen execution",
+    "existing_log_wp": {
+      "fold_0": {
+        "parent_epoch_3": 0.7001275515088075,
+        "head_epoch_0": 0.7005438983067063,
+        "full_epoch_0": 0.7002908630201549,
+        "evaluation_scope": "vfold467, not the pure-chain comparison subset"
+      },
+      "fold_1": {
+        "parent_epoch_3": 0.6753309203277118,
+        "head_epoch_0": 0.675765601660498,
+        "full_epoch_0": 0.6748358572636665,
+        "evaluation_scope": "vfold469, not the pure-chain comparison subset"
+      }
+    },
+    "checkpoint_provenance": "Both original tfm_fK logs completed: four epochs, seed3, EMA evaluation, fixed epoch3 prediction via fold_job.sh. Both fttfm_fK logs explicitly initialize tfm_fK@ep3, head-only one epoch with inp,blocks,ln frozen and lr5e-4, then one full epoch initialized from fttfm_fKh with lr2e-4. FT predictions come from their only epoch0. Parent cache remains diagnostic only; no additional parent-versus-C outcome arm is authorized.",
+    "original_log_sha256": {
+      "artifacts/logs/tfm_f0.log": "d99221fb521206f3ecd64ee21f78f6246974976777ea16d1859dafc3978188df",
+      "artifacts/logs/tfm_f1.log": "690ac8f7d6ae40ae02324f44d285233745b63f71b94d5a8f33f4bea2e48794f0",
+      "artifacts/logs/fttfm_f0.log": "30e702b946d666f97f5f8d4271a3f19afa49b7ac02c59066f962fa327482d63e",
+      "artifacts/logs/fttfm_f1.log": "d59eeb8ec2b592e0e7b2c7a20e058c53d49934f1161fa76751ee0f99bbf51f21"
+    },
+    "reference": "ft256dH+ft128H+ft128s4H+ftc500H",
+    "registered_candidate_strings": [
+      "ft256dH+ft128H+ft128s4H+ftc500H+fttfmH",
+      "ft256dH+ft128H+ft128s4H+ftc500H+fttfm"
+    ],
+    "why_exact": "Equal averaging of five raw member predictions is exactly 0.8*C+0.2*tfm; clipping must follow averaging. Each candidate uses fold-specific predictions on pure validation chains from that same fold only.",
+    "run_contract": "scripts/fold_eval.py, --folds 0,1 --boot 1000; sequential CPU screens under 2 threads / CPUQuota160% / 8 GiB / timeout480. Hash fixed inputs and scorer before outcomes. No weights, checkpoints, replacement arms or extra parent comparison are searched.",
+    "allocation_gate": "At least +0.0005 pooled and positive in both folds nominates a matched causal-student distillation study, not direct Transformer deployment, scientific confirmation or proof that its gain can be distilled.",
+    "retain_cache_patterns": [
+      "cache/pred_tfm_f{0,1}_valid.npy",
+      "cache/pred_fttfmH_f{0,1}_valid.npy",
+      "cache/pred_fttfm_f{0,1}_valid.npy",
+      "cache/pred_ft256dH_f{0,1}_valid.npy",
+      "cache/pred_ft128H_f{0,1}_valid.npy",
+      "cache/pred_ft128s4H_f{0,1}_valid.npy",
+      "cache/pred_ftc500H_f{0,1}_valid.npy"
+    ],
+    "retention": "All associated checkpoints and original/versioned logs, all ordinary/distilled teacher caches, prior M01/I1 inputs, target/chain/class metadata remain. Retention list sent to root and remote_state before cleanup.",
+    "later_registered_screen_outcome": {
+      "status": "screen_failed",
+      "frozen_commit": "31c97433d651edf9c97283e97e60ed45b099eae0",
+      "inventory": "TFM-inputs.json",
+      "head_result": "TFM-H.result.json",
+      "full_result": "TFM-F.result.json",
+      "head_delta": 0.00011487717592351121,
+      "full_delta": 0.00012606187645558542,
+      "interpretation": "Both gains fall below the fixed +0.0005 spending gate and both fold-1 deltas are negative. No Transformer-student study is nominated by this screen. Exactly two fixed comparisons were executed, with no coefficient/stage retuning; this does not establish a universal Transformer or causal-information ceiling.",
+      "resource_use": "Head 7.87 seconds, full 7.93 seconds, maximum RSS 654940 KiB, both exit 0, no GPU"
+    }
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "title": "Simulating and analyzing order book data: The queue-reactive model",
+      "authors": "Huang, Lehalle, Rosenbaum",
+      "url": "https://arxiv.org/abs/1312.0563",
+      "verified": "2026-10-01 primary abstract",
+      "supports": "Queue-event intensities conditional on book state within constant-reference-price intervals",
+      "does_not_support": "That this competition's anonymized columns expose true queue sizes or that queue intensities improve its residual"
+    },
+    {
+      "id": "S2",
+      "title": "Price dynamics in a Markovian limit order market",
+      "authors": "Cont, de Larrard",
+      "url": "https://arxiv.org/abs/1104.4596",
+      "verified": "2026-10-01 primary abstract",
+      "supports": "Queue-state and order-arrival-rate dependence of the next price move and duration",
+      "does_not_support": "A direct formula applicable to unidentified code coordinates"
+    },
+    {
+      "id": "S3",
+      "title": "The adaptive nature of liquidity taking in limit order books",
+      "authors": "Taranto, Bormetti, Lillo",
+      "url": "https://arxiv.org/abs/1403.0842",
+      "verified": "2026-10-01 primary abstract",
+      "supports": "Empirical dependence of trade impact/aggressiveness on order-flow predictability",
+      "does_not_support": "A profitable predictive strategy or incremental score in this dataset"
+    },
+    {
+      "id": "S4",
+      "title": "Linear models for the impact of order flow on prices I. Propagators: Transient vs. History Dependent Impact",
+      "authors": "Taranto, Bormetti, Bouchaud, Lillo, Toth",
+      "url": "https://arxiv.org/abs/1602.02735",
+      "verified": "2026-10-01 primary abstract",
+      "supports": "A distinction between observed order sign and its predictable component, conditional on prior flow and returns",
+      "does_not_support": "Novelty of the surprise idea, true sign identification here, or an improvement over C"
+    }
+  ],
+  "independent_review_resolution": {
+    "reviewer": "code_audit, after independent architecture scouting, no quant outcomes viewed",
+    "issue": "Sparse increment reconstruction does not identify sign, physical event type or absolute queue level; applicability across price changes was unspecified.",
+    "resolution": "Made physical queue-feature advancement conditional on separate train-side identification, prohibited automatic unnamed-coordinate fallback, and explicitly kept price-change/undecodable increments outside the validated dictionary domain.",
+    "new_quant_experiments": 0
+  }
+}

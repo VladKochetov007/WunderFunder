@@ -1,0 +1,170 @@
+{
+  "id": "architecture-training-scout-2026-10-01",
+  "status": "proposal_only_no_new_experiment",
+  "scope": "Architecture and training; two ranked interventions, neither executed. No GPU job, inference probe, model edit or score evaluation was run.",
+  "evidence_role": "Discovery. All available validation folds and the old holdout have been exposed; neither new seeds nor new roles create fresh confirmation.",
+  "sources_reviewed": [
+    "research/experiments.jsonl: E-001 through E-261; historical results and targeted full entries for architecture/training negatives",
+    "research/hypotheses.jsonl; research/quant-probes-2026-09-29.md, including remote latest Transformer fold-0 addendum",
+    "research/lit/opus_arch.md; research/lit/learning_dynamics.md; research/iterations/2026-09-30-creative/report.md",
+    "src/wnn/nn.py; src/wnn/event_attn.py; src/wnn/two_stream.py; src/wnn/xl_transformer.py; scripts/fold_job.sh; scripts/fold_ft.sh; scripts/train_rnn.py",
+    "beleriand: ~/WunderFunder/artifacts/logs/{tfm,fttfm}_f{0,1}.log (read only)"
+  ],
+  "current_state": {
+    "reference": "C-like ensemble: distilled GRU256 plus plain GRU128 seeds 3/4 plus chunk500 member; local proxy is not a new public result.",
+    "latest_iteration": "M01 mean matched width effect +0.000175 with seed SD 0.000572; ensemble width effect +0.000696 is a different estimand. I1 exact gate failed: G-U +0.000090, gated weight coverage approximately 0.8%. Do not reopen its student fit.",
+    "transformer": "Both fold training/FT logs completed. Remote journal only reports pure-fold0 head-FT comparison: +0.00005 versus h256, conditional chain SD 0.0022; 5th member over C +0.00028, SD 0.00039. The parent owns a fixed two-fold blend screen; no new architecture recommendation follows from log scores alone."
+  },
+  "ranked_proposals": [
+    {
+      "rank": 1,
+      "id": "T-head-main-only",
+      "title": "Remove auxiliary losses specifically during frozen-trunk head fine-tuning",
+      "hypothesis": "Auxiliary structure and next-change losses help representation learning, but can constrain the final shared readout when the input projection and GRUs are already frozen. Main-only head tuning may improve the pooled correlation objective without new serving work. This is a testable optimization hypothesis, not an established explanation of the plateau.",
+      "concrete_gap": [
+        {
+          "path": "scripts/fold_ft.sh:16",
+          "fact": "The head-only gcorr stage still sets aux-struct=0.3 and aux-next=0.3; lines 20-21 freeze inp,gru."
+        },
+        {
+          "path": "src/wnn/nn.py:57",
+          "fact": "All output heads share Linear(2H,H) then GELU before the final output matrix. Auxiliaries still backpropagate through this shared head."
+        },
+        {
+          "path": "scripts/train_rnn.py:1012",
+          "fact": "Both auxiliary losses are unconditionally added at their fixed coefficients, then summed gradients are clipped at norm 1 at line 1078."
+        },
+        {
+          "path": "scripts/train_rnn.py:769",
+          "fact": "Output dimension and auxiliary offsets depend on auxiliary flags. Setting existing CLI flags to zero directly would change checkpoint shape; preserve heads and add separate fine-tune loss multipliers."
+        }
+      ],
+      "closest_existing_results": [
+        "E-097/E-102 support auxiliary next-change learning in parent training; retain that successful parent recipe.",
+        "E-148/E-171 and current head-only versus full-FT comparisons change frozen parameters or the main objective, not whether auxiliary losses remain active within the same head-only stage.",
+        "E-107/E-233/E-237/E-244/E-251 add auxiliary targets; E-222 changes EMA consistency weighting. They do not test withdrawing existing auxiliary objectives only after trunk freezing.",
+        "E-180 running normalization was flat; this proposal changes the direction/objective of shared-head gradients, not merely their common scale."
+      ],
+      "cheap_discriminating_probe": {
+        "status": "Prepared concept; not authorized as an extra screen under the current one-family Transformer contract.",
+        "name": "Training-side shared-head gradient audit",
+        "inputs": "Fixed epoch3 parents ref_f0/ref_f1 and their logged head-FT recipes. Both model_ep3.pt paths exist remotely. Hash checkpoints, logs, selected chain IDs, data/split identities and code before gradients.",
+        "sample": "For each fold take exactly 8 eligible head-FT training sequences, 2 per market class, selected by a fixed hash of chain ID; exclude the target held-out fold and mixed train-neighbour chains. Carry trunk state from sequence start. Evaluate fixed 512-row windows beginning at 2000, 8000, 16000. Freeze this selection before any gradients; no outcome-dependent replacement.",
+        "calculation": "On head parameters compute separate gradients of gcorr and 0.3*L_struct+0.3*L_next using the existing masks/labels. Report per-fold cosine similarity and auxiliary/main norm ratio specifically on the shared first head layer; report global clipping factors descriptively. Also report zero/nonfinite gradients and all prespecified windows, not a selected negative slice.",
+        "bounds": {
+          "threads": 2,
+          "memory_gib": 8,
+          "wall_seconds": 480,
+          "gpu_hours": 0,
+          "optimizer_updates": 0
+        },
+        "decision": "Use signs and auxiliary/main gradient norms to refine the optimization rationale. Do not require negative cosine as a hard pass gate: Adam, finite steps, regularization and checkpoint-versus-training-state differences can break that inference. A null audit weakens this explanation but cannot veto the controlled head-FT comparison. The candidate/control WP study below is the actual allocation test.",
+        "limits": "This measures a frozen EMA parent under training-side batches, not historical optimizer trajectories. The epoch checkpoint does not save Adam state (train_rnn.py:1125); Euclidean cosines do not reconstruct preconditioned Adam updates. No WP or hidden-period improvement is claimed from gradients.",
+        "timeout_policy": "480 seconds is a hard stop, not a forecast of sequential GRU speed. If replay or gradients cannot finish, record timeout, processed chain IDs and incomplete coverage; do not shrink windows, reset state, select a faster checkpoint or interpret a partial score after inspection."
+      },
+      "preregistered_training_comparison_if_allocated": {
+        "candidate": "Original four-epoch parent unchanged. Same one-epoch head-only gcorr fit, lr5e-4, batch16, exact data order, masks, chunk length, scheduler, initial weights and output dimensions; multiply structure and next-change fine-tune losses by zero. Keep inp/gru frozen. No full-FT stage.",
+        "control": "Same exact head-only fit with both loss multipliers 1 (current .3/.3 auxiliaries). Match optimizer parameter groups and random/data seeds. Verify historical control equivalence before using a cached control; otherwise regenerate the control within the stated budget.",
+        "seeds": [
+          3,
+          4
+        ],
+        "folds": [
+          0,
+          1
+        ],
+        "checkpoint_rule": "Fixed parent epoch3 and head epoch0. No best-epoch selection, auxiliary weight sweep, schedule sweep or checkpoint interpolation.",
+        "primary": "All paired seed effects in exact pooled clipped |y|-weighted Pearson over pure scoring chains; report fold0, fold1 and pooled, then mean and sample SD across paired seeds.",
+        "serving_relevance": "For each seed separately replace the corresponding plain-h128 slot in the same C proxy with its main-only FT child, holding other members and .25 blend weights fixed. Also report one fixed replacement of both plain slots by the two candidates. No blend weight search.",
+        "uncertainty": "Whole-chain paired bootstrap for fixed-artifact metric deltas, distinct from across-seed variability; all results discovery-only. Do not present two seeds or reused folds as prospective confirmation.",
+        "allocation_gate": "Continue only if mean paired single-model effect is positive, both seed effects have positive pooled sign, and the fixed both-slot replacement improves pooled C by >=0.0003 with positive signs in both folds. This is a preallocated spending threshold reflecting near-zero serving cost, not significance, a guaranteed public gain or a global rejection of auxiliary learning.",
+        "stop": "One candidate recipe; on failure close this exact head-only intervention. No automatic public submission.",
+        "implementation": "Add an auxiliary LOSS-scale option independent of head construction, default 1, multiplying the existing structure/next-change contributions only. Candidate sets it to 0; control retains 1. Do not change --aux-struct=.3 or --aux-next=.3, output dimensions or optimizer parameter groups. Keep clip_grad_norm_=1, weight decay, scheduler, and EMA flags exactly equal to the original head-FT control; log their actual values. No such implementation was made in this scout."
+      },
+      "cost": {
+        "serving": "Zero added state, parameters, MACs or native operators; identical model shapes and main outputs. Exact new weight parity still requires existing export tests.",
+        "training": "Four candidate head-only fits (2 seeds x 2 folds), plus controls only if historical equivalence fails. Frozen trunk still costs forward passes. Price the actual logged head-FT time before allocation; no invented GPU-hour estimate."
+      },
+      "main_risk": "The auxiliaries may regularize the shared readout even with a frozen trunk. Removing them may overfit the already reused valid masks or improve singles without contributing to C.",
+      "primary_source": "https://arxiv.org/html/1812.02224v2",
+      "source_scope": "Du et al., sections 2-3 and 6: fixed auxiliary weights can become unhelpful and gradient alignment is a local heuristic. It supplies motivation for the diagnostic, not evidence that this competition intervention succeeds."
+    },
+    {
+      "rank": 2,
+      "id": "A-quote-clock",
+      "title": "Decode the auxiliary recurrence clock into actual bid/ask movement",
+      "status": "Conditional architecture proposal; preflight only before any model allocation",
+      "hypothesis": "A sparse event branch may be spending its updates on encoded book-shape transitions instead of price-moving quote events. Changing only that branch clock could preserve relevant event memory with the same state width. This does not establish extra information; the row GRU already observes the source features.",
+      "implementation_evidence": [
+        {
+          "path": "scripts/train_rnn.py:365",
+          "fact": "DualClockModel and EventAttnModel both receive the same EV_I0PX input flag."
+        },
+        {
+          "path": "src/wnn/features.py:44",
+          "fact": "EV_I0PX is an AND of changes in the first encoded bid and ask price coordinates (line 48), not a decoded ask/bid-move test and not literally any-of-22."
+        },
+        {
+          "path": "src/wnn/ticks.py:33",
+          "fact": "learn_moves maps previous/current full 22-code pairs to modal (delta ask,delta bid), learned from target jumps in supplied training sequences."
+        },
+        {
+          "path": "scripts/eda_ticks.py:65",
+          "fact": "The builder uses 1500 class-3 TRAIN sequences for move/spread tables when the cache is absent (lines 67-71). Existing-cache provenance must still be verified."
+        },
+        {
+          "path": "research/quant-probes-2026-09-29.md:356",
+          "fact": "The matured-label correction failed a leakage check because code changes include shape-only events; honest quote-clock reconstruction removed its apparent gain."
+        }
+      ],
+      "closest_negative": "H-020/E-056 and current R6 are direct negatives for a dual-clock GRU with the current proxy clock. Event attention, E-240 seasonal 12-lag readout, E-242 duration residual correction and E-251 future quote-path auxiliary are also cautionary. The narrow change is the event recurrence update mask, not another generic memory module or a future-label input.",
+      "causal_candidate": "Use an immutable train-fitted map of (previous,current) 22-code tuples. If lookup is known, update the event GRU iff decoded delta ask != 0 OR delta bid != 0. If unknown, use the EXISTING proxy predicate and count the fallback. Apply this rule to all streams without selecting a market class from evaluation labels. Keep the row GRU and all 99 existing input features unchanged. For known rows, use direct transition deltas; do not rely on full-sequence mode anchoring in reconstruct(spreads=None), which examines later rows. No future maturity/target or invented timestamp enters inference.",
+      "cheap_discriminating_probe": {
+        "scope": "A decoder/clock feasibility audit only, no predictions or training.",
+        "sample": "Freeze 16 pure validation sequences per fold by chain hash before scanning; report overall and class-3 descriptive slices without using class labels for the candidate routing. Compare existing AND-of-code-change mask with known decoded quote-move mask on every row; do not score only event snapshots.",
+        "measure": [
+          "Known and unknown transition coverage by class and fold",
+          "Fraction of current proxy events that are known shape-only transitions",
+          "Known decoded price moves missed by the proxy",
+          "First-row/reset behavior and no-future prefix equivalence of the direct lookup"
+        ],
+        "bounds": "2 CPU threads, 8 GiB, <=480 seconds, no GPU and no model fitting.",
+        "allocation": "Only retain the route if train-only table provenance is verified, class-3 transition coverage >=99% in both folds and a clock disagreement affects >=1% of current proxy events in both folds. These are feasibility/materiality thresholds, not evidence of a score gain. Otherwise defer this exact implementation, without rejecting true event-clock modeling in general.",
+        "timeout_policy": "On timeout record incomplete coverage and defer; no outcome-dependent resampling or assumption of zero unknown transitions."
+      },
+      "preregistered_training_comparison_if_allocated": {
+        "intervention": "One fixed DualClockModel architecture/hyperparameter configuration copied from R6. Change only the event mask to the direct decoded/fallback rule; keep input features, dimensions, training rows, updates, losses, EMA and head FT identical.",
+        "control": "Same dual-clock model with current EV_I0PX. Compare additionally with ordinary row GRU and fixed C replacement; beating the old dual-clock negative alone is insufficient.",
+        "seeds": [
+          3,
+          4
+        ],
+        "folds": [
+          0,
+          1
+        ],
+        "outputs": "Matched seed deltas, per-fold and pooled exact WP, across-seed SD, whole-chain conditional bootstrap. One predetermined C small-member replacement at .25 with all other members fixed; report decoder fallback metric-weight coverage.",
+        "allocation_gate": "A fixed C replacement must gain >=0.0005 pooled and be positive in both folds; both paired candidate-minus-proxy-clock seed effects must have positive pooled sign. This spending rule is discovery-only and cannot establish public improvement or causal mechanism.",
+        "stop": "One clock intervention; no decoder threshold, fallback, memory width, mixture coefficient or new horizon search after outcomes."
+      },
+      "cost": "Same recurrent parameter count, event branch updates may become fewer or more depending on measured disagreement. Additional causal code lookup and native decoder table are required; existing direct-predictor engine does not yet serve DualClockModel. Benchmark full one-core serving before promotion, or assess a separately registered same-size student only after teacher headroom. Do not claim zero cost or a deadline fit.",
+      "reason_ranked_second": "The code reveals a real distinction, but strong previous dual-clock/attention negatives and decoder/export cost lower expected utility relative to the no-serving-cost head-FT study.",
+      "primary_source": "https://arxiv.org/abs/1612.09328",
+      "source_scope": "Neural Hawkes is an example of event-conditioned recurrence, not evidence for this mask or a requirement to use a continuous-time process. This proposal uses observed row/code events only."
+    }
+  ],
+  "architecture_routes_not_allocated": [
+    {
+      "route": "Event-attention positional repair",
+      "reason": "event_attn.py:63 and 85-88 store event content plus creation gap, with no explicit relative-event-age term in attention logits. Conditional on fixed query/key/value pairs, simultaneous token permutation leaves its weighted sum unchanged. However the row-GRU query and existing features are order-dependent, so the whole model is NOT order-blind. Dual-clock recurrence already keeps event order, and the Transformer has ALiBi. A positional tweak lacks sufficiently strong incremental evidence to outrank the training intervention.",
+      "primary_source": "https://arxiv.org/html/1706.03762v7#S3.SS5",
+      "source_scope": "Positional encoding in attention-only models; the applicability caveat for this recurrent-attention hybrid is essential."
+    },
+    {
+      "route": "Generic wider GRU, LSTM, row convolution, separate i0/i1 towers, or more memory",
+      "reason": "Width audit M01 is unstable; LSTM E-081/E-168 negative, EMA row-conv E-181 negative, current two-stream pair -0.0004, periodic resets R1 negative, long-memory residual filters null and current Transformer fold0 reaches a similar fixed-recipe ceiling. These are recipe-specific negative results, not proof of an information-theoretic ceiling or a ban on all architectures."
+    }
+  ],
+  "next_action": "Finish the already registered Transformer cache screen. Rank T-head-main-only first for the next training intervention; optional CPU gradient diagnostics explain the objective interaction but do not gate it by cosine alone. A-quote-clock ranks second and first needs the bounded causal decoder/clock audit. Neither proposal launches work under the current screen contract automatically.",
+  "verification": "JSON parses; git diff --check passed. Only architecture-scout.json was written by this scout. Files frozen for parent review/commit. No experiment outcome or training result is attached."
+}
