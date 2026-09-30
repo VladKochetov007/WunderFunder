@@ -372,3 +372,7 @@ clock (decoded quote changes), never on a proxy event stream.
   cross-sequence state hashing (no shared streams) -> nothing survives on both folds. Diagnosis: pooled score depends
   strongly on the class-3 weight share (single-sequence chains are 64% class 3 and score 0.59 vs 0.74 for long
   chains); the local-public gap fits a class-3-heavier / shorter-stream test.
+- Class-3 distributional atom head (`src/wnn/atom_head.py`, `--atom-head 0.5`; 64 joint (t0,t1) atoms cover 99.9% of
+  class-3 metric weight; |y|-weighted CE + metric-optimal decode mixed with the regression head by p(class 3) and a
+  learned lambda, which settled at 0.41): pair vs h128 pair -0.0008 (folds -0.0005/-0.0010, SD 0.0004, class 3
+  -0.0009); in C's blend -0.0003. Refuted (consistent with Vlad's E-071 CE heads).

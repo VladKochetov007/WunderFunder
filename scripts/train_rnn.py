@@ -391,6 +391,14 @@ def make_model(args_dict, n_in, n_out):
     if args_dict.get("arch", "gru") == "dual":
         return DualClockModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["event_hidden"],
                               args_dict["dropout"], n_out=n_out)
+    if args_dict.get("atom_head"):
+        import numpy as np
+        from wnn.atom_head import AtomRNNModel
+
+        start = 2 + 2 * len([v for v in str(args_dict.get("aux", "")).split(",") if v]) + N_SP_AUX + 3
+        atoms = np.load(ROOT / "cache" / "class3_atoms.npy")
+        return AtomRNNModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["dropout"], n_out,
+                            (start, start + 4), atoms)
     class_heads = None
     if args_dict.get("class_heads"):
         # class logits sit after the targets, shifted-target aux outputs, spread (N_SP_AUX) and branch (3) logits
@@ -527,6 +535,8 @@ def main():
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--atom-head", type=float, default=0.0,
+                    help="class-3 distributional atom head: weight of its |y|-weighted CE (needs --aux-struct > 0)")
     ap.add_argument("--vrex", type=float, default=0.0, help="V-REx penalty on the variance of per-sequence risks")
     ap.add_argument("--vrex-start", type=int, default=1, help="first epoch (0-based) with the V-REx penalty")
     ap.add_argument("--level-aug", type=float, default=0.0,
@@ -958,6 +968,17 @@ def main():
                     loss = (w * (out[..., :2].float() - yc) ** 2).sum() / norm_ema.clamp_min(1e-8)
                 else:
                     loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])
+                if args.atom_head > 0:
+                    atoms_t = model.atoms if hasattr(model, "atoms") else None
+                    if atoms_t is not None:
+                        yv = y[:, sl].float()
+                        dist = (yv[..., None, :] - atoms_t[None, None]).abs().sum(-1)  # (B, T, K)
+                        dmin, aidx = dist.min(-1)
+                        c3 = (sequence_class(y) == 3)[:, None].expand_as(dmin)
+                        wce = main_valid[:, sl].float() * yv.clamp(-2, 2).abs().mean(-1) * (c3 & (dmin < 1e-3)).float()
+                        logit = out[..., -atoms_t.shape[0]:].float()
+                        ce = F.cross_entropy(logit.reshape(-1, logit.shape[-1]), aidx.reshape(-1), reduction="none")
+                        loss = loss + args.atom_head * (ce * wce.reshape(-1)).sum() / wce.sum().clamp_min(1e-8)
                 if args.vrex > 0 and epoch >= args.vrex_start:
                     # V-REx (2003.00688): penalise the variance of per-sequence normalised risks, so the model relies
                     # on relations that hold in every stream (the test streams are unseen instruments/periods)
