@@ -1,0 +1,87 @@
+{
+  "iteration_id": "creative-20260930-01",
+  "screen_id": "I1",
+  "status": "preregistered",
+  "evidence_role": "discovery",
+  "created_at": "2026-09-30T21:19:13.216981+00:00",
+  "amends": {
+    "ideator_sha256": "88f8669400ca7346a1d5ffe5d76d6eedcc8bca34f581d3836dca589632316ed6",
+    "critic_sha256": "0a188bc4ba883a94af8af75fa3c5fbb89e79bd84b61cc2778554d53ff35dd396",
+    "reason": "Pre-outcome clarification of I1 joint-comparison scope, exact cache identities, coverage and immutable input inventory. Frozen original cards remain unchanged."
+  },
+  "claim": "Fixed joint disagreement gate versus fixed 50/50 teacher mixture inside the same four-member cached ensemble; no conditioning-only, student, training-seed or unseen-score claim.",
+  "components": {
+    "plain3": "ft256H",
+    "plain4": "ft256s4H",
+    "distilled3": "ft256dH",
+    "distilled4": "ft256ds4H",
+    "small3": "ft128H",
+    "small4": "ft128s4H",
+    "chunk500": "ftc500H"
+  },
+  "folds": [
+    0,
+    1
+  ],
+  "block_sequences": 16,
+  "bootstrap_repeats": 1000,
+  "bootstrap_seed": 20260930,
+  "data": {
+    "targets": "cache/valid_targets.npz",
+    "split": "cache/chain_folds.npz",
+    "prediction_pattern": "cache/pred_{component}_f{fold}_valid.npy",
+    "selection": "Exact fold 0/1, pure=true chain metadata, targets.row_group order; missing components or invalid alignment fail with no substitution.",
+    "alignment_basis": "predict_run.py writes full predictions in valid_targets.row_group order. NPY files do not embed row IDs: record this provenance assumption, require full identical float32 shapes and unique target/split row-group metadata.",
+    "classes": "valid_targets.market_class, descriptive only; never enters the gate",
+    "mask": "valid_targets.mask AND step>=99, matching the documented need_prediction contract",
+    "exposure": "All selected folds are adaptively reused discovery data; pure means no train-neighbour chain, not unexposed."
+  },
+  "formulas": {
+    "P": "0.5*(plain3+plain4)",
+    "Q": "0.5*(distilled3+distilled4)",
+    "D": "0.5*(prediction_t0-prediction_t1)",
+    "g": "abs(D(P)-D(Q)) > 0.5*(abs(D(P))+abs(D(Q))+0.05)",
+    "U": "0.5*Q+0.5*P",
+    "G": "Q+0.5*g*(P-Q)",
+    "originalC": "0.25*(distilled3+small3+small4+chunk500)",
+    "C_with_Z": "0.25*(Z+small3+small4+chunk500), Z in Q,U,G",
+    "numerics": "float32 mixtures; no teacher/component clipping; clip only final ensemble and targets to [-2,2] in float64 sufficient-stat accumulation via fold_eval."
+  },
+  "primary": "Pooled WP(C_with_G)-pooled WP(C_with_U), separately fold0, fold1 and pooled across their rows; do not average fold correlations.",
+  "secondary": [
+    "G-originalC and G-Q per fold and pooled",
+    "Exact WP for originalC,Q,U,G",
+    "Gated/scored row coverage per fold and pooled",
+    "Per-target weight coverage and combined sum_k sum_rows |clip(y_k)|*mask*g / sum_k sum_rows |clip(y_k)|*mask; combined ratio used in gate",
+    "Class-specific pooled deltas, descriptive only"
+  ],
+  "uncertainty": "Whole-chain resampling within each fold, same chain draws for candidate/control and all comparisons; 1000 draws. SD and percentile interval conditional on fixed teachers. No independent row resampling, seed-replication or selection-adjusted significance claim.",
+  "gate": {
+    "pooled_delta_min": 0.0004,
+    "fold_delta_positive": true,
+    "fold_delta_originalC_min": 0.0,
+    "weight_coverage_min": 0.05
+  },
+  "gate_interpretation": "Rank a future matched-student experiment only if pooled G-U>=0.0004, G-U>0 in both folds, G-originalC>=0 in both, and combined metric-weight coverage>=0.05 in both. Practical allocation threshold only. Failure closes this exact screen without disproving conditional teaching generally.",
+  "provenance": "After committed code is synced, evaluator hashes all 16 inputs and code before loading scoring arrays; writes immutable RESULT.inputs.json first, then scores. Records selected-row hash and checks input filesystem fingerprints remain unchanged. No second commit required before scoring; inventory is an append-only pre-outcome record.",
+  "execution": {
+    "command": "systemd-run --user --scope --quiet -p CPUQuota=200% -p MemoryMax=8G -p MemorySwapMax=0 -- timeout 480s env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python scripts/conditional_teacher_probe.py research/iterations/2026-09-30-creative/prereg-amendment.json --out research/iterations/2026-09-30-creative/I1-result.json",
+    "host": "beleriand isolated creative worktree only",
+    "parallel_screens": 1,
+    "max_prediction_block_sequences": 16,
+    "cpu_threads": 2,
+    "ram_gb": 8,
+    "wall_seconds": 480,
+    "gpu": false,
+    "new_inference": false,
+    "missing_input": "Fail/defer; never substitute a seed/checkpoint or silently narrow a fold.",
+    "output_mutability": "Refuse existing result or pre-outcome inventory. An interrupted attempt retains inventory; any retry requires a separately logged attempt/output identity."
+  },
+  "stop": "One fixed screen. No threshold, coefficient, component, class or fold tuning after results. Archive all outcomes separately; no promotion/upload this iteration.",
+  "deferred": {
+    "I2": "Deferred to keep this iteration bounded around M01 plus I1. Before future simulation freeze nonnegative overhead/cost rescaling, exact policy transitions and mapping from1970 simulated sequences to cached units. Synthetic results do not establish public timing or score.",
+    "I3": "Deferred as proposed; cached position profiles are not a discriminating augmentation test."
+  },
+  "confirmation_available": false,
+  "new_gpu_training_authorized": false
+}
