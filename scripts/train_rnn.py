@@ -369,7 +369,7 @@ def forward_chunk(model, inputs, sl, state):
 
 def detach_state(state):
     if isinstance(state, tuple):
-        return tuple(v.detach() for v in state)
+        return tuple(None if v is None else detach_state(v) if isinstance(v, tuple) else v.detach() for v in state)
     return state.detach()
 
 
@@ -377,6 +377,11 @@ def make_model(args_dict, n_in, n_out):
     if args_dict.get("arch") == "gated":
         return GatedRNNModel(n_in, args_dict["hidden"], args_dict["layers"],
                              args_dict["dropout"], n_out=n_out)
+    if args_dict.get("arch") == "twostream":
+        from wnn.two_stream import TwoStreamModel
+
+        return TwoStreamModel(n_in, args_dict["hidden"], args_dict["layers"], n_out=n_out,
+                              hidden1=args_dict.get("hidden1") or None, dropout=args_dict["dropout"])
     if args_dict.get("arch") == "attn":
         from wnn.event_attn import EventAttnModel
 
@@ -467,7 +472,8 @@ def main():
                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
-    ap.add_argument("--arch", choices=["gru", "dual", "gated", "attn"], default="gru")
+    ap.add_argument("--arch", choices=["gru", "dual", "gated", "attn", "twostream"], default="gru")
+    ap.add_argument("--hidden1", type=int, default=0, help="--arch twostream: hidden size of the i1 stream (0 = --hidden)")
     ap.add_argument("--attn-k", type=int, default=32, help="--arch attn: ring of the last K i0 price-event tokens")
     ap.add_argument("--attn-d", type=int, default=64, help="--arch attn: attention width")
     ap.add_argument("--attn-heads", type=int, default=4)
@@ -521,6 +527,8 @@ def main():
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--vrex", type=float, default=0.0, help="V-REx penalty on the variance of per-sequence risks")
+    ap.add_argument("--vrex-start", type=int, default=1, help="first epoch (0-based) with the V-REx penalty")
     ap.add_argument("--level-aug", type=float, default=0.0,
                     help="training only: add a per-sequence N(0, s) offset to every i0/i1 book volume code column "
                          "(event features are differences, so only absolute levels move): robustness to new instruments")
@@ -950,6 +958,18 @@ def main():
                     loss = (w * (out[..., :2].float() - yc) ** 2).sum() / norm_ema.clamp_min(1e-8)
                 else:
                     loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])
+                if args.vrex > 0 and epoch >= args.vrex_start:
+                    # V-REx (2003.00688): penalise the variance of per-sequence normalised risks, so the model relies
+                    # on relations that hold in every stream (the test streams are unseen instruments/periods)
+                    yv = y[:, sl].float().clamp(-2, 2)
+                    wv_ = yv.abs() * main_valid[:, sl].float()[..., None]
+                    ws = wv_.sum((1, 2))
+                    ok = ws > 1e-3
+                    if int(ok.sum()) > 2:
+                        # per-sequence |y|-weighted MSE (the paper's per-environment risk, unnormalised: normalising
+                        # by a chunk's target variance exploded on near-constant chunks)
+                        risk = (wv_ * (out[..., :2].float() - yv) ** 2).sum((1, 2)) / ws.clamp_min(1e-8)
+                        loss = loss + args.vrex * risk[ok].var()
                 if args.arch == "gated" and args.gate_ce > 0:
                     difference = y[:, sl, 0].float() - y[:, sl, 1].float()
                     gate_weight = main_valid[:, sl].float() * difference.abs().clamp_max(2.0)

@@ -349,3 +349,26 @@ Both ~C's runtime (~49 min).
 Upweighting validation 3x in parent training clearly hurts the test; a longer head fine-tune is neutral.
 Next LB probe: `candV3_trainonly.zip` (sha f7943bc6...0fe): C's four members with parents trained on TRAIN ONLY
 (`PARENT_SOURCE_MODE=train scripts/final_job.sh`), validation used only by the head fine-tune.
+
+## LB 2026-09-30: V3 (parents on train only) 0.6629 (49m26s). Valid weight in parents: none 0.6629, 1x (C) 0.6640,
+3x 0.6611 -> C is at the optimum of this knob.
+
+## Matured-label error feedback — the apparent +0.08 was LEAKAGE (caught)
+`scripts/matured.py` (TRUE labels, "matured" 4 or 8 changes of the 22 price codes after the row): corr of the last
+matured residual with the current residual 0.35-0.59, cross-fitted correction +0.084 / +0.094 (lag 4) and +0.019 /
++0.024 (lag 8). `scripts/matured_c3.py` with labels REBUILT from decoded ask/bid paths (known only at the 4th
+ask/bid change): corr -0.04..+0.01, global effect -0.0003 / +0.0003. Code changes include book-shape changes that
+do not move ask/bid, so "4 code events" came before the label was determined: the true-label residual carried
+future information. Honest version: null (as Vlad's E-080). Lesson: maturity must be measured on the label's own
+clock (decoded quote changes), never on a proxy event stream.
+
+## Round 4 (2026-09-30 afternoon)
+- Two-stream GRU (separate i0 / i1 recurrent streams, `src/wnn/two_stream.py`, `--arch twostream`): pair vs h128 pair
+  -0.0004 (folds +0.0011 / -0.0017, SD 0.0012); in C's blend +0.0001. Refuted.
+- V-REx over sequences (`--vrex`, train-only -> unseen valid, seed pairs): beta 1 -0.0081 (SD 0.0006), beta 5 -0.114.
+  (A first variant normalised by each chunk's target variance exploded.) Refuted.
+- Data-detective subagent (CPU analyses on the ensemble residual, pure OOF, cross-fitted restacking): a0..a7 raw or
+  as scalers, trade-side codes, i1 events since the last i0 event, per-sequence bias, class-3 rounding parity,
+  cross-sequence state hashing (no shared streams) -> nothing survives on both folds. Diagnosis: pooled score depends
+  strongly on the class-3 weight share (single-sequence chains are 64% class 3 and score 0.59 vs 0.74 for long
+  chains); the local-public gap fits a class-3-heavier / shorter-stream test.
