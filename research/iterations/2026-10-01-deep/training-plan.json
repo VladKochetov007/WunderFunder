@@ -1,0 +1,34 @@
+{
+  "id": "TDIAG1",
+  "status": "frozen_before_execution_pending_root_schedule",
+  "contract": "contract.json",
+  "script": "training_diagnostic.py",
+  "purpose": "Mechanism audit at the start of head FT, not a score or training improvement test.",
+  "model": "/home/grinchenkoeg/WunderFunder/artifacts/runs/ref_f0/model_ep3.pt",
+  "data_role": "Only FT-training validation rows: pure chains with fold !=0; evaluation fold0 never sampled. This is training-side use despite the source filename valid.parquet.",
+  "sampling": "Four distinct chains per target-derived market class, sorted by SHA256(TDIAG1:chain_id), then smallest eligible row group per chain; 16 sequences total. Target-derived class is sampling metadata only, never a model input.",
+  "input_use": "Raw feature prefix[0:4000], full20k training targets to construct next-change auxiliary labels, training is_scored masks. Future training labels never feed trunk. Full-sequence labels are legitimate supervision and not deployable state.",
+  "identity": "Immutable input inventory before model forward: checkpoint, split/classes, source code and plan SHA256; selected raw-prefix/full-target/full-mask byte hashes; parquet stat fingerprint before/after. No need to reread whole parquet.",
+  "calculation": "CPU float32 replay prefix4000 in microbatches4 with dropout0; concatenate detached [GRU,z]; independently compute main/structure/next gradients on head for windows0:2000 and2000:4000 (warmup mask removes first99). Main gcorr uses |clip(y)| weights and un-clipped p; structure and next masks match head-FT source code. No optimizer update; no held-out WP, no model output cache.",
+  "outputs": [
+    "shared-head gradient cosines and norms per component",
+    "separate main-output-row and auxiliary-output-row gradient norms, to distinguish shared-layer interference from global clipping coupling",
+    "full-head clipping factors control/main-only",
+    "prediction-clipping prevalence and metric-weight prevalence",
+    "auxiliary mask and metric mass by class",
+    "zero-gradient/exception/timeout and exact selected identities"
+  ],
+  "mode_limits": "Reference dropout0, no stochastic encoder/head layers; eval and train model modes coincide mathematically. Float32 CPU replay is not GPU AMP numerical equivalence. No historical Adam trajectory is reconstructed.",
+  "budget": {
+    "threads": 2,
+    "memory_gib": 8,
+    "internal_alarm_seconds": 450,
+    "outer_timeout_seconds": 480,
+    "gpu_hours": 0,
+    "new_validation_WP_queries": 0,
+    "disk_gib_max": 1
+  },
+  "run_owner": "Root only after code review; no remote execution by this agent.",
+  "decision": "Descriptive mechanism evidence only; no hard cosine gate and no score threshold. Timeout or nonfinite values report incomplete and stop; no resampling or replacement checkpoint.",
+  "future_training": "See training.md. Revise prior one-epoch C-only proposal to fixed two-epoch head FT matched to V1 schedule; fresh controls mandatory. No GPU training authorized this round."
+}
