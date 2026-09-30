@@ -241,6 +241,7 @@ ONLINE_NORM = False  # append causal per-sequence z-scores of the 112 raw featur
 READOUT = None  # (m1, m0) moment tables when the head is a softmax over outcome codes
 READOUT_TILTED = False
 HEURISTICS = False  # append wnn.heuristics features (computed in loader workers)
+LOOKAHEAD: tuple = ()  # PRIVILEGED teacher only: append raw rows t+L (non-causal!) for each L
 QUANT_I1 = False  # add the i1 order-flow block (cross-impact) to the quant features
 QUANT = False  # append wnn.quant order-flow features accumulated since the last i0 price event
 STATE_RESET = 0  # if > 0: zero the recurrent state every STATE_RESET rows (training and prediction)
@@ -253,6 +254,9 @@ def build_inputs(x):
     if RAW_ONLY:
         ev = torch.zeros_like(ev)
     inputs = torch.cat([raw, ev], dim=-1)
+    for lag in LOOKAHEAD:  # non-causal privileged inputs for distillation teachers; never for deployed models
+        fut = torch.cat([raw[:, lag:], raw[:, -1:].expand(-1, lag, -1)], dim=1)
+        inputs = torch.cat([inputs, fut], dim=-1)
     if QUANT:
         from wnn.quant import quant_features_torch
 
@@ -506,6 +510,10 @@ def main():
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--lookahead", default="",
+                    help="PRIVILEGED (non-causal) teacher: comma list of row offsets L; appends raw row t+L as input")
+    ap.add_argument("--train-half", type=int, default=-1,
+                    help="0/1: train only on train sequences with sha256(row_group) %% 2 == half (cross-fitted teachers)")
     ap.add_argument("--class-heads", action="store_true",
                     help="one residual target head per market class, mixed by the model's own class probabilities "
                          "(needs --aux-struct > 0)")
@@ -564,6 +572,8 @@ def main():
     if args.epoch_samples and args.class_balance:
         ap.error("--epoch-samples cannot be combined with --class-balance")
 
+    global LOOKAHEAD
+    LOOKAHEAD = tuple(int(v) for v in args.lookahead.split(",") if v)
     if args.class_heads and args.aux_struct <= 0:
         ap.error("--class-heads needs --aux-struct > 0 (the class logits come from that head)")
     if args.state_reset and args.state_reset % args.chunk:
@@ -631,6 +641,11 @@ def main():
         train_idx = np.random.default_rng(args.seed).permutation(dev_a)[: args.train_seqs]
     else:
         usable = np.array([g for g in range(10607) if g not in CORRUPT_TRAIN_ROW_GROUPS])
+        if args.train_half >= 0:
+            import hashlib
+
+            usable = np.array([g for g in usable
+                               if int(hashlib.sha256(f"half:{g}".encode()).hexdigest(), 16) % 2 == args.train_half])
         if args.train_classes:
             keep = {int(c) for c in args.train_classes.split(",")}
             cls = np.load(ROOT / "research" / "artifacts" / "market-classes-v1.npz")["train"]
@@ -678,7 +693,7 @@ def main():
 
     shifts = [int(v) for v in args.aux.split(",") if v]
     prop_model = load_propensity(ROOT / "artifacts" / "runs" / args.propensity / "model.pt", device) if args.propensity else None
-    n_in = N_FEATURES + N_EVENT_FEATURES
+    n_in = N_FEATURES + N_EVENT_FEATURES + N_FEATURES * len(LOOKAHEAD)
     if args.raw_only:
         global RAW_ONLY
         RAW_ONLY = True

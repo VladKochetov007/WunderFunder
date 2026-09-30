@@ -277,3 +277,37 @@ fin128_s4h, finc500b_s3h (chunk-500 h128), 1/4 each, members in that order (the 
 Parity vs PyTorch with fp16 weights: 2.4e-4 (d256), 4.2e-4 (c500). Scorer-image simulation: 166.8 us/row vs
 146.8 for candB in the same session -> ~49 min projected from candB's measured 43 min (governor budget 52).
 Fold expectation: +0.00065 over candB (folds 0/1 +0.0007/+0.0006, SD 0.0002).
+
+# Round 3 (2026-09-30 night): bolder ideas
+Three literature subagents (LOB microstructure; noisy labels / distillation / sequence models; competition
+winners and quant practice) proposed 15 ideas; triage: mirror symmetry is impossible here (price codes are not
+bid/ask symmetric: class-3 bid codes in [-2.27,-1.27], ask in [-0.84,-0.46]); online matured-label correction ~
+Vlad's refuted E-080; distributional/CE heads ~ refuted E-071; full-network FT hurts h256 (above).
+
+## Privileged (non-causal) teacher distillation — no gain beyond ordinary distillation
+Cross-fitted h128 teachers on train halves that also see raw rows t+L (`--lookahead`, `scripts/teacher_job.sh`,
+`scripts/merge_teachers.py`). Teacher OOF valid WP: t+10,t+40 **0.813**; t+3,t+10 0.744 (causal ~0.70).
+h128 students, fold 0, seed 3, head-FT, vs the h128 reference: t+10/40 alpha 0.5 +0.0007, alpha 0.8 +0.0011,
+t+3/10 alpha 0.5 +0.0002; ordinary distillation from two causal h256 teachers +0.0010. A far more accurate
+teacher does not make a better causal student: the distillation gain is smoothing, capped by what the causal
+student can represent.
+
+## Blend weights (8 OOF members, cross-fitted between folds 0/1)
+Global weights +0.00035 over equal weights on both folds (weights ~2/3 on the two d256 students); per-class
+weights +0.0000. Per-class blending refuted.
+
+## Class-3 context table (Bayes-limit diagnostic, `scripts/c3_table.py`)
+E_w[D | book-state code, log2 rows since last price event, last move sign, trade row] fitted on 1,500 class-3
+train sequences: weighted corr with D on class-3 pure valid 0.157 / 0.127 (folds 0/1) vs the d256 pair 0.507 /
+0.476; adding the table to the GRU lowers corr at every beta. No discrete context structure is left unused.
+
+## Born-again generation 2 and longer distillation — plateau
+Gen-2 h256 students, teacher = mean of four h256 models (two gen-1 students + two plain), alpha 0.7:
+pair vs gen-1 pair +0.00036 (folds +0.0002/+0.0005, SD 0.0003); gen-2 in place of the gen-1 student in the C
+blend -0.00006. Six epochs with distillation targets (fold 0): parent 0.7027 vs 0.7028 at four epochs (no
+overfitting now, but no gain either).
+
+## Round-3 verdict
+No breakthrough. Distillation is the only lever and it plateaus after one generation; privileged teachers,
+per-class blending, discrete class-3 context tables and longer training add nothing measurable. The class-3
+information ceiling for causal models of this family looks reached; remaining ensemble gains are ~+0.0003.
