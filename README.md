@@ -1,5 +1,7 @@
 # Sequence Prediction Challenge
 
+Current results, the best recorded submission (**V1: 0.6641**), and links to the complete checkpoint/log archive are in [Research current state](research/CURRENT_STATE.md). The [completed creative-research iteration](research/iterations/2026-09-30-creative/report.md) records the methodology fixes, preregistered screens and outcomes. Older metric descriptions below are retained; the current-state page explains the historical block/pooled scoring discrepancy.
+
 Predict `t0` and `t1`, two indicators of future price movements of instrument
 `i0`, from the L11 book-feature representation, trade and additional features.
 
