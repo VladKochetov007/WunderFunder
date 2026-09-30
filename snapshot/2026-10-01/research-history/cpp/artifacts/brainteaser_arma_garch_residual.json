@@ -1,0 +1,51 @@
+{
+  "fits": {
+    "0": [
+      -0.0008475168228022673,
+      0.8169380680163097,
+      -0.1459254758968815
+    ],
+    "1": [
+      -2.1674829216369034e-05,
+      0.8096173779932438,
+      -0.11276965348534307
+    ]
+  },
+  "heldout": [
+    {
+      "eval_fold": 1,
+      "train_fold": 0,
+      "n_events": 877626,
+      "train_parameters": [
+        -0.0008475168228022673,
+        0.8169380680163097,
+        -0.1459254758968815
+      ],
+      "one_step_mse": 0.024883643651535548,
+      "zero_forecast_mse": 0.05982586431462652,
+      "one_step_r2": 0.5840654550234075,
+      "constant_variance_nll": -1.3330000417923535,
+      "ewma94_variance_nll": -1.9208090751395135,
+      "innovation_acf_lag1": 0.017041906789410876,
+      "innovation_sq_acf_lag1": 0.16502444797773674
+    },
+    {
+      "eval_fold": 0,
+      "train_fold": 1,
+      "n_events": 1087046,
+      "train_parameters": [
+        -2.1674829216369034e-05,
+        0.8096173779932438,
+        -0.11276965348534307
+      ],
+      "one_step_mse": 0.019863434820390484,
+      "zero_forecast_mse": 0.04662804331468918,
+      "one_step_r2": 0.5740023940886035,
+      "constant_variance_nll": -1.4477022080567548,
+      "ewma94_variance_nll": -2.1113657073868883,
+      "innovation_acf_lag1": -0.0064398752433314724,
+      "innovation_sq_acf_lag1": 0.1537877246893376
+    }
+  ],
+  "note": "Forecasts here use past realized target residuals, which are unavailable in test streaming; diagnostics only."
+}

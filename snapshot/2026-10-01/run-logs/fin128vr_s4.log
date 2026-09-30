@@ -1,0 +1,127 @@
+START 2026-09-30T10:11:26+00:00 gpu=7 fin128vr_s4 
+{"name": "fin128vr_s4", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 128, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 32, "epochs": 4, "lr": 0.001, "wd": 0.01, "loss": "wmse", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "aux_next_k": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "attn_k": 32, "attn_d": 64, "attn_heads": 4, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": true, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "holdout", "valid_fold": -1, "n_valid_folds": 4, "valid_repeat": 3, "init": "", "freeze": "", "ema_teacher": 1.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": true, "mask_weight": false, "propensity": "prop_f0", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 4, "level_aug": 0.0, "level_drop": 0.0, "lookahead": "", "train_half": -1, "class_heads": false, "quant_feats": false, "quant_i1": false, "state_reset": 0, "loss_norm": "chunk", "since_weight": 32.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false}
+{"source_train_sequences": 10606, "eligible_valid_train_sequences": 1873, "used_valid_train_sequences": 1873, "eval_sequences": 368}
+loader workers 4 prefetch 2; params 0.26M; steps 20280
+ep 0 batch 0/507 loss 3.6405 lr 4.02e-05 seq/s 5.7
+ep 0 batch 20/507 loss 2.8014 lr 1.38e-04 seq/s 56.7
+ep 0 batch 40/507 loss 2.3359 lr 3.78e-04 seq/s 72.2
+ep 0 batch 60/507 loss 2.1709 lr 6.71e-04 seq/s 79.8
+ep 0 batch 80/507 loss 2.2332 lr 9.08e-04 seq/s 84.5
+ep 0 batch 100/507 loss 1.8938 lr 1.00e-03 seq/s 87.7
+ep 0 batch 120/507 loss 2.0682 lr 1.00e-03 seq/s 89.6
+ep 0 batch 140/507 loss 1.8723 lr 9.99e-04 seq/s 91.1
+ep 0 batch 160/507 loss 1.6937 lr 9.98e-04 seq/s 92.0
+ep 0 batch 180/507 loss 2.1605 lr 9.96e-04 seq/s 93.0
+ep 0 batch 200/507 loss 1.7210 lr 9.93e-04 seq/s 93.9
+ep 0 batch 220/507 loss 1.6744 lr 9.91e-04 seq/s 94.4
+ep 0 batch 240/507 loss 1.7556 lr 9.87e-04 seq/s 95.0
+ep 0 batch 260/507 loss 1.8848 lr 9.83e-04 seq/s 95.5
+ep 0 batch 280/507 loss 1.9876 lr 9.79e-04 seq/s 95.7
+ep 0 batch 300/507 loss 1.6644 lr 9.74e-04 seq/s 96.1
+ep 0 batch 320/507 loss 1.8759 lr 9.68e-04 seq/s 96.2
+ep 0 batch 340/507 loss 1.7959 lr 9.62e-04 seq/s 96.6
+ep 0 batch 360/507 loss 1.7437 lr 9.56e-04 seq/s 96.9
+ep 0 batch 380/507 loss 1.6614 lr 9.49e-04 seq/s 97.2
+ep 0 batch 400/507 loss 1.8126 lr 9.41e-04 seq/s 97.5
+ep 0 batch 420/507 loss 1.6197 lr 9.34e-04 seq/s 97.6
+ep 0 batch 440/507 loss 1.5193 lr 9.25e-04 seq/s 97.6
+ep 0 batch 460/507 loss 1.8223 lr 9.16e-04 seq/s 97.8
+ep 0 batch 480/507 loss 1.4213 lr 9.07e-04 seq/s 97.9
+ep 0 batch 500/507 loss 1.7516 lr 8.98e-04 seq/s 98.1
+VALID {"t0": 0.6448860679670394, "t1": 0.6404545888984446, "weighted_pearson": 0.6945017929791389, "blocks": 368, "eligible_blocks": 368, "per_seq_wp": 0.642670328432742, "global_t0": 0.6837256769637818, "global_t1": 0.705277908994496, "frac_abs_pred_gt2": 0.0007774320808467602, "by_class": {"0": 0.8013, "1": 0.7586, "2": 0.7277, "3": 0.4404}, "epoch": 0, "eval_seconds": 10.4, "split": "holdout368"}
+ep 1 batch 0/507 loss 1.5653 lr 8.94e-04 seq/s 10.5
+ep 1 batch 20/507 loss 1.3612 lr 8.84e-04 seq/s 71.9
+ep 1 batch 40/507 loss 1.8549 lr 8.73e-04 seq/s 84.0
+ep 1 batch 60/507 loss 2.1401 lr 8.62e-04 seq/s 89.1
+ep 1 batch 80/507 loss 1.3132 lr 8.51e-04 seq/s 91.9
+ep 1 batch 100/507 loss 1.7196 lr 8.39e-04 seq/s 93.9
+ep 1 batch 120/507 loss 1.4621 lr 8.27e-04 seq/s 95.2
+ep 1 batch 140/507 loss 1.3411 lr 8.14e-04 seq/s 96.3
+ep 1 batch 160/507 loss 1.4487 lr 8.01e-04 seq/s 97.0
+ep 1 batch 180/507 loss 1.8437 lr 7.88e-04 seq/s 97.6
+ep 1 batch 200/507 loss 1.6547 lr 7.75e-04 seq/s 98.3
+ep 1 batch 220/507 loss 1.8095 lr 7.61e-04 seq/s 98.6
+ep 1 batch 240/507 loss 1.4765 lr 7.47e-04 seq/s 99.0
+ep 1 batch 260/507 loss 1.6237 lr 7.33e-04 seq/s 99.3
+ep 1 batch 280/507 loss 1.5184 lr 7.18e-04 seq/s 99.7
+ep 1 batch 300/507 loss 1.4931 lr 7.03e-04 seq/s 99.6
+ep 1 batch 320/507 loss 1.4505 lr 6.88e-04 seq/s 99.7
+ep 1 batch 340/507 loss 1.5479 lr 6.73e-04 seq/s 99.9
+ep 1 batch 360/507 loss 1.2993 lr 6.58e-04 seq/s 99.9
+ep 1 batch 380/507 loss 1.8140 lr 6.42e-04 seq/s 100.2
+ep 1 batch 400/507 loss 1.6743 lr 6.26e-04 seq/s 100.3
+ep 1 batch 420/507 loss 1.4286 lr 6.11e-04 seq/s 100.4
+ep 1 batch 440/507 loss 1.5432 lr 5.95e-04 seq/s 100.3
+ep 1 batch 460/507 loss 1.4596 lr 5.79e-04 seq/s 100.4
+ep 1 batch 480/507 loss 1.3176 lr 5.62e-04 seq/s 100.5
+ep 1 batch 500/507 loss 1.5074 lr 5.46e-04 seq/s 100.4
+VALID {"t0": 0.6556837230812199, "t1": 0.6523231545706433, "weighted_pearson": 0.7042958444766453, "blocks": 368, "eligible_blocks": 368, "per_seq_wp": 0.6540034388259316, "global_t0": 0.6948552066039803, "global_t1": 0.7137364823493103, "frac_abs_pred_gt2": 0.0006871048182260344, "by_class": {"0": 0.8089, "1": 0.7682, "2": 0.7369, "3": 0.4561}, "epoch": 1, "eval_seconds": 10.2, "split": "holdout368"}
+ep 2 batch 0/507 loss 2.0006 lr 5.41e-04 seq/s 9.8
+ep 2 batch 20/507 loss 1.2548 lr 5.24e-04 seq/s 69.8
+ep 2 batch 40/507 loss 1.7403 lr 5.08e-04 seq/s 82.4
+ep 2 batch 60/507 loss 1.7888 lr 4.92e-04 seq/s 88.3
+ep 2 batch 80/507 loss 1.7188 lr 4.75e-04 seq/s 91.6
+ep 2 batch 100/507 loss 1.6938 lr 4.59e-04 seq/s 93.7
+ep 2 batch 120/507 loss 1.4812 lr 4.43e-04 seq/s 95.2
+ep 2 batch 140/507 loss 1.7423 lr 4.27e-04 seq/s 96.1
+ep 2 batch 160/507 loss 1.4077 lr 4.11e-04 seq/s 96.9
+ep 2 batch 180/507 loss 1.5116 lr 3.95e-04 seq/s 97.4
+ep 2 batch 200/507 loss 1.3924 lr 3.79e-04 seq/s 98.0
+ep 2 batch 220/507 loss 1.6116 lr 3.63e-04 seq/s 98.4
+ep 2 batch 240/507 loss 1.4611 lr 3.48e-04 seq/s 98.8
+ep 2 batch 260/507 loss 1.2784 lr 3.32e-04 seq/s 98.9
+ep 2 batch 280/507 loss 1.3968 lr 3.17e-04 seq/s 99.3
+ep 2 batch 300/507 loss 1.6414 lr 3.02e-04 seq/s 99.5
+ep 2 batch 320/507 loss 1.4706 lr 2.87e-04 seq/s 99.7
+ep 2 batch 340/507 loss 1.4209 lr 2.72e-04 seq/s 99.8
+ep 2 batch 360/507 loss 1.5984 lr 2.58e-04 seq/s 100.0
+ep 2 batch 380/507 loss 1.6617 lr 2.44e-04 seq/s 100.1
+ep 2 batch 400/507 loss 1.4375 lr 2.30e-04 seq/s 100.3
+ep 2 batch 420/507 loss 1.5210 lr 2.16e-04 seq/s 100.4
+ep 2 batch 440/507 loss 1.5812 lr 2.03e-04 seq/s 100.5
+ep 2 batch 460/507 loss 1.7171 lr 1.90e-04 seq/s 100.6
+ep 2 batch 480/507 loss 1.3283 lr 1.78e-04 seq/s 100.6
+ep 2 batch 500/507 loss 1.2703 lr 1.65e-04 seq/s 100.6
+VALID {"t0": 0.6632316697471946, "t1": 0.6596215181268134, "weighted_pearson": 0.7107690597252738, "blocks": 368, "eligible_blocks": 368, "per_seq_wp": 0.661426593937004, "global_t0": 0.7019964141686716, "global_t1": 0.7195417052818761, "frac_abs_pred_gt2": 0.0008391943116985385, "by_class": {"0": 0.8128, "1": 0.7736, "2": 0.7433, "3": 0.4672}, "epoch": 2, "eval_seconds": 11.1, "split": "holdout368"}
+ep 3 batch 0/507 loss 1.4599 lr 1.61e-04 seq/s 9.9
+ep 3 batch 20/507 loss 1.8319 lr 1.49e-04 seq/s 69.8
+ep 3 batch 40/507 loss 1.7408 lr 1.38e-04 seq/s 83.3
+ep 3 batch 60/507 loss 1.5104 lr 1.27e-04 seq/s 88.5
+ep 3 batch 80/507 loss 1.3775 lr 1.16e-04 seq/s 91.6
+ep 3 batch 100/507 loss 1.7863 lr 1.06e-04 seq/s 92.9
+ep 3 batch 120/507 loss 1.3576 lr 9.61e-05 seq/s 94.5
+ep 3 batch 140/507 loss 1.5997 lr 8.68e-05 seq/s 95.5
+ep 3 batch 160/507 loss 1.6062 lr 7.78e-05 seq/s 96.4
+ep 3 batch 180/507 loss 1.2856 lr 6.93e-05 seq/s 96.6
+ep 3 batch 200/507 loss 1.3497 lr 6.13e-05 seq/s 97.2
+ep 3 batch 220/507 loss 1.2316 lr 5.37e-05 seq/s 97.4
+ep 3 batch 240/507 loss 1.4269 lr 4.66e-05 seq/s 97.8
+ep 3 batch 260/507 loss 1.2410 lr 4.00e-05 seq/s 98.1
+ep 3 batch 280/507 loss 1.5648 lr 3.39e-05 seq/s 98.4
+ep 3 batch 300/507 loss 1.6636 lr 2.83e-05 seq/s 98.6
+ep 3 batch 320/507 loss 1.3373 lr 2.32e-05 seq/s 98.5
+ep 3 batch 340/507 loss 1.5172 lr 1.86e-05 seq/s 98.8
+ep 3 batch 360/507 loss 1.6208 lr 1.45e-05 seq/s 99.0
+ep 3 batch 380/507 loss 1.6016 lr 1.09e-05 seq/s 99.2
+ep 3 batch 400/507 loss 1.9290 lr 7.83e-06 seq/s 99.2
+ep 3 batch 420/507 loss 1.5106 lr 5.30e-06 seq/s 99.3
+ep 3 batch 440/507 loss 1.4463 lr 3.28e-06 seq/s 99.5
+ep 3 batch 460/507 loss 1.3763 lr 1.80e-06 seq/s 99.6
+ep 3 batch 480/507 loss 1.5671 lr 8.46e-07 seq/s 99.7
+ep 3 batch 500/507 loss 1.5431 lr 4.23e-07 seq/s 99.9
+VALID {"t0": 0.6670763076778534, "t1": 0.6632988663491091, "weighted_pearson": 0.714034137560008, "blocks": 368, "eligible_blocks": 368, "per_seq_wp": 0.6651875870134812, "global_t0": 0.705676922954608, "global_t1": 0.722391352165408, "frac_abs_pred_gt2": 0.0005226628785831744, "by_class": {"0": 0.814, "1": 0.7757, "2": 0.7457, "3": 0.4742}, "epoch": 3, "eval_seconds": 10.1, "split": "holdout368"}
+BEST 0.714034137560008
+SELECTED_FINAL 0.714034137560008
+{"name": "fin128vr_s4h", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 128, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 16, "epochs": 1, "lr": 0.0005, "wd": 0.01, "loss": "gcorr", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "aux_next_k": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "attn_k": 32, "attn_d": 64, "attn_heads": 4, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "valid", "include_heldout_valid": true, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "holdout", "valid_fold": -1, "n_valid_folds": 4, "valid_repeat": 1, "init": "fin128vr_s4@ep3", "freeze": "inp,gru", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": false, "mask_weight": true, "propensity": "", "prop_power": 1.0, "prop_eps": 0.0, "class_weight": "", "valid_true_mask": -1.0, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 4, "level_aug": 0.0, "level_drop": 0.0, "lookahead": "", "train_half": -1, "class_heads": false, "quant_feats": false, "quant_i1": false, "state_reset": 0, "loss_norm": "chunk", "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false}
+{"source_train_sequences": 1873, "eligible_valid_train_sequences": 1873, "used_valid_train_sequences": 1873, "eval_sequences": 368}
+loader workers 4 prefetch 2; params 0.26M; steps 1170
+ep 0 batch 0/117 loss 0.8770 lr 5.49e-05 seq/s 3.2
+ep 0 batch 20/117 loss 1.1189 lr 4.77e-04 seq/s 38.8
+ep 0 batch 40/117 loss 0.7308 lr 3.86e-04 seq/s 53.4
+ep 0 batch 60/117 loss 0.7725 lr 2.52e-04 seq/s 60.7
+ep 0 batch 80/117 loss 0.9202 lr 1.18e-04 seq/s 69.4
+ep 0 batch 100/117 loss 0.6498 lr 2.50e-05 seq/s 74.6
+VALID {"t0": 0.6700553986914187, "t1": 0.6663713892477862, "weighted_pearson": 0.7155187788156754, "blocks": 368, "eligible_blocks": 368, "per_seq_wp": 0.6682133939696024, "global_t0": 0.7079265863074992, "global_t1": 0.7231109713238517, "frac_abs_pred_gt2": 0.0009426460483752673, "by_class": {"0": 0.8154, "1": 0.7772, "2": 0.7482, "3": 0.4792}, "epoch": 0, "eval_seconds": 10.5, "split": "holdout368"}
+BEST 0.7155187788156754
+SELECTED_FINAL 0.7155187788156754
+DONE 2026-09-30T10:23:51+00:00 fin128vr_s4

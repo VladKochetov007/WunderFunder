@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-27",
+  "bench_rows": 400000,
+  "bench_conditions": "Same python:3.11-slim-bookworm Docker session, --cpus 1, --memory 4g, cache/valid_subset20.parquet; forced WNN_NATIVE_LEVEL",
+  "packages": {
+    "old_submitted_v3_full_pair": {"microseconds_per_row": 63.0, "subset_global_wp": 0.719760},
+    "old_submitted_v2_full_pair": {"microseconds_per_row": 83.3, "subset_global_wp": 0.719760},
+    "mixed_submitted_v3_full_pair": {"microseconds_per_row": 48.8, "subset_global_wp": 0.720067},
+    "mixed_submitted_v2_first_only": {"microseconds_per_row": 38.1, "subset_global_wp": 0.717577}
+  },
+  "reserved_exact_mask": {
+    "old_full_pair": 0.696577302052574,
+    "mixed_v3_full_pair": 0.6965595031530873,
+    "mixed_v2_first_only": 0.6944240260591976
+  },
+  "public_feedback": {
+    "old_seconds": 2187,
+    "old_score": 0.6622,
+    "mixed_seconds": 1552,
+    "mixed_score": 0.6616
+  },
+  "interpretation": "Public time ratio 0.710 lies between same-host v3/full ratio 0.775 and old-v3 to mixed-v2/single ratio 0.605. Runtime and score cannot identify public CPU flags or path. Exact-mask local full-pair tie and public -0.0006 remain compatible with test variation; fallback would cost -0.00215 on the reserved set."
+}

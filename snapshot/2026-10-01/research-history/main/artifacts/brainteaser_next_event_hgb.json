@@ -1,0 +1,23 @@
+{
+  "folds": [
+    {
+      "train_fold": 0,
+      "eval_fold": 1,
+      "n_eval_events": 22173,
+      "weighted_next_jump_auc_pair": 0.7222871353825912,
+      "weighted_next_jump_auc_hgb": 0.7351504075525667,
+      "next_jump_weighted_brier": 0.2094074620505131
+    },
+    {
+      "train_fold": 1,
+      "eval_fold": 0,
+      "n_eval_events": 19362,
+      "weighted_next_jump_auc_pair": 0.7591978038497471,
+      "weighted_next_jump_auc_hgb": 0.7590285190763302,
+      "next_jump_weighted_brier": 0.19507278161745367
+    }
+  ],
+  "input": "first-scored causal pair outputs, raw features, age and 1/2/4/8/16/32/64-event decoded history",
+  "train_weight": "min(scored episode target mass,100)",
+  "limit": "128 sampled pure class-3 sequences; validation folds used as opposite-fold probe"
+}

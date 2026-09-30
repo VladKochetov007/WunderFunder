@@ -1,0 +1,222 @@
+# Research tree (living document; started 2026-09-25 21:40 EEST, session until 12:00)
+
+Root: maximize global WP on hidden test (LB 0.6569 now, top 0.6651) AND build durable
+understanding (EDA, explanation, pipeline). Rule: evidence and tests decide; no idea is
+dropped on priors. Status: [ ] open, [~] running, [x] done (E-id), [-] refuted (E-id).
+
+## A. Understand the data
+- A1 Target law
+  - [x] class 3 exact: F = round(mean mid next 4 book events) (E-079)
+  - [ ] classes 0-2: exact F / loser rule for small ticks (needs tick decoding A2)
+  - [ ] t0/t1 asymmetry (t1 easier globally: 0.672 vs 0.658)
+- A2 Decode anonymized encodings
+  - [x] class-3 code grammar -> exact ticks (E-063)
+  - [-] same grammar for classes 1-2 (65-69% exact, E-085 note)
+  - [ ] price codes as continuous function of (level distances in bps); learn decoder net from targets
+  - [x] volume codes: full-rank mixing (8 dims for 90%/side); ICA gives bid/ask best-queue proxies, imbalance AUC 0.62 far from moves (E-090)
+  - [x] a-columns semantics: a6 = real-time since last book change, a5 = since trade, a2/a3 = book intensities (E-091)
+  - [ ] trade columns dp/dv semantics (side, size)
+- A3 Scoring mask process
+  - [x] is_scored explained by a3, i1 activity, a5 clock, book state (val corr 0.34, E-087)
+  - [ ] test mask softer than valid? (critic lambda=0.02); design mask-robust training
+- A4 Symbolic explanations
+  - [~] SISSO engine (src/wnn/symreg.py) validated on synthetic
+  - [ ] direction per class; residual of best GRU; level; per-target
+- A5 Shift across train/valid/test
+  - [ ] adversarial validation within class
+  - [ ] recover global time order of sequences (Optiver-RV style) -> pseudo-time CV
+  - [ ] instrument identity across sequences (same instrument recurring?) -> instrument embedding
+
+## B. Information / features
+- B1 [-] heuristic library: no linear lift (E-088), no gain as GRU inputs (E-089); GBM residual lift only in classes 0/1 (E-092)
+- B2 [ ] class-3 Stoikov micro-price chain / next-event classifier + exact 4-step readout
+- B3 [ ] i1 cross-instrument (lead-lag in event time)
+- B4 [ ] stale-row regime (WP 0.36 after >170 quiet rows, 1/3 of weight)
+- B5 [ ] class-3 exact tick-path features as inputs
+
+## C. Models
+- C1 GRU recipe: [x] 2 epochs +0.004 (E-083); [x] 3 epochs +0.0006 (saturated); [~] seed 4, h192 e2, lr 2e-3
+- C2 diverse members: [-] GBM on heuristics (0.6481, hurts GRU blend, E-093); [ ] class-3 event model
+- C3 [~] distill (GRU s3 + s4 + baseline) into one GRU (ab28); [ ] multi-head averaging
+- C4 [ ] minGRU / LRU / attention over last-k events
+- C5 [~] aux-next: log rows to next target change + its sign (ab25)
+
+## D. Methodology
+- D1 [x] decision rule + scripts/decide.py (seqsums cache, softened-mask lambda metric; lambda 0.02 ~ LB)
+- D2 [~] mask-softening weights p^2 + eps (ab24); [ ] label uniqueness
+- D3 [ ] recency weighting of valid in final fit
+
+## E. Inference engineering
+- E1 [ ] fused Rust blend (single call, shared features) to cut the 94 us/row
+- E2 [ ] propensity-gated compute
+
+## F. Crazy / long shots (tested, never dismissed)
+- F1 mirror symmetry augmentation (learned code involution)
+- F2 simulate LOB with a fitted queue-reactive model; pretrain on simulated data
+- F3 privileged-teacher label denoising (lookahead teacher)
+- F4 treat each sequence as a new instrument: in-context meta-learning on the first rows
+- F5 predict the organizer's baseline error (stack on baseline residual)
+
+## Idea inbox
+research/ideas/*.md (haiku agents on random books; literature scouts in research/lit/)
+
+## Idea triage (haiku agents, 2026-09-25 22:10) -> test type
+- Lift probes (scripts/lift_probe.py, ~1 min each): H1-8 eigenvalue drift of recent deltas;
+  H2-1/H3-11 Hurst / variance-ratio regime; H3-1 depth-weighted micro-price; H4-9 class-3
+  code-pair association table (offline, train-fitted); H3-3/H3-7 efficiency index; H2-9 toxicity
+  proxy (trade flow x spread state); H2-10 innovation factors (ICA on deltas).
+- Aux heads (GRU run): H2-4 time-to-next-move; H3-9/H4-12 multi-horizon pyramid (next 1/2/4 events);
+  H2-6 magnitude head.
+- Loss/weights (GRU run): H3-2 residual-ACF weights; H4-6 variance-constrained; H4-8 margin weights;
+  H3-12 adversarial (input noise) training; H3-8 anti-detectability.
+- Structure: H4-7/H1-11 regime MoE heads (quiet/busy); H3-10 class-3-specific capacity;
+  H2-7/scout reset-state memory-length probe; H2-12 per-sequence instrument embedding.
+- Long shots kept in queue: H1-10 free probability i0/i1; H1-5 smile per class; H4-11 regret-bound;
+  H1-3 MP-excess leak detector (also an audit tool).
+
+## Active (2026-09-26 02:20)
+- A4 residual symreg per class 0/1/2 -> cheap closed-form corrections (symreg_q)
+- [-] H-038 online-norm inputs: 0.6702 vs 0.6707 (no cross-domain gain)
+
+## V. Validation methodology (user priority, 2026-09-26 03:20)
+Problem: only validation has masks (1873 seqs); paired comparisons carry sd ~0.0015; test is a later
+period with a possibly softer mask; validation overstated test by ~0.022 (uniform across models).
+- V1 [x] sequences chain into continuous streams (3,288 chains, E-095); decide.py uses 4 chain-grouped folds + chain bootstrap
+- V2 [ ] soft-mask metric (|y| * p_hat(scored)) on OOF TRAIN sequences = 6.6x more eval data;
+        validate: rank/delta agreement with the true-mask metric on validation across cached models
+- V3 [~] chain-grouped K-fold over validation for the train+valid recipe (ab26): OOF predictions of the submitted recipe,
+        honest value of adding validation data, unbiased stacking/blend weights
+- V4 [x] adversarial AUC 0.99 within every class (E-094): train/valid = different instruments/regimes
+- V5 [-] valid is not a later period: chains mix train and valid in both directions (scout); time order only within chains
+        the recovered coordinate separates train from valid (valid later?) -> pseudo walk-forward folds
+- V6 [x] CSCV/PBO over 20 configs = 0.000 (scout): selection bias not the issue for this config family
+- V7 [ ] LB-consistency meta-check: which validation variant (plain, lambda, class-reweighted, soft-mask)
+        best orders the 4 known LB points (weak evidence, 4 points)
+
+## Night summary (2026-09-26 04:10)
+- Leak re-check: GBM residual gain class 0 was chain leakage; classes 1-2 keep ~+0.002; class 3 overfits (E-096).
+- No cold-start penalty: WP by step bin flat (0.66-0.71), context length is not the bottleneck.
+- Levers left with evidence: ensembling diverse models (+0.002 LB baseline blend; +0.0014 seeds), distillation to
+  keep ensemble gains at single-model speed, recency/extra data (train+valid K-fold), small class-1/2 GBM correction.
+
+## Morning update (2026-09-26 07:45)
+- D2 mask weighting: [x] propensity floor eps 0.03 +0.0020 (E-097); [-] eps 0.10 (E-102); [-] class-mass
+  weights beyond the floor (E-104); [x] true masks on valid rows +0.0006-0.0010 (E-098); [-] label-aware
+  selection model (+0.002 AUC only, E-103).
+- C5 aux heads: [x] next-change head +0.0014 (E-097), stacks with the floor (+0.0030 total, E-102);
+  [-] 2nd/4th-change horizons (E-107).
+- C3 distillation: [x] 3-teacher student +0.0013 alone; [-] adds little on top of floor+aux (E-102).
+- A4 explanations: [x] 4-term symbolic direction models per class (E-100/E-101), visual partial dependence
+  (E-106): the GRU already tracks every main effect; calibration exhausted (E-109).
+- Tooling: C++ symreg kernel 13x (E-105); vectorized decision sums 15x (E-108); N-member native packager.
+- Next: final fits ab33 (train+valid, floor + aux + true valid masks, 2 seeds) -> candidates:
+  single, 2-seed blend, GRU + baseline; Opus researchers (arch / micro / shift) pending.
+
+## 08:30 update
+- [x] stress panel (--stress) reproduces LB orderings at lambda 0.05 (E-110); weak evidence (few constraints)
+- [x] final candidate submissions/final_s4_base30 (0.7 final GRU + 0.3 baseline), blend weight optimal (E-113)
+- [-] distillation in final (E-116); online-norm properly scored (E-118); weight soup (E-119)
+- [-] diversity: our alternative GRUs / GBM subtract (E-115); raw view explains < half the baseline's
+      diversity (E-120); 3-member blend +0.0002 (E-121)
+- [x] explanations: level S (book-shape spread proxy + activity, E-117); mask per class (E-122)
+- [~] chunk 1000/500 (q8); valid true-mask fine-tune on K-fold models (q9); raw + plain-MSE member (q10)
+
+## 11:55 update: closed branches and the next tree
+- [x] chunk 500 weak (+0.0016 stress only, E-123); [-] chunk 1000
+- [x] valid true-mask fine-tune on K-fold models +0.0016 +- 0.0006, same sign on both folds (E-124)
+- [-] raw-only plain-MSE GRU as a diversity member (+0.0002, E-125): the baseline's diversity is not
+      its loss or its input view
+
+Next tree (root = "where does the remaining 0.01 to the top live?"):
+1. Final assembly (low risk)
+   1a. final_s4 + valid true-mask fine-tune (E-124) -> 0.7/0.3 with baseline -> docker verify
+       (E-128: fine-tune and blend additive, +0.0006..+0.0016 after blending)
+   1b. E-124 on folds 2-3 to firm up the sign
+2. Diversity (main bottleneck; residual corr 0.99+)
+   2a. [~] E-126: gain spread over all classes, larger on unscored rows, pooled < every class (cross-class
+       pooling loss; per-class weights refuted E-127). What IS the baseline's difference? decompose baseline-vs-GRU residual by class / clock / event
+       type (symreg on the residual difference, reuse symreg_explain task=residual)
+   2b. other families: temporal conv / state-space (S4/Mamba-like diagonal recurrence), event-time
+       (update only on book events) model, tick-grammar Markov model for class 3 (src/wnn/markov.py)
+   2c. different target parameterisation: predict F and spread separately, map through the law
+   2d. crazy: train on shuffled-class / mixed-quantum augmentations; model trained only on
+       train-unlike sequences; adversarially reweighted training (importance weights from adv AUC)
+3. Shift robustness (test = unseen instruments)
+   3a. adversarial importance weights on train rows (clipped), judged on stress panel
+   3d. E-129: baseline blend gain rises with train-unlikeness (+0.0007 -> +0.0013) -> baseline weight on
+       test may belong above 0.3; E-131: optimum drifts 0.8 -> 0.6 with shift/lam, flat -> use 0.65
+   3b. per-sequence normalisation of volume codes (instrument-invariant inputs)
+   3c. crazy: invariant-risk penalty across chains (IRM / V-REx over chain groups)
+2e. [new] E-132: GRU 0.77 on sparsely scored vs 0.63 on densely scored sequences (0.14 gap, largest
+    sequence-level driver seen) -> find why dense-scored sequences are hard; possible targeted member
+    E-133: not target persistence (same change rate, runs), only partly move size (0.80 vs 0.70)
+    E-134: true-mask fine-tune helps sparse-scored most, dense least -> dense gap needs another lever
+    E-135: every model drops ~0.14 (data property); GRU lead over baseline +0.017 sparse vs +0.008 dense
+    E-136: monotone in every class, steepest class 3 (0.547 -> 0.385) -> condition on running propensity
+    E-137: sequence-mean causal propensity tracks true density (corr 0.91 class 3)
+    E-138: density-gated blend weights refuted (-0.0004..-0.0018) -> density must enter the model, not the blend
+    E-139: dense tercile = 54% of metric weight -> 2e is the highest-value open branch
+4. Explanation (long-term asset)
+   4a. symbolic F-law for classes 0-2 (law only exact for class 3; find the approximate rule)
+   4b. symbolic mask model -> propensity features (E-122 terms) in the loss weights
+5. Idea inbox: haiku r3_a (random books: greedy SMRP, optimal execution, present.pdf), pending
+
+## Idea triage r3_a (haiku, random books: greedy SMRP, optimal execution, present.pdf) -> test type
+- [ ] per-class GRUs, greedy member selection (diversity 2b) -> train 1 class-3-only GRU, residual corr + blend on stress
+- [ ] propagator-kernel (Gatheral) decay features of signed flow, 2-3 decay rates -> lift_probe --npy (1 h); nearest prior E-112 (refuted MO0/MO1 split, not decay basis)
+- [x] volatility regimes: blend gain +0.0017 calm vs +0.0004 volatile, independent of shift (E-130)
+      -> next: blend weight gated by a causal vol proxy, cross-fitted
+- [ ] crazy: 64-state quantized queue-imbalance model as blend member (tick-grammar Markov overlaps src/wnn/markov.py)
+- [ ] impact-decay deconvolution of volume into persistent/temporary parts -> lift_probe
+- [ ] crazy: gradient-reversal class/instrument adversary on the encoder (joins 3c invariance) -> stress panel
+- [ ] dual time-scale GRU (every event + every 20th event) -> event-time member 2b
+- [ ] crazy: sqrt-law impact-adjusted targets -> only as aux head (main target fixed by metric)
+
+## 16:40 plan after LB 0.6600 (research/plan-2026-09-26.md)
+- [x] LB: final_s4ft_base35 0.6600, final_s4_base35 0.6586 (E-144); fine-tune dose flat (E-145); 3-member too slow (E-146)
+- [-] test closer to valid (skeptic); domain weights/filtering; mirror augmentation; scaling; segment blend weights
+- [ ] 1 baseline-member valid fine-tune (X1)   [ ] 2 prop_v2 selection model (H-P3)   [ ] 3 i1-lead probe (H-P2)
+- [ ] 4 seed-sigma ladder   [ ] 5 native engine speedup -> 3rd member slot   [ ] 6 gcorr objective member
+- [ ] 7 final hygiene (FT on all valid, seed avg, soup)   [ ] 8 rows-to-next-event slice + dense class-3 view
+
+## L. Learning dynamics branch (2026-09-26 16:50, research/lit/learning_dynamics.md)
+Regime: noisy-label early learning (not algorithmic grokking); fine-tune gain lives in the head.
+- [x] L2 WiSE-FT alpha 0.5 ~= full FT at half the variance; extrapolation hurts (E-147)
+- [x] L3 head-only FT carries most of the gain; LP-FT +0.0002 over FT, clean (E-148)
+- [~] L1 12-epoch runs, wd 0.01 vs 0.1 (grokking / epoch-wise double descent) (q13 B)
+- [~] data learning curve 25/50/100% train (q13 C)
+- [~] baseline-member head FT and core FT on folds; final WiSE 0.5, final LP-FT, final baseline head FT (q14)
+- [~] prop_v2 PropensityNet (headroom: top-quintile AUC 0.725 vs 0.679, E-150) -> training weights (q15)
+- [-] i1 lead: +0.02..0.04 partial corr at full scale (E-149), low priority
+- [ ] L4 soup of FT children (DiWA)   [ ] L5 shrink & perturb   [ ] L6 self-distill alpha 0.7-1.0
+- [ ] L7 ELR   [ ] L8 uniqueness weights (bias check)   [ ] L9 SWAD / V-REx over chains
+- [ ] L10 zoneout   [ ] L11 SSL next-event heads   [ ] L12 TTT layer (long shot)   [ ] L14 minGRU
+
+## 22:30 frontier (conduct-creative-research contract, tier B)
+Contract: maximize public and private LB global WP; proxy = full valid, out-of-sample models, lambda
+0.02 (guards: lambda 0, stress 0.05); fold->LB transfer ~1:1 (forensic); seed noise: FT ~0.0008,
+full fit ~0.001 -> accept at > 2 sqrt(SE^2 + sigma_seed^2); 1 vCPU / 60 min / 20 MB; user uploads.
+Incumbent LB 0.6600 (final_s4ft_base35).
+
+Mechanism families (quality-diversity archive):
+- F1 learning dynamics [active, best lead]: EMA mean-teacher 4 ep +0.0037 fold 0 at the final epoch
+  (E-154), wd 0.1 12 ep +0.0033 at a selected epoch (E-153); confirmation on fold 1 + seed 4 running (q18).
+  Next: EMA 6 ep, lambda 0.5/2, decay 0.9995, EMA + wd 0.1; memorization anatomy (which rows decay).
+- F2 selection / mask [proven on LB]: prop_v2 (+0.0010 +- 0.0010, E-155), LP-FT (+0.0002-0.0003, E-148/E-158).
+- F3 diversity member [bottleneck]: gcorr objective member; native engine speedup for a 3rd member.
+- F4 EDA / explanation: rows-to-event slices (tool ready), queue-race curve (H-P1), propensity deciles.
+- F5 long shots (10-20% budget): SSL next-event heads, TTT layer, minGRU.
+Dead ends this round: FT soups, dropout, WiSE on in-distribution holdout, baseline-member core FT,
+extrapolated task vectors, V-REx (deprioritized: per-sequence Bayes risks differ).
+
+## 05:30 frontier (2026-09-27): typed by what moved the LB (research/game_changers.md)
+- A metric alignment: [x] pooled weighted-Pearson LP-FT +0.0004/+0.0005 over wMSE LP-FT on EMA parents (E-171);
+  [x] GRU weight 0.75 > 0.65 (+0.0004, analyst O1; holdout +0.0006, E-172); [~] running loss normalizer (q23e)
+- B selection alignment: [-] prop_v2 on EMA-4 (E-170); [~] stretch-age weights (q23e)
+- C variance reduction: [x] EMA-4 (LB 0.6618); [-] TD targets from the EMA teacher -0.0031 (E-174);
+  [x] seed noise measured: s4 - s3 pooled +0.0003 +- 0.0007 (E-176)
+- D second member: [x] a second EMA-4 GRU beats the organizer baseline as the partner, +0.0011..+0.0013 vs the
+  0.6618 blend structure on both folds (E-173/E-176) -> 2-GRU final (ab60 s4 + ab65 s3) building
+- E engineering: [x] --fast 1.48x single job, ~6.6x vs the old practice (E-169); [x] conv native port (E-175, unmerged)
+- Encoders: conv +0.0018 on the 2-epoch recipe (E-168); [~] conv on EMA-4 (q23e); LSTM out
+- Candidates: final_ema4_gclp_base25 (verified, forecast +0.0005); 2-GRU (pending holdout)

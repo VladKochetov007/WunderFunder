@@ -1,0 +1,24 @@
+START 2026-09-30T18:43:21+00:00 gpu=7 tfm_f1 --arch tfm --lr 5e-4
+{"name": "tfm_f1", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 128, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 32, "epochs": 4, "lr": 0.0005, "wd": 0.01, "loss": "wmse", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "aux_next_k": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "tfm", "tfm_d": 256, "tfm_layers": 6, "tfm_heads": 8, "tfm_ff": 1024, "tfm_block": 250, "hidden1": 0, "attn_k": 32, "attn_d": 64, "attn_heads": 4, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 1, "n_valid_folds": 4, "valid_repeat": 1, "init": "", "freeze": "", "ema_teacher": 1.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": true, "mask_weight": false, "propensity": "prop_f1", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "atom_head": 0.0, "vrex": 0.0, "vrex_start": 1, "level_aug": 0.0, "level_drop": 0.0, "lookahead": "", "train_half": -1, "class_heads": false, "quant_feats": false, "quant_i1": false, "state_reset": 0, "loss_norm": "chunk", "since_weight": 32.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false}
+{"source_train_sequences": 10606, "eligible_valid_train_sequences": 1404, "used_valid_train_sequences": 1404, "eval_sequences": 469}
+loader workers 4 prefetch 2; params 4.93M; steps 15000
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/WunderFunder/scripts/train_rnn.py", line 1143, in <module>
+    main()
+    ~~~~^^
+  File "/home/grinchenkoeg/WunderFunder/scripts/train_rnn.py", line 951, in main
+    out_ema, h_ema = forward_chunk(ema_model.module, inputs, sl, h_ema)
+                     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/WunderFunder/scripts/train_rnn.py", line 367, in forward_chunk
+    return model(inputs[:, sl], state)
+  File "/home/grinchenkoeg/WunderFunder/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/WunderFunder/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/grinchenkoeg/WunderFunder/src/wnn/xl_transformer.py", line 80, in forward
+    h = self._block(blk, h.reshape(b * nb, s, self.d), prev.reshape(b * nb, s, self.d), full_bias)
+  File "/home/grinchenkoeg/WunderFunder/src/wnn/xl_transformer.py", line 96, in _block
+    att = F.scaled_dot_product_attention(q, k, v, attn_mask=bias.to(q.dtype),
+                                         dropout_p=blk.dropout if blk.training else 0.0)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 494.00 MiB. GPU 0 has a total capacity of 15.60 GiB of which 2.25 GiB is free. Process 2033201 has 488.00 MiB memory in use. Process 2033205 has 488.00 MiB memory in use. Including non-PyTorch memory, this process has 12.37 GiB memory in use. 12.48 GiB allowed; Of the allocated memory 11.05 GiB is allocated by PyTorch, and 1.09 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

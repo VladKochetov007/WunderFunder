@@ -1,0 +1,286 @@
+diff --git a/research/artifacts/adversarial_validation.json b/research/artifacts/adversarial_validation.json
+index e66bc80..f09cd8c 100644
+--- a/research/artifacts/adversarial_validation.json
++++ b/research/artifacts/adversarial_validation.json
+@@ -2,179 +2,179 @@
+  "n_features": 902,
+  "by_class": {
+   "0": {
+-   "n_train": 253,
++   "n_train": 385,
+    "n_valid": 398,
+-   "cv_auc": 0.9886,
++   "cv_auc": 0.9889,
+    "top_single_auc": [
+-    [
+-     "i0_v21_mean",
+-     0.9108
+-    ],
+     [
+      "i0_v9_mean",
+-     0.9022
++     0.9049
+     ],
+     [
+-     "i0_v16_mean",
+-     0.8958
++     "i0_v21_mean",
++     0.904
+     ],
+     [
+      "i0_v3_mean",
+-     0.8943
++     0.8948
++    ],
++    [
++     "i0_v16_mean",
++     0.888
+     ],
+     [
+      "i0_v18_mean",
+-     0.8816
++     0.8818
+     ],
+     [
+      "a2_std",
+-     0.8659
++     0.8717
+     ],
+     [
+      "a3_std",
+-     0.8627
++     0.868
+     ],
+     [
+      "i0_v2_mean",
+-     0.8374
++     0.8323
+     ]
+    ],
+    "pc_auc": [
+-    0.5708,
+-    0.7677,
+-    0.7425
++    0.5831,
++    0.7433,
++    0.7957
+    ]
+   },
+   "1": {
+-   "n_train": 225,
++   "n_train": 344,
+    "n_valid": 347,
+-   "cv_auc": 0.9932,
++   "cv_auc": 0.9952,
+    "top_single_auc": [
+     [
+      "i1_v17_mean",
+-     0.9689
++     0.9704
+     ],
+     [
+-     "i1_v13_std",
+-     0.9342
++     "i1_v14_mean",
++     0.9408
+     ],
+     [
+-     "i1_v14_mean",
+-     0.9341
++     "i1_v19_std",
++     0.9385
+     ],
+     [
+      "i1_v3_mean",
+-     0.934
++     0.9362
+     ],
+     [
+-     "i1_v19_std",
+-     0.9333
++     "i1_v13_std",
++     0.9337
+     ],
+     [
+      "i1_v11_std",
+-     0.9293
++     0.9311
+     ],
+     [
+      "i1_v18_std",
+-     0.9263
++     0.928
+     ],
+     [
+      "i1_v15_std",
+-     0.922
++     0.9277
+     ]
+    ],
+    "pc_auc": [
+-    0.7741,
+-    0.698,
+-    0.7651
++    0.7728,
++    0.693,
++    0.7747
+    ]
+   },
+   "2": {
+-   "n_train": 654,
++   "n_train": 990,
+    "n_valid": 431,
+-   "cv_auc": 0.9918,
++   "cv_auc": 0.9905,
+    "top_single_auc": [
+     [
+      "i1_v18_mean",
+-     0.9593
++     0.9585
+     ],
+     [
+      "a7_mean",
+-     0.9507
++     0.9467
+     ],
+     [
+-     "a7_fa",
+-     0.9486
++     "i1_v13_mean",
++     0.9462
+     ],
+     [
+-     "i1_v13_mean",
+-     0.9466
++     "a7_fa",
++     0.9444
+     ],
+     [
+      "a0_mean",
+-     0.9346
++     0.9278
+     ],
+     [
+      "i0_v13_mean",
+-     0.9236
++     0.924
+     ],
+     [
+      "i1_v8_mean",
+-     0.9235
++     0.9205
+     ],
+     [
+      "a1_nuniq",
+-     0.9213
++     0.9172
+     ]
+    ],
+    "pc_auc": [
+-    0.613,
+-    0.951,
+-    0.5274
++    0.5938,
++    0.9549,
++    0.569
+    ]
+   },
+   "3": {
+-   "n_train": 868,
++   "n_train": 1281,
+    "n_valid": 697,
+-   "cv_auc": 0.9913,
++   "cv_auc": 0.9919,
+    "top_single_auc": [
+     [
+      "a6_std",
+-     0.8381
++     0.8388
+     ],
+     [
+      "a5_mean",
+-     0.8362
++     0.8335
+     ],
+     [
+      "i1_v18_mean",
+-     0.8242
++     0.8178
+     ],
+     [
+      "a6_fb",
+-     0.8213
++     0.8165
+     ],
+     [
+      "i0_dp3_nuniq",
+-     0.807
++     0.8111
+     ],
+     [
+      "i0_dp1_nuniq",
+-     0.807
++     0.8111
+     ],
+     [
+      "i0_dp0_nuniq",
+-     0.807
++     0.8111
+     ],
+     [
+      "i0_dp2_nuniq",
+-     0.807
++     0.811
+     ]
+    ],
+    "pc_auc": [
+-    0.7043,
+-    0.5928,
+-    0.5724
++    0.6908,
++    0.5998,
++    0.54
+    ]
+   }
+  }
+diff --git a/research/quant-probes-2026-09-29.md b/research/quant-probes-2026-09-29.md
+index 42b32c6..60aa62d 100644
+--- a/research/quant-probes-2026-09-29.md
++++ b/research/quant-probes-2026-09-29.md
+@@ -401,3 +401,9 @@ C already captures nearly all the signal these model families see.
+   fails for >= 2-tick moves in every class (<= 2-28%); no single event or row horizon fits both regimes.
+ All unexplained parts are future-dependent; the known parts (spread, loser floor shape) are visible to the model.
+ No new lever; aux targets from the future quote path were refuted earlier (E-251).
++
++## Transformer teacher (4.9M, --arch tfm, d256 x6, block 250, ALiBi, lr 5e-4, 4 epochs, fold 0)
++- Epochs 0.6876 / 0.6963 / 0.6992 / 0.7001 vs h128 0.6866 / 0.6968 / 0.6997 / 0.7005, h256 0.6900 / 0.6990 / 0.7014 / 0.7012.
++- After head FT (freeze inp, blocks, ln), pure chains fold 0: fttfmH 0.71328 vs ft256H 0.71323 (+0.00005, sd 0.0022),
++  vs ft128H +0.0003 (sd 0.0015). As a 5th blend member over ft256dH+ft128H+ft128s4H+ftc500H: +0.00028 (sd 0.00039).
++- Verdict: 38x more parameters and a different inductive bias land on the same ceiling; no distillation headroom.
+diff --git a/scripts/route_eval.py b/scripts/route_eval.py
+index 6aa203f..d8db5df 100644
+--- a/scripts/route_eval.py
++++ b/scripts/route_eval.py
+@@ -12,7 +12,7 @@ import argparse
+ import json
+ 
+ import numpy as np
+-from fold_eval import ROOT, WARMUP, pooled, sums
++from fold_eval import ROOT, WARMUP, load_fold, pooled, sums
+ 
+ 
+ def main() -> None:
+@@ -31,10 +31,10 @@ def main() -> None:
+         rows = np.array([i for i, g in enumerate(rg) if info[int(g)][0] == k and info[int(g)][2]])
+         y = tg["y"][rows]; m = tg["mask"][rows].copy(); m[:, :WARMUP] = False
+         use = np.isin(classes[rg[rows]], list(route))
+-        pr = np.load(ROOT / "cache" / f"pred_{a.routed}_f{k}_valid.npy", mmap_mode="r")[rows]
+-        pb = np.load(ROOT / "cache" / f"pred_{a.base}_f{k}_valid.npy", mmap_mode="r")[rows]
++        pr = load_fold(a.routed, k, rows)
++        pb = load_fold(a.base, k, rows)
+         p = np.where(use[:, None, None], pr, pb)
+-        sc.append(sums(y, p, m)); sr.append(sums(y, np.load(ROOT / "cache" / f"pred_{a.reference}_f{k}_valid.npy", mmap_mode="r")[rows], m))
++        sc.append(sums(y, p, m)); sr.append(sums(y, load_fold(a.reference, k, rows), m))
+         ch += [info[int(rg[i])][1] for i in rows]; fo += [k] * len(rows)
+     sc, sr, ch, fo = np.concatenate(sc), np.concatenate(sr), np.array(ch), np.array(fo)
+     d = lambda idx: pooled(sc[idx].sum(0)) - pooled(sr[idx].sum(0))  # noqa: E731

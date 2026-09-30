@@ -1,0 +1,16 @@
+START 2026-09-29T18:30:25+00:00 gpu=2 fton128_f0 parent=on128_f0@ep3 --online-norm
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/WunderFunder/scripts/train_rnn.py", line 1050, in <module>
+    main()
+    ~~~~^^
+  File "/home/grinchenkoeg/WunderFunder/scripts/train_rnn.py", line 734, in main
+    init = torch.load(ROOT / "artifacts" / "runs" / init_run / init_file, map_location="cpu", weights_only=False)
+  File "/home/grinchenkoeg/WunderFunder/.venv/lib/python3.13/site-packages/torch/serialization.py", line 1565, in load
+    with _open_file_like(f, "rb") as opened_file:
+         ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/grinchenkoeg/WunderFunder/.venv/lib/python3.13/site-packages/torch/serialization.py", line 795, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/grinchenkoeg/WunderFunder/.venv/lib/python3.13/site-packages/torch/serialization.py", line 776, in __init__
+    super().__init__(open(name, mode))  # noqa: SIM115
+                     ~~~~^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/grinchenkoeg/WunderFunder/artifacts/runs/on128_f0/model_ep3.pt'

@@ -1,0 +1,64 @@
+# Noisy-label sequential learning: training-side regularization
+
+**Date:** 2026-09-27. **Decision target:** pooled `|y|`-weighted Pearson on causal, row-by-row predictions clipped to ±2. The deployed budget already accommodates two EMA-4 GRUs; every idea below keeps that two-member inference shape. These are literature-based hypotheses, not measured gains. No new training, scoring run, or leaderboard query was made for this report.
+
+## Local evidence that sets the prior
+
+- EMA weight averaging **plus teacher consistency** for four epochs (decay 0.999, consistency weight 1) improved a single GRU by +0.0037 and +0.0033 on chain folds 0 and 1 against the two-epoch reference; the blend reached LB 0.6618 (E-154, E-164, E-165). The fourth epoch still added +0.0004/+0.0009 on the two folds (E-167). This supports longer learning under regularization, not an estimate that six epochs will gain another +0.0035.
+- A second independent EMA-4 seed is already the strongest same-cost partner: +0.0011 to +0.0013 versus the 0.6618 blend structure on both folds (E-173, E-176, E-177). Judge a new training method **inside this pair**, preferably by applying it to both seeds; a solo-model lift can disappear after averaging (E-179).
+- Longer unregularized training is dangerous: in a 12-epoch fold-0 run, weight decay 0.01 fell from 0.6734 at its best to 0.6462 at the end; weight decay 0.1 stayed near 0.674–0.676 through most later epochs (E-153). Existing negatives: one short tail-SWA run −0.0004 (E-052); cross-run weight soup −0.0045 (E-119); fine-tune child soup ≈0 (E-156/E-179); direct EMA-teacher target mixing −0.0031 across folds (E-174). The first SWA run predates this four-epoch EMA recipe, so it does not settle dense averaging *during a longer regularized trajectory*.
+- A practical decision gate is a prespecified epoch/window, positive paired chain-fold deltas at both `lambda=0` and the mask-softened `lambda=0.02`, and improvement of the **two-GRU pair** beyond seed noise (~0.0007–0.001 WP). Use the existing fold/stress panel; do not select a best epoch on the evaluation fold or use the public LB as a search instrument.
+
+## Ranked hypotheses
+
+### 1. Stretch EMA training to six epochs, with an averaging horizon matched to optimizer steps
+
+**Mechanism.** EMA and the consistency term damp the late updates that memorize correlated future-outcome labels. The still-rising fold curves leave room for two more passes. A slower final learning-rate tail or stronger decay (0.1, not the failed 0.01 long-run setting) may retain that benefit; keep EMA decay defined in *steps*, so chunk-500's roughly fourfold step count would require about 0.99975 to match a 0.999 per-step horizon (E-179). This is a modest extrapolation of [Mean Teacher](https://arxiv.org/abs/1703.01780) and its [author code](https://github.com/CuriousAI/mean-teacher), not a new architecture.
+
+**Exact cheap falsifier.** In a later training window, fix the incumbent data, seed, masks and loss, and run **one** fold-0 six-epoch arm with prespecified epoch-6 evaluation; log EMA and student WP at epochs 4, 5, 6. Compare epoch 6 with the existing epoch-4 fold-0 checkpoint at both mask settings. Stop the idea if epoch 6 is ≤ epoch 4 or the student/EMA gap widens while EMA WP falls. Only then repeat the fixed recipe on fold 1 and, if positive, the second seed. An epoch-6 gain below +0.0008 per single member is unlikely to matter to the pair.
+
+**Likely gain / risk.** Pair +0.0003 to +0.0012 if the late slope persists; medium prior, high training cost, zero added inference cost. The epoch-4 slope may flatten, and extra passes may memorize class-3 race outcomes. **Overlap:** E-153 long-run weight-decay screen; E-154/E-164 EMA-4; this exact >4-epoch EMA continuation is untested in the compact log.
+
+### 2. Dense, overfit-aware averaging on one six-epoch EMA trajectory (SWAD-style)
+
+**Mechanism.** EMA's effective averaging window may be too short or misaligned with the late flat region. Average checkpoints *within the same run*, after convergence and before held-out loss rises, then deploy that single averaged GRU. [SWA](https://arxiv.org/abs/1803.05407) and its [author implementation](https://github.com/timgaripov/swa) motivate trajectory weight averaging; [SWAD](https://arxiv.org/abs/2102.08604) and its [author code](https://github.com/khanrc/swad) motivate dense sampling and an overfit-aware window. The window must be set on a separate inner split or fixed in advance; a minimum picked on the scored fold is optimistic.
+
+**Exact cheap falsifier.** Piggyback on hypothesis 1's single fold-0 run: save model weights at 4.0, 4.5, 5.0, 5.5, 6.0 epochs and form a fixed mean of the last three *student* checkpoints, plus a fixed mean of the last three EMA checkpoints. Score each one-model average against the same run's EMA-6 and EMA-4 at `lambda=0` and `0.02`; preserve identical normalization buffers. Reject if neither average clears EMA-6 by +0.0005 on fold 0, or if the average has a visible loss barrier on an inner split. Fold 1 is required before promotion.
+
+**Likely gain / risk.** Pair +0 to +0.0007; medium-low prior. A longer flat basin may help, but EMA may already capture nearly all of it, and averaging across a changing learning trajectory can blur useful features. **Overlap:** E-052's short SWA loss and E-119/E-156's bad/neutral soups; this is a same-trajectory, late-window comparison, not another independent-run soup.
+
+### 3. Cyclic snapshots, collapsed to one weight average per seed
+
+**Mechanism.** The original [Snapshot Ensembles](https://arxiv.org/abs/1704.00109) method and [author repository](https://github.com/gaohuang/SnapshotEnsemble) use learning-rate cycles to reach distinct good checkpoints. Their prediction ensemble would add inference calls; here the proposed variant averages weights from two late cycle minima *within one shared initialization*, so each seed still exports one GRU. A cycle could explore a broader basin than EMA's local smoothing.
+
+**Exact cheap falsifier.** After a four-epoch EMA warmup, on one fold run two one-epoch cosine cycles with the same final optimizer-step budget as a plain EMA-6 continuation. Save the two cycle-end checkpoints; compare each and their 50/50 **weight** average with the plain EMA-6 model on an inner split. Reject before a full fold score if the midpoint has a loss barrier or either snapshot is materially weaker than the plain continuation; otherwise compare pair WP at the two mask settings on both folds with the schedule fixed.
+
+**Likely gain / risk.** Pair +0 to +0.0006; low-medium prior. Cycles can reintroduce label memorization; weight averaging fails when the snapshots leave one basin. **Overlap:** E-119 averaged unrelated arms with mismatched normalization and lost heavily. E-156 fine-tune soups and E-179 child soups were flat. No late cyclic same-parent experiment is recorded.
+
+### 4. Weighted-mean-preserving soft targets, using an *independent calibrated* teacher
+
+**Mechanism.** For squared-error training with row weight `w=|y|` (and any selection weight already in the loss), the relevant conditional target is `m_w(x)=E[wY|x]/E[w|x]`, before the scorer's global affine invariance. Replacing `Y` by `(1-a)Y+aT(x)` keeps this target only if `T(x)=m_w(x)`; ordinary zero or uniform label smoothing, and an under-dispersed teacher, do not satisfy that condition. One possible correction is `T_c(x)=T(x)+b(x)` with `b(x)=E[w(Y-T(x))|x]/E[w|x]`, estimated out of fold. This is an adaptation of noisy-label self-distillation, not a direct claim from its classification literature: see [self-distillation under label noise](https://arxiv.org/abs/2301.13304), [label smoothing under noise](https://proceedings.mlr.press/v119/lukasik20a.html), and [Early-Learning Regularization](https://arxiv.org/abs/2007.00151).
+
+**Exact cheap falsifier.** Before any retraining, take cached *out-of-fold* predictions of the other EMA-4 seed as `T`; fit a low-dimensional `b` by class, target, teacher-prediction quantile and causal stretch-age bin on training folds only. On each untouched chain fold, measure `E[w(Y-T_c)]/E[w]` and the same residual within high-weight sign/magnitude bins; compare with the uncorrected teacher and bootstrap by chain. Reject if correction does not materially remove the teacher's known slope/bias (E-174), flips between folds, or requires large bin-specific corrections. If that passes, one later fold-0 run with fixed `a=0.1` tests the softened label; keep the original `w`, and reject on a nonpositive paired WP delta.
+
+**Likely gain / risk.** Pair 0 to +0.0008; low prior, cheap offline gate, no inference cost. Coarse-bin calibration does **not** prove equality to the full conditional mean, and label noise can be intrinsically stochastic rather than erroneous. **Overlap:** E-174's direct EMA target blend was −0.0031; this idea exists only because an independent, out-of-fold weighted correction addresses that observed failure. Uncalibrated teacher blending is already refuted.
+
+### 5. Temporal prediction ensembling as a *small auxiliary consistency term* at book events
+
+**Mechanism.** [Temporal Ensembling](https://arxiv.org/abs/1610.02242) and its [author code](https://github.com/s-laine/tempens) average each example's predictions across passes; [Mean Teacher](https://arxiv.org/abs/1703.01780) argues that weight EMA updates the teacher more promptly on large datasets. A prediction EMA at the relatively few book-event states could provide a slower, event-aligned consistency signal while the original weighted label loss remains intact. This is distinct from directly replacing `y`, but any consistency penalty can still pull toward a biased teacher, so it must earn its place over the existing weight-EMA consistency.
+
+**Exact cheap falsifier.** First, using saved per-epoch predictions if present, compare epoch-to-epoch prediction variance at book-change rows with the existing EMA-4 teacher's residual bias by class and target. If no cached predictions exist, perform this check during one future fold-0 six-epoch run only; store event-level predictions, not every row. Reject if temporal averaging has no lower event-level variance at comparable weighted bias. Only if it passes, add a fixed coefficient `0.05` consistency loss on book-change rows after epoch 2, retain the unaltered supervised loss, and require positive fold-0 then fold-1 WP at both mask settings.
+
+**Likely gain / risk.** Pair −0.0005 to +0.0005; low prior. This may duplicate existing EMA-teacher consistency or freeze under-dispersed event predictions. **Overlap:** E-154/E-164 already use Mean Teacher, and E-174 refutes teacher-as-label mixing; prediction-history regularization itself is untested.
+
+### 6. Peer-selected training rows with a floor on retained weight (co-teaching variant)
+
+**Mechanism.** [Co-teaching](https://arxiv.org/abs/1804.06872) and its [author code](https://github.com/bhanML/Co-teaching) let one network screen noisy examples for the other. The existing two independent EMA-4 seeds give natural peers. Use peer residual ranks *within class, target, causal-age and label-magnitude strata*, and keep at least 80% of each stratum's original `|y|` loss mass; otherwise small-loss selection will delete the rare large moves that dominate this metric. This is a training-only use of the second model.
+
+**Exact cheap falsifier.** On existing out-of-fold peer predictions, simulate retaining the lowest 90% and 80% of peer squared residuals within the stated strata. Compute retained `sum |y|`, `sum |y|y`, and signed target mix on each chain fold; compare the later-fitted peer's WP separately on retained and rejected rows. Reject before retraining if high-`|y|` sign balance shifts outside chain-bootstrap uncertainty, if both peers mark the same rare move as “noise,” or if the retained set loses more than 20% of total scoring weight. A single seed/fold retrain is warranted only after this gate.
+
+**Likely gain / risk.** Pair −0.001 to +0.0005; lowest prior. The classification paper assumes label corruption; here difficult but valid future moves may create large regression residuals, and the `|y|` weighting makes deleting them especially costly. **Overlap:** E-182's causal stretch-age weighting already gained about +0.0008 per member, so a peer filter must beat that paired baseline, not merely improve over unweighted EMA-4.
+
+## Recommended order
+
+Start with the **predeclared six-epoch EMA continuation** and save dense checkpoints so hypotheses 1–3 share one future run. Screen hypothesis 4 from cached out-of-fold predictions before consuming training time. Keep 5–6 behind their offline bias/variance gates. None of the cited papers establishes a gain on this order-book target; the numeric gain ranges above are project-specific estimates, and all promotion decisions should use held-out chain folds and the existing softened-mask stress panel.
