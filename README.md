@@ -1,6 +1,6 @@
 # Sequence Prediction Challenge
 
-Current results, the best recorded submission (**V1: 0.6641**), and links to the complete checkpoint/log archive are in [Research current state](research/CURRENT_STATE.md). The [completed creative-research iteration](research/iterations/2026-09-30-creative/report.md) records the methodology fixes, preregistered screens and outcomes. Older metric descriptions below are retained; the current-state page explains the historical block/pooled scoring discrepancy.
+Current results, the best recorded submission (**V1: 0.6641**), and links to the complete checkpoint/log archive are in [Research current state](research/CURRENT_STATE.md). The [completed creative-research iteration](research/iterations/2026-09-30-creative/report.md) records the methodology fixes, preregistered screens and outcomes. [METRIC.md](METRIC.md) gives the current global scoring definition, verified against organizer documentation on 1 October 2026.
 
 Predict `t0` and `t1`, two indicators of future price movements of instrument
 `i0`, from the L11 book-feature representation, trade and additional features.
@@ -24,13 +24,11 @@ sequences.
 
 ## Metric
 
-The metric is Weighted Pearson correlation (WP), using weights
-`abs(clipped target)`
-on rows selected by `need_prediction AND is_scored`. Compute it separately
-for each target within a sequence, then average the two target scores and
-all eligible sequence scores equally. On the selected rows, both targets and
-predictions are clipped to `[-2.0, 2.0]`, and weights use the clipped targets.
-Higher is better.
+The metric is global Weighted Pearson correlation (WP), using weights
+`abs(clipped target)` on rows selected by `need_prediction AND is_scored`.
+Pool these rows across sequences, compute one correlation per target, and
+average the two target correlations. Targets and predictions are clipped
+to `[-2.0, 2.0]` before scoring. Higher is better.
 
 The validation mask is provided for local scoring. The test mask is hidden.
 See [METRIC.md](METRIC.md) for the full scoring reference.

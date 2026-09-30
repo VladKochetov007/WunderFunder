@@ -1,0 +1,11 @@
+{
+  "checked_date_moscow": "2026-10-01",
+  "method": "Retrieved the current indexed official documentation using web search; direct SPA fetching previously failed.",
+  "primary_source": "https://wundernn.io/connectome/docs/data_overview",
+  "supporting_source": "https://wundernn.io/connectome/docs/faq",
+  "short_primary_excerpt": "All selected moments are pooled across sequences; scores are not averaged by sequence.",
+  "verified_definition": "For each of t0 and t1, pool need_prediction AND is_scored rows across the evaluated dataset, clip target and prediction to [-2,2], use absolute clipped targets as weights, and average the two resulting correlations.",
+  "serving_constraints_from_faq": {"cpu_cores": 1, "memory_gb": 16, "gpu": false, "wall_minutes": 60, "test_sequences": 1970, "rows_per_sequence": 20000},
+  "effect_on_registered_screen": "No metric change. Resolves the prior primary-source verification limitation; imported older block-averaged docs and utilities remain historical implementations, not the current competition aggregation.",
+  "source_limit": "Organizer documentation establishes the declared metric and limits; it does not independently audit the remote scorer implementation."
+}
