@@ -8,6 +8,9 @@ used (cache/chain_folds.npz: validation chains without a train member, so no tim
 neighbour). The score is the competition's pooled |clip(y)|-weighted Pearson over need_prediction AND
 is_scored rows, predictions clipped to +-2, mean of t0/t1. The paired delta's uncertainty is a chain
 bootstrap (whole chains resampled within each fold). Also reports per-class deltas.
+This interval is conditional on the fitted models: it does not measure training-seed
+variation, correct adaptive model selection, or establish transfer to the hidden test.
+"Pure" excludes train-neighbour chains; it does not mean the fold is unexposed.
 """
 
 from __future__ import annotations
@@ -34,11 +37,19 @@ def sums(y: np.ndarray, p: np.ndarray, m: np.ndarray) -> np.ndarray:
 
 def pooled(s: np.ndarray) -> float:
     """Pooled WP from summed statistics (2, 6)."""
-    W, sy, sp, syy, spp, syp = s.T
-    my, mp = sy / W, sp / W
-    cov = syp / W - my * mp
-    vy, vp = syy / W - my * my, spp / W - mp * mp
-    return float(np.mean(cov / np.sqrt(vy * vp)))
+    scores = []
+    for W, sy, sp, syy, spp, syp in s:
+        if W < 1e-8:
+            scores.append(0.0)
+            continue
+        my, mp = sy / W, sp / W
+        cov = syp / W - my * mp
+        vy, vp = syy / W - my * my, spp / W - mp * mp
+        if vy <= 1e-16 or vp <= 1e-16:
+            scores.append(0.0)
+        else:
+            scores.append(float(np.clip(cov / np.sqrt(vy * vp), -1.0, 1.0)))
+    return float(np.mean(scores))
 
 
 def load_fold(run: str, k: int, rows: np.ndarray) -> np.ndarray:
@@ -63,7 +74,7 @@ def main() -> None:
     cf = np.load(ROOT / "cache" / "chain_folds.npz")
     v = cf["split"] == "valid"
     info = {int(g): (int(f), int(c), bool(pu)) for g, f, c, pu in
-            zip(cf["row_group"][v], cf["fold"][v], cf["chain"][v], cf["pure"][v])}
+            zip(cf["row_group"][v], cf["fold"][v], cf["chain"][v], cf["pure"][v], strict=True)}
     classes = np.load(ROOT / "research" / "artifacts" / "market-classes-v1.npz")["valid"]
 
     stats_c, stats_r, chains, cls, fold_id = [], [], [], [], []
@@ -92,19 +103,26 @@ def main() -> None:
            "delta_by_class": {int(c): delta(np.flatnonzero(cls == c)) for c in np.unique(cls)}}
     rng = np.random.default_rng(0)
     groups = {}
-    for i, (k, ch) in enumerate(zip(fold_id, chains)):
+    for i, (k, ch) in enumerate(zip(fold_id, chains, strict=True)):
         groups.setdefault((k, ch), []).append(i)
     keys = list(groups)
     by_fold = {k: [key for key in keys if key[0] == k] for k in np.unique(fold_id)}
     boots = []
     for _ in range(args.boot):
         pick = []
-        for k, ks in by_fold.items():
+        for ks in by_fold.values():
             for j in rng.integers(0, len(ks), len(ks)):
                 pick += groups[ks[j]]
         boots.append(delta(np.asarray(pick)))
     res["delta_boot_sd"] = float(np.std(boots))
-    res["p_delta_le_0"] = float(np.mean(np.asarray(boots) <= 0))
+    res["delta_boot_ci95"] = np.quantile(boots, [0.025, 0.975]).tolist()
+    res["bootstrap_nonpositive_fraction"] = float(np.mean(np.asarray(boots) <= 0))
+    # Legacy key retained for readers of previous reports. This is a bootstrap
+    # fraction, not a multiplicity-adjusted p-value or a posterior probability.
+    res["p_delta_le_0"] = res["bootstrap_nonpositive_fraction"]
+    res["uncertainty_scope"] = "chain sampling conditional on fixed fitted models"
+    res["uncertainty_not_estimated"] = ["training seeds", "adaptive selection", "future domain shift"]
+    res["confirmation_established"] = False
     print(json.dumps(res, indent=1))
     if args.out:
         out = ROOT / args.out

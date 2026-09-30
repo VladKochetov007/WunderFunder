@@ -1,0 +1,99 @@
+{
+  "iteration_id": "creative-20260930-01",
+  "role": "independent_specification_critic",
+  "created_at": "2026-09-30T21:10:06.740695+00:00",
+  "review_scope": "Revised core methodology and locked proposal cards; no skill-file changes, outcome reads, metric calculations or experiment runs.",
+  "independence_limits": "Same model family and historical audit context; not statistically independent evidence. Did not read current-cycle screen results or seed-audit.json. Proposal cards were read after their initial commitment.",
+  "input_sha256": {
+    ".agents/skills/conduct-creative-research/SKILL.md": "e702eb9339e124341482be3580a0682ab2dfc58b3a4727b1d767b180a0a95bed",
+    ".agents/skills/conduct-creative-research/references/empirical-validation.md": "7a8531c71d430ec1f37ea82c07f1b494c77a6b3d564d088d569f12c919b6ba6e",
+    ".agents/skills/conduct-creative-research/references/research-artifacts.md": "ac50c965e561044bcb76fa5fc10790a4bfc3728d80ae207d401efe2707badf1a",
+    "research/iterations/2026-09-30-creative/contract.json": "4c5336fc3d071976cd5b804fc4fc56609b8f01128c1dd684c9d8a1db2808003f",
+    "research/iterations/2026-09-30-creative/ideator.json": "88f8669400ca7346a1d5ffe5d76d6eedcc8bca34f581d3836dca589632316ed6"
+  },
+  "core_review": {
+    "verdict": "acceptable_for_this_exploratory_iteration",
+    "scenarios": [
+      {
+        "scenario": "Every fold and former holdout reused",
+        "expected": "Discovery-only ranking; no resplit, new agent or repeated bootstrap creates fresh confirmation.",
+        "result": "pass",
+        "basis": "empirical-validation.md: exposure lineage and Freeze before confirmation; contract fresh_confirmation_available=false."
+      },
+      {
+        "scenario": "One positive training-seed pair and narrow chain-bootstrap interval",
+        "expected": "Provisional fixed-model observation; chain uncertainty does not cover recipe/seed variation, adaptive selection or transfer.",
+        "result": "pass",
+        "basis": "empirical-validation.md: Separate sources of uncertainty; research-artifacts.md: supported and replicated scope definitions."
+      },
+      {
+        "scenario": "X symmetric and Y=X^2: zero population OLS slope with exact nonlinear predictability",
+        "expected": "A failed linear baseline does not veto a nonlinear hypothesis. Judge the registered predictive comparison.",
+        "result": "pass",
+        "basis": "Core objective_mode separates prediction from mechanism discovery and prunes by contract/evidence rather than model taste; contract explicitly forbids an unjustified OLS veto."
+      }
+    ],
+    "claim_gate_check": "Practical deltas may allocate compute but are not significance thresholds. screen_failed is scoped to a tested recipe; supported must name its evidence scope; replicated needs claim-appropriate independent evidence. No false confirmation is licensed for this iteration.",
+    "remaining_limit": "Correct instructions do not establish execution compliance. Preregistrations and final readouts still need concrete artifacts, comparisons, lineage and resource accounting."
+  },
+  "proposal_reviews": [
+    {
+      "id": "I1",
+      "verdict": "acceptable_exploratory_screen_after_comparison_scope_is_frozen",
+      "concerns": [
+        "G=Q+0.5*g*(P-Q) versus U=Q+0.5*(P-Q) changes average plain-teacher weight and row conditioning together. G beating U does not alone identify the benefit of conditional selection.",
+        "Q averages two distilled seeds whereas original C may use one distilled member. Register exact run IDs, checkpoint/cache hashes, alignment and the unchanged three-member remainder; comparisons answer different questions.",
+        "Cached teacher-function lift cannot show that a same-size student can learn it. The four fixed component seeds are not paired repetitions of a new student recipe."
+      ],
+      "before_run": [
+        "Keep the proposed G/U/Q comparisons as a joint gate-versus-fixed-mixture screen and explicitly withhold a conditioning-only claim; alternatively preregister an additional static composition-matched control with its coefficient estimated from allowed training predictions before scoring. Any added arm consumes the trial budget.",
+        "Freeze exact pure-chain membership, cache/run identity, prediction row alignment, clipping after the final ensemble sum, missing-cache behavior and the definition of metric-weight coverage across both targets.",
+        "Retain the proposed no-retuning stop and distinguish the practical allocation gate from significance."
+      ],
+      "permitted_positive_claim": "This fixed gated teacher mixture improves the registered cached ensemble comparison on reused discovery data, conditional on the fitted teacher artifacts.",
+      "not_established": [
+        "conditional gating as the isolated cause",
+        "student improvement",
+        "training-seed robustness",
+        "unseen or public-score gain"
+      ],
+      "next_step_if_informative": "A separately registered matched student/control training study, with fixed epochs and paired seeds, outside the current zero-GPU iteration."
+    },
+    {
+      "id": "I2",
+      "verdict": "acceptable_engineering_simulation_after_cost_model_and_policy_are_frozen",
+      "concerns": [
+        "A literal 85+17+17+17 microsecond cost is 136 us/row, while 48m52s over 39.4M rows is about 74.4 us/row. Matching by additive overhead alone would require negative overhead. If 85:17:17:17 is a ratio, its scale and overhead remain unidentified from one total runtime.",
+        "The candidate is described as cost-aware but lacks an exact transition rule. Prefix choice, safety allowance, rebuild cost, warm-up and measurement-window handling must be specified before outcomes.",
+        "The 39.4M-row replay contains 1970 sequences; available pure-fold cached sequences may be fewer. The mapping from simulated prefix schedules to scored validation units is unspecified. Repetition or weighting can alter pooled WP.",
+        "Synthetic time and cached validation quality are conditional on the assumed cost model and ordering. They do not validate actual public runtime, the public retained subset, or hidden score. A corrected cost estimate may yield the same final policy."
+      ],
+      "before_run": [
+        "Freeze a nonnegative overhead and an explicit cost scale consistent with the calibration, or use independently measured heterogeneous timings. Do not tune both from desired outcomes.",
+        "Freeze exact old/candidate policy pseudocode including the old cold-window behavior, sequence-boundary updates, coefficient rescaling and no-recovery rule; identify any intentional differences.",
+        "Freeze the schedule-to-cache mapping and weights, report both predeclared orderings and all four speed scenarios without selecting the favorable one.",
+        "Treat any optimistic fixed-prefix oracle/regret as a descriptive bound over reused data, not a deployable target-informed policy."
+      ],
+      "permitted_positive_claim": "Under the registered synthetic cost scenarios, a specified cost-aware policy improves the runtime/retained-quality tradeoff within the fixed prefix set.",
+      "not_established": [
+        "actual scorer deadline safety",
+        "public or hidden score improvement",
+        "causal attribution of earlier leaderboard differences",
+        "training improvement"
+      ],
+      "next_step_if_informative": "An isolated governor implementation with measured per-member costs on relevant CPU paths and independent runtime/parity checks; no automatic submission promotion."
+    },
+    {
+      "id": "I3",
+      "verdict": "defer_as_proposed",
+      "concerns": [
+        "Cached early/late error profiles confound context age with sequence content and cannot identify a benefit from random-origin training.",
+        "A controlled inference reset experiment diagnoses context sensitivity but still does not establish that training augmentation will help."
+      ],
+      "acceptable_screen": "None in the current cached-only proposal. A future bounded reset-origin comparison must fix rows, origins, burn-in and valid information; a training study must additionally match exposure and optimizer updates.",
+      "permitted_claim": "A distinct untested training hypothesis with weak prior evidence, not a supported improvement.",
+      "next_step_if_informative": "Separate preregistration only if a discriminating test fits a later authorized budget."
+    }
+  ],
+  "disposition": "I1 and I2 may proceed as bounded discovery/engineering screens after the listed pre-outcome specification choices. I3 stays deferred. This review supplies no empirical support, no confirmation and no submission recommendation."
+}
