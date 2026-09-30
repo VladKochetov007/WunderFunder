@@ -76,7 +76,7 @@ Execution on `beleriand`: CPU quota 160%, two numerical threads, 8 GiB memory ca
 
 ## Next decisions
 
-1. Inspect the already running Transformer experiments when their scheduled results are complete. Check their fixed checkpoint, matched comparison, fold exposure and real serving cost before considering another architecture fit; avoid duplicating existing jobs.
+1. Evaluate the newly completed Transformer experiments using a registered matched comparison and ensemble-replacement score. Their final fold-1 artifacts were captured in the [late archive supplement](https://github.com/VladKochetov007/WunderFunder/tree/archive/2026-10-01/snapshot/2026-10-01/delta-late); ordinary training-log scores do not establish a contribution to C. Check fixed checkpoints, fold exposure and real serving cost before another architecture fit.
 2. Calibrate heterogeneous ensemble-member and fixed-overhead runtime costs on the relevant CPU paths, then register a concrete governor policy and replay mapping. Treat a useful governor correction as engineering progress even if it introduces no new predictive mechanism.
 3. Reconcile the authoritative metric source and identify genuinely prospective confirmation before another promotion claim. Keep I1 student training closed: its prerequisite gate failed. A different teacher proposal needs its own rationale, frozen comparison and trial allocation, rather than retuning this result.
 

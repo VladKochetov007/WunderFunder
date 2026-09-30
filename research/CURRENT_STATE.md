@@ -19,12 +19,12 @@ The 0.0001 C→V1 difference is a recorded leaderboard difference, not establish
 
 ## Everything preserved on GitHub
 
-- [Full snapshot and restoration instructions](https://github.com/VladKochetov007/WunderFunder/tree/archive/2026-10-01/snapshot/2026-10-01): 266 run directories, including five empty failed/aborted runs, 860 checkpoints, histories, logs, source snapshots and dirty patches.
+- [Full snapshot and restoration instructions](https://github.com/VladKochetov007/WunderFunder/tree/archive/2026-10-01/snapshot/2026-10-01): 268 run directories and 865 checkpoint paths across the base snapshot and late supplement, including five empty failed/aborted runs, histories, logs, source snapshots and dirty patches.
 - [All ready-to-use submission ZIPs](https://github.com/VladKochetov007/WunderFunder/tree/archive/2026-10-01/snapshot/2026-10-01/submissions), including the exact best V1 package.
 - [Searchable run index](https://github.com/VladKochetov007/WunderFunder/blob/archive/2026-10-01/snapshot/2026-10-01/run_index.tsv) and [readable research history](https://github.com/VladKochetov007/WunderFunder/tree/archive/2026-10-01/snapshot/2026-10-01/research-history).
 - [`quant-probes`](https://github.com/VladKochetov007/WunderFunder/tree/quant-probes) contains recent model research; [`cpp-engine`](https://github.com/VladKochetov007/WunderFunder/tree/cpp-engine) contains the native submission engine.
 
-The asset snapshot cutoff is 2026-09-30 21:08 UTC (1 October 00:08 Moscow). The existing Transformer fold-1 training was still active, so its snapshot includes intermediate checkpoints, not a completed result. The ongoing job was left untouched. Bulk caches (~94 GB) and organizer dataset bodies (~33 GB) have inventories, not uploaded copies; checkpoints and experimental outputs are included. Original server files are retained.
+The base asset snapshot cutoff is 2026-09-30 21:08 UTC (1 October 00:08 Moscow). The existing Transformer fold-1 pipeline then completed at 21:23:53 UTC; a [late supplement](https://github.com/VladKochetov007/WunderFunder/tree/archive/2026-10-01/snapshot/2026-10-01/delta-late) copied at 21:25:53 UTC preserves its final parent, head-only and full-FT checkpoints and logs. Ordinary full-fold readouts were 0.675331 / 0.675766 / 0.674836, respectively; these are not pure-chain paired comparisons or evidence of a better submission. Existing jobs were left untouched. Bulk caches (~94 GB) and organizer dataset bodies (~33 GB) have inventories, not uploaded copies; checkpoints and experimental outputs are included. Original server files are retained.
 
 ## Research map
 
@@ -39,7 +39,7 @@ The [experiment ledger](experiments.jsonl), [hypothesis ledger](hypotheses.jsonl
 | Decoded price levels, discrete class-3 tables, residual corrections and raw additional-feature probes | Tested variants did not yield consistent cross-fold gains. This does not establish a general information-theoretic ceiling. |
 | Level augmentation/drop, sequence V-REx, periodic inference resets, excessive validation upweighting | Negative in the tested protocols. Training-only random-origin augmentation would be a different, still untested intervention. |
 | Matured-label feedback | An apparent large gain used labels before their actual maturity. The corrected quote-event-clock version was null; the invalid result remains documented. |
-| Causal segment-recurrent Transformer | Existing teacher experiment; fold 1 still running at snapshot. No new GPU run launched by this iteration. |
+| Causal segment-recurrent Transformer | Existing teacher experiment; final fold-1 parent/head/full-FT artifacts are in the late supplement. Its contribution to the fixed ensemble still needs the registered comparison. No new GPU run launched by this iteration. |
 | Runtime governor | Heterogeneous model costs are approximated as equal in current policy. A cost-model discrepancy alone does not prove a score/runtime improvement. |
 
 ## Current creative-research iteration
