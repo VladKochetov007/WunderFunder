@@ -1,0 +1,39 @@
+{
+  "id": "PRIOR02",
+  "status": "registered_before_new_outcomes",
+  "question": "How much of the earlier block-shuffle transition loss is mismatch between an original-order transition prior and shuffled evaluation order, and how much original-order performance comes from transferred conditional prior versus online adaptation?",
+  "source": {
+    "features": "Only train.parquet i0_dv0..3, same256 selected chains/row_groups/order/half/class from ../2026-10-01-eda/quant-mark-inputs.json. No new metadata selection, targets, validation, masks or predictions.",
+    "frozen": "Reuse the exact detector, encode, permute, priors and prequential probability functions in the hashed prior quant_mark_eda.py. Reuse fixed per-half centers, original pi and R from the prior result. No center refit or alternative detector.",
+    "retention": "Read full20000x4 rows only to reproduce previous detector counts; retain first4096 detections, reset every sequence. Check previous exact evaluation mark hashes, category counts and detector dictionaries. Never silently replace a failed sequence.",
+    "partition": "Each fitting half uses its own frozen center for BOTH its fitting marks and opposite-half evaluation marks. Own-half encodings used to refit R are not confused with prior EDA opposite-half evaluation encodings. Original pi/R are recomputed only as identity checks, and the saved originals remain the evaluated baseline.",
+    "provenance": "Exclusive input/result files. Before features, verify old source stat+footer and frozen previous-code identity, record code/contract/plan/previous-artifact hashes and exact selected IDs. Assert source stat unchanged after reading. Whole-Parquet content hash is not claimed."
+  },
+  "predictors": {
+    "common": "Alphabet16, exact ties0, kappa16. Positive smoothed probabilities; score before updating with current mark. First mark probability pi for every model. All online state resets per sequence. No class/current code/current gap enters prediction of current mark.",
+    "original": ["G: frozen global pi", "F: prior EDA adaptive marginal frequencies", "T_original: prior EDA original R plus online context transition counts", "T_independent: same adaptive transition formula but every prior row equals frozen pi; no transferred conditional prior", "static_R: pi on first mark, then frozen original R[previous_mark]; no online count adaptation"],
+    "block_seeds": [20261011,20261012,20261013],
+    "block_rule": "Exactly previous block128 permutations and previous QMARK-EDA-01 kind/seed/chain SHA256 RNG; preserve final partial block and category counts. No full-shuffle run.",
+    "matched_R": "For each fitting half and each fixed seed, encode each fit sequence using THAT half's frozen center, permute with its own chain ID using prior block128 rule, sum each nonempty transition table normalized to total1 per sequence, then R_ij=(summed_transition_ij+frozen_pi_j)/(row_sum_i+1). Confirm permuting preserves pi exactly to numerical tolerance. Fit only on the fitting half, evaluate same seed's block-shuffled opposite half.",
+    "block_comparisons": "F, T_old_R and T_matched_R on identical shuffled evaluation sequences. Same formula/kappa/count history; only R differs. One fixed scientific recipe, six nuisance R fits (2 halves x3 seeds), no selected seed."
+  },
+  "readouts": {
+    "primary": "Mean across chains of mean across3 seeds of [LL(T_old_R)-LL(T_matched_R)] on block-shuffled sequences; positive means matching R reduces the old null loss.",
+    "secondary": ["Every seed's old-minus-matched loss and F-minus-matched loss; equal3-seed averages", "Original F-minus-T_original exact reproduction", "Original T_independent-minus-T_original: benefit of transferred conditional prior for this fixed adaptive estimator", "Original static_R-minus-T_original: benefit of online transition adaptation for this fixed transferred prior", "Absolute log losses for every model/condition", "All marks, first16 and after16 separately; pooled, both evaluation halves and all4 historical classes", "Equal-chain loss/gain and event-weighted sums/counts; counts/empty exclusions per slice"],
+    "uncertainty": "1000 draws RNG20261031 of whole chains within8 half x class strata, pairing every condition/model/seed. Same draws reused for all scopes and cuts. Fixed pi/centers/R and fixed permutations; report percentile95% CIs and bootstrapSD for all declared gain contrasts, both macro/event estimands, all cuts/scopes. No nuisance-fit, adaptive-selection, training or test-transfer uncertainty.",
+    "meaning": "Contrasts are differences between specified estimators, not an additive information decomposition. Matching null R corrects one mismatch but does not make shuffled marks realizable under the raw detector. Independent-prior and static-prior controls have different adaptation behavior; no mutual-information or physical-flow claim."
+  },
+  "checks": [
+    "Old input IDs/half/class exactly256 unique chains; original old-code hash matches prior manifest",
+    "Old source stat/footer identity and raw shape20000x4; final stat unchanged",
+    "Every original evaluated mark SHA256 and category/detector counts match previous artifacts",
+    "Original pi/R reconstructed with frozen own-half centers match saved pi/R (atol1e-14,rtol1e-12)",
+    "Each original and old-R block loss sum for all/first16/after16 matches previous per-chain G/F/T losses (atol1e-10,rtol1e-12)",
+    "Synthetic online/manual versus vectorized parity, positive normalized vectors, first-event reset, no current/future influence, identical R gives identical predictions",
+    "Synthetic fitting-permutation count/pi invariance and exact small transition-prior calculation",
+    "Real scoring prefix equality at1/16/128 marks for all newly compared predictors"
+  ],
+  "decision": "Report signed prior-matching effect and remaining matched-null/original gains without a tuned threshold. No forecasting allocation follows. If matching closes most adverse-null gap, weaken prior interpretation of original-minus-null as an ordering effect; original measured F-T gain itself remains unchanged. All numerical checks required before interpretation; failed check is invalid/insufficient evidence, not a negative hypothesis result.",
+  "budget": {"threads_max":2,"cpu_quota":"160%","memory_max":"10G","timeout_seconds":900,"gpu":0,"WP_queries":0,"forecasting_fits":0,"disk_max_mib":50},
+  "execution": "Root freezes and runs once after independent review. Keep any failure receipt and log. No outcome-dependent modification, source reread for a new recipe, commit or upload by this agent."
+}

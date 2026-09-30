@@ -1,0 +1,97 @@
+{
+  "id": "DETECTOR02",
+  "status": "frozen_before_new_feature_reads",
+  "registered_utc": "2026-09-30T23:15:46.384851+00:00",
+  "contract": "contract.json",
+  "script": "detector_control.py",
+  "question": "Does this declared raw-run observation-process surrogate reproduce the original causal mark-prediction advantage? Contrast is between complete estimators on potentially different emitted sequences, not an attributable causal fraction.",
+  "inputs": {
+    "source_root": "/home/grinchenkoeg/WunderFunder",
+    "columns": [
+      "i0_dv0",
+      "i0_dv1",
+      "i0_dv2",
+      "i0_dv3"
+    ],
+    "data": "datasets/train.parquet",
+    "authoritative_selection": "../2026-10-01-eda/quant-mark-inputs.json",
+    "selection_sha256": "491d836a380dc2a64499867a9483ee0d8a4b21a5b45d81f6f3d7af14fb074292",
+    "original_result": "../2026-10-01-eda/quant-mark-result.json",
+    "original_result_sha256": "47b7d3aba82d4f42f37e2aa55af4cec31676ac9d1337c707bb5c772794dc1dbd",
+    "legacy_detector_module": "../2026-10-01-eda/quant_mark_eda.py",
+    "legacy_module_sha256": "821813c345342d7794a09e68dc853e324b95c080e8f6ae6e26c4a7e03fed96e9",
+    "original_plan": "../2026-10-01-eda/quant-mark-plan.json",
+    "original_plan_sha256": "34b381fa3ff9494c27e0bcb1494c7a3601c95089a89862dda515b0535d019b5a",
+    "old_source_identity": "Match old parquet size,mtime_ns,inode,device,footer SHA256 and metadata hashes; assert same256chains/half/class/row_groups, no any-valid chains or row_group528. Record current-used raw four-vector byte hashes. No targets/masks/valid/prediction caches read."
+  },
+  "sampling": "Exactly previous256 selected whole chains, one representative sequence each, unchanged half/class assignment. No new filtering based on events or losses. Reset independently per20k sequence. Old class labels remain reporting metadata only.",
+  "encoding": "Freeze ORIGINAL fit-half centers from oldresult.fitted. Each half fits its priors using its own frozen center, and evaluates the opposite half with that same center. No new medians or detector thresholds. Cap first4096 emitted marks after redetection independently in every condition.",
+  "raw_surrogate": {
+    "name": "block128_joint_run_packets",
+    "seeds": [
+      20261011,
+      20261012,
+      20261013
+    ],
+    "packet": "Maximal consecutive runs of BIT-IDENTICAL joint4-float32 row vectors, comparing all128 raw bits. Packet=(original joint vector bytes,run length). This preserves NaN payloads and signed zero exactly in reconstruction; legacy detector still uses numeric != unchanged.",
+    "blocks": "Consecutive128 original packets per sequence, plus included final partial block. Uniform permutation of COMPLETE(vector,length) packets independently within each block, including neutral/invalid packets and the first block. A one-packet block is unchanged.",
+    "rng": "numpy.default_rng seed=int.from_bytes(SHA256(DETECTOR02:run128:<seed>:<chain>)[:8],little); consume consecutive rng.permutation(block_packet_count) calls in original block order.",
+    "preserves": [
+      "sequence length and entire joint raw-row multiset bit-for-bit",
+      "within each original128-packet block, same raw-row interval endpoints because total packet lengths unchanged",
+      "joint raw-code row multiplicities and neutral/invalid/valid-nonneutral row occupancy within each such interval",
+      "multiset of attached(code bits,length) packets per block; code-duration associations retained"
+    ],
+    "does_not_preserve": [
+      "within-block raw order, transition counts, neutral/invalid positions or detector eligibility topology",
+      "maximal run lengths after reconstruction: adjacent equal packets can merge",
+      "detected event count, event gaps, emitted mark frequencies, cap raw-row endpoint, first observed code"
+    ],
+    "mergers": "Allowed without rejection, retries or repair; report reconstructed packet count and merged boundaries. Forcing unequal adjacent emitted categories would be invalid: raw-distinct codes can share a category, and neutral/invalid bridges can permit emitted repeats.",
+    "first_row": "Synthetic raw row0 is reset state and cannot emit. First packet may change under permutation. No padding or inherited original previous state.",
+    "detector": "Call exact legacy detect() anew on reconstructed20000x4 float32 arrays. No event-index or mark permutation is substituted for raw redetection. Legacy valid endpoints: finite andabs<5.19; current nonneutral ptp>1e-6; numeric coordinate change; invalid/neutral rows still advance previous raw state."
+  },
+  "predictors": {
+    "kappa": 16,
+    "original_reproduction": "Recompute original pi,R from original fit-half marks under frozen centers; compare centers/encoded mark SHA for every evaluation sequence and reproduced priors/loss summaries to readonly old EDA. Any mismatch invalidates before contrast interpretation.",
+    "surrogate_fit": "For EACHseed and each fit-half, fit BOTHpi andR using that half surrogate-redetected capped marks and its original center. Evaluate only opposite-half surrogate of the same seed/recipe with these matchedpi,R. Thus no original-prior mismatch deliberately remains.",
+    "estimators": "Reuse registered Gglobal, Fcausal adaptive frequency, Tcausal adaptive transition from legacy module; score before count update, reset per sequence; firstmark G=F=T=pi. No predictor uses current rawcode, current mark, class, sequenceID or future data to form probabilities.",
+    "zero_support": "Legacy strictly positive prior/smoothing retained. Fit half with no emitted marks uses prior routine uniform fallback and is reported. Empty evaluation conditions have undefined mean loss, not zero; all observations/counts retained."
+  },
+  "readouts": {
+    "primary": "Mean over paired-complete chains of gain_original - mean_seed(gain_surrogate_seed), gain=mean loglossF -mean loglossT within that condition chain. Complete means >0retained marks in original and all3surrogates; report excluded IDs and reasons, no replacements.",
+    "secondary": [
+      "Every individual original/surrogate condition G,F,T mean-chain and event-weighted logloss/gain, each half and each class; all3seeds reported",
+      "Original and surrogate gains on first16 and later retained marks separately",
+      "Perchain detection counts before/aftercap, cap retention, first/last retained event raw rows and covered raw-prefix length; number and delta of emitted events",
+      "Same category fractions, return-to-exact-raw-after-one event fraction, category histograms and entropy; detector gap1/2-8/9plus counts; no physical trade-side inference",
+      "Percondition original packet count, packetblock row-length quantiles, reconstructed packet count/merges; per-block rawjoint multiset and attached-duration preservation checks",
+      "Changed detectorvalid-pair/neutral-transition/same-code-hold counts; neutral/invalid occupancy exact preservation; raw order and original boundary-transition survival fractions descriptive only"
+    ],
+    "uncertainty": "Exactly1000 whole-chain bootstrap draws seed20261031, paired across conditions, stratified by original half x metadata class. For primary use same fixed paired-complete cohort in each stratum. Report conditional percentile95%CI for original gain, each surrogate gain, mean3 surrogate gain and original-minus-mean3, separately equal-chain and event-weighted summaries. For event-weighted contrast each condition uses its OWNevent denominator before averaging seeds. Nuisance priors/centers/surrogate draws fixed; fit,selection,test-shift uncertainty omitted.",
+    "undefined": "Report empty strata/cohorts and null CIs. No zero-loss substitution. Surrogate changed counts mean observations are not identical acrossconditions; paired unit is sourcechain, not emitted event."
+  },
+  "correctness": [
+    "Exact packet reconstruction and per-block joint rawbits multiset/attached length preservation on synthetic repeated,neutral,NaN,inf,signedzero cases and final partial/singleton blocks",
+    "Literal streaming detector equals legacybatch and prefixes, including two distinct rawstates same4bitcategory, A-neutral-A repeats, invalidbridge, noevent, oneevent, firstrow,hold transitions",
+    "Surrogate firstrow/reset plus exact raw redetection, allowing adjacent identical packets to merge; no support-diagonal masking",
+    "Prequential online distribution/vectorized observed mark probability parity, positive unseen categories, future/current mark independence",
+    "Same256 old selectedchains and old metadata/sourceidentity; every original encodedmark SHA and originalpi,R/loss reproduction match",
+    "Source stats/metadata beforeafter stable; raw/cap identitymanifest exclusive outputs, no originals changed"
+  ],
+  "budget": {
+    "threads_max": 2,
+    "memory_gib_max": 10,
+    "wall_seconds_max": 900,
+    "internal_alarm_seconds": 870,
+    "surrogate_seeds": 3,
+    "bootstrap_draws": 1000,
+    "new_disk_mib_max": 100,
+    "targets_read": false,
+    "WP_queries": 0,
+    "new_GPU_jobs": 0,
+    "forecasting_fits": 0
+  },
+  "decision": "No numerical alpha/forecasting gate. If matched detector-surrogate recovers much of originalgain, richer-order explanation weakens under THESEpreservedconstraints. If it doesnot, causal microstructure stillunidentified: changed topology,gaps,marginals,caps and simulatorlimitations remain. No new surrogate/blocksize/kappa/centers or model training after outcomes. Prior-study block128MARK controls use a different clock than these128RAWrun blocks; do not equate physical horizons.",
+  "run_owner": "Root after independent review and freeze; this branch performs only synthetic selftests before then; no commits/push."
+}
