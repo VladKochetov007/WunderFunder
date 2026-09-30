@@ -1,0 +1,30 @@
+{
+  "id": "TDIAG2",
+  "status": "preregistered_before_outcomes",
+  "contract": "contract.json",
+  "script": "training_gradient.py",
+  "question": "Does saved-stage/late-window/seed heterogeneity undermine the narrow positive auxiliary-alignment observation, and is observed geometry dominated by a selected chain?",
+  "prior_exposure": "TDIAG1 had positive summed auxiliary/main cosine in two early windows of one parent and a class-balanced sample. This is a motivated extension on already exposed data, not confirmation or evidence of improvement.",
+  "checkpoints": {
+    "parents": ["ref_f0/model_ep3.pt", "refs4_f0/model_ep3.pt", "ref_f1/model_ep3.pt", "refs4_f1/model_ep3.pt"],
+    "children": ["ft128_f0h/model.pt", "ft128s4_f0h/model.pt", "ft128_f1h/model.pt", "ft128s4_f1h/model.pt"],
+    "root": "artifacts/runs",
+    "interpretation": "Parent epoch3 and actual saved one-epoch head child; not two-epoch V1 and not a continuous saved optimizer trajectory. Same head-FT gcorr/auxiliary objective is examined at both stages, even though parent training used wmse."
+  },
+  "sample": {
+    "source": "datasets/valid.parquet with pure chains and fold != model held-out fold; these are head-FT training rows",
+    "count": "16 distinct chains per model fold, same observations for both seeds and both stages",
+    "chain_rule": "SHA256(TDIAG2:chain_id) ascending among eligible chains; no class stratification",
+    "sequence_rule": "One eligible row group per selected chain, smallest SHA256(TDIAG2:row:row_group). Thus natural chain sampling, not size-biased sequence/row sampling; only one representative sequence of each chain is observed.",
+    "overlap": "Model folds may share training chains; record overlap and never treat four parent/fold pairs as independent seeds.",
+    "windows": [[0,2000],[8000,10000],[18000,20000]],
+    "causal_prefix": "Replay the full 20000-row input sequence from its actual reset, then select the three fixed windows. Full targets construct legitimate structure/next-change training labels; targets never feed trunk. Warmup is first99 rows."
+  },
+  "identity": "Before forward: checkpoint/plan/code/split/class hashes; selected full feature/target/mask byte hashes; source Parquet stat before/after. Assert every non-head parent/child state tensor exactly equal before reusing recurrent features; mismatch stops without replacement.",
+  "calculation": "CPU float32 dropout0 eval, mathematically equivalent model-mode forward to this deterministic head-FT recipe, not AMP reproduction. Trunk inference in microbatches4, detached concat(GRU,projection) across16. Each window pools16 sequences exactly as training batch. Main un-clipped-p gcorr, structure .3 CE, next .3 MSE+BCE use source masks and normalizations. Compute separate component head gradients, shared/private norms and clipping factors. No optimizer or model update.",
+  "sensitivity": "For each fixed stage/window, recompute all losses/gradients after masking out each of the16 selected chains in turn, including re-centering/re-normalization. Record exact leave-one-chain-out cosine/clip factor and removed weight share. This is descriptive finite-sample sensitivity, not a batch bootstrap, seed CI, or independent replication.",
+  "readouts": ["all 24 stage/window summaries with four parents separately", "paired saved-head1 minus parent summaries at identical observations", "every component cosine; shared, main-private, aux-private norms", "current/main-only global clipping factors", "chain/class metric mass, auxiliary mask counts, chain mass concentration", "row and metric-weight prevalence abs(p)>2", "all16 leave-chain sensitivities per stage/window", "input overlap, zeros/nonfinite/error/timeout"],
+  "nonclaims": ["gradient cosine determines Adam effect", "common clipping rescale implies proportional update", "chain observations or windows are training seed replications", "saved h1 reproduces V1 h2", "natural-chain sample reproduces natural scored-row distribution", "diagnostic identifies optimal auxiliary coefficient"],
+  "budget": {"cpu_threads":2,"memory_gib":10,"internal_alarm_seconds":870,"outer_timeout_seconds":900,"GPU":0,"optimizer_updates":0,"WP_queries":0},
+  "execution": "Root schedules only after code/plan freeze and review. Exception/timeout writes partial immutable result and stops; no resampling, alternate checkpoint or silent retry."
+}

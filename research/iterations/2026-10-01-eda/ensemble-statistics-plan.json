@@ -1,0 +1,31 @@
+{
+  "id": "CSTAT1",
+  "status": "preregistered_before_outcomes",
+  "contract": "contract.json",
+  "script": "ensemble_statistics.py",
+  "question": "How concentrated is fixed C's pooled metric, how correlated/calibrated are its members, and what is the local analytic sensitivity to each member's scale?",
+  "reference": {"members":["ft256dH","ft128H","ft128s4H","ftc500H"],"weights":[0.25,0.25,0.25,0.25],"folds":[0,1],"pure_only":true,"known_pooled_WP":0.7024238010052843,"identity":"One-epoch C, not public V1; float32 originalC addition order matches frozen I1."},
+  "data": "Read existing full-valid prediction caches, valid_targets and chain_folds; retain scored rows after first99 rows only in each member's held-out pure fold. Stream at most16 sequences. Use cache market_class only for descriptive strata; never an inference input.",
+  "inventory": "SHA256 all8 prediction caches, targets/split, script, plan and scorer helpers before scoring. Assert source stats unchanged. Caches contain no independent row IDs; row-order lineage relies on predict_run.py and frozen provenance, with shape/unique metadata checks. This limitation is explicit.",
+  "WP_budget": "Exactly one pooled baseline reproduction of fixed C, tolerance1e-9. No standalone-member, class, perturbed-coefficient or candidate WP query. Correlation sufficient moments used internally for analytic derivatives, including bootstrap and leave-chain-out, are descriptive statistics at the same unchanged predictor.",
+  "derivative": {
+    "parameterization": "e=sum_j(scale_j * raw_member_j)/4 at scale=(1,1,1,1); p=clip(e,-2,2), y=clip(target,-2,2), w=abs(y)*scored_mask. Differentiate scales with .25*raw_member_j*1(abs(e)<2), retaining target-specific centering and averaging target derivatives with .5.",
+    "sufficient_stats": "Per-chain W,wy,wp,wy2,wp2,wyp; for each member/target, sum(w*a),sum(w*y*a),sum(w*p*a). d rho=(Sya-my*Sa)/(W*sqrt(vy*vp))-rho*(Spa-mp*Sa)/(W*vp).",
+    "kinks": "Report exact abs(e)=2 counts; derivative convention0 at kink is not a claim of differentiability. Report degenerate moments and stop inference if actual scopes or bootstrap samples degenerate.",
+    "no_tuning": "No step size, coefficients, adjusted mixture, gain extrapolation or promotion. Sum of member derivatives is common-rescale derivative, zero only in unclipped ideal arithmetic; final clipping breaks scale invariance."
+  },
+  "readouts": [
+    "pooled/fold target-specific member raw mean, SD, covariance/correlation, residual covariance against clipped y",
+    "member and final C abs(prediction)>2 row/metric-weight fractions and exact C boundary counts",
+    "class masses/means/member covariance and exact weighted within-class+between-class decomposition of Cov(y,p),Var(y),Var(p)",
+    "chain metric-weight shares, largest/top10/top10percent mass and inverse Herfindahl mass count explicitly NOT inferential ESS",
+    "macro-chain versus pooled scored-row fractions and mean metric weights",
+    "pooled/fold analytic member-scale derivatives by target and mean, global-centered chain derivative contributions",
+    "all-chain leave-one-out derivative values and min/max/most influential chain summaries"
+  ],
+  "uncertainty": "1000 whole-chain bootstrap draws independently within fold, seed2026100102; recompute exact weighted moments/derivative for each draw. Paired fixed model artifacts, no training-seed variability, adaptive-selection adjustment or external transfer coverage. Four members are not four independent training repetitions. Report all four derivative intervals and bootstrap signs without significance or winner selection.",
+  "validation": "Run synthetic finite-difference tests with/without clipping, all-masked and constant-target/prediction degeneracies, exact clipping-kink convention, common-scale invariance when unclipped, and law-of-total-covariance reconstruction. No real-data perturbed score for derivative validation.",
+  "prior_negative_scope": "Older class/per-sequence/global ensemble calibration and per-class mixture screens differ from member-scale derivatives; these negatives still lower utility prior. Existing oracle per-sequence headroom is not deployable attainable gain. Near-collinear members can yield tiny/noisy derivatives even though the objective mismatch is algebraically real.",
+  "budget":{"cpu_threads":2,"memory_gib":10,"internal_alarm_seconds":870,"outer_timeout_seconds":900,"bootstrap_draws":1000,"GPU":0,"new_prediction_inference":0,"baseline_WP_reproduction":1,"candidate_WP":0},
+  "execution":"Root schedules after freeze/review. Immutable inventory/result, error/timeout recorded; baseline mismatch halts interpretation without formula or tolerance change. No models fitted and no external upload."
+}
