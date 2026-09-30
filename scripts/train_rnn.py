@@ -360,7 +360,9 @@ def fit_normalization(model, loader, device, batches=2):
 
 
 def forward_chunk(model, inputs, sl, state):
-    if isinstance(model, DualClockModel):
+    from wnn.event_attn import EventAttnModel
+
+    if isinstance(model, (DualClockModel, EventAttnModel)):
         return model(inputs[:, sl], inputs[:, sl, EV_I0PX] > 0.5, state)
     return model(inputs[:, sl], state)
 
@@ -375,6 +377,12 @@ def make_model(args_dict, n_in, n_out):
     if args_dict.get("arch") == "gated":
         return GatedRNNModel(n_in, args_dict["hidden"], args_dict["layers"],
                              args_dict["dropout"], n_out=n_out)
+    if args_dict.get("arch") == "attn":
+        from wnn.event_attn import EventAttnModel
+
+        return EventAttnModel(n_in, args_dict["hidden"], args_dict["layers"], n_out=n_out,
+                              k=args_dict.get("attn_k", 32), d=args_dict.get("attn_d", 64),
+                              heads=args_dict.get("attn_heads", 4), dropout=args_dict["dropout"])
     if args_dict.get("arch", "gru") == "dual":
         return DualClockModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["event_hidden"],
                               args_dict["dropout"], n_out=n_out)
@@ -459,7 +467,10 @@ def main():
                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
-    ap.add_argument("--arch", choices=["gru", "dual", "gated"], default="gru")
+    ap.add_argument("--arch", choices=["gru", "dual", "gated", "attn"], default="gru")
+    ap.add_argument("--attn-k", type=int, default=32, help="--arch attn: ring of the last K i0 price-event tokens")
+    ap.add_argument("--attn-d", type=int, default=64, help="--arch attn: attention width")
+    ap.add_argument("--attn-heads", type=int, default=4)
     ap.add_argument("--gate-ce", type=float, default=0.0,
                     help="BCE weight for the gated model's target-difference sign head")
     ap.add_argument("--cell", choices=["gru", "lstm"], default="gru")

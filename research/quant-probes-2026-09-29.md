@@ -311,3 +311,13 @@ overfitting now, but no gain either).
 No breakthrough. Distillation is the only lever and it plateaus after one generation; privileged teachers,
 per-class blending, discrete class-3 context tables and longer training add nothing measurable. The class-3
 information ceiling for causal models of this family looks reached; remaining ensemble gains are ~+0.0003.
+
+# Public: candC 0.6640 in 48m52s (candB 0.6639): the +0.0007 fold gain is invisible on the public LB.
+
+## New architecture: GRU + causal attention over the last 32 i0 price-event tokens (`--arch attn`)
+`src/wnn/event_attn.py`: tokens (row projection + log gap) written at each i0 price event into a ring carried
+across chunks; each row queries it from the GRU output (4 heads, d 64) and the head sees [GRU | proj | ctx].
+Checked: chunked == full forward exactly, future perturbation leaves the prefix bit-identical.
+h128, 4 epochs EMA: +0.0017/+0.0022/+0.0007 after epoch 0, final parents 0.7002 vs 0.7005 (f0), 0.6765 vs 0.6765
+(f1). Head-FT: single -0.0002 (folds 0+1); fold-0 pair +0.0003 (SD 0.0004); as the 4th member in C instead of
+c500 -0.0004. Refuted: faster convergence to the same ceiling, like width, distillation and privileged teachers.
