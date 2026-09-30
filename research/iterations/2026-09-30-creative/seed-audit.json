@@ -1,0 +1,19 @@
+{
+  "id": "M01",
+  "status": "preregistered",
+  "evidence_role": "discovery",
+  "purpose": "Demonstrate a matched training-seed report on existing width experiments, distinguishing optimizer variation, chain resampling, and ensemble gain. This repeats a known recipe comparison and is not a new width discovery.",
+  "folds": [0, 1],
+  "exposure": "Both folds and these recipes were previously selected and inspected. No confirmation or selection-adjusted significance claim is permitted.",
+  "pairs": [
+    {"seed": 3, "candidate": "ft256H", "reference": "ft128H"},
+    {"seed": 4, "candidate": "ft256s4H", "reference": "ft128s4H"},
+    {"seed": 5, "candidate": "ft256s5H", "reference": "ft128s5H"}
+  ],
+  "checkpoint_policy": "Previously cached fixed epoch-3 parents followed by one head-only fine-tune; verify provenance from original scripts/logs before interpreting.",
+  "bootstrap_repeats": 1000,
+  "bootstrap_seed": 20260930,
+  "primary_readout": "all three matched seed effects, sample SD across them, their mean, and conditional chain intervals; report ensemble separately",
+  "gate": "methodology demonstration only, no candidate selection; no extra seed or fold search after results",
+  "stop": "one bounded cached CPU run; cap 8 minutes and 8 GiB"
+}

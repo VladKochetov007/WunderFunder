@@ -1,0 +1,74 @@
+{
+  "iteration_id": "creative-20260930-01",
+  "role": "independent_ideator",
+  "status": "proposed_before_current_cycle_outcome_testing",
+  "exposure_note": "Read the contract, historical journal/negative results and implementation. No new metric tests or GPU jobs. Historical Transformer fold-0 results were already exposed in the preceding audit and are not proposed as fresh evidence. All existing folds are discovery data.",
+  "hypotheses": [
+    {
+      "id": "I1",
+      "family": "prediction-conditional teacher mixture",
+      "change": "Test a fixed causal disagreement gate between plain and distilled GRU256 teacher pairs, then, only if useful, distil the gated teacher into a single existing-size GRU256 student. This is a training-teacher change, not a proposal to deploy four expensive teachers.",
+      "mechanism": "A globally averaged teacher may hide local disagreement between the unsmoothed fitted function and the distilled function. On directional disagreement rows, retaining part of the plain pair could recover signal removed by smoothing; elsewhere the distilled pair provides lower variance. This is an unproven conditional-bias hypothesis, not a claim that disagreement identifies irreducible noise.",
+      "evidence": [
+        "quant-probes journal: ordinary h256 distillation improved a matched member by about 0.0013-0.0016; gen-2 distillation and longer training did not improve the deployed blend.",
+        "The journal's failed per-class blend does not test row-level disagreement, although it lowers the prior probability of any conditional gate helping.",
+        "Existing prediction caches supply ft256H, ft256s4H, ft256dH, ft256ds4H, ft128H, ft128s4H and ftc500H for folds 0 and 1. Availability must be checked without substituting runs if one is missing."
+      ],
+      "closest_negative_and_difference": "Per-class blending was flat; generation-2 teacher averaging was flat inside C; seed disagreement predicted target-law failure weakly in E-230. This proposal changes neither classes nor a global teacher average: it compares one fixed row-level disagreement gate to a uniform mixture using exactly the same four teacher components. E-230 prevents interpreting disagreement as an established uncertainty estimator.",
+      "cheap_cpu_probe": "Stream saved predictions in <=16-sequence blocks. Define P=(ft256H+ft256s4H)/2, Q=(ft256dH+ft256ds4H)/2 and D(Z)=(Z0-Z1)/2. Freeze g=1[abs(D(P)-D(Q)) > 0.5*(abs(D(P))+abs(D(Q))+0.05)]. Compare teacher G=(1-0.5*g)*Q+0.5*g*P to U=0.5*Q+0.5*P and Q. Insert each as the h256 slot of C with the other three members unchanged and weights 1/4. No fitted thresholds, coefficient search or target-derived inputs. No new inference. Missing cache means this screen is deferred, not silently narrowed to a favorable seed.",
+      "locked_readout": {
+        "primary": "Exact clipped pooled WP delta of C-with-G versus C-with-U on pure chain-isolated fold 0 and fold 1, and pooled together.",
+        "secondary": ["C-with-G versus original C", "C-with-G versus C-with-Q", "gated row and target-weight coverage by fold", "per-class descriptive deltas", "paired whole-chain bootstrap SD conditional on these fitted models, not a significance claim"],
+        "fixed_seed_components": "plain seeds 3+4 and distilled seeds 3+4; no subset search",
+        "selection_status": "discovery only; no unbiased confirmation or student-effect claim"
+      },
+      "gate": "Rank a matched student experiment only if G beats U by >=0.0004 pooled, the sign is positive separately in folds 0 and 1, G is nonnegative versus original C on both folds, and the gated region covers >=5% of metric weight in each fold. Failure closes this exact gate; no threshold retuning. These are practical allocation thresholds, not significance tests.",
+      "next_training_candidate": "If the screen passes, train two matched new student seeds using 0.5*y+0.5*G as the parent target, against the same two seeds with 0.5*y+0.5*U. Keep original |clip(y)| weights, EMA-4 schedule, fixed final epoch and head-only FT; evaluate replacing C's h256 member. Teacher caches for every training row must be fold-clean. This iteration authorizes no GPU launch.",
+      "causality": "The deployed student remains causal. Teacher gate uses only same-row causal model outputs. Targets enter evaluation and training losses only. Fold isolation applies to every teacher, and all reused fold findings remain exploratory.",
+      "inference_cost": "No additional deployed parameters or per-row work if the gated teacher can be distilled successfully; teacher preparation costs additional offline predictions. The CPU mixture is an optimistic teacher-function screen, not proof that the student can realize it.",
+      "expected_info_value": "Medium. Cheap and directly tests conditional diversity against a same-components static control. A null result avoids another generation of essentially identical distillation; a positive result only justifies paired student training. Prior probability is modest because calibration and broad blending have repeatedly plateaued."
+    },
+    {
+      "id": "I2",
+      "family": "runtime-budget-aware ensemble portfolio",
+      "change": "Replace the governor's equal-member cost approximation with a cost-aware retained subset or fixed prefix policy, selected before runtime from quality/cost tradeoffs. The concrete first candidate preserves C's ordering but predicts prefix cost using measured heterogeneous member costs; an alternate ordering is a separately named arm rather than an implicit tuning step.",
+      "mechanism": "The current governor divides measured ensemble step time by the number of members and predicts savings as if each removed member cost the same. C keeps a GRU256 first and drops GRU128 members from the tail. The documented step costs differ about fivefold, so a tail drop can save much less than predicted. An accurate governor may preserve more useful models under uncertain CPU speed or avoid delayed budget recovery; this has to be demonstrated, not inferred from the code alone.",
+      "evidence": [
+        "WunderFunder-cpp/submission/solution_cpp.py::_govern: per_member=win_step/rows/k; k_new=int((allowed-overhead)//per_member); _build uses only the first k members and never restores them.",
+        "native_cpp/README.md reports about 85us for h256 and 17us for h128 under the same local fp16 v3 microbenchmark conditions.",
+        "Public candA lost a member under the governor; C and V1 reported runtimes differ by about 15%. Quality estimates alone do not describe a budget-constrained submission."
+      ],
+      "closest_negative_and_difference": "Global blend weights and extra h128 seeds gave tiny gains with all models active. This screen changes the deployment decision under binding runtime limits, not the fully active predictor or its training. It cannot improve WP if all four members always fit. The unequal-cost approximation can be inaccurate without changing the final retained prefix, so a code discrepancy alone is not a score-gain result.",
+      "cheap_cpu_probe": "Use cached C member predictions to compute exact sufficient statistics for its four fixed prefixes: d256; d256+h128s3; d256+h128s3+h128s4; full C. Replay current equal-cost and candidate heterogeneous-cost governors on a fixed synthetic timeline with 20,000-row sequence boundaries, 39.4M total rows and 52-minute budget. Use the documented 85/17/17/17 cost ratio, a constant overhead chosen so full-C time is 48m52s, and locked global speed multipliers 0.85,1.00,1.15,1.30. Report results for uniform deterministic sequence ordering and its reversal, without selecting the favorable ordering. If budget allows, one bounded per-member C++ microbenchmark may validate the cost ratio, but cached/model metadata alone is sufficient to register the screen and no large forward pass is authorized.",
+      "locked_readout": {
+        "primary": "For every predeclared speed scenario, projected total runtime and active-prefix schedule under old and cost-aware governors; exact cached WP using those schedules on whole validation sequences.",
+        "secondary": ["WP of every fixed prefix on pure folds 0 and 1", "worst-case WP regret versus the best budget-feasible fixed prefix within this restricted set", "number and timing of member drops", "sensitivity to sequence order reversal"],
+        "separate_uncertainties": "Runtime replay is conditional on a cost model; cached validation WP is discovery data; neither validates hidden scorer timing or score. No fitted model or training-seed claim."
+      },
+      "gate": "Prioritize a concrete governor patch only if the old policy exceeds the declared time budget in a predeclared scenario that the candidate meets, or the candidate preserves a better cached ensemble with >=0.0003 WP gain while meeting the same budget in both sequence orderings and no loss at baseline speed. If both policies converge to the same prefix and effectively identical scores, report the inaccurate cost estimate as low-priority engineering debt rather than a research win. No extension to more speed scenarios after seeing outcomes.",
+      "next_training_candidate": "No training needed. A successful screen leads to an isolated C++ submission-governor patch, per-member cost calibration on scorer-compatible CPU paths, parity and full-sequence timing checks. Subsequent model training would target a specifically identified retained-cost slot, not add another member blindly.",
+      "causality": "Policy depends only on elapsed runtime, configured member costs and precommitted ordering; changes occur at sequence boundaries. No target-, class-label- or future-dependent runtime decisions.",
+      "inference_cost": "Negligible policy bookkeeping; aims to spend the existing 52-minute internal budget more accurately. Per-member timing calibration must itself be bounded and included in the budget.",
+      "expected_info_value": "High for deciding whether deployment, rather than another model, is the next useful investment. There is direct implementation evidence and a no-training screen. Expected score gain is conditional on runtime pressure and could be zero for C."
+    },
+    {
+      "id": "I3",
+      "family": "training-only random-origin cold-start augmentation",
+      "change": "In a future matched training arm, initialize hidden state at a uniformly sampled interior origin for 25% of training sequences, consume a fixed 99-row burn-in, then train on a fixed-length suffix; keep ordinary full sequences for the other 75%. Match scored-row exposure and optimizer updates to the control. Deployment still resets only at the real sequence boundary.",
+      "mechanism": "A model trained almost always with the same natural sequence origins can over-specialize how hidden state is initialized and how early gradients represent context. Random origins force a context-robust representation without periodically deleting memory at inference. This might help genuinely isolated or short-context streams, a possible source of the local-public discrepancy; current evidence does not establish that discrepancy's cause.",
+      "evidence": [
+        "Journal and E-259 show quality and ensemble deltas vary with chain isolation and class mix; short single-sequence chains are a difficult regime.",
+        "Chunk-500 members contributed complementary predictions despite no broad architecture breakthrough.",
+        "Periodic state resets were negative and ordinary reference accuracy was approximately flat along sequence position, which substantially weakens this hypothesis."
+      ],
+      "closest_negative_and_difference": "Periodic reset every 2k/4k rows was negative because inference lost useful state; level augmentation/drop was negative; chunk-500 changes truncated backpropagation but carries state. This arm augments training origins while retaining uninterrupted inference and uses matched update/row counts. It remains a low-prior proposal until a direct counterfactual test exists.",
+      "cheap_cpu_probe": "Do not spend this cycle's CPU budget on an early-versus-late residual correlation as if it tested the mechanism: state age is confounded with sequence content. Existing cached predictions can only bound error allocation in fixed positions 99-499,500-1999,2000-19999 and describe class/chain mix. The discriminating screen requires recomputing the same model on suffixes with controlled reset origins, which is new inference outside the cheap cached-metadata scope; therefore defer this family unless that small causal reset experiment is separately preregistered and authorized.",
+      "locked_readout": "For a future direct screen, compare identical scored rows after natural-context versus reset-origin forward passes, with reset origins fixed independently of targets and burn-in lengths fixed beforehand. Report score degradation and recovery by burn-in, plus the impact of replacing the c500 member of C after matched-seed augmented training. Neither cached position profiles nor hindsight oracle gain constitutes support.",
+      "gate": "No promotion from the present cached-data cycle. Proceed only after a direct, bounded reset-origin comparison shows an actionable and recurrent context sensitivity not explained by removing genuinely predictive history; then register a matched two-seed candidate/control study. A training improvement would have to contribute >=0.0005 to deployed C with the same sign across two discovery folds, while inference cost remains unchanged. All findings remain exploratory.",
+      "next_training_candidate": "GRU128 c500 recipe, augmentation probability 0.25, fixed burn-in99, same fixed final epoch and head-only FT; paired new seeds against unaugmented c500 control. Exact segment length and exposure-matching sampler must be specified before any training, not selected from performance. No GPU job in this iteration.",
+      "causality": "Burn-in and features use only the observed prefix within each artificial segment. Target labels may supervise scored suffix rows but never construct hidden state or choose crop origins. Validation predictions always use the ordinary causal full sequence.",
+      "inference_cost": "Unchanged deployed GRU128 cost; training sampler and exposure matching are the main engineering costs.",
+      "expected_info_value": "Low-to-medium and lower priority than I1/I2. It is a distinct intervention, but the flat position curve and failed resets give it a weak prior. Explicitly deferred rather than supported by a convenient non-discriminating proxy."
+    }
+  ]
+}
