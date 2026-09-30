@@ -1,0 +1,75 @@
+{
+  "id": "QMARK-CONTROLS-02",
+  "status": "complete",
+  "finalized_utc": "2026-09-30T23:38:40.721178+00:00",
+  "location": "beleriand:/home/grinchenkoeg/WunderFunder-creative",
+  "empirical_attempts": 2,
+  "empirical_completed": 2,
+  "empirical_failed_attempts": 0,
+  "runs": [
+    {
+      "id": "PRIOR02",
+      "code_commit": "d0f7f06bce30c71b92922dcb20f4fb419bb097d9",
+      "script_seconds": 7.528428579680622,
+      "process_wall_seconds": 7.83,
+      "max_rss_kib": 1041472,
+      "exit_code": 0,
+      "log": "prior-run.log"
+    },
+    {
+      "id": "DETECTOR02",
+      "code_commit": "7b86a5cbbca96a2b7ea29627009f2db69b197ace",
+      "script_seconds": 36.87966930679977,
+      "process_wall_seconds": 37.58,
+      "max_rss_kib": 1054124,
+      "exit_code": 0,
+      "log": "detector-run.log"
+    }
+  ],
+  "script_seconds_total": 44.40809788648039,
+  "gpu_jobs": 0,
+  "forecasting_fits": 0,
+  "WP_queries": 0,
+  "submissions": 0,
+  "feature_columns": [
+    "i0_dv0",
+    "i0_dv1",
+    "i0_dv2",
+    "i0_dv3"
+  ],
+  "targets_read": false,
+  "validation_features_read": false,
+  "prediction_caches_read": false,
+  "metadata_caveat": "Historical label-derived classes are reused for sampling/reporting only; no fresh target values or class predictor inputs.",
+  "independent_correctness_checks": {
+    "prior": "passed",
+    "detector": "passed"
+  },
+  "synthetic_failure_count": 1,
+  "retained_technical_receipts": [
+    "detector-selftest-failure-01.log",
+    "detector-preexecution-fix.json",
+    "freeze-crossing-receipt.json"
+  ],
+  "technical_impact": "Synthetic-only compatibility/freeze issues preserved; no empirical rerun or scientific recipe change.",
+  "budgets": {
+    "real_empirical_recipes_max": 2,
+    "parallel_remote_analyses_max": 1,
+    "per_recipe_wall_seconds_max": 900,
+    "per_recipe_threads_max": 2,
+    "per_recipe_memory_gib_max": 10,
+    "new_disk_mib_max": 250,
+    "bootstrap_draws_max": 1000,
+    "surrogate_seeds_max": 3,
+    "new_GPU_jobs": 0,
+    "forecasting_fits": 0,
+    "WP_queries": 0
+  },
+  "uncertainty": "1000 paired whole-chain bootstrap draws within half/class, fitted nuisance tables and 3 surrogate seeds fixed. Reused data; not independent confirmation or training-seed uncertainty.",
+  "publication": {
+    "github_uploads": 0,
+    "external_uploads": 0,
+    "user_pause_remains": true
+  },
+  "next_step": "next-feature-study.md is proposed only, not preregistered or allocated."
+}
