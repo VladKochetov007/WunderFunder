@@ -1,0 +1,41 @@
+{
+  "status": "RUNNING_LOAD_ONLY",
+  "unit": "mingru-trained-load-94d111d4362943b7849649b096abebaa",
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--unit",
+    "mingru-trained-load-94d111d4362943b7849649b096abebaa",
+    "-p",
+    "CPUQuota=100%",
+    "-p",
+    "MemoryMax=4294967296",
+    "-p",
+    "MemorySwapMax=0",
+    "--",
+    "taskset",
+    "-c",
+    "35",
+    "nice",
+    "-n",
+    "10",
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "20s",
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-mingru-forecast/native-preparation/check_trained_load.py",
+    "--worker"
+  ],
+  "source_sha256": {
+    "research/iterations/2026-10-02-mingru-forecast/native-preparation/check_trained_load.py": "e8b0616ce18fd3f62fda7cdf0e2573ee525c8bec0c125dc912a5395083c51d65",
+    "research/iterations/2026-10-02-mingru-forecast/native-preparation/native_adapter.py": "3cd6766977822b2c4f544f4cf9843f6cc9be68d85cdae7e6eba95ee52a123777",
+    "research/iterations/2026-10-01-context-replay/run.py": "3c8861bda56f7dfff197ccb1fd78f2407eab1371d6535f42f0f4563e1b40af4f",
+    "artifacts/runs/oct02_mingru_s3h2_f0/model_ep1.pt": "46f2a12e69038670ddd3d80817e03d5822e9759ee4793e087eb32d5a761488c6"
+  },
+  "inference_rows": 0,
+  "forecast_metric_queries": 0,
+  "fits": 0
+}
