@@ -1,0 +1,79 @@
+{
+  "id": "SCALARPLE01-GENERATED-GPU-01",
+  "created_utc": "2026-10-01T03:48:02.348201+00:00",
+  "SCALARPLE_generated_GPU_probe_authorized": true,
+  "competition_inputs_authorized": false,
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "proposal_sha256": "837c2e646e438478ec9add3806337e40fafb93a3218edc94a03ba953cea06a87",
+  "freeze_sha256": "37f8694fb8a3ac6758564a91ee33edbba204a4ed8e82be437fe014720cc761ef",
+  "independent_review_sha256": "be9468d14daa98b92a1256191e0384d7bf35ce029632fe2c2aeb7126165abd8a",
+  "sources": {
+    "research/iterations/2026-10-01-overnight/scalar/scalar_model.py": "707f134fb29db3ee9464af6f9eedae3b4fd8397898802aa27ac8f7672d6b6f86",
+    "research/iterations/2026-10-01-overnight/scalar/gpu_probe.py": "86a9202deb0c5fc7fdf140c15686080a8bd0b72c6887ca332ac1d02ff2855948",
+    "research/iterations/2026-10-01-overnight/scalar/gpu_initial_parity.py": "878dbd85d2bf7a9027569432edcc60a5cad6ebfdae4008cd956896fa97e67569",
+    "research/iterations/2026-10-01-overnight/scalar/gpu_scalar_oracle.py": "5a5863f5eb99c552e1ec4b8d4444a0d290d7e8be909b084bdbfc498a54c59475",
+    "research/iterations/2026-10-01-overnight/scalar/make_gpu_fixture.py": "4f6a01e1ea2a76beccc90c01b5b87d8a09e892e27505669055a84fd582a03d8b",
+    "research/iterations/2026-10-01-overnight/scalar/check_cpu.py": "2e91e8e631f6ed6a74a603e0091529f675798aea6524ddd069fd603364594617",
+    "research/iterations/2026-10-01-overnight/scalar/cpu-check-attempt03.json": "5c6fe4300c17e7485a4f924c9f247e9e4bba0db70d030829fe5f894be37a5f7e",
+    "research/iterations/2026-10-01-overnight/scalar/spec.md": "c1d45b3c36279c0c8697b17982cf3ba45fb1691d32a796ede37d9621d4c549f5",
+    "research/iterations/2026-10-01-overnight/training/train_aux.py": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f",
+    "src/wnn/nn.py": "160447df28fa090684757551a75ee61d4f35c8c8c16c246324565306f46b8ec4",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/outcomes.py": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+    "src/wnn/resources.py": "471b33adb48a897e3cd68374edb6be4f683a00d947296d97eb39024dee14ca89",
+    "research/iterations/2026-10-01-overnight/critic/scalar-independent-forward-fixture/expected.npy": "87a55f62850c81769af15992c56470d53740be08fb87cb9f763076a899a0ba29",
+    "research/iterations/2026-10-01-overnight/critic/scalar-independent-forward-fixture/raw.npy": "8e04841aaa2a62df8e2d0f88b343938311921b111623c5a56532385bfc258819",
+    "research/iterations/2026-10-01-overnight/critic/scalar-independent-forward-fixture/weights.npz": "ce4006ee3e5830bd1d215622ae2fa3d6e7908ca137dbeff128d60867ea3964f6"
+  },
+  "fixture_sha256": "920419f0637425efb077128d36856f3e9c6de1b94e442b55ab92f3bbcf4074f8",
+  "arms": [
+    "control",
+    "ple"
+  ],
+  "resources": {
+    "GPU_count": 1,
+    "physical_GPU": 6,
+    "CPU_affinity": [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "WNN_THREADS": 4,
+    "total_stage_seconds": 600,
+    "per_arm_seconds": 240,
+    "host_RSS_bytes": 8589934592,
+    "GPU_process_MiB": 5632,
+    "torch_allocator_bytes": 5905580032,
+    "monitor_interval_seconds": 0.5,
+    "monitor_note": "External orchestration must log process identity, elapsed, sampled group RSS and NVML GPU process memory. Torch allocator cap is enforced, RSS/NVML sampling is not a cgroup limit and can miss between-sample peaks. Deadlines terminate only the owned process group; preserve exit reason and partial logs."
+  },
+  "gate": {
+    "memory": "Every arm peak reserved<=5.5GiB and external process GPU<=5632MiB and sampled groupRSS<=8GiB; no OOM/timeout/nonfinite or initial oracle failure.",
+    "timing": "All seven postwarmup step wall times enter the median; report all ten including warmups, no favorable filtering.",
+    "remaining_time_upper_bound_seconds": "1.25 * 15000 * (2 * control_median_wall_seconds + 3 * ple_median_wall_seconds) + 5400",
+    "remaining_time_deadline_UTC": "2026-10-01T08:23:30Z",
+    "cost_interpretation": "Two GPUs for eight screening parents (four control/four candidate), then one final candidate parent; 25% parent margin plus90min reserve for nine H2 fits, prediction/native checks and delivery. Require upper bound <= remaining wall seconds at completed probe. This is a feasibility estimate, not a measured full-training guarantee.",
+    "no_fit_automatic_authorization": "Passing this preflight only permits root to consider separate train-only knots/native-runtime/forecastfit allocations.",
+    "no_new_long_screen_parent_after_UTC": "2026-10-01T06:00:00Z",
+    "no_new_final_parent_after_UTC": "2026-10-01T07:00:00Z",
+    "independent_cutoffs": "Formula does not waive fixed parent start cutoffs or final verification reserve."
+  },
+  "root_prelaunch_observation": {
+    "GPU6_free_MiB": 15973,
+    "GPU6_used_MiB": 1,
+    "GPU6_foreign_compute_processes": 0,
+    "own_running_GPU_jobs": 0
+  },
+  "execution_authority": "Run exact frozen control then PLE once each onGPU6, using transparent bounded wrapper. Preserve wrapper source/hash before launch, exactargv, processPID/starttime/group identity, all0.5second resource samples, stdout/stderr and exits. Recheck source/fixture identity and freeGPU immediately before each arm. Stop only owned verified process group on declared failure; never signal unrelated users.",
+  "external_limits": "240seconds perarm,600seconds entirestage,8GiB sampled aggregateRSS,5632MiB sampled GPU process memory; sampling may miss between-sample peaks and is not a hard cgroup guarantee. PyTorch allocator bound independently checked. Any unexpected foreign GPU6 process contaminates/fails own attempt. No retry.",
+  "not_automatically_authorized": [
+    "competition knot fitting",
+    "real-input native timing",
+    "real forecasting fits/predictions",
+    "quality readouts"
+  ]
+}

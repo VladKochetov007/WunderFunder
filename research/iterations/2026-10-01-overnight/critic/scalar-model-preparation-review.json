@@ -1,0 +1,52 @@
+{
+  "created_utc": "2026-10-01T03:37:51.562247+00:00",
+  "status": "CPU_AND_NATIVE_SCALAR_CORRECTNESS_PASS_GPU_ALLOCATION_NOT_APPROVED_YET",
+  "sources": {
+    "scalar/scalar_model.py": "707f134fb29db3ee9464af6f9eedae3b4fd8397898802aa27ac8f7672d6b6f86",
+    "scalar/native/include/wnn/scalar_embedding.hpp": "d87ee091bb34383349aa5601b7f5bd2aba20c54569e29b82834510880402739e",
+    "scalar/native/include/wnn/model.hpp": "2ee742ab55d648d5ef54e0085fc1990e5dec80eaf965bf330162673def5f94d1",
+    "scalar/native/src/bindings.cpp": "a3ec8e19492442cfa3267d463e2a0d80d17019bbe7f5354f07c0391198cb000a",
+    "scalar/gpu_probe.py": "f8227d9e3e1e6a148af8d795f37e2bdd4c20d7d46435fa0b3f4d32e451b44546",
+    "critic/scalar-independent-gradient.py": "4692ea5b2bf39a91eee8552d2c090443b33ce53302478de41f3c0b17b9f14723",
+    "critic/scalar-independent-gradient-result.json": "0e69066c3f037447d58a2806d342a47a763f2deea5355fffb296630691a8ac00",
+    "critic/scalar-independent-forward.py": "5b01b4ce7303458351fe21607093c6479433f8b4406e8cf40f865dc3f6643415",
+    "critic/scalar-spec-architecture.md": "b78a6dead4a04ba848c39c52a073f354a697feabaff1ef59d04ecc1a54714a20",
+    "critic/scalar-spec-oracle.py": "7dfeb1b7af96285b818a57512245e1e70518400fbab7a264eb0fa414934c52fd",
+    "critic/scalar-independent-forward-torch.json": "7f8bbe83c6b1a891a3602af1d4e5fa170191d6f4adf20a001e0beda68a2927a2",
+    "critic/scalar-independent-forward-v2.json": "cdbed595ae7c2d32260dacfd967cb9dc58daafbda4f15ac8f3dda0693b1a774e",
+    "critic/scalar-independent-forward-avx2.json": "570a528b9eddcb6602c88ef51adc0630d819e26150b2aa9118710afd99904d11",
+    "critic/scalar-independent-forward-v3.json": "8a276fa6287f876b0b6364cac6d7f1e0971a72f156cdec2ffcac06436a29e27b"
+  },
+  "checks": [
+    "Independent literal-search float64 triangular-basis gradient reference across random, repeated-bin, clamped, exact/adjacent-knot cases; max abs 1.8773e-5 and relative RMS <9e-7",
+    "Independent blind stdlib oracle versus 97 generated rows: Torch/all three CP311 native scalar engines bitexact, all no-grad/frozen/trainable dispatch modes equal",
+    "Native changes inspected: raw input precedes ordinary normalized path, dense projection FP32, volatile interpolation intermediates forbid FMA contraction, old backbone remains intact",
+    "Latest loader demands external knot/count array hashes, exact immutable buffer dtype/values and finite FP32 scalar state"
+  ],
+  "pending": [
+    "Actor final generated full-parent GPU protocol/source binding and separate AMP correctness test",
+    "CUDA boundary/subnormal/interpolation/custom table scatter checks; initial base-gradient/RNG parity is not optimizer-update parity",
+    "Fresh current-source author CPU/native receipts and full source freeze",
+    "Later separately allocated train-only knot fit/runtime/training preparation, no permission inferred here"
+  ],
+  "claim_limits": [
+    "Forward oracle covers new 16-vector aggregate only; whole-model projection/GRU native comparisons remain author evidence",
+    "Independent gradient receipt binds earlier source 5cb4b2e0, later loader edits do not alter interpolation/backward; forward receipt binds newer 707f134f",
+    "Zero residual can change signed-zero bytes; only generated observed initial byte parity is asserted",
+    "Finite table values can overflow prescribed b-a; finite model/output gates remain necessary",
+    "GPU scatter summation and TF32 need tolerances/recorded policy, not CPU byte identity",
+    "No empirical quality or runtime feasibility claim"
+  ],
+  "environment_attempts": [
+    {
+      "attempt": "First CP311 runner calls for all three native modes accidentally included an extra python positional argument",
+      "exit_code": 2,
+      "failure": "runner already supplies Python, attempted to open repo/python before importing checker",
+      "remedy": "Removed only duplicate executable word; unchanged checker and native source then passed"
+    }
+  ],
+  "empirical_data_reads": 0,
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "GPU_used": false
+}

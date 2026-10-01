@@ -1,0 +1,70 @@
+{
+  "status": "PASS_FOR_ROOT_TO_ALLOCATE_GENERATED_GPU_PROBE_ONLY",
+  "created_utc": "2026-10-01T03:46:31.227571+00:00",
+  "proposal_sha256": "837c2e646e438478ec9add3806337e40fafb93a3218edc94a03ba953cea06a87",
+  "preparation_freeze_sha256": "37f8694fb8a3ac6758564a91ee33edbba204a4ed8e82be437fe014720cc761ef",
+  "source_manifest_all_16_local_remote_match": true,
+  "generated_probe_fixture_remote_hash_match": true,
+  "reviewed_files": [
+    "scalar/gpu_probe.py",
+    "scalar/gpu_initial_parity.py",
+    "scalar/gpu_scalar_oracle.py",
+    "scalar/gpu-proposal.json",
+    "scalar/GPU-PREP-FREEZE.json"
+  ],
+  "correctness_scope": [
+    "Independent generated 97-row literal scalar oracle now executed prospectively on CUDA; independent dense float64 triangular-basis VJP tests boundary and repeated-bin accumulation with predeclared tolerances",
+    "Full32x2000 initial AMP output/hidden/unclipped old gradient and constructor CPU/CUDA RNG checks; no optimizer-update parity assertion",
+    "Full32x20k raw/input/labels resident plus next raw/target/mask/propensity clone; actual auxiliary and EMA teacher paths; fused AdamW, scaler, clipping, scheduler",
+    "All10 training steps finite/no scaler decrease and optimizer state coverage; active scalar parameters change, scalar buffers remain immutable",
+    "Global TF32/matmul/cuDNN flags recorded; scalar FP32 dtype does not imply full-mantissa GPU projection"
+  ],
+  "prospective_gates": {
+    "memory": "Every arm peak reserved<=5.5GiB and external process GPU<=5632MiB and sampled groupRSS<=8GiB; no OOM/timeout/nonfinite or initial oracle failure.",
+    "timing": "All seven postwarmup step wall times enter the median; report all ten including warmups, no favorable filtering.",
+    "remaining_time_upper_bound_seconds": "1.25 * 15000 * (2 * control_median_wall_seconds + 3 * ple_median_wall_seconds) + 5400",
+    "remaining_time_deadline_UTC": "2026-10-01T08:23:30Z",
+    "cost_interpretation": "Two GPUs for eight screening parents (four control/four candidate), then one final candidate parent; 25% parent margin plus90min reserve for nine H2 fits, prediction/native checks and delivery. Require upper bound <= remaining wall seconds at completed probe. This is a feasibility estimate, not a measured full-training guarantee.",
+    "no_fit_automatic_authorization": "Passing this preflight only permits root to consider separate train-only knots/native-runtime/forecastfit allocations.",
+    "no_new_long_screen_parent_after_UTC": "2026-10-01T06:00:00Z",
+    "no_new_final_parent_after_UTC": "2026-10-01T07:00:00Z",
+    "independent_cutoffs": "Formula does not waive fixed parent start cutoffs or final verification reserve."
+  },
+  "resource_scope": {
+    "GPU_count": 1,
+    "physical_GPU": 6,
+    "CPU_affinity": [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "WNN_THREADS": 4,
+    "total_stage_seconds": 600,
+    "per_arm_seconds": 240,
+    "host_RSS_bytes": 8589934592,
+    "GPU_process_MiB": 5632,
+    "torch_allocator_bytes": 5905580032,
+    "monitor_interval_seconds": 0.5,
+    "monitor_note": "External orchestration must log process identity, elapsed, sampled group RSS and NVML GPU process memory. Torch allocator cap is enforced, RSS/NVML sampling is not a cgroup limit and can miss between-sample peaks. Deadlines terminate only the owned process group; preserve exit reason and partial logs."
+  },
+  "external_controller_requirements": [
+    "Bind this exact proposal/freeze and sources in explicit root allocation, keep competition_inputs_authorized false",
+    "Sequential control then PLE on same GPU6; immediate free>=6144MiB and no other compute process check for each",
+    "Actual owned PID/start identity and process group receipts; externally enforce240s per arm600s total and own-group-only termination",
+    "Sample GPU process memory<=5632MiB and groupRSS<=8GiB every.5s, report sampling limitations and contamination; no retry/favorable trace omission",
+    "No numerical/memory/cost repair or batch/precision/rank/optimizer changes based on probe result; preserve all failure logs"
+  ],
+  "limits": [
+    "No GPU process or competition data read was executed by this review",
+    "Memory and cost feasibility are unmeasured until probe; cost formula is an estimate and does not waive06:00/07:00 cutoffs",
+    "Passing generated GPU probe does not allocate train-only knot estimation, real fixture timing, forecast fits, prediction or WP",
+    "A future full trainer requires independent transformation/argv/frozen-source review; this probe is a generated manual transcription of active ordinary loss/optimization blocks"
+  ],
+  "empirical_data_reads": 0,
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "GPU_used": false
+}
