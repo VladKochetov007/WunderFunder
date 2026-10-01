@@ -1,0 +1,113 @@
+{
+  "status": "PASS_SOURCE_ONLY_CORE_INTEGRITY_WITH_RECEIPT_COVERAGE_GAPS",
+  "UTC": "2026-10-01T05:02:04.693303+00:00",
+  "reviewer": "architecture_challenge independent source-only peer review",
+  "checker_sha256": "7095ec7acf397ec321069f567d32388db0e542c7efe75c88565fb6661b155121",
+  "plan_sha256": "8b3b0f25bb22ecab73857aed7f75d8afae7c92c39e51c9a76b7189a9985a17a1",
+  "allocation_sha256": "ae7cab221632bf76e0bb9e70b96b686ac9739b5b971f368c250dbe168df2d60c",
+  "scope": {
+    "actual_checkpoints_read": false,
+    "prediction_arrays_read": false,
+    "dataset_arrays_read": false,
+    "fitted_knot_arrays_read": false,
+    "actual_execution_receipts_read": false,
+    "model_forward_executed": false,
+    "grader_executed": false,
+    "checker_executed": false,
+    "GPU_used": false,
+    "active_training_sources_modified": false,
+    "only_this_review_JSON_written": true
+  },
+  "source_hash_checks": {
+    "research/iterations/2026-10-01-overnight/scalar/train.py": true,
+    "research/iterations/2026-10-01-overnight/scalar/training_recipe.py": true,
+    "research/iterations/2026-10-01-overnight/scalar/scalar_model.py": true,
+    "research/iterations/2026-10-01-overnight/scalar/predict_scalar.py": true,
+    "research/iterations/2026-10-01-overnight/scalar/check_fit.py": true,
+    "research/iterations/2026-10-01-overnight/scalar/input_preflight.py": true,
+    "research/iterations/2026-10-01-overnight/scalar/run_training.py": true,
+    "research/iterations/2026-10-01-overnight/training/train_aux.py": true,
+    "src/wnn/xl_transformer.py": true,
+    "src/wnn/heuristics.py": true,
+    "src/wnn/nn.py": true,
+    "src/wnn/markov.py": true,
+    "src/wnn/propensity.py": true,
+    "src/wnn/ticks.py": true,
+    "src/wnn/evaluation.py": true,
+    "src/wnn/gmetric.py": true,
+    "src/wnn/symreg.py": true,
+    "src/wnn/__init__.py": true,
+    "src/wnn/features.py": true,
+    "src/wnn/metric.py": true,
+    "src/wnn/atom_head.py": true,
+    "src/wnn/outcomes.py": true,
+    "src/wnn/infer.py": true,
+    "src/wnn/resources.py": true,
+    "src/wnn/splits.py": true,
+    "src/wnn/quant.py": true,
+    "src/wnn/two_stream.py": true,
+    "src/wnn/event_attn.py": true,
+    "src/wnn/streaming.py": true,
+    "src/wnn/viz.py": true,
+    "src/wnn/data.py": true
+  },
+  "reviewed_source_and_contract_hashes": {
+    "research/iterations/2026-10-01-overnight/critic/scalar-check-training-actual.py": "7095ec7acf397ec321069f567d32388db0e542c7efe75c88565fb6661b155121",
+    "research/iterations/2026-10-01-overnight/scalar/training-plan.seed3.v1.json": "8b3b0f25bb22ecab73857aed7f75d8afae7c92c39e51c9a76b7189a9985a17a1",
+    "research/iterations/2026-10-01-overnight/scalar/training-seed3-allocation.json": "ae7cab221632bf76e0bb9e70b96b686ac9739b5b971f368c250dbe168df2d60c",
+    "research/iterations/2026-10-01-overnight/scalar/TRAINING-SEED3-FREEZE.json": "9ff40fcba6c7e36d57f9ea14527efab77620947450ac3a5578a0833373101658",
+    "research/iterations/2026-10-01-overnight/scalar/run_training.py": "a7f0e4edbfe27ec788e9891097068ce895db9b311883a3bc3ac31197ac4bd7d5",
+    "research/iterations/2026-10-01-overnight/scalar/training_recipe.py": "d83ea62e73fa877fd979c6b10338c5ae86d4d499e6cb585b41db3e543dd8c3ac",
+    "research/iterations/2026-10-01-overnight/scalar/train.py": "2f0a0d75abfb2e322c601fe84ef0cbc985aec2d26085bf2688c698d0822ecc4e",
+    "research/iterations/2026-10-01-overnight/scalar/predict_scalar.py": "c58f117e19c91e9d5c3d96475fc93ef375cd572d909957ef6927a77eb2ce2c4b",
+    "research/iterations/2026-10-01-overnight/scalar/check_fit.py": "383808649f8027a98df8ffe2b5f3d867c916697dd89767c374eda9d854cc865f",
+    "research/iterations/2026-10-01-overnight/scalar/scalar_model.py": "707f134fb29db3ee9464af6f9eedae3b4fd8397898802aa27ac8f7672d6b6f86",
+    "research/iterations/2026-10-01-overnight/scalar/fit_knots.py": "352c613eaf910f42858ad23b3b2419b321ec8d358dd85876f417d8efc6ee335d"
+  },
+  "verified_contract": {
+    "authorized_fits": 8,
+    "OOF_files": 4,
+    "driver_job_receipts": 22,
+    "saved_epoch_files": 24,
+    "parsed_args_per_job": 103,
+    "exact_scientific_recipe": "Root allocation and frozen plan hashes are pinned; all31 imported source hashes are checked. Parent control/PLE args differ only by name; H2 args differ only by name/init/freeze. Seed3 folds0/1 and parent ep3\u2192H2 ep1 are fixed.",
+    "lineage": "Derived per-fit and OOF allocations are reconstructed exactly including root allocation hash, input snapshot and actual parent/endpoint hash. All24 saved epochs verify full args, schema, shape, dtype and finiteness. model.pt must equal fixed endpoint.",
+    "frozen_tensors": "For both H2 epochs, every non-head tensor is byte-equal to its exact parent endpoint, including normalizers, scalar knots/counts/raw indices/table/projection. Target output head rows must change. PLE parent projection/table activity and control/PLE trunk nonidentity are checked.",
+    "target_isolation": "Checker source contains no forward call or metric/grader. NPZ reads select only valid_targets.row_group and chain_folds split/fold/row_group; original target archive is hashed opaquely. Predictor source uses SequenceFile.read(targets=False,mask=False). Absence of target reads is supported by frozen source, not inferred solely from receipt flags.",
+    "OOF_integrity": "Each F32(1873,20000,2) file is hash-bound to ep1 and exact fold rows/order/input before-after hashes. Selected467/469 sequences must be finite and every unselected sequence entirelyNaN. Exactly four declared caches are expected.",
+    "no_quality_selection": "All history rows must record skipped evaluation with zero placeholder metric; no epoch selection or WP computation. This is integrity checking, not quality evidence.",
+    "source_contract_counts": "22jobs=2input audits+8training+8author endpoint checks+4OOF producers; 24epochs=4parents\u00d74+4heads\u00d72."
+  },
+  "findings": [
+    {
+      "id": "AUX_PROCESS_RECEIPT_BINDING",
+      "severity": "nonblocking_coverage_gap",
+      "checker_lines": [
+        55,
+        88,
+        136
+      ],
+      "finding": "Exact process argv is independently checked for8fit and4OOF jobs, but not the8check_fit jobs or2input_preflight jobs. Exact parent/head timeout and CUDA selection are checked for training; OOF/check/preflight cap_seconds and most environment values are only self-reported. Generic duration<=recorded cap does not independently bind those10 auxiliary commands or their declared caps to the frozen driver contract.",
+      "why_not_a_core_blocker": "Hash-bound run_training.py explicitly constructs the correct fixed argv/env/caps, and semantic author/input/OOF receipts plus artifact hashes are separately checked. This is an independent receipt-coverage limitation, not evidence of incorrect training.",
+      "recommended_checker_only_hardening": "Reconstruct all22 expected argv/environment/cap tuples from plan/driver contract: preflight300s, check120s, OOF prediction_seconds600, appropriate empty or lane CUDA and thread settings. No active training source change is needed."
+    },
+    {
+      "id": "GLOBAL_INPUT_ORDER_AND_RESERVE",
+      "severity": "nonblocking_coverage_gap",
+      "checker_lines": [
+        44,
+        67,
+        137
+      ],
+      "finding": "Per-lane fit-after-prior-check ordering and OOF-after-all-fit-checks are verified. The checker does not independently assert input-before completion precedes every fit, input-after begins after every OOF finishes, or all jobs finish before the frozen4800-second final reserve. The driver enforces these in source; the audit accepts total stage time and parent start cutoff without reconstructing all global temporal relations.",
+      "why_not_a_core_blocker": "Frozen driver order and sampled deadline enforcement provide evidence, with explicitly stated sampling limitations. Counts, lineage, actual tensor freezing and selected/outside prediction validity are independently covered.",
+      "recommended_checker_only_hardening": "Add timestamp comparisons from existing22 receipts, including max end time<=deadline_UTC\u22124800s plus the already acknowledged sampling allowance. Preserve any failure; no model/data rerun is required."
+    }
+  ],
+  "not_claimed": [
+    "No review of actual completed outputs occurred in this peer task.",
+    "No independent inference replay, training recomputation, target-association check or model-quality judgment.",
+    "Sampled resource receipts cannot prove instantaneous peaks; the checker already reports that limit."
+  ],
+  "recommendation": "Suitable for the stated core fit/OOF integrity audit. Before claiming a complete22-job execution-contract audit, add the bounded receipt-only assertions above or retain these limitations explicitly. No computational blocker or target-isolation breach found by this source review."
+}

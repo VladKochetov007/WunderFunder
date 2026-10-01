@@ -1,0 +1,22 @@
+{
+  "status": "PREEXECUTION_CHECKER_CONTRACT_CORRECTION",
+  "UTC": "2026-10-01T05:07:42.004869+00:00",
+  "training_source_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f",
+  "model_pt_fields_from_frozen_AST": [
+    "model",
+    "args",
+    "n_in",
+    "readout",
+    "readout_tilted"
+  ],
+  "model_ep_files_still_require_epoch": true,
+  "v1_preserved_sha256": "7095ec7acf397ec321069f567d32388db0e542c7efe75c88565fb6661b155121",
+  "v2_preserved_sha256": "8cfc06cc35f51c858c97d8493774f33f928711cc2285ed36006a56d7af753537",
+  "v3_sha256": "36a3830e09822e70274a7e8618bb315e64280a960cce83febc5a4a227efd2428",
+  "only_v2_to_v3_change": "Replace unsupported model.pt epoch-field assertion with exact actual five-field schema plus n_in/readout validation; args/state equality to fixed endpoint unchanged.",
+  "diff": "--- scalar-check-training-actual-v2.py\n+++ scalar-check-training-actual-v3.py\n@@ -160,7 +160,7 @@\n      assert all(same(v,state[k]) for k,v in prior.items() if not k.startswith('head.'))\n     hashes[cp.name]=sha(cp)\n    endpoint=ck['model'];endpoints[name]=endpoint\n-   latest=torch.load(path.with_name('model.pt'),map_location='cpu',weights_only=False);assert latest['epoch']==epoch and latest['args']==args and set(latest['model'])==set(endpoint) and all(same(v,latest['model'][k]) for k,v in endpoint.items())\n+   latest=torch.load(path.with_name('model.pt'),map_location='cpu',weights_only=False);assert set(latest)=={'model','args','n_in','readout','readout_tilted'} and latest['n_in']==211 and latest['readout'] is None and not latest['readout_tilted'] and latest['args']==args and set(latest['model'])==set(endpoint) and all(same(v,latest['model'][k]) for k,v in endpoint.items())\n    history=read(path.with_name('history.json'));assert len(history)==epoch+1 and all(r['epoch']==i and r['evaluation_skipped'] and r['metric_placeholder_not_a_readout'] and r['weighted_pearson']==0 for i,r in enumerate(history))\n    if stage=='parent' and job['arm']=='ple':\n     assert torch.count_nonzero(endpoint['scalar.projection'])>0 and not same(endpoint['scalar.table'],initial_table)\n",
+  "actual_execution_receipts_read": false,
+  "checkpoints_predictions_or_dataset_arrays_read": false,
+  "training_sources_changed": false,
+  "WP_queries": 0
+}

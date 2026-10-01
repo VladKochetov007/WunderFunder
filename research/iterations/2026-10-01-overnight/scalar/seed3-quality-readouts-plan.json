@@ -1,0 +1,32 @@
+{
+  "id": "SCALARPLE01-SEED3-FIXED-READOUTS",
+  "created_utc": "2026-10-01T05:07:18.184547+00:00",
+  "status": "PLANNED; not authorized until completed-stage independent actual integrity PASS",
+  "training_plan_sha256": "8b3b0f25bb22ecab73857aed7f75d8afae7c92c39e51c9a76b7189a9985a17a1",
+  "root_training_allocation_sha256": "ae7cab221632bf76e0bb9e70b96b686ac9739b5b971f368c250dbe168df2d60c",
+  "grader_sha256": "800801305721251dda0c26320c1cf2f1ffc468e2843d7d8b61ea06a4f20c70b0",
+  "queries": [
+    {
+      "id": "SCALARPLE01-seed3-paired",
+      "candidate": "on_ple_s3+on_ctl128s4+on_ctlc500",
+      "reference": "on_plectl_s3+on_ctl128s4+on_ctlc500",
+      "plan": "research/iterations/2026-10-01-overnight/scalar/training-plan.seed3.v1.json"
+    },
+    {
+      "id": "SCALARPLE01-seed3-incumbent",
+      "candidate": "on_ple_s3+on_ctl128s4+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctlc500",
+      "plan": "research/iterations/2026-10-01-overnight/scalar/training-plan.seed3.v1.json"
+    }
+  ],
+  "folds": [
+    0,
+    1
+  ],
+  "each_comparison_pooled_delta_min": 0.0003,
+  "each_comparison_each_fold_delta_min": 0,
+  "both_required": true,
+  "if_first_fails_still_complete_second_predeclared_comparison": true,
+  "reads_before_stage_complete": false,
+  "any_retry_or_supplemental_quality_query_authorized": false
+}

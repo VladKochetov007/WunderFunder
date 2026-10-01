@@ -1,0 +1,2232 @@
+{
+  "schema": "wunder-delivery-claim-ledger-v1",
+  "created_utc": "2026-10-01T05:00:12.863469+00:00",
+  "status": "DRAFT_AWAITING_SCALAR_OUTCOME_AND_ROOT_FINALIZATION",
+  "evidence_completed_review_cutoff_utc": "2026-10-01T04:50:09.360317+00:00",
+  "report_path": "research/iterations/2026-10-01-overnight/delivery-report.draft.md",
+  "report_sha256": "a8345b43f3944f168cdac4eee5e601a7877345c1b9558b931810373b660c6068",
+  "scope": {
+    "new_forecast_fits": 0,
+    "new_metric_queries": 0,
+    "new_model_execution": 0,
+    "raw_target_arrays_read": false,
+    "model_pickles_decoded": false,
+    "new_public_submission": false,
+    "github_publication": false,
+    "changes": "Only delivery-report.draft.md and delivery-claim-ledger.json"
+  },
+  "verification": {
+    "completed_evaluation_count": 34,
+    "all_completed_evaluation_hashes_match": true,
+    "evaluation_event_counts": {
+      "started": 34,
+      "completed": 34
+    },
+    "missing_report_evidence_links": []
+  },
+  "claims": [
+    {
+      "id": "C01",
+      "claim_ru": "На срезе завершённой части новая прогнозная модель не повышена до основного решения; SCALARPLE ещё ожидается.",
+      "status": "interim_pending_scalar",
+      "sources": [
+        "state.json",
+        "scalar/training-seed3-allocation.json",
+        "quant3/quality-decision.json",
+        "ctxmem/quality-decision.json",
+        "sam/closure.json"
+      ],
+      "limits": [
+        "Не является итогом восьмичасовой кампании.",
+        "state/frontier отстают от последней подготовки; текущая scalar quality-оценка здесь отсутствует."
+      ]
+    },
+    {
+      "id": "C02",
+      "claim_ru": "44 завершённых fit, 44 heldfold jobs (40 GPU и 4 native), 4 parent integrity, 34 WP.",
+      "status": "completed_slice",
+      "numbers": {
+        "forecast_fits": 44,
+        "GPU_heldfold_jobs": 40,
+        "native_heldfold_jobs": 4,
+        "parent_integrity_checks": 4,
+        "WP_readouts": 34,
+        "scalar_additionally_allocated_fits": 8,
+        "scalar_additionally_allocated_OOF": 4,
+        "global_max_fits": 64,
+        "global_max_WP": 64
+      },
+      "sources": [
+        "state.json",
+        "completed-fit-archive-44.json",
+        "completed-fit-archive-44.local-verification.json",
+        "evaluation-ledger.jsonl",
+        "scalar/training-seed3-allocation.json"
+      ],
+      "limits": [
+        "Счётчик завершённой части до исхода начальных scalar8.",
+        "Синтетические preflight, input-only QRENEWAL и target-free runtime не считаются forecast fit/WP."
+      ]
+    },
+    {
+      "id": "C03",
+      "claim_ru": "Исторический public V1 0.6641 сохранён; exposed local fixed4 H2 0.7023672255138177 и fixed3 0.7017424296043642 не являются public rank.",
+      "status": "historical_public_plus_local",
+      "numbers": {
+        "historical_public_V1": 0.6641,
+        "fixed4H2_local": 0.7023672255138177,
+        "fixed3_local": 0.7017424296043642
+      },
+      "sources": [
+        "contract.json",
+        "delivery-staging-manifest.json",
+        "evaluations/DEPLOYMENT-01-fixed3.json"
+      ],
+      "limits": [
+        "Public score взят из исторической записи кампании, не перепроверен новой отправкой или запросом leaderboard.",
+        "Исторический V1 использует governor; fixed4 local не равен его неизменному поведению на любом host."
+      ],
+      "delivery_roles_pending_scalar": {
+        "primary_preserved": "candV1_ft2.zip",
+        "separate_fixed_runtime_fallback": "baseline3_fixed.zip qualified measured v3 only",
+        "experimental_not_promoted": "experimental/quant3_fixed.zip"
+      }
+    },
+    {
+      "id": "C04",
+      "claim_ru": "AUXoff/TRANS/ENSHEAD/SCALE/SAM/CTXMEM закрыты на своих неизменённых gates.",
+      "status": "fixed_recipes_failed",
+      "sources": [
+        "training/plan.json",
+        "transition/spec.md",
+        "ensemble/spec.md",
+        "sam/closure.json",
+        "ctxmem/quality-decision.json"
+      ],
+      "evaluation_ids": [
+        "TRAIN-AUX02-primary",
+        "TRANSHEAD-01-primary",
+        "ENSHEAD-01-primary",
+        "ENSHEAD-01-scale-primary",
+        "SAM-seed3-paired",
+        "CTX-joint-memory-vs-current",
+        "CTX-joint-memory-vs-plain"
+      ],
+      "limits": [
+        "Отрицательные результаты конкретных рецептов, не универсальное опровержение семейств.",
+        "SAM paired/incumbent — одно и то же численное свидетельство."
+      ]
+    },
+    {
+      "id": "C05",
+      "claim_ru": "Q3 сохраняет качество quantization в допуске, но полезный прирост +0.00025838484890994273 меньше +0.0003.",
+      "status": "closed_not_promoted",
+      "sources": [
+        "quant3/quality-decision.json",
+        "evaluations/Q3-quant-vs-fp16.json",
+        "evaluations/Q3-quant-vs-baseline3.json"
+      ],
+      "limits": [
+        "GPU plain-anchor comparator; не native-versus-native superiority.",
+        "Не статистическая equivalence/noninferiority и не hidden подтверждение."
+      ]
+    },
+    {
+      "id": "C06",
+      "claim_ru": "QRENEWAL отвергнут до таргетов и forecast fits: 295833 resets, ноль пропусков старым детектором, обе clock gates не проходят.",
+      "status": "input_falsifier_failed",
+      "numbers": {
+        "train_only_chains": 256,
+        "marked_resets": 295833,
+        "missed_by_old_detector": 0,
+        "clock_median_errors": [
+          0.583011342702833,
+          0.6175023221662086
+        ]
+      },
+      "sources": [
+        "critic/review-renewal-outcome.json",
+        "renewal/execution-receipt.json"
+      ],
+      "limits": [
+        "Нулевые target/model/metric расходы относятся к этому input-only этапу.",
+        "Не опровергает любое возможное латентное кодирование clock."
+      ]
+    },
+    {
+      "id": "C07",
+      "claim_ru": "Baseline3 unchanged all3ISA correctness; полный v3 runtime проходит callback и fullprocess gates.",
+      "status": "qualified_measured_v3_only",
+      "numbers": {
+        "status": "PASS",
+        "qualification_conjunction": {
+          "functional_complete": true,
+          "callback_39_4M_at_most_50min": true,
+          "callback_SMT58_below_5pct": true,
+          "whole_trace_SMT58_below_5pct": true,
+          "full_process_projection_at_most_60min": true,
+          "actual_process_at_most_65min": true
+        },
+        "scope": "Single allocated target-free full-valid existing-baseline3 runtime audit; no quality query, model change, or fallback-ISA coverage.",
+        "callbacks": 37460000,
+        "emitted_prediction_pairs": 37274573,
+        "sequences": 1873,
+        "callback_minutes_observed": 41.22391475454594,
+        "callback_minutes_projected_39_4M": 43.35884253414602,
+        "full_process_minutes_observed": 43.16102469569693,
+        "full_process_minutes_projected_39_4M": 45.39627263775919,
+        "io_decode_conversion_seconds": 37.9998331554234,
+        "validation_checksum_seconds": 45.853394511155784,
+        "input_hash_before_seconds": 13.598222130909562,
+        "input_hash_after_seconds": 13.481270264834166,
+        "max_rss_KiB": 347560,
+        "max_observed_os_threads": 2,
+        "all_observed_TIDs_final_CPU_ticks": {
+          "4127744": {
+            "user_ticks": 256007,
+            "system_ticks": 1165,
+            "affinity": [
+              18
+            ]
+          },
+          "4127914": {
+            "user_ticks": 0,
+            "system_ticks": 0,
+            "affinity": [
+              18
+            ]
+          }
+        },
+        "callback_activity": {
+          "cpu18": {
+            "total_ticks": 247404,
+            "busy_ticks": 247397,
+            "busy_fraction": 0.9999717061971513
+          },
+          "cpu58": {
+            "total_ticks": 247160,
+            "busy_ticks": 73,
+            "busy_fraction": 0.00029535523547499597
+          }
+        },
+        "whole_trace_activity": {
+          "cpu18": {
+            "total_ticks": 256007,
+            "busy_ticks": 256000,
+            "busy_fraction": 0.9999726569976602
+          },
+          "cpu58": {
+            "total_ticks": 255688,
+            "busy_ticks": 75,
+            "busy_fraction": 0.0002933262413566534
+          }
+        },
+        "targets_decoded": false,
+        "scoring_masks_read": false,
+        "WP_queries": 0,
+        "cache_limit": "Complete input prehash warmed the page cache; this is not a cold-cache process guarantee.",
+        "source_sha256": "799b7c10be31225fc6d3a92834489e02b9a2980b42f0c25200cdc532f34eca74",
+        "inputs": {
+          "execution/launch-result.json": "1202f368ce48d2f187179feea68286ffa28d831a94355f587eccedc2626c5ed1",
+          "execution/worker-result.json": "343b6c5252a037bc753901253cf174cbe6a2777a53ce00c6735054d9a3312005",
+          "execution/sequences.jsonl": "810e83fe5d2cd7d5395681e3f5bbf4d61fe1fd3304ca9a75237016d7f80f33d9",
+          "plan.json": "1337643db2d5b3d07932ddc47c1a2f808d57c31a41a80c85eee04e622bda1275",
+          "allocation.json": "bf83294836a822387acdac74803b6715c87290b96c66c462483f2d97ddf0e63d"
+        },
+        "supersedes_for_RSS_scope_only": {
+          "prior_summary_sha256": "3274b4847275ada0db455d652cdd1c6cdc8fb79c77a55d3a5c17236efe0362dd",
+          "original_preserved": true,
+          "reason": "The prior max_rss_KiB field copied final resource.getrusage().ru_maxrss; /proc sequence status snapshots contain a slightly higher observed RSS. Use max across all recorded RSS/HWM/getrusage observations for the overall reported peak."
+        },
+        "ru_maxrss_final_KiB": 347136,
+        "max_observed_RSS_all_receipt_scopes_KiB": 347560,
+        "max_observed_RSS_locations": [
+          {
+            "path": "worker-result/final_process_status/vm_rss_KiB",
+            "KiB": 347560
+          },
+          {
+            "path": "worker-result/final_process_status/vm_hwm_KiB",
+            "KiB": 347560
+          },
+          {
+            "path": "sequences/1868/status_after/vm_rss_KiB",
+            "KiB": 347560
+          },
+          {
+            "path": "sequences/1868/status_after/vm_hwm_KiB",
+            "KiB": 347560
+          },
+          {
+            "path": "sequences/1869/status_before/vm_rss_KiB",
+            "KiB": 347560
+          },
+          {
+            "path": "sequences/1869/status_before/vm_hwm_KiB",
+            "KiB": 347560
+          },
+          {
+            "path": "sequences/1870/status_after/vm_rss_KiB",
+            "KiB": 347560
+          },
+          {
+            "path": "sequences/1870/status_after/vm_hwm_KiB",
+            "KiB": 347560
+          },
+          {
+            "path": "sequences/1871/status_before/vm_rss_KiB",
+            "KiB": 347560
+          },
+          {
+            "path": "sequences/1871/status_before/vm_hwm_KiB",
+            "KiB": 347560
+          },
+          {
+            "path": "sequences/1872/status_after/vm_rss_KiB",
+            "KiB": 347560
+          },
+          {
+            "path": "sequences/1872/status_after/vm_hwm_KiB",
+            "KiB": 347560
+          }
+        ],
+        "memory_gate_unchanged": true
+      },
+      "sources": [
+        "delivery-baseline3/delivery-receipt.json",
+        "final-runtime-audit/outcome-summary-amended.json",
+        "critic/baseline-full-runtime-actual-review.json"
+      ],
+      "limits": [
+        "Один v3 trace на beleriand, warmed cache.",
+        "Все full outputs finite/semantics checked; второго полного oracle нет.",
+        "Два OS threads, helper zero CPU; не буквально single OS thread."
+      ]
+    },
+    {
+      "id": "C08",
+      "claim_ru": "Baseline3 forced AVX2/v2 функциональны, но обе 39.4M callback проекции превышают 60 минут.",
+      "status": "fallback_runtime_failed",
+      "numbers": {
+        "avx2_minutes": 83.37612328113367,
+        "v2_minutes": 105.3705798426643
+      },
+      "sources": [
+        "final-runtime-fallback-isa/outcome-summary.json",
+        "critic/baseline-fallback-isa-actual-review.json"
+      ],
+      "limits": [
+        "Один warm100k sample/ISA; без CI/fullprocess projection.",
+        "Archived parity только 2560 callback slots/ISA, не все100k.",
+        "Не оценка скорости любого иного host."
+      ]
+    },
+    {
+      "id": "C09",
+      "claim_ru": "Максимум всех сохранённых memory observations 347560 KiB; финальный ru_maxrss347136KiB имеет более узкую область.",
+      "status": "reconciled_no_rerun",
+      "sources": [
+        "final-runtime-audit/memory-reconciliation.json",
+        "final-runtime-audit/outcome-summary-amended.json",
+        "critic/baseline-full-runtime-actual-review.json"
+      ],
+      "limits": [
+        "Исходная summary сохранена.",
+        "RAM gate не изменился."
+      ]
+    },
+    {
+      "id": "C10",
+      "claim_ru": "Q3 VNNI1M проектируется в45.8516мин, forcedAVX2 125.1820мин.",
+      "status": "VNNI_runtime_only",
+      "sources": [
+        "quant3/runtime-report.md",
+        "critic/quant3-runtime-independent-review.json"
+      ],
+      "limits": [
+        "Повторение пяти20k fixtures с новыми IDs.",
+        "Не неизвестный официальный CPU; дополнительные fallback пути не квалифицированы."
+      ]
+    },
+    {
+      "id": "C11",
+      "claim_ru": "Pooled sign reversals объясняются точной алгеброй корреляции; концентрация веса не ESS Пирсона.",
+      "status": "descriptive_saved_statistics",
+      "sources": [
+        "pooled-fold-diagnostic.md",
+        "pooled-fold-diagnostic.json",
+        "chain-weight-concentration.md",
+        "chain-weight-concentration.json"
+      ],
+      "limits": [
+        "Нет новых scoring/bootstrap/target array reads.",
+        "Разложение не причинное, новые критерии или rescue не создаёт.",
+        "InverseHerfindahl120.24/117.81 не независимый sample size."
+      ]
+    },
+    {
+      "id": "C12",
+      "claim_ru": "SCALARPLE v2 generated GPU и train-only/native feasibility passed, но не доказывают прогнозное качество.",
+      "status": "feasibility_only",
+      "sources": [
+        "scalar/spec.md",
+        "scalar/paper-correspondence.md",
+        "critic/scalar-v2-actual-review.json",
+        "critic/scalar-native-input-actual-review.json",
+        "scalar/knots/fit.json"
+      ],
+      "numbers": {
+        "knots_fit_chains": 256,
+        "feature_count": 44,
+        "rank": 16,
+        "max_knots": 16,
+        "unique_F32_knots_range": [
+          8,
+          13
+        ],
+        "short_median_overhead_fraction": 0.0203649249068338,
+        "prototype_1M_projected_minutes": 43.81473144198147
+      },
+      "limits": [
+        "Native prototype не обучен и не deliverable.",
+        "Обычный recipe preserved, но добавление параметров/global clipping не позволяет чистую capacity/geometry causal attribution."
+      ]
+    },
+    {
+      "id": "C13",
+      "claim_ru": "Начальный scalar8 contract выдан04:49:53UTC, quality результата в этом черновике нет.",
+      "status": "awaiting_scalar_outcome",
+      "sources": [
+        "scalar/training-plan.seed3.v1.json",
+        "scalar/training-seed3-allocation.json",
+        "critic/scalar-training-seed3-preparation-review.json"
+      ],
+      "gates": {
+        "seed3_and_seed4_each_two_comparisons": {
+          "pooled_minimum": 0.0003,
+          "each_fold_minimum": 0
+        },
+        "native_vs_same_GPU_pooled_and_each_fold_minimum": -0.0001,
+        "native_vs_plain_GPU_pooled_minimum": 0.0003,
+        "native_vs_plain_GPU_each_fold_minimum": 0,
+        "max_scalar_fits": 18,
+        "max_scalar_WP": 6
+      },
+      "limits": [
+        "Только initial8+4OOF разрешены данным allocation; следующие этапы условны.",
+        "Нет score, finalist или нового ZIP результата."
+      ]
+    },
+    {
+      "id": "C14",
+      "claim_ru": "Все три доставочных ZIP локально и удалённо совпали по размеру и SHA256.",
+      "status": "direct_byte_hash_check",
+      "sources": [
+        "delivery-staging-manifest.json"
+      ],
+      "limits": [
+        "Проверка byte identity не является повторной функциональной или scoring проверкой.",
+        "Manifest/README пока предварительные."
+      ]
+    },
+    {
+      "id": "C15",
+      "claim_ru": "44 completed fit archive содержит184файла/167422372байта; сохранён локально без overwrite, large OOF caches на beleriand.",
+      "status": "archive_receipt_verified",
+      "sources": [
+        "completed-fit-archive-44.json",
+        "completed-fit-archive-44.local-verification.json"
+      ],
+      "limits": [
+        "Этот отчёт не декодировал pickle моделей и не пересчитывал forecasts."
+      ]
+    },
+    {
+      "id": "C16",
+      "claim_ru": "Дефекты preexecution/checkers и AMP-критерия задокументированы до зависимых стадий; они не являются quality gains.",
+      "status": "corrections_preserved",
+      "sources": [
+        "critic/ctxmem-training-review-v1-invalidation.json",
+        "ctxmem-projection-correction.json",
+        "ensemble/preexecution-test-fix.json",
+        "ensemble/actual-fit-check-failure-01.json",
+        "ensemble/actual-fit-checks.json",
+        "scalar/gpu-failure-summary.json",
+        "critic/scalar-diagnostic-actual-review.json",
+        "amendment-03.json",
+        "critic/scalar-v2-actual-review.json"
+      ],
+      "limits": [
+        "Original SCALAR failing step remains unknown; replay observation не переносится ретроспективно.",
+        "Первый CTX independent review пропустил aliases; root исправил до fit/WP."
+      ]
+    }
+  ],
+  "all_completed_readouts": [
+    {
+      "id": "GRADER-HEALTH-01",
+      "path": "evaluations/GRADER-HEALTH-01.json",
+      "sha256": "eced73182b700606abbf815fc2611a51c66492901fd61531805bba744ccb8120",
+      "completed_utc": "2026-10-01T00:48:21.546463+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "ft256dH+ft128H+ft128s4H+ftc500H",
+      "reference": "ft256dH+ft128H+ft128s4H+ftc500H",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7024238010052843,
+      "reference_wp": 0.7024238010052843,
+      "delta": 0.0,
+      "delta_by_fold": {
+        "0": 0.0,
+        "1": 0.0
+      },
+      "delta_boot_ci95": [
+        0.0,
+        0.0
+      ],
+      "candidate_wp_by_target": [
+        0.6984692702182729,
+        0.7063783317922958
+      ],
+      "reference_wp_by_target": [
+        0.6984692702182729,
+        0.7063783317922958
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 1.0,
+      "plan": "research/iterations/2026-10-01-overnight/grader/health-plan.json",
+      "plan_sha256": "b36f945ea40e67e074dcf42eb1b3c7d77d947ec9f3c12edff384eac67e81fb59"
+    },
+    {
+      "id": "TRAIN-AUX02-primary",
+      "path": "evaluations/TRAIN-AUX02-primary.json",
+      "sha256": "67c7a47c5d5027c38882950f7726ce6b737120048ce3eb1574de10cd45d8623e",
+      "completed_utc": "2026-10-01T00:49:31.308366+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_aux128s3+on_aux128s4+on_ctld256+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7022614853576137,
+      "reference_wp": 0.7023672255138177,
+      "delta": -0.000105740156204015,
+      "delta_by_fold": {
+        "0": -9.971496982530414e-05,
+        "1": -0.00013177059486157994
+      },
+      "delta_boot_ci95": [
+        -0.00015665038197578974,
+        -5.51074421921649e-05
+      ],
+      "candidate_wp_by_target": [
+        0.6983374701646363,
+        0.706185500550591
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 1.0,
+      "plan": "research/iterations/2026-10-01-overnight/training/plan.json",
+      "plan_sha256": "80379a3053f601b48831a354418ed05cec05582c0afa9a03c951cc3144bf875c"
+    },
+    {
+      "id": "TRAIN-AUX02-seed3-standalone",
+      "path": "evaluations/TRAIN-AUX02-seed3-standalone.json",
+      "sha256": "fe69eebda2049b5a26e3494f3c9614e3cc317bc6f18ae887381a6446a4161f69",
+      "completed_utc": "2026-10-01T00:50:24.648694+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_aux128s3",
+      "reference": "on_ctl128s3",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.6996446300599256,
+      "reference_wp": 0.6998381174317309,
+      "delta": -0.00019348737180524544,
+      "delta_by_fold": {
+        "0": -3.759919850909732e-05,
+        "1": -0.0002387565283514803
+      },
+      "delta_boot_ci95": [
+        -0.0003612059585245686,
+        -2.7113946545634373e-05
+      ],
+      "candidate_wp_by_target": [
+        0.6959567528804874,
+        0.7033325072393638
+      ],
+      "reference_wp_by_target": [
+        0.6962018019035922,
+        0.7034744329598696
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.989,
+      "plan": "research/iterations/2026-10-01-overnight/training/plan.json",
+      "plan_sha256": "80379a3053f601b48831a354418ed05cec05582c0afa9a03c951cc3144bf875c"
+    },
+    {
+      "id": "TRAIN-AUX02-seed4-standalone",
+      "path": "evaluations/TRAIN-AUX02-seed4-standalone.json",
+      "sha256": "4a0d8959195111c38dfd9c76a2825f0a84bd9dfc3182d57749591d20e12b32a0",
+      "completed_utc": "2026-10-01T00:50:36.401897+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_aux128s4",
+      "reference": "on_ctl128s4",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7006441362644698,
+      "reference_wp": 0.7006951482011321,
+      "delta": -5.101193666234849e-05,
+      "delta_by_fold": {
+        "0": -8.827805749356266e-05,
+        "1": -0.00011066876028187345
+      },
+      "delta_boot_ci95": [
+        -0.0002224230931423904,
+        0.0001456374102388358
+      ],
+      "candidate_wp_by_target": [
+        0.6969337173220439,
+        0.7043545552068955
+      ],
+      "reference_wp_by_target": [
+        0.6968899126463224,
+        0.7045003837559417
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.677,
+      "plan": "research/iterations/2026-10-01-overnight/training/plan.json",
+      "plan_sha256": "80379a3053f601b48831a354418ed05cec05582c0afa9a03c951cc3144bf875c"
+    },
+    {
+      "id": "TRAIN-AUX02-seed3-slot",
+      "path": "evaluations/TRAIN-AUX02-seed3-slot.json",
+      "sha256": "ac2faf1b6d53bd85a4c69043c8db17d39fced14a5c54549f570edf06e9eae508",
+      "completed_utc": "2026-10-01T00:50:53.646378+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_aux128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7022895497499573,
+      "reference_wp": 0.7023672255138177,
+      "delta": -7.767576386041863e-05,
+      "delta_by_fold": {
+        "0": -4.719753576976071e-05,
+        "1": -8.538222035991971e-05
+      },
+      "delta_boot_ci95": [
+        -0.00011945249977275418,
+        -3.8951736115225294e-05
+      ],
+      "candidate_wp_by_target": [
+        0.6983630235779343,
+        0.7062160759219801
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.999,
+      "plan": "research/iterations/2026-10-01-overnight/training/plan.json",
+      "plan_sha256": "80379a3053f601b48831a354418ed05cec05582c0afa9a03c951cc3144bf875c"
+    },
+    {
+      "id": "TRAIN-AUX02-seed4-slot",
+      "path": "evaluations/TRAIN-AUX02-seed4-slot.json",
+      "sha256": "e06c9c069b1cc2b1a334886f99d046e632ff78cbfe7fffa724d55b2c035592ff",
+      "completed_utc": "2026-10-01T00:51:11.065800+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ctl128s3+on_aux128s4+on_ctld256+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7023478103231438,
+      "reference_wp": 0.7023672255138177,
+      "delta": -1.9415190673943705e-05,
+      "delta_by_fold": {
+        "0": -3.916461031738816e-05,
+        "1": -4.02327725960161e-05
+      },
+      "delta_boot_ci95": [
+        -6.083924044651967e-05,
+        2.9602124409344726e-05
+      ],
+      "candidate_wp_by_target": [
+        0.698430083010287,
+        0.7062655376360004
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.787,
+      "plan": "research/iterations/2026-10-01-overnight/training/plan.json",
+      "plan_sha256": "80379a3053f601b48831a354418ed05cec05582c0afa9a03c951cc3144bf875c"
+    },
+    {
+      "id": "TRANSHEAD-01-primary",
+      "path": "evaluations/TRANSHEAD-01-primary.json",
+      "sha256": "d7ea60db69a86ce84b57456dc230225f2e0fb17c092a7289d3b98e29ca57169b",
+      "completed_utc": "2026-10-01T01:02:41.355593+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_T128s3+on_T128s4+on_ctld256+on_ctlc500",
+      "reference": "on_F128s3+on_F128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7024065353859861,
+      "reference_wp": 0.7023703669835207,
+      "delta": 3.616840246534192e-05,
+      "delta_by_fold": {
+        "0": -3.4633073825451888e-06,
+        "1": -4.184433906040397e-07
+      },
+      "delta_boot_ci95": [
+        -4.482548239181927e-05,
+        0.00013051402949759705
+      ],
+      "candidate_wp_by_target": [
+        0.6984796258449777,
+        0.7063334449269943
+      ],
+      "reference_wp_by_target": [
+        0.6984336562924636,
+        0.7063070776745779
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.21,
+      "plan": "research/iterations/2026-10-01-overnight/transition/execution-plan.json",
+      "plan_sha256": "efec7d20e01876bb5a02a9e96417b1194371015c0af6abfc65526244baa0b3ab"
+    },
+    {
+      "id": "TRANSHEAD-01-vs-plain",
+      "path": "evaluations/TRANSHEAD-01-vs-plain.json",
+      "sha256": "f404ce00c80521245393bc411b4f39dafa7659908a85d90a960a34de4595be03",
+      "completed_utc": "2026-10-01T01:03:19.466207+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_T128s3+on_T128s4+on_ctld256+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7024065353859861,
+      "reference_wp": 0.7023672255138177,
+      "delta": 3.9309872168380444e-05,
+      "delta_by_fold": {
+        "0": -1.556052729279056e-05,
+        "1": 2.4744407115750988e-05
+      },
+      "delta_boot_ci95": [
+        -4.6388023926924316e-05,
+        0.00014075332603432633
+      ],
+      "candidate_wp_by_target": [
+        0.6984796258449777,
+        0.7063334449269943
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.188,
+      "plan": "research/iterations/2026-10-01-overnight/transition/execution-plan.json",
+      "plan_sha256": "efec7d20e01876bb5a02a9e96417b1194371015c0af6abfc65526244baa0b3ab"
+    },
+    {
+      "id": "TRANSHEAD-01-F-vs-plain",
+      "path": "evaluations/TRANSHEAD-01-F-vs-plain.json",
+      "sha256": "2459f990bf1dc9f126b3f5e6bb9f383cda166380d8c4f50b064d1bbbfc4f9e1b",
+      "completed_utc": "2026-10-01T01:03:37.323205+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_F128s3+on_F128s4+on_ctld256+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7023703669835207,
+      "reference_wp": 0.7023672255138177,
+      "delta": 3.141469703038524e-06,
+      "delta_by_fold": {
+        "0": -1.2097219910245371e-05,
+        "1": 2.5162850506355028e-05
+      },
+      "delta_boot_ci95": [
+        -5.498741496648973e-05,
+        6.455432519190673e-05
+      ],
+      "candidate_wp_by_target": [
+        0.6984336562924636,
+        0.7063070776745779
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.464,
+      "plan": "research/iterations/2026-10-01-overnight/transition/execution-plan.json",
+      "plan_sha256": "efec7d20e01876bb5a02a9e96417b1194371015c0af6abfc65526244baa0b3ab"
+    },
+    {
+      "id": "TRANSHEAD-01-seed3-standalone",
+      "path": "evaluations/TRANSHEAD-01-seed3-standalone.json",
+      "sha256": "776e1018dc709b5724bbf1d29449ed5ec3047a6a003960f8291fdaa64195cb2c",
+      "completed_utc": "2026-10-01T01:03:48.107960+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_T128s3",
+      "reference": "on_F128s3",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.6999603810411543,
+      "reference_wp": 0.699929586419823,
+      "delta": 3.079462133137589e-05,
+      "delta_by_fold": {
+        "0": -1.380537703676854e-05,
+        "1": -4.567804514410412e-06
+      },
+      "delta_boot_ci95": [
+        -8.374066994829288e-05,
+        0.00015827020941475422
+      ],
+      "candidate_wp_by_target": [
+        0.6962767318680518,
+        0.7036440302142569
+      ],
+      "reference_wp_by_target": [
+        0.6962777165613464,
+        0.7035814562782994
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.311,
+      "plan": "research/iterations/2026-10-01-overnight/transition/execution-plan.json",
+      "plan_sha256": "efec7d20e01876bb5a02a9e96417b1194371015c0af6abfc65526244baa0b3ab"
+    },
+    {
+      "id": "TRANSHEAD-01-seed4-standalone",
+      "path": "evaluations/TRANSHEAD-01-seed4-standalone.json",
+      "sha256": "99c0321388f3355ece7b19589c1bcdae806235c78bf9f92fcbf80a62bc14b425",
+      "completed_utc": "2026-10-01T01:03:58.954081+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_T128s4",
+      "reference": "on_F128s4",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7006722971497401,
+      "reference_wp": 0.7006134031676821,
+      "delta": 5.88939820580503e-05,
+      "delta_by_fold": {
+        "0": -8.092348865895715e-06,
+        "1": -2.8795608140175233e-06
+      },
+      "delta_boot_ci95": [
+        -0.00016874961198316553,
+        0.00033046122690348335
+      ],
+      "candidate_wp_by_target": [
+        0.6968382054198287,
+        0.7045063888796517
+      ],
+      "reference_wp_by_target": [
+        0.696704089034995,
+        0.7045227173003692
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.324,
+      "plan": "research/iterations/2026-10-01-overnight/transition/execution-plan.json",
+      "plan_sha256": "efec7d20e01876bb5a02a9e96417b1194371015c0af6abfc65526244baa0b3ab"
+    },
+    {
+      "id": "TRANSHEAD-01-seed3-slot",
+      "path": "evaluations/TRANSHEAD-01-seed3-slot.json",
+      "sha256": "968cf5fc5e16c7a9effea1eda9bb117a843ec3a07a0a41529194fc3e6c5e7efe",
+      "completed_utc": "2026-10-01T01:04:15.098697+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_T128s3+on_F128s4+on_ctld256+on_ctlc500",
+      "reference": "on_F128s3+on_F128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7023831939022082,
+      "reference_wp": 0.7023703669835207,
+      "delta": 1.2826918687425248e-05,
+      "delta_by_fold": {
+        "0": -2.011250523792363e-06,
+        "1": -1.0481336186751733e-06
+      },
+      "delta_boot_ci95": [
+        -1.4540225845030563e-05,
+        4.41738664930108e-05
+      ],
+      "candidate_wp_by_target": [
+        0.6984560982808932,
+        0.7063102895235231
+      ],
+      "reference_wp_by_target": [
+        0.6984336562924636,
+        0.7063070776745779
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.183,
+      "plan": "research/iterations/2026-10-01-overnight/transition/execution-plan.json",
+      "plan_sha256": "efec7d20e01876bb5a02a9e96417b1194371015c0af6abfc65526244baa0b3ab"
+    },
+    {
+      "id": "TRANSHEAD-01-seed4-slot",
+      "path": "evaluations/TRANSHEAD-01-seed4-slot.json",
+      "sha256": "002e409b1d764f004a466cfacfdbac7d438cf5168f3c5b7974bea39e33ed66c4",
+      "completed_utc": "2026-10-01T01:04:32.044707+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_F128s3+on_T128s4+on_ctld256+on_ctlc500",
+      "reference": "on_F128s3+on_F128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7023965003637168,
+      "reference_wp": 0.7023703669835207,
+      "delta": 2.613338019608058e-05,
+      "delta_by_fold": {
+        "0": -1.1611707578795816e-06,
+        "1": 7.162727706511163e-07
+      },
+      "delta_boot_ci95": [
+        -3.0360474895141377e-05,
+        9.043007617569321e-05
+      ],
+      "candidate_wp_by_target": [
+        0.6984608107295371,
+        0.7063321899978965
+      ],
+      "reference_wp_by_target": [
+        0.6984336562924636,
+        0.7063070776745779
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.194,
+      "plan": "research/iterations/2026-10-01-overnight/transition/execution-plan.json",
+      "plan_sha256": "efec7d20e01876bb5a02a9e96417b1194371015c0af6abfc65526244baa0b3ab"
+    },
+    {
+      "id": "DEPLOYMENT-01-fixed3",
+      "path": "evaluations/DEPLOYMENT-01-fixed3.json",
+      "sha256": "afa81ccf84bea2e05e6eb92abe03a1847f756a4a30f77cb97f143a1a98e6a5e1",
+      "completed_utc": "2026-10-01T01:05:11.911475+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ctl128s3+on_ctl128s4+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7017424296043642,
+      "reference_wp": 0.7023672255138177,
+      "delta": -0.0006247959094535238,
+      "delta_by_fold": {
+        "0": -0.0006434109884073669,
+        "1": -0.00044826833967293034
+      },
+      "delta_boot_ci95": [
+        -0.0011252044866333216,
+        -0.00015824986577252792
+      ],
+      "candidate_wp_by_target": [
+        0.6980883123464376,
+        0.7053965468622906
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.994,
+      "plan": "research/iterations/2026-10-01-overnight/deployment-plan.json",
+      "plan_sha256": "cf63d6043c0c36e35c9d2ea1cd0dbc6910fb08d96727f0e03005f5b38d15b92b"
+    },
+    {
+      "id": "DEPLOYMENT-01-fixed2",
+      "path": "evaluations/DEPLOYMENT-01-fixed2.json",
+      "sha256": "5aaea2730cc091c22fca0f65385051ac775975e485c69159333431984ed1aeff",
+      "completed_utc": "2026-10-01T01:05:25.223407+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ctl128s3+on_ctl128s4",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7012187570760613,
+      "reference_wp": 0.7017424296043642,
+      "delta": -0.0005236725283028765,
+      "delta_by_fold": {
+        "0": -0.0006042230463815246,
+        "1": -0.00055720978704632
+      },
+      "delta_boot_ci95": [
+        -0.0012563722501778784,
+        0.00017065191318778842
+      ],
+      "candidate_wp_by_target": [
+        0.6974996172690087,
+        0.7049378968831138
+      ],
+      "reference_wp_by_target": [
+        0.6980883123464376,
+        0.7053965468622906
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.91,
+      "plan": "research/iterations/2026-10-01-overnight/deployment-plan.json",
+      "plan_sha256": "cf63d6043c0c36e35c9d2ea1cd0dbc6910fb08d96727f0e03005f5b38d15b92b"
+    },
+    {
+      "id": "ENSHEAD-01-primary",
+      "path": "evaluations/ENSHEAD-01-primary.json",
+      "sha256": "0a6a91f7f81ad0ebd83b2e4ec7f8ff1eb295e1a57a0e2e6ee7eb492b3d7d12a0",
+      "completed_utc": "2026-10-01T01:18:48.640299+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ens128s3+on_ens128s4+on_ctld256+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7017703332233729,
+      "reference_wp": 0.7023672255138177,
+      "delta": -0.0005968922904447949,
+      "delta_by_fold": {
+        "0": -0.00018567577756967157,
+        "1": -0.0008936253439456587
+      },
+      "delta_boot_ci95": [
+        -0.0014941573698348475,
+        0.00022249585901997203
+      ],
+      "candidate_wp_by_target": [
+        0.6978901003243201,
+        0.7056505661224258
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.923,
+      "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+      "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4"
+    },
+    {
+      "id": "ENSHEAD-01-scale-primary",
+      "path": "evaluations/ENSHEAD-01-scale-primary.json",
+      "sha256": "d1414951829209d59c04100c1749347f34d6f29f363f489c9e4234a12ed8efbf",
+      "completed_utc": "2026-10-01T01:20:17.281328+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_scale128s3+on_scale128s4+on_ctld256+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7024885446672966,
+      "reference_wp": 0.7023672255138177,
+      "delta": 0.00012131915347890487,
+      "delta_by_fold": {
+        "0": 0.00026003981906230766,
+        "1": -4.211226012773572e-05
+      },
+      "delta_boot_ci95": [
+        -0.0003324207921315464,
+        0.0005578854533057702
+      ],
+      "candidate_wp_by_target": [
+        0.6986189794970928,
+        0.7063581098375004
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.275,
+      "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+      "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4"
+    },
+    {
+      "id": "ENSHEAD-01-head-vs-scale",
+      "path": "evaluations/ENSHEAD-01-head-vs-scale.json",
+      "sha256": "1cd902158caccfd048667e39721ef4f09fbcecea49e305fcfe54e7a01d10755e",
+      "completed_utc": "2026-10-01T01:20:35.367468+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ens128s3+on_ens128s4+on_ctld256+on_ctlc500",
+      "reference": "on_scale128s3+on_scale128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7017703332233729,
+      "reference_wp": 0.7024885446672966,
+      "delta": -0.0007182114439236997,
+      "delta_by_fold": {
+        "0": -0.00044571559663197924,
+        "1": -0.000851513083817923
+      },
+      "delta_boot_ci95": [
+        -0.0014193625175995734,
+        -5.7786887889294536e-05
+      ],
+      "candidate_wp_by_target": [
+        0.6978901003243201,
+        0.7056505661224258
+      ],
+      "reference_wp_by_target": [
+        0.6986189794970928,
+        0.7063581098375004
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.981,
+      "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+      "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4"
+    },
+    {
+      "id": "ENSHEAD-01-ens-seed3-slot",
+      "path": "evaluations/ENSHEAD-01-ens-seed3-slot.json",
+      "sha256": "ff40fbd9f02e8b251e5e1bb58f3170e1dd31d377851ecd3d3f5e45813a1bd477",
+      "completed_utc": "2026-10-01T01:20:51.626115+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ens128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7023578229690496,
+      "reference_wp": 0.7023672255138177,
+      "delta": -9.402544768111198e-06,
+      "delta_by_fold": {
+        "0": 0.00010745620611440909,
+        "1": 2.1222830187683783e-06
+      },
+      "delta_boot_ci95": [
+        -0.00041108372012408354,
+        0.00034663635965366253
+      ],
+      "candidate_wp_by_target": [
+        0.6984487274928344,
+        0.7062669184452648
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.507,
+      "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+      "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4"
+    },
+    {
+      "id": "ENSHEAD-01-ens-seed3-standalone",
+      "path": "evaluations/ENSHEAD-01-ens-seed3-standalone.json",
+      "sha256": "76aa3bea402b32e4357a09b627814e40050ca28ff1d438c3836cfe29a15e371b",
+      "completed_utc": "2026-10-01T01:21:02.659343+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ens128s3",
+      "reference": "on_ctl128s3",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.6712416814235143,
+      "reference_wp": 0.6998381174317309,
+      "delta": -0.028596436008216597,
+      "delta_by_fold": {
+        "0": -0.022299073239330225,
+        "1": -0.023769613119806188
+      },
+      "delta_boot_ci95": [
+        -0.03172059048460084,
+        -0.02569151605078621
+      ],
+      "candidate_wp_by_target": [
+        0.6820210903493086,
+        0.6604622724977198
+      ],
+      "reference_wp_by_target": [
+        0.6962018019035922,
+        0.7034744329598696
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 1.0,
+      "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+      "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4"
+    },
+    {
+      "id": "ENSHEAD-01-ens-seed4-slot",
+      "path": "evaluations/ENSHEAD-01-ens-seed4-slot.json",
+      "sha256": "3197db672fd92297b07f9246abf25ee61a7f46645cf18e39ecc34bb07a356703",
+      "completed_utc": "2026-10-01T01:21:18.763001+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ctl128s3+on_ens128s4+on_ctld256+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.70227066329076,
+      "reference_wp": 0.7023672255138177,
+      "delta": -9.656222305765017e-05,
+      "delta_by_fold": {
+        "0": 0.00010386760012726093,
+        "1": -0.00034755538980779654
+      },
+      "delta_boot_ci95": [
+        -0.00046709429473102695,
+        0.00024923092007980696
+      ],
+      "candidate_wp_by_target": [
+        0.698299978242602,
+        0.706241348338918
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.707,
+      "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+      "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4"
+    },
+    {
+      "id": "ENSHEAD-01-ens-seed4-standalone",
+      "path": "evaluations/ENSHEAD-01-ens-seed4-standalone.json",
+      "sha256": "985bea84912022864b6285a8bc2a7c955f7113d1b4844eec67c751065e9cff32",
+      "completed_utc": "2026-10-01T01:21:29.354117+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ens128s4",
+      "reference": "on_ctl128s4",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.6858994589926042,
+      "reference_wp": 0.7006951482011321,
+      "delta": -0.014795689208527918,
+      "delta_by_fold": {
+        "0": -0.010977998694820856,
+        "1": -0.016865789840661227
+      },
+      "delta_boot_ci95": [
+        -0.016760056391546832,
+        -0.012918737796351915
+      ],
+      "candidate_wp_by_target": [
+        0.6804668275173621,
+        0.6913320904678464
+      ],
+      "reference_wp_by_target": [
+        0.6968899126463224,
+        0.7045003837559417
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 1.0,
+      "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+      "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4"
+    },
+    {
+      "id": "ENSHEAD-01-scale-seed3-slot",
+      "path": "evaluations/ENSHEAD-01-scale-seed3-slot.json",
+      "sha256": "4c7d68711f6b6733468ff67269ca646147dde74ef929152b2097390fdadf0d97",
+      "completed_utc": "2026-10-01T01:21:45.467160+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_scale128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7025285369712643,
+      "reference_wp": 0.7023672255138177,
+      "delta": 0.00016131145744657793,
+      "delta_by_fold": {
+        "0": 0.00019827956006712721,
+        "1": 7.67543030265605e-05
+      },
+      "delta_boot_ci95": [
+        -6.534803852473458e-05,
+        0.0003868142292303478
+      ],
+      "candidate_wp_by_target": [
+        0.6986177676074827,
+        0.7064393063350458
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.081,
+      "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+      "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4"
+    },
+    {
+      "id": "ENSHEAD-01-scale-seed3-standalone",
+      "path": "evaluations/ENSHEAD-01-scale-seed3-standalone.json",
+      "sha256": "4b432291cbccc5811e801b6e504d217be86a46765622568c0559c46182725842",
+      "completed_utc": "2026-10-01T01:21:56.316049+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_scale128s3",
+      "reference": "on_ctl128s3",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.6988071062823633,
+      "reference_wp": 0.6998381174317309,
+      "delta": -0.0010310111493675445,
+      "delta_by_fold": {
+        "0": -0.0007811174691038092,
+        "1": -0.0015756410464689008
+      },
+      "delta_boot_ci95": [
+        -0.0020619626948448822,
+        5.713314676613859e-05
+      ],
+      "candidate_wp_by_target": [
+        0.695445715170245,
+        0.7021684973944815
+      ],
+      "reference_wp_by_target": [
+        0.6962018019035922,
+        0.7034744329598696
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.969,
+      "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+      "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4"
+    },
+    {
+      "id": "ENSHEAD-01-scale-seed4-slot",
+      "path": "evaluations/ENSHEAD-01-scale-seed4-slot.json",
+      "sha256": "2430f8f2d10ccea6494370cc65a15229112594b4d64313fe77d58aa82fd84c15",
+      "completed_utc": "2026-10-01T01:22:12.410468+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ctl128s3+on_scale128s4+on_ctld256+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7024521007439531,
+      "reference_wp": 0.7023672255138177,
+      "delta": 8.487523013545051e-05,
+      "delta_by_fold": {
+        "0": 0.00017774849925966674,
+        "1": 2.191191965328354e-05
+      },
+      "delta_boot_ci95": [
+        -0.00013661089301580386,
+        0.0002931127405523287
+      ],
+      "candidate_wp_by_target": [
+        0.6985530654713349,
+        0.7063511360165714
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.203,
+      "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+      "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4"
+    },
+    {
+      "id": "ENSHEAD-01-scale-seed4-standalone",
+      "path": "evaluations/ENSHEAD-01-scale-seed4-standalone.json",
+      "sha256": "e5853988fc48bb90239ec73807c0a4876430ea7c919187d30a3ac949cdb072e3",
+      "completed_utc": "2026-10-01T01:22:23.209296+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_scale128s4",
+      "reference": "on_ctl128s4",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.6997039368524632,
+      "reference_wp": 0.7006951482011321,
+      "delta": -0.0009912113486688634,
+      "delta_by_fold": {
+        "0": -0.0007928330179547416,
+        "1": -0.0011973727399506862
+      },
+      "delta_boot_ci95": [
+        -0.0018909726149627993,
+        2.7749831855791588e-05
+      ],
+      "candidate_wp_by_target": [
+        0.6963212466698253,
+        0.7030866270351012
+      ],
+      "reference_wp_by_target": [
+        0.6968899126463224,
+        0.7045003837559417
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.973,
+      "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+      "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4"
+    },
+    {
+      "id": "SAM-seed3-paired",
+      "path": "evaluations/SAM-seed3-paired.json",
+      "sha256": "e70b2f31120af227903328704d129fbdba964b824c2cff04aefdd3fa292288d1",
+      "completed_utc": "2026-10-01T01:59:21.644048+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ctld256+on_sam_hsam_s3+on_ctl128s4+on_ctlc500",
+      "reference": "on_ctld256+on_sam_hctl_s3+on_ctl128s4+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7022791524637074,
+      "reference_wp": 0.7023672255138177,
+      "delta": -8.807305011027111e-05,
+      "delta_by_fold": {
+        "0": -3.337424680027734e-05,
+        "1": -0.00011714985705779668
+      },
+      "delta_boot_ci95": [
+        -0.00032695853569317533,
+        0.00017060418553686
+      ],
+      "candidate_wp_by_target": [
+        0.6983551703640268,
+        0.706203134563388
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.743,
+      "plan": "research/iterations/2026-10-01-overnight/sam/execution-plan.seed3.v2.json",
+      "plan_sha256": "c177ca5b0765802fb966e1a5486ef0637d42c4ccfad276226742e0fbb3abfd9b"
+    },
+    {
+      "id": "SAM-seed3-incumbent",
+      "path": "evaluations/SAM-seed3-incumbent.json",
+      "sha256": "aa76b3d6597595e8f9b266665554e3d4dc5aa76c724141b82d16ff59ce719252",
+      "completed_utc": "2026-10-01T01:59:37.371013+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ctld256+on_sam_hsam_s3+on_ctl128s4+on_ctlc500",
+      "reference": "on_ctld256+on_ctl128s3+on_ctl128s4+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7022791524637074,
+      "reference_wp": 0.7023672255138177,
+      "delta": -8.807305011027111e-05,
+      "delta_by_fold": {
+        "0": -3.337424680027734e-05,
+        "1": -0.00011714985705779668
+      },
+      "delta_boot_ci95": [
+        -0.00032695853569317533,
+        0.00017060418553686
+      ],
+      "candidate_wp_by_target": [
+        0.6983551703640268,
+        0.706203134563388
+      ],
+      "reference_wp_by_target": [
+        0.6984463410477072,
+        0.7062881099799282
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.743,
+      "plan": "research/iterations/2026-10-01-overnight/sam/execution-plan.seed3.v2.json",
+      "plan_sha256": "c177ca5b0765802fb966e1a5486ef0637d42c4ccfad276226742e0fbb3abfd9b"
+    },
+    {
+      "id": "CTX-joint-memory-vs-current",
+      "path": "evaluations/CTX-joint-memory-vs-current.json",
+      "sha256": "f2c12d9160a1edf15d5dd33d0325e054a9eedc24f807c2a679dcb706a85fd9be",
+      "completed_utc": "2026-10-01T03:24:50.420809+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ctxmemory_s3+on_ctxmemory_s4+on_ctlc500",
+      "reference": "on_ctxcurrent_s3+on_ctxcurrent_s4+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7017361100293144,
+      "reference_wp": 0.7016803225005533,
+      "delta": 5.578752876100879e-05,
+      "delta_by_fold": {
+        "0": -4.8406495865682686e-05,
+        "1": -3.062490797511863e-06
+      },
+      "delta_boot_ci95": [
+        -5.2939128798412666e-05,
+        0.00016208561760631954
+      ],
+      "candidate_wp_by_target": [
+        0.6980859380450571,
+        0.7053862820135716
+      ],
+      "reference_wp_by_target": [
+        0.697917659295998,
+        0.7054429857051087
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.153,
+      "plan": "research/iterations/2026-10-01-overnight/ctxmem/execution-plan.json",
+      "plan_sha256": "fec1e50f26bd2888c6a70df07e2a4fe999d747f47a1287a2a6dd2eb1fea2988b"
+    },
+    {
+      "id": "CTX-joint-memory-vs-plain",
+      "path": "evaluations/CTX-joint-memory-vs-plain.json",
+      "sha256": "157b24a88ed7f80574a649b23e3ff5b746eb224f892b797c0b12b82e008c80e8",
+      "completed_utc": "2026-10-01T03:25:06.037466+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ctxmemory_s3+on_ctxmemory_s4+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7017361100293144,
+      "reference_wp": 0.7017424296043642,
+      "delta": -6.319575049817949e-06,
+      "delta_by_fold": {
+        "0": -0.0001062479688516138,
+        "1": 1.60523478779373e-05
+      },
+      "delta_boot_ci95": [
+        -9.382962508205084e-05,
+        6.845558189712275e-05
+      ],
+      "candidate_wp_by_target": [
+        0.6980859380450571,
+        0.7053862820135716
+      ],
+      "reference_wp_by_target": [
+        0.6980883123464376,
+        0.7053965468622906
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.55,
+      "plan": "research/iterations/2026-10-01-overnight/ctxmem/execution-plan.json",
+      "plan_sha256": "fec1e50f26bd2888c6a70df07e2a4fe999d747f47a1287a2a6dd2eb1fea2988b"
+    },
+    {
+      "id": "CTX-seed3-single-replacement",
+      "path": "evaluations/CTX-seed3-single-replacement.json",
+      "sha256": "8db489a9310dc17180ed3280f2bb354b4a006022936483d1009226ee57b722fe",
+      "completed_utc": "2026-10-01T03:25:20.174409+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ctxmemory_s3+on_ctl128s4+on_ctlc500",
+      "reference": "on_ctxcurrent_s3+on_ctl128s4+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7017537086915471,
+      "reference_wp": 0.7017032938473343,
+      "delta": 5.0414844212753884e-05,
+      "delta_by_fold": {
+        "0": -2.002659504940496e-05,
+        "1": 2.8745006002917073e-05
+      },
+      "delta_boot_ci95": [
+        -1.745642279948889e-05,
+        0.00011335795362036603
+      ],
+      "candidate_wp_by_target": [
+        0.6981051137682133,
+        0.7054023036148809
+      ],
+      "reference_wp_by_target": [
+        0.6979835670064628,
+        0.7054230206882058
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.068,
+      "plan": "research/iterations/2026-10-01-overnight/ctxmem/execution-plan.json",
+      "plan_sha256": "fec1e50f26bd2888c6a70df07e2a4fe999d747f47a1287a2a6dd2eb1fea2988b"
+    },
+    {
+      "id": "Q3-quant-vs-fp16",
+      "path": "evaluations/Q3-quant-vs-fp16.json",
+      "sha256": "f1f1eb0766dfe4f332d21981ac6f492b98ac91cd747ff54b9c7b1239578c98d3",
+      "completed_utc": "2026-10-01T03:25:32.038665+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_q3quant",
+      "reference": "on_q3fp16",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7020008144532741,
+      "reference_wp": 0.7020122685424693,
+      "delta": -1.1454089195228612e-05,
+      "delta_by_fold": {
+        "0": -9.248270496531319e-06,
+        "1": -1.1516252734544707e-05
+      },
+      "delta_boot_ci95": [
+        -2.8558563902505996e-05,
+        6.803438172175988e-06
+      ],
+      "candidate_wp_by_target": [
+        0.6979795576190984,
+        0.7060220712874498
+      ],
+      "reference_wp_by_target": [
+        0.6979992363321786,
+        0.70602530075276
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.897,
+      "plan": "research/iterations/2026-10-01-overnight/quant3/oof-allocation.json",
+      "plan_sha256": "a98412b6903dd027acdcd92b4b1dbdfcb147347ed0d00a26b7c6532409d3cedf"
+    },
+    {
+      "id": "CTX-seed4-single-replacement",
+      "path": "evaluations/CTX-seed4-single-replacement.json",
+      "sha256": "f8a4f63abcfb5ece6e64fffa07b2f7f179edef87ccd2acb7f066654f0de5aea3",
+      "completed_utc": "2026-10-01T03:25:34.540280+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ctl128s3+on_ctxmemory_s4+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctxcurrent_s4+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7017291566617176,
+      "reference_wp": 0.7017274544065117,
+      "delta": 1.7022552059042795e-06,
+      "delta_by_fold": {
+        "0": -2.4664095490734006e-05,
+        "1": -2.9160720477539037e-05
+      },
+      "delta_boot_ci95": [
+        -4.879725812512447e-05,
+        5.595764845777173e-05
+      ],
+      "candidate_wp_by_target": [
+        0.6980733335193233,
+        0.7053849798041121
+      ],
+      "reference_wp_by_target": [
+        0.6980349562392587,
+        0.7054199525737649
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.476,
+      "plan": "research/iterations/2026-10-01-overnight/ctxmem/execution-plan.json",
+      "plan_sha256": "fec1e50f26bd2888c6a70df07e2a4fe999d747f47a1287a2a6dd2eb1fea2988b"
+    },
+    {
+      "id": "Q3-quant-vs-baseline3",
+      "path": "evaluations/Q3-quant-vs-baseline3.json",
+      "sha256": "f4db838df38029f2798231e395008a8f45a05319e5affa71f12ddddf7890637e",
+      "completed_utc": "2026-10-01T03:25:45.854141+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_q3quant",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7020008144532741,
+      "reference_wp": 0.7017424296043642,
+      "delta": 0.00025838484890994273,
+      "delta_by_fold": {
+        "0": 0.0003753932325050169,
+        "1": 4.413046242390806e-05
+      },
+      "delta_boot_ci95": [
+        -0.0005279359742205337,
+        0.001045509230631858
+      ],
+      "candidate_wp_by_target": [
+        0.6979795576190984,
+        0.7060220712874498
+      ],
+      "reference_wp_by_target": [
+        0.6980883123464376,
+        0.7053965468622906
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.259,
+      "plan": "research/iterations/2026-10-01-overnight/quant3/oof-allocation.json",
+      "plan_sha256": "a98412b6903dd027acdcd92b4b1dbdfcb147347ed0d00a26b7c6532409d3cedf"
+    }
+  ],
+  "source_receipts": [
+    {
+      "path": "amendment-01.json",
+      "exists": true,
+      "sha256": "6a5e042c0d9040645dc62a3d18c98fdb5e8ed81efc3b1f95fce66d698c0a33c2"
+    },
+    {
+      "path": "amendment-02.json",
+      "exists": true,
+      "sha256": "b7a0c5d2c33d84122500663f4d0320cd3a597a90cbe387331cbb63ac36022303"
+    },
+    {
+      "path": "amendment-03.json",
+      "exists": true,
+      "sha256": "51b82b54c6ba48d67df4b64a586a6d75cfff2d728b9ccea832ca8a08bbcb7d03"
+    },
+    {
+      "path": "chain-weight-concentration.json",
+      "exists": true,
+      "sha256": "d15c1371c1dc3fc31db891c8b8ca538fe22734b8371fca15330b58ce906676fe"
+    },
+    {
+      "path": "chain-weight-concentration.md",
+      "exists": true,
+      "sha256": "0e3013bf3aa6e400f51594747b9ab60be10c68c7f158c0adffde938932425c83"
+    },
+    {
+      "path": "completed-fit-archive-44.json",
+      "exists": true,
+      "sha256": "e199f0b07768764a1050b232ea60e15ad060340ce741ae961d5c6c765573adef"
+    },
+    {
+      "path": "completed-fit-archive-44.local-verification.json",
+      "exists": true,
+      "sha256": "7c561530bd9537fa5470b3c442132fc56fc7622374562dad5aabbf45adb4ea32"
+    },
+    {
+      "path": "contract.json",
+      "exists": true,
+      "sha256": "110e8af9e50566713743b4a15742877ccd424b3accfb6c11d98bb835c086a4da"
+    },
+    {
+      "path": "critic/baseline-fallback-isa-actual-review.json",
+      "exists": true,
+      "sha256": "6937f2a723c153c96dc73f56a8beec1487bd78c4ac870b7bdb63e03383134a0d"
+    },
+    {
+      "path": "critic/baseline-full-runtime-actual-review.json",
+      "exists": true,
+      "sha256": "eeb27127c3e8fbb56eb079c52d65ae09cfe083ec22fcd23714541831d1e6fa47"
+    },
+    {
+      "path": "critic/check-metric-result.json",
+      "exists": true,
+      "sha256": "cce9296f6091e03b30193d69158cb9fec00facb6e33fb43f0347d4c286e29c96"
+    },
+    {
+      "path": "critic/ctxmem-runtime-independent-review.json",
+      "exists": true,
+      "sha256": "4d2011a141da5b2c30da88700b6d92129e8e536272dc7218a19f1aa8078bbc87"
+    },
+    {
+      "path": "critic/ctxmem-training-review-v1-invalidation.json",
+      "exists": true,
+      "sha256": "9ba07b9805a38b3b44be5cc5233e24aece687aa69b55a6fc672f483f6b3ed9bd"
+    },
+    {
+      "path": "critic/quant3-runtime-independent-review.json",
+      "exists": true,
+      "sha256": "d35affd25e71bb43a29e118a950b6254cf5755791c149293837d0a3f0aa8cd3c"
+    },
+    {
+      "path": "critic/review-renewal-outcome.json",
+      "exists": true,
+      "sha256": "1a6e7c5d1153cb3c1547046682cf3f5761ee6b1ca8e0c58c4ad95303f4f34dc2"
+    },
+    {
+      "path": "critic/scalar-diagnostic-actual-review.json",
+      "exists": true,
+      "sha256": "c835146c062b1ab7a9ad5d2d5fba6221985bd9c6405c88c77d29fe73591dad62"
+    },
+    {
+      "path": "critic/scalar-native-input-actual-review.json",
+      "exists": true,
+      "sha256": "7d83eebb5f98abfe8c0637f1ba5878c3719f040895704e29c6c48b4eb2ef6d87"
+    },
+    {
+      "path": "critic/scalar-native-v2-final-assembly-review.json",
+      "exists": true,
+      "sha256": "a4316a1f0d950a37bcf8cc618b7934e004e7ab7c7cce259c6377bc9853041344"
+    },
+    {
+      "path": "critic/scalar-training-seed3-preparation-review.json",
+      "exists": true,
+      "sha256": "5ba20fcdf1e7ad707f51cf3377f066514f5c59942e07ff5b805342345548ed8d"
+    },
+    {
+      "path": "critic/scalar-v2-actual-review.json",
+      "exists": true,
+      "sha256": "a2b4d11e5a87b38169c5d5d4219ddbf33e30c3369b826fd09cacc8f3cceaacee"
+    },
+    {
+      "path": "critic/selection-weight-review.md",
+      "exists": true,
+      "sha256": "c7f23dcc067f9727923449a99c4adc05e9ce50deb2a345e55a21b552e518afb7"
+    },
+    {
+      "path": "ctxmem-projection-correction.json",
+      "exists": true,
+      "sha256": "84dc6e1e132b1c7466b9b303a00fec408c530162b00aff39e2f9c742ba392b24"
+    },
+    {
+      "path": "ctxmem/quality-decision.json",
+      "exists": true,
+      "sha256": "976530cdc7d666e8265ef6879f90b9e21da03eba07e9d7c8813ba53dd39b1a1a"
+    },
+    {
+      "path": "delivery-baseline3/delivery-receipt.json",
+      "exists": true,
+      "sha256": "112d0b7d0ca0ff6170232f28819d90f4fa05ef202373599b7c5a25dc9ec46813"
+    },
+    {
+      "path": "delivery-staging-manifest.json",
+      "exists": true,
+      "sha256": "a61f7b397e7c27725c1b78edee955c034766cf5d4ba29c8eccd89ec12da7dcd3"
+    },
+    {
+      "path": "ensemble/actual-fit-check-failure-01.json",
+      "exists": true,
+      "sha256": "0d354315282a81b0972efa9452c0301338219826c73f6e19475771ab5760dd7e"
+    },
+    {
+      "path": "ensemble/actual-fit-checks.json",
+      "exists": true,
+      "sha256": "1d7d8817bd572d867cb6c20af73ec26428a4667203611a9c87bc516ce6f9bf78"
+    },
+    {
+      "path": "ensemble/postfailure-reframe.md",
+      "exists": true,
+      "sha256": "9335a350489b60ba5344d785cc3ea9c63102ee49fb4d818d409287acde9c929f"
+    },
+    {
+      "path": "ensemble/preexecution-test-fix.json",
+      "exists": true,
+      "sha256": "1dcc118dcf9d6c6a06030c32880d863d699f1ed97d1566aafda22bb9b9cd6fb2"
+    },
+    {
+      "path": "ensemble/spec.md",
+      "exists": true,
+      "sha256": "e95b57b5f11f01da3951266070cb2dc2ebd3a396d5d1b741b60661e43ea47991"
+    },
+    {
+      "path": "evaluation-ledger.jsonl",
+      "exists": true,
+      "sha256": "a8334f2f56b5ccd35b28c4f05e4ec189894f4782483d3bab8955cd5def75d257"
+    },
+    {
+      "path": "evaluations/DEPLOYMENT-01-fixed2.json",
+      "exists": true,
+      "sha256": "5aaea2730cc091c22fca0f65385051ac775975e485c69159333431984ed1aeff"
+    },
+    {
+      "path": "evaluations/DEPLOYMENT-01-fixed3.json",
+      "exists": true,
+      "sha256": "afa81ccf84bea2e05e6eb92abe03a1847f756a4a30f77cb97f143a1a98e6a5e1"
+    },
+    {
+      "path": "evaluations/Q3-quant-vs-baseline3.json",
+      "exists": true,
+      "sha256": "f4db838df38029f2798231e395008a8f45a05319e5affa71f12ddddf7890637e"
+    },
+    {
+      "path": "evaluations/Q3-quant-vs-fp16.json",
+      "exists": true,
+      "sha256": "f1f1eb0766dfe4f332d21981ac6f492b98ac91cd747ff54b9c7b1239578c98d3"
+    },
+    {
+      "path": "evaluations/TRAIN-AUX02-primary.json",
+      "exists": true,
+      "sha256": "67c7a47c5d5027c38882950f7726ce6b737120048ce3eb1574de10cd45d8623e"
+    },
+    {
+      "path": "evaluations/TRANSHEAD-01-primary.json",
+      "exists": true,
+      "sha256": "d7ea60db69a86ce84b57456dc230225f2e0fb17c092a7289d3b98e29ca57169b"
+    },
+    {
+      "path": "final-runtime-audit/memory-reconciliation.json",
+      "exists": true,
+      "sha256": "f8d0d1cc28973476cac23c0d1ef49f88141ef531d901dc8e1fc4a42ac4cb2401"
+    },
+    {
+      "path": "final-runtime-audit/outcome-summary-amended.json",
+      "exists": true,
+      "sha256": "5c01c5fbe8e123beaa3ec9b4f16fdd0a3dac330e821d25df0f0b589f5be2d65f"
+    },
+    {
+      "path": "final-runtime-fallback-isa/outcome-summary.json",
+      "exists": true,
+      "sha256": "ca87ca3a7af6fcb2306808bf54939f2c5688d3c20df4858610f4a2b4e7f58d7b"
+    },
+    {
+      "path": "frontier.md",
+      "exists": true,
+      "sha256": "ea86dfc503d7ad39b5ef7f8c7c6aeb2b83d220e1f9e5138b6781997f62f77a81"
+    },
+    {
+      "path": "grader/frozen-sources.json",
+      "exists": true,
+      "sha256": "f18f0f0fc13fac702a0c36347e79fac28016d5e9b13fbfdb477928bd94eb5239"
+    },
+    {
+      "path": "pooled-fold-diagnostic.json",
+      "exists": true,
+      "sha256": "72bae89912252d9bf96a75d9b43af261c095bc91cfe9fb83c7894245931e2286"
+    },
+    {
+      "path": "pooled-fold-diagnostic.md",
+      "exists": true,
+      "sha256": "79b05cd1cde024ef53c32fff4f845a0f4b9c3ed98b340a414de3d9b5ba1c2624"
+    },
+    {
+      "path": "postfailure-independent-scout.md",
+      "exists": true,
+      "sha256": "63a4a44be7868acdaa7383f34ca00f883aa0c21dffcdcb8ac04b885611abcec6"
+    },
+    {
+      "path": "quant3/quality-decision.json",
+      "exists": true,
+      "sha256": "34edaa4707af03209f6c09514b0c670eb66d5772fe1f2bb638ddf948b4ab4acd"
+    },
+    {
+      "path": "quant3/runtime-report.md",
+      "exists": true,
+      "sha256": "dbbf93f35d7c12788dbc979c06d8925164ae7620d7ef71ccf4880e5943f7e85f"
+    },
+    {
+      "path": "renewal/execution-receipt.json",
+      "exists": true,
+      "sha256": "8cc014eafcb17a21d0c3a4be4bb9c48da41388a1e4b97c20e9c17cdeac4cab91"
+    },
+    {
+      "path": "sam/closure.json",
+      "exists": true,
+      "sha256": "171182a22c2dce3f553b95c4b48265e144257c21fbeebca9d5ba81b58925cc0e"
+    },
+    {
+      "path": "scalar/gpu-failure-summary.json",
+      "exists": true,
+      "sha256": "c2872fbea9df0b08c693f7c2e530889b2d717c7010e3b06eada8df97a3f1b457"
+    },
+    {
+      "path": "scalar/knots/fit.json",
+      "exists": true,
+      "sha256": "830924235927b59001572c77d274118be68de8605b889e6fc4a7926ae9777417"
+    },
+    {
+      "path": "scalar/native-input-proposal.json",
+      "exists": true,
+      "sha256": "2be2360c8d9c288dce308df77714cb590f8f151f183f3e791faa586df47594b1"
+    },
+    {
+      "path": "scalar/paper-correspondence.md",
+      "exists": true,
+      "sha256": "604cfdbda954532a94df1ef2810fb16cf08001eb54fb0320876b46ab9ec09675"
+    },
+    {
+      "path": "scalar/spec.md",
+      "exists": true,
+      "sha256": "c1d45b3c36279c0c8697b17982cf3ba45fb1691d32a796ede37d9621d4c549f5"
+    },
+    {
+      "path": "scalar/training-plan.seed3.v1.json",
+      "exists": true,
+      "sha256": "8b3b0f25bb22ecab73857aed7f75d8afae7c92c39e51c9a76b7189a9985a17a1"
+    },
+    {
+      "path": "scalar/training-seed3-allocation.json",
+      "exists": true,
+      "sha256": "ae7cab221632bf76e0bb9e70b96b686ac9739b5b971f368c250dbe168df2d60c"
+    },
+    {
+      "path": "state.json",
+      "exists": true,
+      "sha256": "2de601ca74abad99fee4589f3acb997d8d847d0dd9fd4b62a725c56e8dcfc1ba"
+    },
+    {
+      "path": "training/plan.json",
+      "exists": true,
+      "sha256": "80379a3053f601b48831a354418ed05cec05582c0afa9a03c951cc3144bf875c"
+    },
+    {
+      "path": "transition/spec.md",
+      "exists": true,
+      "sha256": "24be31ac85d322c46fb87f67470e913d8e9a83632fd12a0fe1a927799c4eadf3"
+    }
+  ],
+  "delivery_artifacts": [
+    {
+      "file": "candV1_ft2.zip",
+      "bytes": 7382512,
+      "sha256": "ea494921497d9f3cf53b19b1b68285133983560a249b38ef40738b3d846d319d",
+      "local_path": "/Users/nb/Documents/wunder/delivery-2026-10-01/candV1_ft2.zip",
+      "remote_path": "/home/grinchenkoeg/delivery-2026-10-01/candV1_ft2.zip",
+      "direct_local_hash_matches_staging": true,
+      "remote_hash_matches_local": true,
+      "remote_verification_method": "SSH read-only Python pathlib/hashlib of exact ZIP; stdout observed during this report task",
+      "remote_publication": false
+    },
+    {
+      "file": "baseline3_fixed.zip",
+      "bytes": 3796019,
+      "sha256": "9471821e81e7c3f80a088147512183b72e0ab52bc593a1136d2becc229d0d098",
+      "local_path": "/Users/nb/Documents/wunder/delivery-2026-10-01/baseline3_fixed.zip",
+      "remote_path": "/home/grinchenkoeg/delivery-2026-10-01/baseline3_fixed.zip",
+      "direct_local_hash_matches_staging": true,
+      "remote_hash_matches_local": true,
+      "remote_verification_method": "SSH read-only Python pathlib/hashlib of exact ZIP; stdout observed during this report task",
+      "remote_publication": false
+    },
+    {
+      "file": "experimental/quant3_fixed.zip",
+      "bytes": 6501798,
+      "sha256": "48cf940bd1c7e812fe8005a90e3f11fb3199a8940c55e0adbfef00ad1de1f10f",
+      "local_path": "/Users/nb/Documents/wunder/delivery-2026-10-01/experimental/quant3_fixed.zip",
+      "remote_path": "/home/grinchenkoeg/delivery-2026-10-01/experimental/quant3_fixed.zip",
+      "direct_local_hash_matches_staging": true,
+      "remote_hash_matches_local": true,
+      "remote_verification_method": "SSH read-only Python pathlib/hashlib of exact ZIP; stdout observed during this report task",
+      "remote_publication": false
+    }
+  ],
+  "pending_or_mismatches": [
+    {
+      "id": "M01",
+      "severity": "finalization_required",
+      "issue": "state.json/frontier.md say full-runtime pending and scalar contract preparing; latest reviewed receipts supersede these snapshots.",
+      "action_owner": "root",
+      "action": "Update overview from final actual outcomes without overwriting immutable receipts."
+    },
+    {
+      "id": "M02",
+      "severity": "finalization_required",
+      "issue": "delivery-staging-manifest.json and delivery manifest/README retain provisional baseline fulltrace-pending wording. ZIP byte identity is correct.",
+      "action_owner": "root",
+      "action": "Update final deliverable roles/status after scalar decision."
+    },
+    {
+      "id": "M03",
+      "severity": "awaiting_result",
+      "issue": "No scalar forecasting completion/quality result incorporated. Eight fits+fourOOF allocated, seed4/final/native conditional.",
+      "action_owner": "root",
+      "action": "Bind actual integrity review, two seed3 evaluations, closure or exact later allocation; refresh counts and report."
+    },
+    {
+      "id": "M04",
+      "severity": "known_coverage_limit",
+      "issue": "Large OOF prediction caches intentionally absent locally; remain on beleriand.",
+      "action_owner": "root",
+      "action": "Keep remote path/hash bindings in final delivery archive."
+    },
+    {
+      "id": "M05",
+      "severity": "historical_stage_documentation",
+      "issue": "Preparation README/spec text such as no empirical audit yet remains historical; report relies on subsequent actual-review/outcome files.",
+      "action_owner": "root",
+      "action": "Label stage or add final entrypoint; preserve prospective specs as evidence."
+    }
+  ],
+  "finalization_rule": "Do not present this draft as campaign complete. Update scalar outcome, observed run counts, final artifact roles and hashes; preserve all closed gates and uncertainty scope.",
+  "source_hash_semantics": "Hashes record files observed during this draft audit. Root-owned active overview files may change after this snapshot; immutable actual reviews/evaluations remain the evidentiary anchors."
+}

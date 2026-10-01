@@ -1,0 +1,25 @@
+--- frozen_seed3/run_training.py
++++ replication-preparation/run_training.py
+@@ -1,8 +1,11 @@
+ """Root-allocated two-lane fixed SCALARPLE screen. No metrics, retries or model selection."""
+ from pathlib import Path
+ import argparse,concurrent.futures,copy,datetime,json,os,signal,subprocess,threading,time
++import sys
++P=Path(__file__).resolve().parents[1];sys.path.insert(0,str(P))
+ from training_recipe import sha,enforce_cutoff
+-P=Path(__file__).resolve().parent;ROOT=P.parents[3]
++from feasibility import approved_receipts
++ROOT=P.parents[3]
+ def now():return datetime.datetime.now(datetime.timezone.utc)
+ def ident(pid):
+  try:
+@@ -29,7 +32,8 @@
+   for rel,h in alloc['sources'].items():assert sha(ROOT/rel)==h,rel
+  sources();out=ROOT/plan['execution_path'];out.mkdir(exist_ok=False);started=time.monotonic();stop=threading.Event();records=[];lock=threading.Lock();limits=plan['limits'];py=str(ROOT/'.venv/bin/python');owned={}
+  def write(path,value):path.write_text(json.dumps(value,indent=2)+'\n')
+- t0=plan['cost']['control_median_seconds'];t1=plan['cost']['ple_median_seconds'];cost=1.25*15000*(2*t0+3*t1)+5400;deadline=datetime.datetime.fromisoformat(plan['deadline_UTC']);remaining=(deadline-now()).total_seconds();write(out/'cost-at-launch.json',{'utc':now().isoformat(),'formula':'1.25*15000*(2*control+3*ple)+5400','seconds':cost,'remaining_seconds':remaining,'PASS':cost<=remaining,'separate_final_reserve_seconds':4800});assert cost<=remaining
++ t0=plan['cost']['control_median_seconds'];t1=plan['cost']['ple_median_seconds'];cost=1.25*15000*(t0+2*t1)+5400;deadline=datetime.datetime.fromisoformat(plan['deadline_UTC']);remaining=(deadline-now()).total_seconds();write(out/'cost-at-launch.json',{'utc':now().isoformat(),'formula':'1.25*15000*(control+2*ple)+5400','seconds':cost,'remaining_seconds':remaining,'PASS':cost<=remaining,'separate_final_reserve_seconds':4800});assert cost<=remaining
++ feasibility=approved_receipts(ROOT,alloc,now(),t0,t1);write(out/'actual-feasibility-at-launch.json',feasibility);assert feasibility['PASS'],'remaining-stage actual/cutoff feasibility failed'
+  def kill_owned(proc,identity):
+   if proc.poll() is None:
+    assert ident(proc.pid)==identity,'refuse reused group leader';os.killpg(proc.pid,signal.SIGKILL)
