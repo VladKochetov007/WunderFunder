@@ -1,0 +1,114 @@
+{
+  "id": "DIRECT-SCAN-CPU-01",
+  "status": "fixed_before_generated_results",
+  "seed": 2045,
+  "operator": "a=1-sigmoid(k), b=sigmoid(k)*positive_g(v); associative composition (a2*a1,b2+a2*b1), block64 FP32, actual h0 carried without detach",
+  "immutable_references": [
+    "../minimal_rnn.py",
+    "../native-prototype",
+    "../train_minimal.py"
+  ],
+  "source_sha256": {
+    "check_direct.py": "6e589c865417d5064819b11097871ff06c41f4af4d49cba451dba4eefd2e7f0a",
+    "direct_scan.py": "93b9dc53d6a501c99eebbcb8de36d2217c362f7c5e52749b9bb3905c809b812d",
+    "run_cpu.py": "f6706e1e0f67997524d7e616dec26a88c1bf76c6db1f6bc61b95be44c6d2ecd3",
+    "torch_reference.py": "7ce33c53b53c2be91a7726a9d36e3bba027dbabf81b3f1ea01b51b030dd2e65f"
+  },
+  "matrix": {
+    "cell_T": [
+      2000,
+      20000
+    ],
+    "normal_cell_B_H": [
+      2,
+      9
+    ],
+    "cell_initial": [
+      "zero",
+      "uniform[.1,2.1]"
+    ],
+    "extreme_logits": [
+      -80,
+      -20,
+      -17,
+      0,
+      20,
+      80
+    ],
+    "extreme_initial": [
+      0,
+      20
+    ],
+    "full_model": {
+      "D": 211,
+      "H": 256,
+      "L": 2,
+      "O": 23,
+      "B": 1,
+      "T": [
+        2000,
+        20000
+      ],
+      "initial": [
+        "zero",
+        "positive"
+      ]
+    },
+    "cell_VJP": {
+      "B": 2,
+      "T": 131,
+      "H": 7,
+      "normal_and_extreme": true,
+      "initial": [
+        "zero",
+        "positive"
+      ],
+      "references": [
+        "FP32 step",
+        "old log scan",
+        "FP64 literal"
+      ]
+    },
+    "full_model_VJP": {
+      "D": 11,
+      "H": 8,
+      "L": 2,
+      "O": 23,
+      "B": 2,
+      "T": 23,
+      "all_parameters_x_h0": true,
+      "initial": [
+        "zero",
+        "positive"
+      ],
+      "references": [
+        "actual FP32 step",
+        "old log scan",
+        "independent FP64 model recurrence"
+      ]
+    },
+    "underflow": "explicit coefficient/saturated a and positive product-to-zero accounting for gates [-80,-20,-17,-10,0,2,4,20,80]; bounded h0=20 contribution",
+    "CPU_timing": "one warmup plus3 forward/backward repetitions each old/direct; B1,T2000,H256,L2,O23; synthetic squared outputs, no optimizer"
+  },
+  "tolerances": {
+    "normal_atol": 2e-05,
+    "rtol": 2e-05,
+    "extreme_atol": 0.0002,
+    "causal_prefix": "bit exact"
+  },
+  "failure_policy": "Continue only predeclared fixed checks to retain full diagnosis; any numerical failure marks overall FAIL_FIXED_NUMERICAL_TOLERANCE. No threshold/formula changes, no alternative scan, no GPU allocation.",
+  "known_pre_result_risk": "FP32 subtraction at k about -20 yields a=1, whereas old log form can retain decay over64 rows. Sustained small update at -17 may accumulate different rounding in associative vs literal step. h0=20,T20000 explicitly tests this.",
+  "scope": "Generated CPU-only source/tensors. No real data, targets, forecasts, trained checkpoints, OOF, WP, GPU or changes to original wrapper/native. CPU timing cannot infer GPU B32 performance.",
+  "bounds": {
+    "CPU": [
+      34
+    ],
+    "CPUQuota": "200%",
+    "RAM_GiB": 4,
+    "swap": 0,
+    "timeout_seconds": 300,
+    "active_work_seconds": 900,
+    "disk_MiB": 100,
+    "CUDA_VISIBLE_DEVICES": ""
+  }
+}

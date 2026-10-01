@@ -1,0 +1,35 @@
+{
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--unit",
+    "wunder-student-native-probe01-probe",
+    "-p",
+    "CPUQuota=100%",
+    "-p",
+    "MemoryMax=4G",
+    "-p",
+    "MemorySwapMax=0",
+    "--",
+    "taskset",
+    "-c",
+    "18",
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "180s",
+    "/home/grinchenkoeg/scorer_image/run.sh",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/student/native-probe-01/probe.py"
+  ],
+  "timeout_seconds": 180,
+  "kill_grace_seconds": 5,
+  "started_utc": "2026-10-01T13:13:24.786575+00:00",
+  "fresh_loadavg": "9.25 10.92 11.89 9/5788 240397",
+  "fresh_cpu18_58_stat": [
+    "cpu18 24700842 1496293 4833350 471273923 97408 0 19190 0 0 0",
+    "cpu58 17725327 938752 3144389 479904820 140369 0 97594 0 0 0"
+  ],
+  "sibling_topology": "18,58"
+}

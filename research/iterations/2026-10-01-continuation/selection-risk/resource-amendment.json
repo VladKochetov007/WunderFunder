@@ -1,0 +1,15 @@
+{
+  "status": "PROSPECTIVE_ROOT_RESOURCE_REASSIGNMENT",
+  "old_gpu": 3,
+  "new_gpu": 7,
+  "reason": "GPU3 occupied by foreign process; root assigned GPU7 only after all student stages and generated minGRU release. No SEL empirical stage began.",
+  "required_root_student_completion_notice": true,
+  "required_peer_minGRU_release": true,
+  "old_extract_sha256": "5c8036fdc49cc8649c580bba2fec8c4a077ef1215a8df9dd15f4d43fd41ca712",
+  "new_extract_sha256": "260ada363262ad0251262e5157b3e0f8afa846e4b267de7cd9bb463eb95bac4a",
+  "only_source_replacement": {
+    "old": "assert gpu not in (6, 7), \"Foreign GPU6 and live student GPU7 are forbidden\"",
+    "new": "assert gpu == 7, \"Root assigned GPU7 only after student completion and minGRU release\""
+  },
+  "numerical_source_unchanged": true
+}

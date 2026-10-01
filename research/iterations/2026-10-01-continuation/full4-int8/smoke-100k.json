@@ -1,0 +1,181 @@
+{
+  "status": "PASS_CORRECTNESS_SMOKE",
+  "policy": "Q4 fixed d256+s3+s4+c500 equal1/4 dynamic-int8; no governor",
+  "rows": 100000,
+  "sequence_count": 5,
+  "wall_seconds": 8.81539810076356,
+  "process_cpu_seconds": 8.814195573,
+  "cpu_to_wall_ratio": 0.9998635878096696,
+  "us_per_row": 88.1539810076356,
+  "projected_minutes_39_4M": 57.8877808616807,
+  "precheck_activity": {
+    "cpu39": {
+      "total_ticks": 200,
+      "busy_ticks": 0,
+      "busy_fraction": 0.0
+    },
+    "cpu79": {
+      "total_ticks": 200,
+      "busy_ticks": 0,
+      "busy_fraction": 0.0
+    }
+  },
+  "aggregate_cpu_activity": {
+    "cpu39": {
+      "total_ticks": 881,
+      "busy_ticks": 881,
+      "busy_fraction": 1.0
+    },
+    "cpu79": {
+      "total_ticks": 883,
+      "busy_ticks": 0,
+      "busy_fraction": 0.0
+    }
+  },
+  "whole_window_cpu_activity": {
+    "cpu39": {
+      "total_ticks": 883,
+      "busy_ticks": 883,
+      "busy_fraction": 1.0
+    },
+    "cpu79": {
+      "total_ticks": 884,
+      "busy_ticks": 0,
+      "busy_fraction": 0.0
+    }
+  },
+  "smt_sibling_below_5pct": true,
+  "per_sequence": [
+    {
+      "index": 0,
+      "rows": 20000,
+      "wall_seconds": 1.7757390951737761,
+      "cpu_seconds": 1.7755411859999999,
+      "activity": {
+        "cpu39": {
+          "total_ticks": 177,
+          "busy_ticks": 177,
+          "busy_fraction": 1.0
+        },
+        "cpu79": {
+          "total_ticks": 178,
+          "busy_ticks": 0,
+          "busy_fraction": 0.0
+        }
+      },
+      "reference_bitexact": true,
+      "reference_errors": null
+    },
+    {
+      "index": 1,
+      "rows": 20000,
+      "wall_seconds": 1.7334059430286288,
+      "cpu_seconds": 1.7332120059999996,
+      "activity": {
+        "cpu39": {
+          "total_ticks": 173,
+          "busy_ticks": 173,
+          "busy_fraction": 1.0
+        },
+        "cpu79": {
+          "total_ticks": 174,
+          "busy_ticks": 0,
+          "busy_fraction": 0.0
+        }
+      },
+      "reference_bitexact": true,
+      "reference_errors": null
+    },
+    {
+      "index": 2,
+      "rows": 20000,
+      "wall_seconds": 1.7559864223003387,
+      "cpu_seconds": 1.7555790340000001,
+      "activity": {
+        "cpu39": {
+          "total_ticks": 176,
+          "busy_ticks": 176,
+          "busy_fraction": 1.0
+        },
+        "cpu79": {
+          "total_ticks": 176,
+          "busy_ticks": 0,
+          "busy_fraction": 0.0
+        }
+      },
+      "reference_bitexact": true,
+      "reference_errors": null
+    },
+    {
+      "index": 3,
+      "rows": 20000,
+      "wall_seconds": 1.751968483440578,
+      "cpu_seconds": 1.751781309,
+      "activity": {
+        "cpu39": {
+          "total_ticks": 175,
+          "busy_ticks": 175,
+          "busy_fraction": 1.0
+        },
+        "cpu79": {
+          "total_ticks": 175,
+          "busy_ticks": 0,
+          "busy_fraction": 0.0
+        }
+      },
+      "reference_bitexact": true,
+      "reference_errors": null
+    },
+    {
+      "index": 4,
+      "rows": 20000,
+      "wall_seconds": 1.7982981568202376,
+      "cpu_seconds": 1.7980820380000004,
+      "activity": {
+        "cpu39": {
+          "total_ticks": 180,
+          "busy_ticks": 180,
+          "busy_fraction": 1.0
+        },
+        "cpu79": {
+          "total_ticks": 180,
+          "busy_ticks": 0,
+          "busy_fraction": 0.0
+        }
+      },
+      "reference_bitexact": true,
+      "reference_errors": null
+    }
+  ],
+  "startup_import_model_seconds": 0.03327444661408663,
+  "extract_seconds": 0.050749896094202995,
+  "startup_max_rss_KiB": 80640,
+  "max_rss_KiB": 105428,
+  "final_vm_rss": "106208 kB",
+  "threads": 1,
+  "affinity": [
+    39
+  ],
+  "cpuinfo": "processor\t: 39\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 85\nmodel name\t: Intel(R) Xeon(R) Gold 6230 CPU @ 2.10GHz\nstepping\t: 6\nmicrocode\t: 0x4002f01\ncpu MHz\t\t: 3578.189\ncache size\t: 28160 KB\nphysical id\t: 1\nsiblings\t: 40\ncore id\t\t: 28\ncpu cores\t: 20\napicid\t\t: 120\ninitial apicid\t: 120\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 22\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 intel_ppin ssbd mba ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid cqm mpx rdt_a avx512f avx512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req vnmi pku ospke avx512_vnni md_clear flush_l1d arch_capabilities ibpb_exit_to_user\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs pml ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs taa itlb_multihit mmio_stale_data retbleed eibrs_pbrsb gds bhi its vmscape\nbogomips\t: 4200.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:",
+  "cpu_level": "v3",
+  "effective_integer_backend": "vnni",
+  "effective_integer_backend_code": 2,
+  "forced_module_and_backend_test_only": false,
+  "zip_sha256": "c2313be187bb152a7aa0244c2700eae90ab903b50608e23f4023bc51c35bfbdc",
+  "zip_bytes": 7465748,
+  "raw_sha256": "1e90c52f1332950b70d573618adad29324fb6705675e74cb75c7ca6efda993b4",
+  "reference_sha256": "824c37380385ecf5e99872c9e6472fc51f4b6b0a9fa85c661e65355610bd21f6",
+  "solution_sha256": "03ae884e98e8a90bda25e521dd9dbe7202817e892413b854c33709fa862dd2f1",
+  "native_sha256": "b865301e5ff0c9dce78c29c258d991a7b5542e7a63d44eeafd32c3b526166867",
+  "prediction_sha256": "25479cc5d4a85c385abe4dc9a3fa35d2b26bc705dca3de8887e402fc2e413486",
+  "reference_prediction_sha256": "25479cc5d4a85c385abe4dc9a3fa35d2b26bc705dca3de8887e402fc2e413486",
+  "frozen_v3_quant_reference_bitexact": true,
+  "pooled_cross_isa_errors": null,
+  "projection_at_most60_not_fullprocess_qualification": true,
+  "quality_qualification": "not established by runtime; non-VNNI WP remains unqualified",
+  "torch_runtime_absent": true,
+  "targets_read": false,
+  "WP_queries": 0,
+  "python": "3.11.16 (main, Sep 19 2026, 01:05:51) [GCC 12.2.0]",
+  "harness_sha256": "d48461703dca69a503febbc173bb01325b8958d083dd71f721969d57bf64326c"
+}

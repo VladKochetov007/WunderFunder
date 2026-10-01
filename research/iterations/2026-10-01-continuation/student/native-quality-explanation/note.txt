@@ -1,0 +1,36 @@
+The native pooled gain is +0.0000182451, although the fold-level gains are +0.0000711472 and +0.0001225462. Weighted Pearson pools weighted moments, then normalizes once. It does not average fold correlations: each fold correlation removes its own mean and scale, while pooled correlation uses a common mean and scale.
+
+An exact symmetric algebraic attribution gives within-fold moment changes +0.0000945596 WP and between-fold mean terms -0.0000763145 WP, summing to +0.0000182451. These are contributions to the existing pooled delta, not separately scored candidate variants or causal intervention effects.
+
+The main between-fold effect is target 1. Its prediction mean gap (fold0 minus fold1) contracts from 0.07728048 to 0.05515192; the target mean gap stays 0.09168917. Between-fold covariance falls by 0.0005052968, contributing -0.0003437255 correlation. The lower between-fold prediction variance offsets +0.0002145475, leaving -0.0001291780. Target 0 also has a smaller net between-fold contribution, -0.0000234510: its prediction mean gap rises 0.07541642 -> 0.07963795, increasing between-fold variance more than covariance helps the normalized correlation.
+
+The target-level changes also differ. Target0 pooled correlation improves +0.0001983620; target1 falls -0.0001618718. Their mean is the small positive WP change. On fold0, target1 already loses -0.0002169989, offset by target0 gaining +0.0003592933. Thus both fold-average WP gains do not imply both targets improve in each fold.
+
+Actual weighted population moments follow. W is weight mass, not sequence count. Means and variances refer to the clipped values already represented in the frozen six sums. Target-specific fold weight fractions are t0=(0.4780446844,0.5219553156) and t1=(0.4690739824,0.5309260176), unchanged between profiles.
+
+profile    target scope       W           mean_y       mean_pred       cov(y,p)       var(y)        var(pred)      corr
+reference  t0     0      529811.576540 -0.3130263378 -0.2347814830  1.0548875725  1.7965679487  1.2174955822  0.7132645756
+reference  t0     1      578477.237898 -0.3474436532 -0.3101979009  0.9763560496  1.7829839354  1.1411125386  0.6844949804
+reference  t0     pooled 1108288.814437 -0.3309906385 -0.2741454832  1.0145452831  1.7897732677  1.1790462139  0.6984044751
+reference  t1     0      525072.286458 -0.2962698683 -0.2452914437  1.0720806428  1.8215568781  1.2270857773  0.7170816763
+reference  t1     1      594308.250946 -0.3879590338 -0.3225719265  0.9946110515  1.7756045016  1.1512374219  0.6956610897
+reference  t1     pooled 1119380.537404 -0.3449500318 -0.2863216627  1.0327146900  1.7992532511  1.1883032683  0.7062696774
+candidate  t0     0      529811.576540 -0.3130263378 -0.2324322013  1.0518214533  1.7965679487  1.2092098227  0.7136238689
+candidate  t0     1      578477.237898 -0.3474436532 -0.3120701548  0.9781449375  1.7829839354  1.1448998362  0.6846139587
+candidate  t0     pooled 1108288.814437 -0.3309906385 -0.2739996545  1.0140495142  1.7897732677  1.1772253772  0.6986028371
+candidate  t1     0      525072.286458 -0.2962698683 -0.2491581476  1.0903263307  1.8215568781  1.2699771309  0.7168646774
+candidate  t1     1      594308.250946 -0.3879590338 -0.3043100681  0.9999878369  1.7756045016  1.1632962364  0.6957872038
+candidate  t1     pooled 1119380.537404 -0.3449500318 -0.2784397371  1.0436226459  1.7992532511  1.2140949928  0.7061078056
+
+Existing pooled-WP delta attribution (mean of target-specific contributions):
+  within_covariance              +0.003698711265
+  between_covariance             -0.000159379619
+  within_prediction_variance     -0.003604151678
+  between_prediction_variance    +0.000083065122
+
+For each target, C_total=C_within+C_between and V_total=V_within+V_between, with fold weights W_fold/W_total. Exact component values and per-target attributions are in decomposition.json. The change identity is Δrho=ΔC*mean(1/D_candidate,1/D_reference)+mean(C_candidate,C_reference)*Δ(1/D), where D=sqrt(Vy*Vp). All actual variances are positive and correlations lie strictly inside (-1,1), so the frozen metric’s degenerate-variance and correlation-clipping branches are inactive.
+
+This is a posthoc explanation on the same exposed 860 sequences/250 chains. Only existing sufficient.npz was read for data; no predictions, raw data, targets, masks or models were opened, no bootstrap was repeated, and no calibration, fold weighting or alternative score was optimized. The algebra does not add validation evidence.
+
+Input sufficient.npz SHA256: 8d59367fd1641e133a86a74ca053046f72d92cdbbce6cb12e1019f03ee9a021f
+Decomposition JSON SHA256: 4dba89f40a2f5071a0db354b823e6450966176f41c1603df81fa9a2623ba32ed

@@ -1,0 +1,41 @@
+{
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--unit",
+    "wunder-student-native-probe01-export",
+    "-p",
+    "CPUQuota=100%",
+    "-p",
+    "MemoryMax=4G",
+    "-p",
+    "MemorySwapMax=0",
+    "--",
+    "taskset",
+    "-c",
+    "18",
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "60s",
+    "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/student/native-probe-01/export.py",
+    "--members",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/student/native-probe-01/members.json",
+    "--native-dir",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/quant3/native/build",
+    "--output",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/student/native-probe-01/student_fold0.zip"
+  ],
+  "timeout_seconds": 60,
+  "kill_grace_seconds": 5,
+  "started_utc": "2026-10-01T13:13:22.575948+00:00",
+  "fresh_loadavg": "9.01 10.90 11.89 9/5788 240389",
+  "fresh_cpu18_58_stat": [
+    "cpu18 24700649 1496293 4833325 471273921 97408 0 19190 0 0 0",
+    "cpu58 17725326 938752 3144389 479904600 140369 0 97594 0 0 0"
+  ],
+  "sibling_topology": "18,58"
+}

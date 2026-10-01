@@ -1,0 +1,7 @@
+Final full-data shallow student: exactly one seed3 parent (4 epochs, fixed EMA model_ep3.pt) followed by one fresh H2 schedule (2 epochs, model_ep1.pt). No OOF, metric query, extra epoch, retry, or automatic follow-up. The original frozen overnight trainer is invoked directly; no training computation changed.
+
+The 103 parsed arguments match historical final find256_s3/find256_s3h2 logs, except names, one recurrent layer, and own-parent initialization. Relative to screened shallow CV, the only changes are all-valid inclusion, valid_fold=-1, historical eval_source=holdout, and final teacher names. Evaluation remains suppressed by the frozen trainer.
+
+Four existing fin256_s3/fin256_s4 train/valid caches passed a single bounded finite/header/full-SHA scan. Train rows are raw groups0..10606 excluding528; valid rows0..1872. Target values were not decoded. Historical producer epochs remain unknown and were explicitly accepted by root; cache bytes are not claimed to derive from ep3.
+
+run_plan.py is an isolated two-job derivative of the previously executed student runner. It defaults to source-only dry-run; actual execution requires the separately bound root allocation. It uses fresh owned UUID scopes, per-child timeout with15-second kill grace, run-name collisions fail, source/manifest hash checks, PyTorch fraction .25 and sampled device-total5632MiB envelope. Device polling is not a hard GPU partition. Limits: parent2400s, H2600s, whole2700s, host20GiB/swap0, CPU22,23,24,25,28,32 quota600%. Preserve intermediate checkpoints.

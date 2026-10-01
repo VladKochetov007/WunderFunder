@@ -1,0 +1,43 @@
+{
+  "id": "STUDENT-SEED4-PROSPECTIVE-DUPLICATE-CONTROL-02",
+  "created_utc": "2026-10-01T14:06:05.420750+00:00",
+  "authorized_by_root": true,
+  "timing": "Before any seed4 forecast readout; fold0 parent training is still active. No new study profile metric has been inspected.",
+  "reason": "The double-shallow profile raises total shallow-family weight from0.25to0.5 as well as adding another optimized seed. A mechanically implied duplicate-seed3 control separates these effects and can avoid needless final training/serving cost.",
+  "training_change": null,
+  "new_fits": 0,
+  "new_prediction_jobs": 0,
+  "quality_readout_events_total": 1,
+  "original_score_event_executed": false,
+  "replacement": "One v2 readout after all4fits+2OOF, using separate v2 evaluator/spec/bootstrap; original source and allocation stay unchanged.",
+  "additional_profile": {
+    "name": "duplicate_seed3",
+    "members": [
+      "cont_sh256_s3h2",
+      "cont_sh256_s3h2",
+      "on_ctl128s3",
+      "on_ctlc500"
+    ],
+    "coefficients": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ]
+  },
+  "additional_contrast": "double_shallow minus duplicate_seed3",
+  "total_profiles": 5,
+  "total_fixed_contrasts": 4,
+  "no_arbitrary_weight_grid": true,
+  "no_partial_epoch_or_seed_selection": true,
+  "conditional_uncertainty": "Descriptive2000pairedwholechainresamples on same exposed folds; no new confirmation or multiplicity-adjusted superiority claim.",
+  "original_preserved_source_sha256": {
+    "evaluate_seed4.py": "a4b7e4b7840b9f5aa472099bb6a2e0a665c5de1a0e086991dcf255b6575a8aa4",
+    "evaluation-spec.json": "1861ab67ccdb9403051689886a8d75b281f869b22331ce71aac3625188707167",
+    "bootstrap_seed4.py": "5f6941a672e9f87bd13a6356ae2a7e3e5a28420fefbde956a0029c641f6f1d16",
+    "allocation-01.json": "e55d0cef372b628644f2f5a0dbb3ff175563cd4a66ab0b4b97b628a4952251a3",
+    "commands.json": "a18a07564cbe9b68a6c0b99153d7861d181636757bd599d1b86b153384eee847",
+    "run_plan.py": "22dd0e0a1f8fa690853bd9d845598d92ad1aef0f14701a1c0b8949c22d0a24de"
+  },
+  "implementation_condition": "Bind separately named v2 sources and generated/source checks before the single score event. Per-event CPU/RAM/time budget stays unchanged. No extra root gate is needed once these checks pass."
+}

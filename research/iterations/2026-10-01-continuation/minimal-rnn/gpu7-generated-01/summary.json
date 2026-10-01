@@ -1,0 +1,43 @@
+{
+  "status": "PASS_GENERATED_GPU_MEMORY_FINITE_GRADIENT",
+  "model_sha256": "7ce33c53b53c2be91a7726a9d36e3bba027dbabf81b3f1ea01b51b030dd2e65f",
+  "probe_sha256": "0420784d194d6ed1035dc3d90b8f4333e0d719072c5445702ed75904c60786a1",
+  "sources_and_receipts": {
+    "NVML.jsonl": "9adf448d0e34da2da7b56065c6ca71eec0d68bda0bdb0dba0c5846fe97870868",
+    "execution.json": "5e41fc5074e54cce9c8b13f5b6cc2f46ed62a5b77dcf84d84c012d4eecfc7993",
+    "probe.jsonl": "94716860d31bbe082d6f6d9c1195bce6a35e4911df0a9f13a4f0bca5eb878320",
+    "probe.stderr": "c22ec99fed1e34148f10cec04aa7d2cffd104080320911db5822715aff28b8df"
+  },
+  "batch": 32,
+  "chunk": 2000,
+  "hidden": 256,
+  "layers": 2,
+  "outputs": 23,
+  "peak_torch_allocated_MiB": 4078.61572265625,
+  "peak_torch_reserved_MiB": 4222.0,
+  "peak_sampled_device_total_NVML_MiB": 4441,
+  "warmup_seconds": 2.348530421964824,
+  "timed_step_seconds": [
+    0.3090286925435066,
+    0.3011643197387457
+  ],
+  "mean_two_timed_steps_seconds": 0.30509650614112616,
+  "stage_seconds": 7.838578253053129,
+  "all_losses_gradients_params_finite": true,
+  "scale_unchanged_all_steps": true,
+  "peak_host_RSS_KiB": 1731164,
+  "GPU_release": {
+    "total_MiB": 16376,
+    "used_MiB": 4,
+    "free_MiB": 15970
+  },
+  "scope_release": "ActiveState=inactive\nSubState=dead\n",
+  "forecast_fits": 0,
+  "quality_queries": 0,
+  "limitations": [
+    "Synthetic squared main/aux loss, not the full forecast objective/loader.",
+    "Current prototype retains finite/nonnegative state host-sync checks.",
+    "Forward autocast gate projections differ from FP32 streaming; AMP/native parity unqualified.",
+    "Three steps do not qualify multi-epoch allocator growth or full-training resource use."
+  ]
+}

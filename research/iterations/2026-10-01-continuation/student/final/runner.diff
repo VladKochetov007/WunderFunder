@@ -1,0 +1,97 @@
+--- student/run_plan.py
++++ student/final/run_plan.py
+@@ -10,10 +10,12 @@
+ import subprocess
+ import time
+ import uuid
++import sys
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+ from build_plan import parser_from_source, resolve
+ 
+ HERE = Path(__file__).resolve().parent
+-ROOT = HERE.parents[3]
++ROOT = HERE.parents[4]
+ 
+ 
+ def sha(path):
+@@ -65,17 +67,12 @@
+     plan = json.loads(path.read_text()); sources(plan)
+     parser = parser_from_source(); steps = []
+     for job in plan['jobs']:
+-        assert re.fullmatch(r'cont_sh256_s3(?:h2)?_f[01]', job['name'])
++        assert re.fullmatch(r'cont_sh256_final_s3(?:h2)?', job['name'])
+         assert job['argv'][:2] == ['.venv/bin/python', 'research/iterations/2026-10-01-overnight/training/train_aux.py']
+         assert resolve(parser, job['argv'][2:]) == job['resolved_args']
+         steps.append((job, job['stage'], job['argv']))
+-        if 'OOF_argv' in job:
+-            expected = ['.venv/bin/python', str((HERE / 'predict_fixed.py').relative_to(ROOT)), job['name'],
+-                        '--fold', str(job['fold']), '--epoch', '1', '--batch', '16', '--output-dir',
+-                        'research/iterations/2026-10-01-continuation/cache']
+-            assert job['OOF_argv'] == expected
+-            steps.append((job, 'OOF', expected))
+-    assert len(steps) == 6
++        assert 'OOF_argv' not in job
++    assert len(steps) == 2 and [s for _, s, _ in steps] == ['parent', 'H2']
+     if not arg.execute:
+         print(json.dumps({'dry_run': True, 'commands_sha256': sha(path), 'runner_sha256': sha(Path(__file__)),
+                           'steps': [{'name': j['name'], 'stage': s, 'argv': v} for j, s, v in steps],
+@@ -88,26 +85,26 @@
+     assert a['commands_sha256'] == sha(path) and a['runner_sha256'] == sha(Path(__file__))
+     deadline = datetime.fromisoformat(a['deadline_utc'])
+     assert deadline.utcoffset() is not None and deadline > utc()
+-    assert type(a['GPU_id']) is int and a['GPU_id'] >= 0
+-    assert 0 < a['allocator_fraction'] <= .9 and 0 < a['allocator_max_MiB'] < 5632
++    assert type(a['GPU_id']) is int and a['GPU_id'] == 7
++    assert a['allocator_fraction'] == .25 and 0 < a['allocator_max_MiB'] < 5632
+     assert 0 < a['host_memory_bytes'] <= 20 * 2**30 and a['swap_bytes'] == 0
+-    assert 0 < a['cpu_quota_percent'] <= 600 and 0 < a['stage_seconds'] <= 6000
++    assert 0 < a['cpu_quota_percent'] <= 600 and 0 < a['stage_seconds'] <= 2700
+     assert a['CPU_ids'] and all(type(x) is int and x >= 0 for x in a['CPU_ids'])
+     assert 0 < a['monitor_seconds'] <= 1 and a['minimum_free_MiB'] > 0
+     assert 0 <= a['initial_max_used_MiB'] < a['device_total_envelope_MiB'] <= a['GPU_total_MiB']
+-    for kind, upper in [('parent', 3600), ('H2', 1200), ('OOF', 1200)]:
++    for kind, upper in [('parent', 2400), ('H2', 600)]:
+         assert 0 < a['step_seconds'][kind] <= upper
+     inventory = ROOT / a['inventory_receipt']
+     assert sha(inventory) == a['inventory_receipt_sha256'] and a['inventory_accepted_by_root'] is True
++    for r in json.loads(inventory.read_text())['records']:
++        if all(k in r for k in ('path', 'size', 'mtime_ns', 'inode')):
++            stat = Path(r['path']).stat()
++            assert (stat.st_size, stat.st_mtime_ns, stat.st_ino) == (r['size'], r['mtime_ns'], r['inode']), ('input stat changed', r['path'])
+     for name in required_files(plan):
+         assert (ROOT / name).is_file(), ('missing dependency', name)
+     for job in plan['jobs']:
+         run = ROOT / 'artifacts/runs' / job['name']
+         assert not run.exists() and not run.is_symlink(), ('run collision', str(run))
+-        if 'OOF_argv' in job:
+-            out = HERE.parent / 'cache' / f"pred_{job['name']}_valid.npy"
+-            for x in (out, out.with_suffix('.npy.partial'), out.with_suffix('.inputs.json')):
+-                assert not x.exists() and not x.is_symlink(), ('OOF collision', str(x))
+     execution = (ROOT / a['execution_directory']).resolve()
+     assert execution.is_relative_to(HERE.resolve()) and execution != HERE.resolve()
+     assert not execution.exists(), ('execution directory exists', str(execution))
+@@ -133,12 +130,9 @@
+             if stage == 'H2':
+                 parent = job['resolved_args']['init'].split('@ep')[0]
+                 assert (ROOT / f'artifacts/runs/{parent}/model_ep3.pt').is_file()
+-            if stage == 'OOF':
+-                assert (ROOT / job['endpoint']).is_file()
+-            else:
+-                run = ROOT / 'artifacts/runs' / job['name']
+-                assert not run.exists() and not run.is_symlink(), ('run collision', str(run))
+-            unit = 'student-' + uuid.uuid4().hex
++            run = ROOT / 'artifacts/runs' / job['name']
++            assert not run.exists() and not run.is_symlink(), ('run collision', str(run))
++            unit = 'student-final-' + uuid.uuid4().hex
+             prior = command(['systemctl', '--user', 'show', unit + '.scope', '-p', 'LoadState', '--value'])
+             assert prior.stdout.strip() in ('', 'not-found')
+             # Independent child deadline survives supervisor/SSH loss; KILL grace is explicit.
+@@ -199,7 +193,7 @@
+                     records.append(record)
+                     emit({'event': 'finished', **record})
+             assert record['cleanup_error'] is None and record['scope_state'] in ('', 'inactive', 'failed'), record
+-        status = 'COMPLETED_4_FITS_2_OOF_NO_METRICS'
++        status = 'COMPLETED_2_FINAL_FITS_NO_METRICS'
+     except BaseException:
+         status = 'FAILED_STOP_NO_RETRY'
+         raise

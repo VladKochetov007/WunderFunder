@@ -1,0 +1,50 @@
+{
+  "status": "SOURCE_ONLY_UNALLOCATED",
+  "spec_sha256": "ca04e87ae60bc3fda76a83b2ace70d78c3dce2c9e725ef0573be7cdae317c36e",
+  "gradient_core_sha256": "f5fcbb1a695ecec8d4e86425b7734e64095a08301b20d791fb896024d38a7c44",
+  "source_sha256": {
+    "scripts/train_rnn.py": "f97047e6ef51f32097f2cbe2eefc7c57766771ebaed12ae8798a3c1b7efcd52f",
+    "src/wnn/nn.py": "160447df28fa090684757551a75ee61d4f35c8c8c16c246324565306f46b8ec4",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "scripts/probe_conditional_mask.py": "89bdd3fd40082c2f9773d5d08da611402b1e1e2c82d14c697f6e93a45e1f9667",
+    "research/experiments.jsonl": "92c802918f1dde93c9be2cbfe2982c09c3870a414c3711aa560946371f46bd76"
+  },
+  "real_data_reads": 0,
+  "checkpoint_reads": 0,
+  "forecast_fits": 0,
+  "selector_fits": 0,
+  "GPU_runs": 0,
+  "WP_queries": 0,
+  "generated_tests_executed": 0,
+  "proposed_counts": {
+    "outer_folds": 2,
+    "chains": 128,
+    "sequences": 128,
+    "whole_prefix_rows": 2560000,
+    "sample_panels": 3,
+    "rows_per_panel_per_sequence": 256,
+    "selector_fits": 24,
+    "calibration_fits": 24,
+    "forecast_fits": 0,
+    "panels": {
+      "F": "fit/calibration only",
+      "A": "audit only",
+      "B": "audit only"
+    },
+    "max_sampled_records": 98304
+  },
+  "not_yet_implemented": [
+    "metadata manifest materializer",
+    "extract_selected.py",
+    "fit_selectors.py",
+    "generated analytical/autograd check"
+  ],
+  "unknown_until_authorized_metadata_inventory": [
+    "exact128 selected chain/rowgroup records and sample positions",
+    "H2 checkpoint SHA bindings and feature flags",
+    "actual installed sklearn/torch versions",
+    "valid parquet identity guard reuse and hashing cost",
+    "free GPU availability"
+  ]
+}

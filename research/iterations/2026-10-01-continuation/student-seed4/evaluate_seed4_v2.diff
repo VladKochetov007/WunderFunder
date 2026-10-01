@@ -1,0 +1,64 @@
+--- evaluate_seed4.py
++++ evaluate_seed4_v2.py
+@@ -1,4 +1,4 @@
+-"""Fixed four-recipe, three-contrast I/O adapter; metric functions are the frozen fold_eval source.
++"""Fixed five-recipe, four-contrast I/O adapter; metric functions are the frozen fold_eval source.
+ 
+ No execution is authorized by this file or its draft binding manifest.
+ Only main() reads data. The generated source test imports helpers only.
+@@ -23,11 +23,13 @@
+     "current_student4": (MEMBERS[0], MEMBERS[3], MEMBERS[4], MEMBERS[5]),
+     "strong4": (MEMBERS[2], MEMBERS[3], MEMBERS[4], MEMBERS[5]),
+     "single_seed4": (MEMBERS[1], MEMBERS[3], MEMBERS[4], MEMBERS[5]),
++    "duplicate_seed3": (MEMBERS[0], MEMBERS[0], MEMBERS[3], MEMBERS[5]),
+ }
+ CONTRASTS = {
+     "double_vs_current": ("double_shallow", "current_student4"),
+     "double_vs_strong": ("double_shallow", "strong4"),
+     "single_seed4_vs_current": ("single_seed4", "current_student4"),
++    "double_vs_duplicate_seed3": ("double_shallow", "duplicate_seed3"),
+ }
+ METRIC_SHA256 = "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0"
+ 
+@@ -101,7 +103,7 @@
+     args = ap.parse_args()
+     assert sha(args.bindings) == args.bindings_sha256
+     bindings = json.loads(args.bindings.read_text())
+-    assert bindings["status"] == "ROOT_ALLOCATED_FOR_FIXED_THREE_COMPARISONS"
++    assert bindings["status"] == "ROOT_ALLOCATED_FOR_FIXED_FOUR_COMPARISONS"
+     assert bindings["folds"] == [0, 1]
+     assert bindings["recipes"] == {k: list(v) for k, v in RECIPES.items()}
+     assert bindings["contrasts"] == {k: list(v) for k, v in CONTRASTS.items()}
+@@ -124,6 +126,16 @@
+     receipt = json.loads(repository_path(record["path"]).read_text())
+     # Field/value are explicit in frozen bindings; no inference from exit0.
+     assert receipt[record["required_field"]] == record["required_value"]
++
++    # Prospective single-event replacement; the original allocation remains intact.
++    amendment = bindings["prospective_amendment"]
++    assert amendment == {"path": "research/iterations/2026-10-01-continuation/student-seed4/amendment-02.json", "sha256": "45d895efaf2c55e053c04037adc8033f1c0d21c4f3ad0fdd32b5747e8c08929b"}
++    pinned(repository_path(amendment["path"]), amendment["sha256"], tracked)
++    authority = json.loads(repository_path(amendment["path"]).read_text())
++    assert authority["id"] == "STUDENT-SEED4-PROSPECTIVE-DUPLICATE-CONTROL-02"
++    assert authority["authorized_by_root"] and not authority["original_score_event_executed"]
++    assert authority["quality_readout_events_total"] == 1
++    assert authority["total_profiles"] == 5 and authority["total_fixed_contrasts"] == 4
+ 
+     fe = metric_module()
+     tg = np.load(ROOT / "cache/valid_targets.npz", allow_pickle=False)
+@@ -197,12 +209,12 @@
+     result = {
+         "comparisons": {name: comparison(fe, stats[c], stats[r], fold_ids)
+                         for name, (c, r) in CONTRASTS.items()},
+-        "fixed_comparisons": 3, "contrasts": bindings["contrasts"],
++        "fixed_comparisons": 4, "contrasts": bindings["contrasts"],
+         "sequences": len(positions), "pure_only": True, "folds": [0, 1],
+         "recipes": bindings["recipes"], "provenance": started,
+-        "inference": "three fixed descriptive comparisons; no blend search or automatic promotion",
++        "inference": "four fixed descriptive comparisons; no blend search or automatic promotion",
+         "exposure": "previously exposed folds; no independent confirmation or hidden-test guarantee",
+-        "uncertainty": "point estimates here; the separately frozen bootstrap_seed4.py specifies conditional paired-chain intervals, not training-seed or selection uncertainty",
++        "uncertainty": "point estimates here; the separately frozen bootstrap_seed4_v2.py specifies conditional paired-chain intervals, not training-seed or selection uncertainty",
+     }
+     # A changed input invalidates the attempt; no quiet acceptance of replaced files.
+     for path, expected in tracked.items():

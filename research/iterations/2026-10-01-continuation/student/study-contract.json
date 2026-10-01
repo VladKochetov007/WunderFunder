@@ -1,0 +1,51 @@
+{
+  "id": "CONT-STUDENT-01",
+  "created_utc": "2026-10-01T12:09:41.074659+00:00",
+  "objective_mode": "competition",
+  "question": "Does a width256 one-layer student preserve the useful d256 contribution at lower streaming cost?",
+  "recipe_manifest_sha256": "f0804cda8b2dde75490496e2014898352ce205fe54837f8c7cbcdfa7823ce30a",
+  "runner_sha256": "bad1a00ed8fbca8be6c18c3b11c1b4139ded7438735bd6568a31c1a9cbeee3f7",
+  "candidate": "GRU256x1; original same-fold causal h256s3/s4 mean teachers alpha0.5; fixed parent EMA epoch3 and ordinary H2 epoch1",
+  "baseline": "Existing on_ctld256 + on_ctl128s3 + on_ctl128s4 + on_ctlc500, weights0.25; secondary current operational fixed3",
+  "comparison": "Replace d256 only; exactly the two compositions in student-experiment.json. No width, teacher, epoch, blend or member search.",
+  "data": "Existing organizer train/valid, exact existing chain folds and exclusion of train rowgroup528. Shared caches read-only.",
+  "teacher_provenance_limitation": "Existing cache bytes are inventoried and finite, teacher model configurations are correct same-fold causal plain h256. Missing producer sidecars/logs mean exact cache checkpoint epoch is not asserted. Use original caches, no regeneration or teacher substitution.",
+  "budgets": {
+    "forecast_fits": 4,
+    "H2_OOF_jobs": 2,
+    "parent_OOF_jobs": 0,
+    "simultaneous_GPU_jobs": 1,
+    "whole_execution_seconds": 6000,
+    "CPU_equivalents": 6,
+    "host_memory_GiB": 20,
+    "new_disk_GiB_max": 4,
+    "public_submissions": 0,
+    "GitHub_operations": 0,
+    "new_paid_compute": 0
+  },
+  "metric": "Frozen global pooled Pearson with predictions/targets clipped to +/-2, |clipped target| weights; mean of2targets; pure chain heldfolds0/1 required scored rows after warmup99",
+  "exposure": "All folds previously exposed; same seed with changed layer count does not preserve normalization sample or data order. This is a recipe screen, not a pure causal-depth ablation or confirmation on fresh data.",
+  "quality_readout": {
+    "reports": 1,
+    "fixed_comparisons": 2,
+    "primary": "candidate4 minus reference4",
+    "secondary": "same candidate4 minus reference3",
+    "fold_views": [
+      0,
+      1
+    ],
+    "no_intermediate_epoch_metric_selection": true
+  },
+  "decision_policy": [
+    "Validity, finite selected predictions, no heldfold training inputs and serving causality are mandatory.",
+    "If candidate4 pooled quality is below both references, stop this recipe screen and retain all artifacts.",
+    "Otherwise weigh both pooled contrasts, fold heterogeneity and achievable cost. A single small positive does not establish superiority; a small negative fold is not an automatic veto.",
+    "A promising quality/cost tradeoff can receive one separately bounded runtime check or paired-seed replication, decided and recorded before executing it. No automatic extra fits or native work.",
+    "Any final artifact choice requires actual deterministic native quality/runtime qualification; dense MAC savings are not measured speed. Official runtime60min is the hard requirement,50min only a preference."
+  ],
+  "stops": [
+    "Stop on fit/OOF failure, nonfinite result, resource violation, source/identity mismatch or allocated deadline. Preserve partial outputs; no silent retry, batch reduction or teacher change."
+  ],
+  "preservation": "All new outputs under continuation and uniquely named cont_sh256 run directories. Closed overnight archive and external delivery remain unchanged. Local and SSH synchronization; no public upload.",
+  "allocation": "Separate current-host allocation binds accepted inventory, GPU7, CPU affinities, explicit allocator fraction and absolute deadline before execution."
+}

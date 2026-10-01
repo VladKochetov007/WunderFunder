@@ -1,0 +1,30 @@
+--- bind_completed_readout.py
++++ bind_completed_readout_v2.py
+@@ -1,4 +1,4 @@
+-"""Materialize the already authorized fixed readout after all six job steps pass."""
++"""Materialize the already authorized v2 fixed readout after all six job steps pass."""
+ from pathlib import Path
+ import hashlib,json
+ HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[3]
+@@ -13,8 +13,11 @@
+ assert inspection['allocation_sha256']==sha(HERE/'allocation-01.json')
+ result=json.loads((HERE/'execution-01/result.json').read_text())
+ assert result['status']=='COMPLETED_4_FITS_2_OOF_NO_METRICS' and inspection['root_result_sha256']==sha(HERE/'execution-01/result.json')
+-b=json.loads((HERE/'evaluation-spec.json').read_text())
+-b['status']='ROOT_ALLOCATED_FOR_FIXED_THREE_COMPARISONS'
++assert not (HERE/'evaluation-01').exists() and not (HERE/'evaluation-v2-01').exists()
++assert sha(HERE/'amendment-02.json')=='45d895efaf2c55e053c04037adc8033f1c0d21c4f3ad0fdd32b5747e8c08929b'
++for name,digest in json.loads((HERE/'amendment-02.json').read_text())['original_preserved_source_sha256'].items():assert sha(HERE/name)==digest
++b=json.loads((HERE/'evaluation-spec.v2.json').read_text())
++b['status']='ROOT_ALLOCATED_FOR_FIXED_FOUR_COMPARISONS'
+ b['root_allocation']={'path':str((HERE/'allocation-01.json').relative_to(ROOT)),'sha256':sha(HERE/'allocation-01.json'),'required_field':'score_execution_authorized','required_value':True}
+ for name,rec in b['predictions'].items():
+  meta=json.loads((ROOT/rec['receipt']).read_text())
+@@ -26,5 +29,5 @@
+ b['source_sha256']=sha(Path(__file__))
+ b['completed_fit_inspection_sha256']=sha(HERE/'fit-inspection.json')
+ b['completed_run_result_sha256']=sha(HERE/'execution-01/result.json')
+-with (HERE/'bindings-01.json').open('x') as f:json.dump(b,f,indent=2);f.write('\n')
+-print(json.dumps({'bindings_sha256':sha(HERE/'bindings-01.json'),'actual_metric_computations':0,'prediction_arrays_hashed_by_evaluator_before_and_after_readout':True}))
++with (HERE/'bindings-v2-01.json').open('x') as f:json.dump(b,f,indent=2);f.write('\n')
++print(json.dumps({'bindings_sha256':sha(HERE/'bindings-v2-01.json'),'actual_metric_computations':0,'prediction_arrays_hashed_by_evaluator_before_and_after_readout':True}))

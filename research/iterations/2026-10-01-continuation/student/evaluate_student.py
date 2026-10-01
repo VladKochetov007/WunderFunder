@@ -193,7 +193,7 @@ def main():
         "recipes": bindings["recipes"], "provenance": started,
         "inference": "two fixed descriptive comparisons; no blend search or automatic promotion",
         "exposure": "previously exposed folds; no independent confirmation or hidden-test guarantee",
-        "uncertainty": "no new bootstrap requested; training-seed and selection uncertainty not estimated",
+        "uncertainty": "point estimates here; the separately frozen bootstrap-protocol.md specifies conditional paired-chain intervals, not training-seed or selection uncertainty",
     }
     # A changed input invalidates the attempt; no quiet acceptance of replaced files.
     for path, expected in tracked.items():

@@ -1,0 +1,83 @@
+{
+  "utc": "2026-10-01T14:42:05.921021+00:00",
+  "result_sha256": "5b3e8746ad5fa2653cdbb62637796bf51e6377adca0481f44189f25850888847",
+  "supervisor_PID": 577954,
+  "supervisor_exists": false,
+  "observed_owned_PIDs": [
+    577962,
+    577967,
+    577968,
+    578037,
+    578041,
+    578624,
+    578628,
+    579095,
+    579099,
+    579100,
+    579138,
+    579142
+  ],
+  "remaining_owned_PID_paths": [],
+  "scope_release": [
+    {
+      "argv": [
+        "systemctl",
+        "--user",
+        "show",
+        "student-seed4-recovery-282ae04726a54f1b87069b73ed0bad42.scope",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "ControlGroup"
+      ],
+      "exit": 0,
+      "stdout": "ControlGroup=\nActiveState=inactive\nSubState=dead\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "--user",
+        "show",
+        "student-seed4-recovery-571c86f688f5475d8bc82ed6af5e94f3.scope",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "ControlGroup"
+      ],
+      "exit": 0,
+      "stdout": "ControlGroup=\nActiveState=inactive\nSubState=dead\n",
+      "stderr": ""
+    }
+  ],
+  "GPU": {
+    "argv": [
+      "nvidia-smi",
+      "-i",
+      "7",
+      "--query-gpu=uuid,memory.used,memory.free",
+      "--format=csv,noheader,nounits"
+    ],
+    "exit": 0,
+    "stdout": "GPU-2551b12a-3435-ca76-deac-9f15dfc2dd8a, 10555, 5419\n",
+    "stderr": ""
+  },
+  "apps": {
+    "argv": [
+      "nvidia-smi",
+      "--query-compute-apps=gpu_uuid,pid,used_memory",
+      "--format=csv,noheader,nounits"
+    ],
+    "exit": 0,
+    "stdout": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8, 565358, 10550\nGPU-a922981b-b848-d027-b714-170d91808e71, 321629, 15534\nGPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 321630, 15534\nGPU-972b1ac9-5c27-384f-8f3b-b917fd06deba, 216986, 5556\nGPU-a8fab7e3-7598-a8c6-a311-4c3fdbd02042, 1563115, 8700\nGPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c, 275733, 13038\nGPU-53eaee12-1803-f8da-7399-ccdbfda91a18, 275733, 15584\nGPU-2551b12a-3435-ca76-deac-9f15dfc2dd8a, 573621, 10544\n",
+    "stderr": ""
+  },
+  "sampled_peak_owned_MiB": 2228,
+  "sampled_min_free_MiB": 3208,
+  "sampled_peak_device_total_MiB": 12767,
+  "monitor_is_sampled_not_hard_partition": true
+}

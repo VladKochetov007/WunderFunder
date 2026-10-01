@@ -1,0 +1,82 @@
+{
+  "status": "COMPLETE_TWO_FIXED_OOF_MODES_NO_METRIC",
+  "fold": 0,
+  "cpu": 30,
+  "started_utc": "2026-10-01T12:37:07.059033+00:00",
+  "limits": {
+    "cpu.max": "100000 100000",
+    "memory.max": "4294967296",
+    "memory.swap.max": "0"
+  },
+  "allocation_sha256": "64c58731de8017cf9d171411c9221f4a14f03896c4cccc4e739a2449c437e487",
+  "jobs": [
+    {
+      "name": "prepare",
+      "argv": [
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/full4-int8/prepare_oof.py",
+        "--fold",
+        "0",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/full4-int8/allocation.json"
+      ],
+      "seconds": 2.120320728048682,
+      "exit_code": 0,
+      "log_sha256": "bf890da499a6e627b677e231dbd2a4a03b75145e608811ebc3ab1035923e9298"
+    },
+    {
+      "name": "quant",
+      "argv": [
+        "/home/grinchenkoeg/scorer_image/run.sh",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/full4-int8/predict_oof.py",
+        "--manifest",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/full4-int8/oof/fold0/quant.checkpoint.json"
+      ],
+      "seconds": 771.3917973497882,
+      "exit_code": 0,
+      "log_sha256": "491969e502ccbd5ec3b8038639c2c1158da44cec71105c0d20910683436f582a"
+    },
+    {
+      "name": "fp16",
+      "argv": [
+        "/home/grinchenkoeg/scorer_image/run.sh",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/full4-int8/predict_oof.py",
+        "--manifest",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/full4-int8/oof/fold0/fp16.checkpoint.json"
+      ],
+      "seconds": 1505.3844310538843,
+      "exit_code": 0,
+      "log_sha256": "0526f41634f0963a0bc6ae1112fdb2b1fe34839f4b3b8f4dbebb058a15ff76e7"
+    }
+  ],
+  "inputs_before": {
+    "datasets/valid.parquet": {
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "bytes": 5615509128
+    },
+    "cache/chain_folds.npz": {
+      "sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+      "bytes": 562791
+    },
+    "cache/valid_targets.npz": {
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "bytes": 337186198
+    }
+  },
+  "inputs_after": {
+    "datasets/valid.parquet": {
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "bytes": 5615509128
+    },
+    "cache/chain_folds.npz": {
+      "sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+      "bytes": 562791
+    },
+    "cache/valid_targets.npz": {
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "bytes": 337186198
+    }
+  },
+  "seconds": 2307.3040224574506,
+  "ended_utc": "2026-10-01T13:15:34.363056+00:00"
+}

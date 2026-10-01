@@ -1,0 +1,138 @@
+{
+  "status": "COMPLETE_FULL4_INT8_QUALITY_AND_ACTUAL_RUNTIME",
+  "utc": "2026-10-01T13:37:24.812951+00:00",
+  "artifact": {
+    "path": "package/quant4_fixed.zip",
+    "sha256": "c2313be187bb152a7aa0244c2700eae90ab903b50608e23f4023bc51c35bfbdc",
+    "bytes": 7465748,
+    "members": [
+      "find256_s3h2",
+      "fin128_s3h2",
+      "fin128_s4h2",
+      "finc500b_s3h2"
+    ],
+    "coefficients": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "fixed_epoch": 1,
+    "governor": false
+  },
+  "quality": {
+    "quant_wp": 0.7023370762430894,
+    "same_member_FP16_wp": 0.7023454478196809,
+    "delta": -8.371576591503782e-06
+  },
+  "quality_by_fold": {
+    "0": {
+      "quant_wp": 0.7151731259314875,
+      "same_member_FP16_wp": 0.7151814626479572,
+      "delta": -8.336716469714567e-06
+    },
+    "1": {
+      "quant_wp": 0.6900780350724203,
+      "same_member_FP16_wp": 0.690085148286412,
+      "delta": -7.113213991716272e-06
+    }
+  },
+  "pure_sequences": 860,
+  "runtime": {
+    "qualified_on_measured_host": true,
+    "whole_process_seconds": 3469.438589433208,
+    "whole_process_minutes": 57.82397649055347,
+    "official_limit_seconds": 3600,
+    "headroom_seconds": 130.5614105667919,
+    "callback_minutes": 55.7679912372337,
+    "callback_us": 84.92587498055894,
+    "callbacks": 39400000,
+    "emitted": 39204970,
+    "sequences": 1970,
+    "native_level": "v3",
+    "integer_backend": 2,
+    "native_sha256": "b865301e5ff0c9dce78c29c258d991a7b5542e7a63d44eeafd32c3b526166867",
+    "CPU": 39,
+    "SMT_sibling": 79,
+    "callback_sibling_busy_fraction": 0.01459350091601639,
+    "whole_trace_sibling_busy_fraction": 0.014583254561266247,
+    "max_RSS_KiB": 362228,
+    "cgroup_limits": {
+      "path": "/user.slice/user-1061.slice/user@1061.service/app.slice/q4-full-runtime-20261001.scope",
+      "cpu.max": "100000 100000",
+      "memory.max": "17179869184",
+      "memory.swap.max": "0"
+    },
+    "repeated_sequences_byte_identical": 97,
+    "source_files_reverified": 14,
+    "raw_input_before_after_equal": true,
+    "library_versions": {
+      "numpy": "2.2.6",
+      "pyarrow": "19.0.1"
+    }
+  },
+  "resource_release": {
+    "scopes": {
+      "q4-full-runtime-20261001.scope": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "q4-oof-f0-20261001.scope": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "q4-oof-f1-20261001.scope": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "q4-quality-20261001.scope": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      }
+    },
+    "runtime_PID": 219086,
+    "start_ticks": 502546777,
+    "runtime_PID_absent": true,
+    "observed_artifact_tree_bytes_before_this_receipt": 1223431304,
+    "disk_limit_bytes": 4294967296
+  },
+  "work_counts": {
+    "new_forecast_fits": 0,
+    "OOF_passes": 4,
+    "fixed_quality_comparisons": 1,
+    "full_runtime_attempts": 1,
+    "retries": 0,
+    "GPU_jobs": 0
+  },
+  "evidence_sha256": {
+    "allocation.json": "64c58731de8017cf9d171411c9221f4a14f03896c4cccc4e739a2449c437e487",
+    "runtime-plan.json": "35eb89808044cf9648200d7c434df76eb2df00d97864fd23d8dae93dd6a5938e",
+    "runtime-plan-clarification.json": "46ef57bdccc3637c4b9775bc549e4ee70d7e96b9067fcf43d59888d911592df6",
+    "synthetic-four.json": "e84083f9ef1c85e8160d9eb5f6b61447526a42001f3c5f3a934443762359fb2d",
+    "smoke-100k.json": "76b0e3db0061056d373d373ee8be220b302ffefedb1b72d0104e4dc08c3f5abf",
+    "prequality-integrity.json": "1296faea75d871257aea05e5410a7d323daa4daceb0d7fbd66eb820f3742b22b",
+    "lane0/result.json": "304c5135babbfbc039597fbec66b40bc357f40b884b59547daacd46a439b15ae",
+    "lane1/result.json": "fd9dc2fb37e906c013ef18e1096f6009b9225e21430303bfb5471517fc1f0b90",
+    "quality.json": "06ece489d13f05589ffc74f484938fa0191a16a74a545c7786eb087b7e839fa1",
+    "quality-resource.log": "deda894a4d94a5b1baeb4eaa1a8a826fa91f3b1798c8b42b0c32d5590c8b011d",
+    "quality-sufficient.npz": "267da762c86b5ccdad5fdc1b078969e45475902a05a96873dd969626d34e5580",
+    "execution/launch.json": "0e35e7ed0ee206e5090ff51946d08ca18e5736962803fab8a936ad8b027c03a8",
+    "execution/worker-process.json": "24c80d7c8fbd9d77bdb55d8f834fab6152c8af2d51d69eb455d137f9b18646f1",
+    "execution/sequences.jsonl": "dfb5a33d9ca2b4ba57ecab819a44881deb41a570b370b0b7b1304eb3f066f867",
+    "execution/worker-result.json": "e02e5772eb39033ac7b611b17efc92ea26cc1a68d8c1278d43d5c2aec9b65ef9",
+    "execution/launch-result.json": "d5becacf94cedf9d686e6c4f4716dc0f734e4fcd9b9d58d37d158251ded57263",
+    "execution/resource-midpoint.json": "fd91dcc263a7ea080b52d7cff8a621096eb2d0122286230ac217dad0a40de753",
+    "execution/resource-late.json": "ec9c606c6caacf13ea6225ecfd8d372157cb38c614cadb4907c869f688dc39be",
+    "package/quant4_fixed.manifest.json": "01cace5fb06c4ac9828dbd5273d1616ff30cb6c66c4cab48b633933d983bbf1f"
+  },
+  "limitations": [
+    "Runtime qualifies the measured beleriand natural v3/VNNI host only; portable AVX2/v2 fallback runtime is not qualified.",
+    "Quality uses fixed heldfold analogues on860 previously exposed pure sequences; final weights differ and no hidden-test/rank guarantee follows.",
+    "The single runtime includes all observed contention, input hashes, extraction/import, reading, callbacks and checks; no timing subtraction or retry.",
+    "Four full prediction arrays remain under the remote cache with exact hashes in quality.json; metadata,exports,ZIP and final evidence are copied locally."
+  ]
+}
