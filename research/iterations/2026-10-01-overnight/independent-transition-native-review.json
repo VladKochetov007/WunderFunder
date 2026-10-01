@@ -1,0 +1,31 @@
+{
+  "status": "PASS for reviewed transition extension; final trained/exported artifact still requires validation",
+  "reviewer": "transition_features actor, independent of C++ port and native oracle author",
+  "checks": [
+    "C++ config uses double arrays from separate JSON, not float32 generic weight loader",
+    "raw float32 cutoff/neutral threshold, exact numeric change and strict center comparison match frozen feature contract",
+    "pre-observation marginal/conditional probabilities and current-mark innovation order match specification",
+    "invalid/neutral rows advance raw detector state; previous emitted context remains unchanged",
+    "reset clears count, raw and emitted history; no4096event cap; int counts safe through20000rows",
+    "head_extra is added before existing GELU with correct68channel width; original normalization/GRU/head names unchanged",
+    "extra weights remainfloat32 even when ordinary dense matrices usehalf; must describe as mixed precision",
+    "missing feature_config/extra-weight mismatches rejected; wrong nuisance shapes/normalization rejected",
+    "independent compiled literal posterior test passed for transition1->2 repeated, invalid bridge, reset, same-category change and invalidconfig"
+  ],
+  "command": "c++ -std=c++17 -O2 research/iterations/2026-10-01-overnight/independent_transition_native_review.cpp -o /tmp/wunder-transition-native-review && /tmp/wunder-transition-native-review",
+  "output": "PASS: independent literal pre-observation posterior, held last mark, invalid bridge, reset, same-category event, invalid config",
+  "limitations": [
+    "Static integration review plus independent feature-level C++ checks; reused critic full-model numeric tests are not claimed as my independent numerical replication",
+    "Critic recoveryC++ baseline does not sanitize rawNaNs in modelstep; transition module handlesinvalidrows but does not repair preexisting backbonebehavior",
+    "Need real trainedcheckpoint nativeparity, finalmixedensemble parity and fixed4runtime beforepromotion"
+  ],
+  "files": {
+    "research/iterations/2026-10-01-overnight/critic/native_transition/include/wnn/transition_features.hpp": "4fed9a92f5b7422d37cdb605f697e94466959930a916daf74b2e0ee170d82fa2",
+    "research/iterations/2026-10-01-overnight/critic/native_transition/include/wnn/model.hpp": "8f0a18b6ce7238b89fc4b7eea8b6da234cef2fac0bd194d1f9346da0df67abc4",
+    "research/iterations/2026-10-01-overnight/critic/native_transition/src/bindings.cpp": "497bb9f003763be5c2ac58d7a57cf40d784dadfc096ce2573384f49890113e08",
+    "research/iterations/2026-10-01-overnight/independent_transition_native_review.cpp": "a45a543fad3f62b60cd1064fa83cbf4d6e47079206f2f253d24430a27b986778"
+  },
+  "empirical_data_read": false,
+  "forecasting_fits": 0,
+  "WP_queries": 0
+}

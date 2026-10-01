@@ -1,0 +1,9 @@
+{
+  "stage": "synthetic preexecution",
+  "failed_assertion": "bit equality against a requires_grad=True baseline while scale backbone is fully frozen",
+  "diagnosis": "CPU GRU requires_grad-dependent kernel path changes up to5.96e-8 outputs/2.98e-8 recurrent state; identical fully frozen models are bit equal",
+  "fix": "compare initial predictions with equally frozen base and preserve independent folded-export tolerance test",
+  "empirical_fits": 0,
+  "WP_queries": 0,
+  "second_failure": "same requires_grad-dependent GRU rounding in recurrent state of exported ordinary model; state comparison now uses same1e-6/1e-7 tolerance as output"
+}

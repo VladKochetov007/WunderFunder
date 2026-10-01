@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/ensemble/selftest.py", line 99, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/ensemble/selftest.py", line 97, in main
+    torch.set_num_threads(2);result={'status':'PASS','gradients':gradient_checks(),'scale':scale_checks(),'cache':cache_checks(),'source':dataset_and_source_checks(),'empirical_data_read':False,'GPU_jobs':0,'WP_queries':0,'code_sha256':{p.name:sha(p) for p in sorted(HERE.glob('*.py'))}}
+                                                                                           ~~~~~~~~~~~~^^
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/ensemble/selftest.py", line 47, in scale_checks
+    torch.testing.assert_close(a,b,rtol=1e-6,atol=1e-7);assert torch.equal(ha,hb)
+                                                               ~~~~~~~~~~~^^^^^^^
+AssertionError

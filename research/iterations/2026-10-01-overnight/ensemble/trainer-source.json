@@ -1,0 +1,67 @@
+{
+  "base": "scripts/train_rnn.py",
+  "base_sha256": "f97047e6ef51f32097f2cbe2eefc7c57766771ebaed12ae8798a3c1b7efcd52f",
+  "implementation_sha256": "7e8fb8b567af132c09980b11b09b41ad579b5f1bdf6875bd1729aa3f22a24894",
+  "changes": [
+    {
+      "before": "ROOT = Path(__file__).resolve().parents[1]",
+      "after": "ROOT = Path(__file__).resolve().parents[4]\nfrom support import ScaleModel, PartnerCache, export_state, scale_values\nPARTNER_CACHE = None",
+      "count": 1
+    },
+    {
+      "before": "        y = seq.targets",
+      "after": "        if PARTNER_CACHE is None:\n            raise RuntimeError(\"ensemble partner cache not installed\")\n        partner_sum = PARTNER_CACHE.sum_for_group(int(self.indices[i]))\n        y = np.concatenate([seq.targets, partner_sum], axis=1)",
+      "count": 1
+    },
+    {
+      "before": "def make_model(args_dict, n_in, n_out):",
+      "after": "def make_model(args_dict, n_in, n_out):\n    if args_dict.get(\"ensemble_adaptation\") == \"scale\":\n        return ScaleModel(n_in, args_dict[\"hidden\"], args_dict[\"layers\"], args_dict[\"dropout\"], n_out=n_out)",
+      "count": 1
+    },
+    {
+      "before": "    ap.add_argument(\"--name\", required=True)",
+      "after": "    ap.add_argument(\"--name\", required=True)\n    ap.add_argument(\"--ensemble-manifest\", type=Path, required=True)\n    ap.add_argument(\"--ensemble-adaptation\", choices=[\"head\", \"scale\"], required=True)",
+      "count": 1
+    },
+    {
+      "before": "    args = ap.parse_args()",
+      "after": "    args = ap.parse_args()\n    if (not args.init or args.train_source != \"valid\" or args.epochs != 2 or args.freeze != \"inp,gru\"\n            or args.loss != \"gcorr\" or not args.mask_weight or args.arch != \"gru\"\n            or args.enc != \"linear\" or args.cell != \"gru\" or args.hidden != 128\n            or args.layers != 2 or args.dropout != 0 or args.chunk != 2000\n            or args.batch != 16 or args.lr != 5e-4 or args.wd != .01\n            or args.aux_struct != .3 or args.aux_next != .3):\n        ap.error(\"ENSHEAD01 requires the fixed h128 two-epoch head recipe\")\n    if any([args.distill, args.aux_quote, args.aux, args.ema_teacher, args.eval_ema,\n            args.swa_frac, args.td_alpha, args.propensity, args.heuristics,\n            args.quant_feats, args.online_norm, args.lookahead, args.class_heads,\n            args.prop_input, args.level_aug, args.level_drop, args.state_reset,\n            args.raw_only, args.max_batches, args.profile_steps, args.parity_dump,\n            args.aux_sign, args.aux_tier, args.aux_mask, args.atom_head, args.vrex,\n            args.episode_weight, args.since_weight, args.class_balance,\n            args.epoch_samples, args.train_classes]):\n        ap.error(\"extra experiment-changing options are unsupported\")\n    global PARTNER_CACHE\n    PARTNER_CACHE = PartnerCache(args.ensemble_manifest, ROOT, args.valid_fold)\n    args.ensemble_manifest = str(args.ensemble_manifest)\n    args.ensemble_partner_provenance = PARTNER_CACHE.meta\n    args.ensemble_objective = \"4x unclipped equal-quarter aggregate main loss; batch x chunk gcorr\"\n    args.ensemble_scale_export = \"positive scales folded into main head rows; offsets fixed zero\"",
+      "count": 1
+    },
+    {
+      "before": "    out_dir.mkdir(parents=True, exist_ok=True)",
+      "after": "    if out_dir.exists() and any(out_dir.iterdir()):\n        raise FileExistsError(f\"Refusing to overwrite nonempty run: {out_dir}\")\n    out_dir.mkdir(parents=True, exist_ok=True)",
+      "count": 1
+    },
+    {
+      "before": "            if y.shape[-1] > 2:\n                if args.aux_quote > 0:\n                    quote_label, y = y[..., 2:4], y[..., :2]\n                else:\n                    teach, y = y[..., 2:4], y[..., :2]",
+      "after": "            if y.shape[-1] != 4:\n                raise ValueError(\"expected two targets plus fixed partner sum\")\n            partner_sum, y = y[..., 2:4], y[..., :2]\n            if not torch.isfinite(partner_sum).all():\n                raise ValueError(\"nonfinite training partner sum\")",
+      "count": 1
+    },
+    {
+      "before": "                    loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])",
+      "after": "                    loss = 4.0 * objective((out[..., :2].float() + partner_sum[:, sl].float()) / 4.0, y[:, sl], main_valid[:, sl])",
+      "count": 1
+    },
+    {
+      "before": "        res = evaluate(eval_model, valid_loader, 4000, device)",
+      "after": "        # Preserve the original sequential validation DataLoader base_seed only.\n        # No held-out labels, predictions or score are read during fitting.\n        assert valid_loader.generator is None\n        torch.empty((), dtype=torch.int64).random_(generator=valid_loader.generator)\n        res = {\"weighted_pearson\": 0.0, \"evaluation_skipped\": True,\n               \"metric_placeholder_not_a_readout\": True,\n               \"ensemble_scale_parameters\": scale_values(eval_model)}",
+      "count": 1
+    },
+    {
+      "before": "\"model\": eval_model.state_dict(), \"args\": vars(args)",
+      "after": "\"model\": export_state(eval_model), \"ensemble_scale_parameters\": scale_values(eval_model), \"args\": vars(args)",
+      "count": 2
+    },
+    {
+      "before": "        if improved or (args.include_heldout_valid and epoch == args.epochs - 1):",
+      "after": "        if epoch == args.epochs - 1:  # fixed endpoint, no metric-selected checkpoint",
+      "count": 1
+    },
+    {
+      "before": "SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4",
+      "after": "SEQ_BYTES = 20_000 * (N_FEATURES + 5) * 4  # two cached partner-sum channels",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "status": "draft implementation written; first build launched; no build/test/benchmark outcome observed at recording",
+  "recorded_utc": "2026-10-01T00:35:12.947287+00:00",
+  "source": "recovery/native_cpp exact97bd27f remains immutable",
+  "derivative": "native_transition",
+  "changes": [
+    "new standalone transition_features.hpp frozen68channel F/T stream withfloat64priors/math andfloat32outputs",
+    "model.hpp optionalhead_extra.weight [head_hidden,68] fp32matrix addedbeforeGELU; noextraactivationbaselinepath",
+    "bindings.cpp separateoptionalJSON-double feature_config(s), exposedTransitionFeatures forindependentoracle tests"
+  ],
+  "interface": {
+    "schema": "transhead01-68-v1",
+    "argument": "feature_config or feature_configs (listmatchingmembers, Noneforordinarymember)",
+    "contents": [
+      "schema",
+      "arm F/T",
+      "nuisance centers[4]/pi[16]/R[16][16] doubles"
+    ]
+  },
+  "tests_before_empirical_use": [
+    "independent scalar F/T recurrence on adversarial synthetic raw4 histories vs Pythonvectorized vsnative",
+    "bitexactbaselinepredictions with recoverednativeengine sameweights",
+    "nonzeroextraweight PyTorchfloat32 parity,initialzero parity notsufficient",
+    "reset/stream/prefix/fullsequence equivalence",
+    "oneCPU elapsedratio of syntheticbaselineandtwofeaturemembers, repeatedfixedrows; no WPquery"
+  ],
+  "proposed_tolerances": {
+    "feature_max_abs": 1e-07,
+    "full_fp32_prediction_max_abs": 2e-05,
+    "fp16_prediction_max_abs": 0.002
+  },
+  "no_empirical_fits_or_WP": true,
+  "files": {
+    "README.md": "6d3e5ce80a25c48aa8bcba48d4e732d104ccad44c807c2cd73a3683c88365ce1",
+    "bench/bench_kernels.cpp": "99dbbbdf673ba3542cc3f6c442458d2ef9f6b3804592a513a2db98103ee2fe3c",
+    "build.sh": "1877edd2a55e43ff99a93c77d98c1aef1913625025e8552cf3efc5aeb4c37f66",
+    "include/wnn/activations.hpp": "688ade56b1b0ffb9b59e423ad7cb3069f06564654c4a266f644c2a9ce973133d",
+    "include/wnn/event_features.hpp": "9baefba832ab21980da40a8819d6d996112cd159e37ac114e019c42001d6f689",
+    "include/wnn/kernels.hpp": "b0aa344e3e3dbe23a6cec670a436e1405fd70bbf6e3889bdeedeca6b5bffa1e4",
+    "include/wnn/model.hpp": "8f0a18b6ce7238b89fc4b7eea8b6da234cef2fac0bd194d1f9346da0df67abc4",
+    "include/wnn/online_norm.hpp": "cb6f96a910cc9138f9f5e87cf14ecc5b0730d14819ad484274c3efaaf24123c8",
+    "include/wnn/transition_features.hpp": "4fed9a92f5b7422d37cdb605f697e94466959930a916daf74b2e0ee170d82fa2",
+    "package_cpp.py": "6c75e7adb51b3e3b322e932f679b39e6442469bd0340166beee5360c970de42f",
+    "src/bindings.cpp": "497bb9f003763be5c2ac58d7a57cf40d784dadfc096ce2573384f49890113e08",
+    "src/glibc_compat.c": "cdf6c82aa9ddd0a41adc39a920ea54ff31435c361b9e9a9b5e29e077c3c9ebd6",
+    "tests/test_parity.py": "562349ecda7c1eb8ec5db34235994ae53a7083d362615ba0e52fd9c40f5f70de",
+    "tools/scorer_env.sh": "e919be2b11499f20b07695645fc528678b7dd59eff4b9b64c642665b49ab38c8"
+  }
+}

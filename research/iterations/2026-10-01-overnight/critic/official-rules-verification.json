@@ -1,0 +1,42 @@
+{
+  "verified_date": "2026-10-01",
+  "method": "web search returned current indexed official organizer pages; primary-source documentation, not direct scorer audit",
+  "sources": {
+    "submission": "https://wundernn.io/connectome/docs/submission_guide",
+    "faq": "https://wundernn.io/connectome/docs/faq",
+    "rules": "https://wundernn.io/connectome/docs/rules",
+    "metric": "https://wundernn.io/connectome/docs/data_overview"
+  },
+  "limits": {
+    "python": "3.11",
+    "base_image": "python:3.11-slim-bookworm",
+    "cpu": 1,
+    "ram_GB": 16,
+    "wall_seconds": 3600,
+    "zip_MB": 20,
+    "gpu": false,
+    "internet": false,
+    "rows": 39400000,
+    "sequences": 1970,
+    "rows_per_sequence": 20000,
+    "max_submissions_per_day": 5,
+    "deterministic_required": true
+  },
+  "callback": {
+    "solution_at_zip_root": true,
+    "class": "PredictionModel",
+    "no_argument_constructor": true,
+    "method": "predict(data_point)",
+    "state": "112float32",
+    "output": "None onwarmup else2finitefloat32-compatiblevalues t0,t1",
+    "reset": "seq_ix changes",
+    "process_every_row": true
+  },
+  "allowed_training_data": [
+    "organizertrain.parquet",
+    "organizervalid.parquet"
+  ],
+  "metric": "clipped abs-target-weighted target-wise Pearson pooled selectedrows thenmean2targets; predictionsclippedafterblend",
+  "public_submissions_in_this_campaign": 0,
+  "publication": "noGitHub; no external strategy/model sharing"
+}
