@@ -1,0 +1,497 @@
+{
+ "agent": "cr_queue",
+ "date": "2026-10-02",
+ "verdict": "MARGINAL->KILL (falsified as >=+0.002 lever; mechanism (a) early-side decoding falsified)",
+ "report": "cr_queue - class-3 queue-race falsifier (history-of-volume-codes representation). Verdict: MARGINAL -> KILL as a >=+0.002 lever.\nHypothesis part (a) 'history decodes the side EARLY in quiet runs beyond the GRU' is FALSIFIED; a small residual from in-run volume change survives (~+0.0002 global, not significant).\n\nSetup: class-3 TRAIN seqs not chain-linked to any valid seq (4314 seqs, stride-64 rows, 1.34M rows), fit/held-out halves by chain component. Features: current 112 (control) vs + 141 causal in-run history features (O(1) state). HGB (250 it). Decisive: VALID class-3 scored rows (1.72M, 697 seqs) vs clean OOF since-FT pair (fold-k s3/s4 mean; base Global WP 0.68952, class-3 0.43309).\n\nTRAIN held-out (hist vs control): side AUC 0.7616 vs 0.7469 (+0.015); quiet32 (>=32 rows to next a6, diagnostic) 0.5747 vs 0.5686 (+0.006); winner AUC 0.6982 vs 0.6943; |y|-wtd corr(score, D) 0.277 vs 0.228 (quiet 0.096 vs 0.066).\nVALID features-only: side AUC hist 0.8531 / control 0.8452 / GRU p 0.8265; quiet32 side AUC hist 0.6132 / control 0.6138 / GRU 0.6152 -> no earlier side decoding than the GRU. Partial corr beyond p (t0,t1): hist 0.043/0.030 (quiet 0.050/0.032), control 0.025/0.025.\nProtocol blend p'=p+beta*score (WLS beta, other folds): hist class-3 +0.00126 (boot p<=0 0.023) BUT pooled Global WP -0.00048 (inflates class-3 scale); control +0.00033 / -0.00015. Calibrated a+b p+c z vs a+b p: hist c3 +0.00123, all +0.00034, but the a+b p remap itself costs -0.00155 c3 / -0.00065 all vs raw p.\nDeployable test (scores_pooled: beta grid-maximising POOLED WP on other folds, class-3 sd kept): hist c3 +0.00079 (p<=0 0.115), global +0.00022 (CI -0.00013..+0.00055, folds +0.00037/+0.00060/0.0/-0.00002); control c3 +0.00032, global +0.00009. History increment over current-row control: +0.00047 c3, +0.00013 global.\nGate reading: AUC clause not met (history +0.015 side AUC over control on TRAIN) but the GRU-relative Delta that survives pooling is <+0.001 class-3 and ~+0.0002 global, below the +0.002 dig threshold.\n\nWhere the residual lives (group permutation on valid, partial corr 0.0366 / cal d_c3 +0.00123 full): vol_since_run_start -> 0.0042 / -0.00007 (carries ~all of it); current_row -> 0.0277 / +0.00066; trades_in_run -> 0.0324 / +0.00083; last_vol_change -> 0.0312 / +0.00085; timing, vol/px at last quote move, px since run start, i1 counts ~0.\nIf the controller still wants a cheap GRU-input test (expected <= +0.0005 global): add per row, reset at each a6-endpoint row rs (state latched at rs): dVrun[0..21] = i0_v[t] - i0_v[rs]; pathVb = sum_{rs<s<=t} sum_{i<11}|dv_i(s)|, pathVa same for i>=11; nchgVb/nchgVa = count of rows in (rs,t] with any bid/ask volume code change; netVb = sum_{i<11}|dVrun_i|, netVa = sum_{i>=11}|dVrun_i| (28 inputs, O(1) state: 22 latched floats + 4 accumulators). Secondary: in-run trade sums over rows where i0_dp/dv change (count, sum dp_k, sum dv_k, sum dp_k*dv_k) and last nonzero per-side volume delta vector.\nScripts: scripts/cr_queue_build.py, cr_queue_probe.py, cr_queue_importance.py, cr_queue_pooled.py. Tables in scratchpad cr_queue/{train,valid}.npz (not committed).",
+ "train_heldout": {
+  "control": {
+   "all": {
+    "rows": 695396,
+    "auc_side": 0.7469156025246376,
+    "auc_side_wD": 0.6921078964742009,
+    "auc_win": 0.6942540150499522,
+    "corr_D_regscore": 0.22773135575201187,
+    "corr_D_sideprob": 0.19371532064118074,
+    "wp_reg": 0.18845544313070284
+   },
+   "quiet32": {
+    "rows": 297335,
+    "auc_side": 0.5686221990875225,
+    "auc_side_wD": 0.5510923870319412,
+    "auc_win": 0.5800356261326364,
+    "corr_D_regscore": 0.06606825717497695,
+    "corr_D_sideprob": 0.06285075164386741,
+    "wp_reg": 0.0653120675260547
+   }
+  },
+  "hist": {
+   "all": {
+    "rows": 695396,
+    "auc_side": 0.7616140921987363,
+    "auc_side_wD": 0.7115489183819,
+    "auc_win": 0.6982234799905116,
+    "corr_D_regscore": 0.27748853248368194,
+    "corr_D_sideprob": 0.19545297281305016,
+    "wp_reg": 0.2394827255609016
+   },
+   "quiet32": {
+    "rows": 297335,
+    "auc_side": 0.5746950675885141,
+    "auc_side_wD": 0.5590636109140776,
+    "auc_win": 0.5821478507678074,
+    "corr_D_regscore": 0.09609524302423089,
+    "corr_D_sideprob": 0.0744089167002011,
+    "wp_reg": 0.09058292077234847
+   }
+  }
+ },
+ "valid_summary": {
+  "base_wp_all": 0.689523239380974,
+  "base_wp_c3": 0.43308952124962524,
+  "base_wp_c3_quiet32": 0.1835001094791402,
+  "rows_c3": 1716179,
+  "quiet32_share_rows": 0.4422196052975826
+ },
+ "valid_cal0_vs_raw": {
+  "d_c3": -0.001547493666145372,
+  "d_all": -0.0006456870042277352,
+  "d_c3_quiet32": -0.0017334344213575381,
+  "d_c3_by_fold": [
+   0.0,
+   5.551115123125783e-17,
+   0.0,
+   0.0
+  ]
+ },
+ "valid_blends": {
+  "control": {
+   "blend_add_reg": {
+    "d_c3": 0.0003294500107660636,
+    "d_all": -0.00015073255518438522,
+    "d_c3_quiet32": 0.0014329864702449235,
+    "d_c3_by_fold": [
+     -0.00025850954005335325,
+     0.0010285760115313347,
+     0.0007422970718105049,
+     -0.0003022831978118923
+    ],
+    "boot_all_p_le_0": 0.8,
+    "boot_c3_p_le_0": 0.187
+   },
+   "blend_cal_reg": {
+    "d_c3": 0.0005141245689063711,
+    "d_all": 0.00014169659436802373,
+    "d_c3_quiet32": 0.0016654150583537142,
+    "d_c3_by_fold": [
+     -0.00025833605326242015,
+     0.001032437740313752,
+     0.0007411054772332171,
+     -0.0002966210023362392
+    ],
+    "boot_all_p_le_0": 0.086,
+    "boot_c3_p_le_0": 0.067
+   },
+   "blend_add_reg+side+win": {
+    "d_c3": 0.00022444326467802034,
+    "d_all": -0.00018265791905092144,
+    "d_c3_quiet32": 0.0013756407401535053,
+    "d_c3_by_fold": [
+     -0.0006078569648059196,
+     0.00098117214469301,
+     0.0006137630113113302,
+     -0.0004447366014034282
+    ],
+    "boot_all_p_le_0": 0.835,
+    "boot_c3_p_le_0": 0.271
+   },
+   "blend_cal_reg+side+win": {
+    "d_c3": 0.00035932325588000635,
+    "d_all": 0.00010383851651973863,
+    "d_c3_quiet32": 0.0015183895159203153,
+    "d_c3_by_fold": [
+     -0.0006073867012958978,
+     0.000984441792860613,
+     0.0006123598785578999,
+     -0.0004390969178499349
+    ],
+    "boot_all_p_le_0": 0.182,
+    "boot_c3_p_le_0": 0.166
+   }
+  },
+  "hist": {
+   "blend_add_reg": {
+    "d_c3": 0.0012573868583363734,
+    "d_all": -0.00048099424225267473,
+    "d_c3_quiet32": 0.0027339001943143537,
+    "d_c3_by_fold": [
+     0.0013306810843780603,
+     0.0019964628909492355,
+     -1.6388072641038143e-05,
+     -0.00010296206485049808
+    ],
+    "boot_all_p_le_0": 0.93,
+    "boot_c3_p_le_0": 0.023
+   },
+   "blend_cal_reg": {
+    "d_c3": 0.0012349038650370514,
+    "d_all": 0.00034115820126767726,
+    "d_c3_quiet32": 0.0026221567701225634,
+    "d_c3_by_fold": [
+     0.0013333188537676954,
+     0.001997707068310872,
+     -4.8300898094377764e-05,
+     -8.289732218347279e-05
+    ],
+    "boot_all_p_le_0": 0.025,
+    "boot_c3_p_le_0": 0.023
+   },
+   "blend_add_reg+side+win": {
+    "d_c3": 0.0010084003434657207,
+    "d_all": -0.0006453721573438376,
+    "d_c3_quiet32": 0.002548684095219772,
+    "d_c3_by_fold": [
+     0.0009995362379455752,
+     0.0015201615164552873,
+     -0.00041528794756895415,
+     -0.00023959338847023837
+    ],
+    "boot_all_p_le_0": 0.974,
+    "boot_c3_p_le_0": 0.082
+   },
+   "blend_cal_reg+side+win": {
+    "d_c3": 0.0008963019011772322,
+    "d_all": 0.00025579192802216433,
+    "d_c3_quiet32": 0.0022713978161512105,
+    "d_c3_by_fold": [
+     0.0010014723470636033,
+     0.0015232263359677423,
+     -0.00046223942053047473,
+     -0.0002134767399215587
+    ],
+    "boot_all_p_le_0": 0.059,
+    "boot_c3_p_le_0": 0.084
+   }
+  }
+ },
+ "valid_features_only": {
+  "control": {
+   "all": {
+    "rows": 1716179,
+    "auc_side": 0.8451711502730826,
+    "auc_side_wD": 0.8148054450885129,
+    "auc_win": 0.6528752459112365,
+    "corr_D_regscore": 0.42125989528705376,
+    "corr_D_sideprob": 0.4039214677683965,
+    "wp_reg": 0.36285068432134515
+   },
+   "quiet32": {
+    "rows": 758928,
+    "auc_side": 0.613808933109619,
+    "auc_side_wD": 0.6206413196682675,
+    "auc_win": 0.5375442998785634,
+    "corr_D_regscore": 0.19368840545702332,
+    "corr_D_sideprob": 0.192810717957101,
+    "wp_reg": 0.16649335257398198
+   },
+   "auc_side_p_only": 0.8265330103314572,
+   "auc_side_p_only_quiet32": 0.6151561280639458,
+   "partial_reg_all": [
+    0.025364553325022174,
+    0.025333040300952344
+   ],
+   "partial_side_all": [
+    0.014177554530148117,
+    0.007790900731961781
+   ],
+   "partial_win_all": [
+    -0.004308007924788147,
+    0.0009015897670920763
+   ],
+   "partial_reg_quiet32": [
+    0.03984214818367626,
+    0.03937434780812593
+   ],
+   "partial_side_quiet32": [
+    0.027631403156191642,
+    0.02329311419823803
+   ],
+   "partial_win_quiet32": [
+    0.005793477543483692,
+    0.002001678554983173
+   ]
+  },
+  "hist": {
+   "all": {
+    "rows": 1716179,
+    "auc_side": 0.8530949890548253,
+    "auc_side_wD": 0.8225350685235348,
+    "auc_win": 0.6653721872001714,
+    "corr_D_regscore": 0.4405966894078674,
+    "corr_D_sideprob": 0.38366489689248584,
+    "wp_reg": 0.3845770308893124
+   },
+   "quiet32": {
+    "rows": 758928,
+    "auc_side": 0.6132196148624086,
+    "auc_side_wD": 0.622552448404711,
+    "auc_win": 0.5392840489539824,
+    "corr_D_regscore": 0.2028954425463126,
+    "corr_D_sideprob": 0.19614280651719662,
+    "wp_reg": 0.172222268250107
+   },
+   "auc_side_p_only": 0.8265330103314572,
+   "auc_side_p_only_quiet32": 0.6151561280639458,
+   "partial_reg_all": [
+    0.04335227294224044,
+    0.02992246567268294
+   ],
+   "partial_side_all": [
+    0.017578772088164746,
+    0.008419955176952668
+   ],
+   "partial_win_all": [
+    -0.003117587914520837,
+    0.0017355159725785984
+   ],
+   "partial_reg_quiet32": [
+    0.049709655754535856,
+    0.03179682382770701
+   ],
+   "partial_side_quiet32": [
+    0.03189811679767126,
+    0.0258975191299653
+   ],
+   "partial_win_quiet32": [
+    0.003099288815451855,
+    0.001597971195289637
+   ]
+  }
+ },
+ "deployable_pooled_beta": {
+  "control_add": {
+   "betas_t0_t1_by_fold": [
+    0.06,
+    0.04,
+    0.02,
+    0.08,
+    0.04,
+    0.04,
+    0.0,
+    0.08
+   ],
+   "d_all": -9.110063915174216e-05,
+   "d_c3": -0.00022207969002591144,
+   "d_c3_quiet32": 7.379672340937504e-05,
+   "d_all_by_fold": [
+    -6.005334399383777e-05,
+    0.00014988560060114064,
+    0.00010269266972806612,
+    -0.00041737331195967897
+   ],
+   "boot_all": {
+    "ci95": [
+     -0.00026140733255624883,
+     6.253154412489965e-05
+    ],
+    "p_le_0": 0.87,
+    "bootstrap_sd": 8.407660978880197e-05
+   },
+   "boot_c3": {
+    "ci95": [
+     -0.0006406958923612441,
+     0.00018293224017048164
+    ],
+    "p_le_0": 0.842,
+    "bootstrap_sd": 0.00021020803958315533
+   }
+  },
+  "control_keepsd": {
+   "betas_t0_t1_by_fold": [
+    0.16,
+    0.08,
+    0.1,
+    0.1,
+    0.12,
+    0.1,
+    0.12,
+    0.16
+   ],
+   "d_all": 8.631639440270789e-05,
+   "d_c3": 0.00031984465765871883,
+   "d_c3_quiet32": 0.0015189981607083292,
+   "d_all_by_fold": [
+    -7.851690895666064e-05,
+    0.00031705735774301136,
+    0.0001949986893277078,
+    -6.118637113528003e-05
+   ],
+   "boot_all": {
+    "ci95": [
+     -0.00012453355103996533,
+     0.00028104028911385686
+    ],
+    "p_le_0": 0.222,
+    "bootstrap_sd": 0.00010624212077255689
+   },
+   "boot_c3": {
+    "ci95": [
+     -0.0003743124793085875,
+     0.0010926338191295762
+    ],
+    "p_le_0": 0.177,
+    "bootstrap_sd": 0.0003701706898141691
+   }
+  },
+  "hist_add": {
+   "betas_t0_t1_by_fold": [
+    0.08,
+    0.06,
+    0.04,
+    0.1,
+    0.04,
+    0.04,
+    0.02,
+    0.08
+   ],
+   "d_all": -2.1282447598025556e-05,
+   "d_c3": 0.00023953517085939513,
+   "d_c3_quiet32": 0.0005861767716650035,
+   "d_all_by_fold": [
+    7.32183916463125e-05,
+    0.00028652149917995917,
+    0.00031493216879763253,
+    -0.000582425883032256
+   ],
+   "boot_all": {
+    "ci95": [
+     -0.0002677726378222028,
+     0.00021542054128926568
+    ],
+    "p_le_0": 0.569,
+    "bootstrap_sd": 0.0001257568375517448
+   },
+   "boot_c3": {
+    "ci95": [
+     -0.00034560170398533207,
+     0.0007874603113098927
+    ],
+    "p_le_0": 0.203,
+    "bootstrap_sd": 0.0002902474636081088
+   }
+  },
+  "hist_keepsd": {
+   "betas_t0_t1_by_fold": [
+    0.22,
+    0.18,
+    0.22,
+    0.18,
+    0.12,
+    0.08,
+    0.16,
+    0.2
+   ],
+   "d_all": 0.00021632121764114665,
+   "d_c3": 0.0007878654140084929,
+   "d_c3_quiet32": 0.002190606923448607,
+   "d_all_by_fold": [
+    0.0003670697155973013,
+    0.0006027368348965334,
+    1.8038099369732663e-06,
+    -2.202818558250108e-05
+   ],
+   "boot_all": {
+    "ci95": [
+     -0.00012534900660805814,
+     0.0005462727191865745
+    ],
+    "p_le_0": 0.109,
+    "bootstrap_sd": 0.00017311638560202087
+   },
+   "boot_c3": {
+    "ci95": [
+     -0.00043580557792855104,
+     0.0019692823423050976
+    ],
+    "p_le_0": 0.115,
+    "bootstrap_sd": 0.0006319577253969459
+   }
+  }
+ },
+ "group_permutation_valid": {
+  "full": {
+   "partial": 0.03663736930746169,
+   "partial_quiet32": 0.04075323979112143,
+   "d_c3": 0.0012349038650370514,
+   "d_c3_quiet32": 0.0026221567701225634
+  },
+  "current_row": {
+   "n_cols": 112,
+   "partial": 0.02765077866038221,
+   "partial_quiet32": 0.0278724614648157,
+   "d_c3": 0.0006605331373147338,
+   "d_c3_quiet32": 0.0012857307013652286
+  },
+  "timing": {
+   "n_cols": 7,
+   "partial": 0.035430135759595735,
+   "partial_quiet32": 0.03864320937768857,
+   "d_c3": 0.0011299171338708391,
+   "d_c3_quiet32": 0.0023602505057589984
+  },
+  "vol_since_run_start": {
+   "n_cols": 28,
+   "partial": 0.004210392960440059,
+   "partial_quiet32": 0.004657377271066138,
+   "d_c3": -7.477918590881316e-05,
+   "d_c3_quiet32": -0.00012357288034153813
+  },
+  "vol_at_last_E": {
+   "n_cols": 22,
+   "partial": 0.03783498763779333,
+   "partial_quiet32": 0.03940545003326409,
+   "d_c3": 0.0013913179787978236,
+   "d_c3_quiet32": 0.0026700316732678475
+  },
+  "px_at_last_E": {
+   "n_cols": 24,
+   "partial": 0.036052146530303815,
+   "partial_quiet32": 0.038462273430685257,
+   "d_c3": 0.0011485474846626986,
+   "d_c3_quiet32": 0.0023313365742593517
+  },
+  "px_since_run_start": {
+   "n_cols": 22,
+   "partial": 0.037528151301341406,
+   "partial_quiet32": 0.04173989336158544,
+   "d_c3": 0.001280866159256655,
+   "d_c3_quiet32": 0.002725984805223902
+  },
+  "trades_in_run": {
+   "n_cols": 14,
+   "partial": 0.03242589727353559,
+   "partial_quiet32": 0.036955604315145565,
+   "d_c3": 0.0008333502723124608,
+   "d_c3_quiet32": 0.0018646242015926129
+  },
+  "last_vol_change": {
+   "n_cols": 22,
+   "partial": 0.03123369091715706,
+   "partial_quiet32": 0.0457417536371512,
+   "d_c3": 0.0008497662227276437,
+   "d_c3_quiet32": 0.002621972464722122
+  },
+  "i1_in_run": {
+   "n_cols": 2,
+   "partial": 0.03688552193674894,
+   "partial_quiet32": 0.041238927002474404,
+   "d_c3": 0.00125868383749278,
+   "d_c3_quiet32": 0.0026776027922794376
+  }
+ },
+ "files": {
+  "probe": "research/campaign_2026-10-01/creative/cr_queue/probe.json",
+  "importance": "research/campaign_2026-10-01/creative/cr_queue/importance.json",
+  "pooled": "research/campaign_2026-10-01/creative/cr_queue/pooled.json",
+  "scores": "/tmp/claude-1000/-home-vlad-development-wunder-wnn-connectome-starterpack/7ea48a59-c833-4cf5-b1fe-467c6d7c1ac5/scratchpad/cr_queue/probe.scores.npz"
+ }
+}
