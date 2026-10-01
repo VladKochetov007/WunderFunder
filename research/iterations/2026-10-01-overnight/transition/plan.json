@@ -1,0 +1,114 @@
+{
+  "id": "TRANSHEAD-01",
+  "status": "frozen specification; root allocation required",
+  "objective": "competition",
+  "mechanism": "causal online marginal versus transition sufficient statistics into frozen GRU head",
+  "arms": [
+    "F",
+    "T"
+  ],
+  "source_feature_columns": [
+    "i0_dv0",
+    "i0_dv1",
+    "i0_dv2",
+    "i0_dv3"
+  ],
+  "schema": "transhead01-68-v1",
+  "feature_width": 68,
+  "parents": [
+    {
+      "seed": 3,
+      "fold": 0,
+      "run": "ref_f0",
+      "epoch": 3,
+      "original_readonly_path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/ref_f0/model_ep3.pt",
+      "sha256": "2b33f71b77cc2e05459bd3c146d97be950c72ae5c9850371e1859936c9b5909b"
+    },
+    {
+      "seed": 3,
+      "fold": 1,
+      "run": "ref_f1",
+      "epoch": 3,
+      "original_readonly_path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/ref_f1/model_ep3.pt",
+      "sha256": "e03ad2269206800a47ce818e70a38df903571f591f515cf20078f43c3ff240e4"
+    },
+    {
+      "seed": 4,
+      "fold": 0,
+      "run": "refs4_f0",
+      "epoch": 3,
+      "original_readonly_path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/refs4_f0/model_ep3.pt",
+      "sha256": "5a8549ae71d4f02e8065902717a17405836f076ac88bfb6021a9f5b8951bb4bb"
+    },
+    {
+      "seed": 4,
+      "fold": 1,
+      "run": "refs4_f1",
+      "epoch": 3,
+      "original_readonly_path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/refs4_f1/model_ep3.pt",
+      "sha256": "eee7578f5cc8e3a1beac8cf2a3fcdd31010fcb3987903261d4678c376e5ba646"
+    }
+  ],
+  "folds": [
+    0,
+    1
+  ],
+  "seeds": [
+    3,
+    4
+  ],
+  "training": {
+    "epochs": 2,
+    "checkpoint": "model_ep1.pt",
+    "lr": 0.0005,
+    "wd": 0.01,
+    "batch": 16,
+    "chunk": 2000,
+    "loss": "gcorr",
+    "mask_weight": true,
+    "aux_struct": 0.3,
+    "aux_next": 0.3,
+    "freeze": "inp,gru",
+    "fast": true,
+    "dropout": 0,
+    "hidden": 128,
+    "layers": 2,
+    "no_evaluation": true,
+    "eval_rng": "preserve one CPU base-seed draw per epoch",
+    "schedule": "original OneCycleLR"
+  },
+  "run_names": [
+    "on_F128s3_f0",
+    "on_F128s3_f1",
+    "on_F128s4_f0",
+    "on_F128s4_f1",
+    "on_T128s3_f0",
+    "on_T128s3_f1",
+    "on_T128s4_f0",
+    "on_T128s4_f1"
+  ],
+  "max_forecast_fits": 8,
+  "max_candidate_prediction_files": 8,
+  "per_epoch_WP_queries": 0,
+  "primary": "T-vs-F delta official pooled clipped abs-target-weighted Pearson within equal-quarter fixed four-member ensemble",
+  "blend": {
+    "d256H2": 0.25,
+    "reference128seed3H2_featurearm": 0.25,
+    "reference128seed4H2_featurearm": 0.25,
+    "c500H2": 0.25
+  },
+  "promotion": {
+    "T_minus_F_pooled_min": 0.0003,
+    "T_minus_F_each_fold_min": 0,
+    "T_minus_plain_each_fold_min": 0,
+    "T_minus_plain_pooled_min": 0
+  },
+  "evaluation_units": "pure validation chains in folds0/1",
+  "exposure": "exposed",
+  "uncertainty": "whole-chain paired bootstrap conditional on fitted weights; training seeds reported separately",
+  "outcome_path": "root guarded grader only; actor does not read target outcomes",
+  "prediction_layout": "full cache-valid row order; own held-out fold populated, other entries NaN",
+  "disk": "No duplicated raw112features; temporary loader extra68features; predictionfiles about2.4GB",
+  "native": "double nuisance JSON; separate head_extra.weight; raw detector before backbone sanitization",
+  "nuisance": "one min-valid-row-group per allowed chain outside heldfold;4columns only; all events; old weighted centers/priors"
+}

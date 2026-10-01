@@ -1,0 +1,5162 @@
+{
+  "files": {
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/ref_f0/model_ep3.pt": {
+      "exists": true,
+      "size": 1054047,
+      "sha256": "2b33f71b77cc2e05459bd3c146d97be950c72ae5c9850371e1859936c9b5909b",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "ref_f0",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 32,
+        "epochs": 4,
+        "lr": 0.001,
+        "wd": 0.01,
+        "loss": "wmse",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "train+valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 0,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "",
+        "freeze": "",
+        "ema_teacher": 1.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "mask_weight": false,
+        "propensity": "prop_f0",
+        "prop_power": 2.0,
+        "prop_eps": 0.03,
+        "class_weight": "",
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "quant_feats": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 3,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6454637687962965,
+          "t1": 0.6508203910635996,
+          "weighted_pearson": 0.6866056432552168,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.648142079929948,
+          "global_t0": 0.6879196121407154,
+          "global_t1": 0.685291674369718,
+          "frac_abs_pred_gt2": 3.366192092637607e-05,
+          "by_class": {
+            "0": 0.7848,
+            "1": 0.7476,
+            "2": 0.7416,
+            "3": 0.4632
+          },
+          "epoch": 0,
+          "eval_seconds": 14.2,
+          "split": "vfold467"
+        },
+        {
+          "t0": 0.6556311728769224,
+          "t1": 0.6606115743004338,
+          "weighted_pearson": 0.6968395494798166,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6581213735886782,
+          "global_t0": 0.6976494366236139,
+          "global_t1": 0.6960296623360194,
+          "frac_abs_pred_gt2": 0.0001370099237705131,
+          "by_class": {
+            "0": 0.7941,
+            "1": 0.7569,
+            "2": 0.7535,
+            "3": 0.4728
+          },
+          "epoch": 1,
+          "eval_seconds": 13.6,
+          "split": "vfold467"
+        },
+        {
+          "t0": 0.6584783817202206,
+          "t1": 0.6640448826734286,
+          "weighted_pearson": 0.6996853425915316,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6612616321968245,
+          "global_t0": 0.700280179097204,
+          "global_t1": 0.6990905060858592,
+          "frac_abs_pred_gt2": 0.0002078771257207785,
+          "by_class": {
+            "0": 0.796,
+            "1": 0.7595,
+            "2": 0.7578,
+            "3": 0.4761
+          },
+          "epoch": 2,
+          "eval_seconds": 13.7,
+          "split": "vfold467"
+        },
+        {
+          "t0": 0.6591922043764981,
+          "t1": 0.6651475991814222,
+          "weighted_pearson": 0.7004703218645388,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6621699017789602,
+          "global_t0": 0.7008650850616585,
+          "global_t1": 0.7000755586674192,
+          "frac_abs_pred_gt2": 0.0002279561662733537,
+          "by_class": {
+            "0": 0.7963,
+            "1": 0.7599,
+            "2": 0.7592,
+            "3": 0.4774
+          },
+          "epoch": 3,
+          "eval_seconds": 12.7,
+          "split": "vfold467"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/refs4_f0/model_ep3.pt": {
+      "exists": true,
+      "size": 1054047,
+      "sha256": "5a8549ae71d4f02e8065902717a17405836f076ac88bfb6021a9f5b8951bb4bb",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "refs4_f0",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 32,
+        "epochs": 4,
+        "lr": 0.001,
+        "wd": 0.01,
+        "loss": "wmse",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "train+valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 0,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "",
+        "freeze": "",
+        "ema_teacher": 1.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "mask_weight": false,
+        "propensity": "prop_f0",
+        "prop_power": 2.0,
+        "prop_eps": 0.03,
+        "class_weight": "",
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 4,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 3,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.644943173821177,
+          "t1": 0.6496121446289133,
+          "weighted_pearson": 0.6879451457350672,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6472776592250451,
+          "global_t0": 0.6886294831536621,
+          "global_t1": 0.6872608083164721,
+          "frac_abs_pred_gt2": 3.307136091012385e-05,
+          "by_class": {
+            "0": 0.7851,
+            "1": 0.7483,
+            "2": 0.7405,
+            "3": 0.4611
+          },
+          "epoch": 0,
+          "eval_seconds": 15.7,
+          "split": "vfold467"
+        },
+        {
+          "t0": 0.6555933203950897,
+          "t1": 0.6609517138743612,
+          "weighted_pearson": 0.6974525446690889,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6582725171347255,
+          "global_t0": 0.6978987027218061,
+          "global_t1": 0.6970063866163717,
+          "frac_abs_pred_gt2": 0.00013405712368925204,
+          "by_class": {
+            "0": 0.7944,
+            "1": 0.7578,
+            "2": 0.7536,
+            "3": 0.4725
+          },
+          "epoch": 1,
+          "eval_seconds": 14.5,
+          "split": "vfold467"
+        },
+        {
+          "t0": 0.65805709446846,
+          "t1": 0.6639367466285605,
+          "weighted_pearson": 0.7001067614976593,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6609969205485102,
+          "global_t0": 0.7002761245991617,
+          "global_t1": 0.6999373983961569,
+          "frac_abs_pred_gt2": 0.00021142048581829177,
+          "by_class": {
+            "0": 0.796,
+            "1": 0.7609,
+            "2": 0.7569,
+            "3": 0.4753
+          },
+          "epoch": 2,
+          "eval_seconds": 15.1,
+          "split": "vfold467"
+        },
+        {
+          "t0": 0.6588857535910277,
+          "t1": 0.6649159462633755,
+          "weighted_pearson": 0.7008955015382061,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6619008499272017,
+          "global_t0": 0.7008727763164807,
+          "global_t1": 0.7009182267599317,
+          "frac_abs_pred_gt2": 0.0002574841670859643,
+          "by_class": {
+            "0": 0.7963,
+            "1": 0.7615,
+            "2": 0.758,
+            "3": 0.4766
+          },
+          "epoch": 3,
+          "eval_seconds": 13.8,
+          "split": "vfold467"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/d256_f0/model_ep3.pt": {
+      "exists": true,
+      "size": 3933599,
+      "sha256": "a4efa8eaea11cd81e4be687c3b724919c18e6f709d7206e1d30d9a477ae678b9",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "d256_f0",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 256,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 32,
+        "epochs": 4,
+        "lr": 0.001,
+        "wd": 0.01,
+        "loss": "wmse",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "h256_f0,h256s4_f0",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "train+valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 0,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "",
+        "freeze": "",
+        "ema_teacher": 1.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "mask_weight": false,
+        "propensity": "prop_f0",
+        "prop_power": 2.0,
+        "prop_eps": 0.03,
+        "class_weight": "",
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 3,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          256,
+          211
+        ],
+        "inp.bias": [
+          256
+        ],
+        "gru.weight_ih_l0": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l0": [
+          768,
+          256
+        ],
+        "gru.bias_ih_l0": [
+          768
+        ],
+        "gru.bias_hh_l0": [
+          768
+        ],
+        "gru.weight_ih_l1": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l1": [
+          768,
+          256
+        ],
+        "gru.bias_ih_l1": [
+          768
+        ],
+        "gru.bias_hh_l1": [
+          768
+        ],
+        "head.0.weight": [
+          256,
+          512
+        ],
+        "head.0.bias": [
+          256
+        ],
+        "head.2.weight": [
+          23,
+          256
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6520678769413513,
+          "t1": 0.656628296348697,
+          "weighted_pearson": 0.6913609631104625,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6543480866450242,
+          "global_t0": 0.6935395983778577,
+          "global_t1": 0.6891823278430671,
+          "frac_abs_pred_gt2": 3.7205281023889333e-05,
+          "by_class": {
+            "0": 0.7879,
+            "1": 0.7519,
+            "2": 0.7495,
+            "3": 0.4711
+          },
+          "epoch": 0,
+          "eval_seconds": 17.7,
+          "split": "vfold467"
+        },
+        {
+          "t0": 0.659819637966311,
+          "t1": 0.6645495979537117,
+          "weighted_pearson": 0.7000940363814512,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6621846179600114,
+          "global_t0": 0.7009767899049502,
+          "global_t1": 0.6992112828579523,
+          "frac_abs_pred_gt2": 0.0001624040044693582,
+          "by_class": {
+            "0": 0.7962,
+            "1": 0.761,
+            "2": 0.7579,
+            "3": 0.4777
+          },
+          "epoch": 1,
+          "eval_seconds": 20.0,
+          "split": "vfold467"
+        },
+        {
+          "t0": 0.6608159422480433,
+          "t1": 0.6670249881318046,
+          "weighted_pearson": 0.7022024246819275,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.663920465189924,
+          "global_t0": 0.7021585383164621,
+          "global_t1": 0.7022463110473929,
+          "frac_abs_pred_gt2": 0.00020905824575328293,
+          "by_class": {
+            "0": 0.7976,
+            "1": 0.763,
+            "2": 0.7611,
+            "3": 0.4785
+          },
+          "epoch": 2,
+          "eval_seconds": 22.2,
+          "split": "vfold467"
+        },
+        {
+          "t0": 0.6608173932005068,
+          "t1": 0.667858665422991,
+          "weighted_pearson": 0.7028743317123198,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6643380293117489,
+          "global_t0": 0.7022085493803673,
+          "global_t1": 0.7035401140442724,
+          "frac_abs_pred_gt2": 0.00021909776602957053,
+          "by_class": {
+            "0": 0.7979,
+            "1": 0.7638,
+            "2": 0.7626,
+            "3": 0.4782
+          },
+          "epoch": 3,
+          "eval_seconds": 22.4,
+          "split": "vfold467"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/c500_f0/model_ep3.pt": {
+      "exists": true,
+      "size": 1054047,
+      "sha256": "a1a7ac50a723e36ee801ea0a0365e062fc0c433d8a83253654585e3fb0e144b7",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "c500_f0",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 500,
+        "batch": 32,
+        "epochs": 4,
+        "lr": 0.001,
+        "wd": 0.01,
+        "loss": "wmse",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "train+valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 0,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "",
+        "freeze": "",
+        "ema_teacher": 1.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "mask_weight": false,
+        "propensity": "prop_f0",
+        "prop_power": 2.0,
+        "prop_eps": 0.03,
+        "class_weight": "",
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 3,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6561191588073119,
+          "t1": 0.6607630652215849,
+          "weighted_pearson": 0.6967087853550074,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6584411120144484,
+          "global_t0": 0.6979307694962776,
+          "global_t1": 0.695486801213737,
+          "frac_abs_pred_gt2": 0.00015472672425807945,
+          "by_class": {
+            "0": 0.7949,
+            "1": 0.7568,
+            "2": 0.7534,
+            "3": 0.4732
+          },
+          "epoch": 0,
+          "eval_seconds": 13.0,
+          "split": "vfold467"
+        },
+        {
+          "t0": 0.6593274906878779,
+          "t1": 0.6643014997609621,
+          "weighted_pearson": 0.6990717371938009,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.66181449522442,
+          "global_t0": 0.7001728090134833,
+          "global_t1": 0.6979706653741184,
+          "frac_abs_pred_gt2": 0.00016476624453436704,
+          "by_class": {
+            "0": 0.7969,
+            "1": 0.7604,
+            "2": 0.757,
+            "3": 0.4771
+          },
+          "epoch": 1,
+          "eval_seconds": 12.8,
+          "split": "vfold467"
+        },
+        {
+          "t0": 0.6603997599032847,
+          "t1": 0.6665454202516465,
+          "weighted_pearson": 0.700822791193384,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6634725900774656,
+          "global_t0": 0.7014458357958522,
+          "global_t1": 0.7001997465909158,
+          "frac_abs_pred_gt2": 0.00019370368533072542,
+          "by_class": {
+            "0": 0.7978,
+            "1": 0.7619,
+            "2": 0.76,
+            "3": 0.4785
+          },
+          "epoch": 2,
+          "eval_seconds": 12.2,
+          "split": "vfold467"
+        },
+        {
+          "t0": 0.6607810212771695,
+          "t1": 0.6668208686223503,
+          "weighted_pearson": 0.7007056595168806,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6638009449497599,
+          "global_t0": 0.7012355093364926,
+          "global_t1": 0.7001758096972687,
+          "frac_abs_pred_gt2": 0.000242720166679659,
+          "by_class": {
+            "0": 0.7981,
+            "1": 0.7625,
+            "2": 0.76,
+            "3": 0.4789
+          },
+          "epoch": 3,
+          "eval_seconds": 11.9,
+          "split": "vfold467"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/ft128_f0h/model_ep0.pt": {
+      "exists": true,
+      "size": 1052711,
+      "sha256": "a33dd6d7d31090700482438e9d2aff0d69e19387b43a2eee5c21ce7d1f2498bc",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "ft128_f0h",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 16,
+        "epochs": 1,
+        "lr": 0.0005,
+        "wd": 0.01,
+        "loss": "gcorr",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 0,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "ref_f0@ep3",
+        "freeze": "inp,gru",
+        "ema_teacher": 0.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": false,
+        "mask_weight": true,
+        "propensity": "",
+        "prop_power": 1.0,
+        "prop_eps": 0.0,
+        "class_weight": "",
+        "valid_true_mask": -1.0,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 0.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 0,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6604359956595618,
+          "t1": 0.6676179925159472,
+          "weighted_pearson": 0.701055409712718,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6640269940877546,
+          "global_t0": 0.7007287403362861,
+          "global_t1": 0.70138207908915,
+          "frac_abs_pred_gt2": 0.0010387950685876403,
+          "by_class": {
+            "0": 0.7974,
+            "1": 0.7626,
+            "2": 0.7613,
+            "3": 0.479
+          },
+          "epoch": 0,
+          "eval_seconds": 12.4,
+          "split": "vfold467"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/ft128s4_f0h/model_ep0.pt": {
+      "exists": true,
+      "size": 1052711,
+      "sha256": "b70b5cc844a664317c557e45edd9788677d2b0c1ddcd682609f482a9c3b75fc3",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "ft128s4_f0h",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 16,
+        "epochs": 1,
+        "lr": 0.0005,
+        "wd": 0.01,
+        "loss": "gcorr",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 0,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "refs4_f0@ep3",
+        "freeze": "inp,gru",
+        "ema_teacher": 0.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": false,
+        "mask_weight": true,
+        "propensity": "",
+        "prop_power": 1.0,
+        "prop_eps": 0.0,
+        "class_weight": "",
+        "valid_true_mask": -1.0,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 4,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 0.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 0,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6604573615197894,
+          "t1": 0.6676679212152872,
+          "weighted_pearson": 0.7017320583714295,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6640626413675383,
+          "global_t0": 0.7011270054225487,
+          "global_t1": 0.7023371113203102,
+          "frac_abs_pred_gt2": 0.0011586787518868393,
+          "by_class": {
+            "0": 0.798,
+            "1": 0.7642,
+            "2": 0.7602,
+            "3": 0.4787
+          },
+          "epoch": 0,
+          "eval_seconds": 12.3,
+          "split": "vfold467"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/ft256d_f0h/model_ep0.pt": {
+      "exists": true,
+      "size": 3932263,
+      "sha256": "11576a22a1ee0c1824f9bb6ef2b5e9f94ea81dd73e5b8ef9096be6d0c0c87fe4",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "ft256d_f0h",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 256,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 16,
+        "epochs": 1,
+        "lr": 0.0005,
+        "wd": 0.01,
+        "loss": "gcorr",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 0,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "d256_f0@ep3",
+        "freeze": "inp,gru",
+        "ema_teacher": 0.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": false,
+        "mask_weight": true,
+        "propensity": "",
+        "prop_power": 1.0,
+        "prop_eps": 0.0,
+        "class_weight": "",
+        "valid_true_mask": -1.0,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 0.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 0,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          256,
+          211
+        ],
+        "inp.bias": [
+          256
+        ],
+        "gru.weight_ih_l0": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l0": [
+          768,
+          256
+        ],
+        "gru.bias_ih_l0": [
+          768
+        ],
+        "gru.bias_hh_l0": [
+          768
+        ],
+        "gru.weight_ih_l1": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l1": [
+          768,
+          256
+        ],
+        "gru.bias_ih_l1": [
+          768
+        ],
+        "gru.bias_hh_l1": [
+          768
+        ],
+        "head.0.weight": [
+          256,
+          512
+        ],
+        "head.0.bias": [
+          256
+        ],
+        "head.2.weight": [
+          23,
+          256
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6623895568971347,
+          "t1": 0.6717024896122011,
+          "weighted_pearson": 0.7030093526741009,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.667046023254668,
+          "global_t0": 0.7008678315958821,
+          "global_t1": 0.7051508737523198,
+          "frac_abs_pred_gt2": 0.0028931535196195846,
+          "by_class": {
+            "0": 0.7995,
+            "1": 0.7663,
+            "2": 0.7659,
+            "3": 0.4812
+          },
+          "epoch": 0,
+          "eval_seconds": 21.7,
+          "split": "vfold467"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/ftc500_f0h/model_ep0.pt": {
+      "exists": true,
+      "size": 1052711,
+      "sha256": "d71c7769d44eaba37d2e7a8134efb9f482d4aa7cc1343a7239610b1cd6329df0",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "ftc500_f0h",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 500,
+        "batch": 16,
+        "epochs": 1,
+        "lr": 0.0005,
+        "wd": 0.01,
+        "loss": "gcorr",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 0,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "c500_f0@ep3",
+        "freeze": "inp,gru",
+        "ema_teacher": 0.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": false,
+        "mask_weight": true,
+        "propensity": "",
+        "prop_power": 1.0,
+        "prop_eps": 0.0,
+        "class_weight": "",
+        "valid_true_mask": -1.0,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 0.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 0,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6624916250709929,
+          "t1": 0.6696848472441903,
+          "weighted_pearson": 0.7007237377779081,
+          "blocks": 467,
+          "eligible_blocks": 467,
+          "per_seq_wp": 0.6660882361575916,
+          "global_t0": 0.7001697976027692,
+          "global_t1": 0.701277677953047,
+          "frac_abs_pred_gt2": 0.010136962678969214,
+          "by_class": {
+            "0": 0.7993,
+            "1": 0.7656,
+            "2": 0.7633,
+            "3": 0.4808
+          },
+          "epoch": 0,
+          "eval_seconds": 13.5,
+          "split": "vfold467"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/ref_f1/model_ep3.pt": {
+      "exists": true,
+      "size": 1054047,
+      "sha256": "e03ad2269206800a47ce818e70a38df903571f591f515cf20078f43c3ff240e4",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "ref_f1",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 32,
+        "epochs": 4,
+        "lr": 0.001,
+        "wd": 0.01,
+        "loss": "wmse",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "train+valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "",
+        "freeze": "",
+        "ema_teacher": 1.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "mask_weight": false,
+        "propensity": "prop_f1",
+        "prop_power": 2.0,
+        "prop_eps": 0.03,
+        "class_weight": "",
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "quant_feats": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 3,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6205686062864272,
+          "t1": 0.6246621396217572,
+          "weighted_pearson": 0.6622847395642673,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6226153729540922,
+          "global_t0": 0.6560566585281502,
+          "global_t1": 0.6685128206003844,
+          "frac_abs_pred_gt2": 3.1733498849526204e-05,
+          "by_class": {
+            "0": 0.7805,
+            "1": 0.7528,
+            "2": 0.6862,
+            "3": 0.4277
+          },
+          "epoch": 0,
+          "eval_seconds": 13.8,
+          "split": "vfold469"
+        },
+        {
+          "t0": 0.630495317940055,
+          "t1": 0.6335797261536219,
+          "weighted_pearson": 0.6732868952287092,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6320375220468384,
+          "global_t0": 0.6679653202864628,
+          "global_t1": 0.6786084701709557,
+          "frac_abs_pred_gt2": 0.00040608121409139465,
+          "by_class": {
+            "0": 0.7889,
+            "1": 0.7604,
+            "2": 0.6954,
+            "3": 0.4387
+          },
+          "epoch": 1,
+          "eval_seconds": 12.9,
+          "split": "vfold469"
+        },
+        {
+          "t0": 0.6328646992578131,
+          "t1": 0.6362290151280071,
+          "weighted_pearson": 0.675690251185604,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.63454685719291,
+          "global_t0": 0.669934880716769,
+          "global_t1": 0.681445621654439,
+          "frac_abs_pred_gt2": 0.000450185398933109,
+          "by_class": {
+            "0": 0.7894,
+            "1": 0.7624,
+            "2": 0.6981,
+            "3": 0.4425
+          },
+          "epoch": 2,
+          "eval_seconds": 13.0,
+          "split": "vfold469"
+        },
+        {
+          "t0": 0.6333127359070871,
+          "t1": 0.6368889208505031,
+          "weighted_pearson": 0.6764988208983542,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6351008283787951,
+          "global_t0": 0.6711504881187994,
+          "global_t1": 0.681847153677909,
+          "frac_abs_pred_gt2": 0.00043189829790117866,
+          "by_class": {
+            "0": 0.7896,
+            "1": 0.7631,
+            "2": 0.6991,
+            "3": 0.443
+          },
+          "epoch": 3,
+          "eval_seconds": 13.3,
+          "split": "vfold469"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/refs4_f1/model_ep3.pt": {
+      "exists": true,
+      "size": 1054047,
+      "sha256": "eee7578f5cc8e3a1beac8cf2a3fcdd31010fcb3987903261d4678c376e5ba646",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "refs4_f1",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 32,
+        "epochs": 4,
+        "lr": 0.001,
+        "wd": 0.01,
+        "loss": "wmse",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "train+valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "",
+        "freeze": "",
+        "ema_teacher": 1.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "mask_weight": false,
+        "propensity": "prop_f1",
+        "prop_power": 2.0,
+        "prop_eps": 0.03,
+        "class_weight": "",
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 4,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 3,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.621285136535084,
+          "t1": 0.6239676832042962,
+          "weighted_pearson": 0.6639652763104518,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6226264098696901,
+          "global_t0": 0.6576683725218179,
+          "global_t1": 0.6702621800990858,
+          "frac_abs_pred_gt2": 0.00029904788746333165,
+          "by_class": {
+            "0": 0.782,
+            "1": 0.7517,
+            "2": 0.6835,
+            "3": 0.4291
+          },
+          "epoch": 0,
+          "eval_seconds": 13.5,
+          "split": "vfold469"
+        },
+        {
+          "t0": 0.6312441205053323,
+          "t1": 0.6332809489525184,
+          "weighted_pearson": 0.6743848111744115,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6322625347289254,
+          "global_t0": 0.6694659335200099,
+          "global_t1": 0.6793036888288131,
+          "frac_abs_pred_gt2": 0.000129623274961624,
+          "by_class": {
+            "0": 0.7885,
+            "1": 0.7602,
+            "2": 0.6943,
+            "3": 0.4404
+          },
+          "epoch": 1,
+          "eval_seconds": 14.4,
+          "split": "vfold469"
+        },
+        {
+          "t0": 0.6334297619953451,
+          "t1": 0.6356225929305996,
+          "weighted_pearson": 0.6768835880562044,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6345261774629724,
+          "global_t0": 0.671827813946121,
+          "global_t1": 0.6819393621662878,
+          "frac_abs_pred_gt2": 0.00018663600170823038,
+          "by_class": {
+            "0": 0.7897,
+            "1": 0.7628,
+            "2": 0.698,
+            "3": 0.4422
+          },
+          "epoch": 2,
+          "eval_seconds": 13.3,
+          "split": "vfold469"
+        },
+        {
+          "t0": 0.6337687227893054,
+          "t1": 0.6360473768940318,
+          "weighted_pearson": 0.6778599753901609,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6349080498416686,
+          "global_t0": 0.6730184714920419,
+          "global_t1": 0.6827014792882797,
+          "frac_abs_pred_gt2": 0.00017157603615252303,
+          "by_class": {
+            "0": 0.79,
+            "1": 0.7628,
+            "2": 0.699,
+            "3": 0.4424
+          },
+          "epoch": 3,
+          "eval_seconds": 13.3,
+          "split": "vfold469"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/d256_f1/model_ep3.pt": {
+      "exists": true,
+      "size": 3933599,
+      "sha256": "8a6f8dd0836d68fa298b3e26bae2910fcf12b858f953ce7e982219fa7e1490aa",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "d256_f1",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 256,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 32,
+        "epochs": 4,
+        "lr": 0.001,
+        "wd": 0.01,
+        "loss": "wmse",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "h256_f1,h256s4_f1",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "train+valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "",
+        "freeze": "",
+        "ema_teacher": 1.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "mask_weight": false,
+        "propensity": "prop_f1",
+        "prop_power": 2.0,
+        "prop_eps": 0.03,
+        "class_weight": "",
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 3,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          256,
+          211
+        ],
+        "inp.bias": [
+          256
+        ],
+        "gru.weight_ih_l0": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l0": [
+          768,
+          256
+        ],
+        "gru.bias_ih_l0": [
+          768
+        ],
+        "gru.bias_hh_l0": [
+          768
+        ],
+        "gru.weight_ih_l1": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l1": [
+          768,
+          256
+        ],
+        "gru.bias_ih_l1": [
+          768
+        ],
+        "gru.bias_hh_l1": [
+          768
+        ],
+        "head.0.weight": [
+          256,
+          512
+        ],
+        "head.0.bias": [
+          256
+        ],
+        "head.2.weight": [
+          23,
+          256
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6263742297051234,
+          "t1": 0.631041964453941,
+          "weighted_pearson": 0.6676337404131987,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6287080970795322,
+          "global_t0": 0.6621005906683213,
+          "global_t1": 0.673166890158076,
+          "frac_abs_pred_gt2": 3.119564293682237e-05,
+          "by_class": {
+            "0": 0.7819,
+            "1": 0.756,
+            "2": 0.6918,
+            "3": 0.4382
+          },
+          "epoch": 0,
+          "eval_seconds": 20.2,
+          "split": "vfold469"
+        },
+        {
+          "t0": 0.6335634782868389,
+          "t1": 0.6377157168756106,
+          "weighted_pearson": 0.676382177971159,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6356395975812248,
+          "global_t0": 0.6707997422619153,
+          "global_t1": 0.6819646136804026,
+          "frac_abs_pred_gt2": 0.00012639613948540099,
+          "by_class": {
+            "0": 0.7887,
+            "1": 0.764,
+            "2": 0.698,
+            "3": 0.4451
+          },
+          "epoch": 1,
+          "eval_seconds": 21.7,
+          "split": "vfold469"
+        },
+        {
+          "t0": 0.6349669363429203,
+          "t1": 0.639390618543005,
+          "weighted_pearson": 0.6784774813991146,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6371787774429627,
+          "global_t0": 0.6729992341661009,
+          "global_t1": 0.6839557286321283,
+          "frac_abs_pred_gt2": 0.0001505996555570735,
+          "by_class": {
+            "0": 0.7907,
+            "1": 0.7662,
+            "2": 0.7001,
+            "3": 0.4457
+          },
+          "epoch": 2,
+          "eval_seconds": 20.7,
+          "split": "vfold469"
+        },
+        {
+          "t0": 0.6349058499234441,
+          "t1": 0.6393454168547059,
+          "weighted_pearson": 0.6785398700315386,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.637125633389075,
+          "global_t0": 0.6729979232384383,
+          "global_t1": 0.6840818168246389,
+          "frac_abs_pred_gt2": 0.00014199396095381216,
+          "by_class": {
+            "0": 0.7907,
+            "1": 0.7666,
+            "2": 0.7012,
+            "3": 0.4447
+          },
+          "epoch": 3,
+          "eval_seconds": 21.3,
+          "split": "vfold469"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/c500_f1/model_ep3.pt": {
+      "exists": true,
+      "size": 1054047,
+      "sha256": "03a2205b453e4ac96dfcabdac32f3211d31cd6dec02f82ef1ee3f62454229305",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "c500_f1",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 500,
+        "batch": 32,
+        "epochs": 4,
+        "lr": 0.001,
+        "wd": 0.01,
+        "loss": "wmse",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "train+valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "",
+        "freeze": "",
+        "ema_teacher": 1.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "mask_weight": false,
+        "propensity": "prop_f1",
+        "prop_power": 2.0,
+        "prop_eps": 0.03,
+        "class_weight": "",
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 3,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6314142209920757,
+          "t1": 0.633828853617843,
+          "weighted_pearson": 0.6735084305025246,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6326215373049593,
+          "global_t0": 0.6680786363942659,
+          "global_t1": 0.6789382246107833,
+          "frac_abs_pred_gt2": 0.00017318960389063452,
+          "by_class": {
+            "0": 0.7874,
+            "1": 0.7619,
+            "2": 0.6941,
+            "3": 0.4412
+          },
+          "epoch": 0,
+          "eval_seconds": 13.8,
+          "split": "vfold469"
+        },
+        {
+          "t0": 0.6353850900363405,
+          "t1": 0.6376681830864595,
+          "weighted_pearson": 0.6767960396858597,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6365266365614,
+          "global_t0": 0.671499558776173,
+          "global_t1": 0.6820925205955463,
+          "frac_abs_pred_gt2": 0.0003264785390112272,
+          "by_class": {
+            "0": 0.7891,
+            "1": 0.7642,
+            "2": 0.6977,
+            "3": 0.4474
+          },
+          "epoch": 1,
+          "eval_seconds": 13.2,
+          "split": "vfold469"
+        },
+        {
+          "t0": 0.6367888965354161,
+          "t1": 0.6388707104100134,
+          "weighted_pearson": 0.6777990221091768,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6378298034727148,
+          "global_t0": 0.6727950928991105,
+          "global_t1": 0.6828029513192431,
+          "frac_abs_pred_gt2": 0.00017480317162874603,
+          "by_class": {
+            "0": 0.7895,
+            "1": 0.7645,
+            "2": 0.7006,
+            "3": 0.4487
+          },
+          "epoch": 2,
+          "eval_seconds": 12.9,
+          "split": "vfold469"
+        },
+        {
+          "t0": 0.635906462444334,
+          "t1": 0.638746073350935,
+          "weighted_pearson": 0.6771814177716008,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6373262678976346,
+          "global_t0": 0.6720143325091972,
+          "global_t1": 0.6823485030340044,
+          "frac_abs_pred_gt2": 0.0001979309758750109,
+          "by_class": {
+            "0": 0.7895,
+            "1": 0.7648,
+            "2": 0.702,
+            "3": 0.4463
+          },
+          "epoch": 3,
+          "eval_seconds": 12.4,
+          "split": "vfold469"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/ft128_f1h/model_ep0.pt": {
+      "exists": true,
+      "size": 1052711,
+      "sha256": "8dd3fedbea289fc95211a68d8645d573212a3c17f40302e71719db1f97f0b43b",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "ft128_f1h",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 16,
+        "epochs": 1,
+        "lr": 0.0005,
+        "wd": 0.01,
+        "loss": "gcorr",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "ref_f1@ep3",
+        "freeze": "inp,gru",
+        "ema_teacher": 0.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": false,
+        "mask_weight": true,
+        "propensity": "",
+        "prop_power": 1.0,
+        "prop_eps": 0.0,
+        "class_weight": "",
+        "valid_true_mask": -1.0,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 0.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 0,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6367702631102932,
+          "t1": 0.6399382165517703,
+          "weighted_pearson": 0.6775452613815256,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6383542398310318,
+          "global_t0": 0.6720501440287073,
+          "global_t1": 0.6830403787343438,
+          "frac_abs_pred_gt2": 0.0008987572301281065,
+          "by_class": {
+            "0": 0.7912,
+            "1": 0.7665,
+            "2": 0.7014,
+            "3": 0.4477
+          },
+          "epoch": 0,
+          "eval_seconds": 12.6,
+          "split": "vfold469"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/ft128s4_f1h/model_ep0.pt": {
+      "exists": true,
+      "size": 1052711,
+      "sha256": "2e0ecb4a8cb6b796675e85fefe4b5744e12c359be1d0fb72f6e2c6a4c720c255",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "ft128s4_f1h",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 16,
+        "epochs": 1,
+        "lr": 0.0005,
+        "wd": 0.01,
+        "loss": "gcorr",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "refs4_f1@ep3",
+        "freeze": "inp,gru",
+        "ema_teacher": 0.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": false,
+        "mask_weight": true,
+        "propensity": "",
+        "prop_power": 1.0,
+        "prop_eps": 0.0,
+        "class_weight": "",
+        "valid_true_mask": -1.0,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 4,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 0.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 0,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6364589270687527,
+          "t1": 0.6392799195420475,
+          "weighted_pearson": 0.6782078208193307,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6378694233054001,
+          "global_t0": 0.673030508795509,
+          "global_t1": 0.6833851328431524,
+          "frac_abs_pred_gt2": 0.0008896136796121413,
+          "by_class": {
+            "0": 0.7916,
+            "1": 0.7656,
+            "2": 0.7014,
+            "3": 0.4465
+          },
+          "epoch": 0,
+          "eval_seconds": 12.1,
+          "split": "vfold469"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/ft256d_f1h/model_ep0.pt": {
+      "exists": true,
+      "size": 3932263,
+      "sha256": "f215113971886d1d51aab2305df5e531606953d45413b4c460c0156966fb527b",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "ft256d_f1h",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 256,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 16,
+        "epochs": 1,
+        "lr": 0.0005,
+        "wd": 0.01,
+        "loss": "gcorr",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "d256_f1@ep3",
+        "freeze": "inp,gru",
+        "ema_teacher": 0.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": false,
+        "mask_weight": true,
+        "propensity": "",
+        "prop_power": 1.0,
+        "prop_eps": 0.0,
+        "class_weight": "",
+        "valid_true_mask": -1.0,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 0.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 0,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          256,
+          211
+        ],
+        "inp.bias": [
+          256
+        ],
+        "gru.weight_ih_l0": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l0": [
+          768,
+          256
+        ],
+        "gru.bias_ih_l0": [
+          768
+        ],
+        "gru.bias_hh_l0": [
+          768
+        ],
+        "gru.weight_ih_l1": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l1": [
+          768,
+          256
+        ],
+        "gru.bias_ih_l1": [
+          768
+        ],
+        "gru.bias_hh_l1": [
+          768
+        ],
+        "head.0.weight": [
+          256,
+          512
+        ],
+        "head.0.bias": [
+          256
+        ],
+        "head.2.weight": [
+          23,
+          256
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.638479816047682,
+          "t1": 0.6429326317933303,
+          "weighted_pearson": 0.6793863207974052,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.6407062239205061,
+          "global_t0": 0.6739259694323678,
+          "global_t1": 0.6848466721624427,
+          "frac_abs_pred_gt2": 0.0032115376547545925,
+          "by_class": {
+            "0": 0.7931,
+            "1": 0.7695,
+            "2": 0.7053,
+            "3": 0.449
+          },
+          "epoch": 0,
+          "eval_seconds": 18.1,
+          "split": "vfold469"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/ftc500_f1h/model_ep0.pt": {
+      "exists": true,
+      "size": 1052711,
+      "sha256": "0fb530c859c21961351166ef79167cae242536902f62b159332551f15975b932",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "ftc500_f1h",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 500,
+        "batch": 16,
+        "epochs": 1,
+        "lr": 0.0005,
+        "wd": 0.01,
+        "loss": "gcorr",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "valid",
+        "include_heldout_valid": false,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "vfold",
+        "valid_fold": 1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "c500_f1@ep3",
+        "freeze": "inp,gru",
+        "ema_teacher": 0.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": false,
+        "mask_weight": true,
+        "propensity": "",
+        "prop_power": 1.0,
+        "prop_eps": 0.0,
+        "class_weight": "",
+        "valid_true_mask": -1.0,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 0.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 0,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6397851897695939,
+          "t1": 0.6418115474295379,
+          "weighted_pearson": 0.67726186247556,
+          "blocks": 469,
+          "eligible_blocks": 468,
+          "per_seq_wp": 0.640798368599566,
+          "global_t0": 0.6716131700393363,
+          "global_t1": 0.6829105549117838,
+          "frac_abs_pred_gt2": 0.004946122973224457,
+          "by_class": {
+            "0": 0.7912,
+            "1": 0.7679,
+            "2": 0.705,
+            "3": 0.4514
+          },
+          "epoch": 0,
+          "eval_seconds": 13.9,
+          "split": "vfold469"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/fin128_s3/model_ep3.pt": {
+      "exists": true,
+      "size": 1054047,
+      "sha256": "b9c6c49e3be415eeec480c555eca9ba762ab9154fc6d793b9f5f309f588bbf0a",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "fin128_s3",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 32,
+        "epochs": 4,
+        "lr": 0.001,
+        "wd": 0.01,
+        "loss": "wmse",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "train+valid",
+        "include_heldout_valid": true,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "holdout",
+        "valid_fold": -1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "",
+        "freeze": "",
+        "ema_teacher": 1.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "mask_weight": false,
+        "propensity": "prop_f0",
+        "prop_power": 2.0,
+        "prop_eps": 0.03,
+        "class_weight": "",
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 3,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6368264261925105,
+          "t1": 0.633398900638868,
+          "weighted_pearson": 0.6850906176981434,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6351126634156892,
+          "global_t0": 0.6724329649396036,
+          "global_t1": 0.6977482704566832,
+          "frac_abs_pred_gt2": 4.554964525318654e-05,
+          "by_class": {
+            "0": 0.7917,
+            "1": 0.7484,
+            "2": 0.7224,
+            "3": 0.4337
+          },
+          "epoch": 0,
+          "eval_seconds": 10.2,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.647227421750912,
+          "t1": 0.6440440169821229,
+          "weighted_pearson": 0.6964680446065686,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6456357193665174,
+          "global_t0": 0.6858960159822072,
+          "global_t1": 0.7070400732309301,
+          "frac_abs_pred_gt2": 0.0004840614843008129,
+          "by_class": {
+            "0": 0.8023,
+            "1": 0.7585,
+            "2": 0.7323,
+            "3": 0.4447
+          },
+          "epoch": 1,
+          "eval_seconds": 9.8,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6508540032077115,
+          "t1": 0.6482148878881941,
+          "weighted_pearson": 0.6998381873638317,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6495344455479528,
+          "global_t0": 0.6898596280624217,
+          "global_t1": 0.7098167466652417,
+          "frac_abs_pred_gt2": 0.0010816110677917686,
+          "by_class": {
+            "0": 0.8052,
+            "1": 0.7621,
+            "2": 0.7351,
+            "3": 0.4501
+          },
+          "epoch": 2,
+          "eval_seconds": 10.2,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6523636720748314,
+          "t1": 0.6500748247759084,
+          "weighted_pearson": 0.7009001258372658,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6512192484253698,
+          "global_t0": 0.6910864177881364,
+          "global_t1": 0.7107138338863951,
+          "frac_abs_pred_gt2": 0.0011348809919014275,
+          "by_class": {
+            "0": 0.806,
+            "1": 0.7633,
+            "2": 0.7367,
+            "3": 0.4526
+          },
+          "epoch": 3,
+          "eval_seconds": 11.4,
+          "split": "holdout368"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/fin128_s3h2/model_ep1.pt": {
+      "exists": true,
+      "size": 1052903,
+      "sha256": "cc5ef21da864ca185ec7069bc2f2791bb5ccd5f71c2e55ced99fcfb9debc31a3",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "fin128_s3h2",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 16,
+        "epochs": 2,
+        "lr": 0.0005,
+        "wd": 0.01,
+        "loss": "gcorr",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "attn_k": 32,
+        "attn_d": 64,
+        "attn_heads": 4,
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "valid",
+        "include_heldout_valid": true,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "holdout",
+        "valid_fold": -1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "fin128_s3@ep3",
+        "freeze": "inp,gru",
+        "ema_teacher": 0.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": false,
+        "mask_weight": true,
+        "propensity": "",
+        "prop_power": 1.0,
+        "prop_eps": 0.0,
+        "class_weight": "",
+        "valid_true_mask": -1.0,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "level_aug": 0.0,
+        "level_drop": 0.0,
+        "lookahead": "",
+        "train_half": -1,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 0.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 1,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6555347647418474,
+          "t1": 0.6521419360528623,
+          "weighted_pearson": 0.7001177477142799,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6538383503973548,
+          "global_t0": 0.6913402318701798,
+          "global_t1": 0.7088952635583801,
+          "frac_abs_pred_gt2": 0.007612966980367331,
+          "by_class": {
+            "0": 0.8075,
+            "1": 0.7664,
+            "2": 0.7392,
+            "3": 0.4557
+          },
+          "epoch": 0,
+          "eval_seconds": 11.0,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6562620394163379,
+          "t1": 0.6540592634828726,
+          "weighted_pearson": 0.7021993492582695,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6551606514496052,
+          "global_t0": 0.6928702357553714,
+          "global_t1": 0.7115284627611677,
+          "frac_abs_pred_gt2": 0.0082205529263717,
+          "by_class": {
+            "0": 0.8077,
+            "1": 0.7667,
+            "2": 0.7402,
+            "3": 0.4584
+          },
+          "epoch": 1,
+          "eval_seconds": 10.3,
+          "split": "holdout368"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/fin128_s4/model_ep3.pt": {
+      "exists": true,
+      "size": 1054047,
+      "sha256": "6f61948d0a75df130ed157a832cf83d0ae2e5465548d007a2236f93576a58c37",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "fin128_s4",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 32,
+        "epochs": 4,
+        "lr": 0.001,
+        "wd": 0.01,
+        "loss": "wmse",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "train+valid",
+        "include_heldout_valid": true,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "holdout",
+        "valid_fold": -1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "",
+        "freeze": "",
+        "ema_teacher": 1.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "mask_weight": false,
+        "propensity": "prop_f0",
+        "prop_power": 2.0,
+        "prop_eps": 0.03,
+        "class_weight": "",
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 4,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 3,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6371249606171269,
+          "t1": 0.6329599354449487,
+          "weighted_pearson": 0.6875863987089543,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6350424480310377,
+          "global_t0": 0.6758483449789078,
+          "global_t1": 0.6993244524390009,
+          "frac_abs_pred_gt2": 4.7865728910128236e-05,
+          "by_class": {
+            "0": 0.7929,
+            "1": 0.7509,
+            "2": 0.7202,
+            "3": 0.4332
+          },
+          "epoch": 0,
+          "eval_seconds": 10.2,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6472331749765509,
+          "t1": 0.6436978570627374,
+          "weighted_pearson": 0.6970334720660791,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6454655160196441,
+          "global_t0": 0.686779884078925,
+          "global_t1": 0.7072870600532332,
+          "frac_abs_pred_gt2": 0.000545051687266944,
+          "by_class": {
+            "0": 0.8024,
+            "1": 0.7599,
+            "2": 0.7297,
+            "3": 0.4454
+          },
+          "epoch": 1,
+          "eval_seconds": 9.7,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6509597018747767,
+          "t1": 0.6478138876250183,
+          "weighted_pearson": 0.7003911590239196,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6493867947498975,
+          "global_t0": 0.6903635251593793,
+          "global_t1": 0.7104187928884598,
+          "frac_abs_pred_gt2": 0.0005342432968678828,
+          "by_class": {
+            "0": 0.8048,
+            "1": 0.7629,
+            "2": 0.7334,
+            "3": 0.4507
+          },
+          "epoch": 2,
+          "eval_seconds": 10.5,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6526507828310814,
+          "t1": 0.6494070336001628,
+          "weighted_pearson": 0.7017221983686996,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6510289082156221,
+          "global_t0": 0.6921219150597037,
+          "global_t1": 0.7113224816776957,
+          "frac_abs_pred_gt2": 0.0005087663766415243,
+          "by_class": {
+            "0": 0.8056,
+            "1": 0.7637,
+            "2": 0.7347,
+            "3": 0.4535
+          },
+          "epoch": 3,
+          "eval_seconds": 9.7,
+          "split": "holdout368"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/fin128_s4h2/model_ep1.pt": {
+      "exists": true,
+      "size": 1052903,
+      "sha256": "7a386c2daba46fa9895d65bf00412e32a1dac2db33138aef3aaa4fe296efc636",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "fin128_s4h2",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 16,
+        "epochs": 2,
+        "lr": 0.0005,
+        "wd": 0.01,
+        "loss": "gcorr",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "attn_k": 32,
+        "attn_d": 64,
+        "attn_heads": 4,
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "valid",
+        "include_heldout_valid": true,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "holdout",
+        "valid_fold": -1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "fin128_s4@ep3",
+        "freeze": "inp,gru",
+        "ema_teacher": 0.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": false,
+        "mask_weight": true,
+        "propensity": "",
+        "prop_power": 1.0,
+        "prop_eps": 0.0,
+        "class_weight": "",
+        "valid_true_mask": -1.0,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 4,
+        "level_aug": 0.0,
+        "level_drop": 0.0,
+        "lookahead": "",
+        "train_half": -1,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 0.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 1,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6553035736933368,
+          "t1": 0.652429643117891,
+          "weighted_pearson": 0.7025419324680697,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.653866608405614,
+          "global_t0": 0.6935234362850269,
+          "global_t1": 0.7115604286511125,
+          "frac_abs_pred_gt2": 0.00578789305869728,
+          "by_class": {
+            "0": 0.8074,
+            "1": 0.7659,
+            "2": 0.7382,
+            "3": 0.4568
+          },
+          "epoch": 0,
+          "eval_seconds": 10.0,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6564477999497909,
+          "t1": 0.6535364204743014,
+          "weighted_pearson": 0.7029938180755246,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6549921102120462,
+          "global_t0": 0.6941154183937212,
+          "global_t1": 0.7118722177573281,
+          "frac_abs_pred_gt2": 0.005149425997267022,
+          "by_class": {
+            "0": 0.8077,
+            "1": 0.7664,
+            "2": 0.7387,
+            "3": 0.4591
+          },
+          "epoch": 1,
+          "eval_seconds": 10.1,
+          "split": "holdout368"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/find256_s3/model_ep3.pt": {
+      "exists": true,
+      "size": 3933599,
+      "sha256": "ccd7074ddace43771c0ff8053056677fff76713e6e86da142c3c181ee59810d2",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "find256_s3",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 256,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 32,
+        "epochs": 4,
+        "lr": 0.001,
+        "wd": 0.01,
+        "loss": "wmse",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "fin256_s3,fin256_s4",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "train+valid",
+        "include_heldout_valid": true,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "holdout",
+        "valid_fold": -1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "",
+        "freeze": "",
+        "ema_teacher": 1.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "mask_weight": false,
+        "propensity": "prop_f0",
+        "prop_power": 2.0,
+        "prop_eps": 0.03,
+        "class_weight": "",
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 3,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          256,
+          211
+        ],
+        "inp.bias": [
+          256
+        ],
+        "gru.weight_ih_l0": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l0": [
+          768,
+          256
+        ],
+        "gru.bias_ih_l0": [
+          768
+        ],
+        "gru.bias_hh_l0": [
+          768
+        ],
+        "gru.weight_ih_l1": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l1": [
+          768,
+          256
+        ],
+        "gru.bias_ih_l1": [
+          768
+        ],
+        "gru.bias_hh_l1": [
+          768
+        ],
+        "head.0.weight": [
+          256,
+          512
+        ],
+        "head.0.bias": [
+          256
+        ],
+        "head.2.weight": [
+          23,
+          256
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.644469217569138,
+          "t1": 0.6404573661664281,
+          "weighted_pearson": 0.693231097149279,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6424632918677831,
+          "global_t0": 0.6826596037647807,
+          "global_t1": 0.7038025905337773,
+          "frac_abs_pred_gt2": 8.415103953554803e-05,
+          "by_class": {
+            "0": 0.7976,
+            "1": 0.7542,
+            "2": 0.7273,
+            "3": 0.4442
+          },
+          "epoch": 0,
+          "eval_seconds": 14.8,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6535834515520889,
+          "t1": 0.6511731337048424,
+          "weighted_pearson": 0.7023379750576839,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6523782926284656,
+          "global_t0": 0.6921656683126983,
+          "global_t1": 0.7125102818026695,
+          "frac_abs_pred_gt2": 0.00011966432227532059,
+          "by_class": {
+            "0": 0.8058,
+            "1": 0.7643,
+            "2": 0.7353,
+            "3": 0.4564
+          },
+          "epoch": 1,
+          "eval_seconds": 16.1,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6585266843383552,
+          "t1": 0.6562354636136074,
+          "weighted_pearson": 0.7067287776378168,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6573810739759813,
+          "global_t0": 0.6972139419614996,
+          "global_t1": 0.716243613314134,
+          "frac_abs_pred_gt2": 0.0006747523720556786,
+          "by_class": {
+            "0": 0.8088,
+            "1": 0.7685,
+            "2": 0.7401,
+            "3": 0.4631
+          },
+          "epoch": 2,
+          "eval_seconds": 21.6,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6612319751497617,
+          "t1": 0.6592679488983145,
+          "weighted_pearson": 0.709316119334165,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6602499620240381,
+          "global_t0": 0.6999731787703759,
+          "global_t1": 0.7186590598979541,
+          "frac_abs_pred_gt2": 0.00028101815037559155,
+          "by_class": {
+            "0": 0.8098,
+            "1": 0.77,
+            "2": 0.7422,
+            "3": 0.4681
+          },
+          "epoch": 3,
+          "eval_seconds": 21.8,
+          "split": "holdout368"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/find256_s3h2/model_ep1.pt": {
+      "exists": true,
+      "size": 3932327,
+      "sha256": "7131a61502c35c7583432df54b5c8b7a1c66b1ca1911d6b8ada41f133a9808b1",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "find256_s3h2",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 256,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 2000,
+        "batch": 16,
+        "epochs": 2,
+        "lr": 0.0005,
+        "wd": 0.01,
+        "loss": "gcorr",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "attn_k": 32,
+        "attn_d": 64,
+        "attn_heads": 4,
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "valid",
+        "include_heldout_valid": true,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "holdout",
+        "valid_fold": -1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "find256_s3@ep3",
+        "freeze": "inp,gru",
+        "ema_teacher": 0.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": false,
+        "mask_weight": true,
+        "propensity": "",
+        "prop_power": 1.0,
+        "prop_eps": 0.0,
+        "class_weight": "",
+        "valid_true_mask": -1.0,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "lookahead": "",
+        "train_half": -1,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 0.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 1,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          256,
+          211
+        ],
+        "inp.bias": [
+          256
+        ],
+        "gru.weight_ih_l0": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l0": [
+          768,
+          256
+        ],
+        "gru.bias_ih_l0": [
+          768
+        ],
+        "gru.bias_hh_l0": [
+          768
+        ],
+        "gru.weight_ih_l1": [
+          768,
+          256
+        ],
+        "gru.weight_hh_l1": [
+          768,
+          256
+        ],
+        "gru.bias_ih_l1": [
+          768
+        ],
+        "gru.bias_hh_l1": [
+          768
+        ],
+        "head.0.weight": [
+          256,
+          512
+        ],
+        "head.0.bias": [
+          256
+        ],
+        "head.2.weight": [
+          23,
+          256
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6663585887382935,
+          "t1": 0.6629673546951622,
+          "weighted_pearson": 0.7084312741900555,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6646629717167278,
+          "global_t0": 0.7022823422427571,
+          "global_t1": 0.7145802061373538,
+          "frac_abs_pred_gt2": 0.017209273598962394,
+          "by_class": {
+            "0": 0.8113,
+            "1": 0.7726,
+            "2": 0.7465,
+            "3": 0.4752
+          },
+          "epoch": 0,
+          "eval_seconds": 15.3,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6681979652771737,
+          "t1": 0.6665075368232596,
+          "weighted_pearson": 0.711743393378489,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6673527510502166,
+          "global_t0": 0.7036617993596924,
+          "global_t1": 0.7198249873972856,
+          "frac_abs_pred_gt2": 0.02292922820372272,
+          "by_class": {
+            "0": 0.8122,
+            "1": 0.7741,
+            "2": 0.7483,
+            "3": 0.48
+          },
+          "epoch": 1,
+          "eval_seconds": 15.4,
+          "split": "holdout368"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/finc500b_s3/model_ep3.pt": {
+      "exists": true,
+      "size": 1054111,
+      "sha256": "1d1e98f04e387ba56cc1f907ec251190d524fd6c4d34e6c662ea822767ed7672",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "finc500b_s3",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 500,
+        "batch": 32,
+        "epochs": 4,
+        "lr": 0.001,
+        "wd": 0.01,
+        "loss": "wmse",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "train+valid",
+        "include_heldout_valid": true,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "holdout",
+        "valid_fold": -1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "",
+        "freeze": "",
+        "ema_teacher": 1.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "mask_weight": false,
+        "propensity": "prop_f0",
+        "prop_power": 2.0,
+        "prop_eps": 0.03,
+        "class_weight": "",
+        "valid_true_mask": 0.03,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 3,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6459883405845765,
+          "t1": 0.6430787283527166,
+          "weighted_pearson": 0.6945018911044323,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6445335344686466,
+          "global_t0": 0.6831437596361302,
+          "global_t1": 0.7058600225727343,
+          "frac_abs_pred_gt2": 0.0003443244369986644,
+          "by_class": {
+            "0": 0.7997,
+            "1": 0.7592,
+            "2": 0.7274,
+            "3": 0.4463
+          },
+          "epoch": 0,
+          "eval_seconds": 10.2,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6520532762156551,
+          "t1": 0.6494009476977086,
+          "weighted_pearson": 0.7000277822109096,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6507271119566819,
+          "global_t0": 0.6899855934056636,
+          "global_t1": 0.7100699710161555,
+          "frac_abs_pred_gt2": 0.0006955971249681538,
+          "by_class": {
+            "0": 0.8039,
+            "1": 0.7626,
+            "2": 0.7334,
+            "3": 0.4551
+          },
+          "epoch": 1,
+          "eval_seconds": 9.6,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6552253693033944,
+          "t1": 0.6539684410690405,
+          "weighted_pearson": 0.7024026736784795,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6545969051862175,
+          "global_t0": 0.692704162079763,
+          "global_t1": 0.712101185277196,
+          "frac_abs_pred_gt2": 0.0006508195076006145,
+          "by_class": {
+            "0": 0.8052,
+            "1": 0.7666,
+            "2": 0.7366,
+            "3": 0.4609
+          },
+          "epoch": 2,
+          "eval_seconds": 9.8,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6572193187456372,
+          "t1": 0.6558289768985653,
+          "weighted_pearson": 0.7042101544389907,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6565241478221013,
+          "global_t0": 0.6945297378244821,
+          "global_t1": 0.7138905710534993,
+          "frac_abs_pred_gt2": 0.0007581313837055795,
+          "by_class": {
+            "0": 0.8061,
+            "1": 0.7683,
+            "2": 0.7379,
+            "3": 0.4639
+          },
+          "epoch": 3,
+          "eval_seconds": 9.3,
+          "split": "holdout368"
+        }
+      ]
+    },
+    "/home/grinchenkoeg/WunderFunder/artifacts/runs/finc500b_s3h2/model_ep1.pt": {
+      "exists": true,
+      "size": 1052903,
+      "sha256": "61395268177c79910ac491b1dbc009d151a147b599b63f442e5d91e67decc670",
+      "keys": [
+        "model",
+        "args",
+        "n_in",
+        "epoch",
+        "readout",
+        "readout_tilted"
+      ],
+      "args": {
+        "name": "finc500b_s3h2",
+        "train_seqs": 10607,
+        "valid_seqs": 600,
+        "full_valid": true,
+        "hidden": 128,
+        "layers": 2,
+        "dropout": 0.0,
+        "chunk": 500,
+        "batch": 16,
+        "epochs": 2,
+        "lr": 0.0005,
+        "wd": 0.01,
+        "loss": "gcorr",
+        "huber_delta": 0.5,
+        "ce_tilt": false,
+        "ce_mse": 0.0,
+        "distill": "",
+        "distill_alpha": 0.5,
+        "aux_next": 0.3,
+        "aux_tier": 0.0,
+        "aux_mask": 0.0,
+        "aux_sign": 0.0,
+        "aux_quote": 0.0,
+        "aux_next_k": "",
+        "aux_struct": 0.3,
+        "aux": "",
+        "aux_weight": 0.5,
+        "arch": "gru",
+        "attn_k": 32,
+        "attn_d": 64,
+        "attn_heads": 4,
+        "gate_ce": 0.0,
+        "cell": "gru",
+        "enc": "linear",
+        "tok_dim": 32,
+        "att_layers": 1,
+        "conv_k": 16,
+        "event_hidden": 128,
+        "class_balance": false,
+        "train_source": "valid",
+        "include_heldout_valid": true,
+        "valid_train_fraction": 1.0,
+        "epoch_samples": 0,
+        "eval_source": "holdout",
+        "valid_fold": -1,
+        "n_valid_folds": 4,
+        "valid_repeat": 1,
+        "init": "finc500b_s3@ep3",
+        "freeze": "inp,gru",
+        "ema_teacher": 0.0,
+        "ema_metric_weight": false,
+        "ema_decay": 0.999,
+        "eval_ema": false,
+        "mask_weight": true,
+        "propensity": "",
+        "prop_power": 1.0,
+        "prop_eps": 0.0,
+        "class_weight": "",
+        "valid_true_mask": -1.0,
+        "prop_input": "",
+        "swa_frac": 0.0,
+        "train_classes": "",
+        "online_norm": false,
+        "heuristics": false,
+        "raw_only": false,
+        "seed": 3,
+        "level_aug": 0.0,
+        "level_drop": 0.0,
+        "lookahead": "",
+        "train_half": -1,
+        "class_heads": false,
+        "quant_feats": false,
+        "quant_i1": false,
+        "state_reset": 0,
+        "loss_norm": "chunk",
+        "since_weight": 0.0,
+        "since_floor": 0.25,
+        "episode_weight": 0.0,
+        "episode_floor": 0.5,
+        "td_alpha": 0.0,
+        "td_ramp": 0.5,
+        "gcorr_weight": 1.0,
+        "fast": true,
+        "sync_free": true,
+        "fused_adam": true,
+        "pin_memory": true,
+        "prop_cache": true,
+        "precision": "fp16",
+        "max_batches": 0,
+        "profile_steps": 0,
+        "profile_warmup": 5,
+        "parity_dump": "",
+        "deterministic": false
+      },
+      "epoch": 1,
+      "model_shapes": {
+        "mean": [
+          211
+        ],
+        "std": [
+          211
+        ],
+        "inp.weight": [
+          128,
+          211
+        ],
+        "inp.bias": [
+          128
+        ],
+        "gru.weight_ih_l0": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l0": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l0": [
+          384
+        ],
+        "gru.bias_hh_l0": [
+          384
+        ],
+        "gru.weight_ih_l1": [
+          384,
+          128
+        ],
+        "gru.weight_hh_l1": [
+          384,
+          128
+        ],
+        "gru.bias_ih_l1": [
+          384
+        ],
+        "gru.bias_hh_l1": [
+          384
+        ],
+        "head.0.weight": [
+          128,
+          256
+        ],
+        "head.0.bias": [
+          128
+        ],
+        "head.2.weight": [
+          23,
+          128
+        ],
+        "head.2.bias": [
+          23
+        ]
+      },
+      "history": [
+        {
+          "t0": 0.6602505253596195,
+          "t1": 0.6571067889633787,
+          "weighted_pearson": 0.7007286997589772,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6586786571614991,
+          "global_t0": 0.6932594991901555,
+          "global_t1": 0.7081979003277988,
+          "frac_abs_pred_gt2": 0.03437068146901466,
+          "by_class": {
+            "0": 0.8068,
+            "1": 0.7694,
+            "2": 0.7401,
+            "3": 0.4673
+          },
+          "epoch": 0,
+          "eval_seconds": 10.1,
+          "split": "holdout368"
+        },
+        {
+          "t0": 0.6610207292648902,
+          "t1": 0.6592408363047123,
+          "weighted_pearson": 0.7034878430988283,
+          "blocks": 368,
+          "eligible_blocks": 368,
+          "per_seq_wp": 0.6601307827848013,
+          "global_t0": 0.6954006329791838,
+          "global_t1": 0.7115750532184728,
+          "frac_abs_pred_gt2": 0.039282322877502336,
+          "by_class": {
+            "0": 0.8072,
+            "1": 0.77,
+            "2": 0.741,
+            "3": 0.4701
+          },
+          "epoch": 1,
+          "eval_seconds": 10.6,
+          "split": "holdout368"
+        }
+      ]
+    }
+  }
+}

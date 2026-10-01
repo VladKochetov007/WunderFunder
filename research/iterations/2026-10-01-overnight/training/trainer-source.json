@@ -1,0 +1,40 @@
+{
+  "base": "scripts/train_rnn.py",
+  "base_sha256": "f97047e6ef51f32097f2cbe2eefc7c57766771ebaed12ae8798a3c1b7efcd52f",
+  "changes": [
+    [
+      "ROOT = Path(__file__).resolve().parents[1]",
+      "ROOT = Path(__file__).resolve().parents[4]"
+    ],
+    [
+      "    ap.add_argument(\"--aux-weight\", type=float, default=0.5)",
+      "    ap.add_argument(\"--aux-weight\", type=float, default=0.5)\n    ap.add_argument(\"--aux-loss-scale\", type=float, choices=[0.0, 1.0], default=1.0,\n                    help=\"AUX02: retain output architecture but scale structure/next supervision\")"
+    ],
+    [
+      "loss = loss + args.aux_struct * (ce * wv).sum()",
+      "loss = loss + args.aux_loss_scale * args.aux_struct * (ce * wv).sum()"
+    ],
+    [
+      "loss = loss + args.aux_next * ((mse + bce) * wv).sum()",
+      "loss = loss + args.aux_loss_scale * args.aux_next * ((mse + bce) * wv).sum()"
+    ],
+    [
+      "loss = loss + args.aux_next * ((kmse + kbce) * kw).sum()",
+      "loss = loss + args.aux_loss_scale * args.aux_next * ((kmse + kbce) * kw).sum()"
+    ],
+    [
+      "    out_dir.mkdir(parents=True, exist_ok=True)",
+      "    if out_dir.exists() and any(out_dir.iterdir()):\n        raise FileExistsError(f\"Refusing to overwrite nonempty run: {out_dir}\")\n    out_dir.mkdir(parents=True, exist_ok=True)"
+    ],
+    [
+      "        res = evaluate(eval_model, valid_loader, 4000, device)",
+      "        # Fixed endpoint study: no validation labels/predictions are read here.\n        # The original sequential DataLoader iterator consumes one CPU base_seed.\n        # Advance it identically so epoch-1 train sampling matches the old recipe.\n        assert valid_loader.generator is None\n        torch.empty((), dtype=torch.int64).random_(generator=valid_loader.generator)\n        res = {\"weighted_pearson\": 0.0, \"evaluation_skipped\": True,\n               \"metric_placeholder_not_a_readout\": True}"
+    ],
+    [
+      "        if improved or (args.include_heldout_valid and epoch == args.epochs - 1):",
+      "        if epoch == args.epochs - 1:  # fixed final endpoint; model.pt is never metric-selected"
+    ]
+  ],
+  "implementation": "train_aux.py",
+  "implementation_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f"
+}
