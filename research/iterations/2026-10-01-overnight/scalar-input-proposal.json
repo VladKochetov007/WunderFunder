@@ -1,0 +1,125 @@
+{
+  "id": "SCALARPLE01-proposal",
+  "created_utc": "2026-10-01T02:57:55.882422+00:00",
+  "status": "PROPOSED_NOT_ALLOCATED",
+  "mechanism": "Learn scalar nonlinear price-code maps before cross-feature mixing, retaining the original linear input path; utility hypothesis, not physical decoding or a claim of new information.",
+  "sources": [
+    "https://arxiv.org/abs/2203.05556",
+    "scalar-embedding-scout.md",
+    "critic/scalar-embedding-review.md"
+  ],
+  "prior": "Low to moderate. E168 tested nonlinear encoding after the original projection, not scalar maps before mixing; E106/088/092/096 strongly reduce expectations. No large-gain promise.",
+  "candidate_draft": {
+    "raw_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73
+    ],
+    "quantile_knots_requested_per_feature": 16,
+    "knot_quantiles": "linspace(0,1,16), including endpoints; 16 knots means at most15 intervals",
+    "knot_fit": "The already fixed256 train-only QRENEWAL chains, same representative row groups; sample rows0,20,...,19980 of each, equal rows per selected sequence. Read44 raw columns only; no targets/masks/held-fold distribution fitting.",
+    "knot_precision": "Compute quantiles in float64, exportfloat32, collapse duplicates AFTER conversion; retain variable unique counts and report them.",
+    "interpolation": "Clamp to endpoint knot values outside range. Distinct float32 knots use float64 subtraction/division then float32 fraction; define right-inclusive interval lookup. Single unique knot returns its vector. Reject nonfinite inputs/knots.",
+    "table": "Each feature has up to16 trainable16-dimensional knot vectors, FP32; iidN(0,1) from a separate fixed RNG seed independent of existing model initialization. Padding unused.",
+    "aggregation": "Interpolate neighboring vectors then sum in original feature order and divide bysqrt44.",
+    "residual": "Bias-free16-to128 learned projection, initialized exactlyzero, added to original normalized211-to128 projection BEFORE original GELU. Original raw linear path retained.",
+    "training": "Full parent from scratch with unchanged four-epoch ordinary EMA4+since recipe, architectureh128x2, then unchanged two-epoch ordinary H2; fixed parentep3/head ep1. Parent GRU/input/adapter all trainable; H2 explicitly freezes inp,gru,adapter table/output projection/knots. No CTX no_grad wrapper reuse for parent.",
+    "ordinary_control": "Same original h128 graph/data/RNG/optimizer schedule/update count via the same isolated wrapper, scalar branch disabled. Fresh paired controls are budgeted. Separate RNG for all new initialization preserves original tensor initialization and data order.",
+    "serving": "Single predetermined plain seed3 member replacement in fixed3 plainseed3+plainseed4+c500, equal thirds. No Q3/CTX/SAM combinations or two-PLE-member selection.",
+    "claim_limit": "If useful, attributes improvement to the complete input-adapter architecture and training intervention; does not isolate extra capacity from piecewise-linear geometry."
+  },
+  "screen_draft": {
+    "initial_seed": 3,
+    "folds": [
+      0,
+      1
+    ],
+    "initial_fits": 8,
+    "fit_breakdown": "2ordinary parents+2candidate parents, followed by4 ordinary H2 heads",
+    "readouts": [
+      {
+        "candidate": "candidate seed3 slot + fixed seed4 + c500",
+        "reference": "matched ordinary seed3 slot + fixed seed4 + c500",
+        "pooled_minimum_delta": 0.0003,
+        "each_fold_minimum_delta": 0.0
+      },
+      {
+        "candidate": "same candidate ensemble",
+        "reference": "existing fixed3 incumbent",
+        "pooled_minimum_delta": 0.0003,
+        "each_fold_minimum_delta": 0.0
+      }
+    ],
+    "replication": "Only if both seed3 gates pass: same eight-fit paired protocol atseed4, replacingseed4 slot withseed3+c500fixed. Same two gate requirements. No better-seed selection.",
+    "finalist": "Only after both seeds pass: one full-data candidate parent and one H2, seed3 only; final native package still must satisfy complete correctness and<=50min gate.",
+    "maximum_new_fits": 18,
+    "maximum_new_WP_queries": 4,
+    "no_hyperparameter_search": true
+  },
+  "prospective_budget_if_accepted": {
+    "existing_completed_fits": 36,
+    "CTX_screen_reserved": 8,
+    "CTX_finalists_reserved": 2,
+    "this_maximum": 18,
+    "total_maximum": 64,
+    "scientific_configurations_would_change_from": 11,
+    "scientific_configurations_would_change_to": 13,
+    "note": "Would require explicit root prospective amendment before any new empirical input fitting or forecasting; current budget is not yet changed."
+  },
+  "preparation_falsifiers": [
+    "Independent novelty/control review rejects mechanism or practical scope",
+    "Synthetic full-parent AMP/fused training cannot fit unchanged32x2000 recipe within5.5GiB per GPU; no candidate-only batch reduction",
+    "Native fixed3 single-member prototype exceeds unchanged50minute absolute gate; suggested prospectively locked overhead gate<=5% paired median against baseline3, before parent training",
+    "No exact initial zero-residual output/base-gradient/RNG parity or finite learning of both adapter factors",
+    "No consistent interval/duplicate/endpoint handling across training and native serving"
+  ],
+  "remaining_choices_before_freeze": [
+    "Exact new RNG seed, knot representative-list hash, source hashes and all training argv",
+    "Complete CPU native prototype gate/retry/resource plan reviewed before reading rawfixture",
+    "Parent memory synthetic test with actual dimensions and full unchanged objective/EMA path",
+    "Exact exporter/predictor must retain adapter; baseline loaders must not silently discard added state",
+    "Resolve GPU-compatible fused interpolation without large activation expansion; prototype theoreticalcost is not a measured budget pass"
+  ],
+  "authorized_empirical_work": false
+}

@@ -1,0 +1,52 @@
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/ctxmem/check_wrapper.py", line 97, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/ctxmem/check_wrapper.py", line 62, in main
+    trainer.main()
+    ~~~~~~~~~~~~^^
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/ctxmem/train_ctx.py", line 772, in main
+    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=total,
+                                                pct_start=0.05, final_div_factor=100)
+  File "/home/grinchenkoeg/WunderFunder-creative/.venv/lib/python3.13/site-packages/torch/optim/lr_scheduler.py", line 2520, in __init__
+    super().__init__(optimizer, last_epoch)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/WunderFunder-creative/.venv/lib/python3.13/site-packages/torch/optim/lr_scheduler.py", line 174, in __init__
+    self._initial_step()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/grinchenkoeg/WunderFunder-creative/.venv/lib/python3.13/site-packages/torch/optim/lr_scheduler.py", line 180, in _initial_step
+    self.step()
+    ~~~~~~~~~^^
+  File "/home/grinchenkoeg/WunderFunder-creative/.venv/lib/python3.13/site-packages/torch/optim/lr_scheduler.py", line 282, in step
+    self._update_lr(epoch)
+    ~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/grinchenkoeg/WunderFunder-creative/.venv/lib/python3.13/site-packages/torch/optim/lr_scheduler.py", line 288, in _update_lr
+    values = self.get_lr()
+  File "/home/grinchenkoeg/WunderFunder-creative/.venv/lib/python3.13/site-packages/torch/optim/lr_scheduler.py", line 2586, in get_lr
+    pct = (step_num - start_step) / (end_step - start_step)
+          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+ZeroDivisionError: float division by zero
+Command exited with non-zero status 1
+	Command being timed: ".venv/bin/python research/iterations/2026-10-01-overnight/ctxmem/check_wrapper.py"
+	User time (seconds): 4.50
+	System time (seconds): 1.14
+	Percent of CPU this job got: 97%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.80
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1061032
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 214856
+	Voluntary context switches: 724
+	Involuntary context switches: 104
+	Swaps: 0
+	File system inputs: 360
+	File system outputs: 2280
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1

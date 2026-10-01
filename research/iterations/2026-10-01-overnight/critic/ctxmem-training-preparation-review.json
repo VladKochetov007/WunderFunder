@@ -1,0 +1,43 @@
+{
+  "status": "PREPARATION_PASS_FOR_ROOT_EIGHT_FIT_ALLOCATION",
+  "plan_sha256": "b18175d2f9591ca34d966c7b16afcef4d1d3e171f7f95cb402145308bb374d4d",
+  "trainer_sha256": "f8f083617e980aad551c1ff88df88e4087a1507f87ebe5bebcbe118cab7b9a03",
+  "predictor_sha256": "290cdd61a8f69d5790d69e117c153f1137d038027e2c41ec3bb7509e477d103b",
+  "recipe_sha256": "5cb5544c5df8b3c23d1a65d09d04ce6456e3cb61bb1488f54ca9ff89f0ef6c95",
+  "verified_source_files": 30,
+  "independent_source_checker_passed_local_and_remote": true,
+  "exact_transform_anchors": 9,
+  "parsed_arguments_per_job": 103,
+  "independent_undeclared_argument_rejections": 824,
+  "evidence_sha256": {
+    "critic/ctxmem-training-source-result.json": "1a82967e4f994b9e8c89854319a60169326e765a462e95c2b3406e06346cf847",
+    "critic/ctxmem-independent-cuda-result.json": "cc681e84c0b92bbc3c4260306b4027dc237126fa7ab39a43cdda31b8b81aaa2d",
+    "critic/ctxmem-independent-state-python.json": "6815cbf14db83d9fd3d0c934ab68e12d2a54b5392d441fa9da1ebcacd2f98efb",
+    "critic/ctxmem-independent-state-native.json": "c79a22fa0b6b0a0f4c702315811fcb6a11d3514e4764c8626338e318406cf86d",
+    "critic/ctxmem-independent-full-native.json": "bdfe1270f663cf19c271c42927942e8bd34e3202956da74c796f4274178e9a22",
+    "critic/ctxmem-runtime-independent-review.json": "4d2011a141da5b2c30da88700b6d92129e8e536272dc7218a19f1aa8078bbc87",
+    "ctxmem/synthetic-wrapper-result.json": "abe468ea53f2718219f6bda099eaf7b8191cd732aa99977d5cbac7fddb58e31b",
+    "ctxmem/actual-fit-checker-preparation.json": "31cef291557df24a0b981679869c5b575562e5f3e37a3100e9551f8067a50af1",
+    "ctxmem/training-spec.md": "300247444f9c871d571cf8f0c99c76058b9d069d2894c7a72ec280d012d6605d"
+  },
+  "findings": [
+    "Matched current/memory arms differ only arm/name within the same fold/seed parent; loss, optimizer, AMP, fused AdamW, clipping, schedule and ordinary initializer RNG retained.",
+    "Only two fixed epochs are produced; model.pt equals ep1. Actual main never invokes evaluate; one sequential DataLoader CPU seed draw is retained.",
+    "Model/recurrence/projection/native sources remain identical to prior independent scalar-state, CUDA AMP and complete-native checks.",
+    "Author complete-wrapper test exercises actual trainer main with generated data: both arms40/40 successful updates, no metric call, frozen trunk/norm and learned extra heads. This author replication is not mislabeled as an independent full-main GPU run.",
+    "Prediction uses only raw feature reader columns and row-group/fold metadata, full file identities before/after, fixed source-fold positions, NaN elsewhere; receipt binds exact checkpoint/plan/source/prediction hashes.",
+    "Actual-fit checker static review covers all16 completed ledger stages before loading24 saved checkpoints, fixed parent lineage, full args, finite states and absence of validation scores. Root grader still verifies actual prediction hashes.",
+    "Four quality gates and equal-third fixed composition follow amendment; no favorite-slot, epoch, rank, clock, projection or blend rescue."
+  ],
+  "limitations": [
+    "Exposed chain folds support exploratory comparison, not an untouched holdout claim.",
+    "Duplicate-current control matches parameter count, not identifiable feature rank; its two blocks remain symmetric.",
+    "Extra gradients change joint clipping relative to ordinary H2; initial old-head gradient equality does not imply identical optimizer trajectory.",
+    "Training verify_inputs uses frozen historical stat identities for large data, while each OOF pass additionally checks full hashes before/after. Root preflight and provenance checks remain required.",
+    "Prototype v3 cost pass does not qualify final trained package or unmodified AVX2/v2 prototype fallbacks; final all-ISA correctness and <=50min complete callback gate remain outstanding."
+  ],
+  "execution_authority": "Root must separately allocate frozen eight-fit plan; this review launches no jobs. Conditional finalist commands/hashes require a later freeze.",
+  "data_arrays_opened_by_critic": false,
+  "forecast_fits": 0,
+  "WP_queries": 0
+}

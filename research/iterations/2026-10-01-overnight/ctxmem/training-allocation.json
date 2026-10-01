@@ -1,0 +1,35 @@
+{
+  "id": "CTXMEM01-EIGHT-FITS-01",
+  "created_utc": "2026-10-01T03:07:58.718343+00:00",
+  "status": "AUTHORIZED_EIGHT_SCREEN_FITS_AND_EIGHT_HELDFOLD_PREDICTIONS",
+  "execution_plan_sha256": "fec1e50f26bd2888c6a70df07e2a4fe999d747f47a1287a2a6dd2eb1fea2988b",
+  "amendment02_sha256": "b7a0c5d2c33d84122500663f4d0320cd3a597a90cbe387331cbb63ac36022303",
+  "critic_training_review_sha256": "80ad8d90819971b41cbe2d01febd3bf5a379f8f488a30c3a01cf130aa3a269ca",
+  "critic_runtime_review_sha256": "4d2011a141da5b2c30da88700b6d92129e8e536272dc7218a19f1aa8078bbc87",
+  "source_only_check_required": "Verify all33 execution-plan hashes again before launching; fixed8jobs only.",
+  "resources": {
+    "lanes": 2,
+    "GPUs": [
+      6,
+      7
+    ],
+    "free_GPU_MiB_min": 6200,
+    "GPU_allocation_fraction": 0.34,
+    "GPU_MiB_max": 5632,
+    "threads_per_job": 4,
+    "loader_workers_per_job": 2,
+    "RAM_GiB_scope_max": 20,
+    "CPUQuota_percent_scope": 600,
+    "timeout_seconds_each_train_or_predict_stage": 1200,
+    "CPU_affinity_pool": "24-35,64-75",
+    "new_forecasting_fit_starts": 8,
+    "maximum_global_fit_starts_after_screen": 44
+  },
+  "monitor": "Use frozen watch_gpu_budget.py on this exactplan, append immutable own-scope-only monitor receipts; never touch unrelated jobs. Preserve actual peak samples and scope logs.",
+  "execution": "Existing frozen run_queue.py, GPU6 lane0 andGPU7 lane1, two lanes; immutable logs/globaljobledger. Failed real fits count against64 budget; no automatic scientific/source/recipe retry.",
+  "after_execution": "Run exact frozen actual-fit checker after all16 stages; verify input/parent/backbone/P/norm/head/checkpoint/row-order identities. Sync complete logs and smallreceipts locally. All predictions isolated P/cache.",
+  "metrics": "Root only, exactly4 corrected on_ctl H2 comparisons aftercompleteactualfit/provenanceaudit. Actor computes no targets/metrics beyond declared training loss.",
+  "conditional_native_audit": "Not executed by this allocation; ifall4coregatespass, amendment02defines2additionalnativecomparisons withseparatesource review/allocation.",
+  "finalist_heads": "Not yet authorized; reserve2onlyifallcoreandnativedeliverygatespass.",
+  "deadline_utc": "2026-10-01T08:23:30Z"
+}

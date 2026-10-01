@@ -1,0 +1,29 @@
+{
+  "status": "STATIC_SCOPE_AND_PROVENANCE_PASS_WITH_RESOURCE_QUALIFICATIONS",
+  "files_sha256": {
+    "quant3/oof-execution/driver.py": "a7d3635857ebc1caeb79446de9331e3c4d1d346ceee0ee71ac0c5b8c04ab5c0d",
+    "quant3/oof-execution/watchdog.py": "1bcf607cca5a01a53d41249758b78e0f228df1070f18efafe1e860fe7a8d7e8b"
+  },
+  "allowed_modes": [
+    "quant",
+    "fp16"
+  ],
+  "folds": [
+    0,
+    1
+  ],
+  "CPUs": [
+    36,
+    37
+  ],
+  "no_AVX2_metric_or_candidate_tuning_path": true,
+  "input_identities_checked_before_and_after": true,
+  "qualifications": [
+    "RLIMIT_AS is per process; not an aggregate process-group memory cap.",
+    "Watchdog polls every 5 seconds, so deadline enforcement may be up to about 5 seconds late.",
+    "Watchdog binds numeric PGID without process starttime; reused groups must never be signaled.",
+    "This is source-only review; no empirical producer or output-array read performed."
+  ],
+  "targets_read": false,
+  "WP_queries": 0
+}

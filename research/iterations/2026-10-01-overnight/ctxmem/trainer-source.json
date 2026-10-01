@@ -1,0 +1,44 @@
+{
+  "base": "scripts/train_rnn.py",
+  "base_sha256": "f97047e6ef51f32097f2cbe2eefc7c57766771ebaed12ae8798a3c1b7efcd52f",
+  "implementation_sha256": "f8f083617e980aad551c1ff88df88e4087a1507f87ebe5bebcbe118cab7b9a03",
+  "changes": [
+    [
+      "from wnn.splits import dev_halves, valid_row_groups\n",
+      "from wnn.splits import dev_halves, valid_row_groups\nfrom recipe import validate_recipe, verify_inputs, skip_evaluation_rng\nfrom model import ContextMemoryModel\n"
+    ],
+    [
+      "ROOT = Path(__file__).resolve().parents[1]",
+      "ROOT = Path(__file__).resolve().parents[4]"
+    ],
+    [
+      "def make_model(args_dict, n_in, n_out):\n    if args_dict.get(\"arch\") == \"gated\":\n        return GatedRNNModel(n_in, args_dict[\"hidden\"], args_dict[\"layers\"],\n                             args_dict[\"dropout\"], n_out=n_out)\n    if args_dict.get(\"arch\") == \"tfm\":\n        from wnn.xl_transformer import XLTransformer\n\n        return XLTransformer(n_in, d=args_dict.get(\"tfm_d\", 256), layers=args_dict.get(\"tfm_layers\", 6),\n                             heads=args_dict.get(\"tfm_heads\", 8), ff=args_dict.get(\"tfm_ff\", 1024),\n                             block=args_dict.get(\"tfm_block\", 250), n_out=n_out, dropout=args_dict[\"dropout\"])\n    if args_dict.get(\"arch\") == \"twostream\":\n        from wnn.two_stream import TwoStreamModel\n\n        return TwoStreamModel(n_in, args_dict[\"hidden\"], args_dict[\"layers\"], n_out=n_out,\n                              hidden1=args_dict.get(\"hidden1\") or None, dropout=args_dict[\"dropout\"])\n    if args_dict.get(\"arch\") == \"attn\":\n        from wnn.event_attn import EventAttnModel\n\n        return EventAttnModel(n_in, args_dict[\"hidden\"], args_dict[\"layers\"], n_out=n_out,\n                              k=args_dict.get(\"attn_k\", 32), d=args_dict.get(\"attn_d\", 64),\n                              heads=args_dict.get(\"attn_heads\", 4), dropout=args_dict[\"dropout\"])\n    if args_dict.get(\"arch\", \"gru\") == \"dual\":\n        return DualClockModel(n_in, args_dict[\"hidden\"], args_dict[\"layers\"], args_dict[\"event_hidden\"],\n                              args_dict[\"dropout\"], n_out=n_out)\n    if args_dict.get(\"atom_head\"):\n        import numpy as np\n        from wnn.atom_head import AtomRNNModel\n\n        start = 2 + 2 * len([v for v in str(args_dict.get(\"aux\", \"\")).split(\",\") if v]) + N_SP_AUX + 3\n        atoms = np.load(ROOT / \"cache\" / \"class3_atoms.npy\")\n        return AtomRNNModel(n_in, args_dict[\"hidden\"], args_dict[\"layers\"], args_dict[\"dropout\"], n_out,\n                            (start, start + 4), atoms)\n    class_heads = None\n    if args_dict.get(\"class_heads\"):\n        # class logits sit after the targets, shifted-target aux outputs, spread (N_SP_AUX) and branch (3) logits\n        start = 2 + 2 * len([v for v in str(args_dict.get(\"aux\", \"\")).split(\",\") if v]) + N_SP_AUX + 3\n        class_heads = (start, start + 4)\n    return RNNModel(n_in, args_dict[\"hidden\"], args_dict[\"layers\"], args_dict[\"dropout\"], n_out=n_out,\n                    cell=args_dict.get(\"cell\", \"gru\"), enc=args_dict.get(\"enc\", \"linear\"),\n                    tok_dim=args_dict.get(\"tok_dim\", 32), att_layers=args_dict.get(\"att_layers\", 1),\n                    conv_k=args_dict.get(\"conv_k\", 16), class_heads=class_heads)\n",
+      "def make_model(args_dict, n_in, n_out):\n    return ContextMemoryModel(n_in, args_dict[\"hidden\"], args_dict[\"layers\"],\n                              args_dict[\"dropout\"], n_out, arm=args_dict[\"ctx_arm\"])\n"
+    ],
+    [
+      "    ap.add_argument(\"--name\", required=True)",
+      "    ap.add_argument(\"--name\", required=True)\n    ap.add_argument(\"--ctx-arm\", choices=[\"current\", \"memory\"], required=True)"
+    ],
+    [
+      "    args = ap.parse_args()\n",
+      "    args = ap.parse_args()\n    validate_recipe(args, ap)\n    verify_inputs(args)\n"
+    ],
+    [
+      "    out_dir.mkdir(parents=True, exist_ok=True)",
+      "    out_dir.mkdir(parents=True, exist_ok=False)"
+    ],
+    [
+      "        res = evaluate(eval_model, valid_loader, 4000, device)",
+      "        skip_evaluation_rng(valid_loader)\n        res = {\"evaluation_skipped\": True, \"policy\": \"fixed endpoint; no WP computed\"}"
+    ],
+    [
+      "        improved = res[\"weighted_pearson\"] > best\n        if improved:\n            best = res[\"weighted_pearson\"]\n        if improved or (args.include_heldout_valid and epoch == args.epochs - 1):\n            torch.save({\"model\": eval_model.state_dict(), \"args\": vars(args), \"n_in\": n_in,\n                        \"readout\": None if READOUT is None else [t.cpu() for t in READOUT],\n                        \"readout_tilted\": READOUT_TILTED}, out_dir / \"model.pt\")",
+      "        if epoch == args.epochs - 1:\n            torch.save({\"model\": eval_model.state_dict(), \"args\": vars(args), \"n_in\": n_in,\n                        \"epoch\": epoch, \"readout\": None if READOUT is None else [t.cpu() for t in READOUT],\n                        \"readout_tilted\": READOUT_TILTED}, out_dir / \"model.pt\")"
+    ],
+    [
+      "    print(\"BEST\", best)\n    if args.include_heldout_valid:\n        print(\"SELECTED_FINAL\", history[-1][\"weighted_pearson\"])",
+      "    print(\"FIXED_ENDPOINT\", args.epochs - 1, \"validation metrics suppressed\")"
+    ]
+  ],
+  "objective_optimizer_AMP_scheduler_clip_blocks_unchanged": true
+}
