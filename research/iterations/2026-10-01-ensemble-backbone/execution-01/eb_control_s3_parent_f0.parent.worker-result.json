@@ -1,0 +1,98 @@
+{
+  "status": "COMPLETE",
+  "name": "eb_control_s3_parent_f0",
+  "stage": "parent",
+  "allocation_sha256": "d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-01-ensemble-backbone/training/train_ensemble.py",
+    "--name",
+    "eb_control_s3_parent_f0",
+    "--full-valid",
+    "--layers",
+    "1",
+    "--epochs",
+    "4",
+    "--loss",
+    "wmse",
+    "--distill",
+    "h256_f0,h256s4_f0",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "train+valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "0",
+    "--ema-teacher",
+    "1.0",
+    "--eval-ema",
+    "--propensity",
+    "prop_f0",
+    "--prop-power",
+    "2.0",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--seed",
+    "3",
+    "--since-weight",
+    "32.0",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache",
+    "--ensemble-objective",
+    "control",
+    "--partner-bindings",
+    "research/iterations/2026-10-01-ensemble-backbone/partner-bindings_f0.json"
+  ],
+  "started_utc": "2026-10-01T17:59:09.745387+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/eb_control_s3_parent_f0/model_ep0.pt": {
+      "bytes": 2353955,
+      "sha256": "75a9e36d8d8f7fa76b4268aee75d9b21dc9f2b42eef65255c5aaaa31ec0ea1c6"
+    },
+    "artifacts/runs/eb_control_s3_parent_f0/model_ep1.pt": {
+      "bytes": 2353955,
+      "sha256": "329be121c34f1f30433591578f1260d25eb3ca11674ef0bf180226da843e0eab"
+    },
+    "artifacts/runs/eb_control_s3_parent_f0/model_ep2.pt": {
+      "bytes": 2353955,
+      "sha256": "151e60ee384421bde2957bb24d61efa99c6731fc863516d2e4e91f39a98e900d"
+    },
+    "artifacts/runs/eb_control_s3_parent_f0/model_ep3.pt": {
+      "bytes": 2353955,
+      "sha256": "ffe13ee4daee14c3066265732f8dea2a777ed59e501f1f4a45a36a3c743f523b"
+    },
+    "artifacts/runs/eb_control_s3_parent_f0/model.pt": {
+      "bytes": 2353243,
+      "sha256": "4acbc60e8fc1030878d3742e4f332b249ab15e4bfc7bcc05a7bb5443def3078c"
+    },
+    "artifacts/runs/eb_control_s3_parent_f0/history.json": {
+      "bytes": 670,
+      "sha256": "3c85361e03f3343e148a30f210c4965b1f22d28df885dfcd68e86e528d8f3213"
+    },
+    "artifacts/runs/eb_control_s3_parent_f0/trajectory-proof.jsonl": {
+      "bytes": 1280,
+      "sha256": "38368957fc15aaa38c75c052216bb72425c1c9f12618df4caa3f99f0670346fd"
+    },
+    "artifacts/runs/eb_control_s3_parent_f0/partner-bindings.json": {
+      "bytes": 197103,
+      "sha256": "32afad899d4ae9ea3cb8bc8573a22e013d22d0cfc9cfb328c686e04d60c5ed64"
+    },
+    "research/iterations/2026-10-01-ensemble-backbone/execution-01/eb_control_s3_parent_f0.check.json": {
+      "bytes": 3591,
+      "sha256": "cd52a8dfe0bcc05753507889bd7e9af27fed08021d642e597db8ca89f5a5d48c"
+    }
+  },
+  "seconds": 1445.0791142191738,
+  "finished_utc": "2026-10-01T18:23:14.824518+00:00"
+}
