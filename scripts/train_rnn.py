@@ -10,6 +10,7 @@ import argparse
 import json
 import math
 import os
+import sys
 import time
 from pathlib import Path
 
@@ -18,24 +19,81 @@ import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 
-from wnn.data import CORRUPT_TRAIN_ROW_GROUPS, N_FEATURES, TARGET_QUANTA, WARMUP, SequenceFile, market_class
+from wnn.data import (
+    CORRUPT_TRAIN_ROW_GROUPS,
+    N_FEATURES,
+    TARGET_QUANTA,
+    WARMUP,
+    SequenceFile,
+    market_class,
+)
 from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch, online_zscore_torch
-from wnn.gmetric import global_wp
-from wnn.metric import block_scores, score
-from wnn.nn import DualClockModel, GatedRNNModel, RNNModel, weighted_corr_loss, weighted_huber_loss, weighted_mse_loss, weighted_pooled_corr_loss
-from wnn.outcomes import N_CODES, N_SP_AUX, ReadoutMoments, outcome_codes, readout, sequence_class, structure_labels
+from wnn.metric import block_aggregate_score, block_scores, score
+from wnn.nn import (
+    DualClockModel,
+    GatedRNNModel,
+    PooledCorrMemory,
+    RNNModel,
+    weighted_corr_loss,
+    weighted_huber_loss,
+    weighted_mse_loss,
+    weighted_pooled_corr_loss,
+)
+from wnn.outcomes import (
+    N_CODES,
+    N_SP_AUX,
+    ReadoutMoments,
+    outcome_codes,
+    readout,
+    sequence_class,
+    structure_labels,
+)
 from wnn.propensity import load_propensity, propensity
+from wnn.structured_state import StructuredStateModel
+from wnn.event_content import EventContentModel
 from wnn.resources import configure_torch, dataloader_budget
-from wnn.splits import dev_halves, valid_row_groups
+from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_identity,
+                              sample_order_identity, scaler_source_identity)
+from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
+from wnn.spread_aux import PackedSpreadCache, structural_loss, validate_spread_cache
 
 ROOT = Path(__file__).resolve().parents[1]
 SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4
 EV_I0PX = N_FEATURES + FEATURE_NAMES.index("ev_i0px")
 
 
+def bind_fold_teachers(teachers, campaign_split, splits):
+    """Distillation targets under a clean fold must come from teachers fitted on that same fold.
+
+    Each cached prediction needs a sidecar naming the teacher run, split and the student's split-manifest hash,
+    and its bytes must match the recorded prediction hash; the evaluation fold never reached the teacher's fit.
+    """
+    bound = []
+    for name, scale in teachers:
+        for split in splits:
+            pred = ROOT / "cache" / f"pred_{name}_{split}.npy"
+            side = json.loads(pred.with_suffix(".json").read_text())
+            if side.get("run") != name or side.get("split") != split:
+                raise ValueError(f"teacher sidecar does not describe {name}/{split}")
+            if side.get("split_manifest_sha256") != campaign_split.sha256:
+                raise ValueError(f"teacher {name} was not fitted on the student's clean fold")
+            order = np.load(ROOT / "cache" / f"{split}_targets.npz")["row_group"]
+            if list(map(int, side.get("row_groups", []))) != order.tolist():
+                raise ValueError(f"teacher {name}/{split} rows are not in cache target order")
+            digest = file_sha256(pred)
+            if digest != side.get("prediction_sha256"):
+                raise ValueError(f"teacher prediction bytes changed since export: {pred}")
+            bound.append({"run": name, "split": split, "scale": scale, "epoch": side.get("epoch"),
+                          "checkpoint_sha256": side.get("checkpoint_sha256"), "prediction_sha256": digest})
+    return bound
+
+
 class Sequences(Dataset):
-    def __init__(self, split: str, indices, teachers=None, prop_cache=None, quote_path=False):
+    def __init__(self, split: str, indices, teachers=None, prop_cache=None, quote_path=False,
+                 quote_cache_root=None, spread_cache_root=None, thin=None):
         self.path = ROOT / "datasets" / f"{split}.parquet"
+        # thin = (probability, low, high): event-preserving row thinning for training views (see thin_rows)
+        self.thin = thin
         self.indices = list(indices)
         self._file = None
         # prop_cache: path of cache/propcache_<name>_<split>.npy (row group x 20000 float32), or None
@@ -45,7 +103,10 @@ class Sequences(Dataset):
         self.split = split
         self._teach = None
         self.quote_path = quote_path
+        self.quote_cache_root = Path(quote_cache_root) if quote_cache_root else ROOT / "cache"
         self._quote = None
+        self.spread_cache_root = Path(spread_cache_root) if spread_cache_root else None
+        self._spread = None
         if teachers and quote_path:
             raise ValueError("distillation and quote-path auxiliaries share target columns")
 
@@ -73,14 +134,52 @@ class Sequences(Dataset):
             y = np.concatenate([y, t.astype(np.float32)], axis=1)
         if self.quote_path:
             if self._quote is None:
-                self._quote = np.load(ROOT / "cache" / f"quote_path_{self.split}.npy", mmap_mode="r")
+                self._quote = np.load(self.quote_cache_root / f"quote_path_{self.split}.npy", mmap_mode="r")
             y = np.concatenate([y, np.asarray(self._quote[self.indices[i]], dtype=np.float32)], axis=1)
         if self.prop_cache is not None:
             if self._prop is None:
                 self._prop = np.load(self.prop_cache, mmap_mode="r")
             p = np.array(self._prop[self.indices[i]], dtype=np.float32)
-            return torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored), torch.from_numpy(p)
-        return torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored)
+            result = (torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored), torch.from_numpy(p))
+        else:
+            result = (torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored))
+        if self.spread_cache_root is not None:
+            if self._spread is None:
+                self._spread = PackedSpreadCache(self.spread_cache_root, self.split)
+            result += (torch.from_numpy(self._spread.read(self.indices[i])),)
+        if self.thin is not None:
+            result = thin_rows(result, self.thin)
+        return result
+
+
+def thin_rows(result, thin):
+    """Training view of one sequence without some rows whose i0 price codes did not change.
+
+    Targets are constant between quote moves and each target depends only on the future quote path, so deleting a
+    row with unchanged i0 price codes (columns 0..21) after the warm-up leaves every kept row's label exact; the
+    stream simply looks as if fewer book updates were published. With probability ``thin[0]`` a rate q ~ U(thin[1],
+    thin[2]) of those rows is dropped; the sequence is padded back to its length by repeating the last kept row, and
+    the kept length is appended so the loop can exclude padding from every loss.
+    """
+    prob, low, high = thin
+    x = result[0]
+    n = x.shape[0]
+    if torch.rand(()) >= prob:
+        return result + (torch.tensor(n),)
+    q = low + (high - low) * torch.rand(())
+    quiet = torch.zeros(n, dtype=torch.bool)
+    quiet[WARMUP:] = (x[WARMUP:, :22] == x[WARMUP - 1:-1, :22]).all(dim=1)
+    keep = ~(quiet & (torch.rand(n) < q))
+    kept = int(keep.sum())
+    index = torch.cat([torch.nonzero(keep).squeeze(1), torch.full((n - kept,), int(torch.nonzero(keep)[-1]))])
+    thinned = []
+    for j, part in enumerate(result):
+        part = part[index]
+        if j == 2:  # is_scored: padded rows are never scored
+            part = part.clone()
+            part[kept:] = False
+        thinned.append(part)
+    return tuple(thinned) + (torch.tensor(kept),)
 
 
 def true_mask_weights(main_valid, valid, scored, eps, branchless):
@@ -158,11 +257,11 @@ class StageTimer:
     def report(self, warmup, batch):
         torch.cuda.set_sync_debug_mode(0)
         torch.cuda.synchronize()
-        rows, walls = [], []
+        rows = []
         for st in self.steps[warmup:]:
             ev = st["_events"]
             acc = {}
-            for (_, a), (name, b) in zip(ev[:-1], ev[1:]):
+            for (_, a), (name, b) in zip(ev[:-1], ev[1:], strict=True):
                 acc[name] = acc.get(name, 0.0) + a.elapsed_time(b)
             acc["gpu_total"] = ev[0][1].elapsed_time(ev[-1][1])
             rows.append(acc)
@@ -361,16 +460,46 @@ def detach_state(state):
 
 
 def make_model(args_dict, n_in, n_out):
+    if args_dict.get("arch") == "structured":
+        if (args_dict["hidden"] != 96 or args_dict["layers"] != 2
+                or args_dict["dropout"] != 0
+                or args_dict.get("enc", "linear") != "linear"):
+            raise ValueError("structured card B requires hidden96, layers2, dropout0, enc linear")
+        model = StructuredStateModel(n_in, n_out, args_dict.get("decay_init", "multi"))
+        for prefix in filter(None, args_dict.get("freeze", "").split(",")):
+            if not any(name.startswith(prefix) for name, _ in model.named_parameters()):
+                raise ValueError(f"unknown structured freeze prefix {prefix!r}; backbone is inp,blocks")
+        return model
+    if args_dict.get("arch") == "event-content":
+        if (args_dict["hidden"] != 96 or args_dict["layers"] != 1
+                or args_dict["dropout"] != 0 or args_dict.get("enc", "linear") != "linear"):
+            raise ValueError("D1 requires hidden96,layers1,dropout0,enc linear")
+        return EventContentModel(n_in, n_out, args_dict.get("memory_arm", "endpoint-content"))
     if args_dict.get("arch") == "gated":
-        return GatedRNNModel(n_in, args_dict["hidden"], args_dict["layers"],
-                             args_dict["dropout"], n_out=n_out)
+        return GatedRNNModel(
+            n_in, args_dict["hidden"], args_dict["layers"], args_dict["dropout"], n_out=n_out
+        )
     if args_dict.get("arch", "gru") == "dual":
-        return DualClockModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["event_hidden"],
-                              args_dict["dropout"], n_out=n_out)
-    return RNNModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["dropout"], n_out=n_out,
-                    cell=args_dict.get("cell", "gru"), enc=args_dict.get("enc", "linear"),
-                    tok_dim=args_dict.get("tok_dim", 32), att_layers=args_dict.get("att_layers", 1),
-                    conv_k=args_dict.get("conv_k", 16))
+        return DualClockModel(
+            n_in,
+            args_dict["hidden"],
+            args_dict["layers"],
+            args_dict["event_hidden"],
+            args_dict["dropout"],
+            n_out=n_out,
+        )
+    return RNNModel(
+        n_in,
+        args_dict["hidden"],
+        args_dict["layers"],
+        args_dict["dropout"],
+        n_out=n_out,
+        cell=args_dict.get("cell", "gru"),
+        enc=args_dict.get("enc", "linear"),
+        tok_dim=args_dict.get("tok_dim", 32),
+        att_layers=args_dict.get("att_layers", 1),
+        conv_k=args_dict.get("conv_k", 16),
+    )
 
 
 @torch.no_grad()
@@ -381,7 +510,11 @@ def predict(model, x, chunk, device):
     for s in range(0, inputs.shape[1], chunk):
         with torch.autocast("cuda", dtype=torch.float16):
             out, state = forward_chunk(model, inputs, slice(s, s + chunk), state)
-        outs.append(readout(out, *READOUT, tilted=READOUT_TILTED) if READOUT is not None else out[..., :2].float())
+        outs.append(
+            readout(out, *READOUT, tilted=READOUT_TILTED)
+            if READOUT is not None
+            else out[..., :2].float()
+        )
     return torch.cat(outs, dim=1).cpu().numpy()
 
 
@@ -390,18 +523,136 @@ def evaluate(model, loader, chunk, device):
     for x, y, m in loader:
         preds.append(predict(model, x, chunk, device))
         ys.append(y.numpy())
-        masks.append(m.numpy())
+        selected = m.numpy().copy()
+        selected[:, :WARMUP] = False
+        masks.append(selected)
         classes += [market_class(t) for t in y.numpy()]
     p, y, m = np.concatenate(preds), np.concatenate(ys), np.concatenate(masks)
     res = score(y, p, m)
-    res["per_seq_wp"] = res["weighted_pearson"]
-    g = global_wp(y, p, m)
-    res.update(global_t0=g["t0"], global_t1=g["t1"], weighted_pearson=g["wp"])
+    legacy = (
+        block_aggregate_score(y, p, m)
+        if res["eligible_blocks"]
+        else {"weighted_pearson": None, "t0": None, "t1": None}
+    )
+    res.update(
+        global_t0=res["t0"],
+        global_t1=res["t1"],
+        per_seq_wp=legacy["weighted_pearson"],
+        block_t0=legacy["t0"],
+        block_t1=legacy["t1"],
+    )
     res["frac_abs_pred_gt2"] = float((np.abs(p[m]) > 2).mean())
     per = block_scores(y, p, m).mean(axis=1)
     cls = np.array(classes)
-    res["by_class"] = {int(c): round(float(np.nanmean(per[cls == c])), 4) for c in np.unique(cls)}
+    res["by_class"] = {
+        int(c): score(y[cls == c], p[cls == c], m[cls == c])["weighted_pearson"]
+        for c in np.unique(cls)
+    }
+    res["block_by_class"] = {
+        int(c): round(float(np.nanmean(per[cls == c])), 4)
+        if np.isfinite(per[cls == c]).any()
+        else None
+        for c in np.unique(cls)
+    }
     return res
+
+
+def configure_checkpoint_policy(args: argparse.Namespace, parser: argparse.ArgumentParser) -> None:
+    """Require predeclared checkpoint selection when evaluation is withheld."""
+    if args.epochs < 1:
+        parser.error("--epochs must be positive")
+    if args.checkpoint_policy == "fixed":
+        if args.checkpoint_epoch is None:
+            args.checkpoint_epoch = args.epochs - 1
+        if not 0 <= args.checkpoint_epoch < args.epochs:
+            parser.error("--checkpoint-epoch must be within the fitted epochs")
+    elif args.checkpoint_epoch is not None:
+        parser.error("--checkpoint-epoch requires --checkpoint-policy fixed")
+    if args.no_eval_during_fit and args.checkpoint_policy != "fixed":
+        parser.error("--no-eval-during-fit requires --checkpoint-policy fixed")
+    if args.split_manifest and not (args.no_eval_during_fit and args.checkpoint_policy == "fixed"):
+        parser.error("campaign manifests require fixed checkpoints and --no-eval-during-fit")
+
+
+def checkpoint_selected(
+    epoch: int,
+    policy: str,
+    fixed_epoch: int | None,
+    evaluation_score: float | None,
+    best_score: float,
+) -> bool:
+    """Select a fixed epoch without consulting evaluation, or retain legacy best selection."""
+    if policy == "fixed":
+        return epoch == fixed_epoch
+    if evaluation_score is None:
+        raise ValueError("best-checkpoint selection requires evaluation")
+    return evaluation_score > best_score
+
+
+def checkpoint_model(
+    model: torch.nn.Module,
+    ema_model: FastEMA | torch.optim.swa_utils.AveragedModel | None,
+    swa_model: torch.optim.swa_utils.AveragedModel | None,
+    use_ema: bool,
+) -> torch.nn.Module:
+    """Choose fitted snapshot weights independently of whether evaluation runs."""
+    if use_ema:
+        if ema_model is None:
+            raise ValueError("EMA checkpoint requested without an EMA model")
+        return ema_model.module
+    return swa_model.module if swa_model is not None else model
+
+
+def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: list[str]) -> None:
+    """Preserve the parent's feature construction and model/output dimensions during FT."""
+    fields = (
+        "hidden",
+        "layers",
+        "dropout",
+        "arch",
+        "decay_init",
+        "memory_arm",
+        "cell",
+        "enc",
+        "tok_dim",
+        "att_layers",
+        "conv_k",
+        "event_hidden",
+        "online_norm",
+        "raw_only",
+        "heuristics",
+        "prop_input",
+        "aux",
+        "aux_struct",
+        "aux_next",
+        "aux_next_k",
+        "aux_tier",
+        "aux_mask",
+        "aux_sign",
+        "aux_quote",
+        "quote_cache_root",
+    )
+    source = checkpoint["args"]
+    for field in fields:
+        if field in source:
+            option = "--" + field.replace("_", "-")
+            if (
+                any(value == option or value.startswith(option + "=") for value in options)
+                and getattr(args, field) != source[field]
+            ):
+                raise ValueError(f"{option} disagrees with the parent checkpoint")
+            setattr(args, field, source[field])
+
+
+def validate_campaign_checkpoint(checkpoint: dict, args: argparse.Namespace) -> None:
+    """Reject initialization or propensity weights fitted outside this clean outer fold."""
+    if args.split_manifest:
+        source = checkpoint.get("args", {})
+        if (source.get("split_manifest_sha256") != args.split_manifest_sha256
+                or not source.get("no_eval_during_fit")
+                or source.get("checkpoint_policy") != "fixed"
+                or checkpoint.get("epoch") != source.get("checkpoint_epoch")):
+            raise ValueError("source checkpoint lacks matching clean-fold fitting provenance")
 
 
 def main():
@@ -416,9 +667,19 @@ def main():
     ap.add_argument("--chunk", type=int, default=2000)
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--epochs", type=int, default=2)
+    ap.add_argument("--checkpoint-policy", choices=["best", "fixed"], default="best")
+    ap.add_argument("--checkpoint-epoch", type=int, default=None, help="zero-based fixed checkpoint epoch")
+    ap.add_argument("--no-eval-during-fit", action="store_true", help="never construct or read an evaluation loader")
+    ap.add_argument("--split-manifest", type=Path, default=None, help="frozen component-excluded outer-fold manifest")
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--wd", type=float, default=1e-2)
-    ap.add_argument("--loss", choices=["corr", "wmse", "mix", "huber", "ce_joint", "mse", "gcorr", "wmse_gcorr"], default="mix")
+    ap.add_argument("--loss", choices=["corr", "wmse", "mix", "huber", "ce_joint", "mse", "gcorr", "wmse_gcorr", "gcorr_pool"],
+                    default="mix")
+    ap.add_argument("--thin-prob", type=float, default=0.0,
+                    help="training-view row thinning: probability per sequence (0 disables)")
+    ap.add_argument("--thin-range", default="0.1,0.4", help="low,high of the dropped share of quiet rows")
+    ap.add_argument("--pool-decay", type=float, default=0.98,
+                    help="--loss gcorr_pool: per-chunk decay of the pooled weighted sums kept from earlier chunks")
     ap.add_argument("--huber-delta", type=float, default=0.5)
     ap.add_argument("--ce-tilt", action="store_true", help="weight code cross-entropy rows by mean |clip(y)|")
     ap.add_argument("--ce-mse", type=float, default=0.0, help="add this weight x wMSE on the differentiable readout")
@@ -434,12 +695,19 @@ def main():
                     help="current target-contrast direction BCE; head discarded for prediction")
     ap.add_argument("--aux-quote", type=float, default=0.0,
                     help="training-only class-3 future 8/24-book-event mean quote displacement MSE")
+    ap.add_argument("--quote-cache-root", default="",
+                    help="optional paired auxiliary cache directory; historical cache remains the default")
     ap.add_argument("--aux-next-k", default="", help="extra event horizons for the next-change aux heads, e.g. 2,4")
+    ap.add_argument("--spread-aux-mode", choices=["original", "proxy_known", "current_known"], default="original")
+    ap.add_argument("--spread-cache-root", default="", help="supervision-only fold0 known-code cache")
     ap.add_argument("--aux-struct", type=float, default=0.0,
                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
-    ap.add_argument("--arch", choices=["gru", "dual", "gated"], default="gru")
+    ap.add_argument("--arch", choices=["gru", "dual", "gated", "structured", "event-content"], default="gru")
+    ap.add_argument("--decay-init", choices=["multi", "single"], default="multi",
+                    help="structured-state initial half-lives; identical learned bounds and phases")
+    ap.add_argument("--memory-arm", choices=["endpoint-content", "endpoint-position", "raw-code-content"], default="endpoint-content")
     ap.add_argument("--gate-ce", type=float, default=0.0,
                     help="BCE weight for the gated model's target-difference sign head")
     ap.add_argument("--cell", choices=["gru", "lstm"], default="gru")
@@ -466,6 +734,8 @@ def main():
     ap.add_argument("--valid-repeat", type=int, default=1,
                     help="with train+valid: each validation training sequence appears this many times per epoch")
     ap.add_argument("--init", default="", help="run name whose model.pt initializes weights; NAME@epN loads model_epN.pt")
+    ap.add_argument("--inherit-init-preprocessing", action="store_true",
+                    help="inherit parent feature construction and architecture; reject conflicting explicit flags")
     ap.add_argument("--freeze", default="", help="comma-separated parameter-name prefixes kept fixed, e.g. inp,gru")
     ap.add_argument("--ema-teacher", type=float, default=0.0,
                     help="mean-teacher consistency: weight of (out - EMA-model out)^2 on the two target outputs")
@@ -522,8 +792,36 @@ def main():
     perf.add_argument("--parity-dump", default="", help="save per-step losses and final weights here, then exit")
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     args = ap.parse_args()
+    init_checkpoint = None
+    if args.inherit_init_preprocessing:
+        if not args.init:
+            ap.error("--inherit-init-preprocessing requires --init")
+        parent_run, _, parent_epoch = args.init.partition("@ep")
+        parent_file = f"model_ep{int(parent_epoch)}.pt" if parent_epoch else "model.pt"
+        init_checkpoint = torch.load(ROOT / "artifacts" / "runs" / parent_run / parent_file,
+                                     map_location="cpu", weights_only=False)
+        inherit_init_arguments(args, init_checkpoint, sys.argv[1:])
+    configure_checkpoint_policy(args, ap)
+    campaign_split = load_campaign_split(args.split_manifest, ROOT) if args.split_manifest else None
+    if campaign_split is not None:
+        if args.valid_fold not in (-1, campaign_split.fold):
+            ap.error("--valid-fold disagrees with --split-manifest")
+        if args.include_heldout_valid or args.train_source == "valid_devA":
+            ap.error("campaign splits require train, valid, or train+valid sources without heldout inclusion")
+        if args.prop_input:
+            ap.error("campaign splits require explicit provenance for propensity input")
+        args.valid_fold, args.n_valid_folds = campaign_split.fold, campaign_split.n_folds
+        args.eval_source = "vfold"
+        args.split_manifest = str(campaign_split.path)
+        args.split_manifest_sha256 = campaign_split.sha256
+    if args.loss == "gcorr_pool" and args.aux:
+        ap.error("--loss gcorr_pool keeps one pooled memory for the main head; --aux shift heads would share it")
+    if args.distill and args.loss != "wmse":
+        ap.error("--distill trains wMSE toward the blended target; pass --loss wmse")
     if args.aux_quote > 0 and args.distill:
         ap.error("--aux-quote and --distill both use target columns 2:4")
+    if args.quote_cache_root and args.aux_quote <= 0:
+        ap.error("--quote-cache-root requires --aux-quote")
     if args.fast:
         args.sync_free = args.fused_adam = args.pin_memory = args.prop_cache = True
     if args.profile_steps:
@@ -551,21 +849,30 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
 
     valid_path = ROOT / "datasets" / "valid.parquet"
-    dev_groups, hold_groups = valid_row_groups(valid_path)
-    dev_a, dev_b = dev_halves(valid_path)
+    if campaign_split is None:
+        dev_groups, hold_groups = valid_row_groups(valid_path)
+        dev_a, dev_b = dev_halves(valid_path)
+    else:
+        dev_groups = dev_a = np.asarray(campaign_split.valid_groups)
+        hold_groups = dev_b = np.asarray(campaign_split.evaluation_groups)
     train_split = "train"
     extra_valid = None
     fold_groups = None
     all_valid = np.r_[np.asarray(dev_groups), np.asarray(hold_groups)]
     if args.valid_fold >= 0:
-        # chain-grouped folds (cache/chain_folds.npz): sequences of one continuous stream share a fold
-        cf = np.load(ROOT / "cache" / "chain_folds.npz")
-        vmask = cf["split"] == "valid"
-        fold_map = dict(zip(cf["row_group"][vmask].tolist(), cf["fold"][vmask].tolist()))
-        fold_of = np.array([fold_map[int(g)] for g in all_valid]) % args.n_valid_folds
-        fold_groups = all_valid[fold_of == args.valid_fold]
-        if args.train_source == "train+valid":
-            extra_valid = all_valid[fold_of != args.valid_fold]
+        if campaign_split is not None:
+            fold_groups = np.asarray(campaign_split.evaluation_groups)
+            if args.train_source == "train+valid":
+                extra_valid = np.asarray(campaign_split.valid_groups)
+        else:
+            # Legacy folds exclude validation groups only; campaign manifests also exclude linked train groups.
+            cf = np.load(ROOT / "cache" / "chain_folds.npz")
+            vmask = cf["split"] == "valid"
+            fold_map = dict(zip(cf["row_group"][vmask].tolist(), cf["fold"][vmask].tolist(), strict=True))
+            fold_of = np.array([fold_map[int(g)] for g in all_valid]) % args.n_valid_folds
+            fold_groups = all_valid[fold_of == args.valid_fold]
+            if args.train_source == "train+valid":
+                extra_valid = all_valid[fold_of != args.valid_fold]
     elif args.train_source == "train+valid":
         extra_valid = all_valid if args.include_heldout_valid else np.r_[np.asarray(dev_a), np.asarray(dev_b)]
     valid_pool = None
@@ -576,9 +883,12 @@ def main():
         valid_pool = np.asarray(extra_valid)
     eligible_valid_count = 0 if valid_pool is None else len(valid_pool)
     if valid_pool is not None and args.valid_train_fraction < 1:
-        cf = np.load(ROOT / "cache" / "chain_folds.npz")
-        vmask = cf["split"] == "valid"
-        chain_map = dict(zip(cf["row_group"][vmask].tolist(), cf["chain"][vmask].tolist()))
+        if campaign_split is not None:
+            chain_map = {group: component for split, group, component in campaign_split.components if split == "valid"}
+        else:
+            cf = np.load(ROOT / "cache" / "chain_folds.npz")
+            vmask = cf["split"] == "valid"
+            chain_map = dict(zip(cf["row_group"][vmask].tolist(), cf["chain"][vmask].tolist(), strict=True))
         pool_chains = np.array([chain_map[int(group)] for group in valid_pool])
         valid_classes = np.load(ROOT / "research/artifacts/market-classes-v1.npz")["valid"][valid_pool]
         rng = np.random.default_rng(20260928)
@@ -601,7 +911,8 @@ def main():
         train_split = "valid"
         train_idx = np.random.default_rng(args.seed).permutation(dev_a)[: args.train_seqs]
     else:
-        usable = np.array([g for g in range(10607) if g not in CORRUPT_TRAIN_ROW_GROUPS])
+        usable = (np.asarray(campaign_split.train_groups) if campaign_split is not None else
+                  np.array([g for g in range(10607) if g not in CORRUPT_TRAIN_ROW_GROUPS]))
         if args.train_classes:
             keep = {int(c) for c in args.train_classes.split(",")}
             cls = np.load(ROOT / "research" / "artifacts" / "market-classes-v1.npz")["train"]
@@ -609,6 +920,9 @@ def main():
         train_idx = np.random.default_rng(args.seed).permutation(usable)[: args.train_seqs]
     if fold_groups is not None and extra_valid is not None and np.intersect1d(extra_valid, fold_groups).size:
         raise RuntimeError("held-out validation fold entered the training pool")
+    if campaign_split is not None:
+        campaign_split.assert_fit_groups(train_idx if train_split == "train" else (),
+                                        train_idx if train_split == "valid" else extra_valid if extra_valid is not None else ())
     eval_groups = {"devB": dev_b, "holdout": hold_groups, "vfold": fold_groups}.get(args.eval_source, dev_groups)
     n_valid = len(eval_groups) if args.full_valid else min(args.valid_seqs, len(eval_groups))
     valid_idx = np.random.default_rng(12345).permutation(eval_groups)[:n_valid]
@@ -618,7 +932,8 @@ def main():
     if args.class_balance:
         classes = np.load(ROOT / "research" / "artifacts" / "market-classes-v1.npz")
         tr_cls = classes[train_split][train_idx]
-        va_share = np.array([(classes["valid"] == c).mean() for c in range(4)])
+        valid_classes = classes["valid"][list(campaign_split.valid_groups)] if campaign_split is not None else classes["valid"]
+        va_share = np.array([(valid_classes == c).mean() for c in range(4)])
         tr_share = np.array([max((tr_cls == c).mean(), 1e-9) for c in range(4)])
         weights = np.where(tr_cls >= 0, va_share[np.clip(tr_cls, 0, 3)] / tr_share[np.clip(tr_cls, 0, 3)], 1.0)
         sampler = WeightedRandomSampler(torch.as_tensor(weights, dtype=torch.double), len(train_idx),
@@ -626,14 +941,76 @@ def main():
     teachers = None
     if args.distill:
         teachers = [(t.partition("*")[0], float(t.partition("*")[2] or 1.0)) for t in args.distill.split(",")]
+        if campaign_split is not None:
+            used = {"train": ("train",), "valid": ("valid",)}.get(args.train_source, ("train", "valid"))
+            args.distill_provenance = bind_fold_teachers(teachers, campaign_split, used)
     prop_cache = {}
     if args.prop_cache and args.propensity:
         prop_cache = {sp: prop_cache_path(args.propensity, sp) for sp in ("train", "valid")}
+    quote_cache_provenance = None
+    if args.quote_cache_root:
+        if campaign_split is None:
+            ap.error("--quote-cache-root requires a clean --split-manifest")
+        cache_root = Path(args.quote_cache_root)
+        if not cache_root.is_absolute():
+            cache_root = ROOT / cache_root
+        cache_root = cache_root.resolve()
+        metadata_path = cache_root.parent / "metadata.json"
+        metadata = json.loads(metadata_path.read_text())
+        if (metadata.get("split_manifest_sha256") != campaign_split.sha256
+                or set(metadata.get("fit_train_groups", [])) != set(campaign_split.train_groups)
+                or set(metadata.get("fit_valid_groups", [])) != set(campaign_split.valid_groups)
+                or set(metadata.get("evaluation_valid_groups", [])) != set(campaign_split.evaluation_groups)):
+            raise ValueError("quote-cache provenance disagrees with clean fold")
+        if (not set(train_idx).issubset(metadata["fit_train_groups"] if train_split == "train"
+                                            else metadata["fit_valid_groups"])
+                or extra_valid is not None and not set(extra_valid).issubset(metadata["fit_valid_groups"])):
+            raise ValueError("training row groups are outside the quote cache fit pool")
+        cache_files = {}
+        for split in ("train", "valid"):
+            path = cache_root / f"quote_path_{split}.npy"
+            entry = metadata["files"][f"{cache_root.name}/{split}"]
+            if not path.is_file() or len(entry["sha256"]) != 64:
+                raise ValueError(f"missing or unproven quote cache: {path}")
+            if file_sha256(path) != entry["sha256"]:
+                raise ValueError(f"quote cache content hash disagrees with metadata: {path}")
+            cache_files[split] = entry["sha256"]
+        args.quote_cache_root = str(cache_root)
+        quote_cache_provenance = {"metadata_sha256": file_sha256(metadata_path),
+                                  "array_sha256_expected": cache_files,
+                                  "variant": cache_root.name}
+    spread_provenance = None
+    if args.spread_aux_mode != "original":
+        if (campaign_split is None or campaign_split.fold != 0 or args.aux_struct <= 0
+                or not args.spread_cache_root or args.train_source != "train+valid"
+                or args.init != "c20260929_since_s3_f0@ep3" or args.seed != 3
+                or args.epochs != 1 or args.checkpoint_policy != "fixed"
+                or args.checkpoint_epoch != 0 or not args.no_eval_during_fit):
+            raise ValueError("known-code spread screen requires fixed one-epoch clean fold0 continuation from seed3 ep3")
+        spread_root = Path(args.spread_cache_root)
+        if not spread_root.is_absolute():
+            spread_root = ROOT / spread_root
+        spread_root = spread_root.resolve()
+        spread_provenance = validate_spread_cache(spread_root, campaign_split.sha256, train_idx,
+                                                   extra_valid, campaign_split.evaluation_groups)
+        if json.loads((spread_root / "metadata.json").read_text())["N_SP_AUX"] != N_SP_AUX:
+            raise ValueError("spread cache head dimension differs")
+        spread_provenance["mode"] = args.spread_aux_mode
+        spread_provenance["source_sha256"] = file_sha256(ROOT / "src/wnn/spread_aux.py")
+        args.spread_cache_root = str(spread_root)
+    elif args.spread_cache_root:
+        raise ValueError("spread cache supplied without a matched known-code mode")
+    thin = None
+    if args.thin_prob > 0:
+        low, high = (float(v) for v in args.thin_range.split(","))
+        thin = (args.thin_prob, low, high)
     train_ds = Sequences(train_split, train_idx, teachers, prop_cache.get(train_split),
-                         quote_path=args.aux_quote > 0)
+                         quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root,
+                         spread_cache_root=args.spread_cache_root, thin=thin)
     if extra_valid is not None:
         valid_ds = Sequences("valid", extra_valid, teachers, prop_cache.get("valid"),
-                             quote_path=args.aux_quote > 0)
+                             quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root,
+                             spread_cache_root=args.spread_cache_root, thin=thin)
         train_ds = torch.utils.data.ConcatDataset([train_ds] + [valid_ds] * args.valid_repeat)
     if args.epoch_samples:
         sample_weights = np.ones(len(train_ds), dtype=np.float64)
@@ -644,10 +1021,29 @@ def main():
     train_loader = DataLoader(train_ds, batch_size=args.batch, shuffle=sampler is None,
                               sampler=sampler, drop_last=True, num_workers=workers, prefetch_factor=prefetch,
                               pin_memory=args.pin_memory)  # no persistent workers: they change the shuffle order (parity E-169)
-    valid_loader = DataLoader(Sequences("valid", valid_idx), batch_size=16, num_workers=2,
-                              prefetch_factor=1)
+    valid_loader = None if args.no_eval_during_fit else DataLoader(
+        Sequences("valid", valid_idx), batch_size=16, num_workers=2, prefetch_factor=1)
 
     shifts = [int(v) for v in args.aux.split(",") if v]
+    provenance = {"seed": args.seed, "args": vars(args).copy(),
+                  "split_manifest_sha256": campaign_split.sha256 if campaign_split is not None else None,
+                  "fit_row_groups": {"train": train_idx.tolist() if train_split == "train" else [],
+                                     "valid": train_idx.tolist() if train_split == "valid" else
+                                     extra_valid.tolist() if extra_valid is not None else []},
+                  "evaluation_row_groups": valid_idx.tolist(), "checkpoint_sha256": {}}
+    if args.arch == "structured":
+        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/structured_state.py")
+    if spread_provenance is not None:
+        provenance["spread_aux"] = spread_provenance
+    if args.arch == "event-content":
+        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/event_content.py")
+    if quote_cache_provenance is not None:
+        provenance["quote_cache"] = quote_cache_provenance
+    if args.propensity:
+        propensity_path = ROOT / "artifacts" / "runs" / args.propensity / "model.pt"
+        if campaign_split is not None:
+            validate_campaign_checkpoint(torch.load(propensity_path, map_location="cpu", weights_only=False), args)
+        provenance["propensity_checkpoint_sha256"] = file_sha256(propensity_path)
     prop_model = load_propensity(ROOT / "artifacts" / "runs" / args.propensity / "model.pt", device) if args.propensity else None
     n_in = N_FEATURES + N_EVENT_FEATURES
     if args.raw_only:
@@ -694,10 +1090,21 @@ def main():
     if args.init:
         init_run, _, init_epoch = args.init.partition("@ep")
         init_file = f"model_ep{int(init_epoch)}.pt" if init_epoch else "model.pt"
-        init = torch.load(ROOT / "artifacts" / "runs" / init_run / init_file, map_location="cpu", weights_only=False)
+        init_path = ROOT / "artifacts" / "runs" / init_run / init_file
+        init = init_checkpoint if init_checkpoint is not None else torch.load(init_path, map_location="cpu", weights_only=False)
+        validate_campaign_checkpoint(init, args)
+        provenance["initial_checkpoint_sha256"] = file_sha256(init_path)
         model.load_state_dict(init["model"])
     else:
         fit_normalization(model, train_loader, device)
+    provenance["normalization_identity"] = normalization_identity(model)
+    provenance["update_counter_implementation"] = scaler_source_identity()
+    provenance["run_identity_source_sha256"] = file_sha256(ROOT / "src/wnn/run_identity.py")
+    provenance["fit_membership_identity"] = {
+        "train": group_identity(provenance["fit_row_groups"]["train"]),
+        "valid": group_identity(provenance["fit_row_groups"]["valid"]),
+        "valid_repeat": args.valid_repeat, "dataset_length": len(train_ds),
+    }
     frozen = tuple(v for v in args.freeze.split(",") if v)
     for pname, prm in model.named_parameters():
         if frozen and pname.startswith(frozen):
@@ -721,7 +1128,11 @@ def main():
     swa_start = int(total * (1.0 - args.swa_frac))
     step_count = 0
 
+    pool_memory = PooledCorrMemory(args.pool_decay) if args.loss == "gcorr_pool" else None
+
     def objective(o, t, v):
+        if pool_memory is not None:
+            return pool_memory(o, t, v)
         if args.loss == "corr":
             return weighted_corr_loss(o, t, v)
         if args.loss == "wmse":
@@ -751,25 +1162,36 @@ def main():
     norm_ema = None  # running weight-sum normalizer for --loss-norm running
     losses_trace = []
     best, t0, history = -1.0, time.time(), []
+    fitting_started = t0
+    cumulative_updates = {}
+    provenance["update_diagnostics"] = []
     for epoch in range(args.epochs):
         model.train()
+        epoch_counter = EpochUpdateCounter(device)
+        epoch_order_identity = sample_order_identity(train_loader)
         batches = CudaPrefetcher(train_loader, device, timer) if args.pin_memory else train_loader
         for b, batch in enumerate(batches):
             if args.max_batches and b >= args.max_batches:
                 break
             timer.start()
-            prop_cached = None
+            prop_cached = spread_encoded = kept_len = None
             if args.pin_memory:
                 (x, y, scored_dev, *rest), scored = batch
-                if rest:
-                    prop_cached = rest[0]
             else:
                 x, y, scored, *rest = batch
-                if rest:
-                    prop_cached = rest[0].to(device, non_blocking=True)
                 x = x.to(device, non_blocking=True)
                 y = y.to(device, non_blocking=True)
                 scored_dev = scored.to(device, non_blocking=True)
+            if thin is not None:
+                kept_len = rest.pop()
+                if not args.pin_memory:
+                    kept_len = kept_len.to(device, non_blocking=True)
+            if args.spread_aux_mode != "original":
+                spread_encoded = rest.pop()
+                if not args.pin_memory:
+                    spread_encoded = spread_encoded.to(device, non_blocking=True)
+            if rest:
+                prop_cached = rest[0] if args.pin_memory else rest[0].to(device, non_blocking=True)
             timer.mark("h2d")
             inputs = build_inputs(x)
             timer.mark("inputs")
@@ -782,6 +1204,8 @@ def main():
                     teach, y = y[..., 2:4], y[..., :2]
             steps = torch.arange(inputs.shape[1], device=device)[None].expand(inputs.shape[0], -1)
             valid = steps >= WARMUP
+            if kept_len is not None:
+                valid = valid & (steps < kept_len[:, None])
             main_valid = valid & scored_dev if args.mask_weight else valid
             if prop_model is not None:
                 if prop_cached is not None:
@@ -808,6 +1232,8 @@ def main():
             aux = shifted_targets(y, valid, shifts)
             if args.aux_struct > 0:
                 sp_lab, br_lab, cl_lab = structure_labels(y, sequence_class(y))
+                if args.spread_aux_mode == "current_known":
+                    sp_lab = spread_encoded.clamp_max(N_SP_AUX - 1).long()
                 sw = main_valid.float()
             if args.aux_next > 0:
                 nx_rows, nx_up, nx_ok = next_change_labels(y, valid)
@@ -878,13 +1304,9 @@ def main():
                     )
                     loss = loss + args.gate_ce * (gate_bce * gate_weight).sum() / gate_weight.sum().clamp_min(1e-8)
                 if args.aux_struct > 0:
-                    o = out.float()
-                    wv = sw[:, sl].reshape(-1)
-                    ce = 0.0
-                    for a0, a1, lab in ((struct_at, struct_at + N_SP_AUX, sp_lab), (struct_at + N_SP_AUX, struct_at + N_SP_AUX + 3, br_lab),
-                                        (struct_at + N_SP_AUX + 3, struct_at + N_SP_AUX + 7, cl_lab)):
-                        ce = ce + F.cross_entropy(o[..., a0:a1].reshape(-1, a1 - a0), lab[:, sl].reshape(-1), reduction="none")
-                    loss = loss + args.aux_struct * (ce * wv).sum() / wv.sum().clamp_min(1e-8)
+                    loss = loss + args.aux_struct * structural_loss(
+                        out, sp_lab[:, sl], br_lab[:, sl], cl_lab[:, sl], sw[:, sl], struct_at, N_SP_AUX,
+                        None if spread_encoded is None else spread_encoded[:, sl])
                 if args.aux_next > 0:
                     o = out.float()
                     wv = nw[:, sl]
@@ -943,6 +1365,7 @@ def main():
                 scaler.scale(loss).backward()
                 timer.mark("backward")
                 scaler.unscale_(opt)
+                epoch_counter.observe_unscaled(scaler, opt)
                 torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
                 scaler.step(opt)
                 scaler.update()
@@ -956,12 +1379,14 @@ def main():
                     swa_model.update_parameters(model)
                 if ema_model is not None:
                     ema_model.update_parameters(model)
+                    epoch_counter.ema_updates += 1
                 if duty is not None:  # explicit rate limit (WNN_GPU_DUTY < 1): sync, then sleep
                     torch.cuda.synchronize()
                     duty.tick()
                 elif not args.sync_free:
                     torch.cuda.synchronize()
             timer.stop()
+            epoch_counter.completed_batches += 1
             if args.profile_steps and b + 1 == args.max_batches:
                 break
             if b % 20 == 0:
@@ -978,32 +1403,53 @@ def main():
                        args.parity_dump)
             print("PARITY_DUMP", args.parity_dump, len(losses_trace), flush=True)
             return
-        t_eval = time.time()
-        eval_model = swa_model.module if swa_model is not None and step_count >= swa_start else model
-        if args.eval_ema:
-            eval_model = ema_model.module
+        update_counts = epoch_counter.finish(cumulative_updates)
+        update_counts["sample_order_identity"] = epoch_order_identity
+        update_counts["normalization_identity"] = provenance["normalization_identity"]
+        provenance["update_diagnostics"].append({"epoch_index": epoch, **update_counts})
+        provenance["cumulative_updates"] = cumulative_updates.copy()
+        train_seconds = round(time.time() - t0, 1)
+        eval_model = checkpoint_model(model, ema_model,
+                                      swa_model if step_count >= swa_start else None, args.eval_ema)
         if moments is not None:
             global READOUT, READOUT_TILTED
             READOUT, READOUT_TILTED = moments.tables(), args.ce_tilt
-        res = evaluate(eval_model, valid_loader, 4000, device)
-        res.update(epoch=epoch, eval_seconds=round(time.time() - t_eval, 1), split=f"{args.eval_source}{n_valid}")
+        evaluation_score = None
+        if args.no_eval_during_fit:
+            res = {"epoch": epoch, "train_seconds": train_seconds, "evaluation": "withheld"}
+        else:
+            t_eval = time.time()
+            res = evaluate(eval_model, valid_loader, 4000, device)
+            res.update(epoch=epoch, train_seconds=train_seconds, eval_seconds=round(time.time() - t_eval, 1),
+                       split=f"{args.eval_source}{n_valid}")
+            evaluation_score = res["weighted_pearson"]
+        res["update_diagnostics"] = update_counts
         history.append(res)
-        print("VALID", json.dumps(res), flush=True)
+        print("FIT" if args.no_eval_during_fit else "VALID", json.dumps(res), flush=True)
         # snapshot every epoch (~1 MB): lets any epoch be re-read out later without selection on the eval set
-        torch.save({"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in, "epoch": epoch,
-                    "readout": None if READOUT is None else [t.cpu() for t in READOUT],
-                    "readout_tilted": READOUT_TILTED}, out_dir / f"model_ep{epoch}.pt")
-        improved = res["weighted_pearson"] > best
-        if improved:
-            best = res["weighted_pearson"]
-        if improved or (args.include_heldout_valid and epoch == args.epochs - 1):
-            torch.save({"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in,
-                        "readout": None if READOUT is None else [t.cpu() for t in READOUT],
-                        "readout_tilted": READOUT_TILTED}, out_dir / "model.pt")
+        checkpoint = {"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in, "epoch": epoch,
+                      "readout": None if READOUT is None else [t.cpu() for t in READOUT],
+                      "readout_tilted": READOUT_TILTED,
+                      "provenance": {key: value for key, value in provenance.items() if key != "checkpoint_sha256"}}
+        snapshot = out_dir / f"model_ep{epoch}.pt"
+        torch.save(checkpoint, snapshot)
+        provenance["checkpoint_sha256"][snapshot.name] = file_sha256(snapshot)
+        is_selected = checkpoint_selected(epoch, args.checkpoint_policy, args.checkpoint_epoch, evaluation_score, best)
+        if evaluation_score is not None:
+            best = max(best, evaluation_score)
+        if is_selected or (args.checkpoint_policy == "best" and args.include_heldout_valid and epoch == args.epochs - 1):
+            torch.save(checkpoint, out_dir / "model.pt")
+            provenance["checkpoint_sha256"]["model.pt"] = file_sha256(out_dir / "model.pt")
+            provenance["selected_epoch"] = epoch
+        provenance["fitting_seconds"] = round(time.time() - fitting_started, 1)
+        (out_dir / "provenance.json").write_text(json.dumps(provenance, indent=2) + "\n")
         t0 = time.time()
     (out_dir / "history.json").write_text(json.dumps(history, indent=1))
-    print("BEST", best)
-    if args.include_heldout_valid:
+    if args.checkpoint_policy == "fixed":
+        print("SELECTED_FIXED", args.checkpoint_epoch)
+    else:
+        print("BEST", best)
+    if args.include_heldout_valid and not args.no_eval_during_fit:
         print("SELECTED_FINAL", history[-1]["weighted_pearson"])
 
 

@@ -159,6 +159,40 @@ def weighted_pooled_corr_loss(pred, target, valid):
     return 1.0 - (cov / torch.sqrt(vy * vp + 1e-12)).mean()
 
 
+class PooledCorrMemory:
+    """Pooled |y|-weighted Pearson over the current chunk plus a decayed memory of earlier chunks.
+
+    ``weighted_pooled_corr_loss`` recentres and rescales every 16-sequence chunk on its own, so offsets and
+    scales shared by a whole batch are invisible to it. Here the six weighted sums of earlier chunks are kept
+    (detached, float64) and added to the current chunk's sums before the correlation is formed; gradients flow
+    only through the current rows, i.e. each step follows the correlation of the whole recent pool. The loss is
+    divided by the current chunk's share of the pooled weight so its gradient scale matches the per-chunk loss.
+    """
+
+    def __init__(self, decay: float = 0.98):
+        self.decay = decay
+        self.memory = None
+
+    def __call__(self, pred, target, valid):
+        y = target.double().clamp(-METRIC_CLIP, METRIC_CLIP)
+        p = pred.double()
+        w = y.abs() * valid[..., None].double()
+        k = y.shape[-1]
+        w, y, p = w.reshape(-1, k), y.reshape(-1, k), p.reshape(-1, k)
+        sums = torch.stack([w.sum(0), (w * y).sum(0), (w * p).sum(0), (w * y * y).sum(0), (w * p * p).sum(0),
+                            (w * y * p).sum(0)])
+        pooled = sums if self.memory is None else sums + self.memory
+        n, sy, sp, syy, spp, syp = pooled
+        n = n.clamp_min(1e-12)
+        cov = syp / n - (sy / n) * (sp / n)
+        vy = (syy / n - (sy / n) ** 2).clamp_min(0.0)
+        vp = (spp / n - (sp / n) ** 2).clamp_min(0.0)
+        rho = cov / torch.sqrt(vy * vp + 1e-18)
+        share = (sums[0] / n).detach().clamp_min(1e-6)
+        self.memory = self.decay * pooled.detach()
+        return ((1.0 - rho) / share).mean().float()
+
+
 def weighted_mse_loss(pred, target, valid):
     y = target.float().clamp(-METRIC_CLIP, METRIC_CLIP)
     w = y.abs() * valid[..., None]
