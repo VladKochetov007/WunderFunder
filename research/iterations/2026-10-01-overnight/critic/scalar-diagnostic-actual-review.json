@@ -1,0 +1,40 @@
+{
+  "status": "DIAGNOSTIC_REPLAY_AUDITED_NO_QUALIFICATION",
+  "created_utc": "2026-10-01T03:58:47.015199+00:00",
+  "allocation_sha256": "993071492cef7aad55912bd780556de831814e965c7e47ef96e68372e4f92d9b",
+  "proposal_sha256": "e012355f73cac170c422ec0528dca7018717269d8905e96b7ba50020663ea365",
+  "freeze_sha256": "232ca9fb65d102a42cd1229adc08844b69af25fce630ab2cd82a6b2886ff9992",
+  "bound_evidence": {
+    "scalar/gpu-diagnostic-execution/execution.json": "c13d51311800c36abfc05c63911d212c0e0375f7ad54f7949e9bf2deee3f8998",
+    "scalar/gpu-diagnostic-execution/control-attempt01.log": "9ad4c48073385ac342d40fe80826b7b2845c14dada6719ec59cf5b7dc73856d3",
+    "scalar/gpu-diagnostic-execution/control-attempt01-samples.jsonl": "3585f3d6683f3c839bed4afbd6b99908ece568507ff1f22dbe3ade0a42244c35",
+    "scalar/gpu-diagnostic-execution/driver.py": "36e43d78d055b4f39f6eecb9c530a40f21c57bda6b485963c015463f31243801",
+    "scalar/gpu_probe_diagnostic.py": "3e91e39f638749b00feeb05ca7a7a0d653cf8d9645d51cfaed79ea57cb8807da"
+  },
+  "all19_local_frozen_source_hashes_match": true,
+  "observed_replay": {
+    "step": 0,
+    "finite_loss": 3.478107452392578,
+    "gradient_norm": "positive infinity",
+    "scale_before": 65536.0,
+    "scale_after": 32768.0,
+    "exit_code": 1,
+    "unchanged_assertion_failed": true,
+    "controller_terminated_process": false,
+    "foreign_GPU_occupancy_observed": false,
+    "sampled_resource_breach_observed": false,
+    "arms": [
+      "control"
+    ]
+  },
+  "interpretation": [
+    "New replay shows finite forward objective, nonfinite unscaled global gradient norm and GradScaler backoff on attempted step0",
+    "This is consistent with ordinary AMP scale calibration. It does not establish which tensor overflowed, exclude non-scaling gradient instability, or prove subsequent calibrated steps are healthy",
+    "Original production trainer permits GradScaler skip/backoff; preflight no-overflow assertion is stricter than that trainer. Any further calibration-aware diagnostic requires a prospective protocol exception, not silent gate relaxation",
+    "Original failure lacks step/loss/grad/scaler telemetry; replay cannot retroactively fill those values",
+    "No PLE full-parent arm, no parent timing/memory/efficacy qualification and no empirical input/forecast/WP occurred"
+  ],
+  "reviewer_additional_GPU_runs": 0,
+  "candidate_or_runtime_promotion_allowed": false,
+  "automatic_followup_allowed": false
+}

@@ -1,0 +1,92 @@
+{
+  "id": "SCALARPLE01-control-only-diagnostic-preparation-v1",
+  "status": "PREPARATION_NOT_ALLOCATED",
+  "created_UTC": "2026-10-01T03:54:32.080398+00:00",
+  "purpose": "Identify observed replay finite loss / nonfinite gradient / GradScaler backoff without changing the frozen computational recipe. Replay evidence cannot establish original run step or quantities.",
+  "original_proposal_sha256": "837c2e646e438478ec9add3806337e40fafb93a3218edc94a03ba953cea06a87",
+  "original_freeze_sha256": "37f8694fb8a3ac6758564a91ee33edbba204a4ed8e82be437fe014720cc761ef",
+  "original_failure_summary_sha256": "c2872fbea9df0b08c693f7c2e530889b2d717c7010e3b06eada8df97a3f1b457",
+  "sources": {
+    "research/iterations/2026-10-01-overnight/scalar/scalar_model.py": "707f134fb29db3ee9464af6f9eedae3b4fd8397898802aa27ac8f7672d6b6f86",
+    "research/iterations/2026-10-01-overnight/scalar/gpu_probe.py": "86a9202deb0c5fc7fdf140c15686080a8bd0b72c6887ca332ac1d02ff2855948",
+    "research/iterations/2026-10-01-overnight/scalar/gpu_initial_parity.py": "878dbd85d2bf7a9027569432edcc60a5cad6ebfdae4008cd956896fa97e67569",
+    "research/iterations/2026-10-01-overnight/scalar/gpu_scalar_oracle.py": "5a5863f5eb99c552e1ec4b8d4444a0d290d7e8be909b084bdbfc498a54c59475",
+    "research/iterations/2026-10-01-overnight/scalar/make_gpu_fixture.py": "4f6a01e1ea2a76beccc90c01b5b87d8a09e892e27505669055a84fd582a03d8b",
+    "research/iterations/2026-10-01-overnight/scalar/check_cpu.py": "2e91e8e631f6ed6a74a603e0091529f675798aea6524ddd069fd603364594617",
+    "research/iterations/2026-10-01-overnight/scalar/cpu-check-attempt03.json": "5c6fe4300c17e7485a4f924c9f247e9e4bba0db70d030829fe5f894be37a5f7e",
+    "research/iterations/2026-10-01-overnight/scalar/spec.md": "c1d45b3c36279c0c8697b17982cf3ba45fb1691d32a796ede37d9621d4c549f5",
+    "research/iterations/2026-10-01-overnight/training/train_aux.py": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f",
+    "src/wnn/nn.py": "160447df28fa090684757551a75ee61d4f35c8c8c16c246324565306f46b8ec4",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/outcomes.py": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+    "src/wnn/resources.py": "471b33adb48a897e3cd68374edb6be4f683a00d947296d97eb39024dee14ca89",
+    "research/iterations/2026-10-01-overnight/critic/scalar-independent-forward-fixture/expected.npy": "87a55f62850c81769af15992c56470d53740be08fb87cb9f763076a899a0ba29",
+    "research/iterations/2026-10-01-overnight/critic/scalar-independent-forward-fixture/raw.npy": "8e04841aaa2a62df8e2d0f88b343938311921b111623c5a56532385bfc258819",
+    "research/iterations/2026-10-01-overnight/critic/scalar-independent-forward-fixture/weights.npz": "ce4006ee3e5830bd1d215622ae2fa3d6e7908ca137dbeff128d60867ea3964f6",
+    "research/iterations/2026-10-01-overnight/scalar/gpu_probe_diagnostic.py": "3e91e39f638749b00feeb05ca7a7a0d653cf8d9645d51cfaed79ea57cb8807da",
+    "research/iterations/2026-10-01-overnight/scalar/gpu-diagnostic-execution/driver.py": "36e43d78d055b4f39f6eecb9c530a40f21c57bda6b485963c015463f31243801",
+    "research/iterations/2026-10-01-overnight/scalar/gpu-diagnostic-source.diff": "5877eebc6aad9b1ba4c6103dc7a079e1fe65dc625b4fef4538e8ec3561b731c8"
+  },
+  "fixture_sha256": "920419f0637425efb077128d36856f3e9c6de1b94e442b55ab92f3bbcf4074f8",
+  "fixture_changed": false,
+  "changes": {
+    "original_path": "research/iterations/2026-10-01-overnight/scalar/gpu_probe.py",
+    "original_sha256": "86a9202deb0c5fc7fdf140c15686080a8bd0b72c6887ca332ac1d02ff2855948",
+    "derivative_path": "research/iterations/2026-10-01-overnight/scalar/gpu_probe_diagnostic.py",
+    "derivative_sha256": "3e91e39f638749b00feeb05ca7a7a0d653cf8d9645d51cfaed79ea57cb8807da",
+    "exact_single_additive_line": " print(json.dumps({'diagnostic_step':records[-1]}),flush=True)\\n",
+    "removed_line_reconstructs_original_byte_exact": true,
+    "diff_sha256": "5877eebc6aad9b1ba4c6103dc7a079e1fe65dc625b4fef4538e8ec3561b731c8"
+  },
+  "arms": [
+    "control"
+  ],
+  "retries": 0,
+  "GPU": 6,
+  "CPU_affinity": [
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "resources": {
+    "GPU_count": 1,
+    "physical_GPU": 6,
+    "CPU_affinity": [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "WNN_THREADS": 4,
+    "total_stage_seconds": 600,
+    "per_arm_seconds": 240,
+    "host_RSS_bytes": 8589934592,
+    "GPU_process_MiB": 5632,
+    "torch_allocator_bytes": 5905580032,
+    "monitor_interval_seconds": 0.5,
+    "monitor_note": "External orchestration must log process identity, elapsed, sampled group RSS and NVML GPU process memory. Torch allocator cap is enforced, RSS/NVML sampling is not a cgroup limit and can miss between-sample peaks. Deadlines terminate only the owned process group; preserve exit reason and partial logs."
+  },
+  "launch_precondition": {
+    "minimum_free_GPU_MiB": 6144,
+    "other_compute_processes_on_GPU": 0,
+    "policy": "Check immediately before each arm. Prelaunch occupancy failure is no launch; do not displace other users. Occupancy during a launched arm is a failed contaminated attempt, without favorable timing filtering."
+  },
+  "command": "taskset -c 38 python3 research/iterations/2026-10-01-overnight/scalar/gpu-diagnostic-execution/driver.py --allocation <ROOT_DIAGNOSTIC_ALLOCATION_JSON>",
+  "allocation_required_flags": {
+    "SCALARPLE_generated_GPU_probe_authorized": true,
+    "SCALARPLE_control_diagnostic_authorized": true,
+    "competition_inputs_authorized": false
+  },
+  "output_directory": "research/iterations/2026-10-01-overnight/scalar/gpu-diagnostic-execution",
+  "failure_policy": "Exactly one ordinary control process. Preserve exit/log/partial diagnostic rows and stop. No automatic followup, PLE arm, fixture/optimizer/scaler/gate alteration, or original failure rewrite.",
+  "qualification": "No timing, memory, numeric candidate or forecast efficacy gate can pass from this diagnostic. Even successful replay would only be a new observed replay, never retrospective proof about original failure.",
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "empirical_data_reads": 0,
+  "new_candidate_variants": 0
+}

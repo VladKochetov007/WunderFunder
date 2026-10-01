@@ -1,0 +1,45 @@
+{
+  "status": "CONTROL_PREFLIGHT_FAILED_UNRESOLVED_CANDIDATE_NOT_RUN",
+  "created_utc": "2026-10-01T03:53:33.698110+00:00",
+  "bound_evidence": {
+    "scalar/gpu-proposal.json": "837c2e646e438478ec9add3806337e40fafb93a3218edc94a03ba953cea06a87",
+    "scalar/GPU-PREP-FREEZE.json": "37f8694fb8a3ac6758564a91ee33edbba204a4ed8e82be437fe014720cc761ef",
+    "scalar/gpu-allocation.json": "591d2f85cc6d402d8628d342c73a10fd68d8bf95972c63c85ebbfa3e5c17cfaf",
+    "scalar/gpu_probe.py": "86a9202deb0c5fc7fdf140c15686080a8bd0b72c6887ca332ac1d02ff2855948",
+    "scalar/gpu-execution/execution.json": "c4a0323b257012b8226eb55fae701a22c84ed6337a4a2300a03bc8d509734d31",
+    "scalar/gpu-execution/control-attempt01.log": "b3f0baa6b215a35be172eb59b7d37823179123ee2f45386c595a0c1b75ee4461",
+    "scalar/gpu-execution/control-attempt01-samples.jsonl": "e2636008c8b41c3925ffaeb07920ded261784fcbf67c96a6a4d2b66b79dc0744",
+    "scalar/gpu-execution/driver.py": "6b3ecb281b160c4b4be2f078467e65115202a76246da9fc92302e9f902bf3382",
+    "critic/scalar-probe-failure-inspect.py": "b522ac2b22a3752cf0ef80aa2e42765bc876639e102c6b82a26351d142fa9f8d",
+    "critic/scalar-probe-failure-generated-inputs.json": "e7bbb363c9665a827e2f725a8f4c2fd5c021a2991d22ad16318f15e6904e69a6"
+  },
+  "established": [
+    "Exactly one ordinary-control arm exited1 in6.85s; PLE full-parent arm never launched",
+    "Traceback points to combined finite(loss) and finite(grad_norm) assertion after append of in-memory records, optimizer/scaler/scheduler/EMA update",
+    "Prior CUDA scalar literal/VJP and initial AMP function/base-gradient/RNG routines returned without raising, by sequential source control flow; their numeric values were not separately flushed",
+    "Observed sampled GPU2320MiB/RSS2052104KiB stayed below bounds; controller termination null, no foreign occupancy in saved samples; not a completed memory or timing qualification",
+    "Generated-only CPU feature/normalizer/label inspection found finite arrays and positive actual objective denominators in all10 chunks; normalized rare-event extremes reach abs135.22 but are finite",
+    "Loss, weighting, teacher and EMA update order inspected against frozen ordinary trainer; no identified transcription difference in active operations",
+    "Original trainer allows GradScaler skip/scale reduction; probe additionally rejects nonfinite gradient norm and any scale decrease"
+  ],
+  "not_established": [
+    "Failing step index",
+    "Whether loss, grad_norm or both were nonfinite",
+    "Actual scale decrease or skipped optimizer step at failure",
+    "Whether failure was ordinary initial AMP overflow, forward instability, or another cause",
+    "Candidate efficacy, candidate full-parent memory, parent speed or remaining-budget feasibility"
+  ],
+  "review_limitation": "The reviewer approved a probe that preserved step records only on final success. This telemetry defect leaves the original failure underdetermined; no claim to reconstruct it. Frozen source and failed evidence stay unchanged.",
+  "diagnostic_recommendation": {
+    "warranted": true,
+    "scope": "One prospectively allocated control-only replay with one additive flushed print of existing records[-1] immediately before original assertion; derivative file, original operation/RNG/fixture/optimizer/gate unchanged",
+    "not_authorized_by_review": true,
+    "scientific_boundary": "No candidate full-parent arm, no empirical inputs, no quality query, no runtime qualification, no threshold/fixture repair. New replay evidence describes replay only; if it differs, original missing state stays unknown. No automatic retries."
+  },
+  "empirical_data_reads": 0,
+  "new_model_forward_calls": 0,
+  "new_model_backward_calls": 0,
+  "new_GPU_runs": 0,
+  "forecast_fits": 0,
+  "WP_queries": 0
+}

@@ -1,0 +1,54 @@
+{
+  "id": "OVERNIGHT-prospective-amendment-03",
+  "created_utc": "2026-10-01T04:01:26.736298+00:00",
+  "authority": "Root controller under user-authorized autonomous local/SSH campaign. Narrow generated-control preflight correction only.",
+  "previous_amendment_sha256": "b7a0c5d2c33d84122500663f4d0320cd3a597a90cbe387331cbb63ac36022303",
+  "scope": "Correct an ordinary-control AMP preflight acceptance criterion after one narrowly authorized diagnostic replay. Do not change the production model, fixture, training recipe, quality grader or efficacy gates.",
+  "evidence": {
+    "original_GPU_proposal_sha256": "837c2e646e438478ec9add3806337e40fafb93a3218edc94a03ba953cea06a87",
+    "original_failure_summary_sha256": "c2872fbea9df0b08c693f7c2e530889b2d717c7010e3b06eada8df97a3f1b457",
+    "diagnostic_allocation_sha256": "993071492cef7aad55912bd780556de831814e965c7e47ef96e68372e4f92d9b",
+    "diagnostic_result_sha256": "fa54e96f598cfeb52143efada450fc071a7d9a09b1f4711b3181b833b388d961",
+    "independent_diagnostic_review_sha256": "c835146c062b1ab7a9ad5d2d5fba6221985bd9c6405c88c77d29fe73591dad62",
+    "observed_replay": "Step0 loss3.478107452 finite, global gradientnorm+inf, scale65536 to32768, original finite assertion failed. Original unlogged step/state cannot be recovered.",
+    "primary_source": "https://docs.pytorch.org/docs/2.14/notes/amp_examples.html",
+    "reason": "Production GradScaler handles nonfinite gradients by skipping optimizer updates and adjusting scale; the original probe instead rejected every initial backoff. This was stricter than the production computation it aimed to test. No candidate full-parent outcome or competition observation informed this correction."
+  },
+  "unchanged": [
+    "scalar_model.py707f134fb29db3ee9464af6f9eedae3b4fd8397898802aa27ac8f7672d6b6f86",
+    "generated fixture920419f0637425efb077128d36856f3e9c6de1b94e442b55ab92f3bbcf4074f8",
+    "initial GradScaler65536 and all ordinary AMP/fusedAdamW/LR/OneCycle/EMA/aux computations and their order",
+    "32x20000 resident batch,2000chunks,exact10steps",
+    "warmupsteps0,1,2; timedsteps3,4,5,6,7,8,9",
+    "5.5GiBGPU,8GiBsampledRSS,240secondsperarm,600secondsstage",
+    "1.25*15000*(2*control_median_wall_seconds+3*ple_median_wall_seconds)+5400 remaining-time formula",
+    "06:00UTC screen-parent start cutoff,07:00UTC final-parent cutoff,08:23:30UTC deadline",
+    "13configurationrecords,64forecastfits,64WPreadouts,max2GPUjobs",
+    "allforecast promotion gates and frozen quality grader"
+  ],
+  "v2_required_checks": {
+    "every_step": "Finite loss and finite model/EMA/optimizer state. Flush step records including loss, gradientnorm, before/after scale, effective update counters, skip status and validation overhead.",
+    "warmup_only": "Permit scale-reducing skipped updates only on fixedsteps0,1,2. Require unchanged parameter tensors and unchanged optimizer moments/counters; absent-to-newlyzero moments/counter initialization is permitted on first skipped fusedAdamW call.",
+    "all_fixed_timed_steps": "All7steps3..9 require finite loss and gradientnorm, no scale decrease, and every active AdamW update counter advancing by1. No timing filter, warmup extension, changed fixture or reduced initial scale.",
+    "ordinary_bookkeeping": "Preserve unconditional scheduler and EMA bookkeeping exactly as production, including skipped steps. Do not demand these bookkeeping counters remain unchanged.",
+    "final": "All finite, adapter buffers exact, projection learns and table obtains finite nonzero gradients after projection learning. Parameter/moment snapshots outside measured region; separately report validation overhead."
+  },
+  "allocation_boundary": {
+    "authorized_now": "Prepare exact isolatedv2probe/driver/diff/proposal and independent review only.",
+    "later_maximum_attempts": 2,
+    "later_arms": [
+      "control",
+      "ple"
+    ],
+    "order": "SameGPU6 sequentialcontrolthenPLE, eachonce; stopifcontrolfails. Separate root allocation required.",
+    "existing_fullparent_GPU_process_starts": 2,
+    "existing_candidate_fullparent_GPU_process_starts": 0,
+    "preserve_existing_failures": true,
+    "v1_or_diagnostic_promoted": false,
+    "new_forecast_fits": 0,
+    "new_WP": 0,
+    "no_automatic_empirical_work": true,
+    "no_further_generated_retry_or_fixture_variant": true
+  },
+  "interpretation": "This is a prospective measurement-criterion correction based on an invalid ordinary-control acceptance test, not a posthoc relaxation of an efficacy or public-score gate. It establishes no successful recovery, feasibility or candidate benefit; v2 may still fail."
+}

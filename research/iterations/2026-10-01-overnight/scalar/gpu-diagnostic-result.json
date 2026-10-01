@@ -1,0 +1,44 @@
+{
+  "status": "CONTROL_DIAGNOSTIC_OBSERVED_NONFINITE_GRADIENT_BACKOFF",
+  "created_UTC": "2026-10-01T03:58:24.187157+00:00",
+  "attempts": 1,
+  "arm": "control",
+  "observed_replay": {
+    "step": 0,
+    "wall_seconds": 0.20680594071745872,
+    "device_ms": 206.71078491210938,
+    "loss": 3.478107452392578,
+    "gradient_norm": "Infinity",
+    "scale_before": 65536.0,
+    "scale_after": 32768.0,
+    "allocated_bytes": 1192940544,
+    "reserved_bytes": 2206203904
+  },
+  "loss_is_finite": true,
+  "GradScaler_halved": true,
+  "process_exit": 1,
+  "interpretation": "In this newly observed replay, the first chunk had finite scalar loss, infinite reported gradient norm and GradScaler backoff65536\u219232768. This supports nonfinite scaled gradients detected by GradScaler. It does not identify the overflowing tensor/reduction, establish all model intermediate values finite, prove original run step/scaler, or show the PLE branch feasible.",
+  "original_failure_status_unchanged": "FAILED_CONTROL_SYNTHETIC_UNRESOLVED",
+  "no_qualification": true,
+  "cost_gate_evaluable": false,
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "competition_data_reads": 0,
+  "PLE_started": false,
+  "automatic_followup_authorized": false,
+  "GPU6_released_UTC": "2026-10-01T03:57:25.068007+00:00",
+  "postrelease_GPU6": {
+    "used_MiB": 1,
+    "free_MiB": 15973
+  },
+  "receipts": {
+    "gpu-diagnostic-execution/control-attempt01-samples.jsonl": "3585f3d6683f3c839bed4afbd6b99908ece568507ff1f22dbe3ade0a42244c35",
+    "gpu-diagnostic-execution/control-attempt01.log": "9ad4c48073385ac342d40fe80826b7b2845c14dada6719ec59cf5b7dc73856d3",
+    "gpu-diagnostic-execution/driver.log": "667a2a431c09176f77192b1fb5f8a9f1d9e5d9edba71a398f294cf2af22e2ab8",
+    "gpu-diagnostic-execution/driver.py": "36e43d78d055b4f39f6eecb9c530a40f21c57bda6b485963c015463f31243801",
+    "gpu-diagnostic-execution/execution.json": "c13d51311800c36abfc05c63911d212c0e0375f7ad54f7949e9bf2deee3f8998"
+  },
+  "frozen_original_source_sha256": "86a9202deb0c5fc7fdf140c15686080a8bd0b72c6887ca332ac1d02ff2855948",
+  "diagnostic_source_sha256": "3e91e39f638749b00feeb05ca7a7a0d653cf8d9645d51cfaed79ea57cb8807da",
+  "fixture_sha256": "920419f0637425efb077128d36856f3e9c6de1b94e442b55ab92f3bbcf4074f8"
+}

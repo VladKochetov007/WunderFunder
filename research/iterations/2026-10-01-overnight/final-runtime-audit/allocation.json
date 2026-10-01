@@ -1,0 +1,52 @@
+{
+  "id": "BASELINE3-FULLVALID-RUNTIME-01",
+  "created_utc": "2026-10-01T03:55:48.346105+00:00",
+  "full_valid_runtime_audit_authorized": true,
+  "attempts": 1,
+  "retries": 0,
+  "plan_sha256": "1337643db2d5b3d07932ddc47c1a2f808d57c31a41a80c85eee04e622bda1275",
+  "independent_review_sha256": "1d4d4bdf769730a6e937b96e59a3ebaf22d88b1effd1e120bb077705de4b7750",
+  "source_sha256": {
+    "research/iterations/2026-10-01-overnight/final-runtime-audit/audit_full_valid.py": "27bbca080e70696d3f6611158d38c76bc70a0391df70e977bcf7cc3d7917f7da",
+    "research/iterations/2026-10-01-overnight/final-runtime-audit/launch.py": "b335b031b016355d4c959c4d1f8a6cc9c0d5ee1a0b9e50b019fc762cee37ce3d",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "src/wnn/__init__.py": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/FREEZE.json": "ed838846341bcbdf7952f5436d26f6f8325eba4adc8fafe1d88c3bbf2118c0a7",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/delivery-receipt.json": "112d0b7d0ca0ff6170232f28819d90f4fa05ef202373599b7c5a25dc9ec46813",
+    "submissions/overnight_baseline3/baseline3_fixed.manifest.json": "795b93b52b5e8eb6274a60deaab9865efb9b40eb55d0d0b72f9b75698cc94665",
+    "research/iterations/2026-10-01-overnight/final-runtime-audit/resource-launcher-probe.json": "4926c17b0c4893ad621368a380824665ce45825dbb9d6cd33f099c613933188e",
+    "research/iterations/2026-10-01-overnight/final-runtime-audit/author-source-checks.json": "89fa7efe58772cf633ec84ae78a1b7c8479baac8f28aec7caf4482d5c8eed0d7"
+  },
+  "artifact_sha256": "9471821e81e7c3f80a088147512183b72e0ab52bc593a1136d2becc229d0d098",
+  "input_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "resources": {
+    "compute_CPU_affinity": [
+      18
+    ],
+    "monitored_SMT_sibling": 58,
+    "CPUQuota": "100%",
+    "cpu.max": "100000 100000",
+    "MemoryMax_GiB": 16,
+    "MemorySwapMax": 0,
+    "RLIMIT_AS_GiB": 16,
+    "compute_library_threads": 1,
+    "OS_threads": "all observed TIDs affinity18; all counts and per-TID CPU ticks reported; idle helpers permitted",
+    "hard_wall_seconds_including_launch_guard": 3900,
+    "terminate_at_seconds": 3895,
+    "SIGKILL_grace_seconds": 2,
+    "attempts": 1,
+    "retries": 0,
+    "GPU": false,
+    "final_receipt_reserve_seconds": 3
+  },
+  "callback_count": 37460000,
+  "emitted_count": 37274573,
+  "root_CPU18_release": true,
+  "release_basis": "Q3/CTX runtime finished; scalar empiricalnativepilot neverallocated; generatedGPUdiagnostic usesCPU24-29/GPU6/controller38 only.",
+  "quality_queries": 0,
+  "forecast_fits": 0,
+  "predictions_saved": false,
+  "final_qualification": "Require functional completion AND callback projection<=50min AND both frozen SMT quiet conditions AND fullprocess39.4M projection<=60min AND observed<=65min harddeadline. Exit0alone insufficient.",
+  "execution": "Use exact plan command with this allocation path/SHA. Single2s SMTprecheck; ifnoisy stopwithoutretry. Keepallreceipts/partialresults/failures. Signalonlyownverifiedprocessgroup; no unrelatedjobs.",
+  "interpretation": "Target-free fullrawvalidation coverage/runtime audit of unchanged baseline3; notquality/scientificconfirmation or unknownpublicCPU qualification."
+}

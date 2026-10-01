@@ -1,6 +1,6 @@
 # Overnight research frontier
 
-Updated 2026-10-01 03:29 UTC. Campaign deadline: 08:23 UTC. Local and beleriand only; no GitHub publication or public submission.
+Updated 2026-10-01 04:12 UTC. Campaign deadline: 08:23 UTC. Local and beleriand only; no GitHub publication or public submission.
 
 The historical public V1 score remains .6641. Reconstructed fixed-four H2 controls score .7023672255138177 on the exposed pure-chain folds 0/1. These are different domains; local WP does not estimate a public rank. No new forecasting recipe has passed its promotion gate.
 
@@ -47,3 +47,11 @@ Q3 preserves quality under quantization but misses its composition utility gate.
 **SCALARPLE01 is the only active mechanism.** It retains the original input projection and adds a rank-16 piecewise-linear representation of 44 raw price-code coordinates before the first GELU. Knots will be fitted only on the already fixed 256 train-only chains if preparation gates pass. The planned comparison is a fresh ordinary four-epoch EMA parent plus two-epoch H2 versus the full adapter architecture under the same recipe. Generated CPU checks pass; independent source review, generated full-parent GPU resource tests and a frozen native cost pilot remain prerequisites. No empirical knot fit or scalar forecasting fit has started. Amendment 02 preserves the global 64-fit/64-readout limits and authorizes preparation only; at most 18 scalar fits are reserved including conditional second-seed replication and a final parent/head. No additional mechanism-family search is allocated.
 
 Keep the 80-minute final-verification reserve and the historical public ZIP. Report startup timing accurately: current import/model timings exclude NumPy already imported by the harness. Long runtime traces repeat five 20k-row sequences with new IDs, not one uninterrupted million-row state. No top-1 claim is supported by the current observations.
+
+## Preparation and full-runtime update at 04:12 UTC
+
+The first generated ordinary-control GPU probe failed a combined finite-loss/finite-gradient assertion before any per-step receipt was flushed. Its original failing step is unknown. A separately authorized replay adding exactly one logging statement observed finite loss 3.478107452, infinite gradient norm and standard GradScaler backoff from 65536 to 32768 on step 0. The original probe criterion rejected production-supported AMP behavior. Amendment03 prospectively corrects only this criterion: verified unchanged-parameter skipped updates are allowed during the original warmup steps 0–2; all seven timed steps 3–9 must execute finite updates. Initialization, fixture, model, numerical training recipe, cost formula and quality gates are unchanged. V2 source has independent review and an exact bounded two-arm allocation; its outcome is pending. This establishes neither scalar feasibility nor predictive value.
+
+A separate full-validation, target-free audit of the unchanged fixed-three ZIP is running over all 1873 sequences and 37,460,000 callbacks under an actual one-CPU/16GiB cgroup. Report callback-loop time, I/O, hashing/checks and complete launched-process duration separately; final acceptance requires both projected callback time at most50min and projected fullprocess time at most60min, with the specified quiet-SMT checks. Partial progress is not final runtime qualification.
+
+All44 completed forecast runs (184 files,167422372bytes) have also been copied locally without overwrite and verified against a remote hash manifest. Large prediction caches remain on beleriand. The saved-statistics pooled/fold diagnostic reproduces scores to1.11e−16 and explains the TRANS/CTX pooled sign reversals through changing Pearson normalization and between-fold means; it does not authorize recalibration or reopen their failed gates.

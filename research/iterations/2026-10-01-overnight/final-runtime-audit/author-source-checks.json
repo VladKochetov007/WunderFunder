@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "generated_only": true,
+  "parquet_opened": false,
+  "model_loaded": false,
+  "GPU_used": false,
+  "checks": [
+    "both sources compile",
+    "literal jiffy busy excludes idle+iowait",
+    "callback aggregation uses summed ticks, not mean ratios"
+  ],
+  "resource_probe": {
+    "status": "PASS",
+    "scope": "Generated metadata-only launcher verification; no Parquet, model, GPU or CPU18/58 used.",
+    "attempts": [
+      {
+        "unit": "wunder-finalruntime-resource-probe-20261001",
+        "exit_code": 1,
+        "failure": "taskset -c24 rejected: invalid option 2; Python never ran."
+      },
+      {
+        "unit": "wunder-finalruntime-resource-probe-20261001b",
+        "exit_code": 0,
+        "affinity": [
+          24
+        ],
+        "cpu.max": "100000 100000",
+        "memory.max": "17179869184",
+        "memory.swap.max": "0",
+        "observed_threads": 1
+      }
+    ],
+    "correction": "Use separate argv elements taskset, -c, 18 for actual audit.",
+    "target_free": true
+  }
+}

@@ -1,0 +1,10 @@
+--- frozen gpu_probe.py SHA 86a9202deb0c5fc7fdf140c15686080a8bd0b72c6887ca332ac1d02ff2855948
++++ gpu_probe_diagnostic.py
+@@ -79,6 +79,7 @@
+  scaler.step(optimizer);scaler.update();scheduler.step();ema.update_parameters(model)
+  end.record();torch.cuda.synchronize()
+  records.append({'step':index,'wall_seconds':time.monotonic()-wall,'device_ms':begin.elapsed_time(end),'loss':float(loss.detach()),'gradient_norm':float(grad_norm.detach()),'scale_before':old_scale,'scale_after':scaler.get_scale(),'allocated_bytes':torch.cuda.memory_allocated(),'reserved_bytes':torch.cuda.memory_reserved()})
++ print(json.dumps({'diagnostic_step':records[-1]}),flush=True)
+  assert torch.isfinite(loss).all() and torch.isfinite(grad_norm).all()
+  assert records[-1]['scale_after']>=old_scale,'nonfinite/overflow step; do not claim allocated optimizer coverage'
+  assert len(optimizer.state)==len(list(model.parameters()))

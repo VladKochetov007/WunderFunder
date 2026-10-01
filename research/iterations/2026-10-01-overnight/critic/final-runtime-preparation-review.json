@@ -1,0 +1,44 @@
+{
+  "status": "PASS_FOR_ROOT_TO_ALLOCATE_ONE_FULL_VALID_RUNTIME_AUDIT",
+  "created_utc": "2026-10-01T03:55:02.188991+00:00",
+  "plan_sha256": "1337643db2d5b3d07932ddc47c1a2f808d57c31a41a80c85eee04e622bda1275",
+  "source_sha256": {
+    "research/iterations/2026-10-01-overnight/final-runtime-audit/audit_full_valid.py": "27bbca080e70696d3f6611158d38c76bc70a0391df70e977bcf7cc3d7917f7da",
+    "research/iterations/2026-10-01-overnight/final-runtime-audit/launch.py": "b335b031b016355d4c959c4d1f8a6cc9c0d5ee1a0b9e50b019fc762cee37ce3d",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "src/wnn/__init__.py": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/FREEZE.json": "ed838846341bcbdf7952f5436d26f6f8325eba4adc8fafe1d88c3bbf2118c0a7",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/delivery-receipt.json": "112d0b7d0ca0ff6170232f28819d90f4fa05ef202373599b7c5a25dc9ec46813",
+    "submissions/overnight_baseline3/baseline3_fixed.manifest.json": "795b93b52b5e8eb6274a60deaab9865efb9b40eb55d0d0b72f9b75698cc94665",
+    "research/iterations/2026-10-01-overnight/final-runtime-audit/resource-launcher-probe.json": "4926c17b0c4893ad621368a380824665ce45825dbb9d6cd33f099c613933188e",
+    "research/iterations/2026-10-01-overnight/final-runtime-audit/author-source-checks.json": "89fa7efe58772cf633ec84ae78a1b7c8479baac8f28aec7caf4482d5c8eed0d7"
+  },
+  "local_remote_source_environment_hashes_checked": true,
+  "unchanged_ZIP_and_all_8_members_hash_checked": true,
+  "checks": [
+    "Scorer CPython3.11, actual extracted frozen solution wrapper, exact v3 binary, fixed3 members, isolated empty cwd; no time governor",
+    "Reader proxy permits only seq_ix+112raw columns with use_threads=False; targets=False,mask=False; no label decoding, saved prediction cache or WP",
+    "All1873x20000 callbacks including99 warmup rows per sequence; fixed need_prediction flag independently of scoring mask; exactly37460000 callbacks/37274573 emitted pairs, unique sequence IDs and wrapper reset transitions",
+    "Finite raw/prediction coverage plus ordered streaming raw/output and per-sequence output hashes; prior independent reset/prefix/output-reference proof reused rather than falsely claiming second full-engine oracle",
+    "One pinned CPU18, actual inherited cgroup cpu.max100000100000/memory16GiB/swap0 and per-process RLIMIT_AS; all observed helper TID affinities18 and per-TID CPU ticks retained",
+    "One quiet precheck, then whole trace retained; callback and wholetrace SMT58 activity both reported, aggregation by summed ticks, no noisy retry or selected subsequence drop",
+    "Full process cost includes extraction/import/input hashes/IO/validation; no measured overhead subtraction; actual37.46M observed and39.4M projection separated",
+    "Launcher waits only remaining to3895s from LAUNCH_START,2s termination grace,3s receipt margin; immediate childPID/start_ticks receipt. OS scheduling and final serialization are not infinitely precise real-time guarantees",
+    "Source, package and entire input-file hash guards before/after; single attempt with partial progress/failure receipts"
+  ],
+  "qualification_rule": "Require functional_complete AND callback_runtime_qualified AND full_process_projection_at_most_60min AND process_deadline_observed. Exit0 or callback-only qualification is insufficient. Callback qualification includes39.4M projection<=50min and both declared SMT-clean conditions.",
+  "limits": [
+    "Runtime applies to measured v3 on this shared host with warm filesystem cache; public hidden hardware and AVX2/v2 runtime remain unproven",
+    "All validation inputs exposed; no generalization improvement or quality claim",
+    "Package, key environment sources and versions bound; OS/all shared libraries not hermetically pinned",
+    "Full trace has one engine and no second independent prediction oracle; correctness relies on earlier independent binary/weight/stream proofs plus finite/schema/reset/hash coverage"
+  ],
+  "scope": {
+    "competition_data_opened_by_reviewer": false,
+    "GPU_used": false,
+    "model_loaded_by_reviewer": false,
+    "new_forecast_fits": 0,
+    "WP_queries": 0,
+    "empirical_audit_started_by_reviewer": false
+  }
+}

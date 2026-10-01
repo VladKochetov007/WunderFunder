@@ -1,0 +1,58 @@
+{
+  "status": "DIAGNOSTIC_COMPLETED_NO_QUALIFICATION",
+  "failure": null,
+  "started_UTC": "2026-10-01T03:57:17.546657+00:00",
+  "finished_UTC": "2026-10-01T03:57:25.068007+00:00",
+  "seconds": 7.5213655130937696,
+  "driver_sha256": "36e43d78d055b4f39f6eecb9c530a40f21c57bda6b485963c015463f31243801",
+  "allocation_sha256": "993071492cef7aad55912bd780556de831814e965c7e47ef96e68372e4f92d9b",
+  "proposal_sha256": "e012355f73cac170c422ec0528dca7018717269d8905e96b7ba50020663ea365",
+  "freeze_sha256": "232ca9fb65d102a42cd1229adc08844b69af25fce630ab2cd82a6b2886ff9992",
+  "jobs": [
+    {
+      "arm": "control",
+      "started_UTC": "2026-10-01T03:57:18.141415+00:00",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/gpu_probe_diagnostic.py",
+        "--arm",
+        "control",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/gpu-diagnostic-allocation.json",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/gpu-control-diagnostic-attempt01.json"
+      ],
+      "identity": {
+        "pid": 4128202,
+        "start_ticks": 499427884,
+        "pgrp": 4128202,
+        "state": "R"
+      },
+      "prelaunch": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "free_MiB": 15973,
+        "processes": []
+      },
+      "resource_peaks": {
+        "GPU_MiB": 2320,
+        "RSS_KiB": 1971284,
+        "HWM_KiB": 2247940,
+        "Threads": 10
+      },
+      "termination": null,
+      "exit_code": 1,
+      "seconds": 6.9296445939689875,
+      "result_sha256": null,
+      "finished_UTC": "2026-10-01T03:57:25.067983+00:00"
+    }
+  ],
+  "cost": null,
+  "monitor_limitations": "0.5s target sampling plus bounded nvidia-smi latency; sampled GPU/RSS can miss between-sample peaks. Torch allocator fraction enforced internally; SIGALRM deadline is OS-scheduled, not a cgroup hard real-time guarantee. Only owned PID/start/pgrp signaled.",
+  "competition_inputs_read": false,
+  "diagnostic_only": true,
+  "timing_qualifies_no_gate": true,
+  "original_failure_remains_unresolved_by_replay": true
+}

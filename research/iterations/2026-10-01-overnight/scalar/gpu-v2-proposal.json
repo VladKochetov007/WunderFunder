@@ -1,0 +1,165 @@
+{
+  "schema": "SCALARPLE01-generated-GPU-preflight-v2",
+  "status": "PREPARATION_ONLY_AWAITING_PROSPECTIVE_ROOT_AMENDMENT_AND_ALLOCATION",
+  "created_UTC": "2026-10-01T04:03:22.299554+00:00",
+  "parent_amendment_sha256": "b7a0c5d2c33d84122500663f4d0320cd3a597a90cbe387331cbb63ac36022303",
+  "competition_inputs_authorized": false,
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "sources": {
+    "research/iterations/2026-10-01-overnight/scalar/scalar_model.py": "707f134fb29db3ee9464af6f9eedae3b4fd8397898802aa27ac8f7672d6b6f86",
+    "research/iterations/2026-10-01-overnight/scalar/gpu_probe.py": "86a9202deb0c5fc7fdf140c15686080a8bd0b72c6887ca332ac1d02ff2855948",
+    "research/iterations/2026-10-01-overnight/scalar/gpu_initial_parity.py": "878dbd85d2bf7a9027569432edcc60a5cad6ebfdae4008cd956896fa97e67569",
+    "research/iterations/2026-10-01-overnight/scalar/gpu_scalar_oracle.py": "5a5863f5eb99c552e1ec4b8d4444a0d290d7e8be909b084bdbfc498a54c59475",
+    "research/iterations/2026-10-01-overnight/scalar/make_gpu_fixture.py": "4f6a01e1ea2a76beccc90c01b5b87d8a09e892e27505669055a84fd582a03d8b",
+    "research/iterations/2026-10-01-overnight/scalar/check_cpu.py": "2e91e8e631f6ed6a74a603e0091529f675798aea6524ddd069fd603364594617",
+    "research/iterations/2026-10-01-overnight/scalar/cpu-check-attempt03.json": "5c6fe4300c17e7485a4f924c9f247e9e4bba0db70d030829fe5f894be37a5f7e",
+    "research/iterations/2026-10-01-overnight/scalar/spec.md": "c1d45b3c36279c0c8697b17982cf3ba45fb1691d32a796ede37d9621d4c549f5",
+    "research/iterations/2026-10-01-overnight/training/train_aux.py": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f",
+    "src/wnn/nn.py": "160447df28fa090684757551a75ee61d4f35c8c8c16c246324565306f46b8ec4",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/outcomes.py": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+    "src/wnn/resources.py": "471b33adb48a897e3cd68374edb6be4f683a00d947296d97eb39024dee14ca89",
+    "research/iterations/2026-10-01-overnight/critic/scalar-independent-forward-fixture/expected.npy": "87a55f62850c81769af15992c56470d53740be08fb87cb9f763076a899a0ba29",
+    "research/iterations/2026-10-01-overnight/critic/scalar-independent-forward-fixture/raw.npy": "8e04841aaa2a62df8e2d0f88b343938311921b111623c5a56532385bfc258819",
+    "research/iterations/2026-10-01-overnight/critic/scalar-independent-forward-fixture/weights.npz": "ce4006ee3e5830bd1d215622ae2fa3d6e7908ca137dbeff128d60867ea3964f6",
+    "research/iterations/2026-10-01-overnight/scalar/gpu_probe_v2.py": "8884b0e2881e5776c47ec8b10e00ad829c6db8522a19e795a26479b6a3609f50",
+    "research/iterations/2026-10-01-overnight/scalar/gpu_step_audit.py": "1158f85ddca4a74f8505400b36bf1387db14588be3280b5820c1baa7fbc6c079",
+    "research/iterations/2026-10-01-overnight/scalar/check_gpu_step_audit_cpu.py": "36846c5d2511c2cf6b6835e001f3d292b973768f6eb11b549afa44f9be8c980b",
+    "research/iterations/2026-10-01-overnight/scalar/gpu-v2-step-audit-cpu.json": "8d544f89f56a69d7990e992352782b3afa7bfb221848d406709b8550bc3d4012",
+    "research/iterations/2026-10-01-overnight/scalar/gpu-v2-source.diff": "71582c06d4e954166e22035475edac8ce3328c67c74c42a9cb0e3ea858a151ab",
+    "research/iterations/2026-10-01-overnight/scalar/gpu-v2-diff-proof.json": "9cbc9608cb0278f7ea24e83d231263e0af77684ca79efaf14dafdf9616a543f4",
+    "research/iterations/2026-10-01-overnight/scalar/gpu-v2-execution/driver.py": "a38d1f1b2df35264f407f9f7da3c2d948ef38aef223749eac24702756629f0c7"
+  },
+  "fixture_path": "research/iterations/2026-10-01-overnight/scalar/generated/gpu_fixture.npz",
+  "fixture_sha256": "920419f0637425efb077128d36856f3e9c6de1b94e442b55ab92f3bbcf4074f8",
+  "two_arms": [
+    "control",
+    "ple"
+  ],
+  "arm_order": "control then ple sequentially on the same physical GPU6",
+  "retries": 0,
+  "failure_policy": "One prospectively corrected control\u2192PLE stage only; no further retry. Stop on numerical, memory, timeout or cost failure; preserve all telemetry/logs. No fixture, model, precision, learning-rate, scaler initialization, optimizer, update ordering, warmup length or candidate-only batch change.",
+  "entrypoint": "research/iterations/2026-10-01-overnight/scalar/gpu_probe_v2.py",
+  "commands": [
+    "taskset -c 38 python3 research/iterations/2026-10-01-overnight/scalar/gpu-v2-execution/driver.py --allocation <ROOT_V2_ALLOCATION_JSON>"
+  ],
+  "resources": {
+    "GPU_count": 1,
+    "physical_GPU": 6,
+    "CPU_affinity": [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "WNN_THREADS": 4,
+    "total_stage_seconds": 600,
+    "per_arm_seconds": 240,
+    "host_RSS_bytes": 8589934592,
+    "GPU_process_MiB": 5632,
+    "torch_allocator_bytes": 5905580032,
+    "monitor_interval_seconds": 0.5,
+    "monitor_note": "External orchestration must log process identity, elapsed, sampled group RSS and NVML GPU process memory. Torch allocator cap is enforced, RSS/NVML sampling is not a cgroup limit and can miss between-sample peaks. Deadlines terminate only the owned process group; preserve exit reason and partial logs."
+  },
+  "launch_precondition": {
+    "minimum_free_GPU_MiB": 6144,
+    "other_compute_processes_on_GPU": 0,
+    "policy": "Check immediately before each arm. Prelaunch occupancy failure is no launch; do not displace other users. Occupancy during a launched arm is a failed contaminated attempt, without favorable timing filtering."
+  },
+  "synthetic_shapes": {
+    "raw_resident": [
+      32,
+      20000,
+      112
+    ],
+    "full_inputs": [
+      32,
+      20000,
+      211
+    ],
+    "prefetched_raw": [
+      32,
+      20000,
+      112
+    ],
+    "targets": [
+      32,
+      20000,
+      2
+    ],
+    "chunk": 2000,
+    "steps": 10,
+    "warmup_steps": [
+      0,
+      1,
+      2
+    ],
+    "timed_summary_steps": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  "parent_recipe": {
+    "EMA_decay": 0.999,
+    "teacher_weight": 1.0,
+    "aux_structure": 0.3,
+    "aux_next": 0.3,
+    "loss": "WMSE",
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "optimizer": "fused AdamW",
+    "AMP": "FP16 with GradScaler",
+    "clip_global_norm": 1.0,
+    "schedule": "OneCycleLR total_steps15000 pct_start .05 final_div_factor100",
+    "weighting": "propensity squared +.03; actual mask replacement; since32 floor.25",
+    "normalization": "ordinary generated full-batch fit_normalization",
+    "prefetch": "raw, targets, scored, propensity clone resident"
+  },
+  "numerical_policy": {
+    "TF32": "Do not change ordinary global policy; record matmul/cudnn allow_tf32, benchmark, deterministic and float32_matmul_precision. Disabled autocast for adapter is not a full-mantissa matmul guarantee.",
+    "initial_parity": "Same ordinary initialized tensors/CPU+CUDA RNG; initial AMP outputs, hidden and unclipped old parameter gradients numerical exactness on generated 32x2000 inputs; no signed-zero byte or first-update parity claim.",
+    "scalar_CUDA": "97 independent literal oracle rows including subnormal/adjacent/extreme intervals exact aggregate; independent float64 triangular basis table VJP on boundary and 2048 repeated rows max_abs<2e-4, relative_RMS<2e-5 with denominator max(RMS(expected),1e-12).",
+    "training": "Every step finite loss. Warmup0/1/2 may skip iff scaler reduces, all model parameters remain finite and numerically exact unchanged, optimizer moments/counters unchanged or absent\u2192finitezero on first skipped allocation. Counters equal completed updates. Every measured step3..9 requires finite loss/norm, no scaler reduction, actual counter+1 for every parameter and some model parameter change. Preserve unconditional original scheduler/EMA operations even on skippedsteps. Final model/EMA/optimizer finite; PLE table/projection changed, immutable scalar buffers unchanged. Flush raw step telemetry before assertions and audit results afterward.",
+    "audit_timing": "Parameter and optimizer CPU readbacks occur strictly outside the original timed forward/backward/update region; snapshots do not consume RNG or modify training tensors. All seven original timed steps retained, no favorable filter. Readback overhead contributes to overall stage walltime but not ordinary update median."
+  },
+  "gate": {
+    "memory": "Same absolute reserved<=5.5GiB, external GPU<=5632MiB, sampled groupRSS<=8GiB; no OOM/timeout/nonfinite loss or failed state/counter audit. Standard scaler backoff allowed only original warmup0/1/2. No backoff during all7 measured updates.",
+    "timing": "All seven postwarmup step wall times enter the median; report all ten including warmups, no favorable filtering.",
+    "remaining_time_upper_bound_seconds": "1.25 * 15000 * (2 * control_median_wall_seconds + 3 * ple_median_wall_seconds) + 5400",
+    "remaining_time_deadline_UTC": "2026-10-01T08:23:30Z",
+    "cost_interpretation": "Two GPUs for eight screening parents (four control/four candidate), then one final candidate parent; 25% parent margin plus90min reserve for nine H2 fits, prediction/native checks and delivery. Require upper bound <= remaining wall seconds at completed probe. This is a feasibility estimate, not a measured full-training guarantee.",
+    "no_fit_automatic_authorization": "Passing this preflight only permits root to consider separate train-only knots/native-runtime/forecastfit allocations.",
+    "no_new_long_screen_parent_after_UTC": "2026-10-01T06:00:00Z",
+    "no_new_final_parent_after_UTC": "2026-10-01T07:00:00Z",
+    "independent_cutoffs": "Formula does not waive fixed parent start cutoffs or final verification reserve."
+  },
+  "original_proposal_sha256": "837c2e646e438478ec9add3806337e40fafb93a3218edc94a03ba953cea06a87",
+  "original_failed_freeze_sha256": "37f8694fb8a3ac6758564a91ee33edbba204a4ed8e82be437fe014720cc761ef",
+  "diagnostic_result_sha256": "fa54e96f598cfeb52143efada450fc071a7d9a09b1f4711b3181b833b388d961",
+  "diff_proof": {
+    "original_sha256": "86a9202deb0c5fc7fdf140c15686080a8bd0b72c6887ca332ac1d02ff2855948",
+    "v2_sha256": "8884b0e2881e5776c47ec8b10e00ad829c6db8522a19e795a26479b6a3609f50",
+    "original_fixture_sha256": "920419f0637425efb077128d36856f3e9c6de1b94e442b55ab92f3bbcf4074f8",
+    "ordinary_numerical_update_block_byte_exact": true,
+    "update_block_sha256": "af61f5935568502d542640af8d9c30c79d9790023d5dc8858fa54edee0b8f93b",
+    "seed_fixture_normalization_optimizer_LR_EMA_label_setup_byte_exact": true,
+    "setup_block_sha256": "5d52b7d7e291bbe9eaa5b372b7a4590d6cdbb3ffde1ec25ed63481e5ef1782dd",
+    "diff_sha256": "71582c06d4e954166e22035475edac8ce3328c67c74c42a9cb0e3ea858a151ab",
+    "changes": "Extra v2 authorization flag, CPU-only pre-step snapshot outside timing, per-step flushed telemetry/readback validation replacing invalid warmup finite-gradient requirement, final state audits/metadata. Model/fixture/numeric training operations remain unchanged."
+  },
+  "allocation_required_flags": {
+    "SCALARPLE_generated_GPU_probe_authorized": true,
+    "SCALARPLE_generated_GPU_probe_v2_authorized": true,
+    "competition_inputs_authorized": false
+  },
+  "numeric_criterion_correction": "Original ordinary-control diagnostic replay had finite loss and GradScaler-detected nonfinite gradients at initial65536 scale. Allow unchanged standard scaler skip only during original warmup0,1,2. This corrects preparation handling, does not change production training or establish original undocumented failure state.",
+  "initialization_and_schedule": "Same initial GradScaler65536, ordinary OneCycle15000 and unconditional original scheduler/EMA order. Ten original2000row chunks, no extra stabilization steps."
+}
