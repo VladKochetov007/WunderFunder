@@ -1,0 +1,1200 @@
+{
+  "status": "PASS",
+  "created_utc": "2026-10-01T03:36:26.108132+00:00",
+  "scope": "Posthoc descriptive decomposition of exactly three previously reported comparisons.",
+  "original_targets_or_predictions_loaded": false,
+  "new_metric_queries": 0,
+  "new_transforms_blends_models_or_gates": false,
+  "source_sha256": {
+    "research/iterations/2026-10-01-overnight/pooled-fold-diagnostic.py": "63d7b2b77d1fced1bdc35eceb7904ef6af77e40a8dc70f66080ba7308df179c7",
+    "scripts/fold_eval.py": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+    "src/wnn/gmetric.py": "70739da928175fd98c95b88eeb825991266673e59a16c0d70ce80b3642fa741b",
+    "src/wnn/splits.py": "7301f9199e3da4a10a9a0df9d1a234e68f09f39be068cba41557dea338cf3ea2",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "research/iterations/2026-10-01-overnight/grader/evaluate.py": "800801305721251dda0c26320c1cf2f1ffc468e2843d7d8b61ea06a4f20c70b0",
+    "research/iterations/2026-10-01-overnight/evaluations/TRANSHEAD-01-primary.json": "d7ea60db69a86ce84b57456dc230225f2e0fb17c092a7289d3b98e29ca57169b",
+    "research/iterations/2026-10-01-overnight/evaluations/TRANSHEAD-01-primary-sufficient.npz": "7270d9715c4c4c1e4bc8054376d423e54668aee646d3aaecfd219a537d8207db",
+    "research/iterations/2026-10-01-overnight/evaluations/CTX-joint-memory-vs-current.json": "f2c12d9160a1edf15d5dd33d0325e054a9eedc24f807c2a679dcb706a85fd9be",
+    "research/iterations/2026-10-01-overnight/evaluations/CTX-joint-memory-vs-current-sufficient.npz": "e3512cbcfabcab29cc3542c830e58d67a4a170c8e492057087ef63147edc6960",
+    "research/iterations/2026-10-01-overnight/evaluations/Q3-quant-vs-baseline3.json": "f4db838df38029f2798231e395008a8f45a05319e5affa71f12ddddf7890637e",
+    "research/iterations/2026-10-01-overnight/evaluations/Q3-quant-vs-baseline3-sufficient.npz": "27b5c00e3fd1c3b33fc8b476d25fc7ce934158f6b25ed979056cf6f0ad80d50f"
+  },
+  "metadata": {
+    "source": "cache/chain_folds.npz",
+    "sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+    "arrays_read": [
+      "split",
+      "fold",
+      "pure",
+      "row_group"
+    ],
+    "valid_count": 1873,
+    "pure_fold_counts": {
+      "0": 425,
+      "1": 435
+    },
+    "array_sha256": {
+      "split": "66431a46c2fcc404d0a6e748a9618a1d08d96f2b3246c447c62a4d350ae34df5",
+      "fold": "00ad1eef2274ba34119f04454b119ae215ed750acb497bf5bebd83df4e3ed3c6",
+      "pure": "89cf86cddf1b6e9fdff6ce218697552205010db3cea25f5b2e978bc13673c24a",
+      "row_group": "17f07892b87713241c60917f558a3949b7e86bdf8eff939336625840262363b4"
+    },
+    "order_rule": "Frozen evaluator loops folds 0 then 1 and wrapper concatenates per-sequence sums in that order; pure counts give boundary 425. Both reported fold deltas independently verify the boundary."
+  },
+  "generated_checks": {
+    "status": "PASS",
+    "direct_centering_cases": 24,
+    "max_abs_direct_centering_error": 2.220446049250313e-15,
+    "generated_both_folds_negative_pooled_positive": true,
+    "generated_symmetric_reconstruction_error": 0.0
+  },
+  "float64_absolute_tolerance": 2e-12,
+  "axis_order": "fold [0,1], target [t0,t1]",
+  "decomposition": "Symmetric product allocation: avg(kappa)*delta(r_fold) + avg(r_fold)*delta(kappa) + delta(C_between/D). Descriptive, non-causal; component attribution depends on chosen identity.",
+  "limitations": [
+    "Exposed folds; this is posthoc explanation, not fresh confirmation.",
+    "Pooled WP remains the valid official metric; sign reversal is not evidence of leakage or a scoring defect.",
+    "No calibration recipe, model rescue, gate override, or selection follows.",
+    "Existing uncertainty is conditional on fitted models and does not cover seed variation, adaptive selection, or domain shift."
+  ],
+  "comparisons": {
+    "TRANSHEAD-01-primary": {
+      "candidate": "on_T128s3+on_T128s4+on_ctld256+on_ctlc500",
+      "reference": "on_F128s3+on_F128s4+on_ctld256+on_ctlc500",
+      "reproduced_existing_readouts": {
+        "candidate_wp": 0.7024065353859861,
+        "candidate_wp_by_target": [
+          0.6984796258449777,
+          0.7063334449269943
+        ],
+        "reference_wp": 0.7023703669835207,
+        "reference_wp_by_target": [
+          0.6984336562924636,
+          0.7063070776745779
+        ],
+        "delta": 3.616840246534192e-05,
+        "delta_by_fold": {
+          "0": -3.4633073825451888e-06,
+          "1": -4.184433906040397e-07
+        }
+      },
+      "maximum_existing_report_reproduction_error": 0.0,
+      "arms": {
+        "candidate": {
+          "folds": {
+            "weight": [
+              [
+                529811.5765396506,
+                525072.2864583582
+              ],
+              [
+                578477.2378976792,
+                594308.2509456575
+              ]
+            ],
+            "target_mean": [
+              [
+                -0.3130263377587916,
+                -0.29626986830245794
+              ],
+              [
+                -0.347443653233753,
+                -0.38795903381275726
+              ]
+            ],
+            "prediction_mean": [
+              [
+                -0.23549092753783593,
+                -0.23002534705901845
+              ],
+              [
+                -0.30243409691456175,
+                -0.31718390308595495
+              ]
+            ],
+            "target_variance": [
+              [
+                1.7965679487079678,
+                1.8215568780841012
+              ],
+              [
+                1.7829839353999715,
+                1.7756045016484814
+              ]
+            ],
+            "prediction_variance": [
+              [
+                1.219404858959505,
+                1.2281482058443287
+              ],
+              [
+                1.1418938949493131,
+                1.15084333413006
+              ]
+            ],
+            "covariance": [
+              [
+                1.0558055171389475,
+                1.072571740466198
+              ],
+              [
+                0.9767042192599291,
+                0.9944956290193392
+              ]
+            ],
+            "correlation": [
+              [
+                0.7133261459236465,
+                0.7170997859203844
+              ],
+              [
+                0.6845047610478993,
+                0.6956994446579478
+              ]
+            ]
+          },
+          "fold_weight_fraction": [
+            [
+              0.47804468441615744,
+              0.4690739823617685
+            ],
+            [
+              0.5219553155838426,
+              0.5309260176382316
+            ]
+          ],
+          "pooled": {
+            "weight": [
+              1108288.8144373298,
+              1119380.5374040157
+            ],
+            "target_mean": [
+              -0.33099063851907373,
+              -0.34495003180741385
+            ],
+            "prediction_mean": [
+              -0.27043227063604747,
+              -0.27630009211349854
+            ],
+            "target_variance": [
+              1.789773267659645,
+              1.7992532511119297
+            ],
+            "prediction_variance": [
+              1.1800657860701245,
+              1.1889969260906434
+            ],
+            "covariance": [
+              1.0150930646735583,
+              1.0331093321458833
+            ],
+            "correlation": [
+              0.6984796258449771,
+              0.7063334449269949
+            ]
+          },
+          "covariance_within": [
+            1.0145181742414129,
+            1.0311191015430388
+          ],
+          "covariance_between": [
+            0.0005748904321455312,
+            0.001990230602844889
+          ],
+          "target_variance_within": [
+            1.7894777007548974,
+            1.7971595658621247
+          ],
+          "target_variance_between": [
+            0.000295566904747846,
+            0.002093685249805094
+          ],
+          "prediction_variance_within": [
+            1.1789475992783576,
+            1.1871050381610377
+          ],
+          "prediction_variance_between": [
+            0.0011181867917669295,
+            0.0018918879296059765
+          ],
+          "denominator": [
+            1.453289440541035,
+            1.4626368602051165
+          ],
+          "fold_coefficient": [
+            [
+              0.4868690412732284,
+              0.4796799749203366
+            ],
+            [
+              0.512469233623477,
+              0.5188940802965442
+            ]
+          ],
+          "normalized_between_covariance": [
+            0.0003955787581663768,
+            0.0013607141027238874
+          ],
+          "decomposition_max_abs_errors": {
+            "covariance": 4.440892098500626e-16,
+            "target_variance": 2.220446049250313e-16,
+            "prediction_variance": 2.220446049250313e-16,
+            "correlation": 2.220446049250313e-16
+          }
+        },
+        "reference": {
+          "folds": {
+            "weight": [
+              [
+                529811.5765396506,
+                525072.2864583582
+              ],
+              [
+                578477.2378976792,
+                594308.2509456575
+              ]
+            ],
+            "target_mean": [
+              [
+                -0.3130263377587916,
+                -0.29626986830245794
+              ],
+              [
+                -0.347443653233753,
+                -0.38795903381275726
+              ]
+            ],
+            "prediction_mean": [
+              [
+                -0.22543538244498026,
+                -0.23542890362023114
+              ],
+              [
+                -0.30198857152565833,
+                -0.3136213296304584
+              ]
+            ],
+            "target_variance": [
+              [
+                1.7965679487079678,
+                1.8215568780841012
+              ],
+              [
+                1.7829839353999715,
+                1.7756045016484814
+              ]
+            ],
+            "prediction_variance": [
+              [
+                1.2184478869703859,
+                1.2282943559596409
+              ],
+              [
+                1.1418178840748878,
+                1.150845072074995
+              ]
+            ],
+            "covariance": [
+              [
+                1.0553916237497474,
+                1.0726454336677662
+              ],
+              [
+                0.9766710624264549,
+                0.9944982263020216
+              ]
+            ],
+            "correlation": [
+              [
+                0.7133264694540282,
+                0.7171063890047678
+              ],
+              [
+                0.6845043063112034,
+                0.6957007362814248
+              ]
+            ]
+          },
+          "fold_weight_fraction": [
+            [
+              0.47804468441615744,
+              0.4690739823617685
+            ],
+            [
+              0.5219553155838426,
+              0.5309260176382316
+            ]
+          ],
+          "pooled": {
+            "weight": [
+              1108288.8144373298,
+              1119380.5374040157
+            ],
+            "target_mean": [
+              -0.33099063851907373,
+              -0.34495003180741385
+            ],
+            "prediction_mean": [
+              -0.26539272641053513,
+              -0.2769432969713132
+            ],
+            "target_variance": [
+              1.789773267659645,
+              1.7992532511119297
+            ],
+            "prediction_variance": [
+              1.1799127223968504,
+              1.1886971823729884
+            ],
+            "covariance": [
+              1.0149604270895358,
+              1.0329405406984096
+            ],
+            "correlation": [
+              0.6984336562924631,
+              0.7063070776745776
+            ]
+          },
+          "covariance_within": [
+            1.014303008321311,
+            1.0311550480715224
+          ],
+          "covariance_between": [
+            0.0006574187682247751,
+            0.0017854926268873026
+          ],
+          "target_variance_within": [
+            1.7894777007548974,
+            1.7971595658621247
+          ],
+          "target_variance_between": [
+            0.000295566904747846,
+            0.002093685249805094
+          ],
+          "prediction_variance_within": [
+            1.1784504496258754,
+            1.187174516097833
+          ],
+          "prediction_variance_between": [
+            0.0014622727709751484,
+            0.001522666275155589
+          ],
+          "denominator": [
+            1.4531951860357228,
+            1.4624524846887128
+          ],
+          "fold_coefficient": [
+            [
+              0.48670952576857884,
+              0.47976899333105577
+            ],
+            [
+              0.5124854146654776,
+              0.5189598905921465
+            ]
+          ],
+          "normalized_between_covariance": [
+            0.0004523953661160933,
+            0.0012208893250076085
+          ],
+          "decomposition_max_abs_errors": {
+            "covariance": 2.220446049250313e-16,
+            "target_variance": 2.220446049250313e-16,
+            "prediction_variance": 2.220446049250313e-16,
+            "correlation": 1.1102230246251565e-16
+          }
+        }
+      },
+      "symmetric_delta": {
+        "by_target": {
+          "within_fold_correlation": [
+            7.555112237304798e-08,
+            -3.837919526737887e-06
+          ],
+          "fold_coefficient_and_normalization": [
+            0.00010271060934169041,
+            -0.00010961960577214299
+          ],
+          "normalized_between_fold_covariance": [
+            -5.681660794971651e-05,
+            0.00013982477771627894
+          ]
+        },
+        "mean_wp": {
+          "within_fold_correlation": -1.8811842021824195e-06,
+          "fold_coefficient_and_normalization": -3.454498215226288e-06,
+          "normalized_between_fold_covariance": 4.150408488328122e-05
+        },
+        "sum_by_target": [
+          4.596955251434696e-05,
+          2.6367252417398073e-05
+        ],
+        "max_abs_reconstruction_error": 3.3337861551213654e-16
+      },
+      "existing_ci95_not_recomputed": [
+        -4.482548239181927e-05,
+        0.00013051402949759705
+      ],
+      "existing_uncertainty_scope": "chain sampling conditional on fixed fitted models"
+    },
+    "CTX-joint-memory-vs-current": {
+      "candidate": "on_ctxmemory_s3+on_ctxmemory_s4+on_ctlc500",
+      "reference": "on_ctxcurrent_s3+on_ctxcurrent_s4+on_ctlc500",
+      "reproduced_existing_readouts": {
+        "candidate_wp": 0.7017361100293144,
+        "candidate_wp_by_target": [
+          0.6980859380450571,
+          0.7053862820135716
+        ],
+        "reference_wp": 0.7016803225005533,
+        "reference_wp_by_target": [
+          0.697917659295998,
+          0.7054429857051087
+        ],
+        "delta": 5.578752876100879e-05,
+        "delta_by_fold": {
+          "0": -4.840649586579371e-05,
+          "1": -3.062490797456352e-06
+        }
+      },
+      "maximum_existing_report_reproduction_error": 1.1102230246251565e-16,
+      "arms": {
+        "candidate": {
+          "folds": {
+            "weight": [
+              [
+                529811.5765396506,
+                525072.2864583582
+              ],
+              [
+                578477.2378976792,
+                594308.2509456575
+              ]
+            ],
+            "target_mean": [
+              [
+                -0.3130263377587916,
+                -0.29626986830245794
+              ],
+              [
+                -0.347443653233753,
+                -0.38795903381275726
+              ]
+            ],
+            "prediction_mean": [
+              [
+                -0.2238647476211871,
+                -0.24882515418037254
+              ],
+              [
+                -0.3030337970572084,
+                -0.313032724618712
+              ]
+            ],
+            "target_variance": [
+              [
+                1.7965679487079678,
+                1.8215568780841012
+              ],
+              [
+                1.7829839353999715,
+                1.7756045016484814
+              ]
+            ],
+            "prediction_variance": [
+              [
+                1.2111566443945276,
+                1.26215626838643
+              ],
+              [
+                1.1304417903917456,
+                1.1357450866166996
+              ]
+            ],
+            "covariance": [
+              [
+                1.0518044207417077,
+                1.0855302581970485
+              ],
+              [
+                0.9712527061928008,
+                0.9871943208945455
+              ]
+            ],
+            "correlation": [
+              [
+                0.7130385495119579,
+                0.7159191854721405
+              ],
+              [
+                0.6841233672659275,
+                0.695166917642098
+              ]
+            ]
+          },
+          "fold_weight_fraction": [
+            [
+              0.47804468441615744,
+              0.4690739823617685
+            ],
+            [
+              0.5219553155838426,
+              0.5309260176382316
+            ]
+          ],
+          "pooled": {
+            "weight": [
+              1108288.8144373298,
+              1119380.5374040157
+            ],
+            "target_mean": [
+              -0.33099063851907373,
+              -0.34495003180741385
+            ],
+            "prediction_mean": [
+              -0.26518745380403846,
+              -0.2829146238554263
+            ],
+            "target_variance": [
+              1.789773267659645,
+              1.7992532511119297
+            ],
+            "prediction_variance": [
+              1.170591010623548,
+              1.1960679931471248
+            ],
+            "covariance": [
+              1.0104399082463904,
+              1.034787304683923
+            ],
+            "correlation": [
+              0.6980859380450585,
+              0.7053862820135722
+            ]
+          },
+          "covariance_within": [
+            1.0097600251535135,
+            1.0333211506143078
+          ],
+          "covariance_between": [
+            0.0006798830928768204,
+            0.001466154069615483
+          ],
+          "target_variance_within": [
+            1.7894777007548974,
+            1.7971595658621247
+          ],
+          "target_variance_between": [
+            0.000295566904747846,
+            0.002093685249805094
+          ],
+          "prediction_variance_within": [
+            1.1690270973012018,
+            1.1950412830644845
+          ],
+          "prediction_variance_between": [
+            0.0015639133223460803,
+            0.0010267100826402416
+          ],
+          "denominator": [
+            1.4474434352252643,
+            1.4669796267231816
+          ],
+          "fold_coefficient": [
+            [
+              0.4871793530057092,
+              0.4848363746935408
+            ],
+            [
+              0.5119523502903586,
+              0.513953085580254
+            ]
+          ],
+          "normalized_between_covariance": [
+            0.00046971306534753177,
+            0.000999437240236565
+          ],
+          "decomposition_max_abs_errors": {
+            "covariance": 2.220446049250313e-16,
+            "target_variance": 2.220446049250313e-16,
+            "prediction_variance": 0.0,
+            "correlation": 3.3306690738754696e-16
+          }
+        },
+        "reference": {
+          "folds": {
+            "weight": [
+              [
+                529811.5765396506,
+                525072.2864583582
+              ],
+              [
+                578477.2378976792,
+                594308.2509456575
+              ]
+            ],
+            "target_mean": [
+              [
+                -0.3130263377587916,
+                -0.29626986830245794
+              ],
+              [
+                -0.347443653233753,
+                -0.38795903381275726
+              ]
+            ],
+            "prediction_mean": [
+              [
+                -0.2184119289848246,
+                -0.2502234658941127
+              ],
+              [
+                -0.319965529685568,
+                -0.3163850110932054
+              ]
+            ],
+            "target_variance": [
+              [
+                1.7965679487079678,
+                1.8215568780841012
+              ],
+              [
+                1.7829839353999715,
+                1.7756045016484814
+              ]
+            ],
+            "prediction_variance": [
+              [
+                1.2125909776767057,
+                1.2647445861072981
+              ],
+              [
+                1.1387977023727842,
+                1.1375442453080553
+              ]
+            ],
+            "covariance": [
+              [
+                1.0524629612291005,
+                1.0867527536915598
+              ],
+              [
+                0.9748149322533798,
+                0.9880053601700263
+              ]
+            ],
+            "correlation": [
+              [
+                0.7130628832234515,
+                0.7159916647523785
+              ],
+              [
+                0.68410878406405,
+                0.6951876258255705
+              ]
+            ]
+          },
+          "fold_weight_fraction": [
+            [
+              0.47804468441615744,
+              0.4690739823617685
+            ],
+            [
+              0.5219553155838426,
+              0.5309260176382316
+            ]
+          ],
+          "pooled": {
+            "weight": [
+              1108288.8144373298,
+              1119380.5374040157
+            ],
+            "target_mean": [
+              -0.33099063851907373,
+              -0.34495003180741385
+            ],
+            "prediction_mean": [
+              -0.27141837068725666,
+              -0.2853503516074588
+            ],
+            "target_variance": [
+              1.789773267659645,
+              1.7992532511119297
+            ],
+            "prediction_variance": [
+              1.1766474975307446,
+              1.198300766661439
+            ],
+            "covariance": [
+              1.0128062755259177,
+              1.0358359655951037
+            ],
+            "correlation": [
+              0.6979176592959984,
+              0.7054429857051092
+            ]
+          },
+          "covariance_within": [
+            1.0119341597606148,
+            1.0343251932970168
+          ],
+          "covariance_between": [
+            0.0008721157653029032,
+            0.0015107722980867726
+          ],
+          "target_variance_within": [
+            1.7894777007548974,
+            1.7971595658621247
+          ],
+          "target_variance_between": [
+            0.000295566904747846,
+            0.002093685249805094
+          ],
+          "prediction_variance_within": [
+            1.1740741853774819,
+            1.1972106157245304
+          ],
+          "prediction_variance_between": [
+            0.0025733121532626915,
+            0.0010901509369084326
+          ],
+          "denominator": [
+            1.4511830472201448,
+            1.468348238744989
+          ],
+          "fold_coefficient": [
+            [
+              0.48621156770730667,
+              0.4848808822956005
+            ],
+            [
+              0.512516834041934,
+              0.5138805840945372
+            ]
+          ],
+          "normalized_between_covariance": [
+            0.0006009688212479532,
+            0.0010288923691412902
+          ],
+          "decomposition_max_abs_errors": {
+            "covariance": 2.220446049250313e-16,
+            "target_variance": 2.220446049250313e-16,
+            "prediction_variance": 2.220446049250313e-16,
+            "correlation": 1.1102230246251565e-16
+          }
+        }
+      },
+      "symmetric_delta": {
+        "by_target": {
+          "within_fold_correlation": [
+            -4.373086451335636e-06,
+            -4.5784488515865287e-05
+          ],
+          "fold_coefficient_and_normalization": [
+            0.00030390759141158937,
+            1.853592588387178e-05
+          ],
+          "normalized_between_fold_covariance": [
+            -0.00013125575590042146,
+            -2.945512890472528e-05
+          ]
+        },
+        "mean_wp": {
+          "within_fold_correlation": -2.507878748360046e-05,
+          "fold_coefficient_and_normalization": 0.00016122175864773057,
+          "normalized_between_fold_covariance": -8.035544240257337e-05
+        },
+        "sum_by_target": [
+          0.00016827874905983229,
+          -5.670369153671879e-05
+        ],
+        "max_abs_reconstruction_error": 2.811336233254913e-16
+      },
+      "existing_ci95_not_recomputed": [
+        -5.2939128798412666e-05,
+        0.00016208561760631954
+      ],
+      "existing_uncertainty_scope": "chain sampling conditional on fixed fitted models"
+    },
+    "Q3-quant-vs-baseline3": {
+      "candidate": "on_q3quant",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctlc500",
+      "reproduced_existing_readouts": {
+        "candidate_wp": 0.7020008144532741,
+        "candidate_wp_by_target": [
+          0.6979795576190984,
+          0.7060220712874498
+        ],
+        "reference_wp": 0.7017424296043642,
+        "reference_wp_by_target": [
+          0.6980883123464376,
+          0.7053965468622906
+        ],
+        "delta": 0.00025838484890994273,
+        "delta_by_fold": {
+          "0": 0.0003753932325050169,
+          "1": 4.413046242396357e-05
+        }
+      },
+      "maximum_existing_report_reproduction_error": 5.551115123125783e-17,
+      "arms": {
+        "candidate": {
+          "folds": {
+            "weight": [
+              [
+                529811.5765396506,
+                525072.2864583582
+              ],
+              [
+                578477.2378976792,
+                594308.2509456575
+              ]
+            ],
+            "target_mean": [
+              [
+                -0.3130263377587916,
+                -0.29626986830245794
+              ],
+              [
+                -0.347443653233753,
+                -0.38795903381275726
+              ]
+            ],
+            "prediction_mean": [
+              [
+                -0.22771561702682058,
+                -0.24027639246095048
+              ],
+              [
+                -0.307961234285895,
+                -0.31291301766013735
+              ]
+            ],
+            "target_variance": [
+              [
+                1.7965679487079678,
+                1.8215568780841012
+              ],
+              [
+                1.7829839353999715,
+                1.7756045016484814
+              ]
+            ],
+            "prediction_variance": [
+              [
+                1.2569894138005913,
+                1.2547078702527334
+              ],
+              [
+                1.1642426364586063,
+                1.1897779208479446
+              ]
+            ],
+            "covariance": [
+              [
+                1.0714268379693574,
+                1.0838733900906865
+              ],
+              [
+                0.9854317833424223,
+                1.0107224199976401
+              ]
+            ],
+            "correlation": [
+              [
+                0.7129759604903183,
+                0.7169450568964936
+              ],
+              [
+                0.6839606250733989,
+                0.6953858160637186
+              ]
+            ]
+          },
+          "fold_weight_fraction": [
+            [
+              0.47804468441615744,
+              0.4690739823617685
+            ],
+            [
+              0.5219553155838426,
+              0.5309260176382316
+            ]
+          ],
+          "pooled": {
+            "weight": [
+              1108288.8144373298,
+              1119380.5374040157
+            ],
+            "target_mean": [
+              -0.33099063851907373,
+              -0.34495003180741385
+            ],
+            "prediction_mean": [
+              -0.269600243507501,
+              -0.2788410666126356
+            ],
+            "target_variance": [
+              1.789773267659645,
+              1.7992532511119297
+            ],
+            "prediction_variance": [
+              1.210186476133853,
+              1.2215488444796563
+            ],
+            "covariance": [
+              1.0272303904687112,
+              1.0466942650007371
+            ],
+            "correlation": [
+              0.6979795576190986,
+              0.7060220712874485
+            ]
+          },
+          "covariance_within": [
+            1.0265412620929057,
+            1.0450356368528122
+          ],
+          "covariance_between": [
+            0.0006891283758054796,
+            0.0016586281479252399
+          ],
+          "target_variance_within": [
+            1.7894777007548974,
+            1.7971595658621247
+          ],
+          "target_variance_between": [
+            0.000295566904747846,
+            0.002093685249805094
+          ],
+          "prediction_variance_within": [
+            1.208579740363671,
+            1.2202348707897972
+          ],
+          "prediction_variance_between": [
+            0.0016067357701818586,
+            0.0013139736898590717
+          ],
+          "denominator": [
+            1.471719879551675,
+            1.4825234331443273
+          ],
+          "fold_coefficient": [
+            [
+              0.48812490985288637,
+              0.47833532845492893
+            ],
+            [
+              0.5109796842017785,
+              0.5205213084791191
+            ]
+          ],
+          "normalized_between_covariance": [
+            0.0004682469710305241,
+            0.0011187871374197485
+          ],
+          "decomposition_max_abs_errors": {
+            "covariance": 2.220446049250313e-16,
+            "target_variance": 2.220446049250313e-16,
+            "prediction_variance": 0.0,
+            "correlation": 1.1102230246251565e-16
+          }
+        },
+        "reference": {
+          "folds": {
+            "weight": [
+              [
+                529811.5765396506,
+                525072.2864583582
+              ],
+              [
+                578477.2378976792,
+                594308.2509456575
+              ]
+            ],
+            "target_mean": [
+              [
+                -0.3130263377587916,
+                -0.29626986830245794
+              ],
+              [
+                -0.347443653233753,
+                -0.38795903381275726
+              ]
+            ],
+            "prediction_mean": [
+              [
+                -0.2323425732901731,
+                -0.2645521169347714
+              ],
+              [
+                -0.31563252127918573,
+                -0.3217335321395302
+              ]
+            ],
+            "target_variance": [
+              [
+                1.7965679487079678,
+                1.8215568780841012
+              ],
+              [
+                1.7829839353999715,
+                1.7756045016484814
+              ]
+            ],
+            "prediction_variance": [
+              [
+                1.2105393959333803,
+                1.2606013948840078
+              ],
+              [
+                1.1303133663854972,
+                1.131878902614606
+              ]
+            ],
+            "covariance": [
+              [
+                1.051674193165045,
+                1.0850417927158822
+              ],
+              [
+                0.9711494649671667,
+                0.9855151269544385
+              ]
+            ],
+            "correlation": [
+              [
+                0.7131320075838933,
+                0.7160382233379086
+              ],
+              [
+                0.6840895061690322,
+                0.6951686740432375
+              ]
+            ]
+          },
+          "fold_weight_fraction": [
+            [
+              0.47804468441615744,
+              0.4690739823617685
+            ],
+            [
+              0.5219553155838426,
+              0.5309260176382316
+            ]
+          ],
+          "pooled": {
+            "weight": [
+              1108288.8144373298,
+              1119380.5374040157
+            ],
+            "target_mean": [
+              -0.33099063851907373,
+              -0.34495003180741385
+            ],
+            "prediction_mean": [
+              -0.27581620437774,
+              -0.2949112179923522
+            ],
+            "target_variance": [
+              1.789773267659645,
+              1.7992532511119297
+            ],
+            "prediction_variance": [
+              1.1703959532349155,
+              1.1930735760287388
+            ],
+            "covariance": [
+              1.0103591555382025,
+              1.0335062110526136
+            ],
+            "correlation": [
+              0.6980883123464382,
+              0.7053965468622917
+            ]
+          },
+          "covariance_within": [
+            1.0096438832462185,
+            1.0322004964143476
+          ],
+          "covariance_between": [
+            0.0007152722919842761,
+            0.0013057146382659173
+          ],
+          "target_variance_within": [
+            1.7894777007548974,
+            1.7971595658621247
+          ],
+          "target_variance_between": [
+            0.000295566904747846,
+            0.002093685249805094
+          ],
+          "prediction_variance_within": [
+            1.1686649933626763,
+            1.1922592746829466
+          ],
+          "prediction_variance_between": [
+            0.0017309598722391063,
+            0.0008143013457923571
+          ],
+          "denominator": [
+            1.4473228353331815,
+            1.4651421468531458
+          ],
+          "fold_coefficient": [
+            [
+              0.4870957796823382,
+              0.48514531681657946
+            ],
+            [
+              0.5119659258669416,
+              0.5137210337040262
+            ]
+          ],
+          "normalized_between_covariance": [
+            0.000494203694243252,
+            0.0008911863200921158
+          ],
+          "decomposition_max_abs_errors": {
+            "covariance": 2.220446049250313e-16,
+            "target_variance": 2.220446049250313e-16,
+            "prediction_variance": 2.220446049250313e-16,
+            "correlation": 1.1102230246251565e-16
+          }
+        }
+      },
+      "symmetric_delta": {
+        "by_target": {
+          "within_fold_correlation": [
+            -0.00014200935259751603,
+            0.0005491470270140864
+          ],
+          "fold_coefficient_and_normalization": [
+            5.921134847064122e-05,
+            -0.0001512234191847683
+          ],
+          "normalized_between_fold_covariance": [
+            -2.595672321272787e-05,
+            0.00022760081732763277
+          ]
+        },
+        "mean_wp": {
+          "within_fold_correlation": 0.0002035688372082852,
+          "fold_coefficient_and_normalization": -4.600603535706354e-05,
+          "normalized_between_fold_covariance": 0.00010082204705745245
+        },
+        "sum_by_target": [
+          -0.00010875472733960269,
+          0.0006255244251569509
+        ],
+        "max_abs_reconstruction_error": 1.0831179703130189e-16
+      },
+      "existing_ci95_not_recomputed": [
+        -0.0005279359742205337,
+        0.001045509230631858
+      ],
+      "existing_uncertainty_scope": "chain sampling conditional on fixed fitted models"
+    }
+  },
+  "elapsed_seconds": 0.5943394999999999
+}
