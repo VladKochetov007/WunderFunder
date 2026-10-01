@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "checks": [
+    "collapse_after_float32_and_positive_zero",
+    "count_one_all_finite_clamps",
+    "count_one_direct_endpoint_avoids_unused_padding",
+    "exact_knots_right_ties_and_clamps",
+    "adjacent_float32_intervals_do_not_collapse",
+    "subnormal_distinct_gaps_float64",
+    "float64_gap_avoids_float32_overflow",
+    "strict_interior_may_round_fraction_to_one",
+    "strict_interior_may_round_fraction_to_zero",
+    "reject_nonfinite_inputs_and_knots",
+    "reject_inconsistent_knots_counts_padding",
+    "ordered_44_feature_sum_not_tree_or_double_sum",
+    "unused_padding_has_no_gradient",
+    "repeated_bin_gradient_matches_analytic_coefficients",
+    "per_feature_table_gradient_mass",
+    "count_one_scatter_does_not_double_gradient",
+    "gradient_algebra_rewrite_witness_found",
+    "product_add_contraction_witness_found",
+    "zero_residual_numeric_equality_is_not_universal_bitidentity",
+    "finite_table_values_do_not_guarantee_finite_interpolation"
+  ],
+  "n_checks": 20,
+  "observations": {
+    "gradient_rewrite_witness": {
+      "g": -10.973383903503418,
+      "fraction": 0.022747419774532318,
+      "left_declared": -10.723767280578613,
+      "left_rewritten": -10.72376823425293
+    },
+    "fma_witness": {
+      "a": -92.94637298583984,
+      "b": 30.59819221496582,
+      "fraction": 0.632328987121582,
+      "separated": -14.8255615234375,
+      "product_add_contracted": -14.82556438446045
+    },
+    "signed_zero": {
+      "baseline_bits": 2147483648,
+      "plus_zero_bits": 0,
+      "numeric_equality": true
+    },
+    "finite_table_overflow": {
+      "a": -3.4028234663852886e+38,
+      "b": 3.4028234663852886e+38,
+      "fraction": 0.5,
+      "result": "positive infinity"
+    },
+    "projection_scope": "Not tested; this oracle covers lookup/interpolation/ordered sum/table backward only."
+  },
+  "scale_float32": 0.15075567364692688,
+  "scale_bits": 1041915826,
+  "created_utc": "2026-10-01T03:28:57.983770+00:00",
+  "implementation_read": false,
+  "empirical_inputs_read": false,
+  "gpu_used": false,
+  "source_sha256": {
+    "scalar-input-proposal.json": "f03523c237f5df00791cc101e31b007810fac63c0271c2d03a05174807f7d99e",
+    "scalar/spec.md": "c1d45b3c36279c0c8697b17982cf3ba45fb1691d32a796ede37d9621d4c549f5",
+    "amendment-02.json": "b7a0c5d2c33d84122500663f4d0320cd3a597a90cbe387331cbb63ac36022303",
+    "critic/scalar-spec-oracle.py": "7dfeb1b7af96285b818a57512245e1e70518400fbab7a264eb0fa414934c52fd"
+  }
+}
