@@ -1,0 +1,60 @@
+{
+ "folds": [
+  "holdout"
+ ],
+ "arms": {
+  "incumbent": {
+   "ab67_final_since_s3_gcorr": 0.5,
+   "ab67_final_since_s4_gcorr": 0.5
+  },
+  "S4_D": {
+   "ab67_final_since_s4": 0.25,
+   "ab67_final_since_s4_gcorrh": 0.25,
+   "c20261001_final_d256_s3": 0.25,
+   "c20261001_final_d256_s3_gcorrh": 0.25
+  },
+  "D_only": {
+   "c20261001_final_d256_s3": 0.5,
+   "c20261001_final_d256_s3_gcorrh": 0.5
+  },
+  "FT4_D": {
+   "ab67_final_since_s4_gcorr": 0.5,
+   "c20261001_final_d256_s3": 0.25,
+   "c20261001_final_d256_s3_gcorrh": 0.25
+  }
+ },
+ "routed": {
+  "R4D": {
+   "0": "FT4_D",
+   "1": "FT4_D",
+   "2": "FT4_D",
+   "3": "S4_D"
+  }
+ },
+ "comparisons": [
+  [
+   "D_only",
+   "incumbent"
+  ],
+  [
+   "R4D",
+   "incumbent"
+  ],
+  [
+   "R4D",
+   "S4_D"
+  ],
+  [
+   "FT4_D",
+   "incumbent"
+  ]
+ ],
+ "class_mix": {
+  "pub143": [
+   0.183,
+   0.16,
+   0.198,
+   0.459
+  ]
+ }
+}
