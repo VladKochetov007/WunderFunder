@@ -1,0 +1,208 @@
+{
+  "experiment": "merged teammate reset-diff architecture with local since weighting",
+  "folds": [
+    0,
+    1
+  ],
+  "development_sequences": 736,
+  "metric": "official pooled global clipped |target|-weighted Pearson",
+  "reference_by_fold": [
+    [
+      "pred_ab82_ft_since4s3_f0_valid.npy",
+      "pred_ab82_ft_base4s4_f0_valid.npy"
+    ],
+    [
+      "pred_ab82_ft_since4s3_f1_valid.npy",
+      "pred_ab82_ft_base4s4_f1_valid.npy"
+    ]
+  ],
+  "candidate_checkpoint_sha256_by_fold": [
+    "6205f4fd47ffddaab29ce19ed48a090e96cd8947f0a86a8edb6605d452443fd3",
+    "0757661785b73741d87443b9f61ab80e1fc59bafc2df228e3a9be8d8c7ff35ec"
+  ],
+  "candidate_predictions_sha256_by_fold": [
+    "3564d09f479058044f2a704d78e02c9e4907296dd614379763a555492a278dce",
+    "32965e3ec21c8ab6b095065d56d2bcc408a2f8a9991f0967f8475333eaaa1cde"
+  ],
+  "reference_since_sha256_by_fold": [
+    "80eb668286d2825db7a2bd5d3300ac706ebb7d2ef5a243e392cb8c583adb41fb",
+    "56bd655ab936b59960e422e6e71b36b847a36437f827e3c16c960f3dfd7f9181"
+  ],
+  "reference_base_sha256_by_fold": [
+    "21ab0186e13fc23e2f7ba23fdeef6aa9d9159851444d3a9ee843e747f1017ba7",
+    "8e5d140ea5d9c3308c1639288680832c1249b7cfe2686ef3cca4757767e57520"
+  ],
+  "scores": {
+    "replace_base_with_merged": {
+      "reference_wp_lambda_0": 0.6717018260664696,
+      "wp_lambda_0": 0.6723744367538795,
+      "delta_lambda_0": 0.0006726106874099802,
+      "bootstrap_lambda_0": {
+        "mean": 0.0006702748820674062,
+        "sd": 0.0007295903212754684,
+        "ci95": [
+          -0.0007090235880147121,
+          0.002184354172031427
+        ],
+        "p_positive": 0.8245,
+        "chains": 262,
+        "samples": 2000
+      },
+      "reference_wp_lambda_0.02": 0.6506372791968644,
+      "wp_lambda_0.02": 0.6514556250490076,
+      "delta_lambda_0.02": 0.0008183458521431319,
+      "bootstrap_lambda_0.02": {
+        "mean": 0.0007943047863120579,
+        "sd": 0.000692582518640702,
+        "ci95": [
+          -0.0004838566088743168,
+          0.002203617653122265
+        ],
+        "p_positive": 0.872,
+        "chains": 262,
+        "samples": 2000
+      }
+    },
+    "replace_since_with_merged": {
+      "reference_wp_lambda_0": 0.6717018260664696,
+      "wp_lambda_0": 0.6723072626682461,
+      "delta_lambda_0": 0.0006054366017765878,
+      "bootstrap_lambda_0": {
+        "mean": 0.0005927547682249878,
+        "sd": 0.0008087129479056317,
+        "ci95": [
+          -0.000912785739891095,
+          0.0022444757070083144
+        ],
+        "p_positive": 0.7635,
+        "chains": 262,
+        "samples": 2000
+      },
+      "reference_wp_lambda_0.02": 0.6506372791968644,
+      "wp_lambda_0.02": 0.6512621919122796,
+      "delta_lambda_0.02": 0.0006249127154152045,
+      "bootstrap_lambda_0.02": {
+        "mean": 0.0006065429946260721,
+        "sd": 0.0007858940269108,
+        "ci95": [
+          -0.0008330702119313943,
+          0.0022732568710863007
+        ],
+        "p_positive": 0.774,
+        "chains": 262,
+        "samples": 2000
+      }
+    },
+    "three_member_mean": {
+      "reference_wp_lambda_0": 0.6717018260664696,
+      "wp_lambda_0": 0.6728070174389487,
+      "delta_lambda_0": 0.0011051913724791085,
+      "bootstrap_lambda_0": {
+        "mean": 0.0011017912572270968,
+        "sd": 0.00048518518936145285,
+        "ci95": [
+          0.0002138388850854711,
+          0.0021068648899389385
+        ],
+        "p_positive": 0.9925,
+        "chains": 262,
+        "samples": 2000
+      },
+      "reference_wp_lambda_0.02": 0.6506372791968644,
+      "wp_lambda_0.02": 0.6519024763218801,
+      "delta_lambda_0.02": 0.0012651971250157157,
+      "bootstrap_lambda_0.02": {
+        "mean": 0.0012528225977170191,
+        "sd": 0.00046671530381979965,
+        "ci95": [
+          0.00040638590948826047,
+          0.0022155696764542274
+        ],
+        "p_positive": 0.9985,
+        "chains": 262,
+        "samples": 2000
+      }
+    }
+  },
+  "class_deltas_lambda_0": {
+    "replace_base_with_merged": {
+      "0": {
+        "sequences": 112,
+        "reference_wp": 0.8119273193049753,
+        "candidate_wp": 0.8124046234574395,
+        "delta": 0.00047730415246416413
+      },
+      "1": {
+        "sequences": 160,
+        "reference_wp": 0.7700397165799847,
+        "candidate_wp": 0.7690262410469509,
+        "delta": -0.0010134755330337697
+      },
+      "2": {
+        "sequences": 206,
+        "reference_wp": 0.7390601292306319,
+        "candidate_wp": 0.7373953945101475,
+        "delta": -0.001664734720484451
+      },
+      "3": {
+        "sequences": 258,
+        "reference_wp": 0.4224297551383156,
+        "candidate_wp": 0.42565347058569036,
+        "delta": 0.0032237154473747642
+      }
+    },
+    "replace_since_with_merged": {
+      "0": {
+        "sequences": 112,
+        "reference_wp": 0.8119273193049753,
+        "candidate_wp": 0.8109995191165551,
+        "delta": -0.0009278001884202025
+      },
+      "1": {
+        "sequences": 160,
+        "reference_wp": 0.7700397165799847,
+        "candidate_wp": 0.7683680381886073,
+        "delta": -0.0016716783913773847
+      },
+      "2": {
+        "sequences": 206,
+        "reference_wp": 0.7390601292306319,
+        "candidate_wp": 0.736714320099255,
+        "delta": -0.0023458091313769414
+      },
+      "3": {
+        "sequences": 258,
+        "reference_wp": 0.4224297551383156,
+        "candidate_wp": 0.4268245609246557,
+        "delta": 0.004394805786340106
+      }
+    },
+    "three_member_mean": {
+      "0": {
+        "sequences": 112,
+        "reference_wp": 0.8119273193049753,
+        "candidate_wp": 0.8123411708866917,
+        "delta": 0.0004138515817163624
+      },
+      "1": {
+        "sequences": 160,
+        "reference_wp": 0.7700397165799847,
+        "candidate_wp": 0.7698796124445808,
+        "delta": -0.00016010413540390456
+      },
+      "2": {
+        "sequences": 206,
+        "reference_wp": 0.7390601292306319,
+        "candidate_wp": 0.7386381897746417,
+        "delta": -0.00042193945599022786
+      },
+      "3": {
+        "sequences": 258,
+        "reference_wp": 0.4224297551383156,
+        "candidate_wp": 0.4260456723656641,
+        "delta": 0.0036159172273484974
+      }
+    }
+  },
+  "bootstrap_samples": 2000
+}
