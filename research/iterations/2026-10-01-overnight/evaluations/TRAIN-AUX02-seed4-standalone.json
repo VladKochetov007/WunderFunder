@@ -1,0 +1,114 @@
+{
+  "candidate": "on_aux128s4",
+  "reference": "on_ctl128s4",
+  "sequences": 860,
+  "pure_only": true,
+  "candidate_wp": 0.7006441362644698,
+  "reference_wp": 0.7006951482011321,
+  "delta": -5.101193666234849e-05,
+  "delta_by_fold": {
+    "0": -8.827805749356266e-05,
+    "1": -0.00011066876028187345
+  },
+  "delta_by_class": {
+    "0": -8.472454794605788e-05,
+    "1": 1.7380078363604667e-05,
+    "2": 2.5342546624340656e-05,
+    "3": -9.754365744973903e-05
+  },
+  "delta_boot_sd": 9.566075622853996e-05,
+  "delta_boot_ci95": [
+    -0.0002224230931423904,
+    0.0001456374102388358
+  ],
+  "bootstrap_nonpositive_fraction": 0.677,
+  "p_delta_le_0": 0.677,
+  "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+  "uncertainty_not_estimated": [
+    "training seeds",
+    "adaptive selection",
+    "future domain shift"
+  ],
+  "confirmation_established": false,
+  "candidate_wp_by_target": [
+    0.6969337173220439,
+    0.7043545552068955
+  ],
+  "reference_wp_by_target": [
+    0.6968899126463224,
+    0.7045003837559417
+  ],
+  "provenance": {
+    "id": "TRAIN-AUX02-seed4-standalone",
+    "utc": "2026-10-01T00:50:26.020918+00:00",
+    "event": "started",
+    "candidate": "on_aux128s4",
+    "reference": "on_ctl128s4",
+    "plan": "research/iterations/2026-10-01-overnight/training/plan.json",
+    "plan_sha256": "80379a3053f601b48831a354418ed05cec05582c0afa9a03c951cc3144bf875c",
+    "grader_sources": {
+      "scripts/fold_eval.py": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+      "src/wnn/gmetric.py": "70739da928175fd98c95b88eeb825991266673e59a16c0d70ce80b3642fa741b",
+      "src/wnn/splits.py": "7301f9199e3da4a10a9a0df9d1a234e68f09f39be068cba41557dea338cf3ea2",
+      "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+    },
+    "data_sources": {
+      "cache/valid_targets.npz": {
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+        "bytes": 337186198
+      },
+      "cache/chain_folds.npz": {
+        "sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+        "bytes": 562791
+      },
+      "research/artifacts/market-classes-v1.npz": {
+        "sha256": "a805a6aab37f74120265a8abb6cad407b532e8ebae38290bdd8e7c80f6580fc2",
+        "bytes": 100346
+      }
+    },
+    "wrapper_sha256": "800801305721251dda0c26320c1cf2f1ffc468e2843d7d8b61ea06a4f20c70b0"
+  },
+  "predictions": {
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_aux128s4_f0_valid.npy": {
+      "sha256": "192b43d9e7752b32d61b781b98c2e9b78433b7f27d07ab2812d1aaaa2254acd4",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "71b0b2ad668c552d5dda9b7c73f1a93567f784fd1762f405a7d4d4f1d57dd197",
+      "checkpoint_sha256": "4639733d67c02f4e9e68c248c44c09015a3cb315d62836b11495858a21862fe0"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctl128s4_f0_valid.npy": {
+      "sha256": "cf9166ed339dc6f4be8d32d99292b79471e28220e48af3f47498c418eaba1b55",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "d5d435186a2372f9b929bd2df4f83936e4b42cd33b3e374c3eb10fd0b9b3af74",
+      "checkpoint_sha256": "ad18065111bf144e825f9e6985986ad15ddeb9edac6a50047374de8a712192f7"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_aux128s4_f1_valid.npy": {
+      "sha256": "df266a687d04211704a2154d2b1e167e8302cc5330d415e651e0c0c8745be1a8",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "b19f6edac2e943361aee15ce92f01fdd3f2e50ff0147c3d672cfce2d3446b4f3",
+      "checkpoint_sha256": "fa5151e391870b4b946a586a68dbaba67106e85a4872124f3fd164e9d5c9fff9"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctl128s4_f1_valid.npy": {
+      "sha256": "83b1189ef79b6ce351c5233feb5b282264420701b3c21c96f97f62c19d3ca28d",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "bd8df92ffc8847cb12061df2bda1b9b15790efdcffff98e93bc99000733cab3d",
+      "checkpoint_sha256": "f14fb5800e3e5989023862121649f4ab5c5452ae520df8d2a8b0ecb38c6590eb"
+    }
+  },
+  "exposure": "exposed exploratory folds; no fresh confirmation"
+}

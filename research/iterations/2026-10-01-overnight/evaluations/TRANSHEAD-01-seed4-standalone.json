@@ -1,0 +1,114 @@
+{
+  "candidate": "on_T128s4",
+  "reference": "on_F128s4",
+  "sequences": 860,
+  "pure_only": true,
+  "candidate_wp": 0.7006722971497401,
+  "reference_wp": 0.7006134031676821,
+  "delta": 5.88939820580503e-05,
+  "delta_by_fold": {
+    "0": -8.092348865895715e-06,
+    "1": -2.8795608140175233e-06
+  },
+  "delta_by_class": {
+    "0": 1.0424271690845366e-05,
+    "1": -0.00017695278406482107,
+    "2": -2.592374393839414e-05,
+    "3": 0.00032710513003325614
+  },
+  "delta_boot_sd": 0.0001287619608595695,
+  "delta_boot_ci95": [
+    -0.00016874961198316553,
+    0.00033046122690348335
+  ],
+  "bootstrap_nonpositive_fraction": 0.324,
+  "p_delta_le_0": 0.324,
+  "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+  "uncertainty_not_estimated": [
+    "training seeds",
+    "adaptive selection",
+    "future domain shift"
+  ],
+  "confirmation_established": false,
+  "candidate_wp_by_target": [
+    0.6968382054198287,
+    0.7045063888796517
+  ],
+  "reference_wp_by_target": [
+    0.696704089034995,
+    0.7045227173003692
+  ],
+  "provenance": {
+    "id": "TRANSHEAD-01-seed4-standalone",
+    "utc": "2026-10-01T01:03:49.215915+00:00",
+    "event": "started",
+    "candidate": "on_T128s4",
+    "reference": "on_F128s4",
+    "plan": "research/iterations/2026-10-01-overnight/transition/execution-plan.json",
+    "plan_sha256": "efec7d20e01876bb5a02a9e96417b1194371015c0af6abfc65526244baa0b3ab",
+    "grader_sources": {
+      "scripts/fold_eval.py": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+      "src/wnn/gmetric.py": "70739da928175fd98c95b88eeb825991266673e59a16c0d70ce80b3642fa741b",
+      "src/wnn/splits.py": "7301f9199e3da4a10a9a0df9d1a234e68f09f39be068cba41557dea338cf3ea2",
+      "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+    },
+    "data_sources": {
+      "cache/valid_targets.npz": {
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+        "bytes": 337186198
+      },
+      "cache/chain_folds.npz": {
+        "sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+        "bytes": 562791
+      },
+      "research/artifacts/market-classes-v1.npz": {
+        "sha256": "a805a6aab37f74120265a8abb6cad407b532e8ebae38290bdd8e7c80f6580fc2",
+        "bytes": 100346
+      }
+    },
+    "wrapper_sha256": "800801305721251dda0c26320c1cf2f1ffc468e2843d7d8b61ea06a4f20c70b0"
+  },
+  "predictions": {
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_T128s4_f0_valid.npy": {
+      "sha256": "137bc95605d4eb54bb747690405f9847c60836c6d5bfc617be15555276756fca",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "8f7ecbeb78e14bb23c81c1ab842cb65ab316ab8054a3cf6d0603c841bfb650b6",
+      "checkpoint_sha256": "e5e1f0b774ccbf39c961e1771a9f1eca135ea7ae6a263a771f2e1eb3d95e85f6"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_F128s4_f0_valid.npy": {
+      "sha256": "3492c952416aca951cd0e1c9ff20692c3bef626ba0cf696d9cb6da516b2d2c0a",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "d4fe35b9d237518f66ca81cfdae87c991912722593dc6cb69034d15bf96512d6",
+      "checkpoint_sha256": "56b826e464827a1f018a4b5d15cf2a6e9db1773624982879127d75327942fbe7"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_T128s4_f1_valid.npy": {
+      "sha256": "70efe7cf5e68ed2e97a4725e257baaee23e1dfae7cd54bf18cc7178aaeae8a88",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "5ec7dc9938c6c56be9de6290f72364111189230cdc0b2540ef0ec5fd0aa9c65d",
+      "checkpoint_sha256": "61efc0b892e9e75090e89e5e0c7e251fbd6054930641fa244d389a08d9d0de83"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_F128s4_f1_valid.npy": {
+      "sha256": "e91f08a7b1909aa509f600a3d4a5dbcdcedea47a846daec228b444cd20b5182f",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "f591cf81d039aef5bcc6dc091ec2a644da8f54c1179e6f490f603c39fbf73010",
+      "checkpoint_sha256": "167a9fb39aa10ea7cff7f2de0d9b3e399c8fe9cfdd2f1f1e554661fab5d4b195"
+    }
+  },
+  "exposure": "exposed exploratory folds; no fresh confirmation"
+}

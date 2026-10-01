@@ -1,0 +1,203 @@
+{
+  "id": "ENSHEAD-01-cache-execution",
+  "status": "frozen before cache execution",
+  "scientific_plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4",
+  "deadline_utc": "2026-10-01T06:00:00+00:00",
+  "maximum_GPU_jobs": 2,
+  "GPUs": [
+    6,
+    7
+  ],
+  "GPU_memory_cap_MiB": 5632,
+  "torch_allocator_fraction": 0.3,
+  "GPU_monitor": "own scope processes every5s; sampled peak, stop above5632MiB",
+  "CPU_quota_percent_each": 400,
+  "torch_threads_each": 4,
+  "RAM_GiB_each": 20,
+  "timeout_seconds_each": 600,
+  "input_sha256": {
+    "research/iterations/2026-10-01-overnight/ensemble/cache_partners.py": "04f32c6927a3e021bb0e43d7b6765b0389c488b08493fdfde3e767c5c9ad1e7c",
+    "research/iterations/2026-10-01-overnight/ensemble/support.py": "016234399859554dd0f09313393220e45682b92278ffe033f04d383760c769d8",
+    "research/iterations/2026-10-01-overnight/ensemble/assemble_manifests.py": "1bda39f2d9ae6ccde388278bd28fe5410bd6c159e1e66c8024272890513a0f0a",
+    "research/iterations/2026-10-01-overnight/ensemble/run_cache_queue.py": "45da57924c0b429b9f5922a58dc0b25b175bb3cad35cc3d662a2e00e0323eb90",
+    "scripts/train_rnn.py": "f97047e6ef51f32097f2cbe2eefc7c57766771ebaed12ae8798a3c1b7efcd52f",
+    "src/wnn/nn.py": "160447df28fa090684757551a75ee61d4f35c8c8c16c246324565306f46b8ec4",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/resources.py": "471b33adb48a897e3cd68374edb6be4f683a00d947296d97eb39024dee14ca89"
+  },
+  "cache_jobs": [
+    {
+      "name": "on_ctl128s3_f0",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-overnight/ensemble/cache_partners.py",
+        "on_ctl128s3_f0",
+        "--fold",
+        "0"
+      ],
+      "input_sha256": {
+        "artifacts/runs/on_ctl128s3_f0/model_ep1.pt": "9ef79df712aedb2220d7dd31bf6532f7f4f12736536bde59c2ee3984326bbc4d"
+      },
+      "receipt": "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctl128s3_f0_training.json",
+      "new_outputs": [
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctl128s3_f0_training.npy",
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctl128s3_f0_training.json"
+      ]
+    },
+    {
+      "name": "on_ctl128s4_f0",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-overnight/ensemble/cache_partners.py",
+        "on_ctl128s4_f0",
+        "--fold",
+        "0"
+      ],
+      "input_sha256": {
+        "artifacts/runs/on_ctl128s4_f0/model_ep1.pt": "ad18065111bf144e825f9e6985986ad15ddeb9edac6a50047374de8a712192f7"
+      },
+      "receipt": "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctl128s4_f0_training.json",
+      "new_outputs": [
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctl128s4_f0_training.npy",
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctl128s4_f0_training.json"
+      ]
+    },
+    {
+      "name": "on_ctld256_f0",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-overnight/ensemble/cache_partners.py",
+        "on_ctld256_f0",
+        "--fold",
+        "0"
+      ],
+      "input_sha256": {
+        "artifacts/runs/on_ctld256_f0/model_ep1.pt": "41788b286941e4228a8256e393db31bf69e1c4f529fe3ecce8f0a99b39d60b1f"
+      },
+      "receipt": "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctld256_f0_training.json",
+      "new_outputs": [
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctld256_f0_training.npy",
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctld256_f0_training.json"
+      ]
+    },
+    {
+      "name": "on_ctlc500_f0",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-overnight/ensemble/cache_partners.py",
+        "on_ctlc500_f0",
+        "--fold",
+        "0"
+      ],
+      "input_sha256": {
+        "artifacts/runs/on_ctlc500_f0/model_ep1.pt": "a15eef08da43ee6a21ea343aabb7580e47a7bb8f8b2db442e37ad919a80f0fc4"
+      },
+      "receipt": "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctlc500_f0_training.json",
+      "new_outputs": [
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctlc500_f0_training.npy",
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctlc500_f0_training.json"
+      ]
+    },
+    {
+      "name": "on_ctl128s3_f1",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-overnight/ensemble/cache_partners.py",
+        "on_ctl128s3_f1",
+        "--fold",
+        "1"
+      ],
+      "input_sha256": {
+        "artifacts/runs/on_ctl128s3_f1/model_ep1.pt": "25fb0282a335142ffbfb7e6daa3e03a187ef1526b2ece761f4624f0e33628852"
+      },
+      "receipt": "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctl128s3_f1_training.json",
+      "new_outputs": [
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctl128s3_f1_training.npy",
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctl128s3_f1_training.json"
+      ]
+    },
+    {
+      "name": "on_ctl128s4_f1",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-overnight/ensemble/cache_partners.py",
+        "on_ctl128s4_f1",
+        "--fold",
+        "1"
+      ],
+      "input_sha256": {
+        "artifacts/runs/on_ctl128s4_f1/model_ep1.pt": "f14fb5800e3e5989023862121649f4ab5c5452ae520df8d2a8b0ecb38c6590eb"
+      },
+      "receipt": "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctl128s4_f1_training.json",
+      "new_outputs": [
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctl128s4_f1_training.npy",
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctl128s4_f1_training.json"
+      ]
+    },
+    {
+      "name": "on_ctld256_f1",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-overnight/ensemble/cache_partners.py",
+        "on_ctld256_f1",
+        "--fold",
+        "1"
+      ],
+      "input_sha256": {
+        "artifacts/runs/on_ctld256_f1/model_ep1.pt": "35097497b3aea7663945fb4918762af6d1169f1e712f68fe85cc7115b3621c0d"
+      },
+      "receipt": "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctld256_f1_training.json",
+      "new_outputs": [
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctld256_f1_training.npy",
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctld256_f1_training.json"
+      ]
+    },
+    {
+      "name": "on_ctlc500_f1",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-overnight/ensemble/cache_partners.py",
+        "on_ctlc500_f1",
+        "--fold",
+        "1"
+      ],
+      "input_sha256": {
+        "artifacts/runs/on_ctlc500_f1/model_ep1.pt": "396043fa13930877c73cfacea279a55dc1062cd94fa645206692ea87e41c33f5"
+      },
+      "receipt": "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctlc500_f1_training.json",
+      "new_outputs": [
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctlc500_f1_training.npy",
+        "research/iterations/2026-10-01-overnight/ensemble/cache/pred_on_ctlc500_f1_training.json"
+      ]
+    }
+  ],
+  "manifest_jobs": [
+    {
+      "name": "manifest_f0",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-overnight/ensemble/assemble_manifests.py",
+        "--fold",
+        "0"
+      ],
+      "new_outputs": [
+        "research/iterations/2026-10-01-overnight/ensemble/cache/partners_128s3_f0.json",
+        "research/iterations/2026-10-01-overnight/ensemble/cache/partners_128s4_f0.json"
+      ]
+    },
+    {
+      "name": "manifest_f1",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-overnight/ensemble/assemble_manifests.py",
+        "--fold",
+        "1"
+      ],
+      "new_outputs": [
+        "research/iterations/2026-10-01-overnight/ensemble/cache/partners_128s3_f1.json",
+        "research/iterations/2026-10-01-overnight/ensemble/cache/partners_128s4_f1.json"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "DEPLOYMENT-01",
+  "registration": "Before any fixed2/fixed3 composition WP query and before any ENSHEAD outcome",
+  "reason": "Raw-row CPU benchmarks place deterministic fixed4 above60minutes on beleriand; fixed3h128 and fixed2h128 are feasible fallbacks. Old wallclock pruning changes predictions with host load.",
+  "new_forecasting_fits": 0,
+  "new_training_recipes": 0,
+  "classification": "Deployment composition readouts, disclosed separately from the8scientific training-configuration budget",
+  "evaluation_budget": 5,
+  "evaluations": [
+    {"id": "DEPLOYMENT-01-fixed3", "candidate": "on_ctl128s3+on_ctl128s4+on_ctlc500", "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500"},
+    {"id": "DEPLOYMENT-01-fixed2", "candidate": "on_ctl128s3+on_ctl128s4", "reference": "on_ctl128s3+on_ctl128s4+on_ctlc500"},
+    {"id": "DEPLOYMENT-01-ens3", "candidate": "on_ens128s3+on_ens128s4+on_ctlc500", "reference": "on_ctl128s3+on_ctl128s4+on_ctlc500", "condition": "ENS primary fixed4 recipe passed its frozen promotion gate"},
+    {"id": "DEPLOYMENT-01-scale3", "candidate": "on_scale128s3+on_scale128s4+on_ctlc500", "reference": "on_ctl128s3+on_ctl128s4+on_ctlc500", "condition": "ENS scale fixed4 recipe passed its frozen promotion gate"},
+    {"id": "DEPLOYMENT-01-ens3-vs-scale3", "candidate": "on_ens128s3+on_ens128s4+on_ctlc500", "reference": "on_scale128s3+on_scale128s4+on_ctlc500", "condition": "Both ENS head and scale fixed4 recipes passed their frozen promotion gates"}
+  ],
+  "selection": "Prefer deterministic fixed3h128 if it has measured runtime headroom. Fixed2 is an emergency latency fallback and diagnostic, not a favorable-composition search. Fixed4 remains eligible only if a faithful complete package passes the actual runtime gate. An ENS/scale replacement must first pass its registered fixed4 gate and then improve fixed3 by>=.0003 pooled with each fold nonnegative. If both do, nonlinearhead also must not regress againstscale on pooled or eitherfold. No feature-arm rescue after TRANS failed gate.",
+  "runtime_gate": "Fresh CPython3.11 complete-package benchmark,1CPU,16GB, all rows inclwarmup; conservatively projected39.4Mrows<=50minutes from repeated >=100k raw-row callback samples, followed by longer trace verification. This is an extrapolation on beleriand, not proof on unknown official hardware.",
+  "uncertainty": "All existing folds exposed; no fresh confirmation. No public submission authorized. Runtime constraint can require quality tradeoff, which must be stated."
+}
