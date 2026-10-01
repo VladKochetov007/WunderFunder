@@ -1,0 +1,126 @@
+--- frozen/train_aux.py
++++ training/train_ensemble.py
+@@ -27,6 +27,8 @@
+ from wnn.propensity import load_propensity, propensity
+ from wnn.resources import configure_torch, dataloader_budget
+ from wnn.splits import dev_halves, valid_row_groups
++from ensemble_support import (PartnerPayload, PartnerSequences, validate_recipe, main_prediction,
++                              scale_main, state_sha, rng_sha, row_order_sha, emit_proof)
+ 
+ ROOT = Path(__file__).resolve().parents[4]
+ SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4
+@@ -599,6 +601,8 @@
+     perf.add_argument("--profile-warmup", type=int, default=5)
+     perf.add_argument("--parity-dump", default="", help="save per-step losses and final weights here, then exit")
+     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
++    ap.add_argument("--ensemble-objective", choices=["control", "candidate"], required=True)
++    ap.add_argument("--partner-bindings", required=True)
+     args = ap.parse_args()
+     if args.aux_quote > 0 and args.distill:
+         ap.error("--aux-quote and --distill both use target columns 2:4")
+@@ -619,6 +623,9 @@
+     if args.epoch_samples and args.class_balance:
+         ap.error("--epoch-samples cannot be combined with --class-balance")
+ 
++    validate_recipe(args, ROOT)
++    partner_payload = PartnerPayload(ROOT / args.partner_bindings, ROOT, args.valid_fold)
++
+     global LOOKAHEAD
+     LOOKAHEAD = tuple(int(v) for v in args.lookahead.split(",") if v)
+     if args.class_heads and args.aux_struct <= 0:
+@@ -634,9 +641,10 @@
+         torch.backends.cudnn.benchmark = False
+         torch.backends.cudnn.deterministic = True
+     out_dir = ROOT / "artifacts" / "runs" / args.name
+-    if out_dir.exists() and any(out_dir.iterdir()):
+-        raise FileExistsError(f"Refusing to overwrite nonempty run: {out_dir}")
+-    out_dir.mkdir(parents=True, exist_ok=True)
++    if out_dir.exists() or out_dir.is_symlink():
++        raise FileExistsError(f"Refusing existing run: {out_dir}")
++    out_dir.mkdir(parents=True)
++    (out_dir / "partner-bindings.json").write_bytes(partner_payload.binding_bytes)
+ 
+     valid_path = ROOT / "datasets" / "valid.parquet"
+     dev_groups, hold_groups = valid_row_groups(valid_path)
+@@ -724,9 +732,11 @@
+         prop_cache = {sp: prop_cache_path(args.propensity, sp) for sp in ("train", "valid")}
+     train_ds = Sequences(train_split, train_idx, teachers, prop_cache.get(train_split),
+                          quote_path=args.aux_quote > 0)
++    train_ds = PartnerSequences(train_ds, partner_payload)
+     if extra_valid is not None:
+         valid_ds = Sequences("valid", extra_valid, teachers, prop_cache.get("valid"),
+                              quote_path=args.aux_quote > 0)
++        valid_ds = PartnerSequences(valid_ds, partner_payload)
+         train_ds = torch.utils.data.ConcatDataset([train_ds] + [valid_ds] * args.valid_repeat)
+     if args.epoch_samples:
+         sample_weights = np.ones(len(train_ds), dtype=np.float64)
+@@ -791,6 +801,11 @@
+     if args.aux_quote > 0:
+         n_out += 2
+     model = make_model(vars(args), n_in, n_out).to(device)
++    emit_proof(out_dir, {"phase": "initialized", "model_sha256": state_sha(model),
++                        "torch_cpu_rng_sha256": rng_sha(), "train_split": train_split,
++                        "train_row_order_sha256": row_order_sha(train_idx),
++                        "extra_valid_row_order_sha256": row_order_sha([] if extra_valid is None else extra_valid),
++                        "partner_bindings_sha256": partner_payload.binding_sha256})
+     moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
+     if args.init:
+         init_run, _, init_epoch = args.init.partition("@ep")
+@@ -799,6 +814,8 @@
+         model.load_state_dict(init["model"])
+     else:
+         fit_normalization(model, train_loader, device)
++    emit_proof(out_dir, {"phase": "normalized_or_loaded", "model_sha256": state_sha(model),
++                        "torch_cpu_rng_sha256": rng_sha()})
+     frozen = tuple(v for v in args.freeze.split(",") if v)
+     for pname, prm in model.named_parameters():
+         if frozen and pname.startswith(frozen):
+@@ -853,6 +870,8 @@
+     losses_trace = []
+     best, t0, history = -1.0, time.time(), []
+     for epoch in range(args.epochs):
++        emit_proof(out_dir, {"phase": "before_epoch_iterator", "epoch": epoch,
++                            "torch_cpu_rng_sha256": rng_sha()})
+         model.train()
+         batches = CudaPrefetcher(train_loader, device, timer) if args.pin_memory else train_loader
+         for b, batch in enumerate(batches):
+@@ -862,10 +881,12 @@
+             prop_cached = None
+             if args.pin_memory:
+                 (x, y, scored_dev, *rest), scored = batch
++                partners = rest.pop()
+                 if rest:
+                     prop_cached = rest[0]
+             else:
+                 x, y, scored, *rest = batch
++                partners = rest.pop().to(device, non_blocking=True)
+                 if rest:
+                     prop_cached = rest[0].to(device, non_blocking=True)
+                 x = x.to(device, non_blocking=True)
+@@ -954,6 +975,7 @@
+                     with torch.no_grad(), torch.autocast("cuda", dtype=amp_dtype):
+                         out_ema, h_ema = forward_chunk(ema_model.module, inputs, sl, h_ema)
+                     h_ema = detach_state(h_ema)
++                supervised = main_prediction(out[..., :2], partners[:, sl], args.ensemble_objective)
+                 if moments is not None:
+                     ce = F.cross_entropy(out.float().reshape(-1, N_CODES), codes[:, sl].reshape(-1), reduction="none")
+                     wv = ce_w[:, sl].reshape(-1)
+@@ -965,7 +987,7 @@
+                     yc = y[:, sl].float().clamp(-2, 2)
+                     tgt = (1 - args.distill_alpha) * yc + args.distill_alpha * teach[:, sl].float().clamp(-2, 2)
+                     w = yc.abs() * main_valid[:, sl][..., None]
+-                    loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
++                    loss = (w * (supervised.float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
+                 elif args.td_alpha > 0:
+                     yc = y[:, sl].float().clamp(-2, 2)
+                     s_end = min(s + args.chunk, inputs.shape[1])
+@@ -982,7 +1004,8 @@
+                     norm_ema = wsum if norm_ema is None else 0.99 * norm_ema + 0.01 * wsum
+                     loss = (w * (out[..., :2].float() - yc) ** 2).sum() / norm_ema.clamp_min(1e-8)
+                 else:
+-                    loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])
++                    loss = objective(supervised, y[:, sl], main_valid[:, sl])
++                loss = scale_main(loss, args.ensemble_objective)
+                 if args.atom_head > 0:
+                     atoms_t = model.atoms if hasattr(model, "atoms") else None
+                     if atoms_t is not None:
