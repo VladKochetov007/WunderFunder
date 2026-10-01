@@ -1,0 +1,24 @@
+{"name": "c20260930_spread_current_f0", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 128, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 32, "epochs": 1, "checkpoint_policy": "fixed", "checkpoint_epoch": 0, "no_eval_during_fit": true, "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json", "lr": 0.001, "wd": 0.01, "loss": "wmse", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "current_known", "spread_cache_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-30/spread_aux", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "decay_init": "multi", "memory_arm": "endpoint-content", "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 4, "valid_repeat": 1, "init": "c20260929_since_s3_f0@ep3", "inherit_init_preprocessing": true, "freeze": "", "ema_teacher": 1.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": true, "mask_weight": false, "propensity": "c20260929_prop_f0", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "loss_norm": "chunk", "since_weight": 32.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"}
+{"source_train_sequences": 10535, "eligible_valid_train_sequences": 1405, "used_valid_train_sequences": 1405, "eval_sequences": 468}
+loader workers 4 prefetch 2; params 0.26M; steps 3730
+ep 0 batch 0/373 loss 1.3414 lr 4.69e-05 seq/s 7.1
+ep 0 batch 20/373 loss 1.5318 lr 1.00e-03 seq/s 52.8
+ep 0 batch 40/373 loss 1.7859 lr 9.90e-04 seq/s 62.6
+ep 0 batch 60/373 loss 1.6394 lr 9.65e-04 seq/s 66.6
+ep 0 batch 80/373 loss 1.3614 lr 9.25e-04 seq/s 68.8
+ep 0 batch 100/373 loss 1.6585 lr 8.72e-04 seq/s 70.1
+ep 0 batch 120/373 loss 1.9299 lr 8.08e-04 seq/s 71.0
+ep 0 batch 140/373 loss 1.7751 lr 7.33e-04 seq/s 71.5
+ep 0 batch 160/373 loss 1.5335 lr 6.52e-04 seq/s 71.6
+ep 0 batch 180/373 loss 1.4572 lr 5.65e-04 seq/s 71.6
+ep 0 batch 200/373 loss 1.8093 lr 4.77e-04 seq/s 71.3
+ep 0 batch 220/373 loss 1.2181 lr 3.89e-04 seq/s 71.0
+ep 0 batch 240/373 loss 1.3587 lr 3.05e-04 seq/s 70.6
+ep 0 batch 260/373 loss 1.6442 lr 2.27e-04 seq/s 70.2
+ep 0 batch 280/373 loss 1.5213 lr 1.57e-04 seq/s 69.8
+ep 0 batch 300/373 loss 1.7214 lr 9.86e-05 seq/s 69.4
+ep 0 batch 320/373 loss 1.6661 lr 5.24e-05 seq/s 69.0
+ep 0 batch 340/373 loss 1.5709 lr 2.03e-05 seq/s 68.6
+ep 0 batch 360/373 loss 1.4250 lr 3.18e-06 seq/s 68.3
+FIT {"epoch": 0, "train_seconds": 175.8, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 3730, "amp_skipped_updates": 2, "optimizer_completed_updates": 3728, "ema_updates": 3730, "completed_batches": 373}, "cumulative": {"optimizer_attempts": 3730, "amp_skipped_updates": 2, "optimizer_completed_updates": 3728, "ema_updates": 3730, "completed_batches": 373}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 32, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "0dfcd56df332b693d7e6c2109e3768a47c0db34f8f5ff4aeafdc9c0020e73343"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "0dfcd56df332b693d7e6c2109e3768a47c0db34f8f5ff4aeafdc9c0020e73343"}, "num_workers": 4, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11940}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "bd6e96807c7ac857b541c90f809ecf66dc5e82933e44c4c56837e63d7cb218fd"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "ee26284c73c25c4fe6564fdb3874bda68dc77ea963419b9f459e91594f377df4"}}}}
+SELECTED_FIXED 0

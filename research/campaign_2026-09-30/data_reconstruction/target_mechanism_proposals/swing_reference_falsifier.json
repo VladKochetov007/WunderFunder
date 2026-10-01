@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "id": "target-swing-v1",
+  "proposer": "/root/architecture_proposals_0930",
+  "date": "2026-09-30",
+  "status": "design_only_ready_for_independent_critic",
+  "fits_or_probes_executed": false,
+  "gpu_seconds": 0,
+  "target_claim": "Outside winning target reference equals next globally segmented running extremum in the accepted supervised displacement coordinate.",
+  "claim_scope": "Partial winning-reference mechanism, conditional on decoder; not complete tail/copula, physical quote/time/source identification or public score.",
+  "episode_correction": {"old_approximately30": "Weighted effective episode count, not raw changepoint count", "E187_median_effective_episodes": 28.66, "required_counts": ["raw target-pair plateaus", "price-code plateaus", "a6 endpoint events", "translated-reference plateaus", "weighted effective counts"], "effective_formula": "(sum episode mass)^2/sum episode mass^2;mass=sum abs clipped TRAIN targets;no scoring mask"},
+  "primary_hypothesis": "H-SW2",
+  "novelty": "Global running-peak/trough reversal boundaries; threshold relative to evolving extremum, not origin. Test winning mark, not failed first-adverse/barrier/k-winner losing-offset law.",
+  "prior": "Low; E162 first-move side/local4-event evidence favors local structure. Cheap deterministic counterexamples have higher value than a fit.",
+  "data": {
+    "source": "Provided TRAIN only",
+    "fit_groups": 64,
+    "test_groups": 32,
+    "test_components_distinct": true,
+    "selection_key": "SHA256('target-swing-v1|'+group_identifier)",
+    "exclusions": "All previous reconstruction/provided-decode/clock components and chain-linked fit groups",
+    "selection_frozen_before_target_read": true,
+    "no_test_target_stratification": true,
+    "forbidden": ["validation", "seq_ix", "prediction/scoring masks", "external data or numeric transformations"],
+    "fresh_component_shortage": "Blocked/incomplete; no silent exploratory-panel reuse",
+    "future_input_use": "Generator diagnostic only; never causal model feature"
+  },
+  "decoder": {
+    "fit_supervision": "Interior-only fit TRAIN target pairs/differences",
+    "spread_gate": {"support_min":3,"confidence_min":0.95},
+    "transition_gate": {"support_min":3,"confidence_min":0.8},
+    "high_confidence_gate_predeclared": {"support_min":20,"confidence_min":1},
+    "block_anchor": "B0=0,A0=current mapped spread",
+    "integrate": "deltaA=-delta t0,deltaB=+delta t1 from frozen fit lookup only",
+    "midpoint": "M=(A+B)/2",
+    "consistency_check": "A-B=current spread on known anchors; invalid block retained as decoder inconsistency",
+    "interior_circularity": "Translated-reference invariance on interior-to-interior decoder edges is imposed by target-difference fitting, not generator confirmation even on fresh components.",
+    "physical_identification": "Unavailable without independent input-only displacement decoder or independent supplied quotes"
+  },
+  "primary_observation": {
+    "stratum": "Outside rows with strictly positive winner; absent from interior decoder vote supervision",
+    "up_winning_reference": "Fwin=A+t0 when t0>t1,t0>0",
+    "down_winning_reference": "Fwin=B-t1 when t1>t0,t1>0",
+    "branch_only_for_grading": true,
+    "prediction_selection": "Next input-defined extremum regardless of realized target branch",
+    "secondary_strata": ["touch max target0", "interior", "branch switches", "quote-quiet exceptions"]
+  },
+  "unknown_policy": {
+    "break_known_block_on": ["unknown transition", "unknown spread anchor", "a6 endpoint with unchanged code and unidentified displacement"],
+    "no_unknown_zero_or_skip": true,
+    "no_heldout_target_repair": true,
+    "new_block_gauge": "May reanchor separately; no continuity/horizon crosses unknown break",
+    "reported_censoring": ["left unknown prefix", "unknown future prefix", "no confirmation within horizon", "sequence-end truncation"],
+    "endpoint_equivalence": "Mapped accepted nonzero movements only",
+    "zero_midpoint_nonzero_quote": "Still consumes endpoint event"
+  },
+  "swing_algorithm": {
+    "threshold_decoded_lattice_units": 2,
+    "horizon_mapped_nonzero_endpoint_events": 64,
+    "initial_direction": "Unknown until excursionD from anchor; origins censored until first subsequent reversal confirmation",
+    "up_to_down": "Track earliest running maxP; emit peak e when P-M>=2 at confirmation c",
+    "down_to_up": "Track earliest running minQ; emit trough e when M-Q>=2 at confirmation c",
+    "ties": "Earliest extremum; strict improvement updates",
+    "next_mark": "Earliest emitted extremum e>origin with confirmation c<=64 endpoint events after origin",
+    "prediction": "B_origin+floor(M_e-B_origin+0.5);fixed half-up nearest lattice relative to origin bid, common-translation invariant",
+    "gauge_invariant_grade": "Observed Fwin-M_origin versus predicted Fhat-M_origin",
+    "no_smoothing_timewarp_threshold_search": true
+  },
+  "controls": ["Current midpoint rounded relative to origin bid under same half-up rule", "Midpoint after first nonzero midpoint move rounded relative to origin bid,no target sign", "Next4 mapped endpoint-midpoint average rounded relative to origin bid as old local-horizon background control"],
+  "continuation_criteria": {
+    "primary_outside_accuracy_difference_vs_best_control_min": 0.03,
+    "high_confidence_exact_accuracy_min": 0.995,
+    "fresh_components_with_eligible_outside_origins_min": 8,
+    "full_and_high_confidence_strata_reported": true,
+    "exact_math_falsifier": "Any independently reproduced valid counterexample",
+    "substantive_rejection": "At least3 high-confidence counterexamples on distinct fresh components or accuracy/control failure",
+    "coverage_failure": "Inconclusive, not passing law"
+  },
+  "required_outputs": ["raw/reference/effective episode counts with named weights", "full-row eligible/unknown/truncated denominators", "exact/reference error per component/class", "reference changepoints versus extremum e and confirmation c", "distinct edge/component counts", "minimal immutable counterexamples", "decoder-imposed interior invariance labeled separately"],
+  "cheap_exclusions": [
+    "Approximately30 effective episodes does not mean30 raw changes",
+    "Common future mark for both targets already fails outside algebra t0+t1+s_current=0",
+    "Static absolute price potential of current code contradicted by nonzero closed-code displacement",
+    "Endpoint equivalence cannot label unknown moves",
+    "Quote-quiet target constancy alone cannot identify generator horizon",
+    "Reject fixed next-swing mark without retuning threshold/horizon/rounding/branch",
+    "Winning-mark success does not repair rejected losing-offset laws"
+  ],
+  "resources": {"cpu_threads":1,"ram_gib":2,"slice":"wnn-campaign.slice","runtime_seconds_per_pass_max":60,"gpu":false,"estimated_seconds_per_streamed_pass":[10,40],"estimate_status":"Unmeasured; actor preserves incomplete counts on cap"},
+  "promotion_authority": "Independent critic/controller only; pass permits independent reproduction/input-decoder search, no model/auxiliary/inference fit or packaging automatically.",
+  "frozen_evidence": ["research/campaign_2026-09-30/data_reconstruction/REPORT.md","research/campaign_2026-09-30/data_reconstruction/full112_relations/REPORT.md","research/experiments.jsonl:E-162,E-187,E-188,E-248","research/panel/brainteaser_timing.md"]
+}

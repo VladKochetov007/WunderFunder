@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "status": "prepared; execution requires independent D1 grade and builder integration CPU proof completion/pass",
+  "question": "Does frozen period128 Walsh position addressing have full active uncentered exposure on fresh allowed-fit TRAIN components, independently for row, endpoint and raw-code clocks?",
+  "selection": {"groups": 16, "seed": "d1-exposure-v1", "method": "ascending sha256(seed:TRAINrowgroup:canonicalfoldcomponent), first unique16components after exclusions", "eligible": "fold0 manifest fit.train only; exclude corrupt528 and canonical fold components containing ANY prior inspected64fit/32test TRAIN groups", "feature_access_before_freeze": false, "oracle_class_stratification": false},
+  "reads": ["fold0 JSON metadata", "prior selection JSON metadata", "existing TRAIN-only current-code class table JSON", "datasets/train.parquet selected16 groups columns i0_p0..21,a6 only"],
+  "forbidden": ["targets", "masks", "VALID/external data", "competition scoring", "GPU", "model/period/gate retuning", "oracle classes", "labels/IDs as inference features"],
+  "endpoint": "current source float32 a6 == np.float32(-5.199337482452393), exact before transform",
+  "code": "any of raw22 float32 changes from previous row, row0false (previous unknown)",
+  "origin": "endpoint row0actual source gate allowed; no artificial injection; raw-code row0false; rowhead row0true",
+  "ordinals": "row ordinal t starts0; event writecount=cumsum(gate), current queryordinal=max(writecount-1,0); written ordinals0..Nwrites-1; countsource model frozen v3",
+  "basis": "b_j(n)=(-1)^popcount((nmod128)&j),j0..95,intercept retained",
+  "report": ["percomponent endpoint/codewrites and emptyhistoryrows", "endpoint origin and nonorigin pricequiet exceptions", "row/query/written ordinal128 histograms", "uncentered96x96Gram stored as immutable npz", "eigmin/eigmax/rank/nonconstantcolumnvariance", "complete128cycles", "modulo128alias distinctordinal multiplicity and repeated query counts", "classdiagnostics per mappedrow using prior TRAIN currentcode table; unknown rows explicit"],
+  "class_map": "round4 float32 littleendian 22 code bytes; no fit/refit; prior map TRAIN-label-derived, used only retrospective diagnostic; not inferenceinputs or oracleclass",
+  "numerics": {"gram_dtype": "float64 from exactintegerWalshhistogram", "rank_eigen_relative_threshold": 1e-8, "positive_eigen_absolute_floor": 1e-8, "dimension": 96},
+  "gate": "ALL16 selectedcomponents must independently have rank96 for queried NONEMPTY-history inputs and actual WRITTEN inputs under endpoint AND raw-code clocks; eachcomponent eachclock >=128actualwrites (one full128writeordinal cycle). Rowclock query/write rank96 also required. Unknown-class rows/components retained in gate. Failures block positional-support gate; do not alter period/selectreplacementgroups.",
+  "interpretation": "Exposure/rank engineering falsifier only. Passing does not establish physical quote/time/sourceidentity, adequatetemporal information, prediction gain or expectedpublicscore. C/P remains period128 comparator and C/R joint write+decay intervention.",
+  "resources": {"threads": 1, "memory": "2GiB", "runtime_seconds": 300, "slice": "wnn-campaign.slice", "CUDA_VISIBLE_DEVICES": ""},
+  "output": ["selection.json", "frozen_sources.json", "results.json", "grams.npz", "REPORT.md", "run.log", "start.txt", "end.txt", "exit.txt", "artifact_manifest.json"],
+  "execution_gate": "Require own launch_authorization.json naming independently passed critic D1 grade and builder integration CPU proof artifacts, hashes and authorization messages before reading TRAIN features. No automatic launch on elapsed time."
+}

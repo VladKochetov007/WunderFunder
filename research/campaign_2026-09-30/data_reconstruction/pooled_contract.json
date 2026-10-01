@@ -1,0 +1,10 @@
+{
+ "version":"adaptive-pooled-current-coordinate-v1",
+ "question":"Does the current price code identify a TRAIN-supervised class and interior spread without class supplied as inference input?",
+ "panel":"Same fixed TRAIN fit/test chain panel, inspected exploratory panel",
+ "fit":"Pool interior code counts of (label-derived class, interior spread), support3/confidence.95; no outside labels fit spread; use class supervision only from TRAIN",
+ "inference_input":"Current i0_p0..21 key only; no class/labels/masks/future/seq_ix/chain ID",
+ "test":"Class exactness on every mapped held-out publication row; spread exactness on interior target diagnostic rows; unknown fraction explicit",
+ "causal_boundary":"Class and spread used as TRAIN supervision; class target reused only to grade held-out accuracy, never select decoder at inference",
+ "resources":"1thread/2GiB/60s, no GPU"
+}

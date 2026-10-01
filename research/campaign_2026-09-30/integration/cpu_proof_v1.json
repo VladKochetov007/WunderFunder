@@ -1,0 +1,218 @@
+{
+  "passed": true,
+  "synthetic_only": true,
+  "real_data_read": false,
+  "actual_parent_weights_loaded_for_strict_factory_check": true,
+  "CUDA_initialized": false,
+  "threads": 1,
+  "cgroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-integration-proof-v1-scope.scope",
+  "verified_limits": {
+    "memory.max": "2147483648",
+    "memory.swap.max": "0",
+    "cpu.max": "100000 100000"
+  },
+  "runtime_seconds": 0.6592775929993877,
+  "peak_rss_KiB": 607216,
+  "python": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]",
+  "torch": "2.14.0+cu130",
+  "proof_source_sha256": "0893781236f1e0d593319ff8f2d1c38a9bfb63837c292ab289f3dd2d6ff7e0bc",
+  "closure_sha256": "067ac085f1ccc33c20e43b0ce13f27050fbdc080e8bf09dd29ca551302237db3",
+  "results": {
+    "ssm_spread": {
+      "default_args_preserved": true,
+      "legacy_factory_output_gradients_bitwise_equal": [
+        "gru",
+        "dual",
+        "gated"
+      ],
+      "actual_parent_strict_load": true,
+      "new_factory_checks": [
+        {
+          "arch": "structured",
+          "decay_init": "multi",
+          "flat_state_tensors": 2,
+          "strict_load_forward_backward_ema_inheritance": true
+        },
+        {
+          "arch": "structured",
+          "decay_init": "single",
+          "flat_state_tensors": 2,
+          "strict_load_forward_backward_ema_inheritance": true
+        }
+      ],
+      "default_original_loss": [
+        {
+          "zero_weights": false,
+          "default_loss_and_gradient_bitwise_equal": true
+        },
+        {
+          "zero_weights": true,
+          "default_loss_and_gradient_bitwise_equal": true
+        }
+      ],
+      "proposed_cli_inheritance_checks": [
+        {
+          "stage": "continuation",
+          "mode": "proxy_known",
+          "n_out": 23,
+          "aux_struct": 0.3,
+          "aux_next": 0.3,
+          "effective_spread_mode": "proxy_known",
+          "eval_ema": true
+        },
+        {
+          "stage": "continuation",
+          "mode": "current_known",
+          "n_out": 23,
+          "aux_struct": 0.3,
+          "aux_next": 0.3,
+          "effective_spread_mode": "current_known",
+          "eval_ema": true
+        },
+        {
+          "stage": "FT_head",
+          "mode": "proxy_known",
+          "n_out": 23,
+          "aux_struct": 0.3,
+          "aux_next": 0.3,
+          "effective_spread_mode": "original",
+          "eval_ema": false
+        },
+        {
+          "stage": "FT_head",
+          "mode": "current_known",
+          "n_out": 23,
+          "aux_struct": 0.3,
+          "aux_next": 0.3,
+          "effective_spread_mode": "original",
+          "eval_ema": false
+        },
+        {
+          "stage": "FT_full",
+          "mode": "proxy_known",
+          "n_out": 23,
+          "aux_struct": 0.3,
+          "aux_next": 0.3,
+          "effective_spread_mode": "original",
+          "eval_ema": false
+        },
+        {
+          "stage": "FT_full",
+          "mode": "current_known",
+          "n_out": 23,
+          "aux_struct": 0.3,
+          "aux_next": 0.3,
+          "effective_spread_mode": "original",
+          "eval_ema": false
+        }
+      ]
+    },
+    "all_three": {
+      "default_args_preserved": true,
+      "legacy_factory_output_gradients_bitwise_equal": [
+        "gru",
+        "dual",
+        "gated"
+      ],
+      "actual_parent_strict_load": true,
+      "new_factory_checks": [
+        {
+          "arch": "structured",
+          "decay_init": "multi",
+          "flat_state_tensors": 2,
+          "strict_load_forward_backward_ema_inheritance": true
+        },
+        {
+          "arch": "structured",
+          "decay_init": "single",
+          "flat_state_tensors": 2,
+          "strict_load_forward_backward_ema_inheritance": true
+        },
+        {
+          "arch": "event-content",
+          "memory_arm": "endpoint-content",
+          "flat_state_tensors": 6,
+          "strict_load_forward_backward_ema_inheritance": true
+        },
+        {
+          "arch": "event-content",
+          "memory_arm": "endpoint-position",
+          "flat_state_tensors": 6,
+          "strict_load_forward_backward_ema_inheritance": true
+        },
+        {
+          "arch": "event-content",
+          "memory_arm": "raw-code-content",
+          "flat_state_tensors": 6,
+          "strict_load_forward_backward_ema_inheritance": true
+        }
+      ],
+      "default_original_loss": [
+        {
+          "zero_weights": false,
+          "default_loss_and_gradient_bitwise_equal": true
+        },
+        {
+          "zero_weights": true,
+          "default_loss_and_gradient_bitwise_equal": true
+        }
+      ],
+      "proposed_cli_inheritance_checks": [
+        {
+          "stage": "continuation",
+          "mode": "proxy_known",
+          "n_out": 23,
+          "aux_struct": 0.3,
+          "aux_next": 0.3,
+          "effective_spread_mode": "proxy_known",
+          "eval_ema": true
+        },
+        {
+          "stage": "continuation",
+          "mode": "current_known",
+          "n_out": 23,
+          "aux_struct": 0.3,
+          "aux_next": 0.3,
+          "effective_spread_mode": "current_known",
+          "eval_ema": true
+        },
+        {
+          "stage": "FT_head",
+          "mode": "proxy_known",
+          "n_out": 23,
+          "aux_struct": 0.3,
+          "aux_next": 0.3,
+          "effective_spread_mode": "original",
+          "eval_ema": false
+        },
+        {
+          "stage": "FT_head",
+          "mode": "current_known",
+          "n_out": 23,
+          "aux_struct": 0.3,
+          "aux_next": 0.3,
+          "effective_spread_mode": "original",
+          "eval_ema": false
+        },
+        {
+          "stage": "FT_full",
+          "mode": "proxy_known",
+          "n_out": 23,
+          "aux_struct": 0.3,
+          "aux_next": 0.3,
+          "effective_spread_mode": "original",
+          "eval_ema": false
+        },
+        {
+          "stage": "FT_full",
+          "mode": "current_known",
+          "n_out": 23,
+          "aux_struct": 0.3,
+          "aux_next": 0.3,
+          "effective_spread_mode": "original",
+          "eval_ema": false
+        }
+      ]
+    }
+  }
+}

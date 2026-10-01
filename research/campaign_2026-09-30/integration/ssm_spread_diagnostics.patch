@@ -1,0 +1,162 @@
+--- /dev/null
++++ b/src/wnn/run_identity.py
+@@ -0,0 +1,77 @@
++"""Read-only run identities and update counters; no training arithmetic changes."""
++
++from __future__ import annotations
++
++import hashlib
++import inspect
++
++import numpy as np
++import torch
++
++
++def tensor_identity(value: torch.Tensor) -> dict[str, object]:
++    """Hash exact contiguous CPU bytes, including dtype and shape metadata."""
++    value = value.detach().contiguous().cpu()
++    return {"shape": list(value.shape), "dtype": str(value.dtype), "bytes_sha256": hashlib.sha256(value.view(torch.uint8).numpy().tobytes()).hexdigest()}
++
++
++def normalization_identity(model: torch.nn.Module) -> dict[str, object]:
++    """Normalization buffers are set before fitting and are not modified here."""
++    return {"mean": tensor_identity(model.mean), "std": tensor_identity(model.std)}
++
++
++def scaler_source_identity() -> dict[str, object]:
++    """Bind the installed private AMP accessor whose result defines actual skips."""
++    if not callable(getattr(torch.amp.GradScaler, "_found_inf_per_device", None)):
++        raise RuntimeError("installed GradScaler lacks _found_inf_per_device")
++    path = inspect.getsourcefile(torch.amp.GradScaler)
++    if path is None:
++        raise RuntimeError("GradScaler source is unavailable")
++    with open(path, "rb") as source:
++        sha = hashlib.sha256(source.read()).hexdigest()
++    return {"torch_version": torch.__version__, "grad_scaler_source_sha256": sha, "accessor": "_found_inf_per_device after unscale_ and before update", "skip_rule": "any found_inf flag nonzero means the optimizer update was skipped"}
++
++
++def group_identity(values) -> dict[str, object]:
++    """Bind existing ordered memberships without persisting another ID array."""
++    values = np.asarray(values, dtype="<i8")
++    return {"count": len(values), "ordered_int64_le_sha256": hashlib.sha256(values.tobytes()).hexdigest()}
++
++
++def sample_order_identity(loader) -> dict[str, object]:
++    """Capture existing RNGs before iteration; never construct or alter an order."""
++    sampler = loader.sampler
++    sampler_generator = getattr(sampler, "generator", None)
++    loader_generator = getattr(loader, "generator", None)
++    return {"sampler_class": type(sampler).__name__, "batch_size": loader.batch_size, "drop_last": loader.drop_last, "loader_generator": "explicit" if loader_generator is not None else "global CPU RNG", "loader_rng": tensor_identity(loader_generator.get_state() if loader_generator is not None else torch.get_rng_state()), "sampler_generator": "explicit" if sampler_generator is not None else "global CPU RNG", "sampler_rng": tensor_identity(sampler_generator.get_state() if sampler_generator is not None else torch.get_rng_state()), "num_workers": loader.num_workers, "persistent_workers": loader.persistent_workers, "sampler_replacement": getattr(sampler, "replacement", None), "sampler_num_samples": getattr(sampler, "num_samples", None)}
++
++
++class EpochUpdateCounter:
++    """Accumulate skip flags on device; one scalar synchronization per epoch."""
++
++    def __init__(self, device: torch.device) -> None:
++        self.attempts = self.ema_updates = self.completed_batches = 0
++        self.skips = torch.zeros((), dtype=torch.int64, device=device)
++
++    @torch.no_grad()
++    def observe_unscaled(self, scaler, optimizer) -> None:
++        """Call immediately after the existing unscale_; never alter its flags."""
++        self.attempts += 1
++        if not scaler.is_enabled():
++            return
++        flags = scaler._found_inf_per_device(optimizer)
++        if not flags:
++            raise RuntimeError("enabled AMP has no unscaled optimizer inf flags")
++        # A nonnegative flag sum matches GradScaler.step's normal and fused paths.
++        found = torch.zeros((), device=self.skips.device, dtype=torch.float32)
++        for value in flags.values():
++            found.add_(value.detach().to(device=self.skips.device, dtype=torch.float32))
++        self.skips.add_(found.ne(0).to(torch.int64))
++
++    def finish(self, cumulative: dict[str, int]) -> dict[str, dict[str, int]]:
++        """Read exactly one device scalar after the epoch's fitting loop."""
++        skipped = int(self.skips.item())
++        epoch = {"optimizer_attempts": self.attempts, "amp_skipped_updates": skipped, "optimizer_completed_updates": self.attempts - skipped, "ema_updates": self.ema_updates, "completed_batches": self.completed_batches}
++        for key, value in epoch.items():
++            cumulative[key] = cumulative.get(key, 0) + value
++        return {"epoch": epoch, "cumulative": cumulative.copy()}
+--- a/scripts/train_rnn.py
++++ b/scripts/train_rnn.py
+@@ -50,6 +50,8 @@
+ from wnn.propensity import load_propensity, propensity
+ from wnn.structured_state import StructuredStateModel
+ from wnn.resources import configure_torch, dataloader_budget
++from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_identity,
++                              sample_order_identity, scaler_source_identity)
+ from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
+ from wnn.spread_aux import PackedSpreadCache, structural_loss, validate_spread_cache
+ 
+@@ -1007,6 +1009,14 @@
+         model.load_state_dict(init["model"])
+     else:
+         fit_normalization(model, train_loader, device)
++    provenance["normalization_identity"] = normalization_identity(model)
++    provenance["update_counter_implementation"] = scaler_source_identity()
++    provenance["run_identity_source_sha256"] = file_sha256(ROOT / "src/wnn/run_identity.py")
++    provenance["fit_membership_identity"] = {
++        "train": group_identity(provenance["fit_row_groups"]["train"]),
++        "valid": group_identity(provenance["fit_row_groups"]["valid"]),
++        "valid_repeat": args.valid_repeat, "dataset_length": len(train_ds),
++    }
+     frozen = tuple(v for v in args.freeze.split(",") if v)
+     for pname, prm in model.named_parameters():
+         if frozen and pname.startswith(frozen):
+@@ -1061,8 +1071,12 @@
+     losses_trace = []
+     best, t0, history = -1.0, time.time(), []
+     fitting_started = t0
++    cumulative_updates = {}
++    provenance["update_diagnostics"] = []
+     for epoch in range(args.epochs):
+         model.train()
++        epoch_counter = EpochUpdateCounter(device)
++        epoch_order_identity = sample_order_identity(train_loader)
+         batches = CudaPrefetcher(train_loader, device, timer) if args.pin_memory else train_loader
+         for b, batch in enumerate(batches):
+             if args.max_batches and b >= args.max_batches:
+@@ -1253,6 +1267,7 @@
+                 scaler.scale(loss).backward()
+                 timer.mark("backward")
+                 scaler.unscale_(opt)
++                epoch_counter.observe_unscaled(scaler, opt)
+                 torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+                 scaler.step(opt)
+                 scaler.update()
+@@ -1266,12 +1281,14 @@
+                     swa_model.update_parameters(model)
+                 if ema_model is not None:
+                     ema_model.update_parameters(model)
++                    epoch_counter.ema_updates += 1
+                 if duty is not None:  # explicit rate limit (WNN_GPU_DUTY < 1): sync, then sleep
+                     torch.cuda.synchronize()
+                     duty.tick()
+                 elif not args.sync_free:
+                     torch.cuda.synchronize()
+             timer.stop()
++            epoch_counter.completed_batches += 1
+             if args.profile_steps and b + 1 == args.max_batches:
+                 break
+             if b % 20 == 0:
+@@ -1288,6 +1305,11 @@
+                        args.parity_dump)
+             print("PARITY_DUMP", args.parity_dump, len(losses_trace), flush=True)
+             return
++        update_counts = epoch_counter.finish(cumulative_updates)
++        update_counts["sample_order_identity"] = epoch_order_identity
++        update_counts["normalization_identity"] = provenance["normalization_identity"]
++        provenance["update_diagnostics"].append({"epoch_index": epoch, **update_counts})
++        provenance["cumulative_updates"] = cumulative_updates.copy()
+         train_seconds = round(time.time() - t0, 1)
+         eval_model = checkpoint_model(model, ema_model,
+                                       swa_model if step_count >= swa_start else None, args.eval_ema)
+@@ -1303,6 +1325,7 @@
+             res.update(epoch=epoch, train_seconds=train_seconds, eval_seconds=round(time.time() - t_eval, 1),
+                        split=f"{args.eval_source}{n_valid}")
+             evaluation_score = res["weighted_pearson"]
++        res["update_diagnostics"] = update_counts
+         history.append(res)
+         print("FIT" if args.no_eval_during_fit else "VALID", json.dumps(res), flush=True)
+         # snapshot every epoch (~1 MB): lets any epoch be re-read out later without selection on the eval set

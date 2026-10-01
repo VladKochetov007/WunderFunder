@@ -1,0 +1,6 @@
+{
+ "reason":"Jump descriptor exposed artificial zero-to-first-quote transitions from publication simulator initialization",
+ "fix":"For external 2-field physical price states only, censor emitted rows before the first complete positive bid/ask; keep real subsequent transitions. Competition22-field code states are never censored by positivity",
+ "preservation":"Save pre-fix script/results as probe_v2.py/results_v2.json; final scripts retain same consumed input hashes",
+ "interpretation":"A zero simulator state is unknown quote initialization, not a physical price jump"
+}

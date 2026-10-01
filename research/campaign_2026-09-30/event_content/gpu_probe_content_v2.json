@@ -1,0 +1,526 @@
+{
+  "synthetic_only": true,
+  "competition_data_read": false,
+  "batch": 32,
+  "sequence_length": 20000,
+  "chunk": 2000,
+  "n_in": 211,
+  "n_out": 23,
+  "seed": 3,
+  "arm": "endpoint-content",
+  "precision": "outer fp16 autocast + GradScaler; S/Z FP32; loss readouts FP32",
+  "teacher": "actual trainer FastEMA, consistency1.0, decay0.999",
+  "aux_struct": 0.3,
+  "aux_next": 0.3,
+  "source_sha256": {
+    "model.py": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+    "gpu_smoke.py": "721fb50fb58d81f6099bef9c3a9f471d8dbfa6b1caf2ac334c8a75077240eb4f",
+    "gpu_smoke_preregistration.md": "2ea8f3686ece0bd4f971bfae5ed5720f2be0c3a10df155314e7543ade1110124",
+    "train_rnn.py": "9b53054caf94c51f83154c25f9bb246638da683ea4a4ba4ce3bec6c2451d0891"
+  },
+  "torch": "2.14.0+cu130",
+  "python": "3.13.9",
+  "cuda_version": "13.0",
+  "scope": "wnn-top1-c20260930_gpu_mem_content_probe_v2-scope",
+  "total_device_cap_bytes": 5000000000,
+  "synthetic_clock_counts": {
+    "endpoint": 45259,
+    "raw_code_nonorigin": 79968,
+    "endpoint_nonorigin_samecode": 4928,
+    "rawcode_nonendpoint": 39648,
+    "endpoint_origins": 11
+  },
+  "parameters": 121687,
+  "raw_resident_shape": [
+    32,
+    20000,
+    112
+  ],
+  "passed": true,
+  "optimizer_updates": 10,
+  "optimizer_attempts": 10,
+  "amp_skips": 0,
+  "update_records": [
+    {
+      "attempt": 1,
+      "before_step": 0,
+      "after_step": 1,
+      "skipped": false,
+      "scale_before": 65536.0,
+      "scale_after": 65536.0,
+      "ema_step": 1
+    },
+    {
+      "attempt": 2,
+      "before_step": 1,
+      "after_step": 2,
+      "skipped": false,
+      "scale_before": 65536.0,
+      "scale_after": 65536.0,
+      "ema_step": 2
+    },
+    {
+      "attempt": 3,
+      "before_step": 2,
+      "after_step": 3,
+      "skipped": false,
+      "scale_before": 65536.0,
+      "scale_after": 65536.0,
+      "ema_step": 3
+    },
+    {
+      "attempt": 4,
+      "before_step": 3,
+      "after_step": 4,
+      "skipped": false,
+      "scale_before": 65536.0,
+      "scale_after": 65536.0,
+      "ema_step": 4
+    },
+    {
+      "attempt": 5,
+      "before_step": 4,
+      "after_step": 5,
+      "skipped": false,
+      "scale_before": 65536.0,
+      "scale_after": 65536.0,
+      "ema_step": 5
+    },
+    {
+      "attempt": 6,
+      "before_step": 5,
+      "after_step": 6,
+      "skipped": false,
+      "scale_before": 65536.0,
+      "scale_after": 65536.0,
+      "ema_step": 6
+    },
+    {
+      "attempt": 7,
+      "before_step": 6,
+      "after_step": 7,
+      "skipped": false,
+      "scale_before": 65536.0,
+      "scale_after": 65536.0,
+      "ema_step": 7
+    },
+    {
+      "attempt": 8,
+      "before_step": 7,
+      "after_step": 8,
+      "skipped": false,
+      "scale_before": 65536.0,
+      "scale_after": 65536.0,
+      "ema_step": 8
+    },
+    {
+      "attempt": 9,
+      "before_step": 8,
+      "after_step": 9,
+      "skipped": false,
+      "scale_before": 65536.0,
+      "scale_after": 65536.0,
+      "ema_step": 9
+    },
+    {
+      "attempt": 10,
+      "before_step": 9,
+      "after_step": 10,
+      "skipped": false,
+      "scale_before": 65536.0,
+      "scale_after": 65536.0,
+      "ema_step": 10
+    }
+  ],
+  "ema_updates": 10,
+  "loss": 3.4987640380859375,
+  "forward_and_teacher_seconds": [
+    0.3434092480001709,
+    0.053060817000186944,
+    0.052652512000349816,
+    0.04834797599960439,
+    0.04742420100046729,
+    0.047841994000009436,
+    0.04759298199951445,
+    0.046161426000253414,
+    0.04735940600039612,
+    0.0458649840002181
+  ],
+  "backward_seconds": [
+    1.2978740819999075,
+    0.06291993400009233,
+    0.058559549000165134,
+    0.05903834199943958,
+    0.05974531899937574,
+    0.056226666999464214,
+    0.05683482400036155,
+    0.057868373999554024,
+    0.05803284400008124,
+    0.058984659999623545
+  ],
+  "state_shapes": [
+    [
+      1,
+      32,
+      96
+    ],
+    [
+      32,
+      4,
+      8,
+      16
+    ],
+    [
+      32,
+      4,
+      8
+    ],
+    [
+      32
+    ],
+    [
+      32
+    ],
+    [
+      32,
+      22
+    ]
+  ],
+  "teacher_state_shapes": [
+    [
+      1,
+      32,
+      96
+    ],
+    [
+      32,
+      4,
+      8,
+      16
+    ],
+    [
+      32,
+      4,
+      8
+    ],
+    [
+      32
+    ],
+    [
+      32
+    ],
+    [
+      32,
+      22
+    ]
+  ],
+  "parity_artifact": {
+    "input_shape": [
+      1,
+      2000,
+      211
+    ],
+    "reset": true,
+    "final_student": true,
+    "precision": "FP32; outerautocast disabled",
+    "backend_flags": {
+      "float32_matmul_precision": "highest",
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "cudnn_deterministic": true,
+      "cudnn_benchmark": false,
+      "deterministic_algorithms": false,
+      "fp16_reduced_precision_reduction": true,
+      "bf16_reduced_precision_reduction": true
+    },
+    "tolerances": {
+      "output_max_absolute": 3e-05,
+      "floating_state_max_absolute": 0.003,
+      "integer_counts_and_previous_rawprices_exact": true
+    }
+  },
+  "amp_parity_diagnostic": {
+    "output_dtype": "torch.float16",
+    "state_dtypes": [
+      "torch.float16",
+      "torch.float32",
+      "torch.float32",
+      "torch.int64",
+      "torch.int64",
+      "torch.float32"
+    ],
+    "finite_and_rawcounts_gate": true,
+    "numeric_tolerance": null
+  },
+  "checkpoint_sha256": "de96d8db21837492aeeb3ca4bbd3266e6003bb7ab554be0ee613bdb93101963a",
+  "wall_seconds": 4.170133612000427,
+  "vram_samples": [
+    {
+      "stage": "resident_inputs_student_teacher_optimizer",
+      "device_bytes": [
+        2038431744
+      ],
+      "allocated_bytes": 857618944,
+      "reserved_bytes": 1816133632
+    },
+    {
+      "stage": "chunk0:student_and_teacher_forward",
+      "device_bytes": [
+        2434793472
+      ],
+      "allocated_bytes": 1627409408,
+      "reserved_bytes": 2172649472
+    },
+    {
+      "stage": "chunk0:backward",
+      "device_bytes": [
+        2730491904
+      ],
+      "allocated_bytes": 938683392,
+      "reserved_bytes": 2428502016
+    },
+    {
+      "stage": "chunk0:optimizer_and_ema",
+      "device_bytes": [
+        2730491904
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2428502016
+    },
+    {
+      "stage": "chunk1:student_and_teacher_forward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 1663436288,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk1:backward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk1:optimizer_and_ema",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk2:student_and_teacher_forward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 1662966784,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk2:backward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk2:optimizer_and_ema",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk3:student_and_teacher_forward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 1662957056,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk3:backward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk3:optimizer_and_ema",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk4:student_and_teacher_forward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 1662957056,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk4:backward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk4:optimizer_and_ema",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk5:student_and_teacher_forward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 1662957056,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk5:backward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk5:optimizer_and_ema",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk6:student_and_teacher_forward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 1662957056,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk6:backward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk6:optimizer_and_ema",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk7:student_and_teacher_forward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 1662957056,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk7:backward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk7:optimizer_and_ema",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk8:student_and_teacher_forward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 1662957056,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk8:backward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk8:optimizer_and_ema",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk9:student_and_teacher_forward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 1662957056,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk9:backward",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "chunk9:optimizer_and_ema",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 939671040,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "final_frozen_student_fp32_parity_reset",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 941563392,
+      "reserved_bytes": 2430599168
+    },
+    {
+      "stage": "final_frozen_student_amp_parity_reset",
+      "device_bytes": [
+        2732589056
+      ],
+      "allocated_bytes": 941675520,
+      "reserved_bytes": 2430599168
+    }
+  ],
+  "allocator_peak_bytes": 2070896640,
+  "allocator_reserved_peak_bytes": 2430599168,
+  "limitation": "Stage samples can miss transient total-device peak; root's monitor required. Synthetic core profile excludes data-loader/features intermediates."
+}

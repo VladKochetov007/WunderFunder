@@ -1,0 +1,89 @@
+{
+  "files": {
+    "preregistration.json": {
+      "bytes": 2748,
+      "sha256": "ded86405748762a714939868ba8ebecc88a717b6619ec4a216d3702d4c7f6862"
+    },
+    "probe.py": {
+      "bytes": 13803,
+      "sha256": "43c6441d69abf98c9036b3d80069d4412c69bddfc9f56ad59f163d519dc8a833"
+    },
+    "selection.json": {
+      "bytes": 2986,
+      "sha256": "8c1bfc768af739ecc80f4a0fb9a37d4768fd359389f91591fadcdf6043b72a08"
+    },
+    "results.json": {
+      "bytes": 41729,
+      "sha256": "50f16a124c9fc2b767836d9096726e0d3b532443c8303753c06e7d302ea3e70f"
+    },
+    "offset_followup_contract.json": {
+      "bytes": 1072,
+      "sha256": "2279a765fd91ea02a62e1a9675aeacb30adde07f70e0fb95a2e510cf7931e08f"
+    },
+    "offset_followup.py": {
+      "bytes": 4002,
+      "sha256": "3cfa7a696098b0daf4393ba3e6faed4ccc4694683f3d76f9b7e6c9f6e4bf941c"
+    },
+    "offset_followup.json": {
+      "bytes": 158107,
+      "sha256": "05e998bc0c575a0198c6135e1d2598455f6d9d7f59c474f36094fae821d0243c"
+    },
+    "barrier_contract.json": {
+      "bytes": 1366,
+      "sha256": "d34351c6419a311aecab0a2a296e18e6f63b3c98499c38169448f50a2f44fd63"
+    },
+    "barrier_probe.py": {
+      "bytes": 5852,
+      "sha256": "18eeff3987d8d3196e579ae4468b44de718b72a3b9a73628016ff2000d82b3c5"
+    },
+    "barrier_results.json": {
+      "bytes": 51196,
+      "sha256": "31513947f6c97312cd5ea6a12140f71a3abad8edba3cbf25aa58b6665a6b4a56"
+    },
+    "doubled_barrier_contract.json": {
+      "bytes": 1136,
+      "sha256": "b2aae23585ce0b295df4ad515e762e7b62b131901ae9e168865ff17debe3c530"
+    },
+    "doubled_barrier_probe.py": {
+      "bytes": 5895,
+      "sha256": "b81bb4e85212c931fc46460c1a017615aea0e688b550488ee5bc586a2a2e0cd2"
+    },
+    "doubled_barrier_results.json": {
+      "bytes": 51246,
+      "sha256": "296a5a830e788e52e0e12cbe63fe493eb5c80df8e5478a7b2fce4b69c616d20d"
+    },
+    "pooled_contract.json": {
+      "bytes": 882,
+      "sha256": "d431700430066f82083219f8b22b21e7dc87b4f6dbb646b11aa3c8a841224a3c"
+    },
+    "pooled_probe.py": {
+      "bytes": 3973,
+      "sha256": "5f9d419d30d730a974c25c5b3d506e422936025d999d4b2c82b1d2aeffd371cc"
+    },
+    "interior_code_table.json": {
+      "bytes": 318208,
+      "sha256": "8911dc430f4c1652c21e817e96ce169297a5d8c040059b463af6641515464a7b"
+    },
+    "pooled_results.json": {
+      "bytes": 10422,
+      "sha256": "c412272f430e49da1406742e5aa34040e51de43e9cb8068c91ac9066e4b076dc"
+    },
+    "REPORT.md": {
+      "bytes": 10079,
+      "sha256": "8e14caf3821be199af15bf3c64d20bb3a1ad80517bd7a82d446fad04a28305a9"
+    }
+  },
+  "reproduction_scripts": [
+    "probe.py",
+    "offset_followup.py",
+    "barrier_probe.py",
+    "doubled_barrier_probe.py",
+    "pooled_probe.py"
+  ],
+  "launcher_prefix": "WNN_SLICE=wnn-campaign.slice WNN_THREADS=1 WNN_CPU_QUOTA=100% WNN_CPU_PCT=6 WNN_MEM_MAX=2G WNN_RUNTIME_MAX=60s OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 scripts/limited .venv/bin/python",
+  "mutation_scope": "research/campaign_2026-09-30/data_reconstruction only",
+  "independent_reproduction": "pending",
+  "external_comparison_manifest_sha256": "e30c8c9a52068896fb818b89b43a36030e5ff26e2df091fc623da4aa6ff77970",
+  "full112_relations_manifest_sha256": "217b186842c26c6a992ff9e0c78e21ee2629fc603a8898a0aa356362c0608473",
+  "inverse_clock_manifest_sha256": "1ab5e3df35380f6a0670a6f961a7178047ab5b0ed90dd775757a2f055de1a9de"
+}

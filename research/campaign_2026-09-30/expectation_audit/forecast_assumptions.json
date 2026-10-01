@@ -1,0 +1,53 @@
+{
+  "protocol_id": "public_expectation_prescore_20260930_v1",
+  "status": "frozen_before_new_candidate_quality",
+  "candidate_quality_seen": false,
+  "incumbent_public_user_reported": 0.6622,
+  "target_expected_public": 0.6660,
+  "required_expected_delta": 0.0038,
+  "incumbent_rounding_halfwidth_sensitivity": 0.00005,
+  "metric_id": "global_wp_clip2_v1",
+  "primary_local_effect": "pooled frozen confirmation folds 2 and 3; screen and all-four-fold effects reported separately",
+  "historical_confirmation_exposure": "folds 2 and 3 previously inspected; not untouched",
+  "families": [
+    "current_spread_label_continuation",
+    "structured_state_multiscale_initialization",
+    "endpoint_event_content_memory"
+  ],
+  "conditional_forecast_formula": "0.6622 + tau * (delta_confirmation - selection_optimism) + bridge_bias",
+  "transport_mean_identified_from_existing_data": false,
+  "scientific_transfer_prior": null,
+  "sensitivity_grid_is_probability_model": false,
+  "tau_sensitivity": [-0.5, 0.0, 0.25, 0.5, 0.762772753143306, 1.0, 1.5],
+  "selection_optimism_sensitivity_in_local_bootstrap_sd": [0.0, 1.0, 2.0],
+  "bridge_bias_sensitivity": [0.0, -0.0009, -0.0023344573995395246],
+  "extra_historical_family_error_stress": -0.006999271855804956,
+  "sensitivity_coordinate_scope": "illustrative conditional assumptions, not mandatory mean deductions or empirically identified novel-family bounds",
+  "public_cpu_path_scenarios": ["pair", "single"],
+  "scenario_selection_rule": "retain both; do not choose by lower calibration RMSE",
+  "existing_public_submissions": 11,
+  "posthoc_nominal_families": 5,
+  "shared_model_parent_dependency_groups_at_most": 3,
+  "empirically_calibrated_novel_family_95_predictive_interval_available": false,
+  "selection_replay": {
+    "joint_component_resamples": true,
+    "complete_frozen_selection_rule": true,
+    "plugin_optimism_formula": "mean(delta_bootstrap[selected_bootstrap] - delta_observed[selected_bootstrap])",
+    "scope": "local plug-in diagnostic; observed effect vector approximates population effects; does not reconstruct historical upstream search",
+    "iid_trial_count_penalty_allowed": false,
+    "double_selection_correction_allowed": false
+  },
+  "prohibited_forecast_shortcuts": [
+    "historical absolute-score slope used as validated clean-gain transfer",
+    "local bootstrap interval labeled public predictive interval",
+    "RMSE divided by sqrt(11) used as public mean uncertainty",
+    "1.96 times RMSE labeled a calibrated 95 predictive interval",
+    "empirical residual range labeled a 95 predictive interval",
+    "summing correlated family gains without evaluating complete frozen predictions",
+    "omitting EMA6 public failures",
+    "in-sample final development predictions used as OOF bridge",
+    "setting unidentified selection or transport terms to favorable values by assertion"
+  ],
+  "future_forecast_requirement": "numeric mean traced to declared family-specific scientific assumptions and matched empirical evidence, independent audit and credible alternative-model sensitivity; interval calibration claims require additional assumptions",
+  "gate_at_freeze": "unsupported; continue research to improve evidence"
+}

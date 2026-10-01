@@ -1,0 +1,22 @@
+{
+  "launched": false,
+  "previous_runner_sha256": "2001bef6fcf2bf3b361a528bbd55ef48e3e952c76d6bc0529b549987244a1fcf",
+  "private_amended_runner_sha256": "c5a56437439943e1e629dacec73a6c87156baba7b3ee89600ecfad60671e7d60",
+  "model_sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+  "input": "literal firstB1,T2000 input from resident syntheticinputs, saved after10fixedstudentupdates",
+  "precision": "PrimaryFP32 noautocast; records existingdefaults; doesnotsetTF32ormatmultiprecision",
+  "exclusive_artifact": "<profileoutputstem>.cpu_replay.pt",
+  "contents": [
+    "finalstudentCPUweights",
+    "literalFP32input",
+    "GPUprediction",
+    "flatFP32state",
+    "actualbackendflags",
+    "sourceidentities"
+  ],
+  "profile_names_unchanged": [
+    "gpu_smoke_multi_v1.json",
+    "gpu_smoke_single_v1.json"
+  ],
+  "cpu_replay_gate": "Existing SSM grader FP32 atol2e-5,rtol2e-4; root/critic freeze beforeGPUlaunch; no qualitypromotion fromsyntheticparity"
+}

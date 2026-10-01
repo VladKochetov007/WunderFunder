@@ -1,0 +1,32 @@
+{
+  "status": "frozen-before-fitting-input-only-relations",
+  "source_sha256": "6a94308826e66a85c9c7750ffb8f1f26195a855e36f9a90c2670d7b281a49ef8",
+  "selection_sha256": "4334eecbb9dd0938493cc6d4bfe679c368f9a946f17ec8538a15b60c7c89d783",
+  "questions": "Do encoded volume/price/trade aggregates or causal row refresh clocks explain a0..a4 across components?",
+  "candidate_count": 36,
+  "feature_names": "Exact provided112 order; no assumption of depth ordering within sides",
+  "fit": "16TRAINcomponents; abs-Spearman chooses one proxy perafield; selectedfit sign fixed",
+  "evaluation": "16differentTRAINcomponents; grade five fixed proxies pooled/withincomponent; no target/mask/VALID/external data",
+  "mechanism_support": "Correlation >=0.95 with selectedfit sign in>=8evaluationcomponents merits independentfalsification; does not identify raw volume units/source or imply predictiongain",
+  "hard_caps": "1thread pools, foreground<=60sec perpass, perprocess hardaddress-space2GiB; notsystemdcgroup/durable/globalmemoryclaim",
+  "physical_claim": "CDF(z) is an encoded proxy only, not recovered physical volume",
+  "no_models_or_submission_training": true,
+  "fit_command": [
+    "env",
+    "OPENBLAS_NUM_THREADS=1",
+    "OMP_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "NUMBA_NUM_THREADS=1",
+    "POLARS_MAX_THREADS=1",
+    "ARROW_NUM_THREADS=1",
+    "CUDA_VISIBLE_DEVICES=",
+    "timeout",
+    "60s",
+    "prlimit",
+    "--as=2147483648",
+    "--cpu=60",
+    ".venv/bin/python",
+    "research/campaign_2026-09-30/data_reconstruction/additional_feature_relations/probe.py",
+    "fit"
+  ]
+}

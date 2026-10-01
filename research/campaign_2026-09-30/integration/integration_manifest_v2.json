@@ -1,0 +1,60 @@
+{
+  "applied": false,
+  "launches": {
+    "GPU": false,
+    "live_control_sources_changed": false
+  },
+  "primary_patch": "all_three_diagnostics_full.patch",
+  "primary_patch_sha256": "72a1093b10b23cbbcd1b61ccbc6d9b93bf6d195292c707331afb672690abc782",
+  "base_trainer_sha256": "585a832cab15df1eb478cc652b70ffe5d89dffa00d3e74d0def5ae4a3839f7c1",
+  "final_trainer_sha256": "9b53054caf94c51f83154c25f9bb246638da683ea4a4ba4ce3bec6c2451d0891",
+  "bound_private_files": {
+    "source_closure.json": "18784a5a9d177a8748c2eda07c4f3ff06081ef67d70ee8b5619f97a792706fd0",
+    "diagnostics_manifest.json": "0872613182b1126f6aa83b7590a67984e9be9e119ad0af063b10cfabb99f97d7",
+    "cpu_proof_v1.json": "f098628612e794b2e1dc5a0ac75a2882f32154436b8fab0c5484de1bdb42f107",
+    "cpu_proof_v2.json": "d4c4464b3f8c93271331833f7d06658b582b83cc1f263aad09750b4ade15676e",
+    "diagnostics_proof_v1.json": "b850581164349c9fa481a82c189bb62126ab14322bf473f21465a02a1c33d0e6",
+    "launch_recipes_proposed.json": "240eaf62881d2bbbb2efce4c78c1fbccc5f541f3bf725989b4ebd0866499e560",
+    "launch_commands_proposed.txt": "a60746cb0571b17b0f3b4f1deb923e822c34fefb308b5be650c8ebb0a8654032",
+    "stage_expected_args_v2.json": "e41ab569f0b4bf86e7f24056708be904da3d780dde5760e9b086b6ef332ee017",
+    "gpu_smoke_amendment.json": "3094923ec0fe27e54848392ba72e69524290a39538f29d1d9c630aea53950e61",
+    "gpu_smoke_v2.py": "c5a56437439943e1e629dacec73a6c87156baba7b3ee89600ecfad60671e7d60",
+    "build.py": "9fc844a2b8ee9ebc5ac7bf024ccd1b9fc1c4807c7bcf7e04ffce245ae42a2b5d",
+    "build_diagnostics.py": "4905957e8c9bc7bdaccca6b360bd0edadf549c3ac7d6ea116a437e97aef1860c",
+    "recipes.py": "c0ca7e3b5aa4f78212782f0ac0b5eed7c83dfb90450caa22efff978c29fc2bc2",
+    "cpu_proof.py": "57efc57d6462f01454b1b3e9159aee6c4baa657c1fccc3eb554020ddb6b03aac",
+    "diagnostics_proof.py": "a97b57721af689ff0144878567118f36cb7ee9a78330d8ef88bec6dc3fc95f1e",
+    "run_identity.py": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+    "run_amended_proofs.sh": "aafd22e60c1afe96f4dd6c0dd7cf77752e65f50dbd48bb6bae7230e79504ff62",
+    "proof_sequence.sh": "0cab88f8e153ff399b9762a2332282ba4f47464f4bbe8564ad83a5264479235e",
+    "ssm_spread.patch": "0c56b53836890f3734a5966205e8a7426c4744db928d23b106215815ab9c41e6",
+    "all_three.patch": "0c0d222d866e2263bd49fe666f026397e6074f2fc897da8d24865572fdf5a690",
+    "diagnostics_only.patch": "9c61c50f1cf3a5e8382d94743afac1127981bdce483cf1974c6281303834d445",
+    "ssm_spread_diagnostics_full.patch": "1f1434781e3500d11e049cd81758b32ded19097cef50284b99eb63094e322996",
+    "all_three_diagnostics_full.patch": "72a1093b10b23cbbcd1b61ccbc6d9b93bf6d195292c707331afb672690abc782"
+  },
+  "bound_repository_files": {
+    "pyproject.toml": "58e71719d520afaaa30472859bac410d10f5a0536afc686df62fb915146914e3",
+    "uv.lock": "3624c45b0649dfe51169e13cd68567a877c96c4ec8570f0303049cbad16a29e0",
+    "requirements.txt": "6d5afd0b693c49792c6c84005bcaa2bacb206bf7d82486fe0260526d131a060e",
+    "research/campaign_2026-09-30/audit/structured_state_grade_v2.json": "9b4df668cb099d4b58d2ec552508f1e5d238a806e664689f536bfb445f3e75f4",
+    "research/campaign_2026-09-30/audit/spread_aux_independent_checks_v1.json": "f206d1a2218655030d3431cadaa132de4ada948420a936571a1a4ae40ca3205f",
+    "research/campaign_2026-09-30/audit/event_content_grade_v2.json": "100fc0c76b8311d4ad658b7f3d4b8b7fa03724604df873c93dccaa02131e662b"
+  },
+  "profiles_unlaunched": true,
+  "CPU_jobs": [
+    {
+      "unit": "wnn-integration-proof-v1.service",
+      "invocation": "136d9c23cee1403db8a016fac09b2a6f",
+      "exit": 0,
+      "scope": "wnn-integration-proof-v1-scope.scope"
+    },
+    {
+      "unit": "wnn-integration-amended-v2.service",
+      "invocation": "77e312f7c8834a08bd211d26e1f10298",
+      "exit": 0,
+      "scope": "wnn-integration-amended-v2-scope.scope"
+    }
+  ],
+  "gate": "Root finishes all fourfold clean parent/FT/prediction jobs, freezes recipes/source binder/caps, then applies; GPU profile/CPU literal replay/deployment/quality gates remain pending"
+}

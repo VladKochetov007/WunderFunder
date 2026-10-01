@@ -1,0 +1,36 @@
+{
+  "status": "frozen-before-copula-read",
+  "source_sha256": "6bea3e87b18f89ecda0bbb2e3fd5135a147330c622bbff6974e80b7699b03264",
+  "selection_sha256": "4334eecbb9dd0938493cc6d4bfe679c368f9a946f17ec8538a15b60c7c89d783",
+  "groups": "16canonicalTRAINcomponents already inspected input-only additionalfeature evaluation; not independent confirmation",
+  "provided_columns": "i0/i1 p0..21 andv0..21 only; 20,000rows pergroup",
+  "external_prefix": "First20,000CSVsnapshots of specified MDlob.csv; fullfirst11bids/asks; no temporalassetidentityassumed",
+  "fixed_price_variants": [
+    "absolute_prices",
+    "midpoint_centered_prices",
+    "midpoint_fractional_prices",
+    "side_top_centered_prices"
+  ],
+  "statistics": "Tied-rankSpearman22x22 spectralshares/effective-rank andside-correlationquantiles; no exactcolumn/depthmatchingwithinprovidedside",
+  "interpretation": "Individualmonotoneencoderspreserveranks; row-dependentcenteringdoesnot. Similaritycannotidentify source/physicalcoords; interval/rowscale/publicationconfoundsexplicit",
+  "targets_masks_VALID_or_models_read": false,
+  "external_numeric_state_enters_competition": false,
+  "hard_caps": "foreground60sec, 1thread, perprocess2GiBAS; notdurable/cgroupclaim",
+  "command": [
+    "env",
+    "OPENBLAS_NUM_THREADS=1",
+    "OMP_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "NUMBA_NUM_THREADS=1",
+    "POLARS_MAX_THREADS=1",
+    "ARROW_NUM_THREADS=1",
+    "CUDA_VISIBLE_DEVICES=",
+    "timeout",
+    "60s",
+    "prlimit",
+    "--as=2147483648",
+    "--cpu=60",
+    ".venv/bin/python",
+    "research/campaign_2026-09-30/data_reconstruction/book_copula/probe.py"
+  ]
+}

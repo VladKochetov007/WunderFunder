@@ -1,0 +1,17 @@
+# Research resumption, 2026-09-30
+
+The user resumed after reboot and prioritised data reconstruction: relationships between anonymised variables, target behaviour, similar distributions in existing MD/Binance records, and causal representations derived from those findings. Novel recurrent attention, state-space and mixture architectures remain authorised.
+
+Objective: a deterministic root Challenge 2 ZIP with honest expected public Global WP >=0.6660. The directly hash-verified, user-reported public incumbent is 0.6622. Current calibrated forecasts fail the expectation gate. Evaluation tier C: local chain-excluded folds cannot establish hidden-market transfer; forecasts require selection correction, predictive uncertainty and an independent audit. No upload.
+
+Resource limits remain an aggregate 12 CPU cores, 36 GiB hard RAM, 5,000,000,000 observed GPU bytes, one GPU job at a time and 28,800 campaign GPU seconds. Previously charged GPU time is 5,153.59 seconds. The shared slice runtime limits were restored after reboot. All expensive jobs must be durable with exact commands, source identities, durations, exits and immutable checkpoints. Reserve at least 0.9 GPU-hour for final fitting/verification if a mechanism survives.
+
+The frozen metric and split hashes are in evaluator_freeze.json. The dated official overview archived on 2026-09-29 resolves the metric to pooled weighted Pearson, clipping both y/p at 2 and selecting need_prediction AND is_scored. Per-sequence scoring remains diagnostic. Existing folds are previously inspected. Exclude chain-linked training groups and fit propensity separately outside each evaluation fold. Fixed checkpoint epochs only. No seq_ix as a feature and no targets/scoring masks in streaming state.
+
+First complete the missing exact clean since/since controls: seed4 fold1 FT; fold2/3 propensity/cache and both parents/FT, both parents using FT seed3. Audit scheduler termination before removing the stop marker. Broad GPU architecture search waits for this panel; independently preregistered bounded CPU data probes may run concurrently.
+
+Data research fits numerical mappings on provided TRAIN components and checks on distinct TRAIN components before optional exploratory validation. External raw records provide conceptual tests and publication/distribution comparisons, not model training examples or numeric transformations imported into competition inference. Separate target-derived diagnostic coordinates from causally computable features. Require coverage/unknown mass and quiet-row failures, not cherry-picked exactness.
+
+Keep at least three distinct mechanism cards, each with a matched control and cheap falsifier. Do not repeat width/depth, EMA6-only blending, static MLP, merged GRU, unchanged auxiliary or already rejected output corrections. New architectures must be CPU streamable with fixed membership and state reset. Screen >=+0.0005 paired Global WP on exact same rows, plus matched-control win. Freeze candidates/epochs/weights before confirmation, use component bootstrap with 95% intervals, class floor -0.0005, exact/softened-mask direction. Never sum correlated local gains. Independent expectation mean >=0.6660 is mandatory before declaring success. Preserve failures.
+
+Separate roles: architecture proposer, data reconstruction actor, independent critic/reproducer, controller. Candidate author does not grade itself. Important results persist as scripts/JSON as well as the marimo notebook.

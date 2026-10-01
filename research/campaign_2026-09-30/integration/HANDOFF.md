@@ -1,0 +1,43 @@
+# Private integration handoff
+
+No live source edits or GPU launches. Root must finish **all fourfold clean parents, FT, and prediction jobs** before applying any patch, then freeze fitting recipes and budgets before launch.
+
+## Frozen SSM plus spread patch
+
+`ssm_spread.patch` merges both previously independently graded proposals against dirty live trainer SHA256 `585a832cab15df1eb478cc652b70ffe5d89dffa00d3e74d0def5ae4a3839f7c1`. It preserves every existing root change. Only the trainer changes and two new Python modules are included; `src/wnn/nn.py`, scheduler, evaluator, and native inference remain untouched.
+
+Patch SHA256 `0c56b53836890f3734a5966205e8a7426c4744db928d23b106215815ab9c41e6`; proposed trainer SHA256 `d6762c73cb5795518f6994ef18c7be56654c6473ba6adbf9e7f09fa0fa194674`.
+
+SSM source `227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756`; spread support `3aabffc6fc887c0426948e62cbd500679ba3e7a6925e28de9f816fb1da8f9cac`, copied byte for byte from frozen artifacts. The SSM needs a native port only after a score promotion gate. Spread supervision leaves the original GRU inference architecture unchanged; its cache is never loaded by prediction.
+
+## CPU interface proof
+
+`cpu_proof_v1.json` passes for both SSM-plus-spread and the provisional three-mechanism factory. It loads the actual parent checkpoint strictly; verifies unchanged GRU/dual/gated factory state, outputs, and gradients; reconstructs both SSM initialization arms and every D1 arm; exercises forward/backward, flat state, detach, actual FastEMA, and architecture argument inheritance. Default original structural loss and gradients are **bitwise identical** to the original CE aggregation, including zero weights. This is an interface regression proof, not a score or independent numerical grade.
+
+Durable outer service `wnn-integration-proof-v1.service`, invocation `136d9c23cee1403db8a016fac09b2a6f`, nested scope `wnn-integration-proof-v1-scope.scope`, campaign slice, CUDA hidden. Proof records actual nested `memory.max=2147483648`, `memory.swap.max=0`, `cpu.max=100000 100000`, one torch thread, CUDA uninitialized. Runtime inside proof 0.6593 seconds; peak607216KiB; exit0. Exact runner `run_cpu_proof.sh`; timestamps and raw log are retained. Torch/Python identities are recorded. The unused CPU allocation was released to the D1 correction actor.
+
+## Continuation and FT proposal
+
+`launch_recipes_proposed.json` stores exact argument arrays; `launch_commands_proposed.txt` contains shell-quoted commands, with **no automatic launch**. Both spread arms start from the identical frozen `c20260929_since_s3_f0@ep3`, one fixed epoch0, seed3, batch32/chunk2000, full fold0 clean TRAIN plus fitting VALID. The parent architecture/preprocessing is inherited. Both preserve WMSE, struct0.3/next0.3, EMA teacher1/decay0.999/evalEMA, propensity power2+floor0.03, fitting-VALID true-mask0.03, since32/floor0.25, fastFP16. Only current-vs-proxy spread labels differ; both share known-code numerator mask and original `sw.sum` denominator.
+
+Both FT paths run equal head and full stages, seed3, batch16/chunk2000, one fixed epoch0 each, original public gcorr/true-mask recipe: head freeze`inp,gru`, lr0.0005; full no freeze, lr0.0002. **Inherited aux_struct0.3 and aux_next0.3 remain active in both stages of both arms**, preserving output23. Both FT paths explicitly return to **original future-proxy spread labels without the cache/known-code mask**. FT inherits no continuation EMA/propensity/since weighting, matching historical FT: teacher0, evalEMAfalse, propensityempty, since0. The parser/inheritance proof verifies all six exact command arrays and output widths.
+
+Both continuation and both FT paths complete before any prediction or evaluation. Fixed replacement pairs each use0.5 unchanged seed4FT plus0.5 new seed3FT; compare candidate/control/unchanged pairs on exact same rows, with >=+0.0005 versus unchanged and positive versus proxy control. Budget caps and scoring bootstrap/class-floor design remain root/critic freeze decisions. Failure to finish equal fixed updates invalidates the mechanism comparison.
+
+## Final three-mechanism merge and instrumentation
+
+The initial failed D1 merge and its proof are preserved under `revisions/v1/`; source `c591649e...` failed the independent long quiet state check. The corrected D1 source `75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd` passed all25 independent cases in `audit/event_content_grade_v2.json`. The current `all_three.patch` binds that corrected source.
+
+The single final proposed patch is **`all_three_diagnostics_full.patch`**, SHA256 `72a1093b10b23cbbcd1b61ccbc6d9b93bf6d195292c707331afb672690abc782`, against base trainer `585a832c...`; resulting trainer `9b53054caf94c51f83154c25f9bb246638da683ea4a4ba4ce3bec6c2451d0891`. It adds frozen SSM, corrected D1, spread support, and the separate run-identity helper. `diagnostics_only.patch` remains independently reviewable. `ssm_spread_diagnostics_full.patch` is a complete fallback with no D1.
+
+The instrumentation reads installed torch2.14 GradScaler `_found_inf_per_device` immediately after the existing `unscale_`, accumulates any nonzero flag into a device scalar, and synchronizes that counter once after the epoch. Attempts, completed optimizer updates, actual AMP skips, EMA calls, and completed batches are recorded per epoch and cumulatively in history and provenance. It preserves the original clipping/step/scaler-update/scheduler/EMA order, including EMA calls when AMP skipped the optimizer. It never modifies gradients, loss weights, scaler state, or sample order. Normalization stores exact mean/std byte hashes; ordered membership hashes and existing loader/sampler RNG states bind ordering without another ID array. GradScaler source and helper hashes are in provenance.
+
+Durable amended service `wnn-integration-amended-v2.service`, invocation `77e312f7c8834a08bd211d26e1f10298`, runs two proofs sequentially under nested verified1CPU/2GiB/no-swap campaign scope, CUDA hidden, exit0. `diagnostics_proof_v1.json`: actual CPU GradScaler enabled(skip1) and disabled(skip0) optimizer trajectories are exact; all flags/buffers/RNG/order are unchanged;1.4378seconds,686368KiB peak. `cpu_proof_v2.json`: factory, default original loss/gradients, inheritance, strict actual-parent loading pass for both combined families with and without instrumentation;2.7103seconds,617168KiB peak. GPU counter cost remains unmeasured and must be charged in later root-owned profiling.
+
+`stage_expected_args_v2.json` provides all effective parsed/inherited arguments for the exact six proposed fitting stages. It includes absolute split/cache paths, split SHA, fold/eval source, `--fast` expansion, inherited original output heads, and root-selected names `c20260930_spread_current_f0`/`c20260930_spread_proxy_f0` plus corresponding FT names. These argument snapshots are proposed and can serve the critic binder after root freezes the final commands. Root plans one durable720s total pipeline per arm, including continuation, both FT stages, and full VALID export; the six argv remain the concrete stage recipe, with equal fixed updates and evaluation only after both arms complete. No launcher was edited.
+
+## Unlaunched SSM GPU profiler amendment
+
+`gpu_smoke_v2.py` is a private copy; the original SSM profiler is unchanged and also preserved as `gpu_smoke_v1_preserved.py`. The amended runner keeps batch32/chunk2000, actual EMA teacher, original FP16 training recipe,10 synthetic updates, existing output IDs, and frozen model source. It additionally saves an exclusive `<outputstem>.cpu_replay.pt` with final student CPU weights, literal firstB1/T2000 FP32 input, reset GPU FP32 no-autocast predictions/flat state, and exact actual backend flags. It makes **no TF32 or matmul-precision setting changes**. Root and critic must freeze the literal replay tolerance and profile command before GPU launch; this artifact has not been generated or graded. No optional TF32-high assumption is made.
+
+`source_closure.json` binds patch inputs, all copied module sources, exact before/after trainer hashes, local WNN dependency sources, trainer/prediction/FT scripts, original parent and unchanged FT checkpoints, propensity weights, clean split manifest, and spread cache metadata/source freeze. `diagnostics_manifest.json` binds standalone/full patches and helper; `integration_manifest_v2.json` adds proof/recipe snapshots, package lock files, independent grades, and profiler identity. Validate these identities immediately before application. Rebase and repeat private proof if live trainer changes.

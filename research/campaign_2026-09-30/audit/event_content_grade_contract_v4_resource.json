@@ -1,0 +1,70 @@
+{
+  "status": "frozen before independent execution",
+  "model_sha256": "7de9c3530a3f749774c23553c4e290bc757ef081927377b10b6ed47ec520ef65",
+  "preregistration_sha256": "334b099967b8a97b372ccdaeafc57925d3fb411ecbe27e2615e63d4b32e8183f",
+  "float64_forward_absolute_tolerance": 1e-09,
+  "float64_gradient_absolute_tolerance": 1e-08,
+  "float32_forward_absolute_tolerance": 3e-05,
+  "float32_state_absolute_tolerance": 0.003,
+  "float32_gradient_absolute_tolerance": 0.0003,
+  "gradient_active_min": 1e-12,
+  "cases": "all three arms, FP64/FP32 input/state/parameter gradients; independently computed S/Z and serial GRU; chunk1/17/64/2000, clocks boundaries and first ordinal0, raw source float32 endpoint before normalization, causality/batch/reset, Walsh rank96/allcolumns gradients, variable-value convex hull, empty eventhistory,20kquiet AND eventful serialized recurrence, AMP FP32 memory",
+  "reference": "serialized exp(log_decay) real-step coefficient; strict prereg tolerances unchanged",
+  "resources": "durable <=300s, nested hard1CPU2GiB swap0 sharedslice CUDA hidden",
+  "no_read": "competition data/evaluation/predictions/targets/masks",
+  "scope": "CPU standalone parity only; modulo128 addressing and joint write/decay limitations remain",
+  "amendment": "Privatev5 boundedtilecarry optimization; preserve every v2 tolerance and25originalcases, add12v4/literal macrogradient cases default32and2tiles with nonzero carry andpadding.",
+  "baseline_v4_sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+  "test_source_sha256": "afb7c0e5817fd04f44c2dbc74c345b9792ef62768467b9a81089392a10a498ef",
+  "partitions": {
+    "gradients": [
+      "gradient_endpoint-content_torch.float64",
+      "gradient_endpoint-content_torch.float32",
+      "gradient_endpoint-position_torch.float64",
+      "gradient_endpoint-position_torch.float32",
+      "gradient_raw-code-content_torch.float64",
+      "gradient_raw-code-content_torch.float32",
+      "macro_v4_and_literal_endpoint-content_torch.float64_tiles2",
+      "macro_v4_and_literal_endpoint-content_torch.float64_tiles32",
+      "macro_v4_and_literal_endpoint-content_torch.float32_tiles2",
+      "macro_v4_and_literal_endpoint-content_torch.float32_tiles32",
+      "macro_v4_and_literal_endpoint-position_torch.float64_tiles2",
+      "macro_v4_and_literal_endpoint-position_torch.float64_tiles32",
+      "macro_v4_and_literal_endpoint-position_torch.float32_tiles2",
+      "macro_v4_and_literal_endpoint-position_torch.float32_tiles32",
+      "macro_v4_and_literal_raw-code-content_torch.float64_tiles2",
+      "macro_v4_and_literal_raw-code-content_torch.float64_tiles32",
+      "macro_v4_and_literal_raw-code-content_torch.float32_tiles2",
+      "macro_v4_and_literal_raw-code-content_torch.float32_tiles32"
+    ],
+    "short": [
+      "partitions_causality_reset_endpoint-content",
+      "boundaries_endpoint-content",
+      "active_grad_endpoint-content",
+      "bounds_amp_endpoint-content",
+      "real_ratio_scaled_state_equivalence_endpoint-content",
+      "partitions_causality_reset_endpoint-position",
+      "boundaries_endpoint-position",
+      "active_grad_endpoint-position",
+      "bounds_amp_endpoint-position",
+      "real_ratio_scaled_state_equivalence_endpoint-position",
+      "partitions_causality_reset_raw-code-content",
+      "boundaries_raw-code-content",
+      "active_grad_raw-code-content",
+      "bounds_amp_raw-code-content",
+      "real_ratio_scaled_state_equivalence_raw-code-content",
+      "walsh_rank"
+    ],
+    "long_content": [
+      "long20k_serial_endpoint-content"
+    ],
+    "long_position": [
+      "long20k_serial_endpoint-position"
+    ],
+    "long_raw": [
+      "long20k_serial_raw-code-content"
+    ]
+  },
+  "resource_amendment": "Root-authorized resource-only foreground fallback after runtime permission change. Originaldurablev3launch was blocked before jobcreated. Fiveforeground partitions <=60s each; oneCPUaffinity, threads1, hardRLIMIT_AS4GiB. ObserveRSS, no2GiBcgroup/300sdurableclaim. Model/cases/atolsunchanged. Actorv5proofknownpass beforeindependentamendment, disclose.",
+  "prior_durable_contract_sha256": "6ee98a4c2e32c3ced9660d036c2a4d61a57afba4b92f4029a2385666d0646f18"
+}

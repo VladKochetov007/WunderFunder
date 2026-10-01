@@ -1,0 +1,13 @@
+{
+ "version":"adaptive-first-barrier-v1",
+ "panel":"Same registered TRAIN-only component panel; adaptive diagnostic, no fresh confirmation",
+ "fit":"Interior-only spread code map support3/confidence.95 and interior-to-interior movement map support3/confidence.80; no outside target fitting",
+ "event_origins":"All outside-branch price-code event origins with current mapped spread; publication-row lengths used only as diagnostic weights",
+ "horizon":"Next64 representation events, diagnostic future only",
+ "unknown_handling":"Barrier can be graded only when all transitions before its first hit are known; no hit includes right truncation/unknown separately",
+ "barrier":"Long loss if future bid-entry ask <=-(current spread+2); short loss if entry bid-future ask <=-(current spread+2)",
+ "prediction":"Realized first-hit quote loss, including jump overshoot; compare actual losing offset k to first hit directional displacement",
+ "controls":"Exact current spread+2 offset; first barrier displacement; future opposite-side quote displacement doubling control; common future bid/ask mark requires implied future spread=offset-winner>=1",
+ "falsifier":"First-hit overshoot must materially beat constant2 on offset>2 episodes with adequate coverage; even-offset pattern itself does not establish stop execution",
+ "budget":"1thread/2GiB/60s hard launcher, no GPU"
+}

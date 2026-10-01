@@ -1,0 +1,58 @@
+{
+  "status": "approved-metadata-arithmetic-amendment-before-score",
+  "authorization": "Parent root explicitly authorized separate critic binder-v2 correction before any score; root reviews before binding.",
+  "original_preregistration": {
+    "path": "research/campaign_2026-09-30/screens/spread_v1/design.json",
+    "sha256": "91987de94a3d8466e523b73a420efff0ca22349d0909e1d2e5d5d446d4309059"
+  },
+  "original_binder": {
+    "path": "research/campaign_2026-09-30/audit/build_screen_specs.py",
+    "sha256": "e84217c03c43c60a857cc58a601b9b11e15b64c8953ebf16aac540380d289da2"
+  },
+  "original_checks": {
+    "path": "research/campaign_2026-09-30/audit/screen_binder_checks_v1.json",
+    "sha256": "090986b7869821196c04337b8e09ba56f2eafcd366fdaa9af0748454e494dc04"
+  },
+  "amended_binder": {
+    "path": "research/campaign_2026-09-30/audit/build_screen_specs_v2.py",
+    "sha256": "1e1c4fd04add36b60c78a9a541bd7f218cee3cc3c21f15bd105f6b9fb947a9ac"
+  },
+  "amended_checks": {
+    "path": "research/campaign_2026-09-30/audit/screen_binder_checks_v2.json",
+    "sha256": "f113c5bdaf05a3e1c9c262e8f9ab0c046b79ec08288448f611dd8b7f10c9c180"
+  },
+  "finding": {
+    "path": "research/campaign_2026-09-30/audit/spread_binder_drop_last_finding_v1.md",
+    "sha256": "453a760969ebc246f530fb7287874947bb9aa983a4f14ec5bc0f65e92205af2b"
+  },
+  "change": "Complete epoch batch arithmetic uses floor when source-bound loader drop_last=True; helper uses ceiling only for False. Validate batch size, sampler class/replacement/count. Frozen screen trainer fixes True; conflicting False rejects.",
+  "invariants": [
+    "Original prefit design/source/stageargv/cache/checkpoint/weights unchanged",
+    "Successful/skipped/EMA histories must remain exactly equal across arms",
+    "Original numerical scorer and all promotion thresholds unchanged",
+    "No candidate-quality or target-array access"
+  ],
+  "known_answers": {
+    "continuation": {
+      "dataset_length": 11940,
+      "batch": 32,
+      "drop_last": true,
+      "batches": 373,
+      "attempts": 3730
+    },
+    "FT": {
+      "dataset_length": 1405,
+      "batch": 16,
+      "drop_last": true,
+      "batches": 87,
+      "attempts": 870
+    },
+    "synthetic_false": {
+      "dataset_length": 5,
+      "batch": 2,
+      "drop_last": false,
+      "batches": 3,
+      "attempts": 30
+    }
+  }
+}

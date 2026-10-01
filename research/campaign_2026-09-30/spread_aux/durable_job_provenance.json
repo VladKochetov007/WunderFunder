@@ -1,0 +1,36 @@
+{
+  "cpu_threads": 1,
+  "CUDA_VISIBLE_DEVICES": "",
+  "OMP_NUM_THREADS": 1,
+  "MKL_NUM_THREADS": 1,
+  "OPENBLAS_NUM_THREADS": 1,
+  "ARROW_NUM_THREADS": 1,
+  "POLARS_MAX_THREADS": 1,
+  "no_gpu_launch": true,
+  "jobs": [
+    {
+      "unit": "wnn-spread-aux-freeze-v1.service",
+      "systemd_properties": "InvocationID=\nRuntimeMaxUSec=infinity\nExecMainStatus=0\nSlice=\nCPUQuotaPerSecUSec=infinity\nMemoryMax=infinity\nMemorySwapMax=infinity\n",
+      "raw_log": "freeze_v1.log",
+      "job_report": "job_freeze_v1.json"
+    },
+    {
+      "unit": "wnn-spread-aux-map-v1.service",
+      "systemd_properties": "InvocationID=\nRuntimeMaxUSec=infinity\nExecMainStatus=0\nSlice=\nCPUQuotaPerSecUSec=infinity\nMemoryMax=infinity\nMemorySwapMax=infinity\n",
+      "raw_log": "map_v1.log",
+      "job_report": "job_map_v1.json"
+    },
+    {
+      "unit": "wnn-spread-aux-cache-v1.service",
+      "systemd_properties": "InvocationID=\nRuntimeMaxUSec=infinity\nExecMainStatus=0\nSlice=\nCPUQuotaPerSecUSec=infinity\nMemoryMax=infinity\nMemorySwapMax=infinity\n",
+      "raw_log": "cache_v1.log",
+      "job_report": "job_cache_v1.json"
+    },
+    {
+      "unit": "wnn-spread-aux-proof-v1.service",
+      "systemd_properties": "InvocationID=\nRuntimeMaxUSec=infinity\nExecMainStatus=0\nSlice=\nCPUQuotaPerSecUSec=infinity\nMemoryMax=infinity\nMemorySwapMax=infinity\n",
+      "raw_log": "proof_v1.log",
+      "job_report": "cpu_proof.json"
+    }
+  ]
+}

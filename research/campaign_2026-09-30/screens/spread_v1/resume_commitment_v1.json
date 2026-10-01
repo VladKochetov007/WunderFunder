@@ -1,0 +1,36 @@
+{
+  "status": "frozen-before-missing-stages",
+  "original_design": {
+    "path": "research/campaign_2026-09-30/screens/spread_v1/design.json",
+    "sha256": "91987de94a3d8466e523b73a420efff0ca22349d0909e1d2e5d5d446d4309059"
+  },
+  "resume_recipe": {
+    "path": "research/campaign_2026-09-30/screens/spread_v1/resume_recipe_v1.json",
+    "sha256": "bb26e5dd64099fa16bb6cec845e07f55d928c4b61bfd5fd059d5b64911d381dd"
+  },
+  "new_job_name": "c20260930_ft_spread_proxy_f0_resume_v1",
+  "command": [
+    "env",
+    "WNN_IN_CAMPAIGN_JOB=1",
+    "WNN_THREADS=10",
+    "WNN_CPU_QUOTA=1000%",
+    "WNN_MEM_MAX=36G",
+    "scripts/limited",
+    ".venv/bin/python",
+    "scripts/campaign_screen_pipeline.py",
+    "--recipe",
+    "research/campaign_2026-09-30/screens/spread_v1/resume_recipe_v1.json",
+    "--recipe-sha256",
+    "bb26e5dd64099fa16bb6cec845e07f55d928c4b61bfd5fd059d5b64911d381dd",
+    "--arm",
+    "proxy_resume"
+  ],
+  "timeout_seconds": 467,
+  "total_original_plus_resume_cap_seconds": 720,
+  "numeric_or_candidate_quality_seen": false,
+  "reason": "Recover orchestration interruption without repeating completed training or replacing evidence",
+  "stop_archive": {
+    "path": "research/campaign_2026-09-30/screens/spread_v1/automatic_queued_diagnostic_stop_v1.txt",
+    "sha256": "cddf0de64c897cb89cf28e76d8e2bd41402f62bec8131b9661deb93af9f796a2"
+  }
+}

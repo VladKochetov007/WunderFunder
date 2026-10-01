@@ -1,0 +1,300 @@
+--- /dev/null
++++ b/src/wnn/spread_aux.py
+@@ -0,0 +1,145 @@
++from __future__ import annotations
++
++import hashlib
++import json
++from collections.abc import Iterable
++from pathlib import Path
++
++import numpy as np
++import torch.nn.functional as F
++from torch import Tensor
++
++UNKNOWN = 255
++
++
++def file_sha256(path: Path) -> str:
++    """Hash a cache artifact without loading it into RAM."""
++    digest = hashlib.sha256()
++    with path.open("rb") as source:
++        for block in iter(lambda: source.read(1 << 20), b""):
++            digest.update(block)
++    return digest.hexdigest()
++
++
++def validate_spread_cache(
++    root: Path,
++    split_sha256: str,
++    train: Iterable[int],
++    valid: Iterable[int],
++    evaluation: Iterable[int],
++) -> dict:
++    """Reject incomplete, changed, or differently partitioned supervised caches."""
++    metadata_path = root / "metadata.json"
++    metadata = json.loads(metadata_path.read_text())
++    if metadata.get("status") != "complete" or metadata.get("supervision_only") is not True:
++        raise ValueError("spread cache is incomplete or not supervision-only")
++    if set(metadata.get("files", {})) != {"train", "valid"} or metadata.get("N_SP_AUX") != 12:
++        raise ValueError("spread cache file set/head dimension differs")
++    if metadata["split_manifest_sha256"] != split_sha256:
++        raise ValueError("spread cache split differs")
++    for name, groups in [
++        ("fit_train_groups", train),
++        ("fit_valid_groups", valid),
++        ("evaluation_valid_groups", evaluation),
++    ]:
++        if len(set(metadata[name])) != len(metadata[name]) or set(metadata[name]) != set(
++            map(int, groups)
++        ):
++            raise ValueError(f"spread cache {name} differs")
++    if set(metadata["fit_valid_groups"]) & set(metadata["evaluation_valid_groups"]):
++        raise ValueError("spread cache fitting/evaluation VALID membership overlaps")
++    if metadata["unknown"] != UNKNOWN or metadata["dtype"] != "uint8":
++        raise ValueError("unknown-label encoding changed")
++    for path_key, expected in [
++        ("selection.json", metadata["selection_sha256"]),
++        ("interior_code_table.json", metadata["map_sha256"]),
++    ]:
++        if file_sha256(root / path_key) != expected:
++            raise ValueError(f"spread provenance hash differs: {path_key}")
++    for split, entry in metadata["files"].items():
++        if entry["file"] != f"spread_{split}.npy" or entry["shape"] != [
++            len(metadata[f"fit_{split}_groups"]),
++            20_000,
++        ]:
++            raise ValueError("spread cache file path/shape differs")
++        if entry["row_groups"] != metadata[f"fit_{split}_groups"]:
++            raise ValueError("cache row order differs from its exact group index")
++        if file_sha256(root / entry["file"]) != entry["sha256"]:
++            raise ValueError(f"spread cache array hash differs: {split}")
++        values = np.load(root / entry["file"], mmap_mode="r", allow_pickle=False)
++        if values.dtype != np.uint8 or list(values.shape) != entry["shape"]:
++            raise ValueError("spread cache array dtype/shape differs")
++        for first in range(0, len(values), 128):
++            block = values[first : first + 128]
++            if np.any((block >= 12) & (block != UNKNOWN)):
++                raise ValueError("spread cache contains invalid bin/unknown values")
++    return {
++        "metadata_sha256": file_sha256(metadata_path),
++        "map_sha256": metadata["map_sha256"],
++        "selection_sha256": metadata["selection_sha256"],
++        "array_sha256": {split: entry["sha256"] for split, entry in metadata["files"].items()},
++        "supervision_only": True,
++        "unknown": UNKNOWN,
++    }
++
++
++class PackedSpreadCache:
++    """Sparse row-group label cache; outside fitting membership is an error."""
++
++    def __init__(self, root: Path, split: str) -> None:
++        self.metadata = json.loads((root / "metadata.json").read_text())
++        if self.metadata.get("status") != "complete":
++            raise ValueError("incomplete spread cache")
++        entry = self.metadata["files"][split]
++        self.position = {int(group): index for index, group in enumerate(entry["row_groups"])}
++        self.values = np.load(root / entry["file"], mmap_mode="r", allow_pickle=False)
++        if list(self.values.shape) != entry["shape"] or self.values.dtype != np.uint8:
++            raise ValueError("spread cache shape/type differs")
++
++    def read(self, group: int) -> np.ndarray:
++        """Return copied encoded supervision for exactly the requested FIT group."""
++        if int(group) not in self.position:
++            raise ValueError(f"row group{group} is outside spread cache FIT membership")
++        return np.array(self.values[self.position[int(group)]], dtype=np.uint8, copy=True)
++
++
++def structural_loss(
++    output: Tensor,
++    spread: Tensor,
++    branch: Tensor,
++    classes: Tensor,
++    weights: Tensor,
++    start: int,
++    spread_bins: int,
++    encoded_spread: Tensor | None = None,
++) -> Tensor:
++    """Use original weighting; mask only the spread numerator on unknown codes.
++
++    Args:
++        output: Existing full-head logits for one TBPTT chunk.
++        spread: Original proxy or cached-current spread labels, already selected.
++        branch: Unmodified original branch labels for this chunk.
++        classes: Unmodified original class labels for this chunk.
++        weights: Original `sw` for this chunk; denominator remains `weights.sum`.
++        start: Existing structural output-head start.
++        spread_bins: Existing N_SP_AUX, not a new output dimension.
++        encoded_spread: Shared uint8 cache (255unknown), used solely as loss mask.
++
++    Returns:
++        Structural CE before the existing aux_struct coefficient.
++    """
++    logits = output.float()
++    row_weights = weights.reshape(-1)
++    ce = 0.0
++    for lo, hi, label in [
++        (start, start + spread_bins, spread),
++        (start + spread_bins, start + spread_bins + 3, branch),
++        (start + spread_bins + 3, start + spread_bins + 7, classes),
++    ]:
++        term = F.cross_entropy(
++            logits[..., lo:hi].reshape(-1, hi - lo), label.reshape(-1), reduction="none"
++        )
++        if lo == start and encoded_spread is not None:
++            term = term * (encoded_spread.reshape(-1) != UNKNOWN)
++        ce = ce + term
++    return (ce * row_weights).sum() / row_weights.sum().clamp_min(1e-8)
+--- a/scripts/train_rnn.py
++++ b/scripts/train_rnn.py
+@@ -50,6 +50,7 @@
+ from wnn.propensity import load_propensity, propensity
+ from wnn.resources import configure_torch, dataloader_budget
+ from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
++from wnn.spread_aux import PackedSpreadCache, structural_loss, validate_spread_cache
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+ SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4
+@@ -58,7 +59,7 @@
+ 
+ class Sequences(Dataset):
+     def __init__(self, split: str, indices, teachers=None, prop_cache=None, quote_path=False,
+-                 quote_cache_root=None):
++                 quote_cache_root=None, spread_cache_root=None):
+         self.path = ROOT / "datasets" / f"{split}.parquet"
+         self.indices = list(indices)
+         self._file = None
+@@ -71,6 +72,8 @@
+         self.quote_path = quote_path
+         self.quote_cache_root = Path(quote_cache_root) if quote_cache_root else ROOT / "cache"
+         self._quote = None
++        self.spread_cache_root = Path(spread_cache_root) if spread_cache_root else None
++        self._spread = None
+         if teachers and quote_path:
+             raise ValueError("distillation and quote-path auxiliaries share target columns")
+ 
+@@ -104,8 +107,14 @@
+             if self._prop is None:
+                 self._prop = np.load(self.prop_cache, mmap_mode="r")
+             p = np.array(self._prop[self.indices[i]], dtype=np.float32)
+-            return torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored), torch.from_numpy(p)
+-        return torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored)
++            result = (torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored), torch.from_numpy(p))
++        else:
++            result = (torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored))
++        if self.spread_cache_root is not None:
++            if self._spread is None:
++                self._spread = PackedSpreadCache(self.spread_cache_root, self.split)
++            result += (torch.from_numpy(self._spread.read(self.indices[i])),)
++        return result
+ 
+ 
+ def true_mask_weights(main_valid, valid, scored, eps, branchless):
+@@ -601,6 +610,8 @@
+     ap.add_argument("--quote-cache-root", default="",
+                     help="optional paired auxiliary cache directory; historical cache remains the default")
+     ap.add_argument("--aux-next-k", default="", help="extra event horizons for the next-change aux heads, e.g. 2,4")
++    ap.add_argument("--spread-aux-mode", choices=["original", "proxy_known", "current_known"], default="original")
++    ap.add_argument("--spread-cache-root", default="", help="supervision-only fold0 known-code cache")
+     ap.add_argument("--aux-struct", type=float, default=0.0,
+                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
+     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
+@@ -870,11 +881,34 @@
+         quote_cache_provenance = {"metadata_sha256": file_sha256(metadata_path),
+                                   "array_sha256_expected": cache_files,
+                                   "variant": cache_root.name}
++    spread_provenance = None
++    if args.spread_aux_mode != "original":
++        if (campaign_split is None or campaign_split.fold != 0 or args.aux_struct <= 0
++                or not args.spread_cache_root or args.train_source != "train+valid"
++                or args.init != "c20260929_since_s3_f0@ep3" or args.seed != 3
++                or args.epochs != 1 or args.checkpoint_policy != "fixed"
++                or args.checkpoint_epoch != 0 or not args.no_eval_during_fit):
++            raise ValueError("known-code spread screen requires fixed one-epoch clean fold0 continuation from seed3 ep3")
++        spread_root = Path(args.spread_cache_root)
++        if not spread_root.is_absolute():
++            spread_root = ROOT / spread_root
++        spread_root = spread_root.resolve()
++        spread_provenance = validate_spread_cache(spread_root, campaign_split.sha256, train_idx,
++                                                   extra_valid, campaign_split.evaluation_groups)
++        if json.loads((spread_root / "metadata.json").read_text())["N_SP_AUX"] != N_SP_AUX:
++            raise ValueError("spread cache head dimension differs")
++        spread_provenance["mode"] = args.spread_aux_mode
++        spread_provenance["source_sha256"] = file_sha256(ROOT / "src/wnn/spread_aux.py")
++        args.spread_cache_root = str(spread_root)
++    elif args.spread_cache_root:
++        raise ValueError("spread cache supplied without a matched known-code mode")
+     train_ds = Sequences(train_split, train_idx, teachers, prop_cache.get(train_split),
+-                         quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root)
++                         quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root,
++                         spread_cache_root=args.spread_cache_root)
+     if extra_valid is not None:
+         valid_ds = Sequences("valid", extra_valid, teachers, prop_cache.get("valid"),
+-                             quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root)
++                             quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root,
++                             spread_cache_root=args.spread_cache_root)
+         train_ds = torch.utils.data.ConcatDataset([train_ds] + [valid_ds] * args.valid_repeat)
+     if args.epoch_samples:
+         sample_weights = np.ones(len(train_ds), dtype=np.float64)
+@@ -895,6 +929,8 @@
+                                      "valid": train_idx.tolist() if train_split == "valid" else
+                                      extra_valid.tolist() if extra_valid is not None else []},
+                   "evaluation_row_groups": valid_idx.tolist(), "checkpoint_sha256": {}}
++    if spread_provenance is not None:
++        provenance["spread_aux"] = spread_provenance
+     if quote_cache_provenance is not None:
+         provenance["quote_cache"] = quote_cache_provenance
+     if args.propensity:
+@@ -1016,18 +1052,20 @@
+             if args.max_batches and b >= args.max_batches:
+                 break
+             timer.start()
+-            prop_cached = None
++            prop_cached = spread_encoded = None
+             if args.pin_memory:
+                 (x, y, scored_dev, *rest), scored = batch
+-                if rest:
+-                    prop_cached = rest[0]
+             else:
+                 x, y, scored, *rest = batch
+-                if rest:
+-                    prop_cached = rest[0].to(device, non_blocking=True)
+                 x = x.to(device, non_blocking=True)
+                 y = y.to(device, non_blocking=True)
+                 scored_dev = scored.to(device, non_blocking=True)
++            if args.spread_aux_mode != "original":
++                spread_encoded = rest.pop()
++                if not args.pin_memory:
++                    spread_encoded = spread_encoded.to(device, non_blocking=True)
++            if rest:
++                prop_cached = rest[0] if args.pin_memory else rest[0].to(device, non_blocking=True)
+             timer.mark("h2d")
+             inputs = build_inputs(x)
+             timer.mark("inputs")
+@@ -1066,6 +1104,8 @@
+             aux = shifted_targets(y, valid, shifts)
+             if args.aux_struct > 0:
+                 sp_lab, br_lab, cl_lab = structure_labels(y, sequence_class(y))
++                if args.spread_aux_mode == "current_known":
++                    sp_lab = spread_encoded.clamp_max(N_SP_AUX - 1).long()
+                 sw = main_valid.float()
+             if args.aux_next > 0:
+                 nx_rows, nx_up, nx_ok = next_change_labels(y, valid)
+@@ -1136,13 +1176,9 @@
+                     )
+                     loss = loss + args.gate_ce * (gate_bce * gate_weight).sum() / gate_weight.sum().clamp_min(1e-8)
+                 if args.aux_struct > 0:
+-                    o = out.float()
+-                    wv = sw[:, sl].reshape(-1)
+-                    ce = 0.0
+-                    for a0, a1, lab in ((struct_at, struct_at + N_SP_AUX, sp_lab), (struct_at + N_SP_AUX, struct_at + N_SP_AUX + 3, br_lab),
+-                                        (struct_at + N_SP_AUX + 3, struct_at + N_SP_AUX + 7, cl_lab)):
+-                        ce = ce + F.cross_entropy(o[..., a0:a1].reshape(-1, a1 - a0), lab[:, sl].reshape(-1), reduction="none")
+-                    loss = loss + args.aux_struct * (ce * wv).sum() / wv.sum().clamp_min(1e-8)
++                    loss = loss + args.aux_struct * structural_loss(
++                        out, sp_lab[:, sl], br_lab[:, sl], cl_lab[:, sl], sw[:, sl], struct_at, N_SP_AUX,
++                        None if spread_encoded is None else spread_encoded[:, sl])
+                 if args.aux_next > 0:
+                     o = out.float()
+                     wv = nw[:, sl]

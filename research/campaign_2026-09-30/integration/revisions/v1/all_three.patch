@@ -1,0 +1,696 @@
+--- /dev/null
++++ b/src/wnn/structured_state.py
+@@ -0,0 +1,205 @@
++from __future__ import annotations
++
++import math
++
++import torch
++import torch.nn.functional as F
++from torch import Tensor, nn
++
++State = tuple[Tensor, Tensor]
++WIDTH = 96
++SCALAR_MODES = 64
++ROTATION_MODES = 32
++STATE_WIDTH = SCALAR_MODES + 2 * ROTATION_MODES
++
++
++class StructuredStateBlock(nn.Module):
++    """Stable scalar/rotation recurrence followed by a nonlinear residual map."""
++
++    def __init__(self, decay_init: str = "multi") -> None:
++        super().__init__()
++        if decay_init not in {"multi", "single"}:
++            raise ValueError("decay_init must be multi or single")
++        grid = torch.tensor([2.0, 8.0, 32.0, 128.0, 512.0, 2048.0])
++        half_life = grid[torch.arange(WIDTH) % len(grid)]
++        if decay_init == "single":
++            half_life = torch.full_like(half_life, 32.0)
++        self.raw_half_life = nn.Parameter(torch.logit(half_life.log() / math.log(8192.0)))
++        phase_grid = math.pi * torch.tensor([-1 / 32, -1 / 128, -1 / 512, 1 / 512, 1 / 128, 1 / 32])
++        self.register_buffer("phase", phase_grid[(torch.arange(ROTATION_MODES) // 6) % 6])
++        self.inject = nn.Linear(WIDTH, STATE_WIDTH, bias=False)
++        self.readout = nn.Linear(STATE_WIDTH, WIDTH, bias=False)
++        self.direct = nn.Linear(WIDTH, WIDTH, bias=False)
++        self.gate = nn.Linear(WIDTH, WIDTH)
++
++    def half_lives(self) -> Tensor:
++        """Return learned half-lives bounded to [1,8192] rows."""
++        return torch.exp(torch.sigmoid(self.raw_half_life) * math.log(8192.0))
++
++    def dynamics(self) -> tuple[Tensor, Tensor]:
++        """Return log radii and cancellation-safe normalized injection scales."""
++        log_rho = -math.log(2.0) / self.half_lives()
++        return log_rho, torch.sqrt(-torch.expm1(2 * log_rho))
++
++    def transition_coefficients(self) -> tuple[Tensor, Tensor, Tensor]:
++        """Return shared rounded scalar and real rotation coefficients."""
++        log_rho, _ = self.dynamics()
++        rho = log_rho.exp()
++        return (
++            rho[:SCALAR_MODES],
++            rho[SCALAR_MODES:] * self.phase.cos(),
++            rho[SCALAR_MODES:] * self.phase.sin(),
++        )
++
++    def _drive(self, u: Tensor, scale: Tensor) -> Tensor:
++        projected = self.inject(u).to(scale.dtype)
++        real_scale = torch.cat([scale[:SCALAR_MODES], scale[SCALAR_MODES:].repeat_interleave(2)])
++        return projected * real_scale
++
++    def _mix(self, u: Tensor, states: Tensor) -> Tensor:
++        o = self.readout(states) + self.direct(u)
++        return u + torch.sigmoid(self.gate(u)) * F.gelu(o)
++
++    def fft_states(self, drive: Tensor, incoming: Tensor) -> Tensor:
++        """Causal convolution with the analytically propagated incoming state.
++
++        Args:
++            drive: Already normalized injection, shape [batch,time,128].
++            incoming: Real state immediately before this chunk, shape [batch,128].
++
++        Returns:
++            Real states after each row, shape [batch,time,128].
++        """
++        length = drive.shape[1]
++        scalar_rho, cosine_coefficient, sine_coefficient = self.transition_coefficients()
++        row = torch.arange(length, device=drive.device, dtype=drive.dtype)
++        n_fft = 1 << (2 * length - 2).bit_length()
++        scalar_kernel = torch.exp(row[:, None] * scalar_rho.log())
++        scalar_spectrum = torch.fft.rfft(drive[..., :SCALAR_MODES], n_fft, dim=1)
++        scalar_filter = torch.fft.rfft(scalar_kernel, n_fft, dim=0)
++        scalar = torch.fft.irfft(scalar_spectrum * scalar_filter[None], n_fft, dim=1)[:, :length]
++        scalar = scalar + (scalar_kernel * scalar_rho)[None] * incoming[:, None, :SCALAR_MODES]
++
++        pair = drive[..., SCALAR_MODES:].reshape(drive.shape[0], length, ROTATION_MODES, 2)
++        complex_drive = torch.complex(pair[..., 0], pair[..., 1])
++        transition = torch.complex(cosine_coefficient, sine_coefficient)
++        log_lambda = transition.log()
++        rotation_kernel = torch.exp(row[:, None] * log_lambda)
++        rotation = torch.fft.ifft(
++            torch.fft.fft(complex_drive, n_fft, dim=1)
++            * torch.fft.fft(rotation_kernel, n_fft, dim=0)[None],
++            n_fft,
++            dim=1,
++        )[:, :length]
++        initial_pair = incoming[:, SCALAR_MODES:].reshape(-1, ROTATION_MODES, 2)
++        initial_complex = torch.complex(initial_pair[..., 0], initial_pair[..., 1])
++        rotation = rotation + (rotation_kernel * transition)[None] * initial_complex[:, None]
++        real_rotation = torch.stack([rotation.real, rotation.imag], dim=-1)
++        return torch.cat([scalar, real_rotation.flatten(-2)], dim=-1)
++
++    def real_step(self, drive: Tensor, incoming: Tensor) -> Tensor:
++        """Apply independent real scalar/2x2 dynamics, without FFT machinery."""
++        scalar_rho, cosine, sine = self.transition_coefficients()
++        scalar = scalar_rho * incoming[:, :SCALAR_MODES]
++        pair = incoming[:, SCALAR_MODES:].reshape(-1, ROTATION_MODES, 2)
++        rotated = torch.stack(
++            [
++                cosine * pair[..., 0] - sine * pair[..., 1],
++                sine * pair[..., 0] + cosine * pair[..., 1],
++            ],
++            dim=-1,
++        )
++        return torch.cat([scalar, rotated.flatten(-2)], dim=-1) + drive
++
++    def forward(self, u: Tensor, state: Tensor) -> tuple[Tensor, Tensor]:
++        """Evaluate a training chunk using bounded O(T log T) convolution."""
++        _, scale = self.dynamics()
++        drive = self._drive(u, scale)
++        states = self.fft_states(drive, state)
++        return self._mix(u, states), states[:, -1]
++
++    def sequential(self, u: Tensor, state: Tensor) -> tuple[Tensor, Tensor]:
++        """Evaluate a chunk with the independent recurrence for parity only."""
++        _, scale = self.dynamics()
++        drive = self._drive(u, scale)
++        outputs: list[Tensor] = []
++        for row in drive.unbind(dim=1):
++            state = self.real_step(row, state)
++            outputs.append(state)
++        states = torch.stack(outputs, dim=1)
++        return self._mix(u, states), state
++
++    def stream_step(self, u: Tensor, state: Tensor) -> tuple[Tensor, Tensor]:
++        """Process one row with the same real recurrence used by native ports."""
++        _, scale = self.dynamics()
++        state = self.real_step(self._drive(u, scale), state)
++        return self._mix(u, state), state
++
++
++class StructuredStateModel(nn.Module):
++    """Two width96 stable-state blocks with a projection skip and shared head."""
++
++    def __init__(self, n_in: int, n_out: int = 2, decay_init: str = "multi") -> None:
++        super().__init__()
++        if n_in <= 0 or n_out <= 0:
++            raise ValueError("n_in and n_out must be positive")
++        self.register_buffer("mean", torch.zeros(n_in))
++        self.register_buffer("std", torch.ones(n_in))
++        self.inp = nn.Linear(n_in, WIDTH)
++        self.blocks = nn.ModuleList(
++            [StructuredStateBlock(decay_init), StructuredStateBlock(decay_init)]
++        )
++        self.head = nn.Sequential(nn.Linear(2 * WIDTH, WIDTH), nn.GELU(), nn.Linear(WIDTH, n_out))
++
++    def reset(self, batch_size: int = 1) -> State:
++        """Return zero state for a new independent sequence batch."""
++        if batch_size <= 0:
++            raise ValueError("batch_size must be positive")
++        prototype = self.blocks[0].raw_half_life
++        return tuple(prototype.new_zeros(batch_size, STATE_WIDTH) for _ in range(2))
++
++    def _checked_state(self, batch: int, state: State | None) -> State:
++        prototype = self.blocks[0].raw_half_life
++        if prototype.dtype not in {torch.float32, torch.float64}:
++            raise ValueError("model dynamics require FP32 or FP64 parameters")
++        if state is None:
++            return self.reset(batch)
++        if len(state) != 2 or any(s.shape != (batch, STATE_WIDTH) for s in state):
++            raise ValueError("state must contain two [batch,128] real tensors")
++        if any(s.dtype != prototype.dtype or s.device != prototype.device for s in state):
++            raise ValueError("state dtype/device must match the FP32/FP64 model")
++        return state
++
++    def encode(self, x: Tensor) -> Tensor:
++        """Standardize input and produce its causal row projection."""
++        return F.gelu(self.inp((x - self.mean) / self.std))
++
++    def forward(self, x: Tensor, state: State | None = None) -> tuple[Tensor, State]:
++        """Process [batch,time,input] and carry a flat tuple across TBPTT chunks."""
++        if x.ndim != 3 or x.shape[1] == 0 or x.shape[-1] != self.mean.numel():
++            raise ValueError("x must have shape [batch,positive_time,n_in]")
++        state = self._checked_state(x.shape[0], state)
++        with torch.autocast(device_type=x.device.type, enabled=False):
++            z = self.encode(x.to(self.mean.dtype))
++            u, s1 = self.blocks[0](z, state[0])
++            u, s2 = self.blocks[1](u, state[1])
++            return self.head(torch.cat([u, z], dim=-1)), (s1, s2)
++
++    def sequential(self, x: Tensor, state: State | None = None) -> tuple[Tensor, State]:
++        """Use independent real updates as an auditable full-model reference."""
++        state = self._checked_state(x.shape[0], state)
++        z = self.encode(x)
++        u, s1 = self.blocks[0].sequential(z, state[0])
++        u, s2 = self.blocks[1].sequential(u, state[1])
++        return self.head(torch.cat([u, z], dim=-1)), (s1, s2)
++
++    def stream_step(self, x: Tensor, state: State | None = None) -> tuple[Tensor, State]:
++        """Advance one [batch,input] row; resetting is explicit via reset()."""
++        if x.ndim != 2 or x.shape[-1] != self.mean.numel():
++            raise ValueError("stream input must have shape [batch,n_in]")
++        state = self._checked_state(x.shape[0], state)
++        with torch.autocast(device_type=x.device.type, enabled=False):
++            z = self.encode(x.to(self.mean.dtype))
++            u, s1 = self.blocks[0].stream_step(z, state[0])
++            u, s2 = self.blocks[1].stream_step(u, state[1])
++            return self.head(torch.cat([u, z], dim=-1)), (s1, s2)
+--- /dev/null
++++ b/src/wnn/spread_aux.py
+@@ -0,0 +1,145 @@
++from __future__ import annotations
++
++import hashlib
++import json
++from collections.abc import Iterable
++from pathlib import Path
++
++import numpy as np
++import torch.nn.functional as F
++from torch import Tensor
++
++UNKNOWN = 255
++
++
++def file_sha256(path: Path) -> str:
++    """Hash a cache artifact without loading it into RAM."""
++    digest = hashlib.sha256()
++    with path.open("rb") as source:
++        for block in iter(lambda: source.read(1 << 20), b""):
++            digest.update(block)
++    return digest.hexdigest()
++
++
++def validate_spread_cache(
++    root: Path,
++    split_sha256: str,
++    train: Iterable[int],
++    valid: Iterable[int],
++    evaluation: Iterable[int],
++) -> dict:
++    """Reject incomplete, changed, or differently partitioned supervised caches."""
++    metadata_path = root / "metadata.json"
++    metadata = json.loads(metadata_path.read_text())
++    if metadata.get("status") != "complete" or metadata.get("supervision_only") is not True:
++        raise ValueError("spread cache is incomplete or not supervision-only")
++    if set(metadata.get("files", {})) != {"train", "valid"} or metadata.get("N_SP_AUX") != 12:
++        raise ValueError("spread cache file set/head dimension differs")
++    if metadata["split_manifest_sha256"] != split_sha256:
++        raise ValueError("spread cache split differs")
++    for name, groups in [
++        ("fit_train_groups", train),
++        ("fit_valid_groups", valid),
++        ("evaluation_valid_groups", evaluation),
++    ]:
++        if len(set(metadata[name])) != len(metadata[name]) or set(metadata[name]) != set(
++            map(int, groups)
++        ):
++            raise ValueError(f"spread cache {name} differs")
++    if set(metadata["fit_valid_groups"]) & set(metadata["evaluation_valid_groups"]):
++        raise ValueError("spread cache fitting/evaluation VALID membership overlaps")
++    if metadata["unknown"] != UNKNOWN or metadata["dtype"] != "uint8":
++        raise ValueError("unknown-label encoding changed")
++    for path_key, expected in [
++        ("selection.json", metadata["selection_sha256"]),
++        ("interior_code_table.json", metadata["map_sha256"]),
++    ]:
++        if file_sha256(root / path_key) != expected:
++            raise ValueError(f"spread provenance hash differs: {path_key}")
++    for split, entry in metadata["files"].items():
++        if entry["file"] != f"spread_{split}.npy" or entry["shape"] != [
++            len(metadata[f"fit_{split}_groups"]),
++            20_000,
++        ]:
++            raise ValueError("spread cache file path/shape differs")
++        if entry["row_groups"] != metadata[f"fit_{split}_groups"]:
++            raise ValueError("cache row order differs from its exact group index")
++        if file_sha256(root / entry["file"]) != entry["sha256"]:
++            raise ValueError(f"spread cache array hash differs: {split}")
++        values = np.load(root / entry["file"], mmap_mode="r", allow_pickle=False)
++        if values.dtype != np.uint8 or list(values.shape) != entry["shape"]:
++            raise ValueError("spread cache array dtype/shape differs")
++        for first in range(0, len(values), 128):
++            block = values[first : first + 128]
++            if np.any((block >= 12) & (block != UNKNOWN)):
++                raise ValueError("spread cache contains invalid bin/unknown values")
++    return {
++        "metadata_sha256": file_sha256(metadata_path),
++        "map_sha256": metadata["map_sha256"],
++        "selection_sha256": metadata["selection_sha256"],
++        "array_sha256": {split: entry["sha256"] for split, entry in metadata["files"].items()},
++        "supervision_only": True,
++        "unknown": UNKNOWN,
++    }
++
++
++class PackedSpreadCache:
++    """Sparse row-group label cache; outside fitting membership is an error."""
++
++    def __init__(self, root: Path, split: str) -> None:
++        self.metadata = json.loads((root / "metadata.json").read_text())
++        if self.metadata.get("status") != "complete":
++            raise ValueError("incomplete spread cache")
++        entry = self.metadata["files"][split]
++        self.position = {int(group): index for index, group in enumerate(entry["row_groups"])}
++        self.values = np.load(root / entry["file"], mmap_mode="r", allow_pickle=False)
++        if list(self.values.shape) != entry["shape"] or self.values.dtype != np.uint8:
++            raise ValueError("spread cache shape/type differs")
++
++    def read(self, group: int) -> np.ndarray:
++        """Return copied encoded supervision for exactly the requested FIT group."""
++        if int(group) not in self.position:
++            raise ValueError(f"row group{group} is outside spread cache FIT membership")
++        return np.array(self.values[self.position[int(group)]], dtype=np.uint8, copy=True)
++
++
++def structural_loss(
++    output: Tensor,
++    spread: Tensor,
++    branch: Tensor,
++    classes: Tensor,
++    weights: Tensor,
++    start: int,
++    spread_bins: int,
++    encoded_spread: Tensor | None = None,
++) -> Tensor:
++    """Use original weighting; mask only the spread numerator on unknown codes.
++
++    Args:
++        output: Existing full-head logits for one TBPTT chunk.
++        spread: Original proxy or cached-current spread labels, already selected.
++        branch: Unmodified original branch labels for this chunk.
++        classes: Unmodified original class labels for this chunk.
++        weights: Original `sw` for this chunk; denominator remains `weights.sum`.
++        start: Existing structural output-head start.
++        spread_bins: Existing N_SP_AUX, not a new output dimension.
++        encoded_spread: Shared uint8 cache (255unknown), used solely as loss mask.
++
++    Returns:
++        Structural CE before the existing aux_struct coefficient.
++    """
++    logits = output.float()
++    row_weights = weights.reshape(-1)
++    ce = 0.0
++    for lo, hi, label in [
++        (start, start + spread_bins, spread),
++        (start + spread_bins, start + spread_bins + 3, branch),
++        (start + spread_bins + 3, start + spread_bins + 7, classes),
++    ]:
++        term = F.cross_entropy(
++            logits[..., lo:hi].reshape(-1, hi - lo), label.reshape(-1), reduction="none"
++        )
++        if lo == start and encoded_spread is not None:
++            term = term * (encoded_spread.reshape(-1) != UNKNOWN)
++        ce = ce + term
++    return (ce * row_weights).sum() / row_weights.sum().clamp_min(1e-8)
+--- /dev/null
++++ b/src/wnn/event_content.py
+@@ -0,0 +1,137 @@
++"""Bounded normalized content memory; research implementation, unapplied."""
++
++from __future__ import annotations
++
++import math
++
++import torch
++from torch import Tensor, nn
++from torch.nn import functional as F
++
++State = tuple[Tensor, Tensor, Tensor, Tensor, Tensor, Tensor]
++ENDPOINT = -5.199337482452393
++ARMS = ("endpoint-content", "endpoint-position", "raw-code-content")
++
++
++def walsh_table() -> Tensor:
++    """Uncentered 128x96 orthogonal Walsh columns, including intercept."""
++    return torch.tensor(
++        [[1 - 2 * ((n & j).bit_count() % 2) for j in range(96)] for n in range(128)],
++        dtype=torch.float32,
++    )
++
++
++class EventContentModel(nn.Module):
++    """One GRU with row/event associative heads and a flat carried state."""
++
++    def __init__(
++        self, n_in: int, n_out: int = 2, arm: str = "endpoint-content", microblock: int = 64
++    ) -> None:
++        super().__init__()
++        if arm not in ARMS or not 1 <= microblock <= 64 or n_in < 112:
++            raise ValueError("invalid arm, microblock, or missing raw features")
++        self.arm, self.microblock = arm, microblock
++        self.register_buffer("mean", torch.zeros(n_in))
++        self.register_buffer("std", torch.ones(n_in))
++        self.register_buffer("walsh", walsh_table())
++        self.register_buffer("log_decay", -math.log(2) / torch.tensor([64.0, 512.0, 2.0, 16.0]))
++        self.inp = nn.Linear(n_in, 96)
++        self.gru = nn.GRU(96, 96, batch_first=True)
++        self.query = nn.Linear(96, 32, bias=False)
++        self.key = nn.Linear(96, 32, bias=False)
++        self.value = nn.Linear(96, 64)
++        self.read_gate = nn.Linear(96, 64)
++        self.head = nn.Sequential(nn.Linear(256, 96), nn.GELU(), nn.Linear(96, n_out))
++
++    def initial_state(self, x: Tensor) -> State:
++        """External sequence reset; origin is subsequently written exactly once."""
++        b = x.shape[0]
++        dtype = torch.float64 if self.mean.dtype == torch.float64 else torch.float32
++        return (
++            x.new_zeros(1, b, 96, dtype=self.mean.dtype),
++            x.new_zeros(b, 4, 8, 16, dtype=dtype),
++            x.new_zeros(b, 4, 8, dtype=dtype),
++            torch.zeros(b, device=x.device, dtype=torch.int64),
++            torch.zeros(b, device=x.device, dtype=torch.int64),
++            x.new_zeros(b, 22, dtype=torch.float32),
++        )
++
++    def forward(self, x: Tensor, state: State | None = None) -> tuple[Tensor, State]:
++        """Parallel exact bounded local scan; read after current insertion."""
++        if x.ndim != 3 or x.shape[1] == 0:
++            raise ValueError("expected nonempty B,T,D")
++        state = self.initial_state(x) if state is None else state
++        h, s, zmem, rowcount, writecount, prev = state
++        # Source f32 predicate extracted before standardization or autocast maps.
++        raw = x[..., :112].float()
++        prices = raw[..., :22]
++        previous = torch.cat((prev[:, None], prices[:, :-1]), dim=1)
++        endpoint = raw[..., 110] == ENDPOINT
++        code = (prices != previous).any(-1)
++        ordinal = rowcount[:, None] + torch.arange(x.shape[1], device=x.device)
++        writes = (code & (ordinal > 0)) if self.arm == "raw-code-content" else endpoint
++        cumulative = writecount[:, None] + writes.to(torch.int64).cumsum(1)
++        eventordinal = (cumulative - 1).clamp_min(0)
++        enc = F.gelu(self.inp((x - self.mean) / self.std))
++        hidden, h = self.gru(enc, h)
++        # Both clocks' positions are generated in every arm.
++        posrow = self.walsh[ordinal % 128]
++        posevent = self.walsh[eventordinal % 128]
++        content = hidden[:, :, None, :].expand(-1, -1, 4, -1)
++        position = torch.stack((posrow, posrow, posevent, posevent), dim=2)
++        source = position if self.arm == "endpoint-position" else content
++        # Shared linear tensor sliced by head (same compute in all arms).
++        dtype = torch.float64 if self.mean.dtype == torch.float64 else torch.float32
++        with torch.autocast(device_type=x.device.type, enabled=False):
++            source = source.to(dtype)
++            q = (
++                F.elu(
++                    torch.einsum(
++                        "bthd,hkd->bthk", source, self.query.weight.to(dtype).reshape(4, 8, 96)
++                    ).clamp(-8, 8)
++                )
++                + 1
++            )
++            k = (
++                F.elu(
++                    torch.einsum(
++                        "bthd,hkd->bthk", source, self.key.weight.to(dtype).reshape(4, 8, 96)
++                    ).clamp(-8, 8)
++                )
++                + 1
++            )
++            v = torch.tanh(
++                F.linear(hidden.to(dtype), self.value.weight.to(dtype), self.value.bias.to(dtype))
++            ).reshape(*hidden.shape[:2], 4, 16)
++            gate = torch.stack(
++                (torch.ones_like(writes), torch.ones_like(writes), writes, writes), -1
++            ).to(dtype)
++            results = []
++            for start in range(0, x.shape[1], self.microblock):
++                stop = min(start + self.microblock, x.shape[1])
++                qb, kb, vb, gb = (a[:, start:stop].transpose(1, 2) for a in (q, k, v, gate))
++                logprefix = (gb * self.log_decay.to(dtype)[None, :, None]).cumsum(-1)
++                carried = logprefix.exp()
++                # Never form growing inverse powers: causal exponent differences <=0.
++                delta = logprefix[..., :, None] - logprefix[..., None, :]
++                lower = torch.ones(
++                    stop - start, stop - start, device=x.device, dtype=torch.bool
++                ).tril()
++                decay = delta.masked_fill(~lower, -torch.inf).exp()
++                weight = torch.einsum("bhik,bhjk->bhij", qb, kb) * decay * gb[..., None, :]
++                numerator = torch.einsum("bhik,bhkv->bhiv", qb, s) * carried[..., None]
++                numerator = numerator + torch.einsum("bhij,bhjv->bhiv", weight, vb)
++                denominator = torch.einsum("bhik,bhk->bhi", qb, zmem) * carried
++                denominator = denominator + weight.sum(-1)
++                results.append((numerator / denominator.clamp_min(1e-6)[..., None]).transpose(1, 2))
++                last_weight = (logprefix[..., -1, None] - logprefix).exp() * gb
++                s = s * carried[..., -1, None, None] + torch.einsum(
++                    "bht,bhtk,bhtv->bhkv", last_weight, kb, vb
++                )
++                zmem = zmem * carried[..., -1, None] + torch.einsum(
++                    "bht,bhtk->bhk", last_weight, kb
++                )
++            retrieval = torch.cat(results, dim=1).flatten(2)
++        read = torch.sigmoid(self.read_gate(hidden)) * retrieval.to(hidden.dtype)
++        out = self.head(torch.cat((hidden, enc, read), dim=-1))
++        return out, (h, s, zmem, rowcount + x.shape[1], cumulative[:, -1], prices[:, -1])
+--- a/scripts/train_rnn.py
++++ b/scripts/train_rnn.py
+@@ -48,8 +48,11 @@
+     structure_labels,
+ )
+ from wnn.propensity import load_propensity, propensity
++from wnn.structured_state import StructuredStateModel
++from wnn.event_content import EventContentModel
+ from wnn.resources import configure_torch, dataloader_budget
+ from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
++from wnn.spread_aux import PackedSpreadCache, structural_loss, validate_spread_cache
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+ SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4
+@@ -58,7 +61,7 @@
+ 
+ class Sequences(Dataset):
+     def __init__(self, split: str, indices, teachers=None, prop_cache=None, quote_path=False,
+-                 quote_cache_root=None):
++                 quote_cache_root=None, spread_cache_root=None):
+         self.path = ROOT / "datasets" / f"{split}.parquet"
+         self.indices = list(indices)
+         self._file = None
+@@ -71,6 +74,8 @@
+         self.quote_path = quote_path
+         self.quote_cache_root = Path(quote_cache_root) if quote_cache_root else ROOT / "cache"
+         self._quote = None
++        self.spread_cache_root = Path(spread_cache_root) if spread_cache_root else None
++        self._spread = None
+         if teachers and quote_path:
+             raise ValueError("distillation and quote-path auxiliaries share target columns")
+ 
+@@ -104,8 +109,14 @@
+             if self._prop is None:
+                 self._prop = np.load(self.prop_cache, mmap_mode="r")
+             p = np.array(self._prop[self.indices[i]], dtype=np.float32)
+-            return torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored), torch.from_numpy(p)
+-        return torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored)
++            result = (torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored), torch.from_numpy(p))
++        else:
++            result = (torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored))
++        if self.spread_cache_root is not None:
++            if self._spread is None:
++                self._spread = PackedSpreadCache(self.spread_cache_root, self.split)
++            result += (torch.from_numpy(self._spread.read(self.indices[i])),)
++        return result
+ 
+ 
+ def true_mask_weights(main_valid, valid, scored, eps, branchless):
+@@ -386,6 +397,21 @@
+ 
+ 
+ def make_model(args_dict, n_in, n_out):
++    if args_dict.get("arch") == "structured":
++        if (args_dict["hidden"] != 96 or args_dict["layers"] != 2
++                or args_dict["dropout"] != 0
++                or args_dict.get("enc", "linear") != "linear"):
++            raise ValueError("structured card B requires hidden96, layers2, dropout0, enc linear")
++        model = StructuredStateModel(n_in, n_out, args_dict.get("decay_init", "multi"))
++        for prefix in filter(None, args_dict.get("freeze", "").split(",")):
++            if not any(name.startswith(prefix) for name, _ in model.named_parameters()):
++                raise ValueError(f"unknown structured freeze prefix {prefix!r}; backbone is inp,blocks")
++        return model
++    if args_dict.get("arch") == "event-content":
++        if (args_dict["hidden"] != 96 or args_dict["layers"] != 1
++                or args_dict["dropout"] != 0 or args_dict.get("enc", "linear") != "linear"):
++            raise ValueError("D1 requires hidden96,layers1,dropout0,enc linear")
++        return EventContentModel(n_in, n_out, args_dict.get("memory_arm", "endpoint-content"))
+     if args_dict.get("arch") == "gated":
+         return GatedRNNModel(
+             n_in, args_dict["hidden"], args_dict["layers"], args_dict["dropout"], n_out=n_out
+@@ -521,6 +547,8 @@
+         "layers",
+         "dropout",
+         "arch",
++        "decay_init",
++        "memory_arm",
+         "cell",
+         "enc",
+         "tok_dim",
+@@ -601,11 +629,16 @@
+     ap.add_argument("--quote-cache-root", default="",
+                     help="optional paired auxiliary cache directory; historical cache remains the default")
+     ap.add_argument("--aux-next-k", default="", help="extra event horizons for the next-change aux heads, e.g. 2,4")
++    ap.add_argument("--spread-aux-mode", choices=["original", "proxy_known", "current_known"], default="original")
++    ap.add_argument("--spread-cache-root", default="", help="supervision-only fold0 known-code cache")
+     ap.add_argument("--aux-struct", type=float, default=0.0,
+                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
+     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
+     ap.add_argument("--aux-weight", type=float, default=0.5)
+-    ap.add_argument("--arch", choices=["gru", "dual", "gated"], default="gru")
++    ap.add_argument("--arch", choices=["gru", "dual", "gated", "structured", "event-content"], default="gru")
++    ap.add_argument("--decay-init", choices=["multi", "single"], default="multi",
++                    help="structured-state initial half-lives; identical learned bounds and phases")
++    ap.add_argument("--memory-arm", choices=["endpoint-content", "endpoint-position", "raw-code-content"], default="endpoint-content")
+     ap.add_argument("--gate-ce", type=float, default=0.0,
+                     help="BCE weight for the gated model's target-difference sign head")
+     ap.add_argument("--cell", choices=["gru", "lstm"], default="gru")
+@@ -870,11 +903,34 @@
+         quote_cache_provenance = {"metadata_sha256": file_sha256(metadata_path),
+                                   "array_sha256_expected": cache_files,
+                                   "variant": cache_root.name}
++    spread_provenance = None
++    if args.spread_aux_mode != "original":
++        if (campaign_split is None or campaign_split.fold != 0 or args.aux_struct <= 0
++                or not args.spread_cache_root or args.train_source != "train+valid"
++                or args.init != "c20260929_since_s3_f0@ep3" or args.seed != 3
++                or args.epochs != 1 or args.checkpoint_policy != "fixed"
++                or args.checkpoint_epoch != 0 or not args.no_eval_during_fit):
++            raise ValueError("known-code spread screen requires fixed one-epoch clean fold0 continuation from seed3 ep3")
++        spread_root = Path(args.spread_cache_root)
++        if not spread_root.is_absolute():
++            spread_root = ROOT / spread_root
++        spread_root = spread_root.resolve()
++        spread_provenance = validate_spread_cache(spread_root, campaign_split.sha256, train_idx,
++                                                   extra_valid, campaign_split.evaluation_groups)
++        if json.loads((spread_root / "metadata.json").read_text())["N_SP_AUX"] != N_SP_AUX:
++            raise ValueError("spread cache head dimension differs")
++        spread_provenance["mode"] = args.spread_aux_mode
++        spread_provenance["source_sha256"] = file_sha256(ROOT / "src/wnn/spread_aux.py")
++        args.spread_cache_root = str(spread_root)
++    elif args.spread_cache_root:
++        raise ValueError("spread cache supplied without a matched known-code mode")
+     train_ds = Sequences(train_split, train_idx, teachers, prop_cache.get(train_split),
+-                         quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root)
++                         quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root,
++                         spread_cache_root=args.spread_cache_root)
+     if extra_valid is not None:
+         valid_ds = Sequences("valid", extra_valid, teachers, prop_cache.get("valid"),
+-                             quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root)
++                             quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root,
++                             spread_cache_root=args.spread_cache_root)
+         train_ds = torch.utils.data.ConcatDataset([train_ds] + [valid_ds] * args.valid_repeat)
+     if args.epoch_samples:
+         sample_weights = np.ones(len(train_ds), dtype=np.float64)
+@@ -895,6 +951,12 @@
+                                      "valid": train_idx.tolist() if train_split == "valid" else
+                                      extra_valid.tolist() if extra_valid is not None else []},
+                   "evaluation_row_groups": valid_idx.tolist(), "checkpoint_sha256": {}}
++    if args.arch == "structured":
++        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/structured_state.py")
++    if spread_provenance is not None:
++        provenance["spread_aux"] = spread_provenance
++    if args.arch == "event-content":
++        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/event_content.py")
+     if quote_cache_provenance is not None:
+         provenance["quote_cache"] = quote_cache_provenance
+     if args.propensity:
+@@ -1016,18 +1078,20 @@
+             if args.max_batches and b >= args.max_batches:
+                 break
+             timer.start()
+-            prop_cached = None
++            prop_cached = spread_encoded = None
+             if args.pin_memory:
+                 (x, y, scored_dev, *rest), scored = batch
+-                if rest:
+-                    prop_cached = rest[0]
+             else:
+                 x, y, scored, *rest = batch
+-                if rest:
+-                    prop_cached = rest[0].to(device, non_blocking=True)
+                 x = x.to(device, non_blocking=True)
+                 y = y.to(device, non_blocking=True)
+                 scored_dev = scored.to(device, non_blocking=True)
++            if args.spread_aux_mode != "original":
++                spread_encoded = rest.pop()
++                if not args.pin_memory:
++                    spread_encoded = spread_encoded.to(device, non_blocking=True)
++            if rest:
++                prop_cached = rest[0] if args.pin_memory else rest[0].to(device, non_blocking=True)
+             timer.mark("h2d")
+             inputs = build_inputs(x)
+             timer.mark("inputs")
+@@ -1066,6 +1130,8 @@
+             aux = shifted_targets(y, valid, shifts)
+             if args.aux_struct > 0:
+                 sp_lab, br_lab, cl_lab = structure_labels(y, sequence_class(y))
++                if args.spread_aux_mode == "current_known":
++                    sp_lab = spread_encoded.clamp_max(N_SP_AUX - 1).long()
+                 sw = main_valid.float()
+             if args.aux_next > 0:
+                 nx_rows, nx_up, nx_ok = next_change_labels(y, valid)
+@@ -1136,13 +1202,9 @@
+                     )
+                     loss = loss + args.gate_ce * (gate_bce * gate_weight).sum() / gate_weight.sum().clamp_min(1e-8)
+                 if args.aux_struct > 0:
+-                    o = out.float()
+-                    wv = sw[:, sl].reshape(-1)
+-                    ce = 0.0
+-                    for a0, a1, lab in ((struct_at, struct_at + N_SP_AUX, sp_lab), (struct_at + N_SP_AUX, struct_at + N_SP_AUX + 3, br_lab),
+-                                        (struct_at + N_SP_AUX + 3, struct_at + N_SP_AUX + 7, cl_lab)):
+-                        ce = ce + F.cross_entropy(o[..., a0:a1].reshape(-1, a1 - a0), lab[:, sl].reshape(-1), reduction="none")
+-                    loss = loss + args.aux_struct * (ce * wv).sum() / wv.sum().clamp_min(1e-8)
++                    loss = loss + args.aux_struct * structural_loss(
++                        out, sp_lab[:, sl], br_lab[:, sl], cl_lab[:, sl], sw[:, sl], struct_at, N_SP_AUX,
++                        None if spread_encoded is None else spread_encoded[:, sl])
+                 if args.aux_next > 0:
+                     o = out.float()
+                     wv = nw[:, sl]

@@ -1,0 +1,356 @@
+{
+  "synthetic_only": true,
+  "competition_data_read": false,
+  "batch": 32,
+  "sequence_length": 20000,
+  "chunk": 2000,
+  "n_in": 211,
+  "n_out": 23,
+  "seed": 3,
+  "decay_init": "single",
+  "precision": "outer fp16 autocast + GradScaler; model FP32 throughout",
+  "teacher": "actual trainer FastEMA, consistency1.0, decay0.999",
+  "aux_struct": 0.3,
+  "aux_next": 0.3,
+  "source_sha256": {
+    "model.py": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+    "gpu_smoke_v2.py": "c5a56437439943e1e629dacec73a6c87156baba7b3ee89600ecfad60671e7d60",
+    "gpu_smoke_preregistration.md": "ccea4845753e4eb830ed166d829c4fee209d7068526966535328fa7d669cf08e",
+    "train_rnn.py": "9b53054caf94c51f83154c25f9bb246638da683ea4a4ba4ce3bec6c2451d0891"
+  },
+  "torch": "2.14.0+cu130",
+  "python": "3.13.9",
+  "cuda_version": "13.0",
+  "scope": "wnn-top1-c20260930_gpu_ssm_single_probe_v2-scope",
+  "total_device_cap_bytes": 5000000000,
+  "parameters": 127511,
+  "raw_resident_shape": [
+    32,
+    20000,
+    112
+  ],
+  "passed": true,
+  "optimizer_updates": 10,
+  "ema_updates": 10,
+  "loss": 3.494828701019287,
+  "forward_and_teacher_seconds": [
+    0.1442790889996104,
+    0.03505791199950181,
+    0.03466498899979342,
+    0.0346979759997339,
+    0.03340032699998119,
+    0.033490077999886125,
+    0.03352735499993287,
+    0.033392755999557266,
+    0.033451321000029566,
+    0.0334654190000947
+  ],
+  "backward_seconds": [
+    0.04135455300001922,
+    0.03186341099990386,
+    0.031595558999470086,
+    0.030791361999945366,
+    0.03070586000012554,
+    0.030779575999986264,
+    0.03161140499923931,
+    0.031062299000041094,
+    0.03110560900040582,
+    0.0319739849992402
+  ],
+  "state_shapes": [
+    [
+      32,
+      128
+    ],
+    [
+      32,
+      128
+    ]
+  ],
+  "teacher_state_shapes": [
+    [
+      32,
+      128
+    ],
+    [
+      32,
+      128
+    ]
+  ],
+  "cpu_replay_artifact": "research/campaign_2026-09-30/integration/gpu_probe_single_v2.cpu_replay.pt",
+  "cpu_replay_sha256": "bb50c6acea1098251fe6bbc282756e0194820331df5adb3192a540a5406e59bd",
+  "literal_replay_backend_flags": {
+    "float32_matmul_precision": "highest",
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": true,
+    "cudnn_enabled": true,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "deterministic_algorithms": false,
+    "cuda_matmul_allow_fp16_reduced_precision_reduction": true,
+    "cuda_matmul_allow_bf16_reduced_precision_reduction": true
+  },
+  "checkpoint_sha256": "a3c8502f7ae2cb0787dd0d6ae4bfb00d8cd503d897885173e97839fbc5e50c38",
+  "wall_seconds": 2.2731868330001817,
+  "vram_samples": [
+    {
+      "stage": "resident_inputs_student_teacher_optimizer",
+      "device_bytes": [
+        1302331392
+      ],
+      "allocated_bytes": 857565184,
+      "reserved_bytes": 1084227584
+    },
+    {
+      "stage": "chunk0:student_and_teacher_forward",
+      "device_bytes": [
+        2363490304
+      ],
+      "allocated_bytes": 1754909696,
+      "reserved_bytes": 2101346304
+    },
+    {
+      "stage": "chunk0:backward",
+      "device_bytes": [
+        2602565632
+      ],
+      "allocated_bytes": 1068547584,
+      "reserved_bytes": 2306867200
+    },
+    {
+      "stage": "chunk0:optimizer_and_ema",
+      "device_bytes": [
+        2604662784
+      ],
+      "allocated_bytes": 1069581312,
+      "reserved_bytes": 2306867200
+    },
+    {
+      "stage": "chunk1:student_and_teacher_forward",
+      "device_bytes": [
+        2604662784
+      ],
+      "allocated_bytes": 1857400832,
+      "reserved_bytes": 2306867200
+    },
+    {
+      "stage": "chunk1:backward",
+      "device_bytes": [
+        2606759936
+      ],
+      "allocated_bytes": 1070367744,
+      "reserved_bytes": 2308964352
+    },
+    {
+      "stage": "chunk1:optimizer_and_ema",
+      "device_bytes": [
+        2606759936
+      ],
+      "allocated_bytes": 1070367744,
+      "reserved_bytes": 2308964352
+    },
+    {
+      "stage": "chunk2:student_and_teacher_forward",
+      "device_bytes": [
+        2606759936
+      ],
+      "allocated_bytes": 1856647680,
+      "reserved_bytes": 2308964352
+    },
+    {
+      "stage": "chunk2:backward",
+      "device_bytes": [
+        2673868800
+      ],
+      "allocated_bytes": 1070367744,
+      "reserved_bytes": 2376073216
+    },
+    {
+      "stage": "chunk2:optimizer_and_ema",
+      "device_bytes": [
+        2673868800
+      ],
+      "allocated_bytes": 1070367744,
+      "reserved_bytes": 2376073216
+    },
+    {
+      "stage": "chunk3:student_and_teacher_forward",
+      "device_bytes": [
+        2673868800
+      ],
+      "allocated_bytes": 1859760128,
+      "reserved_bytes": 2376073216
+    },
+    {
+      "stage": "chunk3:backward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071154176,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk3:optimizer_and_ema",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071154176,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk4:student_and_teacher_forward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1859252224,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk4:backward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071154176,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk4:optimizer_and_ema",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071154176,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk5:student_and_teacher_forward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1860038656,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk5:backward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071940608,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk5:optimizer_and_ema",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071940608,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk6:student_and_teacher_forward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1861332992,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk6:backward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071940608,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk6:optimizer_and_ema",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071940608,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk7:student_and_teacher_forward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1861332992,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk7:backward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071940608,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk7:optimizer_and_ema",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071940608,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk8:student_and_teacher_forward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1861332992,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk8:backward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071940608,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk8:optimizer_and_ema",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071940608,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk9:student_and_teacher_forward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1861332992,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk9:backward",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071940608,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "chunk9:optimizer_and_ema",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1071940608,
+      "reserved_bytes": 2443182080
+    },
+    {
+      "stage": "final_literal_fp32_replay_saved",
+      "device_bytes": [
+        2740977664
+      ],
+      "allocated_bytes": 1075860992,
+      "reserved_bytes": 2443182080
+    }
+  ],
+  "allocator_peak_bytes": 2146795008,
+  "allocator_reserved_peak_bytes": 2443182080,
+  "limitation": "Stage samples can miss transient total-device peak; root's monitor required. Synthetic core profile excludes data-loader/features intermediates."
+}

@@ -1,0 +1,116 @@
+{
+  "version": 3,
+  "stage": "synthetic CPU implementation proof only; independent grade required",
+  "arms": [
+    "endpoint-content",
+    "endpoint-position",
+    "raw-code-content"
+  ],
+  "seed": 3,
+  "dimensions": {
+    "hidden": 96,
+    "gru_layers": 1,
+    "heads": 4,
+    "key": 8,
+    "value": 16,
+    "microblock_max": 64
+  },
+  "half_lives": [
+    64,
+    512,
+    2,
+    16
+  ],
+  "row_heads": "heads0/1 write and decay every row; original Card A",
+  "event_heads": "heads2/3 write and decay on own arm gate; endpoint/code contrast is joint write/decay policy",
+  "endpoint": "current source float32 a6 == float32(-5.199337482452393), before normalization/autocast",
+  "raw_indices": {
+    "a6": 110,
+    "prices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ]
+  },
+  "input_contract": "raw first112 columns retained unchanged by build_inputs; verify integration index grammar before fit",
+  "origin": "No artificial event injection. Rowheads write row0; endpoint eventheads write row0 ONLY actualendpoint; rawcode row0 false because no prior known price.",
+  "counters": "rowcount consumedrows/currentordinal starts0; writecount actualclockwrites; currenteventordinal=max(writecount+cumsum(currentgate)-1,0), firstactualwrite ordinal0; quiet uses mostrecentordinal; empty queryordinal0 but S/Zzero.",
+  "position": "96 Walsh columns j0..95 over nmod128, rowheads=rowordinal,eventheads=writeordinal; no q/k biases; modulo128 alias explicit",
+  "maps": "q/k Linear96->32 no bias; clamp logits[-8,8], ELU+1; values Linear96->64 then tanh; sigmoid read gate Linear96->64; head concat GRUh96,encoder96,gate*retrieval64 -> Linear256->96,GELU,Linear96->nout",
+  "matched_compute": "position basis/content retained allarms; identical q/k tensors and maps; values, readout, dimensions, initialization, skip, microblocks fixed",
+  "read": "after current insertion; empty history zero; positive denominator floor1e-6",
+  "state": [
+    "GRUh[1,B,96]",
+    "S[B,4,8,16]",
+    "Z[B,4,8]",
+    "rowcount[B]int64",
+    "writecount[B]int64",
+    "prevprices[B,22]float32"
+  ],
+  "dtype": "S/Z and memory calculations FP32 even outerautocast; FP64 module permits gradient oracle; prices sourcefloat32; countsint64",
+  "parallel": "microblocks<=64; bounded causal exp(logprefix_i-logprefix_j)<=1, no inverse decay, local LxL attention only; carry only final S/Z; independent literal serial recurrence",
+  "bounds": "phi in [exp(-8),9]; values in[-1,1]; positive normalized retrieval convex hull inclzero when flooractive; Z coordinate <=9/(1-alpha), Sabs<=same fromzerostate; no sequencewide T^2 or inversepowers",
+  "proof": {
+    "forward_float64_atol": 1e-09,
+    "gradient_float64_atol": 1e-08,
+    "forward_float32_atol": 3e-05,
+    "state_float32_atol": 0.003,
+    "gradient_float32_atol": 0.0003,
+    "causality_atol": 3e-05,
+    "walsh_rank": 96,
+    "walsh_gram_atol": 0,
+    "gradient_active_min": 1e-12
+  },
+  "cases": [
+    "allarms outputs/state/input/state/parameter gradients independent serial",
+    "nonzero carriedstate",
+    "chunk1/17/64/2000",
+    "causal futureperturbation",
+    "reset batchisolation",
+    "zeroevents",
+    "firstevent",
+    "microblock and Walsh128 boundary events",
+    "20kquiet",
+    "extreme finitekeys",
+    "convexhull",
+    "allq/k input columns active gradient",
+    "outer CPU bfloat16 autocast stateFP32"
+  ],
+  "resources": {
+    "threads": 1,
+    "memory": "2GiB",
+    "runtime_seconds": 300,
+    "slice": "wnn-campaign.slice",
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "no_access": [
+    "competition targets",
+    "competition masks",
+    "IDs as inputs",
+    "scores",
+    "GPU",
+    "live model/trainer/ledger modifications"
+  ],
+  "gpu_gate": "independent CPUgrade + four clean controlfolds + root cost/budget amendment; original3arms4epochs cap1080seconds each retained conditional; no fit authorized here",
+  "identification": "passing proves engineering parity only; no physical quote/time/sourceidentity or competitive-quality claim",
+  "amendment": "Source grammar inspection src/wnn/data.py before any implementation/check: i0_p0..21 contiguous0:22; v1 erroneously mixed instruments. v1 preserved.; root before checks requires empty eventhistory preserved: no artificialoriginwrite; bounded tanh/clamp amendments disclosed, saturated logits have zero gradient."
+}

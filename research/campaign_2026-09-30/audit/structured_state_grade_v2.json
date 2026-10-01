@@ -1,0 +1,718 @@
+{
+  "status": "pass",
+  "model_sha256_before": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+  "model_sha256_after": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+  "protocol_sha256": "ca1db38520cf754c8ef9fcd9071c6c2eb0ec80e74c2476938fdead89473637fa",
+  "grader_sha256": "f78868bd39cbc5cdcf675d154d90eae147ca7f203a31002ec3f0fc870f273602",
+  "independent_reference_actor_recurrence_helpers_used": false,
+  "cuda_initialized": false,
+  "cases": [
+    {
+      "name": "only_decay_initialization_differs",
+      "status": "pass",
+      "details": {
+        "mismatches": [],
+        "parameter_count": 106082
+      }
+    },
+    {
+      "name": "multi_FP64_forward_all_gradients",
+      "status": "pass",
+      "details": {
+        "forward": [
+          {
+            "max_abs": 1.3877787807814457e-16,
+            "violations": 0,
+            "max_bound_ratio": 8.253402177755487e-08,
+            "finite": true
+          },
+          {
+            "max_abs": 1.9984014443252818e-15,
+            "violations": 0,
+            "max_bound_ratio": 2.8128688249669654e-07,
+            "finite": true
+          },
+          {
+            "max_abs": 4.884981308350689e-15,
+            "violations": 0,
+            "max_bound_ratio": 5.93748668530604e-07,
+            "finite": true
+          }
+        ],
+        "gradients": {
+          "input": {
+            "max_abs": 4.440892098500626e-16,
+            "violations": 0,
+            "max_bound_ratio": 1.3784821099171959e-08,
+            "finite": true
+          },
+          "state0": {
+            "max_abs": 3.1086244689504383e-15,
+            "violations": 0,
+            "max_bound_ratio": 3.779820950664755e-08,
+            "finite": true
+          },
+          "state1": {
+            "max_abs": 2.886579864025407e-15,
+            "violations": 0,
+            "max_bound_ratio": 3.629229103341702e-08,
+            "finite": true
+          },
+          "inp.weight": {
+            "max_abs": 2.6645352591003757e-15,
+            "violations": 0,
+            "max_bound_ratio": 9.147417580641649e-08,
+            "finite": true
+          },
+          "inp.bias": {
+            "max_abs": 2.6645352591003757e-15,
+            "violations": 0,
+            "max_bound_ratio": 1.0857549453667253e-07,
+            "finite": true
+          },
+          "blocks.0.raw_half_life": {
+            "max_abs": 6.217248937900877e-15,
+            "violations": 0,
+            "max_bound_ratio": 2.741314505616218e-08,
+            "finite": true
+          },
+          "blocks.0.inject.weight": {
+            "max_abs": 7.105427357601002e-15,
+            "violations": 0,
+            "max_bound_ratio": 1.313622971189635e-07,
+            "finite": true
+          },
+          "blocks.0.readout.weight": {
+            "max_abs": 7.993605777301127e-15,
+            "violations": 0,
+            "max_bound_ratio": 3.319839042402615e-07,
+            "finite": true
+          },
+          "blocks.0.direct.weight": {
+            "max_abs": 8.881784197001252e-16,
+            "violations": 0,
+            "max_bound_ratio": 6.626543754260446e-08,
+            "finite": true
+          },
+          "blocks.0.gate.weight": {
+            "max_abs": 3.0531133177191805e-16,
+            "violations": 0,
+            "max_bound_ratio": 2.3441233011422785e-08,
+            "finite": true
+          },
+          "blocks.0.gate.bias": {
+            "max_abs": 6.106226635438361e-16,
+            "violations": 0,
+            "max_bound_ratio": 2.5052147171779558e-08,
+            "finite": true
+          },
+          "blocks.1.raw_half_life": {
+            "max_abs": 7.549516567451064e-15,
+            "violations": 0,
+            "max_bound_ratio": 4.2811509382090665e-08,
+            "finite": true
+          },
+          "blocks.1.inject.weight": {
+            "max_abs": 7.105427357601002e-15,
+            "violations": 0,
+            "max_bound_ratio": 2.6754941150233206e-07,
+            "finite": true
+          },
+          "blocks.1.readout.weight": {
+            "max_abs": 1.1102230246251565e-15,
+            "violations": 0,
+            "max_bound_ratio": 3.153007488012272e-08,
+            "finite": true
+          },
+          "blocks.1.direct.weight": {
+            "max_abs": 1.8041124150158794e-16,
+            "violations": 0,
+            "max_bound_ratio": 1.1296978011994198e-08,
+            "finite": true
+          },
+          "blocks.1.gate.weight": {
+            "max_abs": 5.551115123125783e-17,
+            "violations": 0,
+            "max_bound_ratio": 4.815651818845674e-09,
+            "finite": true
+          },
+          "blocks.1.gate.bias": {
+            "max_abs": 5.551115123125783e-17,
+            "violations": 0,
+            "max_bound_ratio": 4.836687777208089e-09,
+            "finite": true
+          },
+          "head.0.weight": {
+            "max_abs": 1.3322676295501878e-15,
+            "violations": 0,
+            "max_bound_ratio": 7.19474347345867e-08,
+            "finite": true
+          },
+          "head.0.bias": {
+            "max_abs": 5.551115123125783e-16,
+            "violations": 0,
+            "max_bound_ratio": 1.8372165563301954e-08,
+            "finite": true
+          },
+          "head.2.weight": {
+            "max_abs": 2.6645352591003757e-15,
+            "violations": 0,
+            "max_bound_ratio": 1.1883048573331957e-07,
+            "finite": true
+          },
+          "head.2.bias": {
+            "max_abs": 0.0,
+            "violations": 0,
+            "max_bound_ratio": 0.0,
+            "finite": true
+          }
+        }
+      }
+    },
+    {
+      "name": "multi_FP32_partition_and_stream",
+      "status": "pass",
+      "details": {
+        "partitions": {
+          "1": [
+            {
+              "max_abs": 2.5331974029541016e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.009655948728322983,
+              "finite": true
+            },
+            {
+              "max_abs": 9.5367431640625e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.010834099724888802,
+              "finite": true
+            },
+            {
+              "max_abs": 1.9073486328125e-06,
+              "violations": 0,
+              "max_bound_ratio": 0.010226873680949211,
+              "finite": true
+            }
+          ],
+          "17": [
+            {
+              "max_abs": 2.682209014892578e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.010722600854933262,
+              "finite": true
+            },
+            {
+              "max_abs": 1.5735626220703125e-05,
+              "violations": 0,
+              "max_bound_ratio": 0.03677794337272644,
+              "finite": true
+            },
+            {
+              "max_abs": 1.049041748046875e-05,
+              "violations": 0,
+              "max_bound_ratio": 0.07340548932552338,
+              "finite": true
+            }
+          ],
+          "64": [
+            {
+              "max_abs": 2.682209014892578e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.010118737816810608,
+              "finite": true
+            },
+            {
+              "max_abs": 1.33514404296875e-05,
+              "violations": 0,
+              "max_bound_ratio": 0.041611555963754654,
+              "finite": true
+            },
+            {
+              "max_abs": 1.239776611328125e-05,
+              "violations": 0,
+              "max_bound_ratio": 0.10233508795499802,
+              "finite": true
+            }
+          ],
+          "2000": [
+            {
+              "max_abs": 2.682209014892578e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.007224829401820898,
+              "finite": true
+            },
+            {
+              "max_abs": 1.2874603271484375e-05,
+              "violations": 0,
+              "max_bound_ratio": 0.020690200850367546,
+              "finite": true
+            },
+            {
+              "max_abs": 1.33514404296875e-05,
+              "violations": 0,
+              "max_bound_ratio": 0.09138510376214981,
+              "finite": true
+            }
+          ],
+          "2049": [
+            {
+              "max_abs": 2.682209014892578e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.008550018072128296,
+              "finite": true
+            },
+            {
+              "max_abs": 1.1920928955078125e-05,
+              "violations": 0,
+              "max_bound_ratio": 0.022955304011702538,
+              "finite": true
+            },
+            {
+              "max_abs": 1.621246337890625e-05,
+              "violations": 0,
+              "max_bound_ratio": 0.08557214587926865,
+              "finite": true
+            }
+          ],
+          "stream": [
+            {
+              "max_abs": 2.5331974029541016e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.009655948728322983,
+              "finite": true
+            },
+            {
+              "max_abs": 9.5367431640625e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.010834099724888802,
+              "finite": true
+            },
+            {
+              "max_abs": 1.9073486328125e-06,
+              "violations": 0,
+              "max_bound_ratio": 0.010226873680949211,
+              "finite": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "multi_causality_reset_autocast",
+      "status": "pass",
+      "details": {
+        "suffix_perturbation": {
+          "max_abs": 8.940696716308594e-08,
+          "violations": 0,
+          "max_bound_ratio": 0.0025055906735360622,
+          "finite": true
+        },
+        "full_prefix_vs_prefix_only": {
+          "max_abs": 4.470348358154297e-08,
+          "violations": 0,
+          "max_bound_ratio": 0.0016661856789141893,
+          "finite": true
+        },
+        "batch_independence": {
+          "max_abs": 5.21540641784668e-08,
+          "violations": 0,
+          "max_bound_ratio": 0.001850294996984303,
+          "finite": true
+        },
+        "reset_exact": true,
+        "autocast_exact_fp32_states": true
+      }
+    },
+    {
+      "name": "single_FP64_forward_all_gradients",
+      "status": "pass",
+      "details": {
+        "forward": [
+          {
+            "max_abs": 1.3877787807814457e-16,
+            "violations": 0,
+            "max_bound_ratio": 8.209537877625379e-08,
+            "finite": true
+          },
+          {
+            "max_abs": 1.3322676295501878e-15,
+            "violations": 0,
+            "max_bound_ratio": 2.1246545330659543e-07,
+            "finite": true
+          },
+          {
+            "max_abs": 1.7763568394002505e-15,
+            "violations": 0,
+            "max_bound_ratio": 4.2592068772992455e-07,
+            "finite": true
+          }
+        ],
+        "gradients": {
+          "input": {
+            "max_abs": 3.3306690738754696e-16,
+            "violations": 0,
+            "max_bound_ratio": 2.1615653665781193e-08,
+            "finite": true
+          },
+          "state0": {
+            "max_abs": 5.551115123125783e-16,
+            "violations": 0,
+            "max_bound_ratio": 3.8920532854819574e-08,
+            "finite": true
+          },
+          "state1": {
+            "max_abs": 4.996003610813204e-16,
+            "violations": 0,
+            "max_bound_ratio": 1.723490860625202e-08,
+            "finite": true
+          },
+          "inp.weight": {
+            "max_abs": 3.552713678800501e-15,
+            "violations": 0,
+            "max_bound_ratio": 1.635904613318181e-07,
+            "finite": true
+          },
+          "inp.bias": {
+            "max_abs": 6.217248937900877e-15,
+            "violations": 0,
+            "max_bound_ratio": 2.5074748019741542e-08,
+            "finite": true
+          },
+          "blocks.0.raw_half_life": {
+            "max_abs": 3.9968028886505635e-15,
+            "violations": 0,
+            "max_bound_ratio": 6.031216439042088e-08,
+            "finite": true
+          },
+          "blocks.0.inject.weight": {
+            "max_abs": 7.993605777301127e-15,
+            "violations": 0,
+            "max_bound_ratio": 2.3570012557161397e-07,
+            "finite": true
+          },
+          "blocks.0.readout.weight": {
+            "max_abs": 6.217248937900877e-15,
+            "violations": 0,
+            "max_bound_ratio": 1.4509006403118315e-07,
+            "finite": true
+          },
+          "blocks.0.direct.weight": {
+            "max_abs": 1.3322676295501878e-15,
+            "violations": 0,
+            "max_bound_ratio": 5.627297886913927e-08,
+            "finite": true
+          },
+          "blocks.0.gate.weight": {
+            "max_abs": 3.3306690738754696e-16,
+            "violations": 0,
+            "max_bound_ratio": 1.1100199915357893e-08,
+            "finite": true
+          },
+          "blocks.0.gate.bias": {
+            "max_abs": 1.1102230246251565e-15,
+            "violations": 0,
+            "max_bound_ratio": 2.5520418605698124e-08,
+            "finite": true
+          },
+          "blocks.1.raw_half_life": {
+            "max_abs": 4.6629367034256575e-15,
+            "violations": 0,
+            "max_bound_ratio": 9.057493840294946e-08,
+            "finite": true
+          },
+          "blocks.1.inject.weight": {
+            "max_abs": 7.993605777301127e-15,
+            "violations": 0,
+            "max_bound_ratio": 2.551884149014226e-07,
+            "finite": true
+          },
+          "blocks.1.readout.weight": {
+            "max_abs": 8.881784197001252e-16,
+            "violations": 0,
+            "max_bound_ratio": 3.496800329102087e-08,
+            "finite": true
+          },
+          "blocks.1.direct.weight": {
+            "max_abs": 1.3877787807814457e-16,
+            "violations": 0,
+            "max_bound_ratio": 1.0436098094883914e-08,
+            "finite": true
+          },
+          "blocks.1.gate.weight": {
+            "max_abs": 6.245004513516506e-17,
+            "violations": 0,
+            "max_bound_ratio": 5.415376114175858e-09,
+            "finite": true
+          },
+          "blocks.1.gate.bias": {
+            "max_abs": 3.8163916471489756e-17,
+            "violations": 0,
+            "max_bound_ratio": 2.9902137524620734e-09,
+            "finite": true
+          },
+          "head.0.weight": {
+            "max_abs": 8.326672684688674e-16,
+            "violations": 0,
+            "max_bound_ratio": 5.962680219104666e-08,
+            "finite": true
+          },
+          "head.0.bias": {
+            "max_abs": 6.661338147750939e-16,
+            "violations": 0,
+            "max_bound_ratio": 1.2246905486122161e-08,
+            "finite": true
+          },
+          "head.2.weight": {
+            "max_abs": 3.1086244689504383e-15,
+            "violations": 0,
+            "max_bound_ratio": 2.0646210958696478e-07,
+            "finite": true
+          },
+          "head.2.bias": {
+            "max_abs": 0.0,
+            "violations": 0,
+            "max_bound_ratio": 0.0,
+            "finite": true
+          }
+        }
+      }
+    },
+    {
+      "name": "single_FP32_partition_and_stream",
+      "status": "pass",
+      "details": {
+        "partitions": {
+          "1": [
+            {
+              "max_abs": 1.4901161193847656e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.005376903805881739,
+              "finite": true
+            },
+            {
+              "max_abs": 4.76837158203125e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.00444426853209734,
+              "finite": true
+            },
+            {
+              "max_abs": 9.5367431640625e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.0036162047181278467,
+              "finite": true
+            }
+          ],
+          "17": [
+            {
+              "max_abs": 1.1920928955078125e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.003292588284239173,
+              "finite": true
+            },
+            {
+              "max_abs": 5.960464477539062e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.002747852122411132,
+              "finite": true
+            },
+            {
+              "max_abs": 1.9073486328125e-06,
+              "violations": 0,
+              "max_bound_ratio": 0.005337572656571865,
+              "finite": true
+            }
+          ],
+          "64": [
+            {
+              "max_abs": 1.1920928955078125e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.003210530849173665,
+              "finite": true
+            },
+            {
+              "max_abs": 7.152557373046875e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.003944286610931158,
+              "finite": true
+            },
+            {
+              "max_abs": 1.6689300537109375e-06,
+              "violations": 0,
+              "max_bound_ratio": 0.004813648760318756,
+              "finite": true
+            }
+          ],
+          "2000": [
+            {
+              "max_abs": 1.043081283569336e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.004042936488986015,
+              "finite": true
+            },
+            {
+              "max_abs": 9.5367431640625e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.0036453106440603733,
+              "finite": true
+            },
+            {
+              "max_abs": 1.6689300537109375e-06,
+              "violations": 0,
+              "max_bound_ratio": 0.005782370455563068,
+              "finite": true
+            }
+          ],
+          "2049": [
+            {
+              "max_abs": 9.685754776000977e-08,
+              "violations": 0,
+              "max_bound_ratio": 0.003635378321632743,
+              "finite": true
+            },
+            {
+              "max_abs": 5.960464477539062e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.005784953944385052,
+              "finite": true
+            },
+            {
+              "max_abs": 1.9073486328125e-06,
+              "violations": 0,
+              "max_bound_ratio": 0.0056977178901433945,
+              "finite": true
+            }
+          ],
+          "stream": [
+            {
+              "max_abs": 1.4901161193847656e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.005376903805881739,
+              "finite": true
+            },
+            {
+              "max_abs": 4.76837158203125e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.00444426853209734,
+              "finite": true
+            },
+            {
+              "max_abs": 9.5367431640625e-07,
+              "violations": 0,
+              "max_bound_ratio": 0.0036162047181278467,
+              "finite": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "single_causality_reset_autocast",
+      "status": "pass",
+      "details": {
+        "suffix_perturbation": {
+          "max_abs": 1.1920928955078125e-07,
+          "violations": 0,
+          "max_bound_ratio": 0.004770028404891491,
+          "finite": true
+        },
+        "full_prefix_vs_prefix_only": {
+          "max_abs": 6.705522537231445e-08,
+          "violations": 0,
+          "max_bound_ratio": 0.0018364239949733019,
+          "finite": true
+        },
+        "batch_independence": {
+          "max_abs": 7.450580596923828e-08,
+          "violations": 0,
+          "max_bound_ratio": 0.002387309679761529,
+          "finite": true
+        },
+        "reset_exact": true,
+        "autocast_exact_fp32_states": true
+      }
+    },
+    {
+      "name": "half_life8192_20000row_impulse",
+      "status": "pass",
+      "details": {
+        "FFT_scalar_vs_exact_impulse": {
+          "max_abs": 5.960464477539063e-08,
+          "violations": 0,
+          "max_bound_ratio": 0.0008287069504149258,
+          "finite": true
+        },
+        "FFT_rotation_norm_vs_exact_impulse": {
+          "max_abs": 1.1920928955078125e-07,
+          "violations": 0,
+          "max_bound_ratio": 0.0009864630410447717,
+          "finite": true
+        },
+        "ideal_continuous_rho_scalar_maxdiff_diagnostic": 0.00012820959091186523,
+        "stream_final_vs_FFT": {
+          "max_abs": 4.26173210144043e-06,
+          "violations": 0,
+          "max_bound_ratio": 0.2130454033613205,
+          "finite": true
+        },
+        "stream_scalar_final": 0.18399567902088165,
+        "FFT_scalar_final": 0.1839955747127533
+      }
+    }
+  ],
+  "protocol": {
+    "version": "independent-architecture-cpu-protocol-v2",
+    "status": "frozen protocol before actor fits; runnable grader pending actor artifacts",
+    "interface": "RNNModel-compatible forward(x,state)->(pred,state), flat tensor tuple; stream_step and independently written sequential reference",
+    "state": "carry at chunk boundaries, detach only TBPTT gradients; reset only sequence boundaries; all expert states updated each row",
+    "input_cases": [
+      "zero and nonzero incoming states",
+      "random finite dense timeline",
+      "zero events and first-row event",
+      "events at partition boundaries",
+      "impulses",
+      "constant inputs",
+      "alternating signs",
+      "20000-row no-gradient slow-state sequence",
+      "exact and near routing ties"
+    ],
+    "partitions": [
+      1,
+      17,
+      64,
+      2000
+    ],
+    "short_forward_gradient_lengths": [
+      97,
+      257
+    ],
+    "float64_forward_tolerance": {
+      "atol": 1e-09,
+      "rtol": 1e-08
+    },
+    "float64_gradient_tolerance": {
+      "atol": 1e-08,
+      "rtol": 1e-07
+    },
+    "float32_forward_tolerance": {
+      "atol": 2e-05,
+      "rtol": 0.0002
+    },
+    "float32_gradient_tolerance": {
+      "atol": 0.0002,
+      "rtol": 0.002
+    },
+    "precision": "slow transition parameters and memory states execute in FP32 under reduced-precision autocast; report predicted deviations before any relaxation",
+    "causality": "changing suffix inputs leaves prefix predictions/state at prefix end identical within declared numeric tolerance; masks/labels/IDs absent from inference interface",
+    "reset": "A-reset-B equals fresh B for predictions and all state; batched independent sequences equal separately reset sequences",
+    "numerical_invariants": "finite raw outputs/states; A normalizer nonnegative and retrieval coordinate bounded by past written-value range plus zero; B scalar/2x2 impulse and constant-input analytical bounds; C exact route identity and all expert updates",
+    "chronology": "same fitting groups/order/normalization/loss masks/warmup/optimizer steps/seed for matched arms; fixed checkpoint epoch; no validation selection",
+    "score_evaluator": "global_wp_clip2_v1 frozen by research/campaign_2026-09-30/evaluator_freeze.json; centered component bootstrap; softened masks and block means diagnostic",
+    "limits": "1 CPU core, 2GiB RAM in wnn-campaign.slice; no GPU from critic; independent source hashes and raw discrepancy artifacts required",
+    "later_native_gate": "one-vCPU Python stream and native AVX2/v2/v3 comparisons including route identity, fixed member/weight identity, state reset and runtime before packaging",
+    "amendment": "new dated artifact retaining original; no silent tolerance relaxation after fitting",
+    "amendment_reason": "Before GPU fitting, analytical impulse now uses the actually serialized FP32 scalar/2x2 A coefficients, matching streaming semantics; ideal continuous-rho difference remains diagnostic. All numeric tolerances unchanged. Original protocol/grader and failing result preserved.",
+    "analytic_impulse_oracle": "powers of FP32-rounded real transition coefficients promoted to FP64 for analytical oracle"
+  },
+  "peak_rss_kib": 723476,
+  "wall_seconds": 10.351125215000138
+}

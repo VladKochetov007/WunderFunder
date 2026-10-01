@@ -1,0 +1,9 @@
+# Independent fresh TRAIN exposure replay
+
+PASS: `event_content_exposure_independent_v1.json` reproduces the actor's frozen result SHA256 `5612047440b453fe05e15ec7d9d0175c36ca0e16bc82873d0c4d9366e4d741cf` directly from 320,000 raw TRAIN rows across all 16 selected components. Metadata selection and exclusion of all previously inspected canonical components were rederived before feature access.
+
+Only the 22 raw current-price columns and a6 were read. Source size, timestamp and Parquet footer plus trailer hash, all input commitments, and both prerequisite proof hashes were checked. No actor implementation was imported. Each of 153 Gram matrices was independently reconstructed using the Walsh product identity `H_i H_j = H_(i XOR j)` and matched exactly; ranks, eigenvalues, exposure histograms, write counters, nonempty support, aliases, and retrospective class diagnostics reproduced.
+
+Every component passes the frozen rank96 and at-least128-write gates under each clock. All 8,454 unknown-class rows remain included. Six origins have actual endpoint writes, one nonorigin endpoint has unchanged raw code, and an initial empty history lasts up to 2,569 rows. This supports the declared engineering comparator. Period128 position aliases remain, and endpoint-versus-code changes writing and decay jointly; no physical clock identity or prediction gain follows from this measurement.
+
+Durable job `c20260930_independent_d1_exposure_v2` finished exit0 in 2.02 seconds overall; numerical replay took 1.23 seconds, with observed peak1,024.09MiB. The nested scope properties were checked inside the process: CPU quota1core, MemoryMax2GiB, swap0, `wnn-campaign.slice`; CUDA was hidden. The preceding v1 job failed before any feature read because the critic initially hashed the footer without its eight-byte trailer. Its raw job/log are retained, and v2 corrects that identity grammar without changing scientific thresholds or selection.

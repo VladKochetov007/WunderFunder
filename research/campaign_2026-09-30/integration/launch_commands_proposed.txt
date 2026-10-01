@@ -1,0 +1,25 @@
+# Proposed commands only; do not execute until root freezes recipes and releases controls gate.
+
+# continuation proxy_known
+.venv/bin/python scripts/train_rnn.py --name c20260930_spread_proxy_f0 --init c20260929_since_s3_f0@ep3 --inherit-init-preprocessing --train-source train+valid --epochs 1 --seed 3 --batch 32 --chunk 2000 --lr 0.001 --wd 0.01 --loss wmse --aux-struct 0.3 --aux-next 0.3 --ema-teacher 1 --ema-decay 0.999 --eval-ema --propensity c20260929_prop_f0 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --since-weight 32 --since-floor 0.25 --loss-norm chunk --fast --precision fp16 --spread-cache-root research/campaign_2026-09-30/spread_aux --spread-aux-mode proxy_known --split-manifest research/campaign_2026-09-29/artifacts/splits/fold0.json --checkpoint-policy fixed --checkpoint-epoch 0 --no-eval-during-fit --valid-fold 0 --n-valid-folds 4 --eval-source vfold --full-valid
+
+# continuation current_known
+.venv/bin/python scripts/train_rnn.py --name c20260930_spread_current_f0 --init c20260929_since_s3_f0@ep3 --inherit-init-preprocessing --train-source train+valid --epochs 1 --seed 3 --batch 32 --chunk 2000 --lr 0.001 --wd 0.01 --loss wmse --aux-struct 0.3 --aux-next 0.3 --ema-teacher 1 --ema-decay 0.999 --eval-ema --propensity c20260929_prop_f0 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --since-weight 32 --since-floor 0.25 --loss-norm chunk --fast --precision fp16 --spread-cache-root research/campaign_2026-09-30/spread_aux --spread-aux-mode current_known --split-manifest research/campaign_2026-09-29/artifacts/splits/fold0.json --checkpoint-policy fixed --checkpoint-epoch 0 --no-eval-during-fit --valid-fold 0 --n-valid-folds 4 --eval-source vfold --full-valid
+
+# FT_head proxy_known
+.venv/bin/python scripts/train_rnn.py --name c20260930_ft_spread_proxy_f0h --init c20260930_spread_proxy_f0@ep0 --inherit-init-preprocessing --train-source valid --epochs 1 --seed 3 --batch 16 --chunk 2000 --wd 0.01 --loss gcorr --mask-weight --aux-struct 0.3 --aux-next 0.3 --spread-aux-mode original --spread-cache-root '' --ema-teacher 0 --ema-decay 0.999 --propensity '' --prop-power 1 --prop-eps 0 --valid-true-mask -1 --since-weight 0 --since-floor 0.25 --loss-norm chunk --fast --precision fp16 --split-manifest research/campaign_2026-09-29/artifacts/splits/fold0.json --checkpoint-policy fixed --checkpoint-epoch 0 --no-eval-during-fit --valid-fold 0 --n-valid-folds 4 --eval-source vfold --full-valid --freeze inp,gru --lr 0.0005
+
+# FT_head current_known
+.venv/bin/python scripts/train_rnn.py --name c20260930_ft_spread_current_f0h --init c20260930_spread_current_f0@ep0 --inherit-init-preprocessing --train-source valid --epochs 1 --seed 3 --batch 16 --chunk 2000 --wd 0.01 --loss gcorr --mask-weight --aux-struct 0.3 --aux-next 0.3 --spread-aux-mode original --spread-cache-root '' --ema-teacher 0 --ema-decay 0.999 --propensity '' --prop-power 1 --prop-eps 0 --valid-true-mask -1 --since-weight 0 --since-floor 0.25 --loss-norm chunk --fast --precision fp16 --split-manifest research/campaign_2026-09-29/artifacts/splits/fold0.json --checkpoint-policy fixed --checkpoint-epoch 0 --no-eval-during-fit --valid-fold 0 --n-valid-folds 4 --eval-source vfold --full-valid --freeze inp,gru --lr 0.0005
+
+# FT_full proxy_known
+.venv/bin/python scripts/train_rnn.py --name c20260930_ft_spread_proxy_f0 --init c20260930_ft_spread_proxy_f0h@ep0 --inherit-init-preprocessing --train-source valid --epochs 1 --seed 3 --batch 16 --chunk 2000 --wd 0.01 --loss gcorr --mask-weight --aux-struct 0.3 --aux-next 0.3 --spread-aux-mode original --spread-cache-root '' --ema-teacher 0 --ema-decay 0.999 --propensity '' --prop-power 1 --prop-eps 0 --valid-true-mask -1 --since-weight 0 --since-floor 0.25 --loss-norm chunk --fast --precision fp16 --split-manifest research/campaign_2026-09-29/artifacts/splits/fold0.json --checkpoint-policy fixed --checkpoint-epoch 0 --no-eval-during-fit --valid-fold 0 --n-valid-folds 4 --eval-source vfold --full-valid --freeze '' --lr 0.0002
+
+# FT_full current_known
+.venv/bin/python scripts/train_rnn.py --name c20260930_ft_spread_current_f0 --init c20260930_ft_spread_current_f0h@ep0 --inherit-init-preprocessing --train-source valid --epochs 1 --seed 3 --batch 16 --chunk 2000 --wd 0.01 --loss gcorr --mask-weight --aux-struct 0.3 --aux-next 0.3 --spread-aux-mode original --spread-cache-root '' --ema-teacher 0 --ema-decay 0.999 --propensity '' --prop-power 1 --prop-eps 0 --valid-true-mask -1 --since-weight 0 --since-floor 0.25 --loss-norm chunk --fast --precision fp16 --split-manifest research/campaign_2026-09-29/artifacts/splits/fold0.json --checkpoint-policy fixed --checkpoint-epoch 0 --no-eval-during-fit --valid-fold 0 --n-valid-folds 4 --eval-source vfold --full-valid --freeze '' --lr 0.0002
+
+# prediction proxy_known
+.venv/bin/python scripts/predict_run.py c20260930_ft_spread_proxy_f0 valid --epoch 0
+
+# prediction current_known
+.venv/bin/python scripts/predict_run.py c20260930_ft_spread_current_f0 valid --epoch 0

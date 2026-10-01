@@ -1,0 +1,19 @@
+{
+  "question": "Do extra features encode simple causal row-event rates, and how do they move when all book/trade inputs are quiet?",
+  "previous_evidence": "E091 moderate a2/a3 correlation with book refresh rates; E280 simple instantaneous/age proxies did not identify a0..a4.",
+  "selection": "32 TRAIN canonical components distinct from prior small EDA memberships and from each other; first16fit and last16evaluation by fixed SHA ordering",
+  "candidate_events": ["i0_price","i0_volume","i0_trade","i1_price","i1_volume","i1_trade","quote_endpoint"],
+  "rate_half_lives_rows": [8,64,512],
+  "rate_recurrence": "r_t=exp2(-1/h)*r_(t-1)+(1-exp2(-1/h))*event_t; initial0; suppress all event flags at row0; include current event afterward. Events compare exact rawfloat32 block equality.",
+  "warmup": "Compute on all rows but profile and rank only steps99..19999",
+  "outputs": ["a0","a1","a2","a3","a4","a7"],
+  "selection_rule": "One proxy per output, maximum pooled absolute Spearman on fitting inputs, no tuning beyond the fixed21choices",
+  "strong_rank_association_gate": "Fitting sign fixed; sign-adjusted heldout Spearman>=0.95 on at least12/16components, retaining constant components as rho0. This establishes strong monotonic association only, not numeric rates or physical identity.",
+  "rank_method": "Average ties, constant columns rho0, no dropping components",
+  "negative_controls": "For each fixedselectedrate, compare its corresponding event row age and current stepindex without proxy selection. Report percomponent selected-rate correlations after removing exact rank-normal endpoint values; this is descriptive sensitivity, not additional selection or a relaxed gate.",
+  "descriptive_profiles": "Quiet means no p/v/dp/dv change for either instrument at the current row. Count positive/zero/negative a0..a7 changes on quiet versus refresh rows, tied distinct values and known rank-normal endpoints; no thresholds selected from these counts",
+  "forbidden_inputs": ["targets","masks","VALID feature rows","external data","existing prediction arrays"],
+  "resource_limit": "Foreground only, one thread pool worker, <=2GiB address space, <=60sCPU and wall perphase; not a systemd/cgroup/durable claim",
+  "no_public_score_claim": true,
+  "independent_critique_reproduction_required": true
+}

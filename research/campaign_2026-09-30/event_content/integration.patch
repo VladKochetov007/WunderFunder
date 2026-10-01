@@ -1,0 +1,202 @@
+--- /dev/null
++++ b/src/wnn/event_content.py
+@@ -0,0 +1,150 @@
++"""Bounded normalized content memory; research implementation, unapplied."""
++
++from __future__ import annotations
++
++import math
++
++import torch
++from torch import Tensor, nn
++from torch.nn import functional as F
++
++State = tuple[Tensor, Tensor, Tensor, Tensor, Tensor, Tensor]
++ENDPOINT = -5.199337482452393
++ARMS = ("endpoint-content", "endpoint-position", "raw-code-content")
++
++
++def walsh_table() -> Tensor:
++    """Uncentered 128x96 orthogonal Walsh columns, including intercept."""
++    return torch.tensor(
++        [[1 - 2 * ((n & j).bit_count() % 2) for j in range(96)] for n in range(128)],
++        dtype=torch.float32,
++    )
++
++
++class EventContentModel(nn.Module):
++    """One GRU with row/event associative heads and a flat carried state."""
++
++    def __init__(
++        self, n_in: int, n_out: int = 2, arm: str = "endpoint-content", microblock: int = 64
++    ) -> None:
++        super().__init__()
++        if arm not in ARMS or not 1 <= microblock <= 64 or n_in < 112:
++            raise ValueError("invalid arm, microblock, or missing raw features")
++        self.arm, self.microblock = arm, microblock
++        self.register_buffer("mean", torch.zeros(n_in))
++        self.register_buffer("std", torch.ones(n_in))
++        self.register_buffer("walsh", walsh_table())
++        self.register_buffer("log_decay", -math.log(2) / torch.tensor([64.0, 512.0, 2.0, 16.0]))
++        self.register_buffer("base_decay", self.log_decay.exp())
++        self.register_buffer("norm_scale", 1 - self.base_decay)
++        self.inp = nn.Linear(n_in, 96)
++        self.gru = nn.GRU(96, 96, batch_first=True)
++        self.query = nn.Linear(96, 32, bias=False)
++        self.key = nn.Linear(96, 32, bias=False)
++        self.value = nn.Linear(96, 64)
++        self.read_gate = nn.Linear(96, 64)
++        self.head = nn.Sequential(nn.Linear(256, 96), nn.GELU(), nn.Linear(96, n_out))
++
++    def initial_state(self, x: Tensor) -> State:
++        """External reset; only actual event gates write event heads."""
++        b = x.shape[0]
++        dtype = torch.float64 if self.mean.dtype == torch.float64 else torch.float32
++        return (
++            x.new_zeros(1, b, 96, dtype=self.mean.dtype),
++            x.new_zeros(b, 4, 8, 16, dtype=dtype),
++            x.new_zeros(b, 4, 8, dtype=dtype),
++            torch.zeros(b, device=x.device, dtype=torch.int64),
++            torch.zeros(b, device=x.device, dtype=torch.int64),
++            x.new_zeros(b, 22, dtype=torch.float32),
++        )
++
++    def forward(self, x: Tensor, state: State | None = None) -> tuple[Tensor, State]:
++        """Parallel exact bounded local scan; read after current insertion."""
++        if x.ndim != 3 or x.shape[1] == 0:
++            raise ValueError("expected nonempty B,T,D")
++        state = self.initial_state(x) if state is None else state
++        h, s, zmem, rowcount, writecount, prev = state
++        # Source f32 predicate extracted before standardization or autocast maps.
++        raw = x[..., :112].float()
++        prices = raw[..., :22]
++        previous = torch.cat((prev[:, None], prices[:, :-1]), dim=1)
++        endpoint = raw[..., 110] == ENDPOINT
++        code = (prices != previous).any(-1)
++        ordinal = rowcount[:, None] + torch.arange(x.shape[1], device=x.device)
++        writes = (code & (ordinal > 0)) if self.arm == "raw-code-content" else endpoint
++        cumulative = writecount[:, None] + writes.to(torch.int64).cumsum(1)
++        eventordinal = (cumulative - 1).clamp_min(0)
++        enc = F.gelu(self.inp((x - self.mean) / self.std))
++        hidden, h = self.gru(enc, h)
++        # Both clocks' positions are generated in every arm.
++        posrow = self.walsh[ordinal % 128]
++        posevent = self.walsh[eventordinal % 128]
++        content = hidden[:, :, None, :].expand(-1, -1, 4, -1)
++        position = torch.stack((posrow, posrow, posevent, posevent), dim=2)
++        source = position if self.arm == "endpoint-position" else content
++        # Shared linear tensor sliced by head (same compute in all arms).
++        dtype = torch.float64 if self.mean.dtype == torch.float64 else torch.float32
++        with torch.autocast(device_type=x.device.type, enabled=False):
++            source = source.to(dtype)
++            q = (
++                F.elu(
++                    torch.einsum(
++                        "bthd,hkd->bthk", source, self.query.weight.to(dtype).reshape(4, 8, 96)
++                    ).clamp(-8, 8)
++                )
++                + 1
++            )
++            k = (
++                F.elu(
++                    torch.einsum(
++                        "bthd,hkd->bthk", source, self.key.weight.to(dtype).reshape(4, 8, 96)
++                    ).clamp(-8, 8)
++                )
++                + 1
++            )
++            v = torch.tanh(
++                F.linear(hidden.to(dtype), self.value.weight.to(dtype), self.value.bias.to(dtype))
++            ).reshape(*hidden.shape[:2], 4, 16)
++            gate = torch.stack(
++                (torch.ones_like(writes), torch.ones_like(writes), writes, writes), -1
++            ).to(dtype)
++            results = []
++            for start in range(0, x.shape[1], self.microblock):
++                stop = min(start + self.microblock, x.shape[1])
++                qb, kb, vb, gb = (a[:, start:stop].transpose(1, 2) for a in (q, k, v, gate))
++                prefix = gb.cumsum(-1)
++                alpha = self.base_decay.to(dtype)[None, :, None]
++                scale = self.norm_scale.to(dtype)[None, :, None]
++                carried = alpha.pow(prefix)
++                # Nonnegative powers of serialized coefficients; never inverse decay.
++                delta = (prefix[..., :, None] - prefix[..., None, :]).clamp_min(0)
++                lower = torch.ones(
++                    stop - start, stop - start, device=x.device, dtype=torch.bool
++                ).tril()
++                decay = alpha[..., None].pow(delta).masked_fill(~lower, 0)
++                weight = (
++                    torch.einsum("bhik,bhjk->bhij", qb, kb)
++                    * decay
++                    * gb[..., None, :]
++                    * scale[..., None]
++                )
++                numerator = torch.einsum("bhik,bhkv->bhiv", qb, s) * carried[..., None]
++                numerator = numerator + torch.einsum("bhij,bhjv->bhiv", weight, vb)
++                denominator = torch.einsum("bhik,bhk->bhi", qb, zmem) * carried
++                denominator = denominator + weight.sum(-1)
++                results.append(
++                    (numerator / torch.maximum(denominator, scale * 1e-6)[..., None]).transpose(
++                        1, 2
++                    )
++                )
++                last_weight = alpha.pow(prefix[..., -1, None] - prefix) * gb * scale
++                s = s * carried[..., -1, None, None] + torch.einsum(
++                    "bht,bhtk,bhtv->bhkv", last_weight, kb, vb
++                )
++                zmem = zmem * carried[..., -1, None] + torch.einsum(
++                    "bht,bhtk->bhk", last_weight, kb
++                )
++            retrieval = torch.cat(results, dim=1).flatten(2)
++        read = torch.sigmoid(self.read_gate(hidden)) * retrieval.to(hidden.dtype)
++        out = self.head(torch.cat((hidden, enc, read), dim=-1))
++        return out, (h, s, zmem, rowcount + x.shape[1], cumulative[:, -1], prices[:, -1])
+--- a/scripts/train_rnn.py
++++ b/scripts/train_rnn.py
+@@ -48,6 +48,7 @@
+     structure_labels,
+ )
+ from wnn.propensity import load_propensity, propensity
++from wnn.event_content import EventContentModel
+ from wnn.resources import configure_torch, dataloader_budget
+ from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
+ 
+@@ -386,6 +387,11 @@
+ 
+ 
+ def make_model(args_dict, n_in, n_out):
++    if args_dict.get("arch") == "event-content":
++        if (args_dict["hidden"] != 96 or args_dict["layers"] != 1
++                or args_dict["dropout"] != 0 or args_dict.get("enc", "linear") != "linear"):
++            raise ValueError("D1 requires hidden96,layers1,dropout0,enc linear")
++        return EventContentModel(n_in, n_out, args_dict.get("memory_arm", "endpoint-content"))
+     if args_dict.get("arch") == "gated":
+         return GatedRNNModel(
+             n_in, args_dict["hidden"], args_dict["layers"], args_dict["dropout"], n_out=n_out
+@@ -521,6 +527,7 @@
+         "layers",
+         "dropout",
+         "arch",
++        "memory_arm",
+         "cell",
+         "enc",
+         "tok_dim",
+@@ -605,7 +612,8 @@
+                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
+     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
+     ap.add_argument("--aux-weight", type=float, default=0.5)
+-    ap.add_argument("--arch", choices=["gru", "dual", "gated"], default="gru")
++    ap.add_argument("--arch", choices=["gru", "dual", "gated", "event-content"], default="gru")
++    ap.add_argument("--memory-arm", choices=["endpoint-content", "endpoint-position", "raw-code-content"], default="endpoint-content")
+     ap.add_argument("--gate-ce", type=float, default=0.0,
+                     help="BCE weight for the gated model's target-difference sign head")
+     ap.add_argument("--cell", choices=["gru", "lstm"], default="gru")
+@@ -895,6 +903,8 @@
+                                      "valid": train_idx.tolist() if train_split == "valid" else
+                                      extra_valid.tolist() if extra_valid is not None else []},
+                   "evaluation_row_groups": valid_idx.tolist(), "checkpoint_sha256": {}}
++    if args.arch == "event-content":
++        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/event_content.py")
+     if quote_cache_provenance is not None:
+         provenance["quote_cache"] = quote_cache_provenance
+     if args.propensity:

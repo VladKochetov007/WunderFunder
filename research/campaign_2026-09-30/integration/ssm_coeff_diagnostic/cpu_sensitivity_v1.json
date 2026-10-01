@@ -1,0 +1,1332 @@
+{
+  "diagnostic_only": true,
+  "model_source_unchanged": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+  "tolerances_unchanged": {
+    "atol": 2e-05,
+    "rtol": 0.0002
+  },
+  "cases": [
+    {
+      "arm": "multi",
+      "replay_sha256": "cc01557afafacefd858e420fd1fc90582f5e6ed86bec105f19f0d8f7974d4a35",
+      "literal_exact_to_independent_reference": true,
+      "baseline_saved_GPU_comparison": {
+        "prediction": {
+          "max_abs": 4.7869980335235596e-06,
+          "max_bound_ratio": 0.20372022688388824,
+          "violations": 0,
+          "finite": true,
+          "violation_coordinates": []
+        },
+        "states": [
+          {
+            "max_abs": 0.0001900196075439453,
+            "max_bound_ratio": 0.27069219946861267,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          {
+            "max_abs": 0.00048542022705078125,
+            "max_bound_ratio": 1.0966439247131348,
+            "violations": 2,
+            "finite": true,
+            "violation_coordinates": [
+              {
+                "index": [
+                  0,
+                  22
+                ],
+                "left": -0.29790425300598145,
+                "right": -0.297991544008255,
+                "ratio": 1.0966439247131348
+              },
+              {
+                "index": [
+                  0,
+                  61
+                ],
+                "left": -0.008830152451992035,
+                "right": -0.00885230302810669,
+                "ratio": 1.0174602270126343
+              }
+            ]
+          }
+        ]
+      },
+      "baseline_failed_coordinates": [
+        {
+          "block": 1,
+          "index": 22,
+          "state": -0.297991544008255,
+          "saved_gpu": -0.29790425300598145,
+          "error": -8.729100227355957e-05
+        },
+        {
+          "block": 1,
+          "index": 61,
+          "state": -0.00885230302810669,
+          "saved_gpu": -0.008830152451992035,
+          "error": -2.215057611465454e-05
+        }
+      ],
+      "one_ULP_sensitivity": [
+        {
+          "block": 0,
+          "field": "scalar_rho",
+          "direction": -1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 0.00018453598022460938,
+            "max_bound_ratio": 1.4273415803909302,
+            "violations": 2,
+            "finite": true,
+            "violation_coordinates": [
+              {
+                "index": [
+                  0,
+                  8
+                ],
+                "left": -0.02922941744327545,
+                "right": -0.02919253706932068,
+                "ratio": 1.4273415803909302
+              },
+              {
+                "index": [
+                  0,
+                  22
+                ],
+                "left": -0.29788345098495483,
+                "right": -0.297991544008255,
+                "ratio": 1.3579814434051514
+              }
+            ]
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 4.470348358154297e-06,
+            "max_bound_ratio": 0.12463600188493729,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.29788345098495483,
+              "saved_gpu": -0.29790425300598145,
+              "error": 2.0802021026611328e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.008849408477544785,
+              "saved_gpu": -0.008830152451992035,
+              "error": -1.9256025552749634e-05
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "scalar_rho",
+          "direction": 1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 0.00019025802612304688,
+            "max_bound_ratio": 1.430225133895874,
+            "violations": 2,
+            "finite": true,
+            "violation_coordinates": [
+              {
+                "index": [
+                  0,
+                  8
+                ],
+                "left": -0.029155582189559937,
+                "right": -0.02919253706932068,
+                "ratio": 1.430225133895874
+              },
+              {
+                "index": [
+                  0,
+                  22
+                ],
+                "left": -0.2980959713459015,
+                "right": -0.297991544008255,
+                "ratio": 1.3119291067123413
+              }
+            ]
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 4.231929779052734e-06,
+            "max_bound_ratio": 0.12599173188209534,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.2980959713459015,
+              "saved_gpu": -0.29790425300598145,
+              "error": -0.00019171833992004395
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.008855674415826797,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.5521963834762573e-05
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "scale",
+          "direction": -1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 9.5367431640625e-07,
+            "max_bound_ratio": 0.011570717208087444,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 2.384185791015625e-07,
+            "max_bound_ratio": 0.006391012109816074,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.2979913353919983,
+              "saved_gpu": -0.29790425300598145,
+              "error": -8.70823860168457e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.00885220617055893,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.205371856689453e-05
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "scale",
+          "direction": 1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 2.86102294921875e-06,
+            "max_bound_ratio": 0.00809319969266653,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 2.980232238769531e-07,
+            "max_bound_ratio": 0.0064683957025408745,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.2979918122291565,
+              "saved_gpu": -0.29790425300598145,
+              "error": -8.755922317504883e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.008852306753396988,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.2154301404953003e-05
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "rotation_a",
+          "direction": -1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 2.86102294921875e-05,
+            "max_bound_ratio": 0.24054712057113647,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 1.2516975402832031e-06,
+            "max_bound_ratio": 0.028767434880137444,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.2979964315891266,
+              "saved_gpu": -0.29790425300598145,
+              "error": -9.21785831451416e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.008852571249008179,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.24187970161438e-05
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "rotation_a",
+          "direction": 1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 3.0517578125e-05,
+            "max_bound_ratio": 0.2501242160797119,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 1.1920928955078125e-06,
+            "max_bound_ratio": 0.033849284052848816,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.29798728227615356,
+              "saved_gpu": -0.29790425300598145,
+              "error": -8.302927017211914e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.008852392435073853,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.2239983081817627e-05
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "rotation_b",
+          "direction": -1,
+          "coefficient_max_abs_change": 7.450580596923828e-09,
+          "state1_vs_baseline": {
+            "max_abs": 1.430511474609375e-06,
+            "max_bound_ratio": 0.01569426618516445,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 2.980232238769531e-07,
+            "max_bound_ratio": 0.00796160101890564,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.2979915142059326,
+              "saved_gpu": -0.29790425300598145,
+              "error": -8.726119995117188e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.00885244831442833,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.2295862436294556e-05
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "rotation_b",
+          "direction": 1,
+          "coefficient_max_abs_change": 7.450580596923828e-09,
+          "state1_vs_baseline": {
+            "max_abs": 1.9073486328125e-06,
+            "max_bound_ratio": 0.01576385833323002,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 2.980232238769531e-07,
+            "max_bound_ratio": 0.006943719927221537,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.29799172282218933,
+              "saved_gpu": -0.29790425300598145,
+              "error": -8.746981620788574e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.008852116763591766,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.1964311599731445e-05
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "scalar_rho",
+          "direction": -1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 0.0006313323974609375,
+            "max_bound_ratio": 0.3537733554840088,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 1.1086463928222656e-05,
+            "max_bound_ratio": 0.17225281894207,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.2979988753795624,
+              "saved_gpu": -0.29790425300598145,
+              "error": -9.462237358093262e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.008852250874042511,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.2098422050476074e-05
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "scalar_rho",
+          "direction": 1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 0.000614166259765625,
+            "max_bound_ratio": 0.34362688660621643,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 1.0609626770019531e-05,
+            "max_bound_ratio": 0.17478063702583313,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.29798436164855957,
+              "saved_gpu": -0.29790425300598145,
+              "error": -8.0108642578125e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.008852336555719376,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.2184103727340698e-05
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "scale",
+          "direction": -1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 1.9073486328125e-06,
+            "max_bound_ratio": 0.008069922216236591,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 2.980232238769531e-07,
+            "max_bound_ratio": 0.00521727092564106,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.29799163341522217,
+              "saved_gpu": -0.29790425300598145,
+              "error": -8.738040924072266e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.00885225459933281,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.2102147340774536e-05
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "scale",
+          "direction": 1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 3.814697265625e-06,
+            "max_bound_ratio": 0.011081931181252003,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 2.980232238769531e-07,
+            "max_bound_ratio": 0.005298279691487551,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.297991544008255,
+              "saved_gpu": -0.29790425300598145,
+              "error": -8.729100227355957e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.008852288126945496,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.2135674953460693e-05
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "rotation_a",
+          "direction": -1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 4.792213439941406e-05,
+            "max_bound_ratio": 0.4345477819442749,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 1.2516975402832031e-06,
+            "max_bound_ratio": 0.05171483755111694,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.297991544008255,
+              "saved_gpu": -0.29790425300598145,
+              "error": -8.729100227355957e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.00885230302810669,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.215057611465454e-05
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "rotation_a",
+          "direction": 1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 4.7206878662109375e-05,
+            "max_bound_ratio": 0.44146186113357544,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 1.1920928955078125e-06,
+            "max_bound_ratio": 0.04725448042154312,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.297991544008255,
+              "saved_gpu": -0.29790425300598145,
+              "error": -8.729100227355957e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.00885230302810669,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.215057611465454e-05
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "rotation_b",
+          "direction": -1,
+          "coefficient_max_abs_change": 7.450580596923828e-09,
+          "state1_vs_baseline": {
+            "max_abs": 2.8833746910095215e-06,
+            "max_bound_ratio": 0.08309037983417511,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 2.980232238769531e-07,
+            "max_bound_ratio": 0.00569793488830328,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.297991544008255,
+              "saved_gpu": -0.29790425300598145,
+              "error": -8.729100227355957e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.00885230302810669,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.215057611465454e-05
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "rotation_b",
+          "direction": 1,
+          "coefficient_max_abs_change": 7.450580596923828e-09,
+          "state1_vs_baseline": {
+            "max_abs": 2.2426247596740723e-06,
+            "max_bound_ratio": 0.06462585180997849,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 2.384185791015625e-07,
+            "max_bound_ratio": 0.005838686600327492,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": -0.297991544008255,
+              "saved_gpu": -0.29790425300598145,
+              "error": -8.729100227355957e-05
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": -0.00885230302810669,
+              "saved_gpu": -0.008830152451992035,
+              "error": -2.215057611465454e-05
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "arm": "single",
+      "replay_sha256": "bb50c6acea1098251fe6bbc282756e0194820331df5adb3192a540a5406e59bd",
+      "literal_exact_to_independent_reference": true,
+      "baseline_saved_GPU_comparison": {
+        "prediction": {
+          "max_abs": 1.3113021850585938e-06,
+          "max_bound_ratio": 0.024574384093284607,
+          "violations": 0,
+          "finite": true,
+          "violation_coordinates": []
+        },
+        "states": [
+          {
+            "max_abs": 4.291534423828125e-06,
+            "max_bound_ratio": 0.047450266778469086,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          {
+            "max_abs": 1.1205673217773438e-05,
+            "max_bound_ratio": 0.05974461883306503,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          }
+        ]
+      },
+      "baseline_failed_coordinates": [
+        {
+          "block": 1,
+          "index": 22,
+          "state": 1.6750601530075073,
+          "saved_gpu": 1.6750566959381104,
+          "error": 3.4570693969726562e-06
+        },
+        {
+          "block": 1,
+          "index": 61,
+          "state": 1.206541895866394,
+          "saved_gpu": 1.2065467834472656,
+          "error": -4.887580871582031e-06
+        }
+      ],
+      "one_ULP_sensitivity": [
+        {
+          "block": 0,
+          "field": "scalar_rho",
+          "direction": -1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 7.152557373046875e-06,
+            "max_bound_ratio": 0.07883094251155853,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 2.1457672119140625e-06,
+            "max_bound_ratio": 0.020932819694280624,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750571727752686,
+              "saved_gpu": 1.6750566959381104,
+              "error": 4.76837158203125e-07
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.2065404653549194,
+              "saved_gpu": 1.2065467834472656,
+              "error": -6.318092346191406e-06
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "scalar_rho",
+          "direction": 1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 1.049041748046875e-05,
+            "max_bound_ratio": 0.08445613831281662,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 2.1457672119140625e-06,
+            "max_bound_ratio": 0.024542221799492836,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.675062656402588,
+              "saved_gpu": 1.6750566959381104,
+              "error": 5.9604644775390625e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.20654296875,
+              "saved_gpu": 1.2065467834472656,
+              "error": -3.814697265625e-06
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "scale",
+          "direction": -1,
+          "coefficient_max_abs_change": 1.4901161193847656e-08,
+          "state1_vs_baseline": {
+            "max_abs": 1.430511474609375e-06,
+            "max_bound_ratio": 0.007578395772725344,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 4.76837158203125e-07,
+            "max_bound_ratio": 0.007744267582893372,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750600337982178,
+              "saved_gpu": 1.6750566959381104,
+              "error": 3.337860107421875e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.2065415382385254,
+              "saved_gpu": 1.2065467834472656,
+              "error": -5.245208740234375e-06
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "scale",
+          "direction": 1,
+          "coefficient_max_abs_change": 1.4901161193847656e-08,
+          "state1_vs_baseline": {
+            "max_abs": 1.430511474609375e-06,
+            "max_bound_ratio": 0.004697445314377546,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 4.76837158203125e-07,
+            "max_bound_ratio": 0.007010250817984343,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750601530075073,
+              "saved_gpu": 1.6750566959381104,
+              "error": 3.4570693969726562e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.206541657447815,
+              "saved_gpu": 1.2065467834472656,
+              "error": -5.125999450683594e-06
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "rotation_a",
+          "direction": -1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 4.76837158203125e-06,
+            "max_bound_ratio": 0.06218972057104111,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 1.430511474609375e-06,
+            "max_bound_ratio": 0.014645217917859554,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750600337982178,
+              "saved_gpu": 1.6750566959381104,
+              "error": 3.337860107421875e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.20654296875,
+              "saved_gpu": 1.2065467834472656,
+              "error": -3.814697265625e-06
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "rotation_a",
+          "direction": 1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 5.245208740234375e-06,
+            "max_bound_ratio": 0.057610880583524704,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 1.430511474609375e-06,
+            "max_bound_ratio": 0.01441081240773201,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750603914260864,
+              "saved_gpu": 1.6750566959381104,
+              "error": 3.6954879760742188e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.206540584564209,
+              "saved_gpu": 1.2065467834472656,
+              "error": -6.198883056640625e-06
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "rotation_b",
+          "direction": -1,
+          "coefficient_max_abs_change": 7.450580596923828e-09,
+          "state1_vs_baseline": {
+            "max_abs": 9.5367431640625e-07,
+            "max_bound_ratio": 0.0042900764383375645,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 5.960464477539062e-07,
+            "max_bound_ratio": 0.006804079283028841,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750600337982178,
+              "saved_gpu": 1.6750566959381104,
+              "error": 3.337860107421875e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.206541657447815,
+              "saved_gpu": 1.2065467834472656,
+              "error": -5.125999450683594e-06
+            }
+          ]
+        },
+        {
+          "block": 0,
+          "field": "rotation_b",
+          "direction": 1,
+          "coefficient_max_abs_change": 7.450580596923828e-09,
+          "state1_vs_baseline": {
+            "max_abs": 9.5367431640625e-07,
+            "max_bound_ratio": 0.00572010176256299,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 3.5762786865234375e-07,
+            "max_bound_ratio": 0.007289883214980364,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750600337982178,
+              "saved_gpu": 1.6750566959381104,
+              "error": 3.337860107421875e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.206541895866394,
+              "saved_gpu": 1.2065467834472656,
+              "error": -4.887580871582031e-06
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "scalar_rho",
+          "direction": -1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 1.430511474609375e-05,
+            "max_bound_ratio": 0.033048056066036224,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 2.2649765014648438e-06,
+            "max_bound_ratio": 0.02426636777818203,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750556230545044,
+              "saved_gpu": 1.6750566959381104,
+              "error": -1.0728836059570312e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.2065380811691284,
+              "saved_gpu": 1.2065467834472656,
+              "error": -8.702278137207031e-06
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "scalar_rho",
+          "direction": 1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 1.430511474609375e-05,
+            "max_bound_ratio": 0.03679819032549858,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 2.1457672119140625e-06,
+            "max_bound_ratio": 0.025740809738636017,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750646829605103,
+              "saved_gpu": 1.6750566959381104,
+              "error": 7.987022399902344e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.2065457105636597,
+              "saved_gpu": 1.2065467834472656,
+              "error": -1.0728836059570312e-06
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "scale",
+          "direction": -1,
+          "coefficient_max_abs_change": 1.4901161193847656e-08,
+          "state1_vs_baseline": {
+            "max_abs": 9.5367431640625e-07,
+            "max_bound_ratio": 0.0025025445502251387,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 4.76837158203125e-07,
+            "max_bound_ratio": 0.008234621025621891,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750599145889282,
+              "saved_gpu": 1.6750566959381104,
+              "error": 3.2186508178710938e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.206541657447815,
+              "saved_gpu": 1.2065467834472656,
+              "error": -5.125999450683594e-06
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "scale",
+          "direction": 1,
+          "coefficient_max_abs_change": 1.4901161193847656e-08,
+          "state1_vs_baseline": {
+            "max_abs": 9.5367431640625e-07,
+            "max_bound_ratio": 0.0025025445502251387,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 5.960464477539062e-07,
+            "max_bound_ratio": 0.008238139562308788,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750601530075073,
+              "saved_gpu": 1.6750566959381104,
+              "error": 3.4570693969726562e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.2065421342849731,
+              "saved_gpu": 1.2065467834472656,
+              "error": -4.649162292480469e-06
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "rotation_a",
+          "direction": -1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 1.2874603271484375e-05,
+            "max_bound_ratio": 0.0648811087012291,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 1.3113021850585938e-06,
+            "max_bound_ratio": 0.01730457879602909,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750601530075073,
+              "saved_gpu": 1.6750566959381104,
+              "error": 3.4570693969726562e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.206541895866394,
+              "saved_gpu": 1.2065467834472656,
+              "error": -4.887580871582031e-06
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "rotation_a",
+          "direction": 1,
+          "coefficient_max_abs_change": 5.960464477539063e-08,
+          "state1_vs_baseline": {
+            "max_abs": 1.33514404296875e-05,
+            "max_bound_ratio": 0.05745495855808258,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 1.1920928955078125e-06,
+            "max_bound_ratio": 0.019553279504179955,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750601530075073,
+              "saved_gpu": 1.6750566959381104,
+              "error": 3.4570693969726562e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.206541895866394,
+              "saved_gpu": 1.2065467834472656,
+              "error": -4.887580871582031e-06
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "rotation_b",
+          "direction": -1,
+          "coefficient_max_abs_change": 7.450580596923828e-09,
+          "state1_vs_baseline": {
+            "max_abs": 2.384185791015625e-07,
+            "max_bound_ratio": 0.002860050881281495,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 4.76837158203125e-07,
+            "max_bound_ratio": 0.006894481834024191,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750601530075073,
+              "saved_gpu": 1.6750566959381104,
+              "error": 3.4570693969726562e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.206541895866394,
+              "saved_gpu": 1.2065467834472656,
+              "error": -4.887580871582031e-06
+            }
+          ]
+        },
+        {
+          "block": 1,
+          "field": "rotation_b",
+          "direction": 1,
+          "coefficient_max_abs_change": 7.450580596923828e-09,
+          "state1_vs_baseline": {
+            "max_abs": 3.5762786865234375e-07,
+            "max_bound_ratio": 0.003126800525933504,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "prediction_vs_baseline": {
+            "max_abs": 4.76837158203125e-07,
+            "max_bound_ratio": 0.005532060284167528,
+            "violations": 0,
+            "finite": true,
+            "violation_coordinates": []
+          },
+          "failed_coordinates": [
+            {
+              "block": 1,
+              "index": 22,
+              "state": 1.6750601530075073,
+              "saved_gpu": 1.6750566959381104,
+              "error": 3.4570693969726562e-06
+            },
+            {
+              "block": 1,
+              "index": 61,
+              "state": 1.206541895866394,
+              "saved_gpu": 1.2065467834472656,
+              "error": -4.887580871582031e-06
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "CUDA_initialized": false,
+  "synthetic_only": true,
+  "competition_data_read": false,
+  "new_optimizer_updates": 0,
+  "capture_sha256": null,
+  "support_sha256": "9d42050d778b2491af66ad0e03411d432ee49da08447c132f00b21e6c3877330",
+  "script_sha256": "31ffad4b88f722ebc7875edfb3ba2e1f6d952c8a286635ba9ce6c7d3a8716eeb",
+  "independent_reference_sha256": "f78868bd39cbc5cdcf675d154d90eae147ca7f203a31002ec3f0fc870f273602",
+  "duration_seconds": 3.889462781000475,
+  "peak_rss_KiB": 575580,
+  "cgroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-ssm-coeff-cpu-v1-scope.scope",
+  "verified_limits": {
+    "memory.max": "2147483648",
+    "memory.swap.max": "0",
+    "cpu.max": "100000 100000"
+  },
+  "interpretation": "Sensitivity only cannot establish CPU/CUDA mismatch cause. Captured-coefficient/fixed-drive variants diagnose coefficient and map/FFT contributions; no model/tolerance change or inference serialization approved."
+}

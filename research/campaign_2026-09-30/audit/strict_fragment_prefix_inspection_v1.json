@@ -1,0 +1,118 @@
+{
+  "status": "waiting-for-resume",
+  "checked": {
+    "c20260930_ft_spread_current_f0": {
+      "fragments": [
+        {
+          "job": {
+            "path": "research/campaign_2026-09-29/jobs/c20260930_ft_spread_current_f0.json",
+            "sha256": "c852290ea92e71cabc6c0e537fa36190eadca74602d621aab124a331ea190bdd"
+          },
+          "label": "original",
+          "resources": {
+            "elapsed_seconds": 255.17464621599993,
+            "timeout_seconds": 720.0,
+            "peak_observed_vram_bytes": 4183818240
+          },
+          "timing": [
+            {
+              "stage": "continuation",
+              "duration_seconds": 179.15940382600002,
+              "aggregate_seconds": 179.15943360500023
+            },
+            {
+              "stage": "FT_head",
+              "duration_seconds": 18.123224787000254,
+              "aggregate_seconds": 197.28554488400005
+            },
+            {
+              "stage": "FT_full",
+              "duration_seconds": 29.317703691999668,
+              "aggregate_seconds": 226.60358707400064
+            },
+            {
+              "stage": "prediction",
+              "duration_seconds": 28.085373758999594,
+              "aggregate_seconds": 254.68932255800064
+            }
+          ],
+          "records": [
+            {
+              "path": "research/campaign_2026-09-30/screens/spread_v1/current_known/00_continuation.json",
+              "sha256": "0dfff879b556b11cd5e16da2576bacacda55588361ea832dbdb9a3459243f651"
+            },
+            {
+              "path": "research/campaign_2026-09-30/screens/spread_v1/current_known/01_FT_head.json",
+              "sha256": "e3c9a0863fe233881084af3622072dbb4243a33068bacb91dbfce7c52e32505b"
+            },
+            {
+              "path": "research/campaign_2026-09-30/screens/spread_v1/current_known/02_FT_full.json",
+              "sha256": "bf9f8920a9aa6bc26973474fd414d80452da6b8d40748b5db906d3b1ea964d0e"
+            },
+            {
+              "path": "research/campaign_2026-09-30/screens/spread_v1/current_known/03_prediction.json",
+              "sha256": "2d18874a211ced5ae320c4b6c113c26ca4b9dc54325ed9aa03c55aadbb053d6d"
+            }
+          ]
+        }
+      ],
+      "aggregate_seconds": 255.17464621599993,
+      "original_cap_seconds": 720
+    },
+    "c20260930_ft_spread_proxy_f0": {
+      "fragments": [
+        {
+          "job": {
+            "path": "research/campaign_2026-09-29/jobs/c20260930_ft_spread_proxy_f0.json",
+            "sha256": "393f2ce069f19459d365c090b0ce1c0b837c074f2775d5e9e0c3b0b960a0162c"
+          },
+          "label": "original",
+          "resources": {
+            "elapsed_seconds": 252.993773831,
+            "timeout_seconds": 720.0,
+            "peak_observed_vram_bytes": 4183818240
+          },
+          "timing": [
+            {
+              "stage": "continuation",
+              "duration_seconds": 252.42551708500014,
+              "aggregate_seconds": 252.4255525540002
+            }
+          ],
+          "records": [
+            {
+              "path": "research/campaign_2026-09-30/screens/spread_v1/proxy_known/00_continuation.json",
+              "sha256": "6863f2e5323c98a997c518824638c2b1bf0834d4e847e2d31f96c2361e2a7d1e"
+            }
+          ]
+        }
+      ],
+      "aggregate_seconds": 252.993773831,
+      "original_cap_seconds": 720
+    }
+  },
+  "missing": [
+    "research/campaign_2026-09-29/jobs/c20260930_ft_spread_proxy_f0_resume_v1.json"
+  ],
+  "design": {
+    "path": "research/campaign_2026-09-30/audit/spread_operational_design_v3.json",
+    "sha256": "a49526d257f8f61e0170d4a415a402b39db6a1bb9bc1bb67cfde61626725809e"
+  },
+  "original_binding_amendment": {
+    "path": "research/campaign_2026-09-30/audit/spread_binding_amendment_v3.json",
+    "sha256": "416f638c1e92711339874a546b41537af622806f62cbdcb589a40739d3c219a8"
+  },
+  "supplemental_source_sha256": "a2bc3aec889248c2b7ce747a483c21aa2dc6a3b9053dedd9bd844e7e1c02b81d",
+  "target_or_prediction_values_read": false,
+  "resource_fallback": {
+    "rlimit_as": [
+      2147483648,
+      2147483648
+    ],
+    "cpu_affinity": [
+      0
+    ],
+    "peak_rss_kib": 68680,
+    "hard_2GiB_cgroup_claim": false
+  }
+}

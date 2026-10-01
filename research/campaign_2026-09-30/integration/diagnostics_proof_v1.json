@@ -1,0 +1,93 @@
+{
+  "passed": true,
+  "synthetic_only": true,
+  "CUDA_initialized": false,
+  "runtime_seconds": 1.4377503480000087,
+  "peak_rss_KiB": 686368,
+  "cgroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-integration-amended-v2-scope.scope",
+  "verified_limits": {
+    "memory.max": "2147483648",
+    "memory.swap.max": "0",
+    "cpu.max": "100000 100000"
+  },
+  "scaler_source_identity": {
+    "torch_version": "2.14.0+cu130",
+    "grad_scaler_source_sha256": "97c411da028daaf6a6ed15d06b9b20c017404846db68203be1a586e276e44039",
+    "accessor": "_found_inf_per_device after unscale_ and before update",
+    "skip_rule": "any found_inf flag nonzero means the optimizer update was skipped"
+  },
+  "actual_scaler_trajectories": [
+    {
+      "actual_cpu_GradScaler_enabled": false,
+      "trajectory_exact": true,
+      "counts": {
+        "epoch": {
+          "optimizer_attempts": 3,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 3,
+          "ema_updates": 3,
+          "completed_batches": 1
+        },
+        "cumulative": {
+          "optimizer_attempts": 3,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 3,
+          "ema_updates": 3,
+          "completed_batches": 1
+        }
+      }
+    },
+    {
+      "actual_cpu_GradScaler_enabled": true,
+      "trajectory_exact": true,
+      "counts": {
+        "epoch": {
+          "optimizer_attempts": 3,
+          "amp_skipped_updates": 1,
+          "optimizer_completed_updates": 2,
+          "ema_updates": 3,
+          "completed_batches": 1
+        },
+        "cumulative": {
+          "optimizer_attempts": 3,
+          "amp_skipped_updates": 1,
+          "optimizer_completed_updates": 2,
+          "ema_updates": 3,
+          "completed_batches": 1
+        }
+      }
+    }
+  ],
+  "disabled_accessor_not_called": true,
+  "synthetic_multidevice_any_skip_counts": true,
+  "normalization_exact_bytes_and_nonmutation": true,
+  "sample_order_rng_and_order_exact": true,
+  "sample_order_identity": {
+    "sampler_class": "RandomSampler",
+    "batch_size": 4,
+    "drop_last": true,
+    "loader_generator": "global CPU RNG",
+    "loader_rng": {
+      "shape": [
+        5056
+      ],
+      "dtype": "torch.uint8",
+      "bytes_sha256": "76fe321e2dc1dfdec62a274bcedbeea2727be2e2972f97e728e07e0345c21ede"
+    },
+    "sampler_generator": "global CPU RNG",
+    "sampler_rng": {
+      "shape": [
+        5056
+      ],
+      "dtype": "torch.uint8",
+      "bytes_sha256": "76fe321e2dc1dfdec62a274bcedbeea2727be2e2972f97e728e07e0345c21ede"
+    },
+    "num_workers": 0,
+    "persistent_workers": false,
+    "sampler_replacement": false,
+    "sampler_num_samples": 17
+  },
+  "no_per_step_host_scalar_or_transfer": true,
+  "helper_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+  "diagnostics_manifest_sha256": "0872613182b1126f6aa83b7590a67984e9be9e119ad0af063b10cfabb99f97d7"
+}

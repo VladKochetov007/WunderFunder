@@ -1,0 +1,14 @@
+{
+  "question": "Do age-like a5/a6 and candidate row-interval features share monotonic order immediately after a joint lower-endpoint observation?",
+  "prior_evidence": "a5/a6 mostly grow while corresponding published events quiet; E274 shared inverse-clock fit failed noncollapse gate and is not rerun or relaxed",
+  "membership": "Sixteen fresh distinct TRAIN canonical components, excluding prior E282 membership and recursively its EDA exclusions; SHA order frozen without reading feature data",
+  "primary_condition": "steps>=99, previous rawfloat32 a5 and a6 both equal -5.199337482452393, current both strictly between the two rank-normal endpoints",
+  "fixed_pairs": [[5,6],[0,5],[0,6],[1,5],[1,6],[4,5],[4,6]],
+  "support_gate": "At least100primary rows in a component; Spearman >=.99 or <=-.99 with the same sign in at least8of16components. This is rank support, not a physical/numeric decoder.",
+  "rank_method": "average ties; constant or<2row correlations0; preserve all16component denominators",
+  "controls": "Same fixed correlations on all steps99+; report current/previous endpoint support, unique values and coincidence of endpoints with raw i0price/trade changes. No selection based on controls.",
+  "not_proven": "Clipped endpoints may pool small positive ages; simultaneous endpoint observations need not be simultaneous physical resets; timestamps/units/source identity and predictive value are not identified",
+  "forbidden_inputs": ["targets","masks","VALID","external data","models or prediction arrays"],
+  "limits": "One thread pool worker,2GiBhardAS,60secondsCPU/wall perphase, foreground only, zeroGPU; not durable/cgroup enforcement",
+  "independent_reproduction_required": true
+}

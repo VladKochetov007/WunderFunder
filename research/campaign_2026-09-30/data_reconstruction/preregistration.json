@@ -1,0 +1,23 @@
+{
+  "version": "data-reconstruction-20260930-v1",
+  "question": "Is the spread/losing-side offset copula consistent across classes and chain-held-out TRAIN code states, and does the transition codebook encode an absolute or path-dependent price coordinate?",
+  "tier": "B for supplied-data identities; C for physical interpretation and competition transfer",
+  "seed": "data-reconstruction-20260930-v1",
+  "fit_train_groups": 64,
+  "test_train_groups": 32,
+  "selection": "metadata SHA256 order; unique test components; fit excludes all test components; exclude previous provided/clock evaluation components; labels and masks unopened for selection",
+  "columns": "i0_p0..i0_p21, t0, t1 only; no masks or seq_ix",
+  "quanta": [0.12543, 0.24133, 0.46854, 0.65687],
+  "price_keys": "float32 code fields rounded to four decimals, matching historical grammar; separately count rounded aliases",
+  "interior_spread_fit": "Only rows with both integer target values <=0 and -(t0+t1)>=1; code mode support>=3 and confidence>=0.95",
+  "offset_test": "On held-out outside-branch rows sharing accepted interior TRAIN code, k=-losing_target-mapped_interior_spread. Offset2 law is rejected when supported recurrence gives persistent non2 offsets; unknown coverage stays explicit",
+  "transition_test": "TRAIN modal target-jump movement on interior-to-interior events, confidence>=0.8 and support>=3; compare same eligible events in held-out chains. This assumes common future reference stability and is supervised diagnostic only",
+  "cycles": "Inspect accepted movement edges for reverse and graph-potential consistency; nonzero closed-code displacement rejects an absolute price coordinate but does not reject relative book-shape encoding",
+  "linear_control": "Per diagnostic target-derived class, fixed ridge0.001 on 22 raw price fields plus intercept, <=256 evenly spaced interior event states per group; no tuning",
+  "quiet_rows": "Measure target changes and target-inverted spread changes inside full-price-code plateaus over all TRAIN rows; no scoring mask",
+  "falsifiers": ["interior-spread code ambiguity across held-out chains", "offset differs from2 on confidently mapped test code", "transition vote loses consistency across chains", "nonzero closed-code displacement"],
+  "allowed_data": "supplied TRAIN only; external mechanism data neither read nor fitted in this probe",
+  "budget": "one thread, CPUQuota100%, MemoryMax2GiB, RuntimeMax60s, no GPU, <=96 groups, no background shell",
+  "information_boundary": "Targets choose diagnostic strata and supervise decoder; no labels, future rows, masks, chain IDs or sequence IDs become inference features",
+  "promotion": "No candidate promotion; independently audited diagnostic artifacts only"
+}

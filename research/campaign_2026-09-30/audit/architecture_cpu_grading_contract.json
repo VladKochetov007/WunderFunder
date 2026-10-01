@@ -1,0 +1,22 @@
+{
+  "version": "independent-architecture-cpu-protocol-v1",
+  "status": "frozen protocol before actor fits; runnable grader pending actor artifacts",
+  "interface": "RNNModel-compatible forward(x,state)->(pred,state), flat tensor tuple; stream_step and independently written sequential reference",
+  "state": "carry at chunk boundaries, detach only TBPTT gradients; reset only sequence boundaries; all expert states updated each row",
+  "input_cases": ["zero and nonzero incoming states", "random finite dense timeline", "zero events and first-row event", "events at partition boundaries", "impulses", "constant inputs", "alternating signs", "20000-row no-gradient slow-state sequence", "exact and near routing ties"],
+  "partitions": [1,17,64,2000],
+  "short_forward_gradient_lengths": [97,257],
+  "float64_forward_tolerance": {"atol": 1e-9, "rtol": 1e-8},
+  "float64_gradient_tolerance": {"atol": 1e-8, "rtol": 1e-7},
+  "float32_forward_tolerance": {"atol": 0.00002, "rtol": 0.0002},
+  "float32_gradient_tolerance": {"atol": 0.0002, "rtol": 0.002},
+  "precision": "slow transition parameters and memory states execute in FP32 under reduced-precision autocast; report predicted deviations before any relaxation",
+  "causality": "changing suffix inputs leaves prefix predictions/state at prefix end identical within declared numeric tolerance; masks/labels/IDs absent from inference interface",
+  "reset": "A-reset-B equals fresh B for predictions and all state; batched independent sequences equal separately reset sequences",
+  "numerical_invariants": "finite raw outputs/states; A normalizer nonnegative and retrieval coordinate bounded by past written-value range plus zero; B scalar/2x2 impulse and constant-input analytical bounds; C exact route identity and all expert updates",
+  "chronology": "same fitting groups/order/normalization/loss masks/warmup/optimizer steps/seed for matched arms; fixed checkpoint epoch; no validation selection",
+  "score_evaluator": "global_wp_clip2_v1 frozen by research/campaign_2026-09-30/evaluator_freeze.json; centered component bootstrap; softened masks and block means diagnostic",
+  "limits": "1 CPU core, 2GiB RAM in wnn-campaign.slice; no GPU from critic; independent source hashes and raw discrepancy artifacts required",
+  "later_native_gate": "one-vCPU Python stream and native AVX2/v2/v3 comparisons including route identity, fixed member/weight identity, state reset and runtime before packaging",
+  "amendment": "new dated artifact retaining original; no silent tolerance relaxation after fitting"
+}

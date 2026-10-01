@@ -1,0 +1,19 @@
+# Spread screen immutable commitment review
+
+Reviewed recipe, closure, design, source text and the running durable job metadata; no candidate prediction values, targets or quality results were read. Live implementation and frozen binder were not edited.
+
+The design binds recipe SHA256 `11d355008fb5f0be3759704292074a629915dc51e297c64f0cba0a7bc3412fed`, closure `9b8fdd715a42418ce6a4c705e1cc84a97142030d69e7f32c8997468546015805`, and root plan `5ca0dfebd136035c365ab025e0bac095b52f040c51c196861e8c7ce5eeab21fc`. These hashes matched actual bytes. The binder hash still matches its tested freeze. Recipe, closure and design contain identical effective stage arguments; recipe/closure source maps match, every current source matched that map, and the running current job's captured source map and command match the closure exactly.
+
+Design mtime00:15:25.420UTC precedes the current job start00:15:33.173UTC. File times are supporting local evidence, not an independent signed chronology. The design's exclusive creation and prefit refusal were already checked by synthetic tests.
+
+Both arms prescribe the same clean seed3 parent epoch3, one continuation epoch0 with a fresh optimizer/EMA, fixed batch32/chunk2000, original weighting/auxiliary recipe and the same known-code cache. Comparing full declared arguments gives exactly two continuation differences: name and `spread_aux_mode`. Each FT stage differs only in name and initializer path. Both FT stages use original proxy auxiliary labels, empty spread cache, inherited preprocessing, unchanged structural/next weights.3/.3, seed3, one fixed epoch0, batch16/chunk2000; head warmup freezes inp/gru at lr.0005 and full FT unfreezes at lr.0002.
+
+Source review confirms current-known selects the cached current label; proxy-known retains the original label. In both arms the cache only masks the spread CE numerator. Branch/class terms and the original full `sw.sum` denominator remain unchanged. Cached labels are removed from the dataset tuple before model inputs; main/next losses do not use them. The cache's source-scoped membership, byte hashes, unknown255 and 12-bin head checks remain in the frozen helper. This agrees with the earlier independent loss/gradient/cache proof.
+
+The frozen predictions are equal pairs: reference old seed3/seed4 FT, candidate unchanged seed4 plus new current seed3 FT, matched control unchanged seed4 plus new proxy seed3 FT. Each member weight is.5. Comparisons are candidate/reference and candidate/matched; no transform or weight search is added. Full1,873 VALID export order is frozen. All four commands (continuation, head FT, full FT, export) share one outer final-job identity and720-second aggregate timeout; its ten-thread limit leaves two cores in the shared12-core slice.
+
+## Remaining binding gates and limits
+
+No new defect was found in this frozen recipe. Approval remains conditional on both complete pipelines, exact sidecars/backward ancestor hashes, clean membership, cache/provenance identity, and equal actual successful/skipped updates, EMA calls, batches, normalization and sampler/RNG histories. Metadata declarations are checked against effective fit provenance after execution; they do not independently parse every stage argv before spending compute. The instrumentation records pre-iteration RNG/membership identities and per-epoch counts, without actual materialized sample order or per-step skip indices. Checkpoint and diagnostic provenance are hash-bound but the generic binder does not reconstruct optimizer trajectories from checkpoint tensors.
+
+The numerical scorer reports results; root must apply the frozen gain, class and exact/soft direction gates. Neither an incomplete720-second run nor a gain against only the original pair supports the label-mechanism claim. Original proxy labels may contain useful future risk. Fold0 is inspected local evidence, and this screen cannot establish expected public quality.

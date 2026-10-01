@@ -1,0 +1,20 @@
+{
+  "job": "c20260930_gpu_ssm_coeff_capture_v1",
+  "command": [
+    "env",
+    "WNN_IN_CAMPAIGN_JOB=1",
+    "WNN_THREADS=10",
+    "WNN_CPU_QUOTA=1000%",
+    "WNN_MEM_MAX=36G",
+    "PYTHONPATH=src",
+    "scripts/limited",
+    ".venv/bin/python",
+    "research/campaign_2026-09-30/integration/ssm_coeff_diagnostic/gpu_capture.py",
+    "--output",
+    "research/campaign_2026-09-30/integration/ssm_coeff_diagnostic/gpu_coeff_capture_v1.pt"
+  ],
+  "timeout_seconds": 120,
+  "no_new_updates": true,
+  "root_launch_after_frozen_pair_via_exclusive_GPU_lease": true,
+  "runner_sha256": "bba225ab06f93988e149e761c5d3170ab4d40b23eadcd83cd76c07887f591d4a"
+}

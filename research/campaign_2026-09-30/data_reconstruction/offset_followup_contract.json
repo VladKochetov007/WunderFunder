@@ -1,0 +1,10 @@
+{
+ "version":"adaptive-offset-falsifier-v1",
+ "adaptive_reason":"Primary registered TRAIN test showed interior-only code spreads transfer exactly, while outside loss offsets are even and vary strongly in classes0/1",
+ "panel":"Identical fixed fit/test TRAIN chain panel; previously inspected, exploratory only",
+ "questions":["Is losing offset determined by winning magnitude and current interior-derived spread?", "Are key rounding aliases present?", "Does a simpler uncapped common-reference PnL explain tail pairs?"],
+ "fixed_controls":{"offset2":"k=2", "common_mark":"k=winner", "twice_winner":"k=2*winner", "next_even":"k=2*ceil(winner/2)", "twice_next":"k=2*(winner+1)"},
+ "new_outputs":"all-row triple counts (current TRAIN mapped spread, positive winner, losing offset), row-weight and event-weight exactness, rounding aliases",
+ "information_boundary":"Target-supervised map from interior TRAIN only; current code usable at inference if map identified, target branch/winner/offset are oracle diagnostic only",
+ "budget":"1thread/2GiB/60s hard launcher; no GPU"
+}

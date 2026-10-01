@@ -1,0 +1,135 @@
+{
+  "passed": false,
+  "cases": [
+    {
+      "arm": "multi",
+      "passed": false,
+      "profile_sha256": "48d7147c4b7acfc2a207e5cd850a343b646f2a6e0add70768f51efb5c978893c",
+      "replay_sha256": "cc01557afafacefd858e420fd1fc90582f5e6ed86bec105f19f0d8f7974d4a35",
+      "checkpoint_sha256": "2e7ff8ab1563388b99d02c2bbdd82c319c70d6a8b7f1f2b69344e2557d800ce1",
+      "backend_flags": {
+        "float32_matmul_precision": "highest",
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": true,
+        "cudnn_enabled": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": false,
+        "cuda_matmul_allow_fp16_reduced_precision_reduction": true,
+        "cuda_matmul_allow_bf16_reduced_precision_reduction": true
+      },
+      "checks": {
+        "gpu_prediction_vs_cpu_literal": {
+          "max_abs": 4.7869980335235596e-06,
+          "violations": 0,
+          "max_bound_ratio": 0.20372022688388824,
+          "finite": true
+        },
+        "cpu_parallel_vs_cpu_literal": {
+          "max_abs": 5.960464477539062e-07,
+          "violations": 0,
+          "max_bound_ratio": 0.010521385818719864,
+          "finite": true
+        },
+        "gpu_state0_vs_cpu_literal": {
+          "max_abs": 0.0001900196075439453,
+          "violations": 0,
+          "max_bound_ratio": 0.27069219946861267,
+          "finite": true
+        },
+        "gpu_state1_vs_cpu_literal": {
+          "max_abs": 0.00048542022705078125,
+          "violations": 2,
+          "max_bound_ratio": 1.0966439247131348,
+          "finite": true
+        },
+        "cpu_parallel_state0_vs_cpu_literal": {
+          "max_abs": 2.1457672119140625e-06,
+          "violations": 0,
+          "max_bound_ratio": 0.029566852375864983,
+          "finite": true
+        },
+        "cpu_parallel_state1_vs_cpu_literal": {
+          "max_abs": 1.52587890625e-05,
+          "violations": 0,
+          "max_bound_ratio": 0.028980081900954247,
+          "finite": true
+        }
+      }
+    },
+    {
+      "arm": "single",
+      "passed": true,
+      "profile_sha256": "6e1ad027142b0917fd70f068f94f8e95325ca45fd47e0e2a52a70593383a836e",
+      "replay_sha256": "bb50c6acea1098251fe6bbc282756e0194820331df5adb3192a540a5406e59bd",
+      "checkpoint_sha256": "a3c8502f7ae2cb0787dd0d6ae4bfb00d8cd503d897885173e97839fbc5e50c38",
+      "backend_flags": {
+        "float32_matmul_precision": "highest",
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": true,
+        "cudnn_enabled": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": false,
+        "cuda_matmul_allow_fp16_reduced_precision_reduction": true,
+        "cuda_matmul_allow_bf16_reduced_precision_reduction": true
+      },
+      "checks": {
+        "gpu_prediction_vs_cpu_literal": {
+          "max_abs": 1.3113021850585938e-06,
+          "violations": 0,
+          "max_bound_ratio": 0.024574384093284607,
+          "finite": true
+        },
+        "cpu_parallel_vs_cpu_literal": {
+          "max_abs": 7.152557373046875e-07,
+          "violations": 0,
+          "max_bound_ratio": 0.009515102952718735,
+          "finite": true
+        },
+        "gpu_state0_vs_cpu_literal": {
+          "max_abs": 4.291534423828125e-06,
+          "violations": 0,
+          "max_bound_ratio": 0.047450266778469086,
+          "finite": true
+        },
+        "gpu_state1_vs_cpu_literal": {
+          "max_abs": 1.1205673217773438e-05,
+          "violations": 0,
+          "max_bound_ratio": 0.05974461883306503,
+          "finite": true
+        },
+        "cpu_parallel_state0_vs_cpu_literal": {
+          "max_abs": 7.152557373046875e-07,
+          "violations": 0,
+          "max_bound_ratio": 0.003884643781930208,
+          "finite": true
+        },
+        "cpu_parallel_state1_vs_cpu_literal": {
+          "max_abs": 1.9073486328125e-06,
+          "violations": 0,
+          "max_bound_ratio": 0.01703185774385929,
+          "finite": true
+        }
+      }
+    }
+  ],
+  "script_sha256": "2d5d9317403dda862849f6b96de5e01cf4989df090dac1c1e4d308a5f899ce92",
+  "literal_reference_source_sha256": "f78868bd39cbc5cdcf675d154d90eae147ca7f203a31002ec3f0fc870f273602",
+  "model_source_sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+  "tolerances": {
+    "atol": 2e-05,
+    "rtol": 0.0002
+  },
+  "scope_properties": {
+    "Slice": "wnn-campaign.slice",
+    "CPUQuotaPerSecUSec": "1s",
+    "MemoryMax": "2147483648",
+    "MemorySwapMax": "0"
+  },
+  "cuda_initialized": false,
+  "duration_seconds": 0.46283854900048027,
+  "peak_rss_mib": 552.046875,
+  "competition_data_read": false,
+  "limits": "Final synthetic student/reset B1T2000 FP32 only; not teacher/trained checkpoints/AMP deployment or public quality."
+}

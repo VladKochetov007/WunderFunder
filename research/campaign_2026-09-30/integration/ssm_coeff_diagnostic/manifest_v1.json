@@ -1,0 +1,45 @@
+{
+  "diagnostic_only": true,
+  "GPU_launched": false,
+  "source_changed": false,
+  "tolerances_changed": false,
+  "new_optimizer_updates": 0,
+  "private_sources": {
+    "PLAN.md": "2652fc7b7e5270c07c018db2f21b102c97d3c71c7d566ad7c2c69b5d39e55def",
+    "cpu_diagnose.py": "31ffad4b88f722ebc7875edfb3ba2e1f6d952c8a286635ba9ce6c7d3a8716eeb",
+    "cpu_sensitivity_v1.json": "52e979c003005906844af7c9d64a9afffc5937182c02b73130554914354e3a33",
+    "cpu_v1.log": "9dfaa06c0fccc4c038dacf645cba9ae1d6857f1408d3e4ccf623670923f45d0c",
+    "end_cpu_v1.txt": "c35c61ab131c66b081a0731f25afe248e2b4b7a93c4689df62e7e0de7208c133",
+    "exit_cpu_v1.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "gpu_capture.py": "bba225ab06f93988e149e761c5d3170ab4d40b23eadcd83cd76c07887f591d4a",
+    "run_cpu_v1.sh": "3a443a89df08383ab23228b109f9ec1f588866872ec987d8d20dee48fd06806a",
+    "start_cpu_v1.txt": "d06a8b017f68c150f6c4b285d7b4e9abc3384604687874e7f1574b81ea2f215d",
+    "support.py": "9d42050d778b2491af66ad0e03411d432ee49da08447c132f00b21e6c3877330"
+  },
+  "bound_repository_artifacts": {
+    "src/wnn/structured_state.py": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+    "src/wnn/resources.py": "3a517979569741a0d5b2a9838d6d262f129b1bd9323de53cb2783a184ebbdbe9",
+    "research/campaign_2026-09-30/structured_state/model.py": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+    "research/campaign_2026-09-30/audit/grade_structured_state.py": "f78868bd39cbc5cdcf675d154d90eae147ca7f203a31002ec3f0fc870f273602",
+    "research/campaign_2026-09-30/audit/ssm_gpu_literal_replay_v1.json": "fc0c6e39b633e4a0cb2941501ea0c2196d95ca83aadcb2f8a57011add5f597a0",
+    "research/campaign_2026-09-30/audit/ssm_literal_failure_coordinates_v1.json": "92d562aaab1258d9085fbbceb425f59fcd11d3993d9df68effd1e4b3465becbe",
+    "research/campaign_2026-09-30/integration/gpu_probe_multi_v2.json": "48d7147c4b7acfc2a207e5cd850a343b646f2a6e0add70768f51efb5c978893c",
+    "research/campaign_2026-09-30/integration/gpu_probe_multi_v2.pt": "2e7ff8ab1563388b99d02c2bbdd82c319c70d6a8b7f1f2b69344e2557d800ce1",
+    "research/campaign_2026-09-30/integration/gpu_probe_multi_v2.cpu_replay.pt": "cc01557afafacefd858e420fd1fc90582f5e6ed86bec105f19f0d8f7974d4a35",
+    "research/campaign_2026-09-30/integration/gpu_probe_single_v2.json": "6e1ad027142b0917fd70f068f94f8e95325ca45fd47e0e2a52a70593383a836e",
+    "research/campaign_2026-09-30/integration/gpu_probe_single_v2.pt": "a3c8502f7ae2cb0787dd0d6ae4bfb00d8cd503d897885173e97839fbc5e50c38",
+    "research/campaign_2026-09-30/integration/gpu_probe_single_v2.cpu_replay.pt": "bb50c6acea1098251fe6bbc282756e0194820331df5adb3192a540a5406e59bd",
+    "scripts/train_rnn.py": "9b53054caf94c51f83154c25f9bb246638da683ea4a4ba4ce3bec6c2451d0891",
+    "scripts/predict_run.py": "14eecc5a1a46b4da38f040558049490997c9ffc4c987a4393c44db0b35071509",
+    "src/wnn/nn.py": "91fded1fbf4565afc00c83e745f3c8107216792138f93a2c8115b9979a2f26dd"
+  },
+  "GPU_command": [
+    ".venv/bin/python",
+    "research/campaign_2026-09-30/integration/ssm_coeff_diagnostic/gpu_capture.py",
+    "--output",
+    "research/campaign_2026-09-30/integration/ssm_coeff_diagnostic/gpu_coeff_capture_v1.pt"
+  ],
+  "GPU_budget": "root freezes one diagnostic job cap; aggregate and5GB monitor unchanged",
+  "serialization_proposal": "none before captured cause is verified",
+  "launch_gate": "Wait for root scheduler lease after both live spread pipelines; no independentGPUlaunch and no live source edits."
+}

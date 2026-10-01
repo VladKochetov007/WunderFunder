@@ -1,0 +1,14 @@
+{
+ "version":"external-equality-distributions-20260930-v1",
+ "purpose":"Compare dimensionless publication signatures and event run distributions between fixed supplied TRAIN groups and bounded external chronological prefixes",
+ "competition":"Fixed32 TRAIN test groups from ../selection.json; both instruments, no new labels or masks read",
+ "external":"First20000 lines each BTCUSDT/ETHUSDT/USDCUSDT prior-file recordings; first1200 MD book snapshots with earlier received trades merged, trade cap20000",
+ "partitions":"First2/3 and last1/3 chronological rows/messages within each source; policy simulator keeps prior partition state unobserved and reinitializes consistently",
+ "policies":["hold", "transient", "coalesce5", "delay_trade5"],
+ "robust_measurements":"Per-emitted-row price/quantity/trade equality-change signature, price quiet-run and inter-event publication-row gaps, trade refresh/cochange rates",
+ "descriptive_tail_measurements":"Absolute positive-quantity log-ratio on common physical rank slots external versus encoded fields competition; not physically comparable without recovered inverse transform",
+ "ratio_falsifier":"Apply declared log1p quantity transform to external physical quantities and measure changes in ratios; equality remains exact but ratios need not",
+ "limits":"Competition p/v are unidentified22-field code blocks; external bookTicker has2 physical levels. Equality is preserved under injective column transforms but representation aggregation/publication differs. Similar signatures cannot establish source identity. No symbol/time alignment or external model fitting",
+ "budget":"1thread/2GiB/60s; noGPU; no background shell",
+ "competition_transfer":"No external numeric state, examples, mappings or fitted transform enters competition inference"
+}

@@ -1,0 +1,17 @@
+{
+  "status": "frozen before independent execution",
+  "model_sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+  "preregistration_sha256": "9f3325206d41a9fe4118aada9b967b6fc574e24a97af81a86d48cd77e5ce5a61",
+  "float64_forward_absolute_tolerance": 1e-09,
+  "float64_gradient_absolute_tolerance": 1e-08,
+  "float32_forward_absolute_tolerance": 3e-05,
+  "float32_state_absolute_tolerance": 0.003,
+  "float32_gradient_absolute_tolerance": 0.0003,
+  "gradient_active_min": 1e-12,
+  "cases": "all three arms, FP64/FP32 input/state/parameter gradients; independently computed S/Z and serial GRU; chunk1/17/64/2000, clocks boundaries and first ordinal0, raw source float32 endpoint before normalization, causality/batch/reset, Walsh rank96/allcolumns gradients, variable-value convex hull, empty eventhistory,20kquiet AND eventful serialized recurrence, AMP FP32 memory",
+  "reference": "serialized exp(log_decay) real-step coefficient; strict prereg tolerances unchanged",
+  "resources": "durable <=300s, nested hard1CPU2GiB swap0 sharedslice CUDA hidden",
+  "no_read": "competition data/evaluation/predictions/targets/masks",
+  "scope": "CPU standalone parity only; modulo128 addressing and joint write/decay limitations remain",
+  "amendment": "Root-authorized prefit scaled states S/Z=(1-base_decay)*oldS/Z and floor equallyscaled. Same numerical atols. Actual serializedbase_decay powers/multiplication; additional exactreal attentionratio equivalence."
+}

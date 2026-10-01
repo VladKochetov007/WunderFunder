@@ -1,0 +1,309 @@
+{
+  "scope": "Selected historical public feedback and calibration warnings; user-reported scores, not independent portal byte evidence",
+  "entries": [
+    {
+      "id": "E-077",
+      "date": "2026-09-25",
+      "kind": "public leaderboard",
+      "hypotheses": [
+        "H-041"
+      ],
+      "result": {
+        "ab18_wmse_struct": {
+          "lb": 0.6488,
+          "runtime_min": 19.5,
+          "peak_mb": 621,
+          "valid_clean": 0.6721
+        },
+        "baseline_x0.25": {
+          "lb": 0.6503,
+          "runtime_min": 28.45,
+          "peak_mb": 629,
+          "valid_all": 0.6728,
+          "valid_clean": 0.6671
+        },
+        "baseline_raw_lb_public": 0.5935,
+        "lb_top": 0.6651
+      },
+      "claim": "validation overstates test by ~0.022 for both; the train-only GRU ranks below the rescaled organizer baseline on test despite +0.005 on clean validation (distribution shift or organizer model trained on more/later data)"
+    },
+    {
+      "id": "E-086",
+      "date": "2026-09-25",
+      "kind": "public leaderboard",
+      "result": {
+        "final_tv_e2": {
+          "lb": 0.6548,
+          "valid_holdout": 0.6877
+        },
+        "blend_base_final_tv": {
+          "lb": 0.6569,
+          "valid_holdout": 0.6869
+        },
+        "baseline_x0.25": 0.6503,
+        "ab18": 0.6488,
+        "lb_top": 0.6651
+      },
+      "claim": "the 2-epoch train+valid GRU beats the rescaled baseline on test (+0.0045) as the all-split rule predicted; blending with the baseline adds +0.0021 on test (more than on holdout), consistent with the baseline's robustness to the softer test mask"
+    },
+    {
+      "id": "E-144",
+      "date": "2026-09-26",
+      "kind": "public leaderboard",
+      "result": {
+        "final_s4ft_base35": 0.66,
+        "final_s4_base35": 0.6586,
+        "scorer_duration_min": [
+          36.5,
+          36.3
+        ],
+        "rank": 31,
+        "top": 0.6651,
+        "predicted": {
+          "s4_base35_minus_lbbest": "+0.0025 analog stress (+~0.0008 true masks)",
+          "ft_effect": "+0.0005"
+        },
+        "actual": {
+          "s4_base35_minus_lbbest": 0.0017,
+          "ft_effect": 0.0014
+        }
+      },
+      "claim": "recipe + true masks + blend 0.65 gives +0.0017 on LB (proxy overstated by ~0.001); the valid true-mask fine-tune gives +0.0014 on LB, ~3x the fold estimate: test responds to valid-like training more than valid folds predict -> hypothesis H-valid-like: test is closer to valid than to train",
+      "status": "measured"
+    },
+    {
+      "id": "E-163",
+      "date": "2026-09-26",
+      "kind": "public leaderboard",
+      "result": {
+        "final_s4lpft_base35": 0.6601,
+        "incumbent_final_s4ft_base35": 0.66,
+        "predicted_delta": 0.0002,
+        "scorer_min": 36.5
+      },
+      "claim": "LP-FT final +0.0001 on LB vs +0.0002 predicted (holdout +0.0003, folds +0.0002): same-parent pairs transfer as forecast",
+      "status": "measured"
+    },
+    {
+      "id": "E-165",
+      "date": "2026-09-27",
+      "kind": "public leaderboard",
+      "result": {
+        "final_ema4_lpft_base35": 0.6618,
+        "previous_best": 0.6601,
+        "predicted_blend_holdout_delta": 0.0022,
+        "actual_delta": 0.0017,
+        "scorer_min": 36.45
+      },
+      "claim": "EMA mean-teacher (4 epochs) transfers to the LB at ~0.8x the holdout estimate; new best 0.6618",
+      "status": "measured"
+    },
+    {
+      "id": "E-223",
+      "date": "2026-09-27",
+      "kind": "user-reported public leaderboard calibration and standings",
+      "command": "user shared submission list and public leaderboard screenshot text; no new upload by this agent",
+      "result": {
+        "submitted_file": "final_since2_gclp.zip",
+        "submission_id": "1bmxngta",
+        "public_score": 0.6622,
+        "previous_public_score": 0.6618,
+        "public_delta": 0.0004,
+        "prior_forecast_range": [
+          0.6631,
+          0.6634
+        ],
+        "forecast_error_range": [
+          -0.0012,
+          -0.0009
+        ],
+        "current_rank": 16,
+        "leader_public_score": 0.6677,
+        "gap_to_leader": 0.0055,
+        "submissions_today_used": 1,
+        "submissions_today_limit": 5
+      },
+      "claim": "The corrected old pair improved the measured public score, but the local-to-public forecast was too optimistic by 0.0009\u20130.0012. The new mixed and both-six packages are unsubmitted, so their hidden/public score gains remain uncertain; use the measured result to temper forecasts, not as evidence against their paired local gain.",
+      "status": "measured_public_feedback_user_reported"
+    },
+    {
+      "id": "E-224",
+      "date": "2026-09-27",
+      "kind": "five-submission reserved-holdout versus measured-public calibration audit",
+      "command": "decide.build_sums exact clipped package-member blends on valid_row_groups reserved holdout; compare with user-reported public scores",
+      "result": {
+        "packages": [
+          "final_s4_base35",
+          "final_s4ft_base35",
+          "final_s4lpft_base35",
+          "final_ema4_lpft_base35",
+          "final_since2_gclp"
+        ],
+        "public_scores": [
+          0.6586,
+          0.66,
+          0.6601,
+          0.6618,
+          0.6622
+        ],
+        "holdout_lambda002": [
+          0.668781,
+          0.669805,
+          0.670008,
+          0.672362,
+          0.673848
+        ],
+        "holdout_lambda0": [
+          0.690999,
+          0.692247,
+          0.692513,
+          0.694738,
+          0.696577
+        ],
+        "holdout_adjacent_deltas_lambda002": [
+          0.001024,
+          0.000203,
+          0.002354,
+          0.001486
+        ],
+        "public_adjacent_deltas": [
+          0.0014,
+          0.0001,
+          0.0017,
+          0.0004
+        ],
+        "reserved_holdout_sequences": 368
+      },
+      "claim": "All five submitted packages have the same reserved-holdout and public rank order, but local lift magnitude is unstable and usually too large; the last step transferred only +0.0004 of +0.001486 local. The sample is small and selected, so do not fit a calibrated public-score mapping or project the new mixed package mechanically.",
+      "status": "calibration_warning_with_rank_consistency"
+    },
+    {
+      "id": "E-227",
+      "date": "2026-09-27",
+      "kind": "user-reported public feedback for mixed six/four shared package",
+      "result": {
+        "package": "final_mixed_ema6_shared.zip",
+        "submission_id": "246401vj",
+        "public_score": 0.6616,
+        "previous_champion_score": 0.6622,
+        "delta": -0.0006,
+        "duration": "25m52s",
+        "memory_mb": 625
+      },
+      "claim": "The mixed package did not improve the public score; exact-mask local tie and unresolved CPU path make this compatible with prior uncertainty.",
+      "status": "measured_public_feedback_user_reported"
+    },
+    {
+      "id": "E-260",
+      "date": "2026-09-28",
+      "kind": "brainteaser checks + upload pre-registration (goal: new public best over 0.6622)",
+      "command": "docker scorer-image timing of old/mixed packages; inline fold neighbour split; scripts/holdout_compare.py; q55_ftall.sh",
+      "result": {
+        "runtime_side_channel": {
+          "local_ratio_mixed_v3_over_old": [
+            0.767,
+            0.761
+          ],
+          "local_ratio_mixed_v2single_over_old": [
+            0.493,
+            0.516
+          ],
+          "public_ratio": 0.71,
+          "verdict": "mixed ZIP most likely ran both members; its -0.0006 public was model behaviour, not the v2 fallback"
+        },
+        "proxy_track_record": {
+          "holdout_lam0_vs_public": [
+            [
+              0.0022,
+              0.0017
+            ],
+            [
+              0.0018,
+              0.0004
+            ],
+            [
+              -2e-05,
+              -0.0006
+            ]
+          ],
+          "pure_fold_mixed_analog": 0.00114,
+          "verdict": "holdout lambda0 tracked public sign; pure-chain folds over-predicted the mixed ZIP"
+        },
+        "neighboured_fold_94_mixed_analog": [
+          0.00155,
+          0.00119
+        ],
+        "keep_k4_holdout_lam0": [
+          3e-05,
+          0.00053
+        ],
+        "baseline_addback_holdout_lam0": {
+          "0.15": 0.00012,
+          "0.25": -0.00019,
+          "0.35": -0.0009
+        }
+      },
+      "claim": "Local proxies cannot separate the remaining candidates. Pre-registered uploads: (1) final_keep_k4 = since-2 pair + chunk-500 + online-norm (fold +0.0010 uniform across classes, holdout 0.0000); (2) the same four members re-fine-tuned on all 1873 validation sequences (+24% true-mask FT data, the lever type with the best public transfer; unmeasurable locally by construction). Public results calibrate which proxy describes the test.",
+      "status": "preregistered"
+    },
+    {
+      "id": "E-267",
+      "date": "2026-09-29",
+      "kind": "user-reported submission results and quota screenshot",
+      "command": "User supplied portal submission list; no upload performed by this agent",
+      "result": {
+        "quota_shown": "1/5 today",
+        "submissions": [
+          {
+            "package": "final_ema6_shared.zip",
+            "submission_id": "1ykwb95u",
+            "score": 0.6612,
+            "duration": "25m46s",
+            "memory_mb": 619,
+            "submitted": "2026-09-28 00:08"
+          },
+          {
+            "package": "final_mixed_ema6_shared.zip",
+            "submission_id": "246401vj",
+            "score": 0.6616,
+            "duration": "25m52s",
+            "memory_mb": 625,
+            "submitted": "2026-09-27 14:22"
+          },
+          {
+            "package": "final_since2_gclp.zip",
+            "submission_id": "1bmxngta",
+            "score": 0.6622,
+            "duration": "36m27s",
+            "memory_mb": 619,
+            "submitted": "2026-09-27 09:20"
+          },
+          {
+            "package": "final_ema4_lpft_base35.zip",
+            "score": 0.6618,
+            "submitted": "2026-09-26 01:11"
+          },
+          {
+            "package": "final_s4lpft_base35.zip",
+            "score": 0.6601,
+            "submitted": "2026-09-26 22:37"
+          },
+          {
+            "package": "final_s4_base35.zip",
+            "score": 0.6586,
+            "submitted": "2026-09-26 15:03"
+          },
+          {
+            "package": "final_s4ft_base35.zip",
+            "score": 0.66,
+            "submitted": "2026-09-26 15:03"
+          }
+        ],
+        "best_public_score": 0.6622,
+        "best_package": "final_since2_gclp.zip"
+      },
+      "claim": "The EMA6 shared package is already publicly scored at 0.6612, 0.0010 below the 0.6622 incumbent. The mixed EMA6 package is also below the incumbent by 0.0006. Neither is a new upload candidate; the portal screenshot's quota date context is not independently verified.",
+      "status": "measured_public_feedback_user_reported"
+    }
+  ]
+}
