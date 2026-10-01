@@ -1,0 +1,59 @@
+{
+  "status": "CLOSE FAMILY; fixed input-only recipe fails independently verified gates in both directions",
+  "result_sha256": "560d00ccff45052b39df2f32b0502ca1e29bd0ec5d404a6e2d3e1a1152e7481f",
+  "plan_sha256": "b3769bfc8d6f0d3de8063ff308f5378e078521dac01cc81c9e7bdd0db65ffdc9",
+  "source_and_separate_direction_receipts_consistent": true,
+  "all_per_chain_counts_and_gate_arithmetic_verified": true,
+  "directions": [
+    {
+      "fit_half": 0,
+      "audit_half": 1,
+      "coverage": 0.9745751928628038,
+      "clock_median_error": 0.583011342702833,
+      "clock_p90_error": 0.9999999916733147,
+      "chains_passing_clock_error": 0,
+      "minimum_chain_median_error": 0.21036309598324152,
+      "marked_resets": 146741,
+      "marked_resets_not_old": 0,
+      "old_events": 407433,
+      "fraction_old_events_retained_by_reset": 0.3601598299597725,
+      "clock_gates": {
+        "coverage": true,
+        "increment_error": false,
+        "reset_origin": true
+      },
+      "mark_gates": {
+        "missing_repeated_marks": false,
+        "state_divergence": true
+      }
+    },
+    {
+      "fit_half": 1,
+      "audit_half": 0,
+      "coverage": 0.9716383742592266,
+      "clock_median_error": 0.6175023221662086,
+      "clock_p90_error": 0.9999999901279994,
+      "chains_passing_clock_error": 0,
+      "minimum_chain_median_error": 0.2063819742930937,
+      "marked_resets": 149092,
+      "marked_resets_not_old": 0,
+      "old_events": 419078,
+      "fraction_old_events_retained_by_reset": 0.3557619345324737,
+      "clock_gates": {
+        "coverage": true,
+        "increment_error": false,
+        "reset_origin": true
+      },
+      "mark_gates": {
+        "missing_repeated_marks": false,
+        "state_divergence": true
+      }
+    }
+  ],
+  "total_marked_resets": 295833,
+  "new_qualified_repeated_occurrences": 0,
+  "interpretation": "Every admitted observed a5 decrease is already an old payload-change event in this sample. The new reset clock removes about64% of old events; large state divergence therefore measures thinning existing events, not recovery of hidden repeated payloads. Stable extreme reset origins and high pair coverage do not rescue the failed shared-increment gate. All256 held chains fail its median threshold; failure is not a pooled concentration artifact. Fits passed fixed KKT/curvature checks. This rejects the declared practical measurement recipe, not every conceivable latent clock encoding.",
+  "next_action": "No target association, forecasting fit, threshold/knots/solver search or retry. Preserve result; original mechanism closed.",
+  "critic_real_data_reads": 0,
+  "critic_new_WP_queries": 0
+}
