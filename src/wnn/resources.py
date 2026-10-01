@@ -1,4 +1,4 @@
-"""Resource budget for research jobs on a shared laptop: 80% CPU, 80% GPU.
+"""Thread and allocator limits for the resource-constrained research campaign.
 
 The hard limits (CPU quota, memory cap, no swap) come from ``scripts/limited``;
 this module keeps thread pools and GPU usage inside the same budget.
@@ -9,9 +9,9 @@ from __future__ import annotations
 import os
 import time
 
-CPU_FRACTION = 0.8
-# GPU memory cap per process. Upper bound agreed with the user (2026-09-25: 90%); WNN_GPU_FRACTION may only lower it.
-GPU_FRACTION = min(0.9, float(os.environ.get("WNN_GPU_FRACTION", "0.9")))
+CPU_FRACTION = 0.75
+# Allocator limits supplement the campaign's total-device 5 GB VRAM monitor.
+GPU_FRACTION = min(0.75, float(os.environ.get("WNN_GPU_FRACTION", "0.70")))
 # GPU busy-time rate limit per job (DutyCycle). 1.0 = no throttling (the single-job fast path);
 # set WNN_GPU_DUTY below 1 only to deliberately share the GPU with other work.
 GPU_DUTY = min(1.0, float(os.environ.get("WNN_GPU_DUTY", "1.0")))
@@ -55,7 +55,8 @@ def configure_torch(gpu_fraction: float | None = None, duty: float | None = None
     torch.set_num_threads(cpu_threads())
     if torch.cuda.is_available():
         torch.cuda.set_per_process_memory_fraction(gpu_fraction)
-        torch.backends.cudnn.benchmark = True
+        torch.backends.cudnn.benchmark = False
+        torch.backends.cudnn.deterministic = True
     duty = GPU_DUTY if duty is None else min(duty, GPU_DUTY)
     return DutyCycle(duty) if duty < 1.0 else None
 

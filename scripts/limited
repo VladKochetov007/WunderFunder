@@ -11,9 +11,20 @@ set -euo pipefail
 
 cpu_pct=${WNN_CPU_PCT:-80}
 mem_max=${WNN_MEM_MAX:-30G}
-threads=$(( $(nproc --all) * cpu_pct / 100 ))
+threads=${WNN_THREADS:-$(( $(nproc --all) * cpu_pct / 100 ))}
 (( threads < 1 )) && threads=1
-quota=$(( $(nproc --all) * cpu_pct ))%
+quota=${WNN_CPU_QUOTA:-$(( $(nproc --all) * cpu_pct ))%}
+scope_properties=()
+if [[ -n ${WNN_SLICE:-} ]]; then
+    scope_properties+=(--slice="$WNN_SLICE")
+fi
+if [[ -n ${WNN_RUNTIME_MAX:-} ]]; then
+    scope_properties+=(-p "RuntimeMaxSec=$WNN_RUNTIME_MAX")
+    scope_properties+=(-p "TimeoutStopSec=2s")
+fi
+if [[ -n ${WNN_SCOPE_UNIT:-} ]]; then
+    scope_properties+=(--unit="$WNN_SCOPE_UNIT")
+fi
 
 export WNN_THREADS=$threads
 export OMP_NUM_THREADS=${OMP_NUM_THREADS:-$threads}
@@ -24,6 +35,7 @@ export POLARS_MAX_THREADS=${POLARS_MAX_THREADS:-$threads}
 export ARROW_NUM_THREADS=${ARROW_NUM_THREADS:-$threads}
 
 exec systemd-run --user --scope --quiet \
+    "${scope_properties[@]}" \
     -p CPUQuota="$quota" \
     -p MemoryMax="$mem_max" \
     -p MemorySwapMax=0 \

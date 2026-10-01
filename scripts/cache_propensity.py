@@ -24,9 +24,11 @@ from torch.utils.data import DataLoader
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import train_rnn as T  # noqa: E402
+
 from wnn.data import N_FEATURES, SequenceFile  # noqa: E402
 from wnn.features import N_EVENT_FEATURES  # noqa: E402
 from wnn.propensity import load_propensity, propensity  # noqa: E402
+from wnn.resources import configure_torch  # noqa: E402
 
 
 def main():
@@ -39,6 +41,7 @@ def main():
         # cuDNN picks an fp32-like GRU path for tiny batches (batch 1-4 differ from batch >= 8 by up to 0.09);
         # training runs at batch >= 8, so the cache must be built in the same regime (measured 2026-09-27)
         ap.error("--batch must be >= 8 to match the training-time propensity values")
+    configure_torch()
     dev = torch.device("cuda")
     wpath = ROOT / "artifacts" / "runs" / a.name / "model.pt"
     sha = hashlib.sha256(wpath.read_bytes()).hexdigest()
@@ -51,26 +54,45 @@ def main():
         if split == "train":
             idx = np.array([g for g in idx if g not in T.CORRUPT_TRAIN_ROW_GROUPS])
         ds = T.Sequences(split, idx)
-        loader = DataLoader(ds, batch_size=a.batch, num_workers=4, prefetch_factor=2, pin_memory=True)
+        loader = DataLoader(
+            ds, batch_size=a.batch, num_workers=4, prefetch_factor=2, pin_memory=True
+        )
         t0, pos = time.time(), 0
         for x, _, _ in loader:
             inputs = T.build_inputs(x.to(dev, non_blocking=True))
             p = propensity(model, inputs[..., : N_FEATURES + N_EVENT_FEATURES]).cpu().numpy()
-            out[idx[pos:pos + len(p)]] = p
+            out[idx[pos : pos + len(p)]] = p
             pos += len(p)
         out.flush()
         del out
-        json.dump({"model": a.name, "model_sha256": sha, "split": split, "rows": int(n), "n_filled": int(len(idx)), "seconds": round(time.time() - t0, 1)},
-                  open(out_path.with_suffix(".json"), "w"))
+        with out_path.with_suffix(".json").open("w") as metadata:
+            json.dump(
+                {
+                    "model": a.name,
+                    "model_sha256": sha,
+                    "split": split,
+                    "rows": int(n),
+                    "n_filled": int(len(idx)),
+                    "seconds": round(time.time() - t0, 1),
+                },
+                metadata,
+            )
         print(split, "rows", n, "filled", len(idx), f"{time.time() - t0:.0f}s", flush=True)
         # parity: recompute random sequences in a fresh batch of a different composition
         rng = np.random.default_rng(0)
         pick = rng.choice(idx, min(a.check, len(idx)), replace=False)
         cache = np.load(out_path, mmap_mode="r")
         x = torch.stack([torch.from_numpy(T.Sequences(split, [g])[0][0].numpy()) for g in pick])
-        fresh = propensity(model, T.build_inputs(x.to(dev))[..., : N_FEATURES + N_EVENT_FEATURES]).cpu().numpy()
+        fresh = (
+            propensity(model, T.build_inputs(x.to(dev))[..., : N_FEATURES + N_EVENT_FEATURES])
+            .cpu()
+            .numpy()
+        )
         d = np.abs(fresh - np.asarray(cache[pick]))
-        print(f"{split} parity on {len(pick)} random sequences: max abs diff {d.max():.3g}, mean {d.mean():.3g}", flush=True)
+        print(
+            f"{split} parity on {len(pick)} random sequences: max abs diff {d.max():.3g}, mean {d.mean():.3g}",
+            flush=True,
+        )
 
 
 if __name__ == "__main__":
