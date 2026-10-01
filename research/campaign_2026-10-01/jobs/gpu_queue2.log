@@ -1,0 +1,11 @@
+20:20:21 launch c20261001_final_d256_s3
+{"unit": "wnn-top1-c20261001_final_d256_s3", "name": "c20261001_final_d256_s3", "command": ["env", "WNN_IN_CAMPAIGN_JOB=1", "WNN_THREADS=10", "WNN_CPU_QUOTA=1000%", "WNN_MEM_MAX=30G", "scripts/limited", "research/campaign_2026-10-01/jobs/final_d256.sh", "3"]}
+21:17:20 done c20261001_final_d256_s3 finished 0 3415
+21:17:20 launch c20261001_teacher_preds_f23
+{"unit": "wnn-top1-c20261001_teacher_preds_f23", "name": "c20261001_teacher_preds_f23", "command": ["env", "WNN_IN_CAMPAIGN_JOB=1", "WNN_THREADS=6", "WNN_CPU_QUOTA=600%", "WNN_MEM_MAX=30G", "scripts/limited", "research/campaign_2026-10-01/jobs/teacher_preds_f23.sh"]}
+21:27:26 done c20261001_teacher_preds_f23 finished 0 604
+21:27:26 launch c20261001_d256_f2
+{"unit": "wnn-top1-c20261001_d256_f2", "name": "c20261001_d256_f2", "command": ["env", "WNN_IN_CAMPAIGN_JOB=1", "WNN_THREADS=10", "WNN_CPU_QUOTA=1000%", "WNN_MEM_MAX=30G", "scripts/limited", "research/campaign_2026-10-01/jobs/d256_fold.sh", "2", "3"]}
+22:08:54 done c20261001_d256_f2 finished 0 2481
+22:08:54 launch c20261001_d256_f3
+{"unit": "wnn-top1-c20261001_d256_f3", "name": "c20261001_d256_f3", "command": ["env", "WNN_IN_CAMPAIGN_JOB=1", "WNN_THREADS=10", "WNN_CPU_QUOTA=1000%", "WNN_MEM_MAX=30G", "scripts/limited", "research/campaign_2026-10-01/jobs/d256_fold.sh", "3", "3"]}
