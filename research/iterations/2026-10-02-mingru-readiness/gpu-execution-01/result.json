@@ -1,0 +1,76 @@
+{
+  "status": "COMPLETE_GENERATED_GPU_PROBE",
+  "failure": null,
+  "allocation_sha256": "54103025ac8c8a91f61d925ce983317fda09eb0367d154eb3a54dd54980d1c6d",
+  "runner_sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2",
+  "started_utc": "2026-10-01T21:07:56.954303+00:00",
+  "finished_utc": "2026-10-01T21:08:10.312148+00:00",
+  "seconds": 13.357864991761744,
+  "jobs": [
+    {
+      "name": "mingru_generated",
+      "stage": "probe",
+      "unit": "eb-9f764a4756864506ba0a577af3453c9a",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-9f764a4756864506ba0a577af3453c9a",
+        "-p",
+        "CPUQuota=100%",
+        "-p",
+        "MemoryMax=4294967296",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "36",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "170.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-02-mingru-readiness/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-readiness/gpu-allocation.json",
+        "--allocation-sha256",
+        "54103025ac8c8a91f61d925ce983317fda09eb0367d154eb3a54dd54980d1c6d",
+        "--worker",
+        "0"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+        "total_MiB": 16376,
+        "used_MiB": 251,
+        "free_MiB": 15723
+      },
+      "peak_owned_GPU_MiB": 1180,
+      "pid": 821106,
+      "worker_result": {
+        "path": "research/iterations/2026-10-02-mingru-readiness/gpu-execution-01/mingru_generated.probe.worker-result.json",
+        "sha256": "79c2657e05f279fe00c56a5e268ee0dad11713856aeef2a8c82e99a46deb4429"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 13.220864912495017
+    }
+  ],
+  "fits": 0,
+  "OOF_jobs": 0,
+  "metric_calls": 0,
+  "retries": 0
+}

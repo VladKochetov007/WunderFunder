@@ -1,10 +1,16 @@
 # Current research and complete experiment archive
 
-Updated 1 October 2026 (Moscow). This is an index to the evidence; historical results remain in their original ledgers and journals.
+Updated 2 October 2026 (Moscow). This is an index to the evidence; historical results remain in their original ledgers and journals.
 
 **Publication preference:** the user has paused GitHub uploads. Subsequent research is stored locally and on beleriand only until the user explicitly resumes publication. Existing archive links below are historical; do not push new progress automatically.
 
-## Latest completed experiment: late categorical residual, 1 October
+## Active experiment: minGRU256x2, 2 October
+
+The [generated readiness pass](iterations/2026-10-02-mingru-readiness/readout.md) corrected the original zero-boundary derivative and passed CPU/GPU recurrence/gradient checks. The isolated INT8 native prototype passed55 checks after one preserved mechanical compile repair. Five paired synthetic whole4 benchmarks measured1.03787x the operational student4 cost, suggesting45.83–46.22minutes when extrapolated from44.54minutes; this is plausibility, not full runtime qualification or forecast evidence.
+
+A fixed seed3/twofold [forecast screen](iterations/2026-10-02-mingru-forecast/contract.md) was launched on beleriand GPU0 at2026-10-01T21:21UTC (2October00:21Moscow). It replaces only the shallow256 member with corrected minGRU256x2, keeps211features/teachers/three quarter anchors, parent4epochs EMAep3 and H2twoepochs ep1, batch32/16,chunk2000. Exactly4fits+2OOF, sequential;5hour deadline02:21UTC. Launch receipt identifies PID828683/startticks505691575; do not infer liveness from this historical index—inspect execution-01/events.jsonl/result.json and PID identity. First parent was observed training; no forecasting result yet. See [allocation](iterations/2026-10-02-mingru-forecast/training-allocation.json) and [launch](iterations/2026-10-02-mingru-forecast/launch.json). Existing student_fixed4 ZIP remains incumbent. No GitHub/public submission.
+
+## Latest completed forecasting experiment: late categorical residual, 1 October
 
 Four paired head fits and two OOF passes completed in **313.22 seconds**. A corrected categorical residual on the completely frozen current shallow256 H2 model scores **0.702381378288**, versus **0.702379667614** incumbent: **+0.000001710674**, conditional95% paired-chain interval[-0.000004164109,+0.000007843874]. Equal-capacity CE0 scores0.702380944235; categorical supervision adds only+0.000000434053. Both comparisons have opposing fold signs. The exact original raw OOF predictions, frozen backbone tensors, paired initialization and sampler order all passed. The branch was active, so this was not a disconnected-head null. See [readout](iterations/2026-10-01-late-atom-head/readout.md), [decision](iterations/2026-10-01-late-atom-head/decision.json), and [preservation](iterations/2026-10-01-late-atom-head/preservation-complete.json).
 

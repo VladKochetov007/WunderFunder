@@ -1,0 +1,43 @@
+{
+  "status": "RUNNING",
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--unit",
+    "mingru-a057b8c6cd0c476eb3d063007088afeb",
+    "-p",
+    "CPUQuota=200%",
+    "-p",
+    "MemoryMax=4294967296",
+    "-p",
+    "MemorySwapMax=0",
+    "--",
+    "taskset",
+    "-c",
+    "34",
+    "nice",
+    "-n",
+    "10",
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "120s",
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-mingru-readiness/numerical/check_cpu.py",
+    "--output",
+    "research/iterations/2026-10-02-mingru-readiness/numerical/cpu-01.json"
+  ],
+  "unit": "mingru-a057b8c6cd0c476eb3d063007088afeb",
+  "source_sha256": {
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-readiness/run_cpu.py": "ffadea05ce7ecf1dbadf4e6f73dfd4306a5cebada976b3bdcca9c00fbdf619a1",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-context-replay/run.py": "3c8861bda56f7dfff197ccb1fd78f2407eab1371d6535f42f0f4563e1b40af4f",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-readiness/contract.md": "3cb7c71f1490918b21700b0d1b7efe13485ca5329859807f1773ecb651f9b132",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-readiness/numerical/check_cpu.py": "143bfd1f7d3188352234a8fa9d6515485ed01119feac6edadc45ebbf90cf84e3",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-readiness/numerical/check_gpu.py": "f0959a5f86fb41d9cc34fe5394d233282382910a3fa0e5c818e79278a030cb4e",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-readiness/numerical/minimal_rnn.py": "16585c0fdcd6cf16b63234c64ea7a02d620a8f705f933fac4324c0a880a234a6",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-readiness/numerical/original.py": "7ce33c53b53c2be91a7726a9d36e3bba027dbabf81b3f1ea01b51b030dd2e65f"
+  },
+  "real_data": false
+}

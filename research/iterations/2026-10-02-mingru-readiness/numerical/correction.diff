@@ -1,0 +1,16 @@
+--- research/iterations/2026-10-01-continuation/minimal-rnn/minimal_rnn.py
++++ research/iterations/2026-10-02-mingru-readiness/numerical/minimal_rnn.py
+@@ -15,8 +15,11 @@
+ 
+ 
+ def log_g(x):
+-    # Keep both torch.where branches defined; g is nondifferentiable at exactly0.
+-    return torch.where(x >= 0, torch.log(torch.clamp_min(x, 0) + .5), -F.softplus(-x))
++    # Explicit selected-branch derivative at exactly zero: positive_g chooses +1.
++    # Both evaluated branches remain finite, without clamp_min boundary semantics.
++    nonnegative = x >= 0
++    safe_positive = torch.where(nonnegative, x, torch.zeros_like(x))
++    return torch.where(nonnegative, torch.log(safe_positive + .5), -F.softplus(-x))
+ 
+ 
+ def blocked_scan(gate_logits, candidate_logits, initial=None, block_size=64):

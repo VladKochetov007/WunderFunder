@@ -1,0 +1,40 @@
+{
+  "status": "SOURCE_ONLY_MECHANICAL_V2_NOT_EXECUTED",
+  "failure": "Attempt01 compile_optimized failed because agent split step_dense out of step without passing row; inactive transition branch still required a declared row at compile time. No numeric checks or benchmark executed.",
+  "qualified_origin_sha256": "7527b429e107d353f9f195b4c50a5f6699282b2d6ce9aa30dcb98c60418557cc",
+  "Q3_FREEZE_path": "research/iterations/2026-10-01-overnight/quant3/FREEZE.json",
+  "Q3_FREEZE_sha256": "c01fd5698e338a2b514b617bdc4f17074f26093e1358d7725515c1c47b425519",
+  "student_manifest_path": "research/iterations/2026-10-01-continuation/student-runtime/package/student_fixed4.manifest.json",
+  "student_manifest_sha256": "474390394e60f94e2c4660f085edb6dad87c86b322e01382a9d821050859ad43",
+  "qualified_binary_same_in_both_manifests": "b865301e5ff0c9dce78c29c258d991a7b5542e7a63d44eeafd32c3b526166867",
+  "changes": [
+    "Pass original raw pointer through step_dense for raw mode; reject transition-enabled prebuilt211 and guard nullptr in transition branch.",
+    "Add same-generated-weight exact-activation GRU comparator beside operational fast comparator; no kernel/model parameter change.",
+    "Record process CPU time beside wall for every fixed repeat; no noise correction or retry."
+  ],
+  "preserved_attempt01_sources": {
+    "check_benchmark.py": "bcf06bed76bc21259afae2654e0d418ad370606eef57644cff0175fcd488f96b",
+    "native.cpp": "3c7b43272a8668e5b99515ac56d8bca39e5d1f385dcd583f23f31eac6ef23ad4",
+    "README.md": "098346857d15cb2af81fb40fccc441f5e8fda364ec403797cd809463ba5a7b0b",
+    "source-origins.json": "220d6c33d08cabbdb9e71ba0d26157ec8ddd70a50a0d83084809d5d2c07f196a",
+    "source-ready.json": "1a56dc407af975ecd96f3060a774677da37701c3c23282478821e16c8b87e736",
+    "prepare.py": "af29d76908ac9f4005538c540bad114df98134bf6d93c9249082f946b34a1603",
+    "reference/torch_reference.py": "7ce33c53b53c2be91a7726a9d36e3bba027dbabf81b3f1ea01b51b030dd2e65f",
+    "reference/activations.hpp": "688ade56b1b0ffb9b59e423ad7cb3069f06564654c4a266f644c2a9ce973133d",
+    "reference/kernels.hpp": "b0aa344e3e3dbe23a6cec670a436e1405fd70bbf6e3889bdeedeca6b5bffa1e4",
+    "reference/gru_reference.py": "160447df28fa090684757551a75ee61d4f35c8c8c16c246324565306f46b8ec4",
+    "reference/minimal_native.cpp": "305db802ce58cd88e6427ae9af49bde5c207b036b013e098f4425f6fa87829fe",
+    "include/wnn/online_norm.hpp": "cb6f96a910cc9138f9f5e87cf14ecc5b0730d14819ad484274c3efaaf24123c8",
+    "include/wnn/vnni_packed.hpp": "5402f152a10c9bac90581959c7ba3277a3710f809a6eb31b95e793a7f658f9e7",
+    "include/wnn/vnni_block128.hpp": "bc27eda211285a49dedf892ffaf15eb7762c31ec8bc42c9c4bf012a40d7dd2d5",
+    "include/wnn/activations.hpp": "688ade56b1b0ffb9b59e423ad7cb3069f06564654c4a266f644c2a9ce973133d",
+    "include/wnn/transition_features.hpp": "4fed9a92f5b7422d37cdb605f697e94466959930a916daf74b2e0ee170d82fa2",
+    "include/wnn/kernels.hpp": "b0aa344e3e3dbe23a6cec670a436e1405fd70bbf6e3889bdeedeca6b5bffa1e4",
+    "include/wnn/event_features.hpp": "9baefba832ab21980da40a8819d6d996112cd159e37ac114e019c42001d6f689",
+    "include/wnn/model.hpp": "f4576bd9f5ba4826fa1030bce466daf9da7acb7f9638faa6454c613b015780ce",
+    "include/wnn/vnni.hpp": "5564b59c15848b428de242bdf014a53c88c4bd7fc9be0edbc8ba4c23a48c164a",
+    "include/wnn/quant_portable.hpp": "2e5e94766987dfddada0c8bbdb16aa4872949edb7defbbf2cf2958f007617cbd"
+  },
+  "old_outputs_untouched": true,
+  "execution": false
+}
