@@ -1,0 +1,548 @@
+{
+  "scope": "Static source/disassembly only; no imports of candidate modules, models, data, inference or timing.",
+  "CPU_affinity": [
+    37
+  ],
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "build_script_sha256": "1877edd2a55e43ff99a93c77d98c1aef1913625025e8552cf3efc5aeb4c37f66",
+  "aggregate_source_sha256": "34a63687a069c568e70c33609b7d4e3ef0e8a302339f2ee3b3abe3c1a1e82b80",
+  "reviewer_source_sha256": "c014b1e25e5af9cc0ced2d354b16e2e091aa386aee100f99993e30435144674c",
+  "modules": {
+    "v2": {
+      "sha256": "b64bb8ab124337fe9e3539226dc8fc000d099ab089ee509e25a479040d80b0cd",
+      "function_header": "0000000000035fb0 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>:",
+      "aggregate_disassembly_sha256": "49da81248b892e74809c27737741571da1d1b2b9df181e9a3f3b22ab231317d8",
+      "opcodes": {
+        "add": 3,
+        "addps": 8,
+        "andps": 1,
+        "call": 7,
+        "cltq": 1,
+        "cmovle": 1,
+        "cmovs": 1,
+        "cmp": 5,
+        "cmpb": 1,
+        "comisd": 2,
+        "comiss": 1,
+        "cvtsd2ss": 1,
+        "cvtss2sd": 3,
+        "divsd": 1,
+        "endbr64": 3,
+        "ja": 2,
+        "jb": 1,
+        "jbe": 1,
+        "je": 2,
+        "jg": 1,
+        "jl": 2,
+        "jle": 1,
+        "jmp": 8,
+        "jne": 1,
+        "lea": 11,
+        "maxss": 1,
+        "minss": 1,
+        "mov": 26,
+        "movaps": 2,
+        "movsd": 1,
+        "movslq": 4,
+        "movss": 8,
+        "movups": 24,
+        "mulps": 8,
+        "nopl": 4,
+        "nopw": 2,
+        "pop": 3,
+        "push": 3,
+        "pxor": 8,
+        "ret": 1,
+        "sar": 3,
+        "shl": 5,
+        "shufps": 2,
+        "sub": 4,
+        "subps": 4,
+        "subsd": 2,
+        "test": 3,
+        "ucomiss": 1,
+        "xor": 4
+      },
+      "fused_multiply_add_inside_aggregate": false,
+      "interpolation_and_ordered_sum_simd": true,
+      "final_scale_simd_lanes": 4,
+      "scalar_core_operations": {
+        "subtract": 0,
+        "multiply": 0,
+        "add": 0
+      },
+      "packed_core_subtract_add": {
+        "subtract": 4,
+        "add": 8
+      },
+      "packed_interpolation_multiply_instructions": 4,
+      "packed_final_scale_multiply_instructions": 4,
+      "out_of_line_callers": [
+        {
+          "function": "pybind11_init_wnn_cpp(pybind11::module_&)::{lambda(pybind11::dict const&, pybind11::array_t<float, 17> const&)#1}::operator()(pybind11::dict const&, pybind11::array_t<float, 17> const&) const [clone .isra.0]",
+          "calls": [
+            "2b453:\tcall   35fb0 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>"
+          ]
+        },
+        {
+          "function": "wnn::Predictor::step(float const*, float*)",
+          "calls": [
+            "398ad:\tcall   35fb0 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>"
+          ]
+        }
+      ],
+      "arithmetic_instructions": [
+        {
+          "address": "360d2",
+          "opcode": "subsd",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "360e1",
+          "opcode": "subsd",
+          "operands": "%xmm7,%xmm0"
+        },
+        {
+          "address": "360e5",
+          "opcode": "divsd",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "36146",
+          "opcode": "subps",
+          "operands": "%xmm7,%xmm8"
+        },
+        {
+          "address": "3614a",
+          "opcode": "mulps",
+          "operands": "%xmm10,%xmm8"
+        },
+        {
+          "address": "3614e",
+          "opcode": "addps",
+          "operands": "%xmm7,%xmm8"
+        },
+        {
+          "address": "36156",
+          "opcode": "addps",
+          "operands": "%xmm7,%xmm8"
+        },
+        {
+          "address": "3615e",
+          "opcode": "subps",
+          "operands": "%xmm1,%xmm7"
+        },
+        {
+          "address": "36165",
+          "opcode": "mulps",
+          "operands": "%xmm10,%xmm7"
+        },
+        {
+          "address": "36169",
+          "opcode": "addps",
+          "operands": "%xmm1,%xmm7"
+        },
+        {
+          "address": "36171",
+          "opcode": "addps",
+          "operands": "%xmm1,%xmm7"
+        },
+        {
+          "address": "36178",
+          "opcode": "subps",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "36180",
+          "opcode": "mulps",
+          "operands": "%xmm10,%xmm1"
+        },
+        {
+          "address": "36184",
+          "opcode": "addps",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "3618c",
+          "opcode": "addps",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "36193",
+          "opcode": "subps",
+          "operands": "%xmm9,%xmm0"
+        },
+        {
+          "address": "3619c",
+          "opcode": "mulps",
+          "operands": "%xmm10,%xmm0"
+        },
+        {
+          "address": "361a0",
+          "opcode": "addps",
+          "operands": "%xmm9,%xmm0"
+        },
+        {
+          "address": "361a4",
+          "opcode": "addps",
+          "operands": "%xmm11,%xmm0"
+        },
+        {
+          "address": "3620d",
+          "opcode": "cvtsd2ss",
+          "operands": "%xmm1,%xmm10"
+        },
+        {
+          "address": "36223",
+          "opcode": "mulps",
+          "operands": "%xmm2,%xmm8"
+        },
+        {
+          "address": "36227",
+          "opcode": "mulps",
+          "operands": "%xmm2,%xmm7"
+        },
+        {
+          "address": "3622a",
+          "opcode": "mulps",
+          "operands": "%xmm2,%xmm1"
+        },
+        {
+          "address": "3622d",
+          "opcode": "mulps",
+          "operands": "%xmm2,%xmm0"
+        }
+      ]
+    },
+    "avx2": {
+      "sha256": "1e7a120dfd250a7b3f468be4a6385d6624cc0094051f775bc58637f3f33f89a3",
+      "function_header": "0000000000035c50 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>:",
+      "aggregate_disassembly_sha256": "1f1fed4b84f45c151757fd58c3b842a983c5b8300effa07613fa41f0b61b6255",
+      "opcodes": {
+        "add": 4,
+        "and": 1,
+        "call": 7,
+        "cmovle": 1,
+        "cmovs": 1,
+        "cmp": 5,
+        "cmpb": 1,
+        "cs": 1,
+        "endbr64": 3,
+        "ja": 2,
+        "jb": 1,
+        "jbe": 1,
+        "je": 2,
+        "jg": 1,
+        "jl": 2,
+        "jle": 1,
+        "jmp": 8,
+        "jne": 1,
+        "lea": 11,
+        "mov": 27,
+        "movslq": 5,
+        "nopl": 3,
+        "nopw": 2,
+        "pop": 4,
+        "push": 4,
+        "ret": 1,
+        "sar": 3,
+        "shl": 5,
+        "sub": 4,
+        "test": 3,
+        "vaddps": 4,
+        "vandps": 1,
+        "vbroadcastss": 2,
+        "vcomisd": 2,
+        "vcomiss": 1,
+        "vcvtsd2ss": 1,
+        "vcvtss2sd": 3,
+        "vdivsd": 1,
+        "vmaxss": 1,
+        "vminss": 1,
+        "vmovaps": 1,
+        "vmovdqu": 2,
+        "vmovsd": 1,
+        "vmovss": 7,
+        "vmovups": 8,
+        "vmulps": 4,
+        "vpxor": 1,
+        "vsubps": 2,
+        "vsubsd": 2,
+        "vucomiss": 1,
+        "vxorpd": 1,
+        "vxorps": 4,
+        "vzeroupper": 3,
+        "xor": 4
+      },
+      "fused_multiply_add_inside_aggregate": false,
+      "interpolation_and_ordered_sum_simd": true,
+      "final_scale_simd_lanes": 8,
+      "scalar_core_operations": {
+        "subtract": 0,
+        "multiply": 0,
+        "add": 0
+      },
+      "packed_core_subtract_add": {
+        "subtract": 2,
+        "add": 4
+      },
+      "packed_interpolation_multiply_instructions": 2,
+      "packed_final_scale_multiply_instructions": 2,
+      "out_of_line_callers": [
+        {
+          "function": "pybind11_init_wnn_cpp(pybind11::module_&)::{lambda(pybind11::dict const&, pybind11::array_t<float, 17> const&)#1}::operator()(pybind11::dict const&, pybind11::array_t<float, 17> const&) const [clone .isra.0]",
+          "calls": [
+            "2b4f3:\tcall   35c50 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>"
+          ]
+        },
+        {
+          "function": "wnn::Predictor::step(float const*, float*)",
+          "calls": [
+            "3919c:\tcall   35c50 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>"
+          ]
+        }
+      ],
+      "arithmetic_instructions": [
+        {
+          "address": "35d6b",
+          "opcode": "vsubsd",
+          "operands": "%xmm8,%xmm0,%xmm0"
+        },
+        {
+          "address": "35d76",
+          "opcode": "vsubsd",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35d80",
+          "opcode": "vdivsd",
+          "operands": "%xmm1,%xmm0,%xmm0"
+        },
+        {
+          "address": "35dd1",
+          "opcode": "vsubps",
+          "operands": "%ymm0,%ymm1,%ymm1"
+        },
+        {
+          "address": "35dd5",
+          "opcode": "vmulps",
+          "operands": "%ymm8,%ymm1,%ymm1"
+        },
+        {
+          "address": "35dda",
+          "opcode": "vaddps",
+          "operands": "%ymm0,%ymm1,%ymm1"
+        },
+        {
+          "address": "35de3",
+          "opcode": "vaddps",
+          "operands": "(%r12),%ymm1,%ymm1"
+        },
+        {
+          "address": "35ded",
+          "opcode": "vsubps",
+          "operands": "%ymm9,%ymm0,%ymm0"
+        },
+        {
+          "address": "35df8",
+          "opcode": "vmulps",
+          "operands": "%ymm8,%ymm0,%ymm0"
+        },
+        {
+          "address": "35dfd",
+          "opcode": "vaddps",
+          "operands": "%ymm9,%ymm0,%ymm0"
+        },
+        {
+          "address": "35e02",
+          "opcode": "vaddps",
+          "operands": "0x20(%r12),%ymm0,%ymm0"
+        },
+        {
+          "address": "35e68",
+          "opcode": "vcvtsd2ss",
+          "operands": "%xmm0,%xmm0,%xmm8"
+        },
+        {
+          "address": "35e7a",
+          "opcode": "vmulps",
+          "operands": "%ymm2,%ymm1,%ymm1"
+        },
+        {
+          "address": "35e7e",
+          "opcode": "vmulps",
+          "operands": "%ymm2,%ymm0,%ymm0"
+        }
+      ]
+    },
+    "v3": {
+      "sha256": "75c631b26ee8f989340603b50bfc3959c2778cce91df6350b440ef2b49ca77b3",
+      "function_header": "0000000000036560 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>:",
+      "aggregate_disassembly_sha256": "1e91dd4c1412aae85b33a204fc24d579c8797401130d5a1b54ff4e1f56049701",
+      "opcodes": {
+        "add": 4,
+        "and": 1,
+        "call": 7,
+        "cmovle": 1,
+        "cmovs": 1,
+        "cmp": 5,
+        "cmpb": 1,
+        "cs": 1,
+        "endbr64": 3,
+        "ja": 2,
+        "jb": 1,
+        "jbe": 1,
+        "je": 2,
+        "jg": 1,
+        "jl": 2,
+        "jle": 1,
+        "jmp": 8,
+        "jne": 1,
+        "lea": 11,
+        "mov": 27,
+        "movslq": 5,
+        "nopl": 3,
+        "nopw": 2,
+        "pop": 4,
+        "push": 4,
+        "ret": 1,
+        "sar": 3,
+        "shl": 5,
+        "sub": 4,
+        "test": 3,
+        "vaddps": 4,
+        "vandps": 1,
+        "vbroadcastss": 2,
+        "vcomisd": 2,
+        "vcomiss": 1,
+        "vcvtsd2ss": 1,
+        "vcvtss2sd": 3,
+        "vdivsd": 1,
+        "vmaxss": 1,
+        "vminss": 1,
+        "vmovaps": 1,
+        "vmovdqu": 2,
+        "vmovsd": 1,
+        "vmovss": 7,
+        "vmovups": 8,
+        "vmulps": 4,
+        "vpxor": 1,
+        "vsubps": 2,
+        "vsubsd": 2,
+        "vucomiss": 1,
+        "vxorpd": 1,
+        "vxorps": 4,
+        "vzeroupper": 3,
+        "xor": 4
+      },
+      "fused_multiply_add_inside_aggregate": false,
+      "interpolation_and_ordered_sum_simd": true,
+      "final_scale_simd_lanes": 8,
+      "scalar_core_operations": {
+        "subtract": 0,
+        "multiply": 0,
+        "add": 0
+      },
+      "packed_core_subtract_add": {
+        "subtract": 2,
+        "add": 4
+      },
+      "packed_interpolation_multiply_instructions": 2,
+      "packed_final_scale_multiply_instructions": 2,
+      "out_of_line_callers": [
+        {
+          "function": "pybind11_init_wnn_cpp(pybind11::module_&)::{lambda(pybind11::dict const&, pybind11::array_t<float, 17> const&)#1}::operator()(pybind11::dict const&, pybind11::array_t<float, 17> const&) const [clone .isra.0]",
+          "calls": [
+            "2b443:\tcall   36560 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>"
+          ]
+        },
+        {
+          "function": "wnn::Predictor::step(float const*, float*)",
+          "calls": [
+            "3c0ee:\tcall   36560 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>"
+          ]
+        }
+      ],
+      "arithmetic_instructions": [
+        {
+          "address": "3667b",
+          "opcode": "vsubsd",
+          "operands": "%xmm8,%xmm0,%xmm0"
+        },
+        {
+          "address": "36686",
+          "opcode": "vsubsd",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36690",
+          "opcode": "vdivsd",
+          "operands": "%xmm1,%xmm0,%xmm0"
+        },
+        {
+          "address": "366e1",
+          "opcode": "vsubps",
+          "operands": "%ymm0,%ymm1,%ymm1"
+        },
+        {
+          "address": "366e5",
+          "opcode": "vmulps",
+          "operands": "%ymm8,%ymm1,%ymm1"
+        },
+        {
+          "address": "366ea",
+          "opcode": "vaddps",
+          "operands": "%ymm0,%ymm1,%ymm1"
+        },
+        {
+          "address": "366f3",
+          "opcode": "vaddps",
+          "operands": "(%r12),%ymm1,%ymm1"
+        },
+        {
+          "address": "366fd",
+          "opcode": "vsubps",
+          "operands": "%ymm9,%ymm0,%ymm0"
+        },
+        {
+          "address": "36708",
+          "opcode": "vmulps",
+          "operands": "%ymm8,%ymm0,%ymm0"
+        },
+        {
+          "address": "3670d",
+          "opcode": "vaddps",
+          "operands": "%ymm9,%ymm0,%ymm0"
+        },
+        {
+          "address": "36712",
+          "opcode": "vaddps",
+          "operands": "0x20(%r12),%ymm0,%ymm0"
+        },
+        {
+          "address": "36778",
+          "opcode": "vcvtsd2ss",
+          "operands": "%xmm0,%xmm0,%xmm8"
+        },
+        {
+          "address": "3678a",
+          "opcode": "vmulps",
+          "operands": "%ymm2,%ymm1,%ymm1"
+        },
+        {
+          "address": "3678e",
+          "opcode": "vmulps",
+          "operands": "%ymm2,%ymm0,%ymm0"
+        }
+      ]
+    }
+  },
+  "status": "PASS_STATIC_SIMD_AND_SEPARATE_ROUNDING_BOUNDARY",
+  "conclusion": "The exact final binaries preserve a non-inlined aggregate boundary with no fused multiply-add. Each ordered feature iteration uses four SSE4-lane groups (v2) or two AVX8-lane groups (avx2/v3), with separate subtract, multiply, interpolation add and sequential feature-accumulation add. FP64 fraction arithmetic and its single FP32 conversion remain. Final scaling is separately packed. This proves the inspected instruction pattern, not a runtime gain.",
+  "limits": [
+    "No machine-code theorem for every FP environment; no empirical numeric fixtures or performance measurements repeated.",
+    "No proof of performance gain from static instruction counts.",
+    "Projection/trunk outside aggregate retain existing compiler policy; FMA outside aggregate is not rejected.",
+    "Output-only restrict is sound for the two supported Python-extension call paths, as documented in the separately preserved static note; direct third-party C++ callers inherit its nonaliasing precondition."
+  ]
+}

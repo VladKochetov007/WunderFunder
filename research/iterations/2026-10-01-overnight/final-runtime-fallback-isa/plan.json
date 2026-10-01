@@ -1,0 +1,176 @@
+{
+  "id": "BASELINE3-FALLBACK-ISA-RUNTIME-01",
+  "stage": "PREPARATION_ONLY_NO_EXECUTION",
+  "levels_fixed_order": [
+    "avx2",
+    "v2"
+  ],
+  "attempts_per_level": 1,
+  "retries": 0,
+  "zip": "submissions/overnight_baseline3/baseline3_fixed.zip",
+  "zip_sha256": "9471821e81e7c3f80a088147512183b72e0ab52bc593a1136d2becc229d0d098",
+  "zip_files": {
+    "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+      "sha256": "7931b5d977934a1389c7d4804957de9e39fd50bb19214f600ff71316b1e79d99",
+      "bytes": 807264
+    },
+    "members.json": {
+      "sha256": "8df56c8f1e831f6eff5b6b50c41ffd3641d1619cb2bc313143ced091fda81e8f",
+      "bytes": 219
+    },
+    "solution.py": {
+      "sha256": "7a7027decfb374af2be9b631e60339fbfc75953e5fe84db255d14f37ead9bfa2",
+      "bytes": 2063
+    },
+    "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+      "sha256": "49de67603ca8f7e24c12f45fd6e9f976fe64a1af3dc25a04c7fbabd278d77423",
+      "bytes": 799288
+    },
+    "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+      "sha256": "dd6e59b2d75518ee06fcbe3ba49f8450b3ee83695fa5692e4b8edaf86d7c8bad",
+      "bytes": 820488
+    },
+    "weights_0.npz": {
+      "sha256": "66b80d33c1ef84d5a5dc0ff5893b0f121bf72122b59b8ef95411a691b4351a52",
+      "bytes": 1039544
+    },
+    "weights_1.npz": {
+      "sha256": "6c4cd532707b46762b9a3fc73a65ec013ff64bd3ed1cfabc42c03a05fa583976",
+      "bytes": 1039544
+    },
+    "weights_2.npz": {
+      "sha256": "688188e4c3068dc35d931557c7a93e31c9e6096b12fa3fc188631c79c0b573d6",
+      "bytes": 1039544
+    }
+  },
+  "raw": "research/iterations/2026-10-01-overnight/critic/runtime-probe/raw.npy",
+  "raw_sha256": "1e90c52f1332950b70d573618adad29324fb6705675e74cb75c7ca6efda993b4",
+  "raw_shape": [
+    5,
+    20000,
+    112
+  ],
+  "previous_raw_row_groups": [
+    0,
+    468,
+    936,
+    1404,
+    1872
+  ],
+  "reference": {
+    "avx2": {
+      "path": "research/iterations/2026-10-01-overnight/delivery-baseline3/reference-avx2-real.npy",
+      "sha256": "c8ea18c657ffde4892a80b36bd29cbe397b0ba1ed24ed58c6faba74375b8f8c4",
+      "shape": [
+        5,
+        512,
+        2
+      ]
+    },
+    "v2": {
+      "path": "research/iterations/2026-10-01-overnight/delivery-baseline3/reference-v2-real.npy",
+      "sha256": "535c58329c33602ff2b379b55256e3f5fd4e0dd2ba4763d88c44e402b320820b",
+      "shape": [
+        5,
+        512,
+        2
+      ]
+    }
+  },
+  "full_audit_result": "research/iterations/2026-10-01-overnight/final-runtime-audit/execution/launch-result.json",
+  "authority": "Separate root allocation and explicit CPU18/58 release required; do not launch during full-valid audit.",
+  "resources": {
+    "CPU": 18,
+    "SMT_sibling": 58,
+    "CPUQuota": "100%",
+    "MemoryMax_GiB": 4,
+    "MemorySwapMax": 0,
+    "compute_library_threads": 1,
+    "all_observed_threads_affinity": [
+      18
+    ],
+    "external_timeout_each_seconds": 180,
+    "term_at_seconds": 178,
+    "kill_grace_seconds": 2,
+    "maximum_total_trace_seconds": 360,
+    "GPU": false
+  },
+  "measurement": {
+    "callbacks_each": 100000,
+    "sequences_each": 5,
+    "emitted_each": 99505,
+    "need_prediction": "step>=99",
+    "all_warmup_callbacks_timed": true,
+    "fresh_process_and_extraction_each": true,
+    "forced_isa": "Mock /proc/cpuinfo only around solution import; restore before model construction/timing. Existing check_zip policy; unchanged ZIP.",
+    "timed_region": "Complete callback loop including point mutation, None/shape/dtype checks and output assignment; startup/extraction/finite/reference checks separate and process seconds reported.",
+    "reference_rows_each": 2560,
+    "100k_reference_parity_claimed": false,
+    "reference_policy": "Compare dtype/shape and exact bytes for first512 callback slots of each sequence:2065 emitted prediction pairs plus495 zero warmupNone placeholders. Exact pre-existing same-ISA archived reference; no new reference engine/input/prediction cache.",
+    "precheck_seconds": 2,
+    "SMT_clean_threshold": 0.05,
+    "noise_policy": "Keep every result. One precheck and one trace per ISA; noisy trace/precheck means timing unqualified, never retry.",
+    "callback_projection_rows": 39400000,
+    "report_only_threshold_minutes": [
+      50,
+      60
+    ],
+    "interpretation": "One short descriptive timing per existing fallback; no uncertainty estimate, recipe/model/gate selection, or general hardware qualification.",
+    "separate_script_cost": "Report script-entry wall (after stdlib imports, before NumPy import) and main wall separately. Neither is a complete process deadline claim; external timeout covers complete scorer process.",
+    "cache_warming": "Complete prehash and finite-input validation precede timing and warm this existing 100k fixture; this is a warm-input callback trace, not a cold read test.",
+    "reference_emitted_prediction_rows_each": 2065,
+    "reference_warmup_placeholder_slots_each": 495
+  },
+  "source_sha256": {
+    "research/iterations/2026-10-01-overnight/final-runtime-fallback-isa/benchmark.py": "ab427b49e60cee6f724444b7a605019869aaa6574963763f1cfdbe6d7218827e",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/benchmark_zip.py": "be18f0399264132323ca142c18dd8c19b0a98d0e6f445d883708c6eb1dde48c8",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/check_zip.py": "1c7799f4688267f5e897af64e9e82b3bf9f3f89a7b7ee2f29c339832860d42ab",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/reference-v2.json": "2fce363c4f955df8edf4228987931c7b28c887bfe92457e9a9631d2cd66a5d12",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/reference-avx2.json": "fc798b92467b7ef42bac8e8671e0aeb3003b94726cf57899b341b51af0a89370",
+    "submissions/overnight_baseline3/baseline3_fixed.manifest.json": "795b93b52b5e8eb6274a60deaab9865efb9b40eb55d0d0b72f9b75698cc94665"
+  },
+  "execution_command_template": [
+    "systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--unit",
+    "wunder-baseline3-fallback-LEVEL-20261001",
+    "-p",
+    "CPUQuota=100%",
+    "-p",
+    "MemoryMax=4G",
+    "-p",
+    "MemorySwapMax=0",
+    "--",
+    "taskset",
+    "-c",
+    "18",
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=2s",
+    "178s",
+    "/home/grinchenkoeg/scorer_image/run.sh",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/final-runtime-fallback-isa/benchmark.py",
+    "--level",
+    "LEVEL",
+    "--allocation",
+    "ROOT_TO_SUPPLY",
+    "--allocation-sha256",
+    "ROOT_TO_SUPPLY"
+  ],
+  "forbidden": [
+    "Empirical run before allocation",
+    "Retry/tuning/additional ISA variant",
+    "New artifact/member composition",
+    "Targets/masks/WP/training",
+    "CPU18 overlap with full-valid audit"
+  ],
+  "allocation_schema_required": {
+    "fallback_runtime_authorized": true,
+    "CPU18_58_explicitly_released": true,
+    "attempts_per_level": 1,
+    "plan_sha256": "ROOT_TO_BIND",
+    "full_audit_result_sha256": "ROOT_TO_BIND_AFTER_AUDIT"
+  }
+}

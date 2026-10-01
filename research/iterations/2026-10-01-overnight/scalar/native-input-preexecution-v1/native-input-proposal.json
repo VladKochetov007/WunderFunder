@@ -1,0 +1,184 @@
+{
+  "id": "SCALARPLE01-train-only-knots-native-cost-pilot-v1",
+  "status": "PREPARATION_NOT_ALLOCATED",
+  "created_UTC": "2026-10-01T04:24:46.242459+00:00",
+  "sources": {
+    "research/iterations/2026-10-01-overnight/scalar/fit_knots.py": "352c613eaf910f42858ad23b3b2419b321ec8d358dd85876f417d8efc6ee335d",
+    "research/iterations/2026-10-01-overnight/scalar/prepare_native_pilot.py": "73cff5c76db25c539dedd22fe1f5ec910bc950b1e0087023c74242f55988b971",
+    "research/iterations/2026-10-01-overnight/scalar/prepare_native_reference.py": "b85a1360f59ae8e6d430b24334b44088b7fbc38de71c29d4a4ed1e4b0300667a",
+    "research/iterations/2026-10-01-overnight/scalar/benchmark_native_pilot.py": "22ffbd645da724b0be44bceb8f58f301a6c727a2db3ecaf2a3d59d0bd2f45214",
+    "research/iterations/2026-10-01-overnight/scalar/run_native_pilot.py": "9c362a1bb49a14d2fb4e28fe460573e76d0ee4f2a596022bc39487a93da4f549",
+    "research/iterations/2026-10-01-overnight/scalar/native-v2-source.diff": "11e161c9bff49a0e0fdecdf00b10599d6f5dec32ba402038160bf0d9c0418b23",
+    "research/iterations/2026-10-01-overnight/scalar/spec.md": "c1d45b3c36279c0c8697b17982cf3ba45fb1691d32a796ede37d9621d4c549f5",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "research/iterations/2026-10-01-overnight/renewal/selected-chains.json": "13e39a60cdd88f5f0c35ea2c8abfe1558561c75cce4c8ddc8f1671446704a13d",
+    "research/iterations/2026-10-01-overnight/renewal/train-only-provenance.json": "8e8bdc6390cc42eee52443fe13436f90175c47cab29b5c1eae5034d0487ef53f",
+    "research/iterations/2026-10-01-overnight/critic/solution_fixed.py": "7a7027decfb374af2be9b631e60339fbfc75953e5fe84db255d14f37ead9bfa2",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/build/avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "1e7a120dfd250a7b3f468be4a6385d6624cc0094051f775bc58637f3f33f89a3",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/build/v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "b64bb8ab124337fe9e3539226dc8fc000d099ab089ee509e25a479040d80b0cd",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/build/v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "75c631b26ee8f989340603b50bfc3959c2778cce91df6350b440ef2b49ca77b3",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/build.sh": "1877edd2a55e43ff99a93c77d98c1aef1913625025e8552cf3efc5aeb4c37f66",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/include/wnn/activations.hpp": "688ade56b1b0ffb9b59e423ad7cb3069f06564654c4a266f644c2a9ce973133d",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/include/wnn/event_features.hpp": "9baefba832ab21980da40a8819d6d996112cd159e37ac114e019c42001d6f689",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/include/wnn/kernels.hpp": "b0aa344e3e3dbe23a6cec670a436e1405fd70bbf6e3889bdeedeca6b5bffa1e4",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/include/wnn/model.hpp": "2ee742ab55d648d5ef54e0085fc1990e5dec80eaf965bf330162673def5f94d1",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/include/wnn/online_norm.hpp": "cb6f96a910cc9138f9f5e87cf14ecc5b0730d14819ad484274c3efaaf24123c8",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/include/wnn/scalar_embedding.hpp": "34a63687a069c568e70c33609b7d4e3ef0e8a302339f2ee3b3abe3c1a1e82b80",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/include/wnn/transition_features.hpp": "4fed9a92f5b7422d37cdb605f697e94466959930a916daf74b2e0ee170d82fa2",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/src/bindings.cpp": "a3ec8e19492442cfa3267d463e2a0d80d17019bbe7f5354f07c0391198cb000a",
+    "research/iterations/2026-10-01-overnight/scalar/native_v2/src/glibc_compat.c": "cdf6c82aa9ddd0a41adc39a920ea54ff31435c361b9e9a9b5e29e077c3c9ebd6",
+    "research/iterations/2026-10-01-overnight/scalar/native-v2-check-avx2.json": "152367deb8aa5bf26dafe3457e04d411502f570af2b0197d79b4883384fbd511",
+    "research/iterations/2026-10-01-overnight/scalar/native-v2-check-v2.json": "41c28ba8f6904a62dadbb290b8d01195d243f39781262d2050ab7ac4125c80f2",
+    "research/iterations/2026-10-01-overnight/scalar/native-v2-check-v3.json": "3024f469842c0bdb1fb00d9ae4e200da8998ffd5e65cba2cd78e3acf627824bb",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/reference-v2.json": "2fce363c4f955df8edf4228987931c7b28c887bfe92457e9a9631d2cd66a5d12",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/reference-avx2.json": "fc798b92467b7ef42bac8e8671e0aeb3003b94726cf57899b341b51af0a89370",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/reference-v3.json": "8344f942fe1f3d0d2b8d13aaa96d7fcf3202bf8f71013009221731c5d770fdaa"
+  },
+  "gpu_v2_summary_sha256": "fca2c24c0facdb809042d635469332b12e61431ae9899d26ccaa699da56ac57a",
+  "fit": {
+    "selected_manifest_sha256": "13e39a60cdd88f5f0c35ea2c8abfe1558561c75cce4c8ddc8f1671446704a13d",
+    "chains": 256,
+    "source": "/home/grinchenkoeg/WunderFunder/datasets/train.parquet",
+    "source_identity": "historical size/mtime/footer before+after plus digest of all selected44-column raw rows; no whole29GB hash claim",
+    "chain_metadata_sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+    "chain_metadata_arrays_only": [
+      "chain",
+      "split",
+      "row_group"
+    ],
+    "selection": "exact prior ordered256representatives, allchainmembers must train; no reselection",
+    "columns": [
+      "i0_p0",
+      "i0_p1",
+      "i0_p2",
+      "i0_p3",
+      "i0_p4",
+      "i0_p5",
+      "i0_p6",
+      "i0_p7",
+      "i0_p8",
+      "i0_p9",
+      "i0_p10",
+      "i0_p11",
+      "i0_p12",
+      "i0_p13",
+      "i0_p14",
+      "i0_p15",
+      "i0_p16",
+      "i0_p17",
+      "i0_p18",
+      "i0_p19",
+      "i0_p20",
+      "i0_p21",
+      "i1_p0",
+      "i1_p1",
+      "i1_p2",
+      "i1_p3",
+      "i1_p4",
+      "i1_p5",
+      "i1_p6",
+      "i1_p7",
+      "i1_p8",
+      "i1_p9",
+      "i1_p10",
+      "i1_p11",
+      "i1_p12",
+      "i1_p13",
+      "i1_p14",
+      "i1_p15",
+      "i1_p16",
+      "i1_p17",
+      "i1_p18",
+      "i1_p19",
+      "i1_p20",
+      "i1_p21"
+    ],
+    "sample_rows": "0,20,...,19980 each20000row group",
+    "quantiles": "float64 numpy linear linspace0..1 inclusive16; castF32,canonical+0,dedupaftercast,padlast,count1constant",
+    "outputs": "scalar/knots/knots.npz and fit.json with raw/sample/file/array digests; samefit reusedallfolds andfinal because all256chains strictlytrain-only",
+    "targets_masks_validation_reads": false
+  },
+  "prototype": {
+    "baseline_zip": "submissions/overnight_baseline3/baseline3_fixed.zip",
+    "baseline_sha256": "9471821e81e7c3f80a088147512183b72e0ab52bc593a1136d2becc229d0d098",
+    "members": "fixedplainseed3+plainseed4+c500 equal1/3, firstmember receivesonePLEadapter; everyoldweightarrayexact",
+    "native": "final native_v2 all3CP311; same rounding with function-local no-contract and proven outputdisjointness restrict; original/intermediate native trees preserved",
+    "nonzero_synthetic_weights": "NumPydefault_rng2026100159: tableN(0,1)44x16x16 then projectionN(0,.01)128x16; nozero-branch shortcut; deterministiccostfixture, notforecastfit/traininginitialization",
+    "zero_check": "separateprojectionzero exact archivedbaseline overall100k onv3,641rowsprefix onother2ISAs",
+    "serving": "unchangedbaseline solution.py/fixedmembers/no governor/no torch runtime, all3portablebuilds; pilotruntime qualifiesmeasuredv3only"
+  },
+  "raw_fixture": {
+    "path": "research/iterations/2026-10-01-overnight/critic/runtime-probe/raw.npy",
+    "sha256": "1e90c52f1332950b70d573618adad29324fb6705675e74cb75c7ca6efda993b4",
+    "shape": [
+      5,
+      20000,
+      112
+    ],
+    "groups": [
+      0,
+      468,
+      936,
+      1404,
+      1872
+    ],
+    "origin": "previouslycreated100kraw-only cache; no newvalidparquet read",
+    "reference": "archivedbaseline-v3 directpred array digest bound reference-v3.json; candidate directnative reference generated once after sourcefreeze",
+    "targets_read": false,
+    "WP_queries": 0
+  },
+  "correctness": "all3ISAs real641row unchangedbaseline/zeroextra exactarchived; candidate nonzero/finite stream/reset/prefix/future invariant; v3all100k baseline/zeroextra exact; alltimedcompletecallbacks exactlysame directcandidateorbaselineref includingwarmupNone andallmaskedrowupdates",
+  "timing": {
+    "core": 22,
+    "SMT_sibling": 62,
+    "thread_count": 1,
+    "order_100k": [
+      [
+        "baseline",
+        "prototype"
+      ],
+      [
+        "prototype",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "prototype"
+      ]
+    ],
+    "longtrace_rows_each": 1000000,
+    "longtrace_order": [
+      "prototype",
+      "baseline"
+    ],
+    "rows_per_reset": 20000,
+    "noisy_condition": "precheck2s siblingbusy>=5% OR sumtimed-sequence siblingbusy>=5%; wholewindowseparatelyreported",
+    "retry": "atmostone wholepair repeat iff noisy; preserveallattempts; no quietfailure retry",
+    "gates": "everyquietfullcallbackprojection<=50min39.4M; median3quiet100kpairprototype/baseline ratio<=1.05; thenquiet1Mpairabsolute<=50min. Longpairratio reported withoutnewthreshold.",
+    "stop": "any source/correctness/numeric/resourcefailure, quietabsolute50min failure, 3pairmedianoverhead>5%, noisyretryexhaustion or900s total; no source/timing/core/fixture rescue"
+  },
+  "resources": {
+    "outer_wall_seconds": 900,
+    "per_fit_wall_seconds": 480,
+    "per_callback_process_wall_seconds": 150,
+    "per_process_address_space_bytes": 4294967296,
+    "controller_CPU": 38,
+    "children_CPU": 22,
+    "GPU": 0,
+    "preserve": "allargv/PIDstart/PGID/logs/status/RSSsamplesperjob,allnoisyreceipts; nootheruserprocesssignaled"
+  },
+  "command": "taskset -c38 python3 research/iterations/2026-10-01-overnight/scalar/run_native_pilot.py --allocation <ROOT_ALLOCATION_JSON>",
+  "allocation_required_flags": {
+    "SCALARPLE_train_only_knots_authorized": true,
+    "SCALARPLE_native_pilot_authorized": true,
+    "forecast_fit_authorized": false
+  },
+  "no_automatic_authorization": [
+    "forecasttraining",
+    "OOFpredictions",
+    "qualityreadouts",
+    "finalsubmission",
+    "changingincumbent"
+  ],
+  "upcoming_training_guards": "Separate exactparsedargv/defaults,fold/data/propensity/parenthashes and06:00screen/07:00finalcutoffs required beforeanyfit."
+}

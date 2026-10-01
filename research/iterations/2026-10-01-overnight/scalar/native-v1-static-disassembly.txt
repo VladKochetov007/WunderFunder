@@ -1,0 +1,348 @@
+
+research/iterations/2026-10-01-overnight/scalar/native/build/v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000036be0 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>:
+   36be0:	f3 0f 1e fa          	endbr64
+   36be4:	55                   	push   %rbp
+   36be5:	48 89 e5             	mov    %rsp,%rbp
+   36be8:	41 55                	push   %r13
+   36bea:	41 54                	push   %r12
+   36bec:	53                   	push   %rbx
+   36bed:	48 83 e4 e0          	and    $0xffffffffffffffe0,%rsp
+   36bf1:	48 83 ec 20          	sub    $0x20,%rsp
+   36bf5:	80 3f 00             	cmpb   $0x0,(%rdi)
+   36bf8:	0f 84 d0 05 00 00    	je     371ce <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x5ee>
+   36bfe:	c5 f9 ef c0          	vpxor  %xmm0,%xmm0,%xmm0
+   36c02:	49 89 f9             	mov    %rdi,%r9
+   36c05:	49 89 f2             	mov    %rsi,%r10
+   36c08:	45 31 c0             	xor    %r8d,%r8d
+   36c0b:	c5 e8 57 d2          	vxorps %xmm2,%xmm2,%xmm2
+   36c0f:	c5 fe 7f 02          	vmovdqu %ymm0,(%rdx)
+   36c13:	45 31 db             	xor    %r11d,%r11d
+   36c16:	31 c0                	xor    %eax,%eax
+   36c18:	c5 fa 10 1d 70 5e 05 	vmovss 0x55e70(%rip),%xmm3        # 8ca90 <pybind11::detail::function_record_PyTypeObject_methods::tp_plainname_impl+0x1b0>
+   36c1f:	00 
+   36c20:	c5 fe 7f 42 20       	vmovdqu %ymm0,0x20(%rdx)
+   36c25:	c5 fb 10 3d 1b 60 05 	vmovsd 0x5601b(%rip),%xmm7        # 8cc48 <pybind11::detail::function_record_PyTypeObject_methods::tp_plainname_impl+0x368>
+   36c2c:	00 
+   36c2d:	c5 fa 10 25 1b 5d 05 	vmovss 0x55d1b(%rip),%xmm4        # 8c950 <pybind11::detail::function_record_PyTypeObject_methods::tp_plainname_impl+0x70>
+   36c34:	00 
+   36c35:	c5 fa 10 35 5f 5e 05 	vmovss 0x55e5f(%rip),%xmm6        # 8ca9c <pybind11::detail::function_record_PyTypeObject_methods::tp_plainname_impl+0x1bc>
+   36c3c:	00 
+   36c3d:	c5 d1 57 ed          	vxorpd %xmm5,%xmm5,%xmm5
+   36c41:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+   36c48:	c4 c1 7a 10 0c 02    	vmovss (%r10,%rax,1),%xmm1
+   36c4e:	c5 f0 54 c4          	vandps %xmm4,%xmm1,%xmm0
+   36c52:	c5 f8 2e d8          	vucomiss %xmm0,%xmm3
+   36c56:	0f 82 3d 05 00 00    	jb     37199 <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x5b9>
+   36c5c:	4d 89 dc             	mov    %r11,%r12
+   36c5f:	4b 63 44 19 04       	movslq 0x4(%r9,%r11,1),%rax
+   36c64:	44 89 c3             	mov    %r8d,%ebx
+   36c67:	49 c1 e4 04          	shl    $0x4,%r12
+   36c6b:	4d 03 a1 b8 00 00 00 	add    0xb8(%r9),%r12
+   36c72:	c1 e3 04             	shl    $0x4,%ebx
+   36c75:	c4 c1 7a 10 04 24    	vmovss (%r12),%xmm0
+   36c7b:	48 89 c7             	mov    %rax,%rdi
+   36c7e:	48 c1 e0 02          	shl    $0x2,%rax
+   36c82:	4d 89 e5             	mov    %r12,%r13
+   36c85:	83 ef 01             	sub    $0x1,%edi
+   36c88:	c5 fa 5f c1          	vmaxss %xmm1,%xmm0,%xmm0
+   36c8c:	c4 c1 7a 10 4c 04 fc 	vmovss -0x4(%r12,%rax,1),%xmm1
+   36c93:	48 c1 f8 02          	sar    $0x2,%rax
+   36c97:	c5 f2 5d c8          	vminss %xmm0,%xmm1,%xmm1
+   36c9b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+   36ca0:	48 85 c0             	test   %rax,%rax
+   36ca3:	7e 29                	jle    36cce <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0xee>
+   36ca5:	48 89 c1             	mov    %rax,%rcx
+   36ca8:	48 d1 f9             	sar    $1,%rcx
+   36cab:	49 8d 74 8d 00       	lea    0x0(%r13,%rcx,4),%rsi
+   36cb0:	c5 fa 10 06          	vmovss (%rsi),%xmm0
+   36cb4:	c5 f8 2f c1          	vcomiss %xmm1,%xmm0
+   36cb8:	0f 87 8a 04 00 00    	ja     37148 <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x568>
+   36cbe:	48 29 c8             	sub    %rcx,%rax
+   36cc1:	4c 8d 6e 04          	lea    0x4(%rsi),%r13
+   36cc5:	48 83 e8 01          	sub    $0x1,%rax
+   36cc9:	48 85 c0             	test   %rax,%rax
+   36ccc:	7f d7                	jg     36ca5 <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0xc5>
+   36cce:	4d 29 e5             	sub    %r12,%r13
+   36cd1:	31 c9                	xor    %ecx,%ecx
+   36cd3:	49 c1 fd 02          	sar    $0x2,%r13
+   36cd7:	41 8d 45 ff          	lea    -0x1(%r13),%eax
+   36cdb:	85 c0                	test   %eax,%eax
+   36cdd:	0f 48 c1             	cmovs  %ecx,%eax
+   36ce0:	39 c7                	cmp    %eax,%edi
+   36ce2:	0f 8c 68 04 00 00    	jl     37150 <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x570>
+   36ce8:	8d 70 01             	lea    0x1(%rax),%esi
+   36ceb:	39 f7                	cmp    %esi,%edi
+   36ced:	0f 8c 68 04 00 00    	jl     3715b <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x57b>
+   36cf3:	48 63 c8             	movslq %eax,%rcx
+   36cf6:	c5 f2 5a c9          	vcvtss2sd %xmm1,%xmm1,%xmm1
+   36cfa:	c4 41 6a 5a 04 8c    	vcvtss2sd (%r12,%rcx,4),%xmm2,%xmm8
+   36d00:	48 63 ce             	movslq %esi,%rcx
+   36d03:	c4 c1 73 5c c8       	vsubsd %xmm8,%xmm1,%xmm1
+   36d08:	c4 c1 6a 5a 04 8c    	vcvtss2sd (%r12,%rcx,4),%xmm2,%xmm0
+   36d0e:	c4 c1 7b 5c c0       	vsubsd %xmm8,%xmm0,%xmm0
+   36d13:	c5 f3 5e c8          	vdivsd %xmm0,%xmm1,%xmm1
+   36d17:	c5 f8 57 c0          	vxorps %xmm0,%xmm0,%xmm0
+   36d1b:	c5 f9 2f e9          	vcomisd %xmm1,%xmm5
+   36d1f:	77 0e                	ja     36d2f <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x14f>
+   36d21:	c5 f9 2f cf          	vcomisd %xmm7,%xmm1
+   36d25:	c5 f8 28 c6          	vmovaps %xmm6,%xmm0
+   36d29:	0f 86 0b 04 00 00    	jbe    3713a <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x55a>
+   36d2f:	89 c7                	mov    %eax,%edi
+   36d31:	01 df                	add    %ebx,%edi
+   36d33:	49 8b 81 d0 00 00 00 	mov    0xd0(%r9),%rax
+   36d3a:	41 83 c0 01          	add    $0x1,%r8d
+   36d3e:	c1 e7 04             	shl    $0x4,%edi
+   36d41:	4c 63 e7             	movslq %edi,%r12
+   36d44:	8d 3c 33             	lea    (%rbx,%rsi,1),%edi
+   36d47:	c1 e7 04             	shl    $0x4,%edi
+   36d4a:	c4 a1 7a 10 0c a0    	vmovss (%rax,%r12,4),%xmm1
+   36d50:	4a 8d 0c a5 00 00 00 	lea    0x0(,%r12,4),%rcx
+   36d57:	00 
+   36d58:	48 63 ff             	movslq %edi,%rdi
+   36d5b:	c5 7a 10 04 b8       	vmovss (%rax,%rdi,4),%xmm8
+   36d60:	48 83 c7 01          	add    $0x1,%rdi
+   36d64:	48 8d 34 bd 00 00 00 	lea    0x0(,%rdi,4),%rsi
+   36d6b:	00 
+   36d6c:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   36d70:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   36d76:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   36d7c:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   36d81:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   36d87:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   36d8d:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   36d92:	c5 f2 58 0a          	vaddss (%rdx),%xmm1,%xmm1
+   36d96:	c5 fa 11 0a          	vmovss %xmm1,(%rdx)
+   36d9a:	c5 fa 10 4c 08 04    	vmovss 0x4(%rax,%rcx,1),%xmm1
+   36da0:	c5 7a 10 04 b8       	vmovss (%rax,%rdi,4),%xmm8
+   36da5:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   36da9:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   36daf:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   36db5:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   36dba:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   36dc0:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   36dc6:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   36dcb:	c5 f2 58 4a 04       	vaddss 0x4(%rdx),%xmm1,%xmm1
+   36dd0:	c5 fa 11 4a 04       	vmovss %xmm1,0x4(%rdx)
+   36dd5:	c5 fa 10 4c 08 08    	vmovss 0x8(%rax,%rcx,1),%xmm1
+   36ddb:	c5 7a 10 44 30 04    	vmovss 0x4(%rax,%rsi,1),%xmm8
+   36de1:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   36de5:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   36deb:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   36df1:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   36df6:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   36dfc:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   36e02:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   36e07:	c5 f2 58 4a 08       	vaddss 0x8(%rdx),%xmm1,%xmm1
+   36e0c:	c5 fa 11 4a 08       	vmovss %xmm1,0x8(%rdx)
+   36e11:	c5 fa 10 4c 08 0c    	vmovss 0xc(%rax,%rcx,1),%xmm1
+   36e17:	c5 7a 10 44 30 08    	vmovss 0x8(%rax,%rsi,1),%xmm8
+   36e1d:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   36e21:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   36e27:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   36e2d:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   36e32:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   36e38:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   36e3e:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   36e43:	c5 f2 58 4a 0c       	vaddss 0xc(%rdx),%xmm1,%xmm1
+   36e48:	c5 fa 11 4a 0c       	vmovss %xmm1,0xc(%rdx)
+   36e4d:	c5 fa 10 4c 08 10    	vmovss 0x10(%rax,%rcx,1),%xmm1
+   36e53:	c5 7a 10 44 30 0c    	vmovss 0xc(%rax,%rsi,1),%xmm8
+   36e59:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   36e5d:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   36e63:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   36e69:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   36e6e:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   36e74:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   36e7a:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   36e7f:	c5 f2 58 4a 10       	vaddss 0x10(%rdx),%xmm1,%xmm1
+   36e84:	c5 fa 11 4a 10       	vmovss %xmm1,0x10(%rdx)
+   36e89:	c5 fa 10 4c 08 14    	vmovss 0x14(%rax,%rcx,1),%xmm1
+   36e8f:	c5 7a 10 44 30 10    	vmovss 0x10(%rax,%rsi,1),%xmm8
+   36e95:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   36e99:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   36e9f:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   36ea5:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   36eaa:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   36eb0:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   36eb6:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   36ebb:	c5 f2 58 4a 14       	vaddss 0x14(%rdx),%xmm1,%xmm1
+   36ec0:	c5 fa 11 4a 14       	vmovss %xmm1,0x14(%rdx)
+   36ec5:	c5 fa 10 4c 08 18    	vmovss 0x18(%rax,%rcx,1),%xmm1
+   36ecb:	c5 7a 10 44 30 14    	vmovss 0x14(%rax,%rsi,1),%xmm8
+   36ed1:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   36ed5:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   36edb:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   36ee1:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   36ee6:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   36eec:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   36ef2:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   36ef7:	c5 f2 58 4a 18       	vaddss 0x18(%rdx),%xmm1,%xmm1
+   36efc:	c5 fa 11 4a 18       	vmovss %xmm1,0x18(%rdx)
+   36f01:	c5 fa 10 4c 08 1c    	vmovss 0x1c(%rax,%rcx,1),%xmm1
+   36f07:	c5 7a 10 44 30 18    	vmovss 0x18(%rax,%rsi,1),%xmm8
+   36f0d:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   36f11:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   36f17:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   36f1d:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   36f22:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   36f28:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   36f2e:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   36f33:	c5 f2 58 4a 1c       	vaddss 0x1c(%rdx),%xmm1,%xmm1
+   36f38:	c5 fa 11 4a 1c       	vmovss %xmm1,0x1c(%rdx)
+   36f3d:	c5 fa 10 4c 08 20    	vmovss 0x20(%rax,%rcx,1),%xmm1
+   36f43:	c5 7a 10 44 30 1c    	vmovss 0x1c(%rax,%rsi,1),%xmm8
+   36f49:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   36f4d:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   36f53:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   36f59:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   36f5e:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   36f64:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   36f6a:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   36f6f:	c5 f2 58 4a 20       	vaddss 0x20(%rdx),%xmm1,%xmm1
+   36f74:	c5 fa 11 4a 20       	vmovss %xmm1,0x20(%rdx)
+   36f79:	c5 fa 10 4c 08 24    	vmovss 0x24(%rax,%rcx,1),%xmm1
+   36f7f:	c5 7a 10 44 30 20    	vmovss 0x20(%rax,%rsi,1),%xmm8
+   36f85:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   36f89:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   36f8f:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   36f95:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   36f9a:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   36fa0:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   36fa6:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   36fab:	c5 f2 58 4a 24       	vaddss 0x24(%rdx),%xmm1,%xmm1
+   36fb0:	c5 fa 11 4a 24       	vmovss %xmm1,0x24(%rdx)
+   36fb5:	c5 fa 10 4c 08 28    	vmovss 0x28(%rax,%rcx,1),%xmm1
+   36fbb:	c5 7a 10 44 30 24    	vmovss 0x24(%rax,%rsi,1),%xmm8
+   36fc1:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   36fc5:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   36fcb:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   36fd1:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   36fd6:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   36fdc:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   36fe2:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   36fe7:	c5 f2 58 4a 28       	vaddss 0x28(%rdx),%xmm1,%xmm1
+   36fec:	c5 fa 11 4a 28       	vmovss %xmm1,0x28(%rdx)
+   36ff1:	c5 fa 10 4c 08 2c    	vmovss 0x2c(%rax,%rcx,1),%xmm1
+   36ff7:	c5 7a 10 44 30 28    	vmovss 0x28(%rax,%rsi,1),%xmm8
+   36ffd:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   37001:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   37007:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   3700d:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   37012:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   37018:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   3701e:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   37023:	c5 f2 58 4a 2c       	vaddss 0x2c(%rdx),%xmm1,%xmm1
+   37028:	c5 fa 11 4a 2c       	vmovss %xmm1,0x2c(%rdx)
+   3702d:	c5 fa 10 4c 08 30    	vmovss 0x30(%rax,%rcx,1),%xmm1
+   37033:	c5 7a 10 44 30 2c    	vmovss 0x2c(%rax,%rsi,1),%xmm8
+   37039:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   3703d:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   37043:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   37049:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   3704e:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   37054:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   3705a:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   3705f:	c5 f2 58 4a 30       	vaddss 0x30(%rdx),%xmm1,%xmm1
+   37064:	c5 fa 11 4a 30       	vmovss %xmm1,0x30(%rdx)
+   37069:	c5 fa 10 4c 08 34    	vmovss 0x34(%rax,%rcx,1),%xmm1
+   3706f:	c5 7a 10 44 30 30    	vmovss 0x30(%rax,%rsi,1),%xmm8
+   37075:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   37079:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   3707f:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   37085:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   3708a:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   37090:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   37096:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   3709b:	c5 f2 58 4a 34       	vaddss 0x34(%rdx),%xmm1,%xmm1
+   370a0:	c5 fa 11 4a 34       	vmovss %xmm1,0x34(%rdx)
+   370a5:	c5 fa 10 4c 08 38    	vmovss 0x38(%rax,%rcx,1),%xmm1
+   370ab:	c5 7a 10 44 30 34    	vmovss 0x34(%rax,%rsi,1),%xmm8
+   370b1:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   370b5:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   370bb:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   370c1:	c4 41 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm8
+   370c6:	c5 7a 11 44 24 1c    	vmovss %xmm8,0x1c(%rsp)
+   370cc:	c5 7a 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm8
+   370d2:	c4 c1 72 58 c8       	vaddss %xmm8,%xmm1,%xmm1
+   370d7:	c5 f2 58 4a 38       	vaddss 0x38(%rdx),%xmm1,%xmm1
+   370dc:	c5 fa 11 4a 38       	vmovss %xmm1,0x38(%rdx)
+   370e1:	c5 fa 10 4c 08 3c    	vmovss 0x3c(%rax,%rcx,1),%xmm1
+   370e7:	49 8d 4b 04          	lea    0x4(%r11),%rcx
+   370eb:	c5 7a 10 44 30 38    	vmovss 0x38(%rax,%rsi,1),%xmm8
+   370f1:	c5 3a 5c c1          	vsubss %xmm1,%xmm8,%xmm8
+   370f5:	c5 7a 11 44 24 18    	vmovss %xmm8,0x18(%rsp)
+   370fb:	c5 7a 10 44 24 18    	vmovss 0x18(%rsp),%xmm8
+   37101:	c4 c1 7a 59 c0       	vmulss %xmm8,%xmm0,%xmm0
+   37106:	c5 fa 11 44 24 1c    	vmovss %xmm0,0x1c(%rsp)
+   3710c:	c5 fa 10 44 24 1c    	vmovss 0x1c(%rsp),%xmm0
+   37112:	c5 f2 58 c8          	vaddss %xmm0,%xmm1,%xmm1
+   37116:	c5 f2 58 4a 3c       	vaddss 0x3c(%rdx),%xmm1,%xmm1
+   3711b:	c5 fa 11 4a 3c       	vmovss %xmm1,0x3c(%rdx)
+   37120:	41 83 f8 2c          	cmp    $0x2c,%r8d
+   37124:	74 4a                	je     37170 <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x590>
+   37126:	49 8d 43 7c          	lea    0x7c(%r11),%rax
+   3712a:	41 83 f8 15          	cmp    $0x15,%r8d
+   3712e:	49 89 cb             	mov    %rcx,%r11
+   37131:	48 0f 4e c1          	cmovle %rcx,%rax
+   37135:	e9 0e fb ff ff       	jmp    36c48 <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x68>
+   3713a:	c5 f3 5a c1          	vcvtsd2ss %xmm1,%xmm1,%xmm0
+   3713e:	e9 ec fb ff ff       	jmp    36d2f <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x14f>
+   37143:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+   37148:	48 89 c8             	mov    %rcx,%rax
+   3714b:	e9 50 fb ff ff       	jmp    36ca0 <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0xc0>
+   37150:	89 fe                	mov    %edi,%esi
+   37152:	c5 f8 57 c0          	vxorps %xmm0,%xmm0,%xmm0
+   37156:	e9 d6 fb ff ff       	jmp    36d31 <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x151>
+   3715b:	89 fe                	mov    %edi,%esi
+   3715d:	39 c7                	cmp    %eax,%edi
+   3715f:	0f 85 8e fb ff ff    	jne    36cf3 <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x113>
+   37165:	c5 f8 57 c0          	vxorps %xmm0,%xmm0,%xmm0
+   37169:	e9 c3 fb ff ff       	jmp    36d31 <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x151>
+   3716e:	66 90                	xchg   %ax,%ax
+   37170:	c4 e2 7d 18 05 2f 59 	vbroadcastss 0x5592f(%rip),%ymm0        # 8caa8 <pybind11::detail::function_record_PyTypeObject_methods::tp_plainname_impl+0x1c8>
+   37177:	05 00 
+   37179:	c5 fc 59 0a          	vmulps (%rdx),%ymm0,%ymm1
+   3717d:	c5 fc 59 42 20       	vmulps 0x20(%rdx),%ymm0,%ymm0
+   37182:	c5 fc 11 0a          	vmovups %ymm1,(%rdx)
+   37186:	c5 fc 11 42 20       	vmovups %ymm0,0x20(%rdx)
+   3718b:	c5 f8 77             	vzeroupper
+   3718e:	48 8d 65 e8          	lea    -0x18(%rbp),%rsp
+   37192:	5b                   	pop    %rbx
+   37193:	41 5c                	pop    %r12
+   37195:	41 5d                	pop    %r13
+   37197:	5d                   	pop    %rbp
+   37198:	c3                   	ret
+   37199:	bf 10 00 00 00       	mov    $0x10,%edi
+   3719e:	c5 f8 77             	vzeroupper
+   371a1:	e8 7a a0 fe ff       	call   21220 <__cxa_allocate_exception@plt>
+   371a6:	48 8d 35 5a 3b 05 00 	lea    0x53b5a(%rip),%rsi        # 8ad07 <_fini+0x3eeb>
+   371ad:	48 89 c7             	mov    %rax,%rdi
+   371b0:	48 89 c3             	mov    %rax,%rbx
+   371b3:	e8 08 9d fe ff       	call   20ec0 <std::invalid_argument::invalid_argument(char const*)@plt>
+   371b8:	48 8b 15 e1 ca 06 00 	mov    0x6cae1(%rip),%rdx        # a3ca0 <std::invalid_argument::~invalid_argument()@@Base+0x2fc90>
+   371bf:	48 8b 35 da cd 06 00 	mov    0x6cdda(%rip),%rsi        # a3fa0 <typeinfo for std::invalid_argument@@Base+0xa98>
+   371c6:	48 89 df             	mov    %rbx,%rdi
+   371c9:	e8 b2 a2 fe ff       	call   21480 <__cxa_throw@plt>
+   371ce:	bf 10 00 00 00       	mov    $0x10,%edi
+   371d3:	e8 48 a0 fe ff       	call   21220 <__cxa_allocate_exception@plt>
+   371d8:	48 8d 35 0e 3b 05 00 	lea    0x53b0e(%rip),%rsi        # 8aced <_fini+0x3ed1>
+   371df:	48 89 c7             	mov    %rax,%rdi
+   371e2:	48 89 c3             	mov    %rax,%rbx
+   371e5:	e8 d6 9c fe ff       	call   20ec0 <std::invalid_argument::invalid_argument(char const*)@plt>
+   371ea:	eb cc                	jmp    371b8 <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x5d8>
+   371ec:	f3 0f 1e fa          	endbr64
+   371f0:	49 89 c4             	mov    %rax,%r12
+   371f3:	eb 06                	jmp    371fb <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x61b>
+   371f5:	f3 0f 1e fa          	endbr64
+   371f9:	eb f5                	jmp    371f0 <wnn::ScalarEmbedding::aggregate(float const*, float*) const+0x610>
+   371fb:	48 89 df             	mov    %rbx,%rdi
+   371fe:	c5 f8 77             	vzeroupper
+   37201:	e8 0a 98 fe ff       	call   20a10 <__cxa_free_exception@plt>
+   37206:	4c 89 e7             	mov    %r12,%rdi
+   37209:	e8 c2 c4 04 00       	call   836d0 <_Unwind_Resume>
+   3720e:	66 90                	xchg   %ax,%ax

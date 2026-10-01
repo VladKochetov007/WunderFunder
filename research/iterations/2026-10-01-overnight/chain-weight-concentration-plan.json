@@ -1,0 +1,14 @@
+{
+  "created_utc": "2026-10-01T04:27:29.915985+00:00",
+  "purpose": "Descriptive concentration of evaluation target-weight mass across already exposed chains; no model comparisons, new scoring, calibration or gate changes.",
+  "statistics_source": "evaluations/Q3-quant-vs-baseline3-sufficient.npz",
+  "statistics_sha256": "27b5c00e3fd1c3b33fc8b476d25fc7ce934158f6b25ed979056cf6f0ad80d50f",
+  "allowed_stats": "Column0 only (sum of absolute clipped target weight), verify candidate/reference equal. No prediction-derived moments or correlations.",
+  "metadata_only": "Decode row_group from valid_targets.npz; chain/split/fold/pure/row_group from chain_folds.npz, exact historical hashes. Never decode y/mask, no raw prediction files.",
+  "outputs": "For pooled and fixedfolds0/1, pertarget: chaincount, sequencecount, totalweight, maxchainshare, top10chainshare, sumsqshares and reciprocal(weight-concentration equivalent count).",
+  "interpretation": "Reciprocal squared mass shares is a descriptive concentration statistic, not the effective sample size or standard error of weighted Pearson. No independent-sample claim for chains.",
+  "new_forecast_fits": 0,
+  "new_WP_queries": 0,
+  "bootstrap_runs": 0,
+  "resources": "Local NumPy one thread; one remote metadata-only read pinnedCPU37 one thread, timeout30s; noGPU, noCPU18/22."
+}

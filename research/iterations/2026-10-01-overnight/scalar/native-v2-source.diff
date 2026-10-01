@@ -1,0 +1,27 @@
+--- preserved original native scalar_embedding.hpp
++++ native_v2 scalar_embedding.hpp final
+@@ -39,7 +39,12 @@
+   }
+   s.enabled=true;return s;
+  }
+- void aggregate(const float* raw,float* out) const {
++ #if defined(__GNUC__) && !defined(__clang__)
++ __attribute__((optimize("fp-contract=off")))
++ #else
++ #error "SCALARPLE native_v2 requires GCC function-local fp-contract=off"
++ #endif
++ void aggregate(const float* raw,float* __restrict__ out) const {
+   if(!enabled)throw std::invalid_argument("scalar embedding disabled");
+   std::fill(out,out+16,0.f);
+   for(int j=0;j<44;++j) {
+@@ -49,8 +54,8 @@
+    const float fraction=lo==hi?0.f:static_cast<float>(std::clamp((double(x)-double(k[lo]))/(double(k[hi])-double(k[lo])),0.,1.));
+    const float* a=table.data()+(j*16+lo)*16;const float* b=table.data()+(j*16+hi)*16;
+    for(int r=0;r<16;++r) {
+-    // Volatile intermediates forbid FMA/reassociation across these three rounds.
+-    volatile float difference=b[r]-a[r];volatile float product=difference*fraction;
++    // Function-local no-contract preserves separate rounding while allowing lane SIMD.
++    const float difference=b[r]-a[r];const float product=difference*fraction;
+     const float value=a[r]+product;out[r]=out[r]+value;
+    }
+   }

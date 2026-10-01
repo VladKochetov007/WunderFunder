@@ -1,0 +1,11 @@
+# Final SCALAR native derivative: static instruction review
+
+PASS for final header `34a63687…` and CP311 binaries v2 `b64bb8ab…`, AVX2 `1e7a120d…`, v3 `75c631b2…`. The independent script and JSON retain all opcode counts, arithmetic instructions, aggregate disassembly hashes, exact source/binary hashes, compiler identity and the two out-of-line call sites. This review imported no candidate module and read no empirical rows or predictions. It ran on CPU37, outside the reserved runtime CPU18/58 pair.
+
+Every fixed 44-feature iteration uses separate packed FP32 subtraction, multiplication, interpolation addition and accumulation addition. There are four SSE groups of four lanes on v2, and two AVX groups of eight lanes on AVX2/v3. Final scaling is separately packed. No fused multiply-add occurs inside the unique aggregate function; both the binding and Predictor::step call that preserved function boundary. The fraction still uses two FP64 subtractions, one FP64 division and one conversion to FP32. Feature-order accumulation remains sequential in source and in the loop body; SIMD crosses output coordinates, not feature terms.
+
+Build flags remain GCC13.3.0 `-O3`, architecture selection, generic tuning, `-fno-trapping-math`, and `-fno-math-errno`, without fast math, reassociation or LTO. The function-local `optimize("fp-contract=off")` guard remains in force. FMA elsewhere in the unchanged trunk is outside this arithmetic contract.
+
+The output-only restrict declaration is sound for the two supported extension call paths: `add` supplies its own local 16-float buffer, while the Python binding allocates a fresh output ndarray after copying table inputs to owned vectors. Neither path exposes an output-buffer argument or an alias of table storage. This does not assert that the two interpolation endpoint pointers differ; they can coincide at endpoints/count-one knots. Direct external C++ callers must respect the output nonaliasing precondition. The earlier non-restrict source, binaries, assembly receipt and alias-call-site reasoning are preserved separately.
+
+This establishes the inspected SIMD and rounding instructions, not a performance improvement or a theorem for arbitrary floating-point environments. Independent numeric fixtures belong to the critic's separate three-ISA receipts. No timing was performed here.

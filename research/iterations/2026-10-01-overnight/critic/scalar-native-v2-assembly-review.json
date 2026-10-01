@@ -1,0 +1,1345 @@
+{
+  "scope": "Static source/disassembly only; no imports of candidate modules, models, data, inference or timing.",
+  "CPU_affinity": [
+    37
+  ],
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "build_script_sha256": "1877edd2a55e43ff99a93c77d98c1aef1913625025e8552cf3efc5aeb4c37f66",
+  "aggregate_source_sha256": "acae0a79069e58f7f56608d572a65bc6d2408fd92dbdd857997941e39e3a250c",
+  "reviewer_source_sha256": "0a3e8255b46fc2fe5f296b2618f258d9cf5561ebb8a859b953f92212b9be3eb7",
+  "modules": {
+    "v2": {
+      "sha256": "03d7a8e32aa159c82b1af40a6376f553055729e32ed9e478c559c9d1e4310d88",
+      "function_header": "0000000000035fb0 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>:",
+      "aggregate_disassembly_sha256": "7597b1a7040b8964eb557601e05aafeb64c17d2a6d756241538870dcd572693e",
+      "opcodes": {
+        "add": 5,
+        "addss": 32,
+        "andps": 1,
+        "call": 7,
+        "cmovle": 1,
+        "cmovs": 1,
+        "cmp": 5,
+        "cmpb": 1,
+        "comisd": 2,
+        "comiss": 1,
+        "cvtsd2ss": 1,
+        "cvtss2sd": 3,
+        "divsd": 1,
+        "endbr64": 3,
+        "ja": 2,
+        "jb": 1,
+        "jbe": 1,
+        "je": 2,
+        "jg": 1,
+        "jl": 2,
+        "jle": 1,
+        "jmp": 8,
+        "jne": 1,
+        "lea": 10,
+        "maxss": 1,
+        "minss": 1,
+        "mov": 25,
+        "movaps": 2,
+        "movsd": 1,
+        "movslq": 5,
+        "movss": 56,
+        "movups": 12,
+        "mulps": 4,
+        "mulss": 16,
+        "nop": 1,
+        "nopl": 4,
+        "pop": 3,
+        "push": 3,
+        "pxor": 8,
+        "ret": 1,
+        "sar": 3,
+        "shl": 5,
+        "shufps": 1,
+        "sub": 4,
+        "subsd": 2,
+        "subss": 16,
+        "test": 3,
+        "ucomiss": 1,
+        "xor": 4
+      },
+      "fused_multiply_add_inside_aggregate": false,
+      "interpolation_and_ordered_sum_simd": false,
+      "final_scale_simd_lanes": 4,
+      "scalar_core_operations": {
+        "subtract": 16,
+        "multiply": 16,
+        "add": 32
+      },
+      "packed_core_subtract_add": {
+        "subtract": 0,
+        "add": 0
+      },
+      "packed_final_scale_multiply_instructions": 4,
+      "out_of_line_callers": [
+        {
+          "function": "pybind11_init_wnn_cpp(pybind11::module_&)::{lambda(pybind11::dict const&, pybind11::array_t<float, 17> const&)#1}::operator()(pybind11::dict const&, pybind11::array_t<float, 17> const&) const [clone .isra.0]",
+          "calls": [
+            "2b453:\tcall   35fb0 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>"
+          ]
+        },
+        {
+          "function": "wnn::Predictor::step(float const*, float*)",
+          "calls": [
+            "39a3d:\tcall   35fb0 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>"
+          ]
+        }
+      ],
+      "arithmetic_instructions": [
+        {
+          "address": "360ca",
+          "opcode": "subsd",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "360d4",
+          "opcode": "subsd",
+          "operands": "%xmm7,%xmm0"
+        },
+        {
+          "address": "360d8",
+          "opcode": "divsd",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "36132",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "36136",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "3613a",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "3613e",
+          "opcode": "addss",
+          "operands": "(%rdx),%xmm1"
+        },
+        {
+          "address": "36151",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "36155",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "36159",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "3615d",
+          "opcode": "addss",
+          "operands": "0x4(%rdx),%xmm1"
+        },
+        {
+          "address": "36173",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "36177",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "3617b",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "3617f",
+          "opcode": "addss",
+          "operands": "0x8(%rdx),%xmm1"
+        },
+        {
+          "address": "36195",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "36199",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "3619d",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "361a1",
+          "opcode": "addss",
+          "operands": "0xc(%rdx),%xmm1"
+        },
+        {
+          "address": "361b7",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "361bb",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "361bf",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "361c3",
+          "opcode": "addss",
+          "operands": "0x10(%rdx),%xmm1"
+        },
+        {
+          "address": "361d9",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "361dd",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "361e1",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "361e5",
+          "opcode": "addss",
+          "operands": "0x14(%rdx),%xmm1"
+        },
+        {
+          "address": "361fb",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "361ff",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "36203",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "36207",
+          "opcode": "addss",
+          "operands": "0x18(%rdx),%xmm1"
+        },
+        {
+          "address": "3621d",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "36221",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "36225",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "36229",
+          "opcode": "addss",
+          "operands": "0x1c(%rdx),%xmm1"
+        },
+        {
+          "address": "3623f",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "36243",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "36247",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "3624b",
+          "opcode": "addss",
+          "operands": "0x20(%rdx),%xmm1"
+        },
+        {
+          "address": "36261",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "36265",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "36269",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "3626d",
+          "opcode": "addss",
+          "operands": "0x24(%rdx),%xmm1"
+        },
+        {
+          "address": "36283",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "36287",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "3628b",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "3628f",
+          "opcode": "addss",
+          "operands": "0x28(%rdx),%xmm1"
+        },
+        {
+          "address": "362a5",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "362a9",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "362ad",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "362b1",
+          "opcode": "addss",
+          "operands": "0x2c(%rdx),%xmm1"
+        },
+        {
+          "address": "362c7",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "362cb",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "362cf",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "362d3",
+          "opcode": "addss",
+          "operands": "0x30(%rdx),%xmm1"
+        },
+        {
+          "address": "362e9",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "362ed",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "362f1",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "362f5",
+          "opcode": "addss",
+          "operands": "0x34(%rdx),%xmm1"
+        },
+        {
+          "address": "3630b",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "3630f",
+          "opcode": "mulss",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "36313",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "36317",
+          "opcode": "addss",
+          "operands": "0x38(%rdx),%xmm1"
+        },
+        {
+          "address": "36331",
+          "opcode": "subss",
+          "operands": "%xmm7,%xmm1"
+        },
+        {
+          "address": "36335",
+          "opcode": "mulss",
+          "operands": "%xmm1,%xmm0"
+        },
+        {
+          "address": "36339",
+          "opcode": "addss",
+          "operands": "%xmm7,%xmm0"
+        },
+        {
+          "address": "3633d",
+          "opcode": "addss",
+          "operands": "0x3c(%rdx),%xmm0"
+        },
+        {
+          "address": "3639c",
+          "opcode": "cvtsd2ss",
+          "operands": "%xmm1,%xmm0"
+        },
+        {
+          "address": "363b8",
+          "opcode": "mulps",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "363c2",
+          "opcode": "mulps",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "363cd",
+          "opcode": "mulps",
+          "operands": "%xmm0,%xmm1"
+        },
+        {
+          "address": "363d0",
+          "opcode": "mulps",
+          "operands": "%xmm5,%xmm0"
+        }
+      ]
+    },
+    "avx2": {
+      "sha256": "b0fe37fff1d3599e521d765ee798a1e104181bf33769aca2744497360b8f5d95",
+      "function_header": "0000000000035c50 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>:",
+      "aggregate_disassembly_sha256": "a0a71a5a594ef7bb0c53a76da2aadf0b1f537c5a013df2c66c2384094782d6b1",
+      "opcodes": {
+        "add": 4,
+        "and": 1,
+        "call": 7,
+        "cmovle": 1,
+        "cmovs": 1,
+        "cmp": 5,
+        "cmpb": 1,
+        "endbr64": 3,
+        "ja": 2,
+        "jb": 1,
+        "jbe": 1,
+        "je": 2,
+        "jg": 1,
+        "jl": 2,
+        "jle": 1,
+        "jmp": 8,
+        "jne": 1,
+        "lea": 12,
+        "mov": 26,
+        "movslq": 5,
+        "nopl": 3,
+        "pop": 4,
+        "push": 4,
+        "ret": 1,
+        "sar": 3,
+        "shl": 5,
+        "sub": 4,
+        "test": 3,
+        "vaddss": 32,
+        "vandps": 1,
+        "vbroadcastss": 1,
+        "vcomisd": 2,
+        "vcomiss": 1,
+        "vcvtsd2ss": 1,
+        "vcvtss2sd": 3,
+        "vdivsd": 1,
+        "vmaxss": 1,
+        "vminss": 1,
+        "vmovaps": 1,
+        "vmovdqu": 2,
+        "vmovsd": 1,
+        "vmovss": 55,
+        "vmovups": 2,
+        "vmulps": 2,
+        "vmulss": 16,
+        "vpxor": 1,
+        "vsubsd": 2,
+        "vsubss": 16,
+        "vucomiss": 1,
+        "vxorpd": 1,
+        "vxorps": 4,
+        "vzeroupper": 3,
+        "xchg": 3,
+        "xor": 4
+      },
+      "fused_multiply_add_inside_aggregate": false,
+      "interpolation_and_ordered_sum_simd": false,
+      "final_scale_simd_lanes": 8,
+      "scalar_core_operations": {
+        "subtract": 16,
+        "multiply": 16,
+        "add": 32
+      },
+      "packed_core_subtract_add": {
+        "subtract": 0,
+        "add": 0
+      },
+      "packed_final_scale_multiply_instructions": 2,
+      "out_of_line_callers": [
+        {
+          "function": "pybind11_init_wnn_cpp(pybind11::module_&)::{lambda(pybind11::dict const&, pybind11::array_t<float, 17> const&)#1}::operator()(pybind11::dict const&, pybind11::array_t<float, 17> const&) const [clone .isra.0]",
+          "calls": [
+            "2b4f3:\tcall   35c50 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>"
+          ]
+        },
+        {
+          "function": "wnn::Predictor::step(float const*, float*)",
+          "calls": [
+            "3937c:\tcall   35c50 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>"
+          ]
+        }
+      ],
+      "arithmetic_instructions": [
+        {
+          "address": "35d6b",
+          "opcode": "vsubsd",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35d76",
+          "opcode": "vsubsd",
+          "operands": "%xmm8,%xmm0,%xmm0"
+        },
+        {
+          "address": "35d7b",
+          "opcode": "vdivsd",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35dd6",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35ddb",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35ddf",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35de4",
+          "opcode": "vaddss",
+          "operands": "(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35df7",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35dfc",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e00",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e05",
+          "opcode": "vaddss",
+          "operands": "0x4(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35e1b",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e20",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e24",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e29",
+          "opcode": "vaddss",
+          "operands": "0x8(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35e3f",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e44",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e48",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e4d",
+          "opcode": "vaddss",
+          "operands": "0xc(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35e63",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e68",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e6c",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e71",
+          "opcode": "vaddss",
+          "operands": "0x10(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35e87",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e8c",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e90",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35e95",
+          "opcode": "vaddss",
+          "operands": "0x14(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35eab",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35eb0",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35eb4",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35eb9",
+          "opcode": "vaddss",
+          "operands": "0x18(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35ecf",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35ed4",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35ed8",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35edd",
+          "opcode": "vaddss",
+          "operands": "0x1c(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35ef3",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35ef8",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35efc",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f01",
+          "opcode": "vaddss",
+          "operands": "0x20(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35f17",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f1c",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f20",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f25",
+          "opcode": "vaddss",
+          "operands": "0x24(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35f3b",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f40",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f44",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f49",
+          "opcode": "vaddss",
+          "operands": "0x28(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35f5f",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f64",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f68",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f6d",
+          "opcode": "vaddss",
+          "operands": "0x2c(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35f83",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f88",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f8c",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35f91",
+          "opcode": "vaddss",
+          "operands": "0x30(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35fa7",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35fac",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35fb0",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35fb5",
+          "opcode": "vaddss",
+          "operands": "0x34(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35fcb",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35fd0",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "35fd4",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35fd9",
+          "opcode": "vaddss",
+          "operands": "0x38(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "35ff3",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "35ff8",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm0"
+        },
+        {
+          "address": "35ffc",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm0,%xmm0"
+        },
+        {
+          "address": "36001",
+          "opcode": "vaddss",
+          "operands": "0x3c(%rdx),%xmm0,%xmm0"
+        },
+        {
+          "address": "36025",
+          "opcode": "vcvtsd2ss",
+          "operands": "%xmm1,%xmm1,%xmm0"
+        },
+        {
+          "address": "36069",
+          "opcode": "vmulps",
+          "operands": "(%rdx),%ymm0,%ymm1"
+        },
+        {
+          "address": "3606d",
+          "opcode": "vmulps",
+          "operands": "0x20(%rdx),%ymm0,%ymm0"
+        }
+      ]
+    },
+    "v3": {
+      "sha256": "d1492ca1f5a0537e00548ec6e3b81b7ef407ae988cbe001b0c354efa4ebf9a51",
+      "function_header": "0000000000036560 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>:",
+      "aggregate_disassembly_sha256": "7b240e80a4b602b220bb412cffc501853383684b07e6fd2df8ef3eeee8ff92fd",
+      "opcodes": {
+        "add": 4,
+        "and": 1,
+        "call": 7,
+        "cmovle": 1,
+        "cmovs": 1,
+        "cmp": 5,
+        "cmpb": 1,
+        "endbr64": 3,
+        "ja": 2,
+        "jb": 1,
+        "jbe": 1,
+        "je": 2,
+        "jg": 1,
+        "jl": 2,
+        "jle": 1,
+        "jmp": 8,
+        "jne": 1,
+        "lea": 12,
+        "mov": 26,
+        "movslq": 5,
+        "nopl": 3,
+        "pop": 4,
+        "push": 4,
+        "ret": 1,
+        "sar": 3,
+        "shl": 5,
+        "sub": 4,
+        "test": 3,
+        "vaddss": 32,
+        "vandps": 1,
+        "vbroadcastss": 1,
+        "vcomisd": 2,
+        "vcomiss": 1,
+        "vcvtsd2ss": 1,
+        "vcvtss2sd": 3,
+        "vdivsd": 1,
+        "vmaxss": 1,
+        "vminss": 1,
+        "vmovaps": 1,
+        "vmovdqu": 2,
+        "vmovsd": 1,
+        "vmovss": 55,
+        "vmovups": 2,
+        "vmulps": 2,
+        "vmulss": 16,
+        "vpxor": 1,
+        "vsubsd": 2,
+        "vsubss": 16,
+        "vucomiss": 1,
+        "vxorpd": 1,
+        "vxorps": 4,
+        "vzeroupper": 3,
+        "xchg": 3,
+        "xor": 4
+      },
+      "fused_multiply_add_inside_aggregate": false,
+      "interpolation_and_ordered_sum_simd": false,
+      "final_scale_simd_lanes": 8,
+      "scalar_core_operations": {
+        "subtract": 16,
+        "multiply": 16,
+        "add": 32
+      },
+      "packed_core_subtract_add": {
+        "subtract": 0,
+        "add": 0
+      },
+      "packed_final_scale_multiply_instructions": 2,
+      "out_of_line_callers": [
+        {
+          "function": "pybind11_init_wnn_cpp(pybind11::module_&)::{lambda(pybind11::dict const&, pybind11::array_t<float, 17> const&)#1}::operator()(pybind11::dict const&, pybind11::array_t<float, 17> const&) const [clone .isra.0]",
+          "calls": [
+            "2b443:\tcall   36560 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>"
+          ]
+        },
+        {
+          "function": "wnn::Predictor::step(float const*, float*)",
+          "calls": [
+            "3c2ce:\tcall   36560 <wnn::ScalarEmbedding::aggregate(float const*, float*) const>"
+          ]
+        }
+      ],
+      "arithmetic_instructions": [
+        {
+          "address": "3667b",
+          "opcode": "vsubsd",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36686",
+          "opcode": "vsubsd",
+          "operands": "%xmm8,%xmm0,%xmm0"
+        },
+        {
+          "address": "3668b",
+          "opcode": "vdivsd",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "366e6",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "366eb",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "366ef",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "366f4",
+          "opcode": "vaddss",
+          "operands": "(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "36707",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "3670c",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "36710",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36715",
+          "opcode": "vaddss",
+          "operands": "0x4(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "3672b",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36730",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "36734",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36739",
+          "opcode": "vaddss",
+          "operands": "0x8(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "3674f",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36754",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "36758",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "3675d",
+          "opcode": "vaddss",
+          "operands": "0xc(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "36773",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36778",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "3677c",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36781",
+          "opcode": "vaddss",
+          "operands": "0x10(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "36797",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "3679c",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "367a0",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "367a5",
+          "opcode": "vaddss",
+          "operands": "0x14(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "367bb",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "367c0",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "367c4",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "367c9",
+          "opcode": "vaddss",
+          "operands": "0x18(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "367df",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "367e4",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "367e8",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "367ed",
+          "opcode": "vaddss",
+          "operands": "0x1c(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "36803",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36808",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "3680c",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36811",
+          "opcode": "vaddss",
+          "operands": "0x20(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "36827",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "3682c",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "36830",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36835",
+          "opcode": "vaddss",
+          "operands": "0x24(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "3684b",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36850",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "36854",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36859",
+          "opcode": "vaddss",
+          "operands": "0x28(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "3686f",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36874",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "36878",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "3687d",
+          "opcode": "vaddss",
+          "operands": "0x2c(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "36893",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36898",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "3689c",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "368a1",
+          "opcode": "vaddss",
+          "operands": "0x30(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "368b7",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "368bc",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "368c0",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "368c5",
+          "opcode": "vaddss",
+          "operands": "0x34(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "368db",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "368e0",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm1"
+        },
+        {
+          "address": "368e4",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "368e9",
+          "opcode": "vaddss",
+          "operands": "0x38(%rdx),%xmm1,%xmm1"
+        },
+        {
+          "address": "36903",
+          "opcode": "vsubss",
+          "operands": "%xmm8,%xmm1,%xmm1"
+        },
+        {
+          "address": "36908",
+          "opcode": "vmulss",
+          "operands": "%xmm0,%xmm1,%xmm0"
+        },
+        {
+          "address": "3690c",
+          "opcode": "vaddss",
+          "operands": "%xmm8,%xmm0,%xmm0"
+        },
+        {
+          "address": "36911",
+          "opcode": "vaddss",
+          "operands": "0x3c(%rdx),%xmm0,%xmm0"
+        },
+        {
+          "address": "36935",
+          "opcode": "vcvtsd2ss",
+          "operands": "%xmm1,%xmm1,%xmm0"
+        },
+        {
+          "address": "36979",
+          "opcode": "vmulps",
+          "operands": "(%rdx),%ymm0,%ymm1"
+        },
+        {
+          "address": "3697d",
+          "opcode": "vmulps",
+          "operands": "0x20(%rdx),%ymm0,%ymm0"
+        }
+      ]
+    }
+  },
+  "status": "STATIC_ROUNDING_BOUNDARY_CONFIRMED_CORE_INTERPOLATION_STILL_SCALAR",
+  "conclusion": "The GNU function boundary prevents contraction in these exact binaries; all44 feature iterations use16 separately rounded scalar interpolation lanes and sequential output additions. Only final scaling is packed SIMD. Removing volatile does not by itself establish SIMD interpolation or any runtime improvement.",
+  "limits": [
+    "No machine-code theorem for every FP environment; no empirical numeric fixtures or performance measurements repeated.",
+    "No proof of performance gain from static instruction counts.",
+    "Projection/trunk outside aggregate retain existing compiler policy; FMA outside aggregate is not rejected.",
+    "Possible aliasing as the missed-vectorization cause is an inference, not established by this inspection."
+  ]
+}
