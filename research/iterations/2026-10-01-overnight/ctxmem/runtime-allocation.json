@@ -1,0 +1,25 @@
+{
+  "id": "CTXMEM01-RUNTIME-01",
+  "created_utc": "2026-10-01T02:40:31.660500+00:00",
+  "status": "AUTHORIZED_CONDITIONAL_ON_ROOT_CPU_RELEASE_NOTICE",
+  "plan_sha256": "6a27499f415f978e453586784f6423c19cbd5f5b392e4de623eb723d013d5f71",
+  "critic_review_sha256": "3d843871001ff4059c98a0e196ab579f72e4c357d574858fa83fd77ab5e71a26",
+  "activation_condition": "Root explicitly confirms Q3 released CPU18/58 before any empirical preparation or timing starts.",
+  "work": "Run exact frozen controller once; first3 clean paired100k original/memory callbacks, max5 wholepair attempts, then zero-extra exact parity.",
+  "limits": {
+    "outer_wall_seconds": 900,
+    "memory_GiB": 4,
+    "threads": 1,
+    "CPU": 18,
+    "sibling": 58,
+    "forecast_fits": 0,
+    "target_reads": 0,
+    "WP_readouts": 0
+  },
+  "gates": {
+    "median_paired_runtime_ratio_max": 1.03,
+    "sibling_timed_busy_max_exclusive": 0.05,
+    "zero_extra_bitexact": true
+  },
+  "stop_policy": "Frozen plan controls all failures, noise and retries. No model precision/rank/half-life/projection/composition changes. No training before independent actual-runtime review and separate exact trainer freeze."
+}

@@ -1,0 +1,40 @@
+{
+  "status": "NATIVE_PREPARATION_PASS_AWAIT_ROOT_RUNTIME_ALLOCATION",
+  "plan_sha256": "6a27499f415f978e453586784f6423c19cbd5f5b392e4de623eb723d013d5f71",
+  "verified_source_files": 22,
+  "scorer_native_sha256": "c37161f890dae279873cb0a931c34542a0436d82886303776ce57d0f87fb32d6",
+  "author_native_sha256": "f4d8ae38e7d52643ba29f0dd92a37710261aeb87920adde9f86f4a6fef1c8f9b",
+  "independent_receipts": {
+    "ctxmem-projection-correction-review.json": "436aebad681d81ef01ad3d1a7e9ccd0b66d88509335455f31fec17ae7e5f6532",
+    "ctxmem-independent-state-python.json": "6815cbf14db83d9fd3d0c934ab68e12d2a54b5392d441fa9da1ebcacd2f98efb",
+    "ctxmem-independent-state-native.json": "c79a22fa0b6b0a0f4c702315811fcb6a11d3514e4764c8626338e318406cf86d",
+    "ctxmem-independent-cuda-result.json": "cc681e84c0b92bbc3c4260306b4027dc237126fa7ab39a43cdda31b8b81aaa2d",
+    "ctxmem-independent-full-baseline-cp311.json": "3aa180d4917418df689592206f27fa88e311c2bcd3fcf64a541e2f3db8fbc046",
+    "ctxmem-independent-full-native.json": "bdfe1270f663cf19c271c42927942e8bd34e3202956da74c796f4274178e9a22"
+  },
+  "review": {
+    "frozen_three_members_and_original_arrays": true,
+    "only_first_two_gain_fixed_projection_and_nonzero_synthetic_extra": true,
+    "ordinary_FP16_extra_weight_policy_FP32_projection": true,
+    "same_wrapper_and_complete_callbacks": true,
+    "first_three_clean_AB_BA_pairs_max_five_attempts": true,
+    "no_clean_unfavorable_pair_dropped": true,
+    "quiet_SMT_precheck_and_summed_timed_region_activity": true,
+    "one_CPU_and_thread_source_package_native_hash_guards": true,
+    "required_zero_extra_archived_baseline_parity": true,
+    "primary_median_paired_ratio_at_most_1_03": true,
+    "no_forecasting_or_metric_in_this_allocation": true
+  },
+  "qualification_limits": [
+    "Scorer CPython3.11 complete-callback parity and runtime remain unexecuted by critic.",
+    "Independent nonzero full-model comparison uses same-source CPython3.13 extension; zero-extra frozen baseline was separately run under actual scorer CPython3.11.",
+    "Overhead PASS alone does not authorize training or prove predictive gain.",
+    "Trainer commands/transform/checkpoints/provenance need a separate freeze after the runtime gate.",
+    "Final complete ZIP still requires unchanged 50-minute absolute runtime gate and all declared quality gates."
+  ],
+  "empirical_fixture_read": false,
+  "checkpoint_reads": 0,
+  "targets_read": false,
+  "forecast_fits": 0,
+  "WP_queries": 0
+}

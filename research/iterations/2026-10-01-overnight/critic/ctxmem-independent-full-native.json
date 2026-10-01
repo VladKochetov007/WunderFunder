@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "mode": "ctx",
+  "synthetic_only": true,
+  "generated_models": true,
+  "empirical_rows": 0,
+  "checkpoint_reads": 0,
+  "WP_queries": 0,
+  "native_sha256": "f4d8ae38e7d52643ba29f0dd92a37710261aeb87920adde9f86f4a6fef1c8f9b",
+  "checks": [
+    {
+      "precision": "float",
+      "arm": "memory",
+      "rows": 701,
+      "nonzero_extra_native_vs_python_max_abs": 3.725290298461914e-08,
+      "zero_extra_vs_frozen_old_native": "exact",
+      "disabled_ctx_vs_frozen_old_native": "exact",
+      "stream_reset_prefix_future": "exact",
+      "half_policy": "float32"
+    },
+    {
+      "precision": "float",
+      "arm": "current",
+      "rows": 701,
+      "nonzero_extra_native_vs_python_max_abs": 3.725290298461914e-08,
+      "zero_extra_vs_frozen_old_native": "exact",
+      "disabled_ctx_vs_frozen_old_native": "exact",
+      "stream_reset_prefix_future": "exact",
+      "half_policy": "float32"
+    },
+    {
+      "precision": "half",
+      "arm": "memory",
+      "rows": 701,
+      "nonzero_extra_native_vs_python_max_abs": 4.0046870708465576e-08,
+      "zero_extra_vs_frozen_old_native": "exact",
+      "disabled_ctx_vs_frozen_old_native": "exact",
+      "stream_reset_prefix_future": "exact",
+      "half_policy": "GRU/head0/extra matrices half then float; projection/input/head2/bias remain float"
+    },
+    {
+      "precision": "half",
+      "arm": "current",
+      "rows": 701,
+      "nonzero_extra_native_vs_python_max_abs": 3.725290298461914e-08,
+      "zero_extra_vs_frozen_old_native": "exact",
+      "disabled_ctx_vs_frozen_old_native": "exact",
+      "stream_reset_prefix_future": "exact",
+      "half_policy": "GRU/head0/extra matrices half then float; projection/input/head2/bias remain float"
+    }
+  ],
+  "output_sha256": "cffc6b5f00184b7f918b1e2d6a28f097d35b241c5d613cb7eb5621f9f4d8725e",
+  "script_sha256": "75db69e6f54215b8529c25aca6135a6b39afdd69d1a31902a66121073a141de9",
+  "actor_sources": {
+    "model.py": "43ec6a45dcf5ac083d467cfca658ed97e6a263fbd0fe16078fd1f9fc8af6eca8",
+    "memory.py": "85a18eacc9afce2f78268393034bc904ad9b0679f19f88c3ba2d943db36ad5da"
+  }
+}

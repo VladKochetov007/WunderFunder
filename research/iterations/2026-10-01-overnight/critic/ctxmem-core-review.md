@@ -1,0 +1,24 @@
+# CTXMEM core independent review
+
+The Python core passes independent source and synthetic checks at memory.py SHA256 85a18eacc9afce2f78268393034bc904ad9b0679f19f88c3ba2d943db36ad5da and model.py SHA256 43ec6a45dcf5ac083d467cfca658ed97e6a263fbd0fe16078fd1f9fc8af6eca8. This approves the core's tested semantics, not empirical training or the still-pending complete native timing protocol.
+
+The corrected matrix independently regenerates to 0ed6109334d68ec914d5c5e3da6b7f0ed898db05828ace54c76532a4c443f20b, with16 orthonormal rows, GF(2) span rank7 and128 distinct columns. Python input column178 and native index112+66 refer to the existing immediate-previous-row two-price-code AND flag. The flag is read before normalization. Current GRU output is projected before memory update. First row initializes both states; chunks carry the actual double memory, rather than lfilter delay or an inverted delay.
+
+The model freezes projection/input encoder/GRU, preserves original parameter names, adds the extra map before the original GELU, and preserves CPU initialization RNG using fork_rng around the extra linear layer. Both arms compute histories. Projection uses float32 with TF32 disabled; two memory states use float64 and explicit decay constants. The native primitive uses separate double multiplication and addition. The fixed code-change flag remains a proxy, not an identified physical quote clock.
+
+## Independent numerical evidence
+
+- ctxmem-projection-correction-review.json regenerates the row list and exact matrix bytes without actor code.
+- ctxmem-independent-state-python.json compares a literal separate Python-double recurrence on3×8,193 synthetic rows spanning ordinary, 1e20 and1e-20 projections. Float32 outputs and final internal float64 states are bitexact. Arbitrary/empty chunks, mixed initialized batch streams and caller-state immutability pass.
+- ctxmem-independent-state-native.json compares24,579 supplied-q rows for both arms and resets, bitexact against the same oracle. Its native SHA46cb77fe705dc086c7a45272639ce9496f1d48dfd218e3d0636e4ac650b31329 predates the separately recorded extra-head half-storage change; this proves the unchanged primitive, not final full-model native integration.
+- ctxmem-independent-cuda-result.json checks root-authorized GPU7 with generated tensors only. Two carried AMP chunks have bitexact zero-extra outputs, original-head gradients and GRU hidden states versus the ordinary frozen baseline. Constructor and forward/backward CPU/CUDA RNG are unchanged. Three fused AdamW/GradScaler steps per arm produce finite extra gradients and nonzero updates while preserving trunk, normalization and P bitexact. Duplicate-current blocks remain equal. Nonzero-extra full/chunk max absolute difference is6.1035e-5, prefix difference0, reset/repeat bitexact. Peak reserved GPU memory28MiB; RSS1.68GiB; measured test1.90s under external120s and systemd4GiB/200% limits. GPU7 was released afterward.
+
+## Remaining scope and interpretation
+
+The duplicate-current control has effective rank16 while two different history states can have rank32. Equal parameter count does not equal identifiable capacity; it is a parameterization control with symmetric duplicate gradients. Both joint memory-versus-control and memory-versus-plain gates are therefore still required. No projection/clock/half-life retry is permitted after empirical outcomes.
+
+Pending: final native full-model comparisons with nonzero extra weights and exact zero-extra parity to the delivered native_order_v2 baseline; explicit FP16-extra/FP32-P storage checks; reviewed frozen fixed-three alternating timing protocol and <=3% overhead gate; exact trainer transform/arguments/checkpoint/EMA/prediction provenance review. The core synthetic pass does not authorize training, raw-fixture timing, held-fold prediction or a WP readout. Root owns those allocations.
+
+## Final native integration addendum
+
+The independently generated full-model test subsequently passed both current/memory arms and FP32/FP16 matrix policies on701 rows. Zero-extra and disabled-context predictions exactly match the frozen delivered native_order_v2 CPython3.11 binary dd6e59b2…. Nonzero extra predictions match a Python model with explicitly rounded GRU/head0/extra matrices under the FP16 case, maximum absolute error4.0047e-8; P/input/head2/bias remain float32. Stream/reset/prefix/changed-future checks pass. Receipt ctxmem-independent-full-native.json uses final CPython3.13 actor module f4d8ae38… from the same C++ source as planned scorer CPython3.11 module c37161f8…. The first harness attempt incorrectly tried to import the old CPython3.11 module under3.13; that environment failure and source are preserved, then the old baseline was executed separately under actual scorer Python. No numerical tolerance was changed. Final scorer complete-callback zero-extra parity remains part of root's prospective runtime gate.
