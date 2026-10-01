@@ -8,12 +8,18 @@
 //! - Gate and activation loops are branchless for vectorization, using
 //!   `approx` functions unless `Activations::Exact` is requested.
 //! - `step` writes into caller-provided output; nothing allocates per row.
+//! - The recurrent cell is a GRU or, when `weight_ih` has 4h rows, a PyTorch `nn.LSTM`
+//!   (gates i, f, g, o; cell state reset with h).
+//! - `Precision::F16` / `I16` store the input projection, GRU and head.0 matrices as 16-bit
+//!   panels (`half`), halving the bytes streamed per row; accumulation, biases, head.2 and state
+//!   stay fp32.
 
 use std::ops::Range;
 
 use bytemuck::{Pod, Zeroable};
 
 use crate::approx::{gelu_fast, sigmoid_fast, tanh_fast};
+use crate::half::{Encoding, HalfArena};
 use crate::kernels::{gelu, sigmoid};
 use crate::rnn::{RnnWeights, ShapeError};
 
@@ -67,10 +73,97 @@ pub enum Activations {
     Fast,
 }
 
+/// Storage of the input projection, GRU (`weight_ih`, `weight_hh`) and head.0 matrices.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Precision {
+    F32,
+    /// IEEE half, widened by F16C inside the matvec. Needs AVX2 + FMA + F16C at run time.
+    F16,
+    /// int16 with an fp32 scale per output row (per input column for the projection); same
+    /// kernels and CPU requirement as F16, ~6x smaller weight error on trained GRUs.
+    I16,
+}
+
+impl Precision {
+    fn encoding(self) -> Option<Encoding> {
+        match self {
+            Precision::F32 => None,
+            Precision::F16 => Some(Encoding::F16),
+            Precision::I16 => Some(Encoding::I16),
+        }
+    }
+}
+
+/// Recurrent cell, inferred from the weights: `weight_ih_l*` has 3h rows (GRU) or 4h (LSTM).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Cell {
+    Gru,
+    Lstm,
+}
+
+impl Cell {
+    pub fn gates(self) -> usize {
+        match self {
+            Cell::Gru => 3,
+            Cell::Lstm => 4,
+        }
+    }
+}
+
+/// Shape checks for a `gates`-gate stack whose head.0 has `b1.len()` rows (k*hidden for k
+/// merged heads; `rnn::RnnModel` only knows the plain GRU with hidden-wide head).
+fn check_shapes(w: &RnnWeights, gates: usize) -> Result<(), ShapeError> {
+    let (n_in, hidden, n_out, head) = (w.mean.len(), w.b_in.len(), w.b2.len(), w.b1.len());
+    let expect = |name: String, got: usize, want: usize| {
+        if got == want {
+            Ok(())
+        } else {
+            Err(ShapeError(format!(
+                "{name}: expected {want} values, got {got}"
+            )))
+        }
+    };
+    expect("std".into(), w.std.len(), n_in)?;
+    expect("inp.weight".into(), w.w_in.len(), hidden * n_in)?;
+    if w.layers.is_empty() {
+        return Err(ShapeError("at least one recurrent layer required".into()));
+    }
+    for (k, l) in w.layers.iter().enumerate() {
+        expect(
+            format!("weight_ih_l{k}"),
+            l.w_ih.len(),
+            gates * hidden * hidden,
+        )?;
+        expect(
+            format!("weight_hh_l{k}"),
+            l.w_hh.len(),
+            gates * hidden * hidden,
+        )?;
+        expect(format!("bias_ih_l{k}"), l.b_ih.len(), gates * hidden)?;
+        expect(format!("bias_hh_l{k}"), l.b_hh.len(), gates * hidden)?;
+    }
+    if head == 0 || n_out == 0 {
+        return Err(ShapeError("empty head".into()));
+    }
+    expect("head.0.weight".into(), w.w1.len(), head * 2 * hidden)?;
+    expect("head.2.weight".into(), w.w2.len(), n_out * head)
+}
+
+const MODE_F32: u8 = 0;
+const MODE_F16: u8 = 1;
+const MODE_I16: u8 = 2;
+
+/// A matrix: `w` indexes `weights` (F32) or `half`; `s` its I16 scales in `weights` (else empty).
+#[derive(Clone)]
+struct Mat {
+    w: Range<usize>,
+    s: Range<usize>,
+}
+
 struct LayerIdx {
-    w_ih: Range<usize>,
+    w_ih: Mat,
     b_ih: Range<usize>,
-    w_hh: Range<usize>,
+    w_hh: Mat,
     b_hh: Range<usize>,
 }
 
@@ -79,12 +172,16 @@ pub struct FastRnn {
     hidden: usize,
     n_out: usize,
     act: Activations,
+    cell: Cell,
+    precision: Precision,
     weights: Arena,
+    /// 16-bit matrices when `precision` is F16 or I16.
+    half: HalfArena,
     state: Arena,
-    w_in_cols: Range<usize>, // column-major hidden x n_in, folded normalization
+    w_in_cols: Mat, // column-major hidden x n_in, folded normalization
     b_in: Range<usize>,
     layers: Vec<LayerIdx>,
-    w1: Range<usize>,
+    w1: Mat,
     b1: Range<usize>,
     w2: Range<usize>,
     b2: Range<usize>,
@@ -94,15 +191,17 @@ pub struct FastRnn {
     gh: Range<usize>,
     cat: Range<usize>,
     a: Range<usize>,
+    /// LSTM cell state, one hidden vector per layer (empty for a GRU).
+    c: Range<usize>,
+    /// Nonzero input columns of the current row (half projection scratch).
+    nz: Vec<u32>,
 }
 
-#[cfg(all(
-    target_arch = "x86_64",
-    target_feature = "avx2",
-    target_feature = "fma"
-))]
-#[inline(always)]
-fn dot(a: &[f32], b: &[f32]) -> f32 {
+/// AVX2 dot product for the tail rows of `gemv_avx2`.
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "avx2,fma")]
+#[inline]
+unsafe fn dot_avx2(a: &[f32], b: &[f32]) -> f32 {
     use std::arch::x86_64::*;
 
     debug_assert_eq!(a.len(), b.len());
@@ -236,8 +335,6 @@ fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
     }
 }
 
-/// Four output rows per pass: each x chunk is loaded once and feeds eight independent FMA
-/// chains, so the kernel is throughput- rather than latency-bound. Remaining rows use `dot`.
 #[cfg(all(
     target_arch = "x86_64",
     target_feature = "avx2",
@@ -245,6 +342,17 @@ fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
 ))]
 #[inline(always)]
 fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
+    // SAFETY: this build targets AVX2 + FMA.
+    unsafe { gemv_avx2(w, b, x, out) }
+}
+
+/// Four output rows per pass: each x chunk is loaded once and feeds eight independent FMA
+/// chains, so the kernel is throughput- rather than latency-bound. Remaining rows use `dot`.
+/// The 16-bit step uses it for head.2 in every build, so those outputs agree across builds.
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "avx2,fma")]
+#[inline]
+unsafe fn gemv_avx2(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
     use std::arch::x86_64::*;
 
     let n = x.len();
@@ -265,7 +373,8 @@ fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
                 for r in 0..4 {
                     let wr = base.add(r * n + i);
                     acc[2 * r] = _mm256_fmadd_ps(_mm256_loadu_ps(wr), x0, acc[2 * r]);
-                    acc[2 * r + 1] = _mm256_fmadd_ps(_mm256_loadu_ps(wr.add(8)), x1, acc[2 * r + 1]);
+                    acc[2 * r + 1] =
+                        _mm256_fmadd_ps(_mm256_loadu_ps(wr.add(8)), x1, acc[2 * r + 1]);
                 }
                 i += 16;
             }
@@ -288,37 +397,70 @@ fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
         }
     }
     for r in blocks * 4..rows {
-        out[r] = dot(&w[r * n..(r + 1) * n], x) + b[r];
+        out[r] = unsafe { dot_avx2(&w[r * n..(r + 1) * n], x) } + b[r];
+    }
+}
+
+/// PyTorch LSTM cell update from the two gate preactivation blocks [i | f | g | o]:
+/// c = f c + i g, h = o tanh(c).
+#[inline(always)]
+fn lstm_update(h: &mut [f32], c: &mut [f32], gi: &[f32], gh: &[f32], fast: bool) {
+    let n = h.len();
+    let (gi_i, rest) = gi.split_at(n);
+    let (gi_f, rest) = rest.split_at(n);
+    let (gi_g, gi_o) = rest.split_at(n);
+    let (gh_i, rest) = gh.split_at(n);
+    let (gh_f, rest) = rest.split_at(n);
+    let (gh_g, gh_o) = rest.split_at(n);
+    let gates = gi_i
+        .iter()
+        .zip(gh_i)
+        .zip(gi_f.iter().zip(gh_f))
+        .zip(gi_g.iter().zip(gh_g).zip(gi_o.iter().zip(gh_o)));
+    let cells = h.iter_mut().zip(c.iter_mut());
+    if fast {
+        for ((hj, cj), (((ii, hi), (fi, fh)), ((gi, gh), (oi, oh)))) in cells.zip(gates) {
+            let i = sigmoid_fast(ii + hi);
+            let f = sigmoid_fast(fi + fh);
+            let g = tanh_fast(gi + gh);
+            let o = sigmoid_fast(oi + oh);
+            *cj = f * *cj + i * g;
+            *hj = o * tanh_fast(*cj);
+        }
+    } else {
+        for ((hj, cj), (((ii, hi), (fi, fh)), ((gi, gh), (oi, oh)))) in cells.zip(gates) {
+            let i = sigmoid(ii + hi);
+            let f = sigmoid(fi + fh);
+            let g = (gi + gh).tanh();
+            let o = sigmoid(oi + oh);
+            *cj = f * *cj + i * g;
+            *hj = o * cj.tanh();
+        }
     }
 }
 
 impl FastRnn {
     pub fn new(w: RnnWeights, act: Activations) -> Result<Self, ShapeError> {
+        Self::with_precision(w, act, Precision::F32)
+    }
+
+    /// Like `new`; 16-bit precisions fall back to F32 when the CPU lacks AVX2/FMA/F16C (and F16
+    /// also when a matrix entry exceeds the half range). `precision()` reports what is used.
+    pub fn with_precision(
+        w: RnnWeights,
+        act: Activations,
+        precision: Precision,
+    ) -> Result<Self, ShapeError> {
         let n_in = w.mean.len();
         let hidden = w.b_in.len();
         let n_out = w.b2.len();
-        // Validate by constructing the exact model's shape checks.
-        let check = RnnWeights {
-            mean: w.mean.clone(),
-            std: w.std.clone(),
-            w_in: w.w_in.clone(),
-            b_in: w.b_in.clone(),
-            layers: w
-                .layers
-                .iter()
-                .map(|l| crate::rnn::GruLayer {
-                    w_ih: l.w_ih.clone(),
-                    w_hh: l.w_hh.clone(),
-                    b_ih: l.b_ih.clone(),
-                    b_hh: l.b_hh.clone(),
-                })
-                .collect(),
-            w1: w.w1.clone(),
-            b1: w.b1.clone(),
-            w2: w.w2.clone(),
-            b2: w.b2.clone(),
+        let cell = match w.layers.first() {
+            Some(l) if l.b_ih.len() == 4 * hidden => Cell::Lstm,
+            _ => Cell::Gru,
         };
-        crate::rnn::RnnModel::new(check)?;
+        let gates = cell.gates();
+        check_shapes(&w, gates)?;
+        let head = w.b1.len();
 
         // Fold normalization: W'[r][c] = W[r][c] / std[c]; b'[r] = b[r] - sum_c W'[r][c] mean[c].
         let mut cols = vec![0.0f32; hidden * n_in];
@@ -330,38 +472,126 @@ impl FastRnn {
                 b_in[r] -= v * w.mean[c];
             }
         }
+        let in_range = |m: &[f32]| m.iter().all(|v| v.abs() <= crate::half::MAX);
+        let precision = match precision {
+            Precision::F32 => Precision::F32,
+            _ if !crate::half::available() => Precision::F32,
+            Precision::F16
+                if !(in_range(&cols)
+                    && w.layers
+                        .iter()
+                        .all(|l| in_range(&l.w_ih) && in_range(&l.w_hh))
+                    && in_range(&w.w1)) =>
+            {
+                Precision::F32
+            }
+            p => p,
+        };
         let mut weights = Arena::new();
-        let w_in_cols = weights.push(&cols);
+        let mut half = HalfArena::new();
+        // The 16-bit projection writes whole COL_TILE row tiles; z and b_in are padded to match.
+        let z_len = match precision {
+            Precision::F32 => hidden,
+            _ => hidden.div_ceil(crate::half::COL_TILE) * crate::half::COL_TILE,
+        };
+        let w_in_cols = match precision.encoding() {
+            None => Mat {
+                w: weights.push(&cols),
+                s: 0..0,
+            },
+            Some(enc) => {
+                let scales = match enc {
+                    Encoding::F16 => Vec::new(),
+                    Encoding::I16 => crate::half::column_scales(&cols, hidden, n_in),
+                };
+                let packed = half.push_columns_as(enc, &cols, &scales, hidden, n_in);
+                // Fold the mean with the decoded weights the kernel uses, so W'(x - mean) stays
+                // exact in the rounding of W' instead of picking up (W'16 - W') mean.
+                for c in 0..n_in {
+                    let scale = scales.get(c).copied().unwrap_or(1.0);
+                    for v in &mut cols[c * hidden..(c + 1) * hidden] {
+                        *v = enc.decode(*v, scale);
+                    }
+                }
+                b_in.copy_from_slice(&w.b_in);
+                for r in 0..hidden {
+                    for c in 0..n_in {
+                        b_in[r] -= cols[c * hidden + r] * w.mean[c];
+                    }
+                }
+                b_in.resize(z_len, 0.0);
+                Mat {
+                    w: packed,
+                    s: if scales.is_empty() {
+                        0..0
+                    } else {
+                        weights.push(&scales)
+                    },
+                }
+            }
+        };
         let b_in = weights.push(&b_in);
+        // Matrices in step order: `weights` for F32, `half` (+ scales in `weights`) otherwise.
+        let mut matrix =
+            |weights: &mut Arena, m: &[f32], rows: usize, cols: usize| match precision.encoding() {
+                None => Mat {
+                    w: weights.push(m),
+                    s: 0..0,
+                },
+                Some(Encoding::F16) => Mat {
+                    w: half.push_panel(m, rows, cols),
+                    s: 0..0,
+                },
+                Some(Encoding::I16) => {
+                    let scales = crate::half::row_scales(m, rows, cols);
+                    Mat {
+                        w: half.push_panel_as(Encoding::I16, m, &scales, rows, cols),
+                        s: weights.push(&scales),
+                    }
+                }
+            };
         let layers = w
             .layers
             .iter()
             .map(|l| LayerIdx {
-                w_ih: weights.push(&l.w_ih),
+                w_ih: matrix(&mut weights, &l.w_ih, gates * hidden, hidden),
                 b_ih: weights.push(&l.b_ih),
-                w_hh: weights.push(&l.w_hh),
+                w_hh: matrix(&mut weights, &l.w_hh, gates * hidden, hidden),
                 b_hh: weights.push(&l.b_hh),
             })
             .collect::<Vec<_>>();
-        let w1 = weights.push(&w.w1);
+        let w1 = matrix(&mut weights, &w.w1, head, 2 * hidden);
         let b1 = weights.push(&w.b1);
         let w2 = weights.push(&w.w2);
         let b2 = weights.push(&w.b2);
 
         let mut state = Arena::new();
         let h = state.zeros(layers.len() * hidden);
-        let z = state.zeros(hidden);
-        let gi = state.zeros(3 * hidden);
-        let gh = state.zeros(3 * hidden);
+        let z = {
+            let padded = state.zeros(z_len);
+            padded.start..padded.start + hidden
+        };
+        let gi = state.zeros(gates * hidden);
+        let gh = state.zeros(gates * hidden);
         let cat = state.zeros(2 * hidden);
-        let a = state.zeros(hidden);
+        let a = state.zeros(head);
+        let c = match cell {
+            Cell::Gru => {
+                let end = state.len;
+                end..end
+            }
+            Cell::Lstm => state.zeros(layers.len() * hidden),
+        };
         debug_assert!(weights.len >= weights.as_ref().len());
         Ok(Self {
             n_in,
             hidden,
             n_out,
             act,
+            cell,
+            precision,
             weights,
+            half,
             state,
             w_in_cols,
             b_in,
@@ -376,6 +606,8 @@ impl FastRnn {
             gh,
             cat,
             a,
+            c,
+            nz: Vec::with_capacity(n_in),
         })
     }
 
@@ -387,31 +619,105 @@ impl FastRnn {
         self.n_out
     }
 
+    pub fn hidden(&self) -> usize {
+        self.hidden
+    }
+
+    pub fn precision(&self) -> Precision {
+        self.precision
+    }
+
+    /// Weight bytes a step streams (all arenas, padding included).
+    pub fn weight_bytes(&self) -> usize {
+        self.weights.len * 4 + self.half.bytes()
+    }
+
+    pub fn cell(&self) -> Cell {
+        self.cell
+    }
+
     pub fn reset(&mut self) {
-        let h = self.h.clone();
+        let (h, c) = (self.h.clone(), self.c.clone());
         self.state.as_mut()[h].fill(0.0);
+        self.state.as_mut()[c].fill(0.0);
     }
 
     pub fn step(&mut self, x: &[f32], out: &mut [f32]) {
         assert_eq!(x.len(), self.n_in, "input width");
         assert_eq!(out.len(), self.n_out, "output width");
+        match self.precision {
+            Precision::F32 => self.step_impl::<MODE_F32>(x, out),
+            // SAFETY: 16-bit precisions are only selected when `half::available()`.
+            #[cfg(target_arch = "x86_64")]
+            Precision::F16 => unsafe { self.step_f16(x, out) },
+            #[cfg(target_arch = "x86_64")]
+            Precision::I16 => unsafe { self.step_i16(x, out) },
+            #[cfg(not(target_arch = "x86_64"))]
+            _ => unreachable!(),
+        }
+    }
+
+    /// The whole step compiled with AVX2/FMA/F16C, so the 16-bit kernels and the activation
+    /// loops get those instructions even in the x86-64-v2 build.
+    #[cfg(target_arch = "x86_64")]
+    #[target_feature(enable = "avx2,fma,f16c")]
+    unsafe fn step_f16(&mut self, x: &[f32], out: &mut [f32]) {
+        self.step_impl::<MODE_F16>(x, out)
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[target_feature(enable = "avx2,fma,f16c")]
+    unsafe fn step_i16(&mut self, x: &[f32], out: &mut [f32]) {
+        self.step_impl::<MODE_I16>(x, out)
+    }
+
+    #[inline(always)]
+    fn step_impl<const MODE: u8>(&mut self, x: &[f32], out: &mut [f32]) {
         let n = self.hidden;
         let fast = self.act == Activations::Fast;
         let wts = self.weights.as_ref();
+        let half = self.half.as_ref();
         let st = self.state.as_mut();
+        // SAFETY (both unsafe arms): 16-bit modes are instantiated only from `step_f16`/`step_i16`.
+        let matvec = |m: &Mat, b: &[f32], x: &[f32], out: &mut [f32]| match MODE {
+            #[cfg(target_arch = "x86_64")]
+            MODE_F16 => unsafe { crate::half::gemv(&half[m.w.clone()], b, x, out) },
+            #[cfg(target_arch = "x86_64")]
+            MODE_I16 => unsafe {
+                crate::half::gemv_q16(&half[m.w.clone()], &wts[m.s.clone()], b, x, out)
+            },
+            _ => gemv(&wts[m.w.clone()], b, x, out),
+        };
 
         // Sparse input projection (column saxpy, zero inputs skipped).
         {
-            let z = &mut st[self.z.clone()];
-            z.copy_from_slice(&wts[self.b_in.clone()]);
-            let cols = &wts[self.w_in_cols.clone()];
-            for (col, &xj) in cols.chunks_exact(n).zip(x) {
-                if xj != 0.0 {
-                    for (o, w) in z.iter_mut().zip(col) {
-                        *o += w * xj;
+            if MODE != MODE_F32 {
+                let b = &wts[self.b_in.clone()];
+                let padded = &mut st[self.z.start..self.z.start + b.len()];
+                let cols = &half[self.w_in_cols.w.clone()];
+                let scales = &wts[self.w_in_cols.s.clone()];
+                // SAFETY: 16-bit modes are instantiated only from `step_f16`/`step_i16`.
+                #[cfg(target_arch = "x86_64")]
+                unsafe {
+                    if MODE == MODE_I16 {
+                        crate::half::project_as::<true>(cols, scales, b, x, &mut self.nz, padded)
+                    } else {
+                        crate::half::project_as::<false>(cols, scales, b, x, &mut self.nz, padded)
+                    }
+                }
+            } else {
+                let z = &mut st[self.z.clone()];
+                z.copy_from_slice(&wts[self.b_in.clone()]);
+                let cols = &wts[self.w_in_cols.w.clone()];
+                for (col, &xj) in cols.chunks_exact(n).zip(x) {
+                    if xj != 0.0 {
+                        for (o, w) in z.iter_mut().zip(col) {
+                            *o += w * xj;
+                        }
                     }
                 }
             }
+            let z = &mut st[self.z.clone()];
             if fast {
                 z.iter_mut().for_each(|v| *v = gelu_fast(*v));
             } else {
@@ -423,11 +729,13 @@ impl FastRnn {
             let h_start = self.h.start + k * n;
             // Layer input: z for the first layer, the previous layer's h otherwise.
             let inp_start = if k == 0 { self.z.start } else { h_start - n };
-            // State layout is [h (all layers) | z | gi | gh | cat | a].
+            // State layout is [h (all layers) | z | gi | gh | cat | a | c (LSTM)].
+            let g = self.cell.gates() * n;
             let (lo, hi) = st.split_at_mut(self.gi.start);
-            let (gi, rest) = hi.split_at_mut(3 * n);
+            let (gi, rest) = hi.split_at_mut(g);
             let gh_off = self.gh.start - self.gi.end;
-            let gh = &mut rest[gh_off..gh_off + 3 * n];
+            let (rest, cells) = rest.split_at_mut(self.c.start - self.gi.end);
+            let gh = &mut rest[gh_off..gh_off + g];
             let (inp, h): (&[f32], &mut [f32]) = if inp_start < h_start {
                 let (a, b) = lo.split_at_mut(h_start);
                 (&a[inp_start..inp_start + n], &mut b[..n])
@@ -435,8 +743,12 @@ impl FastRnn {
                 let (a, b) = lo.split_at_mut(inp_start);
                 (&b[..n], &mut a[h_start..h_start + n])
             };
-            gemv(&wts[li.w_ih.clone()], &wts[li.b_ih.clone()], inp, gi);
-            gemv(&wts[li.w_hh.clone()], &wts[li.b_hh.clone()], h, gh);
+            matvec(&li.w_ih, &wts[li.b_ih.clone()], inp, gi);
+            matvec(&li.w_hh, &wts[li.b_hh.clone()], h, gh);
+            if self.cell == Cell::Lstm {
+                lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast);
+                continue;
+            }
             let (gi_r, gi_rest) = gi.split_at(n);
             let (gi_u, gi_c) = gi_rest.split_at(n);
             let (gh_r, gh_rest) = gh.split_at(n);
@@ -468,14 +780,20 @@ impl FastRnn {
         let (cat, rest) = hi.split_at_mut(2 * n);
         cat[..n].copy_from_slice(&lo[last..last + n]);
         cat[n..].copy_from_slice(&lo[self.z.clone()]);
-        let a = &mut rest[self.a.start - self.cat.end..self.a.start - self.cat.end + n];
-        gemv(&wts[self.w1.clone()], &wts[self.b1.clone()], cat, a);
+        let a = &mut rest[self.a.start - self.cat.end..self.a.end - self.cat.end];
+        matvec(&self.w1, &wts[self.b1.clone()], cat, a);
         if fast {
             a.iter_mut().for_each(|v| *v = gelu_fast(*v));
         } else {
             a.iter_mut().for_each(|v| *v = gelu(*v));
         }
-        gemv(&wts[self.w2.clone()], &wts[self.b2.clone()], a, out);
+        let (w2, b2) = (&wts[self.w2.clone()], &wts[self.b2.clone()]);
+        match MODE {
+            // SAFETY: 16-bit modes run only on AVX2 + FMA + F16C CPUs.
+            #[cfg(target_arch = "x86_64")]
+            MODE_F16 | MODE_I16 => unsafe { gemv_avx2(w2, b2, a, out) },
+            _ => gemv(w2, b2, a, out),
+        }
     }
 }
 
@@ -569,7 +887,7 @@ mod tests {
         let m = FastRnn::new(weights(37, 20, 2, 3), Activations::Fast).unwrap();
         let base = m.weights.as_ref().as_ptr() as usize;
         assert_eq!(base % 64, 0);
-        for r in [&m.w_in_cols, &m.b_in, &m.layers[1].w_hh, &m.w2] {
+        for r in [&m.w_in_cols.w, &m.b_in, &m.layers[1].w_hh.w, &m.w2] {
             assert_eq!((base + r.start * 4) % 64, 0);
         }
         assert_eq!(m.state.as_ref().as_ptr() as usize % 64, 0);
@@ -593,8 +911,13 @@ mod tests {
                 gemv(&w, &b, &x, &mut out);
                 for r in 0..rows {
                     let want: f64 = b[r] as f64
-                        + (0..n).map(|j| w[r * n + j] as f64 * x[j] as f64).sum::<f64>();
-                    assert!((out[r] as f64 - want).abs() < 1e-4, "rows {rows} n {n} r {r}");
+                        + (0..n)
+                            .map(|j| w[r * n + j] as f64 * x[j] as f64)
+                            .sum::<f64>();
+                    assert!(
+                        (out[r] as f64 - want).abs() < 1e-4,
+                        "rows {rows} n {n} r {r}"
+                    );
                 }
             }
         }
@@ -655,6 +978,353 @@ mod tests {
         let saxpy_us = t.elapsed().as_secs_f64() * 1e6 / (reps * xs.len()) as f64;
         eprintln!("input saxpy {saxpy_us:.2}us");
         eprintln!("step {step_us:.2}us  4x gru gemv {gemv_us:.2}us  head gemv {head_us:.2}us");
+    }
+
+    /// Unit std, so the folded input projection W/std is W itself and rounds identically.
+    fn unit_std(mut w: RnnWeights) -> RnnWeights {
+        w.std.iter_mut().for_each(|v| *v = 1.0);
+        w
+    }
+
+    /// The weights the half path multiplies by (for unit-std inputs).
+    fn rounded(mut w: RnnWeights) -> RnnWeights {
+        let round = |m: &mut Vec<f32>| m.iter_mut().for_each(|v| *v = crate::half::round_trip(*v));
+        round(&mut w.w_in);
+        for l in &mut w.layers {
+            round(&mut l.w_ih);
+            round(&mut l.w_hh);
+        }
+        round(&mut w.w1);
+        w
+    }
+
+    #[test]
+    fn f16_step_is_f32_step_on_half_rounded_weights() {
+        if !crate::half::available() {
+            return;
+        }
+        for (n_in, hidden, layers, act) in [
+            (37, 32, 1, Activations::Fast),
+            (211, 128, 2, Activations::Fast),
+            (211, 64, 3, Activations::Exact),
+        ] {
+            let w = || unit_std(weights(n_in, hidden, layers, 7));
+            let mut f16 = FastRnn::with_precision(w(), act, Precision::F16).unwrap();
+            assert_eq!(f16.precision(), Precision::F16);
+            let mut f32 = FastRnn::new(rounded(w()), act).unwrap();
+            let (mut a, mut b) = (vec![0.0; 2], vec![0.0; 2]);
+            // Bitwise only against the AVX2 fp32 kernel; the SSE build sums in another order.
+            let avx2 = cfg!(all(target_feature = "avx2", target_feature = "fma"));
+            for x in inputs(n_in, 300) {
+                f16.step(&x, &mut a);
+                f32.step(&x, &mut b);
+                for k in 0..2 {
+                    if avx2 {
+                        assert_eq!(a[k].to_bits(), b[k].to_bits(), "hidden {hidden}");
+                    } else {
+                        assert!((a[k] - b[k]).abs() < 1e-5, "hidden {hidden}");
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn f16_ragged_hidden_tracks_reference_and_is_repeatable() {
+        if !crate::half::available() {
+            return;
+        }
+        for (n_in, hidden, layers) in [(5, 3, 1), (37, 20, 2), (40, 33, 3)] {
+            let w = || unit_std(weights(n_in, hidden, layers, 7));
+            let mut exact = RnnModel::new(rounded(w())).unwrap();
+            let mut f16 = FastRnn::with_precision(w(), Activations::Exact, Precision::F16).unwrap();
+            let mut out = vec![0.0; 2];
+            let mut first = Vec::new();
+            for x in inputs(n_in, 300) {
+                let want = exact.step(&x).to_vec();
+                f16.step(&x, &mut out);
+                first.extend_from_slice(&out);
+                for (a, b) in want.iter().zip(&out) {
+                    assert!((a - b).abs() < 2e-5, "hidden {hidden}: {a} vs {b}");
+                }
+            }
+            f16.reset();
+            let mut again = Vec::new();
+            for x in inputs(n_in, 300) {
+                f16.step(&x, &mut out);
+                again.extend_from_slice(&out);
+            }
+            assert!(
+                first
+                    .iter()
+                    .zip(&again)
+                    .all(|(a, b)| a.to_bits() == b.to_bits())
+            );
+        }
+    }
+
+    #[test]
+    fn f16_falls_back_to_f32_outside_half_range() {
+        let mut w = weights(12, 16, 1, 5);
+        w.layers[0].w_hh[3] = 1e5;
+        let m = FastRnn::with_precision(w, Activations::Fast, Precision::F16).unwrap();
+        assert_eq!(m.precision(), Precision::F32);
+    }
+
+    #[test]
+    fn i16_tracks_f32_on_dequantized_weights_and_repeats_bitwise() {
+        if !crate::half::available() {
+            return;
+        }
+        let dequant = |m: &mut Vec<f32>, rows: usize, cols: usize| {
+            let sc = crate::half::row_scales(m, rows, cols);
+            for r in 0..rows {
+                for v in &mut m[r * cols..(r + 1) * cols] {
+                    *v = Encoding::I16.decode(*v, sc[r]);
+                }
+            }
+        };
+        for (n_in, hidden, layers) in [(37, 20, 2), (211, 128, 2)] {
+            let w = || unit_std(weights(n_in, hidden, layers, 9));
+            let mut q = w();
+            // Input projection scales are per input column, i.e. per row of the transpose.
+            let mut t: Vec<f32> = (0..n_in * hidden)
+                .map(|i| q.w_in[(i % hidden) * n_in + i / hidden])
+                .collect();
+            dequant(&mut t, n_in, hidden);
+            q.w_in = (0..hidden * n_in)
+                .map(|i| t[(i % n_in) * hidden + i / n_in])
+                .collect();
+            for l in &mut q.layers {
+                dequant(&mut l.w_ih, 3 * hidden, hidden);
+                dequant(&mut l.w_hh, 3 * hidden, hidden);
+            }
+            dequant(&mut q.w1, hidden, 2 * hidden);
+            let mut i16 = FastRnn::with_precision(w(), Activations::Fast, Precision::I16).unwrap();
+            assert_eq!(i16.precision(), Precision::I16);
+            let mut f32 = FastRnn::new(q, Activations::Fast).unwrap();
+            let mut orig = FastRnn::new(w(), Activations::Fast).unwrap();
+            let (mut a, mut b, mut c) = (vec![0.0; 2], vec![0.0; 2], vec![0.0; 2]);
+            let mut first = Vec::new();
+            let (mut worst_deq, mut worst_orig) = (0.0f32, 0.0f32);
+            for x in inputs(n_in, 300) {
+                i16.step(&x, &mut a);
+                f32.step(&x, &mut b);
+                orig.step(&x, &mut c);
+                first.extend_from_slice(&a);
+                for k in 0..2 {
+                    worst_deq = worst_deq.max((a[k] - b[k]).abs());
+                    worst_orig = worst_orig.max((a[k] - c[k]).abs());
+                }
+            }
+            assert!(
+                worst_deq < 5e-5,
+                "hidden {hidden}: vs dequantized {worst_deq}"
+            );
+            assert!(worst_orig < 2e-3, "hidden {hidden}: vs fp32 {worst_orig}");
+            i16.reset();
+            for (t, x) in inputs(n_in, 300).iter().enumerate() {
+                i16.step(x, &mut a);
+                assert_eq!(a[0].to_bits(), first[2 * t].to_bits());
+                assert_eq!(a[1].to_bits(), first[2 * t + 1].to_bits());
+            }
+        }
+    }
+
+    #[test]
+    fn f16_halves_matrix_bytes() {
+        if !crate::half::available() {
+            return;
+        }
+        let a = FastRnn::new(weights(211, 128, 2, 1), Activations::Fast).unwrap();
+        let b = FastRnn::with_precision(weights(211, 128, 2, 1), Activations::Fast, Precision::F16)
+            .unwrap();
+        // 14 h^2 matrix entries and the 211 x h input projection move from 4 to 2 bytes.
+        assert_eq!(
+            a.weight_bytes() - b.weight_bytes(),
+            (14 * 128 + 211) * 128 * 2
+        );
+    }
+
+    fn lstm_weights(n_in: usize, hidden: usize, layers: usize, seed: u64) -> RnnWeights {
+        let mut w = weights(n_in, hidden, layers, seed);
+        let gru = weights(n_in, hidden, layers, seed + 1);
+        for (l, extra) in w.layers.iter_mut().zip(gru.layers) {
+            l.w_ih.extend_from_slice(&extra.w_ih[..hidden * hidden]);
+            l.w_hh.extend_from_slice(&extra.w_hh[..hidden * hidden]);
+            l.b_ih.extend_from_slice(&extra.b_ih[..hidden]);
+            l.b_hh.extend_from_slice(&extra.b_hh[..hidden]);
+        }
+        w
+    }
+
+    /// f64 PyTorch-order LSTM model, straight from the definitions.
+    fn lstm_reference(w: &RnnWeights, xs: &[Vec<f32>]) -> Vec<[f64; 2]> {
+        let (n_in, n) = (w.mean.len(), w.b_in.len());
+        let f = |v: f32| f64::from(v);
+        let sig = |v: f64| 1.0 / (1.0 + (-v).exp());
+        let gelu = |v: f64| 0.5 * v * (1.0 + libm::erf(v / std::f64::consts::SQRT_2));
+        let mv = |m: &[f32], b: &[f32], x: &[f64]| -> Vec<f64> {
+            b.iter()
+                .enumerate()
+                .map(|(r, bias)| {
+                    f(*bias)
+                        + x.iter()
+                            .enumerate()
+                            .map(|(j, v)| f(m[r * x.len() + j]) * v)
+                            .sum::<f64>()
+                })
+                .collect()
+        };
+        let mut h = vec![vec![0.0f64; n]; w.layers.len()];
+        let mut c = h.clone();
+        xs.iter()
+            .map(|x| {
+                let xn: Vec<f64> = (0..n_in)
+                    .map(|j| (f(x[j]) - f(w.mean[j])) / f(w.std[j]))
+                    .collect();
+                let z: Vec<f64> = mv(&w.w_in, &w.b_in, &xn).into_iter().map(gelu).collect();
+                let mut inp = z.clone();
+                for (k, l) in w.layers.iter().enumerate() {
+                    let gi = mv(&l.w_ih, &l.b_ih, &inp);
+                    let gh = mv(&l.w_hh, &l.b_hh, &h[k]);
+                    for j in 0..n {
+                        let g = |q: usize| gi[q * n + j] + gh[q * n + j];
+                        c[k][j] = sig(g(1)) * c[k][j] + sig(g(0)) * g(2).tanh();
+                        h[k][j] = sig(g(3)) * c[k][j].tanh();
+                    }
+                    inp = h[k].clone();
+                }
+                let cat: Vec<f64> = inp.iter().chain(&z).copied().collect();
+                let a: Vec<f64> = mv(&w.w1, &w.b1, &cat).into_iter().map(gelu).collect();
+                let y = mv(&w.w2, &w.b2, &a);
+                [y[0], y[1]]
+            })
+            .collect()
+    }
+
+    #[test]
+    fn lstm_matches_f64_reference_in_every_precision() {
+        for (n_in, hidden, layers) in [(9, 5, 1), (37, 20, 2), (211, 64, 2)] {
+            let xs = inputs(n_in, 200);
+            let want = lstm_reference(&lstm_weights(n_in, hidden, layers, 3), &xs);
+            for (act, precision, tol) in [
+                (Activations::Exact, Precision::F32, 2e-5),
+                (Activations::Fast, Precision::F32, 1e-4),
+                (Activations::Exact, Precision::F16, 2e-2),
+                (Activations::Exact, Precision::I16, 5e-3),
+            ] {
+                let mut m =
+                    FastRnn::with_precision(lstm_weights(n_in, hidden, layers, 3), act, precision)
+                        .unwrap();
+                assert_eq!(m.cell(), Cell::Lstm);
+                let mut out = vec![0.0; 2];
+                let mut worst = 0.0f64;
+                for (x, y) in xs.iter().zip(&want) {
+                    m.step(x, &mut out);
+                    worst = worst
+                        .max((f64::from(out[0]) - y[0]).abs())
+                        .max((f64::from(out[1]) - y[1]).abs());
+                }
+                assert!(
+                    worst < tol,
+                    "{n_in}/{hidden}/{layers} {act:?} {precision:?}: {worst}"
+                );
+                m.reset();
+                m.step(&xs[0], &mut out);
+                assert!(
+                    (f64::from(out[0]) - want[0][0]).abs() < tol,
+                    "reset clears h and c"
+                );
+            }
+        }
+        let mut bad = lstm_weights(9, 5, 2, 3);
+        bad.layers[1].w_hh.pop();
+        assert!(FastRnn::new(bad, Activations::Fast).is_err());
+        let mut bad = weights(9, 5, 2, 3);
+        bad.layers[0].b_hh.pop();
+        assert!(FastRnn::new(bad, Activations::Fast).is_err());
+    }
+
+    /// k heads stacked into one head of width k*hidden (W1/b1 rows stacked, W2 columns / k) give
+    /// the mean of the k heads' outputs.
+    #[test]
+    fn merged_wide_head_is_the_mean_of_its_heads() {
+        let (n_in, hidden) = (37, 32);
+        let heads: Vec<RnnWeights> = (0..3).map(|k| weights(n_in, hidden, 2, 40 + k)).collect();
+        let mut merged = weights(n_in, hidden, 2, 40);
+        merged.w1 = heads.iter().flat_map(|h| h.w1.clone()).collect();
+        merged.b1 = heads.iter().flat_map(|h| h.b1.clone()).collect();
+        merged.w2 = (0..2)
+            .flat_map(|o| {
+                heads
+                    .iter()
+                    .flat_map(move |h| h.w2[o * hidden..(o + 1) * hidden].iter().map(|v| v / 3.0))
+            })
+            .collect();
+        merged.b2 = (0..2)
+            .map(|o| heads.iter().map(|h| h.b2[o]).sum::<f32>() / 3.0)
+            .collect();
+        let trunk = |k: usize| {
+            let mut w = weights(n_in, hidden, 2, 40);
+            w.w1 = heads[k].w1.clone();
+            w.b1 = heads[k].b1.clone();
+            w.w2 = heads[k].w2.clone();
+            w.b2 = heads[k].b2.clone();
+            w
+        };
+        for precision in [Precision::F32, Precision::I16] {
+            let mut wide =
+                FastRnn::with_precision(weights_like(&merged), Activations::Exact, precision)
+                    .unwrap();
+            let mut single: Vec<FastRnn> = (0..3)
+                .map(|k| {
+                    FastRnn::with_precision(trunk(k), Activations::Exact, Precision::F32).unwrap()
+                })
+                .collect();
+            let (mut a, mut b) = (vec![0.0; 2], vec![0.0; 2]);
+            let tol = if precision == Precision::F32 {
+                2e-5
+            } else {
+                5e-3
+            };
+            for x in inputs(n_in, 100) {
+                wide.step(&x, &mut a);
+                let mut mean = [0.0f32; 2];
+                for m in &mut single {
+                    m.step(&x, &mut b);
+                    mean[0] += b[0] / 3.0;
+                    mean[1] += b[1] / 3.0;
+                }
+                assert!(
+                    (a[0] - mean[0]).abs() < tol && (a[1] - mean[1]).abs() < tol,
+                    "{precision:?}"
+                );
+            }
+        }
+    }
+
+    fn weights_like(w: &RnnWeights) -> RnnWeights {
+        RnnWeights {
+            mean: w.mean.clone(),
+            std: w.std.clone(),
+            w_in: w.w_in.clone(),
+            b_in: w.b_in.clone(),
+            layers: w
+                .layers
+                .iter()
+                .map(|l| GruLayer {
+                    w_ih: l.w_ih.clone(),
+                    w_hh: l.w_hh.clone(),
+                    b_ih: l.b_ih.clone(),
+                    b_hh: l.b_hh.clone(),
+                })
+                .collect(),
+            w1: w.w1.clone(),
+            b1: w.b1.clone(),
+            w2: w.w2.clone(),
+            b2: w.b2.clone(),
+        }
     }
 
     #[test]
