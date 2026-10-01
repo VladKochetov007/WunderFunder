@@ -1,0 +1,23 @@
+{
+ "frozen_at": "2026-10-01T04:35+03:00",
+ "hypothesis": "E-290 output-space mix (FT pair + own pre-FT parents, equal 1/4) beats FT pair",
+ "found_on": [
+  "fold0",
+  "fold1",
+  "holdout"
+ ],
+ "confirmation_folds": [
+  2,
+  3
+ ],
+ "gate": {
+  "pooled_f23_delta_min": 0.0005,
+  "each_fold_positive": true,
+  "class_floor": -0.0005
+ },
+ "parents_epoch": 3,
+ "screen": "research/campaign_2026-10-01/screens/parentmix_confirm_f23.json",
+ "amended_at": "2026-10-01T04:43+03:00 (before any fold2/3 candidate score)",
+ "extra_arm": "shared_parent_head = parents@ep3 + reference head-stage FT (c20260929_ft_since_s{3,4}_f{k}h), equal 1/4",
+ "amended_2": "2026-10-01T05:13+03:00, before fold2/3 head-stage predictions exist: add routed arm RSP2 = class 3 -> shared_parent_head, classes 0-2 -> ft_pair (retrospective class; causal detector 100% OOF on folds 0/1); same gate incl. class floor"
+}
