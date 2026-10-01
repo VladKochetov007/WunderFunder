@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/prepare_inputs.py", line 123, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/prepare_inputs.py", line 122, in main
+    else:assert a.inputs_sha256;assemble(a.inputs,a.inputs_sha256)
+                                ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/prepare_inputs.py", line 116, in assemble
+    obj={'schema':'ensemble-backbone-partners-v1','fold':fold,'partner_order':[x['run'] for x in members],'row_maps':r['row_maps'],'chain_folds':r['chain_folds'],'training_valid_positions':r['training_valid_positions'][str(fold)],'members':members,'source_input_receipt':{'path':rel(inputs),'sha256':digest},'assembly_source_sha256':sha(__file__),'all_selected_cache_values_finite_provenance':'new train producer online check; reused valid-cache complete audit + fresh bound hash','no_prediction_value_load_in_assembly':True}
+                                                                                                                                                                                                                                                                                       ~~~^^^^^^^^
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/prepare_inputs.py", line 23, in rel
+    def rel(p):return str(Path(p).relative_to(ROOT))
+                          ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/grinchenkoeg/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py", line 385, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: 'research/iterations/2026-10-01-ensemble-backbone/input-bindings.json' is not in the subpath of '/home/grinchenkoeg/WunderFunder-creative'
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/continue_once.py", line 126, in <module>
+    (prepare if a.phase=='prepare' else grade)(m)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/continue_once.py", line 30, in prepare
+    subprocess.run(['.venv/bin/python',B+'/prepare_inputs.py','--assemble','--inputs',rel(inp),'--inputs-sha256',sha(inp)],check=True,cwd=ROOT)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['.venv/bin/python', 'research/iterations/2026-10-01-ensemble-backbone/prepare_inputs.py', '--assemble', '--inputs', 'research/iterations/2026-10-01-ensemble-backbone/input-bindings.json', '--inputs-sha256', '34c3e1a2ccc9b2afe08708a7a8db48bba0a5b0fa32e7c0f8823204969ce076f7']' returned non-zero exit status 1.
