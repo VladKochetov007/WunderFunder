@@ -1,0 +1,30 @@
+{
+  "status": "FAILED_CONTROL_SYNTHETIC_UNRESOLVED",
+  "created_UTC": "2026-10-01T03:50:55.838737+00:00",
+  "control_exit": 1,
+  "PLE_arm_started": false,
+  "retries": 0,
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "competition_data_reads": 0,
+  "GPU6_released_UTC": "2026-10-01T03:49:03.813645+00:00",
+  "failure": "Ordinary control reached gpu_probe.py:82 and failed combined finite(loss) and finite(grad_norm) assertion. No per-step result JSON was flushed before this assertion. Exact step index and which value was nonfinite are unknown.",
+  "prior_checks_inferred_from_control_flow": "CUDA literal boundary/custom VJP and 32x2000 AMP initial output/hidden/base-gradient/RNG checks returned before entering the failing loop; their numeric details were not flushed, so no standalone quantitative GPU PASS receipt exists.",
+  "cost_gate": "Not evaluable: both arm medians unavailable. Formula unchanged: 1.25 * 15000 * (2 * control_median_wall_seconds + 3 * ple_median_wall_seconds) + 5400 <= remaining seconds until 08:23:30 UTC; separate06:00/07:00 parent-start cutoffs retained.",
+  "static_diagnosis": "The synthetic t1 values are always negative and the unchanged ordinary GradScaler starts at65536. A large scaled FP16 reduction/gradient could overflow; this is a plausible hypothesis only, not an observed cause. Existing logs cannot distinguish it from nonfinite loss/another gradient source. Ordinary GradScaler can skip overflowing steps, but this preparation protocol prospectively demanded finite every step/no scale drop. No gate or recipe change authorized.",
+  "interpretation": "Failed synthetic control feasibility stage; not a forecast-quality failure of PLE, and not evidence it fits/runtime qualifies.",
+  "observed_resources": {
+    "GPU_MiB": 2320,
+    "RSS_KiB": 2052104,
+    "HWM_KiB": 2007228,
+    "Threads": 10
+  },
+  "postcheck": "GPU6 used1MiB/free15973MiB, owned PID4123089 absent.",
+  "receipt_hashes": {
+    "gpu-execution/control-attempt01-samples.jsonl": "e2636008c8b41c3925ffaeb07920ded261784fcbf67c96a6a4d2b66b79dc0744",
+    "gpu-execution/control-attempt01.log": "b3f0baa6b215a35be172eb59b7d37823179123ee2f45386c595a0c1b75ee4461",
+    "gpu-execution/driver.log": "c3ebfdc90fcbaa52f7dc81c7f4cf2becbc5ce0c9c54237061ba7d49947853077",
+    "gpu-execution/driver.py": "6b3ecb281b160c4b4be2f078467e65115202a76246da9fc92302e9f902bf3382",
+    "gpu-execution/execution.json": "c4a0323b257012b8226eb55fae701a22c84ed6337a4a2300a03bc8d509734d31"
+  }
+}

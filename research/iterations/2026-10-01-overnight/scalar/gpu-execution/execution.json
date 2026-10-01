@@ -1,0 +1,54 @@
+{
+  "status": "FAIL",
+  "failure": "AssertionError(('control', 1))",
+  "started_UTC": "2026-10-01T03:48:56.722288+00:00",
+  "finished_UTC": "2026-10-01T03:49:03.813645+00:00",
+  "seconds": 7.091374098323286,
+  "driver_sha256": "6b3ecb281b160c4b4be2f078467e65115202a76246da9fc92302e9f902bf3382",
+  "allocation_sha256": "591d2f85cc6d402d8628d342c73a10fd68d8bf95972c63c85ebbfa3e5c17cfaf",
+  "proposal_sha256": "837c2e646e438478ec9add3806337e40fafb93a3218edc94a03ba953cea06a87",
+  "freeze_sha256": "37f8694fb8a3ac6758564a91ee33edbba204a4ed8e82be437fe014720cc761ef",
+  "jobs": [
+    {
+      "arm": "control",
+      "started_UTC": "2026-10-01T03:48:56.962544+00:00",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/gpu_probe.py",
+        "--arm",
+        "control",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/gpu-allocation.json",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/gpu-control-attempt01.json"
+      ],
+      "identity": {
+        "pid": 4123089,
+        "start_ticks": 499377767,
+        "pgrp": 4123089,
+        "state": "R"
+      },
+      "prelaunch": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "free_MiB": 15973,
+        "processes": []
+      },
+      "resource_peaks": {
+        "GPU_MiB": 2320,
+        "RSS_KiB": 2052104,
+        "HWM_KiB": 2007228,
+        "Threads": 10
+      },
+      "termination": null,
+      "exit_code": 1,
+      "seconds": 6.852698238566518,
+      "finished_UTC": "2026-10-01T03:49:03.813593+00:00"
+    }
+  ],
+  "cost": null,
+  "monitor_limitations": "0.5s target sampling plus bounded nvidia-smi latency; sampled GPU/RSS can miss between-sample peaks. Torch allocator fraction enforced internally; SIGALRM deadline is OS-scheduled, not a cgroup hard real-time guarantee. Only owned PID/start/pgrp signaled.",
+  "competition_inputs_read": false
+}
