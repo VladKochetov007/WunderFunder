@@ -1,0 +1,58 @@
+{
+  "status": "COMPLETE",
+  "unit": "late-vocab-258aa6feaeee4804a12c2fcee0724a93",
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--unit",
+    "late-vocab-258aa6feaeee4804a12c2fcee0724a93",
+    "-p",
+    "CPUQuota=200%",
+    "-p",
+    "MemoryMax=8589934592",
+    "-p",
+    "MemorySwapMax=0",
+    "--",
+    "taskset",
+    "-c",
+    "22,23",
+    "nice",
+    "-n",
+    "10",
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "600s",
+    ".venv/bin/python",
+    "research/iterations/2026-10-01-late-atom-head/vocab.py",
+    "--inputs",
+    "research/iterations/2026-10-01-online-normalization/input-bindings.json",
+    "--output-dir",
+    "research/iterations/2026-10-01-late-atom-head/vocab-01"
+  ],
+  "source_sha256": {
+    "run_vocab.py": "85b71ae2b7fc5ba7c079e8286cd49a9a7068adf2644aaa324c626dc523029208",
+    "run_queue.py": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2",
+    "vocab.py": "1b0e242b29cae92cf10c73b3281dedf38caab26a7b2483f7ddd0eb197cb44df7"
+  },
+  "returncode": 0,
+  "outputs": {
+    "research/iterations/2026-10-01-late-atom-head/vocab-01/atoms.npy": {
+      "bytes": 640,
+      "sha256": "dd5e82c4e0210049f51a2c0744f2a4fd57f616d8f2e3749c55383b71e308e2af"
+    },
+    "research/iterations/2026-10-01-late-atom-head/vocab-01/receipt.json": {
+      "bytes": 60455,
+      "sha256": "c99b68d63bd439279fdf9e7a4db9f169cd064f41d9bc2c324de45aabe4c28567"
+    }
+  },
+  "scope_state": {
+    "ControlGroup": "",
+    "ActiveState": "inactive",
+    "SubState": "dead"
+  },
+  "remaining_scope_pids": [],
+  "seconds": 54.48457224667072
+}
