@@ -1,0 +1,104 @@
+{
+  "status": "FUNCTIONAL_PASS_QUIET_SINGLE_TRACES_BOTH_CALLBACK_PROJECTIONS_EXCEED_60MIN",
+  "plan_sha256": "cdfce4b8c8e923086f6aeb074b94e16cd506371385603f4bafadd500ff88274c",
+  "allocation_sha256": "b27ed7010e370132dbe05ed1f366840d31d70cc62ed92a14588c9cf80a39032b",
+  "attempts_per_level": 1,
+  "retries": 0,
+  "levels_fixed_order": [
+    "avx2",
+    "v2"
+  ],
+  "results": {
+    "avx2": {
+      "status": "COMPLETE",
+      "callback_rows": 100000,
+      "emitted_rows": 99505,
+      "wall_seconds": 12.696871565654874,
+      "projected_callback_minutes_39_4M": 83.37612328113367,
+      "projection_at_most_50min": false,
+      "projection_at_most_60min": false,
+      "clean": true,
+      "callback_activity": {
+        "cpu18": {
+          "ticks": 1270,
+          "busy_ticks": 1270,
+          "busy_fraction": 1.0
+        },
+        "cpu58": {
+          "ticks": 1271,
+          "busy_ticks": 1,
+          "busy_fraction": 0.0007867820613690008
+        }
+      },
+      "whole_trace_activity": {
+        "cpu18": {
+          "ticks": 1270,
+          "busy_ticks": 1270,
+          "busy_fraction": 1.0
+        },
+        "cpu58": {
+          "ticks": 1271,
+          "busy_ticks": 1,
+          "busy_fraction": 0.0007867820613690008
+        }
+      },
+      "archived_prefix_callback_slots_bitexact": 2560,
+      "archived_emitted_prediction_rows_bitexact": 2065,
+      "warmup_zero_placeholder_slots": 495,
+      "max_rss_KiB": 104360,
+      "max_observed_threads": 1,
+      "native_sha256": "7931b5d977934a1389c7d4804957de9e39fd50bb19214f600ff71316b1e79d99",
+      "outer_process_seconds": 15.36459579411894,
+      "worker_receipt_sha256": "8017bca440695294b3ab4711cb5169d23ffb1867c6bfa953e37838afc0a44378"
+    },
+    "v2": {
+      "status": "COMPLETE",
+      "callback_rows": 100000,
+      "emitted_rows": 99505,
+      "wall_seconds": 16.04628119431436,
+      "projected_callback_minutes_39_4M": 105.3705798426643,
+      "projection_at_most_50min": false,
+      "projection_at_most_60min": false,
+      "clean": true,
+      "callback_activity": {
+        "cpu18": {
+          "ticks": 1605,
+          "busy_ticks": 1605,
+          "busy_fraction": 1.0
+        },
+        "cpu58": {
+          "ticks": 1605,
+          "busy_ticks": 0,
+          "busy_fraction": 0.0
+        }
+      },
+      "whole_trace_activity": {
+        "cpu18": {
+          "ticks": 1605,
+          "busy_ticks": 1605,
+          "busy_fraction": 1.0
+        },
+        "cpu58": {
+          "ticks": 1605,
+          "busy_ticks": 0,
+          "busy_fraction": 0.0
+        }
+      },
+      "archived_prefix_callback_slots_bitexact": 2560,
+      "archived_emitted_prediction_rows_bitexact": 2065,
+      "warmup_zero_placeholder_slots": 495,
+      "max_rss_KiB": 103464,
+      "max_observed_threads": 1,
+      "native_sha256": "49de67603ca8f7e24c12f45fd6e9f976fe64a1af3dc25a04c7fbabd278d77423",
+      "outer_process_seconds": 18.730721372179687,
+      "worker_receipt_sha256": "da506747a6d52c54eb4465751aa758d78cd0a214dac4829b2bd348534850c7ee"
+    }
+  },
+  "limits": [
+    "Each is one short100k-row warm-fixture trace with no uncertainty estimate.",
+    "Forced fallback ISA paths on the measured machine; no universal timing claim for other hardware.",
+    "Only2065 emitted prefix pairs perISA have archived bitwise parity, plus495 warmup placeholders. All100k outputs are finite and hashed.",
+    "No full-process39.4M extrapolation is inferred from this short supplementary harness.",
+    "No model, artifact, blend, target, metric, training or forecast-quality change."
+  ]
+}

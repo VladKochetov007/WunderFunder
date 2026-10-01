@@ -1,0 +1,47 @@
+{
+  "id": "BASELINE3-FALLBACK-ISA-RUNTIME-01-ALLOCATION",
+  "created_utc": "2026-10-01T04:43:23.336181+00:00",
+  "fallback_runtime_authorized": true,
+  "CPU18_58_explicitly_released": true,
+  "attempts_per_level": 1,
+  "retries": 0,
+  "plan_sha256": "cdfce4b8c8e923086f6aeb074b94e16cd506371385603f4bafadd500ff88274c",
+  "independent_preparation_review_sha256": "fde62e15c2641085f7dc7d6dbc50a7011e6dbcee7f0cb83240331b2618a089be",
+  "full_audit_result_sha256": "1202f368ce48d2f187179feea68286ffa28d831a94355f587eccedc2626c5ed1",
+  "full_audit_outcome_sha256": "3274b4847275ada0db455d652cdd1c6cdc8fb79c77a55d3a5c17236efe0362dd",
+  "sources": {
+    "research/iterations/2026-10-01-overnight/final-runtime-fallback-isa/benchmark.py": "ab427b49e60cee6f724444b7a605019869aaa6574963763f1cfdbe6d7218827e",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/benchmark_zip.py": "be18f0399264132323ca142c18dd8c19b0a98d0e6f445d883708c6eb1dde48c8",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/check_zip.py": "1c7799f4688267f5e897af64e9e82b3bf9f3f89a7b7ee2f29c339832860d42ab",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/reference-v2.json": "2fce363c4f955df8edf4228987931c7b28c887bfe92457e9a9631d2cd66a5d12",
+    "research/iterations/2026-10-01-overnight/delivery-baseline3/reference-avx2.json": "fc798b92467b7ef42bac8e8671e0aeb3003b94726cf57899b341b51af0a89370",
+    "submissions/overnight_baseline3/baseline3_fixed.manifest.json": "795b93b52b5e8eb6274a60deaab9865efb9b40eb55d0d0b72f9b75698cc94665"
+  },
+  "levels_fixed_order": [
+    "avx2",
+    "v2"
+  ],
+  "resources": {
+    "CPU": 18,
+    "SMT_sibling": 58,
+    "CPUQuota": "100%",
+    "MemoryMax_GiB": 4,
+    "MemorySwapMax": 0,
+    "compute_library_threads": 1,
+    "all_observed_threads_affinity": [
+      18
+    ],
+    "external_timeout_each_seconds": 180,
+    "term_at_seconds": 178,
+    "kill_grace_seconds": 2,
+    "maximum_total_trace_seconds": 360,
+    "GPU": false
+  },
+  "release_evidence": {
+    "full_audit_ended_utc": "2026-10-01T04:39:57.664027+00:00",
+    "root_read_only_check": "old PID4127744 absent; systemctl scope inactive/dead verified immediately beforeallocation"
+  },
+  "execution_authority": "Execute exact systemd/timeout template once per declared ISA in fixed order, with immutable attemptmarkers and all logs/results. No retry, second reference engine, other ISA variant, artifact/recipe change, metric or forecast. Keep noisy/failing outcomes. Explicit allocation does not make the fullaudit independently reviewed; that review proceeds separately.",
+  "new_forecasting_fits": 0,
+  "new_WP_queries": 0
+}

@@ -1,0 +1,64 @@
+{
+  "status": "PASS_INDEPENDENT_FULL_VALID_RUNTIME_RECEIPT_AUDIT",
+  "UTC": "2026-10-01T04:42:48.738432+00:00",
+  "checker_sha256": "0aae09b6969172dd1aeb6298aa105f9771e5d9ca5cc78ac0fc19410eb5c07259",
+  "gates": {
+    "functional_complete": true,
+    "precheck_quiet": true,
+    "callback_quiet": true,
+    "whole_trace_quiet": true,
+    "callback_projection_le50": true,
+    "full_process_projection_le60": true,
+    "observed_process_le65": true
+  },
+  "callbacks": 37460000,
+  "emitted_pairs": 37274573,
+  "sequences": 1873,
+  "callback_observed_minutes": 41.22391475454594,
+  "callback_projected_39_4M_minutes": 43.35884253414602,
+  "complete_process_observed_minutes": 43.16102469569693,
+  "complete_process_projected_39_4M_minutes": 45.39627263775919,
+  "max_observed_hwm_KiB": 347560,
+  "rusage_maxrss_KiB": 347136,
+  "max_observed_OS_threads": 2,
+  "final_task_ticks": {
+    "4127744": {
+      "user_ticks": 256008,
+      "system_ticks": 1165,
+      "affinity": [
+        18
+      ]
+    },
+    "4127914": {
+      "user_ticks": 0,
+      "system_ticks": 0,
+      "affinity": [
+        18
+      ]
+    }
+  },
+  "SMT58_callback_busy_fraction": 0.00029535523547499597,
+  "SMT58_whole_busy_fraction": 0.0002933262413566534,
+  "artifact_sha256": "9471821e81e7c3f80a088147512183b72e0ab52bc593a1136d2becc229d0d098",
+  "input_identity_same_before_after": true,
+  "source_files_checked": 9,
+  "receipts": {
+    "final-runtime-audit/plan.json": "1337643db2d5b3d07932ddc47c1a2f808d57c31a41a80c85eee04e622bda1275",
+    "final-runtime-audit/allocation.json": "bf83294836a822387acdac74803b6715c87290b96c66c462483f2d97ddf0e63d",
+    "final-runtime-audit/execution/launch.json": "03546b932d67bf02a8e638636b70d3e0819125c2bf1814943225854a8cc2d148",
+    "final-runtime-audit/execution/worker-process.json": "4a7bfc7cd1bb93263bfa87c890770ff127c2a2b23c760bdabba03c010f31f520",
+    "final-runtime-audit/execution/worker-result.json": "343b6c5252a037bc753901253cf174cbe6a2777a53ce00c6735054d9a3312005",
+    "final-runtime-audit/execution/launch-result.json": "1202f368ce48d2f187179feea68286ffa28d831a94355f587eccedc2626c5ed1",
+    "final-runtime-audit/execution/sequences.jsonl": "810e83fe5d2cd7d5395681e3f5bbf4d61fe1fd3304ca9a75237016d7f80f33d9",
+    "final-runtime-audit/execution/worker.log": "e288725a59703b0ccfe7938654405635096ef91ad03d66cf167171143df4c1f5"
+  },
+  "targets_read": false,
+  "model_or_empirical_inputs_executed": false,
+  "WP_queries": 0,
+  "limits": [
+    "One target-free v3 trace on beleriand; unknown public CPU or other ISA runtime is not covered.",
+    "Complete prehash warms page cache; not a cold-cache guarantee.",
+    "All37.46M callbacks checked for finite output and wrapper/reset semantics by bound worker source; no second full-output oracle or independent inference replay.",
+    "Two observed OS threads both pinned18; helper recorded zero CPU ticks, not literal single-OS-thread execution."
+  ]
+}

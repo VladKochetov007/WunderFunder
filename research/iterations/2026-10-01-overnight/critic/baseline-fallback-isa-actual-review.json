@@ -1,0 +1,36 @@
+{
+  "status": "PASS_RECEIPT_INTEGRITY_BOTH_FALLBACKS_EXCEED_RUNTIME_THRESHOLDS",
+  "UTC": "2026-10-01T04:50:09.360317+00:00",
+  "checker_sha256": "a05b35f4e1f1548ad3758d7d6afc25a2d6b52a54eb3c20a157e8aa39d086b740",
+  "plan_sha256": "cdfce4b8c8e923086f6aeb074b94e16cd506371385603f4bafadd500ff88274c",
+  "allocation_sha256": "b27ed7010e370132dbe05ed1f366840d31d70cc62ed92a14588c9cf80a39032b",
+  "results": {
+    "avx2": {
+      "integrity": "PASS",
+      "quiet": true,
+      "projected_callback_minutes_39_4M": 83.37612328113367,
+      "at_most_50min": false,
+      "at_most_60min": false,
+      "result_sha256": "8017bca440695294b3ab4711cb5169d23ffb1867c6bfa953e37838afc0a44378",
+      "outer_receipt_sha256": "11215c1cbdb2872a4d8538bfa44fd49138a1ee62d7eb2452c8c3a39745632114"
+    },
+    "v2": {
+      "integrity": "PASS",
+      "quiet": true,
+      "projected_callback_minutes_39_4M": 105.3705798426643,
+      "at_most_50min": false,
+      "at_most_60min": false,
+      "result_sha256": "da506747a6d52c54eb4465751aa758d78cd0a214dac4829b2bd348534850c7ee",
+      "outer_receipt_sha256": "79f00c54c48defc4cb4ea5d4ba7f828ce643f7aa9b10394ee49fb8490858ce6d"
+    }
+  },
+  "scope_release_receipt_sha256": "f62feead12c162561a5cca43118d12674f1e81c7a8d79fb3d530d11f4c21b94b",
+  "interpretation": "Numerically checked fallback dispatch works, but these quiet100k samples project beyond both50 and60minutes. Existing baseline remains runtime-qualified only for the measuredv3path. No new artifact/composition/ISA search or qualityreadout.",
+  "limits": [
+    "Single warm100k sample perforcedISA; no confidence interval or fullprocess extrapolation.",
+    "Archived byteparity covers2560prefixcallbackslots, notall100k outputs.",
+    "This reviewer reads receipts/source hashes only; no rawdata/model replay."
+  ],
+  "targets_read": false,
+  "WP_queries": 0
+}
