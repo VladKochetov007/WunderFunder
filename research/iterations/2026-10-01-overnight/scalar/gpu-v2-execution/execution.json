@@ -1,0 +1,101 @@
+{
+  "status": "PASS",
+  "failure": null,
+  "started_UTC": "2026-10-01T04:08:25.523163+00:00",
+  "finished_UTC": "2026-10-01T04:08:42.449273+00:00",
+  "seconds": 16.926129836589098,
+  "driver_sha256": "a38d1f1b2df35264f407f9f7da3c2d948ef38aef223749eac24702756629f0c7",
+  "allocation_sha256": "59d5b024ec61bf1bd0bb5044c2b568da6542e61765d1eb1aa75d13203e67b555",
+  "proposal_sha256": "f089eef106784f60fb740a9542bb5bfd451972310c8cf9ab08d97abeabf69e10",
+  "freeze_sha256": "b47a51fc84e64f65f90a022013bcdc4f300b885fb7a52e1a3391ca15d61be635",
+  "jobs": [
+    {
+      "arm": "control",
+      "started_UTC": "2026-10-01T04:08:25.739920+00:00",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/gpu_probe_v2.py",
+        "--arm",
+        "control",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/gpu-v2-allocation.json",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/gpu-v2-control-attempt01.json"
+      ],
+      "identity": {
+        "pid": 4134790,
+        "start_ticks": 499494644,
+        "pgrp": 4134790,
+        "state": "R"
+      },
+      "prelaunch": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "free_MiB": 15973,
+        "processes": []
+      },
+      "resource_peaks": {
+        "GPU_MiB": 2324,
+        "RSS_KiB": 2276132,
+        "HWM_KiB": 2276036,
+        "Threads": 10
+      },
+      "termination": null,
+      "exit_code": 0,
+      "seconds": 8.157491779886186,
+      "result_sha256": "732c71072ec26deef2e4688897b75c5e09787bcdd8805b940b2b2fbcc7841150",
+      "finished_UTC": "2026-10-01T04:08:33.894955+00:00"
+    },
+    {
+      "arm": "ple",
+      "started_UTC": "2026-10-01T04:08:34.468152+00:00",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/gpu_probe_v2.py",
+        "--arm",
+        "ple",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/gpu-v2-allocation.json",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/gpu-v2-ple-attempt01.json"
+      ],
+      "identity": {
+        "pid": 4134861,
+        "start_ticks": 499495517,
+        "pgrp": 4134861,
+        "state": "R"
+      },
+      "prelaunch": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "free_MiB": 15973,
+        "processes": []
+      },
+      "resource_peaks": {
+        "GPU_MiB": 2324,
+        "RSS_KiB": 2275520,
+        "HWM_KiB": 2275520,
+        "Threads": 10
+      },
+      "termination": null,
+      "exit_code": 0,
+      "seconds": 7.983258217573166,
+      "result_sha256": "425a63e39dcc9e07e3ef442831256f22bccbac632e437dc6151dab1ad186c858",
+      "finished_UTC": "2026-10-01T04:08:42.448815+00:00"
+    }
+  ],
+  "cost": {
+    "evaluated_UTC": "2026-10-01T04:08:42.449254+00:00",
+    "formula": "1.25 * 15000 * (2 * control_median_wall_seconds + 3 * ple_median_wall_seconds) + 5400",
+    "estimate_seconds": 11488.526244275272,
+    "remaining_seconds": 15287.550746,
+    "PASS": true,
+    "does_not_waive_parent_start_cutoffs": true
+  },
+  "monitor_limitations": "0.5s target sampling plus bounded nvidia-smi latency; sampled GPU/RSS can miss between-sample peaks. Torch allocator fraction enforced internally; SIGALRM deadline is OS-scheduled, not a cgroup hard real-time guarantee. Only owned PID/start/pgrp signaled.",
+  "competition_inputs_read": false
+}

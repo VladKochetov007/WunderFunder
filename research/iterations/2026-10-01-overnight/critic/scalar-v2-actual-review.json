@@ -1,0 +1,61 @@
+{
+  "status": "ACTUAL_RECEIPTS_AUDITED",
+  "stage_outcome": "PASS",
+  "allocation_sha256": "59d5b024ec61bf1bd0bb5044c2b568da6542e61765d1eb1aa75d13203e67b555",
+  "execution_sha256": "75f933ae2b6399b6c2e5d4c56674d32aa38364914c57385f8a5d57eba1238d1f",
+  "checker_sha256": "d030c8fce7a84052e68d3ba406042e923e040928725fef962b575b5021d8f1bb",
+  "all_frozen_source_hashes_match": true,
+  "jobs": [
+    {
+      "arm": "control",
+      "exit_code": 0,
+      "raw_step_count": 10,
+      "log_sha256": "c5c23b216ad25cc2aabacd7e992ee6e5de9cd373b80ef1375f245df88eaa0638",
+      "samples_sha256": "466397c2e85e86042ac0325fcf45dc549cbabc4c1d4519bf4e0dca2bae82612c"
+    },
+    {
+      "arm": "ple",
+      "exit_code": 0,
+      "raw_step_count": 10,
+      "log_sha256": "bf37ccc603c49618c46da397fabd70d6f3e10f28cdf78933ef4090dfe9cda631",
+      "samples_sha256": "d2613766549d9f94766836bab3c83910fc8ac0b6f63bb106d70853480ab18b2d"
+    }
+  ],
+  "cost": {
+    "evaluated_UTC": "2026-10-01T04:08:42.449254+00:00",
+    "formula": "1.25 * 15000 * (2 * control_median_wall_seconds + 3 * ple_median_wall_seconds) + 5400",
+    "estimate_seconds": 11488.526244275272,
+    "remaining_seconds": 15287.550746,
+    "PASS": true,
+    "does_not_waive_parent_start_cutoffs": true
+  },
+  "arms": {
+    "control": {
+      "warmup_skip_steps": [
+        0
+      ],
+      "median_wall_seconds": 0.03292332775890827,
+      "median_device_ms": 32.85609436035156,
+      "peak_reserved_bytes": 2210398208,
+      "completed_updates": 9,
+      "loop_wall_seconds": 0.6849742531776428,
+      "loop_minus_timed_region_seconds": 0.16921560931950808
+    },
+    "ple": {
+      "warmup_skip_steps": [
+        0
+      ],
+      "median_wall_seconds": 0.08629158139228821,
+      "median_device_ms": 86.19939422607422,
+      "peak_reserved_bytes": 2210398208,
+      "completed_updates": 9,
+      "loop_wall_seconds": 1.2354714944958687,
+      "loop_minus_timed_region_seconds": 0.19624821096658707
+    }
+  },
+  "no_forecast_or_runtime_allocation_inferred": true,
+  "empirical_data_reads": 0,
+  "reviewer_GPU_runs": 0,
+  "forecast_fits": 0,
+  "WP_queries": 0
+}
