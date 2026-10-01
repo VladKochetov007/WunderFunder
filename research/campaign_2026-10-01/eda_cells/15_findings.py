@@ -1,29 +1,41 @@
-_g = {c: round(v["median_persistence"], 3) for c, v in GARCH.items()}
 mo.md(f"""
-## Findings (clean OOF, 4 folds; SOTA = R4D analog, reference = incumbent-recipe pair)
+# What limits the model, and what to do about it
 
-**Where the metric lives.** Class 3 carries ~48% of the metric weight at WP ≈ {SUMMARY[3]['WP SOTA (R4D analog)']:.3f}; classes 0–2 sit at 0.74–0.81.
-SOTA gains are largest in class 3 (+{SUMMARY[3]['delta']:.4f}), then classes 2/1/0. The public test is estimated to hold ~46% class-3 sequences, so class 3 dominates public score.
+Clean out-of-fold predictions, 4 chain-excluded folds. **SOTA** = R4D analog (classes 0–2: fine-tuned since s4 + distilled
+GRU256; class 3: since s4 with merged parent+FT heads + distilled GRU256). **Reference** = incumbent recipe (two-stage FT
+since pair). Pooled Global WP: SOTA {SUMMARY[4]['WP SOTA (R4D analog)']:.4f} vs reference {SUMMARY[4]['WP reference (incumbent recipe)']:.4f}.
 
-**Target dynamics (event time).** Classes 0–2: target direction D is a persistent AR-like process (ACF 0.65–0.84 at lag 1, PACF cuts after ~2 runs) — consecutive runs share most of their future path.
-Class 3 is a different regime: S alternates sign every run (ACF ≈ −0.9 at lag 1) and D oscillates with period ≈ 4–6 runs — quote **flicker cycles** between two levels.
+### 1. The loss is one place: long class-3 runs  (F3)
+Half of all lost metric sits in class-3 rows of runs lasting 64–1,024 rows (segment WP 0.25–0.44); by distance to the
+next quote move, rows 32–512 rows away hold ~44% of the loss at WP 0.09–0.28. Classes 0–2 together are under 40%.
 
-**Residuals.** In event time the SOTA residual stays autocorrelated for 10+ runs (lag-1 0.46–0.75); class 3 keeps periodic peaks at lags 4/8/12/16/20.
-This is overlapping-horizon structure: a run's label depends on many later quote moves (maturity ≥ 30 events, E-317), so these correlations are **not causally exploitable** (feature-reconstructed label feedback ≤ 0).
-In row time the residual ACF decays to ~0 by 1,000 rows.
+### 2. In those runs the outcome is not knowable at the start  (F1, F2)
+For runs lasting ≥ 64 rows, corr(prediction, run target) at the run's first row is 0.02 in class 3 (0.07 class 2,
+~0.2 classes 0/1) and rises only in the last ~32 rows before the next move. F1 shows it directly: the target sits
+at e.g. −1.3 for hundreds of rows while the prediction hovers near 0 until the book starts to move. This is the
+future-path part of the label, not a modelling bug — and why every post-hoc fix we tried failed.
 
-**Volatility (ARCH/GARCH).** ARCH-LM rejects homoscedasticity in 100% of sampled sequences. Median GARCH(1,1) persistence α+β of the event-time residual: {_g}.
-Class 3 is near-integrated (β ≈ 0.82): residual magnitude regimes last long. Earlier per-sequence scale/level oracles turned out to be overfit when cross-fitted (E-314), so a causal scale model must come from observable activity, not past residuals.
+### 3. Ensembling is saturated  (F6)
+The since member and the distilled GRU256 have residual correlation 0.985–0.999 in every segment. Averaging them
+gains ≤ 0.0005 and sometimes loses. Gains must come from better single models, not more members.
 
-**Calibration.** |y|-weighted reliability is close to the diagonal for every class and target (slight shrink at the extremes in class 2), so recalibration has no headroom (consistent with E-288).
+### 4. Why distillation works  (F5)
+Against the since member, the α 0.5 student is worse far from the next move (class 3, 128+ rows: −4 to −7 ×10⁻³)
+while the α 0.7 student is better everywhere (+0.5 to +4 ×10⁻³). Stronger teacher weight denoises labels that are
+dominated by unknowable future paths — exactly the high-loss region. Fine-tuning shows the opposite trade: the
+un-fine-tuned parent is better early in long runs for classes 1–2 (F2).
 
-**Event position.** WP falls steeply with rows until the next quote move (non-causal): ~0.88 within 8 rows of a move, ≤0.3 beyond 64 rows. In class 3 most metric weight sits 16–256 rows before the next move, where WP is 0.1–0.5 — the long queue-race runs.
-WP by rows since the last move (causal) is comparatively flat in class 3, so the model does not know *when* it is in a long run.
+### 5. Dead ends confirmed here
+Prediction scale per segment looks misallocated (F7: far-from-move rows "want" 0.1–0.75× scale), but a causal
+24-parameter scale correction loses on every fold (E-322). Calibration is on the diagonal (06). Sequence-level
+dispersion and residual autocorrelation are future information (E-314, E-317).
 
-**Between vs within sequences.** >90% of the pooled covariance is within sequences. Class 3 has both weak between-sequence correlation (≈0.52) and weak within (≈0.43); y's between-sequence variance share (≈0.11–0.12) is twice the prediction's (≈0.06) — the model under-disperses sequence-level means in class 3.
+### Next experiments this points to
+1. **Noise-adaptive distillation (H-059):** teacher weight rising with the training row's distance to label
+   resolution (known at train time; inputs stay causal), against constant α 0.7. Targets the 44–50% loss region.
+2. **Push α (0.85 queued) and teacher quality** (GRU256 teachers in the team recipe).
+3. **Head-only FT or lighter FT for the since trunk** in classes 1–2, which keeps early-run information.
 
-### Where to dig (creative-research readout)
-1. **Distillation strength** is the only lever with a large recent effect (α 0.7 vs 0.5: +0.0023 single model, fold 0) — denoising class-3 labels whose realized values are dominated by long overlapping futures. Confirm and push α / teacher quality.
-2. **Class-3 flicker regime as a representation**: explicit cycle phase/period features (event-time position within the flicker cycle) may let the GRU separate flicker runs from genuine queue races; cheap to test as inputs.
-3. **Under-dispersed class-3 sequence level**: a causal, activity-based class-3 level/scale state (not past residuals) — test only with cross-fitting; prior oracle results warn of overfit.
+Appendix (descriptive): target distributions, run structure, event-time ACF/PACF of target and residual, ARCH/GARCH
+(residual volatility persistence α+β ≈ 0.82–0.86, class 3 ≈ 0.99), calibration, per-sequence and between/within tables.
 """)
