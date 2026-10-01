@@ -1,0 +1,37 @@
+{
+  "status": "PREPARATION_PASS_AWAIT_ROOT_EMPIRICAL_ALLOCATION",
+  "freeze_sha256": "c01fd5698e338a2b514b617bdc4f17074f26093e1358d7725515c1c47b425519",
+  "zip_sha256": "48cf940bd1c7e812fe8005a90e3f11fb3199a8940c55e0adbfef00ad1de1f10f",
+  "zip_bytes": 6501798,
+  "verified_counts": {
+    "source_and_binaries": 28,
+    "actor_receipts": 8,
+    "independent_receipts": 6
+  },
+  "all_zip_files_verified": 8,
+  "native_independent_checks": "all 3 ISA builds, scalar/AVX2/VNNI integer backends, generated weights/rows, original-order arithmetic, resets/prefixes; normal-scale/environment guard",
+  "preserved_failures": [
+    "quant3-independent-kernel-result.json",
+    "quant3-subnormal-boundary-result.jsonl"
+  ],
+  "protocol_review": {
+    "fixed_composition_equal_thirds": true,
+    "unchanged_valid_domain_quantizer": true,
+    "runtime_first_all_3_short_plus_1_long_under_50min": true,
+    "quiet_SMT_timed_regions_and_bounded_contamination_retries": true,
+    "AVX2_extension_conditional_and_both_dispatches_forced": true,
+    "AVX2_fullfold_byte_identity_separately_allocated": true,
+    "two_fixed_WP_gates_unchanged": true,
+    "composite_manifest_truthful_and_child_lineage_bound": true
+  },
+  "limitations": [
+    "No empirical runtime or WP pass established by this receipt.",
+    "Cross-ISA numerical screens alone do not establish WP equivalence.",
+    "AVX2 held-fold quality requires full-array byte identity; v2 remains compatibility-only unless separately qualified.",
+    "All folds are exposed exploratory data; no top-rank guarantee."
+  ],
+  "empirical_fixture_read": false,
+  "targets_read": false,
+  "forecast_fits": 0,
+  "WP_queries": 0
+}

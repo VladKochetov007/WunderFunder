@@ -1,0 +1,37 @@
+{
+  "id": "Q3-RUNTIME-01",
+  "created_utc": "2026-10-01T02:36:51.885655+00:00",
+  "status": "AUTHORIZED_RUNTIME_ONLY",
+  "freeze_sha256": "c01fd5698e338a2b514b617bdc4f17074f26093e1358d7725515c1c47b425519",
+  "plan_sha256": "34d47c70ece7cac54da24d4fac21b948b2c7ae65fc215e6acd3f3f6387b96315",
+  "critic_review_sha256": "086e612554b7dbd5d19b4fbc201b2c29c40be3989091b43a7546ff3332358c55",
+  "zip_sha256": "48cf940bd1c7e812fe8005a90e3f11fb3199a8940c55e0adbfef00ad1de1f10f",
+  "work": [
+    "frozen old-engine same-composition raw-fixture references",
+    "fresh ZIP correctness and exact declared numeric screens",
+    "VNNI 3x100k+1M all-pass <=50min projection",
+    "conditional AVX2 first100k then2x100k+1M only as frozen"
+  ],
+  "limits": {
+    "total_empirical_wall_seconds": 900,
+    "memory_GiB": 4,
+    "forecast_fits": 0,
+    "WP_readouts": 0,
+    "target_reads": 0,
+    "CPU_timing": [
+      18
+    ],
+    "exclusive_sibling": 58,
+    "thread_count": 1,
+    "contamination_retries_per_run": 1
+  },
+  "stop_on": "Any hard correctness failure, quiet valid VNNI >50min, exhausted VNNI retry allowance or outer wall/resource limit. AVX2 failure leaves fallback unqualified without changing primary candidate.",
+  "not_authorized": [
+    "OOF producer",
+    "target or WP reads",
+    "source/binary/quantizer/composition changes",
+    "new fixtures",
+    "alternate core selection by latency"
+  ],
+  "baseline_required": "Every frozen source/reference/fixture/ZIP hash verified before execution; preserve all attempts and exact commands."
+}
