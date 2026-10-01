@@ -1,0 +1,32 @@
+/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-01/critic/check_units.py:91: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  "loss_value_steady_state": float(loss), "note": "loss value ~ (1-rho)/share, inflated ~50x"}
+{
+ "decay0_equals_pooled_loss": true,
+ "grad_matches_pool_over_share[plain]": {
+  "max_rel_err": 3.4403774610184993e-16,
+  "ok": true
+ },
+ "grad_matches_pool_over_share[offset50_sd1e-3]": {
+  "max_rel_err": 9.781110770777293e-07,
+  "ok": true
+ },
+ "grad_matches_pool_over_share[tiny_scale]": {
+  "max_rel_err": 1.1144706975242063e-10,
+  "ok": true
+ },
+ "fp16_grad": {
+  "dtype": "torch.float16",
+  "finite": true,
+  "nonzero_frac": 0.4300000071525574,
+  "loss_value_steady_state": 14.284431457519531,
+  "note": "loss value ~ (1-rho)/share, inflated ~50x"
+ },
+ "zero_weight_chunk": {
+  "loss_value": 500870.21875,
+  "grad_abs_max": 0.0
+ },
+ "aux_calls_mutate_main_memory": true,
+ "joint_freeze_only_head_grads": true,
+ "ft_gclp_prefix_equals_head_rule": true
+}
