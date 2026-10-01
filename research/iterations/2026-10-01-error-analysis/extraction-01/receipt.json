@@ -1,0 +1,176 @@
+{
+  "status": "COMPLETE_ONE_PASS_ERROR_ANALYSIS_EXTRACTION_NO_FITS_NO_WP_READOUT",
+  "utc": "2026-10-01T15:11:22.566536+00:00",
+  "source_sha256": "11838cab6521e964b2317716823610dd600f771ddcec40c9dcf5e2e6fff91bbb",
+  "plan_sha256": "da0000df48b873aede6e718241f7f97b73a7d5f553d2b830f06cf9ece8022f62",
+  "rows": 1614484,
+  "sequences": 860,
+  "chains": 250,
+  "event_rows": 437520,
+  "event_slots_before_edge_filter": 440320,
+  "event_dropped_out_of_bounds": 2800,
+  "uncompressed_payload_bytes": 656033664,
+  "outputs": {
+    "chain-gram.npz": {
+      "sha256": "a405100d5dfe8250949d416e7537fd03fece50e2f87db7423841a71eac76033c",
+      "bytes": 252895499
+    },
+    "event-windows.npz": {
+      "sha256": "468adb3c12f8e86fcf0f8896991a0b6dd041bd133bf56e533e80f0b1554cb7f1",
+      "bytes": 5654228
+    },
+    "scored-rows.npz": {
+      "sha256": "690e735fcdb5f5f7a00133268ded2792eaa486b5005b88f2211e75a1bbdde8e1",
+      "bytes": 117502486
+    },
+    "sequence-sums.npz": {
+      "sha256": "fe74ab921c284aa035794abb912825081de26e378db55855a49b26f3b80d4839",
+      "bytes": 378622
+    }
+  },
+  "seconds_after_input_verification": 152.56553239095956,
+  "peak_RSS_KiB": 2485596,
+  "selected_raw_features_sha256": "054192fe911d8c0bda47969b523a36f7c7301b6efde3023c704f471e65d62c86",
+  "inputs_unchanged_before_after": true,
+  "schema": {
+    "main": {
+      "X": "float32[N,30]",
+      "predictions": "float32[N,8,2]",
+      "y": "float32[N,2]",
+      "metadata": "int32[N,6]"
+    },
+    "feature_names": [
+      "event_i0px",
+      "event_i0bidvol",
+      "event_i0askvol",
+      "event_i0trade_px",
+      "event_i0trade_vol",
+      "event_i1px",
+      "event_i1vol",
+      "event_i1trade",
+      "rate_i0px_rows32",
+      "rate_i0px_rows256",
+      "rate_i0px_rows2048",
+      "rate_i0trade_vol_rows32",
+      "rate_i0trade_vol_rows256",
+      "rate_i0trade_vol_rows2048",
+      "log_since_i0px",
+      "log_since_i0trade_vol",
+      "log_since_i1px",
+      "step_fraction",
+      "phase_chunk2000",
+      "phase_chunk500",
+      "delta_i0p0",
+      "delta_i0p11",
+      "delta_i1p0",
+      "delta_i1p11",
+      "rms_delta_i0px",
+      "rms_delta_i1px",
+      "rms_held_i0px",
+      "changed_i0px_count",
+      "changed_i1px_count",
+      "cumulative_i0px_events"
+    ],
+    "prediction_names": [
+      "current_student4",
+      "strong4",
+      "fixed3",
+      "shallow_seed3",
+      "plain_seed3",
+      "plain_seed4",
+      "chunk500",
+      "shallow_seed4_auxiliary"
+    ],
+    "metadata_names": [
+      "cache_position",
+      "row_group",
+      "step",
+      "chain",
+      "fold",
+      "market_class_retrospective"
+    ],
+    "events": {
+      "metadata": "int32[M,8]",
+      "y": "float32[M,2]",
+      "student_prediction": "float32[M,2]",
+      "anchor_price_code_delta": "float32[M,2]",
+      "row_event_flags": "uint8[M,8]",
+      "is_scored": "bool[M]",
+      "anchor_is_scored": "bool[M]",
+      "anchor_model_delta": "float32[M,2]",
+      "anchor_price_code_sign": "int8[M,2]",
+      "anchor_model_sign": "int8[M,2]"
+    },
+    "event_metadata_names": [
+      "cache_position",
+      "row_group",
+      "step",
+      "anchor_step",
+      "offset",
+      "chain",
+      "fold",
+      "market_class_retrospective"
+    ],
+    "anchor_delta_coordinates": [
+      "i0_p0",
+      "i0_p11"
+    ],
+    "event_offsets": [
+      -32,
+      -8,
+      -1,
+      0,
+      1,
+      4,
+      16,
+      64
+    ],
+    "max_anchors_per_sequence": 64,
+    "member_deviations": "Derive predictions[:,3:7,:]-predictions[:,0:1,:] (8columns) without duplicated storage. Base prediction/confidence is derivable from predictions[:,0,:].",
+    "sequence_statistics": "float64[860,8,2,6], exact frozen fold_eval.sums; no pooled score computed here.",
+    "chain_Gram": {
+      "shape": [
+        250,
+        2,
+        261,
+        261
+      ],
+      "dtype": "float64",
+      "weight": "abs(clip(y_t,-2,2)), separately for each target",
+      "blocks": {
+        "intercept": [
+          0,
+          1
+        ],
+        "base7": [
+          1,
+          8
+        ],
+        "current211": [
+          8,
+          219
+        ],
+        "history30": [
+          219,
+          249
+        ],
+        "deviations10": [
+          249,
+          259
+        ],
+        "clipped_y2": [
+          259,
+          261
+        ]
+      },
+      "arithmetic": "Z.T @ (Z * target_weight[:,None]), float64, summed per sequence into its whole-chain matrix",
+      "normalization": "Current211 uses fixed same-fold checkpoint float32 mean/std; no validation-fitted normalization."
+    },
+    "class_usage": "Retrospective diagnostic only, not a causal feature or available serving input.",
+    "event_sampling": "Deterministic linspace over all observed joint i0price-code events in each sequence; selected anchors use whole-sequence event locations and are descriptive, not causal inputs."
+  },
+  "fits": 0,
+  "inference_runs": 0,
+  "pooled_metric_calls": 0,
+  "causality": "X uses rows through t with per-sequence resets; class/chain/labels and event-anchor sample are retrospective diagnostic metadata; masks applied after feature histories."
+}

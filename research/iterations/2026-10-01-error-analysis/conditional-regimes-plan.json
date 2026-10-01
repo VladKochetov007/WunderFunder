@@ -1,0 +1,32 @@
+{
+  "post_readout": true,
+  "purpose": "Describe whether existing quiet-period loss remains within retrospective classes and within matched chains; no causal identification.",
+  "known_exposed_findings": "Original class3 and marginal quiet-period deficits, negative fixed ridge probes.",
+  "source_sha256": "b7b5edc07a577d777d896f4ae08c4dbea9cf10ff5255df9cf47a671f98853269",
+  "model": "current_student4 existing GPU/AMP",
+  "normalizers": "Frozen global weighted clipped moments from analysis-01/results.json, no refitting or subgroup normalization",
+  "age_cuts": [
+    1,
+    4,
+    16,
+    64,
+    256,
+    1024
+  ],
+  "fresh_age_max_exclusive": 16,
+  "quiet_age_min": 64,
+  "outputs": [
+    "class x fold x all seven existing age bins additive loss and mass",
+    "matched chain fresh-vs-quiet conditional intensity, median/sign counts and pooled mass, all classes/folds"
+  ],
+  "paired_eligibility": "Each population has positive target weight for BOTH targets; entire chains never split.",
+  "new_fits": 0,
+  "new_scores": 0,
+  "new_inference": 0,
+  "resources": {
+    "threads": 2,
+    "memory_GiB_max": 4,
+    "seconds_max": 300,
+    "local_only": true
+  }
+}

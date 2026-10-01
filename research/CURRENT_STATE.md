@@ -4,7 +4,13 @@ Updated 1 October 2026 (Moscow). This is an index to the evidence; historical re
 
 **Publication preference:** the user has paused GitHub uploads. Subsequent research is stored locally and on beleriand only until the user explicitly resumes publication. Existing archive links below are historical; do not push new progress automatically.
 
-## Active continuation — strategic reset, 1 October
+## Active diagnosis — model errors, 1 October
+
+The user's latest direction is to analyze the forecast plateau before another architecture/seed sweep. The [error-analysis report](iterations/2026-10-01-error-analysis/report.md) uses existing coherent GPU/AMP OOF outputs on1,614,484 scored rows,860 sequences and250 exposed chains. Exact pooled WP is reproduced within8.3e-13. Class3 contributes57.70% of metric deficit versus44.55% of target-weight mass. Event age≥64 contributes36.01% versus25.92%; the quiet/fresh difference remains within99/117 paired class3 chains, so it is not only class composition. Coarse sequence/chunk positions track mass and observed-event responses do not support a broad slow-reaction diagnosis.
+
+Four fixed chain-cross-fitted q-ridge probes have positive fitting skills but negative heldout mean skills−0.564%,−2.208%,−2.906%,−3.076%. These are qSSE diagnostics, not forecast-WP changes; their failure does not establish irreducible noise. Additional fixed-coefficient training-SSE and conditional-regime breakdowns are explicitly post-readout, without refits. New forecast training, new ensemble search and GPU jobs:zero. [Statistical detail](iterations/2026-10-01-error-analysis/statistical-report.md), [observed-event limitations](iterations/2026-10-01-error-analysis/event-response-01/findings.md), [historical counterevidence](iterations/2026-10-01-error-analysis/historical-error-audit.md). Qualified student4 remains the serving artifact; no new public result or GitHub publication.
+
+## Completed continuation — strategic reset, 1 October
 
 The user requested continued research until a useful result and an explicit diagnosis of the plateau. The [strategy reset](iterations/2026-10-01-continuation/strategy-reset.md) supersedes automatic execution of the old next-research queue. Of the 52 overnight fits, 44 were head-only and only four were treatment parent fits (SAM/PLE, one seed, two folds). The search was narrower than the fit count suggests. State refresh is deprioritized. First full-recipe candidate: a wide one-layer distilled GRU with the existing causal teacher recipe, compared against the strong fixed-four ensemble as well as the feasible fixed-three fallback. A forecast-gradient diagnostic of outcome-dependent selection is a separate proposal; E103 tested mask AUC, not the eventual forecasting intervention. The first full-recipe result is now available below.
 
