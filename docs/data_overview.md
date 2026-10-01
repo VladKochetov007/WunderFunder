@@ -3,7 +3,7 @@
 Each row of the data is one moment in time for two trading instruments: `i0` and `i1`.
 There are 112 input features: orderbook- and trades-related features for both instruments plus eight additional features.
 
-The task is to predict `t0` and `t1`, two anon indicators of the future price movement of instument `i0`. Submissions are scored with **Weighted Pearson** correlation (WP), computed per sequence on a subset of rows marked `is_scored` and averaged over sequences.
+The task is to predict `t0` and `t1`, two anon indicators of the future price movement of instument `i0`. Submissions are scored with **Global Weighted Pearson** correlation (WP), pooled over all rows selected by `need_prediction AND is_scored`, separately for each target and then averaged across the two targets.
 
 
 ## Data files
@@ -143,10 +143,10 @@ For validation the mask is given (`is_scored` / `valid_mask.parquet`) so that
 you can reproduce the score locally. 
 For test it is hidden and applied by the platform after inference. Your model therefore cannot know which rows count: return a prediction on every required row as if it were scored.
 
-### The metric: Weighted Pearson correlation
-The metric is **Weighted Pearson correlation (WP)**. Higher is better.
+### The metric: Global Weighted Pearson correlation
+The metric is **Global Weighted Pearson correlation (WP)**. Higher is better.
 
-For each 20,000-row sequence, calculate WP separately for `t0` and `t1`,
+Calculate WP separately for `t0` and `t1` over the entire evaluated dataset,
 using only rows where `need_prediction AND is_scored` is true. On those rows,
 both target and prediction values are clipped to `[-2.0, 2.0]`:
 
@@ -167,12 +167,12 @@ $$
 \bar{\hat y}_w=\frac{\sum_i w_i \hat y_i}{\sum_i w_i}.
 $$
 
-If `B` is the set of eligible sequences, the final score is
+The final score is the mean of the two global target correlations:
 
 $$
-s_b=\frac{\rho_{b,0,w}+\rho_{b,1,w}}{2},\qquad
-S=\frac{1}{|B|}\sum_{b\in B}s_b.
+S=\frac{\rho_{t0,w}+\rho_{t1,w}}{2}.
 $$
 
-Each eligible sequence has equal weight in the final score. See the baseline
+All selected moments are pooled across sequences; scores are not averaged
+by sequence. See the baseline
 kit and scorer documentation (`METRIC.md`) for the full evaluation specification.

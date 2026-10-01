@@ -8,7 +8,7 @@ from hypothesis import given, settings
 from hypothesis import strategies as st
 
 import utils as reference
-from wnn.metric import block_scores, score, weighted_pearson_rows
+from wnn.metric import block_aggregate_score, block_scores, score, weighted_pearson_rows
 
 T = reference.SEQUENCE_LENGTH
 
@@ -72,7 +72,7 @@ def test_batch_matches_reference_accumulator_including_ineligible_blocks():
     for t, p, m in blocks:
         acc.add(t, p, m)
     want = acc.result()
-    got = score(targets, predictions, mask)
+    got = block_aggregate_score(targets, predictions, mask)
     assert got["eligible_blocks"] == want["eligible_blocks"] == 3
     assert got["weighted_pearson"] == pytest.approx(want["weighted_pearson"], abs=1e-9)
     assert got["t0"] == pytest.approx(want["t0"], abs=1e-9)
@@ -105,3 +105,78 @@ def test_score_rejects_selected_warmup_rows():
     mask[10] = True
     with pytest.raises(ValueError, match="warm-up"):
         score(targets[None], predictions[None], mask[None])
+
+
+def test_official_score_pools_ineligible_blocks():
+    targets = np.empty((2, T, 2), dtype=np.float32)
+    targets[0] = -0.3
+    targets[1] = 0.3
+    mask = np.ones((2, T), dtype=bool)
+    mask[:, : reference.WARMUP] = False
+    got = score(targets, targets, mask)
+    assert got["metric_id"] == "global_wp_clip2_v1"
+    assert got["eligible_blocks"] == 0
+    assert got["weighted_pearson"] == pytest.approx(1.0)
+    assert np.isnan(block_scores(targets, targets, mask)).all()
+    with pytest.raises(ValueError, match="no eligible blocks"):
+        block_aggregate_score(targets, targets, mask)
+
+
+def test_official_score_matches_pooled_centered_reference():
+    rng = np.random.default_rng(71)
+    blocks = [_random_block(rng, scored_frac=f) for f in (0.4, 0.01, 0.2)]
+    blocks[2][0][:, 1] = np.abs(blocks[2][0][:, 1])
+    targets, predictions, mask = [np.stack([block[k] for block in blocks]) for k in range(3)]
+    got = score(targets, predictions, mask)
+    want = [
+        reference.weighted_pearson(targets[..., k][mask], predictions[..., k][mask])
+        for k in range(2)
+    ]
+    assert got["t0"] == pytest.approx(want[0], abs=1e-12)
+    assert got["t1"] == pytest.approx(want[1], abs=1e-12)
+    assert got["weighted_pearson"] == pytest.approx(np.mean(want), abs=1e-12)
+    assert (
+        abs(
+            got["weighted_pearson"]
+            - block_aggregate_score(targets, predictions, mask)["weighted_pearson"]
+        )
+        > 1e-3
+    )
+
+
+def test_unselected_nonfinite_values_are_ignored():
+    targets = np.full((1, T, 2), np.nan, dtype=np.float32)
+    predictions = np.full_like(targets, np.inf)
+    mask = np.zeros((1, T), dtype=bool)
+    mask[:, reference.WARMUP : reference.WARMUP + 2] = True
+    targets[mask] = [[-1, -2], [1, 2]]
+    predictions[mask] = targets[mask]
+    assert score(targets, predictions, mask)["weighted_pearson"] == pytest.approx(1.0)
+    np.testing.assert_allclose(
+        weighted_pearson_rows(targets[..., 0], predictions[..., 0], mask), 1.0
+    )
+
+
+@pytest.mark.parametrize("which", ["target", "prediction"])
+@pytest.mark.parametrize("value", [np.nan, np.inf, -np.inf])
+def test_score_rejects_raw_selected_nonfinite(which, value):
+    targets = np.ones((1, T, 2), dtype=np.float32)
+    predictions = targets.copy()
+    mask = np.zeros((1, T), dtype=bool)
+    mask[0, reference.WARMUP] = True
+    (targets if which == "target" else predictions)[0, reference.WARMUP, 0] = value
+    with pytest.raises(ValueError, match="nonfinite selected"):
+        score(targets, predictions, mask)
+    with pytest.raises(ValueError, match="nonfinite selected"):
+        block_scores(targets, predictions, mask)
+
+
+def test_empty_selection_raises_but_zero_weight_scores_zero():
+    targets = np.zeros((1, T, 2), dtype=np.float32)
+    predictions = np.ones_like(targets)
+    mask = np.zeros((1, T), dtype=bool)
+    with pytest.raises(ValueError, match="no selected rows"):
+        score(targets, predictions, mask)
+    mask[:, reference.WARMUP :] = True
+    got = score(targets, predictions, mask)
+    assert got["weighted_pearson"] == got["t0"] == got["t1"] == 0.0

@@ -22,11 +22,10 @@ sequences.
 
 ## Metric
 
-The metric is Weighted Pearson correlation (WP), using weights
-`abs(clipped target)`
-on rows selected by `need_prediction AND is_scored`. Compute it separately
-for each target within a sequence, then average the two target scores and
-all eligible sequence scores equally. On the selected rows, both targets and
+The metric is **Global Weighted Pearson correlation (WP)**, using weights
+`abs(clipped target)` on rows selected by `need_prediction AND is_scored`.
+Pool all selected rows across sequences, compute correlation separately for
+each target, then average the two target scores. On the selected rows, both targets and
 predictions are clipped to `[-2.0, 2.0]`, and weights use the clipped targets.
 Higher is better.
 
@@ -45,8 +44,10 @@ See [METRIC.md](METRIC.md) for the full scoring reference.
 
 ## Baseline
 
-The included vanilla GRU baseline scores **0.589595 WP** on the complete
-validation set. It runs statefully on CPU with one ONNX Runtime compute thread.
+The included vanilla GRU baseline previously reported **0.589595** under the
+legacy block metric; that value is not a Global WP score. It runs statefully
+on CPU with one ONNX Runtime compute thread. Use the corrected scorer below
+to calculate Global WP.
 
 ```bash
 python baseline/solution.py --validation datasets/valid.parquet
@@ -74,7 +75,7 @@ Package the solution and its required model files in one ZIP, with
 - **Time:** 60 minutes for the entire test set.
 - **Submission size:** at most 20 MB for the uploaded ZIP.
 
-The environment is Linux with Python 3.10, local SSD storage and no internet
+The environment is Linux with Python 3.11, local SSD storage and no internet
 access.
 
 ## Website pages
