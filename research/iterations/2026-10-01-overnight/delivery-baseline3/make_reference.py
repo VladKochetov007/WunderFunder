@@ -1,0 +1,18 @@
+"""Archived native fixed3 predictions from original ZIP; raw inputs only."""
+from pathlib import Path
+import argparse,hashlib,json,sys,tempfile,zipfile
+import numpy as np
+p=argparse.ArgumentParser();p.add_argument('--zip',type=Path,required=True);p.add_argument('--raw',type=Path,required=True);p.add_argument('--level',choices=['v2','avx2','v3'],required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+assert not a.output.with_suffix('.json').exists();a.output.parent.mkdir(parents=True,exist_ok=True)
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+with tempfile.TemporaryDirectory(prefix='baseline3-reference-')as tmp:
+ d=Path(tmp)
+ with zipfile.ZipFile(a.zip)as z:
+  assert all(not Path(n).is_absolute()and'..'not in Path(n).parts for n in z.namelist());z.extractall(d)
+ sys.path.insert(0,str(d/a.level));import wnn_cpp
+ members=json.loads((d/'members.json').read_text());weights=[dict(np.load(d/members[i]['weights'],allow_pickle=False))for i in (1,2,3)];e=wnn_cpp.Ensemble(weights,[1/3]*3,half_weights=True)
+ raw=np.load(a.raw,mmap_mode='r');n=20000 if a.level=='v3' else 512;real=np.stack([e.run(np.ascontiguousarray(seq[:n]))for seq in raw])
+ rng=np.random.default_rng(823645);s=rng.normal(0,1,(2048,112)).astype(np.float32);s[:2]=0;s[2]=-0.;s[10:20]=s[9];s[50,48:52]=[-5.19,-5.189999,5.189999,5.19];s[500:510]=1
+ synth=e.run(s);np.save(a.output.with_name(a.output.name+'-real.npy'),real);np.save(a.output.with_name(a.output.name+'-synthetic.npy'),synth)
+ r={'status':'PASS','source_zip_sha256':sha(a.zip),'native_sha256':sha(wnn_cpp.__file__),'level':a.level,'members':[members[i]for i in (1,2,3)],'coefficients':[1/3]*3,'real_rows':int(real.shape[0]*real.shape[1]),'synthetic_rows':len(s),'real_prediction_sha256':hashlib.sha256(real.tobytes()).hexdigest(),'synthetic_prediction_sha256':hashlib.sha256(synth.tobytes()).hexdigest(),'raw_sha256':sha(a.raw),'targets_read':False,'WP_queries':0}
+ a.output.with_suffix('.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(r))
