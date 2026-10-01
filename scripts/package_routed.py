@@ -44,6 +44,8 @@ def main() -> None:
     parser.add_argument("--class-slice", default="17,21")
     parser.add_argument("--from-row", type=int, default=50)
     parser.add_argument("--native-from", type=Path, required=True)
+    parser.add_argument("--solution", type=Path, default=ROOT / "submission" / "solution_routed.py")
+    parser.add_argument("--precision", choices=("f32", "f16", "i16"), default=None)
     args = parser.parse_args()
 
     pkg = ROOT / "submissions" / args.name / "pkg"
@@ -54,7 +56,7 @@ def main() -> None:
         raise SystemExit(f"{args.native_from} needs at least v2 and v3 builds")
     for lvl in levels:
         shutil.copytree(args.native_from / lvl, pkg / lvl)
-    shutil.copy(ROOT / "submission" / "solution_routed.py", pkg / "solution.py")
+    shutil.copy(args.solution, pkg / "solution.py")
 
     files: dict[str, str] = {}
     groups = {}
@@ -85,6 +87,9 @@ def main() -> None:
     zp = ROOT / "submissions" / args.name / "submission.zip"
     zp.unlink(missing_ok=True)
     content = ["solution.py", "routing.json", "detector.npz", *levels, *files.values()]
+    if args.precision:
+        (pkg / "precision.txt").write_text(args.precision + "\n")
+        content.append("precision.txt")
     subprocess.run([sys.executable, "-m", "zipfile", "-c", str(zp), *content], cwd=pkg, check=True)
     print(zp, zp.stat().st_size, json.dumps(route), {g: len(m) for g, m in groups.items()})
 
