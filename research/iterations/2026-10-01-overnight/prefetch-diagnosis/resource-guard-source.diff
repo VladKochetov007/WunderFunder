@@ -1,0 +1,56 @@
+--- driver.v1.py
++++ driver.v2.py
+@@ -37,9 +37,9 @@
+ 
+ 
+ def gpu_state():
+-    out = subprocess.check_output(['nvidia-smi', '--id=6', '--query-gpu=uuid,memory.free',
++    out = subprocess.check_output(['nvidia-smi', '--id=6', '--query-gpu=uuid,memory.free,memory.used',
+                                    '--format=csv,noheader,nounits'], text=True, timeout=2).strip().split(',')
+-    gpu = {'uuid': out[0].strip(), 'free_MiB': int(out[1]), 'processes': []}
++    gpu = {'uuid': out[0].strip(), 'free_MiB': int(out[1]), 'total_used_MiB': int(out[2]), 'processes': []}
+     apps = subprocess.check_output(['nvidia-smi', '--query-compute-apps=gpu_uuid,pid,used_memory',
+                                     '--format=csv,noheader,nounits'], text=True, timeout=2)
+     for line in apps.splitlines():
+@@ -79,8 +79,8 @@
+     os.sched_setaffinity(0, {38})
+     group_path = Path('/proc/self/cgroup').read_text().strip().split(':', 2)[2]
+     cg = Path('/sys/fs/cgroup') / group_path.lstrip('/')
+-    limits = {key: (cg / key).read_text().strip() for key in ['memory.max', 'memory.swap.max']}
+-    assert limits == {'memory.max': str(4 << 30), 'memory.swap.max': '0'}
++    limits = {key: (cg / key).read_text().strip() for key in ['memory.max', 'memory.swap.max', 'cpu.max']}
++    assert limits == {'memory.max': str(4 << 30), 'memory.swap.max': '0', 'cpu.max': '400000 100000'}
+     for key in ['PYTORCH_ALLOC_CONF', 'PYTORCH_CUDA_ALLOC_CONF']:
+         assert os.environ.get(key, '') == ''
+     out = HERE / 'execution'
+@@ -102,7 +102,7 @@
+         for arm in ['per_epoch', 'reuse']:
+             verify_sources()
+             prelaunch = gpu_state()
+-            assert prelaunch['free_MiB'] >= 6144 and not prelaunch['processes'], prelaunch
++            assert prelaunch['free_MiB'] >= 6144 and prelaunch['total_used_MiB'] <= 5632 and not prelaunch['processes'], prelaunch
+             result = out / (arm + '.json')
+             log = out / (arm + '.log')
+             sample_path = out / (arm + '-samples.jsonl')
+@@ -121,7 +121,7 @@
+                 job = {'arm': arm, 'started_UTC': now(), 'argv': argv, 'identity': owner,
+                        'prelaunch': prelaunch, 'environment': {k: env[k] for k in ['CUDA_VISIBLE_DEVICES',
+                        'OMP_NUM_THREADS', 'MKL_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'CUBLAS_WORKSPACE_CONFIG']},
+-                       'peaks': {'GPU_MiB': 0, 'process_RSS_KiB': 0, 'process_HWM_KiB': 0, 'cgroup_memory_bytes': 0},
++                       'peaks': {'GPU_MiB': 0, 'GPU_total_MiB': 0, 'process_RSS_KiB': 0, 'process_HWM_KiB': 0, 'cgroup_memory_bytes': 0},
+                        'termination': None}
+                 jobs.append(job)
+                 signal.setitimer(signal.ITIMER_REAL, min(120., max(.001, 300. - (arm_start - start))))
+@@ -139,10 +139,10 @@
+                                       'cgroup_memory_bytes': cg_bytes}
+                             samples.write(json.dumps(sample) + '\n'); samples.flush()
+                             peaks = job['peaks']
+-                            for key, value in [('GPU_MiB', gpu_mib), ('process_RSS_KiB', mem.get('VmRSS', 0)),
++                            for key, value in [('GPU_MiB', gpu_mib), ('GPU_total_MiB', gpu['total_used_MiB']), ('process_RSS_KiB', mem.get('VmRSS', 0)),
+                                                ('process_HWM_KiB', mem.get('VmHWM', 0)), ('cgroup_memory_bytes', cg_bytes)]:
+                                 peaks[key] = max(peaks[key], value)
+-                            if foreign or gpu_mib > 5632 or cg_bytes > (4 << 30):
++                            if foreign or gpu_mib > 5632 or gpu['total_used_MiB'] > 5632 or cg_bytes > (4 << 30):
+                                 job['termination'] = 'foreign GPU occupancy or resource limit'
+                                 terminate_owned(proc, owner)
+                                 raise RuntimeError(job['termination'])

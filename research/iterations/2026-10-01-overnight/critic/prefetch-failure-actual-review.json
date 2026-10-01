@@ -1,0 +1,63 @@
+{
+  "status": "PASS_FAILURE_RECEIPT_AUDIT_RESOURCE_GATE_FAILED",
+  "UTC": "2026-10-01T06:11:50.635883+00:00",
+  "allocation_sha256": "e612a599b9cb49ea9696300c47d622db1c08ac81302cbe5233bbf543dec4c4fc",
+  "plan_sha256": "01d635d2d79230c78db6b2cfa72ca49a88cd1abe37ee49e92f82e046951f92d8",
+  "freeze_sha256": "5c7916d89648934582b6c0adfc099b2cd17878ffec83831e357f61ba112299a9",
+  "result_sha256": "b54d03df118eec94eb6f1d1610614170bbddd2e4b23b25ee788b59692cbb9148",
+  "release_sha256": "03154e5676e758839ce8a98f1a02509ae25af769195118114e6ecb44f5e92137",
+  "outcome_sha256": "2ec9697fe617a10fde5392e6fe587a003447611a8c5b0f0f16f139b84ced5949",
+  "resource_gate_PASS": false,
+  "mechanism_comparison_available": false,
+  "only_arm": "per_epoch",
+  "owned_process": {
+    "pid": 31151,
+    "start_ticks": 500198488,
+    "pgrp": 31151
+  },
+  "exit_code": -9,
+  "last_breach_sample_elapsed_seconds": 9.532829239033163,
+  "arm_finish_seconds": 10.353763653896749,
+  "driver_seconds": 10.875005941838026,
+  "GPU_limit_MiB": 5632,
+  "max_sampled_own_GPU_MiB": 13454,
+  "max_sampled_total_GPU_MiB": 13467,
+  "sampled_total_excess_MiB": 7835,
+  "host_cgroup_max_sampled_bytes": 2876067840,
+  "host_memory_events_all_zero": true,
+  "actual_cgroup_limits": {
+    "memory.max": "4294967296",
+    "memory.swap.max": "0",
+    "cpu.max": "400000 100000"
+  },
+  "sample_count": 12,
+  "no_foreign_compute_PID_observed": true,
+  "release_verified_from_receipts": true,
+  "checks": [
+    "Exact frozen sources, allocation, environment, outer and inner argv",
+    "All nine actual evidence files match preserved byte hashes",
+    "PID/start_ticks/process group match every sample including threshold breach",
+    "First observed breach is last sample; no earlier sample over limit",
+    "Unchanged driver signals only identity-matched owned group; exit-9 and released PID/scope consistent with stop",
+    "No epoch record, control completion, NPZ trace, reuse job or comparator output",
+    "Host samples and memory events remain within cgroup limit; failure specifically concerns observed GPU memory",
+    "Failure and stopped scope preserved, no retry or scientific counter increase"
+  ],
+  "claim_limits": [
+    "GPU budget was exceeded substantially before sampled monitor terminated the arm. This is not budget compliance or a successful bounded GPU run.",
+    "NVML device/process queries are not atomic; observed maxima are not continuous true maxima.",
+    "No completed epoch boundary exists, so this cannot demonstrate multi-epoch stream accumulation or compare per_epoch with reuse.",
+    "Async queued transfers, checksum reductions or tensor retention remain source-level hypotheses; no cause established.",
+    "Identity checks plus source/exit/release evidence are not an independent OS signal audit.",
+    "CPU affinity is bound by taskset argv and unchanged probe source; no per-TID affinity snapshot was collected."
+  ],
+  "reviewer_attempts": [
+    "First receipt-only audit passed source/hash/resource/sample checks then stopped at local Python ISO parser rejecting trailing Z; no report was written.",
+    "Second receipt-only audit normalizes Z to+00:00, verifies timing/argv/release and repeats source/evidence/sample checks. No probe was rerun."
+  ],
+  "GPU_executed_by_reviewer": false,
+  "new_inference_or_training": false,
+  "competition_inputs_or_targets_read": false,
+  "new_WP_queries": 0,
+  "followup_authorized": false
+}

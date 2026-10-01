@@ -1,0 +1,79 @@
+{
+  "status": "CLOSED_DIAGNOSTIC_FAILURE",
+  "failure": "RuntimeError('foreign GPU occupancy or resource limit')",
+  "started_UTC": "2026-10-01T06:05:43.655359+00:00",
+  "finished_UTC": "2026-10-01T06:05:54.530341+00:00",
+  "seconds": 10.875005941838026,
+  "allocation_sha256": "e612a599b9cb49ea9696300c47d622db1c08ac81302cbe5233bbf543dec4c4fc",
+  "plan_sha256": "01d635d2d79230c78db6b2cfa72ca49a88cd1abe37ee49e92f82e046951f92d8",
+  "driver_sha256": "d1d3fa55760248c97c91531cdf21f7537dcd6890f114677c58d792dc4c88ce1d",
+  "jobs": [
+    {
+      "arm": "per_epoch",
+      "started_UTC": "2026-10-01T06:05:44.178449+00:00",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/prefetch-diagnosis/probe.py",
+        "--arm",
+        "per_epoch",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/prefetch-diagnosis/allocation.json",
+        "--allocation-sha256",
+        "e612a599b9cb49ea9696300c47d622db1c08ac81302cbe5233bbf543dec4c4fc",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/prefetch-diagnosis/execution/per_epoch.json"
+      ],
+      "identity": {
+        "pid": 31151,
+        "start_ticks": 500198488,
+        "pgrp": 31151,
+        "state": "R"
+      },
+      "prelaunch": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "free_MiB": 15973,
+        "total_used_MiB": 1,
+        "processes": []
+      },
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "6",
+        "OMP_NUM_THREADS": "4",
+        "MKL_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "CUBLAS_WORKSPACE_CONFIG": ":4096:8"
+      },
+      "peaks": {
+        "GPU_MiB": 13454,
+        "GPU_total_MiB": 13467,
+        "process_RSS_KiB": 3188616,
+        "process_HWM_KiB": 3188616,
+        "cgroup_memory_bytes": 2876067840
+      },
+      "termination": "foreign GPU occupancy or resource limit",
+      "exit_code": -9,
+      "finished_UTC": "2026-10-01T06:05:54.529529+00:00",
+      "seconds": 10.353763653896749,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sample_sha256": "31ad6edb8bca5e4111b4a6a84025c3e0d867871327b0cb835aab4fe42dce2687",
+      "process_released": true
+    }
+  ],
+  "cgroup": "/user.slice/user-1061.slice/user@1061.service/app.slice/wnn-prefetch-diagnosis.scope",
+  "cgroup_limits": {
+    "memory.max": "4294967296",
+    "memory.swap.max": "0",
+    "cpu.max": "400000 100000"
+  },
+  "cgroup_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+  "comparison": null,
+  "competition_inputs_read": false,
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "attempts_per_arm": 1,
+  "no_retry": true,
+  "no_production_change_authorized": true,
+  "monitor_limits": "cgroup enforces aggregate host memory and no swap; NVML sampled at 0.5s plus bounded query latency may miss between-sample GPU peaks; natural allocator peak checked only at equal epoch boundaries without changing allocator behavior. SIGALRM deadline depends on OS scheduling. Signals require owned PID/start/pgrp."
+}

@@ -1,0 +1,25 @@
+{
+  "UTC": "2026-10-01T06:05:43.590671+00:00",
+  "systemd_run_PID": 31142,
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--scope",
+    "--unit=wnn-prefetch-diagnosis",
+    "-p",
+    "MemoryMax=4G",
+    "-p",
+    "MemorySwapMax=0",
+    "-p",
+    "CPUQuota=400%",
+    "taskset",
+    "-c",
+    "38",
+    "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/prefetch-diagnosis/driver.py",
+    "--allocation",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/prefetch-diagnosis/allocation.json",
+    "--allocation-sha256",
+    "e612a599b9cb49ea9696300c47d622db1c08ac81302cbe5233bbf543dec4c4fc"
+  ]
+}

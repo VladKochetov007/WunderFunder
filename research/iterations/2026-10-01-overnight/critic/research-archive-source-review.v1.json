@@ -1,0 +1,27 @@
+{
+  "status": "REVIEW_PENDING_FULL_BUNDLE_GUARD",
+  "utc": "2026-10-01T06:19:50.591975+00:00",
+  "scope": "Source-only review. No packaging, extraction, artifact decoding, model/data/metric execution.",
+  "source_sha256": "489f23e33d1f705c70894b74732cc7c645ea9e3e61f2cf011c187ea8e6387403",
+  "correctness_checks": [
+    "Root path resolves to repository root; all P regular files except bytecode/.DS_Store are included. Directory and file symlinks rejected.",
+    "Exact existing 52-run/224-file manifest verifies opaque source size/hash before inclusion.",
+    "Archive names reject absolute paths, traversal and duplicates; tar entries are re-opened and required regular, unique and exactly equal to expected inventory plus internal manifest.",
+    "Every archived file content is streamed through SHA256 before publishing final filename; internal/external inventory bytes agree.",
+    "Bundle, RESTORE.md and three delivery ZIPs are included without executing model or reading competition data.",
+    "Existing output/temp/inventory/receipt paths are refused; intended workflow is one invocation after all source/result files close."
+  ],
+  "blocking_findings": [
+    {
+      "id": "ARCHIVE-BUNDLE-01",
+      "finding": "git bundle list-heads plus git bundle verify in the populated repository accepts an incremental bundle whose prerequisite commits are already present.",
+      "impact": "RESTORE.md instructs clone in an empty directory. Such a bundle can pass current checks but fail standalone restoration.",
+      "required_fix": "Reject all prerequisite headers, or verify the bundle in a newly initialized empty temporary repository. Keep current HEAD binding."
+    }
+  ],
+  "nonblocking_limits": [
+    "The byte inventory authenticates the packed snapshot, not that all current files are committed. Run after final source commit and record the full HEAD as planned.",
+    "This research backup excludes organizer dataset bodies, large external prediction caches and automatic Python/CUDA environment recreation.",
+    "No generated packager execution was requested or performed. Independent post-pack byte audit remains required."
+  ]
+}

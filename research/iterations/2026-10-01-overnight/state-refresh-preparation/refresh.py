@@ -1,0 +1,70 @@
+"""Generated-test prototype only. Does not import the actual trainer or data."""
+from contextlib import nullcontext
+import torch
+
+
+def detached_copy(state):
+    if state is None:return None
+    if isinstance(state,tuple):return tuple(detached_copy(x) for x in state)
+    return state.detach().clone()
+
+
+def replay_state(model, forward, incoming, *, context=nullcontext, cuda_devices=()):
+    """Replay a fixed supplied chunk under current weights without observable RNG/buffer drift.
+
+    `forward(model, state)` must only invoke the declared deterministic forward.
+    No optimizer, scaler, EMA, scheduler or loss is accepted here. Parameter-writing
+    forwards are unsupported. Buffers are restored on exceptions/mutations; mutation
+    raises instead of being silently accepted. Training/eval mode is not changed.
+    """
+    registries=[(module,dict(module._buffers)) for module in model.modules()]
+    buffers={name:(buf,buf.detach().clone()) for name,buf in model.named_buffers()}
+    try:
+        with torch.random.fork_rng(devices=list(cuda_devices)), torch.no_grad(), context():
+            cpu_rng=torch.get_rng_state().clone()
+            cuda_rng={d:torch.cuda.get_rng_state(d).clone() for d in cuda_devices}
+            _,state=forward(model,detached_copy(incoming))
+            result=detached_copy(state)
+            assert torch.equal(cpu_rng,torch.get_rng_state()),'stochastic replay unsupported'
+            assert all(torch.equal(v,torch.cuda.get_rng_state(d)) for d,v in cuda_rng.items()),'stochastic replay unsupported'
+            assert all(set(module._buffers)==set(old) and all(module._buffers[k] is v for k,v in old.items()) for module,old in registries),'buffer registry mutation unsupported'
+            assert all(torch.equal(buf,old) for buf,old in buffers.values()),'buffer-mutating replay unsupported'
+            return result
+    finally:
+        with torch.no_grad():
+            for module,old in registries:
+                if set(module._buffers)!=set(old) or any(module._buffers[k] is not v for k,v in old.items()):
+                    module._buffers.clear();module._buffers.update(old)
+            for buf,old in buffers.values():
+                if not torch.equal(buf,old):buf.copy_(old)
+
+
+def refreshed_carry(model, forward, incoming, stale, *, update_applied, retain,
+                    context=nullcontext, cuda_devices=()):
+    """Both arms replay on successful updates; control discards, treatment keeps.
+
+    AMP success must be supplied by an independently verified caller. A skipped
+    update performs no replay and retains the original detached carried state.
+    This helper never changes the caller's incoming or stale tensor storage.
+    """
+    if not update_applied:return detached_copy(stale)
+    replayed=replay_state(model,forward,incoming,context=context,cuda_devices=cuda_devices)
+    return replayed if retain else detached_copy(stale)
+
+
+def discrepancy(stale_outputs, refreshed_outputs, reference_outputs, floor=1e-3):
+    """Two-target output RMS discrepancy, aggregated equally across batch/time/targets.
+
+    No targets, Pearson weights, score masks, clipping, or calibration are used.
+    Float64 reductions make the descriptive thresholds independent of FP16 sums.
+    """
+    a,b,r=[x.detach().double() for x in (stale_outputs,refreshed_outputs,reference_outputs)]
+    assert a.shape==b.shape==r.shape and a.shape[-1]==2
+    assert all(torch.isfinite(x).all() for x in (a,b,r))
+    scale=max(float(r.square().mean().sqrt()),floor)
+    es=float((a-r).square().mean().sqrt())/scale
+    er=float((b-r).square().mean().sqrt())/scale
+    return {'reference_RMS':float(r.square().mean().sqrt()),'scale':scale,
+            'stale_discrepancy':es,'refresh_discrepancy':er,
+            'relative_reduction':1-er/es if es>0 else None,
+            'half_reduction':bool(es>0 and er<=.5*es)}

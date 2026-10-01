@@ -1,10 +1,10 @@
 {
   "schema": "wunder-delivery-claim-ledger-v1",
-  "created_utc": "2026-10-01T05:47:17.488733+00:00",
+  "created_utc": "2026-10-01T06:22:30.899759+00:00",
   "status": "DRAFT_FORECAST_SEARCH_CLOSED_AWAITING_V1_RUNTIME_AND_FINAL_SELECTION",
   "evidence_completed_review_cutoff_utc": "2026-10-01T05:40:51.359971+00:00",
   "report_path": "research/iterations/2026-10-01-overnight/delivery-report.draft.md",
-  "report_sha256": "c57ee58b57e6551a1602a866254a1c700e72c7c41b725b5dc0337b2f945f6bb3",
+  "report_sha256": "eab68a852558646f1c8c14b2c515052e0f76d22e3c2a40d2e55cca4e591fcdb9",
   "scope": {
     "new_forecast_fits": 0,
     "new_metric_queries": 0,
@@ -22,7 +22,8 @@
       "started": 36,
       "completed": 36
     },
-    "missing_report_evidence_links": []
+    "missing_report_evidence_links": [],
+    "prefetch_outcome_result_release_hashes_match": true
   },
   "claims": [
     {
@@ -73,7 +74,7 @@
     },
     {
       "id": "C03",
-      "claim_ru": "Исторический public V1 0.6641 сохранён; exposed local fixed4 H2 0.7023672255138177 и fixed3 0.7017424296043642 не являются public rank.",
+      "claim_ru": "Исторический public V1 0.6641 сохранён; reconstructed GPU exposed-fold fixed4 H2 0.7023672255138177 и fixed3 0.7017424296043642 — не полные native-ZIP OOF-баллы и не public rank.",
       "status": "historical_public_plus_local",
       "numbers": {
         "historical_public_V1": 0.6641,
@@ -534,15 +535,65 @@
     },
     {
       "id": "C19",
-      "claim_ru": "Следующая agenda: streamreuse resource diagnostic; state-refresh newtraininghypothesis withcheapfalsifier; conditionalAVX2+F16C. Generated-onlyprefetchpilot preparation,noexecution outcome.",
-      "status": "future_planning_only",
+      "claim_ru": "Generated-onlyprefetchpilot закрыт resourceFAIL: ownGPU13454MiB,total13467MiB противлимита5632; первыйarm killed10.3538s,epochrecords0,reuse/comparison не было.",
+      "status": "CLOSED_RESOURCE_FAIL_NO_COMPARISON_INDEPENDENTLY_AUDITED",
       "sources": [
-        "next-research-agenda.md"
+        "next-research-agenda.md",
+        "prefetch-diagnosis/outcome.json",
+        "prefetch-diagnosis/execution/result.json",
+        "prefetch-diagnosis/release.json",
+        "critic/prefetch-failure-actual-review.json"
+      ],
+      "numbers": {
+        "own_GPU_peak_MiB": 13454,
+        "total_GPU_peak_MiB": 13467,
+        "allocated_GPU_limit_MiB": 5632,
+        "first_arm_seconds": 10.353763653896749,
+        "first_arm_exit": -9,
+        "epoch_boundary_records": 0,
+        "sample_count": 12,
+        "forecast_fits_added": 0,
+        "WP_queries_added": 0
+      },
+      "limits": [
+        "Resourcebudget violation disclosed; no boundedresource successclaim.",
+        "No reusearm,exactparity or usefulness comparison; mechanismunresolved.",
+        "Sampled non-atomicNVML query cannot attributecause tostreamidentity/reductions/queuing.",
+        "No retry or productiontrainer mutation.",
+        "GPU/process release andresourcefailure independentlyaudited.",
+        "Forecastsearch totals52fits/48OOF/36WP unchanged."
+      ]
+    },
+    {
+      "id": "C20",
+      "claim_ru": "State-refresh остаётся source-onlynextsessionpreparation плюс generatedCPUchecks; нет выделенного actualdata trainer/forecast/metric.",
+      "status": "PREPARATION_ONLY_NOT_ALLOCATED",
+      "sources": [
+        "state-refresh-preparation/README.md",
+        "state-refresh-preparation/generated-cpu-result.json",
+        "next-research-agenda.md",
+        "state-refresh-preparation/plan.json",
+        "critic/state-refresh-preparation-review.json"
       ],
       "limits": [
-        "No allocation inferred for futureforecast mechanisms.",
-        "No empiricaldata/forecast/quality resourcepilot result atthissnapshot.",
-        "EngineeringGPUmemory result would not imply forecastgain."
+        "GeneratedCPU pass не CUDA/fusedAMP validation или predictiveevidence.",
+        "Futurediagnostic would counttrainingattempt if laterauthorized; no automaticallocation.",
+        "ConditionalAVX2+F16C agenda remainsfutureengineering.",
+        "IndependentpreparationreviewPASS; fulladapter/CUDAfusedskip notimplemented.",
+        "Four reset-boundary probes have structurally exact local/fullprefix replay; reportseparately from12non-reset probes."
+      ]
+    },
+    {
+      "id": "C21",
+      "claim_ru": "Finalresearchscreens figure displays8existingforecast comparisons andconditionalCI fromsavedJSON, adds0WP/bootstrap.",
+      "status": "DESCRIPTIVE_EXISTING_RESULTS_PLOT",
+      "sources": [
+        "final-research-screens-inputs.json",
+        "final-research-screens.png",
+        "final-research-screens.svg"
+      ],
+      "limits": [
+        "No finaldeliveryselection or hiddenconfirmation fromplot."
       ]
     }
   ],
@@ -2173,7 +2224,7 @@
     {
       "path": "delivery-staging-manifest.json",
       "exists": true,
-      "sha256": "f80401f0510aba72691676be4c9d169b22e3ea2493d9fb272d1ff2c8661f6a7e"
+      "sha256": "d603e379ae8eadf5414d201535d5aa43f4fcf3110df025e6318967a4c4eeac75"
     },
     {
       "path": "ensemble/actual-fit-check-failure-01.json",
@@ -2246,6 +2297,21 @@
       "sha256": "d7ea60db69a86ce84b57456dc230225f2e0fb17c092a7289d3b98e29ca57169b"
     },
     {
+      "path": "final-research-screens-inputs.json",
+      "exists": true,
+      "sha256": "1e2f50353f1c0bf161d53e76630999fe54c703dd766860f7ae8170bf99f6b7ce"
+    },
+    {
+      "path": "final-research-screens.png",
+      "exists": true,
+      "sha256": "a09b1ca316375033ada6805759745d0bb90e1d0e564c2cd97cdfe643be295872"
+    },
+    {
+      "path": "final-research-screens.svg",
+      "exists": true,
+      "sha256": "3270830bfe8d54e95c5051f270b36ad5abf979d453fe04130d1da4deeb3ae4ea"
+    },
+    {
       "path": "final-runtime-audit/memory-reconciliation.json",
       "exists": true,
       "sha256": "f8d0d1cc28973476cac23c0d1ef49f88141ef531d901dc8e1fc4a42ac4cb2401"
@@ -2263,7 +2329,7 @@
     {
       "path": "frontier.md",
       "exists": true,
-      "sha256": "fe6c693de2551253ca5ece0e8ae87745e3ffc01fd8fc4aa0636468e6c6ff19f4"
+      "sha256": "83e31039bf158e3cd59014619bc4e2e2039b1fe5cb2cc86a1137ad4057d66553"
     },
     {
       "path": "grader/frozen-sources.json",
@@ -2273,7 +2339,7 @@
     {
       "path": "next-research-agenda.md",
       "exists": true,
-      "sha256": "1c846a92c9b92b1c71740340b3ea457ac3fb3358b3f0171518d4f47db427da13"
+      "sha256": "1eae17eaaca207d6e7463b84e56bbdfaa18e0b7ac43a59f72f6990cb8bf12956"
     },
     {
       "path": "pooled-fold-diagnostic.json",
@@ -2289,6 +2355,21 @@
       "path": "postfailure-independent-scout.md",
       "exists": true,
       "sha256": "63a4a44be7868acdaa7383f34ca00f883aa0c21dffcdcb8ac04b885611abcec6"
+    },
+    {
+      "path": "prefetch-diagnosis/execution/result.json",
+      "exists": true,
+      "sha256": "b54d03df118eec94eb6f1d1610614170bbddd2e4b23b25ee788b59692cbb9148"
+    },
+    {
+      "path": "prefetch-diagnosis/outcome.json",
+      "exists": true,
+      "sha256": "2ec9697fe617a10fde5392e6fe587a003447611a8c5b0f0f16f139b84ced5949"
+    },
+    {
+      "path": "prefetch-diagnosis/release.json",
+      "exists": true,
+      "sha256": "03154e5676e758839ce8a98f1a02509ae25af769195118114e6ecb44f5e92137"
     },
     {
       "path": "quant3/quality-decision.json",
@@ -2351,9 +2432,24 @@
       "sha256": "ae7cab221632bf76e0bb9e70b96b686ac9739b5b971f368c250dbe168df2d60c"
     },
     {
+      "path": "state-refresh-preparation/README.md",
+      "exists": true,
+      "sha256": "391f4b3748898360ea93db72af293ee76327aec6a5a8e31bf9631705bda92fe8"
+    },
+    {
+      "path": "state-refresh-preparation/generated-cpu-result.json",
+      "exists": true,
+      "sha256": "50cc27987d1e2844be39c2018174b55df60bd5cf763968be50662a93aa477771"
+    },
+    {
+      "path": "state-refresh-preparation/plan.json",
+      "exists": true,
+      "sha256": "94ab5a5da4a4158b798ffefde2084290cc5669ea243067b9465046cc4d328807"
+    },
+    {
       "path": "state.json",
       "exists": true,
-      "sha256": "4ae01540cddd89319d796f04d3724a6585414a288c723c42bcbf3f62486d8c07"
+      "sha256": "5ca0bd707ec9002aef4801f20d04581fcaa20e6bfb1eb003f86e22f079b03e7b"
     },
     {
       "path": "training/plan.json",
@@ -2374,6 +2470,16 @@
       "path": "v1-runtime-audit/plan.json",
       "exists": true,
       "sha256": "881a8476ece923c36fb2a1405b9a1525438426aa6e1ed02cef0d1cff15af77e7"
+    },
+    {
+      "path": "critic/prefetch-failure-actual-review.json",
+      "exists": true,
+      "sha256": "d7b62d9eaf0ffda6c91fff60eda80785278c1d39210270b9f5f58af7036b979e"
+    },
+    {
+      "path": "critic/state-refresh-preparation-review.json",
+      "exists": true,
+      "sha256": "f4a151ba225ae4eebaee69b7c5c212c32a074939b1d45d4a87623e65fb47e67a"
     }
   ],
   "delivery_artifacts": [
@@ -2449,13 +2555,20 @@
     },
     {
       "id": "M06",
-      "severity": "planning_only",
-      "issue": "Generated-onlyprefetchresourcepilot beingprepared; no executionoutcome incorporated.",
+      "severity": "reviewed_resource_failure",
+      "issue": "Prefetchgenerated-onlyfirstarm resourceFAIL andGPUrelease receipt verified; no completedepoch/reusearm/comparison ormechanisticconclusion.",
       "action_owner": "root",
-      "action": "Only incorporate reviewedactualresource receipts if allocated; no forecastquality inference."
+      "action": "Independentfailureaudit complete; preserveviolation/no mechanismclaim."
+    },
+    {
+      "id": "M07",
+      "severity": "source_preparation_only",
+      "issue": "State-refreshgeneratedCPUhelper/proposal is notallocated empiricalpilot anddoesnotvalidateCUDA/fusedAMP.",
+      "action_owner": "root",
+      "action": "Keep futureproposal separatefromcompletedforecast evidence."
     }
   ],
-  "finalization_rule": "Do not present draft as campaign complete. SCALAR is closed and forecastsearch totals52/48/36. Await V1actualruntime and independentreview, then choose artifactroles, reconcile overview/deliveryfiles, preserveclosedgates andunknownCPU scope.",
+  "finalization_rule": "Draft remains pending V1actualruntime/independentreview and finalartifactselection, plus independentprefetch resourcefailure review. Allforecast branchesclosed,totals52/48/36unchanged. Do not infer quality fromresourcechecks,governor orfuturestate-refreshpreparation.",
   "source_hash_semantics": "Hashes record files observed during this draft audit. Root-owned active overview files may change after this snapshot; immutable actual reviews/evaluations remain the evidentiary anchors.",
   "V1_partial_receipt_observation": {
     "scope": "Read-only receipt bytes; no models,targets,metric or data reads",
@@ -2534,5 +2647,10 @@
       ]
     },
     "final_status": "pending"
+  },
+  "latest_outcome_observed_utc": "2026-10-01T06:08:05.832398+00:00",
+  "prefetch_independent_actual_review": {
+    "status": "COMPLETED_FAILURE_AUDIT",
+    "sha256": "d7b62d9eaf0ffda6c91fff60eda80785278c1d39210270b9f5f58af7036b979e"
   }
 }

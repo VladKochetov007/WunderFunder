@@ -74,8 +74,9 @@ Package the solution and its required model files in one ZIP, with
 - **Time:** 60 minutes for the entire test set.
 - **Submission size:** at most 20 MB for the uploaded ZIP.
 
-The environment is Linux with Python 3.10, local SSD storage and no internet
-access.
+The submission guide specifies Linux with Python 3.11 and no internet
+access. CPU instruction-set capabilities are not specified; runtime checks
+must state which native path was actually measured.
 
 ## Website pages
 

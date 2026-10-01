@@ -6,7 +6,7 @@ Updated 1 October 2026 (Moscow). This is an index to the evidence; historical re
 
 ## Best recorded submission
 
-**`candV1_ft2.zip`: public WP 0.6641, reported runtime 41m42s.** This is C's four-member ensemble with two epochs of head-only fine-tuning: distilled GRU256, GRU128 seed 3, GRU128 seed 4, and chunk-500 GRU128, equal weights, native C++ fp16 inference. The public result is recorded in the [September 29–30 journal](quant-probes-2026-09-29.md); it was not independently fetched from the leaderboard during this audit.
+**`candV1_ft2.zip`: public WP 0.6641, reported runtime 41m42s.** This configures C's four-member ensemble with two epochs of head-only fine-tuning: distilled GRU256, GRU128 seed 3, GRU128 seed 4, and chunk-500 GRU128, equal weights, native C++ inference with half-weight storage on the supported v3 path. Its wall-clock governor can remove members and renormalize the remainder; the historical public active-member trace is unknown. The public result is recorded in the [September 29–30 journal](quant-probes-2026-09-29.md); it was not independently fetched from the leaderboard during this audit.
 
 | Candidate | Reported public WP | Reported runtime |
 |---|---:|---|
@@ -19,7 +19,7 @@ Updated 1 October 2026 (Moscow). This is an index to the evidence; historical re
 
 The 0.0001 C→V1 difference is a recorded leaderboard difference, not established statistical superiority. Runtime varied substantially between submissions. V1 SHA256: `ea494921497d9f3cf53b19b1b68285133983560a249b38ef40738b3d846d319d`.
 
-## Everything preserved on GitHub
+## Historical archive already preserved on GitHub
 
 - [Full snapshot and restoration instructions](https://github.com/VladKochetov007/WunderFunder/tree/archive/2026-10-01/snapshot/2026-10-01): 268 run directories and 865 checkpoint paths across the base snapshot and late supplement, including five empty failed/aborted runs, histories, logs, source snapshots and dirty patches.
 - [All ready-to-use submission ZIPs](https://github.com/VladKochetov007/WunderFunder/tree/archive/2026-10-01/snapshot/2026-10-01/submissions), including the exact best V1 package.
@@ -27,6 +27,12 @@ The 0.0001 C→V1 difference is a recorded leaderboard difference, not establish
 - [`quant-probes`](https://github.com/VladKochetov007/WunderFunder/tree/quant-probes) contains recent model research; [`cpp-engine`](https://github.com/VladKochetov007/WunderFunder/tree/cpp-engine) contains the native submission engine.
 
 The base asset snapshot cutoff is 2026-09-30 21:08 UTC (1 October 00:08 Moscow). The existing Transformer fold-1 pipeline then completed at 21:23:53 UTC; a [late supplement](https://github.com/VladKochetov007/WunderFunder/tree/archive/2026-10-01/snapshot/2026-10-01/delta-late) copied at 21:25:53 UTC preserves its final parent, head-only and full-FT checkpoints and logs. Ordinary full-fold readouts were 0.675331 / 0.675766 / 0.674836, respectively; these are not pure-chain paired comparisons or evidence of a better submission. Existing jobs were left untouched. Bulk caches (~94 GB) and organizer dataset bodies (~33 GB) have inventories, not uploaded copies; checkpoints and experimental outputs are included. Original server files are retained.
+
+## Autonomous overnight campaign — current handoff pending
+
+The [overnight report draft](iterations/2026-10-01-overnight/delivery-report.draft.md) now records **52 forecasting fits, 48 held-fold prediction jobs and 36 registered score readouts**. AUX-off, transition features, ensemble-aware heads/scales, SAM, event memory, Q3 INT8 and the scalar embedding screen have completed; no new forecasting recipe passed its predeclared promotion gates. All 52 runs are copied locally and hash-verified (224 files, 202096550 bytes); large prediction caches remain on beleriand. Nothing from this campaign has been published on GitHub or submitted publicly.
+
+The fixed-three baseline ZIP passed a complete 37.46M-callback audit on the measured v3 host: 43.16 minutes observed full-process time, 45.40 minutes projected to 39.4M rows. Forced AVX2/v2 paths were correct but too slow (83.38/105.37-minute projections), so this is a qualified runtime fallback with known local quality loss, not a universal improvement. A fresh unchanged historical V1 runtime audit is still running; final handoff selection awaits its actual outcome and independent review. See the [current frontier](iterations/2026-10-01-overnight/frontier.md), [52-run manifest](iterations/2026-10-01-overnight/completed-fit-archive-52.json), and [next research falsifiers](iterations/2026-10-01-overnight/next-research-agenda.md).
 
 ## Research map
 
@@ -44,7 +50,9 @@ The [experiment ledger](experiments.jsonl), [hypothesis ledger](hypotheses.jsonl
 | Causal segment-recurrent Transformer | Both completed FT variants were tested at a fixed 20% teacher weight beside C: pooled gains +0.000115 / +0.000126, both negative on fold 1. Neither passed the registered +0.0005/both-fold-positive allocation gate. No new GPU run launched. |
 | Runtime governor | Heterogeneous model costs are approximated as equal in current policy. A cost-model discrepancy alone does not prove a score/runtime improvement. |
 
-## Current creative-research iteration
+## Earlier creative-research rounds
+
+The paragraphs below preserve the status and proposals of each earlier round. The overnight campaign above supersedes their descriptions of studies that were still pending at that time.
 
 The [registered iteration](iterations/2026-09-30-creative/) fixes three methodological problems: separate reused-fold discovery from confirmation and training-seed variation from chain uncertainty; optimize the user's competition objective instead of imposing novelty; replace categorical role vetoes with empirical comparisons and leakage checks.
 

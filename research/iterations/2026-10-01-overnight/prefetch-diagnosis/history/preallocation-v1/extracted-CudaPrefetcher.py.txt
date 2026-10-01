@@ -1,0 +1,33 @@
+class CudaPrefetcher:
+    """Iterate a DataLoader of pinned CPU batches, copying batch b+1 to the GPU on a side stream while
+    batch b is being consumed. Yields device tensors plus the CPU copy of ``scored``."""
+
+    def __init__(self, loader, device, timer=None):
+        self.loader, self.device, self.timer = loader, device, timer
+        self.stream = torch.cuda.Stream()
+
+    def _load(self, it):
+        t = time.perf_counter()
+        try:
+            x, y, scored, *rest = next(it)
+        except StopIteration:
+            return None
+        if self.timer is not None and self.timer.enabled:
+            self.timer.loader_wait.append(time.perf_counter() - t)
+        with torch.cuda.stream(self.stream):
+            dev = [v.to(self.device, non_blocking=True) for v in (x, y, scored, *rest)]
+        return dev, scored
+
+    def __iter__(self):
+        it = iter(self.loader)
+        nxt = self._load(it)
+        while nxt is not None:
+            torch.cuda.current_stream().wait_stream(self.stream)
+            dev, scored_cpu = nxt
+            for v in dev:
+                v.record_stream(torch.cuda.current_stream())
+            nxt = self._load(it)
+            yield dev, scored_cpu
+
+    def __len__(self):
+        return len(self.loader)

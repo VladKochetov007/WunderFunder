@@ -1,0 +1,93 @@
+"""Tiny generated CPU GRU correctness checks; no actual trainer/model/data imports."""
+import copy,datetime,hashlib,json,os
+from pathlib import Path
+os.environ['CUDA_VISIBLE_DEVICES']=''
+import torch
+from refresh import detached_copy,replay_state,refreshed_carry,discrepancy
+D=Path(__file__).resolve().parent
+torch.set_num_threads(1);torch.manual_seed(19)
+class Toy(torch.nn.Module):
+    def __init__(self):
+        super().__init__();self.gru=torch.nn.GRU(3,5,2,batch_first=True,dropout=0.)
+        self.head=torch.nn.Linear(5,2);self.register_buffer('fixed_scale',torch.tensor(1.))
+    def forward(self,x,h):
+        z,h=self.gru(x*self.fixed_scale,h);return self.head(z),h
+m=Toy().train();x=torch.randn(2,17,3);incoming=torch.randn(2,2,5,requires_grad=True)
+forward=lambda model,state:model(x,state)
+# Zero LR: a real optimizer attempt changes Adam state, but not model weights.
+opt=torch.optim.AdamW(m.parameters(),lr=0.,weight_decay=.01)
+y,stale=m(x,incoming);y.square().mean().backward();opt.step()
+original={k:v.clone() for k,v in m.state_dict().items()};grads={k:p.grad.clone() for k,p in m.named_parameters()};rng=torch.get_rng_state().clone()
+counter=[0]
+def counted(model,state):counter[0]+=1;return forward(model,state)
+zero=refreshed_carry(m,counted,incoming,stale,update_applied=True,retain=True)
+assert torch.equal(zero,stale) and counter==[1] and zero.grad_fn is None and not zero.requires_grad
+assert torch.equal(rng,torch.get_rng_state())
+assert all(torch.equal(original[k],v) for k,v in m.state_dict().items())
+assert all(torch.equal(grads[k],p.grad) for k,p in m.named_parameters())
+# Explicit skipped update calls no forward and retains stale exactly.
+skip=refreshed_carry(m,counted,incoming,stale,update_applied=False,retain=True)
+assert torch.equal(skip,stale) and counter==[1]
+# A nonzero update: local replay matches an independently direct same-chunk replay.
+for g in opt.param_groups:g['lr']=.01
+opt.zero_grad(set_to_none=True);out,old=m(x,incoming);out.square().mean().backward();opt.step()
+with torch.no_grad():_,oracle=m(x,incoming.detach().clone())
+params={k:v.clone() for k,v in m.state_dict().items()};grad_before={k:p.grad.clone() for k,p in m.named_parameters()}
+state_before=copy.deepcopy(opt.state_dict());ema=copy.deepcopy(m.state_dict());steps_before=[v['step'].clone() for v in opt.state.values()]
+new=refreshed_carry(m,counted,incoming,old,update_applied=True,retain=True)
+ctl=refreshed_carry(m,counted,incoming,old,update_applied=True,retain=False)
+assert torch.equal(new,oracle) and torch.equal(ctl,old) and not torch.equal(new,old)
+assert all(torch.equal(params[k],v) for k,v in m.state_dict().items())
+assert all(torch.equal(grad_before[k],p.grad) for k,p in m.named_parameters())
+assert all(torch.equal(a,v['step']) for a,v in zip(steps_before,opt.state.values()))
+assert all(torch.equal(ema[k],v) for k,v in m.state_dict().items())
+# Reset replay, direct chunk composition and unchanged prefix under future suffix.
+reset=replay_state(m,forward,None)
+with torch.no_grad():_,direct=m(x,None)
+assert torch.equal(reset,direct)
+a=replay_state(m,lambda mm,h:mm(x[:,:7],h),None)
+b=replay_state(m,lambda mm,h:mm(x[:,7:],h),a)
+assert torch.allclose(b,direct,atol=1e-7,rtol=1e-6)
+changed=x.clone();changed[:,7:]+=123
+c=replay_state(m,lambda mm,h:mm(changed[:,:7],h),None)
+assert torch.equal(a,c)
+# Local replay need not equal full prefix: its incoming state can still be stale.
+with torch.no_grad():_,in_old=m(x[:,:7],None)
+with torch.no_grad():m.gru.weight_hh_l0.add_(.02)
+local=replay_state(m,lambda mm,h:mm(x[:,7:],h),in_old)
+with torch.no_grad():_,current_prefix=m(x[:,:7],None);_,full=m(x[:,7:],current_prefix)
+assert not torch.equal(local,full)
+# Unsupported side effects fail and are restored, including exceptional forward.
+base_rng=torch.get_rng_state().clone();base_buf=m.fixed_scale.clone()
+def bad(mm,h):
+    mm.fixed_scale.add_(1);torch.rand(3);return mm(x,h)
+try:replay_state(m,bad,None)
+except AssertionError:pass
+else:raise AssertionError('stochastic/mutating replay accepted')
+assert torch.equal(base_rng,torch.get_rng_state()) and torch.equal(base_buf,m.fixed_scale)
+def explode(mm,h):mm.fixed_scale.add_(2);torch.rand(2);raise RuntimeError('generated')
+try:replay_state(m,explode,None)
+except RuntimeError:pass
+else:raise AssertionError('expected exception')
+assert torch.equal(base_rng,torch.get_rng_state()) and torch.equal(base_buf,m.fixed_scale)
+# Registered buffer replacement/addition/deletion are rejected and registry restored.
+for mutation in ['replace','add','delete']:
+    old_object=m.fixed_scale;version=old_object._version
+    def mutate_registry(mm,h):
+        if mutation=='replace':mm.fixed_scale=torch.tensor(99.)
+        elif mutation=='add':mm.register_buffer('extra_buffer',torch.tensor(7.))
+        else:del mm.fixed_scale
+        return torch.zeros(2,17,2),torch.zeros(2,2,5)
+    try:replay_state(m,mutate_registry,None)
+    except AssertionError:pass
+    else:raise AssertionError('registry mutation accepted')
+    assert m.fixed_scale is old_object and m.fixed_scale._version==version
+    assert 'extra_buffer' not in m._buffers
+version=m.fixed_scale._version
+replay_state(m,forward,None)
+assert m.fixed_scale._version==version,'unchanged replay must not copy buffer'
+z=torch.zeros(2,128,2);d=discrepancy(z+.002,z+.001,z)
+assert d['scale']==.001 and abs(d['relative_reduction']-.5)<1e-12 and d['half_reduction']
+assert discrepancy(z,z,z)['relative_reduction'] is None
+result={'status':'PASS_GENERATED_CPU_ONLY','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'torch_version':torch.__version__,'compute_threads':torch.get_num_threads(),'cuda_visible_devices':os.environ['CUDA_VISIBLE_DEVICES'],'actual_trainer_imported':False,'actual_checkpoints_read':False,'actual_data_read':False,'WP_queries':0,'forecast_fits':0,'checks':['zeroLR exact state; gradients/RNG/buffers unchanged','skip does not replay','nonzero update equals direct same-chunk replay','control discards replay','detached result/no extra optimizer step/EMA update','reset/prefix/chunk behavior','local replay differs from fullprefix with stale incoming state','stochastic and buffer mutations rejected/restored','exception restores RNG/buffers','buffer registry replace/add/delete rejected/restored; unchanged version preserved','fixed discrepancy zero-RMS denominator'],'hashes':{n:hashlib.sha256((D/n).read_bytes()).hexdigest() for n in ['refresh.py','check_generated.py']}}
+(D/'generated-cpu-result.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))

@@ -1,0 +1,69 @@
+{
+  "status": "PASS_FUTURE_PREPARATION_ONLY",
+  "utc": "2026-10-01T06:18:56.698791+00:00",
+  "scope": "Independent source and existing generated-receipt review; no helper/test rerun, actual data, checkpoint, inference, training or metric execution.",
+  "plan_sha256": "94ab5a5da4a4158b798ffefde2084290cc5669ea243067b9465046cc4d328807",
+  "source_sha256": {
+    "refresh.py": "83a7209bf5bba4255e4c4506cb47ea5d8a51417cf5b64e9ff46511fd5eb107c8",
+    "check_generated.py": "53c8af598d088e0a6357b47c58e95ffaeccdfef698be6154bc211880fadf3b2a",
+    "README.md": "391f4b3748898360ea93db72af293ee76327aec6a5a8e31bf9631705bda92fe8"
+  },
+  "generated_cpu_result_sha256": "50cc27987d1e2844be39c2018174b55df60bd5cf763968be50662a93aa477771",
+  "verified": {
+    "source_bindings": 5,
+    "own_sources": 3,
+    "generated_receipt_source_bindings": true,
+    "selected_256_records_exact_prior_order": true,
+    "reference_parent_exact_prior_job": "on_sam_pctl_s3_f0",
+    "fixed_probe_attempts": [
+      1,
+      17,
+      33,
+      49,
+      65,
+      81,
+      97,
+      113,
+      129,
+      145,
+      161,
+      177,
+      193,
+      209,
+      225,
+      241
+    ],
+    "execution_authorized": false,
+    "actual_adapter_implemented": false
+  },
+  "correctness_findings": [
+    "Replay uses a detached clone of the pre-forward incoming state under current post-update weights, preventing double processing of the current chunk.",
+    "Successful control and treatment replay symmetrically; explicit skip performs no replay. No optimizer, scaler, scheduler, loss or EMA objects enter helper.",
+    "CPU/requested-CUDA RNG is isolated; deterministic fixed-buffer forward is required. Buffer object registry mutations and value mutations are rejected and restored; unchanged buffer version counters remain unchanged.",
+    "Original trainer scheduler and EMA calls after scaler.step/update are correctly retained even on skipped student steps.",
+    "Full-prefix reference uses identical chunk boundaries; temporary probe outputs/states never enter continuing training trajectory.",
+    "One future counted pilot is bounded at 256 attempts, 480 seconds and 16 fixed probes. Skipped/incomplete/nonfinite probes cannot be replaced to obtain a pass."
+  ],
+  "interpretation_caveats": [
+    {
+      "issue": "Four first-chunk probes are structurally easier.",
+      "attempts": [
+        1,
+        81,
+        161,
+        241
+      ],
+      "impact": "At these reset boundaries the saved incoming state is None, so local replay and full-prefix reconstruction coincide algebraically under identical kernels. Twelve successes can contain these four plus eight of twelve noninitial probes.",
+      "required_reporting": "Report all sixteen values and distinguish the four reset-boundary cases; do not portray twelve successes as twelve independent long-history corrections. No retrospective gate change."
+    },
+    "Generated evidence covers CPU toy GRU only, not actual GRU CUDA/AMP/fused optimizer success detection. Correct CUDA device list must be supplied to guard device RNG.",
+    "Generated test creates an optimizer state snapshot but directly compares step counters, parameters and gradients; it does not independently compare every optimizer moment. The helper itself has no optimizer reference.",
+    "The guard is not a general transaction: parameter writes, buffer metadata/shape changes, dynamic modules and external hooks remain explicitly unsupported.",
+    "Early, restricted, class-stratified train-only discrepancy is not forecast efficacy or evidence about late training.",
+    "No full adapter, operational resource controller, actual-wrapper parity or CUDA overflow proof exists yet. Those remain required before a separate root allocation."
+  ],
+  "allocation_decision": "No empirical allocation implied. Preserve proposal as future preparation only.",
+  "new_forecast_fits": 0,
+  "new_WP_queries": 0,
+  "actual_data_reads": 0
+}

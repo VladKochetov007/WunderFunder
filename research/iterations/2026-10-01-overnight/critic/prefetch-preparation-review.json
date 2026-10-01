@@ -1,0 +1,51 @@
+{
+  "status": "PASS_INDEPENDENT_GENERATED_PREFETCH_PREPARATION_ONLY",
+  "UTC": "2026-10-01T06:03:30.664298+00:00",
+  "plan_sha256": "01d635d2d79230c78db6b2cfa72ca49a88cd1abe37ee49e92f82e046951f92d8",
+  "freeze_sha256": "5c7916d89648934582b6c0adfc099b2cd17878ffec83831e357f61ba112299a9",
+  "sources": {
+    "research/iterations/2026-10-01-overnight/training/train_aux.py": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f",
+    "research/iterations/2026-10-01-overnight/prefetch-diagnosis/probe.py": "822d0e9aee6374371f9412aea730017ecd95b0c61574837135b0944144d28a0e",
+    "research/iterations/2026-10-01-overnight/prefetch-diagnosis/driver.py": "d1d3fa55760248c97c91531cdf21f7537dcd6890f114677c58d792dc4c88ce1d",
+    "research/iterations/2026-10-01-overnight/prefetch-diagnosis/compare.py": "44a2900aa29cb46d2ccd067fe7536ead049b67bbf190907560afa061fdfac052",
+    "research/iterations/2026-10-01-overnight/prefetch-diagnosis/check_preparation.py": "f4ca23d33a94d1b06cf7d16b2ff13f73860e432d1d69419b5f5f771231173ab4",
+    "research/iterations/2026-10-01-overnight/prefetch-diagnosis/extracted-CudaPrefetcher.py.txt": "cee826f385996d4990deb4ced89865629b0dc711b69bd3f9d540d5aaa762eb89"
+  },
+  "source_checks": [
+    "Exact AST class slice from frozen trainer; no trainer import or source mutation",
+    "Two private-seeded pinned batches total1096960000 bytes; exact alternating32-batch loader over4epochs",
+    "Only behavioral arm branch constructs one side stream per epoch versus retaining one object",
+    "Feature/target means, deterministic FP32 linear consumer, fixed SGD and all128 updates unchanged",
+    "Gradient and update torch.cat allocate snapshots; retained traces cannot alias subsequently updated parameter storage",
+    "Whole CPU fixture hashes, stream count, boundary RNG and exact NPZ dtype/shape/bytes comparisons",
+    "One initial and four explicit boundary synchronizations; no per-batch host readback or filtering",
+    "All-four-epoch loop includes creation, transfer/consumer/checksum work, boundary readback and logging",
+    "512MiB peak-reserved reduction and <=1.03 total-loop ratio fixed before execution",
+    "Natural allocator configuration, fraction and empty-cache behavior unchanged",
+    "Fresh process per arm; immutable execution directory, fixed order, no retries",
+    "Cgroup aggregate4GiB/no swap/400% CPU checked; controllerCPU38 and probe24-29 argv",
+    "Total NVML memory.used and own process usage capped5632MiB; foreign owner abort; free>=6144 before both arms",
+    "PID/start_ticks/process-group signaling;120s arm and300s stage SIGALRM limits; subprocess query timeout2s"
+  ],
+  "preallocation_defects_resolved": [
+    "v1 omitted actual CPUQuota assertion; v2 checks and records cpu.max400000100000.",
+    "v1 checked own process GPU memory only; v2 records and bounds total device memory.used too."
+  ],
+  "preserved_prior_freeze_sha256": "8d0da272d75b26e2b7e7b9fb896ecd2a4c332123d473460e6836cc7e8dec5562",
+  "resource_only_diff_sha256": "d2dd0f1fb1756e7d6f75eab0b30ce2b12839962aa6334b9d82b485f7a4934912",
+  "proof_limits": [
+    "A single fixed ordered pair measures this generated diagnosis; not a confidence interval or production throughput estimate.",
+    "Checksums and mean reductions allocate and execute extra default-stream work; reserved-memory magnitude and speed cannot be extrapolated directly to GRU training.",
+    "Device integer checksums are not collision-free proofs of complete GPU tensor equality; exact small features/losses/gradients/updates and full CPU tensor hashes provide the stated evidence.",
+    "Tiny FP32 SGD consumer does not test production AMP/EMA/fused optimizer, recurrent hidden state or real DataLoader semantics.",
+    "NVML peaks are sampled; boundary allocator counters catch natural peak only at boundary. SIGALRM and cleanup timing depend on scheduling.",
+    "Success authorizes no production change or new forecast fit. Failure/partial arms cannot establish usefulness and must be preserved without retry."
+  ],
+  "required_next_step": "Separate root allocation before any probe/GPU execution; independent actual receipt review afterward.",
+  "Torch_imported": false,
+  "probe_executed": false,
+  "GPU_used": false,
+  "competition_data_read": false,
+  "forecast_fits": 0,
+  "WP_queries": 0
+}

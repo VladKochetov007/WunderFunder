@@ -1,0 +1,58 @@
+{
+  "schema": "root-prefetch-generated-allocation-v1",
+  "created_utc": "2026-10-01T06:04:13.449035+00:00",
+  "authority": "root under existing autonomous research task",
+  "prefetch_generated_pair_authorized": true,
+  "competition_inputs_authorized": false,
+  "forecast_fits_authorized": false,
+  "WP_queries_authorized": 0,
+  "production_source_change_authorized": false,
+  "physical_GPU": 6,
+  "attempts_per_arm": 1,
+  "retries": 0,
+  "arms": [
+    "per_epoch",
+    "reuse"
+  ],
+  "plan_sha256": "01d635d2d79230c78db6b2cfa72ca49a88cd1abe37ee49e92f82e046951f92d8",
+  "freeze_sha256": "5c7916d89648934582b6c0adfc099b2cd17878ffec83831e357f61ba112299a9",
+  "independent_preparation_review_sha256": "99f4af05d8d087ae21362f0ab88380d2927d7071c06123c519b177aaddb5bbc9",
+  "resources": {
+    "physical_GPU": 6,
+    "GPU_total_NVML_MiB_max": 5632,
+    "host_cgroup_MemoryMax_bytes": 4294967296,
+    "host_cgroup_MemorySwapMax_bytes": 0,
+    "probe_CPU_affinity": [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "controller_CPU_affinity": [
+      38
+    ],
+    "stage_wall_seconds_max": 300,
+    "arm_wall_seconds_max": 120,
+    "monitor_target_interval_seconds": 0.5,
+    "nvidia_smi_call_timeout_seconds": 2,
+    "GPU_precondition": ">=6144MiB free and no compute process; rechecked before each arm",
+    "signal_identity": "only owned PID/start_ticks/process-group; no unrelated job signaling",
+    "limit_caveats": "cgroup host cap is kernel enforced; NVML sampling may miss transient peaks; SIGALRM scheduling is not a hard real-time guarantee",
+    "CPU_cgroup_max": "400000 100000",
+    "GPU_memory_measurement": "both total GPU memory.used and own process used_memory, retaining foreign compute process rejection"
+  },
+  "must_start_before_UTC": "2026-10-01T06:15:00Z",
+  "source_HEAD": "9a361dc72b0360bdbeb965c160ae7f27af126e49",
+  "source_sha256": {
+    "research/iterations/2026-10-01-overnight/training/train_aux.py": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f",
+    "research/iterations/2026-10-01-overnight/prefetch-diagnosis/probe.py": "822d0e9aee6374371f9412aea730017ecd95b0c61574837135b0944144d28a0e",
+    "research/iterations/2026-10-01-overnight/prefetch-diagnosis/driver.py": "d1d3fa55760248c97c91531cdf21f7537dcd6890f114677c58d792dc4c88ce1d",
+    "research/iterations/2026-10-01-overnight/prefetch-diagnosis/compare.py": "44a2900aa29cb46d2ccd067fe7536ead049b67bbf190907560afa061fdfac052",
+    "research/iterations/2026-10-01-overnight/prefetch-diagnosis/check_preparation.py": "f4ca23d33a94d1b06cf7d16b2ff13f73860e432d1d69419b5f5f771231173ab4",
+    "research/iterations/2026-10-01-overnight/prefetch-diagnosis/extracted-CudaPrefetcher.py.txt": "cee826f385996d4990deb4ced89865629b0dc711b69bd3f9d540d5aaa762eb89"
+  },
+  "root_review": "Verified exact AST extraction, fresh fixed ordered pair, natural allocator unchanged, equal epoch-only explicit sync, generated update/gradient/RNG trace comparisons, corrected actual CPUQuota and total GPU memory enforcement. No effect on completed forecast ledger or failed branch decisions. One generated-pair usefulness gate is not a statistical or production forecasting claim.",
+  "interference": "CPU18/58 remain exclusively reserved for historical V1 audit; no other GPU or foreign process may be signaled."
+}
