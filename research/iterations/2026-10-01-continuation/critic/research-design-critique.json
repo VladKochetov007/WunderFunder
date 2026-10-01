@@ -1,0 +1,220 @@
+{
+  "status": "READ_ONLY_RESEARCH_DESIGN_CRITIQUE",
+  "utc": "2026-10-01T10:50:46.524790+00:00",
+  "user_steering": "Why progress is not turning into a better result; strategy review before another mechanism.",
+  "verdict": "ITERATE_THE_RESEARCH_POLICY_NOT_AUTOMATIC_STATE_REFRESH",
+  "evidence_status": "Source/history/saved-receipt critique; no new empirical inference, quality statistic, dataset or checkpoint reads.",
+  "fit_decomposition": {
+    "total": 52,
+    "parent_runs": [
+      "on_ple_s3_f0_parent",
+      "on_ple_s3_f1_parent",
+      "on_plectl_s3_f0_parent",
+      "on_plectl_s3_f1_parent",
+      "on_sam_pctl_s3_f0",
+      "on_sam_pctl_s3_f1",
+      "on_sam_psam_s3_f0",
+      "on_sam_psam_s3_f1"
+    ],
+    "candidate_parent_runs": [
+      "on_ple_s3_f0_parent",
+      "on_ple_s3_f1_parent",
+      "on_sam_psam_s3_f0",
+      "on_sam_psam_s3_f1"
+    ],
+    "head_only_count": 44
+  },
+  "issues": [
+    {
+      "id": "D01",
+      "problem": "Fit count overstated search breadth",
+      "evidence": {
+        "total": 52,
+        "head_only": 44,
+        "parent": 8,
+        "treatment_parent": 4,
+        "fresh_control_parent": 4,
+        "treatment_parent_recipes": [
+          "SAM",
+          "SCALARPLE"
+        ],
+        "treatment_seeds": [
+          3
+        ]
+      },
+      "impact": "Most search explored heads, loss adjustments and small frozen-state additions, not distinct learned temporal representations.",
+      "change": "Report mechanism families and parent-training GPU time separately; allocate at least one genuinely different high-upside treatment before another head-only micro-variant."
+    },
+    {
+      "id": "D02",
+      "problem": "Research spending gates became operational artifact vetoes",
+      "evidence": {
+        "fixed3_minus_fixed4_GPU_anchor": -0.0006247959094535238,
+        "Q3_native_minus_fixed3_GPU_anchor": 0.00025838484890994273,
+        "Q3_fold_deltas": [
+          0.0003753932325050169,
+          4.413046242390806e-05
+        ],
+        "old_useful_gain_gate": 0.0003,
+        "Q3_native_minus_same_native_FP16": -1.1454089195228612e-05
+      },
+      "impact": "Fallback is faster but demonstrably lower on the reconstructed GPU anchor. Q3 is a plausible frontier point, not established superior, and was rejected by a self-imposed usefulness threshold.",
+      "change": "Preserve old failures. In a new prospectively declared deployment decision compare quality, runtime, portability and uncertainty jointly; do not relabel the old Q3 gate as passed."
+    },
+    {
+      "id": "D03",
+      "problem": "Conservative50min target was treated like official60min feasibility",
+      "evidence": {
+        "full4_quant_best_callback_projection_minutes": 56.57280615068351,
+        "old_runtime_target_minutes": 50,
+        "official_whole_process_minutes": 60,
+        "full4_quality_readout_done": false
+      },
+      "impact": "Full4 quantized candidate was not tested end-to-end against official deadline; no evidence says it qualifies, but the soft target prematurely removed it from possible operational frontier.",
+      "change": "Consider one prospective full-process feasibility decision only if serving hardware/fallback and quantized quality can also be qualified. Thin projected headroom is a risk, not an automatic pass."
+    },
+    {
+      "id": "D04",
+      "problem": "Fold sign veto and fixed gain threshold confuse exploration with confirmation",
+      "evidence": {
+        "SCALAR_delta": 0.00012765972236405965,
+        "SCALAR_fold1_delta": -4.5972553213147194e-05,
+        "all_folds_exposed": true
+      },
+      "impact": "A tiny negative fold estimate is not proof of transfer failure; positive points on both folds are not confirmation. Threshold changes after outcomes would create selection bias.",
+      "change": "Use prospective cost-aware continuation rules, full paired uncertainty and explicit downside sensitivity; no universal zero-sign veto for exploratory ranking."
+    },
+    {
+      "id": "D05",
+      "problem": "Comparator quality and training coupling sometimes answered the wrong question",
+      "evidence": "ENS members trained against stale partners then both replaced; saved mixed interaction -0.000490928. Scale arm started from parent, not fitted H2.",
+      "impact": "Joint failure is a real failure of this recipe, not evidence that joint ensemble optimization or scale calibration cannot help.",
+      "change": "Test a deployment-coherent candidate against the incumbent first; require complex mechanism controls only when that mechanism claim or decision justifies them."
+    },
+    {
+      "id": "D06",
+      "problem": "Replicated fresh controls and many secondary readouts consumed attention after reproducibility was established",
+      "evidence": "SAM and SCALAR fresh ordinary OOFs reproduced existing incumbent bytes; paired/incumbent readouts duplicate one numeric contrast in each family.",
+      "impact": "Those controls provided real implementation evidence, but should not become mandatory every future branch; fit/WP counts overstate new information.",
+      "change": "Reuse exact-provenance controls for unchanged numerical recipes; use one source/synthetic parity audit and retrain a control only when matching differences matter."
+    },
+    {
+      "id": "D07",
+      "problem": "Negative history and proxy tests were generalized too far",
+      "evidence": "E103 measured selector AUC gain .0022 under .005 gate; E170 sharper qX weights and E186 coarse residual map are different tests.22memberensemble ceiling applies only to those families.",
+      "impact": "Neither a selector AUC null nor correlated-family ensemble saturation establishes conditional-selection irrelevance or irreducible noise.",
+      "change": "Record exact falsified recipe and proxy-validity limits; no automatic rerun, but novelty is not a competition requirement."
+    },
+    {
+      "id": "D08",
+      "problem": "Exposed folds and uncertain test mixture limit small local gains",
+      "evidence": "Historical local ensemble around.702 versus public.6641 are different domains; journal reports train/valid shift,class3/chain-length differences and nonmonotonic validation-repeat public results.",
+      "impact": "More micro-search on the same two exposed folds may improve local selection without improving hidden test.",
+      "change": "Use a small prospectively fixed set of relevant regime/chain-length sensitivity views based on saved sufficient statistics; never call these fresh holdouts or tune mixture to public anecdotes."
+    },
+    {
+      "id": "D09",
+      "problem": "Exactness audits and shipping work grew beyond marginal decision value",
+      "evidence": "Multiple source freezes, wrapper/checker revisions, native builds and long full traces; several found real bugs, while others were duplicative. No complete audit-time accounting exists.",
+      "impact": "Integrity was valuable, but serial proofs for candidates lacking target-relevance evidence delayed learning.",
+      "change": "One shared validator, one cheap stream/gradient check before training, native port only for a promising recipe; one long final audit for finalist. Preserve essential leak/evaluator/resource checks."
+    },
+    {
+      "id": "D10",
+      "problem": "State-refresh is another uncalibrated proxy, not the default next high-upside experiment",
+      "evidence": {
+        "early_attempts": 256,
+        "OneCycle_total_steps": 15000,
+        "warmup_steps_about": 750,
+        "reset_tautology_probes": [
+          1,
+          81,
+          161,
+          241
+        ],
+        "proxy": "output RMS relative to post-update full-prefix model"
+      },
+      "impact": "Large mismatch does not imply forecast error; small early mismatch cannot refute later phases. Four reset probes are structurally easier; AMP skips confound observed update effects.",
+      "change": "Pause priority; if revisited, declare narrow phase-specific diagnostic, nonreset probes, no automatic16fit escalation and bounded-memory resource policy."
+    }
+  ],
+  "allocation_policy": {
+    "hard_requirements": [
+      "No leakage or hidden-label/mask serving inputs; correct global metric and legal data provenance.",
+      "Finite causal/reset-consistent deterministic serving; official1CPU/16GB/60min/20MB and compatible CPU path.",
+      "Do not mutate preserved evidence, stop unrelated jobs, push GitHub or submit publicly without authorization."
+    ],
+    "soft_priorities_not_rules": [
+      "50min local proxy headroom",
+      "+.0003 point gain",
+      "both exposed fold point estimates nonnegative",
+      "fresh ordinary control in every branch",
+      "novelty or identified physical mechanism",
+      "exact bit agreement across unrelated numerical backends"
+    ],
+    "next_round_order": [
+      "First produce a single honest quality/runtime/ISA frontier using existing evidence; select one unresolved operational question with measurable decision value.",
+      "Before new parent fitting, state what residual error or untested capacity the treatment addresses and why it differs from exact historical failures.",
+      "At most one promising full-recipe treatment screen: two folds, one paired seed, parent+H2 per fold (four treatment fits), reuse eligible frozen incumbent controls.",
+      "Use one primary comparison against the strong incumbent ensemble in the intended role (addition/replacement), with serving constraints reported separately. Weakened fixed3 may be an operational reference, not the sole scientific baseline. Avoid duplicate paired/incumbent queries.",
+      "If economically credible but uncertain, allocate a second paired seed or a better transfer check; if null, retain result and choose a different family. No invented significance/first-place guarantee.",
+      "Separate artifact selection from recipe confirmation: an exposed-fold operational choice remains exploratory, while evidence requirements for replicated recipe claims remain higher."
+    ],
+    "initial_2h_planning_only": {
+      "strategy_and_one_decision_plan_minutes_max": 20,
+      "existing_artifact_or_new_recipe_screen_minutes_target": 65,
+      "verification_delivery_reserve_minutes": 25,
+      "buffer_minutes": 10,
+      "is_execution_allocation": false,
+      "alternative_not_parallel_sprawl": "Choose serving-frontier qualification OR one genuinely distinct treatment screen first; do not launch three expensive lines simply because three agents exist.",
+      "status": "Illustrative planning envelope only; user duration/allocation not established and these minute values are not requirements."
+    },
+    "stop_condition": "Stop a branch at its prospectively stated decision rule; stop an entire round when its declared time/resource budget expires and report strongest evidence honestly. Until a result is not permission for unbounded compute or invented superiority.",
+    "resource_recommendations_not_universal_requirements": "For workloads like the failed prefetch probe, use bounded streaming and preventive allocator limits; retain truthful distinction from whole-device memory enforcement. Apply controls proportionate to the allocated workload, not all prior infrastructure to every plan."
+  },
+  "resource_lessons": {
+    "status": "Recommendations for a future workload like the failed prefetch probe, not universal hard requirements; no pilot allocated.",
+    "preventive_limit": "Set native PyTorch caching-allocator fraction before large CUDA allocations using an explicit byte cap, provisionally4096MiB with1536MiB headroom beneath5632MiB total policy; derive fraction from actual visible capacity. OOM stops, no automatic batch/cap retry.",
+    "limitation": "Allocator bound is not a hard NVML/device total-memory partition; CUDA context and other allocations may be outside it. If absolute total enforcement is required, obtain a real partition/enforcer or do not claim that guarantee.",
+    "bounded_pipeline": [
+      "One bounded CPU batch at a time, explicit max-prefetch depth, preferably no side-stream prefetch in the initial diagnostic.",
+      "At most one GPU batch and one chunk activation graph; sequential no_grad replays, retain scalar summaries not GPU outputs.",
+      "Synchronize at declared probe/batch boundaries; release all references before next batch; no queued checksum copies of whole batches.",
+      "Validate the exact shape/forward/backward/probe combination on generated tensors under allocator cap before any real-data run.",
+      "Actual cgroup memory/swap/CPU controls, owned PID/start-tick group termination, external wall cap and NVML total/own telemetry remain secondary containment."
+    ],
+    "comparability": "Disabling async prefetch is a resource design change; keep it identical across comparison arms and do not claim old-loader bit/runtime parity without evidence."
+  },
+  "source_hashes": {
+    "research/iterations/2026-10-01-overnight/contract.json": "110e8af9e50566713743b4a15742877ccd424b3accfb6c11d98bb835c086a4da",
+    "research/iterations/2026-10-01-overnight/completed-fit-archive-52.json": "afbb680140e4c6f6c143a13ca805b01c6d5309aa4544f4715b5e8013ec5ae614",
+    "research/iterations/2026-10-01-overnight/delivery-claim-ledger.json": "3628abd63970fd17f3423b451ef1f34b05dd7f3bcd9677606fbf6972b75f4b4b",
+    "research/iterations/2026-10-01-overnight/deployment-plan.json": "cf63d6043c0c36e35c9d2ea1cd0dbc6910fb08d96727f0e03005f5b38d15b92b",
+    "research/iterations/2026-10-01-overnight/runtime-vnni-opt/stage-summary.json": "02cf158dfe3a5a4c8d2acbe600e2175c21fa20ad00be4701653d723b800ac156",
+    "research/iterations/2026-10-01-overnight/ensemble/postfailure-reframe.md": "9335a350489b60ba5344d785cc3ea9c63102ee49fb4d818d409287acde9c929f",
+    "research/iterations/2026-10-01-overnight/critic/artifact-role-review.json": "700b1cda75267451225a11ea27cd8b0543c4331a4be4bcaa5a799102db29b2df",
+    "research/iterations/2026-10-01-overnight/state-refresh-preparation/plan.json": "94ab5a5da4a4158b798ffefde2084290cc5669ea243067b9465046cc4d328807",
+    "research/iterations/2026-10-01-overnight/prefetch-diagnosis/outcome.json": "2ec9697fe617a10fde5392e6fe587a003447611a8c5b0f0f16f139b84ced5949",
+    "research/iterations/2026-10-01-overnight/next-research-agenda.md": "1eae17eaaca207d6e7463b84e56bbdfaa18e0b7ac43a59f72f6990cb8bf12956",
+    "research/experiments.jsonl": "92c802918f1dde93c9be2cbfe2982c09c3870a414c3711aa560946371f46bd76",
+    "research/quant-probes-2026-09-29.md": "507b31da53f4f0890301d7bcea8c4945634511817d8258d5a0b57acc79768dde"
+  },
+  "skills_used": [
+    "skills/mft-research-experts/SKILL.md",
+    "skills/mft-research-experts/agents/skeptic.md",
+    ".agents/skills/conduct-creative-research/SKILL.md",
+    ".agents/skills/conduct-creative-research/references/empirical-validation.md"
+  ],
+  "primary_docs_checked": [
+    "https://docs.pytorch.org/docs/2.14/generated/torch.cuda.memory.set_per_process_memory_fraction.html",
+    "https://docs.pytorch.org/docs/2.14/notes/amp_examples.html",
+    "https://docs.pytorch.org/docs/2.14/notes/cuda.html"
+  ],
+  "new_forecast_fits": 0,
+  "new_WP_queries": 0,
+  "new_GPU_runs": 0,
+  "actual_data_or_models_read": false,
+  "old_P_or_delivery_modified": false,
+  "execution_authorized_by_this_review": false,
+  "candidate_direction_under_separate_assessment": "Wide shallow recurrent student with current since/EMA inputs, causal d256 teachers and ordinary H2. Direction only, not approved recipe/allocation or predicted gain."
+}

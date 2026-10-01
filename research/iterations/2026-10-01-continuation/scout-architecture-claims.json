@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-01T10:53:01.383777+00:00",
+  "scope": "source-only hypothesis scout; proposal not allocation",
+  "files_written": [
+    "scout-architecture.md",
+    "scout-architecture-claims.json"
+  ],
+  "prohibited_actions_performed": [],
+  "empirical_runs": 0,
+  "data_array_reads": 0,
+  "checkpoint_reads": 0,
+  "prediction_cache_reads": 0,
+  "metric_queries": 0,
+  "ranking_basis": "expected value of the next diagnostic, not probability of a leaderboard gain",
+  "cards": [
+    {
+      "rank": 1,
+      "id": "selection_risk_moments",
+      "novelty": "Explicitly reopened diagnostic of old label-aware selection mechanism, not a new family",
+      "evidence": [
+        "E-030",
+        "E-033",
+        "E-038",
+        "E-103"
+      ],
+      "counterevidence": [
+        "E-103 small AUC gain",
+        "E-170 causal propensity null",
+        "E-186 residual-map negative"
+      ],
+      "key_distinction": "forecast-weighted moments versus selector AUC; conditional q(X,Y) versus causal q(X)",
+      "cheapest_falsifier": "fixed predictor exact last-layer weighted-MSE gradients under cross-fitted qXY, qX and shuffled-target q versus true mask; secondary target moments",
+      "serving_overhead": 0,
+      "gain_evidence": "none for proposed intervention"
+    },
+    {
+      "rank": 2,
+      "id": "random_origin_training",
+      "novelty": "Training-only causal origin augmentation with unchanged ordinary inference; not periodic train+inference reset",
+      "evidence": [
+        "CURRENT_STATE explicitly calls it untested",
+        "chain-length/class geometry reported in quant-probes"
+      ],
+      "counterevidence": [
+        "R1 trained+inference periodic reset negative",
+        "ordinary position score flat",
+        "E-161 burn-in/position negative",
+        "E-211 warm-up summary negative"
+      ],
+      "cheapest_falsifier": "same-suffix original-prefix versus causal-fresh-origin train-only error, stratified by class/activity",
+      "serving_overhead": 0,
+      "gain_evidence": "none; short-chain gap is confounded"
+    },
+    {
+      "rank": 3,
+      "id": "gradient_horizon",
+      "novelty": "credit assignment across 2000-row detach boundaries, not state refresh or frozen memory",
+      "evidence": [
+        "train_rnn.py recurrent-state detach and chunk2000 default"
+      ],
+      "counterevidence": [
+        "2000 rows already long",
+        "long drift/event attention/dual clocks/Transformer negatives",
+        "E-238 overlap explains residual persistence"
+      ],
+      "cheapest_falsifier": "identical forward outputs, last2000 loss, g8000 versus g2000, no optimizer",
+      "serving_overhead": 0,
+      "gain_evidence": "none; tail gradient is a rationale test only"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C1",
+      "status": "source-supported scope conclusion",
+      "claim": "The observed related-GRU ensemble plateau does not establish an information-theoretic ceiling.",
+      "sources": [
+        "research/CURRENT_STATE.md",
+        "research/iterations/2026-10-01-overnight/frontier.md"
+      ]
+    },
+    {
+      "id": "C2",
+      "status": "direct algebra under stated conditioning",
+      "claim": "E[M|cY|loss]=E[P(M=1|X,Y)|cY|loss] for predictions measurable from X; transport across datasets remains unverified."
+    },
+    {
+      "id": "C3",
+      "status": "source-supported limitation",
+      "claim": "E-103 was a mask-AUC gate, not an actual conditional-weight forecast-fit test.",
+      "sources": [
+        "research/experiments.jsonl:E-103"
+      ]
+    },
+    {
+      "id": "C4",
+      "status": "source-supported limitation",
+      "claim": "Periodic reset negative trained and predicted with resets; it does not directly test training-only augmentation.",
+      "sources": [
+        "research/quant-probes-2026-09-29.md:R1"
+      ]
+    },
+    {
+      "id": "C5",
+      "status": "source-supported",
+      "claim": "Current default GRU chunk is2000;250 applies to Transformer block, not default GRU truncation.",
+      "sources": [
+        "scripts/train_rnn.py:463",
+        "scripts/train_rnn.py:494",
+        "scripts/train_rnn.py:947"
+      ]
+    },
+    {
+      "id": "C6",
+      "status": "proposal only",
+      "claim": "All gates, runtime estimates and anticipated mechanisms require independent specification review and allocation; no new gain measured."
+    },
+    {
+      "id": "C7",
+      "status": "prospective exact comparison",
+      "claim": "Primary selector gate compares last-layer gradients g(qXY), g(qX) and shuffled-target g to true-mask g(M), with the same predictor/activations and per-target pooled normalization; it is not a WP evaluation."
+    },
+    {
+      "id": "C8",
+      "status": "bounded source/history finding",
+      "claim": "minGRU appears as prior proposal A3/X8; no implementation or empirical ledger entry found in searched code/ledgers. This is not proof of absence from every historical branch.",
+      "sources": [
+        "research/lit/opus_arch.md:A3",
+        "research/panel/ml_lead.md:X8"
+      ]
+    }
+  ],
+  "primary_sources": [
+    {
+      "url": "https://research.google/pubs/sample-selection-bias-correction-theory/",
+      "used_for": "general selection reweighting context; not a guarantee of transport"
+    },
+    {
+      "url": "https://arxiv.org/abs/1905.07473",
+      "used_for": "TBPTT gradient-bias mechanism"
+    },
+    {
+      "url": "https://arxiv.org/abs/2208.04933",
+      "used_for": "parallel-scan SSM training feasibility only"
+    },
+    {
+      "url": "https://arxiv.org/html/2410.01201v3",
+      "used_for": "input-only gates, elementwise recurrence and parallel scan; not task-specific forecast gain or runtime"
+    }
+  ],
+  "input_source_sha256": {
+    "research/CURRENT_STATE.md": "b78893ca866bdcd3267a16336c88a935375ea7b3cbb8a494342fac456b1f4236",
+    "research/experiments.jsonl": "92c802918f1dde93c9be2cbfe2982c09c3870a414c3711aa560946371f46bd76",
+    "research/hypotheses.jsonl": "2b7cd6222ba80d7bec522a33b6004e31de2419153063296c9bf4607b0430916b",
+    "research/quant-probes-2026-09-29.md": "507b31da53f4f0890301d7bcea8c4945634511817d8258d5a0b57acc79768dde",
+    "research/iterations/2026-10-01-overnight/frontier.md": "c79ed9f5cf59f7786ef12c8fbe37440664c0346b3c49a92eb8328872014b266c",
+    "research/iterations/2026-10-01-deep/architecture.md": "9efbab193d9f33109317c2504d8290b2aff34adc695a6d94f7cbb443bb403366",
+    "research/iterations/2026-10-01-deep/training.md": "df25c11207fa0c02617be480078eafea37cb6fc613cdb04b04959abc0ebed565",
+    "scripts/train_rnn.py": "f97047e6ef51f32097f2cbe2eefc7c57766771ebaed12ae8798a3c1b7efcd52f",
+    "src/wnn/nn.py": "160447df28fa090684757551a75ee61d4f35c8c8c16c246324565306f46b8ec4",
+    ".agents/skills/conduct-creative-research/SKILL.md": "e702eb9339e124341482be3580a0682ab2dfc58b3a4727b1d767b180a0a95bed",
+    "research/lit/opus_arch.md": "43cf51aec1a31bdf7af43efa0a7f36edbfcfb7e5520a3383b28257cbfd94c012",
+    "research/panel/ml_lead.md": "8df8a8d9ec5c9f32bae2ca2080602c2049c9273f9c570d714cbb9795fb506d6e"
+  },
+  "memo_sha256": "255bcf7f160c1c43db1e08c6d65f31483d370d38a18154f15e832b91ed41bb3a",
+  "exposure_limit": "All validation folds exposed; fresh partition is not fresh evidence. No hidden-test guarantee."
+}

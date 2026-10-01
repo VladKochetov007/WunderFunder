@@ -1,0 +1,94 @@
+{
+  "status": "SOURCE_ONLY_UNALLOCATED_NONRUNNABLE",
+  "purpose": "Test whether width256 with one recurrent layer preserves the useful d256 contribution at lower measured streaming cost.",
+  "candidate": {
+    "family": "existing linear-input causal GRU",
+    "input_features": 211,
+    "hidden": 256,
+    "layers": 1,
+    "training_outputs": 23,
+    "serving_outputs": 2,
+    "seed": 3,
+    "folds": [
+      0,
+      1
+    ]
+  },
+  "recipe": {
+    "parent": "Exact original d256 EMA/since/distillation recipe, with layers changed from 2 to 1 only; fixed 4 epochs, select model_ep3.",
+    "teachers": "Same-fold original plain h256 seed3 and seed4 prediction mean; historical logical IDs h256_f{fold},h256s4_f{fold}; not a d256 distilled teacher.",
+    "distill_alpha": 0.5,
+    "ema_teacher": true,
+    "ema_decay": 0.999,
+    "since_weight": 32,
+    "since_floor": 0.25,
+    "head": "Ordinary existing H2 recipe from own same-fold parent ep3; freeze inp and gru, two epochs, fixed model_ep1; no distillation."
+  },
+  "initial_budget": {
+    "parent_fits": 2,
+    "head_fits": 2,
+    "total_fits": 4,
+    "automatic_replication": false,
+    "automatic_final_fit": false,
+    "automatic_native_or_quantization_work": false
+  },
+  "comparisons": {
+    "primary": {
+      "candidate": [
+        "shallow256_s3",
+        "plain128_s3",
+        "plain128_s4",
+        "c500_s3"
+      ],
+      "reference": [
+        "d256_s3",
+        "plain128_s3",
+        "plain128_s4",
+        "c500_s3"
+      ],
+      "coefficients": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "question": "Preserved forecast contribution versus measured cost reduction, replacing only d256."
+    },
+    "secondary": {
+      "candidate": "Exactly the same candidate fixed4 as primary.",
+      "reference": [
+        "plain128_s3",
+        "plain128_s4",
+        "c500_s3"
+      ],
+      "reference_coefficients": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "question": "Competition utility versus operational fixed3; no composition or blend search."
+    },
+    "anchor_lineage": "Reuse exact existing same-fold d256 parent4-to-H2 anchors and unchanged H2 partner anchors; bind endpoint hashes before allocation."
+  },
+  "source_estimates": {
+    "candidate_train_parameters": 586263,
+    "candidate_dense_serving_MACs_per_row": 578816,
+    "d256_dense_serving_MACs_per_row": 972032,
+    "candidate_fixed4_MACs_per_row": 1348736,
+    "reference_fixed4_MACs_per_row": 1741952,
+    "operational_fixed3_MACs_per_row": 769920,
+    "runtime_inference": "MAC counts are not runtime measurements. Dense candidate fixed4 can still be too slow; quantized serving is a separate prospective numerical candidate."
+  },
+  "limitations": [
+    "Same seed with different layer count does not guarantee identical initialization RNG consumption or sampler order; this is a recipe screen, not a clean causal depth ablation.",
+    "No model/data/checkpoint/prediction/metric execution was performed for this proposal.",
+    "Existing folds are exposed; no fresh confirmation claim."
+  ],
+  "required_before_allocation": [
+    "Remote inventory of teacher caches and exact same-fold lineage, endpoints and hashes; SSH currently unavailable.",
+    "Full unchanged parent/H2 recipe and data/split identities, except explicit layer change.",
+    "Prospective quality noninferiority/utility and measured serving-runtime gates, budget and actual clock/resource feasibility.",
+    "Root allocation; this file contains no runnable command and grants no execution."
+  ],
+  "stop": "At most the four initial fits after separate allocation. No seed4, final training, teacher switch, alternate width, blend search or quantization rescue automatically follows."
+}

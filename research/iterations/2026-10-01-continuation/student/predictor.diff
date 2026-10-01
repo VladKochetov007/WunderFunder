@@ -1,0 +1,12 @@
+--- research/iterations/2026-10-01-overnight/training/predict_fixed.py
++++ research/iterations/2026-10-01-continuation/student/predict_fixed.py
+@@ -26,7 +26,8 @@
+  if not outdir.is_relative_to(campaign):raise ValueError('prediction output must stay inside campaign')
+  outdir.mkdir(parents=True,exist_ok=True)
+  final=outdir/f'pred_{a.run}_valid.npy'
+- if final.exists():raise FileExistsError(final)
++ for existing in (final,final.with_suffix('.npy.partial'),final.with_suffix('.inputs.json')):
++  if existing.exists() or existing.is_symlink():raise FileExistsError(existing)
+  path=ROOT/'artifacts/runs'/a.run/f'model_ep{a.epoch}.pt';ck=torch.load(path,map_location='cpu',weights_only=False)
+  if int(ck['args']['valid_fold'])!=a.fold:raise ValueError('checkpoint fold differs from requested OOF fold')
+  if int(ck.get('epoch',-1))!=a.epoch:raise ValueError('checkpoint epoch differs')
