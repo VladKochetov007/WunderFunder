@@ -1,0 +1,17 @@
+{
+  "id": "SAM-PARENT-01-fixed3-deployment",
+  "registration": "Before any SAM outcome; matched control parents currently training, SAM candidate parents not yet started",
+  "reason": "Fixed4 has not passed the50minute CPU runtime gate. A forecasting recipe passing the original fixed4 scientific gates must also work in the feasible fixed3 composition before deployment.",
+  "unchanged": "The original SAM screen, seed4 allocation and recipe promotion gates remain unchanged. A failed fixed4 study is not rescued through fixed3 readouts.",
+  "new_forecasting_fits": 0,
+  "maximum_additional_WP_readouts": 4,
+  "condition": "Both SAM seeds passed all original fixed4 promotion gates",
+  "evaluations": [
+    {"id": "SAM-PARENT-01-fixed3-seed3-paired", "candidate": "on_sam_hsam_s3+on_ctl128s4+on_ctlc500", "reference": "on_sam_hctl_s3+on_ctl128s4+on_ctlc500"},
+    {"id": "SAM-PARENT-01-fixed3-seed4-paired", "candidate": "on_ctl128s3+on_sam_hsam_s4+on_ctlc500", "reference": "on_ctl128s3+on_sam_hctl_s4+on_ctlc500"},
+    {"id": "SAM-PARENT-01-fixed3-seed3-incumbent", "candidate": "on_sam_hsam_s3+on_ctl128s4+on_ctlc500", "reference": "on_ctl128s3+on_ctl128s4+on_ctlc500"},
+    {"id": "SAM-PARENT-01-fixed3-seed4-incumbent", "candidate": "on_ctl128s3+on_sam_hsam_s4+on_ctlc500", "reference": "on_ctl128s3+on_ctl128s4+on_ctlc500"}
+  ],
+  "fixed3_deployment_gate": "Both paired pooled deltas positive, all paired fold deltas nonnegative, mean paired pooled lift>=.0003; predetermined seed3 replacement improves incumbent by>=.0003 pooled and eachfold>=0; seed4 incumbent comparison pooled and eachfold>=0. No best-seed or blend-weight search. Whole-package parity and runtime still mandatory.",
+  "exposure": "Previously exposed pure-chain folds0/1; no new confirmation claim"
+}

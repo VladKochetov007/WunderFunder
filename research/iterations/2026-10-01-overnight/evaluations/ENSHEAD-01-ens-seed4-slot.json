@@ -1,0 +1,174 @@
+{
+  "candidate": "on_ctl128s3+on_ens128s4+on_ctld256+on_ctlc500",
+  "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+  "sequences": 860,
+  "pure_only": true,
+  "candidate_wp": 0.70227066329076,
+  "reference_wp": 0.7023672255138177,
+  "delta": -9.656222305765017e-05,
+  "delta_by_fold": {
+    "0": 0.00010386760012726093,
+    "1": -0.00034755538980779654
+  },
+  "delta_by_class": {
+    "0": -0.00022080287162717926,
+    "1": 8.78913073076859e-06,
+    "2": 0.00030588433581302255,
+    "3": -0.00030941937900907934
+  },
+  "delta_boot_sd": 0.00017774278444681612,
+  "delta_boot_ci95": [
+    -0.00046709429473102695,
+    0.00024923092007980696
+  ],
+  "bootstrap_nonpositive_fraction": 0.707,
+  "p_delta_le_0": 0.707,
+  "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+  "uncertainty_not_estimated": [
+    "training seeds",
+    "adaptive selection",
+    "future domain shift"
+  ],
+  "confirmation_established": false,
+  "candidate_wp_by_target": [
+    0.698299978242602,
+    0.706241348338918
+  ],
+  "reference_wp_by_target": [
+    0.6984463410477072,
+    0.7062881099799282
+  ],
+  "provenance": {
+    "id": "ENSHEAD-01-ens-seed4-slot",
+    "utc": "2026-10-01T01:21:03.819959+00:00",
+    "event": "started",
+    "candidate": "on_ctl128s3+on_ens128s4+on_ctld256+on_ctlc500",
+    "reference": "on_ctl128s3+on_ctl128s4+on_ctld256+on_ctlc500",
+    "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+    "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4",
+    "grader_sources": {
+      "scripts/fold_eval.py": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+      "src/wnn/gmetric.py": "70739da928175fd98c95b88eeb825991266673e59a16c0d70ce80b3642fa741b",
+      "src/wnn/splits.py": "7301f9199e3da4a10a9a0df9d1a234e68f09f39be068cba41557dea338cf3ea2",
+      "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+    },
+    "data_sources": {
+      "cache/valid_targets.npz": {
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+        "bytes": 337186198
+      },
+      "cache/chain_folds.npz": {
+        "sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+        "bytes": 562791
+      },
+      "research/artifacts/market-classes-v1.npz": {
+        "sha256": "a805a6aab37f74120265a8abb6cad407b532e8ebae38290bdd8e7c80f6580fc2",
+        "bytes": 100346
+      }
+    },
+    "wrapper_sha256": "800801305721251dda0c26320c1cf2f1ffc468e2843d7d8b61ea06a4f20c70b0"
+  },
+  "predictions": {
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctl128s3_f0_valid.npy": {
+      "sha256": "ae53ff6ac9e74f5dd14094c91d0346856087895f67e4eb9b613f10ce29ce7031",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "195c1162cd0f5ac47177032ca0502c33c5cc2ef5c1e95c99449c41dffc031e06",
+      "checkpoint_sha256": "9ef79df712aedb2220d7dd31bf6532f7f4f12736536bde59c2ee3984326bbc4d"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ens128s4_f0_valid.npy": {
+      "sha256": "7a7252ebb25129058d05dfa28e962be6db342fd6078db2c283a7e9f466dc4978",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "6c39cdd878d23e64a8a767c2ce870d0ae5b382ca13ce2f8d3e30dae4cbc39ffe",
+      "checkpoint_sha256": "ea93bd747704fbc72635e1ee36ad8fc26863188036b162cccb1e0cbdb90ecb77"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctld256_f0_valid.npy": {
+      "sha256": "48bda487369ab601bf4d74278de583a19401ebf39da021242aad7340dbea8e0b",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "ef58a25bbb9c352f9b841262ad3d00d29e61de332b4a71344b5ab94ad5f6b7b9",
+      "checkpoint_sha256": "41788b286941e4228a8256e393db31bf69e1c4f529fe3ecce8f0a99b39d60b1f"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctlc500_f0_valid.npy": {
+      "sha256": "60a0cfbc2a394e1b48089aed43762e23e15b82c1d8dfe321eeb8849bd1d47914",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "150bd3ebbcd714206d19359162818f69022ef09a7e99cff962c45dede9321973",
+      "checkpoint_sha256": "a15eef08da43ee6a21ea343aabb7580e47a7bb8f8b2db442e37ad919a80f0fc4"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctl128s4_f0_valid.npy": {
+      "sha256": "cf9166ed339dc6f4be8d32d99292b79471e28220e48af3f47498c418eaba1b55",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "d5d435186a2372f9b929bd2df4f83936e4b42cd33b3e374c3eb10fd0b9b3af74",
+      "checkpoint_sha256": "ad18065111bf144e825f9e6985986ad15ddeb9edac6a50047374de8a712192f7"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctl128s3_f1_valid.npy": {
+      "sha256": "715063d4f2ca5438294ab582de6b0da52da1d8823ab80fdfe62750bac98fa8e0",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "e3caea17ec4100cc2a2cb7f5ea91e21792c9db95939d16998ccb78f832d40827",
+      "checkpoint_sha256": "25fb0282a335142ffbfb7e6daa3e03a187ef1526b2ece761f4624f0e33628852"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ens128s4_f1_valid.npy": {
+      "sha256": "372091c179131763989597087f18633d88d2d6d9ce6266870207455ca92c9f68",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "25f0f624f904d82536b1431f89f9e961e8b8092f240926a8a34f1c654e73c25e",
+      "checkpoint_sha256": "4cbc4dd9020d4d03a53301f2b23640edb94cc2a8729642a46ec7370d79a1e3b1"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctld256_f1_valid.npy": {
+      "sha256": "f051b87a87575281e09fcbb3d4acccd81a2c12986b899d280a4d49b00eb7bdb6",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "3cb5aa920b12de63dcf614622e6cc49187e5e235f646300943720e885c3486f7",
+      "checkpoint_sha256": "35097497b3aea7663945fb4918762af6d1169f1e712f68fe85cc7115b3621c0d"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctlc500_f1_valid.npy": {
+      "sha256": "142f5ea46fe9d96831281f6442f144dd5ba0358d141925532d2bf9094073a7fe",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "b0250cb2289cb94b1b06eaea74f93b71f179244f69fdb4ebfd942a11f145f66b",
+      "checkpoint_sha256": "396043fa13930877c73cfacea279a55dc1062cd94fa645206692ea87e41c33f5"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctl128s4_f1_valid.npy": {
+      "sha256": "83b1189ef79b6ce351c5233feb5b282264420701b3c21c96f97f62c19d3ca28d",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "bd8df92ffc8847cb12061df2bda1b9b15790efdcffff98e93bc99000733cab3d",
+      "checkpoint_sha256": "f14fb5800e3e5989023862121649f4ab5c5452ae520df8d2a8b0ecb38c6590eb"
+    }
+  },
+  "exposure": "exposed exploratory folds; no fresh confirmation"
+}

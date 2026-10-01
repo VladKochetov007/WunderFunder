@@ -1,0 +1,173 @@
+{
+  "status": "conditional feasibility pass for otherwise idle physical core; shared-host slowdown preserved",
+  "cpu": 18,
+  "smt_sibling": 58,
+  "rows_each": 100000,
+  "python": "CPython3.11 scorer userland",
+  "warmup_included": true,
+  "all_output_hashes_identical": true,
+  "prediction_sha256": "1a8f4839768ac70ff41076fde90213f6738aabf1df1f16808b8e7615fc1937ff",
+  "conditions": {
+    "baseline3": {
+      "all_runs": {
+        "repeats": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "us_row": [
+          113.42861558310688,
+          119.58175726234913,
+          114.79610563255847,
+          78.69863926433027,
+          79.05386816710234,
+          79.07529870048165,
+          77.87510325200856,
+          78.87238381430507
+        ],
+        "median_us_row": 79.064583433792,
+        "projected_minutes": [
+          74.48479089957351,
+          78.52535393560926,
+          75.38277603204672,
+          51.67877311691021,
+          51.9120400963972,
+          51.92611281331629,
+          51.13798446881895,
+          51.79286537139366
+        ],
+        "cpu_wall_ratio_min": 0.9997799949071179
+      },
+      "later_stable_runs_descriptive_only": {
+        "repeats": [
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "us_row": [
+          78.69863926433027,
+          79.05386816710234,
+          79.07529870048165,
+          77.87510325200856,
+          78.87238381430507
+        ],
+        "median_us_row": 78.87238381430507,
+        "projected_minutes": [
+          51.67877311691021,
+          51.9120400963972,
+          51.92611281331629,
+          51.13798446881895,
+          51.79286537139366
+        ],
+        "cpu_wall_ratio_min": 0.999859552595258
+      },
+      "explicitly_monitored_idle_sibling_runs": {
+        "repeats": [
+          6,
+          7
+        ],
+        "us_row": [
+          77.87510325200856,
+          78.87238381430507
+        ],
+        "median_us_row": 78.37374353315681,
+        "projected_minutes": [
+          51.13798446881895,
+          51.79286537139366
+        ],
+        "cpu_wall_ratio_min": 0.9998830595214823
+      },
+      "guarded_max_sibling_busy_fraction": 0.0064516129032258064,
+      "native_sha256": "ffdd8528ea7c5b98145d3718a11e55a47eb250b37f4347457acfcf6dc2723bd0",
+      "solution_sha256": "7a7027decfb374af2be9b631e60339fbfc75953e5fe84db255d14f37ead9bfa2"
+    },
+    "order_v2_3": {
+      "all_runs": {
+        "repeats": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "us_row": [
+          103.10697334818542,
+          106.53885029256344,
+          71.5690756496042,
+          69.72830232232809,
+          69.93376753292978,
+          69.31653656996787,
+          72.2295987419784,
+          73.9000288862735
+        ],
+        "median_us_row": 71.8993371957913,
+        "projected_minutes": [
+          67.70691249864176,
+          69.96051169211665,
+          46.9970263432401,
+          45.78825185832878,
+          45.923174013290556,
+          45.517859014278905,
+          47.43076984056582,
+          48.5276856353196
+        ],
+        "cpu_wall_ratio_min": 0.9997848972046678
+      },
+      "later_stable_runs_descriptive_only": {
+        "repeats": [
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "us_row": [
+          69.72830232232809,
+          69.93376753292978,
+          69.31653656996787,
+          72.2295987419784,
+          73.9000288862735
+        ],
+        "median_us_row": 69.93376753292978,
+        "projected_minutes": [
+          45.78825185832878,
+          45.923174013290556,
+          45.517859014278905,
+          47.43076984056582,
+          48.5276856353196
+        ],
+        "cpu_wall_ratio_min": 0.9998724277004386
+      },
+      "explicitly_monitored_idle_sibling_runs": {
+        "repeats": [
+          6,
+          7
+        ],
+        "us_row": [
+          72.2295987419784,
+          73.9000288862735
+        ],
+        "median_us_row": 73.06481381412596,
+        "projected_minutes": [
+          47.43076984056582,
+          48.5276856353196
+        ],
+        "cpu_wall_ratio_min": 0.9998747862969345
+      },
+      "guarded_max_sibling_busy_fraction": 0.006944444444444444,
+      "native_sha256": "dd6e59b2d75518ee06fcbe3ba49f8450b3ee83695fa5692e4b8edaf86d7c8bad",
+      "solution_sha256": "7a7027decfb374af2be9b631e60339fbfc75953e5fe84db255d14f37ead9bfa2"
+    }
+  },
+  "interpretation": "Two guarded pairs support 47.4\u201348.5minute fixed3 proxy on this Xeon6230 physical core. Earlier unmonitored candidate runs took up to70minutes. CPUtime\u2248walltime does not rule out SMT/cache interference. This is not a guarantee on organizer hardware."
+}

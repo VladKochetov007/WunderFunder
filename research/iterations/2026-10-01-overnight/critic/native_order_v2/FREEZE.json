@@ -1,0 +1,55 @@
+{
+  "status": "FROZEN; source and fresh CP311 builds; independent review PASS",
+  "created_utc": "2026-10-01T01:30:48.280337+00:00",
+  "parent_source": "../runtime-optimization/native_order",
+  "parent_model_hpp_sha256": "6494a791ff0552e0d4f04ca810cb789600c339cd6164966df9d741a7e1dc1faf",
+  "change": "Explicit std::fma on FMA targets; rounded volatile products on v2. Original index reduction and model execution schedule preserved.",
+  "source_files_sha256": {
+    "README.md": "6d3e5ce80a25c48aa8bcba48d4e732d104ccad44c807c2cd73a3683c88365ce1",
+    "bench/bench_kernels.cpp": "99dbbbdf673ba3542cc3f6c442458d2ef9f6b3804592a513a2db98103ee2fe3c",
+    "build.sh": "1877edd2a55e43ff99a93c77d98c1aef1913625025e8552cf3efc5aeb4c37f66",
+    "include/wnn/activations.hpp": "688ade56b1b0ffb9b59e423ad7cb3069f06564654c4a266f644c2a9ce973133d",
+    "include/wnn/event_features.hpp": "9baefba832ab21980da40a8819d6d996112cd159e37ac114e019c42001d6f689",
+    "include/wnn/kernels.hpp": "b0aa344e3e3dbe23a6cec670a436e1405fd70bbf6e3889bdeedeca6b5bffa1e4",
+    "include/wnn/model.hpp": "05383c60cb0080d5f5a319e5016adb8124fb3665b098fbc3c123817f010d3798",
+    "include/wnn/online_norm.hpp": "cb6f96a910cc9138f9f5e87cf14ecc5b0730d14819ad484274c3efaaf24123c8",
+    "include/wnn/transition_features.hpp": "4fed9a92f5b7422d37cdb605f697e94466959930a916daf74b2e0ee170d82fa2",
+    "package_cpp.py": "6c75e7adb51b3e3b322e932f679b39e6442469bd0340166beee5360c970de42f",
+    "src/bindings.cpp": "497bb9f003763be5c2ac58d7a57cf40d784dadfc096ce2573384f49890113e08",
+    "src/glibc_compat.c": "cdf6c82aa9ddd0a41adc39a920ea54ff31435c361b9e9a9b5e29e077c3c9ebd6",
+    "tests/test_parity.py": "562349ecda7c1eb8ec5db34235994ae53a7083d362615ba0e52fd9c40f5f70de",
+    "tools/scorer_env.sh": "e919be2b11499f20b07695645fc528678b7dd59eff4b9b64c642665b49ab38c8"
+  },
+  "CP311_binaries": {
+    "v2": {
+      "file": "build/v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so",
+      "sha256": "49de67603ca8f7e24c12f45fd6e9f976fe64a1af3dc25a04c7fbabd278d77423",
+      "bytes": 799288
+    },
+    "avx2": {
+      "file": "build/avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so",
+      "sha256": "7931b5d977934a1389c7d4804957de9e39fd50bb19214f600ff71316b1e79d99",
+      "bytes": 807264
+    },
+    "v3": {
+      "file": "build/v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so",
+      "sha256": "dd6e59b2d75518ee06fcbe3ba49f8450b3ee83695fa5692e4b8edaf86d7c8bad",
+      "bytes": 820488
+    }
+  },
+  "checks": {
+    "own_differential": "13f1cdb7c2648a3e7a1473691ce88424c1a0d1c40521c3b43b2cb0d729647327",
+    "runtime_summary": "4324b8c518a822e04d829805a7b2e9c41ea4321fcae0743d67c8c78b7e7b41da",
+    "package_smoke": "3aa60963096d410b737647c673a8c8d7c9d228939c65db1b46e351189af9ea41"
+  },
+  "packager": {
+    "file": "../package_fixed_v2.py",
+    "sha256": "1fe213bb5c78aefa89aea7108d31f939d2233428023fe4b7a825fdd49fe8de51"
+  },
+  "wrapper": {
+    "file": "../solution_fixed.py",
+    "sha256": "7a7027decfb374af2be9b631e60339fbfc75953e5fe84db255d14f37ead9bfa2"
+  },
+  "final_weights_packaged": false,
+  "fallback_V1_sha256": "ea494921497d9f3cf53b19b1b68285133983560a249b38ef40738b3d846d319d"
+}

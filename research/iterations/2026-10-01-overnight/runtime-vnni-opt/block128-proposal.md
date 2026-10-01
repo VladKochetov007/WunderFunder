@@ -1,0 +1,3 @@
+# Eight-chain packed tile, before timing (01:26 UTC)
+
+Registerprojection improved fullrow85.49→81.07µs with initialquantoutput hash unchanged, still misses50minute target. Next operator changes only integer weightlayout from64 outputs/four independent accumulationchains to128outputs/eightchains. More independent dot chains may hide CascadeLake integerdot latency better. Quantization, outputlaneint32 totals, float32scaleproduct/FMA, projection and membership remainidentical. Serving dimensions384/768/128/256 divide128. Syntheticoracle retains arbitrary tails viazeropadding andmaskedstores. Full100k parity toinitialquantrequired and same≤76.14µs target. Preservenative_register and its81.07receipt; no WP.

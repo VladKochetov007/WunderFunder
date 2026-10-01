@@ -1,0 +1,8 @@
+{
+  "clarification": "The raw kernel-v2-cpu22.json bitwise_kernel_parity flag compares quantized-fp32 to baseline-half256 only. half8 was timed but did not receive that bitwise check; it was rejected on speed and is not a candidate engine.",
+  "variants": {
+    "half256": "original AVX2/F16C4-row/16-lane kernel",
+    "half8": "8-output8-lane accumulation; boundedrounding would require validation if everpromoted; rejectedslower",
+    "quantized_fp32": "expand originalfp16weights toexactfloat32representations thenoriginalgemv; bitexactproductionmatrixparitypassed but~1.9xslower"
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "candidate": "on_ens128s3+on_ens128s4+on_ctld256+on_ctlc500",
+  "reference": "on_scale128s3+on_scale128s4+on_ctld256+on_ctlc500",
+  "sequences": 860,
+  "pure_only": true,
+  "candidate_wp": 0.7017703332233729,
+  "reference_wp": 0.7024885446672966,
+  "delta": -0.0007182114439236997,
+  "delta_by_fold": {
+    "0": -0.00044571559663197924,
+    "1": -0.000851513083817923
+  },
+  "delta_by_class": {
+    "0": -0.0006969412995758706,
+    "1": 0.0004787304437763318,
+    "2": 0.0003959967742853676,
+    "3": -0.0022464305120514783
+  },
+  "delta_boot_sd": 0.0003514946980993603,
+  "delta_boot_ci95": [
+    -0.0014193625175995734,
+    -5.7786887889294536e-05
+  ],
+  "bootstrap_nonpositive_fraction": 0.981,
+  "p_delta_le_0": 0.981,
+  "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+  "uncertainty_not_estimated": [
+    "training seeds",
+    "adaptive selection",
+    "future domain shift"
+  ],
+  "confirmation_established": false,
+  "candidate_wp_by_target": [
+    0.6978901003243201,
+    0.7056505661224258
+  ],
+  "reference_wp_by_target": [
+    0.6986189794970928,
+    0.7063581098375004
+  ],
+  "provenance": {
+    "id": "ENSHEAD-01-head-vs-scale",
+    "utc": "2026-10-01T01:20:18.491529+00:00",
+    "event": "started",
+    "candidate": "on_ens128s3+on_ens128s4+on_ctld256+on_ctlc500",
+    "reference": "on_scale128s3+on_scale128s4+on_ctld256+on_ctlc500",
+    "plan": "research/iterations/2026-10-01-overnight/ensemble/plan.json",
+    "plan_sha256": "b459e00f4b5165db08729b4274f5cabda3290d2befc7227bc1a723c644cf0de4",
+    "grader_sources": {
+      "scripts/fold_eval.py": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+      "src/wnn/gmetric.py": "70739da928175fd98c95b88eeb825991266673e59a16c0d70ce80b3642fa741b",
+      "src/wnn/splits.py": "7301f9199e3da4a10a9a0df9d1a234e68f09f39be068cba41557dea338cf3ea2",
+      "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+    },
+    "data_sources": {
+      "cache/valid_targets.npz": {
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+        "bytes": 337186198
+      },
+      "cache/chain_folds.npz": {
+        "sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+        "bytes": 562791
+      },
+      "research/artifacts/market-classes-v1.npz": {
+        "sha256": "a805a6aab37f74120265a8abb6cad407b532e8ebae38290bdd8e7c80f6580fc2",
+        "bytes": 100346
+      }
+    },
+    "wrapper_sha256": "800801305721251dda0c26320c1cf2f1ffc468e2843d7d8b61ea06a4f20c70b0"
+  },
+  "predictions": {
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ens128s3_f0_valid.npy": {
+      "sha256": "d76e71cda0c1475c2b2894612f6b0eebf283675bb68e6d8d18843d7ada5017c7",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "201f474c93e0d7ff0402b4e4703827bf45abd4971b155eb1cc8412feb8dacf7b",
+      "checkpoint_sha256": "1f1b5c1afdd935cc9a390ea711d14eed714240874d147d49695ca1ca1321d91f"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ens128s4_f0_valid.npy": {
+      "sha256": "7a7252ebb25129058d05dfa28e962be6db342fd6078db2c283a7e9f466dc4978",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "6c39cdd878d23e64a8a767c2ce870d0ae5b382ca13ce2f8d3e30dae4cbc39ffe",
+      "checkpoint_sha256": "ea93bd747704fbc72635e1ee36ad8fc26863188036b162cccb1e0cbdb90ecb77"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctld256_f0_valid.npy": {
+      "sha256": "48bda487369ab601bf4d74278de583a19401ebf39da021242aad7340dbea8e0b",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "ef58a25bbb9c352f9b841262ad3d00d29e61de332b4a71344b5ab94ad5f6b7b9",
+      "checkpoint_sha256": "41788b286941e4228a8256e393db31bf69e1c4f529fe3ecce8f0a99b39d60b1f"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctlc500_f0_valid.npy": {
+      "sha256": "60a0cfbc2a394e1b48089aed43762e23e15b82c1d8dfe321eeb8849bd1d47914",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "150bd3ebbcd714206d19359162818f69022ef09a7e99cff962c45dede9321973",
+      "checkpoint_sha256": "a15eef08da43ee6a21ea343aabb7580e47a7bb8f8b2db442e37ad919a80f0fc4"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_scale128s3_f0_valid.npy": {
+      "sha256": "5b6c7b41ff7d2ebc7130f5c27be66f81d77f82bd9ce9ecab5cddeb0e1f3c5ac7",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "7f2d855b2eae994d2cacc4261d7d961e038611958756868b42844090d189cb4a",
+      "checkpoint_sha256": "87918da32b18caba41019292d7c083c9281470832742d74581c90d03cdc47a46"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_scale128s4_f0_valid.npy": {
+      "sha256": "afab33f17a5ac21b9b174ed6210d700446beafc582b57bed3c0359f9fe61fd1e",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "ed8f625b05e5f039fc01f37aef7b386048a2fe9dd3be24a894cde443ab01398b",
+      "checkpoint_sha256": "a1e60e5161ea62535e862eb4610a317608caffa1251b42e788f6d393d06bc20d"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ens128s3_f1_valid.npy": {
+      "sha256": "5e360f7535d8113814143482fa96b97b5eaadcca65c1ed747af7b7545eb09c54",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "21c4f5a8dfaf0402e04c7b4ba59bb82e70a158af33d2673e3fc34fcf9e276e01",
+      "checkpoint_sha256": "0ff59e0c56e5e5a975b87059965b2793ee2a5dff12e634fc829fe094308ad021"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ens128s4_f1_valid.npy": {
+      "sha256": "372091c179131763989597087f18633d88d2d6d9ce6266870207455ca92c9f68",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "25f0f624f904d82536b1431f89f9e961e8b8092f240926a8a34f1c654e73c25e",
+      "checkpoint_sha256": "4cbc4dd9020d4d03a53301f2b23640edb94cc2a8729642a46ec7370d79a1e3b1"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctld256_f1_valid.npy": {
+      "sha256": "f051b87a87575281e09fcbb3d4acccd81a2c12986b899d280a4d49b00eb7bdb6",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "3cb5aa920b12de63dcf614622e6cc49187e5e235f646300943720e885c3486f7",
+      "checkpoint_sha256": "35097497b3aea7663945fb4918762af6d1169f1e712f68fe85cc7115b3621c0d"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctlc500_f1_valid.npy": {
+      "sha256": "142f5ea46fe9d96831281f6442f144dd5ba0358d141925532d2bf9094073a7fe",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "b0250cb2289cb94b1b06eaea74f93b71f179244f69fdb4ebfd942a11f145f66b",
+      "checkpoint_sha256": "396043fa13930877c73cfacea279a55dc1062cd94fa645206692ea87e41c33f5"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_scale128s3_f1_valid.npy": {
+      "sha256": "05716669710efe059714543540ee2e9cd3195ff4e528aa89625f186e4b6313b0",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "750dd11d569a9ef522db451c7e8fc52ce4624dec197251e8594473757b2ba73c",
+      "checkpoint_sha256": "a7f68a454c3edb2c9972b4452b4fb3efa78ceb596576f8ab789e2d0ab0186553"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_scale128s4_f1_valid.npy": {
+      "sha256": "3bfff5a77fb80b446abba0ce299845f5e33ac58b477e13ffe26d222db628a1de",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "390b4b2636b32c7c4f75d898222366df4103798df5384abef971d52eb861cf84",
+      "checkpoint_sha256": "614c54ea2c932b285436c171edd5e60722f03b254b80e06c3c705ae55f45b17e"
+    }
+  },
+  "exposure": "exposed exploratory folds; no fresh confirmation"
+}

@@ -1,0 +1,105 @@
+{
+  "frozen_at_utc": "2026-10-01T01:35:06.563012+00:00",
+  "status": "FAIL_RUNTIME_GATE_NOT_PROMOTED",
+  "timing_target_us": 76.14,
+  "projection_rows": 39400000,
+  "quantization_unchanged_from": "../runtime-vnni/proposal.md",
+  "quant_prediction_sha256": "919b5ab7292b63d9ed70405cfce623fdaadd997320473e014c2c6a65e869569b",
+  "all_fullrow_predictions_bitexact_to_initial_quant": true,
+  "best_controlled_variant": "block128",
+  "best_controlled_mean_us": 86.15148144774139,
+  "best_projected_minutes": 56.57280615068351,
+  "groups": {
+    "initial": {
+      "receipts": [
+        "guarded-initial-r0.json",
+        "guarded-initial-r1.json"
+      ],
+      "wall_us": [
+        96.39537443406881,
+        98.4043262898922
+      ],
+      "mean_us": 97.3998503619805,
+      "sibling58_busy": [
+        0.038461538461538436,
+        0.03869653767820769
+      ],
+      "load_precondition_pass": true,
+      "strong_timing_gate_pass": false,
+      "native_sha256": "9e722176d49f227d10ef8385c45d90f58bc94c41cd88ec25a3a674ebba9c90bb"
+    },
+    "packed": {
+      "receipts": [
+        "guarded-packed-r0.json",
+        "guarded-packed-r1.json"
+      ],
+      "wall_us": [
+        93.84747100062668,
+        93.11631836928427
+      ],
+      "mean_us": 93.48189468495548,
+      "sibling58_busy": [
+        0.02774813233724649,
+        0.047311827956989294
+      ],
+      "load_precondition_pass": true,
+      "strong_timing_gate_pass": false,
+      "native_sha256": "29bf8e494ac67cf60e7cfa41a7b1ccd64c2368d1bde96943afcc6a0ede600887"
+    },
+    "register": {
+      "receipts": [
+        "guarded-register-r0.json",
+        "guarded-register-r1.json"
+      ],
+      "wall_us": [
+        88.94329176284373,
+        86.81420939974487
+      ],
+      "mean_us": 87.8787505812943,
+      "sibling58_busy": [
+        0.04943820224719098,
+        0.04739884393063587
+      ],
+      "load_precondition_pass": true,
+      "strong_timing_gate_pass": false,
+      "native_sha256": "6dd28b03dbac5995d288dc32fd1c14f6efca21370ed42b286c407a73ee905baa"
+    },
+    "block128": {
+      "receipts": [
+        "guarded-block128-r0.json",
+        "guarded-block128-r1.json"
+      ],
+      "wall_us": [
+        87.08468722179532,
+        85.21827567368746
+      ],
+      "mean_us": 86.15148144774139,
+      "sibling58_busy": [
+        0.04718066743383198,
+        0.04705882352941182
+      ],
+      "load_precondition_pass": true,
+      "strong_timing_gate_pass": false,
+      "native_sha256": "4cb8a76f9b3010b506515ee2012e3088ab2f066edbddf0b6f63a7101bba4c84f"
+    },
+    "aligned": {
+      "receipt": "aligned-r0.json",
+      "wall_us": 88.81710346788167,
+      "sibling58_busy": 0.0022522522522522292,
+      "native_sha256": "6b4eab87738ffa71308c97addff201a58e29c42be7d6c20f496b66ead92f62bb",
+      "strong_timing_gate_pass": false
+    },
+    "ymm": {
+      "receipt": "ymm-r0.json",
+      "wall_us": 90.58003980666399,
+      "sibling58_busy": 0.0011049723756906271,
+      "native_sha256": "f4108bfd70100e2d5828cb0686de1cc6e7eef5681bfc988aa63fc9e877fbb835",
+      "strong_timing_gate_pass": false
+    }
+  },
+  "targets_read": false,
+  "WP_queries": 0,
+  "portable_fallback_implemented": false,
+  "independent_order_v2_review": "all three ISAs PASS, six mixed/duplicate member compositions; independent-order-v2-*.json",
+  "stop_reason": "All controlled variants missed50minute runtime target; optimization stage stopped without price scoring or deployment."
+}
