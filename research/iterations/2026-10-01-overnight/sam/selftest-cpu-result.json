@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "device": "cpu",
+  "torch": "2.14.0+cu130",
+  "recorded_utc": "2026-10-01T01:12:14.853442+00:00",
+  "command": "ssh beleriand: OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=src .venv/bin/python research/iterations/2026-10-01-overnight/sam/selftest.py --device cpu",
+  "checks": [
+    "exact_declared_source_transformation",
+    "full_original_chunk_loss_preserved_verbatim",
+    "rho_zero_three_chunk_exact_weights_hidden_AdamW_EMA_scaler_parity",
+    "rho005_analytic_adversarial_gradient_and_exact_restore",
+    "second_pass_exception_restores_parameters_exactly",
+    "first_overflow_no_perturbation_AdamW_skip_scale_backoff",
+    "second_overflow_exact_restore_AdamW_skip_scale_backoff",
+    "four_epoch_sampler_order_eval_RNG_parity_workers0_and2",
+    "all_registered_training_argv_pass_strict_recipe_guard"
+  ],
+  "trainer_sha256": "d9b5971bf1d1c7659148dbc36cff28fb6bc126577abb36deb275b392f113ab50",
+  "sam_step_sha256": "59f1f04e2e55943f148337882947858bbf098bb4152d3bc80fe9a23f0fd01bea",
+  "selftest_sha256": "52b2d8a8ed05efa307111757669efe9be653f05bfd9c48d9c1acec004373223f",
+  "competition_data_reads": 0,
+  "forecasting_fits": 0,
+  "WP_readouts": 0,
+  "CUDA_synthetic_test": "not run by author; pending free slot and independent review"
+}

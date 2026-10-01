@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "device": "cpu",
+  "checks": [
+    "exact AST loss body matches original",
+    "second pass uses same h_in and discards hidden output",
+    "restore helper precedes one unscale/AdamW/scaler/EMA path",
+    "no validation evaluate or metric-selected checkpoints",
+    "rho0 exact single-pass and forced-two-pass model/AdamW/EMA/scaler/hidden trajectory",
+    "nonzero rho changes update and restores every tensor before optimizer",
+    "globally normalized coupled quadratic gradient agrees with analytic oracle despite nonunit AMP scale",
+    "first/second AMP overflow skip without stale perturbation; exception restores exactly"
+  ],
+  "analytic_gradient_error": 1.1920928955078125e-07,
+  "torch": "2.14.0+cu130",
+  "peak_cuda_bytes": 0,
+  "source_sha256": {
+    "train_sam.py": "d9b5971bf1d1c7659148dbc36cff28fb6bc126577abb36deb275b392f113ab50",
+    "sam_step.py": "59f1f04e2e55943f148337882947858bbf098bb4152d3bc80fe9a23f0fd01bea"
+  },
+  "script_sha256": "d6bbf492175ed879ddebb9694bd29f265c8bde5ced7ad70d833193f88bf8c6a6",
+  "competition_data_reads": 0,
+  "forecasting_fits": 0,
+  "WP_queries": 0
+}
