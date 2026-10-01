@@ -1,0 +1,15 @@
+# Next research decision after the late-head null
+
+Do not interpret the +0.00000171 point estimate as a new SOTA solution. This recipe added no useful categorical advantage over the CE0 control. The incumbent remains the deliverable. The material-improvement goal remains unmet.
+
+The next distinct representation candidate is a learned minGRU backbone, not another output-head variant. The prior CTXMEM experiment added fixed projected summaries to an existing frozen model; an input-gated diagonal recurrence with 512 learned recurrent states is a different intervention. It is nevertheless not ready for a costly forecasting run.
+
+The existing `../2026-10-01-continuation/minimal-rnn/minimal_rnn.py` log-scan prototype passed generated B32/T2000 GPU finite-update checks at about 0.305 seconds/update and 4,441 MiB observed GPU memory. Its isolated native FP32 core passed 80 generated checks. A later audit exposed an exact-zero `log_g` candidate-gradient discrepancy, and AMP-to-streaming equivalence remains unqualified. The direct affine-scan replacement is not a fix: its retained `direct-scan-prototype/README.md` reports 186/194 checks passing and long-retention error 0.0143 against sequential FP32 over 20k rows.
+
+The existing native prototype measured 80.15 microseconds/row for the member alone, excluding features and three ensemble partners. This does not qualify a complete submission under 60 minutes. Its reduced MAC count must not be substituted for measured serving time. First make one bounded correction and measure the intended optimized serving path; do not launch three hours of fitting while these known blockers remain.
+
+If a corrected implementation meets numerical and serving requirements, the first meaningful quality experiment would use minGRU256x2 with the current complete student recipe: the same causal teacher caches, 211 inputs, seed3, parent epochs4 with fixed EMA endpoint3, then ordinary H2 epochs2 with fixed endpoint1, folds0/1, and the same three fixed quarter-weight partners. Freeze `inp,cells` for H2. This tests the recurrence and state capacity, not longer credit assignment: leave batch32/chunk2000 fixed. Synthetic throughput suggests approximately80-100 minutes per fold including overhead, around three hours total; these are estimates, not observed forecasting runtimes. No such fits were allocated here.
+
+Full20k gradients are a separate intervention. Internal scan carries can retain gradients, but the existing trainer detaches/updates every2000 rows. A naive B32/T20k activation extrapolation is about30GiB, over current limits. Smaller batches or checkpointing would change implementation, batching and optimizer schedule. They require an explicit experiment, not an unrecorded flag change.
+
+This source review is a practical next-step constraint, not evidence that minGRU will improve forecast quality. It does not justify extra audits of the closed late-head screen or further atom-head tuning. All original raw evidence and negative studies remain immutable; no public submission or GitHub publication is authorized.

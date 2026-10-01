@@ -1,0 +1,20 @@
+{
+  "status": "REVIEWED_BEFORE_OOF_SCORES",
+  "actor": "architecture_challenge",
+  "independent_grader_and_critic": "code_audit",
+  "source_reviewer": "root",
+  "source_sha256": {
+    "run.py": "23b831328c345774c9884bb870c67fecd61422ee8cdcc8fab395c5e1f1a30759",
+    "model.py": "146d125fd6437ebb489082fc754f451f3d7eca1768b08f8f22c540fed84d5a16",
+    "evaluate.py": "7632e2bbbd10b148788f61ef1fffba3bfa9d2c4bd99545512348ed221007d438",
+    "test_generated.py": "08ba6a0ff26cd8aed11bda3c0885ea929938cd579c546a66887c46e9c807c3bd",
+    "vocab.py": "1b0e242b29cae92cf10c73b3281dedf38caab26a7b2483f7ddd0eb197cb44df7"
+  },
+  "actual_generated_cpu_test": "PASS on beleriand; zero-gain numeric equality, state equality, nonzero gain derivative, original tensors frozen after updates, strict loading, causal prefix/chunks and corrected-CE oracle",
+  "grader_test": "check-evaluate-generated.json",
+  "pre_execution_fix": "CLI artifact paths canonicalized before any fit",
+  "precision": "Backbone and residual MLP FP16 autocast; corrected ratio moments explicitly FP32 in both arms",
+  "caveat": "OOF selects pure sequences; exact original raw-base guard must pass despite possible cuDNN batch-shape sensitivity. Any mismatch is an inference implementation issue, not evidence about the learned head. No refit is authorized by a parity failure.",
+  "statistical_status": "One exposed two-fold single-seed paired screen, no independent confirmation",
+  "scope": "No public submission, GitHub publication, or changes to the qualified package"
+}
