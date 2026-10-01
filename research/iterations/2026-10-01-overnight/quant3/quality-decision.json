@@ -1,0 +1,57 @@
+{
+  "status": "CLOSED_SCREEN_FAILED",
+  "created_utc": "2026-10-01T03:27:10.244851+00:00",
+  "plan_sha256": "a98412b6903dd027acdcd92b4b1dbdfcb147347ed0d00a26b7c6532409d3cedf",
+  "actual_handoff_review_sha256": "a3b4132a81ec9cb38c7fe4e4cb4cbffdb5c8b0b9972c53f231c2b195db6bb46b",
+  "all_core_gates_pass": false,
+  "readouts": [
+    {
+      "id": "Q3-quant-vs-fp16",
+      "candidate_wp": 0.7020008144532741,
+      "reference_wp": 0.7020122685424693,
+      "delta": -1.1454089195228612e-05,
+      "delta_by_fold": {
+        "0": -9.248270496531319e-06,
+        "1": -1.1516252734544707e-05
+      },
+      "conditional_chain_CI95": [
+        -2.8558563902505996e-05,
+        6.803438172175988e-06
+      ],
+      "pooled_minimum": -0.0001,
+      "pooled_strict": false,
+      "fold_minimum": -0.0001,
+      "pooled_pass": true,
+      "fold_pass": true,
+      "gate_pass": true,
+      "evaluation_sha256": "f1f1eb0766dfe4f332d21981ac6f492b98ac91cd747ff54b9c7b1239578c98d3"
+    },
+    {
+      "id": "Q3-quant-vs-baseline3",
+      "candidate_wp": 0.7020008144532741,
+      "reference_wp": 0.7017424296043642,
+      "delta": 0.00025838484890994273,
+      "delta_by_fold": {
+        "0": 0.0003753932325050169,
+        "1": 4.413046242390806e-05
+      },
+      "conditional_chain_CI95": [
+        -0.0005279359742205337,
+        0.001045509230631858
+      ],
+      "pooled_minimum": 0.0003,
+      "pooled_strict": false,
+      "fold_minimum": 0.0,
+      "pooled_pass": false,
+      "fold_pass": true,
+      "gate_pass": false,
+      "evaluation_sha256": "f4db838df38029f2798231e395008a8f45a05319e5affa71f12ddddf7890637e"
+    }
+  ],
+  "all_folds_exposed": true,
+  "new_WP_for_decision": 0,
+  "conditional_native_audit_authorized": false,
+  "finalist_fits_authorized": false,
+  "no_rescue": true,
+  "claim": "INT8 loss passed the fixed tolerance screen. The three-member composition improved the local fixed-three score but fell below the predeclared +.0003 promotion gate. Keep experimental ZIP; no new champion. Runtime qualified only on tested v3/VNNI, forced AVX2 failed."
+}

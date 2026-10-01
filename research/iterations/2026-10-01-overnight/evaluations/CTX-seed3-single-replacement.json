@@ -1,0 +1,154 @@
+{
+  "candidate": "on_ctxmemory_s3+on_ctl128s4+on_ctlc500",
+  "reference": "on_ctxcurrent_s3+on_ctl128s4+on_ctlc500",
+  "sequences": 860,
+  "pure_only": true,
+  "candidate_wp": 0.7017537086915471,
+  "reference_wp": 0.7017032938473343,
+  "delta": 5.0414844212753884e-05,
+  "delta_by_fold": {
+    "0": -2.002659504940496e-05,
+    "1": 2.8745006002917073e-05
+  },
+  "delta_by_class": {
+    "0": 3.6628410729822036e-05,
+    "1": -1.4202807819829744e-05,
+    "2": 5.331765380911513e-05,
+    "3": 0.00013462942279224288
+  },
+  "delta_boot_sd": 3.344577347023876e-05,
+  "delta_boot_ci95": [
+    -1.745642279948889e-05,
+    0.00011335795362036603
+  ],
+  "bootstrap_nonpositive_fraction": 0.068,
+  "p_delta_le_0": 0.068,
+  "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+  "uncertainty_not_estimated": [
+    "training seeds",
+    "adaptive selection",
+    "future domain shift"
+  ],
+  "confirmation_established": false,
+  "candidate_wp_by_target": [
+    0.6981051137682133,
+    0.7054023036148809
+  ],
+  "reference_wp_by_target": [
+    0.6979835670064628,
+    0.7054230206882058
+  ],
+  "provenance": {
+    "id": "CTX-seed3-single-replacement",
+    "utc": "2026-10-01T03:25:07.152081+00:00",
+    "event": "started",
+    "candidate": "on_ctxmemory_s3+on_ctl128s4+on_ctlc500",
+    "reference": "on_ctxcurrent_s3+on_ctl128s4+on_ctlc500",
+    "plan": "research/iterations/2026-10-01-overnight/ctxmem/execution-plan.json",
+    "plan_sha256": "fec1e50f26bd2888c6a70df07e2a4fe999d747f47a1287a2a6dd2eb1fea2988b",
+    "grader_sources": {
+      "scripts/fold_eval.py": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+      "src/wnn/gmetric.py": "70739da928175fd98c95b88eeb825991266673e59a16c0d70ce80b3642fa741b",
+      "src/wnn/splits.py": "7301f9199e3da4a10a9a0df9d1a234e68f09f39be068cba41557dea338cf3ea2",
+      "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+    },
+    "data_sources": {
+      "cache/valid_targets.npz": {
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+        "bytes": 337186198
+      },
+      "cache/chain_folds.npz": {
+        "sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+        "bytes": 562791
+      },
+      "research/artifacts/market-classes-v1.npz": {
+        "sha256": "a805a6aab37f74120265a8abb6cad407b532e8ebae38290bdd8e7c80f6580fc2",
+        "bytes": 100346
+      }
+    },
+    "wrapper_sha256": "800801305721251dda0c26320c1cf2f1ffc468e2843d7d8b61ea06a4f20c70b0"
+  },
+  "predictions": {
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctxmemory_s3_f0_valid.npy": {
+      "sha256": "ce37d564737dba54908f45b3facf93ca57c11f39916443defb999f8efe6005b2",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "e2ad11db9fdfe7f619fcd060106f55ea542e3cd5cc4f491877c51dd4b68ca400",
+      "checkpoint_sha256": "8567420c50b9424051bf91593088ec39b21f5dd17ca960accc34fee2b9e2cd56"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctl128s4_f0_valid.npy": {
+      "sha256": "cf9166ed339dc6f4be8d32d99292b79471e28220e48af3f47498c418eaba1b55",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "d5d435186a2372f9b929bd2df4f83936e4b42cd33b3e374c3eb10fd0b9b3af74",
+      "checkpoint_sha256": "ad18065111bf144e825f9e6985986ad15ddeb9edac6a50047374de8a712192f7"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctlc500_f0_valid.npy": {
+      "sha256": "60a0cfbc2a394e1b48089aed43762e23e15b82c1d8dfe321eeb8849bd1d47914",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "150bd3ebbcd714206d19359162818f69022ef09a7e99cff962c45dede9321973",
+      "checkpoint_sha256": "a15eef08da43ee6a21ea343aabb7580e47a7bb8f8b2db442e37ad919a80f0fc4"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctxcurrent_s3_f0_valid.npy": {
+      "sha256": "e6cb9fcd81d9703293e41884576afaf942d92b9c3d19c8420e54bd02077bc69c",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "65ad82d571e042aa3131568b8b5f08b33275a29807f222025a17f262e41f91d7",
+      "checkpoint_sha256": "68d0cddf77beaf7b1e739543241aaa1ad43db976d967d22a98b6e61f8da21c46"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctxmemory_s3_f1_valid.npy": {
+      "sha256": "be3d3c0037f1641aecec8a80165c1ce1490daf9eaca57c32b7ab53008dde575e",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "9e2df26a72efc17a70f82357d6ab9caa44ffa9490a860fd3be1e51d5e1bd159e",
+      "checkpoint_sha256": "4ef172b5acf8820de9392941980fa7d4c3be6f8375fc745ac8cf588198e42dce"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctl128s4_f1_valid.npy": {
+      "sha256": "83b1189ef79b6ce351c5233feb5b282264420701b3c21c96f97f62c19d3ca28d",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "bd8df92ffc8847cb12061df2bda1b9b15790efdcffff98e93bc99000733cab3d",
+      "checkpoint_sha256": "f14fb5800e3e5989023862121649f4ab5c5452ae520df8d2a8b0ecb38c6590eb"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctlc500_f1_valid.npy": {
+      "sha256": "142f5ea46fe9d96831281f6442f144dd5ba0358d141925532d2bf9094073a7fe",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "b0250cb2289cb94b1b06eaea74f93b71f179244f69fdb4ebfd942a11f145f66b",
+      "checkpoint_sha256": "396043fa13930877c73cfacea279a55dc1062cd94fa645206692ea87e41c33f5"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_ctxcurrent_s3_f1_valid.npy": {
+      "sha256": "1239f943cee490eb5e9320dde22077c8b02a63c73cd29b188c885c65002c8cf4",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "e5363a641c0a137197663211e61bfdc3cfeca7da0f817a8e41d06aff964c0417",
+      "checkpoint_sha256": "d2678e797658776d30854889e2ff8440c45eb70b810d8af4c6793b69abcaf881"
+    }
+  },
+  "exposure": "exposed exploratory folds; no fresh confirmation"
+}

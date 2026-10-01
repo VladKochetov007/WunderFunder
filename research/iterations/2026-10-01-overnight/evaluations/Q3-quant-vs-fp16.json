@@ -1,0 +1,114 @@
+{
+  "candidate": "on_q3quant",
+  "reference": "on_q3fp16",
+  "sequences": 860,
+  "pure_only": true,
+  "candidate_wp": 0.7020008144532741,
+  "reference_wp": 0.7020122685424693,
+  "delta": -1.1454089195228612e-05,
+  "delta_by_fold": {
+    "0": -9.248270496531319e-06,
+    "1": -1.1516252734544707e-05
+  },
+  "delta_by_class": {
+    "0": -1.1411941612027299e-05,
+    "1": -1.1708023055612138e-05,
+    "2": 2.9960143758112068e-06,
+    "3": -2.6782595219210226e-05
+  },
+  "delta_boot_sd": 8.985318236496603e-06,
+  "delta_boot_ci95": [
+    -2.8558563902505996e-05,
+    6.803438172175988e-06
+  ],
+  "bootstrap_nonpositive_fraction": 0.897,
+  "p_delta_le_0": 0.897,
+  "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+  "uncertainty_not_estimated": [
+    "training seeds",
+    "adaptive selection",
+    "future domain shift"
+  ],
+  "confirmation_established": false,
+  "candidate_wp_by_target": [
+    0.6979795576190984,
+    0.7060220712874498
+  ],
+  "reference_wp_by_target": [
+    0.6979992363321786,
+    0.70602530075276
+  ],
+  "provenance": {
+    "id": "Q3-quant-vs-fp16",
+    "utc": "2026-10-01T03:25:22.515064+00:00",
+    "event": "started",
+    "candidate": "on_q3quant",
+    "reference": "on_q3fp16",
+    "plan": "research/iterations/2026-10-01-overnight/quant3/oof-allocation.json",
+    "plan_sha256": "a98412b6903dd027acdcd92b4b1dbdfcb147347ed0d00a26b7c6532409d3cedf",
+    "grader_sources": {
+      "scripts/fold_eval.py": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+      "src/wnn/gmetric.py": "70739da928175fd98c95b88eeb825991266673e59a16c0d70ce80b3642fa741b",
+      "src/wnn/splits.py": "7301f9199e3da4a10a9a0df9d1a234e68f09f39be068cba41557dea338cf3ea2",
+      "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+    },
+    "data_sources": {
+      "cache/valid_targets.npz": {
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+        "bytes": 337186198
+      },
+      "cache/chain_folds.npz": {
+        "sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+        "bytes": 562791
+      },
+      "research/artifacts/market-classes-v1.npz": {
+        "sha256": "a805a6aab37f74120265a8abb6cad407b532e8ebae38290bdd8e7c80f6580fc2",
+        "bytes": 100346
+      }
+    },
+    "wrapper_sha256": "800801305721251dda0c26320c1cf2f1ffc468e2843d7d8b61ea06a4f20c70b0"
+  },
+  "predictions": {
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_q3quant_f0_valid.npy": {
+      "sha256": "34175ae04adcd6157353580ed5660f0b2c365399af6997e7d800cb1b2c4348a0",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "263506a3cdb1e28a4bf3ff3fff15223ecfe6f94342e30d01f8097f8a8413722f",
+      "checkpoint_sha256": "20331c0e4ff21004a4a4ac429f1e49c323035ee6b51e4b25e6b8648199c2a976"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_q3fp16_f0_valid.npy": {
+      "sha256": "c8ffa93199812a5848fb2020e903089019f43307afe290574a1f9d766210c9e8",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "cf112f5336523bb845eb8a1b13323d51f7b997f1331eff23e922cfa4e97a75f9",
+      "checkpoint_sha256": "4e0e15eefd2673dd195aa9e8298fec4d97ee9e2f71b2af46d2525d4f2dabf646"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_q3quant_f1_valid.npy": {
+      "sha256": "bd94164c694bf67eb93718af4b112183955043b99adcb5a3f0fa0b8250c141ba",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "6ec01576e8a11aeed43f026e3182ef9428ca4f9b4c83d2dd4cbf2d40593d058f",
+      "checkpoint_sha256": "ac6dc742032ae9cfd6aa13e443221882cadd465629a785f316024890442f9025"
+    },
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/cache/pred_on_q3fp16_f1_valid.npy": {
+      "sha256": "0165c3c441ef4ff7dbb6e23e795acf77ff7283dfd1afb9986329d9ef54921da8",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "receipt_sha256": "68a85c658d11f01c0952aba119168722c0de3bd5c63b878317c09ebe1e637f96",
+      "checkpoint_sha256": "f50c2f1030c8476aa642567b5306c69146a5843d93afdab5f761578c7c23c7e0"
+    }
+  },
+  "exposure": "exposed exploratory folds; no fresh confirmation"
+}
