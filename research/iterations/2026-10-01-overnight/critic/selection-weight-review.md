@@ -1,0 +1,20 @@
+# Selection-weight reframe: stop recommendation after historical review
+
+Do not allocate this proposal or amend the eight-configuration budget tonight. The proposed outcome-aware selection premise already had a direct diagnostic in E-103, and the present reframe does not identify a new failure mechanism sufficient to reopen it. This is a resource decision under existing negative evidence, not a proof that selection is conditionally independent of all targets.
+
+The blind critique was written first in selection-weight-preproposal.md. Subsequent source-only review found:
+
+- E-103 fit P(S|X,Y) versus P(S|X), using a GBM and held chain-fold pair. AUC improved from .8957 to .8979, only +.0022 against its predeclared .005 gate; class-3 improvement was only .0003. The ledger explicitly closed label-aware training weights at that diagnostic gate.
+- E-170 tested sharper X-only propensity on EMA-4 and found approximately -.0001 pooled rather than the gain obtained on the older two-epoch recipe.
+- E-186 tested a coarse cross-fitted conditional-mask residual correction. Both folds lost, pooled -.001296 under the true mask and -.001203 under the softened mask.
+- E-162's scored/unscored predictability gap conditions on coarse propensity and timing bins. It does not establish outcome-dependent selection conditional on the full causal information set. Pearson differences can reflect outcome/level variance composition, as the original note itself cautions.
+
+The actual parent weight is not simply p squared. In scripts/train_rnn.py it first constructs valid*(p**2+.03). For sequences with any true scored-mask positives, true_mask_weights replaces its row shape with valid*c*(S+.03), where c preserves the original total propensity weight across mask-bearing sequences in the minibatch. The since factor is then applied. Aux-structure, aux-next and EMA consistency all inherit main_valid. Consequently a naive ratio inserted before true-mask replacement disappears from the valid row shape but changes its aggregate mass; inserted later it double-weights mask selection; changing main_valid also changes several loss branches. A distinct future implementation would need an explicit train-source, main-only intervention and preserve valid/auxiliary/EMA behavior, with ratio1 exact baseline parity.
+
+The simplified unbounded product p²*(qXY/p)=p*qXY is a conditional-outcome emphasis, not inverse missing-outcome correction. With the actual floor it becomes (p²+.03)*(qXY/p), so low-p rows can be especially sensitive before bounding. Numerator and denominator calibration/coherence, ratio clipping, effective sample size, class/source mass and valid-to-train transport would all need predeclared checks. Historical E-099/E-159 already documented class-weight distortion and probability-calibration drift.
+
+scripts/train_propensity.py also selects its checkpoint by heldfold mask AUC. Reusing that training script unchanged for a new supposedly untouched nuisance holdout would expose heldfold selection labels. Existing frozen baseline artifacts have their historical exposure; a new diagnostic must not call that history fresh or add new outer-held selection.
+
+If the family were reopened in a later separately authorized campaign, the scientifically relevant diagnostic would require inner chain-held proper-score/calibration evidence and conditional metric-weighted target-moment evidence, not merely another AUC, coarse propensity-bin gap or in-sample selector fit. It would also require stable bounded weights and source support. Such a diagnostic could refine the old AUC-based conclusion, but it is a new preregistered revisit with its own budget, not an automatic continuation or evidence already present. No new numeric gate, diagnostic, nuisance fit, forecast fit or WP query is authorized by this review.
+
+Reviewed sources: research/experiments.jsonl (E-099/103/155/159/162/170/186), research/panel/brainteaser_timing.md, research/ideas/2026-09-27_metric.md, src/wnn/propensity.py, scripts/train_propensity.py and scripts/train_rnn.py. No competition arrays, checkpoints or predictions were opened.

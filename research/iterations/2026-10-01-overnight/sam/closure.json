@@ -1,0 +1,38 @@
+{
+  "id": "SAM-PARENT-01",
+  "closed_utc": "2026-10-01T02:03:27.736344+00:00",
+  "status": "screen_failed",
+  "fits": 8,
+  "parent_integrity_checks": 4,
+  "heldfold_prediction_jobs": 4,
+  "WP_readouts": 2,
+  "primary": {
+    "candidate_wp": 0.7022791524637074,
+    "reference_wp": 0.7023672255138177,
+    "delta": -8.807305011027111e-05,
+    "folds": {
+      "0": -3.337424680027734e-05,
+      "1": -0.00011714985705779668
+    },
+    "CI95_conditional_models": [
+      -0.00032695853569317533,
+      0.00017060418553686
+    ]
+  },
+  "spend_gate": "+.0003pooled andbothfolds>=0",
+  "decision": "No seed4, no finalist, no conditional fixed3 queries, no rho sweep",
+  "interpretation": "Fixedrho.05 parentSAM did not improve fixedfourH2 ensemble in this exposedseed3 screen. CI spans0; not a universalSAM harm claim. Reruncontrols are tensorandprediction-byte identical to incumbent onbothfolds, so thetwo registered comparisons are numerically same evidence, not independentreplication.",
+  "files_sha256": {
+    "evaluations/SAM-seed3-paired.json": "e70b2f31120af227903328704d129fbdba964b824c2cff04aefdd3fa292288d1",
+    "evaluations/SAM-seed3-incumbent.json": "aa76b3d6597595e8f9b266665554e3d4dc5aa76c724141b82d16ff59ce719252",
+    "sam/actual-fits-seed3-integrity.json": "75a42329fb1ade96d1aeca2962646cbc363234c52b7e9be4a3256fc6f696832d",
+    "sam/control-incumbent-identity.json": "e5e3b4a2b6464a87b97f9553e4e51287fcbf1efcbee652dfb0efe24c685760b6",
+    "sam/gpu-budget-watch.seed3.jsonl": "c1097d876091b5f66417f7312d96a186561e4992240bb54ec4393fa9e86e745a"
+  },
+  "GPU_monitor": "All8fits below5632MiB;max5310MiB,nostops",
+  "limitations": [
+    "allfoldsexposed",
+    "one pairedseed only",
+    "bootstrapconditionedonfitmodels, notseed/adaptation/hidden-domainuncertainty"
+  ]
+}

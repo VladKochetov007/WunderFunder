@@ -29,3 +29,11 @@ After three failed mechanisms, the research direction was explicitly reconsidere
 The other research direction is a cheap input-only falsifier: test whether anonymous a5 resets reveal repeated mark occurrences omitted by payload-change detectors. Its common-clock and state-divergence requirements must pass before any target association or new forecasting allocation. Implementation/review is pending; no empirical clock result exists yet.
 
 Remaining work: finish the paired SAM screen, evaluate the input-clock falsifier, establish numerical-kernel quality/runtime if feasible, then train/verify any promoted finalist and build fresh submission ZIPs. No top1 claim is supported by these local observations.
+
+## 02:03UTC frontier update
+
+SAM seed3 closed after8fits: pairedandincumbent delta−.000088073,bothfoldsnegative,CI[−.00032696,+.00017060]. Controls reproduce incumbenttensors andpredictions exactly; twoqueriesare sameevidence. No seed4/finalist/conditionalfixed3 queries. QRENEWAL closed: zero missedmarkedresets/295833; all256chains failclockmedianerror. Outcome-awareselection scoutclosedasE103/E186duplicate.
+
+Concretefixed3ZIP9471821e… validatesall3ISA; v3fullcallback1M67.7116s→44.46min39.4Mrows,88.75MiBRSS,quietSMT. Startup~19ms excludesalready-importedNumPy. CompositionOOFstill−.000624796vsfixedfour; notnewqualitySOTA.
+
+Rootprospectiveamendment01 permitsCTXMEMcurrent+eventEMA andQ3[d256,s3,c500] preparation, scientificconfigs8→11; all64fit/WP/resource/deadlinecapsunchanged. No newempiricalruns yet. Selectedpostfailureonexposedhistory; fixedgatesbeforeoutcomes.

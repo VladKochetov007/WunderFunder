@@ -1,0 +1,107 @@
+{"name": "on_sam_pctl_s3_f0", "sam_stage": "parent", "sam_rho": 0.0, "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 128, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 32, "epochs": 4, "lr": 0.001, "wd": 0.01, "loss": "wmse", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "aux_next_k": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "tfm_d": 256, "tfm_layers": 6, "tfm_heads": 8, "tfm_ff": 1024, "tfm_block": 250, "hidden1": 0, "attn_k": 32, "attn_d": 64, "attn_heads": 4, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 4, "valid_repeat": 1, "init": "", "freeze": "", "ema_teacher": 1.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": true, "mask_weight": false, "propensity": "prop_f0", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "atom_head": 0.0, "vrex": 0.0, "vrex_start": 1, "level_aug": 0.0, "level_drop": 0.0, "lookahead": "", "train_half": -1, "class_heads": false, "quant_feats": false, "quant_i1": false, "state_reset": 0, "loss_norm": "chunk", "since_weight": 32.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "evaluation_policy": "none; fixed parent ep3 or head ep1; preserve evaluation-loader RNG"}
+{"source_train_sequences": 10606, "eligible_valid_train_sequences": 1406, "used_valid_train_sequences": 1406, "eval_sequences": 467}
+loader workers 2 prefetch 2; params 0.26M; steps 15000
+ep 0 batch 0/375 loss 3.8816 lr 4.04e-05 seq/s 8.6
+ep 0 batch 20/375 loss 3.0022 lr 2.14e-04 seq/s 50.6
+ep 0 batch 40/375 loss 2.4638 lr 5.91e-04 seq/s 55.2
+ep 0 batch 60/375 loss 2.1939 lr 9.21e-04 seq/s 57.0
+ep 0 batch 80/375 loss 2.1493 lr 1.00e-03 seq/s 58.0
+ep 0 batch 100/375 loss 2.1026 lr 9.99e-04 seq/s 58.6
+ep 0 batch 120/375 loss 1.8506 lr 9.97e-04 seq/s 59.3
+ep 0 batch 140/375 loss 2.1483 lr 9.95e-04 seq/s 59.6
+ep 0 batch 160/375 loss 1.6710 lr 9.91e-04 seq/s 59.8
+ep 0 batch 180/375 loss 1.9840 lr 9.86e-04 seq/s 60.0
+ep 0 batch 200/375 loss 1.5227 lr 9.81e-04 seq/s 60.2
+ep 0 batch 220/375 loss 1.7811 lr 9.74e-04 seq/s 60.3
+ep 0 batch 240/375 loss 1.8342 lr 9.67e-04 seq/s 60.4
+ep 0 batch 260/375 loss 2.2984 lr 9.59e-04 seq/s 60.5
+ep 0 batch 280/375 loss 1.7497 lr 9.49e-04 seq/s 60.7
+ep 0 batch 300/375 loss 1.7753 lr 9.39e-04 seq/s 60.7
+ep 0 batch 320/375 loss 1.7645 lr 9.28e-04 seq/s 60.8
+ep 0 batch 340/375 loss 1.5698 lr 9.16e-04 seq/s 60.8
+ep 0 batch 360/375 loss 1.7288 lr 9.04e-04 seq/s 60.8
+VALID {"evaluation_skipped": true, "policy": "fixed endpoint; no WP computed", "epoch": 0, "eval_seconds": 0.0, "split": "vfold467"}
+ep 1 batch 0/375 loss 2.0121 lr 8.94e-04 seq/s 11.3
+ep 1 batch 20/375 loss 1.7277 lr 8.80e-04 seq/s 50.6
+ep 1 batch 40/375 loss 1.4514 lr 8.65e-04 seq/s 55.6
+ep 1 batch 60/375 loss 1.6286 lr 8.50e-04 seq/s 57.5
+ep 1 batch 80/375 loss 1.7090 lr 8.34e-04 seq/s 58.6
+ep 1 batch 100/375 loss 1.5961 lr 8.17e-04 seq/s 59.3
+ep 1 batch 120/375 loss 1.5918 lr 8.00e-04 seq/s 59.9
+ep 1 batch 140/375 loss 1.9054 lr 7.82e-04 seq/s 60.3
+ep 1 batch 160/375 loss 1.8888 lr 7.63e-04 seq/s 60.6
+ep 1 batch 180/375 loss 1.9532 lr 7.44e-04 seq/s 60.8
+ep 1 batch 200/375 loss 1.4777 lr 7.25e-04 seq/s 61.2
+ep 1 batch 220/375 loss 1.6721 lr 7.05e-04 seq/s 61.3
+ep 1 batch 240/375 loss 1.5189 lr 6.85e-04 seq/s 61.5
+ep 1 batch 260/375 loss 1.7489 lr 6.64e-04 seq/s 61.7
+ep 1 batch 280/375 loss 1.7024 lr 6.43e-04 seq/s 61.8
+ep 1 batch 300/375 loss 1.6453 lr 6.22e-04 seq/s 62.0
+ep 1 batch 320/375 loss 1.7400 lr 6.00e-04 seq/s 62.1
+ep 1 batch 340/375 loss 1.7158 lr 5.79e-04 seq/s 62.2
+ep 1 batch 360/375 loss 1.9296 lr 5.57e-04 seq/s 62.4
+VALID {"evaluation_skipped": true, "policy": "fixed endpoint; no WP computed", "epoch": 1, "eval_seconds": 0.0, "split": "vfold467"}
+ep 2 batch 0/375 loss 1.9457 lr 5.40e-04 seq/s 11.0
+ep 2 batch 20/375 loss 1.4983 lr 5.18e-04 seq/s 50.7
+ep 2 batch 40/375 loss 1.4913 lr 4.96e-04 seq/s 55.9
+ep 2 batch 60/375 loss 1.5704 lr 4.74e-04 seq/s 58.1
+ep 2 batch 80/375 loss 1.7181 lr 4.52e-04 seq/s 59.2
+ep 2 batch 100/375 loss 1.6667 lr 4.30e-04 seq/s 59.9
+ep 2 batch 120/375 loss 1.6587 lr 4.09e-04 seq/s 60.3
+ep 2 batch 140/375 loss 1.9698 lr 3.87e-04 seq/s 60.7
+ep 2 batch 160/375 loss 1.5446 lr 3.66e-04 seq/s 61.0
+ep 2 batch 180/375 loss 1.4428 lr 3.45e-04 seq/s 61.2
+ep 2 batch 200/375 loss 1.5615 lr 3.24e-04 seq/s 61.4
+ep 2 batch 220/375 loss 1.5337 lr 3.03e-04 seq/s 61.5
+ep 2 batch 240/375 loss 1.5785 lr 2.83e-04 seq/s 61.7
+ep 2 batch 260/375 loss 1.8980 lr 2.64e-04 seq/s 61.9
+ep 2 batch 280/375 loss 1.6096 lr 2.45e-04 seq/s 61.9
+ep 2 batch 300/375 loss 1.5047 lr 2.26e-04 seq/s 61.9
+ep 2 batch 320/375 loss 1.5848 lr 2.08e-04 seq/s 62.0
+ep 2 batch 340/375 loss 1.3222 lr 1.90e-04 seq/s 62.0
+ep 2 batch 360/375 loss 1.8087 lr 1.73e-04 seq/s 62.1
+VALID {"evaluation_skipped": true, "policy": "fixed endpoint; no WP computed", "epoch": 2, "eval_seconds": 0.0, "split": "vfold467"}
+ep 3 batch 0/375 loss 1.6959 lr 1.61e-04 seq/s 11.6
+ep 3 batch 20/375 loss 1.7582 lr 1.45e-04 seq/s 51.7
+ep 3 batch 40/375 loss 1.5894 lr 1.30e-04 seq/s 56.6
+ep 3 batch 60/375 loss 1.8516 lr 1.15e-04 seq/s 58.6
+ep 3 batch 80/375 loss 1.9694 lr 1.02e-04 seq/s 59.7
+ep 3 batch 100/375 loss 1.5644 lr 8.88e-05 seq/s 60.4
+ep 3 batch 120/375 loss 1.5220 lr 7.67e-05 seq/s 60.8
+ep 3 batch 140/375 loss 1.6543 lr 6.54e-05 seq/s 61.1
+ep 3 batch 160/375 loss 1.7712 lr 5.49e-05 seq/s 61.3
+ep 3 batch 180/375 loss 1.4149 lr 4.54e-05 seq/s 61.6
+ep 3 batch 200/375 loss 1.8210 lr 3.67e-05 seq/s 61.8
+ep 3 batch 220/375 loss 1.5449 lr 2.89e-05 seq/s 62.0
+ep 3 batch 240/375 loss 1.7551 lr 2.20e-05 seq/s 62.1
+ep 3 batch 260/375 loss 1.7760 lr 1.61e-05 seq/s 62.3
+ep 3 batch 280/375 loss 1.6080 lr 1.11e-05 seq/s 62.4
+ep 3 batch 300/375 loss 1.6597 lr 7.02e-06 seq/s 62.5
+ep 3 batch 320/375 loss 1.7360 lr 3.92e-06 seq/s 62.5
+ep 3 batch 340/375 loss 1.4459 lr 1.80e-06 seq/s 62.4
+ep 3 batch 360/375 loss 1.5523 lr 6.35e-07 seq/s 62.4
+VALID {"evaluation_skipped": true, "policy": "fixed endpoint; no WP computed", "epoch": 3, "eval_seconds": 0.0, "split": "vfold467"}
+FIXED_ENDPOINT 3 validation metrics suppressed
+	Command being timed: ".venv/bin/python research/iterations/2026-10-01-overnight/sam/train_sam.py --name on_sam_pctl_s3_f0 --sam-stage parent --sam-rho 0.0 --valid-fold 0 --seed 3 --hidden 128 --layers 2 --chunk 2000 --n-valid-folds 4 --full-valid --aux-struct 0.3 --aux-next 0.3 --precision fp16 --wd 0.01 --fast --eval-source vfold --train-source train+valid --loss wmse --batch 32 --epochs 4 --lr 0.001 --propensity prop_f0 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --ema-teacher 1.0 --ema-decay 0.999 --eval-ema --since-weight 32 --since-floor 0.25"
+	User time (seconds): 1463.85
+	System time (seconds): 695.18
+	Percent of CPU this job got: 274%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 13:06.36
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 3931124
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 143670334
+	Voluntary context switches: 229266
+	Involuntary context switches: 8131
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 10984
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
