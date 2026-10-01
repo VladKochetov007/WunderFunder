@@ -1,0 +1,100 @@
+{
+  "id": "QRENEWAL-01-inputs-only",
+  "version": 1,
+  "status": "frozen-for-independent-review; controller allocation required; no actual input execution yet",
+  "spec": "spec.md",
+  "columns": [
+    "a5",
+    "a6",
+    "i0_dv0",
+    "i0_dv1",
+    "i0_dv2",
+    "i0_dv3",
+    "i0_dp0",
+    "i0_dp1",
+    "i0_dp2",
+    "i0_dp3"
+  ],
+  "caps": {
+    "cpu_threads": 2,
+    "address_space_bytes": 4294967296,
+    "wall_seconds": 480,
+    "cpu_seconds": 480
+  },
+  "selection": {
+    "manifest": "selected-chains.json",
+    "ordered_records": 256,
+    "row_groups_per_chain": 1,
+    "rows_per_group": 20000,
+    "halves": [
+      0,
+      1
+    ],
+    "chains_per_half_class": 32,
+    "reselection": false
+  },
+  "parameters": {
+    "knots": 32,
+    "knot_quantiles": "linspace(0,1,32),linear,deduplicated,fitting half only",
+    "range_constraint": "g5(q95fit5)-g5(q05fit5)=1",
+    "slopes": "nonnegative",
+    "second_difference_ridge": 0.001,
+    "max_pairs_per_chain": 1024,
+    "sampling": "floor linspace on eligible indices",
+    "fit_directions": [
+      0,
+      1
+    ],
+    "reset_tolerance": 1e-06,
+    "mark_abs_limit": 5.19,
+    "mark_non_neutral_range": 1e-06,
+    "ema_half_life_occurrences": 16,
+    "grid_start": 99,
+    "grid_step": 64,
+    "solver": "SLSQP",
+    "maxiter": 1000,
+    "ftol": 1e-13,
+    "kkt_tolerance": 1e-05,
+    "regularized_tangent_min_eigenvalue": 1e-12,
+    "unregularized_rank_relative_eigenvalue_tolerance": 1e-10
+  },
+  "gates": {
+    "both_directions_required": true,
+    "positive_pair_coverage_min": 0.5,
+    "median_increment_error_max": 0.05,
+    "p90_increment_error_max": 0.2,
+    "reset_origin_fraction_min": 0.9,
+    "reset_origin_excursion_radius_fraction": 0.05,
+    "qualified_repeated_mark_fraction_min": 0.1,
+    "qualified_repeated_mark_chains_min": 20,
+    "state_rms_fit_old_iqr_min": 0.1,
+    "state_coordinates_min": 2
+  },
+  "prohibited": [
+    "target columns",
+    "validation data",
+    "scoring masks",
+    "prediction masks",
+    "OOF caches",
+    "target-stage code",
+    "forecast fits",
+    "WP queries",
+    "threshold retuning",
+    "retry after empirical failure",
+    "alternative sample or knots"
+  ],
+  "files_sha256": {
+    "core.py": "7ca5353a07c96cb5e27b667075b99571f9e5fcb9ac36d9f4e22b99adffdf6653",
+    "run_inputs.py": "b9ac93f255f21cb3ca51004266698dde599692f9f67fd975e3c8d80eac01b6ee",
+    "selftest.py": "30d607a94799431af04fb47209dbbfca653517e07e20ff1586021b950d01afa2",
+    "spec.md": "48cffb7dbc10b0aabadcdf471b7f652f0902ebe04b01b9d6b1d6c370fed6ccbf",
+    "selected-chains.json": "13e39a60cdd88f5f0c35ea2c8abfe1558561c75cce4c8ddc8f1671446704a13d",
+    "selftest-attempt03.json": "1f2c67d9b5b83cc1f1c8458e3ff08513d00965a1f9e94908f4bbeece964fc48f"
+  },
+  "command": ".venv/bin/python research/iterations/2026-10-01-overnight/renewal/run_inputs.py --plan research/iterations/2026-10-01-overnight/renewal/execution-plan.v1.json --execute-inputs",
+  "allocation_prerequisites": [
+    "independent critic review",
+    "controller acceptance/proof of exact historical train-only selection provenance"
+  ],
+  "synthetic_validation": "selftest-attempt03.json; all 12 checks PASS; no empirical data opened"
+}

@@ -1,0 +1,105 @@
+{
+  "status": "PASS",
+  "synthetic_only": true,
+  "tests": [
+    "repeated_payload_counterexample",
+    "all_prefix_parity",
+    "sequence_reset",
+    "mark_validity",
+    "all_row_denominators",
+    "degenerate_rejection",
+    "perfect_linear_clock",
+    "perfect_nonlinear_clock",
+    "false_clock_oracle"
+  ],
+  "clock_fixtures": [
+    {
+      "false_clock": false,
+      "nonlinear": false,
+      "gates": {
+        "coverage": true,
+        "increment_error": true,
+        "reset_origin": true
+      },
+      "error": {
+        "n": 24663,
+        "median": 0.004013084761921856,
+        "p90": 0.01685728292318486,
+        "min": 2.0108478998097578e-08,
+        "max": 0.9999999947976544
+      },
+      "coverage": 1.0,
+      "origin_fraction": 1.0,
+      "oracle_median_error": 1.800359709432438e-16,
+      "optimizer": {
+        "success": true,
+        "iterations": 208,
+        "message": "Optimization terminated successfully",
+        "data_objective": 0.0026192557688552217,
+        "ridge_objective": 4.599921216042785e-08,
+        "tangent_min_eigenvalue_scaled": 4.6046795119756785e-05,
+        "tangent_max_eigenvalue_scaled": 0.913969462946163,
+        "objective_scale": 58.63073810526889
+      }
+    },
+    {
+      "false_clock": false,
+      "nonlinear": true,
+      "gates": {
+        "coverage": true,
+        "increment_error": true,
+        "reset_origin": true
+      },
+      "error": {
+        "n": 24663,
+        "median": 0.006369914618907494,
+        "p90": 0.027814563075624167,
+        "min": 1.6959301806012458e-07,
+        "max": 0.9999999949168327
+      },
+      "coverage": 1.0,
+      "origin_fraction": 1.0,
+      "oracle_median_error": 1.800359709432438e-16,
+      "optimizer": {
+        "success": true,
+        "iterations": 213,
+        "message": "Optimization terminated successfully",
+        "data_objective": 0.003012774517049021,
+        "ridge_objective": 5.038112688713785e-06,
+        "tangent_min_eigenvalue_scaled": 7.837856788103805e-05,
+        "tangent_max_eigenvalue_scaled": 0.9144911595054594,
+        "objective_scale": 62.752619005843286
+      }
+    },
+    {
+      "false_clock": true,
+      "nonlinear": false,
+      "gates": {
+        "coverage": true,
+        "increment_error": false,
+        "reset_origin": true
+      },
+      "error": {
+        "n": 24733,
+        "median": 0.7041983155593116,
+        "p90": 0.9593661866881553,
+        "min": 3.2863090104630395e-05,
+        "max": 0.999999998889612
+      },
+      "coverage": 0.9998787192755498,
+      "origin_fraction": 1.0,
+      "oracle_median_error": 0.4324162344959539,
+      "optimizer": {
+        "success": true,
+        "iterations": 208,
+        "message": "Optimization terminated successfully",
+        "data_objective": 0.09161076519461384,
+        "ridge_objective": 2.900698954373448e-05,
+        "tangent_min_eigenvalue_scaled": 2.862357238678164e-05,
+        "tangent_max_eigenvalue_scaled": 0.9705654621450895,
+        "objective_scale": 90.8912925198991
+      }
+    }
+  ],
+  "seconds": 0.7220636578276753
+}

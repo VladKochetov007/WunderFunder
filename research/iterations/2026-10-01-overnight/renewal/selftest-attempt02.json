@@ -1,0 +1,154 @@
+{
+  "status": "PASS",
+  "synthetic_only": true,
+  "tests": [
+    "repeated_payload_counterexample",
+    "all_prefix_parity",
+    "sequence_reset",
+    "mark_validity",
+    "all_row_denominators",
+    "degenerate_rejection",
+    "perfect_linear_clock",
+    "perfect_nonlinear_clock",
+    "false_clock_oracle",
+    "mark_audit_and_dp_strata"
+  ],
+  "clock_fixtures": [
+    {
+      "false_clock": false,
+      "nonlinear": false,
+      "gates": {
+        "coverage": true,
+        "increment_error": true,
+        "reset_origin": true
+      },
+      "error": {
+        "n": 24647,
+        "median": 3.884024411301873e-06,
+        "p90": 1.1856996788992164e-05,
+        "min": 6.208313281432111e-11,
+        "max": 4.6860442893078435e-05
+      },
+      "coverage": 1.0,
+      "origin_fraction": 1.0,
+      "oracle_median_error": 1.692173253140412e-16,
+      "optimizer": {
+        "success": true,
+        "iterations": 206,
+        "message": "Optimization terminated successfully",
+        "data_objective": 1.6252436091126155e-11,
+        "ridge_objective": 1.5880526348114442e-13,
+        "tangent_min_eigenvalue_scaled": 4.4933287080666115e-05,
+        "tangent_max_eigenvalue_scaled": 0.9083597503654071,
+        "objective_scale": 57.6561251826078
+      }
+    },
+    {
+      "false_clock": false,
+      "nonlinear": true,
+      "gates": {
+        "coverage": true,
+        "increment_error": true,
+        "reset_origin": true
+      },
+      "error": {
+        "n": 24647,
+        "median": 0.0035196324780837605,
+        "p90": 0.02155705565710511,
+        "min": 9.071488729207638e-08,
+        "max": 0.3434529084259624
+      },
+      "coverage": 1.0,
+      "origin_fraction": 1.0,
+      "oracle_median_error": 1.692173253140412e-16,
+      "optimizer": {
+        "success": true,
+        "iterations": 206,
+        "message": "Optimization terminated successfully",
+        "data_objective": 0.00023210968729541905,
+        "ridge_objective": 5.228324272541952e-06,
+        "tangent_min_eigenvalue_scaled": 7.930920015316787e-05,
+        "tangent_max_eigenvalue_scaled": 0.908548841716627,
+        "objective_scale": 61.453697623571735
+      }
+    },
+    {
+      "false_clock": true,
+      "nonlinear": false,
+      "gates": {
+        "coverage": true,
+        "increment_error": false,
+        "reset_origin": true
+      },
+      "error": {
+        "n": 24709,
+        "median": 0.680695127491669,
+        "p90": 0.948930302994354,
+        "min": 0.00010843073462338009,
+        "max": 0.99924211332212
+      },
+      "coverage": 1.0,
+      "origin_fraction": 1.0,
+      "oracle_median_error": 0.42594146319137927,
+      "optimizer": {
+        "success": true,
+        "iterations": 210,
+        "message": "Optimization terminated successfully",
+        "data_objective": 0.08891050979234535,
+        "ridge_objective": 2.109513340117179e-05,
+        "tangent_min_eigenvalue_scaled": 3.1398733537673284e-05,
+        "tangent_max_eigenvalue_scaled": 0.9701014317001128,
+        "objective_scale": 88.04206779374493
+      }
+    }
+  ],
+  "mark_audit_fixture": {
+    "fit_mark_median": [
+      0.03555996875107015,
+      -0.12399722742042818,
+      0.055326633128637503,
+      -0.08941456748060683
+    ],
+    "fit_mark_iqr": [
+      0.9464782357131645,
+      0.9653625889449529,
+      0.9614899125653056,
+      0.969260039736006
+    ],
+    "fit_old_state_iqr": [
+      0.07197145206798926,
+      0.08961598412558142,
+      0.07130040866062559,
+      0.06168600882825333
+    ],
+    "counts": {
+      "rows": 14400,
+      "resets": 902,
+      "marked_resets": 902,
+      "reset_without_admitted_mark": 0,
+      "old_events": 260,
+      "marked_resets_not_old": 642,
+      "miss_previous_dv_invalid": 0,
+      "intended_equal_dv": 642,
+      "equal_dv_changed_dp": 321,
+      "equal_full_dp_dv": 321,
+      "equal_dv_dp_invalid": 0,
+      "unclassified_miss": 0,
+      "a5_extreme_rows": 976,
+      "a5_flat_pairs": 0
+    },
+    "intended_miss_fraction": 0.7117516629711752,
+    "contributing_chains": 24,
+    "rms_in_fit_old_state_iqr": [
+      1.9957604797714485,
+      1.6499984749313448,
+      2.052494690189066,
+      1.8328622917725472
+    ],
+    "gates": {
+      "missing_repeated_marks": true,
+      "state_divergence": true
+    }
+  },
+  "seconds": 0.8874842105433345
+}
