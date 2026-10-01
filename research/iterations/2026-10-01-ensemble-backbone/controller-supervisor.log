@@ -1,0 +1,12 @@
+{"status": "FAILED_STOP_NO_RETRY", "manifest_sha256": "513fe89c7d5c76c0fd54c35e59f94577192acfbc03a1b795388a1fb53ab6df71", "started_utc": "2026-10-01T17:44:01.799220+00:00", "failure": "AssertionError(('prepare', 1))", "seconds": 783.5455316258594, "finished_utc": "2026-10-01T17:57:05.344755+00:00"}
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/continue_once.py", line 127, in <module>
+    else:run(a.manifest,a.manifest_sha256)
+         ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/continue_once.py", line 108, in run
+    cpu_step('prepare',mp,mh,out,min(600,remaining-10))
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/continue_once.py", line 79, in cpu_step
+    rc=p.wait(timeout=seconds+20);r['exit_code']=rc;assert rc==0,(phase,rc)
+                                                           ^^^^^
+AssertionError: ('prepare', 1)

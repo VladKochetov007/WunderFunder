@@ -1,0 +1,88 @@
+{
+  "status": "COMPLETE",
+  "name": "eb_control_s3_h2_f1",
+  "stage": "H2",
+  "allocation_sha256": "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-01-ensemble-backbone/training/train_ensemble.py",
+    "--name",
+    "eb_control_s3_h2_f1",
+    "--init",
+    "eb_control_s3_parent_f1@ep3",
+    "--valid-fold",
+    "1",
+    "--seed",
+    "3",
+    "--hidden",
+    "256",
+    "--chunk",
+    "2000",
+    "--aux-loss-scale",
+    "1",
+    "--train-source",
+    "valid",
+    "--n-valid-folds",
+    "4",
+    "--full-valid",
+    "--loss",
+    "gcorr",
+    "--mask-weight",
+    "--batch",
+    "16",
+    "--epochs",
+    "2",
+    "--aux-struct",
+    "0.3",
+    "--aux-next",
+    "0.3",
+    "--fast",
+    "--freeze",
+    "inp,gru",
+    "--lr",
+    "5e-4",
+    "--eval-source",
+    "vfold",
+    "--layers",
+    "1",
+    "--ensemble-objective",
+    "control",
+    "--partner-bindings",
+    "research/iterations/2026-10-01-ensemble-backbone/partner-bindings_f1.json"
+  ],
+  "started_utc": "2026-10-01T19:18:35.686522+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/eb_control_s3_h2_f1/model_ep0.pt": {
+      "bytes": 2353383,
+      "sha256": "a3683cb5318ef1d26a1e225af6b789591a14fa32e4bf6ee7c96b9c385183aad3"
+    },
+    "artifacts/runs/eb_control_s3_h2_f1/model_ep1.pt": {
+      "bytes": 2353383,
+      "sha256": "c694e7a8aba22ec588967af100f90de03e9838d1aaeb88986c8ca57a74075b6e"
+    },
+    "artifacts/runs/eb_control_s3_h2_f1/model.pt": {
+      "bytes": 2352875,
+      "sha256": "cbb61fc6d6667f7b2edcf63129f6a129660922abbbea6a1db3f40998e99ece7d"
+    },
+    "artifacts/runs/eb_control_s3_h2_f1/history.json": {
+      "bytes": 336,
+      "sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5"
+    },
+    "artifacts/runs/eb_control_s3_h2_f1/trajectory-proof.jsonl": {
+      "bytes": 1002,
+      "sha256": "53bc76109ee2cf563f44232c452c57996b7b5d7e8ccb19717e205c269815b953"
+    },
+    "artifacts/runs/eb_control_s3_h2_f1/partner-bindings.json": {
+      "bytes": 197069,
+      "sha256": "679c78d0c656047b03bc585cff2a5906c2338f7cec5c2bde34116cb0ee4bdc79"
+    },
+    "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_control_s3_h2_f1.check.json": {
+      "bytes": 3676,
+      "sha256": "265068d7e7dce0d056e57e7868806f6ee5fda56d821d2d0bb3bea6f7f67ac6e1"
+    }
+  },
+  "seconds": 70.09087518695742,
+  "finished_utc": "2026-10-01T19:19:45.777415+00:00"
+}

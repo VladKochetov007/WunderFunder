@@ -1,0 +1,44 @@
+{"trajectory_proof": {"phase": "initialized", "model_sha256": "ee6bfbbb58265a439d73ab1af171f7715a48b91e2ce6660d82be61d11ca55301", "torch_cpu_rng_sha256": "a3e82dadb18f8f6c0533755ee659d62d679d5451dbb4ae7a14df1b1a5926b451", "train_split": "valid", "train_row_order_sha256": "b7c5b0bf4a02dcbad8191dc054a9c8d3440242608b9da78fe9e8c03c94cce399", "extra_valid_row_order_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "partner_bindings_sha256": "32afad899d4ae9ea3cb8bc8573a22e013d22d0cfc9cfb328c686e04d60c5ed64"}}
+{"trajectory_proof": {"phase": "normalized_or_loaded", "model_sha256": "aa80fb4fc05fda33e255419cdfb79bea86d365c082d444fbe32f9ff0254f7fe0", "torch_cpu_rng_sha256": "a3e82dadb18f8f6c0533755ee659d62d679d5451dbb4ae7a14df1b1a5926b451"}}
+{"name": "eb_control_s3_h2_f0", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 256, "layers": 1, "dropout": 0.0, "chunk": 2000, "batch": 16, "epochs": 2, "lr": 0.0005, "wd": 0.01, "loss": "gcorr", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "aux_next_k": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "aux_loss_scale": 1.0, "arch": "gru", "tfm_d": 256, "tfm_layers": 6, "tfm_heads": 8, "tfm_ff": 1024, "tfm_block": 250, "hidden1": 0, "attn_k": 32, "attn_d": 64, "attn_heads": 4, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 4, "valid_repeat": 1, "init": "eb_control_s3_parent_f0@ep3", "freeze": "inp,gru", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": false, "mask_weight": true, "propensity": "", "prop_power": 1.0, "prop_eps": 0.0, "class_weight": "", "valid_true_mask": -1.0, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "atom_head": 0.0, "vrex": 0.0, "vrex_start": 1, "level_aug": 0.0, "level_drop": 0.0, "lookahead": "", "train_half": -1, "class_heads": false, "quant_feats": false, "quant_i1": false, "state_reset": 0, "loss_norm": "chunk", "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "ensemble_objective": "control", "partner_bindings": "research/iterations/2026-10-01-ensemble-backbone/partner-bindings_f0.json"}
+{"source_train_sequences": 1406, "eligible_valid_train_sequences": 1406, "used_valid_train_sequences": 1406, "eval_sequences": 467}
+loader workers 2 prefetch 2; params 0.59M; steps 1740
+{"trajectory_proof": {"phase": "before_epoch_iterator", "epoch": 0, "torch_cpu_rng_sha256": "a3e82dadb18f8f6c0533755ee659d62d679d5451dbb4ae7a14df1b1a5926b451"}}
+ep 0 batch 0/87 loss 0.8414 lr 3.58e-05 seq/s 3.9
+ep 0 batch 20/87 loss 0.8554 lr 4.93e-04 seq/s 32.3
+ep 0 batch 40/87 loss 0.8030 lr 4.54e-04 seq/s 39.3
+ep 0 batch 60/87 loss 0.8548 lr 3.86e-04 seq/s 42.4
+ep 0 batch 80/87 loss 0.8284 lr 2.98e-04 seq/s 43.8
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 0, "eval_seconds": 0.0, "split": "vfold467"}
+{"trajectory_proof": {"phase": "before_epoch_iterator", "epoch": 1, "torch_cpu_rng_sha256": "2ce35617ee41997667a3de4ed51a68fbf56faa7f93d40d7a6f2311a3c0ec817d"}}
+ep 1 batch 0/87 loss 0.7184 lr 2.66e-04 seq/s 12.5
+ep 1 batch 20/87 loss 0.6643 lr 1.72e-04 seq/s 41.6
+ep 1 batch 40/87 loss 0.7772 lr 8.94e-05 seq/s 45.1
+ep 1 batch 60/87 loss 0.5780 lr 2.99e-05 seq/s 46.9
+ep 1 batch 80/87 loss 0.6960 lr 1.77e-06 seq/s 47.9
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 1, "eval_seconds": 0.0, "split": "vfold467"}
+BEST 0.0
+{"status": "PASS_FIXED_ENDPOINT_FINITE_AND_LINEAGE", "output": "research/iterations/2026-10-01-ensemble-backbone/execution-01/eb_control_s3_h2_f0.check.json", "sha256": "79a796dcc8ae7444caf565c95203d10e3084bacfced78539274702e39e893011", "checkpoint": {"path": "artifacts/runs/eb_control_s3_h2_f0/model_ep1.pt", "sha256": "527b6fab50688821c766e5fdf0209d5c6e1055031089cc4407ed00fa62b8d82a", "bytes": 2353383, "epoch": 1, "n_in": 211}}
+	Command being timed: ".venv/bin/python research/iterations/2026-10-01-ensemble-backbone/run_queue.py --allocation /home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation.json --allocation-sha256 d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93 --worker 1"
+	User time (seconds): 122.95
+	System time (seconds): 40.05
+	Percent of CPU this job got: 237%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:08.71
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 3185176
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 10234640
+	Voluntary context switches: 19606
+	Involuntary context switches: 624
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 14312
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

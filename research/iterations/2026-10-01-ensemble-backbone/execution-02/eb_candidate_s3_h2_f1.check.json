@@ -1,0 +1,126 @@
+{
+  "status": "PASS_FIXED_ENDPOINT_FINITE_AND_LINEAGE",
+  "utc": "2026-10-01T19:45:46.275149+00:00",
+  "job": "eb_candidate_s3_h2_f1",
+  "stage": "H2",
+  "fold": 1,
+  "commands_sha256": "e4baeaa05a111bf6816b384227ea3e31f4719d3b452d84048dffa9018c1e4376",
+  "validator_sha256": "4bebdf3dbe47e267a70cb6fd071c059b96fe91692b5c4a7af9b2a4ff9a3abb63",
+  "checkpoint": {
+    "path": "artifacts/runs/eb_candidate_s3_h2_f1/model_ep1.pt",
+    "sha256": "fb7f35d6099a18f39c3326253da0fd287fd53f68c3bcc60fc254d05bb14a5e5a",
+    "bytes": 2353383,
+    "epoch": 1,
+    "n_in": 211
+  },
+  "model_pt": {
+    "path": "artifacts/runs/eb_candidate_s3_h2_f1/model.pt",
+    "sha256": "d5996018b800450390bfb0f14e34060f65a45a269b088885492d01dc54f0a4ed",
+    "bytes": 2352875,
+    "epoch": null,
+    "n_in": 211
+  },
+  "model_pt_state_byte_equals_endpoint": true,
+  "history_sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5",
+  "all_args_match": true,
+  "resolved_arguments_count": 105,
+  "state_shapes": {
+    "mean": [
+      211
+    ],
+    "std": [
+      211
+    ],
+    "inp.weight": [
+      256,
+      211
+    ],
+    "inp.bias": [
+      256
+    ],
+    "gru.weight_ih_l0": [
+      768,
+      256
+    ],
+    "gru.weight_hh_l0": [
+      768,
+      256
+    ],
+    "gru.bias_ih_l0": [
+      768
+    ],
+    "gru.bias_hh_l0": [
+      768
+    ],
+    "head.0.weight": [
+      256,
+      512
+    ],
+    "head.0.bias": [
+      256
+    ],
+    "head.2.weight": [
+      23,
+      256
+    ],
+    "head.2.bias": [
+      23
+    ]
+  },
+  "all_state_finite_float32": true,
+  "partner_bindings_sha256": "679c78d0c656047b03bc585cff2a5906c2338f7cec5c2bde34116cb0ee4bdc79",
+  "trajectory_proof_sha256": "054b097f3b7466c9d73bfbba7d147c6850310945b36bc026e8ca84bb88df6a4c",
+  "initialization": {
+    "extra_valid_row_order_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "model_sha256": "ee6bfbbb58265a439d73ab1af171f7715a48b91e2ce6660d82be61d11ca55301",
+    "partner_bindings_sha256": "679c78d0c656047b03bc585cff2a5906c2338f7cec5c2bde34116cb0ee4bdc79",
+    "phase": "initialized",
+    "torch_cpu_rng_sha256": "a3e82dadb18f8f6c0533755ee659d62d679d5451dbb4ae7a14df1b1a5926b451",
+    "train_row_order_sha256": "58e63de2da609f44dfa1bc718d72000ed2acd044b423db44edafa8ced3f42673",
+    "train_split": "valid"
+  },
+  "post_normalization_or_load": {
+    "model_sha256": "ede4a9b7b66440edd0d99987b318335883397961eed134bfb476f51c3daaff70",
+    "phase": "normalized_or_loaded",
+    "torch_cpu_rng_sha256": "a3e82dadb18f8f6c0533755ee659d62d679d5451dbb4ae7a14df1b1a5926b451"
+  },
+  "epoch_cpu_rng": [
+    {
+      "epoch": 0,
+      "phase": "before_epoch_iterator",
+      "torch_cpu_rng_sha256": "a3e82dadb18f8f6c0533755ee659d62d679d5451dbb4ae7a14df1b1a5926b451"
+    },
+    {
+      "epoch": 1,
+      "phase": "before_epoch_iterator",
+      "torch_cpu_rng_sha256": "2ce35617ee41997667a3de4ed51a68fbf56faa7f93d40d7a6f2311a3c0ec817d"
+    }
+  ],
+  "parent": {
+    "path": "artifacts/runs/eb_candidate_s3_parent_f1/model_ep3.pt",
+    "sha256": "c11aca67052fd81daca763af296cf5ea950403a4b3dbe48df3d67aa868793d0d",
+    "bytes": 2353955,
+    "epoch": 3,
+    "n_in": 211
+  },
+  "byte_identical_frozen_tensors": [
+    "mean",
+    "std",
+    "inp.weight",
+    "inp.bias",
+    "gru.weight_ih_l0",
+    "gru.weight_hh_l0",
+    "gru.bias_ih_l0",
+    "gru.bias_hh_l0"
+  ],
+  "changed_head_tensors": [
+    "head.0.weight",
+    "head.0.bias",
+    "head.2.weight",
+    "head.2.bias"
+  ],
+  "EMA_identity": "Parent checkpoint args eval_ema=true and bound frozen trainer saves ema_model.module; EMA trajectory is not reconstructed.",
+  "data_or_targets_read": false,
+  "model_forward_calls": 0,
+  "metrics": 0
+}

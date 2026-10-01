@@ -1,0 +1,928 @@
+{
+  "status": "COMPLETED_8_FITS_4_OOF_NO_METRICS",
+  "failure": null,
+  "completion_type": "COMPOSITE_OF_TWO_IMMUTABLE_ALLOCATION_SEGMENTS",
+  "resumption_plan": {
+    "path": "research/iterations/2026-10-01-ensemble-backbone/resumption-plan.json",
+    "sha256": "652b06decb8b48dd3bcd5cb0b855ef823fa1c6150d33a479ca35f98e966ccde6"
+  },
+  "assembly_source_sha256": "d3182861794ee9ef7c5f072a0ea2f8c25bc58f8cbe92cad68f6799198de8e39c",
+  "segments": [
+    {
+      "segment": "original_prefix",
+      "allocation": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation.json",
+        "sha256": "d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93"
+      },
+      "result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-01/result.json",
+        "sha256": "f5339eecfb06e0d377396d56c0d538dc6a69532502b588afd2a469e3580e5b34"
+      },
+      "original_status": "FAILED_STOP_NO_RETRY",
+      "original_failure": "AssertionError({'uuid': 'GPU-53eaee12-1803-f8da-7399-ccdbfda91a18', 'total_MiB': 16376, 'used_MiB': 8561, 'free_MiB': 7413})",
+      "successful_jobs": 5,
+      "fits": 4,
+      "OOF_jobs": 1,
+      "gpu_id": 6,
+      "gpu_uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18"
+    },
+    {
+      "segment": "remaining_suffix",
+      "allocation": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+        "sha256": "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599"
+      },
+      "result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/result.json",
+        "sha256": "a9eb8c91f83dd8d7d0fd2d23bb20fab7cf383e8b4382d497a553dc403795cb98"
+      },
+      "original_status": "COMPLETED_REMAINING_4_FITS_3_OOF_NO_METRICS",
+      "original_failure": null,
+      "successful_jobs": 7,
+      "fits": 4,
+      "OOF_jobs": 3,
+      "gpu_id": 0,
+      "gpu_uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8"
+    }
+  ],
+  "jobs": [
+    {
+      "name": "eb_control_s3_parent_f0",
+      "stage": "parent",
+      "unit": "eb-9273985e0f404c5aac9803b5cc8342c9",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-9273985e0f404c5aac9803b5cc8342c9",
+        "-p",
+        "CPUQuota=600%",
+        "-p",
+        "MemoryMax=21474836480",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "22,23,24,25,28,32",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "3590.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-ensemble-backbone/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation.json",
+        "--allocation-sha256",
+        "d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93",
+        "--worker",
+        "0"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "total_MiB": 16376,
+        "used_MiB": 4,
+        "free_MiB": 15970
+      },
+      "peak_owned_GPU_MiB": 5444,
+      "pid": 700754,
+      "worker_result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-01/eb_control_s3_parent_f0.parent.worker-result.json",
+        "sha256": "fc248f4ea83b369a4bd67896013f0de7bc07bd2d26cf89a7212dd11eaa1f83a8"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 1446.2124244142324,
+      "resumption_provenance": {
+        "segment": "original_prefix",
+        "allocation": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation.json",
+          "sha256": "d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93"
+        },
+        "worker_receipt": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/execution-01/eb_control_s3_parent_f0.parent.worker-result.json",
+          "sha256": "fc248f4ea83b369a4bd67896013f0de7bc07bd2d26cf89a7212dd11eaa1f83a8"
+        }
+      }
+    },
+    {
+      "name": "eb_control_s3_h2_f0",
+      "stage": "H2",
+      "unit": "eb-a7b627ad8d6242c3949a7480e1c1c19c",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-a7b627ad8d6242c3949a7480e1c1c19c",
+        "-p",
+        "CPUQuota=600%",
+        "-p",
+        "MemoryMax=21474836480",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "22,23,24,25,28,32",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "1190.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-ensemble-backbone/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation.json",
+        "--allocation-sha256",
+        "d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93",
+        "--worker",
+        "1"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "total_MiB": 16376,
+        "used_MiB": 4,
+        "free_MiB": 15970
+      },
+      "peak_owned_GPU_MiB": 2268,
+      "pid": 720208,
+      "worker_result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-01/eb_control_s3_h2_f0.H2.worker-result.json",
+        "sha256": "922ddd539b6cfe36a549c568dba99f017f50e7f287bf03ad0629cf3e94415ea7"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 69.06159647647291,
+      "resumption_provenance": {
+        "segment": "original_prefix",
+        "allocation": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation.json",
+          "sha256": "d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93"
+        },
+        "worker_receipt": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/execution-01/eb_control_s3_h2_f0.H2.worker-result.json",
+          "sha256": "922ddd539b6cfe36a549c568dba99f017f50e7f287bf03ad0629cf3e94415ea7"
+        }
+      }
+    },
+    {
+      "name": "eb_control_s3_h2_f0",
+      "stage": "OOF",
+      "unit": "eb-dac17ea8343d4083a601a3d549f3a965",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-dac17ea8343d4083a601a3d549f3a965",
+        "-p",
+        "CPUQuota=600%",
+        "-p",
+        "MemoryMax=21474836480",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "22,23,24,25,28,32",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "1190.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-ensemble-backbone/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation.json",
+        "--allocation-sha256",
+        "d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93",
+        "--worker",
+        "2"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "total_MiB": 16376,
+        "used_MiB": 4,
+        "free_MiB": 15970
+      },
+      "peak_owned_GPU_MiB": 1338,
+      "pid": 721089,
+      "worker_result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-01/eb_control_s3_h2_f0.OOF.worker-result.json",
+        "sha256": "364f5664036603528a40caa83b3ea20b3d8a1159c301cf66d278408260cec0b1"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 17.34477521199733,
+      "resumption_provenance": {
+        "segment": "original_prefix",
+        "allocation": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation.json",
+          "sha256": "d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93"
+        },
+        "worker_receipt": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/execution-01/eb_control_s3_h2_f0.OOF.worker-result.json",
+          "sha256": "364f5664036603528a40caa83b3ea20b3d8a1159c301cf66d278408260cec0b1"
+        }
+      }
+    },
+    {
+      "name": "eb_candidate_s3_parent_f0",
+      "stage": "parent",
+      "unit": "eb-b954d03f0f054846a29c4a08d30b01d8",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-b954d03f0f054846a29c4a08d30b01d8",
+        "-p",
+        "CPUQuota=600%",
+        "-p",
+        "MemoryMax=21474836480",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "22,23,24,25,28,32",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "3590.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-ensemble-backbone/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation.json",
+        "--allocation-sha256",
+        "d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93",
+        "--worker",
+        "3"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "total_MiB": 16376,
+        "used_MiB": 4,
+        "free_MiB": 15970
+      },
+      "peak_owned_GPU_MiB": 6068,
+      "pid": 721409,
+      "worker_result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-01/eb_candidate_s3_parent_f0.parent.worker-result.json",
+        "sha256": "61983507d6422a22841084b4c472821f61f82e563e779e45e2fd5a67becad2b3"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 1407.2428263351321,
+      "resumption_provenance": {
+        "segment": "original_prefix",
+        "allocation": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation.json",
+          "sha256": "d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93"
+        },
+        "worker_receipt": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/execution-01/eb_candidate_s3_parent_f0.parent.worker-result.json",
+          "sha256": "61983507d6422a22841084b4c472821f61f82e563e779e45e2fd5a67becad2b3"
+        }
+      }
+    },
+    {
+      "name": "eb_candidate_s3_h2_f0",
+      "stage": "H2",
+      "unit": "eb-22b2f061d3f74af699fe46644c95d896",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-22b2f061d3f74af699fe46644c95d896",
+        "-p",
+        "CPUQuota=600%",
+        "-p",
+        "MemoryMax=21474836480",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "22,23,24,25,28,32",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "1190.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-ensemble-backbone/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation.json",
+        "--allocation-sha256",
+        "d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93",
+        "--worker",
+        "4"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "total_MiB": 16376,
+        "used_MiB": 4,
+        "free_MiB": 15970
+      },
+      "peak_owned_GPU_MiB": 2268,
+      "pid": 737400,
+      "worker_result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-01/eb_candidate_s3_h2_f0.H2.worker-result.json",
+        "sha256": "c8c7d5763255c7721a8f073488f6db804a126f1717170a031496611ebef66b4f"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 69.49733535759151,
+      "resumption_provenance": {
+        "segment": "original_prefix",
+        "allocation": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation.json",
+          "sha256": "d371acbe984865d64938cf42791724fe1894f2633e35087e0823216a8631ac93"
+        },
+        "worker_receipt": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/execution-01/eb_candidate_s3_h2_f0.H2.worker-result.json",
+          "sha256": "c8c7d5763255c7721a8f073488f6db804a126f1717170a031496611ebef66b4f"
+        }
+      }
+    },
+    {
+      "name": "eb_candidate_s3_h2_f0",
+      "stage": "OOF",
+      "unit": "eb-d7d88efa4b6b420a85adc4c71bb6d7a5",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-d7d88efa4b6b420a85adc4c71bb6d7a5",
+        "-p",
+        "CPUQuota=600%",
+        "-p",
+        "MemoryMax=21474836480",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "22,23,24,25,28,32",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "1190.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-ensemble-backbone/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+        "--allocation-sha256",
+        "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599",
+        "--worker",
+        "0"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+        "total_MiB": 16376,
+        "used_MiB": 251,
+        "free_MiB": 15723
+      },
+      "peak_owned_GPU_MiB": 1338,
+      "pid": 740388,
+      "worker_result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_candidate_s3_h2_f0.OOF.worker-result.json",
+        "sha256": "c3f5815ea5cade2e4c4780e99388581c059df09e4b23d7176ad18149b9ebaaca"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 17.841208865866065,
+      "resumption_provenance": {
+        "segment": "remaining_suffix",
+        "allocation": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+          "sha256": "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599"
+        },
+        "worker_receipt": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_candidate_s3_h2_f0.OOF.worker-result.json",
+          "sha256": "c3f5815ea5cade2e4c4780e99388581c059df09e4b23d7176ad18149b9ebaaca"
+        }
+      }
+    },
+    {
+      "name": "eb_control_s3_parent_f1",
+      "stage": "parent",
+      "unit": "eb-d0d64db806044451a5a731ed3021d899",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-d0d64db806044451a5a731ed3021d899",
+        "-p",
+        "CPUQuota=600%",
+        "-p",
+        "MemoryMax=21474836480",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "22,23,24,25,28,32",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "3590.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-ensemble-backbone/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+        "--allocation-sha256",
+        "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599",
+        "--worker",
+        "1"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+        "total_MiB": 16376,
+        "used_MiB": 251,
+        "free_MiB": 15723
+      },
+      "peak_owned_GPU_MiB": 5444,
+      "pid": 740679,
+      "worker_result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_control_s3_parent_f1.parent.worker-result.json",
+        "sha256": "94587c3d9dccd0712f440b4bf80214b6b95179e4808dac0b4452231472cd7716"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 1472.6112689422444,
+      "resumption_provenance": {
+        "segment": "remaining_suffix",
+        "allocation": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+          "sha256": "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599"
+        },
+        "worker_receipt": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_control_s3_parent_f1.parent.worker-result.json",
+          "sha256": "94587c3d9dccd0712f440b4bf80214b6b95179e4808dac0b4452231472cd7716"
+        }
+      }
+    },
+    {
+      "name": "eb_control_s3_h2_f1",
+      "stage": "H2",
+      "unit": "eb-dbaf83957d214b5aa379772d046be3ea",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-dbaf83957d214b5aa379772d046be3ea",
+        "-p",
+        "CPUQuota=600%",
+        "-p",
+        "MemoryMax=21474836480",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "22,23,24,25,28,32",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "1190.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-ensemble-backbone/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+        "--allocation-sha256",
+        "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599",
+        "--worker",
+        "2"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+        "total_MiB": 16376,
+        "used_MiB": 251,
+        "free_MiB": 15723
+      },
+      "peak_owned_GPU_MiB": 2268,
+      "pid": 757932,
+      "worker_result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_control_s3_h2_f1.H2.worker-result.json",
+        "sha256": "5f0e09b1b1ea7d582eb0b0c9be02b96ef9aa0186d9c99ec05abaaba8bad581e6"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 72.14269969426095,
+      "resumption_provenance": {
+        "segment": "remaining_suffix",
+        "allocation": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+          "sha256": "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599"
+        },
+        "worker_receipt": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_control_s3_h2_f1.H2.worker-result.json",
+          "sha256": "5f0e09b1b1ea7d582eb0b0c9be02b96ef9aa0186d9c99ec05abaaba8bad581e6"
+        }
+      }
+    },
+    {
+      "name": "eb_control_s3_h2_f1",
+      "stage": "OOF",
+      "unit": "eb-c43b192c4c444cd384f04a0ec45f6792",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-c43b192c4c444cd384f04a0ec45f6792",
+        "-p",
+        "CPUQuota=600%",
+        "-p",
+        "MemoryMax=21474836480",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "22,23,24,25,28,32",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "1190.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-ensemble-backbone/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+        "--allocation-sha256",
+        "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599",
+        "--worker",
+        "3"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+        "total_MiB": 16376,
+        "used_MiB": 251,
+        "free_MiB": 15723
+      },
+      "peak_owned_GPU_MiB": 1342,
+      "pid": 758793,
+      "worker_result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_control_s3_h2_f1.OOF.worker-result.json",
+        "sha256": "bf8d10a2bb50a8534d0a602082b2283ae44bb413cd39619164a011700511a00b"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 17.578547415323555,
+      "resumption_provenance": {
+        "segment": "remaining_suffix",
+        "allocation": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+          "sha256": "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599"
+        },
+        "worker_receipt": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_control_s3_h2_f1.OOF.worker-result.json",
+          "sha256": "bf8d10a2bb50a8534d0a602082b2283ae44bb413cd39619164a011700511a00b"
+        }
+      }
+    },
+    {
+      "name": "eb_candidate_s3_parent_f1",
+      "stage": "parent",
+      "unit": "eb-7d0ee593b081486a86f59d6bd1e2c008",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-7d0ee593b081486a86f59d6bd1e2c008",
+        "-p",
+        "CPUQuota=600%",
+        "-p",
+        "MemoryMax=21474836480",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "22,23,24,25,28,32",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "3590.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-ensemble-backbone/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+        "--allocation-sha256",
+        "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599",
+        "--worker",
+        "4"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+        "total_MiB": 16376,
+        "used_MiB": 251,
+        "free_MiB": 15723
+      },
+      "peak_owned_GPU_MiB": 5446,
+      "pid": 758959,
+      "worker_result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_candidate_s3_parent_f1.parent.worker-result.json",
+        "sha256": "e3651a37548a3772963d711637fd8100b3aa0c8973ff0020e46d72c108e23899"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 1469.3624538835138,
+      "resumption_provenance": {
+        "segment": "remaining_suffix",
+        "allocation": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+          "sha256": "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599"
+        },
+        "worker_receipt": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_candidate_s3_parent_f1.parent.worker-result.json",
+          "sha256": "e3651a37548a3772963d711637fd8100b3aa0c8973ff0020e46d72c108e23899"
+        }
+      }
+    },
+    {
+      "name": "eb_candidate_s3_h2_f1",
+      "stage": "H2",
+      "unit": "eb-a5c31361d2da429fac6aef5e1ecf5965",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-a5c31361d2da429fac6aef5e1ecf5965",
+        "-p",
+        "CPUQuota=600%",
+        "-p",
+        "MemoryMax=21474836480",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "22,23,24,25,28,32",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "1190.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-ensemble-backbone/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+        "--allocation-sha256",
+        "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599",
+        "--worker",
+        "5"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+        "total_MiB": 16376,
+        "used_MiB": 251,
+        "free_MiB": 15723
+      },
+      "peak_owned_GPU_MiB": 2268,
+      "pid": 775047,
+      "worker_result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_candidate_s3_h2_f1.H2.worker-result.json",
+        "sha256": "b24832a252ee8d5c3731135ea7b33be8cc62a4b1a227a753f639abf7095000de"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 72.02184564154595,
+      "resumption_provenance": {
+        "segment": "remaining_suffix",
+        "allocation": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+          "sha256": "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599"
+        },
+        "worker_receipt": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_candidate_s3_h2_f1.H2.worker-result.json",
+          "sha256": "b24832a252ee8d5c3731135ea7b33be8cc62a4b1a227a753f639abf7095000de"
+        }
+      }
+    },
+    {
+      "name": "eb_candidate_s3_h2_f1",
+      "stage": "OOF",
+      "unit": "eb-6edcbe5ac23945e8876b76749f71316d",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-6edcbe5ac23945e8876b76749f71316d",
+        "-p",
+        "CPUQuota=600%",
+        "-p",
+        "MemoryMax=21474836480",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "22,23,24,25,28,32",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "1190.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-ensemble-backbone/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+        "--allocation-sha256",
+        "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599",
+        "--worker",
+        "6"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+        "total_MiB": 16376,
+        "used_MiB": 251,
+        "free_MiB": 15723
+      },
+      "peak_owned_GPU_MiB": 1342,
+      "pid": 775861,
+      "worker_result": {
+        "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_candidate_s3_h2_f1.OOF.worker-result.json",
+        "sha256": "208ddcd7028e3f179e3afa110afba0184928a551c2a97491fae096560dfec185"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 17.843106498010457,
+      "resumption_provenance": {
+        "segment": "remaining_suffix",
+        "allocation": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/training-allocation-02.json",
+          "sha256": "a9b8ac7f175c7b906da9d9b4eb5c69b9bb1c33c91afab094ce355c46dec15599"
+        },
+        "worker_receipt": {
+          "path": "research/iterations/2026-10-01-ensemble-backbone/execution-02/eb_candidate_s3_h2_f1.OOF.worker-result.json",
+          "sha256": "208ddcd7028e3f179e3afa110afba0184928a551c2a97491fae096560dfec185"
+        }
+      }
+    }
+  ],
+  "fits": 8,
+  "OOF_jobs": 4,
+  "metric_calls": 0,
+  "retries": 0,
+  "resource_resumptions": 1,
+  "retry_semantics": "No scientific job failed or was rerun. Original resource guard interruption remains in segments[0]; only its never-started seven-job suffix moved GPU.",
+  "pretraining_mechanical_CLI_fix": {
+    "path": "research/iterations/2026-10-01-ensemble-backbone/controller-v2-fix.json",
+    "sha256": "f85573165d3e1e6b08e461c977e696acf365e747d949fe04d9fa987df1a98a2b",
+    "scope": "Separate earlier controller path fix; no fit or prediction retry."
+  },
+  "execution_started_utc": "2026-10-01T17:59:09.179430+00:00",
+  "execution_finished_utc": "2026-10-01T19:46:05.571736+00:00",
+  "assembled_utc": "2026-10-01T19:46:09.700221+00:00"
+}
