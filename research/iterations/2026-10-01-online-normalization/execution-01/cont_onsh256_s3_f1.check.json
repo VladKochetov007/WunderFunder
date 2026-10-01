@@ -1,0 +1,77 @@
+{
+  "status": "PASS_FIXED_ENDPOINT_FINITE_AND_LINEAGE",
+  "utc": "2026-10-01T17:10:11.594963+00:00",
+  "job": "cont_onsh256_s3_f1",
+  "stage": "parent",
+  "fold": 1,
+  "commands_sha256": "d7bfb8e4287c2189f85c1c7d71d362bb42f7ce61e259d7bd513228ae49b21d0a",
+  "validator_sha256": "127218980dfd4ba86a0bcec8dbb94b8b506e880339bc4c38506108a925b1be28",
+  "checkpoint": {
+    "path": "artifacts/runs/cont_onsh256_s3_f1/model_ep3.pt",
+    "sha256": "45b0d6554a7f16f3515a93c6911c3c5d8eecd078b33977f6efccdd975d22ee67",
+    "bytes": 2469411,
+    "epoch": 3,
+    "n_in": 323
+  },
+  "model_pt": {
+    "path": "artifacts/runs/cont_onsh256_s3_f1/model.pt",
+    "sha256": "85b399f2d6025a76cae077b1a986b7ed4d9e377c05fb9da1ff9cce1b2e14a563",
+    "bytes": 2468699,
+    "epoch": null,
+    "n_in": 323
+  },
+  "model_pt_state_byte_equals_endpoint": true,
+  "history_sha256": "8bb2d6ead133be5dbdef68134e0dc17b4fcdc1da8cad08e42c25119356df4359",
+  "all103_args_match": true,
+  "state_shapes": {
+    "mean": [
+      323
+    ],
+    "std": [
+      323
+    ],
+    "inp.weight": [
+      256,
+      323
+    ],
+    "inp.bias": [
+      256
+    ],
+    "gru.weight_ih_l0": [
+      768,
+      256
+    ],
+    "gru.weight_hh_l0": [
+      768,
+      256
+    ],
+    "gru.bias_ih_l0": [
+      768
+    ],
+    "gru.bias_hh_l0": [
+      768
+    ],
+    "head.0.weight": [
+      256,
+      512
+    ],
+    "head.0.bias": [
+      256
+    ],
+    "head.2.weight": [
+      23,
+      256
+    ],
+    "head.2.bias": [
+      23
+    ]
+  },
+  "all_state_finite_float32": true,
+  "parent": null,
+  "byte_identical_frozen_tensors": [],
+  "changed_head_tensors": [],
+  "EMA_identity": "Parent checkpoint args eval_ema=true and bound frozen trainer saves ema_model.module; EMA trajectory is not reconstructed.",
+  "data_or_targets_read": false,
+  "model_forward_calls": 0,
+  "metrics": 0
+}

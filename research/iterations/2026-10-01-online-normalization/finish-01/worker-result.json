@@ -1,0 +1,52 @@
+{
+  "status": "COMPLETE_ONE_AUTHORIZED_EVALUATION",
+  "source_sha256": "7dc8fcc2a89f056c0c8342de41a62d52e7fbd22e74b162b29b99ea34855b2361",
+  "allocation_sha256": "5bd5235593168d22fc3883d3c7168b2bfeee205690e700f9d009bee583e2dde6",
+  "pipeline_receipt_sha256": "138de780dcdd7d45ba4ef993ce9c58ffe9d22a66d0bbd1d2565deda677fb894e",
+  "scope": "onorm-finish-18c4e1371ef1412c850df76f66401f0b",
+  "scope_limits": {
+    "cpu.max": "200000 100000",
+    "memory.max": "10737418240",
+    "memory.swap.max": "0"
+  },
+  "steps": [
+    {
+      "name": "builder",
+      "argv": [
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-online-normalization/build_bindings_v2.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-online-normalization/allocation-01.json",
+        "--allocation-sha256",
+        "5bd5235593168d22fc3883d3c7168b2bfeee205690e700f9d009bee583e2dde6",
+        "--source-sha256",
+        "f808b4477bfe9cf700e5610930373888764c4e3f527c871398e5ab0fe861e61f",
+        "--completion",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-online-normalization/execution-01/result.json",
+        "--checkpoint-receipt-dir",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-online-normalization/execution-01",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-online-normalization/evaluation-bindings-01.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "evaluate",
+      "argv": [
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-online-normalization/evaluate.py",
+        "--bindings",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-online-normalization/evaluation-bindings-01.json",
+        "--bindings-sha256",
+        "3950c4c2e3e2b113b2eed8ba5bd4f1a22c45221c367235b0f4f4e984730b00be",
+        "--output-dir",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-online-normalization/evaluation-01"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "bindings_sha256": "3950c4c2e3e2b113b2eed8ba5bd4f1a22c45221c367235b0f4f4e984730b00be",
+  "evaluation_receipt_sha256": "ee1b04e8405ca00581c893d1c5a4bf720a572ff437673ea8b67186ca87005a8c",
+  "evaluation_report_sha256": "d13105997672ac3a7a6204e173c401aa84ac280e70969092d5dd690b771cd013",
+  "seconds": 13.268253040499985
+}
