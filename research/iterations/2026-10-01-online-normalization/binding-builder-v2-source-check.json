@@ -1,0 +1,17 @@
+{
+  "status": "PASS_SOURCE_INTERFACE_V2_NOT_EXECUTED",
+  "builder_v2_sha256": "f808b4477bfe9cf700e5610930373888764c4e3f527c871398e5ab0fe861e61f",
+  "original_restored_sha256": "ac289bfcf731d183fa38e577030263fc0435c71d9c1f7c736ee9727d754242ea",
+  "evaluator_sha256": "c0ea2c2b122f5ab0b758942bc2068cce3089dfa2b8d18295fc6818fc48749d33",
+  "reason": "Root bulk synchronization raced an unfinalized source adapter; original allocation-bound ac289bfc restored byte-for-byte from remote, corrected wrapper moved to separate v2 before outcome reads. Original builder never executed; no failed job or training change.",
+  "checks": [
+    "Python compile and --help",
+    "allocation_sha256 matches completed runner receipt",
+    "six successful scientific steps and four .check.json validators required",
+    "all new cache/receipt/checkpoint hashes bound only after completed allocation",
+    "v2 supplied explicit source SHA and added only to post-completion evaluator bindings"
+  ],
+  "actual_arrays_loaded": 0,
+  "metric_queries": 0,
+  "builder_executed": false
+}
