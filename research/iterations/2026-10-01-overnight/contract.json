@@ -1,0 +1,80 @@
+{
+  "id": "OVERNIGHT-20261001",
+  "objective_mode": "competition",
+  "authorized_utc": "2026-10-01T00:23:30Z",
+  "deadline_utc": "2026-10-01T08:23:30Z",
+  "objective": "Maximize expected competition score under serving constraints; deliver best defensible tested submission ZIP by approximately 8 hours. Top-1 is an aspiration, not an attainable guarantee.",
+  "baseline": {
+    "public": "V1 candV1_ft2.zip 0.6641, 41m42s recorded",
+    "local": "One-epoch C pure folds0/1 pooled 0.7024238010052843; this is not the two-epoch V1 comparator. Reconstruct V1-like paired OOF anchors."
+  },
+  "deliverables": [
+    "ready-to-upload solution.py-root ZIP <=20MB",
+    "artifact SHA256 and packaging/runtime/parity evidence",
+    "frozen per-experiment plans with complete tried set and failures",
+    "all seeds/folds and ensemble comparisons, conditional uncertainty",
+    "local and beleriand report; no GitHub publication"
+  ],
+  "verification_tier": {
+    "correctness": "A deterministic stream/reset/export/parity tests",
+    "selection": "B/C exposed chain-isolated OOF and CPU runtime proxy; hidden test transfer uncertain"
+  },
+  "evaluation": {
+    "primary": "official global pooled clipped |target|-weighted Pearson average of t0,t1; candidate contribution to fixed serving ensemble",
+    "unit": "whole continuous chain",
+    "exposure": "All existing folds and validation data exposed; additional folds remain exploratory, never fresh holdout",
+    "seed_variability": "At least two paired seeds for promotion where budget permits; report single-seed screens as provisional",
+    "confirmation": "Independent implementation/parity and runtime reproduction. No genuinely unexposed local holdout established; no claims of confirmed hidden-test superiority."
+  },
+  "budgets": {
+    "wall_hours": 8,
+    "maximum_new_scientific_configurations": 8,
+    "maximum_new_forecasting_fits_including_controls_and_finalists": 64,
+    "maximum_candidate_WP_readouts": 64,
+    "maximum_simultaneous_GPU_jobs": 2,
+    "initial_GPU_memory_per_job_GiB_max": 5.5,
+    "maximum_CPU_threads_total": 24,
+    "maximum_host_memory_GiB": 96,
+    "maximum_new_disk_GiB": 160,
+    "public_submission_queries": 0,
+    "monetary_purchases": 0,
+    "new_long_training_cutoff_utc": "2026-10-01T06:00:00Z",
+    "finalist_training_cutoff_utc": "2026-10-01T07:00:00Z",
+    "reserved_final_verification_minutes": 80
+  },
+  "initial_allocation": [
+    "F versus T causal feature-head study after inventory and preregistration",
+    "cheap paired aux-off or ensemble-aware head objective if distinct from prior tested recipes",
+    "one representation/architecture or training alternative selected from independent audit after cheap feasibility checks"
+  ],
+  "promotion": "Each attempt freezes exact model, input provenance, comparator, checkpoint rule, seeds/folds, blend, spending gate and stopping rule before outcomes. Default useful serving-delta allocation gate +0.0003 pooled with both folds nonnegative; fixed small screens may be explicitly registered as lower-confidence spend decisions. Final artifact selection weighs robustness and measured serving cost, not best single seed.",
+  "allowed": [
+    "Local/SSH code changes in isolated creative workcopy",
+    "training/inference on beleriand using available resources without interrupting existing jobs",
+    "read existing authorized competition data/checkpoints/history",
+    "primary-source web research",
+    "local commits and direct SSH synchronization",
+    "produce downloadable local submission files"
+  ],
+  "forbidden": [
+    "GitHub push, PR or research upload",
+    "public leaderboard submission or messages to organizers without later explicit instruction",
+    "paid compute purchase",
+    "stop or modify unrelated/preexisting jobs",
+    "mutate original dirty worktree or existing immutable checkpoints/results",
+    "test-label access, future leakage, hidden scoring-mask inference inputs",
+    "leave training running beyond deadline without reporting"
+  ],
+  "stop_and_rollback": [
+    "Reject leakage, invalid metric, stream reset failure, nonfinite predictions or incompatible package regardless of score",
+    "Stop individual branch at its preregistered failure/spend gate; preserve all attempts",
+    "After 3 failed mechanisms reframe using recorded residuals instead of blind sweeps",
+    "Reserve known-good V1 fallback if no new candidate is credible or serving-safe",
+    "By deadline stop own remaining jobs cleanly, preserve artifacts, deliver best validated ZIP and limitations"
+  ],
+  "assumptions": [
+    "Existing no-GitHub preference persists",
+    "User authorizes autonomous bounded local/SSH research and delivery, not a guarantee of ranking or external submission",
+    "Resource capacity is shared; inspect process ownership and headroom before allocating GPU jobs"
+  ]
+}
