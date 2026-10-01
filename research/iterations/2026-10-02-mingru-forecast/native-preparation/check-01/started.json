@@ -1,0 +1,42 @@
+{
+  "status": "RUNNING",
+  "unit": "mingru-adapter-831d8d967f2540939269473691d0b561",
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--unit",
+    "mingru-adapter-831d8d967f2540939269473691d0b561",
+    "-p",
+    "CPUQuota=100%",
+    "-p",
+    "MemoryMax=4294967296",
+    "-p",
+    "MemorySwapMax=0",
+    "--",
+    "taskset",
+    "-c",
+    "35",
+    "nice",
+    "-n",
+    "10",
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "30s",
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-mingru-forecast/native-preparation/adapter_check.py",
+    "--output",
+    "research/iterations/2026-10-02-mingru-forecast/native-preparation/check-01/result.json"
+  ],
+  "source_sha256": {
+    "research/iterations/2026-10-02-mingru-forecast/native-preparation/native_adapter.py": "3cd6766977822b2c4f544f4cf9843f6cc9be68d85cdae7e6eba95ee52a123777",
+    "research/iterations/2026-10-02-mingru-forecast/native-preparation/adapter_check.py": "4e6b1e9a9a15deaa740b24098f5b584a21c79c723b7000943d00f2405f72ff65",
+    "research/iterations/2026-10-02-mingru-forecast/native-preparation/run_check.py": "74430eeb4121d364c515c39af6554e55e88781dc77d724f6f8802a0b0bb03362",
+    "research/iterations/2026-10-02-mingru-forecast/native-preparation/contract.md": "5a48d067cf8ea7c6bbd1c92ca05abb1bbd670efbf049ec6a85459edd9b69f72e",
+    "research/iterations/2026-10-01-context-replay/run.py": "3c8861bda56f7dfff197ccb1fd78f2407eab1371d6535f42f0f4563e1b40af4f"
+  },
+  "real_data": false,
+  "forecast_fits": 0
+}
