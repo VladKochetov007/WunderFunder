@@ -70,6 +70,19 @@ def main():
     sources = json.loads((Path(__file__).parent / "frozen-sources.json").read_text())
     for path, expected in sources.items():
         assert digest(ROOT / path) == expected, f"Frozen grader dependency changed: {path}"
+    data_sources = json.loads((Path(__file__).parent / "frozen-data.json").read_text())
+    for path, record_ in data_sources.items():
+        assert digest(ROOT / path) == record_["sha256"], f"Frozen evaluation input changed: {path}"
+    groups = np.load(ROOT / "cache/valid_targets.npz")["row_group"]
+    group_hash = hashlib.sha256(groups.tobytes()).hexdigest()
+    cf = np.load(ROOT / "cache/chain_folds.npz")
+    valid = cf["split"] == "valid"
+    train_chains = set(cf["chain"][cf["split"] == "train"].tolist())
+    for chain in np.unique(cf["chain"][valid]):
+        at_chain = valid & (cf["chain"] == chain)
+        assert len(np.unique(cf["fold"][at_chain])) == 1, "Chain spans evaluation folds"
+        if np.any(cf["pure"][at_chain]):
+            assert int(chain) not in train_chains, "Pure chain has training neighbour"
     spec = importlib.util.spec_from_file_location("frozen_fold_eval", ROOT / "scripts/fold_eval.py")
     fe = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(fe)
@@ -91,7 +104,25 @@ def main():
             selected = arr[rows].astype(np.float32)
             assert np.isfinite(selected).all(), f"Nonfinite/unpredicted selected rows: {path}"
             if str(path) not in predictions:
-                predictions[str(path)] = {"sha256": digest(path), "shape": list(arr.shape)}
+                pred_hash = digest(path)
+                predictions[str(path)] = {"sha256": pred_hash, "shape": list(arr.shape)}
+                if name.startswith("on_"):
+                    receipts = [f for f in [path.with_suffix(".inputs.json"), path.with_suffix(".json")] if f.exists()]
+                    assert len(receipts) == 1, f"Missing/ambiguous prediction provenance: {path}"
+                    meta = json.loads(receipts[0].read_text())
+                    assert meta.get("prediction_sha256", meta.get("output_sha256")) == pred_hash
+                    assert meta.get("source_row_group_order_sha256", meta.get("cache_row_groups_sha256")) == group_hash
+                    meta_fold = meta.get("fold", meta.get("feature_metadata", {}).get("source_fold"))
+                    assert int(meta_fold) == fold and meta["epoch"] == 1
+                    positions = np.asarray(meta.get("rows", meta.get("included_positions")), dtype=int)
+                    assert np.array_equal(groups[positions], meta["row_groups"])
+                    assert set(rows.tolist()).issubset(set(positions.tolist()))
+                    checkpoint = Path(meta["checkpoint"])
+                    if not checkpoint.is_absolute():
+                        checkpoint = ROOT / checkpoint
+                    assert digest(checkpoint) == meta["checkpoint_sha256"]
+                    predictions[str(path)]["receipt_sha256"] = digest(receipts[0])
+                    predictions[str(path)]["checkpoint_sha256"] = meta["checkpoint_sha256"]
             parts.append(selected)
         # Identical accumulation dtype/order to the frozen source load_fold.
         return sum(parts) / len(parts)
@@ -114,7 +145,8 @@ def main():
     receipt = {"id": args.id, "utc": stamp(), "event": "started",
                "candidate": args.candidate, "reference": args.reference,
                "plan": str(args.plan), "plan_sha256": digest(args.plan),
-               "grader_sources": sources, "wrapper_sha256": digest(__file__)}
+               "grader_sources": sources, "data_sources": data_sources,
+               "wrapper_sha256": digest(__file__)}
     record(receipt, start=True)
     try:
         sys.argv = ["fold_eval", args.candidate, args.reference, "--folds", args.folds,

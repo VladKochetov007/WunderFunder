@@ -1,0 +1,16 @@
+{
+  "id": "GRADER-HEALTH-01",
+  "purpose": "Reproduce frozen oneepochC; no candidate selection",
+  "candidate": "ft256dH+ft128H+ft128s4H+ftc500H",
+  "reference": "ft256dH+ft128H+ft128s4H+ftc500H",
+  "folds": [
+    0,
+    1
+  ],
+  "pure_only": true,
+  "expected_WP": 0.7024238010052843,
+  "tolerance": 1e-08,
+  "expected_delta": 0,
+  "query_budget": 1,
+  "addition_order_caveat": "Frozen fold_eval uses left-associated float32 sum; older EDA explicitly grouped h128parts. Tiny rounding can differ; no score-tuned order."
+}
