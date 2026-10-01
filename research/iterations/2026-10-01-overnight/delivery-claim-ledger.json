@@ -1,10 +1,10 @@
 {
   "schema": "wunder-delivery-claim-ledger-v1",
-  "created_utc": "2026-10-01T06:22:30.899759+00:00",
-  "status": "DRAFT_FORECAST_SEARCH_CLOSED_AWAITING_V1_RUNTIME_AND_FINAL_SELECTION",
-  "evidence_completed_review_cutoff_utc": "2026-10-01T05:40:51.359971+00:00",
-  "report_path": "research/iterations/2026-10-01-overnight/delivery-report.draft.md",
-  "report_sha256": "eab68a852558646f1c8c14b2c515052e0f76d22e3c2a40d2e55cca4e591fcdb9",
+  "created_utc": "2026-10-01T06:51:49.507719+00:00",
+  "status": "FINAL_RESEARCH_REPORT_PORTABLE_BUNDLE_PACKAGING_SEPARATE",
+  "evidence_completed_review_cutoff_utc": "2026-10-01T06:43:24.252372+00:00",
+  "report_path": "research/iterations/2026-10-01-overnight/delivery-report.md",
+  "report_sha256": "9f113e6dfac16fc5a50152ceec207f2b4fbb598cad3154423328e13e7902e9d6",
   "scope": {
     "new_forecast_fits": 0,
     "new_metric_queries": 0,
@@ -13,7 +13,7 @@
     "model_pickles_decoded": false,
     "new_public_submission": false,
     "github_publication": false,
-    "changes": "Only delivery-report.draft.md and delivery-claim-ledger.json"
+    "changes": "Final delivery-report.md plus delivery-claim-ledger.json only; earlier draft preserved."
   },
   "verification": {
     "completed_evaluation_count": 36,
@@ -23,30 +23,32 @@
       "completed": 36
     },
     "missing_report_evidence_links": [],
-    "prefetch_outcome_result_release_hashes_match": true
+    "prefetch_outcome_result_release_hashes_match": true,
+    "final_role_review_hash_matches": true,
+    "V1_actual_review_hash_matches": true
   },
   "claims": [
     {
       "id": "C01",
-      "claim_ru": "Все прогнозные ветки закрыты без повышения новой модели; свежий V1 runtime и окончательный выбор primary/fallback ещё ожидаются.",
-      "status": "interim_pending_V1_runtime",
+      "claim_ru": "Research closed; baseline3 is primary with measured-v3 runtime scope only. V1 is historical public best with fresh 60-minute failure. Q3 remains experimental.",
+      "status": "FINAL_RESEARCH_CLOSED_ROLES_REVIEWED",
       "sources": [
+        "critic/artifact-role-review.json",
+        "critic/v1-runtime-actual-review.json",
         "scalar/seed3-quality-decision.json",
-        "critic/scalar-seed3-decision-review.json",
         "quant3/quality-decision.json",
         "ctxmem/quality-decision.json",
-        "sam/closure.json",
-        "v1-runtime-audit/allocation.json"
+        "sam/closure.json"
       ],
       "limits": [
-        "Не является окончательной передачей кампании.",
-        "Незавершённый V1 runtime не квалифицирует время."
+        "No new forecasting quality promotion or top-1 claim.",
+        "No artifact has both a newly verified public score and hardware-independent runtime qualification."
       ]
     },
     {
       "id": "C02",
       "claim_ru": "52 завершённых fit, 48 heldfold jobs (44 GPU и4native),4parent-integrity,36WP.",
-      "status": "forecast_search_completed_runtime_pending",
+      "status": "FINAL_FORECAST_COUNTS_52_48_36",
       "numbers": {
         "forecast_fits": 52,
         "GPU_heldfold_jobs": 44,
@@ -83,18 +85,18 @@
       },
       "sources": [
         "contract.json",
-        "delivery-staging-manifest.json",
+        "critic/artifact-role-review.json",
         "evaluations/DEPLOYMENT-01-fixed3.json"
       ],
       "limits": [
-        "Public score взят из исторической записи кампании, не перепроверен новой отправкой или запросом leaderboard.",
-        "Исторический V1 использует governor; fixed4 local не равен его неизменному поведению на любом host."
+        "Historical public score/time from prior journal, not a new public submission or public replay.",
+        "Fixed3/fixed4 local scores are reconstructed GPU OOF, not complete native-ZIP OOF scores.",
+        "Dynamic V1 governor outputs are not scored by fixed4 GPU OOF."
       ],
-      "delivery_roles_pending_V1_runtime": {
-        "historical_public_best_preserved": "candV1_ft2.zip; fresh runtime not yet qualified",
-        "fixed_runtime_fallback": "baseline3_fixed.zip qualified measured v3 only",
-        "experimental_not_promoted": "experimental/quant3_fixed.zip",
-        "final_primary_fallback_selection": "pending V1 actual outcome"
+      "final_delivery_roles": {
+        "primary": "baseline3_fixed.zip: deterministic fixed-three-member delivery; runtime qualified only on measured v3 host.",
+        "historical_public_best": "candV1_ft2.zip: unchanged prior public .6641 artifact; current-host 60-minute runtime gate failed.",
+        "experimental_only": "experimental/quant3_fixed.zip: failed fixed quality promotion gate."
       }
     },
     {
@@ -310,8 +312,10 @@
       "limits": [
         "Один v3 trace на beleriand, warmed cache.",
         "Все full outputs finite/semantics checked; второго полного oracle нет.",
-        "Два OS threads, helper zero CPU; не буквально single OS thread."
-      ]
+        "Два OS threads, helper zero CPU; не буквально single OS thread.",
+        "Full native baseline3 ZIP OOF quality was not measured; GPU comparator quality remains separate."
+      ],
+      "role": "primary"
     },
     {
       "id": "C08",
@@ -445,11 +449,12 @@
       "claim_ru": "Все три доставочных ZIP локально и удалённо совпали по размеру и SHA256.",
       "status": "direct_byte_hash_check",
       "sources": [
-        "delivery-staging-manifest.json"
+        "critic/artifact-role-review.json",
+        "delivery-baseline3/delivery-receipt.json"
       ],
       "limits": [
-        "Проверка byte identity не является повторной функциональной или scoring проверкой.",
-        "Manifest/README пока предварительные."
+        "Byte identity is not independent functional or scoring replay.",
+        "Final artifact roles are bound by the final role review, not historical staging text."
       ]
     },
     {
@@ -509,39 +514,62 @@
     },
     {
       "id": "C18",
-      "claim_ru": "ИсторическийV1аудит RUNNING: exactly39.4Mcallbacks,1CPU16GiB,naturalv3,defaultgovernor; early4→1after40k.",
-      "status": "RUNNING_NO_FINAL_QUALIFICATION",
+      "claim_ru": "V1 complete finite 39.4M callback audit passed receipt integrity but failed actual full-process 60-minute gate:64.82153678472774min.",
+      "status": "FINAL_V1_RUNTIME_FAIL_INTEGRITY_PASS",
       "sources": [
         "v1-runtime-audit/plan.json",
-        "v1-runtime-audit/allocation.json"
+        "v1-runtime-audit/allocation.json",
+        "v1-runtime-audit/outcome-summary.json",
+        "v1-runtime-audit/shared-host-overlap.json",
+        "critic/v1-runtime-actual-review.json",
+        "critic/artifact-role-review.json"
       ],
       "numbers": {
-        "callback_count_planned": 39400000,
-        "unique_raw_rows": 37460000,
-        "repeated_raw_rows": 1940000,
-        "sequence_resets_planned": 1970,
-        "emitted_pairs_planned": 39204970,
-        "full_process_actual_gate_minutes": 60,
-        "hard_cap_minutes": 65,
-        "initial_k": 4,
-        "k_after40000_callback_boundary": 1
+        "callbacks": 39400000,
+        "emitted_pairs": 39204970,
+        "sequences": 1970,
+        "callback_minutes": 62.788253967789935,
+        "full_process_minutes": 64.82153678472774,
+        "callbacks_by_member_count": {
+          "1": 39360000,
+          "2": 0,
+          "3": 0,
+          "4": 40000
+        },
+        "max_observed_rss_KiB": 377232,
+        "max_observed_OS_threads": 2,
+        "SMT58_callback_busy_fraction": 0.0032588602753697094,
+        "SMT58_whole_busy_fraction": 0.0032802954081050523
       },
+      "gates": {
+        "complete_finite_trace": true,
+        "quiet_precheck": true,
+        "quiet_callbacks": true,
+        "quiet_whole_trace": true,
+        "actual_full_process_le60min": false,
+        "observed_external_cap_le65min": true,
+        "not_timed_out": true
+      },
+      "worker_and_scope_released": true,
       "limits": [
-        "Observedprogress/govbehavior not fullruntimePASS or FAIL.",
-        "No quality inference from remainingmember count.",
-        "Warmcache and currenthost/harness,not historicalpublictrace or unknownofficialCPU.",
-        "Timing governorsees includes prescribed between-sequence overhead."
+        "Exactly39.4M callbacks observed, not row-count extrapolation.",
+        "37.46M unique raw rows plus1.94M repeated raw rows with fresh IDs.",
+        "Naturalv3 warm-cache shared host; no other-platform guarantee.",
+        "Governor4to1 at40000, retainedfind256_s3h2; no quality or historical public member-count inference.",
+        "Short other-CPU/GPU overlap disclosed, no subtraction or unfavorable-run retry.",
+        "Receipt integrity is not runtime feasibility or a second full inference oracle."
       ]
     },
     {
       "id": "C19",
       "claim_ru": "Generated-onlyprefetchpilot закрыт resourceFAIL: ownGPU13454MiB,total13467MiB противлимита5632; первыйarm killed10.3538s,epochrecords0,reuse/comparison не было.",
-      "status": "CLOSED_RESOURCE_FAIL_NO_COMPARISON_INDEPENDENTLY_AUDITED",
+      "status": "CLOSED_RESOURCE_FAIL_NO_COMPARISON_INDEPENDENTLY_REVIEWED",
       "sources": [
         "next-research-agenda.md",
         "prefetch-diagnosis/outcome.json",
         "prefetch-diagnosis/execution/result.json",
         "prefetch-diagnosis/release.json",
+        "critic/prefetch-failure-actual-review.json",
         "critic/prefetch-failure-actual-review.json"
       ],
       "numbers": {
@@ -561,18 +589,20 @@
         "Sampled non-atomicNVML query cannot attributecause tostreamidentity/reductions/queuing.",
         "No retry or productiontrainer mutation.",
         "GPU/process release andresourcefailure independentlyaudited.",
-        "Forecastsearch totals52fits/48OOF/36WP unchanged."
+        "Forecastsearch totals52fits/48OOF/36WP unchanged.",
+        "Independent actual review confirms resource violation and release, no mechanistic comparison."
       ]
     },
     {
       "id": "C20",
       "claim_ru": "State-refresh остаётся source-onlynextsessionpreparation плюс generatedCPUchecks; нет выделенного actualdata trainer/forecast/metric.",
-      "status": "PREPARATION_ONLY_NOT_ALLOCATED",
+      "status": "FUTURE_PREPARATION_ONLY_INDEPENDENT_REVIEW_PASS_NO_ALLOCATION",
       "sources": [
         "state-refresh-preparation/README.md",
         "state-refresh-preparation/generated-cpu-result.json",
         "next-research-agenda.md",
         "state-refresh-preparation/plan.json",
+        "critic/state-refresh-preparation-review.json",
         "critic/state-refresh-preparation-review.json"
       ],
       "limits": [
@@ -580,7 +610,9 @@
         "Futurediagnostic would counttrainingattempt if laterauthorized; no automaticallocation.",
         "ConditionalAVX2+F16C agenda remainsfutureengineering.",
         "IndependentpreparationreviewPASS; fulladapter/CUDAfusedskip notimplemented.",
-        "Four reset-boundary probes have structurally exact local/fullprefix replay; reportseparately from12non-reset probes."
+        "Four reset-boundary probes have structurally exact local/fullprefix replay; reportseparately from12non-reset probes.",
+        "Full adapter, CUDA/fused update-skip integration and resource controller not implemented/validated.",
+        "Four reset-boundary probes are structurally easier and must be distinguished from12 noninitial probes."
       ]
     },
     {
@@ -594,6 +626,55 @@
       ],
       "limits": [
         "No finaldeliveryselection or hiddenconfirmation fromplot."
+      ]
+    },
+    {
+      "id": "C22",
+      "claim_ru": "Startup clock selector canceled at source review before implementation or empirical allocation; no fourth ZIP.",
+      "status": "CANCELED_REPRODUCIBILITY_REQUIREMENT",
+      "sources": [
+        "startup-selector/rejection.md",
+        "startup-selector/status.json",
+        "critic/artifact-role-review.json"
+      ],
+      "numbers": {
+        "new_ZIPs": 0,
+        "new_empirical_runs": 0,
+        "new_forecast_fits": 0,
+        "new_WP_queries": 0
+      },
+      "limits": [
+        "Repository official-documentation copies require identical predictions on repeated identical inputs; not freshly web-verified.",
+        "Clock threshold can choose different ensembles across runs; freezing choice after startup does not remove clock dependence.",
+        "Historical V1 governor does not waive reproducibility requirement."
+      ]
+    },
+    {
+      "id": "C23",
+      "claim_ru": "All52fit local files are archived and verified; separate portable source/weights/logs/3ZIP bundle is being prepared with external receipt.",
+      "status": "MODEL_ARCHIVE52_VERIFIED_PORTABLE_BUNDLE_RECEIPT_PENDING",
+      "sources": [
+        "completed-fit-archive-52.json",
+        "completed-fit-archive-52.local-verification.json"
+      ],
+      "limits": [
+        "No completed portable archive hash/size invented in this report.",
+        "Datasets and large OOF caches remain on beleriand and are excluded from compact bundle.",
+        "External post-pack receipt should not be embedded into the archive it hashes."
+      ]
+    },
+    {
+      "id": "C24",
+      "claim_ru": "Final06:49:15UTC resource snapshot lists no campaign wunder scopes;GPU6/7each1MiB. Original dirty paths same4,contents not reaudited.",
+      "status": "READ_ONLY_RESOURCE_CLOSURE_SNAPSHOT",
+      "sources": [
+        "final-resource-snapshot.json",
+        "critic/v1-runtime-actual-review.json",
+        "prefetch-diagnosis/release.json"
+      ],
+      "limits": [
+        "Per-job release receipts establish owned worker release; scope-name snapshot is not a universal scan of unrelated processes.",
+        "Originalworktree pathlist identity does not prove byteidentity of original dirty contents."
       ]
     }
   ],
@@ -2082,11 +2163,6 @@
       "sha256": "6a5e042c0d9040645dc62a3d18c98fdb5e8ed81efc3b1f95fce66d698c0a33c2"
     },
     {
-      "path": "amendment-02.json",
-      "exists": true,
-      "sha256": "b7a0c5d2c33d84122500663f4d0320cd3a597a90cbe387331cbb63ac36022303"
-    },
-    {
       "path": "amendment-03.json",
       "exists": true,
       "sha256": "51b82b54c6ba48d67df4b64a586a6d75cfff2d728b9ccea832ca8a08bbcb7d03"
@@ -2112,11 +2188,6 @@
       "sha256": "e199f0b07768764a1050b232ea60e15ad060340ce741ae961d5c6c765573adef"
     },
     {
-      "path": "completed-fit-archive-44.local-verification.json",
-      "exists": true,
-      "sha256": "7c561530bd9537fa5470b3c442132fc56fc7622374562dad5aabbf45adb4ea32"
-    },
-    {
       "path": "completed-fit-archive-52.json",
       "exists": true,
       "sha256": "afbb680140e4c6f6c143a13ca805b01c6d5309aa4544f4715b5e8013ec5ae614"
@@ -2130,6 +2201,11 @@
       "path": "contract.json",
       "exists": true,
       "sha256": "110e8af9e50566713743b4a15742877ccd424b3accfb6c11d98bb835c086a4da"
+    },
+    {
+      "path": "critic/artifact-role-review.json",
+      "exists": true,
+      "sha256": "700b1cda75267451225a11ea27cd8b0543c4331a4be4bcaa5a799102db29b2df"
     },
     {
       "path": "critic/baseline-fallback-isa-actual-review.json",
@@ -2155,6 +2231,11 @@
       "path": "critic/ctxmem-training-review-v1-invalidation.json",
       "exists": true,
       "sha256": "9ba07b9805a38b3b44be5cc5233e24aece687aa69b55a6fc672f483f6b3ed9bd"
+    },
+    {
+      "path": "critic/prefetch-failure-actual-review.json",
+      "exists": true,
+      "sha256": "d7b62d9eaf0ffda6c91fff60eda80785278c1d39210270b9f5f58af7036b979e"
     },
     {
       "path": "critic/quant3-runtime-independent-review.json",
@@ -2192,11 +2273,6 @@
       "sha256": "3f56b25955a8dab29bdfd12ce021722e0d136611aad21a64aa063686fa7ef301"
     },
     {
-      "path": "critic/scalar-training-seed3-preparation-review.json",
-      "exists": true,
-      "sha256": "5ba20fcdf1e7ad707f51cf3377f066514f5c59942e07ff5b805342345548ed8d"
-    },
-    {
       "path": "critic/scalar-v2-actual-review.json",
       "exists": true,
       "sha256": "a2b4d11e5a87b38169c5d5d4219ddbf33e30c3369b826fd09cacc8f3cceaacee"
@@ -2205,6 +2281,16 @@
       "path": "critic/selection-weight-review.md",
       "exists": true,
       "sha256": "c7f23dcc067f9727923449a99c4adc05e9ce50deb2a345e55a21b552e518afb7"
+    },
+    {
+      "path": "critic/state-refresh-preparation-review.json",
+      "exists": true,
+      "sha256": "f4a151ba225ae4eebaee69b7c5c212c32a074939b1d45d4a87623e65fb47e67a"
+    },
+    {
+      "path": "critic/v1-runtime-actual-review.json",
+      "exists": true,
+      "sha256": "22b8713a09b31b4c63a6627c305992cec46c0845f09bb2fe4dcb6cb4c58121a4"
     },
     {
       "path": "ctxmem-projection-correction.json",
@@ -2220,11 +2306,6 @@
       "path": "delivery-baseline3/delivery-receipt.json",
       "exists": true,
       "sha256": "112d0b7d0ca0ff6170232f28819d90f4fa05ef202373599b7c5a25dc9ec46813"
-    },
-    {
-      "path": "delivery-staging-manifest.json",
-      "exists": true,
-      "sha256": "d603e379ae8eadf5414d201535d5aa43f4fcf3110df025e6318967a4c4eeac75"
     },
     {
       "path": "ensemble/actual-fit-check-failure-01.json",
@@ -2257,6 +2338,26 @@
       "sha256": "d492d64cea6f24e4aae5d68244d8cc2ab979664a91db95b908e326729bfed480"
     },
     {
+      "path": "evaluations/CTX-joint-memory-vs-current.json",
+      "exists": true,
+      "sha256": "f2c12d9160a1edf15d5dd33d0325e054a9eedc24f807c2a679dcb706a85fd9be"
+    },
+    {
+      "path": "evaluations/CTX-joint-memory-vs-plain.json",
+      "exists": true,
+      "sha256": "157b24a88ed7f80574a649b23e3ff5b746eb224f892b797c0b12b82e008c80e8"
+    },
+    {
+      "path": "evaluations/CTX-seed3-single-replacement.json",
+      "exists": true,
+      "sha256": "8db489a9310dc17180ed3280f2bb354b4a006022936483d1009226ee57b722fe"
+    },
+    {
+      "path": "evaluations/CTX-seed4-single-replacement.json",
+      "exists": true,
+      "sha256": "f8a4f63abcfb5ece6e64fffa07b2f7f179edef87ccd2acb7f066654f0de5aea3"
+    },
+    {
       "path": "evaluations/DEPLOYMENT-01-fixed2.json",
       "exists": true,
       "sha256": "5aaea2730cc091c22fca0f65385051ac775975e485c69159333431984ed1aeff"
@@ -2267,6 +2368,66 @@
       "sha256": "afa81ccf84bea2e05e6eb92abe03a1847f756a4a30f77cb97f143a1a98e6a5e1"
     },
     {
+      "path": "evaluations/ENSHEAD-01-ens-seed3-slot.json",
+      "exists": true,
+      "sha256": "ff40fbd9f02e8b251e5e1bb58f3170e1dd31d377851ecd3d3f5e45813a1bd477"
+    },
+    {
+      "path": "evaluations/ENSHEAD-01-ens-seed3-standalone.json",
+      "exists": true,
+      "sha256": "76aa3bea402b32e4357a09b627814e40050ca28ff1d438c3836cfe29a15e371b"
+    },
+    {
+      "path": "evaluations/ENSHEAD-01-ens-seed4-slot.json",
+      "exists": true,
+      "sha256": "3197db672fd92297b07f9246abf25ee61a7f46645cf18e39ecc34bb07a356703"
+    },
+    {
+      "path": "evaluations/ENSHEAD-01-ens-seed4-standalone.json",
+      "exists": true,
+      "sha256": "985bea84912022864b6285a8bc2a7c955f7113d1b4844eec67c751065e9cff32"
+    },
+    {
+      "path": "evaluations/ENSHEAD-01-head-vs-scale.json",
+      "exists": true,
+      "sha256": "1cd902158caccfd048667e39721ef4f09fbcecea49e305fcfe54e7a01d10755e"
+    },
+    {
+      "path": "evaluations/ENSHEAD-01-primary.json",
+      "exists": true,
+      "sha256": "0a6a91f7f81ad0ebd83b2e4ec7f8ff1eb295e1a57a0e2e6ee7eb492b3d7d12a0"
+    },
+    {
+      "path": "evaluations/ENSHEAD-01-scale-primary.json",
+      "exists": true,
+      "sha256": "d1414951829209d59c04100c1749347f34d6f29f363f489c9e4234a12ed8efbf"
+    },
+    {
+      "path": "evaluations/ENSHEAD-01-scale-seed3-slot.json",
+      "exists": true,
+      "sha256": "4c7d68711f6b6733468ff67269ca646147dde74ef929152b2097390fdadf0d97"
+    },
+    {
+      "path": "evaluations/ENSHEAD-01-scale-seed3-standalone.json",
+      "exists": true,
+      "sha256": "4b432291cbccc5811e801b6e504d217be86a46765622568c0559c46182725842"
+    },
+    {
+      "path": "evaluations/ENSHEAD-01-scale-seed4-slot.json",
+      "exists": true,
+      "sha256": "2430f8f2d10ccea6494370cc65a15229112594b4d64313fe77d58aa82fd84c15"
+    },
+    {
+      "path": "evaluations/ENSHEAD-01-scale-seed4-standalone.json",
+      "exists": true,
+      "sha256": "e5853988fc48bb90239ec73807c0a4876430ea7c919187d30a3ac949cdb072e3"
+    },
+    {
+      "path": "evaluations/GRADER-HEALTH-01.json",
+      "exists": true,
+      "sha256": "eced73182b700606abbf815fc2611a51c66492901fd61531805bba744ccb8120"
+    },
+    {
       "path": "evaluations/Q3-quant-vs-baseline3.json",
       "exists": true,
       "sha256": "f4db838df38029f2798231e395008a8f45a05319e5affa71f12ddddf7890637e"
@@ -2275,6 +2436,16 @@
       "path": "evaluations/Q3-quant-vs-fp16.json",
       "exists": true,
       "sha256": "f1f1eb0766dfe4f332d21981ac6f492b98ac91cd747ff54b9c7b1239578c98d3"
+    },
+    {
+      "path": "evaluations/SAM-seed3-incumbent.json",
+      "exists": true,
+      "sha256": "aa76b3d6597595e8f9b266665554e3d4dc5aa76c724141b82d16ff59ce719252"
+    },
+    {
+      "path": "evaluations/SAM-seed3-paired.json",
+      "exists": true,
+      "sha256": "e70b2f31120af227903328704d129fbdba964b824c2cff04aefdd3fa292288d1"
     },
     {
       "path": "evaluations/SCALARPLE01-seed3-incumbent.json",
@@ -2292,9 +2463,59 @@
       "sha256": "67c7a47c5d5027c38882950f7726ce6b737120048ce3eb1574de10cd45d8623e"
     },
     {
+      "path": "evaluations/TRAIN-AUX02-seed3-slot.json",
+      "exists": true,
+      "sha256": "ac2faf1b6d53bd85a4c69043c8db17d39fced14a5c54549f570edf06e9eae508"
+    },
+    {
+      "path": "evaluations/TRAIN-AUX02-seed3-standalone.json",
+      "exists": true,
+      "sha256": "fe69eebda2049b5a26e3494f3c9614e3cc317bc6f18ae887381a6446a4161f69"
+    },
+    {
+      "path": "evaluations/TRAIN-AUX02-seed4-slot.json",
+      "exists": true,
+      "sha256": "e06c9c069b1cc2b1a334886f99d046e632ff78cbfe7fffa724d55b2c035592ff"
+    },
+    {
+      "path": "evaluations/TRAIN-AUX02-seed4-standalone.json",
+      "exists": true,
+      "sha256": "4a0d8959195111c38dfd9c76a2825f0a84bd9dfc3182d57749591d20e12b32a0"
+    },
+    {
+      "path": "evaluations/TRANSHEAD-01-F-vs-plain.json",
+      "exists": true,
+      "sha256": "2459f990bf1dc9f126b3f5e6bb9f383cda166380d8c4f50b064d1bbbfc4f9e1b"
+    },
+    {
       "path": "evaluations/TRANSHEAD-01-primary.json",
       "exists": true,
       "sha256": "d7ea60db69a86ce84b57456dc230225f2e0fb17c092a7289d3b98e29ca57169b"
+    },
+    {
+      "path": "evaluations/TRANSHEAD-01-seed3-slot.json",
+      "exists": true,
+      "sha256": "968cf5fc5e16c7a9effea1eda9bb117a843ec3a07a0a41529194fc3e6c5e7efe"
+    },
+    {
+      "path": "evaluations/TRANSHEAD-01-seed3-standalone.json",
+      "exists": true,
+      "sha256": "776e1018dc709b5724bbf1d29449ed5ec3047a6a003960f8291fdaa64195cb2c"
+    },
+    {
+      "path": "evaluations/TRANSHEAD-01-seed4-slot.json",
+      "exists": true,
+      "sha256": "002e409b1d764f004a466cfacfdbac7d438cf5168f3c5b7974bea39e33ed66c4"
+    },
+    {
+      "path": "evaluations/TRANSHEAD-01-seed4-standalone.json",
+      "exists": true,
+      "sha256": "99c0321388f3355ece7b19589c1bcdae806235c78bf9f92fcbf80a62bc14b425"
+    },
+    {
+      "path": "evaluations/TRANSHEAD-01-vs-plain.json",
+      "exists": true,
+      "sha256": "f404ce00c80521245393bc411b4f39dafa7659908a85d90a960a34de4595be03"
     },
     {
       "path": "final-research-screens-inputs.json",
@@ -2312,6 +2533,11 @@
       "sha256": "3270830bfe8d54e95c5051f270b36ad5abf979d453fe04130d1da4deeb3ae4ea"
     },
     {
+      "path": "final-resource-snapshot.json",
+      "exists": true,
+      "sha256": "6e57772532143dc3558921f6c66064a84f02a439c6d5424f7c38ae480d08599a"
+    },
+    {
       "path": "final-runtime-audit/memory-reconciliation.json",
       "exists": true,
       "sha256": "f8d0d1cc28973476cac23c0d1ef49f88141ef531d901dc8e1fc4a42ac4cb2401"
@@ -2325,11 +2551,6 @@
       "path": "final-runtime-fallback-isa/outcome-summary.json",
       "exists": true,
       "sha256": "ca87ca3a7af6fcb2306808bf54939f2c5688d3c20df4858610f4a2b4e7f58d7b"
-    },
-    {
-      "path": "frontier.md",
-      "exists": true,
-      "sha256": "83e31039bf158e3cd59014619bc4e2e2039b1fe5cb2cc86a1137ad4057d66553"
     },
     {
       "path": "grader/frozen-sources.json",
@@ -2432,6 +2653,16 @@
       "sha256": "ae7cab221632bf76e0bb9e70b96b686ac9739b5b971f368c250dbe168df2d60c"
     },
     {
+      "path": "startup-selector/rejection.md",
+      "exists": true,
+      "sha256": "5922a681dddc117a8ab0bda9589fc6e8dcf5d4b1a3bdfb2afaf0a94a619b2668"
+    },
+    {
+      "path": "startup-selector/status.json",
+      "exists": true,
+      "sha256": "cc897c1f1b08e436dc00ec4d9dc7b88186b6fcc49d76e297ef9fae578e02f385"
+    },
+    {
       "path": "state-refresh-preparation/README.md",
       "exists": true,
       "sha256": "391f4b3748898360ea93db72af293ee76327aec6a5a8e31bf9631705bda92fe8"
@@ -2445,11 +2676,6 @@
       "path": "state-refresh-preparation/plan.json",
       "exists": true,
       "sha256": "94ab5a5da4a4158b798ffefde2084290cc5669ea243067b9465046cc4d328807"
-    },
-    {
-      "path": "state.json",
-      "exists": true,
-      "sha256": "5ca0bd707ec9002aef4801f20d04581fcaa20e6bfb1eb003f86e22f079b03e7b"
     },
     {
       "path": "training/plan.json",
@@ -2467,19 +2693,19 @@
       "sha256": "4db847d33679c0a77ca74f97d7d41078e61b9346b2337b3fa806a7be7c168030"
     },
     {
+      "path": "v1-runtime-audit/outcome-summary.json",
+      "exists": true,
+      "sha256": "bd1461f0f2edd0b84392cb4902c29d263d71e3ee28c129bffbef82c4422f3ac8"
+    },
+    {
       "path": "v1-runtime-audit/plan.json",
       "exists": true,
       "sha256": "881a8476ece923c36fb2a1405b9a1525438426aa6e1ed02cef0d1cff15af77e7"
     },
     {
-      "path": "critic/prefetch-failure-actual-review.json",
+      "path": "v1-runtime-audit/shared-host-overlap.json",
       "exists": true,
-      "sha256": "d7b62d9eaf0ffda6c91fff60eda80785278c1d39210270b9f5f58af7036b979e"
-    },
-    {
-      "path": "critic/state-refresh-preparation-review.json",
-      "exists": true,
-      "sha256": "f4a151ba225ae4eebaee69b7c5c212c32a074939b1d45d4a87623e65fb47e67a"
+      "sha256": "25d532710d89972071b8c0f0815e7c27f21b87f0391ab1770f7d5201b8152f11"
     }
   ],
   "delivery_artifacts": [
@@ -2492,7 +2718,8 @@
       "direct_local_hash_matches_staging": true,
       "remote_hash_matches_local": true,
       "remote_verification_method": "SSH read-only Python pathlib/hashlib of exact ZIP; stdout observed during this report task",
-      "remote_publication": false
+      "remote_publication": false,
+      "final_role": "candV1_ft2.zip: unchanged prior public .6641 artifact; current-host 60-minute runtime gate failed."
     },
     {
       "file": "baseline3_fixed.zip",
@@ -2503,7 +2730,8 @@
       "direct_local_hash_matches_staging": true,
       "remote_hash_matches_local": true,
       "remote_verification_method": "SSH read-only Python pathlib/hashlib of exact ZIP; stdout observed during this report task",
-      "remote_publication": false
+      "remote_publication": false,
+      "final_role": "baseline3_fixed.zip: deterministic fixed-three-member delivery; runtime qualified only on measured v3 host."
     },
     {
       "file": "experimental/quant3_fixed.zip",
@@ -2514,143 +2742,31 @@
       "direct_local_hash_matches_staging": true,
       "remote_hash_matches_local": true,
       "remote_verification_method": "SSH read-only Python pathlib/hashlib of exact ZIP; stdout observed during this report task",
-      "remote_publication": false
+      "remote_publication": false,
+      "final_role": "experimental/quant3_fixed.zip: failed fixed quality promotion gate."
     }
   ],
   "pending_or_mismatches": [
     {
-      "id": "M01",
-      "severity": "finalization_required",
-      "issue": "Root-ownedstate/frontier are being reconciled with52fits/48OOF/36WP and SCALARclosed; lateactualreceipts govern thisreport.",
+      "id": "M_PORTABLE_ARCHIVE",
+      "severity": "packaging_receipt_pending_not_research",
+      "issue": "Separate portable source/52weights/Plogs/3ZIP bundle being packed; archive size/hash unavailable to this report audit.",
       "action_owner": "root",
-      "action": "Reconcile finaloverview without overwritingimmutableevidence."
+      "action": "Bind external post-pack byte receipt and final delivery manifest; do not imply bundle complete before receipt."
     },
     {
-      "id": "M02",
-      "severity": "finalization_required",
-      "issue": "Deliveryprimary/fallback roles must await completedV1runtime actualreview; ZIP identities remain unchanged.",
-      "action_owner": "root",
-      "action": "Update deliverymanifest/README after V1decision."
-    },
-    {
-      "id": "M03",
-      "severity": "awaiting_result",
-      "issue": "V1exact39.4Maudit running. Earlygovernor4→1after40k is descriptive,notquality or timequalification.",
-      "action_owner": "root",
-      "action": "Bind actualcompletion/time/SMT/memory/governor outcomes and independentreview."
-    },
-    {
-      "id": "M04",
+      "id": "M_REMOTE_OOF",
       "severity": "known_coverage_limit",
-      "issue": "LargeOOFcaches remain onlyonbeleriand; archive52model receiptsverified locally.",
+      "issue": "Datasets and large OOF arrays remain remote on beleriand; compact bundle cannot independently re-score without those bound inputs.",
       "action_owner": "root",
-      "action": "Preserve remoteprovenance and hashes."
-    },
-    {
-      "id": "M05",
-      "severity": "historical_stage_documentation",
-      "issue": "PreparationREADME/specs can retainhistorical pendinglanguage; useactualreviews forcurrentstatus.",
-      "action_owner": "root",
-      "action": "Finalreportentrypoint shouldlabelcompleted/pendingstages."
-    },
-    {
-      "id": "M06",
-      "severity": "reviewed_resource_failure",
-      "issue": "Prefetchgenerated-onlyfirstarm resourceFAIL andGPUrelease receipt verified; no completedepoch/reusearm/comparison ormechanisticconclusion.",
-      "action_owner": "root",
-      "action": "Independentfailureaudit complete; preserveviolation/no mechanismclaim."
-    },
-    {
-      "id": "M07",
-      "severity": "source_preparation_only",
-      "issue": "State-refreshgeneratedCPUhelper/proposal is notallocated empiricalpilot anddoesnotvalidateCUDA/fusedAMP.",
-      "action_owner": "root",
-      "action": "Keep futureproposal separatefromcompletedforecast evidence."
+      "action": "Preserve remote paths and provenance hashes."
     }
   ],
-  "finalization_rule": "Draft remains pending V1actualruntime/independentreview and finalartifactselection, plus independentprefetch resourcefailure review. Allforecast branchesclosed,totals52/48/36unchanged. Do not infer quality fromresourcechecks,governor orfuturestate-refreshpreparation.",
-  "source_hash_semantics": "Hashes record files observed during this draft audit. Root-owned active overview files may change after this snapshot; immutable actual reviews/evaluations remain the evidentiary anchors.",
-  "V1_partial_receipt_observation": {
-    "scope": "Read-only receipt bytes; no models,targets,metric or data reads",
-    "remote_execution_path": "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/v1-runtime-audit/execution",
-    "observed": {
-      "launch_sha256": "28816d385a8a38322bdba3eee070b1d17b53693bb180c59090035403cb2a65cb",
-      "first_three_sequence_lines_sha256": "92c293e5a3c3bafb658521325e80ba221a0fb0aa6452c53d3f43aa2f5c275120",
-      "schedule_indices": [
-        0,
-        1,
-        2
-      ],
-      "governor_observations": [
-        {
-          "k_before_boundary": 4,
-          "k_after_first_callback": 4,
-          "k_after_sequence": 4,
-          "rows_before": 0,
-          "rows_after": 20000,
-          "govern_calls_before": 0,
-          "govern_calls_after": 0,
-          "active_members": [
-            "find256_s3h2",
-            "fin128_s3h2",
-            "fin128_s4h2",
-            "finc500b_s3h2"
-          ],
-          "active_coefficients": [
-            0.25,
-            0.25,
-            0.25,
-            0.25
-          ]
-        },
-        {
-          "k_before_boundary": 4,
-          "k_after_first_callback": 4,
-          "k_after_sequence": 4,
-          "rows_before": 20000,
-          "rows_after": 40000,
-          "govern_calls_before": 0,
-          "govern_calls_after": 1,
-          "active_members": [
-            "find256_s3h2",
-            "fin128_s3h2",
-            "fin128_s4h2",
-            "finc500b_s3h2"
-          ],
-          "active_coefficients": [
-            0.25,
-            0.25,
-            0.25,
-            0.25
-          ]
-        },
-        {
-          "k_before_boundary": 4,
-          "k_after_first_callback": 1,
-          "k_after_sequence": 1,
-          "rows_before": 40000,
-          "rows_after": 60000,
-          "govern_calls_before": 1,
-          "govern_calls_after": 2,
-          "active_members": [
-            "find256_s3h2"
-          ],
-          "active_coefficients": [
-            1.0
-          ]
-        }
-      ],
-      "sample_utc": [
-        "2026-10-01T05:28:33.900423+00:00",
-        "2026-10-01T05:28:37.317044+00:00",
-        "2026-10-01T05:28:39.341835+00:00"
-      ]
-    },
-    "final_status": "pending"
-  },
-  "latest_outcome_observed_utc": "2026-10-01T06:08:05.832398+00:00",
-  "prefetch_independent_actual_review": {
-    "status": "COMPLETED_FAILURE_AUDIT",
-    "sha256": "d7b62d9eaf0ffda6c91fff60eda80785278c1d39210270b9f5f58af7036b979e"
-  }
+  "finalization_rule": "Research findings and artifact roles are final. No further experiment or score is authorized by this ledger. Portable delivery packaging is a separate receipt-bound step; update only archival location/byte evidence when available without changing closed quality gates.",
+  "source_hash_semantics": "Final report sources were hashed at this handoff. Immutable actual reviews and evaluation receipts establish findings; active root overview/status files are intentionally not evidentiary anchors. Portable archive has its own later external receipt.",
+  "latest_outcome_observed_utc": "2026-10-01T06:41:31.541789+00:00",
+  "prefetch_independent_actual_review": "PASS_FAILURE_RECEIPT_AUDIT_RESOURCE_GATE_FAILED",
+  "preserved_draft_path": "research/iterations/2026-10-01-overnight/delivery-report.draft.md",
+  "state_refresh_independent_preparation_review": "PASS_FUTURE_PREPARATION_ONLY",
+  "latest_resource_snapshot_utc": "2026-10-01T06:49:15.582743+00:00"
 }

@@ -2,6 +2,8 @@
 
 Current results, the best recorded submission (**V1: 0.6641**), and links to the complete checkpoint/log archive are in [Research current state](research/CURRENT_STATE.md). The [completed creative-research iteration](research/iterations/2026-09-30-creative/report.md) records the methodology fixes, preregistered screens and outcomes. [METRIC.md](METRIC.md) gives the current global scoring definition, verified against organizer documentation on 1 October 2026.
 
+The [overnight research report](research/iterations/2026-10-01-overnight/delivery-report.md) records 52 training runs and 36 registered score readouts, with no new forecasting recipe promoted. The deterministic fixed-three package passed a full runtime audit on the measured v3 host; the unchanged historical V1 failed a fresh 60-minute audit. The [local delivery folder](../delivery-2026-10-01/README.md) contains both and experimental INT8, with a portable research archive planned. Archive completion requires a PASS in its named byte-verification receipt. New work is local/on beleriand only; GitHub publication remains paused.
+
 Predict `t0` and `t1`, two indicators of future price movements of instrument
 `i0`, from the L11 book-feature representation, trade and additional features.
 

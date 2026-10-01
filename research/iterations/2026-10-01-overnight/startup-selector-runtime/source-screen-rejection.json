@@ -1,0 +1,42 @@
+{
+  "id": "STARTUP-SELECTOR-RUNTIME-SOURCE-SCREEN",
+  "status": "CLOSED_REJECTED_BEFORE_IMPLEMENTATION",
+  "utc": "2026-10-01T06:43:31.330769+00:00",
+  "authority": "Root explicitly stopped source preparation before any empirical allocation.",
+  "reason": "Clock-dependent startup selection between fixed4 and fixed3 can choose different compositions near its timing threshold on repeated runs of identical input. It cannot robustly satisfy the competition requirement of identical predictions. Historical V1 behavior provides no waiver.",
+  "rules": [
+    {
+      "path": "docs/faq.md",
+      "sha256": "843b8ed41354d94af02ae6b9aa1360cd43b2cf50763d842ee85b1f1073649f86",
+      "lines": [
+        49,
+        50
+      ],
+      "text": "Yes. Repeated runs on the same input must produce identical predictions."
+    },
+    {
+      "path": "docs/submission_guide.md",
+      "sha256": "a2a965fb1f21a9a8515c04ad02f9e079d445a8151c109e36f55e8592160813f7",
+      "line": 146,
+      "text": "Confirm identical predictions across repeated runs."
+    }
+  ],
+  "preparation_performed": [
+    "Read existing V1 audit worker/plan and baseline3 sequence checksum receipts.",
+    "Confirmed baseline3 receipt contains1873 equivalent emitted-output hashes, without reading prediction arrays.",
+    "Coordinated proposed metadata interface with artifact actor; no interface implementation written."
+  ],
+  "own_source_files_written_before_cancellation": [],
+  "new_artifact_written": false,
+  "new_harness_written": false,
+  "model_imports": 0,
+  "dataset_reads": 0,
+  "prediction_array_reads": 0,
+  "runtime_attempts": 0,
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "empirical_allocation": false,
+  "retry_or_rescue": false,
+  "current_artifacts_changed": false,
+  "disposition": "No implementation, calibration, model execution or audit follows. Deterministic fixed3 remains unchanged; this note is the only file in this runtime-preparation directory."
+}
