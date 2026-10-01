@@ -1,0 +1,27 @@
+{"step": "c20260929_since_s3_f1", "status": "finished", "seconds": 1055.0779649340002}
+{"step": "c20260929_since_s3_f1", "status": "finished", "seconds": 1055.0779649340002}
+{"unit": "wnn-top1-c20260929_ft_since_s3_f1", "name": "c20260929_ft_since_s3_f1", "command": ["env", "WNN_IN_CAMPAIGN_JOB=1", "WNN_THREADS=10", "WNN_CPU_QUOTA=1000%", "scripts/limited", "bash", "scripts/ft_gclp.sh", "c20260929_since_s3_f1@ep3", "c20260929_ft_since_s3_f1", "1", "3", "--split-manifest", "research/campaign_2026-09-29/artifacts/splits/fold1.json", "--checkpoint-policy", "fixed", "--checkpoint-epoch", "0", "--no-eval-during-fit"]}
+{"step": "c20260929_ft_since_s3_f1", "status": "finished", "seconds": 90.72226720599974}
+{"unit": "wnn-top1-c20260929_since_s4_f1", "name": "c20260929_since_s4_f1", "command": ["env", "WNN_THREADS=10", "WNN_CPU_QUOTA=1000%", "scripts/limited", ".venv/bin/python", "scripts/train_rnn.py", "--name", "c20260929_since_s4_f1", "--train-source", "train+valid", "--valid-fold", "1", "--n-valid-folds", "4", "--eval-source", "vfold", "--full-valid", "--loss", "wmse", "--aux-struct", "0.3", "--aux-next", "0.3", "--propensity", "c20260929_prop_f1", "--prop-power", "2", "--prop-eps", "0.03", "--valid-true-mask", "0.03", "--hidden", "128", "--layers", "2", "--batch", "32", "--chunk", "2000", "--epochs", "4", "--lr", "0.001", "--wd", "0.01", "--seed", "4", "--ema-teacher", "1.0", "--ema-decay", "0.999", "--eval-ema", "--since-weight", "32", "--since-floor", "0.25", "--fast", "--split-manifest", "research/campaign_2026-09-29/artifacts/splits/fold1.json", "--checkpoint-policy", "fixed", "--checkpoint-epoch", "3", "--no-eval-during-fit"]}
+{"step": "c20260929_since_s4_f1", "status": "finished", "seconds": 1067.8035821760004}
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/campaign_job.py", line 309, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/campaign_job.py", line 303, in main
+    launch(args)
+    ~~~~~~^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/campaign_job.py", line 214, in launch
+    raise RuntimeError(f"campaign launch blocked by {STOP_NEW_JOBS.relative_to(ROOT)}")
+RuntimeError: campaign launch blocked by research/campaign_2026-09-29/STOP_NEW_JOBS
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/campaign_controls_queue.py", line 129, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/campaign_controls_queue.py", line 123, in main
+    subprocess.run(launch, cwd=ROOT, check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python', '/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/campaign_job.py', 'launch', '--name', 'c20260929_ft_since_s4_f1', '--kind', 'gpu', '--phase', 'controls', '--timeout', '1200', '--', 'env', 'WNN_IN_CAMPAIGN_JOB=1', 'WNN_THREADS=10', 'WNN_CPU_QUOTA=1000%', 'scripts/limited', 'bash', 'scripts/ft_gclp.sh', 'c20260929_since_s4_f1@ep3', 'c20260929_ft_since_s4_f1', '1', '3', '--split-manifest', 'research/campaign_2026-09-29/artifacts/splits/fold1.json', '--checkpoint-policy', 'fixed', '--checkpoint-epoch', '0', '--no-eval-during-fit']' returned non-zero exit status 1.

@@ -1,0 +1,60 @@
+{
+  "version": "clock-auxiliary-screen-v1",
+  "status": "frozen_before_gpu",
+  "mechanism": "replace the 8 representation-code-event future-midpoint auxiliary label with the 8 known nonzero decoded-quote-event label",
+  "selection_evidence": "fold-2 target-law and label-alignment diagnostics; fold 2 is no longer eligible as fresh confirmation for this candidate",
+  "screen_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "fit_decoder_source": "TRAIN labels in manifest.fit.train only, class 3 only",
+  "fit_auxiliary_sources": ["manifest.fit.train", "manifest.fit.valid"],
+  "evaluation_source_during_fit": "none",
+  "train_lattice_exception": {
+    "train_row_group": 2315,
+    "best_class": 2,
+    "max_quantum_residual": 0.0015133203125117234,
+    "disposition": "auxiliary decoder/cache excluded; main model training unchanged"
+  },
+  "control": {
+    "name": "c20260929_auxclock_code8_f0",
+    "cache_variant": "code",
+    "horizon_8_clock": "representation_code",
+    "horizon_24_clock": "representation_code"
+  },
+  "candidate": {
+    "name": "c20260929_auxclock_quote8_f0",
+    "cache_variant": "quote8",
+    "horizon_8_clock": "decoded_nonzero_quote",
+    "horizon_24_clock": "representation_code"
+  },
+  "shared_training": {
+    "seed": 3,
+    "batch": 32,
+    "epochs": 4,
+    "checkpoint_policy": "fixed",
+    "checkpoint_epoch_zero_based": 3,
+    "aux_quote_weight": 0.1,
+    "propensity": "c20260929_prop_f0",
+    "train_source": "train+valid",
+    "architecture": "historical h128 two-layer GRU since32 recipe",
+    "auxiliary_horizon_24_identical": true,
+    "auxiliary_finite_row_masks_identical": true,
+    "other_hyperparameters_identical": true
+  },
+  "primary_evaluation": {
+    "metric": "official Global Weighted Pearson",
+    "rows": "manifest.evaluation.valid, need_prediction AND is_scored",
+    "pair_anchor": "clean seed-4 fixed epoch-3 no-aux parent",
+    "member_weights": [0.5, 0.5],
+    "candidate_minus_matched_control_minimum": 0.0005,
+    "candidate_minus_no_aux_clean_pair_minimum_exclusive": 0.0
+  },
+  "hard_abort": [
+    "any fold-evaluation data accessed before fixed checkpoints",
+    "cache decoder fitted on evaluation-linked TRAIN groups",
+    "different finite label masks or horizon-24 values between arms",
+    "observed total VRAM above 5 GB",
+    "batch size changed without a matched accumulation control",
+    "prediction or scoring row mismatch"
+  ],
+  "gpu_budget_forecast_seconds_for_both_arms": [2100, 2700],
+  "gpu_jobs_launched_by_reproduction_agent": false
+}

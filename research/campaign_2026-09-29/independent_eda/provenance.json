@@ -1,0 +1,77 @@
+{
+  "scope": "CPU-only independent EDA; zero GPU seconds; root Challenge 2",
+  "resource_cap": {
+    "cpu_quota_percent": 100,
+    "memory_max": "4G",
+    "slice": "wnn-campaign.slice"
+  },
+  "source_and_artifact_sha256": {
+    "study.py": "75233c734e009d5efdb68c8779036084ea3ff4b379009f85183af183629c75c2",
+    "memory_falsifier.py": "66af251f292bcd0145e3cb0e9f2b908ac34ad72f7653563d8295a090e3f23b46",
+    "horizon4_falsifier.py": "1cab6d813c5cfc80ab9cbf939abc77d1762993d8be5ce5e9fa0841dbeefa5b27",
+    "residual_probe.py": "f0e59aefffa0dd74fb54cf4e32c5ad9f44c2a739ca7880d4cd5e264bf61b1421",
+    "selection.json": "7702b4807c30b7be73e03e23b49fe6079b7be9600ff442ef654e9cbe9b77c926",
+    "residual_selection.json": "90d8fe1122fc6b0f652bf4b8e8be4afd7fc94c5daf1b5f76ef86ee785c8705d5",
+    "results.json": "0685ba4454a18175e5d0ab90caea9d519539bdf876bbdbaf524f608650d199d8",
+    "memory_results.json": "3c363e151010256d3f6e9809dcd415da07726c74688ff03caac12a03ecdd8e57",
+    "horizon4_results.json": "2c00f136b6925d41a73a76a20ce127bf1e157b8c5162b528a95a1d86ad7a2571",
+    "residual_results.json": "fae3431e493c798d14ce699f0c6bf971c7ae36da571c09c32ff2064426261355",
+    "report.md": "fcf0c51e384ad93937904a9d4b48667b6940602d22f49f2617ebddff1293e898"
+  },
+  "commands": [
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_PCT=7 WNN_THREADS=1 WNN_CPU_QUOTA=100% WNN_MEM_MAX=4G scripts/limited .venv/bin/python research/campaign_2026-09-29/independent_eda/study.py",
+      "exit_code": 0,
+      "wall_seconds": 4.521,
+      "note": "initial run, before by-class diagnostics"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_PCT=7 WNN_THREADS=1 WNN_CPU_QUOTA=100% WNN_MEM_MAX=4G scripts/limited .venv/bin/python research/campaign_2026-09-29/independent_eda/study.py",
+      "exit_code": 0,
+      "wall_seconds": 4.1,
+      "note": "added by-class event geometry"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_PCT=7 WNN_THREADS=1 WNN_CPU_QUOTA=100% WNN_MEM_MAX=4G scripts/limited .venv/bin/python research/campaign_2026-09-29/independent_eda/memory_falsifier.py",
+      "exit_code": 0,
+      "wall_seconds": 15.852,
+      "note": "fixed-weight feature-only controls"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_PCT=7 WNN_THREADS=1 WNN_CPU_QUOTA=100% WNN_MEM_MAX=4G scripts/limited .venv/bin/python research/campaign_2026-09-29/independent_eda/memory_falsifier.py",
+      "exit_code": 0,
+      "wall_seconds": 31.939,
+      "note": "added train-fitted reversion and position scalar controls"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_PCT=7 WNN_THREADS=1 WNN_CPU_QUOTA=100% WNN_MEM_MAX=4G scripts/limited .venv/bin/python research/campaign_2026-09-29/independent_eda/residual_probe.py",
+      "exit_code": 1,
+      "wall_seconds": 2.071,
+      "note": "end-of-sequence indexing error; no scores saved"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_PCT=7 WNN_THREADS=1 WNN_CPU_QUOTA=100% WNN_MEM_MAX=4G scripts/limited .venv/bin/python research/campaign_2026-09-29/independent_eda/memory_falsifier.py",
+      "exit_code": 0,
+      "wall_seconds": 31.94,
+      "note": "repaired final event forecast slot and reran controls"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_PCT=7 WNN_THREADS=1 WNN_CPU_QUOTA=100% WNN_MEM_MAX=4G scripts/limited .venv/bin/python research/campaign_2026-09-29/independent_eda/residual_probe.py",
+      "exit_code": 0,
+      "wall_seconds": 31.773,
+      "note": "exact-mask target proxy screen"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_PCT=7 WNN_THREADS=1 WNN_CPU_QUOTA=100% WNN_MEM_MAX=4G scripts/limited .venv/bin/python research/campaign_2026-09-29/independent_eda/horizon4_falsifier.py",
+      "exit_code": 0,
+      "wall_seconds": 32.712,
+      "note": "adaptive four-event feature-only screen"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_PCT=7 WNN_THREADS=1 WNN_CPU_QUOTA=100% WNN_MEM_MAX=4G scripts/limited .venv/bin/python research/campaign_2026-09-29/independent_eda/study.py > /dev/null",
+      "exit_code": 0,
+      "wall_seconds": 4.412,
+      "note": "added global target-variance class mass"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "id": "C-H01-bilinear-clean-fold0-prereg-v1",
+  "status": "frozen before any paired-state export or evaluation scoring",
+  "metric_id": "global_wp_clip2_v1",
+  "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "members": [
+    "c20260929_ft_since_s3_f0",
+    "c20260929_ft_since_s4_f0"
+  ],
+  "checkpoint_epoch": 0,
+  "known_s3_checkpoint_sha256": "fa9f0353cf6cdd3c85fc56efc1e8a3f3dae0048fb1ccd995eeb7026afd269dc7",
+  "state_export": {
+    "dtype": "float16",
+    "chunk": 4000,
+    "batch": 8,
+    "fit_selection": "need_prediction AND is_scored",
+    "eval_selection": "all rows",
+    "predict_parity_tolerance": 1e-05
+  },
+  "head_fit": {
+    "kinds": [
+      "bilinear",
+      "unary",
+      "output_only"
+    ],
+    "rank": 8,
+    "baseline": "equal mean of the two member predictions",
+    "epochs": 4,
+    "batch": 8192,
+    "lr": 0.003,
+    "weight_decay": 0.01,
+    "seed": 0,
+    "objective": "clipped-target abs(target) weighted MSE",
+    "checkpoint": "final fixed epoch3"
+  },
+  "score": {
+    "boot": 2000,
+    "boot_seed": 0,
+    "component_clustered": true,
+    "centered_moments": true,
+    "soft_mask_lambdas": [
+      0.02,
+      0.05
+    ],
+    "clip": 2.0
+  },
+  "screen_gate": {
+    "bilinear_vs_average_min_delta": 0.0005,
+    "bilinear_vs_unary_positive": true,
+    "bilinear_vs_output_only_positive": true,
+    "same_rows_masks_components_and_compute": true
+  },
+  "confirmation_gate": {
+    "candidate_frozen_before_other_fold_scores": true,
+    "positive_each_fold": true,
+    "pooled_gain_gt_one_chain_bootstrap_sd": true,
+    "report_chain_bootstrap_95_interval": true,
+    "no_market_class_delta_below": -0.0005,
+    "soft_mask_direction_positive": true
+  },
+  "source_sha256": {
+    "scripts/campaign_pair_states.py": "8989e9573253889c04f47865e4c06f9a7d763f5345f58473660d6a8fdd1a5894",
+    "scripts/campaign_pair_head_fit.py": "c034da652f8a05b81f7ede772a22d59bd7f2840015b87a841e9b9d393897bb66",
+    "scripts/campaign_pair_head_score.py": "72fbbaaa786e6185f86b6fc82e3b0de3493b47d33c83f591d7842b8c2c934278"
+  },
+  "caveats": [
+    "fold0 previously inspected in other research",
+    "recipe-matched clean backbones are not byte-identical to public incumbent",
+    "local screen alone cannot clear public expectation gate"
+  ]
+}

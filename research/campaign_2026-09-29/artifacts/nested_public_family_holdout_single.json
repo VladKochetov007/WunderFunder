@@ -1,0 +1,144 @@
+{
+  "scenario": "single",
+  "source": "research/campaign_2026-09-29/artifacts/nested_public_calibration_single.json",
+  "n_submissions": 11,
+  "n_families": 5,
+  "family_heldout_rmse": 0.001671119809443169,
+  "family_heldout_mae": 0.0012209350100350928,
+  "family_heldout_bias": 0.00033420116874842296,
+  "family_heldout_rows": [
+    {
+      "name": "baseline_x025",
+      "family": "early",
+      "public": 0.6503,
+      "predicted": 0.6480359345889515,
+      "error": -0.0022640654110485103,
+      "selected_variant": {
+        "weight_id": "train_mix",
+        "soft_mask_lambda": 0.0
+      },
+      "inner_package_loso_rmse": 0.00041005167843040656
+    },
+    {
+      "name": "ab18",
+      "family": "early",
+      "public": 0.6488,
+      "predicted": 0.6531615581278124,
+      "error": 0.004361558127812359,
+      "selected_variant": {
+        "weight_id": "train_mix",
+        "soft_mask_lambda": 0.0
+      },
+      "inner_package_loso_rmse": 0.00041005167843040656
+    },
+    {
+      "name": "final_tv_e2",
+      "family": "early",
+      "public": 0.6548,
+      "predicted": 0.6564016022852102,
+      "error": 0.001601602285210113,
+      "selected_variant": {
+        "weight_id": "train_mix",
+        "soft_mask_lambda": 0.0
+      },
+      "inner_package_loso_rmse": 0.00041005167843040656
+    },
+    {
+      "name": "blend_base_final_tv",
+      "family": "early",
+      "public": 0.6569,
+      "predicted": 0.6563712740596152,
+      "error": -0.0005287259403848887,
+      "selected_variant": {
+        "weight_id": "train_mix",
+        "soft_mask_lambda": 0.0
+      },
+      "inner_package_loso_rmse": 0.00041005167843040656
+    },
+    {
+      "name": "final_s4_base35",
+      "family": "s4",
+      "public": 0.6586,
+      "predicted": 0.6591011273027181,
+      "error": 0.0005011273027181185,
+      "selected_variant": {
+        "weight_id": "train_unlike",
+        "soft_mask_lambda": 0.05
+      },
+      "inner_package_loso_rmse": 0.0008727080578720268
+    },
+    {
+      "name": "final_s4ft_base35",
+      "family": "s4",
+      "public": 0.66,
+      "predicted": 0.6595130613201303,
+      "error": -0.0004869386798697084,
+      "selected_variant": {
+        "weight_id": "train_unlike",
+        "soft_mask_lambda": 0.05
+      },
+      "inner_package_loso_rmse": 0.0008727080578720268
+    },
+    {
+      "name": "final_s4lpft_base35",
+      "family": "s4",
+      "public": 0.6601,
+      "predicted": 0.6595457737751806,
+      "error": -0.0005542262248193763,
+      "selected_variant": {
+        "weight_id": "train_unlike",
+        "soft_mask_lambda": 0.05
+      },
+      "inner_package_loso_rmse": 0.0008727080578720268
+    },
+    {
+      "name": "final_ema4_lpft_base35",
+      "family": "ema4",
+      "public": 0.6618,
+      "predicted": 0.6610295613423766,
+      "error": -0.0007704386576234956,
+      "selected_variant": {
+        "weight_id": "train_unlike",
+        "soft_mask_lambda": 0.05
+      },
+      "inner_package_loso_rmse": 0.000781019877676778
+    },
+    {
+      "name": "final_since2_gclp",
+      "family": "since",
+      "public": 0.6622,
+      "predicted": 0.6619273587866693,
+      "error": -0.00027264121333070435,
+      "selected_variant": {
+        "weight_id": "train_unlike",
+        "soft_mask_lambda": 0.05
+      },
+      "inner_package_loso_rmse": 0.0008269658577423125
+    },
+    {
+      "name": "final_mixed_ema6_shared",
+      "family": "ema6",
+      "public": 0.6616,
+      "predicted": 0.6624444806337844,
+      "error": 0.0008444806337843946,
+      "selected_variant": {
+        "weight_id": "train_unlike",
+        "soft_mask_lambda": 0.05
+      },
+      "inner_package_loso_rmse": 0.0007237716806446444
+    },
+    {
+      "name": "final_ema6_shared",
+      "family": "ema6",
+      "public": 0.6612,
+      "predicted": 0.6624444806337844,
+      "error": 0.0012444806337843506,
+      "selected_variant": {
+        "weight_id": "train_unlike",
+        "soft_mask_lambda": 0.05
+      },
+      "inner_package_loso_rmse": 0.0007237716806446444
+    }
+  ],
+  "caveat": "families were defined after historical research; related public observations, selection bias, and unknown novel-mechanism transport remain"
+}

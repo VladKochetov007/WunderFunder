@@ -1,0 +1,84 @@
+{"name": "c20260929_since_s4_f3", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 128, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 32, "epochs": 4, "checkpoint_policy": "fixed", "checkpoint_epoch": 3, "no_eval_during_fit": true, "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold3.json", "lr": 0.001, "wd": 0.01, "loss": "wmse", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 3, "n_valid_folds": 4, "valid_repeat": 1, "init": "", "inherit_init_preprocessing": false, "freeze": "", "ema_teacher": 1.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": true, "mask_weight": false, "propensity": "c20260929_prop_f3", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 4, "loss_norm": "chunk", "since_weight": 32.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "split_manifest_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343"}
+{"source_train_sequences": 10539, "eligible_valid_train_sequences": 1368, "used_valid_train_sequences": 1368, "eval_sequences": 505}
+loader workers 4 prefetch 2; params 0.26M; steps 14880
+ep 0 batch 0/372 loss 3.8414 lr 4.04e-05 seq/s 9.1
+ep 0 batch 20/372 loss 2.7592 lr 2.17e-04 seq/s 39.3
+ep 0 batch 40/372 loss 2.4502 lr 5.98e-04 seq/s 41.9
+ep 0 batch 60/372 loss 2.1833 lr 9.26e-04 seq/s 43.1
+ep 0 batch 80/372 loss 2.2104 lr 1.00e-03 seq/s 43.7
+ep 0 batch 100/372 loss 2.1966 lr 9.99e-04 seq/s 44.1
+ep 0 batch 120/372 loss 2.2558 lr 9.97e-04 seq/s 44.3
+ep 0 batch 140/372 loss 2.0215 lr 9.95e-04 seq/s 44.5
+ep 0 batch 160/372 loss 2.1447 lr 9.91e-04 seq/s 44.6
+ep 0 batch 180/372 loss 1.6459 lr 9.86e-04 seq/s 44.7
+ep 0 batch 200/372 loss 1.9487 lr 9.80e-04 seq/s 44.7
+ep 0 batch 220/372 loss 1.5506 lr 9.74e-04 seq/s 44.5
+ep 0 batch 240/372 loss 2.0309 lr 9.66e-04 seq/s 44.6
+ep 0 batch 260/372 loss 1.9148 lr 9.58e-04 seq/s 44.6
+ep 0 batch 280/372 loss 1.5785 lr 9.48e-04 seq/s 44.4
+ep 0 batch 300/372 loss 2.1789 lr 9.38e-04 seq/s 44.1
+ep 0 batch 320/372 loss 1.5834 lr 9.27e-04 seq/s 44.0
+ep 0 batch 340/372 loss 1.7054 lr 9.15e-04 seq/s 43.8
+ep 0 batch 360/372 loss 1.9752 lr 9.02e-04 seq/s 43.7
+FIT {"epoch": 0, "train_seconds": 272.6, "evaluation": "withheld"}
+ep 1 batch 0/372 loss 2.0189 lr 8.94e-04 seq/s 12.0
+ep 1 batch 20/372 loss 1.6396 lr 8.80e-04 seq/s 40.2
+ep 1 batch 40/372 loss 1.6451 lr 8.65e-04 seq/s 41.1
+ep 1 batch 60/372 loss 1.6793 lr 8.49e-04 seq/s 40.5
+ep 1 batch 80/372 loss 1.8486 lr 8.33e-04 seq/s 40.3
+ep 1 batch 100/372 loss 1.3893 lr 8.16e-04 seq/s 40.5
+ep 1 batch 120/372 loss 1.6110 lr 7.99e-04 seq/s 41.2
+ep 1 batch 140/372 loss 1.7299 lr 7.81e-04 seq/s 41.3
+ep 1 batch 160/372 loss 1.9458 lr 7.62e-04 seq/s 41.0
+ep 1 batch 180/372 loss 1.6889 lr 7.43e-04 seq/s 41.1
+ep 1 batch 200/372 loss 1.6479 lr 7.23e-04 seq/s 41.5
+ep 1 batch 220/372 loss 1.3945 lr 7.03e-04 seq/s 41.5
+ep 1 batch 240/372 loss 1.5586 lr 6.83e-04 seq/s 41.8
+ep 1 batch 260/372 loss 2.0060 lr 6.62e-04 seq/s 42.0
+ep 1 batch 280/372 loss 1.8085 lr 6.41e-04 seq/s 42.1
+ep 1 batch 300/372 loss 1.7235 lr 6.19e-04 seq/s 42.2
+ep 1 batch 320/372 loss 1.5332 lr 5.97e-04 seq/s 42.2
+ep 1 batch 340/372 loss 1.7740 lr 5.76e-04 seq/s 42.3
+ep 1 batch 360/372 loss 1.4960 lr 5.54e-04 seq/s 42.3
+FIT {"epoch": 1, "train_seconds": 281.4, "evaluation": "withheld"}
+ep 2 batch 0/372 loss 1.5302 lr 5.40e-04 seq/s 11.7
+ep 2 batch 20/372 loss 1.9650 lr 5.18e-04 seq/s 40.0
+ep 2 batch 40/372 loss 1.4515 lr 4.96e-04 seq/s 42.5
+ep 2 batch 60/372 loss 1.6834 lr 4.74e-04 seq/s 43.5
+ep 2 batch 80/372 loss 1.5890 lr 4.52e-04 seq/s 43.4
+ep 2 batch 100/372 loss 1.4568 lr 4.29e-04 seq/s 43.2
+ep 2 batch 120/372 loss 1.4948 lr 4.08e-04 seq/s 42.8
+ep 2 batch 140/372 loss 1.6887 lr 3.86e-04 seq/s 42.4
+ep 2 batch 160/372 loss 1.5576 lr 3.64e-04 seq/s 42.2
+ep 2 batch 180/372 loss 1.5424 lr 3.43e-04 seq/s 42.1
+ep 2 batch 200/372 loss 1.9186 lr 3.22e-04 seq/s 41.9
+ep 2 batch 220/372 loss 1.4883 lr 3.02e-04 seq/s 41.9
+ep 2 batch 240/372 loss 1.6331 lr 2.81e-04 seq/s 41.8
+ep 2 batch 260/372 loss 1.5897 lr 2.62e-04 seq/s 41.7
+ep 2 batch 280/372 loss 1.6419 lr 2.42e-04 seq/s 41.9
+ep 2 batch 300/372 loss 1.5989 lr 2.24e-04 seq/s 42.1
+ep 2 batch 320/372 loss 1.6243 lr 2.05e-04 seq/s 42.2
+ep 2 batch 340/372 loss 1.7268 lr 1.88e-04 seq/s 42.3
+ep 2 batch 360/372 loss 1.9345 lr 1.71e-04 seq/s 42.3
+FIT {"epoch": 2, "train_seconds": 281.8, "evaluation": "withheld"}
+ep 3 batch 0/372 loss 1.7059 lr 1.61e-04 seq/s 11.0
+ep 3 batch 20/372 loss 1.6230 lr 1.45e-04 seq/s 39.6
+ep 3 batch 40/372 loss 1.6042 lr 1.30e-04 seq/s 42.1
+ep 3 batch 60/372 loss 1.4978 lr 1.15e-04 seq/s 42.9
+ep 3 batch 80/372 loss 1.4606 lr 1.01e-04 seq/s 43.2
+ep 3 batch 100/372 loss 1.8850 lr 8.83e-05 seq/s 43.2
+ep 3 batch 120/372 loss 1.5253 lr 7.61e-05 seq/s 43.1
+ep 3 batch 140/372 loss 1.7177 lr 6.48e-05 seq/s 43.0
+ep 3 batch 160/372 loss 1.7055 lr 5.43e-05 seq/s 43.0
+ep 3 batch 180/372 loss 1.5010 lr 4.47e-05 seq/s 42.9
+ep 3 batch 200/372 loss 2.0159 lr 3.60e-05 seq/s 42.9
+ep 3 batch 220/372 loss 1.5456 lr 2.82e-05 seq/s 42.9
+ep 3 batch 240/372 loss 1.9910 lr 2.14e-05 seq/s 42.9
+ep 3 batch 260/372 loss 1.7522 lr 1.55e-05 seq/s 42.8
+ep 3 batch 280/372 loss 1.5548 lr 1.06e-05 seq/s 42.8
+ep 3 batch 300/372 loss 1.5803 lr 6.59e-06 seq/s 42.9
+ep 3 batch 320/372 loss 1.7588 lr 3.59e-06 seq/s 42.9
+ep 3 batch 340/372 loss 1.4737 lr 1.58e-06 seq/s 42.9
+ep 3 batch 360/372 loss 1.3708 lr 5.47e-07 seq/s 42.9
+FIT {"epoch": 3, "train_seconds": 277.4, "evaluation": "withheld"}
+SELECTED_FIXED 3

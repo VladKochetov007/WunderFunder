@@ -1,0 +1,24 @@
+{
+  "kind": "batch8 paired-state export versus historical batch16 predict_run cache",
+  "metric_id": "global_wp_clip2_v1",
+  "fold": 0,
+  "selection": "need_prediction AND is_scored",
+  "input_source": "two exact fixed-epoch0 fine-tune checkpoints; parent predictor evaluated with batch8 versus batch16",
+  "results": {
+    "c20260929_ft_since_s3_f0": {
+      "batch8_wp": 0.6758889202940698,
+      "batch16_wp": 0.6758867779158209,
+      "selected_mae": 2.7255702661932446e-05,
+      "selected_p999_abs": 0.0087890625,
+      "selected_max_abs": 0.04443359375
+    },
+    "c20260929_ft_since_s4_f0": {
+      "batch8_wp": 0.6780868655879733,
+      "batch16_wp": 0.6780849931852595,
+      "selected_mae": 2.701983248698525e-05,
+      "selected_p999_abs": 0.00634765625,
+      "selected_max_abs": 0.042694091796875
+    }
+  },
+  "interpretation": "Batch-dependent AMP/cuDNN differences produce rare outliers but only about 0.000002 GlobalWP shift. First-batch batch8 manual extraction versus train_rnn.predict was exact for both members. Native streaming parity remains a later gate."
+}

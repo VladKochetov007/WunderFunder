@@ -1,0 +1,219 @@
+{
+  "status": "pass",
+  "elapsed_seconds": 4.365608897999664,
+  "checks": [
+    {
+      "name": "extended_precision_random_stream_parity",
+      "status": "pass",
+      "details": {
+        "trials": 80,
+        "max_absolute_oracle_error": 5.551115123125783e-16
+      },
+      "elapsed_seconds": 1.7352242970000589
+    },
+    {
+      "name": "raw_boundaries",
+      "status": "pass",
+      "details": {
+        "raw_nonfinite_rejected": true,
+        "shape_zero_weight_constant_empty_checked": true
+      },
+      "elapsed_seconds": 0.0010364199997638934
+    },
+    {
+      "name": "near_constant_stream",
+      "status": "pass",
+      "details": {
+        "expected": 1.0,
+        "stream_results": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "elapsed_seconds": 1.3425696149997748
+    },
+    {
+      "name": "component_bootstrap_replay",
+      "status": "pass",
+      "details": {
+        "raw": {
+          "candidate_wp": 0.9614829207314174,
+          "reference_wp": 0.8391816620514944,
+          "mean_diff": 0.12230125867992303,
+          "bootstrap_sd": 0.003458134030166135,
+          "ci95": [
+            0.11406448244758699,
+            0.1271711486306101
+          ],
+          "p_le_0": 0.0,
+          "n_sequences": 7,
+          "n_components": 4,
+          "n_boot": 60,
+          "seed": 801,
+          "metric_id": "global_wp_clip2_v1",
+          "centered_moments": false
+        },
+        "centered": {
+          "candidate_wp": 0.9614829207314175,
+          "reference_wp": 0.8391816620514945,
+          "mean_diff": 0.12230125867992303,
+          "bootstrap_sd": 0.003458134030166146,
+          "ci95": [
+            0.11406448244758705,
+            0.1271711486306103
+          ],
+          "p_le_0": 0.0,
+          "n_sequences": 7,
+          "n_components": 4,
+          "n_boot": 60,
+          "seed": 801,
+          "metric_id": "global_wp_clip2_v1",
+          "centered_moments": true
+        }
+      },
+      "elapsed_seconds": 0.06425251099972229
+    },
+    {
+      "name": "near_constant_bootstrap",
+      "status": "pass",
+      "details": {
+        "expected_delta": 1.0,
+        "actual": {
+          "candidate_wp": 1.0,
+          "reference_wp": 0.0,
+          "mean_diff": 1.0,
+          "bootstrap_sd": 0.0,
+          "ci95": [
+            1.0,
+            1.0
+          ],
+          "p_le_0": 0.0,
+          "n_sequences": 2,
+          "n_components": 2,
+          "n_boot": 30,
+          "seed": 0,
+          "metric_id": "global_wp_clip2_v1",
+          "centered_moments": true
+        }
+      },
+      "elapsed_seconds": 0.00893656500011275
+    },
+    {
+      "name": "near_constant_component_subset",
+      "status": "pass",
+      "details": {
+        "candidate_wp": 1.0,
+        "reference_wp": 0.0,
+        "mean_diff": 1.0,
+        "bootstrap_sd": 0.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "p_le_0": 0.0,
+        "n_sequences": 2,
+        "n_components": 2,
+        "n_boot": 200,
+        "seed": 0,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      },
+      "elapsed_seconds": 0.06969952800045576
+    },
+    {
+      "name": "raw_resample_precision_refusal",
+      "status": "pass",
+      "details": {
+        "ambiguous_subsample_refused": true,
+        "pooled_candidate_oracle": 1.0
+      },
+      "elapsed_seconds": 0.0011460040004749317
+    },
+    {
+      "name": "research_evaluation_no_block_eligibility",
+      "status": "pass",
+      "details": {
+        "t0": 1.0,
+        "t1": 1.0,
+        "weighted_pearson": 1.0,
+        "blocks": 2,
+        "eligible_blocks": 0,
+        "selected_rows": 39802,
+        "metric_id": "global_wp_clip2_v1",
+        "global_t0": 1.0,
+        "global_t1": 1.0,
+        "per_seq_wp": null,
+        "block_t0": null,
+        "block_t1": null,
+        "frac_abs_pred_gt2": 0.0,
+        "by_class": {
+          "3": 1.0
+        },
+        "block_by_class": {
+          "3": null
+        }
+      },
+      "elapsed_seconds": 0.062047213000369084
+    },
+    {
+      "name": "submission_multisequence_npz_npy",
+      "status": "pass",
+      "details": {
+        "outputs": [
+          {
+            "metric_id": "global_wp_clip2_v1",
+            "load_s": 0.0,
+            "us_per_row": 5.7,
+            "rows": 60000,
+            "sequences": 3,
+            "selected_rows": 3513,
+            "block_wp": null,
+            "block_diagnostic_error": "no eligible blocks",
+            "global_wp": 1.0,
+            "global_t0": 1.0,
+            "global_t1": 1.0,
+            "eta_min_39M_rows": 3.7
+          },
+          {
+            "metric_id": "global_wp_clip2_v1",
+            "load_s": 0.0,
+            "us_per_row": 5.9,
+            "rows": 60000,
+            "sequences": 3,
+            "selected_rows": 3513,
+            "block_wp": null,
+            "block_diagnostic_error": "no eligible blocks",
+            "global_wp": 1.0,
+            "global_t0": 1.0,
+            "global_t1": 1.0,
+            "eta_min_39M_rows": 3.8
+          }
+        ]
+      },
+      "elapsed_seconds": 1.0795410339997034
+    }
+  ],
+  "hashes": {
+    "src/wnn/metric.py": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "utils.py": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+    "scripts/train_rnn.py": "8abcb4e8dbf381a56d1db2347e6f9bfb392683eada839dfa688930e7db3ec67a",
+    "scripts/verify_submission.py": "d2c75df6accf8f88c911844171c03a020756833843d0b6db856e0cdebbe6bfb4"
+  },
+  "hashes_after": {
+    "src/wnn/metric.py": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "utils.py": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+    "scripts/train_rnn.py": "8abcb4e8dbf381a56d1db2347e6f9bfb392683eada839dfa688930e7db3ec67a",
+    "scripts/verify_submission.py": "d2c75df6accf8f88c911844171c03a020756833843d0b6db856e0cdebbe6bfb4"
+  },
+  "official_source_sha256": "95cded300df8281c99081b8cb3d7acf1253ae347b585701309fc8cb8196b97ec"
+}

@@ -1,0 +1,118 @@
+{
+  "metric_id": "global_wp_clip2_v1",
+  "source": "user-reported public submissions; local 368-sequence inspected, chain-linked holdout",
+  "n_submissions": 11,
+  "n_proxy_variants": 21,
+  "isolated_sequences": 48,
+  "nested_loso": [
+    {
+      "name": "baseline_x025",
+      "public": 0.6503,
+      "predicted": 0.6480744505421251,
+      "error": -0.002225549457874898,
+      "chosen_variant": "train_mix_lambda0.05",
+      "inner_rmse": 0.0013820218316614832
+    },
+    {
+      "name": "ab18",
+      "public": 0.6488,
+      "predicted": 0.6531581795500527,
+      "error": 0.004358179550052688,
+      "chosen_variant": "class3_x0_5_lambda0.05",
+      "inner_rmse": 0.0007883650269283264
+    },
+    {
+      "name": "final_tv_e2",
+      "public": 0.6548,
+      "predicted": 0.654422233321888,
+      "error": -0.0003777666781120681,
+      "chosen_variant": "train_unlike_lambda0.05",
+      "inner_rmse": 0.001281128052195983
+    },
+    {
+      "name": "blend_base_final_tv",
+      "public": 0.6569,
+      "predicted": 0.656548868834343,
+      "error": -0.00035113116565699265,
+      "chosen_variant": "train_unlike_lambda0.05",
+      "inner_rmse": 0.0012681402334732024
+    },
+    {
+      "name": "final_s4_base35",
+      "public": 0.6586,
+      "predicted": 0.6588609042646836,
+      "error": 0.0002609042646836146,
+      "chosen_variant": "train_unlike_lambda0.05",
+      "inner_rmse": 0.0012802620392336243
+    },
+    {
+      "name": "final_s4ft_base35",
+      "public": 0.66,
+      "predicted": 0.6591352002631101,
+      "error": -0.0008647997368899096,
+      "chosen_variant": "train_unlike_lambda0.05",
+      "inner_rmse": 0.0012358224861677713
+    },
+    {
+      "name": "final_s4lpft_base35",
+      "public": 0.6601,
+      "predicted": 0.6591576978786455,
+      "error": -0.000942302121354488,
+      "chosen_variant": "train_unlike_lambda0.05",
+      "inner_rmse": 0.0012285281083688514
+    },
+    {
+      "name": "final_ema4_lpft_base35",
+      "public": 0.6618,
+      "predicted": 0.6605146224873713,
+      "error": -0.0012853775126288047,
+      "chosen_variant": "train_unlike_lambda0.05",
+      "inner_rmse": 0.0011965958340268527
+    },
+    {
+      "name": "final_since2_gclp",
+      "public": 0.6622,
+      "predicted": 0.6613245297069107,
+      "error": -0.0008754702930893199,
+      "chosen_variant": "train_unlike_lambda0.05",
+      "inner_rmse": 0.001252337043782316
+    },
+    {
+      "name": "final_mixed_ema6_shared",
+      "public": 0.6616,
+      "predicted": 0.6628935505135125,
+      "error": 0.0012935505135125425,
+      "chosen_variant": "train_unlike_lambda0.05",
+      "inner_rmse": 0.001241627895517614
+    },
+    {
+      "name": "final_ema6_shared",
+      "public": 0.6612,
+      "predicted": 0.6635344573995395,
+      "error": 0.0023344573995395246,
+      "chosen_variant": "train_unlike_lambda0.05",
+      "inner_rmse": 0.0009973736805066178
+    }
+  ],
+  "nested_loso_rmse": 0.0017954055229953282,
+  "nested_loso_mae": 0.0013790444266722592,
+  "nested_loso_bias": 0.00012042679656198985,
+  "nested_loso_error_range": [
+    -0.002225549457874898,
+    0.004358179550052688
+  ],
+  "full_selected_variant": "train_unlike_lambda0.05",
+  "full_variant_loso_rmse": 0.0012036617461982312,
+  "full_slope": 0.762772753143306,
+  "full_intercept": 0.18056135464931622,
+  "top_pair_sign_accuracy": 0.8235294117647058,
+  "candidate_forecasts_exploratory": {
+    "keep_k4": 0.6616691020902481,
+    "keep_k3_ch500": 0.6616031865120509,
+    "keep_k3_onorm": 0.6616625901309263,
+    "new_k4": 0.6619803695786051,
+    "keep_k4_base10": 0.662066214065949,
+    "pair_base15": 0.6621022452449399
+  },
+  "caveat": "candidate forecasts omit mechanism-specific transfer discount and winner's-curse correction; never use alone for promotion"
+}

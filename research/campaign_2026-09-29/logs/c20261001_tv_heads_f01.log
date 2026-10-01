@@ -1,0 +1,172 @@
+{"name": "c20261001_tvh_since_s3_f0", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 128, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 16, "epochs": 1, "checkpoint_policy": "fixed", "checkpoint_epoch": 0, "no_eval_during_fit": true, "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json", "lr": 0.0005, "wd": 0.01, "loss": "gcorr", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "decay_init": "multi", "memory_arm": "endpoint-content", "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 4, "valid_repeat": 1, "init": "c20260929_since_s3_f0@ep3", "inherit_init_preprocessing": true, "freeze": "inp,gru", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": false, "mask_weight": false, "propensity": "c20260929_prop_f0", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "loss_norm": "chunk", "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"}
+{"source_train_sequences": 10535, "eligible_valid_train_sequences": 1405, "used_valid_train_sequences": 1405, "eval_sequences": 468}
+loader workers 4 prefetch 2; params 0.26M; steps 7460
+ep 0 batch 0/746 loss 0.8022 lr 2.09e-05 seq/s 5.5
+ep 0 batch 20/746 loss 0.8736 lr 3.08e-04 seq/s 58.4
+ep 0 batch 40/746 loss 1.0878 lr 5.00e-04 seq/s 74.6
+ep 0 batch 60/746 loss 0.8784 lr 4.99e-04 seq/s 81.5
+ep 0 batch 80/746 loss 0.9971 lr 4.95e-04 seq/s 85.4
+ep 0 batch 100/746 loss 0.9300 lr 4.90e-04 seq/s 86.6
+ep 0 batch 120/746 loss 0.8518 lr 4.83e-04 seq/s 86.5
+ep 0 batch 140/746 loss 0.8968 lr 4.74e-04 seq/s 86.5
+ep 0 batch 160/746 loss 0.9294 lr 4.63e-04 seq/s 86.4
+ep 0 batch 180/746 loss 0.8880 lr 4.51e-04 seq/s 86.9
+ep 0 batch 200/746 loss 0.9633 lr 4.37e-04 seq/s 87.1
+ep 0 batch 220/746 loss 0.9450 lr 4.22e-04 seq/s 87.7
+ep 0 batch 240/746 loss 0.9989 lr 4.05e-04 seq/s 88.2
+ep 0 batch 260/746 loss 0.9198 lr 3.87e-04 seq/s 88.5
+ep 0 batch 280/746 loss 0.9983 lr 3.68e-04 seq/s 88.7
+ep 0 batch 300/746 loss 0.9769 lr 3.48e-04 seq/s 88.9
+ep 0 batch 320/746 loss 0.8763 lr 3.27e-04 seq/s 89.1
+ep 0 batch 340/746 loss 0.8941 lr 3.06e-04 seq/s 89.3
+ep 0 batch 360/746 loss 0.9140 lr 2.84e-04 seq/s 89.5
+ep 0 batch 380/746 loss 1.1068 lr 2.62e-04 seq/s 89.6
+ep 0 batch 400/746 loss 1.0089 lr 2.40e-04 seq/s 89.7
+ep 0 batch 420/746 loss 1.0947 lr 2.18e-04 seq/s 89.9
+ep 0 batch 440/746 loss 0.8379 lr 1.96e-04 seq/s 90.0
+ep 0 batch 460/746 loss 0.8050 lr 1.74e-04 seq/s 90.1
+ep 0 batch 480/746 loss 0.8061 lr 1.54e-04 seq/s 90.2
+ep 0 batch 500/746 loss 0.8380 lr 1.34e-04 seq/s 90.2
+ep 0 batch 520/746 loss 0.9630 lr 1.14e-04 seq/s 90.3
+ep 0 batch 540/746 loss 0.8553 lr 9.64e-05 seq/s 90.4
+ep 0 batch 560/746 loss 0.8408 lr 7.95e-05 seq/s 90.5
+ep 0 batch 580/746 loss 0.8901 lr 6.40e-05 seq/s 90.5
+ep 0 batch 600/746 loss 1.0010 lr 5.00e-05 seq/s 90.6
+ep 0 batch 620/746 loss 0.9965 lr 3.75e-05 seq/s 90.6
+ep 0 batch 640/746 loss 0.9217 lr 2.67e-05 seq/s 90.7
+ep 0 batch 660/746 loss 1.1873 lr 1.77e-05 seq/s 90.7
+ep 0 batch 680/746 loss 0.9794 lr 1.05e-05 seq/s 90.8
+ep 0 batch 700/746 loss 0.7657 lr 5.13e-06 seq/s 90.8
+ep 0 batch 720/746 loss 0.9230 lr 1.72e-06 seq/s 90.8
+ep 0 batch 740/746 loss 0.9284 lr 2.59e-07 seq/s 90.9
+FIT {"epoch": 0, "train_seconds": 131.5, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 7460, "amp_skipped_updates": 3, "optimizer_completed_updates": 7457, "ema_updates": 0, "completed_batches": 746}, "cumulative": {"optimizer_attempts": 7460, "amp_skipped_updates": 3, "optimizer_completed_updates": 7457, "ema_updates": 0, "completed_batches": 746}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 16, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "0dfcd56df332b693d7e6c2109e3768a47c0db34f8f5ff4aeafdc9c0020e73343"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "0dfcd56df332b693d7e6c2109e3768a47c0db34f8f5ff4aeafdc9c0020e73343"}, "num_workers": 4, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11940}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "bd6e96807c7ac857b541c90f809ecf66dc5e82933e44c4c56837e63d7cb218fd"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "ee26284c73c25c4fe6564fdb3874bda68dc77ea963419b9f459e91594f377df4"}}}}
+SELECTED_FIXED 0
+{"name": "c20261001_tvh_since_s4_f0", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 128, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 16, "epochs": 1, "checkpoint_policy": "fixed", "checkpoint_epoch": 0, "no_eval_during_fit": true, "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json", "lr": 0.0005, "wd": 0.01, "loss": "gcorr", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "decay_init": "multi", "memory_arm": "endpoint-content", "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 4, "valid_repeat": 1, "init": "c20260929_since_s4_f0@ep3", "inherit_init_preprocessing": true, "freeze": "inp,gru", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": false, "mask_weight": false, "propensity": "c20260929_prop_f0", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "loss_norm": "chunk", "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"}
+{"source_train_sequences": 10535, "eligible_valid_train_sequences": 1405, "used_valid_train_sequences": 1405, "eval_sequences": 468}
+loader workers 4 prefetch 2; params 0.26M; steps 7460
+ep 0 batch 0/746 loss 0.7957 lr 2.09e-05 seq/s 4.6
+ep 0 batch 20/746 loss 0.8737 lr 3.08e-04 seq/s 51.4
+ep 0 batch 40/746 loss 1.0785 lr 5.00e-04 seq/s 67.2
+ep 0 batch 60/746 loss 0.8694 lr 4.99e-04 seq/s 75.3
+ep 0 batch 80/746 loss 0.9983 lr 4.95e-04 seq/s 80.2
+ep 0 batch 100/746 loss 0.9174 lr 4.90e-04 seq/s 83.5
+ep 0 batch 120/746 loss 0.8721 lr 4.83e-04 seq/s 85.6
+ep 0 batch 140/746 loss 0.8976 lr 4.74e-04 seq/s 85.7
+ep 0 batch 160/746 loss 0.9516 lr 4.63e-04 seq/s 86.0
+ep 0 batch 180/746 loss 0.8768 lr 4.51e-04 seq/s 87.0
+ep 0 batch 200/746 loss 0.9686 lr 4.37e-04 seq/s 87.9
+ep 0 batch 220/746 loss 0.9334 lr 4.22e-04 seq/s 88.6
+ep 0 batch 240/746 loss 0.9980 lr 4.05e-04 seq/s 89.1
+ep 0 batch 260/746 loss 0.9234 lr 3.87e-04 seq/s 89.1
+ep 0 batch 280/746 loss 0.9833 lr 3.68e-04 seq/s 89.1
+ep 0 batch 300/746 loss 0.9674 lr 3.48e-04 seq/s 89.0
+ep 0 batch 320/746 loss 0.8768 lr 3.27e-04 seq/s 89.0
+ep 0 batch 340/746 loss 0.8958 lr 3.06e-04 seq/s 88.9
+ep 0 batch 360/746 loss 0.9086 lr 2.84e-04 seq/s 88.8
+ep 0 batch 380/746 loss 1.1261 lr 2.62e-04 seq/s 88.7
+ep 0 batch 400/746 loss 1.0062 lr 2.40e-04 seq/s 88.7
+ep 0 batch 420/746 loss 1.0816 lr 2.18e-04 seq/s 88.7
+ep 0 batch 440/746 loss 0.8350 lr 1.96e-04 seq/s 88.7
+ep 0 batch 460/746 loss 0.8118 lr 1.74e-04 seq/s 88.7
+ep 0 batch 480/746 loss 0.8048 lr 1.54e-04 seq/s 88.7
+ep 0 batch 500/746 loss 0.8343 lr 1.34e-04 seq/s 88.7
+ep 0 batch 520/746 loss 0.9483 lr 1.14e-04 seq/s 88.7
+ep 0 batch 540/746 loss 0.8591 lr 9.64e-05 seq/s 88.7
+ep 0 batch 560/746 loss 0.8496 lr 7.95e-05 seq/s 88.7
+ep 0 batch 580/746 loss 0.8689 lr 6.40e-05 seq/s 88.6
+ep 0 batch 600/746 loss 1.0055 lr 5.00e-05 seq/s 88.6
+ep 0 batch 620/746 loss 0.9822 lr 3.75e-05 seq/s 88.6
+ep 0 batch 640/746 loss 0.9110 lr 2.67e-05 seq/s 88.5
+ep 0 batch 660/746 loss 1.1771 lr 1.77e-05 seq/s 88.5
+ep 0 batch 680/746 loss 0.9819 lr 1.05e-05 seq/s 88.5
+ep 0 batch 700/746 loss 0.7568 lr 5.13e-06 seq/s 88.5
+ep 0 batch 720/746 loss 0.9446 lr 1.72e-06 seq/s 88.4
+ep 0 batch 740/746 loss 0.9165 lr 2.59e-07 seq/s 88.4
+FIT {"epoch": 0, "train_seconds": 135.2, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 7460, "amp_skipped_updates": 3, "optimizer_completed_updates": 7457, "ema_updates": 0, "completed_batches": 746}, "cumulative": {"optimizer_attempts": 7460, "amp_skipped_updates": 3, "optimizer_completed_updates": 7457, "ema_updates": 0, "completed_batches": 746}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 16, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "0dfcd56df332b693d7e6c2109e3768a47c0db34f8f5ff4aeafdc9c0020e73343"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "0dfcd56df332b693d7e6c2109e3768a47c0db34f8f5ff4aeafdc9c0020e73343"}, "num_workers": 4, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11940}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "b58bb164283728d56dbf1e19758ba3c5fd6323d1add853148f389dc1fd71567c"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "735419b3355f57f342d1fef995af638952ecd98ea251eaaeda81bdc2e04858ac"}}}}
+SELECTED_FIXED 0
+{"name": "c20261001_tvh_since_s3_f1", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 128, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 16, "epochs": 1, "checkpoint_policy": "fixed", "checkpoint_epoch": 0, "no_eval_during_fit": true, "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold1.json", "lr": 0.0005, "wd": 0.01, "loss": "gcorr", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "decay_init": "multi", "memory_arm": "endpoint-content", "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 1, "n_valid_folds": 4, "valid_repeat": 1, "init": "c20260929_since_s3_f1@ep3", "inherit_init_preprocessing": true, "freeze": "inp,gru", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": false, "mask_weight": false, "propensity": "c20260929_prop_f1", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "loss_norm": "chunk", "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"}
+{"source_train_sequences": 10533, "eligible_valid_train_sequences": 1416, "used_valid_train_sequences": 1416, "eval_sequences": 457}
+loader workers 4 prefetch 2; params 0.26M; steps 7460
+ep 0 batch 0/746 loss 1.0431 lr 2.09e-05 seq/s 4.9
+ep 0 batch 20/746 loss 0.9853 lr 3.08e-04 seq/s 53.5
+ep 0 batch 40/746 loss 0.9817 lr 5.00e-04 seq/s 69.2
+ep 0 batch 60/746 loss 0.9222 lr 4.99e-04 seq/s 76.7
+ep 0 batch 80/746 loss 1.0997 lr 4.95e-04 seq/s 81.2
+ep 0 batch 100/746 loss 0.9573 lr 4.90e-04 seq/s 84.2
+ep 0 batch 120/746 loss 1.0984 lr 4.83e-04 seq/s 86.3
+ep 0 batch 140/746 loss 0.9398 lr 4.74e-04 seq/s 87.0
+ep 0 batch 160/746 loss 0.9993 lr 4.63e-04 seq/s 87.0
+ep 0 batch 180/746 loss 0.9284 lr 4.51e-04 seq/s 87.1
+ep 0 batch 200/746 loss 1.1366 lr 4.37e-04 seq/s 87.5
+ep 0 batch 220/746 loss 1.0666 lr 4.22e-04 seq/s 88.3
+ep 0 batch 240/746 loss 0.9355 lr 4.05e-04 seq/s 88.7
+ep 0 batch 260/746 loss 1.1875 lr 3.87e-04 seq/s 88.8
+ep 0 batch 280/746 loss 0.8168 lr 3.68e-04 seq/s 88.8
+ep 0 batch 300/746 loss 0.9943 lr 3.48e-04 seq/s 88.8
+ep 0 batch 320/746 loss 1.1150 lr 3.27e-04 seq/s 89.0
+ep 0 batch 340/746 loss 1.0211 lr 3.06e-04 seq/s 89.0
+ep 0 batch 360/746 loss 0.9294 lr 2.84e-04 seq/s 89.0
+ep 0 batch 380/746 loss 0.7893 lr 2.62e-04 seq/s 89.1
+ep 0 batch 400/746 loss 0.9447 lr 2.40e-04 seq/s 89.0
+ep 0 batch 420/746 loss 1.1708 lr 2.18e-04 seq/s 89.1
+ep 0 batch 440/746 loss 1.1213 lr 1.96e-04 seq/s 89.0
+ep 0 batch 460/746 loss 1.1009 lr 1.74e-04 seq/s 89.0
+ep 0 batch 480/746 loss 0.9611 lr 1.54e-04 seq/s 89.0
+ep 0 batch 500/746 loss 0.9745 lr 1.34e-04 seq/s 89.0
+ep 0 batch 520/746 loss 0.7337 lr 1.14e-04 seq/s 89.0
+ep 0 batch 540/746 loss 0.9919 lr 9.64e-05 seq/s 89.0
+ep 0 batch 560/746 loss 0.8697 lr 7.95e-05 seq/s 89.0
+ep 0 batch 580/746 loss 1.0087 lr 6.40e-05 seq/s 89.2
+ep 0 batch 600/746 loss 1.0239 lr 5.00e-05 seq/s 89.2
+ep 0 batch 620/746 loss 0.9070 lr 3.75e-05 seq/s 89.3
+ep 0 batch 640/746 loss 0.8435 lr 2.67e-05 seq/s 89.3
+ep 0 batch 660/746 loss 0.9582 lr 1.77e-05 seq/s 89.3
+ep 0 batch 680/746 loss 0.8304 lr 1.05e-05 seq/s 89.3
+ep 0 batch 700/746 loss 1.0398 lr 5.13e-06 seq/s 89.3
+ep 0 batch 720/746 loss 0.8623 lr 1.72e-06 seq/s 89.3
+ep 0 batch 740/746 loss 1.0375 lr 2.59e-07 seq/s 89.3
+FIT {"epoch": 0, "train_seconds": 133.8, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 7460, "amp_skipped_updates": 3, "optimizer_completed_updates": 7457, "ema_updates": 0, "completed_batches": 746}, "cumulative": {"optimizer_attempts": 7460, "amp_skipped_updates": 3, "optimizer_completed_updates": 7457, "ema_updates": 0, "completed_batches": 746}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 16, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "0dfcd56df332b693d7e6c2109e3768a47c0db34f8f5ff4aeafdc9c0020e73343"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "0dfcd56df332b693d7e6c2109e3768a47c0db34f8f5ff4aeafdc9c0020e73343"}, "num_workers": 4, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11949}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "a4817edc8b4d678c4e0e4228dee4b929c39294ab4d8b2c077f648e0c5d554867"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "abc12af0e932e2a471a125720493c47d88fba221b31f89f76d741c7df65f3c14"}}}}
+SELECTED_FIXED 0
+{"name": "c20261001_tvh_since_s4_f1", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 128, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 16, "epochs": 1, "checkpoint_policy": "fixed", "checkpoint_epoch": 0, "no_eval_during_fit": true, "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold1.json", "lr": 0.0005, "wd": 0.01, "loss": "gcorr", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "decay_init": "multi", "memory_arm": "endpoint-content", "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 1, "n_valid_folds": 4, "valid_repeat": 1, "init": "c20260929_since_s4_f1@ep3", "inherit_init_preprocessing": true, "freeze": "inp,gru", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": false, "mask_weight": false, "propensity": "c20260929_prop_f1", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "loss_norm": "chunk", "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"}
+{"source_train_sequences": 10533, "eligible_valid_train_sequences": 1416, "used_valid_train_sequences": 1416, "eval_sequences": 457}
+loader workers 4 prefetch 2; params 0.26M; steps 7460
+ep 0 batch 0/746 loss 1.0410 lr 2.09e-05 seq/s 4.8
+ep 0 batch 20/746 loss 1.0130 lr 3.08e-04 seq/s 52.1
+ep 0 batch 40/746 loss 0.9742 lr 5.00e-04 seq/s 67.6
+ep 0 batch 60/746 loss 0.9129 lr 4.99e-04 seq/s 75.4
+ep 0 batch 80/746 loss 1.0632 lr 4.95e-04 seq/s 80.0
+ep 0 batch 100/746 loss 0.9439 lr 4.90e-04 seq/s 83.0
+ep 0 batch 120/746 loss 1.1028 lr 4.83e-04 seq/s 84.1
+ep 0 batch 140/746 loss 0.9350 lr 4.74e-04 seq/s 85.0
+ep 0 batch 160/746 loss 0.9980 lr 4.63e-04 seq/s 85.6
+ep 0 batch 180/746 loss 0.9659 lr 4.51e-04 seq/s 86.0
+ep 0 batch 200/746 loss 1.1443 lr 4.37e-04 seq/s 86.4
+ep 0 batch 220/746 loss 1.0829 lr 4.22e-04 seq/s 86.8
+ep 0 batch 240/746 loss 0.9308 lr 4.05e-04 seq/s 87.1
+ep 0 batch 260/746 loss 1.1838 lr 3.87e-04 seq/s 87.4
+ep 0 batch 280/746 loss 0.8330 lr 3.68e-04 seq/s 87.7
+ep 0 batch 300/746 loss 1.0034 lr 3.48e-04 seq/s 87.9
+ep 0 batch 320/746 loss 1.1160 lr 3.27e-04 seq/s 88.1
+ep 0 batch 340/746 loss 1.0284 lr 3.06e-04 seq/s 88.3
+ep 0 batch 360/746 loss 0.9564 lr 2.84e-04 seq/s 88.5
+ep 0 batch 380/746 loss 0.7933 lr 2.62e-04 seq/s 88.6
+ep 0 batch 400/746 loss 0.9230 lr 2.40e-04 seq/s 88.7
+ep 0 batch 420/746 loss 1.1665 lr 2.18e-04 seq/s 88.8
+ep 0 batch 440/746 loss 1.1325 lr 1.96e-04 seq/s 88.9
+ep 0 batch 460/746 loss 1.0918 lr 1.74e-04 seq/s 88.9
+ep 0 batch 480/746 loss 0.9580 lr 1.54e-04 seq/s 88.9
+ep 0 batch 500/746 loss 1.0181 lr 1.34e-04 seq/s 88.9
+ep 0 batch 520/746 loss 0.7294 lr 1.14e-04 seq/s 88.9
+ep 0 batch 540/746 loss 0.9842 lr 9.64e-05 seq/s 89.0
+ep 0 batch 560/746 loss 0.8724 lr 7.95e-05 seq/s 89.0
+ep 0 batch 580/746 loss 0.9909 lr 6.40e-05 seq/s 89.1
+ep 0 batch 600/746 loss 1.0235 lr 5.00e-05 seq/s 89.1
+ep 0 batch 620/746 loss 0.9010 lr 3.75e-05 seq/s 89.2
+ep 0 batch 640/746 loss 0.8644 lr 2.67e-05 seq/s 89.3
+ep 0 batch 660/746 loss 0.9691 lr 1.77e-05 seq/s 89.3
+ep 0 batch 680/746 loss 0.8240 lr 1.05e-05 seq/s 89.3
+ep 0 batch 700/746 loss 1.0383 lr 5.13e-06 seq/s 89.4
+ep 0 batch 720/746 loss 0.8703 lr 1.72e-06 seq/s 89.4
+ep 0 batch 740/746 loss 1.0496 lr 2.59e-07 seq/s 89.5
+FIT {"epoch": 0, "train_seconds": 133.5, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 7460, "amp_skipped_updates": 3, "optimizer_completed_updates": 7457, "ema_updates": 0, "completed_batches": 746}, "cumulative": {"optimizer_attempts": 7460, "amp_skipped_updates": 3, "optimizer_completed_updates": 7457, "ema_updates": 0, "completed_batches": 746}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 16, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "0dfcd56df332b693d7e6c2109e3768a47c0db34f8f5ff4aeafdc9c0020e73343"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "0dfcd56df332b693d7e6c2109e3768a47c0db34f8f5ff4aeafdc9c0020e73343"}, "num_workers": 4, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11949}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "09a5dc4df29870479a6d8cefbcf5959288d3ebb59418d6d0de6f7cfefd09f33a"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "c02996d7614a5293641a49c338a8f41295a8004ec8626c8ab652c4a9e6a3daf5"}}}}
+SELECTED_FIXED 0

@@ -1,0 +1,15 @@
+{
+  "version": "clock-screen-scorer-freeze-v1",
+  "frozen_before_candidate_control_gpu_fit": true,
+  "script": "research/campaign_2026-09-29/clock_reproduction/score_clock_screen.py",
+  "script_sha256": "3c00fe36b98700bf53419208dca33914f398d383ababbd5e1de8bbf617afb0ba",
+  "screen_contract_sha256": "054b2f0bba2b1bbb0600b6b483c5808816ef512f1d6e8df271df635a61af7fd4",
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_PCT=7 WNN_THREADS=1 WNN_CPU_QUOTA=100% WNN_MEM_MAX=3G scripts/limited .venv/bin/python research/campaign_2026-09-29/clock_reproduction/score_clock_screen.py --candidate c20260929_auxclock_quote8_f0 --control c20260929_auxclock_code8_f0 --anchor c20260929_since_s4_f0 --no-aux c20260929_since_s3_f0 --boot 2000 --seed 271828 --output research/campaign_2026-09-29/clock_reproduction/screen_f0.json",
+  "evaluation": "manifest fold0 valid row groups, need_prediction AND is_scored, Global Weighted Pearson clip2",
+  "comparison": "equal 0.5/0.5 pair with fixed clean seed4 anchor",
+  "bootstrap": "2000 resamples of complete feature-chain components, centered weighted moments, seed 271828",
+  "sensitivity": "softened 0.02/0.05 mask diagnostic; pooled class diagnostics; legacy block diagnostic",
+  "provenance": "full prediction and checkpoint SHA256, checkpoint fixed epoch/fit/eval groups, cache metadata and array SHA, paired trainer source hash, identical row-group sidecars",
+  "screen_gate": "candidate pair minus matched code8 pair >=0.0005 and candidate pair above no-aux clean pair",
+  "no_gpu_launched_by_reproduction_role": true
+}

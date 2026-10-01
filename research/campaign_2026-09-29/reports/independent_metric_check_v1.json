@@ -1,0 +1,131 @@
+{
+  "status": "fail",
+  "elapsed_seconds": 2.129930630999297,
+  "checks": [
+    {
+      "name": "extended_precision_random_stream_parity",
+      "status": "pass",
+      "details": {
+        "trials": 80,
+        "max_absolute_oracle_error": 5.551115123125783e-16
+      },
+      "elapsed_seconds": 0.8169284880004852
+    },
+    {
+      "name": "raw_boundaries",
+      "status": "pass",
+      "details": {
+        "raw_nonfinite_rejected": true,
+        "shape_zero_weight_constant_empty_checked": true
+      },
+      "elapsed_seconds": 0.0005564209996009595
+    },
+    {
+      "name": "near_constant_stream",
+      "status": "pass",
+      "details": {
+        "expected": 1.0,
+        "stream_results": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "elapsed_seconds": 0.7073472949996358
+    },
+    {
+      "name": "component_bootstrap_replay",
+      "status": "pass",
+      "details": {
+        "candidate_wp": 0.9614829207314174,
+        "reference_wp": 0.8391816620514944,
+        "mean_diff": 0.12230125867992303,
+        "bootstrap_sd": 0.003458134030166135,
+        "ci95": [
+          0.11406448244758699,
+          0.1271711486306101
+        ],
+        "p_le_0": 0.0,
+        "n_sequences": 7,
+        "n_components": 4,
+        "n_boot": 60,
+        "seed": 801,
+        "metric_id": "global_wp_clip2_v1"
+      },
+      "elapsed_seconds": 0.028122454999902402
+    },
+    {
+      "name": "near_constant_bootstrap",
+      "status": "fail",
+      "error": "AssertionError({'expected': 1.0, 'actual': {'candidate_wp': 0.0, 'reference_wp': 0.0, 'mean_diff': 0.0, 'bootstrap_sd': 0.0, 'ci95': [0.0, 0.0], 'p_le_0': 1.0, 'n_sequences': 2, 'n_components': 2, 'n_boot': 30, 'seed': 0, 'metric_id': 'global_wp_clip2_v1'}})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/reports/independent_metric_check.py\", line 60, in check\n    details = action()\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/reports/independent_metric_check.py\", line 161, in near_constant_bootstrap\n    assert abs(result[\"mean_diff\"] - expected) < 1e-6, {\"expected\": expected, \"actual\": result}\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'expected': 1.0, 'actual': {'candidate_wp': 0.0, 'reference_wp': 0.0, 'mean_diff': 0.0, 'bootstrap_sd': 0.0, 'ci95': [0.0, 0.0], 'p_le_0': 1.0, 'n_sequences': 2, 'n_components': 2, 'n_boot': 30, 'seed': 0, 'metric_id': 'global_wp_clip2_v1'}}\n",
+      "elapsed_seconds": 0.0032178760002352647
+    },
+    {
+      "name": "research_evaluation_no_block_eligibility",
+      "status": "fail",
+      "error": "ValueError('no eligible blocks')",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/reports/independent_metric_check.py\", line 60, in check\n    details = action()\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/reports/independent_metric_check.py\", line 196, in research_evaluation_no_block_eligibility\n    result = trainer.evaluate(None, loader, 4000, \"cpu\")\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/train_rnn.py\", line 397, in evaluate\n    legacy = block_aggregate_score(y, p, m)\n  File \"/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/metric.py\", line 89, in block_aggregate_score\n    raise ValueError(\"no eligible blocks\")\nValueError: no eligible blocks\n",
+      "elapsed_seconds": 0.030228005000026315
+    },
+    {
+      "name": "submission_multisequence_npz_npy",
+      "status": "pass",
+      "details": {
+        "outputs": [
+          {
+            "metric_id": "global_wp_clip2_v1",
+            "load_s": 0.0,
+            "us_per_row": 2.9,
+            "rows": 60000,
+            "sequences": 3,
+            "selected_rows": 3513,
+            "block_wp": null,
+            "block_diagnostic_error": "no eligible blocks",
+            "global_wp": 1.0,
+            "global_t0": 1.0,
+            "global_t1": 1.0,
+            "eta_min_39M_rows": 1.9
+          },
+          {
+            "metric_id": "global_wp_clip2_v1",
+            "load_s": 0.0,
+            "us_per_row": 2.9,
+            "rows": 60000,
+            "sequences": 3,
+            "selected_rows": 3513,
+            "block_wp": null,
+            "block_diagnostic_error": "no eligible blocks",
+            "global_wp": 1.0,
+            "global_t0": 1.0,
+            "global_t1": 1.0,
+            "eta_min_39M_rows": 1.9
+          }
+        ]
+      },
+      "elapsed_seconds": 0.5430135779997727
+    }
+  ],
+  "hashes": {
+    "src/wnn/metric.py": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/evaluation.py": "f0a41b4220f8421df700631757dfe3f50c1df246f360e9e670468d81cdd7f3da",
+    "utils.py": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+    "scripts/train_rnn.py": "c299f2442c5443f7c2885f18eedca02a7365db3f3b88b1e92725893f1772224a",
+    "scripts/verify_submission.py": "d2c75df6accf8f88c911844171c03a020756833843d0b6db856e0cdebbe6bfb4"
+  },
+  "hashes_after": {
+    "src/wnn/metric.py": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/evaluation.py": "f0a41b4220f8421df700631757dfe3f50c1df246f360e9e670468d81cdd7f3da",
+    "utils.py": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+    "scripts/train_rnn.py": "c299f2442c5443f7c2885f18eedca02a7365db3f3b88b1e92725893f1772224a",
+    "scripts/verify_submission.py": "d2c75df6accf8f88c911844171c03a020756833843d0b6db856e0cdebbe6bfb4"
+  },
+  "official_source_sha256": "95cded300df8281c99081b8cb3d7acf1253ae347b585701309fc8cb8196b97ec"
+}

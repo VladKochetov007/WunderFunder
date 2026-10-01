@@ -1,0 +1,18 @@
+{
+  "campaign": "root-connectome-top1-20260929",
+  "target": "Verified deterministic ZIP with audited expected public score >= 0.6660",
+  "verification_tier": "C",
+  "baseline": {"package": "submissions/final_since2_gclp/final_since2_gclp.zip", "public_score": 0.6622, "submission_id": "1bmxngta", "sha256": "7990bafd721b09bde2670bc9281fdb0913456a7e2caf046d894fed31faae10f7", "association": "user-reported portal evidence"},
+  "metric": {"id": "global_wp_clip2_v1", "clip": [-2, 2], "weights": "abs(clipped target)", "selection": "need_prediction AND is_scored", "aggregation": "pool all rows per target, then mean t0/t1", "source": "https://wundernn.io/connectome/docs/data_overview", "retrieved_date": "2026-09-29", "block_wp": "legacy diagnostic only"},
+  "budgets": {"gpu_seconds": 28800, "budget_boundary": "new work in this continuation", "cpu_cores": 12, "ram_bytes": 38654705664, "observed_vram_bytes": 5000000000, "gpu_concurrency": 1, "final_gpu_reserve_seconds": 5400, "disk_headroom_bytes": 20000000000},
+  "allocation_seconds": {"controls": 9000, "screens": 5400, "confirmation_reproduction": 9000, "final": 5400},
+  "submission": {"cpu_cores": 1, "ram_bytes": 16000000000, "runtime_seconds": 3600, "projected_runtime_gate_seconds": 3120, "zip_bytes": 20000000, "python": "3.11", "offline": true, "upload": false},
+  "data": {"fit": ["datasets/train.parquet", "datasets/valid.parquet"], "external": "isolated CPU-only reconstruction study; no examples, weights, statistics, symbols or inferred mappings enter submission fitting"},
+  "screen_gate": {"global_wp_delta": 0.0005, "matched_control": true},
+  "confirmation_gate": {"positive_each_fold": true, "delta_exceeds_bootstrap_sd": true, "bootstrap_replicates": 2000, "bootstrap_seed": 0, "market_class_delta_floor": -0.0005, "soft_mask_lambdas": [0.02, 0.05], "block_wp_required_positive": false},
+  "expectation_gate": {"mean_public": 0.6660, "independent_audit": true, "nested_submission_calibration": true, "transfer_domain_audit": true, "selection_correction": true},
+  "parity": {"batch_native_max_abs": 0.0001, "native_variants_max_abs": 0.000001, "global_wp_max_abs": 0.000001, "repeat": "bitwise identical"},
+  "limitations": ["folds 2-3 previously inspected", "historical holdout is repeatedly inspected and chain-linked", "clean OOF controls are recipe analogs, not historical public weights", "public transfer for novel mechanisms is uncertain"],
+  "invariants": ["process every row causally", "reset all state on seq_ix change", "no masks or labels at inference", "fixed checkpoint epochs", "component exclusions at all fitting stages", "fixed inference membership and weights", "preserve dirty user work", "no nested challenge authority", "no upload"],
+  "stop": ["verified target with independent expectation audit", "28800 GPU seconds exhausted", "unavailable resources or invalid evaluator prevents safe progress"]
+}
