@@ -1,0 +1,26 @@
+{
+ "frozen_at": "2026-10-01T23:02+03:00",
+ "hypothesis": "E-311: adding the distilled GRU256 trunk (merged parent + head-FT heads) to the class-3 group of the routed ensemble improves Global WP",
+ "found_on": [
+  "fold0",
+  "fold1"
+ ],
+ "confirmation_folds": [
+  2,
+  3
+ ],
+ "note": "fold 2/3 d256 predictions exist but have not been scored or inspected before this freeze",
+ "arms": {
+  "RSP2": "class 3 -> SP2 (since s3,s4 trunks, parent+head heads), classes 0-2 -> ft_pair",
+  "RSP2_D": "class 3 -> SP2_D (since s3, s4, d256 trunks, each parent+head heads, equal per trunk), classes 0-2 -> ft_pair"
+ },
+ "gate": {
+  "pooled_f23_delta_min": 0.0005,
+  "each_fold_positive": true,
+  "class_floor": -0.0005
+ },
+ "secondary": [
+  "SP2_D vs SP2 (unrouted)",
+  "d256_head vs s3_head single"
+ ]
+}
