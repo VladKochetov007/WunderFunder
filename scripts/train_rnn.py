@@ -685,6 +685,10 @@ def main():
     ap.add_argument("--ce-mse", type=float, default=0.0, help="add this weight x wMSE on the differentiable readout")
     ap.add_argument("--distill", default="", help="teacher runs name[*scale],...; cached pred_<name>_<split>.npy")
     ap.add_argument("--distill-alpha", type=float, default=0.5, help="target = (1-a) y + a mean(teachers)")
+    ap.add_argument("--distill-alpha-far", type=float, default=None,
+                    help="noise-adaptive distillation: a(u) = a + (far - a)(1 - exp(-u/tau)), u = rows until the label "
+                         "changes (training-time only; inputs stay causal)")
+    ap.add_argument("--distill-alpha-tau", type=float, default=32.0, help="rows scale of the noise-adaptive weight")
     ap.add_argument("--aux-next", type=float, default=0.0,
                     help="weight of auxiliary heads: log rows to next target change (MSE) and its sign (BCE)")
     ap.add_argument("--aux-tier", type=float, default=0.0,
@@ -1251,6 +1255,7 @@ def main():
                 ce_w = row_w * y.float().clamp(-2, 2).abs().mean(-1) if args.ce_tilt else row_w
                 if epoch == 0:
                     moments.update(codes, y, row_w)
+            nxt_label = next_label_change(y) if args.distill_alpha_far is not None else None
             if args.td_alpha > 0:
                 nxt_all = next_label_change(y)
                 ramp_steps = max(1, int(args.td_ramp * len(train_loader) * math.ceil(20_000 / args.chunk)))
@@ -1276,7 +1281,16 @@ def main():
                         loss = loss + args.ce_mse * weighted_mse_loss(pred, y[:, sl], main_valid[:, sl])
                 elif teach is not None:
                     yc = y[:, sl].float().clamp(-2, 2)
-                    tgt = (1 - args.distill_alpha) * yc + args.distill_alpha * teach[:, sl].float().clamp(-2, 2)
+                    if args.distill_alpha_far is None:
+                        a = args.distill_alpha
+                    else:
+                        # far from the label's resolution the realized target is mostly unknowable future path:
+                        # lean on the teacher there, on the label near the next change
+                        rows = torch.arange(sl.start, sl.start + yc.shape[1], device=yc.device)[None]
+                        u = (nxt_label[:, sl] - rows).float().clamp_min(0)
+                        a = (args.distill_alpha + (args.distill_alpha_far - args.distill_alpha)
+                             * (1 - torch.exp(-u / args.distill_alpha_tau)))[..., None]
+                    tgt = (1 - a) * yc + a * teach[:, sl].float().clamp(-2, 2)
                     w = yc.abs() * main_valid[:, sl][..., None]
                     loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
                 elif args.td_alpha > 0:
