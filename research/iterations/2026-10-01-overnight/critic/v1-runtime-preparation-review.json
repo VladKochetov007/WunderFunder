@@ -1,0 +1,52 @@
+{
+  "status": "PASS_INDEPENDENT_V1_RUNTIME_PREPARATION_ONLY",
+  "UTC": "2026-10-01T05:26:11.792757+00:00",
+  "plan_sha256": "881a8476ece923c36fb2a1405b9a1525438426aa6e1ed02cef0d1cff15af77e7",
+  "source_sha256": {
+    "audit_v1.py": "2f563c616a8410eaf063e4c77c47968bfade2daea80e15a85c29dd2c9018e6aa",
+    "launch.py": "28bd3443702534fce9279772a2084fd1a6cf9fba1f5b46365e264c686affc1aa",
+    "protocol.py": "86611b960936c91a580319f262018e8334cc122f300feffce5916407ef628b49"
+  },
+  "sources_verified": 9,
+  "artifact_sha256": "ea494921497d9f3cf53b19b1b68285133983560a249b38ef40738b3d846d319d",
+  "artifact_manifest_entries_verified": 12,
+  "independent_generated_checks": [
+    "1970 sequences; 39.4M callbacks; 39,204,970 emitted; 195,030 warmup None",
+    "First 1873 raw IDs preserved; 97 repeats use fresh unique IDs, including int64 extremes and occupied nonnegative IDs",
+    "All generated identity prefixes fit signed int64 packing"
+  ],
+  "static_findings": [
+    "Exact original ZIP source and manifest inspected without executing model or decoding empirical weight arrays",
+    "First callback initializes clock; next 1969 boundaries call governor; ending rows=39.4M and seqs=1969",
+    "All 20k rows reach predict; need_prediction is step>=99; target and mask reader disabled",
+    "Original default 39.4M/52min governor and natural ISA preserved; override variables rejected before import; only read-only k/row/seq observation",
+    "Reported equal 1/k coefficients agree with original quarter-coefficient wrapper",
+    "Exact directory entries supported; hash, type, traversal, symlink and duplicate entries guarded",
+    "Actual cgroup 1 CPU/16GiB/swap0 and per-TID affinity18 checked; idle helper threads permitted and observed",
+    "Launcher wait counts from LAUNCH_START: TERM3895s, 2s grace, 3s receipt reserve; signaling addresses own Popen worker group",
+    "Qualification requires complete finite output, both SMT busy ratios<5%, actual full process<=3600s, observed<=3900s and no timeout; no 50min callback gate",
+    "Source/input/package hashes verified before and after; one fresh execution directory, no retry"
+  ],
+  "limitations": [
+    "Source preparation only. Actual resources, CPU release and exact root allocation must be verified before execution.",
+    "Governor measurement includes harness decode/check/hash/log gaps; this cannot reconstruct historical public member counts or quality.",
+    "Prior artifact numerical/causal evidence reused; no independent inference oracle in this runtime audit.",
+    "Natural ISA and warm filesystem cache on this host only; no runtime portability guarantee.",
+    "Worker/group release requires actual PID/start-tick and scope evidence after execution."
+  ],
+  "preparation_attempts": [
+    {
+      "attempt": 1,
+      "result": "Inline review script syntax error (missing space after and); no statements executed and no result written."
+    },
+    {
+      "attempt": 2,
+      "result": "Corrected syntax; all checks passed."
+    }
+  ],
+  "data_arrays_read": false,
+  "model_forward": false,
+  "empirical_artifact_runs": 0,
+  "WP_queries": 0,
+  "GPU": false
+}

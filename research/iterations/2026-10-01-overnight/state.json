@@ -1,9 +1,9 @@
 {
-  "updated_utc": "2026-10-01T05:00:17.211693+00:00",
-  "deadline_utc": "2026-10-01T08:23:30Z",
+  "updated_utc": "2026-10-01T05:42:52.114002+00:00",
+  "deadline_utc": "2026-10-01T08:33:30+00:00",
   "status": "active",
-  "completed_forecasting_fits": 44,
-  "completed_heldfold_prediction_jobs": 44,
+  "completed_forecasting_fits": 52,
+  "completed_heldfold_prediction_jobs": 48,
   "maximum_forecasting_fits": 64,
   "maximum_WP_readouts": 64,
   "scientific_configurations": {
@@ -18,28 +18,28 @@
     "CTXMEMcurrent": "closed;matched comparison completed",
     "CTXMEMeventEMA": "screenfailed:joint-vs-current+.000055788,bothfoldnegative;joint-vs-plain-.000006320;all4gatesfail",
     "Q3dynamicINT8": "closed:quantizationloss-.000011454PASS;qualitygain+.000258385below+.0003gate;VNNIonlyruntime",
-    "SCALARPLEordinary": "Seed3 control parents running on GPU6/7, full historical input-byte preflight PASS; epoch0 complete04:55:47UTC.",
-    "SCALARPLEadapter": "Allocated initial8fit/4OOF stage active; PLE parents follow matched control parent/head in each lane. No scalar quality read yet."
+    "SCALARPLEordinary": "Closed,8-fit stage complete; fresh ordinary OOFs byte-identical to registeredon_ctl128s3 inbothfolds.",
+    "SCALARPLEadapter": "Closed seed3 screen: +.000127659722 pooled,fold0+.000377792738,fold1-.000045972553;bothfixedcomparisons fail pooled+.0003 andfoldnonnegative gates. No seed4/final/nativeOOF."
   },
   "scientific_configurations_max": 13,
   "deployment_compositions": "fixed2/fixed3 separately preregistered readouts; no new training recipe",
   "champion": "Historical publicV1 ZIP unchanged; reconstructed fixed4H2 localWP .7023672255138177. No new forecast recipe promoted.",
   "runtime": "Fixed3 ZIP9471821e unchanged, full37.46M raw-only callbacks PASS on naturalv3:43.1610min observed completeprocess,45.3963min projected39.4M; overallpeak347560KiB. ForcedAVX2/v2 correctly execute but project83.3761/105.3706min and fail runtime. HistoricalpublicV1 preserved.",
   "next": [
-    "Monitor and independently audit exact scalar seed3 eightfits+fourOOF; no score beforeintegrityPASS",
-    "Root only two fixed quality comparisons; seed4/final remain conditional andunallocated",
-    "Preserve fullruntime/fallbackhardware limitations in deliveryreport",
-    "Continue finaldelivery verification and reporting within08:23:30UTC deadline"
+    "Complete unchanged historicalV1 39.4M callback runtime/governor audit under existing allocation",
+    "Consider separate generated-only prefetch memory diagnosis after independent source review; no forecasts or quality",
+    "Reconcile52fit archive,36WP ledger, finalreportanddelivery status",
+    "No additional forecasting mechanism or public/GitHub submission allocated"
   ],
-  "completed_metric_readouts": 34,
-  "running_forecasting_fits": 2,
+  "completed_metric_readouts": 36,
+  "running_forecasting_fits": 0,
   "allocated_SAM_seed3_fits": 8,
   "SAM_launch_utc": "2026-10-01T01:25:55Z",
-  "source_HEAD": "659bfc5",
+  "source_HEAD": "7f2579e",
   "input_reframe": "QRENEWAL CLOSED: bothfixedinputgatesfail; zero missedmarkedresets of295833; medianincrementerror .583/.618. No targets or forecast allocated.",
   "completed_parent_integrity_checks": 4,
   "allocated_CTX_screen_fits": 8,
-  "completed_gpu_heldfold_predictions": 40,
+  "completed_gpu_heldfold_predictions": 44,
   "completed_native_heldfold_predictions": 4,
   "runtime_fullvalid": "PASS independently:37.46M callbacks,37,274,573finite pairs; actualfullprocess43.1610min,39.4Mcallbackprojection43.35884min,completeprocess45.39627min;v3CPU18,1CPU16GBcgroup,warmcache.",
   "scalar_native_pilot": {
@@ -52,5 +52,30 @@
   "allocated_SCALAR_seed3_fits": 8,
   "allocated_SCALAR_seed3_OOF": 4,
   "SCALAR_seed3_controller_start_utc": "2026-10-01T04:50:25Z",
-  "runtime_fallback_ISA": "Bothclean100k correctnessPASS but timeFAIL:forcedAVX2 83.3761min/39.4M,v2 105.3706min. No generalCPU runtimequalification. HistoricalV1 governor unchanged."
+  "runtime_fallback_ISA": "Bothclean100k correctnessPASS but timeFAIL:forcedAVX2 83.3761min/39.4M,v2 105.3706min. No generalCPU runtimequalification. HistoricalV1 governor unchanged.",
+  "historical_V1_fresh_runtime_audit": {
+    "status": "RUNNING",
+    "plan_sha256": "881a8476ece923c36fb2a1405b9a1525438426aa6e1ed02cef0d1cff15af77e7",
+    "allocation_sha256": "4db847d33679c0a77ca74f97d7d41078e61b9346b2337b3fa806a7be7c168030",
+    "start_utc": "2026-10-01T05:28:13.907602Z",
+    "worker_PID": 7142,
+    "start_ticks": 499973481,
+    "CPU": 18,
+    "SMT_sibling": 58,
+    "callbacks": 39400000,
+    "unique_raw_rows": 37460000,
+    "repeated_raw_rows": 1940000,
+    "quality_queries": 0,
+    "ZIP_modified": false
+  },
+  "deadline_amendment_sha256": "9bc9158527b85a4bd908b91d11238c4f7ab80a9b34ce2d1e76f51b969ff46c8d",
+  "scalar_quality_decision_sha256": "c2e14cf5192e5b01eadc0fc199105b874dea82047114b9c92d44fbe95b958b40",
+  "scalar_independent_decision_review_sha256": "ffb53fc3e930be43fe948ca81089212d3cc68d7733f455d3a7060a58f7021e1c",
+  "completed_fit_archive": {
+    "fits": 52,
+    "files": 224,
+    "bytes": 202096550,
+    "manifest_sha256": "afbb680140e4c6f6c143a13ca805b01c6d5309aa4544f4715b5e8013ec5ae614",
+    "local_byte_verification": "PASS"
+  }
 }

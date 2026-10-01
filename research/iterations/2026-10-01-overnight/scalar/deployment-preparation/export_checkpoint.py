@@ -22,7 +22,11 @@ def main():
   if slot==0:
    assert cfg['scalar_schema']==SCHEMA and cfg['scalar_arm']=='ple' and cfg['scalar_stage']=='head'
    assert cfg['scalar_fit_receipt_sha256']==fitentry['receipt_sha256'] and cfg['scalar_training_plan_sha256']==child['training_plan_sha256']
-   proof=child['independent_integrity'];assert sha(ROOT/proof['path'])==proof['sha256'];load_scalar_model(ck,expected_fit=fit)
+   proof=child['independent_integrity'];assert sha(ROOT/proof['path'])==proof['sha256'];review=json.loads((ROOT/proof['path']).read_text())
+   assert review['status']==('PASS_INDEPENDENT_SCALAR8_FIT4_OOF_INTEGRITY' if alloc['stage']=='heldfold_seed3' else 'PASS_INDEPENDENT_SCALAR_FINAL_INTEGRITY')
+   assert review['checkpoints'][child['run']]['endpoint_sha256']==child['checkpoint_sha256'] and review['plan_sha256']==child['training_plan_sha256']
+   assert review['WP_queries']==0 and review['targets_decoded'] is False
+   load_scalar_model(ck,expected_fit=fit)
   else:assert not any(k.startswith('scalar.') for k in ck['model']) and not cfg.get('scalar_schema')
   arrays={k:v.detach().cpu().numpy().copy() for k,v in ck['model'].items()};assert arrays['head.2.weight'].shape==(23,128)
   arrays['head.2.weight']=arrays['head.2.weight'][:2].copy();arrays['head.2.bias']=arrays['head.2.bias'][:2].copy()

@@ -1,0 +1,991 @@
+{
+  "status": "PASS_FIXED_FITS_AND_OOF_PENDING_INDEPENDENT_AUDIT",
+  "failure": null,
+  "started_UTC": "2026-10-01T04:50:25.214288+00:00",
+  "finished_UTC": "2026-10-01T05:34:47.570417+00:00",
+  "seconds": 2662.3561280611902,
+  "allocation_sha256": "ae7cab221632bf76e0bb9e70b96b686ac9739b5b971f368c250dbe168df2d60c",
+  "training_plan_sha256": "8b3b0f25bb22ecab73857aed7f75d8afae7c92c39e51c9a76b7189a9985a17a1",
+  "jobs": [
+    {
+      "label": "inputs-before",
+      "argv": [
+        "taskset",
+        "-c",
+        "38",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/input_preflight.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-allocation.json",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/inputs-before.json"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "WNN_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 4161630,
+        "pgid": 4161630,
+        "start_ticks": 499746592
+      },
+      "started_UTC": "2026-10-01T04:50:25.219209+00:00",
+      "cap_seconds": 300,
+      "GPU_precheck": null,
+      "peak_sampled_aggregate_RSS_KiB": 18508,
+      "peak_sampled_GPU_MiB": 0,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 96.18918758630753,
+      "finished_UTC": "2026-10-01T04:52:01.404763+00:00",
+      "log_sha256": "adbd503ccad609a09fad639f4e09bca2a6d73a7c044b2f8f05d9dce9eb481856",
+      "samples_sha256": "a84bfe11ac838337afb57dcda8083d782389970712715b638568baffc8eb24b5"
+    },
+    {
+      "label": "on_plectl_s3_f1_parent",
+      "argv": [
+        "taskset",
+        "-c",
+        "30-35,70-75",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/train.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f1_parent.allocation.json",
+        "--run",
+        "on_plectl_s3_f1_parent"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "7",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 4162441,
+        "pgid": 4162441,
+        "start_ticks": 499756232
+      },
+      "started_UTC": "2026-10-01T04:52:01.616820+00:00",
+      "cap_seconds": 2700,
+      "GPU_precheck": {
+        "uuid": "GPU-2551b12a-3435-ca76-deac-9f15dfc2dd8a",
+        "used_MiB": 1,
+        "free_MiB": 15973,
+        "compute": []
+      },
+      "peak_sampled_aggregate_RSS_KiB": 11566016,
+      "peak_sampled_GPU_MiB": 5617,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 789.0871195457876,
+      "finished_UTC": "2026-10-01T05:05:10.701618+00:00",
+      "log_sha256": "c33b30878b7159f3afaf9b654451251ff63912e588d7ccfbf605493b024609be",
+      "samples_sha256": "ae0312a026017519201c9553a5fa38cf04f50eaa938f4a593b249c621c3f179f"
+    },
+    {
+      "label": "on_plectl_s3_f0_parent",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29,64-69",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/train.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f0_parent.allocation.json",
+        "--run",
+        "on_plectl_s3_f0_parent"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "6",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 4162442,
+        "pgid": 4162442,
+        "start_ticks": 499756234
+      },
+      "started_UTC": "2026-10-01T04:52:01.630907+00:00",
+      "cap_seconds": 2700,
+      "GPU_precheck": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "used_MiB": 1,
+        "free_MiB": 15973,
+        "compute": []
+      },
+      "peak_sampled_aggregate_RSS_KiB": 11111112,
+      "peak_sampled_GPU_MiB": 5319,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 788.0075936382636,
+      "finished_UTC": "2026-10-01T05:05:09.637797+00:00",
+      "log_sha256": "55b4d6e721e628dce4f7254d466799bc1226d24ad50b9c64c61fd1de346ef1df",
+      "samples_sha256": "abeecd65c808d39f18f8fe486f4dffc5ca294fd09fe7952df1305e05b705f650"
+    },
+    {
+      "label": "on_plectl_s3_f0_parent-check",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29,64-69",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/check_fit.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f0_parent.allocation.json",
+        "--run",
+        "on_plectl_s3_f0_parent",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f0_parent.integrity.json"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 4177412,
+        "pgid": 4177412,
+        "start_ticks": 499835036
+      },
+      "started_UTC": "2026-10-01T05:05:09.656850+00:00",
+      "cap_seconds": 120,
+      "GPU_precheck": null,
+      "peak_sampled_aggregate_RSS_KiB": 515996,
+      "peak_sampled_GPU_MiB": 0,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 2.191589475609362,
+      "finished_UTC": "2026-10-01T05:05:11.847293+00:00",
+      "log_sha256": "869e73772dc7d32f9e1f0d53ba29b9a486e7aed1a8c0867bc17b44e5c95b8f0a",
+      "samples_sha256": "becebd2354c6a0ae50b55b42faab7ad983e517d5fcd646168e5fe4783c66bee8"
+    },
+    {
+      "label": "on_plectl_s3_f1_parent-check",
+      "argv": [
+        "taskset",
+        "-c",
+        "30-35,70-75",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/check_fit.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f1_parent.allocation.json",
+        "--run",
+        "on_plectl_s3_f1_parent",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f1_parent.integrity.json"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 4177422,
+        "pgid": 4177422,
+        "start_ticks": 499835142
+      },
+      "started_UTC": "2026-10-01T05:05:10.715177+00:00",
+      "cap_seconds": 120,
+      "GPU_precheck": null,
+      "peak_sampled_aggregate_RSS_KiB": 516976,
+      "peak_sampled_GPU_MiB": 0,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 1.6933582853525877,
+      "finished_UTC": "2026-10-01T05:05:12.405115+00:00",
+      "log_sha256": "1f8623d82c7d069a525c09ba4367c68f6aae1fb13ae3b86e0d2861b09d55b86a",
+      "samples_sha256": "22be649e714d268f81ab8c23f4bd4e2ce4dccb5844d8168b168fdc59edd35575"
+    },
+    {
+      "label": "on_plectl_s3_f0",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29,64-69",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/train.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f0.allocation.json",
+        "--run",
+        "on_plectl_s3_f0"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "6",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 4177497,
+        "pgid": 4177497,
+        "start_ticks": 499835316
+      },
+      "started_UTC": "2026-10-01T05:05:12.456035+00:00",
+      "cap_seconds": 600,
+      "GPU_precheck": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "used_MiB": 1,
+        "free_MiB": 15973,
+        "compute": []
+      },
+      "peak_sampled_aggregate_RSS_KiB": 6854816,
+      "peak_sampled_GPU_MiB": 2269,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 54.04563582222909,
+      "finished_UTC": "2026-10-01T05:06:06.500471+00:00",
+      "log_sha256": "d4adb46bf7dfb0c27ebfe4f7d0dbd6a15311597a45f42b351b3b9e286ec088b3",
+      "samples_sha256": "c6431da74a61bc867b91df82dd3e18fb216902970d8cc2b3ced0c39be494562e"
+    },
+    {
+      "label": "on_plectl_s3_f1",
+      "argv": [
+        "taskset",
+        "-c",
+        "30-35,70-75",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/train.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f1.allocation.json",
+        "--run",
+        "on_plectl_s3_f1"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "7",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 4177511,
+        "pgid": 4177511,
+        "start_ticks": 499835366
+      },
+      "started_UTC": "2026-10-01T05:05:12.959881+00:00",
+      "cap_seconds": 600,
+      "GPU_precheck": {
+        "uuid": "GPU-2551b12a-3435-ca76-deac-9f15dfc2dd8a",
+        "used_MiB": 1,
+        "free_MiB": 15973,
+        "compute": []
+      },
+      "peak_sampled_aggregate_RSS_KiB": 6864428,
+      "peak_sampled_GPU_MiB": 2269,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 53.54475340433419,
+      "finished_UTC": "2026-10-01T05:06:06.503412+00:00",
+      "log_sha256": "66ec0bf3dadb3ba6402c47658c879ff30fdbba195197b34a7632bf902febe586",
+      "samples_sha256": "f4cd68ae6998bb074f5a900b50b195ad0983da8735200380c9ec80e329db5215"
+    },
+    {
+      "label": "on_plectl_s3_f1-check",
+      "argv": [
+        "taskset",
+        "-c",
+        "30-35,70-75",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/check_fit.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f1.allocation.json",
+        "--run",
+        "on_plectl_s3_f1",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f1.integrity.json"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 4178506,
+        "pgid": 4178506,
+        "start_ticks": 499840722
+      },
+      "started_UTC": "2026-10-01T05:06:06.516185+00:00",
+      "cap_seconds": 120,
+      "GPU_precheck": null,
+      "peak_sampled_aggregate_RSS_KiB": 510444,
+      "peak_sampled_GPU_MiB": 0,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 1.7348677963018417,
+      "finished_UTC": "2026-10-01T05:06:08.247630+00:00",
+      "log_sha256": "ad51dcc6b9821e840893e40edd5b05ab43003092a3b1ff6d22e4eeb0d7821531",
+      "samples_sha256": "44fed002c3a784ccb87409f042c9700315835c6e06d7ea755767240f42804a70"
+    },
+    {
+      "label": "on_plectl_s3_f0-check",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29,64-69",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/check_fit.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f0.allocation.json",
+        "--run",
+        "on_plectl_s3_f0",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f0.integrity.json"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 4178505,
+        "pgid": 4178505,
+        "start_ticks": 499840722
+      },
+      "started_UTC": "2026-10-01T05:06:06.519258+00:00",
+      "cap_seconds": 120,
+      "GPU_precheck": null,
+      "peak_sampled_aggregate_RSS_KiB": 510532,
+      "peak_sampled_GPU_MiB": 0,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 1.7431733459234238,
+      "finished_UTC": "2026-10-01T05:06:08.252573+00:00",
+      "log_sha256": "57b59f244d427a6b850e9dc62720922d2847ce0af47e9af00f3ee91993d4d2cb",
+      "samples_sha256": "af37d4ff1b634a09236457e2ad2223f3eeff1e2a88c77cb7c97c17d212a4f835"
+    },
+    {
+      "label": "on_ple_s3_f0_parent",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29,64-69",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/train.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f0_parent.allocation.json",
+        "--run",
+        "on_ple_s3_f0_parent"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "6",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 4178527,
+        "pgid": 4178527,
+        "start_ticks": 499840956
+      },
+      "started_UTC": "2026-10-01T05:06:08.856443+00:00",
+      "cap_seconds": 2700,
+      "GPU_precheck": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "used_MiB": 1,
+        "free_MiB": 15973,
+        "compute": []
+      },
+      "peak_sampled_aggregate_RSS_KiB": 11798848,
+      "peak_sampled_GPU_MiB": 5321,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 1464.0691489456221,
+      "finished_UTC": "2026-10-01T05:30:32.924899+00:00",
+      "log_sha256": "8771aba734fe80921718e917f06bd89fde61330f0725010224ef1629b77cfb36",
+      "samples_sha256": "c8544ba2a21fd34de45804acbe0365ab10b79c91bb0979aee0b1ea66b5d8fc3b"
+    },
+    {
+      "label": "on_ple_s3_f1_parent",
+      "argv": [
+        "taskset",
+        "-c",
+        "30-35,70-75",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/train.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f1_parent.allocation.json",
+        "--run",
+        "on_ple_s3_f1_parent"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "7",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 4178528,
+        "pgid": 4178528,
+        "start_ticks": 499840957
+      },
+      "started_UTC": "2026-10-01T05:06:08.861487+00:00",
+      "cap_seconds": 2700,
+      "GPU_precheck": {
+        "uuid": "GPU-2551b12a-3435-ca76-deac-9f15dfc2dd8a",
+        "used_MiB": 1,
+        "free_MiB": 15973,
+        "compute": []
+      },
+      "peak_sampled_aggregate_RSS_KiB": 11782800,
+      "peak_sampled_GPU_MiB": 5321,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 1476.2051284788176,
+      "finished_UTC": "2026-10-01T05:30:45.060627+00:00",
+      "log_sha256": "7c9ea7877cea7ec15822fbc163999905b0f72d87616d597a65ec5978428dbedd",
+      "samples_sha256": "029e49349a293e9018a784de2e9aa6a1a23c536e29a6ec566a131af6d791793e"
+    },
+    {
+      "label": "on_ple_s3_f0_parent-check",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29,64-69",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/check_fit.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f0_parent.allocation.json",
+        "--run",
+        "on_ple_s3_f0_parent",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f0_parent.integrity.json"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 9444,
+        "pgid": 9444,
+        "start_ticks": 499987365
+      },
+      "started_UTC": "2026-10-01T05:30:32.947091+00:00",
+      "cap_seconds": 120,
+      "GPU_precheck": null,
+      "peak_sampled_aggregate_RSS_KiB": 511620,
+      "peak_sampled_GPU_MiB": 0,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 2.2386116329580545,
+      "finished_UTC": "2026-10-01T05:30:35.180285+00:00",
+      "log_sha256": "54c8e8f48a158359cb00e3fc5ba591d81e9259749cfa31b57ca6c5d4b2d56b4f",
+      "samples_sha256": "8b6ca776f8aac1c69766f23f175e849626d3d0d04d2bb1531b323bed11103ae1"
+    },
+    {
+      "label": "on_ple_s3_f0",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29,64-69",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/train.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f0.allocation.json",
+        "--run",
+        "on_ple_s3_f0"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "6",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 9466,
+        "pgid": 9466,
+        "start_ticks": 499987604
+      },
+      "started_UTC": "2026-10-01T05:30:35.339924+00:00",
+      "cap_seconds": 600,
+      "GPU_precheck": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "used_MiB": 1,
+        "free_MiB": 15973,
+        "compute": []
+      },
+      "peak_sampled_aggregate_RSS_KiB": 7158000,
+      "peak_sampled_GPU_MiB": 2269,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 61.349292763508856,
+      "finished_UTC": "2026-10-01T05:31:36.687542+00:00",
+      "log_sha256": "e582e057bb3200d897b7b7b640b7282b698b56d24f913ff76221c70650ec9c10",
+      "samples_sha256": "fc36330848421d27fe6aa5e84c21b0e8a981cdda98fcf4974907d4f524dc6e85"
+    },
+    {
+      "label": "on_ple_s3_f1_parent-check",
+      "argv": [
+        "taskset",
+        "-c",
+        "30-35,70-75",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/check_fit.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f1_parent.allocation.json",
+        "--run",
+        "on_ple_s3_f1_parent",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f1_parent.integrity.json"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 9663,
+        "pgid": 9663,
+        "start_ticks": 499988578
+      },
+      "started_UTC": "2026-10-01T05:30:45.080145+00:00",
+      "cap_seconds": 120,
+      "GPU_precheck": null,
+      "peak_sampled_aggregate_RSS_KiB": 534604,
+      "peak_sampled_GPU_MiB": 0,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 2.2392060123384,
+      "finished_UTC": "2026-10-01T05:30:47.314510+00:00",
+      "log_sha256": "796b588561ad8a656f19499689aa80d2aaa5f6676b54dd3d103fc3b873d4eeb4",
+      "samples_sha256": "778cd381f846eec578b340b9905d8b9d87275e18fd3a7569cd0908489edd73fa"
+    },
+    {
+      "label": "on_ple_s3_f1",
+      "argv": [
+        "taskset",
+        "-c",
+        "30-35,70-75",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/train.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f1.allocation.json",
+        "--run",
+        "on_ple_s3_f1"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "7",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 9696,
+        "pgid": 9696,
+        "start_ticks": 499988831
+      },
+      "started_UTC": "2026-10-01T05:30:47.610681+00:00",
+      "cap_seconds": 600,
+      "GPU_precheck": {
+        "uuid": "GPU-2551b12a-3435-ca76-deac-9f15dfc2dd8a",
+        "used_MiB": 1,
+        "free_MiB": 15973,
+        "compute": []
+      },
+      "peak_sampled_aggregate_RSS_KiB": 7198048,
+      "peak_sampled_GPU_MiB": 2269,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 59.44377683941275,
+      "finished_UTC": "2026-10-01T05:31:47.052406+00:00",
+      "log_sha256": "d3ab9f9b05b76df81ef51d48de03b3ea3f29ee249c23dfd6195a8583b5aece33",
+      "samples_sha256": "695c5ca6b99acbccf89882db6e00fd80115058ef653cf3d401538f57a397a03a"
+    },
+    {
+      "label": "on_ple_s3_f0-check",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29,64-69",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/check_fit.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f0.allocation.json",
+        "--run",
+        "on_ple_s3_f0",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f0.integrity.json"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 10521,
+        "pgid": 10521,
+        "start_ticks": 499993741
+      },
+      "started_UTC": "2026-10-01T05:31:36.705169+00:00",
+      "cap_seconds": 120,
+      "GPU_precheck": null,
+      "peak_sampled_aggregate_RSS_KiB": 511556,
+      "peak_sampled_GPU_MiB": 0,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 2.2764952052384615,
+      "finished_UTC": "2026-10-01T05:31:38.973253+00:00",
+      "log_sha256": "06742cfff128d1d0b8dff43a88b3755ac7d8128712eed271a939d0295027ec46",
+      "samples_sha256": "c419faefd4e91569716e0764fc67fd287da26913d62c8592ca007c501c4923ef"
+    },
+    {
+      "label": "on_plectl_s3_f0-OOF",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29,64-69",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/predict_scalar.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f0.oof-allocation.json",
+        "--run",
+        "on_plectl_s3_f0"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "6",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 10604,
+        "pgid": 10604,
+        "start_ticks": 499994019
+      },
+      "started_UTC": "2026-10-01T05:31:39.488467+00:00",
+      "cap_seconds": 600,
+      "GPU_precheck": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "used_MiB": 1,
+        "free_MiB": 15973,
+        "compute": []
+      },
+      "peak_sampled_aggregate_RSS_KiB": 3298328,
+      "peak_sampled_GPU_MiB": 1613,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 40.36633244715631,
+      "finished_UTC": "2026-10-01T05:32:19.853369+00:00",
+      "log_sha256": "d42fe2b7ed03b13d9d2c51d94d746ed3df9c6abb44d3037fd33fd3608790a42e",
+      "samples_sha256": "9fda9043dea3eac52640a878471de25c13b12093e01ac12a57b269dd89bb4bb1"
+    },
+    {
+      "label": "on_ple_s3_f1-check",
+      "argv": [
+        "taskset",
+        "-c",
+        "30-35,70-75",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/check_fit.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f1.allocation.json",
+        "--run",
+        "on_ple_s3_f1",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f1.integrity.json"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 10709,
+        "pgid": 10709,
+        "start_ticks": 499994777
+      },
+      "started_UTC": "2026-10-01T05:31:47.066330+00:00",
+      "cap_seconds": 120,
+      "GPU_precheck": null,
+      "peak_sampled_aggregate_RSS_KiB": 516256,
+      "peak_sampled_GPU_MiB": 0,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 1.701001332141459,
+      "finished_UTC": "2026-10-01T05:31:48.761754+00:00",
+      "log_sha256": "a46c5ac900aec96b94091046838a40e78c99c4145ac1754a5e98ce72833bcd31",
+      "samples_sha256": "e1ec620eec364bbb94462f2835f4bc7cca4240339a2d9d67c23938e49ad2992c"
+    },
+    {
+      "label": "on_plectl_s3_f1-OOF",
+      "argv": [
+        "taskset",
+        "-c",
+        "30-35,70-75",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/predict_scalar.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_plectl_s3_f1.oof-allocation.json",
+        "--run",
+        "on_plectl_s3_f1"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "7",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 10727,
+        "pgid": 10727,
+        "start_ticks": 499994992
+      },
+      "started_UTC": "2026-10-01T05:31:49.211346+00:00",
+      "cap_seconds": 600,
+      "GPU_precheck": {
+        "uuid": "GPU-2551b12a-3435-ca76-deac-9f15dfc2dd8a",
+        "used_MiB": 1,
+        "free_MiB": 15973,
+        "compute": []
+      },
+      "peak_sampled_aggregate_RSS_KiB": 3358188,
+      "peak_sampled_GPU_MiB": 1617,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 41.418526163324714,
+      "finished_UTC": "2026-10-01T05:32:30.627445+00:00",
+      "log_sha256": "27eeca96f7607e86748c127a2ae2ff6faaef037564bd360fb907dda5820b369b",
+      "samples_sha256": "84469c6fda5109f231d5989a5dca51eb58309ee26f38df02ec851c67fa6fc468"
+    },
+    {
+      "label": "on_ple_s3_f0-OOF",
+      "argv": [
+        "taskset",
+        "-c",
+        "24-29,64-69",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/predict_scalar.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f0.oof-allocation.json",
+        "--run",
+        "on_ple_s3_f0"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "6",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 11336,
+        "pgid": 11336,
+        "start_ticks": 499998075
+      },
+      "started_UTC": "2026-10-01T05:32:20.041470+00:00",
+      "cap_seconds": 600,
+      "GPU_precheck": {
+        "uuid": "GPU-53eaee12-1803-f8da-7399-ccdbfda91a18",
+        "used_MiB": 1,
+        "free_MiB": 15973,
+        "compute": []
+      },
+      "peak_sampled_aggregate_RSS_KiB": 3486672,
+      "peak_sampled_GPU_MiB": 1617,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 42.876132597215474,
+      "finished_UTC": "2026-10-01T05:33:02.916248+00:00",
+      "log_sha256": "2efb17c7b362800c0ad45a4f63cc3402ba02086c1c6880f1d884c31f6248303d",
+      "samples_sha256": "38195bb9d88a23d9386473f81a7ad9115bd52a155af2016c83a6c4cbfe7426d0"
+    },
+    {
+      "label": "on_ple_s3_f1-OOF",
+      "argv": [
+        "taskset",
+        "-c",
+        "30-35,70-75",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/predict_scalar.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/on_ple_s3_f1.oof-allocation.json",
+        "--run",
+        "on_ple_s3_f1"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "7",
+        "WNN_THREADS": "4",
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "4",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 11476,
+        "pgid": 11476,
+        "start_ticks": 499999152
+      },
+      "started_UTC": "2026-10-01T05:32:30.814895+00:00",
+      "cap_seconds": 600,
+      "GPU_precheck": {
+        "uuid": "GPU-2551b12a-3435-ca76-deac-9f15dfc2dd8a",
+        "used_MiB": 1,
+        "free_MiB": 15973,
+        "compute": []
+      },
+      "peak_sampled_aggregate_RSS_KiB": 3466968,
+      "peak_sampled_GPU_MiB": 1617,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 42.94131246395409,
+      "finished_UTC": "2026-10-01T05:33:13.755517+00:00",
+      "log_sha256": "bba4b5dabb29d5ff89dd9be395ac7ef7d07b031f28f54f89d24f001af17a8a10",
+      "samples_sha256": "6f7d6cd36ed765b3c814126ed7de0a52e788c1fcf8d522eb9f68dbc029155d37"
+    },
+    {
+      "label": "inputs-after",
+      "argv": [
+        "taskset",
+        "-c",
+        "38",
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/input_preflight.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-allocation.json",
+        "--output",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/scalar/training-seed3-execution/inputs-after.json"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "WNN_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "WNN_GPU_FRACTION": "0.34375",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "2"
+      },
+      "identity": {
+        "pid": 12288,
+        "pgid": 12288,
+        "start_ticks": 500003447
+      },
+      "started_UTC": "2026-10-01T05:33:13.767459+00:00",
+      "cap_seconds": 300,
+      "GPU_precheck": null,
+      "peak_sampled_aggregate_RSS_KiB": 18508,
+      "peak_sampled_GPU_MiB": 0,
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 93.80657631251961,
+      "finished_UTC": "2026-10-01T05:34:47.569500+00:00",
+      "log_sha256": "adbd503ccad609a09fad639f4e09bca2a6d73a7c044b2f8f05d9dce9eb481856",
+      "samples_sha256": "27ce42fbed5da1a92dbff7d0191835e741b8cd1bc6789b3fc585f0e6dede5e58"
+    }
+  ],
+  "WP_queries": 0,
+  "monitor_limits": "RSS/GPU sampled at roughly0.5s plus query cost; may miss transients. Monotonic deadline sampled, not hard realtime. Own-group leader start identity required; only observed start-bound descendants signaled after leader exits. No unconditional unseen-orphan guarantee."
+}

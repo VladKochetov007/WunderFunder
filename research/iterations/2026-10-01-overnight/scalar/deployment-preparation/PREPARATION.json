@@ -2,8 +2,8 @@
   "status": "SOURCE_DRAFT_NOT_REVIEWED_NOT_ALLOCATED",
   "utc": "2026-10-01T05:00:14.619060+00:00",
   "sources": {
-    "research/iterations/2026-10-01-overnight/scalar/deployment-preparation/package.py": "a50675ec8083988d6d47126e4bc5003e09f83a06b934d0979e166beadb746f16",
-    "research/iterations/2026-10-01-overnight/scalar/deployment-preparation/export_checkpoint.py": "44d133282c7fbc7b1d5fe8f6b60c877851aec86d6994d6857dff947da77e5759"
+    "research/iterations/2026-10-01-overnight/scalar/deployment-preparation/package.py": "48a9935fa69d6ce86e3a5e19351927151f50a250a2552671cc251c6b2cf2f430",
+    "research/iterations/2026-10-01-overnight/scalar/deployment-preparation/export_checkpoint.py": "181382bab818e77e61440786bc0ab8adaebb16e549ef0e8238a5ccacac8f714e"
   },
   "execution": false,
   "real_checkpoints_read": false,
@@ -14,5 +14,19 @@
     "Native heldfold predictions and exactly2 root readouts only after bothseed gates",
     "Actual trained-adapter runtime audit and final readiness, no prototype quality claim"
   ],
-  "notes": "Preparation only; numerical engine unchanged; candidate rawscalar arrays remain F32 while ordinary GRU uses existing halfweight runtime. Counts/rawindices exported int64 then existing loader casts F32 exactly for these small integers."
+  "notes": "Preparation only; numerical engine unchanged; candidate rawscalar arrays remain F32 while ordinary GRU uses existing halfweight runtime. Counts/rawindices exported int64 then existing loader casts F32 exactly for these small integers.",
+  "future_final_integrity_schema": {
+    "status": "PASS_INDEPENDENT_SCALAR_FINAL_INTEGRITY",
+    "checkpoints": "mapping run\u2192endpoint_sha256",
+    "plan_sha256": "actualfinalallocatedtrainingplan",
+    "WP_queries": 0,
+    "targets_decoded": false
+  },
+  "native_template_sha256": "0769792d712df731c70a90a21c217d066042141623fd142d0a58e6346059a7a9",
+  "runtime_files": {
+    "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "1e7a120dfd250a7b3f468be4a6385d6624cc0094051f775bc58637f3f33f89a3",
+    "solution.py": "7a7027decfb374af2be9b631e60339fbfc75953e5fe84db255d14f37ead9bfa2",
+    "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "b64bb8ab124337fe9e3539226dc8fc000d099ab089ee509e25a479040d80b0cd",
+    "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "75c631b26ee8f989340603b50bfc3959c2778cce91df6350b440ef2b49ca77b3"
+  }
 }

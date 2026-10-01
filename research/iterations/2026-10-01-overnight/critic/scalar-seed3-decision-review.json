@@ -1,0 +1,42 @@
+{
+  "status": "PASS_INDEPENDENT_FIXED_DECISION_AUDIT_BRANCH_CLOSED",
+  "UTC": "2026-10-01T05:39:43.305879+00:00",
+  "decision_sha256": "c2e14cf5192e5b01eadc0fc199105b874dea82047114b9c92d44fbe95b958b40",
+  "readout_plan_sha256": "cef0e4825f9282461fa91628105cb19f790fa0d5deb09a030c9c22d4d9a6aa4f",
+  "actual_handoff_sha256": "3f56b25955a8dab29bdfd12ce021722e0d136611aad21a64aa063686fa7ef301",
+  "comparisons": [
+    {
+      "id": "SCALARPLE01-seed3-paired",
+      "pooled_delta": 0.00012765972236405965,
+      "delta_by_fold": {
+        "0": 0.0003777927378504353,
+        "1": -4.5972553213147194e-05
+      },
+      "pooled_gate": false,
+      "both_folds_gate": false
+    },
+    {
+      "id": "SCALARPLE01-seed3-incumbent",
+      "pooled_delta": 0.00012765972236405965,
+      "delta_by_fold": {
+        "0": 0.0003777927378504353,
+        "1": -4.5972553213147194e-05
+      },
+      "pooled_gate": false,
+      "both_folds_gate": false
+    }
+  ],
+  "checks": [
+    "Exactly two predeclared compositions and IDs",
+    "Both evaluations after independent actual handoff",
+    "Exact frozen grader source and prediction/checkpoint provenance",
+    "Pooled and per-fold gate booleans reproduced from existing JSON values",
+    "No replication, native OOF or finalist allocation permitted"
+  ],
+  "interpretation": "Positive pooled estimate is below the required threshold and fold1 is negative. Conditional CI includes zero; no confirmation or successful promotion.",
+  "new_metric_queries": 0,
+  "prediction_arrays_read_for_this_review": false,
+  "targets_read": false,
+  "inference_runs": 0,
+  "unused_preparation": "Amendment04 seed4 derivative source delta independently checked; only future deadline/reserve shifts by600s, no parent-cutoff or formula changes. Preparation remains unused because fixed quality gates failed."
+}

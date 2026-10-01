@@ -1,10 +1,10 @@
 {
   "schema": "wunder-delivery-claim-ledger-v1",
-  "created_utc": "2026-10-01T05:00:12.863469+00:00",
-  "status": "DRAFT_AWAITING_SCALAR_OUTCOME_AND_ROOT_FINALIZATION",
-  "evidence_completed_review_cutoff_utc": "2026-10-01T04:50:09.360317+00:00",
+  "created_utc": "2026-10-01T05:47:17.488733+00:00",
+  "status": "DRAFT_FORECAST_SEARCH_CLOSED_AWAITING_V1_RUNTIME_AND_FINAL_SELECTION",
+  "evidence_completed_review_cutoff_utc": "2026-10-01T05:40:51.359971+00:00",
   "report_path": "research/iterations/2026-10-01-overnight/delivery-report.draft.md",
-  "report_sha256": "a8345b43f3944f168cdac4eee5e601a7877345c1b9558b931810373b660c6068",
+  "report_sha256": "c57ee58b57e6551a1602a866254a1c700e72c7c41b725b5dc0337b2f945f6bb3",
   "scope": {
     "new_forecast_fits": 0,
     "new_metric_queries": 0,
@@ -16,56 +16,59 @@
     "changes": "Only delivery-report.draft.md and delivery-claim-ledger.json"
   },
   "verification": {
-    "completed_evaluation_count": 34,
+    "completed_evaluation_count": 36,
     "all_completed_evaluation_hashes_match": true,
     "evaluation_event_counts": {
-      "started": 34,
-      "completed": 34
+      "started": 36,
+      "completed": 36
     },
     "missing_report_evidence_links": []
   },
   "claims": [
     {
       "id": "C01",
-      "claim_ru": "На срезе завершённой части новая прогнозная модель не повышена до основного решения; SCALARPLE ещё ожидается.",
-      "status": "interim_pending_scalar",
+      "claim_ru": "Все прогнозные ветки закрыты без повышения новой модели; свежий V1 runtime и окончательный выбор primary/fallback ещё ожидаются.",
+      "status": "interim_pending_V1_runtime",
       "sources": [
-        "state.json",
-        "scalar/training-seed3-allocation.json",
+        "scalar/seed3-quality-decision.json",
+        "critic/scalar-seed3-decision-review.json",
         "quant3/quality-decision.json",
         "ctxmem/quality-decision.json",
-        "sam/closure.json"
+        "sam/closure.json",
+        "v1-runtime-audit/allocation.json"
       ],
       "limits": [
-        "Не является итогом восьмичасовой кампании.",
-        "state/frontier отстают от последней подготовки; текущая scalar quality-оценка здесь отсутствует."
+        "Не является окончательной передачей кампании.",
+        "Незавершённый V1 runtime не квалифицирует время."
       ]
     },
     {
       "id": "C02",
-      "claim_ru": "44 завершённых fit, 44 heldfold jobs (40 GPU и 4 native), 4 parent integrity, 34 WP.",
-      "status": "completed_slice",
+      "claim_ru": "52 завершённых fit, 48 heldfold jobs (44 GPU и4native),4parent-integrity,36WP.",
+      "status": "forecast_search_completed_runtime_pending",
       "numbers": {
-        "forecast_fits": 44,
-        "GPU_heldfold_jobs": 40,
+        "forecast_fits": 52,
+        "GPU_heldfold_jobs": 44,
         "native_heldfold_jobs": 4,
+        "heldfold_jobs_total": 48,
         "parent_integrity_checks": 4,
-        "WP_readouts": 34,
-        "scalar_additionally_allocated_fits": 8,
-        "scalar_additionally_allocated_OOF": 4,
+        "WP_readouts": 36,
+        "scalar_completed_fits": 8,
+        "scalar_completed_OOF": 4,
+        "scalar_completed_WP": 2,
         "global_max_fits": 64,
         "global_max_WP": 64
       },
       "sources": [
-        "state.json",
-        "completed-fit-archive-44.json",
-        "completed-fit-archive-44.local-verification.json",
+        "completed-fit-archive-52.json",
+        "completed-fit-archive-52.local-verification.json",
+        "critic/scalar-training-seed3-actual-review.json",
         "evaluation-ledger.jsonl",
-        "scalar/training-seed3-allocation.json"
+        "scalar/seed3-quality-decision.json"
       ],
       "limits": [
-        "Счётчик завершённой части до исхода начальных scalar8.",
-        "Синтетические preflight, input-only QRENEWAL и target-free runtime не считаются forecast fit/WP."
+        "Синтетические preflight/input-only/runtime не forecast fits/WP.",
+        "SCALAR seed4/nativeOOF/final не разрешены."
       ]
     },
     {
@@ -86,22 +89,25 @@
         "Public score взят из исторической записи кампании, не перепроверен новой отправкой или запросом leaderboard.",
         "Исторический V1 использует governor; fixed4 local не равен его неизменному поведению на любом host."
       ],
-      "delivery_roles_pending_scalar": {
-        "primary_preserved": "candV1_ft2.zip",
-        "separate_fixed_runtime_fallback": "baseline3_fixed.zip qualified measured v3 only",
-        "experimental_not_promoted": "experimental/quant3_fixed.zip"
+      "delivery_roles_pending_V1_runtime": {
+        "historical_public_best_preserved": "candV1_ft2.zip; fresh runtime not yet qualified",
+        "fixed_runtime_fallback": "baseline3_fixed.zip qualified measured v3 only",
+        "experimental_not_promoted": "experimental/quant3_fixed.zip",
+        "final_primary_fallback_selection": "pending V1 actual outcome"
       }
     },
     {
       "id": "C04",
-      "claim_ru": "AUXoff/TRANS/ENSHEAD/SCALE/SAM/CTXMEM закрыты на своих неизменённых gates.",
+      "claim_ru": "AUXoff/TRANS/ENSHEAD/SCALE/SAM/CTXMEM/SCALARPLE закрыты на своих неизменённых quality gates.",
       "status": "fixed_recipes_failed",
       "sources": [
         "training/plan.json",
         "transition/spec.md",
         "ensemble/spec.md",
         "sam/closure.json",
-        "ctxmem/quality-decision.json"
+        "ctxmem/quality-decision.json",
+        "scalar/seed3-quality-decision.json",
+        "critic/scalar-seed3-decision-review.json"
       ],
       "evaluation_ids": [
         "TRAIN-AUX02-primary",
@@ -110,11 +116,14 @@
         "ENSHEAD-01-scale-primary",
         "SAM-seed3-paired",
         "CTX-joint-memory-vs-current",
-        "CTX-joint-memory-vs-plain"
+        "CTX-joint-memory-vs-plain",
+        "SCALARPLE01-seed3-paired",
+        "SCALARPLE01-seed3-incumbent"
       ],
       "limits": [
         "Отрицательные результаты конкретных рецептов, не универсальное опровержение семейств.",
-        "SAM paired/incumbent — одно и то же численное свидетельство."
+        "SAM paired/incumbent — одно и то же численное свидетельство.",
+        "SCALAR paired/incumbent также одно численное свидетельство: обе fresh-control OOF byte-identical incumbent."
       ]
     },
     {
@@ -394,27 +403,40 @@
     },
     {
       "id": "C13",
-      "claim_ru": "Начальный scalar8 contract выдан04:49:53UTC, quality результата в этом черновике нет.",
-      "status": "awaiting_scalar_outcome",
+      "claim_ru": "SCALAR8/4OOF independentlyPASS; обеquality gatesFAILED, branchclosed, seed4/nativeOOF/final не разрешены.",
+      "status": "CLOSED_SEED3_SCREEN_FAILED",
       "sources": [
         "scalar/training-plan.seed3.v1.json",
         "scalar/training-seed3-allocation.json",
-        "critic/scalar-training-seed3-preparation-review.json"
+        "critic/scalar-training-seed3-actual-review.json",
+        "scalar/seed3-quality-decision.json",
+        "critic/scalar-seed3-decision-review.json",
+        "evaluations/SCALARPLE01-seed3-paired.json",
+        "evaluations/SCALARPLE01-seed3-incumbent.json"
       ],
-      "gates": {
-        "seed3_and_seed4_each_two_comparisons": {
-          "pooled_minimum": 0.0003,
-          "each_fold_minimum": 0
+      "numbers": {
+        "candidate_wp": 0.7018700893267282,
+        "control_and_incumbent_wp": 0.7017424296043642,
+        "delta": 0.00012765972236405965,
+        "delta_by_fold": {
+          "0": 0.0003777927378504353,
+          "1": -4.5972553213147194e-05
         },
-        "native_vs_same_GPU_pooled_and_each_fold_minimum": -0.0001,
-        "native_vs_plain_GPU_pooled_minimum": 0.0003,
-        "native_vs_plain_GPU_each_fold_minimum": 0,
-        "max_scalar_fits": 18,
-        "max_scalar_WP": 6
+        "conditional_chain_CI95": [
+          -0.0001389934476353355,
+          0.00044444341835345733
+        ],
+        "quality_gate_pooled_minimum": 0.0003,
+        "quality_gate_each_fold_minimum": 0,
+        "fits": 8,
+        "OOF_jobs": 4,
+        "WP_readouts": 2
       },
       "limits": [
-        "Только initial8+4OOF разрешены данным allocation; следующие этапы условны.",
-        "Нет score, finalist или нового ZIP результата."
+        "Freshordinarycontrol OOF byte-identical historicalon_ctl128s3 onbothfolds; twoqueries onecontrast, not independentreplication.",
+        "Allfoldsexposed; chainCI conditional fixedmodels.",
+        "No native candidate OOF, secondseed or finaltrainedsubmission.",
+        "Narrow recipe failure, not numericalembeddings universal refutation."
       ]
     },
     {
@@ -431,14 +453,15 @@
     },
     {
       "id": "C15",
-      "claim_ru": "44 completed fit archive содержит184файла/167422372байта; сохранён локально без overwrite, large OOF caches на beleriand.",
-      "status": "archive_receipt_verified",
+      "claim_ru": "Архив52 содержит224файла/202096550байт; локально совпадает с серверным manifest. Прежний44archive сохранён,largeOOF caches остаютсяbeleriand.",
+      "status": "archive52_receipt_verified",
       "sources": [
-        "completed-fit-archive-44.json",
-        "completed-fit-archive-44.local-verification.json"
+        "completed-fit-archive-52.json",
+        "completed-fit-archive-52.local-verification.json",
+        "completed-fit-archive-44.json"
       ],
       "limits": [
-        "Этот отчёт не декодировал pickle моделей и не пересчитывал forecasts."
+        "Этот report не декодировал pickle/forecast arrays и не повторял model execution."
       ]
     },
     {
@@ -459,6 +482,67 @@
       "limits": [
         "Original SCALAR failing step remains unknown; replay observation не переносится ретроспективно.",
         "Первый CTX independent review пропустил aliases; root исправил до fit/WP."
+      ]
+    },
+    {
+      "id": "C17",
+      "claim_ru": "Amendment04 до любыхSCALARWP разрешила максимум+600s для будущих deadline/reserve dates; quality/cost/06/07cutoffs неизменны; replica не запущена.",
+      "status": "prospective_window_amendment_unused_for_replication",
+      "sources": [
+        "amendment-04.json",
+        "critic/scalar-seed3-decision-review.json"
+      ],
+      "numbers": {
+        "SCALAR_WP_before_amendment": 0,
+        "total_WP_before_amendment": 34,
+        "extension_seconds_max": 600,
+        "maximum_deadline_utc": "2026-10-01T08:33:30+00:00",
+        "screen_parent_cutoff_utc": "2026-10-01T06:00:00+00:00",
+        "final_parent_cutoff_utc": "2026-10-01T07:00:00+00:00",
+        "reserve_seconds": 4800
+      },
+      "limits": [
+        "Original contract/active source deadlines remained preserved.",
+        "Futuredate amendment is not quality-gate exception."
+      ]
+    },
+    {
+      "id": "C18",
+      "claim_ru": "ИсторическийV1аудит RUNNING: exactly39.4Mcallbacks,1CPU16GiB,naturalv3,defaultgovernor; early4→1after40k.",
+      "status": "RUNNING_NO_FINAL_QUALIFICATION",
+      "sources": [
+        "v1-runtime-audit/plan.json",
+        "v1-runtime-audit/allocation.json"
+      ],
+      "numbers": {
+        "callback_count_planned": 39400000,
+        "unique_raw_rows": 37460000,
+        "repeated_raw_rows": 1940000,
+        "sequence_resets_planned": 1970,
+        "emitted_pairs_planned": 39204970,
+        "full_process_actual_gate_minutes": 60,
+        "hard_cap_minutes": 65,
+        "initial_k": 4,
+        "k_after40000_callback_boundary": 1
+      },
+      "limits": [
+        "Observedprogress/govbehavior not fullruntimePASS or FAIL.",
+        "No quality inference from remainingmember count.",
+        "Warmcache and currenthost/harness,not historicalpublictrace or unknownofficialCPU.",
+        "Timing governorsees includes prescribed between-sequence overhead."
+      ]
+    },
+    {
+      "id": "C19",
+      "claim_ru": "Следующая agenda: streamreuse resource diagnostic; state-refresh newtraininghypothesis withcheapfalsifier; conditionalAVX2+F16C. Generated-onlyprefetchpilot preparation,noexecution outcome.",
+      "status": "future_planning_only",
+      "sources": [
+        "next-research-agenda.md"
+      ],
+      "limits": [
+        "No allocation inferred for futureforecast mechanisms.",
+        "No empiricaldata/forecast/quality resourcepilot result atthissnapshot.",
+        "EngineeringGPUmemory result would not imply forecastgain."
       ]
     }
   ],
@@ -1856,6 +1940,88 @@
       "bootstrap_sign_fraction_not_p_value": 0.259,
       "plan": "research/iterations/2026-10-01-overnight/quant3/oof-allocation.json",
       "plan_sha256": "a98412b6903dd027acdcd92b4b1dbdfcb147347ed0d00a26b7c6532409d3cedf"
+    },
+    {
+      "id": "SCALARPLE01-seed3-paired",
+      "path": "evaluations/SCALARPLE01-seed3-paired.json",
+      "sha256": "02ff6c8908eb0c944edd94ba923751d69625c850956fae6eb46f82a01d08dc1a",
+      "completed_utc": "2026-10-01T05:36:25.633154+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ple_s3+on_ctl128s4+on_ctlc500",
+      "reference": "on_plectl_s3+on_ctl128s4+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7018700893267282,
+      "reference_wp": 0.7017424296043642,
+      "delta": 0.00012765972236405965,
+      "delta_by_fold": {
+        "0": 0.0003777927378504353,
+        "1": -4.5972553213147194e-05
+      },
+      "delta_boot_ci95": [
+        -0.0001389934476353355,
+        0.00044444341835345733
+      ],
+      "candidate_wp_by_target": [
+        0.6981925172781643,
+        0.7055476613752921
+      ],
+      "reference_wp_by_target": [
+        0.6980883123464376,
+        0.7053965468622906
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.17,
+      "plan": "research/iterations/2026-10-01-overnight/scalar/training-plan.seed3.v1.json",
+      "plan_sha256": "8b3b0f25bb22ecab73857aed7f75d8afae7c92c39e51c9a76b7189a9985a17a1"
+    },
+    {
+      "id": "SCALARPLE01-seed3-incumbent",
+      "path": "evaluations/SCALARPLE01-seed3-incumbent.json",
+      "sha256": "51d634638a45e9e599fcc075c8a396c6a879d7f80768e2013b81b1f283ba22ee",
+      "completed_utc": "2026-10-01T05:36:26.088439+00:00",
+      "completion_ledger_sha_matches": true,
+      "candidate": "on_ple_s3+on_ctl128s4+on_ctlc500",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctlc500",
+      "sequences": 860,
+      "pure_only": true,
+      "candidate_wp": 0.7018700893267282,
+      "reference_wp": 0.7017424296043642,
+      "delta": 0.00012765972236405965,
+      "delta_by_fold": {
+        "0": 0.0003777927378504353,
+        "1": -4.5972553213147194e-05
+      },
+      "delta_boot_ci95": [
+        -0.0001389934476353355,
+        0.00044444341835345733
+      ],
+      "candidate_wp_by_target": [
+        0.6981925172781643,
+        0.7055476613752921
+      ],
+      "reference_wp_by_target": [
+        0.6980883123464376,
+        0.7053965468622906
+      ],
+      "uncertainty_scope": "chain sampling conditional on fixed fitted models",
+      "uncertainty_not_estimated": [
+        "training seeds",
+        "adaptive selection",
+        "future domain shift"
+      ],
+      "exposure": "exposed exploratory folds; no fresh confirmation",
+      "confirmation_established": false,
+      "bootstrap_sign_fraction_not_p_value": 0.17,
+      "plan": "research/iterations/2026-10-01-overnight/scalar/training-plan.seed3.v1.json",
+      "plan_sha256": "8b3b0f25bb22ecab73857aed7f75d8afae7c92c39e51c9a76b7189a9985a17a1"
     }
   ],
   "source_receipts": [
@@ -1873,6 +2039,11 @@
       "path": "amendment-03.json",
       "exists": true,
       "sha256": "51b82b54c6ba48d67df4b64a586a6d75cfff2d728b9ccea832ca8a08bbcb7d03"
+    },
+    {
+      "path": "amendment-04.json",
+      "exists": true,
+      "sha256": "9bc9158527b85a4bd908b91d11238c4f7ab80a9b34ce2d1e76f51b969ff46c8d"
     },
     {
       "path": "chain-weight-concentration.json",
@@ -1893,6 +2064,16 @@
       "path": "completed-fit-archive-44.local-verification.json",
       "exists": true,
       "sha256": "7c561530bd9537fa5470b3c442132fc56fc7622374562dad5aabbf45adb4ea32"
+    },
+    {
+      "path": "completed-fit-archive-52.json",
+      "exists": true,
+      "sha256": "afbb680140e4c6f6c143a13ca805b01c6d5309aa4544f4715b5e8013ec5ae614"
+    },
+    {
+      "path": "completed-fit-archive-52.local-verification.json",
+      "exists": true,
+      "sha256": "9d1c1e995d6cad1a619e5564c8c24405b101e4686f0010b6b1e541b7348cd6d7"
     },
     {
       "path": "contract.json",
@@ -1950,6 +2131,16 @@
       "sha256": "a4316a1f0d950a37bcf8cc618b7934e004e7ab7c7cce259c6377bc9853041344"
     },
     {
+      "path": "critic/scalar-seed3-decision-review.json",
+      "exists": true,
+      "sha256": "ffb53fc3e930be43fe948ca81089212d3cc68d7733f455d3a7060a58f7021e1c"
+    },
+    {
+      "path": "critic/scalar-training-seed3-actual-review.json",
+      "exists": true,
+      "sha256": "3f56b25955a8dab29bdfd12ce021722e0d136611aad21a64aa063686fa7ef301"
+    },
+    {
       "path": "critic/scalar-training-seed3-preparation-review.json",
       "exists": true,
       "sha256": "5ba20fcdf1e7ad707f51cf3377f066514f5c59942e07ff5b805342345548ed8d"
@@ -1982,7 +2173,7 @@
     {
       "path": "delivery-staging-manifest.json",
       "exists": true,
-      "sha256": "a61f7b397e7c27725c1b78edee955c034766cf5d4ba29c8eccd89ec12da7dcd3"
+      "sha256": "f80401f0510aba72691676be4c9d169b22e3ea2493d9fb272d1ff2c8661f6a7e"
     },
     {
       "path": "ensemble/actual-fit-check-failure-01.json",
@@ -2012,7 +2203,7 @@
     {
       "path": "evaluation-ledger.jsonl",
       "exists": true,
-      "sha256": "a8334f2f56b5ccd35b28c4f05e4ec189894f4782483d3bab8955cd5def75d257"
+      "sha256": "d492d64cea6f24e4aae5d68244d8cc2ab979664a91db95b908e326729bfed480"
     },
     {
       "path": "evaluations/DEPLOYMENT-01-fixed2.json",
@@ -2033,6 +2224,16 @@
       "path": "evaluations/Q3-quant-vs-fp16.json",
       "exists": true,
       "sha256": "f1f1eb0766dfe4f332d21981ac6f492b98ac91cd747ff54b9c7b1239578c98d3"
+    },
+    {
+      "path": "evaluations/SCALARPLE01-seed3-incumbent.json",
+      "exists": true,
+      "sha256": "51d634638a45e9e599fcc075c8a396c6a879d7f80768e2013b81b1f283ba22ee"
+    },
+    {
+      "path": "evaluations/SCALARPLE01-seed3-paired.json",
+      "exists": true,
+      "sha256": "02ff6c8908eb0c944edd94ba923751d69625c850956fae6eb46f82a01d08dc1a"
     },
     {
       "path": "evaluations/TRAIN-AUX02-primary.json",
@@ -2062,12 +2263,17 @@
     {
       "path": "frontier.md",
       "exists": true,
-      "sha256": "ea86dfc503d7ad39b5ef7f8c7c6aeb2b83d220e1f9e5138b6781997f62f77a81"
+      "sha256": "fe6c693de2551253ca5ece0e8ae87745e3ffc01fd8fc4aa0636468e6c6ff19f4"
     },
     {
       "path": "grader/frozen-sources.json",
       "exists": true,
       "sha256": "f18f0f0fc13fac702a0c36347e79fac28016d5e9b13fbfdb477928bd94eb5239"
+    },
+    {
+      "path": "next-research-agenda.md",
+      "exists": true,
+      "sha256": "1c846a92c9b92b1c71740340b3ea457ac3fb3358b3f0171518d4f47db427da13"
     },
     {
       "path": "pooled-fold-diagnostic.json",
@@ -2125,6 +2331,11 @@
       "sha256": "604cfdbda954532a94df1ef2810fb16cf08001eb54fb0320876b46ab9ec09675"
     },
     {
+      "path": "scalar/seed3-quality-decision.json",
+      "exists": true,
+      "sha256": "c2e14cf5192e5b01eadc0fc199105b874dea82047114b9c92d44fbe95b958b40"
+    },
+    {
       "path": "scalar/spec.md",
       "exists": true,
       "sha256": "c1d45b3c36279c0c8697b17982cf3ba45fb1691d32a796ede37d9621d4c549f5"
@@ -2142,7 +2353,7 @@
     {
       "path": "state.json",
       "exists": true,
-      "sha256": "2de601ca74abad99fee4589f3acb997d8d847d0dd9fd4b62a725c56e8dcfc1ba"
+      "sha256": "4ae01540cddd89319d796f04d3724a6585414a288c723c42bcbf3f62486d8c07"
     },
     {
       "path": "training/plan.json",
@@ -2153,6 +2364,16 @@
       "path": "transition/spec.md",
       "exists": true,
       "sha256": "24be31ac85d322c46fb87f67470e913d8e9a83632fd12a0fe1a927799c4eadf3"
+    },
+    {
+      "path": "v1-runtime-audit/allocation.json",
+      "exists": true,
+      "sha256": "4db847d33679c0a77ca74f97d7d41078e61b9346b2337b3fa806a7be7c168030"
+    },
+    {
+      "path": "v1-runtime-audit/plan.json",
+      "exists": true,
+      "sha256": "881a8476ece923c36fb2a1405b9a1525438426aa6e1ed02cef0d1cff15af77e7"
     }
   ],
   "delivery_artifacts": [
@@ -2194,39 +2415,124 @@
     {
       "id": "M01",
       "severity": "finalization_required",
-      "issue": "state.json/frontier.md say full-runtime pending and scalar contract preparing; latest reviewed receipts supersede these snapshots.",
+      "issue": "Root-ownedstate/frontier are being reconciled with52fits/48OOF/36WP and SCALARclosed; lateactualreceipts govern thisreport.",
       "action_owner": "root",
-      "action": "Update overview from final actual outcomes without overwriting immutable receipts."
+      "action": "Reconcile finaloverview without overwritingimmutableevidence."
     },
     {
       "id": "M02",
       "severity": "finalization_required",
-      "issue": "delivery-staging-manifest.json and delivery manifest/README retain provisional baseline fulltrace-pending wording. ZIP byte identity is correct.",
+      "issue": "Deliveryprimary/fallback roles must await completedV1runtime actualreview; ZIP identities remain unchanged.",
       "action_owner": "root",
-      "action": "Update final deliverable roles/status after scalar decision."
+      "action": "Update deliverymanifest/README after V1decision."
     },
     {
       "id": "M03",
       "severity": "awaiting_result",
-      "issue": "No scalar forecasting completion/quality result incorporated. Eight fits+fourOOF allocated, seed4/final/native conditional.",
+      "issue": "V1exact39.4Maudit running. Earlygovernor4→1after40k is descriptive,notquality or timequalification.",
       "action_owner": "root",
-      "action": "Bind actual integrity review, two seed3 evaluations, closure or exact later allocation; refresh counts and report."
+      "action": "Bind actualcompletion/time/SMT/memory/governor outcomes and independentreview."
     },
     {
       "id": "M04",
       "severity": "known_coverage_limit",
-      "issue": "Large OOF prediction caches intentionally absent locally; remain on beleriand.",
+      "issue": "LargeOOFcaches remain onlyonbeleriand; archive52model receiptsverified locally.",
       "action_owner": "root",
-      "action": "Keep remote path/hash bindings in final delivery archive."
+      "action": "Preserve remoteprovenance and hashes."
     },
     {
       "id": "M05",
       "severity": "historical_stage_documentation",
-      "issue": "Preparation README/spec text such as no empirical audit yet remains historical; report relies on subsequent actual-review/outcome files.",
+      "issue": "PreparationREADME/specs can retainhistorical pendinglanguage; useactualreviews forcurrentstatus.",
       "action_owner": "root",
-      "action": "Label stage or add final entrypoint; preserve prospective specs as evidence."
+      "action": "Finalreportentrypoint shouldlabelcompleted/pendingstages."
+    },
+    {
+      "id": "M06",
+      "severity": "planning_only",
+      "issue": "Generated-onlyprefetchresourcepilot beingprepared; no executionoutcome incorporated.",
+      "action_owner": "root",
+      "action": "Only incorporate reviewedactualresource receipts if allocated; no forecastquality inference."
     }
   ],
-  "finalization_rule": "Do not present this draft as campaign complete. Update scalar outcome, observed run counts, final artifact roles and hashes; preserve all closed gates and uncertainty scope.",
-  "source_hash_semantics": "Hashes record files observed during this draft audit. Root-owned active overview files may change after this snapshot; immutable actual reviews/evaluations remain the evidentiary anchors."
+  "finalization_rule": "Do not present draft as campaign complete. SCALAR is closed and forecastsearch totals52/48/36. Await V1actualruntime and independentreview, then choose artifactroles, reconcile overview/deliveryfiles, preserveclosedgates andunknownCPU scope.",
+  "source_hash_semantics": "Hashes record files observed during this draft audit. Root-owned active overview files may change after this snapshot; immutable actual reviews/evaluations remain the evidentiary anchors.",
+  "V1_partial_receipt_observation": {
+    "scope": "Read-only receipt bytes; no models,targets,metric or data reads",
+    "remote_execution_path": "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-overnight/v1-runtime-audit/execution",
+    "observed": {
+      "launch_sha256": "28816d385a8a38322bdba3eee070b1d17b53693bb180c59090035403cb2a65cb",
+      "first_three_sequence_lines_sha256": "92c293e5a3c3bafb658521325e80ba221a0fb0aa6452c53d3f43aa2f5c275120",
+      "schedule_indices": [
+        0,
+        1,
+        2
+      ],
+      "governor_observations": [
+        {
+          "k_before_boundary": 4,
+          "k_after_first_callback": 4,
+          "k_after_sequence": 4,
+          "rows_before": 0,
+          "rows_after": 20000,
+          "govern_calls_before": 0,
+          "govern_calls_after": 0,
+          "active_members": [
+            "find256_s3h2",
+            "fin128_s3h2",
+            "fin128_s4h2",
+            "finc500b_s3h2"
+          ],
+          "active_coefficients": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "k_before_boundary": 4,
+          "k_after_first_callback": 4,
+          "k_after_sequence": 4,
+          "rows_before": 20000,
+          "rows_after": 40000,
+          "govern_calls_before": 0,
+          "govern_calls_after": 1,
+          "active_members": [
+            "find256_s3h2",
+            "fin128_s3h2",
+            "fin128_s4h2",
+            "finc500b_s3h2"
+          ],
+          "active_coefficients": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "k_before_boundary": 4,
+          "k_after_first_callback": 1,
+          "k_after_sequence": 1,
+          "rows_before": 40000,
+          "rows_after": 60000,
+          "govern_calls_before": 1,
+          "govern_calls_after": 2,
+          "active_members": [
+            "find256_s3h2"
+          ],
+          "active_coefficients": [
+            1.0
+          ]
+        }
+      ],
+      "sample_utc": [
+        "2026-10-01T05:28:33.900423+00:00",
+        "2026-10-01T05:28:37.317044+00:00",
+        "2026-10-01T05:28:39.341835+00:00"
+      ]
+    },
+    "final_status": "pending"
+  }
 }

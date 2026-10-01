@@ -1,0 +1,16 @@
+{"name": "on_plectl_s3_f0", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 128, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 16, "epochs": 2, "lr": 0.0005, "wd": 0.01, "loss": "gcorr", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "aux_next_k": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "aux_loss_scale": 1.0, "arch": "gru", "tfm_d": 256, "tfm_layers": 6, "tfm_heads": 8, "tfm_ff": 1024, "tfm_block": 250, "hidden1": 0, "attn_k": 32, "attn_d": 64, "attn_heads": 4, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 4, "valid_repeat": 1, "init": "on_plectl_s3_f0_parent@ep3", "freeze": "inp,gru", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": false, "mask_weight": true, "propensity": "", "prop_power": 1.0, "prop_eps": 0.0, "class_weight": "", "valid_true_mask": -1.0, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "atom_head": 0.0, "vrex": 0.0, "vrex_start": 1, "level_aug": 0.0, "level_drop": 0.0, "lookahead": "", "train_half": -1, "class_heads": false, "quant_feats": false, "quant_i1": false, "state_reset": 0, "loss_norm": "chunk", "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "scalar_arm": "control", "scalar_stage": "head", "scalar_allocation_sha256": "ab87ab1e3c5383691bbcae679a306faaedb6f660142a8acf15880ee1dfed7714", "scalar_training_plan_sha256": "8b3b0f25bb22ecab73857aed7f75d8afae7c92c39e51c9a76b7189a9985a17a1", "scalar_parent_sha256": "7e5241e52f2f94831341cf4bddb8ba9cc9a2f656eebec195b213bbb198b95fd7"}
+{"source_train_sequences": 1406, "eligible_valid_train_sequences": 1406, "used_valid_train_sequences": 1406, "eval_sequences": 467}
+loader workers 2 prefetch 2; params 0.26M; steps 1740
+ep 0 batch 0/87 loss 0.9206 lr 3.58e-05 seq/s 4.9
+ep 0 batch 20/87 loss 0.8011 lr 4.93e-04 seq/s 43.6
+ep 0 batch 40/87 loss 0.7782 lr 4.54e-04 seq/s 51.2
+ep 0 batch 60/87 loss 1.1010 lr 3.86e-04 seq/s 54.7
+ep 0 batch 80/87 loss 1.0036 lr 2.98e-04 seq/s 56.7
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 0, "eval_seconds": 0.0, "split": "vfold467"}
+ep 1 batch 0/87 loss 0.8911 lr 2.66e-04 seq/s 14.5
+ep 1 batch 20/87 loss 0.6839 lr 1.72e-04 seq/s 54.6
+ep 1 batch 40/87 loss 0.7367 lr 8.94e-05 seq/s 57.3
+ep 1 batch 60/87 loss 0.7344 lr 2.99e-05 seq/s 58.9
+ep 1 batch 80/87 loss 0.9936 lr 1.77e-06 seq/s 60.0
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 1, "eval_seconds": 0.0, "split": "vfold467"}
+BEST 0.0
