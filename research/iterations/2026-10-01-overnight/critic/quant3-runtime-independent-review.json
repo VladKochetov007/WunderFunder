@@ -1,0 +1,83 @@
+{
+  "status": "VNNI_RUNTIME_AND_CORRECTNESS_PASS",
+  "allocation_sha256": "3aea8e74620e07b10f920174bc139a959246cdff48c40b3f511cb45a9949517c",
+  "freeze_sha256": "c01fd5698e338a2b514b617bdc4f17074f26093e1358d7725515c1c47b425519",
+  "summary_sha256": "d1b9fdd21a434e261ba85ad56dc8c257176fce84647170be408a5bbbeb981760",
+  "ledger_sha256": "84f80c98c9e6d7a3883ad3d380f3feeadbc26a733d17ef85267e73e0eba5f549",
+  "reference_receipt_sha256": "9f350015b77f5620a65a6f18a9129307f5a38c196fefe137cd46bd169171810b",
+  "zip_sha256": "48cf940bd1c7e812fe8005a90e3f11fb3199a8940c55e0adbfef00ad1de1f10f",
+  "correctness": {
+    "v3": {
+      "rows": 100000,
+      "reference_bitexact": true,
+      "receipt_sha256": "307be40e624c8027615047572617a5c16e409063916acd48eab1146ffc879b1a"
+    },
+    "avx2": {
+      "rows": 2560,
+      "reference_bitexact": true,
+      "receipt_sha256": "cb23831f4e5e7a022464e56c8d9ffb9ec4c7e2eeaf3672d29cda7c89214eee91"
+    },
+    "v2": {
+      "rows": 2560,
+      "reference_bitexact": false,
+      "receipt_sha256": "7dbec84fa72f15da47b680a35845d713aa4b91baed55998e74da3cf65adfab9b"
+    }
+  },
+  "timings": [
+    {
+      "name": "vnni-100000-r0-attempt0",
+      "projected_minutes": 46.09622663802778,
+      "us_per_row": 70.19729944877326,
+      "SMT_busy_fraction": 0.019886363636363636,
+      "max_RSS_KiB": 104152,
+      "receipt_sha256": "8e464c6490ebf06d65df4c1512ec9afe7910992cdd6fbbe2c5521d348bac8bd1"
+    },
+    {
+      "name": "vnni-100000-r1-attempt0",
+      "projected_minutes": 45.37836455311626,
+      "us_per_row": 69.10410845652223,
+      "SMT_busy_fraction": 0.0,
+      "max_RSS_KiB": 104148,
+      "receipt_sha256": "2e06d87ff6bd7c2a11aaff401a8ada8a91c2ac6a099592ceecf0aa0e0a058f48"
+    },
+    {
+      "name": "vnni-100000-r2-attempt0",
+      "projected_minutes": 45.77517785721769,
+      "us_per_row": 69.70839267596602,
+      "SMT_busy_fraction": 0.0,
+      "max_RSS_KiB": 104148,
+      "receipt_sha256": "87d180eb6f8ec21e61477594ba2d7b1f9886872c0a33af8ba3f676ae87c0da35"
+    },
+    {
+      "name": "vnni-1000000-r0-attempt0",
+      "projected_minutes": 45.85156181988618,
+      "us_per_row": 69.82471343129873,
+      "SMT_busy_fraction": 0.00014322543683758235,
+      "max_RSS_KiB": 104140,
+      "receipt_sha256": "3d8d3fd5b7e470bc1632906ecf12ad73846a52da1a9e09c8882f2e1cbf6ecae7"
+    },
+    {
+      "name": "avx2-100000-r0-attempt0",
+      "projected_minutes": 125.1820226968266,
+      "us_per_row": 190.63252187334,
+      "SMT_busy_fraction": 0.0,
+      "max_RSS_KiB": 103508,
+      "receipt_sha256": "470b58c0162f2475b91f712e8259e9f4c65809721970069042a267453c345234"
+    }
+  ],
+  "all_VNNI_repetitions_under_50min": true,
+  "VNNI_max_projected_minutes": 46.09622663802778,
+  "VNNI_long_projected_minutes": 45.85156181988618,
+  "no_contamination_retries_or_extra_runs": true,
+  "AVX2_pilot_failed_and_stopped": true,
+  "OOF_gate_decision": "Eligible for root to separately allocate only frozen VNNI/FP16 same-composition OOF production and the two fixed WP comparisons. This receipt grants no execution allocation.",
+  "AVX2_fullfold_audit_gate": "NOT ELIGIBLE: runtime failed; no extra audit/readout",
+  "deployment_limit": "VNNI host only. Forced AVX2 is125.18min and fails; natural v3+AVX2 and v2 runtimes are unmeasured. Unknown public CPU prevents universal delivery claim.",
+  "trace_limit": "Long trace repeats five frozen20k sequences ten times with fresh sequence IDs; not one continuous1M-state stream.",
+  "startup_limit": "Reported import/model time excludes NumPy already imported by harness and process interpreter startup.",
+  "prediction_arrays_opened_by_critic": false,
+  "raw_fixture_opened_by_critic": false,
+  "targets_read": false,
+  "forecast_fits": 0,
+  "WP_queries": 0
+}

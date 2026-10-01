@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "synthetic_only": true,
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "GPU6_free_MiB_before": 15973,
+  "zero_extra_initial_outputs_bitexact": true,
+  "initial_original_head_gradients_bitexact": true,
+  "initial_original_head_fused_AdamW_update_bitexact": true,
+  "constructor_CPU_and_GPU_RNG_exact": true,
+  "forward_backward_RNG_unchanged": true,
+  "first_step_total_gradient_norm": {
+    "baseline": 0.02531103789806366,
+    "current": 0.02546115219593048,
+    "memory": 0.025373375043272972
+  },
+  "gradient_clipping_fixture": "All initial total norms<1; claim does not equate clipping when extra gradients change its scale",
+  "three_chunks": [
+    {
+      "chunk": 0,
+      "frozen_backbone_exact": true,
+      "recurrent_state_exact": true,
+      "all_finite": true
+    },
+    {
+      "chunk": 1,
+      "frozen_backbone_exact": true,
+      "recurrent_state_exact": true,
+      "all_finite": true
+    },
+    {
+      "chunk": 2,
+      "frozen_backbone_exact": true,
+      "recurrent_state_exact": true,
+      "all_finite": true
+    }
+  ],
+  "extra_maps_received_nonzero_updates": true,
+  "peak_allocated_bytes": 25536000,
+  "peak_reserved_bytes": 29360128,
+  "max_rss_KiB": 1785244,
+  "seconds": 0.9091497361660004,
+  "torch_version": "2.14.0+cu130",
+  "sources": {
+    "memory.py": "85a18eacc9afce2f78268393034bc904ad9b0679f19f88c3ba2d943db36ad5da",
+    "model.py": "43ec6a45dcf5ac083d467cfca658ed97e6a263fbd0fe16078fd1f9fc8af6eca8",
+    "check_cuda_amp.py": "56696bc72600f12fe97ceada5ac79825afc50fb6ede10dccb9eb01ef09b87f12"
+  }
+}

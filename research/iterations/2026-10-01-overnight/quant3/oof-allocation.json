@@ -1,0 +1,94 @@
+{
+  "id": "Q3-OOF-01",
+  "created_utc": "2026-10-01T02:46:53.716900+00:00",
+  "Q3_heldfold_predictions_authorized": true,
+  "runtime_gate": "PASS",
+  "runtime_scope": "v3 floating + VNNI integer only",
+  "zip_sha256": "48cf940bd1c7e812fe8005a90e3f11fb3199a8940c55e0adbfef00ad1de1f10f",
+  "freeze_sha256": "c01fd5698e338a2b514b617bdc4f17074f26093e1358d7725515c1c47b425519",
+  "preflight_plan_sha256": "34d47c70ece7cac54da24d4fac21b948b2c7ae65fc215e6acd3f3f6387b96315",
+  "runtime_review_sha256": "d35affd25e71bb43a29e118a950b6254cf5755791c149293837d0a3f0aa8cd3c",
+  "sources": {
+    "prepare_oof.py": "9ef9c7c6ab88daf7e11ecacd71bc49dc78a5c26cd27e05c77b4e2c700ef64858",
+    "predict_oof.py": "08d343054bb4a43af1babf0bd5453e1c82407e1f6cabad2e82e4bd3f20476a97"
+  },
+  "folds": [
+    0,
+    1
+  ],
+  "modes": [
+    "quant",
+    "fp16"
+  ],
+  "outputs": [
+    "on_q3quant",
+    "on_q3fp16"
+  ],
+  "checkpoint_rule": "Exact epoch1 children on_ctld256/on_ctl128s3/on_ctlc500 for each corresponding fold, original order, float32(1/3), truthful composite recipe manifests.",
+  "input_identity": {
+    "datasets/valid.parquet": {
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "bytes": 5615509128,
+      "mtime_ns": 1577833200000000000,
+      "resolved_path": "/home/grinchenkoeg/WunderFunder/datasets/valid.parquet"
+    },
+    "cache/chain_folds.npz": {
+      "sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35",
+      "bytes": 562791,
+      "mtime_ns": 1790639031893387562,
+      "resolved_path": "/home/grinchenkoeg/WunderFunder/cache/chain_folds.npz"
+    },
+    "cache/valid_targets.npz": {
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "bytes": 337186198,
+      "mtime_ns": 1790638944452596999,
+      "resolved_path": "/home/grinchenkoeg/WunderFunder/cache/valid_targets.npz"
+    },
+    "src/wnn/data.py": {
+      "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "bytes": 4000,
+      "mtime_ns": 1790801957897117780,
+      "resolved_path": "/home/grinchenkoeg/WunderFunder-creative/src/wnn/data.py"
+    }
+  },
+  "input_check_policy": "Before starting producers, rehash all input_identity files. After all four prediction jobs, rehash them again before root metric read. Preserve receipts; hash bytes only, inspect only row_group/fold metadata and raw feature columns, not target/mask values.",
+  "resources": {
+    "parallel_CPU_lanes_max": 2,
+    "fold_CPU_affinity": {
+      "0": [
+        36
+      ],
+      "1": [
+        37
+      ]
+    },
+    "threads_per_lane": 1,
+    "memory_GiB_per_lane_max": 8,
+    "wall_seconds_per_lane_max": 3600,
+    "forecast_fits": 0,
+    "GPU_jobs": 0,
+    "heldfold_prediction_jobs": 4
+  },
+  "producer_authority": "Actor may run frozen export/prediction sources using a transparent bounded orchestration wrapper; preserve all argv, exit statuses and resource observations. Do not change scientific producer/exporter sources. Unexpected source/lineage/nonfinite failure stops for root review.",
+  "metric_authority": "Root only, after complete four-job provenance audit, at most the following two predeclared comparisons; no actor target/WP inspection.",
+  "readouts": [
+    {
+      "id": "Q3-quant-vs-fp16",
+      "candidate": "on_q3quant",
+      "reference": "on_q3fp16",
+      "minimum_pooled_delta": -0.0001,
+      "minimum_each_fold_delta": -0.0001
+    },
+    {
+      "id": "Q3-quant-vs-baseline3",
+      "candidate": "on_q3quant",
+      "reference": "on_ctl128s3+on_ctl128s4+on_ctlc500",
+      "minimum_pooled_delta": 0.0003,
+      "minimum_each_fold_delta": 0.0
+    }
+  ],
+  "promotion": "Both registered utility gates must pass; conditional whole-chain intervals reported without statistical-equivalence or fresh-holdout claims. Passing does not qualify unknown public CPU or any non-VNNI runtime.",
+  "avx2_identity_audit_authorized": false,
+  "avx2_skipped_reason": "Frozen first runtime pilot failed125.182min; no further AVX2 audit/readout.",
+  "new_blends_or_compositions_authorized": false
+}

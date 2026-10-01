@@ -1,0 +1,82 @@
+{
+  "status": "PASS",
+  "synthetic_only": true,
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "GPU_visible": "6",
+  "input": "fixed seeded random B16xT2000x211; event column178 true after first row",
+  "warmup_steps_per_arm": 5,
+  "results": [
+    {
+      "arm": "baseline",
+      "timed_steps": 10,
+      "batch": 16,
+      "chunk": 2000,
+      "median_seconds": 0.010297475382685661,
+      "seconds": [
+        0.008605818264186382,
+        0.008700819686055183,
+        0.008658478036522865,
+        0.008944544941186905,
+        0.010316813364624977,
+        0.01036770734935999,
+        0.010278137400746346,
+        0.010346644558012486,
+        0.010389767587184906,
+        0.010369490832090378
+      ]
+    },
+    {
+      "arm": "current",
+      "timed_steps": 10,
+      "batch": 16,
+      "chunk": 2000,
+      "median_seconds": 0.02837343979626894,
+      "seconds": [
+        0.028105203062295914,
+        0.028684504330158234,
+        0.028577416203916073,
+        0.028141326270997524,
+        0.028379873372614384,
+        0.028136849403381348,
+        0.02860262244939804,
+        0.028221221640706062,
+        0.028367006219923496,
+        0.03337107691913843
+      ]
+    },
+    {
+      "arm": "memory",
+      "timed_steps": 10,
+      "batch": 16,
+      "chunk": 2000,
+      "median_seconds": 0.025806241668760777,
+      "seconds": [
+        0.024980654008686543,
+        0.026678049936890602,
+        0.026930845342576504,
+        0.026854275725781918,
+        0.026558145880699158,
+        0.026445502415299416,
+        0.025166980922222137,
+        0.02485502790659666,
+        0.023349646478891373,
+        0.022876051254570484
+      ]
+    }
+  ],
+  "wall_seconds": 2.699098694138229,
+  "peak_allocated_bytes": 354898944,
+  "peak_reserved_bytes": 390070272,
+  "GPU_device_total_bytes": 16749428736,
+  "GPU_name": "NVIDIA RTX A4000",
+  "max_rss_KiB": 1709232,
+  "torch_version": "2.14.0+cu130",
+  "CPU_threads": 4,
+  "sources": {
+    "memory.py": "85a18eacc9afce2f78268393034bc904ad9b0679f19f88c3ba2d943db36ad5da",
+    "model.py": "43ec6a45dcf5ac083d467cfca658ed97e6a263fbd0fe16078fd1f9fc8af6eca8",
+    "benchmark_synthetic_gpu.py": "e014205ba9ceada340baa2817d9aeff63dae426919f947a781c2b15f3a24b933"
+  },
+  "interpretation": "Implementation/transfer cost only; no forecast quality or data-profile inference"
+}
