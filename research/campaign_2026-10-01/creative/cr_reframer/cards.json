@@ -1,0 +1,212 @@
+{
+ "agent": "cr_reframer",
+ "committed_at": "2026-10-01T20:30:00+03:00",
+ "note": "Pre-registered before any probe was run. Prior evidence cited from research/experiments.jsonl and research/panel/*. Effect sizes are pooled Global WP unless stated.",
+ "cards": [
+  {
+   "id": "R01",
+   "lens": "Change search unit",
+   "family": "data / variance (type C)",
+   "title": "i1 is a second, unlabeled instrument stream: synthesize its labels with the target law and train on role-swapped sequences",
+   "representation_change": "The training unit becomes an instrument stream, not a sequence. Every sequence carries two book streams (i0, i1) but only one is labeled. If i1 shares i0's encoder and its quote path is decodable, the known target law (F = round(mean mid over next N quote events), loser -(sp+2m)) labels i1 for free; swapping the 52-column i0/i1 blocks gives a second labeled sequence per row group.",
+   "mechanism": "The regime is variance-limited (n_eff ~28 episodes per class-3 sequence; +0.0015..0.0034 per data doubling, E-152; valid-like data worth ~+0.003). New labeled streams of a related market reduce estimation variance.",
+   "assumptions_breakpoints": [
+    "i1 uses the same per-side encoder as i0 (F8 suggests shared signed pairing 9/11)",
+    "i1 code grammar matches one of the four i0 tick dictionaries",
+    "i1 streams are not exact copies of other sequences' i0 streams (else zero new data)",
+    "law is exact enough for i1's class (exact for class 3; 86-99% loser for 0-2)"
+   ],
+   "predicted_observable": "i1 price-code value sets / event rates match one i0 class per sequence class; i1 row states are rarely found among i0 row states of other sequences",
+   "cheapest_test": "CPU: per class, compare i1 vs i0 price-code value sets, event rates and spread-code grammar on ~150 valid sequences; hash i1 52-col states and look them up among i0 states of all sampled sequences",
+   "falsifier": "i1 values lie outside i0's code sets (different encoder) OR >50% of i1 states are found verbatim as i0 states of other sequences (duplicate data)",
+   "cost": "probe 20 min CPU; if supported, label synthesis 2-3 h CPU + 2 GPU-h fold-0/1 parent",
+   "prior": 0.15
+  },
+  {
+   "id": "R02",
+   "lens": "Factor",
+   "family": "instrument / search allocation",
+   "title": "The per-sequence level/scale 'upper bounds' (0.727/0.719) are mostly in-sample overfit on ~28 effective episodes",
+   "representation_change": "Factor pooled WP into between-class, between-sequence and within-sequence covariance, with the episode (constant-y run) as the sampling unit. Cross-fit the per-sequence oracles on interleaved episode halves (and on temporal halves) instead of fitting and scoring on the same rows.",
+   "mechanism": "A per-sequence affine fitted on its own ~28 effective episodes absorbs noise at rate ~k/n_eff; that alone can produce +0.015..0.03 WP without any learnable latent.",
+   "assumptions_breakpoints": [
+    "episodes defined as maximal constant-(t0,t1) runs approximate the information unit",
+    "OOS fold predictions are representative of the incumbent"
+   ],
+   "predicted_observable": "interleaved-episode cross-fitted level oracle recovers < 30% of the in-sample gain; temporal-half cross-fit <= 0 (consistent with E-078)",
+   "cheapest_test": "CPU, cached ft_since s3/s4 OOS fold predictions + valid_targets: in-sample vs odd/even-episode vs first/second-half cross-fitted per-sequence level and scale oracles",
+   "falsifier": "interleaved cross-fitted per-sequence level or scale gain >= +0.008 (then a slow sequence-latent encoder is worth digging)",
+   "cost": "15 min CPU",
+   "prior": 0.75
+  },
+  {
+   "id": "R03",
+   "lens": "Re-encode",
+   "family": "information",
+   "title": "Rank-Gauss clipping censors large queues, destroying far-from-move class-3 direction information",
+   "representation_change": "Treat volume codes as censored observations (clip at +-2.326 = Phi^-1(0.99)); replace censored queue size by an integrated depletion estimate (cumulative trade volume at that side since the code last left the clip).",
+   "mechanism": "Class 3 is a large-tick instrument with long queues; the queue race (Cont-de Larrard) is invisible while both best queues sit at the clip, which would explain 'coin-flip far from moves' (F4) as an encoding loss, not market efficiency.",
+   "assumptions_breakpoints": [
+    "volume codes are global rank-Gauss with a 1%/99% clip (H-003)",
+    "the best-queue columns are among the saturated ones"
+   ],
+   "predicted_observable": ">= 25% of class-3 rows have one or more best-side volume codes at the clip value, far more than in classes 0-2",
+   "cheapest_test": "CPU: per-class histogram of i0 volume codes at the clip boundary on sampled valid sequences, split by rows-since-last-i0-event",
+   "falsifier": "< 10% of class-3 volume codes at the clip, or no class contrast",
+   "cost": "5 min CPU (shares the R01 data pass)",
+   "prior": 0.15
+  },
+  {
+   "id": "R04",
+   "lens": "Change time",
+   "family": "variance (lower-noise labels, type C)",
+   "title": "Event-time multi-horizon auxiliary labels for classes 0-2",
+   "representation_change": "Re-express y as a fixed functional of the next N event-time mid increments (N=6/6/8 for classes 0-2) and supervise each increment (or the running mean after k events) as auxiliary heads, rather than only the next-move side (aux-next).",
+   "mechanism": "In class 3 the winner equals the first move side 99% of the time, so aux-next already carries the label. In classes 0-2 several moves matter; per-increment labels are lower noise than their rounded mean, so the trunk gets more signal per row.",
+   "assumptions_breakpoints": [
+    "decoded mid paths available for classes 0-2",
+    "later increments are not pure martingale noise given x"
+   ],
+   "predicted_observable": "in classes 0-2 the first-move side explains < 60% of |y|-weighted var(D); the OOS model residual correlates with move-2..N increments",
+   "cheapest_test": "CPU: from target changes at consecutive events in classes 0-2, measure share of D explained by the first event's target jump vs later jumps",
+   "falsifier": "first move explains >= 85% of weighted var(D) in classes 0-2, or residual vs later increments |corr| < 0.02",
+   "cost": "40 min CPU; GPU 1 h if supported",
+   "prior": 0.15
+  },
+  {
+   "id": "R05",
+   "lens": "Instrument",
+   "family": "information",
+   "title": "i1 is a different-tick instrument; decoding it with its own dictionary exposes a latent efficient price leading class-3 quotes",
+   "representation_change": "Identify i1's instrument per sequence class by matching its price-code grammar to the four i0 dictionaries; decode i1's mid in its own ticks; feed 'i1 mid displacement since last i0 quote move' (reset on i0 events).",
+   "mechanism": "Classic large-tick/small-tick lead-lag: a finer-tick related instrument reveals the efficient price that a large-tick quote reflects only at the end of a queue race. F5 found +0.14+-0.07 event-level lead in long stretches using the class-3 dictionary, which left 14-27% of i1 transitions unknown.",
+   "assumptions_breakpoints": [
+    "i1 grammar differs from class-3 i0 grammar in class-3 sequences",
+    "the GRU cannot form the reset-on-i0-event integral itself"
+   ],
+   "predicted_observable": "i1 event rate and code value set in class-3 sequences resemble a smaller-tick i0 class",
+   "cheapest_test": "CPU: same pass as R01 (i1 vs i0 code statistics by class)",
+   "falsifier": "i1 in class-3 sequences has the class-3 grammar (then F5 decoding stands, lead weak, E-088 i1_cross -0.0001)",
+   "cost": "shares R01 pass",
+   "prior": 0.1
+  },
+  {
+   "id": "R06",
+   "lens": "Relax",
+   "family": "scorer alignment (type A/B)",
+   "title": "The public mask is softer than valid's (lambda ~0.02-0.05), so propensity^2 + true-mask FT under-serve low-propensity rows",
+   "representation_change": "Relax 'test mask = valid mask rule' into a one-parameter family m + lambda*(1-m); choose training weights (prop + lambda)^a instead of prop^2 with eps .03.",
+   "mechanism": "The LB-calibrated proxy fits best at lambda 0.05 (E-261, train-unlike lam0.05, LOO RMSE 0.0010). If lambda is real, rows with prop<0.01 (38.6% of required rows) hold ~14% of the public measure but ~0 training weight.",
+   "assumptions_breakpoints": [
+    "lambda in the proxy is a real mask property, not a stand-in for a harder class mix",
+    "low-propensity rows are learnable"
+   ],
+   "predicted_observable": "an LB probe zeroing (constant) predictions on prop<0.01 rows loses ~0.0075 if lambda=0.02, ~0.0022 if lambda=0",
+   "cheapest_test": "CPU: compute the incumbent's local loss from the constant-gate at lambda in {0, .02, .05} with an a3-threshold gate (causal, native-friendly); one LB upload discriminates",
+   "falsifier": "LB probe loss <= 0.003 (lambda ~0)",
+   "cost": "CPU 10 min + 1 upload; 2 GPU-h only after the probe",
+   "prior": 0.2
+  },
+  {
+   "id": "R07",
+   "lens": "Mine surprises",
+   "family": "information (magnitude, not direction)",
+   "title": "Class-3 deficit is in magnitude (stop-out vs touch), which is volatility-clustered and predictable, not in direction",
+   "representation_change": "Factor class-3 y into direction (first move side) x branch magnitude (touch -1q vs stop-out -3q / +mq). Score how much of the model's weighted covariance deficit is magnitude vs direction.",
+   "mechanism": "Stop-out rows are 14% of rows but 43% of class-3 weight (E-160). Directions are near coin-flips far from moves, but move size may cluster in event time (volatility), which a row-clock GRU on wMSE learns slowly.",
+   "assumptions_breakpoints": [
+    "branch identifiable from (t0,t1) lattice in class 3",
+    "magnitude has causal predictors beyond what the GRU tracks"
+   ],
+   "predicted_observable": ">= 40% of the class-3 covariance deficit vs an oracle-branch readout is magnitude; a causal recent-volatility index explains residual |y| beyond |p|",
+   "cheapest_test": "CPU: class-3 scored rows, cached OOS preds: oracle-direction vs oracle-magnitude substitutions; residual of stop-out indicator on causal event-rate proxies",
+   "falsifier": "magnitude oracle adds < 25% of the direction oracle's gain, or residual |corr| < 0.02",
+   "cost": "20 min CPU",
+   "prior": 0.15
+  },
+  {
+   "id": "R08",
+   "lens": "Transfer",
+   "family": "variance (richer labels)",
+   "title": "Competing-risks (survival) labels: time-to-move and side as a joint hazard target",
+   "representation_change": "From survival analysis: each row is an uncensored competing-risks observation (time to next i0 quote move, which side). Train a two-hazard auxiliary head with the survival likelihood; the direction readout comes from the hazard ratio.",
+   "mechanism": "Oracle next-event-time rescale is worth +0.015-0.017 (E-162) but causal hazard rescale <= 0, i.e. the model's magnitude/time representation is weak. A likelihood over event times uses far more label bits per row than the side label.",
+   "assumptions_breakpoints": [
+    "the trunk's representation is the bottleneck, not the information",
+    "aux heads transfer to the wMSE head"
+   ],
+   "predicted_observable": "time-to-move is causally predictable (rank corr > 0.3) and its prediction error interacts with direction accuracy",
+   "cheapest_test": "CPU: corr of OOS |p| with realized rows-to-move among class-3 scored rows vs a causal time-since proxy",
+   "falsifier": "OOS |p| already explains rows-to-move as well as the best causal proxy",
+   "cost": "CPU 20 min; GPU 1.5 h",
+   "prior": 0.1
+  },
+  {
+   "id": "R09",
+   "lens": "Invert",
+   "family": "scorer alignment (selection)",
+   "title": "Selection tilt: the hidden mask is conditionally label-dependent, so E[y|x,scored] != E[y|x] and train rows need a non-causal selection weight",
+   "representation_change": "Invert the role of the mask: instead of a causal propensity p(x) (which cancels in the pointwise optimum), fit P(scored | x, future, y) on valid and use it as a training weight on TRAIN rows, so the optimum becomes the selection-conditional mean.",
+   "mechanism": "Propensity weights p(x) do not change E[w|y|y|x]/E[w|y||x]; only label/future-dependent selection does. True-mask FT moved the LB 3x more than predicted (E-144), consistent with a tilt.",
+   "assumptions_breakpoints": [
+    "selection depends on y or future beyond x"
+   ],
+   "predicted_observable": "within propensity bins, |y|-weighted calibration slope of y on OOS parent p differs between scored and unscored rows by >10%",
+   "cheapest_test": "CPU: cached OOS parent preds, propensity cache, valid targets/mask",
+   "falsifier": "slopes equal within 5% (E-103 already found labels add only +0.002 AUC)",
+   "cost": "15 min CPU",
+   "prior": 0.08
+  },
+  {
+   "id": "R10",
+   "lens": "Domain operator",
+   "family": "information (structural readout)",
+   "title": "Tick-lattice readout: snap the D-part to the class quantum lattice via a calibrated branch posterior",
+   "representation_change": "Targets live on q*Z with t0+t1 = -sp on interior rows; apply the lattice operator (posterior over the few admissible (t0,t1) atoms given current sp) to the model's continuous output.",
+   "mechanism": "Discrete support could sharpen predictions when the model is confident near moves.",
+   "assumptions_breakpoints": [
+    "model confidence near moves is under-expressed"
+   ],
+   "predicted_observable": "post-hoc lattice readout beats identity on cross-fitted folds",
+   "cheapest_test": "CPU post-hoc on cached preds",
+   "falsifier": "prior evidence: post-hoc maps <= +0.0007, CE/atom heads failed (E-160, rejected list) -> expected to fail; listed for completeness, not probed",
+   "cost": "-",
+   "prior": 0.03
+  }
+ ],
+ "discarded_provocations": {
+  "broadcast one prediction per quote-move run": "refuted by E-161/E-162: causal within-stretch smoothing -0.0003..-0.0375; within-run updates are information (2 rows before a move corr +0.91)",
+  "reconstruct global timeline / chain neighbours at inference": "forbidden by rules (no joining sequences); training-side chain context already covered by privileged teachers (rejected)",
+  "per-sequence scale/level from causal summaries": "tested as R02 (likely an overfit artefact); E-078/E-080 online recalibration with matured labels lost -0.015..-0.025",
+  "test class-mix reweighting / metric-aware decoding": "pointwise optimum is mix-invariant; per-class scale/weights rejected"
+ },
+ "post_hoc_cards": [
+  {
+   "id": "R12",
+   "lens": "Instrument",
+   "family": "information",
+   "added_at": "2026-10-01T20:40:00+03:00",
+   "added_after": "R01/R05 showed i1 is a distinct, slower instrument whose class-3 codes decode at ~79% with the train class-3 grammar",
+   "title": "Cross-instrument error-correction term and i0 level reversion (levels are invisible in shape codes)",
+   "representation_change": "Decode i0 and i1 mid paths in ticks; features ec_h = (mid1 - mid0) - EWMA_h, r1_h = mid1 - EWMA_h(mid1), r0_h = mid0 - EWMA_h(mid0) (restart at unknown i1 transitions). The GRU sees book-shape codes, not price levels, so level-relative signals need long signed integration it may not form.",
+   "predicted_observable": "partial corr with Dy given the GRU D >= 0.05 in long quiet stretches, and a cross-fitted linear D-correction lifts pooled WP",
+   "falsifier": "leave-one-fold-out linear D-correction on class-3 rows gives pooled delta < +0.0003 or folds disagree",
+   "cost": "CPU 30 min",
+   "prior": 0.1
+  },
+  {
+   "id": "R11",
+   "lens": "Change time",
+   "family": "variance (label-invariant augmentation)",
+   "added_at": "2026-10-01T20:50:00+03:00",
+   "added_after": "R03 showed volume codes are uncensored snapshots; targets change only on i0 price-code rows",
+   "title": "Event-preserving row thinning is an exact label symmetry; use it as training augmentation",
+   "representation_change": "Treat the row clock as a nuisance: dropping rows without an i0 price-code change leaves every kept row's target unchanged (targets live on the quote clock, features are snapshots). Random thinning yields new, exactly labelled training sequences.",
+   "mechanism": "Training is memorization-limited (12 epochs peak at 5 then -0.027, E-153; data doubling +0.0015..0.0034). An exact symmetry gives fresh views of the same episodes and allows more epochs.",
+   "predicted_observable": "CPU: on fold-0 OOS members, thinning 30% of droppable rows keeps kept-row WP within 0.002 while corr(pA, pB) < 0.995 (density-sensitive without signal) -> augmentation plausible; WP drop > 0.005 -> density carries signal, reject",
+   "falsifier": "kept-row WP drops > 0.005 under thinning, or corr(pA, pB) > 0.998 (already invariant, augmentation adds nothing)",
+   "cost": "CPU 25 min; GPU 2 h if supported",
+   "prior": 0.15
+  }
+ ]
+}
