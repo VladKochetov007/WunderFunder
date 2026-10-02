@@ -4,6 +4,17 @@ Updated 2 October 2026 (Moscow). This is an index to the evidence; historical re
 
 **Publication preference:** the user has paused GitHub uploads. Subsequent research is stored locally and on beleriand only until the user explicitly resumes publication. Existing archive links below are historical; do not push new progress automatically.
 
+
+## Qualified delivery, 2 October 06:55 Moscow
+
+**Selected operational package: [midpoint_student_fixed4.zip](../../delivery-2026-10-02-midpoint/midpoint_student_fixed4.zip)**, SHA256 `ae5998ac36ee1153a3df2a6b261238c97cdbe5f9ba7aaba761f5711693d5b23c`, 5,995,375 bytes. The exact final full-data ZIP completed **39,400,000 callbacks in 2501.258657 seconds (41 min 41.26 s)** on one beleriand CPU, natural v3/VNNI. All four members remained active; 1970 resets and 97 full repeated sequences passed byte-identical output checks. Complete runtime and quiet-SMT gates passed. All owned delivery scopes have closed; 121 files / 633,710,597 original bytes are preserved and hash-verified locally and on SSH. Previous qualified student_fixed4 stays available as a rollback artifact. No GitHub push or public submission.
+
+**Native OOF of the selected recipe:** 0.702516831905259 versus incumbent 0.7023553213327767, paired delta **+0.0001615105724824**; fold0 +0.0000853232, fold1 +0.0002122431; conditional95% whole-chain interval [+0.0000592430,+0.0002799357]. This measures fold-specific recipe instances, not independent held-out performance of the final full-data ZIP. The final recipe changes only weights0 to an exact0.5 parameter midpoint, retaining wrapper/binaries, three other members and equal quarter weights.
+
+The gain is modest and adaptively selected on exposed folds. Midpoint seed4 +0.0000289217 has an interval crossing zero; the original unshrunk warm seed4 gate failed and was not relaxed. Legacy teacher cache producer epochs remain unknown. No leaderboard/rank improvement is established. This completed round contains42 forecasting fits and26GPU OOF jobs, plus2full-datafits and2nativeOOF jobs; constructed checkpoints are not counted as training. No further experiments are automatically allocated.
+
+[Full research readout](iterations/2026-10-02-diverse-screens/readout.md), [delivery evidence](iterations/2026-10-02-diverse-screens/delivery-decision.json), [closed frontier](iterations/2026-10-02-diverse-screens/frontier-06.json), [runtime receipt](iterations/2026-10-02-midpoint-delivery/runtime/execution/launch-result.json), [preservation](iterations/2026-10-02-midpoint-delivery/preservation-runtime.json). Historical snapshots below retain their original pending statuses; this section supersedes them.
+
 ## Current selection and qualification, 2 October 06:01 Moscow
 
 The operational fallback is still **student_fixed4.zip**: GPU pooled WP **0.7023796676142182**, native WP **0.702355321332776**, actual full-stream runtime **44.54 minutes**. No new ZIP is qualified yet; no GitHub or public submission.

@@ -1,0 +1,148 @@
+{
+  "status": "SUMMARY_OF_FIXED_COMPLETED_GPU_SCREENS",
+  "rows": [
+    {
+      "branch": "mingru-forecast",
+      "label": "minGRU 256 × 2",
+      "WP": 0.702139095203987,
+      "delta_WP": -0.00024057241023123233,
+      "conditional95": [
+        -0.0006912695879679326,
+        0.0002473702823456047
+      ],
+      "fold_deltas": {
+        "0": -0.0006247398416402428,
+        "1": 0.0001312790643397399
+      },
+      "fits": 4,
+      "OOF": 2
+    },
+    {
+      "branch": "distill07",
+      "label": "Дистилляция α=0.7",
+      "WP": 0.7022527222839376,
+      "delta_WP": -0.0001269453302805701,
+      "conditional95": [
+        -0.00035167945041695013,
+        9.74118794632605e-05
+      ],
+      "fold_deltas": {
+        "0": -0.0001062553632903418,
+        "1": -0.00022055947196042425
+      },
+      "fits": 4,
+      "OOF": 2
+    },
+    {
+      "branch": "atom-consistent-training",
+      "label": "Исправленный atom head",
+      "WP": 0.7015710848323482,
+      "delta_WP": -0.0008085827818700153,
+      "conditional95": [
+        -0.001262992250300024,
+        -0.00030364579949245803
+      ],
+      "fold_deltas": {
+        "0": -0.0010597211389010708,
+        "1": -0.0005815923373184706
+      },
+      "fits": 8,
+      "OOF": 4
+    },
+    {
+      "branch": "interval-memory",
+      "label": "Память между событиями",
+      "WP": 0.7026705671031901,
+      "delta_WP": 0.0002908994889718741,
+      "conditional95": [
+        8.662630388844294e-05,
+        0.0005371700318707539
+      ],
+      "fold_deltas": {
+        "0": 0.00013895330797641936,
+        "1": 0.0004123955339216945
+      },
+      "fits": 8,
+      "OOF": 4
+    },
+    {
+      "branch": "ordinary-warm",
+      "label": "Дополнительная эпоха GRU",
+      "WP": 0.7026826187701548,
+      "delta_WP": 0.0003029511559365927,
+      "conditional95": [
+        9.623148357487676e-05,
+        0.000552581870007096
+      ],
+      "fold_deltas": {
+        "0": 0.00014793476596663968,
+        "1": 0.00040312924184049415
+      },
+      "fits": 4,
+      "OOF": 2
+    },
+    {
+      "branch": "ordinary-warm-rng-control",
+      "label": "Только повторная настройка головы",
+      "WP": 0.70245348426149,
+      "delta_WP": 7.381664727179604e-05,
+      "conditional95": [
+        -6.088750591309311e-05,
+        0.00023049087080705133
+      ],
+      "fold_deltas": {
+        "0": 1.5809716120585016e-05,
+        "1": 0.00015416121962075202
+      },
+      "fits": 2,
+      "OOF": 2
+    },
+    {
+      "branch": "temporal-screen",
+      "label": "Detach 500, update 2000",
+      "WP": 0.7023872435860645,
+      "delta_WP": 7.575971846307539e-06,
+      "conditional95": [
+        -0.00022837592792606664,
+        0.00024945504443525944
+      ],
+      "fold_deltas": {
+        "0": 3.687322962830919e-05,
+        "1": -8.54824105893659e-05
+      },
+      "fits": 8,
+      "OOF": 4
+    },
+    {
+      "branch": "warm-midpoint",
+      "label": "Середина весов 0.5",
+      "WP": 0.7025433565333554,
+      "delta_WP": 0.00016368891913720596,
+      "conditional95": [
+        5.912443642204779e-05,
+        0.0002870349247216186
+      ],
+      "fold_deltas": {
+        "0": 7.933891908884494e-05,
+        "1": 0.000221356560160757
+      },
+      "fits": 0,
+      "OOF": 4
+    }
+  ],
+  "input_sha256": {
+    "research/iterations/2026-10-02-mingru-forecast/evaluation-01/report.json": "724c8d8cab106d998cb5b4a10749cfaae20d7c0325ef8a3a11cd4fd741ade3aa",
+    "research/iterations/2026-10-02-distill07/evaluation-01/report.json": "4edba9022bbeca445357595180769d0856c27ba835ce97f5b82c7205513801fa",
+    "research/iterations/2026-10-02-atom-consistent-training/evaluation-01/report.json": "b15d42e88b18cdcdec809c5f3164e968091c15428974e4e8fbdab3e788b16951",
+    "research/iterations/2026-10-02-interval-memory/evaluation-01/report.json": "70e7dc865d8ad5ec4295356d60054804843d2d379545f920005a60036653c19c",
+    "research/iterations/2026-10-02-ordinary-warm/evaluation-01/report.json": "22dc927889e23b0c9203e0c9abd54a1bb240f7c66a34c8e2df9053c159c9b0cc",
+    "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluation-01/report.json": "79ed1b2015943c6b8dd0d1a8d556d361b6245334a8af25c5d2dd29358710fb95",
+    "research/iterations/2026-10-02-temporal-screen/evaluation-01/report.json": "65de1ab2091eacba8f8b22ed45c1cd52a4857ff0a0512c10a105fad51c089b91",
+    "research/iterations/2026-10-02-warm-midpoint/evaluation-01/report.json": "1b53275bf3c024144efb341dea4687d1a0241ae623c5971928087a0c1dc95824",
+    "research/iterations/2026-10-02-ordinary-warm-seed4/evaluation-01/report.json": "f6ee397546b77c4a5074424bc87b70349728acea1529d4d7150e07d9e968e5d9"
+  },
+  "forecast_fits": 42,
+  "target_free_GPU_OOF": 26,
+  "exclusions": "Final full-data2fits and native/runtime qualification tracked separately; no constructed checkpoint counted as training.",
+  "limitations": "Plot is seed3 only on same860exposedpuresequences/250chains. Conditional95% chain intervals omit adaptive selection, training-seed population uncertainty and testshift. Unshrunk warm failed paired seed4 gate. Midpoint seed4 +.000028922 has interval crossingzero; midpoint was designed after seeing both warmseed results. Selected midpoint remains pending serving qualification."
+}

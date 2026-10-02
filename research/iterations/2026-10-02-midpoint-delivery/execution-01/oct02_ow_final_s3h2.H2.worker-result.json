@@ -1,0 +1,73 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_ow_final_s3h2",
+  "stage": "H2",
+  "allocation_sha256": "a192e19bf1b6826e803208d0a68417869eaaaa883f3babcd2de5a32f60aa4c0b",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-midpoint-delivery/train_warm.py",
+    "--name",
+    "oct02_ow_final_s3h2",
+    "--full-valid",
+    "--layers",
+    "1",
+    "--batch",
+    "16",
+    "--lr",
+    "0.0005",
+    "--loss",
+    "gcorr",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "valid",
+    "--include-heldout-valid",
+    "--eval-source",
+    "holdout",
+    "--init",
+    "oct02_ow_final_s3@ep0",
+    "--freeze",
+    "inp,gru",
+    "--mask-weight",
+    "--seed",
+    "3",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache"
+  ],
+  "started_utc": "2026-10-02T03:02:22.017777+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_ow_final_s3h2/model_ep1.pt": {
+      "bytes": 2353191,
+      "sha256": "c3cb776f697b8a80b1491588f9fd9990c28971c7dc708b0f737146444495dbf6"
+    },
+    "artifacts/runs/oct02_ow_final_s3h2/model.pt": {
+      "bytes": 2352747,
+      "sha256": "8f21f0050229e972d4507c1f6b4d3daaad978c23d2d9f2f39dfcbccc72faf2c5"
+    },
+    "artifacts/runs/oct02_ow_final_s3h2/history.json": {
+      "bytes": 340,
+      "sha256": "badf893f1a5ba80a87d08971ec289ba60f83795ad733373d1001acb4c53cefd1"
+    },
+    "artifacts/runs/oct02_ow_final_s3h2/initial-state.json": {
+      "bytes": 1269,
+      "sha256": "38982a16b493508645c374bbab05b65c38cf7e4d95a48c1d6714ae50e1bd9e2f"
+    },
+    "research/iterations/2026-10-02-midpoint-delivery/execution-01/oct02_ow_final_s3h2.check.json": {
+      "bytes": 1269,
+      "sha256": "2b7a4e0f6aadd311fdabb1e6c6050e5ef9433737fae6d91652744a298f7e794d"
+    },
+    "artifacts/runs/oct02_ow_final_s3h2/model_ep0.pt": {
+      "bytes": 2353191,
+      "sha256": "9e1a82059e310bf5143c269e0519909d8e950cd0c8a5e6edbec757bcab837410"
+    }
+  },
+  "seconds": 84.0270151719451,
+  "finished_utc": "2026-10-02T03:03:46.044829+00:00"
+}

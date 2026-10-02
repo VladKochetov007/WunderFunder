@@ -1,0 +1,81 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_ow_final_s3",
+  "stage": "parent",
+  "allocation_sha256": "a192e19bf1b6826e803208d0a68417869eaaaa883f3babcd2de5a32f60aa4c0b",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-midpoint-delivery/train_warm.py",
+    "--name",
+    "oct02_ow_final_s3",
+    "--full-valid",
+    "--layers",
+    "1",
+    "--epochs",
+    "1",
+    "--lr",
+    "0.0005",
+    "--loss",
+    "wmse",
+    "--distill",
+    "fin256_s3,fin256_s4",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "train+valid",
+    "--include-heldout-valid",
+    "--eval-source",
+    "holdout",
+    "--init",
+    "cont_sh256_final_s3@ep3",
+    "--ema-teacher",
+    "1.0",
+    "--eval-ema",
+    "--propensity",
+    "prop_f0",
+    "--prop-power",
+    "2.0",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--seed",
+    "3",
+    "--since-weight",
+    "32.0",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache"
+  ],
+  "started_utc": "2026-10-02T02:56:04.835137+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_ow_final_s3/model_ep0.pt": {
+      "bytes": 2353827,
+      "sha256": "c094609795da59582e8b70d39dcf5dc8760c5fcfc1271736b42061a3456ae697"
+    },
+    "artifacts/runs/oct02_ow_final_s3/model.pt": {
+      "bytes": 2353179,
+      "sha256": "bf00e3ab0313f6f1547bf3576c4d30baa67655985540a2c763d7a874a3137264"
+    },
+    "artifacts/runs/oct02_ow_final_s3/history.json": {
+      "bytes": 171,
+      "sha256": "381fa2f9bcfba39f079b0b4935930bd4edca21c253297fa87c228ba1f176dc3c"
+    },
+    "artifacts/runs/oct02_ow_final_s3/initial-state.json": {
+      "bytes": 1399,
+      "sha256": "0a731a9a4833c313874ed7fbacd3fa3931e5fbb8e0e000d1f0da98c2a7a9aafb"
+    },
+    "research/iterations/2026-10-02-midpoint-delivery/execution-01/oct02_ow_final_s3.check.json": {
+      "bytes": 1116,
+      "sha256": "1acbee42da3d1a27c413292516fd2afe7c6f0a57a5731cf207eeb7631c2b7975"
+    }
+  },
+  "seconds": 376.2080827439204,
+  "finished_utc": "2026-10-02T03:02:21.043240+00:00"
+}

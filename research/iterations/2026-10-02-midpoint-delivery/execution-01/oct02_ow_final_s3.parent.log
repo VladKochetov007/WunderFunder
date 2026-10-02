@@ -1,0 +1,51 @@
+ORDINARY_WARM_INITIAL {"run": "oct02_ow_final_s3", "stage": "parent", "initial_checkpoint": "artifacts/runs/cont_sh256_final_s3/model_ep3.pt", "initial_checkpoint_sha256": "28f539eca86b5885f4250f1c3721f1c41b217aa40a66eeceae396ee714c91a89", "initial_model_state_sha256": "25a06c388670c25ff4012b3d784b93f0afe8283e51d5ed871d46b9d754c06bd8", "normalization_sha256": "7ce43c590f371750fed40466fa359ee388e2f179c09d1e2fb909ed0437d46cd7", "parity": {"strict_full_state_loaded": true, "ordinary_tensors_exact": true, "normalization_preserved": true, "generated_CPU_initial_forecast_exact": true, "generated_output_sha256": "7607c5bbfda8996fd80c834fc2a10fa68cc64925415ca2e106520fa44ee52086"}, "trainer_source_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f", "adapter_source_sha256": "f351139fa40b4a65cc834ba7373d82c32ce653e1d98436953929f711155a321e", "training_parameters": ["inp.weight", "inp.bias", "gru.weight_ih_l0", "gru.weight_hh_l0", "gru.bias_ih_l0", "gru.bias_hh_l0", "head.0.weight", "head.0.bias", "head.2.weight", "head.2.bias"], "rng_pairing": "Discarded Linear256to32 then GRU33to64 CPU constructors match interval initialization RNG; no parameters retained", "cpu_rng_state_sha256": "8c122631a38ec72df4f97933fe37afc48cc356a4b5fba6877a0a2f013c1db783", "forecast_data_reads": 0, "metrics": 0}
+{"name": "oct02_ow_final_s3", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 256, "layers": 1, "dropout": 0.0, "chunk": 2000, "batch": 32, "epochs": 1, "lr": 0.0005, "wd": 0.01, "loss": "wmse", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "fin256_s3,fin256_s4", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "aux_next_k": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "aux_loss_scale": 1.0, "arch": "gru", "tfm_d": 256, "tfm_layers": 6, "tfm_heads": 8, "tfm_ff": 1024, "tfm_block": 250, "hidden1": 0, "attn_k": 32, "attn_d": 64, "attn_heads": 4, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": true, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "holdout", "valid_fold": -1, "n_valid_folds": 4, "valid_repeat": 1, "init": "cont_sh256_final_s3@ep3", "freeze": "", "ema_teacher": 1.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": true, "mask_weight": false, "propensity": "prop_f0", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "atom_head": 0.0, "vrex": 0.0, "vrex_start": 1, "level_aug": 0.0, "level_drop": 0.0, "lookahead": "", "train_half": -1, "class_heads": false, "quant_feats": false, "quant_i1": false, "state_reset": 0, "loss_norm": "chunk", "since_weight": 32.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false}
+{"source_train_sequences": 10606, "eligible_valid_train_sequences": 1873, "used_valid_train_sequences": 1873, "eval_sequences": 368}
+loader workers 2 prefetch 2; params 0.59M; steps 3890
+ep 0 batch 0/389 loss 0.7988 lr 2.32e-05 seq/s 5.1
+ep 0 batch 20/389 loss 0.7437 lr 5.00e-04 seq/s 27.5
+ep 0 batch 40/389 loss 0.8438 lr 4.96e-04 seq/s 30.8
+ep 0 batch 60/389 loss 0.7746 lr 4.84e-04 seq/s 32.1
+ep 0 batch 80/389 loss 0.8748 lr 4.66e-04 seq/s 32.3
+ep 0 batch 100/389 loss 0.8091 lr 4.42e-04 seq/s 32.6
+ep 0 batch 120/389 loss 0.8446 lr 4.12e-04 seq/s 32.9
+ep 0 batch 140/389 loss 0.8268 lr 3.78e-04 seq/s 33.3
+ep 0 batch 160/389 loss 0.7942 lr 3.40e-04 seq/s 33.4
+ep 0 batch 180/389 loss 0.8143 lr 2.99e-04 seq/s 33.4
+ep 0 batch 200/389 loss 0.8019 lr 2.57e-04 seq/s 33.3
+ep 0 batch 220/389 loss 0.7111 lr 2.14e-04 seq/s 33.3
+ep 0 batch 240/389 loss 0.7576 lr 1.73e-04 seq/s 33.4
+ep 0 batch 260/389 loss 0.8033 lr 1.34e-04 seq/s 33.4
+ep 0 batch 280/389 loss 0.7620 lr 9.82e-05 seq/s 33.4
+ep 0 batch 300/389 loss 0.7725 lr 6.68e-05 seq/s 33.6
+ep 0 batch 320/389 loss 0.7518 lr 4.07e-05 seq/s 33.6
+ep 0 batch 340/389 loss 0.7179 lr 2.06e-05 seq/s 33.7
+ep 0 batch 360/389 loss 0.7348 lr 7.20e-06 seq/s 33.7
+ep 0 batch 380/389 loss 0.7457 lr 7.63e-07 seq/s 33.7
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 0, "eval_seconds": 0.0, "split": "holdout368"}
+BEST 0.0
+SELECTED_FINAL 0.0
+{"status": "PASS_ORDINARY_WARM_FIXED_ENDPOINT_AND_LINEAGE", "job": "oct02_ow_final_s3", "stage": "parent", "fold": -1, "checkpoint": {"path": "artifacts/runs/oct02_ow_final_s3/model_ep0.pt", "sha256": "c094609795da59582e8b70d39dcf5dc8760c5fcfc1271736b42061a3456ae697", "epoch": 0}, "model_pt": {"path": "artifacts/runs/oct02_ow_final_s3/model.pt", "sha256": "bf00e3ab0313f6f1547bf3576c4d30baa67655985540a2c763d7a874a3137264", "epoch": null}, "model_pt_state_byte_equals_endpoint": true, "all103_args_match": true, "byte_identical_frozen_tensors": [], "normalization_matches_parent": true, "changed_readout_tensors": ["head.0.bias", "head.2.weight", "head.2.bias", "head.0.weight"], "initial_state_receipt_sha256": "0a731a9a4833c313874ed7fbacd3fa3931e5fbb8e0e000d1f0da98c2a7a9aafb", "commands_sha256": "c36f797b5bc7d1736f638d14bf9ba7be122c5dc1063dda494677641b07db3c2e", "validator_sha256": "2a1fabf4616d320cdf468fd5956ba26beb9d2d4428f5d49593e7fef27f61a33c", "data_or_targets_read": false, "model_forward_calls": 0, "metrics": 0}
+	Command being timed: ".venv/bin/python research/iterations/2026-10-02-midpoint-delivery/run_queue.py --allocation /home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-midpoint-delivery/training-allocation.json --allocation-sha256 a192e19bf1b6826e803208d0a68417869eaaaa883f3babcd2de5a32f60aa4c0b --worker 0"
+	User time (seconds): 616.96
+	System time (seconds): 151.95
+	Percent of CPU this job got: 204%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 6:16.30
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 5313468
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 39649880
+	Voluntary context switches: 45798
+	Involuntary context switches: 3577
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 9432
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
