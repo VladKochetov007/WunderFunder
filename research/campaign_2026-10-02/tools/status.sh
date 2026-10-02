@@ -2,7 +2,7 @@
 # One-screen campaign status: queue tail, active units, current training progress, GPU, memory, agent status files.
 cd "$(dirname "$0")/../../.."
 date +%H:%M
-grep -hE '^[0-9:]+ (launch|done)' research/campaign_2026-10-01/jobs/gpu_queue6.log 2>/dev/null | tail -3
+grep -hE "^[0-9:]+ (launch|done)|launch failed|budget exhausted" research/campaign_2026-10-01/jobs/gpu_queue6.log 2>/dev/null | tail -3
 for u in $(systemctl --user list-units --state=active --no-legend --plain 'wnn-top1-*.service' | awk '{print $1}'); do
   n=${u#wnn-top1-}; n=${n%.service}; echo "RUN $n: $(tail -1 research/campaign_2026-09-29/logs/$n.log 2>/dev/null | cut -c1-70)"
 done
