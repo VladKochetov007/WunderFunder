@@ -21,7 +21,7 @@ from types import FrameType
 ROOT = Path(__file__).resolve().parents[1]
 CAMPAIGN = ROOT / "research" / "campaign_2026-09-29"
 JOBS = CAMPAIGN / "jobs"
-GPU_CAP = 40_000.0  # 2026-10-01: user allowed continuous GPU use until 10:00 Kyiv on top of 10,877 s charged
+GPU_CAP = 72_000.0  # 2026-10-02 04:05: user allowed research until 10:10 Kyiv (running jobs finish gracefully); 40,000 s cap hit 01:39
 VRAM_CAP = 5_000_000_000
 STOP_NEW_JOBS = CAMPAIGN / "STOP_NEW_JOBS"
 
