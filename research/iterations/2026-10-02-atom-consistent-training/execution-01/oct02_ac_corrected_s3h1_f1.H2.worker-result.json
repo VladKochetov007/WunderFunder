@@ -1,0 +1,71 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_ac_corrected_s3h1_f1",
+  "stage": "H2",
+  "allocation_sha256": "02aee3a51027d185c6ccf94b922af897a82efd254ad34f082d45a75e05ca6806",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-atom-consistent-training/train.py",
+    "--name",
+    "oct02_ac_corrected_s3h1_f1",
+    "--full-valid",
+    "--hidden",
+    "128",
+    "--batch",
+    "16",
+    "--epochs",
+    "1",
+    "--lr",
+    "0.0005",
+    "--loss",
+    "gcorr",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "1",
+    "--init",
+    "oct02_ac_corrected_s3_f1@ep3",
+    "--freeze",
+    "inp,gru",
+    "--mask-weight",
+    "--seed",
+    "3",
+    "--atom-head",
+    "0.5",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache",
+    "--atom-decoder",
+    "corrected"
+  ],
+  "started_utc": "2026-10-02T01:08:27.604111+00:00",
+  "returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_ac_corrected_s3h1_f1/model_ep0.pt": {
+      "bytes": 1220192,
+      "sha256": "b91e9887e60afb5a9e6b841ce0cc2a177c77e08ff4f92fd0006df12c1ab64dcb"
+    },
+    "artifacts/runs/oct02_ac_corrected_s3h1_f1/atom-receipt.json": {
+      "bytes": 750,
+      "sha256": "b91ade9da9d509a1be071dc3c44745075326ece54820c9d7a4ff4218a0bed5e4"
+    },
+    "artifacts/runs/oct02_ac_corrected_s3h1_f1/history.json": {
+      "bytes": 267,
+      "sha256": "9e10ebb41e984a5f23f510938070c79afd20d79600ec8e9da8532615d1dd95a7"
+    },
+    "artifacts/runs/oct02_ac_corrected_s3h1_f1/model.pt": {
+      "bytes": 1219084,
+      "sha256": "c59c627fcacbee07ba76bb65c715209bc72893a3c77920b8fe2990d3731d30ed"
+    }
+  },
+  "seconds": 31.472339916974306,
+  "finished_utc": "2026-10-02T01:08:59.076489+00:00"
+}

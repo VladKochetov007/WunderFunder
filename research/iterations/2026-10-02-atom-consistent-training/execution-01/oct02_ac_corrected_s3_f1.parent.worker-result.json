@@ -1,0 +1,87 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_ac_corrected_s3_f1",
+  "stage": "parent",
+  "allocation_sha256": "02aee3a51027d185c6ccf94b922af897a82efd254ad34f082d45a75e05ca6806",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-atom-consistent-training/train.py",
+    "--name",
+    "oct02_ac_corrected_s3_f1",
+    "--full-valid",
+    "--hidden",
+    "128",
+    "--epochs",
+    "4",
+    "--loss",
+    "wmse",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "train+valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "1",
+    "--ema-teacher",
+    "1.0",
+    "--eval-ema",
+    "--propensity",
+    "prop_f1",
+    "--prop-power",
+    "2.0",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--seed",
+    "3",
+    "--atom-head",
+    "0.5",
+    "--since-weight",
+    "32.0",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache",
+    "--atom-decoder",
+    "corrected"
+  ],
+  "started_utc": "2026-10-02T00:56:33.226435+00:00",
+  "returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_ac_corrected_s3_f1/model_ep3.pt": {
+      "bytes": 1221529,
+      "sha256": "43799432c2026dbe3be312655c52bc494beb7c7c49db1139e65fcbba4d8d21ad"
+    },
+    "artifacts/runs/oct02_ac_corrected_s3_f1/atom-receipt.json": {
+      "bytes": 1390,
+      "sha256": "50dad766942cfe04ee2fcbbce98d4fd0a28906abe052eda8ca2dd305f4b8aa07"
+    },
+    "artifacts/runs/oct02_ac_corrected_s3_f1/history.json": {
+      "bytes": 1062,
+      "sha256": "607eb7f7515bf643eb93b0efc79d7318f48fb749b12d81930b2a293e0dafa5b8"
+    },
+    "artifacts/runs/oct02_ac_corrected_s3_f1/model_ep0.pt": {
+      "bytes": 1221529,
+      "sha256": "009d45fc835837a7b45df39e8c2e3d795d7a04c818e22ee7ed0b827488c8d0e0"
+    },
+    "artifacts/runs/oct02_ac_corrected_s3_f1/model_ep1.pt": {
+      "bytes": 1221529,
+      "sha256": "7c496c2752c27d5e2b252033e954366036519101747fcbd1e3ad639d48c01ee7"
+    },
+    "artifacts/runs/oct02_ac_corrected_s3_f1/model_ep2.pt": {
+      "bytes": 1221529,
+      "sha256": "a58180f836ea76a657b22c5664579d91dcf45fe2fde503d8da59fb641e086489"
+    },
+    "artifacts/runs/oct02_ac_corrected_s3_f1/model.pt": {
+      "bytes": 1219945,
+      "sha256": "9e27e91f78863cf9143341a2c25b84c54da409ae1c1cd280360511c43eb61eee"
+    }
+  },
+  "seconds": 712.7185869636014,
+  "finished_utc": "2026-10-02T01:08:25.945043+00:00"
+}
