@@ -5,6 +5,12 @@ Updated 2 October 2026 (Moscow). This is an index to the evidence; historical re
 **Publication preference:** the user has paused GitHub uploads. Subsequent research is stored locally and on beleriand only until the user explicitly resumes publication. Existing archive links below are historical; do not push new progress automatically.
 
 
+## Public result update, 2 October — supersedes quality promotion below
+
+User-reported submission **24pajnf9**, `midpoint_student_fixed4.zip`: **0.6639**, **21m6s**, **633MB**, UI time13:01 on2026-10-02. Displayed score is0.0002 below historical V1's0.6641. **V1 retains the best-recorded-public role; midpoint is not a demonstrated public improvement.** Midpoint remains technically qualified. The prior delivery/promotion records below are historical, not current evidence of public superiority.
+
+The local native +0.0001615 was measured against original student, not V1. A matched original-student public result is missing from inspected records and has been requested. Between V1 and student, first-member training/architecture, native arithmetic and the time governor changed; the public result does not isolate the midpoint effect. Public backend and historical V1 active-member trace remain unknown. Do not use this single scalar to attribute the loss to quantization, mixture or regime composition. No new training or automated submission is allocated. [Result and next control](iterations/2026-10-02-public-midpoint/readout.md). GitHub uploads remain paused.
+
 ## Qualified delivery, 2 October 06:55 Moscow
 
 **Selected operational package: [midpoint_student_fixed4.zip](../../delivery-2026-10-02-midpoint/midpoint_student_fixed4.zip)**, SHA256 `ae5998ac36ee1153a3df2a6b261238c97cdbe5f9ba7aaba761f5711693d5b23c`, 5,995,375 bytes. The exact final full-data ZIP completed **39,400,000 callbacks in 2501.258657 seconds (41 min 41.26 s)** on one beleriand CPU, natural v3/VNNI. All four members remained active; 1970 resets and 97 full repeated sequences passed byte-identical output checks. Complete runtime and quiet-SMT gates passed. All owned delivery scopes have closed; 121 files / 633,710,597 original bytes are preserved and hash-verified locally and on SSH. Previous qualified student_fixed4 stays available as a rollback artifact. No GitHub push or public submission.
