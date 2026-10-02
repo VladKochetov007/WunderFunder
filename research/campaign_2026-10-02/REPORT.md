@@ -34,9 +34,10 @@ unbiased stopped-bootstrap distillation target (teacher at min(t+h, run end)) is
 - 01:39 campaign GPU cap (40,000 s) killed the fold-1 alpha run near its end; GPU idle until 04:03 (E-325). Cap raised.
 - CPU agents + desktop (32 GB) pushed the training scope into memory reclaim (GPU util 27–57%, ~8 seq/s vs 17.5);
   freed 6 GB tmpfs scratch, CPUWeight watcher for training scopes.
-- Controller session hit the provider usage limit 04:50–09:00; the GPU queue kept running. The engine agent
-  (integer-madd GRU kernel for 2 students in budget) stopped mid-work: its edits in `native/` are uncommitted and
-  unbuilt; packaging uses the unchanged `engine/native_build` (sha e8b1f871… = the 0.6641 package's engine).
+- Controller session hit the provider usage limit 04:50–09:00; the GPU queue kept running. The engine agent was
+  resumed 09:12 and finished q16x (E-336): one GRU256 291 → 234 kcyc/row, all parity/level/image gates pass, but two
+  GRU256 members still cost 464 kcyc ≈ 57 public min (> 52-min gate) — memory-bound; not shipped.
+- E-335 (H-063) class-routed parent/FT head weights on one trunk: 4-fold +0.00002, falsified.
 
 ## Running at 10:10 (left to finish)
 `c20261002_te07_f1` (H-060 fold-1 confirmation) then `c20261002_sbd_f0` (stopped bootstrap, fold 0). Score with
