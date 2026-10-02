@@ -39,14 +39,15 @@ unbiased stopped-bootstrap distillation target (teacher at min(t+h, run end)) is
   GRU256 members still cost 464 kcyc ≈ 57 public min (> 52-min gate) — memory-bound; not shipped.
 - E-335 (H-063) class-routed parent/FT head weights on one trunk: 4-fold +0.00002, falsified.
 
-## Running at 10:10 (left to finish)
-`c20261002_final_te07_s3` (final H-060 student, launched 09:55, ~60 min). Unit `wnn-after-final-te` then scores it on
-the holdout (`packages/te_final_holdout_report.json`) and packages it with all gates (`submissions/c20261002_TE07s3_i16`);
-log `research/campaign_2026-10-02/packages/after_final_te.log`. The stopped-bootstrap screen was swapped out (E-338).
+## After 10:10
+The final teacher-ensemble student finished 10:49: holdout −0.0008 vs the alpha-0.7 student (E-339), contradicting
+the 2-fold +0.0011. Packaged with all gates passing as optional upload 3. Recommended order stays 1 (D07s3), 2 (D07s4),
+then 3 (TE07s3) as a leaderboard test. Shipped code check: `similarity/similarity_D07s3.json` (engine shares no code
+with teammate code; all solution.py overlap traces to our own pre-split files).
 
 ## Next highest-value steps
-1. Check `after_final_te.log`: if TE07s3 ≥ D07s3 on the holdout, upload `submissions/c20261002_TE07s3_i16` first
-   (expected ~0.6650). Then a second teacher-ensemble seed, and the stopped bootstrap on top of the ensemble.
+1. Resolve the teacher-ensemble conflict (folds +0.0011, holdout −0.0008): second final seed or the public score of
+   upload 3 decides; then the stopped bootstrap on top of whichever wins.
 2. Finish the integer-madd engine (2 GRU256 students within 52 min; pair worth +0.0004 on holdout).
 3. Stopped-bootstrap result decides whether target design keeps paying.
 4. Teacher-ensemble follow-ups (cheap, same recipe): add the alpha-0.7 seed-4 student and the TE07 student itself as

@@ -20,7 +20,9 @@ Why upload both: 1 tests the alpha change on the leaderboard; 2 measures seed sp
 2-student ensemble is worth +0.0004 on the holdout but costs ~71 min — over budget until the integer engine lands).
 Copies with priority prefixes: `submissions/upload_2026-10-02b/` (SHA256SUMS inside).
 
-## Pending (being trained/packaged automatically after 10:10)
-`submissions/c20261002_TE07s3_i16/submission.zip` — teacher-ensemble student (H-060, confirmed on folds 0 and 1:
-+0.0011 over the alpha-0.7 student). If `packages/after_final_te.log` shows all gates pass and TE07s3 ≥ D07s3 on the
-holdout, upload it FIRST: expected ~0.6650 (80% ~0.6639–0.6661), P(≥ 0.666) ~0.1. Same runtime (~38 min).
+
+## Optional upload 3 (added 10:50)
+`submissions/upload_2026-10-02b/3_TE07s3_teacher_ensemble.zip` (sha256 `7d5296c1…231a`, 315 kcyc/row ≈ 39 min, all gates
+pass). Teacher-ensemble student: +0.0011 over alpha 0.7 on folds 0+1 (E-337) but −0.0008 on the holdout (E-339).
+Expected public ≈ 0.6644 (same as 1, wider spread). Upload it only after 1, as a leaderboard test of the teacher
+ensemble; if it beats 1 publicly, the next session should train more teacher-ensemble seeds.
