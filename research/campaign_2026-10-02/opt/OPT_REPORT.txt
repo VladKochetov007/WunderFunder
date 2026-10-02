@@ -1,0 +1,171 @@
+OPT_REPORT 2026-10-02 -- optimization dynamics of the GRU/LSTM recipe (optimization researcher)
+Units: WP = pooled |y|-weighted Pearson; "1e-4" = public-WP units of the bandit. Local diffs < 0.001 are noise.
+Files (research/campaign_2026-10-02/opt/): learning_dynamics.py -> dynamics.json + opt_loss_vs_step.png,
+opt_epoch_curves.png, opt_long12_memorization.png, opt_schedule_gains.png; epoch_curve.py; opt_smoke_400.png;
+diag/ (GPU job c20261002_optdiag, 696 s: epoch_curves.json, parity.json, smoke.json, smoke_losses.npz, *.log);
+train_rnn_optim.diff. Code: src/wnn/optim.py, tests/test_optim.py (13 pass on CPU); jobs/opt_diag.sh.
+
+0. RECIPE AS RUN (from logs/code; corrections to the brief)
+- 373 batches x 10 TBPTT chunks = 3,730 optimizer steps/epoch, 14,920 per 4-epoch run (not 3,780).
+- OneCycle: lr 4e-5 -> 1e-3 at step 746, cosine to 4e-7; lr at epoch ends 8.9e-4, 5.4e-4, 1.6e-4, 4e-7.
+  Share of the lr integral (total step budget) per epoch: 43.7%, 36.5%, 17.1%, 2.8%.
+  OneCycle also cycles Adam beta1 (cycle_momentum default): 0.95 -> 0.85 at peak lr -> 0.95 at the end.
+- Fused AdamW, wd 0.01 on every tensor incl. biases and W_hh; global grad-norm clip 1.0; AMP fp16 + GradScaler:
+  5-7 skipped steps of 14,920 in all 15 campaign runs (0.04%) -> AMP is not a factor. EMA 0.999 (horizon
+  ~1,000 steps = 0.27 epoch) is both the eval weights and the mean-teacher consistency target (weight 1.0).
+- Default PyTorch init: U(+-1/sqrt(H)) for all GRU/LSTM weights and biases -> GRU update gate z ~ 0.5 (memory
+  ~1.4 rows) for every unit; LSTM forget bias ~0 (no +1). No orthogonal W_hh, no layer norm.
+
+1. FINDINGS (our logs first)
+F1 Train loss (opt_loss_vs_step.png). Epoch-mean loss / last epoch: GRU128 teacher (8 runs) 1.27 1.044 1.012 1;
+   GRU256 a0.5 (4) 1.54 1.072 1.019 1; a0.7 (2) 1.65 1.086 1.022 1; LSTM192 a0.5 (2) 1.55 1.064 1.026 1.
+   Train loss still falls ~2% in the last epoch while valid moves +0.0005 at most (F3/F4): the tail is fitting.
+   Logged-point noise sd: teachers 0.18-0.25 (11-15% of level), students 0.04-0.06 (6%): distilled targets cut
+   per-batch loss noise ~4x. No spikes or divergence anywhere -> lr 1e-3 is not too high, nothing is unstable.
+   Epoch 0->1 boundary: loss drops 5.5% +- 1.5% (se, 11 student runs) vs ~0 inside epoch 1 (memorization of seen
+   sequences; weak, partly the epoch-0 trend).
+F2 Gradients (diag, a0.7 recipe fold 0). First 400 steps: pre-clip total norm median 2.54 (q05 0.70, q95 5.3),
+   clip 1.0 active on 87% of steps (mean factor 0.48) = clipped/normalized GD during warmup. Trained ep3 point
+   (lr 0, 100 steps): median 0.53, q95 0.86, clip active 3%. In both phases the head carries ~90% of the squared
+   gradient norm (rnn_hh 0.6%, rnn_ih 1.5-1.8%, inp 4-7%): the global clip is set by the head, the recurrent
+   matrices just follow. AMP: 1-2 non-finite steps per 400 early steps, none late.
+F3 Validation by epoch, runs that evaluated (opt_epoch_curves.png, opt_schedule_gains.png):
+   GRU128 EMA-4 since (ab62 f0/f1): ep1->2 +0.0025/+0.0027, ep2->3 +0.0011/+0.0009 (still rising).
+   GRU128 EMA-6 (ab68): ep4->5 +0.0001/+0.0002; 6 vs 4 epochs +0.0008/+0.0025 (= E-195); finals ab72 on the
+     holdout lose -0.0005/-0.0005 in the last epoch -> 5-6 EMA epochs is the GRU128 optimum.
+   GRU192 EMA-6 undistilled (ab81): peak at ep2 (0.6760), -0.0025 by ep5 while train loss falls 1.69 -> 1.55.
+   GRU128 12 epochs without EMA (ab47): valid peaks at 42% (wd .01) / 58% (wd .1) of the schedule (lr ~0.6-0.4 x
+     peak), then -0.0272 / -0.0034 as lr -> 0 (opt_long12_memorization.png).
+   Final GRU256 student a0.5 (holdout): 0.6877 0.6947 0.6967 0.6967 -> last epoch +0.00001.
+F4 Students on clean folds 0+1 (925 seqs, parent EMA snapshots ep0-3, frozen scorer; diag/epoch_curves.json):
+   GRU256 a0.5  0.6624 0.6696 0.6719 0.6723  gains +0.0072 +0.0023 +0.0004 (sd .0004)
+   GRU256 a0.7  0.6632 0.6703 0.6722 0.6728  gains +0.0072 +0.0019 +0.0006 (sd .0003)
+   LSTM192 a0.5 0.6597 0.6683 0.6704 0.6711  gains +0.0086 +0.0021 +0.0008 (sd .0003)
+   At ep3: a0.7 - a0.5 +0.0005 +-0.0007; LSTM192 - GRU256 -0.0011 +-0.0008. The students' last-epoch gain is half
+   the GRU128 teachers' (+0.0010): they sit closer to saturation in the same schedule. LSTM starts lowest
+   (-0.0027 at ep0) and is still the fastest riser at ep3 -> under-trained relative to the GRU (cf. F6/T8).
+F5 Screening cost: arm contrasts at the ep2 snapshot equal those at ep3 within 0.0001-0.0004 (a0.7-a0.5 +0.0004 vs
+   +0.0005; LSTM-a0.5 -0.0015 vs -0.0011; LSTM-a0.7 -0.0018 vs -0.0016), far below the contrast sd 0.0007.
+   Screens of same-architecture arms can stop after the ep2 snapshot: -25% GPU per pull (KG/h x1.33 for every
+   arm); slower learners (LSTM) are penalized ~0.0003 at ep2, so keep 4 epochs for architecture arms.
+F6 Where the trajectory is wasteful: the 4th epoch costs 25% of GPU time, carries 2.8% of the lr integral and buys
+   +0.0004..0.0006 (students, folds), +0.0000 (student, holdout), +0.0010 (GRU128). The low-lr tail is where models
+   that can memorize lose (GRU192, no-EMA): it is a memorization phase held flat only by EMA + distillation. The
+   optimizer is neither noise- nor instability-limited; the binding constraint is label noise vs repeated passes
+   (data doubling +0.0015/+0.0034, E-152; GRU128 epochs 4->6 +0.0016; width pays only when distillation denoises
+   labels: GRU256 student +0.0013 parent over GRU128, E-289; undistilled GRU192 -0.0041, E-262).
+F7 Optimizer smokes (opt_smoke_400.png; same seed and batches, first 400 real-schedule steps): Muon is slower during
+   warmup (+0.2 loss at step 80) and ties AdamW from step ~150 (steps 200-400: +0.0006 +- 0.0015 on 1.29).
+   Chrono init (Tmax 2000) stays +0.048 +- 0.002 worse (3.7%) and its W_hh gradient share drops 5x (0.0011 vs
+   0.0054): saturated gates (dz/db = z(1-z)) learn slowly, as the theory predicts. Default-path parity of the
+   patched train_rnn: 30 deterministic steps, losses, weights and EMA bit-identical (diag/parity.json).
+
+2. THEORY / LITERATURE, FILTERED BY OUR REGIME (data-limited, noisy labels, small RNN, no instability)
+T1 Noise regime: large-lr SGD noise regularizes and lr decay lets a net memorize noisy labels (Li, Wei, Ma 2019,
+   arXiv 1907.04595); EMA of weights needs less lr decay and resists label noise (Morales-Brotons, Vogels, Hendrikx,
+   TMLR 2024, arXiv 2411.18704). F3/F6 match both: no-EMA valid peaks at mid lr, EMA flattens the tail.
+   Implication: spend extra passes at high lr with a longer EMA and a short cooldown, not in a long low-lr tail.
+T2 Schedules: WSD with a short (1-sqrt) cooldown matches cosine at equal compute and can be continued (Hagele et al.
+   2024, arXiv 2405.18392); no free gain at 4 epochs, but the right shape for 6 epochs (OneCycle-6 would again put
+   ~25% of steps under 2% of the lr integral).
+T3 Muon (orthogonalized Nesterov momentum, K. Jordan 2024; Liu et al. 2025, arXiv 2502.16982: weight decay plus
+   update x 0.2 sqrt(max(A,B)) to match AdamW RMS; ~2x compute efficiency in compute-optimal LLM training) is
+   steepest descent under the spectral norm: for a gate block G = U S V^T the step is -lr*0.2*sqrt(H) U V^T, so
+   ||dW_hh||_2 = 3.2e-3 per step at H=256, while Adam's elementwise normalization turns a rank-1 gradient into a
+   sign matrix with spectral norm up to lr*0.2*H (16x more). Exploding gradients need ||W_hh||_2 > 1/gamma
+   (Pascanu et al. 2013), so Muon bounds the per-step change of exactly that quantity. But we have no instability
+   (F1, F2), the speedup claim is for compute-limited training (we are noise-limited) and no RNN evidence exists
+   (searched). Only an implicit-bias effect (spectrally even updates) can pay: prior 0, wide.
+T4 Lion / Adamax / Shampoo / SOAP: same compute-regime argument, faster fitting = earlier memorization here. Wait
+   for Muon's read before spending on another preconditioner.
+T5 Adam beta2 0.999 (1,000-step memory) with beta1 cycled to 0.85: fine while nothing spikes (F1/F2). Lower beta2
+   only helps against stale second moments after bursts; late clip rate 3% says bursts are rare.
+T6 Clipping (Pascanu 2013; Zhang et al. 2020, arXiv 1905.11881: clipped GD = normalized GD under (L0,L1)
+   smoothness). Ours is normalized GD in warmup (87% clipped) and a rare burst guard late (3%). Because the head
+   is 90% of the norm (F2), the clip rescales the recurrent step by a head statistic; under Adam this only matters
+   through step-to-step variation of the factor. Per-family clipping would be the principled variant; low value.
+T7 TBPTT bias (Tallec & Ollivier 2017; Aicher, Foti, Fox, UAI 2020): truncation biases toward short dependencies,
+   but gradients decay geometrically and the bias is small when the decay length << K. Ours: chunk 4000 -0.0031
+   (E-083), 1000 +0.0005, 500 +0.0006 (E-123): longer truncation never helped, more optimizer steps did.
+T8 Chrono init (Tallec & Ollivier, ICLR 2018, arXiv 1804.11188): b = log U[1, Tmax-1] spreads gate timescales
+   log-uniformly in [2, Tmax]; GRU (h' = (1-z) n + z h): z = 1 - 1/T. Half the loss is in class-3 runs of 64-1024
+   rows (E-323), but run-start information is ~0 there (corr 0.02) and since-features give elapsed time, and F7
+   shows long-timescale units slow learning. LSTM is different: default f ~ 0.5 is a known handicap (Jozefowicz,
+   Zaremba, Sutskever 2015: forget bias +1 closes the LSTM-GRU gap) and F4 shows our LSTM under-trained;
+   --chrono-tmax 8 gives b_f in [0, 1.95] (mean ~1.3) = the +1 recipe with a spread. Biases stay fp32 in the engine.
+T9 Orthogonal W_hh / layer norm: gates make orthogonal init secondary (free, bundled as chrono_orth); LN needs an
+   engine port and per-row cost -> not proposed.
+T10 EMA/SWA: E-332 soups (ep2+ep3) -0.0002: the EMA endpoint is already the best point of a OneCycle run. A longer
+   horizon (0.9995 = 2,000 steps = 0.54 epoch) only makes sense when lr stays high (WSD).
+
+3. SCALING (Q3)
+- Kaplan et al. 2020 (arXiv 2001.08361): LSTMs match transformers on early tokens but plateau after ~100 tokens of
+  context; loss exponent in params alpha_N ~ 0.076. Modern RNNs (Hawk/Griffin arXiv 2402.19427, xLSTM 2405.04517,
+  RWKV, minGRU 2410.01201) follow transformer-like power laws, all in the data-rich, compute-limited regime.
+- Data-constrained regime (Muennighoff et al. 2023, arXiv 2305.16264): up to ~4 epochs ~ fresh data, value decays
+  after, excess parameters lose value faster than excess epochs. Our noisier labels shorten this: GRU128 optimum
+  5-6 EMA epochs, GRU192 undistilled 2-3, GRU256 student +0.0005 in its 4th epoch.
+- Distillation (Busbridge et al. 2025, arXiv 2502.08606): student loss is a power law in teacher cross-entropy with a
+  capacity-gap regime; ours is weak-to-strong (0.26M teachers -> 0.98M student) and the student's gain is label
+  denoising. Width pays only under distillation: 128 -> 256 (x3.8 params) = +0.0013 parent, +0.0018..0.0034 head.
+- Prediction: ~+0.0007 local per doubling of student params (x0.8 public). GRU320 (1.51M) +0.0004 +- 0.0006;
+  GRU384 (2.2M) ~+0.0006 but over the CPU budget. Data: +0.0025 per doubling (E-152) -> all-valid (+3%) ~+0.0001.
+- CPU budget (E-336: GRU256 = 234 kcyc/row q16x, memory-bound on 2.2 MB int16 weights; 2 x GRU256 = 464 kcyc =
+  57 public min > 52-min gate => gate ~423 kcyc/row). With cost ~ weight bytes: GRU320 (~3.0 MB) ~360 kcyc fits
+  alone; LSTM192 (~1.4 MB) ~170 kcyc, so GRU256 + LSTM192 ~404 kcyc fits (fold pair GL vs single +0.0005 +-0.0005).
+  The CPU-feasible upgrades are a wider single student (<= GRU320, needs an engine timing) or a GRU256 + LSTM192 bag.
+
+4. HYPOTHESIS CARDS, ranked by KG per GPU hour (scripts/bandit.py formula, noise_sd 4; mu/sd in 1e-4 public).
+   Existing arms for scale: arch_tcn 1.93, teacher_ensemble 1.38, stopped_bootstrap 1.20, two_timescale 1.14.
+H1 NEW:muon_rnn  mu 0 sd 7 cost 2.0 h  KG/h 1.21 (1.62 with ep2-stop screens)
+   Change: --optim muon --muon-scope rnn on the GRU256 a0.5 student (d256_fold.sh + flag), folds 0/1, seed 3.
+   Mechanism: T3 (per-gate spectral steepest descent; ||dW_hh||_2 = 3.2e-3/step vs up to 0.05 for rank-1 Adam).
+   Predicted: parent 2-fold paired 0.0000 +- 0.0009. Smoke F7 passed the gate (ties AdamW after warmup).
+   Falsifier: 2-fold paired < +0.0003 -> close; >= +0.0008 with both folds > 0 -> final student.
+H2 NEW:lstm_fbias_pair  mu 1 sd 5 cost 2.0 h  KG/h 0.55
+   Change: LSTM192 student with --rnn-init chrono --chrono-tmax 8 (forget bias ~+1, input bias -b_f), folds 0/1.
+   Mechanism: T8 + F4 (LSTM -0.0027 at ep0, fastest riser at ep3, -0.0011 at ep3); GRU256+LSTM192 is the only
+   2-member bag that fits the CPU gate (sec. 3). Predicted: LSTM gap -0.0011 -> -0.0004 +- 0.0007, pair +0.0002.
+   Falsifier: LSTM ep3 parent gap to GRU256 not reduced by >= 0.0004 on 2 folds.
+H3 NEW:student_chunk1000  mu 0.5 sd 5 cost 2.4 h  KG/h 0.55
+   Change: --chunk 1000 (2x optimizer steps, same rows and epochs; inference unchanged, state streams).
+   Mechanism: T7 (truncation not binding, steps are): E-123 +0.0005 +- 0.0005 for GRU128. Predicted +0.0003 local.
+   Falsifier: 2-fold paired < +0.0003.
+H4 NEW:init_chrono  mu -1 sd 5 cost 2.0 h  KG/h 0.55
+   Change: GRU256 student --rnn-init chrono_orth with a short range (--chrono-tmax 64; Tmax 2000 failed the smoke).
+   Mechanism: T8; class-3 runs carry half the loss but are information-poor at run start (E-323).
+   Predicted -0.0001 +- 0.0007. Falsifier: smoke loss > 1.02x AdamW at steps 200-400 (run opt_diag part D
+   with --chrono-tmax 64 first, 3 GPU min) or 2-fold paired < +0.0003.
+H5 NEW:student_width320  mu 2 sd 6 cost 2.5 h (+ CPU engine timing)  KG/h 0.46
+   Change: d256_fold.sh with HIDDEN=320 (a0.5 or a0.7), folds 0/1; then q16x timing of one GRU320.
+   Mechanism: sec. 3 (distillation makes width pay; +0.0007 per params doubling). Predicted +0.0004 +- 0.0006.
+   Falsifier: 2-fold parent <= GRU256, or valid falling in epoch 3 (memorization, as GRU192), or > 423 kcyc/row.
+H6 NEW:student_wsd6_ema  mu 2.5 sd 7 cost 3.0 h  KG/h 0.46
+   Change: --epochs 6 --checkpoint-epoch 5 --sched wsd --wsd-decay 0.2 --wsd-final 0.01 --ema-decay 0.9995.
+   Mechanism: T1/T2/F6 (GRU128 4->6 epochs +0.0016 with a last-epoch gain of 0.0010; students' last-epoch gain is
+   half of that, and WSD keeps the extra steps at high lr where EMA averages). Predicted +0.0006 +- 0.0009 local.
+   Falsifier: 2-fold paired < +0.0005, or the ep4->ep5 snapshot gain < 0 (tail memorization).
+H7 NEW:clip_beta2  mu 0 sd 3 cost 2.0 h  KG/h 0.36 -- PARKED
+   Diag rule (late clip rate > 0.5 or early < 0.01) not met: 3% late, 87% early. Revisit only as per-family
+   clipping (T6) if H1 shows recurrent-step effects.
+META (not an arm): stop same-architecture screens at the ep2 snapshot (F5): every arm's cost x0.75.
+   Updates to existing arms from this work: distill_patient (8-epoch OneCycle) -> prefer H6's shape; the 4th
+   OneCycle epoch buys only +0.0005 for students. arch_lstm_student -> H2 is its cheap remaining pull.
+
+5. IMPLEMENTATION (default = current behaviour, verified bit-identical on GPU)
+- src/wnn/optim.py: MuonAdamW (one optimizer: Muon on gru.weight_ih/hh per gate block [3 GRU / 4 LSTM blocks],
+  bf16 Newton-Schulz 5 steps on CUDA, update x 0.2 sqrt(max(rows, cols)) so --lr/--wd/OneCycle incl. its beta1
+  cycling drive both; AdamW single-tensor step elsewhere, tested equal to torch AdamW under OneCycle);
+  muon_param_groups (scope rnn | hidden = + head.0.weight); wsd_lambda (warmup, constant, (1-sqrt) cooldown);
+  rnn_init_ (chrono / orth / chrono_orth from a private generator: global RNG and data order of the paired default
+  arm untouched); GradStats (pre-clip norms per family kept on device, one host copy per epoch).
+- train_rnn_optim.diff (applies to the working-tree train_rnn.py incl. the tcn edits): --optim adamw|muon,
+  --muon-scope, --beta2 0.999, --sched onecycle|wsd, --wsd-decay 0.2, --wsd-final 0.01, --rnn-init
+  default|chrono|orth|chrono_orth, --chrono-tmax 2000, --clip 1.0, --grad-stats (GRAD_STATS log line and
+  update_diagnostics). Only vars(args) gains keys. Muon arm: GradScaler syncs once per step (non-fused optimizer).
+
+6. DIAGNOSTIC RUN AND A RESOURCE INCIDENT
+- c20261002_optdiag (queue6, 15:51-16:03, 696 s): epoch curves (290 s), parity, late grad stats, three smokes.
+- My CPU re-run of epoch_curve.py (--device cpu, 15:2x-17:10) duplicated part A, held ~1.9 GB RSS in the shared
+  14 GB slice and coincided with OOM kills of GPU jobs; it was stopped at its time limit (partial, discarded).
+  Rule followed from now on: <= 1 GB RSS per command (WNN_MEM_MAX=1G), no CPU duplicates of GPU evaluations.

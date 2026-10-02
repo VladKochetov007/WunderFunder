@@ -1,5 +1,5 @@
 {
- "_doc": "Research bandit (2026-10-02). Units: expected PUBLIC Global-WP gain over the current best single model, x1e-4. mu/sd = prior/posterior belief for the arm's best achievable gain; cost_h = GPU hours to the next decision point (2-fold screen unless noted); horizon_h = GPU hours left to the deadline. Update after every pull (ledger id in 'pulls'). noise_sd = sd of one pull's measurement (2-fold screen ~4; public pull ~5 incl. seed noise).",
+ "_doc": "Research bandit (2026-10-02). Units: expected PUBLIC Global-WP gain over the current best single model, x1e-4. mu/sd = prior/posterior belief for the arm's best achievable gain; cost_h = GPU hours to the next decision point (2-fold screen unless noted); horizon_h = GPU hours left to the deadline. Update after every pull (ledger id in 'pulls'). noise_sd = sd of one pull's measurement (2-fold screen ~4; public pull ~5 incl. seed noise). 2026-10-02: same-arch screens may stop at epoch 2 (contrasts match ep3 within 0.0001-0.0004, OPT_REPORT F2) -> pulls ~25% cheaper.",
  "horizon_h": 700,
  "arms": {
   "target_stopped_bootstrap": {
@@ -139,6 +139,66 @@
    "status": "idea (lit-scout)",
    "family": "regularisation",
    "evidence": "SAM / zoneout with longer training"
+  },
+  "muon_rnn": {
+   "mu": 0,
+   "sd": 7,
+   "cost_h": 1.5,
+   "noise_sd": 4.0,
+   "pulls": [],
+   "status": "ready (optim.py + flags)",
+   "family": "optimization",
+   "evidence": "Muon per gate block on W_hh/W_ih + AdamW rest; smoke ties AdamW (+0.0006+-0.0015) (OPT_REPORT.txt)"
+  },
+  "lstm_fbias_pair": {
+   "mu": 1,
+   "sd": 5,
+   "cost_h": 1.5,
+   "noise_sd": 4.0,
+   "pulls": [],
+   "status": "ready (optim.py + flags)",
+   "family": "optimization",
+   "evidence": "LSTM forget bias / chrono tmax 8; GRU256+LSTM192 ~404 kcyc is the only 2-member bag under the gate (OPT_REPORT.txt)"
+  },
+  "student_chunk1000": {
+   "mu": 0.5,
+   "sd": 5,
+   "cost_h": 1.5,
+   "noise_sd": 4.0,
+   "pulls": [],
+   "status": "ready (optim.py + flags)",
+   "family": "optimization",
+   "evidence": "TBPTT 1000 for the student (more updates, shorter horizon) (OPT_REPORT.txt)"
+  },
+  "init_chrono": {
+   "mu": -1,
+   "sd": 5,
+   "cost_h": 1.5,
+   "noise_sd": 4.0,
+   "pulls": [],
+   "status": "ready (optim.py + flags)",
+   "family": "optimization",
+   "evidence": "chrono init tmax 64 (tmax 2000 smoke -3.7%) (OPT_REPORT.txt)"
+  },
+  "student_width320": {
+   "mu": 2,
+   "sd": 6,
+   "cost_h": 2.0,
+   "noise_sd": 4.0,
+   "pulls": [],
+   "status": "ready (optim.py + flags)",
+   "family": "optimization",
+   "evidence": "wider distilled student; width helps only when distillation denoises labels; runtime-limited (OPT_REPORT.txt)"
+  },
+  "student_wsd6_ema": {
+   "mu": 2.5,
+   "sd": 7,
+   "cost_h": 2.0,
+   "noise_sd": 4.0,
+   "pulls": [],
+   "status": "ready (optim.py + flags)",
+   "family": "optimization",
+   "evidence": "WSD schedule, 6 epochs + EMA: OneCycle 4th epoch = 25% time, 2.8% lr integral (OPT_REPORT.txt)"
   }
  }
 }

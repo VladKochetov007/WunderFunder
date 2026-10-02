@@ -1,0 +1,98 @@
+--- a/scripts/train_rnn.py
++++ b/scripts/train_rnn.py
+@@ -40,6 +40,7 @@
+     weighted_mse_loss,
+     weighted_pooled_corr_loss,
+ )
++from wnn.optim import GradStats, MuonAdamW, muon_param_groups, rnn_init_, wsd_lambda
+ from wnn.outcomes import (
+     N_CODES,
+     N_SP_AUX,
+@@ -684,6 +685,22 @@
+     ap.add_argument("--split-manifest", type=Path, default=None, help="frozen component-excluded outer-fold manifest")
+     ap.add_argument("--lr", type=float, default=1e-3)
+     ap.add_argument("--wd", type=float, default=1e-2)
++    research = ap.add_argument_group("optimizer research (src/wnn/optim.py; defaults reproduce AdamW + OneCycle)")
++    research.add_argument("--optim", choices=["adamw", "muon"], default="adamw",
++                          help="muon: orthogonalised per-gate updates on the recurrent matrices, AdamW elsewhere")
++    research.add_argument("--muon-scope", choices=["rnn", "hidden"], default="rnn",
++                          help="hidden: Muon also on head.0.weight")
++    research.add_argument("--beta2", type=float, default=0.999, help="Adam second-moment decay")
++    research.add_argument("--sched", choices=["onecycle", "wsd"], default="onecycle",
++                          help="wsd: 5%% linear warmup, constant lr, (1 - sqrt) cooldown over the last --wsd-decay")
++    research.add_argument("--wsd-decay", type=float, default=0.2, help="cooldown share of all optimizer steps")
++    research.add_argument("--wsd-final", type=float, default=0.01, help="final lr as a fraction of --lr")
++    research.add_argument("--rnn-init", choices=["default", "chrono", "orth", "chrono_orth"], default="default",
++                          help="chrono gate biases (memory timescales U[2, --chrono-tmax] rows) and/or orthogonal W_hh")
++    research.add_argument("--chrono-tmax", type=float, default=2000.0)
++    research.add_argument("--clip", type=float, default=1.0, help="global gradient-norm clip")
++    research.add_argument("--grad-stats", action="store_true",
++                          help="per-epoch pre-clip gradient-norm quantiles, clip rate and family shares")
+     ap.add_argument("--loss", choices=["corr", "wmse", "mix", "huber", "ce_joint", "mse", "gcorr", "wmse_gcorr", "gcorr_pool"],
+                     default="mix")
+     ap.add_argument("--thin-prob", type=float, default=0.0,
+@@ -1115,6 +1132,8 @@
+     if args.aux_quote > 0:
+         n_out += 2
+     model = make_model(vars(args), n_in, n_out).to(device)
++    if args.rnn_init != "default" and not args.init:
++        rnn_init_(model, args.rnn_init, args.chrono_tmax, args.seed)
+     moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
+     if args.init:
+         init_run, _, init_epoch = args.init.partition("@ep")
+@@ -1138,13 +1157,21 @@
+     for pname, prm in model.named_parameters():
+         if frozen and pname.startswith(frozen):
+             prm.requires_grad_(False)
+-    opt = torch.optim.AdamW([prm for prm in model.parameters() if prm.requires_grad], lr=args.lr, weight_decay=args.wd,
+-                            fused=bool(args.fused_adam))
+     total = len(train_loader) * math.ceil(20_000 / args.chunk) * args.epochs
+-    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=total,
+-                                                pct_start=0.05, final_div_factor=100)
++    if args.optim == "muon":
++        opt = MuonAdamW(muon_param_groups(model, args.muon_scope), lr=args.lr, betas=(0.9, args.beta2),
++                        weight_decay=args.wd)
++    else:
++        opt = torch.optim.AdamW([prm for prm in model.parameters() if prm.requires_grad], lr=args.lr,
++                                betas=(0.9, args.beta2), weight_decay=args.wd, fused=bool(args.fused_adam))
++    if args.sched == "wsd":
++        sched = torch.optim.lr_scheduler.LambdaLR(opt, wsd_lambda(total, 0.05, args.wsd_decay, args.wsd_final))
++    else:
++        sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=total,
++                                                    pct_start=0.05, final_div_factor=100)
+     amp_dtype = torch.bfloat16 if args.precision == "bf16" else torch.float16
+     scaler = torch.amp.GradScaler(enabled=args.precision == "fp16")
++    grad_stats = GradStats(model, args.clip) if args.grad_stats else None
+     swa_model = torch.optim.swa_utils.AveragedModel(model) if args.swa_frac > 0 else None
+     ema_model = None
+     if args.ema_teacher > 0 or args.eval_ema or args.td_alpha > 0:
+@@ -1415,7 +1442,9 @@
+                 timer.mark("backward")
+                 scaler.unscale_(opt)
+                 epoch_counter.observe_unscaled(scaler, opt)
+-                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
++                if grad_stats is not None:
++                    grad_stats.observe()
++                torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
+                 scaler.step(opt)
+                 scaler.update()
+                 sched.step()
+@@ -1442,6 +1471,9 @@
+                 rate = (b + 1) * args.batch / (time.time() - t0)
+                 print(f"ep {epoch} batch {b}/{len(train_loader)} loss {loss.item():.4f} "
+                       f"lr {sched.get_last_lr()[0]:.2e} seq/s {rate:.1f}", flush=True)
++        epoch_grad_stats = None if grad_stats is None else {"epoch": epoch, **grad_stats.finish()}
++        if epoch_grad_stats is not None:
++            print("GRAD_STATS", json.dumps(epoch_grad_stats), flush=True)
+         if args.profile_steps:
+             med = timer.report(args.profile_warmup, args.batch)
+             print("PROFILE", json.dumps({k: round(v, 2) for k, v in med.items()}), flush=True)
+@@ -1455,6 +1487,8 @@
+         update_counts = epoch_counter.finish(cumulative_updates)
+         update_counts["sample_order_identity"] = epoch_order_identity
+         update_counts["normalization_identity"] = provenance["normalization_identity"]
++        if epoch_grad_stats is not None:
++            update_counts["grad_stats"] = epoch_grad_stats
+         provenance["update_diagnostics"].append({"epoch_index": epoch, **update_counts})
+         provenance["cumulative_updates"] = cumulative_updates.copy()
+         train_seconds = round(time.time() - t0, 1)

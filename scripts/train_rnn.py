@@ -35,11 +35,13 @@ from wnn.nn import (
     PooledCorrMemory,
     RNNModel,
     TCNModel,
+    TwoClockModel,
     weighted_corr_loss,
     weighted_huber_loss,
     weighted_mse_loss,
     weighted_pooled_corr_loss,
 )
+from wnn.optim import GradStats, MuonAdamW, muon_param_groups, rnn_init_, wsd_lambda
 from wnn.outcomes import (
     N_CODES,
     N_SP_AUX,
@@ -485,6 +487,16 @@ def make_model(args_dict, n_in, n_out):
             if not any(name.startswith(prefix) for name, _ in model.named_parameters()):
                 raise ValueError(f"unknown tcn freeze prefix {prefix!r}; trunk is inp,tcn")
         return model
+    if args_dict.get("arch") == "twoclock":
+        if args_dict["dropout"] != 0 or args_dict.get("enc", "linear") != "linear":
+            raise ValueError("twoclock requires dropout0, enc linear")
+        model = TwoClockModel(n_in, args_dict["hidden"], args_dict["layers"], args_dict["event_hidden"], n_out=n_out)
+        frozen = tuple(filter(None, args_dict.get("freeze", "").split(",")))
+        loose = [name for name, _ in model.named_parameters()
+                 if frozen and not name.startswith(frozen) and not name.startswith("head.")]
+        if loose:  # head-only FT must not leave part of the trunk trainable (the dual-clock event GRU confound)
+            raise ValueError(f"twoclock --freeze must cover the whole trunk (inp,gru); trainable: {loose}")
+        return model
     if args_dict.get("arch") == "gated":
         return GatedRNNModel(
             n_in, args_dict["hidden"], args_dict["layers"], args_dict["dropout"], n_out=n_out
@@ -678,12 +690,30 @@ def main():
     ap.add_argument("--chunk", type=int, default=2000)
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--epochs", type=int, default=2)
+    ap.add_argument("--stop-after-epoch", type=int, default=None,
+                    help="end training after this epoch while the lr schedule still spans --epochs (cheap screens)")
     ap.add_argument("--checkpoint-policy", choices=["best", "fixed"], default="best")
     ap.add_argument("--checkpoint-epoch", type=int, default=None, help="zero-based fixed checkpoint epoch")
     ap.add_argument("--no-eval-during-fit", action="store_true", help="never construct or read an evaluation loader")
     ap.add_argument("--split-manifest", type=Path, default=None, help="frozen component-excluded outer-fold manifest")
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--wd", type=float, default=1e-2)
+    research = ap.add_argument_group("optimizer research (src/wnn/optim.py; defaults reproduce AdamW + OneCycle)")
+    research.add_argument("--optim", choices=["adamw", "muon"], default="adamw",
+                          help="muon: orthogonalised per-gate updates on the recurrent matrices, AdamW elsewhere")
+    research.add_argument("--muon-scope", choices=["rnn", "hidden"], default="rnn",
+                          help="hidden: Muon also on head.0.weight")
+    research.add_argument("--beta2", type=float, default=0.999, help="Adam second-moment decay")
+    research.add_argument("--sched", choices=["onecycle", "wsd"], default="onecycle",
+                          help="wsd: 5%% linear warmup, constant lr, (1 - sqrt) cooldown over the last --wsd-decay")
+    research.add_argument("--wsd-decay", type=float, default=0.2, help="cooldown share of all optimizer steps")
+    research.add_argument("--wsd-final", type=float, default=0.01, help="final lr as a fraction of --lr")
+    research.add_argument("--rnn-init", choices=["default", "chrono", "orth", "chrono_orth"], default="default",
+                          help="chrono gate biases (memory timescales U[2, --chrono-tmax] rows) and/or orthogonal W_hh")
+    research.add_argument("--chrono-tmax", type=float, default=2000.0)
+    research.add_argument("--clip", type=float, default=1.0, help="global gradient-norm clip")
+    research.add_argument("--grad-stats", action="store_true",
+                          help="per-epoch pre-clip gradient-norm quantiles, clip rate and family shares")
     ap.add_argument("--loss", choices=["corr", "wmse", "mix", "huber", "ce_joint", "mse", "gcorr", "wmse_gcorr", "gcorr_pool"],
                     default="mix")
     ap.add_argument("--thin-prob", type=float, default=0.0,
@@ -722,8 +752,10 @@ def main():
                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
-    ap.add_argument("--arch", choices=["gru", "dual", "gated", "structured", "event-content", "tcn"], default="gru",
-                    help="tcn: causal dilated conv stack, --hidden channels, --layers blocks (receptive field 2^layers)")
+    ap.add_argument("--arch", choices=["gru", "dual", "gated", "structured", "event-content", "tcn", "twoclock"],
+                    default="gru",
+                    help="tcn: causal dilated conv stack, --hidden channels, --layers blocks (receptive field 2^layers); "
+                         "twoclock: --layers x GRU(--hidden) on rows + GRU(--event-hidden) stepping on a6 endpoint rows")
     ap.add_argument("--tcn-mix", type=int, default=0, help="--arch tcn: GELU + 1x1 conv after each block's conv")
     ap.add_argument("--decay-init", choices=["multi", "single"], default="multi",
                     help="structured-state initial half-lives; identical learned bounds and phases")
@@ -1064,7 +1096,7 @@ def main():
         provenance["spread_aux"] = spread_provenance
     if args.arch == "event-content":
         provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/event_content.py")
-    if args.arch == "tcn":
+    if args.arch in ("tcn", "twoclock"):
         provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/nn.py")
     if quote_cache_provenance is not None:
         provenance["quote_cache"] = quote_cache_provenance
@@ -1115,6 +1147,8 @@ def main():
     if args.aux_quote > 0:
         n_out += 2
     model = make_model(vars(args), n_in, n_out).to(device)
+    if args.rnn_init != "default" and not args.init:
+        rnn_init_(model, args.rnn_init, args.chrono_tmax, args.seed)
     moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
     if args.init:
         init_run, _, init_epoch = args.init.partition("@ep")
@@ -1138,13 +1172,21 @@ def main():
     for pname, prm in model.named_parameters():
         if frozen and pname.startswith(frozen):
             prm.requires_grad_(False)
-    opt = torch.optim.AdamW([prm for prm in model.parameters() if prm.requires_grad], lr=args.lr, weight_decay=args.wd,
-                            fused=bool(args.fused_adam))
     total = len(train_loader) * math.ceil(20_000 / args.chunk) * args.epochs
-    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=total,
-                                                pct_start=0.05, final_div_factor=100)
+    if args.optim == "muon":
+        opt = MuonAdamW(muon_param_groups(model, args.muon_scope), lr=args.lr, betas=(0.9, args.beta2),
+                        weight_decay=args.wd)
+    else:
+        opt = torch.optim.AdamW([prm for prm in model.parameters() if prm.requires_grad], lr=args.lr,
+                                betas=(0.9, args.beta2), weight_decay=args.wd, fused=bool(args.fused_adam))
+    if args.sched == "wsd":
+        sched = torch.optim.lr_scheduler.LambdaLR(opt, wsd_lambda(total, 0.05, args.wsd_decay, args.wsd_final))
+    else:
+        sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=total,
+                                                    pct_start=0.05, final_div_factor=100)
     amp_dtype = torch.bfloat16 if args.precision == "bf16" else torch.float16
     scaler = torch.amp.GradScaler(enabled=args.precision == "fp16")
+    grad_stats = GradStats(model, args.clip) if args.grad_stats else None
     swa_model = torch.optim.swa_utils.AveragedModel(model) if args.swa_frac > 0 else None
     ema_model = None
     if args.ema_teacher > 0 or args.eval_ema or args.td_alpha > 0:
@@ -1195,6 +1237,8 @@ def main():
     cumulative_updates = {}
     provenance["update_diagnostics"] = []
     for epoch in range(args.epochs):
+        if args.stop_after_epoch is not None and epoch > args.stop_after_epoch:
+            break  # cheaper screens: the lr schedule still spans --epochs, so earlier checkpoints are unchanged
         model.train()
         epoch_counter = EpochUpdateCounter(device)
         epoch_order_identity = sample_order_identity(train_loader)
@@ -1415,7 +1459,9 @@ def main():
                 timer.mark("backward")
                 scaler.unscale_(opt)
                 epoch_counter.observe_unscaled(scaler, opt)
-                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+                if grad_stats is not None:
+                    grad_stats.observe()
+                torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
                 scaler.step(opt)
                 scaler.update()
                 sched.step()
@@ -1442,6 +1488,9 @@ def main():
                 rate = (b + 1) * args.batch / (time.time() - t0)
                 print(f"ep {epoch} batch {b}/{len(train_loader)} loss {loss.item():.4f} "
                       f"lr {sched.get_last_lr()[0]:.2e} seq/s {rate:.1f}", flush=True)
+        epoch_grad_stats = None if grad_stats is None else {"epoch": epoch, **grad_stats.finish()}
+        if epoch_grad_stats is not None:
+            print("GRAD_STATS", json.dumps(epoch_grad_stats), flush=True)
         if args.profile_steps:
             med = timer.report(args.profile_warmup, args.batch)
             print("PROFILE", json.dumps({k: round(v, 2) for k, v in med.items()}), flush=True)
@@ -1455,6 +1504,8 @@ def main():
         update_counts = epoch_counter.finish(cumulative_updates)
         update_counts["sample_order_identity"] = epoch_order_identity
         update_counts["normalization_identity"] = provenance["normalization_identity"]
+        if epoch_grad_stats is not None:
+            update_counts["grad_stats"] = epoch_grad_stats
         provenance["update_diagnostics"].append({"epoch_index": epoch, **update_counts})
         provenance["cumulative_updates"] = cumulative_updates.copy()
         train_seconds = round(time.time() - t0, 1)
