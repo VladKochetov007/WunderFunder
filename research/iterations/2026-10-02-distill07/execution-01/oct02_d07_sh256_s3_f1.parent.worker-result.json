@@ -1,0 +1,88 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_d07_sh256_s3_f1",
+  "stage": "parent",
+  "allocation_sha256": "b5e527147ef3d38704c2c46387d91e4108a9c4984478f5d6ad2067e7ba0acf65",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-01-overnight/training/train_aux.py",
+    "--name",
+    "oct02_d07_sh256_s3_f1",
+    "--full-valid",
+    "--layers",
+    "1",
+    "--epochs",
+    "4",
+    "--loss",
+    "wmse",
+    "--distill",
+    "h256_f1,h256s4_f1",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "train+valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "1",
+    "--ema-teacher",
+    "1.0",
+    "--eval-ema",
+    "--propensity",
+    "prop_f1",
+    "--prop-power",
+    "2.0",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--seed",
+    "3",
+    "--since-weight",
+    "32.0",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache",
+    "--distill-alpha",
+    "0.7"
+  ],
+  "started_utc": "2026-10-02T00:30:28.439657+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_d07_sh256_s3_f1/model_ep0.pt": {
+      "bytes": 2353827,
+      "sha256": "fd4d877bc0e8fe6d0c79d6f7a038d8623e7f6a36bf483330027748e40eff8490"
+    },
+    "artifacts/runs/oct02_d07_sh256_s3_f1/model_ep1.pt": {
+      "bytes": 2353827,
+      "sha256": "05a45992732d1ecbb1ca0c3a284b1f14ccbb5725a2b47652a4251161f1c68bbd"
+    },
+    "artifacts/runs/oct02_d07_sh256_s3_f1/model_ep2.pt": {
+      "bytes": 2353827,
+      "sha256": "a8a7aee8e2fa3452ec722553d0d050a32894a0da89bef3c9378ae41fd940cbed"
+    },
+    "artifacts/runs/oct02_d07_sh256_s3_f1/model_ep3.pt": {
+      "bytes": 2353827,
+      "sha256": "2f465905ef350afde4b898b15fbeb05c69f6137f085bd5a15ac92e015c8e9279"
+    },
+    "artifacts/runs/oct02_d07_sh256_s3_f1/model.pt": {
+      "bytes": 2353115,
+      "sha256": "e1e418f66cf9ac679fac9b614f290fd1c7b4ff8e043554a98e2ff9c42bd03d86"
+    },
+    "artifacts/runs/oct02_d07_sh256_s3_f1/history.json": {
+      "bytes": 670,
+      "sha256": "8bb2d6ead133be5dbdef68134e0dc17b4fcdc1da8cad08e42c25119356df4359"
+    },
+    "research/iterations/2026-10-02-distill07/execution-01/oct02_d07_sh256_s3_f1.check.json": {
+      "bytes": 1836,
+      "sha256": "4011ec350fb835ce34e3473ca4fec3f14bf87f128344c64ce1a5020397e87eb6"
+    }
+  },
+  "seconds": 1451.9549450632185,
+  "finished_utc": "2026-10-02T00:54:40.394621+00:00"
+}

@@ -1,0 +1,123 @@
+{
+  "status": "PASS_SOURCE_ARGUMENT_PROOF_ONLY",
+  "method": "AST-extracted argparse declarations only. No trainer import, Torch, arrays, checkpoint reads, fits, OOF or metrics.",
+  "trainer_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f",
+  "reference_sha256": "a18a07564cbe9b68a6c0b99153d7861d181636757bd599d1b86b153384eee847",
+  "commands_sha256": "2cf1ea5c28fcb2c9e48e8e19fb465aa4ffaa12bfe41ef9b5b5b37cd03e623c7a",
+  "jobs": [
+    {
+      "name": "oct02_d07_sh256_s4_f0",
+      "arguments": 103,
+      "resolved_exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s4_f0",
+          "new": "oct02_d07_sh256_s4_f0"
+        },
+        "distill_alpha": {
+          "old": 0.5,
+          "new": 0.7
+        }
+      },
+      "seed3_template_changes": {
+        "name": {
+          "seed3": "oct02_d07_sh256_s3_f0",
+          "seed4": "oct02_d07_sh256_s4_f0"
+        },
+        "seed": {
+          "seed3": 3,
+          "seed4": 4
+        }
+      }
+    },
+    {
+      "name": "oct02_d07_sh256_s4h2_f0",
+      "arguments": 103,
+      "resolved_exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s4h2_f0",
+          "new": "oct02_d07_sh256_s4h2_f0"
+        },
+        "init": {
+          "old": "cont_sh256_s4_f0@ep3",
+          "new": "oct02_d07_sh256_s4_f0@ep3"
+        }
+      },
+      "seed3_template_changes": {
+        "name": {
+          "seed3": "oct02_d07_sh256_s3h2_f0",
+          "seed4": "oct02_d07_sh256_s4h2_f0"
+        },
+        "init": {
+          "seed3": "oct02_d07_sh256_s3_f0@ep3",
+          "seed4": "oct02_d07_sh256_s4_f0@ep3"
+        },
+        "seed": {
+          "seed3": 3,
+          "seed4": 4
+        }
+      }
+    },
+    {
+      "name": "oct02_d07_sh256_s4_f1",
+      "arguments": 103,
+      "resolved_exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s4_f1",
+          "new": "oct02_d07_sh256_s4_f1"
+        },
+        "distill_alpha": {
+          "old": 0.5,
+          "new": 0.7
+        }
+      },
+      "seed3_template_changes": {
+        "name": {
+          "seed3": "oct02_d07_sh256_s3_f1",
+          "seed4": "oct02_d07_sh256_s4_f1"
+        },
+        "seed": {
+          "seed3": 3,
+          "seed4": 4
+        }
+      }
+    },
+    {
+      "name": "oct02_d07_sh256_s4h2_f1",
+      "arguments": 103,
+      "resolved_exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s4h2_f1",
+          "new": "oct02_d07_sh256_s4h2_f1"
+        },
+        "init": {
+          "old": "cont_sh256_s4_f1@ep3",
+          "new": "oct02_d07_sh256_s4_f1@ep3"
+        }
+      },
+      "seed3_template_changes": {
+        "name": {
+          "seed3": "oct02_d07_sh256_s3h2_f1",
+          "seed4": "oct02_d07_sh256_s4h2_f1"
+        },
+        "init": {
+          "seed3": "oct02_d07_sh256_s3_f1@ep3",
+          "seed4": "oct02_d07_sh256_s4_f1@ep3"
+        },
+        "seed": {
+          "seed3": 3,
+          "seed4": 4
+        }
+      }
+    }
+  ],
+  "predictor_exact_template_except_s4_guard": true,
+  "validator_byte_identical_to_template": true,
+  "runner_byte_identical_to_template": true,
+  "existing_control_inspection_all103args": true,
+  "existing_control_receipt_checkpoint_hashes_match_bindings": true,
+  "scientific_processes_started": 0
+}
