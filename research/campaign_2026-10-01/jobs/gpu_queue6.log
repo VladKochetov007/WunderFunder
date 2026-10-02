@@ -6,3 +6,34 @@
 14:01:05 done c20261002_dtcnsmoke_f0 finished 0 463
 14:01:05 launch c20261002_dlstm192_f1
 {"unit": "wnn-top1-c20261002_dlstm192_f1", "name": "c20261002_dlstm192_f1", "command": ["env", "WNN_IN_CAMPAIGN_JOB=1", "WNN_THREADS=8", "WNN_CPU_QUOTA=800%", "WNN_MEM_MAX=30G", "scripts/limited", "research/campaign_2026-10-01/jobs/dlstm_fold.sh", "1", "192", "0.5"]}
+15:05:35 done c20261002_dlstm192_f1 finished 0 3864
+15:05:35 launch c20261002_final_te07_s4
+{"unit": "wnn-top1-c20261002_final_te07_s4", "name": "c20261002_final_te07_s4", "command": ["env", "WNN_IN_CAMPAIGN_JOB=1", "WNN_THREADS=8", "WNN_CPU_QUOTA=800%", "WNN_MEM_MAX=30G", "scripts/limited", "research/campaign_2026-10-01/jobs/final_te.sh", "4", "0.7"]}
+15:06:10 done c20261002_final_te07_s4 failed -15 34
+15:06:10 launch c20261002_sbd05_f0
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/campaign_job.py", line 385, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/campaign_job.py", line 379, in main
+    launch(args)
+    ~~~~~~^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/campaign_job.py", line 288, in launch
+    raise ValueError("GPU budget exhausted")
+ValueError: GPU budget exhausted
+launch failed c20261002_sbd05_f0
+15:06:25 done c20261002_sbd05_f0 
+15:06:25 launch c20261002_sbd05_f1
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/campaign_job.py", line 385, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/campaign_job.py", line 379, in main
+    launch(args)
+    ~~~~~~^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/campaign_job.py", line 288, in launch
+    raise ValueError("GPU budget exhausted")
+ValueError: GPU budget exhausted
+launch failed c20261002_sbd05_f1
+15:06:40 done c20261002_sbd05_f1 
+queue empty
