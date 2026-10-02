@@ -1,0 +1,110 @@
+{
+ "_doc": "Research bandit (2026-10-02). Units: expected PUBLIC Global-WP gain over the current best single model, x1e-4. mu/sd = prior/posterior belief for the arm's best achievable gain; cost_h = GPU hours to the next decision point (2-fold screen unless noted); horizon_h = GPU hours left to the deadline. Update after every pull (ledger id in 'pulls'). noise_sd = sd of one pull's measurement (2-fold screen ~4; public pull ~5 incl. seed noise).",
+ "horizon_h": 700,
+ "arms": {
+  "target_stopped_bootstrap": {
+   "mu": 3,
+   "sd": 10,
+   "cost_h": 2.0,
+   "pulls": [],
+   "status": "ready (patch + jobs/sbd_fold.sh)",
+   "family": "training target",
+   "evidence": "unbiased by optional stopping; run-coherent noise 9x lower than alpha 0.7 (E-334); toy +0.0004",
+   "noise_sd": 4.0
+  },
+  "arch_lstm_student": {
+   "mu": 0,
+   "sd": 8,
+   "cost_h": 2.0,
+   "pulls": [],
+   "status": "running fold 0/1",
+   "family": "architecture",
+   "evidence": "plain LSTM -0.0013..-0.0035 vs GRU (E-081, E-168); distilled + bag-diversity untested",
+   "noise_sd": 4.0
+  },
+  "arch_tcn_student": {
+   "mu": -2,
+   "sd": 15,
+   "cost_h": 2.5,
+   "pulls": [],
+   "status": "building (tcn-builder)",
+   "family": "architecture",
+   "evidence": "never tested; L2-resident weights could make wider/extra members cheap",
+   "noise_sd": 4.0
+  },
+  "arch_two_timescale_state": {
+   "mu": 0,
+   "sd": 12,
+   "cost_h": 4.0,
+   "pulls": [],
+   "status": "idea",
+   "family": "architecture",
+   "evidence": "half the loss in class-3 long quiet runs (E-323); dual-clock rejected but confounded (freeze bug per audit)",
+   "noise_sd": 4.0
+  },
+  "teacher_ensemble": {
+   "mu": 1,
+   "sd": 6,
+   "cost_h": 1.0,
+   "pulls": [
+    "E-330",
+    "E-337",
+    "E-339"
+   ],
+   "status": "conflicting",
+   "family": "distillation",
+   "evidence": "folds +0.0011 (2/2), final holdout -0.0008",
+   "noise_sd": 5.0
+  },
+  "distill_alpha": {
+   "mu": -2,
+   "sd": 3,
+   "cost_h": 2.0,
+   "pulls": [
+    "E-320",
+    "E-328",
+    "E-329",
+    "E-340"
+   ],
+   "status": "exhausted",
+   "family": "distillation",
+   "evidence": "public 0.7 vs 0.5: -0.0004",
+   "noise_sd": 4.0
+  },
+  "data_all_valid": {
+   "mu": 3,
+   "sd": 5,
+   "cost_h": 1.0,
+   "pulls": [],
+   "status": "needs a public pull (no local holdout left)",
+   "family": "data",
+   "evidence": "teammate: valid weight 1x vs 0x +0.0011; holdout = 20% of valid unused by finals",
+   "noise_sd": 5.0
+  },
+  "seed_bag_engine": {
+   "mu": 4,
+   "sd": 2,
+   "cost_h": 0.0,
+   "pulls": [
+    "E-341",
+    "E-342"
+   ],
+   "status": "exploit late (CPU engine work)",
+   "family": "ensembling",
+   "evidence": "holdout pair +0.0005 over singles; runtime 439 kcyc vs gate 423",
+   "noise_sd": 3.0
+  },
+  "input_representation": {
+   "mu": 0,
+   "sd": 2,
+   "cost_h": 2.0,
+   "pulls": [
+    "E-334"
+   ],
+   "status": "exhausted",
+   "family": "features",
+   "evidence": "DTW, i1 lead-lag, analogs, retrieval all null",
+   "noise_sd": 4.0
+  }
+ }
+}

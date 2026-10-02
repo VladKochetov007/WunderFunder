@@ -5,6 +5,7 @@
 #   sbd_fold.sh FOLD ALPHA H        e.g. sbd_fold.sh 0 0.7 8
 # Controls on fold 0: c20261001_d256a07_s3_f0 (alpha .7, done), c20261001_d256a085_s3_f0 (alpha .85, queued).
 set -euo pipefail
+export WNN_VRAM_GB=${WNN_VRAM_GB:-4.6} PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 cd "$(dirname "$0")/../../.."
 fold=$1 a=$2 h=$3
 tag=c20261002_sbd${a/./}_h${h}_s3_f${fold}

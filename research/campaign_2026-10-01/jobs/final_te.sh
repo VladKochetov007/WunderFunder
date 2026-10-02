@@ -3,6 +3,7 @@
 # valid (holdout reserved), teachers = incumbent since parents s3+s4 + the final alpha-0.7 student, then GCLP FT.
 #   final_te.sh SEED ALPHA
 set -euo pipefail
+export WNN_VRAM_GB=${WNN_VRAM_GB:-4.6} PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 cd "$(dirname "$0")/../../.."
 seed=$1 alpha=$2 st=c20261002_final_d256a07_s3
 [[ -f cache/pred_${st}_train.npy ]] || .venv/bin/python scripts/predict_run.py "$st" train --epoch 3
