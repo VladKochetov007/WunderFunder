@@ -72,13 +72,13 @@
    "noise_sd": 4.0
   },
   "data_all_valid": {
-   "mu": 3,
-   "sd": 5,
+   "mu": 1.5,
+   "sd": 2,
    "cost_h": 1.0,
    "pulls": [],
    "status": "needs a public pull (no local holdout left)",
    "family": "data",
-   "evidence": "teammate: valid weight 1x vs 0x +0.0011; holdout = 20% of valid unused by finals",
+   "evidence": "teammate: valid weight 1x vs 0x +0.0011; holdout = 20% of valid unused by finals; lit-scout scaling law E-152 +0.0034/doubling -> ~+0.00015 for 368 seqs",
    "noise_sd": 5.0
   },
   "seed_bag_engine": {
@@ -91,7 +91,7 @@
    ],
    "status": "exploit late (CPU engine work)",
    "family": "ensembling",
-   "evidence": "holdout pair +0.0005 over singles; runtime 439 kcyc vs gate 423",
+   "evidence": "holdout pair +0.0005 over singles; runtime 439 kcyc vs gate 423; lit-scout: DeltaGRU column skipping -29% MAC at fidelity 1.000000 (bit-exact on quantized activations), low-rank layer-2 SVD r=128 fidelity 0.99968 -20% MAC",
    "noise_sd": 3.0
   },
   "input_representation": {
@@ -105,6 +105,36 @@
    "family": "features",
    "evidence": "DTW, i1 lead-lag, analogs, retrieval all null",
    "noise_sd": 4.0
+  },
+  "distill_rb_weight": {
+   "mu": 2,
+   "sd": 5,
+   "cost_h": 2.0,
+   "noise_sd": 4.0,
+   "pulls": [],
+   "status": "idea (lit-scout #2)",
+   "family": "training target",
+   "evidence": "Rao-Blackwellised KD weight: E[|y| x] head instead of realised |y|; same minimiser, lower variance, uses y=0 rows (Menon 2021); stacks with stopped bootstrap"
+  },
+  "distill_patient": {
+   "mu": 1,
+   "sd": 5,
+   "cost_h": 4.5,
+   "noise_sd": 4.0,
+   "pulls": [],
+   "status": "idea (lit-scout #5)",
+   "family": "distillation",
+   "evidence": "Beyer 2022 patient/consistent KD: 8 epochs, teacher relabels the student's exact augmented view"
+  },
+  "noise_reg_long": {
+   "mu": 1,
+   "sd": 5,
+   "cost_h": 2.0,
+   "noise_sd": 4.0,
+   "pulls": [],
+   "status": "idea (lit-scout)",
+   "family": "regularisation",
+   "evidence": "SAM / zoneout with longer training"
   }
  }
 }

@@ -1,0 +1,181 @@
+LIT SCOUT 2026-10-02 (web/literature, CPU-only, 1 core).  Units: expected PUBLIC Global-WP gain x1e-4 (bandit units).
+Read first: creative/CONTEXT.md, 10-02 REPORT.md, bandit/arms.json, research/lit/*.md (09-26 scouts; not repeated here).
+[ours] = measured in this session on the shipped student c20261001_final_d256_s3_gcorrh, 8 valid seqs (2 per class),
+scripts in the session scratchpad (delta_gru.py, lowrank.py). Everything else is literature or competition write-ups.
+
+====================================================================================================================
+(1) IDEA CARDS, ranked by expected value per cost
+====================================================================================================================
+#1 DeltaGRU inference: skip weight columns whose input/state change is below theta   [arm seed_bag_engine | mu +3 sd 2]
+  src  Neil et al. 2017 Delta Networks https://arxiv.org/abs/1612.05571 (5.7-9x fewer ops, negligible loss, speech);
+       Gao et al. EdgeDRNN https://arxiv.org/abs/1912.12193 (DeltaGRU, up to 10x fewer weight fetches, memory-bound HW);
+       PyTorch DeltaGRU https://github.com/gaochangw/DeltaRNN
+  mech Keep x_hat, h_hat and accumulators M = W x_hat. Each row: d = v - v_hat, columns with |d_j| > theta update
+       M += W[:,j] d_j and v_hat_j = v_j; others are skipped. Error stays bounded by theta (no drift).
+       Our engine is MEMORY-bound (E-336), so skipped columns = skipped weight bytes.
+  [ours] fraction of active columns (mean of 8 seqs) and worst output fidelity corr vs exact model:
+       theta  L1-in(z)  h1    h2    head-in  fidelity   est. MAC cut (of ~0.97M MAC/row)
+       1e-3   0.975    0.789 0.545 0.744    1.000000   -22%
+       3e-3   0.943    0.698 0.450 0.680    1.000000   -29%
+       1e-2   0.868    0.573 0.340 0.589    0.999993   -39%
+       3e-2   0.737    0.439 0.239 0.475    0.999916   -51%
+       Class 3 is sparser in h2 (0.27-0.30 active at 1e-2). Raw inputs: 48 of 112 change per row, a0..a7 nearly always.
+  why  Two GRU256 members cost 439-464 kcyc vs the 423 gate (-4..-9% needed). theta 3e-3 gives ~-29% MAC at fidelity 1.000000.
+       In an integer engine the rule is EXACT when applied to the quantized activations: a column is skipped iff its
+       quantized value did not change. With 7-8 bit activations (LSB ~0.008-0.016) this is about the theta=1e-2 row.
+  risk Column skipping must match the engine's madd grouping (pairs/quads of inputs): a group is skipped only if all
+       members are inactive, which lowers the cut; also branchy active lists cost cycles. Measure in Rust.
+  test Rust: column-major copy of W_hh/W_ih(l1)/head0, per-row active list, q16x path; parity + holdout pooled WP
+       for theta in {exact-quantized, 3e-3}; then 2-member timing. 0 GPU h, ~1 engine day.
+
+#2 Rao-Blackwellised distillation weight (weight the teacher term by E[|y| | x], not by realized |y|)
+                                                                                [NEW:distill_rb_weight | mu +2 sd 5]
+  src  Menon et al. 2021 A statistical perspective on distillation https://arxiv.org/abs/2005.10419 (the distilled
+       risk is unbiased with lower variance; label noise -> larger gain); Safaryan et al. NeurIPS 2023 "KD performs
+       partial variance reduction"; Das & Sanghavi ICML 2023 https://proceedings.mlr.press/v202/das23d/das23d.pdf
+  mech train_rnn.py now uses loss = sum |y| * ((1-a) y + a t - p)^2. Split it: (1-a) sum |y|(y-p)^2
+       + a sum w_hat(x) (t-p)^2 with w_hat(x) = E[|y_k| | x]. Same population minimiser
+       ((1-a) E[|y|y|x]/E[|y||x] + a t), but the teacher term loses the weight noise and also trains on y=0 rows
+       (37% of class-3 rows get zero gradient today), giving more support points for function matching.
+  why  Class-3 |y| is a 0/1-tick lottery; the weight noise is as large as the label noise the stopped bootstrap
+       attacks. Composes with that arm: bootstrap cleans the label term, RB cleans the teacher term.
+  test Add an |y| head (2 outputs, MSE on |y_clip|, detached) to the student; epoch 0 uses |y|, later epochs use the
+       EMA head output floored at 0.02 for the teacher term. 2-fold screen vs D05 recipe. 2 GPU h.
+
+#3 Low-rank (or block-pruned) layer 2 for the second bag member                    [arm seed_bag_engine | mu +2 sd 2]
+  src  Zhu & Gupta 2017 https://arxiv.org/abs/1710.01878 (large-sparse beats small-dense; stacked LSTM up to 10x
+       fewer nonzeros); Kusupati et al. FastGRNN https://arxiv.org/abs/1901.02358 (low-rank + sparse GRU cells)
+  [ours] Energy rank for 95% of each 768x256 GRU matrix: 163-172 (no sharp low-rank structure). Post-hoc SVD truncation
+       of BOTH layer-2 matrices, worst fidelity: r=64 0.99871, r=96 0.99931, r=128 0.99968, r=192 0.99991.
+       Layer 1 is more sensitive (r=96: 0.99780). r=96 on layer 2 cuts 2 x 197k -> 2 x 98k MAC (about -20% per row).
+  why  Alternative/complement to #1 for fitting the +0.0004..0.0005 pair; a short KD fine-tune of the factors
+       (teacher = the full student) should recover fidelity >0.9999.
+  test Factorise W_ih_l1/W_hh_l1 at r=96/128, 0.3-epoch distillation fine-tune (factors only), holdout pair score.
+       0.5 GPU h + engine support for two thin GEMVs.
+
+#4 Use the 368 holdout sequences in the finals (all of valid)                       [arm data_all_valid | mu +1.5 sd 2]
+  src  E-152 [ours, earlier]: 2650/5300/10607 train seqs -> 0.6675/0.6690/0.6724, i.e. about +0.0034 per doubling;
+       Kaggle norm: final refit on all data with the CV-chosen epoch count (JS 2024 Volkova solution; Optiver 2023 top
+       teams retrained online). JS 2024 also found extra OLD data useless (only test-like data helps).
+  why  The scaling law gives log2(12480/12112) x 0.0034 = +0.00015, plus a premium because valid is test-like
+       (teammate: whole valid 1x vs 0x +0.0011, the law predicts +0.0008). The current mu +3 sd 5 looks high.
+  test No local holdout left: one public pull of the final recipe trained on everything. 1 GPU h + 1 slot.
+
+#5 Patient and consistent distillation: teachers relabel the student's exact augmented view; 2x schedule
+                                                                                 [NEW:distill_patient | mu +1 sd 5]
+  src  Beyer et al. 2022 https://arxiv.org/abs/2106.05237 (function matching: same view for teacher and student,
+       aggressive augmentation, very long schedules); Stanton et al. 2021 https://arxiv.org/abs/2106.05945 (fidelity
+       is limited by optimisation, more than by distillation data)
+  mech Run the two GRU128 teachers on the GPU inside the training step on the same thinned/cropped/noised view
+       (Sequences(thin=...) exists); targets no longer need label-preserving augmentations, which is why the
+       earlier "level aug/drop" rejection does not carry over. Epochs 4 -> 8 with OneCycle and EMA decay rescaled.
+  why  Student plateaus at epoch 2-3 (holdout 0.69669 -> 0.69670); the remaining lever is more support points.
+  test Fold 0+1: (a) 8 epochs, cached teacher; (b) 8 epochs + online-teacher thinning views. 4-5 GPU h.
+
+#6 Noise-robust regularisers that pay only with longer training: SAM, ELR/mean-teacher, zoneout
+                                                                               [NEW:noise_reg_long | mu +1 sd 5]
+  src  SAM https://arxiv.org/abs/2010.01412 and "Why is SAM robust to label noise?" https://arxiv.org/abs/2405.03676;
+       ELR https://arxiv.org/abs/2007.00151 (temporal-ensemble targets stop memorisation of noisy labels);
+       Zoneout https://arxiv.org/abs/1606.01305 (keep previous hidden values at random; better long-range gradients)
+  why  Our labels are noisy by construction (class-3 far-from-resolution rows). E-154: EMA consistency lost at 2 epochs
+       but gave +0.0037 at 4 epochs (1 fold, unconfirmed); E-153: wd 0.1 also paid only with length. Zoneout fits
+       the near-frozen latch units (opus_arch D2) and costs nothing at inference.
+  test Pair with #5's 8-epoch arm: SAM rho 0.05 (2x step cost) or zoneout p_h 0.05-0.1 on both layers. 4 GPU h each.
+
+#7 MIMO student: two independent subnetworks in one GRU256 (ensemble at ~1x latency)  [NEW:mimo_student | mu +0.5 sd 4]
+  src  Havasi et al. ICLR 2021 https://arxiv.org/abs/2010.06610 (M inputs/M heads; at test feed the same input M times)
+  mech Input = concat of two different training sequences (211 x 2), two output heads; test = same sequence twice and
+       average. Extra cost: input proj +54k MAC and one extra small head.
+  why  Width is not a lever here (h192/h384 flat), so a GRU256 has spare capacity, which is the regime where MIMO
+       subnetworks become independent. Risk: subnetworks are more correlated than seeds (ours are 0.985-0.999 already).
+  test One fold-0 run with M=2, input repetition 0.6, batch repetition 2; compare vs single and vs seed pair. 2.5 GPU h.
+
+#8 Teacher-ensemble priors from variance-reduction theory                     [arm teacher_ensemble | mu +0.5 sd 5]
+  src  Safaryan 2023, Menon 2021 (above); JS 2024 Yam reconstruction averages 17 seeds
+       https://github.com/cweill/jane-street-causal-forecasting
+  read The theory says the gain comes from lower teacher variance, which needs more SAME-quality teachers; adding a
+       student as a teacher reintroduces its own fit (gen-2 risk, Mobahi 2020 https://arxiv.org/abs/2002.05715:
+       repeated self-distillation over-regularises). Suggest: 4 GRU128 since-seeds as teachers instead of pair+student.
+
+#9 minGRU / LRU cell-diverse partner (cheap recurrence, parallel-scan training)   [NEW:arch_minrnn_student | mu -1 sd 8]
+  src  Feng et al. 2024 https://arxiv.org/abs/2410.01201 (minGRU/minLSTM, competitive; up to 1361x faster training);
+       Orvieto et al. 2023 LRU https://arxiv.org/abs/2303.06349; caveat Merrill et al. 2024 https://arxiv.org/abs/2404.08819
+       (linear/diagonal recurrences cannot do some state tracking; our GRU latches class/regime codes)
+  why  Per-step cost has no h-to-h matmul (minGRU layer = 2 d_in d MAC), and full 20k-row sequences train without TBPTT.
+       Diversity for H-064 if strength holds. Untested here (opus_arch A3 proposed it on 09-26).
+  test Distilled 3-layer minGRU-256 student, fold 0, compare residual corr with D07. 3 GPU h.
+
+#10 Architecture arm priors from the literature (no new card)
+  arch_lstm_student    mu -1 sd 6 : Jozefowicz 2015 / Chung 2014: GRU ~ LSTM; prior Wunder 11th place: LSTM failed.
+  arch_tcn_student     mu -3 sd 10: Bai 2018 https://arxiv.org/abs/1803.01271 TCN >= LSTM on generic tasks, but the prior
+                       Wunder 11th place reports TCN failed; class 3 needs ~1000 rows of context (k=2 dilated: 10 layers).
+  arch_two_timescale   mu -1 sd 8 : Phased LSTM https://arxiv.org/abs/1610.09513 and Skip-RNN https://arxiv.org/abs/1708.06834
+                       help with irregular or very long event streams; dual-clock was already rejected here.
+  target_stopped_bootstrap keep mu +3 sd 10: same Rao-Blackwell logic as #2 (TD/lambda-return style targets).
+
+====================================================================================================================
+(2) WHAT THE LITERATURE AND COMPETITIONS SAY DOES NOT WORK HERE (traps)
+====================================================================================================================
+- Online learning was the largest single lever in Jane Street 2024 (+0.008 CV R2 in the Volkova solution; reconstruction
+  of Yam: 0.0208 vs 0.0143 frozen) and in Optiver 2023, but only because the API revealed lagged labels. Here labels
+  mature late and reconstruction is useless or leaks (E-078/E-080/E-317). Test-time adaptation methods that use
+  partially observed ground truth (e.g. TAFAS https://arxiv.org/abs/2501.04970) have the same dependency. Do not port.
+- LOB transformers (TLOB https://arxiv.org/abs/2502.15757, DeepLOB-attention, LiT): results come from FI-2010 trend
+  classification. LOBCAST https://arxiv.org/abs/2308.01915 shows the top models generalise poorly to new LOBSTER data,
+  and the JS 2024 Volkova write-up also reports that MLPs, time-series transformers and cross-symbol attention did not
+  help. Per-row CPU cost kills them anyway.
+- LOB foundation models (LOBERT https://arxiv.org/abs/2511.12563, TradeFM 2026): message tokens and raw prices are
+  needed. Our features are anonymised codes, there are no usable pretrained weights, and the budget is 1 core.
+- Multi-horizon auxiliary targets: +0.001 in JS 2024 (responder shifts) and in DeepLOB-Seq2Seq, but lost here (E-251).
+- Order-flow imbalance/stationary inputs (Kolm-Turiel-Westray 2023 https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3900141)
+  is the strongest LOB-literature result, but the GRU on codes already learns it (quant features rejected).
+- Prior Wunder RNN challenge (next-state R2, 1000-row sequences) 11th place report
+  https://github.com/KlishevDA/WunderFund-RNN-Challenge-11th-Place-Solution: deeper GRU, dropout, LSTM, TCN, attention,
+  augmentation and extra statistics all failed. Gains came from the LR schedule (+0.005), tuning (+0.004), 4 heads
+  (+0.003) and a 3-model bag (+0.003). Head bags are already rejected here.
+- Repeated self-distillation (born-again generations): Mobahi 2020 shows progressive over-regularisation; this matches
+  the gen-2 rejection. Use more teachers, not more generations.
+- Weight soups need a shared pretrained init and fine-tuning (Wortsman 2022); ours fail (E-332).
+- Robust losses (Huber, GCE) fight the |y| weighting that defines the metric (E-071 Huber -0.0095).
+- Aggressive mixup to raise KD fidelity: Stanton 2021 finds the data is not the bottleneck, optimisation is.
+  Expect #5 to work through regularisation and length, not through fidelity.
+- Kaggle nearest-neighbour time-id reconstruction (Optiver RV 1st place) needs cross-sequence information at test.
+  Not available, because state resets per sequence.
+- Linear SSM/minGRU as the MAIN model: state-tracking limits (Merrill 2024). Use them only as a partner.
+- Large seed bags (JS 2024: 6-17 models) assume GPU inference. Ours scale linearly on 1 core and cap near +0.002
+  (E-166).
+
+====================================================================================================================
+(3) HYPERPARAMETER PRIORS REPORTED BY WINNERS AND PAPERS
+====================================================================================================================
+- Seed bags: JS 2024 Volkova: 3 seeds x 2 GRU variants = 6 models, LB 0.0112 vs best single 0.0105 (+7% relative).
+  Yam (reconstruction): 3 seeds in development, 17 in production. Prior Wunder 11th: 3 models on different splits.
+  Rule of thumb: gain(k) ~ G_inf (1 - 1/k); ours G_inf ~ +0.002 (E-166), so k=2 should get ~+0.001 locally and
+  ~+0.0005 on the holdout (E-341 measured +0.0005).
+- GRU training: JS 2024 Volkova: lr 5e-4, batch = 1 day, epochs = mean CV-optimal, 1-layer GRU + 2 linear layers
+  (ReLU, dropout) beat a 3-layer GRU by +0.001. Yam reconstruction: lr 5e-4, Adam betas (0.8, 0.95), 9 epochs > 7 > 5
+  (+0.0014 R2 for 9 vs 5), full-day sequences (no truncation). Prior Wunder 11th: AdamW lr 1e-3 (ep 1-3) -> 1e-4 (4-5)
+  -> 2e-5 (6-9), wd 3e-4, clip 1.0, GRU300 + last-step MLP branch.
+- Online updates (only if labels existed): lr 1e-4..3e-4, 1-3 Adam steps per day, persistent optimiser state.
+- Distillation: the optimal label/teacher mix moves toward the teacher as label noise grows (Das & Sanghavi 2023).
+  Pure teacher (alpha 1) only works with consistent views and very long schedules (Beyer 2022). For noisy regression,
+  alpha 0.5-0.7 is consistent with ours (public: 0.5 >= 0.7). The optimal mix can be estimated post hoc on a
+  calibration set (Dang-Patil-Rinaldo 2026 https://arxiv.org/abs/2607.15450), which supports two-head trunks with a
+  fitted blend over more retrains.
+- EMA: decay 0.999 at ~4k steps per epoch. When steps x k, use decay^(1/k) to keep the horizon (E-179 note).
+- TBPTT: JS winners used full-day sequences. Ours: chunk 500 vs 2000 is about +0.0006 and weak (E-123).
+  R2D2 (Kapturowski 2019) uses a burn-in of ~40 steps when chunks start from a stored state.
+- SAM: rho 0.05 default (Foret 2021), larger rho (0.1-0.2) under heavy label noise. Costs 2x per step.
+- Zoneout: the paper's best LSTM used 0.05 on hidden states and 0.5 on cells. For GRU states, start at 0.05-0.1.
+- MIMO: M=3 with batch repetition 4 on wide nets (WRN28-10/CIFAR); M=2 with input repetition rho 0.6 and batch
+  repetition 2 on lower-capacity nets (ResNet50/ImageNet). It needs width headroom.
+- Delta networks: published thresholds (0.1-0.3) come from delta-aware training on quantized speech models. For our
+  untrained student, keep theta <= 3e-3 ([ours] fidelity 1.000000), or use the exact quantized-activation rule.
+- Pruning: gradual magnitude pruning with a cubic sparsity ramp over the fine-tune (Zhu & Gupta). LSTMs keep accuracy
+  to 50-90% sparsity. On CPU only block or column structure turns sparsity into speed.
+
+Other sources consulted: Volkova JS 2024 solution https://github.com/evgeniavolkova/kagglejanestreet/blob/master/solution.md;
+Ubiquant 1st place (LGBM + TabNet, 5 folds each; MLPs unstable)
+https://www.kaggle.com/competitions/ubiquant-market-prediction/writeups/k-i-y-1st-place-solution-our-betting-strategy;
+Optiver 2023 1st place (hyd: CatBoost + GRU + Transformer, online retraining)
+https://www.kaggle.com/competitions/optiver-trading-at-the-close/discussion/487446.
