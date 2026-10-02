@@ -4,6 +4,16 @@ Updated 2 October 2026 (Moscow). This is an index to the evidence; historical re
 
 **Publication preference:** the user has paused GitHub uploads. Subsequent research is stored locally and on beleriand only until the user explicitly resumes publication. Existing archive links below are historical; do not push new progress automatically.
 
+## Live frontier, 2 October 05:18 Moscow
+
+This entry supersedes earlier live statuses. The qualified fallback remains **student_fixed4.zip**, GPU WP **0.7023796676142182**, native WP **0.702355321332776**, actual runtime **44.54 minutes**. No new package is qualified yet.
+
+**Ordinary GRU warm adaptation is the first positive candidate in this round:** fixed-quarter ensemble WP **0.7026826187701548**, delta **+0.0003029511559365927**; fold0 **+0.000147934766**, fold1 **+0.000403129242**. Conditional95% whole-chain interval **[+0.000096231484,+0.000552581870]**. It preserves the original normalization/weights, adds one EMA epoch at lr0.0005 with a new optimizer/schedule, then repeats the same own-parent twoepoch head-only adaptation. Inference architecture and ensemble weights are unchanged. This recipe does not isolate restart from extra training. See [fixed report](iterations/2026-10-02-ordinary-warm/evaluation-01/report.json) and [decision](iterations/2026-10-02-ordinary-warm/decision-01.json).
+
+The architecture comparison explains the next allocation: instantaneous interval memory scores0.702688130394, only **+0.000005511624** over ordinarywarm, with an interval spanning zero. Accumulated interval history is weaker than the equal-capacity instantaneous control by0.000017563291. Extra serving state has no demonstrated marginal utility here. Preserve the prototype and close this implementation rather than promote its mechanism.
+
+Two active children remain: a prospectively frozen **seed4 paired warm comparison against its own original seed4**, and the **detach500 versus connected2000** experiment with identical optimizer clocks. Seed4 robustness is not a fresh data holdout. Final seed3 and quarter weights remain fixed; no best-seed selection. Conditional final-data/native delivery sources are prepared but unallocated until seed4 support. [Frontier03](iterations/2026-10-02-diverse-screens/frontier-03.json) records fallback/best/experiment for each branch. All folds remain exposed; no GitHub or public submission.
+
 ## Live frontier, 2 October 04:10 Moscow
 
 This entry supersedes the older active-status paragraphs below. The user requested a bounded tree search with two or three mechanism families, each retaining a fallback, a best and an experiment. The operational fallback and best remain **student_fixed4.zip**, GPU pooled WP **0.7023796676142182**, native WP **0.702355321333**, actual full-stream runtime **44.54 minutes**. No candidate below has displaced it.

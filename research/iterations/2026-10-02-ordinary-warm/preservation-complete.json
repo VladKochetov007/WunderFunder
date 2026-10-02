@@ -1,0 +1,1187 @@
+{
+  "status": "PASS_LOCAL_SSH_LOSSLESS_PRESERVATION",
+  "allocation_sha256": "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8",
+  "terminal_results": {
+    "execution-01/result.json": {
+      "status": "COMPLETE_4_FITS_2_OOF_NO_METRICS",
+      "failure": null,
+      "allocation_sha256": "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8",
+      "runner_sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2",
+      "started_utc": "2026-10-02T01:52:05.963842+00:00",
+      "finished_utc": "2026-10-02T02:07:37.816777+00:00",
+      "seconds": 931.8529484830797,
+      "jobs": [
+        {
+          "name": "oct02_ow_s3_f0",
+          "stage": "parent",
+          "unit": "eb-bfce88cbd98a4a118e1a98291f44b088",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-bfce88cbd98a4a118e1a98291f44b088",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "1190.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-ordinary-warm/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-ordinary-warm/training-allocation.json",
+            "--allocation-sha256",
+            "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8",
+            "--worker",
+            "0"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 3298,
+          "pid": 1021790,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f0.parent.worker-result.json",
+            "sha256": "0138fe64f45cfbbbef49afb164430b93dbec32b5b7a9aa8e017f232df1fb5f5c"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 381.3956781150773
+        },
+        {
+          "name": "oct02_ow_s3h2_f0",
+          "stage": "H2",
+          "unit": "eb-cf17623fcc564905b0e2bd3fd3c6af69",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-cf17623fcc564905b0e2bd3fd3c6af69",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "890.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-ordinary-warm/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-ordinary-warm/training-allocation.json",
+            "--allocation-sha256",
+            "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8",
+            "--worker",
+            "1"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 2228,
+          "pid": 1026473,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0.H2.worker-result.json",
+            "sha256": "2d09149230ed276ad6ed99b503bb4b29cd0bd13c07e46ab947ae01dd7b15d784"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 69.31954993959516
+        },
+        {
+          "name": "oct02_ow_s3h2_f0_OOF",
+          "stage": "OOF",
+          "unit": "eb-ca9f054d6da74b7ba5ad65946eaf1e9b",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-ca9f054d6da74b7ba5ad65946eaf1e9b",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "590.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-ordinary-warm/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-ordinary-warm/training-allocation.json",
+            "--allocation-sha256",
+            "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8",
+            "--worker",
+            "2"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1338,
+          "pid": 1027284,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0_OOF.OOF.worker-result.json",
+            "sha256": "2d781ee115c418f4a24238bd4e13b9c32bf5fca4f8e9437230b0e6bf3a670bb3"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 17.28252820111811
+        },
+        {
+          "name": "oct02_ow_s3_f1",
+          "stage": "parent",
+          "unit": "eb-a2118e5548f549d6b312df58a38de6f1",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-a2118e5548f549d6b312df58a38de6f1",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "1190.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-ordinary-warm/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-ordinary-warm/training-allocation.json",
+            "--allocation-sha256",
+            "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8",
+            "--worker",
+            "3"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 3298,
+          "pid": 1027488,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f1.parent.worker-result.json",
+            "sha256": "433d82839ebab21bffc9f12e5bc25a9f2a6764df52eb809f0f69e959aa98a326"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 372.098907652311
+        },
+        {
+          "name": "oct02_ow_s3h2_f1",
+          "stage": "H2",
+          "unit": "eb-7201fb8b19c849d88e7b3a7fb8dbcf17",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-7201fb8b19c849d88e7b3a7fb8dbcf17",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "890.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-ordinary-warm/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-ordinary-warm/training-allocation.json",
+            "--allocation-sha256",
+            "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8",
+            "--worker",
+            "4"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 2228,
+          "pid": 1031732,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1.H2.worker-result.json",
+            "sha256": "2265c78571060428e9243ff7090fc17451af32fd875b37a78693fa57f1071464"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 72.33697552978992
+        },
+        {
+          "name": "oct02_ow_s3h2_f1_OOF",
+          "stage": "OOF",
+          "unit": "eb-d3b34c7de5784e20b41396579ff54aa9",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-d3b34c7de5784e20b41396579ff54aa9",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "590.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-ordinary-warm/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-ordinary-warm/training-allocation.json",
+            "--allocation-sha256",
+            "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8",
+            "--worker",
+            "5"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1342,
+          "pid": 1033407,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1_OOF.OOF.worker-result.json",
+            "sha256": "79013b7fe99061ee6563c94f0d4c2f23705f40f6c168706386e48da8fcaa098a"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 17.193705891259015
+        }
+      ],
+      "fits": 4,
+      "OOF_jobs": 2,
+      "metric_calls": 0,
+      "retries": 0
+    },
+    "finish-01/result.json": {
+      "status": "COMPLETE_FIXED_FORECAST_READOUT",
+      "evaluation_source_sha256": "0447a9f4addd274536cda5c937bbfedd3aa9719ece05eb18fb326d281f4c1157",
+      "allocation_sha256": "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8",
+      "unit": "ordinary-warm-score-2b78d9842b354aec8a89990d1edffe01",
+      "started_utc": "2026-10-02T01:52:05.892344+00:00",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "ordinary-warm-score-2b78d9842b354aec8a89990d1edffe01",
+        "-p",
+        "CPUQuota=200%",
+        "-p",
+        "MemoryMax=4294967296",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "28,29",
+        "nice",
+        "-n",
+        "10",
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "600s",
+        ".venv/bin/python",
+        "research/iterations/2026-10-02-ordinary-warm/evaluate.py",
+        "--evaluation-source-sha256",
+        "0447a9f4addd274536cda5c937bbfedd3aa9719ece05eb18fb326d281f4c1157",
+        "--output-dir",
+        "research/iterations/2026-10-02-ordinary-warm/evaluation-01"
+      ],
+      "exit_code": 0,
+      "report_sha256": "22dc927889e23b0c9203e0c9abd54a1bb240f7c66a34c8e2df9053c159c9b0cc",
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "finished_utc": "2026-10-02T02:07:55.752187+00:00"
+    }
+  },
+  "files": 83,
+  "bytes": 623376183,
+  "records": [
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/allocate.py",
+      "bytes": 6612,
+      "sha256": "899ca59bedeb38e469764a46dd293235b85e077a28da708643d3091d67c493bf",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/allocate.py",
+      "representation": "raw",
+      "local_bytes": 6612,
+      "local_sha256": "899ca59bedeb38e469764a46dd293235b85e077a28da708643d3091d67c493bf"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/argument-proof.json",
+      "bytes": 2359,
+      "sha256": "b3cb04f9acd1488e6a72d9326ca79157a87809aa28567a63d381894869165bb7",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/argument-proof.json",
+      "representation": "raw",
+      "local_bytes": 2359,
+      "local_sha256": "b3cb04f9acd1488e6a72d9326ca79157a87809aa28567a63d381894869165bb7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/build_plan.py",
+      "bytes": 4612,
+      "sha256": "514c32d63dff52d20e5b2735e1d84502aa5a1984a276aca3f5cd4e9a45592b01",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/build_plan.py",
+      "representation": "raw",
+      "local_bytes": 4612,
+      "local_sha256": "514c32d63dff52d20e5b2735e1d84502aa5a1984a276aca3f5cd4e9a45592b01"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/cache/pred_oct02_ow_s3h2_f0_valid.inputs.json",
+      "bytes": 9815,
+      "sha256": "50629a497e25ffe930808e11254d6c2542dd6b321821fdb62ec49a2ebbf2a556",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/cache/pred_oct02_ow_s3h2_f0_valid.inputs.json",
+      "representation": "raw",
+      "local_bytes": 9815,
+      "local_sha256": "50629a497e25ffe930808e11254d6c2542dd6b321821fdb62ec49a2ebbf2a556"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/cache/pred_oct02_ow_s3h2_f0_valid.npy",
+      "bytes": 299680128,
+      "sha256": "b1faeeb692c8920e64741e091e17ccf430d6e546a5eb2159be811046c376e8b1",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/cache/pred_oct02_ow_s3h2_f0_valid.npy.gz",
+      "representation": "gzip_lossless",
+      "local_bytes": 44766677,
+      "local_sha256": "7911c29e1c0fd5f501647c402fcbe0d60bb6d64d3e6a2cd0c96d39a519e9068d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/cache/pred_oct02_ow_s3h2_f1_valid.inputs.json",
+      "bytes": 9882,
+      "sha256": "2209bc7b0358969bb057f19273c805f578e9f173f18ea3a50bf5752c474c3e0f",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/cache/pred_oct02_ow_s3h2_f1_valid.inputs.json",
+      "representation": "raw",
+      "local_bytes": 9882,
+      "local_sha256": "2209bc7b0358969bb057f19273c805f578e9f173f18ea3a50bf5752c474c3e0f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/cache/pred_oct02_ow_s3h2_f1_valid.npy",
+      "bytes": 299680128,
+      "sha256": "e8739da9a8c407db4b7fd377975fe83bca8199f15edd40e85c346f7b31f47068",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/cache/pred_oct02_ow_s3h2_f1_valid.npy.gz",
+      "representation": "gzip_lossless",
+      "local_bytes": 44651107,
+      "local_sha256": "0b36d828ce026190b12d7d10949e9800eb92349a6fe526fe75c5261bc6cbe618"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/check_checkpoint.py",
+      "bytes": 4792,
+      "sha256": "d01dda941705bbd7cd7829482e82be4e69f877d87f69c1164849e8d735802a68",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/check_checkpoint.py",
+      "representation": "raw",
+      "local_bytes": 4792,
+      "local_sha256": "d01dda941705bbd7cd7829482e82be4e69f877d87f69c1164849e8d735802a68"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/check_generated.py",
+      "bytes": 2507,
+      "sha256": "6185c81149abaa584147f7f2cd346ec375858546e5f891f547594bcc3bee557d",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/check_generated.py",
+      "representation": "raw",
+      "local_bytes": 2507,
+      "local_sha256": "6185c81149abaa584147f7f2cd346ec375858546e5f891f547594bcc3bee557d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/collect_when_finished.py",
+      "bytes": 6346,
+      "sha256": "149366d9fb41a5a2ea6930372697f1023f5958718ca5f76548eec81551ce6f86",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/collect_when_finished.py",
+      "representation": "raw",
+      "local_bytes": 6346,
+      "local_sha256": "149366d9fb41a5a2ea6930372697f1023f5958718ca5f76548eec81551ce6f86"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/commands.json",
+      "bytes": 30015,
+      "sha256": "bd13fb2d96fa898fc1bfd2bf7ba1eae75c742ea805f6633e54ba6adf4dbc1494",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/commands.json",
+      "representation": "raw",
+      "local_bytes": 30015,
+      "local_sha256": "bd13fb2d96fa898fc1bfd2bf7ba1eae75c742ea805f6633e54ba6adf4dbc1494"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/decision-contract.json",
+      "bytes": 1571,
+      "sha256": "71f0120d8c7bd736093ab1f42165c9df1bf7b11c803d2a22439d5233c774e870",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/decision-contract.json",
+      "representation": "raw",
+      "local_bytes": 1571,
+      "local_sha256": "71f0120d8c7bd736093ab1f42165c9df1bf7b11c803d2a22439d5233c774e870"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/evaluate.py",
+      "bytes": 17010,
+      "sha256": "f29b97efa4e767cb85f83e9c44dcee678ed4b84e9f9e28dce18e31f22d6cf865",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/evaluate.py",
+      "representation": "raw",
+      "local_bytes": 17010,
+      "local_sha256": "f29b97efa4e767cb85f83e9c44dcee678ed4b84e9f9e28dce18e31f22d6cf865"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/evaluation-01/receipt.json",
+      "bytes": 752,
+      "sha256": "372fe7403265e5c05d12b02491bdf0ee1075d432d28bb4d8c3db230675e2b336",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/evaluation-01/receipt.json",
+      "representation": "raw",
+      "local_bytes": 752,
+      "local_sha256": "372fe7403265e5c05d12b02491bdf0ee1075d432d28bb4d8c3db230675e2b336"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/evaluation-01/report.json",
+      "bytes": 59388,
+      "sha256": "22dc927889e23b0c9203e0c9abd54a1bb240f7c66a34c8e2df9053c159c9b0cc",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/evaluation-01/report.json",
+      "representation": "raw",
+      "local_bytes": 59388,
+      "local_sha256": "22dc927889e23b0c9203e0c9abd54a1bb240f7c66a34c8e2df9053c159c9b0cc"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/evaluation-01/started.json",
+      "bytes": 16969,
+      "sha256": "dda9aacc2287f53a7ef4c515539d2fd808dacd5e8ee62bbb297cfaab1762c69a",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/evaluation-01/started.json",
+      "representation": "raw",
+      "local_bytes": 16969,
+      "local_sha256": "dda9aacc2287f53a7ef4c515539d2fd808dacd5e8ee62bbb297cfaab1762c69a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/evaluation-01/sufficient.npz",
+      "bytes": 72013,
+      "sha256": "977d25f6f0c00d3118dc81ee24a2da26a4e5304d375794e521eb3228a9b98d07",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/evaluation-01/sufficient.npz",
+      "representation": "raw",
+      "local_bytes": 72013,
+      "local_sha256": "977d25f6f0c00d3118dc81ee24a2da26a4e5304d375794e521eb3228a9b98d07"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/evaluation-source.json",
+      "bytes": 1763,
+      "sha256": "0447a9f4addd274536cda5c937bbfedd3aa9719ece05eb18fb326d281f4c1157",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/evaluation-source.json",
+      "representation": "raw",
+      "local_bytes": 1763,
+      "local_sha256": "0447a9f4addd274536cda5c937bbfedd3aa9719ece05eb18fb326d281f4c1157"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/allocation.json",
+      "bytes": 17062,
+      "sha256": "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/allocation.json",
+      "representation": "raw",
+      "local_bytes": 17062,
+      "local_sha256": "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/events.jsonl",
+      "bytes": 74086,
+      "sha256": "227470c1aa7fadb80051304f2ef592d486d98eff3ab682c494814a9514bd71c9",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/events.jsonl",
+      "representation": "raw",
+      "local_bytes": 74086,
+      "local_sha256": "227470c1aa7fadb80051304f2ef592d486d98eff3ab682c494814a9514bd71c9"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f0.check.json",
+      "bytes": 1106,
+      "sha256": "1eeb7ac23da717403c510511c8ae2b8c5b76d9a32cc2eb210610055d6babe25c",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f0.check.json",
+      "representation": "raw",
+      "local_bytes": 1106,
+      "local_sha256": "1eeb7ac23da717403c510511c8ae2b8c5b76d9a32cc2eb210610055d6babe25c"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f0.parent.log",
+      "bytes": 6690,
+      "sha256": "3813ab78173ca9073a128fc72e2526368fa0e0f77762c957b20a934a8595beac",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f0.parent.log",
+      "representation": "raw",
+      "local_bytes": 6690,
+      "local_sha256": "3813ab78173ca9073a128fc72e2526368fa0e0f77762c957b20a934a8595beac"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f0.parent.worker-result.json",
+      "bytes": 2077,
+      "sha256": "0138fe64f45cfbbbef49afb164430b93dbec32b5b7a9aa8e017f232df1fb5f5c",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f0.parent.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2077,
+      "local_sha256": "0138fe64f45cfbbbef49afb164430b93dbec32b5b7a9aa8e017f232df1fb5f5c"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f0.parent.worker-started.json",
+      "bytes": 1064,
+      "sha256": "e9e9c7ac78d1dbb273a3a47f19bc5eac7468a4f43b884043dcca91dd46c8f41c",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f0.parent.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 1064,
+      "local_sha256": "e9e9c7ac78d1dbb273a3a47f19bc5eac7468a4f43b884043dcca91dd46c8f41c"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f1.check.json",
+      "bytes": 1106,
+      "sha256": "d7ebe62d6981b8ae5980929931637e743bdabbb195b407f0b88913437f5b69bd",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f1.check.json",
+      "representation": "raw",
+      "local_bytes": 1106,
+      "local_sha256": "d7ebe62d6981b8ae5980929931637e743bdabbb195b407f0b88913437f5b69bd"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f1.parent.log",
+      "bytes": 6690,
+      "sha256": "c7a95a3388747ffee82e2adc494aab9511597c9a5dccbf51857f83361dcf8db5",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f1.parent.log",
+      "representation": "raw",
+      "local_bytes": 6690,
+      "local_sha256": "c7a95a3388747ffee82e2adc494aab9511597c9a5dccbf51857f83361dcf8db5"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f1.parent.worker-result.json",
+      "bytes": 2077,
+      "sha256": "433d82839ebab21bffc9f12e5bc25a9f2a6764df52eb809f0f69e959aa98a326",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f1.parent.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2077,
+      "local_sha256": "433d82839ebab21bffc9f12e5bc25a9f2a6764df52eb809f0f69e959aa98a326"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f1.parent.worker-started.json",
+      "bytes": 1064,
+      "sha256": "4f5fb81d6558579eb4fcbf9b77ba29747d5e514128d9621f6d13401f097ee738",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3_f1.parent.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 1064,
+      "local_sha256": "4f5fb81d6558579eb4fcbf9b77ba29747d5e514128d9621f6d13401f097ee738"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0.H2.log",
+      "bytes": 6330,
+      "sha256": "b0483cb4f736cc567cd932a402924a890b3f76ce656a7a7c5f2a71bbcc923d67",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0.H2.log",
+      "representation": "raw",
+      "local_bytes": 6330,
+      "local_sha256": "b0483cb4f736cc567cd932a402924a890b3f76ce656a7a7c5f2a71bbcc923d67"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0.H2.worker-result.json",
+      "bytes": 2040,
+      "sha256": "2d09149230ed276ad6ed99b503bb4b29cd0bd13c07e46ab947ae01dd7b15d784",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0.H2.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2040,
+      "local_sha256": "2d09149230ed276ad6ed99b503bb4b29cd0bd13c07e46ab947ae01dd7b15d784"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0.H2.worker-started.json",
+      "bytes": 850,
+      "sha256": "d2853719ecf6e4e6bbc514d57b2785f6fea51dd2f099d3ff01d9eb85b5d241ba",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0.H2.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 850,
+      "local_sha256": "d2853719ecf6e4e6bbc514d57b2785f6fea51dd2f099d3ff01d9eb85b5d241ba"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0.check.json",
+      "bytes": 1259,
+      "sha256": "e3f666d803358def86860c098995fff06a93dde5acd5ac12fdcc5c581a47a1dc",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0.check.json",
+      "representation": "raw",
+      "local_bytes": 1259,
+      "local_sha256": "e3f666d803358def86860c098995fff06a93dde5acd5ac12fdcc5c581a47a1dc"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0_OOF.OOF.log",
+      "bytes": 2011,
+      "sha256": "e2620273e0c005c29460f55762105426734e35dcc29cd1d4a988c6c0925c47c7",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0_OOF.OOF.log",
+      "representation": "raw",
+      "local_bytes": 2011,
+      "local_sha256": "e2620273e0c005c29460f55762105426734e35dcc29cd1d4a988c6c0925c47c7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0_OOF.OOF.worker-result.json",
+      "bytes": 1050,
+      "sha256": "2d781ee115c418f4a24238bd4e13b9c32bf5fca4f8e9437230b0e6bf3a670bb3",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0_OOF.OOF.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 1050,
+      "local_sha256": "2d781ee115c418f4a24238bd4e13b9c32bf5fca4f8e9437230b0e6bf3a670bb3"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0_OOF.OOF.worker-started.json",
+      "bytes": 505,
+      "sha256": "00872f1a996e54eab07c29964f590ec2f2047a63c2083c0f33f4a2306349679a",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f0_OOF.OOF.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 505,
+      "local_sha256": "00872f1a996e54eab07c29964f590ec2f2047a63c2083c0f33f4a2306349679a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1.H2.log",
+      "bytes": 6330,
+      "sha256": "d0cd2af81c80427eab19e9fe0c129724b6ead7b8795dadb5abe0820a38f0ea88",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1.H2.log",
+      "representation": "raw",
+      "local_bytes": 6330,
+      "local_sha256": "d0cd2af81c80427eab19e9fe0c129724b6ead7b8795dadb5abe0820a38f0ea88"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1.H2.worker-result.json",
+      "bytes": 2040,
+      "sha256": "2265c78571060428e9243ff7090fc17451af32fd875b37a78693fa57f1071464",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1.H2.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2040,
+      "local_sha256": "2265c78571060428e9243ff7090fc17451af32fd875b37a78693fa57f1071464"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1.H2.worker-started.json",
+      "bytes": 850,
+      "sha256": "398f727b0fc288bddc5d4b432ec445470aab6155c73384133a7ebacd9f0f8578",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1.H2.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 850,
+      "local_sha256": "398f727b0fc288bddc5d4b432ec445470aab6155c73384133a7ebacd9f0f8578"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1.check.json",
+      "bytes": 1259,
+      "sha256": "f8d137c171f8467bf5d82917231ef7365946c70bf076e8d754a6babd8610fc90",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1.check.json",
+      "representation": "raw",
+      "local_bytes": 1259,
+      "local_sha256": "f8d137c171f8467bf5d82917231ef7365946c70bf076e8d754a6babd8610fc90"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1_OOF.OOF.log",
+      "bytes": 2010,
+      "sha256": "9df92d87a499cf9b5546c952dc611f13ad51a76baa9a3a9b768a51df96b36523",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1_OOF.OOF.log",
+      "representation": "raw",
+      "local_bytes": 2010,
+      "local_sha256": "9df92d87a499cf9b5546c952dc611f13ad51a76baa9a3a9b768a51df96b36523"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1_OOF.OOF.worker-result.json",
+      "bytes": 1050,
+      "sha256": "79013b7fe99061ee6563c94f0d4c2f23705f40f6c168706386e48da8fcaa098a",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1_OOF.OOF.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 1050,
+      "local_sha256": "79013b7fe99061ee6563c94f0d4c2f23705f40f6c168706386e48da8fcaa098a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1_OOF.OOF.worker-started.json",
+      "bytes": 505,
+      "sha256": "e34feb06254d78fb25260efad4c9cfa7bfd402a8904a4059449c64269dc8324f",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1_OOF.OOF.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 505,
+      "local_sha256": "e34feb06254d78fb25260efad4c9cfa7bfd402a8904a4059449c64269dc8324f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/execution-01/result.json",
+      "bytes": 11030,
+      "sha256": "1229ea78d74d0b61e8e560490249a90459c0d04952f8ef42ec690c7f741c2629",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/execution-01/result.json",
+      "representation": "raw",
+      "local_bytes": 11030,
+      "local_sha256": "1229ea78d74d0b61e8e560490249a90459c0d04952f8ef42ec690c7f741c2629"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/finish-01/evaluate.log",
+      "bytes": 14566,
+      "sha256": "c5a79a35a7697b0102babcc27884b01b16339a040da572a8810dbc5e473ff3c2",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/finish-01/evaluate.log",
+      "representation": "raw",
+      "local_bytes": 14566,
+      "local_sha256": "c5a79a35a7697b0102babcc27884b01b16339a040da572a8810dbc5e473ff3c2"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/finish-01/result.json",
+      "bytes": 1335,
+      "sha256": "30b1973c443c883c6f68264819900266f6de5dbafeb8b1339c14e7d476c0c1b5",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/finish-01/result.json",
+      "representation": "raw",
+      "local_bytes": 1335,
+      "local_sha256": "30b1973c443c883c6f68264819900266f6de5dbafeb8b1339c14e7d476c0c1b5"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/finish-01/started.json",
+      "bytes": 353,
+      "sha256": "cd2049872be20142dc0b887e3e35bf7ecd71416a85c705c54cd7c599aceea026",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/finish-01/started.json",
+      "representation": "raw",
+      "local_bytes": 353,
+      "local_sha256": "cd2049872be20142dc0b887e3e35bf7ecd71416a85c705c54cd7c599aceea026"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/finish-launch.json",
+      "bytes": 349,
+      "sha256": "02c32d75e703355d3f73ed3bc2c5f745595c73bad2f4b816bfd7d00c54296a20",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/finish-launch.json",
+      "representation": "raw",
+      "local_bytes": 349,
+      "local_sha256": "02c32d75e703355d3f73ed3bc2c5f745595c73bad2f4b816bfd7d00c54296a20"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/finish.log",
+      "bytes": 1175,
+      "sha256": "c8e2ae800bd8df2f537a7e4dc988f581dacc0a6c9af51e9472370f2bc8b2b87a",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/finish.log",
+      "representation": "raw",
+      "local_bytes": 1175,
+      "local_sha256": "c8e2ae800bd8df2f537a7e4dc988f581dacc0a6c9af51e9472370f2bc8b2b87a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/finish.py",
+      "bytes": 3046,
+      "sha256": "bf382b9a135f97f2bd183708cfc63c6653d19e2527fc989a5b3fb35237ac6b83",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/finish.py",
+      "representation": "raw",
+      "local_bytes": 3046,
+      "local_sha256": "bf382b9a135f97f2bd183708cfc63c6653d19e2527fc989a5b3fb35237ac6b83"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/freeze_evaluation.py",
+      "bytes": 2328,
+      "sha256": "34a0ec8a34b49aa209c0fd49db2937c7fa449dba453d9bd8cc2ca3b64e55de8e",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/freeze_evaluation.py",
+      "representation": "raw",
+      "local_bytes": 2328,
+      "local_sha256": "34a0ec8a34b49aa209c0fd49db2937c7fa449dba453d9bd8cc2ca3b64e55de8e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/generated-01.json",
+      "bytes": 715,
+      "sha256": "2430c3d3b93a149145745265dc8f38ef4a7e1944b8106948678276c169ffbb7d",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/generated-01.json",
+      "representation": "raw",
+      "local_bytes": 715,
+      "local_sha256": "2430c3d3b93a149145745265dc8f38ef4a7e1944b8106948678276c169ffbb7d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/generated-allocation.json",
+      "bytes": 474,
+      "sha256": "508accff2201f4def52406282edcf527486fffcb2afb5257a6a65253d3f9e8b8",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/generated-allocation.json",
+      "representation": "raw",
+      "local_bytes": 474,
+      "local_sha256": "508accff2201f4def52406282edcf527486fffcb2afb5257a6a65253d3f9e8b8"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/generated-execution.json",
+      "bytes": 1067,
+      "sha256": "89868f69a6b7efb4cbec7c0a7718ebec493671471251e736fb023265cdff5491",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/generated-execution.json",
+      "representation": "raw",
+      "local_bytes": 1067,
+      "local_sha256": "89868f69a6b7efb4cbec7c0a7718ebec493671471251e736fb023265cdff5491"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/launch.json",
+      "bytes": 448,
+      "sha256": "7244fbdaac617c1e2552ee8efc2429c8657f6326fe3c8e19cffe12239d4dd5f4",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/launch.json",
+      "representation": "raw",
+      "local_bytes": 448,
+      "local_sha256": "7244fbdaac617c1e2552ee8efc2429c8657f6326fe3c8e19cffe12239d4dd5f4"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/launch.py",
+      "bytes": 1144,
+      "sha256": "9be4763d4b999ff6047b7943a20153e0b9ed061e58b46dd138b1640a4a5f9e87",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/launch.py",
+      "representation": "raw",
+      "local_bytes": 1144,
+      "local_sha256": "9be4763d4b999ff6047b7943a20153e0b9ed061e58b46dd138b1640a4a5f9e87"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/launch_collector.py",
+      "bytes": 1189,
+      "sha256": "7cb60a62731404863246c282ca0546c77fdfa5d672767982bead4b91089fba47",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/launch_collector.py",
+      "representation": "raw",
+      "local_bytes": 1189,
+      "local_sha256": "7cb60a62731404863246c282ca0546c77fdfa5d672767982bead4b91089fba47"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/launch_finish.py",
+      "bytes": 1051,
+      "sha256": "3cd443d91b614b8deb0839d641d283cfc9d78c89393aa98b146f9fc25506b03b",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/launch_finish.py",
+      "representation": "raw",
+      "local_bytes": 1051,
+      "local_sha256": "3cd443d91b614b8deb0839d641d283cfc9d78c89393aa98b146f9fc25506b03b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/plain-parent-bindings.json",
+      "bytes": 1046,
+      "sha256": "861c998829d20a8ee77fd5bad94d8dd50354cb3e99aad4711cc7b7145622f767",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/plain-parent-bindings.json",
+      "representation": "raw",
+      "local_bytes": 1046,
+      "local_sha256": "861c998829d20a8ee77fd5bad94d8dd50354cb3e99aad4711cc7b7145622f767"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/predict_fixed.py",
+      "bytes": 4604,
+      "sha256": "153ef648b2d10a0ef92b2304e2d7004a1cc7e2d0f3c9f0712f4a572554635d1f",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/predict_fixed.py",
+      "representation": "raw",
+      "local_bytes": 4604,
+      "local_sha256": "153ef648b2d10a0ef92b2304e2d7004a1cc7e2d0f3c9f0712f4a572554635d1f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/protocol.md",
+      "bytes": 2561,
+      "sha256": "5d1fad33499c140b9caca13a78bbf192d081c24449ba2a385cd61b34ef26a506",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/protocol.md",
+      "representation": "raw",
+      "local_bytes": 2561,
+      "local_sha256": "5d1fad33499c140b9caca13a78bbf192d081c24449ba2a385cd61b34ef26a506"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/queue.log",
+      "bytes": 8264,
+      "sha256": "24a95cdfa658ce985fa4401e88a3de1e445606a99300421aeb37874bd6a8fc2e",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/queue.log",
+      "representation": "raw",
+      "local_bytes": 8264,
+      "local_sha256": "24a95cdfa658ce985fa4401e88a3de1e445606a99300421aeb37874bd6a8fc2e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/run_generated_once.py",
+      "bytes": 2226,
+      "sha256": "29a64fd289e308353420cab1609a4302caff130bf8e5de2fccab7da47fbdbd08",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/run_generated_once.py",
+      "representation": "raw",
+      "local_bytes": 2226,
+      "local_sha256": "29a64fd289e308353420cab1609a4302caff130bf8e5de2fccab7da47fbdbd08"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/run_queue.py",
+      "bytes": 8440,
+      "sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/run_queue.py",
+      "representation": "raw",
+      "local_bytes": 8440,
+      "local_sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/train_warm.py",
+      "bytes": 5345,
+      "sha256": "f351139fa40b4a65cc834ba7373d82c32ce653e1d98436953929f711155a321e",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/train_warm.py",
+      "representation": "raw",
+      "local_bytes": 5345,
+      "local_sha256": "f351139fa40b4a65cc834ba7373d82c32ce653e1d98436953929f711155a321e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm/training-allocation.json",
+      "bytes": 17062,
+      "sha256": "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm/training-allocation.json",
+      "representation": "raw",
+      "local_bytes": 17062,
+      "local_sha256": "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3_f0/history.json",
+      "bytes": 169,
+      "sha256": "9620f1f3ca51a66b7256cf4f6c97de32c37316c020d0f2a80aced6a241567164",
+      "local_path": "artifacts/runs/oct02_ow_s3_f0/history.json",
+      "representation": "raw",
+      "local_bytes": 169,
+      "local_sha256": "9620f1f3ca51a66b7256cf4f6c97de32c37316c020d0f2a80aced6a241567164"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3_f0/initial-state.json",
+      "bytes": 1393,
+      "sha256": "75821be6271a948cbe284e7b3fa1958aa5677097a1da2d60160e7bcfe535b1a2",
+      "local_path": "artifacts/runs/oct02_ow_s3_f0/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1393,
+      "local_sha256": "75821be6271a948cbe284e7b3fa1958aa5677097a1da2d60160e7bcfe535b1a2"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3_f0/model.pt",
+      "bytes": 2353179,
+      "sha256": "d908d77c1de8401ff5ca02be06c73e3edc8c1df36f93075e03988f5007435151",
+      "local_path": "artifacts/runs/oct02_ow_s3_f0/model.pt",
+      "representation": "raw",
+      "local_bytes": 2353179,
+      "local_sha256": "d908d77c1de8401ff5ca02be06c73e3edc8c1df36f93075e03988f5007435151"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3_f0/model_ep0.pt",
+      "bytes": 2353827,
+      "sha256": "3a7763bbb3b620704925723369686ca1648b39890fc48d6c445d37014b3fe1ab",
+      "local_path": "artifacts/runs/oct02_ow_s3_f0/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2353827,
+      "local_sha256": "3a7763bbb3b620704925723369686ca1648b39890fc48d6c445d37014b3fe1ab"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3h2_f0/history.json",
+      "bytes": 336,
+      "sha256": "d1871c3389556912b5be35a046700b273f16be7fc2ded26266dda2c68c683fa1",
+      "local_path": "artifacts/runs/oct02_ow_s3h2_f0/history.json",
+      "representation": "raw",
+      "local_bytes": 336,
+      "local_sha256": "d1871c3389556912b5be35a046700b273f16be7fc2ded26266dda2c68c683fa1"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3h2_f0/initial-state.json",
+      "bytes": 1263,
+      "sha256": "bb9f061412faf4a33b2f2fadd86e0cc0e99de455dfb18b9ce116b152bc5402a0",
+      "local_path": "artifacts/runs/oct02_ow_s3h2_f0/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1263,
+      "local_sha256": "bb9f061412faf4a33b2f2fadd86e0cc0e99de455dfb18b9ce116b152bc5402a0"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3h2_f0/model.pt",
+      "bytes": 2352747,
+      "sha256": "5ceed18ca859abb3e28b17c05876a809dccdd0b83cc552885c08af144c5f1685",
+      "local_path": "artifacts/runs/oct02_ow_s3h2_f0/model.pt",
+      "representation": "raw",
+      "local_bytes": 2352747,
+      "local_sha256": "5ceed18ca859abb3e28b17c05876a809dccdd0b83cc552885c08af144c5f1685"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3h2_f0/model_ep0.pt",
+      "bytes": 2353191,
+      "sha256": "7f093fc38e2fbddacb4ed8e77db1d58d2bf2cc011c4e650c48d3e06a72c626d3",
+      "local_path": "artifacts/runs/oct02_ow_s3h2_f0/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2353191,
+      "local_sha256": "7f093fc38e2fbddacb4ed8e77db1d58d2bf2cc011c4e650c48d3e06a72c626d3"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3h2_f0/model_ep1.pt",
+      "bytes": 2353191,
+      "sha256": "55f784c658c4dcf7614f5dfac91d0ee5dd19fdaee2414e8735c4ecb0e49ba93d",
+      "local_path": "artifacts/runs/oct02_ow_s3h2_f0/model_ep1.pt",
+      "representation": "raw",
+      "local_bytes": 2353191,
+      "local_sha256": "55f784c658c4dcf7614f5dfac91d0ee5dd19fdaee2414e8735c4ecb0e49ba93d"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3_f1/history.json",
+      "bytes": 169,
+      "sha256": "a133753462517e540f7a520afcb4dde9a8c385d84a0b135683a13916ade9ae2f",
+      "local_path": "artifacts/runs/oct02_ow_s3_f1/history.json",
+      "representation": "raw",
+      "local_bytes": 169,
+      "local_sha256": "a133753462517e540f7a520afcb4dde9a8c385d84a0b135683a13916ade9ae2f"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3_f1/initial-state.json",
+      "bytes": 1393,
+      "sha256": "4fcc487a08c4ab853e19787eaeec8e59da2661ca064e5e6db8bb504efd1ccbe8",
+      "local_path": "artifacts/runs/oct02_ow_s3_f1/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1393,
+      "local_sha256": "4fcc487a08c4ab853e19787eaeec8e59da2661ca064e5e6db8bb504efd1ccbe8"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3_f1/model.pt",
+      "bytes": 2353179,
+      "sha256": "6f89c06a0339d1a7552ab14d2279f988ccfa9863f269e35336cc81681a98b424",
+      "local_path": "artifacts/runs/oct02_ow_s3_f1/model.pt",
+      "representation": "raw",
+      "local_bytes": 2353179,
+      "local_sha256": "6f89c06a0339d1a7552ab14d2279f988ccfa9863f269e35336cc81681a98b424"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3_f1/model_ep0.pt",
+      "bytes": 2353827,
+      "sha256": "eaa10cb103eb69805c58910225282a07c4821ce7e3bcbbddff5cc7eab601bd65",
+      "local_path": "artifacts/runs/oct02_ow_s3_f1/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2353827,
+      "local_sha256": "eaa10cb103eb69805c58910225282a07c4821ce7e3bcbbddff5cc7eab601bd65"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3h2_f1/history.json",
+      "bytes": 336,
+      "sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5",
+      "local_path": "artifacts/runs/oct02_ow_s3h2_f1/history.json",
+      "representation": "raw",
+      "local_bytes": 336,
+      "local_sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3h2_f1/initial-state.json",
+      "bytes": 1263,
+      "sha256": "4bd1d762bc6c6cf12539db87c2bb233d8efcf506b31a046c6afe6d928deaae1f",
+      "local_path": "artifacts/runs/oct02_ow_s3h2_f1/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1263,
+      "local_sha256": "4bd1d762bc6c6cf12539db87c2bb233d8efcf506b31a046c6afe6d928deaae1f"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3h2_f1/model.pt",
+      "bytes": 2352747,
+      "sha256": "e1f3232320011276977f498711d8df25b998a4bde5d8f15ada743e5b2ce4063b",
+      "local_path": "artifacts/runs/oct02_ow_s3h2_f1/model.pt",
+      "representation": "raw",
+      "local_bytes": 2352747,
+      "local_sha256": "e1f3232320011276977f498711d8df25b998a4bde5d8f15ada743e5b2ce4063b"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3h2_f1/model_ep0.pt",
+      "bytes": 2353191,
+      "sha256": "0e600774d87b9fabcd03c47da4215a33a9e055f02acd1aa046c74a9f8e2544d5",
+      "local_path": "artifacts/runs/oct02_ow_s3h2_f1/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2353191,
+      "local_sha256": "0e600774d87b9fabcd03c47da4215a33a9e055f02acd1aa046c74a9f8e2544d5"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_s3h2_f1/model_ep1.pt",
+      "bytes": 2353191,
+      "sha256": "12c7f2e192de7e0ac5a8e830430217bb51f07ce2803537c86fe892a89fe4d975",
+      "local_path": "artifacts/runs/oct02_ow_s3h2_f1/model_ep1.pt",
+      "representation": "raw",
+      "local_bytes": 2353191,
+      "local_sha256": "12c7f2e192de7e0ac5a8e830430217bb51f07ce2803537c86fe892a89fe4d975"
+    }
+  ],
+  "created_utc": "2026-10-02T02:08:59.816924+00:00",
+  "collector_sha256": "149366d9fb41a5a2ea6930372697f1023f5958718ca5f76548eec81551ce6f86"
+}
