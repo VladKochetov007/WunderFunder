@@ -1,0 +1,536 @@
+diff --git a/native/examples/bench_engine.rs b/native/examples/bench_engine.rs
+index 932a5dc..ffcfe6e 100644
+--- a/native/examples/bench_engine.rs
++++ b/native/examples/bench_engine.rs
+@@ -306,9 +306,10 @@ fn main() {
+             for m in models.iter_mut() {
+                 m.reset();
+             }
++            let firsts: Vec<_> = models.iter().map(|m| m.first_weights()).collect();
+             for x in xs.chunks_exact(n_in) {
+-                for m in models.iter_mut() {
+-                    m.step(black_box(x), &mut out);
++                for (i, m) in models.iter_mut().enumerate() {
++                    m.step_then(black_box(x), &mut out, firsts[(i + 1) % firsts.len()]);
+                 }
+             }
+             black_box(&out);
+diff --git a/native/src/approx.rs b/native/src/approx.rs
+index fa51e1b..ffd8475 100644
+--- a/native/src/approx.rs
++++ b/native/src/approx.rs
+@@ -59,6 +59,93 @@ pub fn gelu_sigmoid(x: f32) -> f32 {
+     x * sigmoid_fast(1.702 * x)
+ }
+ 
++/// AVX2 twins of the functions above: the same IEEE operations in the same order on eight lanes
++/// (no FMA contraction), so every lane returns exactly the scalar function's bits. The loops
++/// they replace were left scalar by LLVM inside the step.
++#[cfg(target_arch = "x86_64")]
++pub mod avx2 {
++    use std::arch::x86_64::*;
++
++    #[target_feature(enable = "avx2,fma")]
++    #[inline]
++    fn exp8(x: __m256) -> __m256 {
++        const LN2: f32 = std::f32::consts::LN_2;
++        let s = _mm256_set1_ps;
++        // f32::clamp: NaN passes through (max/min return their second operand on NaN).
++        let x = _mm256_min_ps(s(40.0), _mm256_max_ps(s(-40.0), x));
++        let t = _mm256_div_ps(x, s(LN2));
++        // f32::round (half away from zero) as trunc(t + copysign(0.5 - 2^-25, t)), LLVM's own
++        // expansion of llvm.round on x86: the same value for every input.
++        let sign = _mm256_and_ps(t, s(-0.0));
++        let half = _mm256_or_ps(s(f32::from_bits(0x3eff_ffff)), sign);
++        let n = _mm256_round_ps::<{ _MM_FROUND_TO_ZERO | _MM_FROUND_NO_EXC }>(_mm256_add_ps(t, half));
++        let r = _mm256_sub_ps(x, _mm256_mul_ps(n, s(LN2)));
++        let mut p = s(1.0 / 5040.0);
++        for c in [1.0 / 720.0, 1.0 / 120.0, 1.0 / 24.0, 1.0 / 6.0, 0.5, 1.0, 1.0] {
++            p = _mm256_add_ps(s(c), _mm256_mul_ps(r, p));
++        }
++        let pow2 = _mm256_slli_epi32::<23>(_mm256_add_epi32(_mm256_cvttps_epi32(n), _mm256_set1_epi32(127)));
++        _mm256_mul_ps(p, _mm256_castsi256_ps(pow2))
++    }
++
++    #[target_feature(enable = "avx2,fma")]
++    #[inline]
++    pub fn sigmoid8(x: __m256) -> __m256 {
++        let one = _mm256_set1_ps(1.0);
++        let e = exp8(_mm256_xor_ps(x, _mm256_set1_ps(-0.0)));
++        _mm256_div_ps(one, _mm256_add_ps(one, e))
++    }
++
++    #[target_feature(enable = "avx2,fma")]
++    #[inline]
++    pub fn tanh8(x: __m256) -> __m256 {
++        let two = _mm256_set1_ps(2.0);
++        _mm256_sub_ps(_mm256_mul_ps(two, sigmoid8(_mm256_mul_ps(two, x))), _mm256_set1_ps(1.0))
++    }
++
++    #[target_feature(enable = "avx2,fma")]
++    #[inline]
++    fn erf8(x: __m256) -> __m256 {
++        let s = _mm256_set1_ps;
++        let neg = s(-0.0);
++        // signum: copysign(1, x), NaN for NaN.
++        let nan = _mm256_cmp_ps::<_CMP_UNORD_Q>(x, x);
++        let sg = _mm256_blendv_ps(_mm256_or_ps(s(1.0), _mm256_and_ps(x, neg)), s(f32::NAN), nan);
++        let a = _mm256_andnot_ps(neg, x);
++        let t = _mm256_div_ps(s(1.0), _mm256_add_ps(s(1.0), _mm256_mul_ps(s(0.327_591_1), a)));
++        let mut p = s(1.061_405_4);
++        for c in [-1.453_152_1, 1.421_413_8, -0.284_496_74, 0.254_829_6] {
++            p = _mm256_add_ps(s(c), _mm256_mul_ps(t, p));
++        }
++        let poly = _mm256_mul_ps(t, p);
++        let e = exp8(_mm256_mul_ps(_mm256_xor_ps(a, neg), a));
++        _mm256_mul_ps(sg, _mm256_sub_ps(s(1.0), _mm256_mul_ps(poly, e)))
++    }
++
++    #[target_feature(enable = "avx2,fma")]
++    #[inline]
++    pub fn gelu8(x: __m256) -> __m256 {
++        let s = _mm256_set1_ps;
++        let e = erf8(_mm256_mul_ps(x, s(std::f32::consts::FRAC_1_SQRT_2)));
++        _mm256_mul_ps(_mm256_mul_ps(s(0.5), x), _mm256_add_ps(s(1.0), e))
++    }
++
++    /// `v[i] = gelu_fast(v[i])` for every element.
++    #[target_feature(enable = "avx2,fma")]
++    #[inline]
++    pub fn gelu_slice(v: &mut [f32], ahead: &mut crate::half::Ahead) {
++        let mut chunks = v.chunks_exact_mut(8);
++        for c in &mut chunks {
++            ahead.issue(crate::half::AHEAD_LINES);
++            // SAFETY: `c` holds eight floats.
++            unsafe { _mm256_storeu_ps(c.as_mut_ptr(), gelu8(_mm256_loadu_ps(c.as_ptr()))) };
++        }
++        for x in chunks.into_remainder() {
++            *x = super::gelu_fast(*x);
++        }
++    }
++}
++
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+@@ -95,6 +182,48 @@ mod tests {
+         assert!((gelu_fast(8.0) - 8.0).abs() < 1e-5);
+     }
+ 
++    #[cfg(target_arch = "x86_64")]
++    #[test]
++    fn avx2_activations_match_scalar_bitwise() {
++        if !(std::arch::is_x86_feature_detected!("avx2") && std::arch::is_x86_feature_detected!("fma")) {
++            return;
++        }
++        use std::arch::x86_64::*;
++        let mut xs: Vec<f32> = grid().collect();
++        let mut s = 0x9e37_79b9u32;
++        for _ in 0..400_000 {
++            s ^= s << 13;
++            s ^= s >> 17;
++            s ^= s << 5;
++            let x = f32::from_bits(s);
++            if !x.is_nan() {
++                xs.push(x);
++            }
++        }
++        xs.extend([0.0, -0.0, 40.0, -40.0, 41.0, -41.0, 1e30, -1e30, f32::INFINITY, f32::NEG_INFINITY]);
++        xs.extend([f32::MIN_POSITIVE, -f32::MIN_POSITIVE, 1e-40, -1e-40, 0.5 * std::f32::consts::LN_2]);
++        while xs.len() % 8 != 0 {
++            xs.push(0.25);
++        }
++        let funcs: [(fn(f32) -> f32, unsafe fn(__m256) -> __m256); 3] =
++            [(sigmoid_fast, avx2::sigmoid8), (tanh_fast, avx2::tanh8), (gelu_fast, avx2::gelu8)];
++        for (k, (scalar, simd)) in funcs.iter().enumerate() {
++            for c in xs.chunks_exact(8) {
++                let mut out = [0.0f32; 8];
++                unsafe { _mm256_storeu_ps(out.as_mut_ptr(), simd(_mm256_loadu_ps(c.as_ptr()))) };
++                for (x, y) in c.iter().zip(out) {
++                    assert_eq!(y.to_bits(), scalar(*x).to_bits(), "f{k}({x:e})");
++                }
++            }
++        }
++        let mut v = xs.clone();
++        v.truncate(8 * 37 + 5);
++        let want: Vec<f32> = v.iter().map(|x| gelu_fast(*x)).collect();
++        let mut none = crate::half::Ahead::NONE;
++        unsafe { avx2::gelu_slice(&mut v, &mut none) };
++        assert!(v.iter().zip(&want).all(|(a, b)| a.to_bits() == b.to_bits()));
++    }
++
+     #[test]
+     fn monotone_on_grid() {
+         let xs: Vec<f32> = grid().collect();
+diff --git a/native/src/half.rs b/native/src/half.rs
+index 6066500..7d769e0 100644
+--- a/native/src/half.rs
++++ b/native/src/half.rs
+@@ -479,6 +479,104 @@ pub fn quantize(x: &[f32], bound: Option<f32>, q: &mut [i16]) -> f32 {
+     m / QX
+ }
+ 
++/// Software prefetch cursor over the weights a step reads next. Compute-bound steps
++/// (activations) pull a few lines per vector toward L2, so the memory system keeps streaming
++/// while they run instead of idling until the next matvec misses. Prefetches never fault and
++/// never change results.
++#[derive(Clone, Copy)]
++pub struct Ahead {
++    cur: *const u8,
++    end: *const u8,
++}
++
++// SAFETY: the pointers are only ever prefetched, never dereferenced.
++unsafe impl Send for Ahead {}
++unsafe impl Sync for Ahead {}
++
++/// Lines `Ahead::issue` requests per eight-lane vector of activation work.
++pub const AHEAD_LINES: usize = 2;
++
++impl Ahead {
++    pub const NONE: Ahead = Ahead {
++        cur: std::ptr::null(),
++        end: std::ptr::null(),
++    };
++
++    pub fn new(s: &[u16]) -> Self {
++        let cur = s.as_ptr() as *const u8;
++        Self {
++            cur,
++            end: cur.wrapping_add(2 * s.len()),
++        }
++    }
++
++    #[inline(always)]
++    pub fn issue(&mut self, lines: usize) {
++        #[cfg(target_arch = "x86_64")]
++        for _ in 0..lines {
++            if self.cur >= self.end {
++                return;
++            }
++            // SAFETY: prefetch is a hint; any address is allowed.
++            unsafe {
++                std::arch::x86_64::_mm_prefetch::<{ std::arch::x86_64::_MM_HINT_T1 }>(self.cur as *const i8)
++            };
++            self.cur = self.cur.wrapping_add(64);
++        }
++    }
++}
++
++/// `quantize` on eight lanes at a time, the same codes and scale bit for bit.
++///
++/// # Safety
++/// The CPU must support AVX2 and FMA.
++#[cfg(target_arch = "x86_64")]
++#[target_feature(enable = "avx2,fma")]
++#[inline]
++pub unsafe fn quantize_avx2(x: &[f32], bound: Option<f32>, q: &mut [i16]) -> f32 {
++    use std::arch::x86_64::*;
++    let main = x.len() / 16 * 16;
++    let m = match bound {
++        Some(m) => m,
++        None => unsafe {
++            // max(|v|, acc) keeps acc when |v| is NaN, like f32::max; max is exact, so the
++            // lane order does not matter.
++            let mut acc = _mm256_setzero_ps();
++            let abs = _mm256_set1_ps(-0.0);
++            for c in x[..x.len() / 8 * 8].chunks_exact(8) {
++                acc = _mm256_max_ps(_mm256_andnot_ps(abs, _mm256_loadu_ps(c.as_ptr())), acc);
++            }
++            let mut lanes = [0.0f32; 8];
++            _mm256_storeu_ps(lanes.as_mut_ptr(), acc);
++            let m = lanes.iter().fold(0.0f32, |m, v| m.max(*v));
++            x[x.len() / 8 * 8..].iter().fold(m, |m, v| m.max(v.abs()))
++        },
++    };
++    let q = &mut q[..x.len()];
++    if !(m > 0.0 && m.is_finite()) {
++        q.fill(0);
++        return 0.0;
++    }
++    let inv = QX / m;
++    unsafe {
++        let (vi, lo, hi) = (_mm256_set1_ps(inv), _mm256_set1_ps(-QX), _mm256_set1_ps(QX));
++        let code = |p: *const f32| {
++            // max(v, -QX) returns -QX for NaN like f32::max; codes stay within +-QX.
++            let v = _mm256_min_ps(_mm256_max_ps(_mm256_mul_ps(_mm256_loadu_ps(p), vi), lo), hi);
++            _mm256_cvtps_epi32(_mm256_round_ps::<{ _MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC }>(v))
++        };
++        for i in (0..main).step_by(16) {
++            let packed = _mm256_packs_epi32(code(x.as_ptr().add(i)), code(x.as_ptr().add(i + 8)));
++            let ordered = _mm256_permute4x64_epi64::<0b11_01_10_00>(packed);
++            _mm256_storeu_si256(q.as_mut_ptr().add(i) as *mut __m256i, ordered);
++        }
++    }
++    for (o, v) in q[main..].iter_mut().zip(&x[main..]) {
++        *o = (v * inv).max(-QX).min(QX).round_ties_even() as i16;
++    }
++    m / QX
++}
++
+ /// Integer `gemv` for an I16 panel: `out[r] = dot_r * (scales[r] * xs) + base[r]`, where `dot_r`
+ /// is the exact integer dot product of row r's codes with the activation codes `q` (from
+ /// `quantize`, zero-padded to whole chunks) and `base` is `b`, or `out` itself when `b` is
+@@ -852,6 +950,39 @@ mod tests {
+         assert!(q.iter().all(|v| *v == 0));
+     }
+ 
++    #[cfg(target_arch = "x86_64")]
++    #[test]
++    fn quantize_avx2_matches_scalar_bitwise() {
++        if !available() {
++            return;
++        }
++        let mut s = 5u64;
++        for len in [1usize, 7, 8, 15, 16, 17, 31, 256, 263, 512] {
++            for scale in [1.0f32, 3.0, 1e-3, 0.0] {
++                let mut x: Vec<f32> = (0..len).map(|_| rnd(&mut s) * scale).collect();
++                if len > 3 {
++                    x[1] = 0.5 / QX; // halfway codes round to even
++                    x[2] = -2.5 / QX;
++                }
++                for bound in [None, Some(1.0), Some(0.25)] {
++                    let mut want = vec![7i16; len + 9];
++                    let mut got = vec![7i16; len + 9];
++                    let ws = quantize(&x, bound, &mut want);
++                    let gs = unsafe { quantize_avx2(&x, bound, &mut got) };
++                    assert_eq!(ws.to_bits(), gs.to_bits(), "len {len} scale {scale} {bound:?}");
++                    assert_eq!(want, got, "len {len} scale {scale} {bound:?}");
++                }
++            }
++        }
++        let x = [f32::NAN, 2.0, -0.7, f32::INFINITY, 0.3, -0.0, 1.0, -1.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
++        for bound in [None, Some(1.0)] {
++            let (mut want, mut got) = (vec![0i16; 17], vec![0i16; 17]);
++            let ws = quantize(&x, bound, &mut want);
++            let gs = unsafe { quantize_avx2(&x, bound, &mut got) };
++            assert_eq!((ws.to_bits(), &want), (gs.to_bits(), &got), "{bound:?}");
++        }
++    }
++
+     proptest::proptest! {
+         /// Integer kernel vs the exact dequantized product (f64), and AVX2 vs portable bitwise.
+         #[test]
+diff --git a/native/src/python.rs b/native/src/python.rs
+index 33e6922..02a76a0 100644
+--- a/native/src/python.rs
++++ b/native/src/python.rs
+@@ -235,6 +235,8 @@ struct PyEnsemblePredictor {
+     norm: Option<crate::stream::OnlineNorm>,
+     widths: Vec<usize>,
+     models: Vec<FastRnn>,
++    /// Each member's first weights, prefetched by the member stepped before it.
++    firsts: Vec<crate::half::Ahead>,
+     input: Vec<f32>,
+     base_coefficients: Vec<f32>,
+     coefficients: Vec<f32>,
+@@ -354,8 +356,11 @@ impl PyEnsemblePredictor {
+             .take(self.active);
+         match &mut self.governor {
+             None => {
+-                for (((model, scratch), coefficient), &width) in members {
+-                    model.step(&self.input[..width], scratch);
++                for (i, (((model, scratch), coefficient), &width)) in members.enumerate() {
++                    // Prefetch the next member's first weights (for the last member, the next
++                    // row's first) during this member's final activation pass.
++                    let after = self.firsts[(i + 1) % self.active];
++                    model.step_then(&self.input[..width], scratch, after);
+                     for (total, value) in self.out.iter_mut().zip(scratch) {
+                         *total += *coefficient * *value;
+                     }
+@@ -457,6 +462,7 @@ impl PyEnsemblePredictor {
+             input: vec![0.0; if needs_norm { base + N_RAW } else { base }],
+             widths,
+             active: models.len(),
++            firsts: models.iter().map(FastRnn::first_weights).collect(),
+             models,
+             base_coefficients: coefficients.clone(),
+             coefficients,
+diff --git a/native/src/rnn_fast.rs b/native/src/rnn_fast.rs
+index 4f4227e..37d595b 100644
+--- a/native/src/rnn_fast.rs
++++ b/native/src/rnn_fast.rs
+@@ -21,7 +21,7 @@ use std::ops::Range;
+ use bytemuck::{Pod, Zeroable};
+ 
+ use crate::approx::{gelu_fast, sigmoid_fast, tanh_fast};
+-use crate::half::{Codes, Encoding, HalfArena, TILE_COLS};
++use crate::half::{Ahead, Codes, Encoding, HalfArena, TILE_COLS};
+ use crate::kernels::{gelu, sigmoid};
+ use crate::rnn::{RnnWeights, ShapeError};
+ 
+@@ -450,6 +450,41 @@ fn gru_update(h: &mut [f32], gi: &[f32], gh: &[f32], fast: bool) {
+     }
+ }
+ 
++/// `gru_update` with fast activations on eight lanes at a time (`approx::avx2`), the same bits,
++/// prefetching `ahead` as it goes.
++///
++/// # Safety
++/// The CPU must support AVX2 and FMA.
++#[cfg(target_arch = "x86_64")]
++#[target_feature(enable = "avx2,fma")]
++#[inline]
++unsafe fn gru_update_avx2(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahead) {
++    use crate::approx::avx2::{sigmoid8, tanh8};
++    use std::arch::x86_64::*;
++    let n = h.len();
++    assert!(gi.len() >= 3 * n && gh.len() >= 3 * n);
++    let main = n / 8 * 8;
++    unsafe {
++        let (i, g, hp) = (gi.as_ptr(), gh.as_ptr(), h.as_mut_ptr());
++        let ld = |p: *const f32, k: usize| _mm256_loadu_ps(p.add(k));
++        for j in (0..main).step_by(8) {
++            ahead.issue(2 * crate::half::AHEAD_LINES);
++            let r = sigmoid8(_mm256_add_ps(ld(i, j), ld(g, j)));
++            let u = sigmoid8(_mm256_add_ps(ld(i, n + j), ld(g, n + j)));
++            let c = tanh8(_mm256_add_ps(ld(i, 2 * n + j), _mm256_mul_ps(r, ld(g, 2 * n + j))));
++            let keep = _mm256_mul_ps(u, ld(hp, j));
++            let y = _mm256_add_ps(_mm256_mul_ps(_mm256_sub_ps(_mm256_set1_ps(1.0), u), c), keep);
++            _mm256_storeu_ps(hp.add(j), y);
++        }
++    }
++    for j in main..n {
++        let r = sigmoid_fast(gi[j] + gh[j]);
++        let u = sigmoid_fast(gi[n + j] + gh[n + j]);
++        let c = tanh_fast(gi[2 * n + j] + r * gh[2 * n + j]);
++        h[j] = (1.0 - u) * c + u * h[j];
++    }
++}
++
+ /// out = W x + b with eight fp32 lanes per row (multiply, then add) reduced in a fixed order.
+ /// Plain IEEE operations that LLVM vectorizes without reassociating, so every build and CPU
+ /// returns the same bits (Q16x head.2).
+@@ -735,6 +770,22 @@ impl FastRnn {
+     }
+ 
+     pub fn step(&mut self, x: &[f32], out: &mut [f32]) {
++        let after = self.first_weights();
++        self.step_then(x, out, after)
++    }
++
++    /// The weights a step reads first (the input projection): what `step_then` of the member
++    /// stepped just before this one prefetches.
++    pub fn first_weights(&self) -> Ahead {
++        match self.precision {
++            Precision::F32 => Ahead::NONE,
++            _ => Ahead::new(&self.half.as_ref()[self.w_in_cols.w.clone()]),
++        }
++    }
++
++    /// `step`, prefetching `after` (the weights the caller reads next) during the last
++    /// activation pass. Only Q16x prefetches; outputs never depend on it.
++    pub fn step_then(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
+         assert_eq!(x.len(), self.n_in, "input width");
+         assert_eq!(out.len(), self.n_out, "output width");
+         match self.precision {
+@@ -746,8 +797,8 @@ impl FastRnn {
+             Precision::I16 => unsafe { self.step_i16(x, out) },
+             // SAFETY: Q16x is only selected when `half::available()` (else Q16xPortable).
+             #[cfg(target_arch = "x86_64")]
+-            Precision::Q16x => unsafe { self.step_q16x(x, out) },
+-            Precision::Q16xPortable => self.step_q_impl::<false>(x, out),
++            Precision::Q16x => unsafe { self.step_q16x(x, out, after) },
++            Precision::Q16xPortable => self.step_q_impl::<false>(x, out, after),
+             #[cfg(not(target_arch = "x86_64"))]
+             _ => unreachable!(),
+         }
+@@ -769,14 +820,14 @@ impl FastRnn {
+ 
+     #[cfg(target_arch = "x86_64")]
+     #[target_feature(enable = "avx2,fma,f16c")]
+-    unsafe fn step_q16x(&mut self, x: &[f32], out: &mut [f32]) {
+-        self.step_q_impl::<true>(x, out)
++    unsafe fn step_q16x(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
++        self.step_q_impl::<true>(x, out, after)
+     }
+ 
+     /// The Q16x step; `SIMD` selects the AVX2 kernels (only from `step_q16x`) or the portable
+     /// ones, which return the same bits.
+     #[inline(always)]
+-    fn step_q_impl<const SIMD: bool>(&mut self, x: &[f32], out: &mut [f32]) {
++    fn step_q_impl<const SIMD: bool>(&mut self, x: &[f32], out: &mut [f32], mut after: Ahead) {
+         let n = self.hidden;
+         let fast = self.act == Activations::Fast;
+         let wts = self.weights.as_ref();
+@@ -793,6 +844,29 @@ impl FastRnn {
+             }
+             crate::half::gemv_q16x_portable(panel, scales, xs, q, n, b, out)
+         };
++        // Elementwise passes: the AVX2 twins (`approx::avx2`, `quantize_avx2`) return the scalar
++        // functions' bits, and prefetch the next matrix while they compute.
++        let gelu_all = |v: &mut [f32], ahead: &mut Ahead| {
++            // SAFETY: as for `matvec`.
++            #[cfg(target_arch = "x86_64")]
++            if SIMD && fast {
++                return unsafe { crate::approx::avx2::gelu_slice(v, ahead) };
++            }
++            let _ = ahead;
++            if fast {
++                v.iter_mut().for_each(|v| *v = gelu_fast(*v));
++            } else {
++                v.iter_mut().for_each(|v| *v = gelu(*v));
++            }
++        };
++        let quantize = |x: &[f32], bound: Option<f32>, q: &mut [i16]| -> f32 {
++            // SAFETY: as for `matvec`.
++            #[cfg(target_arch = "x86_64")]
++            if SIMD {
++                return unsafe { crate::half::quantize_avx2(x, bound, q) };
++            }
++            crate::half::quantize(x, bound, q)
++        };
+ 
+         {
+             let b = &wts[self.b_in.clone()];
+@@ -809,16 +883,12 @@ impl FastRnn {
+             } else {
+                 crate::half::project_q16_portable(cols, scales, b, x, padded);
+             }
+-            let z = &mut st[self.z.clone()];
+-            if fast {
+-                z.iter_mut().for_each(|v| *v = gelu_fast(*v));
+-            } else {
+-                z.iter_mut().for_each(|v| *v = gelu(*v));
+-            }
++            let first = &half[self.layers[0].w_ih.w.clone()];
++            gelu_all(&mut st[self.z.clone()], &mut Ahead::new(first));
+         }
+         let n_layers = self.layers.len();
+         let (hq, zq) = codes.split_at_mut(n_layers * kc);
+-        let zs = crate::half::quantize(&st[self.z.clone()], None, zq);
++        let zs = quantize(&st[self.z.clone()], None, zq);
+ 
+         for (k, li) in self.layers.iter().enumerate() {
+             // State layout is [h (all layers) | z | gi | gh | cat | a | c (LSTM)].
+@@ -839,22 +909,24 @@ impl FastRnn {
+             let cur = &mut cur[..kc];
+             matvec(&li.w_ih, s_in, q_in, Some(&wts[li.b_ih.clone()]), gi);
+             matvec(&li.w_hh, HIDDEN_SCALE, cur, Some(&wts[li.b_hh.clone()]), gh);
++            let next = self.layers.get(k + 1).map_or(&self.w1.w, |l| &l.w_ih.w);
+             match self.cell {
++                // SAFETY: as for `matvec`.
++                #[cfg(target_arch = "x86_64")]
++                Cell::Gru if SIMD && fast => unsafe {
++                    gru_update_avx2(h, gi, gh, &mut Ahead::new(&half[next.clone()]))
++                },
+                 Cell::Gru => gru_update(h, gi, gh, fast),
+                 Cell::Lstm => lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast),
+             }
+-            crate::half::quantize(h, Some(1.0), cur);
++            quantize(h, Some(1.0), cur);
+         }
+ 
+         let a = &mut st[self.a.clone()];
+         let last = &hq[(n_layers - 1) * kc..];
+         matvec(&self.w1, HIDDEN_SCALE, last, Some(&wts[self.b1.clone()]), a);
+         matvec(&self.w1z, zs, zq, None, a);
+-        if fast {
+-            a.iter_mut().for_each(|v| *v = gelu_fast(*v));
+-        } else {
+-            a.iter_mut().for_each(|v| *v = gelu(*v));
+-        }
++        gelu_all(a, &mut after);
+         gemv_lanes(&wts[self.w2.clone()], &wts[self.b2.clone()], a, out);
+     }
+ 
