@@ -850,6 +850,10 @@ def main():
 
     torch.manual_seed(args.seed)
     device = torch.device("cuda")
+    if os.environ.get("WNN_VRAM_GB"):
+        # hard allocator cap (the CUDA context itself, ~0.3 GB, is outside it): OOM instead of exceeding the budget
+        total = torch.cuda.get_device_properties(0).total_memory
+        torch.cuda.set_per_process_memory_fraction(min(1.0, float(os.environ["WNN_VRAM_GB"]) * 2**30 / total), 0)
     duty = configure_torch()
     if args.deterministic:
         torch.backends.cudnn.benchmark = False
