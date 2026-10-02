@@ -1,0 +1,76 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_im_instantaneous_s3h2_f0",
+  "stage": "H2",
+  "allocation_sha256": "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-interval-memory/train_interval.py",
+    "--name",
+    "oct02_im_instantaneous_s3h2_f0",
+    "--full-valid",
+    "--layers",
+    "1",
+    "--batch",
+    "16",
+    "--lr",
+    "0.0005",
+    "--loss",
+    "gcorr",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "0",
+    "--init",
+    "oct02_im_instantaneous_s3_f0@ep0",
+    "--freeze",
+    "inp,gru,interval_proj,event_gru",
+    "--mask-weight",
+    "--seed",
+    "3",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache",
+    "--interval-arm",
+    "instantaneous"
+  ],
+  "started_utc": "2026-10-02T01:17:28.364140+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_im_instantaneous_s3h2_f0/model_ep0.pt": {
+      "bytes": 2562338,
+      "sha256": "cd43f6fa0db9c7dcb0b265190798ea2d8033869f0b2bae56a67af744e814a88a"
+    },
+    "artifacts/runs/oct02_im_instantaneous_s3h2_f0/model_ep1.pt": {
+      "bytes": 2562338,
+      "sha256": "cc9268c992e73bbe7dae7e48022053780c9bd27daa9690ff6844a97eb98bdd6d"
+    },
+    "artifacts/runs/oct02_im_instantaneous_s3h2_f0/model.pt": {
+      "bytes": 2561622,
+      "sha256": "42f5dd7df1a934ac390ba79dff248d3004919a5e914eac427120f55d18c7427d"
+    },
+    "artifacts/runs/oct02_im_instantaneous_s3h2_f0/history.json": {
+      "bytes": 336,
+      "sha256": "d1871c3389556912b5be35a046700b273f16be7fc2ded26266dda2c68c683fa1"
+    },
+    "artifacts/runs/oct02_im_instantaneous_s3h2_f0/initial-state.json": {
+      "bytes": 1084,
+      "sha256": "5c8ca16125af776710bf3a3a81abdfc91cfc40603c6a0c553787148633fed17b"
+    },
+    "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0.check.json": {
+      "bytes": 1512,
+      "sha256": "bba31a09db30e32da252626f65a354245c56e3e10e5ee8b865caf5075516f05f"
+    }
+  },
+  "seconds": 71.9374453285709,
+  "finished_utc": "2026-10-02T01:18:40.301627+00:00"
+}

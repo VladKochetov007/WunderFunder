@@ -1,0 +1,84 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_im_instantaneous_s3_f1",
+  "stage": "parent",
+  "allocation_sha256": "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-interval-memory/train_interval.py",
+    "--name",
+    "oct02_im_instantaneous_s3_f1",
+    "--full-valid",
+    "--layers",
+    "1",
+    "--epochs",
+    "1",
+    "--lr",
+    "0.0005",
+    "--loss",
+    "wmse",
+    "--distill",
+    "h256_f1,h256s4_f1",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "train+valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "1",
+    "--init",
+    "cont_sh256_s3_f1@ep3",
+    "--ema-teacher",
+    "1.0",
+    "--eval-ema",
+    "--propensity",
+    "prop_f1",
+    "--prop-power",
+    "2.0",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--seed",
+    "3",
+    "--since-weight",
+    "32.0",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache",
+    "--interval-arm",
+    "instantaneous"
+  ],
+  "started_utc": "2026-10-02T01:27:20.184015+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_im_instantaneous_s3_f1/model_ep0.pt": {
+      "bytes": 2563548,
+      "sha256": "0770a23fc8a24b66121c005815911a335d7332e49e2e1b54fc490c0e6fb2c163"
+    },
+    "artifacts/runs/oct02_im_instantaneous_s3_f1/model.pt": {
+      "bytes": 2562360,
+      "sha256": "6bfe3a1ab145417875d0ad3c265b318ff23cfe99620a4dfb477bbe3f3821a861"
+    },
+    "artifacts/runs/oct02_im_instantaneous_s3_f1/history.json": {
+      "bytes": 169,
+      "sha256": "a133753462517e540f7a520afcb4dde9a8c385d84a0b135683a13916ade9ae2f"
+    },
+    "artifacts/runs/oct02_im_instantaneous_s3_f1/initial-state.json": {
+      "bytes": 1387,
+      "sha256": "17e7055ea8227613ecb408322a4b0773f66f6077734c4e612f4540f7c0659cc5"
+    },
+    "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f1.check.json": {
+      "bytes": 1169,
+      "sha256": "8528a7f06fe177492f6aa4fecce64c616cc3434711e8ad3161d9d5abaf64cc1e"
+    }
+  },
+  "seconds": 401.4541307548061,
+  "finished_utc": "2026-10-02T01:34:01.638190+00:00"
+}
