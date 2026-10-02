@@ -1,0 +1,79 @@
+q16x integer-madd GRU engine -- status 2026-10-02 09:35 (s1 native-engine task)
+
+VERDICT: precision mode q16x is implemented and passes every gate. It makes the D256 member
+1.25x cheaper per row (1x) and 1.22x cheaper (2x). The 2x goal is NOT reached: 2xD256 q16x is
+464 kcyc/row, about 57 public min, above the 423 kcyc (52 min) gate. Cause: on this machine the
+GRU256 matvecs are limited by memory bandwidth, not compute.
+
+KCYC/ROW (engine_fp16_check calib, taskset -c 15, valid_subset20, 3 seqs, back-to-back 09:21)
+  1x D256  i16  submissions/c20261002_D256_i16           291.4 kcyc  (132.4 us)
+  1x D256  q16x submissions/c20261002_q16x_D256          233.8 kcyc  (103.5 us)  ~28.8 public min
+  2x D256  i16  submissions/c20261002_T2D256_timing      567.0 kcyc  (253.2 us)
+  2x D256  q16x submissions/c20261002_q16x_T2D256        463.9 kcyc  (217.6 us)  ~57.1 public min
+  (public min ~= kcyc / 8.13; the 52-min gate is ~423 kcyc)
+
+PARITY (all gates pass)
+  engine_fp16_check parity, D256 member, 3 valid seqs vs fp32 (parity_d256.json):
+    q16x max abs 1.371e-4 (gate 3e-4), mean 1.31e-5, p99.9 7.46e-5, dWP -2.50e-7 (gate 5e-6), repeat bitwise ok
+    i16  max abs 6.07e-5, dWP -1.28e-7 (reference)
+  torch parity vs torch f64, fast activations (torch_parity_q16x.json; the existing refs are GRU128/LSTM128/LSTM256):
+    q16x max abs 1.57e-5 / 1.66e-5 / 1.67e-5   (i16 3.6e-6 / 2.9e-6 / 3.7e-6), reset bitwise repeat ok
+  Existing paths unchanged: new build vs shipped 10-01 v3 build, D256 seq 0, f32/f16/i16 bitwise equal (all True).
+  q16x AVX2 vs q16x_portable (scalar) bitwise equal, within v3 and across v3/v2 builds.
+
+VERIFY_ALL on submissions/c20261002_q16x_D256/submission.zip (verify_q16x_D256.log)
+  size 5,167,326 B (<= 20 MB); v2/avx2/v3 bitwise equal: True/True; RESET_CHECK_PASS;
+  offline python:3.11 image: global_wp 0.723256 (same as host); runtime vs incumbent
+  final_since2_gclp 117.3 us/row, q16x D256 93.4 us/row.
+  Run via tools/verify_all_q16x.sh: a copy of packages/verify_all.sh with a 5G memory cap that
+  writes its outputs under engine/verify/.
+
+UNIT TESTS: cargo test --release, 37 passed (8 new: quantize rounding/clamp; proptest of the kernel
+  vs the exact integer oracle plus the quantization error bound, and AVX2 vs portable bitwise; extreme
+  codes at the overflow bound; portable projection == AVX2 bitwise; q16x step == q16x_portable bitwise
+  for GRU and LSTM; reset repeat; merged wide head).
+
+DESIGN (native/src/half.rs, rnn_fast.rs)
+  - Weights: the I16 codes and row panels as before (|w| <= 32767, per-row scale). head.0 is split
+    into its hidden and z column blocks, each with its own row scales.
+  - Activations: int16 codes |q| <= 16383. Hidden states (GRU/LSTM, tanh-bounded) use the fixed scale
+    1/16383 and are requantized once per step, right after each layer's update, then kept. z (GELU of
+    the projection) uses its max |z| / 16383. Rounding is half-to-even after a clamp, which also maps
+    NaN to -QX.
+  - Kernel gemv_q16x: _mm256_madd_epi16; the int32 lane sums two chunks (32 columns) and is then
+    flushed to fp32. Bound: 2 * 2 * 32767 * 16383 = 2,147,287,044 < 2^31-1, so no int32 overflow.
+    fp32 lanes reduce in a fixed order, then y = sum * (row_scale * x_scale) + bias, with no FMA.
+    gemv_q16x_portable does the same integer and fp32 operations in scalar Rust, so it returns the same
+    bits. head.2 runs through a fixed-order 8-lane fp32 dot in q16x mode. Software prefetch is 4 KiB
+    ahead (~2-5%).
+  - Precision::Q16x falls back to Q16xPortable on CPUs without AVX2. It never falls back to fp32. The
+    Python names are 'q16x' and 'q16x_portable'.
+
+WHY NOT 2X (measured with native/examples/bench_engine.rs --kernel and the cycle counter)
+  - L2-resident shapes: q16x is 1.65x (128w2) and 1.78x (128) faster than i16. The compute fix works.
+  - GRU256: one member streams 2.2 MB of int16 weights per row. The kernel reaches 10.8-12 MAC/cyc
+    from L2 (0.79 MB working set) but only 6.2 MAC/cyc = 12.4 B/cyc from L3/DRAM (3.1-6.3 MB), and
+    that does not change with prefetch distance (0/2K/4K). So about 190 kcyc per member is a floor
+    for 16-bit weights on this machine (other cores' jobs share the L3).
+  - Narrower weights would get past that floor but fail parity on paper: 12-bit codes ~16x the weight
+    error, int8 ~128x (the D256 i16 max abs is already 6e-5 against a 3e-4 gate).
+  - Not tried, est. 15-25% for 1x and ~15% for 2x: keep ~1 MB of weights resident in L2 and stream the
+    rest with non-temporal prefetch. The behaviour depends on the CPU, and the scorer CPU is unknown.
+    Model-side levers: head.0 (512x512, 23% of the bytes) and the hidden width.
+
+FILES
+  changed: native/src/half.rs, native/src/rnn_fast.rs (also factors gru_update out of step_impl,
+           with identical arithmetic), native/src/python.rs, native/examples/bench_engine.rs (adds a
+           wK head spec, q16x specs, a kcyc counter and the q16x kernel bench),
+           scripts/package_submission.py (--precision accepts q16x)
+  new:     research/campaign_2026-10-02/engine/native_build_q16x/{v2,avx2,v3}
+             sha256 prefixes v2 5c12e00898c09e4b avx2 be56112bbc7cfd9a v3 daccadea8f448a20
+           submissions/c20261002_q16x_D256/submission.zip   (sha d986e3f22c38dc68)
+           submissions/c20261002_q16x_T2D256/submission.zip (sha d4985dc13eac13e4)
+             Assembled from the existing pkg files (solution_native.py, members.json, the same
+             exported weights_*.npz) with precision.txt=q16x and the new build, rather than
+             re-exported through package_submission.py, which loads the torch checkpoints.
+           engine/{calib.jsonl, parity_d256.json, torch_parity_q16x.json, verify/, *.log}
+           engine/tools/{dump_precisions.py, torch_parity_q16x.py, verify_all_q16x.sh}
+           engine/target/ (223 MB cargo cache, gitignored, safe to delete)
+  untouched: research/campaign_2026-10-01/engine/native_build; all existing ZIPs.

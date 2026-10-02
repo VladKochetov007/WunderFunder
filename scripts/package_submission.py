@@ -85,7 +85,7 @@ def main():
     parser.add_argument("members", nargs="+")
     parser.add_argument("--native-from", type=Path, default=NATIVE_FROM)
     parser.add_argument("--solution", type=Path, default=ROOT / "submission" / "solution_multi.py")
-    parser.add_argument("--precision", choices=("f32", "f16", "i16"), default=None,
+    parser.add_argument("--precision", choices=("f32", "f16", "i16", "q16x"), default=None,
                         help="write precision.txt for the native solutions (default: solution's own default)")
     args = parser.parse_args()
     name, members = args.name, args.members

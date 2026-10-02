@@ -15,8 +15,10 @@ fn parse_precision(name: &str) -> PyResult<Precision> {
         "f32" => Ok(Precision::F32),
         "f16" => Ok(Precision::F16),
         "i16" => Ok(Precision::I16),
+        "q16x" => Ok(Precision::Q16x),
+        "q16x_portable" => Ok(Precision::Q16xPortable),
         other => Err(PyValueError::new_err(format!(
-            "precision {other:?}; expected 'f32', 'f16' or 'i16'"
+            "precision {other:?}; expected 'f32', 'f16', 'i16', 'q16x' or 'q16x_portable'"
         ))),
     }
 }
@@ -26,6 +28,8 @@ fn precision_name(p: Precision) -> &'static str {
         Precision::F32 => "f32",
         Precision::F16 => "f16",
         Precision::I16 => "i16",
+        Precision::Q16x => "q16x",
+        Precision::Q16xPortable => "q16x_portable",
     }
 }
 
@@ -220,7 +224,8 @@ impl PyModelStepper {
 ///
 /// `precision="f16"` / `"i16"` stores each member's input projection, GRU and head.0 matrices in
 /// 16 bits (fp32 accumulation; see `rnn_fast::Precision`); CPUs without AVX2/FMA/F16C silently
-/// keep fp32, which `precision` reports. `predict(data_point)` is the whole scorer callback in native code (reset
+/// keep fp32, which `precision` reports. `"q16x"` adds integer GRU/head.0 matvecs and runs on
+/// every CPU (portable kernels without AVX2, same bits). `predict(data_point)` is the whole scorer callback in native code (reset
 /// on a new `seq_ix`, None during warm-up). With `budget_s`, a governor runs at each sequence
 /// boundary: when the measured cost projects past the budget for `expected_rows`, it keeps the
 /// longest prefix of members that fits and rescales their coefficients to the original sum.

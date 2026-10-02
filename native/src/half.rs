@@ -446,6 +446,199 @@ unsafe fn gemv_impl<const PF: usize, const Q: bool>(
     }
 }
 
+/// Software prefetch distance of `gemv_q16x` in bytes (0 disables). The GRU256 matrices stream
+/// from L3 (or DRAM) every row; 4 KiB ahead gained ~2-5% on the i9-11900H.
+pub const Q_PREFETCH: usize = 4096;
+
+/// Largest |activation code| of `gemv_q16x`; weights use the I16 codes (|w| <= 32767).
+pub const QX: f32 = 16383.0;
+
+/// One `TILE_COLS` chunk of activation codes, 32-byte aligned for the integer kernels.
+#[derive(Clone, Copy, Pod, Zeroable)]
+#[repr(C, align(32))]
+pub struct Codes(pub [i16; TILE_COLS]);
+
+/// Activation codes for `gemv_q16x`: `q[j] = round_half_even(clamp(x[j] / scale, ±QX))` for
+/// `j < x.len()` (padding past it is left alone); returns `scale`. `bound` is a fixed max |x|
+/// (1 for GRU/LSTM hidden states, which are tanh-bounded); `None` uses the vector's max |x|.
+/// The clamp keeps every code within ±QX, which the overflow bound of `gemv_q16x` relies on, and
+/// maps NaN to -QX in every build (`max` returns its non-NaN operand, like `maxps`). Plain IEEE
+/// operations only, so all builds produce the same codes.
+#[inline(always)]
+pub fn quantize(x: &[f32], bound: Option<f32>, q: &mut [i16]) -> f32 {
+    let m = bound.unwrap_or_else(|| x.iter().fold(0.0f32, |m, v| m.max(v.abs())));
+    let q = &mut q[..x.len()];
+    if !(m > 0.0 && m.is_finite()) {
+        q.fill(0);
+        return 0.0;
+    }
+    let inv = QX / m;
+    for (o, v) in q.iter_mut().zip(x) {
+        *o = (v * inv).max(-QX).min(QX).round_ties_even() as i16;
+    }
+    m / QX
+}
+
+/// Integer `gemv` for an I16 panel: `out[r] = dot_r * (scales[r] * xs) + base[r]`, where `dot_r`
+/// is the exact integer dot product of row r's codes with the activation codes `q` (from
+/// `quantize`, zero-padded to whole chunks) and `base` is `b`, or `out` itself when `b` is
+/// `None` (accumulating a second column block). `cols` is the panel's column count.
+///
+/// Overflow bound: |w| <= 32767 and |q| <= QX = 16383, so one `madd_epi16` lane
+/// (w0 q0 + w1 q1) is at most 2 * 32767 * 16383 = 1_073_643_522 in magnitude, and the int32
+/// lane that sums two chunks' madds before it is flushed to fp32 is at most 2_147_287_044
+/// < 2^31 - 1 = 2_147_483_647. Every integer is therefore exact; each flush rounds to fp32
+/// (round to nearest even, as `i32 as f32`) and adds into eight fp32 lanes per row, reduced as
+/// ((l0+l1)+(l2+l3))+((l4+l5)+(l6+l7)). `gemv_q16x_portable` performs exactly these
+/// operations, so both return the same bits.
+///
+/// # Safety
+/// The CPU must support AVX2, FMA and F16C (`available()`).
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "avx2,fma,f16c")]
+#[inline]
+pub unsafe fn gemv_q16x(
+    panel: &[u16],
+    scales: &[f32],
+    xs: f32,
+    q: &[i16],
+    cols: usize,
+    b: Option<&[f32]>,
+    out: &mut [f32],
+) {
+    use std::arch::x86_64::*;
+
+    let rows = out.len();
+    let chunks = cols.div_ceil(TILE_COLS);
+    let panels = rows.div_ceil(PANEL_ROWS);
+    assert!(panel.len() >= panels * chunks * TILE && q.len() >= chunks * TILE_COLS);
+    assert!(scales.len() >= panels * PANEL_ROWS && b.is_none_or(|b| b.len() >= rows));
+    unsafe {
+        let mut p = panel.as_ptr() as *const __m256i;
+        let qp = q.as_ptr() as *const __m256i;
+        let base = b.map_or(out.as_ptr(), |b| b.as_ptr());
+        let xs4 = _mm_set1_ps(xs);
+        for blk in 0..panels {
+            let mut f = [_mm256_setzero_ps(); PANEL_ROWS];
+            let mut c = 0;
+            while c + 2 <= chunks {
+                if Q_PREFETCH > 0 {
+                    // Runs past the panel's end into the next matrix, which the arenas store in
+                    // step order; prefetches never fault.
+                    let pf = (p as *const i8).wrapping_add(Q_PREFETCH);
+                    _mm_prefetch::<_MM_HINT_T0>(pf);
+                    _mm_prefetch::<_MM_HINT_T0>(pf.wrapping_add(64));
+                    _mm_prefetch::<_MM_HINT_T0>(pf.wrapping_add(128));
+                    _mm_prefetch::<_MM_HINT_T0>(pf.wrapping_add(192));
+                }
+                let x0 = _mm256_loadu_si256(qp.add(c));
+                let x1 = _mm256_loadu_si256(qp.add(c + 1));
+                for (r, fr) in f.iter_mut().enumerate() {
+                    let i0 = _mm256_madd_epi16(_mm256_loadu_si256(p.add(r)), x0);
+                    let i1 = _mm256_madd_epi16(_mm256_loadu_si256(p.add(PANEL_ROWS + r)), x1);
+                    *fr = _mm256_add_ps(*fr, _mm256_cvtepi32_ps(_mm256_add_epi32(i0, i1)));
+                }
+                p = p.add(2 * PANEL_ROWS);
+                c += 2;
+            }
+            if c < chunks {
+                let x0 = _mm256_loadu_si256(qp.add(c));
+                for (r, fr) in f.iter_mut().enumerate() {
+                    let i0 = _mm256_madd_epi16(_mm256_loadu_si256(p.add(r)), x0);
+                    *fr = _mm256_add_ps(*fr, _mm256_cvtepi32_ps(i0));
+                }
+                p = p.add(PANEL_ROWS);
+            }
+            // hadd twice leaves [row0..row3 low half | row0..row3 high half].
+            let t = _mm256_hadd_ps(_mm256_hadd_ps(f[0], f[1]), _mm256_hadd_ps(f[2], f[3]));
+            let sum = _mm_add_ps(_mm256_castps256_ps128(t), _mm256_extractf128_ps(t, 1));
+            let r0 = blk * PANEL_ROWS;
+            let sc = _mm_mul_ps(_mm_loadu_ps(scales.as_ptr().add(r0)), xs4);
+            let dot = _mm_mul_ps(sum, sc);
+            if r0 + PANEL_ROWS <= rows {
+                let y = _mm_add_ps(dot, _mm_loadu_ps(base.add(r0)));
+                _mm_storeu_ps(out.as_mut_ptr().add(r0), y);
+            } else {
+                let mut lanes = [0.0f32; 4];
+                _mm_storeu_ps(lanes.as_mut_ptr(), dot);
+                for r in r0..rows {
+                    out[r] = lanes[r - r0] + *base.add(r);
+                }
+            }
+        }
+    }
+}
+
+/// `gemv_q16x` without SIMD requirements: the same integers, roundings and fp32 additions in the
+/// same order, hence the same bits (CPUs without AVX2, and the oracle of the bitwise tests).
+pub fn gemv_q16x_portable(
+    panel: &[u16],
+    scales: &[f32],
+    xs: f32,
+    q: &[i16],
+    cols: usize,
+    b: Option<&[f32]>,
+    out: &mut [f32],
+) {
+    let rows = out.len();
+    let chunks = cols.div_ceil(TILE_COLS);
+    let panels = rows.div_ceil(PANEL_ROWS);
+    assert!(panel.len() >= panels * chunks * TILE && q.len() >= chunks * TILE_COLS);
+    assert!(scales.len() >= panels * PANEL_ROWS && b.is_none_or(|b| b.len() >= rows));
+    // One madd_epi16 lane: codes 2l and 2l+1 of row r in chunk c.
+    let madd = |blk: usize, c: usize, r: usize, l: usize| -> i32 {
+        let t = (blk * chunks + c) * TILE + r * TILE_COLS + 2 * l;
+        let x = c * TILE_COLS + 2 * l;
+        i32::from(panel[t] as i16) * i32::from(q[x])
+            + i32::from(panel[t + 1] as i16) * i32::from(q[x + 1])
+    };
+    for blk in 0..panels {
+        let mut f = [[0.0f32; 8]; PANEL_ROWS];
+        let mut c = 0;
+        while c < chunks {
+            let pair = c + 2 <= chunks;
+            for (r, fr) in f.iter_mut().enumerate() {
+                for (l, lane) in fr.iter_mut().enumerate() {
+                    let mut i = madd(blk, c, r, l);
+                    if pair {
+                        i += madd(blk, c + 1, r, l);
+                    }
+                    *lane += i as f32;
+                }
+            }
+            c += if pair { 2 } else { 1 };
+        }
+        let r0 = blk * PANEL_ROWS;
+        for (r, l) in f.iter().enumerate().take(rows.saturating_sub(r0)) {
+            let sum = ((l[0] + l[1]) + (l[2] + l[3])) + ((l[4] + l[5]) + (l[6] + l[7]));
+            let base = b.map_or(out[r0 + r], |b| b[r0 + r]);
+            out[r0 + r] = sum * (scales[r0 + r] * xs) + base;
+        }
+    }
+}
+
+/// `project_as::<true>` without SIMD requirements, bit for bit: per output row, the nonzero
+/// inputs in column order, each term `code * (x[j] * scale[j])` added after rounding.
+pub fn project_q16_portable(cols: &[u16], scales: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
+    let n_cols = x.len();
+    let tiles = out.len() / COL_TILE;
+    assert!(out.len().is_multiple_of(COL_TILE) && b.len() >= out.len());
+    assert!(cols.len() >= tiles * n_cols * COL_TILE && scales.len() >= n_cols);
+    out.copy_from_slice(&b[..out.len()]);
+    for (j, &xj) in x.iter().enumerate() {
+        if xj == 0.0 {
+            continue;
+        }
+        let xj = xj * scales[j];
+        for (t, acc) in out.chunks_exact_mut(COL_TILE).enumerate() {
+            let col = &cols[(t * n_cols + j) * COL_TILE..][..COL_TILE];
+            for (a, w) in acc.iter_mut().zip(col) {
+                *a += f32::from(*w as i16) * xj;
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -634,6 +827,138 @@ mod tests {
                     assert!((f64::from(out[r]) - want).abs() < 1e-4);
                 }
             }
+        }
+    }
+
+    /// Codes for `quantize` tests and kernels: x padded with zero codes to whole chunks.
+    fn codes(x: &[f32], bound: Option<f32>) -> (Vec<i16>, f32) {
+        let mut q = vec![0i16; x.len().div_ceil(TILE_COLS) * TILE_COLS];
+        let s = quantize(x, bound, &mut q);
+        (q, s)
+    }
+
+    #[test]
+    fn quantize_rounds_half_even_within_bounds() {
+        let (q, s) = codes(&[1.0, -1.0, 0.5, 2.0, -3.0, f32::NAN, 0.0], Some(1.0));
+        assert_eq!(s, 1.0 / QX);
+        // 0.5 * 16383 = 8191.5 rounds to the even 8192; out-of-bound and NaN inputs clamp.
+        assert_eq!(&q[..7], &[16383, -16383, 8192, 16383, -16383, -16383, 0]);
+        let (q, s) = codes(&[0.25, -2.0, 1.0], None);
+        assert_eq!(s, 2.0 / QX);
+        assert_eq!(&q[..3], &[2048, -16383, 8192]);
+        assert!(q[3..].iter().all(|v| *v == 0));
+        let (q, s) = codes(&[0.0; 5], None);
+        assert_eq!(s, 0.0);
+        assert!(q.iter().all(|v| *v == 0));
+    }
+
+    proptest::proptest! {
+        /// Integer kernel vs the exact dequantized product (f64), and AVX2 vs portable bitwise.
+        #[test]
+        fn q16x_gemv_matches_dequantized_oracle_and_portable_bits(
+            rows in 1usize..70,
+            cols in 1usize..300,
+            seed in proptest::prelude::any::<u64>(),
+            bounded in proptest::prelude::any::<bool>(),
+            accumulate in proptest::prelude::any::<bool>(),
+        ) {
+            let mut s = seed | 1;
+            let w: Vec<f32> = (0..rows * cols).map(|_| rnd(&mut s) * 0.9).collect();
+            let b: Vec<f32> = (0..rows).map(|_| rnd(&mut s)).collect();
+            let x: Vec<f32> = (0..cols)
+                .map(|_| if bounded { rnd(&mut s) } else { 3.0 * rnd(&mut s) })
+                .collect();
+            let (q, xs) = codes(&x, bounded.then_some(1.0));
+            let scales = row_scales(&w, rows, cols);
+            let mut arena = HalfArena::new();
+            let range = arena.push_panel_as(Encoding::I16, &w, &scales, rows, cols);
+            let panel = &arena.as_ref()[range];
+            let init: Vec<f32> = (0..rows).map(|_| rnd(&mut s)).collect();
+            let bias = (!accumulate).then_some(&b[..]);
+            let mut port = init.clone();
+            gemv_q16x_portable(panel, &scales, xs, &q, cols, bias, &mut port);
+            for r in 0..rows {
+                let terms: Vec<i64> = (0..cols)
+                    .map(|j| {
+                        let code = (Encoding::I16.decode(w[r * cols + j], scales[r]) / scales[r]).round();
+                        code as i64 * i64::from(q[j])
+                    })
+                    .collect();
+                let dot: i64 = terms.iter().sum();
+                let unit = f64::from(scales[r]) * f64::from(xs);
+                let base = if accumulate { init[r] } else { b[r] };
+                let want = dot as f64 * unit + f64::from(base);
+                // Integers are exact; the fp32 flushes, lane sums and final scaling each round by
+                // at most 2^-24 of a partial bounded by sum |terms| (< 32 roundings here).
+                let magnitude = terms.iter().map(|t| t.abs() as f64).sum::<f64>() * unit;
+                let tol = 32.0 * 2f64.powi(-24) * (magnitude + f64::from(base.abs())) + 1e-12;
+                proptest::prop_assert!((f64::from(port[r]) - want).abs() < tol, "r {} {} vs {}", r, port[r], want);
+                // Against the unquantized product: half a weight step and half an activation step.
+                let exact: f64 = (0..cols).map(|j| f64::from(w[r * cols + j]) * f64::from(x[j])).sum();
+                let bound = 0.5 * f64::from(scales[r]) * x.iter().map(|v| f64::from(v.abs())).sum::<f64>()
+                    + 0.5 * f64::from(xs) * w[r * cols..(r + 1) * cols].iter().map(|v| f64::from(v.abs())).sum::<f64>()
+                    + 0.25 * f64::from(scales[r]) * f64::from(xs) * cols as f64;
+                proptest::prop_assert!((want - f64::from(base) - exact).abs() <= bound + 1e-6);
+            }
+            #[cfg(target_arch = "x86_64")]
+            if available() {
+                let mut simd = init.clone();
+                unsafe { gemv_q16x(panel, &scales, xs, &q, cols, bias, &mut simd) };
+                for r in 0..rows {
+                    proptest::prop_assert_eq!(simd[r].to_bits(), port[r].to_bits());
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn q16x_gemv_survives_extreme_codes() {
+        // Every weight at +-max and every code at +-QX with matching signs: the largest dot.
+        let (rows, cols) = (8, 512);
+        let w: Vec<f32> = (0..rows * cols).map(|i| if i % 3 == 0 { -1.0 } else { 1.0 }).collect();
+        let x: Vec<f32> = (0..cols).map(|j| if (cols + j) % 3 == 0 { -1.0 } else { 1.0 }).collect();
+        let (q, xs) = codes(&x, Some(1.0));
+        let scales = row_scales(&w, rows, cols);
+        let mut arena = HalfArena::new();
+        let range = arena.push_panel_as(Encoding::I16, &w, &scales, rows, cols);
+        let b = vec![0.0f32; rows];
+        let mut port = vec![0.0f32; rows];
+        gemv_q16x_portable(&arena.as_ref()[range.clone()], &scales, xs, &q, cols, Some(&b), &mut port);
+        for r in 0..rows {
+            let want: f64 = (0..cols).map(|j| f64::from(w[r * cols + j] * x[j])).sum();
+            assert!((f64::from(port[r]) - want).abs() < 1e-3, "{} vs {want}", port[r]);
+        }
+        #[cfg(target_arch = "x86_64")]
+        if available() {
+            let mut simd = vec![0.0f32; rows];
+            unsafe { gemv_q16x(&arena.as_ref()[range], &scales, xs, &q, cols, Some(&b), &mut simd) };
+            assert!(simd.iter().zip(&port).all(|(a, b)| a.to_bits() == b.to_bits()));
+        }
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[test]
+    fn portable_projection_matches_simd_bitwise() {
+        if !available() {
+            return;
+        }
+        let mut s = 31u64;
+        for (rows, cols) in [(1, 1), (20, 5), (64, 211), (256, 211), (200, 37)] {
+            let w: Vec<f32> = (0..rows * cols).map(|_| rnd(&mut s)).collect();
+            let x: Vec<f32> = (0..cols)
+                .map(|j| if j % 3 == 1 { 0.0 } else { rnd(&mut s) * 4.0 })
+                .collect();
+            let cscale = column_scales(&w, rows, cols);
+            let mut arena = HalfArena::new();
+            let range = arena.push_columns_as(Encoding::I16, &w, &cscale, rows, cols);
+            let padded = rows.div_ceil(COL_TILE) * COL_TILE;
+            let b: Vec<f32> = (0..padded).map(|r| if r < rows { rnd(&mut s) } else { 0.0 }).collect();
+            let (mut simd, mut port) = (vec![0.0; padded], vec![0.0; padded]);
+            let mut nz = Vec::new();
+            let cols_q = &arena.as_ref()[range];
+            unsafe { project_as::<true>(cols_q, &cscale, &b, &x, &mut nz, &mut simd) };
+            project_q16_portable(cols_q, &cscale, &b, &x, &mut port);
+            assert!(simd.iter().zip(&port).all(|(a, b)| a.to_bits() == b.to_bits()));
         }
     }
 

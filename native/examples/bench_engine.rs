@@ -3,7 +3,8 @@
 //!   cargo run --release --example bench_engine -- [--rows FILE] [--reps N] SPEC [SPEC ...]
 //!   cargo run --release --example bench_engine -- --kernel
 //!
-//! SPEC is `[lstm]hidden[xlayers]:f32|f16|i16` (GRU, 2 layers by default), e.g. `128:f16 lstm128:i16`. FILE holds
+//! SPEC is `[lstm]hidden[xlayers][wheads]:f32|f16|i16|q16x` (GRU, 2 layers, one head by default),
+//! e.g. `128:f16 lstm128:i16 256w2:q16x`. FILE holds
 //! little-endian f32 raw rows (112 per row), e.g. one valid sequence; without it a synthetic
 //! 20k-row sequence is used. Reports features alone, each member alone and the whole ensemble
 //! stepped member by member per row, as `EnsemblePredictor` does.
@@ -34,7 +35,7 @@ impl Rng {
     }
 }
 
-fn weights(n_in: usize, h: usize, layers: usize, gates: usize, seed: u64) -> RnnWeights {
+fn weights(n_in: usize, h: usize, layers: usize, gates: usize, heads: usize, seed: u64) -> RnnWeights {
     let mut r = Rng(seed);
     RnnWeights {
         mean: vec![0.0; n_in],
@@ -49,9 +50,9 @@ fn weights(n_in: usize, h: usize, layers: usize, gates: usize, seed: u64) -> Rnn
                 b_hh: r.init(gates * h, h),
             })
             .collect(),
-        w1: r.init(2 * h * h, 2 * h),
-        b1: r.init(h, 2 * h),
-        w2: r.init(2 * h, h),
+        w1: r.init(heads * 2 * h * h, 2 * h),
+        b1: r.init(heads * h, 2 * h),
+        w2: r.init(heads * 2 * h, heads * h),
         b2: r.init(2, h),
     }
 }
@@ -96,31 +97,65 @@ fn inputs(raw: &[[f32; N_RAW]]) -> Vec<f32> {
     out
 }
 
+unsafe extern "C" {
+    fn syscall(n: i64, ...) -> i64;
+}
+
+/// User-space core cycles of this thread (perf_event_open), or None when refused.
+fn cycle_counter() -> Option<std::fs::File> {
+    use std::os::fd::FromRawFd;
+    // perf_event_attr v0: PERF_TYPE_HARDWARE, CPU_CYCLES, exclude_kernel | exclude_hv.
+    let mut attr = [0u64; 8];
+    attr[0] = 64 << 32;
+    attr[5] = 0x60;
+    let fd = unsafe { syscall(298, attr.as_ptr(), 0i32, -1i32, -1i32, 0u64) };
+    (fd >= 0).then(|| unsafe { std::fs::File::from_raw_fd(fd as i32) })
+}
+
+fn read_cycles(f: &mut Option<std::fs::File>) -> u64 {
+    use std::io::Read;
+    let mut b = [0u8; 8];
+    f.as_mut().map_or(0, |f| {
+        f.read_exact(&mut b).unwrap();
+        u64::from_le_bytes(b)
+    })
+}
+
+static mut BEST_KCYC: f64 = 0.0;
+
 fn per_row(reps: usize, rows: usize, mut body: impl FnMut()) -> f64 {
+    let mut counter = cycle_counter();
     body(); // warm caches and branch predictors
     let mut best = f64::INFINITY;
+    let mut best_cyc = u64::MAX;
     for _ in 0..reps {
+        let c0 = read_cycles(&mut counter);
         let t = Instant::now();
         body();
         best = best.min(t.elapsed().as_secs_f64());
+        best_cyc = best_cyc.min(read_cycles(&mut counter) - c0);
     }
+    unsafe { BEST_KCYC = best_cyc as f64 / rows as f64 / 1e3 };
     best / rows as f64 * 1e6
 }
 
-fn parse(spec: &str) -> (usize, usize, usize, Precision) {
+fn parse(spec: &str) -> (usize, usize, usize, usize, Precision) {
     let (shape, prec) = spec.split_once(':').unwrap_or((spec, "f32"));
     let (gates, shape) = match shape.strip_prefix("lstm") {
         Some(rest) => (4, rest),
         None => (3, shape),
     };
+    let (shape, heads) = shape.split_once('w').unwrap_or((shape, "1"));
     let (h, l) = shape.split_once('x').unwrap_or((shape, "2"));
     let prec = match prec {
         "f16" => Precision::F16,
         "i16" => Precision::I16,
         "f32" => Precision::F32,
+        "q16x" => Precision::Q16x,
+        "q16x_portable" => Precision::Q16xPortable,
         other => panic!("precision {other}"),
     };
-    (h.parse().unwrap(), l.parse().unwrap(), gates, prec)
+    (h.parse().unwrap(), l.parse().unwrap(), gates, heads.parse().unwrap(), prec)
 }
 
 fn kernel_bench() {
@@ -162,6 +197,40 @@ fn kernel_bench() {
     run!(512);
     run!(1024);
     run!(2048);
+
+    // Integer kernel: L2-resident (2 matrices, 0.4 MB) vs L3-streamed (8 matrices, 1.6 MB).
+    use wnn_native::half::{Encoding, gemv_q16x, quantize, row_scales};
+    let mut q = vec![0i16; n];
+    let xs = quantize(&x, Some(1.0), &mut q);
+    for count in [2usize, 8, 16] {
+        let mut arena = HalfArena::new();
+        let mut packed = Vec::new();
+        for m in w.iter().cycle().take(count) {
+            let sc = row_scales(m, 3 * n, n);
+            packed.push((arena.push_panel_as(Encoding::I16, m, &sc, 3 * n, n), sc));
+        }
+        {
+            let pf = wnn_native::half::Q_PREFETCH;
+            let us = per_row(5, reps, || {
+                for _ in 0..reps {
+                    for (rg, sc) in &packed {
+                        unsafe {
+                            gemv_q16x(&arena.as_ref()[rg.clone()], sc, xs, black_box(&q), n, Some(&b), &mut out)
+                        };
+                    }
+                    black_box(&mut out);
+                }
+            });
+            let bytes = (count * 3 * n * n * 2) as f64;
+            println!(
+                "q16x {count:2} mats ({:.2} MB) PF {pf:4}: {us:.2} us, {:.1} kcyc, {:.1} B/cyc, {:.1} MAC/cyc",
+                bytes / 1e6,
+                unsafe { BEST_KCYC } * reps as f64,
+                bytes / (unsafe { BEST_KCYC } * 1e3),
+                bytes / 2.0 / (unsafe { BEST_KCYC } * 1e3)
+            );
+        }
+    }
 }
 
 fn main() {
@@ -206,9 +275,9 @@ fn main() {
         .iter()
         .enumerate()
         .map(|(i, s)| {
-            let (h, l, gates, p) = parse(s);
+            let (h, l, gates, heads, p) = parse(s);
             let m = FastRnn::with_precision(
-                weights(n_in, h, l, gates, 11 + i as u64),
+                weights(n_in, h, l, gates, heads, 11 + i as u64),
                 Activations::Fast,
                 p,
             )
@@ -227,7 +296,8 @@ fn main() {
             black_box(&out);
         });
         println!(
-            "{s:>10} alone: {us:.2} us/row ({} KiB weights)",
+            "{s:>10} alone: {us:.2} us/row {:.1} kcyc/row ({} KiB weights)",
+            unsafe { BEST_KCYC },
             m.weight_bytes() / 1024
         );
     }
@@ -245,8 +315,9 @@ fn main() {
         });
         let kib: usize = models.iter().map(|m| m.weight_bytes()).sum::<usize>() / 1024;
         println!(
-            "ensemble {}: {us:.2} us/row ({kib} KiB weights)",
-            specs.join("+")
+            "ensemble {}: {us:.2} us/row {:.1} kcyc/row ({kib} KiB weights)",
+            specs.join("+"),
+            unsafe { BEST_KCYC }
         );
     }
 }
