@@ -1,0 +1,30 @@
+{
+  "status": "FROZEN_SOURCE_ONLY_BEFORE_TARGET_READS",
+  "id": "TARGET_CENSOR_COVERAGE01",
+  "population": "All10606 usable original train row groups, rows99..19999, no validation targets. This is only the train component of train+valid parent training; H2 uses valid only and is not audited here.",
+  "eligibility": "Exactly parent valid=step>=99; train cache mask must be allFalse and is ignored, matching mask_weight=False. No event, class, magnitude or selected-score eligibility filter.",
+  "event": "float32 D=t0-t1; changed[t]=(D[t]!=D[t-1]) for t>=1; next change strictly after current row, sentinel20000; same next_change_labels semantics.",
+  "censoring": "Right-censored when no strictly later D change is observed before row19999. Report eventful-sequence terminal tails separately from entirely no-change sequences. Last row has no positive time bound and is excluded from informative-censor coverage.",
+  "lower_bound": "D_next>19999-t; transformed bound(log1p(19999-t)-3)/2. Trainer sentinel log1p(20000-t) is not an observed duration. No time clipping/max exists in this trainer; clamp(max=19999) applies only to gather indices for unavailable sign labels.",
+  "quiet": "target_quiet means retrospective age>=64 since last target-contrast change, with origin0. It is NOT causal input i0-quiet and is never a serving feature.",
+  "weights": "Report row counts and sum over both targets of abs(clip(y,-2,2)). This is target-mass coverage, NOT official train score or exact parent aux/main loss-weight coverage. Actual propensity²+.03 and raw-i0 since weights unavailable here.",
+  "since_bound": "Descriptive hypothetical reweighting of that target mass by any a in[.25,1]: C/(C+4O) <= fraction <= 4C/(4C+O). These are not bounds on actual parent loss weights because propensity is omitted.",
+  "chain_halves": "sha256('TARGET_CENSOR_COVERAGE01|half|'+str(chain_id)) mod2; all row groups of a chain remain together. No fitting or scoring split.",
+  "one_fixed_gate": {
+    "statistic": "Hypothetical since-factor upper bound on informative eventful right-tail clipped-target-mass fraction over all eligible train rows, separately in both deterministic chain halves",
+    "threshold_each_half": 0.05,
+    "pass_meaning": "POTENTIALLY_MATERIAL_TARGET_CENSORING; source design may continue, no forecast fit automatically authorized",
+    "fail_meaning": "STOP_LOW_TARGET_COVERAGE for this train-only child; no horizon, class, threshold or loss rescue",
+    "limitation": "Allocation heuristic, not proof of absence/presence of useful supervision, and not a train+valid/H2 conclusion. No-event sequences are separately described and cannot rescue the gate."
+  },
+  "cached_auxiliary_predictions": "Not present in this branch's frozen input set. Do not generate predictions or discover/select an alternate cache; lower-bound violations unavailable.",
+  "resources": {"CPU": 2, "RAM_bytes": 2147483648, "timeout_seconds": 60, "GPU": false},
+  "inputs": ["cache/train_targets.npz", "cache/chain_folds.npz"],
+  "input_binding": "research/iterations/2026-10-01-ensemble-backbone/input-bindings.json",
+  "input_binding_sha256": "34c3e1a2ccc9b2afe08708a7a8db48bba0a5b0fa32e7c0f8823204969ce076f7",
+  "trainer_source": "research/iterations/2026-10-01-overnight/training/train_aux.py",
+  "trainer_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f",
+  "raw_features_read": false,
+  "validation_targets_read": false,
+  "new_forecasts_or_WP": 0
+}

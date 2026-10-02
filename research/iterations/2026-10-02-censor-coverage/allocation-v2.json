@@ -1,0 +1,32 @@
+{
+  "execution_authorized": true,
+  "resources": {
+    "CPU_affinity": [
+      8,
+      9
+    ],
+    "CPU_quota": 200,
+    "host_memory_bytes": 2147483648,
+    "timeout_seconds": 60,
+    "GPU": false
+  },
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-censor-coverage/coverage_v2.py",
+    "--protocol-sha256",
+    "c870d214e8e155f7efcb7f71547be8b1842cf72c10cc2366596f246083db9e98",
+    "--source-sha256",
+    "c324482a8f457ee155fdd3923e69f0e498861fbc9d33222cba5b902c5e127d50",
+    "--output",
+    "research/iterations/2026-10-02-censor-coverage/execution-01/result.json"
+  ],
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "OMP_NUM_THREADS": "2",
+    "MKL_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2"
+  },
+  "retries": 0,
+  "amendment": "Before any empirical execution: preserve original unused source/allocation; report absent historical target-cache full SHA explicitly as unknown. Mathematics, population and gate unchanged."
+}
