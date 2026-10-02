@@ -26,3 +26,7 @@ Copies with priority prefixes: `submissions/upload_2026-10-02b/` (SHA256SUMS ins
 pass). Teacher-ensemble student: +0.0011 over alpha 0.7 on folds 0+1 (E-337) but −0.0008 on the holdout (E-339).
 Expected public ≈ 0.6644 (same as 1, wider spread). Upload it only after 1, as a leaderboard test of the teacher
 ensemble; if it beats 1 publicly, the next session should train more teacher-ensemble seeds.
+
+## Public results (10:44–10:45 uploads)
+1_D07s3 0.6635, 2_D07s4 0.6639 (forecast 0.6644 each). Alpha 0.7 does not beat the alpha-0.5 student (0.6641); seed
+spread ~0.0004. Upload 3 (TE07s3) is NOT recommended: holdout −0.0008 vs D07s3 → expected ≈ 0.663.
