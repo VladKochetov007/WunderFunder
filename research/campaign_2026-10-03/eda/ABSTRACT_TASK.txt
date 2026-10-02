@@ -1,0 +1,10 @@
+ABSTRACT TASK (no further description is provided on purpose)
+
+Files: datasets/train.parquet, datasets/valid.parquet, datasets/valid_mask.parquet.
+Each parquet row group holds one sequence (column seq_ix) of 20,000 consecutive rows (column step_in_seq).
+Two columns, t0 and t1, are numeric targets. Everything else is an input column.
+Goal: per row, predict t0 and t1 using only the input rows of the same sequence up to and including that row.
+Rows 0-98 of each sequence are warm-up (no prediction needed). The score is a correlation between predictions and
+targets pooled over rows, weighted by |target|, with both clipped to [-2, 2]; valid.parquet has an is_scored column
+marking rows that count.
+Analyse the data. Watch statistics. Find structure. Propose how to predict.

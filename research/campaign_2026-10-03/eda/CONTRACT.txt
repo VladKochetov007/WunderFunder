@@ -1,0 +1,33 @@
+EDA AGENT CONTRACT (rules only; no prior findings are given on purpose)
+
+You are one of ten independent analysts. Work from scratch. Your own reasoning, your own path.
+
+ALLOWED TO READ: datasets/*.parquet, research/campaign_2026-10-03/eda/HOST_DATA_DESCRIPTION.txt (ONLY if your brief says
+you have the description), research/campaign_2026-10-03/eda/ABSTRACT_TASK.txt, your own directory, the web
+(WebSearch/WebFetch: papers, blogs, Kaggle, GitHub — encouraged).
+FORBIDDEN TO READ (clean room — do not open, grep, list contents of, or import from): research/ (except your own dir and
+the two task files above), notebooks/, cache/, artifacts/, submissions/, docs/, src/, scripts/ (you may only EXECUTE
+scripts/limited), baseline/, tests/, native/, README.md, METRIC.md, utils.py, WunderFunder_audit_evidence.md, any *.md in
+the repo root, git history/log/branches, other agents' directories, the wunder/ directory, ~/.claude.
+WRITE ONLY: research/campaign_2026-10-03/eda/<your_dir>/ (notebook, PNGs, scripts, REPORT.txt). Plain-text reports
+(.md writes are blocked for subagents). No git commits.
+
+RESOURCES (shared laptop; a GPU training job runs; OOM kills other people's work):
+- Run every Python/compute command and your marimo server through:
+    WNN_SLICE=wnn-campaign.slice WNN_CPU_PCT=4 WNN_MEM_MAX=2G CUDA_VISIBLE_DEVICES='' scripts/limited <cmd>
+  (~0.6 core, 2 GB hard cap, no GPU). Never load a whole parquet file: read row groups (one row group = one sequence)
+  and only the columns you need; keep <= ~40 sequences in memory at once; prefer float32.
+- Python: /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python (numpy, pandas, pyarrow, scipy,
+  matplotlib, marimo available; check others before use; do not pip install into it).
+
+NOTEBOOK: create your own marimo notebook <your_dir>/eda_<name>.py and pair with it (marimo-pair skill if available).
+Start the server in the background on YOUR port only:
+    WNN_SLICE=wnn-campaign.slice WNN_CPU_PCT=4 WNN_MEM_MAX=2G CUDA_VISIBLE_DEVICES='' scripts/limited \
+      .venv/bin/marimo edit <your_dir>/eda_<name>.py --no-token --headless --port <your port> --host 127.0.0.1
+If live pairing is not possible, keep the notebook as a runnable marimo file (python <file> runs it) and save every
+figure as PNG in your dir. Look at your own figures (open the PNGs) before concluding anything.
+
+DELIVERABLE: <your_dir>/REPORT.txt (<= 200 lines): what you looked at, key numbers and figure names, the structure you
+believe exists (with evidence and how sure you are), and 5-10 concrete modelling/feature ideas ranked by your belief,
+each with the cheapest test. Causality: a prediction at row t may use only rows <= t of the same sequence; targets are
+never inputs. Timebox ~3 hours wall clock (check `date`). Final message <= 12 lines: your top 3 findings and top 3 ideas.
