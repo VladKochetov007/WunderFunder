@@ -1,0 +1,38 @@
+{
+  "status": "FROZEN_BEFORE_METRIC_READOUT",
+  "utc": "2026-10-02T02:09:06.091866+00:00",
+  "training_allocation_sha256": "f98323f10b63ca49bd4260cc98b726f637bd884c4be337cb26b4eed7e48c0b09",
+  "source_sha256": {
+    "research/iterations/2026-10-02-ordinary-warm-seed4/evaluate.py": "adcf8d422dd6bc63bf76b5c72e087d830c9984c1e8ca03d96f72789239fdf6c5",
+    "research/iterations/2026-10-01-ensemble-backbone/evaluate.py": "c5f3ecc795ebd680872c39a652075a894192bfe9b4e654eca7e826c0310980e9"
+  },
+  "legacy_bindings_sha256": "573cd5cbaaddbda844abd4fd6736fe01de01726b2ceb118ed1b5b4d1682b8ff8",
+  "resource_budget": {
+    "CPU_quota": 200,
+    "CPU_affinity": [
+      28,
+      29
+    ],
+    "host_memory_bytes": 4294967296,
+    "swap": 0,
+    "timeout_seconds": 600,
+    "GPU": false,
+    "metric_readouts": 1
+  },
+  "expected_report_status": "COMPLETE_FIXED_ORDINARY_WARM_SEED4_SCREEN",
+  "input_sha256": {
+    "research/iterations/2026-10-01-continuation/student-seed4/evaluation-v2-01/report.json": "dae6cad10d3ef41f854f712858be66eef98f6b8513149ea3a7c2090031534b53",
+    "research/iterations/2026-10-01-continuation/student-seed4/evaluation-v2-01/sufficient.npz": "6dcea78413a5404e0531a2c598e7628166d55acaba1792fd5cdadc81be1d789c"
+  },
+  "comparisons": {
+    "primary": [
+      "ordinary_warm_seed4_4",
+      "original_seed4_4"
+    ],
+    "operational": [
+      "ordinary_warm_seed4_4",
+      "current_student4"
+    ]
+  },
+  "verification": "Fixed4fits2OOF;103args,ep0/ep1,initial-state/normalization parity,ordinary-trunk H2 freezing and own-parent lineage; B pooled metric and whole-chain paired draws unchanged. No target or metric reads during source freeze."
+}

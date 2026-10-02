@@ -4,6 +4,12 @@ Updated 2 October 2026 (Moscow). This is an index to the evidence; historical re
 
 **Publication preference:** the user has paused GitHub uploads. Subsequent research is stored locally and on beleriand only until the user explicitly resumes publication. Existing archive links below are historical; do not push new progress automatically.
 
+## Confirmation update, 2 October 05:27 Moscow
+
+The prospective second training seed did **not** reproduce the seed3 warm gain. Warmseed4 fixed4 scores **0.7022336584590652**, versus originalseed4 **0.7022343699230701**: paired delta **−0.000000711464**, conditional95% chain interval **[−0.000254095866,+0.000241492945]**; fold0 **−0.000009852119**, fold1 **+0.000200530191**. Relative to the operational seed3 incumbent it is−0.000146009155. [Report](iterations/2026-10-02-ordinary-warm-seed4/evaluation-01/report.json), [decision](iterations/2026-10-02-ordinary-warm-seed4/decision-01.json).
+
+The seed3 gain below remains a real measured exploratory result, but the recipe is not confirmed across the two tested seeds. The predeclared gate failed: **no final warm fits, native OOF or package/runtime allocation**. Prepared delivery sources remain available and unexecuted. Do not silently relax this gate or select another seed. Qualified student_fixed4 remains fallback. The next bounded diagnostic is an H2-only sampling/RNG control from the original parent; temporal-credit comparison is still running. No new public score or GitHub upload.
+
 ## Live frontier, 2 October 05:18 Moscow
 
 This entry supersedes earlier live statuses. The qualified fallback remains **student_fixed4.zip**, GPU WP **0.7023796676142182**, native WP **0.702355321332776**, actual runtime **44.54 minutes**. No new package is qualified yet.

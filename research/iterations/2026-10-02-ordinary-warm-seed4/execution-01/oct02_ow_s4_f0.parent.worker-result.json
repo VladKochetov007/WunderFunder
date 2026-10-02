@@ -1,0 +1,82 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_ow_s4_f0",
+  "stage": "parent",
+  "allocation_sha256": "f98323f10b63ca49bd4260cc98b726f637bd884c4be337cb26b4eed7e48c0b09",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-ordinary-warm-seed4/train_warm.py",
+    "--name",
+    "oct02_ow_s4_f0",
+    "--full-valid",
+    "--layers",
+    "1",
+    "--epochs",
+    "1",
+    "--lr",
+    "0.0005",
+    "--loss",
+    "wmse",
+    "--distill",
+    "h256_f0,h256s4_f0",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "train+valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "0",
+    "--init",
+    "cont_sh256_s4_f0@ep3",
+    "--ema-teacher",
+    "1.0",
+    "--eval-ema",
+    "--propensity",
+    "prop_f0",
+    "--prop-power",
+    "2.0",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--seed",
+    "4",
+    "--since-weight",
+    "32.0",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache"
+  ],
+  "started_utc": "2026-10-02T02:09:06.747277+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_ow_s4_f0/model_ep0.pt": {
+      "bytes": 2353827,
+      "sha256": "873e5cf2e8efb2ceb0608d06ab3f6acf9ac650ee65d43dcdb6d505b4829b5104"
+    },
+    "artifacts/runs/oct02_ow_s4_f0/model.pt": {
+      "bytes": 2353179,
+      "sha256": "35675ead835561a0af819610e9ab2d282503714f178799fc84fd5584e17379e8"
+    },
+    "artifacts/runs/oct02_ow_s4_f0/history.json": {
+      "bytes": 169,
+      "sha256": "9620f1f3ca51a66b7256cf4f6c97de32c37316c020d0f2a80aced6a241567164"
+    },
+    "artifacts/runs/oct02_ow_s4_f0/initial-state.json": {
+      "bytes": 1393,
+      "sha256": "1374344545962d0be8595c75226c5db3efcd16cfddd40e7ac7eb29c6b10527fa"
+    },
+    "research/iterations/2026-10-02-ordinary-warm-seed4/execution-01/oct02_ow_s4_f0.check.json": {
+      "bytes": 1106,
+      "sha256": "0bd6fce16aa9f2f3e46d38c3dd7caf3a00d1accd94159f052dce26f5fe8d73ff"
+    }
+  },
+  "seconds": 400.48814500588924,
+  "finished_utc": "2026-10-02T02:15:47.235443+00:00"
+}

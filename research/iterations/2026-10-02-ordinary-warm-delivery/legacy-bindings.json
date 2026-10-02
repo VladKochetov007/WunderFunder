@@ -1,0 +1,222 @@
+{
+  "status": "CONDITIONAL_SOURCE_INVENTORY_ONLY_NO_ALLOCATION",
+  "condition": "Only if ordinary-warm seed3 screen and prospectively fixed fresh-seed confirmation support spending. No current result was read for this inventory. No final architecture/ensemble/weight search.",
+  "incumbent": {
+    "zip": "research/iterations/2026-10-01-continuation/student-runtime/package/student_fixed4.zip",
+    "sha256": "eec571629b0829aeb9c73db80a1170fcb7cb3ccfd132f72f3ddd51f779d2fdd4",
+    "bytes": 6000321,
+    "member_order": [
+      "cont_sh256_final_s3h2",
+      "fin128_s3h2",
+      "fin128_s4h2",
+      "finc500b_s3h2"
+    ],
+    "coefficients": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ]
+  },
+  "existing_full_parent": {
+    "path": "artifacts/runs/cont_sh256_final_s3/model_ep3.pt",
+    "sha256": "28f539eca86b5885f4250f1c3721f1c41b217aa40a66eeceae396ee714c91a89",
+    "epoch": 3
+  },
+  "prospective_final_training": {
+    "count": "Exactly2 newfits: one ordinary warm full-data parent epoch fixedEMAep0, then ordinaryH2 twoepochs fixedep1. No final-data quality evaluation.",
+    "parent_base": "research/iterations/2026-10-01-continuation/student/final/commands.json jobs[0] (alltrain+allvalid, fold=-1,fin256_s3+fin256_s4 causal teachers,prop_f0)",
+    "parent_changes": {
+      "name": "oct02_ow_final_s3",
+      "init": "cont_sh256_final_s3@ep3",
+      "epochs": 1,
+      "lr": 0.0005
+    },
+    "head_base": "research/iterations/2026-10-01-continuation/student/final/commands.json jobs[1]",
+    "head_changes": {
+      "name": "oct02_ow_final_s3h2",
+      "init": "oct02_ow_final_s3@ep0"
+    },
+    "source_adapter": "Fresh derivative of ordinary-warm/train_warm.py: preserve its discarded Linear256to32 and GRU33to64 constructor draws; register final103args and plain_parents[\"-1\"] binding. ExistingCVadapter cannot simply run final fold=-1 against absent commands/key.",
+    "launch_shape": ".venv/bin/python <fresh_final_adapter>/train_warm.py <exact registered103args from bases plus changes>",
+    "checks": "Strict full parentload; mean/std exact originalfinalparent and unchanged throughout warm+H2; H2 inp/gru byte-identical ownparentep0; allstatesfinite; fixedmodel.pt alias; ordinary12keyshapes. Do not refit normalization or warmstart from oldH2.",
+    "limitation": "W commands.json was not yet present during inventory; exact final recipe must be mechanically reconciled with the eventual frozen Wscreen before execution. Proposednames are not launched/artifacts."
+  },
+  "teacher_inputs": {
+    "receipt": "research/iterations/2026-10-01-continuation/student/final/inputs.json",
+    "prior_status": "PASS_FINAL_TEACHER_CACHE_INPUTS_WITH_LEGACY_EPOCH_LIMITATION",
+    "caches": [
+      {
+        "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_fin256_s3_train.npy",
+        "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_fin256_s3_train.npy",
+        "size": 1696960128,
+        "mtime_ns": 1790710907699950550,
+        "inode": 742428681,
+        "shape": [
+          10606,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "sha256": "483e38785b5b7dc82d8e908c584740264fb40846d5934cfeaf762c9849f39b3e"
+      },
+      {
+        "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_fin256_s3_valid.npy",
+        "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_fin256_s3_valid.npy",
+        "size": 299680128,
+        "mtime_ns": 1790710973511903115,
+        "inode": 742428682,
+        "shape": [
+          1873,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "sha256": "48f52cdcce71abd8fccf5b0e32ec9d1454bf7b8c7f9e212305f2431c42a5ce2b"
+      },
+      {
+        "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_fin256_s4_train.npy",
+        "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_fin256_s4_train.npy",
+        "size": 1696960128,
+        "mtime_ns": 1790711312129636016,
+        "inode": 742428683,
+        "shape": [
+          10606,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "sha256": "5dbd47ea42eb7c2b2ba585b9e1b030cff84d76f38f16335e2df35f7c13b74e5b"
+      },
+      {
+        "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_fin256_s4_valid.npy",
+        "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_fin256_s4_valid.npy",
+        "size": 299680128,
+        "mtime_ns": 1790711376299073343,
+        "inode": 742428684,
+        "shape": [
+          1873,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "sha256": "2faaa07e997edc8a05763fadb1141a6801e0e1c36ebcf3b2638c99807da2b445"
+      }
+    ],
+    "limitation": "Retained caches passed fullSHA/header/finite coverage previously, but exact historical producerepoch/command is unknown. Root previously accepted these causal historical bytes for incumbentfinal; do not claim ep3 provenance or regenerate silently. Revalidate statidentity/knownbinding before reuse. Trainrowmap is10606ascendinggroups excluding528; valid1873."
+  },
+  "minimal_native_quality": {
+    "sources": [
+      "research/iterations/2026-10-01-continuation/student/native-quality-01/common.py",
+      "research/iterations/2026-10-01-continuation/student/native-quality-01/prepare.py",
+      "research/iterations/2026-10-01-continuation/student/native-quality-01/predict.py",
+      "research/iterations/2026-10-01-continuation/student/native-quality-01/evaluate.py"
+    ],
+    "changes": "Fresh derivative only: replace member0 with confirmed WfoldH2, keep on_ctl128s3/on_ctl128s4/on_ctlc500 and quarter/order; retain existingnativebinary/flags. Update fixedallocations, paths and sources, not metric math.",
+    "critical_reference_fix": "Old common.Q4 and prepare/evaluate reference full4-int8/on_q4quant. New comparator must be existing CURRENTstudent native fold caches research/iterations/2026-10-01-continuation/student/native-quality-01/cache/pred_student_quant_f{fold}_valid.npy plus receipts, not earlierd256strong4.",
+    "command_shapes": [
+      ".venv/bin/python <new_native_quality>/prepare.py",
+      "/home/grinchenkoeg/scorer_image/run.sh <new_native_quality>/predict.py --fold 0",
+      "/home/grinchenkoeg/scorer_image/run.sh <new_native_quality>/predict.py --fold 1",
+      ".venv/bin/python <new_native_quality>/evaluate.py"
+    ],
+    "purpose": "Two fixedfold native passes verify quantized+fastactivation quality against GPUwarm and incumbentnative on the same860purechains. New trained weights may change quantization error; same architecture is insufficient parity evidence. No blendretuning."
+  },
+  "minimal_package": {
+    "builder": "research/iterations/2026-10-01-continuation/student-runtime/package_student.py",
+    "wrapper": "research/iterations/2026-10-01-continuation/student-runtime/solution.py",
+    "native_directory": "research/iterations/2026-10-01-overnight/quant3/native/build",
+    "command_shape": ".venv/bin/python <fresh_delivery>/package_student.py --members <fresh_delivery>/members.json --native-dir research/iterations/2026-10-01-overnight/quant3/native/build --output <fresh_delivery>/package/warm_student_fixed4.zip",
+    "required_edit": "Prospectiveprivatecopy replaces hardcoded allowedmember0 name with newfinalH2; otherthreeidentities/quarters stayfixed. Prefer byte-copy unchanged solution.py,nativebinaries,members.json,weights1..3 from boundincumbentZIP and export onlyweights0, so only trainedmember changes. No engine rebuild.",
+    "export": "Checkpointfloat32 state\u2192NPZ, head.2weight/bias prune first2 outputs only; original211mean/std retained; plain256x1 and fullvalidfold=-1 checks; fresh manifest/checkpoint/source/ZIP hashes.",
+    "unchanged_members": [
+      {
+        "checkpoint": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/fin128_s3h2/model_ep1.pt",
+        "sha256": "cc5ef21da864ca185ec7069bc2f2791bb5ccd5f71c2e55ced99fcfb9debc31a3"
+      },
+      {
+        "checkpoint": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/fin128_s4h2/model_ep1.pt",
+        "sha256": "7a386c2daba46fa9895d65bf00412e32a1dac2db33138aef3aaa4fe296efc636"
+      },
+      {
+        "checkpoint": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/finc500b_s3h2/model_ep1.pt",
+        "sha256": "61395268177c79910ac491b1dbc009d151a147b599b63f442e5d91e67decc670"
+      }
+    ],
+    "unchanged_zip_files": {
+      "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+        "sha256": "1d27cf1f906c171cab9b3924159bad8293a53e646ffbf298cf85b5bc557dc60c",
+        "bytes": 839056
+      },
+      "members.json": {
+        "sha256": "d4cb50b9dbd86340ba71f066a111cd77a5bb5803fbe16b1299a5443589fc3b2a",
+        "bytes": 235
+      },
+      "solution.py": {
+        "sha256": "03ae884e98e8a90bda25e521dd9dbe7202817e892413b854c33709fa862dd2f1",
+        "bytes": 2133
+      },
+      "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+        "sha256": "35dc95048c108cbcd4b9043f77d8b64e4dc21d42d79bc931a2ff8d80a11e7db5",
+        "bytes": 831088
+      },
+      "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+        "sha256": "b865301e5ff0c9dce78c29c258d991a7b5542e7a63d44eeafd32c3b526166867",
+        "bytes": 847768
+      },
+      "weights_1.npz": {
+        "sha256": "66b80d33c1ef84d5a5dc0ff5893b0f121bf72122b59b8ef95411a691b4351a52",
+        "bytes": 1039544
+      },
+      "weights_2.npz": {
+        "sha256": "6c4cd532707b46762b9a3fc73a65ec013ff64bd3ed1cfabc42c03a05fa583976",
+        "bytes": 1039544
+      },
+      "weights_3.npz": {
+        "sha256": "688188e4c3068dc35d931557c7a93e31c9e6096b12fa3fc188631c79c0b573d6",
+        "bytes": 1039544
+      }
+    }
+  },
+  "fresh_zip_and_runtime": {
+    "sources": [
+      "research/iterations/2026-10-01-continuation/student-runtime/check_package.py",
+      "research/iterations/2026-10-01-continuation/student-runtime/protocol.py",
+      "research/iterations/2026-10-01-continuation/student-runtime/prepare_runtime.py",
+      "research/iterations/2026-10-01-continuation/student-runtime/launch_runtime.py",
+      "research/iterations/2026-10-01-continuation/student-runtime/audit_runtime.py",
+      "research/iterations/2026-10-01-continuation/student-runtime/start_runtime.py"
+    ],
+    "command_shapes": [
+      "/home/grinchenkoeg/scorer_image/run.sh <fresh_delivery>/check_package.py --package <fresh_delivery>/package/warm_student_fixed4.zip",
+      ".venv/bin/python <fresh_delivery>/launch_runtime.py --allocation <new_allocation.json> --allocation-sha256 <frozenSHA>"
+    ],
+    "checks": "FreshCP311extraction,NoTorch,rawonly realwrapper predict; repeated/reset/prefix/stream/mask and exactorderedmemberfmaf. Check_package is native selfconsistency, not GPUparity; preserve separate nativeOOFquality.",
+    "workload": "Exactly39.4Mcallbacks: valid1873x20k once plusfirst97withfreshIDs. Allwarmupupdates; need_prediction step>=99;39,204,970 emitted;1970resets. Fullprocess startup/extraction/IO/hashes included; <=60min actualclaim.",
+    "resources": "OnepinnedcomputeCPU, quota100%,16GiB/swap0, freshquietSMTsibling sample/report, no retries. Historicalruntime hardcap4200s versus60minqualification; freshrootallocation decidescap prospectively.",
+    "non_drop_in": "Oldscripts hardcode HERE/rootdepth, CPU39/79 (packagecheckCPU18), artifactnames,planID and outputdirectories; copy at suitabledepth/changeexplicitconstants and bind beforeexecution. Do not run prepare_runtime.py unchanged: it creates legacyrootauthorization itself.",
+    "cost_claim": "Same ordinary shapes/kernels/footprint imply similar cost to incumbent44.53686675min, but inference only. Actual trainedweight/nativeparity and freshfullcallbacktimer still required; no inherited runtimePASS or ISAuniversality."
+  },
+  "source_sha256": {
+    "research/iterations/2026-10-01-continuation/student/final/commands.json": "e7e38e8b80ee59ef3d3cb89b6d373e153c44ad59a3a3831f011440de9c624595",
+    "research/iterations/2026-10-01-continuation/student/final/build_final_plan.py": "47ff43de084669e540e5302bf15cc3ec131aaec4744b9d341024cc2a2a4d7b89",
+    "research/iterations/2026-10-01-continuation/student/final/fit-inspection.json": "6456cfc144f9382821e271866dcf9e03710f1dc53aa9a2c7a1611f1e4cb234f1",
+    "research/iterations/2026-10-01-continuation/student/final/inputs.json": "9707daf9f7e6516230cce357a64f8683d7cdb75f628b63a3dc195114e5d2fbc2",
+    "research/iterations/2026-10-01-continuation/student/final-teacher-availability.json": "81bb027e81eeda4d3390ab62bb4887b0ad7fb3028ca619fdbecf5bfc5e750e28",
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/prepare.py": "b85d5ea0920e512a798a0a5e07494687a54fa351b8233f7575d01a63eeacae5c",
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/predict.py": "2fa3e53bd0388735620eba5eec1ed1377a22cd03a00d6fc624b284a3708f254b",
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/evaluate.py": "9dd71d06373121176133e1cfa3bd2455eabcd40f35f3e38824908c52a88f4986",
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/common.py": "b0d3cd69c42aff30fa09ed7aa06b7e3f020efff20425289044eb501adc57dfc7",
+    "research/iterations/2026-10-01-continuation/student-runtime/package_student.py": "091c6ed9b7cb23fbaffb9a0daaedcffa65b35488a00a0cc5dbdbaafc1d10a765",
+    "research/iterations/2026-10-01-continuation/student-runtime/solution.py": "03ae884e98e8a90bda25e521dd9dbe7202817e892413b854c33709fa862dd2f1",
+    "research/iterations/2026-10-01-continuation/student-runtime/check_package.py": "a4b88ebb470f0d4982aaae783f59527ee2244a35b808fab0ae7c3e41b616ae32",
+    "research/iterations/2026-10-01-continuation/student-runtime/prepare_runtime.py": "30a6818cfcf3477dfe63516d99888ec222a71aff1eea74a82b3b75a1b739c87c",
+    "research/iterations/2026-10-01-continuation/student-runtime/launch_runtime.py": "a78b5b5fbb15297907e11a65890689cf04c23bd73a858a8a02fc48bdfa7b38dc",
+    "research/iterations/2026-10-01-continuation/student-runtime/start_runtime.py": "b1df2dc34106fc5f9214ee3ea09f76fe78a56fdc1a931fab22c790bd07ab942b",
+    "research/iterations/2026-10-01-continuation/student-runtime/audit_runtime.py": "610996b946811f627caaff52ebe83fa83494418b5de15947540b6db6c4669114",
+    "research/iterations/2026-10-01-continuation/student-runtime/protocol.py": "86611b960936c91a580319f262018e8334cc122f300feffce5916407ef628b49",
+    "research/iterations/2026-10-01-continuation/student-runtime/runtime-plan.json": "fc8227cb1d528b5a6cf85c6170dc09fe73f38db115157dc1f1c61b95592c2610",
+    "research/iterations/2026-10-01-continuation/student-runtime/package/student_fixed4.manifest.json": "474390394e60f94e2c4660f085edb6dad87c86b322e01382a9d821050859ad43"
+  },
+  "scope": "Readsource/smallJSON only. Noarray/checkpointcontents,data,inference,fit,metric,runtime,packagewrites or allocation."
+}

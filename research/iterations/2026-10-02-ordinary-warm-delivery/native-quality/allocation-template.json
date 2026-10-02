@@ -1,0 +1,86 @@
+{
+  "id": "CONDITIONAL_ORDINARY_WARM_NATIVE_QUALITY",
+  "authorized": false,
+  "activation_condition": "Root-only after W and seed4 support. No autonomous allocation or execution.",
+  "OOF_passes": 2,
+  "metric_readouts": 1,
+  "folds": [
+    0,
+    1
+  ],
+  "coefficients": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+  ],
+  "members": [
+    "oct02_ow_s3h2",
+    "on_ctl128s3",
+    "on_ctl128s4",
+    "on_ctlc500"
+  ],
+  "epoch": 1,
+  "native_sha256": "b865301e5ff0c9dce78c29c258d991a7b5542e7a63d44eeafd32c3b526166867",
+  "reference_prepared_sha256": "096af7fec60113981269ffacbec6eca6f9df2b34976638cbe73739cfd66eeae1",
+  "reference_prediction_sha256": {
+    "0": "5fab2d3197bd16028640d1702d19c827491a2da978573640bd656b6c7d41d43f",
+    "1": "099284c295cd62757be381508ec6dba736e714d48efccfad8e2c2ff3d6fe329b"
+  },
+  "reference_receipt_sha256": {
+    "0": "c0a083c10c90bfad43d607c4817556a4ff9167b04471883e7c464dff0552a17d",
+    "1": "f9740942171974711450c215369bf9109faca712accf1c356995ff844f478b97"
+  },
+  "warm_checkpoint_sha256": {
+    "0": null,
+    "1": null
+  },
+  "lanes": {
+    "0": 30,
+    "1": 35
+  },
+  "siblings": {
+    "0": 70,
+    "1": 75
+  },
+  "cpu_quota_each": "100%",
+  "memory_bytes_each": 4294967296,
+  "swap_bytes": 0,
+  "prediction_wall_seconds_each": 1800,
+  "prepare_wall_seconds": 60,
+  "evaluation_wall_seconds": 600,
+  "kill_grace_seconds": 5,
+  "new_disk_cap_bytes": 1073741824,
+  "GPU_execution": false,
+  "new_fits": 0,
+  "retries": false,
+  "source_sha256": {
+    "research/iterations/2026-10-02-ordinary-warm-delivery/native-quality/common.py": "a5526b77196ed01d38042b5706c08013ca3b2fac3be6e60359ff71a61b7cfa89",
+    "research/iterations/2026-10-02-ordinary-warm-delivery/native-quality/prepare.py": "65fc777f349d95855a7b1dfa40a63388d4fd09c187fffc7b80565f9e108e3ae6",
+    "research/iterations/2026-10-02-ordinary-warm-delivery/native-quality/predict.py": "26b263f2dea0a37a0fdc0383cc5ff9e7909aa586744fdd03522382a63e176da9",
+    "research/iterations/2026-10-02-ordinary-warm-delivery/native-quality/launch.py": "11cca90489c7e8f10138147eab0daee0ac4a7a2ac338469fbe25df90c2454e00",
+    "research/iterations/2026-10-02-ordinary-warm-delivery/native-quality/start.py": "d4f65b3c7f4170ce55d2db8450e30c020e434ea93246ebcb6958bdbb8c984a87",
+    "research/iterations/2026-10-02-ordinary-warm-delivery/native-quality/README.md": "ae3bfbc6b2b4a3d83d8ff209f1cffbc3656f3a495c79d3df05d5c4ff3b24c953",
+    "research/iterations/2026-10-02-ordinary-warm/commands.json": "bd13fb2d96fa898fc1bfd2bf7ba1eae75c742ea805f6633e54ba6adf4dbc1494",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "scripts/fold_eval.py": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+    "research/iterations/2026-10-01-ensemble-backbone/evaluate.py": "c5f3ecc795ebd680872c39a652075a894192bfe9b4e654eca7e826c0310980e9"
+  },
+  "evaluation_input_sha256": {
+    "research/iterations/2026-10-02-ordinary-warm/evaluation-01/report.json": null,
+    "research/iterations/2026-10-02-ordinary-warm/evaluation-01/sufficient.npz": null,
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/evaluation/report.json": null,
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/evaluation/sufficient.npz": null,
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/cache/pred_student_quant_f0_valid.json": null,
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/cache/pred_student_quant_f1_valid.json": null
+  },
+  "root_fill_required": [
+    "warm_checkpoint_sha256 from completed W workers",
+    "evaluation_input_sha256 from existing frozen producers",
+    "source_sha256 must additionally bind separately supplied native-quality/evaluate.py",
+    "authorized=True only through root allocation"
+  ],
+  "primary": "native warm4 minus CURRENT student_native4, not strong4",
+  "secondary": "native warm4 minus exact GPU ordinary_warm4",
+  "source_preparation_only": true
+}
