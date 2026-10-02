@@ -1,7 +1,7 @@
 # Teammate results intake (ideas and numbers only)
 
 Recorded 2026-10-01 02:10 Kyiv from `origin/quant-probes`, `origin/cpp-engine` (author "nb") and
-`origin/research/creative-iteration-20260930`, `origin/archive/2026-10-01` (author "Maxim"), fetched
+`origin/research/creative-iteration-20260930`, `origin/archive/2026-10-01` (teammate A), fetched
 read-only. **Clean-room rule:** nobody implementing our code reads teammate source files; we reuse ideas and
 reported numbers only. Our code must differ in structure, names and format. Their branches are never merged.
 All numbers below are teammate-reported and not re-verified by us unless an E-id says so.
