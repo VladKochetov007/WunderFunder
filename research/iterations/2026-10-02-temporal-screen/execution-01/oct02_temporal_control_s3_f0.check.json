@@ -1,0 +1,80 @@
+{
+  "status": "PASS_FIXED_ENDPOINT_FINITE_AND_LINEAGE",
+  "utc": "2026-10-02T01:23:47.037417+00:00",
+  "job": "oct02_temporal_control_s3_f0",
+  "stage": "parent",
+  "fold": 0,
+  "commands_sha256": "53b71983f9edab252cc7c13774f120a760a871129fe7ef4474cd4f14359c29ec",
+  "validator_sha256": "9699bf8311b0c1d47cc40c3bce3ecf52015faa6b47c3bfc874bf21c40b85d1c4",
+  "checkpoint": {
+    "path": "artifacts/runs/oct02_temporal_control_s3_f0/model_ep3.pt",
+    "sha256": "6ba980df09121a8ee63cc50c865fb554d099afa41e7385ed588afa88f4ed531f",
+    "bytes": 2353955,
+    "epoch": 3,
+    "n_in": 211
+  },
+  "model_pt": {
+    "path": "artifacts/runs/oct02_temporal_control_s3_f0/model.pt",
+    "sha256": "3eb329763cd02b4bd05318efbd24a760d42ef144a8ca599d8a23eb7109f7d7aa",
+    "bytes": 2353243,
+    "epoch": null,
+    "n_in": 211
+  },
+  "model_pt_state_byte_equals_endpoint": true,
+  "history_sha256": "3c85361e03f3343e148a30f210c4965b1f22d28df885dfcd68e86e528d8f3213",
+  "all_resolved_args_match": true,
+  "resolved_argument_count": 105,
+  "arm": "control",
+  "serving_architecture": "ordinary_gru_256x1",
+  "state_shapes": {
+    "mean": [
+      211
+    ],
+    "std": [
+      211
+    ],
+    "inp.weight": [
+      256,
+      211
+    ],
+    "inp.bias": [
+      256
+    ],
+    "gru.weight_ih_l0": [
+      768,
+      256
+    ],
+    "gru.weight_hh_l0": [
+      768,
+      256
+    ],
+    "gru.bias_ih_l0": [
+      768
+    ],
+    "gru.bias_hh_l0": [
+      768
+    ],
+    "head.0.weight": [
+      256,
+      512
+    ],
+    "head.0.bias": [
+      256
+    ],
+    "head.2.weight": [
+      23,
+      256
+    ],
+    "head.2.bias": [
+      23
+    ]
+  },
+  "all_state_finite_float32": true,
+  "parent": null,
+  "byte_identical_frozen_tensors": [],
+  "changed_head_tensors": [],
+  "EMA_identity": "Parent checkpoint args eval_ema=true and bound frozen trainer saves ema_model.module; EMA trajectory is not reconstructed.",
+  "data_or_targets_read": false,
+  "model_forward_calls": 0,
+  "metrics": 0
+}

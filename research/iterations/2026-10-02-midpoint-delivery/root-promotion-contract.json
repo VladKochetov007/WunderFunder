@@ -1,0 +1,23 @@
+{
+  "created_utc": "2026-10-02T02:53:35.629152+00:00",
+  "status": "PROSPECTIVE_MIDPOINT_SERVING_QUALIFICATION",
+  "prerequisite": "M fixedgatepass onseed3>=.0001,seed4>0,allfourfolds>0. Same exposeddata; seed4intervalcrosseszero. M isfreshadaptivechild,originalWfailedgate remainsunchanged.",
+  "final_recipe": "Exactly2full-datawarmfits followingoriginalDrecipe, then0.5parameter midpoint oforiginalfinalH2ep1 andnewwarmfinalH2ep1; finalseed3fixed",
+  "native_gate": {
+    "native_incumbent_pooled_min": 0.0001,
+    "native_incumbent_each_fold_strict_min": 0.0,
+    "native_GPU_pooled_min": -0.0001,
+    "native_GPU_each_fold_min": -0.00015
+  },
+  "CI_exclusion_required": false,
+  "serving": "Onlyweights0replacement; unchangedqualifiedwrapper,binaries,quarters,members1..3; no governor",
+  "runtime": "New39.4Mrealcallbacks mustcomplete<=3600actualwallseconds,fullstartupIOhash included. Hardcap3900s CPU8SMT48 quota1CPU16GiB,noGPU,no retry.",
+  "budgets": {
+    "final_fits": 2,
+    "native_OOF": 2,
+    "native_metric_readouts": 1,
+    "full_runtime_attempts": 1
+  },
+  "publication": "NoGitHub/publicsubmission",
+  "claim": "Operationalselectionunderuncertainty, notlargegainorhiddenrankguarantee"
+}

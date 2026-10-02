@@ -1,0 +1,88 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_temporal_candidate_s3_f1",
+  "stage": "parent",
+  "allocation_sha256": "97b7195922eb6742704f1e70c0cc5d12e957390e1999cd03b25df637eefb548f",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-temporal-screen/train_temporal.py",
+    "--name",
+    "oct02_temporal_candidate_s3_f1",
+    "--full-valid",
+    "--layers",
+    "1",
+    "--epochs",
+    "4",
+    "--loss",
+    "wmse",
+    "--distill",
+    "h256_f1,h256s4_f1",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "train+valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "1",
+    "--ema-teacher",
+    "1.0",
+    "--eval-ema",
+    "--propensity",
+    "prop_f1",
+    "--prop-power",
+    "2.0",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--seed",
+    "3",
+    "--since-weight",
+    "32.0",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache",
+    "--gradient-horizon",
+    "500"
+  ],
+  "started_utc": "2026-10-02T01:54:30.753867+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_temporal_candidate_s3_f1/model_ep0.pt": {
+      "bytes": 2353955,
+      "sha256": "b087f6beb077047fe73f36bdf62a74bfe099e23d98f8a1dd57c49e5630e2df73"
+    },
+    "artifacts/runs/oct02_temporal_candidate_s3_f1/model_ep1.pt": {
+      "bytes": 2353955,
+      "sha256": "33b94d4168f91868b18936a46fdaaa56c444f5e0c97e14abb08ed2b2a576d6f6"
+    },
+    "artifacts/runs/oct02_temporal_candidate_s3_f1/model_ep2.pt": {
+      "bytes": 2353955,
+      "sha256": "50b1eab96110e4d044c8a48673d045521e73a792cfad8d792013ffedae06df29"
+    },
+    "artifacts/runs/oct02_temporal_candidate_s3_f1/model_ep3.pt": {
+      "bytes": 2353955,
+      "sha256": "b16eeb6a753d906e10595ac96a212daf2afe22f90cbd5e9aa8518bfb527152e7"
+    },
+    "artifacts/runs/oct02_temporal_candidate_s3_f1/model.pt": {
+      "bytes": 2353243,
+      "sha256": "5e31171460a1adc1403129ab2cd9c0498ef2cf24fcb47ab89ec964601fcc8a66"
+    },
+    "artifacts/runs/oct02_temporal_candidate_s3_f1/history.json": {
+      "bytes": 670,
+      "sha256": "8bb2d6ead133be5dbdef68134e0dc17b4fcdc1da8cad08e42c25119356df4359"
+    },
+    "research/iterations/2026-10-02-temporal-screen/execution-01/oct02_temporal_candidate_s3_f1.check.json": {
+      "bytes": 1973,
+      "sha256": "10c2e9c3b4336cc0c869f101e4e14c26339d50e1b67f6c3dd86e3d709dbc7d48"
+    }
+  },
+  "seconds": 1616.4060688847676,
+  "finished_utc": "2026-10-02T02:21:27.159958+00:00"
+}

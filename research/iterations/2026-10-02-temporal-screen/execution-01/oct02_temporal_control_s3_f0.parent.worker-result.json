@@ -1,0 +1,88 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_temporal_control_s3_f0",
+  "stage": "parent",
+  "allocation_sha256": "97b7195922eb6742704f1e70c0cc5d12e957390e1999cd03b25df637eefb548f",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-temporal-screen/train_temporal.py",
+    "--name",
+    "oct02_temporal_control_s3_f0",
+    "--full-valid",
+    "--layers",
+    "1",
+    "--epochs",
+    "4",
+    "--loss",
+    "wmse",
+    "--distill",
+    "h256_f0,h256s4_f0",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "train+valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "0",
+    "--ema-teacher",
+    "1.0",
+    "--eval-ema",
+    "--propensity",
+    "prop_f0",
+    "--prop-power",
+    "2.0",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--seed",
+    "3",
+    "--since-weight",
+    "32.0",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache",
+    "--gradient-horizon",
+    "2000"
+  ],
+  "started_utc": "2026-10-02T00:56:12.143308+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_temporal_control_s3_f0/model_ep0.pt": {
+      "bytes": 2353955,
+      "sha256": "a0faeebd40b531bf48aa7b972c900e834fab9b022dd32c90d9edca92a69922b9"
+    },
+    "artifacts/runs/oct02_temporal_control_s3_f0/model_ep1.pt": {
+      "bytes": 2353955,
+      "sha256": "ff57373857ab3ae2ac8631cd9c88a235903aee0114181364ce3cec03213037dd"
+    },
+    "artifacts/runs/oct02_temporal_control_s3_f0/model_ep2.pt": {
+      "bytes": 2353955,
+      "sha256": "3b94db8a6b9c2a3c28eb5c23b3283ed0052090215cde56391fdf24645844145d"
+    },
+    "artifacts/runs/oct02_temporal_control_s3_f0/model_ep3.pt": {
+      "bytes": 2353955,
+      "sha256": "6ba980df09121a8ee63cc50c865fb554d099afa41e7385ed588afa88f4ed531f"
+    },
+    "artifacts/runs/oct02_temporal_control_s3_f0/model.pt": {
+      "bytes": 2353243,
+      "sha256": "3eb329763cd02b4bd05318efbd24a760d42ef144a8ca599d8a23eb7109f7d7aa"
+    },
+    "artifacts/runs/oct02_temporal_control_s3_f0/history.json": {
+      "bytes": 670,
+      "sha256": "3c85361e03f3343e148a30f210c4965b1f22d28df885dfcd68e86e528d8f3213"
+    },
+    "research/iterations/2026-10-02-temporal-screen/execution-01/oct02_temporal_control_s3_f0.check.json": {
+      "bytes": 1965,
+      "sha256": "c52feee1ac8d5d4630810ba5b36c4638a48f392c9a81de08f9b939e71a33a4ad"
+    }
+  },
+  "seconds": 1655.4139994783327,
+  "finished_utc": "2026-10-02T01:23:47.557327+00:00"
+}

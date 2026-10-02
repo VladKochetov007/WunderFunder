@@ -1,0 +1,108 @@
+{"name": "oct02_temporal_candidate_s3_f1", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 256, "layers": 1, "dropout": 0.0, "chunk": 2000, "batch": 32, "epochs": 4, "lr": 0.001, "wd": 0.01, "loss": "wmse", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "h256_f1,h256s4_f1", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "aux_next_k": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "aux_loss_scale": 1.0, "arch": "gru", "tfm_d": 256, "tfm_layers": 6, "tfm_heads": 8, "tfm_ff": 1024, "tfm_block": 250, "hidden1": 0, "attn_k": 32, "attn_d": 64, "attn_heads": 4, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 1, "n_valid_folds": 4, "valid_repeat": 1, "init": "", "freeze": "", "ema_teacher": 1.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": true, "mask_weight": false, "propensity": "prop_f1", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "atom_head": 0.0, "vrex": 0.0, "vrex_start": 1, "level_aug": 0.0, "level_drop": 0.0, "lookahead": "", "train_half": -1, "class_heads": false, "quant_feats": false, "quant_i1": false, "state_reset": 0, "loss_norm": "chunk", "since_weight": 32.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "gradient_horizon": 500, "temporal_source_sha256": "4c3058c9f78c56442618edf29494fe813b40e03f1fb586dfd8410ff6479c8aaf"}
+{"source_train_sequences": 10606, "eligible_valid_train_sequences": 1404, "used_valid_train_sequences": 1404, "eval_sequences": 469}
+loader workers 2 prefetch 2; params 0.59M; steps 15000
+ep 0 batch 0/375 loss 2.9548 lr 4.04e-05 seq/s 6.0
+ep 0 batch 20/375 loss 1.7441 lr 2.14e-04 seq/s 25.1
+ep 0 batch 40/375 loss 1.4231 lr 5.91e-04 seq/s 27.2
+ep 0 batch 60/375 loss 1.4592 lr 9.21e-04 seq/s 28.2
+ep 0 batch 80/375 loss 1.4252 lr 1.00e-03 seq/s 28.7
+ep 0 batch 100/375 loss 1.2890 lr 9.99e-04 seq/s 29.1
+ep 0 batch 120/375 loss 1.1397 lr 9.97e-04 seq/s 29.3
+ep 0 batch 140/375 loss 1.1219 lr 9.95e-04 seq/s 29.4
+ep 0 batch 160/375 loss 1.0133 lr 9.91e-04 seq/s 29.5
+ep 0 batch 180/375 loss 1.0860 lr 9.86e-04 seq/s 29.7
+ep 0 batch 200/375 loss 1.0201 lr 9.81e-04 seq/s 29.7
+ep 0 batch 220/375 loss 0.9307 lr 9.74e-04 seq/s 29.8
+ep 0 batch 240/375 loss 0.9036 lr 9.67e-04 seq/s 29.8
+ep 0 batch 260/375 loss 0.8901 lr 9.59e-04 seq/s 29.8
+ep 0 batch 280/375 loss 1.0265 lr 9.49e-04 seq/s 29.8
+ep 0 batch 300/375 loss 0.9079 lr 9.39e-04 seq/s 29.8
+ep 0 batch 320/375 loss 0.8812 lr 9.28e-04 seq/s 29.8
+ep 0 batch 340/375 loss 0.9433 lr 9.16e-04 seq/s 29.8
+ep 0 batch 360/375 loss 0.8467 lr 9.04e-04 seq/s 29.9
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 0, "eval_seconds": 0.0, "split": "vfold469"}
+ep 1 batch 0/375 loss 0.8749 lr 8.94e-04 seq/s 8.8
+ep 1 batch 20/375 loss 0.9020 lr 8.80e-04 seq/s 27.0
+ep 1 batch 40/375 loss 0.8593 lr 8.65e-04 seq/s 28.5
+ep 1 batch 60/375 loss 0.8545 lr 8.50e-04 seq/s 28.9
+ep 1 batch 80/375 loss 0.8533 lr 8.34e-04 seq/s 29.2
+ep 1 batch 100/375 loss 0.8821 lr 8.17e-04 seq/s 29.6
+ep 1 batch 120/375 loss 0.9338 lr 8.00e-04 seq/s 29.8
+ep 1 batch 140/375 loss 0.7288 lr 7.82e-04 seq/s 29.5
+ep 1 batch 160/375 loss 0.7931 lr 7.63e-04 seq/s 29.6
+ep 1 batch 180/375 loss 0.7929 lr 7.44e-04 seq/s 29.7
+ep 1 batch 200/375 loss 0.8849 lr 7.25e-04 seq/s 29.8
+ep 1 batch 220/375 loss 0.7541 lr 7.05e-04 seq/s 29.9
+ep 1 batch 240/375 loss 0.8812 lr 6.85e-04 seq/s 29.9
+ep 1 batch 260/375 loss 0.7882 lr 6.64e-04 seq/s 30.0
+ep 1 batch 280/375 loss 0.8094 lr 6.43e-04 seq/s 30.0
+ep 1 batch 300/375 loss 0.7525 lr 6.22e-04 seq/s 30.0
+ep 1 batch 320/375 loss 0.7330 lr 6.00e-04 seq/s 30.0
+ep 1 batch 340/375 loss 0.8467 lr 5.79e-04 seq/s 30.1
+ep 1 batch 360/375 loss 0.8030 lr 5.57e-04 seq/s 30.1
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 1, "eval_seconds": 0.0, "split": "vfold469"}
+ep 2 batch 0/375 loss 0.7869 lr 5.40e-04 seq/s 9.1
+ep 2 batch 20/375 loss 0.8423 lr 5.18e-04 seq/s 27.2
+ep 2 batch 40/375 loss 0.7977 lr 4.96e-04 seq/s 28.4
+ep 2 batch 60/375 loss 0.8627 lr 4.74e-04 seq/s 29.1
+ep 2 batch 80/375 loss 0.7454 lr 4.52e-04 seq/s 29.4
+ep 2 batch 100/375 loss 0.8502 lr 4.30e-04 seq/s 28.8
+ep 2 batch 120/375 loss 0.8052 lr 4.09e-04 seq/s 28.9
+ep 2 batch 140/375 loss 0.7119 lr 3.87e-04 seq/s 29.0
+ep 2 batch 160/375 loss 0.7996 lr 3.66e-04 seq/s 29.1
+ep 2 batch 180/375 loss 0.7913 lr 3.45e-04 seq/s 29.2
+ep 2 batch 200/375 loss 0.7195 lr 3.24e-04 seq/s 29.2
+ep 2 batch 220/375 loss 0.8793 lr 3.03e-04 seq/s 29.4
+ep 2 batch 240/375 loss 0.8047 lr 2.83e-04 seq/s 29.5
+ep 2 batch 260/375 loss 0.8077 lr 2.64e-04 seq/s 29.5
+ep 2 batch 280/375 loss 0.7476 lr 2.45e-04 seq/s 29.5
+ep 2 batch 300/375 loss 0.8412 lr 2.26e-04 seq/s 29.6
+ep 2 batch 320/375 loss 0.8244 lr 2.08e-04 seq/s 29.6
+ep 2 batch 340/375 loss 0.8392 lr 1.90e-04 seq/s 29.6
+ep 2 batch 360/375 loss 0.7834 lr 1.73e-04 seq/s 29.7
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 2, "eval_seconds": 0.0, "split": "vfold469"}
+ep 3 batch 0/375 loss 0.8453 lr 1.61e-04 seq/s 8.3
+ep 3 batch 20/375 loss 0.7685 lr 1.45e-04 seq/s 26.6
+ep 3 batch 40/375 loss 0.6960 lr 1.30e-04 seq/s 28.3
+ep 3 batch 60/375 loss 0.8122 lr 1.15e-04 seq/s 29.0
+ep 3 batch 80/375 loss 0.7863 lr 1.02e-04 seq/s 29.5
+ep 3 batch 100/375 loss 0.7324 lr 8.88e-05 seq/s 29.7
+ep 3 batch 120/375 loss 0.8057 lr 7.67e-05 seq/s 29.8
+ep 3 batch 140/375 loss 0.7284 lr 6.54e-05 seq/s 29.8
+ep 3 batch 160/375 loss 0.7234 lr 5.49e-05 seq/s 29.9
+ep 3 batch 180/375 loss 0.8623 lr 4.54e-05 seq/s 30.0
+ep 3 batch 200/375 loss 0.7683 lr 3.67e-05 seq/s 30.0
+ep 3 batch 220/375 loss 0.8055 lr 2.89e-05 seq/s 30.0
+ep 3 batch 240/375 loss 0.7262 lr 2.20e-05 seq/s 30.1
+ep 3 batch 260/375 loss 0.8101 lr 1.61e-05 seq/s 30.1
+ep 3 batch 280/375 loss 0.7903 lr 1.11e-05 seq/s 30.1
+ep 3 batch 300/375 loss 0.7690 lr 7.02e-06 seq/s 30.1
+ep 3 batch 320/375 loss 0.7744 lr 3.92e-06 seq/s 30.2
+ep 3 batch 340/375 loss 0.8121 lr 1.80e-06 seq/s 30.1
+ep 3 batch 360/375 loss 0.6887 lr 6.35e-07 seq/s 30.1
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 3, "eval_seconds": 0.0, "split": "vfold469"}
+BEST 0.0
+{"status": "PASS_FIXED_ENDPOINT_FINITE_AND_LINEAGE", "output": "research/iterations/2026-10-02-temporal-screen/execution-01/oct02_temporal_candidate_s3_f1.check.json", "sha256": "10c2e9c3b4336cc0c869f101e4e14c26339d50e1b67f6c3dd86e3d709dbc7d48", "checkpoint": {"path": "artifacts/runs/oct02_temporal_candidate_s3_f1/model_ep3.pt", "sha256": "b16eeb6a753d906e10595ac96a212daf2afe22f90cbd5e9aa8518bfb527152e7", "bytes": 2353955, "epoch": 3, "n_in": 211}}
+	Command being timed: ".venv/bin/python research/iterations/2026-10-02-temporal-screen/run_queue.py --allocation /home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-temporal-screen/training-allocation.json --allocation-sha256 97b7195922eb6742704f1e70c0cc5d12e957390e1999cd03b25df637eefb548f --worker 6"
+	User time (seconds): 2566.43
+	System time (seconds): 618.98
+	Percent of CPU this job got: 197%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 26:56.60
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 6224564
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 144529765
+	Voluntary context switches: 187274
+	Involuntary context switches: 12116
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 23688
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

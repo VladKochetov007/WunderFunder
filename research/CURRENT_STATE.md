@@ -4,6 +4,18 @@ Updated 2 October 2026 (Moscow). This is an index to the evidence; historical re
 
 **Publication preference:** the user has paused GitHub uploads. Subsequent research is stored locally and on beleriand only until the user explicitly resumes publication. Existing archive links below are historical; do not push new progress automatically.
 
+## Current selection and qualification, 2 October 06:01 Moscow
+
+The operational fallback is still **student_fixed4.zip**: GPU pooled WP **0.7023796676142182**, native WP **0.702355321332776**, actual full-stream runtime **44.54 minutes**. No new ZIP is qualified yet; no GitHub or public submission.
+
+The new selected candidate is **one fixed 0.5 parameter midpoint** between original and warm-adapted H2 checkpoints. It needs no additional inference model or changed ensemble weights. Seed3 fixed4 WP **0.7025433565333554**, delta **+0.0001636889191372**, both folds positive; conditional95% chain interval **[+0.000059124436,+0.000287034925]**. Seed4 versus its own original baseline gives **+0.000028921676**, both folds positive, but interval **[−0.000100350516,+0.000149344244]**. Its predeclared spending gate passed. This is a modest adaptive selection on previously exposed folds and two already-inspected training seeds, not a fresh confirmation or a hidden-score guarantee. Final seed3 remains fixed. See [midpoint report](iterations/2026-10-02-warm-midpoint/evaluation-01/report.json) and [decision](iterations/2026-10-02-warm-midpoint/decision-01.json).
+
+Two full-data warm fits are running from02:56UTC, followed by the exact same0.5 midpoint construction. Two native OOF lanes started02:59UTC. The delivery finisher may build/check the package only after its prospectively frozen native-quality gate passes; it then stops before runtime authorization. [Delivery contract](iterations/2026-10-02-midpoint-delivery/root-promotion-contract.json) and [training allocation](iterations/2026-10-02-midpoint-delivery/training-allocation.json). Historical warm-only delivery sources remain unallocated: their second-seed gate failed; the midpoint is a separately registered child.
+
+The head-sampling control isolated the first warm result: warmseed3 exceeds matched-RNG H2 by **+0.000229134509**, positive bothfolds and conditional interval[+0.000094450428,+0.000387874638]. Repeating only H2 changes the oldensemble by+0.000073816647 with interval spanningzero. Thus the warm parent contributes beyond a different H2 sampling order, but seed4 still fails to reproduce the unshrunk recipe. [Control report](iterations/2026-10-02-ordinary-warm-rng-control/evaluation-01/report.json).
+
+The controlled temporal-credit experiment is now complete: detach500 versus connected2000 at the same2000-row update clock gives+0.000157556690 relative to its matchedcontrol, with interval spanningzero; versus the incumbent it is only **+0.000007575972**, with opposingfold signs. No finalfit or horizon sweep follows. [Temporal report](iterations/2026-10-02-temporal-screen/evaluation-01/report.json). Prior architectural, distillation and atom negatives remain preserved; they do not establish an information ceiling.
+
 ## Confirmation update, 2 October 05:27 Moscow
 
 The prospective second training seed did **not** reproduce the seed3 warm gain. Warmseed4 fixed4 scores **0.7022336584590652**, versus originalseed4 **0.7022343699230701**: paired delta **−0.000000711464**, conditional95% chain interval **[−0.000254095866,+0.000241492945]**; fold0 **−0.000009852119**, fold1 **+0.000200530191**. Relative to the operational seed3 incumbent it is−0.000146009155. [Report](iterations/2026-10-02-ordinary-warm-seed4/evaluation-01/report.json), [decision](iterations/2026-10-02-ordinary-warm-seed4/decision-01.json).

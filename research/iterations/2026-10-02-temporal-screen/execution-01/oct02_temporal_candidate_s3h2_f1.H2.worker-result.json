@@ -1,0 +1,76 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_temporal_candidate_s3h2_f1",
+  "stage": "H2",
+  "allocation_sha256": "97b7195922eb6742704f1e70c0cc5d12e957390e1999cd03b25df637eefb548f",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-01-overnight/training/train_aux.py",
+    "--name",
+    "oct02_temporal_candidate_s3h2_f1",
+    "--init",
+    "oct02_temporal_candidate_s3_f1@ep3",
+    "--valid-fold",
+    "1",
+    "--seed",
+    "3",
+    "--hidden",
+    "256",
+    "--chunk",
+    "2000",
+    "--aux-loss-scale",
+    "1",
+    "--train-source",
+    "valid",
+    "--n-valid-folds",
+    "4",
+    "--full-valid",
+    "--loss",
+    "gcorr",
+    "--mask-weight",
+    "--batch",
+    "16",
+    "--epochs",
+    "2",
+    "--aux-struct",
+    "0.3",
+    "--aux-next",
+    "0.3",
+    "--fast",
+    "--freeze",
+    "inp,gru",
+    "--lr",
+    "5e-4",
+    "--eval-source",
+    "vfold",
+    "--layers",
+    "1"
+  ],
+  "started_utc": "2026-10-02T02:21:28.315099+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_temporal_candidate_s3h2_f1/model_ep0.pt": {
+      "bytes": 2353255,
+      "sha256": "93c0f16cbdc3949b53493b351031c55a425ba0c8ce1c864c31cc5f6c1a75416a"
+    },
+    "artifacts/runs/oct02_temporal_candidate_s3h2_f1/model_ep1.pt": {
+      "bytes": 2353255,
+      "sha256": "74bd9702a034cbb2c7414decfafa7cb59ae3d860c2565c2eb9a9e9110aa43a0d"
+    },
+    "artifacts/runs/oct02_temporal_candidate_s3h2_f1/model.pt": {
+      "bytes": 2352747,
+      "sha256": "8d5e520916669d9202bbcd73d4ceefa8fc3bd3827b2bf0a7e504a695f32b7ed0"
+    },
+    "artifacts/runs/oct02_temporal_candidate_s3h2_f1/history.json": {
+      "bytes": 336,
+      "sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5"
+    },
+    "research/iterations/2026-10-02-temporal-screen/execution-01/oct02_temporal_candidate_s3h2_f1.check.json": {
+      "bytes": 2419,
+      "sha256": "29d0dcf750c129ba812bb6eef2fd985ad589ab2cf8fa859bba03cc87a87068a0"
+    }
+  },
+  "seconds": 68.3921548044309,
+  "finished_utc": "2026-10-02T02:22:36.707270+00:00"
+}
