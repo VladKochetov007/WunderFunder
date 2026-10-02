@@ -1,0 +1,228 @@
+{
+  "status": "PASS_SOURCE_ONLY_106_ARGUMENTS",
+  "trainer_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f",
+  "model_sha256": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241",
+  "commands_sha256": "e4deda87a9520aad4ec0c3a95886bfddacbaa4e11a4bdc36ed838f2d0de3c663",
+  "jobs": [
+    {
+      "name": "oct02_im_instantaneous_s3_f0",
+      "resolved_arguments": 106,
+      "exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s3_f0",
+          "new": "oct02_im_instantaneous_s3_f0"
+        },
+        "epochs": {
+          "old": 4,
+          "new": 1
+        },
+        "lr": {
+          "old": 0.001,
+          "new": 0.0005
+        },
+        "init": {
+          "old": "",
+          "new": "cont_sh256_s3_f0@ep3"
+        }
+      },
+      "model_only_args": {
+        "interval_arm": "instantaneous",
+        "interval_source_sha256": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241",
+        "interval_trainer_source_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f"
+      }
+    },
+    {
+      "name": "oct02_im_instantaneous_s3h2_f0",
+      "resolved_arguments": 106,
+      "exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s3h2_f0",
+          "new": "oct02_im_instantaneous_s3h2_f0"
+        },
+        "init": {
+          "old": "cont_sh256_s3_f0@ep3",
+          "new": "oct02_im_instantaneous_s3_f0@ep0"
+        },
+        "freeze": {
+          "old": "inp,gru",
+          "new": "inp,gru,interval_proj,event_gru"
+        }
+      },
+      "model_only_args": {
+        "interval_arm": "instantaneous",
+        "interval_source_sha256": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241",
+        "interval_trainer_source_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f"
+      }
+    },
+    {
+      "name": "oct02_im_accumulated_s3_f0",
+      "resolved_arguments": 106,
+      "exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s3_f0",
+          "new": "oct02_im_accumulated_s3_f0"
+        },
+        "epochs": {
+          "old": 4,
+          "new": 1
+        },
+        "lr": {
+          "old": 0.001,
+          "new": 0.0005
+        },
+        "init": {
+          "old": "",
+          "new": "cont_sh256_s3_f0@ep3"
+        }
+      },
+      "model_only_args": {
+        "interval_arm": "accumulated",
+        "interval_source_sha256": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241",
+        "interval_trainer_source_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f"
+      }
+    },
+    {
+      "name": "oct02_im_accumulated_s3h2_f0",
+      "resolved_arguments": 106,
+      "exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s3h2_f0",
+          "new": "oct02_im_accumulated_s3h2_f0"
+        },
+        "init": {
+          "old": "cont_sh256_s3_f0@ep3",
+          "new": "oct02_im_accumulated_s3_f0@ep0"
+        },
+        "freeze": {
+          "old": "inp,gru",
+          "new": "inp,gru,interval_proj,event_gru"
+        }
+      },
+      "model_only_args": {
+        "interval_arm": "accumulated",
+        "interval_source_sha256": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241",
+        "interval_trainer_source_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f"
+      }
+    },
+    {
+      "name": "oct02_im_instantaneous_s3_f1",
+      "resolved_arguments": 106,
+      "exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s3_f1",
+          "new": "oct02_im_instantaneous_s3_f1"
+        },
+        "epochs": {
+          "old": 4,
+          "new": 1
+        },
+        "lr": {
+          "old": 0.001,
+          "new": 0.0005
+        },
+        "init": {
+          "old": "",
+          "new": "cont_sh256_s3_f1@ep3"
+        }
+      },
+      "model_only_args": {
+        "interval_arm": "instantaneous",
+        "interval_source_sha256": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241",
+        "interval_trainer_source_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f"
+      }
+    },
+    {
+      "name": "oct02_im_instantaneous_s3h2_f1",
+      "resolved_arguments": 106,
+      "exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s3h2_f1",
+          "new": "oct02_im_instantaneous_s3h2_f1"
+        },
+        "init": {
+          "old": "cont_sh256_s3_f1@ep3",
+          "new": "oct02_im_instantaneous_s3_f1@ep0"
+        },
+        "freeze": {
+          "old": "inp,gru",
+          "new": "inp,gru,interval_proj,event_gru"
+        }
+      },
+      "model_only_args": {
+        "interval_arm": "instantaneous",
+        "interval_source_sha256": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241",
+        "interval_trainer_source_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f"
+      }
+    },
+    {
+      "name": "oct02_im_accumulated_s3_f1",
+      "resolved_arguments": 106,
+      "exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s3_f1",
+          "new": "oct02_im_accumulated_s3_f1"
+        },
+        "epochs": {
+          "old": 4,
+          "new": 1
+        },
+        "lr": {
+          "old": 0.001,
+          "new": 0.0005
+        },
+        "init": {
+          "old": "",
+          "new": "cont_sh256_s3_f1@ep3"
+        }
+      },
+      "model_only_args": {
+        "interval_arm": "accumulated",
+        "interval_source_sha256": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241",
+        "interval_trainer_source_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f"
+      }
+    },
+    {
+      "name": "oct02_im_accumulated_s3h2_f1",
+      "resolved_arguments": 106,
+      "exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s3h2_f1",
+          "new": "oct02_im_accumulated_s3h2_f1"
+        },
+        "init": {
+          "old": "cont_sh256_s3_f1@ep3",
+          "new": "oct02_im_accumulated_s3_f1@ep0"
+        },
+        "freeze": {
+          "old": "inp,gru",
+          "new": "inp,gru,interval_proj,event_gru"
+        }
+      },
+      "model_only_args": {
+        "interval_arm": "accumulated",
+        "interval_source_sha256": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241",
+        "interval_trainer_source_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f"
+      }
+    }
+  ],
+  "paired_arm_differences_only": [
+    "name",
+    "interval_arm",
+    "H2 own-arm init"
+  ],
+  "original_trainer_source_edits": [
+    "model.load_state_dict(init[\"model\"]) replaced once by initialize_model(model, init, args)"
+  ],
+  "parent_normalization_refit": false,
+  "forecast_fits": 0,
+  "model_tensor_reads": 0,
+  "quality_reads": 0
+}

@@ -1,0 +1,40 @@
+{
+  "status": "COMPLETE_GENERATED_NATIVE_PREPARATION",
+  "stages": [
+    {
+      "stage": "compile",
+      "argv": [
+        "g++",
+        "-O3",
+        "-march=x86-64-v3",
+        "-mtune=generic",
+        "-fno-trapping-math",
+        "-fno-math-errno",
+        "-std=c++17",
+        "-shared",
+        "-fPIC",
+        "-I/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/native-probe/include",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/native-probe/native.cpp",
+        "-o",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/native-probe/execution-01/probe.so"
+      ],
+      "exit_code": 0,
+      "seconds": 4.275107987225056
+    },
+    {
+      "stage": "check_benchmark",
+      "argv": [
+        "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/native-probe/check_benchmark.py",
+        "--output-dir",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/native-probe/execution-01",
+        "--cpu",
+        "37"
+      ],
+      "exit_code": 0,
+      "seconds": 9.28827802836895
+    }
+  ],
+  "seconds": 13.56581752654165,
+  "sources_sha256": "7605e5fee211b97caf2de84d54a5134f9d12a7c1fce7e0d413cfc057ffd1b884"
+}
