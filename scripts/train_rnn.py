@@ -34,6 +34,7 @@ from wnn.nn import (
     GatedRNNModel,
     PooledCorrMemory,
     RNNModel,
+    TCNModel,
     weighted_corr_loss,
     weighted_huber_loss,
     weighted_mse_loss,
@@ -475,6 +476,15 @@ def make_model(args_dict, n_in, n_out):
                 or args_dict["dropout"] != 0 or args_dict.get("enc", "linear") != "linear"):
             raise ValueError("D1 requires hidden96,layers1,dropout0,enc linear")
         return EventContentModel(n_in, n_out, args_dict.get("memory_arm", "endpoint-content"))
+    if args_dict.get("arch") == "tcn":
+        if args_dict["dropout"] != 0 or args_dict.get("enc", "linear") != "linear":
+            raise ValueError("tcn requires dropout0, enc linear")
+        model = TCNModel(n_in, args_dict["hidden"], args_dict["layers"], n_out=n_out,
+                         mix=bool(args_dict.get("tcn_mix", 0)))
+        for prefix in filter(None, args_dict.get("freeze", "").split(",")):
+            if not any(name.startswith(prefix) for name, _ in model.named_parameters()):
+                raise ValueError(f"unknown tcn freeze prefix {prefix!r}; trunk is inp,tcn")
+        return model
     if args_dict.get("arch") == "gated":
         return GatedRNNModel(
             n_in, args_dict["hidden"], args_dict["layers"], args_dict["dropout"], n_out=n_out
@@ -617,6 +627,7 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
         "tok_dim",
         "att_layers",
         "conv_k",
+        "tcn_mix",
         "event_hidden",
         "online_norm",
         "raw_only",
@@ -711,7 +722,9 @@ def main():
                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
-    ap.add_argument("--arch", choices=["gru", "dual", "gated", "structured", "event-content"], default="gru")
+    ap.add_argument("--arch", choices=["gru", "dual", "gated", "structured", "event-content", "tcn"], default="gru",
+                    help="tcn: causal dilated conv stack, --hidden channels, --layers blocks (receptive field 2^layers)")
+    ap.add_argument("--tcn-mix", type=int, default=0, help="--arch tcn: GELU + 1x1 conv after each block's conv")
     ap.add_argument("--decay-init", choices=["multi", "single"], default="multi",
                     help="structured-state initial half-lives; identical learned bounds and phases")
     ap.add_argument("--memory-arm", choices=["endpoint-content", "endpoint-position", "raw-code-content"], default="endpoint-content")
@@ -743,7 +756,8 @@ def main():
     ap.add_argument("--init", default="", help="run name whose model.pt initializes weights; NAME@epN loads model_epN.pt")
     ap.add_argument("--inherit-init-preprocessing", action="store_true",
                     help="inherit parent feature construction and architecture; reject conflicting explicit flags")
-    ap.add_argument("--freeze", default="", help="comma-separated parameter-name prefixes kept fixed, e.g. inp,gru")
+    ap.add_argument("--freeze", default="",
+                    help="comma-separated parameter-name prefixes kept fixed, e.g. inp,gru (inp,tcn for --arch tcn)")
     ap.add_argument("--ema-teacher", type=float, default=0.0,
                     help="mean-teacher consistency: weight of (out - EMA-model out)^2 on the two target outputs")
     ap.add_argument("--ema-metric-weight", action="store_true",
@@ -1050,6 +1064,8 @@ def main():
         provenance["spread_aux"] = spread_provenance
     if args.arch == "event-content":
         provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/event_content.py")
+    if args.arch == "tcn":
+        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/nn.py")
     if quote_cache_provenance is not None:
         provenance["quote_cache"] = quote_cache_provenance
     if args.propensity:

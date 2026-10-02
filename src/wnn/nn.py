@@ -114,6 +114,72 @@ class GatedRNNModel(RNNModel):
         return torch.cat([pair, raw[..., 2:].float(), sign_logit.float()], dim=-1), h
 
 
+class CausalConvBlock(nn.Module):
+    """Pre-norm residual causal conv, kernel 2, dilation d: x(t) + W [a(t - d); a(t)] + b, a = GELU(LayerNorm(x)).
+
+    ``tail`` holds a() of the d rows before the chunk (zeros at a sequence start); the returned tail is the state
+    for the next chunk, so chunked calls equal one full-sequence call. ``mix`` adds GELU + 1x1 conv after the conv.
+    """
+
+    def __init__(self, channels: int, dilation: int, mix: bool = False):
+        super().__init__()
+        self.dilation = dilation
+        self.norm = nn.LayerNorm(channels)
+        self.conv = nn.Linear(2 * channels, channels)  # input columns [a(t - d), a(t)]
+        self.mix = nn.Sequential(nn.GELU(), nn.Linear(channels, channels)) if mix else None
+
+    def forward(self, x, tail=None):
+        a = F.gelu(self.norm(x))
+        b, t, c = a.shape
+        if tail is None:
+            tail = a.new_zeros(b, self.dilation, c)
+        ext = torch.cat([tail.to(a.dtype), a], dim=1)  # ext[:, j] = a(j - d) in chunk rows
+        y = self.conv(torch.cat([ext[:, :t], a], dim=-1))
+        if self.mix is not None:
+            y = self.mix(y)
+        return x + y, ext[:, t:].clone()  # clone: a view would keep the whole extended chunk alive
+
+
+class TCN(nn.Module):
+    """Causal dilated blocks with dilations 1, 2, ..., 2^(L-1) (receptive field 2^L rows), then a LayerNorm."""
+
+    def __init__(self, channels: int, layers: int, mix: bool = False):
+        super().__init__()
+        self.blocks = nn.ModuleList(CausalConvBlock(channels, 2**i, mix) for i in range(layers))
+        self.norm = nn.LayerNorm(channels)
+
+    def forward(self, x, h=None):
+        tails = []
+        for i, block in enumerate(self.blocks):
+            x, tail = block(x, None if h is None else h[i])
+            tails.append(tail)
+        return self.norm(x), tuple(tails)
+
+
+class TCNModel(nn.Module):
+    """Input projection -> causal dilated TCN -> RNNModel's head (fed by the TCN output and the projection skip).
+
+    The state is the per-block tail of the last d block activations, so TBPTT chunks carry the exact convolution
+    history. Trunk parameters are ``inp.*`` and ``tcn.*``: head-only FT is ``--freeze inp,tcn``.
+    ``wnn.tcn_ref.TCNStream`` is the row-at-a-time reference of the same function.
+    """
+
+    def __init__(self, n_in: int, channels: int = 128, layers: int = 12, n_out: int = 2, mix: bool = False):
+        super().__init__()
+        self.register_buffer("mean", torch.zeros(n_in))
+        self.register_buffer("std", torch.ones(n_in))
+        self.inp = nn.Linear(n_in, channels)
+        self.tcn = TCN(channels, layers, mix)
+        self.head = nn.Sequential(
+            nn.Linear(2 * channels, channels), nn.GELU(), nn.Linear(channels, n_out)
+        )
+
+    def forward(self, x, h=None):
+        z = F.gelu(self.inp((x - self.mean) / self.std))
+        o, h = self.tcn(z, h)
+        return self.head(torch.cat([o, z], dim=-1)), h
+
+
 def token_groups(n_in: int):
     """Column groups of the (112 raw + 99 event) input used as attention tokens."""
     raw = [(0, 22), (22, 44), (44, 52), (52, 74), (74, 96), (96, 104), (104, 112)]

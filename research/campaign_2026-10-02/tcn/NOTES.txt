@@ -1,0 +1,78 @@
+H-065 causal dilated TCN student (train side), 2026-10-02
+==========================================================
+
+Goal: an L2-resident student (weights <= ~0.9 MB at int16) as a cheap, architecture-diverse bag partner or
+replacement for the distilled GRU256 since student (2.2 MB of weights, ~234 kcyc/row, memory-bound in the engine).
+
+Code
+----
+src/wnn/nn.py        TCNModel = inp (Linear n_in->C) + GELU  ->  TCN (L CausalConvBlock + LayerNorm)  ->  RNNModel's
+                     head Linear(2C->C) GELU Linear(C->n_out) on [tcn output; projection skip z]. Same n_out layout, so
+                     wMSE / distillation / aux-struct / aux-next / EMA / GCLP FT run unchanged.
+                     Block i (dilation d = 2^i, kernel 2, pre-norm residual):
+                         a(t) = GELU(LayerNorm_i(x(t)));  x(t) += W_i [a(t-d); a(t)] + b_i   (W_i: Linear(2C -> C))
+                     optional --tcn-mix 1: y = Linear(GELU(y)) before the residual add (off by default: +C^2 per block
+                     pushes C128/L12 to 1.31 MB at int16).
+                     State h = tuple of per-block tails a(t-d..t-1) (zeros at a sequence start); a chunked forward
+                     equals the full-sequence forward exactly, for any chunk length (also chunk < d). Gradients are
+                     truncated at chunk boundaries like the GRU's detached h (train_rnn.detach_state handles tuples).
+src/wnn/tcn_ref.py   TCNStream: numpy float64 row-at-a-time reference with one ring buffer of d rows per block
+                     (slot t mod d holds a(t-d) when row t arrives; read, then overwrite with a(t)). Spec for the Rust
+                     port; the docstring has the per-row equations. GELU exact erf, LayerNorm eps 1e-5 biased var.
+scripts/train_rnn.py --arch tcn (--hidden = channels C, --layers = blocks L, receptive field 2^L rows), --tcn-mix,
+                     tcn_mix inherited on FT (--inherit-init-preprocessing), provenance hashes src/wnn/nn.py.
+                     make_model rejects a --freeze prefix that matches no TCN parameter, so ft_gclp.sh's default
+                     head_freeze=inp,gru fails loudly on a TCN parent instead of silently fine-tuning the trunk.
+                     Every other --arch path is unchanged (new branch only; argparse gains the tcn_mix key, default 0).
+
+Head-only FT: trunk parameter names are inp.* and tcn.* (tcn.blocks.<i>.{norm,conv[,mix.1]}.*, tcn.norm.*), head is
+head.*. Pass --freeze inp,tcn; scripts/ft_gclp.sh forwards --freeze to its head stage:
+    FT_STAGES=head bash scripts/ft_gclp.sh PARENT@ep3 OUT FOLD 3 ... --freeze inp,tcn
+
+Tests (tests/test_tcn.py, 13 pass, CPU):
+  - chunked forward (chunks 7, 50, 64, 2000; mix off/on; state lengths 1..32) == full pass, atol 1e-5
+  - receptive field: input change at row s moves outputs exactly on rows s..s+2^L-1 (L=6: rows 100..163)
+  - numpy TCNStream == torch forward to 1e-5 (C16/L5 with and without mix over 150 rows, so rings wrap; default
+    C128/L12/n_in 211/n_out 23 over 160 rows); reset() restarts a sequence
+  - make_model + inherit_init_arguments + --freeze inp,tcn leaves exactly head.{0,2}.{weight,bias} trainable;
+    --freeze inp,gru on a TCN raises
+  Existing tests/test_fixed_checkpoints.py, test_dual_clock.py, test_perf_parity.py, test_campaign_splits.py pass.
+
+Default size: C=128, L=12 (dilations 1..2048)
+-------------------------------------------
+Inference weights (inp, 12 blocks incl. LayerNorms, output LayerNorm, head layer 0, the 2 used rows of head layer 2):
+458,370 params -> 916,740 bytes at int16 = 0.874 MiB (fits the 1.25 MB L2 with ~0.35 MB to spare).
+Full checkpoint params with aux heads (n_out 23): 461,079.
+MACs/row: inp 27k + blocks 12 x 32.8k = 393k + head 33k = ~453k, about 0.47x a GRU256 (~971k), and L2-resident.
+Ring buffers: sum(d) = 4095 rows x 128 channels (2 MiB f32, 1 MiB i16) but each row touches one slot per block
+(12 sequential streams, prefetch-friendly); rings of d <= 64 stay in L1/L2.
+Receptive field 2^12 = 4096 rows (20% of a 20k-row sequence). Justification: the GRU members train with TBPTT chunk
+2000, so every dependency they learn by gradient spans <= 2000 rows; RF 4096 covers twice that. Market class /
+tick quantum is visible in any window with quote moves, and the since/event inputs carry event timing. L=13 (RF 8192)
+would cost +33k params (+66 KB) if long-range context turns out to matter; C=128 is the widest power of two that fits.
+Training memory (CPU estimate, saved activations, B=32 x chunk 2000): ~0.9 GiB (mix: 1.2 GiB); state 32-67 MB.
+
+GPU jobs (sequential queue research/campaign_2026-10-01/jobs/queue6.txt, never run directly)
+------------------------------------------------------------------------------------------
+research/campaign_2026-10-01/jobs/dtcn_fold.sh FOLD CHANNELS LAYERS ALPHA [MAX_BATCHES]
+  = dlstm_fold.sh recipe with --arch tcn: since teachers c20260929_since_s3/s4_f<k>, alpha, epochs 4 fixed epoch 3,
+  predict ep3, GCLP head-stage FT with --freeze inp,tcn, predict FT ep0. MAX_BATCHES > 0 = smoke under the tag
+  c20261002_dtcnsmoke<C>l<L>_s3_f<k>. Real tags: c20261002_dtcn128l12a05_s3_f<k>, FT c20261002_ft_dtcn128l12a05_s3_f<k>h.
+Queued 12:58: c20261002_dtcnsmoke_f0 1800 8 dtcn_fold.sh 0 128 12 0.5 21 (controller moved it to run 13:53).
+16:18: dtcn_fold.sh exports WNN_LOADER_WORKERS=3 WNN_LOADER_RAM_GB=3 (controller: 14 GB slice shared, OOM 16:16).
+Queued 16:19 at the end of queue6 (timeout 7200, see below):
+  c20261002_dtcn128l12_f0 7200 8 dtcn_fold.sh 0 128 12 0.5
+  c20261002_dtcn128l12_f1 7200 8 dtcn_fold.sh 1 128 12 0.5
+
+Smoke result (c20261002_dtcnsmoke_f0, 13:53-14:01)
+---------------------------------------------------
+finished, exit 0, 463 s. Whole pipeline ran: train 4 x 21 batches, predict ep3, ft_gclp head stage with
+--freeze inp,tcn (inherits arch/hidden/layers/tcn_mix), predict FT ep0; DTCN_DONE printed.
+VRAM: peak observed device total 4.605 GB (< 5 GB cap; dlstm192 f0/f1 4.52/4.47 GB, final_te07_s3 4.46 GB).
+Loss 3.00 -> 1.29 over 84 batches, 1 AMP-skipped step of 840. Predictions finite (smoke preds deleted: disk 99%).
+Throughput (4 loader workers): b20 rate 12.4 / 9.2 / 9.0 / 8.4 seq/s per epoch; excluding the ~6 s first batch,
+2.5-3.8 s per 32-seq batch (epochs 1-3: ~3.6 s). Same measure on dlstm192_f0: 2.35 s/batch, i.e. the TCN step is
+~1.45x the LSTM192 step (12 pre-norm blocks in fp32 LayerNorm/GELU + the EMA teacher forward are bandwidth-bound).
+Fold-job estimate: 373 x 4 x 3.6 s = 5,370 s train + ~350 s predict/FT = ~5,700 s > 95% of 6,000 -> queued with
+timeout 7200 (a timed-out job would stop the queue). Cheap speed-up if needed later: cast a() to the autocast dtype
+right after GELU (bitwise the same conv inputs, half the ext/cat traffic), or drop the per-block LayerNorm.
