@@ -49,3 +49,6 @@ log `research/campaign_2026-10-02/packages/after_final_te.log`. The stopped-boot
    (expected ~0.6650). Then a second teacher-ensemble seed, and the stopped bootstrap on top of the ensemble.
 2. Finish the integer-madd engine (2 GRU256 students within 52 min; pair worth +0.0004 on holdout).
 3. Stopped-bootstrap result decides whether target design keeps paying.
+4. Teacher-ensemble follow-ups (cheap, same recipe): add the alpha-0.7 seed-4 student and the TE07 student itself as
+   teachers (gen-3 ensemble), and combine with the stopped-bootstrap target; each needs a 2-fold screen before a final.
+5. Engine: L2-resident split of the GRU256 weights (est. −15%) to fit two students (holdout pair +0.0004).
