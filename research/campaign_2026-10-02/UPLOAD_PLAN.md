@@ -19,3 +19,8 @@ fold route shrunk to prior N(0.0003, 0.0006²) × 0.75 transfer → +0.0003; ±0
 Why upload both: 1 tests the alpha change on the leaderboard; 2 measures seed spread of a single student (the
 2-student ensemble is worth +0.0004 on the holdout but costs ~71 min — over budget until the integer engine lands).
 Copies with priority prefixes: `submissions/upload_2026-10-02b/` (SHA256SUMS inside).
+
+## Pending (being trained/packaged automatically after 10:10)
+`submissions/c20261002_TE07s3_i16/submission.zip` — teacher-ensemble student (H-060, confirmed on folds 0 and 1:
++0.0011 over the alpha-0.7 student). If `packages/after_final_te.log` shows all gates pass and TE07s3 ≥ D07s3 on the
+holdout, upload it FIRST: expected ~0.6650 (80% ~0.6639–0.6661), P(≥ 0.666) ~0.1. Same runtime (~38 min).

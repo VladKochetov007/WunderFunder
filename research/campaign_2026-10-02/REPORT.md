@@ -15,7 +15,7 @@ scores to 0.0001 (0.6621→0.6622, 0.6641→0.6641); mixes came in 0.0006–0.00
 | E-327 | teacher memorisation (cross-fitted teachers?) | no clear in-sample excess | not a lever |
 | E-328 | alpha 0.7 vs 0.5, fold 1 | −0.0007 (fold 0 was +0.0023) | weak: 2-fold mean +0.0008 |
 | E-329 | alpha 0.85 | −0.0013 vs 0.7 | 0.7 is the top of the curve |
-| E-330 | H-060 teacher ensemble (since pair + alpha-0.7 student) | +0.0013 vs 0.7 (mix +0.0014) | promising; fold-1 run `te07_f1` in progress |
+| E-330/337 | H-060 teacher ensemble (since pair + alpha-0.7 student) | +0.0013 fold 0, **+0.0010 fold 1** vs 0.7 (2-fold +0.0011, CI +0.0003…+0.0022) | **confirmed**; final student training |
 | E-331 | H-059 noise-adaptive alpha | −0.0003 vs 0.7 | ties constant alpha |
 | E-332 | H-062 weight soup ep2+ep3 | −0.0002 | falsified |
 | E-333 | final alpha-0.7 students on holdout | s3 +0.0003, s4 +0.0005 vs the 0.6641 student; pair +0.0004 more | packaged s3, s4 |
@@ -40,12 +40,12 @@ unbiased stopped-bootstrap distillation target (teacher at min(t+h, run end)) is
 - E-335 (H-063) class-routed parent/FT head weights on one trunk: 4-fold +0.00002, falsified.
 
 ## Running at 10:10 (left to finish)
-`c20261002_te07_f1` (H-060 fold-1 confirmation) then `c20261002_sbd_f0` (stopped bootstrap, fold 0). Score with
-`research/campaign_2026-10-02/packages/night_f0.json`-style specs (arms `c20261002_te07_s3_f1` + `c20261002_ft_te07_s3_f1h`;
-`c20261002_sbd07_h8_s3_f0` + `c20261002_ft_sbd07_h8_s3_f0h`).
+`c20261002_final_te07_s3` (final H-060 student, launched 09:55, ~60 min). Unit `wnn-after-final-te` then scores it on
+the holdout (`packages/te_final_holdout_report.json`) and packages it with all gates (`submissions/c20261002_TE07s3_i16`);
+log `research/campaign_2026-10-02/packages/after_final_te.log`. The stopped-bootstrap screen was swapped out (E-338).
 
 ## Next highest-value steps
-1. If te07_f1 confirms (≥ +0.0005 on fold 1): final teacher-ensemble student (teachers ab67_final_since_s3/s4 +
-   c20261002_final_d256a07_s3, alpha 0.7) → package; expected +0.0005–0.001 over D07.
+1. Check `after_final_te.log`: if TE07s3 ≥ D07s3 on the holdout, upload `submissions/c20261002_TE07s3_i16` first
+   (expected ~0.6650). Then a second teacher-ensemble seed, and the stopped bootstrap on top of the ensemble.
 2. Finish the integer-madd engine (2 GRU256 students within 52 min; pair worth +0.0004 on holdout).
 3. Stopped-bootstrap result decides whether target design keeps paying.
