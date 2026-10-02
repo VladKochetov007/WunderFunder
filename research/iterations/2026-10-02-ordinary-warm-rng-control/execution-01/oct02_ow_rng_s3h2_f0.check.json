@@ -1,0 +1,42 @@
+{
+  "status": "PASS_ORDINARY_WARM_RNG_FIXED_ENDPOINT_AND_LINEAGE",
+  "job": "oct02_ow_rng_s3h2_f0",
+  "stage": "H2",
+  "fold": 0,
+  "checkpoint": {
+    "path": "artifacts/runs/oct02_ow_rng_s3h2_f0/model_ep1.pt",
+    "sha256": "b7d69c1593d25283a9b1b97416416ae785d87e57e8830572c95b222041c1851b",
+    "epoch": 1
+  },
+  "model_pt": {
+    "path": "artifacts/runs/oct02_ow_rng_s3h2_f0/model.pt",
+    "sha256": "1d9e1aa5abae45acaf8832b75340196261201d7d5e2ab9daa7e74e13580e9677",
+    "epoch": null
+  },
+  "model_pt_state_byte_equals_endpoint": true,
+  "all103_args_match": true,
+  "byte_identical_frozen_tensors": [
+    "gru.bias_hh_l0",
+    "gru.bias_ih_l0",
+    "gru.weight_hh_l0",
+    "gru.weight_ih_l0",
+    "inp.bias",
+    "inp.weight",
+    "mean",
+    "std"
+  ],
+  "normalization_matches_parent": true,
+  "changed_readout_tensors": [
+    "head.2.weight",
+    "head.2.bias",
+    "head.0.weight",
+    "head.0.bias"
+  ],
+  "cpu_rng_matches_warm_H2": true,
+  "initial_state_receipt_sha256": "7209ebb3ec819f4b97a419f329521fa39e688d4cc122379d7d68d54fd6488467",
+  "commands_sha256": "8abd2b87f7a31933d6e07b74635647f16789737346df255b3c028827f2312cf6",
+  "validator_sha256": "cb54eafb78947a57800194ee83633eea6d9dc0ec912c6572fd1bbf2815b5e158",
+  "data_or_targets_read": false,
+  "model_forward_calls": 0,
+  "metrics": 0
+}

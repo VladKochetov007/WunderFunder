@@ -1,0 +1,30 @@
+{
+  "created_utc": "2026-10-02T02:39:22.403505+00:00",
+  "status": "PROSPECTIVE_FIXED_CHILD_BEFORE_CONSTRUCTION",
+  "hypothesis": "Fixed weight midpoint reduces seed-sensitive warm drift without extra training or servingcost; no equivalence to predictionaveraging is claimed.",
+  "construction": "Exactly(oldFP32+warmFP32)*0.5 for10learnedparameters, mean/std bitidenticalpreserved",
+  "parents": "originalcont_sh256_s{3,4}h2_f{0,1}@ep1 and matching oct02_ow_s{3,4}h2_f{0,1}@ep1",
+  "coefficients_tested": [
+    0.5
+  ],
+  "budget": {
+    "fits": 0,
+    "constructed_checkpoints": 4,
+    "OOF": 4,
+    "metric_readouts": 1,
+    "GPU_wall_seconds": 1200
+  },
+  "primary": "seed3midpointfixed4\u2212originalseed3fixed4",
+  "confirmation": "seed4midpointfixed4\u2212originalseed4fixed4",
+  "explanatory": "eachseedmidpoint\u2212samewarmseed",
+  "gate": {
+    "seed3_pooled_min": 0.0001,
+    "seed4_pooled_exclusive_min": 0,
+    "each_seed_both_folds_exclusive_min": 0
+  },
+  "final_seed_if_qualified": 3,
+  "ensemble": "same4memberssamequarters, no seedblend",
+  "failure": "No coefficient sweep or automatic expensive retraining. Preserve results and incumbent.",
+  "exposure": "Adaptivechild after W3positive W4null; same reusedfolds. This is boundeddiscovery not untouchedconfirmation.",
+  "publication": "No GitHub or public upload"
+}
