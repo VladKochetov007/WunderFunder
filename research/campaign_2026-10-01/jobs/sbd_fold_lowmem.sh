@@ -6,7 +6,7 @@
 # Controls on fold 0: c20261001_d256a07_s3_f0 (alpha .7, done), c20261001_d256a085_s3_f0 (alpha .85, queued).
 set -euo pipefail
 export WNN_VRAM_GB=${WNN_VRAM_GB:-4.6} PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
-export WNN_LOADER_WORKERS=${WNN_LOADER_WORKERS:-3} WNN_LOADER_RAM_GB=${WNN_LOADER_RAM_GB:-3}
+export WNN_LOADER_WORKERS=3 WNN_LOADER_RAM_GB=3  # hard-set: the campaign launcher already sets these
 cd "$(dirname "$0")/../../.."
 fold=$1 a=$2 h=$3
 tag=c20261002_sbd${a/./}_h${h}_s3_f${fold}
