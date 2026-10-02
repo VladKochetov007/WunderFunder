@@ -1,0 +1,81 @@
+base {'pooled': 0.69124, 'public': 0.66413, 'class': {0: 0.80682, 1: 0.77752, 2: 0.7404, 3: 0.43795}, 'fold': {0: 0.67746, 1: 0.66733, 2: 0.70478, 3: 0.70811}}
+
+== causal inference-time variants of P (event segments reset at a6 events) ==
+hold (P at segment start)                  pooled -0.14038 [-0.13612, -0.14713, -0.14413, -0.13416] public -0.14891 cls [-0.10575, -0.12207, -0.25682, -0.30763]
+running mean since event                   pooled -0.05495 [-0.05463, -0.06129, -0.05517, -0.04872] public -0.05868 cls [-0.03779, -0.04076, -0.10264, -0.11403]
+reset EMA beta .3                          pooled -0.00056 [-0.00055, -0.0006, -0.00063, -0.00047] public -0.00059 cls [-0.00058, -0.00039, -0.00084, -0.00091]
+reset EMA beta .6                          pooled -0.00313 [-0.00299, -0.00331, -0.00338, -0.00284] public -0.00323 cls [-0.0035, -0.00221, -0.00454, -0.00472]
+reset EMA beta .9                          pooled -0.02133 [-0.02033, -0.0229, -0.02251, -0.01958] public -0.02193 cls [-0.02202, -0.01692, -0.03409, -0.03182]
+extrapolate P+.25(P-run)                   pooled -0.00239 [-0.0022, -0.0019, -0.00188, -0.00357] public -0.00246 cls [-0.002, -0.00186, -0.00175, -0.00241]
+extrapolate P+.5(P-run)                    pooled -0.00816 [-0.00772, -0.00723, -0.00719, -0.01049] public -0.00835 cls [-0.00689, -0.00652, -0.00714, -0.00663]
+extrapolate P+.25(P-hold)                  pooled -0.00504 [-0.0058, -0.00493, -0.00399, -0.00546] public -0.00515 cls [-0.00429, -0.00512, -0.00415, -0.00484]
+shrink P-.25(P-hold)                       pooled -0.00572 [-0.00474, -0.00587, -0.00707, -0.0052] public -0.00596 cls [-0.00475, -0.00464, -0.00966, -0.00703]
+P + .25 prev_seg_end                       pooled -0.00539 [-0.00411, -0.00448, -0.00878, -0.00421] public -0.00564 cls [-0.00443, -0.00478, -0.0092, -0.00864]
+-- cross-fitted per-class |y|-LS on causal features (base = cross-fitted per-class affine [1,P]) --
+LS P+P_run                                 pooled -0.00008 [-0.00025, 3e-05, -3e-05, -6e-05] public -0.00009 cls [1e-05, 0.0, 7e-05, 8e-05]
+LS P+P_hold                                pooled -0.00011 [-0.0, -0.00011, 3e-05, -0.00036] public -0.00014 cls [2e-05, 5e-05, 4e-05, 0.00016]
+LS P+P_hold+P_run+P_ema6                   pooled -0.00019 [-0.0003, -0.00018, 5e-05, -0.00031] public -0.00022 cls [4e-05, 0.00017, 0.00011, 0.00033]
+LS P+P_prev_seg_end                        pooled -0.00016 [3e-05, -7e-05, -0.00041, -0.00018] public -0.00020 cls [1e-05, 1e-05, 0.00013, 0.0001]
+LS P+TE                                    pooled -0.00026 [-7e-05, -0.00047, -0.00029, -0.00022] public -0.00025 cls [0.00031, 6e-05, 0.00017, 0.00028]
+LS P+P_hold+P_run+P_ema6+P_prev_seg_end+TE pooled -0.00058 [-0.00027, -0.00098, -0.00045, -0.0006] public -0.00063 cls [0.0004, 0.00022, 0.00034, 0.00077]
+LS P (affine per class) vs raw P           pooled -0.00026 [-0.00011, -0.0001, -0.00043, -0.0004] public -0.00031 cls [-0.0, -0.0, 0.0, -0.0]
+coef [P,hold,run] per class (rows target0/1): {0: [[0.925, 0.935], [-0.037, 0.031], [0.063, -0.019]], 1: [[0.961, 0.966], [0.072, 0.084], [-0.089, -0.112]], 2: [[0.958, 0.903], [0.031, -0.028], [-0.084, 0.015]], 3: [[0.916, 0.95], [-0.04, 0.074], [0.095, -0.049]]}
+
+== hindsight (non-causal, diagnostic only) ==
+HS label-seg mean over scored rows         pooled +0.02484 [0.0245, 0.02648, 0.02309, 0.02529] public +0.02834 cls [0.01398, 0.01118, 0.01579, 0.07867]
+HS label-seg mean all rows                 pooled -0.00752 [-0.00676, -0.0096, -0.01077, -0.00293] public -0.00681 cls [-0.0036, -0.00289, -0.04464, 0.0346]
+HS forward mean to seg end                 pooled +0.06217 [0.06313, 0.06685, 0.05471, 0.06398] public +0.06958 cls [0.03452, 0.04024, 0.05668, 0.16989]
+HS value at seg end                        pooled +0.15954 [0.17172, 0.17571, 0.14263, 0.14809] public +0.18089 cls [0.0691, 0.07194, 0.11324, 0.37223]
+within-label-segment share of Var(P) on scored rows by class: {0: 0.0338, 1: 0.0282, 2: 0.0413, 3: 0.2814} TE: {0: 0.0338, 1: 0.0278, 2: 0.0412, 3: 0.2948}
+
+== training-target emulation with the OOF teacher TE (targets use future rows: training-side only) ==
+proj[y]                                    pooled +0.00000 [0.0, 0.0, 0.0, 0.0] public +0.00000 cls [0.0, 0.0, 0.0, 0.0]
+   y                                    {'all': {'wp_T_y': 1.0, 'noise_vs_TE': 1.0, 'slope_T_on_TE_rel': 1.0}, 3: {'wp_T_y': 1.0, 'noise_vs_TE': 1.0, 'slope_T_on_TE_rel': 1.0}}
+proj[TE]                                   pooled -0.00113 [0.00095, -0.00265, -0.00211, -0.0007] public -0.00098 cls [-0.00159, -0.00417, -0.00469, -0.00277]
+   TE                                   {'all': {'wp_T_y': 0.6893, 'noise_vs_TE': 0.0, 'slope_T_on_TE_rel': 1.0127}, 3: {'wp_T_y': 0.4359, 'noise_vs_TE': 0.0, 'slope_T_on_TE_rel': 0.9995}}
+proj[a.5]                                  pooled +0.00010 [0.00141, -0.00072, -0.00054, 0.00024] public +0.00016 cls [-0.0004, -0.00106, -0.00122, -0.00069]
+   a.5                                  {'all': {'wp_T_y': 0.9464, 'noise_vs_TE': 0.25, 'slope_T_on_TE_rel': 1.0063}, 3: {'wp_T_y': 0.9498, 'noise_vs_TE': 0.25, 'slope_T_on_TE_rel': 0.9997}}
+proj[a.7]                                  pooled -0.00024 [0.00144, -0.00135, -0.00105, -0.0] public -0.00014 cls [-0.00078, -0.00206, -0.00236, -0.00135]
+   a.7                                  {'all': {'wp_T_y': 0.8741, 'noise_vs_TE': 0.09, 'slope_T_on_TE_rel': 1.0089}, 3: {'wp_T_y': 0.8446, 'noise_vs_TE': 0.09, 'slope_T_on_TE_rel': 0.9996}}
+proj[a.85]                                 pooled -0.00062 [0.00128, -0.00195, -0.00153, -0.0003] public -0.00051 cls [-0.00115, -0.00303, -0.00343, -0.002]
+   a.85                                 {'all': {'wp_T_y': 0.7927, 'noise_vs_TE': 0.0225, 'slope_T_on_TE_rel': 1.0108}, 3: {'wp_T_y': 0.6828, 'noise_vs_TE': 0.0225, 'slope_T_on_TE_rel': 0.9996}}
+proj[TE_fwd (mean TE over [t,end])]        pooled -0.00436 [-0.00182, -0.00618, -0.00786, -0.00161] public -0.00492 cls [-0.00113, -0.00304, -0.003, -0.001]
+   TE_fwd (mean TE over [t,end])        {'all': {'wp_T_y': 0.7516, 'noise_vs_TE': 0.071, 'slope_T_on_TE_rel': 0.9525}, 3: {'wp_T_y': 0.6119, 'noise_vs_TE': 0.0695, 'slope_T_on_TE_rel': 0.7458}}
+proj[TE_td (TE at seg end)]                pooled -0.00720 [-0.00432, -0.00899, -0.0123, -0.00319] public -0.00826 cls [-0.00079, -0.00204, -0.00177, -0.00212]
+   TE_td (TE at seg end)                {'all': {'wp_T_y': 0.8474, 'noise_vs_TE': 0.3303, 'slope_T_on_TE_rel': 0.9502}, 3: {'wp_T_y': 0.8105, 'noise_vs_TE': 0.3535, 'slope_T_on_TE_rel': 0.7025}}
+proj[TE_seg (whole-seg mean, all rows)]    pooled -0.04211 [-0.03898, -0.04867, -0.04575, -0.03504] public -0.04502 cls [-0.0274, -0.02929, -0.08045, -0.06677]
+   TE_seg (whole-seg mean, all rows)    {'all': {'wp_T_y': 0.6829, 'noise_vs_TE': 0.1399, 'slope_T_on_TE_rel': 0.8053}, 3: {'wp_T_y': 0.4811, 'noise_vs_TE': 0.1143, 'slope_T_on_TE_rel': 0.4209}}
+proj[.5y+.5TE_fwd]                         pooled -0.00072 [0.00075, -0.00159, -0.00277, 0.00074] public -0.00081 cls [-0.00027, -0.00074, -0.00072, -0.00018]
+   .5y+.5TE_fwd                         {'all': {'wp_T_y': 0.9584, 'noise_vs_TE': 0.326, 'slope_T_on_TE_rel': 0.9763}, 3: {'wp_T_y': 0.9709, 'noise_vs_TE': 0.3254, 'slope_T_on_TE_rel': 0.8729}}
+proj[.3y+.7TE_fwd]                         pooled -0.00181 [0.00014, -0.00304, -0.00451, 0.00019] public -0.00203 cls [-0.00054, -0.00146, -0.00144, -0.0004]
+   .3y+.7TE_fwd                         {'all': {'wp_T_y': 0.9021, 'noise_vs_TE': 0.1737, 'slope_T_on_TE_rel': 0.9668}, 3: {'wp_T_y': 0.909, 'noise_vs_TE': 0.1728, 'slope_T_on_TE_rel': 0.822}}
+proj[.3y+.7(.5TE+.5TE_fwd)]                pooled -0.00052 [0.00129, -0.00167, -0.00224, 0.00053] public -0.00051 cls [-0.00062, -0.00174, -0.00185, -0.00079]
+   .3y+.7(.5TE+.5TE_fwd)                {'all': {'wp_T_y': 0.8919, 'noise_vs_TE': 0.1232, 'slope_T_on_TE_rel': 0.9878}, 3: {'wp_T_y': 0.8882, 'noise_vs_TE': 0.1229, 'slope_T_on_TE_rel': 0.9108}}
+proj[.3y+.7TE_seg]                         pooled -0.01859 [-0.01667, -0.02219, -0.02169, -0.01382] public -0.01969 cls [-0.01248, -0.01326, -0.03323, -0.02003]
+   .3y+.7TE_seg                         {'all': {'wp_T_y': 0.886, 'noise_vs_TE': 0.1817, 'slope_T_on_TE_rel': 0.8637}, 3: {'wp_T_y': 0.9291, 'noise_vs_TE': 0.1667, 'slope_T_on_TE_rel': 0.5946}}
+
+== H-059 bias: b(bin) = 0.4 Cov_w(g, y - TE | class, since-bin, TE-bin), g = exp(-u/32) ==
+{'delta_by_fold': [-0.00051, -0.00018, 0.00045, -0.00081], 'delta_class': {0: -0.00022, 1: -0.00035, 2: -0.00038, 3: -0.00025}, 'rms_bias': 0.0318, 'rms_P': 1.0412, 'R2_g_on_causal_bins': 0.4138, 'mean_g': 0.5874}
+
+== calibration of y on the OOF teacher by rows-until-label-change u (non-causal stratifier) ==
+0 [('<2', 0.258, 1.03, 0.88), ('2-8', 0.413, 1.056, 0.875), ('8-32', 0.19, 1.032, 0.773), ('32-128', 0.103, 0.702, 0.499), ('128-512', 0.033, 0.443, 0.29), ('>=512', 0.004, 1.05, 0.777)]
+1 [('<2', 0.169, 1.049, 0.876), ('2-8', 0.4, 1.061, 0.876), ('8-32', 0.28, 1.019, 0.784), ('32-128', 0.117, 0.567, 0.4), ('128-512', 0.031, 0.261, 0.184), ('>=512', 0.003, 0.831, 0.572)]
+2 [('<2', 0.158, 1.037, 0.877), ('2-8', 0.38, 1.048, 0.87), ('8-32', 0.243, 1.026, 0.772), ('32-128', 0.143, 0.524, 0.342), ('128-512', 0.067, 0.138, 0.078), ('>=512', 0.008, 0.139, 0.079)]
+3 [('<2', 0.089, 1.259, 0.731), ('2-8', 0.199, 1.45, 0.762), ('8-32', 0.209, 1.412, 0.65), ('32-128', 0.267, 0.68, 0.275), ('128-512', 0.197, 0.234, 0.082), ('>=512', 0.039, 0.293, 0.098)]
+
+== teacher / student in-sample vs out-of-fold WP on valid (memorisation gap of distillation targets) ==
+teacher since s3+s4 {0: {'in_sample': 0.8098, 'oof': 0.8056}, 1: {'in_sample': 0.7773, 'oof': 0.7736}, 2: {'in_sample': 0.7405, 'oof': 0.7361}, 3: {'in_sample': 0.4481, 'oof': 0.4359}, 'all': {'in_sample': 0.6947, 'oof': 0.6893}}
+d256 parent {0: {'in_sample': 0.8132, 'oof': 0.806}, 1: {'in_sample': 0.7816, 'oof': 0.7757}, 2: {'in_sample': 0.7445, 'oof': 0.7383}, 3: {'in_sample': 0.4612, 'oof': 0.4384}, 'all': {'in_sample': 0.7003, 'oof': 0.6906}}
+
+== fold 0: since parent vs distilled alpha .5 / .7 (within-segment variance share, hindsight seg-mean WP) ==
+0 {'Psince': {'wp': 0.8171, 'wp_segmean': 0.812, 'within_share': 0.0825}, 'Pa05': {'wp': 0.815, 'wp_segmean': 0.8108, 'within_share': 0.0851}, 'Pa07': {'wp': 0.8195, 'wp_segmean': 0.8152, 'within_share': 0.0848}}
+1 {'Psince': {'wp': 0.7566, 'wp_segmean': 0.7558, 'within_share': 0.1008}, 'Pa05': {'wp': 0.7617, 'wp_segmean': 0.7615, 'within_share': 0.1045}, 'Pa07': {'wp': 0.7618, 'wp_segmean': 0.7619, 'within_share': 0.1049}}
+2 {'Psince': {'wp': 0.7489, 'wp_segmean': 0.6997, 'within_share': 0.2542}, 'Pa05': {'wp': 0.7521, 'wp_segmean': 0.7046, 'within_share': 0.2577}, 'Pa07': {'wp': 0.7531, 'wp_segmean': 0.7047, 'within_share': 0.2573}}
+3 {'Psince': {'wp': 0.4077, 'wp_segmean': 0.4461, 'within_share': 0.4874}, 'Pa05': {'wp': 0.4109, 'wp_segmean': 0.4389, 'within_share': 0.4658}, 'Pa07': {'wp': 0.4145, 'wp_segmean': 0.4478, 'within_share': 0.4728}}
+all {'Psince': {'wp': 0.6759, 'wp_segmean': 0.6703, 'within_share': 0.154}, 'Pa05': {'wp': 0.6775, 'wp_segmean': 0.6707, 'within_share': 0.1523}, 'Pa07': {'wp': 0.6798, 'wp_segmean': 0.6729, 'within_share': 0.1516}}
+
+== response profile: WP of P by rows since the last a6 event (class 3 and all) ==
+0 [0.851, 0.841, 0.84, 0.834, 0.832, 0.826, 0.819, 0.812, 0.804] w-share since<4: 0.4988
+1 [0.847, 0.837, 0.827, 0.817, 0.81, 0.801, 0.796, 0.791, 0.782] w-share since<4: 0.3171
+2 [0.791, 0.793, 0.788, 0.777, 0.777, 0.761, 0.747, 0.746, 0.733] w-share since<4: 0.2044
+3 [0.484, 0.447, 0.429, 0.429, 0.426, 0.419, 0.419, 0.409, 0.416] w-share since<4: 0.1451
