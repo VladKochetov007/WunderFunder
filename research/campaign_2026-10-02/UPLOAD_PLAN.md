@@ -9,7 +9,7 @@ bitwise equal to host, int16 vs fp32 max |Δ| 5.6e-5.
 | order | archive | runtime | expected public | 80% range | P(> 0.6641) | P(≥ 0.666) |
 |---|---|---|---|---|---|---|
 | 1 | `submissions/c20261002_D07s3_i16/submission.zip` (sha256 `177e2642…f7ff`) | 307 kcyc/row ≈ 38 min | 0.6644 | 0.6633–0.6655 | 0.64 | 0.03 |
-| 2 | `submissions/c20261002_D07s4_i16/submission.zip` (seed 4; sha in `SHA256SUMS`) | ≈ 38 min | 0.6644 | 0.6633–0.6655 | 0.64 | 0.03 |
+| 2 | `submissions/c20261002_D07s4_i16/submission.zip` (seed 4; sha256 `b266aec3…658c`) | ≈ 38 min | 0.6644 | 0.6633–0.6655 | 0.64 | 0.03 |
 
 Forecast: anchor = public 0.6641 of the alpha-0.5 student (the public-like class-mix reweighted 4-fold OOF level
 matched both single-family public scores to 0.0001). Delta alpha 0.7 − 0.5, public mix: fold 0 +0.0025, fold 1
