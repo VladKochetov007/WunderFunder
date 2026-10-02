@@ -1,0 +1,56 @@
+H-067 two-timescale state student (bandit arm arch_two_timescale_state), 2026-10-02
+====================================================================================
+
+Why: half the metric loss sits in class-3 long quiet runs (64-1024 rows between target changes). A row-clock GRU
+must carry the event history through hundreds of quiet-row updates; an event-clock state is only touched when the
+quote moves. The earlier dual-clock GRU (DualClockModel, ev_i0px events) was confounded: head-only FT froze inp,gru
+but left event_gru trainable.
+
+Events: raw input column 110 (a6) equal to the float32 lower endpoint ENDPOINT = -5.199337482452393
+(wnn.event_content.ENDPOINT, de_target_law E-273), compared in float32 on the raw row before standardisation, the
+same test EventContentModel uses. Inputs only, never targets. Valid sample (40 sequences, 1 GB RAM check): event
+rows 17.5% of rows (class 0 24%, 1 15%, 2 6%, 3 23%), at most ~1,100 events in a 2,000-row chunk, and 0 target
+changes on non-event rows.
+
+Model (src/wnn/nn.py TwoClockModel, --arch twoclock)
+  z = GELU(inp(x_norm))                                   inp: Linear(n_in -> H)
+  o = gru(z)                                              row clock: --layers x GRU(H), every row
+  at an event row e:  s = gru_event([o(e); mean of o over rows (prev event, e]; log1p(that count)], s)
+                                                          event clock: GRU(2H+1 -> Hs), event rows only
+  non-event rows:     s carried unchanged
+  out = head([o; s; z; log1p(rows since the last event)])  head: Linear(2H+Hs+1 -> H), GELU, Linear(H -> n_out)
+  (the count runs from the sequence start until the first event; 0 on event rows)
+  State (h_row, h_event, seg_sum, seg_rows): seg_* = fp32 sum and count of o over rows after the last event.
+  Within a chunk the event GRU runs over the compacted event rows (stable argsort, one host sync per chunk for the
+  max event count, as in DualClockModel); segment sums are fp32 cumsum differences (exact in the streaming form).
+  Default size H=192 (2 layers), Hs=128: 786,263 params (n_out 23); inference 782,210 params = 1.56 MB at int16.
+  MACs/row: 581,760 on every row + 196,992 per event row -> worst case (event every row) 778,752, at the 17.5%
+  event rate ~616k; GRU256 student 972,032. Within budget even in the worst case.
+
+Head-only FT: trunk parameters are inp.*, gru.* (row clock) and gru_event.*, so the one prefix list inp,gru
+(ft_gclp.sh's default head_freeze) freezes all of them. make_model raises for --arch twoclock when --freeze is set
+but leaves any non-head parameter trainable, which rules out the dual-clock confound.
+
+Reference: src/wnn/twoclock_ref.py TwoClockStream (numpy float64, one row at a time; docstring has the per-row
+equations) = spec for a Rust port.
+
+Tests (tests/test_twoclock.py, 11 pass; with tests/test_tcn.py 24):
+  - chunked forward (chunks 1, 7, 64, 300) == full pass in float64 to 1e-10, including the final state; float32 1e-4
+    (events at random, none at all, only early then a quiet tail, back-to-back from row 0)
+  - event state changes on every event row and is bit-identical on non-event rows; rows-since-event counter
+  - future rows (including flipped events) leave earlier outputs bit-identical
+  - TwoClockStream == torch to 1e-9 in float64 (small and default size), 1e-5 against a float32 torch model
+  - make_model: --freeze inp,gru leaves only head.* trainable; inp / inp,gru. / gru_event raise
+  CPU bf16-autocast chunked training step with the EMA teacher runs; gru_event receives gradients.
+  Other --arch paths unchanged (new make_model branch, --arch choice, provenance hash of nn.py).
+
+GPU job: research/campaign_2026-10-01/jobs/dtwo_fold.sh FOLD [MAX_BATCHES]
+  dtcn_fold.sh recipe: since teachers c20260929_since_s3/s4_f<k>, alpha 0.5, epochs 4 fixed epoch 3, predict ep3,
+  GCLP head-stage FT with --freeze inp,gru, predict FT ep0. Hard-set exports WNN_VRAM_GB=4.6
+  PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True WNN_LOADER_WORKERS=3 WNN_LOADER_RAM_GB=3.
+  Tags: c20261002_dtwo192e128a05_s3_f<k>, FT c20261002_ft_dtwo192e128a05_s3_f<k>h; smoke c20261002_dtwosmoke192e128_s3_f0.
+Queued 19:18 at the end of queue6: c20261002_dtwosmoke_f0 1800 8 dtwo_fold.sh 0 21
+
+Smoke result
+------------
+(pending)

@@ -6,6 +6,8 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
+from wnn.event_content import ENDPOINT
+
 METRIC_CLIP = 2.0
 
 
@@ -178,6 +180,82 @@ class TCNModel(nn.Module):
         z = F.gelu(self.inp((x - self.mean) / self.std))
         o, h = self.tcn(z, h)
         return self.head(torch.cat([o, z], dim=-1)), h
+
+
+A6 = 110  # raw input column of a6; rows with a6 at ENDPOINT are the quote-move rows where targets can change
+
+
+class TwoClockModel(nn.Module):
+    """Row-clock GRU plus an event-clock GRU that steps only on event rows (raw a6 == float32 lower endpoint).
+
+    At an event row e the event GRU reads [o(e), mean of o over the rows since the previous event up to e,
+    log1p(their count)], o = row GRU output; between events its state is carried unchanged. The head reads
+    [o, event state, projection skip z, log1p(rows since the last event)]. State ``(h_row, h_event, seg_sum,
+    seg_rows)`` (sum and count of o over the rows after the last event) carries across TBPTT chunks exactly.
+    Trunk parameters are inp.*, gru.* (row clock) and gru_event.*: ``--freeze inp,gru`` freezes the whole trunk.
+    ``wnn.twoclock_ref.TwoClockStream`` is the row-at-a-time reference.
+    """
+
+    def __init__(self, n_in: int, hidden: int = 192, layers: int = 2, event_hidden: int = 128, n_out: int = 2):
+        super().__init__()
+        self.register_buffer("mean", torch.zeros(n_in))
+        self.register_buffer("std", torch.ones(n_in))
+        self.inp = nn.Linear(n_in, hidden)
+        self.gru = nn.GRU(hidden, hidden, num_layers=layers, batch_first=True)
+        self.gru_event = nn.GRU(2 * hidden + 1, event_hidden, batch_first=True)
+        self.event_hidden = event_hidden
+        self.head = nn.Sequential(
+            nn.Linear(2 * hidden + event_hidden + 1, hidden), nn.GELU(), nn.Linear(hidden, n_out)
+        )
+
+    def clocks(self, x, state=None):
+        """Row output o, event state held at each row, rows since the last event, projection z, new state."""
+        b, t, _ = x.shape
+        events = x[..., A6].float() == ENDPOINT  # raw input, before standardisation
+        z = F.gelu(self.inp((x - self.mean) / self.std))
+        o, h_row = self.gru(z, None if state is None else state[0])
+        acc = torch.promote_types(o.dtype, torch.float32)
+        if state is None:
+            h_event = z.new_zeros(1, b, self.event_hidden)
+            seg_sum = o.new_zeros(b, o.shape[-1], dtype=acc)
+            seg_rows = torch.zeros(b, device=x.device, dtype=torch.long)
+        else:
+            h_event, seg_sum, seg_rows = state[1:]
+        rows = torch.arange(t, device=x.device).expand(b, t)
+        neg = torch.full_like(rows, -1)
+        last = torch.cummax(torch.where(events, rows, neg), dim=1).values  # last event at or before the row
+        prev = torch.cat([neg[:, :1], last[:, :-1]], dim=1)  # last event strictly before the row
+        elapsed = torch.where(last >= 0, rows - last, seg_rows[:, None] + rows + 1)
+        cs = torch.cumsum(o.to(acc), dim=1)
+
+        def rows_of(v, index):
+            return torch.gather(v, 1, index[..., None].expand(-1, -1, v.shape[-1]))
+
+        held = h_event[0][:, None, :].expand(b, t, self.event_hidden)
+        counts = events.sum(1)
+        maxc = int(counts.max())
+        if maxc > 0:
+            order = torch.argsort((~events).to(torch.int8), dim=1, stable=True)[:, :maxc]  # event rows in order
+            p = torch.gather(prev, 1, order)
+            cs_e = rows_of(cs, order)
+            seg = torch.where((p >= 0)[..., None], cs_e - rows_of(cs, p.clamp_min(0)), cs_e + seg_sum[:, None])
+            n = torch.where(p >= 0, order - p, seg_rows[:, None] + order + 1).to(acc)[..., None]
+            ev_in = torch.cat([rows_of(o, order).to(acc), seg / n, torch.log1p(n)], dim=-1)
+            ev_out, _ = self.gru_event(ev_in.to(h_event.dtype), h_event)
+            ev_out = ev_out.to(held.dtype)
+            n_upto = torch.cumsum(events.long(), 1)
+            held = torch.where((n_upto > 0)[..., None], rows_of(ev_out, (n_upto - 1).clamp_min(0)), held)
+            h_last = ev_out[torch.arange(b, device=x.device), (counts - 1).clamp_min(0)]
+            h_event = torch.where((counts > 0)[:, None], h_last, h_event[0])[None]
+        end = last[:, -1]
+        tail = cs[:, -1] - rows_of(cs, end.clamp_min(0)[:, None])[:, 0]
+        seg_sum = torch.where((end >= 0)[:, None], tail, seg_sum + cs[:, -1])
+        return o, held, elapsed, z, (h_row, h_event, seg_sum, elapsed[:, -1])
+
+    def forward(self, x, state=None):
+        o, held, elapsed, z, state = self.clocks(x, state)
+        since = torch.log1p(elapsed.to(torch.promote_types(z.dtype, torch.float32)))[..., None]
+        return self.head(torch.cat([o, held, z, since], dim=-1)), state
 
 
 def token_groups(n_in: int):
