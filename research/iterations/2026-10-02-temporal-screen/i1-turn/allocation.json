@@ -1,0 +1,47 @@
+{
+  "execution_authorized": true,
+  "status": "ROOT_AUTHORIZED_FIXED_CPU_DIAGNOSTIC",
+  "seconds_max": 300,
+  "CPU_quota_percent_max": 200,
+  "memory_bytes_max": 2147483648,
+  "swap_bytes_max": 0,
+  "sources_frozen_before_empirical_data": true,
+  "source_sha256": {
+    "research/iterations/2026-10-02-temporal-screen/i1-turn/features.py": "9a17170a1a269f3ac5654fc7cbcf1f1aba3dcf0a93c90ed08f23810fd138c430",
+    "research/iterations/2026-10-02-temporal-screen/i1-turn/diagnostic.py": "8cba0eb18b09c0d33a46353dc8e16f0933cc8db42ef1e37bdd2c928a17842c8b",
+    "research/iterations/2026-10-02-temporal-screen/i1-turn/test_generated.py": "16e8024f6a8436a21f7f1ee2fc52e5a1fc0f18c17d42f7234019c15ecfeba044",
+    "research/iterations/2026-10-02-temporal-screen/lagged-i1-child.md": "6ddc6c89c372fbe77a22a00fecd918a065b5dc58b96ab732ba04cdbe61560b4f",
+    "research/iterations/2026-10-01-error-analysis/analyze_errors.py": "95c915a36722169d7925d818a26235251c3b35a40fe15803af9d875ec32cbd18",
+    "research/iterations/2026-10-02-temporal-screen/i1-turn/run_once.py": "b6eb35e1d7ac6296ebe292e455ceca4e82213874074b38de0f7360687d2c0418"
+  },
+  "input_sha256": {
+    "research/iterations/2026-10-01-error-analysis/extraction-01/receipt.json": "8a59292164c52b6b0c6d574d9e4824a306598475dd9d1d33b17e57480c9c7973",
+    "research/iterations/2026-10-01-error-analysis/extract-binding.json": "da0000df48b873aede6e718241f7f97b73a7d5f553d2b830f06cf9ece8022f62"
+  },
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-temporal-screen/i1-turn/diagnostic.py",
+    "--plan",
+    "research/iterations/2026-10-02-temporal-screen/i1-turn/allocation.json",
+    "--output-dir",
+    "research/iterations/2026-10-02-temporal-screen/i1-turn/execution-01"
+  ],
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "OPENBLAS_NUM_THREADS": "2",
+    "OMP_NUM_THREADS": "2",
+    "MKL_NUM_THREADS": "2",
+    "NUMBA_NUM_THREADS": "1",
+    "ARROW_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "forecast_fits": 0,
+  "forecast_WP_queries": 0,
+  "nuisance_ridge_fits": 24,
+  "bootstrap_replicates": 2000,
+  "note": "Root makes allocation.json by copying this fixed plan and setting execution_authorized true, binding source/input hashes unchanged, executes once under CPU2/2GiB/300s scope. No raw-file full rehash, no forecast runs, no branch retries.",
+  "CPU_ids": [
+    8,
+    9
+  ]
+}
