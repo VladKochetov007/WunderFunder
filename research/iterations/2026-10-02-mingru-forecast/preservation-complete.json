@@ -1,0 +1,930 @@
+{
+  "status": "PASS_LOCAL_SSH_BYTE_IDENTITY",
+  "allocation_sha256": "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8",
+  "terminal_results": {
+    "execution-01/result.json": {
+      "status": "COMPLETE_4_FITS_2_OOF_NO_METRICS",
+      "failure": null,
+      "allocation_sha256": "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8",
+      "runner_sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2",
+      "started_utc": "2026-10-01T21:21:15.208393+00:00",
+      "finished_utc": "2026-10-02T00:10:39.704313+00:00",
+      "seconds": 10164.495939066634,
+      "jobs": [
+        {
+          "name": "oct02_mingru_s3_f0",
+          "stage": "parent",
+          "unit": "eb-81bb498a70cd4da08612899aaf3ec32b",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-81bb498a70cd4da08612899aaf3ec32b",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "22,24,32,34,36,39",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "5990.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-mingru-forecast/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-forecast/training-allocation.json",
+            "--allocation-sha256",
+            "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8",
+            "--worker",
+            "0"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 6208,
+          "pid": 828690,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3_f0.parent.worker-result.json",
+            "sha256": "6bc346caeb8c43484bb14f30d9ca79bbedc6a9cf4603518724abe432080d8c80"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 4955.1596115408465
+        },
+        {
+          "name": "oct02_mingru_s3h2_f0",
+          "stage": "H2",
+          "unit": "eb-db74b468dbd84df995b3995855874b92",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-db74b468dbd84df995b3995855874b92",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "22,24,32,34,36,39",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "1790.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-mingru-forecast/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-forecast/training-allocation.json",
+            "--allocation-sha256",
+            "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8",
+            "--worker",
+            "1"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 2268,
+          "pid": 884246,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f0.H2.worker-result.json",
+            "sha256": "f9ec12bedac65ca40216efaa155ffdff685abb1ed294848a5b5a234b9040f4ae"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 116.6751386616379
+        },
+        {
+          "name": "oct02_mingru_s3h2_f0_OOF",
+          "stage": "OOF",
+          "unit": "eb-a30799be0c3a47459d248a770c9ee8c9",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-a30799be0c3a47459d248a770c9ee8c9",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "22,24,32,34,36,39",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "890.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-mingru-forecast/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-forecast/training-allocation.json",
+            "--allocation-sha256",
+            "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8",
+            "--worker",
+            "2"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1394,
+          "pid": 885478,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f0_OOF.OOF.worker-result.json",
+            "sha256": "2c649a1a3dbc1b077ea7adeb9fe982c8573cc9e45e0308c4c63b154608a6c5f4"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 22.646566818468273
+        },
+        {
+          "name": "oct02_mingru_s3_f1",
+          "stage": "parent",
+          "unit": "eb-daf34bf24d1c43099c22d9168cd39ce3",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-daf34bf24d1c43099c22d9168cd39ce3",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "22,24,32,34,36,39",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "5990.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-mingru-forecast/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-forecast/training-allocation.json",
+            "--allocation-sha256",
+            "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8",
+            "--worker",
+            "3"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 6208,
+          "pid": 885825,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3_f1.parent.worker-result.json",
+            "sha256": "f93a88b3d89264a62333b87b5216e85e6c303353bbeaa308ce7ba83a6bf08151"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 4924.741641297936
+        },
+        {
+          "name": "oct02_mingru_s3h2_f1",
+          "stage": "H2",
+          "unit": "eb-4a75738b566043c5b96cf7d9ebee2cc0",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-4a75738b566043c5b96cf7d9ebee2cc0",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "22,24,32,34,36,39",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "1790.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-mingru-forecast/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-forecast/training-allocation.json",
+            "--allocation-sha256",
+            "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8",
+            "--worker",
+            "4"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 2268,
+          "pid": 940022,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f1.H2.worker-result.json",
+            "sha256": "4782f70056586d6d28a992d2d53a25522933237108c7c7647c53adc9461ada0b"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 119.09311310201883
+        },
+        {
+          "name": "oct02_mingru_s3h2_f1_OOF",
+          "stage": "OOF",
+          "unit": "eb-2d75b5aaf7c8497abd9e89a77b582c18",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-2d75b5aaf7c8497abd9e89a77b582c18",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "22,24,32,34,36,39",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "890.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-mingru-forecast/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-forecast/training-allocation.json",
+            "--allocation-sha256",
+            "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8",
+            "--worker",
+            "5"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1394,
+          "pid": 941523,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f1_OOF.OOF.worker-result.json",
+            "sha256": "6594ba3803de3bf2b5980ec33840cfe40b985d121ae1df37bad09a8472265102"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 24.66686530970037
+        }
+      ],
+      "fits": 4,
+      "OOF_jobs": 2,
+      "metric_calls": 0,
+      "retries": 0
+    },
+    "finish-01/result.json": {
+      "status": "COMPLETE_FIXED_FORECAST_READOUT",
+      "evaluation_source_sha256": "680f134df2d670effe8f1dbad910456a3262d9103de0a9ec4eee9464c08119b8",
+      "allocation_sha256": "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8",
+      "unit": "mingru-score-2885f2d33fba45ae9db59506c0a5ba57",
+      "started_utc": "2026-10-01T21:25:39.281537+00:00",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "mingru-score-2885f2d33fba45ae9db59506c0a5ba57",
+        "-p",
+        "CPUQuota=200%",
+        "-p",
+        "MemoryMax=4294967296",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "34,36",
+        "nice",
+        "-n",
+        "10",
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "600s",
+        ".venv/bin/python",
+        "research/iterations/2026-10-02-mingru-forecast/evaluate.py",
+        "--evaluation-source-sha256",
+        "680f134df2d670effe8f1dbad910456a3262d9103de0a9ec4eee9464c08119b8",
+        "--output-dir",
+        "research/iterations/2026-10-02-mingru-forecast/evaluation-01"
+      ],
+      "exit_code": 0,
+      "report_sha256": "724c8d8cab106d998cb5b4a10749cfaae20d7c0325ef8a3a11cd4fd741ade3aa",
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "finished_utc": "2026-10-02T00:11:09.082055+00:00"
+    }
+  },
+  "files": 98,
+  "bytes": 629702897,
+  "records": [
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/allocate.py",
+      "bytes": 3540,
+      "sha256": "3536a91738ecd939825678e9354373bc55e89b5b58f37d4cd6a8cdef7623b4ea"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/build_plan.py",
+      "bytes": 4512,
+      "sha256": "691296bc060e5066c2017003449efd519691c8815932f6f20fa0576e03756327"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/cache/pred_oct02_mingru_s3h2_f0_valid.inputs.json",
+      "bytes": 9840,
+      "sha256": "cb8ddb34b454b724bcb5c4343e948a0f23a6b399b3bd666d4308cb6f8ccae0de"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/cache/pred_oct02_mingru_s3h2_f0_valid.npy",
+      "bytes": 299680128,
+      "sha256": "b5a5b0ae4c9a1c60b121a602efcf8fbb2883e2105a5639622d0e578aee9eb5d9"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/cache/pred_oct02_mingru_s3h2_f1_valid.inputs.json",
+      "bytes": 9908,
+      "sha256": "618ce7657bf7755b269e5c362dd3ba905099db7eb9bfc93561ec2120da82b284"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/cache/pred_oct02_mingru_s3h2_f1_valid.npy",
+      "bytes": 299680128,
+      "sha256": "62d73f469c2775fab1cdf9af2477d638a833b1b221339c252d9ebf816d6574e8"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/check_checkpoint.py",
+      "bytes": 3242,
+      "sha256": "7cef9a1580f15115d637098ef4d149a3cef51afc912bc29740c294e722ec5b57"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/collect_when_finished.py",
+      "bytes": 4918,
+      "sha256": "c3e9d834004bb5d03ee62ca9587b1980bceba05df6770411149df65eccedad57"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/collector-launch.json",
+      "bytes": 249,
+      "sha256": "224d109e220a3ab80ea987104404a56b94e35db3f176a7f80a02d673eadc5660"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/commands.json",
+      "bytes": 24400,
+      "sha256": "9ef811a34bdf4bb6111061f5815a236eb30f08a5339c976eff39b15e127122b7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/contract.md",
+      "bytes": 3553,
+      "sha256": "57a59262772ae89851144061ffc8ef787ff9c16f69db6ce07d84015b462c3c9f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/current-state-after.md",
+      "bytes": 28524,
+      "sha256": "33f25abf9c8a471b3d87b566eaad1421fd0a223d80e2dee97b63d2bfd7cf7a99"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/current-state-before.md",
+      "bytes": 27101,
+      "sha256": "957919f81a94c95351d2fddd7661023be48aae5490daac86e57f4bd11634ac0c"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/current-state-confirmed.json",
+      "bytes": 229,
+      "sha256": "09ddbca4fed4c7d24073104b473967f346efb47d8cda573458d858f0e0d5bdaa"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/current-state-update.json",
+      "bytes": 220,
+      "sha256": "5ba897118b1f31c2b9cebedc05a56aeda2905d89c924890ec9a0d886bbbb1f3e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/evaluate.py",
+      "bytes": 13326,
+      "sha256": "ac4775242e1782dc4f6778a7c6fdd96aa59c6577d2a89bbb4ce81d8a4f572bbe"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/evaluation-01/receipt.json",
+      "bytes": 745,
+      "sha256": "f4227d35bbbae9f195028f295bd64754769c656bb45eebce45e1ce513a4b4892"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/evaluation-01/report.json",
+      "bytes": 36007,
+      "sha256": "724c8d8cab106d998cb5b4a10749cfaae20d7c0325ef8a3a11cd4fd741ade3aa"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/evaluation-01/started.json",
+      "bytes": 12788,
+      "sha256": "a01cbe6096a55d37bfe0632b944f327c3623f74b9d5f02e24b92e983849947e4"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/evaluation-01/sufficient.npz",
+      "bytes": 55110,
+      "sha256": "3a5df6588f9c1738afd5e1a31cf396821b70ba6199bb72a263339fc5bdc346bc"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/evaluation-source.json",
+      "bytes": 1115,
+      "sha256": "680f134df2d670effe8f1dbad910456a3262d9103de0a9ec4eee9464c08119b8"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/allocation.json",
+      "bytes": 14786,
+      "sha256": "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/events.jsonl",
+      "bytes": 667798,
+      "sha256": "530dcfd09ab3acaddaa3d021e3ec634155224be3a93e33feb8f8cd934d75560c"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3_f0.check.json",
+      "bytes": 948,
+      "sha256": "e0f6ce768b4eac150dd89081e01a018eff3cc3bf1bccd74a14bb542eff5d45f5"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3_f0.parent.log",
+      "bytes": 8863,
+      "sha256": "01522ae9e842e3a386c3a4b9277b526595375521f7ac724c5cecf49f2afbf42e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3_f0.parent.worker-result.json",
+      "bytes": 2486,
+      "sha256": "6bc346caeb8c43484bb14f30d9ca79bbedc6a9cf4603518724abe432080d8c80"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3_f0.parent.worker-started.json",
+      "bytes": 1116,
+      "sha256": "563339f41ddde449673c089badb5c7f89b2ac79b2dec20545dc90b215906b6a3"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3_f1.check.json",
+      "bytes": 948,
+      "sha256": "3607f4bc64df1ce9afa37a60e478b613aad72cd59de6c6c90d3540aa126cbc85"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3_f1.parent.log",
+      "bytes": 8863,
+      "sha256": "1441a08e5821164118c9dc63fc23e8bb9d707cbbdd5e8bf3a963ddc766ad027d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3_f1.parent.worker-result.json",
+      "bytes": 2486,
+      "sha256": "f93a88b3d89264a62333b87b5216e85e6c303353bbeaa308ce7ba83a6bf08151"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3_f1.parent.worker-started.json",
+      "bytes": 1116,
+      "sha256": "5591458553d2ea98a3b56052ad9752df32f409c18e4475a721368e6b6f10c4f4"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f0.H2.log",
+      "bytes": 5466,
+      "sha256": "c0295fd231ad771245e19f3e97f59701ec1bddbc2d66ae5998d2cc644554623c"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f0.H2.worker-result.json",
+      "bytes": 2002,
+      "sha256": "f9ec12bedac65ca40216efaa155ffdff685abb1ed294848a5b5a234b9040f4ae"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f0.H2.worker-started.json",
+      "bytes": 960,
+      "sha256": "07647e3f027e4d286ec1d877f17ff5bfa7a9a2fb4c3f18a1a0a651e2b907a850"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f0.check.json",
+      "bytes": 1420,
+      "sha256": "cc14ef66612200e301813b6f1f8868c277befbae88c74baaa3d6b4d131ac1353"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f0_OOF.OOF.log",
+      "bytes": 2040,
+      "sha256": "65fb53aabede0fcee39b7cb9e5cb9855bd08945f2b06485e084e38347b206817"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f0_OOF.OOF.worker-result.json",
+      "bytes": 1075,
+      "sha256": "2c649a1a3dbc1b077ea7adeb9fe982c8573cc9e45e0308c4c63b154608a6c5f4"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f0_OOF.OOF.worker-started.json",
+      "bytes": 519,
+      "sha256": "e6da414c7a87c80071867771e71632ed860b8385205d0bbb8d5a3d62d57d9519"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f1.H2.log",
+      "bytes": 5465,
+      "sha256": "f44abfa857a23cb1615e33fcdc253ae2cc23002c43a5d6c021ea3ca81726628a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f1.H2.worker-result.json",
+      "bytes": 2002,
+      "sha256": "4782f70056586d6d28a992d2d53a25522933237108c7c7647c53adc9461ada0b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f1.H2.worker-started.json",
+      "bytes": 960,
+      "sha256": "5ca7b0c0955b99dc9e3f658616939c5eb6564c99eb59ce9dd6ab2dfd127d6426"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f1.check.json",
+      "bytes": 1420,
+      "sha256": "f0663e3262b91e907354ff56b523ac9045060aed2102486fad8f8c39bb31ac74"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f1_OOF.OOF.log",
+      "bytes": 2040,
+      "sha256": "9350ec8013b53f624acece5ba9fdae45de57380f93a2da73ae6920437df05168"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f1_OOF.OOF.worker-result.json",
+      "bytes": 1076,
+      "sha256": "6594ba3803de3bf2b5980ec33840cfe40b985d121ae1df37bad09a8472265102"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f1_OOF.OOF.worker-started.json",
+      "bytes": 519,
+      "sha256": "c14ed7bcfe8abc757940094d9ffc6a64fccbf37bdb742135a593840465525809"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/execution-01/result.json",
+      "bytes": 11114,
+      "sha256": "c287510e8df5c4c113a14e51e2d6c22c07bab884c9cd7f503cdaacb6d0cd9f8f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/finish-01/evaluate.log",
+      "bytes": 3644,
+      "sha256": "23e3f3c6e56d76d0c6e4877ed0c4a0e20121aaabf16a660cb6534d991d4f70a5"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/finish-01/result.json",
+      "bytes": 1325,
+      "sha256": "2c0d2927169d41cfbc72ca69eb52c4c65ca63c6c69b4bfbf8d10c32d8f0c7c6e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/finish-01/started.json",
+      "bytes": 346,
+      "sha256": "626fec316bdaede9fd87f180d414f3c44697cab7fba684cad26aecc42cdd9738"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/finish-launch.json",
+      "bytes": 97,
+      "sha256": "6b31ab804eec78f3d6fc9e66afe17ff585891b522330f9e3ad8370ae1f69622b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/finish.log",
+      "bytes": 1165,
+      "sha256": "91fecd44dfbffa75da0433a515dea430c6918091b98e789a3102b46e8d5b7d5e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/finish.py",
+      "bytes": 3032,
+      "sha256": "eeabc627a52d2fa388a059c5196f2079cb445341f7e65506eedf909b9ae109e7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/launch.json",
+      "bytes": 453,
+      "sha256": "3b11a4a871748bd404c364cf9c483f896fef5b1d316af6ac5cb6e65997e9654f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/launch.py",
+      "bytes": 1144,
+      "sha256": "9be4763d4b999ff6047b7943a20153e0b9ed061e58b46dd138b1640a4a5f9e87"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/minimal_rnn.py",
+      "bytes": 5535,
+      "sha256": "16585c0fdcd6cf16b63234c64ea7a02d620a8f705f933fac4324c0a880a234a6"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/adapter_check.py",
+      "bytes": 3525,
+      "sha256": "4e6b1e9a9a15deaa740b24098f5b584a21c79c723b7000943d00f2405f72ff65"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/check-01/execution.json",
+      "bytes": 1824,
+      "sha256": "63092410fa3402b20621ff489fe6214613d18b17d5d885105e9b0b6c061de33f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/check-01/result.json",
+      "bytes": 816,
+      "sha256": "794c6baf4b3f30a4316e4f33a02d9c8548e3b869e99fe8b9af691a3986fc53e5"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/check-01/started.json",
+      "bytes": 1529,
+      "sha256": "76ab534989374884b2e9e9a99bbe59d16c6c1e861e247f92ee8d5a98d16a4f4b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/check-01/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/check-01/stdout.log",
+      "bytes": 758,
+      "sha256": "e03ded8f6e89a330c0573d2b68f5c9152b41e3c0d7a87a16841f1762f2285824"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/check_trained_load.py",
+      "bytes": 5402,
+      "sha256": "e8b0616ce18fd3f62fda7cdf0e2573ee525c8bec0c125dc912a5395083c51d65"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/contract.md",
+      "bytes": 1630,
+      "sha256": "5a48d067cf8ea7c6bbd1c92ca05abb1bbd670efbf049ec6a85459edd9b69f72e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/native_adapter.py",
+      "bytes": 6323,
+      "sha256": "3cd6766977822b2c4f544f4cf9843f6cc9be68d85cdae7e6eba95ee52a123777"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/readout.md",
+      "bytes": 1237,
+      "sha256": "d89b6f9ca889aef6151818edc1ff1f96e3cf5d4ef6c6e340d4f8336a8aa27810"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/run_check.py",
+      "bytes": 2241,
+      "sha256": "74430eeb4121d364c515c39af6554e55e88781dc77d724f6f8802a0b0bb03362"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/trained-load-01/execution.json",
+      "bytes": 1577,
+      "sha256": "207f5d39f2d3ece984ac10f9c07139ab22e535adfa7f011b095e3c8d89ef4181"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/trained-load-01/result.json",
+      "bytes": 793,
+      "sha256": "67ea36b334ca980771439ed8be49146d11b4c46706b36f1c5f2603ad331ee300"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/trained-load-01/started.json",
+      "bytes": 1306,
+      "sha256": "72f5fbdcae355d488913b64774527d27181e646586b2068ebbbf667bfc89c1f1"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/trained-load-01/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/native-preparation/trained-load-01/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/predict_minimal.py",
+      "bytes": 4541,
+      "sha256": "ac9d6539171de404ad6bb79ba4fbbdf1c173f0632de798cb51a7d297d4f270d1"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/queue.log",
+      "bytes": 8348,
+      "sha256": "fa7a644e92b1a291500b824e2482d017b340f1afb6a371d06dc1fd3bf1dbad12"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/run_queue.py",
+      "bytes": 8440,
+      "sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/status-01.json",
+      "bytes": 1144,
+      "sha256": "8b89e3dcb19e1440aae3e8c2089a3004f6bb0b35dd4ed115c9e026df1bc8ba3d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/teacher-loss-review.json",
+      "bytes": 4859,
+      "sha256": "929ad3a5c81f5d8df6445298e0d8e60e5fc2ee6709005b20a0dd83b8ea7d39c3"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/train_minimal.py",
+      "bytes": 4026,
+      "sha256": "9320a239a85526a8b3fbf1df0270413b8899fce1d4c25c9c444166832b5f134f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-mingru-forecast/training-allocation.json",
+      "bytes": 14786,
+      "sha256": "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3_f0/history.json",
+      "bytes": 670,
+      "sha256": "3c85361e03f3343e148a30f210c4965b1f22d28df885dfcd68e86e528d8f3213"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3_f0/model.pt",
+      "bytes": 1828167,
+      "sha256": "6fb6b7aea9bed7bae98abc27a8dedb38b49536391aefefb407577e5d2f3175bd"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3_f0/model_ep0.pt",
+      "bytes": 1829087,
+      "sha256": "cc5d183f3953a637483b0ecc319aebadfcd5ae4c3e0fe8c3165f35ea07ab95aa"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3_f0/model_ep1.pt",
+      "bytes": 1829087,
+      "sha256": "33181bc8aed603ec23f3fbea54fb7621c9c3400ebb18aab95cd4c702e39432e0"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3_f0/model_ep2.pt",
+      "bytes": 1829087,
+      "sha256": "0700f62889901e0f86e106f8d79c151089e427133595ff500f2ba7f1e7bee43f"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3_f0/model_ep3.pt",
+      "bytes": 1829087,
+      "sha256": "f67309e5aee68dc9aa5ab08df558ee11ccce1f68d02b09dd22d06d904353f7d7"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3h2_f0/history.json",
+      "bytes": 336,
+      "sha256": "d1871c3389556912b5be35a046700b273f16be7fc2ded26266dda2c68c683fa1"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3h2_f0/model.pt",
+      "bytes": 1828167,
+      "sha256": "77490533c2fadb80a7f3a6a5e465c7eafae388438ef106d302a76113087aaf4c"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3h2_f0/model_ep0.pt",
+      "bytes": 1829151,
+      "sha256": "81a65923c27df8f41c7d1cab8bef6118b757e268106d96b0fe0ddb705386c2f1"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3h2_f0/model_ep1.pt",
+      "bytes": 1829151,
+      "sha256": "46f2a12e69038670ddd3d80817e03d5822e9759ee4793e087eb32d5a761488c6"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3_f1/history.json",
+      "bytes": 670,
+      "sha256": "8bb2d6ead133be5dbdef68134e0dc17b4fcdc1da8cad08e42c25119356df4359"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3_f1/model.pt",
+      "bytes": 1828167,
+      "sha256": "b14876e78e07c4e9232baef76097d00e3bbae5599c031d68945c8c2d1e17f78d"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3_f1/model_ep0.pt",
+      "bytes": 1829087,
+      "sha256": "f791025a07a3ba95c9b5f0ff9c47da133564d54beff9f0401cffdf7cc85a82bc"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3_f1/model_ep1.pt",
+      "bytes": 1829087,
+      "sha256": "880681b52f148756333e32b84ba4c2ee177c2b73e7f512695513b04c52e6c43e"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3_f1/model_ep2.pt",
+      "bytes": 1829087,
+      "sha256": "9a0895ef10e4ddda812025284207f2379377c64d5fd65ac36c2834bf346e5cbd"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3_f1/model_ep3.pt",
+      "bytes": 1829087,
+      "sha256": "2d12084894a2e303fa141d29fd9b6174ec3350da8d0eefe72c8ba4df88d425d4"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3h2_f1/history.json",
+      "bytes": 336,
+      "sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3h2_f1/model.pt",
+      "bytes": 1828167,
+      "sha256": "8344b0166e7121bc621363bc2e365b0a1c2a7ac8fe9249b610ce3bcaeebd66ae"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3h2_f1/model_ep0.pt",
+      "bytes": 1829151,
+      "sha256": "f193bd1aa19520622a0811c8387ff8dd9a370df0ea3bec0c316ba7df78981034"
+    },
+    {
+      "path": "artifacts/runs/oct02_mingru_s3h2_f1/model_ep1.pt",
+      "bytes": 1829151,
+      "sha256": "0189a574e80380f7b39fd94c5f55d58721897ecf9cc434455b42f892ed411ff2"
+    }
+  ],
+  "created_utc": "2026-10-02T00:12:13.839312+00:00",
+  "collector_sha256": "c3e9d834004bb5d03ee62ca9587b1980bceba05df6770411149df65eccedad57"
+}

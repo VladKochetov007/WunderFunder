@@ -1,0 +1,78 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_mingru_s3h2_f1",
+  "stage": "H2",
+  "allocation_sha256": "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-mingru-forecast/train_minimal.py",
+    "--name",
+    "oct02_mingru_s3h2_f1",
+    "--init",
+    "oct02_mingru_s3_f1@ep3",
+    "--valid-fold",
+    "1",
+    "--seed",
+    "3",
+    "--hidden",
+    "256",
+    "--chunk",
+    "2000",
+    "--aux-loss-scale",
+    "1",
+    "--train-source",
+    "valid",
+    "--n-valid-folds",
+    "4",
+    "--full-valid",
+    "--loss",
+    "gcorr",
+    "--mask-weight",
+    "--batch",
+    "16",
+    "--epochs",
+    "2",
+    "--aux-struct",
+    "0.3",
+    "--aux-next",
+    "0.3",
+    "--fast",
+    "--freeze",
+    "inp,cells",
+    "--lr",
+    "5e-4",
+    "--eval-source",
+    "vfold",
+    "--layers",
+    "2",
+    "--arch",
+    "mingru"
+  ],
+  "started_utc": "2026-10-02T00:08:15.980534+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_mingru_s3h2_f1/model_ep0.pt": {
+      "bytes": 1829151,
+      "sha256": "f193bd1aa19520622a0811c8387ff8dd9a370df0ea3bec0c316ba7df78981034"
+    },
+    "artifacts/runs/oct02_mingru_s3h2_f1/model_ep1.pt": {
+      "bytes": 1829151,
+      "sha256": "0189a574e80380f7b39fd94c5f55d58721897ecf9cc434455b42f892ed411ff2"
+    },
+    "artifacts/runs/oct02_mingru_s3h2_f1/model.pt": {
+      "bytes": 1828167,
+      "sha256": "8344b0166e7121bc621363bc2e365b0a1c2a7ac8fe9249b610ce3bcaeebd66ae"
+    },
+    "artifacts/runs/oct02_mingru_s3h2_f1/history.json": {
+      "bytes": 336,
+      "sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5"
+    },
+    "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3h2_f1.check.json": {
+      "bytes": 1420,
+      "sha256": "f0663e3262b91e907354ff56b523ac9045060aed2102486fad8f8c39bb31ac74"
+    }
+  },
+  "seconds": 118.11194739677012,
+  "finished_utc": "2026-10-02T00:10:14.092501+00:00"
+}

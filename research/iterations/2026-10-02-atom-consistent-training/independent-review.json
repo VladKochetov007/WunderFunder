@@ -1,0 +1,44 @@
+{
+  "status": "NO_REMAINING_CONCRETE_SOURCE_BLOCKER",
+  "role": "independent implementation critic; candidate files unchanged",
+  "commands_sha256": "d61670df1cb90668c11ff861b963229c74a37702e1cf5a6064602f562a523eda",
+  "reviewed_source_sha256": {
+    "contract.md": "4070e7905e8dc5171bdca5704bf12723988c3bae149113ff447613da35325c02",
+    "model.py": "c94c3b315c9835b1825ae9d73bbb9e0da9a54fbb32d624c8a1dc5c17152d5b1f",
+    "train.py": "2ddebe0f56b343cd0cfdc68a808ef7f81e2c9365fdc0d53e2c2c8c77ed74fb5a",
+    "predict_fixed.py": "15b2b87020e4e946feb6767ce4163164c23c791b011c4bb36fb78b6b8d55dc7e",
+    "build_plan.py": "56e5476aa83c0a4b04de8a70e99a6d343b93474a13817252a18cb4ce9fa10391",
+    "test_synthetic.py": "15d00556ab9f52ffd4b6bcdba5fb8f983279c848c5b62cdd47014b347866b502",
+    "original-metadata.json": "82bca190a232983521951681f84c98baa5bc4eff48ec7b5a33fd5bc82417db6e"
+  },
+  "resolved_before_execution": [
+    {
+      "issue": "Constant skipped-evaluation placeholder would leave original trainer model.pt at parent ep0 although declared endpoint is ep3.",
+      "resolution": "train.py now explicitly writes model.pt from fixed final endpoint after successful fit; own-parent loading remains explicit @ep3. Training math/order unchanged."
+    }
+  ],
+  "checked": [
+    "Both arms retain same historical four-epoch parent and one-epoch head, fixed ep3/ep0, seed3 and folds0/1; args differ only fresh names, own-parent path and decoder.",
+    "Original decoder uses super().forward; no parameter layout or initialization operation changes.",
+    "Correction removes mean-absolute-clipped-atom CE tilt before per-target clipped absolute-weighted moments. Zero amplitude is excluded; zero coordinate denominator returns regression. Unchanged training excludes unknown/class-non3 rows from atom CE but retains regression.",
+    "OOF reads only feature columns, processes full sequence before scoring elsewhere, keeps exact heldfold order, strict-loads own ep0 and carries recurrent state.",
+    "Lazy sampler audit observes existing draws; skipped evaluation preserves one CPU DataLoader base-seed draw."
+  ],
+  "generated_check_receipt": "independent-synthetic-01/receipt.json",
+  "generated_check_receipt_sha256": "6b57cc10c5115c92694cb3d49701b3f5dbd627b08e8752a8c7f78a44b89c6ead",
+  "generated_checks_passed": 9,
+  "scope_release": {
+    "unit": "atom-review-5f2357691b8a49719912bb61f0f43850",
+    "ActiveState": "inactive",
+    "SubState": "dead",
+    "ControlGroup": "",
+    "Result": "success"
+  },
+  "limitations": [
+    "Dictionary tensor is identical in four historical checkpoints; its construction split remains unverified. No fully fold-isolated vocabulary claim.",
+    "Analytic optimality concerns the isolated weighted CE posterior on represented support; joint regression, learned mixture and optimization need not attain it or improve ensemble WP.",
+    "CPU generated tests establish implementation invariants, not GPU AMP numerical identity or forecasting value."
+  ],
+  "real_data_or_forecast_metrics_read": false,
+  "training_launched": false
+}
