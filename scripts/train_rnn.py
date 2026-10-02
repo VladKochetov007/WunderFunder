@@ -689,6 +689,9 @@ def main():
                     help="noise-adaptive distillation: a(u) = a + (far - a)(1 - exp(-u/tau)), u = rows until the label "
                          "changes (training-time only; inputs stay causal)")
     ap.add_argument("--distill-alpha-tau", type=float, default=32.0, help="rows scale of the noise-adaptive weight")
+    ap.add_argument("--distill-boot-h", type=int, default=0,
+                    help="stopped bootstrap: in the distillation blend replace y by the teacher at row t+h while the label "
+                         "run outlives t+h, else keep y (training-time only; min(t+h, run end) is a stopping time)")
     ap.add_argument("--aux-next", type=float, default=0.0,
                     help="weight of auxiliary heads: log rows to next target change (MSE) and its sign (BCE)")
     ap.add_argument("--aux-tier", type=float, default=0.0,
@@ -822,6 +825,8 @@ def main():
         ap.error("--loss gcorr_pool keeps one pooled memory for the main head; --aux shift heads would share it")
     if args.distill and args.loss != "wmse":
         ap.error("--distill trains wMSE toward the blended target; pass --loss wmse")
+    if args.distill_boot_h and not args.distill:
+        ap.error("--distill-boot-h bootstraps from the distillation teacher; pass --distill")
     if args.aux_quote > 0 and args.distill:
         ap.error("--aux-quote and --distill both use target columns 2:4")
     if args.quote_cache_root and args.aux_quote <= 0:
@@ -1255,7 +1260,7 @@ def main():
                 ce_w = row_w * y.float().clamp(-2, 2).abs().mean(-1) if args.ce_tilt else row_w
                 if epoch == 0:
                     moments.update(codes, y, row_w)
-            nxt_label = next_label_change(y) if args.distill_alpha_far is not None else None
+            nxt_label = next_label_change(y) if args.distill_alpha_far is not None or args.distill_boot_h else None
             if args.td_alpha > 0:
                 nxt_all = next_label_change(y)
                 ramp_steps = max(1, int(args.td_ramp * len(train_loader) * math.ceil(20_000 / args.chunk)))
@@ -1290,7 +1295,17 @@ def main():
                         u = (nxt_label[:, sl] - rows).float().clamp_min(0)
                         a = (args.distill_alpha + (args.distill_alpha_far - args.distill_alpha)
                              * (1 - torch.exp(-u / args.distill_alpha_tau)))[..., None]
-                    tgt = (1 - a) * yc + a * teach[:, sl].float().clamp(-2, 2)
+                    label = yc
+                    if args.distill_boot_h:
+                        # the label is identical up to the run end: while the run outlives row t+h the teacher's estimate
+                        # there stands in for it (unbiased by optional stopping), so label noise no longer adds up over
+                        # long runs; rows whose run ends first keep the realized label
+                        rows = torch.arange(sl.start, sl.start + yc.shape[1], device=yc.device)[None]
+                        ahead = rows + args.distill_boot_h
+                        alive = (nxt_label[:, sl] > ahead) & (ahead < teach.shape[1])
+                        idx = ahead.clamp(max=teach.shape[1] - 1).expand(yc.shape[0], -1)[..., None].expand(-1, -1, 2)
+                        label = torch.where(alive[..., None], teach.gather(1, idx).float().clamp(-2, 2), yc)
+                    tgt = (1 - a) * label + a * teach[:, sl].float().clamp(-2, 2)
                     w = yc.abs() * main_valid[:, sl][..., None]
                     loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
                 elif args.td_alpha > 0:
