@@ -4,6 +4,8 @@
 #   final_te.sh SEED ALPHA
 set -euo pipefail
 export WNN_VRAM_GB=${WNN_VRAM_GB:-4.6} PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+# 14 GB slice: three teacher arrays + respawned loader workers OOMed at the epoch-0 boundary (16:16) with 4 workers
+export WNN_LOADER_WORKERS=${WNN_LOADER_WORKERS:-3} WNN_LOADER_RAM_GB=${WNN_LOADER_RAM_GB:-3}
 cd "$(dirname "$0")/../../.."
 seed=$1 alpha=$2 st=c20261002_final_d256a07_s3
 [[ -f cache/pred_${st}_train.npy ]] || .venv/bin/python scripts/predict_run.py "$st" train --epoch 3
