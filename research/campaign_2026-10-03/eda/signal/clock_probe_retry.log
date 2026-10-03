@@ -1,0 +1,44 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/eda/signal/clock_probe.py", line 224, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/eda/signal/clock_probe.py", line 167, in main
+    full = features(x, columns, config)
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/eda/signal/clock_probe.py", line 112, in features
+    clean, indicators, base, own, index = prepare(x, columns)
+                                          ~~~~~~~^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/eda/signal/clock_probe.py", line 101, in prepare
+    base = clock_covariates(np.column_stack((shared, shared | own[:, 1], own[:, 3] | own[:, 4])))
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/numba/core/dispatcher.py", line 422, in _compile_for_args
+    error_rewrite(e, 'typing')
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/numba/core/dispatcher.py", line 363, in error_rewrite
+    raise e.with_traceback(None)
+numba.core.errors.TypingError: Failed in nopython mode pipeline (step: nopython frontend)
+No implementation of function Function(<class 'float'>) found for signature:
+ 
+ >>> float(bool)
+ 
+There are 4 candidate implementations:
+ - Of which 2 did not match due to:
+ Overload in function 'Float.generic': File: numba/core/typing/builtins.py: Line 911.
+   With argument(s): '(bool)':
+  Rejected as the implementation raised a specific error:
+    NumbaTypeError: float() only support for numbers
+  raised from /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/numba/core/typing/builtins.py:924
+ - Of which 2 did not match due to:
+ Overload of function 'float': File: numba/experimental/jitclass/overloads.py: Line 137.
+   With argument(s): '(bool)':
+  No match.
+
+During: resolving callee type: Function(<class 'float'>)
+During: typing of call at /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/eda/signal/clock_probe.py (90)
+
+File "research/campaign_2026-10-03/eda/signal/clock_probe.py", line 90:
+def clock_covariates(ticks: np.ndarray) -> np.ndarray:
+    <source elided>
+            age[j] = 0 if ticks[row, j] else age[j] + 1
+            rate[j] += (float(ticks[row, j]) - rate[j]) / 64
+            ^
+
+During: Pass nopython_type_inference

@@ -1,0 +1,18 @@
+All paths relative to repository; no installation needed.
+
+Scoring (36 tiny ridge fits, total observed fitting time <0.05s):
+research/campaign_2026-10-03/continuation/round3/observable_simulator/run.sh
+
+Report / figure, no fitting:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-hybrid-pair env PYTHONDONTWRITEBYTECODE=1 MPLCONFIGDIR=research/campaign_2026-10-03/continuation/round3/observable_simulator/mplconfig .venv/bin/python -B research/campaign_2026-10-03/continuation/round3/observable_simulator/finalize.py
+
+Saved model replay and freeze, no fitting:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-hybrid-pair env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B research/campaign_2026-10-03/continuation/round3/observable_simulator/verify_freeze.py
+
+Format/lint (no cache, within own branch):
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-hybrid-pair env RUFF_NO_CACHE=true .venv/bin/ruff format research/campaign_2026-10-03/continuation/round3/observable_simulator
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-hybrid-pair env RUFF_NO_CACHE=true .venv/bin/ruff check research/campaign_2026-10-03/continuation/round3/observable_simulator
+
+Independent reproductions should preserve this frozen directory and choose an
+explicit separate authorized output location rather than overwrite frozen results.
+Current scripts reproduce locally and write ONLY their own branch.

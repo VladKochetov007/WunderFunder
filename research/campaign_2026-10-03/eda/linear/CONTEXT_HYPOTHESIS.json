@@ -1,0 +1,10 @@
+{
+  "status": "frozen_after_cadence_results_but_before_archived_models_are_scored_on_new_sample",
+  "reason": "New matched EMA score0.574850 is below predecessor0.648447; distinguish smaller fitting sample from evaluation-sample difficulty without refitting or tuning.",
+  "models": ["L__lam0.001__w", "L+E__lam0.001__w", "L+E__lam0.0001__w"],
+  "sample": "Same64 cadence_manifest.json valid sequences, now exposed by the cadence experiment; not an independent confirmation.",
+  "hypothesis": "The smaller128-sequence fit explains most of the score decrease.",
+  "falsifier": "If frozen400-sequence L+E lambda0.001 remains below0.60 on the same64 sequences, reject smaller fitting sample as the sole explanation; report both same-lambda training-size gap and prior-sample score gap.",
+  "diagnostics": "Target-quantum classes only for reporting scored mass/composition and class-pooled scores; never use target quantum for inference or routing.",
+  "claim_limit": "No fresh fit, hyperparameter selection, independent sample claim, strong-baseline comparison or public-score forecast. Training strides differ/old stride unknown, so gap cannot isolate training-size causally."
+}

@@ -1,0 +1,30 @@
+{
+  "measured_CPU": {
+    "pre_tensor_bytes": 20584,
+    "pre_file_bytes": 53779,
+    "post_tensor_bytes": 15888,
+    "post_file_bytes": 51030
+  },
+  "architecture_derived_GPU": {
+    "parameter_count": 981015,
+    "one_model_tensor_bytes": 3925748,
+    "warm_muon_adam_moment_bytes_excluding_integer_clocks": 4702392,
+    "both_incoming_fp16_hidden_bytes": 65536,
+    "full_batch_loss_input_bytes": 583680000,
+    "extra_prop_and_scored_metadata_bytes": 3200000,
+    "pre_tensor_bytes_approx": 599499424,
+    "post_tensor_bytes_approx": 24391604,
+    "four_component_gradient_bytes": 15696240,
+    "two_real_captures_plus_components_bytes_approx": 1263478296,
+    "known_missing_historical_model_optimizer_hidden_bytes_at_least": 12619424
+  },
+  "missing_historical_state": "Cannot recover genuine historical tensors from EMA export; full loader/trajectory state size unknown. No bytes fabricated.",
+  "exclusions": [
+    "RNG small tensors",
+    "integer optimizer clocks",
+    "scalar losses",
+    "torch/Python/ZIP overhead",
+    "activations/workspace",
+    "CUDA context"
+  ]
+}

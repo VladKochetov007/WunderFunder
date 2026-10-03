@@ -1,0 +1,30 @@
+test group=1131 component=1695 id=239686751 origins=128
+test group=8488 component=462 id=1734866141 origins=128
+test group=10038 component=2614 id=2040244411 origins=128
+test group=4094 component=1826 id=836756439 origins=128
+test group=8497 component=732 id=1736263665 origins=128
+test group=6489 component=746 id=1333389311 origins=128
+test group=7758 component=1245 id=1589015502 origins=128
+test group=6457 component=2268 id=1326024571 origins=80
+test group=1473 component=388 id=310399649 origins=128
+test group=1765 component=637 id=370750816 origins=128
+test group=5635 component=1754 id=1159057298 origins=128
+test group=8477 component=991 id=1732301769 origins=33
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round2/first_passage/evaluate.py", line 229, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round2/first_passage/evaluate.py", line 220, in main
+    (HERE / "results.json").write_text(json.dumps(result, indent=2))
+                                       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type int64 is not JSON serializable

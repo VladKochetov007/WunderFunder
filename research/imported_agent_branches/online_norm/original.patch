@@ -1,0 +1,919 @@
+commit e7436226ed8e69dca7d0a254782d36febf5f44ef
+Author:     Vlad Kochetov <vladyslavdrrragonkoch@gmail.com>
+AuthorDate: Sun Sep 27 07:02:37 2026 +0300
+Commit:     Vlad Kochetov <vladyslavdrrragonkoch@gmail.com>
+CommitDate: Sun Sep 27 07:02:37 2026 +0300
+
+    feat(native): online-norm inputs in the streaming Predictor
+    
+    Predictor(online_norm=True) appends causal per-sequence z-scores of the
+    raw row (n_in 323), matching build_inputs for --online-norm runs. Running
+    sums are float32 in row order: CUDA cumsum along T is a sequential float32
+    loop, so this reproduces the training-time features; f64 sums would shift
+    outputs by up to 2.7e-2 (row group 1). Parity on ab25_onlinenorm: max
+    1.8e-6 on rows >= 99; engine cost +1-3 us/row.
+    
+    package_submission.py flags online-norm members in members.json, rejects
+    models the engine cannot run, and takes --native; build_native.sh holds
+    the scorer docker build; parity_native.py measures parity and latency.
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+diff --git a/native/ONLINE_NORM_PORT.md b/native/ONLINE_NORM_PORT.md
+new file mode 100644
+index 0000000..37d3e8f
+--- /dev/null
++++ b/native/ONLINE_NORM_PORT.md
+@@ -0,0 +1,132 @@
++# Online-norm inputs in the native engine (2026-09-27)
++
++Runs trained with `--online-norm` feed the GRU `[raw 112 | event 99 | online z-scores of raw 112]`
++(`n_in` 323, `build_inputs` in `scripts/train_rnn.py`). The streaming `wnn_native.Predictor` now
++builds the same 323 inputs row by row, so such a run can be packaged as a blend member.
++
++## What changed
++
++- `native/src/stream.rs`: `OnlineNorm`, per-sequence running sums of x and x^2 (112 columns),
++  emitting `z = (x - mean) / sqrt(max(sumsq/n - mean^2, 0) + 1e-4)` after adding the current row.
++  It is reset with the other per-sequence state.
++- `native/src/python.rs`: `Predictor(weights, fast_activations=True, online_norm=False)`. With
++  `online_norm=True` the z-scores are appended after the 99 event features. A width mismatch fails
++  at construction (`model expects 323 inputs, predictor provides 211 (online_norm=false)`). The
++  module exports `CAPABILITIES = ("online_norm",)`.
++- `scripts/package_submission.py`: `export()` reads the checkpoint args. It refuses models the
++  engine cannot run: non-GRU cells, non-linear encoders, `raw_only`, readout heads, or an `n_in`
++  other than 211/323. Online-norm members get `"online_norm": true, "n_in": 323` in
++  `members.json`. The new `--native PKGDIR` option picks which v2/v3 builds to ship. Packaging an
++  online-norm member fails if the chosen build lacks the capability (the default ab18 build does).
++- `submission/solution_multi.py`: passes `online_norm=True` only for flagged members, so older
++  builds still load linear-only packages.
++- `scripts/build_native.sh OUT`: the v2/v3 docker build from `build_submission.sh`, now a separate
++  script. Default limits are 2 CPUs, 6 GB and `CARGO_BUILD_JOBS=2` (`WNN_BUILD_CPUS/MEM/JOBS`).
++- `src/wnn/features.py`: `online_zscore(x)`, a NumPy twin of the training-time z-scores (below).
++- `scripts/parity_native.py`: streaming-vs-PyTorch parity and per-row latency for any runs.
++- `native/examples/bench_predictor.rs`: engine-only latency, linear against online-norm pipeline.
++- Tests: `stream::tests` (bit-exact float32 prefix computation, two-pass sanity, reset),
++  `tests/test_predictor.py` (Predictor with `online_norm` against torch, reset, width error),
++  `tests/test_features.py` (NumPy twin is the float32 sequential computation; a CUDA bit-exact
++  test that skips without a GPU).
++
++## Accumulator precision: float32 in row order, not f64
++
++The brief asked for f64 accumulators. The engine uses float32 sums in row order instead, because
++that is what training computed:
++
++- `online_zscore_torch` runs on the GPU over (B, 20000, 112). CUDA `cumsum` along a non-innermost
++  dim runs `tensor_kernel_scan_outer_dim`, a sequential `scalar_t acc` loop per column
++  (`torch/include/ATen/native/cuda/ScanUtils.cuh`). The accumulation is float32, in row order.
++- CPU torch accumulates a float32 cumsum in double. A CPU "PyTorch reference" is therefore close
++  to exact statistics and hides the gap. The first f64 build passed against it (max 2.3e-5) but
++  missed what the model saw in training.
++- Late in a sequence, float32 accumulation moves some z-scores by up to 1.9 z units against exact
++  statistics (row group 1).
++- The cached GPU predictions (`cache/pred_ab25_onlinenorm_valid.npy`, from `predict_run.py`)
++  confirm this on row group 1. On the 2214 rows where the two choices differ by more than 3e-3,
++  the GPU output is 2.1e-3 (mean) from a CPU forward fed float32-sequential z-scores and 4.6e-3
++  (max 3.0e-2) from one fed exact z-scores.
++- `OnlineNorm` repeats torch's float32 ops in the same order, with no reciprocal or FMA
++  shortcuts. `n` is an exact float32 integer below 2^24 rows. `wnn.features.online_zscore`
++  (float32 `np.cumsum` is the same sequential loop) is the CPU reference.
++- `tests/test_features.py::test_numpy_online_zscore_matches_cuda_bit_for_bit` asserts that the
++  NumPy twin equals the CUDA z-scores bit for bit. It has not run yet, because the GPU was reserved
++  for training (see the checklist).
++
++## Parity (ab25_onlinenorm; ab66_onorm_f0 did not exist yet)
++
++Setup: shipped v3 build (docker, `x86-64-v3`), fast activations, `valid.parquet` row groups 0, 1
++and 2, rows >= 99. The reference is the float32 CPU forward of `make_model` on `build_inputs`,
++using training-time z-scores.
++
++| check | rg 0 | rg 1 | rg 2 |
++|---|---:|---:|---:|
++| max abs native - torch32 (the requirement: <= 1e-3) | 1.43e-6 | 1.76e-6 | 1.67e-6 |
++| same, exact activations vs float64 torch | 1.26e-6 | 1.12e-6 | 1.05e-6 |
++| linear member ab60_final_ema4_p1_lpft, native - torch32 | 1.63e-6 | 1.43e-6 | 1.91e-6 |
++| f64 statistics instead, torch32 output shift (rejected) | 1.59e-3 | 2.67e-2 | 2.56e-3 |
++| native vs cached GPU preds (fp16 autocast), ab25 | 5.0e-3 | 1.0e-2 | 8.8e-3 |
++| native vs cached GPU preds (fp16 autocast), ab60 linear | 1.0e-2 | 2.0e-2 | 1.5e-2 |
++
++The last two rows are the fp16-autocast noise of `predict_run.py`. It is the same for linear
++members, and the online member adds none.
++
++End to end, the package `onorm_2gru_test` (ab25:0.5 + ab60:0.5) was run through
++`verify_submission.py` on `cache/valid_subset20.parquet` inside `python:3.11-slim-bookworm
++--cpus 1`:
++
++- The packaged blend matches the torch32 blend to at most 1.13e-6 (first 3 sequences).
++- Container and host predictions are identical.
++- The new build gives the linear 2-GRU (`final_2gru_gclp` members) predictions bit-identical to the
++  ab18 build on all 400k rows.
++- The repackaged linear weights and `members.json` are byte-identical to
++  `submissions/final_2gru_gclp`.
++
++## Latency (single core, loaded host: training was running)
++
++| measure | linear (211) | online (323) | delta |
++|---|---:|---:|---:|
++| engine only, bench_predictor, min over 21 passes (3 runs) | 34.3-35.2 us | 36.4-37.4 us | +1.5-3.1 us |
++| engine only, median | 37.9-39.8 us | 40.9-41.4 us | +1.2-3.5 us |
++| OnlineNorm update alone | | 0.11 us | |
++| Predictor.step from Python, 1 member, min / median | 42.1 / 47.2 | 43.1 / 46.7 | about +1 |
++| 2 members (lin+lin vs onorm+lin), min / median | 90.4 / 95.1 | 93.8 / 96.3 | +1 to +3.4 |
++| scorer image, verify_submission, 2 members, 20 seqs | 99.6 | 98.5 | noise |
++
++- The extra cost is 1-3 us/row per online member (2-4 %). Nearly all of it comes from the 112
++  dense input columns (128 x 112 more multiply-adds and 57 KB more weights); the running-stat
++  update is 0.11 us.
++- The linear 2-GRU package ran 36.3 min on the scorer, so the online pair should need at most
++  about 1 min more of the 60 min limit.
++
++## Packaging the 2-member submission (run in the main repo after merging this branch)
++
++```bash
++# 1. scorer builds with online_norm support (docker, python:3.11-slim-bookworm base)
++scripts/build_native.sh submissions/_native_onorm
++
++# 2. parity + latency for the online member and its linear partner (require max <= 1e-3; expect ~2e-6)
++taskset -c 3 scripts/limited .venv/bin/python scripts/parity_native.py \
++    ab66_onorm_f0 ab64_final_ema4_gclp --native submissions/_native_onorm/v3 --reps 5
++
++# 3. package (coefficients from scripts/pair_eval.py; 0.5/0.5 shown)
++.venv/bin/python scripts/package_submission.py final_2gru_onorm \
++    ab66_onorm_f0:0.5 ab64_final_ema4_gclp:0.5 --native submissions/_native_onorm
++cat submissions/final_2gru_onorm/pkg/members.json   # member 0 has "online_norm": true, "n_in": 323
++
++# 4. scorer-image check, 1 CPU (20 labelled sequences)
++docker run --rm --cpus 1 --memory 4g -v "$PWD/scripts:/w/scripts:ro" -v "$PWD/utils.py:/w/utils.py:ro" \
++  -v "$PWD/submissions/final_2gru_onorm/submission.zip:/w/submission.zip:ro" \
++  -v "$PWD/cache/valid_subset20.parquet:/w/data.parquet:ro" -v /tmp:/out python:3.11-slim-bookworm \
++  bash -c "pip install -q numpy==2.2.6 pyarrow==19.0.1 && cd /w && python scripts/verify_submission.py submission.zip data.parquet /out/final_2gru_onorm.npz"
++```
++
++When the GPU is free, confirm the NumPy twin is bit-exact to CUDA (it runs one small cumsum):
++`.venv/bin/python -m pytest tests/test_features.py -k cuda` and
++`scripts/parity_native.py ab66_onorm_f0 --native submissions/_native_onorm/v3 --zdevice cuda`.
++
++The dev extension installed in `.venv` predates this change, so
++`test_online_norm_predictor_matches_batch_on_synthetic` skips until it is rebuilt with
++`cd native && ../.venv/bin/maturin develop --release`. Linear packages need no rebuild: the new
++`solution_multi.py` also runs on the old ab18 builds.
+diff --git a/native/examples/bench_predictor.rs b/native/examples/bench_predictor.rs
+new file mode 100644
+index 0000000..872e2e2
+--- /dev/null
++++ b/native/examples/bench_predictor.rs
+@@ -0,0 +1,128 @@
++//! Engine-only cost of the streaming Predictor pipeline (features + FastRnn), without and with
++//! online-norm inputs, on real rows (little-endian f32, 112 per row):
++//!   cargo run --release --example bench_predictor -- rows.f32 [hidden] [passes]
++use std::hint::black_box;
++use std::time::Instant;
++use wnn_native::rnn::{GruLayer, RnnWeights};
++use wnn_native::rnn_fast::{Activations, FastRnn};
++use wnn_native::stream::{N_EVENT, N_RAW, OnlineNorm, StreamFeatures};
++
++fn weights(n_in: usize, h: usize) -> RnnWeights {
++    let mut s = 1u64;
++    let mut v = |len: usize| -> Vec<f32> {
++        (0..len)
++            .map(|_| {
++                s = s
++                    .wrapping_mul(6364136223846793005)
++                    .wrapping_add(1442695040888963407);
++                ((s >> 40) as f32 / 16777216.0 - 0.5) * 0.2
++            })
++            .collect()
++    };
++    RnnWeights {
++        mean: v(n_in),
++        std: vec![1.0; n_in],
++        w_in: v(h * n_in),
++        b_in: v(h),
++        layers: (0..2)
++            .map(|_| GruLayer {
++                w_ih: v(3 * h * h),
++                w_hh: v(3 * h * h),
++                b_ih: v(3 * h),
++                b_hh: v(3 * h),
++            })
++            .collect(),
++        w1: v(2 * h * h),
++        b1: v(h),
++        w2: v(2 * h),
++        b2: v(2),
++    }
++}
++
++struct Pipeline {
++    features: StreamFeatures,
++    norm: Option<OnlineNorm>,
++    model: FastRnn,
++    input: Vec<f32>,
++}
++
++impl Pipeline {
++    fn new(online: bool, h: usize) -> Self {
++        let n_in = N_RAW + N_EVENT + if online { N_RAW } else { 0 };
++        Self {
++            features: StreamFeatures::default(),
++            norm: online.then(OnlineNorm::default),
++            model: FastRnn::new(weights(n_in, h), Activations::Fast).unwrap(),
++            input: vec![0.0; n_in],
++        }
++    }
++
++    /// Mirrors PyPredictor::step.
++    fn run(&mut self, rows: &[f32]) -> f64 {
++        self.features.reset();
++        if let Some(n) = &mut self.norm {
++            n.reset();
++        }
++        self.model.reset();
++        let mut out = [0.0f32; 2];
++        let mut acc = 0.0f32;
++        let t = Instant::now();
++        for row in rows.chunks_exact(N_RAW) {
++            let (raw, rest) = self.input.split_at_mut(N_RAW);
++            raw.copy_from_slice(black_box(row));
++            self.features.sanitize(raw);
++            let (event, z) = rest.split_at_mut(N_EVENT);
++            self.features.update(raw, event);
++            if let Some(n) = &mut self.norm {
++                n.update(raw, z);
++            }
++            self.model.step(&self.input, &mut out);
++            acc += out[0];
++        }
++        black_box(acc);
++        t.elapsed().as_secs_f64() / (rows.len() / N_RAW) as f64 * 1e6
++    }
++}
++
++fn main() {
++    let a: Vec<String> = std::env::args().skip(1).collect();
++    let bytes = std::fs::read(&a[0]).expect("rows file");
++    let rows: Vec<f32> = bytes
++        .chunks_exact(4)
++        .map(|b| f32::from_le_bytes([b[0], b[1], b[2], b[3]]))
++        .collect();
++    let h = a.get(1).map_or(128, |s| s.parse().unwrap());
++    let passes = a.get(2).map_or(15, |s| s.parse().unwrap());
++    let mut cases = [
++        ("linear 211", Pipeline::new(false, h)),
++        ("online 323", Pipeline::new(true, h)),
++    ];
++    let mut t = vec![Vec::new(); cases.len()];
++    for _ in 0..passes {
++        for (k, (_, p)) in cases.iter_mut().enumerate() {
++            t[k].push(p.run(&rows));
++        }
++    }
++    let mut norm = OnlineNorm::default();
++    let mut z = [0.0f32; N_RAW];
++    let n_rows = rows.len() / N_RAW;
++    let mut tn = Vec::new();
++    for _ in 0..passes {
++        norm.reset();
++        let s = Instant::now();
++        for row in rows.chunks_exact(N_RAW) {
++            norm.update(black_box(row), &mut z);
++            black_box(&z);
++        }
++        tn.push(s.elapsed().as_secs_f64() / n_rows as f64 * 1e6);
++    }
++    let names = cases.iter().map(|c| c.0).chain(["OnlineNorm only"]);
++    for (name, mut v) in names.zip(t.into_iter().chain([tn])) {
++        v.sort_by(f64::total_cmp);
++        println!(
++            "{name:16} min {:.3} median {:.3} us/row ({passes} passes x {n_rows} rows, hidden {h})",
++            v[0],
++            v[v.len() / 2]
++        );
++    }
++}
+diff --git a/native/src/python.rs b/native/src/python.rs
+index 120412b..8ae1be8 100644
+--- a/native/src/python.rs
++++ b/native/src/python.rs
+@@ -84,14 +84,19 @@ impl PyGruStepper {
+ fn wnn_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
+     m.add_class::<PyGruStepper>()?;
+     m.add_class::<PyPredictor>()?;
++    // Optional Predictor inputs this build supports; packaging checks it before shipping a member.
++    m.add("CAPABILITIES", ("online_norm",))?;
+     Ok(())
+ }
+ 
+-/// Streaming predictor: event features + FastRnn, one row per call, no per-row allocation
+-/// besides the returned 2-element array.
++/// Streaming predictor: event features (+ online z-scores) + FastRnn, one row per call, no
++/// per-row allocation besides the returned 2-element array. Model input layout is
++/// [raw 112 | event 99], or with `online_norm` [raw 112 | event 99 | z-scores of raw 112]
++/// (`build_inputs` in scripts/train_rnn.py).
+ #[pyclass(name = "Predictor")]
+ struct PyPredictor {
+     features: crate::stream::StreamFeatures,
++    norm: Option<crate::stream::OnlineNorm>,
+     model: crate::rnn_fast::FastRnn,
+     input: Vec<f32>,
+     out: [f32; 2],
+@@ -100,16 +105,19 @@ struct PyPredictor {
+ #[pymethods]
+ impl PyPredictor {
+     #[new]
+-    #[pyo3(signature = (weights, fast_activations=true))]
++    #[pyo3(signature = (weights, fast_activations=true, online_norm=false))]
+     fn new(
+         weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+         fast_activations: bool,
++        online_norm: bool,
+     ) -> PyResult<Self> {
++        use crate::stream::{N_EVENT, N_RAW};
+         let rnn_weights = weights_from_dict(weights)?;
+         let n_in = rnn_weights.mean.len();
+-        if n_in != crate::stream::N_RAW + crate::stream::N_EVENT {
++        let provided = N_RAW + N_EVENT + if online_norm { N_RAW } else { 0 };
++        if n_in != provided {
+             return Err(PyValueError::new_err(format!(
+-                "model expects {n_in} inputs, predictor provides 211"
++                "model expects {n_in} inputs, predictor provides {provided} (online_norm={online_norm})"
+             )));
+         }
+         let act = if fast_activations {
+@@ -124,6 +132,7 @@ impl PyPredictor {
+         }
+         Ok(Self {
+             features: Default::default(),
++            norm: online_norm.then(Default::default),
+             model,
+             input: vec![0.0; n_in],
+             out: [0.0; 2],
+@@ -132,6 +141,9 @@ impl PyPredictor {
+ 
+     fn reset(&mut self) {
+         self.features.reset();
++        if let Some(norm) = &mut self.norm {
++            norm.reset();
++        }
+         self.model.reset();
+     }
+ 
+@@ -149,10 +161,14 @@ impl PyPredictor {
+                 row.len()
+             )));
+         }
+-        let (raw, event) = self.input.split_at_mut(crate::stream::N_RAW);
++        let (raw, rest) = self.input.split_at_mut(crate::stream::N_RAW);
+         raw.copy_from_slice(row);
+         self.features.sanitize(raw);
++        let (event, zscores) = rest.split_at_mut(crate::stream::N_EVENT);
+         self.features.update(raw, event);
++        if let Some(norm) = &mut self.norm {
++            norm.update(raw, zscores);
++        }
+         let n_out = self.model.n_out();
+         if n_out == 2 {
+             self.model.step(&self.input, &mut self.out);
+diff --git a/native/src/stream.rs b/native/src/stream.rs
+index e175f8d..28e1216 100644
+--- a/native/src/stream.rs
++++ b/native/src/stream.rs
+@@ -3,6 +3,7 @@
+ //! Layout (99 values): d[i0 prices 0..22], d[i0 volumes 22..44], d[i1 prices 52..74],
+ //! 8 event flags, 3 log-counters since (i0 price, i0 trade, i1 price) events,
+ //! 22 held i0 price deltas from the last i0 price event.
++//! `OnlineNorm` adds the optional 112 causal per-sequence z-scores of the raw row.
+ 
+ pub const N_RAW: usize = 112;
+ pub const N_EVENT: usize = 99;
+@@ -98,6 +99,61 @@ impl StreamFeatures {
+     }
+ }
+ 
++/// Variance floor of `wnn.features.online_zscore_torch`.
++pub const ONLINE_EPS: f32 = 1e-4;
++
++/// Causal per-sequence z-scores of the raw features, the Rust twin of
++/// `wnn.features.online_zscore_torch` as training evaluates it on CUDA. With n rows seen (the
++/// current one included): mean = sum/n, var = max(sumsq/n - mean^2, 0),
++/// z = (x - mean) / sqrt(var + 1e-4).
++///
++/// The sums are float32 and accumulated in row order on purpose: CUDA `cumsum` along the time
++/// axis of a (B, T, F) tensor is a sequential float32 loop per column, so the features the model
++/// was trained on carry that rounding (up to ~2 z units late in a 20k-row sequence). f64 sums
++/// would be closer to the true statistics but not to what the model saw (native/ONLINE_NORM_PORT.md).
++/// Every later op is one float32 op in torch's order, with no reciprocal or FMA shortcuts.
++#[derive(Debug, Clone)]
++pub struct OnlineNorm {
++    n: u32,
++    sum: [f32; N_RAW],
++    sumsq: [f32; N_RAW],
++}
++
++impl Default for OnlineNorm {
++    fn default() -> Self {
++        Self {
++            n: 0,
++            sum: [0.0; N_RAW],
++            sumsq: [0.0; N_RAW],
++        }
++    }
++}
++
++impl OnlineNorm {
++    pub fn reset(&mut self) {
++        *self = Self::default();
++    }
++
++    /// Adds `row` to the running sums and writes its 112 z-scores into `out`.
++    pub fn update(&mut self, row: &[f32], out: &mut [f32]) {
++        assert_eq!(row.len(), N_RAW, "row width");
++        assert_eq!(out.len(), N_RAW, "z-score width");
++        self.n += 1;
++        let n = self.n as f32; // exact below 2^24 rows, like torch.arange in float32
++        for ((o, &x), (s, sq)) in out
++            .iter_mut()
++            .zip(row)
++            .zip(self.sum.iter_mut().zip(self.sumsq.iter_mut()))
++        {
++            *s += x;
++            *sq += x * x;
++            let mean = *s / n;
++            let var = (*sq / n - mean * mean).max(0.0);
++            *o = (x - mean) / (var + ONLINE_EPS).sqrt();
++        }
++    }
++}
++
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+@@ -106,6 +162,55 @@ mod tests {
+         [v; N_RAW]
+     }
+ 
++    fn rows(n: usize) -> Vec<[f32; N_RAW]> {
++        (0..n)
++            .map(|r| std::array::from_fn(|c| ((r * 37 + c * 11) % 97) as f32 / 20.0 - 2.4))
++            .collect()
++    }
++
++    #[test]
++    fn online_norm_is_the_float32_prefix_computation_bit_for_bit() {
++        let rows = rows(3000);
++        let mut norm = OnlineNorm::default();
++        let mut out = [0.0f32; N_RAW];
++        for (t, r) in rows.iter().enumerate() {
++            norm.update(r, &mut out);
++            for c in [0, 5, 111] {
++                let prefix = rows[..=t].iter().map(|v| v[c]);
++                let s = prefix.clone().fold(0.0f32, |a, x| a + x);
++                let sq = prefix.fold(0.0f32, |a, x| a + x * x);
++                let n = (t + 1) as f32;
++                let mean = s / n;
++                let var = (sq / n - mean * mean).max(0.0);
++                let want = (r[c] - mean) / (var + 1e-4f32).sqrt();
++                assert_eq!(out[c].to_bits(), want.to_bits(), "t {t} c {c}");
++            }
++        }
++    }
++
++    #[test]
++    fn online_norm_tracks_two_pass_statistics_and_resets() {
++        let rows = rows(300);
++        let mut norm = OnlineNorm::default();
++        let mut out = [0.0f32; N_RAW];
++        for (t, r) in rows.iter().enumerate() {
++            norm.update(r, &mut out);
++            for c in [0, 5, 111] {
++                let xs: Vec<f64> = rows[..=t].iter().map(|v| v[c] as f64).collect();
++                let mean = xs.iter().sum::<f64>() / xs.len() as f64;
++                let var = xs.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / xs.len() as f64;
++                let want = (r[c] as f64 - mean) / (var + 1e-4).sqrt();
++                assert!((out[c] as f64 - want).abs() < 1e-3, "t {t} c {c}");
++            }
++        }
++        norm.reset();
++        norm.update(&rows[5], &mut out);
++        assert!(
++            out.iter().all(|v| *v == 0.0),
++            "first row of a sequence is its own mean"
++        );
++    }
++
+     #[test]
+     fn first_row_is_all_zero_except_nothing() {
+         let mut s = StreamFeatures::default();
+diff --git a/scripts/build_native.sh b/scripts/build_native.sh
+new file mode 100755
+index 0000000..fdd2a18
+--- /dev/null
++++ b/scripts/build_native.sh
+@@ -0,0 +1,22 @@
++#!/usr/bin/env bash
++# Build the wnn_native extension for the scorer: x86-64-v2 and x86-64-v3 builds compiled in the
++# scorer base image (submission/Dockerfile.build), extracted to OUT/v2 and OUT/v3.
++#   scripts/build_native.sh OUT
++# Resource knobs: WNN_BUILD_CPUS (default 2), WNN_BUILD_MEM (default 6g), WNN_BUILD_JOBS (default 2).
++set -euo pipefail
++out=$(realpath -m "$1")
++root=$(cd "$(dirname "$0")/.." && pwd)
++rm -rf "$out/v2" "$out/v3" "$out/wheel" && mkdir -p "$out"
++docker build -q -t wnn-native-build -f "$root/submission/Dockerfile.build" "$root/submission" >/dev/null
++for level in v2 v3; do
++  # Build cache stays inside the container so the host native/target tree is never root-owned.
++  docker run --rm --cpus "${WNN_BUILD_CPUS:-2}" --memory "${WNN_BUILD_MEM:-6g}" \
++    -e RUSTFLAGS="-C target-cpu=x86-64-$level" -e CARGO_TARGET_DIR=/tmp/target -e CARGO_BUILD_JOBS="${WNN_BUILD_JOBS:-2}" \
++    -v "$root/native:/src" -v "$out:/out" wnn-native-build \
++    bash -c "maturin build --release -m /src/Cargo.toml -o /out/wheel/$level -q && chown -R $(id -u):$(id -g) /out"
++  mkdir -p "$out/$level"
++  (cd "$out/$level" && python3 -m zipfile -e "$(ls "$out"/wheel/$level/wnn_native-*.whl)" whl >/dev/null \
++    && find whl -name 'wnn_native*.so' -exec mv {} . \; && rm -rf whl)
++done
++rm -rf "$out/wheel"
++ls -l "$out"/v2 "$out"/v3
+diff --git a/scripts/build_submission.sh b/scripts/build_submission.sh
+index 6925f5e..71439f3 100755
+--- a/scripts/build_submission.sh
++++ b/scripts/build_submission.sh
+@@ -1,25 +1,18 @@
+ #!/usr/bin/env bash
+ # Build a submission zip for a trained run: x86-64-v2 and x86-64-v3 builds of the native
+-# extension (compiled in the scorer base image), weights from the checkpoint, solution.py.
++# extension (scripts/build_native.sh), weights from the checkpoint, solution.py.
+ #   scripts/build_submission.sh RUN
+ set -euo pipefail
+ run=$1
+ root=$(cd "$(dirname "$0")/.." && pwd)
+ out="$root/submissions/$run"
+ rm -rf "$out/pkg" "$out/wheel" && mkdir -p "$out/pkg"
+-docker build -q -t wnn-native-build -f "$root/submission/Dockerfile.build" "$root/submission" >/dev/null
+-for level in v2 v3; do
+-  # Build cache stays inside the container so the host native/target tree is never root-owned.
+-  docker run --rm --cpus 8 --memory 8g -e RUSTFLAGS="-C target-cpu=x86-64-$level" -e CARGO_TARGET_DIR=/tmp/target \
+-    -v "$root/native:/src" -v "$out:/out" wnn-native-build \
+-    bash -c "maturin build --release -m /src/Cargo.toml -o /out/wheel/$level -q && chown -R $(id -u):$(id -g) /out"
+-  mkdir -p "$out/pkg/$level"
+-  (cd "$out/pkg/$level" && python3 -m zipfile -e "$(ls "$out"/wheel/$level/wnn_native-*.whl)" whl >/dev/null \
+-    && find whl -name 'wnn_native*.so' -exec mv {} . \; && rm -rf whl)
+-done
++"$root/scripts/build_native.sh" "$out/pkg"
+ "$root/.venv/bin/python" - "$root/artifacts/runs/$run/model.pt" "$out/pkg/weights.npz" <<'PY'
+ import sys, numpy as np, torch
+ ck = torch.load(sys.argv[1], map_location="cpu", weights_only=False)
++if ck["args"].get("online_norm"):
++    sys.exit("online-norm runs need members.json: package them with scripts/package_submission.py")
+ np.savez(sys.argv[2], **{k: v.float().numpy() for k, v in ck["model"].items()})
+ PY
+ cp "$root/submission/solution.py" "$out/pkg/solution.py"
+diff --git a/scripts/package_submission.py b/scripts/package_submission.py
+index 5543168..6251558 100644
+--- a/scripts/package_submission.py
++++ b/scripts/package_submission.py
+@@ -1,13 +1,16 @@
+ """Package a native blend submission.
+ 
+-    .venv/bin/python scripts/package_submission.py NAME RUN:COEF [RUN:COEF ...]
++    .venv/bin/python scripts/package_submission.py NAME RUN:COEF [RUN:COEF ...] [--native PKGDIR]
+ RUN is a training run in artifacts/runs (head sliced to the two targets) or 'baseline' (exact
+-RNNModel rewrite of the organizer ONNX; COEF should include its 0.25 output scale). Writes
+-submissions/NAME/pkg and submissions/NAME/submission.zip using the verified native builds.
++RNNModel rewrite of the organizer ONNX; COEF should include its 0.25 output scale). Runs trained
++with --online-norm (n_in 323) are flagged "online_norm" in members.json and need a native build
++with that capability (scripts/build_native.sh); PKGDIR holds the v2/ and v3/ builds to ship.
++Writes submissions/NAME/pkg and submissions/NAME/submission.zip.
+ """
+ 
+ from __future__ import annotations
+ 
++import argparse
+ import json
+ import shutil
+ import subprocess
+@@ -18,40 +21,64 @@ import numpy as np
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+ NATIVE_FROM = ROOT / "submissions" / "ab18_wmse_struct" / "pkg"
++N_RAW, N_EVENT = 112, 99
+ 
+ 
+-def export(run: str, path: Path):
++def export(run: str, path: Path) -> dict:
++    """Write the member's weights to path; return the extra members.json fields it needs."""
+     if run == "baseline":
+         src = ROOT / "submissions" / "_parts" / "baseline_rnnmodel.npz"
+         if not src.exists():
+             subprocess.run([sys.executable, str(ROOT / "scripts" / "convert_baseline.py"), str(src)], check=True)
+         shutil.copy(src, path)
+-        return
++        return {}
+     import torch
+ 
+     ck = torch.load(ROOT / "artifacts" / "runs" / run / "model.pt", map_location="cpu", weights_only=False)
++    a = ck["args"]
++    online = bool(a.get("online_norm"))
++    unsupported = (a.get("arch", "gru") != "gru" or a.get("cell", "gru") != "gru"
++                   or a.get("enc") not in (None, "linear") or a.get("raw_only") or ck.get("readout") is not None)
++    if unsupported or ck["n_in"] != N_RAW + N_EVENT + N_RAW * online:
++        raise SystemExit(f"{run}: the native engine runs linear-encoder GRUs on raw + event (+ online-norm) "
++                         f"inputs with a regression head; got n_in {ck['n_in']}, args {a}")
+     sd = {k: v.float().numpy() for k, v in ck["model"].items()}
+     sd["head.2.weight"] = np.ascontiguousarray(sd["head.2.weight"][:2])
+     sd["head.2.bias"] = np.ascontiguousarray(sd["head.2.bias"][:2])
+     np.savez(path, **sd)
++    return {"online_norm": True, "n_in": ck["n_in"]} if online else {}
++
++
++def native_capabilities(pkg: Path, level: str) -> set:
++    code = ("import sys; sys.path.insert(0, sys.argv[1]); import wnn_native; "
++            "print(' '.join(getattr(wnn_native, 'CAPABILITIES', ())))")
++    out = subprocess.run([sys.executable, "-c", code, str(pkg / level)], check=True, capture_output=True, text=True)
++    return set(out.stdout.split())
+ 
+ 
+ def main():
+-    name, members = sys.argv[1], sys.argv[2:]
+-    pkg = ROOT / "submissions" / name / "pkg"
++    ap = argparse.ArgumentParser()
++    ap.add_argument("name")
++    ap.add_argument("members", nargs="+", help="RUN:COEF")
++    ap.add_argument("--native", type=Path, default=NATIVE_FROM, help="directory with the v2/ and v3/ builds")
++    args = ap.parse_args()
++    pkg = ROOT / "submissions" / args.name / "pkg"
+     shutil.rmtree(pkg, ignore_errors=True)
+     pkg.mkdir(parents=True)
+     for lvl in ("v2", "v3"):
+-        shutil.copytree(NATIVE_FROM / lvl, pkg / lvl)
++        shutil.copytree(args.native / lvl, pkg / lvl)
+     shutil.copy(ROOT / "submission" / "solution_multi.py", pkg / "solution.py")
+     spec = []
+-    for i, m in enumerate(members):
++    for i, m in enumerate(args.members):
+         run, _, coef = m.rpartition(":")
+         fname = f"weights_{i}.npz"
+-        export(run, pkg / fname)
+-        spec.append({"weights": fname, "coef": float(coef), "source": run})
++        extra = export(run, pkg / fname)
++        spec.append({"weights": fname, "coef": float(coef), "source": run, **extra})
++    # Probe v2 (v3 cannot be imported on a CPU without AVX2); both are built from the same source.
++    if any(s.get("online_norm") for s in spec) and "online_norm" not in native_capabilities(pkg, "v2"):
++        raise SystemExit(f"{args.native}: native build lacks online_norm; build one with scripts/build_native.sh")
+     (pkg / "members.json").write_text(json.dumps(spec, indent=1))
+-    zp = ROOT / "submissions" / name / "submission.zip"
++    zp = ROOT / "submissions" / args.name / "submission.zip"
+     zp.unlink(missing_ok=True)
+     files = ["solution.py", "members.json", "v2", "v3"] + [s["weights"] for s in spec]
+     subprocess.run([sys.executable, "-m", "zipfile", "-c", str(zp), *files], cwd=pkg, check=True)
+diff --git a/scripts/parity_native.py b/scripts/parity_native.py
+new file mode 100644
+index 0000000..75a7233
+--- /dev/null
++++ b/scripts/parity_native.py
+@@ -0,0 +1,118 @@
++"""Streaming parity and per-row latency of the native Predictor against the PyTorch model.
++
++    taskset -c 3 scripts/limited .venv/bin/python scripts/parity_native.py RUN [RUN ...] --native DIR
++For each run: exports weights as package_submission.py does, streams validation row groups (--seqs)
++row by row through wnn_native.Predictor (online_norm from the checkpoint args), and compares on
++rows >= 99 with the model forward over the whole sequence on the training-time inputs
++(train_rnn.build_inputs). Online z-scores are taken as the CUDA float32 run computes them
++(wnn.features.online_zscore; --zdevice cuda computes build_inputs on the GPU instead); CPU torch
++accumulates the cumsum in double, which is what "exact z" reports. Then times Predictor.step over
++one sequence, runs interleaved, best of --reps. DIR holds wnn_native.abi3.so (e.g. pkg/v3).
++"""
++
++from __future__ import annotations
++
++import argparse
++import os
++
++os.environ.setdefault("OMP_NUM_THREADS", "1")
++
++import sys  # noqa: E402
++import tempfile  # noqa: E402
++import time  # noqa: E402
++from pathlib import Path  # noqa: E402
++
++import numpy as np  # noqa: E402
++import torch  # noqa: E402
++
++ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT / "scripts"))
++import package_submission  # noqa: E402
++import train_rnn  # noqa: E402
++
++from wnn.data import N_FEATURES, WARMUP, SequenceFile  # noqa: E402
++from wnn.features import N_EVENT_FEATURES, online_zscore  # noqa: E402
++
++Z = slice(N_FEATURES + N_EVENT_FEATURES, 2 * N_FEATURES + N_EVENT_FEATURES)
++
++
++def model_inputs(ck, x, z="train", zdevice="cpu"):
++    """build_inputs on one sequence; z: 'train' (CUDA float32) or 'exact' (CPU torch, double cumsum)."""
++    train_rnn.ONLINE_NORM = bool(ck["args"].get("online_norm"))
++    if z == "train" and zdevice != "cpu":
++        return train_rnn.build_inputs(torch.from_numpy(x)[None].to(zdevice)).cpu()[0]
++    inputs = train_rnn.build_inputs(torch.from_numpy(x)[None])[0]
++    if train_rnn.ONLINE_NORM and z == "train":
++        inputs[:, Z] = torch.from_numpy(online_zscore(x))
++    return inputs
++
++
++def forward(ck, inputs, dtype):
++    model = train_rnn.make_model(ck["args"], ck["n_in"], ck["model"]["head.2.weight"].shape[0])
++    model.load_state_dict(ck["model"])
++    model = model.to(dtype).eval()
++    with torch.no_grad():
++        out, _ = model(inputs.to(dtype)[None])
++    return out[0, :, :2].double().numpy()
++
++
++def stream(pred, x):
++    pred.reset()
++    out = np.empty((len(x), 2), np.float32)
++    t = time.perf_counter()
++    for i in range(len(x)):
++        out[i] = pred.step(np.ascontiguousarray(x[i]))
++    return out, (time.perf_counter() - t) / len(x) * 1e6
++
++
++def main():
++    ap = argparse.ArgumentParser()
++    ap.add_argument("runs", nargs="+")
++    ap.add_argument("--native", required=True, help="directory with the wnn_native extension")
++    ap.add_argument("--seqs", default="0,1,2", help="valid.parquet row groups")
++    ap.add_argument("--reps", type=int, default=3)
++    ap.add_argument("--threads", type=int, default=1, help="torch threads for the reference forward")
++    ap.add_argument("--zdevice", default="cpu", help="'cuda' computes the training z-scores on the GPU")
++    args = ap.parse_args()
++    torch.set_num_threads(args.threads)
++    sys.path.insert(0, str(Path(args.native).resolve()))
++    import wnn_native
++
++    print("native", wnn_native.__file__, "capabilities", getattr(wnn_native, "CAPABILITIES", ()))
++    seqs = [int(s) for s in args.seqs.split(",")]
++    sf = SequenceFile(ROOT / "datasets" / "valid.parquet")
++    xs = {g: sf.read(g, targets=False, mask=False).features for g in seqs}
++    tmp = Path(tempfile.mkdtemp())
++    preds = {}
++    for run in args.runs:
++        ck = torch.load(ROOT / "artifacts" / "runs" / run / "model.pt", map_location="cpu", weights_only=False)
++        spec = package_submission.export(run, tmp / f"{run}.npz")
++        with np.load(tmp / f"{run}.npz") as w:
++            weights = {k: np.ascontiguousarray(w[k], dtype=np.float32) for k in w.files}
++        kw = {"online_norm": True} if spec.get("online_norm") else {}
++        preds[run] = wnn_native.Predictor(weights, fast_activations=True, **kw)
++        exact_act = wnn_native.Predictor(weights, fast_activations=False, **kw)
++        print(f"{run}: n_in {ck['n_in']} spec {spec}")
++        for g, x in xs.items():
++            train = model_inputs(ck, x, "train", args.zdevice)
++            ref32, ref64 = forward(ck, train, torch.float32), forward(ck, train, torch.float64)
++            ref_exact_z = forward(ck, model_inputs(ck, x, "exact"), torch.float32)
++            got, us = stream(preds[run], x)
++            got_exact, _ = stream(exact_act, x)
++            r = slice(WARMUP, None)
++            d = np.abs(got[r] - ref32[r])
++            print(f"  seq {g}: max|native - torch32| {d.max():.3e} (mean {d.mean():.2e})"
++                  f" | exact-activation native vs torch64 {np.abs(got_exact[r] - ref64[r]).max():.3e}"
++                  f" | torch32 exact-z vs training-z {np.abs(ref_exact_z[r] - ref32[r]).max():.3e}"
++                  f" | corr {np.corrcoef(got[r, 0], ref32[r, 0])[0, 1]:.7f} | {us:.1f} us/row")
++    x = xs[seqs[0]]
++    best = {run: float("inf") for run in args.runs}
++    for _ in range(args.reps):
++        for run in args.runs:
++            best[run] = min(best[run], stream(preds[run], x)[1])
++    print("latency, best of", args.reps, "passes over", len(x), "rows:",
++          {run: f"{us:.2f} us/row" for run, us in best.items()})
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/src/wnn/features.py b/src/wnn/features.py
+index 8aa876e..085f78e 100644
+--- a/src/wnn/features.py
++++ b/src/wnn/features.py
+@@ -145,6 +145,18 @@ class StreamingEventFeatures:
+         return out
+ 
+ 
++def online_zscore(x: np.ndarray, eps: float = 1e-4) -> np.ndarray:
++    """NumPy twin of ``online_zscore_torch`` for one (T, F) sequence, bit-exact to the CUDA float32
++    run: CUDA cumsum along T is a sequential float32 loop per column (``np.cumsum`` in float32 is
++    the same loop), then the same float32 ops in the same order. CPU torch accumulates the float32
++    cumsum in double, which differs by up to ~2 z units late in a 20k-row sequence."""
++    x = np.asarray(x, dtype=np.float32)
++    n = np.arange(1, len(x) + 1, dtype=np.float32)[:, None]
++    mean = np.cumsum(x, 0, dtype=np.float32) / n
++    var = np.maximum(np.cumsum(x * x, 0, dtype=np.float32) / n - mean * mean, np.float32(0.0))
++    return (x - mean) / np.sqrt(var + np.float32(eps))
++
++
+ def online_zscore_torch(x, eps: float = 1e-4):
+     """Causal per-sequence running z-scores: stats at row t use rows <= t only. x: (B, T, F)."""
+     import torch
+diff --git a/submission/solution_multi.py b/submission/solution_multi.py
+index 84bc1de..7e37cad 100644
+--- a/submission/solution_multi.py
++++ b/submission/solution_multi.py
+@@ -2,9 +2,10 @@
+ 
+ members.json lists weight files (model state dicts of wnn.nn.RNNModel, head sliced to the two
+ targets) with blend coefficients; the organizer baseline enters as an exact RNNModel rewrite
+-(scripts/convert_baseline.py) with its output scale folded into its coefficient. All members run
+-in the Rust extension shipped as v3/ (x86-64-v3) and v2/ (x86-64-v2); v3 is loaded only when the
+-CPU reports every flag it needs.
++(scripts/convert_baseline.py) with its output scale folded into its coefficient. A member flagged
++"online_norm" also gets causal per-sequence z-scores of the raw row as inputs (n_in 323). All
++members run in the Rust extension shipped as v3/ (x86-64-v3) and v2/ (x86-64-v2); v3 is loaded
++only when the CPU reports every flag it needs.
+ """
+ 
+ import json
+@@ -49,10 +50,16 @@ def _load(name):
+         return {k: np.ascontiguousarray(w[k], dtype=np.float32) for k in w.files}
+ 
+ 
++def _predictor(member):
++    # Passed only when set: builds from before online-norm support lack the keyword.
++    kw = {"online_norm": True} if member.get("online_norm") else {}
++    return wnn_native.Predictor(_load(member["weights"]), fast_activations=True, **kw)
++
++
+ class PredictionModel:
+     def __init__(self):
+         spec = json.loads((HERE / "members.json").read_text())
+-        self.members = [wnn_native.Predictor(_load(m["weights"]), fast_activations=True) for m in spec]
++        self.members = [_predictor(m) for m in spec]
+         self.coef = [np.float32(m["coef"]) for m in spec]
+         self.seq_ix = None
+ 
+diff --git a/tests/test_features.py b/tests/test_features.py
+index 23a0941..e1cf78e 100644
+--- a/tests/test_features.py
++++ b/tests/test_features.py
+@@ -96,3 +96,34 @@ def test_online_zscore_is_causal_and_matches_oracle():
+     x2 = x.clone()
+     x2[:, 150:] += 7.0
+     torch.testing.assert_close(online_zscore_torch(x2)[:, :150], z[:, :150])
++
++
++def test_numpy_online_zscore_is_the_float32_sequential_computation():
++    torch = pytest.importorskip("torch")
++    from wnn.features import online_zscore, online_zscore_torch
++
++    x = _synthetic(np.random.default_rng(11), t=3000) * np.float32(3.0) + np.float32(1.5)
++    z = online_zscore(x)
++    assert z.dtype == np.float32
++    for t in (0, 1, 999, 2999):  # float32 prefix sums accumulated strictly in row order
++        s = sq = np.float32(0.0)
++        for v in x[: t + 1, 7]:
++            s, sq = s + v, sq + v * v
++        n = np.float32(t + 1)
++        mean = s / n
++        var = max(sq / n - mean * mean, np.float32(0.0))
++        assert z[t, 7] == (x[t, 7] - mean) / np.sqrt(var + np.float32(1e-4))
++    # CPU torch accumulates the cumsum in double: close, not equal.
++    np.testing.assert_allclose(z, online_zscore_torch(torch.from_numpy(x[None]))[0].numpy(), atol=5e-2)
++
++
++def test_numpy_online_zscore_matches_cuda_bit_for_bit():
++    torch = pytest.importorskip("torch")
++    if not torch.cuda.is_available():
++        pytest.skip("needs CUDA")
++    from wnn.features import online_zscore, online_zscore_torch
++
++    x = np.stack([_synthetic(np.random.default_rng(s), t=20_000) * np.float32(3.0) for s in (5, 6)])
++    got = online_zscore_torch(torch.from_numpy(x).cuda()).cpu().numpy()
++    for b in range(len(x)):
++        np.testing.assert_array_equal(got[b], online_zscore(x[b]))
+diff --git a/tests/test_predictor.py b/tests/test_predictor.py
+index f8be7cc..ba08c0f 100644
+--- a/tests/test_predictor.py
++++ b/tests/test_predictor.py
+@@ -48,6 +48,26 @@ def test_predictor_matches_batch_on_synthetic(fast, atol):
+     np.testing.assert_allclose(p.step(x[0]), got[0], atol=0)
+ 
+ 
++@pytest.mark.skipif("online_norm" not in getattr(native, "CAPABILITIES", ()),
++                    reason="installed wnn_native predates online_norm; rebuild it (maturin develop)")
++def test_online_norm_predictor_matches_batch_on_synthetic():
++    from wnn.features import online_zscore
++
++    torch.manual_seed(0)
++    model = RNNModel(323, 32, 2).eval()
++    x = _synthetic(3000) * np.float32(3.0)
++    inputs = np.concatenate([x, event_features(x), online_zscore(x)], -1)
++    with torch.no_grad():
++        want, _ = model(torch.from_numpy(inputs)[None])
++    p = native.Predictor(_weights(model), fast_activations=False, online_norm=True)
++    got = np.stack([p.step(r) for r in x])
++    np.testing.assert_allclose(got, want[0, :, :2].numpy(), atol=2e-5)
++    p.reset()  # running sums restart with the sequence
++    np.testing.assert_allclose(p.step(x[0]), got[0], atol=0)
++    with pytest.raises(ValueError, match="online_norm=false"):
++        native.Predictor(_weights(model))
++
++
+ @pytest.mark.data
+ @pytest.mark.skipif(not RUN.exists(), reason="trained checkpoint not present")
+ def test_predictor_matches_trained_checkpoint_on_real_sequence():

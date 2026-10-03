@@ -1,0 +1,9 @@
+{
+ "frozen_before_scoring":true,
+ "status":"Adaptive follow-up after H1/H2; not an independent confirmation",
+ "cohorts":{"train_row_groups":[1600,1601,1602],"valid_row_groups":[900,901,902]},
+ "premise":"Sum conflicts arise only when other current inputs change, so full current input could explain target sum",
+ "procedure":"Read all numeric input columns i0_,i1_,a. On adjacent rows >=99 count target-sum and target-difference changes above 1e-5 with unchanged i0 prices, unchanged i0 all, unchanged BOTH instruments and a. Matched diagnostic control circularly shifts target rows by 997 within each sequence. Report target changes cancelling (delta t0 + delta t1 ==0 within 1e-5) when i0 prices unchanged. Save exact conflicting adjacent rows.",
+ "falsifier":"Any material sum changes when every non-ID input is exactly unchanged refute a deterministic current-snapshot function. This does not refute causal history models or establish a forward target formula.",
+ "limits":"Adjacent unchanged inputs can still have different histories. Circular shift preserves serial persistence and may align constant segments; descriptive control only. Selection previously exposed. No targets enter deployed features."
+}

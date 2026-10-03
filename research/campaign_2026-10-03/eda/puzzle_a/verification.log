@@ -1,0 +1,60 @@
+2 files reformatted, 2 files left unchanged
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/eda/puzzle_a/continuation_probe.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | import hashlib
+ 4 | | import json
+ 5 | | import logging
+ 6 | | import os
+ 7 | | from pathlib import Path
+ 8 | | import time
+ 9 | |
+10 | | import matplotlib
+   | |_________________^
+11 |
+12 |   matplotlib.use("Agg")
+   |
+help: Organize imports
+  |
+6 | import os
+7 + import time
+8 | from pathlib import Path
+  - import time
+9 |
+  |
+
+B905 `zip()` without an explicit `strict=` parameter
+  --> research/campaign_2026-10-03/eda/puzzle_a/continuation_summary.py:64:17
+   |
+62 |             )
+63 |             summary["prior_scan_quantum_counts"][split] = list(
+64 |                 zip(classes.tolist(), counts.tolist())
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+65 |             )
+66 |     (HERE / "continuation_summary.json").write_text(json.dumps(summary, indent=2))
+   |
+help: Add explicit value for parameter `strict=`
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/eda/puzzle_a/eda_puzzle_a.py:10:5
+   |
+ 8 |   @app.cell
+ 9 |   def _():
+10 | /     import json
+11 | |     from pathlib import Path
+12 | |     import marimo as mo
+   | |_______________________^
+13 |
+14 |       directory = Path(__file__).resolve().parent
+   |
+help: Organize imports
+   |
+11 |     from pathlib import Path
+12 +
+13 |     import marimo as mo
+   |
+
+Found 3 errors.
+[*] 2 fixable with the `--fix` option (1 hidden fix can be enabled with the `--unsafe-fixes` option).

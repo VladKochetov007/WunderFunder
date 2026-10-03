@@ -1,0 +1,153 @@
+{
+  "phase": "report_complete",
+  "role": "round2-firstpassage",
+  "commands": [
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round2/first_passage/synthetic.py",
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round2/first_passage/decoder.py",
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round2/first_passage/evaluate.py",
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round2/first_passage/loser_bound.py",
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 bash research/campaign_2026-10-03/continuation/round2/first_passage/verify.sh",
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round2/first_passage/finalize.py",
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round2/first_passage/evaluate.py --resume"
+  ],
+  "artifacts": [
+    "BOUND_PREREG.json",
+    "COMMANDS.txt",
+    "PREREG.json",
+    "PROVENANCE.json",
+    "REPORT.md",
+    "STATE.json",
+    "affine_calibration.json",
+    "affine_calibration_initial.json",
+    "controller_command_logs.txt",
+    "cost.json",
+    "decoder.py",
+    "decoder_tables.json",
+    "evaluate.log",
+    "evaluate.py",
+    "evaluate_final.log",
+    "evaluate_initial_failure.log",
+    "evaluate_replay.log",
+    "evaluate_replay_failure.log",
+    "evaluate_verified.log",
+    "family_geometry_coverage.png",
+    "finalize.log",
+    "finalize.py",
+    "finalize_closed.log",
+    "finalize_final.log",
+    "finalize_updated.log",
+    "fit.log",
+    "fit_results.json",
+    "lint_fix.log",
+    "loser_bound.log",
+    "loser_bound.py",
+    "loser_bound_results.json",
+    "loser_bound_verified.log",
+    "path_laws.py",
+    "prior_ledger_excerpt.jsonl",
+    "regime_geometry.json",
+    "results.json",
+    "sampled_origins.json",
+    "sampled_origins_initial.json",
+    "sampled_origins_strict.json",
+    "selection.json",
+    "source_context_hashes.json",
+    "summary.json",
+    "synthetic.log",
+    "synthetic.py",
+    "synthetic_initial.log",
+    "synthetic_initial_results.json",
+    "synthetic_paths_labels.npz",
+    "synthetic_results.json",
+    "synthetic_results_strict.json",
+    "verification_closed.log",
+    "verification_complete.log",
+    "verification_final.log",
+    "verify.log",
+    "verify.sh",
+    "verify_final.log"
+  ],
+  "last_failure": null,
+  "pending": [],
+  "prior_exposure": "All TRAIN exposed to own scan1 summaries; original panel exposed reconstruction. No pristine or external generator claim.",
+  "decoder_sha256": "43d9d1e256e9ede1a06ddfd58429ff3c3cdf50ccf815ec07a677c977d70467bb",
+  "affine_sha256": "315e5cf9bf4d67146a029c52f7a4f0cbcbf3c271c064c302ab997b70d8928f77",
+  "test_ids": [
+    {
+      "group": 1131,
+      "component": 1695,
+      "seq_ix": 239686751
+    },
+    {
+      "group": 8488,
+      "component": 462,
+      "seq_ix": 1734866141
+    },
+    {
+      "group": 10038,
+      "component": 2614,
+      "seq_ix": 2040244411
+    },
+    {
+      "group": 4094,
+      "component": 1826,
+      "seq_ix": 836756439
+    },
+    {
+      "group": 8497,
+      "component": 732,
+      "seq_ix": 1736263665
+    },
+    {
+      "group": 6489,
+      "component": 746,
+      "seq_ix": 1333389311
+    },
+    {
+      "group": 7758,
+      "component": 1245,
+      "seq_ix": 1589015502
+    },
+    {
+      "group": 6457,
+      "component": 2268,
+      "seq_ix": 1326024571
+    },
+    {
+      "group": 1473,
+      "component": 388,
+      "seq_ix": 310399649
+    },
+    {
+      "group": 1765,
+      "component": 637,
+      "seq_ix": 370750816
+    },
+    {
+      "group": 5635,
+      "component": 1754,
+      "seq_ix": 1159057298
+    },
+    {
+      "group": 8477,
+      "component": 991,
+      "seq_ix": 1732301769
+    }
+  ],
+  "commands_reference": "COMMANDS.txt",
+  "controller_logs": "controller_command_logs.txt",
+  "resolved_failures": [
+    "NumPy integer JSON export failures: two traces retained; normalized counters; final raw samples byte-identical",
+    "Initial lint import order and unused import corrected"
+  ],
+  "claims": {
+    "exact_generator_identified": false,
+    "outside_pair_all_three_laws": "contradicted on eligible decoded sample",
+    "trailing_extrema_return_including_entry": "mapped outside losers violate spread loss bound independently of horizon",
+    "physical_quote_decoder": "unknown",
+    "baseline_or_forecast_gain": "not tested"
+  },
+  "inspected_figures": [
+    "family_geometry_coverage.png"
+  ]
+}

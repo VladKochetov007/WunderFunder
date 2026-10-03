@@ -1,0 +1,54 @@
+Recovered from own artifacts during the read-only continuation.
+Clean-room role: abstract-only signal-processing physicist; no host description.
+
+Observed prior evidence:
+- catalogue.npz/catalogue.py summarize all 10607 training and 1873 validation
+  sequences. Four dominant minimum target spacings are 0.1254, 0.2413, 0.4685,
+  0.6569. One sparse training sequence has spacing 0.9371. Minimum observed
+  spacing is not proof of a fundamental quantization lattice.
+- class_id.log/class_id.py report 599/600 validation classifications correct
+  using input summaries from rows 0..99. This gate is available at row 99;
+  later-prefix classifications cannot be used at earlier rows.
+- ridge_ev.log: weighted-fit validation WP mean 0.6169 for levels, 0.6378 for
+  levels plus the fast band, 0.6253 with the intermediate band, 0.6054 with all
+  bands. Scores are exploratory; exact invocation/sample sizes were not saved.
+- ridge2.json: unweighted-fit all-bank WP mean 0.6106; adding event taps gave
+  0.6115; generic recurrence features did not improve it. Per-class scores
+  differ greatly (approximately 0.675 versus 0.370 for smallest/largest class).
+- spectra.npz/fig_spectra_event.png: target-increment PSD peaks near periods
+  6, 3 and 4 price events. acf_clock.npz: t0 ACF(100) is 0.447 in row time,
+  0.046 in event time. fig_cycle_example.png shows distinct recurrent behavior
+  in selected examples. Spectra/coherence do not establish causal prediction.
+
+Unfinished and caveats:
+- REPORT.txt was absent; row-clock ridge comparison and numerical sysid
+  outputs were absent. sysid.py deliberately uses future inputs diagnostically.
+- ridge_ev.log ends with serialization failure. Printed scores and JSON
+  survive; full ridge weights do not. Original artifacts must be preserved.
+- feat.py advances every input EMA only on i0_p changes, potentially missing
+  independent volume/i1 updates. No matched-clock test had been saved.
+- Catalogue exposed every sequence to target/statistical summaries. Prior
+  sampled scripts also inspected many sequences. No selected sequence can be
+  claimed new or independent of all predecessor EDA. Repeated validation is
+  exploratory, and no local ridge score proves improvement over a baseline.
+
+Ranked next hypotheses:
+1. Regime-dependent transfer functions: use an input-only prefix gate; match
+   against shuffled gates and equal feature counts; reject absent paired gains.
+2. Group-specific event clocks: retain fast band, columns and dimension;
+   compare shared i0_p, own group, row clocks; reject nonpersistent gains.
+3. Nonlinear current-state geometry: a few predefined pair interactions;
+   equal-count linear control; reject effects disappearing within regime.
+4. Conditional cycle phase: causal trailing recurrence/phase; matched rates
+   and correlation-preserving surrogates; reject selected-example effects.
+
+Primary sources actually read in recovery:
+https://arxiv.org/html/chao-dyn/9909037 (Schreiber/Schmitz surrogate tests:
+preserved correlations, test selection and nonstationarity affect conclusions).
+https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.coherence.html
+(magnitude-squared coherence is not a directional causal statistic).
+
+Resumption: freeze tests before scores, enumerate IDs and prior exposure,
+verify prefix equivalence, use pooled WP and paired uncertainty. Connected
+component dependence is not identifiable in this isolated role; do not treat
+rows or nominal sequences as proven independent campaign units.

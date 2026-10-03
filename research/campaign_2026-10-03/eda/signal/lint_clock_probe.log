@@ -1,0 +1,265 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/eda/signal/clock_probe.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | import hashlib
+ 4 | | import json
+ 5 | | import logging
+ 6 | | import os
+ 7 | | from pathlib import Path
+ 8 | | import time
+ 9 | |
+10 | | import numba as nb
+11 | | import numpy as np
+12 | | import pyarrow.parquet as pq
+   | |____________________________^
+13 |
+14 |   HERE = Path(__file__).resolve().parent
+   |
+help: Organize imports
+  |
+6 | import os
+7 + import time
+8 | from pathlib import Path
+  - import time
+9 |
+  |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/eda/signal/diagnose_clock_probe.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | import hashlib
+ 4 | | import json
+ 5 | | from pathlib import Path
+ 6 | |
+ 7 | | import numpy as np
+ 8 | | import pyarrow.parquet as pq
+ 9 | |
+10 | | from clock_probe import DATA, features, read_inputs, save_json, scores
+   | |______________________________________________________________________^
+11 |
+12 |   HERE = Path(__file__).resolve().parent
+   |
+help: Organize imports
+  |
+8 | import pyarrow.parquet as pq
+  -
+9 | from clock_probe import DATA, features, read_inputs, save_json, scores
+  |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/eda/signal/eda_signal.py:11:5
+   |
+ 9 |   @app.cell
+10 |   def _():
+11 | /     import marimo as mo
+12 | |     import os, sys, json
+13 | |     import numpy as np
+   | |______________________^
+14 |
+15 |       HERE = os.path.dirname(os.path.abspath(__file__))
+   |
+help: Organize imports
+   |
+10 | def _():
+11 +     import json
+12 +     import os
+13 +     import sys
+14 +
+15 |     import marimo as mo
+   -     import os, sys, json
+16 |     import numpy as np
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/eda/signal/eda_signal.py:18:5
+   |
+16 |     sys.path.insert(0, HERE)
+17 |     os.chdir(HERE)
+18 |     import sio, feat
+   |     ^^^^^^^^^^^^^^^^
+19 |
+20 |     return HERE, feat, json, mo, np, os, sio
+   |
+help: Organize imports
+   |
+17 |     os.chdir(HERE)
+   -     import sio, feat
+18 +     import feat
+19 +     import sio
+20 |
+   |
+
+PLR1711 [*] Useless `return` statement at end of function
+  --> research/campaign_2026-10-03/eda/signal/eda_signal.py:34:5
+   |
+32 |         """
+33 |     )
+34 |     return
+   |     ^^^^^^
+help: Remove useless `return` statement
+   |
+33 |     )
+   -     return
+34 |
+   |
+
+C408 Unnecessary `dict()` call (rewrite as a literal)
+  --> research/campaign_2026-10-03/eda/signal/eda_signal.py:49:17
+   |
+47 |               c = {n: A[m, i] for i, n in enumerate(names)}
+48 |               rows.append(
+49 | /                 dict(
+50 | |                     split=split,
+51 | |                     quantum=float(uu),
+52 | |                     ticks_per_unit=round(1 / uu, 2),
+53 | |                     n_seq=int(m.sum()),
+54 | |                     frac=round(m.mean(), 3),
+55 | |                     t0_std=round(np.nanmean(c["t0std"]), 3),
+56 | |                     t0_mean=round(np.nanmean(c["t0mean"]), 3),
+57 | |                     rho_t0_t1=round(np.nanmean(c["rho"]), 3),
+58 | |                     t0_changes=int(np.mean(c["n_t0chg"])),
+59 | |                     i0_price_events=int(np.mean(c["n_i0p0"])),
+60 | |                 )
+   | |_________________^
+61 |               )
+62 |       mo.vstack(
+   |
+help: Rewrite as a literal
+
+PLR1711 [*] Useless `return` statement at end of function
+  --> research/campaign_2026-10-03/eda/signal/eda_signal.py:68:5
+   |
+66 |         ]
+67 |     )
+68 |     return
+   |     ^^^^^^
+help: Remove useless `return` statement
+   |
+67 |     )
+   -     return
+68 |
+   |
+
+PLR1711 [*] Useless `return` statement at end of function
+  --> research/campaign_2026-10-03/eda/signal/eda_signal.py:88:5
+   |
+87 |     mo.vstack([mo.vstack([mo.md(f"### {f}"), mo.image(src=f)]) for f in figs if _os.path.exists(f)])
+88 |     return
+   |     ^^^^^^
+help: Remove useless `return` statement
+   |
+87 |     mo.vstack([mo.vstack([mo.md(f"### {f}"), mo.image(src=f)]) for f in figs if _os.path.exists(f)])
+   -     return
+88 |
+   |
+
+SIM115 Use a context manager for opening files
+  --> research/campaign_2026-10-03/eda/signal/eda_signal.py:97:27
+   |
+95 |         fn = f"ridge_bands_{clk}.json"
+96 |         if os.path.exists(fn):
+97 |             r = json.load(open(fn))
+   |                           ^^^^
+98 |             out += [
+99 |                 dict(
+   |
+
+C408 Unnecessary `dict()` call (rewrite as a literal)
+   --> research/campaign_2026-10-03/eda/signal/eda_signal.py:99:17
+    |
+ 97 |               r = json.load(open(fn))
+ 98 |               out += [
+ 99 | /                 dict(
+100 | |                     clock=clk,
+101 | |                     config=k,
+102 | |                     t0=round(v[0], 4),
+103 | |                     t1=round(v[1], 4),
+104 | |                     mean=round((v[0] + v[1]) / 2, 4),
+105 | |                 )
+    | |_________________^
+106 |                   for k, v in r.items()
+107 |               ]
+    |
+help: Rewrite as a literal
+
+PLR1711 [*] Useless `return` statement at end of function
+   --> research/campaign_2026-10-03/eda/signal/eda_signal.py:116:5
+    |
+114 |         ]
+115 |     )
+116 |     return
+    |     ^^^^^^
+help: Remove useless `return` statement
+    |
+115 |     )
+    -     return
+116 |
+    |
+
+SIM115 Use a context manager for opening files
+   --> research/campaign_2026-10-03/eda/signal/eda_signal.py:124:9
+    |
+123 |     txt = (
+124 |         open("REPORT.txt").read()
+    |         ^^^^
+125 |         if _os.path.exists("REPORT.txt")
+126 |         else "(REPORT.txt not written yet)"
+    |
+
+PLR1711 [*] Useless `return` statement at end of function
+   --> research/campaign_2026-10-03/eda/signal/eda_signal.py:129:5
+    |
+127 |     )
+128 |     mo.md("## REPORT.txt\n```\n" + txt + "\n```")
+129 |     return
+    |     ^^^^^^
+help: Remove useless `return` statement
+    |
+128 |     mo.md("## REPORT.txt\n```\n" + txt + "\n```")
+    -     return
+129 |
+    |
+
+PLR1711 [*] Useless `return` statement at end of function
+   --> research/campaign_2026-10-03/eda/signal/eda_signal.py:175:5
+    |
+173 |     )
+174 |     mo.vstack(_items)
+175 |     return
+    |     ^^^^^^
+help: Remove useless `return` statement
+    |
+174 |     mo.vstack(_items)
+    -     return
+175 |
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/eda/signal/plot_clock_probe.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | import json
+ 4 | | import os
+ 5 | | from pathlib import Path
+ 6 | |
+ 7 | | import numpy as np
+ 8 | |
+ 9 | | from clock_probe import scores
+   | |______________________________^
+10 |
+11 |   HERE = Path(__file__).resolve().parent
+   |
+help: Organize imports
+  |
+7 | import numpy as np
+  -
+8 | from clock_probe import scores
+  |
+
+Found 15 errors.
+[*] 11 fixable with the `--fix` option (2 hidden fixes can be enabled with the `--unsafe-fixes` option).

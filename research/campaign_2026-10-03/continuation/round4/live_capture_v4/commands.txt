@@ -1,0 +1,8 @@
+# Executed bounded CPU test/generation/smoke (30 targeted tests, no broad rerun):
+research/campaign_2026-10-03/continuation/run_cpu.sh round4-capture env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src:research/campaign_2026-10-03/continuation/round4/live_capture_v4 bash research/campaign_2026-10-03/continuation/round4/live_capture_v4/verify_inside_cpu.sh
+# Executed metadata/hash freeze only:
+research/campaign_2026-10-03/continuation/run_cpu.sh round4-capture env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src:research/campaign_2026-10-03/continuation/round4/live_capture_v4 .venv/bin/python research/campaign_2026-10-03/continuation/round4/live_capture_v4/freeze_v4.py
+# CPU reproduction: fresh output; frozen runner verifies generated code without rewriting it.
+research/campaign_2026-10-03/continuation/run_cpu.sh round4-capture env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src:research/campaign_2026-10-03/continuation/round4/live_capture_v4 .venv/bin/python research/campaign_2026-10-03/continuation/round4/live_capture_v4/runner.py --output research/campaign_2026-10-03/continuation/round4/live_capture_v4/cpu_reproduce_FRESH_TAG
+# PROPOSAL ONLY: independent final-v4 review, controller-owned scope patch/runtime receipt/exclusive admission required. Not executed.
+.venv/bin/python scripts/campaign_job.py launch --name r4_capture_v4_FRESH_TAG --kind gpu --phase controls --timeout 600 --threads 8 -- bash research/campaign_2026-10-03/continuation/run_gpu.sh bash research/campaign_2026-10-03/continuation/round4/controller_gpu_payload.sh CONTROLLER_RECEIPT.json research/campaign_2026-10-03/continuation/round4/live_capture_v4/gpu_FRESH_TAG

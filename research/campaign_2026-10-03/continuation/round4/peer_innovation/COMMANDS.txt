@@ -1,0 +1,18 @@
+Run from repository root. Every Python computation uses the CPU wrapper; no installs.
+Files already completed must be preserved; extract.py refuses to overwrite a completed sequence.
+
+Original sequence0 command:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src:scripts /usr/bin/time -v .venv/bin/python -B research/campaign_2026-10-03/continuation/round4/peer_innovation/extract.py --sequence 0
+
+Remaining sequence chunks (skips completed sequences1..23):
+bash research/campaign_2026-10-03/continuation/round4/peer_innovation/run_remaining.sh
+
+Scored commands, run ONCE during this pass after source freezing; rerunning writes own output artifacts:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 /usr/bin/time -v .venv/bin/python -B research/campaign_2026-10-03/continuation/round4/peer_innovation/controls.py
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 /usr/bin/time -v .venv/bin/python -B research/campaign_2026-10-03/continuation/round4/peer_innovation/fit_proxy.py
+
+Independent saved-array/hash verification, zero fits (writes own verification.json):
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 /usr/bin/time -v .venv/bin/python -B research/campaign_2026-10-03/continuation/round4/peer_innovation/verify.py
+
+Frozen artifact audit is read-only:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B research/campaign_2026-10-03/continuation/round4/peer_innovation/freeze.py --audit

@@ -1,0 +1,11 @@
+{
+ "status":"frozen_before_ablation_scoring",
+ "reason":"First test period4 positive pooled delta but only 10/24 wins and negative t1 delta; capped-age/P extra differs between period4 and sham6. Need isolate nonlinear age from clock.",
+ "sample":"Reuse EXACT continuation_manifest.json train32 valid24; exposed by first test. Exploratory conditional ablation, no independent confirmation.",
+ "fit":"Same train stride7, standardized global ridge penalty .01*n, clipped targets, same all eligible scored validation rows.",
+ "arms":{"cap4":"raw+causal age+event rate+capped age/4","phase4":"cap4 + sin/cos(event age/4)","recurrence4":"cap4 + causal lag4-minus-neighbor EWMA","full4":"original period4, exact reproduction required","sham4":"same number of columns as full4, same capped age/4, fixed randomized ROW phase4 and lag7 contrast"},
+ "falsifier":"A clock-specific explanation weakens if cap4 captures the gain or sham4 matches/exceeds full4. Full4 with fewer than14/24 wins against cap4 remains inconclusive regardless of pooled delta.",
+ "predictions":"true period4 recurrence should beat cap4 and sham4; generic saturation should favor cap4; row alias should make row-phase control competitive",
+ "inference":"no component confidence interval; predictive attribution only, no physical causality or strong-baseline gain",
+ "cost":"one wrapped CPU command, streaming same 56 row groups, below2GiB"
+}

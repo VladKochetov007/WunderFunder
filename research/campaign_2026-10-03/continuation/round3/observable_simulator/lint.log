@@ -1,0 +1,31 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/continuation/round3/observable_simulator/experiment.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | import hashlib
+ 4 | | import json
+ 5 | | import logging
+ 6 | | import os
+ 7 | | import resource
+ 8 | | import signal
+ 9 | | import time
+10 | | from pathlib import Path
+11 | |
+12 | | import numpy as np
+13 | |
+14 | | from representation import Ridge, features
+15 | | from simulator import ORIGINS, scalar_label, simulate, stopping_labels
+   | |______________________________________________________________________^
+16 |
+17 |   OWN = Path(__file__).resolve().parent
+   |
+help: Organize imports
+   |
+12 | import numpy as np
+   -
+13 | from representation import Ridge, features
+   |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

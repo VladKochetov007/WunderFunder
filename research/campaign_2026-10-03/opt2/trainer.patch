@@ -1,0 +1,118 @@
+--- a/scripts/train_rnn.py
++++ b/scripts/train_rnn.py
+@@ -42,7 +42,12 @@
+     weighted_mse_loss,
+     weighted_pooled_corr_loss,
+ )
+-from wnn.optim import GradStats, MuonAdamW, muon_param_groups, rnn_init_, wsd_lambda
++from wnn.optim import GradStats, rnn_init_
++
++# Experimental module remains isolated in research until controller review.
++sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "research/campaign_2026-10-03/opt2"))
++from training_dynamics import Dynamics, add_arguments, build_optimizer, build_scheduler
++from sampling import EpochOrderSampler, init_qmc_
+ from wnn.outcomes import (
+     N_CODES,
+     N_SP_AUX,
+@@ -750,7 +755,7 @@
+     research.add_argument("--muon-scope", choices=["rnn", "hidden"], default="rnn",
+                           help="hidden: Muon also on head.0.weight")
+     research.add_argument("--beta2", type=float, default=0.999, help="Adam second-moment decay")
+-    research.add_argument("--sched", choices=["onecycle", "wsd"], default="onecycle",
++    research.add_argument("--sched", choices=["onecycle", "wsd", "sgdr"], default="onecycle",
+                           help="wsd: 5%% linear warmup, constant lr, (1 - sqrt) cooldown over the last --wsd-decay")
+     research.add_argument("--wsd-decay", type=float, default=0.2, help="cooldown share of all optimizer steps")
+     research.add_argument("--wsd-final", type=float, default=0.01, help="final lr as a fraction of --lr")
+@@ -890,7 +895,16 @@
+     perf.add_argument("--profile-warmup", type=int, default=5)
+     perf.add_argument("--parity-dump", default="", help="save per-step losses and final weights here, then exit")
+     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
++    add_arguments(ap)
+     args = ap.parse_args()
++    if args.zoneout != 0:
++        ap.error("exact zoneout is unsupported for fused nn.GRU; no approximation is made")
++    if args.batch_order == "qmc":
++        ap.error("QMC sampler helper is tested; streamed training-input metadata integration is deferred")
++    if args.antithetic and args.batch_order != "seeded":
++        ap.error("--antithetic requires --batch-order seeded and a same-seed seeded control")
++    if args.init_qmc and (args.init or args.rnn_init != "default" or args.enc != "linear" or args.arch != "gru"):
++        ap.error("--init-qmc supports fresh plain GRU/LSTM RNNModel only; no checkpoint or rnn-init combination")
+     init_checkpoint = None
+     if args.inherit_init_preprocessing:
+         if not args.init:
+@@ -1136,6 +1150,11 @@
+     workers, prefetch = dataloader_budget(
+         train_batch_bytes, ram_budget_bytes=loader_ram - 2 * valid_batch_bytes
+     )
++    if args.batch_order == "seeded":
++        if sampler is not None:
++            ap.error("seeded/antithetic order cannot replace weighted or replacement sampling")
++        sampler = EpochOrderSampler(len(train_ds), args.seed, args.antithetic)
++        sampler.set_epoch(-1)  # separate normalization pass; same for the paired control
+     train_loader = DataLoader(train_ds, batch_size=args.batch, shuffle=sampler is None,
+                               sampler=sampler, drop_last=True, num_workers=workers,
+                               prefetch_factor=prefetch if workers else None,
+@@ -1207,6 +1226,8 @@
+     if args.aux_quote > 0:
+         n_out += 2
+     model = make_model(vars(args), n_in, n_out).to(device)
++    if args.init_qmc:
++        init_qmc_(model, args.seed)
+     if args.rnn_init != "default" and not args.init:
+         rnn_init_(model, args.rnn_init, args.chrono_tmax, args.seed)
+     moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
+@@ -1233,17 +1254,14 @@
+         if frozen and pname.startswith(frozen):
+             prm.requires_grad_(False)
+     total = len(train_loader) * math.ceil(20_000 / args.chunk) * args.epochs
+-    if args.optim == "muon":
+-        opt = MuonAdamW(muon_param_groups(model, args.muon_scope), lr=args.lr, betas=(0.9, args.beta2),
+-                        weight_decay=args.wd)
+-    else:
+-        opt = torch.optim.AdamW([prm for prm in model.parameters() if prm.requires_grad], lr=args.lr,
+-                                betas=(0.9, args.beta2), weight_decay=args.wd, fused=bool(args.fused_adam))
+-    if args.sched == "wsd":
+-        sched = torch.optim.lr_scheduler.LambdaLR(opt, wsd_lambda(total, 0.05, args.wsd_decay, args.wsd_final))
+-    else:
+-        sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=total,
+-                                                    pct_start=0.05, final_div_factor=100)
++    opt = build_optimizer(model, args)
++    sched = build_scheduler(opt, args, total)
++    dynamics = Dynamics(model, args, total)
++    provenance["opt2_switch_events"] = dynamics.events
++    provenance["opt2_sources"] = {
++        name: file_sha256(ROOT / "research/campaign_2026-10-03/opt2" / name)
++        for name in ("training_dynamics.py", "sampling.py")
++    }
+     amp_dtype = torch.bfloat16 if args.precision == "bf16" else torch.float16
+     scaler = torch.amp.GradScaler(enabled=args.precision == "fp16")
+     grad_stats = GradStats(model, args.clip) if args.grad_stats else None
+@@ -1301,7 +1319,11 @@
+             break  # cheaper screens: the lr schedule still spans --epochs, so earlier checkpoints are unchanged
+         model.train()
+         epoch_counter = EpochUpdateCounter(device)
++        if isinstance(train_loader.sampler, EpochOrderSampler):
++            train_loader.sampler.set_epoch(epoch)
+         epoch_order_identity = sample_order_identity(train_loader)
++        if isinstance(train_loader.sampler, EpochOrderSampler):
++            epoch_order_identity["opt2_seeded_order"] = {"seed": args.seed, "epoch": epoch, "antithetic": args.antithetic}
+         batches = CudaPrefetcher(train_loader, device, timer) if args.pin_memory else train_loader
+         for b, batch in enumerate(batches):
+             if args.max_batches and b >= args.max_batches:
+@@ -1514,6 +1536,7 @@
+                         consistency_scale = 2.0  # preserve the original two-target loss scale
+                     loss = loss + args.ema_teacher * consistency_scale * (cw * (out[..., :2].float() - out_ema[..., :2].float()) ** 2).sum() / cw.sum().clamp_min(1e-8)
+                 timer.mark("loss")
++                opt = dynamics.maybe_switch(step_count, opt, sched)
+                 opt.zero_grad(set_to_none=True)
+                 scaler.scale(loss).backward()
+                 timer.mark("backward")
+@@ -1521,7 +1544,7 @@
+                 epoch_counter.observe_unscaled(scaler, opt)
+                 if grad_stats is not None:
+                     grad_stats.observe()
+-                torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
++                dynamics.perturb_and_clip(step_count)
+                 scaler.step(opt)
+                 scaler.update()
+                 sched.step()

@@ -1,0 +1,35 @@
+{
+  "status": "frozen_before_followup_scoring",
+  "parent": "HYPOTHESES.json and s30_results.json",
+  "reason": "s30 rejected hard persistence; distinguish elapsed-clock information from changing flow or auxiliary inputs",
+  "evidence_class": "adaptive exploratory follow-up on the same already-exposed sample",
+  "sample": "identical frozen 32 train and 20 valid rowgroups from HYPOTHESES.json; no selection changes",
+  "fixed_procedure": {
+    "fit_and_metric": "identical stride, normalization, ridge penalty and clipped weighted correlation to s30; no target-derived regime inputs",
+    "models": {
+      "anchor": "all 20 raw representatives and sentinel indicators at last a6 reset",
+      "anchor_clocks": "anchor features except current a5,a6,a7 and their indicators",
+      "anchor_flow": "anchor features except current i0/i1 v0,v11,dv0 and their indicators",
+      "anchor_aux": "anchor features except current a0..a7 and their indicators",
+      "current_held_clocks": "all current features except a5,a6,a7 held at last a6 reset",
+      "current": "all current features; reproduce s30 control"
+    },
+    "matched_control": "same sample, feature dimension, train normalization, regularization and weights; only the time at which a frozen feature block is read differs",
+    "prefix_check": "full-stream reset indices must equal prefix recomputation at cutoffs 99,641,1501 on train104 and valid6, for true,price and five delayed streams"
+  },
+  "tests": [
+    {
+      "id": "H3_clock_explains_revision",
+      "hypothesis": "current a5..a7 account for at least 80% of the mean-WP gap between anchor-only and current-input ridge",
+      "rejection": "(WP(anchor_clocks)-WP(anchor))/(WP(current)-WP(anchor)) < 0.8",
+      "inference": "last reset inputs plus current clocks; no final run duration"
+    },
+    {
+      "id": "H4_flow_adds_information",
+      "hypothesis": "updating the six v/dv representatives adds at least 0.02 mean WP over anchor-only ridge",
+      "rejection": "WP(anchor_flow)-WP(anchor) < 0.02",
+      "inference": "current v/dv inputs plus cached anchor inputs; economic interpretation remains unverified"
+    }
+  ],
+  "limitations": "models are small linear diagnostics; block associations do not prove physical causation; same exposed sample and adaptive test"
+}

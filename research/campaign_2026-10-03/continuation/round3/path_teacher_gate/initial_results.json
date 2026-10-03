@@ -1,0 +1,229 @@
+{
+  "decision": "REJECT_PHYSICAL_EVENT_STATE_TEACHER",
+  "causal_prefix_implementation_pass": true,
+  "physical_identifiability_pass": false,
+  "target_law_gate": "FAIL: own frozen TRAIN report rejects both exact hybrid laws; not rescored",
+  "modes": {
+    "fixed": {
+      "all_origins": 256,
+      "known": 256,
+      "unknown": 0,
+      "physical_state_exact": 256,
+      "spread_exact": 256,
+      "label_transition_exact": 252,
+      "eligible_transitions": 252,
+      "frozen_table_entries": 2
+    },
+    "changing": {
+      "all_origins": 256,
+      "known": 256,
+      "unknown": 0,
+      "physical_state_exact": 4,
+      "spread_exact": 256,
+      "label_transition_exact": 252,
+      "eligible_transitions": 252,
+      "frozen_table_entries": 2
+    }
+  },
+  "known_generator": {
+    "cases": 64,
+    "engine_reference_exact": 64,
+    "complete": 64,
+    "censored": 0
+  },
+  "controls": {
+    "prefix_identity_checks": 512,
+    "constant_translation_checks": 512,
+    "unknown_gap_rejected_states": 32,
+    "same_prefix": [
+      1.0,
+      0.0,
+      2.0,
+      1.0
+    ],
+    "different_future_pairs": [
+      [
+        3.0,
+        -3.0
+      ],
+      [
+        1.0,
+        -2.0
+      ]
+    ]
+  },
+  "witnesses": [
+    {
+      "toy_path": 4,
+      "step": 1,
+      "decoded_state": [
+        4.0,
+        0.0,
+        2.0,
+        1.0
+      ],
+      "physical_state": [
+        4.0,
+        0.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "toy_path": 4,
+      "step": 2,
+      "decoded_state": [
+        4.0,
+        2.0,
+        0.0,
+        1.0
+      ],
+      "physical_state": [
+        4.0,
+        1.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "toy_path": 4,
+      "step": 3,
+      "decoded_state": [
+        4.0,
+        0.0,
+        2.0,
+        1.0
+      ],
+      "physical_state": [
+        4.0,
+        0.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "toy_path": 4,
+      "step": 4,
+      "decoded_state": [
+        4.0,
+        2.0,
+        0.0,
+        1.0
+      ],
+      "physical_state": [
+        4.0,
+        1.0,
+        0.0,
+        1.0
+      ]
+    }
+  ],
+  "IDs": {
+    "fit_audit_paths": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "test_audit_paths": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "test_steps_inclusive": [
+      0,
+      63
+    ],
+    "positive_paths": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63
+    ],
+    "positive_seed": 632031,
+    "audit_seed": 20261003,
+    "supplied_origins_newly_scored": 0
+  },
+  "provenance": {
+    "input_hashes": {
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round3/decoder_audit/REPORT.txt": "6420450519148c997af159dc287015b5ac079d277a1315de043b4be1044732f7",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round3/decoder_audit/common_reference_falsifier.py": "aeec98e70245cdbb5a236e65f23faa04be59ad062587e9d3e6267497ea601d76",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round3/decoder_audit/audit_common.py": "6c0aaf6c27350dd0c7a9e12143be33f4768bc52ebd4604e8cb60ec5a32f48d80",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round3/hybrid_pair/REPORT.md": "215445ae967884da67a026c348480d1f01a14b72fc8d04f4aa62f9c30fe2bb21",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round3/hybrid_pair/laws.py": "d655ca39b2e8418a60438f3dff9fcdaf006cb90aeff5ec2b02477da927414217",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round3/path_teacher_gate/PREREG.json": "d659abecd99ee4d481718db58a3372ce98588b28d9023ba478324f3cd48aa852"
+    },
+    "script_sha256": "54981c866a219e087f5e1bc60a8238b495c96c2179d0e8aa8523499de510d6f5",
+    "synthetic_arrays_sha256": "1b777947f19146e95b8c789bdacc54d14fe59fa509f17ac2e0ff1d1b47d80bbc",
+    "audit_fixture_reuse": true
+  },
+  "cost": {
+    "wall_seconds": 0.3436678080033744,
+    "cpu_seconds": 0.337489026,
+    "max_rss_kib": 39692,
+    "raw_rows_read": 0,
+    "GPU": false,
+    "monetary_cost": "not exposed"
+  }
+}

@@ -1,0 +1,520 @@
+{
+  "checks": {
+    "capture_roundtrip": true,
+    "lagged_ema_differs_from_raw": true,
+    "raw_and_ema_incoming_states_distinct": true,
+    "warm_state_all_parameters": true,
+    "h0_all_False_restored_state": true,
+    "h0_all_False_oracle": true,
+    "h0_all_True_restored_state": true,
+    "h0_all_True_oracle": true,
+    "h0_all_bitexact_forward_target_loss": true,
+    "h0_all_finite": true,
+    "h0_all_clock": true,
+    "h0_all_reject_mean_normalized_halves": true,
+    "h0_second_False_restored_state": true,
+    "h0_second_False_oracle": true,
+    "h0_second_True_restored_state": true,
+    "h0_second_True_oracle": true,
+    "h0_second_bitexact_forward_target_loss": true,
+    "h0_second_finite": true,
+    "h0_second_clock": true,
+    "h0_second_planted_credit": true,
+    "h0_second_update_mismatch": true,
+    "h0_first_False_restored_state": true,
+    "h0_first_False_oracle": true,
+    "h0_first_True_restored_state": true,
+    "h0_first_True_oracle": true,
+    "h0_first_bitexact_forward_target_loss": true,
+    "h0_first_finite": true,
+    "h0_first_clock": true,
+    "h0_first_equal_gradient_null": true,
+    "h0_first_equal_update_null": true,
+    "h8_all_False_restored_state": true,
+    "h8_all_False_oracle": true,
+    "h8_all_True_restored_state": true,
+    "h8_all_True_oracle": true,
+    "h8_all_bitexact_forward_target_loss": true,
+    "h8_all_finite": true,
+    "h8_all_clock": true,
+    "h8_all_reject_mean_normalized_halves": true,
+    "h8_second_False_restored_state": true,
+    "h8_second_False_oracle": true,
+    "h8_second_True_restored_state": true,
+    "h8_second_True_oracle": true,
+    "h8_second_bitexact_forward_target_loss": true,
+    "h8_second_finite": true,
+    "h8_second_clock": true,
+    "h8_second_planted_credit": true,
+    "h8_second_update_mismatch": true,
+    "h8_first_False_restored_state": true,
+    "h8_first_False_oracle": true,
+    "h8_first_True_restored_state": true,
+    "h8_first_True_oracle": true,
+    "h8_first_bitexact_forward_target_loss": true,
+    "h8_first_finite": true,
+    "h8_first_clock": true,
+    "h8_first_equal_gradient_null": true,
+    "h8_first_equal_update_null": true,
+    "h8_strict_boundary": true,
+    "pair_vs_difference_change": true
+  },
+  "passed": true,
+  "records": [
+    {
+      "horizon": 0,
+      "control": "all",
+      "loss": 2.77409291267395,
+      "gradient_max_difference": 0.023918457329273224,
+      "arms": [
+        {
+          "input_first_norm": 0.01220917422324419,
+          "mid_norm": 0.038082364946603775,
+          "oracle_error": 1.4901161193847656e-08,
+          "clock": {
+            "scheduler_last_epoch": 4,
+            "ema_n": 4,
+            "adam_steps": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "scaler_enabled": false,
+            "scaler_state": {},
+            "optimizer_calls": 1,
+            "scheduler_calls": 1,
+            "ema_calls": 1,
+            "scaler_step_calls": 1,
+            "scaler_update_calls": 1
+          },
+          "clip_norm": 1.1873739957809448
+        },
+        {
+          "input_first_norm": 0.009934925474226475,
+          "mid_norm": 0.0,
+          "oracle_error": 1.4901161193847656e-08,
+          "clock": {
+            "scheduler_last_epoch": 4,
+            "ema_n": 4,
+            "adam_steps": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "scaler_enabled": false,
+            "scaler_state": {},
+            "optimizer_calls": 1,
+            "scheduler_calls": 1,
+            "ema_calls": 1,
+            "scaler_step_calls": 1,
+            "scaler_update_calls": 1
+          },
+          "clip_norm": 1.1739012002944946
+        }
+      ]
+    },
+    {
+      "horizon": 0,
+      "control": "second",
+      "loss": 2.8385097980499268,
+      "gradient_max_difference": 0.03592020273208618,
+      "arms": [
+        {
+          "input_first_norm": 0.006795346271246672,
+          "mid_norm": 0.0569194070994854,
+          "oracle_error": 2.9802322387695312e-08,
+          "clock": {
+            "scheduler_last_epoch": 4,
+            "ema_n": 4,
+            "adam_steps": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "scaler_enabled": false,
+            "scaler_state": {},
+            "optimizer_calls": 1,
+            "scheduler_calls": 1,
+            "ema_calls": 1,
+            "scaler_step_calls": 1,
+            "scaler_update_calls": 1
+          },
+          "clip_norm": 1.4396865367889404
+        },
+        {
+          "input_first_norm": 0.0,
+          "mid_norm": 0.0,
+          "oracle_error": 2.9802322387695312e-08,
+          "clock": {
+            "scheduler_last_epoch": 4,
+            "ema_n": 4,
+            "adam_steps": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "scaler_enabled": false,
+            "scaler_state": {},
+            "optimizer_calls": 1,
+            "scheduler_calls": 1,
+            "ema_calls": 1,
+            "scaler_step_calls": 1,
+            "scaler_update_calls": 1
+          },
+          "clip_norm": 1.419820785522461
+        }
+      ]
+    },
+    {
+      "horizon": 0,
+      "control": "first",
+      "loss": 2.646779775619507,
+      "gradient_max_difference": 0.0,
+      "arms": [
+        {
+          "input_first_norm": 0.02991172857582569,
+          "mid_norm": 0.0,
+          "oracle_error": 7.450580596923828e-09,
+          "clock": {
+            "scheduler_last_epoch": 4,
+            "ema_n": 4,
+            "adam_steps": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "scaler_enabled": false,
+            "scaler_state": {},
+            "optimizer_calls": 1,
+            "scheduler_calls": 1,
+            "ema_calls": 1,
+            "scaler_step_calls": 1,
+            "scaler_update_calls": 1
+          },
+          "clip_norm": 1.004368782043457
+        },
+        {
+          "input_first_norm": 0.02991172857582569,
+          "mid_norm": 0.0,
+          "oracle_error": 7.450580596923828e-09,
+          "clock": {
+            "scheduler_last_epoch": 4,
+            "ema_n": 4,
+            "adam_steps": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "scaler_enabled": false,
+            "scaler_state": {},
+            "optimizer_calls": 1,
+            "scheduler_calls": 1,
+            "ema_calls": 1,
+            "scaler_step_calls": 1,
+            "scaler_update_calls": 1
+          },
+          "clip_norm": 1.004368782043457
+        }
+      ]
+    },
+    {
+      "horizon": 8,
+      "control": "all",
+      "loss": 2.7485523223876953,
+      "gradient_max_difference": 0.023918457329273224,
+      "arms": [
+        {
+          "input_first_norm": 0.011972980573773384,
+          "mid_norm": 0.038082364946603775,
+          "oracle_error": 1.4901161193847656e-08,
+          "clock": {
+            "scheduler_last_epoch": 4,
+            "ema_n": 4,
+            "adam_steps": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "scaler_enabled": false,
+            "scaler_state": {},
+            "optimizer_calls": 1,
+            "scheduler_calls": 1,
+            "ema_calls": 1,
+            "scaler_step_calls": 1,
+            "scaler_update_calls": 1
+          },
+          "clip_norm": 1.1803672313690186
+        },
+        {
+          "input_first_norm": 0.009651868604123592,
+          "mid_norm": 0.0,
+          "oracle_error": 1.4901161193847656e-08,
+          "clock": {
+            "scheduler_last_epoch": 4,
+            "ema_n": 4,
+            "adam_steps": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "scaler_enabled": false,
+            "scaler_state": {},
+            "optimizer_calls": 1,
+            "scheduler_calls": 1,
+            "ema_calls": 1,
+            "scaler_step_calls": 1,
+            "scaler_update_calls": 1
+          },
+          "clip_norm": 1.1668689250946045
+        }
+      ]
+    },
+    {
+      "horizon": 8,
+      "control": "second",
+      "loss": 2.8385097980499268,
+      "gradient_max_difference": 0.03592020273208618,
+      "arms": [
+        {
+          "input_first_norm": 0.006795346271246672,
+          "mid_norm": 0.0569194070994854,
+          "oracle_error": 2.9802322387695312e-08,
+          "clock": {
+            "scheduler_last_epoch": 4,
+            "ema_n": 4,
+            "adam_steps": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "scaler_enabled": false,
+            "scaler_state": {},
+            "optimizer_calls": 1,
+            "scheduler_calls": 1,
+            "ema_calls": 1,
+            "scaler_step_calls": 1,
+            "scaler_update_calls": 1
+          },
+          "clip_norm": 1.4396865367889404
+        },
+        {
+          "input_first_norm": 0.0,
+          "mid_norm": 0.0,
+          "oracle_error": 2.9802322387695312e-08,
+          "clock": {
+            "scheduler_last_epoch": 4,
+            "ema_n": 4,
+            "adam_steps": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "scaler_enabled": false,
+            "scaler_state": {},
+            "optimizer_calls": 1,
+            "scheduler_calls": 1,
+            "ema_calls": 1,
+            "scaler_step_calls": 1,
+            "scaler_update_calls": 1
+          },
+          "clip_norm": 1.419820785522461
+        }
+      ]
+    },
+    {
+      "horizon": 8,
+      "control": "first",
+      "loss": 2.569302797317505,
+      "gradient_max_difference": 0.0,
+      "arms": [
+        {
+          "input_first_norm": 0.02906840294599533,
+          "mid_norm": 0.0,
+          "oracle_error": 5.960464477539063e-08,
+          "clock": {
+            "scheduler_last_epoch": 4,
+            "ema_n": 4,
+            "adam_steps": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "scaler_enabled": false,
+            "scaler_state": {},
+            "optimizer_calls": 1,
+            "scheduler_calls": 1,
+            "ema_calls": 1,
+            "scaler_step_calls": 1,
+            "scaler_update_calls": 1
+          },
+          "clip_norm": 0.9122085571289062
+        },
+        {
+          "input_first_norm": 0.02906840294599533,
+          "mid_norm": 0.0,
+          "oracle_error": 5.960464477539063e-08,
+          "clock": {
+            "scheduler_last_epoch": 4,
+            "ema_n": 4,
+            "adam_steps": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "scaler_enabled": false,
+            "scaler_state": {},
+            "optimizer_calls": 1,
+            "scheduler_calls": 1,
+            "ema_calls": 1,
+            "scaler_step_calls": 1,
+            "scaler_update_calls": 1
+          },
+          "clip_norm": 0.9122085571289062
+        }
+      ]
+    }
+  ],
+  "source_hashes": {
+    "scripts/train_rnn.py": "1d6b059d9880e0befb7b2c6251c7ae6ac9791d0bb0f5cd35dd8e4930cf189ef5",
+    "src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+    "src/wnn/optim.py": "0e476a54d1fdfeed77970816f91668e271f7e2ed72e13d0c047a01d0ff74dae3",
+    "src/wnn/spread_aux.py": "3aabffc6fc887c0426948e62cbd500679ba3e7a6925e28de9f816fb1da8f9cac",
+    "src/wnn/outcomes.py": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75"
+  },
+  "loss_ast": {
+    "main": {
+      "line": 1412,
+      "ast_sha256": "cbd82597f4d66aefa32447604f62091c6d6f39f025336b086b9be4b8ccf4cf72"
+    },
+    "struct": {
+      "line": 1460,
+      "ast_sha256": "2ea62f2f6ad751d5f9d6447305e9d56a1f5e5ba2235e25428899bb7bd5bf4b37"
+    },
+    "next": {
+      "line": 1464,
+      "ast_sha256": "02658c052a005ea03a89116f90ffecc3b0df1ec8d3273b6e03bc9794197c6705"
+    },
+    "ema": {
+      "line": 1510,
+      "ast_sha256": "89caa6b120adfb3ea620a4a9e0fa69a0610202d69c7c84aaf3ba04a46818a0c8"
+    }
+  },
+  "optimizer_group_names": [
+    {
+      "muon": false,
+      "muon_blocks": 1,
+      "parameters": [
+        "inp.weight",
+        "inp.bias",
+        "gru.bias_ih_l0",
+        "gru.bias_hh_l0",
+        "gru.bias_ih_l1",
+        "gru.bias_hh_l1",
+        "head.0.weight",
+        "head.0.bias",
+        "head.2.weight",
+        "head.2.bias"
+      ]
+    },
+    {
+      "muon": true,
+      "muon_blocks": 1,
+      "parameters": [
+        "gru.weight_ih_l0",
+        "gru.weight_hh_l0",
+        "gru.weight_ih_l1",
+        "gru.weight_hh_l1"
+      ]
+    }
+  ],
+  "torch": "2.14.0+cu130",
+  "cost": {
+    "wall_seconds": 0.9605470429960405,
+    "cpu_seconds": 0.955603743,
+    "peak_rss_kib": 700336
+  }
+}

@@ -1,0 +1,28 @@
+Recovered own econometrics evidence, before continuation scoring
+Sources: own cache/train_lattice300.csv, valid_events60.csv,
+valid_seq_summary.csv, target_acf.npz, event_delta_corr.txt; own scripts and PNGs.
+No preceding prose report was saved. This reconstruction preserves that limitation.
+Observed target grids near 0.125433, 0.241330, 0.468536, 0.656868.
+Own target ACF figure (120 training sequences) shows strong short-lag persistence,
+decay over roughly hundreds of rows, and negative t0/t1 cross-correlation.
+Persistence of unavailable targets does NOT establish a deployable AR model.
+Target sums/differences have different variance and contemporaneous feature-change
+relationships. Saved event_delta_corr shows i0_p0 change vs target-sum change
+correlations 0.89/0.76/0.53/0.35 across grids; i1 feature-change correlations mostly
+near zero. Its generating script/sample provenance is absent: exploratory evidence
+only. Contemporaneous target differences can contain future-defined information;
+these numbers cannot demonstrate that i0 events cause future movements.
+Original lattice300 training row-group IDs are in that CSV; raw/zoom plots also
+expose training row group 0. ACF selection inferred from script seed=2, n=120;
+NPZ stores classes but not IDs. Must verify that inferred count on recovery.
+valid_events60 lists its sampled sequence IDs. valid_seq_summary.csv covers the
+entire validation panel; ALL validation sequences are already exposed to own
+summary analysis. No validation sample here can be called untouched.
+Full-sequence target lattice, event rates, target moments, and future normalization
+are diagnostics, never online inputs. Only feature prefixes may define state.
+Global metric estimates E[|clip(Y)| clip(Y)|X] / E[|clip(Y)||X], up to affine scale
+before prediction clipping; unweighted conditional means need not be optimal.
+Row-level uncertainty is inappropriate for persistent targets/overlapping chains.
+Independent connected-component provenance is unavailable in this clean room.
+Continue with train-only fitting, explicit IDs, feature-only causal state, matched
+clock controls, exact scored-row pooled WP, and no claim against the strong baseline.

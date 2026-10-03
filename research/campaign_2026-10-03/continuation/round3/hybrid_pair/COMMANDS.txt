@@ -1,0 +1,20 @@
+From the repository root; all compute uses one-core/2GiB admission and empty CUDA.
+
+# Known-generator and adversarial tests MUST pass before TRAIN scoring.
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-hybrid-pair env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round3/hybrid_pair/synthetic.py
+# Raw replay, same1393 origins; no model or calibration fit.
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-hybrid-pair env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round3/hybrid_pair/probe.py
+# Dedup and witnesses; asserts law outputs identical to archived initial scoring.
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-hybrid-pair env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round3/hybrid_pair/summary.py
+# Only these research scripts are formatted/checked; then synthetic verified.
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-hybrid-pair env PYTHONDONTWRITEBYTECODE=1 bash research/campaign_2026-10-03/continuation/round3/hybrid_pair/verify.sh
+
+All writes confined to continuation/round3/hybrid_pair; frozen round2 decoder
+is imported read-only with Python bytecode writes disabled. Its fitting function
+is never called. Strict input hashes are checked both before and after scoring.
+results_initial.json and sampled_outputs_initial.json archive first scoring.
+The second same-panel replay adds diagnostic path and spread witness fields;
+summary.py asserts law outputs unchanged. Third replay verifies formatted source.
+Fresh directory reuse requires these two initial archive files copied from this
+frozen package, or explicitly archiving first reproduction output before summary.
+They are never fitted from evaluation labels. Missing outputs serialize as null.

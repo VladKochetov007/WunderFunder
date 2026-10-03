@@ -1,0 +1,55 @@
+/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/train_rnn.py:580: UserWarning: CUDA is not available or torch_xla is imported. Disabling autocast.
+  with torch.autocast("cuda", dtype=torch.float16):
+sequence2 queries 16/57
+sequence2 queries 32/57
+sequence2 queries 48/57
+{
+  "sample": {
+    "row_group": 164,
+    "cache_position": 164,
+    "seq_ix": 169421375,
+    "component": 2920,
+    "own_prior_target_census_exposure": true,
+    "own_reconstructed_prior_feature_exposure": false,
+    "own_cpu_continuation_feature_exposure": false,
+    "campaign_validation_exposure": true
+  },
+  "baseline_cpu_reference_gate": {
+    "max_abs": 7.152557373046875e-07,
+    "rms": 1.0762517227581442e-07,
+    "passed": true
+  },
+  "cached_gpu_vs_cpu_gate": {
+    "max_abs": 0.002759888768196106,
+    "rms": 0.0006792278951052572,
+    "correlations": [
+      0.999999536412082,
+      0.9999993304807483
+    ],
+    "passed": true
+  },
+  "identity_replay_gate": {
+    "passed": true,
+    "max_abs": 8.344650268554688e-07,
+    "rms": 9.551350794651133e-08
+  },
+  "alignment": {
+    "seq_ix": true,
+    "row_group": true,
+    "targets": true,
+    "mask": true,
+    "all_warmup_rows": true,
+    "prefix_pipeline": true
+  },
+  "query_count": 57,
+  "scored_query_count": 1,
+  "reference_seconds": 0.3385983979969751,
+  "seconds": 8.502473628002917,
+  "peak_rss_mib": 942.91796875,
+  "backend": {
+    "torch": "2.14.0+cu130",
+    "device": "cpu",
+    "dtype": "float32",
+    "threads": 1
+  }
+}

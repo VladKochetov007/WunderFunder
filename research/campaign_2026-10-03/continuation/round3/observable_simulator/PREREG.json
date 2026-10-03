@@ -1,0 +1,16 @@
+{
+ "phase":"frozen_before_execution",
+ "question":"When do noisy asynchronous anonymous observable streams justify causal history pooling for a simulated future stopping payoff?",
+ "verification":"deterministic executable checks and disjoint seeded synthetic empirical test; no real-world generator validity",
+ "architecture":"ONE representation: per-stream observed-update EMA (tau=4 time units), age-weighted peer pooling and main-minus-peer residual; append to current row features; fixed ridge alpha10, fit-only means/scales",
+ "arms":["row: current six anonymous stream values, observable ages, current update mask and dt","reset: identical augmented architecture but EMA reset to current value each row (no history)","history: causal update EMA plus freshness pool"],
+ "simulator":"6 noisy held-last-value streams, latent OU common factor tau12 plus OU instrument-specific components tau2.5, irregular exponential dt mean0.3; main latent quote increments .45F dt+.22I0 dt+.6sqrt(dt)noise; sensors F+I+N(0,2.8), independent update probabilities (.4,.22,.22,.22,.22,.22); no observable quotes or target decoder",
+ "target":"both executable returns at first future main-mid displacement of at least +/-2 within32 events, otherwise forced cap exit at32; constant halfspread0.1; explicit synthetic label only",
+ "sampling":"96 fit and48 test independent paths,320 events; origins48..280 inclusive every8 events (30/path); four replications; no successful-target/decoding selection",
+ "seeds":{"replication_bases":[11001,22001,33001,44001],"test_offset":1000,"world_offsets":{"nominal":0,"absent":100000,"unidentifiable":200000},"bootstrap":601003},
+ "controls":"absent: no latent common factor and no predictable quote drift; unidentifiable: factor drives quotes but sensors have zero factor loading and are independent; each gets its own matched fit/test. Nominal fit models additionally tested without refit on sign-reversed sensor loadings and quarter-rate/staler observations, matched latent paths.",
+ "success_gate":"nominal history relative pair-MSE improvement >=2% on average versus BOTH row and reset, with positive improvement in >=3/4 independent replications; no consistent >=2% benefit in absent/unidentifiable controls. Domain-shift failures must remain reported and prohibit robust-transport claims.",
+ "checks":"prefix truncation, future observation surgery, future latent surgery preserving all observable features, scalar stopping oracle, no train/test ID overlap; every fit hard wall timeout120s and all compute through CPU wrapper",
+ "limitations":"synthetic efficacy cannot approve GPU, public gain or physical teacher; row/no-history baselines are weak matched learners; do not call EMA pooling new dual-clock discovery",
+ "mutation_scope":"ONLY continuation/round3/observable_simulator/**; no raw data, installs, GPU or live edits"
+}

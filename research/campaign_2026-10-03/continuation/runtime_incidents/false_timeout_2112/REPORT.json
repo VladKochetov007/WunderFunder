@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "time": "2026-10-03T21:19:47.067232+03:00",
+  "diagnosis": "Old unanchored timeout regex matched successful Started command --timeout600, publishing a false CPU barrier before GPU admission",
+  "predicate_cases": [
+    {
+      "case": "actual_successful_launcher",
+      "detected": false
+    },
+    {
+      "case": "timeout",
+      "detected": true
+    },
+    {
+      "case": "oom",
+      "detected": true
+    },
+    {
+      "case": "signal",
+      "detected": true
+    },
+    {
+      "case": "resources",
+      "detected": true
+    },
+    {
+      "case": "commandline_resource_word",
+      "detected": false
+    }
+  ],
+  "CPU_launcher_exit": 0,
+  "GPU_started": false,
+  "new_OOM": false,
+  "historical_OOM_kill": 11,
+  "run_cpu_sha256": "0f6cb396e98da8caae6efce0a9368a18814c09b79286a3d5e3d1a8d0c56c473c",
+  "incidents_acknowledged": [
+    {
+      "type": "gpu_job_failed",
+      "record": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/jobs/c20261003_capture_v4_default_2113.json",
+      "failure": "RuntimeError('continuation launch blocked by research/campaign_2026-10-03/continuation/RESOURCE_FAILURE')",
+      "exit_code": null,
+      "unit": "wnn-top1-c20261003_capture_v4_default_2113",
+      "id": "0da0fe59b72ca54632726befe07e47d74ad57c972a80f97528f7eaaee6aaeba9",
+      "time": "2026-10-03T21:13:01.606938+03:00"
+    },
+    {
+      "type": "journal_fault",
+      "stream": "journal",
+      "cursor": "s=e1ad8829eb954077ac949da0a7e560d6;i=5ec4092;b=4b22a59fa2a94baa979d2ccf15aca322;m=144a2a3cac;t=65cf397f5765b;x=d2191f83480d680a",
+      "message": "wnn-top1-c20261003_capture_v4_default_2113.service: Failed with result 'exit-code'.",
+      "unit": "init.scope",
+      "id": "43a9323a2e1ffa62e25fe1f19860369fce5f16cd07a60f1742634892d9feddde",
+      "time": "2026-10-03T21:13:01.905239+03:00"
+    }
+  ],
+  "failed_job_preserved": true,
+  "retry_condition": "fresh hash-bound live receipt and new job/output name, unchanged scientific recipe and resource ceilings"
+}

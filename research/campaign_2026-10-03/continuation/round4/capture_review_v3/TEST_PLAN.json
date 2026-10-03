@@ -1,0 +1,7 @@
+{
+  "scope": "Independent v3 typed-state boundary review; no GPU or receipt",
+  "controls": ["fresh CPU actual-code normal/skip probe with six original baselines each", "exact RNG set/get and serialization roundtrip", "named optimizer state roundtrip", "AST observation erasure"],
+  "falsifiers": ["NumPy uint64/float64/opposite endian accepted by validate, restore or compare", "numeric/bool/signed-zero array aliases accepted", "noncanonical RNG tuple/scalar/storage accepted or rejected set mutates global RNG", "warm optimizer dtype/shape/device/attachedness aliases accepted before loading", "canonical ID/name swap or exact discrete clock regression", "source/generated/runtime drift"],
+  "resource": "run_cpu.sh reviewer; one core/2GiB/900s; CUDA unavailable",
+  "legacy_E385": "Original bytes and ledger hashes not located in permitted available artifacts; no reconstruction certified. Final v2 report/spec/logs remain unchanged."
+}

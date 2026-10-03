@@ -1,0 +1,49 @@
+{
+  "outcome": "UNRESOLVED_AT_NUMERIC_FLOOR",
+  "effects": {
+    "hidden": {
+      "rms_difference": 0.0,
+      "relative_l2": 0.0
+    },
+    "prediction": {
+      "rms_difference": 0.0,
+      "relative_l2": 0.0,
+      "reference_rms": 0.3610726202462697
+    },
+    "gradient": {
+      "rms_difference": 0.0,
+      "relative_l2": 0.0,
+      "reference_rms": 0.07660352159604271
+    },
+    "update": {
+      "rms_difference": 0.0,
+      "relative_l2": 0.0,
+      "reference_rms": 1.8878641415712598e-05
+    }
+  },
+  "detectable": {
+    "hidden": false,
+    "prediction": false,
+    "gradient": false,
+    "update": false
+  },
+  "independent_floors": {
+    "floors_rms": {
+      "prediction": 0.0,
+      "gradient": 0.0,
+      "update": 0.0,
+      "hidden": 0.0
+    },
+    "source": "six default-only and six prefix-only independent repeats; before counterfactual",
+    "multiplier": 5,
+    "policy_sha256": "736010cb56e91e8567d99324cf8406956f327537fb4c185d17956443eddaa22e"
+  },
+  "unchanged": [
+    "all pre state except detached student h",
+    "EMA out",
+    "teacher/targets",
+    "weights/denominators",
+    "post RNG and update clocks"
+  ],
+  "scientific_scope": "local early fresh-panel trajectory only; no scoring, fullfit or component attribution"
+}

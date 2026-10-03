@@ -1,0 +1,119 @@
+INDEPENDENT BOUNDED OPT2 REVIEW
+Verdict: KEEP UNAPPLIED PROTOTYPE. Two material issues need controller correction
+before approving the complete integration/launch plan. No material switch-state
+bug found in the inspected CPU path. Do not force adoption or interrupt live fits.
+
+FAIL 1 — antithetic arm changes normalization, not just training order.
+Location: opt2/trainer_candidate.py:1156-1157 (same hunk in trainer.patch),
+sampling.py EpochOrderSampler.__iter__, live scripts/train_rnn.py:488-499.
+The antithetic sampler remains reversed at epoch -1. The comment claiming the
+normalization pass is the same for the paired control is false. fit_normalization
+uses only two batches, and additionally subsamples flattened features every 7
+rows. Reversing the complete order therefore changes normalization membership
+and can change subsampling even if all normalization sequences fit in two batches.
+This survives divisible dataset sizes; accounting for drop_last tails does not
+resolve it. PLAN rank8's order-only mechanism is confounded by input scaling.
+New CPU reproduction executes the actual live normalization function extracted
+by AST, with identity feature construction on synthetic scalar inputs only:
+64 sequences, batch8, 7 timesteps, seed3, normalization epoch -1, no dropped tail.
+Control mean/std = 30.4375 / 19.273363; antithetic = 35.5625 / 12.732995.
+The reproduction test passes by asserting the demonstrated mismatch; PASS of
+the test is evidence of this implementation FAIL, not evidence of arm correctness.
+Fix: use an identical non-reversed normalization sampler in both arms, then
+enable reversal only for training epochs. Require normalization_identity hashes
+to match; preserve separate accounting of dropped training membership. A shared
+normalization checkpoint can also isolate this, but is not the current fresh-fit
+proposal. No trainer edits were made by this reviewer.
+
+FAIL 2 — PLAN's literal launch helper is not an admitted controller proposal.
+Location: opt2/PLAN.txt:22-28. The helper directly invokes scripts/limited and
+dcurve_fold.sh. A per-process CPU/RAM cap does not implement campaign_job's GPU
+serialization, observed-device-memory cap, admission barriers or family slice.
+The surrounding prose requires controller admission, but the literal executable
+helper relies on unspecified ambient state and never calls continuation/run_gpu.sh.
+If run independently, it bypasses the required admission; if nested in an existing
+controller scope, another scripts/limited wrapper can create a sibling scope or
+reuse inherited scope-unit settings. Do not accept it as ready to queue.
+Fix the proposal into one serialized controller GPU queue job per fold/arm, whose
+payload uses the existing wrapper, e.g.:
+  research/campaign_2026-10-03/continuation/run_gpu.sh timeout 4800 bash research/campaign_2026-10-01/jobs/dcurve_fold.sh 0 opt2_m2a75 3 --optim muon --optim-switch 0.75:adamw --grad-stats
+This is a PAYLOAD for the controller's campaign_job GPU admission/monitor, NOT
+an independently authorized shell launch. The controller supplies its family
+slice and one observed VRAM cap; do not add independent scripts/limited sibling
+launches or use allocator fractions as an observed-memory guarantee. No GPU job,
+queue edit, service change or device inspection was performed in this review.
+
+PASS — optimizer switch, group order, frozen parameters and AMP attempt clock.
+Independent second CPU test covers 12 combinations: OneCycle/WSD/SGDR times
+Adam->Adam, Muon->Muon, Adam->Muon, Muon->Adam; hidden Muon scope and head lr .25.
+Input projection and one recurrent bias are frozen before optimizer creation.
+Checks: stable parameter group order across the boundary; unchanged frozen
+parameters and absence of frozen optimizer state; finite continued fitting;
+attempt-based switch at 10/20; skip on FIRST post-switch attempt, then recovery.
+Unchanged-rule switches retain seven states and are bit-identical to matched
+grouped no-switch trajectories through the entire schedule. Rule-changing arms
+retain four states and cold-start three matrices including the hidden head.
+No optimizer-state/scheduler-age failure was observed. Source inspection confirms
+Adam moments/step ages survive unchanged rules, matrix rule changes cold-start,
+current lr/betas/group scheduler metadata survive without scheduler reconstruction.
+The second test does not independently prove equivalence of rule-changing
+trajectories to another implementation or full GPU behavior.
+AMP skipped attempts advance scheduler, switch clock and EMA in the live trainer;
+this is inherited behavior, explicitly disclosed in FLAGS, not a new opt2 bug.
+Switch-before-zero_grad/backward/unscale avoids stale GradScaler optimizer flags.
+
+PASS WITH LIMIT — default parity and scope honesty.
+Default optimizer construction, requires_grad filtering, clipping and OneCycle/
+WSD clauses match the live trainer by inspection. Default sampling is untouched;
+noise-off creates no generators or draws. Builder's fit_02.json records exact
+12-update CPU float32 AdamW/Muon loss/parameter/lr/beta/global-RNG parity; inspected
+final_tests_02.log records 81 tests passed in 9.09s, RSS946596 KiB. These are
+builder evidence, NOT independently rerun by this review. Our no-op/frozen/skip
+probe is additional independent CPU evidence, not full trainer default parity.
+GPU, fused AdamW, GPU GradScaler, FP16/BF16 and full EMA/data-training parity
+remain UNTESTED. Switching to Adam uses a non-fused path; numerical equality to
+fused Adam is not established. Patch adds default provenance/import work even
+when numerical arms are off; no claim of byte-identical full run artifacts.
+
+PASS — QMC/exact-zoneout deferrals and scientific claims.
+Trainer rejects QMC batch order and nonzero zoneout before loading training data.
+Initialization rejects checkpoint/non-default recurrent-init/nonlinear encoder
+combinations and restricts to plain recurrent architecture. QMC scalar uniform
+marginals do not imply iid matrices or favorable spectra. REPORT preserves the
+worse synthetic QMC fit and small-singular-value negative; no WP benefit claimed.
+Quota helper is stratification with Sobol tie priority, not proved QMC convergence
+for SGD, and lacks real-data streaming metadata integration. Antithetic reversal
+alone establishes no negative nonlinear prediction-error covariance. Exact
+timestep zoneout and hidden-state Gaussian noise are honestly deferred.
+No external theorem or paper verification was newly claimed in this code review.
+
+PATCH ADMISSION / REPRODUCTION
+Read PLAN, FLAGS, modules, patch, builder tests, fit/sampling outputs, final test
+output, REPORT, src/wnn/optim.py, live normalization/loader/optimizer/update clauses,
+run_cpu/run_gpu, scripts/limited, campaign_job admission/monitor and dcurve helper.
+Read-only git apply --check opt2/trainer.patch succeeds against current live trainer.
+That establishes applicability only. Patch was NOT applied.
+Reviewed live trainer SHA256:
+1d6b059d9880e0befb7b2c6251c7ae6ac9791d0bb0f5cd35dd8e4930cf189ef5
+Reviewed optimizer SHA256:
+0e476a54d1fdfeed77970816f91668e271f7e2ed72e13d0c047a01d0ff74dae3
+Reviewed patch SHA256:
+1ec50b9c8e238ab4128069b11151b15978a2a58bbd05745871c916236d501063
+Reviewed dynamics SHA256:
+6a51436be29563806da0643bf155589783059d90d30ae99a24ab82396bc9dcfd
+Reviewed sampling SHA256:
+b06225b8f31dab25a2fe71c1cc1a3cb2c4ea62ec9daf18e59220858e4c4ca061
+
+From repository root reproduce ONLY these two small adversarial tests:
+  research/campaign_2026-10-03/continuation/run_cpu.sh opt2-review env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q -s -p no:cacheprovider research/campaign_2026-10-03/continuation/opt2_review/test_adversarial.py
+Result exit0, 2 passed; cpu_tests.log and cpu_tests_final.log contain the values
+and switch events. Wrapper enforces one core /2GiB/900seconds and hides CUDA.
+No campaign sequences or targets loaded. Ruff formatting/check also ran through
+the CPU wrapper; initial bootstrap/import lint failures are preserved and fixed.
+Reviewer-authored files are only in continuation/opt2_review. The authorized
+wrapper itself writes its standard admission logs/leases outside that directory.
+
+Integration decision: keep the patch unapplied now. Correct the normalization
+confound and replace the launch helper, then let the controller decide whether
+to integrate and perform its explicitly deferred GPU/default-parity gate.
+The accepted prototype path is appropriate; no research gain is established.

@@ -1,0 +1,65 @@
+train 0 4.188198089599609
+train 25 61.579179763793945
+train 50 111.65830206871033
+train 75 180.85743951797485
+train 100 275.2653875350952
+train 125 331.4697949886322
+ev clock_only           u  t0=0.1848 t1=0.2043 mean=0.1945  nfeat=10
+ev clock_only           w  t0=0.2191 t1=0.2896 mean=0.2544  nfeat=10
+ev lvl                  u  t0=0.6020 t1=0.6230 mean=0.6125  nfeat=122
+ev lvl                  w  t0=0.6000 t1=0.6338 mean=0.6169  nfeat=122
+ev lvl+b4               u  t0=0.6177 t1=0.6384 mean=0.6280  nfeat=234
+ev lvl+b4               w  t0=0.6242 t1=0.6515 mean=0.6378  nfeat=234
+ev lvl+b4+b32           u  t0=0.6127 t1=0.6330 mean=0.6229  nfeat=346
+ev lvl+b4+b32           w  t0=0.6116 t1=0.6391 mean=0.6253  nfeat=346
+ev all                  u  t0=0.6065 t1=0.6146 mean=0.6106  nfeat=458
+ev all                  w  t0=0.5968 t1=0.6140 mean=0.6054  nfeat=458
+ev bands_only(no lvl)   u  t0=0.5852 t1=0.5912 mean=0.5882  nfeat=346
+ev bands_only(no lvl)   w  t0=0.5864 t1=0.5999 mean=0.5932  nfeat=346
+ev only_i0p             u  t0=0.5008 t1=0.5102 mean=0.5055  nfeat=98
+ev only_i0p             w  t0=0.5242 t1=0.5469 mean=0.5355  nfeat=98
+ev drop_i0p             u  t0=0.5390 t1=0.5579 mean=0.5484  nfeat=370
+ev drop_i0p             w  t0=0.5208 t1=0.5501 mean=0.5354  nfeat=370
+ev only_i0v             u  t0=0.4774 t1=0.5000 mean=0.4887  nfeat=98
+ev only_i0v             w  t0=0.4799 t1=0.5071 mean=0.4935  nfeat=98
+ev drop_i0v             u  t0=0.5160 t1=0.5437 mean=0.5298  nfeat=370
+ev drop_i0v             w  t0=0.5203 t1=0.5631 mean=0.5417  nfeat=370
+ev only_i0d             u  t0=0.3560 t1=0.4014 mean=0.3787  nfeat=42
+ev only_i0d             w  t0=0.3818 t1=0.4335 mean=0.4076  nfeat=42
+ev drop_i0d             u  t0=0.5979 t1=0.6064 mean=0.6022  nfeat=426
+ev drop_i0d             w  t0=0.5899 t1=0.6071 mean=0.5985  nfeat=426
+ev only_i1p             u  t0=0.3166 t1=0.3892 mean=0.3529  nfeat=98
+ev only_i1p             w  t0=0.3230 t1=0.4182 mean=0.3706  nfeat=98
+ev drop_i1p             u  t0=0.6099 t1=0.6141 mean=0.6120  nfeat=370
+ev drop_i1p             w  t0=0.6010 t1=0.6141 mean=0.6076  nfeat=370
+ev only_i1v             u  t0=0.2425 t1=0.2876 mean=0.2651  nfeat=98
+ev only_i1v             w  t0=0.2726 t1=0.3256 mean=0.2991  nfeat=98
+ev drop_i1v             u  t0=0.6155 t1=0.6210 mean=0.6183  nfeat=370
+ev drop_i1v             w  t0=0.6077 t1=0.6267 mean=0.6172  nfeat=370
+ev only_i1d             u  t0=0.3370 t1=0.3896 mean=0.3633  nfeat=42
+ev only_i1d             w  t0=0.3303 t1=0.3958 mean=0.3630  nfeat=42
+ev drop_i1d             u  t0=0.6041 t1=0.6164 mean=0.6102  nfeat=426
+ev drop_i1d             w  t0=0.5970 t1=0.6196 mean=0.6083  nfeat=426
+ev only_a               u  t0=0.2171 t1=0.3358 mean=0.2765  nfeat=42
+ev only_a               w  t0=0.2364 t1=0.3723 mean=0.3043  nfeat=42
+ev drop_a               u  t0=0.6059 t1=0.6180 mean=0.6120  nfeat=426
+ev drop_a               w  t0=0.5984 t1=0.6155 mean=0.6070  nfeat=426
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/eda/signal/ridge_bands.py", line 79, in <module>
+    json.dump(res, open(f'ridge_bands_{clock}.json', 'w'), indent=1)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+                 ^^^^^^^^
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 433, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 407, in _iterencode_dict
+    yield from chunks
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 326, in _iterencode_list
+    yield from chunks
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 440, in _iterencode
+    o = _default(o)
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type float32 is not JSON serializable

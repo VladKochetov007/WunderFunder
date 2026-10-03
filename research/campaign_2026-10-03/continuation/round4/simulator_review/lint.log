@@ -1,0 +1,32 @@
+E402 Module level import not at top of file
+  --> research/campaign_2026-10-03/continuation/round4/simulator_review/review.py:15:1
+   |
+13 | AUTHOR = ROOT.parents[1] / "round3/observable_simulator"
+14 | sys.path.insert(0, str(AUTHOR))
+15 | from representation import features
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+16 | from simulator import ORIGINS, simulate, stopping_labels
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> research/campaign_2026-10-03/continuation/round4/simulator_review/review.py:16:1
+   |
+14 | sys.path.insert(0, str(AUTHOR))
+15 | from representation import features
+16 | from simulator import ORIGINS, simulate, stopping_labels
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+help: Move module level imports to top of file
+
+E741 Ambiguous variable name: `l`
+   --> research/campaign_2026-10-03/continuation/round4/simulator_review/review.py:192:11
+    |
+190 |     fixture[1, 49] = 3.0
+191 |     fixture[2, 81:] = 10.0
+192 |     y, h, l = oracle(fixture)
+    |           ^
+193 |     assert h[0, 0] and l[0, 0] == 32 and y[0, 0, 0] == 1.8
+194 |     assert h[1, 0] and l[1, 0] == 1 and y[1, 0, 0] == 2.8
+    |
+
+Found 3 errors.

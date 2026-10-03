@@ -1,0 +1,15 @@
+{
+ "status":"frozen_before_acceptance_or_response",
+ "panel":"reuse all24components/288queries and original inclusion probabilities from ../matched_usage/samples.json, no target-based selection or replacement",
+ "arms":["identity","raw_washout"],
+ "alteration":"raw i0 [t-352,t-96) donor substitution, length256; preserve ALL raw columns on[t-96,t] and original prefix before t-352; i1/aux unchanged throughout; recompute all211 causal inputs from row0",
+ "donor":"same fixed policy as matched_usage: original same-sequence lags64/128/256 eligible iff t-352-lag>=0; minimize RMS raw52 displacement divided by original model std clipped1e-6; smaller-lag tie, no targets/masks/prediction values",
+ "feature_acceptance":{"domain":"every211 model input on[t-32,t],33rows","atol":0.0,"rtol":0.0,"method":"exact float32 array equality, reject any unequal entry or nonfinite input","justification":"matched_usage original-prefix and recomputation/future-canary feature identities were bitwise exact, max feature difference0; same deterministic CPU build_inputs; zero rather than a posthoc tolerance expansion"},
+ "identity":{"prediction_atol":0.00002,"prediction_rtol":0.00002,"justification":"unchanged R2/R3 float32 CPU gate; observed R3 identity max7.152557e-7","reference":"stored independently computed original CPU reference with hashed raw/packed source; missing original boundary states computed by ONE carried-state original sequence pass, all warmup included; reuse exact saved boundaries where present"},
+ "acceptance_freeze":"write persequence gate JSON listing ALL chosen queries before reading original prediction values or replay outputs; no labels loaded at any point",
+ "measure":"raw prediction and hidden-state RMS atquery among accepted origins; no target/WP computation; inverse original query inclusion probability descriptive response totals and retained accepted/rejected design mass; component summaries and paired component bootstrap1000 seed614305 conditional on panel and acceptance; no rowIID/fresh confirmation",
+ "usage_floor":"accepted raw response>.001RMS and100x identity RMS supports carried-state sensitivity; not causal support, missing information or training rationale",
+ "controls":"synthetic iid112 raw rows seed614304, exact accepted suffix; planted recurrent161-entry history state emits raw0(t-160); memoryless current-only sham emits raw0(t); identity replay zero, history responsepositive, shamzero; future suffix canary uses recomputed features and actual accepted model replay",
+ "reject_mass":"all unmatched/nonfinite/strict-suffix-rejected origins retained with reasons and original inclusion probabilities; no eligible origins implies useful null, no further replay/training",
+ "resources":"run_cpu.sh round3-matched-usage onecore2GiB900s persequence; max20minutes continuation; writes only washout_usage; no prior artifact/source edits or GPU"
+}

@@ -1,0 +1,15 @@
+{
+  "baseline": "c20261001_d256_s3_f0@ep3",
+  "expected_checkpoint_sha256": "f92504fbbbcf956a44e70aa3f7a08825d903b9c6a6cacce7bd9f89b6875fcad8",
+  "selection": "first two sorted fold0 evaluation row groups with distinct graph components, absent from actual checkpoint fit components",
+  "prefix_rows": 256,
+  "columns": "seq_ix, step_in_seq, need_prediction and the ordered 112 raw features; no targets or scoring mask",
+  "exposure": "existing exposed validation; graph exclusion from this checkpoint fit only, not new scientific confirmation",
+  "chunk_sizes": [256, 64, 127],
+  "pause_and_suffix_boundary": 128,
+  "model_tolerance": "max(8*repeated-identity max_abs, 64*float32_epsilon*max(1,max_abs_reference_prediction))",
+  "features_tolerance": "max(8*streaming-repeat max_abs, 8*float32_epsilon); event/flag columns checked separately with exact identity",
+  "actual_callables": ["train_rnn.make_model", "train_rnn.build_inputs", "train_rnn.forward_chunk", "train_rnn.predict", "wnn.features.StreamingEventFeatures.reset/update"],
+  "controls": ["repeat identity", "state carry across every model chunk", "copied recurrent-state pause/replay", "batch sequence reordering", "real predict single-sequence call reordering", "streaming feature carry and reset", "causal suffix replacement", "missing-reset negative control"],
+  "claim_limit": "CPU float32 real primitive/predict helper on these prefixes only; no GPU/FP16/native/deployed callback parity or WP gain"
+}

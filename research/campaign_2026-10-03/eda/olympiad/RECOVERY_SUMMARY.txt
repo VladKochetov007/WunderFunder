@@ -1,0 +1,57 @@
+RECOVERED READ-ONLY PASS — abstract-only olympiad analyst
+
+Scope: own olympiad directory, CONTRACT.txt, ABSTRACT_TASK.txt, bounded
+dataset inspections, primary web sources. No host data description, baseline,
+other analysts, training or file edits were accessed during that pass.
+
+Established predecessor evidence:
+1. targets_train.parquet / targets_valid.parquet (s03_targets_all.py):
+   10,607 / 1,873 sequences; four quanta 0.12543313205242157,
+   0.24132972955703735, 0.4685360789299011, 0.6568676829338074.
+   All sequences passed divisor=1. Maximum integer-coordinate residuals
+   1.8573e-5 / 1.6632e-5. Quantum derived from targets is NOT an input feature.
+2. s21_train.log / s21_valid.log: across 249.6 million rows, zero violations
+   of both integer targets >=0, or either integer target >=1 with partner >=-2.
+   These are observed support restrictions, not a proven generation formula.
+   f03_joint_k0k1.png shows target sums vary, contradicting a constant-sum rule.
+3. s26_train.log / s26_valid.log: all target changes coincide with a6 resets;
+   391 extra resets in 19 train sequences; zero extra resets in valid.
+   a6 never decreases between resets but sometimes remains equal. The old
+   detector uses the WHOLE-SEQUENCE MINIMUM and must be replaced at inference.
+4. s15_train.log / s15_valid.log and s21_*: price-change gating is approximate.
+   602 train / 207 valid changes occur without i0_p0 or i0_p11 changing.
+   Price states alone therefore do not define exact target anchors.
+5. Inspected all five figures f01 through f05. f05 lower panels suggest
+   magnitude increases with current age in four sequences. Its upper panels
+   use completed-run duration and are retrospective; never an inference input.
+
+Small read-only reinspection (NOT independent): train rowgroups 0 and 104,
+valid rowgroup 0, columns a6,t0,t1. Sentinel -5.199337482452393; fixed threshold
+<-5.19 matched logged transitions, including the extra reset in train 104.
+Saved tables were reread, not rebuilt. Original exhaustive checks exposed
+every train/valid sequence; no sequence-level independence is available here.
+
+Unfinished: files extend through s29_linear_vol.py; no saved scores from lookup,
+n-gram, class-ID or linear probes. Execution is unknown. No REPORT.txt or marimo
+notebook was present. s28 class labels and s29 class-conditioned prediction
+use target-derived regimes; these cannot establish deployable performance.
+
+Ranked directions from that pass:
+1. Anchor persistence versus causal within-anchor revision; use current a6,
+   anchor inputs and predictions only, with price/shifted-anchor controls.
+2. Input-only regime identification; assess ambiguous/unseen warm-up symbols,
+   not oracle quantum; expected predictions need not lie on target lattice.
+3. Current exact state versus anchor/path context; exact tuples avoid collisions,
+   coverage-aware backoff and sequence splits prevent sparse-key overclaims.
+4. Conditional flow pressure and age outside the exact-rule lens; only trailing
+   input differences/current age; anonymous column economics remain unverified.
+
+Primary abstracts actually read:
+https://arxiv.org/abs/1512.03492 (Gould/Bonart queue imbalance)
+https://arxiv.org/abs/1011.6402 (Cont/Kukanov/Stoikov order-flow imbalance)
+They motivate conditional hypotheses; they do not identify anonymous columns.
+
+Resume: replace future-dependent detectors, inspect known anomalies, acknowledge
+all prior sample exposure, freeze cheap controlled tests before scoring, score
+eligible rows with clipped target-weighted correlations per target, assess
+uncertainty above the row level. No strong-baseline/public-score claims.

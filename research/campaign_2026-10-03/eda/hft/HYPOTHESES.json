@@ -1,0 +1,31 @@
+{
+  "freeze_version": "hft-continuation-v1",
+  "status": "frozen_before_any_new_target_read_or_score",
+  "observed_prior_facts": [
+    "Prior oracle-q reversion WP is negative on the exposed 82-sequence table.",
+    "The prior target-derived spread is negative on some scored rows.",
+    "The saved decoder is supervised by target jumps, not observed physical prices."
+  ],
+  "sample_rule": "Select the first 20 valid row groups >=1300 outside all own documented prior exposure: multiples of 7,9,23,37,47 and explicit groups 0,1,2,3,74,111,555. Record actual seq_ix values from these groups. No campaign-wide independence claim.",
+  "tests": [
+    {
+      "id": "H1_quote_identity",
+      "hypothesis": "In a shared-future-price taker-PnL representation, -(t0+t1)/q is nonnegative and determined by the current price vector; target jumps on repeated identical price transitions identify quote changes.",
+      "procedure": "Infer q from labels for diagnostics only; compute integer target coordinates with a residual check. Compute negative-sum fraction and current-state modal purity. For transitions repeated >=5 times, compute joint target-jump modal purity, zero-price-change label changes and forbidden opposite-side label changes on bid-only/ask-only events.",
+      "matched_control": "Twenty deterministic label permutations within each sequence and event-side mask (none,bid-only,ask-only,both) for transition purity; twenty target-sum permutations within sequence and trade-change mask for state purity. Report coverage and per-sequence outcomes, not row-level p-values.",
+      "rejection": "Reject exact shared-reference physical-spread interpretation if >0.1% of rows have negative implied spread or >1% disagree with the modal value for repeated current states. Reject exact target-jump quote decoder if >1% of repeated-transition events disagree with the modal joint jump. Lower-purity but above-shuffle associations may still support a statistical proxy.",
+      "inference": "Do not use target-derived q or spread at inference. Only input-state identities and past/current transitions can become features.",
+      "claim_class": "mechanism falsifier on own-disjoint sequences; not campaign-independent reproduction"
+    },
+    {
+      "id": "H2_causal_sign_and_scale",
+      "hypothesis": "Input-inferred warm-up scale plus short decoded momentum transfers to own-unseen sequences better than the predecessor's universal reversion sign.",
+      "procedure": "Fit a bounded warm-up regime classifier on the saved 300 TRAIN prefixes at T=100 only (HGB max_iter=80,max_leaf_nodes=7,l2=1,seed=19). Use class-probability-weighted four quantum values, frozen at row99. Run existing decoder.pkl on input-only price vectors; evaluate spread-only, +/- (decoded midpoint minus causal EMA100), and +/- (minus EMA20), scaled by estimated q. Pooled clipped WP on need_prediction AND is_scored; target labels used only for scoring and diagnostic q classification accuracy. No tuning from new validation.",
+      "matched_control": "Both signs share the same decoded paths, scales and rows. Compare input scale with fixed TRAIN-prior mean scale. Also report spread-only control and per-quantum outcomes using labels strictly for stratification.",
+      "rejection": "Reject a universal continuation sign if it does not exceed matched reversion in pooled mean WP or reverses materially across label-stratified regimes. Reject warm-up scale value if estimated-q results do not improve on fixed TRAIN-prior scale. Scores do not establish improvement over campaign baseline.",
+      "inference": "Use rows0..99 to initialize scale; price decoder and EMA consume only rows<=t; reset all state each sequence. Never use q from validation targets or is_scored in feature construction.",
+      "claim_class": "small predeclared exploratory transfer test; correlated sequences, no row-wise significance"
+    }
+  ],
+  "forbidden_adaptation": "No changing features, spans, sample IDs, classifier parameters or signs based on this cohort's scores. Any additional hypothesis requires a separate freeze and new cohort."
+}

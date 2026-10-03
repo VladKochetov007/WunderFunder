@@ -1,0 +1,246 @@
+I001 [*] Import block is un-sorted or un-formatted
+ --> research/campaign_2026-10-03/continuation/round3/matched_usage/controls.py:1:1
+  |
+1 | / from __future__ import annotations
+2 | | import json
+3 | | import numpy as np
+4 | | import torch
+5 | | from probe import ROOT, choose_donor, windows, train, rms, CLOCK
+  | |________________________________________________________________^
+6 |
+7 |   def main() -> None:
+  |
+help: Organize imports
+  |
+1 | from __future__ import annotations
+2 +
+3 | import json
+4 +
+5 | import numpy as np
+6 | import torch
+  - from probe import ROOT, choose_donor, windows, train, rms, CLOCK
+7 + from probe import CLOCK, ROOT, choose_donor, rms, train, windows
+8 +
+9 |
+  |
+
+E702 Multiple statements on one line (semicolon)
+  --> research/campaign_2026-10-03/continuation/round3/matched_usage/controls.py:21:30
+   |
+19 |         sham.append([0,float(altered[t,52]-raw[t,52]),float(direct[-1,52]-raw[t,52])])
+20 |         mismatch.append(float(np.mean(recomputed[:,CLOCK]!=direct[:,CLOCK])))
+21 |     planted=np.array(planted);sham=np.array(sham)
+   |                              ^
+22 |     assert np.array_equal(planted[:,1],planted[:,2])
+23 |     assert rms(planted[:,1])>.01 and rms(sham)==0 and rms(planted[:,0])==0
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/continuation/round3/matched_usage/prepare.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | | import hashlib
+ 3 | | import json
+ 4 | | import time
+ 5 | | from pathlib import Path
+ 6 | | import numpy as np
+ 7 | | import pyarrow.parquet as pq
+ 8 | | from wnn.splits import load_campaign_split
+   | |__________________________________________^
+ 9 |
+10 |   ROOT = Path(__file__).resolve().parent
+   |
+help: Organize imports
+   |
+1  | from __future__ import annotations
+2  +
+3  | import hashlib
+4  | import json
+5  | import time
+6  | from pathlib import Path
+7  +
+8  | import numpy as np
+9  | import pyarrow.parquet as pq
+10 +
+11 | from wnn.splits import load_campaign_split
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/continuation/round3/matched_usage/probe.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | | import argparse
+ 3 | | import hashlib
+ 4 | | import importlib
+ 5 | | import json
+ 6 | | import logging
+ 7 | | import resource
+ 8 | | import sys
+ 9 | | import time
+10 | | import traceback
+11 | | from pathlib import Path
+12 | | import numpy as np
+13 | | import pyarrow.parquet as pq
+14 | | import torch
+   | |____________^
+15 |
+16 |   ROOT = Path(__file__).resolve().parent
+   |
+help: Organize imports
+   |
+1  | from __future__ import annotations
+2  +
+3  | import argparse
+--------------------------------------------------------------------------------
+12 | from pathlib import Path
+13 +
+14 | import numpy as np
+   |
+
+E402 Module level import not at top of file
+  --> research/campaign_2026-10-03/continuation/round3/matched_usage/probe.py:20:1
+   |
+18 | R2 = REPO/'research/campaign_2026-10-03/continuation/round2/usage'
+19 | sys.path.insert(0,str(R2))
+20 | from usage_core import I0, I1, cached_array_prefix, quiet_ages
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+21 | sys.path.insert(0,str(REPO/'scripts'))
+22 | train = importlib.import_module('train_rnn')
+   |
+help: Move module level imports to top of file
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/continuation/round3/matched_usage/probe.py:20:1
+   |
+18 | R2 = REPO/'research/campaign_2026-10-03/continuation/round2/usage'
+19 | sys.path.insert(0,str(R2))
+20 | from usage_core import I0, I1, cached_array_prefix, quiet_ages
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+21 | sys.path.insert(0,str(REPO/'scripts'))
+22 | train = importlib.import_module('train_rnn')
+   |
+help: Organize imports
+   |
+20 | from usage_core import I0, I1, cached_array_prefix, quiet_ages
+21 +
+22 | sys.path.insert(0,str(REPO/'scripts'))
+   |
+
+E702 Multiple statements on one line (semicolon)
+   --> research/campaign_2026-10-03/continuation/round3/matched_usage/probe.py:106:41
+    |
+104 |     ckpt=torch.load(REPO/control['checkpoint'],map_location='cpu',weights_only=False)
+105 |     model=train.make_model(ckpt['args'],ckpt['n_in'],control['n_out'])
+106 |     model.load_state_dict(ckpt['model']); model.eval()
+    |                                         ^
+107 |     reference_model=train.make_model(ckpt['args'],ckpt['n_in'],control['n_out'])
+108 |     reference_model.load_state_dict(ckpt['model']); reference_model.eval()
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> research/campaign_2026-10-03/continuation/round3/matched_usage/probe.py:108:51
+    |
+106 |     model.load_state_dict(ckpt['model']); model.eval()
+107 |     reference_model=train.make_model(ckpt['args'],ckpt['n_in'],control['n_out'])
+108 |     reference_model.load_state_dict(ckpt['model']); reference_model.eval()
+    |                                                   ^
+109 |     std=np.maximum(model.std.numpy(),1e-6)
+110 |     p=pq.ParquetFile(REPO/'datasets/valid.parquet')
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> research/campaign_2026-10-03/continuation/round3/matched_usage/probe.py:193:58
+    |
+191 |         error=traceback.format_exc()
+192 |         (ROOT/f'failure_{arg.sequence:02d}.txt').write_text(error)
+193 |         state=json.loads((ROOT/'STATE.json').read_text()); state['phase']='failure';state['failure']=error
+    |                                                          ^
+194 |         dump(ROOT/'STATE.json',state)
+195 |         raise
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> research/campaign_2026-10-03/continuation/round3/matched_usage/probe.py:193:84
+    |
+191 |         error=traceback.format_exc()
+192 |         (ROOT/f'failure_{arg.sequence:02d}.txt').write_text(error)
+193 |         state=json.loads((ROOT/'STATE.json').read_text()); state['phase']='failure';state['failure']=error
+    |                                                                                    ^
+194 |         dump(ROOT/'STATE.json',state)
+195 |         raise
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> research/campaign_2026-10-03/continuation/round3/matched_usage/summarize.py:1:1
+  |
+1 | / from __future__ import annotations
+2 | | import hashlib
+3 | | import json
+4 | | import time
+5 | | from pathlib import Path
+6 | | import matplotlib
+  | |_________________^
+7 |
+8 |   matplotlib.use("Agg")
+  |
+help: Organize imports
+  |
+1 | from __future__ import annotations
+2 +
+3 | import hashlib
+4 | import json
+5 | import time
+6 | from pathlib import Path
+7 +
+8 | import matplotlib
+  |
+
+F401 [*] `hashlib` imported but unused
+ --> research/campaign_2026-10-03/continuation/round3/matched_usage/summarize.py:2:8
+  |
+1 | from __future__ import annotations
+2 | import hashlib
+  |        ^^^^^^^
+3 | import json
+4 | import time
+  |
+help: Remove unused import: `hashlib`
+  |
+1 | from __future__ import annotations
+  - import hashlib
+2 | import json
+  |
+
+B023 Function definition does not bind loop variable `m`
+   --> research/campaign_2026-10-03/continuation/round3/matched_usage/summarize.py:126:47
+    |
+125 |         def wr(v: np.ndarray) -> float:
+126 |             return float(np.sqrt(np.average(v[m] ** 2, weights=design[m])))
+    |                                               ^
+127 |
+128 |         nonzero = m & (amp > 1e-8)
+    |
+
+B023 Function definition does not bind loop variable `m`
+   --> research/campaign_2026-10-03/continuation/round3/matched_usage/summarize.py:126:71
+    |
+125 |         def wr(v: np.ndarray) -> float:
+126 |             return float(np.sqrt(np.average(v[m] ** 2, weights=design[m])))
+    |                                                                       ^
+127 |
+128 |         nonzero = m & (amp > 1e-8)
+    |
+
+E741 Ambiguous variable name: `l`
+   --> research/campaign_2026-10-03/continuation/round3/matched_usage/summarize.py:194:71
+    |
+192 |             max=float(amp.max()),
+193 |             zero_mass=int(np.sum(amp == 0)),
+194 |             lags={str(l): sum(r["lag"] == l for r in all_records) for l in [64, 128, 256]},
+    |                                                                       ^
+195 |             unavailable_lag_candidates=sum(
+196 |                 len(d["candidates"]) < 3
+    |
+
+Found 15 errors.
+[*] 6 fixable with the `--fix` option.

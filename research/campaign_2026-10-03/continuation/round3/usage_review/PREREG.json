@@ -1,0 +1,7 @@
+{
+  "scope": "independent frozen matched_usage audit; stored arrays and causal feature recomputation only; no model forward",
+  "inputs": "round3/matched_usage frozen report, arrays, masks, samples, donor files, source, verification; standalone utils.py grader helper",
+  "tests": ["reconstruct 288 fixed sampled moments", "actual grader helper via integer repetition n_eligible (common m=12 cancels)", "paired component bootstrap from reconstructed moments and frozen draws", "reproduce uniform query draw and donor minimum from inputs only", "recompute raw-splice causal features and verify current/full protected suffix equality", "recompute CPU-reference and cache-drift gates from arrays"],
+  "tolerances": {"moment_relative": 1e-12, "score_absolute": 1e-12, "donor_absolute": 1e-12, "cpu_atol": 2e-5, "cpu_rtol": 2e-5},
+  "prohibited": ["full model forward", "future washout results", "actor artifact mutation", "fresh confirmation claim", "GPU approval"]
+}

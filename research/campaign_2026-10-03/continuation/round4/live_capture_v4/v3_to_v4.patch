@@ -1,0 +1,30 @@
+--- live_capture_v3/live_capture.py
++++ live_capture_v4/live_capture.py
+@@ -248,13 +248,17 @@
+         engine.set_state(state)
+     except (RuntimeError, TypeError, ValueError) as error:
+         raise ValueError(name + " RNG engine state invalid") from error
++    try:
++        compare(state, engine.get_state())
++    except AssertionError as error:
++        raise ValueError(name + " RNG engine normalized state; exact roundtrip required") from error
+ 
+ 
+ def validate(payload: dict[str, Any]) -> None:
+     """Fail closed before reconstructing a live recipe state."""
+     if (
+         set(payload) != REQUIRED
+-        or payload["version"] != 3
++        or payload["version"] != 4
+         or payload["phase"] != "pre_forward_pre_zero_grad"
+     ):
+         raise ValueError("capture schema/phase mismatch")
+@@ -532,7 +536,7 @@
+         by_id = {id(p): name for name, p in model.named_parameters()}
+         self.terms = {}
+         self.pre = {
+-            "version": 3,
++            "version": 4,
+             "phase": "pre_forward_pre_zero_grad",
+             "source": identities(),
+             "execution": backend_state(device),

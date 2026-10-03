@@ -1,0 +1,55 @@
+Recovered from this analyst's scripts, saved Grams/models, result tables, marimo session and all four PNGs.
+This summary preserves the preceding read-only pass; no other analyst or baseline was consulted.
+
+ESTABLISHED PRIOR EVIDENCE
+eval_v1.json: levels ridge WP=0.597885; levels+D1=0.609492; levels+EMA32+EMA256=0.648447
+(t0=0.654259, t1=0.642635); all blocks=0.647377 at lambda=0.0001.
+gram_v1.npz: 400 train row groups, target-quantum class counts [50,42,141,167].
+univariate.npz: 300 valid row groups, reused for model evaluation and univariate exploration.
+The old train stride is not explicitly retained; inspect saved artifacts before assuming it.
+Univariate E32:i0_dv1 vs t1: pooled weighted corr=0.3616, within-sequence median=0.3804,
+90% sign agreement. E32:i0_p3 vs t0: pooled=0.4376, within-sequence median=0.1800,
+70.7% sign agreement. Pooled correlation alone overstates some signals' stability.
+Raw target correlation per sequence: median=-0.811707, range [-0.958574,-0.292775].
+target_acf.npz: 60 valid sequences; difference ACF lag8=0.1349/0.1233, lag3=-0.1311/-0.1414.
+Target cross-correlation lag0=-0.772286; periodicity does not identify a forecast horizon.
+__marimo__/session/eda_linear.py.json: held-out sequence corr(predicted dY, actual dY)^2
+means=0.571563/0.536259, substantial sequence variation. The notebook calls this R2, but
+it is squared correlation, not calibrated explained variance or deployable target-level prediction.
+Whole-sequence feature means/variances/change rates separate four target-quantum classes.
+Those statistics use future rows and cannot directly route causal inference.
+Target-oracle class routing underperforms pooled ridge (WP=0.635231-0.640339).
+Mask-propensity reweighting gives only tiny exploratory differences; its 120 valid sequences
+(seed3) overlap the 300 evaluation sequences (seed42) in 18 row groups.
+
+OWN FILE REFERENCES
+common.py, ridge.py, eval_ridge.py define causal transforms, Gram solving and scoring.
+eval_v1.json/eval_v1.log/ridge_v1.log retain scores and training completion.
+gram_v1.npz, models_v1.npz, univariate.npz, target_acf.npz retain numerical artifacts.
+fig01_seq0_full.png and fig02_seq0_zoom.png inspect valid row group0 (seq_ix256678).
+fig03_target_acf.png and fig04_univariate_heatmap.png corroborate the reported structure.
+eda_linear.py contains unfinished within-sequence and target sum/difference diagnostics;
+their marimo session cells have no saved outputs. REPORT.txt was absent.
+
+RANKED HYPOTHESES (NOT ESTABLISHED)
+1. EMA gain is persistent causal information, cadence averaging, or measurement-noise suppression:
+compare matched temporal summaries and phase interactions, using sequence-separated validation.
+2. Target sum/difference expose different mechanisms; rotation alone cannot improve unrestricted
+linear output models, so test component-specific predictability/filtering, not merely rotation.
+3. Activity-conditioned slopes may beat a single linear mapping; test small causal interactions,
+not target-quantum or whole-sequence-statistic routing.
+4. Liquidity-conditioned pressure: test bid/ask volume-like contrasts and activity interactions,
+without assuming anonymized indices are depth ordered or quantities are in raw price/volume units.
+5. i1 lagged innovations may add information after i0 filters; compare i0 and shifted-i1 controls.
+
+PRIMARY SOURCES ACTUALLY READ IN READ-ONLY PASS
+https://www.princeton.edu/~yacine/sampling.pdf (introduction/noise-aware estimation; volatility,
+not a theorem about this dataset's forecasting skill).
+https://arxiv.org/html/1011.6402v3 (order-flow imbalance and depth-dependent price impact;
+raw-book interpretation is not established for these anonymized components).
+
+RESUMPTION CHECKLIST
+Preserve raw artifacts; recover sample IDs including seed-based probes and possible unfinished
+cells. Freeze hypotheses before scoring. Distinguish own-disjoint from campaign-disjoint samples.
+Use global clipped |target|-weighted Pearson, sequence/component-level uncertainty, causal
+warm-up/state resets, and row-by-row parity. No strong-baseline/public-score claims.

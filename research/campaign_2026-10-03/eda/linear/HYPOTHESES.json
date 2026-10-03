@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "status": "frozen_before_new_scoring",
+  "observed_prior": {
+    "levels_wp": 0.5978852062,
+    "levels_ema_wp": 0.648446878,
+    "difference_acf_lag8": [
+      0.1349,
+      0.1233
+    ]
+  },
+  "sampling": {
+    "training": "128 of the existing 400 exposed train row groups, seed1732",
+    "evaluation": "64 valid row groups, seed1733, excluding every recoverable own prior valid sample",
+    "row_sampling": "Train steps 99+i%31, stride31; coprime with periods7 and8. Evaluate every need_prediction AND is_scored row.",
+    "independence_limit": "Disjoint from known own samples only; cannot rule out unrecorded predecessor exposure or exposure in the wider campaign. No campaign uncertainty claim."
+  },
+  "matched_design": {
+    "features": "All 112 in original numeric host order; no seq_ix, targets, scoring mask, target quantum or future statistics as inputs",
+    "models": [
+      "L",
+      "L+EMA32+EMA256",
+      "L+phase8_EMA32+phase8_EMA256",
+      "L+phase7_EMA32+phase7_EMA256",
+      "L+cycle8_EMA32+cycle8_EMA256"
+    ],
+    "penalty": "lambda0.001, RMS-normalized ridge with unpenalized intercept, no hyperparameter tuning",
+    "training_weights": "abs(clip(target,-2,2)), separate for each target; no mask-propensity fitting",
+    "phase_filter": "Independent EMA per absolute row phase; alpha_P=1-(1-alpha)^P maintains decay per row; initialized at first observed row of each phase",
+    "cycle_filter": "Trailing mean of eight rows, padded with row0 during warm-up, followed by usual causal EMA",
+    "metric": "Global pooled Pearson with both predictions/targets clipped to[-2,2] and abs(clipped target) weights",
+    "causality": "Process warm-up and unscored rows; reset each sequence; verify batch transforms against independent online implementation"
+  },
+  "tests": [
+    {
+      "id": "H1_cadence_versus_coarse_memory",
+      "premise": "If cross-phase averaging explains most EMA benefit, same-phase EMA should lose substantially while cycle averaging should retain benefit.",
+      "matched_control": "L+EMA32+EMA256; same coefficient count and identical fit/evaluation rows",
+      "falsifier": "Reject cadence-only account if phase8 retains >=80% of the EMA gain over L and its WP deficit versus EMA is <0.005. Reject phase-preserving filtering as a practical replacement if deficit>=0.005.",
+      "support_threshold": "Suggest cadence-averaging dependence only if phase8 deficit>=0.01 while cycle8 deficit<0.005; signal-response lag remains an alternative explanation.",
+      "inference": "Fixed finite CPU EMA/ring-buffer states only, no targets/future inputs"
+    },
+    {
+      "id": "H2_eight_phase_specificity",
+      "premise": "If the apparent period8 contains useful phase-specific structure, phase8 should outperform phase7 with matched size and temporal decay.",
+      "negative_control": "phase7 EMA, equal coefficient count",
+      "falsifier": "No specific period8 advantage if phase8 minus phase7 WP<=0.002; a larger gain is exploratory evidence only and requires deduplicated reproduction.",
+      "inference": "Phase index from current step_in_seq and causal input states"
+    }
+  ],
+  "reporting": "Save all variants and negatives, exact row-group/seq_ix manifests, per-sequence paired moment contributions, raw pooled scores, resource/failure logs. No public score or strong-baseline improvement forecast.",
+  "frozen_manifest_sha256": "d04974fdffc55e4d303ecc91f10d386ee3a6c2b8ab1731788a048ef184cded33"
+}

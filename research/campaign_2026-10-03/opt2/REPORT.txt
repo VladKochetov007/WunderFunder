@@ -1,0 +1,140 @@
+OPT2 BUILDER — completed bounded implementation pass; controller integration only.
+All source deliverables are under research/campaign_2026-10-03/opt2. The trainer
+and optimizer were captured, not edited. Another worker changed live trainer
+hash32eac0... ->1d6b05... while this pass ran; optimizer hash0e476a... unchanged.
+Full hashes: SOURCE_HASHES.txt and SOURCE_HASHES_FREEZE.txt. trainer.patch remained
+UNAPPLIED. git apply --check succeeded against current live trainer; candidate's
+DataLoader/budget calls have identical AST to captured source (test_patch.py).
+The user requested gpt-6.1-sol medium; the worker cannot change the session model
+or verify a different runtime model setting. No recursive agents were invoked.
+
+RECOVERED EVIDENCE (read, not independently reproduced here)
+Read OPT_REPORT.txt, RESEARCH_RESET.md, E-348/E-349, src/wnn/optim.py,
+tests/test_optim.py, trainer optimizer/loader/update/model sections, and job script.
+E-349: full fold0 Muon delta +.002999 (SE .001163), fold1 epoch2 delta -.000037
+(SE .000591). This motivates full schedule testing; does not establish a fold1
+full-schedule gain. Prior head gradient-square share ~90% motivates controls;
+it does not establish that the head parameter update is excessive under Adam.
+Older report's noise-limited/binding-label-noise conclusion is not accepted as
+proved; RESET supplies competing sample-efficiency/representation explanations.
+
+IMPLEMENTATION
+training_dynamics.py (269 lines after format): explicit optimizer construction,
+switching, scheduler construction, module clip caps, private annealed noise.
+sampling.py: input-only strata API, proportional no-replacement quota order with
+Sobol tie priority, explicit seeded/reversed epoch sampler, Sobol initialization.
+Default arguments return original AdamW/Muon construction and OneCycle settings;
+no grouping, noise draws or changed clipping when arms are off. Switching requires
+stable groups built from recurrent gate partition. Retain Adam states/step age on
+unchanged rules; cold-start changed recurrent matrices. Preserve lr/beta1/beta2/
+weight decay and live scheduler phase with a scheduler rebind, not reconstruction.
+Switch before backward/unscale so AMP associates the new optimizer correctly.
+Clock is attempted updates, matching existing trainer scheduling of skipped steps.
+Patch adds isolated imports, CLI controls, seeded sampler, initializer, optimizer /
+scheduler construction, switch call and gradient controls, module hash provenance,
+explicit seeded-order provenance and switch-event list. No budget argument changes.
+FLAGS.txt lists exact supported/deferred semantics and restrictions.
+
+EXECUTABLE CPU PROBES — all through continuation/run_cpu.sh opt2-builder
+No campaign data, sequence IDs, GPU, installs, services, queue writes or commits.
+CPU module tests: 31; candidate integration tests:6; requested regression tests:44.
+Final combined tests:81 passed; see logs/final_tests_02.log for timing/RSS.
+Earlier27,36,44,80-pass logs retained. Ruff final check clean; format logs retained.
+Core regression coverage: tests/test_optim.py, test_tcn.py, test_twoclock.py,
+test_fixed_checkpoints.py. Explicit CPU GradScaler skip-then-switch test preserves
+parameters on skip and advances attempt-based schedule; expected scheduler warning
+is asserted. No GPU GradScaler/fused AdamW validation claimed.
+
+probe.py / executable run_probe.sh: 24 training and8 heldout synthetic sequences,
+length10, features3, hidden8, one GRU layer,100 optimizer attempts; same init and
+synthetic membership for optimizer controls. logs/fit_02.json records six fits:
+AdamW              heldout MSE .537169 -> .081997 (ratio .15265)
+Muon               heldout MSE .537169 -> .143546 (ratio .26723)
+Muon -> AdamW      heldout MSE .537169 -> .089621 (ratio .16684)
+AdamW -> Muon      heldout MSE .537169 -> .096285 (ratio .17925)
+QMC init + AdamW   heldout MSE .384123 -> .156690 (ratio .40792)
+Muon -> AdamW + SGDR/warmup/head .5/module clip .5/noise1e-7:
+                   heldout MSE .537169 -> .164382 (ratio .30602)
+Both switches at attempt50 kept8 states and reset2 recurrent matrices; all finite.
+Combined controls demonstrate executability, not causal efficacy of their bundle.
+QMC initializer passes trainability criterion but loses to iid on absolute heldout
+MSE in this seed. Tiny synthetic fit is no estimate of forecasting WP.
+
+Default-off parity: original optimizer/OneCycle versus module,12 deterministic
+CPU float32 updates each for AdamW and Muon. Loss, parameters, lr, beta1/beta2 and
+global RNG identical bit-for-bit. CPU fused=False, dropout0, no EMA or enabled AMP
+in parity probe. Full trainer GPU/EMA/fused default parity remains a controller
+check; candidate import/CLI tests do not claim a complete trainer/data fit.
+
+CHEAP MECHANISM FALSIFIERS AND NEGATIVES
+sampling_probe.py:64 synthetic sequences,4 equal strata,batch8,32 permutations.
+Mean per-batch mean-gradient variance:
+  stratum-driven signal: random14.51416, stratified0
+  unstructured residual: random.097808, stratified.105772 (slightly WORSE)
+This isolates strata explaining gradients, not a Sobol advantage. No stratified-
+only vs Sobol-tie SGD performance contrast was scored. The Sobol helper is NOT
+claimed to implement QMC integration convergence bounds for SGD.
+Antithetic artificial linear order statistic: -41.5873/+41.5873, pair mean about
+-3.55e-15. This positive control does not imply negative correlation of nonlinear
+training errors. Same seed is required; reverse BEFORE drop_last can change tails.
+
+QMC spectrum negative preserved in logs/sampling_01.json: flattening d=1 Sobol
+values into32x32 produced min SV3.76e-11/max3.2596 versus iid .01272/1.06392.
+Final initializer instead uses row points/column coordinates, improving measured
+max SV to1.04808; min SV .00032156 remains much lower than iid (.01272).
+See logs/sampling_03.json. Same scalar marginals do NOT guarantee iid geometry.
+This negative is the reason QMC init is last-ranked, despite tested executable code.
+
+PRESERVED FAILURES
+Initial root-relative continuation paths were absent; resolved campaign/continuation.
+logs/lint_01.log and lint_03.log: import ordering failures, fixed with existing ruff.
+logs/sampling_02.stderr.log: row-wise initializer sliced flattened array by row
+count, causing reshape RuntimeError; corrected slice-before-flatten, then reran
+probe, uniform tests, shape/marginal tests and QMC-init memory fit successfully.
+logs/edit_anchor_failure.txt: apply_patch anchor mismatch after formatter collapsed
+list; no mutation, reread and fixed. No OOM/killed scope/resource failure occurred.
+Original logs and negative spectra preserved under distinct filenames.
+
+PRIMARY SOURCES ACTUALLY READ (no unread citation relied on)
+1. Neelakantan et al., Adding Gradient Noise Improves Learning for Very Deep
+Networks (2015), PDF section3/page3 equation1 and neighboring discussion:
+https://arxiv.org/pdf/1511.06807
+The tested variance law follows their annealed-noise method. Prior success on deep
+optimization tasks is not evidence of benefit for this already distilled GRU.
+2. Loshchilov & Hutter, SGDR (2016/2017), full HTML section3 equation5 and discussion:
+https://arxiv.org/html/1608.03983v5
+Cosine reheating retains model state. Applying that schedule to Adam/Muon here is
+an experimental extension; no published GRU speedup is inferred.
+3. Krueger et al., Zoneout (2016), primary arXiv abstract:
+https://arxiv.org/abs/1606.01305
+Zoneout preserves previous per-timestep hidden values. Inspection of RNNModel's
+nn.GRU(z,h) call shows no access to internal timestep states. Thus exact fused
+zoneout is explicitly unsupported; cell-loop speed penalty is unmeasured.
+4. Owen, On dropping the first Sobol' point, PDF introduction/section2 and returned
+smooth additive example discussion; sections inspected via web open/find:
+https://arxiv.org/pdf/2008.08051
+Scrambling preserves uniform marginals with dependent samples; dyadic nets and
+smooth/simple effective structure matter. Our discrete adaptive SGD mapping has
+no proved QMC rate. Avoid dropping/thinning nets; truncated non-dyadic tensor rows
+lose exact balance. Inference: finite strata help when they explain gradients,
+and order reversal helps only if paired training responses have negative covariance.
+5. SciPy Sobol official implementation docs, API/scramble/power-of-two warnings:
+https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.qmc.Sobol.html
+Used scipy.stats.qmc.Sobol scramble=True, random_base2, private per-tensor seeds.
+The docs' LMS+shift implementation is not asserted to be full nested Owen scramble.
+Owen1997 publisher page was inaccessible; Stanford landing page had metadata only.
+No theorem was attributed to those unread texts. An initial mistaken zoneout arXiv
+ID opened unrelated caching literature; discarded, correct primary source above.
+
+NEXT DIRECTIONS / FALSIFIERS
+1. Late Muon->AdamW full schedule versus Muon and grouped no-op switch: kill if
+both-fold improvement absent or cold-start transient harms EMA endpoint.
+2. Per-module clipping versus global clip: kill if recurrent updates unchanged or
+WP not improved; measure gradient and update effects separately.
+3. Head lr .5 versus1: kill if merely slower fitting; gradient dominance alone weak.
+4. Short warmup / zero-vs-one SGDR restart: isolate lr integral and beta1 policy
+before calling an effect a restart benefit.
+5. Input-strata streamed metadata integration only after the above: compare random,
+quota-only and Sobol-tie controls. Do not launch --batch-order qmc now (explicit error).
+All full-schedule commands, controls, rough costs and ranking are in PLAN.txt.
+No arm efficacy/public-score claim; freeze for controller review and integration.

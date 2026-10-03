@@ -1,0 +1,19 @@
+Repository-root commands; all Python bodies CPU-only.
+
+Executed tiny synthetic controls (writes own controls.json; original failure and correction retained):
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 /usr/bin/time -v .venv/bin/python -B research/campaign_2026-10-03/continuation/round5/mechanism_prereg/controls.py
+
+FUTURE ONLY, after independently accepted capturev2 and explicit controller authorization:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B research/campaign_2026-10-03/continuation/round5/mechanism_prereg/analyze.py --pre ACCEPTED/pre.pt --components ACCEPTED/components.pt --post ACCEPTED/post.pt --accepted-binding ACCEPTED_BINDING.json --output research/campaign_2026-10-03/continuation/round5/mechanism_prereg/accepted_geometry.json
+
+Accepted binding REQUIRED keys:
+independent_capture_v2_accepted: true
+controller_analysis_authorized: true
+sha256: {pre: accepted_hash, components: accepted_hash, post: accepted_hash}
+canonical_optimizer_id_names: {serialized_ID_as_string: independently_validated_parameter_name, ...}
+decomposition_max_abs_bound: independently frozen/calibrated component-sum bound, never tuned from intervention/score
+Source/backend/default identity/calibration acceptance must already be verified independently; this instrument does not replace that review.
+Do not manufacture an acceptance binding or read measured captures in this preregistration pass.
+
+Post optional for descriptive gradient geometry only; no update or component-sum verification without it.
+One command per selected capture, at most four captures, strictly frozen metadata order; no GPU arms.

@@ -1,0 +1,127 @@
+FRACTAL / LONG-MEMORY: BOUNDED INDEPENDENT CONTINUATION
+Verdict: reject advancing eventEMA16 and positive signed-increment persistence.
+A stationary encoded level null explains most near-zero DFA slopes.
+Evidence tier: own matched CPU screen, not independent reproduction or baseline gain.
+
+RECOVERED PRIOR EVIDENCE
+See RECOVERY_SUMMARY.txt; original logs/NPZ/PNGs were preserved.
+Old raw WP .4927; raw+EMA16 .5380; EMA64 .5351; EMA1024 .4874.
+Five EMA scales .5069; activity/interaction/VR expansions did not improve it.
+Detected class routing .4576 versus pooled .5105; oracle class .5127.
+Oracle sequence mean shift .5241 cannot be deployed. No target is an input here.
+Inspected prior fig1: scale crossovers, not a single invariant exponent.
+Inspected prior fig4: negative-q slopes near 9-10 expose zero-floor sensitivity.
+Centred bands, full-sequence target quantum/mean and validation PCA are diagnostics.
+Class-stat feature selection was exploratory and used validation labels.
+
+FROZEN PROBE AND MATCHED CONTROLS
+HYPOTHESES_initial_frozen.json predates all new scoring; seed 20261003.
+32 train, 24 valid groups selected uniformly excluding own conservative exposure.
+One sequence loaded at a time; four ridge models, same fit/evaluation rows.
+Raw uses 112 inputs. All temporal arms use raw112 + history residual112.
+Event = any current change of 22 i0 prices; not a claim about best bid/ask.
+Row alpha=2/17; event alpha=2/17 updated only on quote events.
+Rate-adjusted row alpha=1-(1-2/17)^causal_EMA64(event); updated every row.
+All EMA states initialize at first feature row and reset by sequence.
+Clipped response and abs(clipped response) weights; training need_prediction.
+Same frozen trace-normalized ridge rule; intercept unpenalized.
+Trace-scaled penalties differ by arm; equal scalar penalty is a future sensitivity.
+Score pools need_prediction AND is_scored; clips finite y,p to +/-2.
+Only training data fit coefficients; no target or mask enters build().
+
+MEASURED SCORES: arm / t0 / t1 / mean pooled WP
+raw                  0.583524 0.609691 0.596608
+row16                0.622586 0.646200 0.634393
+event16              0.570472 0.588322 0.579397
+rate_adjusted16      0.612008 0.636282 0.624145
+Event minus row mean: -0.054996.
+Event minus rate-control mean: -0.044749.
+Frozen survival gate passed: False.
+Panel1 event-row: -0.071039.
+Panel2 event-row: -0.049041.
+Row16 minus raw: +0.037785.
+Absolute scores differ greatly by panel; pooled composition matters.
+Fixed 16 events generally spans more rows than 16 rows; results reject the
+specified event16 representation, not all event models or all clock mechanisms.
+Feature-prefix parity at 99/500/4096 and future perturbation: max error 0.0e+00.
+Pooled sufficient-statistics vs direct clipped WP: error 2.220e-16.
+Initial fit/scoring/figures runtime: 33.46 seconds.
+Provenance audit: 5.91 seconds, maximum RSS 1,370,392 KiB (time -v log).
+No GPU, installs, commits, server or resource failure; all compute used run_cpu.
+
+SCALING FALSIFIER
+First 12 frozen valid groups; i0_p0 signed increments on i0 quote-event rows.
+DFA1 scales 16..1024; slopes frozen to 16..256; 16 shuffled controls each.
+Median original-minus-shuffled-increment slope: -0.492865.
+Positive differences: 0/12; frozen persistence gate failed.
+Permutation preserves increment marginals but removes all ordering, not just long memory.
+Follow-up H_stationarity frozen AFTER seeing initial negatives and BEFORE its scoring.
+It reuses the already-exposed same 12 groups; no new holdout confirmation.
+Shuffle event-time feature LEVELS, then difference; 16 controls per group.
+Median original-minus-level-null slope: -0.017508.
+Stationary-level sufficiency gate: True.
+Synthetic iid-increment slope: 0.488924.
+Synthetic differenced-iid-level slope: 0.022310.
+Interpretation: telescoping stationary encoded levels can flatten DFA of their
+increments. Low slopes do not establish exploitable raw-market antipersistence.
+Some sequences have original slopes above the level null; exact equality is not claimed.
+No inference about all 112 features or asymptotic fractional processes is warranted.
+Methods context: Kantelhardt et al. (2002), https://arxiv.org/abs/physics/0202070
+uses original/shuffled comparisons to separate order effects from broad marginals.
+Our diagnostic is ordinary DFA1; no multifractal claim survives this continuation.
+
+CAUSALITY AND SAMPLE PROVENANCE
+sample_manifest.json maps conservative prior and new row groups to actual seq_ix.
+Prior exposure union is conservative: includes all groups named in own scripts,
+even where execution cannot be proved. It is not an exhaustive campaign exposure map.
+New samples are fresh to that own union, not certified new to the campaign.
+provenance_audit.json hashes raw feature, target and mask arrays for each sampled group.
+Dataset identities use path, size, mtime_ns and row-group count; not whole-file hashes.
+Exact all112-feature 16-row windows screened at every offset in first/last256 rows.
+Cross-sequence boundary links found: 0.
+Interior/unsampled links remain unsearched; component disjointness is NOT certified.
+No row-independent significance or sequence-bootstrap confidence interval reported.
+Controller must regroup paired sufficient statistics by connected components before
+campaign uncertainty or integration. No public score or strong-baseline gain forecast.
+NEW train row groups: 391,540,585,1028,1072,1450,2349,2948,3188,3283,3480,3511,3737,4339,4998,5669,5810,6324,6403,6649,6832,6866,7777,8600,8873,9238,9412,9711,10217,10418,10583,10603
+NEW train seq_ix IDs: 83365251,116705790,127878678,217300185,226988532,304787771,488305662,605419165,657064077,675281486,712233304,717673724,764391372,889513761,1025770706,1165548884,1198963548,1299404002,1316243984,1364805305,1398593766,1406913252,1593025373,1757877152,1815621299,1882482721,1920067854,1975865346,2075559492,2111934886,2142886048,2146480654
+NEW valid row groups: 88,91,151,153,226,256,283,361,388,433,476,675,845,982,1086,1263,1289,1296,1320,1391,1429,1741,1752,1787
+NEW valid seq_ix IDs: 93823612,95285955,154577377,158318955,228031563,268102869,294642393,394658627,420186951,483796417,540020277,769666407,979684892,1127427733,1249554056,1466505621,1497347956,1502437047,1519712605,1597250052,1635615159,1995316449,2004953296,2045423391
+Prior actual IDs are all listed under own_prior_exposure in sample_manifest.json.
+
+RANKED NEXT DIRECTIONS (controller phase; not executed here)
+1. Reproduce rowEMA16 on component-disjoint data; compare matched raw and temporal
+   heads, shared scalar penalty, then strong-baseline residual gain. Kill if the
+   component-paired delta is nonpositive or the existing recurrent state subsumes it.
+2. Match effective row horizon of event history with causal rate-normalized event
+   span versus row16 and rate-adjusted16. Kill if event representation adds nothing
+   after horizon matching. Current event16 failure deprioritizes unconditional replacement.
+3. Separate short mean reversion from long memory using stationary-feature
+   AR/finite-window surrogates vs block-shuffled increments; matched EMA16 predictor.
+   Kill fractional-memory idea if short-order null reproduces scaling and prediction.
+4. Revisit positive-q volatility clustering with shuffled and finite-memory controls,
+   feature-only causal prefixes, no target regime labels, no negative-q zero floor.
+   Kill if apparent multifractality is reproduced by marginals/finite-memory controls.
+
+ARTIFACTS / REPRODUCTION
+REPORT.txt, RECOVERY_SUMMARY.txt, STATE.json, HYPOTHESES*.json.
+continuation_probe.py, stationarity_control.py, audit_provenance.py: runnable scripts.
+clock_coefficients.npz; continuation_raw.npz: per-sequence WP moments and DFA curves.
+continuation_results.json; stationarity_results.json; sample_manifest.json; provenance_audit.json.
+fig8_causal_clock.png, fig9_shuffle_falsifier.png, fig10_stationary_level_control.png
+were visually inspected: both targets lose under event16; all DFA permutation deltas
+are negative; stationary-level control reproduces low slopes for most sequences.
+eda_fractal.py is an updated runnable marimo app; eda_fractal.html exported successfully.
+eda_fractal_prior.py preserves original notebook; initial raw results are preserved.
+continuation_probe_executed.py preserves exact initially executed source/hash.
+Final script differs only in formatting and strict zip length checks from that source.
+Commands (prefix EVERY command with continuation/run_cpu.sh eda-fractal):
+ .venv/bin/python research/campaign_2026-10-03/eda/fractal/continuation_probe.py
+ .venv/bin/python research/campaign_2026-10-03/eda/fractal/stationarity_control.py
+ .venv/bin/python research/campaign_2026-10-03/eda/fractal/audit_provenance.py
+ .venv/bin/marimo export html research/campaign_2026-10-03/eda/fractal/eda_fractal.py
+   -o research/campaign_2026-10-03/eda/fractal/eda_fractal.html
+Use repo-root research/campaign_2026-10-03/continuation/run_cpu.sh as that prefix.
+All compute commands completed exit0; final ruff checks and notebook export logged.
+Blocking integration issues: unknown campaign exposure/components; baseline comparison
+reserved for controller. No blocker prevented completion of this independent pass.

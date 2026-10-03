@@ -1,0 +1,22 @@
+{
+  "frozen_before": "Actual trainer source inspection, builder source/results inspection and fixture execution",
+  "scope": "Independent specification; synthetic CPU fixtures and cheap direct actual-code checks, no training/sample scoring",
+  "acceptance": {
+    "capture_boundary": "Capture exact pre-forward instant after any LR/scheduler selection; record phase. Separate attempted optimizer, completed optimizer, EMA and scheduler clocks. Preserve actual skip ordering, even if it is undesirable.",
+    "state": "Raw and contemporaneous lagged EMA parameters AND buffers, train/eval modes, detached incoming raw/EMA hidden states, batch identity/order and reset mask, exact post-processing inputs/targets/weights/cached teachers/aux labels+masks, source/runtime/backend hashes and flags, named optimizer groups/order/moments/ages/hyperparameters, gradients if accumulation is nonzero, pre-forward CPU/device RNG, scaler state and found_inf/skip decision, scheduler state/current LR, EMA averaging implementation/state and clocks.",
+    "outputs": "Compare raw/EMA predictions, outgoing hidden states, detached teacher target, each loss term, total loss, pre/post unscale gradients, clip norm and clipped gradients, optimizer parameter delta and post moments, scaler growth, scheduler/LR, EMA post weights/buffers and phase-specific clocks; aggregate counters alone never pass.",
+    "deterministic_tolerance": "Same deterministic backend/order requires bitwise equality for repeat replay and serialized roundtrip; state keys/order/discrete clocks exact. Independent algebraic oracle may have explicit dtype/order rounding bound, never silently widen replay tolerance.",
+    "nondeterministic_tolerance": "Before interventions measure at least5 identical restored-state repeats on actual backend, preserve per-tensor absolute/relative errors and norms; floor fixed before arm tests. Reject out-of-envelope values. Empirical tolerance is limited reproducibility, not exact replay; no CPU-to-GPU or FP32-to-fp16 tolerance substitution.",
+    "unsupported": "GRUfast/Muon/fp16/GradScaler combination needs actual combination parity; a CPU FP32/AdamW toy cannot admit it. Unsupported adapters must fail explicitly; no backend downgrade passed as replay."
+  },
+  "adversaries": [
+    "Wrong raw incoming hidden state, wrong EMA hidden alone, and swapping hidden states while weights/counters match must fail.",
+    "Alter warm optimizer moments with identical gradients/counters; reorder same-shape parameter identities while state_dict loads; must fail update/state identity.",
+    "Restore post-forward RNG instead of pre-forward RNG under active stochastic forward; must fail outputs even with same seed/counters.",
+    "Use updated EMA weights to recompute teacher target or allow gradient into lagged EMA; must fail teacher/loss or detachedness.",
+    "Skip optimizer on nonfinite gradients while advancing EMA/scheduler according to actual source. Capture must replay source semantics; normalizing all counters together or counting attempted step as completed must fail."
+  ],
+  "controls": "Exact pristine replay and serialization must pass; every single-field corruption must fail; equal raw/EMA weights plus equal hidden states yields zero consistency, equal weights alone need not. Include distinct same-shape named parameters and genuinely warmed moments.",
+  "falsifier": "An adversary accepted by the detector or pristine state rejected invalidates that fixture/gate. Actual source findings may refine source-specific expected ordering, not relax corruption tests. Preserve failure logs.",
+  "resource": "run_cpu.sh round3-hft;1core2GiB900s;max20min;own capture_critic only;no GPU/live edits"
+}

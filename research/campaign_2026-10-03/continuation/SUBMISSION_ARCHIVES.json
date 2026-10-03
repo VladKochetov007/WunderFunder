@@ -1,0 +1,92 @@
+{
+  "created_at": "2026-10-03T22:47:37.507908+03:00",
+  "new_training": false,
+  "archives": [
+    {
+      "name": "1_reference_D256",
+      "original": "submissions/c20261002_D256_i16/submission.zip",
+      "rationale": "Public reference 0.6641; already scored; optional control",
+      "members": [
+        {
+          "weights": "weights_0.npz",
+          "coef": 1.0,
+          "source": "c20261001_final_d256_s3@ep3|c20261001_final_d256_s3_gcorrh@ep0"
+        }
+      ],
+      "zip": "artifacts/submission_quota_2026-10-03/1_reference_D256.zip",
+      "tar_gz": "artifacts/submission_quota_2026-10-03/1_reference_D256.tar.gz",
+      "zip_bytes": 5089168,
+      "tar_bytes": 5089251,
+      "zip_sha256": "c493f042048955e0c74bb82ed8fbc9f994ed0a19875f32ae657357266d6f0e32",
+      "tar_sha256": "be5accd10d0b02ef1dc663539120e811f39134ad861882599abfc3309f57252e",
+      "verification": "CRC and all tar payload bytes match existing ZIP; no model execution"
+    },
+    {
+      "name": "2_teacher_TE07",
+      "original": "submissions/c20261002_TE07s3_i16/submission.zip",
+      "rationale": "Different teacher, alpha 0.7; local holdout weaker, exploratory",
+      "members": [
+        {
+          "weights": "weights_0.npz",
+          "coef": 1.0,
+          "source": "c20261002_final_te07_s3@ep3|c20261002_final_te07_s3_gcorrh@ep0"
+        }
+      ],
+      "zip": "artifacts/submission_quota_2026-10-03/2_teacher_TE07.zip",
+      "tar_gz": "artifacts/submission_quota_2026-10-03/2_teacher_TE07.tar.gz",
+      "zip_bytes": 5088977,
+      "tar_bytes": 5089073,
+      "zip_sha256": "7d5296c12d65050d4714c3b0e44df0805c94c51d12b17394555c46fa658e231a",
+      "tar_sha256": "c73d1c44011a3f45a301ce6c1683453b42e86aafc0f3d56ab2c4df2418d7f454",
+      "verification": "CRC and all tar payload bytes match existing ZIP; no model execution"
+    },
+    {
+      "name": "3_precision_q16x_D256",
+      "original": "submissions/c20261002_q16x_D256/submission.zip",
+      "rationale": "Same D256 model with q16x inference; numerical/runtime direction",
+      "members": [
+        {
+          "weights": "weights_0.npz",
+          "coef": 1.0,
+          "source": "c20261001_final_d256_s3@ep3|c20261001_final_d256_s3_gcorrh@ep0"
+        }
+      ],
+      "zip": "artifacts/submission_quota_2026-10-03/3_precision_q16x_D256.zip",
+      "tar_gz": "artifacts/submission_quota_2026-10-03/3_precision_q16x_D256.tar.gz",
+      "zip_bytes": 5167326,
+      "tar_bytes": 5153118,
+      "zip_sha256": "d986e3f22c38dc68670fbd763d9ff73ffd0c5b86dcdcff52bc2213a6db5ff26b",
+      "tar_sha256": "84826e18797db9ac79d6610c67502cc2767426a507f947f98fa08a38d5258750",
+      "verification": "CRC and all tar payload bytes match existing ZIP; no model execution"
+    },
+    {
+      "name": "4_chunk500_ensemble",
+      "original": "submissions/final_k3_ch500/submission.zip",
+      "rationale": "Older full-data three-member ensemble with chunk500 member; no fresh forecast",
+      "members": [
+        {
+          "weights": "weights_0.npz",
+          "coef": 0.3333333,
+          "source": "ab83_final_ema6_s3_gclp"
+        },
+        {
+          "weights": "weights_1.npz",
+          "coef": 0.3333333,
+          "source": "ab83_final_ema6_s4_gclp"
+        },
+        {
+          "weights": "weights_2.npz",
+          "coef": 0.3333334,
+          "source": "ab84_final_ch500_s5_gclp"
+        }
+      ],
+      "zip": "artifacts/submission_quota_2026-10-03/4_chunk500_ensemble.zip",
+      "tar_gz": "artifacts/submission_quota_2026-10-03/4_chunk500_ensemble.tar.gz",
+      "zip_bytes": 3707139,
+      "tar_bytes": 3707700,
+      "zip_sha256": "c0d15fa2966b52591615d075431466fe1107479d336f7f194fd21968eedd6e21",
+      "tar_sha256": "b476d5fbc58f4b896f1bd018c1cea7621f10572f375858786979b7466c558587",
+      "verification": "CRC and all tar payload bytes match existing ZIP; no model execution"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+Executed tiny in-memory schema/adversarial tests:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 /usr/bin/time -v .venv/bin/python -B research/campaign_2026-10-03/continuation/round5/mechanism_instrument_v2/tests.py
+
+FUTURE ONLY after controller authorization + independent approval; NOT EXECUTED:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B research/campaign_2026-10-03/continuation/round5/mechanism_instrument_v2/analyze.py --pre APPROVED/pre.pt --components APPROVED/components.pt --accepted-binding INDEPENDENT_APPROVAL.json --output research/campaign_2026-10-03/continuation/round5/mechanism_instrument_v2/uncertified_descriptive.json
+
+Required independent binding:
+independent_capture_v4_accepted=true, capture_schema_version=4, controller_analysis_authorized=true;
+sha256 exact pre/components/post(if used); canonical_optimizer_id_names independently source-derived.
+Without post the output is UNCERTIFIED component self-gradients only, NOT actual-update decomposition.
+
+--post APPROVED/post.pt additionally requires post_update_binding:
+independently_accepted=true, optimizer_update_executed=true, parameter_participation complete boolean name map.
+Exact post hash must be independently approved in sha256. Pre/post attempt and skip clocks must agree.
+
+--scientific-update fails absent --post AND independent decomposition_policy:
+operation=separate_scaled_component_autograd_sum_vs_unscaled_total_preclip;
+independently_accepted=true; bound_origin=independent_operation_validation;
+max_abs_bound finite nonnegative; capture_sha256 exact selected hashes;
+context EXACT source/backend_precision/graph_reduction/loss_coefficients/scale_unscale_stage/tensor_identity
+matching independently_accepted_decomposition_context;
+independent_review_receipt_sha256 from independent acceptance.
+Never generate such an approval from default six repeats, a desired component difference or these toy controls.
+No actual acceptance/bound JSON is provided. Actual science remains blocked.

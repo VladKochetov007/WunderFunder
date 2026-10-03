@@ -59,6 +59,93 @@ pub fn gelu_sigmoid(x: f32) -> f32 {
     x * sigmoid_fast(1.702 * x)
 }
 
+/// AVX2 twins of the functions above: the same IEEE operations in the same order on eight lanes
+/// (no FMA contraction), so every lane returns exactly the scalar function's bits. The loops
+/// they replace were left scalar by LLVM inside the step.
+#[cfg(target_arch = "x86_64")]
+pub mod avx2 {
+    use std::arch::x86_64::*;
+
+    #[target_feature(enable = "avx2,fma")]
+    #[inline]
+    fn exp8(x: __m256) -> __m256 {
+        const LN2: f32 = std::f32::consts::LN_2;
+        let s = _mm256_set1_ps;
+        // f32::clamp: NaN passes through (max/min return their second operand on NaN).
+        let x = _mm256_min_ps(s(40.0), _mm256_max_ps(s(-40.0), x));
+        let t = _mm256_div_ps(x, s(LN2));
+        // f32::round (half away from zero) as trunc(t + copysign(0.5 - 2^-25, t)), LLVM's own
+        // expansion of llvm.round on x86: the same value for every input.
+        let sign = _mm256_and_ps(t, s(-0.0));
+        let half = _mm256_or_ps(s(f32::from_bits(0x3eff_ffff)), sign);
+        let n = _mm256_round_ps::<{ _MM_FROUND_TO_ZERO | _MM_FROUND_NO_EXC }>(_mm256_add_ps(t, half));
+        let r = _mm256_sub_ps(x, _mm256_mul_ps(n, s(LN2)));
+        let mut p = s(1.0 / 5040.0);
+        for c in [1.0 / 720.0, 1.0 / 120.0, 1.0 / 24.0, 1.0 / 6.0, 0.5, 1.0, 1.0] {
+            p = _mm256_add_ps(s(c), _mm256_mul_ps(r, p));
+        }
+        let pow2 = _mm256_slli_epi32::<23>(_mm256_add_epi32(_mm256_cvttps_epi32(n), _mm256_set1_epi32(127)));
+        _mm256_mul_ps(p, _mm256_castsi256_ps(pow2))
+    }
+
+    #[target_feature(enable = "avx2,fma")]
+    #[inline]
+    pub fn sigmoid8(x: __m256) -> __m256 {
+        let one = _mm256_set1_ps(1.0);
+        let e = exp8(_mm256_xor_ps(x, _mm256_set1_ps(-0.0)));
+        _mm256_div_ps(one, _mm256_add_ps(one, e))
+    }
+
+    #[target_feature(enable = "avx2,fma")]
+    #[inline]
+    pub fn tanh8(x: __m256) -> __m256 {
+        let two = _mm256_set1_ps(2.0);
+        _mm256_sub_ps(_mm256_mul_ps(two, sigmoid8(_mm256_mul_ps(two, x))), _mm256_set1_ps(1.0))
+    }
+
+    #[target_feature(enable = "avx2,fma")]
+    #[inline]
+    fn erf8(x: __m256) -> __m256 {
+        let s = _mm256_set1_ps;
+        let neg = s(-0.0);
+        // signum: copysign(1, x), NaN for NaN.
+        let nan = _mm256_cmp_ps::<_CMP_UNORD_Q>(x, x);
+        let sg = _mm256_blendv_ps(_mm256_or_ps(s(1.0), _mm256_and_ps(x, neg)), s(f32::NAN), nan);
+        let a = _mm256_andnot_ps(neg, x);
+        let t = _mm256_div_ps(s(1.0), _mm256_add_ps(s(1.0), _mm256_mul_ps(s(0.327_591_1), a)));
+        let mut p = s(1.061_405_4);
+        for c in [-1.453_152_1, 1.421_413_8, -0.284_496_74, 0.254_829_6] {
+            p = _mm256_add_ps(s(c), _mm256_mul_ps(t, p));
+        }
+        let poly = _mm256_mul_ps(t, p);
+        let e = exp8(_mm256_mul_ps(_mm256_xor_ps(a, neg), a));
+        _mm256_mul_ps(sg, _mm256_sub_ps(s(1.0), _mm256_mul_ps(poly, e)))
+    }
+
+    #[target_feature(enable = "avx2,fma")]
+    #[inline]
+    pub fn gelu8(x: __m256) -> __m256 {
+        let s = _mm256_set1_ps;
+        let e = erf8(_mm256_mul_ps(x, s(std::f32::consts::FRAC_1_SQRT_2)));
+        _mm256_mul_ps(_mm256_mul_ps(s(0.5), x), _mm256_add_ps(s(1.0), e))
+    }
+
+    /// `v[i] = gelu_fast(v[i])` for every element.
+    #[target_feature(enable = "avx2,fma")]
+    #[inline]
+    pub fn gelu_slice(v: &mut [f32], ahead: &mut crate::half::Ahead) {
+        let mut chunks = v.chunks_exact_mut(8);
+        for c in &mut chunks {
+            ahead.issue(crate::half::AHEAD_LINES);
+            // SAFETY: `c` holds eight floats.
+            unsafe { _mm256_storeu_ps(c.as_mut_ptr(), gelu8(_mm256_loadu_ps(c.as_ptr()))) };
+        }
+        for x in chunks.into_remainder() {
+            *x = super::gelu_fast(*x);
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -93,6 +180,48 @@ mod tests {
         assert_eq!(tanh_fast(-50.0), -1.0);
         assert!((gelu_fast(-8.0)).abs() < 1e-6);
         assert!((gelu_fast(8.0) - 8.0).abs() < 1e-5);
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[test]
+    fn avx2_activations_match_scalar_bitwise() {
+        if !(std::arch::is_x86_feature_detected!("avx2") && std::arch::is_x86_feature_detected!("fma")) {
+            return;
+        }
+        use std::arch::x86_64::*;
+        let mut xs: Vec<f32> = grid().collect();
+        let mut s = 0x9e37_79b9u32;
+        for _ in 0..400_000 {
+            s ^= s << 13;
+            s ^= s >> 17;
+            s ^= s << 5;
+            let x = f32::from_bits(s);
+            if !x.is_nan() {
+                xs.push(x);
+            }
+        }
+        xs.extend([0.0, -0.0, 40.0, -40.0, 41.0, -41.0, 1e30, -1e30, f32::INFINITY, f32::NEG_INFINITY]);
+        xs.extend([f32::MIN_POSITIVE, -f32::MIN_POSITIVE, 1e-40, -1e-40, 0.5 * std::f32::consts::LN_2]);
+        while xs.len() % 8 != 0 {
+            xs.push(0.25);
+        }
+        let funcs: [(fn(f32) -> f32, unsafe fn(__m256) -> __m256); 3] =
+            [(sigmoid_fast, avx2::sigmoid8), (tanh_fast, avx2::tanh8), (gelu_fast, avx2::gelu8)];
+        for (k, (scalar, simd)) in funcs.iter().enumerate() {
+            for c in xs.chunks_exact(8) {
+                let mut out = [0.0f32; 8];
+                unsafe { _mm256_storeu_ps(out.as_mut_ptr(), simd(_mm256_loadu_ps(c.as_ptr()))) };
+                for (x, y) in c.iter().zip(out) {
+                    assert_eq!(y.to_bits(), scalar(*x).to_bits(), "f{k}({x:e})");
+                }
+            }
+        }
+        let mut v = xs.clone();
+        v.truncate(8 * 37 + 5);
+        let want: Vec<f32> = v.iter().map(|x| gelu_fast(*x)).collect();
+        let mut none = crate::half::Ahead::NONE;
+        unsafe { avx2::gelu_slice(&mut v, &mut none) };
+        assert!(v.iter().zip(&want).all(|(a, b)| a.to_bits() == b.to_bits()));
     }
 
     #[test]

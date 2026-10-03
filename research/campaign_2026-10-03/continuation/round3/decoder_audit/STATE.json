@@ -1,0 +1,61 @@
+{
+  "phase": "complete_report_frozen",
+  "role": "round3-hft",
+  "source_read_boundary": "Independent formula commitment preceded implementation inspection; no actor code imported/executed; no hybrid/usage/live source read.",
+  "commands": [
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round3-hft /usr/bin/time -v -o research/campaign_2026-10-03/continuation/round3/decoder_audit/raw_replay_resource.log .venv/bin/python -B -u research/campaign_2026-10-03/continuation/round3/decoder_audit/raw_bound_replay.py",
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round3-hft /usr/bin/time -v -o research/campaign_2026-10-03/continuation/round3/decoder_audit/synthetic_resource.log .venv/bin/python -B -u research/campaign_2026-10-03/continuation/round3/decoder_audit/common_reference_falsifier.py",
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round3-hft .venv/bin/python -B -u research/campaign_2026-10-03/continuation/round3/decoder_audit/summarize_audit.py",
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round3-hft .venv/bin/python -B -u research/campaign_2026-10-03/continuation/round3/decoder_audit/finalize_audit.py"
+  ],
+  "source_inspection": "After PREREG commitment read decoder.py and the sampling/hash regions of evaluate.py plus loser_bound.py. No actor implementation is imported or executed.",
+  "wrapper_stdin_note": "One initial metadata inspection via Python heredoc exited0 with no output because revised wrapper backgrounds its child; it read no data and produced no probe result. All actual tests use standalone files.",
+  "sample_scope": "Reused exposed TRAIN panel of12 supplied components and all1393 frozen origins; no independence claim for data/table.",
+  "pending": [],
+  "last_failure": null,
+  "inspected_group_ids": [
+    1131,
+    8488,
+    10038,
+    4094,
+    8497,
+    6489,
+    7758,
+    6457,
+    1473,
+    1765,
+    5635,
+    8477
+  ],
+  "inspected_seq_ids": [
+    239686751,
+    1734866141,
+    2040244411,
+    836756439,
+    1736263665,
+    1333389311,
+    1589015502,
+    1326024571,
+    310399649,
+    370750816,
+    1159057298,
+    1732301769
+  ],
+  "cost_raw": {
+    "wall_seconds": 1.5579359920084244,
+    "cpu_seconds": 1.8824739999999998,
+    "max_rss_kib": 1110088
+  },
+  "cost_synthetic": {
+    "wall_seconds": 0.05958608600485604,
+    "cpu_seconds": 0.161568,
+    "max_rss_kib": 39296
+  },
+  "figures_inspected": [
+    "audit_coverage_and_gauge.png"
+  ],
+  "output_origin_count": 1393,
+  "mapped_outside_violations": 417,
+  "outside_unknown": 28,
+  "table_dependence": "Frozen round2 TRAIN-supervised spread/class table; no refitting or physical identification."
+}

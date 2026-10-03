@@ -1,0 +1,765 @@
+{
+  "phase": "complete_report_frozen",
+  "role": "eda-statphys",
+  "commands": [
+    "run_cpu.sh eda-statphys env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B prepare_continuation.py: exit 0",
+    "run_cpu.sh eda-statphys env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B continuation_probe.py: admission exit 75; preserved ADMISSION_FAILURE.txt",
+    "same continuation_probe.py bounded command retried under explicit controller authorization",
+    "continuation_hazard_control.py: completed H3",
+    "continuation_figures.py: completed plots/provenance",
+    "continuation_hazard_control.py: completed H3",
+    "continuation_figures.py: completed plots/provenance",
+    "ruff format/check passed",
+    "marimo export html completed",
+    "finalize_continuation.py completed REPORT/provenance",
+    "ruff format/check passed",
+    "marimo export html completed",
+    "finalize_continuation.py completed REPORT/provenance"
+  ],
+  "artifacts": [
+    "ADMISSION_FAILURE.txt",
+    "ARTIFACT_PROVENANCE.json",
+    "HYPOTHESES.json",
+    "HYPOTHESES_FOLLOWUP.json",
+    "RECOVERY_SUMMARY.txt",
+    "REPORT.txt",
+    "VERIFICATION_FAILURES.txt",
+    "causal_features.py",
+    "common.py",
+    "continuation_coefficients.npz",
+    "continuation_example.npz",
+    "continuation_figures.log",
+    "continuation_figures.py",
+    "continuation_final_verification.log",
+    "continuation_finalize.log",
+    "continuation_hazard_control.json",
+    "continuation_hazard_control.log",
+    "continuation_hazard_control.py",
+    "continuation_hazard_control_moments.npz",
+    "continuation_lint.log",
+    "continuation_moments.npz",
+    "continuation_notebook.log",
+    "continuation_prepare.log",
+    "continuation_probe.log",
+    "continuation_probe.py",
+    "continuation_results.json",
+    "continuation_samples.json",
+    "data/acf_sumdiff.npz",
+    "data/acf_targets.npz",
+    "data/census_train.npy",
+    "data/census_valid.npy",
+    "data/clock_sample.parquet",
+    "data/dacf.npz",
+    "data/kernel.npz",
+    "data/waits.npy",
+    "eda_statphys.html",
+    "eda_statphys.py",
+    "f03_look_rg4178.png",
+    "f03_look_rg6698.png",
+    "f05_colfun_rg4178.png",
+    "f06_dacf.png",
+    "f13_look_rg5522_0_20000.png",
+    "f13_look_rg5522_5000_5600.png",
+    "f24_causal_memory_controls.png",
+    "f25_conditional_age_controls.png",
+    "finalize_continuation.py",
+    "prepare_continuation.py",
+    "s01_targets.py",
+    "s02_diffcorr.py",
+    "s03_look.py",
+    "s04_ladder.py",
+    "s05_colfun.py",
+    "s06_dacf.py",
+    "s07_zoom.py",
+    "s08_horizon.py",
+    "s09_census.py",
+    "s10_sumdiff.py",
+    "s11_joint.py",
+    "s12_sumstate.py",
+    "s13_look2.py",
+    "s14_marginal.py",
+    "s15_scored.py",
+    "s16_scored_auc.py",
+    "s17_clock.py",
+    "s18_eventh.py",
+    "s19_eventseq.py",
+    "s20_movedetector.py",
+    "s21_drift.py",
+    "s22_kernel.py",
+    "s23_physfeat.py"
+  ],
+  "inspected_sequence_ids": {
+    "prior_target_census": "ALL train and valid sequences",
+    "prior_direct_figures_train_row_groups": [
+      4178,
+      6698,
+      5522
+    ],
+    "prior_feature_samples": "Deterministically reconstruct from own scripts; uncertain execution treated as possible exposure",
+    "continuation_frozen_samples": {
+      "train": [
+        {
+          "row_group": 3480,
+          "seq_ix": 712233304,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 8679,
+          "seq_ix": 1773367210,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 3720,
+          "seq_ix": 761657556,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 6386,
+          "seq_ix": 1311810764,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 4483,
+          "seq_ix": 916674611,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 8980,
+          "seq_ix": 1836977408,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 343,
+          "seq_ix": 73910106,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 9903,
+          "seq_ix": 2009375942,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 4524,
+          "seq_ix": 923278815,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 2590,
+          "seq_ix": 536327998,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 9367,
+          "seq_ix": 1910636263,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 6315,
+          "seq_ix": 1297274007,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 4718,
+          "seq_ix": 963573103,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 6263,
+          "seq_ix": 1285962169,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 4034,
+          "seq_ix": 826177899,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 5604,
+          "seq_ix": 1152601095,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 8873,
+          "seq_ix": 1815621299,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 6376,
+          "seq_ix": 1309317599,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 7032,
+          "seq_ix": 1438136227,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 10117,
+          "seq_ix": 2057447100,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 6801,
+          "seq_ix": 1392377022,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 975,
+          "seq_ix": 204373213,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1130,
+          "seq_ix": 239410419,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 5452,
+          "seq_ix": 1117837287,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 6926,
+          "seq_ix": 1418925742,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 3134,
+          "seq_ix": 644918871,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 4123,
+          "seq_ix": 843430051,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 5912,
+          "seq_ix": 1220317905,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 3009,
+          "seq_ix": 617927057,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1971,
+          "seq_ix": 412565957,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 2929,
+          "seq_ix": 601691483,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1640,
+          "seq_ix": 342915884,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 10431,
+          "seq_ix": 2113936194,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 10429,
+          "seq_ix": 2113709467,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 2932,
+          "seq_ix": 602079353,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 5985,
+          "seq_ix": 1232982683,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 7549,
+          "seq_ix": 1547195377,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 6782,
+          "seq_ix": 1388698752,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 170,
+          "seq_ix": 37326338,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 5005,
+          "seq_ix": 1026493930,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 100,
+          "seq_ix": 20948129,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 10563,
+          "seq_ix": 2138907376,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 4304,
+          "seq_ix": 883123752,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 4285,
+          "seq_ix": 879450946,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1638,
+          "seq_ix": 342376339,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 8544,
+          "seq_ix": 1747541055,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 198,
+          "seq_ix": 43559245,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 8481,
+          "seq_ix": 1733578274,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        }
+      ],
+      "valid": [
+        {
+          "row_group": 1528,
+          "seq_ix": 1756198089,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 765,
+          "seq_ix": 890000471,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 43,
+          "seq_ix": 49091570,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 928,
+          "seq_ix": 1063229236,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1564,
+          "seq_ix": 1788420529,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1427,
+          "seq_ix": 1635435570,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1610,
+          "seq_ix": 1846598804,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 732,
+          "seq_ix": 835879814,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1386,
+          "seq_ix": 1592164098,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 319,
+          "seq_ix": 343676457,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1285,
+          "seq_ix": 1495217701,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 900,
+          "seq_ix": 1038812905,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 924,
+          "seq_ix": 1060963979,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1226,
+          "seq_ix": 1422436355,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 886,
+          "seq_ix": 1018434168,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1001,
+          "seq_ix": 1152353357,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 692,
+          "seq_ix": 795905248,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1016,
+          "seq_ix": 1173361587,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 960,
+          "seq_ix": 1096620482,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 858,
+          "seq_ix": 988350127,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1601,
+          "seq_ix": 1836242344,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 355,
+          "seq_ix": 387788932,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 908,
+          "seq_ix": 1045142897,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 838,
+          "seq_ix": 968382425,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 225,
+          "seq_ix": 227503438,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 47,
+          "seq_ix": 49500945,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 392,
+          "seq_ix": 426454545,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1058,
+          "seq_ix": 1222076865,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1614,
+          "seq_ix": 1848709499,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 592,
+          "seq_ix": 682672603,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 826,
+          "seq_ix": 955568371,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        },
+        {
+          "row_group": 1414,
+          "seq_ix": 1619894229,
+          "prior_target_census_exposure": true,
+          "reconstructed_prior_feature_exposure": false
+        }
+      ]
+    }
+  },
+  "pending_work": [],
+  "last_failure": null,
+  "restrictions": "own EDA writes only; wrapper for all compute; no GPU, installs, agents, baseline or others' findings",
+  "measured": {
+    "models": [
+      "current",
+      "current_instant_clock",
+      "event_memory",
+      "row_memory",
+      "delayed_event_memory"
+    ],
+    "scores": {
+      "current": 0.5473889614744101,
+      "current_instant_clock": 0.5491349815784794,
+      "event_memory": 0.5652437479541572,
+      "row_memory": 0.5642667467724409,
+      "delayed_event_memory": 0.5434189342731228
+    },
+    "target_correlations": {
+      "current": [
+        0.5059118470009933,
+        0.5888660759478268
+      ],
+      "current_instant_clock": [
+        0.5064867673297085,
+        0.5917831958272504
+      ],
+      "event_memory": [
+        0.5172623745104985,
+        0.6132251213978158
+      ],
+      "row_memory": [
+        0.5201501022752459,
+        0.6083833912696359
+      ],
+      "delayed_event_memory": [
+        0.5015884656833491,
+        0.5852494028628964
+      ]
+    },
+    "deltas": {
+      "current_instant_clock": {
+        "event_minus_control": 0.01610876637567782,
+        "sequence_bootstrap_95": [
+          0.005468856937343123,
+          0.02637505192029064
+        ]
+      },
+      "delayed_event_memory": {
+        "event_minus_control": 0.021824813681034394,
+        "sequence_bootstrap_95": [
+          0.01039040485646647,
+          0.03406507133641095
+        ]
+      },
+      "row_memory": {
+        "event_minus_control": 0.000977001181716286,
+        "sequence_bootstrap_95": [
+          -0.008823681971952263,
+          0.009653170126982968
+        ]
+      }
+    },
+    "hazard": {
+      "real_age": {
+        "old_minus_young": -0.1506806463109882,
+        "young_hazard": 0.21959270381820073,
+        "old_hazard": 0.06891205750721259,
+        "support_weight": 71129.82153483575,
+        "eligible_strata": 404,
+        "sequence_bootstrap_95": [
+          -0.19617869349940317,
+          -0.1121108548988278
+        ]
+      },
+      "delayed_age": {
+        "old_minus_young": -0.00495216419396813,
+        "young_hazard": 0.23732052352731775,
+        "old_hazard": 0.2323683593333497,
+        "support_weight": 84276.97208317097,
+        "eligible_strata": 637,
+        "sequence_bootstrap_95": [
+          -0.009965629170709462,
+          -0.0007586925850843643
+        ]
+      }
+    },
+    "h1_verdict": "supported_local_proxy",
+    "train_rows": 116352,
+    "valid_scored_rows": 48270,
+    "valid_sequence_row_counts": [
+      1112,
+      3327,
+      477,
+      523,
+      3327,
+      553,
+      2954,
+      3154,
+      2009,
+      3731,
+      1629,
+      751,
+      2141,
+      486,
+      2740,
+      659,
+      1139,
+      945,
+      1047,
+      356,
+      1126,
+      523,
+      1021,
+      1791,
+      898,
+      1079,
+      891,
+      1042,
+      2046,
+      1562,
+      417,
+      2814
+    ],
+    "prefix_causality_checks": [
+      "prefix invariance passed: current",
+      "prefix invariance passed: current_instant_clock",
+      "prefix invariance passed: event_memory",
+      "prefix invariance passed: row_memory",
+      "prefix invariance passed: delayed_event_memory"
+    ],
+    "seconds": 11.988306546001695,
+    "peak_rss_mib": 1479.91796875,
+    "hypotheses_sha256": "7a9fb1075cd9166b6ea84393ef822e271217aa89c5677de48899fc4c476cdd89",
+    "limitations": [
+      "no public score forecast",
+      "no raw-row significance",
+      "no inferred target definition",
+      "global WP only on sampled validation rows after common step-611 burn-in",
+      "sequence bootstrap assumes sequence units; campaign components unknown",
+      "current-state ridge is not the campaign baseline",
+      "target census exposure means not an independent dataset confirmation",
+      "512-row delay preserves dimensions/regime, not exact marginal distribution"
+    ]
+  },
+  "followup": {
+    "hypothesis": "H3",
+    "results": {
+      "price_rate_common_support": {
+        "real_old_minus_young": -0.14915145781708897,
+        "stale_old_minus_young": -0.006644466741269755,
+        "real_minus_stale": -0.1425069910758192,
+        "contrast_bootstrap_95": [
+          -0.18914595230800135,
+          -0.10321996231210782
+        ],
+        "support_weight": 64241.60123910456,
+        "common_strata": 333
+      },
+      "plus_a2_a3": {
+        "real_old_minus_young": -0.09981484083460666,
+        "stale_old_minus_young": -0.0036703997148837156,
+        "real_minus_stale": -0.09614444111972294,
+        "contrast_bootstrap_95": [
+          -0.13474261589037417,
+          -0.06645527489577116
+        ],
+        "support_weight": 39019.25365793217,
+        "common_strata": 842
+      }
+    },
+    "verdict": "supported_conditional_age_association",
+    "scope": "same exposed validation sample; next-event labels, not target prediction"
+  },
+  "next_experiment": "flexible stateless control then age x history interactions",
+  "failure_history": [
+    "ADMISSION_FAILURE.txt",
+    "VERIFICATION_FAILURES.txt"
+  ]
+}

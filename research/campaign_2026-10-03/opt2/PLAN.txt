@@ -1,0 +1,133 @@
+OPT2 CONTROLLER PLAN — frozen research arms; NO queue mutation or launch.
+Prerequisite: review trainer.patch, compare SOURCE_HASHES.txt (captured) against
+SOURCE_HASHES_FREEZE.txt (concurrent loader repair), re-check applicability and
+CPU tests. git apply --check passed against live source during this pass; no apply.
+Candidate loader/DataLoader AST equals captured source. Patch records module
+hashes and switch events. Full supported/deferred semantics are in FLAGS.txt.
+
+FIXED PROCEDURE AND RESOURCE ADMISSION (controller only)
+Full schedule: folds 0 and 1, seed3 first, seed4 replication for a promising arm;
+4 epochs, fixed EMA checkpoint3, no evaluation during fit, unchanged distillation
+and row membership. Never use epoch2 screen as a verdict for optimizer changes.
+Controls: same fold/seed/recipe/epoch/schedule; rerun controls if provenance changed.
+Score pooled clipped-target weighted Pearson using campaign frozen scorer; paired
+connected-component uncertainty, both folds; gradients/update diagnostics and
+training losses are mechanisms, not WP. No public-score forecasts from these probes.
+Inherited historical duration ~45 min/run for AdamW; reserve 60-75 min for Muon
+or slower arms. Two-fold contrast ~1.5-2.5 GPU-h excluding fresh controls; each job
+hard timeout4800. Estimates, not measurements here. No training resources launched.
+Controller must use its single GPU-family admission, 8 cores /24GiB, ≤5.5 decimal
+GB VRAM; loader repair and allocator budget must be checked before queueing.
+
+The following are candidate PAYLOADS only, after integration and the GPU parity
+gate. They are never independent launches and were not added to the queue. The
+controller must create one campaign_job GPU job per fold/arm with the existing
+family slice, GPU serialization, observed-device cap and admission barriers.
+Define this helper only INSIDE that admitted job; do not run the loops as a new
+unmonitored shell service:
+run_opt2() {
+  research/campaign_2026-10-03/continuation/run_gpu.sh timeout 4800 \
+    bash research/campaign_2026-10-01/jobs/dcurve_fold.sh "$@"
+}
+Full-schedule same-seed controls:
+for f in 0 1; do run_opt2 "$f" opt2_adam_ctrl 3 --grad-stats; done
+for f in 0 1; do run_opt2 "$f" opt2_muon_ctrl 3 --optim muon --grad-stats; done
+
+Rank 1. Late Muon -> AdamW, --optim muon --optim-switch 0.75:adamw.
+Mechanism: test whether the Muon trajectory is needed early/mid-training while an
+adaptive coordinate tail can refine it; matrices cold-start moments at low lr.
+Signature: pre-switch identical to Muon under grouped switch control; post-switch
+finite transient, renewed training improvement without losing pooled EMA WP.
+Compare Muon full-schedule, AdamW full-schedule AND grouped no-op control
+--optim muon --optim-switch 0.75:muon to expose group-layout/switch plumbing effects.
+Falsifier: two-fold WP no better than Muon, or harmful switch transient. State-reset
+and algorithm effects are coupled, so no claim isolating spectral bias alone.
+Ready:
+for f in 0 1; do run_opt2 "$f" opt2_m2a75 3 --optim muon --optim-switch 0.75:adamw --grad-stats; done
+
+Rank 2. Per-module clipping, --clip-per-module head:1,gru:1,inp:1.
+Mechanism: remove shared global shrinkage imposed by head-dominated norm.
+Signature: small recurrent gradients survive while head cap is active; increased
+trunk update/gradient contribution during early training. This changes total cap.
+Compare original global clip1; no lr/noise change. Falsifier: no trunk effect or
+no two-fold WP improvement. Rough 1.5 GPU-h, little extra compute per step.
+Ready:
+for f in 0 1; do run_opt2 "$f" opt2_modclip 3 --clip-per-module head:1,gru:1,inp:1 --grad-stats; done
+
+Rank 3. Head/trunk step separation, --head-lr-mult 0.5.
+Mechanism: slower fast head relative to trunk; gradient norm dominance alone does
+not establish too-large head parameter updates (Adam normalizes coordinates).
+Signature: smaller head updates, increased trunk/head update ratio; learning loss
+can initially be higher. Compare head multiplier1 with same schedule and clip.
+Falsifier: only slower fitting or lower two-fold WP. Rough 1.5 GPU-h.
+Ready:
+for f in 0 1; do run_opt2 "$f" opt2_head05 3 --head-lr-mult 0.5 --grad-stats; done
+
+Rank 4. Warmup-only mechanism, --warmup-frac 0.01 (vs .05).
+Signature: shorter clipping-heavy initial phase without extra AMP skips; OneCycle
+lr integral changes, so this is not equal-integral control. Falsifier: worse early
+fit, skip bursts or no final WP gain. Rough 1.5 GPU-h.
+for f in 0 1; do run_opt2 "$f" opt2_warm01 3 --warmup-frac 0.01 --grad-stats; done
+
+Rank 5. Reverse optimizer switch, --optim-switch 0.5:muon (initial AdamW).
+Mechanism/signature: Adam warmup then more uniform recurrent singular-direction
+updates. Compare full Adam, full Muon and no-op grouped switch .5:adamw. Negative:
+late spectral updates cannot recover useful representation in the remaining time.
+for f in 0 1; do run_opt2 "$f" opt2_a2m50 3 --optim-switch 0.5:muon --grad-stats; done
+
+Rank 6. SGDR, --sched sgdr --restarts 1 --warmup-frac .05.
+Mechanism: reheat lr at midpoint without resetting moments; two cosine cycles.
+Signature: temporary loss rise after restart and useful second descent, endpoint
+at floor. Compare OneCycle and --sched sgdr --restarts 0; different lr integrals
+and beta1 policy confound a pure restart interpretation. Rough 1.5 GPU-h per pair.
+for f in 0 1; do run_opt2 "$f" opt2_sgdr1 3 --sched sgdr --restarts 1 --warmup-frac 0.05 --grad-stats; done
+
+Rank 7. Gradient noise, --grad-noise 1e-7.
+Mechanism: tiny per-coordinate annealed Gaussian perturbations before clipping.
+Signature: larger early norms/clip rate; if useful, preserved fit and improved WP.
+Negative: clipped noise swamps useful gradients; do not transplant paper ETA=.01
+without calibrating dimension-dependent noise norm. Match ETA=0 seed and data.
+for f in 0 1; do run_opt2 "$f" opt2_gnoise7 3 --grad-noise 1e-7 --grad-stats; done
+
+Rank 8. Opposite data-order seed bag, --batch-order seeded --antithetic.
+Mechanism: counterbalance order effects with SAME initialization seed. Signature:
+less correlated prediction errors; needs actual error covariance and equal-cost
+ordinary two-seed bag control. Reverse order alone is no theorem for nonlinear SGD.
+Drop_last different tails must be included in fit-membership diagnostics.
+Normalization uses the identical non-reversed epoch-1 permutation in both arms;
+require matching normalization_identity hashes before evaluating error covariance.
+for f in 0 1; do run_opt2 "$f" opt2_seeded 3 --batch-order seeded; run_opt2 "$f" opt2_anti 3 --batch-order seeded --antithetic; done
+
+Rank 9. QMC initialization, --init-qmc.
+Mechanism: equal default scalar uniform marginal via scrambled Sobol; row point /
+column coordinate mapping changes joint correlations and initial spectrum.
+Signature: stable spectra and fitting across seeds; synthetic QMC fit is WORSE
+than iid (0.15669 vs0.08200 heldout MSE), so no efficacy claim or launch priority.
+Only reconsider after multi-seed small spectra/fit controls, then compare iid same
+seed. Non-power-of-two rows truncate a net and weaken exact balance guarantees.
+for f in 0 1; do run_opt2 "$f" opt2_qmcinit 3 --init-qmc; done
+
+Deferred QMC batch arm: tested helper only, --batch-order qmc explicitly rejects.
+Mechanism: training-input market class x activity-tercile quotas reduce between-
+stratum gradient variation. Sobol tie order is secondary. Needs streaming input
+metadata integration with repeated training membership, target-free cut fitting,
+metadata hashes, equal random vs stratified-only vs Sobol-tie controls. No honest
+ready full-training line yet; do not enqueue a known rejected flag.
+Deferred exact zoneout: no full-training line; fused GRU timestep states unavailable.
+
+Theory verdict: QMC integration can help smooth low-effective-dimension functions;
+we do not integrate a fixed smooth function when permuting discrete SGD sequences.
+Stratification helps when input strata explain gradients; residual-only probe was
+slightly worse. Antithetic pairing helps only with negative response covariance.
+Sobol marginal correctness says nothing about matrix spectrum. Sources actually
+read are recorded with sections and URLs in REPORT.txt; no secondary-source claims.
+
+CPU REPRODUCTION (no GPU access)
+bash research/campaign_2026-10-03/opt2/run_probe.sh
+research/campaign_2026-10-03/continuation/run_cpu.sh opt2-builder env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/opt2/sampling_probe.py
+research/campaign_2026-10-03/continuation/run_cpu.sh opt2-builder env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q -o cache_dir=research/campaign_2026-10-03/opt2/.pytest_cache --basetemp=research/campaign_2026-10-03/opt2/repro_tmp research/campaign_2026-10-03/opt2/test_training_dynamics.py research/campaign_2026-10-03/opt2/test_patch.py tests/test_optim.py tests/test_tcn.py tests/test_twoclock.py tests/test_fixed_checkpoints.py
+Recreate unapplied diff from captured baseline only:
+research/campaign_2026-10-03/continuation/run_cpu.sh opt2-builder env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/opt2/make_patch.py
+Candidate is stored under opt2 for review/import/CLI tests. Its __file__-relative
+ROOT is not the repository ROOT, so do not launch it as a real-data trainer;
+controller integration must use the patch on scripts/train_rnn.py.

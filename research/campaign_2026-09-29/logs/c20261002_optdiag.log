@@ -1,0 +1,24 @@
+fold 0: 160/468 sequences, 45 s
+fold 0: 320/468 sequences, 92 s
+fold 0: 468 sequences, 12 models, 143 s
+fold 1: 160/457 sequences, 191 s
+fold 1: 320/457 sequences, 240 s
+fold 1: 457 sequences, 12 models, 287 s
+GRU256_a05@ep1     - GRU256_a05@ep0     +0.00721 sd 0.00068
+GRU256_a05@ep2     - GRU256_a05@ep1     +0.00226 sd 0.00047
+GRU256_a05@ep3     - GRU256_a05@ep2     +0.00042 sd 0.00040
+GRU256_a07@ep1     - GRU256_a07@ep0     +0.00718 sd 0.00072
+GRU256_a07@ep2     - GRU256_a07@ep1     +0.00188 sd 0.00036
+GRU256_a07@ep3     - GRU256_a07@ep2     +0.00056 sd 0.00026
+LSTM192_a05@ep1    - LSTM192_a05@ep0    +0.00857 sd 0.00077
+LSTM192_a05@ep2    - LSTM192_a05@ep1    +0.00208 sd 0.00064
+LSTM192_a05@ep3    - LSTM192_a05@ep2    +0.00078 sd 0.00029
+GRU256_a07@ep3     - GRU256_a05@ep3     +0.00050 sd 0.00065
+LSTM192_a05@ep3    - GRU256_a05@ep3     -0.00112 sd 0.00079
+OPT_DIAG parity {"steps": 30, "losses_equal": true, "weights_equal": true, "ema_equal": true, "max_abs_weight_diff": 0.0}
+GRAD_STATS {"epoch": 0, "steps": 100, "nonfinite_steps": 0, "clip": 1.0, "total_q05_q50_q95": [0.36227, 0.53186, 0.85583], "clip_rate": 0.03, "mean_clip_factor": 0.9961, "family_median": {"rnn_hh": 0.03837, "rnn_ih": 0.06955, "inp": 0.13478, "head": 0.50463, "bias": 0.04611}, "family_sq_share_mean": {"rnn_hh": 0.0057, "rnn_ih": 0.0184, "inp": 0.0671, "head": 0.9008, "bias": 0.008}}
+GRAD_STATS {"epoch": 0, "steps": 400, "nonfinite_steps": 2, "clip": 1.0, "total_q05_q50_q95": [0.69602, 2.54422, 5.31672], "clip_rate": 0.8744, "mean_clip_factor": 0.4796, "family_median": {"rnn_hh": 0.14895, "rnn_ih": 0.21886, "inp": 0.32348, "head": 2.49514, "bias": 0.25917}, "family_sq_share_mean": {"rnn_hh": 0.0054, "rnn_ih": 0.0145, "inp": 0.037, "head": 0.9056, "bias": 0.0374}}
+GRAD_STATS {"epoch": 0, "steps": 400, "nonfinite_steps": 1, "clip": 1.0, "total_q05_q50_q95": [0.62202, 1.85705, 4.0125], "clip_rate": 0.782, "mean_clip_factor": 0.6049, "family_median": {"rnn_hh": 0.15012, "rnn_ih": 0.37516, "inp": 0.28878, "head": 1.75004, "bias": 0.22802}, "family_sq_share_mean": {"rnn_hh": 0.0065, "rnn_ih": 0.0441, "inp": 0.0544, "head": 0.8448, "bias": 0.0501}}
+GRAD_STATS {"epoch": 0, "steps": 400, "nonfinite_steps": 1, "clip": 1.0, "total_q05_q50_q95": [0.67375, 2.61168, 5.88037], "clip_rate": 0.8571, "mean_clip_factor": 0.4729, "family_median": {"rnn_hh": 0.04345, "rnn_ih": 0.09278, "inp": 0.26991, "head": 2.59116, "bias": 0.25744}, "family_sq_share_mean": {"rnn_hh": 0.0011, "rnn_ih": 0.0031, "inp": 0.031, "head": 0.9244, "bias": 0.0404}}
+OPT_DIAG smoke {"adamw": {"steps": 400, "mean_loss_0_100": 2.3374872505664825, "mean_loss_300_400": 1.2894429898262023, "paired_diff_200_400": 0.0, "paired_diff_sd_of_mean_iid": 0.0}, "muon": {"steps": 400, "mean_loss_0_100": 2.439299226999283, "mean_loss_300_400": 1.2954337406158447, "paired_diff_200_400": 0.0006183534860610962, "paired_diff_sd_of_mean_iid": 0.0015424871700794747}, "chrono": {"steps": 400, "mean_loss_0_100": 2.380035594701767, "mean_loss_300_400": 1.342498196363449, "paired_diff_200_400": 0.0478823059797287, "paired_diff_sd_of_mean_iid": 0.001944564174831151}}
+OPT_DIAG_DONE

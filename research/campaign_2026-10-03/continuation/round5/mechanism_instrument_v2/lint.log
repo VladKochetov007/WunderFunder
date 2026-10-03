@@ -1,0 +1,91 @@
+SIM102 Use a single `if` statement instead of nested `if` statements
+   --> research/campaign_2026-10-03/continuation/round5/mechanism_instrument_v2/analyze.py:297:9
+    |
+295 |           family = "muon" if group.get("muon", False) else "adam"
+296 |           gradients = [components["component_gradients"][t][name] for t in TERMS]
+297 | /         if participation is not None:
+298 | |             if participation[name] != any(g is not None for g in gradients):
+    | |____________________________________________________________________________^
+299 |                   raise ValueError("Component and executed update participation differ")
+300 |           x = np.stack(
+    |
+help: Combine `if` statements using `and`
+
+B023 Function definition does not bind loop variable `changed`
+   --> research/campaign_2026-10-03/continuation/round5/mechanism_instrument_v2/tests.py:122:54
+    |
+120 |         changed = copy.deepcopy(pre)
+121 |         changed["version"] = version
+122 |         reject(f"version{version}", lambda: geometry(changed, components, canonical))
+    |                                                      ^^^^^^^
+123 |     reject(
+124 |         "missing_bound",
+    |
+
+B023 Function definition does not bind loop variable `changed`
+   --> research/campaign_2026-10-03/continuation/round5/mechanism_instrument_v2/tests.py:144:65
+    |
+142 |         changed = copy.deepcopy(binding)
+143 |         changed["decomposition_policy"]["max_abs_bound"] = value
+144 |         reject(f"invalid_bound_{value}", lambda: accepted_bound(changed, hashes))
+    |                                                                 ^^^^^^^
+145 |     policy_changes = {
+146 |         "default_operation": ("operation", "six_default_repeats"),
+    |
+
+B023 Function definition does not bind loop variable `changed`
+   --> research/campaign_2026-10-03/continuation/round5/mechanism_instrument_v2/tests.py:156:46
+    |
+154 |         changed = copy.deepcopy(binding)
+155 |         changed["decomposition_policy"][key] = value
+156 |         reject(label, lambda: accepted_bound(changed, hashes))
+    |                                              ^^^^^^^
+157 |     for field in ["preclip", "clipped", "parameter_delta"]:
+158 |         changed = copy.deepcopy(post)
+    |
+
+B023 Function definition does not bind loop variable `changed`
+   --> research/campaign_2026-10-03/continuation/round5/mechanism_instrument_v2/tests.py:162:58
+    |
+160 |         reject(
+161 |             f"nonfinite_{field}",
+162 |             lambda: geometry(pre, components, canonical, changed, binding, hashes, True),
+    |                                                          ^^^^^^^
+163 |         )
+164 |     for label in [
+    |
+
+B023 Function definition does not bind loop variable `changed`
+   --> research/campaign_2026-10-03/continuation/round5/mechanism_instrument_v2/tests.py:185:68
+    |
+183 |         else:
+184 |             changed["preclip"]["inp.weight"][0] += 0.001
+185 |         reject(label, lambda: geometry(pre, components, canonical, changed, binding, hashes, True))
+    |                                                                    ^^^^^^^
+186 |     for label in [
+187 |         "nonfinite_gradient",
+    |
+
+B023 Function definition does not bind loop variable `changed`
+   --> research/campaign_2026-10-03/continuation/round5/mechanism_instrument_v2/tests.py:201:45
+    |
+199 |         else:
+200 |             changed["component_gradients"]["main"]["head.2.weight"] = torch.zeros(2)
+201 |         reject(label, lambda: geometry(pre, changed, canonical, post, binding, hashes, True))
+    |                                             ^^^^^^^
+202 |     for label in ["nonfinite_pre", "nonfinite_hidden", "missing_moment", "swapped_names"]:
+203 |         changed = copy.deepcopy(pre)
+    |
+
+B023 Function definition does not bind loop variable `changed`
+   --> research/campaign_2026-10-03/continuation/round5/mechanism_instrument_v2/tests.py:212:40
+    |
+210 |         else:
+211 |             changed["optimizer_names"][0].reverse()
+212 |         reject(label, lambda: geometry(changed, components, canonical))
+    |                                        ^^^^^^^
+213 |     reject(
+214 |         "unknown_participation",
+    |
+
+Found 8 errors.

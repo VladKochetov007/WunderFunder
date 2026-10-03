@@ -1,0 +1,67 @@
+B023 Function definition does not bind loop variable `bad`
+   --> research/campaign_2026-10-03/continuation/round6/state_drift_v2/controls.py:166:85
+    |
+164 |     for value, label in [(float("nan"), "nan"), (float("inf"), "posinf"), (-float("inf"), "neginf")]:
+165 |         bad = torch.tensor([value])
+166 |         checks[label + "_prediction_rejected"] = rejects(lambda: observable({"out": bad}, "prediction"))
+    |                                                                                     ^^^
+167 |         checks[label + "_rms_rejected"] = rejects(lambda: rms(bad))
+168 |         checks[label + "_metrics_rejected"] = rejects(lambda: finite_metrics({"nested": [{"v": value}]}))
+    |
+
+B023 Function definition does not bind loop variable `bad`
+   --> research/campaign_2026-10-03/continuation/round6/state_drift_v2/controls.py:167:63
+    |
+165 |         bad = torch.tensor([value])
+166 |         checks[label + "_prediction_rejected"] = rejects(lambda: observable({"out": bad}, "prediction"))
+167 |         checks[label + "_rms_rejected"] = rejects(lambda: rms(bad))
+    |                                                               ^^^
+168 |         checks[label + "_metrics_rejected"] = rejects(lambda: finite_metrics({"nested": [{"v": value}]}))
+169 |         checks[label + "_gradient_update_rejected"] = rejects(lambda: vector({"parameter": bad}))
+    |
+
+B023 Function definition does not bind loop variable `value`
+   --> research/campaign_2026-10-03/continuation/round6/state_drift_v2/controls.py:168:96
+    |
+166 |         checks[label + "_prediction_rejected"] = rejects(lambda: observable({"out": bad}, "prediction"))
+167 |         checks[label + "_rms_rejected"] = rejects(lambda: rms(bad))
+168 |         checks[label + "_metrics_rejected"] = rejects(lambda: finite_metrics({"nested": [{"v": value}]}))
+    |                                                                                                ^^^^^
+169 |         checks[label + "_gradient_update_rejected"] = rejects(lambda: vector({"parameter": bad}))
+170 |         checks[label + "_reference_hidden_rejected"] = rejects(lambda: finite_tensor(bad, "reference_h"))
+    |
+
+B023 Function definition does not bind loop variable `bad`
+   --> research/campaign_2026-10-03/continuation/round6/state_drift_v2/controls.py:169:92
+    |
+167 |         checks[label + "_rms_rejected"] = rejects(lambda: rms(bad))
+168 |         checks[label + "_metrics_rejected"] = rejects(lambda: finite_metrics({"nested": [{"v": value}]}))
+169 |         checks[label + "_gradient_update_rejected"] = rejects(lambda: vector({"parameter": bad}))
+    |                                                                                            ^^^
+170 |         checks[label + "_reference_hidden_rejected"] = rejects(lambda: finite_tensor(bad, "reference_h"))
+171 |         for field in ("h", "h_ema"):
+    |
+
+B023 Function definition does not bind loop variable `bad`
+   --> research/campaign_2026-10-03/continuation/round6/state_drift_v2/controls.py:170:86
+    |
+168 |         checks[label + "_metrics_rejected"] = rejects(lambda: finite_metrics({"nested": [{"v": value}]}))
+169 |         checks[label + "_gradient_update_rejected"] = rejects(lambda: vector({"parameter": bad}))
+170 |         checks[label + "_reference_hidden_rejected"] = rejects(lambda: finite_tensor(bad, "reference_h"))
+    |                                                                                      ^^^
+171 |         for field in ("h", "h_ema"):
+172 |             damaged = {**stale, field: torch.full_like(stale[field], value)}
+    |
+
+B023 Function definition does not bind loop variable `damaged`
+   --> research/campaign_2026-10-03/continuation/round6/state_drift_v2/controls.py:173:92
+    |
+171 |         for field in ("h", "h_ema"):
+172 |             damaged = {**stale, field: torch.full_like(stale[field], value)}
+173 |             checks[label + "_stale_" + field + "_rejected"] = rejects(lambda: prefix_state(damaged))
+    |                                                                                            ^^^^^^^
+174 |     checks["overflow_metric_rejected"] = rejects(lambda: rms(torch.tensor([1e308], dtype=torch.float64)))
+175 |     checks["empty_rms_rejected"] = rejects(lambda: rms(torch.empty(0)))
+    |
+
+Found 9 errors (3 fixed, 6 remaining).

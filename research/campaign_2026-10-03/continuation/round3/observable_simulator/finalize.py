@@ -1,0 +1,223 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import matplotlib
+import numpy as np
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+OWN = Path(__file__).resolve().parent
+
+
+def main() -> None:
+    """Materialize measured report and inspectable figure; do not refit."""
+    result = json.loads((OWN / "results.json").read_text())
+    aggregates = result["aggregates"]
+    table = []
+    for name, aggregate in aggregates.items():
+        mse = aggregate["arm_mean_mse"]
+        c = aggregate["comparisons"]["row"]
+        table.append(
+            f"{name:25} {mse['row']:8.4f} {mse['reset']:8.4f} {mse['history']:8.4f} {100 * c['mean_relative_improvement']:+8.2f}% {c['positive_replications']}/4"
+        )
+    nominal = aggregates["nominal/nominal"]
+    cost = result["cost"]
+    correlations = [
+        r["factor_probe_correlation"]
+        for r in result["records"]
+        if r["world"] == "nominal" and r["domain"] == "nominal"
+    ]
+    counts = {}
+    for r in result["records"]:
+        key = f"{r['world']}/{r['domain']}"
+        counts.setdefault(key, [0, 0])
+        counts[key][0] += r["test_barrier_hits"]
+        counts[key][1] += r["test_forced_cap_exits"]
+    report = f"""OBSERVABLE SIMULATOR — CONDITIONAL CONSTRUCTIVE RESULT, TRANSPORT FAILURE
+
+Frozen efficacy gate: {result["nominal_efficacy_gate"]}; frozen negative-control gate:
+{result["negative_controls_gate"]}. A causal history state helps in ONE simulated
+observable persistent-factor regime, but loses under BOTH declared nuisance
+shifts. This is not evidence for the real generator, target-coordinate physics,
+a new dual-clock mechanism, GPU work or a public-score improvement. Independent
+review is pending; do not promote this toy from self-verification.
+
+EXACT QUESTION / ONE REPRESENTATION
+Anonymous observations are six signed noisy sensor values with irregular update
+masks and held-last values. They can be interpreted as generic event/pressure
+measurements; there are no physical quotes, named markets, instrument metadata,
+target-derived decoder or supervised movement-table features in these inputs.
+Causal representation: update-time EMA for each stream (tau4), exponential
+freshness-weighted peer mean/dispersion, and main-minus-peer EMA residual.
+The baseline is19 current values/ages/masks/dt features. Both augmented arms have
+28 features: history, or the identical columns reset to current values every row.
+All arms fit independent standardization and fixed-alpha10 ridge, no tuning.
+Reset is the matched capacity/no-history control; row is a simpler baseline.
+Equal learner does not make the19-feature row baseline parameter-matched.
+
+GENERATOR AND TARGET INFORMATION BOUNDARIES
+Factor F is latent OU tau12; instrument-specific I_j has tau2.5. Irregular global
+dt is exponential mean0.3; anonymous stream emissions update independently with
+probabilities(.4,.22,.22,.22,.22,.22). Emission is F+I_j+noise(sd2.8), held stale
+until its next update. Latent main midpoint increments .45Fdt+.22I_0dt plus
+Brownian shock .6sqrt(dt). These are stipulated toy dynamics, not reconstructed
+physical prices or realistic exchange/LOB mechanics. Six positive unit factor
+loadings and a common sensor scale are assumptions, not learned real gauges.
+The explicit future label exits on FIRST |mid_future-mid_origin|>=2, within32
+events, otherwise FORCES execution at event32. Both executable payoffs are
+(displacement-.2, -displacement-.2). Future first hit, midpoint, factor and exit
+are NEVER representation inputs; only future labels supervise toy ridge fits.
+Toy sum=-.4 is built into the chosen payoff and not a claim about supplied labels.
+Unlike the rejected physical teacher, prefix state needs no inferred quote path.
+The finite cap is part of the generator: cap exits have valid labels, rather than
+being dropped or interpreted as a real stopping event beyond available history.
+
+FREEZING, POSITIVES AND LEAKAGE CHECKS
+PREREG.json and STATE.json preceded simulation/scoring.96 fit and48 test independent
+paths per world/replication,320 events each; ALL30 origins48..280step8 retained.
+Four replication seeds11001/22001/33001/44001, fit-world offsets0/100000/200000;
+new test seed=fit seed+1000. Every fit/test tuple(seed,path,origin) is disjoint;
+nuisance domains deliberately reuse the same held-out latent paths for pairing.
+No supplied raw TRAIN/validation row was read, and prior exposed cohorts were not
+reused here. Initial hand fixtures check first-touch lag1 and forced-exit lag32.
+240 independent scalar stopping checks pass, as do21 prefix truncation/future
+observation surgery/latent-array exclusion checks over all three arms. Features
+ignore latent keys entirely. Fit-only scales/intercepts are saved with all models.
+All36 fits total {cost["sum_fit_seconds"]:.4f}s, max {cost["max_fit_seconds"]:.4f}s;
+SIGALRM hard limit120s per fit, total measured fit time far below120s per command.
+An initial lint import-order issue was fixed before scoring, with logs retained.
+
+MEASURED RESULTS (PAIR MSE; UNWEIGHTED SYNTHETIC, NOT CHALLENGE METRIC)
+World/domain                  row     reset   history   hist-v-row  positive seeds
+{chr(10).join(table)}
+Nominal history-v-reset relative reduction mean:
+{100 * nominal["comparisons"]["reset"]["mean_relative_improvement"]:.2f}%; all4 seeds
+positive, each >=2%. History-v-row seed reduction range:
+{100 * min(nominal["comparisons"]["row"]["relative_MSE_improvements"]):.2f}% to
+{100 * max(nominal["comparisons"]["row"]["relative_MSE_improvements"]):.2f}%.
+Hierarchical bootstrap samples replication seeds then independent paths; NEVER
+individual overlapping origins. Nominal raw pair-MSE reduction95% interval versus
+row={nominal["comparisons"]["row"]["hierarchical_seed_path_bootstrap_95pct"]}; versus
+reset={nominal["comparisons"]["reset"]["hierarchical_seed_path_bootstrap_95pct"]}.
+Four seeds are modest evidence; these conditional bootstrap intervals do not
+cover untested generators, hyperparameters or market/data domains. Per-path losses
+and all seed results are saved, not just favorable mean scores.
+
+NEGATIVE CONTROLS / VARIANCE AND DOMAIN SHIFT
+Absent-factor world sets F=0 and removes ALL predictable quote drift; sensor
+instrument noise remains. Unidentifiable-factor world lets independent latent F
+drive price drift, but removes its sensor loading AND removes observed I_0 from
+price drift. This ensures no observable signed drift information. These worlds
+are explicitly not single-parameter ablations of nominal. Each uses its OWN
+matched fit/test. All8 negative-world history comparisons worsen versus row;
+R2 versus fit-only mean is slightly negative for every arm on average. A hidden
+factor's existence is insufficient: it must be observably informative.
+Sign-flip domain reverses sensor loading on F, keeping latent target paths exactly
+unchanged, with NOMINAL models frozen. Every history comparison worsens, and all
+arms have negative R2. This adversary changes measurement coordinates, not the
+latent stopping law. A useful representation cannot ignore its observation gauge.
+Stale domain quarters all sensor update probabilities; target paths again remain
+identical and no weights are refit. History loses in all4 seeds. The fixed filter
+assumes observation dynamics transport: longer inter-update intervals alter its
+noise/lag tradeoff. This explanation is consistent with results, not isolated by
+an additional parameter sweep. Results include larger errors, no hidden retry.
+Barrier-hit / forced-cap counts on ALL test origins per world/domain:
+{json.dumps(counts)}. Each domain contains5760 test origins; no missing/unknown
+transition selection. Test domains overlap intentionally, not fresh samples.
+Nominal fit/test factor-pool diagnostic correlations (simulation truth used only
+for grading, never fitted features):
+{json.dumps(correlations)}.
+We do not isolate cross-stream pooling from within-stream denoising: history
+changes both in one frozen state. The study establishes a conditional noisy-
+persistent-signal filtering benefit, not unique necessity of a shared factor,
+state optimality, or superiority over a stronger nonlinear/current-state model.
+
+NEAREST PRIOR MECHANISM / WHAT IS DISTINCT
+Our frozen eda/puzzle_a/REPORT.txt already tested recurring identical price states
+and label-change alignment; unchanged-price runs held labels constant, while
+recurrent current price states could have different labels. The tested ungated
+current-price ridge failed raw-S transfer (R2=-.722287) on its chosen mixture.
+That report proposed event-history/age features with matched learners. Thus EMA
+history and age weighting are a concrete instance of that existing direction,
+not a new dual-clock discovery. Earlier hybrid laws and the common-reference gate
+concerned label-derived coordinates; this simulator removes that decoder entirely
+and states its observation and payoff models explicitly. No previous negative
+real-data model result is overturned by this synthetic success.
+
+CHEAPEST REAL-DATA FALSIFIER — PROPOSAL ONLY, NOT AUTHORIZATION TO FIT TARGETS
+First test an INPUT-OBSERVABLE proxy, without target quanta or physical decoding:
+freeze one scalar channel per anonymous stream from metadata and fit-prefix
+scale alone. On component-disjoint TRAIN prefixes, compare this SAME state with
+row and reset controls for predicting the focal stream's next observed change
+at a fixed4 focal-update horizon. Preserve all eligible IDs, initial warmup and
+sequence-end mass; freeze component seeds before inspecting outcomes. Compare
+paired current-row/age-matched donor histories as a further negative intervention,
+and score strata by observable freshness/update rate, never supplied target class.
+Falsify this direction if history adds no paired held-out benefit beyond reset,
+if donor histories work equally well, or if effect reverses under held-out
+freshness strata. Observable forecast success would justify investigating a
+representation, not establish a stopping payoff or validate real target utility.
+Cross-stream versus within-stream necessity remains a next ablation, not a second
+representation proposed here. There is no later GPU fit or public-gain approval.
+
+COST / REPRODUCTION / REVIEW
+Process wall {cost["wall_seconds"]:.3f}s, CPU {cost["cpu_seconds"]:.3f}s,
+peak RSS {cost["peak_rss_kib"]}KiB; no resource failure, GPU, installation, raw data
+or live-source/queue edits. Token/API monetary cost is not exposed. Run run.sh
+from any cwd; it enters the repo and uses run_cpu.sh round3-hybrid-pair. Seeds,
+origin IDs and per-array SHA256s make all toy samples regenerable. models.npz,
+path_losses.npz, witness.npz, results.json, logs, SOURCE/data provenance and this
+report are frozen in this branch only. mechanism_controls.png displays every
+seed, including negative controls and shift failures. Tier: exact implementation
+checks plus synthetic empirical efficacy; reality bridge untested. Independent
+review must challenge noise/loadings, weak learner, proxy validity and stale
+transport before extending this direction.
+"""
+    (OWN / "REPORT.txt").write_text(report)
+    keys = list(aggregates)
+    labels = [
+        "Observable\nfactor",
+        "Loading\nreversal",
+        "Staler\nstreams",
+        "Factor\nabsent",
+        "Factor\nunobservable",
+    ]
+    fig, ax = plt.subplots(figsize=(10, 4.5), constrained_layout=True)
+    for i, key in enumerate(keys):
+        a = aggregates[key]
+        for dx, baseline, color in ((-0.15, "row", "#2864a0"), (0.15, "reset", "#d17a22")):
+            values = np.array(a["comparisons"][baseline]["relative_MSE_improvements"]) * 100
+            ax.bar(
+                i + dx,
+                values.mean(),
+                width=0.28,
+                color=color,
+                alpha=0.65,
+                label=f"vs {baseline}" if i == 0 else None,
+            )
+            ax.scatter(
+                np.full(4, i + dx) + np.linspace(-0.05, 0.05, 4),
+                values,
+                s=24,
+                color=color,
+                zorder=3,
+            )
+    ax.axhline(0, color="black", linewidth=0.8)
+    ax.set_xticks(np.arange(5), labels)
+    ax.set_ylabel(
+        "History relative pair-MSE reduction (%)\nPositive = better; each dot = one replication"
+    )
+    ax.set_title("Causal filtering helps only in the stipulated observable regime")
+    ax.legend(frameon=False, loc="lower left")
+    ax.grid(axis="y", alpha=0.2)
+    fig.savefig(OWN / "mechanism_controls.png", dpi=150)
+    plt.close(fig)
+    LOGGER_TEXT = "Report and all-seed controls figure materialized; no new fits."
+    print(LOGGER_TEXT)
+
+
+if __name__ == "__main__":
+    main()

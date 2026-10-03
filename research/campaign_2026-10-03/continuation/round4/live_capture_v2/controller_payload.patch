@@ -1,0 +1,12 @@
+--- research/campaign_2026-10-03/continuation/round4/controller_gpu_payload.sh
++++ research/campaign_2026-10-03/continuation/round4/controller_gpu_payload.sh
+@@ -9,7 +9,7 @@
+ (( research_deadline - research_now >= 605 )) || exit 75
+ receipt=${1:?Hash-bound independent review receipt required}
+ output=${2:?Fresh output directory required}
+-scope=research/campaign_2026-10-03/continuation/round4/live_capture
++scope=research/campaign_2026-10-03/continuation/round4/live_capture_v2
+ export PYTHONDONTWRITEBYTECODE=1 PYTHONPATH="src:$scope"
+-exec timeout --signal=TERM 590 .venv/bin/python "$scope/runner.py" \
++exec timeout --signal=TERM --kill-after=5s 585 .venv/bin/python "$scope/runner.py" \
+     --device cuda --mode all --review-receipt "$receipt" --output "$output"

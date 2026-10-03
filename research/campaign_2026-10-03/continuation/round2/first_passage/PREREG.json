@@ -1,0 +1,23 @@
+{
+ "version":"puzzleA-path-laws-round2-v1",
+ "status":"frozen before synthetic/data experiments",
+ "novelty":"Reusable explicitly censored event-path law engine and adversarial identifiability tests; not a forecasting gain",
+ "source_panel":"research/campaign_2026-09-30/data_reconstruction/selection.json",
+ "fit":"all 64 original fit TRAIN groups; streamed supervised code/spread/transition tables. No prior fitted table imported.",
+ "test":"first 12 original held-out TRAIN groups; original paired components disjoint from all fit. No target-based reselection. Previously exposed reconstruction panel, not pristine.",
+ "events":"a6 equals supplied float32 lower endpoint -5.199337482452393. Unknown price-code changes even between events break the path. Origins endpoint rows >=99 sampled every5th event, cap128 evenly spaced sampled events per sequence.",
+ "fit_decoder":"22 float32 i0 prices rounded4 decimals; code->(class,spread) from fit both-nonpositive labels, support>=3 confidence>=.95; directed code-pair->(delta ask,delta bid) from fit interior-interior target differences support>=3 confidence>=.80. Class/scale constants .12543,.24133,.46854,.65687 are prior TRAIN constants. Test origin class solely from frozen fit lookup; missing class explicit, never infer scale from eval labels.",
+ "decoder_boundary":"Train-supervised coordinate not identified physical prices. Streaming first-known-spread prefix anchor, never full-sequence modal anchor. Unknown or internally inconsistent transition breaks segments. No bridge across gaps.",
+ "families":[
+  {"id":"fixed_extrema","H":16,"functional":"long=max future bid over events1..16-entry ask; short=entry bid-min future ask over events1..16; current event excluded"},
+  {"id":"competing_barriers","Hcap":32,"threshold_ticks":2,"functional":"Independently for long bid-entry ask and short entry bid-ask, first future event whose return>=2 or <=-2; output executable return at first hit. Both stops required for complete pair"},
+  {"id":"trailing_extrema","Hcap":32,"drawdown_ticks":1,"functional":"Initialize long running max at current bid, short running min at current ask. Long stops at first future bid<=running max-1, short stops at first future ask>=running min+1. Output running extremes minus entry quotes (not execution quote). Both stops required for complete pair"}
+ ],
+ "fit_parameter_budget":"No horizon/threshold sweep or class-specific law choices. Raw functional is primary. Optional single train-only affine2x3 pair calibration per family absorbs coordinate/scale convention; report as secondary approximate representation, never exact-generator identification.",
+ "primary_observables":["both-target exact within .002 raw units","joint tick error","sum/difference MAE","both-positive predicted pair fraction","stop lag distributions","per-origin censored reason and all-origin clipped-target weight denominator"],
+ "controls":["identity path copy outputs bit-identical","price translation leaves payoffs invariant","bid/ask reflection swaps target directions","future path offset997 event shift and permutation with fixed seed; rebase shifted path to same entry bid with entry spread retained at current origin; no labels used to create controls","synthetic independent scalar reference","adversarial same first32 events but different post32 stopping extreme proves horizon nonidentifiability"],
+ "synthetic":"seed20261003;256 independent 65event random-walk bid paths with jumps {-3,-1,0,1,3}, constant integer spread1..3; generate labels separately for each of exactly3 known families, cross-family exact confusion matrix. Censored origins remain in all denominators. Add curated analytic paths and unknown-gap masks.",
+ "falsifiers":"Exact law rejected by any reproducible eligible mismatch. Apparent alignment rejected if controls comparable. Missing/unknown/censored mass bars claims of coverage or exact identification; generator identification also barred by adversarial near-equivalent suffix control.",
+ "information_boundary":"Future paths and supplied targets diagnostic only. Proposed representation can contain current code class/spread/unknown, known past moves, event age and causal running extrema only. No actual target feedback, future stop labels or targets enter deployed inputs.",
+ "resource":"run_cpu.sh round2-firstpassage; 1core2GiB, each <=900s, noGPU, bounded64fit12test streamed groups; write only this directory"
+}

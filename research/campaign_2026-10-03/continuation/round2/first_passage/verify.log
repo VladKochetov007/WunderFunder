@@ -1,0 +1,92 @@
+5 files reformatted
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/continuation/round2/first_passage/evaluate.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | import hashlib
+ 4 | | import json
+ 5 | | import resource
+ 6 | | import sys
+ 7 | | import time
+ 8 | | from collections import Counter
+ 9 | |
+10 | | import numpy as np
+11 | | import pyarrow.parquet as pq
+12 | |
+13 | | from decoder import ENDPOINT, HERE, QUANTA, ROOT, decode, digest, load_tables, read_group
+14 | | from path_laws import FAMILIES, functional
+   | |__________________________________________^
+help: Organize imports
+   |
+11 | import pyarrow.parquet as pq
+   -
+12 | from decoder import ENDPOINT, HERE, QUANTA, ROOT, decode, digest, load_tables, read_group
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/continuation/round2/first_passage/finalize.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | import json
+ 4 | | import os
+ 5 | | import resource
+ 6 | | from collections import Counter
+ 7 | | from pathlib import Path
+ 8 | |
+ 9 | | import numpy as np
+10 | |
+11 | | from decoder import HERE, ROOT, digest
+12 | | from path_laws import FAMILIES
+   | |______________________________^
+help: Organize imports
+   |
+9  | import numpy as np
+   -
+10 | from decoder import HERE, ROOT, digest
+   |
+
+F401 [*] `pathlib.Path` imported but unused
+ --> research/campaign_2026-10-03/continuation/round2/first_passage/finalize.py:7:21
+  |
+5 | import resource
+6 | from collections import Counter
+7 | from pathlib import Path
+  |                     ^^^^
+8 |
+9 | import numpy as np
+  |
+help: Remove unused import: `pathlib.Path`
+  |
+6 | from collections import Counter
+  - from pathlib import Path
+7 |
+  |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/continuation/round2/first_passage/synthetic.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | import json
+ 4 | | import resource
+ 5 | | import time
+ 6 | | from pathlib import Path
+ 7 | |
+ 8 | | import numpy as np
+ 9 | |
+10 | | from path_laws import FAMILIES, functional, independent_reference
+   | |_________________________________________________________________^
+11 |
+12 |   HERE = Path(__file__).resolve().parent
+   |
+help: Organize imports
+  |
+8 | import numpy as np
+  -
+9 | from path_laws import FAMILIES, functional, independent_reference
+  |
+
+Found 4 errors.
+[*] 4 fixable with the `--fix` option.

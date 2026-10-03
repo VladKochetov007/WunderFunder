@@ -1,0 +1,15 @@
+SIM102 Use a single `if` statement instead of nested `if` statements
+  --> research/campaign_2026-10-03/continuation/round3/hybrid_pair/laws.py:67:5
+   |
+65 |               break
+66 |       reasons = [terminal_reason if r == "pending" else r for r in reasons]
+67 | /     if np.isfinite(pair).all():
+68 | |         if not valid[:required_lag + 1].all():
+   | |______________________________________________^
+69 |               raise AssertionError("Computed pair crossed an unknown step")
+70 |       return {"pair": pair, "reasons": reasons, "lags": lags,
+   |
+help: Combine `if` statements using `and`
+
+Found 5 errors (4 fixed, 1 remaining).
+No fixes available (1 hidden fix can be enabled with the `--unsafe-fixes` option).

@@ -1,0 +1,187 @@
+{
+  "checks": {
+    "offset28_validate_rng": {
+      "pass": true,
+      "reason": "torch_cpu RNG engine normalized state; exact roundtrip required",
+      "global_RNG_unchanged": true
+    },
+    "offset28_validate": {
+      "pass": true,
+      "reason": "torch_cpu RNG engine normalized state; exact roundtrip required",
+      "global_RNG_unchanged": true
+    },
+    "offset28_restore": {
+      "pass": true,
+      "reason": "torch_cpu RNG engine normalized state; exact roundtrip required",
+      "global_RNG_unchanged": true
+    },
+    "offset28_set_rng": {
+      "pass": true,
+      "reason": "torch_cpu RNG engine normalized state; exact roundtrip required",
+      "global_RNG_unchanged": true
+    },
+    "offset20_validate_rng": {
+      "pass": true,
+      "reason": "torch_cpu RNG engine normalized state; exact roundtrip required",
+      "global_RNG_unchanged": true
+    },
+    "offset20_validate": {
+      "pass": true,
+      "reason": "torch_cpu RNG engine normalized state; exact roundtrip required",
+      "global_RNG_unchanged": true
+    },
+    "offset20_restore": {
+      "pass": true,
+      "reason": "torch_cpu RNG engine normalized state; exact roundtrip required",
+      "global_RNG_unchanged": true
+    },
+    "offset20_set_rng": {
+      "pass": true,
+      "reason": "torch_cpu RNG engine normalized state; exact roundtrip required",
+      "global_RNG_unchanged": true
+    },
+    "offset5048_validate_rng": {
+      "pass": true,
+      "reason": "torch_cpu RNG engine normalized state; exact roundtrip required",
+      "global_RNG_unchanged": true
+    },
+    "offset5048_validate": {
+      "pass": true,
+      "reason": "torch_cpu RNG engine normalized state; exact roundtrip required",
+      "global_RNG_unchanged": true
+    },
+    "offset5048_restore": {
+      "pass": true,
+      "reason": "torch_cpu RNG engine normalized state; exact roundtrip required",
+      "global_RNG_unchanged": true
+    },
+    "offset5048_set_rng": {
+      "pass": true,
+      "reason": "torch_cpu RNG engine normalized state; exact roundtrip required",
+      "global_RNG_unchanged": true
+    },
+    "seed23_advanced_cached_no_draw_roundtrip": {
+      "pass": true
+    },
+    "seed817_advanced_cached_no_draw_roundtrip": {
+      "pass": true
+    },
+    "numpy_uint64_restore": {
+      "pass": true,
+      "reason": "NumPy RNG requires canonical MT19937 uint32 shape624",
+      "global_RNG_unchanged": true
+    },
+    "numpy_uint64_compare": {
+      "pass": true,
+      "reason": "root.numpy.1: NumPy class/dtype/shape differs",
+      "global_RNG_unchanged": true
+    },
+    "numpy_float64_restore": {
+      "pass": true,
+      "reason": "NumPy RNG requires canonical MT19937 uint32 shape624",
+      "global_RNG_unchanged": true
+    },
+    "numpy_float64_compare": {
+      "pass": true,
+      "reason": "root.numpy.1: NumPy class/dtype/shape differs",
+      "global_RNG_unchanged": true
+    },
+    "numpy_>u4_restore": {
+      "pass": true,
+      "reason": "NumPy RNG requires canonical MT19937 uint32 shape624",
+      "global_RNG_unchanged": true
+    },
+    "numpy_>u4_compare": {
+      "pass": true,
+      "reason": "root.numpy.1: NumPy class/dtype/shape differs",
+      "global_RNG_unchanged": true
+    },
+    "momentum_buffer_float64_restore": {
+      "pass": true,
+      "reason": "optimizer moments require finite detached CPU fp32 before load",
+      "global_RNG_unchanged": true
+    },
+    "exp_avg_float64_restore": {
+      "pass": true,
+      "reason": "optimizer moments require finite detached CPU fp32 before load",
+      "global_RNG_unchanged": true
+    },
+    "exp_avg_sq_float64_restore": {
+      "pass": true,
+      "reason": "optimizer moments require finite detached CPU fp32 before load",
+      "global_RNG_unchanged": true
+    },
+    "same_shape_id_swap_forged": {
+      "pass": true,
+      "reason": "optimizer canonical name/serialized-ID association mismatch",
+      "global_RNG_unchanged": true
+    },
+    "bool_clock_restore": {
+      "pass": true,
+      "reason": "discrete update clock types must remain exact",
+      "global_RNG_unchanged": true
+    },
+    "integer_clock": {
+      "pass": true,
+      "reason": "root: discrete tensor differs",
+      "global_RNG_unchanged": true
+    },
+    "scalar_bool_int": {
+      "pass": true,
+      "reason": "root: value differs",
+      "global_RNG_unchanged": true
+    },
+    "array_bool_int": {
+      "pass": true,
+      "reason": "root: NumPy class/dtype/shape differs",
+      "global_RNG_unchanged": true
+    },
+    "signed_zero": {
+      "pass": true,
+      "reason": "root: NumPy value bytes differ",
+      "global_RNG_unchanged": true
+    },
+    "pending_receipt": {
+      "pass": true,
+      "reason": "independent review and queue completion required",
+      "global_RNG_unchanged": true
+    },
+    "runtime_outside_GPU_chain": {
+      "pass": true,
+      "reason": "CUDA entry requires exclusive campaign_job/run_gpu controller chain",
+      "global_RNG_unchanged": true
+    },
+    "pristine_restore_rng_moments": {
+      "pass": true
+    }
+  },
+  "count": 32,
+  "all_pass": true,
+  "CPU_reproduction": {
+    "normal_max_delta": 0.0,
+    "repeat_max_delta": 0.0,
+    "skip_max_delta": 0.0,
+    "uninstrumented_default_max_delta": 0.0,
+    "independent_floor": {
+      "normal_sha256": "470b67a947f799db15eb1e8d36b40160f4c0a9fa7801d56fbd463f2db28a91ed",
+      "skip_sha256": "08e139f796321a4c814438c510e569c1937bde327e1eca265018437a3944ba50",
+      "normal_max_floor": 0.0,
+      "skip_max_floor": 0.0,
+      "repeats_per_control": 6,
+      "online_difference_used_to_calibrate": false,
+      "fixed_ceiling_abs": 1e-05,
+      "fixed_ceiling_rel": 0.0001
+    },
+    "skip_clock": {
+      "step_count": 5,
+      "attempts": 5,
+      "skips": 1,
+      "ema_updates": 5,
+      "completed_batches": 0
+    }
+  },
+  "wall_seconds": 1.96836996699858,
+  "max_rss_kib": 791728,
+  "GPU_launched": false,
+  "CUDA_evidence": false
+}

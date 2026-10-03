@@ -1,0 +1,9 @@
+Working directory: /home/vlad/development/wunder/wnn_connectome_starterpack
+All Python commands below require continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src:scripts .venv/bin/python -B.
+prepare.py: freezes metadata and permitted score-mask query panel; do not overwrite delivered frozen samples.
+controls.py: synthetic planted-history and sham/identity controls.
+probe.py --sequence N: per-sequence replay, N=0..23, refuses completed artifacts. First run N=0, then bash run_remaining.sh; every sequence uses its own bounded wrapper command and time log.
+summarize.py: reads saved replay arrays, creates results/panel/PNG. Set MPLCONFIGDIR to this directory's .mplconfig.
+verify.py: verifies frozen hashes, preserved R2, all donor choices, independent metric reduction and72 independent actual replay windows; all compute through the wrapper.
+finalize.py: package report/state/cost/IDs/provenance after checks; through the same wrapper.
+No server, fitting, GPU process or installation required. STATE lists completed chunks. Do not retry resource failures without controller acknowledgement.

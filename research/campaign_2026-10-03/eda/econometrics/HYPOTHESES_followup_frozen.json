@@ -1,0 +1,14 @@
+{
+  "test_id": "ECO_CLOCK_02",
+  "status": "frozen_before_followup_scoring",
+  "selection": "adaptive followup of failed ECO_CLOCK_01; same exposed sequences",
+  "question": "Does event-clock history add information beyond its longer quiet-period timescale?",
+  "arms": ["raw", "row_clock", "event_clock", "hazard_clock", "stale_event"],
+  "hazard_clock": "EMA on every row with alpha_t=1-(1-2/33)^q_t; q_t=(24.75+number of prior i0 book-change rows)/(99+number of prior rows); no current event in q_t",
+  "normalization": "each arm uses own training-only mean/std to equalize ridge shrinkage; raw112 identical",
+  "fit": "same 48 train groups, every tenth required row, clipped-target abs-weighted ridge, penalty0.01 mean standardized Gram diagonal, no mask inputs",
+  "falsifier": "event-specific premise passes only if event exceeds hazard by 0.002 mean scored WP, both target deltas positive; descriptive 24-sequence results, no significance claim",
+  "causality": "all history and hazard computed only from prefixes; assert full/prefix parity at 777 rows",
+  "provenance": "screen all raw112 rows in sampled train/valid for exact cross-split matches, union any matching selected sequences; unchanged-transform overlap only; broader chain components unknown",
+  "independent_replication": false
+}

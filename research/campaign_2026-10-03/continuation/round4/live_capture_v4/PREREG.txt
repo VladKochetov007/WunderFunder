@@ -1,0 +1,17 @@
+Minimal v4 preregistration, before any v4 tests or measurements.
+Scope: exact private Torch engine set/get identity only. Frozen v3 is preserved.
+Hypothesis: installed private engines normalize accepted opaque padding; reject any
+metadata/byte roundtrip mismatch immediately after private set_state, before all
+process-global setters, replay construction or forward. Same CPU/CUDA function.
+Do not draw from engines during validation, canonicalize input, mask bytes, relax
+comparison, alter original six-repeat floors, source/candidate math or add arms.
+Test genuine warm actual-code CPU prestate: byte offsets20/28/36/44/5048 changed
+by XOR1 must fail validate_rng/full validate/restore/set_rng and leave complete
+process RNG unchanged. Test legitimate seed-independent initial, advanced uniform,
+and odd Gaussian/cached private generator states. Include explicit no-draw check.
+Reuse pristine tiny CPU original/default/repeat/normal/deliberate AMPskip smoke.
+Expected CPU exact deltas zero. CPU does not establish cuDNN/fp16/GPU parity.
+No CUDA run, receipt, score, intervention, optimization or full-fit recovery.
+No new floors/calibration settings. Runtime adaptation is an unapplied controller
+patch; controller must independently review v4 and bind runtime/exclusive admission.
+Final critic MINIMAL_V4_SPEC.md and SUPPLEMENT_HASHES.json are read and recorded.

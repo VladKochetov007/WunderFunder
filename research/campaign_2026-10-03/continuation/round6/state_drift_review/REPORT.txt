@@ -1,0 +1,131 @@
+STATE-DRIFT BUILDER REVIEW — SOURCE / TINY CPU EVIDENCE ONLY
+Verdict: BLOCK_CURRENT_REAL_ADMISSION, conditional on a later independently accepted
+empirical default gate. The matched-state construction passes source review; two
+implementation/admission gaps remain. No actual capture, panel, scientific result,
+GRU forward or GPU call was read/run. An announcement of parity is not independent
+approval, and this review grants no default measurement or scientific approval.
+
+SUPPORTED CONSTRUCTION
+protocol.prefix_state restores the captured RAW student parameters and buffers,
+starts at None and makes four source forward_chunk calls. Real entry requires
+s=4000/chunk=1000, so starts are exactly0/1000/2000/3000, not one4000 call. Train mode,
+grad-enabled forward and explicit captured autocast-cache semantics are retained;
+h is detached at each boundary, with no prefix backward or weight update. Model,
+optimizer, scheduler, scaler, EMA parameters/n/step_count are checked unchanged.
+The reference uses student mean/std and full original input order, not EMA weights
+or an independently fitted normalization. local_update restores the base state
+again, including RNG, then substitutes a detached clone of student h only; prefix
+RNG side effects do not flow into the local step. Supported recipe has dropout0
+and linear encoder. Matching actual backend/private-engine behavior remains a
+later CUDA/default gate, not something these CPU controls establish.
+
+LocalCapture snapshots mutable state and compares every pre field except h exactly.
+Full batch handles are reused rather than independently copied for that observer:
+source-bound restore clones them onto the device and supported original loss code
+reads them without mutation. This is a source-supported immutability argument,
+not an independent content hash of a mutated device batch. Main boot8 target reads
+fixed clipped y, cached teach, nxt_label and absolute chunk rows; no dependence on
+student output. w uses original clipped y and main_valid, not the blended target.
+Structural and next losses use the original fixed label/weight slices and source
+coefficients. EMA default denominator counts valid rows once with singleton target
+axis; no target-count correction is introduced. Target is compared byte-exact;
+EMA out uses only the separately frozen default policy; RNG/clocks/scheduler/scaler/
+h_ema are compared exactly post-step. Changed post-student/optimizer/EMA weights
+are consequences of the local update, not held-fixed initial quantities.
+
+PREREG / WARM-SKIP AMENDMENT
+Original PREREG requires four completed non-skipped updates. The separate preserved
+controller-directed amendment was made after measurement completion was announced,
+before the actor opened captures: it admits1..4 completions after FOUR attempts.
+This changes eligibility/history length, even though materiality thresholds and
+binary comparison do not change. Do not call it four successful updates or theta4
+indexed by successful steps unless warm_counts returns(4,0). With skips, identify
+weights as theta_after_four_attempts and disclose actual completed/skipped counts.
+The critic's original four-success precommit is satisfied only by(4,0); amended
+cases are an explicitly amended estimand, not retroactive compliance with that
+precommit. Neither population's empirical membership was inspected here.
+
+warm_counts checks scalar int64 skip count, four attempt/step_count/EMA clocks,
+EMA n4, scheduler last_epoch4, and every available Adam integer step equal4-skips,
+with at least one completion. Full cap.validate separately requires all canonical
+optimizer entries and finite warm moments. Tiny fixtures: (4,0) accepted; (2,2)
+accepted under amendment; skips2/Adamstep4 rejected. These verify bookkeeping,
+not actual AMP skip execution. Source runner real attempts four source updates;
+source initialization h/h_ema=None plus hashed trajectory sidecar is required.
+A template or claimed sidecar alone cannot prove artifact lineage: independent
+controller binding must verify the actual executed entrypoint, source, full input,
+student mean/std and panel identity after independent default review passes.
+No approved capture path or future-input path was opened in this review.
+
+BLOCKER 1 — FINITE SCIENTIFIC OBSERVABLE CONTRACT NOT FULLY ENFORCED
+vector rejects absent/nonfinite gradient/update leaves. However observable's
+prediction arm and rms accept NaN, and cap.validate checks hidden shape/dtype/
+storage/detachment without checking h or h_ema finite. prefix_state checks its
+new reference finite but does not validate captured stale h. Source outcome
+comparisons on NaN are false and may yield UNRESOLVED_AT_NUMERIC_FLOOR rather than
+INVALID_OR_UNKNOWN. AST-extracted leaf test: NaN main prediction accepted; its RMS
+is NaN; exact outcome comparisons with otherwise zero differences yield unresolved.
+NaN gradient leaf rejects. This is a precise helper/decision-path adversary, not
+an actual capture nor execution of the complete instrument; other downstream checks
+could reject some real NaN cases. Nevertheless the declared finite-only contract
+requires explicit stale/reference hidden, baseline/alternative observable and final
+scalar metric checks before classification/serialization, failing INVALID/UNKNOWN.
+Do not change numerical tolerances to fix it.
+
+BLOCKER 2 — FUTURE LAUNCH MUST BE BOUND TO THE NEW ENTRYPOINT / CAPS
+run_real.authorize rejects absent approval before load/private CUDA validation;
+requires default_v4_gate PASS, independent critic PASS, separate candidate hashes,
+pre/post/trajectory hashes, and v4 review receipt. The latter binds current adapter,
+source and runtime hashes. These are useful gates under a trusted controller, not
+self-issued authorization. Current verify_review runtime files include the old
+round4/controller_gpu_payload.sh, whose actual command executes v4 runner.py,
+not this new run_real.py. No state-drift launcher/receipt was supplied or examined.
+A later receipt must bind the actual state-drift invocation, arguments, output path,
+controller chain and bounded runtime, not only the old measurement launcher.
+
+runtime_guard has the correct absolute epoch1791057600 (23:00 Kyiv) and scope flags.
+AST controls: just before deadline permits ENTRY; at deadline and outside scope
+reject. Entry-time checks do not ensure completion before deadline. The old payload
+requires605seconds remaining and timeout585+5s kill grace, but it launches the wrong
+entrypoint for this probe. New bounded payload must enforce finish/kill before23
+with explicit slack and unchanged resource caps; do not infer this from passing
+runtime_guard. No new launcher or GPU request is produced by this review.
+
+Additional concrete cap omission: original runner.run_probe sets allocator fraction
+min(.7,4_800_000_000/device_total) after configure_torch. New run_real.main calls
+configure_torch alone, which sets configured fraction<=.70, without the decimal
+4.8GB term. WNN_VRAM_GB is not consumed by configure_torch. Thus the new Python
+entrypoint does not itself preserve the original allocator ceiling on a device
+where .70*total exceeds4.8GB. Require explicit identical allocator bound before
+CUDA allocations plus existing observed-memory monitoring in the reviewed launch.
+Actual device/host peaks and descriptor behavior are untested here.
+
+NUMERIC RULES PRESERVED / CLAIM LIMITS
+Six independent original/default whole updates and six independent fixed-current
+prefix repeats are frozen before the intervention. Zero floor remains exact;
+no desired-difference calibration or component-floor transfer is authorized.
+Thresholds remain hiddenrelative>=.01, predictionRMS>=1e-4, gradientORupdaterelative
+>=.01, with each required effect>5*its independent RMS floor. These are declared
+local resolution/materiality rules, not a confidence bound on arbitrary altered-
+branch operation noise. Reference-local update repeat noise is not separately
+calibrated here; do not turn default repeat stability into universal altered-branch
+or component-decomposition certification. Whole-gradient/update measurements avoid
+E393's separate-component summation issue; that issue remains blocked elsewhere.
+Conditional conclusions are early fresh-panel state sensitivity only: no historical
+full-fit recovery, harmful drift, predictive necessity, inference or public gain.
+
+ARTIFACTS / EXECUTION
+Read original PREREG and separate amendment, SCHEMA/current source/CPU results.
+All13 stored checks pass; none rerun. Null is exact; planted drift is detectable
+subthreshold under unchanged thresholds. Independently verified9 consumed actor
+artifact hashes,9 native source bindings and5 adapter hashes. HASHES manifest's
+unconsumed tensor artifacts were not opened/verified; no full-manifest claim.
+results.json records targeted controls, all reviewed source/runtime hashes and cost:
+0.048905seconds including hashing; peak528132KiB. One CPU test body; stdlib AST plus
+tiny CPU leaf tensors, no candidate-module imports/models/GRU/data/GPU. run.sh is
+reproducible via run_cpu.sh reviewer,1core2GiB900s. Own HASHES.json binds this review.
+
+Next: actor fixes finite guards; controller supplies new runtime/cap/source-bound
+launch and later independent empirical default PASS plus verified trajectory. Only
+then request a conditional re-review; actual captures remain unopened. Preserve all
+frozen author and critic evidence. No architectures, sweeps or expanded arms.

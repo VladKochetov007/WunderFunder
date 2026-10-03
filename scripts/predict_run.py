@@ -17,7 +17,7 @@ from torch.utils.data import DataLoader
 from train_rnn import Sequences, make_model, predict
 
 from wnn.propensity import load_propensity
-from wnn.resources import configure_torch
+from wnn.resources import configure_torch, dataloader_budget
 from wnn.splits import file_sha256
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -59,7 +59,14 @@ def main():
         train_rnn.READOUT = [t.to(device) for t in ck["readout"]]
         train_rnn.READOUT_TILTED = ck.get("readout_tilted", False)
     groups = np.load(ROOT / "cache" / f"{split}_targets.npz")["row_group"]
-    loader = DataLoader(Sequences(split, groups), batch_size=16, num_workers=2, prefetch_factor=1)
+    dataset = Sequences(split, groups)
+    workers, prefetch = dataloader_budget(dataset.batch_tensor_bytes(16), max_workers=2)
+    loader = DataLoader(
+        dataset,
+        batch_size=16,
+        num_workers=workers,
+        prefetch_factor=prefetch if workers else None,
+    )
     final = ROOT / "cache" / f"pred_{args.output_name or name}_{split}.npy"
     tmp = final.with_name(final.name + ".partial")  # renamed only after every sequence is written
     out = np.lib.format.open_memmap(

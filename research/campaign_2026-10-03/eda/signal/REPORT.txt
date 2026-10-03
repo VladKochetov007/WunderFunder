@@ -1,0 +1,158 @@
+SIGNAL ANALYST: BOUNDED FILTER-CLOCK CONTINUATION
+Role: abstract-only experimental physicist / signal-processing engineer.
+Read scope: own signal directory, abstract task, approved contracts/wrapper,
+datasets; no host description, other analysts, baseline, or git.
+
+VERDICT
+The frozen universal own-clock hypothesis FAILED its acceptance rule.
+Own clocks beat shared i0_p clocks in pooled exploratory WP by .016768, but
+the two fixed validation halves gave +.036062 and -.001108. Descriptive paired
+sequence bootstrap 95% interval: [-.006218, .036778]. No robust universal gain.
+This rejects the predeclared adoption criterion, not all possible clock effects.
+Post-score regime diagnostics show a reversal; next test should be an input-gated
+and group-specific clock ablation, not more slow spectral bands.
+
+WHAT ACTUALLY RAN
+RECOVERY_SUMMARY.txt was saved first; HYPOTHESES.json froze clock-probe-v1.
+clock_probe.py fit FOUR bounded CPU ridge models with identical features except
+EMA clocks. 64 train sequences, rows 99..19999 stride4 (318464 fit rows), and
+64 valid sequences using is_scored AND row>=99. One streamed row group at a time.
+Elapsed main probe: 35.27 seconds. One CPU core, 2GiB wrapper; CUDA unavailable.
+Separate abs(clipped target)-weighted heads fit raw targets, as in predecessor.
+Metric pools score moments, clips prediction/target to +/-2, weights by
+abs(clipped target), computes Pearson per target and averages the two.
+Dimension=234 including intercept: 112 levels, 112 level-minus-EMA fast bands,
+3 sentinel indicators and 6 identical shared clock covariates. EMA alpha=.25,
+scale-aware ridge=.001. No tuning sweep and no baseline comparison.
+Clocks: shared i0_p changes; own group changes; every row; periodic group clocks
+using rates from rows1..98 (shared initialization through row98). The periodic
+control is causal and approximately, not exactly, rate matched.
+
+MEASURED SCORES (EXPLORATORY VALIDATION)
+condition       t0 WP       t1 WP       mean WP
+shared          .652649     .626878     .639763
+own             .672371     .640691     .656531
+row             .664280     .640025     .652152
+prefix_rate     .656468     .640517     .648493
+Own-prefix_rate=.008038 pooled, but frozen timing-specific acceptance also fails
+because own-shared did not remain positive in both halves. Do not claim a .6565
+public score or improvement over a strong baseline.
+
+POST-SCORE DIAGNOSTICS (NOT PREDECLARED CONFIRMATION)
+Target-spacing class / n valid / own-shared mean WP:
+.1254 /14 /+.051731 (shared .661127, own .712858, row .711314)
+.2413 /16 /+.039159 (shared .690716, own .729875, row .729036)
+.4685 /15 /+.036395 (shared .499706, own .536101, row .556832)
+.6569 /19 /-.057875 (shared .422543, own .364668, row .339793)
+These classes are target-derived diagnostic labels only, never model inputs.
+Class counts between halves are 7/7,9/7,7/8,9/10: no large count imbalance.
+Remaining heterogeneity and pooled weighting still matter; averaging sequence
+correlations is not equivalent to global WP.
+Group changes without shared i0_p changes occur on .6142 of rows for i0v,
+.4735 for i1v, .2731 for i1d, and .6920 for a. Group a changes every row.
+Shared filters skip independent group innovations, but skipping them may denoise
+recurrent regimes rather than always lose signal. Prefix-to-later rate mean
+absolute errors include .1836 for i0p and .1574 for i0d; this control cannot
+isolate timing cleanly. Own and row nearly tie in the two smallest classes;
+event alignment is not specifically required there. Shared wins in largest class.
+
+CAUSALITY AND VALIDATION CHECKS
+features() receives input arrays only; targets and scoring flags are separate
+reads, never passed to it. Group events use current/previous rows. The periodic
+rate is frozen before first scored prediction, row99.
+All 32 full-versus-prefix checks at endings98,99,255,1023 on training row groups
+6143 and2761 had exactly zero error across all four clocks.
+Independent centered weighted-correlation calculation on valid rg739,
+seq_ix849703660 (2091 scored rows) matched saved scores to 5.22e-15.
+That check also verified manifest seq_ix against parquet. Archived executed
+script hash matches the prefit manifest. Later formatting of runnable script
+changes text hash, not experiment logic. New scripts pass Ruff checks; notebook
+passed headless HTML export. Inherited notebook lint includes existing marimo
+returns/file reads; no claim of cleaning unrelated inherited code.
+
+FIGURES INSPECTED
+fig_clock_probe.png: pooled scores and positive/negative per-sequence contrasts.
+The split-halves failure must not be hidden by positive pooled gain. Individual
+sequence WP is diagnostic, not global WP.
+fig_clock_activity.png: independently updating groups and strong prefix-rate
+drift weaken the claim that prefix_rate exactly matches smoothing.
+Prior figures inspected during recovery: fig_spectra_event.png,
+fig_cycle_example.png, fig_acf_clock.png, fig_horizon_xcorr.png. No horizon claim.
+
+RECOVERED PRIOR EVIDENCE / UNFINISHED WORK
+catalogue.npz covers all10607 train/1873 valid sequences and dominant minimum
+target spacings .1254,.2413,.4685,.6569. Sparse .9371 training spacing need not
+be a new fundamental class. Minimum observed gap is not lattice proof.
+class_id.log: 599/600 correct classifications from input rows0..99; gate usable
+from row99 onward. Class accuracy is not target prediction accuracy.
+ridge_ev.log: weighted-fit WP .6169 levels, .6378 fast-band addition, .6253 with
+intermediate band, .6054 all bands. Slow bands contradicted spectral expansion.
+Exact old invocation missing. ridge2.json: unweighted full bank .6106, taps
+.6115, recurrence .6103; this was not the best compact bank. Generic recurrence
+was not useful. acf_clock.npz: t0 ACF(100) .447 rows versus .046 events;
+spectra.npz peaks at periods6,3,4 events are observations, not causal SNR bounds.
+Old REPORT.txt, row-clock comparison and numerical sysid outputs were absent.
+sysid.py deliberately uses future inputs diagnostically, not for inference.
+Original raw artifacts were preserved; old serialization failure stays logged.
+
+SAMPLE PROVENANCE / UNCERTAINTY
+Exact64 train and64 valid row-group AND seq_ix IDs: clock_probe_manifest.json,
+recorded before fitting with seed2603103 and SHA256 of frozen hypotheses and
+executed source. Plain lists: clock_sample_ids.txt.
+Excluded recoverable old ridge/classifier/EDA samples using saved defaults
+(150train/100valid ridge). Unknown old arguments limit these exclusions.
+EVERY selected sequence was already exposed in predecessor catalogue summaries.
+No novel-sequence/independent-validation or campaign-level novelty claim.
+Connected-component dependencies unavailable in this role; paired sequence
+bootstrap is descriptive, not campaign-valid significance. Old target spacing
+in manifest is for diagnosis only, never an inference feature.
+
+RANKED NEXT DIRECTIONS WITH CHEAP CONTROLS / FALSIFIERS
+1. Input-gated smoothing by regime. Mechanism: recurrent/coarsely quantized
+   states benefit from shared-clock denoising; others need faster assimilation.
+   Test100-row input gate selecting shared versus row/own in one frozen design;
+   equal-feature pooled model and shuffled gate controls. Reject if only oracle
+   target classes help or gains fail later connected blocks. At inference freeze
+   gate at row99 and maintain causal filter states.
+2. Isolate which group needs a clock change. Change i0v or i1v alone, others
+   shared; row-clock alternatives for SAME group. Freeze group choices before
+   scoring. Reject absent consistent gains beyond same-group rate controls.
+   Inference detects group changes from current/previous input rows.
+3. Adaptive smoothing rate versus event alignment. Replace short-prefix control
+   with causal trailing rate; match EMA effective decay continuously. Constant
+   rate and own clocks are equal-count controls. Reject absent gain after decay
+   matching. No future rate estimates; initialize in99-row warm-up, update online.
+4. Nonlinear current-state geometry (outside spectral lens). A few predefined
+   pair differences/products, equal-count linear controls, input gate interactions
+   separate snapshot structure from history. Reject gains lost within regime or
+   independent connected blocks. Use current inputs only. Generic cycle phase
+   is lower priority until these simpler mechanisms fail; old taps barely helped.
+
+FAILURES PRESERVED / BLOCKERS
+clock_probe.log: initial exit75 admission barrier. Controller acknowledged
+historical GPU failures and authorized retry; no marker cleared.
+clock_probe_retry.log: Numba rejected float(bool), exit1 before fitting. Replaced
+with equivalent conditional; traceback saved; no method change.
+clock_probe_run.log: successful bounded experiment. No new resource failure.
+No active execution blocker. Dependence/provenance and lack of baseline access
+remain integration limits for controller review.
+
+ARTIFACTS / RESUMPTION
+HYPOTHESES.json is unchanged pre-score plan. STATE.json records commands, IDs,
+failures, pending work; artifact_provenance.json hashes saved deliverables.
+clock_probe.py runnable; clock_probe_v1_executed.py exact scored source;
+diagnose_clock_probe.py reproduces diagnostics/direct score checks;
+plot_clock_probe.py recreates two inspected figures. Measured outputs:
+clock_probe_results.json, clock_probe_diagnostics.json, clock_probe_stats.npz,
+clock_probe_weights.npz, clock_probe_manifest.json.
+eda_signal.py updated notebook; eda_signal_continuation.html headless rendering.
+ALL compute uses continuation/run_cpu.sh eda-signal, e.g. .venv/bin/python -B
+research/campaign_2026-10-03/eda/signal/clock_probe.py. Avoid old broad scans.
+Next: freeze input-gated/group-clock test on explicitly exposed samples, then
+controller validates dependence and integration against baseline.
+
+PRIMARY SOURCES ACTUALLY READ IN RECOVERY
+https://arxiv.org/html/chao-dyn/9909037 (Schreiber/Schmitz: surrogate constraints,
+nonstationarity and test selection affect interpretation).
+https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.coherence.html
+(magnitude-squared coherence does not establish causal direction).

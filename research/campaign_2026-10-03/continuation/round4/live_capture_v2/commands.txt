@@ -1,0 +1,9 @@
+# EXECUTED CPU retest and smoke, all admitted via round4-capture:
+research/campaign_2026-10-03/continuation/round4/live_capture_v2/run_tests.sh
+research/campaign_2026-10-03/continuation/run_cpu.sh round4-capture env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src:research/campaign_2026-10-03/continuation/round4/live_capture_v2 bash research/campaign_2026-10-03/continuation/round4/live_capture_v2/verify_inside_cpu.sh
+# Standalone reproduction: frozen generator is verification-only in runner; fresh output required.
+research/campaign_2026-10-03/continuation/run_cpu.sh round4-capture env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src:research/campaign_2026-10-03/continuation/round4/live_capture_v2 .venv/bin/python research/campaign_2026-10-03/continuation/round4/live_capture_v2/runner.py --output research/campaign_2026-10-03/continuation/round4/live_capture_v2/cpu_reproduce_FRESH_TAG
+# PROPOSAL ONLY; do not execute before independent review, controller-owned patch and queue drain.
+# Controller first applies/reviews controller_payload.patch and attaches final runtime/source hashes.
+.venv/bin/python scripts/campaign_job.py launch --name r4_capture_v2_FRESH_TAG --kind gpu --phase controls --timeout 600 --threads 8 -- bash research/campaign_2026-10-03/continuation/run_gpu.sh bash research/campaign_2026-10-03/continuation/round4/controller_gpu_payload.sh CONTROLLER_RECEIPT.json research/campaign_2026-10-03/continuation/round4/live_capture_v2/gpu_FRESH_TAG
+# Original v1 actor shell is explicitly invalid and must not be used.

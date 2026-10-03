@@ -1,0 +1,15 @@
+Recovered from the original tool output, not an untouched original log file.
+The first checks.log was accidentally overwritten by the blocked admission retry.
+Initial wrapper exit: 1. Ordinary output-path error; no timeout/OOM and no scientific comparison executed.
+
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round6/state_drift/controls.py", line 89, in <module>
+    main()
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round6/state_drift/controls.py", line 50, in main
+    null = execute(fixed, fixed_post, output / "fixed_null")
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round6/state_drift/protocol.py", line 101, in execute
+    output.mkdir(exist_ok=False)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round6/state_drift/cpu_controls/fixed_null'
+
+Correction: create the bounded output's parent directories using mkdir(parents=True, exist_ok=False).
+Existing frozen-floor directories still fail rather than overwrite. No threshold or scientific target was changed.

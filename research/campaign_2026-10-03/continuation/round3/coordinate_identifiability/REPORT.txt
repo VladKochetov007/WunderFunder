@@ -1,0 +1,124 @@
+COORDINATE IDENTIFIABILITY — frozen documentation/table-conditioned toy
+
+Decision
+Physical quote-path teachers are NOT scientifically identified by the supplied
+field documentation plus the frozen supervised decoder. A named label-coordinate
+proxy teacher is admissible as a representation hypothesis, subject to ordinary
+held-out validation; it cannot be presented as recovered physical quotes,
+extrema, stop times or executions. This pass approves no model or live changes.
+
+Inputs and independence
+Read HOST_DATA_DESCRIPTION.txt, frozen round2/first_passage PREREG and
+decoder_tables.json, own frozen decoder_audit PREREG, and contracts. No raw
+parquet, supplied target arrays, hybrid scoring, live model code or baseline
+was read. No fitting, scales recalibration, law tuning or horizon search.
+The table is supervised and previously exposed, not independent evidence of
+physical units. Its unchanged SHA256 is
+43d9d1e256e9ede1a06ddfd58429ff3c3cdf50ccf815ec07a677c977d70467bb.
+No sequence IDs were sampled: toy rows0..31, plus one future quote, reuse two
+previously exposed frozen i0 price codes. All other90 fields are constructed.
+Previous decoder_audit artifacts were preserved unchanged.
+
+What the documentation establishes
+There are two L11 book representations, trade-price/volume fields and eight
+unnamed extras. Bid/ask component identities are stable; numerical indices are
+not depth ranks. The documentation does not supply an invertible physical-price
+transform, absolute origin, known tick/unit conversion, trade-slot continuity,
+cross-instrument calibration or extra-field semantics. Missing specification
+is NOT evidence that an anchor is absent in the actual data.
+
+Frozen assumptions and falsifier
+PREREG.json preceded execution (hash recorded in results.json). A time-stationary
+causal encoder maps current centered book shape to two actual frozen22-float
+price codes. This possible observation map is compatible with the unspecified
+representation, but is not inferred as the actual encoder. Both instruments
+translate together; all four trade slots refresh at each observation. Rest90
+fields contain relative prices and phase-dependent causal volumes/extras.
+Select the lexicographically first reversible frozen code pair having equal
+class, consistent spreads, nonconstant midpoint and overlapping bid/ask entry
+intervals. There were65 eligible pairs; no post-result replacement occurred.
+Selected class0, frozen q=.12543, spreads1/2, directed ask/bid move(+1,0).
+The known table quantum is used unchanged for synthetic labels, not asserted
+to be an identified physical tick. selected_frozen_fixture.json records keys.
+Falsifier: unequal inputs/labels/keys/decoder paths, unavailable fixture or
+equal physical moves defeats the witness. Added anchors must independently
+detect the difference; failure would be reported without tuning.
+
+Construction and measured result
+Let decoded ask/bid coordinate be U_t and K=.5. World0 uses physical quotes
+P_t=U_t+100 and constant reference F_t=K+100. World1 uses P_t=U_t+g_t,
+g_0=100, g_(t+1)=g_t+K-mid(U_(t+1)). Thus its ACTUAL next-step physical
+midpoint F_t equals K+g_t. The diagnostic labels in both worlds are
+yL=q*(F_t-Pask_t)=q*(K-Uask_t),
+yS=q*(Pbid_t-F_t)=q*(Ubid_t-K).
+No label or future reference enters the input encoder or table replay.
+
+All32x112 float32 inputs were bit-identical (maximum difference0); both code
+roundtrips, class outputs and decoded paths matched exactly. All synthetic raw
+labels were identical and interior. Physical quotes differed on31/32 rows,
+and physical ask/bid increments differed on16/31 transitions. True spreads and
+initial physical quotes were identical. Reference identity error was0.
+World0's constant reference can be realized by appending a terminal midpoint
+K+100 after the observed window. The two examples use different future-reference
+constructions; they do NOT establish ambiguity under a separately known common
+target horizon/law. Such a law is not supplied. Input-path ambiguity itself
+does not depend on synthetic targets.
+
+Negative controls (none distinguished the worlds)
+- Known initial physical price: removes a constant origin, not later changes.
+- Frozen first-spread/prefix reset: selects decoder coordinates only.
+- Refreshed trade prices/volumes: relative observations retain translation.
+- Second-instrument fields and extras: common translation retains relative data.
+
+Positive controls — EXTRA observation assumptions, all distinguished worlds
+- Known absolute best bid at EVERY row, with identified spread unit: quotes
+  reconstructed with maximum error0.
+- Known absolute reference at EVERY row, with known K: U+(F-K) reconstructs
+  quotes with maximum error0. A genuinely future-only reference is not an
+  inference-time feature; this control is algebraic, not a deployment proposal.
+- One immutable physical trade in a stable slot, represented as trade minus
+  the SAME current midpoint in a known unit: its changes reveal midpoint moves.
+  Midpoints reconstructed with maximum error0 after an initial absolute anchor.
+  Without that initial anchor, increments are still identified. Equality of a
+  trade volume/code alone is insufficient to establish immutable trade identity.
+
+Supported / contradicted / unknown
+SUPPORTED: an initial anchor and a deterministic input-only table do not, by
+themselves, certify a physical time coordinate. The documentation permits this
+two-world witness. A verified stable held-trade normalization or per-row
+absolute-price anchor would break it under the explicitly stated assumptions.
+CONTRADICTED: 'exact supervised decoder transitions imply physical quote moves'
+as an unconditional statement. 'Two instruments or trade fields necessarily
+remove common translation ambiguity' is likewise false without semantics.
+UNKNOWN: actual all112 input gauge behavior, normalization, informative extras,
+held-trade identities, physical quantum, actual target reference and horizon.
+This toy is not a claim that the real data is nonidentifiable under its actual
+encoder. It identifies the missing premise needed for that claim or its negation.
+
+Implications and next discriminating step
+A fixed translation would leave increments/extrema returns intact; time-varying
+translation changes increments, extrema and first-passage times. Therefore
+quote-path teachers and hybrid execution/extremum interpretations must remain
+conditional on an independently identified physical transform. Earlier417
+outside-loser bound failures remain statements about the frozen coordinate;
+this pass neither rescored nor strengthened their physical interpretation.
+Next authorize a tiny input-only anchor audit: independently establish a stable
+trade-slot identity and shared known midpoint/unit normalization, then compare
+held-slot differences with decoded increments. Matched negative control: slots
+known to refresh. Reject the anchor mechanism if only changing identity explains
+the apparent displacement, normalization differs, or gaps cannot be bounded.
+No supplied targets should select slots or calibrate the transform. If semantics
+cannot be established, retain proxy-coordinate terminology and do not promote
+physical path teachers. Absolute per-row invertible price documentation would
+be an alternative decisive anchor; no sequence ID or target is needed at inference.
+
+Artifacts and verification
+identifiability_toy.py is standalone and independently replays frozen keys/table.
+COMMANDS.sh reproduces the toy through run_cpu.sh round3-hft.
+results.json, selected_frozen_fixture.json, two_world_arrays.npz preserve measured
+outputs. two_world_identifiability.png was visually inspected: identical decoded
+oscillation coexists with a declining physical world1 midpoint. run.log and
+resource.log preserve execution: exit0, total wall.82s, userCPU.70s/system.06s,
+peakRSS81696KiB. Ruff isolated/no-cache check passed. finalize.py checks saved
+arrays/controls/input hashes, updates STATE and freezes SHA256.json. No GPU,
+trainer changes or outside-scope analyst artifact writes.

@@ -1,0 +1,44 @@
+E402 Module level import not at top of file
+  --> research/campaign_2026-10-03/continuation/opt2_review/test_adversarial.py:15:1
+   |
+13 | sys.path.insert(0, str(ROOT / "research/campaign_2026-10-03/opt2"))
+14 |
+15 | from probe import options
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+16 | from sampling import EpochOrderSampler
+17 | from training_dynamics import Dynamics, build_optimizer, build_scheduler
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> research/campaign_2026-10-03/continuation/opt2_review/test_adversarial.py:16:1
+   |
+15 | from probe import options
+16 | from sampling import EpochOrderSampler
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+17 | from training_dynamics import Dynamics, build_optimizer, build_scheduler
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> research/campaign_2026-10-03/continuation/opt2_review/test_adversarial.py:17:1
+   |
+15 | from probe import options
+16 | from sampling import EpochOrderSampler
+17 | from training_dynamics import Dynamics, build_optimizer, build_scheduler
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+18 |
+19 | from wnn.nn import RNNModel
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> research/campaign_2026-10-03/continuation/opt2_review/test_adversarial.py:19:1
+   |
+17 | from training_dynamics import Dynamics, build_optimizer, build_scheduler
+18 |
+19 | from wnn.nn import RNNModel
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+help: Move module level imports to top of file
+
+Found 5 errors (1 fixed, 4 remaining).

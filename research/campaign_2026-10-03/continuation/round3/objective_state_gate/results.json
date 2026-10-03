@@ -1,0 +1,123 @@
+{
+  "scope": "synthetic instrument validation only",
+  "tests": {
+    "repeat_identity": {
+      "pass": true,
+      "max_abs": 0.0,
+      "tolerance": 1e-07
+    },
+    "independent_derivative_slot_0": {
+      "pass": true,
+      "component_error": 2.9802322387695312e-08,
+      "oracle_error": 5.960464477539063e-08,
+      "arithmetic_tolerance": 7.437671172283444e-07
+    },
+    "independent_derivative_slot_1": {
+      "pass": true,
+      "component_error": 3.725290298461914e-08,
+      "oracle_error": 2.9802322387695312e-08,
+      "arithmetic_tolerance": 6.021616911766614e-07
+    },
+    "independent_derivative_slot_2": {
+      "pass": true,
+      "component_error": 2.384185791015625e-07,
+      "oracle_error": 1.1920928955078125e-07,
+      "arithmetic_tolerance": 1.2120618748667766e-06
+    },
+    "aligned_vs_permuted_positive": {
+      "pass": true,
+      "slots": [
+        {
+          "slot": 0,
+          "mass": 6.1835856437683105,
+          "aligned_scalar": 0.16075284779071808,
+          "permuted_scalar": 2.150851249694824,
+          "gradient_difference": 1.028929352760315,
+          "update_difference": 0.1306399554014206,
+          "preclip_norm": 0.7588374018669128,
+          "postclip_norm": 0.11999983340501785
+        },
+        {
+          "slot": 1,
+          "mass": 26.48012351989746,
+          "aligned_scalar": 0.6883959174156189,
+          "permuted_scalar": 0.16075284779071808,
+          "gradient_difference": 0.30168870091438293,
+          "update_difference": 0.04436153918504715,
+          "preclip_norm": 0.5092277526855469,
+          "postclip_norm": 0.11999975144863129
+        },
+        {
+          "slot": 2,
+          "mass": 82.73553466796875,
+          "aligned_scalar": 2.150851249694824,
+          "permuted_scalar": 0.6883959174156189,
+          "gradient_difference": 2.1062777042388916,
+          "update_difference": 0.10262365639209747,
+          "preclip_norm": 2.275907278060913,
+          "postclip_norm": 0.11999993771314621
+        }
+      ]
+    },
+    "equal_mass_multiset_null": {
+      "pass": true,
+      "max_abs": 0.0,
+      "scalars": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "explanation": "distinct causal inputs, equal target/row masses; permuted scalars identical"
+    },
+    "equal_weight_and_hidden_ema_null": {
+      "pass": true,
+      "ema_grad_max": 6.9029724159008765e-09,
+      "main_grad_norm": 0.5170243382453918
+    },
+    "lagged_ema_is_nonzero": {
+      "pass": true,
+      "ema_grad_norm": 0.7831251621246338
+    },
+    "changed_ema_detected": {
+      "pass": true,
+      "gradient_difference": 0.783125102519989
+    },
+    "equal_weights_without_hidden_is_not_null": {
+      "pass": true,
+      "ema_grad_norm": 0.07873181998729706
+    },
+    "optimizer_moments_detected": {
+      "pass": true,
+      "gradient_max_difference": 0.0,
+      "update_difference": 0.21270939707756042
+    },
+    "missing_hidden_rejected": {
+      "pass": true,
+      "reason": "missing capture inputs: ['h_ema']"
+    },
+    "attached_ema_rejected": {
+      "pass": true,
+      "reason": "state/labels must be detached CPU tensors"
+    },
+    "unsupported_optimizer_rejected": {
+      "pass": true,
+      "reason": "unsupported optimizer backend"
+    },
+    "wrong_group_order_rejected": {
+      "pass": true,
+      "reason": "optimizer group/name mapping mismatch"
+    },
+    "serialization_replay": {
+      "pass": true
+    }
+  },
+  "all_pass": true,
+  "cost": {
+    "wall_seconds": 1.2054484300024342,
+    "cpu_seconds": 2.484947983,
+    "peak_rss_kib": 696092
+  },
+  "torch": "2.14.0+cu130",
+  "threads": 1,
+  "gpu_used": false
+}

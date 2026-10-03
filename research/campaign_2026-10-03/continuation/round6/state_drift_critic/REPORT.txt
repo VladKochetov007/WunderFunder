@@ -1,0 +1,87 @@
+BLIND PRE-MORTEM — CURRENT-WEIGHT PREFIX STATE DRIFT
+Verdict: protocol requirements frozen; actual probe UNREVIEWED. No candidate code,
+captures, data or GPU outputs read. No approval of instrument_v2 implied.
+
+One question: at the local pre-forward boundary s=4000, does replacing the incoming
+student state built during four online updates with a state recomputed under the
+same current raw student weights change this local step? This is conditional early-
+trajectory sensitivity, not inference gain, historical recovery or a new architecture.
+
+SOURCE-SUPPORTED TRAPS / REQUIRED REVIEW GATES
+1. Capture provenance. Bind the fresh capture to exact trainer/model source, config,
+initial model and normalization-buffer provenance. Actual sequence start h=None;
+chunk length 1000; boundary pre-forward/pre-zero-grad at 4000. Establish four warm
+attempts AND four successful, non-skipped optimizer updates. The source advances
+scheduler, step_count and EMA after scaler.step, so clocks alone cannot establish
+successful steps. Missing evidence is BLOCK, not assumed success. Bind stale h to
+the detached student output of the previous online chunk and current theta to the
+raw student after update four. Do not substitute EMA or a historical checkpoint.
+
+2. Matched reference. Freeze that current raw theta AND buffers throughout four
+calls: [0,1000), [1000,2000), [2000,3000), [3000,4000), starting at None. Use the
+identical original input prefix/order, autocast precision, backend flags, mode and
+source forward path. No whole-4000-call substitution: chunk boundaries can change
+backend rounding and the source convolution encoder resets context at each chunk.
+Do not change architecture. Document stochastic behavior; isolate/reset reference-
+construction RNG side effects so local comparisons start at the same RNG state.
+Four scalar recurrence calls in this review stand for chunk transitions, not GRU
+or precision equivalence. If the actual path is stochastic, this experiment may
+mix stochastic history with weight history; mark attribution unknown unless paired
+randomness controls isolate it. Deterministic flags cannot be inferred from names.
+
+3. Single local intervention. Detach incoming h_ref before [4000,5000). Hold current
+student parameters/buffers, lag EMA parameters AND h_ema, teacher outputs, all
+targets/masks, loss denominators/coefficients, structural tables, optimizer moments
+and canonical name mapping, scheduler/scaler/update/EMA clocks fixed. Rebuild no
+teacher state. No prefix BPTT and no prefix optimizer/EMA updates. Compare local
+branches from independent copies of the same captured base snapshot, with matched
+local RNG; the reference construction must not mutate that snapshot. In a local
+optimizer simulation, compare branch results without committing either update.
+Replacing stale student h is the only scientific intervention.
+
+4. Numerical evidence is a separate gate. First demonstrate unchanged-state replay
+and repeated fixed-current-prefix controls under an independently accepted policy
+for each measured operation. Report control residuals separately from altered-state
+effects, with finite checks and supported parameter participation/non-skip guards.
+No tolerance fitted from the desired branch difference; zero floor means exact
+unchanged control, not relaxation. Six default-step floors cannot certify a sum of
+separately rounded component-autograd gradients. E393's decomposition blocker is
+still open here: no bound implies UNKNOWN component geometry, not a cleared gate.
+A bound for unchanged replay is not automatically a bound for the two altered
+branches. State/output evidence and gradient/component evidence need separate scope.
+
+5. Interpretation and rejection. Report raw state/output/local-gradient/update
+residuals, valid denominators and all unsupported cases. A hidden-state difference
+alone is not proof of a harmful gradient, recoverable training loss, physical
+mechanism or predictive necessity. A total-gradient effect cannot clear component
+attribution; h-vs-h_ema distance is not this matched intervention. Null effects,
+failed identity checks and effects below an accepted operation-specific resolution
+must be reported. Null at four updates does not prove later saturation or absence
+of drift; positive at one early boundary does not extrapolate to later trajectories.
+No tuning boundaries, warm counts, architecture or arms to obtain an effect.
+
+EXECUTED BLIND CONTROLS
+PREREG.json was written before scoring, its SHA-256 is recorded in results.json.
+Scalar h_next=a*h+x with warm a=[.5,.6,.7,.8], current a=.9, x=[1,-2,3,.5]:
+stale h=2.116, fixed-current h=2.309; unchanged constant-weight residual=0.
+For L=(a*h+.25-1)^2, detached local derivative=6.1331658; full-prefix derivative
+=10.5079272. This deliberately exposes a derivative trap, not actual GRU drift.
+Eight schema adversaries BLOCK: one-call prefix, EMA weights, changing reference
+weights, BPTT, skipped update, cached initial state, RNG side effects, teacher change.
+Numeric controls: missing policy UNKNOWN; approved synthetic zero-bound identity
+PASS_CONTROL_ONLY; nonzero zero-floor residual, wrong operation, effect calibration,
+NaN bound and infinite residual BLOCK. The synthetic acceptance flag is a toy
+fixture, not independent approval of any real policy. Metadata equality is a
+fail-closed demonstration, not proof that submitted evidence is authentic.
+
+PROVENANCE / REPRODUCTION
+run.sh executes adversaries.py through run_cpu.sh reviewer, one core/2 GiB/900s;
+CUDA unavailable, stdlib only. results.json records all source hashes, pretest
+prereg hash, measured toy outputs and cost: 0.000388 s body, 17740 KiB peak RSS.
+Wrapper command completed successfully. No fits, GRU, actual data or capture reads.
+Author sources and previous frozen reports preserved. Final HASHES.json creation
+was blocked by shared resource admission (exit 75); see RESOURCE_FAILURE.txt.
+No retry or barrier clearance. Existing prereg and source hashes remain recorded.
+
+Next action: await controller request, then review Carver against these frozen gates.
+Do not inspect candidate/captures before that request. No promotion or public claim.

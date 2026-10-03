@@ -1,0 +1,65 @@
+{"name": "c20261002_dtwo192e128a05_s3_f0", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 192, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 32, "epochs": 4, "stop_after_epoch": 2, "checkpoint_policy": "fixed", "checkpoint_epoch": 2, "no_eval_during_fit": true, "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json", "lr": 0.001, "wd": 0.01, "optim": "adamw", "muon_scope": "rnn", "beta2": 0.999, "sched": "onecycle", "wsd_decay": 0.2, "wsd_final": 0.01, "rnn_init": "default", "chrono_tmax": 2000.0, "clip": 1.0, "grad_stats": false, "loss": "wmse", "thin_prob": 0.0, "thin_range": "0.1,0.4", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "c20260929_since_s3_f0,c20260929_since_s4_f0", "distill_alpha": 0.5, "distill_alpha_far": null, "distill_alpha_tau": 32.0, "distill_boot_h": 0, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "twoclock", "tcn_mix": 0, "decay_init": "multi", "memory_arm": "endpoint-content", "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 4, "valid_repeat": 1, "init": "", "inherit_init_preprocessing": false, "freeze": "", "ema_teacher": 1.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": true, "mask_weight": false, "propensity": "c20260929_prop_f0", "prop_power": 2.0, "prop_eps": 0.03, "class_weight": "", "valid_true_mask": 0.03, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "loss_norm": "chunk", "since_weight": 32.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d", "distill_provenance": [{"run": "c20260929_since_s3_f0", "split": "train", "scale": 1.0, "epoch": 3, "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38", "prediction_sha256": "2e74e44773d3d6d3e7c48c245a71f281b1659e6f6592ea2a9a2e4f96d37d19dc"}, {"run": "c20260929_since_s3_f0", "split": "valid", "scale": 1.0, "epoch": 3, "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38", "prediction_sha256": "7a01c040849d9455016dee51a1f9c82c1079be085a0e6be23c99c23bddb3fba9"}, {"run": "c20260929_since_s4_f0", "split": "train", "scale": 1.0, "epoch": 3, "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8", "prediction_sha256": "819ab8ef0b1303b289af3475e173da8e9e7ff404ca7a8d8e7e10a3d443648241"}, {"run": "c20260929_since_s4_f0", "split": "valid", "scale": 1.0, "epoch": 3, "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8", "prediction_sha256": "6aa7b150097ebdf43ddbea8c3a52f8d705ebd2dbd01470e3c45b7eb2dbcfc430"}]}
+{"source_train_sequences": 10535, "eligible_valid_train_sequences": 1405, "used_valid_train_sequences": 1405, "eval_sequences": 468}
+loader workers 3 prefetch 2; params 0.79M; steps 14920
+ep 0 batch 0/373 loss 2.9829 lr 4.04e-05 seq/s 5.8
+ep 0 batch 20/373 loss 1.8285 lr 2.16e-04 seq/s 12.2
+ep 0 batch 40/373 loss 1.5851 lr 5.96e-04 seq/s 12.7
+ep 0 batch 60/373 loss 1.3311 lr 9.24e-04 seq/s 12.9
+ep 0 batch 80/373 loss 1.3672 lr 1.00e-03 seq/s 12.9
+ep 0 batch 100/373 loss 1.3780 lr 9.99e-04 seq/s 13.0
+ep 0 batch 120/373 loss 1.1697 lr 9.97e-04 seq/s 13.0
+ep 0 batch 140/373 loss 1.2051 lr 9.95e-04 seq/s 13.0
+ep 0 batch 160/373 loss 1.0580 lr 9.91e-04 seq/s 13.0
+ep 0 batch 180/373 loss 1.1177 lr 9.86e-04 seq/s 13.0
+ep 0 batch 200/373 loss 0.9716 lr 9.80e-04 seq/s 13.0
+ep 0 batch 220/373 loss 0.9025 lr 9.74e-04 seq/s 13.1
+ep 0 batch 240/373 loss 0.9993 lr 9.66e-04 seq/s 13.1
+ep 0 batch 260/373 loss 0.9186 lr 9.58e-04 seq/s 13.1
+ep 0 batch 280/373 loss 0.8403 lr 9.49e-04 seq/s 13.1
+ep 0 batch 300/373 loss 0.8944 lr 9.38e-04 seq/s 13.1
+ep 0 batch 320/373 loss 0.9196 lr 9.27e-04 seq/s 13.1
+ep 0 batch 340/373 loss 0.8547 lr 9.15e-04 seq/s 13.1
+ep 0 batch 360/373 loss 0.8337 lr 9.03e-04 seq/s 13.1
+FIT {"epoch": 0, "train_seconds": 910.0, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 3730, "amp_skipped_updates": 2, "optimizer_completed_updates": 3728, "ema_updates": 3730, "completed_batches": 373}, "cumulative": {"optimizer_attempts": 3730, "amp_skipped_updates": 2, "optimizer_completed_updates": 3728, "ema_updates": 3730, "completed_batches": 373}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 32, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "0346850701e98c434eb2b40cb21bcf1a8741b31c711bef265bcc6c4a48d4cd96"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "0346850701e98c434eb2b40cb21bcf1a8741b31c711bef265bcc6c4a48d4cd96"}, "num_workers": 3, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11940}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "0f1573ed9f0515da8aea1268f77ace3cd34ad182be172e58e26fd42a3ec919f9"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "c18d940b7682869fa6126eeb6c316cb4caa1726ce748f708d23ceed9c20ae000"}}}}
+ep 1 batch 0/373 loss 0.8613 lr 8.94e-04 seq/s 6.0
+ep 1 batch 20/373 loss 0.8938 lr 8.80e-04 seq/s 12.4
+ep 1 batch 40/373 loss 0.8651 lr 8.65e-04 seq/s 12.9
+ep 1 batch 60/373 loss 0.8367 lr 8.50e-04 seq/s 13.0
+ep 1 batch 80/373 loss 0.8349 lr 8.33e-04 seq/s 13.1
+ep 1 batch 100/373 loss 0.9119 lr 8.17e-04 seq/s 13.1
+ep 1 batch 120/373 loss 0.8721 lr 7.99e-04 seq/s 13.1
+ep 1 batch 140/373 loss 0.7931 lr 7.81e-04 seq/s 13.1
+ep 1 batch 160/373 loss 0.9214 lr 7.62e-04 seq/s 13.1
+ep 1 batch 180/373 loss 0.8448 lr 7.43e-04 seq/s 13.1
+ep 1 batch 200/373 loss 0.8469 lr 7.24e-04 seq/s 13.1
+ep 1 batch 220/373 loss 0.9350 lr 7.04e-04 seq/s 13.1
+ep 1 batch 240/373 loss 0.8021 lr 6.83e-04 seq/s 13.1
+ep 1 batch 260/373 loss 0.8374 lr 6.62e-04 seq/s 13.1
+ep 1 batch 280/373 loss 0.7790 lr 6.41e-04 seq/s 13.1
+ep 1 batch 300/373 loss 0.8960 lr 6.20e-04 seq/s 13.1
+ep 1 batch 320/373 loss 0.8131 lr 5.98e-04 seq/s 13.1
+ep 1 batch 340/373 loss 0.8832 lr 5.77e-04 seq/s 13.1
+ep 1 batch 360/373 loss 0.8320 lr 5.55e-04 seq/s 13.1
+FIT {"epoch": 1, "train_seconds": 907.7, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 3730, "amp_skipped_updates": 2, "optimizer_completed_updates": 3728, "ema_updates": 3730, "completed_batches": 373}, "cumulative": {"optimizer_attempts": 7460, "amp_skipped_updates": 4, "optimizer_completed_updates": 7456, "ema_updates": 7460, "completed_batches": 746}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 32, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "448ecb78134d000e0ef043f6f78ca129fab95ebdb08847e27b2971ae0da83ff5"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "448ecb78134d000e0ef043f6f78ca129fab95ebdb08847e27b2971ae0da83ff5"}, "num_workers": 3, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11940}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "0f1573ed9f0515da8aea1268f77ace3cd34ad182be172e58e26fd42a3ec919f9"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "c18d940b7682869fa6126eeb6c316cb4caa1726ce748f708d23ceed9c20ae000"}}}}
+ep 2 batch 0/373 loss 0.7914 lr 5.40e-04 seq/s 6.8
+ep 2 batch 20/373 loss 0.8879 lr 5.18e-04 seq/s 12.7
+ep 2 batch 40/373 loss 0.8193 lr 4.96e-04 seq/s 13.0
+ep 2 batch 60/373 loss 0.8428 lr 4.74e-04 seq/s 13.1
+ep 2 batch 80/373 loss 0.8259 lr 4.52e-04 seq/s 13.1
+ep 2 batch 100/373 loss 0.8895 lr 4.30e-04 seq/s 13.2
+ep 2 batch 120/373 loss 0.8435 lr 4.08e-04 seq/s 13.2
+ep 2 batch 140/373 loss 0.7336 lr 3.86e-04 seq/s 13.2
+ep 2 batch 160/373 loss 0.8020 lr 3.65e-04 seq/s 13.2
+ep 2 batch 180/373 loss 0.8717 lr 3.44e-04 seq/s 13.2
+ep 2 batch 200/373 loss 0.7621 lr 3.23e-04 seq/s 13.2
+ep 2 batch 220/373 loss 0.8898 lr 3.02e-04 seq/s 13.2
+ep 2 batch 240/373 loss 0.8315 lr 2.82e-04 seq/s 13.2
+ep 2 batch 260/373 loss 0.7652 lr 2.62e-04 seq/s 13.2
+ep 2 batch 280/373 loss 0.8213 lr 2.43e-04 seq/s 13.2
+ep 2 batch 300/373 loss 0.7935 lr 2.24e-04 seq/s 13.2
+ep 2 batch 320/373 loss 0.7997 lr 2.06e-04 seq/s 13.2
+ep 2 batch 340/373 loss 0.7533 lr 1.89e-04 seq/s 13.2
+ep 2 batch 360/373 loss 0.8328 lr 1.72e-04 seq/s 13.2
+FIT {"epoch": 2, "train_seconds": 907.5, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 3730, "amp_skipped_updates": 2, "optimizer_completed_updates": 3728, "ema_updates": 3730, "completed_batches": 373}, "cumulative": {"optimizer_attempts": 11190, "amp_skipped_updates": 6, "optimizer_completed_updates": 11184, "ema_updates": 11190, "completed_batches": 1119}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 32, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "2beaad7ba44cca6659831a97c479dac306a0dff7eab935433ee488beab60c59e"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "2beaad7ba44cca6659831a97c479dac306a0dff7eab935433ee488beab60c59e"}, "num_workers": 3, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11940}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "0f1573ed9f0515da8aea1268f77ace3cd34ad182be172e58e26fd42a3ec919f9"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "c18d940b7682869fa6126eeb6c316cb4caa1726ce748f708d23ceed9c20ae000"}}}}
+SELECTED_FIXED 2
+DTWO_DONE c20261002_dtwo192e128a05_s3_f0

@@ -1,0 +1,19 @@
+{
+  "frozen_utc": "2026-10-03T12:55:36Z",
+  "observed_prior": "The old shared i0_p event fast band helped, while added slow bands and generic recurrence features did not.",
+  "test_id": "clock-probe-v1",
+  "hypothesis": "Independent group innovations are lost when all fast-band EMAs advance only at i0_p events. Group-specific clocks should improve causal prediction relative to the identical shared-clock feature bank.",
+  "mechanism_alternative": "Any benefit may come from effective smoothing rate, not alignment with group innovations. A causal periodic clock estimated from the first 99 rows separates these explanations approximately.",
+  "configs": ["shared", "own", "row", "prefix_rate"],
+  "matched_control": "Same 112 level columns, 112 level-minus-EMA bands, 3 sentinel indicators, 6 shared clock covariates and intercept; alpha=1/4; same sample rows and scale-aware ridge penalty 1e-3. Only EMA update masks differ.",
+  "prefix_rate_control": "Rows 0..98 use shared clock; thereafter each group advances periodically at the rate estimated from its changes in rows 1..98. This is causal and approximately rate matched, not exactly event-count matched.",
+  "fit": "64 train sequences, rows 99..19999 stride 4, separate abs(clipped-target)-weighted ridge heads; no hyperparameter sweep; raw targets in training as in prior scripts.",
+  "score": "64 valid sequences, is_scored AND row>=99; pooled WP clips targets/predictions to +/-2, weights abs(clipped target), averages separate target correlations.",
+  "sampling": "Seed 2603103; exclude recoverable prior ridge samples under predecessor defaults 150 train/100 valid, classifier samples, and listed small EDA samples. All candidates remain prior-catalogue exposed. Record actual seq_ix and row-group IDs before score.",
+  "decision": "Support own-clock premise only if own-shared pooled mean WP >0.002 and positive in both predetermined validation halves. Timing-specific support additionally requires own-prefix_rate >0.002. Otherwise reject or leave unresolved; row superiority favors row-time smoothing.",
+  "uncertainty": "Paired sequence bootstrap descriptive only (250 draws, seed 3103); unknown connected-component overlap prevents campaign-valid independence claims.",
+  "causality_checks": "Feature equality for full sequence versus prefixes ending at rows 98, 99, 255, 1023 on two sequences; changing target arrays must not change features. Inference feature reader receives no target columns.",
+  "outputs": ["clock_probe_manifest.json", "clock_probe_results.json", "clock_probe_stats.npz", "clock_probe_weights.npz", "fig_clock_probe.png", "fig_clock_activity.png"],
+  "status": "frozen_unscored",
+  "claim_class": "Exploratory mechanism probe; no baseline comparison or public-score forecast."
+}

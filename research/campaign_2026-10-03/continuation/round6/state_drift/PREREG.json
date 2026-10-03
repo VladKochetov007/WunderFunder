@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "scientific_input_status": "No real capture opened; thresholds frozen before future approved captures",
+  "binary_comparison": "captured stale incoming STUDENT h vs current-pre-STUDENT-weight prefix-consistent h; no EMA/student factorial",
+  "reference": "initial None; source forward_chunk on original full inputs with captured student mean/std and weights; four calls [0:1000],[1000:2000],[2000:3000],[3000:4000], detach each returned h; no optimizer/scheduler/EMA update; actual CUDA fp16/autocast-cache/backend flags",
+  "local_step": "same query4000:5000; substitute only detached student incoming h; all other pre tensors, real warm moments, clocks, RNG, EMA weights/h, teacher, target mathematics and denominators preserved",
+  "required_provenance": "controller-bound pre/post SHA, actual executed v4 run_probe real entrypoint hash, initial h=None, warm starts [0,1000,2000,3000], four completed non-skipped updates, source and full-input identities plus panel-only normalization identity; missing evidence fails UNKNOWN",
+  "numeric_floor": "six independently restored original default updates, freeze before counterfactual; six independently restored fixed-current-weight prefix references; max pairwise RMS/L2 floors, require existing v4 whole-default parity policy/ceilings, no floor from stale-vs-reference effect; finite-only scientific run",
+  "material_local_drift_rule": {
+    "hidden_relative_rms_at_least": 0.01,
+    "main_prediction_rms_at_least": 0.0001,
+    "whole_gradient_relative_l2_at_least_OR_whole_update_relative_l2_at_least": 0.01,
+    "each_required_effect_must_exceed_independent_floor_times": 5
+  },
+  "outcomes": ["INVALID_OR_UNKNOWN if source/backend/default gate/provenance/preservation/floor stability fails", "MATERIAL_LOCAL_DRIFT if all rule terms pass", "DETECTABLE_SUBTHRESHOLD if some effect exceeds its independent floor but conjunction fails", "UNRESOLVED_AT_NUMERIC_FLOOR otherwise"],
+  "rivals": ["weights changed but h is locally insensitive", "h drift is observable but head/whole-update insensitive", "gradient changes but clip/Muon/warm moments attenuate actual update", "descriptor/backend noise explains effect; floor gate rejects if too unstable"],
+  "interpretation": "early fresh-panel local trajectory only, not historical fullfit, predictive usefulness, inference/WP benefit, optimization optimum or certified component attribution",
+  "CPU_controls": ["fixed-weight four-call prefix vs sequential carry bitexact", "changing weights during historical prefix plants drift", "unchanged weights null has equal outputs/whole gradients/updates", "six repeat controls give independent floors", "unknown trajectory/private RNG/unauthorized real entry rejected without actual CUDA restore"],
+  "authorization": "UNAPPROVED; future controller GPU queue/run_gpu runtime only after default v4 gate plus separate hash-bound state-drift approval; no GPU receipt created here",
+  "resources_now": "run_cpu.sh round2-critic onecore2GiB900s; no fullfit/data/scoring/GPU/queue/source writes"
+}

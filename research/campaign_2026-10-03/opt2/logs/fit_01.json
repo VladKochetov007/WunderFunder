@@ -1,0 +1,85 @@
+{
+  "data": "synthetic only; train 24, validation 8; no campaign sequence IDs",
+  "parity": [
+    {
+      "optimizer": "adamw",
+      "updates": 12,
+      "bit_identical": true,
+      "global_rng_unchanged": true
+    },
+    {
+      "optimizer": "muon",
+      "updates": 12,
+      "bit_identical": true,
+      "global_rng_unchanged": true
+    }
+  ],
+  "fits": [
+    {
+      "initial": "adamw",
+      "target": null,
+      "updates": 100,
+      "validation_initial": 0.5371686220169067,
+      "validation_final": 0.08199705183506012,
+      "ratio": 0.15264676392896115,
+      "events": [],
+      "training_loss_first_last": [
+        0.61732017993927,
+        0.020041778683662415
+      ]
+    },
+    {
+      "initial": "muon",
+      "target": null,
+      "updates": 100,
+      "validation_initial": 0.5371686220169067,
+      "validation_final": 0.1435455083847046,
+      "ratio": 0.2672261604665856,
+      "events": [],
+      "training_loss_first_last": [
+        0.61732017993927,
+        0.07584593445062637
+      ]
+    },
+    {
+      "initial": "muon",
+      "target": "adamw",
+      "updates": 100,
+      "validation_initial": 0.5371686220169067,
+      "validation_final": 0.0896211490035057,
+      "ratio": 0.16683988105449127,
+      "events": [
+        {
+          "target": "adamw",
+          "preserved": 8,
+          "cold_started": 2,
+          "completed_attempts": 50
+        }
+      ],
+      "training_loss_first_last": [
+        0.61732017993927,
+        0.027591507881879807
+      ]
+    },
+    {
+      "initial": "adamw",
+      "target": "muon",
+      "updates": 100,
+      "validation_initial": 0.5371686220169067,
+      "validation_final": 0.09628541022539139,
+      "ratio": 0.17924615526474463,
+      "events": [
+        {
+          "target": "muon",
+          "preserved": 8,
+          "cold_started": 2,
+          "completed_attempts": 50
+        }
+      ],
+      "training_loss_first_last": [
+        0.61732017993927,
+        0.022212805226445198
+      ]
+    }
+  ]
+}

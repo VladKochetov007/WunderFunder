@@ -1,0 +1,20 @@
+{
+  "status": "frozen_before_any_new_scores",
+  "role": "eda-nonlinear",
+  "test_id": "causal_residual_offsets_v1",
+  "observed_prior": "Exposed validation cross-fit t1 offsets 0.5319 vs ridge 0.4971; includes target-derived unit and reused validation.",
+  "primary_hypothesis": "Causal input-state offsets improve t1 over affine ridge calibration on sequence-disjoint evaluation without target-derived classes.",
+  "mechanism_contrast": "Conditional center shift (offsets) versus reliability/slope change (gains), and scoring-selection transport versus ordinary training calibration.",
+  "features": ["a2", "a3", "act0_h100", "trd0_h100", "log1p_time_since_price_change"],
+  "base": "Reconstruct original weighted ridge using 48 train row groups seed2, every fourth required row; raw112+diff112+causal19 states; original ridge strength.",
+  "calibration_sources": ["32 train row groups seed260103 excluding all known or potentially inspected train recipes", "exposed 40 valid row groups seed1, scored rows only"],
+  "evaluation": "64 valid row groups seed260104 excluding known40 seed1, known40 seed0, direct peeks0/5/6/7 and reconstructed default stream600 seed7; freshness versus actual undocumented stream invocation is unproven; not campaign-independent.",
+  "controls": ["uncalibrated ridge", "affine calibration", "affine plus linear state offsets", "affine plus state gain interactions", "affine plus offsets and gains", "affine plus additive three-bin state offsets"],
+  "preprocessing": "Calibration statistics and thresholds from that source only; targets clipped to +/-2, fit weights abs(y)+0.001; calibration ridge penalty 0.001*N on state coefficients, affine coefficients unpenalized; never target U.",
+  "primary_success_rule": "On disjoint evaluation, t1 offset-minus-affine global WP >=0.005 with same positive sign in both deterministic sequence halves; report t0 and average metric even if negative.",
+  "rejection_rule": "Reject useful transport of this small offset representation if t1 delta <0.005 or either sequence half nonpositive; if only exposed-scored calibration wins, ordinary-train transport is rejected.",
+  "secondary_threshold_test": "Three-bin additive offsets must exceed linear offsets in average global WP by >=0.003 with positive signs in both halves; otherwise reject this cheap threshold representation.",
+  "causality": "All states update on every row, including warm-up/unscored rows; reset per sequence; no seq_ix feature, no mask at inference, no future-dependent state or target-derived classes.",
+  "uncertainty": "Paired sequence sufficient statistics; sequence bootstrap is descriptive under a cluster-independence assumption. Campaign connected components unavailable, so no campaign confidence claim.",
+  "provenance": "Record row-group IDs, actual seq_ix, sampled input/target/mask checksums, input warm-up fingerprints, source hashes and exact command. Exclude exact input-prefix duplicates between development/evaluation before scoring."
+}

@@ -44,11 +44,16 @@ Tests (tests/test_twoclock.py, 11 pass; with tests/test_tcn.py 24):
   CPU bf16-autocast chunked training step with the EMA teacher runs; gru_event receives gradients.
   Other --arch paths unchanged (new make_model branch, --arch choice, provenance hash of nn.py).
 
-GPU job: research/campaign_2026-10-01/jobs/dtwo_fold.sh FOLD [MAX_BATCHES]
-  dtcn_fold.sh recipe: since teachers c20260929_since_s3/s4_f<k>, alpha 0.5, epochs 4 fixed epoch 3, predict ep3,
-  GCLP head-stage FT with --freeze inp,gru, predict FT ep0. Hard-set exports WNN_VRAM_GB=4.6
-  PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True WNN_LOADER_WORKERS=3 WNN_LOADER_RAM_GB=3.
-  Tags: c20261002_dtwo192e128a05_s3_f<k>, FT c20261002_ft_dtwo192e128a05_s3_f<k>h; smoke c20261002_dtwosmoke192e128_s3_f0.
+GPU job: research/campaign_2026-10-01/jobs/dtwo_fold.sh FOLD [MAX_BATCHES] [MODE]
+  dtcn_fold.sh recipe: since teachers c20260929_since_s3/s4_f<k>, alpha 0.5, 4-epoch schedule. Hard-set exports
+  WNN_VRAM_GB=4.6 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True WNN_LOADER_WORKERS=3 WNN_LOADER_RAM_GB=3.
+  MODE screen (fold screens): --checkpoint-epoch 2 --stop-after-epoch 2, predict ep2, export the control
+    c20261001_d256_s3_f<k> at ep2 if missing (dflag_fold.sh convention; ep2 contrasts track ep3).
+    Tag c20261002_dtwo192e128a05_s3_f<k>; compare against cache/pred_c20261001_d256_s3_f<k>_ep2_valid.npy.
+  MODE full (default): epoch 3, predict ep3, GCLP head-stage FT with --freeze inp,gru, predict FT ep0.
+    Tag c20261002_dtwofull192e128a05_s3_f<k>, FT c20261002_ft_dtwofull192e128a05_s3_f<k>h.
+  MAX_BATCHES > 0: smoke tag c20261002_dtwosmoke192e128_s3_f<k> (the queued smoke runs the full path, so the
+    head-stage FT with the whole-trunk freeze is exercised on GPU too).
 Queued 19:18 at the end of queue6: c20261002_dtwosmoke_f0 1800 8 dtwo_fold.sh 0 21
 
 Smoke result

@@ -1,0 +1,44 @@
+{
+  "kind": "EXACT_INTERFACE_ONLY_NOT_AN_APPROVAL_RECEIPT",
+  "required_receipt": {
+    "status": "approved",
+    "default_v4_gate": "PASS",
+    "independent_state_drift_review": "PASS",
+    "reviewer": "independent controller/reviewer, not state_drift or round6-state-drift",
+    "candidate_sha256": "exact contents of candidate_hashes.json (PREREG.json,protocol.py,run_real.py,controls.py,runtime.py)",
+    "capture_sha256": {"pre": "actual pre.pt SHA256", "post": "actual post.pt SHA256", "trajectory": "actual trajectory JSON file SHA256"},
+    "v4_review_receipt": "absolute path to independent v4 receipt consumed by original runner.verify_review; measurement runtime remains separately bound there",
+    "runtime_sha256": "exact contents of runtime_hashes.json: scripts/campaign_job.py,scripts/limited,continuation/run_gpu.sh,NEW round6/controller_state_drift_payload.sh; paths relative to root",
+    "runtime_limits": {
+      "deadline_epoch": 1791057600,
+      "minimum_remaining_at_payload_entry_seconds": 325,
+      "work_timeout_seconds": 300,
+      "kill_grace_seconds": 5,
+      "outer_runtime_seconds": 320,
+      "allocator_limit_bytes": 4800000000,
+      "observed_device_limit_bytes": 5500000000,
+      "cpu_cores": 8,
+      "host_memory_bytes": 25769803776,
+      "root_cpu_cores": 12,
+      "root_host_memory_bytes": 38654705664
+    },
+    "launch": {
+      "entrypoint": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round6/state_drift_v2/run_real.py",
+      "pre": "resolved absolute actual input pre path",
+      "post": "resolved absolute actual input post path",
+      "trajectory": "resolved absolute actual trajectory path",
+      "receipt": "resolved absolute THIS receipt path",
+      "output": "resolved absolute fresh output directory under state_drift_v2"
+    }
+  },
+  "payload_environment": {
+    "WNN_IN_CAMPAIGN_JOB": "1",
+    "WNN_SLICE": "wnn-campaign-gpu.slice",
+    "WNN_RESEARCH_DEADLINE_UTC": "1791057600",
+    "WNN_CAMPAIGN_VRAM_BYTES": "5500000000",
+    "WNN_STATE_DRIFT_PAYLOAD_SHA256": "must equal runtime_sha256[NEW R6 wrapper relative path]"
+  },
+  "arguments": "--pre ABS --post ABS --trajectory ABS --receipt ABS --output ABS, passed unchanged by controller wrapper",
+  "trajectory": "same v1 tensor-identity hash grammar; streamed; initial raw/EMA h null; starts0/1000/2000/3000; completed_warm_updates4,warm_skips0; source entrypoint/runner/panel/adapter/source/input/normalization/panel hashes still mandatory",
+  "authorization": "No receipt generated here. Controller must review actual NEW wrapper, outer320s/resource/runtime chain and independent critic/default gate before admission. Candidate current hashes reject source/runtime changes. CPU tests use onecore2GiB900s, not GPU job8CPU24GiB."
+}

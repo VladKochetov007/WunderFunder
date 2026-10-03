@@ -1,0 +1,27 @@
+{
+  "source_sha256": {
+    "round2/CONTRACT.md": "134f6e275f6bc7105ca29398dd479243622d81b5dafce1c8a40dcfa62d58c230",
+    "parent_CONTRACT.txt": "c40681deffe2e2c87509877f22c5c3552b1687394b53f4bc27dc24b450b87880",
+    "METRIC.md": "7b14ae7bbc8845eb39a1dd22fd7fc3b1bf748d06fbe6c7bd2fbae73c6b57610a",
+    "pinned_official_data_overview.html": "95cded300df8281c99081b8cb3d7acf1253ae347b585701309fc8cb8196b97ec"
+  },
+  "frozen_sha256": {
+    "TESTS.json": "b8d4d554e8c340260434099a0b925724973500cdeb63d497559e14358eda29a6",
+    "PREREG.json": "037cff737f9cc3198a5b3d27918e2c0d087d18fbb46e5843e1cf8089193d1a9d"
+  },
+  "executed_sha256": {
+    "checks.py": "16ac5afd745c8f9f07becc9850f7c2c4b1524fae4cef0d8d94272454dc967c80",
+    "run_checks.sh": "aa7ae1b9243669def33e042cc201083099ed9b13f391c695e763f6305215204c",
+    "results.json": "8842d3ffefe04e10f795262da89c1534c7a112f910f7b591e2f3a9976a98bfa6"
+  },
+  "source_read_method": "allowed contracts/metric; bounded excerpts of pinned primary spec; no actor or live implementation reads",
+  "external_theorem_claims": "none; finite algebra and exhaustive enumeration",
+  "command_prefix": "research/campaign_2026-10-03/continuation/run_cpu.sh round2-critic env PYTHONDONTWRITEBYTECODE=1",
+  "commands": [
+    {"command": "bash research/campaign_2026-10-03/continuation/round2/spec_critic/run_checks.sh", "log": "logs/checks_01.log", "exit": 0, "elapsed_seconds": 0.05, "peak_rss_kib": 17080},
+    {"command_after_prefix": ".venv/bin/ruff check --no-cache --fix research/campaign_2026-10-03/continuation/round2/spec_critic/checks.py", "log": "logs/lint_01.log", "exit": 0},
+    {"command_after_prefix": ".venv/bin/ruff format research/campaign_2026-10-03/continuation/round2/spec_critic/checks.py", "log": "logs/format_01.log", "exit": 0},
+    {"command": "bash research/campaign_2026-10-03/continuation/round2/spec_critic/run_checks.sh", "log": "logs/checks_final.log", "exit": 0, "elapsed_seconds": 0.04, "peak_rss_kib": 17072},
+    {"command_after_prefix": ".venv/bin/ruff check --no-cache research/campaign_2026-10-03/continuation/round2/spec_critic/checks.py", "log": "logs/lint_final.log", "exit": 0}
+  ]
+}

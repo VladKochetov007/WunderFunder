@@ -1,0 +1,30 @@
+Periodic crash recovery policy
+
+The persistent watcher polls once per minute. It consumes journal cursors,
+reconciles GPU running/waiting records with systemd, and watches the aggregate
+slice's cumulative OOM counter. CPU wrappers retain terminal scope journals.
+Failures and malformed metadata stop admissions; monitoring permission/bus
+errors are visible as degraded coverage. Independent service inspection also
+fails closed at launch. Incident identities and acknowledgement reasons survive
+watcher restarts. No failed output is silently relabelled successful.
+
+Controller response while this research session is active:
+1. Save incident, traceback, unit result, scope memory events, effective limits,
+   last completed epoch, prediction .partial path, and current source hashes.
+2. Distinguish admission/controller failure from actual training failure, GPU
+   allocator exhaustion, host OOM, timeout, bad data, or a scientific-code bug.
+3. Correct the observed cause. For memory pressure: reduce loader workers and
+   prefetch first; stream/chunk arrays; lower batch only if needed and preregister
+   the resulting scientific change. Keep global limits unchanged.
+4. Preserve original record and partial artifacts. Use a fresh job/model tag;
+   resume only from a complete, validated checkpoint with matching provenance.
+   Never overwrite a successful export or truncate a failed log.
+5. Record the revised command/conditions and rationale. Acknowledge only the
+   diagnosed incident IDs, then release the owned pause. Repeated failure of the
+   revised attempt closes the arm until a new diagnosis is available.
+
+The watchdog itself diagnoses evidence and pauses; it does not invent a retry
+configuration or restart arbitrary failed experiments. CPU admission exit75
+before Python starts may be retried after controller repair: no fit ran.
+Service restart-on-failure is used only for the lightweight watcher. Hardware
+or data errors are never treated as a successful negative scientific result.

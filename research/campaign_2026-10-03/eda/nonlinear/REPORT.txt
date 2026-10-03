@@ -1,0 +1,166 @@
+NONLINEAR ANALYST — BOUNDED ACTIVE CONTINUATION, 2026-10-03
+
+VERDICT
+The frozen causal residual-offset test passed its predeclared t1 threshold in
+both calibration sources and both sequence halves. Three-bin thresholds failed.
+Evidence favors conditional-center recalibration over signal-gain correction
+for this small ridge. It does NOT establish hidden regimes, a new nonlinear
+representation, an improvement over the strong baseline, or a public score.
+
+RECOVERY / WHAT WAS ALREADY KNOWN
+RECOVERY_SUMMARY.txt records the previous read-only pass substantively.
+cond_model.log: exposed valid40 ridge WP 0.5069/0.4971, tested tree lower.
+Saved old marimo output: offsets improved t1 to 0.5319, but target-derived unit
+classes, repeatedly explored validation and shared-fold normalization weakened
+that claim. Existing MI screens and persistence figures were hypotheses, not
+proof of deployable nonlinear gains. Prior categorical decoding was negative.
+All old NPZ caches were absent; stream_valid.log gave no usable downstream score.
+Original notebook is preserved as eda_nonlinear_precontinuation.py; old figures,
+CSV screens, and logs retained. No other analyst or strong baseline was read.
+
+WHAT ACTUALLY RAN
+HYPOTHESES.json froze mechanism, samples, controls, thresholds and rejection
+conditions before scoring. probe_offsets.py rebuilt the original ridge using
+streamed sufficient matrices, 243 features and 238,800 sampled train rows.
+causal_design reproduces raw112 + one-row changes112 + causal states19.
+Reconstructed exposed-valid40 WP: 0.5068544048 / 0.4971144472, matching old logs.
+This reproduces the predecessor; those rows are explicitly exposed.
+
+Five calibration inputs: a2, a3, EWMA book-change activity (half-life100),
+EWMA trade-volume-change indicator (half-life100), log1p book-change age.
+All already occur in the ridge design; offset calibration stays in its linear
+function class. The activity/age features themselves summarize causal dynamics.
+No target unit U, seq_ix feature, future input or scoring mask at inference.
+All warm-up and unscored rows update state; state initializes independently.
+
+Matched models use identical base predictions, calibration rows and weights:
+uncalibrated ridge; affine; affine+state offsets; affine+state gains;
+affine+offsets+gains; affine+additive three-bin states. Means, scales and
+one-third/two-third quantiles are learned only on the calibration source.
+Fit targets clipped +/-2; weights abs(target)+0.001; state penalty 0.001*N,
+affine coefficients unpenalized. Scoring uses exact abs(clipped target),
+clipped predictions and GLOBAL pooled weighted Pearson, then averages targets.
+
+Two calibration sources: train32 every-fourth required row (159,200 rows);
+exposed scored-valid40 (69,368 rows). Fixed models evaluated on valid64
+(122,664 scored rows), not fitted or selected on those evaluation targets.
+Probe ran successfully under run_cpu.sh eda-nonlinear, one core / 2GiB / CUDA
+unavailable. It streamed 184 row groups; no whole-file load or GPU job.
+
+MEASURED GLOBAL WP ON VALID64
+source                model          t0        t1        average
+either                raw ridge      0.562584  0.549924  0.556254
+train32               affine         0.562462  0.547865  0.555164
+train32               offsets        0.557307  0.570563  0.563935
+train32               gains          0.551369  0.556820  0.554095
+train32               offsets+gains  0.550597  0.570241  0.560419
+train32               thresholds     0.557914  0.567127  0.562521
+exposed scored-valid40 affine         0.562515  0.549253  0.555884
+exposed scored-valid40 offsets        0.563300  0.586744  0.575022
+exposed scored-valid40 gains          0.562105  0.553963  0.558034
+exposed scored-valid40 offsets+gains  0.555179  0.588240  0.571710
+exposed scored-valid40 thresholds     0.562437  0.583803  0.573120
+
+Frozen primary success: t1 offset-minus-affine >=0.005 and positive in both
+alternating row-group halves. Train32: +0.022698 (halves +0.030039/+0.016853).
+Scored-valid40: +0.037491 (halves +0.054633/+0.023509). Both pass.
+Train32 t0 falls 0.005155 versus affine; average rises 0.008772.
+Scored-valid40 average rises 0.019138 versus affine, 0.018768 versus raw ridge.
+Threshold-minus-linear-offset average: -0.001415 train, -0.001902 valid.
+Both fail the predeclared >=0.003 and positive-halves threshold test.
+Gains alone are weaker; adding gains hurts the average relative to offsets.
+The bigger scored-validation correction is suggestive of selection/domain
+transport, but calibration sources also differ in size and sequence mix.
+
+UNCERTAINTY AND CONTRADICTIONS
+400 paired bootstrap resamples over 64 observable exact-prefix components.
+Descriptive t1 offset-minus-affine 95% intervals: train [0.004544,0.040622],
+scored-valid [-0.003620,0.077863]. These assume independence of observable
+components; campaign connected components are unavailable. Do not interpret
+them as campaign-valid confidence intervals. No row-independence claim.
+The scored-valid interval includes zero despite passing the frozen half test.
+Coeff figure: t1 log-age coefficient differs sharply between sources
+(approximately -0.020 vs -0.259 per source-standardized unit); individual
+coefficients are correlated and do not identify structural causality.
+Thus the result weakens my initial preference for nonlinear regime models:
+reweighting an existing linear predictor's state coefficients is sufficient
+for the observed local gain. Threshold nonlinearity was not needed here.
+
+SAMPLE PROVENANCE
+sampling_v1.json contains ALL train48, calibration-train32, exposed-valid40,
+evaluation-valid64 row-group IDs, seeds, exclusions and the frozen-spec hash.
+provenance_ridge.json, provenance_calibration_train.json,
+provenance_calibration_exposed_scored_valid.json and provenance_evaluation_v1.json
+map every sampled row group to actual seq_ix, row counts, selected-column
+SHA256 and first99 input fingerprint. Evaluation had zero exact warm-up
+duplicates against fitting/calibration and 64 distinct prefix components.
+Train32 excludes known train48 seed2, potential train300 seed11 and peeks0/5.
+Evaluation excludes exposed valid40 seed1, valid40 seed0, peeks0/5/6/7 and
+RECONSTRUCTED default stream600 seed7. Actual old stream invocation and
+campaign-wide exposure are unknown: call these recipe-disjoint, not fresh or
+independent campaign evidence. Original train48 and valid40 are reused.
+Evaluation row groups:
+14,29,40,50,59,92,107,137,201,261,288,289,317,347,362,368,371,447,488,497,
+577,581,633,704,706,734,758,843,870,932,948,972,991,1040,1080,1094,1118,1149,
+1179,1241,1253,1257,1291,1355,1377,1409,1429,1457,1476,1481,1512,1531,1548,
+1554,1563,1613,1614,1627,1665,1685,1724,1808,1811,1856.
+
+CAUSALITY / VALIDATION / ARTIFACTS
+verify_causal.py reads ONLY 112 input columns in evaluation row group14.
+Prefixes99/100/512/1000 match full-sequence predictions for every model and
+both sources within 1.56e-14; all predictions finite over all20,000 rows.
+causality_checks_v1.json and verify_causal_v1.log hold measured checks.
+Updated eda_nonlinear.py executed headlessly with exit0; reads saved results,
+figures and provenance without refitting or requiring missing old caches.
+Ruff formatting and lint checks pass on all five new/updated Python files.
+Inspected fig09_offsets_controls_v1.png and fig10_offset_coefficients_v1.png.
+results_offsets_v1.json, scores_offsets_v1.csv and sequence_diagnostics_v1.csv
+preserve all positive/negative results. evaluation_moments_v1.npz stores six
+additive scoring moments per sequence/source/model/target for reproduction.
+continuation_ridge.npz and calibration_*_v1.npz store all fitted parameters.
+artifact_hashes_v1.json records initial analysis hashes; shipped_artifacts_v1.json
+records final shipped hashes after whitespace/import formatting and validation.
+STATE.json contains commands, exact sampling manifest, artifacts and pending work.
+
+REPRODUCE (repository root; use the wrapper for every command)
+research/campaign_2026-10-03/continuation/run_cpu.sh eda-nonlinear .venv/bin/python -B research/campaign_2026-10-03/eda/nonlinear/probe_offsets.py
+research/campaign_2026-10-03/continuation/run_cpu.sh eda-nonlinear .venv/bin/python -B research/campaign_2026-10-03/eda/nonlinear/analyze_offsets.py
+research/campaign_2026-10-03/continuation/run_cpu.sh eda-nonlinear .venv/bin/python -B research/campaign_2026-10-03/eda/nonlinear/verify_causal.py
+research/campaign_2026-10-03/continuation/run_cpu.sh eda-nonlinear .venv/bin/python -B research/campaign_2026-10-03/eda/nonlinear/eda_nonlinear.py
+These write only this analyst directory (apart from authorized wrapper logs).
+
+RANKED NEXT DIRECTIONS / CHEAP CONTROLS / FALSIFIERS
+1. Reproduce t1-only residual offsets on a controller-certified untouched set
+   and the strong baseline. Control: same predictions/affine fit and identical
+   calibration sequences; keep t0 unchanged as a frozen candidate, not a scored
+   claim here. Reject if component-paired pooled-WP lift disappears. Inference:
+   fixed five coefficients, causal EWMA/age reset at seq boundary.
+2. Disentangle scoring selection from coefficient estimation: equalize source
+   sequence/row counts, compare source-matched scored versus unscored calibration,
+   and cross-fit observable state-based training importance weights. Control:
+   uniform weights, identical feature/model capacity. Reject if selection-aware
+   fit fails to transport. Hidden scoring mask must never be an inference input.
+3. Ablate event-age offset versus activity/trade state, training-only coefficients
+   and another untouched evaluation set. Controls: identical base and three
+   equal-size nested source fits. Reject age mechanism if removing age costs
+   no reproducible pooled WP. Inference: one event-age counter per sequence.
+4. Test event-time summaries against row-EWMA with matched effective history.
+   Control for existing age/activity and replace one summary, not add capacity.
+   Reject if residual gain vanishes after matching. Inference: tiny event buffer.
+5. Revisit one prespecified volume-change threshold from mi_within.csv only
+   after linear residual controls; reject if threshold fails across component
+   folds, as today's additive state thresholds did. Inference: fixed thresholds
+   of current/previous features. HMMs and joint categories are lower priority.
+
+PRIMARY SOURCES READ IN RECOVERY PASS
+https://arxiv.org/abs/1011.6402: Cont/Kukanov/Stoikov abstract, linear order-flow
+impact with inverse-depth slope; supports considering linear mechanisms.
+https://arxiv.org/abs/1512.03492: Gould/Bonart abstract, imbalance prediction
+differs by tick scale; not evidence that our target grids identify tick size.
+
+BLOCKERS / RESUMPTION
+No resource failure, install, GPU, server or write outside analyst scope.
+Old stream IDs and campaign dependence remain unresolved; strong baseline is
+deliberately unavailable in this phase. Controller must deduplicate samples,
+construct appropriate connected components, reproduce the frozen candidate,
+then authorize integration. No integration or submission was attempted.

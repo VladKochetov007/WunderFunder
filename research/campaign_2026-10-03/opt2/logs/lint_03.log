@@ -1,0 +1,25 @@
+I001 [*] Import block is un-sorted or un-formatted
+ --> research/campaign_2026-10-03/opt2/sampling_probe.py:1:1
+  |
+1 | / from __future__ import annotations
+2 | |
+3 | | import json
+4 | |
+5 | | import numpy as np
+6 | | import torch
+7 | | from torch import nn
+8 | |
+9 | | from sampling import EpochOrderSampler, init_qmc_, stratified_order
+  | |___________________________________________________________________^
+help: Organize imports
+  |
+6 | import torch
+  - from torch import nn
+  -
+7 | from sampling import EpochOrderSampler, init_qmc_, stratified_order
+8 + from torch import nn
+9 |
+  |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

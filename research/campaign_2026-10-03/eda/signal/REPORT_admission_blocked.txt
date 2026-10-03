@@ -1,0 +1,116 @@
+SIGNAL ANALYST CONTINUATION: BLOCKED AT CPU ADMISSION
+Role: abstract-only experimental physicist / signal-processing engineer.
+Read scope: own signal directory, abstract task, EDA and continuation contracts,
+approved CPU wrapper; no host description, other analysts, baseline, or git.
+
+ACTUAL EXECUTION AND VERDICT
+RECOVERY_SUMMARY.txt was saved first. HYPOTHESES.json froze clock-probe-v1
+before any scoring. clock_probe.py implements the bounded matched experiment.
+One launch used the mandatory continuation/run_cpu.sh eda-signal wrapper.
+It returned exit 75 with exactly: "resource failure needs review".
+See clock_probe.log and STATE.json. The wrapper refused admission; Python
+never started. No new dataset reads, sample selection, fits, scores, or figures
+were produced. No launch was retried; no barrier was cleared or quotas changed.
+The new script has not been execution-tested or linted because those would
+require another admitted CPU launch. The hypothesis is UNSCORED, not rejected.
+
+RECOVERED PRIOR RESULTS (NOT NEW EXPERIMENTS)
+catalogue.npz/catalogue.py cover 10607 train and 1873 valid sequences. Dominant
+minimum target spacings: .1254, .2413, .4685, .6569. The sole training .9371
+spacing is from sparse targets; minimum spacing need not equal the true quantum.
+class_id.log/class_id.py: 599/600 correct validation class predictions from
+input summaries over rows 0..99. This gate can first be used at prediction row
+99, not earlier; class discrimination is not prediction accuracy for t0/t1.
+ridge_ev.log/ridge_bands_ev.json: weighted-fit pooled WP mean .6169 for levels,
+.6378 for levels plus fast band, .6253 adding intermediate band, .6054 all bands.
+ridge2.json: unweighted-fit full bank .6106; event taps .6115; recurrence .6103.
+The best prior compact bank was not the bank used in the recurrence comparison.
+Prior event-clock model performance differed greatly by class, approximately
+.675 for .1254 versus .370 for .6569 in the unweighted-fit full bank.
+acf_clock.npz: t0 ACF at lag 100 was .447 rows versus .046 price events.
+spectra.npz: dt0 event PSD peaks near periods 6, 3, and 4. Inspected prior
+fig_spectra_event.png and fig_cycle_example.png show periodic signatures and
+different recurrence patterns in illustrative train row groups 6 and 98.
+fig_acf_clock.png and fig_horizon_xcorr.png were also inspected in recovery.
+The horizon figure lacks a convincing isolated horizon; no horizon claim.
+The spectrum/coherence calculations are descriptive and two-sided, not causal
+SNR measurements. Averaged pairwise coherence is not an achievable causal bound.
+
+PRIOR LIMITATIONS / CONTRADICTIONS
+Slow bands worsened the simple ridge; generic cycle features added little.
+Do not infer that strong periodic peaks justify more temporal complexity.
+feat.py updates every input EMA on i0_p events, including independent groups.
+This is the mistaken premise targeted by the frozen experiment.
+Prior REPORT.txt was missing. No saved row-clock model comparison or numerical
+sysid results survive. sysid.py intentionally uses future inputs diagnostically.
+ridge_ev.log contains a serialization failure; no full model weights survive.
+All original outputs were preserved. Old ridge invocation counts are uncertain.
+
+SAMPLE PROVENANCE
+New inspected/sampled IDs: NONE (admission failed before Python execution).
+Known inspected figure IDs from recovery: training row groups 0, 6, 98.
+Prior catalogue exposed EVERY train and valid sequence to summary statistics.
+clock_probe.py is designed to sample exactly 64 train and 64 valid groups with
+seed 2603103, excluding reconstructable old ridge/classifier/EDA samples under
+saved defaults. Unknown original command arguments limit these exclusions.
+Planned exact row-group and seq_ix IDs will be saved to clock_probe_manifest.json
+before fitting, with hypothesis and script SHA256 hashes and exposure flags.
+That manifest does NOT currently exist. No selected future sample may be called
+independent of predecessor EDA or necessarily new to the campaign.
+Paired sequence bootstrap is descriptive only: connected component dependencies
+cannot be established in this clean-room role. No row-level independence claim.
+
+FROZEN MATCHED EXPERIMENT READY FOR CONTROLLER REVIEW
+clock_probe.py compares shared i0_p, own group, every-row, and prefix-rate clocks.
+All use 112 level inputs + 112 fast-band residuals + 3 sentinel indicators +
+6 identical clock covariates + intercept (234 columns), alpha .25, ridge .001.
+Own groups: i0p, i0v, i0d, i1p, i1v, i1d, a. Change indicators use current and
+previous input rows. Prefix-rate periodic control estimates group event rates
+from rows 1..98; rows 0..98 use the shared clock. Thus it is causal, approximately
+rate matched, but not exactly event-count matched over the scored interval.
+Weighted ridge heads fit rows 99..19999 stride 4 of 64 streamed train groups.
+All selected valid is_scored rows >=99 are pooled for target-weighted Pearson,
+with targets and predictions clipped to +/-2 before computing target weights.
+No parameter sweep. Models share training rows, dimension and regularization.
+Features receive input arrays only; targets and scoring flags are separate reads.
+Prefix equivalence is checked at endings 98, 99, 255, 1023 in two sequences.
+Acceptance: own-shared mean WP >.002 and positive in both fixed valid halves.
+Timing-specific support additionally needs own-prefix_rate >.002.
+Raw additive per-sequence score moments, models, rates, and provenance are saved
+by the script for controller reproduction; no target arrays enter inference.
+
+RANKED NEXT DIRECTIONS (HYPOTHESES, NOT NEW RESULTS)
+1. Correct filter clocks (frozen test above). Shared clock is matched control;
+   row and prefix-rate controls distinguish update alignment from smoothing rate.
+   Reject own-clock premise on failed frozen acceptance. At inference maintain
+   EMA states on causal input-change events; no targets or future rows required.
+2. Regime-dependent transfer functions. Cheapest test: compact bank plus a few
+   interactions with an input-only 100-row class gate. Equal-count shuffled-gate
+   control. Reject if gains fail paired blocks or require target-derived gates.
+   Freeze gate at row99 and use only present/past inputs for later predictions.
+3. Nonlinear current-state geometry (outside the favored spectral lens).
+   Test a small predefined set of pair differences/products; equal-count extra
+   linear features as control. Reject gains lost within regime or later blocks.
+   Inference uses current-row input transformations only.
+4. Conditional cycle phase. Test trailing recurrence/phase against residuals
+   within regime and event-rate strata; control with matched nonrecurring
+   segments and correlation-preserving surrogates. Reject selected-example-only
+   effects or gains no better than old generic taps. Use causal state buffers;
+   never use the illustrative plots' rows-to-next-event annotation as a feature.
+
+SOURCES READ DURING RECOVERY
+https://arxiv.org/html/chao-dyn/9909037
+Schreiber/Schmitz: preserve relevant correlations and distributions in surrogate
+tests; nonstationarity and selecting the statistic on the test data confound them.
+https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.coherence.html
+SciPy: coherence is magnitude-squared cross spectrum normalized by power spectra;
+it does not determine causal direction.
+
+RESUMPTION / LIMITS
+Controller must review the shared resource failure before any renewed launch.
+Do not rerun old broad scripts. Run the frozen clock probe under the mandatory
+wrapper; preserve failures. Then inspect measured figures and update this report.
+STATE.json records the blocked command and pending work. eda_signal.py displays
+the recovery, frozen test, and explicit admission failure without inventing scores.
+No new scientific verdict, baseline improvement, public score forecast, model
+independence claim, or successful execution claim is supported by this pass.

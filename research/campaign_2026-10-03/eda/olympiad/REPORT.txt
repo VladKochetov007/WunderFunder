@@ -1,0 +1,160 @@
+OLYMPIAD CONTINUATION REPORT — 2026-10-03
+Abstract-only independent phase; bounded CPU diagnostics; no baseline access.
+
+VERDICT
+Retain a6 as a causal interval boundary, but reject hard prediction persistence.
+Most of the anchor-to-current gap comes from changing encoded p representations,
+not from updating clocks or the tested v/dv representatives in this linear probe.
+This is exploratory evidence on already-exposed data, not a baseline improvement.
+
+RECOVERED EVIDENCE
+RECOVERY_SUMMARY.txt preserves the preceding substantive read-only pass.
+targets_train.parquet / targets_valid.parquet contain 10,607 / 1,873 summaries:
+four target quanta; maximum integer residual 1.86e-5 / 1.66e-5, all divisor=1.
+s21_train.log / s21_valid.log record no both-nonnegative integer target pairs,
+nor a target >=1 with its partner >=-2, across 249.6 million inspected rows.
+These support restrictions are observed facts, not complete generator identities.
+s26_* logs: all target changes hit a6 sentinel resets; 391 extra resets in 19
+train sequences, none in valid. Nonreset a6 is nondecreasing, not strictly rising.
+The predecessor used a future whole-sequence minimum; that detector was replaced.
+s15_* / s21_* logs refute exact price-change gating (602/207 union misses).
+All five predecessor figures were inspected in the preceding pass.
+f05 top panels use completed-run duration: explanatory only, never inference.
+s18/s20/s22/s28/s29 had no saved scores; execution status remains unknown.
+Their target-derived regime labels cannot establish deployable class conditioning.
+
+FROZEN PROCEDURE AND PROVENANCE
+HYPOTHESES.json frozen before s30 scoring; HYPOTHESES_s31.json / _s32.json frozen
+before each adaptive follow-up. No hyperparameter or sample search was performed.
+32 train rowgroups: 104 + 327*k, k=0..31. Includes known anomaly train104.
+20 valid rowgroups: 6 + 97*k, k=0..19. Sequence IDs are listed below and in
+s30_provenance.json / STATE.json, with dataset sizes/schema hashes and source hashes.
+Every sequence was previously exposed by exhaustive predecessor scans. Different
+train/valid sequences do not restore independence of hypothesis discovery.
+79,616 training rows: row>=99, need_prediction, every eighth eligible row.
+36,948 evaluation rows: row>=99, is_scored; all input prefixes remain available.
+Features: 12 i0/i1 p0,p11,dp0,v0,v11,dv0 representatives, plus a0..a7; raw values
+and <-5.19 sentinel indicators. No seq IDs, flags, targets or regime labels enter
+the model. Train-only normalization; target-weighted ridge on clipped targets,
+penalty=0.001*training-weight, unpenalized intercept, identical across controls.
+Metric: pool selected rows; clip targets and predictions to +/-2; weights are
+abs(clipped target); weighted Pearson separately for t0/t1, then arithmetic mean.
+All computations used continuation/run_cpu.sh eda-olympiad, one CPU, CUDA empty,
+one thread and 2 GiB cap; one rowgroup at a time, array working set well <100 MB.
+Core s30 probe completed in 4.18 seconds before plotting/serialization overhead.
+
+NEW MEASURED PROBES
+s30_anchor_probe.py / s30_results.json / s30_audit.json / s30_probe.log:
+model                         t0 WP       t1 WP       mean WP
+current inputs                0.47854     0.45007     0.46431
+same predictor carried a6     0.34920     0.34585     0.34752
+same predictor carried price  0.48515     0.47304     0.47909
+anchor-trained, carried a6    0.34258     0.36206     0.35232
+delay-trained, carried        0.35903     0.45490     0.40697
+Five causal delayed-anchor carry controls: mean WP 0.39672..0.41828.
+Each observed reset queues one delayed reset (random 1..7, FIFO); terminal events
+can be right-censored. No future reset count or circular shift is used.
+Current minus same-model a6 carry: +0.11679; positive on 17/20 sequences.
+Frozen H1 rejection thresholds (+0.01 and >60% sequence wins) both met.
+Anchor retraining does not repair the gap: its +0.00480 is far too small.
+Descriptive sequence-bootstrap delta quantiles: 0.00708,0.12976,0.24274.
+Not a campaign-valid confidence interval: connected components are unavailable.
+Fixed current-a6 threshold catches all sampled target changes; 8 extra resets.
+Price-change anchors miss 2 sampled changes, so price carry is predictive smoothing,
+not an exact label-boundary detector. H2 exact sufficiency not refuted locally.
+f06_anchor_probe.png / f07_anchor_predictions.png inspected after execution.
+
+s31_revision_blocks.py / s31_results.json / s31_probe.log:
+All models have the same feature dimension, normalizer, regularization and sample;
+only when a feature block is read changes. Matched anchor/current controls
+reproduce s30 scores exactly (absolute differences 0).
+anchor-only mean WP:             0.35232
+anchor + current a5..a7:         0.31152
+anchor + current six v/dv:       0.34858
+anchor + current a0..a7:         0.32013
+current, clocks held at anchor:  0.47367
+Clocks recover -36.4% of anchor-to-current gap: H3 rejected (required >=80%).
+Flow adds -0.00374: H4 rejected (required >=0.02). These are meaningful negatives
+for this representation/model; nonlinear interactions or untested columns survive.
+Prefix reset-stream checks pass for a6, price, and five delayed streams at lengths
+99,641,1501 on train104 and valid6. No future minimum or completed-run duration.
+f08_revision_blocks.png inspected; s31_sequence_scores.csv saves paired scores.
+
+s32_price_revision.py / s32_results.json / s32_probe.log:
+anchor + current four p0/p11:    0.46783
+anchor + current two dp0:        0.33298
+anchor + current six p/dp:       0.45834
+current with p/dp held:          0.32712
+current matched control:        0.46431 (exact s30 reproduction)
+Current p/dp recover 94.7% of anchor-to-current gap; holding them costs 0.13718.
+Frozen H5 criterion passes. p alone suffices within this restricted linear probe;
+dp adds no observed benefit here. This does not prove column economics, exact
+invertibility, or a physical causal effect. f09_price_revision.png inspected.
+
+CONTRADICTIONS AND CAUSAL INTERPRETATION
+Constant true labels do not imply constant conditional predictions. Additional
+current information changes what can be inferred about an unchanged label.
+a6 aligns label boundaries but appears insufficient as a prediction-update rule.
+Age associations in f05 did not translate into a useful additive clock update.
+Generic flow-pressure literature is not positive evidence for these anonymized
+v/dv fields: the controlled local result is negative. Keep economic labels tentative.
+Joint support exclusions constrain labels, not necessarily their conditional means;
+do not round predictions onto a lattice or hard-project means without a scored test.
+
+RANKED NEXT DIRECTIONS (not run here)
+1. Decode current p-state geometry rather than freeze at label anchors.
+   Cheapest test: p-only ridge versus exact-key lookup with coverage-aware backoff,
+   then a small monotone/rank transform probe; use sequence splits and exact tuples.
+   Control: identical capacity on anchor p, same normalization and target weights.
+   Reject exact decoding on one repeated-state conflicting output; reject utility
+   if sequence-level held-out gain disappears. Inference: current p inputs only.
+2. Price-event smoothing versus within-state information updates.
+   Cheapest test: current prediction versus carry at price events versus trailing
+   input-only EMA with frozen decay; score price-static intervals separately.
+   Control: five causal delayed-price streams with comparable event counts.
+   Reject event-specific benefit if generic smoothing matches it. Inference:
+   prefix price-change detector and prediction cache/EMA; a6 remains a soft feature.
+3. Full p blocks and causal entry path, instead of assuming scalar sufficiency.
+   Cheapest test: conflict counts for p0/p11 keys versus all own p columns, then
+   one bounded train-only lookup with 2..3 preceding distinct input states.
+   Control: same key count/capacity with delayed historical states; log unseen keys.
+   Reject if apparent identities fail at a repeated key or gains depend on tiny
+   coverage. Inference: current p block plus bounded transition memory, no targets.
+4. Four-regime geometry and joint targets, without oracle quantum.
+   Cheapest test: warm-up input membership classifier on train sequence splits,
+   reporting ambiguous/unseen symbols; compare regime-marginalized and pooled heads.
+   Control: class-prior mixture and no regime feature. Reject if ambiguity or lack
+   of downstream gain dominates. Inference: prefix input regime probabilities only.
+5. Nonlinear flow/age interaction as a residual hypothesis, lower priority.
+   Cheapest test: conditional residual summaries within matched current p states
+   and age bins, followed only if warranted by a small predeclared interaction model.
+   Control: scrambled flow within p/age strata and current-p predictor unchanged.
+   Reject if association/gain vanishes across sequences. Inference: present/past
+   flow inputs and current age; never final interval duration. No GPU needed.
+
+PRIMARY SOURCES ACTUALLY READ IN THE PRECEDING PASS
+https://arxiv.org/abs/1512.03492 — Gould/Bonart queue-imbalance abstract.
+https://arxiv.org/abs/1011.6402 — Cont/Kukanov/Stoikov order-flow-impact abstract.
+They motivate conditional hypotheses, not anonymous-column identities.
+
+SAMPLED SEQUENCE IDS (same sample for all new probes)
+train: 21942635,93576778,162859034,229748121,296634120,360956008,432921086,
+497405021,559621001,627678209,691538959,758933478,825253878,892414815,
+954976989,1027552463,1095651933,1164881438,1234193588,1298352463,1364046665,
+1426384320,1497611587,1558422980,1624160493,1690891659,1759015535,1828585365,
+1885833532,1953652884,2011615130,2080511664.
+valid: 4490992,108429401,196615949,311884646,429967946,558746354,677157221,
+784833642,909270280,1012701699,1117166887,1239202561,1349354654,1474796636,
+1564922876,1673261728,1783583407,1899095601,2004953296,2126917320.
+Earlier read-only reinspection: train rg0,104 and valid rg0, also previously exposed.
+
+ARTIFACTS AND RESUMPTION
+Runnable scripts s30/s31/s32, fitted coefficients *.npz, JSON measured results,
+paired sequence-score CSVs, s30 additive moments, audit/provenance JSONs and logs.
+Runnable eda_olympiad.py reads saved artifacts without rescanning/refitting; its
+headless HTML export is eda_olympiad.html. New PNGs f06..f09 were visually inspected.
+STATE.json records commands, IDs, completed artifacts, inspections and pending work.
+No resource failure occurred. Formatting/lint checks and headless execution recorded.
+Next controller action: freeze reports, compare/deduplicate mechanisms, reproduce
+current-p and smoothing contrasts using connected components, then authorize a
+separate integration phase against the strong baseline. No such claim is made here.

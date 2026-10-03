@@ -1,0 +1,413 @@
+{
+  "cases": {
+    "synthetic_actual_architecture_normal": {
+      "default_ordinary_passed": true,
+      "forced_skip": false,
+      "evidence_kind": "synthetic_cuda_actual_architecture",
+      "sha256": {
+        "pre": "ac670c4245c4978e5181eb45e06b91010d238f5167a24cf37c2153ef0e834cf5",
+        "post": "43cc494f4cdfb1f0a7f63a5bdef9265aad34fa581e9dcf447637349d5900f9a1",
+        "components": "afbd26a1e3c66528ef37fb55eed2ba097473aeb39e7f1f76120b1c6bfb61147c"
+      },
+      "paths": {
+        "pre": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round4/gpu_capture_v4_default_2120r/synthetic_actual_architecture/normal/pre.pt",
+        "post": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round4/gpu_capture_v4_default_2120r/synthetic_actual_architecture/normal/post.pt",
+        "components": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round4/gpu_capture_v4_default_2120r/synthetic_actual_architecture/normal/components.pt"
+      },
+      "source": {
+        "scripts/train_rnn.py": "1d6b059d9880e0befb7b2c6251c7ae6ac9791d0bb0f5cd35dd8e4930cf189ef5",
+        "src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+        "src/wnn/optim.py": "0e476a54d1fdfeed77970816f91668e271f7e2ed72e13d0c047a01d0ff74dae3",
+        "src/wnn/spread_aux.py": "3aabffc6fc887c0426948e62cbd500679ba3e7a6925e28de9f816fb1da8f9cac",
+        "src/wnn/run_identity.py": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+        "src/wnn/outcomes.py": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+        "src/wnn/resources.py": "ac607a58b6d0b87da9cc0587d6e930deb0cca13887d2c4619247331e9b927413",
+        "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      "execution": {
+        "device": "cuda",
+        "torch": "2.14.0+cu130",
+        "cuda": "13.0",
+        "cudnn_version": 92400,
+        "cudnn_enabled": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "cudnn_tf32": true,
+        "matmul_tf32": false,
+        "deterministic_algorithms": false,
+        "fp16_reduced_precision": true,
+        "autocast_cache": true
+      },
+      "metadata": {
+        "evidence_kind": "synthetic_cuda_actual_architecture",
+        "row_ids": [],
+        "input_origin": "seeded random; synthetic labels/weights/teachers/aux; NOT real recipe data",
+        "full_sequence_length": 6000,
+        "scaler_protocol_cpu": false,
+        "s": 4000,
+        "struct_at": 2,
+        "next_at": 21
+      },
+      "optimizer_id_names": {
+        "0": "inp.weight",
+        "1": "inp.bias",
+        "2": "gru.bias_ih_l0",
+        "3": "gru.bias_hh_l0",
+        "4": "gru.bias_ih_l1",
+        "5": "gru.bias_hh_l1",
+        "6": "head.0.weight",
+        "7": "head.0.bias",
+        "8": "head.2.weight",
+        "9": "head.2.bias",
+        "10": "gru.weight_ih_l0",
+        "11": "gru.weight_hh_l0",
+        "12": "gru.weight_ih_l1",
+        "13": "gru.weight_hh_l1"
+      },
+      "optimizer_groups": [
+        {
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "names": [
+            "inp.weight",
+            "inp.bias",
+            "gru.bias_ih_l0",
+            "gru.bias_hh_l0",
+            "gru.bias_ih_l1",
+            "gru.bias_hh_l1",
+            "head.0.weight",
+            "head.0.bias",
+            "head.2.weight",
+            "head.2.bias"
+          ],
+          "muon": false
+        },
+        {
+          "ids": [
+            10,
+            11,
+            12,
+            13
+          ],
+          "names": [
+            "gru.weight_ih_l0",
+            "gru.weight_hh_l0",
+            "gru.weight_ih_l1",
+            "gru.weight_hh_l1"
+          ],
+          "muon": true
+        }
+      ],
+      "tensor_identity": {
+        "inp.weight": {
+          "shape": [
+            256,
+            211
+          ],
+          "dtype": "torch.float32"
+        },
+        "inp.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.bias_ih_l0": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.bias_hh_l0": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.bias_ih_l1": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.bias_hh_l1": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        "head.0.weight": {
+          "shape": [
+            256,
+            512
+          ],
+          "dtype": "torch.float32"
+        },
+        "head.0.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "head.2.weight": {
+          "shape": [
+            23,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "head.2.bias": {
+          "shape": [
+            23
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.weight_ih_l0": {
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.weight_hh_l0": {
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.weight_ih_l1": {
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.weight_hh_l1": {
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "real_panel_normal": {
+      "default_ordinary_passed": true,
+      "forced_skip": false,
+      "evidence_kind": "real_fit_capture",
+      "sha256": {
+        "pre": "9d66d47230cde3705c3ba4f3da8612a95f05db880d5e2802ee8388a6a98672bc",
+        "post": "5a91a50e41b7e797f8bcc3c1b0b8b36b007c8f82b2497fb4e8f5b2a6e9fc25a8",
+        "components": "38ec8e9586c09fe8c003970ff702b8505f2186bdcca11edc0b353f4d029708c9"
+      },
+      "paths": {
+        "pre": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round4/gpu_capture_v4_default_2120r/real_fit_panel/normal/pre.pt",
+        "post": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round4/gpu_capture_v4_default_2120r/real_fit_panel/normal/post.pt",
+        "components": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round4/gpu_capture_v4_default_2120r/real_fit_panel/normal/components.pt"
+      },
+      "source": {
+        "scripts/train_rnn.py": "1d6b059d9880e0befb7b2c6251c7ae6ac9791d0bb0f5cd35dd8e4930cf189ef5",
+        "src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+        "src/wnn/optim.py": "0e476a54d1fdfeed77970816f91668e271f7e2ed72e13d0c047a01d0ff74dae3",
+        "src/wnn/spread_aux.py": "3aabffc6fc887c0426948e62cbd500679ba3e7a6925e28de9f816fb1da8f9cac",
+        "src/wnn/run_identity.py": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+        "src/wnn/outcomes.py": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+        "src/wnn/resources.py": "ac607a58b6d0b87da9cc0587d6e930deb0cca13887d2c4619247331e9b927413",
+        "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      "execution": {
+        "device": "cuda",
+        "torch": "2.14.0+cu130",
+        "cuda": "13.0",
+        "cudnn_version": 92400,
+        "cudnn_enabled": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "cudnn_tf32": true,
+        "matmul_tf32": false,
+        "deterministic_algorithms": false,
+        "fp16_reduced_precision": true,
+        "autocast_cache": true
+      },
+      "metadata": {
+        "evidence_kind": "real_fit_capture",
+        "panel_sha256": "bb0406f037cc5ccba56b21c3fdf64c785731f984956c70d62a0eabdb619cabcf",
+        "row_ids": [
+          {
+            "split": "train",
+            "row_group": 0,
+            "seq_ix": 43601
+          },
+          {
+            "split": "train",
+            "row_group": 1,
+            "seq_ix": 50562
+          },
+          {
+            "split": "train",
+            "row_group": 2,
+            "seq_ix": 56275
+          },
+          {
+            "split": "train",
+            "row_group": 3,
+            "seq_ix": 141907
+          },
+          {
+            "split": "train",
+            "row_group": 4,
+            "seq_ix": 177036
+          },
+          {
+            "split": "train",
+            "row_group": 5,
+            "seq_ix": 507145
+          },
+          {
+            "split": "train",
+            "row_group": 6,
+            "seq_ix": 644043
+          },
+          {
+            "split": "train",
+            "row_group": 7,
+            "seq_ix": 2092168
+          },
+          {
+            "split": "train",
+            "row_group": 8,
+            "seq_ix": 2324140
+          },
+          {
+            "split": "train",
+            "row_group": 9,
+            "seq_ix": 2381425
+          },
+          {
+            "split": "train",
+            "row_group": 10,
+            "seq_ix": 2481578
+          },
+          {
+            "split": "train",
+            "row_group": 11,
+            "seq_ix": 2788172
+          },
+          {
+            "split": "train",
+            "row_group": 12,
+            "seq_ix": 3263430
+          },
+          {
+            "split": "train",
+            "row_group": 13,
+            "seq_ix": 3296215
+          },
+          {
+            "split": "train",
+            "row_group": 14,
+            "seq_ix": 3438693
+          },
+          {
+            "split": "train",
+            "row_group": 16,
+            "seq_ix": 3459337
+          },
+          {
+            "split": "train",
+            "row_group": 17,
+            "seq_ix": 3654945
+          },
+          {
+            "split": "train",
+            "row_group": 18,
+            "seq_ix": 3941659
+          },
+          {
+            "split": "train",
+            "row_group": 19,
+            "seq_ix": 4016698
+          },
+          {
+            "split": "train",
+            "row_group": 20,
+            "seq_ix": 4159218
+          },
+          {
+            "split": "train",
+            "row_group": 21,
+            "seq_ix": 4179155
+          },
+          {
+            "split": "train",
+            "row_group": 22,
+            "seq_ix": 4231110
+          },
+          {
+            "split": "train",
+            "row_group": 23,
+            "seq_ix": 4343616
+          },
+          {
+            "split": "train",
+            "row_group": 24,
+            "seq_ix": 4582687
+          },
+          {
+            "split": "train",
+            "row_group": 25,
+            "seq_ix": 4627920
+          },
+          {
+            "split": "train",
+            "row_group": 26,
+            "seq_ix": 4945533
+          },
+          {
+            "split": "train",
+            "row_group": 27,
+            "seq_ix": 5366025
+          },
+          {
+            "split": "train",
+            "row_group": 28,
+            "seq_ix": 5374268
+          },
+          {
+            "split": "valid",
+            "row_group": 0,
+            "seq_ix": 256678
+          },
+          {
+            "split": "valid",
+            "row_group": 1,
+            "seq_ix": 751005
+          },
+          {
+            "split": "valid",
+            "row_group": 2,
+            "seq_ix": 1200028
+          },
+          {
+            "split": "valid",
+            "row_group": 3,
+            "seq_ix": 1892371
+          }
+        ],
+        "input_origin": "actual build_inputs/Sequences caches and four actual loss branches",
+        "departure": "fresh seed3 initialization and fixed-panel normalization, not resumed trained combo",
+        "full_sequence_length": 20000,
+        "cached_propensity": 

@@ -1,0 +1,136 @@
+INDEPENDENT WASHOUT CROSS-REVIEW — NARROW RETENTION CLAIM SUPPORTED
+
+Independently reconstructed207/288 acceptance across ALL24 components. Rebuilt
+ALL211 features for every query from its stored raw prefix; no actor replay,
+common, probe or verification helper was imported. Production feature primitive
+and RNNModel are shared dependencies, not a fully independent feature/model
+implementation. Four metadata-first accepted window pairs were independently
+forwarded from zero state at row0 through their original pre-splice boundaries;
+all stored window outputs, responses and hidden-state RMS matched exactly.
+No targets, fitting, predictive-value metric or public-gain claim.
+
+PREREG / INFORMATIONAL INDEPENDENCE
+PREREG.json preceded computations. Actor REPORT.md/PREREG and minimal source
+were read first; expected overall numbers were therefore known. This is an
+implementation/provenance cross-review, not blind scientific confirmation.
+Selection was frozen to first accepted query in metadata sequences0..3 before
+loading response arrays. First query in sequence2 was rejected, so its FIRST
+accepted query7904 was selected, without response-based replacement. Only these
+four distinct accepted pairs were checkpoint-forwarded; formatting/import and
+variable-name lint fixes were followed by identical replay of the same four,
+not additional selection. Initial and final outputs/logs retained.
+
+ACCEPTANCE AND REJECTION — INDEPENDENT RAW RECONSTRUCTION
+Original samples unchanged:24 distinct components,12 queries each,288 total.
+Every query had a finite eligible donor. Same-sequence donor candidates64/128/256
+were recomputed from raw i0 first52 columns, normalized by stored frozen model
+std; minimum distance and smaller-lag tie independently agree on all288 queries.
+Lag counts155/70/63. No labels, target quanta, predictions or score-mask values
+enter donor matching or acceptance. Original scored-position query eligibility
+and sampling probabilities were inherited; this review does not recensus masks
+or replay original random sampling. Each pi is checked equal12/n_eligible.
+
+Altered i0[t-352,t-96) is256 rows. Original prefix before t-352, raw[t-96,t]
+(last96 rows plus current=97), and every non-i0 raw column are independently
+asserted unchanged. Causal features are rebuilt from row0, never sliced history
+with a reset. Rebuilt original full packed arrays equal stored packed arrays
+bitwise in all24 components. All288 donor choices/gates match frozen metadata.
+All207 accepted windows independently match stored full353-row engineered
+windows and all211 inputs on[t-32,t] EXACTLY, finite float32 value equality.
+No tolerance relaxation or accepted-origin substitution.
+
+Accepted207 (71.875%); rejected81; unmatched0; nonfinite0. All24 components
+retain5–12 accepted origins. ALL81 rejections have clock-feature differences in
+indices186/187;31 also have held-price-delta differences in189..210. Their IDs,
+counts, maximum residuals and design weights are in results.json/all288_records.
+Clock cases are not recast as accepted by checking only the112 raw columns.
+
+INVERSE-PROBABILITY MASS, RESPONSE AND UNCERTAINTY
+Original fixed-component eligible-domain mass46,572. Weighted accepted mass
+31,745.75 and rejected14,826.25 sum to that domain. These are estimates using
+original query inclusion probabilities, not an acceptance census or new uniform
+sample. Accepted weighted share is68.1659%, distinct from raw71.875% acceptance.
+Weights are inverse QUERY pi only, not inverse gate probability or a claim of
+representativeness across all market regimes/components.
+Raw accepted prediction RMS=.0270211117587; channel RMS=.0262525002939/.0277684567391.
+Inverseprobability accepted RMS=.0254424933515. Component bootstrap95% interval
+[.0211762811425,.0310124362700] reproduces exactly:1000 draws of24 components
+with replacement, seed614305, square-weighted numerators/accepted denominators
+summed within each draw BEFORE square root. No row-IID interval. This is component
+variation conditional on exposed panel, realized queries and input gate, not
+survey-design, full-test, population-causal or generalization confidence.
+Stored identity-query RMS=6.8674365e-8; material-response floor max(.001,100x
+identity RMS)=.001. Weighted layer state RMS=.0486749297/.0728605127.
+Independent scalar statistics use per-sequence prediction arrays, not actor
+accepted_panel aggregation. Every component remains in the bootstrap denominator;
+none is empty. Rejected response is not silently imputed or extrapolated.
+
+ACTUAL CHECKPOINT REPLAY / BOUNDARY AND WARMUP
+Frozen checkpoint c20261001_d256_s3_f0/model_ep3.pt:
+f92504fbbbcf956a44e70aa3f7a08825d903b9c6a6cacce7bd9f89b6875fcad8.
+Production source SHA256s and split-manifest hash match the actor control before
+and after review. Instantiate RNNModel directly from checkpoint args, load exact
+state_dict including normalization, CPU eval, deterministic algorithms,1 thread.
+No train_rnn or actor inference helpers imported. GRU2x256, linear row encoder,
+23-output head; only the first2 outputs are measured. Current-input projection
+skip is identical on the final33 accepted rows; different outputs therefore
+reflect different recurrent state after identical input updates.
+
+Metadata-selected sequence/query/boundary and response RMS:
+715111876 /801 /449: .0714347981
+1265511507 /3548 /3196: .0136598159
+832694614 /7904 /7552: .0268573316
+56616349 /2033 /1681: .0089031065
+Each original prefix was freshly forwarded row0..boundary-1 in chunks<=1000,
+including all99 warmup rows, with no scored-position filtering or state reset.
+Fresh boundary states match stored original states with maximum discrepancy0;
+prefix predictions match stored original CPU reference with discrepancy0.
+From EACH common original boundary, original and recomputed changed353-row
+windows were run independently; complete window/reference identity, stored
+original/changed outputs, final response and hidden RMS all match exactly0 error.
+Unchanged parity criterion remains absolute2e-5+relative2e-5; observations here
+are stronger than that tolerance, not a retrospectively tightened threshold.
+The accepted quartet is an engineering audit subset, not a representative
+estimate. All207 response statistics rely on preserved stored checkpoint outputs;
+independent actual forwards cover only the frozen quartet.
+
+IDENTITY, FUTURE CANARY AND CHECKPOINT LINEAGE SCOPE
+We independently zeroed EVERY raw row strictly AFTER each selected query while
+retaining its alteration; full recomputed prefix/window remained identical.
+No additional actual canary forward was needed or performed: model receives the
+same deterministic window and identical freshly derived boundary. This checks
+future-input exclusion for those four feature paths, not training-label leakage.
+Actor24 first-accepted-query actual future canaries and toy161-entry/sham controls
+were source-reviewed; they are inherited tests, not claimed independent executions.
+Toy queue measures instrument specificity and does not establish this checkpoint's
+information utility. Exact identity does not establish realistic donor histories.
+Main split membership was independently checked: all24 sampled row groups belong
+to the fixed split evaluation valid set. Full connected-component assignment,
+raw-parquet extraction and original mask census remain inherited hashed inputs.
+This review does NOT independently audit distillation teacher fit components,
+teacher/cache lineage or checkpoint construction. Four cached teacher entries in
+metadata are not proof of clean teacher lineage. Also, inference export state is
+not actual live training/optimizer/EMA state. No training-memory claim follows.
+
+SUPPORTED CLAIM AND LIMITS
+The final33 full engineered input rows cannot alone explain accepted prediction
+differences: carried recurrent state remains sensitive to earlier altered inputs.
+This falsifies the last-suffix-difference-only explanation on the accepted panel.
+It does NOT localize retention to the entire256-row donor block, prove memory
+beyond96 raw rows (engineered differences can persist before the matched suffix),
+or show uniquely useful information, forecast improvement or supported economic
+counterfactuals. Acceptance selects clock-reset/suffix-compatible histories;
+rejected quiet-clock regimes are unresolved. Reported seam inflation and large
+donor displacements undermine an on-support interpretation. There is no target
+loss, WP or public metric in this review, and no representation/GPU promotion.
+
+COST, PRESERVATION, REVIEW STATUS
+Initial process9.039s wall/8.974s CPU, peak888372KiB. Final formatted-source replay
+cost in results.json; both runs independently recompute the same288 origins and
+same4 pairs. No resource failure, GPU, installation or live edits. All computations
+use run_cpu.sh round3-hybrid-pair1CPU2GiB900s. No target members loaded from NPZ.
+All consumed actor sources/arrays/checkpoint/split and own frozen simulator report
+are SHA256 checked unchanged before/after each review. PROVENANCE.json binds final
+review source and artifacts; IDs/results/logs/initial outputs are preserved.
+Runnable review.py and run.sh remain in this branch only. Review frozen for the
+controller; await controller. No next experiment is launched by this cross-review.

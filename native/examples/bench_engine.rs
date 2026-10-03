@@ -306,9 +306,10 @@ fn main() {
             for m in models.iter_mut() {
                 m.reset();
             }
+            let firsts: Vec<_> = models.iter().map(|m| m.first_weights()).collect();
             for x in xs.chunks_exact(n_in) {
-                for m in models.iter_mut() {
-                    m.step(black_box(x), &mut out);
+                for (i, m) in models.iter_mut().enumerate() {
+                    m.step_then(black_box(x), &mut out, firsts[(i + 1) % firsts.len()]);
                 }
             }
             black_box(&out);

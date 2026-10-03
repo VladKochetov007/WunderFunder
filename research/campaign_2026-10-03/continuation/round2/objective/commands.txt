@@ -1,0 +1,31 @@
+All computation commands used this prefix, including Python/tests/formatting:
+research/campaign_2026-10-03/continuation/run_cpu.sh round2-objective env PYTHONDONTWRITEBYTECODE=1
+CWD /home/vlad/development/wunder/wnn_connectome_starterpack
+SCOPE research/campaign_2026-10-03/continuation/round2/objective
+Resources enforced by parent wrapper: CPU100%, MemoryMax2G, no swap,900s, CUDA hidden.
+
+Suffixes and preserved output mapping (prefix above prepended to every suffix):
+.venv/bin/python SCOPE/inspect_protocol.py -> logs/metadata.log (metadata-only)
+.venv/bin/python SCOPE/freeze_protocol.py -> logs/freeze.log (immutable PREREG)
+.venv/bin/python SCOPE/synthetic_probe.py -> logs/synthetic_01.log + synthetic_results.json
+/usr/bin/time -v .venv/bin/python SCOPE/stream_probe.py -> logs/stream_01.log + chunk_summaries.npz + sample_artifacts.json
+.venv/bin/python SCOPE/analyze_probe.py -> logs/analyze_01.log + results.json
+.venv/bin/python -m pytest -q -o cache_dir=SCOPE/.pytest_cache --basetemp=SCOPE/test_tmp SCOPE/test_objective.py -> logs/tests_01.log
+.venv/bin/python SCOPE/compact_results.py -> logs/compact_01.log + compact_results.json
+.venv/bin/python SCOPE/sham_probe.py -> logs/sham_01.log + sham_results.json (after PREREG_SHAM)
+.venv/bin/ruff check --fix SCOPE/*.py -> logs/lint_01.log (actual call explicitly enumerated existing files)
+.venv/bin/ruff format SCOPE -> logs/format_01.log
+/usr/bin/time -v .venv/bin/python -m pytest -q -o cache_dir=SCOPE/.pytest_cache --basetemp=SCOPE/final_test_tmp SCOPE/test_objective.py -> logs/tests_02.log
+.venv/bin/python SCOPE/finalize_results.py -> logs/bundle_01.log (bundles primary and exploratory evidence)
+.venv/bin/ruff format SCOPE -> logs/format_final.log
+.venv/bin/ruff check SCOPE -> logs/lint_final.log
+/usr/bin/time -v .venv/bin/python -m pytest -q -o cache_dir=SCOPE/.pytest_cache --basetemp=SCOPE/final_verified_tmp SCOPE/test_objective.py -> logs/tests_final.log
+.venv/bin/ruff format --check SCOPE -> logs/format_check_final.log
+
+Reproduce with bash SCOPE/run_all.sh; it wraps each compute. PREREG is not overwritten.
+The last bundling script combines the shams after the five probes.
+No competition evaluator, validation/holdout scoring, GPU computation, background
+compute, model fit on actual TRAIN, live trainer edits or queue action occurred.
+Synthetic regression used exact tiny weighted least squares, not a GPU optimizer.
+source_hashes.txt hashes code, completed checkpoints and small metadata/sidecars.
+Sample hashes cover ordered selected raw slices only, not full large data/cache files.

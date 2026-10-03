@@ -1,0 +1,94 @@
+B905 `zip()` without an explicit `strict=` parameter
+   --> research/campaign_2026-10-03/continuation/round4/live_capture/fit_panel.py:100:79
+    |
+ 98 |         batches.append(datasets[split][counters[split]])
+ 99 |         counters[split] += 1
+100 |     x, joined_y, scored, prop = [torch.stack(values).to("cuda") for values in zip(*batches)]
+    |                                                                               ^^^^^^^^^^^^^
+101 |     del batches
+102 |     cfg = {"n_in": 211, "hidden": 256, "layers": 2, "n_out": 23}
+    |
+help: Add explicit value for parameter `strict=`
+
+NPY002 Replace legacy `np.random.get_state` call with `np.random.Generator`
+  --> research/campaign_2026-10-03/continuation/round4/live_capture/live_capture.py:87:95
+   |
+86 | def get_rng(device: str) -> dict[str, Any]:
+87 |     return {"torch_cpu": torch.get_rng_state().clone(), "python": random.getstate(), "numpy": np.random.get_state(),
+   |                                                                                               ^^^^^^^^^^^^^^^^^^^
+88 |             "cuda_all": [v.cpu().clone() for v in torch.cuda.get_rng_state_all()] if device == "cuda" else []}
+   |
+
+NPY002 Replace legacy `np.random.set_state` call with `np.random.Generator`
+  --> research/campaign_2026-10-03/continuation/round4/live_capture/live_capture.py:94:5
+   |
+92 |     torch.set_rng_state(value["torch_cpu"])
+93 |     random.setstate(value["python"])
+94 |     np.random.set_state(value["numpy"])
+   |     ^^^^^^^^^^^^^^^^^^^
+95 |     if device == "cuda":
+96 |         torch.cuda.set_rng_state_all(value["cuda_all"])
+   |
+
+B905 `zip()` without an explicit `strict=` parameter
+   --> research/campaign_2026-10-03/continuation/round4/live_capture/live_capture.py:152:108
+    |
+150 |     groups = payload["optimizer"]["param_groups"]
+151 |     order = payload["optimizer_names"]
+152 |     if len(groups) != len(order) or any(len(group["params"]) != len(group_names) for group, group_names in zip(groups, order)):
+    |                                                                                                            ^^^^^^^^^^^^^^^^^^
+153 |         raise ValueError("optimizer group mapping mismatch")
+154 |     flat = [name for group in order for name in group]
+    |
+help: Add explicit value for parameter `strict=`
+
+B905 `zip()` without an explicit `strict=` parameter
+   --> research/campaign_2026-10-03/continuation/round4/live_capture/live_capture.py:157:54
+    |
+155 |     if len(flat) != len(set(flat)) or set(flat) != set(names) - {"mean", "std"}:
+156 |         raise ValueError("optimizer parameter membership mismatch")
+157 |     indexed = {index: name for group, group_names in zip(groups, order) for index, name in zip(group["params"], group_names)}
+    |                                                      ^^^^^^^^^^^^^^^^^^
+158 |     if set(payload["optimizer"]["state"]) != set(indexed):
+159 |         raise ValueError("warm optimizer state missing")
+    |
+help: Add explicit value for parameter `strict=`
+
+B905 `zip()` without an explicit `strict=` parameter
+   --> research/campaign_2026-10-03/continuation/round4/live_capture/live_capture.py:157:92
+    |
+155 |     if len(flat) != len(set(flat)) or set(flat) != set(names) - {"mean", "std"}:
+156 |         raise ValueError("optimizer parameter membership mismatch")
+157 |     indexed = {index: name for group, group_names in zip(groups, order) for index, name in zip(group["params"], group_names)}
+    |                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+158 |     if set(payload["optimizer"]["state"]) != set(indexed):
+159 |         raise ValueError("warm optimizer state missing")
+    |
+help: Add explicit value for parameter `strict=`
+
+B905 `zip()` without an explicit `strict=` parameter
+   --> research/campaign_2026-10-03/continuation/round4/live_capture/live_capture.py:363:108
+    |
+361 |             scale = env["scaler"].get_scale()
+362 |             values = torch.autograd.grad(env["scaler"].scale(term), params, retain_graph=True, allow_unused=True)
+363 |             gradients[name] = {key: cloned(value / scale) if value is not None else None for key, value in zip(names, values)}
+    |                                                                                                            ^^^^^^^^^^^^^^^^^^
+364 |         return {"losses": {key: cloned(value) for key, value in observer.terms.items()}, "component_gradients": gradients}
+365 |     return observer.post
+    |
+help: Add explicit value for parameter `strict=`
+
+B905 `zip()` without an explicit `strict=` parameter
+   --> research/campaign_2026-10-03/continuation/round4/live_capture/live_capture.py:393:40
+    |
+391 |             raise AssertionError(path)
+392 |         out = {}
+393 |         for index, (a, b) in enumerate(zip(left, right)):
+    |                                        ^^^^^^^^^^^^^^^^
+394 |             out.update(compare(a, b, atol, rtol, path + "." + str(index)))
+395 |         return out
+    |
+help: Add explicit value for parameter `strict=`
+
+Found 14 errors (6 fixed, 8 remaining).
+No fixes available (6 hidden fixes can be enabled with the `--unsafe-fixes` option).

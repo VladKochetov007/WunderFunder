@@ -1,0 +1,41 @@
+{
+  "scope": "scalar/schema positive and adversarial controls, not actual capture validation",
+  "prereg_sha256_before_tests": "400f1b23d88ec6e1cab16e649f839845b059237d86c868f0f066cd7e58b6cc3e",
+  "stale_state": 2.116,
+  "fixed_current_state": 2.309,
+  "identity_state_residual": 0.0,
+  "local_detached_gradient": 6.1331658000000004,
+  "full_prefix_gradient": 10.507927200000001,
+  "reference_state_derivative": 1.8299999999999996,
+  "schema_negative_controls": {
+    "one_4000_call": "BLOCK",
+    "ema_weights": "BLOCK",
+    "mixed_reference_weights": "BLOCK",
+    "bptt": "BLOCK",
+    "skipped_update": "BLOCK",
+    "initial_cached_state": "BLOCK",
+    "prefix_consumes_local_rng": "BLOCK",
+    "teacher_recomputed": "BLOCK"
+  },
+  "numeric_controls": {
+    "missing": "UNKNOWN",
+    "identity_zero_floor": "PASS_CONTROL_ONLY",
+    "zero_floor_relaxation": "BLOCK",
+    "wrong_operation": "BLOCK",
+    "effect_calibration": "BLOCK",
+    "nan_bound": "BLOCK",
+    "nonfinite_residual": "BLOCK"
+  },
+  "source_hashes": {
+    "scripts/train_rnn.py": "1d6b059d9880e0befb7b2c6251c7ae6ac9791d0bb0f5cd35dd8e4930cf189ef5",
+    "src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+    "research/campaign_2026-10-03/continuation/round5/mechanism_review/STATE.json": "08e66f1ac9d169ef789c1b7127541efad06305f7ca4e3a94d3eb9dfc55b8c282"
+  },
+  "compute_seconds": 0.00038791100087109953,
+  "peak_rss_kib": 17740,
+  "gpu_calls": 0,
+  "capture_reads": 0,
+  "data_reads": 0,
+  "candidate_code_reads": 0,
+  "fits": 0
+}

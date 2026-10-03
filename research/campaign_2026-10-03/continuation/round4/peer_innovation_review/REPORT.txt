@@ -1,0 +1,165 @@
+INDEPENDENT PEER-INNOVATION REVIEW — FIXED-PROTOCOL REJECTION SUPPORTED
+
+Reproducible narrow verdict: do not promote the ONE preregistered peer EMA
+addition. Independent stored-artifact arithmetic reproduces every real-data gate
+failure. No GPU, contest labels, new candidate fit, horizon/filter sweep or GRU
+forward. Actor code was read but NEVER imported. Review is not blind confirmation:
+the expected negative result was known before checks. Sources/arrays stay frozen.
+
+WHAT WAS INDEPENDENTLY CHECKED
+All103 actor-manifest artifacts match their recorded SHA256s. Both frozen-source
+manifests, production-source/checkpoint/split hashes and original sample hash
+match. Consumed files are rehashed after review, without mutation. Original24
+component/288-query sample metadata match matched_usage exactly. SHA256 split
+rule recreates first16 fit and final8 test components, with no overlap. Every
+row group belongs to the frozen model evaluation split; complete component graph,
+raw-parquet extraction and teacher lineage are inherited rather than reaudited.
+
+From ALL24 stored raw/packed sequence arrays, independent zero-initialized causal
+EMA recurrence reproduces focal half-lives4/16/64, peer half-life16, and peer
+EMA[t-256]. Largest numerical recurrence discrepancy2.22e-16; no difference of
+substance. Peer freshness is rows since ANY22 raw peer-price coordinates changed;
+it is not necessarily scalar i1_p0 activity or the model's engineered clock.
+Current211 packed features and all512 saved postquery GRU state coordinates
+exactly equal their saved baseline columns. The cached incoming boundary t-288
+exists for every eligible query; all287 eligible saved identities/24 future
+canaries are source- and metadata-reviewed, NOT independently reexecuted here.
+No specific forward discrepancy was found, so the requested311 forwards were
+not rerun. Their warmup/teacher/state lineage remains an inherited assumption.
+
+TARGET IS A FUTURE OBSERVABLE, NOT A CONTEST LABEL
+The proxy is (raw i0_p0[t+32]-raw i0_p0[t])/max(frozen GRU std[0],1e-6).
+It is in anonymous input-coordinate units normalized by a fixed model scale.
+It is not physical return, stopping payoff, reconstructed quote or target quantum;
+there is no clipping or supplied t0/t1 supervision. Inputs use only <=t, including
+same-prefix shifted peer at t-256; the future raw value enters proxy supervision
+and loss only. The checkpoint was previously trained with its own label/teacher
+lineage; saying no contest labels were loaded HERE does not erase that lineage.
+
+All287 observable labels reproduce exactly using extraction's scalar NumPy
+division. Float32 scalar promotion differs from an all-float64 reference by at
+most1.1647531e-7, consistent with the actor's disclosed initial verification
+failure. All-float64-reference MSEs are .9803294074/.9740714022/.9693169488;
+threshold rejection remains unchanged. We did not refit models or alter frozen
+labels to obtain that sensitivity check.
+
+SPLIT, QUERY MASS AND MODEL-FITTING WEIGHTS
+288 selected,287 eligible:191 fit/96 test. Only rejected origin:
+component3078, seq1418666371, row_group1219, query19991, split fit;
++32 future unavailable at sequence end, original pi=.03389830508474576.
+Its inverse-query mass29.5 remains explicitly retained, with no replacement.
+No nonfinite or missing shifted-history cases. Original design mass46,572:
+eligible fit33,561.5 + test12,981 + missing29.5. Query pi=12/n_eligible and all
+record weights/IDs/split assignments agree with original metadata. Original
+need_prediction/is_scored sampling census is inherited, not reselected using
+future outcomes. Proxy values never selected donors, channels, split or queries.
+
+Fit weights are NOT inverse query probabilities: each of16 fit components has
+equal total weight191/16, with total191. The incomplete component's11 origins
+are correspondingly reweighted. Test MSE averages8 component means equally.
+Each test component happens to have12 queries, so equal-row mean coincides on
+this panel; inverse design weighting is still a distinct estimand. The reported
+loss/CI must not be renamed an official metric or full-domain survey estimate.
+
+FIT-ONLY STANDARDIZATION / MATCHED EDF
+Independently reconstruct weighted FIT-only means, population SD floor1e-6,
+intercept and exact blocks211/3/512 scaled1/sqrt(width); optional scalar peer or
+shift has weight1. All equal saved values exactly. All726/727-column centered
+weighted designs have numerical rank190. Independently recomputed EDF excludes
+intercept:16 within5e-15 for every arm; total effective df including intercept17.
+Saved penalties16.6769537804/17.7743271190/18.0329563031 satisfy that input-only
+EDF constraint. Ridge normal-equation residual maxima1.51e-13/1.09e-13/2.24e-13
+verify saved coefficients without fitting another model. No evaluation targets
+or feature statistics determine normalization, penalties or EDF.
+
+Matched EDF and equal peer/shift width DO NOT make penalty geometry identical.
+Independent fit hat-matrix distances versus base are .6906930903/.8487492331.
+Adding a scalar changes the Gram directions and globally chosen lambda; it is
+not an isolated coordinate with all old coefficients held fixed. This is a fair
+complexity-controlled diagnostic under the specified protocol, not a unique
+conditional-information or causal-effect estimator. Full512 GRU-state inclusion
+with a191-example/df16 linear head cannot exhaustively condition on model state.
+
+REJECTION ARITHMETIC — ALL CLAUSES, NOT NOMINAL-GAIN STORY
+Held-out component MSE:
+  base .9803294092615562
+  base+peer .9740714042264376
+  base+shifted-peer .9693169506529374
+Peer gain versus base .638357%, below2%; versus shifted peer -.490495%.
+Raw MSE reductions .0062580050 and -.0047544536. Paired-component bootstrap1000
+draws of8 components, seed614405, recreates saved indices/means/intervals EXACTLY:
+  versus base [-.0068518588,.0210910856], positive components5/8
+  versus shift [-.0186766717,.0104617449], positive components2/8
+Both lower bounds fail the preregistered >0 requirement. Shift is the SAME causal
+EMA at t-256, no wrapping/future/masks/labels. It tests temporal specificity;
+it is not a randomized/exchangeable null or proof of independent information.
+A shifted scalar may remain genuinely informative, or benefit from different
+covariance/shrinkage. Its numerical win does not establish an optimal lag.
+
+Freshness criteria are adequately populated by the PREREG minimum:
+age0:17 queries/6 test components, peer reductions versus base/shift
+-.0058156648/-.0117099155;
+age1+:79 queries/8 components, reductions +.0059015949/-.0051886930.
+Thus three freshness sign clauses fail, in addition to four overall clauses.
+Seven failures altogether, with zero inadequate-stratum clauses. Query-count
+adequacy is not high statistical power or proof of market support.
+
+CONTROL SPECIFICATION DISCREPANCY (MINOR, NOT HIDDEN)
+Real-data comparator matches its preregistration: same-prefix EMA at t-256.
+However toy PREREG says shifted peer is 'independently generated'; controls.py
+actually samples ONE iid4096-row innovation sequence per component, applies ONE
+causal EMA16, then takes the original and t-256 states from that same series.
+These are not exactly independent: their stationary population correlation is
+2^(-256/16)=1.5258789e-5. This is tiny, but it is a specification difference;
+report toy conclusions for the implemented temporal-lag control. Correcting the
+frozen record requires disclosure, not silently editing actor artifacts.
+Planted/null saved summaries independently pass/fail the declared gate arithmetic
+respectively. We did not regenerate their draws or refit their six proxy models.
+A strong planted3*peer signal demonstrates an easy detectable alternative, not
+power calibration at2% gain in sparse/regime-shifted real data. The discrepancy
+does not rescue any of the seven REAL gate failures or warrant more forwards.
+
+LOW POWER, SUPPORT AND PREDICTIVE NECESSITY ARE DISTINCT
+Low power: only8 test components,17 fresh-query cases, and58.33% zero proxy
+innovations. Fit/test proxy means+.11156/-.28593 differ materially; unknown input
+loadings/units/regimes can affect transport. The baseline contrast's conditional
+upper reduction .021091 is above2% of its .980329 MSE, so this interval does NOT
+exclude a2% baseline gain. The shift contrast upper .010462 is below2% of its
+.969317 MSE on this conditional bootstrap. Neither is a population equivalence
+or universal-information result. No prospective power calculation was performed.
+Support: this test has no splice/donor seam, but component-disjoint fit/test
+covariate/regime support is not independently established. Matching EDF and
+minimum stratum counts are not support checks. The shifted comparator is not
+exchangeable. A larger panel alone need not repair a measurement/mixture mismatch.
+Predictive necessity: incremental gain for this one compressed linear protocol
+is NOT necessity of peer history for the strong GRU or contest payoff. A null
+may reflect redundant current/hidden information, wrong observation coordinate,
+weak linear conditionality, sparse signal or insufficient coverage. Washout
+retention evidence and this negative observable-prediction result can both hold.
+Do not claim saturation, peer-information absence, public gain or GPU readiness.
+
+USEFUL NEXT DIRECTIONS — PROPOSALS ONLY, NO NEW RUN
+1. Audit observable support/measurement stability first: predeclare prefix-only
+   freshness, input scale and feature-covariance diagnostics on disjoint components.
+   Determine whether the fixed scalar coordinate's units/loading and event-rate
+   regime transport. Use no target-derived decoder or evaluation class fitting.
+   Kill a broad shared-factor story if observations do not support its assumptions.
+2. If support is adequate, replicate the SAME32-row/h16/shift256 protocol on a
+   separately frozen larger component panel with an explicit precision target,
+   retaining end/missing mass. Do not select new filters/horizons from these eight
+   outcomes. This addresses uncertainty, not a new representation approval.
+3. Only after a reproducible supported observable effect, design a separate
+   predictive-necessity test for the deployed model/task with matched controls.
+   Observable proxy gains would still not establish contest-payoff utility.
+No new experiment, representation fit or source modification is launched here.
+
+PROVENANCE / COST / REPRODUCTION
+PREREG.json precedes audit computation. Source/query/split/model/artifact hashes
+and independent numeric outputs are in results.json and PROVENANCE.json. Review
+body2.044s wall/2.037s CPU, peak101476KiB;0 new fits,0 GRU forwards, noGPU/resource
+failure/install/live edit. All compute uses run_cpu.sh reviewer1core2GiB900s.
+Initial lint complaints were format-only one-line conditionals; formatting fixed
+them before execution. Final lint passes. Actor103 artifacts and used inherited
+inputs are rehashed before/after; no actor mutation. Reproduce with run.sh.
+Narrow terminal verdict: fixed-protocol rejection stands, with minor toy-control
+specification caveat and inherited forward/teacher assumptions. Frozen for review.

@@ -1,0 +1,58 @@
+Recovered nonlinear analyst evidence (read-only pass, 2026-10-03)
+
+Own artifact root: research/campaign_2026-10-03/eda/nonlinear.
+Original bias: nonlinear conditional means, regimes, persistence, thresholds.
+Read CONTRACT.txt, permitted HOST_DATA_DESCRIPTION.txt and ABSTRACT_TASK.txt;
+read own scripts, CSV tables, logs, saved marimo session; inspected figures.
+
+Observed: cond_model.log reports ridge scored WP t0/t1 0.5069/0.4971 on
+40 valid sequences; tested histogram tree 0.4901/0.4732. Ridge used 48 train
+sequences (every fourth required row), tree a smaller random row sample.
+These do not prove linear superiority generally or improve the strong baseline.
+
+Saved marimo session outputs (eda_nonlinear.py recal_cv): two-fold sequence
+cross-fit on the same 40 valid sequences gave state/class offsets t1 0.5319,
+state/class gain interactions 0.5212, versus ridge 0.4971. t0 offsets 0.5067
+versus ridge 0.5069. Target-derived unit U was used; normalization used both
+folds; validation was repeatedly explored. This is not independent evidence.
+
+mi_within.csv: unit 0.469 d_i0_v4 t0 Pearson -0.027 versus cross-fitted bin
+mean correlation 0.243; unit 0.241 i1_v15 t1 Pearson 0.034 versus bin-mean
+correlation 0.337. Unweighted feature screen, many comparisons, few sequences.
+Pooled feat_mi.csv large MI gaps can reflect scale/class mixture or serial
+dependence rather than deployable nonlinear conditional mean signal.
+
+Inspected fig08_regime_persistence.png: a2/a3/activity persist tens to hundreds
+of rows; inter-book-change gap CV median 3.4 (14 previously used sequences).
+Burstiness does not identify self-excitation or prove a hidden Markov regime.
+fig06_joint_k0k1.png shows target grids 0.125/0.241/0.469/0.657 and asymmetric
+joint support. latent_decode.log: joint categorical decoding underperformed
+class-specific ridge on both coarse classes; metric-aware decoding did not win.
+fig03_scored_vs_state.png shows state-dependent selection and target magnitude;
+fig05_state_calibration.png and fig07_link_shape.png show state-dependent link.
+
+Unfinished: stream_valid.log records 1,149,002 scored rows, progress through
+500; default stream_valid.py invocation uses 600 valid sequences excluded
+from the 40-sequence sample. Actual invocation/IDs are not logged. No downstream
+score. class_id.py proposes first-99-row input class inference but no results.
+All referenced NPZ caches and REPORT.txt absent at recovery. Do not claim the
+streamed rows are fresh; do not use whole-sequence target unit at inference.
+
+Known sample recipes: train48 seed2, valid40 seed1, valid40 seed0 (t_struct),
+train300 seed11 (class_id, execution unknown), valid0/5/6/7 direct peeks/timing.
+Default stream600 seed7 excludes valid40 seed1; its exact execution is uncertain.
+
+Ranked follow-ups: (1) causal residual offsets, especially t1, with affine
+and gain controls; (2) sparse volume-change/cross-instrument thresholds;
+(3) linear flow with liquidity scaling; (4) event-time memory;
+(5) input-only soft scale conditioning. Use train-only normalization and
+sequence-disjoint evaluation; label sample exposure and selection explicitly.
+
+Primary-source abstracts actually read:
+https://arxiv.org/abs/1011.6402 (Cont et al., linear flow impact/depth scaling)
+https://arxiv.org/abs/1512.03492 (Gould/Bonart, tick-dependent imbalance prediction)
+
+Resumption: freeze test before scoring; rebuild bounded own artifacts only;
+log actual row-group/seq_ix IDs and checksums; no targets/future rows as inputs;
+use clipped global weighted Pearson, not mean sequence correlations; report
+negative results and paired sequence diagnostics, with campaign dependence unknown.

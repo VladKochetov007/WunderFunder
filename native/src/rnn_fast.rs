@@ -21,7 +21,7 @@ use std::ops::Range;
 use bytemuck::{Pod, Zeroable};
 
 use crate::approx::{gelu_fast, sigmoid_fast, tanh_fast};
-use crate::half::{Codes, Encoding, HalfArena, TILE_COLS};
+use crate::half::{Ahead, Codes, Encoding, HalfArena, TILE_COLS};
 use crate::kernels::{gelu, sigmoid};
 use crate::rnn::{RnnWeights, ShapeError};
 
@@ -450,6 +450,41 @@ fn gru_update(h: &mut [f32], gi: &[f32], gh: &[f32], fast: bool) {
     }
 }
 
+/// `gru_update` with fast activations on eight lanes at a time (`approx::avx2`), the same bits,
+/// prefetching `ahead` as it goes.
+///
+/// # Safety
+/// The CPU must support AVX2 and FMA.
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "avx2,fma")]
+#[inline]
+unsafe fn gru_update_avx2(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahead) {
+    use crate::approx::avx2::{sigmoid8, tanh8};
+    use std::arch::x86_64::*;
+    let n = h.len();
+    assert!(gi.len() >= 3 * n && gh.len() >= 3 * n);
+    let main = n / 8 * 8;
+    unsafe {
+        let (i, g, hp) = (gi.as_ptr(), gh.as_ptr(), h.as_mut_ptr());
+        let ld = |p: *const f32, k: usize| _mm256_loadu_ps(p.add(k));
+        for j in (0..main).step_by(8) {
+            ahead.issue(2 * crate::half::AHEAD_LINES);
+            let r = sigmoid8(_mm256_add_ps(ld(i, j), ld(g, j)));
+            let u = sigmoid8(_mm256_add_ps(ld(i, n + j), ld(g, n + j)));
+            let c = tanh8(_mm256_add_ps(ld(i, 2 * n + j), _mm256_mul_ps(r, ld(g, 2 * n + j))));
+            let keep = _mm256_mul_ps(u, ld(hp, j));
+            let y = _mm256_add_ps(_mm256_mul_ps(_mm256_sub_ps(_mm256_set1_ps(1.0), u), c), keep);
+            _mm256_storeu_ps(hp.add(j), y);
+        }
+    }
+    for j in main..n {
+        let r = sigmoid_fast(gi[j] + gh[j]);
+        let u = sigmoid_fast(gi[n + j] + gh[n + j]);
+        let c = tanh_fast(gi[2 * n + j] + r * gh[2 * n + j]);
+        h[j] = (1.0 - u) * c + u * h[j];
+    }
+}
+
 /// out = W x + b with eight fp32 lanes per row (multiply, then add) reduced in a fixed order.
 /// Plain IEEE operations that LLVM vectorizes without reassociating, so every build and CPU
 /// returns the same bits (Q16x head.2).
@@ -735,6 +770,22 @@ impl FastRnn {
     }
 
     pub fn step(&mut self, x: &[f32], out: &mut [f32]) {
+        let after = self.first_weights();
+        self.step_then(x, out, after)
+    }
+
+    /// The weights a step reads first (the input projection): what `step_then` of the member
+    /// stepped just before this one prefetches.
+    pub fn first_weights(&self) -> Ahead {
+        match self.precision {
+            Precision::F32 => Ahead::NONE,
+            _ => Ahead::new(&self.half.as_ref()[self.w_in_cols.w.clone()]),
+        }
+    }
+
+    /// `step`, prefetching `after` (the weights the caller reads next) during the last
+    /// activation pass. Only Q16x prefetches; outputs never depend on it.
+    pub fn step_then(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
         assert_eq!(x.len(), self.n_in, "input width");
         assert_eq!(out.len(), self.n_out, "output width");
         match self.precision {
@@ -746,8 +797,8 @@ impl FastRnn {
             Precision::I16 => unsafe { self.step_i16(x, out) },
             // SAFETY: Q16x is only selected when `half::available()` (else Q16xPortable).
             #[cfg(target_arch = "x86_64")]
-            Precision::Q16x => unsafe { self.step_q16x(x, out) },
-            Precision::Q16xPortable => self.step_q_impl::<false>(x, out),
+            Precision::Q16x => unsafe { self.step_q16x(x, out, after) },
+            Precision::Q16xPortable => self.step_q_impl::<false>(x, out, after),
             #[cfg(not(target_arch = "x86_64"))]
             _ => unreachable!(),
         }
@@ -769,14 +820,14 @@ impl FastRnn {
 
     #[cfg(target_arch = "x86_64")]
     #[target_feature(enable = "avx2,fma,f16c")]
-    unsafe fn step_q16x(&mut self, x: &[f32], out: &mut [f32]) {
-        self.step_q_impl::<true>(x, out)
+    unsafe fn step_q16x(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
+        self.step_q_impl::<true>(x, out, after)
     }
 
     /// The Q16x step; `SIMD` selects the AVX2 kernels (only from `step_q16x`) or the portable
     /// ones, which return the same bits.
     #[inline(always)]
-    fn step_q_impl<const SIMD: bool>(&mut self, x: &[f32], out: &mut [f32]) {
+    fn step_q_impl<const SIMD: bool>(&mut self, x: &[f32], out: &mut [f32], mut after: Ahead) {
         let n = self.hidden;
         let fast = self.act == Activations::Fast;
         let wts = self.weights.as_ref();
@@ -792,6 +843,29 @@ impl FastRnn {
                 return unsafe { crate::half::gemv_q16x(panel, scales, xs, q, n, b, out) };
             }
             crate::half::gemv_q16x_portable(panel, scales, xs, q, n, b, out)
+        };
+        // Elementwise passes: the AVX2 twins (`approx::avx2`, `quantize_avx2`) return the scalar
+        // functions' bits, and prefetch the next matrix while they compute.
+        let gelu_all = |v: &mut [f32], ahead: &mut Ahead| {
+            // SAFETY: as for `matvec`.
+            #[cfg(target_arch = "x86_64")]
+            if SIMD && fast {
+                return unsafe { crate::approx::avx2::gelu_slice(v, ahead) };
+            }
+            let _ = ahead;
+            if fast {
+                v.iter_mut().for_each(|v| *v = gelu_fast(*v));
+            } else {
+                v.iter_mut().for_each(|v| *v = gelu(*v));
+            }
+        };
+        let quantize = |x: &[f32], bound: Option<f32>, q: &mut [i16]| -> f32 {
+            // SAFETY: as for `matvec`.
+            #[cfg(target_arch = "x86_64")]
+            if SIMD {
+                return unsafe { crate::half::quantize_avx2(x, bound, q) };
+            }
+            crate::half::quantize(x, bound, q)
         };
 
         {
@@ -809,16 +883,12 @@ impl FastRnn {
             } else {
                 crate::half::project_q16_portable(cols, scales, b, x, padded);
             }
-            let z = &mut st[self.z.clone()];
-            if fast {
-                z.iter_mut().for_each(|v| *v = gelu_fast(*v));
-            } else {
-                z.iter_mut().for_each(|v| *v = gelu(*v));
-            }
+            let first = &half[self.layers[0].w_ih.w.clone()];
+            gelu_all(&mut st[self.z.clone()], &mut Ahead::new(first));
         }
         let n_layers = self.layers.len();
         let (hq, zq) = codes.split_at_mut(n_layers * kc);
-        let zs = crate::half::quantize(&st[self.z.clone()], None, zq);
+        let zs = quantize(&st[self.z.clone()], None, zq);
 
         for (k, li) in self.layers.iter().enumerate() {
             // State layout is [h (all layers) | z | gi | gh | cat | a | c (LSTM)].
@@ -839,22 +909,24 @@ impl FastRnn {
             let cur = &mut cur[..kc];
             matvec(&li.w_ih, s_in, q_in, Some(&wts[li.b_ih.clone()]), gi);
             matvec(&li.w_hh, HIDDEN_SCALE, cur, Some(&wts[li.b_hh.clone()]), gh);
+            let next = self.layers.get(k + 1).map_or(&self.w1.w, |l| &l.w_ih.w);
             match self.cell {
+                // SAFETY: as for `matvec`.
+                #[cfg(target_arch = "x86_64")]
+                Cell::Gru if SIMD && fast => unsafe {
+                    gru_update_avx2(h, gi, gh, &mut Ahead::new(&half[next.clone()]))
+                },
                 Cell::Gru => gru_update(h, gi, gh, fast),
                 Cell::Lstm => lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast),
             }
-            crate::half::quantize(h, Some(1.0), cur);
+            quantize(h, Some(1.0), cur);
         }
 
         let a = &mut st[self.a.clone()];
         let last = &hq[(n_layers - 1) * kc..];
         matvec(&self.w1, HIDDEN_SCALE, last, Some(&wts[self.b1.clone()]), a);
         matvec(&self.w1z, zs, zq, None, a);
-        if fast {
-            a.iter_mut().for_each(|v| *v = gelu_fast(*v));
-        } else {
-            a.iter_mut().for_each(|v| *v = gelu(*v));
-        }
+        gelu_all(a, &mut after);
         gemv_lanes(&wts[self.w2.clone()], &wts[self.b2.clone()], a, out);
     }
 

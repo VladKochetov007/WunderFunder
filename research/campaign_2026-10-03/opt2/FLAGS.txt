@@ -1,0 +1,57 @@
+OPT2 FLAGS — research module and unapplied trainer.patch only; NOT live trainer flags.
+Default-off numerical parity: CPU float32 AdamW(fused=False)/Muon + OneCycle,
+12 updates, exact loss/parameter/lr/beta1/global-RNG comparison. Full GPU/fused
+AdamW/EMA training parity is deferred to controller; no GPU was used.
+
+SUPPORTED IN MODULE AND PATCH
+--optim-switch FRACTION:adamw|muon : both directions; ceil(frac*total) attempted
+  updates completed before switch. Requires RNNModel-style gru and trainable
+  recurrent matrices. --muon-scope rnn|hidden retained. One switch per fresh fit.
+  Unchanged Adam groups keep first/second moments and step age. Changed matrices
+  reset all moments. No guessed second moments from Muon momentum. Current lr,
+  betas, wd, schedule group metadata and schedule age survive. Switching changes
+  fused AdamW to non-fused AdamW; numerically not a fused-path parity guarantee.
+--warmup-frac FLOAT : None preserves existing .05; OneCycle uses pct_start;
+  WSD uses existing rounded warmup with at least one step even when requested 0.
+--sched sgdr --restarts K : K actual restarts, K+1 equal integer cycles, linear
+  initial warmup, cosine to --wsd-final each cycle. No moment resets on restart.
+  At least two attempted updates per cycle. No growing-period T_mult variant.
+--head-lr-mult FLOAT : positive finite; head.* vs remaining trunk; same ratio
+  throughout OneCycle/WSD/SGDR and switching, including muon-scope hidden.
+--clip-per-module 'head:CAP,gru:CAP,inp:CAP' : positive finite caps on TOP-LEVEL
+  module names; replaces global clip. Unlisted modules independently use --clip.
+  Total gradient norm can therefore exceed --clip. Applied after unscale/noise;
+  existing GradStats remains pre-noise/pre-clip. Unknown/duplicate modules error.
+--grad-noise ETA : private device RNG, variance eta/(1+t)^.55, added to existing
+  unscaled gradients before clipping; t is attempted step count. eta=0 consumes
+  no RNG. Per-coordinate variance can be large in a ~1M-parameter model.
+--init-qmc : scipy scrambled Sobol row points/column coordinates for Linear and
+  GRU/LSTM uniform default distributions; same scalar marginals, NOT iid joint
+  distribution. Private per-tensor seed; buffers unchanged. Patch restricts to
+  fresh plain RNNModel, enc linear, no checkpoint/rnn-init combination.
+--batch-order seeded : private torch permutation with explicit epoch; separate
+  normalization epoch -1, identical across antithetic arms; NOT RandomSampler
+  parity. Reversal starts at training epoch0. Reject weighted sampling.
+--antithetic : requires --batch-order seeded, same seed as paired control;
+  reverses COMPLETE epoch order before drop_last. A non-divisible dataset can
+  drop different sequence tails in the two arms. Test divisible-size subset or
+  account for membership. Explicit seed/epoch/reverse provenance is recorded.
+
+HELPER ONLY / DEFERRED IN TRAINER
+--batch-order qmc : trainer patch explicitly errors BEFORE data loading. Tested
+  input_strata(classes,activity) + stratified_order helpers exist, with every
+  index exactly once, proportional cumulative-deficit quotas, Sobol tie priority.
+  Population activity summaries must be streamed from TRAINING INPUTS only,
+  aligned to repeats/extra valid sequences and frozen with metadata hashes.
+  No real input summaries computed in this pass; no wide loading performed.
+  Integer quotas/small strata preclude exact shares in every arbitrary batch.
+
+UNSUPPORTED / DEFERRED
+--zoneout P : P!=0 explicitly errors BEFORE data loading. Exact timestep zoneout
+  cannot be implemented via a post-hoc cuDNN output mask or chunk-boundary mask.
+  Needs a GRUCell/LSTMCell timestep path retaining previous hidden activations,
+  sacrificing fused cuDNN sequence kernels; speed cost unmeasured, likely large.
+Hidden-state Gaussian noise: deferred, no flag implemented, no zoneout substitute.
+Resume of dynamics/noise RNG/optimizer state: trainer does not resume optimizer
+  training states; no new resumable state checkpoint protocol claimed.
+GPU/fused/FP16 parity, real WP gains, full-data QMC composition: deferred.

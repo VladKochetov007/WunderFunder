@@ -1,0 +1,209 @@
+{
+  "checkpoint": "artifacts/runs/c20261001_d256_s3_f0/model_ep3.pt",
+  "checkpoint_sha256": "f92504fbbbcf956a44e70aa3f7a08825d903b9c6a6cacce7bd9f89b6875fcad8",
+  "cached_sidecar_checkpoint_sha256": "f92504fbbbcf956a44e70aa3f7a08825d903b9c6a6cacce7bd9f89b6875fcad8",
+  "checkpoint_epoch": 3,
+  "n_in": 211,
+  "n_out": 23,
+  "args": {
+    "name": "c20261001_d256_s3_f0",
+    "train_seqs": 10607,
+    "valid_seqs": 600,
+    "full_valid": true,
+    "hidden": 256,
+    "layers": 2,
+    "dropout": 0.0,
+    "chunk": 2000,
+    "batch": 32,
+    "epochs": 4,
+    "checkpoint_policy": "fixed",
+    "checkpoint_epoch": 3,
+    "no_eval_during_fit": true,
+    "split_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "lr": 0.001,
+    "wd": 0.01,
+    "loss": "wmse",
+    "pool_decay": 0.98,
+    "huber_delta": 0.5,
+    "ce_tilt": false,
+    "ce_mse": 0.0,
+    "distill": "c20260929_since_s3_f0,c20260929_since_s4_f0",
+    "distill_alpha": 0.5,
+    "aux_next": 0.3,
+    "aux_tier": 0.0,
+    "aux_mask": 0.0,
+    "aux_sign": 0.0,
+    "aux_quote": 0.0,
+    "quote_cache_root": "",
+    "aux_next_k": "",
+    "spread_aux_mode": "original",
+    "spread_cache_root": "",
+    "aux_struct": 0.3,
+    "aux": "",
+    "aux_weight": 0.5,
+    "arch": "gru",
+    "decay_init": "multi",
+    "memory_arm": "endpoint-content",
+    "gate_ce": 0.0,
+    "cell": "gru",
+    "enc": "linear",
+    "tok_dim": 32,
+    "att_layers": 1,
+    "conv_k": 16,
+    "event_hidden": 128,
+    "class_balance": false,
+    "train_source": "train+valid",
+    "include_heldout_valid": false,
+    "valid_train_fraction": 1.0,
+    "epoch_samples": 0,
+    "eval_source": "vfold",
+    "valid_fold": 0,
+    "n_valid_folds": 4,
+    "valid_repeat": 1,
+    "init": "",
+    "inherit_init_preprocessing": false,
+    "freeze": "",
+    "ema_teacher": 1.0,
+    "ema_metric_weight": false,
+    "ema_decay": 0.999,
+    "eval_ema": true,
+    "mask_weight": false,
+    "propensity": "c20260929_prop_f0",
+    "prop_power": 2.0,
+    "prop_eps": 0.03,
+    "class_weight": "",
+    "valid_true_mask": 0.03,
+    "prop_input": "",
+    "swa_frac": 0.0,
+    "train_classes": "",
+    "online_norm": false,
+    "heuristics": false,
+    "raw_only": false,
+    "seed": 3,
+    "loss_norm": "chunk",
+    "since_weight": 32.0,
+    "since_floor": 0.25,
+    "episode_weight": 0.0,
+    "episode_floor": 0.5,
+    "td_alpha": 0.0,
+    "td_ramp": 0.5,
+    "gcorr_weight": 1.0,
+    "fast": true,
+    "sync_free": true,
+    "fused_adam": true,
+    "pin_memory": true,
+    "prop_cache": true,
+    "precision": "fp16",
+    "max_batches": 0,
+    "profile_steps": 0,
+    "profile_warmup": 5,
+    "parity_dump": "",
+    "deterministic": false,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "distill_provenance": [
+      {
+        "run": "c20260929_since_s3_f0",
+        "split": "train",
+        "scale": 1.0,
+        "epoch": 3,
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "prediction_sha256": "2e74e44773d3d6d3e7c48c245a71f281b1659e6f6592ea2a9a2e4f96d37d19dc"
+      },
+      {
+        "run": "c20260929_since_s3_f0",
+        "split": "valid",
+        "scale": 1.0,
+        "epoch": 3,
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "prediction_sha256": "7a01c040849d9455016dee51a1f9c82c1079be085a0e6be23c99c23bddb3fba9"
+      },
+      {
+        "run": "c20260929_since_s4_f0",
+        "split": "train",
+        "scale": 1.0,
+        "epoch": 3,
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "prediction_sha256": "819ab8ef0b1303b289af3475e173da8e9e7ff404ca7a8d8e7e10a3d443648241"
+      },
+      {
+        "run": "c20260929_since_s4_f0",
+        "split": "valid",
+        "scale": 1.0,
+        "epoch": 3,
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "prediction_sha256": "6aa7b150097ebdf43ddbea8c3a52f8d705ebd2dbd01470e3c45b7eb2dbcfc430"
+      }
+    ]
+  },
+  "readout_present": false,
+  "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "evaluation_count": 468,
+  "cache_headers": {
+    "y.npy": {
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "fortran": false,
+      "dtype": "float32",
+      "payload_offset": 128
+    },
+    "mask.npy": {
+      "shape": [
+        1873,
+        20000
+      ],
+      "fortran": false,
+      "dtype": "bool",
+      "payload_offset": 128
+    },
+    "seq_ix.npy": {
+      "shape": [
+        1873
+      ],
+      "fortran": false,
+      "dtype": "int64",
+      "payload_offset": 128
+    },
+    "row_group.npy": {
+      "shape": [
+        1873
+      ],
+      "fortran": false,
+      "dtype": "int64",
+      "payload_offset": 128
+    },
+    "market_class.npy": {
+      "shape": [
+        1873
+      ],
+      "fortran": false,
+      "dtype": "int64",
+      "payload_offset": 128
+    }
+  },
+  "cached_predictions": {
+    "run": "c20261001_d256_s3_f0",
+    "split": "valid",
+    "epoch": 3,
+    "checkpoint_sha256": "f92504fbbbcf956a44e70aa3f7a08825d903b9c6a6cacce7bd9f89b6875fcad8",
+    "prediction_sha256": "58f522606400c203ebdc2ba39a3934ee313e5690ffb4dc01f518e4fd675ae553",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "quote_cache": null,
+    "gate_mode": "soft"
+  },
+  "cached_prediction_shape": [
+    1873,
+    20000,
+    2
+  ],
+  "source_sha256": {
+    "scripts/predict_run.py": "e56396948cf65f5a8ba6ecbb53040c2c971c3d985ef569e88b6ee0d5c7632f21",
+    "scripts/train_rnn.py": "1d6b059d9880e0befb7b2c6251c7ae6ac9791d0bb0f5cd35dd8e4930cf189ef5",
+    "src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/splits.py": "dfe1768828bec3172eb2bf84bfcb952a01e7eaef45d4ffd0d8c42a91d8e679ab"
+  }
+}

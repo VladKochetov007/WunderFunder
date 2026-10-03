@@ -1,0 +1,47 @@
+READ-ONLY RECOVERY PASS — substantive findings carried into continuation
+
+Scope: own HFT directory, permitted task files and primary-source abstracts.
+No writes, fitting, model execution or new raw-data census occurred in that pass.
+Reused rows are exposed; none was claimed as independent confirmation.
+
+Existing NOTES.txt reports four target quanta (about 0.12543, 0.24133,
+0.46854, 0.65687), synchronous changes within transformed price-column groups,
+and identical book vectors paired with different targets. Dense mixing,
+relative-price encoding and quantile normalization are hypotheses, not decoded
+physical prices. fig03_seq74_zoom.png visibly shows repeated quote-like flicker.
+
+scan_seq.csv has 82 valid sequences: quantum counts 14/16/11/41. Recomputed
+scored fractions span 0.005 to 0.22885, narrower than NOTES.txt claims. For
+q~0.6569, mean scoring rate is 0.1039 overall versus 0.2994 on trade-volume
+change rows. Such changes may include slot resets, not verified executions.
+
+decoder_train.py trains on 60 RNG-selected TRAIN sequences and uses target
+jumps as quote-change labels; spread labels are -(t0+t1)/q. These assume
+future references do not move at those events. No preserved accuracy log
+establishes the assumption. Existing decoder.pkl is a research artifact,
+not verified quote reconstruction. decode_eval.py uses oracle per-sequence q.
+
+Read-only recomputation of decode_eval_rows.parquet: 146095 scored rows from
+82 valid sequences. Oracle-q spread-only WP t0/t1 = 0.3495/0.2869.
+100-row reversion WP = -0.1884/-0.2174; the opposite sign scores positively.
+11.67% of saved scored rows have negative implied spread. The target sum is
+therefore not established as physical spread. Within q~0.6569, ordinary
+Pearson for mr100 remains weakly in the reversion direction (0.075/-0.070),
+so a universal momentum conclusion is also unsupported.
+
+fig05_horizon.png shows regime-dependent peaks, but relies on the unverified
+decoder and cannot identify a true horizon. fig04_acf_eventtime.png has strong
+alternation compatible with flicker. Both were visually inspected.
+regime_stats.csv holds prefixes for 300 TRAIN and 209 VALID sequences at
+100/300/1000/3000/10000 rows. Regime accuracy was printed, not preserved.
+Trade signs, i1 lead-lag, target construction and a final report are unfinished.
+
+Ranked next directions: (1) falsify target-derived quote identities;
+(2) infer quantum/regime from warm-up inputs; (3) continuation versus reversion
+within regimes; (4) volume depletion/replenishment with unchanged price state;
+(5) causal i1 lead-lag after matching i0 history, activity and regime.
+Each needs frozen procedures, matched controls and audited own-unseen samples.
+
+Primary abstracts actually read: https://arxiv.org/abs/1011.6402 (OFI/depth),
+https://arxiv.org/abs/1512.03492 (queue imbalance, tick-regime dependence).
+Neither validates the anonymized feature encoding.

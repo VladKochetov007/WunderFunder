@@ -1,0 +1,225 @@
+{
+  "gate_passed": false,
+  "fit_components": [
+    3181,
+    3078,
+    3049,
+    2800,
+    3239,
+    3205,
+    3016,
+    2898,
+    3006,
+    3020,
+    2853,
+    3063,
+    2972,
+    2958,
+    2804,
+    2826
+  ],
+  "test_components": [
+    3038,
+    2719,
+    2802,
+    2994,
+    2829,
+    2857,
+    995,
+    2799
+  ],
+  "fit_queries": 191,
+  "test_queries": 96,
+  "input_only_effective_df_target": 16,
+  "geometry": [
+    {
+      "arm": "base",
+      "columns": 726,
+      "numerical_rank": 190,
+      "effective_df": 16.000000000000004,
+      "intercept_df": 1,
+      "lambda_": 16.676953780360783,
+      "fit_queries": 191,
+      "test_queries": 96,
+      "train_component_balanced_mse": 0.6637854725519512,
+      "hat_frobenius_from_base": 0.0,
+      "coefficient_l2": 1.1005207294217394
+    },
+    {
+      "arm": "base_plus_peer",
+      "columns": 727,
+      "numerical_rank": 190,
+      "effective_df": 16.000000000000007,
+      "intercept_df": 1,
+      "lambda_": 17.7743271190052,
+      "fit_queries": 191,
+      "test_queries": 96,
+      "train_component_balanced_mse": 0.6703116524638015,
+      "hat_frobenius_from_base": 0.6906930902929189,
+      "coefficient_l2": 1.0634105368100506
+    },
+    {
+      "arm": "base_plus_shifted_peer",
+      "columns": 727,
+      "numerical_rank": 190,
+      "effective_df": 16.000000000000007,
+      "intercept_df": 1,
+      "lambda_": 18.0329563031461,
+      "fit_queries": 191,
+      "test_queries": 96,
+      "train_component_balanced_mse": 0.6716814149276776,
+      "hat_frobenius_from_base": 0.8487492330958202,
+      "coefficient_l2": 1.0581854068627068
+    }
+  ],
+  "arm_test_component_mse": {
+    "base": 0.9803294092615562,
+    "base_plus_peer": 0.9740714042264376,
+    "base_plus_shifted_peer": 0.9693169506529374
+  },
+  "contrasts": {
+    "base": {
+      "relative_improvement": 0.006383573700836531,
+      "mse_reduction": 0.006258005035118641,
+      "paired_component95_interval": [
+        -0.006851858764196602,
+        0.02109108557996931
+      ],
+      "positive_components": 5
+    },
+    "base_plus_shifted_peer": {
+      "relative_improvement": -0.004904952472251312,
+      "mse_reduction": -0.004754453573500128,
+      "paired_component95_interval": [
+        -0.018676671719709714,
+        0.010461744917381137
+      ],
+      "positive_components": 2
+    }
+  },
+  "input_freshness_strata": [
+    {
+      "stratum": "peer_age0",
+      "queries": 17,
+      "components": 6,
+      "adequate": true,
+      "mse": [
+        1.46719907634205,
+        1.4730147410948664,
+        1.4613048256005674
+      ],
+      "peer_mse_reductions": [
+        -0.005815664752816474,
+        -0.011709915494299006
+      ]
+    },
+    {
+      "stratum": "peer_age1+",
+      "queries": 79,
+      "components": 8,
+      "adequate": true,
+      "mse": [
+        0.8245227589320939,
+        0.8186211640510572,
+        0.8134324710074966
+      ],
+      "peer_mse_reductions": [
+        0.005901594881036698,
+        -0.0051886930435606216
+      ]
+    }
+  ],
+  "per_test_component": [
+    {
+      "component": 3038,
+      "mse": [
+        1.0057519536682065,
+        1.0320584796695615,
+        0.9999549073557014
+      ]
+    },
+    {
+      "component": 2719,
+      "mse": [
+        0.26044934153033095,
+        0.25704945656837247,
+        0.25522980564529535
+      ]
+    },
+    {
+      "component": 2802,
+      "mse": [
+        0.05174709720148878,
+        0.057105134987634726,
+        0.05028143584587061
+      ]
+    },
+    {
+      "component": 2994,
+      "mse": [
+        1.0027998457394987,
+        0.9899621077196574,
+        0.9998079169646492
+      ]
+    },
+    {
+      "component": 2829,
+      "mse": [
+        0.21835116277527156,
+        0.21734465167870143,
+        0.21143052029832923
+      ]
+    },
+    {
+      "component": 2857,
+      "mse": [
+        0.8820286212427423,
+        0.887159236691852,
+        0.8818289134524147
+      ]
+    },
+    {
+      "component": 995,
+      "mse": [
+        2.473100309430666,
+        2.4216990681747146,
+        2.3895320961824
+      ]
+    },
+    {
+      "component": 2799,
+      "mse": [
+        1.9484069425042447,
+        1.9301930983210054,
+        1.966470009478839
+      ]
+    }
+  ],
+  "target_summary": {
+    "fit_mean": 0.11156417303828338,
+    "fit_sd": 1.1433792755381649,
+    "test_mean": -0.2859290982402551,
+    "test_sd": 1.0294314382514498,
+    "test_zero_fraction": 0.5833333333333334,
+    "test_max_abs": 3.889345645904541
+  },
+  "peer_shift_fit_correlation": 0.014951952498384762,
+  "edf_control_max_abs": 7.105427357601002e-15,
+  "uncertainty": "1000 paired test-component draws conditional on exposed fixedpanel/split; no rowIID or population gain",
+  "null_hypothesis_scope": "no useful addition for this fixed ridge protocol/observable, not complete conditional information",
+  "controls_passed": true,
+  "promotion_allowed": false,
+  "ledger": {
+    "original_selected": 288,
+    "eligible": 287,
+    "missing_future": 1,
+    "nonfinite": 0,
+    "shift_missing": 0,
+    "original_total_query_inverse_probability_mass": 46572.0,
+    "fit_inverse_query_mass": 33561.5,
+    "test_inverse_query_mass": 12981.0
+  },
+  "seconds": 0.07102194699109532,
+  "fits_executed": 3,
+  "verdict": "frozen peer innovation proxy gate failed; no proposal promotion, not saturation"
+}

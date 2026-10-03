@@ -1,0 +1,38 @@
+{
+  "phase": "frozen_independent_amp_linearity_review_complete",
+  "verdict": "BLOCKED_REAL_METADATA_JSON_IDENTITY_SCHEMA",
+  "algebra_descriptive_FP64_residual": "PASS",
+  "blockers": [
+    "real pre.metadata contains cached_propensity/scored_mask Tensors; exact dictionary equality with approval JSON is incompatible"
+  ],
+  "tiny_json_metadata_positive_control": true,
+  "actual_schema_witness": {
+    "serialization_failure": "Object of type Tensor is not JSON serializable",
+    "approved_JSON_case_rejected": "ValueError: Approved source/backend/case metadata differs",
+    "source_tensor_metadata_fields": [
+      {
+        "name": "cached_propensity",
+        "expression": "prop.detach().cpu()",
+        "line": 196
+      },
+      {
+        "name": "scored_mask",
+        "expression": "scored.detach().cpu()",
+        "line": 197
+      }
+    ]
+  },
+  "author_frozen_files_preserved": true,
+  "author_artifacts_verified": 19,
+  "converted_workspace_ceiling_bytes": 8388608,
+  "actual_capture_tensor_reads": 0,
+  "GPU_launched": false,
+  "autograd_or_replay": false,
+  "author_edits": false,
+  "receipt_written": false,
+  "scientific_acceptance_bound_inferred": false,
+  "conflict_update_or_WP_claim": false,
+  "required_next": "separate corrected metadata-only JSON projection and independent retest; no actual diagnostic admission as frozen",
+  "pending": [],
+  "last_failure": null
+}

@@ -7,7 +7,7 @@
    "sd": 6,
    "cost_h": 2.0,
    "pulls": [],
-   "status": "2-fold +0.0012; combo queued",
+   "status": "pooled positive/fold1 negative; jointcombo matchedseed4pending",
    "family": "training target",
    "evidence": "unbiased by optional stopping; run-coherent noise 9x lower than alpha 0.7 (E-334); toy +0.0004",
    "noise_sd": 4.0
@@ -41,10 +41,12 @@
    "mu": -3,
    "sd": 5,
    "cost_h": 3.0,
-   "pulls": [],
-   "status": "ep2 f0 -0.0019; f1 running",
+   "pulls": [
+    "E-357"
+   ],
+   "status": "closed tested configuration: both folds negative, pooled -0.001076",
    "family": "architecture",
-   "evidence": "half the loss in class-3 long quiet runs (E-323); dual-clock rejected but confounded (freeze bug per audit); twoclock: row GRU192x2 + event GRU128 stepping only on a6 endpoint rows (17.5% of rows), 1.56 MB int16, <= GRU256 MACs/row",
+   "evidence": "half the loss in class-3 long quiet runs (E-323); dual-clock rejected but confounded (freeze bug per audit); twoclock: row GRU192x2 + event GRU128 stepping only on a6 endpoint rows (17.5% of rows), 1.56 MB int16, <= GRU256 MACs/row; E-357 confirms fold1 -0.000195, pooledCI [-.002658,.000152]",
    "noise_sd": 4.0
   },
   "teacher_ensemble": {
@@ -148,11 +150,12 @@
    "noise_sd": 4.0,
    "pulls": [
     "E-348",
-    "E-349"
+    "E-349",
+    "E-359"
    ],
-   "status": "2-fold full +0.0016; combo queued",
+   "status": "combo two matchedseeds positive; fold0dominates; frozenfold23 confirmationqueued",
    "family": "optimization",
-   "evidence": "Muon per gate block on W_hh/W_ih + AdamW rest; smoke ties AdamW (+0.0006+-0.0015) (OPT_REPORT.txt)"
+   "evidence": "Muon per gate block on W_hh/W_ih + AdamW rest; smoke ties AdamW (+0.0006+-0.0015) (OPT_REPORT.txt); E-356 combo seed3 minusMuon +.000562 CIcrosseszero; not additive; E-359: comboS4+.001788, bag+.001854 versus matchedcontrols; class3fold1negative"
   },
   "lstm_fbias_pair": {
    "mu": 1,
@@ -170,7 +173,7 @@
    "cost_h": 1.5,
    "noise_sd": 4.0,
    "pulls": [],
-   "status": "ep2 2-fold +0.0014; combo queued",
+   "status": "pooled positive/fold1 negative; jointcombo matchedseed4pending",
    "family": "optimization",
    "evidence": "TBPTT 1000 for the student (more updates, shorter horizon) (OPT_REPORT.txt)"
   },
@@ -203,6 +206,136 @@
    "status": "ready (optim.py + flags)",
    "family": "optimization",
    "evidence": "WSD schedule, 6 epochs + EMA: OneCycle 4th epoch = 25% time, 2.8% lr integral (OPT_REPORT.txt)"
+  }
+ },
+ "continuation_evidence": {
+  "ledger": "E-358",
+  "reviews": [
+   "research/campaign_2026-10-03/continuation/COHORT1_REVIEW.md",
+   "research/campaign_2026-10-03/continuation/COHORT2_REVIEW.md"
+  ],
+  "policy": "Do not sum correlated combo/Muon/chunk/bootstrap effects or promote weak-ridge improvements. Numeric public priors unchanged until strong-control evidence.",
+  "strong_offset_verdict": {
+   "ledger": "E-360",
+   "status": "closed testedcorrection",
+   "mean_wp_delta": -0.00023728425883895454
+  },
+  "all_independent_passes": {
+   "ledger": "E-361",
+   "eda_completed": 10,
+   "optimizer": "corrected CPU prototype;unapplied",
+   "synthesis": "research/campaign_2026-10-03/continuation/RESEARCH_SYNTHESIS.md"
+  },
+  "round2_and_decoder_hybrid": {
+   "updated_at": "2026-10-03T18:31:36.957199+03:00",
+   "records": {
+    "round2 objective estimator and independent coefficient review": "E-362",
+    "round2 future path laws and round3 independent raw decoder audit": "E-363",
+    "round2 strong GRU history usage diagnostic": "E-364",
+    "round2 blind specification counterexamples and CPU streaming equivalence": "E-365",
+    "round3 hybrid exit-law falsification": "E-366",
+    "width320 fixed ep3 twofold confirmation": "E-367"
+   },
+   "decision": "retain distinct mechanisms; no numerical public-gain posterior update from diagnostic proxies"
+  },
+  "round3_frozen": {
+   "updated_at": "2026-10-03T18:59:18.120801+03:00",
+   "records": {
+    "matched_usage": "E-368",
+    "coordinate_identifiability": "E-369",
+    "path_teacher_gate": "E-370",
+    "objective_state_gate": "E-371",
+    "usage_review": "E-372",
+    "washout_usage": "E-373",
+    "observable_simulator": "E-374"
+   },
+   "decision": "capture actual coupled updates, require full suffix equality, treat physical coordinate as unidentified; no public-gain posterior update"
+  },
+  "round4_frozen": {
+   "updated_at": "2026-10-03T19:32:16.178608+03:00",
+   "records": {
+    "capture_critic": "E-375",
+    "teacher_lineage": "E-376",
+    "washout_review": "E-377",
+    "state_forgetting": "E-378",
+    "simulator_review": "E-379",
+    "live_capture": "E-380"
+   },
+   "decision": "capture source review before GPU parity; retention supported but deficit untested; teacher recorded exclusion supports shared lineage"
+  },
+  "fold23_confirmation": {
+   "observed_at": "2026-10-03T20:31:38.227095+03:00",
+   "gates": {
+    "positive_primary_mean_and_interval": true,
+    "positive_public_like_mean": true,
+    "positive_pooled_class3": true,
+    "no_fold_class3_below_minus_002": true
+   },
+   "recipe_adoption_supported": true,
+   "primary": {
+    "candidate_wp": 0.7073312860554781,
+    "reference_wp": 0.705543514400284,
+    "mean_diff": 0.0017877716551941703,
+    "bootstrap_sd": 0.0004707919495785193,
+    "ci95": [
+     0.0009249092940687015,
+     0.0027471238541063284
+    ],
+    "p_le_0": 0.0,
+    "n_sequences": 948,
+    "n_components": 289,
+    "n_boot": 2000,
+    "seed": 271828,
+    "metric_id": "global_wp_clip2_v1",
+    "centered_moments": true
+   },
+   "public_like": {
+    "candidate_wp": 0.675486568931792,
+    "reference_wp": 0.6736134138325529,
+    "mean_diff": 0.0018731550992391321,
+    "bootstrap_sd": 0.0005944375573818242,
+    "ci95": [
+     0.0007749404420931194,
+     0.003085195660286216
+    ],
+    "p_le_0": 0.0,
+    "n_sequences": 948,
+    "n_components": 289,
+    "n_boot": 2000,
+    "seed": 271828,
+    "metric_id": "global_wp_clip2_v1",
+    "centered_moments": true
+   },
+   "pooled_class3_delta": 0.003252448127950558,
+   "fold_class3_delta": {
+    "2": -0.00033410306953729485,
+    "3": 0.006778813571734044
+   },
+   "bindings": [
+    {
+     "path": "research/campaign_2026-10-03/scores/combo_fold23_prereg_report.json",
+     "sha256": "f016a7446270cf7f546c2048412b2f98a8500dc6d8ccefa35696fa6f3449ef3c"
+    },
+    {
+     "path": "research/campaign_2026-10-03/continuation/FOLD23_CONFIRMATION.txt",
+     "sha256": "325ffce510ab2919548e20a0a362b405096ae5bd0d8849550ffb918e1990d8b6"
+    }
+   ],
+   "limits": "Previously explored folds, combined recipe, fixed epoch3. No untouched-data, isolated-mechanism, or public-score claim."
+  },
+  "round5_frozen": {
+   "updated_at": "2026-10-03T21:02:01.272273+03:00",
+   "records": {
+    "round5/mechanism_review": "E-393",
+    "round4/capture_review_v3": "E-391",
+    "round5/credit_control": "E-392",
+    "round4/capture_review_v2": "E-389",
+    "round4/live_capture_v3": "E-390",
+    "round4/combo_confirmation_review": "E-386",
+    "round5/mechanism_prereg": "E-387",
+    "round5/observable_support": "E-388"
+   },
+   "decision": "confirmation accepted, peer proxy stays rejected; no new scientific CUDA arm"
   }
  }
 }

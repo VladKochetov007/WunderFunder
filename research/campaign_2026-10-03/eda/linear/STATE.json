@@ -1,0 +1,86 @@
+{
+  "role": "eda-linear",
+  "phase": "bounded_continuation_complete",
+  "scope": "own linear EDA directory; CPU only; original clean room",
+  "commands": [
+    "run_cpu.sh eda-linear .venv/bin/python -B research/campaign_2026-10-03/eda/linear/cadence_probe.py prepare",
+    "run_cpu.sh eda-linear .venv/bin/python -B research/campaign_2026-10-03/eda/linear/cadence_probe.py run",
+    "run_cpu.sh eda-linear .venv/bin/python -B research/campaign_2026-10-03/eda/linear/cadence_context.py",
+    "run_cpu.sh eda-linear .venv/bin/python -B research/campaign_2026-10-03/eda/linear/cadence_probe.py render",
+    "run_cpu.sh eda-linear .venv/bin/python -B research/campaign_2026-10-03/eda/linear/finish_linear.py",
+    "run_cpu.sh eda-linear env PYTHONDONTWRITEBYTECODE=1 .venv/bin/marimo export html research/campaign_2026-10-03/eda/linear/eda_linear.py -o research/campaign_2026-10-03/eda/linear/eda_linear.html",
+    "run_cpu.sh eda-linear .venv/bin/python -B - (final state/provenance validation)"
+  ],
+  "artifacts": [
+    "CONTEXT_HYPOTHESIS.json",
+    "HYPOTHESES.json",
+    "RECOVERY_SUMMARY.txt",
+    "REPORT.txt",
+    "STATE.json",
+    "cadence_audit.json",
+    "cadence_context.log",
+    "cadence_context.py",
+    "cadence_context_moments.npz",
+    "cadence_context_results.json",
+    "cadence_eval_moments.npz",
+    "cadence_example.npz",
+    "cadence_finish.log",
+    "cadence_grams.npz",
+    "cadence_manifest.json",
+    "cadence_models.npz",
+    "cadence_notebook_export.log",
+    "cadence_parity.json",
+    "cadence_prepare.log",
+    "cadence_probe.py",
+    "cadence_provenance.json",
+    "cadence_render.log",
+    "cadence_results.json",
+    "cadence_run.log",
+    "eda_linear.html",
+    "eda_linear.py",
+    "eda_linear_prior.py",
+    "fig05_cadence_comparison.png",
+    "fig06_cadence_prediction_example.png",
+    "fig07_archived_model_stability.png",
+    "finish_linear.py"
+  ],
+  "prior_samples": {
+    "train": "gram_v1.npz:rgs (400)",
+    "valid": [
+      "univariate.npz:rgs (300)",
+      "target_acf.py seed0 n60",
+      "ridge.py/mask_probe.py seed3 n120",
+      "phase.py seed1 n40",
+      "eda_linear.py seed7 n24",
+      "eda_linear.py seed5 n40 (possibly unfinished)",
+      "quicklook/probe2/figures row groups 0,1,2,3,500,1000"
+    ]
+  },
+  "inspected_sequence_ids": "cadence_manifest.json contains all recoverable old and new seq_ix IDs",
+  "pending_work": [],
+  "last_failure": null,
+  "active_command_budget": "15 minutes, one core, 2 GiB; one streamed row group at a time",
+  "training_rows": 82172,
+  "inspected_figures": [
+    "fig01_seq0_full.png",
+    "fig02_seq0_zoom.png",
+    "fig03_target_acf.png",
+    "fig04_univariate_heatmap.png",
+    "fig05_cadence_comparison.png",
+    "fig06_cadence_prediction_example.png",
+    "fig07_archived_model_stability.png"
+  ],
+  "next_experiment": "Input-only causal activity interactions with matched pooled ridge; freeze separate test/sample and obtain controller deduplication.",
+  "blockers_for_integration": [
+    "Old training stride unknown",
+    "Campaign connected components and strong baseline unavailable during clean room phase",
+    "No independent campaign-level reproduction"
+  ],
+  "measured_verdict": "Phase8 loses0.012077 vs EMA and does not beat phase7; cycle8 deficit0.002938. Archived model0.591832 on new64 versus0.647742 on old300 shows substantial sample dependence.",
+  "validation": {
+    "headless_notebook_export_exit": 0,
+    "metric_moment_and_freeze_audit_passed": true,
+    "online_and_future_prefix_transform_parity_passed": true,
+    "resource_failures": 0
+  }
+}

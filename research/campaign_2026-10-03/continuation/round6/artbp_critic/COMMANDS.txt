@@ -1,0 +1,14 @@
+First ADMISSION FAILURE preserved in prereg_freeze.log and STATE_admission_blocked.json.
+Controller diagnosed/fixed the permission barrier and authorized the unchanged
+prereg-hash/math retry. Both bounded executions passed; no critic marker changes.
+
+Executed bounded math verification + artifact hash generation:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 /usr/bin/time -v .venv/bin/python -B research/campaign_2026-10-03/continuation/round6/artbp_critic/checks.py
+
+This emits results.json/HASHES.json only in artbp_critic. The first failure and
+historical blocked state remain preserved; terminal STATE records completion.
+No actor/artbp_credit files, model/capture tensors or data are read by this script.
+Tiny rational all-pattern enumeration, math/NumPy2x2 operators, intentional scalar
+fp16-overflow fixture only. No training/GPU/update/score evidence.
+
+Final source/artifact hashes computed through CPU wrapper; no bypass occurred.

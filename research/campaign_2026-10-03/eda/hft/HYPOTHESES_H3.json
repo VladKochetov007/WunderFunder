@@ -1,0 +1,12 @@
+{
+  "freeze_version": "hft-continuation-v1-H3",
+  "status": "frozen_before_new_cohort_read_or_scoring",
+  "motivation_observed_in_H2": "Estimated-scale spread proxy has pooled WP 0.317 but weak within-regime scores; its predictive value may chiefly be between-regime offsets.",
+  "sample_rule": "First 12 valid row groups >=1400 outside all documented prior exposure and the H1/H2 cohort. No target-dependent selection and no campaign-wide independence claim.",
+  "hypothesis": "Current decoded spread adds information beyond regime and the warm-up book state.",
+  "procedure": "Reuse the already frozen/fitted 300-TRAIN-prefix quantum classifier and original decoder unchanged. Compare p0=p1=-q_est*spread_t/2 with p0=p1=-q_est/2 and p0=p1=-q_est*mean(spread[0:100])/2. All controls use only inputs and are frozen at row99. Evaluate exact pooled WP and diagnostic within-target-quantum WP; no tuning or combination.",
+  "matched_controls": ["one-tick regime-only prediction", "same scale and decoder, spread frozen to its warm-up mean"],
+  "rejection": "Reject a material incremental current-book contribution on this probe if pooled mean WP improvement over the stronger matched control is <=0.02 or the median available within-regime improvement is <=0. Reject physical interpretation independently of predictive proxy utility.",
+  "inference": "q_est from rows0..99; spread from current inputs only; controls initialized from warm-up and reset each sequence. Neither targets, scoring mask nor later rows enter predictions.",
+  "claim_class": "predeclared second own-disjoint diagnostic cohort prompted by H2; no baseline uplift or independent-campaign claim"
+}

@@ -1,0 +1,34 @@
+{
+  "status": "frozen_before_sequence_sampling_and_response_scoring",
+  "model": "c20261001_d256_s3_f0@ep3",
+  "checkpoint_sha256": "f92504fbbbcf956a44e70aa3f7a08825d903b9c6a6cacce7bd9f89b6875fcad8",
+  "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "sampling": "rank fold0 evaluation sequences by sha256('round2-usage-v1:'+seq_ix); take first six from distinct feature-only connected components; metadata only; no targets, masks, classes, features or prediction response in selection",
+  "sample_exposure": "all valid previously exposed; own prior target census includes every sequence; model held-out component exclusion is not new research independence",
+  "panel": {"queries": "511..4095 inclusive stride64", "propagation_rows_after_query": 32, "prefix": "always full original rows0..boundary-1 including all warmup; no zero-reset windows"},
+  "input_space": "211 model inputs built exactly by original build_inputs; partition raw/derived i0 (125), i1 (78), auxiliary (8); auxiliary untouched; current includes original causal deltas/age/held features, not raw-state-only",
+  "intervention_semantics": "causal donor substitution from original instrument input stream at u-64; all donor rows already observed. History substitution applies only before query t; query's entire current input restored exactly; carry original hidden state at start boundary. Derived inputs are intervened directly, not raw-parquet counterfactuals; cross-stream/clock consistency may be OOD",
+  "interventions": [
+    {"name": "identity", "boundary": "t-256", "alteration": "none; replay original complete window"},
+    {"name": "i0_past256", "boundary": "t-256", "alteration": "i0 stream donor delay64 on [t-256,t), leave current row and future original"},
+    {"name": "i1_past256", "boundary": "t-256", "alteration": "i1 stream donor delay64 on [t-256,t), leave current row and future original"},
+    {"name": "i0_current", "boundary": "t", "alteration": "i0 stream at t replaced with t-64 only; original future"},
+    {"name": "i1_current", "boundary": "t", "alteration": "i1 stream at t replaced with t-64 only; original future"},
+    {"name": "i0_past32", "boundary": "t-32", "alteration": "i0 stream donor delay64 on [t-32,t), leave current row and future original"}
+  ],
+  "identity_gates": {
+    "instrument_vs_original_cpu_reference": "atol2e-5 + rtol2e-5 for float32 CPU: same checkpoint/build_inputs/GRU; independent train_rnn.predict chunk4000 vs segmented carried-state replay. No scientific interpretation if it fails",
+    "identity_intervention_vs_baseline": "same tolerance2e-5+2e-5*abs(reference), maximum and RMS recorded across full windows",
+    "cached_oof": "checkpoint/manifest/rowgroup/seq_ix exact; raw cached targets and masks equal parquet slices; cached fp16-CUDA predictions vs fp32-CPU reference diagnostic maxabs<=.02, RMS<=.005, corr>=.999; not exact backend identity"
+  },
+  "synthetic_controls": "iid deterministic211-channel stream seed614103; planted predictor=.4*i0_raw0(t-80)+.2*i1_raw0(t); history-blind sham=.2*i1_raw0(t). Identity must have zero effect; planted i0_past256 nonzero, planted i0_past32 and i1past zero; sham all history zero; current i1 positive",
+  "summary": "prediction RMS/meanabs per target, hidden-state RMS, query plus propagation lags0,1,4,16,32; elapsed quiet-age bins0,1..3,4..15,16..63,64+ based unaltered i0-any22 price changes; separate organizer event definition reported",
+  "label_use": "targets/masks only after frozen selection, alignment and replay; scored-query paired weighted squared error diagnostics and pooled WP if sufficient support; no fitted correction, tuning or proposed gain from response magnitude",
+  "hypotheses": [
+    {"id": "U1", "claim": "current vs past i0/i1 usage differs", "support": "response above .001RMS and >100x identity numeric floor", "rejection": "at/below floor; interpretation limited to tested donor intervention"},
+    {"id": "U2", "claim": "quiet-age changes effective response/horizon", "support": "descriptive age panels with support counts; older history32/256 contrast", "rejection": "no resolved age/length contrast; not a blanket history-saturation claim"},
+    {"id": "U3", "claim": "instrument separates planted memory from current-only sham", "support": "synthetic stipulated positive/negative behavior and CPU reference parity", "rejection": "any control failure blocks substantive interpretation"}
+  ],
+  "no_claims": ["large movement is not missing-signal evidence", "null posthoc response does not prove trunk saturation", "OOD loss damage is not proof of uniquely causal market information", "small selected panel is not forecasting improvement", "no GPU training proposal unless missing-information evidence survives additional critique"],
+  "resources": "run_cpu.sh round2-usage; CPU1thread/2GiB; each<=900s; prepare then sequence0 smoke then remaining per-sequence commands; no fullvalid inference"
+}

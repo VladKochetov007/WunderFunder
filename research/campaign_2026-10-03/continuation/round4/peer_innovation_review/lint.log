@@ -1,0 +1,45 @@
+E701 Multiple statements on one line (colon)
+   --> research/campaign_2026-10-03/continuation/round4/peer_innovation_review/review.py:188:26
+    |
+186 |         assert relative == expected["relative_improvement"]
+187 |         assert np.array_equal(interval,expected["paired_component95_interval"])
+188 |         if relative < .02: failures.append(f"{name}: relative gain below2%")
+    |                          ^
+189 |         if interval[0] <= 0: failures.append(f"{name}: CI lower bound notpositive")
+190 |     strata = []
+    |
+
+E701 Multiple statements on one line (colon)
+   --> research/campaign_2026-10-03/continuation/round4/peer_innovation_review/review.py:189:28
+    |
+187 |         assert np.array_equal(interval,expected["paired_component95_interval"])
+188 |         if relative < .02: failures.append(f"{name}: relative gain below2%")
+189 |         if interval[0] <= 0: failures.append(f"{name}: CI lower bound notpositive")
+    |                            ^
+190 |     strata = []
+191 |     for label,mask in (("peer_age0",arrays["peer_age"][test]==0),("peer_age1+",arrays["peer_age"][test]>0)):
+    |
+
+E701 Multiple statements on one line (colon)
+   --> research/campaign_2026-10-03/continuation/round4/peer_innovation_review/review.py:197:24
+    |
+195 | …     reductions = [float(smse[j]-smse[1]) for j in (0,2)]
+196 | …     strata.append({"name":label,"queries":int(mask.sum()),"components":len(used),"adequate":adequate,"reductions_base_shift":reduct…
+197 | …     if not adequate: failures.append(f"{label}: inadequate coverage")
+    |                      ^
+198 | …     for j,reduction in zip((0,2),reductions,strict=True):
+199 | …         if reduction<0: failures.append(f"{label}: worse than{NAMES[j]}")
+    |
+
+E701 Multiple statements on one line (colon)
+   --> research/campaign_2026-10-03/continuation/round4/peer_innovation_review/review.py:199:27
+    |
+197 |         if not adequate: failures.append(f"{label}: inadequate coverage")
+198 |         for j,reduction in zip((0,2),reductions,strict=True):
+199 |             if reduction<0: failures.append(f"{label}: worse than{NAMES[j]}")
+    |                           ^
+200 |     assert not gate_from_summary(results) and not results["gate_passed"]
+201 |     controls = read(ACTOR / "controls.json")
+    |
+
+Found 4 errors.

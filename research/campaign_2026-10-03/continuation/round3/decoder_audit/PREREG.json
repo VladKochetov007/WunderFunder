@@ -1,0 +1,24 @@
+{
+  "status": "independent formulas and synthetic falsifier committed before reading decoder or bound implementation and before replay",
+  "role": "round3-hft",
+  "dependence": "Frozen round2 supervised decoder_tables.json is an explicit input. This is independent raw reading and arithmetic, not an independent spread identification or unseen sample.",
+  "raw_replay": {
+    "origins": "Every one of the 1393 frozen sampled_origins_strict.json records, using raw datasets/train.parquet, streamed one recorded row group at a time. Keep missing maps, all signs, classes, component IDs and censor reasons.",
+    "code_key": "22 i0_p0..i0_p21 features in numeric order; numpy float32 round to4 decimal places; contiguous little-endian float32 bytes encoded as hex, independently implemented from the documented PREREG serialization spec.",
+    "class_scale": "Frozen code->(class,spread) table and prior positive quanta [0.12543,0.24133,0.46854,0.65687]; no raw-target fitting or class reassignment.",
+    "geometry": "Interior iff both raw targets <=0; outside iff either raw target >0. Separately retain both-positive, one-positive, zero cases and each leg.",
+    "algebra": "For entry bid B0, ask A0, S=A0-B0>=0, and an extrema domain containing entry: RL=max(Bs)-A0 >=B0-A0=-S; RS=B0-min(As)>=B0-A0=-S. Hence each target should be >=-q*S in the named coordinate-based model, independent of any future horizon/stopping time. Use raw target < -q*S-.002 as the registered violation; also evaluate clipped target against the unchanged bound as a metric-only sensitivity.",
+    "coverage": "All1393 origins; mapped/missing, interior/outside, violations both legs/minimum, class/component cross-tabs. Compare to claimed417 mapped outside violations/28 unknown without importing their code or trusting saved targets.",
+    "checks": "Verify stored raw target arrays, seq_ix, step, event origin selection, plateau lengths, class/q, lattice residuals and saved per-sequence feature/target hashes; verify frozen artifact SHA256. Record mismatches rather than silently repairing. Component assignments are checked against supplied selection metadata only, not independently rediscovered.",
+    "qualification": "Future path censoring cannot rescue an algebraic contradiction for an entry-inclusive extremum with mapped coordinate. Entry-excluding domains, execution returns, fees, unknown maps, distinct coordinate/physical spreads and affine transformations require separate claims. A raw contradiction alone may not be visible after clipping."
+  },
+  "synthetic_falsifier": {
+    "question": "Can a supervised interior-difference code decoder transfer exactly while its inferred increments differ from true simulated quote increments when the common future reference changes?",
+    "identity": "yL=q*(F-A), yS=q*(B-F). Then inferred dA=-dyL/q=dA_true-dF; inferred dB=dyS/q=dB_true-dF; spread A-B remains unchanged by the common gauge.",
+    "generator": "seed20261003;8 independent offset/starting-phase variants,64 origins each. True midpoint alternates by +1/-1 with constant bid/ask spread4. Current phase also sets deeper-level gaps1 or2; centered22-level price codes use current midpoint and current book geometry only. Changing common F is actual next-step midpoint. Matched control uses a fixed midpoint reference within all entry spreads. First4 paths fit a literal directed code-pair modal table, last4 are held out. No noise/threshold sweep or scale fitting.",
+    "scoring": "Use both-nonpositive interior-interior transitions only for fitting, with repeated support>=3 and exact modal agreement required. Count held-out eligible transitions, mapping coverage, target-difference agreement, true quote-move agreement, and dF-adjusted residuals. Save actual arrays and witnesses; report failure/unknown if eligibility/coverage is absent. No forced pass assertion or predetermined verdict.",
+    "negative_scope": "A counterexample disproves identification from interior-difference exactness alone; it does not show that supplied targets use this generator or invalidate the physical inequality when physical spread is genuinely identified."
+  },
+  "resources": "run_cpu.sh round3-hft;1core2GiB900s;CPU only;writes only this decoder_audit directory",
+  "forbidden": "No refits of raw scales, new origin selection, horizon sweeps, live source reads/edits, hybrid_pair reads, usage outputs, metadata registry edits, GPU or installs."
+}

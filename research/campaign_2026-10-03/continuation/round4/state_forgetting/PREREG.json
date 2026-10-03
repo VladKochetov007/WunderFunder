@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "scope": "finite local initial-state response under fixed GRU weights and identical causal inputs; no targets, score, predictive-value or uniform stability claim",
+  "selection": "rank the SAME matched_usage24 component samples by sha256(state-forgetting-v1:component:seq_ix); first8 distinct components; within each sample pick minimum sha256(state-forgetting-query-v1:component:seq_ix:query) among its frozen12 queries",
+  "window": "original packed211 inputs [query-288,query], incoming true stored hidden at query-288; length289",
+  "lags": [0, 8, 32, 96, 256, 288],
+  "lag_semantics": "output and hidden after processing row start+lag; lag0 is one recurrent update, end=288 is289 updates; incoming state recorded separately",
+  "direction": {"seed": 614407, "per_case_seed": "seed+original panel sequence index", "distribution": "torch CPU standard normal, independently RMS-normalized per layer", "amplitude": "0.01*RMS(original incoming hidden layer)", "arms": ["identity", "plus", "minus"], "zero_handling": "zero hidden RMS or zero direction RMS gives exactly zero perturbation, recorded and retained; no amplitude fallback or clipping"},
+  "numerical_floor": "calibrate BEFORE perturbations; unchanged segmented repeats, direct unsegmented prefixes, full-window call and stored original CPU reference. At each lag output_maxabs_floor=max(FP32_epsilon*max(1,abs(reference_output).max),10*max observed unchanged discrepancy). Hidden per-layer floor=max(FP32_epsilon*max(1,abs(reference_hidden).max),10*segmented-repeat/direct-prefix discrepancy). Keep zero/floored cases, no log-fit.",
+  "output": "main first2 outputs, no clipping; auxiliary all23 response also recorded separately",
+  "future_canary": "alter inputs strictly after local row32 in a same-length full-window call; prefix outputs through row32 must agree within calibrated floor",
+  "controls": ["contractive linear toy beta=.5", "nonforgetting linear toy beta=1", "persistent unobservable hidden direction with zero output response", "exact zero-hidden RMS direction retained"],
+  "cheap_falsifier": "reject an empirical claim that 32/96/256 rows erase every tested local direction when any sampled case/sign exceeds its calibrated output floor there; passing is only failure to falsify those directions, never a zero-reset/chunk-overlap/burn-in guarantee",
+  "resources": "run_cpu.sh round2-critic CPU1core2GiB900s; no full-sequence forward, GPU, live fit/source/queue writes",
+  "source": "https://arxiv.org/html/2602.10911v1, Assumption1 Eq12; arbitrary initial states and extracted training input sequences, not arbitrary hidden-state contraction"
+}

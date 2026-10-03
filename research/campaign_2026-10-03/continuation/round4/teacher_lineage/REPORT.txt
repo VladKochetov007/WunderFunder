@@ -1,0 +1,102 @@
+TEACHER LINEAGE — metadata snapshot, 2026-10-03 approximately19:03–19:13 Kyiv
+
+Verdict
+All EIGHT c20260929_since_s{3,4}_f{0..3} teachers and FOUR documented
+c20260929_prop_f{0..3} ancestors have recorded fitting pools excluding their
+SAME fold's evaluation graph components, including linked TRAIN groups. Exact
+intersections are zero. This independently verifies the recorded membership
+claim, not the identity of every executed gradient-bearing batch. No positive
+contamination intersection was found; missing execution evidence is UNKNOWN.
+
+Fold  Eval VALID  Eval components  Linked TRAIN excluded  Teacher TRAIN/VALID
+0     468         141              71                     10535 / 1405
+1     457         149              73                     10533 / 1416
+2     443         144              71                     10535 / 1430
+3     505         145              67                     10539 / 1368
+Both seed teachers have the listed counts. Every teacher TRAIN and VALID
+intersection with excluded components is0; every propensity VALID intersection
+is0. Propensity fits only the listed VALID pool (1405/1416/1430/1368), not TRAIN.
+
+Observed artifact lineage
+For existing combo f0/f1/f2, args.distill names exactly the same-fold seed3 and
+seed4 teachers. Each student records four train/valid cache bindings; all12
+bindings match current sidecar checkpoint/prediction hashes and epoch3.
+All16 teacher train/valid sidecars match run/split, manifest hash and exact cached
+row-group order. Their checkpoint references match rehashed model_ep3.pt bytes.
+This checks more than equal split-manifest SHA: teacher and propensity reported
+fit lists were independently intersected with graph component membership.
+Teacher metadata records no initial checkpoint, no further distillation teacher
+and no propensity input. Each names same-fold propensity for fitting weights;
+all8 teacher->propensity checkpoint hashes match actual model.pt bytes. Available
+student->propensity references also name the same fold. There are no additional
+documented model ancestors; undocumented dependencies remain unknown.
+
+Graph and identity checks
+Reconstructed the undirected partition from cache/chains.npz successor IDs;
+all four manifests' complete (split,row_group)->component mappings match exactly.
+Read ONLY row_group/seq_ix fields from cached train/valid target NPZs; all8
+manifest index hashes match. No target/mask values were read. Component exclusion
+uses BOTH TRAIN and VALID nodes, not merely absent validation row IDs. The exact
+excluded component IDs, linked TRAIN IDs, index row-group/sequence IDs and any
+intersections are in lineage_map.json. Existing IDs are exposed campaign metadata,
+not new independent data or prediction observations.
+73 existing checkpoint files were stream-hashed (98,684,359 bytes total); all
+recorded checkpoint hashes match. Models were never deserialized or forwarded.
+Checkpoint hashing uses <=1MiB chunks; files above64MiB would be marked unverified.
+No prediction-cache bytes were rehashed. Metadata alone records their identities;
+current train_rnn.bind_fold_teachers:68–92 hashes those arrays before loading and
+records bindings, but this pass does not reproduce the large-array check.
+
+Evaluation selection and normalization
+All12 teacher/propensity nodes record fixed checkpoint epoch3, selected_epoch3,
+no_eval_during_fit=true. Each has four history entries with evaluation='withheld'.
+This is positive recorded evidence against evaluation-driven checkpoint selection
+within these runs. It does not audit broader cross-run hyperparameter selection.
+Current train_rnn source records actual loader fit-pool IDs at1148–1152 and calls
+campaign_split.assert_fit_groups before constructing datasets at1021–1023. The
+guard checks whole graph components (src/wnn/splits.py:93–104). Normalization is
+fitted from that training loader atfit_normalization and is not an additional
+evaluation-fitting ancestor under that source. Current train_propensity:76–79
+uses manifest VALID fit/evaluation pools and the component guard; its normalization
+uses the training loader at101–106, and its BCE target is the scored mask from
+those fitting rows. These are SOURCE-INFERABLE behaviors, not a recovered execution
+trace of September teachers. Current source hashes are saved for reproducibility,
+not claimed to be the historical executed source.
+
+Evidence limits and live-job snapshot
+Older teacher/propensity provenance lacks historical full trainer-source hashes,
+per-epoch executed sample order/membership, optimizer update diagnostics and
+normalization fingerprints. It records candidate loader pools and completed
+history/selection, which is stronger than a manifest hash alone but is not
+executed-membership attestation. Drop-last or shuffling does not add rows under
+the inspected loader, yet those historical source semantics are not hash-bound.
+Embedded checkpoint metadata was not parsed; external provenance/sidecar hashes
+bind bytes but cannot prove their claims were faithfully executed.
+Combo f0/f1 are complete; f2 records fit pools and bindings but no selected epoch
+yet; f3 provenance is unavailable at this snapshot. Its fold3 TEACHERS/propensity
+are independently auditable, but their use by the actual f3 student is unknown.
+Available student membership fingerprints match reported ordered fit lists;
+those stronger student records do not retroactively attest teacher execution.
+No jobs were polled, restarted, cancelled or changed. Metadata was stable within
+each bounded read; a later job completion is outside this frozen snapshot.
+
+Implication for matched comparisons
+Recorded lineage supports same-fold exclusion for the cached teachers and their
+propensity ancestors. Keep executed-membership uncertainty explicit. If later
+evidence reveals a shared teacher exposure, it constrains the absolute clean-fold
+or generalization interpretation of both matched arms. It does NOT automatically
+invalidate their paired objective/intervention contrast; shared lineage and
+interaction with the intervention must be assessed separately. This metadata
+audit establishes no predictive gain and approves no training/GPU candidate.
+Closest requested E-177 in research/experiments.jsonl is a September27 partner
+scan, not a teacher-lineage execution audit; it was not used as exclusion proof.
+
+Reproduction/artifacts
+COMMANDS.sh runs audit.py then freeze.py through run_cpu.sh round3-hft. Critical
+outputs: lineage_map.json (nodes/edges/identities/intersections), summary.json,
+provenance_hashes.json (actual small metadata/checkpoint/current source hashes),
+STATE.json, REPORT.txt, run.log/freeze.log/resource.log and own HASHES.json.
+Initial map/log are retained. Final bounded computation: .30s within Python,
+peakRSS53724KiB; no model loads, prediction-array loads, parquet streams, fitting
+or scoring. Prior capture_critic files remain unchanged. Ready for controller's
+frozen builder review; execution-source attestations remain the next lineage gap.

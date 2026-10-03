@@ -1,0 +1,20 @@
+Run from repository root. Every computational command is wrapped exactly as below.
+No GPU, installs, live source edits or writes outside first_passage artifacts.
+
+research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round2/first_passage/synthetic.py
+research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round2/first_passage/decoder.py
+research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round2/first_passage/evaluate.py
+research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round2/first_passage/loser_bound.py
+research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 bash research/campaign_2026-10-03/continuation/round2/first_passage/verify.sh
+research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round2/first_passage/finalize.py
+
+Only for recovery of this run's already-frozen calibration:
+research/campaign_2026-10-03/continuation/run_cpu.sh round2-firstpassage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round2/first_passage/evaluate.py --resume
+--resume asserts calibration byte-identical to affine_calibration_initial.json.
+Initial export failed on NumPy integer statistics; first recovery exposed a
+second integer statistic. Both tracebacks retained. Final recovery normalized
+statistics to Python integers and sampled_origins hash is byte-identical to
+the initial scoring. No family, threshold, horizon, test selection or scale changed.
+verify.sh formats/lints only these research scripts and runs the synthetic checks.
+Re-running without --resume refits the same preregistered fit components, then
+freezes calibration before reading test labels. No existing live recipe touched.

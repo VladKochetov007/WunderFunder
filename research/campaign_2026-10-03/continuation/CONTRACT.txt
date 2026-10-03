@@ -1,0 +1,64 @@
+ACTIVE CODEX RESEARCH CONTINUATION — 2026-10-03
+
+The user authorized implementation, executable probes, notebooks and experiments.
+All analyst agents use gpt-6.1-sol, reasoning effort medium. Preserve their original
+biases and unfinished work. This is not a read-only review and not a fresh start.
+
+RESOURCE CONTRACT
+One shared wnn-campaign.slice: CPUQuota=1200%, MemoryMax=36G (38.65 decimal GB),
+MemorySwapMax=0. One GPU process family: 8 cores, 24 GiB; four CPU process families:
+one core and 2 GiB each. Leave 4 GiB unreserved. Total observed device memory <=
+5.5 decimal GB; initial allocator <=4.8 GB. Training, prediction, export, notebook
+kernels and child processes count. One GPU job at a time.
+
+Every CPU compute command must use:
+  research/campaign_2026-10-03/continuation/run_cpu.sh ROLE COMMAND...
+This includes Python, fitting, plots, and notebook servers. Each scope expires
+after 15 minutes. Break expensive analyses into streamed/resumable steps. Files
+may be inspected with normal lightweight shell tools. No unwrapped background
+compute. No whole-file parquet load. Bound working arrays well below 2 GiB.
+Do not install dependencies in the shared training environment.
+OOM/killed scopes cause RESOURCE_FAILURE and pause launches. Diagnose before
+retry. Agents cannot clear barriers or change quotas. GPU proposals go to the
+controller with a command, fixed procedure, matched control and cost estimate;
+agents cannot independently launch GPU work or edit the live training recipe.
+
+INITIAL INDEPENDENCE
+The original EDA contract still governs reads and write ownership, except that
+this continuation contract and run_cpu wrapper are permitted. Continue your OWN
+directory and original brief. Do not read the other agents' findings or campaign
+models yet. Abstract-only agents remain abstract-only. Old notebook/server
+instructions are superseded by the resource wrapper; prefer headless notebook
+execution until a bounded interactive session is useful. Existing samples are
+exposed. State which sequences each new analysis uses. A sequence disjoint from
+your own sample is not necessarily new to the entire campaign.
+
+DELIVERABLES IN YOUR OWN DIRECTORY
+REPORT.txt: recovered prior evidence, new measured probes, contradictions,
+causal mechanisms and 3-5 ranked next directions with controls and falsifiers.
+STATE.json: phase, commands, artifacts, inspected sequence IDs, pending work and
+last failure. Update before a lengthy command and after each completed probe.
+HYPOTHESES.json: freeze proposed tests before scoring them; distinguish observed
+facts, exploratory scores, model assumptions and independently reproduced claims.
+An updated runnable marimo notebook, inspected PNGs, and standalone probe scripts.
+Complete at least one cheapest useful falsifier with a matched control, rather
+than returning another literature-only proposal. Save negatives and traceback
+logs. Preserve original raw artifacts under new filenames when changing methods.
+No git commits, submission upload, recursive agents, or edits outside your scope.
+
+CONTROLLER REVIEW AFTER REPORTS ARE FROZEN
+Compare all reports and the campaign ledger, cluster duplicate mechanisms,
+reconcile contradictions from raw data, independently criticize/reproduce the
+best claims, then authorize integration against the current strong baseline.
+Global WP pools selected rows, clips raw finite targets/predictions to +/-2,
+weights by abs(clipped target), computes each target separately, then averages.
+Use paired connected components for campaign uncertainty, not independent rows.
+An agent's ridge score is not evidence of improvement over the strong baseline.
+No public score forecast comes from simply summing local gains.
+
+COHORTS
+1: hft, linear, nonlinear, olympiad
+2: signal, statphys, fractal, econometrics
+3: puzzle_a, puzzle_b, optimizer builder, independent reproducer
+Four research workers maximum; finished workers save files and close before the
+next cohort. A controller computation uses one of the same four CPU slots.

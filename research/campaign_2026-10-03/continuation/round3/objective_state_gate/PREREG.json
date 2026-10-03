@@ -1,0 +1,10 @@
+{
+  "scope": "synthetic CPU FP32 interface validation only; no actual scientific replay or training approval",
+  "snapshot_phase": "before chunk forward/backward, after preceding EMA update; optimizer step has not occurred",
+  "model": "shared GRU(3,5), two main outputs, three categorical heads of widths 2/3/4, two next outputs",
+  "loss": {"main": 1.0, "ema": 1.0, "struct": 0.3, "next": 0.3, "alpha": 0.5, "bootstrap_h": 8, "ema_metric_weight": false},
+  "arms": ["main multiplier W/mean(W)", "same scalar multiset cyclically permuted; auxiliary coefficients unchanged"],
+  "controls": ["identical snapshot replay", "equal-mass arm null", "equal student/EMA weights AND hidden-state EMA-gradient null", "changed EMA-state mismatch", "cleared optimizer-moments mismatch", "missing hidden state admission rejection", "reattached EMA-state rejection", "unsupported optimizer rejection"],
+  "acceptance": "all outputs finite; repeat-calibrated absolute tolerance max(1e-7,10*repeat discrepancy); independent coefficient-gradient reconstruction matches; positive mismatch exceeds tolerance; null controls within tolerance",
+  "nonclaims": ["full GRU optimum", "WP gain", "GPU/fused/AMP parity", "actual training-state recovery from evaluation checkpoint"]
+}

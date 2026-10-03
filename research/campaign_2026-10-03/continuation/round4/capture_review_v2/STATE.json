@@ -1,0 +1,48 @@
+{
+  "phase": "frozen_v2_review",
+  "role": "reviewer",
+  "GPU_launched": false,
+  "receipt_written": false,
+  "actor_edits": false,
+  "prior_verdicts_preserved": true,
+  "pending": [],
+  "last_failure": null,
+  "verdict": "BLOCKED_EXACT_RNG_AND_MOMENT_TYPE_IDENTITY",
+  "protected_all_match": true,
+  "prior_three_blocking_corrections_retested_pass": true,
+  "remaining_blocker": "NumPy dtype/numeric aliases accepted by validate/compare and silently cast on restore",
+  "external_postcheck_not_approval_workaround": true,
+  "required_next": "separate builder version per V3_MINIMAL_SPEC.md; no receipt for v2",
+  "CPU_reproduction": {
+    "normal_max_delta": 0.0,
+    "repeat_max_delta": 0.0,
+    "skip_max_delta": 0.0,
+    "uninstrumented_default_max_delta": 0.0,
+    "independent_floor": {
+      "normal_sha256": "3f41d34b58facc7b3e462dbe1a403f2f94d3338d48eeea29ef1ead989eebaf25",
+      "skip_sha256": "7c2d8625e3dec0192150323dc54b8091eb631b0bd7184c05632312bfdf5f77d3",
+      "normal_max_floor": 0.0,
+      "skip_max_floor": 0.0,
+      "repeats_per_control": 6,
+      "online_difference_used_to_calibrate": false,
+      "fixed_ceiling_abs": 1e-05,
+      "fixed_ceiling_rel": 0.0001
+    },
+    "skip_clock": {
+      "step_count": 5,
+      "attempts": 5,
+      "skips": 1,
+      "ema_updates": 5,
+      "completed_batches": 0
+    }
+  },
+  "cost": {
+    "wall_seconds": 1.965118332998827,
+    "max_rss_kib": 791432
+  },
+  "runtime_applied_payload_sha256": "335233c719cea03a9cef689a12ad89150682dc1caa0f0bc49038913b266af8ad",
+  "remaining_blockers": [
+    "NumPy dtype/numeric aliases accepted by validate/compare and silently cast on restore",
+    "warm Muon/Adam moment float64 dtype aliases accepted and silently cast to float32"
+  ]
+}

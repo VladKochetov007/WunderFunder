@@ -1,0 +1,41 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/continuation/round4/washout_review/review.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | import hashlib
+ 4 | | import json
+ 5 | | import logging
+ 6 | | import os
+ 7 | | import resource
+ 8 | | import time
+ 9 | | from pathlib import Path
+10 | |
+11 | | import numpy as np
+12 | | import torch
+13 | | from wnn.features import event_features_torch
+14 | | from wnn.nn import RNNModel
+   | |___________________________^
+15 |
+16 |   OWN = Path(__file__).resolve().parent
+   |
+help: Organize imports
+   |
+12 | import torch
+13 +
+14 | from wnn.features import event_features_torch
+   |
+
+E741 Ambiguous variable name: `l`
+   --> research/campaign_2026-10-03/continuation/round4/washout_review/review.py:174:1046
+    |
+172 | …
+173 | …
+174 | …, "donor_lags": {str(l): sum(r["lag"] == l for r in records) for l in (64,128,256)}}
+    |                                                                   ^
+175 | …
+176 | …
+    |
+
+Found 2 errors.
+[*] 1 fixable with the `--fix` option.

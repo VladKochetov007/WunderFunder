@@ -1,0 +1,25 @@
+Executed tiny in-memory tests, no capture files:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 /usr/bin/time -v .venv/bin/python -B research/campaign_2026-10-03/continuation/round6/amp_linearity_audit/tests.py
+
+FUTURE ONLY after independent v4 measurement review + EXPLICIT controller authorization; NOT EXECUTED:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B research/campaign_2026-10-03/continuation/round6/amp_linearity_audit/audit.py --approval INDEPENDENT_APPROVED_CASES.json --output research/campaign_2026-10-03/continuation/round6/amp_linearity_audit/descriptive_cases.json
+
+Approval JSON required fields:
+schema_version: 4
+independent_measurement_review_passed: true
+controller_analysis_authorized: true
+independent_measurement_review_receipt_sha256: independently supplied SHA256
+cases: EXACT keys synthetic_actual_architecture_normal and real_panel_normal.
+Each case:
+ default_ordinary_passed:true, forced_skip:false,
+ evidence_kind:synthetic_cuda_actual_architecture OR real_fit_capture, respectively;
+ paths:{pre,post,components}; sha256:{pre,post,components};
+ source,execution,metadata: exact independently approved pre metadata dictionaries;
+ optimizer_id_names:{serialized_ID_string:parameter_name};
+ optimizer_groups:[{ids:[serializedIDs], names:[matching_names], muon:boolean}, ...];
+ tensor_identity:{parameter_name:{shape:[...],dtype:"torch.float32"}, ...}.
+
+No approval manifest or actual captures supplied/used in this pass.
+Do not derive a decomposition bound or approval from these synthetic tests.
+Future runner checks post/components content SHA; pre SHA is approved declaration only, not rehashed.
+No decomposition bound is an input/output: this measures discrepancy without calibrating or accepting it.

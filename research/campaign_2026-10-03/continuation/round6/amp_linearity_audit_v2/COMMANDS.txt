@@ -1,0 +1,23 @@
+Executed tiny in-memory controls:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 /usr/bin/time -v .venv/bin/python -B research/campaign_2026-10-03/continuation/round6/amp_linearity_audit_v2/tests.py
+
+Controller metadata-only helper imports this EXACT frozen implementation:
+import importlib.util
+metadata_path = '/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round6/amp_linearity_audit_v2/metadata.py'
+spec = importlib.util.spec_from_file_location('amp_linearity_metadata_v1', metadata_path)
+metadata_module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(metadata_module)
+case['metadata_identity'] = metadata_module.canonical_metadata(pre['metadata'])
+# Do not include case['metadata']; no tensor numerical operation/list/hash.
+# Source/execution/canonical groups/tensor identities/file hashes use the unchanged original approval contract.
+# Verified full pre-file content SHA comes from independent measurement review; not inferred from descriptor identity.
+
+Function returns projection_version='metadata-json-v1' and typed JSON identity.
+Tensor leaves cached_propensity/scored_mask bind class,shape,dtype,device,layout,requires_grad,detached.
+Other tensor fields/types fail closed; scalar/container fields are all retained.
+No actual capture import/read/helper execution was performed in this correction pass.
+
+FUTURE ONLY AFTER independent corrected-instrument review + controller admission:
+research/campaign_2026-10-03/continuation/run_cpu.sh round3-matched-usage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B research/campaign_2026-10-03/continuation/round6/amp_linearity_audit_v2/audit.py --approval INDEPENDENT_APPROVED_V2_CASES.json --output research/campaign_2026-10-03/continuation/round6/amp_linearity_audit_v2/descriptive_cases.json
+No approval JSON is supplied here. Exactly synthetic_actual_architecture_normal + real_panel_normal.
+No threshold, calibration, acceptance bound, coefficient double application, extra case or actual update/conflict interpretation.

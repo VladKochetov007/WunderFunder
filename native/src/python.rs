@@ -235,6 +235,8 @@ struct PyEnsemblePredictor {
     norm: Option<crate::stream::OnlineNorm>,
     widths: Vec<usize>,
     models: Vec<FastRnn>,
+    /// Each member's first weights, prefetched by the member stepped before it.
+    firsts: Vec<crate::half::Ahead>,
     input: Vec<f32>,
     base_coefficients: Vec<f32>,
     coefficients: Vec<f32>,
@@ -354,8 +356,11 @@ impl PyEnsemblePredictor {
             .take(self.active);
         match &mut self.governor {
             None => {
-                for (((model, scratch), coefficient), &width) in members {
-                    model.step(&self.input[..width], scratch);
+                for (i, (((model, scratch), coefficient), &width)) in members.enumerate() {
+                    // Prefetch the next member's first weights (for the last member, the next
+                    // row's first) during this member's final activation pass.
+                    let after = self.firsts[(i + 1) % self.active];
+                    model.step_then(&self.input[..width], scratch, after);
                     for (total, value) in self.out.iter_mut().zip(scratch) {
                         *total += *coefficient * *value;
                     }
@@ -457,6 +462,7 @@ impl PyEnsemblePredictor {
             input: vec![0.0; if needs_norm { base + N_RAW } else { base }],
             widths,
             active: models.len(),
+            firsts: models.iter().map(FastRnn::first_weights).collect(),
             models,
             base_coefficients: coefficients.clone(),
             coefficients,

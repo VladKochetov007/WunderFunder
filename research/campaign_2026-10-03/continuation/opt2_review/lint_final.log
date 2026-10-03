@@ -1,0 +1,39 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/continuation/opt2_review/test_adversarial.py:18:5
+   |
+16 |   def test_antithetic_normalization_confound() -> None:
+17 |       """Run the live normalization body on identity-feature fixture inputs."""
+18 | /     from sampling import EpochOrderSampler
+19 | |     from wnn.nn import RNNModel
+   | |_______________________________^
+20 |
+21 |       tree = ast.parse((ROOT / "scripts/train_rnn.py").read_text())
+   |
+help: Organize imports
+   |
+18 |     from sampling import EpochOrderSampler
+19 +
+20 |     from wnn.nn import RNNModel
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/continuation/opt2_review/test_adversarial.py:44:5
+   |
+42 |   def test_switch_boundary_skip_frozen_groups_and_noop() -> None:
+43 |       """Exercise all switch directions at a skipped boundary, with cold states."""
+44 | /     from probe import options
+45 | |     from training_dynamics import Dynamics, build_optimizer, build_scheduler
+46 | |     from wnn.nn import RNNModel
+   | |_______________________________^
+47 |
+48 |       for schedule in ("onecycle", "wsd", "sgdr"):
+   |
+help: Organize imports
+   |
+45 |     from training_dynamics import Dynamics, build_optimizer, build_scheduler
+46 +
+47 |     from wnn.nn import RNNModel
+   |
+
+Found 2 errors.
+[*] 2 fixable with the `--fix` option.

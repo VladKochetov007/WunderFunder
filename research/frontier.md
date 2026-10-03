@@ -1,5 +1,13 @@
 # Active frontier
 
+Current root Challenge2 campaign update,2026-10-03: user goal is long-term competition understanding and research through23:00 Kyiv today, with0.667 optional. Best reported public0.6641; no0.667 claim. The remainder of this file preserves the earlier September frontier and its historical targets/results.
+
+Current evidence: two-seed/fold0+1 Muon/chunk1000/stopped-bootstrap combo +.001854 local pooledWP, CI[.000420,.003409], fold1/class3 weakness; fixedfold2+3 confirmation nowPASS +.00178777 CI[.00092491,.00274712], all preregistered gates and independent metadata/scorer-route review pass. Combined recipe supported, no isolated-mechanism or public-score claim. Width320 pair +.00007249 CI[-.001211,.001313], no demonstrated gain. Physical coordinate, objective real-state and causal history support gaps now have runnable falsifiers. Peer observable feature fails its gate, independently reproduced; retained GRU influence does not establish a deficit. Capturev1/v2 rejected, minimalv3 correction awaits independent review before actualCUDAreproduction. Read [current synthesis](campaign_2026-10-03/continuation/round2/SYNTHESIS.md), [round4 portfolio](campaign_2026-10-03/continuation/round4/LITERATURE_AND_OPTIONS.md), [current worker registry](campaign_2026-10-03/continuation/round5/agents.json) and research/experiments.jsonl E-359 onward. Optimization prototype remains unapplied; no new GPU candidate promoted from toy/diagnostic evidence.
+
+Latest update at22:06 Kyiv: E-394–E-402 preserve v4 builder/review, genuine GPU measurement and independent narrow parity PASS, false timeout diagnosis, and R5/R6 instruments/reviews. Default CUDA normal/repeat/original/forced-skip comparisons on synthetic architecture and the real fixed warm panel were exact, with observed peak3.71GB VRAM. Real trajectory had four completed warm updates and no skips. This unlocks reviewed local mechanism probes; it does not establish mature-fit recovery or public gain. State-drift original entrypoint was blocked for finite/runtime/memory guards and is being corrected separately; descriptive AMP component-sum diagnostic was blocked for tensor-valued metadata JSON identity and is being corrected separately. Actual scientific results remain pending. Current workers: [round6 registry](campaign_2026-10-03/continuation/round6/agents.json); newest verified restore: [recovery checkpoint](campaign_2026-10-03/continuation/CURRENT_RECOVERY.md). Monitor is healthy, GPU idle, no new OOM.
+
+## Historical September frontier
+
 ## Target and baseline
 
 Goal: validation WP >= 0.80 (clipped weighted Pearson, METRIC.md). Organizer

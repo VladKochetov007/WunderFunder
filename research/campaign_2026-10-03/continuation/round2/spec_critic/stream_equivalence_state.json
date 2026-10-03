@@ -1,0 +1,22 @@
+{
+  "phase": "bounded I1 diagnostic complete; await controller frozen actor assignment",
+  "blind_artifacts": "preserve PREMORTEM.md, TESTS.json, checks.py, results.json and original STATE unchanged",
+  "blindness": "no round2 actor directory inspected",
+  "checkpoint": "c20261001_d256_s3_f0@ep3",
+  "pending": ["independent attack only after controller supplies one real frozen actor result"],
+  "last_failure": "Retained run_01 Arrow boolean conversion failure and run_02 NumPy float32 JSON serialization failure. Both corrected in diagnostic only; final run exit0; no resource failure.",
+  "result": "narrow CPU float32 callable/primitive equivalence checks passed; no broader candidate approval",
+  "sample": [{"split": "valid", "row_group": 4, "seq_ix": 1990332, "component": 2799}, {"split": "valid", "row_group": 5, "seq_ix": 2308749, "component": 2800}],
+  "sample_steps": [0, 255],
+  "exposure": "existing exposed validation; component-excluded from checkpoint fit only",
+  "source_checkpoint_and_provenance_hashes": "stream_equivalence_results.json, stream_equivalence_sample.json, stream_equivalence_audit.json",
+  "executed": ["train_rnn.make_model/build_inputs/forward_chunk/predict", "StreamingEventFeatures.reset/update"],
+  "not_executed": ["predict_run.main CUDA/cache writer", "deployed submission", "native", "GPU/FP16", "full sequences"],
+  "report": "stream_equivalence_REPORT.md",
+  "reproduce": "bash research/campaign_2026-10-03/continuation/round2/spec_critic/stream_equivalence_run.sh",
+  "cost": {"final_elapsed_seconds": 4.27, "final_peak_rss_kib": 1085412, "measured_three_attempts_wall_seconds": 12.09, "gpu_seconds": 0},
+  "original_blind_artifacts_unchanged": true,
+  "actor_reads": false,
+  "native_live_source_queue_or_grader_writes": false,
+  "own_candidate_approval": false
+}

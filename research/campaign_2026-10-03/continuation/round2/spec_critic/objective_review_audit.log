@@ -1,0 +1,47 @@
+{
+  "prior_blind_I1_files_unchanged": true,
+  "actor_frozen_hashes_match": true,
+  "primary_prereg_hash_matches_results": true,
+  "sham_prereg_hash_matches_results": true,
+  "filesystem_timeline_monotone": true,
+  "timeline_mtime_ns": {
+    "PREREG.json": 1791036804352714563,
+    "logs/stream_01.log": 1791037035805966031,
+    "logs/analyze_01.log": 1791037251279929074,
+    "PREREG_SHAM.json": 1791037689000470188,
+    "logs/sham_01.log": 1791037689161013770
+  },
+  "timeline_limit": "file mtimes and recorded hashes support order, not a tamper-proof preregistration service",
+  "actual_combo_provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+  "actual_combo_args": {
+    "loss": "wmse",
+    "loss_norm": "chunk",
+    "distill_alpha": 0.5,
+    "distill_boot_h": 8,
+    "ema_teacher": 1.0,
+    "ema_metric_weight": false,
+    "aux_struct": 0.3,
+    "aux_next": 0.3,
+    "chunk": 1000,
+    "prop_power": 2.0,
+    "prop_eps": 0.03,
+    "valid_true_mask": 0.03,
+    "since_weight": 32.0,
+    "since_floor": 0.25,
+    "optim": "muon",
+    "spread_aux_mode": "original",
+    "spread_cache_root": "",
+    "aux_next_k": "",
+    "class_weight": "",
+    "episode_weight": 0.0
+  },
+  "actual_combo_fit_counts": {
+    "train": 10535,
+    "valid": 1405
+  },
+  "review_source_sha256": {
+    "scripts/train_rnn.py": "1d6b059d9880e0befb7b2c6251c7ae6ac9791d0bb0f5cd35dd8e4930cf189ef5",
+    "src/wnn/spread_aux.py": "3aabffc6fc887c0426948e62cbd500679ba3e7a6925e28de9f816fb1da8f9cac",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee"
+  }
+}

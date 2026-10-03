@@ -1,0 +1,151 @@
+resource failure needs review
+train sequences 12/48
+train sequences 24/48
+train sequences 36/48
+train sequences 48/48
+validation sequences 8/32
+validation sequences 16/32
+validation sequences 24/32
+validation sequences 32/32
+{
+  "models": [
+    "current",
+    "current_instant_clock",
+    "event_memory",
+    "row_memory",
+    "delayed_event_memory"
+  ],
+  "scores": {
+    "current": 0.5473889614744101,
+    "current_instant_clock": 0.5491349815784794,
+    "event_memory": 0.5652437479541572,
+    "row_memory": 0.5642667467724409,
+    "delayed_event_memory": 0.5434189342731228
+  },
+  "target_correlations": {
+    "current": [
+      0.5059118470009933,
+      0.5888660759478268
+    ],
+    "current_instant_clock": [
+      0.5064867673297085,
+      0.5917831958272504
+    ],
+    "event_memory": [
+      0.5172623745104985,
+      0.6132251213978158
+    ],
+    "row_memory": [
+      0.5201501022752459,
+      0.6083833912696359
+    ],
+    "delayed_event_memory": [
+      0.5015884656833491,
+      0.5852494028628964
+    ]
+  },
+  "deltas": {
+    "current_instant_clock": {
+      "event_minus_control": 0.01610876637567782,
+      "sequence_bootstrap_95": [
+        0.005468856937343123,
+        0.02637505192029064
+      ]
+    },
+    "delayed_event_memory": {
+      "event_minus_control": 0.021824813681034394,
+      "sequence_bootstrap_95": [
+        0.01039040485646647,
+        0.03406507133641095
+      ]
+    },
+    "row_memory": {
+      "event_minus_control": 0.000977001181716286,
+      "sequence_bootstrap_95": [
+        -0.008823681971952263,
+        0.009653170126982968
+      ]
+    }
+  },
+  "hazard": {
+    "real_age": {
+      "old_minus_young": -0.1506806463109882,
+      "young_hazard": 0.21959270381820073,
+      "old_hazard": 0.06891205750721259,
+      "support_weight": 71129.82153483575,
+      "eligible_strata": 404,
+      "sequence_bootstrap_95": [
+        -0.19617869349940317,
+        -0.1121108548988278
+      ]
+    },
+    "delayed_age": {
+      "old_minus_young": -0.00495216419396813,
+      "young_hazard": 0.23732052352731775,
+      "old_hazard": 0.2323683593333497,
+      "support_weight": 84276.97208317097,
+      "eligible_strata": 637,
+      "sequence_bootstrap_95": [
+        -0.009965629170709462,
+        -0.0007586925850843643
+      ]
+    }
+  },
+  "h1_verdict": "supported_local_proxy",
+  "train_rows": 116352,
+  "valid_scored_rows": 48270,
+  "valid_sequence_row_counts": [
+    1112,
+    3327,
+    477,
+    523,
+    3327,
+    553,
+    2954,
+    3154,
+    2009,
+    3731,
+    1629,
+    751,
+    2141,
+    486,
+    2740,
+    659,
+    1139,
+    945,
+    1047,
+    356,
+    1126,
+    523,
+    1021,
+    1791,
+    898,
+    1079,
+    891,
+    1042,
+    2046,
+    1562,
+    417,
+    2814
+  ],
+  "prefix_causality_checks": [
+    "prefix invariance passed: current",
+    "prefix invariance passed: current_instant_clock",
+    "prefix invariance passed: event_memory",
+    "prefix invariance passed: row_memory",
+    "prefix invariance passed: delayed_event_memory"
+  ],
+  "seconds": 11.988306546001695,
+  "peak_rss_mib": 1479.91796875,
+  "hypotheses_sha256": "7a9fb1075cd9166b6ea84393ef822e271217aa89c5677de48899fc4c476cdd89",
+  "limitations": [
+    "no public score forecast",
+    "no raw-row significance",
+    "no inferred target definition",
+    "global WP only on sampled validation rows after common step-611 burn-in",
+    "sequence bootstrap assumes sequence units; campaign components unknown",
+    "current-state ridge is not the campaign baseline",
+    "target census exposure means not an independent dataset confirmation",
+    "512-row delay preserves dimensions/regime, not exact marginal distribution"
+  ]
+}

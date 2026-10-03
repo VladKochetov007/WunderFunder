@@ -1,0 +1,56 @@
+{
+  "status": "frozen_before_execution",
+  "version": 1,
+  "role": "blind independent specification critic",
+  "fixture_units": "finite synthetic populations only; no campaign rows",
+  "numeric_tolerance": 1e-12,
+  "matrix": [
+    {
+      "id": "N1",
+      "branch": "self_normalized_distilled_chunk_loss",
+      "claim_under_attack": "large denominator coefficient of variation implies a biased conditional optimum",
+      "fixture": "identical denominator multiset, balanced versus denominator-correlated residuals; fixed conditional teacher",
+      "counterexample_acceptance": "CV exceeds 2 in both populations; normalized and pooled optima coincide in balanced population, differ by more than 0.5 after distillation in correlated population",
+      "actor_acceptance": "derive separate supervised and teacher coefficient measures conditional on causal inputs; measure signed weighted residual or gradient differences at a common checkpoint, not CV alone; isolate coefficient changes from normalization and membership",
+      "actor_rejection": "CV or a loss-value shift alone is presented as optimum bias or Global WP gain",
+      "limitations": "free conditional prediction functions and a deterministic teacher; not actual trainer loss or constrained GRU fitting"
+    },
+    {
+      "id": "S1",
+      "branch": "future_event_stopping_law",
+      "claim_under_attack": "a perfect target-functional fit on complete observed fragments identifies the generating stopping law",
+      "fixture": "enumerate three-step signed paths and two classes; class/coverage selects offset-tail paths; fixed third-step displacement versus first unit-barrier hit",
+      "counterexample_acceptance": "two stopping laws fit every complete case exactly; they disagree on half the full population; unknown path mass is explicitly nonzero; transported first-hit MSE exceeds 1",
+      "actor_acceptance": "frozen law/transform parameters; coverage by class and sequence position; unknown transitions never imputed as no-event; matched coverage comparisons and transport; nonidentification stated when competing laws agree",
+      "actor_rejection": "complete-case fit reported as generator identification, or class/censoring selection ignored",
+      "limitations": "finite invented laws; does not refute any particular real-label stopping family"
+    },
+    {
+      "id": "U1",
+      "branch": "strong_gru_history_usage",
+      "claim_under_attack": "large intervention response reveals missing useful information, or zero response proves history is useless",
+      "fixture": "redundant history on deterministic support, an off-support-sensitive predictor, and independent informative history ignored by another predictor",
+      "counterexample_acceptance": "redundant-history OOD response exceeds 10 while conditional Bayes-risk improvement is zero; ignored informative history has zero response yet feasible risk reduction exceeds 1",
+      "actor_acceptance": "identity control and actual prediction validity; distinguish functional sensitivity, conditional information and exploitable model deficit; quantify intervention support and pair current/history controls; improve heldout target loss/Global WP with a feasible causal predictor before asserting missed information",
+      "actor_rejection": "response magnitude alone is equated with conditional information or deployable forecast gain",
+      "limitations": "finite binary predictor fixtures; no strong-GRU checkpoint inspected"
+    },
+    {
+      "id": "I1",
+      "branch": "fourth_proposal_stream_equivalence_classes",
+      "claim_under_attack": "an apparent representation or horizon deficit is intrinsic to the learned predictor",
+      "fixture": "proposed only: equivalent causal streams under sequence reordering and chunk repartition, with exact reset and every-row update contract",
+      "actor_acceptance": "freeze one checkpoint and input bytes; reset at seq_ix transitions; compare original versus sequence-order permutation, pause/replay, and chunk partitions; predictions match within declared dtype tolerance and all required outputs are finite",
+      "actor_rejection": "unexplained representation-dependent predictions on identical causal input histories",
+      "limitations": "untested fourth proposal; reviewer cannot approve its own candidate or infer WP gain"
+    }
+  ],
+  "global_gate": {
+    "metric": "global_wp_clip2_v1",
+    "selection": "need_prediction AND is_scored, pooled across sequences",
+    "weights": "absolute target after target/prediction clipping to [-2,2]",
+    "deployment": "no future inputs, targets or is_scored in inference; state reset on sequence transition; every input row updates state",
+    "evidence": "synthetic counterexamples falsify implications only; real frozen actor results require independent controller-assigned testing",
+    "no_self_approval": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "status": "frozen_before_scores",
+  "requested_model": "gpt-6.1-sol", "requested_reasoning": "medium",
+  "hypothesis": "Five fixed causal states improve t1 calibration of fixed fold-bound GRU256 beyond affine calibration.",
+  "features": ["a2", "a3", "instrument0 price-book-change EWMA half-life100", "instrument0 trade-volume-change indicator EWMA half-life100", "log1p instrument0 price-book-change age"],
+  "calibration_folds": [2,3], "evaluation_folds": [0,1],
+  "sample": "Separately rank unique calibration and evaluation components by SHA256('strong-offset-v1:'+str(component)); take first128 in each pool and all their sequences. No score-dependent changes. Record cutoff before scores.",
+  "arms": ["raw", "affine", "offset"],
+  "fit": "Scored calibration rows only; clip y +/-2, weightedMSE weights abs(clipped y)+.001 matching nonlinear probe; unpenalized intercept and raw prediction coefficient; sole fixed state ridge .001*N; affine uses identical fit rows/weights and same zero penalty on its shared coefficients.",
+  "preprocessing": "Unweighted state means/std on selected calibration rows only; std+1e-6; updates use every input row; initial book age10001; zero-initial EWMA. No evaluation normalization.",
+  "intervention": "ONLY t1 for affine and offset; t0 copied bit-identically from parent.",
+  "metric": "global_wp_clip2_v1; finite float32 predictions; clip y,p +/-2; exact weights abs(clipped y); all need_prediction AND is_scored rows; additive moments pooled globally.",
+  "bootstrap": "1000 paired connected-component draws, seed271828; report observed mean-of-target delta and bootstrap mean, SD, percentile95CI; t1 CI also.",
+  "gate": "Offset minus affine t1 >=.005, positive in both eval folds, average delta paired component CI lower>0, and offset average greater than raw. Otherwise reject strong-baseline transport on this exposed exploratory panel. No tuning if null.",
+  "tests": "Input-only full versus prefix features and independent nonlinear source parity; weighted metric parity against frozen scorer; component disjointness, sidecars/checkpoints/model provenance/cache/parquet alignment; t0 invariance.",
+  "limits": "CPU1core2GiB15min wrapper; no GPU/training/install/source/ledger/submission changes. Exposed validation, not fresh/public confirmation. Parent fits for other folds may include evaluation components; calibration targets are disjoint but not nested parent-training-independent. Report this limitation."
+}

@@ -1,0 +1,135 @@
+PUZZLE A — BOUNDED INDEPENDENT CONTINUATION
+Verdict: reject a deterministic current-i0-price sum lookup and the tested
+ungated current-price ridge transfer model. Retain price-event alignment as a
+useful descriptive clue. No exact target formula or baseline improvement found.
+
+RECOVERED EVIDENCE AND EXPOSURE
+RECOVERY_SUMMARY.txt was saved before scoring. Prior own scripts investigated
+price-state geometry, asynchronous updates, target quanta and S=t0+t1,D=t0-t1.
+Old figures 02 and 03 were inspected again: prices are piecewise constant and
+columns have heterogeneous nonlinear relationships; exact invertible anonymous
+column meanings were not established. Old script scores are unavailable, so
+none were invented or inherited. Existing scan1 arrays contain four classes:
+train q=.12543:1305,.24133:1257,.46854:3488,.65687:4557 (10607 groups);
+valid q=.12543:398,.24133:347,.46854:431,.65687:697 (1873 groups).
+These counts were recovered from OLD arrays, not a new data census.
+All train/valid sequences previously exposed to scan1 target summaries and IDs.
+Scan2 exposed first 1500 train and all valid to input summaries, including
+full-sequence modal summaries. Detailed prior class-selected use cannot be
+proved completed from script existence; no selected cohort is called pristine.
+No other analysts, baseline, host description, or forbidden source were read.
+
+FROZEN TESTS AND NEW MEASUREMENTS
+HYPOTHESES.json and HYPOTHESES_initial_frozen.json retain pre-score definitions.
+Initial frozen SHA256 aea1fa5531e371e5e3cdccadf3362a684f8b6a0e26eede61d1425e5b17986872.
+Train row groups 1600-1611; valid 900-911; fixed indices, no target selection.
+Each group streamed separately, 22 current price columns, modest working arrays.
+Train rows >=99 stride10:23892; actual scored valid rows >=99:17609.
+Diagnostic grouping used all rows >=99, separately from scored model evaluation.
+Quantum from labels is diagnostic only, never a predictor or routing variable.
+All predictions use current inputs and train-only standardization/coefficients.
+24 prefix checks pass: features from first256 rows equal full-data first256.
+
+H1: exact repeated 22-column current i0 prices do NOT determine raw target sum.
+Train mean modal disagreement=.320738, range=.168635-.411738.
+Valid mean modal disagreement=.345050, range=.058289-.498467.
+Mean within-state residual variance fraction: train .802455, valid .754407.
+Modes use raw sums rounded to 5 decimals; this is label diagnostic, not a model.
+Matched shifted sum grouping is also saved per sequence, as is D ambiguity.
+Concrete witness train group1600 seq335377332: steps99 and128 have exactly equal
+22 prices, with four intervening price events. Targets change from
+[-1.4056081772,.9370721579] to [-1.4056081772,.4685360789].
+This disproves a timeless lookup of S from current i0 prices; causal histories
+and omitted current inputs remain possible. Three recurrence witnesses per
+follow-up sequence include row SHA256, exact equality and intervening events.
+
+H2: fixed alpha10 ridge fit independently to raw S,D; matched ridge uses the
+same inputs, rows and fit but train labels shifted997 rows within each sequence.
+Global scored validation:
+                           aligned          shifted control
+S R2                       -.722287         -.285307
+D R2                       -.210183         -.258107
+WP using S/2 for t0          .212229          .101767
+WP using S/2 for t1         -.181811         -.154039
+WP using S,D for t0          .358669          .215979
+WP using S,D for t1         -.092633         -.234790
+Average two-target WP: sum-only .015209; sum+diff .133018 (exploratory only).
+Clip raw per-target predictions and labels to +/-2, weight by |clipped target|,
+pool selected rows globally, then compute target-wise correlations.
+Raw sums/differences are formed BEFORE any clipping.
+The sum model fails the predeclared R2 falsifier; no gain over baseline claimed.
+Important limitation: selected train quantum classes are .46854 and .65687;
+valid has all four. This mixture mismatch can explain failed transfer. Negative
+result rejects this fit/cohort, not all possible sum-based predictors.
+Circular shift is a serially persistent diagnostic control, not a randomized
+causal intervention. No p-values or independent-row error bars are asserted.
+
+ADAPTIVE FOLLOW-UP (FROZEN SEPARATELY BEFORE EXECUTION)
+HYPOTHESES_followup.json: train1600-1602 and valid900-902, all numeric input
+columns i0_,i1_,a; rows>=99. Tested whether target changes require other updates
+when i0 prices stay unchanged. Aligned versus shifted997 diagnostic control:
+Unchanged i0 prices:97928 transitions; aligned S,D,either target changes=0;
+shifted S changes=8899 (9.087%), D changes=9440, either changes=9710.
+Unchanged entire i0 block:8409 transitions; aligned target changes=0;
+shifted S changes=636 (7.563%), either changes=693.
+Unchanged ALL inputs:ZERO eligible transitions. Full-snapshot falsifier is
+INCONCLUSIVE, not confirmed or refuted. No all-input conflict witness exists.
+Result: on these six sequences labels are constant within unchanged-price runs
+but can differ on recurrent identical states after intervening price events.
+This supports an event-indexed/path-dependent or event-updated target mechanism.
+It does NOT prove a forward horizon, shared terminal price, stationarity, or
+future predictability. No premise of opposite target-change cancellation holds
+on unchanged-price transitions: neither target changes there in this sample.
+
+SAMPLE IDs (EXACT, INCLUDING PRIOR EXPOSURE ABOVE)
+Train:335377332,335978884,336312821,336407756,336436314,336567038,
+337070476,337280579,337578712,337584337,337594041,337610596.
+Valid:1038812905,1039033737,1041109644,1042223605,1042821269,1043470480,
+1044111969,1045128924,1045142897,1046133243,1046527679,1046744106.
+Follow-up uses first3 of each list. Results record split, group, actual ID,
+selected-array SHA256, file size/mtime and total parquet groups.
+Limited exact64-row i0-price window screen found156 shared window hashes across
+selected sequences. Static symbolic price states can coincide without source
+trajectory overlap. This neither establishes independence nor proves overlap.
+Controller must resolve paired connected components before inferential claims.
+
+RANKED NEXT DIRECTIONS (PROPOSALS, NOT MEASURED GAINS)
+1. Event-history features: current state + previous 1/4/16 PRICE-EVENT states,
+   event age and deltas; compare same learner/current-only control. Train on
+   bounded sequences and score component-held-out actual masks. Falsify if
+   added history fails paired held-out improvement. Targets never enter history.
+2. Causal prediction holding: freeze a causal model prediction between i0-price
+   changes versus normal every-row update with identical trained model. The
+   zero label-change observation motivates this; kill if scored component-level
+   WP worsens or the label invariance fails on controller-selected new cohorts.
+3. Input-only prefix mixture routing: learn group assignment from first99 input
+   rows on TRAIN, never target quanta/full-sequence modes. Compare pooled ridge
+   to routed ridge with fixed parameter budget; kill if unseen component
+   mixture transfer fails. Prefix purity must be checked before fitting.
+4. Exact target-law reverse engineering in price-event time: test a small frozen
+   candidate list on TRAIN labels only, with synthetic lag/shift controls and
+   disjoint component confirmation. Reject any purported law with residuals
+   beyond float tolerance. Future-input comparisons may diagnose labels but
+   never become predictor features or deployment group identifiers.
+
+ARTIFACTS AND VALIDATION
+continuation_probe.py, continuation_events.py: runnable bounded standalone tests.
+continuation_results.json, continuation_events_results.json: measured raw results.
+continuation_ridge.npz: train means/scales and aligned/control coefficients.
+continuation_summary.py/json: compact aggregates and artifact SHA256 manifest.
+eda_puzzle_a.py: runnable marimo notebook; eda_puzzle_a.html: successful headless
+execution/export. Both new PNGs inspected; old02/03 inspected for recovery.
+Initial event plot/results preserved under *_initial filenames; revised plot
+shows shifted controls and explicitly excludes the empty all-input condition.
+verify_continuation.sh passed ruff format/check and marimo HTML export. Initial
+lint errors and corrected verification logs preserved. No resource failure.
+Initial probe completed in10.58 seconds; all compute used run_cpu.sh eda-puzzle-a,
+one core, 2GiB, CUDA unavailable. No GPU launch/install/commit/submission.
+Run commands are in STATE.json, notebook and verification script; wrap every
+script, notebook export and verification command in run_cpu.sh eda-puzzle-a.
+PROVENANCE.json records final artifact bytes/hashes; selected-array hashes allow
+controller reproduction without another broad census. State records inspected
+IDs, commands, inspected figures, phase and limitations.
+Blockers: source-overlap components unresolved; no pristine cohort; narrow/mixed
+sampling; exact anonymous semantics/target law unknown; baseline intentionally
+uninspected. No further independent-phase compute or integration requested.

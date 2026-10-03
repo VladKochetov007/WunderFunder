@@ -1,0 +1,19 @@
+{
+ "status":"frozen_before_metadata_queries_targets_predictions_or_replay",
+ "model":"c20261001_d256_s3_f0@ep3",
+ "checkpoint_sha256":"f92504fbbbcf956a44e70aa3f7a08825d903b9c6a6cacce7bd9f89b6875fcad8",
+ "component_selection":"rank fold0 evaluation seq_ix by sha256(round3-matched-usage-v1:seq_ix); first24 distinct components, no replacement of empty panels",
+ "query_selection":{"domain":"step512..19999 AND need_prediction AND is_scored","seed":614203,"method":"single RNG in frozen component order, uniform without replacement min(12,n_eligible); sort chosen queries","inclusion_probability":"m_selected/n_eligible; zero for empty panel","permitted_mask_use":"offline evaluator selection only, never donor selection or model inference"},
+ "arms":["identity","raw_recomputed","packed_i0"],
+ "interval":"replace i0 at [t-288,t-32), retaining all raw rows [t-32,t] and the earlier prefix; replay from original hidden state at t-288 through t, including all warmup in original state construction",
+ "donor":"same-sequence past original input, lags64/128/256 with t-288-lag>=0; choose minimum RMS raw-i0 normalized displacement across256x52 entries, model fixed std clipped at1e-6; deterministic smaller-lag tie; choose even zero displacement, report null mass; no target/mask/class matching",
+ "raw_recomputed":"copy raw i0 first52 columns from donor; recompute ALL211 causal features via original build_inputs from row0; no changed prefix model-forward work",
+ "packed_i0":"same donor lag and interval; substitute original packed125 i0 channels (raw52, deltas44, flags5, clocks2, held22); all other packed inputs stay original; report mismatch versus raw-recomputed feasible instrument stream",
+ "support":"nearest lag is not conditional exchangeability or market support; report candidate RMS, chosen displacement, seam normalized jumps, zero/nonfinite/no-donor mass, i1/aux equality, flags/clock/held mismatch, engineered current and protected-tail changes",
+ "gates":{"cpu_reference":"independent train_rnn.predict CPU chunk4000 vs segmented baseline and identity atol2e-5 rtol2e-5, unchanged R2 tolerance","cache":"IDs/targets/masks exact; GPU cache discrepancy descriptive only, retain R2 maxabs.02 RMS.005 corr.999 bounds without tuning","future_canary":"change raw suffix after query; features through query exactly unchanged and same replay predictions within CPU tolerance"},
+ "controls":"synthetic iid raw stream seed614204; planted raw0(t-80) positive and current-only raw52(t) sham negative, identical donor and replay transformations; identity zero; recomputed engineered features exactly reproducible, packed clock inconsistency detectable; not a learned benchmark",
+ "analysis":"quiet age original rows since any22 i0 prices changed, bins0/1..3/4..15/16..63/64+; raw vs packed paired response; per-component moment totals inverse query probability times abs(clip(target,-2,2)); clip predictions to[-2,2] for WP; conditional-panel component bootstrap1000 seed614205; no row IID or fresh confirmation; zero-mass empty panels retained",
+ "hypotheses":["packed inconsistency explains response if packed-minus-raw RMS materially exceeds .001 and100x identity RMS; does not imply conditional predictive value","raw-history influence survives last32raw protection if raw-recomputed response exceeds same numerical floor; current engineered changes explicitly mediate possible response","age response may reflect amplitude: report age bins and amplitude-normalized descriptive response, no causal age claim"],
+ "scope":"24 selected distinct components after511 scored sampled-domain estimate, not official fulltest score; exposure inherited from prior own target census and campaign validation",
+ "resources":"run_cpu.sh round3-matched-usage, onecore2GiB<=900s persequence; cache original boundary states once; no training proposal justified"
+}

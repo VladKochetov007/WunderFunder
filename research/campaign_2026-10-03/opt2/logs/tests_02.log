@@ -1,0 +1,8 @@
+....................................                                     [100%]
+=============================== warnings summary ===============================
+research/campaign_2026-10-03/opt2/test_training_dynamics.py::test_cpu_amp_skip_then_switch_uses_attempt_clock
+  /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/opt2/test_training_dynamics.py:239: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+    sched.step()  # legacy trainer advances even on skipped updates
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+36 passed, 1 warning in 6.79s

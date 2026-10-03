@@ -1,0 +1,17 @@
+{
+  "status": "frozen_before_scoring",
+  "evidence_class": "adaptive exploratory mechanism check after s31; same exposed sample",
+  "sample_and_fit": "unchanged HYPOTHESES.json sample, s30 normalization, stride8 and weighted ridge penalty",
+  "hypothesis": "updating six p/dp representatives recovers at least 80% of the anchor-to-current mean-WP gap; current inputs with held p/dp lose at least 0.02 WP",
+  "models": {
+    "anchor_p": "anchor features except current four p0/p11 representatives and indicators",
+    "anchor_dp": "anchor features except current two dp0 representatives and indicators",
+    "anchor_pdp": "anchor features except current six p/dp representatives and indicators",
+    "current_held_pdp": "current features except six p/dp representatives held at the a6 anchor",
+    "current": "matched current-input control; reproduce s30"
+  },
+  "matched_control": "same feature dimension, normalizer, sample, regularization and targets; only feature time changes; anchor_p and anchor_dp separate two mechanisms",
+  "rejection": "p/dp recovery fraction <0.8 OR loss holding p/dp <0.02",
+  "inference": "current p/dp and prefix-cached anchor inputs; no target, oracle regime or future minimum",
+  "limits": "predictive necessity is not proof of physical causation or exact invertibility; small linear model; adaptive exposed-sample evidence"
+}

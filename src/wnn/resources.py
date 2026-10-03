@@ -61,11 +61,25 @@ def configure_torch(gpu_fraction: float | None = None, duty: float | None = None
     return DutyCycle(duty) if duty < 1.0 else None
 
 
-def dataloader_budget(batch_bytes: int, ram_budget_bytes: int | None = None, max_workers: int = 4):
-    """Workers and prefetch so queued batches (workers * prefetch * batch) fit the RAM budget."""
+def dataloader_budget(
+    batch_bytes: int, ram_budget_bytes: int | None = None, max_workers: int = 4
+) -> tuple[int, int]:
+    """Budget queued batches plus one consumed and one pinned/in-flight copy.
+
+    ``batch_bytes`` must include all tensors (features, targets and teachers).
+    Resident datasets, model state and worker overhead need a separate reserve.
+    Zero workers uses synchronous loading; callers must omit prefetch_factor.
+    """
     if ram_budget_bytes is None:
         ram_budget_bytes = int(float(os.environ.get("WNN_LOADER_RAM_GB", "6")) * (1 << 30))
     max_workers = min(max_workers, int(os.environ.get("WNN_LOADER_WORKERS", max_workers)))
-    workers = max(1, min(max_workers, cpu_threads() // 2))
-    prefetch = max(1, min(2, ram_budget_bytes // max(1, workers * batch_bytes)))
-    return workers, int(prefetch)
+    if batch_bytes <= 0 or ram_budget_bytes <= 0 or max_workers < 0:
+        raise ValueError("batch and RAM budgets must be positive; workers nonnegative")
+    capacity = ram_budget_bytes // batch_bytes
+    if capacity < 2:
+        raise ValueError("loader RAM budget cannot hold a batch and its in-flight copy")
+    workers = min(max_workers, max(1, cpu_threads() // 2), capacity - 2)
+    if workers == 0:
+        return 0, 0
+    prefetch = min(2, (capacity - 2) // workers)
+    return workers, prefetch

@@ -1,0 +1,46 @@
+RECOVERY FROM READ-ONLY CONTINUATION
+Own artifacts only; no other analysts, baseline, models, or repository history read.
+All existing sequence targets were exposed by s09_census.py. Fresh feature samples
+cannot be claimed wholly independent: the target census covers train and valid.
+
+Established saved evidence:
+data/census_train.npy and census_valid.npy cover 10607/1873 sequences. Four
+minimum nonzero target scales: .1254, .2413, .4685, .6569. Mean within-sequence
+target correlations range -.56 to -.88. Classes are target-derived, unavailable
+at inference, and exact quantization is not established by minima alone.
+data/clock_sample.parquet contains 200000 previously used validation rows:
+P(any target change | no i0 price-state change)=0; conditional on change=.59982.
+data/waits.npy gives pooled price-state wait CV 3.05--7.43 and mean 2.51--8.31
+rows. Mixtures, dependent arrivals and censoring remain alternative mechanisms.
+Inspected f13_look_rg5522_5000_5600.png: targets and price state stay fixed while
+auxiliary features vary. Inspected full sequence f13_look_rg5522_0_20000.png.
+data/kernel.npz: .6569 kernel oscillates, .1254 kernel is positive/decaying.
+But s22_kernel.py uses target increments as its purported observed price step,
+filters on target magnitude, and computes uncentered marginal slopes. It is
+descriptive, not a causal predictor or a verified martingale rejection.
+data/dacf.npz and inspected f06_dacf.png show short-lag oscillations; target
+ACFs remain high across 100 rows. No fixed row/event horizon established.
+Train .4685 class fraction .3288; validation scored-row fraction .0808.
+Pooled a2/a3 associations with activity/scoring are confounded, not causal.
+
+Unfinished:
+s08_horizon.py/s18_eventh.py contain tests without saved numerical conclusions.
+s10_sumdiff.py/s20_movedetector.py/s21_drift.py lack persisted numerical outputs.
+s23_physfeat.py is the latest proposed detector/EMA ridge comparison; no score,
+coefficients or report confirms execution. It uses target-selected detector
+training and omits its advertised event-rate feature in the final comparison.
+No predecessor REPORT.txt or runnable marimo notebook found.
+
+Ranked proposed directions, not observed gains:
+1 Feature-only event memory versus instantaneous features and matched stale
+  history. Kill target-proxy artifacts before interpreting a memory kernel.
+2 Conditional dwell-age hazards versus heterogeneous event intensities. Match
+  state and recent activity, not just pooled waiting distributions.
+3 Shared target offset/signed-coordinate geometry; repeated-state controls.
+4 Feature-identifiable regimes, avoiding target scale as an inference feature.
+5 External i1/volume flow after conditioning on i0 state and dwell/activity.
+
+Primary PDFs actually read in preceding pass:
+https://arxiv.org/pdf/1104.4596 (Cont/de Larrard: queue depletion/price durations)
+https://arxiv.org/pdf/cond-mat/0406224 (Bouchaud et al.: transient impact/flow)
+These motivate tests, not claims about this anonymized dataset.

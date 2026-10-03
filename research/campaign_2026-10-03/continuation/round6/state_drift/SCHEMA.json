@@ -1,0 +1,33 @@
+{
+  "capture": "Unmodified future approved v4 pre.pt/post.pt; exact source/backend schema delegated to v4.validate, installed-private-RNG acceptance only inside later approved CUDA runtime",
+  "extra_trajectory_sidecar_required": {
+    "initial_student_h": null,
+    "initial_ema_h": null,
+    "warm_starts": [0, 1000, 2000, 3000],
+    "completed_warm_updates": "4 minus verified actual skips; at least one genuine completed warm update; every Adam state step agrees",
+    "warm_skips": "actual int64 skip count, not assumed zero; see separate controller-directed prereg clarification",
+    "entrypoint": "runner.run_probe(mode='real')",
+    "capture_runner_sha256": "actual executed frozen v4 runner.py",
+    "fit_panel_source_sha256": "actual v4 fit_panel.py",
+    "adapter_sha256": "actual v4 live_capture.py",
+    "source": "exact v4 source map",
+    "inputs_identity": "sha256(shape/dtype JSON + original full contiguous input tensor bytes)",
+    "mean_identity": "same identity grammar for captured student mean",
+    "std_identity": "same identity grammar for captured student std",
+    "panel_sha256": "same real fresh-panel identity as pre metadata"
+  },
+  "controller_receipt_required": {
+    "status": "approved",
+    "reviewer": "independent controller; cannot be this actor",
+    "default_v4_gate": "PASS",
+    "independent_state_drift_review": "PASS; builder controls/code frozen before real pre/post are opened",
+    "candidate_sha256": "PREREG.json/PREREG_WARM_CLOCK_CLARIFICATION.json/protocol.py/run_real.py/controls.py actual hashes",
+    "capture_sha256": "pre/post/trajectory actual file hashes",
+    "v4_review_receipt": "path to independent source/runtime-bound v4 receipt validated by original v4 verify_review"
+  },
+  "future_launch": "Only controller campaign_job/run_gpu with existing reviewed runtime guard; no GPU launch helper or receipt generated here",
+  "missing_provenance": "UNKNOWN, fail closed; schema template is not evidence that a real trajectory occurred",
+  "post_counterfactual": "one source-original local update, incoming state/moments/RNG/clocks identical except detached student h; preserve actual post whole-gradient/update vectors; no component gradient decomposition",
+  "normalization": "full stored inputs go through actual RNNModel with captured student mean/std; never normalize twice or substitute EMA mean/std; preserve student train/grad-enabled forward context, detach h and discard graph each prefix chunk, no prefix backward",
+  "byte_preservation": "verify source/provenance/input hashes, no native dirty source copies or edits"
+}

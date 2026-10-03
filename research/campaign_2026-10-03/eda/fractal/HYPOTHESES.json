@@ -1,0 +1,44 @@
+{
+  "status": "frozen_before_new_data_scoring",
+  "seed": 20261003,
+  "evidence_tiers": {
+    "prior": "exploratory own artifact evidence",
+    "continuation": "exploratory matched CPU screen",
+    "independent_reproduction": false
+  },
+  "sample": "32 train and 24 valid row groups, seeded uniform selection excluding conservative union of all row groups named by own saved scripts; two fixed 12-sequence validation panels",
+  "H_clock": {
+    "premise": "Short-history advantage may depend on quote-event count rather than elapsed rows",
+    "arms": [
+      "raw112",
+      "raw112+rowEMA16 residual112",
+      "raw112+eventEMA16 residual112",
+      "raw112+rateAdjustedEMA16 residual112"
+    ],
+    "event": "any change in the 22 i0 price columns; first row initializes state, never an event",
+    "rate_control": "EMA64 of observed event indicator; per-row EMA alpha=1-(1-2/17)^rate; updated at every row",
+    "fit": "same 32 train sequences, rows need_prediction, separate abs(clipped target)-weighted ridge per target, clipped training response; penalty 0.001*training weighted design trace/dimension, intercept unpenalized; no validation tuning",
+    "metric": "globally pooled WP after finite-target/prediction clipping +/-2 on need_prediction AND is_scored, mean over targets",
+    "survival": "event arm exceeds both row and rate-adjusted arm by >=0.002 mean WP and has positive delta versus row in both frozen panels",
+    "falsifier": "failure of survival rule rejects advancing this specific eventEMA16 mechanism; does not reject all event-clock models",
+    "causality": "full-prefix parity at lengths 99,500,4096; future input perturbation leaves prior outputs unchanged; targets/mask absent from feature builder"
+  },
+  "H_scaling": {
+    "premise": "Persistent signed event increments contain ordering information beyond their marginal distribution",
+    "series": "i0_p0 differences at quote-event rows in first 12 frozen valid groups; targets unused",
+    "control": "16 seeded permutations of event-increment order per sequence; same values/event count; DFA1 on scales 16,32,64,128,256,512,1024",
+    "survival": "median original minus median shuffled slope on 16..256 >0.05 and positive in >=9/12 sequences",
+    "limitations": "diagnostic retrospective statistic, not a feature or asymptotic Hurst proof; permutation destroys short and long dependence together"
+  },
+  "uncertainty": "No row-independent significance or sequence-bootstrap campaign CI. Save per-sequence sufficient statistics; connected components unknown until controller integration. Sequence-disjoint is not necessarily campaign-unexposed or component-disjoint.",
+  "H_stationarity_followup": {
+    "status": "frozen_after_initial_negative_before_followup_scoring",
+    "sample": "same already-exposed first 12 continuation validation groups",
+    "seed": 20261004,
+    "premise": "Near-zero signed increment DFA slopes can arise by telescoping a stationary encoded feature rather than exploitable market antipersistence",
+    "matched_control": "shuffle observed event-time i0_p0 LEVELS then difference; 16 permutations per sequence; compare original differences and initial shuffled-difference null",
+    "survival": "absolute median original minus level-shuffled DFA slope over 16..256 <0.05 supports sufficiency of stationary-level explanation, not an equivalence proof",
+    "synthetic_checks": "iid normal increments approximately 0.5 and differenced iid normal levels approximately 0 at the same scales",
+    "limits": "No inference about underlying raw asset price, no new holdout evidence, no claim about all 112 inputs"
+  }
+}

@@ -1,0 +1,13 @@
+F841 Local variable `started` is assigned to but never used
+  --> research/campaign_2026-10-03/continuation/round3/washout_usage/summarize.py:19:5
+   |
+18 | def main() -> None:
+19 |     started = time.monotonic()
+   |     ^^^^^^^
+20 |     samples = json.loads((ROOT / "samples.json").read_text())["samples"]
+21 |     summaries = []
+   |
+help: Remove assignment to unused variable `started`
+
+Found 1 error.
+No fixes available (1 hidden fix can be enabled with the `--unsafe-fixes` option).

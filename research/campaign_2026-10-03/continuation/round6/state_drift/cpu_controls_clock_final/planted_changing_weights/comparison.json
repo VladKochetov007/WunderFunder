@@ -1,0 +1,49 @@
+{
+  "outcome": "DETECTABLE_SUBTHRESHOLD",
+  "effects": {
+    "hidden": {
+      "rms_difference": 0.00010427319904294595,
+      "relative_l2": 0.00029560378577240566
+    },
+    "prediction": {
+      "rms_difference": 5.221707399326394e-06,
+      "relative_l2": 1.4461511916449864e-05,
+      "reference_rms": 0.3610761744342056
+    },
+    "gradient": {
+      "rms_difference": 2.7295483759770382e-06,
+      "relative_l2": 3.5632213197046436e-05,
+      "reference_rms": 0.07660339145600115
+    },
+    "update": {
+      "rms_difference": 1.6573744773289125e-08,
+      "relative_l2": 0.0008778911501998457,
+      "reference_rms": 1.887904299925592e-05
+    }
+  },
+  "detectable": {
+    "hidden": true,
+    "prediction": true,
+    "gradient": true,
+    "update": true
+  },
+  "independent_floors": {
+    "floors_rms": {
+      "prediction": 0.0,
+      "gradient": 0.0,
+      "update": 0.0,
+      "hidden": 0.0
+    },
+    "source": "six default-only and six prefix-only independent repeats; before counterfactual",
+    "multiplier": 5,
+    "policy_sha256": "0d5684d2af1e076caf06490ad8b1619e793648efa32f57b3e2e32b6d8a8b042e"
+  },
+  "unchanged": [
+    "all pre state except detached student h",
+    "EMA out",
+    "teacher/targets",
+    "weights/denominators",
+    "post RNG and update clocks"
+  ],
+  "scientific_scope": "local early fresh-panel trajectory only; no scoring, fullfit or component attribution"
+}

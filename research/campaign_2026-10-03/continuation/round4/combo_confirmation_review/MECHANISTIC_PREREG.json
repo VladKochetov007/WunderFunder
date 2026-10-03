@@ -1,0 +1,43 @@
+{
+  "status": "future experiment recommendation only; not scheduled, implemented, run or self-approved",
+  "question": "Does shortening gradient credit assignment retain a benefit when optimizer/EMA/scheduler cadence and row-loss masses are identical, or do the observed combo extras arise from cadence and normalization changes?",
+  "primary_hypothesis": "Shorter gradient truncation has an independent learning effect under identical forward states, exposure, update cadence and objectives.",
+  "rival": "Muon explains most of the bundle advantage; apparent chunk1000 extras depend on doubled optimizer/scheduler/EMA attempts or per-chunk loss mass, not shorter gradient credit assignment. Bootstrap8 could supply a separate target effect.",
+  "arms": [
+    {"name": "T2000_H0", "detach_interval": 2000, "bootstrap_horizon": 0},
+    {"name": "T1000_H0", "detach_interval": 1000, "bootstrap_horizon": 0},
+    {"name": "T2000_H8", "detach_interval": 2000, "bootstrap_horizon": 8},
+    {"name": "T1000_H8", "detach_interval": 1000, "bootstrap_horizon": 8}
+  ],
+  "shared": {
+    "architecture": "GRU256 two layers, unchanged features and heads",
+    "optimizer": "same full-schedule recurrent Muon implementation/groups/settings for all four arms",
+    "macrostep": "one optimizer attempt, one clip, one scheduler advance and one EMA advance per2000 input rows; identical attempted/completed/EMA clocks must be observed",
+    "forward": "carry real incoming raw and detached EMA states; frozen weights within each2000-row macrostep; T1000 detaches hidden at the halfway point but never resets it",
+    "loss": "pool exact sufficient numerators and denominators across the SAME2000-row macrostep for main/EMA/struct/next; do NOT average1000-row normalized losses; all four arms use the identical macrostep loss functional",
+    "targets": "identical fold-bound cached teachers, alpha.5 and clipped scaled-teacher average; H8 uses existing strict stopping survival/end-of-sequence condition, H0 original target blend; training-only future targets never reach inference",
+    "ema": "same decay.999 per COMMON macrostep, distinct genuine detached EMA weights/state; no doubled EMA updates in T1000",
+    "seed_and_exposure": "seeds3 and4; exact initial tensors and externally frozen batch order shared between arms; no dependence on differing forward-call consumption of global RNG",
+    "fit": "same fold-specific fit rows, teachers, propensity, validation-in-fit true-mask weights, since weights and four epochs; fixed epoch index3, no in-fit evaluation or early checkpoint selection",
+    "evaluation": "component-disjoint manifests for folds0..3; these previously exposed folds remain confirmation/ablation data, not fresh holdout; no new exposure claim"
+  },
+  "admission_before_any_fit": [
+    "controller must authorize resource plan; no GPU smoke/queue launch from this recommendation",
+    "capture and replay exact main/EMA/auxiliary loss, raw/EMA hidden state and optimizer/scaler/scheduler state in isolated code",
+    "same-weight same-initial-state forward/output and macrostep-loss parity between detach intervals; independent full-gradient coefficient oracle",
+    "tiny cross-half dependency control verifies T1000 blocks ONLY the cross-half gradient; negative control without cross-half dependence gives equal gradients",
+    "actual chosen backend step and skipped-update parity; unsupported fused/AMP/Muon paths block admission rather than filling missing state",
+    "macrostep scaling is a NEW controlled objective, not exact reproduction of present combo's per1000-row normalization"
+  ],
+  "primary_measure": "Delta_credit = .5 * [(WP(T1000_H0)-WP(T2000_H0)) + (WP(T1000_H8)-WP(T2000_H8))]; average paired seed-specific contrasts without treating seeds as independent components; pool centered moments across folds, then paired connected-component resampling2000 seed271828, SAME resample indices for all arms/seeds",
+  "secondary_descriptive": ["bootstrap8 main effect at fixed truncation", "difference-in-differences interaction", "all fold/class effects", "pub143 diagnostic", "loss-gradient components, clip incidence and incoming hidden mismatch"],
+  "decision": {
+    "supports_independent_credit_effect": "primary point>=.0005 and paired95% lower>0, both seeds positive; report class3 safeguards and fold heterogeneity",
+    "supports_no_material_credit_effect_at_tested_scale": "entire primary95% interval inside[-.0005,+.0005]; this is scoped equivalence, not proof that the original gain is caused by clocks",
+    "inconclusive": "otherwise; interval crossing0 alone is not evidence of equivalence",
+    "bootstrap_interaction": "secondary/descriptive unless a separate multiplicity-controlled confirmation is frozen before scoring",
+    "no_claims": "no global GRU optimum, unbiased conditional teacher, Assumption1, universal burn-in, missing-information or public-score claim"
+  },
+  "interpretation": "This isolates gradient truncation conditional on fixed Muon and the common2000-row objective. A null leaves update cadence, mass normalization, bootstrap semantics and interaction as rivals. It cannot attribute the original bundle to one of those rivals without an additional controlled factor.",
+  "cost": "four training arms x two seeds x four folds for a complete confirmation; resource duration unknown until controller-approved calibration. No cost/VRAM invented and no execution authorized by this document. A controller may preregister a smaller initial fit panel before launch but cannot call that the full design."
+}

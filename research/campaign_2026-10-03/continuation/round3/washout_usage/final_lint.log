@@ -1,0 +1,17 @@
+F401 [*] `common.REPO` imported but unused
+ --> research/campaign_2026-10-03/continuation/round3/washout_usage/finalize.py:6:27
+  |
+4 | import re
+5 |
+6 | from common import PRIOR, REPO, ROOT, dump, sha
+  |                           ^^^^
+help: Remove unused import: `common.REPO`
+  |
+5 |
+  - from common import PRIOR, REPO, ROOT, dump, sha
+6 + from common import PRIOR, ROOT, dump, sha
+7 |
+  |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

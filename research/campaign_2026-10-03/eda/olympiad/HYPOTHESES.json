@@ -1,0 +1,38 @@
+{
+  "status": "frozen_before_new_scores",
+  "evidence_class": "exploratory reanalysis of exposed sequences",
+  "sample": {
+    "train_rowgroups": [104, 431, 758, 1085, 1412, 1739, 2066, 2393, 2720, 3047, 3374, 3701, 4028, 4355, 4682, 5009, 5336, 5663, 5990, 6317, 6644, 6971, 7298, 7625, 7952, 8279, 8606, 8933, 9260, 9587, 9914, 10241],
+    "valid_rowgroups": [6, 103, 200, 297, 394, 491, 588, 685, 782, 879, 976, 1073, 1170, 1267, 1364, 1461, 1558, 1655, 1752, 1849],
+    "selection": "fixed arithmetic progressions; train begins at known reset anomaly 104; no score-dependent selection",
+    "provenance": "all sequences previously exposed by exhaustive s03/s15/s21/s26; not an independent holdout"
+  },
+  "fixed_procedure": {
+    "features": "12 representatives i{0,1}_{p0,p11,dp0,v0,v11,dv0}, plus a0..a7; raw non-sentinel values and sentinel indicators; no IDs, flags, targets or quantum",
+    "anchor_detector": "current a6 < -5.19; row 0 initialized; no future minimum",
+    "fit": "weighted ridge on clipped targets, train rows>=99 and need_prediction, deterministic stride 8 of eligible rows; train mean/scale; regularization 0.001 times target total training weight; intercept unpenalized",
+    "metric": "pooled valid rows>=99 and is_scored; targets and predictions clipped [-2,2], weight abs(clipped target), separate correlations averaged",
+    "bounds": "one rowgroup at a time; feature arrays under 100 MB; one CPU; 2 GiB; no GPU",
+    "controls": "same fitted rowwise ridge carried at true a6 anchors, price-change anchors, and five causal delayed-anchor streams; each true reset queues one reset delayed uniformly 1..7 rows, FIFO at least one row apart; seeds 7300+rowgroup+100000*replicate; terminal pending events can reduce count; first delayed stream also trained separately as an input-distribution control",
+    "uncertainty": "per-sequence paired descriptive differences and sequence resampling only; connected components unavailable, no campaign-valid confidence interval"
+  },
+  "tests": [
+    {
+      "id": "H1_anchor_prediction_persistence",
+      "hypothesis": "constant labels make current-input revision unnecessary within a6 intervals",
+      "comparison": "same fitted rowwise predictor: current versus true-anchor carried predictions; separate anchor-trained ridge checks distribution shift",
+      "matched_control": "same predictor carried at price anchors and five causal randomized-delay anchors with matched event count up to right censoring; separately trained first delayed-anchor model",
+      "rejection": "current predictor beats true-anchor carry by >0.01 mean WP and wins on >60% of evaluable sequences; this rejects hard persistence for this probe, not all models",
+      "inference": "current/past input features and cached predictions only"
+    },
+    {
+      "id": "H2_causal_reset_sufficiency",
+      "hypothesis": "fixed a6 threshold catches every target change without whole-sequence minimum",
+      "comparison": "count threshold misses and extras; contrast target changes missed by price anchors",
+      "matched_control": "price-change anchor detector using current/previous inputs",
+      "rejection": "one target transition missed by fixed threshold refutes exact sufficiency",
+      "inference": "current a6 and previous input state; targets used solely for offline audit"
+    }
+  ],
+  "notes": "No score-dependent tuning; any follow-up must be recorded separately before scoring. No claim of baseline improvement or independent confirmation."
+}

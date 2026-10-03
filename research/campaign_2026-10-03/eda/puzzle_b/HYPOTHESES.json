@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "status": "frozen_before_scoring",
+  "hypothesis": "Causal period4 or period6 event recurrence adds predictive information beyond current i0 state and event age; old negative may reflect target-conditioned routing or stride aliasing.",
+  "observed_prior": "Own old phase augmentation decreased t0/t1; periodic-only fits were worse. Scores were target-class conditioned and differently subsampled.",
+  "mechanisms": ["period4 state recurrence", "period6 state recurrence", "generic staleness", "sampling alias"],
+  "arms": ["raw", "age", "period4", "period6", "sham6"],
+  "features": "raw=i0_p0..21,i0_dp0..3; age adds log1p causal rows since i0 price event and causal event-rate EWMA; period arms add 6 clock features: sine/cos age, causal EWMA e[t]*e[t-P] minus neighboring recurrence, its sine/cos interactions, capped age/P. Sham uses row-time phase offset deterministically per sequence plus lag7 recurrence; same feature count as period6.",
+  "fit": "global ridge on clipped targets, train-only standardization, fixed penalty .01*n; no class/regime routing, no target or mask features; 32 train sequences, step7 main, step6 sensitivity; deterministic seed20261003",
+  "sample": "metadata-only draw of 32 train row groups at >=2100 if available, and 24 valid row groups. Valid is already partly exposed; global campaign novelty unknown. No selection by target scales.",
+  "evaluation": "every finite is_scored validation row with step>=99, pooled abs(clipped-target) weighted correlation each target then mean. Per-sequence paired differences descriptive only; no row-independent uncertainty. No connected-component confidence interval without controller provenance.",
+  "falsifier": "If both period arms have nonpositive mean delta against age, reject predictive usefulness for this fixed linear test. A positive needs >.005 mean delta, >=14/24 paired sequence wins and benefit beyond sham; otherwise inconclusive. Stride6-vs7 contrast diagnoses sensitivity, does not tune main fit.",
+  "causality_checks": "prefix features unchanged by future suffix mutation; features never read targets/seq_ix/is_scored; prefix features agree with truncated recomputation",
+  "limits": "proxy linear probe only; raw/global models can underfit, no baseline comparison, physical causality and sequence-component independence unknown",
+  "budget": "one core, 2GiB, <=15min per command, streaming row groups; no GPU",
+  "claim_status": "exploratory protocol; independent reproduction pending"
+}

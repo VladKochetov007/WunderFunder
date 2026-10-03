@@ -1,0 +1,183 @@
+{
+  "passed": true,
+  "evidence": "tiny exhaustive/analytic CPU math ONLY",
+  "fixed_graph_gradient": 10,
+  "independent": {
+    "outcomes": [
+      {
+        "b1": 0,
+        "b2": 0,
+        "probability": "1/4",
+        "q2": "1/2",
+        "gradient": "1"
+      },
+      {
+        "b1": 0,
+        "b2": 1,
+        "probability": "1/4",
+        "q2": "1/2",
+        "gradient": "7"
+      },
+      {
+        "b1": 1,
+        "b2": 0,
+        "probability": "1/4",
+        "q2": "1/2",
+        "gradient": "1"
+      },
+      {
+        "b1": 1,
+        "b2": 1,
+        "probability": "1/4",
+        "q2": "1/2",
+        "gradient": "31"
+      }
+    ],
+    "expectation": "10",
+    "variance": "153"
+  },
+  "dependent": {
+    "outcomes": [
+      {
+        "b1": 0,
+        "b2": 0,
+        "probability": "3/8",
+        "q2": "1/4",
+        "gradient": "1"
+      },
+      {
+        "b1": 0,
+        "b2": 1,
+        "probability": "1/8",
+        "q2": "1/4",
+        "gradient": "13"
+      },
+      {
+        "b1": 1,
+        "b2": 0,
+        "probability": "1/8",
+        "q2": "3/4",
+        "gradient": "1"
+      },
+      {
+        "b1": 1,
+        "b2": 1,
+        "probability": "3/8",
+        "q2": "3/4",
+        "gradient": "21"
+      }
+    ],
+    "expectation": "10",
+    "variance": "87"
+  },
+  "wrong_marginal": {
+    "outcomes": [
+      {
+        "b1": 0,
+        "b2": 0,
+        "probability": "3/8",
+        "q2": "1/4",
+        "gradient": "1"
+      },
+      {
+        "b1": 0,
+        "b2": 1,
+        "probability": "1/8",
+        "q2": "1/4",
+        "gradient": "7"
+      },
+      {
+        "b1": 1,
+        "b2": 0,
+        "probability": "1/8",
+        "q2": "3/4",
+        "gradient": "1"
+      },
+      {
+        "b1": 1,
+        "b2": 1,
+        "probability": "3/8",
+        "q2": "3/4",
+        "gradient": "31"
+      }
+    ],
+    "expectation": "13",
+    "variance": "198"
+  },
+  "unweighted": {
+    "outcomes": [
+      {
+        "b1": 0,
+        "b2": 0,
+        "probability": "1/4",
+        "q2": "1/2",
+        "gradient": "1"
+      },
+      {
+        "b1": 0,
+        "b2": 1,
+        "probability": "1/4",
+        "q2": "1/2",
+        "gradient": "4"
+      },
+      {
+        "b1": 1,
+        "b2": 0,
+        "probability": "1/4",
+        "q2": "1/2",
+        "gradient": "1"
+      },
+      {
+        "b1": 1,
+        "b2": 1,
+        "probability": "1/4",
+        "q2": "1/2",
+        "gradient": "10"
+      }
+    ],
+    "expectation": "4",
+    "variance": "27/2"
+  },
+  "clipping": {
+    "raw_mean": "1",
+    "expected_clip": "0",
+    "clip_of_mean": 1
+  },
+  "compensation_cap_mean": "1/2",
+  "normalization": {
+    "expected": [
+      0.8106339062590833,
+      0.24253562503633297
+    ],
+    "of_mean": [
+      0.7071067811865475,
+      0.7071067811865475
+    ]
+  },
+  "affine_positive_control": "5",
+  "gate_correlated_coefficient_bias": "1/2",
+  "inverse_hazard_autodiff": {
+    "surrogate_gradient": "0",
+    "detached_mean": "1"
+  },
+  "mixed_weight_graph": {
+    "mixed": 4,
+    "current": 5,
+    "local_detached": 2
+  },
+  "noncommuting_jacobian": {
+    "correct": 3,
+    "wrong": 4
+  },
+  "intentional_toy_fp16_overflow": {
+    "skipped": [
+      false,
+      true
+    ],
+    "raw_mean": 1,
+    "executed_mean": 0
+  },
+  "actor_reads": 0,
+  "actual_capture_reads": 0,
+  "training_or_score_claim": false
+}

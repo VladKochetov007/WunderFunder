@@ -1,0 +1,7 @@
+{
+  "scope": "independent descriptive-instrument code/algebra/schema review only",
+  "falsifiers": ["FP64 residual disagrees with independent tiny arithmetic oracle", "denominator/unused/cancellation semantics are misleading", "actual capture metadata cannot roundtrip through approval JSON", "numerical pre-metadata access violates metadata-only rule", "approval failure reaches capture load", "workspace or frozen preservation drift"],
+  "controls": ["tiny in-memory canonical parameter fixture", "JSON-compatible metadata positive control", "tiny tensor-valued metadata source-schema negative control", "streamed author/spec/provenance hash verification"],
+  "forbidden": ["actual captured gradient or prestate loads", "GPU/autograd/replay", "scientific acceptance/conflict/update/WP inference", "author edits"],
+  "resource": "run_cpu.sh reviewer onecore/2GiB/900s; active conversion workspace <=32MiB"
+}

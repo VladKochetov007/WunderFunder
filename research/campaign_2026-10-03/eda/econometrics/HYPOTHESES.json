@@ -1,0 +1,34 @@
+{
+  "status": "frozen_before_scoring",
+  "test_id": "ECO_CLOCK_01",
+  "observed_facts": [
+    "prior target ACF persistence",
+    "heterogeneous i0 price-event rates",
+    "all validation summary-exposed"
+  ],
+  "assumption": "causal price displacement relative to recent event history adds information beyond the current raw feature vector",
+  "mechanisms": [
+    "event-time price adaptation",
+    "ordinary row-time smoothing",
+    "stale-history nuisance"
+  ],
+  "arms": [
+    "raw 112 features",
+    "raw plus 22 row-clock EMA displacement columns",
+    "raw plus 22 event-clock EMA displacement columns",
+    "raw plus 22 causally delayed (4096 rows) event-clock displacement columns"
+  ],
+  "ema_alpha": 0.06060606060606061,
+  "fit": "target-specific abs(clipped target) weighted ridge; global training-only scaling; ridge 0.01 times mean weighted standardized diagonal; every tenth required row; no mask as input",
+  "sampling": "seed 610103; 48 train row groups excluding own lattice300, inferred ACF120(seed2), and train0; 24 uniformly sampled valid row groups; no label stratification",
+  "evaluation": "pool need_prediction AND is_scored; clip target and prediction +/-2; average target WP; report unscored-mask sensitivity and per-sequence paired deltas descriptively",
+  "falsifier": "event arm fails event-specific premise if it does not exceed row-clock control by 0.002 pooled WP, or loses on either target; retain negative result",
+  "causality": "all state resets at sequence boundary; current/past raw features only; prefix versus full feature parity check",
+  "provenance": "explicit IDs; all valid prior-exposed; exact sampled raw-row fingerprint overlap screening is incomplete, no chain confidence interval or independent replication claim",
+  "independently_reproduced_claims": [],
+  "followup_card": "HYPOTHESES_followup_frozen.json",
+  "primary_measured_result": "cache/continuation_results.json",
+  "followup_measured_result": "cache/continuation_hazard_results.json",
+  "verdict": "both frozen gates failed; exploratory target-specific candidate only",
+  "original_frozen_card": "HYPOTHESES_clock_frozen.json"
+}

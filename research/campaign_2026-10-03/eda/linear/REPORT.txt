@@ -1,0 +1,135 @@
+LINEAR ANALYST — BOUNDED CPU CONTINUATION
+Scope: own EDA only; no other analyst, baseline, model repository, GPU, install or commit.
+Original bias preserved: much signal may be linear after causal transformations, but
+this pass explicitly tests whether periodic phase preservation is a mistaken premise.
+
+RECOVERED PRIOR EVIDENCE
+RECOVERY_SUMMARY.txt contains the substantive preceding read-only pass and source links.
+eval_v1.json: levels WP0.597885; levels+D1 0.609492; levels+EMA32/256 0.648447;
+all blocks0.647377 (lambda0.0001). Earlier evaluation reused300 validation sequences.
+gram_v1.npz:400 train sequences; models_v1.npz retained all frozen coefficients.
+univariate.npz: several pooled correlations much larger than within-sequence medians.
+target_acf.npz/fig03: difference ACF peaks around lag8; not proof of a forecast horizon.
+Saved marimo session reports target-difference prediction correlation^2, not calibrated R2.
+Target sum/difference and within-sequence fits lack retained completed outputs.
+Earlier target-oracle routing underperformed pooled fitting; whole-sequence statistics
+are not causal inference features. Prior mask propensity overlapped evaluation in18 sequences.
+Original notebook preserved unchanged as eda_linear_prior.py; raw predecessor artifacts intact.
+
+FROZEN TEST AND SAMPLE PROVENANCE
+HYPOTHESES.json and cadence_manifest.json were written before scoring; SHA256 retained
+in cadence_results.json and cadence_provenance.json. Exact script hash is also frozen.
+128 training row groups sampled seed1732 from the already-exposed400;82,172 fit rows.
+64 validation row groups sampled seed1733 after excluding537 recoverable prior row groups.
+The exclusion union includes univariate/eval seed42 n300, ACF seed0 n60, mask seed3 n120,
+phase seed1 n40, difference fit seed7 n24, possibly unfinished sum/difference seed5 n40,
+and fixed probes/figures [0,1,2,3,500,1000]. Known own overlap is zero.
+Disjointness applies only to recoverable own samples; unrecorded/campaign exposure unknown.
+All exact row-group and seq_ix IDs, including old400 train and old537 validation IDs,
+are in cadence_manifest.json. Selected validation row groups (in evaluation order):
+249,1014,688,239,1133,708,547,79,1826,439,1532,1325,1353,268,341,270,
+72,883,440,949,528,1718,1660,263,895,1596,220,1435,1609,533,309,626,
+1575,1169,806,396,741,1052,29,352,1016,365,50,827,944,768,622,118,
+1293,1439,1341,32,1316,156,1870,1395,453,908,1461,425,82,1796,915,992.
+Illustrative figure sequence: row group249, seq_ix256224451, steps1000-1599.
+The context follow-up reused these64 now-exposed sequences; no independent claim.
+
+CAUSAL/MATCHED DESIGN
+All112 inputs in host numeric order; levels and two filtered copies,337 coefficients
+including intercept for each filtered model. Levels reference has113 coefficients.
+Same training rows/weights, fixed lambda0.001 RMS-normalized ridge, unpenalized intercept.
+Training stride31 is coprime to periods7/8, avoiding a constant sampled phase per sequence.
+Targets clipped +/-2; WLS weights abs(clipped target), separately per output.
+No mask-propensity training, target quantum routing, seq_ix feature or future statistics.
+Ordinary EMA: alpha1/32,1/256. Phase EMA: separate states for each row phase, with
+alpha_P=1-(1-alpha)^P to preserve elapsed-row decay; initialized at each phase's first row.
+Cycle8: trailing mean of8 rows, then ordinary EMAs; first-row padding during warm-up.
+Transforms process all20,000 rows, including warm-up/unscored rows; state resets per sequence.
+Score pools136,491 need_prediction AND is_scored rows across64 sequences, clips predictions
+and targets +/-2, weights abs(clipped target), averages the two global correlations.
+
+MEASURED RESULTS — MATCHED NEW FITS
+Model                 Global WP     t0          t1          Delta vs EMA
+Levels                0.545419      0.555935    0.534904    -0.029431
+Ordinary EMA          0.574850      0.582690    0.567011     0
+Phase8 EMA            0.562774      0.569374    0.556174    -0.012077
+Phase7 EMA placebo    0.563288      0.569940    0.556635    -0.011563
+Cycle8 then EMA       0.571912      0.579768    0.564057    -0.002938
+Phase8 retains58.97% of ordinary EMA's gain over levels.
+Frozen H1: reject phase8 as a practical replacement (deficit>=0.005).
+Frozen cadence-averaging dependence criterion met: phase8 deficit>=0.01, cycle deficit<0.005.
+But phase8 minus phase7=-0.000514: frozen H2 rejects a useful specific period8 advantage.
+Interpretation: dense smoothing is preferable; eight-phase preservation is not supported.
+This is NOT unique proof of deterministic8-row artifacts: phase7 also loses, and sparse
+sampling, aliasing, noisier estimates and response latency remain alternative mechanisms.
+Phase8 improves within-sequence mean WP on15/64 sequences, cycle8 on7/64.
+Leave-one-sequence-out pooled phase8 minus EMA stays[-0.014645,-0.010855]; cycle8 stays
+[-0.003464,-0.002834]. These are sensitivity ranges, NOT independence-based intervals.
+Diagnostic target difference corr lag8 means0.166705/0.161294 versus lag7 -0.030300/-0.039452;
+cadence varies substantially by sequence. Target diagnostics never enter inference.
+
+FROZEN CONTEXT FOLLOW-UP — NEGATIVE TRANSFER CHECK
+CONTEXT_HYPOTHESIS.json frozen after the primary results but before this follow-up scored.
+Archived400-sequence model scored on the same64 rows without fitting or selection:
+Levels lambda0.001 WP0.563139; EMA lambda0.001 WP0.591832; EMA lambda0.0001 WP0.593631.
+At same lambda, archived model beats new fit by0.016981, but loses0.055910 versus its
+old300-sample score0.647742. Smaller fit cannot solely explain the apparent score decrease.
+Old training stride unknown: this cannot isolate training-count causally.
+Target-quantum class sequence counts16,10,10,28 (diagnostic only).
+Archived same-lambda EMA class-pooled WP0.708815,0.626933,0.529357,0.335583.
+Corresponding levels0.649778,0.558648,0.527970,0.337377: EMA adds essentially nothing
+in class2 and slightly loses in class3. Class3 supplies76,826/136,491 scored rows and
+approximately54-57% of target weight. Within-class scores also fall versus old sample.
+Contradiction to an overly broad linear-memory story: aggregate benefit is heterogeneous;
+activity-conditioned interactions or a different target mechanism deserve priority.
+Do not use target-derived quantum as an inference feature or infer hidden regime labels.
+
+VERIFICATION, FIGURES AND COST
+cadence_parity.json: independent online versus batch transforms exactly agree (float32)
+on600 rows; extending input prefix leaves all past features unchanged for all5 variants.
+cadence_audit.json: reported scores reconstructed from saved sufficient moments;
+independent centered arithmetic agrees within1e-12; frozen manifest/hypothesis hashes match.
+fig05_cadence_comparison.png, fig06_cadence_prediction_example.png and
+fig07_archived_model_stability.png were opened and visually inspected after rendering.
+fig06 is illustrative, not selected for high performance; its regime can be poorly predicted.
+Primary fit/evaluation67.7 seconds; context7.8 seconds; streamed one sequence at a time.
+Every CPU command used continuation/run_cpu.sh eda-linear; CUDA unavailable, one core,
+2GiB scope,15-minute ceiling. No resource or computation failure occurred.
+No campaign confidence interval: connected-component deduplication unavailable in clean room.
+
+RANKED NEXT DIRECTIONS — PROPOSALS, NOT SCORED IMPROVEMENTS
+1. Small activity-conditioned linear interactions (outside constant-coefficient bias).
+Mechanism: memory benefit varies with current liquidity/activity/representation regime.
+Cheapest test: a few EMA signals multiplied by causal change-rate/variance summaries.
+Control: pooled ridge plus equal-count ordinary features; same frozen rows and penalty.
+Reject if component-paired pooled gain fails0.003 or is confined to one exposed class.
+Inference: running input-only moments, never target quantum/full-sequence summaries.
+2. Dense memory with separate innovation channel, avoiding phase splitting.
+Mechanism: smooth state plus current innovations separate transient noise and persistent pressure.
+Test: add only selected current-minus-EMA inputs; compare equal-size alternative EMA bank.
+Reject absent held-out global gain; match response delay before attributing noise suppression.
+Inference: fixed EMA states and current input; no look-ahead or persistent cross-sequence state.
+3. Finish target sum/difference mechanism diagnostic, not merely rotate outputs.
+Mechanism: anticorrelation may separate current book state from harder opposing movement.
+Test component-specific residual lag structure on sequence-separated training/evaluation.
+Control: identical unrestricted output rotation; rotation alone cannot produce model capacity.
+Reject absent component-specific stable structure or benefit from different filters.
+Inference: independently predicted components reconstructed into targets, no observed targets/q.
+4. Incremental i1 innovations after i0 pressure and memory.
+Mechanism: asynchronous cross-instrument information, rather than own-book history alone.
+Test small causal lagged-i1 residual features; equal-size i0 lags and shifted-i1 placebo.
+Reject no pooled gain or placebo matching effect. Inference: bounded same-sequence buffers.
+
+ARTIFACTS AND REPRODUCTION
+cadence_probe.py prepare/run/render (guards frozen results against accidental replacement);
+cadence_context.py fixed archived-model evaluation; finish_linear.py result-only audit/plots.
+All commands use: research/campaign_2026-10-03/continuation/run_cpu.sh eda-linear COMMAND...
+Fit command: .venv/bin/python -B research/campaign_2026-10-03/eda/linear/cadence_probe.py run
+Frozen numerical artifacts: cadence_grams.npz, cadence_models.npz, cadence_eval_moments.npz,
+cadence_example.npz, cadence_context_moments.npz, cadence_results.json/cadence_context_results.json.
+Logs: cadence_prepare.log/run.log/context.log/render.log/finish.log/notebook_export.log.
+eda_linear.py is updated runnable marimo, reading only saved results; eda_linear.html is
+its successfully executed headless export. No server was launched; predecessor notebook retained.
+cadence_provenance.json records source/result/figure hashes; STATE.json records commands and IDs.
+Public/strong-baseline improvement is untested; controller must deduplicate and reproduce.
+Next bounded experiment: input-only activity interaction with a matched pooled ridge control.

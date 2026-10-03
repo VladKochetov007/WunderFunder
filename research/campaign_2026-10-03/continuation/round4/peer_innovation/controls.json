@@ -1,0 +1,425 @@
+{
+  "passed": true,
+  "seed": 614404,
+  "positive": {
+    "gate_passed": true,
+    "fit_components": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "test_components": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "fit_queries": 192,
+    "test_queries": 96,
+    "input_only_effective_df_target": 16,
+    "geometry": [
+      {
+        "arm": "base",
+        "columns": 726,
+        "numerical_rank": 191,
+        "effective_df": 16.000000000000007,
+        "intercept_df": 1,
+        "lambda_": 0.025023021016802642,
+        "fit_queries": 192,
+        "test_queries": 96,
+        "train_component_balanced_mse": 0.18963740610949942,
+        "hat_frobenius_from_base": 0.0,
+        "coefficient_l2": 5.8859162470138
+      },
+      {
+        "arm": "base_plus_peer",
+        "columns": 727,
+        "numerical_rank": 191,
+        "effective_df": 16.0,
+        "intercept_df": 1,
+        "lambda_": 0.03376775746160027,
+        "fit_queries": 192,
+        "test_queries": 96,
+        "train_component_balanced_mse": 0.007279814476626873,
+        "hat_frobenius_from_base": 0.9849587144066774,
+        "coefficient_l2": 1.9831283862199416
+      },
+      {
+        "arm": "base_plus_shifted_peer",
+        "columns": 727,
+        "numerical_rank": 191,
+        "effective_df": 16.00000000000001,
+        "intercept_df": 1,
+        "lambda_": 0.03376168731258347,
+        "fit_queries": 192,
+        "test_queries": 96,
+        "train_component_balanced_mse": 0.19170586641197848,
+        "hat_frobenius_from_base": 0.9843871543571071,
+        "coefficient_l2": 4.537542482227149
+      }
+    ],
+    "arm_test_component_mse": {
+      "base": 0.19897981467952286,
+      "base_plus_peer": 0.009944605909391656,
+      "base_plus_shifted_peer": 0.1996849200904223
+    },
+    "contrasts": {
+      "base": {
+        "relative_improvement": 0.9500220365296427,
+        "mse_reduction": 0.1890352087701312,
+        "paired_component95_interval": [
+          0.15512866663254693,
+          0.21951584677171812
+        ],
+        "positive_components": 8
+      },
+      "base_plus_shifted_peer": {
+        "relative_improvement": 0.9501985132132738,
+        "mse_reduction": 0.18974031418103063,
+        "paired_component95_interval": [
+          0.15519267586534943,
+          0.22036536238468263
+        ],
+        "positive_components": 8
+      }
+    },
+    "input_freshness_strata": [
+      {
+        "stratum": "peer_age0",
+        "queries": 48,
+        "components": 8,
+        "adequate": true,
+        "mse": [
+          0.21308015900551874,
+          0.009767447804997,
+          0.21426938942050885
+        ],
+        "peer_mse_reductions": [
+          0.20331271120052175,
+          0.20450194161551186
+        ]
+      },
+      {
+        "stratum": "peer_age1+",
+        "queries": 48,
+        "components": 8,
+        "adequate": true,
+        "mse": [
+          0.1848794703535269,
+          0.010121764013786316,
+          0.18510045076033566
+        ],
+        "peer_mse_reductions": [
+          0.17475770633974058,
+          0.17497868674654934
+        ]
+      }
+    ],
+    "per_test_component": [
+      {
+        "component": 16,
+        "mse": [
+          0.18279292947192072,
+          0.007809649957098298,
+          0.18390575875957224
+        ]
+      },
+      {
+        "component": 17,
+        "mse": [
+          0.12503295035369633,
+          0.006126983952842059,
+          0.12332045663951045
+        ]
+      },
+      {
+        "component": 18,
+        "mse": [
+          0.28615819000046505,
+          0.008532893502374708,
+          0.28782859603859784
+        ]
+      },
+      {
+        "component": 19,
+        "mse": [
+          0.2228890495953925,
+          0.012435212898484834,
+          0.22560780205341804
+        ]
+      },
+      {
+        "component": 20,
+        "mse": [
+          0.19737971129281864,
+          0.008035737367096379,
+          0.19809671448500288
+        ]
+      },
+      {
+        "component": 21,
+        "mse": [
+          0.1927652251128442,
+          0.014256299119475109,
+          0.1925699642225096
+        ]
+      },
+      {
+        "component": 22,
+        "mse": [
+          0.23310382600877688,
+          0.0070954894816396,
+          0.2333905768878888
+        ]
+      },
+      {
+        "component": 23,
+        "mse": [
+          0.15171663560026827,
+          0.015264580996122273,
+          0.15275949163687838
+        ]
+      }
+    ],
+    "target_summary": {
+      "fit_mean": -0.042991153611239986,
+      "fit_sd": 0.8829012097280912,
+      "test_mean": -0.1771675084501166,
+      "test_sd": 0.7853523895925569,
+      "test_zero_fraction": 0.0,
+      "test_max_abs": 2.3576669941792185
+    },
+    "peer_shift_fit_correlation": -0.002728355811460798,
+    "edf_control_max_abs": 1.0658141036401503e-14,
+    "uncertainty": "1000 paired test-component draws conditional on exposed fixedpanel/split; no rowIID or population gain",
+    "null_hypothesis_scope": "no useful addition for this fixed ridge protocol/observable, not complete conditional information"
+  },
+  "negative": {
+    "gate_passed": false,
+    "fit_components": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "test_components": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "fit_queries": 192,
+    "test_queries": 96,
+    "input_only_effective_df_target": 16,
+    "geometry": [
+      {
+        "arm": "base",
+        "columns": 726,
+        "numerical_rank": 191,
+        "effective_df": 16.000000000000007,
+        "intercept_df": 1,
+        "lambda_": 0.025023021016802642,
+        "fit_queries": 192,
+        "test_queries": 96,
+        "train_component_balanced_mse": 0.0081101822197455,
+        "hat_frobenius_from_base": 0.0,
+        "coefficient_l2": 4.509417609335803
+      },
+      {
+        "arm": "base_plus_peer",
+        "columns": 727,
+        "numerical_rank": 191,
+        "effective_df": 16.0,
+        "intercept_df": 1,
+        "lambda_": 0.03376775746160027,
+        "fit_queries": 192,
+        "test_queries": 96,
+        "train_component_balanced_mse": 0.008143245924715286,
+        "hat_frobenius_from_base": 0.9849587144066774,
+        "coefficient_l2": 4.451185728666621
+      },
+      {
+        "arm": "base_plus_shifted_peer",
+        "columns": 727,
+        "numerical_rank": 191,
+        "effective_df": 16.00000000000001,
+        "intercept_df": 1,
+        "lambda_": 0.03376168731258347,
+        "fit_queries": 192,
+        "test_queries": 96,
+        "train_component_balanced_mse": 0.008184995408953575,
+        "hat_frobenius_from_base": 0.9843871543571071,
+        "coefficient_l2": 4.452307605786649
+      }
+    ],
+    "arm_test_component_mse": {
+      "base": 0.012078307256302068,
+      "base_plus_peer": 0.012340612100886363,
+      "base_plus_shifted_peer": 0.01208463864893437
+    },
+    "contrasts": {
+      "base": {
+        "relative_improvement": -0.021717020358745343,
+        "mse_reduction": -0.0002623048445842945,
+        "paired_component95_interval": [
+          -0.000516001978349928,
+          -6.882369425801288e-05
+        ],
+        "positive_components": 0
+      },
+      "base_plus_shifted_peer": {
+        "relative_improvement": -0.02118172163754073,
+        "mse_reduction": -0.0002559734519519928,
+        "paired_component95_interval": [
+          -0.0005384768183517952,
+          -2.0542439253282297e-05
+        ],
+        "positive_components": 2
+      }
+    },
+    "input_freshness_strata": [
+      {
+        "stratum": "peer_age0",
+        "queries": 48,
+        "components": 8,
+        "adequate": true,
+        "mse": [
+          0.013814950876221244,
+          0.014492172421439636,
+          0.01383572664237011
+        ],
+        "peer_mse_reductions": [
+          -0.0006772215452183917,
+          -0.0006564457790695262
+        ]
+      },
+      {
+        "stratum": "peer_age1+",
+        "queries": 48,
+        "components": 8,
+        "adequate": true,
+        "mse": [
+          0.01034166363638289,
+          0.010189051780333087,
+          0.010333550655498635
+        ],
+        "peer_mse_reductions": [
+          0.00015261185604980264,
+          0.00014449887516554752
+        ]
+      }
+    ],
+    "per_test_component": [
+      {
+        "component": 16,
+        "mse": [
+          0.011118586162242643,
+          0.011744971134589721,
+          0.011124319965642353
+        ]
+      },
+      {
+        "component": 17,
+        "mse": [
+          0.006419410139495627,
+          0.006465585701037437,
+          0.006447154717786577
+        ]
+      },
+      {
+        "component": 18,
+        "mse": [
+          0.010773521653300202,
+          0.010915057020244971,
+          0.010705833355111253
+        ]
+      },
+      {
+        "component": 19,
+        "mse": [
+          0.01620037364753586,
+          0.016330897627806363,
+          0.01615709377540279
+        ]
+      },
+      {
+        "component": 20,
+        "mse": [
+          0.007148864410886697,
+          0.00812655606752217,
+          0.007053434187532387
+        ]
+      },
+      {
+        "component": 21,
+        "mse": [
+          0.015648344084034548,
+          0.015755256632554063,
+          0.015616966413036051
+        ]
+      },
+      {
+        "component": 22,
+        "mse": [
+          0.02297215907325291,
+          0.02298246824335809,
+          0.023159912839886956
+        ]
+      },
+      {
+        "component": 23,
+        "mse": [
+          0.0063451988796680535,
+          0.006404104379978082,
+          0.0064123939370766036
+        ]
+      }
+    ],
+    "target_summary": {
+      "fit_mean": -0.23345583197517406,
+      "fit_sd": 1.9981314555193048,
+      "test_mean": -0.2783484477012486,
+      "test_sd": 1.8585488195592226,
+      "test_zero_fraction": 0.0,
+      "test_max_abs": 6.1047030769164214
+    },
+    "peer_shift_fit_correlation": -0.002728355811460798,
+    "edf_control_max_abs": 1.0658141036401503e-14,
+    "uncertainty": "1000 paired test-component draws conditional on exposed fixedpanel/split; no rowIID or population gain",
+    "null_hypothesis_scope": "no useful addition for this fixed ridge protocol/observable, not complete conditional information"
+  },
+  "scope": "same726dimension block-balanced fit protocol; peer from causal EMA16 and256rowshift; known observable-proxy signal/absent signal, not market realism"
+}

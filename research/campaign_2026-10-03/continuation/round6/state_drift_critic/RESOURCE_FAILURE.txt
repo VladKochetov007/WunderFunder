@@ -1,0 +1,9 @@
+The experiment command completed successfully and wrote results.json/run.log.
+The subsequent artifact-freeze command was rejected by run_cpu.sh before execution:
+exit 75: resource failure needs review.
+The shared RESOURCE_FAILURE barrier was neither read for unrelated findings nor
+cleared. No retry. HASHES.json was not created; freeze.py is runnable after controller
+resource review. PREREG pretest hash and inspected source hashes are already in
+results.json. Premortem text and STATE are frozen; final whole-directory hash
+manifest remains pending. This is a shared admission failure, not an observed OOM
+in this tiny scalar experiment.

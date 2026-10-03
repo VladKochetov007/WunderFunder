@@ -1,0 +1,64 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/opt2/probe.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | import argparse
+ 4 | | import json
+ 5 | |
+ 6 | | import torch
+ 7 | |
+ 8 | | from wnn.nn import RNNModel
+ 9 | | from wnn.optim import MuonAdamW, muon_param_groups
+10 | |
+11 | | from training_dynamics import Dynamics, add_arguments, build_optimizer, build_scheduler
+   | |_______________________________________________________________________________________^
+help: Organize imports
+   |
+6  | import torch
+7  + from training_dynamics import Dynamics, add_arguments, build_optimizer, build_scheduler
+8  |
+9  | from wnn.nn import RNNModel
+10 | from wnn.optim import MuonAdamW, muon_param_groups
+   -
+   - from training_dynamics import Dynamics, add_arguments, build_optimizer, build_scheduler
+11 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-03/opt2/test_training_dynamics.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | import math
+ 4 | |
+ 5 | | import numpy as np
+ 6 | | import pytest
+ 7 | | import torch
+ 8 | | from torch import nn
+ 9 | |
+10 | | from wnn.nn import RNNModel
+11 | |
+12 | | from probe import fit, options, parity
+13 | | from sampling import EpochOrderSampler, init_qmc_, input_strata, stratified_order
+14 | | from training_dynamics import Dynamics, build_optimizer, build_scheduler, parse_switch, sgdr_lambda
+   | |___________________________________________________________________________________________________^
+help: Organize imports
+   |
+7  | import torch
+   - from torch import nn
+   -
+   - from wnn.nn import RNNModel
+   -
+8  | from probe import fit, options, parity
+9  | from sampling import EpochOrderSampler, init_qmc_, input_strata, stratified_order
+10 + from torch import nn
+11 | from training_dynamics import Dynamics, build_optimizer, build_scheduler, parse_switch, sgdr_lambda
+12 |
+13 + from wnn.nn import RNNModel
+14 +
+15 |
+   |
+
+Found 2 errors.
+[*] 2 fixable with the `--fix` option.

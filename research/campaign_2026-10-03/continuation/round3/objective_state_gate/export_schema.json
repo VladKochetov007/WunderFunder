@@ -1,0 +1,163 @@
+{
+  "inspection": "FakeTensorMode metadata-only; no model forward or tensor-value reads",
+  "checkpoint": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+  "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+  "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+  "checkpoint_keys": [
+    "args",
+    "epoch",
+    "model",
+    "n_in",
+    "provenance",
+    "readout",
+    "readout_tilted"
+  ],
+  "model_tensor_schema": {
+    "mean": {
+      "shape": [
+        211
+      ],
+      "dtype": "torch.float32"
+    },
+    "std": {
+      "shape": [
+        211
+      ],
+      "dtype": "torch.float32"
+    },
+    "inp.weight": {
+      "shape": [
+        256,
+        211
+      ],
+      "dtype": "torch.float32"
+    },
+    "inp.bias": {
+      "shape": [
+        256
+      ],
+      "dtype": "torch.float32"
+    },
+    "gru.weight_ih_l0": {
+      "shape": [
+        768,
+        256
+      ],
+      "dtype": "torch.float32"
+    },
+    "gru.weight_hh_l0": {
+      "shape": [
+        768,
+        256
+      ],
+      "dtype": "torch.float32"
+    },
+    "gru.bias_ih_l0": {
+      "shape": [
+        768
+      ],
+      "dtype": "torch.float32"
+    },
+    "gru.bias_hh_l0": {
+      "shape": [
+        768
+      ],
+      "dtype": "torch.float32"
+    },
+    "gru.weight_ih_l1": {
+      "shape": [
+        768,
+        256
+      ],
+      "dtype": "torch.float32"
+    },
+    "gru.weight_hh_l1": {
+      "shape": [
+        768,
+        256
+      ],
+      "dtype": "torch.float32"
+    },
+    "gru.bias_ih_l1": {
+      "shape": [
+        768
+      ],
+      "dtype": "torch.float32"
+    },
+    "gru.bias_hh_l1": {
+      "shape": [
+        768
+      ],
+      "dtype": "torch.float32"
+    },
+    "head.0.weight": {
+      "shape": [
+        256,
+        512
+      ],
+      "dtype": "torch.float32"
+    },
+    "head.0.bias": {
+      "shape": [
+        256
+      ],
+      "dtype": "torch.float32"
+    },
+    "head.2.weight": {
+      "shape": [
+        23,
+        256
+      ],
+      "dtype": "torch.float32"
+    },
+    "head.2.bias": {
+      "shape": [
+        23
+      ],
+      "dtype": "torch.float32"
+    }
+  },
+  "epoch": 3,
+  "n_in": 211,
+  "args_selected": {
+    "eval_ema": true,
+    "ema_teacher": 1.0,
+    "ema_decay": 0.999,
+    "optim": "muon",
+    "fast": true,
+    "loss": "wmse",
+    "loss_norm": "chunk",
+    "distill_alpha": 0.5,
+    "distill_boot_h": 8,
+    "aux_struct": 0.3,
+    "aux_next": 0.3,
+    "clip": 1.0
+  },
+  "provenance_keys": [
+    "args",
+    "checkpoint_sha256",
+    "cumulative_updates",
+    "evaluation_row_groups",
+    "fit_membership_identity",
+    "fit_row_groups",
+    "fitting_seconds",
+    "normalization_identity",
+    "propensity_checkpoint_sha256",
+    "run_identity_source_sha256",
+    "seed",
+    "selected_epoch",
+    "split_manifest_sha256",
+    "update_counter_implementation",
+    "update_diagnostics"
+  ],
+  "exact_replay_admitted": false,
+  "missing_inputs": [
+    "raw student paired with lagged EMA at same pre-forward instant",
+    "optimizer implementation/groups/current learning rates/moments/step ages",
+    "detached incoming h and h_ema with TBPTT history",
+    "exact chunk inputs/labels/weights/cached teacher values and identities",
+    "RNG, scaler, scheduler phase and attempted/completed step clocks at that instant"
+  ],
+  "selection_clause": "train_rnn.checkpoint_model returns ema_model.module when eval_ema; otherwise SWA/raw",
+  "caveat": "export may contain evaluation EMA weights, but not paired raw/lagged EMA and state history; parity-dump separately can store raw+EMA weights, still insufficient alone"
+}

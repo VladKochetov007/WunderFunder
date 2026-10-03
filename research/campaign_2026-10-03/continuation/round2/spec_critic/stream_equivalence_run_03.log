@@ -1,0 +1,101 @@
+{
+  "status": "passed narrow CPU callable checks",
+  "torch_version": "2.14.0+cu130",
+  "sample": [
+    {
+      "row_group": 4,
+      "seq_ix": 1990332,
+      "component": 2799,
+      "prefix_steps": [
+        0,
+        255
+      ],
+      "need_prediction_count": 157,
+      "raw_float32_sha256": "58c081ba98a8c2f7fe5895b938ac57c76ee468476ebb79654d6c520a9448c628"
+    },
+    {
+      "row_group": 5,
+      "seq_ix": 2308749,
+      "component": 2800,
+      "prefix_steps": [
+        0,
+        255
+      ],
+      "need_prediction_count": 157,
+      "raw_float32_sha256": "36d4774e97990d8091e1b2bdecec85b7a06f1859ebd5f14bfa804e4ff81a9bb7"
+    }
+  ],
+  "checkpoint_sha256": "f92504fbbbcf956a44e70aa3f7a08825d903b9c6a6cacce7bd9f89b6875fcad8",
+  "source_sha256": {
+    "scripts/predict_run.py": "e56396948cf65f5a8ba6ecbb53040c2c971c3d985ef569e88b6ee0d5c7632f21",
+    "scripts/train_rnn.py": "1d6b059d9880e0befb7b2c6251c7ae6ac9791d0bb0f5cd35dd8e4930cf189ef5",
+    "src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "src/wnn/splits.py": "dfe1768828bec3172eb2bf84bfcb952a01e7eaef45d4ffd0d8c42a91d8e679ab",
+    "src/wnn/event_content.py": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+    "src/wnn/resources.py": "ac607a58b6d0b87da9cc0587d6e930deb0cca13887d2c4619247331e9b927413"
+  },
+  "precomputed_feature_sha256": "3766a806df94be77b25e8d9ced6fb1ef40e484034688ebdbe8973d2d56f1c88f",
+  "dtype": "CPU float32; predict CUDA autocast disabled on CPU",
+  "checks": {
+    "identity_repeat_max_abs": 0.0,
+    "model_atol": 0.00020519331155810505,
+    "partition_max_abs": {
+      "256": 0.0,
+      "64": 0.0,
+      "127": 6.67572021484375e-06
+    },
+    "final_state_partition_max_abs": {
+      "256": 0.0,
+      "64": 0.0,
+      "127": 7.748603820800781e-07
+    },
+    "batch_reorder_max_abs": 0.0,
+    "pause_replay_max_abs": 0.0,
+    "suffix_feature_prefix_max_abs": 0.0,
+    "suffix_prediction_prefix_max_abs": 0.0,
+    "predict_helper_cpu_warnings": [
+      "CUDA is not available or torch_xla is imported. Disabling autocast."
+    ],
+    "predict_helper_vs_precomputed_max_abs": {
+      "256": 0.0,
+      "64": 0.0,
+      "127": 4.76837158203125e-07
+    },
+    "predict_helper_call_reorder_max_abs": 0.0,
+    "missing_model_reset_negative_control_max_abs": 14.729791641235352,
+    "negative_control_detected": true,
+    "streaming_feature_max_abs": 0.0,
+    "streaming_feature_identity_max_abs": 0.0,
+    "streaming_feature_atol": 9.5367431640625e-07,
+    "streaming_pause_replay_max_abs": 0.0,
+    "missing_feature_reset_negative_control_max_abs": 2.1891510486602783,
+    "streaming_suffix_prefix_max_abs": 0.0
+  },
+  "protected_artifacts_unchanged": true,
+  "excluded": "GPU/FP16/native/compiled/deployed callback, full sequences, WP and predictive information"
+}
+	Command being timed: ".venv/bin/python research/campaign_2026-10-03/continuation/round2/spec_critic/stream_equivalence_check.py"
+	User time (seconds): 3.72
+	System time (seconds): 0.50
+	Percent of CPU this job got: 98%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:04.27
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1085412
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 171105
+	Voluntary context switches: 67
+	Involuntary context switches: 97
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 416
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

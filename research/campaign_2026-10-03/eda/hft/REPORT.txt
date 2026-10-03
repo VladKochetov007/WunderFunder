@@ -1,0 +1,170 @@
+HFT INDEPENDENT CONTINUATION — frozen bounded CPU probes
+Directory: research/campaign_2026-10-03/eda/hft/
+All new computation used continuation/run_cpu.sh eda-hft; CUDA unavailable,
+one core, 2 GiB scope, <=15 minutes per command. No installs, GPU, baseline,
+other analysts, commits or writes outside this directory (apart from the
+mandated wrapper's own admission/log bookkeeping). No server was launched.
+
+RECOVERED EVIDENCE AND ITS LIMITS
+RECOVERY_SUMMARY.txt preserves the preceding read-only pass. NOTES.txt,
+scan_seq.csv, decode_eval_rows.parquet and figs03/04/05 were its evidence.
+Four target quanta and repeated transformed price states were established on
+exposed samples. Dense mixing, relative-price normalization and taker-PnL
+identities were hypotheses. The original decoder uses target jumps as quote
+labels and -(t0+t1)/q as spread labels. It is not verified physical decoding.
+The old oracle-q reversion feature had WP -0.1884/-0.2174 at span100, and
+11.67% of saved scored rows had negative implied spread. Regime accuracy logs
+and a completed final report were absent. i1 lead-lag/trade signs unfinished.
+
+FREEZING AND PROVENANCE
+HYPOTHESES.json froze H1/H2 before new targets were read. HYPOTHESES_H3.json
+froze a follow-up on a different cohort after H2 suggested a regime-offset
+confound. No features, spans, parameters or signs were tuned on new scores.
+sampling_manifest.json reconstructs conservative prior exposure from OWN
+scripts: all valid multiples of 7,9,23,37,47 plus 0,1,2,3,74,111,555.
+It includes all 300 previously exposed TRAIN regime rows and the 60 decoder
+TRAIN rows reconstructed from old script seed0. The decoder blob itself does
+not authenticate those training IDs; the old run log is missing.
+No new raw TRAIN scan: the new scale classifier fits ONLY the saved 300 TRAIN
+T=100 prefix rows. Earlier VALID rows in that table are excluded from fitting.
+Quantum constants/hypotheses were informed by prior exposed validation.
+Both new VALID cohorts avoid our documented prior exposure and each other.
+They are not necessarily new to the whole campaign or statistically independent.
+Selection uses two fixed row-group windows, not a representative random sample.
+Connected components across sequences are unknown; no row-level p-values or
+independent-sequence confidence interval is claimed.
+
+H1/H2 VALID row groups (20; 400000 total rows; 38294 scored):
+1300,1301,1303,1304,1306,1307,1308,1310,1312,1313,1315,1317,1318,1319,
+1320,1321,1322,1324,1325,1326.
+Corresponding seq_ix, in that order:
+1504787232,1505042874,1507151085,1507585473,1509378579,1509493298,
+1511819799,1512469314,1514024012,1514786783,1516390233,1517089776,
+1517139753,1518219275,1519712605,1521724699,1522777049,1525527582,
+1526331554,1529425274.
+Diagnostic quantum counts: 7/3/4/6 for q~.125/.241/.469/.657.
+
+H3 VALID row groups (12; 240000 total rows; 22464 scored):
+1401,1402,1405,1408,1409,1411,1412,1415,1416,1417,1418,1419.
+Corresponding seq_ix:
+1610080115,1610620978,1613882143,1615095265,1616014551,1617690213,
+1617951941,1625294940,1625502575,1626128034,1626422788,1629801627.
+Diagnostic quantum counts: 3/0/3/6. H3 cannot assess q~.241 behavior.
+See both sampling manifests for exact ownership overlap and artifact hashes.
+
+H1 — EXACT QUOTE IDENTITIES: REJECTED; STATISTICAL STRUCTURE SURVIVES
+Script: probe_quote_identity.py. Outputs: quote_identity_v1.csv/.log,
+quote_identity_summary_v1.json, quote_identity_witnesses_v1.json.
+Target quantum extraction is diagnostic only; max tick-grid residual <6e-6.
+14.7405% of all rows have negative -(t0+t1)/q. Repeated current-state modal
+agreement with this sum is 66.2306%, versus 43.1938% under 20 matched
+within-sequence/trade-change-mask shuffles. All 20 sequences fail the frozen
+shared-reference physical-spread criteria (negative fraction >.1% or modal
+disagreement >1%). Saved witnesses give identical price vectors/different sums.
+For transitions observed >=5 times, joint target-jump agreement is 91.5706%
+on 104574 covered events, versus 41.2325% under 20 shuffles within sequence
+and event-side mask. 15/20 fail the frozen 99% exact-transition threshold.
+The largest-quantum transitions are often >99% pure; this association is useful
+even though cumulative increments must not be described as actual quote prices.
+Three target changes occur on 268299 no-price-change rows: the old claim that
+target changes occur ONLY with book prices is almost, but not exactly, true.
+Opposite-side target changes on single-side book events are almost absent.
+These facts are compatible with quote-linked labels and distinct future
+references. They do not identify physical spread, instrument, horizon or ticks.
+Modal purity is a retrospective diagnostic, not an out-of-sample decoder score.
+The shuffle does not preserve serial dependence; use it as a matched marginal
+control, not as a significance test. State IDs use full-sequence equality only
+for diagnostics; they never enter H2/H3 inference.
+
+H2 — CAUSAL SIGN AND SCALE: NO UNIVERSAL RULE
+Script: probe_causal_sign_scale.py; outputs causal_sign_scale_v1.csv/.log,
+causal_sign_scale_summary_v1.json, warmup_scale_model_v1.pkl and its training
+manifest. Classifier: HGB max_iter80, max_leaf_nodes7, l2=1, random_state19.
+Input prefix features exactly match the old T=100 definitions. row99 is the
+first required prediction, so rows0..99 are available. No target/seq_ix/mask
+is passed to predict_inputs. q_est is the class-probability-weighted quantum
+and stays fixed from row99. The fixed control scale is TRAIN mean 0.4790069.
+The old decoder uses current/previous i0 price vectors; cumulative state resets
+per sequence. Displacement is decoded midpoint minus causal EMA at span20/100.
+Momentum predicts [displacement,-displacement]; reversion negates it.
+All 20 diagnostic classes were correct; full versus first512-row decoder/EMA
+outputs matched exactly (maximum error 0). No oracle q enters predictions.
+Exact pooled clipped WP (t0 / t1 / mean), need_prediction AND is_scored:
+spread_estimated     .428664 / .205617 / .317140
+spread_fixed         .071666 /-.000659 / .035503
+momentum20_estimated .289955 / .238689 / .264322
+momentum20_fixed     .353107 / .304267 / .328687
+momentum100_estimated .319337 / .268585 / .293961
+momentum100_fixed    .370217 / .316271 / .343244
+Matched reversion scores are exactly the negatives of momentum scores.
+Estimated-scale momentum100 mean WP by diagnostic quantum:
+q~.125 .421644; q~.241 .315276; q~.469 .338593; q~.657 -.057052.
+Thus universal continuation is rejected by a material regime sign reversal;
+universal reversion fails pooled performance. Correct tick-scale identification
+helps the spread proxy but H2 rejects its universal usefulness for momentum
+amplitude. These standalone scores are not baseline improvements.
+
+H3 — CURRENT SPREAD VERSUS CAUSAL CONSTANTS: NEGATIVE INCREMENT
+Script: probe_spread_ablation.py. Outputs spread_ablation_v1.csv/.log and
+spread_ablation_summary_v1.json. Uses unchanged fitted scale and old decoder.
+Current prediction: [-q_est*spread_t/2, same]. Matched controls: [-q_est/2,
+same] and spread frozen to its rows0..99 mean. All are inference-available.
+Scale classifier again gets 12/12 diagnostic classes correct.
+Exact pooled clipped WP (t0 / t1 / mean):
+current_spread .301349 / .266754 / .284052
+regime_only    .324396 / .309999 / .317197
+warmup_spread  .321337 / .295856 / .308596
+Increment over the stronger control: -.033146. Median within-regime increment
+is +.003211, below convincing evidence despite q~.125 improvement. Frozen
+material-current-book hypothesis is rejected by the pooled increment criterion.
+This separates predictive proxy value from a physical-spread story: much of the
+pooled association can be achieved with causal regime constants. It does not
+prove all spread or order-book information is useless.
+
+RANKED NEXT DIRECTIONS (HYPOTHESES, NOT RUN IN THIS PASS)
+1. Regime means and prediction calibration before more physical decoding.
+   Mechanism: pooled weighted correlation rewards between-regime target means
+   and amplitudes; H3's regime constant already explains substantial association.
+   Cheapest test: TRAIN-only regime intercepts and separate momentum amplitudes
+   versus pooled intercept/amplitude, then freeze on a new balanced cohort.
+   Control: same features/rows, intercepts pooled; reject if component-aware
+   pooled WP gain disappears. Inference: input-prefix class probabilities only.
+2. Regime-conditioned continuation versus flicker reversion.
+   Mechanism: informed-flow persistence in small-quanta regimes, alternation in
+   the largest quantum. Test TRAIN-fitted sign/gain per regime at frozen EMA
+   spans20/100 versus a common sign; evaluate new own-unseen groups, not H2.
+   Match scale, decoder, rows and model capacity. Reject if regime interaction
+   fails to transfer. Inference: causal prefix regime and rolling input state.
+3. Depletion/replenishment while the price vector is unchanged.
+   Mechanism: cancellations/limit arrivals carry queue pressure before quotes
+   move. Test lagged volume changes conditional on current price state against
+   price-state/activity/trade-slot controls; shuffle within matched strata.
+   Reject if added conditional association vanishes. Inference: past/current
+   volume changes and event ages. Do not sort mixed columns into depth levels.
+4. i1 information arrival after matching i0 history.
+   Mechanism: common-factor price discovery rather than local queue mechanics.
+   Test lagged i1 event features versus identical i0-only features; include
+   reverse-direction and within-regime shuffled-event controls. Reject if only
+   contemporaneous association survives. Inference: past i1 events, seq reset.
+
+DELIVERABLES / REPRODUCTION / LIMITS
+RECOVERY_SUMMARY.txt, STATE.json, both HYPOTHESES files and sampling manifests
+contain the recovery, freeze, command history and exact cohorts. New scripts
+share continuation_common.py and stream one parquet row group/needed columns
+at a time. Existing raw artifacts/decoder were preserved under their old names.
+All scripts can run with the mandated CPU wrapper and .venv/bin/python -B.
+eda_hft.py is the runnable marimo notebook; eda_hft_continuation_v1.html is its
+successfully executed headless export. render_continuation.py reads saved
+results only. fig06_identity_falsifier_v1.png, fig07_causal_sign_scale_v1.png,
+fig08_spread_ablation_v1.png were opened and visually inspected.
+Static format/lint checks passed after minor import/logging/notebook fixes.
+No probe traceback/resource failure occurred. Final hashes and input file
+metadata are in artifact_provenance_v1.json; dataset content was not broadly
+hashed/scanned. No improvement over the strong campaign baseline is claimed.
+No new literature search was needed. Prior primary abstracts read:
+https://arxiv.org/abs/1011.6402 and https://arxiv.org/abs/1512.03492.
+Blockers for stronger claims: unknown paired connected components/campaign
+exposure, small nonrandom cohorts, unverified old decoder training provenance,
+unknown physical transformations and target horizons, integration not authorized
+in this phase. Next experiment: TRAIN-only regime intercept/sign/amplitude
+calibration with constant-regime and common-sign controls on a fresh cohort.

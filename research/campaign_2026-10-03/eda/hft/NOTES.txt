@@ -1,0 +1,11 @@
+HFT EDA working notes (session 1, 21:46-21:55 Oct 2; resumed 00:03 Oct 3)
+- features: QuantileTransformer(normal)-like, floor -5.199337 = Phi^-1(1e-7) (sklearn bound) -> a5,a6,a7 have point mass at floor
+- i0 bid price cols p0..p10 ALL change on the same rows (dense mixing per side); same for ask, volumes. Patterns of sign(dx) come in +/- pairs.
+- price representation is SHIFT-INVARIANT: seq74 rows 12000 vs 12028 identical 22-vector, but target moved by 1 tick (relative-to-mid-like encoding)
+- targets: integer multiples of per-seq quantum q in {0.12543,0.24133,0.46854,0.65687}; change ONLY on rows where i0 book price changes
+- corr(t0,t1) within seq ~ -0.77 (range -0.44..-0.95); both means negative; t0+t1 ~= -q*spread_ticks (seq74 mostly -q / -2q)
+  => t0 = c(F0 - ask_t), t1 = c(bid_t - F1)  (taker long / short P&L to a future price on tick grid); F0 != F1 sometimes
+- seq74 zoom: F fixed while price flickers between two levels -> mean reversion (bid-ask bounce) visible
+- ACF targets: e-fold ~100-150 rows, ~0 by 1000 rows; no linear-to-H shape -> horizon not fixed in rows
+- regimes (82 valid seqs sampled): q=.657 50% (spread 1 tick, bk 0.35), q=.125 17% (spread~2.6), q=.241 20%, q=.469 13%
+- scored frac per seq 0.4%..37%; P(scored|i0 trade row) >> base in q=.657 (0.30 vs 0.10)

@@ -1,0 +1,18 @@
+{
+  "phase": "blind preregistration before any fixture compute",
+  "acceptance_matrix": "TESTS.json version 1; keep frozen after results",
+  "read_scope": [
+    "continuation/round2/CONTRACT.md",
+    "continuation/CONTRACT.txt",
+    "METRIC.md",
+    "research/campaign_2026-09-29/sources/connectome_data_overview.html: target definition, feature identity and evaluation clauses only"
+  ],
+  "forbidden_reads": "other round2 actor directories, reports, results, implementation and campaign models",
+  "experiments": ["N1", "S1", "U1"],
+  "fourth_proposal": "I1 is a proposed controller-assigned falsifier, not an approved candidate",
+  "compute": "run_cpu.sh round2-critic; stdlib finite enumeration; one core, 2GiB, 900seconds",
+  "seed": "none; exhaustive finite support enumeration",
+  "data": "synthetic; no campaign sequence IDs, rows, labels or checkpoints",
+  "output": "results.json plus executable assertions and command/resource logs",
+  "stopping_rule": "finish fixtures and blind deliverables, then await controller frozen report; no GPU contrast in blind stage"
+}

@@ -1,0 +1,8 @@
+# Executed: first RNG-only retest, then final critic moment correction plus full new v3 tests/smoke.
+research/campaign_2026-10-03/continuation/round4/live_capture_v3/run_tests.sh
+research/campaign_2026-10-03/continuation/run_cpu.sh round4-capture env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src:research/campaign_2026-10-03/continuation/round4/live_capture_v3 bash research/campaign_2026-10-03/continuation/round4/live_capture_v3/verify_corrected_inside_cpu.sh
+# Frozen runner verifies generated artifacts only; choose a fresh output directory to reproduce.
+research/campaign_2026-10-03/continuation/run_cpu.sh round4-capture env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src:research/campaign_2026-10-03/continuation/round4/live_capture_v3 .venv/bin/python research/campaign_2026-10-03/continuation/round4/live_capture_v3/runner.py --output research/campaign_2026-10-03/continuation/round4/live_capture_v3/cpu_reproduce_FRESH_TAG
+# Proposed controller command ONLY after final-v3 review, controller-owned scope patch, runtime/source receipt and exclusive admission.
+.venv/bin/python scripts/campaign_job.py launch --name r4_capture_v3_FRESH_TAG --kind gpu --phase controls --timeout 600 --threads 8 -- bash research/campaign_2026-10-03/continuation/run_gpu.sh bash research/campaign_2026-10-03/continuation/round4/controller_gpu_payload.sh CONTROLLER_RECEIPT.json research/campaign_2026-10-03/continuation/round4/live_capture_v3/gpu_FRESH_TAG
+# No receipt was produced and no GPU command executed by the actor.

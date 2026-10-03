@@ -1,0 +1,30 @@
+{
+  "status": "procedure_frozen_before_scoring",
+  "seed": 610103,
+  "sample": "48 train and 32 valid row groups chosen uniformly without replacement, excluding every reconstructable possibly inspected feature row group; all previously census-exposed targets acknowledged",
+  "training_rows": "steps 611,619,...19999 per sequence; target-independent stride 8",
+  "validation_rows": "need_prediction AND is_scored AND step>=611; extra 512-row burn-in applied equally to all models",
+  "feature_policy": "112 current features; instantaneous i0 price increments; feature-only causal EMAs; log dwell and row-clock event rate; no target-derived scale, steps, filtering or mask input",
+  "fixed_ridge": "train-only mean/std; |clipped target|-weighted ridge; lambda=0.001*sum(weights); unpenalized intercept; no tuning",
+  "memory": "all 22 i0 price-feature increments, event-clock or row-clock exponential smoothing at half-lives 4,16,64",
+  "models": ["current", "current_instant_clock", "event_memory", "row_memory", "delayed_event_memory"],
+  "matched_control": "same current/instant/clock features plus same 66 event-memory features delayed by 512 rows within the same sequence; no wrap or future data",
+  "hypotheses": [
+    {
+      "id": "H1",
+      "claim": "Recent event-clock memory adds specific predictive information beyond current state, instantaneous changes, activity and stale history",
+      "success": "event_memory global sampled WP exceeds both current_instant_clock and delayed_event_memory by >=0.005; paired sequence bootstrap lower 95% bounds exceed zero",
+      "rejection": "either gain <=0; intermediate results inconclusive; row_memory comparison distinguishes event clock from generic smoothing",
+      "caveat": "proxy ridge only, no strong-baseline or campaign-independent evidence"
+    },
+    {
+      "id": "H2",
+      "claim": "Pooled wait overdispersion includes dwell-age dependence surviving exact price-state and recent activity matching",
+      "procedure": "valid feature-only next-price-state event labels on steps 611..19998; compare age 1..3 against 8..31 within sequence/exact 22-price-state/current event-rate bucket, >=10 rows per arm; harmonic support weights; delayed age control",
+      "success": "absolute matched hazard difference >=0.02 and paired sequence bootstrap excludes zero",
+      "rejection": "conditional difference negligible or insufficient overlap; do not infer semi-Markov behavior from pooled CV alone"
+    }
+  ],
+  "uncertainty": "400 paired sequence bootstrap replicates, seed 610104; rows are not independent; campaign connected-component identities unavailable",
+  "no_claims": ["no public score forecast", "no raw-row significance", "no inferred target definition"]
+}

@@ -1,0 +1,1929 @@
+{
+  "schema_version": 4,
+  "independent_measurement_review_passed": true,
+  "controller_analysis_authorized": true,
+  "independent_measurement_review_receipt_sha256": "17a006c34ac4fb6be4d866f37c457d0d9b02dc4173bd5970f8ec55a187c58d6c",
+  "cases": {
+    "synthetic_actual_architecture_normal": {
+      "default_ordinary_passed": true,
+      "forced_skip": false,
+      "evidence_kind": "synthetic_cuda_actual_architecture",
+      "sha256": {
+        "pre": "ac670c4245c4978e5181eb45e06b91010d238f5167a24cf37c2153ef0e834cf5",
+        "post": "43cc494f4cdfb1f0a7f63a5bdef9265aad34fa581e9dcf447637349d5900f9a1",
+        "components": "afbd26a1e3c66528ef37fb55eed2ba097473aeb39e7f1f76120b1c6bfb61147c"
+      },
+      "paths": {
+        "pre": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round4/gpu_capture_v4_default_2120r/synthetic_actual_architecture/normal/pre.pt",
+        "post": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round4/gpu_capture_v4_default_2120r/synthetic_actual_architecture/normal/post.pt",
+        "components": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round4/gpu_capture_v4_default_2120r/synthetic_actual_architecture/normal/components.pt"
+      },
+      "source": {
+        "scripts/train_rnn.py": "1d6b059d9880e0befb7b2c6251c7ae6ac9791d0bb0f5cd35dd8e4930cf189ef5",
+        "src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+        "src/wnn/optim.py": "0e476a54d1fdfeed77970816f91668e271f7e2ed72e13d0c047a01d0ff74dae3",
+        "src/wnn/spread_aux.py": "3aabffc6fc887c0426948e62cbd500679ba3e7a6925e28de9f816fb1da8f9cac",
+        "src/wnn/run_identity.py": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+        "src/wnn/outcomes.py": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+        "src/wnn/resources.py": "ac607a58b6d0b87da9cc0587d6e930deb0cca13887d2c4619247331e9b927413",
+        "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      "execution": {
+        "device": "cuda",
+        "torch": "2.14.0+cu130",
+        "cuda": "13.0",
+        "cudnn_version": 92400,
+        "cudnn_enabled": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "cudnn_tf32": true,
+        "matmul_tf32": false,
+        "deterministic_algorithms": false,
+        "fp16_reduced_precision": true,
+        "autocast_cache": true
+      },
+      "metadata_identity": {
+        "projection_version": "metadata-json-v1",
+        "identity": {
+          "kind": "mapping",
+          "entries": [
+            [
+              "evidence_kind",
+              {
+                "kind": "scalar",
+                "scalar_type": "str",
+                "value": "synthetic_cuda_actual_architecture"
+              }
+            ],
+            [
+              "full_sequence_length",
+              {
+                "kind": "scalar",
+                "scalar_type": "int",
+                "value": 6000
+              }
+            ],
+            [
+              "input_origin",
+              {
+                "kind": "scalar",
+                "scalar_type": "str",
+                "value": "seeded random; synthetic labels/weights/teachers/aux; NOT real recipe data"
+              }
+            ],
+            [
+              "next_at",
+              {
+                "kind": "scalar",
+                "scalar_type": "int",
+                "value": 21
+              }
+            ],
+            [
+              "row_ids",
+              {
+                "kind": "sequence",
+                "sequence_type": "list",
+                "items": []
+              }
+            ],
+            [
+              "s",
+              {
+                "kind": "scalar",
+                "scalar_type": "int",
+                "value": 4000
+              }
+            ],
+            [
+              "scaler_protocol_cpu",
+              {
+                "kind": "scalar",
+                "scalar_type": "bool",
+                "value": false
+              }
+            ],
+            [
+              "struct_at",
+              {
+                "kind": "scalar",
+                "scalar_type": "int",
+                "value": 2
+              }
+            ]
+          ]
+        }
+      },
+      "optimizer_id_names": {
+        "0": "inp.weight",
+        "1": "inp.bias",
+        "2": "gru.bias_ih_l0",
+        "3": "gru.bias_hh_l0",
+        "4": "gru.bias_ih_l1",
+        "5": "gru.bias_hh_l1",
+        "6": "head.0.weight",
+        "7": "head.0.bias",
+        "8": "head.2.weight",
+        "9": "head.2.bias",
+        "10": "gru.weight_ih_l0",
+        "11": "gru.weight_hh_l0",
+        "12": "gru.weight_ih_l1",
+        "13": "gru.weight_hh_l1"
+      },
+      "optimizer_groups": [
+        {
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "names": [
+            "inp.weight",
+            "inp.bias",
+            "gru.bias_ih_l0",
+            "gru.bias_hh_l0",
+            "gru.bias_ih_l1",
+            "gru.bias_hh_l1",
+            "head.0.weight",
+            "head.0.bias",
+            "head.2.weight",
+            "head.2.bias"
+          ],
+          "muon": false
+        },
+        {
+          "ids": [
+            10,
+            11,
+            12,
+            13
+          ],
+          "names": [
+            "gru.weight_ih_l0",
+            "gru.weight_hh_l0",
+            "gru.weight_ih_l1",
+            "gru.weight_hh_l1"
+          ],
+          "muon": true
+        }
+      ],
+      "tensor_identity": {
+        "inp.weight": {
+          "shape": [
+            256,
+            211
+          ],
+          "dtype": "torch.float32"
+        },
+        "inp.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.bias_ih_l0": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.bias_hh_l0": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.bias_ih_l1": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.bias_hh_l1": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        "head.0.weight": {
+          "shape": [
+            256,
+            512
+          ],
+          "dtype": "torch.float32"
+        },
+        "head.0.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "head.2.weight": {
+          "shape": [
+            23,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "head.2.bias": {
+          "shape": [
+            23
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.weight_ih_l0": {
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.weight_hh_l0": {
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.weight_ih_l1": {
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.weight_hh_l1": {
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "real_panel_normal": {
+      "default_ordinary_passed": true,
+      "forced_skip": false,
+      "evidence_kind": "real_fit_capture",
+      "sha256": {
+        "pre": "9d66d47230cde3705c3ba4f3da8612a95f05db880d5e2802ee8388a6a98672bc",
+        "post": "5a91a50e41b7e797f8bcc3c1b0b8b36b007c8f82b2497fb4e8f5b2a6e9fc25a8",
+        "components": "38ec8e9586c09fe8c003970ff702b8505f2186bdcca11edc0b353f4d029708c9"
+      },
+      "paths": {
+        "pre": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round4/gpu_capture_v4_default_2120r/real_fit_panel/normal/pre.pt",
+        "post": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round4/gpu_capture_v4_default_2120r/real_fit_panel/normal/post.pt",
+        "components": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-03/continuation/round4/gpu_capture_v4_default_2120r/real_fit_panel/normal/components.pt"
+      },
+      "source": {
+        "scripts/train_rnn.py": "1d6b059d9880e0befb7b2c6251c7ae6ac9791d0bb0f5cd35dd8e4930cf189ef5",
+        "src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+        "src/wnn/optim.py": "0e476a54d1fdfeed77970816f91668e271f7e2ed72e13d0c047a01d0ff74dae3",
+        "src/wnn/spread_aux.py": "3aabffc6fc887c0426948e62cbd500679ba3e7a6925e28de9f816fb1da8f9cac",
+        "src/wnn/run_identity.py": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+        "src/wnn/outcomes.py": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+        "src/wnn/resources.py": "ac607a58b6d0b87da9cc0587d6e930deb0cca13887d2c4619247331e9b927413",
+        "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      "execution": {
+        "device": "cuda",
+        "torch": "2.14.0+cu130",
+        "cuda": "13.0",
+        "cudnn_version": 92400,
+        "cudnn_enabled": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "cudnn_tf32": true,
+        "matmul_tf32": false,
+        "deterministic_algorithms": false,
+        "fp16_reduced_precision": true,
+        "autocast_cache": true
+      },
+      "metadata_identity": {
+        "projection_version": "metadata-json-v1",
+        "identity": {
+          "kind": "mapping",
+          "entries": [
+            [
+              "cached_propensity",
+              {
+                "kind": "tensor_metadata",
+                "tensor_class": "torch.Tensor",
+                "shape": [
+                  32,
+                  20000
+                ],
+                "dtype": "torch.float32",
+                "device": "cpu",
+                "layout": "torch.strided",
+                "requires_grad": false,
+                "detached": true
+              }
+            ],
+            [
+              "departure",
+              {
+                "kind": "scalar",
+                "scalar_type": "str",
+                "value": "fresh seed3 initialization and fixed-panel normalization, not resumed trained combo"
+              }
+            ],
+            [
+              "evidence_kind",
+              {
+                "kind": "scalar",
+                "scalar_type": "str",
+                "value": "real_fit_capture"
+              }
+            ],
+            [
+              "full_sequence_length",
+              {
+                "kind": "scalar",
+                "scalar_type": "int",
+                "value": 20000
+              }
+            ],
+            [
+              "input_origin",
+              {
+                "kind": "scalar",
+                "scalar_type": "str",
+                "value": "actual build_inputs/Sequences caches and four actual loss branches"
+              }
+            ],
+            [
+              "next_at",
+              {
+                "kind": "scalar",
+                "scalar_type": "int",
+                "value": 21
+              }
+            ],
+            [
+              "panel_sha256",
+              {
+                "kind": "scalar",
+                "scalar_type": "str",
+                "value": "bb0406f037cc5ccba56b21c3fdf64c785731f984956c70d62a0eabdb619cabcf"
+              }
+            ],
+            [
+              "row_ids",
+              {
+                "kind": "sequence",
+                "sequence_type": "list",
+                "items": [
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 0
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 43601
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 1
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 50562
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 2
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 56275
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 3
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 141907
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 4
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 177036
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 5
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 507145
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 6
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 644043
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 7
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 2092168
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 8
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 2324140
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 9
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 2381425
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 10
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 2481578
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 11
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 2788172
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 12
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 3263430
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 13
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 3296215
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 14
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 3438693
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 16
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 3459337
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 17
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 3654945
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 18
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 3941659
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 19
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 4016698
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 20
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 4159218
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 21
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 4179155
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 22
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 4231110
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 23
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 4343616
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 24
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 4582687
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 25
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 4627920
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 26
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 4945533
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 27
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 5366025
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 28
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 5374268
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "train"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 0
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 256678
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "valid"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 1
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 751005
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "valid"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 2
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 1200028
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "valid"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "kind": "mapping",
+                    "entries": [
+                      [
+                        "row_group",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 3
+                        }
+                      ],
+                      [
+                        "seq_ix",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "int",
+                          "value": 1892371
+                        }
+                      ],
+                      [
+                        "split",
+                        {
+                          "kind": "scalar",
+                          "scalar_type": "str",
+                          "value": "valid"
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              "s",
+              {
+                "kind": "scalar",
+                "scalar_type": "int",
+                "value": 4000
+              }
+            ],
+            [
+              "scored_mask",
+              {
+                "kind": "tensor_metadata",
+                "tensor_class": "torch.Tensor",
+                "shape": [
+                  32,
+                  20000
+                ],
+                "dtype": "torch.bool",
+                "device": "cpu",
+                "layout": "torch.strided",
+                "requires_grad": false,
+                "detached": true
+              }
+            ],
+            [
+              "struct_at",
+              {
+                "kind": "scalar",
+                "scalar_type": "int",
+                "value": 2
+              }
+            ],
+            [
+              "teacher_binding",
+              {
+                "kind": "mapping",
+                "entries": [
+                  [
+                    "cache/pred_c20260929_since_s3_f0_train.json",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "sha256",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "da6b0b23fb0f6a063e7ab59d2bd59e4a045f3ba764dd23246c7386a42683e81f"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/pred_c20260929_since_s3_f0_train.npy",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "sha256",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "2e74e44773d3d6d3e7c48c245a71f281b1659e6f6592ea2a9a2e4f96d37d19dc"
+                          }
+                        ],
+                        [
+                          "size",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "int",
+                            "value": 1696960128
+                          }
+                        ],
+                        [
+                          "verification",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "full array hash required at real runner entry"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/pred_c20260929_since_s3_f0_valid.json",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "sha256",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "9ba5a0105e0d5265415cc621e50d90148211c85427a540f0ade06e01bb1665ca"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/pred_c20260929_since_s3_f0_valid.npy",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "sha256",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "7a01c040849d9455016dee51a1f9c82c1079be085a0e6be23c99c23bddb3fba9"
+                          }
+                        ],
+                        [
+                          "size",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "int",
+                            "value": 299680128
+                          }
+                        ],
+                        [
+                          "verification",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "full array hash required at real runner entry"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/pred_c20260929_since_s4_f0_train.json",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "sha256",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "978d949b9d7464c2706051bd351db6c1bbabe4ca3d32256afca3212b5439f5fe"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/pred_c20260929_since_s4_f0_train.npy",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "sha256",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "819ab8ef0b1303b289af3475e173da8e9e7ff404ca7a8d8e7e10a3d443648241"
+                          }
+                        ],
+                        [
+                          "size",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "int",
+                            "value": 1696960128
+                          }
+                        ],
+                        [
+                          "verification",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "full array hash required at real runner entry"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/pred_c20260929_since_s4_f0_valid.json",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "sha256",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "5f1aae3212e4316d94752b171692a8b8c5fb7d8bd9e141924aa8ddd03e708a07"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/pred_c20260929_since_s4_f0_valid.npy",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "sha256",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "6aa7b150097ebdf43ddbea8c3a52f8d705ebd2dbd01470e3c45b7eb2dbcfc430"
+                          }
+                        ],
+                        [
+                          "size",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "int",
+                            "value": 299680128
+                          }
+                        ],
+                        [
+                          "verification",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "full array hash required at real runner entry"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/propcache_c20260929_prop_f0_train.json",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "sha256",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/propcache_c20260929_prop_f0_train.npy",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "identity_level",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "checkpoint-bound sidecar; exact selected propensity tensor captured"
+                          }
+                        ],
+                        [
+                          "mtime_ns",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "int",
+                            "value": 1790712605563748005
+                          }
+                        ],
+                        [
+                          "size",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "int",
+                            "value": 848560128
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/propcache_c20260929_prop_f0_valid.json",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "sha256",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/propcache_c20260929_prop_f0_valid.npy",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "identity_level",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "checkpoint-bound sidecar; exact selected propensity tensor captured"
+                          }
+                        ],
+                        [
+                          "mtime_ns",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "int",
+                            "value": 1790712631182502714
+                          }
+                        ],
+                        [
+                          "size",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "int",
+                            "value": 149840128
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/train_targets.npz",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "sha256",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "cache/valid_targets.npz",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "sha256",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "datasets/train.parquet",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "identity_level",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "stat plus captured exact tensor bytes; no full dataset hash"
+                          }
+                        ],
+                        [
+                          "mtime_ns",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "int",
+                            "value": 1577826000000000000
+                          }
+                        ],
+                        [
+                          "size",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "int",
+                            "value": 29240219011
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    "datasets/valid.parquet",
+                    {
+                      "kind": "mapping",
+                      "entries": [
+                        [
+                          "identity_level",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "str",
+                            "value": "stat plus captured exact tensor bytes; no full dataset hash"
+                          }
+                        ],
+                        [
+                          "mtime_ns",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "int",
+                            "value": 1577826000000000000
+                          }
+                        ],
+                        [
+                          "size",
+                          {
+                            "kind": "scalar",
+                            "scalar_type": "int",
+                            "value": 5615509128
+                          }
+                        ]
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      },
+      "optimizer_id_names": {
+        "0": "inp.weight",
+        "1": "inp.bias",
+        "2": "gru.bias_ih_l0",
+        "3": "gru.bias_hh_l0",
+        "4": "gru.bias_ih_l1",
+        "5": "gru.bias_hh_l1",
+        "6": "head.0.weight",
+        "7": "head.0.bias",
+        "8": "head.2.weight",
+        "9": "head.2.bias",
+        "10": "gru.weight_ih_l0",
+        "11": "gru.weight_hh_l0",
+        "12": "gru.weight_ih_l1",
+        "13": "gru.weight_hh_l1"
+      },
+      "optimizer_groups": [
+        {
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "names": [
+            "inp.weight",
+            "inp.bias",
+            "gru.bias_ih_l0",
+            "gru.bias_hh_l0",
+            "gru.bias_ih_l1",
+            "gru.bias_hh_l1",
+            "head.0.weight",
+            "head.0.bias",
+            "head.2.weight",
+            "head.2.bias"
+          ],
+          "muon": false
+        },
+        {
+          "ids": [
+            10,
+            11,
+            12,
+            13
+          ],
+          "names": [
+            "gru.weight_ih_l0",
+            "gru.weight_hh_l0",
+            "gru.weight_ih_l1",
+            "gru.weight_hh_l1"
+          ],
+          "muon": true
+        }
+      ],
+      "tensor_identity": {
+        "inp.weight": {
+          "shape": [
+            256,
+            211
+          ],
+          "dtype": "torch.float32"
+        },
+        "inp.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.bias_ih_l0": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.bias_hh_l0": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.bias_ih_l1": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.bias_hh_l1": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.float32"
+        },
+        "head.0.weight": {
+          "shape": [
+            256,
+            512
+          ],
+          "dtype": "torch.float32"
+        },
+        "head.0.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "head.2.weight": {
+          "shape": [
+            23,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "head.2.bias": {
+          "shape": [
+            23
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.weight_ih_l0": {
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.weight_hh_l0": {
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.weight_ih_l1": {
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        },
+        "gru.weight_hh_l1": {
+          "shape": [
+            768,
+            256
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    }
+  },
+  "candidate_sha256": {
+    "PREREG.md": "b3c15fcacc26e92a8280dd9c8bdb9ead45e2474cf39d4346d4d072fab184267b",
+    "audit.py": "c64b8c87e962e7f76c2086b47244352d00dd84d8d2bfdbdb8513dfbfa15e664d",
+    "metadata.py": "57daa24568eab2ff6d447379af21506fadb026f161716cd76d815aa5a9e580ea",
+    "tests.py": "ca8ff740c945aea25d3597470d644f723e5f61fbda12a36df49e33680a3a764c"
+  },
+  "independent_audit_review_bindings": {
+    "COMMANDS.sh": "723af6e1fc2ec9e4a3efef2fe87e65ab080196750a37fc48ed7fde4e19661753",
+    "REPORT.md": "c7b10f8f7f36d0d384235ccdf36e97744a33d554f74c13c8c6565db286774f1d",
+    "STATE.json": "29f6e452361da48b335d749f0515e4d0081d41ae52f9c5d56c9aaec90c843b62",
+    "TEST_PLAN.json": "2175a9dd7c4ab0c4bde064add87406a00cb8777ebb020a6d1e117a0ca114d8e7",
+    "candidate_sha256.json": "e7fe38b02888db94e99f6bd291b674969aa8da386f32538d7c524f29eab94e76",
+    "constructor_guard_tests.json": "9c844abb214465eba94e71cdd0dd52c0c2a2b4c6a19a9774d6596ba1c77d3c77",
+    "constructor_guard_tests.log": "3ff3def232263a17cabe01de25135b88451eb3664620ef77b1ba615c8aafa697",
+    "format.log": "779cd08be038ac289c50927416d74769a286b3d89191260af669534feb28cf68",
+    "freeze.py": "d19688c269aaad278be056d04852d1624b8dc30c26de7d2d57d5b2b8ccba324c",
+    "integration_bindings.json": "09356ee0175076d490574d6226d281989cf96e1775a0dd9f25f3bde5d1ada154",
+    "lint.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "protected_verification.json": "6cfa53cec51e95349613abb484d1b35c0d3ce72ba6158a5711c43a2c9654169d",
+    "protected_verification.log": "80436a9296ae4d882377a6c9e2bf6147e5b4d4b1a4e91e0bd67fc0b7ad8ac3a8",
+    "retest.py": "36a1f4b645ff558197654b5a3a02b4b0ca6b35a6d58d4255fdf7a6b7ee61c562",
+    "review_constructor_guards.py": "0314dd2442aea9b930cccddd8e9a42be8a21d5cb1b1bbee15ee7a6d7e785db77",
+    "tests.json": "38a99729c9902b7ce8a4c6217253ec2e7f8de278f97805a211fed8cb95487cd1",
+    "tests.log": "10ad7085519b0521a35e76f588a97bbf00b5a07e2a3c5b2e8e7d3f2ac61efcc1",
+    "verify.py": "d0bc168d11cb86d7155ff00ae0c498cf9a64e6243cfa9e02ee8ded49aa34a601"
+  },
+  "fixed_metadata_sha256": "a2bd9a646467e3754297ec22d656c188e6d3494294d795b0f418c42f145df4ba",
+  "controller_attested_at": "2026-10-03T22:22:35.521619+03:00",
+  "reviewer_completion_observed_at": "2026-10-03T19:22:00+00:00",
+  "scope": "Descriptive FP64 discrepancy only; no acceptance bound, conflict/update attribution or score claim"
+}

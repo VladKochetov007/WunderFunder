@@ -1,0 +1,13 @@
+Draft controller-source observation, before terminal verdict:
+approve_state_drift.py validates reviewed candidate/runtime/native source hashes,
+but the inspected version only recomputes current real_trajectory.json and
+capture_measurement_review/STATE.json hashes for the receipt. It does not compare
+these with inventory trajectory_sha256 and independent_measurement_review_state_sha256.
+Require equality to terminal reviewed inventory before receipt creation. Also pin
+metadata_helper_sha256 if retained as a provenance binding. The constructor must
+not treat hashing a replacement as approval of that replacement.
+This is a source-only observation; no actual file substitution or constructor
+execution was attempted. The current real trajectory and review STATE were read
+as permitted metadata only; terminal audit will verify their digest binding.
+Keep approval-helper source hash in final critic manifest/inventory supplement.
+Author v2 terminal freeze is still required before finalization.

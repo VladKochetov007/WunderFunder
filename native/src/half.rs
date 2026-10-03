@@ -479,6 +479,104 @@ pub fn quantize(x: &[f32], bound: Option<f32>, q: &mut [i16]) -> f32 {
     m / QX
 }
 
+/// Software prefetch cursor over the weights a step reads next. Compute-bound steps
+/// (activations) pull a few lines per vector toward L2, so the memory system keeps streaming
+/// while they run instead of idling until the next matvec misses. Prefetches never fault and
+/// never change results.
+#[derive(Clone, Copy)]
+pub struct Ahead {
+    cur: *const u8,
+    end: *const u8,
+}
+
+// SAFETY: the pointers are only ever prefetched, never dereferenced.
+unsafe impl Send for Ahead {}
+unsafe impl Sync for Ahead {}
+
+/// Lines `Ahead::issue` requests per eight-lane vector of activation work.
+pub const AHEAD_LINES: usize = 2;
+
+impl Ahead {
+    pub const NONE: Ahead = Ahead {
+        cur: std::ptr::null(),
+        end: std::ptr::null(),
+    };
+
+    pub fn new(s: &[u16]) -> Self {
+        let cur = s.as_ptr() as *const u8;
+        Self {
+            cur,
+            end: cur.wrapping_add(2 * s.len()),
+        }
+    }
+
+    #[inline(always)]
+    pub fn issue(&mut self, lines: usize) {
+        #[cfg(target_arch = "x86_64")]
+        for _ in 0..lines {
+            if self.cur >= self.end {
+                return;
+            }
+            // SAFETY: prefetch is a hint; any address is allowed.
+            unsafe {
+                std::arch::x86_64::_mm_prefetch::<{ std::arch::x86_64::_MM_HINT_T1 }>(self.cur as *const i8)
+            };
+            self.cur = self.cur.wrapping_add(64);
+        }
+    }
+}
+
+/// `quantize` on eight lanes at a time, the same codes and scale bit for bit.
+///
+/// # Safety
+/// The CPU must support AVX2 and FMA.
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "avx2,fma")]
+#[inline]
+pub unsafe fn quantize_avx2(x: &[f32], bound: Option<f32>, q: &mut [i16]) -> f32 {
+    use std::arch::x86_64::*;
+    let main = x.len() / 16 * 16;
+    let m = match bound {
+        Some(m) => m,
+        None => unsafe {
+            // max(|v|, acc) keeps acc when |v| is NaN, like f32::max; max is exact, so the
+            // lane order does not matter.
+            let mut acc = _mm256_setzero_ps();
+            let abs = _mm256_set1_ps(-0.0);
+            for c in x[..x.len() / 8 * 8].chunks_exact(8) {
+                acc = _mm256_max_ps(_mm256_andnot_ps(abs, _mm256_loadu_ps(c.as_ptr())), acc);
+            }
+            let mut lanes = [0.0f32; 8];
+            _mm256_storeu_ps(lanes.as_mut_ptr(), acc);
+            let m = lanes.iter().fold(0.0f32, |m, v| m.max(*v));
+            x[x.len() / 8 * 8..].iter().fold(m, |m, v| m.max(v.abs()))
+        },
+    };
+    let q = &mut q[..x.len()];
+    if !(m > 0.0 && m.is_finite()) {
+        q.fill(0);
+        return 0.0;
+    }
+    let inv = QX / m;
+    unsafe {
+        let (vi, lo, hi) = (_mm256_set1_ps(inv), _mm256_set1_ps(-QX), _mm256_set1_ps(QX));
+        let code = |p: *const f32| {
+            // max(v, -QX) returns -QX for NaN like f32::max; codes stay within +-QX.
+            let v = _mm256_min_ps(_mm256_max_ps(_mm256_mul_ps(_mm256_loadu_ps(p), vi), lo), hi);
+            _mm256_cvtps_epi32(_mm256_round_ps::<{ _MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC }>(v))
+        };
+        for i in (0..main).step_by(16) {
+            let packed = _mm256_packs_epi32(code(x.as_ptr().add(i)), code(x.as_ptr().add(i + 8)));
+            let ordered = _mm256_permute4x64_epi64::<0b11_01_10_00>(packed);
+            _mm256_storeu_si256(q.as_mut_ptr().add(i) as *mut __m256i, ordered);
+        }
+    }
+    for (o, v) in q[main..].iter_mut().zip(&x[main..]) {
+        *o = (v * inv).max(-QX).min(QX).round_ties_even() as i16;
+    }
+    m / QX
+}
+
 /// Integer `gemv` for an I16 panel: `out[r] = dot_r * (scales[r] * xs) + base[r]`, where `dot_r`
 /// is the exact integer dot product of row r's codes with the activation codes `q` (from
 /// `quantize`, zero-padded to whole chunks) and `base` is `b`, or `out` itself when `b` is
@@ -850,6 +948,39 @@ mod tests {
         let (q, s) = codes(&[0.0; 5], None);
         assert_eq!(s, 0.0);
         assert!(q.iter().all(|v| *v == 0));
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[test]
+    fn quantize_avx2_matches_scalar_bitwise() {
+        if !available() {
+            return;
+        }
+        let mut s = 5u64;
+        for len in [1usize, 7, 8, 15, 16, 17, 31, 256, 263, 512] {
+            for scale in [1.0f32, 3.0, 1e-3, 0.0] {
+                let mut x: Vec<f32> = (0..len).map(|_| rnd(&mut s) * scale).collect();
+                if len > 3 {
+                    x[1] = 0.5 / QX; // halfway codes round to even
+                    x[2] = -2.5 / QX;
+                }
+                for bound in [None, Some(1.0), Some(0.25)] {
+                    let mut want = vec![7i16; len + 9];
+                    let mut got = vec![7i16; len + 9];
+                    let ws = quantize(&x, bound, &mut want);
+                    let gs = unsafe { quantize_avx2(&x, bound, &mut got) };
+                    assert_eq!(ws.to_bits(), gs.to_bits(), "len {len} scale {scale} {bound:?}");
+                    assert_eq!(want, got, "len {len} scale {scale} {bound:?}");
+                }
+            }
+        }
+        let x = [f32::NAN, 2.0, -0.7, f32::INFINITY, 0.3, -0.0, 1.0, -1.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
+        for bound in [None, Some(1.0)] {
+            let (mut want, mut got) = (vec![0i16; 17], vec![0i16; 17]);
+            let ws = quantize(&x, bound, &mut want);
+            let gs = unsafe { quantize_avx2(&x, bound, &mut got) };
+            assert_eq!((ws.to_bits(), &want), (gs.to_bits(), &got), "{bound:?}");
+        }
     }
 
     proptest::proptest! {

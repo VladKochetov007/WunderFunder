@@ -1,0 +1,147 @@
+ECONOMETRICS CONTINUATION — ECO_CLOCK_01 / ECO_CLOCK_02
+Verdict: general event-clock superiority FAILED both frozen gates. Retain the
+negative. Target-specific clock behavior is a narrow candidate for later controls.
+
+RECOVERY
+RECOVERY_SUMMARY.txt was written before scoring. Own saved target ACF shows
+persistence for hundreds of rows and negative cross-target correlation, with four
+lattice spacings. Targets are unavailable online: this is not evidence for a
+label-AR predictor. event_delta_corr.txt is exploratory, lacks sample/script
+provenance, and relates contemporaneous target changes to feature changes.
+That relationship cannot identify a causal market mechanism or future signal.
+No other analyst findings, campaign models, or strong baseline were inspected.
+
+METHOD AND CAUSALITY
+48 training sequences, 24 validation sequences, uniformly seeded selection.
+Train groups exclude lattice300, train0, and inferred seed2 ACF120; the NPZ has
+120 sequences but does not store original group IDs. Unknown event-delta training
+exposure prevents claiming fully fresh training. ALL validation was already
+exposed in own valid_seq_summary.csv. Followup uses the same now score-exposed IDs.
+Each sequence is streamed independently; only its current/past 112 raw features
+enter models. 22 i0 price columns are used without assuming depth ordering.
+Rows 0–98 update history; all state resets at sequence boundaries. No targets,
+mask, full-sequence lattice, or IDs are inputs. Global feature scaling is fit on
+training only. Prefix/full feature parity at 777 rows: maximum difference 0.
+Training: every tenth required row, 95,568 samples. Validation: 31,658 exact
+need_prediction AND is_scored rows. Predict every required row regardless of mask.
+Target-specific ridge minimizes abs(clipped target)-weighted squared error;
+penalty = 0.01 mean non-intercept standardized Gram diagonal. Intercept unpenalized.
+All scoring clips finite targets/predictions to +/-2 and pools additive moments
+across sequences before computing target-wise correlations and their equal mean.
+No row bootstrap, confidence interval, independent replication, or public forecast.
+
+PROBES ACTUALLY RUN
+ECO_CLOCK_01 frozen before execution, 12.38 seconds CPU-scope wall time.
+All history arms add exactly 22 columns to raw112. alpha=2/33. Row EMA updates
+every row; event EMA updates on any i0 price-column change and holds otherwise.
+Stale control delays event displacement by 4,096 rows with zeros before then.
+Shared training row-history scaling is a potential shrinkage confound, corrected
+in the followup. Frozen gate: event-row >0.002 and positive on both targets.
+Arm              t0 WP       t1 WP       mean WP     all-required mean WP
+raw              0.559806    0.563620    0.561713    0.329477
+row_clock        0.571423    0.565269    0.568346    0.323630
+event_clock      0.563712    0.571894    0.567803    0.329944
+stale_event      0.555111    0.559696    0.557404    0.326711
+Event minus row = -0.000544; t0 -0.007712, t1 +0.006624; 11/24 sequence wins.
+Recent history helps this local raw-feature ridge, but stale history hurts.
+The event-specific gate FAILED; do not report the raw-control gain as proof.
+
+ECO_CLOCK_02 adaptively proposed, separately frozen before execution, 23.86 sec.
+Same train/valid IDs, features, fit rows and regularization rule. Each arm now uses
+its own training feature mean/std. Hazard clock updates every row with
+alpha_t = 1-(1-2/33)^q_t, where q_t=(24.75+prior price events)/(99+prior rows).
+This approximates expected event-time decay from causal prefix frequency. It
+controls slow quiet-period smoothing, but not the entire realized age distribution.
+Arm              t0 WP       t1 WP       mean WP     all-required mean WP
+raw              0.559806    0.563620    0.561713    0.329477
+row_clock        0.571423    0.565269    0.568346    0.323630
+event_clock      0.563798    0.572163    0.567981    0.329876
+hazard_clock     0.563904    0.559568    0.561736    0.320101
+stale_event      0.555495    0.559740    0.557617    0.326886
+Event-hazard mean +0.006245; t0 -0.000105, t1 +0.012595; 16/24 sequence wins.
+Frozen both-target gate FAILED. The average delta is driven by t1. This contradicts
+a common-clock assumption and favors testing target-specific history, not universal
+event time. Followup event-row mean remains -0.000365. All-required ordering differs:
+row history lowers the mean by -0.005847 versus raw; event improves only +0.000398.
+The exact mask selects a different statistical population. No propensity or
+mask-training correction was fitted here; diagnostic sensitivity is not test gain.
+
+SAMPLE PROVENANCE AND DEPENDENCE
+cache/continuation_manifest.json lists all row groups, actual IDs, prior exposed
+groups, feature order, dataset file sizes/mtime/schema SHA256 and frozen-contract
+hash. Full selected-row raw112 fingerprint screening compared 960,000 train rows
+with 480,000 valid rows: ZERO exact cross-split matches (128-bit BLAKE2b).
+All 960,000 training raw rows had distinct fingerprints. This rules out unchanged
+shared raw rows within these selected sequences, subject to negligible hash risk.
+It does NOT exclude transformed overlaps, unsampled linked sequences, or campaign
+exposure. Campaign connected-component mapping remains an integration blocker.
+Per-sequence paired deltas are descriptive; no independence inference is claimed.
+Actual sequence IDs are included below and machine-readable in the manifest.
+
+FIGURES INSPECTED
+fig/target_acf.png: old target persistence; labels not usable for inference.
+fig/continuation_clock_window.png: row displacement decays during flat price
+periods while event displacement holds. This motivated the hazard-clock control.
+fig/continuation_clock_scores.png: large heterogeneous paired deltas and opposite
+target effects; no visual support for uniform event superiority.
+fig/continuation_hazard_scores.png: inspected after followup; event advantage over
+hazard is concentrated in t1 and varies by sequence. No common-clock promotion.
+
+METRIC-OPTIMAL ESTIMAND
+Ignoring prediction clipping, population weighted Pearson is ordinary Pearson
+under the tilted measure dQ proportional to |clip(Y)| dP. Its optimal predictor
+is affine to E_Q[clip(Y)|X] = E[|clip(Y)|clip(Y)|X]/E[|clip(Y)||X]. Weighted MSE
+estimates this ratio; ordinary MSE need not. Prediction clipping and restricted
+linear function classes break the unrestricted affine optimum. This is a model
+argument, not evidence that every weighted fit beats an unweighted control.
+
+RANKED NEXT DIRECTIONS (NOT RUN OR INTEGRATED)
+1. Separate t0 row-clock and t1 event-clock readouts. Control: same-budget shared
+clock and two clocks provided to both heads. Falsifier: advantage disappears on
+controller-defined held-out linked components or versus the strong baseline.
+2. Distinguish realized event age from average hazard. Control: causal rolling
+hazard clock plus age/intensity features, matched feature count and shrinkage;
+compare discrete event EMA. Falsifier: discrete event head loses to hazard+age.
+3. Train weighted versus ordinary ridge on identical rows and scaling. Control:
+fixed penalty and clipping; compare both weighted and unweighted correlations.
+Falsifier: weighting hurts exact masked WP on untouched components. Avoid fitting
+mask propensities from this repeatedly exposed validation panel.
+4. Cross-instrument error correction only after a feature-only spread identity
+and train-estimated stationarity relation are verified. Controls: own-instrument
+lags and causal delayed i1; falsifier: no incremental held-component WP. Prior
+near-zero contemporaneous i1 change correlations neither prove nor rule it out.
+
+METHOD SOURCE
+Clark (1973), A Subordinated Stochastic Process Model with Finite Variance for
+Speculative Prices, Econometrica 41(1), 135–155:
+https://www.stats.org.uk/stochastic-processes/Clark1973.pdf
+Primary paper motivates stochastic activity clocks; it does not prescribe this
+EMA or establish forecastability here. The hazard adaptation is our inference.
+
+DELIVERABLES AND REPRODUCTION
+scripts/continuation_clock_probe.py and continuation_hazard_probe.py are bounded
+standalone scripts. Run from repository root with the mandatory prefix:
+research/campaign_2026-10-03/continuation/run_cpu.sh eda-econometrics .venv/bin/python
+then the appropriate script path in this directory. Run clock before hazard.
+Original raw artifacts preserved; prior notebook copied to eda_econometrics_prior.py.
+Updated eda_econometrics.py displays measured results, sample IDs and PNGs; headless
+export is checked and saved as continuation_notebook.html. No server remains.
+STATE.json records commands/phases; HYPOTHESES.json retains the original frozen
+card and points to HYPOTHESES_followup_frozen.json. Model NPZs, per-sequence CSVs,
+result JSONs, logs, and artifact SHA256 manifest are under cache/. CUDA unavailable.
+No resource failure, installs, GPU launch, commits, or external writes by probes.
+
+ACTUAL SAMPLED IDS
+train: 20545957, 35468782, 42576844, 71728079, 199342354, 236331567, 341165993,
+341492885, 410627446, 534186226, 600420126, 600755387, 616234630, 643947826, 710373194,
+760681568, 825768986, 843700036, 879138381, 883022445, 916759383, 923820783, 964444433,
+1027771279, 1120232166, 1156559202, 1222759230, 1236643777, 1291948406, 1302674828,
+1314822042, 1316767413, 1393200844, 1397873545, 1422149701, 1442909768, 1549376654,
+1737175180, 1750837017, 1776618643, 1819954219, 1840468396, 1914485983, 2012036211,
+2057617004, 2113593565, 2113765548, 2138907376
+valid: 48100848, 231324553, 343347246, 384964812, 795968638, 876112663, 948711386,
+959190818, 982084394, 1028944459, 1054651189, 1059225559, 1147573128, 1161254138,
+1222076865, 1428765255, 1501256442, 1610620978, 1635435570, 1765936678, 1806217877,
+1847858091, 1854098403, 1860163224
+
+Scorer centered formula versus pooled moments: abs error 2.78e-17.

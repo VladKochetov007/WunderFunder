@@ -1,0 +1,42 @@
+{
+  "phase": "blind_preregistered_before_toy",
+  "scope": "one local incoming-student-state intervention at s=4000; no architecture or arm search",
+  "forbidden_reads": ["Carver candidate implementation", "actual captures", "data", "GPU outputs"],
+  "source_only": ["scripts/train_rnn.py", "src/wnn/nn.py", "round5/mechanism_review/STATE.json"],
+  "actual_capture_gate": {
+    "fresh_source_bound_capture": true,
+    "sequence_initial_state": "None",
+    "chunk_size": 1000,
+    "local_start": 4000,
+    "warm_optimizer_attempts": 4,
+    "successful_warm_optimizer_updates": 4,
+    "reference_weight_source": "captured current raw student, including normalization buffers",
+    "reference_calls": [[0,1000],[1000,2000],[2000,3000],[3000,4000]],
+    "reference_initial_state": "None",
+    "current_weights_constant_through_reference": true,
+    "reference_detached_for_local_step": true,
+    "prefix_rng_side_effects_restored_before_local_comparison": true,
+    "matched_precision_backend_mode_and_flags": true,
+    "held_fixed": ["student theta and buffers", "lag EMA theta and incoming state", "teacher outputs", "targets and masks", "loss denominators and coefficients", "structural moment tables", "optimizer moments and name mapping", "scheduler/scaler/update/EMA clocks", "local RNG state"],
+    "only_intervention": "replace incoming student hidden state for [4000,5000)"
+  },
+  "numeric_gate": {
+    "unchanged_replay_control_separate_from_intervention": true,
+    "operation_specific_independently_accepted_policy": true,
+    "zero_floor_requires_exact_unchanged_control": true,
+    "effect_calibrated_tolerance_forbidden": true,
+    "default_step_floor_not_component_decomposition_bound": true,
+    "missing_decomposition_bound": "UNKNOWN; block component-geometry interpretation"
+  },
+  "toy": {
+    "recurrence": "h[j+1]=a[j]*h[j]+x[j]",
+    "prefix_inputs": [1,-2,3,0.5],
+    "warm_weights": [0.5,0.6,0.7,0.8],
+    "current_weight": 0.9,
+    "identity_control": "all warm weights equal current weight",
+    "local_loss": "(current_weight*incoming_h + 0.25 - 1)^2",
+    "tests": ["mixed-weight vs fixed-current state differs", "constant-weight identity equals", "detached local derivative differs from full-prefix derivative", "reject eight metadata/schema traps", "reject missing or wrong-operation numerical policy"]
+  },
+  "failure_outcomes": ["unsupported provenance -> BLOCK", "unchanged replay fails -> BLOCK", "missing numerical policy -> UNKNOWN", "nonfinite state/output/gradient -> BLOCK", "null local effect -> report null without wider inference"],
+  "claim_limit": "early-trajectory conditional sensitivity; no historical-state recovery, physical mechanism, inference or public-score gain"
+}

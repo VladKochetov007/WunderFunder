@@ -1,0 +1,11 @@
+{
+ "frozen_before_scoring": true,
+ "evidence_status": "Recovered mechanism is an assumption; previous scores unavailable. New results exploratory on previously exposed data.",
+ "cohorts": {"train_row_groups":[1600,1601,1602,1603,1604,1605,1606,1607,1608,1609,1610,1611],"valid_row_groups":[900,901,902,903,904,905,906,907,908,909,910,911]},
+ "selection":"Fixed contiguous indices independent of targets. All previously exposed to scan1; valid also scan2. Not campaign-independent.",
+ "tests":[
+  {"id":"H1_exact_state_sum","premise":"Raw t0+t1 is determined by current 22 i0 price values within a sequence","falsifier":"At least 1% of rows disagree with modal quantized sum within exact repeated states, or repeated identical states have materially nonzero raw-sum spread","control":"Compare D=t0-t1 under identical grouping, plus sums paired with circularly shifted states by 997 rows. Shift is diagnostic only, never a causal feature","quantum":"Train/valid target minimum is diagnostic only and never used as model feature or selector"},
+  {"id":"H2_sum_transfer","premise":"Current i0 prices transfer more sum information across sequences than difference information","procedure":"Train ridge using only 22 current i0 prices, standardization learned on train, rows >=99 stride 10. Ridge alpha 10; evaluate all scored valid rows >=99. Matched independently fit model with train targets circularly shifted 997 rows within each sequence. Score raw S,D R2 and global clipped target-weighted Pearson for predictions (S/2,S/2).","falsifier":"Sum R2 <=0 or aligned model fails to exceed shifted control; no baseline gain claim","uncertainty":"Per-sequence paired results descriptive only; unknown connected components prevent independence claims"},
+  {"id":"H3_prefix_causality","premise":"Proposed model features are strictly current-only","procedure":"Exact compare first 256 feature rows computed on full sequence versus prefix; no labels in feature builder","falsifier":"Any difference"}
+ ]
+}

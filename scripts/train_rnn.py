@@ -22,6 +22,7 @@ from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 from wnn.data import (
     CORRUPT_TRAIN_ROW_GROUPS,
     N_FEATURES,
+    SEQUENCE_LENGTH,
     TARGET_QUANTA,
     WARMUP,
     SequenceFile,
@@ -115,6 +116,52 @@ class Sequences(Dataset):
 
     def __len__(self):
         return len(self.indices)
+
+    def batch_tensor_bytes(self, batch_size: int, *, heuristics: bool | None = None) -> int:
+        """Size returned tensors from their schema without reading a sample or RNG.
+
+        Cache headers supply auxiliary target widths; teacher predictions are
+        averaged, so their column count is included once, not per teacher.
+        Event/normalization features computed on device are not loader tensors.
+        """
+        if batch_size <= 0:
+            raise ValueError("loader batch size must be positive")
+        features = N_FEATURES
+        use_heuristics = HEURISTICS if heuristics is None else heuristics
+        if use_heuristics:
+            from wnn.heuristics import K
+
+            features += K
+        targets = 2
+        if self.teachers:
+            widths = set()
+            for name, _ in self.teachers:
+                values = np.load(
+                    ROOT / "cache" / f"pred_{name}_{self.split}.npy", mmap_mode="r"
+                )
+                if values.ndim != 3 or values.shape[1] != SEQUENCE_LENGTH:
+                    raise ValueError("teacher cache does not contain full sequences")
+                widths.add(values.shape[2])
+            if len(widths) != 1:
+                raise ValueError("teacher target widths differ")
+            targets += widths.pop()
+        elif self.quote_path:
+            values = np.load(
+                self.quote_cache_root / f"quote_path_{self.split}.npy", mmap_mode="r"
+            )
+            if values.ndim != 3 or values.shape[1] != SEQUENCE_LENGTH:
+                raise ValueError("quote cache does not contain full sequences")
+            targets += values.shape[2]
+        row_bytes = (features + targets) * np.dtype(np.float32).itemsize
+        row_bytes += np.dtype(np.bool_).itemsize
+        if self.prop_cache is not None:
+            row_bytes += np.dtype(np.float32).itemsize
+        if self.spread_cache_root is not None:
+            row_bytes += np.dtype(np.uint8).itemsize
+        sequence_bytes = SEQUENCE_LENGTH * row_bytes
+        if self.thin is not None:
+            sequence_bytes += np.dtype(np.int64).itemsize
+        return batch_size * sequence_bytes
 
     def __getitem__(self, i):
         if self._file is None:
@@ -986,7 +1033,6 @@ def main():
     n_valid = len(eval_groups) if args.full_valid else min(args.valid_seqs, len(eval_groups))
     valid_idx = np.random.default_rng(12345).permutation(eval_groups)[:n_valid]
 
-    workers, prefetch = dataloader_budget(args.batch * SEQ_BYTES)
     sampler = None
     if args.class_balance:
         classes = np.load(ROOT / "research" / "artifacts" / "market-classes-v1.npz")
@@ -1066,10 +1112,14 @@ def main():
     train_ds = Sequences(train_split, train_idx, teachers, prop_cache.get(train_split),
                          quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root,
                          spread_cache_root=args.spread_cache_root, thin=thin)
+    train_batch_bytes = train_ds.batch_tensor_bytes(args.batch, heuristics=args.heuristics)
     if extra_valid is not None:
         valid_ds = Sequences("valid", extra_valid, teachers, prop_cache.get("valid"),
                              quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root,
                              spread_cache_root=args.spread_cache_root, thin=thin)
+        train_batch_bytes = max(
+            train_batch_bytes, valid_ds.batch_tensor_bytes(args.batch, heuristics=args.heuristics)
+        )
         train_ds = torch.utils.data.ConcatDataset([train_ds] + [valid_ds] * args.valid_repeat)
     if args.epoch_samples:
         sample_weights = np.ones(len(train_ds), dtype=np.float64)
@@ -1077,11 +1127,22 @@ def main():
             sample_weights[len(train_idx):] = eligible_valid_count / len(extra_valid)
         sampler = WeightedRandomSampler(torch.from_numpy(sample_weights), args.epoch_samples,
                                         replacement=True, generator=torch.Generator().manual_seed(args.seed))
+    valid_ds = None if args.no_eval_during_fit else Sequences("valid", valid_idx)
+    valid_batch_bytes = (
+        0 if valid_ds is None else valid_ds.batch_tensor_bytes(16, heuristics=args.heuristics)
+    )
+    loader_ram = int(float(os.environ.get("WNN_LOADER_RAM_GB", "6")) * (1 << 30))
+    # Validation is synchronous; reserve its consumed/in-flight copies even if
+    # training's iterator still holds batches when evaluation begins.
+    workers, prefetch = dataloader_budget(
+        train_batch_bytes, ram_budget_bytes=loader_ram - 2 * valid_batch_bytes
+    )
     train_loader = DataLoader(train_ds, batch_size=args.batch, shuffle=sampler is None,
-                              sampler=sampler, drop_last=True, num_workers=workers, prefetch_factor=prefetch,
+                              sampler=sampler, drop_last=True, num_workers=workers,
+                              prefetch_factor=prefetch if workers else None,
                               pin_memory=args.pin_memory)  # no persistent workers: they change the shuffle order (parity E-169)
-    valid_loader = None if args.no_eval_during_fit else DataLoader(
-        Sequences("valid", valid_idx), batch_size=16, num_workers=2, prefetch_factor=1)
+    valid_loader = None if valid_ds is None else DataLoader(
+        valid_ds, batch_size=16, num_workers=0, prefetch_factor=None)
 
     shifts = [int(v) for v in args.aux.split(",") if v]
     provenance = {"seed": args.seed, "args": vars(args).copy(),

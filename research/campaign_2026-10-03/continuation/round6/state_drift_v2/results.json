@@ -1,0 +1,177 @@
+{
+  "passed": true,
+  "checks": {
+    "planted_changing_weights_hidden_drift": true,
+    "actual_CPU_warm_counts": true,
+    "original_prereg_rejects_amended_two_completed": true,
+    "inconsistent_warm_moment_clock_rejected": true,
+    "fixed_prefix_vs_sequential_carry_bitexact": true,
+    "unchanged_weight_null_no_difference": true,
+    "repeat_floors_independent_and_exact": true,
+    "planted_drift_affects_prediction_gradient_update": true,
+    "no_receipt_fails_before_capture_load_or_cuda_validation": true,
+    "cuda_API_guard_before_private_validation": true,
+    "unknown_trajectory_rejected": true,
+    "private_rng_rejects_before_global_setter": true,
+    "source_adapter_preserved": true,
+    "nan_prediction_rejected": true,
+    "nan_rms_rejected": true,
+    "nan_metrics_rejected": true,
+    "nan_gradient_update_rejected": true,
+    "nan_reference_hidden_rejected": true,
+    "nan_stale_h_rejected": true,
+    "nan_stale_h_ema_rejected": true,
+    "posinf_prediction_rejected": true,
+    "posinf_rms_rejected": true,
+    "posinf_metrics_rejected": true,
+    "posinf_gradient_update_rejected": true,
+    "posinf_reference_hidden_rejected": true,
+    "posinf_stale_h_rejected": true,
+    "posinf_stale_h_ema_rejected": true,
+    "neginf_prediction_rejected": true,
+    "neginf_rms_rejected": true,
+    "neginf_metrics_rejected": true,
+    "neginf_gradient_update_rejected": true,
+    "neginf_reference_hidden_rejected": true,
+    "neginf_stale_h_rejected": true,
+    "neginf_stale_h_ema_rejected": true,
+    "overflow_metric_rejected": true,
+    "empty_rms_rejected": true,
+    "before_deadline_permitted": true,
+    "deadline_and_after_rejected": true,
+    "date_constant_verified": true,
+    "observed_memory_boundary": true,
+    "allocator_exact_bound": true,
+    "new_runtime_hash_mapping_valid": true,
+    "wrong_new_payload_hash_rejected": true,
+    "outside_new_payload_scope_rejected": true,
+    "stream_hash_exact_old_grammar_0": true,
+    "stream_hash_exact_old_grammar_1": true,
+    "stream_hash_exact_old_grammar_2": true,
+    "stream_hash_exact_old_grammar_3": true,
+    "stream_hash_exact_old_grammar_4": true
+  },
+  "null": {
+    "outcome": "UNRESOLVED_AT_NUMERIC_FLOOR",
+    "effects": {
+      "hidden": {
+        "rms_difference": 0.0,
+        "relative_l2": 0.0
+      },
+      "prediction": {
+        "rms_difference": 0.0,
+        "relative_l2": 0.0,
+        "reference_rms": 0.3610726202462697
+      },
+      "gradient": {
+        "rms_difference": 0.0,
+        "relative_l2": 0.0,
+        "reference_rms": 0.07660352159604271
+      },
+      "update": {
+        "rms_difference": 0.0,
+        "relative_l2": 0.0,
+        "reference_rms": 1.8878641415712598e-05
+      }
+    },
+    "detectable": {
+      "hidden": false,
+      "prediction": false,
+      "gradient": false,
+      "update": false
+    },
+    "independent_floors": {
+      "floors_rms": {
+        "prediction": 0.0,
+        "gradient": 0.0,
+        "update": 0.0,
+        "hidden": 0.0
+      },
+      "source": "six default-only and six prefix-only independent repeats; before counterfactual",
+      "multiplier": 5,
+      "policy_sha256": "12ba96bce944ed81be3611fd6b704fc2d56a63929df3da9af9ff298918582edb"
+    },
+    "unchanged": [
+      "all pre state except detached student h",
+      "EMA out",
+      "teacher/targets",
+      "weights/denominators",
+      "post RNG and update clocks"
+    ],
+    "scientific_scope": "local early fresh-panel trajectory only; no scoring, fullfit or component attribution"
+  },
+  "planted": {
+    "outcome": "DETECTABLE_SUBTHRESHOLD",
+    "effects": {
+      "hidden": {
+        "rms_difference": 0.00010427319904294595,
+        "relative_l2": 0.00029560378577240566
+      },
+      "prediction": {
+        "rms_difference": 5.221707399326394e-06,
+        "relative_l2": 1.4461511916449864e-05,
+        "reference_rms": 0.3610761744342056
+      },
+      "gradient": {
+        "rms_difference": 2.7295483759770382e-06,
+        "relative_l2": 3.5632213197046436e-05,
+        "reference_rms": 0.07660339145600115
+      },
+      "update": {
+        "rms_difference": 1.6573744773289125e-08,
+        "relative_l2": 0.0008778911501998457,
+        "reference_rms": 1.887904299925592e-05
+      }
+    },
+    "detectable": {
+      "hidden": true,
+      "prediction": true,
+      "gradient": true,
+      "update": true
+    },
+    "independent_floors": {
+      "floors_rms": {
+        "prediction": 0.0,
+        "gradient": 0.0,
+        "update": 0.0,
+        "hidden": 0.0
+      },
+      "source": "six default-only and six prefix-only independent repeats; before counterfactual",
+      "multiplier": 5,
+      "policy_sha256": "ff0adcc43c9b17da4103eedbc6594c0ed9b63e020f4adcfbdb7107ff314634e5"
+    },
+    "unchanged": [
+      "all pre state except detached student h",
+      "EMA out",
+      "teacher/targets",
+      "weights/denominators",
+      "post RNG and update clocks"
+    ],
+    "scientific_scope": "local early fresh-panel trajectory only; no scoring, fullfit or component attribution"
+  },
+  "input_status": "no actual capture/data/score; CPU-protocol tiny RNN input3hidden4B2T60",
+  "controls_output": "cpu_controls",
+  "adapter_hashes": {
+    "live_capture.py": "5c88c8c1e3573893eeaddf9e630788ee414672fe219aee8b84f3078d77b0125b",
+    "runner.py": "bf5c67a95a9d9451f6a974d5ba736d9896c7bea740a7950e159f76205b527d1b",
+    "baselines.py": "30d47e9c49fc9437f03b1826553115ff0c9c857a4e48aa0d3c4bd14ed43e7502",
+    "fit_panel.py": "9beb6b1170d67ae312e213251bf980a34703f3efeb73c45eb4928678f3e608d6",
+    "export_schema.json": "50d3a274b70b4136c1a42e80c6ac11c688467c93892dd030f11f0aa0c2e0c706"
+  },
+  "source_hashes": {
+    "scripts/train_rnn.py": "1d6b059d9880e0befb7b2c6251c7ae6ac9791d0bb0f5cd35dd8e4930cf189ef5",
+    "src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+    "src/wnn/optim.py": "0e476a54d1fdfeed77970816f91668e271f7e2ed72e13d0c047a01d0ff74dae3",
+    "src/wnn/spread_aux.py": "3aabffc6fc887c0426948e62cbd500679ba3e7a6925e28de9f816fb1da8f9cac",
+    "src/wnn/run_identity.py": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+    "src/wnn/outcomes.py": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+    "src/wnn/resources.py": "ac607a58b6d0b87da9cc0587d6e930deb0cca13887d2c4619247331e9b927413",
+    "src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+  },
+  "cost": {
+    "wall_seconds": 2.006936306002899,
+    "cpu_seconds": 1.978331644,
+    "peak_rss_kib": 791148
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "phase": "complete_report_frozen",
+  "role": "round2-usage",
+  "write_scope": "research/campaign_2026-10-03/continuation/round2/usage/**",
+  "prior_evidence": "own statphys REPORT.txt: ridge feature memory helped locally but event-vs-row gate was unresolved; user reports strong-model gate failed; no saturation inferred",
+  "commands": [
+    "Run from repository root. All computation uses the mandatory CPU wrapper.",
+    "W=research/campaign_2026-10-03/continuation/run_cpu.sh",
+    "D=research/campaign_2026-10-03/continuation/round2/usage",
+    "Every Python command below: $W round2-usage env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B $D/SCRIPT",
+    "1 inspect_control.py > $D/inspect_control.log 2>&1",
+    "2 prepare_usage.py > $D/prepare_usage.log 2>&1",
+    "3 synthetic_controls.py > $D/synthetic_controls.log 2>&1",
+    "4 probe_usage.py --sequence 0 > $D/sequence_00.log 2>&1",
+    "5 probe_usage.py --sequence 1 > $D/sequence_01.log 2>&1",
+    "6 probe_usage.py --sequence 2 > $D/sequence_02.log 2>&1",
+    "7 probe_usage.py --sequence 3 > $D/sequence_03.log 2>&1",
+    "8 probe_usage.py --sequence 4 > $D/sequence_04.log 2>&1",
+    "9 probe_usage.py --sequence 5 > $D/sequence_05.log 2>&1",
+    "10 summarize_usage.py > $D/summarize_usage.log 2>&1",
+    "11 finalize_usage.py > $D/finalize_usage.log 2>&1",
+    "12 verify_usage.py (read-only source/artifact/numeric verification)",
+    "Plots additionally set MPLCONFIGDIR=$D/.mpl; no external cache/config writes.",
+    "Formatting/lint: $W round2-usage env RUFF_CACHE_DIR=$D/.ruff_cache .venv/bin/ruff format [own scripts]",
+    "and $W round2-usage .venv/bin/ruff check --no-cache [own scripts].",
+    "No GPU, training, installs, live model changes, other actor findings or fullvalid inference."
+  ],
+  "pending": [],
+  "last_failure": null,
+  "samples": [
+    {
+      "row_group": 1395,
+      "cache_position": 1395,
+      "seq_ix": 1602371461,
+      "component": 3235,
+      "own_prior_target_census_exposure": true,
+      "own_reconstructed_prior_feature_exposure": false,
+      "own_cpu_continuation_feature_exposure": false,
+      "campaign_validation_exposure": true
+    },
+    {
+      "row_group": 1200,
+      "cache_position": 1200,
+      "seq_ix": 1388271624,
+      "component": 2929,
+      "own_prior_target_census_exposure": true,
+      "own_reconstructed_prior_feature_exposure": false,
+      "own_cpu_continuation_feature_exposure": false,
+      "campaign_validation_exposure": true
+    },
+    {
+      "row_group": 164,
+      "cache_position": 164,
+      "seq_ix": 169421375,
+      "component": 2920,
+      "own_prior_target_census_exposure": true,
+      "own_reconstructed_prior_feature_exposure": false,
+      "own_cpu_continuation_feature_exposure": false,
+      "campaign_validation_exposure": true
+    },
+    {
+      "row_group": 1691,
+      "cache_position": 1691,
+      "seq_ix": 1949747365,
+      "component": 3272,
+      "own_prior_target_census_exposure": true,
+      "own_reconstructed_prior_feature_exposure": false,
+      "own_cpu_continuation_feature_exposure": false,
+      "campaign_validation_exposure": true
+    },
+    {
+      "row_group": 1653,
+      "cache_position": 1653,
+      "seq_ix": 1895548128,
+      "component": 3049,
+      "own_prior_target_census_exposure": true,
+      "own_reconstructed_prior_feature_exposure": false,
+      "own_cpu_continuation_feature_exposure": false,
+      "campaign_validation_exposure": true
+    },
+    {
+      "row_group": 1062,
+      "cache_position": 1062,
+      "seq_ix": 1227566939,
+      "component": 2860,
+      "own_prior_target_census_exposure": true,
+      "own_reconstructed_prior_feature_exposure": false,
+      "own_cpu_continuation_feature_exposure": false,
+      "campaign_validation_exposure": true
+    }
+  ],
+  "active_sample": {
+    "row_group": 1062,
+    "cache_position": 1062,
+    "seq_ix": 1227566939,
+    "component": 2860,
+    "own_prior_target_census_exposure": true,
+    "own_reconstructed_prior_feature_exposure": false,
+    "own_cpu_continuation_feature_exposure": false,
+    "campaign_validation_exposure": true
+  },
+  "completed_sequences": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "last_runtime_seconds": 8.070717552996939,
+  "measurement_source_hashes": {
+    "inspect_control.py": "be848fbae086cf458166dd0a22383b1a4eef8b2f1d55b6f02a38dcbd51987a9b",
+    "usage_core.py": "aaf32c46fd6560facbd6b648ad2848f9ac0df9212a64fb2cb93c3b46a119e521",
+    "prepare_usage.py": "cf91eb9b01a218b9fb96b657d4b0e09d2d7eb82871742b9ad0aca69ebb20e936",
+    "synthetic_controls.py": "20c376bdd431ac72020a66638f2ab56b715705d229a2f3e939a075f0ff054584",
+    "probe_usage.py": "da4d1f3afcd55f881d513c15e4d21079982a3fed875a518ed48b43ecf5ac0fd2",
+    "summarize_usage.py": "cc957d0eda620a3c3b061749411a4c1125ffbe1a82da8415e5e70e24aec332a7"
+  },
+  "claims": {
+    "supported": [
+      "i0/i1 current and past donor substitutions affect predictions",
+      "history responses persist after original inputs resume",
+      "i0 256-vs32 history-window contrast is nonzero on every component",
+      "synthetic planted80-row memory detected; sham history response zero"
+    ],
+    "unknown": [
+      "missing predictive information in frozen GRU",
+      "intrinsic age-dependent kinetics after controlling donor amplitude",
+      "predictive gain from a new representation"
+    ],
+    "not_supported": [
+      "event-clock superiority or trunk saturation",
+      "a representation-changing GPU proposal",
+      "ranking importance from unequal past/current intervention sizes"
+    ]
+  },
+  "artifacts": [
+    "BUILD_NOTES.txt",
+    "COMMANDS.txt",
+    "PREREG.json",
+    "REPORT.md",
+    "aggregate_panel.npz",
+    "control_identity.json",
+    "finalize_usage.py",
+    "inspect_control.log",
+    "inspect_control.py",
+    "prepare_usage.log",
+    "prepare_usage.py",
+    "probe_usage.py",
+    "results.json",
+    "samples.json",
+    "sequence_00.json",
+    "sequence_00.log",
+    "sequence_00.npz",
+    "sequence_01.json",
+    "sequence_01.log",
+    "sequence_01.npz",
+    "sequence_02.json",
+    "sequence_02.log",
+    "sequence_02.npz",
+    "sequence_03.json",
+    "sequence_03.log",
+    "sequence_03.npz",
+    "sequence_04.json",
+    "sequence_04.log",
+    "sequence_04.npz",
+    "sequence_05.json",
+    "sequence_05.log",
+    "sequence_05.npz",
+    "summarize_usage.log",
+    "summarize_usage.py",
+    "synthetic_controls.log",
+    "synthetic_controls.py",
+    "synthetic_results.json",
+    "usage_controls.png",
+    "usage_core.py",
+    "usage_map.png",
+    "verification.log",
+    "verify_usage.py"
+  ],
+  "runtime": {
+    "inference_seconds": 51.038608060000115,
+    "max_command_inference_seconds": 9.077759061998222,
+    "max_rss_mib": 943.24609375,
+    "aggregation_seconds": 0.7038235280051595,
+    "timing_scope": "per-script main body; excludes module imports and wrapper admission"
+  },
+  "next": "matched donors/larger fixed panel; independent critique"
+}

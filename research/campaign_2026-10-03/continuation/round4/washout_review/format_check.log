@@ -1,0 +1,263 @@
+unformatted: File would be reformatted
+   --> research/campaign_2026-10-03/continuation/round4/washout_review/review.py:52:13
+    |
+51  |     assert passed
+    -     return {"max_abs": float(np.max(np.abs(actual - expected))), "rms": rms(actual - expected), "passed": bool(passed)}
+52  +     return {
+53  +         "max_abs": float(np.max(np.abs(actual - expected))),
+54  +         "rms": rms(actual - expected),
+55  +         "passed": bool(passed),
+56  +     }
+57  |
+--------------------------------------------------------------------------------
+69  |     selected = {i: next(r["query"] for r in gates[i]["records"] if r["accepted"]) for i in range(4)}
+    -     save("selected_forward_IDs.json", {str(i): {"query": t, "component": panel["samples"][i]["component"], "seq_ix": panel["samples"][i]["seq_ix"]} for i, t in selected.items()})
+    -     paths = [ACTOR / n for n in ("REPORT.md", "PREREG.json", "samples.json", "probe.py", "common.py", "summarize.py", "controls.py", "verify.py", "controls.json", "artifact_provenance.json")]
+70  +     save(
+71  +         "selected_forward_IDs.json",
+72  +         {
+73  +             str(i): {
+74  +                 "query": t,
+75  +                 "component": panel["samples"][i]["component"],
+76  +                 "seq_ix": panel["samples"][i]["seq_ix"],
+77  +             }
+78  +             for i, t in selected.items()
+79  +         },
+80  +     )
+81  +     paths = [
+82  +         ACTOR / n
+83  +         for n in (
+84  +             "REPORT.md",
+85  +             "PREREG.json",
+86  +             "samples.json",
+87  +             "probe.py",
+88  +             "common.py",
+89  +             "summarize.py",
+90  +             "controls.py",
+91  +             "verify.py",
+92  +             "controls.json",
+93  +             "artifact_provenance.json",
+94  +         )
+95  +     ]
+96  |     paths += [REPO / p for p in control["source_sha256"]]
+    -     paths += [REPO / control["checkpoint"], REPO / control["split_manifest"], OWN / "PREREG.json", OWN / "review.py", ACTOR.parent / "observable_simulator" / "REPORT.txt"]
+97  +     paths += [
+98  +         REPO / control["checkpoint"],
+99  +         REPO / control["split_manifest"],
+100 +         OWN / "PREREG.json",
+101 +         OWN / "review.py",
+102 +         ACTOR.parent / "observable_simulator" / "REPORT.txt",
+103 +     ]
+104 |     for i in range(24):
+    -         paths += [ACTOR / f"gates_{i:02d}.json", ACTOR / f"seq_{i:02d}.json", ACTOR / f"seq_{i:02d}.npz", PRIOR / f"seq_{i:02d}.npz"]
+105 +         paths += [
+106 +             ACTOR / f"gates_{i:02d}.json",
+107 +             ACTOR / f"seq_{i:02d}.json",
+108 +             ACTOR / f"seq_{i:02d}.npz",
+109 +             PRIOR / f"seq_{i:02d}.npz",
+110 +         ]
+111 |     before = {str(p): sha(p) for p in paths}
+--------------------------------------------------------------------------------
+118 |     assert args.get("arch", "gru") == "gru" and args.get("enc", "linear") == "linear"
+    -     model = RNNModel(checkpoint["n_in"], args["hidden"], args["layers"], args["dropout"], n_out=control["n_out"], cell=args.get("cell", "gru"), enc=args.get("enc", "linear"))
+119 +     model = RNNModel(
+120 +         checkpoint["n_in"],
+121 +         args["hidden"],
+122 +         args["layers"],
+123 +         args["dropout"],
+124 +         n_out=control["n_out"],
+125 +         cell=args.get("cell", "gru"),
+126 +         enc=args.get("enc", "linear"),
+127 +     )
+128 |     model.load_state_dict(checkpoint["model"])
+--------------------------------------------------------------------------------
+137 |         meta = read(ACTOR / f"seq_{i:02d}.json")
+    -         assert sample["queries"] == [r["query"] for r in gates[i]["records"]] == [r["query"] for r in meta["records"]]
+138 +         assert (
+139 +             sample["queries"]
+140 +             == [r["query"] for r in gates[i]["records"]]
+141 +             == [r["query"] for r in meta["records"]]
+142 +         )
+143 |         assert before[str(PRIOR / f"seq_{i:02d}.npz")] == gates[i]["prior_array_sha256"]
+--------------------------------------------------------------------------------
+152 |         responses = z["predictions"].astype(float) - z["identity_predictions"].astype(float)
+    -         identity_error = z["identity_predictions"].astype(float) - z["original_reference_query"].astype(float)
+153 +         identity_error = z["identity_predictions"].astype(float) - z[
+154 +             "original_reference_query"
+155 +         ].astype(float)
+156 |         accepted_count = 0
+--------------------------------------------------------------------------------
+161 |                 if start >= lag:
+    -                     displacement = (raw[start:end, :52] - raw[start - lag : end - lag, :52]) / std[:52]
+162 +                     displacement = (raw[start:end, :52] - raw[start - lag : end - lag, :52]) / std[
+163 +                         :52
+164 +                     ]
+165 |                     choices.append((rms(displacement), lag))
+--------------------------------------------------------------------------------
+179 |             held = int(np.count_nonzero(difference[:, 189:211]))
+    -             assert accepted == r["accepted"] and clocks == r["suffix_clock_unequal_entries"] and held == r["suffix_held_unequal_entries"]
+    -             record = {"component": sample["component"], "seq_ix": sample["seq_ix"], "query": t, "accepted": bool(accepted), "clock_mismatch_entries": clocks, "held_mismatch_entries": held, "suffix_max_abs": float(np.abs(difference).max()), "weight": 1 / sample["query_pi"], "lag": lag, "finite": finite}
+180 +             assert (
+181 +                 accepted == r["accepted"]
+182 +                 and clocks == r["suffix_clock_unequal_entries"]
+183 +                 and held == r["suffix_held_unequal_entries"]
+184 +             )
+185 +             record = {
+186 +                 "component": sample["component"],
+187 +                 "seq_ix": sample["seq_ix"],
+188 +                 "query": t,
+189 +                 "accepted": bool(accepted),
+190 +                 "clock_mismatch_entries": clocks,
+191 +                 "held_mismatch_entries": held,
+192 +                 "suffix_max_abs": float(np.abs(difference).max()),
+193 +                 "weight": 1 / sample["query_pi"],
+194 +                 "lag": lag,
+195 +                 "finite": finite,
+196 +             }
+197 |             records.append(record)
+--------------------------------------------------------------------------------
+209 |                             pred, h = model(torch.from_numpy(packed[offset:last])[None], h)
+    -                             prefix_parity.append(parity(pred[0, :, :2].numpy(), reference[offset:last]))
+210 +                             prefix_parity.append(
+211 +                                 parity(pred[0, :, :2].numpy(), reference[offset:last])
+212 +                             )
+213 |                         boundary = parity(h.numpy(), z["original_states"][j])
+    -                         old_pred, old_h = model(torch.from_numpy(packed[start : t + 1])[None], h.clone())
+214 +                         old_pred, old_h = model(
+215 +                             torch.from_numpy(packed[start : t + 1])[None], h.clone()
+216 +                         )
+217 |                         new_pred, new_h = model(torch.from_numpy(rebuilt[start:])[None], h.clone())
+--------------------------------------------------------------------------------
+229 |                         assert np.array_equal(canary_features[start : t + 1], rebuilt[start:])
+    -                     forwards.append({"component_index": i, "component": sample["component"], "seq_ix": sample["seq_ix"], "query": t, "boundary": start, "warmup_included": 99, "prefix_rows_forwarded": start, "prefix_max_abs": max(p["max_abs"] for p in prefix_parity), "boundary_parity": boundary, "identity_parity": identity, "stored_original": stored_old, "stored_altered": stored_new, "response_match": response_match, "response_rms": rms(delta), "hidden_match": hidden_match, "future_feature_canary": "zero all rows strictly after query; complete recomputed prefix identical; actual same deterministic window input therefore same forward"})
+230 +                     forwards.append(
+231 +                         {
+232 +                             "component_index": i,
+233 +                             "component": sample["component"],
+234 +                             "seq_ix": sample["seq_ix"],
+235 +                             "query": t,
+236 +                             "boundary": start,
+237 +                             "warmup_included": 99,
+238 +                             "prefix_rows_forwarded": start,
+239 +                             "prefix_max_abs": max(p["max_abs"] for p in prefix_parity),
+240 +                             "boundary_parity": boundary,
+241 +                             "identity_parity": identity,
+242 +                             "stored_original": stored_old,
+243 +                             "stored_altered": stored_new,
+244 +                             "response_match": response_match,
+245 +                             "response_rms": rms(delta),
+246 +                             "hidden_match": hidden_match,
+247 +                             "future_feature_canary": "zero all rows strictly after query; complete recomputed prefix identical; actual same deterministic window input therefore same forward",
+248 +                         }
+249 +                     )
+250 |         assert accepted_count == len(z["queries"]) == meta["accepted"]
+251 |         w = 1 / sample["query_pi"]
+    -         components.append({"component": sample["component"], "accepted": accepted_count, "rejected": 12 - accepted_count, "accepted_mass": w * accepted_count, "squared_response_total": float(w * np.square(responses).mean(axis=1).sum()), "response_rms": rms(responses)})
+252 +         components.append(
+253 +             {
+254 +                 "component": sample["component"],
+255 +                 "accepted": accepted_count,
+256 +                 "rejected": 12 - accepted_count,
+257 +                 "accepted_mass": w * accepted_count,
+258 +                 "squared_response_total": float(w * np.square(responses).mean(axis=1).sum()),
+259 +                 "response_rms": rms(responses),
+260 +             }
+261 +         )
+262 |         all_delta.append(responses)
+263 |         all_identity.append(identity_error)
+264 |         all_hidden.append(z["hidden_rms"])
+265 |         z.close()
+    -         LOG.info("independent component%d accepted%d rejected%d", i, accepted_count, 12 - accepted_count)
+266 +         LOG.info(
+267 +             "independent component%d accepted%d rejected%d", i, accepted_count, 12 - accepted_count
+268 +         )
+269 |     accepted = [r for r in records if r["accepted"]]
+--------------------------------------------------------------------------------
+277 |     weights = np.array([r["weight"] for r in accepted])
+    -     statistics = {"selected": len(records), "accepted": len(accepted), "rejected": len(rejected), "all_components": len(components), "accepted_mass": float(cw.sum()), "rejected_mass": sum(r["weight"] for r in rejected), "domain_mass": sum(s["n_eligible"] for s in panel["samples"]), "raw_response_rms": rms(response), "per_channel_rms": np.sqrt((response**2).mean(axis=0)).tolist(), "inverse_probability_rms": float(np.sqrt(cs.sum() / cw.sum())), "component_bootstrap95": np.quantile(boot, [.025, .975]).tolist(), "identity_rms": rms(errors), "weighted_hidden_layer_rms": np.sqrt(np.average(np.concatenate(all_hidden)**2, axis=0, weights=weights)).tolist(), "rejected_clock_cases": sum(r["clock_mismatch_entries"] > 0 for r in rejected), "rejected_held_cases": sum(r["held_mismatch_entries"] > 0 for r in rejected), "nonfinite": sum(not r["finite"] for r in records), "accepted_per_component_range": [min(c["accepted"] for c in components), max(c["accepted"] for c in components)], "donor_lags": {str(l): sum(r["lag"] == l for r in records) for l in (64,128,256)}}
+278 +     statistics = {
+279 +         "selected": len(records),
+280 +         "accepted": len(accepted),
+281 +         "rejected": len(rejected),
+282 +         "all_components": len(components),
+283 +         "accepted_mass": float(cw.sum()),
+284 +         "rejected_mass": sum(r["weight"] for r in rejected),
+285 +         "domain_mass": sum(s["n_eligible"] for s in panel["samples"]),
+286 +         "raw_response_rms": rms(response),
+287 +         "per_channel_rms": np.sqrt((response**2).mean(axis=0)).tolist(),
+288 +         "inverse_probability_rms": float(np.sqrt(cs.sum() / cw.sum())),
+289 +         "component_bootstrap95": np.quantile(boot, [0.025, 0.975]).tolist(),
+290 +         "identity_rms": rms(errors),
+291 +         "weighted_hidden_layer_rms": np.sqrt(
+292 +             np.average(np.concatenate(all_hidden) ** 2, axis=0, weights=weights)
+293 +         ).tolist(),
+294 +         "rejected_clock_cases": sum(r["clock_mismatch_entries"] > 0 for r in rejected),
+295 +         "rejected_held_cases": sum(r["held_mismatch_entries"] > 0 for r in rejected),
+296 +         "nonfinite": sum(not r["finite"] for r in records),
+297 +         "accepted_per_component_range": [
+298 +             min(c["accepted"] for c in components),
+299 +             max(c["accepted"] for c in components),
+300 +         ],
+301 +         "donor_lags": {str(l): sum(r["lag"] == l for r in records) for l in (64, 128, 256)},
+302 +     }
+303 |     claimed = read(ACTOR / "results.json")
+    -     assert abs(statistics["inverse_probability_rms"] - claimed["response"]["design_weighted_query_rms"]) < 1e-12
+    -     assert np.allclose(statistics["component_bootstrap95"], claimed["response"]["conditional_component95_interval"], atol=1e-12)
+304 +     assert (
+305 +         abs(
+306 +             statistics["inverse_probability_rms"] - claimed["response"]["design_weighted_query_rms"]
+307 +         )
+308 +         < 1e-12
+309 +     )
+310 +     assert np.allclose(
+311 +         statistics["component_bootstrap95"],
+312 +         claimed["response"]["conditional_component95_interval"],
+313 +         atol=1e-12,
+314 +     )
+315 |     after = {str(p): sha(p) for p in paths}
+316 |     assert before == after
+    -     result = {"verdict":"SUPPORTED_NARROW_RETENTION_ON_ACCEPTED_SUFFIX_MATCHED_PANEL", "statistics": statistics, "component_results": components, "all288_records": records, "independent_forward_pairs": forwards, "original_packed_raw_identity_components": source_checks, "checkpoint_source_split_hashes": {p: h for p,h in before.items() if p in [str(REPO/control['checkpoint']),str(REPO/control['split_manifest'])] or p in [str(REPO/q) for q in control['source_sha256']]}, "assumptions": ["original eligibility-mask census and query sampling seed inherited, not independently resampled", "main split row-group exclusion checked; complete connected-component assignment and teacher lineage inherited, not independently reaudited", "production causal feature primitive shared, actor replay helpers not imported", "future canary tests prefix computation only, not training-label lineage or market support", "no targets loaded"], "input_sha256": before, "cost": {"wall_seconds":time.monotonic()-begin,"cpu_seconds":time.process_time()-cpu,"peak_rss_kib":resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,"GPU":False}}
+317 +     result = {
+318 +         "verdict": "SUPPORTED_NARROW_RETENTION_ON_ACCEPTED_SUFFIX_MATCHED_PANEL",
+319 +         "statistics": statistics,
+320 +         "component_results": components,
+321 +         "all288_records": records,
+322 +         "independent_forward_pairs": forwards,
+323 +         "original_packed_raw_identity_components": source_checks,
+324 +         "checkpoint_source_split_hashes": {
+325 +             p: h
+326 +             for p, h in before.items()
+327 +             if p in [str(REPO / control["checkpoint"]), str(REPO / control["split_manifest"])]
+328 +             or p in [str(REPO / q) for q in control["source_sha256"]]
+329 +         },
+330 +         "assumptions": [
+331 +             "original eligibility-mask census and query sampling seed inherited, not independently resampled",
+332 +             "main split row-group exclusion checked; complete connected-component assignment and teacher lineage inherited, not independently reaudited",
+333 +             "production causal feature primitive shared, actor replay helpers not imported",
+334 +             "future canary tests prefix computation only, not training-label lineage or market support",
+335 +             "no targets loaded",
+336 +         ],
+337 +         "input_sha256": before,
+338 +         "cost": {
+339 +             "wall_seconds": time.monotonic() - begin,
+340 +             "cpu_seconds": time.process_time() - cpu,
+341 +             "peak_rss_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+342 +             "GPU": False,
+343 +         },
+344 +     }
+345 |     save("results.json", result)
+    -     save("STATE.json", {"phase":"review_scored","verdict":result["verdict"],"actor_sources_imported":False,"target_arrays_loaded":False,"cost":result["cost"]})
+346 +     save(
+347 +         "STATE.json",
+348 +         {
+349 +             "phase": "review_scored",
+350 +             "verdict": result["verdict"],
+351 +             "actor_sources_imported": False,
+352 +             "target_arrays_loaded": False,
+353 +             "cost": result["cost"],
+354 +         },
+355 +     )
+356 |     LOG.info("SUMMARY %s", json.dumps(statistics))
+    |
+
+1 file would be reformatted

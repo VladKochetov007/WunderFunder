@@ -1,0 +1,187 @@
+INDEPENDENT MECHANISM INSTRUMENT REVIEW — BLOCK ACTUAL-CAPTURE INTERPRETATION
+
+Tiny CPU algebra/schema instrument is useful, but the frozen adapter is NOT READY
+for scientific v3 capture geometry. Principal blockers: it accepts only v2, and
+no independently accepted separate-component decomposition bound exists in this
+review. Six original/default-step floors cannot supply that missing bound.
+Do not relabel v3 as v2, infer acceptance from this review, calibrate on a desired
+difference or relax an independently accepted zero floor. No actual capture,
+CUDA outcome, calibration outcome, raw data, model forward or fit was read/run.
+
+WHAT WAS REVIEWED AND PRESERVED
+PREREG.md, REPORT.md, analyze.py and controls.py were read before tests; source
+scripts/train_rnn.py, src/wnn/optim.py and spread_aux.py plus v3 capture and
+baselines SOURCE ONLY were reviewed. No pre.pt/components.pt/post.pt, floor JSON,
+CUDA logs, checkpoint, dataset or capture manifest was opened. FROZEN_SPEC hashes
+match and every consumed source is checked unchanged before/after. Actor module
+analyze.py was imported read-only solely to call its algebra functions on tiny
+in-memory fictitious dictionaries; controls/main/replay/restore were not invoked.
+No live source, capture runtime or author artifact was modified. Readiness gate
+in adversaries.py is an independent reviewer fixture, not a production patch.
+
+SOURCE DENOMINATOR / COEFFICIENT SEMANTICS — CONDITIONALLY CORRECT
+Supported cached-teacher/distill-boot8 branch: main numerator uses actual blended
+teacher/boot target; denominator uses ORIGINAL abs(clamp(y,-2,2))*main_valid,
+not the mixed target magnitude. Captured component already includes its loss
+coefficient; main coefficient1 is correct for this branch, with no second mixing
+or coefficient application to gradients. Denominator reconstruction does not
+reconstruct/rescore teacher targets or infer their lineage.
+Next first-event term is aux_next * sum((MSE+BCE)*nw)/sum(nw).clamp_min(1e-8).
+EMA default uses cw=main_valid[...,None], broadcasting over two outputs in the
+NUMERATOR but not expanding its singleton-channel DENOMINATOR. EMA metric-weight
+branch multiplies cw by abs(clipped y), with an additional consistency_scale2.
+Toy default mainD5, EMA D2, nextD2; metric EMA D5; EMA coefficient.7 becomes1.4
+in metric branch. These reproduce the reviewed source. The actual v3 supported
+recipe fixes default EMA, coefficient1, aux_struct/next .3/.3; the .7 toy is just
+an explicit coefficient test, not a measured recipe. No double weighting.
+Positive divisor-only rescaling.1/1/10 preserves component cosine-1 and scales
+norm inversely in the independent fixture. It does not prove denominator noise
+caused actual amplitude or that different relative divisors leave total direction
+unchanged. D*||g|| still includes the captured coefficient, clipping clamp and
+numerator/sample composition; effective weighted count is not independent sample
+size. Arbitrary alternative objectives/running/CE branches are not approved.
+
+STRUCTURAL NORMALIZATION MUST STAY PARTIAL/UNKNOWN
+The reviewed current structural_loss sums spread/branch/class cross-entropies
+under row weights and divides ONCE by row_weights.sum().clamp_min(1e-8). Optional
+encoded-spread unknown mask affects the spread numerator only, not denominator.
+This is the current source semantics, not evidence which captured branch/inputs
+were independently accepted. The adapter deliberately returns structural D
+UNAVAILABLE and does not guess a denominator from another loss. That is correct
+fail-partial behavior. It can report validated structural gradient geometry
+without a structural amplitude attribution. Four-component numerator-equivalent
+or random-denominator conclusions remain UNKNOWN until an independently approved
+source/branch/argument binding provides that D; do not replace UNKNOWN by sum(sw)
+merely because a different/current source version happens to use it.
+
+CANONICAL WARM OPTIMIZER / PARAMETER GROUP MAPPING
+The adapter requires external canonical serialized-ID-to-name map, then checks
+optimizer group order, name membership, unique complete names and warm states.
+Our swapped-name and missing-moment fixtures reject. Adam step must be positive
+Python int, with finite shape-matched exp_avg/exp_avg_sq; Muon must have finite
+momentum_buffer; negative Adam second moments reject. This is materially stronger
+than ordinal flattening. Canonical identity still must be independently derived
+from accepted source; a self-consistent JSON map is not independent provenance.
+Group membership/flags, exact betas/eps/lr/decay, warm clocks and bound coefficient
+recipe must be source-approved, not inferred from names alone. Prevalidation does
+not completely validate post-state finiteness, skip/participation or hyperparameters.
+Current schema version3 is explicitly rejected by analyze.validate(version!=2).
+CLI binding also requires independent_capture_v2_accepted. This is a SAFE current
+rejection, not permission to change a version field. An independently reviewed
+v3 adapter/binding is needed before actual v3 interpretation.
+
+DECISIVE FP16 COMPONENT-ROUNDING ADVERSARY
+One fp32 scalar parameter is cast to fp16 then back to fp32 loss space. Four
+weighted terms are1.0003*q, -q,0*q,0*q. Scale128 is held EXACTLY constant.
+All operations are tiny CPU arithmetic; no GradScaler/backend/CUDA measurement.
+Six repetitions differentiate the SCALED TOTAL then divide by128. They all return
+.0002999305725097656, so their original/default-repeat floor is EXACTLY0.
+Separately differentiating each scaled term then dividing returns[1,-1,0,0];
+their sum is0. Component-sum vs total difference=.0002999305725097656.
+This is deterministic cast/backprop arithmetic, not default replay nondeterminism
+or a scientific component-conflict finding. It is an existence proof that identical
+default repetitions DO NOT bound a different component-autograd operation. It
+neither estimates actual CUDA error nor licenses any tolerance of .0003 or larger.
+
+v3 baselines derive per-floating-leaf limits from six ORIGINAL/DEFAULT repeats,
+with2x empirical floor and fixed ceilings. Their compare_policy preserves exact
+comparison when floor0. That valid policy concerns default online/replay state
+leaves, NOT separate loss-term autograd-sum versus total-backward tensors. It has
+no automatically transferable component path or rounding bound. The fixed
+ceiling is a cap on allowable default floors, NOT an alternative allowance when
+measured floor0. More stable total replays do not fix operation mismatch.
+
+Independent reviewer gate outcomes:
+- no decomposition policy => UNKNOWN_NO_DECOMPOSITION_BOUND;
+- default-only operation => BLOCK_WRONG_OPERATION;
+- desired-difference-fitted allowance => BLOCK_UNACCEPTED_OR_DESIRED_CALIBRATION;
+- NaN/Inf allowance => BLOCK_NONFINITE_OR_INVALID;
+- independently accepted exact-zero decomposition policy applied to NONzero
+  toy residual => BLOCK_DECOMPOSITION_MISMATCH;
+- same fictitious exact-zero policy applied to exact-zero residual passes ONLY
+  decomposition, not capture/backend/science approval.
+No actual decomposition bound is accepted or proposed here. A future policy must
+bind the distinct operation, loss coefficients, scale/unscale stage, source,
+backend/precision, graph/reduction conditions and tensor identity, be independently
+accepted without desired scientific-difference calibration, and retain exclusions.
+Absent that, scientific force-sum/update conclusions must remain UNKNOWN/BLOCKED.
+
+ADAPTER FAIL-CLOSED GAPS — TOY MALFORMATIONS, NOT REAL CAPTURE FINDINGS
+1. geometry(pre,components,canonical) with NO post returns decomposition None but
+   still local_conflict_witness=True on a planted antiparallel component fixture.
+   CLI only checks decomposition bound IF --post supplied. A capture-accepted
+   boolean does not establish accepted decomposition. Raw unverified component
+   geometry may be descriptive, but cannot count as an accepted scientific
+   conflict/cancellation witness or sum of actual preclip force. Required status:
+   UNKNOWN_NO_DECOMPOSITION_BOUND; suppress/label scientific witness unavailable.
+2. CLI uses residual>binding['decomposition_max_abs_bound'] without finite/nonnegative
+   bound validation or operation provenance. NaN and Inf bounds fail to reject a
+   positive residual. No supplied binding was read, so this is a source/schema
+   hardening issue, NOT evidence an author actually used an invalid bound.
+3. Nonfinite post.preclip is not validated. Our synthetic NaN preclip produces
+   decomposition_max_abs0 because Python max(0,NaN) leaves0. It would bypass even
+   a zero scalar bound. Finite tensor/shape/key checks must precede subtraction
+   and reduction; do not declare success from this scalar residual.
+4. Synthetic post declaring skipped=True with preclip None, zero delta and exactly
+   cancelling components is accepted by geometry. It adds lr*wd*theta regardless
+   of skip/parameter participation and reports decay-corrected changes[+.0001,
+   -.0001,0,0], despite no actual decay/update. These are malformed/inconsistent
+   science descriptors, not independently accepted production captures. Source
+   optimizer skips parameters with grad None; AMP-skipped attempts skip optimizer
+   entirely. Require independently accepted NON-skipped actual post and perparameter
+   participation before claiming decay removal. Unknown support => UNKNOWN result.
+The adapter needs these guards even if upstream capture validation usually catches
+malformations. Hash acceptance alone cannot recover omitted operation semantics.
+
+SCALE / CLIP / REALIZED STEP / METRIC — DISTINCT CONDITIONAL OBJECTS
+Source online order: scale(total).backward -> unscale_(optimizer) -> observe stats
+-> GLOBAL clip_grad_norm -> scaler.step -> scaler.update -> scheduler/EMA clocks.
+Component producer differentiates scale(term) separately and divides by scale.
+Therefore both intended gradients are preclip/unscaled, but that algebraic unit
+match does not remove finite-precision operation differences. Never compare
+component sum to CLIPPED gradients or divide captured components by scale twice.
+Exact pre/post scale and skip clocks must come from accepted payload, not this toy.
+A common positive clipping coefficient scales total force and all putative component
+vectors together; cannot separately clip each component then sum. The toy clip
+[3,4] with clip1 gives coefficient.199999960000008 under the declared1e-6 stabilizer;
+this illustrates source operation, not measured actual clipping or per-loss steps.
+
+For supported ACTIVE MuonAdamW/AdamW parameters, source applies
+  theta_after=(1-lr*wd)*theta_before + nonlinear_data_update.
+Thus delta+lr*wd*theta_before removes decoupled decay in exact arithmetic. This
+requires actual group lr/decay, pre-weight and executed parameter update; observed
+fp32 delta/correction retains numerical roundoff. Unused/skipped states do not
+satisfy that active-update identity. First-order g_k dot observed delta is a local
+Taylor diagnostic, not exact loss change; curvature, momentum, clipping and
+orthogonalization prevent additive per-loss optimizer attribution.
+Frozen incoming Adam diagonal1/(sqrt(v/(1-beta2^step))+eps) is correct as a labeled
+positive diagnostic metric. Actual NEXT update uses updated m/v and step+1. Toy
+surrogate-.0013624656 versus actual Adam formula-.0021030597 shows the distinction.
+Muon has no analogous Adam diagonal; do not invent one or sum hypothetical Muon
+component steps. Positive component normalization preserves pairwise cosine sign,
+not necessarily cancellation/total direction under unequal scaling.
+The adapter's adam_frozen_metric aggregates ALL Adam parameters, not a shared-only
+Adam metric. A shared Euclidean witness plus aggregate Adam witness cannot prove
+preregistered shared-conflict survival in the Adam metric. Scope outputs explicitly;
+if that shared metric criterion is required, its matched subtotal is unavailable.
+
+READINESS VERDICT / FIXED SCIENTIFIC LIMITS
+READY only for the demonstrated tiny CPU algebra/schema probes. BLOCK actual v3
+capture science until version/source/name binding and independently accepted
+separate-component decomposition policy plus finite/skip/participation guards.
+Structural amplitude stays UNKNOWN without branch normalization binding; shared
+Adam-metric survival needs the appropriate parameter subtotal. Different h versus
+h_ema weights/histories remain state drift UNIDENTIFIED, not stale-state causality.
+No current-weight/same-prefix reference exists or was invented. Even an accepted
+local conflict later would not identify denominator noise, TBPTT drift, nonlinear
+update attribution, stationary force law, generalization or combined-recipe/public
+gain. No actual capture result or optimizer measurement is claimed in this review.
+
+COST / ARTIFACTS / REPRODUCTION
+Tiny test body cost and peak RSS in results.json/COST.json; importing torch dominates
+~524MiB process memory, below2GiB. Initial run retained, second run additionally
+executes the preregistered positive-divisor controls; no resource failure/GPU/GRU/
+fit/data/capture reads. Wrapper reviewer1core2GiB900s, serial bodies. PREREG,
+STATE, executable adversaries.py/run.sh, measured fixtures, source/artifact hashes
+and logs retained ONLY in mechanism_review. Author sources are unchanged; no
+production fix, capture launch, promotion or public claim. Frozen for controller.

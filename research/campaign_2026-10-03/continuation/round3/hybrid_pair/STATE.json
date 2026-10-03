@@ -1,0 +1,123 @@
+{
+  "phase": "report_frozen",
+  "role": "round3-hybrid-pair",
+  "commands": [
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round3-hybrid-pair env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round3/hybrid_pair/synthetic.py",
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round3-hybrid-pair env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round3/hybrid_pair/probe.py",
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round3-hybrid-pair env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/campaign_2026-10-03/continuation/round3/hybrid_pair/summary.py",
+    "research/campaign_2026-10-03/continuation/run_cpu.sh round3-hybrid-pair env PYTHONDONTWRITEBYTECODE=1 bash research/campaign_2026-10-03/continuation/round3/hybrid_pair/verify.sh"
+  ],
+  "last_failure": null,
+  "pending": [],
+  "prior_exposure": "Round2 fixed TRAIN panel; every target origin already exposed. Skeptic branch unread. Original component assignment reused; not independent generator confirmation.",
+  "test_IDs": [
+    {
+      "group": 1131,
+      "component": 1695,
+      "seq_ix": 239686751
+    },
+    {
+      "group": 8488,
+      "component": 462,
+      "seq_ix": 1734866141
+    },
+    {
+      "group": 10038,
+      "component": 2614,
+      "seq_ix": 2040244411
+    },
+    {
+      "group": 4094,
+      "component": 1826,
+      "seq_ix": 836756439
+    },
+    {
+      "group": 8497,
+      "component": 732,
+      "seq_ix": 1736263665
+    },
+    {
+      "group": 6489,
+      "component": 746,
+      "seq_ix": 1333389311
+    },
+    {
+      "group": 7758,
+      "component": 1245,
+      "seq_ix": 1589015502
+    },
+    {
+      "group": 6457,
+      "component": 2268,
+      "seq_ix": 1326024571
+    },
+    {
+      "group": 1473,
+      "component": 388,
+      "seq_ix": 310399649
+    },
+    {
+      "group": 1765,
+      "component": 637,
+      "seq_ix": 370750816
+    },
+    {
+      "group": 5635,
+      "component": 1754,
+      "seq_ix": 1159057298
+    },
+    {
+      "group": 8477,
+      "component": 991,
+      "seq_ix": 1732301769
+    }
+  ],
+  "resolved_failures": [
+    "Synthetic non-equivalence assertion initially checked agreeing fixture A; fixed to predeclared fixture B without law changes, before data scoring",
+    "Initial lint import/unused/nested-if warnings fixed without numerical changes"
+  ],
+  "skeptic_branch_read": false,
+  "claims": {
+    "independent_hybrid_exact_law": "rejected",
+    "shared_exit_exact_law": "rejected",
+    "shared_exit_partial_conditional_association": "measured, needs dedup and independent decoder audit",
+    "physical_generator_identity": "unknown",
+    "training_representation_proposal": "deferred until both reports frozen and audit comparison"
+  },
+  "artifacts": [
+    "COMMANDS.txt",
+    "DEDUP_LEDGER.jsonl",
+    "DEDUP_PREREG.json",
+    "PREREG.json",
+    "PROVENANCE.json",
+    "REPORT.md",
+    "STATE.json",
+    "controller_command_logs.txt",
+    "cost.json",
+    "known_generator_paths.npz",
+    "laws.py",
+    "lint_final.log",
+    "probe.log",
+    "probe.py",
+    "probe_verified.log",
+    "probe_witness_replay.log",
+    "results.json",
+    "results_initial.json",
+    "sampled_outputs.json",
+    "sampled_outputs_initial.json",
+    "source_hashes.json",
+    "summary.json",
+    "summary.log",
+    "summary.py",
+    "summary_final.log",
+    "summary_format.log",
+    "synthetic.log",
+    "synthetic.py",
+    "synthetic_initial_failure.log",
+    "synthetic_results.json",
+    "synthetic_verified.log",
+    "verification.log",
+    "verification_final.log",
+    "verify.sh"
+  ]
+}

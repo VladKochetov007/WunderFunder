@@ -1,0 +1,24 @@
+Frozen continuation decision — 2026-10-03 after matched seed4 result
+
+Primary candidate: fixed full-schedule Muon recurrent optimizer + chunk1000 +
+stopped-bootstrap horizon8, alpha0.5 GRU256, seed3, four epochs, fixed epoch3.
+Run folds2 and3 unchanged after the two already-queued width320 folds. Reference:
+existing c20261001_d256_s3_f2/f3 parent predictions, aligned clean manifests.
+Do not select checkpoint, change flags, or cancel a scientifically negative fit
+based on interim validation. Resource failure still pauses and preserves evidence.
+
+Primary report: scores/combo_fold23_prereg_report.json; pool clipped GlobalWP
+and paired connected components, bootstrap2000 seed271828. Adoption requires
+positive primary mean and interval lower>0 for folds2+3, positive public-like
+diagnostic mean, positive pooled class3 delta, and neither fold's class3 delta
+below -0.002. Otherwise do not extrapolate the
+fold0 gain. Report each fold and every class regardless of result. Existing
+folds/seed comparisons remain visible; no public score is claimed from this.
+
+Job lines (controller-owned queue; agents cannot append):
+c20261003_combo_s3_f2 6000 8 research/campaign_2026-10-01/jobs/dcurve_fold.sh 2 combo 3 --optim muon --chunk 1000 --distill-boot-h 8
+c20261003_combo_s3_f3 6000 8 research/campaign_2026-10-01/jobs/dcurve_fold.sh 3 combo 3 --optim muon --chunk 1000 --distill-boot-h 8
+
+These folds were previously explored in this campaign. This is a fixed-procedure
+confirmation across additional components, not an untouched dataset claim.
+Both jobs stay inside existing time/resource bounds; no new quota is introduced.

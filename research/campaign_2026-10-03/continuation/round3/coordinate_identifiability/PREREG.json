@@ -1,0 +1,33 @@
+{
+  "status": "frozen before toy execution or inspecting its outputs",
+  "question": "Do documented input observations and the frozen code/spread/move table identify physical quote paths, or only a supervised coordinate after an extra observation-map/reference assumption?",
+  "reads": "Existing HOST_DATA_DESCRIPTION plus frozen round2 decoder_tables and its PREREG, own frozen decoder audit PREREG; contracts/resource wrapper. No raw parquet, hybrid scoring, model/live source, target fitting or recalibration.",
+  "assumptions": {
+    "documented": "112 float32 fields encode two L11 book representations, trade price/volume and8 unspecified extras. Price index is component identity, not depth. No inverse normalization, fixed physical origin, tick conversion, trade carry-forward grammar, absolute reference, relative-instrument calibration or semantics for extras is supplied.",
+    "conditional_decoder": "Frozen code->class/spread and code-pair->move table is a supervised coordinate. Prefix anchor (bid=0,ask=spread) fixes an additive coordinate constant only. We do not refit or assume it is physical.",
+    "toy_observation_map": "A causal time-stationary encoder maps CURRENT centered book shape into two exact frozen22-float price codes. Remaining90 fields are causal volume, current trade-relative-price and extras functions of the same phase; four latest trades occur at the current observation in each instrument. This is one encoding allowed by the documentation, not a claim about the supplied encoder.",
+    "gauge": "P_t=U_t+g_t and common future reference F_t=K+g_t gives identical labels yL=q*(K-Uask_t),yS=q*(Ubid_t-K). Common translation leaves spread/relative book shape invariant; both instruments and current trades share the translation. A known time-independent invertible absolute-price transform would remove this time-varying freedom but is an EXTRA assumption."
+  },
+  "frozen_code_selector": "Lexicographically first reversible frozen code pair with both spread/class maps in the same class, opposite directed moves, move/spread consistency, nonconstant midpoint and overlapping entry bid/ask intervals. No target reads. If none, report actual frozen-code fixture unavailable rather than tune selection.",
+  "procedure": "Make32 observed phases alternating the selected frozen pair, with decoded coordinates U from the frozen moves/spreads. World0 physical quotes=P0=U+100, common reference constantK+100. World1 quotes=P1=U+g, g0=100, g[t+1]=g[t]+K-midpoint(U[t+1]); its F_t=K+g_t is the ACTUAL next-step physical midpoint. Book/deep-level shapes, volumes and current trades encode the same112 inputs in both worlds. No labels enter the input encoder; labels are generated only for equality diagnostics. Use an extra final quote to define the last future midpoint.",
+  "candidate_anchors": [
+    "first-known frozen spread and class",
+    "bid0/askspread prefix initialization",
+    "spread consistency and within-side depth ordering in the toy books",
+    "second-instrument relative book, current trade-relative prices/volumes and8 unspecified extras",
+    "initial physical-price anchor at t0 only (negative control for time-varying gauge)"
+  ],
+  "positive_controls": [
+    "Known absolute best bid at EVERY row breaks the two-world equivalence; its known unit/origin reconstructs both quotes using spread.",
+    "Known absolute common reference at EVERY row breaks equivalence and recovers physical quotes from U.",
+    "Extra invariant-slot assumption: one immutable physical trade held across adjacent rows and its trade price is centered using the SAME current midpoint/unit as book fields. A translation change then changes the observable stored-trade-minus-current-midpoint; stable slot identity matters."
+  ],
+  "negative_controls": [
+    "Initial absolute anchor alone cannot resolve later gauge shifts.",
+    "Refreshing all trade slots at each row retains gauge invariance even though trade fields exist.",
+    "A label-relative decoder reset/first-known spread is not a physical anchor."
+  ],
+  "falsifier": "The proposed unidentifiability witness fails if the selected fixture is absent, physical paths/moves are identical, any of112 base observations or regenerated code keys/table outputs differ, or labels differ. Report measured failures/unknowns without changing the law, encoder, selector or threshold. Controls must separately detect the difference under their explicitly added anchor assumptions; do not treat synthetic anchor fields as present in supplied data.",
+  "decision_rule": "If two physical paths differ with identical documented observations and frozen decoder outputs, physical quote teachers are not identified by documentation/table alone. They may be used only as explicitly named label-coordinate proxy supervision or if extra observation/anchor assumptions are established independently. No exact physical-extrema/stop/execution teacher should be approved from this toy or conditional table agreement alone.",
+  "resources": "run_cpu.sh round3-hft;CPU1core2GiB900s;writes only coordinate_identifiability;15-20 minute pass;no GPU or training changes"
+}
