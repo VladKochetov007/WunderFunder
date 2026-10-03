@@ -3,11 +3,11 @@
  "horizon_h": 700,
  "arms": {
   "target_stopped_bootstrap": {
-   "mu": 3,
-   "sd": 10,
+   "mu": 4,
+   "sd": 6,
    "cost_h": 2.0,
    "pulls": [],
-   "status": "ready (patch + jobs/sbd_fold.sh)",
+   "status": "2-fold +0.0012; combo queued",
    "family": "training target",
    "evidence": "unbiased by optional stopping; run-coherent noise 9x lower than alpha 0.7 (E-334); toy +0.0004",
    "noise_sd": 4.0
@@ -38,25 +38,25 @@
    "noise_sd": 4.0
   },
   "arch_two_timescale_state": {
-   "mu": 0,
-   "sd": 12,
+   "mu": -3,
+   "sd": 5,
    "cost_h": 3.0,
    "pulls": [],
-   "status": "built (11 tests); smoke first in queue",
+   "status": "ep2 f0 -0.0019; f1 running",
    "family": "architecture",
    "evidence": "half the loss in class-3 long quiet runs (E-323); dual-clock rejected but confounded (freeze bug per audit); twoclock: row GRU192x2 + event GRU128 stepping only on a6 endpoint rows (17.5% of rows), 1.56 MB int16, <= GRU256 MACs/row",
    "noise_sd": 4.0
   },
   "teacher_ensemble": {
-   "mu": 1,
-   "sd": 6,
+   "mu": -1,
+   "sd": 2,
    "cost_h": 1.0,
    "pulls": [
     "E-330",
     "E-337",
     "E-339"
    ],
-   "status": "conflicting",
+   "status": "closed: final seeds -0.0008 / -0.0001 on holdout",
    "family": "distillation",
    "evidence": "folds +0.0011 (2/2), final holdout -0.0008",
    "noise_sd": 5.0
@@ -77,13 +77,13 @@
    "noise_sd": 4.0
   },
   "data_all_valid": {
-   "mu": 1.5,
-   "sd": 2,
+   "mu": 3,
+   "sd": 3,
    "cost_h": 1.0,
    "pulls": [],
    "status": "needs a public pull (no local holdout left)",
    "family": "data",
-   "evidence": "teammate: valid weight 1x vs 0x +0.0011; holdout = 20% of valid unused by finals; lit-scout scaling law E-152 +0.0034/doubling -> ~+0.00015 for 368 seqs",
+   "evidence": "teammate: valid weight 1x vs 0x +0.0011; holdout = 20% of valid unused by finals; lit-scout scaling law E-152 +0.0034/doubling -> ~+0.00015 for 368 seqs; E-350 student slope +0.0015/doubling",
    "noise_sd": 5.0
   },
   "seed_bag_engine": {
@@ -142,15 +142,15 @@
    "evidence": "SAM / zoneout with longer training"
   },
   "muon_rnn": {
-   "mu": 4,
-   "sd": 7,
+   "mu": 6,
+   "sd": 6,
    "cost_h": 1.5,
    "noise_sd": 4.0,
    "pulls": [
     "E-348",
     "E-349"
    ],
-   "status": "f0 full +0.0030, f1 ep2 null; f1 full queued",
+   "status": "2-fold full +0.0016; combo queued",
    "family": "optimization",
    "evidence": "Muon per gate block on W_hh/W_ih + AdamW rest; smoke ties AdamW (+0.0006+-0.0015) (OPT_REPORT.txt)"
   },
@@ -165,32 +165,32 @@
    "evidence": "LSTM forget bias / chrono tmax 8; GRU256+LSTM192 ~404 kcyc is the only 2-member bag under the gate (OPT_REPORT.txt)"
   },
   "student_chunk1000": {
-   "mu": 0.5,
-   "sd": 5,
+   "mu": 5,
+   "sd": 6,
    "cost_h": 1.5,
    "noise_sd": 4.0,
    "pulls": [],
-   "status": "ready (optim.py + flags)",
+   "status": "ep2 2-fold +0.0014; combo queued",
    "family": "optimization",
    "evidence": "TBPTT 1000 for the student (more updates, shorter horizon) (OPT_REPORT.txt)"
   },
   "init_chrono": {
-   "mu": -1,
-   "sd": 5,
+   "mu": -2,
+   "sd": 2,
    "cost_h": 1.5,
    "noise_sd": 4.0,
    "pulls": [],
-   "status": "ready (optim.py + flags)",
+   "status": "null (E-354)",
    "family": "optimization",
    "evidence": "chrono init tmax 64 (tmax 2000 smoke -3.7%) (OPT_REPORT.txt)"
   },
   "student_width320": {
-   "mu": 2,
-   "sd": 6,
+   "mu": 6,
+   "sd": 7,
    "cost_h": 2.0,
    "noise_sd": 4.0,
    "pulls": [],
-   "status": "ready (optim.py + flags)",
+   "status": "GRU384 +0.0020 on fold 0 (E-350); W320 deployable test queued",
    "family": "optimization",
    "evidence": "wider distilled student; width helps only when distillation denoises labels; runtime-limited (OPT_REPORT.txt)"
   },
