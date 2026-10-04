@@ -29,6 +29,12 @@ VARIANTS: dict[str, list[str]] = {
     "credit_detached": ["--update-rows", "2000", "--detach-rows", "1000"],
     "credit_connected": ["--update-rows", "2000", "--detach-rows", "2000"],
     "since_off": ["--since-weight", "0"],
+    "muon_handoff": ["--optim-switch", "0.5:adamw"],
+    "module_clipping": ["--clip-per-module", "inp:1,gru:1,head:1"],
+    "seeded_order": ["--batch-order", "seeded"],
+    "antithetic_order": ["--batch-order", "seeded", "--antithetic"],
+    "volume28": ["--research-features", "volume28"],
+    "volume28_current": ["--research-features", "volume28_current"],
     "thinning": ["--thin-prob", "1", "--thin-range", "0.1,0.4"],
     "lstm128": ["--cell", "lstm", "--hidden", "128"],
     "gru128": ["--hidden", "128"],
@@ -220,19 +226,22 @@ def input_paths(fold: int | None, *, parent: str | None = None) -> list[str]:
     else:
         propensity = "prop_v1" if fold is None else f"c20260929_prop_f{fold}"
         inputs.append(f"artifacts/runs/{propensity}/model.pt")
+        for split in ("train", "valid"):
+            inputs += [f"cache/propcache_{propensity}_{split}.{ext}" for ext in ("npy", "json")]
         for seed in (3, 4):
             teacher = (
                 f"ab67_final_since_s{seed}" if fold is None else f"c20260929_since_s{seed}_f{fold}"
             )
             inputs += [
                 f"artifacts/runs/{teacher}/model.pt",
-                f"artifacts/runs/{teacher}/provenance.json",
+                f"artifacts/runs/{teacher}/{'history.json' if fold is None else 'provenance.json'}",
             ]
             for split in ("train", "valid"):
-                inputs += [
-                    f"cache/pred_{teacher}_{split}.npy",
-                    f"cache/pred_{teacher}_{split}.json",
-                ]
+                inputs.append(f"cache/pred_{teacher}_{split}.npy")
+                # These legacy final valid caches predate prediction sidecars.
+                # Bind their actual bytes; do not manufacture earlier provenance.
+                if fold is not None or split == "train":
+                    inputs.append(f"cache/pred_{teacher}_{split}.json")
     return sorted(set(inputs))
 
 
@@ -245,12 +254,19 @@ def recipe(trial: str, fold: int | None, seed: int, backend: str, root: Path = R
     suffix = "final" if fold is None else f"f{fold}"
     name = f"c20261004_{trial}_s{seed}_{suffix}"
     parent = None
-    if trial == "combo_head":
+    if trial in {"combo_head", "ctrl_head"}:
         if seed != 3:
             raise ValueError("registered head comparison uses parent seed3, FT seed3")
-        parent = (
-            "c20261004_combo_s3_final@ep3" if fold is None else f"c20261003_combo_s3_f{fold}@ep3"
-        )
+        if trial == "ctrl_head":
+            if fold is None:
+                raise ValueError("CTRL head transport check uses frozen fold parents")
+            parent = f"c20261001_d256_s3_f{fold}@ep3"
+        else:
+            parent = (
+                "c20261004_combo_s3_final@ep3"
+                if fold is None
+                else f"c20261003_combo_s3_f{fold}@ep3"
+            )
         argv = head_args(name, parent, fold)
         epoch = 0
     else:
@@ -304,10 +320,40 @@ def merged_screen() -> dict:
     }
 
 
+def prediction_recipe(run: str, epoch: int, root: Path = ROOT) -> dict:
+    """Bind a fixed checkpoint and full validation export for the frozen scorer."""
+    if not run.startswith("c20261004_") or not run.replace("_", "").isalnum() or epoch < 0:
+        raise ValueError("expected a current-campaign run and nonnegative fixed epoch")
+    return {
+        "version": 1,
+        "name": f"predict_{run}",
+        "kind": "gpu",
+        "argv": ["{python}", "scripts/predict_run.py", run, "valid", "--epoch", str(epoch)],
+        "code": source_paths(root),
+        "inputs": [
+            "datasets/valid.parquet",
+            "cache/valid_targets.npz",
+            f"artifacts/runs/{run}/model_ep{epoch}.pt",
+            f"artifacts/runs/{run}/provenance.json",
+        ],
+        "artifacts": [f"cache/pred_{run}_valid.{ext}" for ext in ("npy", "json")],
+        "limits": {
+            "cpus": 8,
+            "ram_bytes": 24 * 1024**3,
+            "timeout_seconds": 1800,
+            "gpu_memory_bytes": 4_200_000_000,
+            "gpu_stop_bytes": 4_800_000_000,
+        },
+        "environment": {"WNN_LOADER_WORKERS": "2", "WNN_LOADER_RAM_GB": "3"},
+    }
+
+
 def main() -> None:
     """List or emit recipes; launch authorization belongs to the campaign runner."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("trial", choices=[*VARIANTS, "combo_head", "merged_screen", "list"])
+    parser.add_argument(
+        "trial", choices=[*VARIANTS, "combo_head", "ctrl_head", "merged_screen", "list"]
+    )
     parser.add_argument("--fold", default="0", choices=["0", "1", "2", "3", "final"])
     parser.add_argument("--seed", type=int, default=3)
     parser.add_argument("--backend", choices=["local", "kaggle"], default="local")
@@ -315,7 +361,7 @@ def main() -> None:
     args = parser.parse_args()
     if args.trial == "list":
         payload = {
-            "recipes": [*VARIANTS, "combo_head"],
+            "recipes": [*VARIANTS, "combo_head", "ctrl_head"],
             "status": "require sealed code and implementation checks",
         }
     elif args.trial == "merged_screen":
