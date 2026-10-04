@@ -46,7 +46,8 @@ class DutyCycle:
 def configure_torch(gpu_fraction: float | None = None, duty: float | None = None):
     """Cap torch CPU threads and GPU memory; return a GPU DutyCycle, or None when not rate-limited.
 
-    The memory cap comes from WNN_GPU_FRACTION, the rate limit from WNN_GPU_DUTY (default 1.0 = none).
+    WNN_GPU_MEMORY_BYTES overrides the legacy fractional allocator cap when explicitly set.
+    The rate limit comes from WNN_GPU_DUTY (default 1.0 = none).
     With a DutyCycle, call ``torch.cuda.synchronize()`` then ``duty.tick()`` at step ends.
     """
     import torch
@@ -54,11 +55,29 @@ def configure_torch(gpu_fraction: float | None = None, duty: float | None = None
     gpu_fraction = GPU_FRACTION if gpu_fraction is None else min(gpu_fraction, GPU_FRACTION)
     torch.set_num_threads(cpu_threads())
     if torch.cuda.is_available():
+        memory_bytes = os.environ.get("WNN_GPU_MEMORY_BYTES")
+        if memory_bytes is not None:
+            total = torch.cuda.get_device_properties(torch.cuda.current_device()).total_memory
+            gpu_fraction = allocator_fraction(memory_bytes, total)
         torch.cuda.set_per_process_memory_fraction(gpu_fraction)
         torch.backends.cudnn.benchmark = False
         torch.backends.cudnn.deterministic = True
     duty = GPU_DUTY if duty is None else min(duty, GPU_DUTY)
     return DutyCycle(duty) if duty < 1.0 else None
+
+
+def allocator_fraction(memory_bytes: str, total_bytes: int) -> float:
+    """Validate a byte-based allocation ceiling without confusing GB and GiB.
+
+    This limits the PyTorch allocator only; the campaign monitor separately observes
+    total device usage, including the CUDA context and other processes.
+    """
+    if not memory_bytes.isascii() or not memory_bytes.isdigit():
+        raise ValueError("WNN_GPU_MEMORY_BYTES must be an integer byte count")
+    limit = int(memory_bytes)
+    if not 0 < limit <= total_bytes:
+        raise ValueError("WNN_GPU_MEMORY_BYTES must fit the selected device")
+    return limit / total_bytes
 
 
 def dataloader_budget(
