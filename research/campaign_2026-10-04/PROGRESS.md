@@ -108,3 +108,7 @@ Clean i16 package timing completed and candidate ready for user upload, public u
 ## 2026-10-04T08:11:34.072663+00:00 — next predictive fit launched
 
 E422 reciprocal screens completed; state/input gain R² negative, earlier-label oracle worsens later-episode WP. EDA saved under eda/gain_probe and live marimo cell lebv. H093/H094 merged with corrected production auxiliary objectives; root12 integration plus23 optimizer/control tests passed under2GiB. E423 full-schedule EMA-row intervention launched, fresh same-source control/common-FP32 exports/scoring queued behind it in bounded controller. Initial local GPU92%,3168MiB, host11.46GB within caps. Kaggle private QATv3 RUNNING at provider, worker progress pending.
+
+## 2026-10-04T11:00:39.437879+00:00 — EMA result and Kaggle QAT failure boundary
+
+E423 EMA-row intervention vs fresh same-source control=-0.000574 WP, paired component interval[-0.001797,+0.000303],468 sequences/141 components; one exposed fold/seed. Kaggle E419v3 used both T4 workers for preflight, one-batch QAT probes, matched FP32 controls and exports, then failed score lookup on stale t4v2 names. No QAT/PTQ fit ran. Preserved exact failure outputs. Quota26GPU/20TPU hours. TPU queued; width pair staged.

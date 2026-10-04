@@ -55,6 +55,12 @@
     "TPU actual hardware probe",
     "E419 remote QAT results",
     "E414 predictive normalization fits",
+    "E423 fresh-control comparison complete; adjacent E423 contrast does not support benefit",
+    "E419 Kaggle QAT retry after stale screen-name correction",
+    "width-fold1 Kaggle pair",
+    "TPU hardware probe",
+    "H093/H094 production specialist and adapter fits",
+    "E414 predictive normalization",
     "remaining preregistered scientific fits"
   ],
   "experiments_started": [
@@ -82,7 +88,7 @@
     "oom_failed_jobs": 1
   },
   "first_wave_review": "FIRST_WAVE_REVIEW.md",
-  "as_of_utc": "2026-10-04T08:11:34.072663+00:00",
+  "as_of_utc": "2026-10-04T11:00:39.437879+00:00",
   "scientific_results": {
     "E409_W384_one_head_median_kcycles": 401.617,
     "E410": {
@@ -276,10 +282,25 @@
         -0.014141057116310307
       ],
       "scope": "fixed ridge gain probe; no representation exhaustion claim"
+    },
+    "E423": {
+      "mean_diff": -0.0005740954944921661,
+      "ci95": [
+        -0.0017969793495088231,
+        0.000302859015116824
+      ],
+      "n_sequences": 468,
+      "n_components": 141
     }
   },
-  "active_local": "E423 EMA rows; automatic fresh control/exports/score queued",
+  "active_local": null,
   "remaining_head_predictions": [],
-  "active_remote": "E419v3 provider RUNNING, worker progress pending; TPU QUEUED",
-  "subagent_policy": "Luna only, maximum6; currently3 delegated actors"
+  "active_remote": "E419 v3 ERROR (no PTQ/QAT fit); TPU QUEUED",
+  "subagent_policy": "Luna only, maximum6; currently3 delegated actors",
+  "kaggle_quota": {
+    "gpu_remaining_hours": 26,
+    "gpu_used_hours": 4,
+    "tpu_remaining_hours": 20,
+    "tpu_used_hours": 0
+  }
 }
