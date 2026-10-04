@@ -29,6 +29,8 @@ def main():
     parser.add_argument("split", nargs="?", default="valid")
     parser.add_argument("--epoch", type=int, default=None)
     parser.add_argument("--output-name", default=None)
+    parser.add_argument("--inference-precision", choices=["checkpoint", "fp32"], default="checkpoint",
+                        help="force common fp32 evaluation for paired fp16/fp32 training controls")
     parser.add_argument("--gate-mode", choices=["soft", "hard", "confident"], default="soft")
     args = parser.parse_args()
     name, split = args.name, args.split
@@ -44,6 +46,9 @@ def main():
     device = torch.device("cuda")
     model = make_model(ck["args"], ck["n_in"], ck["model"]["head.2.weight"].shape[0]).to(device)
     model.load_state_dict(ck["model"])
+    if (args.inference_precision == "fp32" or ck["args"].get("precision") == "fp32"
+            or ck.get("quantization") is not None):
+        model._inference_fp32 = True
     if ck["args"].get("arch") == "gated":
         model.gate_mode = args.gate_mode
     elif args.gate_mode != "soft":
@@ -99,6 +104,8 @@ def main():
         "split_manifest_sha256": ck["args"].get("split_manifest_sha256"),
         "quote_cache": quote_cache,
         "gate_mode": args.gate_mode,
+        "inference_precision": "fp32" if getattr(model, "_inference_fp32", False) else "fp16",
+        "quantization_preset": ck.get("quantization", {}).get("preset"),
         "row_groups": groups.tolist(),
     }
     final.with_suffix(".json").write_text(json.dumps(metadata, indent=2) + "\n")
