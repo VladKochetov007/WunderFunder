@@ -332,36 +332,30 @@ app._unparsable_cell(
     """
     refresh
     _progress_state = json.loads((campaign_dir / \"implementation_state.json\").read_text())
-    _progress_inv = json.loads((campaign_dir / \"checks/kaggle_kernel_inventory_20261004T1138Z.json\").read_text())
     _progress_ledger = [json.loads(line) for line in (project_root / \"research/experiments.jsonl\").read_text().splitlines() if line.strip()]
-    _progress_rows = []
-    for _row in _progress_ledger:
-        _eid = str(_row.get(\"id\", \"\"))
-        if _row.get(\"date\") != \"2026-10-04\" or not _eid.startswith(\"E-\"):
-            continue
-        try:
-            _number = int(_eid.split(\"-\")[1])
-        except ValueError:
-            continue
-        if 407 <= _number <= 424:
-            _progress_rows.append({\"experiment\": _eid, \"status\": _row.get(\"status\", \"missing\"), \"question\": _row.get(\"kind\", \"\")})
+    _progress_rows = [{\"experiment\": _row[\"id\"], \"status\": _row.get(\"status\", \"missing\"), \"question\": _row.get(\"kind\", \"\")} for _row in _progress_ledger if _row.get(\"date\") == \"2026-10-04\"]
     _progress_counts = _progress_state[\"campaign_progress\"]
-    _kaggle_rows = [{\"kernel\": _row[\"slug\"], \"provider\": _row[\"status\"], \"result / current observation\": _row[\"result\"][:180]} for _row in _progress_inv[\"kernels\"]]
+    _progress_quota = _progress_state[\"kaggle_quota\"]
+    _progress_e424_fits = []
+    for _path in (campaign_dir / \"runner/attempts\").glob(\"e424-h*-v2.json\"):
+        _record = json.loads(_path.read_text())
+        _progress_e424_fits.append({\"attempt\": _record[\"id\"], \"state\": _record[\"status\"], \"exit\": _record.get(\"exit_code\"), \"peak GPU GB\": round((_record.get(\"peak_observed_vram_bytes\") or 0) / 1e9, 3)})
+    _progress_e424_complete = sum(_row[\"state\"] == \"finished\" and _row[\"exit\"] == 0 for _row in _progress_e424_fits)
     mo.vstack([
-        mo.md(f\"\"\"## Live run and compute status
+        mo.md(f\"\"\"## Research and compute status
 
-    **Ledger:** {_progress_counts['completed']}/{_progress_counts['total']} complete; {_progress_counts['partial']} partial; {_progress_counts['queued']} queued; {_progress_counts.get('prepared', 0)} prepared.
+    Snapshot: {_progress_state['as_of_utc']}. Original E407–427 programs: **{_progress_counts['completed']}/{_progress_counts['total']} scientifically complete**, {_progress_counts['partial']} partial, {_progress_counts['running']} running, {_progress_counts['queued']} queued, {_progress_counts['prepared']} prepared. Tests and source preparation do not count as completed scientific fits.
 
-    **Immediate local tranche:** E-424 has 8 full-recipe model-fit arms (4 primary contrasts, then 4 router/adapter controls). Its 30-GiB spec was rejected before worker admission; corrected v2 specs use the enforced24-GiB cap.
+    **E424 model fits: {_progress_e424_complete}/8 finished.** Seed4 replication is durably queued after this controller's successful completion. Primary paired architecture intervals include zero; remaining controls still matter.
 
-    **Compute:** local block {_progress_state['local_block_gpu_job_hours']}h; 20.44h remain. Kaggle {_progress_inv['quota']['gpu_remaining_hours']:.2f}/30 GPU-h and {_progress_inv['quota']['tpu_remaining_hours']}/20 TPU-h remain. E-419 v4 is **RUNNING** without worker logs/peaks yet; the TPU probe remains **QUEUED**.
+    **Remote:** {_progress_state['active_remote']}
 
-    **80-GPU-hour plan:** cumulative across providers and refreshed blocks, not an 80-hour Kaggle reservation. The staged first slate is nine programs / about28 new fitted models; continue to add independent replications and open review ideas as they become executable.
+    Last confirmed provider quota ({_progress_quota['as_of_utc']}): {_progress_quota['gpu_remaining_hours']} GPU-h and {_progress_quota['tpu_remaining_hours']} TPU-h remaining. These are stale snapshots during live jobs, distinct from cumulative device-time accounting.
 
-    Refresh this cell with the button after the saved status snapshots change.\"\"\"),
-        mo.ui.table(_progress_rows, selection=None, page_size=10),
-        mo.md(\"### Kaggle notebook audit (provider state is not scientific completion)\"),
-        mo.ui.table(_kaggle_rows, selection=None, page_size=8),
+    Accepted plan: **80 cumulative device-GPU-hours** across local and Kaggle, TPU separate; local one GPU trainer, 12 CPUs/36 GiB/no swap, observed VRAM stop4.8GB. Continue until explicit user stop within admitted budgets. All review/retest programs are listed below, including unimplemented ones.
+    \"\"\"),
+        mo.ui.table(_progress_e424_fits, selection=None),
+        mo.ui.table(_progress_rows, selection=None, page_size=12),
     ])
     """,
     column=None, disabled=False, hide_code=True, expand_output=False, name="Live experiment and compute status"
@@ -375,7 +369,52 @@ def _(campaign_dir, json, mo, refresh):
     _validation_rows = []
     for _name, _scores in _validation_card["scores"].items():
         _validation_rows.append(f"| {_name} | {_scores['all_supplied_validation']['wp']:.6f} | {_scores['excluded_from_final_fit']['wp']:.6f} |")
-    mo.md("Whole supplied datasets/valid.parquet (1,873 sequences), fixed cached predictions:\n\n| Predictor | All validation | 368 excluded from final fit |\n|---|---:|---:|\n" + "\n".join(_validation_rows) + "\n\nRecipe CV pooled combo/control: 0.693658 / 0.691244. Full validation includes fitted sequences. The combo uses FP32 exports; exact native replay is running. See VALIDATION_SCORECARD.md.")
+    mo.md("Whole supplied datasets/valid.parquet (1,873 sequences), fixed cached predictions:\n\n| Predictor | All validation | 368 excluded from final fit |\n|---|---:|---:|\n" + "\n".join(_validation_rows) + "\n\nRecipe CV pooled combo/control: 0.693658 / 0.691244. Full validation includes fitted sequences. The combo uses FP32 exports; exact submitted i16 ZIP replay is complete: WP 0.700503766, t0 0.696316661, t1 0.704690871 (E460). See VALIDATION_SCORECARD.md.")
+    return
+
+
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, plt, project_root, refresh):
+    refresh
+    import hashlib as _research_hashlib
+    _research_e424_path = campaign_dir / "checks/e424_report_core_fp32.json"
+    _research_e419_path = campaign_dir / "checks/e419_v4_recovery/e419_recovered_paired_report.json"
+    mo.stop(not (_research_e424_path.exists() and _research_e419_path.exists()), mo.md("Awaiting paired saved reports."))
+    _research_e424 = json.loads(_research_e424_path.read_text())
+    _research_e419 = json.loads(_research_e419_path.read_text())
+    _research_panels = [
+        ("Specialist / adapter, 368 exposed sequences", _research_e424, [
+            ("Learned specialist − matched GRU", "H093_LEARNED_minus_H093_GRU"),
+            ("Conditional adapter − matched GRU", "H094_CONDITIONAL_minus_H094_GRU"),
+            ("Specialist parent − complete combo", "H093_LEARNED_minus_COMBO"),
+            ("Adapter parent − complete combo", "H094_CONDITIONAL_minus_COMBO")]),
+        ("Quantization, exposed fold 0 (468 sequences)", _research_e419, [
+            ("Recurrent QAT − FP32 continuation", "QAT_REC_minus_FP32_REC"),
+            ("Recurrent/head QAT − FP32 continuation", "QAT_REC_HEAD_minus_FP32_REC_HEAD"),
+            ("Recurrent PTQ − FP32 continuation", "FP32_REC_PTQ_minus_FP32_REC"),
+            ("Recurrent/head PTQ − FP32 continuation", "FP32_REC_HEAD_PTQ_minus_FP32_REC_HEAD")])]
+    _research_fig, _research_axes = plt.subplots(2, 1, figsize=(12, 8), constrained_layout=True)
+    _research_rows = []
+    for _research_ax, (_research_title, _research_report, _research_items) in zip(_research_axes, _research_panels, strict=True):
+        for _research_index, (_research_label, _research_key) in enumerate(_research_items):
+            _research_value = _research_report["pooled"]["paired_component_bootstrap"][_research_key]
+            _research_delta = _research_value["mean_diff"]
+            _research_low, _research_high = _research_value["ci95"]
+            _research_ax.errorbar(_research_delta, _research_index, xerr=[[_research_delta-_research_low], [_research_high-_research_delta]], fmt="o", capsize=4)
+            _research_rows.append({"comparison": _research_label, "delta": _research_delta, "ci95": [_research_low, _research_high], "sequences": _research_value["n_sequences"], "components": _research_value["n_components"]})
+        _research_ax.set_yticks(range(len(_research_items)), [_research_label for _research_label, _research_key in _research_items])
+        _research_ax.axvline(0, color="black", linewidth=1)
+        _research_ax.invert_yaxis()
+        _research_ax.set_title(_research_title)
+        _research_ax.set_xlabel("Global WP difference; paired component 95% interval (2,000 draws)")
+        _research_ax.grid(axis="x", alpha=.2)
+    _research_fig.suptitle("New experiments: uncertainty remains; no score-gain promotion")
+    _research_plot_dir = campaign_dir / "eda/paired_research_update"
+    _research_plot_dir.mkdir(parents=True, exist_ok=True)
+    _research_fig.savefig(_research_plot_dir / "paired_results.png", dpi=160)
+    _research_fig.savefig(_research_plot_dir / "paired_results.svg")
+    (_research_plot_dir / "source.json").write_text(json.dumps({"reports": [{"path": str(_research_path.relative_to(project_root)), "sha256": _research_hashlib.sha256(_research_path.read_bytes()).hexdigest()} for _research_path in [_research_e424_path, _research_e419_path]], "comparisons": _research_rows, "scope": "Conditional on fixed fitted seed3 models; exposed evaluation, no training-seed uncertainty; parent-vs-complete-combo comparisons are diagnostic, not isolated architecture effects."}, indent=2) + "\n")
+    mo.vstack([mo.md("Paired results are saved with source hashes. Small positive architecture effects and nearly lossless quantization are hypotheses for follow-up, not confirmed improvements. The two complete-combo comparisons also change the final-head procedure."), mo.ui.table(_research_rows), mo.mpl.interactive(_research_fig)])
     return
 
 

@@ -1,0 +1,42 @@
+{
+  "folds": [
+    "holdout"
+  ],
+  "arms": {
+    "COMBO": {
+      "c20261004_combo_s3_final_r1": 0.5,
+      "c20261004_combo_head_s3_final": 0.5
+    },
+    "H093_LEARNED": {
+      "c20261004_h093_learned_s3_final": 1.0
+    },
+    "H093_GRU": {
+      "c20261004_h093_gru_budget_s3_final": 1.0
+    },
+    "H094_CONDITIONAL": {
+      "c20261004_h094_conditional_s3_final": 1.0
+    },
+    "H094_GRU": {
+      "c20261004_h094_gru_budget_s3_final": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "H093_LEARNED",
+      "H093_GRU"
+    ],
+    [
+      "H094_CONDITIONAL",
+      "H094_GRU"
+    ],
+    [
+      "H093_LEARNED",
+      "COMBO"
+    ],
+    [
+      "H094_CONDITIONAL",
+      "COMBO"
+    ]
+  ],
+  "n_boot": 2000
+}

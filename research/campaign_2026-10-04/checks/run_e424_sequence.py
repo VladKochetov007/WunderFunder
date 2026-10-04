@@ -29,6 +29,7 @@ ARMS = (
 CORE = ARMS[:4]
 OUTPUT = CAMPAIGN / "checks/e424_sequence_v2.json"
 BASELINE = ("c20261004_combo_s3_final_r1", "c20261004_combo_head_s3_final")
+CONTINUE_UNTIL_STOPPED = False
 
 
 def stop_if_paused() -> None:
@@ -48,7 +49,7 @@ def sha256_file(path: Path) -> str:
 
 def wait_finished(attempt: str) -> None:
     """Wait for one exact admitted attempt and require its verified success."""
-    while time.time() < DEADLINE:
+    while CONTINUE_UNTIL_STOPPED or time.time() < DEADLINE:
         stop_if_paused()
         record_path = RUNNER / f"attempts/{attempt}.json"
         if not record_path.exists():
@@ -103,7 +104,9 @@ def launch(
         raise ValueError(f"{sealed}: missing positive timeout_seconds")
     finish_budget = max(minimum_seconds, runtime + 180)
     is_fit = "predict-" not in attempt and "score-" not in attempt
-    if time.time() + finish_budget > DEADLINE or (is_fit and time.time() >= FIT_START_CUTOFF):
+    if not CONTINUE_UNTIL_STOPPED and (
+        time.time() + finish_budget > DEADLINE or (is_fit and time.time() >= FIT_START_CUTOFF)
+    ):
         raise TimeoutError(
             f"not starting {attempt}: its {runtime}s timeout plus stop buffer does not fit before20:00 local"
         )
@@ -139,18 +142,22 @@ def score(runs: list[str], label: str, completed: list[str]) -> None:
                 raise ValueError(f"cached prediction does not match fixed checkpoint: {run}")
             continue
         draft = prediction_recipe(run, 3)
-        draft["name"] = f"e424_predict_{run}"
+        draft["name"] = f"e424_predict_{run}_repaired_v3"
+        if "gru_budget" not in run:
+            wrapper = "research/campaign_2026-10-04/checks/predict_e424_recurrent.py"
+            draft["argv"][1] = wrapper
+            draft["code"] = sorted(set(draft["code"]) | {wrapper})
         draft["argv"] += ["--inference-precision", "fp32", "--output-name", pred_name]
         draft["artifacts"] = [f"cache/pred_{pred_name}_valid.{ext}" for ext in ("npy", "json")]
         draft["limits"]["ram_bytes"] = 24 * 1024**3
-        path = CAMPAIGN / "specs" / f"e424_predict_{run}_v2.draft.json"
+        path = CAMPAIGN / "specs" / f"e424_predict_{run}_v3.draft.json"
         if not path.exists():
             path.write_text(json.dumps(draft, indent=2) + "\n")
         sealed = path.with_name(path.name.replace(".draft.json", ".sealed.json"))
         if not sealed.exists():
             subprocess.run([*command, "seal", str(path), str(sealed)], cwd=ROOT, check=True)
         launch(
-            sealed, f"e424-predict-{run.replace('_', '-')}-v2", completed, minimum_seconds=4 * 60
+            sealed, f"e424-predict-{run.replace('_', '-')}-v3", completed, minimum_seconds=4 * 60
         )
 
     prior_ctrl = "c20261004_combo_s3_final_r1"
@@ -203,16 +210,25 @@ def score(runs: list[str], label: str, completed: list[str]) -> None:
     screen_path.write_text(json.dumps(screen, indent=2) + "\n")
     score_path = CAMPAIGN / "checks" / f"e424_report_{label}.json"
     if score_path.exists():
-        raise FileExistsError(score_path)
+        previous = json.loads(score_path.read_text())
+        if previous.get("screen_sha256") != sha256_file(screen_path):
+            raise ValueError(f"Existing paired report has a different screen identity: {label}")
+        attempt = f"e424-score-{label}-v3"
+        record = json.loads((RUNNER / f"attempts/{attempt}.json").read_text())
+        if record["status"] != "finished" or not record.get("teardown_verified"):
+            raise RuntimeError(f"Existing paired report has no verified successful attempt: {label}")
+        if attempt not in completed:
+            completed.append(attempt)
+        return
     template_path = CAMPAIGN / "specs/e419_precision_score_v1.draft.json"
     template = json.loads(template_path.read_text())
     template["name"] = f"e424_score_{label}"
     template["argv"] = [
         "{python}",
         "scripts/screen_score.py",
-        str(screen_path),
+        str(screen_path.relative_to(ROOT)),
         "--output",
-        str(score_path),
+        str(score_path.relative_to(ROOT)),
     ]
     template["code"] = sorted(
         set(template["code"]) | {str(p.relative_to(ROOT)) for p in (ROOT / "src/wnn").glob("*.py")}
@@ -223,7 +239,7 @@ def score(runs: list[str], label: str, completed: list[str]) -> None:
         "cache/valid_targets.npz",
         "datasets/valid.parquet",
         "cache/chains.npz",
-        str(screen_path),
+        str(screen_path.relative_to(ROOT)),
     ]
     for run in [*BASELINE, *pred_names]:
         template["inputs"] += [f"cache/pred_{run}_valid.{ext}" for ext in ("npy", "json")]
@@ -231,7 +247,7 @@ def score(runs: list[str], label: str, completed: list[str]) -> None:
             baseline_checkpoints.get(run, f"artifacts/runs/{run}/model_ep3.pt"),
             f"artifacts/runs/{run}/provenance.json",
         ]
-    template["artifacts"] = [str(score_path)]
+    template["artifacts"] = [str(score_path.relative_to(ROOT))]
     template["limits"] = {
         "cpus": 1,
         "ram_bytes": 2 * 1024**3,
@@ -240,18 +256,26 @@ def score(runs: list[str], label: str, completed: list[str]) -> None:
         "timeout_seconds": 900,
     }
     template["environment"] = {}
-    draft = CAMPAIGN / "specs" / f"e424_score_{label}_v2.draft.json"
+    draft = CAMPAIGN / "specs" / f"e424_score_{label}_v3.draft.json"
     draft.write_text(json.dumps(template, indent=2) + "\n")
     sealed = draft.with_name(draft.name.replace(".draft.json", ".sealed.json"))
-    subprocess.run([*command, "seal", str(draft), str(sealed)], cwd=ROOT, check=True)
-    launch(sealed, f"e424-score-{label}-v2", completed, minimum_seconds=16 * 60)
+    if not sealed.exists():
+        subprocess.run([*command, "seal", str(draft), str(sealed)], cwd=ROOT, check=True)
+    launch(sealed, f"e424-score-{label}-v3", completed, minimum_seconds=16 * 60)
 
 
 def main() -> None:
     """Fit four primary paired arms, score them, then continue secondary arms."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--until-user-stop", action="store_true")
     arguments = parser.parse_args()
+    global CONTINUE_UNTIL_STOPPED
+    CONTINUE_UNTIL_STOPPED = arguments.until_user_stop
+    if CONTINUE_UNTIL_STOPPED:
+        amendment = CAMPAIGN / "CONTINUATION_AUTHORIZATION_20261004.md"
+        if not amendment.exists():
+            raise FileNotFoundError(amendment)
     if OUTPUT.exists() and not arguments.resume:
         raise FileExistsError(OUTPUT)
     completed: list[str] = []

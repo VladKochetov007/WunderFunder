@@ -1,0 +1,95 @@
+{
+  "reports": [
+    {
+      "path": "research/campaign_2026-10-04/checks/e424_report_core_fp32.json",
+      "sha256": "7b39a2d859ca8553118c108ce3f1ac7fd498e5f28c88b427cad357467ae2e82e"
+    },
+    {
+      "path": "research/campaign_2026-10-04/checks/e419_v4_recovery/e419_recovered_paired_report.json",
+      "sha256": "23e76502075a52c1bd5ceed9e521db608c645cd0da341e71f13c7fce4275c8b6"
+    }
+  ],
+  "comparisons": [
+    {
+      "comparison": "Learned specialist \u2212 matched GRU",
+      "delta": 0.0003538416648766196,
+      "ci95": [
+        -0.0011883600622404288,
+        0.00263858208988286
+      ],
+      "sequences": 368,
+      "components": 249
+    },
+    {
+      "comparison": "Conditional adapter \u2212 matched GRU",
+      "delta": 0.0003085800962668861,
+      "ci95": [
+        -0.0006148435557167236,
+        0.0012991985777516754
+      ],
+      "sequences": 368,
+      "components": 249
+    },
+    {
+      "comparison": "Specialist parent \u2212 complete combo",
+      "delta": -0.003375873112589689,
+      "ci95": [
+        -0.00597150873494671,
+        0.00046385343124277783
+      ],
+      "sequences": 368,
+      "components": 249
+    },
+    {
+      "comparison": "Adapter parent \u2212 complete combo",
+      "delta": -0.002154637738549514,
+      "ci95": [
+        -0.004474547677746826,
+        0.001220863784600242
+      ],
+      "sequences": 368,
+      "components": 249
+    },
+    {
+      "comparison": "Recurrent QAT \u2212 FP32 continuation",
+      "delta": 4.822688496108896e-06,
+      "ci95": [
+        -2.198007157019899e-05,
+        3.2119049259990335e-05
+      ],
+      "sequences": 468,
+      "components": 141
+    },
+    {
+      "comparison": "Recurrent/head QAT \u2212 FP32 continuation",
+      "delta": -6.264312706560915e-06,
+      "ci95": [
+        -3.0185951725925086e-05,
+        1.9771484964947728e-05
+      ],
+      "sequences": 468,
+      "components": 141
+    },
+    {
+      "comparison": "Recurrent PTQ \u2212 FP32 continuation",
+      "delta": 6.840882664338466e-06,
+      "ci95": [
+        -1.5658523853642747e-05,
+        3.33566927542272e-05
+      ],
+      "sequences": 468,
+      "components": 141
+    },
+    {
+      "comparison": "Recurrent/head PTQ \u2212 FP32 continuation",
+      "delta": 1.326914570154436e-05,
+      "ci95": [
+        -1.300253460014833e-05,
+        4.3630402197125614e-05
+      ],
+      "sequences": 468,
+      "components": 141
+    }
+  ],
+  "scope": "Conditional on fixed fitted seed3 models; exposed evaluation, no training-seed uncertainty; parent-vs-complete-combo comparisons are diagnostic, not isolated architecture effects."
+}

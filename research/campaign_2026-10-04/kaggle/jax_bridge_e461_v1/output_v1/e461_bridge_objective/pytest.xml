@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="3.021" timestamp="2026-10-04T14:11:38.152282+00:00" hostname="9ae610bba7c8"><testcase classname="input.datasets.vladkochetov07.wnn-jax-bridge-e461-20261004.source_bundle.tests.test_bridge_objective" name="test_fold_teacher_sidecar_requires_exact_provenance_but_no_normalization_fields" time="0.043" /><testcase classname="input.datasets.vladkochetov07.wnn-jax-bridge-e461-20261004.source_bundle.tests.test_bridge_objective" name="test_absolute_propensity_lookup_preserves_hole_528_and_group_529" time="0.001" /><testcase classname="input.datasets.vladkochetov07.wnn-jax-bridge-e461-20261004.source_bundle.tests.test_bridge_objective" name="test_structure_classes_and_next_change_edges_match_reference_fixtures" time="0.149"><failure message="AssertionError: &#10;Not equal to tolerance rtol=1e-07, atol=0&#10;&#10;Mismatched elements: 1 / 4 (25%)&#10;Max absolute difference among violations: 0.69314718&#10;Max relative difference among violations: inf&#10; ACTUAL: array([1.098612, 0.693147, 0.693147, 0.693147], dtype=float32)&#10; DESIRED: array([1.098612, 0.693147, 0.693147, 0.      ])">def test_structure_classes_and_next_change_edges_match_reference_fixtures() -&gt; None:
+        quanta = np.asarray([0.12543, 0.24133, 0.46854, 0.65687], dtype=np.float32)
+        observed_classes = []
+        for expected_class, quantum in enumerate(quanta):
+            labels = np.tile(np.asarray([[0.0, -quantum]], dtype=np.float32), (2, 1))
+            class_id, structure = _class_and_structure(labels)
+            reference_labels = torch.from_numpy(labels[None])
+            reference_class = sequence_class(reference_labels)
+            reference_structure = structure_labels(reference_labels, reference_class)
+            observed_classes.append(class_id)
+            assert class_id == expected_class
+            np.testing.assert_array_equal(np.asarray([class_id]), reference_class.numpy())
+            for index, reference in enumerate(reference_structure):
+                np.testing.assert_array_equal(structure[:, index], reference[0].numpy())
+            np.testing.assert_array_equal(structure[:, 0], np.zeros(2, dtype=np.int64))
+            np.testing.assert_array_equal(structure[:, 1], np.ones(2, dtype=np.int64))
+            np.testing.assert_array_equal(structure[:, 2], np.full(2, expected_class))
+        np.testing.assert_array_equal(observed_classes, np.arange(4, dtype=np.int64))
+    
+        # A D change at row 2 is strictly after rows 0 and 1; the final row has no
+        # later change and must be masked. Every observed jump is upward.
+        corner_labels = np.asarray([[0, 0], [0, 0], [1, 0], [1, -1]], dtype=np.float32)
+        rows, direction, valid = _next_change_aux(
+            corner_labels, np.ones(4, dtype=bool)
+        )
+&gt;       np.testing.assert_allclose(rows, [np.log1p(2), np.log1p(1), np.log1p(1), 0])
+
+../../input/datasets/vladkochetov07/wnn-jax-bridge-e461-20261004/source_bundle/tests/test_bridge_objective.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (&lt;function assert_allclose.&lt;locals&gt;.compare at 0x7de37831e660&gt;, array([1.0986123, 0.6931472, 0.6931472, 0.6931472], dtype=float32), array([1.09861229, 0.69314718, 0.69314718, 0.        ]))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=1e-07, atol=0', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+&gt;           return func(*args, **kwds)
+                   ^^^^^^^^^^^^^^^^^^^
+E           AssertionError: 
+E           Not equal to tolerance rtol=1e-07, atol=0
+E           
+E           Mismatched elements: 1 / 4 (25%)
+E           Max absolute difference among violations: 0.69314718
+E           Max relative difference among violations: inf
+E            ACTUAL: array([1.098612, 0.693147, 0.693147, 0.693147], dtype=float32)
+E            DESIRED: array([1.098612, 0.693147, 0.693147, 0.      ])
+
+/usr/lib/python3.13/contextlib.py:85: AssertionError</failure></testcase><testcase classname="input.datasets.vladkochetov07.wnn-jax-bridge-e461-20261004.source_bundle.tests.test_bridge_objective" name="test_fixed_sbd_target_bootstraps_only_when_change_is_after_horizon" time="0.001" /><testcase classname="input.datasets.vladkochetov07.wnn-jax-bridge-e461-20261004.source_bundle.tests.test_bridge_objective" name="test_batch_true_mask_renormalization_precedes_since_decay" time="0.001" /><testcase classname="input.datasets.vladkochetov07.wnn-jax-bridge-e461-20261004.source_bundle.tests.test_bridge_objective" name="test_23_output_combo_objective_matches_torch_loss_formula" time="2.374" /></testsuite></testsuites>

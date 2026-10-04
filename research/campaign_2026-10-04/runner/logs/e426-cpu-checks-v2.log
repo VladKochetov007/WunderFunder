@@ -1,0 +1,49 @@
+...........F                                                             [100%]
+=================================== FAILURES ===================================
+_______ test_staged_two_epoch_resume_matches_uninterrupted_fixed_export ________
+
+tmp_path = PosixPath('/tmp/pytest-of-vlad/pytest-106/test_staged_two_epoch_resume_m0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f1f53f58d60>
+
+    def test_staged_two_epoch_resume_matches_uninterrupted_fixed_export(tmp_path, monkeypatch) -> None:
+        """Run real trainer loops around synthetic data and compare epoch-boundary resume."""
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "0")
+        monkeypatch.setenv("WNN_CPU_THREADS", "1")
+        trainer = _load_staged_trainer()
+        _install_cpu_fixture(monkeypatch, trainer, tmp_path)
+    
+        original_argv = sys.argv
+        original_save = trainer.atomic_save_training_state
+        try:
+            sys.argv = _argv(tmp_path, "uninterrupted")
+>           trainer.main()
+
+research/campaign_2026-10-04/staging/e426/tests/test_e426_trainer_resume.py:295: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+research/campaign_2026-10-04/staging/e426/scripts/train_rnn.py:1816: in main
+    provenance["run_identity_source_sha256"] = file_sha256(ROOT / "src/wnn/run_identity.py")
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/wnn/splits.py:53: in file_sha256
+    with path.open("rb") as stream:
+         ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/tmp/pytest-of-vlad/pytest-106/test_staged_two_epoch_resume_m0/src/wnn/run_identity.py')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/pytest-of-vlad/pytest-106/test_staged_two_epoch_resume_m0/src/wnn/run_identity.py'
+
+../../../.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:537: FileNotFoundError
+=========================== short test summary info ============================
+FAILED research/campaign_2026-10-04/staging/e426/tests/test_e426_trainer_resume.py::test_staged_two_epoch_resume_matches_uninterrupted_fixed_export
+1 failed, 11 passed in 4.43s

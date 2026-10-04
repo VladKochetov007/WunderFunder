@@ -54,23 +54,28 @@
     "E457twofixedendpointZIPsverified",
     "E428syntheticassaypassed",
     "E458privateKaggleCPUJAXparity11passed",
-    "E459wholevalidationcachedscorecard"
+    "E459wholevalidationcachedscorecard",
+    "E424 repaired exporter and primary pairedFP32scores",
+    "E419 dualT4 QAT fits and recoveredpairedscores",
+    "E460 exact publicZIP all suppliedVALID",
+    "E461 JAX objectiveCPU sixchecks",
+    "E426 stagedactualtrainerCPU twelvechecks"
   ],
   "pending": [
     "TPU actual hardware probe",
-    "E419 remote QAT results",
     "E414 predictive normalization fits",
-    "E423 fresh-control comparison complete; adjacent E423 contrast does not support benefit",
     "width-fold1 Kaggle pair",
     "TPU hardware probe",
     "H093/H094 production specialist and adapter fits",
     "E414 predictive normalization",
     "remaining preregistered scientific fits",
-    "E419 Kaggle v4 scientific fit and score",
     "E424 eight local fit arms and paired scoring",
     "E425 soft specialist-mixture implementation, tests and fit",
     "E426 separated event-clock teacher EMA implementation and three-arm fit",
-    "E427 volume-gated recurrent update implementation and three-arm fit"
+    "E427 volume-gated recurrent update implementation and three-arm fit",
+    "E450 queued seed4 parent/head replication",
+    "E462 current public-combo fixedINT8 package implementation",
+    "JAX real-data CPU preflight before acceleratorfits"
   ],
   "experiments_started": [
     "E-407",
@@ -97,7 +102,7 @@
     "oom_failed_jobs": 1
   },
   "first_wave_review": "FIRST_WAVE_REVIEW.md",
-  "as_of_utc": "2026-10-04T13:58:00Z",
+  "as_of_utc": "2026-10-04T14:57:00Z",
   "scientific_results": {
     "E409_W384_one_head_median_kcycles": 401.617,
     "E410": {
@@ -336,55 +341,62 @@
     },
     "E424": {
       "completed_primary_fits": 4,
+      "completed_total_fits": 5,
       "planned_fits": 8,
-      "paired_score": "pending",
-      "export_failure": "scripts/predict_run.py assumes head.2.weight absent in H093 specialist topology",
-      "failure_attempt": "e424-predict-c20261004-h093-learned-s3-final-v2",
-      "oom_events_delta": 0,
-      "fits_preserved": true
+      "paired_score": "checks/e424_report_core_fp32.json",
+      "specialist_delta": 0.0003538416648766196,
+      "conditional_delta": 0.0003085800962668861,
+      "scope": "Uncertain primaryarchitecture gains, bothCIincludezero; remainingcontrol fitsongoing.",
+      "export_repair_checks": 6
+    },
+    "E419_remote": {
+      "paired_report": "checks/e419_v4_recovery/e419_recovered_paired_report.json",
+      "qat_rec_delta": 4.822688496108896e-06,
+      "qat_rec_head_delta": -6.264312706560915e-06,
+      "scope": "One exposed fold matchedscreen complete; no gain/native readiness claim."
+    },
+    "E460": {
+      "exact_public_ZIP_full_validation_wp": 0.7005037662576581,
+      "t0": 0.6963166610333626,
+      "t1": 0.7046908714819534,
+      "scope": "Entire supplied1873sequences,includes1505fitted; reportingonly."
+    },
+    "E461": {
+      "CPU_objective_tests": 6,
+      "failures": 0,
+      "TPU_verified": false
+    },
+    "E426_checks": {
+      "passed": 12,
+      "seconds": 3.85,
+      "peak_ram_bytes": 595222528,
+      "scope": "Synthetic200row trainer/resume only; no full20k smoke or scientificfit."
     }
   },
-  "active_local": "E460 actual whole-validation native callback running. E424 four primary fits complete; controller stopped after specialized-model export KeyError, isolated exporter repair/critic review pending; no active local GPU trainer.",
+  "active_local": "E424 fiveofeightfitscomplete; h093_universal sixthisrunning; E450livecontrollerwaitingforexactE424completion.",
   "remaining_head_predictions": [],
-  "active_remote": "E419 v4 Kaggle dual-T4 RUNNING; no worker logs or artifacts; TPU probe QUEUED.",
-  "subagent_policy": "Luna only, maximum6; two read-only critics completed, accelerator monitor active.",
+  "active_remote": "E449 legacywidth256/384fold1dualT4 kernelRUNNING; TPUprobeQUEUEDnoassignedhardware; E419QATscientificresultsrecoveredcomplete.",
+  "subagent_policy": "Luna only, maximum6; currently3 scoped source/critic/accelerator roles; rootadmitsjobs.",
   "kaggle_quota": {
-    "as_of_utc": "2026-10-04T11:55:00Z",
-    "gpu_remaining_hours": 25.69,
-    "gpu_used_hours": 4.31,
+    "as_of_utc": "2026-10-04T14:01:20Z",
+    "gpu_remaining_hours": 24.27,
+    "gpu_used_hours": 5.73,
     "tpu_remaining_hours": 20,
     "tpu_used_hours": 0,
-    "refresh_utc": "2026-10-10T00:00:00Z"
+    "note": "Last settled providercounter; activewidthreservation not currentcounter reading."
   },
   "campaign_progress": {
     "ledger_range": "E-407..E-427",
     "total": 21,
-    "completed": 14,
-    "partial": 2,
+    "completed": 15,
+    "partial": 1,
     "queued": 1,
+    "running": 1,
     "prepared": 3,
-    "running": 1
+    "scope": "Scientific program progress; E414 calibration alone is partial, E426 implementationchecks do not complete its threefits."
   },
   "kaggle_kernel_inventory": "checks/kaggle_kernel_inventory_20261004T1138Z.json",
   "critic_review": "research/campaign_2026-10-04/CRITIC_FOLLOWUPS_2026-10-04.md",
-  "local_live_resource": {
-    "as_of_utc": "2026-10-04T11:59:13Z",
-    "attempt": "e424-h093-learned-v2",
-    "status": "running",
-    "epoch": 1,
-    "batch": "240/378",
-    "worker_memory_current_bytes": 25380777984,
-    "worker_memory_peak_bytes": 25757216768,
-    "worker_memory_limit_bytes": 25769803776,
-    "worker_oom_events": 0,
-    "worker_oom_kill_events": 0,
-    "parent_memory_current_bytes": 35812294656,
-    "parent_memory_limit_bytes": 38654705664,
-    "local_gpu_memory_bytes": 3744460800,
-    "local_gpu_total_bytes": 6442450944,
-    "local_gpu_temperature_c": 86,
-    "note": "memory.max reclaim counter rising; most charged worker memory is inactive file cache; do not launch another local job"
-  },
   "best_public": 0.6655,
   "best_public_evidence": "research/campaign_2026-10-04/E412_PUBLIC_RESULT.json"
 }

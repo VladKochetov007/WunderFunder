@@ -1,0 +1,29 @@
+{
+  "scope": "fixed E424 specialist/adapter prediction export compatibility repair",
+  "failed_attempt": "e424-predict-c20261004-h093-learned-s3-final-v2",
+  "failure": "KeyError head.2.weight in generic exporter",
+  "root_cause": "specialist checkpoint uses universal_head and expert_heads; ordinaryGRU assumption invalid",
+  "reviewer": "/root/luna_factor_audit",
+  "implementation": "research/campaign_2026-10-04/checks/predict_e424_recurrent.py",
+  "checks": {
+    "fixed_epoch": 3,
+    "checkpoint_policy_required": "fixed",
+    "expected_outputs": 23,
+    "inference_precision": "fp32",
+    "strict_state_load": true,
+    "all_valid_groups_in_cache_order": true,
+    "finite_predictions_required": true,
+    "checkpoint_hash_before_and_after": true,
+    "chunk_state_and_reset_parity_cpu_tests": 6
+  },
+  "CPU_attempt": "e424-export-cpu-checks-v1",
+  "CPU_result": {
+    "passed": 6,
+    "failure": 0,
+    "peak_ram_bytes": 435470336,
+    "teardown_verified": true
+  },
+  "new_prediction_attempts": "new sealed v3 identity; old failed attempt retained",
+  "controller": "wnn-e424-sequence-v4.service --resume --until-user-stop",
+  "scientific_interpretation": "No new model fit and no score benefit established by implementation checks."
+}

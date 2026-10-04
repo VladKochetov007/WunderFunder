@@ -1,19 +1,22 @@
 from __future__ import annotations
 
+import ast
 import hashlib
 import json
+from pathlib import Path
 
 import numpy as np
 import pytest
 import torch
+
 from wnn.outcomes import sequence_class, structure_labels
 
 jax = pytest.importorskip("jax")
 jnp = pytest.importorskip("jax.numpy")
 
-from wnn_jax.bridge import (
-    PredictionCache,
+from wnn_jax.bridge import (  # noqa: E402
     SEQUENCE_LENGTH,
+    PredictionCache,
     SequenceSupervision,
     _class_and_structure,
     _next_change_aux,
@@ -86,12 +89,33 @@ def test_structure_classes_and_next_change_edges_match_reference_fixtures() -> N
     # A D change at row 2 is strictly after rows 0 and 1; the final row has no
     # later change and must be masked. Every observed jump is upward.
     corner_labels = np.asarray([[0, 0], [0, 0], [1, 0], [1, -1]], dtype=np.float32)
-    rows, direction, valid = _next_change_aux(
-        corner_labels, np.ones(4, dtype=bool)
-    )
-    np.testing.assert_allclose(rows, [np.log1p(2), np.log1p(1), np.log1p(1), 0])
-    np.testing.assert_array_equal(direction, [1, 1, 1, 0])
+    rows, direction, valid = _next_change_aux(corner_labels, np.ones(4, dtype=bool))
+    np.testing.assert_allclose(rows[valid], [np.log1p(2), np.log1p(1), np.log1p(1)])
+    np.testing.assert_array_equal(direction[valid], [1, 1, 1])
     np.testing.assert_array_equal(valid, [True, True, True, False])
+
+    # Compare even the masked placeholders to the frozen production function.
+    # Import only that function's AST, avoiding trainer imports or execution.
+    root = next(
+        parent
+        for parent in Path(__file__).resolve().parents
+        if (parent / "scripts/train_rnn.py").is_file()
+    )
+    source = root / "scripts/train_rnn.py"
+    parsed = ast.parse(source.read_text(), filename=str(source))
+    node = next(
+        item
+        for item in parsed.body
+        if isinstance(item, ast.FunctionDef) and item.name == "next_change_labels"
+    )
+    namespace = {"torch": torch}
+    code = ast.fix_missing_locations(ast.Module(body=[node], type_ignores=[]))
+    exec(compile(code, str(source), "exec"), namespace)
+    reference = namespace["next_change_labels"](
+        torch.from_numpy(corner_labels[None]), torch.ones(1, 4, dtype=torch.bool)
+    )
+    for actual, expected in zip((rows, direction, valid), reference, strict=True):
+        np.testing.assert_allclose(actual, expected[0].numpy(), rtol=1e-7, atol=1e-7)
 
 
 def _sample(*, scored: np.ndarray, base_weight: float) -> SequenceSupervision:
@@ -139,9 +163,9 @@ def test_batch_true_mask_renormalization_precedes_since_decay() -> None:
     scored_rows = batch["scored"].astype(np.float32)
     has_mask = scored_rows.any(axis=1)[:, None]
     base = np.stack([sample.main_weights for sample in samples])
-    scale = (base * has_mask).sum(dtype=np.float64) / (
-        valid * (scored_rows + 0.03) * has_mask
-    ).sum(dtype=np.float64)
+    scale = (base * has_mask).sum(dtype=np.float64) / (valid * (scored_rows + 0.03) * has_mask).sum(
+        dtype=np.float64
+    )
     corrected = np.where(
         has_mask,
         valid * (scored_rows + 0.03) * scale,
@@ -150,7 +174,8 @@ def test_batch_true_mask_renormalization_precedes_since_decay() -> None:
     expected = corrected * batch["since_scale"]
     np.testing.assert_allclose(batch["main_weights"], expected, rtol=0, atol=1e-7)
     np.testing.assert_allclose(
-        batch["next_weights"], expected * np.stack([s.next_valid for s in samples]),
+        batch["next_weights"],
+        expected * np.stack([s.next_valid for s in samples]),
         rtol=0,
         atol=1e-7,
     )
@@ -159,9 +184,7 @@ def test_batch_true_mask_renormalization_precedes_since_decay() -> None:
 def test_23_output_combo_objective_matches_torch_loss_formula() -> None:
     prediction = jnp.asarray(np.linspace(-0.4, 0.5, 2 * 4 * 23).reshape(2, 4, 23))
     ema_prediction = jnp.asarray(np.linspace(0.3, -0.2, 2 * 4 * 23).reshape(2, 4, 23))
-    labels = jnp.asarray(
-        [[[0.5, -1.0], [0.25, 0.75], [-0.5, 1.5], [0.0, 0.0]]] * 2
-    )
+    labels = jnp.asarray([[[0.5, -1.0], [0.25, 0.75], [-0.5, 1.5], [0.0, 0.0]]] * 2)
     fixed_target = jnp.asarray(np.linspace(-0.7, 0.8, 2 * 4 * 2).reshape(2, 4, 2))
     main_weights = jnp.asarray([[0.0, 0.5, 1.0, 0.2], [0.3, 0.0, 0.7, 1.0]])
     next_weights = jnp.asarray([[0.0, 0.5, 0.0, 0.2], [0.3, 0.0, 0.7, 0.0]])

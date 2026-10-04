@@ -1,0 +1,134 @@
+{
+  "attempt": "v1",
+  "classification": "CPU-only bridge/objective correctness; no TPU/scientific-score claim",
+  "dataset_slug": "vladkochetov07/wnn-jax-bridge-e461-20261004",
+  "dataset_status": "READY",
+  "dataset_version": 1,
+  "evidence_id": "E461",
+  "failure_details": {
+    "actual_rows": [
+      1.0986123,
+      0.6931472,
+      0.6931472,
+      0.6931472
+    ],
+    "actual_valid_contract": "final row valid flag is false; returned distance for no-next-change row is masked, and test comment only requires masking, not a numeric zero sentinel",
+    "expected_rows": [
+      1.0986123,
+      0.6931472,
+      0.6931472,
+      0.0
+    ],
+    "failed_assertion": "np.testing.assert_allclose(rows, [log1p(2), log1p(1), log1p(1), 0])",
+    "hypothesis": "test expectation is inconsistent with bridge contract; inspect/review then modify only test fixture assertion in a fresh immutable attempt. Do not change bridge behavior solely to force a masked placeholder to zero.",
+    "test": "test_structure_classes_and_next_change_edges_match_reference_fixtures",
+    "test_errors": 0,
+    "tests_failed": 1,
+    "tests_passed": 5,
+    "tests_skipped": 0
+  },
+  "kernel_slug": "vladkochetov07/wnn-jax-bridge-objective-e461-20261004-v1",
+  "kernel_version": 1,
+  "manifest_declared_archive_sha256": "264c93092b5dbbf37451675f3e19885611b763f819e63da5c00e1ea651af1133",
+  "manifest_sha256": "c8f80b947070015664ae9805140018eaf06f3f0eab8241b85e6822422bfda8cd",
+  "materialization_mode": "kaggle_autoexpanded_zip_verified_by_member_hashes",
+  "no_retry_launched": true,
+  "observed_archive_sha256": null,
+  "observed_at_utc": "2026-10-04T14:14:03Z",
+  "output_hashes": {
+    "e461_bridge_objective/pytest.xml": {
+      "sha256": "fe32d046a41fc20427fe3a0283c5e09f5f831530064e50f85293ae38a1ac0bfd",
+      "size_bytes": 4820
+    },
+    "e461_bridge_objective/runner_result.json": {
+      "sha256": "0d11b6cc1d3d5756ee309788974b716bc81cdb326461b90cd1fff4e6046abd9b",
+      "size_bytes": 1150
+    },
+    "e461_bridge_objective/runtime.json": {
+      "sha256": "b77d22fec7efe1a4b3a73774bc867ad05c16d51c8919e4a0c0a428f2af6ffcd8",
+      "size_bytes": 894
+    },
+    "e461_bridge_objective/source-manifest.json": {
+      "sha256": "c8f80b947070015664ae9805140018eaf06f3f0eab8241b85e6822422bfda8cd",
+      "size_bytes": 2362
+    },
+    "e461_bridge_objective/stdout.log": {
+      "sha256": "874bbf02f5ec03f5f89c359c28343fc6739bad42ba814cc7705a71b0301e5aa5",
+      "size_bytes": 4448
+    },
+    "e461_bridge_objective/worker.py": {
+      "sha256": "86dafd7d0471aeacc7821963b8f34787cfb7f79988914510d45674fa24c4d04d",
+      "size_bytes": 4581
+    },
+    "e461_bridge_objective/worker_result.json": {
+      "sha256": "36b2f39cbae4743395a76c9e1bd3edc746ac557d620f4786f87863429332a217",
+      "size_bytes": 365
+    },
+    "wnn-jax-bridge-objective-e461-20261004-v1.log": {
+      "sha256": "796694a7887c81c6919a27a37ecc0508675e3b0f642d5c68c89d63b1c59c9bfd",
+      "size_bytes": 804
+    }
+  },
+  "peak_aggregate_rss_bytes": 488820736,
+  "provider_status": "ERROR",
+  "quota_at_poll": {
+    "gpu_remaining_hours": 24.27,
+    "tpu_remaining_hours": 20.0
+  },
+  "rss_limit_bytes": 4294967296,
+  "runner_elapsed_seconds": 16.331037042000048,
+  "runner_status": "worker_failed",
+  "runtime": {
+    "cpu_affinity": [
+      0
+    ],
+    "cpu_count": 4,
+    "env": {
+      "CUDA_VISIBLE_DEVICES": "",
+      "JAX_PLATFORMS": "cpu",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+      "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=1"
+    },
+    "jax_backend": "cpu",
+    "jax_devices": [
+      {
+        "kind": "cpu",
+        "platform": "cpu",
+        "process_index": 0
+      }
+    ],
+    "memory_total_bytes": 33658318848,
+    "missing_dependencies": [],
+    "torch_cuda_available": false,
+    "versions": {
+      "jax": "0.11.1",
+      "jaxlib": "0.11.1",
+      "numpy": "2.1.3",
+      "platform": "Linux-6.18.48+-x86_64-with-glibc2.39",
+      "pyarrow": "23.0.1",
+      "pytest": "8.4.2",
+      "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+      "torch": "2.11.0+cpu"
+    }
+  },
+  "source_member_hash_validation": "runner completed autoexpanded file member verification; source-manifest SHA matched pinned digest",
+  "worker_result": {
+    "classification": "CPU bridge/objective correctness only; no TPU or scientific score claim",
+    "elapsed_seconds": 15.41141875400001,
+    "numerical_pass": false,
+    "status": "failed_tests_or_skip",
+    "test_summary": {
+      "errors": 0,
+      "exit_code": 1,
+      "failures": 1,
+      "junit_xml": "pytest.xml",
+      "skips": 0,
+      "tests": 6
+    },
+    "tests_run": true
+  }
+}

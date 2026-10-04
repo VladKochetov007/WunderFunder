@@ -1,0 +1,61 @@
+{
+  "dataset_file_listing": "Kaggle reports source-manifest.json and nine expanded members under source_bundle/; expected auto-expansion is handled by manifest+per-file verification.",
+  "evidence_id": "E461",
+  "launch_plan": {
+    "accelerator": "CPU/default only",
+    "aggregate_rss_limit_bytes": 4294967296,
+    "blas_threads": 1,
+    "bundle_file_count": 9,
+    "child_watchdog_seconds": 840,
+    "classification": "CPU-only JAX bridge/objective correctness; no TPU validation and no scientific score/gain claim",
+    "cpu_affinity_threads": 1,
+    "dataset_archive_sha256": "264c93092b5dbbf37451675f3e19885611b763f819e63da5c00e1ea651af1133",
+    "dataset_manifest_sha256": "c8f80b947070015664ae9805140018eaf06f3f0eab8241b85e6822422bfda8cd",
+    "dataset_slug": "vladkochetov07/wnn-jax-bridge-e461-20261004",
+    "dataset_status": "READY",
+    "dataset_version": 1,
+    "enable_gpu": false,
+    "enable_tpu": false,
+    "evidence_id": "E461",
+    "internet": false,
+    "kernel_metadata_sha256": "3fc36607ce33118d4de322fe8a33a8a76fb318df1898b08cd63fca052b4310e4",
+    "kernel_sha256": "72fa66c60e2a6eaa1733e2285ac199f8359b671d94b75d75337678d0755b22bb",
+    "kernel_slug": "vladkochetov07/wnn-jax-bridge-objective-e461-20261004-v1",
+    "pip_install": false,
+    "private": true,
+    "pytest_plugin_autoload": false,
+    "skip_policy": "Missing JAX/JAXLIB/PyArrow/Torch fails dependency preflight; any skipped pytest test fails the numerical pass.",
+    "source_closure": [
+      "src/wnn/__init__.py",
+      "src/wnn/data.py",
+      "src/wnn/features.py",
+      "src/wnn/outcomes.py",
+      "src/wnn/splits.py",
+      "src/wnn_jax/__init__.py",
+      "src/wnn_jax/bridge.py",
+      "src/wnn_jax/rnn.py",
+      "tests/test_bridge_objective.py"
+    ],
+    "staged_hashes": {
+      "kernel_push/kernel-metadata.json": "3fc36607ce33118d4de322fe8a33a8a76fb318df1898b08cd63fca052b4310e4",
+      "kernel_push/kernel.py": "72fa66c60e2a6eaa1733e2285ac199f8359b671d94b75d75337678d0755b22bb",
+      "upload_dataset/dataset-metadata.json": "3d15e541011c3623cd1498212c3f84c34caa3e9b9e00b89299b93e88340dcc6f",
+      "upload_dataset/source-manifest.json": "c8f80b947070015664ae9805140018eaf06f3f0eab8241b85e6822422bfda8cd",
+      "upload_dataset/source_bundle.zip": "264c93092b5dbbf37451675f3e19885611b763f819e63da5c00e1ea651af1133"
+    },
+    "test_paths": [
+      "tests/test_bridge_objective.py"
+    ],
+    "timeout_seconds": 900
+  },
+  "local_numerical_imports_or_tests_run": false,
+  "observed_at_utc": "2026-10-04T14:09:00Z",
+  "provider_prelaunch": {
+    "E419_v4": "ERROR",
+    "GPU_quota_remaining_hours": 24.27,
+    "TPU_probe": "QUEUED",
+    "TPU_quota_remaining_hours": 20.0
+  },
+  "static_preflight": "AST parsed runner and all 9 bundled Python files; ZIP member set/sizes/SHA-256 verified against manifest",
+  "status": "prepared_private_cpu_launch"
+}

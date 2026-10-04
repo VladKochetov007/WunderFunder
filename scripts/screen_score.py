@@ -80,7 +80,7 @@ class HoldoutSplit:
         self.sha256 = None
 
 
-def holdout_member(name: str, verified: dict) -> np.ndarray:
+def holdout_member(name: str, verified: dict, *, run_name: str | None = None) -> np.ndarray:
     """Memory-map a final-fit prediction after checking its run (and its init chain) never fitted on holdout."""
     import torch
 
@@ -88,11 +88,12 @@ def holdout_member(name: str, verified: dict) -> np.ndarray:
     if name not in verified:
         side = json.loads(pred.with_suffix(".json").read_text())
         prediction_sha = file_sha256(pred)
-        if side.get("run") != name:
+        source_run = run_name or name
+        if side.get("run") != source_run:
             raise ValueError(f"{name}: prediction sidecar names run {side.get('run')!r}")
         if prediction_sha != side.get("prediction_sha256"):
             raise ValueError(f"{name}: prediction bytes differ from sidecar")
-        run = name
+        run = source_run
         if not (ROOT / "artifacts" / "runs" / run).is_dir():
             run = re.sub(r"_ep\d+$", "", run)  # cached exports of a fixed epoch are named RUN_epN
         prediction_run = run
@@ -114,12 +115,21 @@ def holdout_member(name: str, verified: dict) -> np.ndarray:
                 raise ValueError(f"{name}: run {run} unknown train source")
             run = (args.get("init") or "").partition("@")[0]
         verified[name] = {"prediction_sha256": prediction_sha, "checkpoint_sha256": side.get("checkpoint_sha256"),
-                          "epoch": side.get("epoch"), "holdout_safe": True}
+                          "epoch": side.get("epoch"), "holdout_safe": True,
+                          "run": prediction_run, "inference_precision": side.get("inference_precision")}
     return np.load(pred, mmap_mode="r")
 
 
 def run(screen: dict) -> dict:
     cs = frozen_scorer()
+    export_runs = screen.get("export_runs", {})
+    if not isinstance(export_runs, dict) or any(
+        not isinstance(key, str) or not isinstance(value, str)
+        or re.fullmatch(r"[A-Za-z0-9_]+", key) is None
+        or re.fullmatch(r"[A-Za-z0-9_]+", value) is None
+        for key, value in export_runs.items()
+    ):
+        raise ValueError("export_runs must map safe cache names to their actual checkpoint runs")
     if len(set(screen["folds"])) != len(screen["folds"]):
         raise ValueError("duplicate folds would double-count evaluation rows")
     targets = cs.mmap_stored_npz(ROOT / "cache/valid_targets.npz")
@@ -136,7 +146,7 @@ def run(screen: dict) -> dict:
             total = sum(mixture.values())
             if abs(total - 1.0) > 1e-9 or min(mixture.values()) < 0:
                 raise ValueError(f"{arm}: weights must be a convex mixture")
-            arms[arm] = [(w, holdout_member(k, verified) if fold == "holdout"
+            arms[arm] = [(w, holdout_member(k, verified, run_name=export_runs.get(k)) if fold == "holdout"
                           else bound_member(k.format(fold=fold), split, verified)) for k, w in mixture.items()]
         component_of = {g: c for source, g, c in split.components if source == "valid"}
         rows = {arm: [] for arm in arms}

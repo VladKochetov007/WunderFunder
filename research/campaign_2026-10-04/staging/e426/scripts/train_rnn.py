@@ -7,6 +7,7 @@ The holdout split (wnn.splits) is read only with --eval-source holdout, for grad
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -1393,9 +1394,10 @@ def main():
             or args.class_balance or args.epoch_samples or args.max_batches
             or args.stop_after_epoch is not None or args.thin_prob or args.origin_view != "off"
             or args.swa_frac or args.valid_repeat not in (0, 1)
-            or args.train_source != "train+valid"):
+            or args.train_source != "train+valid" or campaign_split is None):
         ap.error("split teacher EMA clocks require train+valid, cached teacher consistency, fixed eval EMA, "
-                 "seeded complete batches, no resampling/thinning/origin replay/SWA, and no row EMA clock")
+                 "a clean split manifest, seeded complete batches, no resampling/thinning/origin replay/SWA, "
+                 "and no row EMA clock")
     ema_update_decay = ema_decay_per_update(args.ema_decay, update_rows, args.ema_reference_rows)
 
     torch.manual_seed(args.seed)
@@ -1595,12 +1597,38 @@ def main():
                                         replacement=True, generator=torch.Generator().manual_seed(args.seed))
     valid_ds = None if args.no_eval_during_fit else Sequences("valid", valid_idx)
     event_sequence_counts = None
+    event_source_groups = None
     if split_teacher_ema:
         source_groups = [train_idx]
         source_splits = [train_split]
         if extra_valid is not None and args.valid_repeat:
-            source_groups.append(extra_valid)
-            source_splits.append("valid")
+            source_groups.extend([extra_valid] * args.valid_repeat)
+            source_splits.extend(["valid"] * args.valid_repeat)
+        try:
+            train_sources = [
+                groups
+                for split, groups in zip(source_splits, source_groups, strict=True)
+                if split == "train"
+            ]
+            valid_sources = [
+                groups
+                for split, groups in zip(source_splits, source_groups, strict=True)
+                if split == "valid"
+            ]
+            campaign_split.assert_fit_groups(
+                np.concatenate(train_sources) if train_sources else (),
+                np.concatenate(valid_sources) if valid_sources else (),
+            )
+        except ValueError as error:
+            ap.error(f"E426 event sources are outside the declared fit groups: {error}")
+        train_hole = set(map(int, train_idx)) & CORRUPT_TRAIN_ROW_GROUPS
+        if train_hole:
+            ap.error(f"E426 event source contains corrupt TRAIN groups: {sorted(train_hole)}")
+        event_source_groups = [
+            [split, int(group)]
+            for split, groups in zip(source_splits, source_groups, strict=True)
+            for group in groups
+        ]
         event_sequence_counts = np.concatenate(
             [endpoint_events_by_update(ROOT / "datasets" / f"{split}.parquet", groups, update_rows)
              for split, groups in zip(source_splits, source_groups, strict=True)],
@@ -1637,6 +1665,28 @@ def main():
                                      "valid": train_idx.tolist() if train_split == "valid" else
                                      extra_valid.tolist() if extra_valid is not None else []},
                   "evaluation_row_groups": valid_idx.tolist(), "checkpoint_sha256": {}}
+    if split_teacher_ema:
+        source_payload = json.dumps(event_source_groups, separators=(",", ":")).encode("ascii")
+        count_payload = np.asarray(event_sequence_counts, dtype="<i8").tobytes(order="C")
+        provenance["code_source_closure"] = globals().get("E426_SOURCE_CLOSURE")
+        provenance["teacher_ema_source"] = {
+            "ordered_fit_rows": event_source_groups,
+            "ordered_fit_rows_sha256": hashlib.sha256(source_payload).hexdigest(),
+            "sequence_event_counts_sha256": hashlib.sha256(count_payload).hexdigest(),
+            "sequence_event_counts_shape": list(event_sequence_counts.shape),
+            "split_manifest_sha256": campaign_split.sha256,
+            "source_semantics": (
+                "offline endpoint counts over real, unpadded rows in the actual fit pool "
+                "(TRAIN plus fit-VALID groups, excluding evaluation groups); the ordered "
+                "(split,row_group) list matches the concatenated training dataset"
+            ),
+            "excluded_group_holes": [
+                {"split": "train", "row_group": int(group),
+                 "reason": "corrupt TRAIN row group; excluded from the declared fit manifest"}
+                for group in sorted(CORRUPT_TRAIN_ROW_GROUPS)
+            ],
+            "clock_scope": "offline epoch-normalized teacher retention; not an online input feature",
+        }
     if inner_crossfit is not None:
         provenance["inner_crossfit"] = inner_crossfit
         provenance["deployment_safe"] = args.privileged_mode == "none"
@@ -1899,6 +1949,10 @@ def main():
                                        "sha256": file_sha256(Path(args.resume_state)), "next_epoch": start_epoch}
         prior_fit_seconds = progress["fitting_seconds"]
         auxiliary_state = saved_training["auxiliary"]
+        if split_teacher_ema:
+            provenance.setdefault("teacher_ema_clock", {})["epochs"] = list(
+                auxiliary_state.get("teacher_ema_epochs", [])
+            )
         norm_ema = auxiliary_state["norm_ema"]
         if norm_ema is not None:
             norm_ema = norm_ema.to(device)
@@ -2323,6 +2377,7 @@ def main():
                           "fitting_seconds": provenance["fitting_seconds"]},
                 auxiliary={"norm_ema": norm_ema, "dynamics": dynamics.state_dict(),
                            "pool_memory": None if pool_memory is None else pool_memory.memory,
+                           "teacher_ema_epochs": provenance.get("teacher_ema_clock", {}).get("epochs", []),
                            "readout_moments": None if moments is None else
                            {field: getattr(moments, field) for field in ("m1", "m0", "n")}},
             )

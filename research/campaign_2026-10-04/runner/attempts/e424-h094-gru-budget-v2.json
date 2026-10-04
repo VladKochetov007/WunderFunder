@@ -81,9 +81,31 @@
     "--dropout",
     "0"
   ],
+  "artifacts": [
+    {
+      "path": "artifacts/runs/c20261004_h094_gru_budget_s3_final/model_ep3.pt",
+      "sha256": "139c992e7d30101ed10446cb15c4a04ce5d6bcc57da0e3d447359c4d33a9949e",
+      "size": 1098655
+    },
+    {
+      "path": "artifacts/runs/c20261004_h094_gru_budget_s3_final/provenance.json",
+      "sha256": "93ae194633198badac2b97a098a629049bf73de87ad05074b064a0ec5c28699a",
+      "size": 160685
+    },
+    {
+      "path": "artifacts/runs/c20261004_h094_gru_budget_s3_final/history.json",
+      "sha256": "491357c27ac41c02f214872220eba2024259d47b2fcda334d7ba3405edfb0e9e",
+      "size": 8805
+    },
+    {
+      "path": "artifacts/runs/c20261004_h094_gru_budget_s3_final/training_state.pt",
+      "sha256": "265f7bd0b0d6ec687f383c4ffd0fb4b175dfaa997bc348dbeec4e7482ad198c4",
+      "size": 3445301
+    }
+  ],
   "block_id": "local001",
-  "charged_seconds": 0.0,
-  "elapsed_seconds": 1311.1330867860015,
+  "charged_seconds": 1572.0658156779973,
+  "elapsed_seconds": 1572.0658156779973,
   "environment": {
     "ARROW_NUM_THREADS": "1",
     "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
@@ -105,7 +127,30 @@
     "WNN_PORTABLE_DATA_MANIFEST": "research/campaign_2026-10-04/portable_inputs.json",
     "WNN_THREADS": "8"
   },
-  "heartbeat_unix": 1791121809.4804265,
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 97672,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 747481,
+    "low": 0,
+    "max": 5158720,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791122026.8425732,
+  "heartbeat_unix": 1791122026.3261282,
   "id": "e424-h094-gru-budget-v2",
   "initial_memory_events": {
     "high": 0,
@@ -129,7 +174,7 @@
   "memory_events": {
     "high": 0,
     "low": 0,
-    "max": 38235,
+    "max": 97672,
     "oom": 0,
     "oom_group_kill": 0,
     "oom_kill": 0,
@@ -144,7 +189,7 @@
     "MemorySwapMax": "0"
   },
   "peak_observed_vram_bytes": 4454350848,
-  "peak_ram_bytes": 25757278208,
+  "peak_ram_bytes": 25760210944,
   "reserved_seconds": 4530,
   "reserved_unix": 1791120454.7170954,
   "runtime_sha256": {
@@ -154,6 +199,7 @@
     "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
     "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
   },
+  "signals": [],
   "spec": {
     "argv": [
       "{python}",
@@ -613,7 +659,8 @@
   },
   "spec_sha256": "51c7a13e84209edafa766117517875996ca2db898086de326aca110485041b2e",
   "started_unix": 1791120498.3210328,
-  "status": "running",
+  "status": "finished",
+  "teardown_verified": true,
   "timeout_seconds": 3600,
   "unit": "wnn-c04-e424-h094-gru-budget-v2.service",
   "unit_properties": {
