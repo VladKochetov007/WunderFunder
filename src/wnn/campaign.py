@@ -38,6 +38,10 @@ class AdmissionBusy(RuntimeError):
     """Normal queue backpressure; it must not pause an active campaign."""
 
 
+class JobQuarantined(AdmissionBusy):
+    """A reviewed job-specific acknowledgement is required before another attempt."""
+
+
 class BudgetExhausted(RuntimeError):
     """The controller must review and renew the block before this admission."""
 
@@ -177,10 +181,67 @@ def open_block(state: Path, root: Path, block_id: str, review: str) -> None:
 
 def pause_locked(state: Path, reason: str, attempt: str | None = None) -> None:
     """Publish an incident while the caller holds the shared admission lock."""
-    event = {"reason": reason, "attempt": attempt, "time_unix": time.time()}
+    event = {"reason": reason, "attempt": attempt, "time_unix": time.time(), "scope": "global"}
+    current = state / "PAUSE.json"
+    if current.exists():
+        event["primary_incident"] = read_json(current)["id"]
     event["id"] = digest(event)
     atomic_json(state / "incidents" / f"{event['id']}.json", event)
-    atomic_json(state / "PAUSE.json", event)
+    if not current.exists():
+        atomic_json(current, event)
+
+
+def quarantine_locked(
+    state: Path, spec: ExperimentSpec, attempt: str, reason: str, category: str
+) -> None:
+    """Record a contained scientific failure without interrupting other jobs."""
+    event = {
+        "scope": "job",
+        "job": spec["name"],
+        "spec_sha256": digest(spec),
+        "attempt": attempt,
+        "reason": reason,
+        "category": category,
+        "time_unix": time.time(),
+    }
+    event["id"] = digest(event)
+    atomic_json(state / "incidents" / f"{event['id']}.json", event)
+    path = state / "quarantines" / f"{spec['name']}.json"
+    if not path.exists():
+        atomic_json(path, event)
+
+
+def quarantines(state: Path) -> list[dict[str, object]]:
+    """Expose outstanding scientific failures independently of global readiness."""
+    return [read_json(path) for path in sorted((state / "quarantines").glob("*.json"))]
+
+
+def acknowledge_job(state: Path, root: Path, job: str, incident_id: str, review: str) -> None:
+    """Release one diagnosed job quarantine without refreshing runtime readiness."""
+    if not NAME.fullmatch(job):
+        raise ValueError("invalid job identity")
+    with locked(state):
+        ready(state, root)
+        path = state / "quarantines" / f"{job}.json"
+        event = read_json(path)
+        if event["job"] != job or event["id"] != incident_id or not review.strip():
+            raise ValueError("acknowledgement must bind the job incident and diagnosis")
+        if any(
+            item["status"] in ACTIVE and item["spec"]["name"] == job for item in attempts(state)
+        ):
+            raise RuntimeError("reconcile this job's active attempts before acknowledgement")
+        atomic_json(
+            state / "acknowledgements" / f"{incident_id}.json",
+            {
+                "scope": "job",
+                "job": job,
+                "incident_id": incident_id,
+                "review": review,
+                "time_unix": time.time(),
+                "runtime_sha256": runtime_identity(root),
+            },
+        )
+        path.unlink()
 
 
 def pause(state: Path, reason: str, attempt: str | None = None) -> None:
@@ -196,6 +257,10 @@ def reserve_attempt(
     if not NAME.fullmatch(attempt):
         raise ValueError("invalid attempt ID")
     value = ready(state, root)
+    quarantine = state / "quarantines" / f"{spec['name']}.json"
+    if quarantine.exists():
+        event = read_json(quarantine)
+        raise JobQuarantined(f"job {spec['name']} is quarantined by incident {event['id']}")
     path = state / "attempts" / f"{attempt}.json"
     if path.exists():
         raise FileExistsError("attempt IDs cannot be reused")

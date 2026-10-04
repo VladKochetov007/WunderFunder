@@ -39,6 +39,10 @@ def main() -> int:
     acknowledge = commands.add_parser("acknowledge")
     acknowledge.add_argument("incident")
     acknowledge.add_argument("--review", required=True)
+    job_ack = commands.add_parser("acknowledge-job")
+    job_ack.add_argument("job")
+    job_ack.add_argument("incident")
+    job_ack.add_argument("--review", required=True)
     args = parser.parse_args()
     root = args.root.resolve()
     state = args.state.resolve() if args.state.is_absolute() else (root / args.state).resolve()
@@ -69,6 +73,10 @@ def main() -> int:
         campaign_local.check_parent(campaign_local.properties(campaign_spec.SLICE))
         campaign_local.check_orphans(state)
         campaign.acknowledge(state, root, args.incident, args.review)
+    elif args.action == "acknowledge-job":
+        campaign_local.check_parent(campaign_local.properties(campaign_spec.SLICE))
+        campaign_local.check_orphans(state)
+        campaign.acknowledge_job(state, root, args.job, args.incident, args.review)
     else:
         ready = campaign.read_json(state / "READY.json")
         print(
@@ -76,6 +84,7 @@ def main() -> int:
                 {
                     "ready": ready,
                     "paused": (state / "PAUSE.json").exists(),
+                    "quarantines": campaign.quarantines(state),
                     "budget": campaign.budget(state, str(ready["block_id"])),
                     "attempts": campaign.attempts(state),
                 },
