@@ -19,6 +19,7 @@ from wnn.campaign import (
     locked,
     pause,
     pause_locked,
+    quarantine_locked,
     read_json,
     ready,
     reserve_attempt,
@@ -35,6 +36,44 @@ from wnn.campaign_spec import (
     validate_spec,
     verify_files,
 )
+
+
+class ScientificFailure(RuntimeError):
+    """A known per-job failure, scoped only after resource and teardown verification."""
+
+    def __init__(self, category: str, reason: str) -> None:
+        super().__init__(reason)
+        self.category = category
+
+
+def verify_scientific_inputs(root: Path, spec: ExperimentSpec) -> None:
+    """Distinguish clearly missing/changed inputs from untrusted monitoring or code."""
+    for entry in spec["inputs"]:
+        try:
+            actual = content_file(root, entry["path"])
+        except FileNotFoundError as error:
+            raise ScientificFailure("input_missing", f"input missing: {entry['path']}") from error
+        if actual != entry:
+            raise ScientificFailure("input_changed", f"input content mismatch: {entry['path']}")
+
+
+def verify_no_children(group: Path) -> None:
+    """Trust a contained terminal job only when its cgroup contains just this monitor."""
+    deadline = time.monotonic() + 1.0
+    while True:
+        pids = {int(value) for value in (group / "cgroup.procs").read_text().split()}
+        if pids == {os.getpid()}:
+            return
+        if time.monotonic() >= deadline:
+            raise RuntimeError(f"unverified worker teardown: cgroup processes {sorted(pids)}")
+        time.sleep(0.05)
+
+
+def oom_increased(before: dict[str, int], after: dict[str, int]) -> bool:
+    """Treat OOM attempts and kills as resource incidents, never scientific exits."""
+    return any(
+        after.get(key, 0) > before.get(key, 0) for key in ("oom", "oom_kill", "oom_group_kill")
+    )
 
 
 def capture(argv: list[str]) -> str:
@@ -201,13 +240,13 @@ def launch(
     """Verify content and atomically reserve a single durable local attempt."""
     validate_local(spec)
     # Large inputs are hashed once in the bounded worker, not in the caller's shell.
-    verify_files(root, spec["code"])
     if any(rooted(root, name).exists() for name in spec["artifacts"]):
         raise FileExistsError("required output already exists; choose a fresh run identity")
     record = None
     try:
         with locked(state):
             ready(state, root)
+            verify_files(root, spec["code"])
             check_parent(properties(SLICE))
             check_orphans(state)
             if spec["kind"] == "gpu" and device_memory() >= spec["limits"]["gpu_stop_bytes"]:
@@ -250,12 +289,17 @@ def notify_ready() -> None:
 
 def memory_events(group: Path) -> dict[str, int]:
     """Read cgroup OOM counters while the service still exists."""
-    return {
+    counters = {
         key: int(value)
         for key, value in (
             line.split() for line in (group / "memory.events").read_text().splitlines()
         )
     }
+    if not {"oom", "oom_kill", "oom_group_kill"} <= counters.keys() or any(
+        value < 0 for value in counters.values()
+    ):
+        raise ValueError("cgroup OOM counters are incomplete or invalid")
+    return counters
 
 
 def stop_child(child: subprocess.Popen[bytes]) -> None:
@@ -273,7 +317,7 @@ def stop_child(child: subprocess.Popen[bytes]) -> None:
 
 
 def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
-    """Monitor one scoped command; preserve failures and block further admission."""
+    """Quarantine contained job failures; uncertain monitoring/resources pause globally."""
     record_path = state / "attempts" / f"{attempt}.json"
     record = read_json(record_path)
     spec = validate_spec(record["spec"])
@@ -288,7 +332,12 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
     start = None
     accounting_start = time.monotonic()
     failure = None
+    failure_scope = None
+    failure_category = None
     group = None
+    parent_group = None
+    initial_events = None
+    initial_parent_events = None
     lock_handle = None
     try:
         ready(state, root)
@@ -306,13 +355,19 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
         ):
             raise RuntimeError("worker is outside its reserved service cgroup")
         group = Path("/sys/fs/cgroup") / expected.lstrip("/")
+        parent_group = Path("/sys/fs/cgroup") / parent["ControlGroup"].lstrip("/")
         if (group / "memory.oom.group").read_text().strip() != "1":
             raise RuntimeError("worker cgroup does not kill the entire group on OOM")
-        initial_oom = memory_events(group).get("oom_kill", 0)
+        initial_events = memory_events(group)
+        initial_parent_events = memory_events(parent_group)
+        record.update(
+            initial_memory_events=initial_events, initial_parent_memory_events=initial_parent_events
+        )
         if spec["kind"] == "gpu":
             lock_handle = (state / "gpu.lock").open("a")
             fcntl.flock(lock_handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        verify_files(root, spec["code"] + spec["inputs"])
+        verify_files(root, spec["code"])
+        verify_scientific_inputs(root, spec)
         if signals or (state / "PAUSE.json").exists():
             raise RuntimeError("execution cancelled during preflight")
         if spec["kind"] == "gpu" and device_memory() >= spec["limits"]["gpu_stop_bytes"]:
@@ -353,7 +408,7 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
                 if signals or (state / "PAUSE.json").exists():
                     raise RuntimeError(f"interrupted or campaign paused: {signals}")
                 if elapsed >= spec["limits"]["timeout_seconds"]:
-                    raise TimeoutError("attempt execution timeout")
+                    raise ScientificFailure("deadline", "attempt execution timeout")
                 observed = device_memory() if spec["kind"] == "gpu" else 0
                 ram = int((group / "memory.current").read_text())
                 counters = memory_events(group)
@@ -369,27 +424,42 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
                 atomic_json(record_path, record)
                 if observed and observed >= spec["limits"]["gpu_stop_bytes"]:
                     raise RuntimeError("observed VRAM operational threshold exceeded")
-                if counters.get("oom_kill", 0) > initial_oom:
-                    raise RuntimeError("cgroup OOM kill observed")
+                if oom_increased(initial_events, counters):
+                    raise RuntimeError("cgroup OOM event observed")
                 check_parent(properties(SLICE))
                 time.sleep(0.5)
             if child.returncode != 0:
-                raise RuntimeError(f"command exited {child.returncode}")
-            record["artifacts"] = [content_file(root, name) for name in spec["artifacts"]]
+                if child.returncode < 0 or child.returncode >= 128:
+                    raise RuntimeError(f"unexplained signal-like command exit {child.returncode}")
+                raise ScientificFailure("command_exit", f"command exited {child.returncode}")
+            try:
+                record["artifacts"] = [content_file(root, name) for name in spec["artifacts"]]
+            except FileNotFoundError as error:
+                raise ScientificFailure(
+                    "artifact_missing", f"required output missing: {error}"
+                ) from error
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
         failure = f"{type(error).__name__}: {error}"
+        failure_scope = "job" if isinstance(error, ScientificFailure) else "global"
+        failure_category = (
+            error.category if isinstance(error, ScientificFailure) else "untrusted_execution"
+        )
     finally:
         if signals:
             failure = f"interrupted by signal(s): {signals}; {failure}"
+            failure_scope = "global"
         if child is not None:
             try:
                 stop_child(child)
             except (OSError, subprocess.SubprocessError) as error:
                 failure = f"{failure}; teardown: {error}"
+                failure_scope = "global"
         elapsed = time.monotonic() - accounting_start
         record.update(
             status="finished" if failure is None else "failed",
             failure=failure,
+            failure_scope=failure_scope,
+            failure_category=failure_category,
             exit_code=None if child is None else child.returncode,
             elapsed_seconds=elapsed,
             charged_seconds=elapsed,
@@ -398,14 +468,35 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
         )
         if group is not None:
             try:
-                record["final_memory_events"] = memory_events(group)
-            except OSError as error:
+                final_events = memory_events(group)
+                record["final_memory_events"] = final_events
+                if parent_group is None or initial_events is None or initial_parent_events is None:
+                    raise RuntimeError("initial resource evidence is incomplete")
+                final_parent_events = memory_events(parent_group)
+                record["final_parent_memory_events"] = final_parent_events
+                if oom_increased(initial_events, final_events) or oom_increased(
+                    initial_parent_events, final_parent_events
+                ):
+                    raise RuntimeError("worker or aggregate parent OOM event observed")
+                check_parent(properties(SLICE))
+                if spec["kind"] == "gpu" and device_memory() >= spec["limits"]["gpu_stop_bytes"]:
+                    raise RuntimeError("final device usage exceeds operational threshold")
+                verify_no_children(group)
+                record["teardown_verified"] = True
+            except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
                 failure = f"{failure}; final cgroup observation: {error}"
-                record.update(status="failed", failure=failure)
+                failure_scope = "global"
+                record.update(status="failed", failure=failure, failure_scope=failure_scope)
+        if failure is not None and group is None:
+            failure_scope = "global"
+        record["failure_scope"] = failure_scope
         with locked(state):
             atomic_json(record_path, record)
             if failure is not None:
-                pause_locked(state, failure, attempt)
+                if failure_scope == "job":
+                    quarantine_locked(state, spec, attempt, failure, str(failure_category))
+                else:
+                    pause_locked(state, failure, attempt)
         if lock_handle is not None:
             lock_handle.close()
         for sig, handler in previous.items():
