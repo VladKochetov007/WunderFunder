@@ -144,7 +144,7 @@ def test_modern_spread_main_resume(
 
     run("modern_combo_parent", ["--seed", "7"])
     parent_path = tmp_path / "artifacts/runs/modern_combo_parent/model.pt"
-    parent = torch.load(parent_path, weights_only=False)
+    parent = torch.load(parent_path, map_location="cpu", weights_only=False)
     base += ["--init", "modern_combo_parent", "--inherit-init-preprocessing"]
     run("original_continuation", [])
     base += ["--spread-aux-mode", mode, "--spread-cache-root", str(cache)]
