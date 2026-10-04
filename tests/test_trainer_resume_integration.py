@@ -49,6 +49,7 @@ def test_real_main_epoch_resume_and_completed_export(
     monkeypatch: pytest.MonkeyPatch,
     controlled: bool,
     research_features: str = "none",
+    origin_view: str = "off",
 ) -> None:
     """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
     _repository(tmp_path)
@@ -128,6 +129,19 @@ def test_real_main_epoch_resume_and_completed_export(
         ]
     if device == "cuda":
         base += ["--fast"]  # Exercise actual CUDA stream prefetch and fused AdamW.
+    if origin_view != "off":
+        base += [
+            "--chunk",
+            "1",
+            "--update-rows",
+            "2",
+            "--detach-rows",
+            "2",
+            "--origin-view",
+            origin_view,
+            "--ema-reference-rows",
+            "2",
+        ]
 
     def run(name: str, extra: list[str]) -> Path:
         monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
@@ -165,7 +179,10 @@ def test_real_main_epoch_resume_and_completed_export(
         "auxiliary",
     ):
         _assert_equal(reference[key], resumed[key])
-    assert reference["progress"]["step_count"] == resumed["progress"]["step_count"] == 12
+    expected_steps = 24 if origin_view != "off" else 12
+    assert (
+        reference["progress"]["step_count"] == resumed["progress"]["step_count"] == expected_steps
+    )
     for first, second in zip(
         reference["progress"]["update_diagnostics"],
         resumed["progress"]["update_diagnostics"],
@@ -182,7 +199,7 @@ def test_real_main_epoch_resume_and_completed_export(
         json.loads((recovered_dir / "provenance.json").read_text())["cumulative_updates"][
             "optimizer_attempts"
         ]
-        == 12
+        == expected_steps
     )
 
 
@@ -211,6 +228,16 @@ def test_main_research_features_resume(
     """Expanded normalization and feature checkpoints survive actual trainer resume."""
     test_real_main_epoch_resume_and_completed_export(
         tmp_path, monkeypatch, False, research_features
+    )
+
+
+@pytest.mark.parametrize("origin_view", ["prefix-fixed", "prefix-random"])
+def test_main_origin_view_resume(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, origin_view: str
+) -> None:
+    """Full prefix replay with actual row-clock EMA stays exact across epoch resume."""
+    test_real_main_epoch_resume_and_completed_export(
+        tmp_path, monkeypatch, False, origin_view=origin_view
     )
 
 

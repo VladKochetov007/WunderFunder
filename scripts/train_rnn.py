@@ -73,6 +73,7 @@ from wnn.training_sampling import EpochOrderSampler, init_qmc_
 from wnn.training_state import (atomic_save_training_state, capture_training_state,
                                 load_training_state, loader_state, restore_rng,
                                 restore_training_state)
+from wnn.training_views import origin_windows, update_ema_for_rows
 
 ROOT = Path(__file__).resolve().parents[1]
 SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4
@@ -525,15 +526,16 @@ def calibrate_distill_reference(args, train_loader, prop_model, provenance, devi
         if isinstance(train_loader.sampler, EpochOrderSampler):
             train_loader.sampler.set_epoch(epoch)
         orders.append(sample_order_identity(train_loader))
-        for x, target, scored, *rest in train_loader:
+        for batch, (x, target, scored, *rest) in enumerate(train_loader):
             x, target, scored = x.to(device), target.to(device), scored.to(device)
             y = target[..., :2]
             valid = torch.arange(x.shape[1], device=device)[None].expand(x.shape[:2]) >= WARMUP
             cached = rest[0].to(device) if rest else None
             weights = main_row_weights(build_inputs(x), y, valid, scored, prop_model, cached, args)
             mass = y.float().clamp(-2, 2).abs() * weights[..., None]
-            masses.extend(float(mass[:, start:start + update_rows].sum())
-                          for start in range(0, x.shape[1], update_rows))
+            windows = origin_windows(x.shape[1], update_rows, args.chunk, args.origin_view,
+                                     args.origin_seed, epoch, batch)
+            masses.extend(float(mass[:, window].sum()) for window in windows)
         orders[-1].update(order.identity(args.batch))
     train_loader.batch_sampler.sampler = original_sampler
     report = summarize_masses(masses)
@@ -910,6 +912,9 @@ def main():
     ap.add_argument("--detach-boundary-jitter", action="store_true",
                     help="randomize detach phase inside unchanged macro updates; requires chunk < detach rows")
     ap.add_argument("--detach-jitter-seed", type=int, default=271828)
+    ap.add_argument("--origin-view", choices=["off", "prefix-fixed", "prefix-random"], default="off",
+                    help="replay causal prefixes before every update; fixed/random arms match rows and prefix work")
+    ap.add_argument("--origin-seed", type=int, default=79079)
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--stop-after-epoch", type=int, default=None,
@@ -1178,7 +1183,12 @@ def main():
     update_rows = args.update_rows or args.chunk
     detach_rows = args.detach_rows or args.chunk
     controlled_loss = bool(args.update_rows or args.detach_rows or args.distill_denominator != "chunk"
-                           or args.detach_boundary_jitter)
+                           or args.detach_boundary_jitter or args.origin_view != "off")
+    if args.origin_view != "off":
+        try:
+            origin_windows(SEQUENCE_LENGTH, update_rows, args.chunk, args.origin_view, args.origin_seed, 0, 0)
+        except ValueError as error:
+            ap.error(str(error))
     if args.detach_boundary_jitter and (detach_rows <= args.chunk or args.detach_jitter_seed < 0):
         ap.error("detach-boundary jitter needs --detach-rows larger than --chunk and a nonnegative seed")
     if controlled_loss:
@@ -1580,6 +1590,15 @@ def main():
     provenance["training_clocks"] = {"micro_rows": args.chunk, "detach_rows": detach_rows,
                                      "update_rows": update_rows, "ema_decay_per_update": ema_update_decay,
                                      "ema_clock": "attempted updates including AMP skips"}
+    if args.origin_view != "off":
+        initial_windows = origin_windows(SEQUENCE_LENGTH, update_rows, args.chunk, args.origin_view,
+                                         args.origin_seed, 0, 0)
+        provenance["training_clocks"].update({
+            "origin_view": args.origin_view,
+            "prefix_rows_per_sequence": sum(window.start for window in initial_windows),
+            "supervised_rows_per_sequence": SEQUENCE_LENGTH,
+            "variable_update_width": args.origin_view == "prefix-random",
+            "ema_clock": "actual update rows" if args.ema_reference_rows else "attempted updates including AMP skips"})
     # Bind the runtime only after lazy loaders/optimizers have initialized, and
     # use that same explicit thread budget for uninterrupted and resumed fits.
     torch.set_num_threads(cpu_threads())
@@ -1696,12 +1715,20 @@ def main():
             timer.mark("labels")
             h = h_ema = None
             donor_masses = None
+            windows = origin_windows(inputs.shape[1], update_rows, args.chunk, args.origin_view,
+                                     args.origin_seed, epoch, b)
             if args.distill_denominator == "shuffled":
-                donor_masses = shuffled_masses(
-                    y.float().clamp(-2, 2).abs() * main_valid[..., None], update_rows,
-                    args.denominator_shuffle_seed + 104729 * epoch + b)
-            for s in range(0, inputs.shape[1], update_rows):
-                sl = slice(s, min(s + update_rows, inputs.shape[1]))
+                if args.origin_view == "off":
+                    donor_masses = shuffled_masses(
+                        y.float().clamp(-2, 2).abs() * main_valid[..., None], update_rows,
+                        args.denominator_shuffle_seed + 104729 * epoch + b)
+                else:
+                    masses = torch.stack([(y[:, window].float().clamp(-2, 2).abs()
+                                           * main_valid[:, window, None]).sum().detach() for window in windows])
+                    order = np.random.default_rng(args.denominator_shuffle_seed + 104729 * epoch + b).permutation(len(windows))
+                    donor_masses = masses[torch.as_tensor(order, device=device)]
+            for window_index, sl in enumerate(windows):
+                s = sl.start
                 opt = dynamics.maybe_switch(step_count, opt, sched)
                 if controlled_loss:
                     def raw_forward(window, state):
@@ -1712,6 +1739,14 @@ def main():
                         with torch.autocast(device.type, dtype=amp_dtype, enabled=device.type == "cuda"):
                             return forward_chunk(ema_model.module, inputs, window, state)
 
+                    if args.origin_view != "off":
+                        h = h_ema = None
+                        with torch.no_grad():
+                            for prefix_start in range(0, sl.start, args.chunk):
+                                prefix = slice(prefix_start, prefix_start + args.chunk)
+                                _, h = raw_forward(prefix, h)
+                                if args.ema_teacher:
+                                    _, h_ema = teacher_forward(prefix, h_ema)
                     opt.zero_grad(set_to_none=True)
                     loss = torch.zeros((), device=device)
                     configuration = DistilledLoss(
@@ -1730,7 +1765,7 @@ def main():
                             detach_offset_rows=detach_boundary_offset(
                                 args.chunk, detach_rows, args.detach_jitter_seed, step_count)
                                 if args.detach_boundary_jitter else 0,
-                            donor_mass=None if donor_masses is None else donor_masses[s // update_rows]):
+                            donor_mass=None if donor_masses is None else donor_masses[window_index]):
                         scaler.scale(contribution).backward()
                         loss = loss + contribution.detach()
                     timer.mark("loss")
@@ -1874,7 +1909,11 @@ def main():
                 if swa_model is not None and step_count >= swa_start:
                     swa_model.update_parameters(model)
                 if ema_model is not None:
-                    ema_model.update_parameters(model)
+                    if args.origin_view != "off":
+                        update_ema_for_rows(ema_model, model, args.ema_decay, sl.stop - sl.start,
+                                            args.ema_reference_rows)
+                    else:
+                        ema_model.update_parameters(model)
                     epoch_counter.ema_updates += 1
                 if duty is not None:  # explicit rate limit (WNN_GPU_DUTY < 1): sync, then sleep
                     torch.cuda.synchronize()
