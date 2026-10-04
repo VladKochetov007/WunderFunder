@@ -8,7 +8,20 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
 
-from wnn.campaign_spec import BLOCK_SECONDS, NAME, ExperimentSpec, digest, file_hash
+from wnn.campaign_spec import (
+    BLOCK_SECONDS,
+    CPU_MAX,
+    CPU_SMALL_RAM_MAX,
+    NAME,
+    RAM_MAX,
+    SUPPORT_CPU_RESERVE,
+    SUPPORT_RAM_RESERVE,
+    ExperimentSpec,
+    digest,
+    file_hash,
+    validate_local,
+    validate_spec,
+)
 
 ACTIVE = {"reserved", "running"}
 PREFLIGHT_AND_TEARDOWN_SECONDS = 930
@@ -187,9 +200,25 @@ def reserve_attempt(
     if path.exists():
         raise FileExistsError("attempt IDs cannot be reused")
     running = [item for item in attempts(state) if item["status"] in ACTIVE]
+    validate_local(spec)
     capacity = 1 if spec["kind"] == "gpu" else 2
     if sum(item["kind"] == spec["kind"] for item in running) >= capacity:
         raise AdmissionBusy("all local worker slots are occupied")
+    allocated = [spec, *(validate_spec(item["spec"]) for item in running)]
+    for item in allocated:
+        validate_local(item)
+    if (
+        sum(
+            item["kind"] == "cpu" and item["limits"]["ram_bytes"] > CPU_SMALL_RAM_MAX
+            for item in allocated
+        )
+        > 1
+    ):
+        raise AdmissionBusy("the single larger-memory CPU helper slot is occupied")
+    worker_cpus = sum(item["limits"]["cpus"] for item in allocated)
+    worker_ram = sum(item["limits"]["ram_bytes"] for item in allocated)
+    if worker_cpus + SUPPORT_CPU_RESERVE > CPU_MAX or worker_ram + SUPPORT_RAM_RESERVE > RAM_MAX:
+        raise AdmissionBusy("worker reservations would consume the aggregate support reserve")
     block_id = str(value["block_id"])
     reservation = spec["limits"]["timeout_seconds"] + PREFLIGHT_AND_TEARDOWN_SECONDS
     if spec["kind"] == "gpu" and budget(state, block_id)["remaining_seconds"] < reservation:
@@ -208,6 +237,14 @@ def reserve_attempt(
         "reserved_unix": time.time(),
         "elapsed_seconds": 0.0,
         "charged_seconds": 0.0,
+        "admission_resources": {
+            "worker_cpus": worker_cpus,
+            "worker_ram_bytes": worker_ram,
+            "support_cpus": SUPPORT_CPU_RESERVE,
+            "support_ram_bytes": SUPPORT_RAM_RESERVE,
+            "parent_cpu_max": CPU_MAX,
+            "parent_ram_max": RAM_MAX,
+        },
     }
     atomic_json(path, record)
     return record

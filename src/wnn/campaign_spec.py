@@ -7,6 +7,11 @@ from pathlib import Path
 from typing import TypedDict, cast
 
 RAM_MAX = 36 * 1024**3
+CPU_MAX = 12
+CPU_SMALL_RAM_MAX = 2 * 1024**3
+CPU_HELPER_RAM_MAX = 6 * 1024**3
+SUPPORT_RAM_RESERVE = 4 * 1024**3
+SUPPORT_CPU_RESERVE = 2
 VRAM_MAX = 5_000_000_000
 BLOCK_SECONDS = 24 * 3600
 SLICE = "wnn-campaign.slice"
@@ -190,7 +195,7 @@ def validate_local(spec: ExperimentSpec) -> None:
     limits = spec["limits"]
     if spec["kind"] not in ("cpu", "gpu"):
         raise ValueError("local adapter does not support TPU")
-    cpu_max, ram_max = (8, 24 * 1024**3) if spec["kind"] == "gpu" else (1, 2 * 1024**3)
+    cpu_max, ram_max = (8, 24 * 1024**3) if spec["kind"] == "gpu" else (1, CPU_HELPER_RAM_MAX)
     if limits["cpus"] > cpu_max or limits["ram_bytes"] > ram_max:
         raise ValueError("local worker exceeds its CPU/RAM envelope")
     if limits["gpu_stop_bytes"] > 4_800_000_000:
