@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "name": "e420_full20k_native_parity_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "scripts/probe_factorized_native.py",
+    "--source",
+    "artifacts/runs/c20261003_w384_s3_f0/model.pt",
+    "--control",
+    "research/campaign_2026-10-04/E420_factorized/zero_update_w384_r128.pt",
+    "--data",
+    "cache/valid_subset20.parquet",
+    "--e409-manifest",
+    "research/campaign_2026-10-04/E409_width_runtime/manifest.json",
+    "--library-root",
+    "/tmp/wnn-factorized-e420",
+    "--out",
+    "research/campaign_2026-10-04/E420_factorized/full20k_native_parity.json"
+  ],
+  "code": [
+    "scripts/probe_factorized_native.py",
+    "scripts/train_rnn.py",
+    "src/wnn/features.py",
+    "src/wnn/nn.py",
+    "src/wnn/splits.py",
+    "utils.py",
+    "native/Cargo.toml",
+    "native/Cargo.lock",
+    "native/src/factorized.rs",
+    "native/src/lib.rs",
+    "native/src/python.rs",
+    "native/src/rnn_fast.rs"
+  ],
+  "inputs": [
+    "artifacts/runs/c20261003_w384_s3_f0/model.pt",
+    "research/campaign_2026-10-04/E420_factorized/zero_update_w384_r128.pt",
+    "cache/valid_subset20.parquet",
+    "research/campaign_2026-10-04/E409_width_runtime/manifest.json",
+    "/tmp/wnn-factorized-e420/v2/wnn_native/wnn_native.abi3.so",
+    "/tmp/wnn-factorized-e420/v3/wnn_native/wnn_native.abi3.so"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/E420_factorized/full20k_native_parity.json"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 1800,
+    "gpu_memory_bytes": 0
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  }
+}

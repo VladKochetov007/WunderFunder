@@ -1,0 +1,41 @@
+{
+  "experiment": "E420",
+  "status": "built_and_synthetic_tests_passed",
+  "source_commit": "112f4fd",
+  "build_command": "systemd-run --user --scope --slice=wnn-campaign.slice -p CPUQuota=100% -p MemoryMax=2G -p MemorySwapMax=0B /bin/bash research/campaign_2026-10-04/E420_factorized/run_native_builds.sh",
+  "build_limits": {
+    "cpu_quota_percent": 100,
+    "memory_max_bytes": 2147483648,
+    "memory_swap_max_bytes": 0,
+    "cargo_build_jobs": 1,
+    "gpu": false
+  },
+  "build_elapsed_seconds": 37.83,
+  "build_max_rss_kib": 373436,
+  "libraries": {
+    "v2": {
+      "path": "/tmp/wnn-factorized-e420/v2/wnn_native/wnn_native.abi3.so",
+      "rustflags": "-C target-cpu=x86-64-v2",
+      "sha256": "0e707721c5c19767019c56d73cdbfaf2c4d8cde1983f273e4be2ae9ea50c4b0e",
+      "tests": "11 passed",
+      "test_elapsed_seconds": 2.56,
+      "test_max_rss_kib": 736776
+    },
+    "v3": {
+      "path": "/tmp/wnn-factorized-e420/v3/wnn_native/wnn_native.abi3.so",
+      "rustflags": "-C target-cpu=x86-64-v3",
+      "sha256": "c8d087cc6e96830c5d8e30fd2b770d792e4ad03209e7ead5ed450282100c831c",
+      "tests": "11 passed",
+      "test_elapsed_seconds": 2.36,
+      "test_max_rss_kib": 736860
+    }
+  },
+  "test_suite": [
+    "tests/test_probe_factorized_native.py",
+    "tests/test_native_factorized.py",
+    "tests/test_native_quantized_export.py"
+  ],
+  "real_checkpoint_export_run": false,
+  "real_20k_parity_run": false,
+  "timing_run": false
+}
