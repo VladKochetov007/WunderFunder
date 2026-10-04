@@ -60,6 +60,8 @@ from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_
                               sample_order_identity, scaler_source_identity)
 from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
 from wnn.spread_aux import PackedSpreadCache, structural_loss, validate_spread_cache
+from wnn.training_controls import (DistilledLoss, distilled_macro_losses,
+                                   ema_decay_per_update, shuffled_masses)
 from wnn.training_state import (atomic_save_training_state, capture_training_state,
                                 load_training_state, loader_state, restore_rng,
                                 restore_training_state)
@@ -782,6 +784,10 @@ def main():
     ap.add_argument("--layers", type=int, default=2)
     ap.add_argument("--dropout", type=float, default=0.0)
     ap.add_argument("--chunk", type=int, default=2000)
+    ap.add_argument("--update-rows", type=int, default=0,
+                    help="opt-in distilled macrostep rows; 0 preserves one update per --chunk")
+    ap.add_argument("--detach-rows", type=int, default=0,
+                    help="opt-in gradient detach interval; 0 uses --chunk, with state values carried")
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--stop-after-epoch", type=int, default=None,
@@ -893,6 +899,8 @@ def main():
     ap.add_argument("--ema-metric-weight", action="store_true",
                     help="weight teacher consistency by |clipped target|, matching the scored loss")
     ap.add_argument("--ema-decay", type=float, default=0.999)
+    ap.add_argument("--ema-reference-rows", type=int, default=0,
+                    help="0 keeps per-attempt decay; otherwise decay**(update_rows/reference_rows)")
     ap.add_argument("--eval-ema", action="store_true", help="evaluate and save the EMA weights instead of the raw ones")
     ap.add_argument("--mask-weight", action="store_true",
                     help="main loss only on is_scored rows (needs a validation train source)")
@@ -914,6 +922,11 @@ def main():
     ap.add_argument("--loss-norm", choices=["chunk", "running"], default="chunk",
                     help="wmse main loss divided by each chunk's weight sum (chunk) or by a running mean of it "
                          "(running: rows keep the pooled metric's relative weights across chunks; brainteaser card B)")
+    ap.add_argument("--distill-denominator", choices=["chunk", "fixed", "shuffled"], default="chunk",
+                    help="cached-distill MAIN loss: update mass, frozen reference mass, or shuffled mass-factor sham")
+    ap.add_argument("--distill-reference-mass", type=float, default=0.0,
+                    help="positive frozen TRAIN-estimated main mass for fixed/shuffled controls")
+    ap.add_argument("--denominator-shuffle-seed", type=int, default=314159)
     ap.add_argument("--since-weight", type=float, default=0.0,
                     help="if > 0: multiply main-loss row weights by max(floor, 1/(1+since/tau)), since = rows since the "
                          "last i0 price event (causal input only; ideas_round4 B2)")
@@ -977,6 +990,8 @@ def main():
         ap.error("--loss gcorr_pool keeps one pooled memory for the main head; --aux shift heads would share it")
     if args.distill and args.loss != "wmse":
         ap.error("--distill trains wMSE toward the blended target; pass --loss wmse")
+    if args.distill and args.loss_norm != "chunk":
+        ap.error("--loss-norm running does not apply to cached distillation; use --distill-denominator")
     if args.distill_boot_h and not args.distill:
         ap.error("--distill-boot-h bootstraps from the distillation teacher; pass --distill")
     if args.aux_quote > 0 and args.distill:
@@ -999,6 +1014,26 @@ def main():
         ap.error("--epoch-samples must be nonnegative and requires --valid-repeat 1")
     if args.epoch_samples and args.class_balance:
         ap.error("--epoch-samples cannot be combined with --class-balance")
+    update_rows = args.update_rows or args.chunk
+    detach_rows = args.detach_rows or args.chunk
+    controlled_loss = bool(args.update_rows or args.detach_rows or args.distill_denominator != "chunk")
+    if controlled_loss:
+        if (args.chunk <= 0 or update_rows <= 0 or detach_rows <= 0
+                or detach_rows % args.chunk or update_rows % detach_rows
+                or SEQUENCE_LENGTH % update_rows):
+            ap.error("controlled micro/detach/update rows must divide each other and the sequence length")
+        if (not args.distill or args.loss != "wmse" or args.arch != "gru" or args.enc != "linear" or args.dropout
+                or args.distill_alpha_far is not None or args.td_alpha
+                or args.aux or args.aux_next_k or args.aux_tier or args.aux_mask
+                or args.aux_sign or args.aux_quote or args.thin_prob
+                or args.spread_aux_mode != "original" or args.loss_norm != "chunk"):
+            ap.error("controlled macro losses support the cached-distilled GRU wmse/EMA/struct/next recipe only")
+        if args.distill_denominator != "chunk" and (
+                args.distill_reference_mass <= 0 or not math.isfinite(args.distill_reference_mass)):
+            ap.error("fixed/shuffled distilled normalization needs a positive finite frozen reference mass")
+    if args.ema_reference_rows and SEQUENCE_LENGTH % update_rows:
+        ap.error("EMA row clock requires update rows dividing sequence length")
+    ema_update_decay = ema_decay_per_update(args.ema_decay, update_rows, args.ema_reference_rows)
 
     torch.manual_seed(args.seed)
     device = torch.device("cuda")
@@ -1290,7 +1325,7 @@ def main():
     for pname, prm in model.named_parameters():
         if frozen and pname.startswith(frozen):
             prm.requires_grad_(False)
-    total = len(train_loader) * math.ceil(20_000 / args.chunk) * args.epochs
+    total = len(train_loader) * math.ceil(20_000 / update_rows) * args.epochs
     if args.optim == "muon":
         opt = MuonAdamW(muon_param_groups(model, args.muon_scope), lr=args.lr, betas=(0.9, args.beta2),
                         weight_decay=args.wd)
@@ -1309,10 +1344,10 @@ def main():
     ema_model = None
     if args.ema_teacher > 0 or args.eval_ema or args.td_alpha > 0:
         if args.sync_free:
-            ema_model = FastEMA(model, args.ema_decay)
+            ema_model = FastEMA(model, ema_update_decay)
         else:
             ema_model = torch.optim.swa_utils.AveragedModel(
-                model, multi_avg_fn=torch.optim.swa_utils.get_ema_multi_avg_fn(args.ema_decay))
+                model, multi_avg_fn=torch.optim.swa_utils.get_ema_multi_avg_fn(ema_update_decay))
             ema_model.eval()
     swa_start = int(total * (1.0 - args.swa_frac))
     step_count = 0
@@ -1354,6 +1389,9 @@ def main():
     fitting_started = t0
     cumulative_updates = {}
     provenance["update_diagnostics"] = []
+    provenance["training_clocks"] = {"micro_rows": args.chunk, "detach_rows": detach_rows,
+                                     "update_rows": update_rows, "ema_decay_per_update": ema_update_decay,
+                                     "ema_clock": "attempted updates including AMP skips"}
     training_contract = resume_contract(args, provenance, train_loader, total) if continuation else None
     start_epoch = 0
     prior_fit_seconds = 0.0
@@ -1477,131 +1515,164 @@ def main():
                 td_a = args.td_alpha * min(1.0, step_count / ramp_steps)
             timer.mark("labels")
             h = h_ema = None
-            for s in range(0, inputs.shape[1], args.chunk):
-                sl = slice(s, s + args.chunk)
-                with torch.autocast("cuda", dtype=amp_dtype):
-                    out, h = forward_chunk(model, inputs, sl, h)
-                h = detach_state(h)
-                timer.mark("forward")
-                if args.ema_teacher > 0 or args.td_alpha > 0:
-                    with torch.no_grad(), torch.autocast("cuda", dtype=amp_dtype):
-                        out_ema, h_ema = forward_chunk(ema_model.module, inputs, sl, h_ema)
-                    h_ema = detach_state(h_ema)
-                if moments is not None:
-                    ce = F.cross_entropy(out.float().reshape(-1, N_CODES), codes[:, sl].reshape(-1), reduction="none")
-                    wv = ce_w[:, sl].reshape(-1)
-                    loss = (ce * wv).sum() / wv.sum().clamp_min(1e-8)
-                    if args.ce_mse > 0:
-                        pred = readout(out, *moments.tables(), tilted=args.ce_tilt)
-                        loss = loss + args.ce_mse * weighted_mse_loss(pred, y[:, sl], main_valid[:, sl])
-                elif teach is not None:
-                    yc = y[:, sl].float().clamp(-2, 2)
-                    if args.distill_alpha_far is None:
-                        a = args.distill_alpha
-                    else:
-                        # far from the label's resolution the realized target is mostly unknowable future path:
-                        # lean on the teacher there, on the label near the next change
-                        rows = torch.arange(sl.start, sl.start + yc.shape[1], device=yc.device)[None]
-                        u = (nxt_label[:, sl] - rows).float().clamp_min(0)
-                        a = (args.distill_alpha + (args.distill_alpha_far - args.distill_alpha)
-                             * (1 - torch.exp(-u / args.distill_alpha_tau)))[..., None]
-                    label = yc
-                    if args.distill_boot_h:
-                        # the label is identical up to the run end: while the run outlives row t+h the teacher's estimate
-                        # there stands in for it (unbiased by optional stopping), so label noise no longer adds up over
-                        # long runs; rows whose run ends first keep the realized label
-                        rows = torch.arange(sl.start, sl.start + yc.shape[1], device=yc.device)[None]
-                        ahead = rows + args.distill_boot_h
-                        alive = (nxt_label[:, sl] > ahead) & (ahead < teach.shape[1])
-                        idx = ahead.clamp(max=teach.shape[1] - 1).expand(yc.shape[0], -1)[..., None].expand(-1, -1, 2)
-                        label = torch.where(alive[..., None], teach.gather(1, idx).float().clamp(-2, 2), yc)
-                    tgt = (1 - a) * label + a * teach[:, sl].float().clamp(-2, 2)
-                    w = yc.abs() * main_valid[:, sl][..., None]
-                    loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
-                elif args.td_alpha > 0:
-                    yc = y[:, sl].float().clamp(-2, 2)
-                    s_end = min(s + args.chunk, inputs.shape[1])
-                    jg = torch.clamp(nxt_all[:, sl], max=s_end) - 1  # last row of the constant-label run inside the chunk
-                    rows = torch.arange(s, s_end, device=device)[None]
-                    teach_t = torch.gather(out_ema[..., :2].float(), 1, (jg - s).clamp(min=0)[..., None].expand(-1, -1, 2))
-                    tgt = torch.where((jg > rows)[..., None], (1 - td_a) * yc + td_a * teach_t.clamp(-2, 2), yc)
-                    w = yc.abs() * main_valid[:, sl][..., None]
-                    loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
-                elif args.loss_norm == "running" and args.loss == "wmse":
-                    yc = y[:, sl].float().clamp(-2, 2)
-                    w = yc.abs() * main_valid[:, sl][..., None]
-                    wsum = w.sum().detach()
-                    norm_ema = wsum if norm_ema is None else 0.99 * norm_ema + 0.01 * wsum
-                    loss = (w * (out[..., :2].float() - yc) ** 2).sum() / norm_ema.clamp_min(1e-8)
+            donor_masses = None
+            if args.distill_denominator == "shuffled":
+                donor_masses = shuffled_masses(
+                    y.float().clamp(-2, 2).abs() * main_valid[..., None], update_rows,
+                    args.denominator_shuffle_seed + 104729 * epoch + b)
+            for s in range(0, inputs.shape[1], update_rows):
+                sl = slice(s, min(s + update_rows, inputs.shape[1]))
+                if controlled_loss:
+                    def raw_forward(window, state):
+                        with torch.autocast("cuda", dtype=amp_dtype):
+                            return forward_chunk(model, inputs, window, state)
+
+                    def teacher_forward(window, state):
+                        with torch.autocast("cuda", dtype=amp_dtype):
+                            return forward_chunk(ema_model.module, inputs, window, state)
+
+                    opt.zero_grad(set_to_none=True)
+                    loss = torch.zeros((), device=device)
+                    configuration = DistilledLoss(
+                        args.distill_alpha, args.distill_boot_h, args.ema_teacher,
+                        args.ema_metric_weight, args.aux_struct, struct_at, N_SP_AUX,
+                        args.aux_next, next_at)
+                    for contribution, h, h_ema in distilled_macro_losses(
+                            forward=raw_forward, ema_forward=teacher_forward,
+                            state=h, ema_state=h_ema, labels=y, teacher=teach,
+                            row_weights=main_valid, next_change=nxt_label,
+                            structural_labels=(sp_lab, br_lab, cl_lab) if args.aux_struct else None,
+                            next_labels=(nx_rows, nx_up, nw) if args.aux_next else None,
+                            rows=sl, micro_rows=args.chunk, detach_rows=detach_rows,
+                            config=configuration, denominator=args.distill_denominator,
+                            reference_mass=args.distill_reference_mass,
+                            donor_mass=None if donor_masses is None else donor_masses[s // update_rows]):
+                        scaler.scale(contribution).backward()
+                        loss = loss + contribution.detach()
+                    timer.mark("loss")
                 else:
-                    loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])
-                if args.arch == "gated" and args.gate_ce > 0:
-                    difference = y[:, sl, 0].float() - y[:, sl, 1].float()
-                    gate_weight = main_valid[:, sl].float() * difference.abs().clamp_max(2.0)
-                    gate_bce = F.binary_cross_entropy_with_logits(
-                        out[..., n_out].float(), (difference > 0).float(), reduction="none"
-                    )
-                    loss = loss + args.gate_ce * (gate_bce * gate_weight).sum() / gate_weight.sum().clamp_min(1e-8)
-                if args.aux_struct > 0:
-                    loss = loss + args.aux_struct * structural_loss(
-                        out, sp_lab[:, sl], br_lab[:, sl], cl_lab[:, sl], sw[:, sl], struct_at, N_SP_AUX,
-                        None if spread_encoded is None else spread_encoded[:, sl])
-                if args.aux_next > 0:
-                    o = out.float()
-                    wv = nw[:, sl]
-                    mse = (o[..., next_at] - (nx_rows[:, sl] - 3.0) / 2.0) ** 2
-                    bce = F.binary_cross_entropy_with_logits(o[..., next_at + 1], nx_up[:, sl], reduction="none")
-                    loss = loss + args.aux_next * ((mse + bce) * wv).sum() / wv.sum().clamp_min(1e-8)
-                    for j, (kr, ku, kok) in enumerate(kth):
-                        kw = main_valid[:, sl].float() * kok[:, sl].float()
-                        col = next_at + 2 + 2 * j
-                        kmse = (o[..., col] - (kr[:, sl] - 4.0) / 2.0) ** 2
-                        kbce = F.binary_cross_entropy_with_logits(o[..., col + 1], ku[:, sl], reduction="none")
-                        loss = loss + args.aux_next * ((kmse + kbce) * kw).sum() / kw.sum().clamp_min(1e-8)
-                if args.aux_tier > 0:
-                    ce = F.cross_entropy(
-                        out[..., tier_at:tier_at + 4].float().reshape(-1, 4),
-                        tier_label[:, sl].reshape(-1), reduction="none",
-                    )
-                    tw = tier_weight[:, sl].reshape(-1)
-                    loss = loss + args.aux_tier * (ce * tw).sum() / tw.sum().clamp_min(1e-8)
-                if args.aux_mask > 0:
-                    ce = F.binary_cross_entropy_with_logits(
-                        out[..., mask_at].float(), scored_dev[:, sl].float(),
-                        pos_weight=out.new_tensor(8.0), reduction="none",
-                    )
-                    mw = mask_rows[:, sl]
-                    loss = loss + args.aux_mask * (ce * mw).sum() / mw.sum().clamp_min(1.0)
-                if args.aux_sign > 0:
-                    clipped = y[:, sl].float().clamp(-2, 2)
-                    difference = clipped[..., 0] - clipped[..., 1]
-                    sign_weight = main_valid[:, sl].float() * difference.abs().clamp_max(2.0)
-                    sign_bce = F.binary_cross_entropy_with_logits(
-                        out[..., sign_at].float(), (difference > 0).float(), reduction="none"
-                    )
-                    loss = loss + args.aux_sign * (sign_bce * sign_weight).sum() / sign_weight.sum().clamp_min(1e-8)
-                if args.aux_quote > 0:
-                    label = quote_label[:, sl].float()
-                    quote_weight = (
-                        main_valid[:, sl].float()[..., None]
-                        * (sequence_class(y) == 3)[:, None, None]
-                        * torch.isfinite(label)
-                        * y[:, sl].float().clamp(-2, 2).abs().mean(-1, keepdim=True)
-                    )
-                    quote_error = (out[..., quote_at:quote_at + 2].float() - torch.nan_to_num(label)) ** 2
-                    loss = loss + args.aux_quote * (quote_error * quote_weight).sum() / quote_weight.sum().clamp_min(1e-8)
-                for j, (ya, va) in enumerate(aux):
-                    loss = loss + args.aux_weight * objective(out[..., 2 + 2 * j : 4 + 2 * j], ya[:, sl], va[:, sl])
-                if args.ema_teacher > 0:
-                    cw = main_valid[:, sl].float()[..., None]
-                    consistency_scale = 1.0
-                    if args.ema_metric_weight:
-                        cw = cw * y[:, sl].float().clamp(-2, 2).abs()
-                        consistency_scale = 2.0  # preserve the original two-target loss scale
-                    loss = loss + args.ema_teacher * consistency_scale * (cw * (out[..., :2].float() - out_ema[..., :2].float()) ** 2).sum() / cw.sum().clamp_min(1e-8)
-                timer.mark("loss")
-                opt.zero_grad(set_to_none=True)
-                scaler.scale(loss).backward()
+                    with torch.autocast("cuda", dtype=amp_dtype):
+                        out, h = forward_chunk(model, inputs, sl, h)
+                    h = detach_state(h)
+                    timer.mark("forward")
+                    if args.ema_teacher > 0 or args.td_alpha > 0:
+                        with torch.no_grad(), torch.autocast("cuda", dtype=amp_dtype):
+                            out_ema, h_ema = forward_chunk(ema_model.module, inputs, sl, h_ema)
+                        h_ema = detach_state(h_ema)
+                    if moments is not None:
+                        ce = F.cross_entropy(out.float().reshape(-1, N_CODES), codes[:, sl].reshape(-1), reduction="none")
+                        wv = ce_w[:, sl].reshape(-1)
+                        loss = (ce * wv).sum() / wv.sum().clamp_min(1e-8)
+                        if args.ce_mse > 0:
+                            pred = readout(out, *moments.tables(), tilted=args.ce_tilt)
+                            loss = loss + args.ce_mse * weighted_mse_loss(pred, y[:, sl], main_valid[:, sl])
+                    elif teach is not None:
+                        yc = y[:, sl].float().clamp(-2, 2)
+                        if args.distill_alpha_far is None:
+                            a = args.distill_alpha
+                        else:
+                            # far from the label's resolution the realized target is mostly unknowable future path:
+                            # lean on the teacher there, on the label near the next change
+                            rows = torch.arange(sl.start, sl.start + yc.shape[1], device=yc.device)[None]
+                            u = (nxt_label[:, sl] - rows).float().clamp_min(0)
+                            a = (args.distill_alpha + (args.distill_alpha_far - args.distill_alpha)
+                                 * (1 - torch.exp(-u / args.distill_alpha_tau)))[..., None]
+                        label = yc
+                        if args.distill_boot_h:
+                            # Training-only target substitution while the label run outlives t+h.
+                            # This is an empirical denoising hypothesis, not an unbiasedness guarantee.
+                            rows = torch.arange(sl.start, sl.start + yc.shape[1], device=yc.device)[None]
+                            ahead = rows + args.distill_boot_h
+                            alive = (nxt_label[:, sl] > ahead) & (ahead < teach.shape[1])
+                            idx = ahead.clamp(max=teach.shape[1] - 1).expand(yc.shape[0], -1)[..., None].expand(-1, -1, 2)
+                            label = torch.where(alive[..., None], teach.gather(1, idx).float().clamp(-2, 2), yc)
+                        tgt = (1 - a) * label + a * teach[:, sl].float().clamp(-2, 2)
+                        w = yc.abs() * main_valid[:, sl][..., None]
+                        loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
+                    elif args.td_alpha > 0:
+                        yc = y[:, sl].float().clamp(-2, 2)
+                        s_end = min(s + args.chunk, inputs.shape[1])
+                        jg = torch.clamp(nxt_all[:, sl], max=s_end) - 1  # last row of the constant-label run inside the chunk
+                        rows = torch.arange(s, s_end, device=device)[None]
+                        teach_t = torch.gather(out_ema[..., :2].float(), 1, (jg - s).clamp(min=0)[..., None].expand(-1, -1, 2))
+                        tgt = torch.where((jg > rows)[..., None], (1 - td_a) * yc + td_a * teach_t.clamp(-2, 2), yc)
+                        w = yc.abs() * main_valid[:, sl][..., None]
+                        loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
+                    elif args.loss_norm == "running" and args.loss == "wmse":
+                        yc = y[:, sl].float().clamp(-2, 2)
+                        w = yc.abs() * main_valid[:, sl][..., None]
+                        wsum = w.sum().detach()
+                        norm_ema = wsum if norm_ema is None else 0.99 * norm_ema + 0.01 * wsum
+                        loss = (w * (out[..., :2].float() - yc) ** 2).sum() / norm_ema.clamp_min(1e-8)
+                    else:
+                        loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])
+                    if args.arch == "gated" and args.gate_ce > 0:
+                        difference = y[:, sl, 0].float() - y[:, sl, 1].float()
+                        gate_weight = main_valid[:, sl].float() * difference.abs().clamp_max(2.0)
+                        gate_bce = F.binary_cross_entropy_with_logits(
+                            out[..., n_out].float(), (difference > 0).float(), reduction="none"
+                        )
+                        loss = loss + args.gate_ce * (gate_bce * gate_weight).sum() / gate_weight.sum().clamp_min(1e-8)
+                    if args.aux_struct > 0:
+                        loss = loss + args.aux_struct * structural_loss(
+                            out, sp_lab[:, sl], br_lab[:, sl], cl_lab[:, sl], sw[:, sl], struct_at, N_SP_AUX,
+                            None if spread_encoded is None else spread_encoded[:, sl])
+                    if args.aux_next > 0:
+                        o = out.float()
+                        wv = nw[:, sl]
+                        mse = (o[..., next_at] - (nx_rows[:, sl] - 3.0) / 2.0) ** 2
+                        bce = F.binary_cross_entropy_with_logits(o[..., next_at + 1], nx_up[:, sl], reduction="none")
+                        loss = loss + args.aux_next * ((mse + bce) * wv).sum() / wv.sum().clamp_min(1e-8)
+                        for j, (kr, ku, kok) in enumerate(kth):
+                            kw = main_valid[:, sl].float() * kok[:, sl].float()
+                            col = next_at + 2 + 2 * j
+                            kmse = (o[..., col] - (kr[:, sl] - 4.0) / 2.0) ** 2
+                            kbce = F.binary_cross_entropy_with_logits(o[..., col + 1], ku[:, sl], reduction="none")
+                            loss = loss + args.aux_next * ((kmse + kbce) * kw).sum() / kw.sum().clamp_min(1e-8)
+                    if args.aux_tier > 0:
+                        ce = F.cross_entropy(
+                            out[..., tier_at:tier_at + 4].float().reshape(-1, 4),
+                            tier_label[:, sl].reshape(-1), reduction="none",
+                        )
+                        tw = tier_weight[:, sl].reshape(-1)
+                        loss = loss + args.aux_tier * (ce * tw).sum() / tw.sum().clamp_min(1e-8)
+                    if args.aux_mask > 0:
+                        ce = F.binary_cross_entropy_with_logits(
+                            out[..., mask_at].float(), scored_dev[:, sl].float(),
+                            pos_weight=out.new_tensor(8.0), reduction="none",
+                        )
+                        mw = mask_rows[:, sl]
+                        loss = loss + args.aux_mask * (ce * mw).sum() / mw.sum().clamp_min(1.0)
+                    if args.aux_sign > 0:
+                        clipped = y[:, sl].float().clamp(-2, 2)
+                        difference = clipped[..., 0] - clipped[..., 1]
+                        sign_weight = main_valid[:, sl].float() * difference.abs().clamp_max(2.0)
+                        sign_bce = F.binary_cross_entropy_with_logits(
+                            out[..., sign_at].float(), (difference > 0).float(), reduction="none"
+                        )
+                        loss = loss + args.aux_sign * (sign_bce * sign_weight).sum() / sign_weight.sum().clamp_min(1e-8)
+                    if args.aux_quote > 0:
+                        label = quote_label[:, sl].float()
+                        quote_weight = (
+                            main_valid[:, sl].float()[..., None]
+                            * (sequence_class(y) == 3)[:, None, None]
+                            * torch.isfinite(label)
+                            * y[:, sl].float().clamp(-2, 2).abs().mean(-1, keepdim=True)
+                        )
+                        quote_error = (out[..., quote_at:quote_at + 2].float() - torch.nan_to_num(label)) ** 2
+                        loss = loss + args.aux_quote * (quote_error * quote_weight).sum() / quote_weight.sum().clamp_min(1e-8)
+                    for j, (ya, va) in enumerate(aux):
+                        loss = loss + args.aux_weight * objective(out[..., 2 + 2 * j : 4 + 2 * j], ya[:, sl], va[:, sl])
+                    if args.ema_teacher > 0:
+                        cw = main_valid[:, sl].float()[..., None]
+                        consistency_scale = 1.0
+                        if args.ema_metric_weight:
+                            cw = cw * y[:, sl].float().clamp(-2, 2).abs()
+                            consistency_scale = 2.0  # preserve the original two-target loss scale
+                        loss = loss + args.ema_teacher * consistency_scale * (cw * (out[..., :2].float() - out_ema[..., :2].float()) ** 2).sum() / cw.sum().clamp_min(1e-8)
+                    timer.mark("loss")
+                    opt.zero_grad(set_to_none=True)
+                    scaler.scale(loss).backward()
                 timer.mark("backward")
                 scaler.unscale_(opt)
                 epoch_counter.observe_unscaled(scaler, opt)
