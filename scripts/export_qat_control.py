@@ -23,6 +23,8 @@ def export_control(source: Path, output: Path, preset: str) -> None:
         raise ValueError(
             "do not repack an already represented checkpoint; preserve its codes/scales"
         )
+    if checkpoint.get("sentinel_preprocessing") is not None:
+        raise ValueError("bounded q8 control requires a parent without sentinel preprocessing")
     if output.exists():
         raise FileExistsError(f"refusing to overwrite control checkpoint: {output}")
     represented, metadata = effective_qat_state(checkpoint["model"], preset, "no-finetune control")

@@ -29,6 +29,8 @@ def load_state(run: str) -> dict[str, np.ndarray]:
     run_name, _, epoch = run.partition("@ep")
     ckpt = f"model_ep{int(epoch)}.pt" if epoch else "model.pt"
     ck = torch.load(ROOT / "artifacts" / "runs" / run_name / ckpt, map_location="cpu", weights_only=False)
+    if ck.get("sentinel_preprocessing"):
+        raise ValueError("sentinel preprocessing requires a native port before packaging, including merged heads")
     return {k: v.float().numpy() for k, v in ck["model"].items()}
 
 
@@ -73,6 +75,8 @@ def export(run: str, path: Path):
     ck = torch.load(
         ROOT / "artifacts" / "runs" / run_name / ckpt, map_location="cpu", weights_only=False
     )
+    if ck.get("sentinel_preprocessing"):
+        raise ValueError("sentinel preprocessing requires a native port before packaging")
     sd = {k: v.float().numpy() for k, v in ck["model"].items()}
     sd["head.2.weight"] = np.ascontiguousarray(sd["head.2.weight"][:2])
     sd["head.2.bias"] = np.ascontiguousarray(sd["head.2.bias"][:2])

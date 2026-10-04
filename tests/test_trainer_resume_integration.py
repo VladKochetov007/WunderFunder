@@ -20,12 +20,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import train_rnn as training  # noqa: E402
 
 
-def _repository(root: Path) -> None:
+def _repository(root: Path, with_sentinels: bool = False) -> None:
     (root / "src").symlink_to(Path(__file__).resolve().parents[1] / "src", target_is_directory=True)
     (root / "datasets").mkdir()
     (root / "cache").mkdir()
     rng = np.random.default_rng(71)
     values = rng.normal(size=(5, 8, data.N_FEATURES)).astype("float32")
+    if with_sentinels:
+        values[:, 1::2, -1] = np.float32(-5.19934)
+        values[:, ::3, 5] = np.float32(-5.19934)
     targets = np.tile(np.array([[-0.12543, 0.25086]], dtype="float32"), (5, 8, 1))
     targets[:, 4:, :] *= -1
     tables = []
@@ -41,6 +44,12 @@ def _repository(root: Path) -> None:
     pq.write_table(pa.concat_tables(tables), root / "datasets/valid.parquet", row_group_size=8)
     np.savez(root / "cache/valid_targets.npz", row_group=np.arange(5), seq_ix=np.arange(5))
     np.save(root / "cache/pred_teacher_valid.npy", targets * 0.7)
+    np.savez(
+        root / "cache/chains.npz",
+        next=np.full(5, -1),
+        split=np.array(["valid"] * 5),
+        row_group=np.arange(5),
+    )
 
 
 @pytest.mark.parametrize("controlled", [False, True])
@@ -54,13 +63,15 @@ def test_real_main_epoch_resume_and_completed_export(
     keep_probability: float = 0.5,
     qat: str = "none",
     recurrent_rank: int = 0,
+    sentinel_arm: tuple[str, str] | None = None,
 ) -> None:
     """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
-    _repository(tmp_path)
+    _repository(tmp_path, with_sentinels=sentinel_arm is not None)
     device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
     if device == "cuda":
         assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
     monkeypatch.setattr(training, "ROOT", tmp_path)
+    monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
     monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
     monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
     monkeypatch.setattr(training, "WARMUP", 1)
@@ -198,6 +209,17 @@ def test_real_main_epoch_resume_and_completed_export(
         from export_factorized_control import export_control as export_rank_control
 
         export_rank_control(parent_dir / "model.pt", tmp_path / "zero_update.pt", recurrent_rank)
+    if sentinel_arm is not None:
+        from sentinel_prepare import prepare
+
+        parent_dir = run("parent", [])
+        directory = tmp_path / "artifacts/runs/sentinel_initializers"
+        prepare(parent_dir / "model.pt", directory, tmp_path, sequence_count=3, row_stride=2)
+        base += [
+            "--init",
+            "sentinel_initializers/" + "_".join(sentinel_arm),
+            "--inherit-init-preprocessing",
+        ]
 
     reference_dir = run("reference", [])
     no_state_args = [argument for argument in base if argument != "--save-training-state"]
@@ -212,6 +234,10 @@ def test_real_main_epoch_resume_and_completed_export(
         _assert_equal(without_state["quantization"], reference_model["quantization"])
     if recurrent_rank:
         _assert_equal(without_state["factorization"], reference_model["factorization"])
+    if sentinel_arm is not None:
+        _assert_equal(
+            without_state["sentinel_preprocessing"], reference_model["sentinel_preprocessing"]
+        )
     if credit_mode == "artbp" and keep_probability == 1:
         full_dir = run("full_window", ["--credit-mode", "deterministic"])
         full_model = torch.load(full_dir / "model.pt", map_location="cpu", weights_only=False)
@@ -263,6 +289,7 @@ def test_real_main_epoch_resume_and_completed_export(
         data.N_FEATURES
         + training.N_EVENT_FEATURES
         + len(training.research_feature_names(research_features))
+        + (112 if sentinel_arm is not None and sentinel_arm[1] != "none" else 0)
     )
     for key in (
         "contract",
@@ -294,6 +321,15 @@ def test_real_main_epoch_resume_and_completed_export(
         _assert_equal(recovered_model["quantization"], expected_model["quantization"])
     if recurrent_rank:
         _assert_equal(recovered_model["factorization"], expected_model["factorization"])
+    if sentinel_arm is not None:
+        _assert_equal(
+            recovered_model["sentinel_preprocessing"], expected_model["sentinel_preprocessing"]
+        )
+        prepared = torch.load(directory / "_".join(sentinel_arm) / "model.pt", weights_only=False)
+        _assert_equal(expected_model["model"]["mean"], prepared["model"]["mean"])
+        _assert_equal(expected_model["model"]["std"], prepared["model"]["std"])
+        if sentinel_arm[1] != "none":
+            assert torch.count_nonzero(expected_model["model"]["inp.weight"][:, -112:]) > 0
     assert recovered_model["epoch"] == 2
     assert len(json.loads((recovered_dir / "history.json").read_text())) == 3
     assert (
@@ -378,6 +414,25 @@ def test_main_factorized_finetune_resume(
     """Latent factors and their AdamW moments resume exactly with effective EMA export."""
     test_real_main_epoch_resume_and_completed_export(
         tmp_path, monkeypatch, controlled, recurrent_rank=2
+    )
+
+
+@pytest.mark.parametrize(
+    "sentinel_arm",
+    [
+        ("unchanged", "none"),
+        ("unchanged", "missing"),
+        ("neutral", "none"),
+        ("safe", "missing"),
+        ("safe", "current"),
+    ],
+)
+def test_main_sentinel_finetune_resume(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, sentinel_arm: tuple[str, str]
+) -> None:
+    """Frozen preprocessing and zero-init feature projections survive actual fine-tune resume."""
+    test_real_main_epoch_resume_and_completed_export(
+        tmp_path, monkeypatch, False, sentinel_arm=sentinel_arm
     )
 
 
