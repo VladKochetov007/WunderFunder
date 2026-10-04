@@ -50,6 +50,8 @@ def test_real_main_epoch_resume_and_completed_export(
     controlled: bool,
     research_features: str = "none",
     origin_view: str = "off",
+    credit_mode: str = "deterministic",
+    keep_probability: float = 0.5,
 ) -> None:
     """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
     _repository(tmp_path)
@@ -128,7 +130,7 @@ def test_real_main_epoch_resume_and_completed_export(
             "--antithetic",
         ]
     if device == "cuda":
-        base += ["--fast"]  # Exercise actual CUDA stream prefetch and fused AdamW.
+        base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
     if origin_view != "off":
         base += [
             "--chunk",
@@ -141,6 +143,26 @@ def test_real_main_epoch_resume_and_completed_export(
             origin_view,
             "--ema-reference-rows",
             "2",
+        ]
+    if credit_mode != "deterministic":
+        base += [
+            "--chunk",
+            "1",
+            "--update-rows",
+            "4",
+            "--detach-rows",
+            "4",
+            "--credit-mode",
+            credit_mode,
+            "--credit-keep-probability",
+            str(keep_probability),
+            "--optim",
+            "sgd",
+            "--momentum",
+            ".9",
+            "--precision",
+            "fp32",
+            "--no-gradient-clip",
         ]
 
     def run(name: str, extra: list[str]) -> Path:
@@ -157,6 +179,10 @@ def test_real_main_epoch_resume_and_completed_export(
     )
     reference_model = torch.load(reference_dir / "model.pt", map_location="cpu", weights_only=False)
     _assert_equal(without_state["model"], reference_model["model"])
+    if credit_mode == "artbp" and keep_probability == 1:
+        full_dir = run("full_window", ["--credit-mode", "deterministic"])
+        full_model = torch.load(full_dir / "model.pt", map_location="cpu", weights_only=False)
+        _assert_equal(full_model["model"], reference_model["model"])
     interrupted_dir = run("interrupted", ["--stop-after-epoch", "0"])
     resumed_dir = run("resumed", ["--resume-state", str(interrupted_dir / "training_state.pt")])
     reference = load_training_state(reference_dir / "training_state.pt")
@@ -238,6 +264,26 @@ def test_main_origin_view_resume(
     """Full prefix replay with actual row-clock EMA stays exact across epoch resume."""
     test_real_main_epoch_resume_and_completed_export(
         tmp_path, monkeypatch, False, origin_view=origin_view
+    )
+
+
+@pytest.mark.parametrize(
+    "credit_mode,keep_probability",
+    [
+        ("random-uncompensated", 0.5),
+        ("artbp", 0.5),
+        ("artbp", 1.0),
+    ],
+)
+def test_main_random_credit_resume(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    credit_mode: str,
+    keep_probability: float,
+) -> None:
+    """Private credit gates and actual SGD momentum continuation remain deterministic."""
+    test_real_main_epoch_resume_and_completed_export(
+        tmp_path, monkeypatch, False, credit_mode=credit_mode, keep_probability=keep_probability
     )
 
 
