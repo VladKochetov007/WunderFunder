@@ -54,6 +54,8 @@ from wnn.outcomes import (
     structure_labels,
 )
 from wnn.propensity import load_propensity, propensity
+from wnn.privileged import (PRIVILEGED_MODES, load_inner_manifest, privileged_inputs,
+                            validate_crossfit_cache)
 from wnn.structured_state import StructuredStateModel
 from wnn.event_content import EventContentModel
 from wnn.resources import configure_torch, cpu_threads, dataloader_budget
@@ -98,6 +100,8 @@ def bind_fold_teachers(teachers, campaign_split, splits):
             digest = file_sha256(pred)
             if digest != side.get("prediction_sha256"):
                 raise ValueError(f"teacher prediction bytes changed since export: {pred}")
+            if "crossfit_format" in side:
+                validate_crossfit_cache(side, campaign_split, ROOT, split)
             bound.append({"run": name, "split": split, "scale": scale, "epoch": side.get("epoch"),
                           "checkpoint_sha256": side.get("checkpoint_sha256"), "prediction_sha256": digest})
     return bound
@@ -406,6 +410,8 @@ READOUT_TILTED = False
 HEURISTICS = False  # append wnn.heuristics features (computed in loader workers)
 RAW_ONLY = False  # zero the event-feature block (organizer-style raw view; keeps n_in for native export)
 RESEARCH_FEATURES = "none"  # causal full-sequence features, before TBPTT slicing
+PRIVILEGED_MODE = "none"  # teacher-only current/future controls, never a deployed input
+PRIVILEGED_HORIZON = 8
 
 
 def build_inputs(x):
@@ -419,6 +425,8 @@ def build_inputs(x):
     prop_inputs = inputs
     if RESEARCH_FEATURES != "none":
         inputs = torch.cat([inputs, research_features_torch(raw, RESEARCH_FEATURES)], dim=-1)
+    if PRIVILEGED_MODE != "none":
+        inputs = torch.cat([inputs, privileged_inputs(raw, PRIVILEGED_MODE, PRIVILEGED_HORIZON)], dim=-1)
     if extra.shape[-1]:
         inputs = torch.cat([inputs, extra], dim=-1)
         if INPUT_PROPENSITY is not None:
@@ -778,6 +786,8 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
         "raw_only",
         "heuristics",
         "research_features",
+        "privileged_mode",
+        "privileged_horizon",
         "prop_input",
         "aux",
         "aux_struct",
@@ -815,7 +825,8 @@ def validate_campaign_checkpoint(checkpoint: dict, args: argparse.Namespace) -> 
 def resume_contract(args: argparse.Namespace, provenance: dict, loader: DataLoader,
                     total_steps: int) -> dict:
     """Bind an epoch continuation to its original data, code and fixed schedule."""
-    excluded = {"name", "resume_state", "save_training_state", "stop_after_epoch", "split_manifest"}
+    excluded = {"name", "resume_state", "save_training_state", "stop_after_epoch", "split_manifest",
+                "fit_groups_manifest"}
     options = {key: value for key, value in vars(args).items() if key not in excluded}
     package = Path(__file__).resolve().parents[1] / "src/wnn"
     sources = {str(path.relative_to(package)): file_sha256(path) for path in sorted(package.rglob("*.py"))}
@@ -1031,6 +1042,11 @@ def main():
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--research-features", choices=RESEARCH_FEATURE_MODES, default="none",
                     help="append causal volume features computed on full float32 sequences")
+    ap.add_argument("--privileged-mode", choices=PRIVILEGED_MODES, default="none",
+                    help="teacher-only equal-width current/future raw inputs; requires inner component crossfit")
+    ap.add_argument("--privileged-horizon", type=int, default=8)
+    ap.add_argument("--fit-groups-manifest", type=Path,
+                    help="strict inner component split within --split-manifest, for fresh teacher fitting")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--loss-norm", choices=["chunk", "running"], default="chunk",
                     help="wmse main loss divided by each chunk's weight sum (chunk) or by a running mean of it "
@@ -1106,6 +1122,20 @@ def main():
     if args.resume_state:
         args.resume_state = str(args.resume_state)
     campaign_split = load_campaign_split(args.split_manifest, ROOT) if args.split_manifest else None
+    inner_crossfit = None
+    if args.fit_groups_manifest is not None:
+        if (campaign_split is None or args.train_source != "train+valid"
+                or args.init or args.distill or args.propensity or args.prop_input
+                or args.train_seqs != 10607 or args.valid_train_fraction != 1 or args.train_classes
+                or args.privileged_mode == "none"):
+            ap.error("inner crossfit requires a fresh train+valid teacher, no learned external ancestors, and full inner membership")
+        inner_crossfit = load_inner_manifest(args.fit_groups_manifest, campaign_split)
+        args.fit_groups_manifest_sha256 = file_sha256(args.fit_groups_manifest)
+        args.fit_groups_manifest = str(args.fit_groups_manifest)
+    elif args.privileged_mode != "none":
+        ap.error("teacher-only current/future inputs require --fit-groups-manifest")
+    if args.privileged_horizon < 1:
+        ap.error("--privileged-horizon must be positive")
     if campaign_split is not None:
         if args.valid_fold not in (-1, campaign_split.fold):
             ap.error("--valid-fold disagrees with --split-manifest")
@@ -1213,6 +1243,8 @@ def main():
                       else all_valid if args.include_heldout_valid else np.asarray(dev_groups))
     elif extra_valid is not None:
         valid_pool = np.asarray(extra_valid)
+    if inner_crossfit is not None:
+        extra_valid = valid_pool = np.asarray(inner_crossfit["fit"]["valid"], dtype=np.int64)
     eligible_valid_count = 0 if valid_pool is None else len(valid_pool)
     if valid_pool is not None and args.valid_train_fraction < 1:
         if campaign_split is not None:
@@ -1245,6 +1277,8 @@ def main():
     else:
         usable = (np.asarray(campaign_split.train_groups) if campaign_split is not None else
                   np.array([g for g in range(10607) if g not in CORRUPT_TRAIN_ROW_GROUPS]))
+        if inner_crossfit is not None:
+            usable = np.asarray(inner_crossfit["fit"]["train"], dtype=np.int64)
         if args.train_classes:
             keep = {int(c) for c in args.train_classes.split(",")}
             cls = np.load(ROOT / "research" / "artifacts" / "market-classes-v1.npz")["train"]
@@ -1275,6 +1309,12 @@ def main():
         if campaign_split is not None:
             used = {"train": ("train",), "valid": ("valid",)}.get(args.train_source, ("train", "valid"))
             args.distill_provenance = bind_fold_teachers(teachers, campaign_split, used)
+        else:
+            for name, _ in teachers:
+                for split in ("train", "valid"):
+                    sidecar = ROOT / "cache" / f"pred_{name}_{split}.json"
+                    if sidecar.exists() and "crossfit_format" in json.loads(sidecar.read_text()):
+                        ap.error("component-crossfit teachers require their matching --split-manifest")
     prop_cache = {}
     if args.prop_cache and args.propensity:
         prop_cache = {sp: prop_cache_path(args.propensity, sp) for sp in ("train", "valid")}
@@ -1383,6 +1423,9 @@ def main():
                                      "valid": train_idx.tolist() if train_split == "valid" else
                                      extra_valid.tolist() if extra_valid is not None else []},
                   "evaluation_row_groups": valid_idx.tolist(), "checkpoint_sha256": {}}
+    if inner_crossfit is not None:
+        provenance["inner_crossfit"] = inner_crossfit
+        provenance["deployment_safe"] = False
     if args.arch == "structured":
         provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/structured_state.py")
     if spread_provenance is not None:
@@ -1401,7 +1444,10 @@ def main():
     prop_model = load_propensity(ROOT / "artifacts" / "runs" / args.propensity / "model.pt", device) if args.propensity else None
     global RESEARCH_FEATURES
     RESEARCH_FEATURES = args.research_features
-    n_in = N_FEATURES + N_EVENT_FEATURES + len(research_feature_names(RESEARCH_FEATURES))
+    global PRIVILEGED_MODE, PRIVILEGED_HORIZON
+    PRIVILEGED_MODE, PRIVILEGED_HORIZON = args.privileged_mode, args.privileged_horizon
+    n_in = (N_FEATURES + N_EVENT_FEATURES + len(research_feature_names(RESEARCH_FEATURES))
+            + (N_FEATURES if PRIVILEGED_MODE != "none" else 0))
     if args.raw_only:
         global RAW_ONLY
         RAW_ONLY = True

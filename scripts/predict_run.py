@@ -35,6 +35,8 @@ def main():
     checkpoint_name = f"model_ep{args.epoch}.pt" if args.epoch is not None else "model.pt"
     checkpoint_path = ROOT / "artifacts" / "runs" / name / checkpoint_name
     ck = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    if ck["args"].get("privileged_mode", "none") != "none":
+        raise ValueError("privileged teachers require component-crossfit extraction, not causal prediction export")
     quote_cache = ck.get("provenance", {}).get("quote_cache")
     if ck["args"].get("quote_cache_root") and quote_cache is None:
         raise ValueError("checkpoint lacks quote cache provenance")
