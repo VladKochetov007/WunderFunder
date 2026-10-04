@@ -1,0 +1,115 @@
+{
+  "arms": {
+    "COMBO": {
+      "c20261004_combo_head_s3_final_fp32": 0.5,
+      "c20261004_combo_s3_final_r1_fp32": 0.5
+    },
+    "E464_H093_GRU": {
+      "c20261004_e464_h093_gru_budget_head_s3_final": 0.5,
+      "c20261004_h093_gru_budget_s3_final": 0.5
+    },
+    "E464_H093_HASH": {
+      "c20261004_e464_h093_hash_head_s3_final": 0.5,
+      "c20261004_h093_hash_s3_final": 0.5
+    },
+    "E464_H093_LEARNED": {
+      "c20261004_e464_h093_learned_head_s3_final": 0.5,
+      "c20261004_h093_learned_s3_final": 0.5
+    },
+    "E464_H093_UNIVERSAL": {
+      "c20261004_e464_h093_universal_head_s3_final": 0.5,
+      "c20261004_h093_universal_s3_final": 0.5
+    },
+    "E464_H094_CONDITIONAL": {
+      "c20261004_e464_h094_conditional_head_s3_final": 0.5,
+      "c20261004_h094_conditional_s3_final": 0.5
+    },
+    "E464_H094_DIAGONAL": {
+      "c20261004_e464_h094_diagonal_head_s3_final": 0.5,
+      "c20261004_h094_diagonal_s3_final": 0.5
+    },
+    "E464_H094_GRU": {
+      "c20261004_e464_h094_gru_budget_head_s3_final": 0.5,
+      "c20261004_h094_gru_budget_s3_final": 0.5
+    },
+    "E464_H094_UNCONDITIONAL": {
+      "c20261004_e464_h094_unconditional_head_s3_final": 0.5,
+      "c20261004_h094_unconditional_s3_final": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "E464_H093_LEARNED",
+      "E464_H093_GRU"
+    ],
+    [
+      "E464_H094_CONDITIONAL",
+      "E464_H094_GRU"
+    ],
+    [
+      "E464_H093_LEARNED",
+      "COMBO"
+    ],
+    [
+      "E464_H094_CONDITIONAL",
+      "COMBO"
+    ],
+    [
+      "E464_H093_HASH",
+      "E464_H093_GRU"
+    ],
+    [
+      "E464_H093_UNIVERSAL",
+      "E464_H093_GRU"
+    ],
+    [
+      "E464_H094_UNCONDITIONAL",
+      "E464_H094_GRU"
+    ],
+    [
+      "E464_H094_DIAGONAL",
+      "E464_H094_GRU"
+    ],
+    [
+      "E464_H093_HASH",
+      "COMBO"
+    ],
+    [
+      "E464_H093_UNIVERSAL",
+      "COMBO"
+    ],
+    [
+      "E464_H094_UNCONDITIONAL",
+      "COMBO"
+    ],
+    [
+      "E464_H094_DIAGONAL",
+      "COMBO"
+    ],
+    [
+      "E464_H093_LEARNED",
+      "E464_H093_UNIVERSAL"
+    ],
+    [
+      "E464_H093_LEARNED",
+      "E464_H093_HASH"
+    ],
+    [
+      "E464_H094_CONDITIONAL",
+      "E464_H094_DIAGONAL"
+    ],
+    [
+      "E464_H094_CONDITIONAL",
+      "E464_H094_UNCONDITIONAL"
+    ]
+  ],
+  "export_runs": {
+    "c20261004_combo_head_s3_final_fp32": "c20261004_combo_head_s3_final",
+    "c20261004_combo_s3_final_r1_fp32": "c20261004_combo_s3_final_r1"
+  },
+  "folds": [
+    "holdout"
+  ],
+  "n_boot": 2000,
+  "provenance": "fixed E424 epoch-3 parent plus E464 fixed epoch-0 head, each coefficient 0.5; no holdout selection"
+}

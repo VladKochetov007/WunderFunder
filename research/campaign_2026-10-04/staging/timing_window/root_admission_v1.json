@@ -1,0 +1,36 @@
+{
+  "status": "admission_approved",
+  "source_hashes": {
+    "research/campaign_2026-10-04/staging/timing_window/time_seed4_i16.py": "2223ead2ac140a1959fc932c6c75f753e594dca0c39f806303480427a49ee729",
+    "research/campaign_2026-10-04/staging/timing_window/run_timing_window.py": "2ede2364e832e6ca4a249b2955f74956dd920f10bc90ff3f41501a22c45af802",
+    "research/campaign_2026-10-04/staging/timing_window/build_timing_specs.py": "40a364d533e391222a26df0376ba1adb61deec963f705ad298e77558d3f1c1db",
+    "research/campaign_2026-10-04/staging/timing_window/run_pinned_cpu.py": "ad373099519407ab05ebe2f30649fcb7d4809a99cfdffdf19a71ac746987c967"
+  },
+  "prerequisites": {
+    "e462_build_report_sha256": "745f1bd57442321146201d2996741e1f0df98b319c5fcb8d54415099ae4a7c3f",
+    "e462_parity_report_sha256": "8e4e9e6db9df358bac0f8ef945689a5c0022cc78242a8bc7ab97c47239fe5c6a",
+    "e462_score_report_sha256": "22c304d380abb67003d8cf34ac32cade62435c906cc9eb8f2a0da016ecac0959",
+    "e450_seed4_readiness_sha256": "350b93fa8291699d5f2768be377611279705cd0c6dea0dfbd592924b95f5afbd",
+    "q8r_zip_sha256": "7edb26d8903bafa2f3c38bf31b1a5d0dad1fd6f79e1f4d5a0ea13eaf3ca044fd",
+    "q8x_zip_sha256": "b435c04c0b047c72aeaca93a0be5aa2436a885d3abce5da483bd7fa43bfa87e7",
+    "seed4_zip_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a",
+    "successful_attempts": {
+      "e462_build": "93a5df1dc7514854133a9ee5723566ff4217d32552116ab20e41fd5216328f39",
+      "e462_parity": "7517a503ba6277ce51107292b1187ee921729dff1e7f6d9046d26f3bfedb03f2",
+      "e462_score": "e9e6b5db9bb10cf46023f9f3487da2a3757b647c8b29435b2b26c6956bbb8a19",
+      "e450_seed4_parity": "c9fe2be275099d704c1aae231df9c942e3ab5f672720923f1f200bfe9dd74ad8"
+    }
+  },
+  "corrections_before_admission": [
+    "--output requires directory, not trials.jsonl",
+    "explicitCPU15 affinity wrapper because runner only limits CPUquota",
+    "oneshot TimeoutStartSec6h covers predecessor plus quietwait and two timingworkers"
+  ],
+  "worker_caps": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 1800,
+    "GPU": false
+  },
+  "scope": "Readiness is actual completed native-parity and score evidence. Future timings not claimed. E425 waits Requires+After oneshot; quietwindow can defer after900s."
+}

@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "name": "e450_full_valid_fixed_models_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-04/staging/e450/score_seed4_full_valid.py",
+    "--output",
+    "research/campaign_2026-10-04/checks/e450_full_valid_fixed_models_v1.json"
+  ],
+  "code": [
+    "research/campaign_2026-10-04/staging/e450/score_seed4_full_valid.py",
+    "scripts/validation_scorecard.py",
+    "utils.py",
+    "src/wnn/__init__.py",
+    "src/wnn/splits.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-04/checks/e450_screen_seed4_bag_fp32_v1.json",
+    "research/campaign_2026-10-04/E450_SEED4_REPLICATION_PREREG.md",
+    "cache/pred_c20261004_combo_s3_final_r1_fp32_valid.npy",
+    "cache/pred_c20261004_combo_s3_final_r1_fp32_valid.json",
+    "artifacts/runs/c20261004_combo_s3_final_r1/model_ep3.pt",
+    "artifacts/runs/c20261004_combo_s3_final_r1/provenance.json",
+    "cache/pred_c20261004_combo_head_s3_final_fp32_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_final_fp32_valid.json",
+    "artifacts/runs/c20261004_combo_head_s3_final/model_ep0.pt",
+    "artifacts/runs/c20261004_combo_head_s3_final/provenance.json",
+    "cache/pred_c20261004_combo_s4_final_fp32_valid.npy",
+    "cache/pred_c20261004_combo_s4_final_fp32_valid.json",
+    "artifacts/runs/c20261004_combo_s4_final/model_ep3.pt",
+    "artifacts/runs/c20261004_combo_s4_final/provenance.json",
+    "cache/pred_c20261004_combo_head_s4_final_fp32_valid.npy",
+    "cache/pred_c20261004_combo_head_s4_final_fp32_valid.json",
+    "artifacts/runs/c20261004_combo_head_s4_final/model_ep0.pt",
+    "artifacts/runs/c20261004_combo_head_s4_final/provenance.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e450_full_valid_fixed_models_v1.json"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "timeout_seconds": 1800
+  },
+  "environment": {}
+}

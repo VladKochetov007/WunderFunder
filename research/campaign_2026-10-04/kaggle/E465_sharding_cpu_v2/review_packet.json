@@ -1,0 +1,81 @@
+{
+  "archive_sha256": "164bb9f9ee21179006bdd559b590964cb23f573a51cf4e52544bb697fb73c876",
+  "campaign_id": "E465",
+  "dataset_id": "vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v2",
+  "dataset_metadata_sha256": "f723f4a7fd0c99eb884ca9ae8c46670352396be4216f35a05995146f3c52036e",
+  "environment_requirements": [
+    "numpy",
+    "pytest",
+    "jax",
+    "jaxlib"
+  ],
+  "kernel_id": "vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v2",
+  "kernel_metadata_sha256": "939c75f6d0ec41b29aa2a71c5df64bc3fc00936301ebc6796bb1e8fad7594935",
+  "kernel_sha256": "0e254c1a1e841869020fa9915e7daf4365dcb67872d19ad6ddf2a231d2654a8f",
+  "launch_gates": [
+    "root reviews this exact v2 packet",
+    "private dataset upload and READY/provider inventory verification",
+    "exact kernel push; CPU-only tests must report exactly four passes and zero skips/errors"
+  ],
+  "manifest_sha256": "66bbb68c096dcb93986f0a1e18adb9c8ce55c1a4853bd46d2286c80ff665a932",
+  "no_training_or_data": "No fit data, teacher/model checkpoints, evaluation arrays, or training loop are included.",
+  "preservation_note": "v1 was superseded before any upload; raw pre-review and post-review draft folders remain available. See root message for local builder hash mismatch incident.",
+  "privacy_and_compute": {
+    "aggregate_rss_limit_bytes": 4294967296,
+    "cpu_affinity": 2,
+    "gpu": false,
+    "host_headroom_fraction": 0.2,
+    "internet": false,
+    "launcher_rss_reserve_bytes": 536870912,
+    "private": true,
+    "tpu": false,
+    "whole_job_watchdog_seconds": 780,
+    "worker_timeout_seconds": 600
+  },
+  "purpose": "CPU numerical checks of pooled global objective, pmean-before-global-norm-clip, AdamW update, and two-chunk student/EMA carry/detach against unsharded references",
+  "required_jax_device_inventory": "exactly two CPU devices, otherwise fail before tests",
+  "required_test_summary": {
+    "errors": 0,
+    "failures": 0,
+    "skips": 0,
+    "tests": 4
+  },
+  "source_closure": {
+    "src/wnn_jax/bridge.py": {
+      "sha256": "788e83eb24759e63c1dc877252ae4ad4a400f1f7f64af2dce8611e844d1990bb",
+      "size_bytes": 26330
+    },
+    "src/wnn_jax/distributed_combo.py": {
+      "sha256": "24e4ea77a3c2524d3c62b2beb5e83e48a9789c7dc5bad24faabd7fd52501cb68",
+      "size_bytes": 4700
+    },
+    "src/wnn_jax/rnn.py": {
+      "sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc",
+      "size_bytes": 14385
+    },
+    "tests/test_distributed_combo.py": {
+      "sha256": "278542ec1a4ded004e1100b4eb7c6e2618f3820e780c7bfc05e15b95c5914443",
+      "size_bytes": 6148
+    },
+    "tests/test_distributed_state_boundary.py": {
+      "sha256": "12623fb86358e9d44dd24f09dcce84f97508e39b65852fff5c8879ee2c38fdea",
+      "size_bytes": 4269
+    },
+    "worker.py": {
+      "sha256": "5ce3fa6e41b3ab6155de96c670e541b492454d18508285f2d00f830319d8b629",
+      "size_bytes": 4821
+    }
+  },
+  "status": "fresh corrected v2 packet prepared for root review; not uploaded or pushed",
+  "test_cases": [
+    "pooled objective + post-pmean clipping + AdamW update with unequal positive mass on both shards",
+    "same with one zero-mass shard",
+    "same with globally zero mass",
+    "two-chunk replicated student/EMA recurrent state and detached-gradient parity"
+  ],
+  "validation": {
+    "numerical_execution": "not run; local JAX unavailable; Kaggle CPU job awaits root review",
+    "ruff": "passed for authored code/test/worker/kernel/builder/validator files",
+    "static_packet_validation": "passed; exact archive/member hashes, AST, identity/privacy, test count, pooled reporting, device and cap checks"
+  }
+}

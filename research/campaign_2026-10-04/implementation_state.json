@@ -68,7 +68,10 @@
     "E463 CPUv3 real-data FP32/BF16 updates anddiagnosticexport",
     "E425 isolated softmixture eightCPUchecks",
     "E450 seed4 parent/head fits exports andfixedpairedscreen",
-    "E462 actualnative3ZIP368pairedscores"
+    "E462 actualnative3ZIP368pairedscores",
+    "E450 actualseed4nativeparity/reset/causality andfixedwholeVALIDscore",
+    "E426 constantfull4epochfit",
+    "E464 eightCPUscopetests andeightactualparentpreflights"
   ],
   "pending": [
     "E414 predictive normalization fits",
@@ -77,12 +80,12 @@
     "E427 volume-gated recurrent update implementation and three-arm fit",
     "TPU real-data JAXpreflight afterhardware/frameworkproof",
     "E425 freshfullfit queuedafterE426 aftercontrollerreview",
-    "E450 seed4 nativepackage parity/timing; fixedbagdeployment",
     "E449 privatev3live;widthfold1scores afterfits",
     "E426 threefullclockfits running",
-    "E464 all8completearchitectureheads sourcepreparation",
-    "TPU realdatapreflightsource review beforeprivatepush",
-    "E462 quietoneCPUtiming beforemanualready"
+    "E462 quietoneCPUtiming beforemanualready",
+    "E450/E462 quietCPUtiming queuedafterE426",
+    "E464 eightfixedheadfits queue-source preparing afterpassedCPUpreflight",
+    "E465 all8TPUsciencedistributedchecks v3 zero-massfixture preparing"
   ],
   "experiments_started": [
     "E-407",
@@ -112,7 +115,7 @@
     "oom_failed_jobs": 1
   },
   "first_wave_review": "FIRST_WAVE_REVIEW.md",
-  "as_of_utc": "2026-10-04T17:24:46.153268+00:00",
+  "as_of_utc": "2026-10-04T18:15:19.626717+00:00",
   "scientific_results": {
     "E409_W384_one_head_median_kcycles": 401.617,
     "E410": {
@@ -404,28 +407,56 @@
       "q8x_minus_i16": -1.75048531628752e-05,
       "both95CI_includezero": true,
       "timing": "pending"
+    },
+    "E450_full_valid_fixed_models": {
+      "COMBO_S3": {
+        "all_supplied_validation": 0.7005037440439698,
+        "validation_in_final_fit": 0.7006317811590772,
+        "excluded_from_final_fit": 0.6998221585077284
+      },
+      "COMBO_S4": {
+        "all_supplied_validation": 0.700771291786406,
+        "validation_in_final_fit": 0.700545501004117,
+        "excluded_from_final_fit": 0.701694556755734
+      },
+      "BAG_S3_S4": {
+        "all_supplied_validation": 0.7011068728314744,
+        "validation_in_final_fit": 0.7010133701938279,
+        "excluded_from_final_fit": 0.7014201302203926
+      }
+    },
+    "E450_native_parity": {
+      "status": "passed_runtime_pending",
+      "max_i16_f32_error": 9.784102439880371e-05,
+      "wp_i16_f32_delta": 2.85905603636e-08,
+      "rows": 400000,
+      "sequences": 20,
+      "reset_causal_v2_v3_bitwise": true
     }
   },
   "active_local": {
-    "E426": "constantclockfit running aftersmoke",
-    "E462": "pairedscorecomplete; timingnotyetadmitted",
-    "E450": "seed4CPUpackagebuild/paritypreparing"
+    "E426": "constant4epochs complete/alignedrunning/shuffledqueued",
+    "E425": "durably queued afterE426+boundedtiming window; no scientificfitstarted",
+    "E450_E462_timing": "wnn-timing-window-v1.service activating/waitingexactE426",
+    "E464": "8stdlib+8actualparentCPUpreflights complete; headfitqueue sourcepreparing"
   },
   "remaining_head_predictions": [],
   "active_remote": {
-    "E449": "privatev3RUNNING, exactsamehandle",
-    "E463_CPU": "v3COMPLETE withoneFP32andoneBF16step",
-    "E463_TPU": "notpushed; telemetrysourcefixunderreview"
+    "E449": "v3ERROR probe timeout/0steps/0scientificfits/no observedOOM; diagnosing",
+    "E463_CPU": "v3COMPLETE realdata1FP32+1BF16step",
+    "E463_TPU": "private one-device realdata preflightQUEUED; no update/HBM observed",
+    "E465_CPU": "v2ERROR actual3pass1zero-massfixturefail; v3sourcepreparing"
   },
   "subagent_policy": "Luna only, maximum6; currently3 scoped source/critic/accelerator roles; rootadmitsjobs.",
   "kaggle_quota": {
-    "as_of_utc": "2026-10-04T16:24:23+00:00",
-    "gpu_remaining_hours": 23.58419638888889,
-    "gpu_used_hours": 6.415803611111111,
+    "as_of_utc": "2026-10-04T18:02:27Z",
+    "gpu_remaining_hours": 22.30876388888889,
+    "gpu_used_hours": 7.691236111111111,
     "tpu_remaining_hours": 19.96260472222222,
     "tpu_used_hours": 0.03739527777777778,
     "source": "kaggle/tpu_probe_v1/provider_output_v2/quota_api_snapshot.json",
-    "note": "Structured provider snapshot; distinct from sumof per-deviceworker GPUtime. New jobs stillneed boundedreservation."
+    "note": "Typedtotal_seconds allowanceGPU108000/TPU72000; JSONtimedelta dropsdaycomponent. Providerquota is not measured per-deviceGPUtime.",
+    "latest_raw_snapshot": "kaggle/W384_fold1_dualT4_v3/provider_quota_20261004T180227Z.json"
   },
   "campaign_progress": {
     "ledger_range": "E-407..E-427",
@@ -433,9 +464,9 @@
     "completed": 17,
     "partial": 1,
     "queued": 1,
-    "running": 0,
-    "prepared": 2,
-    "scope": "Scientific program E407..427; hardwareframeworkprobe countscompletedE407, E4248fitsscreencomplete; E425 checksnotcompletedscience/E426queued/E427unimplemented. Laterreplications notin21programdenominator."
+    "running": 1,
+    "prepared": 1,
+    "scope": "E407..427 programs:17completed1partial1runningE4261queuedE4251preparedE427. Programs includeEDA/frameworkchecks; not fitcount. E464/E465 additions separate."
   },
   "kaggle_kernel_inventory": "checks/kaggle_kernel_inventory_20261004T1138Z.json",
   "critic_review": "research/campaign_2026-10-04/CRITIC_FOLLOWUPS_2026-10-04.md",
@@ -447,7 +478,8 @@
     "completed_programs": 17,
     "partial": 1,
     "running": 1,
-    "prepared": 2,
-    "note": "Framework/EDA program completions are not full scientificfits; E425 queue not admitted yet; laterprograms separate."
+    "prepared": 1,
+    "note": "E407..427 programs:17completed1partial1runningE4261queuedE4251preparedE427. Programs includeEDA/frameworkchecks; not fitcount. E464/E465 additions separate.",
+    "queued": 1
   }
 }

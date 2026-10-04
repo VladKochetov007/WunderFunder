@@ -1,0 +1,14 @@
+[Unit]
+Description=Wunder bounded CPU timing window before E425 science
+After=wnn-e426-sequence-v1.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/home/vlad/development/wunder/wnn_connectome_starterpack
+ExecStart=/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-04/staging/timing_window/run_timing_window.py
+Slice=wnn-campaign.slice
+CPUQuota=25%
+MemoryMax=512M
+MemorySwapMax=0
+TimeoutStartSec=6h

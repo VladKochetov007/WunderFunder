@@ -1,0 +1,90 @@
+..F.                                                                     [100%]
+=================================== FAILURES ===================================
+_______ test_all_zero_global_mass_matches_reference_clamped_denominators _______
+
+    def test_all_zero_global_mass_matches_reference_clamped_denominators() -> None:
+        batch = _batch()
+        batch["main_weights"] = jnp.zeros_like(batch["main_weights"])
+        batch["next_weights"] = jnp.zeros_like(batch["next_weights"])
+>       _check_distributed_matches_reference(batch)
+
+../../input/datasets/vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v2/source_bundle/tests/test_distributed_combo.py:176: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+batch = {'fixed_target': Array([[[[0., 0.],
+         [0., 0.],
+         [0., 0.]],
+
+        [[0., 0.],
+         [0., 0.],
+    ...3., 3., 3.],
+        [3., 3., 3.]],
+
+       [[3., 3., 3.],
+        [3., 3., 3.]]], dtype=float32, weak_type=True), ...}
+
+    def _check_distributed_matches_reference(batch) -> None:
+        ndev = 2
+        assert jax.local_device_count() >= ndev, "run with two forced CPU devices"
+        batch = {name: value[:ndev] for name, value in batch.items()}
+        ema = jnp.linspace(-0.4, 0.4, 23, dtype=jnp.float32)
+        ema_shards = jnp.broadcast_to(ema, (ndev, 23))
+        initial = jnp.linspace(-0.2, 0.3, 23, dtype=jnp.float32)
+        replicated = jnp.broadcast_to(initial, (ndev, 23))
+    
+        def one_replica(params, local_batch, local_ema):
+            pred = _predictions(params, local_batch)
+    
+            def surrogate(current):
+                current_pred = _predictions(current, local_batch)
+                _, contribution = global_combo_loss_and_local_surrogate(
+                    current_pred,
+                    local_batch,
+                    _predictions(local_ema, local_batch),
+                    axis_name="replicas",
+                    replica_count=ndev,
+                )
+                return contribution
+    
+            raw_gradient = jax.grad(surrogate)(params)
+            gradient, norm = pmean_and_clip_gradient(
+                {"toy": raw_gradient}, axis_name="replicas", max_norm=CLIP_NORM
+            )
+            params_tree = {"toy": params}
+            updated, optimizer = adamw_update(
+                params_tree,
+                gradient,
+                adamw_init(params_tree),
+                learning_rate=3e-4,
+                weight_decay=0.01,
+            )
+            report, _ = global_combo_loss_and_local_surrogate(
+                pred,
+                local_batch,
+                _predictions(local_ema, local_batch),
+                axis_name="replicas",
+                replica_count=ndev,
+            )
+            return report, gradient["toy"], norm, updated["toy"], optimizer.count
+    
+        distributed = jax.pmap(one_replica, axis_name="replicas")(replicated, batch, ema_shards)
+        reports, gradients, norms, updates, counts = distributed
+    
+        merged = _combine_shards(batch)
+        reference_ema = _predictions(ema, merged)
+    
+        def reference(params):
+            return combo_sbd_loss(_predictions(params, merged), merged, reference_ema)
+    
+        ref_loss, ref_grad = jax.value_and_grad(reference)(initial)
+        ref_norm = jnp.linalg.norm(ref_grad)
+>       assert float(ref_norm) > CLIP_NORM, "fixture should exercise a nontrivial global clipping step"
+E       AssertionError: fixture should exercise a nontrivial global clipping step
+E       assert 0.0 > 0.01
+E        +  where 0.0 = float(Array(0., dtype=float32))
+
+../../input/datasets/vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v2/source_bundle/tests/test_distributed_combo.py:123: AssertionError
+----- generated xml file: /kaggle/working/e465_sharding_cpu_v2/pytest.xml ------
+=========================== short test summary info ============================
+FAILED ../../input/datasets/vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v2/source_bundle/tests/test_distributed_combo.py::test_all_zero_global_mass_matches_reference_clamped_denominators
+1 failed, 3 passed in 22.80s

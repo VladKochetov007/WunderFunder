@@ -1,0 +1,35 @@
+{
+  "status": "approved_for_private_dataset_upload_inventory_verification_then_cpu_kernel_push",
+  "packet_sha256": "28f04bc9f71f258c797d7de334334931ec46fc042d3c10787aa512fe8ff07f9c",
+  "verified_hashes": {
+    "src/wnn_jax/bridge.py": {
+      "sha256": "788e83eb24759e63c1dc877252ae4ad4a400f1f7f64af2dce8611e844d1990bb",
+      "size_bytes": 26330
+    },
+    "src/wnn_jax/distributed_combo.py": {
+      "sha256": "24e4ea77a3c2524d3c62b2beb5e83e48a9789c7dc5bad24faabd7fd52501cb68",
+      "size_bytes": 4700
+    },
+    "src/wnn_jax/rnn.py": {
+      "sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc",
+      "size_bytes": 14385
+    },
+    "tests/test_distributed_combo.py": {
+      "sha256": "278542ec1a4ded004e1100b4eb7c6e2618f3820e780c7bfc05e15b95c5914443",
+      "size_bytes": 6148
+    },
+    "tests/test_distributed_state_boundary.py": {
+      "sha256": "12623fb86358e9d44dd24f09dcce84f97508e39b65852fff5c8879ee2c38fdea",
+      "size_bytes": 4269
+    },
+    "worker.py": {
+      "sha256": "5ce3fa6e41b3ab6155de96c670e541b492454d18508285f2d00f830319d8b629",
+      "size_bytes": 4821
+    }
+  },
+  "scope": "Independent root source, archive, metadata and numerical-test design review. No JAX execution here; tests must execute on two CPU devices before TPU science admission.",
+  "limitations": [
+    "One prior unexecuted v1 intermediate archive was overwritten by its builder; inconsistency recorded and v1 not admitted. Corrected v2 source is fresh and hash-consistent.",
+    "CPU tests use small synthetic shapes; full20k TPU resource/profile and real-data preflight remain separate gates."
+  ]
+}

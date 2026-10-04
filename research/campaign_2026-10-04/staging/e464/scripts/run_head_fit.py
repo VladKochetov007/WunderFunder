@@ -47,9 +47,7 @@ def _prefix_match(name: str, prefix: str) -> bool:
     return name == prefix or name.startswith(prefix + ".")
 
 
-def classify_parameters(
-    parameter_names: Sequence[str], arch: str
-) -> tuple[list[str], list[str]]:
+def classify_parameters(parameter_names: Sequence[str], arch: str) -> tuple[list[str], list[str]]:
     """Fail unless every named parameter is frozen backbone or explicit head."""
     frozen_prefixes, head_prefixes = architecture_scope(arch)
     frozen: list[str] = []
@@ -94,10 +92,20 @@ def compare_head_metadata(
     for name in trainable_head_names:
         if name not in before or name not in after:
             mismatches.append({"kind": "head_tensor_missing", "name": name})
-        elif before[name].get("shape") != after[name].get("shape") or before[name].get("dtype") != after[name].get("dtype"):
-            mismatches.append({"kind": "head_tensor_layout_changed", "name": name,
-                               "before": {"shape": before[name].get("shape"), "dtype": before[name].get("dtype")},
-                               "after": {"shape": after[name].get("shape"), "dtype": after[name].get("dtype")}})
+        elif before[name].get("shape") != after[name].get("shape") or before[name].get(
+            "dtype"
+        ) != after[name].get("dtype"):
+            mismatches.append(
+                {
+                    "kind": "head_tensor_layout_changed",
+                    "name": name,
+                    "before": {
+                        "shape": before[name].get("shape"),
+                        "dtype": before[name].get("dtype"),
+                    },
+                    "after": {"shape": after[name].get("shape"), "dtype": after[name].get("dtype")},
+                }
+            )
     return mismatches
 
 
@@ -110,17 +118,33 @@ def compare_non_head_state(
     allowed = set(trainable_head_names)
     mismatches: list[dict[str, object]] = []
     if set(before) != set(after):
-        mismatches.append({
-            "kind": "state_key_set",
-            "missing_after": sorted(set(before) - set(after)),
-            "unexpected_after": sorted(set(after) - set(before)),
-        })
+        mismatches.append(
+            {
+                "kind": "state_key_set",
+                "missing_after": sorted(set(before) - set(after)),
+                "unexpected_after": sorted(set(after) - set(before)),
+            }
+        )
     for name in sorted(set(before) | set(after)):
         if name in allowed or name not in before or name not in after:
             continue
         if before[name] != after[name]:
             mismatches.append({"kind": "non_head_state_changed", "name": name})
     return mismatches
+
+
+def expected_training_counts(
+    fit_sequences: int, batch_size: int, sequence_rows: int, update_rows: int
+) -> tuple[int, int]:
+    """Derive dropped-last batches and optimizer attempts from the checked recipe."""
+    if min(fit_sequences, batch_size, sequence_rows, update_rows) <= 0:
+        raise ValueError("fit size, batch size, sequence rows, and update rows must be positive")
+    if sequence_rows % update_rows:
+        raise ValueError("sequence length must divide evenly into optimizer update windows")
+    batches = fit_sequences // batch_size
+    if not batches:
+        raise ValueError("drop-last training recipe would produce no batches")
+    return batches, batches * (sequence_rows // update_rows)
 
 
 def file_sha256(path: Path) -> str:
@@ -177,9 +201,7 @@ def _load_parent_model(checkpoint_path: Path) -> tuple[Any, dict[str, Any], dict
     arch = str(checkpoint["args"].get("arch", "gru"))
     if arch == "specialist":
         weight_key = "universal_head.2.weight"
-    elif arch == "prefix-adapter":
-        weight_key = "head.2.weight"
-    elif arch == "gru":
+    elif arch in {"prefix-adapter", "gru"}:
         weight_key = "head.2.weight"
     else:
         raise ValueError(f"unsupported E464 architecture: {arch!r}")
@@ -188,14 +210,19 @@ def _load_parent_model(checkpoint_path: Path) -> tuple[Any, dict[str, Any], dict
         raise ValueError(f"parent checkpoint missing compatible output matrix {weight_key}")
     output_width = int(weight.shape[0])
     if arch == "specialist":
-        widths = [int(value.shape[0]) for key, value in state.items()
-                  if key.startswith("expert_heads.") and key.endswith(".weight")]
+        widths = [
+            int(value.shape[0])
+            for key, value in state.items()
+            if key.startswith("expert_heads.") and key.endswith(".weight")
+        ]
         if not widths or any(width != output_width for width in widths):
             raise ValueError("specialist output head widths disagree")
     model = train_rnn.make_model(checkpoint["args"], int(checkpoint["n_in"]), output_width)
     model.load_state_dict(state, strict=True)
     if int(output_width) != 23:
-        raise ValueError(f"E464 requires the incumbent 23-output auxiliary architecture, got {output_width}")
+        raise ValueError(
+            f"E464 requires the incumbent 23-output auxiliary architecture, got {output_width}"
+        )
     return model, checkpoint, state
 
 
@@ -232,7 +259,9 @@ def run(args: argparse.Namespace) -> dict[str, object]:
     code_spec = json.loads(parent_code_spec.read_text())
     for item in code_spec.get("code", []):
         if file_sha256(ROOT / item["path"]) != item["sha256"]:
-            raise ValueError(f"source closure differs from parent E424 code identity: {item['path']}")
+            raise ValueError(
+                f"source closure differs from parent E424 code identity: {item['path']}"
+            )
 
     parent_provenance = json.loads(parent_provenance_path.read_text())
     if parent_provenance.get("checkpoint_sha256", {}).get("model_ep3.pt") != parent_checkpoint_sha:
@@ -243,14 +272,28 @@ def run(args: argparse.Namespace) -> dict[str, object]:
     if parent_args.get("checkpoint_policy") != "fixed" or parent_args.get("checkpoint_epoch") != 3:
         raise ValueError("E464 parent checkpoint policy is not fixed epoch 3")
     code_hashes = {item["path"]: item["sha256"] for item in code_spec.get("code", [])}
-    model_source = "src/wnn/specialist.py" if parent_args.get("arch") in ("specialist", "prefix-adapter") else "src/wnn/nn.py"
-    if parent_provenance.get("model_source_sha256") is not None and parent_provenance["model_source_sha256"] != code_hashes.get(model_source):
-        raise ValueError("parent provenance model source hash differs from the sealed E424 source closure")
-    if parent_provenance.get("run_identity_source_sha256") != code_hashes.get("src/wnn/run_identity.py"):
-        raise ValueError("parent provenance run-identity source differs from the sealed E424 source closure")
+    model_source = (
+        "src/wnn/specialist.py"
+        if parent_args.get("arch") in ("specialist", "prefix-adapter")
+        else "src/wnn/nn.py"
+    )
+    if parent_provenance.get("model_source_sha256") is not None and parent_provenance[
+        "model_source_sha256"
+    ] != code_hashes.get(model_source):
+        raise ValueError(
+            "parent provenance model source hash differs from the sealed E424 source closure"
+        )
+    if parent_provenance.get("run_identity_source_sha256") != code_hashes.get(
+        "src/wnn/run_identity.py"
+    ):
+        raise ValueError(
+            "parent provenance run-identity source differs from the sealed E424 source closure"
+        )
     parent_fit_groups = parent_provenance.get("fit_row_groups", {}).get("valid", [])
     if len(parent_fit_groups) != 1505 or len(set(parent_fit_groups)) != 1505:
-        raise ValueError("parent fit provenance does not identify 1,505 unique valid fitting sequences")
+        raise ValueError(
+            "parent fit provenance does not identify 1,505 unique valid fitting sequences"
+        )
     parent_fit_identity = parent_provenance.get("fit_membership_identity", {}).get("valid", {})
     if parent_fit_identity.get("count") != 1505:
         raise ValueError("parent fit-membership summary does not identify 1,505 valid sequences")
@@ -272,7 +315,9 @@ def run(args: argparse.Namespace) -> dict[str, object]:
     before = {name: tensor_fingerprint(value) for name, value in parent_state.items()}
     actual_freeze = _trainer_argv(args.parent, args.run_name, frozen_prefixes)
     if actual_freeze[actual_freeze.index("--freeze") + 1] != ",".join(frozen_prefixes):
-        raise RuntimeError("trainer argv freeze prefixes differ from the checked architecture scope")
+        raise RuntimeError(
+            "trainer argv freeze prefixes differ from the checked architecture scope"
+        )
     if "--no-eval-during-fit" not in actual_freeze:
         raise RuntimeError("E464 must suppress in-fit evaluation")
 
@@ -307,9 +352,7 @@ def run(args: argparse.Namespace) -> dict[str, object]:
     env = os.environ.copy()
     source_path = str(ROOT / "src")
     env["PYTHONPATH"] = source_path + os.pathsep + env.get("PYTHONPATH", "")
-    completed = subprocess.run(
-        [sys.executable, *actual_freeze[1:]], cwd=ROOT, env=env, check=False
-    )
+    completed = subprocess.run([sys.executable, *actual_freeze[1:]], cwd=ROOT, env=env, check=False)
     evidence: dict[str, object] = {
         "protocol": "E464 fixed-parent architecture-aware head-only fine-tune",
         "arm": args.arm,
@@ -323,7 +366,8 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         "parent_code_spec_aggregate_sha256": code_spec.get("code_sha256"),
         "parent_model_source_path": model_source,
         "parent_model_source_sha256": code_hashes.get(model_source),
-        "parent_model_source_explicit_in_provenance": parent_provenance.get("model_source_sha256") is not None,
+        "parent_model_source_explicit_in_provenance": parent_provenance.get("model_source_sha256")
+        is not None,
         "architecture": arch,
         "freeze_prefixes": list(frozen_prefixes),
         "trainable_head_prefixes": list(head_prefixes),
@@ -336,16 +380,26 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         "trainer_returncode": completed.returncode,
     }
     try:
-        if file_sha256(parent_checkpoint) != parent_checkpoint_sha or file_sha256(parent_provenance_path) != parent_provenance_sha:
+        if (
+            file_sha256(parent_checkpoint) != parent_checkpoint_sha
+            or file_sha256(parent_provenance_path) != parent_provenance_sha
+        ):
             raise RuntimeError("parent checkpoint or provenance changed during head fitting")
         if completed.returncode:
             raise RuntimeError(f"root trainer exited with status {completed.returncode}")
         child_checkpoint_path = run_dir / "model_ep0.pt"
         child_provenance_path = run_dir / "provenance.json"
         history_path = run_dir / "history.json"
-        if not all(path.is_file() for path in (child_checkpoint_path, run_dir / "model.pt",
-                                                child_provenance_path, history_path,
-                                                run_dir / "training_state.pt")):
+        if not all(
+            path.is_file()
+            for path in (
+                child_checkpoint_path,
+                run_dir / "model.pt",
+                child_provenance_path,
+                history_path,
+                run_dir / "training_state.pt",
+            )
+        ):
             raise FileNotFoundError("trainer did not export every required E464 epoch-0 artifact")
         child_checkpoint_sha = file_sha256(child_checkpoint_path)
         import torch
@@ -399,15 +453,33 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         if mismatched_args:
             raise ValueError(f"head fine-tune recipe changed: {mismatched_args}")
         if len(child_fit_groups) != 1505 or sorted(child_fit_groups) != sorted(parent_fit_groups):
-            raise ValueError("child fit membership differs from the parent 1,505-sequence valid membership")
-        inherited_aux_fields = ("aux", "aux_struct", "aux_next", "aux_next_k", "aux_tier",
-                                "aux_mask", "aux_sign", "aux_quote", "quote_cache_root")
-        aux_mismatches = {field: {"parent": parent_args.get(field), "child": child_args.get(field)}
-                          for field in inherited_aux_fields
-                          if child_args.get(field) != parent_args.get(field)}
+            raise ValueError(
+                "child fit membership differs from the parent 1,505-sequence valid membership"
+            )
+        inherited_aux_fields = (
+            "aux",
+            "aux_struct",
+            "aux_next",
+            "aux_next_k",
+            "aux_tier",
+            "aux_mask",
+            "aux_sign",
+            "aux_quote",
+            "quote_cache_root",
+        )
+        aux_mismatches = {
+            field: {"parent": parent_args.get(field), "child": child_args.get(field)}
+            for field in inherited_aux_fields
+            if child_args.get(field) != parent_args.get(field)
+        }
         if aux_mismatches:
-            raise ValueError(f"parent auxiliary settings were not inherited exactly: {aux_mismatches}")
-        if file_sha256(parent_checkpoint) != parent_checkpoint_sha or file_sha256(parent_provenance_path) != parent_provenance_sha:
+            raise ValueError(
+                f"parent auxiliary settings were not inherited exactly: {aux_mismatches}"
+            )
+        if (
+            file_sha256(parent_checkpoint) != parent_checkpoint_sha
+            or file_sha256(parent_provenance_path) != parent_provenance_sha
+        ):
             raise RuntimeError("parent checkpoint or provenance changed during head fitting")
         if child_args.get("arch", "gru") != arch:
             raise ValueError("child architecture differs from its bound parent")
@@ -421,35 +493,59 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         attempts = epoch_updates.get("optimizer_attempts", 0)
         completed_updates = epoch_updates.get("optimizer_completed_updates", 0)
         skipped_updates = epoch_updates.get("amp_skipped_updates", 0)
-        if epoch_updates.get("completed_batches") != 93 or not attempts or completed_updates <= 0:
-            raise ValueError("E464 head fit lacks expected batches or a successful optimizer update")
+        batch_size = int(child_args.get("batch", 0))
+        sequence_rows = 20_000
+        update_rows = int(child_args.get("update_rows", 0) or child_args.get("chunk", 0))
+        expected_batches, expected_attempts = expected_training_counts(
+            len(parent_fit_groups), batch_size, sequence_rows, update_rows
+        )
+        if batch_size != 16 or update_rows != 2_000:
+            raise ValueError("E464 requires batch 16 and 2,000-row optimizer windows")
+        if (
+            epoch_updates.get("completed_batches") != expected_batches
+            or attempts != expected_attempts
+            or completed_updates <= 0
+        ):
+            raise ValueError(
+                "E464 update counts differ from the 1,505-row drop-last recipe: "
+                f"batches={epoch_updates.get('completed_batches')}/{expected_batches}, "
+                f"attempts={attempts}/{expected_attempts}"
+            )
         if completed_updates + skipped_updates != attempts:
             raise ValueError("E464 AMP attempt/success/skip counters do not reconcile")
         changed_heads = [name for name in head_names if before[name] != after.get(name)]
         if not changed_heads:
             raise ValueError("E464 head fit completed without changing any trainable head tensor")
-        evidence.update({
-            "status": "pass",
-            "child_checkpoint_sha256": child_checkpoint_sha,
-            "child_fit_membership_identity": child_fit_identity,
-            "fit_row_group_set_sha256": hashlib.sha256(json.dumps(sorted(parent_fit_groups), separators=(",", ":")).encode()).hexdigest(),
-            "fixed_epoch": 0,
-            "non_head_state_mismatches": [],
-            "head_layout_mismatches": [],
-            "unchanged_non_head_tensors": len(set(before) - set(head_names)),
-            "changed_head_parameter_tensors": changed_heads,
-            "aux_struct": child_args.get("aux_struct"),
-            "aux_next": child_args.get("aux_next"),
-            "evaluation": "withheld",
-            "update_counters": epoch_updates,
-        })
+        evidence.update(
+            {
+                "status": "pass",
+                "child_checkpoint_sha256": child_checkpoint_sha,
+                "child_fit_membership_identity": child_fit_identity,
+                "fit_row_group_set_sha256": hashlib.sha256(
+                    json.dumps(sorted(parent_fit_groups), separators=(",", ":")).encode()
+                ).hexdigest(),
+                "fixed_epoch": 0,
+                "expected_completed_batches": expected_batches,
+                "expected_optimizer_attempts": expected_attempts,
+                "non_head_state_mismatches": [],
+                "head_layout_mismatches": [],
+                "unchanged_non_head_tensors": len(set(before) - set(head_names)),
+                "changed_head_parameter_tensors": changed_heads,
+                "aux_struct": child_args.get("aux_struct"),
+                "aux_next": child_args.get("aux_next"),
+                "evaluation": "withheld",
+                "update_counters": epoch_updates,
+            }
+        )
     except BaseException as exc:
-        evidence.update({
-            "status": "failed_closed",
-            "error_type": type(exc).__name__,
-            "error": str(exc),
-            "traceback": traceback.format_exc(),
-        })
+        evidence.update(
+            {
+                "status": "failed_closed",
+                "error_type": type(exc).__name__,
+                "error": str(exc),
+                "traceback": traceback.format_exc(),
+            }
+        )
         write_json(audit_path, evidence)
         raise
     write_json(audit_path, evidence)
@@ -466,15 +562,31 @@ def main() -> None:
     parser.add_argument("--parent-code-spec", required=True)
     parser.add_argument("--expected-parent-code-spec-sha256", required=True)
     parser.add_argument("--audit", required=True)
-    parser.add_argument("--preflight-only", action="store_true",
-                        help="inspect and classify the actual parent model, but do not launch training")
+    parser.add_argument(
+        "--preflight-only",
+        action="store_true",
+        help="inspect and classify the actual parent model, but do not launch training",
+    )
     args = parser.parse_args()
     result = run(args)
-    print(json.dumps({key: result[key] for key in (
-        "status", "arm", "parent_run", "child_run", "parent_checkpoint_sha256",
-        "child_checkpoint_sha256", "unchanged_non_head_tensors",
+    display_keys = (
+        "status",
+        "arm",
+        "parent_run",
+        "child_run",
+        "architecture",
+        "parent_checkpoint_sha256",
+        "child_checkpoint_sha256",
+        "unchanged_non_head_tensors",
         "changed_head_parameter_tensors",
-    )}, sort_keys=True), flush=True)
+        "expected_completed_batches",
+        "expected_optimizer_attempts",
+        "trainer_started",
+    )
+    print(
+        json.dumps({key: result[key] for key in display_keys if key in result}, sort_keys=True),
+        flush=True,
+    )
 
 
 if __name__ == "__main__":

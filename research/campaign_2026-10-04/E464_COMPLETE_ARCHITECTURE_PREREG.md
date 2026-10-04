@@ -52,3 +52,7 @@ has completed and remaining budget is reconciled. Source preparation and CPU
 checks are authorized now; scientific fitting still requires root review.
 
 No forecasting gain or submission readiness follows from this preregistration.
+
+## Pre-fit implementation review amendment
+
+Independent source review caught an audit count of 93 batches in the staged wrapper. The actual fixed dataset has 1,505 sequences; batch 16 with drop_last yields 94 complete batches, 940 chunk-2000 optimizer attempts. Correct this audit before fitting. This is a pre-fit implementation correction; the model, data, objective and fixed epoch procedure are unchanged. The scorer must also require exactly the original 16 unique comparison pairs and explicit FP32 [1,873,20,000,2] exports, rather than checking only list lengths and metadata labels. Initial source/drafts are preserved before amendment.

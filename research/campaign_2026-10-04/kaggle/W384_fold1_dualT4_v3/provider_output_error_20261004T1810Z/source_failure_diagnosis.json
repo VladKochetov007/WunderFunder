@@ -1,0 +1,126 @@
+{
+  "kernel_id": "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v3-runner",
+  "analysis_type": "read-only source/runtime failure-class diagnosis; not a retry approval",
+  "source_comparison": {
+    "kaggle_common.py": {
+      "v2_sha256": "84ea63373021e3b229845f0aecff74e155896c9522f97d06f6aa142a545ac380",
+      "v3_sha256": "84ea63373021e3b229845f0aecff74e155896c9522f97d06f6aa142a545ac380",
+      "byte_identical": true
+    },
+    "kaggle_gpu_runner.py": {
+      "v2_sha256": "c02bc4109c72bc6bb7c0d332b569417f3c2ecd5c26c7f70f24e159ed3eaae575",
+      "v3_sha256": "c02bc4109c72bc6bb7c0d332b569417f3c2ecd5c26c7f70f24e159ed3eaae575",
+      "byte_identical": true
+    },
+    "portability.py": {
+      "v2_sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+      "v3_sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+      "byte_identical": true
+    },
+    "splits.py": {
+      "v2_sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+      "v3_sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+      "byte_identical": true
+    }
+  },
+  "specs": [
+    {
+      "name": "c20261004_w256_adamw_s3_f1_t4v3_probe",
+      "declared_input_count": 30,
+      "declared_input_bytes": 42191397306,
+      "declared_code_count": 256,
+      "declared_code_bytes": 1680703,
+      "limits": {
+        "cpus": 2,
+        "gpu_memory_bytes": 11811160064,
+        "gpu_stop_bytes": 13958643712,
+        "ram_bytes": 10737418240,
+        "timeout_seconds": 1200
+      },
+      "data_bytes": {
+        "cache/train_targets.npz": 1909335790,
+        "datasets/train.parquet": 29240219011,
+        "datasets/valid.parquet": 5615509128
+      }
+    },
+    {
+      "name": "c20261004_w384_adamw_s3_f1_t4v3_probe",
+      "declared_input_count": 30,
+      "declared_input_bytes": 42191397306,
+      "declared_code_count": 256,
+      "declared_code_bytes": 1680703,
+      "limits": {
+        "cpus": 2,
+        "gpu_memory_bytes": 11811160064,
+        "gpu_stop_bytes": 13958643712,
+        "ram_bytes": 10737418240,
+        "timeout_seconds": 1200
+      },
+      "data_bytes": {
+        "cache/train_targets.npz": 1909335790,
+        "datasets/train.parquet": 29240219011,
+        "datasets/valid.parquet": 5615509128
+      }
+    }
+  ],
+  "provider_timing": {
+    "input_validation_event": {
+      "provider_elapsed_seconds": 101.424926783,
+      "event": {
+        "event": "validating_inputs",
+        "jobs": [
+          "c20261004_w256_adamw_s3_f1_t4v3_probe",
+          "c20261004_w384_adamw_s3_f1_t4v3_probe"
+        ],
+        "concurrency_admitted": 2
+      }
+    },
+    "first_worker_heartbeat": {
+      "provider_elapsed_seconds": 3541.700189691,
+      "event": {
+        "event": "campaign_resource_heartbeat",
+        "active": [
+          {
+            "name": "c20261004_w256_adamw_s3_f1_t4v3_probe",
+            "gpu_index": 0,
+            "gpu_uuid": "GPU-7ce3b472-6b72-f83f-9ab3-38f70ed4bc55",
+            "elapsed_seconds": 0,
+            "peak_ram_bytes": 11927552,
+            "peak_gpu_bytes": 0
+          }
+        ],
+        "finished": [],
+        "not_started": [
+          "c20261004_w384_adamw_s3_f1_t4v3_probe"
+        ],
+        "scope": "measured worker resource activity; not proof of epoch progress or scientific success"
+      }
+    },
+    "gap_seconds": 3440.275262908
+  },
+  "child_startup_observation": {
+    "worker_log_last_line": "{\"step\": \"one_batch_production_shape_forward_backward\", \"event\": \"starting\"}",
+    "workers_timed_out_seconds": [
+      1173.979,
+      1143.894
+    ],
+    "peak_gpu_bytes": [
+      0,
+      0
+    ],
+    "peak_ram_bytes": [
+      582860800,
+      588242944
+    ],
+    "trained_steps": 0,
+    "fits_started": false
+  },
+  "source_path_observed": {
+    "controller": "scripts/kaggle_gpu_runner.py::run calls verify_files(root, spec[\"code\"] + spec[\"inputs\"]) for each full spec before spawning workers; kaggle_common.verify_files streams SHA-256 per dependency.",
+    "trainer": "wnn.splits.load_campaign_split calls wnn.portability.verify_portable_source for manifest sources; verify_portable_source streams SHA-256 on whole relocated source files before model/device allocation."
+  },
+  "failure_classification": "probe phase timed out before first training/update; no OOM observed. The log gap is consistent with expensive full-input hashing, followed by a second integrity pass per child; actual per-phase duration is not instrumented, so this remains the best-supported diagnosis rather than a measured attribution.",
+  "cpu_contention": "Workers each had 2-CPU affinity on four total host CPUs; combined use fits available affinity. CPU utilization was not logged; contention is plausible but unmeasured.",
+  "comparison": "v2 and v3 kaggle_common, kaggle_gpu_runner, wnn.portability, and wnn.splits source bytes are identical. The v2 probes completed 10 update batches quickly after their own startup, showing performance variability, not evidence of a changed v3 scientific recipe.",
+  "safe_next_step": "Add phase/per-file timing around existing verification without skipping or weakening any hash check, then obtain root review of a fresh immutable probe identity and budget. No restart is launched by this audit."
+}

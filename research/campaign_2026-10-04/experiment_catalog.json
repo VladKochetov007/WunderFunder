@@ -798,7 +798,34 @@
       "implementation_status": "design_staged",
       "committed_at": "2026-10-04T11:59:13Z",
       "policy": "E-413 tested additive features; E-418 tested frozen readouts. This is an end-to-end recurrent-state intervention."
+    },
+    {
+      "id": "H-109",
+      "name": "complete_architecture_predictor_comparison",
+      "priority": "P1",
+      "mechanism_family": "representation and readout adaptation",
+      "statement": "The fixed final head procedure may change specialist/adapter comparisons that currently use parent-only predictors.",
+      "representation_change": "Apply the same fixed final readout procedure to every existing architecture, preserving its entire causal trunk.",
+      "cheap_test": "Eight one-epoch fixed heads, no new parent fits; same equal parent/head mixture and FP32 metric.",
+      "matched_control": "All eight E424 controls under the same head procedure plus fixed public combo",
+      "falsifier": "Architectural comparisons do not improve after complete procedure; frozen non-head tensor changes invalidate the attempt.",
+      "status": "open",
+      "implementation_status": "source_preparing",
+      "design": "research/campaign_2026-10-04/E464_COMPLETE_ARCHITECTURE_PREREG.md"
+    },
+    {
+      "id": "H-110",
+      "name": "eight_tpu_precision_continuation",
+      "priority": "P2",
+      "mechanism_family": "numerical training and distributed objective",
+      "statement": "Full causal GRU continuation can exploit all eight TPUs with globally normalized weighted gradients; BF16 may change score/runtime against matched FP32.",
+      "matched_control": "Same initialmodel, freshAdamWstate, fullsequencebatches andscheduleFP32vsBF16; unchangedparentanchor",
+      "cheap_test": "Unequal/zero-massshard gradient+step oracle, realdataTPUpreflight, productionshapeprofile",
+      "falsifier": "Distributedgradient orstatecarrydiffersfromunshardedoracle, nonfiniteweights, resourcefailure; precision scoreeffectmaybenull",
+      "status": "open",
+      "implementation_status": "source_preparing",
+      "design": "research/campaign_2026-10-04/E465_EIGHT_TPU_PRECISION_PREREG.md"
     }
   ],
-  "as_of_utc": "2026-10-04T13:50:08.823297+00:00"
+  "as_of_utc": "2026-10-04T18:15:19.626717+00:00"
 }

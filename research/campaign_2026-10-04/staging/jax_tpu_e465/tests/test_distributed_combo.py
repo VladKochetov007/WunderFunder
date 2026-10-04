@@ -1,15 +1,36 @@
 from __future__ import annotations
 
+import ast
+from collections.abc import Mapping
+from pathlib import Path
+
 import jax
 import jax.numpy as jnp
 import numpy as np
-
-from wnn_jax.bridge import combo_sbd_loss
 from wnn_jax.distributed_combo import (
     global_combo_loss_and_local_surrogate,
     pmean_and_clip_gradient,
 )
 from wnn_jax.rnn import adamw_init, adamw_update
+
+CLIP_NORM = 0.01  # Deliberately low so the synthetic parity fixture exercises clipping.
+
+
+def _production_combo_loss():
+    source_path = Path(__file__).resolve().parents[1] / "src/wnn_jax/bridge.py"
+    module = ast.parse(source_path.read_text(encoding="utf-8"), filename=str(source_path))
+    function = next(
+        node
+        for node in module.body
+        if isinstance(node, ast.FunctionDef) and node.name == "combo_sbd_loss"
+    )
+    namespace = {"Mapping": Mapping, "jax": jax, "jnp": jnp, "lax": jax.lax}
+    isolated = ast.Module(body=[function], type_ignores=[])
+    exec(compile(isolated, str(source_path), "exec"), namespace)
+    return namespace["combo_sbd_loss"]
+
+
+combo_sbd_loss = _production_combo_loss()
 
 
 def _batch(shards: int = 2, batch_size: int = 2, rows: int = 3):
@@ -18,7 +39,7 @@ def _batch(shards: int = 2, batch_size: int = 2, rows: int = 3):
     weights = jnp.asarray(
         [
             [[0.2, 0.4, 0.0], [0.1, 0.3, 0.5]],
-            [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]],
+            [[0.02, 0.04, 0.0], [0.01, 0.03, 0.05]],
         ],
         jnp.float32,
     )
@@ -69,7 +90,7 @@ def _check_distributed_matches_reference(batch) -> None:
 
         raw_gradient = jax.grad(surrogate)(params)
         gradient, norm = pmean_and_clip_gradient(
-            {"toy": raw_gradient}, axis_name="replicas", max_norm=0.2
+            {"toy": raw_gradient}, axis_name="replicas", max_norm=CLIP_NORM
         )
         params_tree = {"toy": params}
         updated, optimizer = adamw_update(
@@ -99,7 +120,8 @@ def _check_distributed_matches_reference(batch) -> None:
 
     ref_loss, ref_grad = jax.value_and_grad(reference)(initial)
     ref_norm = jnp.linalg.norm(ref_grad)
-    ref_clipped = ref_grad * jnp.minimum(1.0, 0.2 / (ref_norm + 1e-6))
+    assert float(ref_norm) > CLIP_NORM, "fixture should exercise a nontrivial global clipping step"
+    ref_clipped = ref_grad * jnp.minimum(1.0, CLIP_NORM / (ref_norm + 1e-6))
     ref_params, ref_optimizer = adamw_update(
         {"toy": initial},
         {"toy": ref_clipped},
@@ -107,17 +129,44 @@ def _check_distributed_matches_reference(batch) -> None:
         learning_rate=3e-4,
         weight_decay=0.01,
     )
-    np.testing.assert_allclose(np.asarray(reports), float(ref_loss), rtol=2e-6, atol=2e-7)
-    np.testing.assert_allclose(np.asarray(gradients), np.asarray(ref_grad), rtol=3e-6, atol=3e-7)
-    np.testing.assert_allclose(np.asarray(norms), float(ref_norm), rtol=3e-6, atol=3e-7)
     np.testing.assert_allclose(
-        np.asarray(updates), np.asarray(ref_params["toy"]), rtol=3e-6, atol=3e-7
+        np.asarray(reports),
+        np.broadcast_to(np.asarray(ref_loss), (ndev,)),
+        rtol=2e-6,
+        atol=2e-7,
     )
-    np.testing.assert_array_equal(np.asarray(counts), int(ref_optimizer.count))
+    np.testing.assert_allclose(
+        np.asarray(norms),
+        np.broadcast_to(np.asarray(ref_norm), (ndev,)),
+        rtol=3e-6,
+        atol=3e-7,
+    )
+    np.testing.assert_allclose(
+        np.asarray(gradients),
+        np.broadcast_to(np.asarray(ref_clipped), (ndev, 23)),
+        rtol=3e-6,
+        atol=3e-7,
+    )
+    np.testing.assert_allclose(
+        np.asarray(updates),
+        np.broadcast_to(np.asarray(ref_params["toy"]), (ndev, 23)),
+        rtol=3e-6,
+        atol=3e-7,
+    )
+    np.testing.assert_array_equal(
+        np.asarray(counts), np.broadcast_to(np.asarray(ref_optimizer.count), (ndev,))
+    )
 
 
-def test_unequal_and_zero_mass_shards_match_pooled_loss_and_gradient() -> None:
+def test_unequal_positive_mass_shards_match_pooled_loss_and_gradient() -> None:
     _check_distributed_matches_reference(_batch())
+
+
+def test_one_zero_mass_shard_matches_pooled_loss_and_gradient() -> None:
+    batch = _batch()
+    batch["main_weights"] = batch["main_weights"].at[1].set(0.0)
+    batch["next_weights"] = batch["next_weights"].at[1].set(0.0)
+    _check_distributed_matches_reference(batch)
 
 
 def test_all_zero_global_mass_matches_reference_clamped_denominators() -> None:

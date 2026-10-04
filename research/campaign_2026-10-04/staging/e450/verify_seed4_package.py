@@ -171,7 +171,11 @@ def check_package_identity() -> dict[str, object]:
 
 
 def child_json(
-    arguments: list[str], log_path: Path, environment: dict[str, str], timeout: int
+    arguments: list[str],
+    log_path: Path,
+    environment: dict[str, str],
+    timeout: int,
+    result_path: Path | None = None,
 ) -> dict[str, object]:
     """Run one bounded subprocess, preserve its log, and parse its final JSON line."""
     with log_path.open("x", encoding="utf-8") as log:
@@ -184,6 +188,11 @@ def child_json(
             check=True,
             timeout=timeout,
         )
+    if result_path is not None:
+        record = json.loads(result_path.read_text(encoding="utf-8"))
+        if not isinstance(record, dict):
+            raise ValueError(f"subprocess result is not a JSON object: {result_path}")
+        return record
     for line in reversed(log_path.read_text(encoding="utf-8").splitlines()):
         try:
             record = json.loads(line)
@@ -329,7 +338,7 @@ def compare_callbacks(arrays: dict[str, dict[str, object]]) -> dict[str, object]
         raise ValueError("callback targets or scored-row masks differ across precision runs")
     if not np.array_equal(native["pred"], portable["pred"]):
         raise ValueError("i16 v2 and v3 callbacks are not bitwise identical")
-    required = np.broadcast_to(np.arange(SEQUENCE_LENGTH) >= 99, expected_shape)
+    required = np.broadcast_to((np.arange(SEQUENCE_LENGTH) >= 99)[None, :, None], expected_shape)
     if (
         not np.isfinite(native["pred"][required]).all()
         or not np.isfinite(floating["pred"][required]).all()
@@ -390,7 +399,9 @@ def fp32_cache_diagnostic(
         )
     cache_mixture_array = np.stack(cache_mixture)
     native = arrays["f32_v3"]
-    required = np.broadcast_to(np.arange(SEQUENCE_LENGTH) >= 99, native["pred"].shape)
+    required = np.broadcast_to(
+        (np.arange(SEQUENCE_LENGTH) >= 99)[None, :, None], native["pred"].shape
+    )
     error = np.abs(native["pred"][required] - cache_mixture_array[required])
     wp_delta = float(
         reference_global_wp(native["y"], native["pred"], native["mask"])
@@ -496,6 +507,7 @@ def run(output: Path) -> dict[str, object]:
         output / "reset_and_causality.log",
         dict(environment, WNN_PRECISION="i16", WNN_NATIVE_LEVEL="v3"),
         timeout=240,
+        result_path=output / "reset_and_causality.json",
     )
     if reset.get("reset_bitwise") is not True or reset.get("past_only_bitwise") is not True:
         raise ValueError("A-B-A reset or future-suffix causality check failed")

@@ -1,0 +1,73 @@
+{
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-04/staging/e462/time_public_q8.py",
+    "--control",
+    "submissions/c20261004_combo_s3_i16/submission.zip",
+    "--q8r",
+    "research/campaign_2026-10-04/E462_public_q8_build_v2/q8r/submission.zip",
+    "--q8x",
+    "research/campaign_2026-10-04/E462_public_q8_build_v2/q8x/submission.zip",
+    "--build-dir",
+    "research/campaign_2026-10-04/E462_public_q8_build_v2",
+    "--parity-report",
+    "research/campaign_2026-10-04/E462_public_q8_parity_v2/parity_report.json",
+    "--score-report",
+    "research/campaign_2026-10-04/E462_public_q8_score_v4/report/score_report.json",
+    "--data",
+    "cache/valid_subset20.parquet",
+    "--output",
+    "research/campaign_2026-10-04/staging/timing_window/results/e462_q8_v1/trials.jsonl",
+    "--cpu",
+    "15",
+    "--max-load1",
+    "1.0",
+    "--paired-repeats",
+    "5"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/staging/timing_window/results/e462_q8_v1/trials.jsonl",
+    "research/campaign_2026-10-04/staging/timing_window/results/e462_q8_v1/timing_report.json"
+  ],
+  "code": [
+    "research/campaign_2026-09-30/audit/campaign_score.py",
+    "research/campaign_2026-10-04/kaggle/E419_qat_dualT4_v4/source_root/scripts/probe_q8_model.py",
+    "research/campaign_2026-10-04/staging/e462/solution_q8.py",
+    "research/campaign_2026-10-04/staging/e462/time_public_q8.py",
+    "research/campaign_2026-10-04/staging/e462/verify_public_q8.py",
+    "src/wnn/evaluation.py",
+    "src/wnn/features.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/metric.py",
+    "src/wnn/nn.py",
+    "src/wnn/splits.py",
+    "utils.py"
+  ],
+  "environment": {},
+  "inputs": [
+    "cache/valid_subset20.parquet",
+    "research/campaign_2026-10-04/E457_head_transfer/readiness.json",
+    "research/campaign_2026-10-04/E462_public_q8_build_v2/build_report.json",
+    "research/campaign_2026-10-04/E462_public_q8_build_v2/q8r/submission.zip",
+    "research/campaign_2026-10-04/E462_public_q8_build_v2/q8x/submission.zip",
+    "research/campaign_2026-10-04/E462_public_q8_parity_v2/parity_report.json",
+    "research/campaign_2026-10-04/E462_public_q8_score_v4/report/score_report.json",
+    "research/campaign_2026-10-04/runner/attempts/e462-public-q8-build-v3.json",
+    "research/campaign_2026-10-04/runner/attempts/e462-public-q8-parity-v2.json",
+    "research/campaign_2026-10-04/runner/attempts/e462-public-q8-score-v4.json",
+    "research/campaign_2026-10-04/specs/e462_public_q8_build_v3.sealed.json",
+    "research/campaign_2026-10-04/specs/e462_public_q8_parity_v2.sealed.json",
+    "research/campaign_2026-10-04/specs/e462_public_q8_score_v4.sealed.json",
+    "submissions/c20261004_combo_s3_i16/submission.zip"
+  ],
+  "kind": "cpu",
+  "limits": {
+    "cpus": 1,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 1800
+  },
+  "name": "e462_public_q8_timing_v1",
+  "version": 1
+}

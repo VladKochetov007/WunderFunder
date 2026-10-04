@@ -1,0 +1,5 @@
+# Root preflight review
+
+The actor's original CPU design draft used content descriptors, lacked explicit GPU-zero limit fields and included reserved environment overrides. Root preserved that source-only draft and emitted the exact campaignrunner schema separately under `specs/e464_scope_preflight_v1.draft.json`: path-only closure, explicit CPU-only limits and runner-controlled visibility/thread settings. Only the24actually read parent checkpoints, provenance and sealed source specs are inputs; no dataset is read in these preflights.
+
+The canonical sealed worker ran eight stdlib scope/state tests and all eight actual parent preflights. It completed exit0 with verifiedteardown in14.90s,341,434,368B peakRAM, zeroGPU and no worker/parent OOMdelta. It instantiated real GRU/specialist/adapter models, verified checkpoint/source identities, exhaustively classified frozen/head parameter names and statebuffers, and confirmed94batches/940attempts arithmetic. No trainer was started and no head weight changed. Rawresult `checks/e464_scope_preflight_v1/result.json`; worker `runner/attempts/e464-scope-preflight-v1.json`.

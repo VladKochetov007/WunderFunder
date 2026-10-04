@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="4" time="22.801" timestamp="2026-10-04T18:08:23.897967+00:00" hostname="19ab57d415d0"><testcase classname="input.datasets.vladkochetov07.wnn-jax-sharding-e465-cpu-20261004-v2.source_bundle.tests.test_distributed_combo" name="test_unequal_positive_mass_shards_match_pooled_loss_and_gradient" time="9.061" /><testcase classname="input.datasets.vladkochetov07.wnn-jax-sharding-e465-cpu-20261004-v2.source_bundle.tests.test_distributed_combo" name="test_one_zero_mass_shard_matches_pooled_loss_and_gradient" time="1.032" /><testcase classname="input.datasets.vladkochetov07.wnn-jax-sharding-e465-cpu-20261004-v2.source_bundle.tests.test_distributed_combo" name="test_all_zero_global_mass_matches_reference_clamped_denominators" time="0.968"><failure message="AssertionError: fixture should exercise a nontrivial global clipping step&#10;assert 0.0 &gt; 0.01&#10; +  where 0.0 = float(Array(0., dtype=float32))">def test_all_zero_global_mass_matches_reference_clamped_denominators() -&gt; None:
+        batch = _batch()
+        batch["main_weights"] = jnp.zeros_like(batch["main_weights"])
+        batch["next_weights"] = jnp.zeros_like(batch["next_weights"])
+&gt;       _check_distributed_matches_reference(batch)
+
+../../input/datasets/vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v2/source_bundle/tests/test_distributed_combo.py:176: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+batch = {'fixed_target': Array([[[[0., 0.],
+         [0., 0.],
+         [0., 0.]],
+
+        [[0., 0.],
+         [0., 0.],
+    ...3., 3., 3.],
+        [3., 3., 3.]],
+
+       [[3., 3., 3.],
+        [3., 3., 3.]]], dtype=float32, weak_type=True), ...}
+
+    def _check_distributed_matches_reference(batch) -&gt; None:
+        ndev = 2
+        assert jax.local_device_count() &gt;= ndev, "run with two forced CPU devices"
+        batch = {name: value[:ndev] for name, value in batch.items()}
+        ema = jnp.linspace(-0.4, 0.4, 23, dtype=jnp.float32)
+        ema_shards = jnp.broadcast_to(ema, (ndev, 23))
+        initial = jnp.linspace(-0.2, 0.3, 23, dtype=jnp.float32)
+        replicated = jnp.broadcast_to(initial, (ndev, 23))
+    
+        def one_replica(params, local_batch, local_ema):
+            pred = _predictions(params, local_batch)
+    
+            def surrogate(current):
+                current_pred = _predictions(current, local_batch)
+                _, contribution = global_combo_loss_and_local_surrogate(
+                    current_pred,
+                    local_batch,
+                    _predictions(local_ema, local_batch),
+                    axis_name="replicas",
+                    replica_count=ndev,
+                )
+                return contribution
+    
+            raw_gradient = jax.grad(surrogate)(params)
+            gradient, norm = pmean_and_clip_gradient(
+                {"toy": raw_gradient}, axis_name="replicas", max_norm=CLIP_NORM
+            )
+            params_tree = {"toy": params}
+            updated, optimizer = adamw_update(
+                params_tree,
+                gradient,
+                adamw_init(params_tree),
+                learning_rate=3e-4,
+                weight_decay=0.01,
+            )
+            report, _ = global_combo_loss_and_local_surrogate(
+                pred,
+                local_batch,
+                _predictions(local_ema, local_batch),
+                axis_name="replicas",
+                replica_count=ndev,
+            )
+            return report, gradient["toy"], norm, updated["toy"], optimizer.count
+    
+        distributed = jax.pmap(one_replica, axis_name="replicas")(replicated, batch, ema_shards)
+        reports, gradients, norms, updates, counts = distributed
+    
+        merged = _combine_shards(batch)
+        reference_ema = _predictions(ema, merged)
+    
+        def reference(params):
+            return combo_sbd_loss(_predictions(params, merged), merged, reference_ema)
+    
+        ref_loss, ref_grad = jax.value_and_grad(reference)(initial)
+        ref_norm = jnp.linalg.norm(ref_grad)
+&gt;       assert float(ref_norm) &gt; CLIP_NORM, "fixture should exercise a nontrivial global clipping step"
+E       AssertionError: fixture should exercise a nontrivial global clipping step
+E       assert 0.0 &gt; 0.01
+E        +  where 0.0 = float(Array(0., dtype=float32))
+
+../../input/datasets/vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v2/source_bundle/tests/test_distributed_combo.py:123: AssertionError</failure></testcase><testcase classname="input.datasets.vladkochetov07.wnn-jax-sharding-e465-cpu-20261004-v2.source_bundle.tests.test_distributed_state_boundary" name="test_replicated_two_chunk_state_and_detached_gradient_match_unsharded" time="11.582" /></testsuite></testsuites>

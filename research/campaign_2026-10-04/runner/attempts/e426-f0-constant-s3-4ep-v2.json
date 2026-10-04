@@ -93,9 +93,31 @@
     "--save-training-state",
     "--no-eval-during-fit"
   ],
+  "artifacts": [
+    {
+      "path": "artifacts/runs/e426_f0_constant_s3_4ep_v2/model_ep3.pt",
+      "sha256": "e9a7b52e9174bacf53a6a7a0d2c2111948e2ae2845f5e6a934f941ec34c4a9bb",
+      "size": 4178399
+    },
+    {
+      "path": "artifacts/runs/e426_f0_constant_s3_4ep_v2/provenance.json",
+      "sha256": "70d3f098ac75184cfb33e04bd03a5053bd30a823c12bafa693370d6a35e80e09",
+      "size": 731503
+    },
+    {
+      "path": "artifacts/runs/e426_f0_constant_s3_4ep_v2/history.json",
+      "sha256": "3f95e0b75ec565352909494d3375df692fe07c8529d9c4acc6fd6acdeaad5c60",
+      "size": 6630
+    },
+    {
+      "path": "artifacts/runs/e426_f0_constant_s3_4ep_v2/training_state.pt",
+      "sha256": "89787a9ea79f454763c1eea7461a13d9e2df3fa3fc2a4f8632412c2d46e1c8b2",
+      "size": 16531077
+    }
+  ],
   "block_id": "local001",
-  "charged_seconds": 0.0,
-  "elapsed_seconds": 1546.8552007049875,
+  "charged_seconds": 2546.4498676329968,
+  "elapsed_seconds": 2546.4498676329968,
   "environment": {
     "ARROW_NUM_THREADS": "1",
     "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
@@ -117,7 +139,30 @@
     "WNN_PORTABLE_DATA_MANIFEST": "research/campaign_2026-10-04/portable_inputs.json",
     "WNN_THREADS": "8"
   },
-  "heartbeat_unix": 1791135322.413595,
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 1055452,
+    "low": 0,
+    "max": 5436663,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791136270.9774554,
+  "heartbeat_unix": 1791136270.4428043,
   "id": "e426-f0-constant-s3-4ep-v2",
   "initial_memory_events": {
     "high": 0,
@@ -166,6 +211,7 @@
     "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
     "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
   },
+  "signals": [],
   "spec": {
     "argv": [
       "{python}",
@@ -677,7 +723,8 @@
   },
   "spec_sha256": "08e1061b05630d6e226a8e5aa63bfbc5d7dd77e88dac454704d5d69d0524e9e8",
   "started_unix": 1791133775.5323913,
-  "status": "running",
+  "status": "finished",
+  "teardown_verified": true,
   "timeout_seconds": 12000,
   "unit": "wnn-c04-e426-f0-constant-s3-4ep-v2.service",
   "unit_properties": {

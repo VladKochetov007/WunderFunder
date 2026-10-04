@@ -1,0 +1,245 @@
+{
+  "architecture": "prefix-adapter",
+  "arm": "h094_unconditional",
+  "buffer_count": 2,
+  "child_run": "c20261004_e464_h094_unconditional_head_s3_final",
+  "expected_fit_valid_group_count": 1505,
+  "freeze_prefixes": [
+    "inp",
+    "gru",
+    "adapter_",
+    "prefix_prior"
+  ],
+  "frozen_parameter_names": [
+    "prefix_prior",
+    "adapter_scale",
+    "inp.weight",
+    "inp.bias",
+    "adapter_input.weight",
+    "adapter_context.weight",
+    "adapter_output.weight",
+    "gru.weight_ih_l0",
+    "gru.weight_hh_l0",
+    "gru.bias_ih_l0",
+    "gru.bias_hh_l0",
+    "gru.weight_ih_l1",
+    "gru.weight_hh_l1",
+    "gru.bias_ih_l1",
+    "gru.bias_hh_l1"
+  ],
+  "parameter_count": 19,
+  "parent_checkpoint_sha256": "e3ce0eb8f712d9780b5eb445d794ab028e42372721344a8faa006f0de517d5cb",
+  "parent_code_spec_aggregate_sha256": "228e39984b3be5b22fca2f3ed4f85255feb4d0aa8769542a42da52c582d8bb75",
+  "parent_code_spec_path": "research/campaign_2026-10-04/specs/e424_h094_unconditional_v2.sealed.json",
+  "parent_code_spec_sha256": "d56124a31ccf093fa395871a88bff9ee35cae7c40ac7407056009e7f84ccb89d",
+  "parent_epoch": 3,
+  "parent_provenance_sha256": "1b62f47bc1c96af7cb1110219db7a527a37b603e82c9b324400976223549d85a",
+  "parent_run": "c20261004_h094_unconditional_s3_final",
+  "protocol": "E464 actual-parent architecture/name classification only",
+  "state_tensor_fingerprints": {
+    "adapter_context.weight": {
+      "dtype": "torch.float32",
+      "sha256": "d5d96adb99480dd65b7bb7a684cf2f0b5f32f9bf85288ecd74dceb710a0669e0",
+      "shape": [
+        8,
+        211
+      ]
+    },
+    "adapter_input.weight": {
+      "dtype": "torch.float32",
+      "sha256": "0217290f6d49198fc0ebdb3231eb4b63875b12dc7570b9aa0b86b3e9230e63ee",
+      "shape": [
+        8,
+        211
+      ]
+    },
+    "adapter_output.weight": {
+      "dtype": "torch.float32",
+      "sha256": "ed037c3897008e0934de14c9c8c490ac2070c3316dc3edaeb8c3fcb4fa19e113",
+      "shape": [
+        128,
+        8
+      ]
+    },
+    "adapter_scale": {
+      "dtype": "torch.float32",
+      "sha256": "3d76dcf2e5d3385b3c5609053d568254dfe2ff69883df895a81bbc9b84d7f728",
+      "shape": []
+    },
+    "gru.bias_hh_l0": {
+      "dtype": "torch.float32",
+      "sha256": "b787b8447366bca9cd05b45d705e3bc48543ce08fbf0cfcfcbad36d8df777086",
+      "shape": [
+        384
+      ]
+    },
+    "gru.bias_hh_l1": {
+      "dtype": "torch.float32",
+      "sha256": "ae88078640f2d3193913e2c710bd21a3db201ee5f4f52fbc31e38ae4893dec97",
+      "shape": [
+        384
+      ]
+    },
+    "gru.bias_ih_l0": {
+      "dtype": "torch.float32",
+      "sha256": "441aae76becd954cef0142603f0cb4ee7c21c95afa6c693cfdf758062b943c35",
+      "shape": [
+        384
+      ]
+    },
+    "gru.bias_ih_l1": {
+      "dtype": "torch.float32",
+      "sha256": "0928d364b08d72a1b96c1270715b98d7da9d4c13d00f07ccfbb8fc00295f6e7c",
+      "shape": [
+        384
+      ]
+    },
+    "gru.weight_hh_l0": {
+      "dtype": "torch.float32",
+      "sha256": "15a4f28ac255bb8e31a4b427d8caeb16760af5fd3e8a341d3903ffb0ae9610e4",
+      "shape": [
+        384,
+        128
+      ]
+    },
+    "gru.weight_hh_l1": {
+      "dtype": "torch.float32",
+      "sha256": "ed9c65365fddc328f4c8427989f86286c3f76455ef3d7f5bec0e43c17473bec0",
+      "shape": [
+        384,
+        128
+      ]
+    },
+    "gru.weight_ih_l0": {
+      "dtype": "torch.float32",
+      "sha256": "60f7ff56c036dd38a79d8f8c42c5f248a4ca6123a1d39bdec6ba071a74a9194f",
+      "shape": [
+        384,
+        128
+      ]
+    },
+    "gru.weight_ih_l1": {
+      "dtype": "torch.float32",
+      "sha256": "b43867efe0e1a86dfce7c6509c8308648929c96e9ae956c13e683648bd088958",
+      "shape": [
+        384,
+        128
+      ]
+    },
+    "head.0.bias": {
+      "dtype": "torch.float32",
+      "sha256": "79425244792ad9bdeb0a6e04cae11a20f2483e1cd10c4da37f6f02371596ceb6",
+      "shape": [
+        128
+      ]
+    },
+    "head.0.weight": {
+      "dtype": "torch.float32",
+      "sha256": "5845d180fc6b10b7c0915fcac100cebdc84640d4b0f37f7ba2173489d52055b2",
+      "shape": [
+        128,
+        256
+      ]
+    },
+    "head.2.bias": {
+      "dtype": "torch.float32",
+      "sha256": "c0ee51202074da51c5855309dada3b44c2b6b1636fab8d3b592fa9e42d8de3e7",
+      "shape": [
+        23
+      ]
+    },
+    "head.2.weight": {
+      "dtype": "torch.float32",
+      "sha256": "65cf6732954ca300ed208655d680700347f6812e683d1331fc8f698957707574",
+      "shape": [
+        23,
+        128
+      ]
+    },
+    "inp.bias": {
+      "dtype": "torch.float32",
+      "sha256": "0be6d5acaa30b4cabe2a4f484f8ff4e2583fdecdcb10092446e8e69c6ea99ed3",
+      "shape": [
+        128
+      ]
+    },
+    "inp.weight": {
+      "dtype": "torch.float32",
+      "sha256": "8c235c2693b7e57c82b73817e67e29402d5d724e5ee7bb08a01f33091e25c603",
+      "shape": [
+        128,
+        211
+      ]
+    },
+    "mean": {
+      "dtype": "torch.float32",
+      "sha256": "3f392f0bd73eb7dd5e2ab1bcab8c3472094ccdd3be8922f7a5b6c4d54c69dbe3",
+      "shape": [
+        211
+      ]
+    },
+    "prefix_prior": {
+      "dtype": "torch.float32",
+      "sha256": "73ea5e4037da3ee6ae811b03d475df1c66ec76b2db59e05bdadde7628692b57b",
+      "shape": [
+        211
+      ]
+    },
+    "std": {
+      "dtype": "torch.float32",
+      "sha256": "6637b7e2f46de85147498eac1cf5b62715a9bc9e0fd17d7d93d9413e6102deaa",
+      "shape": [
+        211
+      ]
+    }
+  },
+  "status": "preflight_pass",
+  "trainable_head_parameter_names": [
+    "head.0.weight",
+    "head.0.bias",
+    "head.2.weight",
+    "head.2.bias"
+  ],
+  "trainable_head_prefixes": [
+    "head."
+  ],
+  "trainer_argv_contract": [
+    "{python}",
+    "scripts/train_rnn.py",
+    "--name",
+    "c20261004_e464_h094_unconditional_head_s3_final",
+    "--init",
+    "c20261004_h094_unconditional_s3_final@ep3",
+    "--train-source",
+    "valid",
+    "--full-valid",
+    "--mask-weight",
+    "--seed",
+    "3",
+    "--epochs",
+    "1",
+    "--batch",
+    "16",
+    "--chunk",
+    "2000",
+    "--fast",
+    "--inherit-init-preprocessing",
+    "--loss",
+    "gcorr",
+    "--optim",
+    "adamw",
+    "--freeze",
+    "inp,gru,adapter_,prefix_prior",
+    "--lr",
+    "0.0005",
+    "--wd",
+    "0.01",
+    "--checkpoint-policy",
+    "fixed",
+    "--checkpoint-epoch",
+    "0",
+    "--save-training-state",
+    "--no-eval-during-fit"
+  ],
+  "trainer_started": false
+}

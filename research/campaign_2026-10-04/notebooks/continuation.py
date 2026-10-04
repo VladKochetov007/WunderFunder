@@ -522,5 +522,38 @@ def _(campaign_dir, json, mo, plt, refresh):
     return
 
 
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, plt, project_root, refresh):
+    refresh
+    import hashlib as _fullseed_hashlib
+    _fullseed_path = campaign_dir / "checks/e450_full_valid_fixed_models_v1.json"
+    _fullseed_report = json.loads(_fullseed_path.read_text())
+    _fullseed_parts = ("all_supplied_validation", "validation_in_final_fit", "excluded_from_final_fit")
+    _fullseed_labels = ("All supplied VALID\n1,873 sequences", "Used for final fitting\n1,505 sequences", "Excluded, exposed\n368 sequences")
+    _fullseed_colors = {"COMBO_S4": "#275DAD", "BAG_S3_S4": "#C15A19"}
+    _fullseed_fig, _fullseed_ax = plt.subplots(figsize=(9, 4.7))
+    for _fullseed_index, _fullseed_name in enumerate(("COMBO_S4", "BAG_S3_S4")):
+        _fullseed_values = [1000 * (_fullseed_report["scores"][_fullseed_name][_part]["wp"] - _fullseed_report["scores"]["COMBO_S3"][_part]["wp"]) for _part in _fullseed_parts]
+        _fullseed_x = [_position + (_fullseed_index - .5) * .32 for _position in range(3)]
+        _fullseed_bars = _fullseed_ax.bar(_fullseed_x, _fullseed_values, width=.30, label={"COMBO_S4":"Seed 4", "BAG_S3_S4":"Equal seed bag"}[_fullseed_name], color=_fullseed_colors[_fullseed_name])
+        _fullseed_ax.bar_label(_fullseed_bars, fmt="%+.3f", padding=4, fontsize=9)
+    _fullseed_ax.axhline(0, color="#444444", linewidth=.8)
+    _fullseed_ax.set_xticks(range(3), _fullseed_labels)
+    _fullseed_ax.set_ylabel("Global WP change versus seed 3 (×1,000)")
+    _fullseed_ax.set_title("Fixed mixes on the supplied validation file")
+    _fullseed_ax.legend(frameon=False)
+    _fullseed_ax.spines[["top", "right"]].set_visible(False)
+    _fullseed_ax.set_ylim(-.35, 2.15)
+    _fullseed_fig.text(.5, .01, "Descriptive point estimates; 1,505 sequences fitted. Excluded-panel paired intervals include zero.", ha="center", fontsize=9)
+    _fullseed_fig.tight_layout(rect=(0, .04, 1, 1))
+    _fullseed_dir = campaign_dir / "eda/seed4_replication"
+    _fullseed_dir.mkdir(parents=True, exist_ok=True)
+    for _suffix in ("png", "svg"):
+        _fullseed_fig.savefig(_fullseed_dir / ("full_valid_fixed_mixes." + _suffix), dpi=170)
+    (_fullseed_dir / "full_valid_source.json").write_text(json.dumps({"report":str(_fullseed_path.relative_to(project_root)), "sha256":_fullseed_hashlib.sha256(_fullseed_path.read_bytes()).hexdigest(), "metric":"global_wp_clip2_v1", "scope":_fullseed_report["scope"]}, indent=2)+"\n")
+    mo.vstack([mo.md("**E450 full supplied VALID:** seed 3 0.700503744; seed 4 0.700771292; fixed equal seed bag 0.701106873. Most rows were fitted. These are reporting-only FP32 mixes, not independent public results."), _fullseed_fig])
+    return
+
+
 if __name__ == "__main__":
     app.run()

@@ -1,0 +1,70 @@
+{
+  "archive_sha256": "5c421fde8bf083ed87c92079ad2ef8c720b3d20b09a8081b0ed8275ea788cfc7",
+  "campaign_id": "E465",
+  "dataset_id": "vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v1",
+  "dataset_metadata_sha256": "3789bea98c1e1b7879f731a25ed9c57a6d66322362caec0a6276583736c7e1f8",
+  "environment_requirements": [
+    "numpy",
+    "pytest",
+    "jax",
+    "jaxlib"
+  ],
+  "kernel_id": "vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v1",
+  "kernel_metadata_sha256": "4df0d378b88329951c569a738e5913a3d88b404398f037ad06f5370b1c32ff64",
+  "kernel_sha256": "8f3c0f767f3525696689ac14cef861832f7010c0723174b4cac0d7ca682468aa",
+  "manifest_sha256": "4dd0d3bf56bc96a6a02526bd2d1aa8d48d03e7561df4e3551d1df21756234248",
+  "next_actions_after_review_only": [
+    "create the private CPU dataset and wait until READY",
+    "verify provider expanded source members against manifest",
+    "push the exact private CPU-only kernel",
+    "capture two-device inventory, tests/XML/stdout, memory/runtime telemetry; do not claim TPU success or forecasting gain"
+  ],
+  "no_training_or_data": "This packet contains no fit data, no teacher/model checkpoints, no evaluation arrays, and no training loop.",
+  "privacy_and_compute": {
+    "aggregate_rss_limit_bytes": 4294967296,
+    "cpu_affinity": 2,
+    "gpu": false,
+    "host_headroom_fraction": 0.2,
+    "internet": false,
+    "launcher_rss_reserve_bytes": 536870912,
+    "private": true,
+    "tpu": false,
+    "whole_job_watchdog_seconds": 780,
+    "worker_timeout_seconds": 600
+  },
+  "purpose": "two-device CPU numerical checks of globally pooled loss/gradient, pmean-then-clip ordering, one AdamW update, and two-chunk student/EMA recurrent state boundaries",
+  "pytest_skip_policy": "any skipped test makes numerical_pass false",
+  "required_jax_device_inventory": "exactly two CPU devices; otherwise fail before running tests",
+  "source_closure": {
+    "src/wnn_jax/bridge.py": {
+      "sha256": "788e83eb24759e63c1dc877252ae4ad4a400f1f7f64af2dce8611e844d1990bb",
+      "size_bytes": 26330
+    },
+    "src/wnn_jax/distributed_combo.py": {
+      "sha256": "b14206919ab82106c155ff5ceabc05de93b8dfb555360e9c996ffc94e08df665",
+      "size_bytes": 4680
+    },
+    "src/wnn_jax/rnn.py": {
+      "sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc",
+      "size_bytes": 14385
+    },
+    "tests/test_distributed_combo.py": {
+      "sha256": "05a9c033a306279781b91fa903439afdef5d48d0da1554a5713827b730bf272a",
+      "size_bytes": 5946
+    },
+    "tests/test_distributed_state_boundary.py": {
+      "sha256": "aa4638c287bb2ba64ab58bdefae94803b4337071bdb2da2d1e2698db83d11388",
+      "size_bytes": 4212
+    },
+    "worker.py": {
+      "sha256": "b350f5bb4abc3061aede65b762e0ab027434f8ef30ca6dc097f4107d02f62195",
+      "size_bytes": 4824
+    }
+  },
+  "status": "prepared for root review only; no upload, kernel push, or remote execution",
+  "validation": {
+    "numerical_execution": "not run; local JAX unavailable; waiting for root review",
+    "ruff": "passed on newly authored source/tests/worker/kernel/builder/validator",
+    "static_packet_validation": "passed; zip members match manifest and local sources, hashes match, Python AST parses, privacy/device settings match"
+  }
+}

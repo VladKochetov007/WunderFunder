@@ -102,12 +102,11 @@ def pmean_and_clip_gradient(tree, *, axis_name: str, max_norm: float = 1.0):
     """
     if max_norm <= 0:
         raise ValueError("max_norm must be positive")
-    reduced = jax.tree.map(lambda value: lax.pmean(value, axis_name), tree)
+    reduced = jax.tree_util.tree_map(lambda value: lax.pmean(value, axis_name), tree)
     squared_norm = sum(
-        jnp.sum(jnp.square(value.astype(jnp.float32)))
-        for value in jax.tree.leaves(reduced)
+        jnp.sum(jnp.square(value.astype(jnp.float32))) for value in jax.tree.leaves(reduced)
     )
     total_norm = jnp.sqrt(squared_norm)
     coefficient = jnp.minimum(1.0, max_norm / (total_norm + 1e-6))
-    clipped = jax.tree.map(lambda value: value * coefficient, reduced)
+    clipped = jax.tree_util.tree_map(lambda value: value * coefficient, reduced)
     return clipped, total_norm

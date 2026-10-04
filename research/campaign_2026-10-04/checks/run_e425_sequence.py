@@ -264,9 +264,14 @@ def _validate_prediction_group_domains(
     predicted_groups: list[int], full_valid_groups: list[int], evaluation_groups: list[int]
 ) -> None:
     """Keep all-VALID exports distinct from the historical 368-group score panel."""
-    if len(full_valid_groups) != 1873 or predicted_groups != full_valid_groups:
+    if full_valid_groups != list(range(1873)) or predicted_groups != full_valid_groups:
         raise ValueError("prediction sidecar must cover the canonical 1,873 all-VALID groups")
-    if len(evaluation_groups) != 368 or not set(evaluation_groups).issubset(full_valid_groups):
+    if (
+        any(type(value) is not int for value in predicted_groups + evaluation_groups)
+        or len(evaluation_groups) != 368
+        or len(set(evaluation_groups)) != 368
+        or not set(evaluation_groups).issubset(full_valid_groups)
+    ):
         raise ValueError("provenance holdout must remain the distinct 368-group score panel")
 
 
@@ -300,6 +305,17 @@ def verify_controller_rounding_contracts() -> None:
     _validate_prediction_group_domains(full_valid, full_valid, historical_holdout)
     if full_valid == historical_holdout:
         raise AssertionError("full VALID and holdout fixtures unexpectedly coincide")
+    malformed_panels = (
+        historical_holdout[:-1] + [historical_holdout[0]],
+        [False] + historical_holdout[1:],
+        [1873] + historical_holdout[1:],
+    )
+    for panel in malformed_panels:
+        try:
+            _validate_prediction_group_domains(full_valid, full_valid, panel)
+        except ValueError:
+            continue
+        raise AssertionError("malformed evaluation domain was accepted")
 
 
 def validate_training_result(

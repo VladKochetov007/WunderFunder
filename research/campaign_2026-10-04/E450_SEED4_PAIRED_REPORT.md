@@ -44,3 +44,11 @@ Raw evidence: `checks/e450_report_seed4_bag_fp32_v1.json`, frozen design
 `specs/e450_score_seed4_bag_fp32_v1.sealed.json`, all four E450 fit/export worker
 records, and `E450_SEED4_REPLICATION_PREREG.md`. Marimo-generated figures and
 source hashes are under `eda/seed4_replication/`.
+
+## Actual seed-4 native package checks and supplied-file scorecard
+
+The actual new seed-4 ZIP (`submissions/c20261004_combo_s4_i16/submission.zip`, SHA256 `c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a`) completed 20 full streams /400,000 rows with v2/v3 bitwise agreement, exact targets/masks, reset A-B-A and future-suffix causality checks. Native i16 versus native f32 maximum error was 0.0000978410 and WP change +0.0000000286. Root inspected callback logs confirming actual i16 precision. The bounded worker finished in164.15s with580,894,720B peak RAM, no GPU/OOM and verified teardown. This establishes parity; quiet CPU timing remains pending. Initial never-run verifier source and root fixture fixes are preserved separately.
+
+The fixed FP32 whole supplied-file scores are seed3 **0.700503744**, seed4 **0.700771292**, equalbag **0.701106873**; see `VALIDATION_SCORECARD.md` for the fitted/excluded split. These are descriptive reporting-only results, with no public score for the new candidates.
+
+Actual raw checks: `checks/e450_seed4_native_parity_v1/readiness.json`, `runner/attempts/e450-seed4-native-parity-v1.json`, `checks/e450_full_valid_fixed_models_v1.json`. Timing is durably queued behind E426 in `wnn-timing-window-v1.service`; E425 is ordered after the timing window. A missing quiet window is recorded as deferred, never a runtime pass.

@@ -30,3 +30,17 @@ E410 measured the **recipe's fold-specific models**, not the final full-data che
 The pooled paired component-bootstrap interval is [+0.001565628, +0.003448539], conditional on fitted seed3 models. Existing folds are exposed, and teacher-lineage/selection limitations remain; this does not include training-seed uncertainty.
 
 Reproduction: `scripts/validation_scorecard.py`; sealed inputs/commands in `specs/e459_validation_scorecard_v1.sealed.json`; output `checks/e459_validation_scorecard_v1.json`. Exact ZIP replay: `scripts/native_validation_score.py`, sealed command/input hashes in `specs/e460_native_full_validation_v1.sealed.json`. CV source: `checks/combo_merged_all_folds_report.json` and `E410_complete_predictor.md`.
+
+## Fixed seed-4 replication, 2026-10-04T18:15:19.626717+00:00
+
+E450 finished a reporting-only FP32 cache scorecard over this exact `datasets/valid.parquet` file. The three mixtures and checkpoints were fixed before scoring; no weights were chosen from these scores.
+
+| Fixed predictor | All 1,873 sequences | 1,505 fitted sequences | 368 excluded sequences |
+| --- | ---: | ---: | ---: |
+| Combo seed 3 | 0.700503744 | 0.700631781 | 0.699822159 |
+| Combo seed 4 | 0.700771292 | 0.700545501 | 0.701694557 |
+| Equal seed-3/seed-4 bag | 0.701106873 | 0.701013370 | 0.701420130 |
+
+Seed 4 and the bag have no measured public score. This table uses full-file FP32 cached predictions; the public-confirmed seed-3 ZIP has a separate actual callback score of **0.7005037662576581** above. Neither the fitted portion nor the historically exposed excluded portion is an untouched test. The seed-4 and bag excluded-panel paired intervals include zero.
+
+Raw fixed scorecard: `checks/e450_full_valid_fixed_models_v1.json`; bounded worker `runner/attempts/e450-full-valid-fixed-models-v1.json` finished in 28.67 seconds, peak RAM253,480,960B, no GPU/OOM, verified teardown. Marimo figure: `eda/seed4_replication/full_valid_fixed_mixes.png`.

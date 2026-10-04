@@ -23,15 +23,27 @@ No validation-based epoch selection is permitted.
 
 `distributed_combo.py` accumulates four numerator/denominator pairs locally,
 then `psum`s both across replicas before forming pooled ratios. The gradient
-path uses a scaled local numerator contribution and a `pmean` of gradients for
-replicated parameters; this avoids differentiating a replicated global scalar
-with ambiguous collective transpose scaling. The tests compare pooled loss
-and parameter gradients to the existing unsharded `combo_sbd_loss`, including
-unequal shard mass, a zero-mass shard, and globally zero mass. They require
-two devices and should run on CPU first with two forced host devices. Passing
-these loss tests is necessary but not sufficient: the final TPU worker still
-needs a recurrent state/carry parity test, both-precision Torch forward parity,
-EMA update parity, and strict input/checkpoint/teacher hash checks.
+path uses a scaled local numerator contribution and a single `pmean` of
+gradients for replicated parameters; this avoids differentiating a replicated
+global scalar with ambiguous collective transpose scaling. Global norm
+clipping follows the `clip_grad_norm_` epsilon after replica reduction. Tests
+compare pooled loss, clipped parameter gradients, and one AdamW update to the
+unsharded `combo_sbd_loss`, including unequal shard mass, a zero-mass shard,
+and globally zero mass. A second test checks two-chunk student/EMA carry,
+detached recurrent-state gradients, predictions, and gradients against one
+unsharded reference. They require two devices and should run on CPU first with
+two forced host devices, for example:
+
+```sh
+JAX_PLATFORMS=cpu XLA_FLAGS=--xla_force_host_platform_device_count=2 \
+  PYTHONPATH=src python -m pytest -q tests/test_distributed_combo.py \
+  tests/test_distributed_state_boundary.py
+```
+
+Passing these tests is necessary but not sufficient:
+the final TPU worker still needs both-precision Torch forward parity, EMA
+parameter-update parity, save/load parity, and strict input/checkpoint/teacher
+hash checks.
 
 No scientific fit, accelerator allocation, data conversion, or score claim has
 been made from this draft.
