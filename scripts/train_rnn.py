@@ -64,7 +64,8 @@ from wnn.research_features import (RESEARCH_FEATURE_MODES, research_feature_name
 from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_identity,
                               sample_order_identity, scaler_source_identity)
 from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
-from wnn.spread_aux import PackedSpreadCache, structural_loss, validate_spread_cache
+from wnn.spread_aux import (PackedSpreadCache, structural_loss, validate_spread_cache,
+                            validate_spread_parent)
 from wnn.training_controls import (DistilledLoss, distilled_macro_losses,
                                    detach_boundary_offset, ema_decay_per_update, shuffled_masses)
 from wnn.training_credit import credit_edge_scales
@@ -1039,7 +1040,7 @@ def main():
                     help="optional paired auxiliary cache directory; historical cache remains the default")
     ap.add_argument("--aux-next-k", default="", help="extra event horizons for the next-change aux heads, e.g. 2,4")
     ap.add_argument("--spread-aux-mode", choices=["original", "proxy_known", "current_known"], default="original")
-    ap.add_argument("--spread-cache-root", default="", help="supervision-only fold0 known-code cache")
+    ap.add_argument("--spread-cache-root", default="", help="supervision-only cache bound to the clean fitting population")
     ap.add_argument("--aux-struct", type=float, default=0.0,
                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
@@ -1467,18 +1468,19 @@ def main():
                                   "variant": cache_root.name}
     spread_provenance = None
     if args.spread_aux_mode != "original":
-        if (campaign_split is None or campaign_split.fold != 0 or args.aux_struct <= 0
+        if (campaign_split is None or args.aux_struct <= 0
                 or not args.spread_cache_root or args.train_source != "train+valid"
-                or args.init != "c20260929_since_s3_f0@ep3" or args.seed != 3
-                or args.epochs != 1 or args.checkpoint_policy != "fixed"
-                or args.checkpoint_epoch != 0 or not args.no_eval_during_fit):
-            raise ValueError("known-code spread screen requires fixed one-epoch clean fold0 continuation from seed3 ep3")
+                or not args.init or not args.inherit_init_preprocessing
+                or args.checkpoint_policy != "fixed" or args.checkpoint_epoch != args.epochs - 1
+                or not args.no_eval_during_fit):
+            raise ValueError("known-code spread screen requires a fixed final-epoch clean continuation with inherited parent preprocessing")
         spread_root = Path(args.spread_cache_root)
         if not spread_root.is_absolute():
             spread_root = ROOT / spread_root
         spread_root = spread_root.resolve()
         spread_provenance = validate_spread_cache(spread_root, campaign_split.sha256, train_idx,
-                                                   extra_valid, campaign_split.evaluation_groups)
+                                                   extra_valid, campaign_split.evaluation_groups,
+                                                   sequence_rows=SEQUENCE_LENGTH)
         if json.loads((spread_root / "metadata.json").read_text())["N_SP_AUX"] != N_SP_AUX:
             raise ValueError("spread cache head dimension differs")
         spread_provenance["mode"] = args.spread_aux_mode
@@ -1625,6 +1627,8 @@ def main():
         if args.qat != "none" and init.get("factorization"):
             ap.error("combined QAT and factorized initialization is not implemented")
         validate_campaign_checkpoint(init, args)
+        if args.spread_aux_mode != "original":
+            validate_spread_parent(init, campaign_split.sha256, provenance["fit_row_groups"])
         provenance["initial_checkpoint_sha256"] = file_sha256(init_path)
         model.load_state_dict(init["model"])
         sentinel_metadata = init.get("sentinel_preprocessing")

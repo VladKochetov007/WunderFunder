@@ -27,6 +27,7 @@ def validate_spread_cache(
     train: Iterable[int],
     valid: Iterable[int],
     evaluation: Iterable[int],
+    sequence_rows: int = 20_000,
 ) -> dict:
     """Reject incomplete, changed, or differently partitioned supervised caches."""
     metadata_path = root / "metadata.json"
@@ -56,10 +57,13 @@ def validate_spread_cache(
     ]:
         if file_sha256(root / path_key) != expected:
             raise ValueError(f"spread provenance hash differs: {path_key}")
+    selection = json.loads((root / "selection.json").read_text())
+    if not set(selection.get("map_fit_train_groups", [])).issubset(metadata["fit_train_groups"]):
+        raise ValueError("spread code map used rows outside the fitting population")
     for split, entry in metadata["files"].items():
         if entry["file"] != f"spread_{split}.npy" or entry["shape"] != [
             len(metadata[f"fit_{split}_groups"]),
-            20_000,
+            sequence_rows,
         ]:
             raise ValueError("spread cache file path/shape differs")
         if entry["row_groups"] != metadata[f"fit_{split}_groups"]:
@@ -81,6 +85,27 @@ def validate_spread_cache(
         "supervision_only": True,
         "unknown": UNKNOWN,
     }
+
+
+def validate_spread_parent(checkpoint: dict, split_sha256: str, fit_groups: dict) -> None:
+    """Admit modern parents while retaining fixed selection and exact population lineage."""
+    args = checkpoint.get("args", {})
+    if (
+        args.get("split_manifest_sha256") != split_sha256
+        or args.get("checkpoint_policy") != "fixed"
+        or not args.get("no_eval_during_fit")
+        or checkpoint.get("epoch") != args.get("checkpoint_epoch")
+        or args.get("aux_struct", 0) <= 0
+    ):
+        raise ValueError(
+            "spread parent needs a matching clean fixed checkpoint and existing structural head"
+        )
+    parent_groups = checkpoint.get("provenance", {}).get("fit_row_groups", {})
+    for split in ("train", "valid"):
+        if sorted(parent_groups.get(split, [])) != sorted(map(int, fit_groups[split])):
+            raise ValueError(
+                "spread parent fit membership differs from the continuation population"
+            )
 
 
 class PackedSpreadCache:
