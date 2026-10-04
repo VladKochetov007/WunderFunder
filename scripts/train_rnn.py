@@ -951,8 +951,8 @@ def main():
     ap.add_argument("--detach-boundary-jitter", action="store_true",
                     help="randomize detach phase inside unchanged macro updates; requires chunk < detach rows")
     ap.add_argument("--detach-jitter-seed", type=int, default=271828)
-    ap.add_argument("--origin-view", choices=["off", "prefix-fixed", "prefix-random"], default="off",
-                    help="replay causal prefixes before every update; fixed/random arms match rows and prefix work")
+    ap.add_argument("--origin-view", choices=["off", "prefix-fixed", "prefix-random", "prefix-discard"], default="off",
+                    help="replay causal prefixes before updates; discard matches fixed replay work while retaining carried state")
     ap.add_argument("--origin-seed", type=int, default=79079)
     ap.add_argument("--credit-mode", choices=["deterministic", "random-uncompensated", "artbp"],
                     default="deterministic", help="random recurrent credit within fixed update windows only")
@@ -1726,6 +1726,7 @@ def main():
             "prefix_rows_per_sequence": sum(window.start for window in initial_windows),
             "supervised_rows_per_sequence": SEQUENCE_LENGTH,
             "variable_update_width": args.origin_view == "prefix-random",
+            "uses_replayed_state": args.origin_view != "prefix-discard",
             "ema_clock": "actual update rows" if args.ema_reference_rows else "attempted updates including AMP skips"})
     # Bind the runtime only after lazy loaders/optimizers have initialized, and
     # use that same explicit thread budget for uninterrupted and resumed fits.
@@ -1868,6 +1869,7 @@ def main():
                             return forward_chunk(ema_model.module, inputs, window, state)
 
                     if args.origin_view != "off":
+                        carried_h, carried_h_ema = h, h_ema
                         h = h_ema = None
                         with torch.no_grad():
                             for prefix_start in range(0, sl.start, args.chunk):
@@ -1875,6 +1877,8 @@ def main():
                                 _, h = raw_forward(prefix, h)
                                 if args.ema_teacher:
                                     _, h_ema = teacher_forward(prefix, h_ema)
+                        if args.origin_view == "prefix-discard":
+                            h, h_ema = carried_h, carried_h_ema
                     opt.zero_grad(set_to_none=True)
                     loss = torch.zeros((), device=device)
                     configuration = DistilledLoss(
