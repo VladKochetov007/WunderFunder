@@ -1215,6 +1215,13 @@ def main():
     args = ap.parse_args()
     if args.recurrent_rank < 0:
         ap.error("--recurrent-rank cannot be negative")
+    if args.arch == "specialist":
+        if args.rnn_init != "default":
+            ap.error("--arch specialist currently supports only --rnn-init default")
+        if args.muon_scope == "hidden":
+            ap.error("--arch specialist supports Muon recurrent matrices only; --muon-scope hidden is unsupported")
+        if args.head_lr_mult != 1:
+            ap.error("--arch specialist has multiple heads; --head-lr-mult is unsupported")
     if args.qat != "none" and (args.precision != "fp32" or args.arch != "gru"
                                or args.cell != "gru" or args.enc != "linear"):
         ap.error("QAT requires explicit --precision fp32 with plain GRU and linear input encoder")
@@ -1357,12 +1364,13 @@ def main():
                 or detach_rows % args.chunk or update_rows % detach_rows
                 or SEQUENCE_LENGTH % update_rows):
             ap.error("controlled micro/detach/update rows must divide each other and the sequence length")
-        if (not args.distill or args.loss != "wmse" or args.arch != "gru" or args.enc != "linear" or args.dropout
+        if (not args.distill or args.loss != "wmse" or args.arch not in ("gru", "specialist", "prefix-adapter")
+                or args.enc != "linear" or args.dropout
                 or args.distill_alpha_far is not None or args.td_alpha
                 or args.aux or args.aux_next_k or args.aux_tier or args.aux_mask
                 or args.aux_sign or args.aux_quote or args.thin_prob
                 or args.spread_aux_mode != "original" or args.loss_norm != "chunk"):
-            ap.error("controlled macro losses support the cached-distilled GRU wmse/EMA/struct/next recipe only")
+            ap.error("controlled macro losses require cached-distilled GRU-family wmse, linear encoding, and no auxiliary arms")
         if args.distill_denominator != "chunk" and (
                 args.distill_reference_mass <= 0 or not math.isfinite(args.distill_reference_mass)):
             ap.error("fixed/shuffled distilled normalization needs a positive finite frozen reference mass")

@@ -107,9 +107,11 @@ def _gates(rnn: nn.Module) -> int:
 def muon_param_groups(model: nn.Module, scope: str = "rnn") -> list[dict]:
     """Trainable parameters split for MuonAdamW.
 
-    scope 'rnn': the recurrent core's ``weight_ih_l*`` / ``weight_hh_l*`` (one Muon block per gate);
-    scope 'hidden': also the head's hidden layer ``head.0.weight``. The input projection ``inp`` (first layer), the
-    output layer and all biases stay on AdamW, as Muon prescribes for input/output layers and vectors.
+    scope 'rnn': ``model.gru`` and optional ``model.experts`` recurrent
+    ``weight_ih_l*`` / ``weight_hh_l*`` matrices (one Muon block per gate);
+    scope 'hidden': also the head's hidden layer ``head.0.weight``. The input
+    projection ``inp`` (first layer), output layers and biases stay on AdamW,
+    as Muon prescribes for input/output layers and vectors.
     """
     if scope not in ("rnn", "hidden"):
         raise ValueError(scope)
@@ -117,11 +119,19 @@ def muon_param_groups(model: nn.Module, scope: str = "rnn") -> list[dict]:
     if not isinstance(rnn, (nn.GRU, nn.LSTM)):
         raise ValueError("Muon groups need an RNNModel-style recurrent core at model.gru")
     gates = _gates(rnn)
+    recurrent_prefixes = ("gru.weight_",)
+    experts = getattr(model, "experts", None)
+    if experts is not None:
+        if not isinstance(experts, nn.ModuleList):
+            raise ValueError("Muon specialist experts must be an nn.ModuleList")
+        if any(type(expert) is not type(rnn) or _gates(expert) != gates for expert in experts):
+            raise ValueError("Muon requires specialist experts with the same recurrent gate layout")
+        recurrent_prefixes += tuple(f"experts.{index}.weight_" for index in range(len(experts)))
     gate_mats, hidden_mats, adam = [], [], []
     for name, p in model.named_parameters():
         if not p.requires_grad:
             continue
-        if name.startswith("gru.weight_"):
+        if name.startswith(recurrent_prefixes):
             gate_mats.append(p)
         elif scope == "hidden" and name == "head.0.weight":
             hidden_mats.append(p)
