@@ -19,7 +19,11 @@ def export_control(source: Path, output: Path, rank: int) -> None:
         raise ValueError(
             "rank control requires an inference checkpoint, not raw continuation state"
         )
-    if checkpoint.get("factorization") or checkpoint.get("quantization"):
+    if (
+        checkpoint.get("factorization")
+        or checkpoint.get("quantization")
+        or checkpoint.get("sentinel_preprocessing")
+    ):
         raise ValueError("rank control requires an unfactorized float parent")
     if output.exists():
         raise FileExistsError(f"refusing to overwrite control checkpoint: {output}")

@@ -19,6 +19,7 @@ from train_rnn import Sequences, make_model, predict
 from wnn.propensity import load_propensity
 from wnn.resources import configure_torch, dataloader_budget
 from wnn.splits import file_sha256
+from wnn.sentinel import SentinelPreprocessor
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -46,6 +47,8 @@ def main():
     device = torch.device("cuda")
     model = make_model(ck["args"], ck["n_in"], ck["model"]["head.2.weight"].shape[0]).to(device)
     model.load_state_dict(ck["model"])
+    train_rnn.SENTINEL_PREPROCESSOR = (SentinelPreprocessor(ck["sentinel_preprocessing"])
+                                     if ck.get("sentinel_preprocessing") else None)
     if (args.inference_precision == "fp32" or ck["args"].get("precision") == "fp32"
             or ck.get("quantization") is not None or ck.get("factorization") is not None):
         model._inference_fp32 = True
@@ -107,6 +110,7 @@ def main():
         "inference_precision": "fp32" if getattr(model, "_inference_fp32", False) else "fp16",
         "quantization_preset": ck.get("quantization", {}).get("preset"),
         "recurrent_rank": ck.get("factorization", {}).get("rank"),
+        "sentinel_preprocessing": ck.get("sentinel_preprocessing"),
         "row_groups": groups.tolist(),
     }
     final.with_suffix(".json").write_text(json.dumps(metadata, indent=2) + "\n")

@@ -73,6 +73,9 @@ from wnn.training_dynamics import (Dynamics, add_arguments as add_dynamics_argum
 from wnn.training_sampling import EpochOrderSampler, init_qmc_
 from wnn.training_factorized import (configure_factorized, factorized_forward,
                                       factorized_inference_state)
+from wnn.sentinel import (INDICATOR_MODES, VALUE_MODES, SentinelInputProjection,
+                          SentinelPreprocessor)
+from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
 from wnn.training_qat import (QAT_MODES, configure_qat, inference_state,
                               invalidate_qat_cache, qat_forward)
 from wnn.training_state import (atomic_save_training_state, capture_training_state,
@@ -418,6 +421,7 @@ RAW_ONLY = False  # zero the event-feature block (organizer-style raw view; keep
 RESEARCH_FEATURES = "none"  # causal full-sequence features, before TBPTT slicing
 PRIVILEGED_MODE = "none"  # teacher-only current/future controls, never a deployed input
 PRIVILEGED_HORIZON = 8
+SENTINEL_PREPROCESSOR = None  # frozen, input-only raw-level intervention
 
 
 def build_inputs(x):
@@ -439,6 +443,8 @@ def build_inputs(x):
             prop_inputs = torch.cat([prop_inputs, extra], dim=-1)
     if INPUT_PROPENSITY is not None:
         inputs = torch.cat([inputs, propensity(INPUT_PROPENSITY, prop_inputs)[..., None].to(inputs.dtype)], dim=-1)
+    if SENTINEL_PREPROCESSOR is not None:
+        inputs = SENTINEL_PREPROCESSOR.torch(inputs)
     return inputs
 
 
@@ -491,7 +497,7 @@ def episode_redundancy_weight(y: torch.Tensor, scale: float, floor: float) -> to
     return torch.where(sequence_class(y)[:, None] == 3, weight, 1.0)
 
 
-def main_row_weights(inputs, y, valid, scored, prop_model, prop_cached, args):
+def main_row_weights(inputs, y, valid, scored, prop_model, prop_cached, args, raw=None):
     """Shared fit/calibration weights, including the batch-level true-mask scale."""
     main_valid = valid & scored if args.mask_weight else valid
     if prop_model is not None:
@@ -500,7 +506,12 @@ def main_row_weights(inputs, y, valid, scored, prop_model, prop_cached, args):
         elif args.prop_cache:
             raise RuntimeError("--prop-cache set but the batch carries no cached propensity")
         else:
-            prob = propensity(prop_model, inputs[..., : N_FEATURES + N_EVENT_FEATURES])
+            prop_inputs = inputs[..., : N_FEATURES + N_EVENT_FEATURES]
+            if SENTINEL_PREPROCESSOR is not None:
+                if raw is None:
+                    raise ValueError("sentinel weighting requires original raw propensity inputs")
+                prop_inputs = torch.cat((raw[..., :N_FEATURES], prop_inputs[..., N_FEATURES:]), -1)
+            prob = propensity(prop_model, prop_inputs)
         main_valid = valid.float() * (prob ** args.prop_power + args.prop_eps)
         if args.class_weight:
             cw = torch.tensor([float(v) for v in args.class_weight.split(",")], device=y.device)
@@ -536,7 +547,7 @@ def calibrate_distill_reference(args, train_loader, prop_model, provenance, devi
             y = target[..., :2]
             valid = torch.arange(x.shape[1], device=device)[None].expand(x.shape[:2]) >= WARMUP
             cached = rest[0].to(device) if rest else None
-            weights = main_row_weights(build_inputs(x), y, valid, scored, prop_model, cached, args)
+            weights = main_row_weights(build_inputs(x), y, valid, scored, prop_model, cached, args, x)
             mass = y.float().clamp(-2, 2).abs() * weights[..., None]
             windows = origin_windows(x.shape[1], update_rows, args.chunk, args.origin_view,
                                      args.origin_seed, epoch, batch)
@@ -614,7 +625,10 @@ def inference_checkpoint_fields(model: torch.nn.Module, source: str) -> dict:
         exported, metadata = factorized_inference_state(model, source)
         return {"model": exported, "factorization": metadata}
     exported, metadata = inference_state(model, source)
-    return {"model": exported, **({"quantization": metadata} if metadata is not None else {})}
+    result = {"model": exported, **({"quantization": metadata} if metadata is not None else {})}
+    if hasattr(model, "_sentinel_preprocessing"):
+        result["sentinel_preprocessing"] = model._sentinel_preprocessing
+    return result
 
 
 def detach_state(state):
@@ -671,7 +685,7 @@ def make_model(args_dict, n_in, n_out):
             args_dict["dropout"],
             n_out=n_out,
         )
-    return RNNModel(
+    model = RNNModel(
         n_in,
         args_dict["hidden"],
         args_dict["layers"],
@@ -683,6 +697,9 @@ def make_model(args_dict, n_in, n_out):
         att_layers=args_dict.get("att_layers", 1),
         conv_k=args_dict.get("conv_k", 16),
     )
+    if args_dict.get("sentinel_indicators", "none") != "none":
+        model.inp = SentinelInputProjection(model.inp, args_dict["sentinel_base_width"])
+    return model
 
 
 @torch.no_grad()
@@ -809,6 +826,9 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
         "research_features",
         "privileged_mode",
         "privileged_horizon",
+        "sentinel_values",
+        "sentinel_indicators",
+        "sentinel_base_width",
         "prop_input",
         "aux",
         "aux_struct",
@@ -942,6 +962,10 @@ def main():
                     help="weight-only nearest-even q8 with identity STE; paired float control must use the same fp32 recipe")
     ap.add_argument("--recurrent-rank", type=int, default=0,
                     help="SVD-initialized rank per stacked GRU matrix; 0 preserves dense recurrence")
+    ap.add_argument("--sentinel-values", choices=VALUE_MODES, default="unchanged")
+    ap.add_argument("--sentinel-indicators", choices=INDICATOR_MODES, default="none")
+    ap.add_argument("--sentinel-base-width", type=int, default=0,
+                    help="inherited only from a frozen sentinel_prepare initializer")
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--stop-after-epoch", type=int, default=None,
@@ -1155,6 +1179,15 @@ def main():
             or args.recurrent_rank > args.hidden):
         ap.error("factorized recurrence needs dense --init, plain GRU, linear encoder, rank <= hidden, "
                  "AdamW, explicit FP32, no QAT or optimizer switch")
+    if (args.sentinel_base_width or args.sentinel_values != "unchanged"
+            or args.sentinel_indicators != "none"):
+        if (not args.init or not args.inherit_init_preprocessing or args.sentinel_base_width < N_FEATURES
+                or args.arch != "gru" or args.cell != "gru" or args.enc != "linear"
+                or args.qat != "none" or args.recurrent_rank):
+            ap.error("sentinel arms require a prepared plain dense GRU --init with --inherit-init-preprocessing")
+        if args.sentinel_indicators != "none" and any("inp".startswith(prefix)
+                for prefix in filter(None, args.freeze.split(","))):
+            ap.error("sentinel indicator arms require trainable input-projection columns")
     configure_checkpoint_policy(args, ap)
     continuation = bool(args.save_training_state or args.resume_state)
     if continuation and (args.checkpoint_policy != "fixed" or args.checkpoint_epoch != args.epochs - 1):
@@ -1506,6 +1539,8 @@ def main():
     RESEARCH_FEATURES = args.research_features
     global PRIVILEGED_MODE, PRIVILEGED_HORIZON
     PRIVILEGED_MODE, PRIVILEGED_HORIZON = args.privileged_mode, args.privileged_horizon
+    global SENTINEL_PREPROCESSOR
+    SENTINEL_PREPROCESSOR = None
     n_in = (N_FEATURES + N_EVENT_FEATURES + len(research_feature_names(RESEARCH_FEATURES))
             + (N_FEATURES if PRIVILEGED_MODE != "none" else 0))
     if args.raw_only:
@@ -1525,6 +1560,11 @@ def main():
         global INPUT_PROPENSITY
         INPUT_PROPENSITY = load_propensity(ROOT / "artifacts" / "runs" / args.prop_input / "model.pt", device)
         n_in += 1
+    if args.sentinel_base_width:
+        if n_in != args.sentinel_base_width:
+            ap.error("sentinel parent base width differs from inherited preprocessing")
+        if args.sentinel_indicators != "none":
+            n_in += N_FEATURES
     if args.loss == "ce_joint" and shifts:
         ap.error("--aux is not supported with the outcome-code head")
     n_out = N_CODES if args.loss == "ce_joint" else 2 + 2 * len(shifts)
@@ -1565,6 +1605,19 @@ def main():
         validate_campaign_checkpoint(init, args)
         provenance["initial_checkpoint_sha256"] = file_sha256(init_path)
         model.load_state_dict(init["model"])
+        sentinel_metadata = init.get("sentinel_preprocessing")
+        if bool(sentinel_metadata) != bool(args.sentinel_base_width):
+            ap.error("sentinel metadata requires matching inherited preprocessing options")
+        if sentinel_metadata:
+            if (sentinel_metadata["value_mode"] != args.sentinel_values
+                    or sentinel_metadata["indicators"] != args.sentinel_indicators
+                    or sentinel_metadata["base_width"] != args.sentinel_base_width):
+                ap.error("sentinel initializer modes differ from training options")
+            SENTINEL_PREPROCESSOR = SentinelPreprocessor(sentinel_metadata)
+            validate_sentinel_fit(sentinel_metadata["calibration"], ROOT,
+                                  provenance["fit_row_groups"], provenance["split_manifest_sha256"])
+            model._sentinel_preprocessing = sentinel_metadata
+            provenance["sentinel_preprocessing"] = sentinel_metadata
     elif saved_training is None:
         fit_normalization(model, train_loader, device)
     configure_factorized(model, args.recurrent_rank)
@@ -1758,7 +1811,7 @@ def main():
             valid = steps >= WARMUP
             if kept_len is not None:
                 valid = valid & (steps < kept_len[:, None])
-            main_valid = main_row_weights(inputs, y, valid, scored_dev, prop_model, prop_cached, args)
+            main_valid = main_row_weights(inputs, y, valid, scored_dev, prop_model, prop_cached, args, x)
             timer.mark("weights")
             aux = shifted_targets(y, valid, shifts)
             if args.aux_struct > 0:
