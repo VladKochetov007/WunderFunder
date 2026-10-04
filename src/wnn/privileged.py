@@ -75,7 +75,7 @@ def validate_teacher_checkpoint(checkpoint: dict, outer: CampaignSplit) -> dict:
         or args.get("distill")
         or args.get("propensity")
         or args.get("prop_input")
-        or args.get("privileged_mode") not in ("current", "future")
+        or args.get("privileged_mode", "none") not in PRIVILEGED_MODES
         or args.get("checkpoint_policy") != "fixed"
         or not args.get("no_eval_during_fit")
         or checkpoint.get("epoch") != args.get("checkpoint_epoch")
@@ -88,10 +88,29 @@ def validate_teacher_checkpoint(checkpoint: dict, outer: CampaignSplit) -> dict:
     return inner
 
 
+def teacher_prediction_groups(checkpoint: dict, inner: dict, exposure: str) -> dict:
+    """Choose excluded rows or a two-fold ordinary fitted-row exposure control."""
+    if exposure == "excluded":
+        return inner["predict"]
+    if (
+        exposure != "fitted"
+        or inner["folds"] != 2
+        or checkpoint["args"].get("privileged_mode", "none") != "none"
+    ):
+        raise ValueError("fitted exposure requires exactly two ordinary causal inner teachers")
+    return inner["fit"]
+
+
 def validate_crossfit_cache(sidecar: dict, outer: CampaignSplit, root: Path, split: str) -> None:
-    """Verify each consumed cache row was predicted by an excluding teacher checkpoint."""
-    if sidecar.get("crossfit_format") != "wnn.origin-teacher-crossfit.v1":
+    """Verify every row's declared teacher exposure and outer-evaluation exclusion."""
+    if sidecar.get("crossfit_format") not in (
+        "wnn.origin-teacher-crossfit.v1",
+        "wnn.component-teacher-cache.v1",
+    ):
         raise ValueError("unsupported crossfit teacher cache")
+    exposure = sidecar.get("target_exposure", "excluded")
+    if sidecar["crossfit_format"] == "wnn.origin-teacher-crossfit.v1" and exposure != "excluded":
+        raise ValueError("legacy crossfit metadata cannot describe fitted-row exposure")
     if sidecar.get("row_map_sha256") != file_sha256(root / "cache" / f"{split}_targets.npz"):
         raise ValueError("crossfit target row map bytes changed")
     covered: set[int] = set()
@@ -115,7 +134,7 @@ def validate_crossfit_cache(sidecar: dict, outer: CampaignSplit, root: Path, spl
         if specification is not None and current != specification:
             raise ValueError("crossfit teacher arms or component assignments differ")
         specification = current
-        groups = set(inner["predict"][split])
+        groups = set(teacher_prediction_groups(checkpoint, inner, exposure)[split])
         if sorted(groups) != entry["predicted_groups"][split] or covered & groups:
             raise ValueError("crossfit cache has a duplicate or misassigned prediction row")
         covered.update(groups)

@@ -1213,8 +1213,7 @@ def main():
     if args.fit_groups_manifest is not None:
         if (campaign_split is None or args.train_source != "train+valid"
                 or args.init or args.distill or args.propensity or args.prop_input
-                or args.train_seqs != 10607 or args.valid_train_fraction != 1 or args.train_classes
-                or args.privileged_mode == "none"):
+                or args.train_seqs != 10607 or args.valid_train_fraction != 1 or args.train_classes):
             ap.error("inner crossfit requires a fresh train+valid teacher, no learned external ancestors, and full inner membership")
         inner_crossfit = load_inner_manifest(args.fit_groups_manifest, campaign_split)
         args.fit_groups_manifest_sha256 = file_sha256(args.fit_groups_manifest)
@@ -1542,7 +1541,7 @@ def main():
                   "evaluation_row_groups": valid_idx.tolist(), "checkpoint_sha256": {}}
     if inner_crossfit is not None:
         provenance["inner_crossfit"] = inner_crossfit
-        provenance["deployment_safe"] = False
+        provenance["deployment_safe"] = args.privileged_mode == "none"
     if args.arch == "structured":
         provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/structured_state.py")
     if spread_provenance is not None:
