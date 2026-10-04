@@ -169,9 +169,7 @@ def service_command(
         "-p",
         "MemorySwapMax=0",
         "-p",
-        "MemoryOOMGroup=yes",
-        "-p",
-        "OOMPolicy=stop",
+        "OOMPolicy=kill",
         "-p",
         "KillMode=control-group",
         "-p",
@@ -220,16 +218,19 @@ def launch(
     except (AdmissionBusy, BudgetExhausted, FileExistsError):
         raise
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+        detail = str(error)
+        if isinstance(error, subprocess.CalledProcessError) and error.stderr:
+            detail += f"; stderr: {error.stderr.strip()}"
         if record is not None:
             record.update(
                 status="launch_uncertain",
-                failure=str(error),
+                failure=detail,
                 charged_seconds=record["reserved_seconds"],
                 finished_unix=time.time(),
             )
             atomic_json(state / "attempts" / f"{attempt}.json", record)
         if not (state / "PAUSE.json").exists():
-            pause(state, f"admission failed: {error}", attempt)
+            pause(state, f"admission failed: {detail}", attempt)
         raise
     return record
 
@@ -305,6 +306,8 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
         ):
             raise RuntimeError("worker is outside its reserved service cgroup")
         group = Path("/sys/fs/cgroup") / expected.lstrip("/")
+        if (group / "memory.oom.group").read_text().strip() != "1":
+            raise RuntimeError("worker cgroup does not kill the entire group on OOM")
         initial_oom = memory_events(group).get("oom_kill", 0)
         if spec["kind"] == "gpu":
             lock_handle = (state / "gpu.lock").open("a")

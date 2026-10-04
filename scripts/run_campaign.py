@@ -56,7 +56,7 @@ def main() -> int:
     elif args.action == "launch":
         spec = campaign_spec.validate_spec(campaign.read_json(args.spec))
         record = campaign_local.launch(
-            root, state, spec, args.attempt, str(Path(args.python).resolve())
+            root, state, spec, args.attempt, str(Path(args.python).absolute())
         )
         print(json.dumps({"id": record["id"], "unit": record["unit"], "status": record["status"]}))
     elif args.action == "worker":

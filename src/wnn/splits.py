@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from collections.abc import Iterable
 from pathlib import Path
 from typing import NamedTuple
@@ -118,7 +119,12 @@ def load_campaign_split(path: Path, root: Path) -> CampaignSplit:
     for name, identity in manifest["sources"].items():
         source = root / name
         stat = source.stat()
-        if stat.st_size != identity["bytes"] or stat.st_mtime_ns != identity["mtime_ns"]:
+        portable_registry = os.environ.get("WNN_PORTABLE_DATA_MANIFEST")
+        if portable_registry:
+            from wnn.portability import verify_portable_source
+
+            verify_portable_source(source, name, identity, Path(portable_registry))
+        elif stat.st_size != identity["bytes"] or stat.st_mtime_ns != identity["mtime_ns"]:
             raise ValueError(f"campaign source changed: {source}")
         if "sha256" in identity and file_sha256(source) != identity["sha256"]:
             raise ValueError(f"campaign source hash changed: {source}")

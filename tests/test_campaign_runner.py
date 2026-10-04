@@ -220,6 +220,8 @@ def test_service_is_bounded_and_does_not_forward_secrets(
     assert "--slice=wnn-campaign.slice" in command
     assert "MemorySwapMax=0" in command
     assert "KillMode=control-group" in command
+    assert "OOMPolicy=kill" in command
+    assert "MemoryOOMGroup=yes" not in command
     assert "Restart=no" in command
     assert "RuntimeMaxSec=120" in command
     monkeypatch.setenv("API_TOKEN", "secret")
@@ -321,6 +323,8 @@ def test_worker_lifecycle_without_launching_processes(
             return f"0::{group}\n"
         if str(path).endswith("/memory.current"):
             return "2000000"
+        if str(path).endswith("/memory.oom.group"):
+            return "1"
         return original_read(path, *args, **kwargs)
 
     monkeypatch.setattr(Path, "read_text", read)
