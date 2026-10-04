@@ -1,0 +1,47 @@
+{
+  "kind": "compatibility_only",
+  "device_requested": "cuda",
+  "python": "3.13.15",
+  "cgroup": "0::/\n",
+  "environment": {
+    "WNN_THREADS": "1",
+    "WNN_GPU_MEMORY_BYTES": "11811160064",
+    "CUDA_VISIBLE_DEVICES": "GPU-25835970-84ff-b806-8c45-ca2e5afa1850",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8"
+  },
+  "checks": [
+    {
+      "batch": 1,
+      "rows": 64,
+      "hidden": 16,
+      "loss": 1.135811686515808,
+      "grad_norm": 0.1536508947610855,
+      "split_max_abs": 0.0,
+      "peak_allocator_bytes": 85146112,
+      "peak_reserved_bytes": 88080384
+    },
+    {
+      "batch": 16,
+      "rows": 1000,
+      "hidden": 256,
+      "loss": 1.0034748315811157,
+      "grad_norm": 0.051043763756752014,
+      "split_max_abs": 7.450580596923828e-08,
+      "peak_allocator_bytes": 314354688,
+      "peak_reserved_bytes": 398458880
+    }
+  ],
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "cudnn": 91900,
+  "hardware": {
+    "name": "Tesla T4",
+    "total_bytes": 15636037632,
+    "capability": [
+      7,
+      5
+    ]
+  },
+  "status": "passed",
+  "wall_seconds": 28.319888039000034
+}

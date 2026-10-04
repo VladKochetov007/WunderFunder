@@ -1,0 +1,104 @@
+"""Thread and allocator limits for the resource-constrained research campaign.
+
+The hard limits (CPU quota, memory cap, no swap) come from ``scripts/limited``;
+this module keeps thread pools and GPU usage inside the same budget.
+"""
+
+from __future__ import annotations
+
+import os
+import time
+
+CPU_FRACTION = 0.75
+# Allocator limits supplement the campaign's total-device 5 GB VRAM monitor.
+GPU_FRACTION = min(0.75, float(os.environ.get("WNN_GPU_FRACTION", "0.70")))
+# GPU busy-time rate limit per job (DutyCycle). 1.0 = no throttling (the single-job fast path);
+# set WNN_GPU_DUTY below 1 only to deliberately share the GPU with other work.
+GPU_DUTY = min(1.0, float(os.environ.get("WNN_GPU_DUTY", "1.0")))
+
+
+def cpu_threads() -> int:
+    env = os.environ.get("WNN_THREADS")
+    if env:
+        return max(1, int(env))
+    return max(1, int((os.cpu_count() or 1) * CPU_FRACTION))
+
+
+class DutyCycle:
+    """Sleep after each unit of work so that busy time stays at ``fraction`` of wall time."""
+
+    def __init__(self, fraction: float, clock=time.perf_counter, sleep=time.sleep):
+        if not 0.0 < fraction <= 1.0:
+            raise ValueError("fraction must be in (0, 1]")
+        self.fraction = fraction
+        self._clock = clock
+        self._sleep = sleep
+        self._mark = clock()
+
+    def tick(self) -> None:
+        busy = self._clock() - self._mark
+        pause = busy * (1.0 - self.fraction) / self.fraction
+        if pause > 0:
+            self._sleep(pause)
+        self._mark = self._clock()
+
+
+def configure_torch(gpu_fraction: float | None = None, duty: float | None = None):
+    """Cap torch CPU threads and GPU memory; return a GPU DutyCycle, or None when not rate-limited.
+
+    WNN_GPU_MEMORY_BYTES overrides the legacy fractional allocator cap when explicitly set.
+    The rate limit comes from WNN_GPU_DUTY (default 1.0 = none).
+    With a DutyCycle, call ``torch.cuda.synchronize()`` then ``duty.tick()`` at step ends.
+    """
+    import torch
+
+    gpu_fraction = GPU_FRACTION if gpu_fraction is None else min(gpu_fraction, GPU_FRACTION)
+    torch.set_num_threads(cpu_threads())
+    if torch.cuda.is_available():
+        memory_bytes = os.environ.get("WNN_GPU_MEMORY_BYTES")
+        if memory_bytes is not None:
+            total = torch.cuda.get_device_properties(torch.cuda.current_device()).total_memory
+            gpu_fraction = allocator_fraction(memory_bytes, total)
+        torch.cuda.set_per_process_memory_fraction(gpu_fraction)
+        torch.backends.cudnn.benchmark = False
+        torch.backends.cudnn.deterministic = True
+    duty = GPU_DUTY if duty is None else min(duty, GPU_DUTY)
+    return DutyCycle(duty) if duty < 1.0 else None
+
+
+def allocator_fraction(memory_bytes: str, total_bytes: int) -> float:
+    """Validate a byte-based allocation ceiling without confusing GB and GiB.
+
+    This limits the PyTorch allocator only; the campaign monitor separately observes
+    total device usage, including the CUDA context and other processes.
+    """
+    if not memory_bytes.isascii() or not memory_bytes.isdigit():
+        raise ValueError("WNN_GPU_MEMORY_BYTES must be an integer byte count")
+    limit = int(memory_bytes)
+    if not 0 < limit <= total_bytes:
+        raise ValueError("WNN_GPU_MEMORY_BYTES must fit the selected device")
+    return limit / total_bytes
+
+
+def dataloader_budget(
+    batch_bytes: int, ram_budget_bytes: int | None = None, max_workers: int = 4
+) -> tuple[int, int]:
+    """Budget queued batches plus one consumed and one pinned/in-flight copy.
+
+    ``batch_bytes`` must include all tensors (features, targets and teachers).
+    Resident datasets, model state and worker overhead need a separate reserve.
+    Zero workers uses synchronous loading; callers must omit prefetch_factor.
+    """
+    if ram_budget_bytes is None:
+        ram_budget_bytes = int(float(os.environ.get("WNN_LOADER_RAM_GB", "6")) * (1 << 30))
+    max_workers = min(max_workers, int(os.environ.get("WNN_LOADER_WORKERS", max_workers)))
+    if batch_bytes <= 0 or ram_budget_bytes <= 0 or max_workers < 0:
+        raise ValueError("batch and RAM budgets must be positive; workers nonnegative")
+    capacity = ram_budget_bytes // batch_bytes
+    if capacity < 2:
+        raise ValueError("loader RAM budget cannot hold a batch and its in-flight copy")
+    workers = min(max_workers, max(1, cpu_threads() // 2), capacity - 2)
+    if workers == 0:
+        return 0, 0
+    prefetch = min(2, (capacity - 2) // workers)
+    return workers, prefetch
