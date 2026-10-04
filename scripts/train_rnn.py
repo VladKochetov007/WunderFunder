@@ -77,6 +77,7 @@ from wnn.training_factorized import (configure_factorized, factorized_forward,
 from wnn.sentinel import (INDICATOR_MODES, VALUE_MODES, SentinelInputProjection,
                           SentinelPreprocessor)
 from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
+from wnn.specialist import PrefixAdapterGRUModel, SpecialistGRUModel
 from wnn.training_qat import (QAT_MODES, configure_qat, inference_state,
                               invalidate_qat_cache, qat_forward)
 from wnn.training_state import (atomic_save_training_state, capture_training_state,
@@ -647,6 +648,38 @@ def detach_state(state):
 
 
 def make_model(args_dict, n_in, n_out):
+    if args_dict.get("arch") == "specialist":
+        if (
+            args_dict.get("cell", "gru") != "gru"
+            or args_dict.get("enc", "linear") != "linear"
+            or args_dict["layers"] != 1
+            or args_dict["dropout"] != 0
+        ):
+            raise ValueError("specialist requires one-layer GRUs, dropout0, and linear input encoding")
+        return SpecialistGRUModel(
+            n_in,
+            args_dict["hidden"],
+            args_dict.get("expert_hidden", 32),
+            args_dict.get("num_experts", 4),
+            args_dict["layers"],
+            n_out=n_out,
+            route=args_dict.get("specialist_route", "learned"),
+            prefix_rows=args_dict.get("prefix_rows", 99),
+            hash_seed=args_dict.get("hash_seed", 1729),
+        )
+    if args_dict.get("arch") == "prefix-adapter":
+        if args_dict.get("cell", "gru") != "gru" or args_dict.get("enc", "linear") != "linear":
+            raise ValueError("prefix-adapter currently requires --cell gru and --enc linear")
+        return PrefixAdapterGRUModel(
+            n_in,
+            args_dict["hidden"],
+            args_dict["layers"],
+            args_dict["dropout"],
+            n_out=n_out,
+            rank=args_dict.get("adapter_rank", 8),
+            mode=args_dict.get("adapter_mode", "conditional"),
+            prefix_rows=args_dict.get("prefix_rows", 99),
+        )
     if args_dict.get("arch") == "structured":
         if (args_dict["hidden"] != 96 or args_dict["layers"] != 2
                 or args_dict["dropout"] != 0
@@ -829,6 +862,13 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
         "conv_k",
         "tcn_mix",
         "event_hidden",
+        "expert_hidden",
+        "num_experts",
+        "specialist_route",
+        "hash_seed",
+        "adapter_rank",
+        "adapter_mode",
+        "prefix_rows",
         "online_norm",
         "raw_only",
         "heuristics",
@@ -1045,14 +1085,30 @@ def main():
                     help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class")
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
-    ap.add_argument("--arch", choices=["gru", "dual", "gated", "structured", "event-content", "tcn", "twoclock"],
+    ap.add_argument("--arch", choices=["gru", "dual", "gated", "structured", "event-content", "tcn", "twoclock",
+                                       "specialist", "prefix-adapter"],
                     default="gru",
                     help="tcn: causal dilated conv stack, --hidden channels, --layers blocks (receptive field 2^layers); "
-                         "twoclock: --layers x GRU(--hidden) on rows + GRU(--event-hidden) stepping on a6 endpoint rows")
+                         "twoclock: --layers x GRU(--hidden) on rows + GRU(--event-hidden) stepping on a6 endpoint rows; "
+                         "specialist: shared GRU plus always-updated expert GRUs; prefix-adapter: matched low-rank arms")
     ap.add_argument("--tcn-mix", type=int, default=0, help="--arch tcn: GELU + 1x1 conv after each block's conv")
     ap.add_argument("--decay-init", choices=["multi", "single"], default="multi",
                     help="structured-state initial half-lives; identical learned bounds and phases")
     ap.add_argument("--memory-arm", choices=["endpoint-content", "endpoint-position", "raw-code-content"], default="endpoint-content")
+    ap.add_argument("--expert-hidden", type=int, default=32,
+                    help="--arch specialist: hidden width of each always-updated expert GRU")
+    ap.add_argument("--num-experts", type=int, default=4,
+                    help="--arch specialist: number of specialist GRU states")
+    ap.add_argument("--specialist-route", choices=["learned", "hash", "universal"], default="learned",
+                    help="--arch specialist: learned causal top-one, deterministic prefix hash, or universal mean")
+    ap.add_argument("--hash-seed", type=int, default=1729,
+                    help="--arch specialist: salt for the fixed hash-routing control")
+    ap.add_argument("--adapter-rank", type=int, default=8,
+                    help="--arch prefix-adapter: rank shared by all adapter controls")
+    ap.add_argument("--adapter-mode", choices=PrefixAdapterGRUModel.MODES, default="conditional",
+                    help="--arch prefix-adapter: conditional, unconditional, or diagonal control")
+    ap.add_argument("--prefix-rows", type=int, default=99,
+                    help="maximum causal prefix rows used for routing and input adaptation")
     ap.add_argument("--gate-ce", type=float, default=0.0,
                     help="BCE weight for the gated model's target-difference sign head")
     ap.add_argument("--cell", choices=["gru", "lstm"], default="gru")
@@ -1550,6 +1606,8 @@ def main():
         provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/event_content.py")
     if args.arch in ("tcn", "twoclock"):
         provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/nn.py")
+    if args.arch in ("specialist", "prefix-adapter"):
+        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/specialist.py")
     if quote_cache_provenance is not None:
         provenance["quote_cache"] = quote_cache_provenance
     if args.propensity:
