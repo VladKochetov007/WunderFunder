@@ -48,7 +48,9 @@ def build_bundle(
     if shutil.disk_usage(destination.parent).free < total + 20 * 1024**3:
         raise ValueError("Bundle would violate the 20 GiB free-disk reserve")
     destination.mkdir(exist_ok=False)
-    archive = destination / "bundle.tar.gz"
+    # Kaggle automatically expands recognized archive suffixes on dataset upload.
+    # An opaque binary suffix preserves the exact transport bytes and their hash.
+    archive = destination / "bundle.wnn"
     with (
         archive.open("wb") as raw,
         gzip.GzipFile(fileobj=raw, mode="wb", mtime=0, filename="") as compressed,
@@ -109,7 +111,7 @@ def build_bundle(
             "enable_tpu": False,
             "enable_internet": False,
             "machine_shape": "NvidiaTeslaT4",
-            "dataset_sources": [dataset, "vladkochetov07/wunder-funder"],
+            "dataset_sources": [dataset] + (["vladkochetov07/wunder-funder"] if external_map else []),
             "competition_sources": [],
             "kernel_sources": [],
         },

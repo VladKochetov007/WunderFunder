@@ -205,7 +205,7 @@ def test_bundle_excludes_external_raw_and_binds_kernel(tmp_path: Path) -> None:
         "vladkochetov07/test-bundle",
         ["datasets/valid.parquet=valid.parquet"],
     )
-    with tarfile.open(destination / "bundle.tar.gz") as archive:
+    with tarfile.open(destination / "bundle.wnn") as archive:
         assert "datasets/valid.parquet" not in archive.getnames()
         assert "kaggle_specs/fixture.json" in archive.getnames()
     manifest = json.loads((destination / "bundle-manifest.json").read_text())

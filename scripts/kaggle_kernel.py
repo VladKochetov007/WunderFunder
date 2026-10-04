@@ -21,7 +21,7 @@ def main() -> None:
     manifest = json.loads(matches[0].read_text())
     if manifest.get("private") is not True:
         raise ValueError("Bundle is not marked private")
-    archive = matches[0].parent / "bundle.tar.gz"
+    archive = matches[0].parent / "bundle.wnn"
     digest = hashlib.sha256()
     with archive.open("rb") as source:
         for chunk in iter(lambda: source.read(8 * 1024**2), b""):
