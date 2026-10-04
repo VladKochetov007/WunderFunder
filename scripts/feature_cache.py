@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -98,6 +99,17 @@ def frozen_state(
     return np.concatenate(pieces), np.concatenate(predictions)
 
 
+def selected_rows(sequence_id: int, length: int) -> np.ndarray:
+    """Jitter one row uniformly per stratum without aliasing an eight-row cycle."""
+    seed = int.from_bytes(
+        hashlib.sha256(f"feature-rows:{sequence_id}:271828".encode()).digest()[:8], "little"
+    )
+    starts = np.arange(227, length, 128)
+    widths = np.minimum(128, length - starts)
+    rng = np.random.default_rng(seed)
+    return starts + rng.integers(0, widths)
+
+
 def extract(root: Path, manifest_path: Path, output: Path, device: str) -> None:
     """Extract component-excluded caches using fixed input-only row sampling."""
     if output.exists() or output.suffix != ".npz":
@@ -162,7 +174,7 @@ def extract(root: Path, manifest_path: Path, output: Path, device: str) -> None:
             )
         ):
             raise ValueError("Screening requires correctly aligned targets and explicit mask")
-        rows = np.arange(227, len(sequence.features), 128)
+        rows = selected_rows(sequence.seq_ix, len(sequence.features))
         rows = rows[scored[rows]]
         if not len(rows):
             raise ValueError("A prespecified sequence has no selected rows")
@@ -195,7 +207,7 @@ def extract(root: Path, manifest_path: Path, output: Path, device: str) -> None:
         "component_graph_sha256": graph_sha,
         "role": manifest["role"],
         "selection_manifest_sha256": digest_file(manifest_path),
-        "sampling": "row227+128k intersect explicit scoring mask; causal lag128 placebo",
+        "sampling": "SHA(seqID,271828) uniform jitter within128-row strata from227, then scoring mask; causal lag128 placebo",
         "members": {model_id: {"checkpoint_sha256": model_id, "fit_components": sorted(fitted)}},
     }
     output.with_suffix(".json").write_text(json.dumps(metadata, indent=2) + "\n")

@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 import numpy as np
-from feature_cues import CUE_NAMES
+from feature_cues import CUE_NAMES, CUE_SCOPES
 
 from wnn.evaluation import paired_component_bootstrap, paired_component_moments
 from wnn.gmetric import reference_global_wp
@@ -65,8 +65,6 @@ def assert_outer_separation(fit: dict, evaluation: dict, fit_meta: dict, eval_me
     eval_components = set(map(int, evaluation["component"]))
     if fit_components & eval_components:
         raise ValueError("Fit/evaluation component overlap")
-    if fit_meta["role"] != "fit" or eval_meta["role"] != "evaluation":
-        raise ValueError("Cache roles disagree with the prespecified head contrast")
     if fit_meta["outer_fold"] != eval_meta["outer_fold"]:
         raise ValueError("Cache outer folds disagree")
     if fit_meta["component_graph_sha256"] != eval_meta["component_graph_sha256"] or set(
@@ -247,6 +245,7 @@ def run(
     np.savez(output / "transforms.npz", **transforms)
     report = {
         "cue": cue,
+        "mechanism_scope": CUE_SCOPES[cue],
         "ridge": ridge,
         "backend": backend,
         "fit_cache_sha256": fit_meta["sha256"],

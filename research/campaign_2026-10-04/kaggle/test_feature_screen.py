@@ -10,7 +10,7 @@ import torch
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "scripts"))
-from feature_cache import extract, frozen_state, validate_lineage  # noqa: E402
+from feature_cache import extract, frozen_state, selected_rows, validate_lineage  # noqa: E402
 from feature_cues import CUE_NAMES, causal_cues, lagged  # noqa: E402
 from feature_recipes import head_partition, recipe  # noqa: E402
 from feature_screen import assert_outer_separation, digest_file, load_cache, run  # noqa: E402
@@ -209,10 +209,20 @@ def test_actual_parquet_cache_uses_dense_lags_and_bound_mask(
     (tmp_path / "manifest.json").write_text(json.dumps(manifest))
     extract(tmp_path, tmp_path / "manifest.json", tmp_path / "cache.npz", "cpu")
     cached, _ = load_cache(tmp_path / "cache.npz")
-    assert cached["row"].tolist() == [227]
+    selected = int(selected_rows(7, 300)[0])
+    assert cached["row"].tolist() == [selected]
     np.testing.assert_array_equal(
-        cached["placebo__event_age"][0], causal_cues(raw)["event_age"][99]
+        cached["placebo__event_age"][0], causal_cues(raw)["event_age"][selected - 128]
     )
     (tmp_path / "datasets/valid_mask.parquet").write_bytes(b"changed mask")
     with pytest.raises(ValueError, match="hash"):
         extract(tmp_path, tmp_path / "manifest.json", tmp_path / "bad.npz", "cpu")
+
+
+def test_row_sampling_is_reproducible_uniform_jitter_without_phase_alias() -> None:
+    rows = selected_rows(7, 20_000)
+    np.testing.assert_array_equal(rows, selected_rows(7, 20_000))
+    assert set(rows % 8) == set(range(8))
+    assert len(np.unique((rows - 227) // 128)) == len(rows)
+    assert rows.min() >= 227 and rows.max() < 20_000
+    assert not np.array_equal(rows, selected_rows(8, 20_000))
