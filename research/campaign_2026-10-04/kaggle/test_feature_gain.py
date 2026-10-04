@@ -211,7 +211,24 @@ def test_actual_parquet_episode_cache_skips_empty_earlier_labels(
         )
     )
     output = tmp_path / "cache.npz"
+    import weakref
+
+    original_frozen_state = module.frozen_state
+    state_references = []
+
+    def bounded_frozen_state(*args, **kwargs):
+        # At most the previous sequence may remain in the extractor's local
+        # variable. Anchors must not keep earlier full-sequence buffers alive.
+        if len(state_references) >= 2:
+            assert state_references[-2]() is None
+        state, prediction = original_frozen_state(*args, **kwargs)
+        state_references.append(weakref.ref(state))
+        return state, prediction
+
+    monkeypatch.setattr(module, "frozen_state", bounded_frozen_state)
     module.extract(tmp_path, manifest, output)
+    assert len(state_references) >= 3
+    assert all(reference() is None for reference in state_references)
     cache, metadata = load_cache(output)
     assert metadata["sequences"] == 4
     assert cache["seq_id"].tolist() == [0, 1, 3, 4]

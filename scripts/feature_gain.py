@@ -143,7 +143,8 @@ def extract(root: Path, manifest_path: Path, output: Path, device: str = "cpu") 
             continue
         record["status"] = "retained"
         values = dict(
-            state=state[anchor],
+            # A row view would retain the entire20k-row state array per sequence.
+            state=state[anchor].copy(),
             summary=input_summary(sequence.features, anchor),
             gain=gain,
             anchor=anchor,

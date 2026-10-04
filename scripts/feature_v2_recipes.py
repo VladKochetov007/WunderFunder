@@ -115,7 +115,8 @@ def recipe(
             cache(router)
             argv += ["--base", base, "--router", router]
         artifacts = [output + ".npz", output + ".json"]
-    environment = {"CUDA_VISIBLE_DEVICES": ""} if backend == "cpu" else {}
+    # Local campaign admission owns device visibility, including CPU isolation.
+    environment = {}
     if backend == "tpu":
         environment["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
     result = {
