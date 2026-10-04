@@ -1,0 +1,97 @@
+{
+  "experiment": "E416",
+  "models": {
+    "d256": "actual equal parent/head fused predictor from E411",
+    "w384": "one trained ordinary head from E409; no duplicate or ensemble"
+  },
+  "q8_arithmetic": "int8 weights, transient int16 activation codes, float32 recurrent state; input projection and final head remain float32",
+  "cases": [
+    "d256_q16x",
+    "d256_q8r",
+    "d256_q8x",
+    "w384_q16x",
+    "w384_q8r",
+    "w384_q8x"
+  ],
+  "sequences": [
+    {
+      "row_group": 1083,
+      "component": 3187,
+      "seq_ix": 1248806299
+    },
+    {
+      "row_group": 809,
+      "component": 3126,
+      "seq_ix": 941732944
+    },
+    {
+      "row_group": 1192,
+      "component": 3016,
+      "seq_ix": 1380882112
+    }
+  ],
+  "input_evidence": {
+    "E411_manifest": "af772e95e3bd5280fd1766e5b61ed894dd6dfb865aa6737115252e07902d94d6",
+    "E409_manifest": "815bee9144348fa58c6cd622e0ba2ff48c94b3722228d2b19fafd6e227552464"
+  },
+  "source_sha256": {
+    "/tmp/wnn-c20261004-resources/scripts/probe_q8_native.py": "7741c4bfba76b4eb931fd3157d2add3121409183f803574946a46e1fab1d724f",
+    "/tmp/wnn-c20261004-resources/scripts/probe_q8_model.py": "2a8cc394cb8da5320e80fe031d2274b254ee67d1f09c75227178116a42b40573",
+    "/tmp/wnn-c20261004-resources/scripts/engine_fp16_check.py": "ebb160667d09193b58255691f0a2433bc47f2d285e34deb199b1758d728582b9",
+    "/tmp/wnn-c20261004-resources/src/wnn/quantization.py": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077",
+    "/tmp/wnn-c20261004-resources/src/wnn/quantization_export.py": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0",
+    "/tmp/wnn-c20261004-resources/src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+    "/tmp/wnn-c20261004-resources/src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "/tmp/wnn-c20261004-resources/src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "/tmp/wnn-c20261004-resources/src/wnn/event_content.py": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+    "/tmp/wnn-c20261004-resources/src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+    "/tmp/wnn-c20261004-resources/src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "/tmp/wnn-c20261004-resources/utils.py": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+    "/tmp/wnn-c20261004-resources/native/Cargo.toml": "a4d2c473e19cefa1ba647c3d4a689b2c73e4690a60a1f6a098333f9002868e75",
+    "/tmp/wnn-c20261004-resources/native/Cargo.lock": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+    "/tmp/wnn-c20261004-resources/native/src/approx.rs": "4df99ecfb690209c651d40c14a3ef3d7489453c06e25e6c4318c60bc1f901742",
+    "/tmp/wnn-c20261004-resources/native/src/half.rs": "87035e5569bb7a53295c222026337a4a08661f1d6d821c2b26074fa12b4bb9cc",
+    "/tmp/wnn-c20261004-resources/native/src/kernels.rs": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+    "/tmp/wnn-c20261004-resources/native/src/lib.rs": "62fb0e7083f1cb1e85bf650290fabe237a9dd8b3a2ad608ca944cef564b028ae",
+    "/tmp/wnn-c20261004-resources/native/src/python.rs": "be5a47a33b6874710dec5eaa8f20f46cf9e907e7930ec6ed1727bd6d12c7df7a",
+    "/tmp/wnn-c20261004-resources/native/src/quant8.rs": "07354c7f65deaa145127f359448b5fe1f5648e16fe3034bfdccd2939f91347cc",
+    "/tmp/wnn-c20261004-resources/native/src/rnn.rs": "544135da67cb156a471d8ca0a9de7837f2ae3657a7885e4f8d95edf238cb0abf",
+    "/tmp/wnn-c20261004-resources/native/src/rnn_fast.rs": "3d5186de4374716a4fa5f3f4503674386baaa33606c810ff76443b619f049e55",
+    "/tmp/wnn-c20261004-resources/native/src/stream.rs": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6"
+  },
+  "library_sha256": {
+    "v2": "fafb05afc04a7aa2ad96997c2ad20233349092d0fe5dc06cbcbcecddd2582aef",
+    "v3": "8bba2b94b474790287fb9d69a9ea7b7d2c4aff23d91671b561087617c5ab101d"
+  },
+  "files_sha256": {
+    "d256_q8r.npz": "2402df081697b31cd6868d5358751cad9ffa08c8e0a00eef197864fc58b848e4",
+    "d256_q8x.npz": "70f72036ba65c5d109dd7ba0e0cb5cb7d6349bac5363b34a0cd5a920a7143354",
+    "d256_weights.npz": "64d5547d6f7cdaf0e357fe1211a8817ac31c27f5527f6b5065a42e44a7bd21cf",
+    "features.npy": "04028c08220f6f04b4e19b16705a4e80d614f26b0de1d7dfb60443b1ce52e627",
+    "mask.npy": "b3f13dbda4e6c99acd8f87c350a9f02f7f01127b3a0598fcb98a8d13db285b11",
+    "need.npy": "2cf5007055850d353954fb30153141b0ebff1def28e07791f3f8a36f71280d5b",
+    "targets.npy": "b580786a2b90e20c93e94e68920b63cc71caced92a9751f59f95193022134860",
+    "torch_references.npz": "3588775a05135da2533b825a8613b65e9a7943003ca7e893463edcfddedae202",
+    "w384_q8r.npz": "5c60f79dfbfb365ad2bf3e87066596be2591ebc788fe1db0ed289d0e405e4082",
+    "w384_q8x.npz": "2435a4adb5b667921887807989526084144d28dd1df23b73648320445eb818ca",
+    "w384_weights.npz": "719df9aa95057351303ea68fb27db05f00b710c51a1d48357535c6e28578a8f9"
+  },
+  "gates": {
+    "max_abs": 0.0003,
+    "absolute_wp_delta": 5e-06,
+    "portable_bitwise": true,
+    "v2_v3_bitwise": true,
+    "repeat_reset_bitwise": true
+  },
+  "timing": {
+    "repeats": 5,
+    "order": "forward/reverse alternating",
+    "sequences": 3,
+    "no_public_time_conversion": true
+  },
+  "reference_stack": {
+    "python": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.2.6"
+  }
+}
