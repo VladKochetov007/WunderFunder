@@ -161,6 +161,7 @@ def extract(root: Path, manifest_path: Path, output: Path, device: str) -> None:
     sequences = SequenceFile(root / f"datasets/{source}.parquet")
     masks = pq.ParquetFile(bound_path(root, manifest["mask"]))
     arrays: dict[str, list[np.ndarray]] = {}
+    sampling_report = []
     for group in selected:
         sequence = sequences.read(group)
         mask_table = masks.read_row_group(group, use_threads=False)
@@ -174,10 +175,21 @@ def extract(root: Path, manifest_path: Path, output: Path, device: str) -> None:
             )
         ):
             raise ValueError("Screening requires correctly aligned targets and explicit mask")
-        rows = selected_rows(sequence.seq_ix, len(sequence.features))
-        rows = rows[scored[rows]]
+        planned_rows = selected_rows(sequence.seq_ix, len(sequence.features))
+        rows = planned_rows[scored[planned_rows]]
+        sampling_report.append(
+            {
+                "row_group": group,
+                "sequence": sequence.seq_ix,
+                "component": components[(source, group)],
+                "planned_rows": planned_rows.tolist(),
+                "selected_rows": rows.tolist(),
+                "unscored_sampled_rows": planned_rows[~scored[planned_rows]].tolist(),
+                "status": "retained" if len(rows) else "skipped_no_scored_sample",
+            }
+        )
         if not len(rows):
-            raise ValueError("A prespecified sequence has no selected rows")
+            continue
         state, prediction = frozen_state(model, sequence.features, mode, device)
         cues = causal_cues(sequence.features)
         values = {
@@ -195,6 +207,22 @@ def extract(root: Path, manifest_path: Path, output: Path, device: str) -> None:
             values[f"placebo__{name}"] = lagged(cue, 128)[rows]
         for name, value in values.items():
             arrays.setdefault(name, []).append(value)
+    if not arrays:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.with_suffix(".json").write_text(
+            json.dumps(
+                {
+                    "status": "empty_cache",
+                    "rows": 0,
+                    "sampling_report": sampling_report,
+                    "skipped_row_groups": [item["row_group"] for item in sampling_report],
+                    "selection_manifest_sha256": digest_file(manifest_path),
+                },
+                indent=2,
+            )
+            + "\n"
+        )
+        raise ValueError("No scored rows in the complete prespecified cache sample")
     combined = {name: np.concatenate(value) for name, value in arrays.items()}
     output.parent.mkdir(parents=True, exist_ok=True)
     np.savez(output, **combined)
@@ -208,6 +236,16 @@ def extract(root: Path, manifest_path: Path, output: Path, device: str) -> None:
         "role": manifest["role"],
         "selection_manifest_sha256": digest_file(manifest_path),
         "sampling": "SHA(seqID,271828) uniform jitter within128-row strata from227, then scoring mask; causal lag128 placebo",
+        "sampling_report": sampling_report,
+        "skipped_row_groups": [
+            item["row_group"]
+            for item in sampling_report
+            if item["status"] == "skipped_no_scored_sample"
+        ],
+        "planned_rows": sum(len(item["planned_rows"]) for item in sampling_report),
+        "unscored_sampled_rows": sum(
+            len(item["unscored_sampled_rows"]) for item in sampling_report
+        ),
         "members": {model_id: {"checkpoint_sha256": model_id, "fit_components": sorted(fitted)}},
     }
     output.with_suffix(".json").write_text(json.dumps(metadata, indent=2) + "\n")

@@ -30,6 +30,12 @@ sampling from observing only one phase of an eight-row cycle. The mask is used
 for fitting/evaluation selection, never as a
 predictor. Every placebo is a causal 128-row lag computed on the dense sequence,
 not on the selected-row cache and never rolled across a sequence boundary.
+If a sequence has no scored observations among its fixed sampled rows, the
+extractor skips it without redrawing. Metadata records every planned row,
+selected row, unscored sampled row and skipped group. An entirely empty cache
+fails with an explicit sampling report; component sufficiency is checked by the
+scorer. This corrects the E415 preparation failure caused by treating one empty
+sequence as a fatal error. It does not change the row-selection design.
 
 The nine fixed families cover auxiliary regime-offset proxies, multiplicative
 auxiliary/state proxies, observable-age clock proxies, activity interactions,
