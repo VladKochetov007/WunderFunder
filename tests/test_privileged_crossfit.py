@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import importlib
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -16,6 +17,7 @@ from wnn import data
 from wnn.privileged import (
     inner_manifest,
     privileged_inputs,
+    teacher_prediction_groups,
     validate_crossfit_cache,
     validate_inner_manifest,
     validate_teacher_checkpoint,
@@ -59,13 +61,14 @@ def test_component_assignment_is_joint_across_train_and_valid(tmp_path: Path) ->
     assert set(values[0]["predict"]["train"]) | set(values[1]["predict"]["train"]) == set(range(4))
 
 
-@pytest.mark.parametrize("mode", ["current", "future"])
+@pytest.mark.parametrize("mode", ["none", "current", "future"])
 def test_actual_teacher_fit_and_crossfit_extraction(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     mode: str,
 ) -> None:
     _repository(tmp_path)
+    device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
     table = pq.read_table(tmp_path / "datasets/valid.parquet")
     pq.write_table(table.drop(["is_scored"]), tmp_path / "datasets/train.parquet", row_group_size=8)
     np.savez(tmp_path / "cache/train_targets.npz", row_group=np.arange(5), seq_ix=np.arange(5))
@@ -91,7 +94,7 @@ def test_actual_teacher_fit_and_crossfit_extraction(
                 "--name",
                 name,
                 "--device",
-                "cpu",
+                device,
                 "--train-source",
                 "train+valid",
                 "--split-manifest",
@@ -125,15 +128,27 @@ def test_actual_teacher_fit_and_crossfit_extraction(
         path = tmp_path / "artifacts/runs" / name / "model.pt"
         checkpoint = torch.load(path, weights_only=False)
         inner = validate_teacher_checkpoint(checkpoint, outer)
-        assert checkpoint["n_in"] == data.N_FEATURES * 2 + training.N_EVENT_FEATURES
-        assert not checkpoint["provenance"]["deployment_safe"]
+        assert (
+            checkpoint["n_in"]
+            == data.N_FEATURES * (1 if mode == "none" else 2) + training.N_EVENT_FEATURES
+        )
+        assert checkpoint["provenance"]["deployment_safe"] == (mode == "none")
         assert inner["predict"]["train"]
         corrupted = copy.deepcopy(checkpoint)
         corrupted["provenance"]["fit_row_groups"]["train"].append(inner["predict"]["train"][0])
         with pytest.raises(ValueError, match="membership"):
             validate_teacher_checkpoint(corrupted, outer)
         checkpoints.append(path)
-    pipeline.extract(outer, checkpoints, "crossfit", torch.device("cpu"), 1, 4)
+    pipeline.extract(outer, checkpoints, "crossfit", torch.device(device), 1, 4)
+    if mode == "none":
+        pipeline.extract(
+            outer, checkpoints, "fitted", torch.device(device), 1, 4, exposure="fitted"
+        )
+    else:
+        with pytest.raises(ValueError, match="ordinary causal"):
+            pipeline.extract(
+                outer, checkpoints, "fitted", torch.device(device), 1, 4, exposure="fitted"
+            )
     for split in ("train", "valid"):
         path = tmp_path / "cache" / f"pred_crossfit_{split}.npy"
         prediction = np.load(path)
@@ -146,6 +161,30 @@ def test_actual_teacher_fit_and_crossfit_extraction(
         corrupt["teachers"][0]["predicted_groups"][split].append(4)
         with pytest.raises(ValueError, match="misassigned"):
             validate_crossfit_cache(corrupt, outer, tmp_path, split)
+        if mode == "none":
+            fitted_path = tmp_path / "cache" / f"pred_fitted_{split}.npy"
+            fitted_side = json.loads(fitted_path.with_suffix(".json").read_text())
+            validate_crossfit_cache(fitted_side, outer, tmp_path, split)
+            assert np.isfinite(np.load(fitted_path)[:4]).all()
+            assert np.isnan(np.load(fitted_path)[4]).all()
+            assert [entry["checkpoint_sha256"] for entry in fitted_side["teachers"]] == [
+                entry["checkpoint_sha256"] for entry in sidecar["teachers"]
+            ]
+            for fit_teacher, excluding_teacher in zip(
+                fitted_side["teachers"], sidecar["teachers"], strict=True
+            ):
+                fitted_groups = set(fit_teacher["predicted_groups"][split])
+                excluded_groups = set(excluding_teacher["predicted_groups"][split])
+                assert fitted_groups.isdisjoint(excluded_groups)
+                assert fitted_groups | excluded_groups == set(range(4))
+            corrupt = copy.deepcopy(fitted_side)
+            corrupt["target_exposure"] = "excluded"
+            with pytest.raises(ValueError, match="misassigned"):
+                validate_crossfit_cache(corrupt, outer, tmp_path, split)
+            corrupt["crossfit_format"] = "wnn.origin-teacher-crossfit.v1"
+            corrupt["target_exposure"] = "fitted"
+            with pytest.raises(ValueError, match="legacy"):
+                validate_crossfit_cache(corrupt, outer, tmp_path, split)
     bound = training.bind_fold_teachers([("crossfit", 1.0)], outer, ("train", "valid"))
     assert len(bound) == 2
     monkeypatch.setattr(
@@ -156,7 +195,7 @@ def test_actual_teacher_fit_and_crossfit_extraction(
             "--name",
             "student",
             "--device",
-            "cpu",
+            device,
             "--train-source",
             "train+valid",
             "--split-manifest",
@@ -183,6 +222,12 @@ def test_actual_teacher_fit_and_crossfit_extraction(
         ],
     )
     training.main()
+    if mode == "none":
+        student_argv = list(sys.argv)
+        student_argv[student_argv.index("--name") + 1] = "student_fitted"
+        student_argv[student_argv.index("--distill") + 1] = "fitted"
+        monkeypatch.setattr(sys, "argv", student_argv)
+        training.main()
     student = torch.load(tmp_path / "artifacts/runs/student/model.pt", weights_only=False)
     assert student["args"]["privileged_mode"] == "none"
     assert student["n_in"] == data.N_FEATURES + training.N_EVENT_FEATURES
@@ -190,3 +235,11 @@ def test_actual_teacher_fit_and_crossfit_extraction(
     changed = raw.clone()
     changed[:, 4:] += 10
     assert torch.equal(training.build_inputs(raw)[:, :4], training.build_inputs(changed)[:, :4])
+
+
+def test_fitted_exposure_refuses_nonpaired_fold_count(tmp_path: Path) -> None:
+    outer = _outer(tmp_path)
+    inner = inner_manifest(outer, 0, 2, 98)
+    inner["folds"] = 3
+    with pytest.raises(ValueError, match="exactly two"):
+        teacher_prediction_groups({"args": {"privileged_mode": "none"}}, inner, "fitted")

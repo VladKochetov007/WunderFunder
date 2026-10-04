@@ -14,6 +14,7 @@ import train_rnn as training
 from wnn.data import SequenceFile
 from wnn.privileged import (
     inner_manifest,
+    teacher_prediction_groups,
     validate_crossfit_cache,
     validate_teacher_checkpoint,
 )
@@ -44,6 +45,7 @@ def _restore_inputs(checkpoint: dict) -> None:
     training.PRIVILEGED_MODE = args["privileged_mode"]
     training.PRIVILEGED_HORIZON = args["privileged_horizon"]
     training.INPUT_PROPENSITY = training.READOUT = None
+    training.SENTINEL_PREPROCESSOR = None
     training.READOUT_TILTED = False
     if training.HEURISTICS or args.get("loss") != "wmse" or args.get("arch", "gru") != "gru":
         raise ValueError("bounded origin teacher extraction supports non-heuristic GRU wmse only")
@@ -57,8 +59,9 @@ def extract(
     device: torch.device,
     batch_size: int,
     chunk_rows: int,
+    exposure: str = "excluded",
 ) -> None:
-    """Write only excluded inner-component rows, keeping global target-cache row order."""
+    """Write declared inner-teacher exposure rows, keeping global target-cache row order."""
     if not name or Path(name).name != name or batch_size < 1 or chunk_rows < 1:
         raise ValueError("cache name and inference batch/chunk sizes must be valid")
     teachers, loaded = [], []
@@ -71,7 +74,7 @@ def extract(
             {
                 "checkpoint": str(relative),
                 "checkpoint_sha256": file_sha256(path),
-                "predicted_groups": inner["predict"],
+                "predicted_groups": teacher_prediction_groups(checkpoint, inner, exposure),
             }
         )
         loaded.append(checkpoint)
@@ -89,7 +92,11 @@ def extract(
             "run": name,
             "split": split,
             "epoch": None,
-            "crossfit_format": "wnn.origin-teacher-crossfit.v1",
+            "crossfit_format": "wnn.component-teacher-cache.v1",
+            "target_exposure": exposure,
+            "teacher_population_control": "same two fitted teachers; change only which teacher predicts each component"
+            if exposure == "fitted"
+            else "each row predicted by an excluding inner-component teacher",
             "split_manifest_sha256": outer.sha256,
             "checkpoint_sha256": lineage,
             "row_map_sha256": file_sha256(row_path),
@@ -119,6 +126,7 @@ def extract(
             checkpoint["args"], checkpoint["n_in"], checkpoint["model"]["head.2.weight"].shape[0]
         ).to(device)
         model.load_state_dict(checkpoint["model"])
+        model._inference_fp32 = checkpoint["args"].get("precision") == "fp32"
         model.eval()
         for split in ("train", "valid"):
             groups = teacher["predicted_groups"][split]
@@ -161,6 +169,12 @@ def main() -> None:
     export.add_argument("--device", choices=("cpu", "cuda"), default="cuda")
     export.add_argument("--batch", type=int, default=1)
     export.add_argument("--chunk", type=int, default=1000)
+    export.add_argument(
+        "--exposure",
+        choices=("excluded", "fitted"),
+        default="excluded",
+        help="fitted uses the same two ordinary teachers on their own fitting rows",
+    )
     args = parser.parse_args()
     outer = load_campaign_split(args.outer_split, ROOT)
     if args.command == "prepare":
@@ -168,7 +182,13 @@ def main() -> None:
     else:
         configure_torch()
         extract(
-            outer, args.checkpoints, args.name, torch.device(args.device), args.batch, args.chunk
+            outer,
+            args.checkpoints,
+            args.name,
+            torch.device(args.device),
+            args.batch,
+            args.chunk,
+            args.exposure,
         )
 
 
