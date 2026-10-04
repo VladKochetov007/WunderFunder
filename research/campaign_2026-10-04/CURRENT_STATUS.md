@@ -1,5 +1,7 @@
 # Continuation status
 
+**Public update — October4:** E412 (`10tq248b`) scored **0.6655**, +0.0014 over0.6641; runtime37m47s, memory625MB. The target gap is0.0005. User reports1/5 submissions used today. See `E412_PUBLIC_RESULT.md` and `E412_PUBLIC_RESULT.json`. This supersedes earlier statements below that public transfer was unmeasured.
+
 Campaign experiment tally: **14/17 Oct4 continuation experiment records complete; 2 partial (E-414 calibration only, E-419 local result but no QAT/PTQ fit); 1 queued (E-407 TPU).**
 
 As of 2026-10-04T11:00:39.437879+00:00

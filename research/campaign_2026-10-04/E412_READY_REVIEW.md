@@ -1,5 +1,7 @@
 # E412 full-data combo package ready for user upload
 
+**Public update — October4:** E412 (`10tq248b`) scored **0.6655**, +0.0014 over0.6641; runtime37m47s, memory625MB. The target gap is0.0005. User reports1/5 submissions used today. See `E412_PUBLIC_RESULT.md` and `E412_PUBLIC_RESULT.json`. This supersedes earlier statements below that public transfer was unmeasured.
+
 Candidate: `submissions/c20261004_combo_s3_i16/submission.zip`.
 SHA256: `21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb`.
 Fixed epoch3 combo parent plus fixed epoch0 head, equal mixture; development TRAIN+eligible VALID only. Historical holdout excluded from fitting and selection.

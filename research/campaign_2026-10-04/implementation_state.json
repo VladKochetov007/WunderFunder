@@ -49,7 +49,8 @@
     "E420 real parity and clean timing",
     "E422 production GPU caches",
     "E422 reciprocal gain screens",
-    "H093/H094 merged and35 root CPU tests passed"
+    "H093/H094 merged and35 root CPU tests passed",
+    "E412 user-reported public confirmation0.6655"
   ],
   "pending": [
     "TPU actual hardware probe",
@@ -131,13 +132,22 @@
       "decision": "all proxy heads lose to unchanged backbone; exact ideas remain open"
     },
     "E412": {
-      "status": "package_ready_public_unmeasured",
+      "status": "public_confirmed",
       "fixed_parent_epoch": 3,
       "fixed_head_epoch": 0,
       "q16x_raw_max_error": 0.000415802001953125,
       "q16x_wp_delta": 8.745162594081535e-08,
-      "public_transfer": "unmeasured",
-      "i16_verification": "passed twenty full streams, resets and v2/v3, actual precision asserted"
+      "public_transfer": "measured for fixed seed3 package",
+      "i16_verification": "passed twenty full streams, resets and v2/v3, actual precision asserted",
+      "public_result": {
+        "submission_id": "10tq248b",
+        "public": 0.6655,
+        "runtime_seconds": 2267,
+        "memory_mb": 625,
+        "portal_time": "2026-10-04 14:58",
+        "zip_sha256": "21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb",
+        "evidence": "research/campaign_2026-10-04/E412_PUBLIC_RESULT.json"
+      }
     },
     "E413": {
       "delta": 0.000961790214,
@@ -315,5 +325,7 @@
     "queued": 1,
     "running": 0
   },
-  "kaggle_kernel_inventory": "checks/kaggle_kernel_inventory_20261004T110925Z.json"
+  "kaggle_kernel_inventory": "checks/kaggle_kernel_inventory_20261004T110925Z.json",
+  "best_public": 0.6655,
+  "best_public_evidence": "research/campaign_2026-10-04/E412_PUBLIC_RESULT.json"
 }

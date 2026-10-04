@@ -20,7 +20,7 @@ def _(mo):
     mo.md("""
     # Connectome continuation
 
-    Public incumbent: **0.6641**. The completed local combo comparison improves WP by **0.00241** after the incumbent's final head procedure. Its public transfer remains unmeasured.
+    Public incumbent: **0.6655**, confirmed by user-uploaded E412 (`10tq248b`): **+0.0014** over 0.6641, runtime **37m47s**, memory **625MB**. The target gap is **0.0005**. The completed local comparison gained **0.00241** on exposed folds; mechanism attribution remains unresolved.
 
     This notebook reads durable campaign records. It never starts training through reactive cells. Historical folds are exposed; public-mixture estimates are diagnostics.
     """)
