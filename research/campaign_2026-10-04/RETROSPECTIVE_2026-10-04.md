@@ -18,7 +18,7 @@ and [the interactive timeline](eda/leaderboard_climb/leaderboard_climb.html).
 
 The user paused new research iterations on October 4. The goal remains paused; later portal evidence reaches the numeric target without resuming it. E425's existing four-epoch soft-routing fit, fixed export and report drained successfully. The submitted E463 TPU preflight remains queued; it has not yielded a TPU predictive result. E464's waiting controller was deliberately stopped before any head fit. There will be no new GPU fits, notebook pushes, timing trials, retries or research-agent iterations while paused. The q8 compatibility repair is bounded packaging maintenance, not a new scientific iteration.
 
-`NO_NEW_RESEARCH_ITERATIONS.json` records the pause. `checks/E464_USER_PAUSE_20261004.json` distinguishes the intentional service stop from a failed scientific experiment. Unrelated historical pause markers were not altered.
+`NO_NEW_RESEARCH_ITERATIONS.json` records the pause. `checks/E464_USER_PAUSE_20261004.json` distinguishes the intentional service stop from a failed scientific experiment. The watcher's subsequent signal alert is preserved verbatim in `checks/E464_PAUSE_WATCHER_ALERT_20261004.json`; it is not evidence of an OOM or a failed head fit. The October 1 queue marker retains both the explicit user pause and the watcher warning. Generated transport bundles, marimo session state, the separate `wunder/` checkout and the mutable watcher barrier are ignored; durable research reports and incident evidence remain tracked.
 
 ## What changed the campaign
 

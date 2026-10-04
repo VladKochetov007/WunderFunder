@@ -59,7 +59,7 @@ perf.data*
 .claude/worktrees/
 .claude/settings.local.json
 .agents/settings.local.json
-notebooks/__marimo__/
+__marimo__/
 *.so
 
 # research campaign bulk artifacts (regenerable; keep out of git)
@@ -98,3 +98,12 @@ research/campaign_2026-10-03/**/pytest_tmp/
 research/campaign_2026-10-03/**/verified_tmp/
 research/campaign_2026-10-03/**/verified_final_tmp/
 research/research-review.tar.gz
+
+# Generated Kaggle transport bundles; keep source and manifests tracked
+research/**/*.wnn
+
+# Independent checkout, managed by its own Git repository
+/wunder/
+
+# Mutable watcher barrier; immutable incident evidence is saved in checks/
+/research/campaign_2026-10-03/continuation/RESOURCE_FAILURE
