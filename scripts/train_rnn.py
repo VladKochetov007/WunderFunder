@@ -120,7 +120,7 @@ class Sequences(Dataset):
     def __init__(self, split: str, indices, teachers=None, prop_cache=None, quote_path=False,
                  quote_cache_root=None, spread_cache_root=None, thin=None):
         self.path = ROOT / "datasets" / f"{split}.parquet"
-        # thin = (probability, low, high): event-preserving row thinning for training views (see thin_rows)
+        # thin = (probability, low, high[, mode]): paired event-preserving training views.
         self.thin = thin
         self.indices = list(indices)
         self._file = None
@@ -184,7 +184,8 @@ class Sequences(Dataset):
             row_bytes += np.dtype(np.uint8).itemsize
         sequence_bytes = SEQUENCE_LENGTH * row_bytes
         if self.thin is not None:
-            sequence_bytes += np.dtype(np.int64).itemsize
+            sequence_bytes += (SEQUENCE_LENGTH if len(self.thin) == 4 and self.thin[3] == "retained-mass"
+                               else np.dtype(np.int64).itemsize)
         return batch_size * sequence_bytes
 
     def __getitem__(self, i):
@@ -234,16 +235,23 @@ def thin_rows(result, thin):
     stream simply looks as if fewer book updates were published. With probability ``thin[0]`` a rate q ~ U(thin[1],
     thin[2]) of those rows is dropped; the sequence is padded back to its length by repeating the last kept row, and
     the kept length is appended so the loop can exclude padding from every loss.
+    The retained-mass control uses the identical random keep map but leaves all observations,
+    targets and cached values on their original time axis, appending the supervised-row mask.
     """
-    prob, low, high = thin
+    prob, low, high = thin[:3]
+    mode = thin[3] if len(thin) == 4 else "compress"
+    if mode not in ("compress", "retained-mass"):
+        raise ValueError("unknown row-thinning mode")
     x = result[0]
     n = x.shape[0]
     if torch.rand(()) >= prob:
-        return result + (torch.tensor(n),)
+        return result + (torch.ones(n, dtype=torch.bool) if mode == "retained-mass" else torch.tensor(n),)
     q = low + (high - low) * torch.rand(())
     quiet = torch.zeros(n, dtype=torch.bool)
     quiet[WARMUP:] = (x[WARMUP:, :22] == x[WARMUP - 1:-1, :22]).all(dim=1)
     keep = ~(quiet & (torch.rand(n) < q))
+    if mode == "retained-mass":
+        return result + (keep,)
     kept = int(keep.sum())
     index = torch.cat([torch.nonzero(keep).squeeze(1), torch.full((n - kept,), int(torch.nonzero(keep)[-1]))])
     thinned = []
@@ -1001,6 +1009,8 @@ def main():
     ap.add_argument("--thin-prob", type=float, default=0.0,
                     help="training-view row thinning: probability per sequence (0 disables)")
     ap.add_argument("--thin-range", default="0.1,0.4", help="low,high of the dropped share of quiet rows")
+    ap.add_argument("--thin-mode", choices=["compress", "retained-mass"], default="compress",
+                    help="retained-mass preserves the observed stream and masks the same sampled quiet rows only in losses")
     ap.add_argument("--pool-decay", type=float, default=0.98,
                     help="--loss gcorr_pool: per-chunk decay of the pooled weighted sums kept from earlier chunks")
     ap.add_argument("--huber-delta", type=float, default=0.5)
@@ -1253,6 +1263,18 @@ def main():
         ap.error("--epoch-samples cannot be combined with --class-balance")
     update_rows = args.update_rows or args.chunk
     detach_rows = args.detach_rows or args.chunk
+    if not 0 <= args.thin_prob <= 1:
+        ap.error("--thin-prob must lie in [0, 1]")
+    if args.thin_prob:
+        try:
+            thin_low, thin_high = map(float, args.thin_range.split(","))
+        except ValueError:
+            ap.error("--thin-range requires two drop shares low,high")
+        if not 0 <= thin_low <= thin_high <= 1:
+            ap.error("--thin-range drop shares must satisfy 0 <= low <= high <= 1")
+    if args.thin_mode == "retained-mass" and (
+            not args.thin_prob or not args.init or not args.inherit_init_preprocessing):
+        ap.error("retained-mass control requires positive thinning and inherited parent preprocessing")
     if args.credit_mode != "deterministic":
         if (args.optim != "sgd" or args.precision != "fp32" or not args.no_gradient_clip
                 or args.grad_noise or args.optim_switch or args.detach_boundary_jitter
@@ -1467,7 +1489,7 @@ def main():
     thin = None
     if args.thin_prob > 0:
         low, high = (float(v) for v in args.thin_range.split(","))
-        thin = (args.thin_prob, low, high)
+        thin = (args.thin_prob, low, high, args.thin_mode)
     train_ds = Sequences(train_split, train_idx, teachers, prop_cache.get(train_split),
                          quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root,
                          spread_cache_root=args.spread_cache_root, thin=thin)
@@ -1712,6 +1734,12 @@ def main():
     provenance["training_clocks"] = {"micro_rows": args.chunk, "detach_rows": detach_rows,
                                      "update_rows": update_rows, "ema_decay_per_update": ema_update_decay,
                                      "ema_clock": "attempted updates including AMP skips"}
+    if thin is not None:
+        provenance["row_thinning"] = {
+            "mode": args.thin_mode, "probability": args.thin_prob, "drop_range": [low, high],
+            "observed_time_axis": "original" if args.thin_mode == "retained-mass" else "compressed then padded",
+            "rows_per_sequence": SEQUENCE_LENGTH, "update_schedule": "unchanged padded row count",
+            "normalization": "frozen parent" if args.init else "fit on training views"}
     if args.credit_mode != "deterministic":
         provenance["training_clocks"]["credit_estimator"] = {
             "mode": args.credit_mode, "keep_probability": args.credit_keep_probability,
@@ -1811,7 +1839,7 @@ def main():
             steps = torch.arange(inputs.shape[1], device=device)[None].expand(inputs.shape[0], -1)
             valid = steps >= WARMUP
             if kept_len is not None:
-                valid = valid & (steps < kept_len[:, None])
+                valid = valid & (kept_len if args.thin_mode == "retained-mass" else steps < kept_len[:, None])
             main_valid = main_row_weights(inputs, y, valid, scored_dev, prop_model, prop_cached, args, x)
             timer.mark("weights")
             aux = shifted_targets(y, valid, shifts)

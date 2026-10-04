@@ -20,12 +20,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import train_rnn as training  # noqa: E402
 
 
-def _repository(root: Path, with_sentinels: bool = False) -> None:
+def _repository(root: Path, with_sentinels: bool = False, with_quiet_rows: bool = False) -> None:
     (root / "src").symlink_to(Path(__file__).resolve().parents[1] / "src", target_is_directory=True)
     (root / "datasets").mkdir()
     (root / "cache").mkdir()
     rng = np.random.default_rng(71)
     values = rng.normal(size=(5, 8, data.N_FEATURES)).astype("float32")
+    if with_quiet_rows:
+        values[:, 1::2, :22] = values[:, ::2, :22]
     if with_sentinels:
         values[:, 1::2, -1] = np.float32(-5.19934)
         values[:, ::3, 5] = np.float32(-5.19934)
@@ -64,9 +66,12 @@ def test_real_main_epoch_resume_and_completed_export(
     qat: str = "none",
     recurrent_rank: int = 0,
     sentinel_arm: tuple[str, str] | None = None,
+    thin_mode: str | None = None,
 ) -> None:
     """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
-    _repository(tmp_path, with_sentinels=sentinel_arm is not None)
+    _repository(
+        tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+    )
     device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
     if device == "cuda":
         assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
@@ -234,13 +239,35 @@ def test_real_main_epoch_resume_and_completed_export(
             "--inherit-init-preprocessing",
         ]
 
+    if thin_mode is not None:
+        run("parent", [])
+        base += [
+            "--init",
+            "parent",
+            "--inherit-init-preprocessing",
+            "--thin-mode",
+            thin_mode,
+            "--thin-prob",
+            "1",
+            "--thin-range",
+            "0.4,0.8",
+        ]
     reference_dir = run("reference", [])
     if origin_view == "prefix-discard":
         carry_dir = run("carry", ["--origin-view", "off"])
         run("refresh", ["--origin-view", "prefix-fixed"])
         carry = load_training_state(carry_dir / "training_state.pt")
         sham = load_training_state(reference_dir / "training_state.pt")
-        for key in ("model", "optimizer", "scheduler", "scaler", "ema", "loader", "rng", "auxiliary"):
+        for key in (
+            "model",
+            "optimizer",
+            "scheduler",
+            "scaler",
+            "ema",
+            "loader",
+            "rng",
+            "auxiliary",
+        ):
             _assert_equal(carry[key], sham[key])
         assert carry["progress"]["step_count"] == sham["progress"]["step_count"]
         assert forward_rows["refresh"] == forward_rows["reference"]
@@ -354,6 +381,10 @@ def test_real_main_epoch_resume_and_completed_export(
         _assert_equal(expected_model["model"]["std"], prepared["model"]["std"])
         if sentinel_arm[1] != "none":
             assert torch.count_nonzero(expected_model["model"]["inp.weight"][:, -112:]) > 0
+    if thin_mode is not None:
+        parent_model = torch.load(tmp_path / "artifacts/runs/parent/model.pt", weights_only=False)
+        _assert_equal(expected_model["model"]["mean"], parent_model["model"]["mean"])
+        _assert_equal(expected_model["model"]["std"], parent_model["model"]["std"])
     assert recovered_model["epoch"] == 2
     assert len(json.loads((recovered_dir / "history.json").read_text())) == 3
     assert (
@@ -399,6 +430,16 @@ def test_main_origin_view_resume(
     """Full prefix replay with actual row-clock EMA stays exact across epoch resume."""
     test_real_main_epoch_resume_and_completed_export(
         tmp_path, monkeypatch, False, origin_view=origin_view
+    )
+
+
+@pytest.mark.parametrize("thin_mode", ["compress", "retained-mass"])
+def test_main_thinning_resume(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, thin_mode: str
+) -> None:
+    """Quiet-row views keep frozen normalization and exact loader/RNG continuation."""
+    test_real_main_epoch_resume_and_completed_export(
+        tmp_path, monkeypatch, False, thin_mode=thin_mode
     )
 
 
