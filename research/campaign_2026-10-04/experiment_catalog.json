@@ -14,10 +14,15 @@
       "matched_control": "Merged CTRL parent/head, equal weights",
       "falsifier": "No reproducible deployed-predictor gain",
       "prior_evidence": "E-359,E-381",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "checked",
       "committed_at": "2026-10-04T01:06:16.143175+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-410",
+        "E-412"
+      ],
+      "current_reason": "Complete predictor locally supported across four exposed folds; full-data training running; public transfer unknown."
     },
     {
       "id": "H-066",
@@ -31,10 +36,14 @@
       "matched_control": "Width256 same optimizer, data and final head policy",
       "falsifier": "Current paired width contrast is null or materially harmful",
       "prior_evidence": "E-350,E-367",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "checked",
       "committed_at": "2026-10-04T01:06:16.143184+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-409"
+      ],
+      "current_reason": "Actual native width cost measured; matched width science fits remain queued."
     },
     {
       "id": "H-067",
@@ -65,10 +74,14 @@
       "matched_control": "q16x same trained weights",
       "falsifier": "No runtime benefit or unacceptable score loss",
       "prior_evidence": "E-336,E-406",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "pilot_running",
       "committed_at": "2026-10-04T01:06:16.143188+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-411"
+      ],
+      "current_reason": "Fixed 64-component q8 accuracy pilot; compressed runtime integration remains pending."
     },
     {
       "id": "H-069",
@@ -117,9 +130,11 @@
       "falsifier": "No predictive change beyond paired uncertainty",
       "prior_evidence": "E-354,E-356",
       "status": "open",
-      "implementation_status": "pending",
+      "implementation_status": "checked",
       "committed_at": "2026-10-04T01:06:16.143195+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [],
+      "current_reason": "EMA row-horizon implementation and trainer replay checked; predictive fit queued."
     },
     {
       "id": "H-072",
@@ -134,9 +149,11 @@
       "falsifier": "Current predictive comparison fails despite valid gradients",
       "prior_evidence": "E-392",
       "status": "open",
-      "implementation_status": "pending",
+      "implementation_status": "checked",
       "committed_at": "2026-10-04T01:06:16.143196+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [],
+      "current_reason": "Matched macrostep numerator/denominator and detach controls checked; fits queued."
     },
     {
       "id": "H-073",
@@ -150,10 +167,14 @@
       "matched_control": "Identical multiplier distribution and main/auxiliary balance",
       "falsifier": "Aligned does not improve over shuffled and historical",
       "prior_evidence": "E-362",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "checked",
       "committed_at": "2026-10-04T01:06:16.143198+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-414"
+      ],
+      "current_reason": "Actual mixed-pool reference calibration prepared; predictive comparison pending."
     },
     {
       "id": "H-074",
@@ -168,9 +189,11 @@
       "falsifier": "No improvement versus both controls",
       "prior_evidence": "E-352",
       "status": "open",
-      "implementation_status": "pending",
+      "implementation_status": "checked",
       "committed_at": "2026-10-04T01:06:16.143199+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [],
+      "current_reason": "Muon-to-AdamW handoff with state/recovery checked; fits queued."
     },
     {
       "id": "H-075",
@@ -185,9 +208,11 @@
       "falsifier": "No gain at equal work",
       "prior_evidence": "opt2",
       "status": "open",
-      "implementation_status": "pending",
+      "implementation_status": "checked",
       "committed_at": "2026-10-04T01:06:16.143201+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [],
+      "current_reason": "Module gradient clipping code checked; matched fit queued."
     },
     {
       "id": "H-076",
@@ -202,9 +227,11 @@
       "falsifier": "No lower variance or predictive benefit",
       "prior_evidence": "opt2_review",
       "status": "open",
-      "implementation_status": "pending",
+      "implementation_status": "checked",
       "committed_at": "2026-10-04T01:06:16.143204+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [],
+      "current_reason": "Seeded/antithetic pair preserves normalization and discarded tail; fits queued."
     },
     {
       "id": "H-077",
@@ -236,9 +263,11 @@
       "falsifier": "No increment against matched control",
       "prior_evidence": "E-321",
       "status": "open",
-      "implementation_status": "pending",
+      "implementation_status": "checked",
       "committed_at": "2026-10-04T01:06:16.143208+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [],
+      "current_reason": "Causal volume28 and equal-width current control, streaming parity and trainer checks passed; private T4 pair being prepared."
     },
     {
       "id": "H-079",
@@ -253,9 +282,11 @@
       "falsifier": "No gain versus equal-work control",
       "prior_evidence": "RESEARCH_RESET Card2",
       "status": "open",
-      "implementation_status": "pending",
+      "implementation_status": "checked",
       "committed_at": "2026-10-04T01:06:16.143209+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [],
+      "current_reason": "Separate detach jitter and equal-work prefix-fixed/prefix-random arms checked with exact CPU/CUDA resume; predictive fits pending."
     },
     {
       "id": "H-080",
@@ -576,9 +607,11 @@
       "falsifier": "Teacher gain fails to transfer or causal audit fails",
       "prior_evidence": "privileged time-series literature",
       "status": "open",
-      "implementation_status": "pending",
+      "implementation_status": "checked",
       "committed_at": "2026-10-04T01:06:16.143239+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [],
+      "current_reason": "Fresh component-inner teachers, original-time labels and equal-input current control checked through causal-student fitting; scientific teacher/student fits pending."
     },
     {
       "id": "H-099",

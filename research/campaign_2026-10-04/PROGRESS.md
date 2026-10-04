@@ -61,3 +61,16 @@ feature implementations proceed in parallel. Historical negatives inform their
 matched controls and do not exclude these retests.
 
 No new score gain is claimed. Best recorded public score remains 0.6641.
+
+## Four-fold complete predictor finished
+
+E410 is complete: pooled +0.002414, component CI[+0.001566,+0.003449].
+All four fold deltas are positive; fold1/2 class3 each decline ~0.00056.
+Fresh CTRL head model tensors exactly reproduce the historical control.
+E411 q8 degradation pilot is running on CPU; E412 full combo is being sealed.
+The updated trainer passes 20 targeted CPU checks and CUDA replay after the
+calibration/jitter/privileged-teacher additions. Current public best remains0.6641.
+
+E412 full-data seed3 started with frozen source 96ca4b1e61823bec3953158bea12124be1efa3ec29493f7902d3eeea5be885a3. Latest CUDA main integration: 8 passed, including paired origin views. H098 teacher code additionally passed synthetic teacher-to-causal-student tests; scientific teacher fits remain pending.
+
+E411 completed: recurrent q8 delta -0.000022729; recurrent+head q8 delta -0.000019261. Both component intervals cross zero. Float32 represented-weight pilot only; native byte runtime still pending. E414 calibration did not launch: its6GiBCPU specification exceeds the current2GiB worker envelope. The next runner revision is being prepared in isolation; the live E412 run remains frozen.

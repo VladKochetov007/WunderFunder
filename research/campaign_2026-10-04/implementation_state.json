@@ -32,22 +32,30 @@
     "volume28_streaming_parity",
     "two_T4_cuda_compatibility",
     "two_T4_stack_actual_trainer_replay",
-    "E409_native_width_runtime"
+    "E409_native_width_runtime",
+    "E410_complete_predictor_four_folds",
+    "E410_fresh_CTRL_head_exact_tensors",
+    "H073_actual_mixed_fit_calibration_code",
+    "H079_detach_boundary_jitter_code",
+    "H098_component_crossfit_teacher_code",
+    "updated_actual_trainer_CUDA_replay",
+    "E411_q8_accuracy_pilot",
+    "H079_equal_work_prefix_views"
   ],
   "pending": [
-    "remaining_combo_heads",
-    "complete_predictor_scores",
     "full_data_combo",
-    "kaggle_gpu_compatibility",
     "tpu_probe",
     "conditional_cues",
-    "structural_teacher_controls"
+    "origin_teacher_scientific_fits",
+    "native_byte_kernel_integration",
+    "E414_CPU_memory_admission"
   ],
   "experiments_started": [
     "E-407",
     "E-408",
     "E-409",
-    "E-410"
+    "E-410",
+    "E-411"
   ],
   "notebook_url": "http://localhost:2718",
   "tpu_probe": {
@@ -64,22 +72,43 @@
     "runner_incident": "Unsupported MemoryOOMGroup property; no workload started. Replaced with independently verified OOMPolicy=kill; fresh attempt passed."
   },
   "first_wave_review": "FIRST_WAVE_REVIEW.md",
-  "as_of_utc": "2026-10-04T01:49:09.794609+00:00",
+  "as_of_utc": "2026-10-04T02:16:24.621179+00:00",
   "scientific_results": {
-    "E410_fold0": {
-      "delta_global_wp": 0.004613410670397,
-      "ci95": [
-        0.0016866275492326722,
-        0.007846154215367898
-      ],
-      "status": "provisional; remaining folds and fresh CTRL reproduction pending"
+    "E409_W384_one_head_median_kcycles": 401.617,
+    "E410": {
+      "pooled": {
+        "candidate_wp": 0.6936584827449684,
+        "reference_wp": 0.6912441041797274,
+        "mean_diff": 0.002414378565241071,
+        "bootstrap_sd": 0.0004834227771238368,
+        "ci95": [
+          0.001565628073012104,
+          0.0034485385083767245
+        ],
+        "p_le_0": 0.0,
+        "n_sequences": 1873,
+        "n_components": 579,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      },
+      "fold_deltas": {
+        "0": 0.004613410670397,
+        "1": 0.0008106367614141297,
+        "2": 0.000983087650961112,
+        "3": 0.002991606830690552
+      },
+      "class3_delta": 0.004275829228364558,
+      "fresh_ctrl_head": "all model tensors exactly equal to historical checkpoint",
+      "peak_gpu_bytes": 2039480320,
+      "oom_kills": 0
     },
-    "E409_W384_one_head_median_kcycles": 401.617
+    "E411": {
+      "recurrent": -2.2729177016622693e-05,
+      "recurrent_head": -1.9260843885038348e-05
+    }
   },
-  "active_local": "E410 combo head fold3",
-  "remaining_head_predictions": [
-    1,
-    2,
-    3
-  ]
+  "active_local": "E412 full-data combo seed3",
+  "remaining_head_predictions": []
 }

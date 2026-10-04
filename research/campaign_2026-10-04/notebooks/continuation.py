@@ -20,7 +20,7 @@ def _(mo):
     mo.md("""
     # Connectome continuation
 
-    Public incumbent: **0.6641**. New implementation is underway; no new forecasting gain is claimed.
+    Public incumbent: **0.6641**. The completed local combo comparison improves WP by **0.00241** after the incumbent's final head procedure. Its public transfer remains unmeasured.
 
     This notebook reads durable campaign records. It never starts training through reactive cells. Historical folds are exposed; public-mixture estimates are diagnostics.
     """)
@@ -87,14 +87,15 @@ def _(campaign_dir, json, mo, public_fig, registry, save_history):
 @app.cell(hide_code=True)
 def _(campaign_dir, json, mo, refresh):
     refresh
-    combo_paths = sorted((campaign_dir / "checks").glob("combo_merged_f*_report.json"))
+    combo_all_path = campaign_dir / "checks/combo_merged_all_folds_report.json"
+    combo_paths = [combo_all_path] if combo_all_path.exists() else sorted((campaign_dir / "checks").glob("combo_merged_f*_report.json"))
     combo_rows = []
     for _path in combo_paths:
         _report = json.loads(_path.read_text())
         for _fold, _fold_report in _report["folds"].items():
             _contrast = _fold_report["paired_component_bootstrap"]["COMBO_minus_CTRL"]
             combo_rows.append({"fold": _fold, "delta": _contrast["mean_diff"], "low": _contrast["ci95"][0], "high": _contrast["ci95"][1]})
-    mo.vstack([mo.md("### Complete predictor: provisional exposed-fold results\nEqual parent/head mixtures. Component intervals condition on these fitted models; no public-score claim."), mo.ui.table(combo_rows)])
+    mo.vstack([mo.md("### Complete predictor: four exposed folds\nEqual parent/head mixtures. Pooled delta +0.002414; component 95% interval [+0.001566, +0.003449]. Fresh CTRL head tensors reproduce exactly. Intervals condition on these fitted models; no public-score claim."), mo.ui.table(combo_rows)])
     return (combo_rows,)
 
 
@@ -132,6 +133,26 @@ def _(campaign_dir, json, plt):
     width_fig.savefig(_width_export / "cycles.svg", bbox_inches="tight")
     (_width_export.parent / "data.json").write_text(json.dumps(width_rows, indent=2) + "\n")
     width_fig
+    return
+
+
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, plt):
+    q8_result = json.loads((campaign_dir / "E411_q8_model/result.json").read_text())
+    q8_rows = [{"preset": _name.replace("_", " "), "delta": _case["global_wp_delta"], "low": _case["paired_component_bootstrap"]["ci95"][0], "high": _case["paired_component_bootstrap"]["ci95"][1]} for _name, _case in q8_result["cases"].items() if "global_wp_delta" in _case]
+    q8_fig, q8_ax = plt.subplots(figsize=(8, 4))
+    q8_ax.errorbar([row["preset"] for row in q8_rows], [row["delta"] for row in q8_rows], yerr=[[row["delta"]-row["low"] for row in q8_rows], [row["high"]-row["delta"] for row in q8_rows]], fmt="o", capsize=5, color="#8F5C38")
+    q8_ax.axhline(0, color="black", linewidth=0.8)
+    q8_ax.set(ylabel="Global WP difference from float weights", title="E411: fixed q8 weight representations on 64 components")
+    q8_ax.ticklabel_format(axis="y", style="sci", scilimits=(0,0))
+    q8_ax.grid(axis="y", alpha=0.2)
+    q8_fig.tight_layout()
+    _q8_export = campaign_dir / "eda/quantization/plots"
+    _q8_export.mkdir(parents=True, exist_ok=True)
+    q8_fig.savefig(_q8_export / "weight_degradation.png", dpi=180)
+    q8_fig.savefig(_q8_export / "weight_degradation.svg")
+    (_q8_export.parent / "data.json").write_text(json.dumps(q8_rows, indent=2) + "\n")
+    mo.vstack([mo.md("### Q8 accuracy pilot\nBoth fixed presets are reported. Float32 arithmetic evaluates represented byte weights; compressed-kernel speed remains unmeasured."), q8_fig])
     return
 
 
