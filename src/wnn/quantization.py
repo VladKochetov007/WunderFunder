@@ -1,8 +1,28 @@
 from __future__ import annotations
 
+import hashlib
+
 import numpy as np
 
 PRESETS = ("recurrent", "recurrent_head")
+
+
+def component_panel(evaluation_groups: tuple[int, ...], components: dict[int, int]) -> list[int]:
+    """Select one feature-only representative from each of 64 hashed components."""
+    members: dict[int, list[int]] = {}
+    for group in evaluation_groups:
+        members.setdefault(components[group], []).append(group)
+    if len(members) < 64:
+        raise ValueError("E411 needs at least 64 distinct evaluation components")
+
+    def rank(value: str) -> str:
+        return hashlib.sha256(f"271828:{value}".encode()).hexdigest()
+
+    selected = sorted(members, key=lambda component: rank(f"component:{component}"))[:64]
+    return [
+        min(members[component], key=lambda group: rank(f"group:{component}:{group}"))
+        for component in selected
+    ]
 
 
 def quantize_rows(weights: np.ndarray) -> tuple[np.ndarray, np.ndarray]:

@@ -11,7 +11,7 @@ from pathlib import Path
 import numpy as np
 
 from wnn.campaign_spec import file_hash
-from wnn.quantization import PRESETS, merge_frozen_heads, quantize_model
+from wnn.quantization import PRESETS, component_panel, merge_frozen_heads, quantize_model
 
 CASES = ("original", *PRESETS)
 
@@ -30,10 +30,16 @@ def prepare(args: argparse.Namespace) -> None:
     from wnn.splits import load_campaign_split
 
     split = load_campaign_split(args.split, args.repository)
+    if args.data.resolve() != (args.repository / "datasets/valid.parquet").resolve():
+        raise ValueError("E411 data must be the frozen split's validation source")
+    expected_sequences = {
+        int(node["row_group"]): int(node["seq_ix"])
+        for node in json.loads(args.split.read_text())["sequences"]["valid"]
+    }
     components = {
         group: component for source, group, component in split.components if source == "valid"
     }
-    groups = sorted(split.evaluation_groups, key=lambda group: (components[group], group))[:64]
+    groups = component_panel(split.evaluation_groups, components)
     if len(groups) != 64 or split.fold != 0:
         raise ValueError("E411 requires exactly 64 sequences from the frozen fold-0 evaluation")
     weights = merge_frozen_heads(export_checkpoint(args.parent), export_checkpoint(args.head))
@@ -66,6 +72,8 @@ def prepare(args: argparse.Namespace) -> None:
     for index, (seq, features, target, required, scored) in enumerate(
         engine.read_sequences(args.data, groups)
     ):
+        if seq != expected_sequences[groups[index]]:
+            raise ValueError("reader sequence identity/order differs from selected component panel")
         if features.shape != (20_000, 112) or not np.isfinite(features).all():
             raise ValueError("invalid sequence feature matrix")
         x[index], y[index], need[index], mask[index] = features, target, required, scored
@@ -91,11 +99,17 @@ def prepare(args: argparse.Namespace) -> None:
     ]
     if portable := os.environ.get("WNN_PORTABLE_DATA_MANIFEST"):
         sources.extend([args.repository / portable, args.repository / "src/wnn/portability.py"])
+        data_sha256 = json.loads((args.repository / portable).read_text())["sources"][
+            "datasets/valid.parquet"
+        ]["sha256"]
+    else:
+        data_sha256 = file_hash(args.data)
     manifest = {
         "experiment": "E411",
         "purpose": "fixed weight-only q8 degradation pilot; existing float32 native arithmetic on represented weights",
         "deployment_shape": "one frozen D256 trunk with equal parent and tuned heads",
-        "panel": "first 64 fold-0 evaluation groups sorted by component then row group; exposed evaluation data",
+        "panel": "64 distinct fold-0 evaluation components ranked by SHA256('271828:component:ID'); one representative ranked by SHA256('271828:group:COMPONENT:GROUP'); exposed data",
+        "selection_amendment": "Controller fixed component coverage before E411 preparation or results; replaces first-64 sequential groups, reads no targets and forces no market-class quotas",
         "sequences": sequences,
         "quantization": reports,
         "source_sha256": {str(path): file_hash(path) for path in sources},
@@ -103,6 +117,7 @@ def prepare(args: argparse.Namespace) -> None:
             "path": str(args.data),
             "size": args.data.stat().st_size,
             "mtime_ns": args.data.stat().st_mtime_ns,
+            "sha256": data_sha256,
         },
         "native_library_sha256": file_hash(args.lib / "wnn_native.abi3.so"),
         "files_sha256": {path.name: file_hash(path) for path in sorted(args.out.iterdir())},
@@ -241,6 +256,7 @@ def run(args: argparse.Namespace) -> None:
         )
         pooled, block = GlobalAccumulator(), BlockAccumulator()
         classes = {label: GlobalAccumulator() for label in range(-1, 4)}
+        class_sequences = {label: 0 for label in range(-1, 4)}
         predictions = np.lib.format.open_memmap(
             args.out / f"{case}_predictions.npy", mode="w+", dtype=np.float32, shape=(64, 20_000, 2)
         )
@@ -249,7 +265,9 @@ def run(args: argparse.Namespace) -> None:
             predictions[index] = prediction
             pooled.add(y[index], prediction, mask[index], group=sequence["component"])
             block.add(y[index], prediction, mask[index])
-            classes[market_class(y[index])].add(y[index], prediction, mask[index])
+            label = market_class(y[index])
+            classes[label].add(y[index], prediction, mask[index])
+            class_sequences[label] += 1
             with (args.out / "progress.jsonl").open("a") as output:
                 output.write(json.dumps({"case": case, "index": index, **sequence}) + "\n")
         predictions.flush()
@@ -258,6 +276,7 @@ def run(args: argparse.Namespace) -> None:
         results[case] = {
             "global": pooled.result(),
             "block": block.result(),
+            "class_sequence_counts": class_sequences,
             "classes": {
                 str(label): accumulator.result()
                 for label, accumulator in classes.items()

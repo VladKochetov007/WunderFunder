@@ -3,7 +3,24 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from wnn.quantization import merge_frozen_heads, quantize_model, quantize_rows, represented_rows
+from wnn.quantization import (
+    component_panel,
+    merge_frozen_heads,
+    quantize_model,
+    quantize_rows,
+    represented_rows,
+)
+
+
+def test_component_panel_is_fixed_balanced_and_order_independent() -> None:
+    mapping = {group: group // 3 for group in range(300)}
+    # One large component must not dominate the sequence panel.
+    mapping.update({group: 0 for group in range(300, 500)})
+    selected = component_panel(tuple(mapping), mapping)
+    assert len(selected) == len({mapping[group] for group in selected}) == 64
+    assert component_panel(tuple(reversed(mapping)), mapping) == selected
+    with pytest.raises(ValueError, match="distinct"):
+        component_panel(tuple(range(63)), {group: group for group in range(63)})
 
 
 def fixture_weights() -> dict[str, np.ndarray]:
