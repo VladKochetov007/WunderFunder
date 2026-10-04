@@ -1,5 +1,11 @@
 # E450: fixed seed-4 replication and equal seed bag
 
+**Public result received:** fixed seed-4 ZIP scored **0.6660**, submission
+`2e5j6bnt`, 2026-10-04 23:48 portal clock, 37m07s /626 MB. Its SHA-256 matches
+the archive below. This supersedes the historical public/runtime-pending
+statements in this report; the equal seed bag is still unsubmitted. See
+[the reflection](PUBLIC_RESULTS_REFLECTION_20261004_LATE.md).
+
 The seed-4 parent completed all four epochs, selected fixed epoch 3, then
 completed the same seed-3 head fine-tune at fixed epoch 0. Both full-validation
 FP32 exports finished. All four local jobs returned zero with verified teardown

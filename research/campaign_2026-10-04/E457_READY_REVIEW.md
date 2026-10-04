@@ -1,5 +1,15 @@
 # E457 fixed parent/head ZIPs ready
 
+## Latest public endpoints
+
+The fixed parent-only ZIP scored **0.6641**, submission `0cawau9i`, 33m57s
+/624 MB. The fixed head-only ZIP scored **0.6654**, submission `0np7c273`,
+34m01s /624 MB. Both portal times are October 4 23:47. The original equal
+mixture remains **0.6655**. ZIP hashes match the readiness records below.
+These supersede prior unmeasured-public statements. Actual offline Python 3.11
+checks on all three packaged CPU builds also pass. See
+[the reflection](PUBLIC_RESULTS_REFLECTION_20261004_LATE.md).
+
 Both prescribed endpoints passed actual i16-v3/i16-v2/f32 callbacks on 20 full streams, unchanged numerical thresholds, bitwise portable/reset replay and causal suffix checks. Source parent/head trunks are bitwise identical; checkpoint, exported weight, dataset and archive hashes are bound to the readiness reports. This is a completed CPU packaging experiment, not a new GPU fit.
 
 | Endpoint | Manual-upload ZIP | SHA256 | Runtime projection anchored to the measured E412 public runtime |

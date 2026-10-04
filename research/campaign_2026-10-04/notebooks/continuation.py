@@ -18,11 +18,11 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md("""
-    # Connectome continuation
+    # Connectome continuation — research paused
 
-    Public incumbent: **0.6655**, confirmed by user-uploaded E412 (`10tq248b`): **+0.0014** over 0.6641, runtime **37m47s**, memory **625MB**. The target gap is **0.0005**. The completed local comparison gained **0.00241** on exposed folds; mechanism attribution remains unresolved.
+    Current public best: **0.6660**, fixed seed-4 combo (`2e5j6bnt`), **37m07s /626 MB**. The numeric target is reached at displayed portal precision. Seed 3: 0.6655; its fixed parent/head endpoints: **0.6641 /0.6654**. These results confirm complete-predictor transfer, not isolated optimization mechanisms.
 
-    This notebook reads durable campaign records. It never starts training through reactive cells. Historical folds are exposed; public-mixture estimates are diagnostics.
+    The original q8 ZIPs are withdrawn after a libpython3.13 packaging failure. Rebuilt Python 3.11 binaries pass compatibility; runtime approval is held. This notebook reads saved evidence and starts no training. Local validation is historically exposed and mostly fitted.
     """)
     return
 
@@ -614,6 +614,44 @@ def _(campaign_dir, mo, refresh):
     _ema_plt.close(_ema_fig)
     (_ema_folder / "figure_provenance.json").write_text(_ema_json.dumps({"source": str(_ema_source.relative_to(campaign_dir)), "source_sha256": _ema_hash.sha256(_ema_source.read_bytes()).hexdigest(), "n_sequences": 468, "n_components": 141, "n_boot": 2000, "scope": "exposed fold0, one seed; no public effect claim"}, indent=2) + "\n")
     mo.vstack([mo.md("### E426 event-clock EMA: measured null screen\nThree matched full fits, canonical FP32 exports, fixed EP3. All paired 95% component intervals include zero; exposed fold0/seed3. This does not establish a general absence of event-time mechanisms."), mo.image(str(_ema_folder / "paired_clock_screen.png"))])
+    return
+
+
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo):
+    climb_history = json.loads((campaign_dir / "eda/leaderboard_climb/leaderboard_history.json").read_text())
+    climb_artifact = campaign_dir / "eda/leaderboard_climb/leaderboard_climb.html"
+    mo.vstack([
+        mo.md("## Public climb and validation on one WP scale\n\nBest public **0.6660**. Download the offline interactive timeline; old forecasts and raw validation are separate series. No new experiments."),
+        mo.download(climb_artifact.read_bytes(), filename="Connectome_leaderboard_climb.html", mimetype="text/html", label="Download interactive HTML"),
+        mo.ui.table([{ "when_Kyiv": row["time"], "kind": row["kind"], "package": row["name"], "public": row.get("public"), "prior_expected_public": row.get("expected_public"), "full_validation": row.get("validation_full"), "excluded_368": row.get("validation_368"), "change": row.get("what") } for row in climb_history["rows"]], selection=None),
+    ])
+    return (climb_history,)
+
+
+@app.cell(hide_code=True)
+def _(campaign_dir, climb_history, plt):
+    climb_fig, climb_ax = plt.subplots(figsize=(12, 6))
+    _climb_series = [
+        ("public", "Public (ours)", "#286bd1", "-"),
+        ("validation_368", "Excluded 368 validation", "#ad4da1", "--"),
+        ("validation_full", "Full supplied validation (mostly fitted)", "#e19b22", "--"),
+        ("expected_public", "Historical expected public", "#8a6e24", ":"),
+    ]
+    for _key, _label, _color, _style in _climb_series:
+        _observed = [row for row in climb_history["rows"] if row.get(_key) is not None and (_key != "public" or row["kind"] == "own")]
+        climb_ax.plot([row["index"] for row in _observed], [row[_key] for row in _observed], marker="o", markersize=4, linewidth=1.4, linestyle=_style, color=_color, label=_label)
+    climb_ax.axhline(0.6660, color="#008474", linestyle=":", linewidth=1, label="Public target 0.6660 (reached)")
+    _climb_ticks = climb_history["rows"][::4]
+    climb_ax.set_xticks([row["index"] for row in _climb_ticks], [row["time"][5:10] for row in _climb_ticks])
+    climb_ax.set_xlabel("Chronological events (Kyiv clock labels; time gaps not proportional)")
+    climb_ax.set_ylabel("Global clipped weighted Pearson — one numeric scale")
+    climb_ax.set_title("Connectome public climb: validation levels do not equal public expectations")
+    climb_ax.grid(alpha=0.2)
+    climb_ax.legend(loc="upper left", fontsize=9)
+    climb_fig.tight_layout()
+    climb_fig.savefig(campaign_dir / "eda/leaderboard_climb/score_series_shared_scale.png", dpi=180)
+    climb_fig
     return
 
 

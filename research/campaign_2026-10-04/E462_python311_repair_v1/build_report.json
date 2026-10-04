@@ -1,0 +1,107 @@
+{
+  "scope": "packaging-only repair; frozen numerical source and predictor inputs",
+  "frozen_source_hashes": {
+    "Cargo.lock": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+    "Cargo.toml": "a4d2c473e19cefa1ba647c3d4a689b2c73e4690a60a1f6a098333f9002868e75",
+    "src/approx.rs": "4df99ecfb690209c651d40c14a3ef3d7489453c06e25e6c4318c60bc1f901742",
+    "src/half.rs": "87035e5569bb7a53295c222026337a4a08661f1d6d821c2b26074fa12b4bb9cc",
+    "src/kernels.rs": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+    "src/lib.rs": "62fb0e7083f1cb1e85bf650290fabe237a9dd8b3a2ad608ca944cef564b028ae",
+    "src/python.rs": "be5a47a33b6874710dec5eaa8f20f46cf9e907e7930ec6ed1727bd6d12c7df7a",
+    "src/quant8.rs": "07354c7f65deaa145127f359448b5fe1f5648e16fe3034bfdccd2939f91347cc",
+    "src/rnn.rs": "544135da67cb156a471d8ca0a9de7837f2ae3657a7885e4f8d95edf238cb0abf",
+    "src/rnn_fast.rs": "3d5186de4374716a4fa5f3f4503674386baaa33606c810ff76443b619f049e55",
+    "src/stream.rs": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6"
+  },
+  "build_image_id": "sha256:822c803e663bd22fb0c5d0831db6b58875dee91adeb4bbb99cf111c3bc8dda6a",
+  "build_features": "python,pyo3/extension-module",
+  "build_python": "3.11.16",
+  "variants": {
+    "q8r": {
+      "zip": "research/campaign_2026-10-04/E462_python311_repair_v1/q8r/E462_q8r_python311_repaired_v1.zip",
+      "sha256": "c325c570b293af3165e9340a936ac8c97610dea51920a3365494692226d53bdd",
+      "unchanged_payload_hashes": {
+        "members.json": "f551b1f0d4a75385ebbdc52b87137bd0e7f9ed72845d19a15e2565b00085ef77",
+        "precision.txt": "c297f2075707801ebd4bae67dc65bbea8fd0f18f89a529462bf3b1ced1d106be",
+        "solution.py": "3f8d78ab725063be6b656c1232dc93398aa6be40c755dfde540a0ef170218569",
+        "weights_0.npz": "c11c54435723129dc7e234870d87c6a751043f58c43e7b8a65df40ee50275f36"
+      },
+      "static_abi": {
+        "artifact": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/E462_python311_repair_v1/q8r/E462_q8r_python311_repaired_v1.zip",
+        "artifact_sha256": "c325c570b293af3165e9340a936ac8c97610dea51920a3365494692226d53bdd",
+        "libraries": {
+          "v2/wnn_native.abi3.so": {
+            "sha256": "2d527b8ec5b087d85dec793eef49901f002001632b19334eba2593776efc61ff",
+            "needed": [
+              "libgcc_s.so.1",
+              "libm.so.6",
+              "libc.so.6",
+              "ld-linux-x86-64.so.2"
+            ],
+            "maximum_glibc": "2.34",
+            "errors": [],
+            "passed": true
+          },
+          "v3/wnn_native.abi3.so": {
+            "sha256": "890cc12dc40f82267ae6178e8cea60565cef6dfed88ac72ced36069814b5c012",
+            "needed": [
+              "libgcc_s.so.1",
+              "libm.so.6",
+              "libc.so.6",
+              "ld-linux-x86-64.so.2"
+            ],
+            "maximum_glibc": "2.34",
+            "errors": [],
+            "passed": true
+          }
+        },
+        "passed": true,
+        "scope": "static ELF dependencies only; offline Python 3.11 callback test also required"
+      }
+    },
+    "q8x": {
+      "zip": "research/campaign_2026-10-04/E462_python311_repair_v1/q8x/E462_q8x_python311_repaired_v1.zip",
+      "sha256": "fde32cb046518c9d7eac9cd35342b959321f5acd46a867421b43bcbad5cd125b",
+      "unchanged_payload_hashes": {
+        "members.json": "f551b1f0d4a75385ebbdc52b87137bd0e7f9ed72845d19a15e2565b00085ef77",
+        "precision.txt": "e9568659cb9a358016023f3bbf7205550715bbff11ef17e321133087325b5c58",
+        "solution.py": "3f8d78ab725063be6b656c1232dc93398aa6be40c755dfde540a0ef170218569",
+        "weights_0.npz": "ae9621d386aab7cee6c4f9e1599311646f8cf8fe99184ceddaa17e9d31ee596d"
+      },
+      "static_abi": {
+        "artifact": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/E462_python311_repair_v1/q8x/E462_q8x_python311_repaired_v1.zip",
+        "artifact_sha256": "fde32cb046518c9d7eac9cd35342b959321f5acd46a867421b43bcbad5cd125b",
+        "libraries": {
+          "v2/wnn_native.abi3.so": {
+            "sha256": "2d527b8ec5b087d85dec793eef49901f002001632b19334eba2593776efc61ff",
+            "needed": [
+              "libgcc_s.so.1",
+              "libm.so.6",
+              "libc.so.6",
+              "ld-linux-x86-64.so.2"
+            ],
+            "maximum_glibc": "2.34",
+            "errors": [],
+            "passed": true
+          },
+          "v3/wnn_native.abi3.so": {
+            "sha256": "890cc12dc40f82267ae6178e8cea60565cef6dfed88ac72ced36069814b5c012",
+            "needed": [
+              "libgcc_s.so.1",
+              "libm.so.6",
+              "libc.so.6",
+              "ld-linux-x86-64.so.2"
+            ],
+            "maximum_glibc": "2.34",
+            "errors": [],
+            "passed": true
+          }
+        },
+        "passed": true,
+        "scope": "static ELF dependencies only; offline Python 3.11 callback test also required"
+      }
+    }
+  },
+  "manual_ready": false,
+  "remaining_gate": "offline Python 3.11 callbacks and existing competition runtime gate"
+}

@@ -5,6 +5,7 @@ E459 pools all required scored rows from **datasets/valid.parquet**, using the o
 | Fixed predictor | All 1,873 validation sequences | 368 sequences excluded from final fit | 1,505 validation sequences used for fitting | Recorded public score |
 |---|---:|---:|---:|---:|
 | Combo seed3, equal parent/head | 0.700503744 | 0.699822159 | 0.700631781 | 0.6655 |
+| Combo seed4, equal parent/head (E450 cached scorecard) | 0.700771292 | 0.701694557 | 0.700545501 | **0.6660** |
 | Previous D256, equal parent/head | 0.700792587 | 0.697777394 | 0.701456363 | 0.6641 |
 
 The full file has 37,460,000 rows; 3,528,273 satisfy `need_prediction AND is_scored`. The combo's full-file t0/t1 scores are 0.696316655 / 0.704690833. Its excluded-portion t0/t1 scores are 0.687627604 / 0.712016713.
@@ -41,6 +42,6 @@ E450 finished a reporting-only FP32 cache scorecard over this exact `datasets/va
 | Combo seed 4 | 0.700771292 | 0.700545501 | 0.701694557 |
 | Equal seed-3/seed-4 bag | 0.701106873 | 0.701013370 | 0.701420130 |
 
-Seed 4 and the bag have no measured public score. This table uses full-file FP32 cached predictions; the public-confirmed seed-3 ZIP has a separate actual callback score of **0.7005037662576581** above. Neither the fitted portion nor the historically exposed excluded portion is an untouched test. The seed-4 and bag excluded-panel paired intervals include zero.
+**Latest user-reported seed-4 public score is 0.6660**, submission `2e5j6bnt`, 37m07s /626 MB. The bag remains unsubmitted. This table uses full-file FP32 cached predictions; the seed-3 ZIP has a separate actual callback score of **0.7005037662576581** above. Neither the fitted portion nor the historically exposed excluded portion is an untouched test. The seed-4 and bag excluded-panel paired intervals include zero. See [public-result reflection](PUBLIC_RESULTS_REFLECTION_20261004_LATE.md); whole-file validation and public rankings disagree for old D256 versus seed 4.
 
 Raw fixed scorecard: `checks/e450_full_valid_fixed_models_v1.json`; bounded worker `runner/attempts/e450-full-valid-fixed-models-v1.json` finished in 28.67 seconds, peak RAM253,480,960B, no GPU/OOM, verified teardown. Marimo figure: `eda/seed4_replication/full_valid_fixed_mixes.png`.

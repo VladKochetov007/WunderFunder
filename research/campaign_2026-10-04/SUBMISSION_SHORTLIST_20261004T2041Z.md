@@ -1,5 +1,15 @@
 # Manual submission shortlist and compute snapshot
 
+**Latest outcomes:** seed-4 combo **0.6660** (37m07s), parent **0.6641**
+(33m57s), head **0.6654** (34m01s). These packages have now been uploaded.
+The current best is seed 4; this historical shortlist is not a list of new
+unsubmitted candidates. See [the updated reflection](PUBLIC_RESULTS_REFLECTION_20261004_LATE.md).
+
+**Superseded for q8r/q8x:** the q8r upload failed prerun because both original
+q8 ZIPs require `libpython3.13.so.1.0`. Both are withdrawn; do not upload them.
+See [the packaging incident](E462_PACKAGING_INCIDENT_20261004.md). The text below
+is the historical 20:41 UTC snapshot, not current q8 readiness.
+
 Two new ready ZIPs are the fixed fine-tuned-head-only endpoint and parent-only endpoint: `submissions/c20261004_combo_head_s3_i16/submission.zip` and `submissions/c20261004_combo_parent_s3_i16/submission.zip`. Both have complete callback/parity/reset/causal checks plus three alternating timing pairs; their runtime projections are roughly 33.8 and 34.2–34.6 minutes. Public scores are unmeasured. A rough heuristic expectation is around 0.665 for each; 0.664–0.666 is an uncertainty illustration, not a calibrated confidence interval or guaranteed bound. Ranking head first is an operational suggestion, not a demonstrated public ordering. The measured equal-mixture incumbent is 0.6655.
 
 The seed-4 equal-parent/head ZIP exists and passed full-stream parity, but runtime verification remains pending after strict quiet-host attempts failed. It is an unmeasured replication candidate around the incumbent, not evidence of a public improvement. Fixed q8r/q8x conversions likewise exist and passed parity and descriptive score checks; native timing remains pending. Their intended public behavior is score preservation near 0.6655. Do not advertise these three as ready yet.

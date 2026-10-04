@@ -1,0 +1,40 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.check
+#1 transferring dockerfile: 258B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.11-slim-bookworm
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 119B done
+#3 DONE 0.0s
+
+#4 [1/2] FROM docker.io/library/python:3.11-slim-bookworm
+#4 CACHED
+
+#5 [2/2] RUN pip install --no-cache-dir numpy==2.2.6 pyarrow==19.0.1
+#5 1.898 Collecting numpy==2.2.6
+#5 1.984   Downloading numpy-2.2.6-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (62 kB)
+#5 2.001      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.0/62.0 kB 3.5 MB/s eta 0:00:00
+#5 2.118 Collecting pyarrow==19.0.1
+#5 2.267   Downloading pyarrow-19.0.1-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.3 kB)
+#5 2.290 Downloading numpy-2.2.6-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.8 MB)
+#5 3.599    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.8/16.8 MB 14.2 MB/s eta 0:00:00
+#5 3.747 Downloading pyarrow-19.0.1-cp311-cp311-manylinux_2_28_x86_64.whl (42.1 MB)
+#5 9.638    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 42.1/42.1 MB 7.9 MB/s eta 0:00:00
+#5 9.756 Installing collected packages: pyarrow, numpy
+#5 12.05 Successfully installed numpy-2.2.6 pyarrow-19.0.1
+#5 12.05 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#5 12.16 
+#5 12.16 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#5 12.16 [notice] To update, run: pip install --upgrade pip
+#5 DONE 12.6s
+
+#6 exporting to image
+#6 exporting layers
+#6 exporting layers 0.4s done
+#6 writing image sha256:949c72c9cf887a68e25dc00955ab030f1e528c21f1049459330ff022a7d51317 done
+#6 naming to docker.io/library/wnn-python311-submission-check done
+#6 DONE 0.4s

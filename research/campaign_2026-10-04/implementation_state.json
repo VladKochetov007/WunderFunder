@@ -75,7 +75,11 @@
     "E426 threefullfits_FP32_exports_actual_paired_score_complete",
     "E425_four_epoch_fit_fixed_FP32_export_and_matched_report",
     "E465_actual_FP32_JAX_CPU_scalar7460_AdamW_reference_pass",
-    "user_pause_local_drain_and_retrospective"
+    "user_pause_local_drain_and_retrospective",
+    "E450_seed4_public0.6660_runtime2227s",
+    "E457_parent_head_public_endpoints0.6641_0.6654",
+    "E462_original_failure_and_frozen_source_Python311_ABI_repair",
+    "public_climb_offlineHTML_sharedscale_validation_and_marimo"
   ],
   "pending": [
     "E414 predictive normalization fits",
@@ -85,7 +89,6 @@
     "TPU real-data JAXpreflight afterhardware/frameworkproof",
     "E449 privatev3live;widthfold1scores afterfits",
     "E462 quietoneCPUtiming beforemanualready",
-    "E450/E462 quietCPUtiming queuedafterE426",
     "E465 full8TPUworker draft under source review after4CPUsharding checks and exact scheduler reference"
   ],
   "experiments_started": [
@@ -401,7 +404,7 @@
         -3.9884231758338655e-05,
         0.004622048532581853
       ],
-      "scope": "368 exposed excluded sequences/249components, all95CIszero; no public score for seed4/bag"
+      "scope": "368 exposed excluded sequences/249components, all local95CIszero; seed4 public0.6660, bag unsubmitted"
     },
     "E462_native_score": {
       "q8r_minus_i16": -5.052308218678192e-06,
@@ -427,7 +430,7 @@
       }
     },
     "E450_native_parity": {
-      "status": "passed_runtime_pending",
+      "status": "passed; public_runtime2227s and score0.6660 now measured",
       "max_i16_f32_error": 9.784102439880371e-05,
       "wp_i16_f32_delta": 2.85905603636e-08,
       "rows": 400000,
@@ -682,8 +685,8 @@
   },
   "kaggle_kernel_inventory": "checks/kaggle_kernel_inventory_20261004T1138Z.json",
   "critic_review": "research/campaign_2026-10-04/CRITIC_FOLLOWUPS_2026-10-04.md",
-  "best_public": 0.6655,
-  "best_public_evidence": "research/campaign_2026-10-04/E412_PUBLIC_RESULT.json",
+  "best_public": 0.666,
+  "best_public_evidence": "research/campaign_2026-10-04/PORTAL_RESULTS_20261004_LATE.json",
   "kaggle_quota_note": "Typed quota durations retain days; JSON string serializer dropped days from totalallowed at17:08. Typed API17:14:11ZGPU24790.786283/108000seconds,remaining83209.213717; TPU134.623/72000remaining71865.377. Preserve typed evidence, not broken displayed totals.",
   "first_wave_tally": {
     "range": "E407\u2013427",
@@ -706,5 +709,38 @@
     "local_new_launch_guard": "runner/PAUSE.json",
     "TPU_collector": "read-only15minexistingE463handle"
   },
-  "incumbent_public": 0.6655
+  "incumbent_public": 0.666,
+  "packaging_incident_E462": {
+    "original_q8r_submission_id": "1yv88h4s",
+    "status": "original_q8_zips_withdrawn; rebuilt_compatibility_passed_runtime_held",
+    "evidence": "research/campaign_2026-10-04/E462_PACKAGING_INCIDENT_20261004.md",
+    "compatibility_report": "research/campaign_2026-10-04/E462_python311_repair_v1/compatibility_report.json",
+    "goal_remains_paused": true
+  },
+  "current_best_public_result": {
+    "name": "c20261004_combo_s4_i16",
+    "submission_id": "2e5j6bnt",
+    "date": "2026-10-04",
+    "portal_time": "2026-10-04 23:48",
+    "portal_time_zone": "not explicitly supplied; interpreted as Kyiv for chart per user request",
+    "filename": "c20261004_combo_s4_i16.zip",
+    "public": 0.666,
+    "runtime_seconds": 2227,
+    "memory_mb": 626,
+    "experiment_id": "E-450",
+    "zip_path": "submissions/c20261004_combo_s4_i16/c20261004_combo_s4_i16.zip",
+    "zip_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a",
+    "members": [
+      [
+        "c20261004_combo_s4_final@ep3|c20261004_combo_head_s4_final@ep0",
+        1.0
+      ]
+    ],
+    "evidence": "research/campaign_2026-10-04/PORTAL_RESULTS_20261004_LATE.json",
+    "public_score_source": "user-pasted competition portal result",
+    "status": "SCORE"
+  },
+  "numeric_target_reached_at_portal_precision": true,
+  "E450_E462_timing": "Earlier local timing failures preserved. Seed4 portalruntime2227s/626MB now measured and gatepassed. E462repairedq8 runtimeheld duringpause; originalq8withdrawn.",
+  "latest_reporting_update_utc": "2026-10-04T22:04:30+00:00"
 }

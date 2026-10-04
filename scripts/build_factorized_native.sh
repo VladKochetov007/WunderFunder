@@ -23,7 +23,7 @@ for level in v2 v3; do
     target=/tmp/wnn-factor-cargo-v3
   fi
   CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR="$target" RUSTFLAGS="$flags" \
-    "$maturin" build --release --features python -m native/Cargo.toml -o "$wheel_dir"
+    "$maturin" build --release --features extension-module -m native/Cargo.toml -o "$wheel_dir"
   WNN_WHEEL_DIR="$wheel_dir" WNN_EXTRACT_DIR="$out/$level" "$python" - <<'PY'
 import os
 from pathlib import Path
@@ -39,3 +39,4 @@ with ZipFile(wheels[0]) as archive:
     archive.extractall(extract_dir)
 PY
 done
+"$python" scripts/check_submission_abi.py "$out"

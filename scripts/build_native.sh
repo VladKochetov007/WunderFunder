@@ -20,10 +20,11 @@ for level in v2 avx2 v3; do
   rm -rf "$out/wheel/$level" "$out/$level"
   docker run --rm --cpus "$cpus" --memory "$mem" -e RUSTFLAGS="${FLAGS[$level]}" -e CARGO_TARGET_DIR=/tmp/target \
     -v "$root/native:/src" -v "$out:/out" wnn-native-build \
-    bash -c "maturin build --release -m /src/Cargo.toml -o /out/wheel/$level -q && chown -R $(id -u):$(id -g) /out"
+    bash -c "maturin build --release --features extension-module -m /src/Cargo.toml -o /out/wheel/$level -q && chown -R $(id -u):$(id -g) /out"
   mkdir -p "$out/$level"
   (cd "$out/$level" && python3 -m zipfile -e "$(ls "$out"/wheel/$level/wnn_native-*.whl)" whl >/dev/null \
     && find whl -name 'wnn_native*.so' -exec mv {} . \; && rm -rf whl)
 done
+python3 "$root/scripts/check_submission_abi.py" "$out"
 rm -rf "$out/wheel"
 ls -l "$out"/*/

@@ -5,6 +5,19 @@ description: Continue the root Wunder Connectome Challenge 2 research campaign t
 
 # WNN Connectome Top-1 Campaign
 
+## Current evidence overrides the historical contract below
+
+As of the October 4 portal results, the fixed seed-4 combo i16 ZIP scored
+**0.6660** (`2e5j6bnt`, 37m07s /626 MB), reaching the numeric target at displayed
+precision. The research goal is explicitly **paused**: do not start fits,
+kernel pushes, timing trials or research iterations without user resumption.
+Read `research/campaign_2026-10-04/CURRENT_STATUS.md` and the latest public-result
+reflection first. The old incumbent/8-hour budget/metric ambiguity in the frozen
+sections below are historical, not current instructions. The authoritative
+metric is `global_wp_clip2_v1`; the later user-approved research allowance was
+80 GPU-hours. Original E462 q8 ZIPs are withdrawn after a libpython3.13 prerun
+failure; repaired ZIPs have compatibility proof but no runtime approval yet.
+
 ## Mission
 
 Produce a deterministic, rules-compliant submission ZIP for the root Connectome project whose
@@ -408,6 +421,15 @@ The present calibration does not pass this gate.
 - Batch, Python streaming, AVX2, v2, and v3 parity within the predeclared tolerance.
 - One-vCPU projected full-test runtime <=52 minutes, leaving margin below 60.
 - Offline Python 3.11 scorer-image smoke test.
+- Check the actual ZIP's ELF dependencies with `scripts/check_submission_abi.py`:
+  reject any `DT_NEEDED` libpython dependency. `abi3-py311` or an `.abi3.so`
+  filename alone is not portability evidence. Build Python extensions with the
+  `extension-module` feature in the scorer's base image.
+- Bind offline Python 3.11 import, constructor and streaming checks to the exact
+  delivered ZIP hash and every shipped CPU build. Use
+  `scripts/check_submission_python311.py` in a network-disabled container.
+  Local Python 3.13 parity cannot replace this gate. See the E462 packaging
+  incident in `research/campaign_2026-10-04/E462_PACKAGING_INCIDENT_20261004.md`.
 - Both pooled and block-average scores recorded on the same complete validation subset.
 
 ## Runtime and Parity Notes

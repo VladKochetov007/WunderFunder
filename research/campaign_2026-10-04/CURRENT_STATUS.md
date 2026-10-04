@@ -14,9 +14,13 @@ The already-submitted E463 TPU real-data preflight remains **QUEUED**. Its exact
 
 ## Incumbent and artifacts
 
-Public best remains **0.6655**, fixed seed-3 combo i16 ZIP, versus previous 0.6641. Its actual complete supplied-validation callback scored **0.700503766**. Most supplied validation was fitted; on the 368 excluded sequences the score is **0.699822159**, and those sequences are historically exposed. Complete-recipe four-fold CV is **0.693658483** versus matched control **0.691244104**. See [VALIDATION_SCORECARD.md](VALIDATION_SCORECARD.md).
+**Latest user-reported public best is 0.6660**, fixed seed-4 combo i16 ZIP, submission `2e5j6bnt`, runtime **37m07s**, memory **626 MB**. This reaches the numerical target at displayed portal precision, +0.0005 over seed 3 and +0.0019 over old D256. Seed-3 parent/head endpoints scored **0.6641 /0.6654**. See [the results and reflection](PUBLIC_RESULTS_REFLECTION_20261004_LATE.md) and [interactive climb](eda/leaderboard_climb/leaderboard_climb.html). Research remains paused.
 
-Two fixed endpoint ZIPs are ready for manual upload: head-only and parent-only. Seed-4 and q8r/q8x ZIPs passed parity/accuracy checks but still need runtime evidence. See [SUBMISSION_SHORTLIST_20261004T2041Z.md](SUBMISSION_SHORTLIST_20261004T2041Z.md). No new public improvement or newly deployable architecture is claimed.
+Seed-4 cached complete supplied-validation WP is **0.700771292**, excluded 368 WP **0.701694557**. Seed 3's actual complete-file native callback scored **0.700503766**. Most supplied validation was fitted, and the excluded sequences are historically exposed. Complete-recipe four-fold CV remains the seed-3 result **0.693658483** versus matched control **0.691244104**; no seed-4 CV is claimed. See [VALIDATION_SCORECARD.md](VALIDATION_SCORECARD.md).
+
+The original q8r ZIP failed public prerun (submission `1yv88h4s`): its native library requires `libpython3.13.so.1.0`, absent from the Python 3.11 scorer. **Both original q8r/q8x ZIPs are withdrawn.** Historical local parity does not establish scorer compatibility. A bounded packaging repair is permitted during the research pause; it does not resume research. See [E462_PACKAGING_INCIDENT_20261004.md](E462_PACKAGING_INCIDENT_20261004.md).
+
+The fixed head-only/parent-only endpoints, seed-4 ZIP and seed-3 ZIP passed offline Python 3.11 callback checks on all three CPU builds. Their actual portal runtimes now provide deployment evidence; seed 4 no longer has a pending public/runtime gate. Repaired q8 ZIPs passed v2/v3 compatibility with bitwise archived-output equivalence; they remain withheld until runtime approval. The earlier [submission shortlist](SUBMISSION_SHORTLIST_20261004T2041Z.md) is superseded by these measured results and the withdrawn q8 notice. No research iteration was started to record these outcomes.
 
 ## Resources at pause
 

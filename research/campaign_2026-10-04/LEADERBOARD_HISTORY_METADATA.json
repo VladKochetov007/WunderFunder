@@ -1,0 +1,136 @@
+{
+  "historical_source": "research/campaign_2026-10-01/plots/lb_timeline_20261001_snapshot.html",
+  "historical_source_sha256": "62878f9c8d197491c605fcb99e63be478f0486035a371954cfce55c87b9b5b43",
+  "early_entries": [
+    {
+      "who": "o",
+      "t": "2026-09-25T10:00",
+      "name": "baseline ×0.25",
+      "what": "Organizer ONNX GRU baseline, outputs scaled ×0.25 so the ±2 clip stops biting. Starting point.",
+      "s": 0.6503,
+      "approx": true
+    },
+    {
+      "who": "o",
+      "t": "2026-09-25T11:00",
+      "name": "ab18_wmse_struct",
+      "what": "Own GRU128 with |y|-weighted MSE and structural aux heads (spread, branch, class), trained on train only. Better on clean validation (+0.005) but worse on the public test: valid-like data matters.",
+      "s": 0.6488,
+      "approx": true
+    },
+    {
+      "who": "o",
+      "t": "2026-09-25T18:00",
+      "name": "final_tv_e2",
+      "what": "Same GRU trained on train + validation, 2 epochs. First real gain over the baseline (+0.0045).",
+      "s": 0.6548,
+      "approx": true
+    },
+    {
+      "who": "o",
+      "t": "2026-09-25T19:00",
+      "name": "blend_base_final_tv",
+      "what": "0.5 GRU + 0.5 rescaled baseline. Blending with the organizer model added +0.0021.",
+      "s": 0.6569,
+      "approx": true
+    }
+  ],
+  "team_entries": [
+    {
+      "who": "t",
+      "t": "2026-09-29T15:30",
+      "name": "candA",
+      "what": "Two GRU256 members, head-only fine-tune. A runtime governor dropped one member mid-run, so it scored as a single GRU256.",
+      "s": 0.6629,
+      "approx": true
+    },
+    {
+      "who": "t",
+      "t": "2026-09-29T15:40",
+      "name": "candB",
+      "what": "GRU256 + 2×GRU128, head-only fine-tune (full fine-tune erased the width gain), 1/3 each.",
+      "s": 0.6639,
+      "approx": true
+    },
+    {
+      "who": "t",
+      "t": "2026-09-30T00:30",
+      "name": "candC",
+      "what": "Distilled GRU256 (targets 0.5·y + 0.5·teacher) + GRU128 s3 + GRU128 s4 + chunk-500 GRU128, C++ fp16 engine.",
+      "s": 0.664,
+      "approx": true
+    },
+    {
+      "who": "t",
+      "t": "2026-09-30T14:00",
+      "name": "V1 (NaiveBayes best)",
+      "what": "candC's parents with a 2-epoch head fine-tune. Team best.",
+      "s": 0.6641,
+      "approx": true
+    },
+    {
+      "who": "t",
+      "t": "2026-09-30T14:10",
+      "name": "V2",
+      "what": "candC members retrained with validation weighted ×3 in the parents. −0.0029: over-weighting validation hurts.",
+      "s": 0.6611,
+      "approx": true
+    },
+    {
+      "who": "t",
+      "t": "2026-09-30T18:00",
+      "name": "V3",
+      "what": "candC members with parents trained on train only. −0.0011: 1× validation in the parents is right.",
+      "s": 0.6629,
+      "approx": true
+    }
+  ],
+  "historical_forecasts": [
+    {
+      "who": "f",
+      "t": "2026-10-01T10:00",
+      "name": "RSP2_f32 (not uploaded)",
+      "what": "Market-class routing: classes 0–2 keep the incumbent members; class 3 averages each trunk's pre-fine-tune head with its head-only fine-tune head. Holdout +0.0012; preregistered folds 2/3 +0.0003.",
+      "s": 0.6627,
+      "lo": 0.6617,
+      "hi": 0.6637,
+      "approx": false
+    },
+    {
+      "who": "f",
+      "t": "2026-10-01T23:30",
+      "name": "S4D_i16 (not uploaded)",
+      "what": "Since GRU128 trunk + distilled GRU256 trunk (our own distillation from the since pair), each with merged parent + fine-tune heads, own int16 Rust engine (~48 min). 4 clean folds +0.0018, holdout +0.0016.",
+      "s": 0.6631,
+      "lo": 0.662,
+      "hi": 0.6642,
+      "approx": false
+    }
+  ],
+  "changes": {
+    "baseline ×0.25": "Organizer ONNX GRU baseline, outputs scaled ×0.25 so the ±2 clip stops biting. Starting point.",
+    "ab18_wmse_struct": "Own GRU128 with |y|-weighted MSE and structural auxiliary heads, train-only. Historical clean-validation improvement failed to transfer to the public test.",
+    "final_tv_e2": "Same GRU trained on train + validation, 2 epochs. First real gain over the baseline (+0.0045).",
+    "blend_base_final_tv": "0.5 GRU + 0.5 rescaled baseline. Blending with the organizer model added +0.0021.",
+    "final_s4_base35": "New recipe: rows weighted by a learned scoring-mask propensity (p²+0.03), true validation masks, next-change aux head, seed 4; 0.65 GRU + 0.35 baseline.",
+    "final_s4ft_base35": "Fine-tune on validation with the true scoring masks. Public +0.0014; the historical local forecast understated this particular gain.",
+    "final_s4lpft_base35": "LP-FT: fine-tune the head first, then the full network. +0.0001, as forecast.",
+    "final_ema4_lpft_base35": "EMA mean-teacher (weight averaging + consistency) over 4 epochs. +0.0017.",
+    "final_since2_gclp": "Since-event row weighting (rows right after a quote move count more, τ = 32), two seeds, pooled-correlation (gcorr) LP-FT, baseline dropped, native Rust engine. Personal best through September 30.",
+    "final_mixed_ema6_shared": "EMA-6 member mixed with the since seed-4 member. Public score fell by 0.0006 from the earlier best; evidence against this tested combination.",
+    "final_ema6_shared": "Two EMA-6 members. Public score fell by 0.0010 from the earlier best; does not prove every longer EMA schedule is harmful.",
+    "R4D_routed_since_d256": "Market-class routed combination of the since GRU128 and distilled GRU256, with fixed merged parent/fine-tuned heads. Public 0.6638.",
+    "S4D_since_d256": "Since GRU128 + distilled GRU256, each with merged parent/head outputs, int16 Rust engine. Scored 0.6633; later single D256 scored 0.6641.",
+    "D256_single_distilled": "Single distilled GRU256, alpha 0.5, equal parent and head-only correlation fine-tune. Dropped the older GRU128 blend members; reached 0.6641.",
+    "D07s3_distilled_alpha07": "Distillation alpha 0.7, seed 3, same complete parent/head procedure. Public 0.6635, below the alpha-0.5 incumbent.",
+    "D07s4_distilled_alpha07_seed4": "Second final alpha-0.7 seed. Public 0.6639; seed variation did not recover the alpha-0.5 public score.",
+    "D256_reference_repeat": "Repeat fixed distilled D256 reference. Public 0.6641 again; 37m37s.",
+    "D256_single_q16x": "Same D256 model with q16x native precision. Public 0.6641, 32m17s: successful deployment variant, no score gain.",
+    "TE07s3_teacher_ensemble_public": "Student taught by the same-family teacher ensemble, alpha 0.7. Public 0.6636; this configuration lost to single-teacher D256.",
+    "chunk500_ensemble_public": "Three-member GRU128 chunk/EMA blend. Public 0.6633, 39m21s; more members did not improve this score.",
+    "c20261004_combo_s3_i16": "Full-data Muon + chunk1000 + stopped-bootstrap horizon8 /alpha0.5 GRU256; fixed epoch3, head-only correlation fine-tune, equal parent/head. Public +0.0014 over D256.",
+    "c20261004_combo_parent_s3_i16": "Same fixed seed-3 combo parent, before the final head procedure. Public 0.6641, 33m57s: ties the earlier complete D256 public point.",
+    "c20261004_combo_head_s3_i16": "Fixed seed-3 combo after head-only fine-tuning, head endpoint alone. Public 0.6654, 34m1s; +0.0013 versus parent, 0.0001 below the equal mixture.",
+    "c20261004_combo_s4_i16": "Second full-data combo parent seed; fixed epoch3 plus the same head procedure and equal parent/head. Public 0.6660, 37m7s; +0.0005 over seed3. Target reached at displayed precision."
+  }
+}
