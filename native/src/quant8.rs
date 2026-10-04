@@ -20,6 +20,62 @@ pub struct PackedQ8 {
 }
 
 impl PackedQ8 {
+    /// Import exact row-major codes and scales without requantizing decoded floats.
+    pub fn from_rows(
+        codes: &[i8],
+        scales: &[f32],
+        rows: usize,
+        cols: usize,
+    ) -> Result<Self, &'static str> {
+        if rows == 0
+            || cols == 0
+            || rows.checked_mul(cols) != Some(codes.len())
+            || scales.len() != rows
+            || scales.iter().any(|s| !s.is_finite() || *s < 0.0)
+            || codes.contains(&-128)
+        {
+            return Err("invalid q8 codes, scales or dimensions");
+        }
+        let chunks = cols.div_ceil(COLS);
+        let panels = rows.div_ceil(ROWS);
+        let capacity = panels
+            .checked_mul(chunks)
+            .and_then(|n| n.checked_mul(TILE))
+            .ok_or("packed matrix dimensions overflow")?;
+        let mut packed = vec![0; capacity];
+        let mut padded_scales = vec![0.0; panels * ROWS];
+        padded_scales[..rows].copy_from_slice(scales);
+        for row in 0..rows {
+            if scales[row] == 0.0 && codes[row * cols..(row + 1) * cols].iter().any(|q| *q != 0) {
+                return Err("nonzero q8 code has zero row scale");
+            }
+            for col in 0..cols {
+                let index =
+                    ((row / ROWS) * chunks + col / COLS) * TILE + (row % ROWS) * COLS + col % COLS;
+                packed[index] = codes[row * cols + col];
+            }
+        }
+        Ok(Self {
+            rows,
+            cols,
+            scales: padded_scales,
+            codes: packed,
+        })
+    }
+
+    /// Export logical rows, preserving every code and scale bit.
+    pub fn to_rows(&self) -> (Vec<i8>, Vec<f32>) {
+        let chunks = self.cols.div_ceil(COLS);
+        let codes = (0..self.rows * self.cols)
+            .map(|index| {
+                let (row, col) = (index / self.cols, index % self.cols);
+                self.codes
+                    [((row / ROWS) * chunks + col / COLS) * TILE + (row % ROWS) * COLS + col % COLS]
+            })
+            .collect();
+        (codes, self.scales[..self.rows].to_vec())
+    }
+
     /// Quantize finite row-major weights, with round-to-nearest-even and zero padding.
     pub fn pack(weights: &[f32], rows: usize, cols: usize) -> Result<Self, &'static str> {
         if rows == 0 || cols == 0 || rows.checked_mul(cols) != Some(weights.len()) {
@@ -72,6 +128,11 @@ impl PackedQ8 {
     /// Stored code and scale bytes, excluding vector metadata.
     pub fn storage_bytes(&self) -> usize {
         self.codes.len() + self.scales.len() * size_of::<f32>()
+    }
+
+    /// Packed cache lines for an optional prefetch hint; never changes arithmetic.
+    pub fn bytes(&self) -> &[u8] {
+        bytemuck::cast_slice(&self.codes)
     }
 
     /// Reconstruct the exact represented weights for model-side quantization diagnostics.
@@ -196,6 +257,15 @@ mod tests {
         assert!(PackedQ8::pack(&[], 0, 3).is_err());
         assert!(PackedQ8::pack(&[1.0], 2, 2).is_err());
         assert!(PackedQ8::pack(&[], usize::MAX, 2).is_err());
+        assert!(PackedQ8::from_rows(&[-128], &[1.0], 1, 1).is_err());
+        assert!(PackedQ8::from_rows(&[1], &[0.0], 1, 1).is_err());
+        assert!(PackedQ8::from_rows(&[1], &[f32::NAN], 1, 1).is_err());
+        assert!(PackedQ8::from_rows(&[1], &[-1.0], 1, 1).is_err());
+        let scale = f32::from_bits(0x3d803127);
+        let imported = PackedQ8::from_rows(&[12, -126], &[scale], 1, 2).unwrap();
+        let (codes, scales) = imported.to_rows();
+        assert_eq!(codes, [12, -126]);
+        assert_eq!(scales[0].to_bits(), scale.to_bits());
     }
 
     #[test]

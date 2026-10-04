@@ -10,6 +10,58 @@ use pyo3::prelude::*;
 use crate::rnn::{GruLayer, RnnModel, RnnWeights};
 use crate::rnn_fast::{Activations, FastRnn, Precision};
 
+type Q8Codes = HashMap<String, Py<PyAny>>;
+
+fn import_q8(py: Python<'_>, model: &mut FastRnn, mut codes: Q8Codes) -> PyResult<()> {
+    if codes.len() != 2 * model.q8_matrices().len() || codes.is_empty() {
+        return Err(PyValueError::new_err(
+            "q8 codes/scales do not match precision preset",
+        ));
+    }
+    let mut matrices = Vec::new();
+    for (name, _) in model.q8_matrices() {
+        let raw = codes
+            .remove(&format!("{name}.codes"))
+            .ok_or_else(|| PyValueError::new_err(format!("missing q8 codes: {name}")))?;
+        let scale = codes
+            .remove(&format!("{name}.scales"))
+            .ok_or_else(|| PyValueError::new_err(format!("missing q8 scales: {name}")))?;
+        let raw = raw.bind(py).extract::<numpy::PyReadonlyArray2<'_, i8>>()?;
+        let scale = scale.bind(py).extract::<PyReadonlyArray1<'_, f32>>()?;
+        let shape = raw.shape();
+        let matrix = crate::quant8::PackedQ8::from_rows(
+            raw.as_slice()?,
+            scale.as_slice()?,
+            shape[0],
+            shape[1],
+        )
+        .map_err(PyValueError::new_err)?;
+        matrices.push((name.clone(), matrix));
+    }
+    model
+        .load_q8_matrices(matrices)
+        .map_err(|e| PyValueError::new_err(e.0))
+}
+
+fn export_q8(py: Python<'_>, model: &FastRnn) -> PyResult<Q8Codes> {
+    let mut result = HashMap::new();
+    for (name, matrix) in model.q8_matrices() {
+        let (codes, scales) = matrix.to_rows();
+        result.insert(
+            format!("{name}.codes"),
+            PyArray1::from_vec(py, codes)
+                .reshape([matrix.rows(), matrix.cols()])?
+                .into_any()
+                .unbind(),
+        );
+        result.insert(
+            format!("{name}.scales"),
+            PyArray1::from_vec(py, scales).into_any().unbind(),
+        );
+    }
+    Ok(result)
+}
+
 fn parse_precision(name: &str) -> PyResult<Precision> {
     match name {
         "f32" => Ok(Precision::F32),
@@ -17,8 +69,12 @@ fn parse_precision(name: &str) -> PyResult<Precision> {
         "i16" => Ok(Precision::I16),
         "q16x" => Ok(Precision::Q16x),
         "q16x_portable" => Ok(Precision::Q16xPortable),
+        "q8r" => Ok(Precision::Q8r),
+        "q8r_portable" => Ok(Precision::Q8rPortable),
+        "q8x" => Ok(Precision::Q8x),
+        "q8x_portable" => Ok(Precision::Q8xPortable),
         other => Err(PyValueError::new_err(format!(
-            "precision {other:?}; expected 'f32', 'f16', 'i16', 'q16x' or 'q16x_portable'"
+            "precision {other:?}; expected f32, f16, i16, q16x, q8r, q8x or a portable sibling"
         ))),
     }
 }
@@ -30,6 +86,10 @@ fn precision_name(p: Precision) -> &'static str {
         Precision::I16 => "i16",
         Precision::Q16x => "q16x",
         Precision::Q16xPortable => "q16x_portable",
+        Precision::Q8r => "q8r",
+        Precision::Q8rPortable => "q8r_portable",
+        Precision::Q8x => "q8x",
+        Precision::Q8xPortable => "q8x_portable",
     }
 }
 
@@ -155,24 +215,43 @@ struct PyModelStepper {
 #[pymethods]
 impl PyModelStepper {
     #[new]
-    #[pyo3(signature = (weights, fast_activations=true, precision="f32"))]
+    #[pyo3(signature = (weights, fast_activations=true, precision="f32", q8_codes=None))]
     fn new(
+        py: Python<'_>,
         weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
         fast_activations: bool,
         precision: &str,
+        q8_codes: Option<Q8Codes>,
     ) -> PyResult<Self> {
         let act = if fast_activations {
             Activations::Fast
         } else {
             Activations::Exact
         };
-        let model = FastRnn::with_precision(
+        let mut model = FastRnn::with_precision(
             weights_from_dict(weights)?,
             act,
             parse_precision(precision)?,
         )
         .map_err(|e| PyValueError::new_err(e.0))?;
+        if let Some(codes) = q8_codes {
+            import_q8(py, &mut model, codes)?;
+        }
         Ok(Self { model })
+    }
+
+    fn quantization_codes(&self, py: Python<'_>) -> PyResult<Q8Codes> {
+        export_q8(py, &self.model)
+    }
+
+    #[getter]
+    fn weight_bytes(&self) -> usize {
+        self.model.weight_bytes()
+    }
+
+    #[getter]
+    fn q8_weight_bytes(&self) -> usize {
+        self.model.q8_matrices().iter().map(|(_, matrix)| matrix.storage_bytes()).sum()
     }
 
     fn reset(&mut self) {
@@ -399,15 +478,18 @@ impl PyEnsemblePredictor {
         fast_activations=true,
         precision="f32",
         budget_s=None,
-        expected_rows=39_400_000.0
+        expected_rows=39_400_000.0,
+        q8_codes=None
     ))]
     fn new(
+        py: Python<'_>,
         weights: Vec<HashMap<String, PyReadonlyArrayDyn<'_, f32>>>,
         coefficients: Vec<f32>,
         fast_activations: bool,
         precision: &str,
         budget_s: Option<f64>,
         expected_rows: f64,
+        q8_codes: Option<Vec<Q8Codes>>,
     ) -> PyResult<Self> {
         if weights.is_empty() || weights.len() != coefficients.len() {
             return Err(PyValueError::new_err(
@@ -417,6 +499,15 @@ impl PyEnsemblePredictor {
         if coefficients.iter().any(|v| !v.is_finite()) {
             return Err(PyValueError::new_err("coefficients must be finite"));
         }
+        if q8_codes
+            .as_ref()
+            .is_some_and(|codes| codes.len() != weights.len())
+        {
+            return Err(PyValueError::new_err(
+                "provide q8 tensors for every ensemble member",
+            ));
+        }
+        let mut encoded = q8_codes.map(|codes| codes.into_iter());
         let activation = if fast_activations {
             Activations::Fast
         } else {
@@ -437,8 +528,11 @@ impl PyEnsemblePredictor {
                 )));
             }
             widths.push(width);
-            let model = FastRnn::with_precision(parsed, activation, precision)
+            let mut model = FastRnn::with_precision(parsed, activation, precision)
                 .map_err(|e| PyValueError::new_err(e.0))?;
+            if let Some(codes) = encoded.as_mut().and_then(Iterator::next) {
+                import_q8(py, &mut model, codes)?;
+            }
             if model.n_out() != 2 {
                 return Err(PyValueError::new_err("ensemble members need two outputs"));
             }
@@ -541,6 +635,18 @@ impl PyEnsemblePredictor {
     fn weight_bytes(&self) -> Vec<usize> {
         self.models.iter().map(FastRnn::weight_bytes).collect()
     }
+
+    #[getter]
+    fn q8_weight_bytes(&self) -> Vec<usize> {
+        self.models.iter().map(|model| model.q8_matrices().iter().map(|(_, matrix)| matrix.storage_bytes()).sum()).collect()
+    }
+
+    fn quantization_codes(&self, py: Python<'_>) -> PyResult<Vec<Q8Codes>> {
+        self.models
+            .iter()
+            .map(|model| export_q8(py, model))
+            .collect()
+    }
 }
 
 /// Streaming predictor: event features + FastRnn, one row per call, no per-row allocation
@@ -556,11 +662,13 @@ struct PyPredictor {
 #[pymethods]
 impl PyPredictor {
     #[new]
-    #[pyo3(signature = (weights, fast_activations=true, precision="f32"))]
+    #[pyo3(signature = (weights, fast_activations=true, precision="f32", q8_codes=None))]
     fn new(
+        py: Python<'_>,
         weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
         fast_activations: bool,
         precision: &str,
+        q8_codes: Option<Q8Codes>,
     ) -> PyResult<Self> {
         let rnn_weights = weights_from_dict(weights)?;
         let n_in = rnn_weights.mean.len();
@@ -574,8 +682,11 @@ impl PyPredictor {
         } else {
             Activations::Exact
         };
-        let model = FastRnn::with_precision(rnn_weights, act, parse_precision(precision)?)
+        let mut model = FastRnn::with_precision(rnn_weights, act, parse_precision(precision)?)
             .map_err(|e| PyValueError::new_err(e.0))?;
+        if let Some(codes) = q8_codes {
+            import_q8(py, &mut model, codes)?;
+        }
         if model.n_out() < 2 {
             return Err(PyValueError::new_err("model must have at least 2 outputs"));
         }
@@ -590,6 +701,15 @@ impl PyPredictor {
     fn reset(&mut self) {
         self.features.reset();
         self.model.reset();
+    }
+
+    fn quantization_codes(&self, py: Python<'_>) -> PyResult<Q8Codes> {
+        export_q8(py, &self.model)
+    }
+
+    #[getter]
+    fn weight_bytes(&self) -> usize {
+        self.model.weight_bytes()
     }
 
     #[getter]

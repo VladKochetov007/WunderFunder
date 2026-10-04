@@ -503,10 +503,14 @@ impl Ahead {
     };
 
     pub fn new(s: &[u16]) -> Self {
-        let cur = s.as_ptr() as *const u8;
+        Self::bytes(bytemuck::cast_slice(s))
+    }
+
+    pub fn bytes(s: &[u8]) -> Self {
+        let cur = s.as_ptr();
         Self {
             cur,
-            end: cur.wrapping_add(2 * s.len()),
+            end: cur.wrapping_add(s.len()),
         }
     }
 

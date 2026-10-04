@@ -1,0 +1,32 @@
+Implementation check failure, before any E416 scientific inference or timing.
+Transcribed from the captured tool output of:
+  env WNN_SLICE=wnn-campaign.slice WNN_SCOPE_UNIT=wnn-q8-native-unit \
+      WNN_THREADS=1 WNN_CPU_QUOTA=100% WNN_MEM_MAX=2G WNN_RUNTIME_MAX=900 \
+      CARGO_BUILD_JOBS=1 scripts/limited cargo test --manifest-path native/Cargo.toml --lib --release
+
+Worktree branch: codex/c20261004-resources, base commit bf739d2; native q8 changes
+were uncommitted at this initial implementation check. No existing source or
+checkpoint on the root worker was changed.
+
+running 45 tests
+test rnn_fast::tests::q8_preserves_own_representation_and_matches_scalar_reset ... FAILED
+
+thread 'rnn_fast::tests::q8_preserves_own_representation_and_matches_scalar_reset' (573479) panicked at src/rnn_fast.rs:1279:17:
+Q8r H128 own-reference error: 0.0024118423
+
+test result: FAILED. 43 passed; 1 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.81s
+error: test failed, to rerun pass `--lib`
+
+The original accuracy threshold was 1e-3 maximum absolute prediction error.
+The failing model used weights(211, 128, 2, 17), whose unscaled recurrent weights
+do not shrink with fan-in. Scalar/native byte arithmetic was bitwise identical;
+the failure was against the float32 represented-weight model because native q8
+also applies transient int16 activation coding.
+
+Disposition: retain the exact unscaled model as an explicit finite-output and
+scalar/SIMD determinism stress test, and create a separate fan-in-scaled accuracy
+fixture. This is a changed fixture, not a claim that the original 1e-3 check
+passed. The actual trained-model E416 gates remain fixed before inference at
+maxabs <=3e-4 and absolute pooled WP delta <=5e-6 against the represented-weight
+float reference. Original q16x stress tolerance was 3e-3; it is context, not a
+retroactive passing threshold for the failed q8 check.
