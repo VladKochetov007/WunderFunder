@@ -1,0 +1,79 @@
+{
+  "as_of_utc": "2026-10-04T11:09:25Z",
+  "kernel_count": 7,
+  "counts": {
+    "COMPLETE": 3,
+    "ERROR": 3,
+    "QUEUED": 1,
+    "RUNNING": 0
+  },
+  "quota_as_of_utc": "2026-10-04T11:09:16Z",
+  "quota": {
+    "gpu_total_hours": 30,
+    "gpu_used_hours": 4,
+    "gpu_remaining_hours": 26,
+    "tpu_total_hours": 20,
+    "tpu_used_hours": 0,
+    "tpu_remaining_hours": 20,
+    "refresh_utc": "2026-10-10T00:00:00Z"
+  },
+  "kernels": [
+    {
+      "slug": "wnn-e413-volume-20261004-v1-runner",
+      "status": "COMPLETE",
+      "latest_run_utc": "2026-10-04T02:20:18Z",
+      "result": "Both dual-T4 workers completed 4 epochs, validation predictions, and scores. Volume-history WP0.681592; current-only WP0.680630. Local paired delta+0.0009618, CI[-0.0000800,+0.0020597].",
+      "peak_worker_vram_gb": 6.911,
+      "peak_worker_ram_gb": [
+        9.22,
+        9.24
+      ],
+      "oom": false,
+      "scope": "One exposed fold/seed; score signal uncertain."
+    },
+    {
+      "slug": "wnn-e419-qat-dualt4-20261004-v2-runner",
+      "status": "ERROR",
+      "latest_run_utc": "2026-10-04T06:47:22Z",
+      "result": "Preflight failed because portable bundle omitted sentinel_prepare dependency. No model fit.",
+      "oom": false
+    },
+    {
+      "slug": "wnn-e419-qat-dualt4-20261004-v3-runner",
+      "status": "ERROR",
+      "latest_run_utc": "2026-10-04T08:07:17Z",
+      "result": "Two workers passed preflight and QAT shape probe, completed matched FP32 controls and exports. Score step used stale t4v2 names. No PTQ or QAT fit.",
+      "peak_worker_vram_gb": 2.081,
+      "peak_worker_ram_gb": [
+        8.235,
+        8.192
+      ],
+      "oom": false
+    },
+    {
+      "slug": "wnn-tpu-probe-20261004",
+      "status": "QUEUED",
+      "since_utc": "2026-10-04T00:59:22Z",
+      "result": "No TPU worker or queue reason exposed."
+    },
+    {
+      "slug": "wnn-t4-trainer-20261004-runner",
+      "status": "COMPLETE",
+      "latest_run_utc": "2026-10-04T01:43:26Z",
+      "result": "Two-T4 CUDA training compatibility smoke passed; no campaign score experiment."
+    },
+    {
+      "slug": "wnn-t4-compat-20261004-runner",
+      "status": "ERROR",
+      "latest_run_utc": "2026-10-04T01:25:41Z",
+      "result": "Bundle tarball path error; no scientific fit."
+    },
+    {
+      "slug": "wnn-t4-compat-20261004-v2-runner",
+      "status": "COMPLETE",
+      "latest_run_utc": "2026-10-04T01:34:59Z",
+      "result": "Two-T4 compatibility probe passed; no campaign score experiment."
+    }
+  ],
+  "notes": "Only E413 is a completed scientific campaign experiment among Kaggle runs. E419v3 control predictions were recovered and rescored locally. These status labels are provider kernel status, not science-complete status."
+}
