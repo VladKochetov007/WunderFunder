@@ -34,7 +34,8 @@ manifests must be explicitly listed. The builder does not infer dependencies.
 Use `--external datasets/train.parquet=train.parquet` and corresponding entries
 for valid/mask to mount the private raw dataset instead of copying its 35 GB.
 The raw files must still have complete content identities in the spec. Other
-declared inputs enter `bundle.tar.gz`. The dataset metadata is private; create
+declared inputs enter `bundle.wnn` (gzip tar bytes with an opaque extension because
+Kaggle expands recognized archive extensions). The dataset metadata is private; create
 without the CLI `--public` flag. Generated kernel metadata also remains private,
 attaches only the bundle and `vladkochetov07/wunder-funder`, and disables internet.
 No provider creation or push happens inside the builder.
