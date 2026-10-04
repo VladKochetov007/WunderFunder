@@ -295,5 +295,38 @@ def _():
     return
 
 
+@app.cell(hide_code=True)
+def _():
+    import json as _gain_json
+    from pathlib import Path as _gain_Path
+    import matplotlib.pyplot as _gain_plt
+    _gain_root = _gain_Path("/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04")
+    _gain_result = _gain_json.loads((_gain_root / "checks/e422_reciprocal_report.json").read_text())
+    _gain_dir = _gain_root / "eda/gain_probe/plots"
+    _gain_dir.mkdir(parents=True, exist_ok=True)
+    _gain_fig, _gain_axes = _gain_plt.subplots(1, 2, figsize=(10, 4), constrained_layout=True)
+    for _gain_d, _gain_report in enumerate(_gain_result["directions"]):
+        for _gain_arm, _gain_color in [("candidate", "#176fa5"), ("input_summary", "#d78720")]:
+            _gain_values = _gain_report["recoverability"][_gain_arm]["r2_vs_fit_mean_per_target"]
+            _gain_axes[0].plot([2 * _gain_d, 2 * _gain_d + 1], _gain_values, "o-", color=_gain_color, label=_gain_arm if _gain_d == 0 else None)
+        _gain_metric = _gain_report["reports"]["candidate_minus_unchanged"]
+        _gain_mean = _gain_metric["mean_diff"]
+        _gain_lo, _gain_hi = _gain_metric["ci95"]
+        _gain_axes[1].errorbar(_gain_d, _gain_mean, yerr=[[_gain_mean - _gain_lo], [_gain_hi - _gain_mean]], fmt="o", color="#176fa5", capsize=5)
+    _gain_axes[0].set_xticks(range(4), ["A→B t0", "A→B t1", "B→A t0", "B→A t1"])
+    _gain_axes[0].set_ylabel("Gain R² versus fit mean")
+    _gain_axes[0].legend(labels=["Hidden state", "Input summary"])
+    _gain_axes[1].set_xticks([0, 1], ["A→B", "B→A"])
+    _gain_axes[1].set_ylabel("State gain minus unchanged WP")
+    for _gain_ax in _gain_axes:
+        _gain_ax.axhline(0, color="black", linewidth=0.8)
+    _gain_fig.suptitle("E422: fixed gain probe on disjoint episodes\nExposed fold 0; component intervals; no architecture fit")
+    for _gain_suffix in ["png", "svg"]:
+        _gain_fig.savefig(_gain_dir / f"gain_probe.{_gain_suffix}", dpi=160)
+    _gain_fig
+
+    return
+
+
 if __name__ == "__main__":
     app.run()

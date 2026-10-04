@@ -100,3 +100,11 @@ E412 i16 alternative passes unchanged max-error/WP gates on20 full streams, sequ
 E422 CPU gain-cache helper exceeded its4GiB child cap because anchor-state views retained full20k hidden arrays. Actual systemd oom-kill evidence is retained. Selected states now copy their small anchor arrays; weak-reference lifetime regression4passed under2GiB. Production cache retry is held while uncheckpointed local training runs. A controller-service namespace mistake and subsequent stale-job reconciliation interrupted two earlier E419 attempts before any epoch checkpoint. Those attempts are preserved; exact fresh rerun E419 FP16 v3 is healthy.
 
 Private E419 dual-T4 QAT kernel is RUNNING; physical-worker logs are not yet available. TPU remainsQUEUED, no memory/core claim. Luna-only delegation respected (three actors); localCPU/GPU jobs remain root-admitted under aggregate resource limits.
+
+## 2026-10-04T08:04:21.521861+00:00 — runtime and precision reconciliation
+
+Clean i16 package timing completed and candidate ready for user upload, public unmeasured. Local FP32−FP16=-0.00001605 with interval[-0.00015023,+0.00008639]. Factor clean timing458.20kcycles versus396.07original q16x and763.03effective dense FP32; v2 CPU overlap preserved. Gain GPU caches retained209/219 sequences and reciprocal screens launched. QATv2 missing-helper preflight failed without fits; correctedv3 private push authorized. TPU queued. Luna-only maximumsix.
+
+## 2026-10-04T08:11:34.072663+00:00 — next predictive fit launched
+
+E422 reciprocal screens completed; state/input gain R² negative, earlier-label oracle worsens later-episode WP. EDA saved under eda/gain_probe and live marimo cell lebv. H093/H094 merged with corrected production auxiliary objectives; root12 integration plus23 optimizer/control tests passed under2GiB. E423 full-schedule EMA-row intervention launched, fresh same-source control/common-FP32 exports/scoring queued behind it in bounded controller. Initial local GPU92%,3168MiB, host11.46GB within caps. Kaggle private QATv3 RUNNING at provider, worker progress pending.

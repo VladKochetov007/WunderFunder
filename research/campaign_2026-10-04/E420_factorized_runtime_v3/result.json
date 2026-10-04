@@ -1,0 +1,532 @@
+{
+  "experiment": "E420_RUNTIME",
+  "purpose": "actual scorer-callback timing for a parity-passing zero-update factor control; descriptive only",
+  "hardware": {
+    "platform": "Linux-7.2.7-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "python": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]",
+    "affinity": [
+      15
+    ],
+    "cpuinfo": "processor\t: 0\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 2732.603\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 0\ncpu cores\t: 8\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 1\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 2953.937\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 1\ncpu cores\t: 8\napicid\t\t: 2\ninitial apicid\t: 2\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 2\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 800.947\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 2\ncpu cores\t: 8\napicid\t\t: 4\ninitial apicid\t: 4\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 3\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 800.000\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 3\ncpu cores\t: 8\napicid\t\t: 6\ninitial apicid\t: 6\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 4\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 970.016\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 4\ncpu cores\t: 8\napicid\t\t: 8\ninitial apicid\t: 8\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 5\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 800.000\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 5\ncpu cores\t: 8\napicid\t\t: 10\ninitial apicid\t: 10\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 6\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 4294.090\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 6\ncpu cores\t: 8\napicid\t\t: 12\ninitial apicid\t: 12\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 7\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 800.000\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 7\ncpu cores\t: 8\napicid\t\t: 14\ninitial apicid\t: 14\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 8\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 3815.032\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 0\ncpu cores\t: 8\napicid\t\t: 1\ninitial apicid\t: 1\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 9\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 4008.842\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 1\ncpu cores\t: 8\napicid\t\t: 3\ninitial apicid\t: 3\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 10\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 3928.478\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 2\ncpu cores\t: 8\napicid\t\t: 5\ninitial apicid\t: 5\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 11\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 800.000\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 3\ncpu cores\t: 8\napicid\t\t: 7\ninitial apicid\t: 7\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 12\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 1731.741\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 4\ncpu cores\t: 8\napicid\t\t: 9\ninitial apicid\t: 9\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 13\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 1681.227\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 5\ncpu cores\t: 8\napicid\t\t: 11\ninitial apicid\t: 11\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 14\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 1805.766\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 6\ncpu cores\t: 8\napicid\t\t: 13\ninitial apicid\t: 13\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 15\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 141\nmodel name\t: 11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz\nstepping\t: 1\nmicrocode\t: 0x58\ncpu MHz\t\t: 4399.955\ncache size\t: 24576 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 7\ncpu cores\t: 8\napicid\t\t: 15\ninitial apicid\t: 15\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4992.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\n",
+    "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e420-factorized-runtime-v3.service\n",
+    "loadavg_start": "1.12 1.00 1.39 3/2973 1538630\n",
+    "cycles_counter_available": true,
+    "parity_report_sha256": "58f1691a9573b35bf1d4bae9c28368dcb2d47c9257e954ed2c9de7714fe0078e",
+    "parity_control_sha256": "1e3c440f458e5e9826911b37b5762c8becdce44b1f33965ea80918d1568900e9",
+    "native_library_sha256_v2_v3": {
+      "v2": "0e707721c5c19767019c56d73cdbfaf2c4d8cde1983f273e4be2ae9ea50c4b0e",
+      "v3": "c8d087cc6e96830c5d8e30fd2b770d792e4ad03209e7ead5ed450282100c831c"
+    },
+    "timed_native_level": "v3"
+  },
+  "inputs": {
+    "source_checkpoint": "artifacts/runs/c20261003_w384_s3_f0/model.pt",
+    "source_checkpoint_sha256": "b5181f3aa948765f22a8c3f23f6e293ba715b52ffb91eb6eac02d6b7e30a8b8d",
+    "source_epoch": 3,
+    "source_checkpoint_epoch": -1,
+    "zero_update_control": "research/campaign_2026-10-04/E420_factorized/zero_update_w384_r128.pt",
+    "zero_update_control_sha256": "1e3c440f458e5e9826911b37b5762c8becdce44b1f33965ea80918d1568900e9",
+    "control_epoch": 3,
+    "control_checkpoint_epoch": -1,
+    "e409_manifest": "research/campaign_2026-10-04/E409_width_runtime/manifest.json",
+    "e409_manifest_sha256": "815bee9144348fa58c6cd622e0ba2ff48c94b3722228d2b19fafd6e227552464",
+    "e409_data": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_subset20.parquet",
+    "e409_data_sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+    "row_groups": [
+      0,
+      1,
+      2
+    ],
+    "sequence_ids": [
+      256678,
+      1990332,
+      8348957
+    ],
+    "rows_per_sequence": [
+      20000,
+      20000,
+      20000
+    ]
+  },
+  "model": {
+    "parent_hidden": 384,
+    "gru_layers": 2,
+    "source_output_width": 23,
+    "timed_head_output_width": 2,
+    "factor_rank": 128,
+    "factor_matrix_names": [
+      "gru.weight_ih_l0",
+      "gru.weight_hh_l0",
+      "gru.weight_ih_l1",
+      "gru.weight_hh_l1"
+    ],
+    "factor_parameterization": "saved FP32 left[3H,rank] and right[rank,H]; no refactor at timing",
+    "cases": {
+      "factor_f32": "rank-128 zero-update control, exact saved factors",
+      "effective_dense_f32": "same control and head, four saved left@right dense matrices",
+      "original_w384_q16x": "unfactorized parent as a separate deployment-cost context"
+    }
+  },
+  "stream_bytes": {
+    "selected_parquet_compressed_bytes": 16523311,
+    "selected_parquet_uncompressed_bytes": 17414585,
+    "loaded_raw_feature_bytes": 26880000,
+    "loaded_need_mask_bytes": 60000
+  },
+  "timing": {
+    "order": "factor_f32, effective_dense_f32, original_w384_q16x; reverse order on odd repeats",
+    "repeats": 5,
+    "cpu": 15,
+    "head_outputs": 2,
+    "factor_dense_callback_max_abs": 5.364418029785156e-07,
+    "factor_dense_callback_max_abs_gate": 0.0003,
+    "includes": "E409 DataPoint/scorer loop and native causal event-feature callback; includes state reset on sequence transitions",
+    "initialization_excluded": true,
+    "public_runtime_projection": null
+  },
+  "summary": {
+    "factor_f32": {
+      "us_per_row": {
+        "min": 110.19266898329077,
+        "median": 112.8716027167684,
+        "max": 115.94791988342574,
+        "all": [
+          110.19266898329077,
+          111.98640844995681,
+          112.8716027167684,
+          115.18997358313452,
+          115.94791988342574
+        ]
+      },
+      "kcycles_per_row": {
+        "min": 451.81127990000005,
+        "median": 458.1984246,
+        "max": 460.84768498333335,
+        "all": [
+          458.1984246,
+          452.78516249999996,
+          451.81127990000005,
+          460.29430825000003,
+          460.84768498333335
+        ]
+      },
+      "native_storage_bytes": {
+        "import_only_dense_recurrent": 7077888,
+        "recurrent_state": 3072,
+        "scratch": 16716,
+        "total_streamed_weights": 4674112,
+        "factor_weights": 3145728
+      },
+      "python_import_dense_parameter_bytes": 8607904,
+      "python_import_factor_parameter_bytes": 3145728
+    },
+    "effective_dense_f32": {
+      "us_per_row": {
+        "min": 182.4749770501512,
+        "median": 184.74720161672545,
+        "max": 185.80308578336067,
+        "all": [
+          185.80308578336067,
+          185.24341349996877,
+          182.4749770501512,
+          184.13574041672595,
+          184.74720161672545
+        ]
+      },
+      "kcycles_per_row": {
+        "min": 760.5046814166667,
+        "median": 763.0341434166667,
+        "max": 799.2400806666666,
+        "all": [
+          799.2400806666666,
+          782.4380675833333,
+          761.71193695,
+          763.0341434166667,
+          760.5046814166667
+        ]
+      },
+      "native_storage_bytes": {
+        "scratch": 16204,
+        "factor_weights": 0,
+        "total_streamed_weights": 8606272,
+        "recurrent_state": 3072,
+        "import_only_dense_recurrent": 0
+      },
+      "python_import_dense_parameter_bytes": 8607904,
+      "python_import_factor_parameter_bytes": 0
+    },
+    "original_w384_q16x": {
+      "us_per_row": {
+        "min": 95.72314319993895,
+        "median": 99.063994833341,
+        "max": 102.31144038322478,
+        "all": [
+          95.72314319993895,
+          96.81615151663816,
+          100.03601511671148,
+          99.063994833341,
+          102.31144038322478
+        ]
+      },
+      "kcycles_per_row": {
+        "min": 391.33180518333336,
+        "median": 396.06981648333334,
+        "max": 405.36826405,
+        "all": [
+          391.33180518333336,
+          394.9330120833333,
+          400.10266505,
+          396.06981648333334,
+          405.36826405
+        ]
+      },
+      "native_storage_bytes": {
+        "scratch": 18508,
+        "total_streamed_weights": 4337856,
+        "recurrent_state": 3072,
+        "factor_weights": 0,
+        "import_only_dense_recurrent": 0
+      },
+      "python_import_dense_parameter_bytes": 8607904,
+      "python_import_factor_parameter_bytes": 0
+    }
+  },
+  "trials": {
+    "factor_f32": [
+      {
+        "repeat": 0,
+        "position": 0,
+        "case": "factor_f32",
+        "loadavg": "1.76 1.15 1.43 2/2977 1539130\n",
+        "precision": "factor_f32",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 6.611560138997447,
+        "us_per_row": 110.19266898329077,
+        "kcycles_per_row": 458.1984246,
+        "native_storage_bytes": {
+          "import_only_dense_recurrent": 7077888,
+          "recurrent_state": 3072,
+          "scratch": 16716,
+          "total_streamed_weights": 4674112,
+          "factor_weights": 3145728
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 3145728,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      },
+      {
+        "repeat": 1,
+        "position": 2,
+        "case": "factor_f32",
+        "loadavg": "1.66 1.21 1.44 1/2968 1542476\n",
+        "precision": "factor_f32",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 6.719184506997408,
+        "us_per_row": 111.98640844995681,
+        "kcycles_per_row": 452.78516249999996,
+        "native_storage_bytes": {
+          "scratch": 16716,
+          "recurrent_state": 3072,
+          "factor_weights": 3145728,
+          "total_streamed_weights": 4674112,
+          "import_only_dense_recurrent": 7077888
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 3145728,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      },
+      {
+        "repeat": 2,
+        "position": 0,
+        "case": "factor_f32",
+        "loadavg": "1.68 1.22 1.45 2/2965 1543047\n",
+        "precision": "factor_f32",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 6.772296163006104,
+        "us_per_row": 112.8716027167684,
+        "kcycles_per_row": 451.81127990000005,
+        "native_storage_bytes": {
+          "scratch": 16716,
+          "total_streamed_weights": 4674112,
+          "recurrent_state": 3072,
+          "import_only_dense_recurrent": 7077888,
+          "factor_weights": 3145728
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 3145728,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      },
+      {
+        "repeat": 3,
+        "position": 2,
+        "case": "factor_f32",
+        "loadavg": "2.01 1.36 1.49 1/2963 1546184\n",
+        "precision": "factor_f32",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 6.911398414988071,
+        "us_per_row": 115.18997358313452,
+        "kcycles_per_row": 460.29430825000003,
+        "native_storage_bytes": {
+          "import_only_dense_recurrent": 7077888,
+          "recurrent_state": 3072,
+          "scratch": 16716,
+          "total_streamed_weights": 4674112,
+          "factor_weights": 3145728
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 3145728,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      },
+      {
+        "repeat": 4,
+        "position": 0,
+        "case": "factor_f32",
+        "loadavg": "2.00 1.38 1.49 3/2964 1546815\n",
+        "precision": "factor_f32",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 6.956875193005544,
+        "us_per_row": 115.94791988342574,
+        "kcycles_per_row": 460.84768498333335,
+        "native_storage_bytes": {
+          "total_streamed_weights": 4674112,
+          "recurrent_state": 3072,
+          "scratch": 16716,
+          "factor_weights": 3145728,
+          "import_only_dense_recurrent": 7077888
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 3145728,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      }
+    ],
+    "effective_dense_f32": [
+      {
+        "repeat": 0,
+        "position": 1,
+        "case": "effective_dense_f32",
+        "loadavg": "1.80 1.18 1.44 2/2979 1540048\n",
+        "precision": "f32",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 11.14818514700164,
+        "us_per_row": 185.80308578336067,
+        "kcycles_per_row": 799.2400806666666,
+        "native_storage_bytes": {
+          "scratch": 16204,
+          "factor_weights": 0,
+          "total_streamed_weights": 8606272,
+          "recurrent_state": 3072,
+          "import_only_dense_recurrent": 0
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 0,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      },
+      {
+        "repeat": 1,
+        "position": 1,
+        "case": "effective_dense_f32",
+        "loadavg": "1.71 1.21 1.45 1/2970 1541948\n",
+        "precision": "f32",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 11.114604809998127,
+        "us_per_row": 185.24341349996877,
+        "kcycles_per_row": 782.4380675833333,
+        "native_storage_bytes": {
+          "total_streamed_weights": 8606272,
+          "recurrent_state": 3072,
+          "scratch": 16204,
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 0,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      },
+      {
+        "repeat": 2,
+        "position": 1,
+        "case": "effective_dense_f32",
+        "loadavg": "1.73 1.24 1.45 1/2965 1543824\n",
+        "precision": "f32",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 10.948498623009073,
+        "us_per_row": 182.4749770501512,
+        "kcycles_per_row": 761.71193695,
+        "native_storage_bytes": {
+          "recurrent_state": 3072,
+          "scratch": 16204,
+          "import_only_dense_recurrent": 0,
+          "total_streamed_weights": 8606272,
+          "factor_weights": 0
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 0,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      },
+      {
+        "repeat": 3,
+        "position": 1,
+        "case": "effective_dense_f32",
+        "loadavg": "2.09 1.37 1.49 2/2982 1545736\n",
+        "precision": "f32",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 11.048144425003557,
+        "us_per_row": 184.13574041672595,
+        "kcycles_per_row": 763.0341434166667,
+        "native_storage_bytes": {
+          "factor_weights": 0,
+          "recurrent_state": 3072,
+          "total_streamed_weights": 8606272,
+          "import_only_dense_recurrent": 0,
+          "scratch": 16204
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 0,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      },
+      {
+        "repeat": 4,
+        "position": 1,
+        "case": "effective_dense_f32",
+        "loadavg": "2.00 1.40 1.50 6/2980 1547667\n",
+        "precision": "f32",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 11.084832097003527,
+        "us_per_row": 184.74720161672545,
+        "kcycles_per_row": 760.5046814166667,
+        "native_storage_bytes": {
+          "scratch": 16204,
+          "recurrent_state": 3072,
+          "total_streamed_weights": 8606272,
+          "import_only_dense_recurrent": 0,
+          "factor_weights": 0
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 0,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      }
+    ],
+    "original_w384_q16x": [
+      {
+        "repeat": 0,
+        "position": 2,
+        "case": "original_w384_q16x",
+        "loadavg": "1.81 1.19 1.44 2/2969 1540524\n",
+        "precision": "q16x",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 5.743388591996336,
+        "us_per_row": 95.72314319993895,
+        "kcycles_per_row": 391.33180518333336,
+        "native_storage_bytes": {
+          "scratch": 18508,
+          "total_streamed_weights": 4337856,
+          "recurrent_state": 3072,
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 0,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      },
+      {
+        "repeat": 1,
+        "position": 0,
+        "case": "original_w384_q16x",
+        "loadavg": "1.83 1.20 1.45 1/2970 1541101\n",
+        "precision": "q16x",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 5.808969090998289,
+        "us_per_row": 96.81615151663816,
+        "kcycles_per_row": 394.9330120833333,
+        "native_storage_bytes": {
+          "recurrent_state": 3072,
+          "import_only_dense_recurrent": 0,
+          "total_streamed_weights": 4337856,
+          "factor_weights": 0,
+          "scratch": 18508
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 0,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      },
+      {
+        "repeat": 2,
+        "position": 2,
+        "case": "original_w384_q16x",
+        "loadavg": "1.61 1.24 1.45 3/2964 1544354\n",
+        "precision": "q16x",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 6.00216090700269,
+        "us_per_row": 100.03601511671148,
+        "kcycles_per_row": 400.10266505,
+        "native_storage_bytes": {
+          "recurrent_state": 3072,
+          "total_streamed_weights": 4337856,
+          "scratch": 18508,
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 0,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      },
+      {
+        "repeat": 3,
+        "position": 0,
+        "case": "original_w384_q16x",
+        "loadavg": "2.21 1.36 1.49 1/2962 1544773\n",
+        "precision": "q16x",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 5.943839690000459,
+        "us_per_row": 99.063994833341,
+        "kcycles_per_row": 396.06981648333334,
+        "native_storage_bytes": {
+          "recurrent_state": 3072,
+          "scratch": 18508,
+          "factor_weights": 0,
+          "import_only_dense_recurrent": 0,
+          "total_streamed_weights": 4337856
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 0,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      },
+      {
+        "repeat": 4,
+        "position": 2,
+        "case": "original_w384_q16x",
+        "loadavg": "1.92 1.40 1.50 1/2971 1548182\n",
+        "precision": "q16x",
+        "sequences": 3,
+        "rows": 60000,
+        "seconds": 6.138686422993487,
+        "us_per_row": 102.31144038322478,
+        "kcycles_per_row": 405.36826405,
+        "native_storage_bytes": {
+          "recurrent_state": 3072,
+          "total_streamed_weights": 4337856,
+          "factor_weights": 0,
+          "scratch": 18508,
+          "import_only_dense_recurrent": 0
+        },
+        "python_import_dense_parameter_bytes": 8607904,
+        "python_import_factor_parameter_bytes": 0,
+        "timed_scope": "E409 ScorerStepByStep DataPoint loop + native predict callback; includes native causal feature updates"
+      }
+    ]
+  }
+}

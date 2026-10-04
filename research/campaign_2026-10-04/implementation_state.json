@@ -43,14 +43,17 @@
     "H079_equal_work_prefix_views",
     "E415_nine_proxy_families_reciprocal_heads",
     "E412_full_data_fit_and_final_head",
-    "E412_full_valid_FP16_exports"
+    "E412_full_valid_FP16_exports",
+    "E412 clean i16 callback timing",
+    "E419 local precision matched evaluation",
+    "E420 real parity and clean timing",
+    "E422 production GPU caches",
+    "E422 reciprocal gain screens",
+    "H093/H094 merged and35 root CPU tests passed"
   ],
   "pending": [
     "TPU actual hardware probe",
-    "E412 clean i16 runtime",
-    "E419 matched precision/QAT results",
-    "E420 full real-stream native factor parity and timing",
-    "E422 production memory rerun",
+    "E419 remote QAT results",
     "E414 predictive normalization fits",
     "remaining preregistered scientific fits"
   ],
@@ -75,11 +78,11 @@
     "cpu": "checks/compat_cpu_local_v1.json",
     "cuda": "checks/compat_cuda_local_v1.json",
     "cuda_observed_peak_bytes": 667942912,
-    "real_worker_oom_kills": 1,
-    "runner_incident": "E4224GiB helperOOM corrected; view lifetime regression4passed; production rerun pending"
+    "runner_incident": "one E422 CPU4GiB OOM-failed job; view lifetime fixed; GPU8GiB caches completed",
+    "oom_failed_jobs": 1
   },
   "first_wave_review": "FIRST_WAVE_REVIEW.md",
-  "as_of_utc": "2026-10-04T06:59:36.915871+00:00",
+  "as_of_utc": "2026-10-04T08:11:34.072663+00:00",
   "scientific_results": {
     "E409_W384_one_head_median_kcycles": 401.617,
     "E410": {
@@ -122,7 +125,7 @@
       "decision": "all proxy heads lose to unchanged backbone; exact ideas remain open"
     },
     "E412": {
-      "status": "i16_numerical_checks_passed_runtime_pending",
+      "status": "package_ready_public_unmeasured",
       "fixed_parent_epoch": 3,
       "fixed_head_epoch": 0,
       "q16x_raw_max_error": 0.000415802001953125,
@@ -149,10 +152,134 @@
       "candidate_minus_unchanged_direction0": -0.0790276214,
       "candidate_minus_unchanged_direction1": -0.0877464304,
       "interpretation": "fixed small-data frozen-trunk factorized CE loses untouched and joint CE; end-to-end untested"
+    },
+    "E420": {
+      "timing": {
+        "factor_f32": {
+          "us_per_row": {
+            "min": 110.19266898329077,
+            "median": 112.8716027167684,
+            "max": 115.94791988342574,
+            "all": [
+              110.19266898329077,
+              111.98640844995681,
+              112.8716027167684,
+              115.18997358313452,
+              115.94791988342574
+            ]
+          },
+          "kcycles_per_row": {
+            "min": 451.81127990000005,
+            "median": 458.1984246,
+            "max": 460.84768498333335,
+            "all": [
+              458.1984246,
+              452.78516249999996,
+              451.81127990000005,
+              460.29430825000003,
+              460.84768498333335
+            ]
+          },
+          "native_storage_bytes": {
+            "import_only_dense_recurrent": 7077888,
+            "recurrent_state": 3072,
+            "scratch": 16716,
+            "total_streamed_weights": 4674112,
+            "factor_weights": 3145728
+          },
+          "python_import_dense_parameter_bytes": 8607904,
+          "python_import_factor_parameter_bytes": 3145728
+        },
+        "effective_dense_f32": {
+          "us_per_row": {
+            "min": 182.4749770501512,
+            "median": 184.74720161672545,
+            "max": 185.80308578336067,
+            "all": [
+              185.80308578336067,
+              185.24341349996877,
+              182.4749770501512,
+              184.13574041672595,
+              184.74720161672545
+            ]
+          },
+          "kcycles_per_row": {
+            "min": 760.5046814166667,
+            "median": 763.0341434166667,
+            "max": 799.2400806666666,
+            "all": [
+              799.2400806666666,
+              782.4380675833333,
+              761.71193695,
+              763.0341434166667,
+              760.5046814166667
+            ]
+          },
+          "native_storage_bytes": {
+            "scratch": 16204,
+            "factor_weights": 0,
+            "total_streamed_weights": 8606272,
+            "recurrent_state": 3072,
+            "import_only_dense_recurrent": 0
+          },
+          "python_import_dense_parameter_bytes": 8607904,
+          "python_import_factor_parameter_bytes": 0
+        },
+        "original_w384_q16x": {
+          "us_per_row": {
+            "min": 95.72314319993895,
+            "median": 99.063994833341,
+            "max": 102.31144038322478,
+            "all": [
+              95.72314319993895,
+              96.81615151663816,
+              100.03601511671148,
+              99.063994833341,
+              102.31144038322478
+            ]
+          },
+          "kcycles_per_row": {
+            "min": 391.33180518333336,
+            "median": 396.06981648333334,
+            "max": 405.36826405,
+            "all": [
+              391.33180518333336,
+              394.9330120833333,
+              400.10266505,
+              396.06981648333334,
+              405.36826405
+            ]
+          },
+          "native_storage_bytes": {
+            "scratch": 18508,
+            "total_streamed_weights": 4337856,
+            "recurrent_state": 3072,
+            "factor_weights": 0,
+            "import_only_dense_recurrent": 0
+          },
+          "python_import_dense_parameter_bytes": 8607904,
+          "python_import_factor_parameter_bytes": 0
+        }
+      },
+      "scope": "zero-update SVD, no scientific validation"
+    },
+    "E419_local": {
+      "delta": -1.60457423e-05,
+      "ci95": [
+        -0.0001502265235,
+        8.63879555e-05
+      ]
+    },
+    "E422": {
+      "direction_state_delta": [
+        -0.01283145106704664,
+        -0.014141057116310307
+      ],
+      "scope": "fixed ridge gain probe; no representation exhaustion claim"
     }
   },
-  "active_local": "E419 FP16 continuation v3; experimental gain helper held pending production-memory check",
+  "active_local": "E423 EMA rows; automatic fresh control/exports/score queued",
   "remaining_head_predictions": [],
-  "active_remote": "E419 QAT dualT4 RUNNING; TPU QUEUED",
+  "active_remote": "E419v3 provider RUNNING, worker progress pending; TPU QUEUED",
   "subagent_policy": "Luna only, maximum6; currently3 delegated actors"
 }
