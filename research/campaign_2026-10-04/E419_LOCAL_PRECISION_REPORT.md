@@ -9,3 +9,6 @@ FP16:14920 attempted updates,6 AMP skips,14914 completed optimizer updates,14920
 Both gain-cache GPU extractions completed subsequently. Earlier interrupted pre-epoch runs remain preserved and are not scientific results. Kaggle QATv2 failed preflight because a helper was omitted from the portable bundle; no fits took place. A new v3 closure was prepared with explicit PTQ controls and independent same-T4 float continuations.
 
 Evidence: `checks/e419_precision_report.json`, `checks/e419_precision_screen.json`, `checks/precision_sequence_v1.json`, sealed specs and runner resource records.
+
+
+Remote v3 follow-up: both matched FP32 control workers completed full-valid FP32 predictions but score lookup used stale t4v2 names. The saved t4v3 predictions were recovered and scored locally with corrected single-arm specs; both score0.681495977. Their checkpoint model tensors and prediction arrays are exactly equal; this confirms the scoring path and duplicate control, not a scientific comparison. No PTQ/QAT fitting ran. See E419_FROZEN_CONTROL_RECOVERY.md and the preserved Kaggle failure report.

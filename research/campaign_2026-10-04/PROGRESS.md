@@ -112,3 +112,7 @@ E422 reciprocal screens completed; state/input gain R² negative, earlier-label 
 ## 2026-10-04T11:00:39.437879+00:00 — EMA result and Kaggle QAT failure boundary
 
 E423 EMA-row intervention vs fresh same-source control=-0.000574 WP, paired component interval[-0.001797,+0.000303],468 sequences/141 components; one exposed fold/seed. Kaggle E419v3 used both T4 workers for preflight, one-batch QAT probes, matched FP32 controls and exports, then failed score lookup on stale t4v2 names. No QAT/PTQ fit ran. Preserved exact failure outputs. Quota26GPU/20TPU hours. TPU queued; width pair staged.
+
+## 2026-10-04T11:07:24.169038+00:00 — recovered E419 control score path
+
+Saved T4 v3 FP32 controls passed corrected single-arm local scoring. Both named controls have identical model tensors and predictions (WP0.681496); this is path validation only. PTQ/QAT fits did not run. Luna is preparing a cached-control QAT retry plan; no additional Kaggle quota spent.
