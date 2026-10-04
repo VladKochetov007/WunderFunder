@@ -64,7 +64,7 @@ from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_
 from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
 from wnn.spread_aux import PackedSpreadCache, structural_loss, validate_spread_cache
 from wnn.training_controls import (DistilledLoss, distilled_macro_losses,
-                                   ema_decay_per_update, shuffled_masses)
+                                   detach_boundary_offset, ema_decay_per_update, shuffled_masses)
 from wnn.training_dynamics import (Dynamics, add_arguments as add_dynamics_arguments,
                                    build_optimizer, build_scheduler, switch_optimizer)
 from wnn.training_sampling import EpochOrderSampler, init_qmc_
@@ -896,6 +896,9 @@ def main():
                     help="opt-in distilled macrostep rows; 0 preserves one update per --chunk")
     ap.add_argument("--detach-rows", type=int, default=0,
                     help="opt-in gradient detach interval; 0 uses --chunk, with state values carried")
+    ap.add_argument("--detach-boundary-jitter", action="store_true",
+                    help="randomize detach phase inside unchanged macro updates; requires chunk < detach rows")
+    ap.add_argument("--detach-jitter-seed", type=int, default=271828)
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--stop-after-epoch", type=int, default=None,
@@ -1144,7 +1147,10 @@ def main():
         ap.error("--epoch-samples cannot be combined with --class-balance")
     update_rows = args.update_rows or args.chunk
     detach_rows = args.detach_rows or args.chunk
-    controlled_loss = bool(args.update_rows or args.detach_rows or args.distill_denominator != "chunk")
+    controlled_loss = bool(args.update_rows or args.detach_rows or args.distill_denominator != "chunk"
+                           or args.detach_boundary_jitter)
+    if args.detach_boundary_jitter and (detach_rows <= args.chunk or args.detach_jitter_seed < 0):
+        ap.error("detach-boundary jitter needs --detach-rows larger than --chunk and a nonnegative seed")
     if controlled_loss:
         if (args.chunk <= 0 or update_rows <= 0 or detach_rows <= 0
                 or detach_rows % args.chunk or update_rows % detach_rows
@@ -1675,6 +1681,9 @@ def main():
                             rows=sl, micro_rows=args.chunk, detach_rows=detach_rows,
                             config=configuration, denominator=args.distill_denominator,
                             reference_mass=args.distill_reference_mass,
+                            detach_offset_rows=detach_boundary_offset(
+                                args.chunk, detach_rows, args.detach_jitter_seed, step_count)
+                                if args.detach_boundary_jitter else 0,
                             donor_mass=None if donor_masses is None else donor_masses[s // update_rows]):
                         scaler.scale(contribution).backward()
                         loss = loss + contribution.detach()
