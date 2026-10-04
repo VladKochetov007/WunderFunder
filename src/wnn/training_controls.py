@@ -121,7 +121,7 @@ def distilled_macro_losses(
         or micro_rows <= 0
         or detach_rows <= 0
         or detach_rows % micro_rows
-        or width % detach_rows
+        or width % micro_rows
     ):
         raise ValueError("micro/detach/update intervals must divide one another")
     if denominator not in {"chunk", "fixed", "shuffled"}:
