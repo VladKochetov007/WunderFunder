@@ -25,6 +25,7 @@ def main() -> int:
         [
             str(STAGING / "tests/test_e425_soft_route.py"),
             str(STAGING / "tests/test_e425_trainer_cpu.py"),
+            str(STAGING / "tests/test_e425_diagnostics_finite.py"),
             "-q",
             "-p",
             "no:cacheprovider",

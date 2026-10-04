@@ -412,6 +412,14 @@ def _score_member(
     """Stream one package over exactly the historically excluded 368 groups."""
     import pyarrow.parquet as parquet
 
+    # Script execution sets sys.path[0] to this staging directory. Add the
+    # repository roots explicitly so fresh score-member processes can import
+    # both the root-level `utils.py` and the `src/wnn` package.
+    repo_paths = (str(ROOT), str(ROOT / "src"))
+    for repo_path in reversed(repo_paths):
+        if repo_path not in sys.path:
+            sys.path.insert(0, repo_path)
+
     from wnn.splits import is_holdout
     from utils import FEATURE_COLUMNS, SEQUENCE_LENGTH
 

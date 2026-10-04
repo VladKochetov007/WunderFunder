@@ -10,7 +10,7 @@ from types import ModuleType
 import torch
 from wnn.specialist_diagnostics import SoftRouteDiagnostics
 
-from wnn.specialist import PREFIX_ROWS, SpecialistGRUModel
+from wnn.specialist import PREFIX_ROWS, SpecialistGRUModel, causal_prefix_mean
 
 REPO_ROOT = Path(__file__).resolve().parents[5]
 
@@ -127,6 +127,7 @@ def test_soft_route_streaming_batch_and_reset_match_independent_sequences() -> N
     torch.manual_seed(4251)
     model = _production_model("soft").eval()
     values = torch.randn(3, PREFIX_ROWS + 7, 211)
+    normalized = (values - model.mean) / model.std
 
     with torch.no_grad():
         batched, batch_state = model(values)
@@ -141,8 +142,52 @@ def test_soft_route_streaming_batch_and_reset_match_independent_sequences() -> N
             streamed_parts.append(output)
         streamed = torch.cat(streamed_parts, dim=1)
         torch.testing.assert_close(streamed, batched, atol=2e-6, rtol=2e-6)
-        for streamed_state, whole_state in zip(state, batch_state, strict=True):
+
+        # GRU states and causal prefix means are observable model behavior. The
+        # internal accumulated prefix sum can differ by FP32 reduction order.
+        for streamed_state, whole_state in zip(state[:-2], batch_state[:-2], strict=True):
             torch.testing.assert_close(streamed_state, whole_state, atol=2e-6, rtol=2e-6)
+        batch_prefix, (batch_sum, batch_count) = causal_prefix_mean(normalized)
+        streamed_prefixes = []
+        prefix_state = None
+        for row in normalized.split(1, dim=1):
+            prefix, prefix_state = causal_prefix_mean(row, prefix_state)
+            streamed_prefixes.append(prefix)
+        streamed_prefix = torch.cat(streamed_prefixes, dim=1)
+        streamed_sum, streamed_count = prefix_state
+        torch.testing.assert_close(batch_prefix, streamed_prefix, atol=2e-6, rtol=2e-6)
+        assert torch.equal(batch_count, streamed_count)
+        torch.testing.assert_close(
+            batch_sum / batch_count[:, None],
+            streamed_sum / streamed_count[:, None],
+            atol=2e-6,
+            rtol=2e-6,
+        )
+
+        prefix_length = min(PREFIX_ROWS, normalized.shape[1])
+        counts64 = torch.arange(1, prefix_length + 1, dtype=torch.float64)
+        fp64_prefix = normalized[:, :prefix_length].double().cumsum(dim=1) / counts64[None, :, None]
+        if prefix_length < normalized.shape[1]:
+            frozen = fp64_prefix[:, -1:].expand(-1, normalized.shape[1] - prefix_length, -1)
+            fp64_prefix = torch.cat((fp64_prefix, frozen), dim=1)
+        torch.testing.assert_close(batch_prefix.double(), fp64_prefix, atol=2e-6, rtol=2e-6)
+        torch.testing.assert_close(streamed_prefix.double(), fp64_prefix, atol=2e-6, rtol=2e-6)
+
+        # Each FP32 accumulation is bounded by gamma_n * sum(abs(x)); check
+        # both accumulators against an independent FP64 sum and bound their
+        # difference by the sum of those two absolute-error bounds.
+        fp32_epsilon = torch.finfo(torch.float32).eps
+        gamma = (prefix_length * fp32_epsilon) / (1 - prefix_length * fp32_epsilon)
+        absolute_mass = normalized[:, :prefix_length].double().abs().sum(dim=1)
+        exact_prefix_sum = normalized[:, :prefix_length].double().sum(dim=1)
+        roundoff_bound = gamma * absolute_mass + 1e-7
+        batch_sum_error = (batch_sum.double() - exact_prefix_sum).abs()
+        streamed_sum_error = (streamed_sum.double() - exact_prefix_sum).abs()
+        assert torch.all(batch_sum_error <= roundoff_bound)
+        assert torch.all(streamed_sum_error <= roundoff_bound)
+        assert torch.all(batch_sum_error + streamed_sum_error <= 2 * roundoff_bound)
+        assert torch.all((batch_sum - streamed_sum).double().abs() <= 2 * roundoff_bound)
+        assert torch.equal(state[-1], batch_state[-1])
 
         model(values[:1])  # Leave a nonempty prior state in the module's last forward.
         reset_first, _ = model(values[1:2])

@@ -1,0 +1,179 @@
+{
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-04/staging/e462/verify_public_q8.py",
+    "--phase",
+    "score",
+    "--build-dir",
+    "research/campaign_2026-10-04/E462_public_q8_build_v2",
+    "--parity-report",
+    "research/campaign_2026-10-04/E462_public_q8_parity_v2/parity_report.json",
+    "--output",
+    "research/campaign_2026-10-04/E462_public_q8_score_v4"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/E462_public_q8_score_v4/predictions/pred_i16.npy",
+    "research/campaign_2026-10-04/E462_public_q8_score_v4/predictions/pred_i16.json",
+    "research/campaign_2026-10-04/E462_public_q8_score_v4/predictions/pred_q8r.npy",
+    "research/campaign_2026-10-04/E462_public_q8_score_v4/predictions/pred_q8r.json",
+    "research/campaign_2026-10-04/E462_public_q8_score_v4/predictions/pred_q8x.npy",
+    "research/campaign_2026-10-04/E462_public_q8_score_v4/predictions/pred_q8x.json",
+    "research/campaign_2026-10-04/E462_public_q8_score_v4/report/score_report.json"
+  ],
+  "code": [
+    {
+      "path": "research/campaign_2026-09-30/audit/campaign_score.py",
+      "sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39",
+      "size": 20881
+    },
+    {
+      "path": "research/campaign_2026-10-04/staging/e462/solution_q8.py",
+      "sha256": "3f8d78ab725063be6b656c1232dc93398aa6be40c755dfde540a0ef170218569",
+      "size": 5923
+    },
+    {
+      "path": "research/campaign_2026-10-04/staging/e462/time_public_q8.py",
+      "sha256": "7178b08cf108e518c9774bbe9432917ce989521ebcf06e5d8f0b15ee508661ae",
+      "size": 15226
+    },
+    {
+      "path": "research/campaign_2026-10-04/staging/e462/verify_public_q8.py",
+      "sha256": "e04d89520b395dc9435c37debe244c4c182f062a5386a21678235753cd62e149",
+      "size": 37238
+    },
+    {
+      "path": "src/wnn/evaluation.py",
+      "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+      "size": 8080
+    },
+    {
+      "path": "src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "size": 8902
+    },
+    {
+      "path": "src/wnn/metric.py",
+      "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+      "size": 4806
+    },
+    {
+      "path": "src/wnn/splits.py",
+      "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+      "size": 8647
+    },
+    {
+      "path": "utils.py",
+      "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+      "size": 12328
+    }
+  ],
+  "code_sha256": "67a1be88cbb500ef678d3e02feae1fc4ec9b2967785461736535007f5d888279",
+  "environment": {},
+  "inputs": [
+    {
+      "path": "artifacts/runs/c20261004_combo_head_s3_final/model_ep0.pt",
+      "sha256": "f1cb88f38b6d5b5b67859346b439e69d610928bc836baac8867e84e7b1c95d85",
+      "size": 3943015
+    },
+    {
+      "path": "artifacts/runs/c20261004_combo_head_s3_final/provenance.json",
+      "sha256": "63a0211c6a1dc9ea566385849c17268f3c08acc1b86f3b8a1004f184d0e42b54",
+      "size": 27974
+    },
+    {
+      "path": "artifacts/runs/c20261004_combo_s3_final_r1/model_ep3.pt",
+      "sha256": "64c2b28651b414778d6af3c33bb9d54f653a46fb0be087de2e3c44ca88c31166",
+      "size": 3978655
+    },
+    {
+      "path": "artifacts/runs/c20261004_combo_s3_final_r1/provenance.json",
+      "sha256": "4ab01e3a468e6d86dd9da0771569723ff0fd76562c0edcd0351f1f24de247557",
+      "size": 160370
+    },
+    {
+      "path": "cache/chain_folds.npz",
+      "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+      "size": 550072
+    },
+    {
+      "path": "cache/chains.npz",
+      "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+      "size": 650142
+    },
+    {
+      "path": "cache/train_targets.npz",
+      "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+      "size": 1909335790
+    },
+    {
+      "path": "cache/valid_targets.npz",
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "size": 337186198
+    },
+    {
+      "path": "datasets/train.parquet",
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "size": 29240219011
+    },
+    {
+      "path": "datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "size": 5615509128
+    },
+    {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "size": 1388846
+    },
+    {
+      "path": "research/campaign_2026-10-04/E462_PUBLIC_COMBO_Q8_PREREG.md",
+      "sha256": "8ae4a02a9fe66a3c234c68130d11e170dc20a704f98fa192facd90598e4f7a9d",
+      "size": 12239
+    },
+    {
+      "path": "research/campaign_2026-10-04/E462_public_q8_build_v2/build_report.json",
+      "sha256": "745f1bd57442321146201d2996741e1f0df98b319c5fcb8d54415099ae4a7c3f",
+      "size": 53417
+    },
+    {
+      "path": "research/campaign_2026-10-04/E462_public_q8_build_v2/q8r/submission.zip",
+      "sha256": "7edb26d8903bafa2f3c38bf31b1a5d0dad1fd6f79e1f4d5a0ea13eaf3ca044fd",
+      "size": 2744328
+    },
+    {
+      "path": "research/campaign_2026-10-04/E462_public_q8_build_v2/q8x/submission.zip",
+      "sha256": "b435c04c0b047c72aeaca93a0be5aa2436a885d3abce5da483bd7fa43bfa87e7",
+      "size": 2010016
+    },
+    {
+      "path": "research/campaign_2026-10-04/E462_public_q8_parity_v2/parity_report.json",
+      "sha256": "8e4e9e6db9df358bac0f8ef945689a5c0022cc78242a8bc7ab97c47239fe5c6a",
+      "size": 9008
+    },
+    {
+      "path": "research/campaign_2026-10-04/runner/attempts/e412-combo-final-s3-v2.json",
+      "sha256": "77c2b2b9fe16fbf86d1c3cb8579ccf59536216891dcf2b50c89a92ab7f44db08",
+      "size": 18712
+    },
+    {
+      "path": "research/campaign_2026-10-04/runner/attempts/e412-final-head-v1.json",
+      "sha256": "beacabf0b6ee2b88a7688ddaff5b7d6589f8a356f7b4dedf051ec7a19f495d15",
+      "size": 14881
+    },
+    {
+      "path": "submissions/c20261004_combo_s3_i16/submission.zip",
+      "sha256": "21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb",
+      "size": 5165013
+    }
+  ],
+  "kind": "cpu",
+  "limits": {
+    "cpus": 1,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 7200
+  },
+  "name": "e462_public_q8_score_v4",
+  "version": 1
+}

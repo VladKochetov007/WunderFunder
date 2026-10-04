@@ -1,0 +1,52 @@
+{
+  "folds": [
+    "holdout"
+  ],
+  "n_boot": 2000,
+  "arms": {
+    "COMBO_S3": {
+      "c20261004_combo_s3_final_r1_fp32": 0.5,
+      "c20261004_combo_head_s3_final_fp32": 0.5
+    },
+    "COMBO_S4": {
+      "c20261004_combo_s4_final_fp32": 0.5,
+      "c20261004_combo_head_s4_final_fp32": 0.5
+    },
+    "BAG_S3_S4": {
+      "c20261004_combo_s3_final_r1_fp32": 0.25,
+      "c20261004_combo_head_s3_final_fp32": 0.25,
+      "c20261004_combo_s4_final_fp32": 0.25,
+      "c20261004_combo_head_s4_final_fp32": 0.25
+    },
+    "PARENT_S4": {
+      "c20261004_combo_s4_final_fp32": 1.0
+    },
+    "HEAD_S4": {
+      "c20261004_combo_head_s4_final_fp32": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "COMBO_S4",
+      "COMBO_S3"
+    ],
+    [
+      "BAG_S3_S4",
+      "COMBO_S3"
+    ],
+    [
+      "BAG_S3_S4",
+      "COMBO_S4"
+    ],
+    [
+      "HEAD_S4",
+      "PARENT_S4"
+    ]
+  ],
+  "export_runs": {
+    "c20261004_combo_s3_final_r1_fp32": "c20261004_combo_s3_final_r1",
+    "c20261004_combo_head_s3_final_fp32": "c20261004_combo_head_s3_final",
+    "c20261004_combo_s4_final_fp32": "c20261004_combo_s4_final",
+    "c20261004_combo_head_s4_final_fp32": "c20261004_combo_head_s4_final"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "campaign_id": "E465",
+  "status": "source-only proposal; not preregistered, not launchable",
+  "hardware": "Kaggle TPU v5e-8; no admission until E463 preflight and root budget review",
+  "arms": [
+    {
+      "name": "fp32_adamw_continuation",
+      "compute_precision": "fp32"
+    },
+    {
+      "name": "bf16_adamw_continuation",
+      "compute_precision": "bf16"
+    }
+  ],
+  "shared_scientific_identity": {
+    "parent": "c20261003_combo_s3_f0@ep3 evaluation EMA",
+    "portable_parent_npz_sha256": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+    "parent_conversion_sidecar_sha256": "3e65d2a88352d22bc90d88b829f05beee3faa7a66b9de41c7507f521aab12668",
+    "initial_optimizer_state": "fresh zeroed AdamW moments for both arms",
+    "seed": 3,
+    "epoch": 0,
+    "epochs": 1,
+    "optimizer": "AdamW",
+    "batch_size_global": 32,
+    "batch_size_per_tpu_core": 4,
+    "fit_groups": 11940,
+    "full_batches": 373,
+    "dropped_remainder_groups": 4,
+    "chunk_rows": 1000,
+    "sequence_rows": 20000,
+    "optimizer_updates_per_batch": 20,
+    "total_optimizer_updates_per_arm": 7460,
+    "fit_batch_order": "seeded_group_batches with seed=3, epoch=0; one exact shared order across arms",
+    "teachers": [
+      {
+        "run": "c20260929_since_s3_f0",
+        "epoch": 3
+      },
+      {
+        "run": "c20260929_since_s4_f0",
+        "epoch": 3
+      }
+    ],
+    "objective": {
+      "teacher_aggregation": "equal mean",
+      "distill_alpha": 0.5,
+      "bootstrap_horizon": 8,
+      "bootstrap_gradient": "stopped",
+      "propensity_weight": "propensity^2 + 0.03",
+      "valid_true_mask_correction": 0.03,
+      "since_weight": 32.0,
+      "since_floor": 0.25,
+      "structural_auxiliary_coefficient": 0.3,
+      "next_change_auxiliary_coefficient": 0.3,
+      "ema_consistency_coefficient": 1.0,
+      "ema_parameter_decay": 0.999,
+      "ema_update_clock": "after each 1000-row optimizer update, matching production update path",
+      "student_and_ema_state": "carry all 20 chunks per sequence; stop gradient at each chunk boundary"
+    },
+    "distributed_objective": {
+      "reduction": "psum each numerator and denominator across all 8 cores before division",
+      "gradient": "scaled local-numerator surrogate, pmean gradients for replicated parameters",
+      "required_proof": "loss and parameter-gradient parity versus unsharded reference on unequal and zero-mass shards, including every auxiliary and EMA term"
+    },
+    "selection": "fixed final epoch-0 state; no validation-based checkpoint selection",
+    "conversion": "export to Torch layout only after FP32 CPU forward parity succeeds"
+  },
+  "gates_before_fit": [
+    "E463 TPU real-data preflight completes with usable device/resource telemetry",
+    "distributed pooled loss and gradient tests execute successfully on a two-device JAX CPU test",
+    "20-chunk recurrent carry and stop-gradient boundary parity test",
+    "FP32 and BF16 output and carry parity against Torch CPU references",
+    "EMA update and optimizer first-step parity checks",
+    "root review of immutable source/input hashes and bounded runtime/quota admission"
+  ],
+  "scientific_claim": "none; design only"
+}

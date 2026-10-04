@@ -1,0 +1,107 @@
+{
+  "captured_utc": "2026-10-04T17:10:00Z",
+  "e463_cpu_reference": {
+    "arms": {
+      "bf16": {
+        "adamw_steps": 1,
+        "diagnostic_score": 0.6773642162794822,
+        "model_npz_sha256": "4adc8bd06403c47e4092f84fd9977e2981fd7a6dbd9f66d3ac21a0c760f99e69",
+        "train_loss": 0.8170995116233826
+      },
+      "fp32": {
+        "adamw_steps": 1,
+        "diagnostic_score": 0.6755364310575837,
+        "model_npz_sha256": "89732320db5882c9f6fe1de3baddf4690a886f39498e0f716cc64da16c69dfbd",
+        "train_loss": 0.8174446821212769
+      }
+    },
+    "fit_group_batch_sha256": "65918af8c55326923a96878d800e5c35ab3e891700af9139d74f4ca03db274b3",
+    "fit_groups": [
+      [
+        "valid",
+        1
+      ],
+      [
+        "valid",
+        0
+      ],
+      [
+        "train",
+        529
+      ],
+      [
+        "train",
+        0
+      ]
+    ],
+    "kernel": "vladkochetov07/wnn-jax-realdata-e463-20261004-v3-runner",
+    "provider_status": "COMPLETE",
+    "result_class": "one-update CPU systems path validation only; not a fitted result or eligibility condition",
+    "return_code": 0,
+    "runner_status": "completed",
+    "worker_status": "bounded_preflight_complete"
+  },
+  "hashes": {
+    "archive": "979f8d99e0198d6e1ed227a51556394c77be052b9503d8845787daa77c2e359b",
+    "kernel": "68da1e2c5f5d6707ac0cf5a0476204582a45316cd6e7ff9c80c1435563770309",
+    "kernel_metadata": "2f08e2792e39db1571ff294356f66a9158a035bd21fda8314f6b7e75b56c9afd",
+    "manifest": "4bd761fec15ffd60e35404a201d1cce86b13ef1cbb4a352451885c318ea18217",
+    "review_packet": "934b4df2caf6aaa64841e9ec859046bc2f6526db372825b246e55894e48e9fb1"
+  },
+  "limitation": "Did not detect embedded raw-string JSONL newline defect or memory_started definition ordering; use v2 for review.",
+  "packet_status": "prepared_not_uploaded_or_launched",
+  "provider_action": "none",
+  "resource_contract": {
+    "actual_tpu_training_or_gain_claim": false,
+    "aggregate_rss_stop_bytes": 12884901888,
+    "allocator_target_fraction": 0.8,
+    "archive_sha256": "979f8d99e0198d6e1ed227a51556394c77be052b9503d8845787daa77c2e359b",
+    "attempt": 1,
+    "compute_tpu_devices": 1,
+    "cpu_affinity_max": 8,
+    "dataset": "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+    "evidence_id": "E-463-TPU-preflight",
+    "external_input_count": 18,
+    "host_reserve_fraction": 0.2,
+    "kernel": "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1-runner",
+    "kernel_metadata_sha256": "2f08e2792e39db1571ff294356f66a9158a035bd21fda8314f6b7e75b56c9afd",
+    "kernel_sha256": "68da1e2c5f5d6707ac0cf5a0476204582a45316cd6e7ff9c80c1435563770309",
+    "launcher_reserve_bytes": 2147483648,
+    "manifest_sha256": "4bd761fec15ffd60e35404a201d1cce86b13ef1cbb4a352451885c318ea18217",
+    "memory_sampling_interval_seconds": 5,
+    "nominal_max_tpu_quota_seconds": 4200,
+    "observed_hbm_stop_fraction": 0.9,
+    "provider_timeout_seconds": 4200,
+    "pushed": false,
+    "scientific_computation_unchanged": true,
+    "source_file_count": 17,
+    "source_preflight_sha256": "30eff925e53d8268335d2d48d73babfbffe0b61ae1782a59d994ed3f753c1976",
+    "visible_tpu_devices": 8,
+    "whole_kernel_runtime_limit_seconds": 3600
+  },
+  "static_validation": {
+    "archive_file_count": 17,
+    "embedded_worker_ast": "passed",
+    "every_archive_member_sha_size": "passed",
+    "exact_E463_v3_input_descriptors_reused": "passed",
+    "external_input_count": 18,
+    "kernel_ast": "passed",
+    "preflight_source_ast": "passed",
+    "private_internet_off_gpu_off_tpu_on": "passed",
+    "scientific_batch_params": "same B4/T1000 FP32+BF16 one update; no source trainer/objective changes",
+    "worker_backend_tpu_and_eight_TPU_v5_lite_guard": "passed"
+  },
+  "status": "superseded_pre_review_audit",
+  "superseded_by": "static_audit_v2.json",
+  "tpu_hardware_basis": {
+    "bytes_limit_each": 16909332480,
+    "cpu_affinity_count": 96,
+    "device_kind": "TPU v5 lite",
+    "host_mem_total_kib": 396190084,
+    "jax_import_peak_rss_kib": 6691300,
+    "probe_kernel": "vladkochetov07/wnn-tpu-probe-20261004",
+    "source": "tpu_probe_v1/provider_output_v2/tpu_probe/{host.json,jax_inventory.json}",
+    "status": "COMPLETE",
+    "visible_devices": 8
+  }
+}

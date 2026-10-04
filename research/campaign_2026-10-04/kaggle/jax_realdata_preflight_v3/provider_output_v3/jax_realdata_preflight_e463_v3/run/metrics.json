@@ -1,0 +1,158 @@
+{
+  "arms": {
+    "bf16": {
+      "adamw_steps": 1,
+      "arm_wall_seconds": 9.496570020000036,
+      "diagnostic_four_stream_chunk_score": {
+        "blocks": 4,
+        "eligible_blocks": 1,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 252,
+        "t0": 0.5373182975120766,
+        "t1": 0.8174101350468879,
+        "weighted_pearson": 0.6773642162794822
+      },
+      "evaluation_mask_sha256": "b785eb9e8aaf8039827231e39735a3ec1b37e1e40d0806143b9963d912e8edc1",
+      "evaluation_score_rows": 252,
+      "model_npz": "/kaggle/working/jax_realdata_preflight_e463_v3/run/model_bf16.npz",
+      "model_npz_sha256": "4adc8bd06403c47e4092f84fd9977e2981fd7a6dbd9f66d3ac21a0c760f99e69",
+      "train_loss": 0.8170995116233826
+    },
+    "fp32": {
+      "adamw_steps": 1,
+      "arm_wall_seconds": 5.9131007840001075,
+      "diagnostic_four_stream_chunk_score": {
+        "blocks": 4,
+        "eligible_blocks": 1,
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 252,
+        "t0": 0.5314258619854443,
+        "t1": 0.819647000129723,
+        "weighted_pearson": 0.6755364310575837
+      },
+      "evaluation_mask_sha256": "b785eb9e8aaf8039827231e39735a3ec1b37e1e40d0806143b9963d912e8edc1",
+      "evaluation_score_rows": 252,
+      "model_npz": "/kaggle/working/jax_realdata_preflight_e463_v3/run/model_fp32.npz",
+      "model_npz_sha256": "89732320db5882c9f6fe1de3baddf4690a886f39498e0f716cc64da16c69dfbd",
+      "train_loss": 0.8174446821212769
+    }
+  },
+  "chunk_rows": 1000,
+  "device_inventory": [
+    {
+      "device_kind": "cpu",
+      "id": 0,
+      "platform": "cpu",
+      "repr": "cpu:0"
+    }
+  ],
+  "diagnostic_metric_id": "pooled_global_weighted_pearson; diagnostic slice only, no scientific claim",
+  "elapsed_seconds": 216.10178651900014,
+  "evaluation_groups": [
+    4,
+    5,
+    7,
+    9
+  ],
+  "evaluation_mask_policy": "need_prediction AND is_scored AND row >= 99",
+  "evaluation_mask_sha256": "b785eb9e8aaf8039827231e39735a3ec1b37e1e40d0806143b9963d912e8edc1",
+  "fit_group_batch_sha256": "65918af8c55326923a96878d800e5c35ab3e891700af9139d74f4ca03db274b3",
+  "fit_groups": [
+    [
+      "valid",
+      1
+    ],
+    [
+      "valid",
+      0
+    ],
+    [
+      "train",
+      529
+    ],
+    [
+      "train",
+      0
+    ]
+  ],
+  "fold_manifest": "/kaggle/working/jax_realdata_preflight_e463_v3/experiment/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "fold_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "format": "wnn.jax-realdata-preflight",
+  "host_inventory": {
+    "cpu_count": 4,
+    "max_rss_platform_units": 2977500,
+    "max_rss_unit_note": "Linux ru_maxrss is KiB; capture cgroup memory separately in launcher",
+    "platform": "Linux-6.18.48+-x86_64-with-glibc2.39"
+  },
+  "limitations": [
+    "one optimizer update on four streams is a systems preflight, not a fitted model or predictive result",
+    "AdamW continuation differs from the source Muon optimizer",
+    "evaluation metric uses rows 0:1000 of four held-out VALID sequences only"
+  ],
+  "model_dimensions": {
+    "hidden": 256,
+    "layers": 2,
+    "n_in": 211,
+    "n_out": 23
+  },
+  "requested_backend": "cpu",
+  "root": "/kaggle/working/jax_realdata_preflight_e463_v3/experiment",
+  "source_checkpoint": "/kaggle/working/jax_realdata_preflight_e463_v3/experiment/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+  "source_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+  "source_files_sha256": {
+    "propensity": {
+      "train": {
+        "array_sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174",
+        "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7"
+      },
+      "valid": {
+        "array_sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c",
+        "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7"
+      }
+    },
+    "teachers": {
+      "train": [
+        {
+          "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+          "prediction_sha256": "2e74e44773d3d6d3e7c48c245a71f281b1659e6f6592ea2a9a2e4f96d37d19dc"
+        },
+        {
+          "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+          "prediction_sha256": "819ab8ef0b1303b289af3475e173da8e9e7ff404ca7a8d8e7e10a3d443648241"
+        }
+      ],
+      "valid": [
+        {
+          "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+          "prediction_sha256": "7a01c040849d9455016dee51a1f9c82c1079be085a0e6be23c99c23bddb3fba9"
+        },
+        {
+          "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+          "prediction_sha256": "6aa7b150097ebdf43ddbea8c3a52f8d705ebd2dbd01470e3c45b7eb2dbcfc430"
+        }
+      ]
+    },
+    "train_parquet": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+    "valid_parquet": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+  },
+  "starting_export_sidecar": {
+    "dimensions": {
+      "hidden": 256,
+      "layers": 2,
+      "n_in": 211,
+      "n_out": 23
+    },
+    "format": "wnn.jax-npz-export",
+    "npz_path": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.jax.npz",
+    "npz_sha256": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+    "source_checkpoint": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+    "source_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "source_epoch": 3,
+    "tensor_layout": "Torch RNNModel names, exact validated shapes, float32",
+    "version": 1
+  },
+  "starting_npz": "/kaggle/working/jax_realdata_preflight_e463_v3/experiment/artifacts/runs/c20261003_combo_s3_f0/model_ep3.jax.npz",
+  "starting_npz_sha256": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+  "status": "bounded-preflight-only",
+  "version": 1
+}

@@ -1,0 +1,26 @@
+{
+  "api_object_type": "ApiGetAcceleratorQuotaStatisticsResponse",
+  "captured_utc": "2026-10-04T17:14:11Z",
+  "formatting_note": "ApiAcceleratorQuota fields are datetime.timedelta. Its JSON repr omits timedelta.days, so totalTimeAllowed=21600s serializes as 6h even though typed total_seconds() is 108000s = 1 day + 6h. Preserve typed seconds for remaining-budget calculation.",
+  "gpu": {
+    "has_ever_run": true,
+    "is_pay_to_scale_enabled": false,
+    "minimum_time_allowed_seconds": 108000.0,
+    "remaining_seconds": 83179.634225,
+    "time_reserved_seconds": 0.0,
+    "time_used_seconds": 24820.365775,
+    "total_time_allowed_seconds": 108000.0
+  },
+  "kaggle_cli_version": "2.2.4",
+  "quota_refresh_time": "2026-10-10T00:00:00Z",
+  "quota_view_method": "KaggleApi.quota_view -> KaggleClient.get_accelerator_quota_statistics (read only)",
+  "tpu": {
+    "has_ever_run": true,
+    "is_pay_to_scale_enabled": false,
+    "minimum_time_allowed_seconds": 72000.0,
+    "remaining_seconds": 71865.377,
+    "time_reserved_seconds": 0.0,
+    "time_used_seconds": 134.623,
+    "total_time_allowed_seconds": 72000.0
+  }
+}

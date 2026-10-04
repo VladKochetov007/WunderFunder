@@ -11,9 +11,15 @@ from wnn.specialist import SpecialistGRUModel
 class SoftRouteDiagnostics:
     """Aggregate soft-route entropy, expert gradients, and actual updates.
 
-    Gradient norms are measured after AMP unscaling and the configured gradient
-    dynamics, immediately before the optimizer step. Parameter deltas are read
-    after that step, so AMP-skipped optimizer calls contribute zero movement.
+    Gradient norms are measured after AMP unscaling and configured gradient
+    dynamics, immediately before the optimizer step. They include the full
+    training objective flowing through predictions: main supervision,
+    auxiliary targets, distillation, and EMA consistency where enabled. They
+    do not isolate the main-label loss. Nonfinite expert gradients are counted
+    and excluded from the finite-gradient mean. AMP skip and completed-update
+    counts remain the trainer's separate ``EpochUpdateCounter`` diagnostics.
+    Parameter deltas are read after each optimizer call, so skipped calls
+    contribute zero movement.
     """
 
     def __init__(self, model: SpecialistGRUModel) -> None:
@@ -29,6 +35,12 @@ class SoftRouteDiagnostics:
         )
         self.gradient_norm_sum = torch.zeros(self.experts, dtype=torch.float64, device=self.device)
         self.gradient_nonzero_steps = torch.zeros(
+            self.experts, dtype=torch.int64, device=self.device
+        )
+        self.gradient_finite_steps = torch.zeros(
+            self.experts, dtype=torch.int64, device=self.device
+        )
+        self.gradient_nonfinite_steps = torch.zeros(
             self.experts, dtype=torch.int64, device=self.device
         )
         self.update_norm_sum = torch.zeros(self.experts, dtype=torch.float64, device=self.device)
@@ -54,13 +66,20 @@ class SoftRouteDiagnostics:
                 *model.expert_heads[index].parameters(),
             ]
             squared_norm = torch.zeros((), dtype=torch.float64, device=self.device)
+            finite = torch.ones((), dtype=torch.bool, device=self.device)
             for parameter in parameters:
                 if parameter.grad is not None:
-                    gradient = parameter.grad.detach().float()
-                    squared_norm.add_(gradient.square().sum().to(torch.float64))
+                    gradient = parameter.grad.detach()
+                    finite_values = torch.isfinite(gradient)
+                    finite.logical_and_(finite_values.all())
+                    safe_gradient = torch.where(finite_values, gradient, 0).to(torch.float64)
+                    squared_norm.add_(safe_gradient.square().sum())
             norm = squared_norm.sqrt()
-            self.gradient_norm_sum[index].add_(norm)
-            self.gradient_nonzero_steps[index].add_(norm.gt(0).to(torch.int64))
+            finite_count = finite.to(torch.int64)
+            self.gradient_finite_steps[index].add_(finite_count)
+            self.gradient_nonfinite_steps[index].add_((~finite).to(torch.int64))
+            self.gradient_norm_sum[index].add_(norm * finite.to(torch.float64))
+            self.gradient_nonzero_steps[index].add_((finite & norm.gt(0)).to(torch.int64))
             snapshots.append([parameter.detach().clone() for parameter in parameters])
         self.optimizer_attempts += 1
         return snapshots
@@ -92,6 +111,10 @@ class SoftRouteDiagnostics:
         """Return epoch-level values, synchronizing the device only at finish."""
         if self.optimizer_attempts == 0 or self.route_rows == 0:
             raise ValueError("cannot summarize an empty soft-route epoch")
+        finite_gradient_steps = self.gradient_finite_steps.cpu().tolist()
+        gradient_means = (
+            self.gradient_norm_sum.div(self.gradient_finite_steps.clamp_min(1)).cpu().tolist()
+        )
         return {
             "route_entropy_mean_nats": float((self.route_entropy_sum / self.route_rows).item()),
             "route_probability_mean": (
@@ -99,10 +122,15 @@ class SoftRouteDiagnostics:
             ),
             "route_rows": self.route_rows,
             "optimizer_attempts": self.optimizer_attempts,
-            "expert_prediction_gradient_l2_mean": (
-                self.gradient_norm_sum.div(self.optimizer_attempts).cpu().tolist()
-            ),
+            "expert_prediction_gradient_l2_mean": [
+                mean if count else None
+                for mean, count in zip(gradient_means, finite_gradient_steps, strict=True)
+            ],
             "expert_prediction_gradient_nonzero_steps": self.gradient_nonzero_steps.cpu().tolist(),
+            "expert_prediction_gradient_finite_steps": finite_gradient_steps,
+            "expert_prediction_gradient_nonfinite_steps": (
+                self.gradient_nonfinite_steps.cpu().tolist()
+            ),
             "expert_parameter_update_l2_mean": (
                 self.update_norm_sum.div(self.optimizer_attempts).cpu().tolist()
             ),

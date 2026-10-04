@@ -99,8 +99,7 @@
     "universal": {
       "run": "c20261004_h093_universal_s3_final",
       "checkpoint_sha256": "8ef0f57c2ca443ceca20dfa1a111752c178469217cb64696219eb163a4de8ab3",
-      "prediction_sha256": null,
-      "reuse_status": "blocked_pending_matching_prediction_artifact"
+      "prediction_sha256": "94fa6cd116ee92dcd5fb3ad09693307827472276bc0d566d4ff06d6bb5e5cb1e"
     },
     "ordinary_gru": {
       "run": "c20261004_h093_gru_budget_s3_final",
@@ -121,9 +120,9 @@
     "requires": [
       "run the staged tiny CPU trainer fixture under one CPU and two GiB",
       "sealed comparison of root and staged source hashes",
-      "matching universal prediction artifact or remove it from reuse claims",
-      "native soft-checkpoint prediction/export parity validation",
+      "verify exact E424 fit membership, teacher/cache lineage, and prediction sidecar identities",
       "root-owned sealed resource and provenance review"
-    ]
+    ],
+    "later_deployment_gate": "Test native soft-checkpoint inference/export parity before deployment; it is not a scientific-fit eligibility requirement."
   }
 }

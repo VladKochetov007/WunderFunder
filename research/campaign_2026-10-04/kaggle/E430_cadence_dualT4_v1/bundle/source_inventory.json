@@ -1,0 +1,107 @@
+{
+  "archive_bytes": 147106,
+  "archive_sha256": "140654e0dd4d9abfe1b966db28574320799da07852deaa743053aae389f80f82",
+  "arm_names": {
+    "fit": {
+      "accum2000_trunc1000": "c20261004_e430_accum2000_trunc1000_s3_f0_t4v1_fit",
+      "chunk1000": "c20261004_e430_chunk1000_s3_f0_t4v1_fit",
+      "chunk2000_connected": "c20261004_e430_chunk2000_connected_s3_f0_t4v1_fit"
+    },
+    "probe": {
+      "accum2000_trunc1000": "c20261004_e430_accum2000_trunc1000_s3_f0_t4v1_probe",
+      "chunk1000": "c20261004_e430_chunk1000_s3_f0_t4v1_probe",
+      "chunk2000_connected": "c20261004_e430_chunk2000_connected_s3_f0_t4v1_probe"
+    }
+  },
+  "builder_sha256": "fd19a3a88bb194dfbe9389bd0ea49512674c11aa4d45f6c4ef0b7682dcc22cf2",
+  "bundle_id": "vladkochetov07/wnn-e430-cadence-dualt4-20261004-v1",
+  "cardinality": {
+    "epochs": 4,
+    "fit_batches_per_epoch": 373,
+    "fit_batches_total": 1492,
+    "updates_per_batch": {
+      "accum2000_trunc1000": 10,
+      "chunk1000": 20,
+      "chunk2000_connected": 10
+    }
+  },
+  "external_dataset_sources": [
+    "vladkochetov07/wnn-c20261004-fold0-assets",
+    "vladkochetov07/wnn-e430-cadence-dualt4-20261004-v1",
+    "vladkochetov07/wunder-funder"
+  ],
+  "fit_protocol": "pair chunk1000+connected, require both terminal/complete, then solitary accumulation fit",
+  "input_paths": [
+    "artifacts/runs/c20260929_prop_f0/model.pt",
+    "artifacts/runs/c20260929_since_s3_f0/model.pt",
+    "artifacts/runs/c20260929_since_s3_f0/provenance.json",
+    "artifacts/runs/c20260929_since_s4_f0/model.pt",
+    "artifacts/runs/c20260929_since_s4_f0/provenance.json",
+    "cache/chain_folds.npz",
+    "cache/chains.npz",
+    "cache/pred_c20260929_since_s3_f0_train.json",
+    "cache/pred_c20260929_since_s3_f0_train.npy",
+    "cache/pred_c20260929_since_s3_f0_valid.json",
+    "cache/pred_c20260929_since_s3_f0_valid.npy",
+    "cache/pred_c20260929_since_s4_f0_train.json",
+    "cache/pred_c20260929_since_s4_f0_train.npy",
+    "cache/pred_c20260929_since_s4_f0_valid.json",
+    "cache/pred_c20260929_since_s4_f0_valid.npy",
+    "cache/train_targets.npz",
+    "cache/valid_targets.npz",
+    "datasets/train.parquet",
+    "datasets/valid.parquet",
+    "datasets/valid_mask.parquet",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "research/campaign_2026-10-04/portable_inputs.json"
+  ],
+  "phase_runner_sha256": "3cb7216268d4319503e928e9292c4b46617a1553b8b777e189467766c2a58307",
+  "plan_paths": {
+    "accum2000_trunc1000:four_epoch_full_recipe_fit": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/plans/c20261004_e430_accum2000_trunc1000_s3_f0_t4v1_fit_plan.json",
+    "accum2000_trunc1000:one_batch_per_epoch_production_shape_probe": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/plans/c20261004_e430_accum2000_trunc1000_s3_f0_t4v1_probe_plan.json",
+    "chunk1000:four_epoch_full_recipe_fit": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/plans/c20261004_e430_chunk1000_s3_f0_t4v1_fit_plan.json",
+    "chunk1000:one_batch_per_epoch_production_shape_probe": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/plans/c20261004_e430_chunk1000_s3_f0_t4v1_probe_plan.json",
+    "chunk2000_connected:four_epoch_full_recipe_fit": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/plans/c20261004_e430_chunk2000_connected_s3_f0_t4v1_fit_plan.json",
+    "chunk2000_connected:one_batch_per_epoch_production_shape_probe": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/plans/c20261004_e430_chunk2000_connected_s3_f0_t4v1_probe_plan.json"
+  },
+  "probe_protocol": "pair chunk1000+connected first, then solitary accumulation probe; all probes required before fit",
+  "report_paths": {
+    "accum2000_trunc1000:four_epoch_full_recipe_fit": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/reports/c20261004_e430_accum2000_trunc1000_s3_f0_t4v1_fit_steps.json",
+    "accum2000_trunc1000:one_batch_per_epoch_production_shape_probe": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/reports/c20261004_e430_accum2000_trunc1000_s3_f0_t4v1_probe_steps.json",
+    "chunk1000:four_epoch_full_recipe_fit": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/reports/c20261004_e430_chunk1000_s3_f0_t4v1_fit_steps.json",
+    "chunk1000:one_batch_per_epoch_production_shape_probe": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/reports/c20261004_e430_chunk1000_s3_f0_t4v1_probe_steps.json",
+    "chunk2000_connected:four_epoch_full_recipe_fit": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/reports/c20261004_e430_chunk2000_connected_s3_f0_t4v1_fit_steps.json",
+    "chunk2000_connected:one_batch_per_epoch_production_shape_probe": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/reports/c20261004_e430_chunk2000_connected_s3_f0_t4v1_probe_steps.json"
+  },
+  "resource_caps": {
+    "full_fit_timeout_seconds": 12600,
+    "probe_timeout_seconds": 1200,
+    "remote_allocator_bytes": 11811160064,
+    "remote_gpu_operating_bytes": 12884901888,
+    "remote_gpu_stop_bytes": 13958643712,
+    "worker_ram_bytes": 10737418240
+  },
+  "runner_id": "vladkochetov07/wnn-e430-cadence-dualt4-20261004-v1-runner",
+  "source_only": true,
+  "spec_paths": [
+    "kaggle_specs/c20261004_e430_accum2000_trunc1000_s3_f0_t4v1_fit.json",
+    "kaggle_specs/c20261004_e430_accum2000_trunc1000_s3_f0_t4v1_probe.json",
+    "kaggle_specs/c20261004_e430_chunk1000_s3_f0_t4v1_fit.json",
+    "kaggle_specs/c20261004_e430_chunk1000_s3_f0_t4v1_probe.json",
+    "kaggle_specs/c20261004_e430_chunk2000_connected_s3_f0_t4v1_fit.json",
+    "kaggle_specs/c20261004_e430_chunk2000_connected_s3_f0_t4v1_probe.json"
+  ],
+  "time_model": {
+    "admission_reserve_gpu_hours": 6.0,
+    "all_stages_allocated_gpu_hours_upper": 15.34,
+    "assumption": "Two GPUs remain allocated for solo stages; includes the idle companion GPU. Separate 3.5 h wall bounds per fit phase plus one hour total startup/input-verification margin.",
+    "full_fit_allocated_gpu_hours_upper": 14.0,
+    "full_fit_wall_upper_hours": 7.0,
+    "planning_allocated_gpu_hours_upper": 17.34,
+    "planning_margin_wall_hours": 1.0,
+    "probe_allocated_gpu_hours_upper": 1.3333333333333333,
+    "probe_wall_upper_hours": 0.6666666666666666,
+    "quota_required_for_admission_gpu_hours": 23.34,
+    "wall_upper_hours_including_probes_and_margin": 8.666666666666666
+  }
+}

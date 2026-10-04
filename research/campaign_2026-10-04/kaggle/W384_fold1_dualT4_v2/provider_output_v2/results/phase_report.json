@@ -1,0 +1,37 @@
+{
+  "allocator_target_bytes_per_worker": 11811160064,
+  "elapsed_seconds": 1485.6092936960001,
+  "error": "GPU runner failed for phase at /kaggle/working/results/probe_phase",
+  "error_type": "RuntimeError",
+  "measured_gpu_operating_limit_bytes": 12884901888,
+  "preflight": {
+    "log_bytes": 1809,
+    "returncode": 0,
+    "xml_sha256": "9c83b57d8ca4eaa78cafb1064b4f8698bb3a91491ea2d7f38ba50d6ba169f41c"
+  },
+  "protocol": "two-phase width replication; probes on both T4s complete before either fit",
+  "required_widths": [
+    256,
+    384
+  ],
+  "sampled_gpu_stop_bytes": 13958643712,
+  "status": "failed_closed",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/working/experiment/research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v2/phase_runner.py\", line 145, in main\n    probe_summary = launch_runner(probe_names, OUTPUT / \"probe_phase\")\n  File \"/kaggle/working/experiment/research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v2/phase_runner.py\", line 65, in launch_runner\n    raise RuntimeError(f\"GPU runner failed for phase at {output}\")\nRuntimeError: GPU runner failed for phase at /kaggle/working/results/probe_phase\n",
+  "visible_devices": [
+    {
+      "index": 0,
+      "name": "Tesla T4",
+      "total_bytes": 16106127360,
+      "used_bytes": 0,
+      "uuid": "GPU-0775d98b-8237-6239-7f86-c8249280d1b4"
+    },
+    {
+      "index": 1,
+      "name": "Tesla T4",
+      "total_bytes": 16106127360,
+      "used_bytes": 0,
+      "uuid": "GPU-f08f9529-351e-a062-42d8-bbb2894b4e1e"
+    }
+  ],
+  "worker_ram_bytes": 10737418240
+}

@@ -1,0 +1,104 @@
+{
+  "controls": {
+    "c20261004_h093_learned_s3_final": {
+      "fit_membership_identity": {
+        "train": {
+          "count": 10606,
+          "ordered_int64_le_sha256": "6d27621eb493846c888fa7e267dc7c9c311e4fa464897cbf26a3b459ae8c6584"
+        },
+        "valid": {
+          "count": 1505,
+          "ordered_int64_le_sha256": "dfc372608d23c8ac46c4b6c37c276182e0352e7ac06ba20f6b5dd8d8063a1253"
+        },
+        "valid_repeat": 1,
+        "dataset_length": 12111
+      },
+      "normalization_identity": {
+        "mean": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "9e4ef63e747c48c8a87e78d6c04af7f5954468efb9204c84926346379f58bf17"
+        },
+        "std": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "da35ee4be9b61b0d9e1cdc3a57a054a9f3b31d2e4502f2c06f69a4fa9874de05"
+        }
+      },
+      "propensity_checkpoint_sha256": "71889202ec172f4118bd26813a10a26f4358ecd1a256c7f884c38ff5c840617f",
+      "provenance_sha256": "af0c343dd11b53eb5d01ee5853c829564e503cf5a24c99ebbdfa87b3f6d85fd3"
+    },
+    "c20261004_h093_universal_s3_final": {
+      "fit_membership_identity": {
+        "train": {
+          "count": 10606,
+          "ordered_int64_le_sha256": "6d27621eb493846c888fa7e267dc7c9c311e4fa464897cbf26a3b459ae8c6584"
+        },
+        "valid": {
+          "count": 1505,
+          "ordered_int64_le_sha256": "dfc372608d23c8ac46c4b6c37c276182e0352e7ac06ba20f6b5dd8d8063a1253"
+        },
+        "valid_repeat": 1,
+        "dataset_length": 12111
+      },
+      "normalization_identity": {
+        "mean": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "9e4ef63e747c48c8a87e78d6c04af7f5954468efb9204c84926346379f58bf17"
+        },
+        "std": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "da35ee4be9b61b0d9e1cdc3a57a054a9f3b31d2e4502f2c06f69a4fa9874de05"
+        }
+      },
+      "propensity_checkpoint_sha256": "71889202ec172f4118bd26813a10a26f4358ecd1a256c7f884c38ff5c840617f",
+      "provenance_sha256": "e9c0a5b3e0b82f573e07729b10d66c539b0905234bdf6edd1b42cd565134c616"
+    },
+    "c20261004_h093_gru_budget_s3_final": {
+      "fit_membership_identity": {
+        "train": {
+          "count": 10606,
+          "ordered_int64_le_sha256": "6d27621eb493846c888fa7e267dc7c9c311e4fa464897cbf26a3b459ae8c6584"
+        },
+        "valid": {
+          "count": 1505,
+          "ordered_int64_le_sha256": "dfc372608d23c8ac46c4b6c37c276182e0352e7ac06ba20f6b5dd8d8063a1253"
+        },
+        "valid_repeat": 1,
+        "dataset_length": 12111
+      },
+      "normalization_identity": {
+        "mean": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "b350f6c2a16782ce8799e027564cb72590544257e5de617a939540b4a558b4ba"
+        },
+        "std": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "cf34e57cc9026bb8a2778bcce5b9a303b8a9db3999284a9456e4c8486321cc53"
+        }
+      },
+      "propensity_checkpoint_sha256": "71889202ec172f4118bd26813a10a26f4358ecd1a256c7f884c38ff5c840617f",
+      "provenance_sha256": "7c8a67b4747db70a387673fd987fffb448d70e53e3e4b4bfc00dc5186009d13e"
+    }
+  },
+  "normalization_caveat": "Specialist learned/universal controls have identical normalization. GRU96 control differs in normalization despite matched membership; the architecture initialization consumes RNG before shuffled normalization fitting. Soft vs hard/universal comparison must match their recorded normalization.",
+  "cpu_v3_tests": 8,
+  "cpu_v3_peak_ram_bytes": 665976832,
+  "scientific_fit_status": "pending queue admission"
+}

@@ -1,0 +1,106 @@
+{
+  "folds": [
+    "holdout"
+  ],
+  "arms": {
+    "COMBO": {
+      "c20261004_combo_s3_final_r1_fp32": 0.5,
+      "c20261004_combo_head_s3_final_fp32": 0.5
+    },
+    "H093_LEARNED": {
+      "c20261004_h093_learned_s3_final": 1.0
+    },
+    "H093_GRU": {
+      "c20261004_h093_gru_budget_s3_final": 1.0
+    },
+    "H094_CONDITIONAL": {
+      "c20261004_h094_conditional_s3_final": 1.0
+    },
+    "H094_GRU": {
+      "c20261004_h094_gru_budget_s3_final": 1.0
+    },
+    "H093_HASH": {
+      "c20261004_h093_hash_s3_final": 1.0
+    },
+    "H093_UNIVERSAL": {
+      "c20261004_h093_universal_s3_final": 1.0
+    },
+    "H094_UNCONDITIONAL": {
+      "c20261004_h094_unconditional_s3_final": 1.0
+    },
+    "H094_DIAGONAL": {
+      "c20261004_h094_diagonal_s3_final": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "H093_LEARNED",
+      "H093_GRU"
+    ],
+    [
+      "H094_CONDITIONAL",
+      "H094_GRU"
+    ],
+    [
+      "H093_LEARNED",
+      "COMBO"
+    ],
+    [
+      "H094_CONDITIONAL",
+      "COMBO"
+    ],
+    [
+      "H093_HASH",
+      "H093_GRU"
+    ],
+    [
+      "H093_UNIVERSAL",
+      "H093_GRU"
+    ],
+    [
+      "H094_UNCONDITIONAL",
+      "H094_GRU"
+    ],
+    [
+      "H094_DIAGONAL",
+      "H094_GRU"
+    ],
+    [
+      "H093_HASH",
+      "COMBO"
+    ],
+    [
+      "H093_UNIVERSAL",
+      "COMBO"
+    ],
+    [
+      "H094_UNCONDITIONAL",
+      "COMBO"
+    ],
+    [
+      "H094_DIAGONAL",
+      "COMBO"
+    ],
+    [
+      "H093_LEARNED",
+      "H093_UNIVERSAL"
+    ],
+    [
+      "H093_LEARNED",
+      "H093_HASH"
+    ],
+    [
+      "H094_CONDITIONAL",
+      "H094_DIAGONAL"
+    ],
+    [
+      "H094_CONDITIONAL",
+      "H094_UNCONDITIONAL"
+    ]
+  ],
+  "n_boot": 2000,
+  "export_runs": {
+    "c20261004_combo_s3_final_r1_fp32": "c20261004_combo_s3_final_r1",
+    "c20261004_combo_head_s3_final_fp32": "c20261004_combo_head_s3_final"
+  }
+}

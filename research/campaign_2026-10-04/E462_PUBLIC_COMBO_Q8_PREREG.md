@@ -142,17 +142,27 @@ phase including startup and snapshots. Replace the estimate with E462 observed v
 is diagnostic only: E416 found no wall-time q8 improvement, and q8x may differ on the merged head.
 
 All CPU build, parity, scoring, and timing work must be separately admitted and run with one CPU,
-2 GiB RAM, no swap, no GPU, and one BLAS/PyTorch thread. Timing command template, after an actual
-E462 harness exists and root admits that phase:
+2 GiB RAM, no swap, no GPU, and one BLAS/PyTorch thread. The source-only timing harness is
+`research/campaign_2026-10-04/staging/e462/time_public_q8.py`. It requires passing parity and
+score reports, verifies their package/lineage hashes before timing, requires CPU15 affinity and
+load average <=1.0, preloads the three fixed E457 streams, and measures the scorer's per-row
+DataPoint/callback/output-validation/copy loop with a fresh predictor for each trial. Root admits
+this only after the local GPU is idle and the full score report is complete. Proposed command for
+that later admission:
 
 ```bash
 systemd-run --user --scope --slice=wnn-campaign.slice \
   -p CPUQuota=100% -p MemoryMax=2G -p MemorySwapMax=0 \
   env OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 \
-  taskset -c 15 .venv/bin/python scripts/e462_q8_public_combo.py timing \
+  taskset -c 15 .venv/bin/python research/campaign_2026-10-04/staging/e462/time_public_q8.py \
   --control submissions/c20261004_combo_s3_i16/submission.zip \
-  --q8r <immutable-q8r-zip> --q8x <immutable-q8x-zip> \
-  --data cache/valid_subset20.parquet --sequences 3 --paired-repeats 5
+  --q8r research/campaign_2026-10-04/E462_public_q8_build_v2/q8r/submission.zip \
+  --q8x research/campaign_2026-10-04/E462_public_q8_build_v2/q8x/submission.zip \
+  --build-dir research/campaign_2026-10-04/E462_public_q8_build_v2 \
+  --parity-report research/campaign_2026-10-04/E462_public_q8_parity_v2/parity_report.json \
+  --score-report <completed-score-run>/report/score_report.json \
+  --data cache/valid_subset20.parquet --paired-repeats 5 \
+  --output research/campaign_2026-10-04/E462_public_q8_timing_v1
 ```
 
 Set bounded phase timeout/RSS limits in a sealed runner spec before any command is executed. The

@@ -100,7 +100,18 @@ def _install_fixture(monkeypatch, trainer: ModuleType, root: Path) -> _FixtureSp
     monkeypatch.setattr(trainer, "validate_campaign_checkpoint", lambda *_args: None)
 
     class _SyntheticSequences(Dataset):
-        def __init__(self, source, indices, _teachers=None, **_kwargs) -> None:
+        def __init__(
+            self,
+            source,
+            indices,
+            teachers=None,
+            prop_cache=None,
+            quote_path=False,
+            quote_cache_root=None,
+            spread_cache_root=None,
+            thin=None,
+        ) -> None:
+            del teachers, prop_cache, quote_path, quote_cache_root, spread_cache_root, thin
             self.source = source
             self.indices = list(map(int, indices))
 

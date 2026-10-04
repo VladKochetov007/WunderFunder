@@ -1,0 +1,63 @@
+{
+  "captured_utc": "2026-10-04T17:16:00Z",
+  "corrections": [
+    {
+      "after": "one backslash in inner source emits newline delimiter",
+      "before": "two backslashes in inner source emitted literal \\n delimiter",
+      "item": "embedded_worker_milestone_jsonl_escape"
+    },
+    {
+      "after": "dedicated `memory_started` set immediately before the sampler function",
+      "before": "closure referred to `started` assigned later after its first invocation",
+      "item": "preflight_memory_sampler_elapsed_clock"
+    },
+    {
+      "item": "tpu_privacy_contract",
+      "value": "kernel requires manifest private=true, internet=false, gpu=false, tpu=true"
+    }
+  ],
+  "final_packet_hashes": {
+    "archive": "a29bdf21a910a6d7b403d9ed8c52cf0761618f5ef6576b5f06d70d0a8fd5ec9e",
+    "kernel": "305040488efdccc5eaab1446ee4d8a522fcb3bf60737917da0f75d29ed1252db",
+    "manifest": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb",
+    "metadata": "2f08e2792e39db1571ff294356f66a9158a035bd21fda8314f6b7e75b56c9afd",
+    "preflight_script": "ea67181bdac403ff2bb327707ce27a26eac8f4a2d9b0745273f75124fd4c74be",
+    "review_packet": "8d5f45e2364aacedcc4b756c9d620c806cc511ce7ced77a28741806e99856d4f"
+  },
+  "historical_E463_CPU_v3_telemetry": {
+    "defect": "worker startup records contain literal backslash-n delimiters and are merged into first physical line; output left untouched",
+    "file": "research/campaign_2026-10-04/kaggle/jax_realdata_preflight_v3/provider_output_v3/jax_realdata_preflight_e463_v3/phase_milestones.jsonl",
+    "invalid_physical_lines": [
+      1
+    ],
+    "metrics_sha256": "063bd559c5b93112fc97c85252255f9ef9036742bd88ab145bd8d72f9d9371c2",
+    "physical_lines": 29,
+    "runner_status": "completed",
+    "science_outputs_still_valid": true,
+    "sha256": "7cfd20d7a6ef2b8c802bd1d5f578ccc58dc32166a3cada31445f9a0233422f69",
+    "valid_json_lines": 28,
+    "worker_status": "bounded_preflight_complete"
+  },
+  "packet_note": "TPU run remains unlaunched until root reviews final hashes.",
+  "pre_review_raw_files_sha256": {
+    "build_e463_tpu_v1.py": "9b9b1aa1363554163dea47cc1bb7b91b6a3e3e4e1f3eab5d9c3867adb72b0190",
+    "kernel.py": "68da1e2c5f5d6707ac0cf5a0476204582a45316cd6e7ff9c80c1435563770309",
+    "review_packet.json": "934b4df2caf6aaa64841e9ec859046bc2f6526db372825b246e55894e48e9fb1"
+  },
+  "provider_mutation": "none",
+  "quota_reconciliation_file": "research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v3/quota_reconciliation_20261004T171452+0000.json",
+  "status": "corrected_packet_ready_for_root_review",
+  "validation": {
+    "JAX_or_torch_imported_locally": false,
+    "all_archive_member_hashes_and_sizes": "pass",
+    "archive_members": 17,
+    "concurrent_memory_writer_test": "13 samples from 4 concurrent phase writers plus periodic sampler; all splitlines independently json.loads; 8 devices per sample",
+    "embedded_worker_ast": "pass",
+    "embedded_worker_milestone_writer_test": "two records written; each splitline independently json.loads",
+    "external_inputs": 18,
+    "input_descriptors_same_as_E463_v3": "pass",
+    "outer_kernel_ast": "pass",
+    "preflight_ast": "pass",
+    "sampler_clock_binding": "memory_started assignment precedes sample function and first invocation"
+  }
+}

@@ -450,5 +450,77 @@ def _(campaign_dir, json, mo, plt, refresh):
     return
 
 
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, plt, refresh):
+    refresh
+    import hashlib as _allarch_hashlib
+    _allarch_path = campaign_dir / "checks/e424_report_all_fp32_v1.json"
+    _allarch_report = json.loads(_allarch_path.read_text())
+    _allarch_boot = _allarch_report["pooled"]["paired_component_bootstrap"]
+    _allarch_contrasts = [
+        ("Learned specialists vs GRU", "H093_LEARNED_minus_H093_GRU"),
+        ("Hash specialists vs GRU", "H093_HASH_minus_H093_GRU"),
+        ("Uniform specialists vs GRU", "H093_UNIVERSAL_minus_H093_GRU"),
+        ("Conditional adapter vs GRU", "H094_CONDITIONAL_minus_H094_GRU"),
+        ("Unconditional adapter vs GRU", "H094_UNCONDITIONAL_minus_H094_GRU"),
+        ("Diagonal adapter vs GRU", "H094_DIAGONAL_minus_H094_GRU"),
+        ("Learned routing vs uniform", "H093_LEARNED_minus_H093_UNIVERSAL"),
+        ("Learned routing vs hash", "H093_LEARNED_minus_H093_HASH"),
+        ("Conditional vs diagonal adapter", "H094_CONDITIONAL_minus_H094_DIAGONAL"),
+        ("Conditional vs unconditional adapter", "H094_CONDITIONAL_minus_H094_UNCONDITIONAL"),
+    ]
+    _allarch_dir = campaign_dir / "eda/architecture_controls"
+    _allarch_dir.mkdir(parents=True, exist_ok=True)
+    _allarch_fig, _allarch_ax = plt.subplots(figsize=(10, 6))
+    for _allarch_i, (_allarch_label, _allarch_key) in enumerate(_allarch_contrasts):
+        _allarch_value = _allarch_boot[_allarch_key]
+        _allarch_delta = _allarch_value["mean_diff"] * 1000
+        _allarch_low, _allarch_high = [v * 1000 for v in _allarch_value["ci95"]]
+        _allarch_ax.errorbar(_allarch_delta, _allarch_i, xerr=[[_allarch_delta-_allarch_low], [_allarch_high-_allarch_delta]], fmt="o", color="#245b85" if _allarch_i < 6 else "#ad6f28", capsize=3)
+    _allarch_ax.axvline(0, color="#666666", linewidth=1)
+    _allarch_ax.set_yticks(range(len(_allarch_contrasts)), [v[0] for v in _allarch_contrasts])
+    _allarch_ax.invert_yaxis()
+    _allarch_ax.set_xlabel("Global WP difference × 1,000; paired component-bootstrap 95% interval")
+    _allarch_ax.set_title("Eight completed architecture fits: mechanism controls\n368 exposed excluded sequences; one fitted seed; common FP32 exports")
+    _allarch_ax.grid(axis="x", alpha=.2)
+    _allarch_fig.tight_layout()
+    _allarch_fig.savefig(_allarch_dir / "paired_architecture_controls.png", dpi=180)
+    _allarch_fig.savefig(_allarch_dir / "paired_architecture_controls.svg")
+    (_allarch_dir / "source.json").write_text(json.dumps({"report": str(_allarch_path), "report_sha256": _allarch_hashlib.sha256(_allarch_path.read_bytes()).hexdigest(), "contrasts": _allarch_contrasts, "last_four_contrasts": "Exploratory reporting after the automatic all-arm report was inspected; not new selection gates", "scope": "Conditional on seed3 models; no training-seed or selection uncertainty; historically exposed panel"}, indent=2) + "\n")
+    mo.vstack([mo.md("Eight architecture fits are complete. All displayed intervals include zero. The diagonal adapter has the largest observed adapter gain, but it needs independent confirmation. Orange contrasts directly compare mechanisms and are exploratory."), _allarch_fig])
+
+    return
+
+
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, plt, refresh):
+    refresh
+    import hashlib as _seed4_hashlib
+    _seed4_path = campaign_dir / "checks/e450_report_seed4_bag_fp32_v1.json"
+    _seed4_report = json.loads(_seed4_path.read_text())
+    _seed4_boot = _seed4_report["pooled"]["paired_component_bootstrap"]
+    _seed4_keys = [("Seed 4 vs seed 3", "COMBO_S4_minus_COMBO_S3"), ("Equal seed bag vs seed 3", "BAG_S3_S4_minus_COMBO_S3"), ("Equal seed bag vs seed 4", "BAG_S3_S4_minus_COMBO_S4"), ("Seed-4 head vs parent", "HEAD_S4_minus_PARENT_S4")]
+    _seed4_fig, _seed4_ax = plt.subplots(figsize=(10, 4.3))
+    for _seed4_i, (_seed4_label, _seed4_key) in enumerate(_seed4_keys):
+        _seed4_result = _seed4_boot[_seed4_key]
+        _seed4_delta = 1000 * _seed4_result["mean_diff"]
+        _seed4_lo, _seed4_hi = [1000 * v for v in _seed4_result["ci95"]]
+        _seed4_ax.errorbar(_seed4_delta, _seed4_i, xerr=[[_seed4_delta-_seed4_lo], [_seed4_hi-_seed4_delta]], fmt="o", capsize=4, color="#245b85")
+    _seed4_ax.axvline(0, color="#666", linewidth=1)
+    _seed4_ax.set_yticks(range(4), [v[0] for v in _seed4_keys])
+    _seed4_ax.invert_yaxis()
+    _seed4_ax.set_xlabel("Global WP difference × 1,000; paired component-bootstrap 95% interval")
+    _seed4_ax.set_title("Fixed seed-4 replication and equal seed bag\n368 historically exposed excluded sequences; common FP32 exports")
+    _seed4_ax.grid(axis="x", alpha=.2)
+    _seed4_fig.tight_layout()
+    _seed4_dir = campaign_dir / "eda/seed4_replication"
+    _seed4_dir.mkdir(parents=True, exist_ok=True)
+    _seed4_fig.savefig(_seed4_dir / "fixed_seed4_and_bag.png", dpi=180)
+    _seed4_fig.savefig(_seed4_dir / "fixed_seed4_and_bag.svg")
+    (_seed4_dir / "source.json").write_text(json.dumps({"report": str(_seed4_path), "sha256": _seed4_hashlib.sha256(_seed4_path.read_bytes()).hexdigest(), "scope": "All contrasts preregistered before seed4 scoring; no independent holdout or training-seed uncertainty claim", "contrasts": _seed4_keys}, indent=2) + "\n")
+    mo.vstack([mo.md("Seed 4 scores 0.701695 versus seed 3 at 0.699822 on the excluded panel. The fixed equal seed bag scores 0.701420. All displayed 95% intervals include zero; public scores and deployment readiness remain unmeasured."), _seed4_fig])
+    return
+
+
 if __name__ == "__main__":
     app.run()

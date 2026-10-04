@@ -65,17 +65,21 @@ Reuse still requires exact fit-row membership, cache, prediction, and source
 identity checks. The H093 learned v3 fixed-epoch prediction exists at SHA
 `ea295807f5c8e01a37eff501c37f4552ecf2c6a9127957eaca78c6246eabb337`, and the
 GRU96 prediction exists at SHA
-`2a8b5a97699a3188250d5482c2d5630396df780b13e5a36e46511880119e74b7`. No
-matching universal prediction artifact was present when this packet was
-prepared. The H106 preregistration requires matching prediction provenance
-before control reuse; that check remains open.
+`2a8b5a97699a3188250d5482c2d5630396df780b13e5a36e46511880119e74b7`. The
+universal prediction exists at SHA
+`94fa6cd116ee92dcd5fb3ad09693307827472276bc0d566d4ff06d6bb5e5cb1e`.
+`checks/e424_report_all_fp32_v1.json` records the common fixed-epoch FP32
+comparison (SHA-256
+`7aaf442e5c86b4a0c67b89245e47c4e084381c1ba1fa4dfe46ecda0f93a8d0dd`). The
+H106 preregistration still requires the controller to verify exact training
+cache, fit-membership, and prediction-sidecar identities before reusing these
+controls.
 
 ## Not established here
 
 No model fit or GPU launch is part of this staging. Native production export,
 the repository inference/prediction wrapper accepting a soft route, and
-end-to-end prediction parity for a soft checkpoint remain unverified. The
-current E424 recurrent prediction wrapper covers hard specialist and adapter
-families, but its actual saved-model compatibility must be tested with a soft
-checkpoint before claiming native export. Root source hashes must remain
-unchanged until the active E424/E426 workers are finished.
+end-to-end prediction parity for a soft checkpoint remain unverified. These
+are later deployment checks; they do not block scientific-fit eligibility.
+Root source hashes must remain unchanged until the active workers are
+finished.

@@ -1,0 +1,21 @@
+{
+  "kernel": "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v3-runner",
+  "dataset": "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v3",
+  "private": true,
+  "gpu": "2x Tesla T4",
+  "internet": false,
+  "worker_fit_timeout_seconds": 15600,
+  "worker_probe_timeout_seconds_if_UUID_changed": 1200,
+  "provider_timeout_seconds": 18000,
+  "maximum_provider_device_gpu_hours": 10.0,
+  "expected_fit_device_gpu_hours": 8.666666666666666,
+  "probe_reuse": "Only if current two T4 UUIDs match exact archived v2 probe UUIDs and fit code/input spec signatures match. Otherwise both corrected-path probes run and both must pass before fit.",
+  "fit_only_after_probe_gate": true,
+  "gpu_memory_limits": {
+    "operating_gib": 12,
+    "stop_gib": 13
+  },
+  "host_worker_ram_cap_gib": 10,
+  "quota_admission": "Current exact quota API snapshot 23.5842 GPUh remaining; provider upper-bound leaves 13.5842 GPUh, retaining >=6h reserve.",
+  "pushed": false
+}
