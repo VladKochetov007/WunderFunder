@@ -1,7 +1,7 @@
 {
   "campaign_id": "E465",
   "status": "source-only proposal; not preregistered, not launchable",
-  "hardware": "Kaggle TPU v5e-8; no admission until E463 preflight and root budget review",
+  "hardware": "Kaggle TPU v5e-8; archived E463 CPUv3 is CPU correctness evidence only; queued E463 one-device TPU real-data compatibility and E465 all-eight-device full-shape profile plus root budget review are required before fit",
   "arms": [
     {
       "name": "fp32_adamw_continuation",
@@ -86,8 +86,13 @@
     "conversion": "export to Torch layout only after FP32 CPU forward parity succeeds"
   },
   "gates_before_fit": [
-    "E463 TPU real-data preflight completes with usable device/resource telemetry",
+    "queued E463 one-device TPU real-data compatibility record completes, inventories all eight TPU v5 lite devices, and validates objective/cache integration; E463's update is on one device and does not establish multi-device execution",
+    "root supplies and seals an input manifest matching the E463 fold, parent, parquet, teacher and propensity hashes",
+    "E465 full-shape profile itself runs on all eight TPU devices for two global-32 20,000-row batches per precision with all 20 chunks, identical host-batch hashes, host RSS below 12 GiB and every TPU below 90% of its memory limit",
+    "root reviews the profile's measured compile/step costs and the worker's full eight-hour timeout including all-VALID prediction exports",
     "bounded CPU comparison passes against production PyTorch OneCycleLR at all indices 0..7460",
+    "JAX-free host fold/order/domain/counter and worker helper-call-shape checks pass",
+    "bounded scalar dynamic-beta AdamW comparison passes against production torch.optim.AdamW at all 7460 used indices",
     "distributed pooled loss and gradient tests execute successfully on a two-device JAX CPU test",
     "20-chunk recurrent carry and stop-gradient boundary parity test",
     "FP32 and BF16 output and carry parity against Torch CPU references",

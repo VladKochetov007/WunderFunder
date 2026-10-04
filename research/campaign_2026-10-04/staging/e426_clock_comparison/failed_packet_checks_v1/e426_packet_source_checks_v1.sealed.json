@@ -1,0 +1,65 @@
+{
+  "argv": [
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "--junitxml",
+    "research/campaign_2026-10-04/checks/e426_packet_source_checks_v1.xml",
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/tests/test_e426_packet_schema.py"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e426_packet_source_checks_v1.xml"
+  ],
+  "code": [
+    {
+      "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/scripts/score_e426_clocks.py",
+      "sha256": "bd54c996b20b9eb64ed02f146466c23b82af6f1008e268b830e73df8e781135a",
+      "size": 12921
+    },
+    {
+      "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/tests/test_e426_packet_schema.py",
+      "sha256": "751250be2312b4c7dd43d66008a3440a1e309b2647be89d97c1a5aef80e8e80a",
+      "size": 3283
+    }
+  ],
+  "code_sha256": "955c2725947ae051bb0c23b51f521eb49d9c3f6e0ac0eb6556790a5e4d6f3519",
+  "environment": {},
+  "inputs": [
+    {
+      "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_export_aligned_ep3_fp32_v1.draft.json",
+      "sha256": "3508d5fc81cbe654172213e0fe039959ba50f24e53bf7329983435bbe5fb6689",
+      "size": 3114
+    },
+    {
+      "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_export_constant_ep3_fp32_v1.draft.json",
+      "sha256": "1f28fa153742e87b0ff6d0812f8a0f271cd782e480a23841e9434112a1006923",
+      "size": 3123
+    },
+    {
+      "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_export_shuffled_ep3_fp32_v1.draft.json",
+      "sha256": "aee216cd93f304ae90157bc97bbb0c2c13f9b14beaaebf59bc0100f115b57c87",
+      "size": 3123
+    },
+    {
+      "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_fold0_paired_score_v1.draft.json",
+      "sha256": "05bd6e9f272854e229ac36223000a65381144ee8476bd093091c82eb56666380",
+      "size": 3732
+    },
+    {
+      "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_screen_v1.json",
+      "sha256": "bbd953dcb6f6e90e69f0c578dc67016d19cc29d1d4cb748920264b9296cef8b3",
+      "size": 315
+    }
+  ],
+  "kind": "cpu",
+  "limits": {
+    "cpus": 1,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "ram_bytes": 536870912,
+    "timeout_seconds": 60
+  },
+  "name": "e426_packet_source_checks_v1",
+  "version": 1
+}

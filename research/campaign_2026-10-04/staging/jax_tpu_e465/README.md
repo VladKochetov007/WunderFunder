@@ -1,13 +1,23 @@
 # E465 all-eight-TPU continuation draft
 
 This directory is an isolated design and correctness-test draft. It is not a
-launch bundle and must not be used for a scientific run before E463's TPU
-real-data preflight completes and the objective tests run on a JAX-capable
-host. `rnn.py` and `bridge.py` are copied byte-for-byte from the reviewed
+launch bundle. The archived E463 CPUv3 run is CPU correctness evidence only.
+Production requires the queued E463 one-device TPU real-data compatibility
+run. It inventories eight TPU v5 lite devices but applies its bounded update
+on one device; it does not demonstrate eight-device training. E465 itself
+requires an eight-device full-shape profile and root admission before any
+scientific fit. `rnn.py` and `bridge.py` are copied byte-for-byte from the reviewed
 `staging/jax_tpu` source snapshot; this draft adds a distributed pooled
 objective helper, tests, and a standard-library OneCycle schedule port. The
 exact schedule amendment is in `E465_ONECYCLE_AMENDMENT.md`; its bounded
 reference checker compares against the production PyTorch scheduler.
+
+The source-only full TPU worker and immutable input-manifest contract are in
+`src/wnn_jax/e465_tpu_worker.py`, `scripts/run_e465_tpu.py`,
+`input_manifest.schema.json`, and `E465_TPU_WORKER_DRAFT.md`. It requires the
+separate E463 one-device TPU compatibility record and a matching E465 full-shape,
+all-eight-device, two-batch-per-precision profile before the one-epoch fit
+mode can run. The E465 profile, not E463, is the hardware execution gate.
 
 The intended comparison is one fixed epoch (epoch 0) of FP32 and BF16 AdamW
 continuations from the same converted `c20261003_combo_s3_f0@ep3` evaluation
@@ -48,5 +58,8 @@ parameter-update parity, save/load parity, and strict input/checkpoint/teacher
 hash checks. The CPU OneCycle reference check must also pass all production
 indices 0 through 7460 before fit admission.
 
-No scientific fit, accelerator allocation, data conversion, or score claim has
-been made from this draft.
+The JAX-free host contracts and a bounded production-Torch scalar AdamW
+reference fixture are `scripts/check_e465_host_contract.py` and
+`scripts/check_e465_adamw_reference.py`. Their runner drafts are source-only.
+No scientific fit, accelerator allocation, data conversion, or score claim
+has been made from this draft.

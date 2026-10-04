@@ -1,0 +1,49 @@
+{
+  "candidate_kernel_id": "vladkochetov07/wnn-w384-receipt-overlay-cpu-20261004-v1-runner",
+  "created_utc": "2026-10-04T19:51:21.282461+00:00",
+  "dataset_versions": {
+    "vladkochetov07/wnn-c20261004-fold1-assets": 1,
+    "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v3": 1,
+    "vladkochetov07/wunder-funder": 1
+  },
+  "review_files": {
+    "adversarial_stdlib_tests": {
+      "path": "receipt_overlay/test_receipt_overlay.py",
+      "sha256": "0d16cf39a71f82f5d786fa85542ea5f74d911fa36ef9b748ae21aafffc0f0db7"
+    },
+    "design_v2": {
+      "path": "READ_ONLY_RECEIPT_OVERLAY_DESIGN_v2.md",
+      "sha256": "d04acb72f89d0ea43b78e38f446773e02a52745a17973dd4c8324a7703b320ad"
+    },
+    "input_root_manifest_v4": {
+      "path": "receipt_overlay/receipt_input_manifest_v4.json",
+      "sha256": "7460b1502a92d06ea04d75ec41dadd49c50382ace5b4de9cb491ca37d639b74b"
+    },
+    "manifest_validation_v4": {
+      "path": "receipt_overlay/manifest_validation_v4.json",
+      "sha256": "b4df34895b27665a7dc5d8114c246ec9bc05939a63a76af602d4e6d7a56b7a68"
+    },
+    "provider_status": {
+      "path": "provider_status_20261004T1945Z.json",
+      "sha256": "f077656bec5e4c1cbdea0004ca17a8593e820de1a6490cbf74d627ebbad94f79"
+    },
+    "receipt_overlay_module": {
+      "path": "receipt_overlay/receipt_overlay.py",
+      "sha256": "030fad6243da487233c8dc436b250c55859272b18b2f7afcf7345a613f779a13"
+    },
+    "worker_audit": {
+      "path": "worker_audit_v3_20261004T1943Z.json",
+      "sha256": "b3a7a7ed22601bd89cd03ce79de5a48ce85577858772c16d45a246226ec9d467"
+    }
+  },
+  "scope": "same-kernel process-tree receipt only; retain full initial hash; no cross-run reuse",
+  "status": "source-only review packet; no provider upload, push, or data read",
+  "validation": {
+    "actual_mount_layout": "/kaggle/input/datasets/{owner}/{slug}/{filename}",
+    "manifest_parser": "26 unique descriptors accepted without opening mounted inputs",
+    "provider_runtime_version_markers": "not observed in W384-v3 worker; exact versions externally pinned by provider inventory/kernel attachment metadata",
+    "ruff_check": "passed",
+    "ruff_format": "passed",
+    "stdlib_unittest": "21/21 passed"
+  }
+}

@@ -71,7 +71,8 @@
     "E462 actualnative3ZIP368pairedscores",
     "E450 actualseed4nativeparity/reset/causality andfixedwholeVALIDscore",
     "E426 constantfull4epochfit",
-    "E464 eightCPUscopetests andeightactualparentpreflights"
+    "E464 eightCPUscopetests andeightactualparentpreflights",
+    "E426 threefullfits_FP32_exports_actual_paired_score_complete"
   ],
   "pending": [
     "E414 predictive normalization fits",
@@ -81,7 +82,6 @@
     "TPU real-data JAXpreflight afterhardware/frameworkproof",
     "E425 freshfullfit queuedafterE426 aftercontrollerreview",
     "E449 privatev3live;widthfold1scores afterfits",
-    "E426 all3fullfits complete; fixed FP32 exports and paired scores pending",
     "E462 quietoneCPUtiming beforemanualready",
     "E450/E462 quietCPUtiming queuedafterE426",
     "E464 eightfixedheadfits queue-source preparing afterpassedCPUpreflight",
@@ -115,7 +115,7 @@
     "oom_failed_jobs": 1
   },
   "first_wave_review": "FIRST_WAVE_REVIEW.md",
-  "as_of_utc": "2026-10-04T19:24:08.971434+00:00",
+  "as_of_utc": "2026-10-04T20:11:24.136583+00:00",
   "scientific_results": {
     "E409_W384_one_head_median_kcycles": 401.617,
     "E410": {
@@ -482,12 +482,170 @@
         "worker": "research/campaign_2026-10-04/runner/attempts/e426-f0-shuffled-s3-4ep-v2.json",
         "score_measured": false
       }
+    },
+    "E426_packet_checks": {
+      "passed": 3,
+      "subtests": 3,
+      "worker": "research/campaign_2026-10-04/runner/attempts/e426-packet-source-checks-v2.json",
+      "seconds": 0.5194369270029711,
+      "peak_ram_bytes": 9330688,
+      "scope": "stdlib cache/schema/source hash guards only; no score",
+      "previous_failed": "v1 2passed1failed missing fixture code path; archived unchanged tests, added source path only"
+    },
+    "timing_v2_source_checks": {
+      "passed": 5,
+      "worker": "research/campaign_2026-10-04/runner/attempts/timing-window-v2-source-checks-v1.json",
+      "status": "completed_noOOM",
+      "scope": "exact root/source/outputs/limits/ordering; native timings not yet measured"
+    },
+    "E465_formula_binary64": {
+      "updates": 7460,
+      "maximum_absolute_error": {
+        "first_moment": 4.440892098500626e-16,
+        "parameter": 3.0531133177191805e-15,
+        "second_moment": 1.1102230246251565e-16
+      },
+      "claim": "Formula-only; no JAX execution or TPU fitting proof",
+      "worker": "runner/attempts/e465-adamw-formula-referencecheck-v2.json"
+    },
+    "E426_exports": {
+      "constant": {
+        "id": "e426-clock-export-constant-ep3-fp32-v2",
+        "elapsed_seconds": 50.408839344992884,
+        "peak_ram_bytes": 2462031872,
+        "peak_observed_vram_bytes": 1288699904,
+        "teardown_verified": true,
+        "artifacts": [
+          {
+            "path": "cache/pred_e426_clock_constant_fp32_valid.npy",
+            "sha256": "fcc0a51a059645eecbaa241172e98928e245e906c92774ea5fb1c0287cdf1028",
+            "size": 299680128
+          },
+          {
+            "path": "cache/pred_e426_clock_constant_fp32_valid.json",
+            "sha256": "7d6e55a7f695f4fb3f8abe40fb487b4106f5ae5dca02c480a308d3e6037010b9",
+            "size": 18165
+          }
+        ]
+      },
+      "aligned": {
+        "id": "e426-clock-export-aligned-ep3-fp32-v2",
+        "elapsed_seconds": 50.41483237600187,
+        "peak_ram_bytes": 2403237888,
+        "peak_observed_vram_bytes": 1288699904,
+        "teardown_verified": true,
+        "artifacts": [
+          {
+            "path": "cache/pred_e426_clock_aligned_fp32_valid.npy",
+            "sha256": "881f1f43c29c3d1d41c647ab71d173277851b40edcdeb07395be0d2bbb326a11",
+            "size": 299680128
+          },
+          {
+            "path": "cache/pred_e426_clock_aligned_fp32_valid.json",
+            "sha256": "7db383ff212df1200ad93263216e9013af71381bf5ce49bfbbca1dfdecf5130e",
+            "size": 18164
+          }
+        ]
+      },
+      "shuffled": {
+        "id": "e426-clock-export-shuffled-ep3-fp32-v2",
+        "elapsed_seconds": 52.43304004200036,
+        "peak_ram_bytes": 2390847488,
+        "peak_observed_vram_bytes": 1288699904,
+        "teardown_verified": true,
+        "artifacts": [
+          {
+            "path": "cache/pred_e426_clock_shuffled_fp32_valid.npy",
+            "sha256": "b2ebb2560ccac0189f4e0c1fce69e57ee539a0d227248ddda1e905f36ff0d8aa",
+            "size": 299680128
+          },
+          {
+            "path": "cache/pred_e426_clock_shuffled_fp32_valid.json",
+            "sha256": "befa792a11806fafcda0c19b94245008830da71934a979a3a176ebc7668a9333",
+            "size": 18165
+          }
+        ]
+      }
+    },
+    "E426_clock_screen": {
+      "scores": {
+        "constant": {
+          "t0": 0.6753270573139809,
+          "t1": 0.6877285872951119,
+          "wp": 0.6815278223045464
+        },
+        "aligned": {
+          "t0": 0.6753237782819197,
+          "t1": 0.6876400116020631,
+          "wp": 0.6814818949419914
+        },
+        "shuffled": {
+          "t0": 0.6751642394461337,
+          "t1": 0.6876368250773327,
+          "wp": 0.6814005322617331
+        }
+      },
+      "comparisons": {
+        "aligned_minus_constant": {
+          "candidate_wp": 0.6814818949419913,
+          "reference_wp": 0.6815278223045467,
+          "mean_diff": -4.592736255537577e-05,
+          "bootstrap_sd": 6.000868775911649e-05,
+          "ci95": [
+            -0.00016489753287400323,
+            7.132820006960631e-05
+          ],
+          "p_le_0": 0.7685,
+          "n_sequences": 468,
+          "n_components": 141,
+          "n_boot": 2000,
+          "seed": 271828,
+          "metric_id": "global_wp_clip2_v1",
+          "centered_moments": true
+        },
+        "aligned_minus_shuffled": {
+          "candidate_wp": 0.6814818949419913,
+          "reference_wp": 0.6814005322617335,
+          "mean_diff": 8.136268025782378e-05,
+          "bootstrap_sd": 0.00010058174026523041,
+          "ci95": [
+            -9.569557304792142e-05,
+            0.0003058095986661401
+          ],
+          "p_le_0": 0.207,
+          "n_sequences": 468,
+          "n_components": 141,
+          "n_boot": 2000,
+          "seed": 271828,
+          "metric_id": "global_wp_clip2_v1",
+          "centered_moments": true
+        },
+        "shuffled_minus_constant": {
+          "candidate_wp": 0.6814005322617335,
+          "reference_wp": 0.6815278223045467,
+          "mean_diff": -0.00012729004281319956,
+          "bootstrap_sd": 8.436859567216908e-05,
+          "ci95": [
+            -0.00031501851627263876,
+            1.840142239100945e-05
+          ],
+          "p_le_0": 0.9485,
+          "n_sequences": 468,
+          "n_components": 141,
+          "n_boot": 2000,
+          "seed": 271828,
+          "metric_id": "global_wp_clip2_v1",
+          "centered_moments": true
+        }
+      },
+      "raw": "staging/e426_clock_comparison/results/e426_clock_screen_v2.json",
+      "scope": "single exposedfold0 fixedEP3 seed3; noPublic claim"
     }
   },
   "active_local": {
-    "E426": "All3fullfits completed exit0/teardown; exports and scores pending",
-    "E425": "timing-v1 dependency canceled before launch; recovery pending",
-    "E450_E462_timing": "v1 failed quiet-load gate, no valid runtime/OOM; new identity recovery under review",
+    "E426": "complete_three_fullfits_three_FP32exports_paired468seq_screen_all95CIincludezero",
+    "E425": "Awaiting root E426export/score controller dependency update after timing-v2 recovery",
+    "E450_E462_timing": "v2 FAILED before native timings: relative readiness path vs absolute ROOT; rootreviewed science-only timingdeferral release, noZIP readiness",
     "E464": "waiting for E425; no scientific fit started",
     "E427": "8CPU tests+242.22million input-onlyfitrows complete; GPUproduction smoke pending"
   },
@@ -496,8 +654,8 @@
     "E449": "v3ERROR probe timeout/0steps/0scientificfits/no observedOOM; diagnosing",
     "E463_CPU": "v3COMPLETE realdata1FP32+1BF16step",
     "E463_TPU": "private one-device realdata preflightQUEUED; no update/HBM observed",
-    "E465_CPU": "v3 all4sharding tests passed; all7461schedulerindices matchTorch exactly; fullTPUworker implementationpreparing",
-    "W384_IO_CPU": "v2 providerCOMPLETE/workerFAILED logger beforeI/O; corrected exact v3RUNNING19:20:41Z"
+    "E465_CPU": "Actual9hostcontractchecks and7460binary64AdamWformula passed; actualFP32JAX/Torch parity source/remoteCPUtransport preparing",
+    "W384_IO_CPU": "v3COMPLETE actual1154.692s544MB;572fullhashcalls84.386GB +16childcalls74.209GB, noGPUmodelsteps"
   },
   "subagent_policy": "Luna only, maximum6; currently3 scoped source/critic/accelerator roles; rootadmitsjobs.",
   "kaggle_quota": {
@@ -513,12 +671,12 @@
   "campaign_progress": {
     "ledger_range": "E-407..E-427",
     "total": 21,
-    "completed": 17,
+    "completed": 18,
     "partial": 1,
     "queued": 1,
-    "running": 1,
+    "running": 0,
     "prepared": 1,
-    "scope": "E407..427 programs:17completed1partial1runningE4261queuedE4251preparedE427. Programs includeEDA/frameworkchecks; not fitcount. E464/E465 additions separate."
+    "scope": "E407..427 programs18completed1partial1queued1prepared; includesEDA/frameworkprograms, not individualfits"
   },
   "kaggle_kernel_inventory": "checks/kaggle_kernel_inventory_20261004T1138Z.json",
   "critic_review": "research/campaign_2026-10-04/CRITIC_FOLLOWUPS_2026-10-04.md",
@@ -527,11 +685,11 @@
   "kaggle_quota_note": "Typed quota durations retain days; JSON string serializer dropped days from totalallowed at17:08. Typed API17:14:11ZGPU24790.786283/108000seconds,remaining83209.213717; TPU134.623/72000remaining71865.377. Preserve typed evidence, not broken displayed totals.",
   "first_wave_tally": {
     "range": "E407\u2013427",
-    "completed_programs": 17,
+    "completed_programs": 18,
     "partial": 1,
-    "running": 1,
+    "running": 0,
     "prepared": 1,
-    "note": "E407..427 programs:17completed1partial1runningE4261queuedE4251preparedE427. Programs includeEDA/frameworkchecks; not fitcount. E464/E465 additions separate.",
+    "note": "E407..427 programs18completed1partial1queued1prepared; includesEDA/frameworkprograms, not individualfits",
     "queued": 1
   }
 }

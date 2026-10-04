@@ -1,0 +1,70 @@
+{
+  "format": "wnn.h096.strict-component-teacher-exposure-draft.v1",
+  "status": "design_only_unsealed_unlaunched",
+  "question": "Does replacing own-fit alpha0 teacher targets with out-of-fit targets from the identical pair of inner component teachers improve a matched causal student?",
+  "outer_split": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "outer_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "inner_assignment": {
+    "script": "scripts/privileged_crossfit.py",
+    "folds": 2,
+    "seed": 98,
+    "component_method": "existing H098 SHA256 component assignment; components span train and valid by identity",
+    "teacher0_fit_half": 1,
+    "teacher0_predict_half": 0,
+    "teacher1_fit_half": 0,
+    "teacher1_predict_half": 1,
+    "expected_counts": {
+      "half0": {"train": 5125, "valid": 683, "total": 5808, "full_batch32_per_epoch": 181},
+      "half1": {"train": 5410, "valid": 722, "total": 6132, "full_batch32_per_epoch": 191},
+      "outer_fit_total": 11940,
+      "outer_eval_valid": 468,
+      "outer_eval_components": 141,
+      "excluded_train_group": 528
+    }
+  },
+  "arms": {
+    "own": {"exposure": "fitted", "assignment0_predictor": "teacher1", "assignment1_predictor": "teacher0"},
+    "oof": {"exposure": "excluded", "assignment0_predictor": "teacher0", "assignment1_predictor": "teacher1"}
+  },
+  "teacher_recipe": {
+    "name_pattern": "h096_alpha0_inner{0,1}_s3_f0",
+    "external_distillation_alpha": 0.0,
+    "privileged_mode": "none",
+    "propensity": null,
+    "initialization_checkpoint": null,
+    "seed": 3,
+    "train_source": "train+valid restricted by fit-groups-manifest",
+    "architecture": {"family": "GRU", "n_in": 211, "hidden": 256, "layers": 2, "n_out": 23},
+    "objective": {"loss": "wmse", "aux_struct": 0.3, "aux_next": 0.3, "original_target_rows": true},
+    "training": {"epochs": 4, "batch": 32, "chunk": 1000, "lr": 0.001, "wd": 0.01, "optimizer": "muon", "muon_scope": "rnn", "since_weight": 32, "since_floor": 0.25, "ema_decay": 0.999, "eval_ema": true, "checkpoint_policy": "fixed", "checkpoint_epoch": 3, "no_eval_during_fit": true}
+  },
+  "student_recipe": {
+    "name_pattern": "c20261004_h096_{own,oof}_s3_f0",
+    "same_fit_pool": true,
+    "same_seed": 3,
+    "changed_field_only": "--distill cache name",
+    "distill_alpha": 0.5,
+    "distill_boot_h": 8,
+    "propensity": "c20260929_prop_f0",
+    "objective": {"loss": "wmse", "aux_struct": 0.3, "aux_next": 0.3, "original_target_rows": true},
+    "fixed_epoch": 3
+  },
+  "primary_evaluation": {
+    "row_groups": "outer fold0 evaluation.valid only",
+    "n_groups": 468,
+    "n_components": 141,
+    "metric": "global_wp_clip2_v1",
+    "mask": "need_prediction AND is_scored",
+    "contrast": "oof minus own",
+    "component_bootstrap": {"replicates": 2000, "seed": 271828},
+    "checkpoint_selection_on_eval": false
+  },
+  "known_limitations": [
+    "H098 fit-groups guard disallows propensity/init/distill ancestors, so teachers cannot inherit the fold0 propensity model; own-vs-oof shares the same teacher pair, but teacher/student row weighting differs.",
+    "Component half sizes imply 181 vs 191 full batches per epoch and different OneCycle lengths; do not equalize by duplicating or dropping components.",
+    "Single fold and seed; no cross-seed or cross-fold replication.",
+    "CPU H098 fixtures are not a production GPU fit or measurement."
+  ],
+  "staging_directory": "research/campaign_2026-10-04/staging/h096_strict_overlap",
+  "fit_authorized": false
+}

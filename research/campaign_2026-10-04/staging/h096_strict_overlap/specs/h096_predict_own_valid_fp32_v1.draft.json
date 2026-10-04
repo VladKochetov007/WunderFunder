@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "name": "h096_predict_own_valid_fp32_v1",
+  "kind": "gpu",
+  "argv": [
+    "{python}",
+    "scripts/predict_run.py",
+    "c20261004_h096_own_s3_f0",
+    "valid",
+    "--epoch",
+    "3",
+    "--output-name",
+    "h096_own_s3_f0_fp32",
+    "--inference-precision",
+    "fp32"
+  ],
+  "code": [
+    "scripts/predict_run.py",
+    "scripts/train_rnn.py",
+    "src/wnn/data.py",
+    "src/wnn/features.py",
+    "src/wnn/nn.py",
+    "src/wnn/resources.py",
+    "src/wnn/splits.py",
+    "src/wnn/sentinel.py"
+  ],
+  "inputs": [
+    "artifacts/runs/c20261004_h096_own_s3_f0/model_ep3.pt",
+    "artifacts/runs/c20261004_h096_own_s3_f0/provenance.json",
+    "cache/valid_targets.npz",
+    "cache/chains.npz",
+    "cache/chain_folds.npz",
+    "datasets/valid.parquet",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "research/campaign_2026-10-04/portable_inputs.json"
+  ],
+  "artifacts": [
+    "cache/pred_h096_own_s3_f0_fp32_valid.npy",
+    "cache/pred_h096_own_s3_f0_fp32_valid.json"
+  ],
+  "limits": {
+    "cpus": 4,
+    "ram_bytes": 12884901888,
+    "timeout_seconds": 3600,
+    "gpu_memory_bytes": 4200000000,
+    "gpu_stop_bytes": 4800000000
+  },
+  "environment": {
+    "WNN_LOADER_RAM_GB": "3",
+    "WNN_LOADER_WORKERS": "2",
+    "WNN_PORTABLE_DATA_MANIFEST": "research/campaign_2026-10-04/portable_inputs.json"
+  }
+}

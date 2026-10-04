@@ -1,0 +1,112 @@
+{
+  "artifact_hashes": [
+    {
+      "path": "provider_output_20261004T1943Z/w384_io_diagnostic_v3/summary.json",
+      "sha256": "9d0dd4c17508e66d01fb36d996c5ef59448e2b2dcc7695a392bac4f353606ddb",
+      "size_bytes": 1104253
+    },
+    {
+      "path": "provider_output_20261004T1943Z/w384_io_diagnostic_v3/events.jsonl",
+      "sha256": "3e8415ef0c6e184456d56afe992ed761010db03046f04f0aa1b921d69053a1ea",
+      "size_bytes": 1538466
+    },
+    {
+      "path": "provider_output_20261004T1943Z/w384_io_diagnostic_v3/c20261004_w256_adamw_s3_f1_t4v3_probe_portable.jsonl",
+      "sha256": "a894986486a32386395fcb53295cfaf2a2fa1f2c525576cbef30d9dd69cc46d6",
+      "size_bytes": 27610
+    },
+    {
+      "path": "provider_output_20261004T1943Z/w384_io_diagnostic_v3/c20261004_w384_adamw_s3_f1_t4v3_probe_portable.jsonl",
+      "sha256": "30c20f887366053f29f9126b072b10a94e3df509a549e823dfe3bbd840f81402",
+      "size_bytes": 27588
+    },
+    {
+      "path": "provider_output_20261004T1943Z/wnn-w384-io-diagnostic-cpu-20261004-v3-runner.log",
+      "sha256": "5d2236d8613cfa1d3b9ee863b7eea7a9138a4fffc2d625595853e495b1cbec45",
+      "size_bytes": 815
+    }
+  ],
+  "captured_utc": "2026-10-04T19:49:47.811067+00:00",
+  "cgroup_memory_max_bytes": 32212254720,
+  "controller_full_hash_bytes": 84386156018,
+  "controller_full_hash_elapsed_seconds_sum": 758.1856748040027,
+  "controller_full_hash_records": 572,
+  "controller_full_hash_verified_records": 572,
+  "controller_hashes_by_spec": {
+    "c20261004_w256_adamw_s3_f1_t4v3_probe": {
+      "bytes": 42193078009,
+      "record_count": 286,
+      "sum_hash_elapsed_seconds": 383.68798531000243,
+      "verified_count": 286
+    },
+    "c20261004_w384_adamw_s3_f1_t4v3_probe": {
+      "bytes": 42193078009,
+      "record_count": 286,
+      "sum_hash_elapsed_seconds": 374.49768949400027,
+      "verified_count": 286
+    }
+  },
+  "corrected_descriptor_arithmetic_note": "The earlier design-v1 portable size was correct for six unique sources totaling 37,103,450,341 bytes. Each child made eight full-hash calls because chain_folds (550,072 bytes) and chains (650,142 bytes) were each read a second time through their working-tree aliases, adding 1,200,214 duplicate bytes per child.",
+  "dataset_versions_exactly_observable": false,
+  "kernel_cpu_affinity": [
+    0,
+    1
+  ],
+  "mounted_inputs_readonly_and_stats_stable": true,
+  "portable_event_phase_counts": {
+    "bundle_archive_verified": 1,
+    "bundle_manifest_verified": 1,
+    "child_process_cleanup": 1,
+    "controller_hash_finish": 572,
+    "controller_hash_progress": 70,
+    "controller_hash_start": 572,
+    "host_preflight": 1,
+    "job_terminal": 1,
+    "mount_symlink_cleanup": 26,
+    "portable_worker_heartbeat": 386
+  },
+  "portable_full_hash_bytes_note": "Eight hash calls per child cover six unique sources; two files are each hashed via both mounted and working paths.",
+  "portable_full_hash_bytes_per_worker": [
+    37104650555,
+    37104650555
+  ],
+  "portable_workers": [
+    {
+      "event_count": 54,
+      "evidenced_training_or_device_step": false,
+      "last_elapsed_seconds": 382.68109364400004,
+      "last_phase": "load_campaign_split_finish",
+      "log": "c20261004_w256_adamw_s3_f1_t4v3_probe_portable.jsonl",
+      "portable_full_hash_bytes": 37104650555,
+      "portable_full_hash_finishes": 8,
+      "portable_hash_finish_count_matches_exact_sources": true,
+      "sha256": "a894986486a32386395fcb53295cfaf2a2fa1f2c525576cbef30d9dd69cc46d6"
+    },
+    {
+      "event_count": 54,
+      "evidenced_training_or_device_step": false,
+      "last_elapsed_seconds": 382.699596541,
+      "last_phase": "load_campaign_split_finish",
+      "log": "c20261004_w384_adamw_s3_f1_t4v3_probe_portable.jsonl",
+      "portable_full_hash_bytes": 37104650555,
+      "portable_full_hash_finishes": 8,
+      "portable_hash_finish_count_matches_exact_sources": true,
+      "sha256": "30c20f887366053f29f9126b072b10a94e3df509a549e823dfe3bbd840f81402"
+    }
+  ],
+  "provider_kernel": "vladkochetov07/wnn-w384-io-diagnostic-cpu-20261004-v3-runner",
+  "provider_quota_observation": "Typed quota snapshot at 19:45Z unchanged from 19:38Z: GPU 27848.308/108000s used, TPU 134.623/72000s; no charge movement observed.",
+  "provider_status": "COMPLETE",
+  "provider_status_polled_utc": "2026-10-04T19:43Z",
+  "receipt_candidate_eligible": false,
+  "receipt_candidate_reason": "Candidate must bind actual full-read hashes to exact readonly mount path/stat and provider dataset version; mounted version identity was not independently exposed. This diagnostic never changes or bypasses shared source verification.",
+  "resource_assignment_caution": "Kernel metadata/plan requested dual T4, but recovered summary has no observed GPU model, UUID, utilization, VRAM, or device-step telemetry. Provider COMPLETE is separate from scientific execution evidence.",
+  "total_recorded_content_hash_bytes": 158595457128,
+  "total_recorded_content_hash_bytes_note": "Controller full hashes plus both portable child full hashes; this is actual logged read volume, not physical device I/O accounting.",
+  "worker_elapsed_seconds": 1154.6915697870002,
+  "worker_evidence_classification": "CPU/data integrity startup diagnostic only: both child logs terminate at load_campaign_split_finish; no GPU training/fit/score result or model checkpoint is present in recovered worker outputs.",
+  "worker_rss_cap_bytes": 4294967296,
+  "worker_rss_peak_bytes": 544006144,
+  "worker_started_utc_ns": 1791141686039024695,
+  "worker_summary_status": "complete"
+}

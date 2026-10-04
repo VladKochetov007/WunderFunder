@@ -1,0 +1,43 @@
+{
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-04/checks/run_e426_queue_source_checks.py",
+    "--output",
+    "research/campaign_2026-10-04/checks/e426_clock_queue_source_checks_v2.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e426_clock_queue_source_checks_v2.json"
+  ],
+  "code": [
+    "research/campaign_2026-10-04/checks/run_e426_clock_queue_v2.py",
+    "research/campaign_2026-10-04/checks/run_e426_queue_source_checks.py",
+    "research/campaign_2026-10-04/specs/e426_clock_export_aligned_ep3_fp32_v2.draft.json",
+    "research/campaign_2026-10-04/specs/e426_clock_export_constant_ep3_fp32_v2.draft.json",
+    "research/campaign_2026-10-04/specs/e426_clock_export_shuffled_ep3_fp32_v2.draft.json",
+    "research/campaign_2026-10-04/specs/e426_clock_fold0_paired_score_v2.draft.json",
+    "research/campaign_2026-10-04/specs/e426_fit_provenance_preflight_v1.draft.json",
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/scripts/preflight_e426_fits.py",
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/scripts/score_e426_clocks.py",
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/systemd/wnn-e426-clock-queue-v2.service",
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/tests/test_queue_v2.py"
+  ],
+  "environment": {},
+  "inputs": [
+    "research/campaign_2026-10-04/checks/ROOT_TIMING_INCIDENT_RELEASE.json",
+    "research/campaign_2026-10-04/checks/e426_fit_provenance_preflight_v1.json",
+    "research/campaign_2026-10-04/runner/attempts/e426-fit-provenance-preflight-v1.json",
+    "research/campaign_2026-10-04/runner/attempts/e450-seed4-i16-timing-v2.json",
+    "research/campaign_2026-10-04/runner/logs/e450-seed4-i16-timing-v2.log",
+    "research/campaign_2026-10-04/staging/timing_window/v2/timing_window_v2.json"
+  ],
+  "kind": "cpu",
+  "limits": {
+    "cpus": 1,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "ram_bytes": 536870912,
+    "timeout_seconds": 120
+  },
+  "name": "e426_clock_queue_source_checks_v2",
+  "version": 1
+}

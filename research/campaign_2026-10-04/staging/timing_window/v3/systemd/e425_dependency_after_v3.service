@@ -1,0 +1,17 @@
+[Unit]
+Description=Wunder E425 bounded soft-routing sequence
+Requires=wnn-timing-window-v3.service
+After=wnn-timing-window-v3.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/vlad/development/wunder/wnn_connectome_starterpack
+ExecStart=/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-04/checks/run_e425_sequence.py
+Slice=wnn-campaign.slice
+CPUQuota=25%
+MemoryMax=512M
+MemorySwapMax=0
+OOMPolicy=kill
+KillMode=control-group
+RuntimeMaxSec=4h
+Restart=no

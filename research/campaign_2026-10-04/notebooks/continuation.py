@@ -585,5 +585,37 @@ def _(campaign_dir, json, mo, plt, project_root):
     return
 
 
+@app.cell(hide_code=True)
+def _(campaign_dir, mo, refresh):
+    refresh
+    import json as _ema_json
+    import hashlib as _ema_hash
+    import matplotlib.pyplot as _ema_plt
+    _ema_source = campaign_dir / "staging/e426_clock_comparison/results/e426_clock_screen_v2.json"
+    _ema_result = _ema_json.loads(_ema_source.read_text())
+    _ema_pairs = _ema_result["folds"]["0"]["paired_component_bootstrap"]
+    _ema_names = list(_ema_pairs)
+    _ema_means = [_ema_pairs[k]["mean_diff"] for k in _ema_names]
+    _ema_low = [_ema_pairs[k]["ci95"][0] for k in _ema_names]
+    _ema_high = [_ema_pairs[k]["ci95"][1] for k in _ema_names]
+    _ema_fig, _ema_ax = _ema_plt.subplots(figsize=(8.5, 3.5), layout="constrained")
+    for _ema_idx, _ema_name in enumerate(_ema_names):
+        _ema_ax.plot([_ema_low[_ema_idx], _ema_high[_ema_idx]], [_ema_idx, _ema_idx], color="#476c9b", linewidth=3)
+        _ema_ax.plot(_ema_means[_ema_idx], _ema_idx, "o", color="#243a58")
+    _ema_ax.axvline(0, color="black", linewidth=1, linestyle="--")
+    _ema_ax.set_yticks(range(3), [k.replace("_", " ") for k in _ema_names])
+    _ema_ax.set_xlabel("Paired global weighted-Pearson difference (95% component interval)")
+    _ema_ax.set_title("E426: matched event-clock EMA screen — fixed epoch 3, fold 0")
+    _ema_ax.grid(axis="x", alpha=.2)
+    _ema_folder = campaign_dir / "eda/e426_event_ema"
+    _ema_folder.mkdir(parents=True, exist_ok=True)
+    _ema_fig.savefig(_ema_folder / "paired_clock_screen.png", dpi=170)
+    _ema_fig.savefig(_ema_folder / "paired_clock_screen.svg")
+    _ema_plt.close(_ema_fig)
+    (_ema_folder / "figure_provenance.json").write_text(_ema_json.dumps({"source": str(_ema_source.relative_to(campaign_dir)), "source_sha256": _ema_hash.sha256(_ema_source.read_bytes()).hexdigest(), "n_sequences": 468, "n_components": 141, "n_boot": 2000, "scope": "exposed fold0, one seed; no public effect claim"}, indent=2) + "\n")
+    mo.vstack([mo.md("### E426 event-clock EMA: measured null screen\nThree matched full fits, canonical FP32 exports, fixed EP3. All paired 95% component intervals include zero; exposed fold0/seed3. This does not establish a general absence of event-time mechanisms."), mo.image(str(_ema_folder / "paired_clock_screen.png"))])
+    return
+
+
 if __name__ == "__main__":
     app.run()

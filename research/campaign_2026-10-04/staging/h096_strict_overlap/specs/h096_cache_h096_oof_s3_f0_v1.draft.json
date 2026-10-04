@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "name": "h096_cache_h096_oof_s3_f0_v1",
+  "kind": "gpu",
+  "argv": [
+    "{python}",
+    "scripts/privileged_crossfit.py",
+    "extract",
+    "--outer-split",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "--checkpoints",
+    "artifacts/runs/h096_alpha0_inner0_s3_f0/model_ep3.pt",
+    "artifacts/runs/h096_alpha0_inner1_s3_f0/model_ep3.pt",
+    "--name",
+    "h096_oof_s3_f0",
+    "--device",
+    "cuda",
+    "--batch",
+    "4",
+    "--chunk",
+    "1000",
+    "--exposure",
+    "excluded"
+  ],
+  "code": [
+    "scripts/privileged_crossfit.py",
+    "scripts/train_rnn.py",
+    "src/wnn/data.py",
+    "src/wnn/nn.py",
+    "src/wnn/privileged.py",
+    "src/wnn/resources.py",
+    "src/wnn/splits.py"
+  ],
+  "inputs": [
+    "cache/chain_folds.npz",
+    "cache/chains.npz",
+    "cache/train_targets.npz",
+    "cache/valid_targets.npz",
+    "datasets/train.parquet",
+    "datasets/valid.parquet",
+    "datasets/valid_mask.parquet",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "artifacts/runs/h096_alpha0_inner0_s3_f0/model_ep3.pt",
+    "artifacts/runs/h096_alpha0_inner1_s3_f0/model_ep3.pt",
+    "artifacts/runs/h096_alpha0_inner0_s3_f0/provenance.json",
+    "artifacts/runs/h096_alpha0_inner1_s3_f0/provenance.json"
+  ],
+  "artifacts": [
+    "cache/pred_h096_oof_s3_f0_train.npy",
+    "cache/pred_h096_oof_s3_f0_train.json",
+    "cache/pred_h096_oof_s3_f0_valid.npy",
+    "cache/pred_h096_oof_s3_f0_valid.json"
+  ],
+  "limits": {
+    "cpus": 4,
+    "ram_bytes": 12884901888,
+    "timeout_seconds": 3600,
+    "gpu_memory_bytes": 4200000000,
+    "gpu_stop_bytes": 4800000000
+  },
+  "environment": {
+    "WNN_LOADER_RAM_GB": "3",
+    "WNN_LOADER_WORKERS": "2",
+    "WNN_PORTABLE_DATA_MANIFEST": "research/campaign_2026-10-04/portable_inputs.json"
+  }
+}

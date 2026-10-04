@@ -1,0 +1,201 @@
+{
+  "admission_resources": {
+    "parent_cpu_max": 12,
+    "parent_ram_max": 38654705664,
+    "support_cpus": 2,
+    "support_ram_bytes": 4294967296,
+    "worker_cpus": 1,
+    "worker_ram_bytes": 536870912
+  },
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--junitxml",
+    "research/campaign_2026-10-04/checks/e426_packet_source_checks_v2.xml",
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/tests/test_e426_packet_schema.py"
+  ],
+  "artifacts": [
+    {
+      "path": "research/campaign_2026-10-04/checks/e426_packet_source_checks_v2.xml",
+      "sha256": "f271443dbc5d6c736fa6fba690ba2f7a88d0c986b7ffae866561db233808a9f5",
+      "size": 857
+    }
+  ],
+  "block_id": "local001",
+  "charged_seconds": 0.5194369270029711,
+  "elapsed_seconds": 0.5194369270029711,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "0",
+    "WNN_THREADS": "1"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 1139615,
+    "low": 0,
+    "max": 5663444,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791142188.7692316,
+  "heartbeat_unix": 1791142188.26337,
+  "id": "e426-packet-source-checks-v2",
+  "initial_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "initial_parent_memory_events": {
+    "high": 1139615,
+    "low": 0,
+    "max": 5663444,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "kind": "cpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "38654705664",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 0,
+  "peak_ram_bytes": 9330688,
+  "reserved_seconds": 990,
+  "reserved_unix": 1791142188.205907,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+    "src/wnn/campaign.py": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+    "src/wnn/campaign_local.py": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+    "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "signals": [],
+  "spec": {
+    "argv": [
+      "{python}",
+      "-m",
+      "pytest",
+      "-q",
+      "--junitxml",
+      "research/campaign_2026-10-04/checks/e426_packet_source_checks_v2.xml",
+      "research/campaign_2026-10-04/staging/e426_clock_comparison/tests/test_e426_packet_schema.py"
+    ],
+    "artifacts": [
+      "research/campaign_2026-10-04/checks/e426_packet_source_checks_v2.xml"
+    ],
+    "code": [
+      {
+        "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/scripts/score_e426_clocks.py",
+        "sha256": "bd54c996b20b9eb64ed02f146466c23b82af6f1008e268b830e73df8e781135a",
+        "size": 12921
+      },
+      {
+        "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/tests/test_e426_packet_schema.py",
+        "sha256": "751250be2312b4c7dd43d66008a3440a1e309b2647be89d97c1a5aef80e8e80a",
+        "size": 3283
+      }
+    ],
+    "code_sha256": "955c2725947ae051bb0c23b51f521eb49d9c3f6e0ac0eb6556790a5e4d6f3519",
+    "environment": {},
+    "inputs": [
+      {
+        "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_export_aligned_ep3_fp32_v1.draft.json",
+        "sha256": "3508d5fc81cbe654172213e0fe039959ba50f24e53bf7329983435bbe5fb6689",
+        "size": 3114
+      },
+      {
+        "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_export_constant_ep3_fp32_v1.draft.json",
+        "sha256": "1f28fa153742e87b0ff6d0812f8a0f271cd782e480a23841e9434112a1006923",
+        "size": 3123
+      },
+      {
+        "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_export_shuffled_ep3_fp32_v1.draft.json",
+        "sha256": "aee216cd93f304ae90157bc97bbb0c2c13f9b14beaaebf59bc0100f115b57c87",
+        "size": 3123
+      },
+      {
+        "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_fold0_paired_score_v1.draft.json",
+        "sha256": "f648f562bdbcc533746f6ba8db87da0a4ecee5940f53b5fafbc4b4b1dd969e9c",
+        "size": 3831
+      },
+      {
+        "path": "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_screen_v1.json",
+        "sha256": "bbd953dcb6f6e90e69f0c578dc67016d19cc29d1d4cb748920264b9296cef8b3",
+        "size": 315
+      }
+    ],
+    "kind": "cpu",
+    "limits": {
+      "cpus": 1,
+      "gpu_memory_bytes": 0,
+      "gpu_stop_bytes": 0,
+      "ram_bytes": 536870912,
+      "timeout_seconds": 60
+    },
+    "name": "e426_packet_source_checks_v2",
+    "version": 1
+  },
+  "spec_sha256": "37fb891e375a21d8b0f603e60a3770bc266c565ab20009486203c08f8fc89828",
+  "started_unix": 1791142188.2615778,
+  "status": "finished",
+  "teardown_verified": true,
+  "timeout_seconds": 60,
+  "unit": "wnn-c04-e426-packet-source-checks-v2.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "1s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e426-packet-source-checks-v2.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "536870912",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}

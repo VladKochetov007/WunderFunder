@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "name": "e426_packet_source_checks_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "--junitxml",
+    "research/campaign_2026-10-04/checks/e426_packet_source_checks_v1.xml",
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/tests/test_e426_packet_schema.py"
+  ],
+  "code": [
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/scripts/score_e426_clocks.py",
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/tests/test_e426_packet_schema.py"
+  ],
+  "inputs": [
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_export_aligned_ep3_fp32_v1.draft.json",
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_export_constant_ep3_fp32_v1.draft.json",
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_export_shuffled_ep3_fp32_v1.draft.json",
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_fold0_paired_score_v1.draft.json",
+    "research/campaign_2026-10-04/staging/e426_clock_comparison/specs/e426_clock_screen_v1.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e426_packet_source_checks_v1.xml"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 536870912,
+    "timeout_seconds": 60,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {}
+}

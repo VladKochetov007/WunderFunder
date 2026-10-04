@@ -1,0 +1,43 @@
+{
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-04/staging/timing_window/v2/run_timing_window_v2_checks.py",
+    "--output",
+    "research/campaign_2026-10-04/checks/timing_window_v2_source_checks_v1.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/timing_window_v2_source_checks_v1.json"
+  ],
+  "code": [
+    "research/campaign_2026-10-04/specs/e450_seed4_i16_timing_v2.draft.json",
+    "research/campaign_2026-10-04/specs/e462_public_q8_timing_v2.draft.json",
+    "research/campaign_2026-10-04/staging/e462/time_public_q8.py",
+    "research/campaign_2026-10-04/staging/timing_window/run_pinned_cpu.py",
+    "research/campaign_2026-10-04/staging/timing_window/time_seed4_i16.py",
+    "research/campaign_2026-10-04/staging/timing_window/v2/README.md",
+    "research/campaign_2026-10-04/staging/timing_window/v2/run_timing_window_v2.py",
+    "research/campaign_2026-10-04/staging/timing_window/v2/run_timing_window_v2_checks.py",
+    "research/campaign_2026-10-04/staging/timing_window/v2/systemd/wnn-timing-window-v2.service",
+    "research/campaign_2026-10-04/staging/timing_window/v2/tests/test_timing_window_v2.py"
+  ],
+  "environment": {},
+  "inputs": [
+    "research/campaign_2026-10-04/runner/attempts/e462-public-q8-timing-v1.json",
+    "research/campaign_2026-10-04/runner/logs/e462-public-q8-timing-v1.log",
+    "research/campaign_2026-10-04/specs/e450_seed4_i16_timing_v1.sealed.json",
+    "research/campaign_2026-10-04/specs/e462_public_q8_timing_v1.sealed.json",
+    "research/campaign_2026-10-04/staging/timing_window/results/e462_q8_v1/trials.jsonl",
+    "research/campaign_2026-10-04/staging/timing_window/systemd/wnn-timing-window-v1.service",
+    "research/campaign_2026-10-04/staging/timing_window/timing_window_v1.json"
+  ],
+  "kind": "cpu",
+  "limits": {
+    "cpus": 1,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "ram_bytes": 536870912,
+    "timeout_seconds": 120
+  },
+  "name": "timing_window_v2_source_checks_v1",
+  "version": 1
+}

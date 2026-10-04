@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "name": "h096_inner_f0_s98_prepare_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "scripts/privileged_crossfit.py",
+    "prepare",
+    "--outer-split",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "--directory",
+    "research/campaign_2026-10-04/staging/h096_strict_overlap/inner",
+    "--inner-folds",
+    "2",
+    "--seed",
+    "98"
+  ],
+  "code": [
+    "scripts/privileged_crossfit.py",
+    "src/wnn/privileged.py",
+    "src/wnn/splits.py"
+  ],
+  "inputs": [
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "cache/chains.npz"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/staging/h096_strict_overlap/inner/inner0.json",
+    "research/campaign_2026-10-04/staging/h096_strict_overlap/inner/inner1.json"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 120
+  },
+  "environment": {}
+}

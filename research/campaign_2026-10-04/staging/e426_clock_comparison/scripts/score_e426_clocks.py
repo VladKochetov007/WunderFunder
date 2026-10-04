@@ -16,7 +16,7 @@ RUNS = {
     "aligned": ("e426_f0_aligned_s3_4ep_v2", "e426-f0-aligned-s3-4ep-v2"),
     "shuffled": ("e426_f0_shuffled_s3_4ep_v2", "e426-f0-shuffled-s3-4ep-v2"),
 }
-PREDICTIONS = {clock: f"{run}_fp32" for clock, (run, _) in RUNS.items()}
+PREDICTIONS = {clock: f"e426_clock_{clock}_fp32" for clock in RUNS}
 SCREEN = CAMPAIGN / "staging/e426_clock_comparison/specs/e426_clock_screen_v1.json"
 FOLD0 = ROOT / "research/campaign_2026-09-29/artifacts/splits/fold0.json"
 
@@ -34,17 +34,27 @@ def require(condition: bool, message: str) -> None:
         raise ValueError(message)
 
 
+def require_artifact_hash(
+    artifacts: dict[str, str], relative_path: str, actual_hash: str, label: str
+) -> None:
+    require(
+        artifacts.get(relative_path) == actual_hash,
+        f"{label}: bytes do not match authoritative fit attempt",
+    )
+
+
 def validate_fit_and_export_records() -> None:
     """Bind checkpoint and prediction bytes to the fixed successful fit outputs."""
-    import torch
-
     import numpy as np
+    import torch
 
     manifest_sha = sha256(FOLD0)
     manifest = json.loads(FOLD0.read_text())
     evaluation = manifest["evaluation"]["valid"]
     require(len(evaluation) == 468, "fold-0 VALID evaluation domain changed")
-    require(all(type(group) is int for group in evaluation), "fold-0 group IDs must be typed integers")
+    require(
+        all(type(group) is int for group in evaluation), "fold-0 group IDs must be typed integers"
+    )
 
     # Use the frozen scorer's stored-NPZ mmap reader, so validation does not
     # unpack the 337-MB target archive or construct a second target copy.
@@ -68,8 +78,10 @@ def validate_fit_and_export_records() -> None:
     )
     require(targets["y"].shape == (1873, 20_000, 2), "VALID target sequence shape changed")
     require(targets["mask"].shape == (1873, 20_000), "VALID mask shape changed")
-    require(set(int(value) for value in targets["market_class"]) == {0, 1, 2, 3},
-            "VALID class labels must contain all four declared classes")
+    require(
+        set(int(value) for value in targets["market_class"]) == {0, 1, 2, 3},
+        "VALID class labels must contain all four declared classes",
+    )
 
     shared_args = None
     shared_norm = None
@@ -92,10 +104,22 @@ def validate_fit_and_export_records() -> None:
         )
         fit_artifacts = {item["path"]: item["sha256"] for item in attempt["artifacts"]}
         relative_checkpoint = str(checkpoint_path.relative_to(ROOT))
-        require(fit_artifacts.get(relative_checkpoint) == sha256(checkpoint_path),
-                f"{clock}: checkpoint bytes do not match authoritative fit attempt")
-        require(fit_artifacts.get(str(provenance_path.relative_to(ROOT))) == sha256(provenance_path),
-                f"{clock}: provenance bytes do not match authoritative fit attempt")
+        require_artifact_hash(
+            fit_artifacts, relative_checkpoint, sha256(checkpoint_path), f"{clock} checkpoint"
+        )
+        require_artifact_hash(
+            fit_artifacts,
+            str(provenance_path.relative_to(ROOT)),
+            sha256(provenance_path),
+            f"{clock} provenance",
+        )
+        relative_training_state = str(training_state_path.relative_to(ROOT))
+        require_artifact_hash(
+            fit_artifacts,
+            relative_training_state,
+            sha256(training_state_path),
+            f"{clock} training state",
+        )
 
         provenance = json.loads(provenance_path.read_text())
         args = provenance["args"]
@@ -111,7 +135,8 @@ def validate_fit_and_export_records() -> None:
             and args.get("split_manifest_sha256") == manifest_sha
             and provenance.get("selected_epoch") == 3
             and provenance.get("split_manifest_sha256") == manifest_sha
-            and provenance.get("checkpoint_sha256", {}).get("model_ep3.pt") == sha256(checkpoint_path),
+            and provenance.get("checkpoint_sha256", {}).get("model_ep3.pt")
+            == sha256(checkpoint_path),
             f"{clock}: not the fixed no-evaluation epoch-3 clean-fold GRU checkpoint",
         )
         comparable_args = dict(args)
@@ -123,32 +148,54 @@ def validate_fit_and_export_records() -> None:
             shared_closure = provenance["code_source_closure"]
             shared_fit = provenance["fit_membership_identity"]
         else:
-            require(comparable_args == shared_args, f"{clock}: training recipe changed beyond clock/run name")
-            require(provenance["normalization_identity"] == shared_norm,
-                    f"{clock}: saved input normalization differs across clocks")
-            require(provenance["code_source_closure"] == shared_closure,
-                    f"{clock}: saved training source closure differs across clocks")
-            require(provenance["fit_membership_identity"] == shared_fit,
-                    f"{clock}: training row membership/order differs across clocks")
+            require(
+                comparable_args == shared_args,
+                f"{clock}: training recipe changed beyond clock/run name",
+            )
+            require(
+                provenance["normalization_identity"] == shared_norm,
+                f"{clock}: saved input normalization differs across clocks",
+            )
+            require(
+                provenance["code_source_closure"] == shared_closure,
+                f"{clock}: saved training source closure differs across clocks",
+            )
+            require(
+                provenance["fit_membership_identity"] == shared_fit,
+                f"{clock}: training row membership/order differs across clocks",
+            )
         norm = provenance["normalization_identity"]
-        require(norm["mean"]["shape"] == [211] and norm["std"]["shape"] == [211],
-                f"{clock}: expected 211-feature normalization")
+        require(
+            norm["mean"]["shape"] == [211] and norm["std"]["shape"] == [211],
+            f"{clock}: expected 211-feature normalization",
+        )
 
         checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
         state = torch.load(training_state_path, map_location="cpu", weights_only=False)
-        require(checkpoint.get("epoch") == 3 and checkpoint.get("n_in") == 211,
-                f"{clock}: checkpoint epoch or input width changed")
+        require(
+            checkpoint.get("epoch") == 3 and checkpoint.get("n_in") == 211,
+            f"{clock}: checkpoint epoch or input width changed",
+        )
         model_state = checkpoint.get("model")
-        require(isinstance(model_state, dict), f"{clock}: checkpoint lacks ordinary inference model state")
+        require(
+            isinstance(model_state, dict),
+            f"{clock}: checkpoint lacks ordinary inference model state",
+        )
         head_weight = model_state.get("head.2.weight")
-        require(head_weight is not None and tuple(head_weight.shape)[0] == 23,
-                f"{clock}: checkpoint must preserve the registered 23-output head")
+        require(
+            head_weight is not None and tuple(head_weight.shape)[0] == 23,
+            f"{clock}: checkpoint must preserve the registered 23-output head",
+        )
         evaluation_ema = state.get("evaluation_ema")
-        require(isinstance(evaluation_ema, dict) and evaluation_ema.get("kind") == "fast",
-                f"{clock}: saved training state lacks the separate evaluation EMA")
+        require(
+            isinstance(evaluation_ema, dict) and evaluation_ema.get("kind") == "fast",
+            f"{clock}: saved training state lacks the separate evaluation EMA",
+        )
         ema_state = evaluation_ema.get("state")
-        require(isinstance(ema_state, dict) and ema_state.keys() == model_state.keys(),
-                f"{clock}: checkpoint state keys differ from fixed evaluation EMA")
+        require(
+            isinstance(ema_state, dict) and ema_state.keys() == model_state.keys(),
+            f"{clock}: checkpoint state keys differ from fixed evaluation EMA",
+        )
         require(
             all(torch.equal(model_state[key], ema_state[key]) for key in model_state),
             f"{clock}: exported inference checkpoint is not the saved fixed evaluation EMA",
@@ -157,7 +204,9 @@ def validate_fit_and_export_records() -> None:
 
         prediction_path = ROOT / "cache" / f"pred_{PREDICTIONS[clock]}_valid.npy"
         sidecar_path = prediction_path.with_suffix(".json")
-        require(prediction_path.is_file() and sidecar_path.is_file(), f"{clock}: FP32 export is missing")
+        require(
+            prediction_path.is_file() and sidecar_path.is_file(), f"{clock}: FP32 export is missing"
+        )
         sidecar = json.loads(sidecar_path.read_text())
         require(
             sidecar.get("run") == run
@@ -171,8 +220,10 @@ def validate_fit_and_export_records() -> None:
             f"{clock}: prediction sidecar does not bind the fixed checkpoint and canonical all-VALID rows",
         )
         predictions = np.load(prediction_path, mmap_mode="r", allow_pickle=False)
-        require(predictions.shape == (1873, 20_000, 2) and predictions.dtype == np.float32,
-                f"{clock}: prediction must be FP32 [1873,20000,2]")
+        require(
+            predictions.shape == (1873, 20_000, 2) and predictions.dtype == np.float32,
+            f"{clock}: prediction must be FP32 [1873,20000,2]",
+        )
         del predictions
 
 
@@ -186,13 +237,19 @@ def main() -> None:
         raise ValueError("report output must stay inside the repository")
     if output_path.exists():
         raise FileExistsError(output_path)
-    validate = subprocess.run([sys.executable, str(Path(__file__).resolve()), "--preflight-only"],
-                              cwd=ROOT, check=False)
+    validate = subprocess.run(
+        [sys.executable, str(Path(__file__).resolve()), "--preflight-only"], cwd=ROOT, check=False
+    )
     if validate.returncode:
         raise subprocess.CalledProcessError(validate.returncode, validate.args)
     screen = subprocess.run(
-        [sys.executable, "scripts/screen_score.py", str(SCREEN.relative_to(ROOT)),
-         "--output", str(output_path.relative_to(ROOT))],
+        [
+            sys.executable,
+            "scripts/screen_score.py",
+            str(SCREEN.relative_to(ROOT)),
+            "--output",
+            str(output_path.relative_to(ROOT)),
+        ],
         cwd=ROOT,
         check=False,
     )
@@ -200,16 +257,25 @@ def main() -> None:
         raise subprocess.CalledProcessError(screen.returncode, screen.args)
     report = json.loads(output_path.read_text())
     require(report.get("metric_id") == "global_wp_clip2_v1", "frozen global-WP metric changed")
-    require(report.get("n_sequences") == 468, "paired screen must score exactly fold-0's 468 evaluation sequences")
+    require(
+        report.get("n_sequences") == 468,
+        "paired screen must score exactly fold-0's 468 evaluation sequences",
+    )
     expected_screen = json.loads(SCREEN.read_text())
-    require(report.get("screen") == expected_screen, "scored screen differs from the fixed preregistration")
+    require(
+        report.get("screen") == expected_screen,
+        "scored screen differs from the fixed preregistration",
+    )
     fold = report.get("folds", {}).get("0", {})
     require(set(fold.get("exact_global_wp", {})) == set(RUNS), "fold-0 arm set changed")
     classes = fold.get("by_class", {})
-    require(set(classes) == {"0", "1", "2", "3"}, "fold-0 class guard did not report all four classes")
+    require(
+        set(classes) == {"0", "1", "2", "3"}, "fold-0 class guard did not report all four classes"
+    )
     comparisons = fold.get("paired_component_bootstrap", {})
     require(
-        set(comparisons) == {
+        set(comparisons)
+        == {
             "aligned_minus_constant",
             "aligned_minus_shuffled",
             "shuffled_minus_constant",
@@ -221,12 +287,24 @@ def main() -> None:
         "paired component-bootstrap did not use all 2,000 declared replicates",
     )
     require(
-        all(value.get("n_sequences") == 468 and value.get("n_components") == 141
-            for value in comparisons.values()),
+        all(
+            value.get("n_sequences") == 468 and value.get("n_components") == 141
+            for value in comparisons.values()
+        ),
         "bootstrap domain differs from fold-0 evaluation sequences/components",
     )
-    print(json.dumps({"status": "PASS", "report": str(output_path.relative_to(ROOT)), "n_sequences": 468,
-                      "n_boot": 2000, "comparisons": sorted(comparisons)}, sort_keys=True))
+    print(
+        json.dumps(
+            {
+                "status": "PASS",
+                "report": str(output_path.relative_to(ROOT)),
+                "n_sequences": 468,
+                "n_boot": 2000,
+                "comparisons": sorted(comparisons),
+            },
+            sort_keys=True,
+        )
+    )
 
 
 if __name__ == "__main__":

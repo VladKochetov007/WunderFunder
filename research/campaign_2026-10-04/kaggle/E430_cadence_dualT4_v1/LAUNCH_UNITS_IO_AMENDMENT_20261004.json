@@ -1,0 +1,71 @@
+{
+  "status": "source_only_accounting_amendment_no_e430_admission",
+  "created_utc": "2026-10-04T19:03:24.890716+00:00",
+  "units": {
+    "e430_worker_stage_wall_hours_upper": 7.666666666666667,
+    "original_controller_margin_wall_hours": 1.0,
+    "old_planning_wall_hours": 8.666666666666666,
+    "allocated_device_gpu_hours_stage_bound": 15.333333333333334,
+    "allocated_device_gpu_hours_with_original_margin": 17.333333333333332,
+    "device_gpu_hour_recovery_reserve": 6.0,
+    "campaign_device_gpu_hours_gate": 23.333333333333332,
+    "global_campaign_device_gpu_hour_ceiling": 80.0,
+    "provider_gpu_quota_remaining_seconds_at_185541Z": 80151.692,
+    "provider_gpu_quota_remaining_hours_at_185541Z": 22.26435888888889,
+    "provider_quota_recovery_reserve_hours": "not inferred from device-hour reserve; root must declare independently",
+    "provider_quota_max_kernel_hours": "not safely bounded until controller-side repeated-hash time is measured and whole-kernel deadline is enforced"
+  },
+  "observed_provider_charge_interval": {
+    "kernel": "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v3-runner",
+    "accelerator": "dual T4",
+    "start_utc": "2026-10-04T17:47:18.394338+00:00",
+    "end_utc": "2026-10-04T18:02:27.799540Z",
+    "elapsed_wall_seconds": 909.405202,
+    "provider_quota_delta_seconds": 908.803648000001,
+    "quota_seconds_per_wall_second": 0.9993385192885679,
+    "interpretation": "single interval observation; provider quota is not device utilization and must be reread/reconciled per run"
+  },
+  "e430_hash_io_accounting": {
+    "phase_spec_count": 6,
+    "controller_full_hash_bytes_across_all_specs": 247160961362,
+    "portable_source_bytes_per_worker": 37103450341,
+    "worker_count_probe_plus_fit": 6,
+    "portable_full_hash_bytes_across_all_workers": 222620702046,
+    "total_full_hash_bytes_estimated": 469781663408,
+    "controller_pass_estimate_seconds_at_w384_observed_rate": 10076.317982168484,
+    "controller_pass_estimate_hours_at_w384_observed_rate": 2.7989772172690235,
+    "projected_kernel_wall_scenario_hours_including_worker_stage_bounds": 10.465643883935691,
+    "w384_controller_observed_declared_bytes": 84386156018,
+    "w384_validating_inputs_to_first_heartbeat_gap_seconds": 3440.275262908,
+    "w384_implied_controller_read_rate_bytes_per_second": 24528896.547269292,
+    "w384_worker_elapsed_seconds_before_failure": [
+      1173.979,
+      1143.894
+    ],
+    "w384_worker_fit_steps": 0,
+    "w384_worker_peak_gpu_bytes": [
+      0,
+      0
+    ],
+    "caveat": "Read rates are observed or extrapolated, not guaranteed. Child portable verification occurs inside worker timeouts, but controller verification happens before worker spawn and is not bounded by the per-worker timeout."
+  },
+  "existing_conflation_to_remove": {
+    "source_inventory_path": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/bundle/source_inventory.json",
+    "field": "time_model.quota_required_for_admission_gpu_hours",
+    "old_value": 23.34,
+    "correct_unit": "campaign device-GPU-hours including device recovery reserve",
+    "correct_gate": "cumulative actual allocated device-GPU-hours + planned device-GPU-hours + 6 recovery device-GPU-hours <= 80; independently compare provider quota remaining with maximum provider-quota kernel reservation plus independently declared provider reserve."
+  },
+  "source_identities": {
+    "builder_sha256": "fd19a3a88bb194dfbe9389bd0ea49512674c11aa4d45f6c4ef0b7682dcc22cf2",
+    "phase_runner_sha256": "3cb7216268d4319503e928e9292c4b46617a1553b8b777e189467766c2a58307",
+    "bundle_archive_sha256": "140654e0dd4d9abfe1b966db28574320799da07852deaa743053aae389f80f82",
+    "bundle_manifest_sha256": "4941ac09baf64b753ac7863a9bba5d902c3db2e1e3aeef19ad36667fe16b4319",
+    "source_inventory_sha256": "7cd8deb968c429b8b76450b3e5c7341643a2eaef7ed58922e35b246999cd38c9",
+    "w384_failure_diagnosis_sha256": "5938a3a958b67771be7a1efcd958602a7cf24e6d3e000310272fbe471ecbf305",
+    "w384_provider_quota_start_sha256": "72409afe9acf57d0573a169957f3b30beeb34d87fad7146f327742d2890f4568",
+    "w384_provider_quota_end_sha256": "41aeb24c9ca63dd9134259a0cc6c906d422a849bac204803a6719633147cc53e",
+    "current_typed_quota_snapshot_sha256": "7d4ade4424310bb726f14d78d3ef69a61f69ec697536c1c1e974839bca777544"
+  },
+  "decision": "Do not launch E430. The existing 1h startup margin is contradicted by repeated full-hash I/O and the source has no whole-kernel deadline. Await the CPU I/O diagnostic, freeze separate provider-quota and global device-hour gates, and require an explicit controller deadline before E430 admission."
+}

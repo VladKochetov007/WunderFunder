@@ -1,0 +1,51 @@
+{
+  "candidate_kernel_id": "vladkochetov07/wnn-w384-receipt-overlay-cpu-20261004-v1-runner",
+  "created_utc": "2026-10-04T20:00:07.946431+00:00",
+  "dataset_versions": {
+    "vladkochetov07/wnn-c20261004-fold1-assets": 1,
+    "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v3": 1,
+    "vladkochetov07/wunder-funder": 1
+  },
+  "review_files": {
+    "adversarial_stdlib_tests": {
+      "path": "receipt_overlay/test_receipt_overlay.py",
+      "sha256": "f443bcb3c9d372964f773360d2cf6acb66a81a415b36d8d9afd2123e3734af58"
+    },
+    "design_v2": {
+      "path": "READ_ONLY_RECEIPT_OVERLAY_DESIGN_v2.md",
+      "sha256": "727510de3edd23d37c2f331b1c09bf3b506bc94082d752d8ca3c07c07d3032d3"
+    },
+    "input_root_manifest_v7": {
+      "path": "receipt_overlay/receipt_input_manifest_v7.json",
+      "sha256": "98584ad09eca5e81b45f08f4eaef41ed53bf37121c37dee5a8e51d2706154f7d"
+    },
+    "manifest_validation_v7": {
+      "path": "receipt_overlay/manifest_validation_v7.json",
+      "sha256": "83040ceb9d7d848ee9f927ed18af5600f3a87666af46ac7efc521ad65bab7bbc"
+    },
+    "provider_status": {
+      "path": "provider_status_20261004T1958Z.json",
+      "sha256": "4c73112f5b508c5f13206ba3363fe3ef822915cf2df9d38ee2d62deed40dfb5c"
+    },
+    "receipt_overlay_module": {
+      "path": "receipt_overlay/receipt_overlay.py",
+      "sha256": "030fad6243da487233c8dc436b250c55859272b18b2f7afcf7345a613f779a13"
+    },
+    "worker_audit": {
+      "path": "worker_audit_v3_20261004T1943Z.json",
+      "sha256": "10f0e06b0e3f604640b6bd56d61e410446beaedbe98dd31d66f32a01ed93291d"
+    }
+  },
+  "root_manifest_sha256": "2b0b39e124882c48b42d45442414c3df3799c65b4a3011af7dcc76c4330abffa",
+  "scope": "same-kernel process-tree receipt only; preserve full initial content hash and strict-hash fallback; no cross-run reuse",
+  "status": "source-only review packet; no provider upload, push, or mounted input data read",
+  "validation": {
+    "actual_mount_layout": "/kaggle/input/datasets/{owner}/{slug}/{filename}",
+    "child_inheritance": "sealed manifest memfd and held source FD survived subprocess exec with pass_fds",
+    "dataset_version_binding": "reviewed provider inventory pinned in root manifest; worker emitted no independent version marker",
+    "manifest_parser": "26 unique expected-content descriptors accepted without opening mounted inputs",
+    "ruff_check": "passed",
+    "ruff_format": "passed",
+    "stdlib_unittest": "29/29 passed"
+  }
+}

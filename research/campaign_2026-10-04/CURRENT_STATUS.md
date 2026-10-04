@@ -31,3 +31,19 @@ Marimo is live at `http://localhost:2718`; figures and their sourcehashes are un
 ## Timing-window incident and recovery
 
 The actual E462 timing-v1 worker stopped at19:20:49Z because host load exceeded its predeclared quiet gate. No valid timing result, no OOM, and teardown verified. E425 did not launch; E464 remains waiting for E425. The failed attempt, log, quarantine and exact controller remain preserved. A new reviewed timing identity with stronger startup quiet admission is being prepared; worker precision, row counts, paired repeats and the load gate remain fixed.
+
+At 2026-10-04T19:43:03.827470+00:00, the timing-v2 controller is actually live and waiting for the stronger startup load1<=0.3 gate (900s bounded wait). Its two fixed worker specs are sealed, and5 bounded CPU source checks passed. The existing worker max-load1=1.0, precision, row count and paired repeats remain unchanged. The E426 score-packet source checks also passed3 tests plus3 subtests under a bounded worker; scientific exports/scores remain pending.
+
+Correction at 2026-10-04T19:46:48.814280+00:00: the timing-v2 service is TERMINAL FAILED, not live. Its worker failed before callbacks on a relative-vs-absolute path error; no native timing or OOM. Root verified exact failed attempt/log/result hashes and authorized ONLY package-timing deferral for independent scientific work in `checks/ROOT_TIMING_INCIDENT_RELEASE.json`; ZIP readiness and old-attempt retry remain unauthorized. The E426 fixed-checkpoint provenance preflight is now an actual bounded CPU worker.
+
+## Actual exports and port diagnostics, 2026-10-04T20:08:14.644859+00:00
+
+E426 all three canonical full-VALID fixedEP3 FP32 exports completed successfully: constant50.409s, aligned50.415s, shuffled52.433s; peak observedVRAM1.289GB andRAM2.46GB maximum, zeroOOM. The science controllerv2 stopped before scientific work because systemd had garbage-collected a successful transient preflight unit. Its stopped state is preserved. Root admitted distinct controllerv3 after9boundedstdlibchecks passed, permitting an already-successful exact runner record with verifiedteardown/artifacts/noOOM when its historical transientservice was collected. No scientific fit or export was rerun. Pairedfold0 score is nowpending under v3.
+
+E465 actualhostcontract9checks passed. The original FP32Torch-versus-double scalarreference failure is preserved. A separate matchedbinary64 formula check passed all7460scheduleupdates with maximum parametererror3.06e-15, firstmoment4.44e-16, secondmoment1.12e-16, each below1e-10. This is not actualFP32JAXparity or TPUtraining evidence; a distinct privateCPUcompiledJAX/Torch check is beingprepared.
+
+W384 privateCPU I/O diagnosticv3 completed:1154.692s,544MB peakRSS. It verified572controller descriptorhashes reading84,386,156,018bytes and each of two portablechildren made8hashcalls/sixuniquefiles for37,104,650,555bytes. Total loggedcontenthashcallbytes158,595,457,128; these are not physicalcold-diskreadbytes. No modelupdates or GPUallocations. Full science recovery will retainstrictcontenthashes and budget measuredstartup overhead. Conditionalreceiptoptimization remains source-only with an explicit immutableprovider-snapshot trustassumption.
+
+### E426 science complete, 2026-10-04T20:11:24.136583+00:00
+
+Allthree fits/exports and actualpairedscreen completed. Fold0constantWP0.681527822, aligned0.681481895, shuffled0.681400532. Primary aligned−constant−0.000045927,95%CI[-0.000164898,+0.000071328]. Allthreecontrast intervalsincludezero. No event-clock improvement on this matchedscreen; mechanismfamily remains available for different causalrepresentations. `E426_CLOCK_RESULT.md`, live marimo cellBLRt/`eda/e426_event_ema/`. E425next remains pending quiettimingv3 recovery, with E464eightheads after E425.

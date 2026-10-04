@@ -33,3 +33,8 @@ present in the checkpoint, confirms equality with the saved evaluation EMA,
 and checks that the three fits share source closure, fit membership, data split,
 normalization, and every training argument except the intended clock and run
 name.
+
+The fold-0 panel is component-disjoint from the fits, but this is not an
+untouched generalization test: teacher checkpoint lineage and this score panel
+have prior campaign exposure. Treat the comparison as a paired exploratory
+endpoint for the registered teacher-clock contrast only.

@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/timing_window/run_pinned_cpu.py", line 30, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/timing_window/run_pinned_cpu.py", line 26, in main
+    runpy.run_path(str(target), run_name="__main__")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/timing_window/time_seed4_i16.py", line 293, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/timing_window/time_seed4_i16.py", line 289, in main
+    run(parser.parse_args())
+    ~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/timing_window/time_seed4_i16.py", line 135, in run
+    parity = _require_e450_parity(args.readiness, args.parity_attempt, args.seed4, args.data)
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/timing_window/time_seed4_i16.py", line 103, in _require_e450_parity
+    artifact = next((item for item in attempt.get("artifacts", [])
+                     if item.get("path") == readiness_path.relative_to(ROOT).as_posix()), None)
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/timing_window/time_seed4_i16.py", line 104, in <genexpr>
+    if item.get("path") == readiness_path.relative_to(ROOT).as_posix()), None)
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py", line 385, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: 'research/campaign_2026-10-04/checks/e450_seed4_native_parity_v1/readiness.json' is not in the subpath of '/home/vlad/development/wunder/wnn_connectome_starterpack'

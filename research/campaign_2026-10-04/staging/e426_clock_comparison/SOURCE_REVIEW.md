@@ -37,9 +37,16 @@ fit-membership identity, split manifest, 4-epoch horizon, and no-evaluation
 fixed epoch-3 policy. The validator checks all training arguments match after
 removing only run name and `teacher_ema_clock`. It also checks the authoritative
 runner fit record is successful and its checkpoint/provenance digests match.
-At staging time constant and aligned were terminal-successful; shuffled was
-still pending, so the worker gate must remain closed until its record and files
-pass the same checks.
+The three exporters, screen, and validator use the same `e426_clock_<clock>_fp32`
+cache names. A stateless test checks this join and negative/missing training
+state artifact hashes before the score job can be admitted. The validator now
+requires the attempt record to bind the checkpoint, provenance, and
+`training_state.pt` bytes.
+
+The fold-0 evaluation panel is component-disjoint from these fits, but it is not
+untouched: the teacher checkpoint lineage and the score panel have prior
+campaign exposure. Interpret this only as a paired exploratory endpoint for
+the registered teacher-clock contrast, not as a fresh generalization result.
 
 Reviewed source hashes:
 
@@ -52,7 +59,8 @@ Reviewed source hashes:
 | `scripts/screen_score.py` | `6bbd064d30e9ab608f24386c8bb076f0356be028c02092b629ab9a342051d34e` |
 | frozen `campaign_score.py` | `b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39` |
 | fold-0 manifest | `09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d` |
-| staged score validator | `13212c011e9a3d9f800d2c55f761c5258fbf75bea876c2f09bc65eccdcc095c8` |
+| staged score validator after cache/provenance fix | `9f20576360ba7760ab9fa350a1413d1557f803bd1ec718fad45c934d32b81907` |
+| stateless packet schema/provenance test | `dd0f4731087d9e588b528f0f7fc66efbd3d10089aaade2f8d6b4269ac649a525` |
 
 The export drafts use three distinct cache names and never overwrite existing
 prediction artifacts. Each allows 900 seconds at 8 CPUs, 24-GiB host RAM,

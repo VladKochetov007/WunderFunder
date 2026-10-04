@@ -1,0 +1,39 @@
+{
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-04/staging/timing_window/v3/run_timing_window_v3_checks.py",
+    "--output",
+    "research/campaign_2026-10-04/checks/timing_window_v3_source_checks_v1.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/timing_window_v3_source_checks_v1.json"
+  ],
+  "code": [
+    "research/campaign_2026-10-04/staging/timing_window/v3/run_timing_window_v3.py",
+    "research/campaign_2026-10-04/staging/timing_window/v3/run_timing_window_v3_checks.py",
+    "research/campaign_2026-10-04/staging/timing_window/v3/tests/test_timing_window_v3.py",
+    "research/campaign_2026-10-04/staging/timing_window/v3/specs/e450_seed4_i16_timing_v3.draft.json",
+    "research/campaign_2026-10-04/staging/timing_window/v3/specs/e462_public_q8_timing_v3.draft.json",
+    "research/campaign_2026-10-04/staging/timing_window/v3/systemd/wnn-timing-window-v3.service",
+    "research/campaign_2026-10-04/staging/timing_window/v3/README.md"
+  ],
+  "environment": {},
+  "inputs": [
+    "research/campaign_2026-10-04/specs/e450_seed4_i16_timing_v2.sealed.json",
+    "research/campaign_2026-10-04/specs/e450_seed4_i16_timing_v3.draft.json",
+    "research/campaign_2026-10-04/specs/e462_public_q8_timing_v2.sealed.json",
+    "research/campaign_2026-10-04/specs/e462_public_q8_timing_v3.draft.json",
+    "research/campaign_2026-10-04/staging/e462/time_public_q8.py",
+    "research/campaign_2026-10-04/staging/timing_window/time_seed4_i16.py"
+  ],
+  "kind": "cpu",
+  "limits": {
+    "cpus": 1,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "ram_bytes": 536870912,
+    "timeout_seconds": 120
+  },
+  "name": "timing_window_v3_source_checks_v1",
+  "version": 1
+}

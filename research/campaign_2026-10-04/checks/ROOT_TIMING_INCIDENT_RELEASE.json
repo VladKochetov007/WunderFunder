@@ -1,0 +1,45 @@
+{
+  "format": "wnn.root-timing-incident-release-v1",
+  "version": 1,
+  "status": "approved",
+  "utc": "2026-10-04T19:46:48.814280+00:00",
+  "classification": "relative_path_before_native_timing",
+  "permitted_scope": "package_timing_deferred_science_only",
+  "timing_result": {
+    "path": "research/campaign_2026-10-04/staging/timing_window/v2/timing_window_v2.json",
+    "sha256": "4dc4cc9f0a1a239a74cb43c5c0c21c878f77de6fdbbebb82797dba6129caf687"
+  },
+  "failed_worker": {
+    "attempt_id": "e450-seed4-i16-timing-v2",
+    "record_path": "research/campaign_2026-10-04/runner/attempts/e450-seed4-i16-timing-v2.json",
+    "record_sha256": "9ef32bf2593a5f93da57ef2432209d4f13168bb6ed8f1eaec49ed8ddf31fb1ee",
+    "log_path": "research/campaign_2026-10-04/runner/logs/e450-seed4-i16-timing-v2.log",
+    "log_sha256": "f53110892d96f1f636053463b39ea6281fc5943139fc970ef978be4ac37f49d9",
+    "spec_sha256": "06e3b3ab24df144ee9e908ed32acb4cbfce1834f9ba3653c59740248bd420380",
+    "unit": "wnn-c04-e450-seed4-i16-timing-v2.service",
+    "exit_code": 1,
+    "teardown_verified": true,
+    "oom_delta": 0,
+    "observed_vram_bytes": 0
+  },
+  "terminal_services": {
+    "wnn-timing-window-v2.service": {
+      "LoadState": "loaded",
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "MainPID": "0",
+      "ExecMainStatus": "1"
+    },
+    "wnn-c04-e450-seed4-i16-timing-v2.service": {
+      "LoadState": "loaded",
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "MainPID": "0",
+      "ExecMainStatus": "1"
+    }
+  },
+  "root_verified_reason": "The timing wrapper used Path.relative_to(absoluteROOT) on a relative readiness path, before native callbacks. This is a package-timing CLI bug; independent E426 forecasting fits and their successful resource teardown remain valid.",
+  "zip_readiness_authorized": false,
+  "old_attempt_retry_authorized": false,
+  "science_release_only": "May run root-reviewed fixed-checkpoint provenance, exports and paired scores after verifying these exact incident bytes and no live timing worker; no automatic timing retry or submission promotion."
+}
