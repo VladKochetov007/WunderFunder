@@ -57,6 +57,8 @@ from wnn.propensity import load_propensity, propensity
 from wnn.structured_state import StructuredStateModel
 from wnn.event_content import EventContentModel
 from wnn.resources import configure_torch, cpu_threads, dataloader_budget
+from wnn.research_features import (RESEARCH_FEATURE_MODES, research_feature_names,
+                                   research_features_torch)
 from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_identity,
                               sample_order_identity, scaler_source_identity)
 from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
@@ -403,6 +405,7 @@ READOUT = None  # (m1, m0) moment tables when the head is a softmax over outcome
 READOUT_TILTED = False
 HEURISTICS = False  # append wnn.heuristics features (computed in loader workers)
 RAW_ONLY = False  # zero the event-feature block (organizer-style raw view; keeps n_in for native export)
+RESEARCH_FEATURES = "none"  # causal full-sequence features, before TBPTT slicing
 
 
 def build_inputs(x):
@@ -413,10 +416,15 @@ def build_inputs(x):
     inputs = torch.cat([raw, ev], dim=-1)
     if ONLINE_NORM:
         inputs = torch.cat([inputs, online_zscore_torch(raw)], dim=-1)
+    prop_inputs = inputs
+    if RESEARCH_FEATURES != "none":
+        inputs = torch.cat([inputs, research_features_torch(raw, RESEARCH_FEATURES)], dim=-1)
     if extra.shape[-1]:
         inputs = torch.cat([inputs, extra], dim=-1)
+        if INPUT_PROPENSITY is not None:
+            prop_inputs = torch.cat([prop_inputs, extra], dim=-1)
     if INPUT_PROPENSITY is not None:
-        inputs = torch.cat([inputs, propensity(INPUT_PROPENSITY, inputs)[..., None].to(inputs.dtype)], dim=-1)
+        inputs = torch.cat([inputs, propensity(INPUT_PROPENSITY, prop_inputs)[..., None].to(inputs.dtype)], dim=-1)
     return inputs
 
 
@@ -705,6 +713,7 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
         "online_norm",
         "raw_only",
         "heuristics",
+        "research_features",
         "prop_input",
         "aux",
         "aux_struct",
@@ -953,6 +962,8 @@ def main():
     ap.add_argument("--online-norm", action="store_true")
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
+    ap.add_argument("--research-features", choices=RESEARCH_FEATURE_MODES, default="none",
+                    help="append causal volume features computed on full float32 sequences")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--loss-norm", choices=["chunk", "running"], default="chunk",
                     help="wmse main loss divided by each chunk's weight sum (chunk) or by a running mean of it "
@@ -1309,7 +1320,9 @@ def main():
             validate_campaign_checkpoint(torch.load(propensity_path, map_location="cpu", weights_only=False), args)
         provenance["propensity_checkpoint_sha256"] = file_sha256(propensity_path)
     prop_model = load_propensity(ROOT / "artifacts" / "runs" / args.propensity / "model.pt", device) if args.propensity else None
-    n_in = N_FEATURES + N_EVENT_FEATURES
+    global RESEARCH_FEATURES
+    RESEARCH_FEATURES = args.research_features
+    n_in = N_FEATURES + N_EVENT_FEATURES + len(research_feature_names(RESEARCH_FEATURES))
     if args.raw_only:
         global RAW_ONLY
         RAW_ONLY = True

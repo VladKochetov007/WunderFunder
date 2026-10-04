@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import sys
@@ -44,7 +45,10 @@ def _repository(root: Path) -> None:
 
 @pytest.mark.parametrize("controlled", [False, True])
 def test_real_main_epoch_resume_and_completed_export(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, controlled: bool
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    controlled: bool,
+    research_features: str = "none",
 ) -> None:
     """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
     _repository(tmp_path)
@@ -96,6 +100,8 @@ def test_real_main_epoch_resume_and_completed_export(
         "--seed",
         "3",
         "--save-training-state",
+        "--research-features",
+        research_features,
     ]
     if controlled:
         base += [
@@ -141,6 +147,11 @@ def test_real_main_epoch_resume_and_completed_export(
     reference = load_training_state(reference_dir / "training_state.pt")
     resumed = load_training_state(resumed_dir / "training_state.pt")
     assert reference["contract"]["runtime"]["threads"] == training.cpu_threads()
+    assert reference["model"]["mean"].numel() == (
+        data.N_FEATURES
+        + training.N_EVENT_FEATURES
+        + len(training.research_feature_names(research_features))
+    )
     for key in (
         "contract",
         "model",
@@ -179,16 +190,58 @@ def test_main_restores_thread_budget_after_initialization(
 ) -> None:
     """A one-time initializer change must not become the saved fit's thread count."""
     original_builder = training.build_optimizer
-    initialized = False
+    initialize_once = iter([True])
 
-    def changing_builder(model: torch.nn.Module, args: object) -> torch.optim.Optimizer:
-        nonlocal initialized
+    def changing_builder(model: torch.nn.Module, args: argparse.Namespace) -> torch.optim.Optimizer:
         optimizer = original_builder(model, args)
-        if not initialized:
+        if next(initialize_once, False):
             torch.set_num_threads(training.cpu_threads() + 1)
-            initialized = True
         return optimizer
 
     monkeypatch.setattr(training, "build_optimizer", changing_builder)
     monkeypatch.setenv("WNN_INTEGRATION_DEVICE", "cpu")
     test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, False)
+
+
+@pytest.mark.parametrize("research_features", ["volume28", "volume28_current"])
+def test_main_research_features_resume(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, research_features: str
+) -> None:
+    """Expanded normalization and feature checkpoints survive actual trainer resume."""
+    test_real_main_epoch_resume_and_completed_export(
+        tmp_path, monkeypatch, False, research_features
+    )
+
+
+def test_research_features_preserve_propensity_input_and_parent_layout(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Frozen propensity sees its original inputs; research columns precede extras."""
+    raw = torch.randn(2, 8, data.N_FEATURES)
+    extra = torch.randn(2, 8, 3)
+    monkeypatch.setattr(training, "RESEARCH_FEATURES", "volume28")
+    monkeypatch.setattr(training, "INPUT_PROPENSITY", object())
+    expected_propensity = torch.cat((raw, training.event_features_torch(raw), extra), -1)
+
+    def check_propensity(model: object, inputs: torch.Tensor) -> torch.Tensor:
+        torch.testing.assert_close(inputs, expected_propensity, rtol=0, atol=0)
+        return inputs.new_full(inputs.shape[:2], 0.25)
+
+    monkeypatch.setattr(training, "propensity", check_propensity)
+    inputs = training.build_inputs(torch.cat((raw, extra), -1))
+    base_width = data.N_FEATURES + training.N_EVENT_FEATURES
+    torch.testing.assert_close(
+        inputs[..., base_width : base_width + 28],
+        training.research_features_torch(raw, "volume28"),
+        rtol=0,
+        atol=0,
+    )
+    torch.testing.assert_close(inputs[..., -4:-1], extra, rtol=0, atol=0)
+    assert (inputs[..., -1] == 0.25).all()
+    args = argparse.Namespace(research_features="none")
+    parent = {"args": {"research_features": "volume28"}}
+    training.inherit_init_arguments(args, parent, [])
+    assert args.research_features == "volume28"
+    args.research_features = "volume28_current"
+    with pytest.raises(ValueError, match="disagrees"):
+        training.inherit_init_arguments(args, parent, ["--research-features"])
