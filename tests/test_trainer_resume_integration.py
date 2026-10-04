@@ -106,11 +106,12 @@ def test_real_main_epoch_resume_and_completed_export(
     if controlled:
         base += [
             "--chunk",
-            "2",
+            "1",
             "--update-rows",
             "4",
             "--detach-rows",
             "2",
+            "--detach-boundary-jitter",
             "--distill-boot-h",
             "1",
             "--ema-reference-rows",

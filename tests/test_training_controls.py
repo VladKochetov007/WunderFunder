@@ -11,6 +11,7 @@ from wnn.nn import RNNModel
 from wnn.training_controls import (
     DistilledLoss,
     blended_target,
+    detach_boundary_offset,
     distilled_macro_losses,
     ema_decay_per_update,
     shuffled_masses,
@@ -161,6 +162,22 @@ def test_detach_cuts_credit_but_carries_identical_state_and_loss() -> None:
     assert torch.equal(short[1], long[1])
     assert not torch.allclose(short[3], long[3], atol=1e-7, rtol=1e-7)
     assert short[-1] == 2 and long[-1] == 1
+
+
+def test_jitter_changes_credit_only_and_flushes_partial_final_block() -> None:
+    fixture = _fixture()
+    fixed = _controlled(copy.deepcopy(fixture), 1, 2)
+    shifted = _controlled(copy.deepcopy(fixture), 1, 2, detach_offset_rows=1)
+    assert shifted[0] == pytest.approx(fixed[0], abs=1e-6)
+    assert torch.equal(shifted[1], fixed[1])
+    assert torch.equal(shifted[2], fixed[2])
+    assert not torch.allclose(shifted[3], fixed[3], atol=1e-7, rtol=1e-7)
+    assert fixed[-1] == 2 and shifted[-1] == 3
+    state = torch.get_rng_state().clone()
+    phases = [detach_boundary_offset(1, 2, 7, step) for step in range(20)]
+    assert set(phases) == {0, 1}
+    assert phases == [detach_boundary_offset(1, 2, 7, step) for step in range(20)]
+    assert torch.equal(state, torch.get_rng_state())
 
 
 def test_strict_bootstrap_boundary_and_end_of_sequence() -> None:

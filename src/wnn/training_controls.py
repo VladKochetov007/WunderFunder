@@ -75,6 +75,14 @@ def shuffled_masses(weights: Tensor, update_rows: int, seed: int) -> Tensor:
     return masses[torch.as_tensor(order, device=masses.device)]
 
 
+def detach_boundary_offset(micro_rows: int, detach_rows: int, seed: int, step: int) -> int:
+    """Draw a reproducible phase without changing rows, update windows or process RNG."""
+    if micro_rows <= 0 or detach_rows <= micro_rows or detach_rows % micro_rows:
+        raise ValueError("jitter requires at least two microchunks per detach interval")
+    generator = np.random.default_rng(np.random.SeedSequence([seed, step]))
+    return int(generator.integers(detach_rows // micro_rows)) * micro_rows
+
+
 def distilled_macro_losses(
     *,
     forward: Forward,
@@ -94,6 +102,7 @@ def distilled_macro_losses(
     denominator: str = "chunk",
     reference_mass: float = 0.0,
     donor_mass: Tensor | None = None,
+    detach_offset_rows: int = 0,
 ) -> Iterator[tuple[Tensor, HiddenState, HiddenState]]:
     """Yield losses ready for backward, pooling each divisor over one update.
 
@@ -117,6 +126,10 @@ def distilled_macro_losses(
         raise ValueError("micro/detach/update intervals must divide one another")
     if denominator not in {"chunk", "fixed", "shuffled"}:
         raise ValueError("unsupported distilled denominator")
+    if not 0 <= detach_offset_rows < detach_rows or detach_offset_rows % micro_rows:
+        raise ValueError(
+            "detach phase must be a microchunk-aligned offset within the detach interval"
+        )
     if denominator != "chunk" and (reference_mass <= 0 or not np.isfinite(reference_mass)):
         raise ValueError("fixed/shuffled normalization requires a finite positive reference mass")
     if denominator == "shuffled" and donor_mass is None:
@@ -196,7 +209,9 @@ def distilled_macro_losses(
                 loss + config.next_event * ((mse + bce) * next_weights[:, window]).sum() / next_mass
             )
         partial = loss if partial is None else partial + loss
-        if (start + micro_rows - rows.start) % detach_rows == 0:
+        if (
+            start + micro_rows - rows.start - detach_offset_rows
+        ) % detach_rows == 0 or start + micro_rows == rows.stop:
             state = detach_hidden(state)
             yield partial, state, ema_state
             partial = None
