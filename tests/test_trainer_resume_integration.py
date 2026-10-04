@@ -52,6 +52,7 @@ def test_real_main_epoch_resume_and_completed_export(
     origin_view: str = "off",
     credit_mode: str = "deterministic",
     keep_probability: float = 0.5,
+    qat: str = "none",
 ) -> None:
     """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
     _repository(tmp_path)
@@ -164,11 +165,22 @@ def test_real_main_epoch_resume_and_completed_export(
             "fp32",
             "--no-gradient-clip",
         ]
+    if qat != "none":
+        base += ["--qat", qat, "--precision", "fp32"]
 
     def run(name: str, extra: list[str]) -> Path:
         monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
         training.main()
         return tmp_path / "artifacts/runs" / name
+
+    if qat != "none":
+        from export_qat_control import export_control
+
+        parent_dir = run("parent", ["--qat", "none"])
+        base += ["--init", "parent"]
+        float_dir = run("float_continuation", ["--qat", "none"])
+        float_state = load_training_state(float_dir / "training_state.pt")
+        export_control(parent_dir / "model.pt", tmp_path / "no_finetune.pt", qat)
 
     reference_dir = run("reference", [])
     no_state_args = [argument for argument in base if argument != "--save-training-state"]
@@ -179,6 +191,8 @@ def test_real_main_epoch_resume_and_completed_export(
     )
     reference_model = torch.load(reference_dir / "model.pt", map_location="cpu", weights_only=False)
     _assert_equal(without_state["model"], reference_model["model"])
+    if qat != "none":
+        _assert_equal(without_state["quantization"], reference_model["quantization"])
     if credit_mode == "artbp" and keep_probability == 1:
         full_dir = run("full_window", ["--credit-mode", "deterministic"])
         full_model = torch.load(full_dir / "model.pt", map_location="cpu", weights_only=False)
@@ -187,6 +201,20 @@ def test_real_main_epoch_resume_and_completed_export(
     resumed_dir = run("resumed", ["--resume-state", str(interrupted_dir / "training_state.pt")])
     reference = load_training_state(reference_dir / "training_state.pt")
     resumed = load_training_state(resumed_dir / "training_state.pt")
+    if qat != "none":
+        from wnn.training_qat import effective_qat_state
+
+        assert float_state["progress"]["step_count"] == reference["progress"]["step_count"]
+        assert float_state["contract"]["options"]["precision"] == "fp32"
+        assert float_state["contract"]["options"]["init"] == "parent"
+        assert reference["contract"]["options"]["init"] == "parent"
+        ema_weights = reference["ema"]["state"]
+        effective, metadata = effective_qat_state(ema_weights, qat, "ema")
+        _assert_equal(effective, reference_model["model"])
+        _assert_equal(metadata, reference_model["quantization"])
+        assert any(
+            not torch.equal(ema_weights[name], effective[name]) for name in metadata["selected"]
+        )
     assert reference["contract"]["runtime"]["threads"] == training.cpu_threads()
     assert reference["model"]["mean"].numel() == (
         data.N_FEATURES
@@ -219,6 +247,8 @@ def test_real_main_epoch_resume_and_completed_export(
     recovered_model = torch.load(recovered_dir / "model.pt", map_location="cpu", weights_only=False)
     expected_model = torch.load(reference_dir / "model.pt", map_location="cpu", weights_only=False)
     _assert_equal(recovered_model["model"], expected_model["model"])
+    if qat != "none":
+        _assert_equal(recovered_model["quantization"], expected_model["quantization"])
     assert recovered_model["epoch"] == 2
     assert len(json.loads((recovered_dir / "history.json").read_text())) == 3
     assert (
@@ -285,6 +315,15 @@ def test_main_random_credit_resume(
     test_real_main_epoch_resume_and_completed_export(
         tmp_path, monkeypatch, False, credit_mode=credit_mode, keep_probability=keep_probability
     )
+
+
+@pytest.mark.parametrize("qat", ["recurrent", "recurrent_head"])
+@pytest.mark.parametrize("controlled", [False, True])
+def test_main_qat_finetune_resume(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, qat: str, controlled: bool
+) -> None:
+    """Actual FP32 QAT fine-tuning preserves raw continuation and effective EMA export."""
+    test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, controlled, qat=qat)
 
 
 def test_research_features_preserve_propensity_input_and_parent_layout(

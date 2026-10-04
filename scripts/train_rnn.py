@@ -71,6 +71,8 @@ from wnn.training_credit import credit_edge_scales
 from wnn.training_dynamics import (Dynamics, add_arguments as add_dynamics_arguments,
                                    build_optimizer, build_scheduler, switch_optimizer)
 from wnn.training_sampling import EpochOrderSampler, init_qmc_
+from wnn.training_qat import (QAT_MODES, configure_qat, inference_state,
+                              invalidate_qat_cache, qat_forward)
 from wnn.training_state import (atomic_save_training_state, capture_training_state,
                                 load_training_state, loader_state, restore_rng,
                                 restore_training_state)
@@ -595,6 +597,8 @@ def fit_normalization(model, loader, device, batches=2):
 
 
 def forward_chunk(model, inputs, sl, state):
+    if getattr(model, "_qat_preset", "none") != "none":
+        return qat_forward(model, inputs[:, sl], state)
     if isinstance(model, DualClockModel):
         return model(inputs[:, sl], inputs[:, sl, EV_I0PX] > 0.5, state)
     return model(inputs[:, sl], state)
@@ -674,7 +678,8 @@ def predict(model, x, chunk, device):
     inputs = build_inputs(x.to(device, non_blocking=True))
     state, outs = None, []
     for s in range(0, inputs.shape[1], chunk):
-        with torch.autocast(device.type, dtype=torch.float16, enabled=device.type == "cuda"):
+        with torch.autocast(device.type, dtype=torch.float16,
+                            enabled=device.type == "cuda" and not getattr(model, "_inference_fp32", False)):
             out, state = forward_chunk(model, inputs, slice(s, s + chunk), state)
         outs.append(
             readout(out, *READOUT, tilted=READOUT_TILTED)
@@ -920,6 +925,8 @@ def main():
                     default="deterministic", help="random recurrent credit within fixed update windows only")
     ap.add_argument("--credit-keep-probability", type=float, default=.8)
     ap.add_argument("--credit-seed", type=int, default=100100)
+    ap.add_argument("--qat", choices=QAT_MODES, default="none",
+                    help="weight-only nearest-even q8 with identity STE; paired float control must use the same fp32 recipe")
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--stop-after-epoch", type=int, default=None,
@@ -1100,6 +1107,9 @@ def main():
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     add_dynamics_arguments(ap)
     args = ap.parse_args()
+    if args.qat != "none" and (args.precision != "fp32" or args.arch != "gru"
+                               or args.cell != "gru" or args.enc != "linear"):
+        ap.error("QAT requires explicit --precision fp32 with plain GRU and linear input encoder")
     if args.calibrate_distill_reference:
         if (args.device != "cpu" or args.resume_state or args.thin_prob or args.spread_aux_mode != "original"
                 or args.calibration_epochs < 1 or args.profile_steps or args.max_batches
@@ -1532,6 +1542,14 @@ def main():
         fit_normalization(model, train_loader, device)
     if saved_training is not None:
         model.load_state_dict(saved_training["model"])
+    if args.precision == "fp32":
+        model._inference_fp32 = True
+    configure_qat(model, args.qat)
+    if args.qat != "none":
+        provenance["qat"] = {"preset": args.qat, "scheme": "symmetric_per_row_int8_nearest_even_v1",
+                             "gradient": "identity STE; scales detached; no scale/round/clamp derivative",
+                             "averaging": "latent float parameters, quantized for each effective forward/export",
+                             "training_state": "raw latent float weights; derived quantization cache not serialized"}
     provenance["normalization_identity"] = normalization_identity(model)
     provenance["update_counter_implementation"] = scaler_source_identity()
     provenance["run_identity_source_sha256"] = file_sha256(ROOT / "src/wnn/run_identity.py")
@@ -1927,6 +1945,7 @@ def main():
                     grad_stats.observe()
                 dynamics.perturb_and_clip(step_count)
                 scaler.step(opt)
+                invalidate_qat_cache(model)
                 scaler.update()
                 sched.step()
                 timer.mark("optimizer")
@@ -1936,12 +1955,14 @@ def main():
                 step_count += 1
                 if swa_model is not None and step_count >= swa_start:
                     swa_model.update_parameters(model)
+                    invalidate_qat_cache(swa_model.module)
                 if ema_model is not None:
                     if args.origin_view != "off":
                         update_ema_for_rows(ema_model, model, args.ema_decay, sl.stop - sl.start,
                                             args.ema_reference_rows)
                     else:
                         ema_model.update_parameters(model)
+                    invalidate_qat_cache(ema_model.module)
                     epoch_counter.ema_updates += 1
                 if duty is not None:  # explicit rate limit (WNN_GPU_DUTY < 1): sync, then sleep
                     torch.cuda.synchronize()
@@ -1995,10 +2016,14 @@ def main():
         history.append(res)
         print("FIT" if args.no_eval_during_fit else "VALID", json.dumps(res), flush=True)
         # snapshot every epoch (~1 MB): lets any epoch be re-read out later without selection on the eval set
-        checkpoint = {"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in, "epoch": epoch,
+        exported, quantization = inference_state(eval_model, "ema" if args.eval_ema else
+                                                  "raw" if eval_model is model else "swa")
+        checkpoint = {"model": exported, "args": vars(args), "n_in": n_in, "epoch": epoch,
                       "readout": None if READOUT is None else [t.cpu() for t in READOUT],
                       "readout_tilted": READOUT_TILTED,
                       "provenance": {key: value for key, value in provenance.items() if key != "checkpoint_sha256"}}
+        if quantization is not None:
+            checkpoint["quantization"] = quantization
         snapshot = out_dir / f"model_ep{epoch}.pt"
         torch.save(checkpoint, snapshot)
         provenance["checkpoint_sha256"][snapshot.name] = file_sha256(snapshot)
@@ -2033,11 +2058,15 @@ def main():
         provenance["selected_epoch"] = args.epochs - 1
         provenance["cumulative_updates"] = cumulative_updates.copy()
         provenance["fitting_seconds"] = prior_fit_seconds
-        checkpoint = {"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in,
+        exported, quantization = inference_state(eval_model, "ema" if args.eval_ema else
+                                                  "raw" if eval_model is model else "swa")
+        checkpoint = {"model": exported, "args": vars(args), "n_in": n_in,
                       "epoch": args.epochs - 1,
                       "readout": None if moments is None else [value.cpu() for value in moments.tables()],
                       "readout_tilted": bool(args.ce_tilt),
                       "provenance": {key: value for key, value in provenance.items() if key != "checkpoint_sha256"}}
+        if quantization is not None:
+            checkpoint["quantization"] = quantization
         for filename in (f"model_ep{args.epochs - 1}.pt", "model.pt"):
             torch.save(checkpoint, out_dir / filename)
             provenance["checkpoint_sha256"][filename] = file_sha256(out_dir / filename)
