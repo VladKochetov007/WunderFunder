@@ -14,6 +14,14 @@ EXPECTED_ARCHIVE_SHA256 = ""
 EXPECTED_EXTERNAL_MOUNTS = None
 
 
+def release_mounts(root: Path, mounts: dict) -> None:
+    """Unlink only external input symlinks before Kaggle captures working outputs."""
+    for logical in mounts:
+        target = root / logical
+        if target.is_symlink():
+            target.unlink()
+
+
 def main() -> None:
     """Extract a verified private bundle and mount hashed raw data without copies."""
     matches = list(Path("/kaggle/input").glob(f"**/{BUNDLE_SLUG}/bundle-manifest.json"))
@@ -81,7 +89,10 @@ def main() -> None:
     for name in manifest["spec_paths"]:
         command.extend(["--spec", str(root / name)])
     os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
-    subprocess.run(command, check=True)
+    try:
+        subprocess.run(command, check=True)
+    finally:
+        release_mounts(root, manifest["external_mounts"])
 
 
 if __name__ == "__main__":

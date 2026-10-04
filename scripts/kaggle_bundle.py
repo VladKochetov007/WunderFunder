@@ -49,12 +49,12 @@ def build_bundle(
     payload_specs = []
     for source in specs:
         spec = read_spec(source)
-        verify_files(root, spec["code"] + spec["inputs"])
         for item in spec["code"] + spec["inputs"]:
             previous = files.setdefault(item["path"], item)
             if previous != item:
                 raise ValueError(f"Conflicting dependency: {item['path']}")
         payload_specs.append(spec)
+    verify_files(root, list(files.values()))
     if len({spec["name"] for spec in payload_specs}) != len(payload_specs):
         raise ValueError("Experiment names must be unique")
     if set(external_map) - set(files):
