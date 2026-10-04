@@ -53,6 +53,7 @@ def test_real_main_epoch_resume_and_completed_export(
     credit_mode: str = "deterministic",
     keep_probability: float = 0.5,
     qat: str = "none",
+    recurrent_rank: int = 0,
 ) -> None:
     """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
     _repository(tmp_path)
@@ -167,20 +168,36 @@ def test_real_main_epoch_resume_and_completed_export(
         ]
     if qat != "none":
         base += ["--qat", qat, "--precision", "fp32"]
+    if recurrent_rank:
+        base += [
+            "--recurrent-rank",
+            str(recurrent_rank),
+            "--precision",
+            "fp32",
+            "--optim",
+            "adamw",
+            "--optim-switch",
+            "",
+        ]
 
     def run(name: str, extra: list[str]) -> Path:
         monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
         training.main()
         return tmp_path / "artifacts/runs" / name
 
+    if qat != "none" or recurrent_rank:
+        parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+        base += ["--init", "parent"]
+        float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+        float_state = load_training_state(float_dir / "training_state.pt")
     if qat != "none":
         from export_qat_control import export_control
 
-        parent_dir = run("parent", ["--qat", "none"])
-        base += ["--init", "parent"]
-        float_dir = run("float_continuation", ["--qat", "none"])
-        float_state = load_training_state(float_dir / "training_state.pt")
         export_control(parent_dir / "model.pt", tmp_path / "no_finetune.pt", qat)
+    if recurrent_rank:
+        from export_factorized_control import export_control as export_rank_control
+
+        export_rank_control(parent_dir / "model.pt", tmp_path / "zero_update.pt", recurrent_rank)
 
     reference_dir = run("reference", [])
     no_state_args = [argument for argument in base if argument != "--save-training-state"]
@@ -193,6 +210,8 @@ def test_real_main_epoch_resume_and_completed_export(
     _assert_equal(without_state["model"], reference_model["model"])
     if qat != "none":
         _assert_equal(without_state["quantization"], reference_model["quantization"])
+    if recurrent_rank:
+        _assert_equal(without_state["factorization"], reference_model["factorization"])
     if credit_mode == "artbp" and keep_probability == 1:
         full_dir = run("full_window", ["--credit-mode", "deterministic"])
         full_model = torch.load(full_dir / "model.pt", map_location="cpu", weights_only=False)
@@ -215,6 +234,30 @@ def test_real_main_epoch_resume_and_completed_export(
         assert any(
             not torch.equal(ema_weights[name], effective[name]) for name in metadata["selected"]
         )
+    if recurrent_rank:
+        from wnn.training_factorized import configure_factorized, factorized_inference_state
+
+        assert float_state["progress"]["step_count"] == reference["progress"]["step_count"]
+        ema_weights = reference["ema"]["state"]
+        model = training.make_model(
+            reference_model["args"],
+            reference_model["n_in"],
+            reference_model["model"]["head.2.bias"].numel(),
+        ).to(device)
+        model.load_state_dict(
+            {
+                name: value
+                for name, value in ema_weights.items()
+                if not name.startswith("gru.factors.")
+            }
+        )
+        configure_factorized(model, recurrent_rank)
+        model.load_state_dict(ema_weights)
+        effective, metadata = factorized_inference_state(model, "ema")
+        _assert_equal(effective, reference_model["model"])
+        _assert_equal(metadata, reference_model["factorization"])
+        assert any(name.startswith("gru.factors.") for name in reference["model"])
+        assert not any(name.startswith("gru.factors.") for name in effective)
     assert reference["contract"]["runtime"]["threads"] == training.cpu_threads()
     assert reference["model"]["mean"].numel() == (
         data.N_FEATURES
@@ -249,6 +292,8 @@ def test_real_main_epoch_resume_and_completed_export(
     _assert_equal(recovered_model["model"], expected_model["model"])
     if qat != "none":
         _assert_equal(recovered_model["quantization"], expected_model["quantization"])
+    if recurrent_rank:
+        _assert_equal(recovered_model["factorization"], expected_model["factorization"])
     assert recovered_model["epoch"] == 2
     assert len(json.loads((recovered_dir / "history.json").read_text())) == 3
     assert (
@@ -324,6 +369,16 @@ def test_main_qat_finetune_resume(
 ) -> None:
     """Actual FP32 QAT fine-tuning preserves raw continuation and effective EMA export."""
     test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, controlled, qat=qat)
+
+
+@pytest.mark.parametrize("controlled", [False, True])
+def test_main_factorized_finetune_resume(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, controlled: bool
+) -> None:
+    """Latent factors and their AdamW moments resume exactly with effective EMA export."""
+    test_real_main_epoch_resume_and_completed_export(
+        tmp_path, monkeypatch, controlled, recurrent_rank=2
+    )
 
 
 def test_research_features_preserve_propensity_input_and_parent_layout(

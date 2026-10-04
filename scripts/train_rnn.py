@@ -71,6 +71,8 @@ from wnn.training_credit import credit_edge_scales
 from wnn.training_dynamics import (Dynamics, add_arguments as add_dynamics_arguments,
                                    build_optimizer, build_scheduler, switch_optimizer)
 from wnn.training_sampling import EpochOrderSampler, init_qmc_
+from wnn.training_factorized import (configure_factorized, factorized_forward,
+                                      factorized_inference_state)
 from wnn.training_qat import (QAT_MODES, configure_qat, inference_state,
                               invalidate_qat_cache, qat_forward)
 from wnn.training_state import (atomic_save_training_state, capture_training_state,
@@ -597,11 +599,22 @@ def fit_normalization(model, loader, device, batches=2):
 
 
 def forward_chunk(model, inputs, sl, state):
+    if getattr(model, "_recurrent_rank", 0):
+        return factorized_forward(model, inputs[:, sl], state)
     if getattr(model, "_qat_preset", "none") != "none":
         return qat_forward(model, inputs[:, sl], state)
     if isinstance(model, DualClockModel):
         return model(inputs[:, sl], inputs[:, sl, EV_I0PX] > 0.5, state)
     return model(inputs[:, sl], state)
+
+
+def inference_checkpoint_fields(model: torch.nn.Module, source: str) -> dict:
+    """Export effective weights and representation metadata without changing raw resume state."""
+    if getattr(model, "_recurrent_rank", 0):
+        exported, metadata = factorized_inference_state(model, source)
+        return {"model": exported, "factorization": metadata}
+    exported, metadata = inference_state(model, source)
+    return {"model": exported, **({"quantization": metadata} if metadata is not None else {})}
 
 
 def detach_state(state):
@@ -927,6 +940,8 @@ def main():
     ap.add_argument("--credit-seed", type=int, default=100100)
     ap.add_argument("--qat", choices=QAT_MODES, default="none",
                     help="weight-only nearest-even q8 with identity STE; paired float control must use the same fp32 recipe")
+    ap.add_argument("--recurrent-rank", type=int, default=0,
+                    help="SVD-initialized rank per stacked GRU matrix; 0 preserves dense recurrence")
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--stop-after-epoch", type=int, default=None,
@@ -1107,6 +1122,8 @@ def main():
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     add_dynamics_arguments(ap)
     args = ap.parse_args()
+    if args.recurrent_rank < 0:
+        ap.error("--recurrent-rank cannot be negative")
     if args.qat != "none" and (args.precision != "fp32" or args.arch != "gru"
                                or args.cell != "gru" or args.enc != "linear"):
         ap.error("QAT requires explicit --precision fp32 with plain GRU and linear input encoder")
@@ -1132,6 +1149,12 @@ def main():
         init_checkpoint = torch.load(ROOT / "artifacts" / "runs" / parent_run / parent_file,
                                      map_location="cpu", weights_only=False)
         inherit_init_arguments(args, init_checkpoint, sys.argv[1:])
+    if args.recurrent_rank and (args.precision != "fp32" or args.optim != "adamw"
+            or args.optim_switch or args.qat != "none" or not args.init
+            or args.arch != "gru" or args.cell != "gru" or args.enc != "linear"
+            or args.recurrent_rank > args.hidden):
+        ap.error("factorized recurrence needs dense --init, plain GRU, linear encoder, rank <= hidden, "
+                 "AdamW, explicit FP32, no QAT or optimizer switch")
     configure_checkpoint_policy(args, ap)
     continuation = bool(args.save_training_state or args.resume_state)
     if continuation and (args.checkpoint_policy != "fixed" or args.checkpoint_epoch != args.epochs - 1):
@@ -1535,11 +1558,16 @@ def main():
         init_file = f"model_ep{int(init_epoch)}.pt" if init_epoch else "model.pt"
         init_path = ROOT / "artifacts" / "runs" / init_run / init_file
         init = init_checkpoint if init_checkpoint is not None else torch.load(init_path, map_location="cpu", weights_only=False)
+        if args.recurrent_rank and (init.get("quantization") or init.get("factorization")):
+            ap.error("factorized initialization must be a dense float checkpoint; use raw state for exact resume")
+        if args.qat != "none" and init.get("factorization"):
+            ap.error("combined QAT and factorized initialization is not implemented")
         validate_campaign_checkpoint(init, args)
         provenance["initial_checkpoint_sha256"] = file_sha256(init_path)
         model.load_state_dict(init["model"])
     elif saved_training is None:
         fit_normalization(model, train_loader, device)
+    configure_factorized(model, args.recurrent_rank)
     if saved_training is not None:
         model.load_state_dict(saved_training["model"])
     if args.precision == "fp32":
@@ -1550,6 +1578,11 @@ def main():
                              "gradient": "identity STE; scales detached; no scale/round/clamp derivative",
                              "averaging": "latent float parameters, quantized for each effective forward/export",
                              "training_state": "raw latent float weights; derived quantization cache not serialized"}
+    if args.recurrent_rank:
+        provenance["factorization"] = {
+            "rank": args.recurrent_rank, "initialization": model._factorization_initialization,
+            "averaging": "latent factors; products formed after averaging",
+            "training_compute": "materialized dense FP32 GRU; native runtime not validated"}
     provenance["normalization_identity"] = normalization_identity(model)
     provenance["update_counter_implementation"] = scaler_source_identity()
     provenance["run_identity_source_sha256"] = file_sha256(ROOT / "src/wnn/run_identity.py")
@@ -2016,14 +2049,12 @@ def main():
         history.append(res)
         print("FIT" if args.no_eval_during_fit else "VALID", json.dumps(res), flush=True)
         # snapshot every epoch (~1 MB): lets any epoch be re-read out later without selection on the eval set
-        exported, quantization = inference_state(eval_model, "ema" if args.eval_ema else
-                                                  "raw" if eval_model is model else "swa")
-        checkpoint = {"model": exported, "args": vars(args), "n_in": n_in, "epoch": epoch,
+        representation = inference_checkpoint_fields(eval_model, "ema" if args.eval_ema else
+                                                      "raw" if eval_model is model else "swa")
+        checkpoint = {**representation, "args": vars(args), "n_in": n_in, "epoch": epoch,
                       "readout": None if READOUT is None else [t.cpu() for t in READOUT],
                       "readout_tilted": READOUT_TILTED,
                       "provenance": {key: value for key, value in provenance.items() if key != "checkpoint_sha256"}}
-        if quantization is not None:
-            checkpoint["quantization"] = quantization
         snapshot = out_dir / f"model_ep{epoch}.pt"
         torch.save(checkpoint, snapshot)
         provenance["checkpoint_sha256"][snapshot.name] = file_sha256(snapshot)
@@ -2058,15 +2089,13 @@ def main():
         provenance["selected_epoch"] = args.epochs - 1
         provenance["cumulative_updates"] = cumulative_updates.copy()
         provenance["fitting_seconds"] = prior_fit_seconds
-        exported, quantization = inference_state(eval_model, "ema" if args.eval_ema else
-                                                  "raw" if eval_model is model else "swa")
-        checkpoint = {"model": exported, "args": vars(args), "n_in": n_in,
+        representation = inference_checkpoint_fields(eval_model, "ema" if args.eval_ema else
+                                                      "raw" if eval_model is model else "swa")
+        checkpoint = {**representation, "args": vars(args), "n_in": n_in,
                       "epoch": args.epochs - 1,
                       "readout": None if moments is None else [value.cpu() for value in moments.tables()],
                       "readout_tilted": bool(args.ce_tilt),
                       "provenance": {key: value for key, value in provenance.items() if key != "checkpoint_sha256"}}
-        if quantization is not None:
-            checkpoint["quantization"] = quantization
         for filename in (f"model_ep{args.epochs - 1}.pt", "model.pt"):
             torch.save(checkpoint, out_dir / filename)
             provenance["checkpoint_sha256"][filename] = file_sha256(out_dir / filename)

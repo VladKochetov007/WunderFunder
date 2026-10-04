@@ -47,6 +47,8 @@ def configure_qat(model: RNNModel, preset: str) -> None:
         raise ValueError("unknown QAT mode")
     if preset == "none":
         return
+    if getattr(model, "_recurrent_rank", 0):
+        raise ValueError("combined QAT and factorized recurrence is not implemented")
     if type(model) is not RNNModel or type(model.gru) is not torch.nn.GRU or model.enc != "linear":
         raise ValueError("bounded QAT supports the plain GRU with linear input encoder")
     if any(value.dtype != torch.float32 for value in model.state_dict().values()):
