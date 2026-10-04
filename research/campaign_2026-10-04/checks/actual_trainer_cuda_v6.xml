@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="5" time="15.099" timestamp="2026-10-04T06:40:13.638671+03:00" hostname="nitro"><testcase classname="tests.test_trainer_resume_integration" name="test_main_origin_view_resume[prefix-fixed]" time="3.873" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_origin_view_resume[prefix-random]" time="2.290" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_origin_view_resume[prefix-discard]" time="3.677" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_thinning_resume[compress]" time="2.105"><failure message="RuntimeError: Expected all tensors to be on the same device, but got other is on cuda:0, different from other tensors on cpu (when checking argument in method wrapper_CUDA__equal)">tmp_path = PosixPath('/tmp/pytest-of-vlad/pytest-80/test_main_thinning_resume_comp0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7fcf3800a580&gt;
+thin_mode = 'compress'
+
+    @pytest.mark.parametrize("thin_mode", ["compress", "retained-mass"])
+    def test_main_thinning_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, thin_mode: str
+    ) -&gt; None:
+        """Quiet-row views keep frozen normalization and exact loader/RNG continuation."""
+&gt;       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, thin_mode=thin_mode
+        )
+
+tests/test_trainer_resume_integration.py:441: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:386: in test_real_main_epoch_resume_and_completed_export
+    _assert_equal(expected_model["model"]["mean"], parent_model["model"]["mean"])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+left = tensor([ 1.3128e-01,  3.6770e-02, -2.9796e-01,  1.8524e-01,  4.2608e-03,
+        -8.0457e-01,  2.1972e-02,  3.8430e-01...6.8706e-01, -1.0406e-01,
+        -4.2247e-01, -1.8382e-01, -2.1821e-01, -3.0016e-01, -2.1467e-01,
+        -3.5613e-02])
+right = tensor([ 1.3128e-01,  3.6770e-02, -2.9796e-01,  1.8524e-01,  4.2608e-03,
+        -8.0457e-01,  2.1972e-02,  3.8430e-01...06e-01,
+        -4.2247e-01, -1.8382e-01, -2.1821e-01, -3.0016e-01, -2.1467e-01,
+        -3.5613e-02], device='cuda:0')
+
+    def _assert_equal(left: object, right: object) -&gt; None:
+        if isinstance(left, torch.Tensor):
+&gt;           assert torch.equal(left, right)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+E           RuntimeError: Expected all tensors to be on the same device, but got other is on cuda:0, different from other tensors on cpu (when checking argument in method wrapper_CUDA__equal)
+
+tests/test_training_state.py:115: RuntimeError</failure></testcase><testcase classname="tests.test_trainer_resume_integration" name="test_main_thinning_resume[retained-mass]" time="1.993"><failure message="RuntimeError: Expected all tensors to be on the same device, but got other is on cuda:0, different from other tensors on cpu (when checking argument in method wrapper_CUDA__equal)">tmp_path = PosixPath('/tmp/pytest-of-vlad/pytest-80/test_main_thinning_resume_reta0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7fcf362585a0&gt;
+thin_mode = 'retained-mass'
+
+    @pytest.mark.parametrize("thin_mode", ["compress", "retained-mass"])
+    def test_main_thinning_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, thin_mode: str
+    ) -&gt; None:
+        """Quiet-row views keep frozen normalization and exact loader/RNG continuation."""
+&gt;       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, thin_mode=thin_mode
+        )
+
+tests/test_trainer_resume_integration.py:441: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:386: in test_real_main_epoch_resume_and_completed_export
+    _assert_equal(expected_model["model"]["mean"], parent_model["model"]["mean"])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+left = tensor([ 1.3128e-01,  3.6770e-02, -2.9796e-01,  1.8524e-01,  4.2608e-03,
+        -8.0457e-01,  2.1972e-02,  3.8430e-01...6.8706e-01, -1.0406e-01,
+        -4.2247e-01, -1.8382e-01, -2.1821e-01, -3.0016e-01, -2.1467e-01,
+        -3.5613e-02])
+right = tensor([ 1.3128e-01,  3.6770e-02, -2.9796e-01,  1.8524e-01,  4.2608e-03,
+        -8.0457e-01,  2.1972e-02,  3.8430e-01...06e-01,
+        -4.2247e-01, -1.8382e-01, -2.1821e-01, -3.0016e-01, -2.1467e-01,
+        -3.5613e-02], device='cuda:0')
+
+    def _assert_equal(left: object, right: object) -&gt; None:
+        if isinstance(left, torch.Tensor):
+&gt;           assert torch.equal(left, right)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+E           RuntimeError: Expected all tensors to be on the same device, but got other is on cuda:0, different from other tensors on cpu (when checking argument in method wrapper_CUDA__equal)
+
+tests/test_training_state.py:115: RuntimeError</failure></testcase></testsuite></testsuites>

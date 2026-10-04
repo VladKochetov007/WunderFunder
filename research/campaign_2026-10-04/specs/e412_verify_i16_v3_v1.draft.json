@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "name": "e412_verify_i16_v3_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "scripts/verify_submission.py",
+    "submissions/c20261004_combo_s3_i16/submission.zip",
+    "cache/valid_subset20.parquet",
+    "research/campaign_2026-10-04/checks/e412_package_i16_v3.npz"
+  ],
+  "code": [
+    "scripts/verify_submission.py",
+    "utils.py"
+  ],
+  "inputs": [
+    "cache/valid_subset20.parquet",
+    "submissions/c20261004_combo_s3_i16/submission.zip"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e412_package_i16_v3.npz"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 300,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {
+    "WNN_NATIVE_LEVEL": "v3",
+    "WNN_PRECISION": "i16"
+  }
+}

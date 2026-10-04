@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "name": "e412_fp32_reference_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-04/checks/compare_e412_fp32.py"
+  ],
+  "code": [
+    "research/campaign_2026-10-04/checks/compare_e412_fp32.py",
+    "src/wnn/gmetric.py"
+  ],
+  "inputs": [
+    "cache/valid_targets.npz",
+    "cache/valid_subset20.parquet",
+    "research/campaign_2026-10-04/checks/e412_package_q16x_v3.npz",
+    "research/campaign_2026-10-04/checks/e412_package_f32_v3.npz",
+    "cache/pred_c20261004_combo_s3_final_r1_valid.npy",
+    "cache/pred_c20261004_combo_s3_final_r1_valid.json",
+    "cache/pred_c20261004_combo_s3_final_r1_fp32_valid.npy",
+    "cache/pred_c20261004_combo_s3_final_r1_fp32_valid.json",
+    "cache/pred_c20261004_combo_head_s3_final_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_final_valid.json",
+    "cache/pred_c20261004_combo_head_s3_final_fp32_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_final_fp32_valid.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e412_fp32_reference.json"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 300,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {}
+}

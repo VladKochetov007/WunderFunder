@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "name": "e412_package_verification",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-04/checks/verify_final_package.py"
+  ],
+  "code": [
+    {
+      "path": "research/campaign_2026-10-04/checks/verify_final_package.py",
+      "size": 4492,
+      "sha256": "e7b5809045e120f0eb5dc7c6717e10b5e946d9a15737255f611d951e3e3528bd"
+    },
+    {
+      "path": "src/wnn/__init__.py",
+      "size": 63,
+      "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+    },
+    {
+      "path": "src/wnn/gmetric.py",
+      "size": 8902,
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    },
+    {
+      "path": "utils.py",
+      "size": 12328,
+      "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "cache/pred_c20261004_combo_head_s3_final_valid.npy",
+      "size": 299680128,
+      "sha256": "426ada2519bd23bbeb188ac3a3f71866a04918bbb206a1d96e2b12124c59dc35"
+    },
+    {
+      "path": "cache/pred_c20261004_combo_s3_final_r1_valid.npy",
+      "size": 299680128,
+      "sha256": "f15712573e72ab6469576cb9a61700789e15561073ca5f7ed00ce7582e40e3a1"
+    },
+    {
+      "path": "cache/valid_subset20.parquet",
+      "size": 90874551,
+      "sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37"
+    },
+    {
+      "path": "cache/valid_targets.npz",
+      "size": 337186198,
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    },
+    {
+      "path": "research/campaign_2026-10-04/checks/e412_package_f32_v3.npz",
+      "size": 6800736,
+      "sha256": "146b25d6d3846bdd8dcbe01ece401897be63e3dcb25ac664d2b486d36d868626"
+    },
+    {
+      "path": "research/campaign_2026-10-04/checks/e412_package_q16x_v2.npz",
+      "size": 6800736,
+      "sha256": "744ac606b9445e496afb2b41c40ee98a4b2eac47a935ac108e5b928ff1d58c73"
+    },
+    {
+      "path": "research/campaign_2026-10-04/checks/e412_package_q16x_v3.npz",
+      "size": 6800736,
+      "sha256": "744ac606b9445e496afb2b41c40ee98a4b2eac47a935ac108e5b928ff1d58c73"
+    },
+    {
+      "path": "submissions/c20261004_combo_s3_q16x/pkg/avx2/wnn_native.abi3.so",
+      "size": 767680,
+      "sha256": "9754887ddc0a6d1745e507c5b1bdb01ea8d31da79eb25965da043de33f47bfa6"
+    },
+    {
+      "path": "submissions/c20261004_combo_s3_q16x/pkg/members.json",
+      "size": 134,
+      "sha256": "f551b1f0d4a75385ebbdc52b87137bd0e7f9ed72845d19a15e2565b00085ef77"
+    },
+    {
+      "path": "submissions/c20261004_combo_s3_q16x/pkg/precision.txt",
+      "size": 5,
+      "sha256": "fc51ddb717d2bab432f602268750f4e8adb3620de39cd128e0b886e36bebc34b"
+    },
+    {
+      "path": "submissions/c20261004_combo_s3_q16x/pkg/solution.py",
+      "size": 3133,
+      "sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54"
+    },
+    {
+      "path": "submissions/c20261004_combo_s3_q16x/pkg/v2/wnn_native.abi3.so",
+      "size": 766160,
+      "sha256": "b01becbbef79e87e61eda24fe4b15bba3a98eb5b7b7d51479ba3c22d420b82d8"
+    },
+    {
+      "path": "submissions/c20261004_combo_s3_q16x/pkg/v3/wnn_native.abi3.so",
+      "size": 768072,
+      "sha256": "698b8b2c8b5167e2be5e1e151ef6aa3b325b12ef38c4718ceafa2db3375aa398"
+    },
+    {
+      "path": "submissions/c20261004_combo_s3_q16x/pkg/weights_0.npz",
+      "size": 4435640,
+      "sha256": "220d0a7a897fb022b8a008fd3e45b825feff1a082244efae6faf33332b4f3da2"
+    },
+    {
+      "path": "submissions/c20261004_combo_s3_q16x/submission.zip",
+      "size": 5165014,
+      "sha256": "f61577da8745cfc545e9acc528e001198074729e3f0878656194ea93a0fb5ec9"
+    }
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e412_package_verification.json"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 180,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {
+    "WNN_NATIVE_LEVEL": "v3",
+    "WNN_PRECISION": "q16x"
+  },
+  "code_sha256": "bc484ea0f4edf99b74b847920a1f88c69dc7b8eb5c4489adc36a420d3698dcf8"
+}

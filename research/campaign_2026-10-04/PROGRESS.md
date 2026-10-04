@@ -80,3 +80,23 @@ E413 private Kaggle volume-history/current-input pair is RUNNING (provider confi
 E415 empty sampled sequence raised ValueError; global pause also stopped E412 withSIGTERM. NoOOM. Exact full epoch2 recovery snapshotverified againstevery savedsourcehash; E412retryv2 usesfreshoutput c20261004_combo_s3_final_r1, samecode/recipe/data/runtime. E415sampling-preservingfix/tests pending. SeeE415_EMPTY_SAMPLE_INCIDENT.md.
 
 2026-10-04T02:48:55.008284+00:00: E412 v2 passed strict epoch-boundary recovery and is training epoch2. E415 sampling-preserving fix passed10 CPU checks; A-v2/B-v1 extraction retries are running, with no OOM. Native q8, QAT/ARTBP, factorized recurrence and exact conditional-feature variants remain distinct implementation branches. Historical negative results do not veto these retests.
+
+2026-10-04T03:16:43.837275+00:00: E412 parent/head fits and full-valid exports complete. Package callback/v2-v3/reset checks passed but raw q16x-vs-f32 error0.000415802 exceeds3e-4; officialWPdelta8.745e-8. No package promotion. FP16GPU/native difference needs commonFP32 reference. E416 has a quiet CPU timing window before integration tests resume. SeeE412_NUMERICAL_REVIEW.md.
+
+## 03:46 UTC — calibration and common precision results
+
+E414 finished the actual mixed-fit denominator calibration: mean2947.4312 over7460 updates, SD577.5941 (CV19.60%), nozero-mass updates. Predictive aligned/shuffled/unchanged fits remain pending. The CPU job finished714.68seconds without OOM.
+
+E412 common FP32 exports are complete. Nativef32 versus CUDAFP32 max required/scored error0.000594392, WPdelta−2.1331e−6; q16x versus nativef32 preserves the original max0.000415802 gate failure. FP16 versus FP32 inference max0.0405848/WPdelta−8.8658e−5 explains the large arithmetic-path discrepancy. The remaining smaller nativefloat difference still requires localization. No package cleared.
+
+Selective CUDA v6: three origin tests pass; both thinning checks reached successful exact restart checks but their final normalization assertion compared CPU to CUDA tensors. The isolated test correction is ready; rerun pending. NoOOM or globalpause. E416 clean byte-engine confirmation is complete: q8x smaller but walltime+5.9% D256/+3.2% W384, so no native speedup claim.
+
+## 2026-10-04T06:59:36.915871+00:00 — reconciled live execution
+
+E413 two-T4 volume-history/current-input pair completed. Fixed-epoch3 paired WP gain +0.00096179, component CI[-0.00007997,+0.00205967]; one exposed fold/seed, replication pending. E417 current-student reset panel and all16 E418 literal frozen-state feature screens finished. Neither a frozen-head negative nor old campaign evidence closes the corresponding end-to-end research proposal. E421 both reciprocal categorical branch screens finished; candidate loses unchanged and joint CE in each direction.
+
+E412 i16 alternative passes unchanged max-error/WP gates on20 full streams, sequence-reset replay, and bitwise v2/v3 agreement. Preserve q16x raw-error failure. Nativefloat agrees with independent CPU Torch within2.235e-6; larger CUDA differences concern execution arithmetic. Clean package runtime remains pending, and no competition upload was made.
+
+E422 CPU gain-cache helper exceeded its4GiB child cap because anchor-state views retained full20k hidden arrays. Actual systemd oom-kill evidence is retained. Selected states now copy their small anchor arrays; weak-reference lifetime regression4passed under2GiB. Production cache retry is held while uncheckpointed local training runs. A controller-service namespace mistake and subsequent stale-job reconciliation interrupted two earlier E419 attempts before any epoch checkpoint. Those attempts are preserved; exact fresh rerun E419 FP16 v3 is healthy.
+
+Private E419 dual-T4 QAT kernel is RUNNING; physical-worker logs are not yet available. TPU remainsQUEUED, no memory/core claim. Luna-only delegation respected (three actors); localCPU/GPU jobs remain root-admitted under aggregate resource limits.

@@ -1,0 +1,51 @@
+{
+  "argv": [
+    "{python}",
+    "scripts/verify_submission.py",
+    "submissions/c20261004_combo_s3_i16/submission.zip",
+    "cache/valid_subset20.parquet",
+    "research/campaign_2026-10-04/checks/e412_package_i16_v2.npz"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e412_package_i16_v2.npz"
+  ],
+  "code": [
+    {
+      "path": "scripts/verify_submission.py",
+      "sha256": "d2c75df6accf8f88c911844171c03a020756833843d0b6db856e0cdebbe6bfb4",
+      "size": 6977
+    },
+    {
+      "path": "utils.py",
+      "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+      "size": 12328
+    }
+  ],
+  "code_sha256": "f879820a6e5b2422c3363a99d58cec612f8731a11bdeefbd595e5a680c6ecf70",
+  "environment": {
+    "WNN_NATIVE_LEVEL": "v2",
+    "WNN_PRECISION": "i16"
+  },
+  "inputs": [
+    {
+      "path": "cache/valid_subset20.parquet",
+      "sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+      "size": 90874551
+    },
+    {
+      "path": "submissions/c20261004_combo_s3_i16/submission.zip",
+      "sha256": "21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb",
+      "size": 5165013
+    }
+  ],
+  "kind": "cpu",
+  "limits": {
+    "cpus": 1,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 300
+  },
+  "name": "e412_verify_i16_v2_v1",
+  "version": 1
+}

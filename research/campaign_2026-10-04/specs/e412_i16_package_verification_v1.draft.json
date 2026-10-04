@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "name": "e412_i16_package_verification_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-04/checks/verify_i16_package.py"
+  ],
+  "code": [
+    "research/campaign_2026-10-04/checks/verify_i16_package.py",
+    "src/wnn/__init__.py",
+    "src/wnn/gmetric.py",
+    "utils.py"
+  ],
+  "inputs": [
+    "cache/pred_c20261004_combo_head_s3_final_valid.npy",
+    "cache/pred_c20261004_combo_s3_final_r1_valid.npy",
+    "cache/valid_subset20.parquet",
+    "cache/valid_targets.npz",
+    "research/campaign_2026-10-04/checks/e412_package_f32_v3.npz",
+    "research/campaign_2026-10-04/checks/e412_package_i16_v2.npz",
+    "research/campaign_2026-10-04/checks/e412_package_i16_v3.npz",
+    "submissions/c20261004_combo_s3_i16/pkg/avx2/wnn_native.abi3.so",
+    "submissions/c20261004_combo_s3_i16/pkg/members.json",
+    "submissions/c20261004_combo_s3_i16/pkg/precision.txt",
+    "submissions/c20261004_combo_s3_i16/pkg/solution.py",
+    "submissions/c20261004_combo_s3_i16/pkg/v2/wnn_native.abi3.so",
+    "submissions/c20261004_combo_s3_i16/pkg/v3/wnn_native.abi3.so",
+    "submissions/c20261004_combo_s3_i16/pkg/weights_0.npz",
+    "submissions/c20261004_combo_s3_i16/submission.zip"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e412_i16_package_verification.json"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 180,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {
+    "WNN_NATIVE_LEVEL": "v3",
+    "WNN_PRECISION": "q16x"
+  }
+}

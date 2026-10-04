@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "name": "e412_verify_q16x_v2",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "scripts/verify_submission.py",
+    "submissions/c20261004_combo_s3_q16x/submission.zip",
+    "cache/valid_subset20.parquet",
+    "research/campaign_2026-10-04/checks/e412_package_q16x_v2.npz"
+  ],
+  "code": [
+    {
+      "path": "scripts/verify_submission.py",
+      "size": 6977,
+      "sha256": "d2c75df6accf8f88c911844171c03a020756833843d0b6db856e0cdebbe6bfb4"
+    },
+    {
+      "path": "utils.py",
+      "size": 12328,
+      "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "cache/valid_subset20.parquet",
+      "size": 90874551,
+      "sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37"
+    },
+    {
+      "path": "submissions/c20261004_combo_s3_q16x/submission.zip",
+      "size": 5165014,
+      "sha256": "f61577da8745cfc545e9acc528e001198074729e3f0878656194ea93a0fb5ec9"
+    }
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e412_package_q16x_v2.npz"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 300,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {
+    "WNN_NATIVE_LEVEL": "v2",
+    "WNN_PRECISION": "q16x"
+  },
+  "code_sha256": "f879820a6e5b2422c3363a99d58cec612f8731a11bdeefbd595e5a680c6ecf70"
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "first_wave_running",
+  "status": "continuation_running",
   "authorization": "User accepted maximum continuation, then explicitly requested implementation and Kaggle TPU/GPU use.",
   "contract": "EXECUTION_CONTRACT.md",
   "baseline_public": 0.6641,
@@ -41,15 +41,18 @@
     "updated_actual_trainer_CUDA_replay",
     "E411_q8_accuracy_pilot",
     "H079_equal_work_prefix_views",
-    "E415_nine_proxy_families_reciprocal_heads"
+    "E415_nine_proxy_families_reciprocal_heads",
+    "E412_full_data_fit_and_final_head",
+    "E412_full_valid_FP16_exports"
   ],
   "pending": [
-    "full_data_combo",
-    "tpu_probe",
-    "conditional_cues",
-    "origin_teacher_scientific_fits",
-    "native_byte_kernel_integration",
-    "E414_CPU_memory_admission"
+    "TPU actual hardware probe",
+    "E412 clean i16 runtime",
+    "E419 matched precision/QAT results",
+    "E420 full real-stream native factor parity and timing",
+    "E422 production memory rerun",
+    "E414 predictive normalization fits",
+    "remaining preregistered scientific fits"
   ],
   "experiments_started": [
     "E-407",
@@ -72,11 +75,11 @@
     "cpu": "checks/compat_cpu_local_v1.json",
     "cuda": "checks/compat_cuda_local_v1.json",
     "cuda_observed_peak_bytes": 667942912,
-    "real_worker_oom_kills": 0,
-    "runner_incident": "Unsupported MemoryOOMGroup property; no workload started. Replaced with independently verified OOMPolicy=kill; fresh attempt passed."
+    "real_worker_oom_kills": 1,
+    "runner_incident": "E4224GiB helperOOM corrected; view lifetime regression4passed; production rerun pending"
   },
   "first_wave_review": "FIRST_WAVE_REVIEW.md",
-  "as_of_utc": "2026-10-04T02:59:17.761965+00:00",
+  "as_of_utc": "2026-10-04T06:59:36.915871+00:00",
   "scientific_results": {
     "E409_W384_one_head_median_kcycles": 401.617,
     "E410": {
@@ -117,9 +120,39 @@
       "rows": 6158,
       "components": 140,
       "decision": "all proxy heads lose to unchanged backbone; exact ideas remain open"
+    },
+    "E412": {
+      "status": "i16_numerical_checks_passed_runtime_pending",
+      "fixed_parent_epoch": 3,
+      "fixed_head_epoch": 0,
+      "q16x_raw_max_error": 0.000415802001953125,
+      "q16x_wp_delta": 8.745162594081535e-08,
+      "public_transfer": "unmeasured",
+      "i16_verification": "passed twenty full streams, resets and v2/v3, actual precision asserted"
+    },
+    "E413": {
+      "delta": 0.000961790214,
+      "ci95": [
+        -7.99654e-05,
+        0.00205967009
+      ],
+      "scope": "one exposed fold, seed3, fixed epoch3; no public confirmation"
+    },
+    "E418": {
+      "fits": 16,
+      "families": 8,
+      "rows": 6158,
+      "components": 140,
+      "interpretation": "all fixed frozen-state candidate heads lose unchanged; end-to-end proposals remain open"
+    },
+    "E421": {
+      "candidate_minus_unchanged_direction0": -0.0790276214,
+      "candidate_minus_unchanged_direction1": -0.0877464304,
+      "interpretation": "fixed small-data frozen-trunk factorized CE loses untouched and joint CE; end-to-end untested"
     }
   },
-  "active_local": "E412 fixed final epoch3",
+  "active_local": "E419 FP16 continuation v3; experimental gain helper held pending production-memory check",
   "remaining_head_predictions": [],
-  "active_remote": "E413 volume28/current T4 pair; TPU probe queued"
+  "active_remote": "E419 QAT dualT4 RUNNING; TPU QUEUED",
+  "subagent_policy": "Luna only, maximum6; currently3 delegated actors"
 }

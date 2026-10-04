@@ -206,5 +206,94 @@ def _(campaign_dir, json, mo, plt, refresh):
     return
 
 
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, plt):
+    q8_timing = json.loads((campaign_dir / "E416_native_q8_confirmation/result.json").read_text())["summary"]
+    q8_timing_rows = [{"case": name, "streamed_mb": item["weight_bytes"] / 1e6, **item["us_per_row"]} for name, item in q8_timing.items()]
+    q8_timing_fig, q8_timing_axes = plt.subplots(1, 2, figsize=(11, 4.8))
+    for _ax, _width in zip(q8_timing_axes, ("d256", "w384")):
+        _rows = [row for row in q8_timing_rows if row["case"].startswith(_width)]
+        for _row, _color in zip(_rows, ("#507D9C", "#A36B43", "#55805E")):
+            _ax.errorbar(_row["streamed_mb"], _row["median"], yerr=[[_row["median"]-_row["min"]], [_row["max"]-_row["median"]]], fmt="o", color=_color, capsize=4, label=_row["case"].split("_", 1)[1])
+        _ax.set(xlabel="Streamed weights (decimal MB)", ylabel="Microseconds per row", title=_width.upper() + " fixed trained payload")
+        _ax.legend()
+        _ax.grid(alpha=.2)
+    q8_timing_fig.suptitle("E416: fewer weight bytes did not reduce elapsed time")
+    q8_timing_fig.tight_layout()
+    _q8_timing_export = campaign_dir / "eda/native_byte_timing/plots"
+    _q8_timing_export.mkdir(parents=True, exist_ok=True)
+    q8_timing_fig.savefig(_q8_timing_export / "bytes_vs_time.png", dpi=180)
+    q8_timing_fig.savefig(_q8_timing_export / "bytes_vs_time.svg")
+    (_q8_timing_export.parent / "data.json").write_text(json.dumps(q8_timing_rows, indent=2) + "\n")
+    mo.vstack([mo.md("All six trained cases passed their fixed numerical gates on three full streams. Whiskers show the range of five clean alternating trials on the local CPU. D256 uses the real merged head; W384 uses one head. This is not a public-runtime forecast."), q8_timing_fig])
+    return
+
+
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, plt):
+    reset_result = json.loads((campaign_dir / "feature_reset_results/f0_gpu_v1/report.json").read_text())
+    reset_rows = [{"lag": int(lag), **report["candidate_minus_unchanged"]} for lag, report in reset_result["reports"].items()]
+    reset_fig, reset_ax = plt.subplots(figsize=(8, 4))
+    reset_ax.errorbar([str(row["lag"]) for row in reset_rows], [row["mean_diff"] for row in reset_rows], yerr=[[row["mean_diff"]-row["ci95"][0] for row in reset_rows], [row["ci95"][1]-row["mean_diff"] for row in reset_rows]], fmt="o", capsize=5, color="#146C94")
+    reset_ax.axhline(0, color="black", linewidth=.8)
+    reset_ax.set(xlabel="State reset every N rows after warmup", ylabel="Reset minus unchanged Global WP", title="E417: fixed-weight state disruption on a small exposed panel")
+    reset_ax.grid(axis="y", alpha=.2)
+    reset_fig.tight_layout()
+    _reset_dir = campaign_dir / "eda/reset_state/plots"
+    _reset_dir.mkdir(parents=True, exist_ok=True)
+    reset_fig.savefig(_reset_dir / "reset_curve.png", dpi=180)
+    reset_fig.savefig(_reset_dir / "reset_curve.svg")
+    (_reset_dir.parent / "data.json").write_text(json.dumps(reset_rows, indent=2) + "\n")
+    mo.vstack([mo.md("498 scored rows,32 streams,15 components. Intervals are paired component bootstraps conditional on fixed weights and rows. Features retain their complete causal histories. This measures state disruption, not useful gradient length."), reset_fig])
+    return
+
+
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, plt):
+    literal_result = json.loads((campaign_dir / "checks/e418_pooled_v1.json").read_text())
+    literal_rows = [{"family": family, **scores["candidate_minus_unchanged"]} for family, scores in literal_result["families"].items()]
+    literal_fig, literal_ax = plt.subplots(figsize=(10, 5))
+    literal_ax.errorbar([row["mean_diff"] for row in literal_rows], range(len(literal_rows)), xerr=[[row["mean_diff"]-row["ci95"][0] for row in literal_rows], [row["ci95"][1]-row["mean_diff"] for row in literal_rows]], fmt="o", capsize=4, color="#146C94")
+    literal_ax.set_yticks(range(len(literal_rows)), [row["family"].replace("_", " ") for row in literal_rows])
+    literal_ax.axvline(0, color="black", linewidth=.8)
+    literal_ax.set(xlabel="Literal residual head minus untouched Global WP", title="E418: all fixed literal head candidates on reciprocal components")
+    literal_ax.grid(axis="x", alpha=.2)
+    literal_fig.tight_layout()
+    _literal_dir = campaign_dir / "eda/literal_features/plots"
+    _literal_dir.mkdir(parents=True, exist_ok=True)
+    literal_fig.savefig(_literal_dir / "all_candidates.png", dpi=180)
+    literal_fig.savefig(_literal_dir / "all_candidates.svg")
+    (_literal_dir.parent / "data.json").write_text(json.dumps(literal_rows, indent=2) + "\n")
+    mo.vstack([mo.md("6158 fixed scored rows,460 streams,140 exposed components; fitted heads exchange disjoint component partitions. All eight candidates lose to unchanged predictions. These are literal frozen-state screens; they do not test training the full trunk with these features. Intervals condition on fitted models and sampled rows; no family-search correction."), literal_fig])
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    import json as e413_json
+    from pathlib import Path as E413Path
+    import matplotlib.pyplot as e413_plt
+    _e413_root = E413Path('/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04')
+    _e413_result = e413_json.loads((_e413_root/'checks/e413_paired_report.json').read_text())
+    _e413_p = _e413_result['folds']['0']['paired_component_bootstrap']['HISTORY_minus_CURRENT']
+    _e413_classes = _e413_result['folds']['0']['by_class']
+    _e413_deltas = [_e413_classes[str(k)]['HISTORY']['wp']-_e413_classes[str(k)]['CURRENT']['wp'] for k in range(4)]
+    _e413_fig, _e413_axes = e413_plt.subplots(1,2,figsize=(10,3.5),layout='constrained')
+    _e413_axes[0].errorbar([_e413_p['mean_diff']],[0],xerr=[[_e413_p['mean_diff']-_e413_p['ci95'][0]],[_e413_p['ci95'][1]-_e413_p['mean_diff']]],fmt='o',capsize=5)
+    _e413_axes[0].axvline(0,color='gray',linewidth=1)
+    _e413_axes[0].set(yticks=[0],yticklabels=['History − current'],xlabel='Global WP difference',title='Paired component interval')
+    _e413_axes[1].bar(range(4),_e413_deltas)
+    _e413_axes[1].axhline(0,color='gray',linewidth=1)
+    _e413_axes[1].set(xticks=range(4),xlabel='Class',ylabel='WP difference',title='Descriptive class differences')
+    _e413_fig.suptitle('E413: volume history, one exposed fold / seed3')
+    _e413_out = _e413_root/'eda/volume_history/plots'
+    _e413_out.mkdir(parents=True,exist_ok=True)
+    for _e413_ext in ('png','svg'):
+        _e413_fig.savefig(_e413_out/f'paired_volume.{_e413_ext}',dpi=180)
+    (_e413_out/'data.json').write_text(e413_json.dumps({'pooled':_e413_p,'class_deltas':_e413_deltas},indent=2)+'\n')
+    _e413_fig
+    return
+
+
 if __name__ == "__main__":
     app.run()
