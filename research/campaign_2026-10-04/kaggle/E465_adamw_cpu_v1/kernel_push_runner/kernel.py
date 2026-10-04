@@ -11,13 +11,14 @@ from contextlib import suppress
 from pathlib import Path, PurePosixPath
 
 DATASET_SLUG = "wnn-jax-adamw-e465-cpu-20261004-v1"
-ARCHIVE_SHA256 = "79729ec242d565df8ed742a86c1c36b7616a4c7427486c936103cc095ac92538"
-MANIFEST_SHA256 = "634a89f12a18f21da74c6887ea95d2024d32e56dd00fa1d9707888137987d072"
+ARCHIVE_SHA256 = "02e067219ce5fecdc3772f6a12b1452e08ad28ca22dbd15b4bf8ce838ca6f749"
+MANIFEST_SHA256 = "db037fb81e81ca6fb47e10e1f7f5e2c487a8bb76878c75482416f82f3bf565bc"
 WORKER_SECONDS = 300
 JOB_SECONDS = 600
 RSS_LIMIT_BYTES = 4 * 1024**3
 POLL_SECONDS = 0.25
 OUTPUT = Path("/kaggle/working/e465_adamw_fp32_cpu_v1")
+ACTIVE_CHILD_PID: int | None = None
 
 
 def sha256(path: Path) -> str:
@@ -56,6 +57,23 @@ def write_json(path: Path, value: object) -> None:
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
 
 
+def whole_job_deadline(_signum: int, _frame: object) -> None:
+    if ACTIVE_CHILD_PID is not None:
+        with suppress(ProcessLookupError):
+            os.killpg(ACTIVE_CHILD_PID, signal.SIGKILL)
+    with suppress(Exception):
+        OUTPUT.mkdir(parents=True, exist_ok=True)
+        write_json(
+            OUTPUT / "runner_result.json",
+            {
+                "status": "whole_job_runtime_limit",
+                "whole_job_runtime_limit_seconds": JOB_SECONDS,
+                "classification": "deadline fired independently of child polling",
+            },
+        )
+    raise SystemExit(124)
+
+
 def host_memory_bytes() -> int | None:
     try:
         for line in Path("/proc/meminfo").read_text().splitlines():
@@ -84,8 +102,10 @@ def verify_expanded(root: Path, files: dict) -> None:
 
 
 def main() -> int:
-    OUTPUT.mkdir(parents=True, exist_ok=True)
     started = time.monotonic()
+    signal.signal(signal.SIGALRM, whole_job_deadline)
+    signal.alarm(JOB_SECONDS)
+    OUTPUT.mkdir(parents=True, exist_ok=True)
     matches = list(Path("/kaggle/input").glob("**/source-manifest.json"))
     if len(matches) != 1:
         write_json(
@@ -189,6 +209,8 @@ def main() -> int:
             env=env,
             start_new_session=True,
         )
+        global ACTIVE_CHILD_PID
+        ACTIVE_CHILD_PID = process.pid
         peak = 0
         stop_reason = None
         while process.poll() is None:
@@ -217,6 +239,7 @@ def main() -> int:
             except subprocess.TimeoutExpired:
                 stop_reason = stop_reason or "process_tree_did_not_exit"
         return_code = process.poll()
+        ACTIVE_CHILD_PID = None
 
     result_path = OUTPUT / "worker_result.json"
     worker_result = json.loads(result_path.read_text()) if result_path.exists() else None

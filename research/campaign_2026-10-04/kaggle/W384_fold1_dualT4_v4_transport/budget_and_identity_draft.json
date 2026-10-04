@@ -1,0 +1,116 @@
+{
+  "created_utc": "2026-10-04T20:34:39Z",
+  "device_hours": {
+    "admission_gate": "at latest root ledger, require cumulative_actual_device_gpu_hours + 14 + 6 recovery <= 80",
+    "current_cumulative_device_gpu_hours": "not independently computed in this draft; do not infer from provider quota",
+    "current_cumulative_device_gpu_hours_upper_bound": 25.94859150042472,
+    "global_ceiling_device_gpu_hours": 80.0,
+    "maximum_if_two_T4s_allocated_for_entire_kernel": 14.0,
+    "recovery_reserve_device_gpu_hours": 6.0,
+    "root_budget_evidence": {
+      "as_of_utc": "2026-10-04T20:16:03.489047+00:00",
+      "path": "research/campaign_2026-10-04/checks/GPU_BUDGET_UPPER_BOUND_20261004T2014Z.json",
+      "scope": "Conservative upper bound, not exact measured per-device usage. Includes all provider used quota even if idle or unrelated. No TPUseconds counted. Actual nextworker/kernel timeout must still be reserved beforelaunch.",
+      "sha256": "b80de6f8a0d6c930adb40b5ded36d0f4bfea1a30e44faf622145a3ec10c74d0d"
+    }
+  },
+  "evidence": {
+    "cpu_io_worker_audit": {
+      "path": "research/campaign_2026-10-04/kaggle/W384_io_diagnostic_cpu_v3/worker_audit_v3_20261004T1943Z.json",
+      "sha256": "10f0e06b0e3f604640b6bd56d61e410446beaedbe98dd31d66f32a01ed93291d",
+      "size_bytes": 5535
+    },
+    "latest_quota_and_status": {
+      "path": "research/campaign_2026-10-04/kaggle/W384_io_diagnostic_cpu_v3/provider_status_20261004T2024Z.json",
+      "sha256": "6276fa55adf94e913017b2131f014ec03dac99b9767aefa9ae75275734456fb9",
+      "size_bytes": 853
+    },
+    "launch_units_amendment": {
+      "path": "research/campaign_2026-10-04/kaggle/E430_cadence_dualT4_v1/LAUNCH_UNITS_IO_AMENDMENT_20261004.json",
+      "sha256": "556c6a5009c78f58518514755f719792c692bc5dcb13947a9d36debc33b65b53",
+      "size_bytes": 4618
+    },
+    "root_device_hour_ledger": {
+      "path": "research/campaign_2026-10-04/checks/GPU_BUDGET_UPPER_BOUND_20261004T2014Z.json",
+      "sha256": "b80de6f8a0d6c930adb40b5ded36d0f4bfea1a30e44faf622145a3ec10c74d0d",
+      "size_bytes": 1137
+    },
+    "v3_archive": {
+      "path": "research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v3/bundle/bundle.wnn",
+      "sha256": "cfaed9a32399348d5bb1a13b817cd219c69b0f72adb03de7496735a173094a05",
+      "size_bytes": 526313
+    },
+    "v3_gpu_failure_audit": {
+      "path": "research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v3/provider_output_error_20261004T1810Z/terminal_failure_audit.json",
+      "sha256": "50d7dc9b6b0a93890ff600a2b935830a9f4da2398432e7f7db5208643cf803a6",
+      "size_bytes": 38929
+    },
+    "v3_manifest": {
+      "path": "research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v3/bundle/bundle-manifest.json",
+      "sha256": "890fe16b96e65852fca1ea418f5bf125694b253630ee41227d5d9d2e6ad1abcf",
+      "size_bytes": 52775
+    }
+  },
+  "prior_measurements": {
+    "CPU_diagnostic_scientific_fit_count": 0,
+    "v3_CPU_diagnostic_controller_hash_elapsed_seconds": 758.1857,
+    "v3_CPU_diagnostic_controller_hashed_bytes": 84386156018,
+    "v3_T4_GPU_bytes_observed_during_failed_probes": [
+      0,
+      0
+    ],
+    "v3_T4_controller_hashed_bytes": 84386156018,
+    "v3_T4_controller_validation_to_first_worker_heartbeat_seconds": 3440.275262908,
+    "v3_T4_full_fits_started": false,
+    "v3_T4_worker_probe_elapsed_before_failure_seconds": [
+      1173.979,
+      1143.894
+    ]
+  },
+  "provider_quota": {
+    "charge_model_caveat": "one observed dual-T4 interval was near 1 quota second per wall second; refresh typed quota before admission and after termination",
+    "gpu_remaining_seconds": 80151.692,
+    "gpu_reserved_seconds": 0.0,
+    "gpu_total_seconds": 108000.0,
+    "gpu_used_seconds": 27848.308,
+    "provider_remaining_after_bound_if_1_to_1_wall_charge_hours": 15.264358888888887,
+    "provider_remaining_after_bound_if_1_to_1_wall_charge_seconds": 54951.691999999995,
+    "provider_reservation_upper_bound_seconds": 25200,
+    "snapshot_path": "research/campaign_2026-10-04/kaggle/W384_io_diagnostic_cpu_v3/provider_status_20261004T2024Z.json",
+    "snapshot_sha256": "6276fa55adf94e913017b2131f014ec03dac99b9767aefa9ae75275734456fb9"
+  },
+  "scientific_identity": {
+    "all_scientific_code_and_inputs": "must remain byte-identical to v3",
+    "checkpoint_policy": "fixed epoch 3; no in-fit validation or best-epoch selection",
+    "code_sha256": "1cf290c1c845e3b95ec1dcc3ce11b607484b205be20fff2f43d15306ba9dc8e2",
+    "fit_device_binding": "each fit runs on the same physical UUID as its passing probe",
+    "fresh_probe_gate": "both one-batch probes pass on distinct T4 UUIDs before either full fit; no reuse",
+    "memory_caps_bytes": {
+      "gpu_allocator_target": 11811160064,
+      "gpu_operating_limit": 12884901888,
+      "gpu_stop": 13958643712,
+      "worker_ram": 10737418240
+    },
+    "parent_protocol": "W384 fold1 AdamW continuation paired against matching W256 continuation",
+    "run_identity_suffix": "t4v4",
+    "source_archive_sha256": "cfaed9a32399348d5bb1a13b817cd219c69b0f72adb03de7496735a173094a05"
+  },
+  "status": "source_only_transport_and_budget_draft_not_uploaded_or_pushed",
+  "timeout_seconds": {
+    "fit_worker_each": 12600,
+    "internal_watchdog_deadline": 25180,
+    "probe_worker": 2400,
+    "provider_external_hard_limit": 25200
+  },
+  "wall_component_model_seconds": {
+    "controller_hash_two_phases_at_observed_v3_t4_rate": 6880.550525816,
+    "hard_wall_bound": 25200,
+    "margin_seconds": 1459.449474184,
+    "modeled_sum": 23740.550525816,
+    "paired_fit_phase_max_including_30s_stagger": 12630,
+    "paired_probe_phase_max_including_30s_stagger": 2430,
+    "prediction_scoring_output_closure_allowance": 1200,
+    "setup_preflight_staging_margin": 600,
+    "watchdog_deadline": 25180
+  }
+}

@@ -30,7 +30,11 @@ def sha256_path(path: Path) -> str:
 def main() -> None:
     if ARCHIVE.exists():
         raise FileExistsError(f"refusing to overwrite immutable packet archive: {ARCHIVE}")
-    members = sorted(path for path in BUNDLE_ROOT.rglob("*") if path.is_file())
+    members = sorted(
+        path
+        for path in BUNDLE_ROOT.rglob("*")
+        if path.is_file() and "__pycache__" not in path.parts and path.suffix != ".pyc"
+    )
     files = {path.relative_to(BUNDLE_ROOT).as_posix(): path for path in members}
     expected = set(PINNED_SOURCE_HASHES) | {"worker.py"}
     if set(files) != expected:
@@ -63,11 +67,18 @@ def main() -> None:
         "parent_environment": {
             "kernel": "vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v3-runner",
             "runtime_reference": "research/campaign_2026-10-04/kaggle/E465_sharding_cpu_v3/provider_output_complete/e465_sharding_cpu_v3/runtime.json",
-            "python_minor": "3.13",
+            "runtime_sha256": "5c640ab255e596b12af62a7bd71f6223fca721c74f72831d2d33667f36ff5412",
+            "parent_source_archive_sha256": "5b0bac21c15ae2b5452568c759532345cbedd1623e5182f720239d987c0b7901",
+            "parent_source_manifest_sha256": "f79e41204f296d3a24067c3eeac8574b66b9601374d323cd3c90504a30801d0b",
+            "python": "3.13.15",
             "jax": "0.11.1",
             "jaxlib": "0.11.1",
             "numpy": "2.1.3",
-            "torch": "2.11.0+cpu (verified in E458 CPU parity v3 environment)",
+            "torch": {
+                "version": "2.11.0+cpu",
+                "runtime_reference": "research/campaign_2026-10-04/kaggle/jax_parity_v1/live_output_v3/e458_cpu_parity/runtime.json",
+                "runtime_sha256": "2fb0c6016c780b4386566675f3d83895fea633ff9d40053d160524343f33e2e9",
+            },
         },
         "source_only_closure": sorted(files),
         "raw_data_attached": False,

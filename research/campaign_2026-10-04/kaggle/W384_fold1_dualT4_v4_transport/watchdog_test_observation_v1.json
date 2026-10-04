@@ -1,0 +1,24 @@
+{
+  "assertions": {
+    "deadline_record_written": true,
+    "descendant_term_sent": true,
+    "no_sigkill_needed_for_term_exiting_child": true,
+    "parent_killed_by_watchdog": true
+  },
+  "expected_parent_signal_returncode": -9,
+  "fixture": "2-second deadline, parent blocked, grandchild in separate session sleeping for 30 seconds",
+  "inner_parent_returncode": -9,
+  "passed": true,
+  "record": {
+    "kill_order": "descendants first; main kernel process after timeout record is flushed",
+    "kill_sent_pids": [],
+    "root_pid": 292540,
+    "root_start_ticks": 7805975,
+    "status": "whole_job_deadline_exceeded",
+    "term_sent_pids": [
+      292542
+    ],
+    "timeout_seconds": 2,
+    "watchdog_elapsed_seconds": 2.200715853992733
+  }
+}

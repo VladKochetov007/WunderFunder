@@ -1,0 +1,46 @@
+{
+  "checker": "scripts/check_e465_adamw_fp32_parity_v2.py",
+  "cpu_affinity": [
+    0,
+    1
+  ],
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "JAX_PLATFORMS": "cpu",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=1"
+  },
+  "exact_package_versions": {
+    "jax": "0.11.1",
+    "jaxlib": "0.11.1",
+    "numpy": "2.1.3",
+    "torch": "2.11.0+cpu"
+  },
+  "jax_backend": "cpu",
+  "jax_devices": [
+    {
+      "id": 0,
+      "kind": "cpu",
+      "platform": "cpu"
+    }
+  ],
+  "python_exact_3_13_15": true,
+  "source_root": "/kaggle/input/datasets/vladkochetov07/wnn-jax-adamw-e465-cpu-20261004-v2/source_bundle",
+  "source_sha256": {
+    "scripts/check_e465_adamw_fp32_parity_v2.py": "fbdddd791856250d965159dcce20a95c557aa023602aa10594a232a7b5d9a9af",
+    "src/wnn_jax/onecycle.py": "f857fe857a361249c2742e3486cd32b846e0f47413a5c4db2ae1fb6c65509ded",
+    "src/wnn_jax/rnn.py": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc"
+  },
+  "torch_cuda_available": false,
+  "versions": {
+    "jax": "0.11.1",
+    "jaxlib": "0.11.1",
+    "numpy": "2.1.3",
+    "platform": "Linux-6.18.48+-x86_64-with-glibc2.39",
+    "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+    "torch": "2.11.0+cpu"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "accelerator_shape": "two physical Tesla T4s required; fail closed unless inventory confirms both",
+  "budget": {
+    "device_recovery_reserve_hours": 6,
+    "global_device_gpu_hour_ceiling": 80,
+    "hard_device_gpu_hours": 14,
+    "hard_provider_wall_hours": 7,
+    "modeled_wall_hours": 6.594597368282223,
+    "provider_quota_gate": "latest typed provider remaining must cover 7h max reservation plus any separately stated provider reserve",
+    "root_ledger_gate": "latest root ledger cumulative +14 planned +6 recovery <=80"
+  },
+  "dataset": "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v4",
+  "fit_protocol": "Two concurrent full fits, bind each fit to the UUID used by its passing probe; fixed epoch 3, no in-fit evaluation or best-epoch selection; score only after both complete",
+  "fit_worker_timeout_seconds": 12600,
+  "full_hashing": "Strict initial archive hash plus full code/input hash in each controller phase and worker; no receipt cache/reuse",
+  "gpu": true,
+  "independent_watchdog_seconds": 25180,
+  "internet": false,
+  "kernel": "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v4-runner",
+  "private": true,
+  "probe_protocol": "Always execute both fresh production-shape one-batch probes, parse FIT records and require one batch, positive optimizer completion, zero AMP skip, matching EMA count, measured memory within caps; start neither full fit unless both pass",
+  "probe_worker_timeout_seconds": 2400,
+  "provider_quota_reservation_upper_seconds": 25200,
+  "provider_timeout_seconds": 25200,
+  "push_command_shape": "kaggle kernels push --path <private-kernel-push-dir> --timeout 25200; keep exact source, private metadata, GPU enabled, internet/TPU disabled",
+  "required_before_push": [
+    "root review of archive/kernel/manifest/source diff and watchdog",
+    "private dataset upload and READY inventory verification for all expanded files",
+    "fresh typed provider-quota snapshot and root device-hour ledger admission"
+  ],
+  "status": "draft_not_admitted",
+  "tpu": false,
+  "upload_or_push_authorized_by_this_packet": false
+}

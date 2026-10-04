@@ -1,0 +1,79 @@
+{
+  "schema": "e450-seed4-i16-timing-v1",
+  "status": "failed_closed",
+  "error": "RuntimeError: host left the CPU15/load1 quiet window",
+  "source_hashes": {
+    "frozen_e462_timing_module_sha256": "7178b08cf108e518c9774bbe9432917ce989521ebcf06e5d8f0b15ee508661ae",
+    "e450_seed4_readiness": {
+      "readiness_sha256": "350b93fa8291699d5f2768be377611279705cd0c6dea0dfbd592924b95f5afbd",
+      "parity_attempt_sha256": "f228d33d6ce91c058cf2076566ddb568e34f5823214e95616ab1972734aa08df",
+      "parity_spec_sha256": "cc958d8cfc81786842cb680e2da6936efa900e2d074a51ced3e589eafcafc388",
+      "parity_spec_sha256_in_attempt": "c9fe2be275099d704c1aae231df9c942e3ab5f672720923f1f200bfe9dd74ad8",
+      "package_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a",
+      "data_sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+      "readiness_status": "parity_passed_runtime_pending",
+      "callback_parity": {
+        "sequences": 20,
+        "rows": 400000,
+        "v2_v3_bitwise": true,
+        "targets_masks_exact": true,
+        "max_i16_f32_error": 9.784102439880371e-05,
+        "max_i16_f32_error_limit": 0.0003,
+        "wp_i16_f32_delta": 2.8590560363639383e-08,
+        "wp_delta_limit": 5e-06,
+        "official_metric_id": "global_wp_clip2_v1",
+        "passed": true
+      },
+      "reset_and_causality": {
+        "reset_bitwise": true,
+        "past_only_bitwise": true,
+        "dataset_sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37"
+      }
+    },
+    "seed3_zip_sha256": "21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb",
+    "seed4_zip_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a",
+    "seed3_v3_native_sha256": "698b8b2c8b5167e2be5e1e151ef6aa3b325b12ef38c4718ceafa2db3375aa398",
+    "seed4_v3_native_sha256": "698b8b2c8b5167e2be5e1e151ef6aa3b325b12ef38c4718ceafa2db3375aa398",
+    "e457_data_sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37"
+  },
+  "hardware": {
+    "platform": "Linux-7.2.7-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "python": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]",
+    "affinity": [
+      15
+    ],
+    "loadavg_start": [
+      0.2802734375,
+      0.66357421875,
+      0.84814453125
+    ],
+    "preload_seconds_outside_timing": 0.34851078600331675,
+    "command": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/timing_window/time_seed4_i16.py",
+      "--control",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261004_combo_s3_i16/submission.zip",
+      "--seed4",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261004_combo_s4_i16/submission.zip",
+      "--readiness",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/checks/e450_seed4_native_parity_v1/readiness.json",
+      "--parity-attempt",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/runner/attempts/e450-seed4-native-parity-v1.json",
+      "--data",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_subset20.parquet",
+      "--output",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/timing_window/v3/results/e450_seed4_i16_v3",
+      "--expected-e462-timing-sha256",
+      "7178b08cf108e518c9774bbe9432917ce989521ebcf06e5d8f0b15ee508661ae",
+      "--cpu",
+      "15",
+      "--max-load1",
+      "1.0",
+      "--repeats",
+      "5",
+      "--projection-limit-seconds",
+      "3120"
+    ]
+  },
+  "completed_trial_count": 5,
+  "trials_file": "trials.jsonl"
+}

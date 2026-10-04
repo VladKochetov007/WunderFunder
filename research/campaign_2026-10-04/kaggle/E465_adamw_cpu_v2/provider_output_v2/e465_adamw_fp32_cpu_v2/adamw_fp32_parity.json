@@ -1,0 +1,43 @@
+{
+  "acceptance_limits": {
+    "first_moment": 1e-06,
+    "parameter": 5e-06,
+    "second_moment": 1e-05
+  },
+  "comparison": "compiled lax.scan around actual staged rnn.adamw_update vs scalar Torch AdamW",
+  "count_matches_expected": true,
+  "dtype": "FP32 parameters, gradients, and moments in both implementations",
+  "format": "wnn.e465-dynamic-beta-adamw-fp32-parity.v1",
+  "frozen_buffers": [
+    "mean",
+    "std"
+  ],
+  "frozen_buffers_unchanged": true,
+  "jax_backend": "cpu",
+  "jax_imported": true,
+  "jax_update_count": 7460,
+  "jax_version": "0.11.1",
+  "learning_rate_beta_schedule": "same FP32-quantized standard-library OneCycle values for used indices 0..7459",
+  "maximum_absolute_error": {
+    "first_moment": 1.1920928955078125e-07,
+    "parameter": 4.202127456665039e-06,
+    "second_moment": 1.430511474609375e-06
+  },
+  "model_or_data_loaded": false,
+  "moments_exclude_frozen_buffers": true,
+  "parameter_moment_order": [
+    "weight_a",
+    "weight_b",
+    "first_a",
+    "first_b",
+    "second_a",
+    "second_b"
+  ],
+  "source_sha256": {
+    "onecycle.py": "f857fe857a361249c2742e3486cd32b846e0f47413a5c4db2ae1fb6c65509ded",
+    "rnn.py": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc"
+  },
+  "status": "passed",
+  "torch_version": "2.11.0+cpu",
+  "updates": 7460
+}
