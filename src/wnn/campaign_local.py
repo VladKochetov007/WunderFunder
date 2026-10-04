@@ -76,6 +76,29 @@ def oom_increased(before: dict[str, int], after: dict[str, int]) -> bool:
     )
 
 
+def resource_failure_marker(path: Path) -> str | None:
+    """Catch allocator errors that free device memory before a positive child exit."""
+    markers = (
+        b"out of memory",
+        b"memoryerror",
+        b"std::bad_alloc",
+        b"cannot allocate memory",
+        b"memory allocation of",
+        b"no space left on device",
+        b"too many open files",
+        b"resource temporarily unavailable",
+    )
+    previous = b""
+    with path.open("rb") as source:
+        while chunk := source.read(65536):
+            text = previous + chunk.lower()
+            for marker in markers:
+                if marker in text:
+                    return marker.decode("ascii")
+            previous = text[-64:]
+    return None
+
+
 def capture(argv: list[str]) -> str:
     """Inspect local state with a deadline; failed monitoring is never idle."""
     return subprocess.run(argv, check=True, capture_output=True, text=True, timeout=5).stdout
@@ -431,6 +454,10 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
             if child.returncode != 0:
                 if child.returncode < 0 or child.returncode >= 128:
                     raise RuntimeError(f"unexplained signal-like command exit {child.returncode}")
+                marker = resource_failure_marker(log_path)
+                if marker is not None:
+                    record["resource_failure_marker"] = marker
+                    raise RuntimeError(f"command failure contains resource error: {marker}")
                 raise ScientificFailure("command_exit", f"command exited {child.returncode}")
             try:
                 record["artifacts"] = [content_file(root, name) for name in spec["artifacts"]]

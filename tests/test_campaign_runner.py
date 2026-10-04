@@ -366,6 +366,7 @@ def test_reconcile_lost_monitor_preserves_failure_evidence(
         "monitor",
         "final_monitor",
         "nonzero",
+        "cuda_oom_exit",
         "missing_output",
         "sigkill",
         "shell_sigkill",
@@ -437,11 +438,15 @@ def test_worker_lifecycle_without_launching_processes(
             child_started = True
             self.returncode = {
                 "nonzero": 7,
+                "cuda_oom_exit": 1,
                 "oom_exit": 7,
                 "sigkill": -9,
                 "shell_sigkill": 137,
             }.get(mode, 0)
             self.polls = 0
+            if mode == "cuda_oom_exit":
+                kwargs["stdout"].write(b"torch.OutOfMemoryError: CUDA out of memory\n")
+                kwargs["stdout"].flush()
             if mode != "missing_output":
                 (root / "result.json").write_text(json.dumps({"ok": True}))
 
@@ -584,3 +589,11 @@ def test_oom_monitor_rejects_incomplete_or_invalid_evidence(tmp_path: Path, text
     (tmp_path / "memory.events").write_text(text)
     with pytest.raises(ValueError):
         campaign_local.memory_events(tmp_path)
+
+
+def test_failure_log_scans_resource_markers_across_chunks(tmp_path: Path) -> None:
+    log = tmp_path / "failure.log"
+    log.write_bytes(b"x" * 65530 + b"CUDA out of memory\n")
+    assert campaign_local.resource_failure_marker(log) == "out of memory"
+    log.write_bytes(b"ValueError: empty sequence\n")
+    assert campaign_local.resource_failure_marker(log) is None

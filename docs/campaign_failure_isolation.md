@@ -10,6 +10,10 @@ continue. Each terminal attempt retains its exit, signals, elapsed/billed time,
 initial/final resource evidence and failure scope/category.
 
 Negative exits and shell signal-like exits >=128 remain global incidents. So do
+explicit allocator/resource errors in a failed command's log (including CUDA
+OOM after device allocations have already been freed). The log scan uses bounded
+memory and errs toward a global incident when the error marker is ambiguous.
+Other global failures include
 source/readiness drift, unknown failures, uncertain launch or teardown, monitor
 failure, resource-limit mismatch and any OOM event. A per-job deadline whose
 cleanup cannot be verified also pauses globally. Lost monitors are still charged
