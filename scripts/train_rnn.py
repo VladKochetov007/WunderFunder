@@ -477,6 +477,70 @@ def episode_redundancy_weight(y: torch.Tensor, scale: float, floor: float) -> to
     return torch.where(sequence_class(y)[:, None] == 3, weight, 1.0)
 
 
+def main_row_weights(inputs, y, valid, scored, prop_model, prop_cached, args):
+    """Shared fit/calibration weights, including the batch-level true-mask scale."""
+    main_valid = valid & scored if args.mask_weight else valid
+    if prop_model is not None:
+        if prop_cached is not None:
+            prob = prop_cached
+        elif args.prop_cache:
+            raise RuntimeError("--prop-cache set but the batch carries no cached propensity")
+        else:
+            prob = propensity(prop_model, inputs[..., : N_FEATURES + N_EVENT_FEATURES])
+        main_valid = valid.float() * (prob ** args.prop_power + args.prop_eps)
+        if args.class_weight:
+            cw = torch.tensor([float(v) for v in args.class_weight.split(",")], device=y.device)
+            main_valid = main_valid * cw[sequence_class(y)][:, None]
+        if args.valid_true_mask >= 0:
+            main_valid = true_mask_weights(main_valid, valid, scored, args.valid_true_mask, args.sync_free)
+    if args.since_weight > 0:
+        since = torch.expm1(inputs[..., N_FEATURES + FEATURE_NAMES.index("since_i0px")].float())
+        sw_rows = torch.clamp(1.0 / (1.0 + since / args.since_weight), min=args.since_floor)
+        main_valid = main_valid.float() * sw_rows
+    if args.episode_weight > 0:
+        main_valid = main_valid.float() * episode_redundancy_weight(
+            y, args.episode_weight, args.episode_floor)
+    return main_valid
+
+
+@torch.no_grad()
+def calibrate_distill_reference(args, train_loader, prop_model, provenance, device, total):
+    """Measure MAIN denominator on actual fit batches; do not fit or inspect eval rows."""
+    from wnn.training_calibration import RecordedOrder, summarize_masses
+
+    update_rows = args.update_rows or args.chunk
+    masses, orders = [], []
+    order = RecordedOrder(train_loader.sampler)
+    original_sampler = train_loader.batch_sampler.sampler
+    train_loader.batch_sampler.sampler = order
+    for epoch in range(args.calibration_epochs):
+        if isinstance(train_loader.sampler, EpochOrderSampler):
+            train_loader.sampler.set_epoch(epoch)
+        orders.append(sample_order_identity(train_loader))
+        for x, target, scored, *rest in train_loader:
+            x, target, scored = x.to(device), target.to(device), scored.to(device)
+            y = target[..., :2]
+            valid = torch.arange(x.shape[1], device=device)[None].expand(x.shape[:2]) >= WARMUP
+            cached = rest[0].to(device) if rest else None
+            weights = main_row_weights(build_inputs(x), y, valid, scored, prop_model, cached, args)
+            mass = y.float().clamp(-2, 2).abs() * weights[..., None]
+            masses.extend(float(mass[:, start:start + update_rows].sum())
+                          for start in range(0, x.shape[1], update_rows))
+        orders[-1].update(order.identity(args.batch))
+    train_loader.batch_sampler.sampler = original_sampler
+    report = summarize_masses(masses)
+    report.update({"format": "wnn.distill-reference-mass", "version": 1,
+                   "estimator": "mean over actual sampled fit batches and update windows",
+                   "calibration_epochs": args.calibration_epochs,
+                   "sample_order": orders,
+                   "contract": resume_contract(args, provenance, train_loader, total)})
+    path = Path(args.calibrate_distill_reference)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(report, indent=2) + "\n")
+    print(json.dumps({"reference_mass": report["reference_mass"],
+                      "calibration": str(path), "updates": report["updates"]}), flush=True)
+
+
 def kth_change_labels(y, valid, k):
     """log1p(rows until the k-th later change of D = t0 - t1) and sign of D(k-th change) - D(now)."""
     d = y[..., 0] - y[..., 1]
@@ -971,7 +1035,11 @@ def main():
     ap.add_argument("--distill-denominator", choices=["chunk", "fixed", "shuffled"], default="chunk",
                     help="cached-distill MAIN loss: update mass, frozen reference mass, or shuffled mass-factor sham")
     ap.add_argument("--distill-reference-mass", type=float, default=0.0,
-                    help="positive frozen TRAIN-estimated main mass for fixed/shuffled controls")
+                    help="positive frozen fit-pool main mass for fixed/shuffled controls")
+    ap.add_argument("--calibrate-distill-reference", default="",
+                    help="write a fit-pool mass report and exit before optimizer construction")
+    ap.add_argument("--calibration-epochs", type=int, default=1,
+                    help="complete training-loader passes used only for reference calibration")
     ap.add_argument("--denominator-shuffle-seed", type=int, default=314159)
     ap.add_argument("--since-weight", type=float, default=0.0,
                     help="if > 0: multiply main-loss row weights by max(floor, 1/(1+since/tau)), since = rows since the "
@@ -1003,6 +1071,11 @@ def main():
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     add_dynamics_arguments(ap)
     args = ap.parse_args()
+    if args.calibrate_distill_reference:
+        if (args.device != "cpu" or args.resume_state or args.thin_prob or args.spread_aux_mode != "original"
+                or args.calibration_epochs < 1 or args.profile_steps or args.max_batches
+                or args.distill_denominator != "chunk" or args.loss != "wmse"):
+            ap.error("reference calibration requires CPU wmse, chunk normalization, complete unthinned fit batches")
     if args.zoneout != 0:
         ap.error("exact timestep zoneout is unsupported for fused nn.GRU")
     if args.batch_order == "qmc":
@@ -1393,6 +1466,9 @@ def main():
         if frozen and pname.startswith(frozen):
             prm.requires_grad_(False)
     total = len(train_loader) * math.ceil(SEQUENCE_LENGTH / update_rows) * args.epochs
+    if args.calibrate_distill_reference:
+        calibrate_distill_reference(args, train_loader, prop_model, provenance, device, total)
+        return
     opt = build_optimizer(model, args)
     sched = build_scheduler(opt, args, total)
     dynamics = Dynamics(model, args, total)
@@ -1536,28 +1612,7 @@ def main():
             valid = steps >= WARMUP
             if kept_len is not None:
                 valid = valid & (steps < kept_len[:, None])
-            main_valid = valid & scored_dev if args.mask_weight else valid
-            if prop_model is not None:
-                if prop_cached is not None:
-                    prob = prop_cached
-                elif args.prop_cache:
-                    raise RuntimeError("--prop-cache set but the batch carries no cached propensity")
-                else:
-                    prob = propensity(prop_model, inputs[..., : N_FEATURES + N_EVENT_FEATURES])
-                main_valid = valid.float() * (prob ** args.prop_power + args.prop_eps)
-                if args.class_weight:
-                    cw = torch.tensor([float(v) for v in args.class_weight.split(",")], device=device)
-                    main_valid = main_valid * cw[sequence_class(y)][:, None]
-                if args.valid_true_mask >= 0:
-                    main_valid = true_mask_weights(main_valid, valid, scored_dev, args.valid_true_mask, args.sync_free)
-            if args.since_weight > 0:
-                since = torch.expm1(inputs[..., N_FEATURES + FEATURE_NAMES.index("since_i0px")].float())
-                sw_rows = torch.clamp(1.0 / (1.0 + since / args.since_weight), min=args.since_floor)
-                main_valid = main_valid.float() * sw_rows
-            if args.episode_weight > 0:
-                main_valid = main_valid.float() * episode_redundancy_weight(
-                    y, args.episode_weight, args.episode_floor
-                )
+            main_valid = main_row_weights(inputs, y, valid, scored_dev, prop_model, prop_cached, args)
             timer.mark("weights")
             aux = shifted_targets(y, valid, shifts)
             if args.aux_struct > 0:
