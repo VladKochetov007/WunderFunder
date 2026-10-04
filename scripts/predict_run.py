@@ -49,6 +49,7 @@ def main():
     train_rnn.RAW_ONLY = bool(ck["args"].get("raw_only"))
     train_rnn.ONLINE_NORM = bool(ck["args"].get("online_norm"))
     train_rnn.HEURISTICS = bool(ck["args"].get("heuristics"))
+    train_rnn.RESEARCH_FEATURES = ck["args"].get("research_features", "none")
     input_propensity = ck["args"].get("prop_input")
     train_rnn.INPUT_PROPENSITY = (
         load_propensity(ROOT / "artifacts" / "runs" / input_propensity / "model.pt", device)
