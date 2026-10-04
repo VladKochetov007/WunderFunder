@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import importlib.metadata
+import json
 import os
 import signal
 import subprocess
@@ -160,12 +161,23 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
     host, devices = host_inventory(), gpu_inventory()
     write_json(output / "inventory.json", {"host": host, "devices": devices})
     concurrency = admit_specs(specs, host, devices)
+    print(
+        json.dumps(
+            {
+                "event": "validating_inputs",
+                "jobs": [spec["name"] for spec in specs],
+                "concurrency_admitted": concurrency,
+            }
+        ),
+        flush=True,
+    )
     # Validate the complete batch before any worker can start.
     for spec in specs:
         verify_files(root, spec["code"] + spec["inputs"])
     active, finished = [], []
     queue = list(specs)
     last_launch = -float("inf")
+    last_heartbeat = -float("inf")
     incident = None
     try:
         while queue or active:
@@ -270,6 +282,11 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
                         raise RuntimeError(f"Worker failed: {spec['name']}")
             if total_rss > host["capacity_bytes"] * 0.9:
                 raise RuntimeError("Aggregate host stop threshold exceeded")
+            if now - last_heartbeat >= 30:
+                heartbeat = resource_heartbeat(active, finished, queue, now)
+                write_json(output / "heartbeat.json", heartbeat)
+                print(json.dumps(heartbeat), flush=True)
+                last_heartbeat = now
             time.sleep(0.25)
     except BaseException as exc:
         incident = f"{type(exc).__name__}: {exc}"
@@ -298,6 +315,29 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
                 "limitation": "GPU/RSS external watchdog is sampled; it is not a provider cgroup hard cap",
             },
         )
+
+
+def resource_heartbeat(
+    active: list[dict], finished: list[dict], queue: list[dict], now: float
+) -> dict:
+    """Expose only whitelisted operational fields to private provider stdout."""
+    return {
+        "event": "campaign_resource_heartbeat",
+        "active": [
+            {
+                "name": job["spec"]["name"],
+                "gpu_index": job["device"]["index"],
+                "gpu_uuid": job["device"]["uuid"],
+                "elapsed_seconds": round(max(0, now - job["started"]), 3),
+                "peak_ram_bytes": job["peak_ram_bytes"],
+                "peak_gpu_bytes": job["peak_gpu_bytes"],
+            }
+            for job in active
+        ],
+        "finished": [{"name": job["name"], "status": job["status"]} for job in finished],
+        "not_started": [spec["name"] for spec in queue],
+        "scope": "measured worker resource activity; not proof of epoch progress or scientific success",
+    }
 
 
 def main() -> None:
