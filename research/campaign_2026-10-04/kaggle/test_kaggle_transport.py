@@ -22,6 +22,27 @@ admit_specs = runner.admit_specs
 export_artifacts = runner.export_artifacts
 
 
+def test_resource_heartbeat_exposes_only_operational_fields() -> None:
+    active = [
+        {
+            "spec": {"name": "bounded-job", "environment": {"PRIVATE_VALUE": "not-for-log"}},
+            "device": {"index": 1, "uuid": "GPU-fixture"},
+            "started": 10.0,
+            "peak_ram_bytes": 123,
+            "peak_gpu_bytes": 456,
+            "log": "private-path",
+        }
+    ]
+    heartbeat = runner.resource_heartbeat(
+        active, [{"name": "finished-job", "status": "complete"}], [{"name": "next-job"}], 25.0
+    )
+    assert heartbeat["active"][0]["elapsed_seconds"] == 15
+    assert heartbeat["active"][0]["gpu_index"] == 1
+    assert heartbeat["not_started"] == ["next-job"]
+    encoded = json.dumps(heartbeat)
+    assert "not-for-log" not in encoded and "private-path" not in encoded
+
+
 def make_spec(root: Path) -> dict:
     """Construct a sealed CPU fixture without importing GPU frameworks."""
     source = root / "worker.py"

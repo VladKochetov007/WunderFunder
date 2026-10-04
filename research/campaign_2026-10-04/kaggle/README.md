@@ -1,5 +1,13 @@
 # Private accelerator transport
 
+New bundles emit a whitelisted resource heartbeat to private kernel stdout every
+30 seconds, and preserve the latest heartbeat JSON. It contains job names,
+physical GPU identity, elapsed time and measured peak RAM/VRAM, without environment
+variables, commands or file contents. This can establish worker resource activity;
+it does not establish epoch progress or scientific success. Earlier immutable
+bundles, including E413, redirect worker logs to artifacts and do not emit these
+heartbeats, so an empty live API log is expected even during useful work.
+
 Authorized by the root `EXECUTION_CONTRACT.md`; no competition upload commands
 are implemented here. The user-owned root `kaggle_kernel/` is untouched.
 
