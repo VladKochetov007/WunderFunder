@@ -98,9 +98,12 @@ def check_orphans(state: Path) -> None:
     )
     for line in units.splitlines():
         unit = line.split()[0]
-        if unit in known and known[unit]["status"] not in ACTIVE:
-            if time.time() - float(str(known[unit].get("finished_unix", 0))) < 15:
-                raise AdmissionBusy(f"previous service is completing teardown: {unit}")
+        if (
+            unit in known
+            and known[unit]["status"] not in ACTIVE
+            and time.time() - float(str(known[unit].get("finished_unix", 0))) < 15
+        ):
+            raise AdmissionBusy(f"previous service is completing teardown: {unit}")
         if unit not in known or known[unit]["status"] not in ACTIVE:
             raise RuntimeError(f"unmanaged campaign service: {unit}")
     for record in records:
