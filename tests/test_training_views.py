@@ -15,6 +15,7 @@ def test_random_origins_match_exact_rows_updates_and_prefix_work(
     dimensions: tuple[int, int, int],
 ) -> None:
     fixed = origin_windows(*dimensions, "prefix-fixed", 79, 0, 0)
+    assert origin_windows(*dimensions, "prefix-discard", 79, 0, 0) == fixed
     changed = False
     state = torch.get_rng_state()
     for seed in range(100):

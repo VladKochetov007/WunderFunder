@@ -191,7 +191,20 @@ def test_real_main_epoch_resume_and_completed_export(
             "",
         ]
 
+    forward_rows: dict[str, int] = {}
+    active_run = ""
+    original_forward = training.forward_chunk
+
+    def counted_forward(model, inputs, window, state):
+        forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+        return original_forward(model, inputs, window, state)
+
+    if origin_view == "prefix-discard":
+        monkeypatch.setattr(training, "forward_chunk", counted_forward)
+
     def run(name: str, extra: list[str]) -> Path:
+        nonlocal active_run
+        active_run = name
         monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
         training.main()
         return tmp_path / "artifacts/runs" / name
@@ -222,6 +235,17 @@ def test_real_main_epoch_resume_and_completed_export(
         ]
 
     reference_dir = run("reference", [])
+    if origin_view == "prefix-discard":
+        carry_dir = run("carry", ["--origin-view", "off"])
+        run("refresh", ["--origin-view", "prefix-fixed"])
+        carry = load_training_state(carry_dir / "training_state.pt")
+        sham = load_training_state(reference_dir / "training_state.pt")
+        for key in ("model", "optimizer", "scheduler", "scaler", "ema", "loader", "rng", "auxiliary"):
+            _assert_equal(carry[key], sham[key])
+        assert carry["progress"]["step_count"] == sham["progress"]["step_count"]
+        assert forward_rows["refresh"] == forward_rows["reference"]
+        assert forward_rows["reference"] > forward_rows["carry"]
+        active_run = "without_state"
     no_state_args = [argument for argument in base if argument != "--save-training-state"]
     monkeypatch.setattr(sys, "argv", [*no_state_args, "--name", "without_state"])
     training.main()
@@ -368,7 +392,7 @@ def test_main_research_features_resume(
     )
 
 
-@pytest.mark.parametrize("origin_view", ["prefix-fixed", "prefix-random"])
+@pytest.mark.parametrize("origin_view", ["prefix-fixed", "prefix-random", "prefix-discard"])
 def test_main_origin_view_resume(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, origin_view: str
 ) -> None:
