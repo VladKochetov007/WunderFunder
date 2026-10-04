@@ -10,6 +10,7 @@ import argparse
 import json
 import math
 import os
+import platform
 import sys
 import time
 from pathlib import Path
@@ -42,7 +43,7 @@ from wnn.nn import (
     weighted_mse_loss,
     weighted_pooled_corr_loss,
 )
-from wnn.optim import GradStats, MuonAdamW, muon_param_groups, rnn_init_, wsd_lambda
+from wnn.optim import GradStats, rnn_init_
 from wnn.outcomes import (
     N_CODES,
     N_SP_AUX,
@@ -62,6 +63,9 @@ from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_g
 from wnn.spread_aux import PackedSpreadCache, structural_loss, validate_spread_cache
 from wnn.training_controls import (DistilledLoss, distilled_macro_losses,
                                    ema_decay_per_update, shuffled_masses)
+from wnn.training_dynamics import (Dynamics, add_arguments as add_dynamics_arguments,
+                                   build_optimizer, build_scheduler, switch_optimizer)
+from wnn.training_sampling import EpochOrderSampler, init_qmc_
 from wnn.training_state import (atomic_save_training_state, capture_training_state,
                                 load_training_state, loader_state, restore_rng,
                                 restore_training_state)
@@ -582,7 +586,7 @@ def predict(model, x, chunk, device):
     inputs = build_inputs(x.to(device, non_blocking=True))
     state, outs = None, []
     for s in range(0, inputs.shape[1], chunk):
-        with torch.autocast("cuda", dtype=torch.float16):
+        with torch.autocast(device.type, dtype=torch.float16, enabled=device.type == "cuda"):
             out, state = forward_chunk(model, inputs, slice(s, s + chunk), state)
         outs.append(
             readout(out, *READOUT, tilted=READOUT_TILTED)
@@ -735,17 +739,24 @@ def resume_contract(args: argparse.Namespace, provenance: dict, loader: DataLoad
     """Bind an epoch continuation to its original data, code and fixed schedule."""
     excluded = {"name", "resume_state", "save_training_state", "stop_after_epoch", "split_manifest"}
     options = {key: value for key, value in vars(args).items() if key not in excluded}
-    sources = {}
-    for module_name, module in list(sys.modules.items()):
-        filename = getattr(module, "__file__", None)
-        if module_name.startswith("wnn.") and filename and filename.endswith(".py"):
-            sources[module_name] = file_sha256(Path(filename))
+    package = Path(__file__).resolve().parents[1] / "src/wnn"
+    sources = {str(path.relative_to(package)): file_sha256(path) for path in sorted(package.rglob("*.py"))}
     sources["trainer"] = file_sha256(Path(__file__))
     data = {}
-    for split in ("train", "valid"):
+    used_splits = {split for split, groups in provenance["fit_row_groups"].items() if groups}
+    for split in used_splits | {"valid"}:
         path = ROOT / "datasets" / f"{split}.parquet"
-        stat = path.stat()
-        data[split] = {"bytes": stat.st_size, "mtime_ns": stat.st_mtime_ns}
+        registry_path = os.environ.get("WNN_PORTABLE_DATA_MANIFEST")
+        if registry_path:
+            from wnn.portability import verify_portable_source
+
+            registry = Path(registry_path)
+            logical_name = f"datasets/{split}.parquet"
+            entry = json.loads(registry.read_text())["sources"][logical_name]
+            verify_portable_source(path, logical_name, entry["original_identity"], registry)
+            data[split] = {"bytes": path.stat().st_size, "sha256": entry["sha256"]}
+        else:
+            data[split] = {"bytes": path.stat().st_size, "sha256": file_sha256(path)}
     teachers = {}
     for teacher in filter(None, args.distill.split(",")):
         name = teacher.partition("*")[0]
@@ -753,18 +764,35 @@ def resume_contract(args: argparse.Namespace, provenance: dict, loader: DataLoad
             if groups:
                 filename = f"pred_{name}_{split}.npy"
                 teachers[filename] = file_sha256(ROOT / "cache" / filename)
+    caches = {}
+    for split in used_splits:
+        if args.distill:
+            filename = f"{split}_targets.npz"
+            caches[filename] = file_sha256(ROOT / "cache" / filename)
+        if args.propensity and args.prop_cache:
+            path = prop_cache_path(args.propensity, split)
+            caches[path.name] = file_sha256(path)
+            caches[path.with_suffix(".json").name] = file_sha256(path.with_suffix(".json"))
+    if args.prop_input:
+        caches["input_propensity"] = file_sha256(ROOT / "artifacts/runs" / args.prop_input / "model.pt")
     sampling = loader_state(loader)
     for key in ("loader_generator", "sampler_generator", "sampler_state", "sampler_epoch"):
         sampling.pop(key)
     return {
         "epochs": args.epochs, "total_steps": total_steps, "options": options,
-        "sources": sources, "datasets": data, "teacher_predictions": teachers,
+        "sources": sources, "datasets": data, "teacher_predictions": teachers, "consumed_caches": caches,
         "fit_membership": provenance["fit_membership_identity"],
         "normalization": provenance["normalization_identity"],
         "ancestors": {key: provenance.get(key) for key in
                       ("initial_checkpoint_sha256", "propensity_checkpoint_sha256", "quote_cache", "spread_aux")},
         "loader": sampling,
         "runtime": {"torch": str(torch.__version__), "numpy": np.__version__,
+                    "python": platform.python_version(), "machine": platform.machine(),
+                    "cublas_workspace_config": os.environ.get("CUBLAS_WORKSPACE_CONFIG"),
+                    "devices": [] if args.device == "cpu" else
+                    [{"name": torch.cuda.get_device_name(index),
+                      "capability": list(torch.cuda.get_device_capability(index))}
+                     for index in range(torch.cuda.device_count())],
                     "cuda": torch.version.cuda, "cudnn": torch.backends.cudnn.version(),
                     "threads": torch.get_num_threads(),
                     "cudnn_benchmark": torch.backends.cudnn.benchmark,
@@ -777,6 +805,8 @@ def resume_contract(args: argparse.Namespace, provenance: dict, loader: DataLoad
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", required=True)
+    ap.add_argument("--device", choices=["cuda", "cpu"], default="cuda",
+                    help="CPU is available for bounded implementation checks; production default remains CUDA")
     ap.add_argument("--train-seqs", type=int, default=10607)
     ap.add_argument("--valid-seqs", type=int, default=600, help="dev sequences used for selection")
     ap.add_argument("--full-valid", action="store_true", help="all 1505 dev sequences")
@@ -808,7 +838,7 @@ def main():
     research.add_argument("--muon-scope", choices=["rnn", "hidden"], default="rnn",
                           help="hidden: Muon also on head.0.weight")
     research.add_argument("--beta2", type=float, default=0.999, help="Adam second-moment decay")
-    research.add_argument("--sched", choices=["onecycle", "wsd"], default="onecycle",
+    research.add_argument("--sched", choices=["onecycle", "wsd", "sgdr"], default="onecycle",
                           help="wsd: 5%% linear warmup, constant lr, (1 - sqrt) cooldown over the last --wsd-decay")
     research.add_argument("--wsd-decay", type=float, default=0.2, help="cooldown share of all optimizer steps")
     research.add_argument("--wsd-final", type=float, default=0.01, help="final lr as a fraction of --lr")
@@ -955,7 +985,16 @@ def main():
     perf.add_argument("--profile-warmup", type=int, default=5)
     perf.add_argument("--parity-dump", default="", help="save per-step losses and final weights here, then exit")
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
+    add_dynamics_arguments(ap)
     args = ap.parse_args()
+    if args.zoneout != 0:
+        ap.error("exact timestep zoneout is unsupported for fused nn.GRU")
+    if args.batch_order == "qmc":
+        ap.error("QMC sampling requires a bound input-only strata cache; trainer integration is not implemented")
+    if args.antithetic and args.batch_order != "seeded":
+        ap.error("--antithetic requires --batch-order seeded and a same-seed control")
+    if args.init_qmc and (args.init or args.rnn_init != "default" or args.enc != "linear" or args.arch != "gru"):
+        ap.error("--init-qmc supports a fresh linear-encoder GRU/LSTM only")
     init_checkpoint = None
     if args.inherit_init_preprocessing:
         if not args.init:
@@ -972,8 +1011,8 @@ def main():
     if continuation and (args.profile_steps or args.parity_dump):
         ap.error("profiling/parity early exits cannot save epoch continuation state")
     saved_training = load_training_state(args.resume_state) if args.resume_state else None
-    if saved_training is not None and saved_training["next_epoch"] >= args.epochs:
-        ap.error("saved training already reached the fixed schedule horizon")
+    if args.resume_state:
+        args.resume_state = str(args.resume_state)
     campaign_split = load_campaign_split(args.split_manifest, ROOT) if args.split_manifest else None
     if campaign_split is not None:
         if args.valid_fold not in (-1, campaign_split.fold):
@@ -1036,7 +1075,9 @@ def main():
     ema_update_decay = ema_decay_per_update(args.ema_decay, update_rows, args.ema_reference_rows)
 
     torch.manual_seed(args.seed)
-    device = torch.device("cuda")
+    device = torch.device(args.device)
+    if device.type == "cpu" and (args.pin_memory or args.fused_adam):
+        ap.error("CPU implementation checks require unfused, synchronous loaders (omit --fast)")
     duty = configure_torch()
     if args.deterministic:
         torch.backends.cudnn.benchmark = False
@@ -1227,6 +1268,12 @@ def main():
     workers, prefetch = dataloader_budget(
         train_batch_bytes, ram_budget_bytes=loader_ram - 2 * valid_batch_bytes
     )
+    if args.batch_order == "seeded":
+        if sampler is not None:
+            ap.error("seeded/antithetic order cannot replace weighted or replacement sampling")
+        sampler = EpochOrderSampler(len(train_ds), args.seed, args.antithetic,
+                                    batch_size=args.batch, drop_last=True)
+        sampler.set_epoch(-1)  # identical normalization order in both paired arms
     train_loader = DataLoader(train_ds, batch_size=args.batch, shuffle=sampler is None,
                               sampler=sampler, drop_last=True, num_workers=workers,
                               prefetch_factor=prefetch if workers else None,
@@ -1298,6 +1345,8 @@ def main():
     if args.aux_quote > 0:
         n_out += 2
     model = make_model(vars(args), n_in, n_out).to(device)
+    if args.init_qmc and saved_training is None:
+        init_qmc_(model, args.seed)
     if args.rnn_init != "default" and not args.init:
         rnn_init_(model, args.rnn_init, args.chrono_tmax, args.seed)
     moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
@@ -1325,20 +1374,13 @@ def main():
     for pname, prm in model.named_parameters():
         if frozen and pname.startswith(frozen):
             prm.requires_grad_(False)
-    total = len(train_loader) * math.ceil(20_000 / update_rows) * args.epochs
-    if args.optim == "muon":
-        opt = MuonAdamW(muon_param_groups(model, args.muon_scope), lr=args.lr, betas=(0.9, args.beta2),
-                        weight_decay=args.wd)
-    else:
-        opt = torch.optim.AdamW([prm for prm in model.parameters() if prm.requires_grad], lr=args.lr,
-                                betas=(0.9, args.beta2), weight_decay=args.wd, fused=bool(args.fused_adam))
-    if args.sched == "wsd":
-        sched = torch.optim.lr_scheduler.LambdaLR(opt, wsd_lambda(total, 0.05, args.wsd_decay, args.wsd_final))
-    else:
-        sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=total,
-                                                    pct_start=0.05, final_div_factor=100)
+    total = len(train_loader) * math.ceil(SEQUENCE_LENGTH / update_rows) * args.epochs
+    opt = build_optimizer(model, args)
+    sched = build_scheduler(opt, args, total)
+    dynamics = Dynamics(model, args, total)
+    provenance["optimizer_switch_events"] = dynamics.events
     amp_dtype = torch.bfloat16 if args.precision == "bf16" else torch.float16
-    scaler = torch.amp.GradScaler(enabled=args.precision == "fp16")
+    scaler = torch.amp.GradScaler(device.type, enabled=args.precision == "fp16")
     grad_stats = GradStats(model, args.clip) if args.grad_stats else None
     swa_model = torch.optim.swa_utils.AveragedModel(model) if args.swa_frac > 0 else None
     ema_model = None
@@ -1399,15 +1441,20 @@ def main():
         # Revalidate after constructing all objects/lineage; RNG restoration is last.
         if saved_training["contract"] != training_contract:
             ap.error("resume contract differs: recipe, schedule, data, code, lineage or runtime changed")
+        saved_dynamics = saved_training["auxiliary"]["dynamics"]
+        if saved_dynamics["is_switched"]:
+            opt, _ = switch_optimizer(opt, sched, saved_dynamics["switch"][1])
         restore_training_state(saved_training, model=model, optimizer=opt, scheduler=sched,
                                scaler=scaler, loader=train_loader, ema=ema_model, swa=swa_model)
+        dynamics.load_state_dict(saved_dynamics)
+        provenance["optimizer_switch_events"] = dynamics.events
         progress = saved_training["progress"]
         start_epoch, step_count = saved_training["next_epoch"], progress["step_count"]
         best, history = progress["best"], progress["history"]
         cumulative_updates = progress["cumulative_updates"]
         provenance["update_diagnostics"] = progress["update_diagnostics"]
         provenance["resumed_from"] = {"path": str(args.resume_state),
-                                       "sha256": file_sha256(args.resume_state), "next_epoch": start_epoch}
+                                       "sha256": file_sha256(Path(args.resume_state)), "next_epoch": start_epoch}
         prior_fit_seconds = progress["fitting_seconds"]
         auxiliary_state = saved_training["auxiliary"]
         norm_ema = auxiliary_state["norm_ema"]
@@ -1425,7 +1472,12 @@ def main():
             break  # cheaper screens: the lr schedule still spans --epochs, so earlier checkpoints are unchanged
         model.train()
         epoch_counter = EpochUpdateCounter(device)
+        if isinstance(train_loader.sampler, EpochOrderSampler):
+            train_loader.sampler.set_epoch(epoch)
         epoch_order_identity = sample_order_identity(train_loader)
+        if isinstance(train_loader.sampler, EpochOrderSampler):
+            epoch_order_identity["seeded_order"] = {"seed": args.seed, "epoch": epoch,
+                                                    "antithetic": args.antithetic, "shared_dropped_tail": True}
         batches = CudaPrefetcher(train_loader, device, timer) if args.pin_memory else train_loader
         for b, batch in enumerate(batches):
             if args.max_batches and b >= args.max_batches:
@@ -1522,13 +1574,14 @@ def main():
                     args.denominator_shuffle_seed + 104729 * epoch + b)
             for s in range(0, inputs.shape[1], update_rows):
                 sl = slice(s, min(s + update_rows, inputs.shape[1]))
+                opt = dynamics.maybe_switch(step_count, opt, sched)
                 if controlled_loss:
                     def raw_forward(window, state):
-                        with torch.autocast("cuda", dtype=amp_dtype):
+                        with torch.autocast(device.type, dtype=amp_dtype, enabled=device.type == "cuda"):
                             return forward_chunk(model, inputs, window, state)
 
                     def teacher_forward(window, state):
-                        with torch.autocast("cuda", dtype=amp_dtype):
+                        with torch.autocast(device.type, dtype=amp_dtype, enabled=device.type == "cuda"):
                             return forward_chunk(ema_model.module, inputs, window, state)
 
                     opt.zero_grad(set_to_none=True)
@@ -1551,12 +1604,12 @@ def main():
                         loss = loss + contribution.detach()
                     timer.mark("loss")
                 else:
-                    with torch.autocast("cuda", dtype=amp_dtype):
+                    with torch.autocast(device.type, dtype=amp_dtype, enabled=device.type == "cuda"):
                         out, h = forward_chunk(model, inputs, sl, h)
                     h = detach_state(h)
                     timer.mark("forward")
                     if args.ema_teacher > 0 or args.td_alpha > 0:
-                        with torch.no_grad(), torch.autocast("cuda", dtype=amp_dtype):
+                        with torch.no_grad(), torch.autocast(device.type, dtype=amp_dtype, enabled=device.type == "cuda"):
                             out_ema, h_ema = forward_chunk(ema_model.module, inputs, sl, h_ema)
                         h_ema = detach_state(h_ema)
                     if moments is not None:
@@ -1678,7 +1731,7 @@ def main():
                 epoch_counter.observe_unscaled(scaler, opt)
                 if grad_stats is not None:
                     grad_stats.observe()
-                torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
+                dynamics.perturb_and_clip(step_count)
                 scaler.step(opt)
                 scaler.update()
                 sched.step()
@@ -1695,7 +1748,7 @@ def main():
                 if duty is not None:  # explicit rate limit (WNN_GPU_DUTY < 1): sync, then sleep
                     torch.cuda.synchronize()
                     duty.tick()
-                elif not args.sync_free:
+                elif not args.sync_free and device.type == "cuda":
                     torch.cuda.synchronize()
             timer.stop()
             epoch_counter.completed_batches += 1
@@ -1768,13 +1821,30 @@ def main():
                           "cumulative_updates": cumulative_updates,
                           "update_diagnostics": provenance["update_diagnostics"],
                           "fitting_seconds": provenance["fitting_seconds"]},
-                auxiliary={"norm_ema": norm_ema,
+                auxiliary={"norm_ema": norm_ema, "dynamics": dynamics.state_dict(),
                            "pool_memory": None if pool_memory is None else pool_memory.memory,
                            "readout_moments": None if moments is None else
                            {field: getattr(moments, field) for field in ("m1", "m0", "n")}},
             )
             atomic_save_training_state(training_state, out_dir / "training_state.pt")
         t0 = time.time()
+    if saved_training is not None and start_epoch == args.epochs:
+        # A crash after the final atomic state but before export needs no more updates.
+        eval_model = checkpoint_model(model, ema_model, swa_model if step_count >= swa_start else None,
+                                      args.eval_ema)
+        provenance["selected_epoch"] = args.epochs - 1
+        provenance["cumulative_updates"] = cumulative_updates.copy()
+        provenance["fitting_seconds"] = prior_fit_seconds
+        checkpoint = {"model": eval_model.state_dict(), "args": vars(args), "n_in": n_in,
+                      "epoch": args.epochs - 1,
+                      "readout": None if moments is None else [value.cpu() for value in moments.tables()],
+                      "readout_tilted": bool(args.ce_tilt),
+                      "provenance": {key: value for key, value in provenance.items() if key != "checkpoint_sha256"}}
+        for filename in (f"model_ep{args.epochs - 1}.pt", "model.pt"):
+            torch.save(checkpoint, out_dir / filename)
+            provenance["checkpoint_sha256"][filename] = file_sha256(out_dir / filename)
+        (out_dir / "provenance.json").write_text(json.dumps(provenance, indent=2) + "\n")
+        atomic_save_training_state(saved_training, out_dir / "training_state.pt")
     (out_dir / "history.json").write_text(json.dumps(history, indent=1))
     if args.checkpoint_policy == "fixed":
         print("SELECTED_FIXED", args.checkpoint_epoch)
