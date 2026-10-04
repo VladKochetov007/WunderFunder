@@ -99,6 +99,9 @@ pub enum Precision {
     /// Byte recurrent and split head.0 weights; float32 projection, final head and state.
     Q8x,
     Q8xPortable,
+    /// Imported FP32 U/V recurrence, float32 state, fixed non-fused reductions.
+    FactorF32,
+    FactorF32Portable,
 }
 
 impl Precision {
@@ -108,7 +111,9 @@ impl Precision {
             | Precision::Q8r
             | Precision::Q8rPortable
             | Precision::Q8x
-            | Precision::Q8xPortable => None,
+            | Precision::Q8xPortable
+            | Precision::FactorF32
+            | Precision::FactorF32Portable => None,
             Precision::F16 => Some(Encoding::F16),
             Precision::I16 | Precision::Q16x | Precision::Q16xPortable => Some(Encoding::I16),
         }
@@ -123,6 +128,10 @@ impl Precision {
 
     fn q8_head(self) -> bool {
         matches!(self, Self::Q8x | Self::Q8xPortable)
+    }
+
+    fn factorized(self) -> bool {
+        matches!(self, Self::FactorF32 | Self::FactorF32Portable)
     }
 }
 
@@ -214,6 +223,9 @@ pub struct FastRnn {
     /// 16-bit matrices when `precision` is F16 or I16.
     half: HalfArena,
     q8: Vec<(String, crate::quant8::PackedQ8)>,
+    factors: Vec<(String, crate::factorized::FloatFactors)>,
+    factor_scratch: Vec<f32>,
+    import_only_dense_bytes: usize,
     state: Arena,
     w_in_cols: Mat, // column-major hidden x n_in, folded normalization
     b_in: Range<usize>,
@@ -588,6 +600,28 @@ impl FastRnn {
         act: Activations,
         precision: Precision,
     ) -> Result<Self, ShapeError> {
+        Self::build(w, act, precision, Vec::new())
+    }
+
+    /// Import exact factors; dense recurrent input copies are discarded after construction.
+    pub fn with_factors(
+        w: RnnWeights,
+        act: Activations,
+        precision: Precision,
+        factors: Vec<(String, crate::factorized::FloatFactors)>,
+    ) -> Result<Self, ShapeError> {
+        if !precision.factorized() {
+            return Err(ShapeError("factors require factor_f32 precision".into()));
+        }
+        Self::build(w, act, precision, factors)
+    }
+
+    fn build(
+        w: RnnWeights,
+        act: Activations,
+        precision: Precision,
+        mut supplied: Vec<(String, crate::factorized::FloatFactors)>,
+    ) -> Result<Self, ShapeError> {
         let n_in = w.mean.len();
         let hidden = w.b_in.len();
         let n_out = w.b2.len();
@@ -598,6 +632,45 @@ impl FastRnn {
         let gates = cell.gates();
         check_shapes(&w, gates)?;
         let head = w.b1.len();
+        let mut factors = Vec::new();
+        if precision.factorized() {
+            if cell != Cell::Gru || supplied.len() != 2 * w.layers.len() {
+                return Err(ShapeError(
+                    "factor_f32 requires all GRU input/hidden matrices".into(),
+                ));
+            }
+            for k in 0..w.layers.len() {
+                for kind in ["ih", "hh"] {
+                    let name = format!("gru.weight_{kind}_l{k}");
+                    let index = supplied
+                        .iter()
+                        .position(|(key, _)| key == &name)
+                        .ok_or_else(|| ShapeError(format!("missing factor matrix: {name}")))?;
+                    let item = supplied.swap_remove(index);
+                    if item.1.rows() != 3 * hidden || item.1.cols() != hidden {
+                        return Err(ShapeError(format!("factor matrix shape mismatch: {name}")));
+                    }
+                    factors.push(item);
+                }
+            }
+            let rank = factors[0].1.rank();
+            if factors.iter().any(|(_, matrix)| matrix.rank() != rank) {
+                return Err(ShapeError(
+                    "factor ranks must match the exported common rank".into(),
+                ));
+            }
+        } else if !supplied.is_empty() {
+            return Err(ShapeError("unexpected factor matrices".into()));
+        }
+        let factor_scratch = vec![0.0; factors.first().map_or(0, |(_, matrix)| matrix.rank())];
+        let import_only_dense_bytes = if precision.factorized() {
+            w.layers
+                .iter()
+                .map(|layer| (layer.w_ih.len() + layer.w_hh.len()) * 4)
+                .sum()
+        } else {
+            0
+        };
 
         // Fold normalization: W'[r][c] = W[r][c] / std[c]; b'[r] = b[r] - sum_c W'[r][c] mean[c].
         let mut cols = vec![0.0f32; hidden * n_in];
@@ -611,7 +684,7 @@ impl FastRnn {
         }
         let in_range = |m: &[f32]| m.iter().all(|v| v.abs() <= crate::half::MAX);
         let precision = match precision {
-            Precision::F32 => Precision::F32,
+            Precision::F32 | Precision::FactorF32 | Precision::FactorF32Portable => precision,
             Precision::Q8r if !crate::half::available() => Precision::Q8rPortable,
             Precision::Q8x if !crate::half::available() => Precision::Q8xPortable,
             Precision::Q8r | Precision::Q8rPortable | Precision::Q8x | Precision::Q8xPortable => {
@@ -687,6 +760,13 @@ impl FastRnn {
                           cols: usize,
                           byte: bool|
          -> Result<Mat, ShapeError> {
+            if precision.factorized() && name.starts_with("gru.") {
+                return Ok(Mat {
+                    w: 0..0,
+                    s: 0..0,
+                    q8: None,
+                });
+            }
             if byte {
                 let index = q8.len();
                 let packed = crate::quant8::PackedQ8::pack(m, rows, cols)
@@ -829,6 +909,9 @@ impl FastRnn {
             weights,
             half,
             q8,
+            factors,
+            factor_scratch,
+            import_only_dense_bytes,
             state,
             w_in_cols,
             b_in,
@@ -871,6 +954,28 @@ impl FastRnn {
         &self.q8
     }
 
+    pub fn factor_matrices(&self) -> &[(String, crate::factorized::FloatFactors)] {
+        &self.factors
+    }
+
+    /// Actual persistent recurrent state, excluding scratch and alignment padding.
+    pub fn recurrent_state_bytes(&self) -> usize {
+        (self.h.len() + self.c.len()) * 4
+    }
+
+    /// State-arena padding, projection/gates/head temporaries and factor projection scratch.
+    pub fn scratch_bytes(&self) -> usize {
+        self.state.len * 4 - self.recurrent_state_bytes()
+            + self.factor_scratch.len() * 4
+            + self.codes.len() * size_of::<Codes>()
+            + self.nz.capacity() * size_of::<u32>()
+    }
+
+    /// Dense recurrent copies accepted by the existing Python weights API, not retained.
+    pub fn import_only_dense_bytes(&self) -> usize {
+        self.import_only_dense_bytes
+    }
+
     /// Replace constructor quantization with preserved codes/scales from an export.
     pub fn load_q8_matrices(
         &mut self,
@@ -901,6 +1006,11 @@ impl FastRnn {
                 .iter()
                 .map(|(_, matrix)| matrix.storage_bytes())
                 .sum::<usize>()
+            + self
+                .factors
+                .iter()
+                .map(|(_, matrix)| matrix.storage_bytes())
+                .sum::<usize>()
     }
 
     pub fn cell(&self) -> Cell {
@@ -927,7 +1037,9 @@ impl FastRnn {
             | Precision::Q8r
             | Precision::Q8rPortable
             | Precision::Q8x
-            | Precision::Q8xPortable => Ahead::NONE,
+            | Precision::Q8xPortable
+            | Precision::FactorF32
+            | Precision::FactorF32Portable => Ahead::NONE,
             _ => Ahead::new(&self.half.as_ref()[self.w_in_cols.w.clone()]),
         }
     }
@@ -939,6 +1051,7 @@ impl FastRnn {
         assert_eq!(out.len(), self.n_out, "output width");
         match self.precision {
             Precision::F32 => self.step_impl::<MODE_F32>(x, out),
+            Precision::FactorF32 | Precision::FactorF32Portable => self.step_factorized(x, out),
             // SAFETY: 16-bit precisions are only selected when `half::available()`.
             #[cfg(target_arch = "x86_64")]
             Precision::F16 => unsafe { self.step_f16(x, out) },
@@ -956,6 +1069,86 @@ impl FastRnn {
             #[cfg(not(target_arch = "x86_64"))]
             _ => unreachable!(),
         }
+    }
+
+    fn step_factorized(&mut self, x: &[f32], out: &mut [f32]) {
+        let n = self.hidden;
+        let fast = self.act == Activations::Fast;
+        let portable = self.precision == Precision::FactorF32Portable;
+        let weights = self.weights.as_ref();
+        let state = self.state.as_mut();
+        {
+            let z = &mut state[self.z.clone()];
+            z.copy_from_slice(&weights[self.b_in.clone()]);
+            for (column, &value) in weights[self.w_in_cols.w.clone()].chunks_exact(n).zip(x) {
+                if value != 0.0 {
+                    for (output, weight) in z.iter_mut().zip(column) {
+                        *output += weight * value;
+                    }
+                }
+            }
+            z.iter_mut().for_each(|value| {
+                *value = if fast {
+                    gelu_fast(*value)
+                } else {
+                    gelu(*value)
+                }
+            });
+        }
+        for (index, layer) in self.layers.iter().enumerate() {
+            let (low, gates) = state.split_at_mut(self.gi.start);
+            let (gi, rest) = gates.split_at_mut(3 * n);
+            let offset = self.gh.start - self.gi.end;
+            let gh = &mut rest[offset..offset + 3 * n];
+            let input = if index == 0 {
+                &low[self.z.clone()]
+            } else {
+                &low[self.h.start + (index - 1) * n..self.h.start + index * n]
+            };
+            self.factors[2 * index].1.gemv(
+                input,
+                &mut self.factor_scratch,
+                &weights[layer.b_ih.clone()],
+                gi,
+                portable,
+            );
+            let hidden = &mut low[self.h.start + index * n..self.h.start + (index + 1) * n];
+            self.factors[2 * index + 1].1.gemv(
+                hidden,
+                &mut self.factor_scratch,
+                &weights[layer.b_hh.clone()],
+                gh,
+                portable,
+            );
+            gru_update(hidden, gi, gh, fast);
+        }
+        let (low, head) = state.split_at_mut(self.cat.start);
+        let (cat, rest) = head.split_at_mut(2 * n);
+        let last = self.h.start + (self.layers.len() - 1) * n;
+        cat[..n].copy_from_slice(&low[last..last + n]);
+        cat[n..].copy_from_slice(&low[self.z.clone()]);
+        let activated = &mut rest[self.a.start - self.cat.end..self.a.end - self.cat.end];
+        crate::factorized::matvec(
+            &weights[self.w1.w.clone()],
+            cat,
+            Some(&weights[self.b1.clone()]),
+            activated,
+            portable,
+        );
+        activated.iter_mut().for_each(|value| {
+            *value = if fast {
+                gelu_fast(*value)
+            } else {
+                gelu(*value)
+            }
+        });
+        crate::factorized::matvec(
+            &weights[self.w2.clone()],
+            activated,
+            Some(&weights[self.b2.clone()]),
+            out,
+            portable,
+        );
     }
 
     /// The whole step compiled with AVX2/FMA/F16C, so the 16-bit kernels and the activation

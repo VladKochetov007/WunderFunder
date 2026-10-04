@@ -11,6 +11,95 @@ use crate::rnn::{GruLayer, RnnModel, RnnWeights};
 use crate::rnn_fast::{Activations, FastRnn, Precision};
 
 type Q8Codes = HashMap<String, Py<PyAny>>;
+type FactorTensors = HashMap<String, HashMap<String, Py<PyAny>>>;
+
+fn model_with_factors(
+    py: Python<'_>,
+    weights: RnnWeights,
+    act: Activations,
+    precision: Precision,
+    factors: Option<FactorTensors>,
+) -> PyResult<FastRnn> {
+    let result = if let Some(factors) = factors {
+        let mut parsed = Vec::with_capacity(factors.len());
+        for (name, mut pair) in factors {
+            if pair.len() != 2 {
+                return Err(PyValueError::new_err(
+                    "factor matrix needs exactly left and right",
+                ));
+            }
+            let left = pair
+                .remove("left")
+                .ok_or_else(|| PyValueError::new_err("missing left factor"))?;
+            let right = pair
+                .remove("right")
+                .ok_or_else(|| PyValueError::new_err("missing right factor"))?;
+            let left = left
+                .bind(py)
+                .extract::<numpy::PyReadonlyArray2<'_, f32>>()?;
+            let right = right
+                .bind(py)
+                .extract::<numpy::PyReadonlyArray2<'_, f32>>()?;
+            let matrix = crate::factorized::FloatFactors::new(
+                left.as_slice()?.to_vec(),
+                right.as_slice()?.to_vec(),
+                left.shape()[0],
+                right.shape()[1],
+                left.shape()[1],
+            )
+            .map_err(PyValueError::new_err)?;
+            parsed.push((name, matrix));
+        }
+        FastRnn::with_factors(weights, act, precision, parsed)
+    } else {
+        FastRnn::with_precision(weights, act, precision)
+    };
+    result.map_err(|error| PyValueError::new_err(error.0))
+}
+
+fn export_factors(py: Python<'_>, model: &FastRnn) -> PyResult<FactorTensors> {
+    let mut result = HashMap::new();
+    for (name, matrix) in model.factor_matrices() {
+        let mut pair = HashMap::new();
+        pair.insert(
+            "left".into(),
+            PyArray1::from_vec(py, matrix.left().to_vec())
+                .reshape([matrix.rows(), matrix.rank()])?
+                .into_any()
+                .unbind(),
+        );
+        pair.insert(
+            "right".into(),
+            PyArray1::from_vec(py, matrix.right().to_vec())
+                .reshape([matrix.rank(), matrix.cols()])?
+                .into_any()
+                .unbind(),
+        );
+        result.insert(name.clone(), pair);
+    }
+    Ok(result)
+}
+
+fn storage_bytes(model: &FastRnn) -> HashMap<String, usize> {
+    HashMap::from([
+        // `factor_weights` is a labeled subset of total_streamed_weights, not an additive bucket.
+        ("total_streamed_weights".into(), model.weight_bytes()),
+        (
+            "factor_weights".into(),
+            model
+                .factor_matrices()
+                .iter()
+                .map(|(_, matrix)| matrix.storage_bytes())
+                .sum(),
+        ),
+        ("recurrent_state".into(), model.recurrent_state_bytes()),
+        ("scratch".into(), model.scratch_bytes()),
+        (
+            "import_only_dense_recurrent".into(),
+            model.import_only_dense_bytes(),
+        ),
+    ])
+}
 
 fn import_q8(py: Python<'_>, model: &mut FastRnn, mut codes: Q8Codes) -> PyResult<()> {
     if codes.len() != 2 * model.q8_matrices().len() || codes.is_empty() {
@@ -73,6 +162,8 @@ fn parse_precision(name: &str) -> PyResult<Precision> {
         "q8r_portable" => Ok(Precision::Q8rPortable),
         "q8x" => Ok(Precision::Q8x),
         "q8x_portable" => Ok(Precision::Q8xPortable),
+        "factor_f32" => Ok(Precision::FactorF32),
+        "factor_f32_portable" => Ok(Precision::FactorF32Portable),
         other => Err(PyValueError::new_err(format!(
             "precision {other:?}; expected f32, f16, i16, q16x, q8r, q8x or a portable sibling"
         ))),
@@ -90,6 +181,8 @@ fn precision_name(p: Precision) -> &'static str {
         Precision::Q8rPortable => "q8r_portable",
         Precision::Q8x => "q8x",
         Precision::Q8xPortable => "q8x_portable",
+        Precision::FactorF32 => "factor_f32",
+        Precision::FactorF32Portable => "factor_f32_portable",
     }
 }
 
@@ -215,25 +308,27 @@ struct PyModelStepper {
 #[pymethods]
 impl PyModelStepper {
     #[new]
-    #[pyo3(signature = (weights, fast_activations=true, precision="f32", q8_codes=None))]
+    #[pyo3(signature = (weights, fast_activations=true, precision="f32", q8_codes=None, factors=None))]
     fn new(
         py: Python<'_>,
         weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
         fast_activations: bool,
         precision: &str,
         q8_codes: Option<Q8Codes>,
+        factors: Option<FactorTensors>,
     ) -> PyResult<Self> {
         let act = if fast_activations {
             Activations::Fast
         } else {
             Activations::Exact
         };
-        let mut model = FastRnn::with_precision(
+        let mut model = model_with_factors(
+            py,
             weights_from_dict(weights)?,
             act,
             parse_precision(precision)?,
-        )
-        .map_err(|e| PyValueError::new_err(e.0))?;
+            factors,
+        )?;
         if let Some(codes) = q8_codes {
             import_q8(py, &mut model, codes)?;
         }
@@ -244,6 +339,15 @@ impl PyModelStepper {
         export_q8(py, &self.model)
     }
 
+    fn factorization_tensors(&self, py: Python<'_>) -> PyResult<FactorTensors> {
+        export_factors(py, &self.model)
+    }
+
+    #[getter]
+    fn storage_bytes(&self) -> HashMap<String, usize> {
+        storage_bytes(&self.model)
+    }
+
     #[getter]
     fn weight_bytes(&self) -> usize {
         self.model.weight_bytes()
@@ -251,7 +355,11 @@ impl PyModelStepper {
 
     #[getter]
     fn q8_weight_bytes(&self) -> usize {
-        self.model.q8_matrices().iter().map(|(_, matrix)| matrix.storage_bytes()).sum()
+        self.model
+            .q8_matrices()
+            .iter()
+            .map(|(_, matrix)| matrix.storage_bytes())
+            .sum()
     }
 
     fn reset(&mut self) {
@@ -479,7 +587,8 @@ impl PyEnsemblePredictor {
         precision="f32",
         budget_s=None,
         expected_rows=39_400_000.0,
-        q8_codes=None
+        q8_codes=None,
+        factors=None
     ))]
     fn new(
         py: Python<'_>,
@@ -490,6 +599,7 @@ impl PyEnsemblePredictor {
         budget_s: Option<f64>,
         expected_rows: f64,
         q8_codes: Option<Vec<Q8Codes>>,
+        factors: Option<Vec<FactorTensors>>,
     ) -> PyResult<Self> {
         if weights.is_empty() || weights.len() != coefficients.len() {
             return Err(PyValueError::new_err(
@@ -508,6 +618,15 @@ impl PyEnsemblePredictor {
             ));
         }
         let mut encoded = q8_codes.map(|codes| codes.into_iter());
+        if factors
+            .as_ref()
+            .is_some_and(|items| items.len() != weights.len())
+        {
+            return Err(PyValueError::new_err(
+                "provide factors for every ensemble member",
+            ));
+        }
+        let mut factors = factors.map(|items| items.into_iter());
         let activation = if fast_activations {
             Activations::Fast
         } else {
@@ -528,8 +647,13 @@ impl PyEnsemblePredictor {
                 )));
             }
             widths.push(width);
-            let mut model = FastRnn::with_precision(parsed, activation, precision)
-                .map_err(|e| PyValueError::new_err(e.0))?;
+            let mut model = model_with_factors(
+                py,
+                parsed,
+                activation,
+                precision,
+                factors.as_mut().and_then(Iterator::next),
+            )?;
             if let Some(codes) = encoded.as_mut().and_then(Iterator::next) {
                 import_q8(py, &mut model, codes)?;
             }
@@ -638,7 +762,16 @@ impl PyEnsemblePredictor {
 
     #[getter]
     fn q8_weight_bytes(&self) -> Vec<usize> {
-        self.models.iter().map(|model| model.q8_matrices().iter().map(|(_, matrix)| matrix.storage_bytes()).sum()).collect()
+        self.models
+            .iter()
+            .map(|model| {
+                model
+                    .q8_matrices()
+                    .iter()
+                    .map(|(_, matrix)| matrix.storage_bytes())
+                    .sum()
+            })
+            .collect()
     }
 
     fn quantization_codes(&self, py: Python<'_>) -> PyResult<Vec<Q8Codes>> {
@@ -646,6 +779,18 @@ impl PyEnsemblePredictor {
             .iter()
             .map(|model| export_q8(py, model))
             .collect()
+    }
+
+    fn factorization_tensors(&self, py: Python<'_>) -> PyResult<Vec<FactorTensors>> {
+        self.models
+            .iter()
+            .map(|model| export_factors(py, model))
+            .collect()
+    }
+
+    #[getter]
+    fn storage_bytes(&self) -> Vec<HashMap<String, usize>> {
+        self.models.iter().map(storage_bytes).collect()
     }
 }
 
@@ -662,13 +807,14 @@ struct PyPredictor {
 #[pymethods]
 impl PyPredictor {
     #[new]
-    #[pyo3(signature = (weights, fast_activations=true, precision="f32", q8_codes=None))]
+    #[pyo3(signature = (weights, fast_activations=true, precision="f32", q8_codes=None, factors=None))]
     fn new(
         py: Python<'_>,
         weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
         fast_activations: bool,
         precision: &str,
         q8_codes: Option<Q8Codes>,
+        factors: Option<FactorTensors>,
     ) -> PyResult<Self> {
         let rnn_weights = weights_from_dict(weights)?;
         let n_in = rnn_weights.mean.len();
@@ -682,8 +828,8 @@ impl PyPredictor {
         } else {
             Activations::Exact
         };
-        let mut model = FastRnn::with_precision(rnn_weights, act, parse_precision(precision)?)
-            .map_err(|e| PyValueError::new_err(e.0))?;
+        let mut model =
+            model_with_factors(py, rnn_weights, act, parse_precision(precision)?, factors)?;
         if let Some(codes) = q8_codes {
             import_q8(py, &mut model, codes)?;
         }
@@ -705,6 +851,15 @@ impl PyPredictor {
 
     fn quantization_codes(&self, py: Python<'_>) -> PyResult<Q8Codes> {
         export_q8(py, &self.model)
+    }
+
+    fn factorization_tensors(&self, py: Python<'_>) -> PyResult<FactorTensors> {
+        export_factors(py, &self.model)
+    }
+
+    #[getter]
+    fn storage_bytes(&self) -> HashMap<String, usize> {
+        storage_bytes(&self.model)
     }
 
     #[getter]

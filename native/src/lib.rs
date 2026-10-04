@@ -1,6 +1,7 @@
 //! Native kernels for research and submission inference.
 
 pub mod approx;
+pub mod factorized;
 pub mod half;
 pub mod kernels;
 pub mod quant8;
