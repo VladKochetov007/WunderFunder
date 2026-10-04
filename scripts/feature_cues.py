@@ -16,6 +16,18 @@ CUE_NAMES = (
     "volume28",
 )
 
+CUE_SCOPES = {
+    "regime_offsets": "proxy: varying auxiliary offsets; four warmup-regime routing pending",
+    "regime_heads": "proxy: auxiliary/state interactions; four warmup-regime heads pending",
+    "target_clocks": "proxy: observable ages/flags; target-specific row-versus-event EMA pending",
+    "activity_interactions": "fixed auxiliary-by-volume/event-age interactions",
+    "i1_innovations": "proxy: EMA-centered i1 deltas and lag8; learned conditional innovations pending",
+    "event_age": "fixed ages of four observable event families",
+    "observable_transitions": "fixed current and lag1 observable changes",
+    "cycle_smoothing": "proxy: ordinary EMA8/32; phase-aware cycle8 smoothing pending",
+    "volume28": "causal run-relative volume28 candidate",
+}
+
 
 def lagged(values: np.ndarray, lag: int) -> np.ndarray:
     """Causal lag with explicit zero prehistory; never wrap sequence boundaries."""
