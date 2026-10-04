@@ -1,6 +1,103 @@
 --- a/scripts/train_rnn.py
 +++ b/scripts/train_rnn.py
-@@
+@@ -78,6 +78,7 @@
+                           SentinelPreprocessor)
+ from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
+ from wnn.specialist import PrefixAdapterGRUModel, SpecialistGRUModel
++from wnn.specialist_diagnostics import SoftRouteDiagnostics
+ from wnn.training_qat import (QAT_MODES, configure_qat, inference_state,
+                               invalidate_qat_cache, qat_forward)
+ from wnn.training_state import (atomic_save_training_state, capture_training_state,
+@@ -1099,8 +1100,8 @@
+                     help="--arch specialist: hidden width of each always-updated expert GRU")
+     ap.add_argument("--num-experts", type=int, default=4,
+                     help="--arch specialist: number of specialist GRU states")
 -    ap.add_argument("--specialist-route", choices=["learned", "hash", "universal"], default="learned",
+-                    help="--arch specialist: learned causal top-one, deterministic prefix hash, or universal mean")
 +    ap.add_argument("--specialist-route", choices=["learned", "soft", "hash", "universal"], default="learned",
-                     help="specialist routing control")
++                    help="--arch specialist: learned top-one, prefix-soft mixture, hash, or universal mean")
+     ap.add_argument("--hash-seed", type=int, default=1729,
+                     help="--arch specialist: salt for the fixed hash-routing control")
+     ap.add_argument("--adapter-rank", type=int, default=8,
+@@ -1603,6 +1604,8 @@
+                                      "valid": train_idx.tolist() if train_split == "valid" else
+                                      extra_valid.tolist() if extra_valid is not None else []},
+                   "evaluation_row_groups": valid_idx.tolist(), "checkpoint_sha256": {}}
++    if globals().get("E425_SOURCE_CLOSURE") is not None:
++        provenance["code_source_closure"] = globals()["E425_SOURCE_CLOSURE"]
+     if inner_crossfit is not None:
+         provenance["inner_crossfit"] = inner_crossfit
+         provenance["deployment_safe"] = args.privileged_mode == "none"
+@@ -1615,7 +1618,8 @@
+     if args.arch in ("tcn", "twoclock"):
+         provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/nn.py")
+     if args.arch in ("specialist", "prefix-adapter"):
+-        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/specialist.py")
++        specialist_source = Path(__file__).resolve().parents[1] / "src/wnn/specialist.py"
++        provenance["model_source_sha256"] = file_sha256(specialist_source)
+     if quote_cache_provenance is not None:
+         provenance["quote_cache"] = quote_cache_provenance
+     if args.propensity:
+@@ -1800,6 +1804,9 @@
+     fitting_started = t0
+     cumulative_updates = {}
+     provenance["update_diagnostics"] = []
++    soft_route_fit = args.arch == "specialist" and args.specialist_route == "soft"
++    if soft_route_fit:
++        provenance["soft_route_diagnostics"] = []
+     provenance["training_clocks"] = {"micro_rows": args.chunk, "detach_rows": detach_rows,
+                                      "update_rows": update_rows, "ema_decay_per_update": ema_update_decay,
+                                      "ema_clock": "attempted updates including AMP skips"}
+@@ -1847,6 +1854,8 @@
+         best, history = progress["best"], progress["history"]
+         cumulative_updates = progress["cumulative_updates"]
+         provenance["update_diagnostics"] = progress["update_diagnostics"]
++        if soft_route_fit:
++            provenance["soft_route_diagnostics"] = progress.get("soft_route_diagnostics", [])
+         provenance["resumed_from"] = {"path": str(args.resume_state),
+                                        "sha256": file_sha256(Path(args.resume_state)), "next_epoch": start_epoch}
+         prior_fit_seconds = progress["fitting_seconds"]
+@@ -1866,6 +1875,7 @@
+             break  # cheaper screens: the lr schedule still spans --epochs, so earlier checkpoints are unchanged
+         model.train()
+         epoch_counter = EpochUpdateCounter(device)
++        route_diagnostics = SoftRouteDiagnostics(model) if soft_route_fit else None
+         if isinstance(train_loader.sampler, EpochOrderSampler):
+             train_loader.sampler.set_epoch(epoch)
+         epoch_order_identity = sample_order_identity(train_loader)
+@@ -2131,7 +2141,16 @@
+                 if grad_stats is not None:
+                     grad_stats.observe()
+                 dynamics.perturb_and_clip(step_count)
++                route_snapshots = (
++                    route_diagnostics.before_optimizer_step(model)
++                    if route_diagnostics is not None
++                    else None
++                )
+                 scaler.step(opt)
++                if route_diagnostics is not None:
++                    if route_snapshots is None:
++                        raise RuntimeError("soft-route optimizer snapshots are missing")
++                    route_diagnostics.after_optimizer_step(model, route_snapshots)
+                 invalidate_qat_cache(model)
+                 scaler.update()
+                 sched.step()
+@@ -2178,6 +2197,10 @@
+             print("PARITY_DUMP", args.parity_dump, len(losses_trace), flush=True)
+             return
+         update_counts = epoch_counter.finish(cumulative_updates)
++        if route_diagnostics is not None:
++            route_record = {"epoch_index": epoch, **route_diagnostics.finish()}
++            provenance["soft_route_diagnostics"].append(route_record)
++            update_counts["soft_route"] = route_record
+         update_counts["sample_order_identity"] = epoch_order_identity
+         update_counts["normalization_identity"] = provenance["normalization_identity"]
+         if epoch_grad_stats is not None:
+@@ -2228,6 +2251,7 @@
+                 progress={"step_count": step_count, "best": best, "history": history,
+                           "cumulative_updates": cumulative_updates,
+                           "update_diagnostics": provenance["update_diagnostics"],
++                          "soft_route_diagnostics": provenance.get("soft_route_diagnostics", []),
+                           "fitting_seconds": provenance["fitting_seconds"]},
+                 auxiliary={"norm_ema": norm_ema, "dynamics": dynamics.state_dict(),
+                            "pool_memory": None if pool_memory is None else pool_memory.memory,

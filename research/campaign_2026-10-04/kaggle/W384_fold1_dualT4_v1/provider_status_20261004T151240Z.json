@@ -1,0 +1,33 @@
+{
+  "interpretation": "W384 provider status remains RUNNING; this poll shows no worker telemetry or physical GPU inventory. TPU remains queued without assignment; no HBM evidence.",
+  "kernels": {
+    "TPU_probe_v1": {
+      "assigned_device": null,
+      "assigned_hbm_bytes": null,
+      "logs_or_outputs_observed": false,
+      "requested_machine_shape": "TpuV5E8",
+      "slug": "vladkochetov07/wnn-tpu-probe-20261004",
+      "status": "KernelWorkerStatus.QUEUED"
+    },
+    "W384_fold1_dualT4_v1": {
+      "latest_logs_or_outputs_observed": false,
+      "physical_assignment_observed": false,
+      "requested_accelerator": "2xT4",
+      "slug": "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v1-runner",
+      "status": "KernelWorkerStatus.RUNNING"
+    }
+  },
+  "observed_at_utc": "2026-10-04T15:12:40Z",
+  "poll_commands": [
+    ".venv/bin/kaggle kernels status vladkochetov07/wnn-w384-fold1-dualt4-20261004-v1-runner",
+    ".venv/bin/kaggle kernels status vladkochetov07/wnn-tpu-probe-20261004"
+  ],
+  "quota": {
+    "gpu_latest_known_remaining_hours": 24.27,
+    "gpu_observed_at_utc": "2026-10-04T14:27Z",
+    "gpu_refresh_at_utc": "2026-10-10T00:00:00Z",
+    "note": "No newer quota measurement available in this read-only poll; do not infer current quota from RUNNING status.",
+    "tpu_observed_at_utc": "2026-10-04T14:27Z",
+    "tpu_remaining_hours": 20.0
+  }
+}

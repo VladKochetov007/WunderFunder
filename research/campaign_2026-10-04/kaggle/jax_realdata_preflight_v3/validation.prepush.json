@@ -1,0 +1,75 @@
+{
+  "attempt2_failure_preserved": "research/campaign_2026-10-04/kaggle/jax_realdata_preflight_v2/provider_error_E463_v2.json",
+  "checked_at_utc": "2026-10-04T16:10:33Z",
+  "checks": {
+    "host_guard_math_boundary_cases": "4 PASS",
+    "nested_worker_ast": "PASS",
+    "outer_kernel_ast": "PASS",
+    "preflight_script_ast": "PASS",
+    "privacy_and_accelerator_metadata": "PASS",
+    "source_archive_sha": "PASS",
+    "source_file_member_hashes": "PASS"
+  },
+  "dataset": "vladkochetov07/wnn-jax-realdata-e463-20261004-v3",
+  "external_input_count": 18,
+  "external_inputs_hashes_preserved_from_v2": true,
+  "file_hashes": {
+    "build_e463_v3.py": {
+      "sha256": "7337135d1747471eabbfb7eb27cb0eb5cc7f007f9ba337a68edb08e07ec83e9c",
+      "size": 19493
+    },
+    "bundle_spec.json": {
+      "sha256": "2c70638425486a39742d73db394deac31ac7571f341000364f6f2673c3701ceb",
+      "size": 12447
+    },
+    "kernel_push/kernel-metadata.json": {
+      "sha256": "046ff9413e09a838b949dd84165624d8589785dabce04867b09cea7283bcc095",
+      "size": 521
+    },
+    "kernel_push/kernel.py": {
+      "sha256": "33aba7403b8749a02c52d20ef10e85254c54434e03ca469262ef13a08bc17ae7",
+      "size": 24886
+    },
+    "review_packet.json": {
+      "sha256": "8e07e81860d9a227622514ad963514ef8dda0d26b064bea3c33c716cfa56ff70",
+      "size": 2023
+    },
+    "static_harness_v3.py": {
+      "sha256": "8c03bde786a54d0420382b556e7a141ac1322fe3fd5e0c6635e3cfc2dd783e00",
+      "size": 6101
+    },
+    "upload_dataset/dataset-metadata.json": {
+      "sha256": "a2cb038f4ca072ae887f07e9fa21329a61de8a748082cdea17a582644b8237a6",
+      "size": 187
+    },
+    "upload_dataset/source-manifest.json": {
+      "sha256": "1e3201f4203f7ae42da6ed98648b13c215ce8fcf8d7b96d6dd356f9d36fdad97",
+      "size": 11489
+    },
+    "upload_dataset/source_bundle.zip": {
+      "sha256": "31fb466d31a734ffcd31e82bc7826b039821e5bc368e5f09662caba64530796e",
+      "size": 9372985
+    }
+  },
+  "harness_no_accelerator_or_model_execution": true,
+  "kernel": "vladkochetov07/wnn-jax-realdata-e463-20261004-v3-runner",
+  "milestones_are_flushed_jsonl_with_current_rss_and_ru_maxrss": true,
+  "resource_guard": "pre-JAX probe records MemTotal, cgroup memory.max/limit, CPU affinity, baseline RSS; requires one CPU and min(cgroup,80%MemTotal) >= 4GiB aggregate RSS cap + 2GiB launcher reserve; fail closed otherwise",
+  "runtime_budget": {
+    "backend": "CPU",
+    "cpu_affinity": 1,
+    "gpu": false,
+    "host_reserve_fraction": 0.2,
+    "internet": false,
+    "launcher_reserve_bytes": 2147483648,
+    "provider_timeout_seconds": 2100,
+    "tpu": false,
+    "whole_job_seconds": 1800,
+    "worker_aggregate_rss_cap_bytes": 4294967296
+  },
+  "scientific_implementation": "v2 and v3 source AST are equal after removing only milestone helper/calls; source data, objective, fold/group order, batch4, chunk1000, AdamW parameters, FP32/BF16 one-update checks and source/finite checks unchanged",
+  "source_member_count": 17,
+  "source_members_hash_verified": true,
+  "static_harness": "python -I -S static_harness_v3.py; PASS, stdlib only; no JAX/NumPy/Torch imports",
+  "status": "PASS; prepared for root review; not uploaded or pushed"
+}

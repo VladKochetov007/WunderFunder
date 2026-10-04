@@ -1,6 +1,8 @@
 # Review-to-experiment matrix and ETA — 2026-10-04
 
-As of **12:14 UTC / 15:14 Kyiv**. This matrix joins the Oct 3 and Oct 4
+**Historical planning snapshot as of12:14UTC.** Live evidence and current jobs are in `CURRENT_STATUS.md`; the tables below preserve the original cost estimates and specifications. The former20:00Kyiv hard stop was explicitly superseded by continued user authorization. E412 publicscore is now0.6655, E419scientificQATscreen completed, E424is7/8fits, E426is implemented/checked/queued and E449legacywidthv2retry is running. E430now has3fresh cadence/credit arms; adding that control and the2legacywidth fits moves the approximate79-fit portfolio to82fit screens (32reviewdirections plus the separatelegacyreplication). This is a planned inventory, not completedfit count. CPU framework/code checks are not counted as candidatefits.
+
+Original planning context: This matrix joins the Oct 3 and Oct 4
 Elephants reviews, the supplied second-opinion directions, and the critic
 follow-ups. “Mentioned” is not treated as “tested”: each actionable direction
 has a concrete experiment ID, an explicit status, and an estimated cost. The

@@ -418,5 +418,37 @@ def _(campaign_dir, json, mo, plt, project_root, refresh):
     return
 
 
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, plt, refresh):
+    refresh
+    import hashlib as _clock_hashlib
+    import numpy as _clock_np
+    _clock_path = campaign_dir / "checks/e426_event_count_audit_f0_s3_v1.json"
+    _clock_result = json.loads(_clock_path.read_text())
+    _clock_counts = _clock_np.asarray(_clock_result["schedules"]["aligned"]["observed_counts"], dtype=float)
+    _clock_shuffled = _clock_np.asarray(_clock_result["schedules"]["shuffled"]["applied_counts"], dtype=float)
+    _clock_mean = float(_clock_counts.mean())
+    _clock_fig, _clock_axes = plt.subplots(1, 2, figsize=(12, 4))
+    _clock_axes[0].hist(_clock_counts, bins=40, color="#36719c", alpha=.85)
+    _clock_axes[0].axvline(_clock_mean, color="#b54232", label=f"Mean {_clock_mean:.1f}")
+    _clock_axes[0].set(xlabel="Endpoint events per optimizer update (batch 32 × 1000 rows)", ylabel="Updates", title="Actual fold-0 training inputs: event density")
+    _clock_axes[0].legend()
+    _clock_axes[1].plot(_clock_counts[:400] / _clock_mean, label="Aligned", lw=1)
+    _clock_axes[1].plot(_clock_shuffled[:400] / _clock_mean, label="Shuffled", lw=1, alpha=.65)
+    _clock_axes[1].axhline(1, color="black", ls="--", label="Constant")
+    _clock_axes[1].set(xlabel="Optimizer-update index (first 400)", ylabel="Teacher EMA log-retention multiplier", title="Matched epoch-total retention; different alignment")
+    _clock_axes[1].legend()
+    _clock_fig.suptitle("E426 input-only audit: no model fitted, no predictive claim")
+    _clock_fig.tight_layout()
+    _clock_output = campaign_dir / "eda/event_teacher_clock"
+    _clock_output.mkdir(parents=True, exist_ok=True)
+    _clock_fig.savefig(_clock_output / "event_clock_schedule.png", dpi=160)
+    _clock_fig.savefig(_clock_output / "event_clock_schedule.svg")
+    _clock_summary = {"source_report_sha256": _clock_hashlib.sha256(_clock_path.read_bytes()).hexdigest(), "updates": len(_clock_counts), "mean_events": _clock_mean, "std_events": float(_clock_counts.std()), "event_count_cv": float(_clock_counts.std() / _clock_mean), "min_events": float(_clock_counts.min()), "max_events": float(_clock_counts.max()), "scope": "Input-only count schedule, no model score or fit", "decay_products": {k: v["decay_product"] for k, v in _clock_result["schedules"].items()}}
+    (_clock_output / "source.json").write_text(json.dumps(_clock_summary, indent=2) + "\n")
+    mo.vstack([mo.md(f"**E426 real-input clock audit:** {len(_clock_counts):,} updates, event-count CV {_clock_summary['event_count_cv']:.1%}. Fold-0 TRAIN 528 is rejected before input counting; 529 remains included. The constant, aligned and shuffled schedules have equal epoch-total retention. This is input evidence; three model fits remain pending."), mo.mpl.interactive(_clock_fig)])
+    return
+
+
 if __name__ == "__main__":
     app.run()

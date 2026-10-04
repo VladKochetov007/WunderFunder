@@ -120,6 +120,7 @@ class SpecialistGRUModel(nn.Module):
         self.num_experts = experts
         self.route = route
         self.prefix_rows = prefix_rows
+        self._last_route_probabilities: torch.Tensor | None = None
 
     @property
     def specialist_parameter_count(self) -> int:
@@ -139,6 +140,11 @@ class SpecialistGRUModel(nn.Module):
         else:
             scores = self.router(F.gelu(self.prefix_proj(prefix)))
         return scores.argmax(dim=-1)
+
+    @property
+    def last_route_probabilities(self) -> torch.Tensor | None:
+        """Return detached route probabilities from the latest soft forward."""
+        return self._last_route_probabilities
 
     def forward(
         self,
@@ -187,6 +193,7 @@ class SpecialistGRUModel(nn.Module):
                 gate = (hard - probabilities).detach() + probabilities
             else:
                 gate = probabilities
+                self._last_route_probabilities = probabilities.detach()
             gate = gate[..., None]
         residual = (expert_outputs * gate).sum(dim=2)
         next_states.extend((prefix_sum, prefix_count))

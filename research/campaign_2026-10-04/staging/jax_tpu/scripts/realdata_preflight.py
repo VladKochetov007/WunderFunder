@@ -199,6 +199,19 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             weight_decay=args.weight_decay,
         )
         loss = jax.block_until_ready(loss)
+        loss_value = float(np.asarray(loss))
+        if not np.isfinite(loss_value):
+            raise FloatingPointError(f"{precision} training loss is non-finite")
+        step_count = int(np.asarray(jax.device_get(optimizer.count)))
+        if step_count != 1:
+            raise AssertionError(f"{precision} optimizer completed {step_count} updates, expected one")
+        for moment_name, moment_tree in (("first", optimizer.first), ("second", optimizer.second)):
+            for parameter_name, moment in moment_tree.items():
+                moment_host = np.asarray(jax.device_get(moment))
+                if not np.isfinite(moment_host).all():
+                    raise FloatingPointError(
+                        f"{precision} AdamW {moment_name} moment is non-finite: {parameter_name}"
+                    )
         npz_path = output / f"model_{precision}.npz"
         export_npz_state(npz_path, updated)
         reloaded = load_npz_state(npz_path, *dimensions)
@@ -208,12 +221,14 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             precision="fp32",
         )
         prediction_np = np.asarray(prediction[..., :2], dtype=np.float32)
+        if not np.isfinite(prediction_np).all():
+            raise FloatingPointError(f"{precision} evaluation predictions are non-finite")
         labels_np = np.asarray(eval_batch["labels"], dtype=np.float32)
         score_mask = eval_mask.astype(bool)
         evaluation_score = score(labels_np, prediction_np, score_mask)
         arm_metrics[precision] = {
-            "train_loss": float(loss),
-            "adamw_steps": int(optimizer.count),
+            "train_loss": loss_value,
+            "adamw_steps": step_count,
             "model_npz": str(npz_path),
             "model_npz_sha256": _sha256_file(npz_path),
             "evaluation_score_rows": int(score_mask.sum()),
@@ -268,6 +283,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "fit_group_batch_sha256": group_batch_sha256((ordered_fit,)),
         "evaluation_groups": list(selected_eval),
         "evaluation_mask_policy": "need_prediction AND is_scored AND row >= 99",
+        "diagnostic_metric_id": "pooled_global_weighted_pearson; diagnostic slice only, no scientific claim",
         "evaluation_mask_sha256": next(iter(mask_hashes)),
         "chunk_rows": args.chunk_rows,
         "device_inventory": [_device_record(device) for device in devices],

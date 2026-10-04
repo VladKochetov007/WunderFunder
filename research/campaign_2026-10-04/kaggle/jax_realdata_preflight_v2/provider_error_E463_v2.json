@@ -1,0 +1,75 @@
+{
+  "attempt": 2,
+  "checkpoint_conversion": {
+    "dimensions": {
+      "hidden": 256,
+      "layers": 2,
+      "n_in": 211,
+      "n_out": 23
+    },
+    "hash_binding_verified": true,
+    "npz_sha256": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+    "sidecar_sha256": "3e65d2a88352d22bc90d88b829f05beee3faa7a66b9de41c7507f521aab12668",
+    "source_epoch": 3,
+    "source_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+  },
+  "classification": "bounded real-data JAX CPU preflight infrastructure failure; no model-quality evidence",
+  "evidence_id": "E463",
+  "external_input_hashes_all_match": true,
+  "external_inputs_verified_count": 18,
+  "jax_runtime": {
+    "cpu_affinity": [
+      0
+    ],
+    "cuda_visible_devices": "",
+    "jax_backend": "cpu",
+    "jax_devices": [
+      {
+        "kind": "cpu",
+        "platform": "cpu"
+      }
+    ],
+    "jax_platforms": "cpu",
+    "missing_dependencies": [],
+    "versions": {
+      "jax": "0.11.1",
+      "jaxlib": "0.11.1",
+      "numpy": "2.1.3",
+      "pyarrow": "23.0.1",
+      "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]"
+    }
+  },
+  "metrics_present": false,
+  "no_gpu_or_tpu_assignment": true,
+  "observed_error_at_utc": "2026-10-04T15:58:01Z",
+  "provider_log_has_no_training_trace": true,
+  "provider_output_file_count": 23,
+  "provider_output_hash_manifest": "provider_output_v2/provider_output_hash_manifest_v2.json",
+  "provider_start_interval_utc": {
+    "first_observed_error": "2026-10-04T15:58:01Z",
+    "first_observed_running": "2026-10-04T15:35:58Z"
+  },
+  "provider_status": "KernelWorkerStatus.ERROR",
+  "resource_interpretation": "RSS cap triggered at a measured peak of 2,306,338,816 bytes versus 2,147,483,648; worker return code -9. Do not infer whether data collation, JAX compilation or an update had completed.",
+  "runner_result": {
+    "aggregate_peak_rss_bytes": 2306338816,
+    "aggregate_rss_limit_bytes": 2147483648,
+    "classification": "bounded real-data JAX CPU preflight; no TPU/HBM or scientific gain claim",
+    "elapsed_seconds": 65.40886558099987,
+    "manifest_declared_archive_sha256": "b6954032fadd8c1d8f292f9e18e05ca7b28ff8dfd6c48cb05fc1aea1f946f7e7",
+    "manifest_sha256": "f8602ae4d2214164f0d7b5ec5c29bcbb6cc7b9d7b19fed686231cdb293a5a28a",
+    "materialization": "kaggle_autoexpanded_member_hash_verified",
+    "observed_archive_sha256": null,
+    "overall_runtime_limit_seconds": 1800,
+    "resolved_external_input_count": 18,
+    "setup_elapsed_seconds": 433.8004778490001,
+    "status": "aggregate_rss_limit",
+    "stop_reason": "aggregate_rss_limit",
+    "worker_result": null,
+    "worker_return_code": -9,
+    "worker_runtime_limit_seconds": 1366.1995221509999
+  },
+  "step_completion": "unknown after runpy entered realdata_preflight.py; no stage log or worker_result survived kill",
+  "worker_result_present": false,
+  "worker_stdout_bytes": 0
+}

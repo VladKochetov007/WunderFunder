@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/e462/verify_public_q8.py", line 808, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/e462/verify_public_q8.py", line 794, in main
+    _score_member(
+    ~~~~~~~~~~~~~^
+        args.zip.resolve(),
+        ^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        args.parity_report.resolve(),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/e462/verify_public_q8.py", line 416, in _score_member
+    from utils import FEATURE_COLUMNS, SEQUENCE_LENGTH
+ModuleNotFoundError: No module named 'utils'
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/e462/verify_public_q8.py", line 808, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/e462/verify_public_q8.py", line 780, in main
+    run_score(args.build_dir.resolve(), output, args.parity_report.resolve())
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/e462/verify_public_q8.py", line 749, in run_score
+    subprocess.run(command, cwd=ROOT, check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python', '/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/e462/verify_public_q8.py', '--phase', 'score-member', '--zip', '/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261004_combo_s3_i16/submission.zip', '--label', 'i16', '--build-dir', '/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/E462_public_q8_build_v2', '--parity-report', '/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/E462_public_q8_parity_v2/parity_report.json', '--output', '/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/E462_public_q8_score_v3/predictions/pred_i16.npy']' returned non-zero exit status 1.

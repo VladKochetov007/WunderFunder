@@ -1,0 +1,64 @@
+{
+  "archive_member_and_expanded_source_hashes_verified": true,
+  "archive_sha256": "b6954032fadd8c1d8f292f9e18e05ca7b28ff8dfd6c48cb05fc1aea1f946f7e7",
+  "dataset_create_command": ".venv/bin/kaggle datasets create -p research/campaign_2026-10-04/kaggle/jax_realdata_preflight_v1/upload_dataset -r skip",
+  "dataset_slug": "vladkochetov07/wnn-jax-realdata-e463-20261004-v1",
+  "evidence_id": "E-463",
+  "input_alignment_audit": {
+    "fixed_parent_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "fold_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "initial_npz_sha256": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+    "teacher_epoch3_sidecar_orders_match_target_cache": true,
+    "train_group528_excluded": true,
+    "valid_fit_eval_disjoint": true,
+    "valid_group528_present": true
+  },
+  "kernel_metadata_sha256": "3e87ee3c85bae0fb768767926b7700e7540f64b7b20244b08537da7349fce878",
+  "kernel_push_command": ".venv/bin/kaggle kernels push -p research/campaign_2026-10-04/kaggle/jax_realdata_preflight_v1/kernel_push --timeout 2100",
+  "kernel_sha256": "bcdec5485d83031c75d03a21df1fae057eb0bb0c1fc79c5912561cf6a9b8ae14",
+  "kernel_slug": "vladkochetov07/wnn-jax-realdata-e463-20261004-v1-runner",
+  "launch_gates": "Do not create/upload dataset or push kernel until root explicitly says launch after static review. After creation, wait for dataset READY and compare exact names/sizes before kernel push.",
+  "preflight_contract": {
+    "aggregate_rss_cap_bytes": 2147483648,
+    "backend": "explicit JAX CPU, one device, CUDA hidden",
+    "cpu_affinity": 1,
+    "evaluation": "first 1000 rows of first four fold0 VALID evaluation streams, official row mask after warmup",
+    "external_input_hashes": "all mounted external files SHA-256 streamed against manifest before fitting",
+    "fit_batch_group_order": [
+      [
+        "valid",
+        1
+      ],
+      [
+        "valid",
+        0
+      ],
+      [
+        "train",
+        529
+      ],
+      [
+        "train",
+        0
+      ]
+    ],
+    "fit_batch_sha256": "65918af8c55326923a96878d800e5c35ab3e891700af9139d74f4ca03db274b3",
+    "fit_precision_arms": [
+      "fp32",
+      "bf16"
+    ],
+    "provider_timeout_seconds": 2100,
+    "same_initial_state_and_batch": true,
+    "thread_caps": 1,
+    "updates_per_arm": 1,
+    "whole_kernel_runtime_cap_seconds": 1800
+  },
+  "private_dataset_dependencies": [
+    "vladkochetov07/wnn-jax-realdata-e463-20261004-v1",
+    "vladkochetov07/wnn-c20261004-fold0-assets",
+    "vladkochetov07/wunder-funder"
+  ],
+  "source_manifest_sha256": "edaa2581ccbc2a76d50efd055a0392ddaf121ded34b572f912b51194f6e2fb32",
+  "source_member_count": 17,
+  "status": "prepared_not_uploaded_or_launched"
+}

@@ -21,7 +21,27 @@
          self.register_buffer("mean", torch.zeros(n_in))
          self.register_buffer("std", torch.ones(n_in))
          self.inp = nn.Linear(n_in, hidden)
-@@ -180,9 +181,12 @@
+@@ -119,6 +120,7 @@
+         self.num_experts = experts
+         self.route = route
+         self.prefix_rows = prefix_rows
++        self._last_route_probabilities: torch.Tensor | None = None
+ 
+     @property
+     def specialist_parameter_count(self) -> int:
+@@ -139,6 +141,11 @@
+             scores = self.router(F.gelu(self.prefix_proj(prefix)))
+         return scores.argmax(dim=-1)
+ 
++    @property
++    def last_route_probabilities(self) -> torch.Tensor | None:
++        """Return detached route probabilities from the latest soft forward."""
++        return self._last_route_probabilities
++
+     def forward(
+         self,
+         x: torch.Tensor,
+@@ -180,9 +187,13 @@
          else:
              logits = self.router(F.gelu(self.prefix_proj(prefix)))
              probabilities = torch.softmax(logits.float(), dim=-1).to(expert_outputs.dtype)
@@ -34,6 +54,7 @@
 +                gate = (hard - probabilities).detach() + probabilities
 +            else:
 +                gate = probabilities
++                self._last_route_probabilities = probabilities.detach()
              gate = gate[..., None]
          residual = (expert_outputs * gate).sum(dim=2)
          next_states.extend((prefix_sum, prefix_count))

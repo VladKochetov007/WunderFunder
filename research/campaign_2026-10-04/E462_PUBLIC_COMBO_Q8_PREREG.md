@@ -93,8 +93,10 @@ This is an exposed, repeatedly inspected holdout, so all differences are descrip
 select between q8r/q8x or tune any parameter. Report pooled weighted Pearson, mean per-sequence
 weighted Pearson, t0/t1, all market-class slices, exact selected-row/sequence counts, and paired
 2,000-draw component-bootstrap intervals for each candidate-minus-i16 difference. Keep the score
-contract identifier and metric code hash with the report; until the official aggregation is
-resolved, present both pooled and per-sequence forms.
+contract identifier and metric code hash with the report. Metric interpretation amendment:
+global pooled weighted Pearson (WP) is primary; mean per-sequence WP is retained as a legacy
+diagnostic. This resolves the presentation ambiguity without changing the candidates, score
+calculation, parity gates, or any preregistered comparison.
 
 `scripts/screen_score.py` is not directly valid for this converted artifact. Its holdout path
 requires a prediction sidecar naming one run/checkpoint and follows one `args.init` chain. The E412
