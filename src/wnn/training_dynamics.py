@@ -28,6 +28,14 @@ def add_arguments(parser: argparse.ArgumentParser) -> None:
     group.add_argument("--init-qmc", action="store_true")
     group.add_argument("--batch-order", choices=["random", "seeded", "qmc"], default="random")
     group.add_argument("--antithetic", action="store_true")
+    group.add_argument(
+        "--momentum", type=float, default=0.0, help="SGD momentum; Adam/Muon reject nonzero"
+    )
+    group.add_argument(
+        "--no-gradient-clip",
+        action="store_true",
+        help="do not transform finite gradients; nonfinite gradients abort",
+    )
 
 
 def parse_switch(spec: str, total: int) -> tuple[int, str] | None:
@@ -70,6 +78,22 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
         raise NotImplementedError(
             "exact zoneout requires a timestep cell path; fused nn.GRU is unsupported"
         )
+    momentum = getattr(args, "momentum", 0.0)
+    if not math.isfinite(momentum) or not 0 <= momentum < 1:
+        raise ValueError("momentum must be finite and in [0,1)")
+    if args.optim == "sgd":
+        if args.optim_switch or args.head_lr_mult != 1 or args.fused_adam:
+            raise ValueError(
+                "bounded SGD requires no switching, no head multiplier and no fused Adam flag"
+            )
+        return torch.optim.SGD(
+            [p for p in model.parameters() if p.requires_grad],
+            lr=args.lr,
+            momentum=momentum,
+            weight_decay=args.wd,
+        )
+    if momentum:
+        raise ValueError("--momentum requires --optim sgd")
     common = dict(lr=args.lr, betas=(0.9, args.beta2), weight_decay=args.wd)
     is_grouped = bool(args.optim_switch) or args.head_lr_mult != 1
     if not is_grouped:
@@ -151,7 +175,12 @@ def build_scheduler(
     if args.head_lr_mult != 1:
         max_lr = [args.lr * g.get("lr_scale", 1.0) for g in opt.param_groups]
     return torch.optim.lr_scheduler.OneCycleLR(
-        opt, max_lr=max_lr, total_steps=total, pct_start=warm, final_div_factor=100
+        opt,
+        max_lr=max_lr,
+        total_steps=total,
+        pct_start=warm,
+        final_div_factor=100,
+        cycle_momentum=args.optim != "sgd",
     )
 
 
@@ -217,6 +246,9 @@ class Dynamics:
         if not math.isfinite(self.eta) or self.eta < 0:
             raise ValueError("gradient noise eta must be nonnegative and finite")
         self.clip = args.clip
+        self.no_clip = getattr(args, "no_gradient_clip", False)
+        if self.no_clip and self.caps:
+            raise ValueError("--no-gradient-clip cannot be combined with module clipping")
         self.is_switched = False
         self.events: list[dict[str, int | str]] = []
         self.generators: dict[str, torch.Generator] = {}
@@ -229,6 +261,7 @@ class Dynamics:
             "caps": self.caps,
             "eta": self.eta,
             "clip": self.clip,
+            "no_clip": self.no_clip,
             "seed": self.seed,
             "is_switched": self.is_switched,
             "events": copy.deepcopy(self.events),
@@ -240,7 +273,7 @@ class Dynamics:
     def load_state_dict(self, state: dict[str, object]) -> None:
         """Restore controls after reconstructing the saved optimizer implementation."""
         current = self.state_dict()
-        for key in ("switch", "caps", "eta", "clip", "seed"):
+        for key in ("switch", "caps", "eta", "clip", "no_clip", "seed"):
             if current[key] != state[key]:
                 raise ValueError(f"resume dynamics {key} differs")
         self.is_switched = state["is_switched"]
@@ -288,6 +321,19 @@ class Dynamics:
                     grad.shape, device=grad.device, dtype=grad.dtype, generator=self.generators[key]
                 )
                 grad.add_(noise, alpha=sigma)
+        if self.no_clip:
+            finite = torch.stack(
+                [
+                    torch.isfinite(p.grad).all()
+                    for p in self.model.parameters()
+                    if p.grad is not None
+                ]
+            ).all()
+            if not finite:
+                raise FloatingPointError(
+                    "unclipped update has nonfinite gradients; no selective skip is allowed"
+                )
+            return
         if not self.caps:
             torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.clip)
             return

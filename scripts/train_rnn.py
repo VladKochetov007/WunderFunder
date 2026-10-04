@@ -67,6 +67,7 @@ from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_g
 from wnn.spread_aux import PackedSpreadCache, structural_loss, validate_spread_cache
 from wnn.training_controls import (DistilledLoss, distilled_macro_losses,
                                    detach_boundary_offset, ema_decay_per_update, shuffled_masses)
+from wnn.training_credit import credit_edge_scales
 from wnn.training_dynamics import (Dynamics, add_arguments as add_dynamics_arguments,
                                    build_optimizer, build_scheduler, switch_optimizer)
 from wnn.training_sampling import EpochOrderSampler, init_qmc_
@@ -915,6 +916,10 @@ def main():
     ap.add_argument("--origin-view", choices=["off", "prefix-fixed", "prefix-random"], default="off",
                     help="replay causal prefixes before every update; fixed/random arms match rows and prefix work")
     ap.add_argument("--origin-seed", type=int, default=79079)
+    ap.add_argument("--credit-mode", choices=["deterministic", "random-uncompensated", "artbp"],
+                    default="deterministic", help="random recurrent credit within fixed update windows only")
+    ap.add_argument("--credit-keep-probability", type=float, default=.8)
+    ap.add_argument("--credit-seed", type=int, default=100100)
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--stop-after-epoch", type=int, default=None,
@@ -930,7 +935,7 @@ def main():
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--wd", type=float, default=1e-2)
     research = ap.add_argument_group("optimizer research (src/wnn/optim.py; defaults reproduce AdamW + OneCycle)")
-    research.add_argument("--optim", choices=["adamw", "muon"], default="adamw",
+    research.add_argument("--optim", choices=["adamw", "muon", "sgd"], default="adamw",
                           help="muon: orthogonalised per-gate updates on the recurrent matrices, AdamW elsewhere")
     research.add_argument("--muon-scope", choices=["rnn", "hidden"], default="rnn",
                           help="hidden: Muon also on head.0.weight")
@@ -1085,7 +1090,7 @@ def main():
     perf.add_argument("--pin-memory", action="store_true", help="pinned persistent loaders + CUDA-stream prefetch")
     perf.add_argument("--prop-cache", action="store_true",
                       help="read propensity from cache/propcache_<name>_<split>.npy (scripts/cache_propensity.py)")
-    perf.add_argument("--precision", choices=["fp16", "bf16"], default="fp16",
+    perf.add_argument("--precision", choices=["fp16", "bf16", "fp32"], default="fp16",
                       help="autocast dtype; bf16 trains without GradScaler")
     perf.add_argument("--max-batches", type=int, default=0, help="stop each epoch after this many batches (harness)")
     perf.add_argument("--profile-steps", type=int, default=0,
@@ -1182,8 +1187,20 @@ def main():
         ap.error("--epoch-samples cannot be combined with --class-balance")
     update_rows = args.update_rows or args.chunk
     detach_rows = args.detach_rows or args.chunk
+    if args.credit_mode != "deterministic":
+        if (args.optim != "sgd" or args.precision != "fp32" or not args.no_gradient_clip
+                or args.grad_noise or args.optim_switch or args.detach_boundary_jitter
+                or args.origin_view != "off" or args.chunk >= update_rows
+                or args.detach_rows not in (0, update_rows)):
+            ap.error("random credit requires unclipped fp32 SGD, chunk < update rows, full-window detach bound, and no other credit/noise/switch arms")
+        try:
+            credit_edge_scales(0, args.credit_keep_probability, args.credit_seed, 0, True)
+        except ValueError as error:
+            ap.error(str(error))
+        detach_rows = update_rows
     controlled_loss = bool(args.update_rows or args.detach_rows or args.distill_denominator != "chunk"
-                           or args.detach_boundary_jitter or args.origin_view != "off")
+                           or args.detach_boundary_jitter or args.origin_view != "off"
+                           or args.credit_mode != "deterministic")
     if args.origin_view != "off":
         try:
             origin_windows(SEQUENCE_LENGTH, update_rows, args.chunk, args.origin_view, args.origin_seed, 0, 0)
@@ -1536,6 +1553,7 @@ def main():
     dynamics = Dynamics(model, args, total)
     provenance["optimizer_switch_events"] = dynamics.events
     amp_dtype = torch.bfloat16 if args.precision == "bf16" else torch.float16
+    use_autocast = device.type == "cuda" and args.precision != "fp32"
     scaler = torch.amp.GradScaler(device.type, enabled=args.precision == "fp16")
     grad_stats = GradStats(model, args.clip) if args.grad_stats else None
     swa_model = torch.optim.swa_utils.AveragedModel(model) if args.swa_frac > 0 else None
@@ -1590,6 +1608,12 @@ def main():
     provenance["training_clocks"] = {"micro_rows": args.chunk, "detach_rows": detach_rows,
                                      "update_rows": update_rows, "ema_decay_per_update": ema_update_decay,
                                      "ema_clock": "attempted updates including AMP skips"}
+    if args.credit_mode != "deterministic":
+        provenance["training_clocks"]["credit_estimator"] = {
+            "mode": args.credit_mode, "keep_probability": args.credit_keep_probability,
+            "target": "fixed update-window gradient conditional on detached incoming state",
+            "optimizer_claim": "affine SGD/momentum step conditional on fixed incoming optimizer state",
+            "maximum_graph_rows": update_rows, "random_edge_spacing_rows": args.chunk}
     if args.origin_view != "off":
         initial_windows = origin_windows(SEQUENCE_LENGTH, update_rows, args.chunk, args.origin_view,
                                          args.origin_seed, 0, 0)
@@ -1732,11 +1756,11 @@ def main():
                 opt = dynamics.maybe_switch(step_count, opt, sched)
                 if controlled_loss:
                     def raw_forward(window, state):
-                        with torch.autocast(device.type, dtype=amp_dtype, enabled=device.type == "cuda"):
+                        with torch.autocast(device.type, dtype=amp_dtype, enabled=use_autocast):
                             return forward_chunk(model, inputs, window, state)
 
                     def teacher_forward(window, state):
-                        with torch.autocast(device.type, dtype=amp_dtype, enabled=device.type == "cuda"):
+                        with torch.autocast(device.type, dtype=amp_dtype, enabled=use_autocast):
                             return forward_chunk(ema_model.module, inputs, window, state)
 
                     if args.origin_view != "off":
@@ -1765,17 +1789,21 @@ def main():
                             detach_offset_rows=detach_boundary_offset(
                                 args.chunk, detach_rows, args.detach_jitter_seed, step_count)
                                 if args.detach_boundary_jitter else 0,
+                            credit_scales=credit_edge_scales(
+                                (sl.stop - sl.start) // args.chunk - 1, args.credit_keep_probability,
+                                args.credit_seed, step_count, args.credit_mode == "artbp")
+                                if args.credit_mode != "deterministic" else None,
                             donor_mass=None if donor_masses is None else donor_masses[window_index]):
                         scaler.scale(contribution).backward()
                         loss = loss + contribution.detach()
                     timer.mark("loss")
                 else:
-                    with torch.autocast(device.type, dtype=amp_dtype, enabled=device.type == "cuda"):
+                    with torch.autocast(device.type, dtype=amp_dtype, enabled=use_autocast):
                         out, h = forward_chunk(model, inputs, sl, h)
                     h = detach_state(h)
                     timer.mark("forward")
                     if args.ema_teacher > 0 or args.td_alpha > 0:
-                        with torch.no_grad(), torch.autocast(device.type, dtype=amp_dtype, enabled=device.type == "cuda"):
+                        with torch.no_grad(), torch.autocast(device.type, dtype=amp_dtype, enabled=use_autocast):
                             out_ema, h_ema = forward_chunk(ema_model.module, inputs, sl, h_ema)
                         h_ema = detach_state(h_ema)
                     if moments is not None:

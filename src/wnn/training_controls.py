@@ -8,6 +8,8 @@ import torch
 import torch.nn.functional as F
 from torch import Tensor
 
+from wnn.training_credit import scale_hidden_credit
+
 HiddenState = Tensor | tuple[Tensor, ...] | None
 Forward = Callable[[slice, HiddenState], tuple[Tensor, HiddenState]]
 
@@ -103,6 +105,7 @@ def distilled_macro_losses(
     reference_mass: float = 0.0,
     donor_mass: Tensor | None = None,
     detach_offset_rows: int = 0,
+    credit_scales: tuple[float, ...] | None = None,
 ) -> Iterator[tuple[Tensor, HiddenState, HiddenState]]:
     """Yield losses ready for backward, pooling each divisor over one update.
 
@@ -132,6 +135,13 @@ def distilled_macro_losses(
         )
     if denominator != "chunk" and (reference_mass <= 0 or not np.isfinite(reference_mass)):
         raise ValueError("fixed/shuffled normalization requires a finite positive reference mass")
+    if credit_scales is not None and (
+        len(credit_scales) != width // micro_rows - 1
+        or any(not np.isfinite(scale) or scale < 0 for scale in credit_scales)
+    ):
+        raise ValueError(
+            "random credit needs one finite nonnegative scale per internal microchunk edge"
+        )
     if denominator == "shuffled" and donor_mass is None:
         raise ValueError("shuffled normalization requires a bound donor mass")
     clipped = labels[:, rows].float().clamp(-2, 2)
@@ -209,9 +219,17 @@ def distilled_macro_losses(
                 loss + config.next_event * ((mse + bce) * next_weights[:, window]).sum() / next_mass
             )
         partial = loss if partial is None else partial + loss
-        if (
-            start + micro_rows - rows.start - detach_offset_rows
-        ) % detach_rows == 0 or start + micro_rows == rows.stop:
+        if credit_scales is not None:
+            edge = (start + micro_rows - rows.start) // micro_rows - 1
+            factor = 0.0 if edge == len(credit_scales) else credit_scales[edge]
+            cut = factor == 0
+            if not cut:
+                state = scale_hidden_credit(state, factor)
+        else:
+            cut = (
+                start + micro_rows - rows.start - detach_offset_rows
+            ) % detach_rows == 0 or start + micro_rows == rows.stop
+        if cut:
             state = detach_hidden(state)
             yield partial, state, ema_state
             partial = None
