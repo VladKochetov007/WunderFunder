@@ -81,11 +81,11 @@
     "TPU real-data JAXpreflight afterhardware/frameworkproof",
     "E425 freshfullfit queuedafterE426 aftercontrollerreview",
     "E449 privatev3live;widthfold1scores afterfits",
-    "E426 threefullclockfits running",
+    "E426 all3fullfits complete; fixed FP32 exports and paired scores pending",
     "E462 quietoneCPUtiming beforemanualready",
     "E450/E462 quietCPUtiming queuedafterE426",
     "E464 eightfixedheadfits queue-source preparing afterpassedCPUpreflight",
-    "E465 all8TPUsciencedistributedchecks v3 zero-massfixture preparing"
+    "E465 full8TPUworker draft under source review after4CPUsharding checks and exact scheduler reference"
   ],
   "experiments_started": [
     "E-407",
@@ -115,7 +115,7 @@
     "oom_failed_jobs": 1
   },
   "first_wave_review": "FIRST_WAVE_REVIEW.md",
-  "as_of_utc": "2026-10-04T18:59:10.827908+00:00",
+  "as_of_utc": "2026-10-04T19:24:08.971434+00:00",
   "scientific_results": {
     "E409_W384_one_head_median_kcycles": 401.617,
     "E410": {
@@ -432,13 +432,63 @@
       "rows": 400000,
       "sequences": 20,
       "reset_causal_v2_v3_bitwise": true
+    },
+    "E426_fits": {
+      "constant": {
+        "elapsed_seconds": 2546.4498676329968,
+        "peak_ram_bytes": 20419321856,
+        "peak_observed_vram_bytes": 4488953856,
+        "exit_code": 0,
+        "teardown_verified": true,
+        "optimizer_counts": {
+          "optimizer_attempts": 29840,
+          "amp_skipped_updates": 12,
+          "optimizer_completed_updates": 29828,
+          "ema_updates": 29840,
+          "completed_batches": 1492
+        },
+        "worker": "research/campaign_2026-10-04/runner/attempts/e426-f0-constant-s3-4ep-v2.json",
+        "score_measured": false
+      },
+      "aligned": {
+        "elapsed_seconds": 2686.032053490999,
+        "peak_ram_bytes": 25754972160,
+        "peak_observed_vram_bytes": 4488953856,
+        "exit_code": 0,
+        "teardown_verified": true,
+        "optimizer_counts": {
+          "optimizer_attempts": 29840,
+          "amp_skipped_updates": 12,
+          "optimizer_completed_updates": 29828,
+          "ema_updates": 29840,
+          "completed_batches": 1492
+        },
+        "worker": "research/campaign_2026-10-04/runner/attempts/e426-f0-aligned-s3-4ep-v2.json",
+        "score_measured": false
+      },
+      "shuffled": {
+        "elapsed_seconds": 2574.0509552680014,
+        "peak_ram_bytes": 18489196544,
+        "peak_observed_vram_bytes": 4488953856,
+        "exit_code": 0,
+        "teardown_verified": true,
+        "optimizer_counts": {
+          "optimizer_attempts": 29840,
+          "amp_skipped_updates": 12,
+          "optimizer_completed_updates": 29828,
+          "ema_updates": 29840,
+          "completed_batches": 1492
+        },
+        "worker": "research/campaign_2026-10-04/runner/attempts/e426-f0-shuffled-s3-4ep-v2.json",
+        "score_measured": false
+      }
     }
   },
   "active_local": {
-    "E426": "2/3fullfits complete; shuffled running",
-    "E425": "durably queued afterE426+boundedtiming window; no scientificfitstarted",
-    "E450_E462_timing": "wnn-timing-window-v1.service activating/waitingexactE426",
-    "E464": "All8fixedheadfit specs sealed; exactservice waitingafterE425; no scientificfitstarted",
+    "E426": "All3fullfits completed exit0/teardown; exports and scores pending",
+    "E425": "timing-v1 dependency canceled before launch; recovery pending",
+    "E450_E462_timing": "v1 failed quiet-load gate, no valid runtime/OOM; new identity recovery under review",
+    "E464": "waiting for E425; no scientific fit started",
     "E427": "8CPU tests+242.22million input-onlyfitrows complete; GPUproduction smoke pending"
   },
   "remaining_head_predictions": [],
@@ -447,7 +497,7 @@
     "E463_CPU": "v3COMPLETE realdata1FP32+1BF16step",
     "E463_TPU": "private one-device realdata preflightQUEUED; no update/HBM observed",
     "E465_CPU": "v3 all4sharding tests passed; all7461schedulerindices matchTorch exactly; fullTPUworker implementationpreparing",
-    "W384_IO_CPU": "PrivateCPU diagnosticv2.1 RUNNING18:55:41Z; noGPUallocation/fit"
+    "W384_IO_CPU": "v2 providerCOMPLETE/workerFAILED logger beforeI/O; corrected exact v3RUNNING19:20:41Z"
   },
   "subagent_policy": "Luna only, maximum6; currently3 scoped source/critic/accelerator roles; rootadmitsjobs.",
   "kaggle_quota": {

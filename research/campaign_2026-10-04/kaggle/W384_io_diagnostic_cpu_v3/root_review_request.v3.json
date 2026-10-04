@@ -1,0 +1,280 @@
+{
+  "packet_id": "W384 read-only CPU integrity-I/O diagnostic v3",
+  "review_status": "pending_root_review_no_provider_mutation",
+  "kernel_id": "vladkochetov07/wnn-w384-io-diagnostic-cpu-20261004-v3-runner",
+  "reason_for_fresh_identity": "v2 provider kernel completed at provider level, but worker summary failed immediately with TypeError before any input hash or child launch; no diagnostic measurement was produced.",
+  "v2_failure_class": "instrumentation_format_bug_only_no_io_measurement",
+  "provider_vs_worker_status": "provider COMPLETE; worker summary FAILED before measurements. Preserve as distinct states.",
+  "logger_fix": "event first positional parameter is log_path; the data field path remains available in **fields. The prepared v3 kernel already contains this signature; this packet adds an executed stdlib regression fixture for event(tmp_log, \"test\", path=\"input\", phase_detail=\"hash\").",
+  "validation_counts": {
+    "static_checks": 28,
+    "stdlib_fixtures": 5,
+    "event_call_ast_count": 19,
+    "all_pass": true
+  },
+  "files": {
+    "kernel_push/kernel.py": "6d4faa5671bd644a3267041ce3af439c8da2c464a118ebdd708dcd99d43a89b4",
+    "kernel_push/kernel-metadata.json": "d109e721b117f4b3cae7d3a35cc6f6c9a9fb1ece7f50b26ae29416b4102fa55a",
+    "plan.v3.json": "48054c834988637d8117c9cf1f0ddc024a8bfa892b2330ff8c0f60d968d053d1",
+    "validate_packet.py": "9ce91fe1de2e2b1a169d251012524fe19eb7a4ee400c126d472bc0d345fed6ac",
+    "validation.v3.json": "41bbc5f49cac75a7ab3eff3c62d054171df6369f98d08657e4c25c36b5278fc3",
+    "pre_root_review_v3/kernel.py": "6d4faa5671bd644a3267041ce3af439c8da2c464a118ebdd708dcd99d43a89b4"
+  },
+  "event_keyword_ast": {
+    "valid": true,
+    "reserved_parameters": [
+      "log_path",
+      "phase"
+    ],
+    "event_call_count": 19,
+    "calls": [
+      {
+        "line": 251,
+        "explicit_keywords": [
+          "worker",
+          "cpu_affinity",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 253,
+        "explicit_keywords": [
+          "worker",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 257,
+        "explicit_keywords": [
+          "worker",
+          "elapsed_seconds",
+          "rss_bytes",
+          "torch_version",
+          "cuda_initialized",
+          "cuda_available",
+          "cuda_visible_devices"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 279,
+        "explicit_keywords": [
+          "worker",
+          "split",
+          "registry",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 282,
+        "explicit_keywords": [
+          "worker",
+          "elapsed_seconds",
+          "user_cpu_seconds",
+          "system_cpu_seconds",
+          "fold",
+          "train_groups",
+          "valid_groups",
+          "evaluation_groups",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 328,
+        "explicit_keywords": [
+          "cpu_affinity",
+          "memory_total_bytes",
+          "cgroup_memory_max",
+          "gpu_hidden",
+          "tpu_enabled",
+          "internet_enabled",
+          "dataset_version_markers"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 437,
+        "explicit_keywords": [
+          "status",
+          "elapsed_seconds",
+          "stop_reason"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 179,
+        "explicit_keywords": [
+          "target",
+          "candidate",
+          "outcome"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 219,
+        "explicit_keywords": [
+          "children"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 268,
+        "explicit_keywords": [
+          "worker",
+          "path",
+          "stat_before",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 271,
+        "explicit_keywords": [
+          "worker",
+          "path",
+          "bytes_read",
+          "sha256",
+          "expected_sha256",
+          "elapsed_seconds",
+          "throughput_bytes_per_second",
+          "verified",
+          "stat_after",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 338,
+        "explicit_keywords": [
+          "path",
+          "size_bytes",
+          "sha256",
+          "elapsed_seconds",
+          "expected_sha256",
+          "verified",
+          "stat"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 339,
+        "explicit_keywords": [
+          "path",
+          "size_bytes",
+          "sha256",
+          "elapsed_seconds",
+          "expected_sha256",
+          "verified",
+          "stat"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 299,
+        "explicit_keywords": [
+          "worker",
+          "error_type",
+          "error",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 369,
+        "explicit_keywords": [
+          "active",
+          "aggregate_rss_bytes",
+          "peak_rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 231,
+        "explicit_keywords": [
+          "spec",
+          "category",
+          "relative_path",
+          "expected_bytes",
+          "stat_before"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 238,
+        "explicit_keywords": [],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 233,
+        "explicit_keywords": [
+          "spec",
+          "relative_path",
+          "bytes_read",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 269,
+        "explicit_keywords": [
+          "worker",
+          "path",
+          "bytes_read",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      }
+    ]
+  },
+  "input_bundle": {
+    "archive_sha256": "cfaed9a32399348d5bb1a13b817cd219c69b0f72adb03de7496735a173094a05",
+    "manifest_sha256": "890fe16b96e65852fca1ea418f5bf125694b253630ee41227d5d9d2e6ad1abcf",
+    "provider_inputs": [
+      "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v3",
+      "vladkochetov07/wnn-c20261004-fold1-assets",
+      "vladkochetov07/wunder-funder"
+    ]
+  },
+  "diagnostic_limits": {
+    "accelerators": {
+      "gpu": false,
+      "tpu": false
+    },
+    "internet": false,
+    "cpu_affinity_total": 2,
+    "portable_check_processes": 2,
+    "cpu_affinity_per_portable_process": 1,
+    "aggregate_rss_cap_bytes": 4294967296,
+    "worker_wall_limit_seconds": 3500,
+    "kernel_timeout_seconds": 3600,
+    "read_only_inputs": true
+  },
+  "preserved_v2_failure_artifacts": "research/campaign_2026-10-04/kaggle/W384_io_diagnostic_cpu_v2/provider_output/",
+  "provider_mutation": "none; source-only review candidate; no upload or push",
+  "scientific_result": false,
+  "diagnostic_metric": null,
+  "note": "Any future same-runtime receipt/caching concept remains a proposal only; this v3 diagnostic still performs all required full content reads and does not bypass frozen verification."
+}

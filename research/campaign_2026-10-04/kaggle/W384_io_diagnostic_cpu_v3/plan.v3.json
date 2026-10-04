@@ -1,0 +1,41 @@
+{
+  "attempt": "W384 read-only CPU integrity-I/O diagnostic v3",
+  "kernel_id": "vladkochetov07/wnn-w384-io-diagnostic-cpu-20261004-v3-runner",
+  "provider_inputs": [
+    "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v3",
+    "vladkochetov07/wnn-c20261004-fold1-assets",
+    "vladkochetov07/wunder-funder"
+  ],
+  "resource_limits": {
+    "accelerators": {
+      "gpu": false,
+      "tpu": false
+    },
+    "internet": false,
+    "cpu_affinity_total": 2,
+    "portable_check_processes": 2,
+    "cpu_affinity_per_portable_process": 1,
+    "aggregate_rss_cap_bytes": 4294967296,
+    "worker_wall_limit_seconds": 3500,
+    "kernel_timeout_seconds": 3600,
+    "read_only_inputs": true
+  },
+  "profile_phases": [
+    "Verify and safely extract the exact frozen W384-v3 private bundle from its archive hash and bundle-manifest hash.",
+    "Create only exact controller-authorized symlinks to existing mounted input files; record target paths, stat/inode/size/timestamps, statvfs free space and read-only flag.",
+    "In two isolated CPU-only child processes, time raw PyTorch import with CUDA hidden, then run unchanged load_campaign_split/verify_portable_source against the frozen split and portable registry. Instrument hash reads at the function boundary without modifying shared source files; report per-file bytes, SHA, elapsed time, throughput, RSS, CPU time and before/after stat identity.",
+    "Run the exact frozen kaggle_common.verify_files full SHA-256 check for every code and input descriptor of both W256 and W384 probe specs, with per-file timing/progress and the original 8 MiB read block size. The profiler does not skip duplicates or trust a manifest claim in lieu of a full read.",
+    "Assess a receipt only as a non-operative candidate: require actual full-read hashes, exact resolved paths and stable stat identity, read-only mounts, and an independently observable dataset version. If version identity is unavailable, eligibility remains false. The shared live source verification is never bypassed.",
+    "Report free local-disk capacity and required headroom for copy-plus-full-hash as a capacity-only alternative; do not copy or modify mounted datasets."
+  ],
+  "diagnostic_order_note": "Portable-check boundaries run before the controller-hash pass so both can be profiled within the hard wall limit; this is a profiling order, not a reproduction of production scheduling order. All measured verification functions still perform full content reads.",
+  "estimated_full_read_bytes": {
+    "controller_specs_total_bytes_two_specs": 84386156018,
+    "portable_manifest_source_bytes_per_worker": 37103450341,
+    "portable_manifest_source_bytes_two_workers": 74206900682,
+    "approximate_total_content_reads_bytes": 158593056700
+  },
+  "stop_behavior": "Flush per-file events; stop subprocess trees at 4 GiB aggregate RSS or 3500 seconds; preserve partial hashes and explicit incomplete status. No training, evaluation, scoring, GPU/TPU access, or competition upload.",
+  "lifecycle_cleanup": "In main finally, terminate live child process groups (SIGTERM, 5-second grace, then SIGKILL), reap them, and only then remove diagnostic-created symlinks whose targets still match their recorded mounted inputs. Preserve hash/stat events; never unlink or modify mounted inputs.",
+  "source_revision_note": "Fresh identity after v2 instrumentation-only TypeError before any input hash or child process; v2 output preserved as failure evidence."
+}

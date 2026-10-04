@@ -1,0 +1,286 @@
+{
+  "status": "static_and_stdlib_fixtures_valid_pending_root_review",
+  "scope": "stdlib-only AST/source/metadata/plan checks and extracted-function fixtures; no data read, JAX/Torch import, or local ML operation",
+  "static_check_count": 28,
+  "stdlib_fixture_count": 5,
+  "checks": {
+    "kernel_private": true,
+    "gpu_disabled": true,
+    "tpu_disabled": true,
+    "internet_disabled": true,
+    "kernel_id_title_match": true,
+    "dataset_inputs_exact": true,
+    "kernel_slug_matches": true,
+    "logger_first_parameter_is_log_path": true,
+    "event_keyword_ast_no_reserved_collisions": true,
+    "bundle_archive_pin_matches": true,
+    "bundle_manifest_pin_matches": true,
+    "hash_block_size_matches_controller": true,
+    "portable_hash_block_size_matches_source": true,
+    "calls_frozen_portable_loader": true,
+    "two_worker_cpu_affinity": true,
+    "rss_cap_4gib": true,
+    "whole_wall_cap_3600": true,
+    "worker_cap_3500": true,
+    "receipt_never_short_circuits": true,
+    "torch_only_import": true,
+    "no_training_entrypoint_invoked": true,
+    "reports_no_copy": true,
+    "no_copy_api_calls": true,
+    "child_argv_shape_validated": true,
+    "created_mount_links_tracked": true,
+    "mount_links_cleaned_in_finally": true,
+    "cleanup_checks_exact_symlink_target": true,
+    "parent_finally_terminates_before_mount_cleanup": true
+  },
+  "stdlib_fixtures": {
+    "event_logger_accepts_path_payload_and_writes_valid_jsonl": true,
+    "child_valid_argv_dispatches_without_importing_worker": true,
+    "child_malformed_argv_fails_inside_handler": true,
+    "cleanup_removes_owned_mount_link_only": true,
+    "child_guard_sends_term_then_kill_and_reaps": true
+  },
+  "event_keyword_ast": {
+    "valid": true,
+    "reserved_parameters": [
+      "log_path",
+      "phase"
+    ],
+    "event_call_count": 19,
+    "calls": [
+      {
+        "line": 251,
+        "explicit_keywords": [
+          "worker",
+          "cpu_affinity",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 253,
+        "explicit_keywords": [
+          "worker",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 257,
+        "explicit_keywords": [
+          "worker",
+          "elapsed_seconds",
+          "rss_bytes",
+          "torch_version",
+          "cuda_initialized",
+          "cuda_available",
+          "cuda_visible_devices"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 279,
+        "explicit_keywords": [
+          "worker",
+          "split",
+          "registry",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 282,
+        "explicit_keywords": [
+          "worker",
+          "elapsed_seconds",
+          "user_cpu_seconds",
+          "system_cpu_seconds",
+          "fold",
+          "train_groups",
+          "valid_groups",
+          "evaluation_groups",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 328,
+        "explicit_keywords": [
+          "cpu_affinity",
+          "memory_total_bytes",
+          "cgroup_memory_max",
+          "gpu_hidden",
+          "tpu_enabled",
+          "internet_enabled",
+          "dataset_version_markers"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 437,
+        "explicit_keywords": [
+          "status",
+          "elapsed_seconds",
+          "stop_reason"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 179,
+        "explicit_keywords": [
+          "target",
+          "candidate",
+          "outcome"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 219,
+        "explicit_keywords": [
+          "children"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 268,
+        "explicit_keywords": [
+          "worker",
+          "path",
+          "stat_before",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 271,
+        "explicit_keywords": [
+          "worker",
+          "path",
+          "bytes_read",
+          "sha256",
+          "expected_sha256",
+          "elapsed_seconds",
+          "throughput_bytes_per_second",
+          "verified",
+          "stat_after",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 338,
+        "explicit_keywords": [
+          "path",
+          "size_bytes",
+          "sha256",
+          "elapsed_seconds",
+          "expected_sha256",
+          "verified",
+          "stat"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 339,
+        "explicit_keywords": [
+          "path",
+          "size_bytes",
+          "sha256",
+          "elapsed_seconds",
+          "expected_sha256",
+          "verified",
+          "stat"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 299,
+        "explicit_keywords": [
+          "worker",
+          "error_type",
+          "error",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 369,
+        "explicit_keywords": [
+          "active",
+          "aggregate_rss_bytes",
+          "peak_rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 231,
+        "explicit_keywords": [
+          "spec",
+          "category",
+          "relative_path",
+          "expected_bytes",
+          "stat_before"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 238,
+        "explicit_keywords": [],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 233,
+        "explicit_keywords": [
+          "spec",
+          "relative_path",
+          "bytes_read",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      },
+      {
+        "line": 269,
+        "explicit_keywords": [
+          "worker",
+          "path",
+          "bytes_read",
+          "rss_bytes"
+        ],
+        "reserved_collisions": [],
+        "extra_positional_arguments": false
+      }
+    ]
+  },
+  "kernel_id": "vladkochetov07/wnn-w384-io-diagnostic-cpu-20261004-v3-runner",
+  "metadata_sha256": "d109e721b117f4b3cae7d3a35cc6f6c9a9fb1ece7f50b26ae29416b4102fa55a",
+  "kernel_sha256": "6d4faa5671bd644a3267041ce3af439c8da2c464a118ebdd708dcd99d43a89b4",
+  "plan_sha256": "48054c834988637d8117c9cf1f0ddc024a8bfa892b2330ff8c0f60d968d053d1",
+  "expected_bundle_manifest_sha256": "890fe16b96e65852fca1ea418f5bf125694b253630ee41227d5d9d2e6ad1abcf",
+  "expected_bundle_archive_sha256": "cfaed9a32399348d5bb1a13b817cd219c69b0f72adb03de7496735a173094a05",
+  "dataset_sources": [
+    "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v3",
+    "vladkochetov07/wnn-c20261004-fold1-assets",
+    "vladkochetov07/wunder-funder"
+  ],
+  "provider_mutation": "none; source-only review candidate",
+  "training_or_score": false,
+  "scientific_result": false
+}

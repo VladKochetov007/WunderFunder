@@ -93,9 +93,31 @@
     "--save-training-state",
     "--no-eval-during-fit"
   ],
+  "artifacts": [
+    {
+      "path": "artifacts/runs/e426_f0_shuffled_s3_4ep_v2/model_ep3.pt",
+      "sha256": "29ba87c4f895af4514bebc0da264c1c8b95d178b5b636efe4161893d46cc03ea",
+      "size": 4178399
+    },
+    {
+      "path": "artifacts/runs/e426_f0_shuffled_s3_4ep_v2/provenance.json",
+      "sha256": "e53f887e486fb671dc7ace747413600bffcf8419d6d3489836f73d0eb6b08a5f",
+      "size": 731503
+    },
+    {
+      "path": "artifacts/runs/e426_f0_shuffled_s3_4ep_v2/history.json",
+      "sha256": "1324ed77a08def6aa430e7413129c208362d00701b8c95ad5e86bae7086eb432",
+      "size": 6630
+    },
+    {
+      "path": "artifacts/runs/e426_f0_shuffled_s3_4ep_v2/training_state.pt",
+      "sha256": "7d615ef2b2fbd53e53f142cefa8ddf2d4b7fcab678d0f807dff8b13b4584c880",
+      "size": 16531141
+    }
+  ],
   "block_id": "local001",
-  "charged_seconds": 0.0,
-  "elapsed_seconds": 1384.5563599269954,
+  "charged_seconds": 2574.0509552680014,
+  "elapsed_seconds": 2574.0509552680014,
   "environment": {
     "ARROW_NUM_THREADS": "1",
     "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
@@ -117,7 +139,30 @@
     "WNN_PORTABLE_DATA_MANIFEST": "research/campaign_2026-10-04/portable_inputs.json",
     "WNN_THREADS": "8"
   },
-  "heartbeat_unix": 1791140394.041594,
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 1139615,
+    "low": 0,
+    "max": 5632724,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791141539.6754618,
+  "heartbeat_unix": 1791141539.1463656,
   "id": "e426-f0-shuffled-s3-4ep-v2",
   "initial_memory_events": {
     "high": 0,
@@ -156,7 +201,7 @@
     "MemorySwapMax": "0"
   },
   "peak_observed_vram_bytes": 4488953856,
-  "peak_ram_bytes": 16010104832,
+  "peak_ram_bytes": 18489196544,
   "reserved_seconds": 12930,
   "reserved_unix": 1791138965.492532,
   "runtime_sha256": {
@@ -166,6 +211,7 @@
     "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
     "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
   },
+  "signals": [],
   "spec": {
     "argv": [
       "{python}",
@@ -677,7 +723,8 @@
   },
   "spec_sha256": "1dc9bb7e21ab5c184f19fe18d1da008d4a0ace24de47862705f3a2fa80fd9b84",
   "started_unix": 1791139009.4586403,
-  "status": "running",
+  "status": "finished",
+  "teardown_verified": true,
   "timeout_seconds": 12000,
   "unit": "wnn-c04-e426-f0-shuffled-s3-4ep-v2.service",
   "unit_properties": {

@@ -1,0 +1,37 @@
+{
+  "utc": "2026-10-04T19:18:09.456505+00:00",
+  "status": "root_review_passed_private_cpu_v3_authorized",
+  "kernel_id": "vladkochetov07/wnn-w384-io-diagnostic-cpu-20261004-v3-runner",
+  "files": {
+    "kernel_push/kernel.py": "6d4faa5671bd644a3267041ce3af439c8da2c464a118ebdd708dcd99d43a89b4",
+    "kernel_push/kernel-metadata.json": "d109e721b117f4b3cae7d3a35cc6f6c9a9fb1ece7f50b26ae29416b4102fa55a",
+    "plan.v3.json": "48054c834988637d8117c9cf1f0ddc024a8bfa892b2330ff8c0f60d968d053d1",
+    "validate_packet.py": "9ce91fe1de2e2b1a169d251012524fe19eb7a4ee400c126d472bc0d345fed6ac",
+    "validation.v3.json": "41bbc5f49cac75a7ab3eff3c62d054171df6369f98d08657e4c25c36b5278fc3",
+    "pre_root_review_v3/kernel.py": "6d4faa5671bd644a3267041ce3af439c8da2c464a118ebdd708dcd99d43a89b4"
+  },
+  "root_executed_stdlib_fixtures": {
+    "event_logger_accepts_path_payload_and_writes_valid_jsonl": true,
+    "child_valid_argv_dispatches_without_importing_worker": true,
+    "child_malformed_argv_fails_inside_handler": true,
+    "cleanup_removes_owned_mount_link_only": true,
+    "child_guard_sends_term_then_kill_and_reaps": true
+  },
+  "event_call_count": 19,
+  "limits": {
+    "accelerators": {
+      "gpu": false,
+      "tpu": false
+    },
+    "internet": false,
+    "cpu_affinity_total": 2,
+    "portable_check_processes": 2,
+    "cpu_affinity_per_portable_process": 1,
+    "aggregate_rss_cap_bytes": 4294967296,
+    "worker_wall_limit_seconds": 3500,
+    "kernel_timeout_seconds": 3600,
+    "read_only_inputs": true
+  },
+  "authorization": "Push this exact private CPU-only packet after verifying the three existing private dataset inputs; no GPU/TPU or data reupload.",
+  "scientific_result": false
+}
