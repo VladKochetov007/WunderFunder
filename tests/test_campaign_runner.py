@@ -159,6 +159,54 @@ def test_only_two_cpu_slots(workspace: tuple[Path, Path]) -> None:
     assert campaign.budget(state, "block1")["remaining_seconds"] == 86400
 
 
+def test_one_six_gib_helper_keeps_gpu_notebook_and_support_reserves(
+    workspace: tuple[Path, Path],
+) -> None:
+    root, state = workspace
+    reserve(root, state, "gpu")
+    large = specification(root, "cpu")
+    large["limits"]["ram_bytes"] = 6 * 1024**3
+    campaign_spec.validate_local(large)
+    with campaign.locked(state):
+        campaign.reserve_attempt(state, root, large, "large")
+        with pytest.raises(campaign.AdmissionBusy, match="larger-memory"):
+            campaign.reserve_attempt(state, root, large, "secondlarge")
+    assert not (state / "attempts/secondlarge.json").exists()
+    record = reserve(root, state, "small", "cpu")
+    allocation = record["admission_resources"]
+    assert allocation["worker_ram_bytes"] == 32 * 1024**3
+    assert allocation["worker_cpus"] == 10
+    assert allocation["worker_ram_bytes"] + allocation["support_ram_bytes"] == campaign_spec.RAM_MAX
+    assert allocation["worker_cpus"] + allocation["support_cpus"] == campaign_spec.CPU_MAX
+    assert not (state / "PAUSE.json").exists()
+
+
+def test_large_cpu_slot_released_only_after_attempt_ends(workspace: tuple[Path, Path]) -> None:
+    root, state = workspace
+    large = specification(root, "cpu")
+    large["limits"]["ram_bytes"] = 6 * 1024**3
+    with campaign.locked(state):
+        previous = campaign.reserve_attempt(state, root, large, "first")
+        previous["status"] = "failed"
+        campaign.atomic_json(state / "attempts/first.json", previous)
+        campaign.reserve_attempt(state, root, large, "second")
+    assert campaign.budget(state, "block1")["remaining_seconds"] == 86400
+
+
+@pytest.mark.parametrize("limits", [{"ram_bytes": 6 * 1024**3 + 1}, {"cpus": 2}])
+def test_cpu_helper_rejects_larger_envelopes(
+    workspace: tuple[Path, Path], limits: dict[str, int]
+) -> None:
+    root, state = workspace
+    spec = specification(root, "cpu")
+    spec["limits"].update(limits)
+    with pytest.raises(ValueError):
+        campaign_spec.validate_local(spec)
+    with campaign.locked(state), pytest.raises(ValueError):
+        campaign.reserve_attempt(state, root, spec, "rejected")
+    assert not (state / "attempts/rejected.json").exists()
+
+
 def test_block_renewal_retains_history(workspace: tuple[Path, Path]) -> None:
     root, state = workspace
     record = reserve(root, state)

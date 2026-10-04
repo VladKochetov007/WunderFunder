@@ -9,7 +9,14 @@ The controller must keep **all** local research, transfers, marimo server/kernel
 and build processes under `wnn-campaign.slice`: CPU quota <=1200%, RAM <=36 GiB,
 swap zero. The adapter checks these effective properties at admission and during
 execution. It admits one GPU service (<=8 CPU/24 GiB) and two CPU services
-(each <=1 CPU/2 GiB). Reserve a further 1 CPU/2 GiB for marimo. Docker-daemon jobs
+(each <=1 CPU). At most one CPU service may request more than 2 GiB, up to
+6 GiB; the other remains bounded at 2 GiB. Admission records and checks the
+aggregate reservations: at most 10 CPU/32 GiB for workers, plus 1 CPU/2 GiB
+for marimo and a further 1 CPU/2 GiB for transfers, builds or other support.
+The shared parent remains authoritative across all those processes. A second
+larger-memory CPU helper waits through normal admission backpressure; it does
+not pause the campaign or launch under a smaller, unsuitable memory limit.
+Docker-daemon jobs
 and commands that launch detached scopes are outside this adapter's containment
 contract; arrange their own verified parent cgroup before using them.
 
