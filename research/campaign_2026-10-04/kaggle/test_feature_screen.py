@@ -144,8 +144,11 @@ def test_sealed_cpu_gpu_recipe_and_component_partition(tmp_path: Path) -> None:
     assert {head_partition(component) for component in range(100)} == {0, 1}
 
 
+@pytest.mark.parametrize(
+    "scored_groups", [(True, True, True), (True, False, True), (False, False, False)]
+)
 def test_actual_parquet_cache_uses_dense_lags_and_bound_mask(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, scored_groups: tuple[bool, bool, bool]
 ) -> None:
     from types import SimpleNamespace
 
@@ -160,22 +163,32 @@ def test_actual_parquet_cache_uses_dense_lags_and_bound_mask(
         feature_cache,
         "load_campaign_split",
         lambda path, root: SimpleNamespace(
-            components=(("valid", 0, 0), ("valid", 1, 100)), evaluation_groups=(0,), fold=0
+            components=(("valid", 0, 0), ("valid", 1, 1), ("valid", 2, 2), ("valid", 3, 100)),
+            evaluation_groups=(0, 1, 2),
+            fold=0,
         ),
     )
     raw = np.random.default_rng(41).normal(size=(300, 112)).astype(np.float32)
     columns = {name: raw[:, index] for index, name in enumerate(data.FEATURE_COLUMNS)}
-    columns.update(seq_ix=np.full(300, 7), t0=raw[:, 0], t1=raw[:, 1])
+    columns.update(t0=raw[:, 0], t1=raw[:, 1])
     (tmp_path / "datasets").mkdir()
-    pq.write_table(pa.table(columns), tmp_path / "datasets/valid.parquet")
-    mask = pa.table(
-        {
-            "seq_ix": np.full(300, 7),
-            "step_in_seq": np.arange(300),
-            "is_scored": np.ones(300, dtype=bool),
-        }
+    tables = [pa.table({**columns, "seq_ix": np.full(300, 7 + group)}) for group in range(3)]
+    pq.write_table(
+        pa.concat_tables(tables), tmp_path / "datasets/valid.parquet", row_group_size=300
     )
-    pq.write_table(mask, tmp_path / "datasets/valid_mask.parquet")
+    masks = [
+        pa.table(
+            {
+                "seq_ix": np.full(300, 7 + group),
+                "step_in_seq": np.arange(300),
+                "is_scored": np.full(300, scored, dtype=bool),
+            }
+        )
+        for group, scored in enumerate(scored_groups)
+    ]
+    pq.write_table(
+        pa.concat_tables(masks), tmp_path / "datasets/valid_mask.parquet", row_group_size=300
+    )
     (tmp_path / "split.json").write_text("{}")
     model = RNNModel(211, hidden=4, layers=1)
     checkpoint = {
@@ -189,7 +202,7 @@ def test_actual_parquet_cache_uses_dense_lags_and_bound_mask(
             "checkpoint_policy": "fixed",
             "checkpoint_epoch": 3,
         },
-        "provenance": {"fit_row_groups": {"valid": [1]}},
+        "provenance": {"fit_row_groups": {"valid": [3]}},
     }
     torch.save(checkpoint, tmp_path / "model.pt")
 
@@ -200,17 +213,34 @@ def test_actual_parquet_cache_uses_dense_lags_and_bound_mask(
         "version": 1,
         "role": "fit",
         "source": "valid",
-        "row_groups": [0],
+        "row_groups": [0, 1, 2],
         "checkpoint": binding("model.pt"),
         "ancestors": [],
         "campaign_split": binding("split.json"),
         "mask": binding("datasets/valid_mask.parquet"),
     }
     (tmp_path / "manifest.json").write_text(json.dumps(manifest))
+    if not any(scored_groups):
+        with pytest.raises(ValueError, match="complete prespecified cache"):
+            extract(tmp_path, tmp_path / "manifest.json", tmp_path / "empty.npz", "cpu")
+        report = json.loads((tmp_path / "empty.json").read_text())
+        assert report["status"] == "empty_cache" and report["skipped_row_groups"] == [0, 1, 2]
+        assert not (tmp_path / "empty.npz").exists()
+        return
     extract(tmp_path, tmp_path / "manifest.json", tmp_path / "cache.npz", "cpu")
-    cached, _ = load_cache(tmp_path / "cache.npz")
+    cached, metadata = load_cache(tmp_path / "cache.npz")
     selected = int(selected_rows(7, 300)[0])
-    assert cached["row"].tolist() == [selected]
+    expected_ids = [7 + group for group, scored in enumerate(scored_groups) if scored]
+    assert cached["sequence"].tolist() == expected_ids
+    assert cached["row"].tolist() == [int(selected_rows(seq, 300)[0]) for seq in expected_ids]
+    assert metadata["planned_rows"] == 3 and metadata["rows"] == sum(scored_groups)
+    assert metadata["skipped_row_groups"] == [
+        group for group, scored in enumerate(scored_groups) if not scored
+    ]
+    for group, report in enumerate(metadata["sampling_report"]):
+        planned = selected_rows(7 + group, 300).tolist()
+        assert report["planned_rows"] == planned
+        assert report["unscored_sampled_rows"] == ([] if scored_groups[group] else planned)
     np.testing.assert_array_equal(
         cached["placebo__event_age"][0], causal_cues(raw)["event_age"][selected - 128]
     )
