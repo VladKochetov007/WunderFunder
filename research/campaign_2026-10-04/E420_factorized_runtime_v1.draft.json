@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "name": "e420_factorized_runtime_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "scripts/probe_factorized_runtime.py",
+    "--source",
+    "artifacts/runs/c20261003_w384_s3_f0/model.pt",
+    "--control",
+    "research/campaign_2026-10-04/E420_factorized/zero_update_w384_r128.pt",
+    "--parity",
+    "research/campaign_2026-10-04/E420_factorized/full20k_native_parity.json",
+    "--data",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_subset20.parquet",
+    "--e409-manifest",
+    "research/campaign_2026-10-04/E409_width_runtime/manifest.json",
+    "--library-root",
+    "artifacts/native_e420",
+    "--lib-level",
+    "v3",
+    "--cpu",
+    "15",
+    "--repeats",
+    "5",
+    "--out",
+    "research/campaign_2026-10-04/E420_factorized_runtime_v1"
+  ],
+  "code": [
+    "scripts/probe_factorized_runtime.py",
+    "scripts/engine_fp16_check.py",
+    "src/wnn/features.py",
+    "src/wnn/splits.py",
+    "utils.py",
+    "native/Cargo.toml",
+    "native/Cargo.lock",
+    "native/src/approx.rs",
+    "native/src/factorized.rs",
+    "native/src/half.rs",
+    "native/src/kernels.rs",
+    "native/src/lib.rs",
+    "native/src/python.rs",
+    "native/src/quant8.rs",
+    "native/src/rnn.rs",
+    "native/src/rnn_fast.rs",
+    "native/src/stream.rs"
+  ],
+  "inputs": [
+    "artifacts/runs/c20261003_w384_s3_f0/model.pt",
+    "research/campaign_2026-10-04/E420_factorized/zero_update_w384_r128.pt",
+    "research/campaign_2026-10-04/E420_factorized/full20k_native_parity.json",
+    "research/campaign_2026-10-04/E420_factorized/e420_full20k_native_parity_v2.sealed.json",
+    "research/campaign_2026-10-04/E420_factorized/e420_full20k_native_parity_v3.sealed.json",
+    "research/campaign_2026-10-04/E409_width_runtime/manifest.json",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_subset20.parquet",
+    "artifacts/native_e420/v2/wnn_native/wnn_native.abi3.so",
+    "artifacts/native_e420/v3/wnn_native/wnn_native.abi3.so"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/E420_factorized_runtime_v1/timing_trials.jsonl",
+    "research/campaign_2026-10-04/E420_factorized_runtime_v1/result.json"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "timeout_seconds": 3600
+  }
+}
