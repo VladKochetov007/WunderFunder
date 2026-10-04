@@ -60,6 +60,9 @@ from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_
                               sample_order_identity, scaler_source_identity)
 from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
 from wnn.spread_aux import PackedSpreadCache, structural_loss, validate_spread_cache
+from wnn.training_state import (atomic_save_training_state, capture_training_state,
+                                load_training_state, loader_state, restore_rng,
+                                restore_training_state)
 
 ROOT = Path(__file__).resolve().parents[1]
 SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4
@@ -725,6 +728,50 @@ def validate_campaign_checkpoint(checkpoint: dict, args: argparse.Namespace) -> 
             raise ValueError("source checkpoint lacks matching clean-fold fitting provenance")
 
 
+def resume_contract(args: argparse.Namespace, provenance: dict, loader: DataLoader,
+                    total_steps: int) -> dict:
+    """Bind an epoch continuation to its original data, code and fixed schedule."""
+    excluded = {"name", "resume_state", "save_training_state", "stop_after_epoch", "split_manifest"}
+    options = {key: value for key, value in vars(args).items() if key not in excluded}
+    sources = {}
+    for module_name, module in list(sys.modules.items()):
+        filename = getattr(module, "__file__", None)
+        if module_name.startswith("wnn.") and filename and filename.endswith(".py"):
+            sources[module_name] = file_sha256(Path(filename))
+    sources["trainer"] = file_sha256(Path(__file__))
+    data = {}
+    for split in ("train", "valid"):
+        path = ROOT / "datasets" / f"{split}.parquet"
+        stat = path.stat()
+        data[split] = {"bytes": stat.st_size, "mtime_ns": stat.st_mtime_ns}
+    teachers = {}
+    for teacher in filter(None, args.distill.split(",")):
+        name = teacher.partition("*")[0]
+        for split, groups in provenance["fit_row_groups"].items():
+            if groups:
+                filename = f"pred_{name}_{split}.npy"
+                teachers[filename] = file_sha256(ROOT / "cache" / filename)
+    sampling = loader_state(loader)
+    for key in ("loader_generator", "sampler_generator", "sampler_state", "sampler_epoch"):
+        sampling.pop(key)
+    return {
+        "epochs": args.epochs, "total_steps": total_steps, "options": options,
+        "sources": sources, "datasets": data, "teacher_predictions": teachers,
+        "fit_membership": provenance["fit_membership_identity"],
+        "normalization": provenance["normalization_identity"],
+        "ancestors": {key: provenance.get(key) for key in
+                      ("initial_checkpoint_sha256", "propensity_checkpoint_sha256", "quote_cache", "spread_aux")},
+        "loader": sampling,
+        "runtime": {"torch": str(torch.__version__), "numpy": np.__version__,
+                    "cuda": torch.version.cuda, "cudnn": torch.backends.cudnn.version(),
+                    "threads": torch.get_num_threads(),
+                    "cudnn_benchmark": torch.backends.cudnn.benchmark,
+                    "cudnn_deterministic": torch.backends.cudnn.deterministic,
+                    "matmul_tf32": torch.backends.cuda.matmul.allow_tf32,
+                    "cudnn_tf32": torch.backends.cudnn.allow_tf32},
+    }
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", required=True)
@@ -743,6 +790,10 @@ def main():
     ap.add_argument("--checkpoint-epoch", type=int, default=None, help="zero-based fixed checkpoint epoch")
     ap.add_argument("--no-eval-during-fit", action="store_true", help="never construct or read an evaluation loader")
     ap.add_argument("--split-manifest", type=Path, default=None, help="frozen component-excluded outer-fold manifest")
+    ap.add_argument("--save-training-state", action="store_true",
+                    help="atomically save full training_state.pt at each epoch boundary; fixed final checkpoint only")
+    ap.add_argument("--resume-state", type=Path, default=None,
+                    help="resume full epoch training state with the identical recipe and schedule horizon")
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--wd", type=float, default=1e-2)
     research = ap.add_argument_group("optimizer research (src/wnn/optim.py; defaults reproduce AdamW + OneCycle)")
@@ -902,6 +953,14 @@ def main():
                                      map_location="cpu", weights_only=False)
         inherit_init_arguments(args, init_checkpoint, sys.argv[1:])
     configure_checkpoint_policy(args, ap)
+    continuation = bool(args.save_training_state or args.resume_state)
+    if continuation and (args.checkpoint_policy != "fixed" or args.checkpoint_epoch != args.epochs - 1):
+        ap.error("training-state continuation requires a fixed last-epoch checkpoint")
+    if continuation and (args.profile_steps or args.parity_dump):
+        ap.error("profiling/parity early exits cannot save epoch continuation state")
+    saved_training = load_training_state(args.resume_state) if args.resume_state else None
+    if saved_training is not None and saved_training["next_epoch"] >= args.epochs:
+        ap.error("saved training already reached the fixed schedule horizon")
     campaign_split = load_campaign_split(args.split_manifest, ROOT) if args.split_manifest else None
     if campaign_split is not None:
         if args.valid_fold not in (-1, campaign_split.fold):
@@ -943,10 +1002,6 @@ def main():
 
     torch.manual_seed(args.seed)
     device = torch.device("cuda")
-    if os.environ.get("WNN_VRAM_GB"):
-        # hard allocator cap (the CUDA context itself, ~0.3 GB, is outside it): OOM instead of exceeding the budget
-        total = torch.cuda.get_device_properties(0).total_memory
-        torch.cuda.set_per_process_memory_fraction(min(1.0, float(os.environ["WNN_VRAM_GB"]) * 2**30 / total), 0)
     duty = configure_torch()
     if args.deterministic:
         torch.backends.cudnn.benchmark = False
@@ -1219,8 +1274,10 @@ def main():
         validate_campaign_checkpoint(init, args)
         provenance["initial_checkpoint_sha256"] = file_sha256(init_path)
         model.load_state_dict(init["model"])
-    else:
+    elif saved_training is None:
         fit_normalization(model, train_loader, device)
+    if saved_training is not None:
+        model.load_state_dict(saved_training["model"])
     provenance["normalization_identity"] = normalization_identity(model)
     provenance["update_counter_implementation"] = scaler_source_identity()
     provenance["run_identity_source_sha256"] = file_sha256(ROOT / "src/wnn/run_identity.py")
@@ -1297,7 +1354,35 @@ def main():
     fitting_started = t0
     cumulative_updates = {}
     provenance["update_diagnostics"] = []
-    for epoch in range(args.epochs):
+    training_contract = resume_contract(args, provenance, train_loader, total) if continuation else None
+    start_epoch = 0
+    prior_fit_seconds = 0.0
+    if saved_training is not None:
+        # Revalidate after constructing all objects/lineage; RNG restoration is last.
+        if saved_training["contract"] != training_contract:
+            ap.error("resume contract differs: recipe, schedule, data, code, lineage or runtime changed")
+        restore_training_state(saved_training, model=model, optimizer=opt, scheduler=sched,
+                               scaler=scaler, loader=train_loader, ema=ema_model, swa=swa_model)
+        progress = saved_training["progress"]
+        start_epoch, step_count = saved_training["next_epoch"], progress["step_count"]
+        best, history = progress["best"], progress["history"]
+        cumulative_updates = progress["cumulative_updates"]
+        provenance["update_diagnostics"] = progress["update_diagnostics"]
+        provenance["resumed_from"] = {"path": str(args.resume_state),
+                                       "sha256": file_sha256(args.resume_state), "next_epoch": start_epoch}
+        prior_fit_seconds = progress["fitting_seconds"]
+        auxiliary_state = saved_training["auxiliary"]
+        norm_ema = auxiliary_state["norm_ema"]
+        if norm_ema is not None:
+            norm_ema = norm_ema.to(device)
+        if pool_memory is not None:
+            value = auxiliary_state["pool_memory"]
+            pool_memory.memory = None if value is None else value.to(device)
+        if moments is not None:
+            for field, value in auxiliary_state["readout_moments"].items():
+                getattr(moments, field).copy_(value.to(device))
+        restore_rng(saved_training["rng"])
+    for epoch in range(start_epoch, args.epochs):
         if args.stop_after_epoch is not None and epoch > args.stop_after_epoch:
             break  # cheaper screens: the lr schedule still spans --epochs, so earlier checkpoints are unchanged
         model.train()
@@ -1602,8 +1687,22 @@ def main():
             torch.save(checkpoint, out_dir / "model.pt")
             provenance["checkpoint_sha256"]["model.pt"] = file_sha256(out_dir / "model.pt")
             provenance["selected_epoch"] = epoch
-        provenance["fitting_seconds"] = round(time.time() - fitting_started, 1)
+        provenance["fitting_seconds"] = round(prior_fit_seconds + time.time() - fitting_started, 1)
         (out_dir / "provenance.json").write_text(json.dumps(provenance, indent=2) + "\n")
+        if continuation:
+            training_state = capture_training_state(
+                model=model, optimizer=opt, scheduler=sched, scaler=scaler, loader=train_loader,
+                contract=training_contract, next_epoch=epoch + 1, ema=ema_model, swa=swa_model,
+                progress={"step_count": step_count, "best": best, "history": history,
+                          "cumulative_updates": cumulative_updates,
+                          "update_diagnostics": provenance["update_diagnostics"],
+                          "fitting_seconds": provenance["fitting_seconds"]},
+                auxiliary={"norm_ema": norm_ema,
+                           "pool_memory": None if pool_memory is None else pool_memory.memory,
+                           "readout_moments": None if moments is None else
+                           {field: getattr(moments, field) for field in ("m1", "m0", "n")}},
+            )
+            atomic_save_training_state(training_state, out_dir / "training_state.pt")
         t0 = time.time()
     (out_dir / "history.json").write_text(json.dumps(history, indent=1))
     if args.checkpoint_policy == "fixed":
