@@ -169,7 +169,10 @@ def test_worker_lifecycle(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, exit_
     assert environment["CUBLAS_WORKSPACE_CONFIG"] == ":4096:8"
 
 
-def test_bundle_excludes_external_raw_and_binds_kernel(tmp_path: Path) -> None:
+@pytest.mark.parametrize("external_asset", [False, True])
+def test_bundle_excludes_external_raw_and_binds_kernel(
+    tmp_path: Path, external_asset: bool
+) -> None:
     import shutil
     import tarfile
 
@@ -188,12 +191,11 @@ def test_bundle_excludes_external_raw_and_binds_kernel(tmp_path: Path) -> None:
                 "sha256": sha256_file(root / relative),
             }
         )
-    raw = root / "datasets/valid.parquet"
+    logical = "cache/targets.npz" if external_asset else "datasets/valid.parquet"
+    raw = root / logical
     raw.parent.mkdir()
     raw.write_bytes(b"fixture raw data")
-    spec["inputs"] = [
-        {"path": "datasets/valid.parquet", "size": raw.stat().st_size, "sha256": sha256_file(raw)}
-    ]
+    spec["inputs"] = [{"path": logical, "size": raw.stat().st_size, "sha256": sha256_file(raw)}]
     spec["code_sha256"] = canonical_sha256(sorted(spec["code"], key=lambda item: item["path"]))
     spec_path = root / "spec.json"
     spec_path.write_text(json.dumps(spec))
@@ -203,11 +205,35 @@ def test_bundle_excludes_external_raw_and_binds_kernel(tmp_path: Path) -> None:
         [spec_path],
         destination,
         "vladkochetov07/test-bundle",
-        ["datasets/valid.parquet=valid.parquet"],
+        [f"{logical}=vladkochetov07/test-assets:cache.wnn"]
+        if external_asset
+        else ["datasets/valid.parquet=valid.parquet"],
+        ["vladkochetov07/test-assets"] if external_asset else [],
     )
     with tarfile.open(destination / "bundle.wnn") as archive:
-        assert "datasets/valid.parquet" not in archive.getnames()
+        assert logical not in archive.getnames()
         assert "kaggle_specs/fixture.json" in archive.getnames()
     manifest = json.loads((destination / "bundle-manifest.json").read_text())
     assert manifest["archive_sha256"] in (destination / "kernel/kernel.py").read_text()
     assert json.loads((destination / "kernel/kernel-metadata.json").read_text())["is_private"]
+    assert repr(manifest["external_mounts"]) in (destination / "kernel/kernel.py").read_text()
+    if external_asset:
+        with pytest.raises(ValueError, match="explicitly authorized"):
+            bundle.build_bundle(
+                root,
+                [spec_path],
+                tmp_path / "unauthorized",
+                "vladkochetov07/test-bundle",
+                [f"{logical}=other/asset:cache.wnn"],
+            )
+
+
+def test_reusable_assets_are_content_addressed_and_exclude_raw(tmp_path: Path) -> None:
+    assets = importlib.import_module("kaggle_assets")
+    (tmp_path / "cache.npy").write_bytes(b"asset fixture")
+    assets.prepare(tmp_path, ["cache.npy"], tmp_path / "assets", "vladkochetov07/test-assets")
+    manifest = json.loads((tmp_path / "assets/assets-manifest.json").read_text())
+    item = manifest["files"][0]
+    assert sha256_file(tmp_path / "assets" / item["filename"]) == item["sha256"]
+    with pytest.raises(ValueError, match="do not re-upload"):
+        assets.prepare(tmp_path, ["train.parquet"], tmp_path / "raw", "vladkochetov07/test-assets")

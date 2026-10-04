@@ -11,6 +11,7 @@ from pathlib import Path, PurePosixPath
 
 BUNDLE_SLUG = ""
 EXPECTED_ARCHIVE_SHA256 = ""
+EXPECTED_EXTERNAL_MOUNTS = None
 
 
 def main() -> None:
@@ -21,6 +22,8 @@ def main() -> None:
     manifest = json.loads(matches[0].read_text())
     if manifest.get("private") is not True:
         raise ValueError("Bundle is not marked private")
+    if manifest.get("external_mounts") != EXPECTED_EXTERNAL_MOUNTS:
+        raise ValueError("External mappings differ from the controller-bound kernel")
     archive = matches[0].parent / "bundle.wnn"
     digest = hashlib.sha256()
     with archive.open("rb") as source:
@@ -52,13 +55,18 @@ def main() -> None:
                 raise ValueError("Archive member has no file content")
             with source, target.open("wb") as destination:
                 shutil.copyfileobj(source, destination, 8 * 1024**2)
-    for logical, filename in manifest["external_mounts"].items():
+    for logical, mapping in manifest["external_mounts"].items():
         path = PurePosixPath(logical)
         if path.is_absolute() or ".." in path.parts or logical not in allowed:
             raise ValueError("Unsafe external input mapping")
-        candidates = list(Path("/kaggle/input").glob(f"**/wunder-funder/{filename}"))
+        dataset = (
+            mapping["dataset"] if isinstance(mapping, dict) else "vladkochetov07/wunder-funder"
+        )
+        filename = mapping["filename"] if isinstance(mapping, dict) else mapping
+        slug = dataset.split("/")[1]
+        candidates = list(Path("/kaggle/input").glob(f"**/{slug}/{filename}"))
         if len(candidates) != 1:
-            raise ValueError(f"Expected exactly one authorized raw input: {filename}")
+            raise ValueError(f"Expected exactly one authorized input: {dataset}/{filename}")
         target = root / logical
         target.parent.mkdir(parents=True, exist_ok=True)
         target.symlink_to(candidates[0])

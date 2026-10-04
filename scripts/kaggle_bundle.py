@@ -4,6 +4,7 @@ import argparse
 import gzip
 import io
 import json
+import re
 import shutil
 import tarfile
 from pathlib import Path
@@ -12,17 +13,38 @@ from kaggle_common import read_spec, relative_path, sha256_file, verify_files, w
 
 
 def build_bundle(
-    root: Path, specs: list[Path], destination: Path, dataset: str, external: list[str]
+    root: Path,
+    specs: list[Path],
+    destination: Path,
+    dataset: str,
+    external: list[str],
+    asset_datasets: list[str] | None = None,
 ) -> None:
     """Build only explicit dependency closures; never copy credentials or raw datasets."""
-    if not dataset.startswith("vladkochetov07/") or len(dataset.split("/")) != 2:
+    if not re.fullmatch(r"vladkochetov07/[a-z0-9][a-z0-9-]*", dataset):
         raise ValueError("Private bundle owner must match the authorized account")
+    authorized_assets = set(asset_datasets or [])
+    for name in authorized_assets:
+        if not re.fullmatch(r"vladkochetov07/[a-z0-9][a-z0-9-]*", name):
+            raise ValueError("Asset dataset must belong to the authorized account")
+        relative_path(name.split("/")[1])
     external_map = {}
     for entry in external:
         logical, filename = entry.split("=", 1)
-        if filename not in {"train.parquet", "valid.parquet", "valid_mask.parquet"}:
-            raise ValueError("Only the authorized raw dataset can be externally mounted")
-        external_map[relative_path(logical)] = filename
+        if ":" in filename:
+            asset, filename = filename.split(":", 1)
+            if asset not in authorized_assets or not re.fullmatch(
+                r"[A-Za-z0-9][A-Za-z0-9_.-]*", relative_path(filename)
+            ):
+                raise ValueError("External asset must use an explicitly authorized flat filename")
+            mapping = {"dataset": asset, "filename": filename}
+        else:
+            if filename not in {"train.parquet", "valid.parquet", "valid_mask.parquet"}:
+                raise ValueError("Only the authorized raw dataset can be externally mounted")
+            mapping = filename
+        if logical in external_map:
+            raise ValueError("Duplicate external input mapping")
+        external_map[relative_path(logical)] = mapping
     files = {}
     payload_specs = []
     for source in specs:
@@ -97,6 +119,9 @@ def build_bundle(
     bootstrap = bootstrap.replace(
         'EXPECTED_ARCHIVE_SHA256 = ""', f"EXPECTED_ARCHIVE_SHA256 = {manifest['archive_sha256']!r}"
     )
+    bootstrap = bootstrap.replace(
+        "EXPECTED_EXTERNAL_MOUNTS = None", f"EXPECTED_EXTERNAL_MOUNTS = {external_map!r}"
+    )
     (kernel / "kernel.py").write_text(bootstrap)
     write_json(
         kernel / "kernel-metadata.json",
@@ -111,7 +136,13 @@ def build_bundle(
             "enable_tpu": False,
             "enable_internet": False,
             "machine_shape": "NvidiaTeslaT4",
-            "dataset_sources": [dataset] + (["vladkochetov07/wunder-funder"] if external_map else []),
+            "dataset_sources": [dataset]
+            + sorted(
+                {
+                    value["dataset"] if isinstance(value, dict) else "vladkochetov07/wunder-funder"
+                    for value in external_map.values()
+                }
+            ),
             "competition_sources": [],
             "kernel_sources": [],
         },
@@ -126,8 +157,11 @@ def main() -> None:
     parser.add_argument("--destination", type=Path, required=True)
     parser.add_argument("--dataset", required=True)
     parser.add_argument("--external", action="append", default=[])
+    parser.add_argument("--asset-dataset", action="append", default=[])
     args = parser.parse_args()
-    build_bundle(args.root, args.spec, args.destination, args.dataset, args.external)
+    build_bundle(
+        args.root, args.spec, args.destination, args.dataset, args.external, args.asset_dataset
+    )
 
 
 if __name__ == "__main__":
