@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "continuation_running",
+  "status": "paused_by_user_local_experiment_drain_complete",
   "authorization": "User accepted maximum continuation, then explicitly requested implementation and Kaggle TPU/GPU use.",
   "contract": "EXECUTION_CONTRACT.md",
   "baseline_public": 0.6641,
@@ -72,7 +72,10 @@
     "E450 actualseed4nativeparity/reset/causality andfixedwholeVALIDscore",
     "E426 constantfull4epochfit",
     "E464 eightCPUscopetests andeightactualparentpreflights",
-    "E426 threefullfits_FP32_exports_actual_paired_score_complete"
+    "E426 threefullfits_FP32_exports_actual_paired_score_complete",
+    "E425_four_epoch_fit_fixed_FP32_export_and_matched_report",
+    "E465_actual_FP32_JAX_CPU_scalar7460_AdamW_reference_pass",
+    "user_pause_local_drain_and_retrospective"
   ],
   "pending": [
     "E414 predictive normalization fits",
@@ -80,11 +83,9 @@
     "remaining preregistered scientific fits",
     "E427 volume-gated recurrent update implementation and three-arm fit",
     "TPU real-data JAXpreflight afterhardware/frameworkproof",
-    "E425 freshfullfit queuedafterE426 aftercontrollerreview",
     "E449 privatev3live;widthfold1scores afterfits",
     "E462 quietoneCPUtiming beforemanualready",
     "E450/E462 quietCPUtiming queuedafterE426",
-    "E464 eightfixedheadfits queue-source preparing afterpassedCPUpreflight",
     "E465 full8TPUworker draft under source review after4CPUsharding checks and exact scheduler reference"
   ],
   "experiments_started": [
@@ -115,7 +116,7 @@
     "oom_failed_jobs": 1
   },
   "first_wave_review": "FIRST_WAVE_REVIEW.md",
-  "as_of_utc": "2026-10-04T20:26:12.397877+00:00",
+  "as_of_utc": "2026-10-04T20:58:57.863662+00:00",
   "scientific_results": {
     "E409_W384_one_head_median_kcycles": 401.617,
     "E410": {
@@ -692,5 +693,18 @@
     "prepared": 1,
     "note": "E407..427 programs18completed1partial1runningE4251preparedE427; includesEDA/frameworkprograms",
     "queued": 0
-  }
+  },
+  "pause_record": "NO_NEW_RESEARCH_ITERATIONS.json",
+  "pause_drain": {
+    "local_existing_attempt": "e425-soft-s3-final-v2",
+    "current_fit": "completed_fixed_EP3_and_FP32_export_and_paired_report",
+    "E464": "held_no_fits_started",
+    "E427": "unsealed_source_only",
+    "W384": "v4terminalERROR_before_science_v5notlaunched",
+    "TPU": "existingE463handleQUEUED",
+    "E465_FP32_reference": "actual_cpu_scalar7460_update_comparison_pass",
+    "local_new_launch_guard": "runner/PAUSE.json",
+    "TPU_collector": "read-only15minexistingE463handle"
+  },
+  "incumbent_public": 0.6655
 }

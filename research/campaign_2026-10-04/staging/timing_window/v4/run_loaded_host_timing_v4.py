@@ -112,11 +112,15 @@ def require_artifact(record: dict[str, Any], path: Path) -> dict[str, Any]:
 
 
 def require_code_and_package_hashes() -> dict[str, Any]:
-    observed_sources = {
+    pinned_sources = {
         relative: sha256_file(ROOT / relative) for relative in SOURCE_SHA256
     }
-    if observed_sources != SOURCE_SHA256:
-        raise ValueError(f"frozen timing helper source changed: {observed_sources}")
+    if pinned_sources != SOURCE_SHA256:
+        raise ValueError(f"frozen timing helper source changed: {pinned_sources}")
+    observed_sources = {
+        **pinned_sources,
+        Path(__file__).resolve().relative_to(ROOT).as_posix(): sha256_file(Path(__file__).resolve()),
+    }
     observed_zips = {
         "seed3_i16": sha256_file(ROOT / "submissions/c20261004_combo_s3_i16/submission.zip"),
         "seed4_i16": sha256_file(ROOT / "submissions/c20261004_combo_s4_i16/submission.zip"),
@@ -223,7 +227,8 @@ def cpu_busy_fraction(before: list[int] | None, after: list[int] | None) -> floa
     if before is None or after is None or len(before) < 5 or len(after) < 5:
         return None
     delta = [right - left for left, right in zip(before, after, strict=True)]
-    total = sum(delta)
+    # guest/guest_nice are already included in user/nice in /proc/stat.
+    total = sum(delta[:8])
     idle = delta[3] + delta[4]
     if total <= 0:
         return None
@@ -360,6 +365,10 @@ def geometric_mean_ci(values: list[float]) -> dict[str, float]:
     standard_error = statistics.stdev(logged) / math.sqrt(len(logged))
     margin = LOG_T_CRITICAL_DF4 * standard_error
     return {
+        "n": len(values),
+        "values": values,
+        "arithmetic_mean": statistics.mean(values),
+        "median": statistics.median(values),
         "geometric_mean": math.exp(mean),
         "ci95_low": math.exp(mean - margin),
         "ci95_high": math.exp(mean + margin),

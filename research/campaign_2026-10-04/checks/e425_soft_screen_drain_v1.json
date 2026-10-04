@@ -1,0 +1,38 @@
+{
+  "folds": [
+    "holdout"
+  ],
+  "arms": {
+    "SOFT": {
+      "c20261004_h106_soft_s3_final_fp32": 1.0
+    },
+    "H093_LEARNED": {
+      "c20261004_h093_learned_s3_final": 1.0
+    },
+    "H093_UNIVERSAL": {
+      "c20261004_h093_universal_s3_final": 1.0
+    },
+    "H093_GRU": {
+      "c20261004_h093_gru_budget_s3_final": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "SOFT",
+      "H093_LEARNED"
+    ],
+    [
+      "SOFT",
+      "H093_UNIVERSAL"
+    ],
+    [
+      "SOFT",
+      "H093_GRU"
+    ]
+  ],
+  "n_boot": 2000,
+  "export_runs": {
+    "c20261004_h106_soft_s3_final_fp32": "c20261004_h106_soft_s3_final"
+  },
+  "qualification": "Finish existing E425/H106 fixed epoch3 fit: original matched E424 controls only; historically exposed368panel, no fresh trial or model/epoch selection. Parent-level comparisons; no public-score claim."
+}

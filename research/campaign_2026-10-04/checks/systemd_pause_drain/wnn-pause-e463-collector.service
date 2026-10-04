@@ -1,0 +1,14 @@
+[Unit]
+Description=Read-only collector for the existing E463 TPU job under research pause
+[Service]
+Type=oneshot
+WorkingDirectory=/home/vlad/development/wunder/wnn_connectome_starterpack
+ExecStart=/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -B research/campaign_2026-10-04/checks/collect_existing_e463_drain.py
+Slice=wnn-campaign.slice
+CPUQuota=100%
+MemoryMax=512M
+MemorySwapMax=0
+OOMPolicy=kill
+KillMode=control-group
+TimeoutStartSec=400
+Restart=no

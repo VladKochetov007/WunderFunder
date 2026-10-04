@@ -1,0 +1,33 @@
+{
+  "schema": "wnn.e427-screen-design-v1",
+  "metric_id": "global_wp_clip2_v1",
+  "bootstrap_replicates": 2000,
+  "bootstrap_seed": 271828,
+  "primary_panel": "fold0_primary_historically_exposed",
+  "secondary_panel": "stats_excluded_368_historically_exposed",
+  "diagnostic_panel": "fold0_nonfit_94_diagnostic",
+  "arms": ["aligned", "stale", "noop"],
+  "comparisons": ["aligned_minus_stale", "aligned_minus_noop"],
+  "panels": {
+    "fold0_primary_historically_exposed": {
+      "manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "expected_n": 468,
+      "expected_fit_overlap": 374,
+      "expected_not_fit": 94
+    },
+    "stats_excluded_368_historically_exposed": {
+      "membership_source": "research/campaign_2026-10-04/checks/e427_context_stats_s3_v1.json:evaluation_row_groups_excluded",
+      "expected_n": 368,
+      "expected_fit_overlap": 0,
+      "expected_not_fit": 368
+    },
+    "fold0_nonfit_94_diagnostic": {
+      "membership": "fold0 evaluation groups minus exact E427 fit VALID membership",
+      "expected_n": 94,
+      "expected_fit_overlap": 0,
+      "expected_not_fit": 94
+    }
+  },
+  "causal_contrasts": "prospective fixed aligned-minus-stale and aligned-minus-noop paired component-bootstrap contrasts; no weighting, member, arm, or epoch selection",
+  "qualification": "All panels and teacher lineage are historically exposed. The 368 stats-excluded groups were excluded from all three continuation fits and the parent final fit but are not an untouched holdout. The 94-group table is a small, uncertain diagnostic subset, not confirmatory evidence. No independent generalization claim."
+}

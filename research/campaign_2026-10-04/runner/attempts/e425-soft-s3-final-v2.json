@@ -87,9 +87,31 @@
     "--hash-seed",
     "1729"
   ],
+  "artifacts": [
+    {
+      "path": "artifacts/runs/c20261004_h106_soft_s3_final/model_ep3.pt",
+      "sha256": "25848eaa709abaafb0608dfa243bad82987cfacc633cf38facc2c01d1af5fb85",
+      "size": 692420
+    },
+    {
+      "path": "artifacts/runs/c20261004_h106_soft_s3_final/provenance.json",
+      "sha256": "131ab78c585f85939ddb9c23fa5d6b352ccf02e047f61f2d34cb2e9613d75227",
+      "size": 177831
+    },
+    {
+      "path": "artifacts/runs/c20261004_h106_soft_s3_final/history.json",
+      "sha256": "63e4a65cb9b3265defdb0859b8ce88aaf1dd5c9b2f822ff94ebbed09fd45febd",
+      "size": 12773
+    },
+    {
+      "path": "artifacts/runs/c20261004_h106_soft_s3_final/training_state.pt",
+      "sha256": "8ab274d5c7933f968a900cf172350dddf70ea69403d599e49b5d258eb2e49b5f",
+      "size": 2140867
+    }
+  ],
   "block_id": "local001",
-  "charged_seconds": 0.0,
-  "elapsed_seconds": 1145.0604624190019,
+  "charged_seconds": 1876.2345729559893,
+  "elapsed_seconds": 1876.2345729559893,
   "environment": {
     "ARROW_NUM_THREADS": "1",
     "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
@@ -111,7 +133,30 @@
     "WNN_PORTABLE_DATA_MANIFEST": "research/campaign_2026-10-04/portable_inputs.json",
     "WNN_THREADS": "8"
   },
-  "heartbeat_unix": 1791146586.8109531,
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 384970,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 1193809,
+    "low": 0,
+    "max": 6504198,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791147277.8629844,
+  "heartbeat_unix": 1791147277.3487895,
   "id": "e425-soft-s3-final-v2",
   "initial_memory_events": {
     "high": 0,
@@ -160,6 +205,7 @@
     "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
     "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
   },
+  "signals": [],
   "spec": {
     "argv": [
       "{python}",
@@ -700,7 +746,8 @@
   },
   "spec_sha256": "fdcb344c07ecf7014e899a8548ea4caa54e0b47537f69ee66b3efacd5451d8c2",
   "started_unix": 1791145441.7163346,
-  "status": "running",
+  "status": "finished",
+  "teardown_verified": true,
   "timeout_seconds": 5400,
   "unit": "wnn-c04-e425-soft-s3-final-v2.service",
   "unit_properties": {

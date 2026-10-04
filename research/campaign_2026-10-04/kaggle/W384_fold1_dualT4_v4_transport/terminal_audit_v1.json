@@ -1,0 +1,50 @@
+{
+  "analysis": {
+    "cause": "The guard tests external mount logical paths for membership in the archive-only allowed set; valid external mappings are intentionally mounted inputs and are not archive members.",
+    "logical_mounts_absent_from_allowed_archive_files_and_specs": 26,
+    "logical_mounts_checked_against_allowed_archive_files_and_specs": 26,
+    "mount_count": 26
+  },
+  "bundle_manifest_sha256": "392a9ec0006b553a65a683bbe03c8597f5f6656c23c15bf0f514f89aa84bc09d",
+  "failure": {
+    "elapsed_kernel_seconds": 1.703085044,
+    "gpu_memory_observed": false,
+    "gpu_steps": 0,
+    "location": "/kaggle/src/script.py:72 in _kernel_work; called by main at line 302",
+    "message": "Unsafe external input mapping",
+    "oom_observed": false,
+    "phase_runner_started": false,
+    "type": "ValueError"
+  },
+  "kernel": "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v4-runner",
+  "notes": "Do not attribute the 20:28-to-20:41 aggregate quota delta to this failed kernel without an isolated provider charge record. No retry or other provider mutation performed.",
+  "observed_utc": "2026-10-04T20:43:52Z",
+  "output_file_count": 266,
+  "output_retrieval_command": ".venv/bin/kaggle kernels output vladkochetov07/wnn-w384-fold1-dualt4-20261004-v4-runner -p research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v4_transport/provider_output_v1",
+  "output_total_bytes": 1879715,
+  "provider_status": "KernelWorkerStatus.ERROR",
+  "provider_timeout_seconds": 25200,
+  "quota_at_first_status_poll": {
+    "gpu_remaining_seconds": 80143.794,
+    "gpu_reserved_seconds": 0.0,
+    "gpu_total_seconds": 108000.0,
+    "gpu_used_seconds": 27856.206,
+    "observed_utc": "2026-10-04T20:41:27.225979Z",
+    "tpu_remaining_seconds": 71865.377,
+    "tpu_reserved_seconds": 0.0,
+    "tpu_total_seconds": 72000.0,
+    "tpu_used_seconds": 134.623
+  },
+  "raw_kernel_log": {
+    "path": "research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v4_transport/provider_output_v1/wnn-w384-fold1-dualt4-20261004-v4-runner.log",
+    "sha256": "d0e725a33d57069d2d568294494d77e4e4d42b63432161eefb23b3094d81b597",
+    "size_bytes": 1741
+  },
+  "scientific_work": {
+    "fits_started": false,
+    "predictions_or_scores": false,
+    "probes_started": false
+  },
+  "status_first_observed_utc": "2026-10-04T20:41:27.225979Z",
+  "submitted_kernel_sha256": "553647c0088ef662e97d016ba5d98f08c840bc286585ab583f0a9ea3995a747c"
+}

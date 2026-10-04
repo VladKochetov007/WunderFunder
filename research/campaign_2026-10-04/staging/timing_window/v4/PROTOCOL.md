@@ -12,7 +12,7 @@ The worker validates the frozen E450 seed-4 native-parity readiness and attempt,
 
 ## Summary estimands and uncertainty
 
-Report all five paired ratios for each contrast and their geometric mean. Report a two-sided 95% interval from a Student-t interval on the five log ratios (df=4, critical value 2.7764451052); label the small-sample/model-based interval clearly. Show the five raw pairs, medians, means, and pair order. Do not remove outliers or choose a best trial. Also report the five per-candidate 60k wall times and use the same log-t construction for geometric-mean callback rate and absolute projection.
+Report all five paired ratios for each contrast and their geometric mean. Report a two-sided 95% interval from a Student-t interval on the five log ratios (df=4, critical value 2.7764451052); label the small-sample/model-based interval clearly. Show the five raw pairs, medians, means, and pair order. Do not remove outliers or choose a best trial. Also report the five per-candidate 60k wall times and use the same log-t construction for geometric-mean callback rate and absolute projection. These three contrasts are descriptive measurements, not multiplicity-corrected hypothesis tests.
 
 For a scaled comparison, multiply the seed-3 public runtime anchor, 2,267 seconds (37m47s, user-reported for the seed-3 i16 ZIP), by the measured paired geometric-mean runtime ratio and its interval. This ratio estimate assumes relative timing transfers across hardware and load; the public evaluator's hardware and competing work are unknown. It is a projection only, never an official runtime result or readiness claim.
 

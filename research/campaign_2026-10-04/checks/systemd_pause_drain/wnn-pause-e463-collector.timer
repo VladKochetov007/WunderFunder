@@ -1,0 +1,7 @@
+[Unit]
+Description=Poll the already-submitted E463 job every fifteen minutes; never launch research
+[Timer]
+OnActiveSec=1s
+OnUnitInactiveSec=15min
+AccuracySec=1min
+Unit=wnn-pause-e463-collector.service

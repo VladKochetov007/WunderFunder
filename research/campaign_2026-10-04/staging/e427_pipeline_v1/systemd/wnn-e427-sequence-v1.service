@@ -1,0 +1,17 @@
+[Unit]
+Description=Wunder E427 fixed volume-context causal arm pipeline
+After=wnn-e464-sequence-v1.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/vlad/development/wunder/wnn_connectome_starterpack
+ExecStart=/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-04/staging/e427_pipeline_v1/scripts/run_e427_pipeline.py
+Slice=wnn-campaign.slice
+CPUQuota=25%
+MemoryMax=512M
+MemorySwapMax=0
+OOMPolicy=kill
+KillMode=control-group
+TimeoutStartSec=12h
+RuntimeMaxSec=12h
+Restart=no
