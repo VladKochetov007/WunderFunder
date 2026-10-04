@@ -237,3 +237,17 @@ def test_reusable_assets_are_content_addressed_and_exclude_raw(tmp_path: Path) -
     assert sha256_file(tmp_path / "assets" / item["filename"]) == item["sha256"]
     with pytest.raises(ValueError, match="do not re-upload"):
         assets.prepare(tmp_path, ["train.parquet"], tmp_path / "raw", "vladkochetov07/test-assets")
+
+
+def test_external_mount_cleanup_preserves_source_and_outputs(tmp_path: Path) -> None:
+    kernel = importlib.import_module("kaggle_kernel")
+    source = tmp_path / "original"
+    source.write_bytes(b"immutable input")
+    root = tmp_path / "working"
+    root.mkdir()
+    (root / "input").symlink_to(source)
+    (root / "result").write_text("kept")
+    kernel.release_mounts(root, {"input": "authorized"})
+    assert not (root / "input").exists()
+    assert source.read_bytes() == b"immutable input"
+    assert (root / "result").read_text() == "kept"
