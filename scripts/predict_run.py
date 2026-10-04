@@ -47,7 +47,7 @@ def main():
     model = make_model(ck["args"], ck["n_in"], ck["model"]["head.2.weight"].shape[0]).to(device)
     model.load_state_dict(ck["model"])
     if (args.inference_precision == "fp32" or ck["args"].get("precision") == "fp32"
-            or ck.get("quantization") is not None):
+            or ck.get("quantization") is not None or ck.get("factorization") is not None):
         model._inference_fp32 = True
     if ck["args"].get("arch") == "gated":
         model.gate_mode = args.gate_mode
@@ -106,6 +106,7 @@ def main():
         "gate_mode": args.gate_mode,
         "inference_precision": "fp32" if getattr(model, "_inference_fp32", False) else "fp16",
         "quantization_preset": ck.get("quantization", {}).get("preset"),
+        "recurrent_rank": ck.get("factorization", {}).get("rank"),
         "row_groups": groups.tolist(),
     }
     final.with_suffix(".json").write_text(json.dumps(metadata, indent=2) + "\n")
