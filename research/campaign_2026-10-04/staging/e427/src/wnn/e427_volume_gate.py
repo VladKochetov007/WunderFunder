@@ -16,6 +16,9 @@ from torch import nn
 from wnn.nn import RNNModel
 from wnn.research_features import ENDPOINT, research_features_torch
 
+_SHARED_CONTEXT_REF: weakref.ReferenceType[torch.Tensor] | None = None
+_SHARED_CONTEXT_CACHE: tuple[torch.Tensor, torch.Tensor] | None = None
+
 
 class E427VolumeGateModel(RNNModel):
     """Parent RNNModel with aligned/stale/no-op rank-8 z-gate context."""
@@ -62,8 +65,7 @@ class E427VolumeGateModel(RNNModel):
             raise ValueError("E427 fallback mean must be finite")
         self.e427_arm = arm
         self.e427_rank = rank
-        self._context_ref: weakref.ReferenceType[torch.Tensor] | None = None
-        self._context_cache: tuple[torch.Tensor, torch.Tensor] | None = None
+        self.constraint_audit_count = 0
         self.gru.weight_ih_l0.register_hook(self._mask_forbidden_gradients)
         self.project_constraints_()
 
@@ -90,6 +92,12 @@ class E427VolumeGateModel(RNNModel):
             torch.count_nonzero(weight[: self.hidden, self.hidden :]).item() == 0
             and torch.count_nonzero(weight[2 * self.hidden :, self.hidden :]).item() == 0
         )
+
+    def project_and_audit_constraints_(self) -> None:
+        self.project_constraints_()
+        if not self.constraints_hold():
+            raise RuntimeError("E427 reset/candidate extra-input columns escaped projection")
+        self.constraint_audit_count += 1
 
     @property
     def added_parameter_counts(self) -> dict[str, int]:
@@ -154,19 +162,43 @@ class E427VolumeGateModel(RNNModel):
         prior_cycle = torch.gather(volume28, 1, indices)
         return torch.where((marker_count >= 2)[..., None], prior_cycle, fallback[None, None, :])
 
-    def _full_contexts(self, inputs: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
-        if self._context_ref is not None and self._context_ref() is inputs and self._context_cache is not None:
-            return self._context_cache
+    @staticmethod
+    def stale_source_indices(raw: torch.Tensor) -> torch.Tensor:
+        """Return previous-cycle terminal row indices, or -1 for fallback rows."""
+        if raw.ndim != 3 or raw.shape[-1] < 112:
+            raise ValueError("E427 stale-index input must have shape [batch,time,>=112]")
+        batch, steps, _ = raw.shape
+        positions = torch.arange(steps, device=raw.device, dtype=torch.long)[None].expand(batch, -1)
+        endpoint = raw[..., 110] == float(ENDPOINT)
+        latest = torch.cummax(torch.where(endpoint, positions, -1), dim=1).values
+        count = torch.cumsum(endpoint.to(torch.long), dim=1)
+        return torch.where(count >= 2, latest - 1, -1)
+
+    def _cached_contexts(self, inputs: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        global _SHARED_CONTEXT_REF, _SHARED_CONTEXT_CACHE
+        if (_SHARED_CONTEXT_REF is not None and _SHARED_CONTEXT_REF() is inputs
+                and _SHARED_CONTEXT_CACHE is not None):
+            return _SHARED_CONTEXT_CACHE
         if inputs.ndim != 3 or inputs.shape[-1] != self.mean.numel():
             raise ValueError("E427 expects the full parent-preprocessed input tensor")
         raw = inputs[..., :112].float()
         if raw.shape[1] < 1:
             raise ValueError("E427 cannot process an empty sequence")
         volume28 = research_features_torch(raw, "volume28")
-        stale = self.stale_context(volume28, raw, self.volume_fallback.to(raw.device))
-        self._context_ref = weakref.ref(inputs)
-        self._context_cache = (volume28, stale)
-        return volume28, stale
+        stale_source = self.stale_source_indices(raw)
+        _SHARED_CONTEXT_REF = weakref.ref(inputs)
+        _SHARED_CONTEXT_CACHE = (volume28, stale_source)
+        return _SHARED_CONTEXT_CACHE
+
+    def _full_contexts(self, inputs: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        """Materialize both causal arms for small synthetic tests and audits."""
+        raw = inputs[..., :112].float()
+        aligned, stale_source = self._cached_contexts(inputs)
+        source = stale_source.clamp_min(0)[..., None].expand(*stale_source.shape, 28)
+        prior = torch.gather(aligned, 1, source)
+        stale = torch.where(stale_source[..., None] >= 0, prior,
+                            self.volume_fallback.to(raw.device)[None, None, :])
+        return aligned, stale
 
     def forward_chunk(
         self,
@@ -176,13 +208,22 @@ class E427VolumeGateModel(RNNModel):
     ) -> tuple[torch.Tensor, torch.Tensor]:
         if not self.constraints_hold():
             raise RuntimeError("E427 forbidden reset/candidate context weights were not projected")
-        context_aligned, context_stale = self._full_contexts(inputs)
-        context = context_aligned if self.e427_arm == "aligned" else context_stale
         encoded = self.encode((inputs[:, rows] - self.mean) / self.std)
-        selected_context = context[:, rows]
         if self.e427_arm == "noop":
-            selected_context = torch.zeros_like(selected_context)
-        projected_context = self.gate_context(selected_context)
+            projected_context = encoded.new_zeros((*encoded.shape[:2], self.e427_rank))
+        else:
+            context_aligned, stale_source = self._cached_contexts(inputs)
+            if self.e427_arm == "aligned":
+                selected_context = context_aligned[:, rows]
+            else:
+                selected_source = stale_source[:, rows]
+                source = selected_source.clamp_min(0)[..., None].expand(*selected_source.shape, 28)
+                selected_context = torch.gather(context_aligned, 1, source)
+                selected_context = torch.where(
+                    (selected_source >= 0)[..., None], selected_context,
+                    self.volume_fallback.to(encoded.device)[None, None, :],
+                )
+            projected_context = self.gate_context(selected_context)
         recurrent_input = torch.cat((encoded, projected_context), dim=-1)
         recurrent, next_state = self.gru(recurrent_input, state)
         output = self.head(torch.cat((recurrent, encoded), dim=-1))

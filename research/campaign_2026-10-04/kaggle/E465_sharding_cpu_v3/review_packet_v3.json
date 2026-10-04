@@ -1,0 +1,37 @@
+{
+  "attempt": "E465 CPU sharding correctness test packet v3",
+  "status": "source-only candidate; no dataset upload or kernel push; root review pending",
+  "supersedes_failed_attempt": "E465_sharding_cpu_v2: 3 tests passed, one all-zero-mass fixture failed because it asserted gradient norm > clipping threshold while correct norm is exactly zero",
+  "dataset_id": "vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v3",
+  "kernel_id": "vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v3-runner",
+  "kernel_title": "wnn-jax-sharding-e465-cpu-20261004-v3-runner",
+  "archive_sha256": "5b0bac21c15ae2b5452568c759532345cbedd1623e5182f720239d987c0b7901",
+  "manifest_sha256": "f79e41204f296d3a24067c3eeac8574b66b9601374d323cd3c90504a30801d0b",
+  "kernel_sha256": "2b040377ecb64bdab85ae80f8d5e8662ae0fe4eb86a3b9b389b47c1b82bae8c2",
+  "kernel_metadata_sha256": "78c4c9fa3d9e1a02a7657556ef6d6f2469d36628baf8d7ccbe5cdb0d56ed3d1d",
+  "validation_sha256": "6178e769d2cb3fc88de21fee21f241640d7cbca04eee5cad6ac652f9d6579bc7",
+  "reviewed_v2_source_identity": {
+    "bridge.py": "788e83eb24759e63c1dc877252ae4ad4a400f1f7f64af2dce8611e844d1990bb",
+    "distributed_combo.py": "24e4ea77a3c2524d3c62b2beb5e83e48a9789c7dc5bad24faabd7fd52501cb68",
+    "rnn.py": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc",
+    "test_distributed_state_boundary.py": "12623fb86358e9d44dd24f09dcce84f97508e39b65852fff5c8879ee2c38fdea"
+  },
+  "changed_bundle_members": {
+    "tests/test_distributed_combo.py": "All-zero global mass now expects finite clamped loss, norm=0, exact zero gradients, unchanged parameters with zero weight decay, one AdamW update, and finite moments. Positive-mass cases retain the nontrivial clipping assertion.",
+    "worker.py": "Output directory changes to e465_sharding_cpu_v3 only; exact 4-test/zero-skip success gate unchanged."
+  },
+  "resource_contract": {
+    "private": true,
+    "gpu": false,
+    "tpu": false,
+    "internet": false,
+    "forced_jax_cpu_devices": 2,
+    "worker_seconds": 600,
+    "whole_job_seconds": 780,
+    "rss_cap_bytes": 4294967296,
+    "cpu_affinity": 2
+  },
+  "validation_scope": "stdlib-only AST/archive/hash/privacy/identity checks; no JAX or Torch imports, no local numerical tests",
+  "expected_acceptance": "exactly 4 tests, zero failures/errors/skips, numerical_pass=true; CPU-only correctness evidence, no scientific score/fit",
+  "provider_state": "v2 dataset is READY and immutable; v3 dataset has not been created. v3 kernel has not been pushed."
+}

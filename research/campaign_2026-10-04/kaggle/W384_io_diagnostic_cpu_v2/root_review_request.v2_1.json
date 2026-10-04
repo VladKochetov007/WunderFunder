@@ -1,0 +1,52 @@
+{
+  "packet_id": "W384 read-only CPU integrity-I/O diagnostic v2.1",
+  "review_status": "pending_root_review_no_provider_mutation",
+  "kernel_id": "vladkochetov07/wnn-w384-io-diagnostic-cpu-20261004-v2-runner",
+  "version_history_sha256": "4501892ca1835a91a16c66ffb15e350e88edd2d5c518289e07189f641543819e",
+  "fix_from_v2_root_review": "A universal main-finally process cleanup guard now sends SIGTERM, waits at most 5 seconds, escalates to SIGKILL, and reaps all tracked subprocesses before removing owned mount symlinks. A child process that remains live after successful probes is also cleaned up/reaped.",
+  "files": {
+    "kernel_push/kernel.py": "c0e9f13ca1690c4e0de4d382f35ddffaf9f4666c7f93e314a6246045b5ebf113",
+    "kernel_push/kernel-metadata.json": "504674063ee5c056ba621813dba81a8bea1492ede6499adcf07290dd68ea4a0b",
+    "plan.v2.json": "f6690d0ba4c0f8a3e87c8a76270a7b6a27f4ae5c20ff848297f89fd37ae8bba8",
+    "validation.v2.json": "bac9979318b7b053a7c57c4b48f782bf9f0bd61111e8b8ff6ee94ad299f182fa",
+    "validate_packet.py": "df1195eb43ac4d4cd00233dee14b83c24b2aabf0bee49b522d3830bacd495b34",
+    "revision-history.json": "4501892ca1835a91a16c66ffb15e350e88edd2d5c518289e07189f641543819e",
+    "W384_v3_source_failure_diagnosis.json": "5938a3a958b67771be7a1efcd958602a7cf24e6d3e000310272fbe471ecbf305"
+  },
+  "validation_counts": {
+    "static_checks": 26,
+    "stdlib_fixtures": 4,
+    "all_pass": true
+  },
+  "preserved_never_run_v2": {
+    "directory": "research/campaign_2026-10-04/kaggle/W384_io_diagnostic_cpu_v2/pre_root_review_v2",
+    "files": {
+      "kernel.py": "110fc250ca3d66024ae8695620fdedfdc5b21b934414252c5eb6554ae4f271e6",
+      "metadata.json": "504674063ee5c056ba621813dba81a8bea1492ede6499adcf07290dd68ea4a0b",
+      "plan.v2.json": "1fdc162f5fb7ad6ed193f85eda889044472fdda89d5cc76907c4c930400c1507",
+      "validation.v2.json": "9cc69449f0e75240d13253feca022676643ec00e197f16687eeb2aa546840b1c",
+      "validate_packet.py": "e9394373c4c6ad447ca574fda116b6518a62e598da349e1b758039a9399f66a4",
+      "root_review_request.v2.json": "13a67edcb3f30e4afbfe39ba7d99c60f39c0a1328ca743e2f62fc9eb126ae906"
+    }
+  },
+  "diagnostic_scope": {
+    "gpu": false,
+    "tpu": false,
+    "internet": false,
+    "training": false,
+    "scoring": false,
+    "input_mutation": false,
+    "verification_bypass": false,
+    "copy_operation": false,
+    "cpu_affinity_total": 2,
+    "aggregate_rss_cap_bytes": 4294967296,
+    "worker_limit_seconds": 3500,
+    "kernel_timeout_seconds": 3600
+  },
+  "immutable_input_bundle": {
+    "archive_sha256": "cfaed9a32399348d5bb1a13b817cd219c69b0f72adb03de7496735a173094a05",
+    "manifest_sha256": "890fe16b96e65852fca1ea418f5bf125694b253630ee41227d5d9d2e6ad1abcf"
+  },
+  "provider_mutation": "none",
+  "scientific_result": false
+}

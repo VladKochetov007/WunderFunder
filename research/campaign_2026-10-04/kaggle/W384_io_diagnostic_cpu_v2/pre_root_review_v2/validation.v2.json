@@ -1,0 +1,50 @@
+{
+  "status": "static_and_stdlib_fixtures_valid_pending_root_review",
+  "scope": "stdlib-only AST/source/metadata/plan checks and extracted-function fixtures; no data read, JAX/Torch import, or local ML operation",
+  "checks": {
+    "kernel_private": true,
+    "gpu_disabled": true,
+    "tpu_disabled": true,
+    "internet_disabled": true,
+    "kernel_id_title_match": true,
+    "dataset_inputs_exact": true,
+    "kernel_slug_matches": true,
+    "bundle_archive_pin_matches": true,
+    "bundle_manifest_pin_matches": true,
+    "hash_block_size_matches_controller": true,
+    "portable_hash_block_size_matches_source": true,
+    "calls_frozen_portable_loader": true,
+    "two_worker_cpu_affinity": true,
+    "rss_cap_4gib": true,
+    "whole_wall_cap_3600": true,
+    "worker_cap_3500": true,
+    "receipt_never_short_circuits": true,
+    "torch_only_import": true,
+    "no_training_entrypoint_invoked": true,
+    "reports_no_copy": true,
+    "no_copy_api_calls": true,
+    "child_argv_shape_validated": true,
+    "created_mount_links_tracked": true,
+    "mount_links_cleaned_in_finally": true,
+    "cleanup_checks_exact_symlink_target": true
+  },
+  "stdlib_fixtures": {
+    "child_valid_argv_dispatches_without_importing_worker": true,
+    "child_malformed_argv_fails_inside_handler": true,
+    "cleanup_removes_owned_mount_link_only": true
+  },
+  "kernel_id": "vladkochetov07/wnn-w384-io-diagnostic-cpu-20261004-v2-runner",
+  "metadata_sha256": "504674063ee5c056ba621813dba81a8bea1492ede6499adcf07290dd68ea4a0b",
+  "kernel_sha256": "110fc250ca3d66024ae8695620fdedfdc5b21b934414252c5eb6554ae4f271e6",
+  "plan_sha256": "1fdc162f5fb7ad6ed193f85eda889044472fdda89d5cc76907c4c930400c1507",
+  "expected_bundle_manifest_sha256": "890fe16b96e65852fca1ea418f5bf125694b253630ee41227d5d9d2e6ad1abcf",
+  "expected_bundle_archive_sha256": "cfaed9a32399348d5bb1a13b817cd219c69b0f72adb03de7496735a173094a05",
+  "dataset_sources": [
+    "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v3",
+    "vladkochetov07/wnn-c20261004-fold1-assets",
+    "vladkochetov07/wunder-funder"
+  ],
+  "provider_mutation": "none; source-only review candidate",
+  "training_or_score": false,
+  "scientific_result": false
+}

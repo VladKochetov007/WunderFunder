@@ -949,13 +949,13 @@ def resume_contract(args: argparse.Namespace, provenance: dict, loader: DataLoad
     excluded = {"name", "resume_state", "save_training_state", "stop_after_epoch", "split_manifest",
                 "fit_groups_manifest"}
     options = {key: value for key, value in vars(args).items() if key not in excluded}
-    package = Path(__file__).resolve().parents[1] / "src/wnn"
+    package = ROOT / "src/wnn"
     sources = {str(path.relative_to(package)): file_sha256(path) for path in sorted(package.rglob("*.py"))}
     sources["trainer"] = file_sha256(Path(__file__))
     if args.arch == "e427-volume-gate":
-        sources["e427_volume_gate"] = file_sha256(
-            Path(__file__).resolve().parents[1] / "src/wnn/e427_volume_gate.py"
-        )
+        overlay = Path(__file__).resolve().parents[1] / "src/wnn"
+        sources["e427_overlay_module"] = file_sha256(overlay / "e427_volume_gate.py")
+        sources["e427_overlay_package_init"] = file_sha256(overlay / "__init__.py")
     data = {}
     used_splits = {split for split, groups in provenance["fit_row_groups"].items() if groups}
     for split in used_splits | {"valid"}:
@@ -1265,7 +1265,12 @@ def main():
             "distill_alpha": 0.5, "distill_boot_h": 8, "ema_teacher": 1.0,
             "ema_decay": 0.999, "eval_ema": True, "propensity": "prop_v1",
             "prop_power": 2.0, "prop_eps": 0.03, "valid_true_mask": 0.03,
-            "since_weight": 32.0, "since_floor": 0.25,
+            "since_weight": 32.0, "since_floor": 0.25, "precision": "fp16",
+            "sched": "onecycle", "full_valid": True, "valid_repeat": 1,
+            "batch_order": "random", "epoch_samples": 0, "fast": True,
+            "eval_source": "holdout", "loss_norm": "chunk", "distill_denominator": "chunk",
+            "clip": 1.0, "head_lr_mult": 1.0, "recurrent_rank": 0, "swa_frac": 0.0,
+            "optim_switch": "", "qat": "none", "max_batches": 0,
         }
         mismatched = {key: (getattr(args, key), expected) for key, expected in required.items()
                       if getattr(args, key) != expected}
@@ -1680,8 +1685,17 @@ def main():
         staged_model = Path(__file__).resolve().parents[1] / "src/wnn/e427_volume_gate.py"
         provenance["model_source_sha256"] = file_sha256(staged_model)
         provenance["e427_arm"] = args.e427_arm
-        provenance["e427_added_parameter_counts"] = model.added_parameter_counts
-        provenance["e427_context_stats_sha256"] = file_sha256(model.e427_stats_path)
+        allocated = 3 * args.hidden * 8 + 28 * 8 + 8
+        fixed = 2 * args.hidden * 8
+        provenance["e427_added_parameter_counts"] = {
+            "allocated_added": allocated,
+            "structurally_fixed": fixed,
+            "effective_added": allocated - fixed,
+        }
+        stats_path = Path(args.e427_context_stats)
+        if not stats_path.is_absolute():
+            stats_path = ROOT / stats_path
+        provenance["e427_context_stats_sha256"] = file_sha256(stats_path)
     if quote_cache_provenance is not None:
         provenance["quote_cache"] = quote_cache_provenance
     if args.propensity:
@@ -1743,6 +1757,20 @@ def main():
     if args.aux_quote > 0:
         n_out += 2
     model = make_model(vars(args), n_in, n_out).to(device)
+    if isinstance(model, E427VolumeGateModel):
+        optimizer_visible = sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad)
+        fixed = model.added_parameter_counts["structurally_fixed"]
+        added_allocated = model.added_parameter_counts["allocated_added"]
+        provenance["e427_parameter_count_report"] = {
+            "parent_trainable": optimizer_visible - added_allocated,
+            "optimizer_visible_trainable": optimizer_visible,
+            "structurally_fixed_coordinates": fixed,
+            "effective_trainable": optimizer_visible - fixed,
+            "added_allocated": added_allocated,
+            "added_effective": model.added_parameter_counts["effective_added"],
+            "parent_n_in_from_checkpoint": n_in,
+            "output_width": n_out,
+        }
     if args.init_qmc and saved_training is None:
         init_qmc_(model, args.seed)
     if args.rnn_init != "default" and not args.init:
@@ -1767,14 +1795,36 @@ def main():
                     or parent_args.get("arch") != "gru" or parent_args.get("hidden") != 256
                     or parent_args.get("layers") != 2 or parent_args.get("dropout") != 0.0
                     or parent_args.get("cell") != "gru" or parent_args.get("enc") != "linear"
-                    or parent_args.get("research_features") != "none"):
+                    or parent_args.get("research_features") != "none"
+                    or parent_args.get("checkpoint_policy") != "fixed"
+                    or parent_args.get("checkpoint_epoch") != 3
+                    or parent_args.get("aux_struct") != 0.3 or parent_args.get("aux_next") != 0.3
+                    or parent_args.get("distill") != "ab67_final_since_s3,ab67_final_since_s4"
+                    or parent_args.get("propensity") != "prop_v1"):
                 ap.error("E427 parent must be the exact fixed epoch-3 ordinary combo topology/preprocessing")
+            preprocessing_fields = (
+                "online_norm", "raw_only", "heuristics", "research_features", "privileged_mode",
+                "privileged_horizon", "sentinel_values", "sentinel_indicators", "sentinel_base_width",
+                "prop_input", "aux", "aux_next_k", "aux_tier", "aux_mask", "aux_sign", "aux_quote",
+                "quote_cache_root",
+            )
+            if any(parent_args.get(field) != getattr(args, field) for field in preprocessing_fields):
+                ap.error("E427 must preserve every parent preprocessing and output-head configuration field")
             stats = model.e427_stats
+            parent_provenance = init.get("provenance", {})
             for split in ("train", "valid"):
                 expected_groups = sorted(map(int, provenance["fit_row_groups"].get(split, [])))
                 actual_groups = sorted(map(int, stats.get("fit_row_groups", {}).get(split, [])))
                 if actual_groups != expected_groups:
                     ap.error(f"E427 fallback context statistics use different {split} fit membership")
+                parent_groups = sorted(map(int, parent_provenance.get("fit_row_groups", {}).get(split, [])))
+                if parent_groups != expected_groups:
+                    ap.error(f"E427 current {split} fit membership differs from the parent checkpoint")
+            parent_provenance_path = ROOT / "artifacts/runs/c20261004_combo_s3_final_r1/provenance.json"
+            if stats.get("parent_provenance_sha256") != file_sha256(parent_provenance_path):
+                ap.error("E427 context statistics are not bound to the selected parent provenance")
+            if stats.get("parent_checkpoint_sha256") != provenance["initial_checkpoint_sha256"]:
+                ap.error("E427 context statistics are not bound to the exact selected parent checkpoint")
             model.load_parent_state_dict(init["model"])
         else:
             model.load_state_dict(init["model"])
@@ -1911,6 +1961,12 @@ def main():
     # use that same explicit thread budget for uninterrupted and resumed fits.
     torch.set_num_threads(cpu_threads())
     training_contract = resume_contract(args, provenance, train_loader, total) if continuation else None
+    if isinstance(model, E427VolumeGateModel):
+        training_contract["e427_context_stats_sha256"] = provenance["e427_context_stats_sha256"]
+        for split, expected_hash in model.e427_stats["input_sha256"].items():
+            actual_hash = training_contract["datasets"].get(split, {}).get("sha256")
+            if actual_hash != expected_hash:
+                ap.error(f"E427 fit-only context statistics were computed from different {split} input bytes")
     start_epoch = 0
     prior_fit_seconds = 0.0
     if saved_training is not None:
@@ -2217,9 +2273,7 @@ def main():
                 if isinstance(model, E427VolumeGateModel):
                     # Muon polar updates can write into zero-gradient coordinates;
                     # project after every attempt, including scaler-skipped steps.
-                    model.project_constraints_()
-                    if not model.constraints_hold():
-                        raise RuntimeError("E427 reset/candidate extra-input columns escaped projection")
+                    model.project_and_audit_constraints_()
                 invalidate_qat_cache(model)
                 scaler.update()
                 sched.step()
@@ -2238,9 +2292,7 @@ def main():
                     else:
                         ema_model.update_parameters(model)
                     if isinstance(model, E427VolumeGateModel):
-                        ema_model.module.project_constraints_()
-                        if not ema_model.module.constraints_hold():
-                            raise RuntimeError("E427 EMA reset/candidate columns escaped projection")
+                        ema_model.module.project_and_audit_constraints_()
                     invalidate_qat_cache(ema_model.module)
                     epoch_counter.ema_updates += 1
                 if duty is not None:  # explicit rate limit (WNN_GPU_DUTY < 1): sync, then sleep
@@ -2276,6 +2328,14 @@ def main():
             update_counts["grad_stats"] = epoch_grad_stats
         provenance["update_diagnostics"].append({"epoch_index": epoch, **update_counts})
         provenance["cumulative_updates"] = cumulative_updates.copy()
+        if isinstance(model, E427VolumeGateModel):
+            provenance["e427_constraint_projection_audits"] = {
+                "student_optimizer_attempts_audited_this_process": model.constraint_audit_count,
+                "ema_updates_audited_this_process": 0 if ema_model is None
+                else ema_model.module.constraint_audit_count,
+                "structural_zero_coordinates": model.added_parameter_counts["structurally_fixed"],
+                "post_attempt_and_post_ema_projection": True,
+            }
         train_seconds = round(time.time() - t0, 1)
         eval_model = checkpoint_model(model, ema_model,
                                       swa_model if step_count >= swa_start else None, args.eval_ema)

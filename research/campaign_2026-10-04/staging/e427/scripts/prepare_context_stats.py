@@ -25,7 +25,11 @@ def _ordered(groups: list[int], split: str) -> list[int]:
     ).hexdigest())
 
 
-def prepare(parent_provenance_path: Path, output_path: Path) -> dict:
+def prepare(
+    parent_provenance_path: Path,
+    output_path: Path,
+    parent_checkpoint_path: Path,
+) -> dict:
     parent = json.loads(parent_provenance_path.read_text())
     fit = parent.get("fit_row_groups")
     if not isinstance(fit, dict) or set(fit) != {"train", "valid"}:
@@ -33,8 +37,16 @@ def prepare(parent_provenance_path: Path, output_path: Path) -> dict:
     groups = {split: list(map(int, fit[split])) for split in ("train", "valid")}
     if not groups["train"] or not groups["valid"]:
         raise ValueError("E427 needs the complete parent TRAIN plus fit-VALID population")
+    if any(len(set(value)) != len(value) for value in groups.values()):
+        raise ValueError("duplicate row groups in parent fit membership")
+    evaluation = set(map(int, parent.get("evaluation_row_groups", [])))
+    if evaluation & set(groups["valid"]):
+        raise ValueError("E427 fallback mean cannot read parent evaluation row groups")
     if set(groups["train"]) & CORRUPT_TRAIN_ROW_GROUPS:
         raise ValueError("corrupt TRAIN row group 528 is forbidden in E427 fit context")
+    checkpoint_sha256 = file_sha256(parent_checkpoint_path)
+    if checkpoint_sha256 != parent.get("checkpoint_sha256", {}).get("model_ep3.pt"):
+        raise ValueError("parent checkpoint bytes disagree with its epoch-3 provenance")
 
     total = np.zeros(28, dtype=np.float64)
     row_count = 0
@@ -77,8 +89,11 @@ def prepare(parent_provenance_path: Path, output_path: Path) -> dict:
         "format": "wnn.e427-volume28-fit-stats",
         "version": 1,
         "parent_checkpoint": "c20261004_combo_s3_final_r1@ep3",
+        "parent_checkpoint_sha256": checkpoint_sha256,
+        "parent_checkpoint_path": str(parent_checkpoint_path),
         "parent_provenance_sha256": file_sha256(parent_provenance_path),
         "fit_row_groups": groups,
+        "evaluation_row_groups_excluded": sorted(evaluation),
         "fit_membership": {
             split: hashlib.sha256(",".join(map(str, sorted(value))).encode()).hexdigest()
             for split, value in groups.items()
@@ -100,9 +115,10 @@ def prepare(parent_provenance_path: Path, output_path: Path) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--parent-provenance", default="artifacts/runs/c20261004_combo_s3_final_r1/provenance.json")
+    parser.add_argument("--parent-checkpoint", default="artifacts/runs/c20261004_combo_s3_final_r1/model_ep3.pt")
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
-    result = prepare(Path(args.parent_provenance), Path(args.output))
+    result = prepare(Path(args.parent_provenance), Path(args.output), Path(args.parent_checkpoint))
     print(json.dumps({"row_count": result["row_count"], "input_sha256": result["input_sha256"],
                       "endpoint_sample_count": len(result["endpoint_samples"])}, sort_keys=True))
 

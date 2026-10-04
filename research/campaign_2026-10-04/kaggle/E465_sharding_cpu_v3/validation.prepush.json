@@ -1,0 +1,51 @@
+{
+  "status": "static_packet_valid_pending_root_review",
+  "validation_scope": "stdlib-only archive/member/source/resource/privacy checks; no JAX/Torch import or tests run locally",
+  "dataset_id": "vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v3",
+  "kernel_id": "vladkochetov07/wnn-jax-sharding-e465-cpu-20261004-v3-runner",
+  "archive_sha256": "5b0bac21c15ae2b5452568c759532345cbedd1623e5182f720239d987c0b7901",
+  "manifest_sha256": "f79e41204f296d3a24067c3eeac8574b66b9601374d323cd3c90504a30801d0b",
+  "kernel_sha256": "2b040377ecb64bdab85ae80f8d5e8662ae0fe4eb86a3b9b389b47c1b82bae8c2",
+  "kernel_metadata_sha256": "78c4c9fa3d9e1a02a7657556ef6d6f2469d36628baf8d7ccbe5cdb0d56ed3d1d",
+  "members": {
+    "src/wnn_jax/bridge.py": {
+      "size_bytes": 26330,
+      "sha256": "788e83eb24759e63c1dc877252ae4ad4a400f1f7f64af2dce8611e844d1990bb"
+    },
+    "src/wnn_jax/distributed_combo.py": {
+      "size_bytes": 4700,
+      "sha256": "24e4ea77a3c2524d3c62b2beb5e83e48a9789c7dc5bad24faabd7fd52501cb68"
+    },
+    "src/wnn_jax/rnn.py": {
+      "size_bytes": 14385,
+      "sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc"
+    },
+    "tests/test_distributed_combo.py": {
+      "size_bytes": 7902,
+      "sha256": "a84dc18e135f483313259b069298d407c078ab970c62bd5aba595a416dadbe08"
+    },
+    "tests/test_distributed_state_boundary.py": {
+      "size_bytes": 4269,
+      "sha256": "12623fb86358e9d44dd24f09dcce84f97508e39b65852fff5c8879ee2c38fdea"
+    },
+    "worker.py": {
+      "size_bytes": 4821,
+      "sha256": "81588577ec5386bd064b77c669cb98372066372ef588ff30a1c24811a0497edd"
+    }
+  },
+  "test_count": 4,
+  "implementation_members_byte_identical_to_failed_v2": [
+    "src/wnn_jax/bridge.py",
+    "src/wnn_jax/distributed_combo.py",
+    "src/wnn_jax/rnn.py",
+    "tests/test_distributed_state_boundary.py"
+  ],
+  "allzero_case_contract": "finite clamped loss; exactly zero global norm and gradients; weight decay zero so parameters remain unchanged; optimizer count exactly one; finite AdamW moments; no expectation of clipping for zero-mass input",
+  "private_offline_cpu_only": true,
+  "worker_seconds": 600,
+  "whole_job_seconds": 780,
+  "aggregate_rss_limit_bytes": 4294967296,
+  "provider_dataset_upload": "not uploaded; source-only review candidate",
+  "provider_kernel_push": "not pushed; root review pending",
+  "scientific_result": false
+}

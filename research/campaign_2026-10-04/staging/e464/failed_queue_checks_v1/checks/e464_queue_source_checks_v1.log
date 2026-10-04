@@ -1,0 +1,27 @@
+test_e464_queue_controller (unittest.loader._FailedTest.test_e464_queue_controller) ... ERROR
+
+======================================================================
+ERROR: test_e464_queue_controller (unittest.loader._FailedTest.test_e464_queue_controller)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_e464_queue_controller
+Traceback (most recent call last):
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/e464/tests/test_e464_queue_controller.py", line 27, in <module>
+    queue = load_module("e464_queue_controller_under_test", CAMPAIGN / "checks/run_e464_sequence.py")
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/staging/e464/tests/test_e464_queue_controller.py", line 23, in load_module
+    spec.loader.exec_module(module)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1160, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1218, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/home/vlad/development/wunder/research/campaign_2026-10-04/checks/run_e464_sequence.py'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

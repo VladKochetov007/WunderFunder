@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "name": "e427-context-stats-s3-v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-04/staging/e427/scripts/prepare_context_stats.py",
+    "--parent-provenance",
+    "artifacts/runs/c20261004_combo_s3_final_r1/provenance.json",
+    "--parent-checkpoint",
+    "artifacts/runs/c20261004_combo_s3_final_r1/model_ep3.pt",
+    "--output",
+    "research/campaign_2026-10-04/checks/e427_context_stats_s3_v1.json"
+  ],
+  "code": [
+    "research/campaign_2026-10-04/staging/e427/scripts/prepare_context_stats.py",
+    "src/wnn/__init__.py",
+    "src/wnn/data.py",
+    "src/wnn/research_features.py",
+    "src/wnn/splits.py"
+  ],
+  "inputs": [
+    "artifacts/runs/c20261004_combo_s3_final_r1/model_ep3.pt",
+    "artifacts/runs/c20261004_combo_s3_final_r1/provenance.json",
+    "datasets/train.parquet",
+    "datasets/valid.parquet"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e427_context_stats_s3_v1.json"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 7200,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {}
+}

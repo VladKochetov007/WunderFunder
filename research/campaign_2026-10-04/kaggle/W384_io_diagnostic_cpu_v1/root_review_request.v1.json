@@ -1,0 +1,44 @@
+{
+  "packet_id": "W384 read-only CPU integrity-I/O diagnostic v1",
+  "review_status": "pending_root_review_no_provider_mutation",
+  "kernel_id": "vladkochetov07/wnn-w384-io-diagnostic-cpu-20261004-v1-runner",
+  "files": {
+    "kernel_push/kernel.py": "6ba2748fdc0be6b725a05493e78405aa7350125a30cbb618e55a01145124ad66",
+    "kernel_push/kernel-metadata.json": "c38553c85280566cc0a45d18d76bcc8447a500c5cca08f7e6f637d9fa21b06fc",
+    "plan.v1.json": "8a0f0391110b5c18c140fd20a026cfb306be937fafbbfd0fb2811ca6aeadc9d8",
+    "validation.prepush.json": "c1018e2660fe77682ce41fce094d5764f63f362ca8cbfc7e6deda3eb5541e404",
+    "validate_packet.py": "0b9fae3dea1e98ae787ef40d9d140b2605debbd9df0c0d099f4aa1694940fbee",
+    "W384_v3_source_failure_diagnosis.json": "5938a3a958b67771be7a1efcd958602a7cf24e6d3e000310272fbe471ecbf305",
+    "provider_status_20261004T184103Z.json": "c23aea8348a2f59ac3bf2e791052f6719ef11c10e067b350e375e757da32a311"
+  },
+  "diagnostic_scope": {
+    "gpu": false,
+    "tpu": false,
+    "internet": false,
+    "training": false,
+    "scoring": false,
+    "input_mutation": false,
+    "portable_hash_shortcut": false,
+    "copy_operation": false,
+    "cpu_affinity_total": 2,
+    "aggregate_rss_cap_bytes": 4294967296,
+    "worker_limit_seconds": 3500,
+    "kernel_timeout_seconds": 3600,
+    "full_integrity_reads": true
+  },
+  "root_review_questions": [
+    "Confirm read-only instrumentation of frozen verification functions and exact input mapping.",
+    "Confirm hard 4 GiB aggregate RSS / 3500-second worker / 3600-second job guards.",
+    "Confirm non-operative receipt and no-copy design; no verifier bypass is introduced.",
+    "Confirm private CPU-only launch may proceed after provider input inventory verification."
+  ],
+  "immutable_input_bundle": {
+    "archive_sha256": "cfaed9a32399348d5bb1a13b817cd219c69b0f72adb03de7496735a173094a05",
+    "manifest_sha256": "890fe16b96e65852fca1ea418f5bf125694b253630ee41227d5d9d2e6ad1abcf"
+  },
+  "current_provider_status": {
+    "E463_TPU": "QUEUED",
+    "W384_v3": "ERROR"
+  },
+  "scientific_result": false
+}

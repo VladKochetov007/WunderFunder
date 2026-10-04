@@ -1,0 +1,76 @@
+{
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-04/staging/e427/scripts/prepare_context_stats.py",
+    "--parent-provenance",
+    "artifacts/runs/c20261004_combo_s3_final_r1/provenance.json",
+    "--parent-checkpoint",
+    "artifacts/runs/c20261004_combo_s3_final_r1/model_ep3.pt",
+    "--output",
+    "research/campaign_2026-10-04/checks/e427_context_stats_s3_v1.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e427_context_stats_s3_v1.json"
+  ],
+  "code": [
+    {
+      "path": "research/campaign_2026-10-04/staging/e427/scripts/prepare_context_stats.py",
+      "sha256": "8d95a6a5666c33c15302c08d799a8b8366def9a72fc4bce33eaba2f8c0a85e4f",
+      "size": 6022
+    },
+    {
+      "path": "src/wnn/__init__.py",
+      "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+      "size": 63
+    },
+    {
+      "path": "src/wnn/data.py",
+      "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "size": 4000
+    },
+    {
+      "path": "src/wnn/research_features.py",
+      "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8",
+      "size": 6234
+    },
+    {
+      "path": "src/wnn/splits.py",
+      "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+      "size": 8647
+    }
+  ],
+  "code_sha256": "117839a7a1aad7b5b2b4b912523eb9cb7d00cb843816867884c138ed01c44b94",
+  "environment": {},
+  "inputs": [
+    {
+      "path": "artifacts/runs/c20261004_combo_s3_final_r1/model_ep3.pt",
+      "sha256": "64c2b28651b414778d6af3c33bb9d54f653a46fb0be087de2e3c44ca88c31166",
+      "size": 3978655
+    },
+    {
+      "path": "artifacts/runs/c20261004_combo_s3_final_r1/provenance.json",
+      "sha256": "4ab01e3a468e6d86dd9da0771569723ff0fd76562c0edcd0351f1f24de247557",
+      "size": 160370
+    },
+    {
+      "path": "datasets/train.parquet",
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "size": 29240219011
+    },
+    {
+      "path": "datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "size": 5615509128
+    }
+  ],
+  "kind": "cpu",
+  "limits": {
+    "cpus": 1,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 7200
+  },
+  "name": "e427-context-stats-s3-v1",
+  "version": 1
+}

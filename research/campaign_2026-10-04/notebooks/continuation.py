@@ -555,5 +555,35 @@ def _(campaign_dir, json, mo, plt, project_root, refresh):
     return
 
 
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, plt, project_root):
+    import hashlib as _e427_hashlib
+    _e427_stats_path = campaign_dir / "checks/e427_context_stats_s3_v1.json"
+    _e427_stats = json.loads(_e427_stats_path.read_text())
+    _e427_examples = []
+    for _e427_split in ("train", "valid"):
+        _e427_candidates = sorted((_s for _s in _e427_stats["endpoint_samples"] if _s["split"] == _e427_split and _s["first_four_endpoint_windows"]), key=lambda _s: _s["sample_key_sha256"])
+        _e427_examples.extend(_e427_candidates[:2])
+    _e427_fig, _e427_axes = plt.subplots(2, 2, figsize=(10, 6), constrained_layout=True)
+    for _e427_ax, _e427_sample in zip(_e427_axes.flat, _e427_examples):
+        _e427_window = _e427_sample["first_four_endpoint_windows"][0]
+        _e427_positions = [r - _e427_window["endpoint_row"] for r in range(*_e427_window["window_rows"])]
+        for _e427_column in (0, 11):
+            _e427_ax.plot(_e427_positions, [r[_e427_column] for r in _e427_window["raw_volume_22"]], marker=".", label=f"anonymous x{22 + _e427_column}")
+        _e427_ax.axvline(0, color="black", linestyle="--", linewidth=0.8)
+        _e427_ax.set_title(f'{_e427_sample["split"]}: group {_e427_sample["row_group"]}')
+        _e427_ax.set_xlabel("Rows relative to endpoint marker")
+        _e427_ax.set_ylabel("Raw input value")
+        _e427_ax.legend(fontsize=8)
+    _e427_fig.suptitle("E427: fit-input endpoint examples (no predictive score)")
+    _e427_dir = campaign_dir / "eda/e427_volume_gate"
+    _e427_dir.mkdir(parents=True, exist_ok=True)
+    for _e427_suffix in ("png", "svg"):
+        _e427_fig.savefig(_e427_dir / f"fit_endpoint_examples.{_e427_suffix}", dpi=160)
+    (_e427_dir / "fit_endpoint_examples.source.json").write_text(json.dumps({"source": str(_e427_stats_path.relative_to(project_root)), "sha256": _e427_hashlib.sha256(_e427_stats_path.read_bytes()).hexdigest(), "groups": [{"split": _s["split"], "row_group": _s["row_group"], "sample_key_sha256": _s["sample_key_sha256"]} for _s in _e427_examples], "selection": "First two SHA-ranked nonempty endpoint samples per fitting split; first sampled endpoint, raw x22/x33", "scope": "Input-only descriptive EDA; future-window rows illustrated, never passed as noncausal model inputs", "fit_rows": _e427_stats["row_count"], "heldout_rows_used": False}, indent=2) + "\n")
+    mo.vstack([mo.md("E427's fallback statistics cover **242,220,000 fitting rows**. The 368 excluded VALID sequences and labels were not read. These endpoint illustrations show anonymous raw inputs, not a forecasting result."), _e427_fig])
+    return
+
+
 if __name__ == "__main__":
     app.run()

@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "name": "e427-cpu-source-checks-v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "--junitxml",
+    "research/campaign_2026-10-04/checks/e427_cpu_source_checks_v1.xml",
+    "research/campaign_2026-10-04/staging/e427/tests"
+  ],
+  "code": [
+    "research/campaign_2026-10-04/staging/e427/src/wnn/__init__.py",
+    "research/campaign_2026-10-04/staging/e427/src/wnn/e427_volume_gate.py",
+    "research/campaign_2026-10-04/staging/e427/tests/conftest.py",
+    "research/campaign_2026-10-04/staging/e427/tests/test_e427_volume_gate.py",
+    "src/wnn/__init__.py",
+    "src/wnn/event_content.py",
+    "src/wnn/nn.py",
+    "src/wnn/optim.py",
+    "src/wnn/research_features.py"
+  ],
+  "inputs": [],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e427_cpu_source_checks_v1.xml"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 600,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {}
+}

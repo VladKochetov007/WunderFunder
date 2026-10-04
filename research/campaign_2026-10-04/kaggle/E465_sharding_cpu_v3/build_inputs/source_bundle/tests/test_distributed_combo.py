@@ -183,6 +183,9 @@ def _check_distributed_matches_reference(
             atol=3e-7,
         )
     if not expect_clipping:
+        assert int(ref_optimizer.count) == 1
+        assert np.isfinite(np.asarray(reports)).all()
+        np.testing.assert_array_equal(np.asarray(norms), np.zeros_like(np.asarray(norms)))
         np.testing.assert_array_equal(
             np.asarray(gradients), np.zeros_like(np.asarray(gradients))
         )

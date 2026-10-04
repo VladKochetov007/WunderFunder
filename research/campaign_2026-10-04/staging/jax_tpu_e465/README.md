@@ -4,8 +4,10 @@ This directory is an isolated design and correctness-test draft. It is not a
 launch bundle and must not be used for a scientific run before E463's TPU
 real-data preflight completes and the objective tests run on a JAX-capable
 host. `rnn.py` and `bridge.py` are copied byte-for-byte from the reviewed
-`staging/jax_tpu` source snapshot; this draft adds only a distributed pooled
-objective helper and tests.
+`staging/jax_tpu` source snapshot; this draft adds a distributed pooled
+objective helper, tests, and a standard-library OneCycle schedule port. The
+exact schedule amendment is in `E465_ONECYCLE_AMENDMENT.md`; its bounded
+reference checker compares against the production PyTorch scheduler.
 
 The intended comparison is one fixed epoch (epoch 0) of FP32 and BF16 AdamW
 continuations from the same converted `c20261003_combo_s3_f0@ep3` evaluation
@@ -43,7 +45,8 @@ JAX_PLATFORMS=cpu XLA_FLAGS=--xla_force_host_platform_device_count=2 \
 Passing these tests is necessary but not sufficient:
 the final TPU worker still needs both-precision Torch forward parity, EMA
 parameter-update parity, save/load parity, and strict input/checkpoint/teacher
-hash checks.
+hash checks. The CPU OneCycle reference check must also pass all production
+indices 0 through 7460 before fit admission.
 
 No scientific fit, accelerator allocation, data conversion, or score claim has
 been made from this draft.
