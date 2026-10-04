@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd /tmp/wnn-c20261004-native-factors
+sha256sum \
+  /home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20261003_w384_s3_f0/model.pt \
+  /home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20261003_w384_s3_f0/provenance.json \
+  /home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_subset20.parquet \
+  research/campaign_2026-10-04/E409_width_runtime/manifest.json \
+  scripts/export_factorized_control.py \
+  scripts/build_factorized_native.sh \
+  scripts/probe_factorized_native.py \
+  research/campaign_2026-10-04/E420_factorized/e420_zero_update_export_v1.draft.json \
+  research/campaign_2026-10-04/E420_factorized/e420_full20k_native_parity_v1.draft.json \
+  research/campaign_2026-10-04/E420_factorized/SOURCE_INSPECTION.json \
+  research/campaign_2026-10-04/E420_factorized/native_build_manifest.json \
+  tests/test_probe_factorized_native.py \
+  tests/test_native_factorized.py \
+  tests/test_native_quantized_export.py \
+  scripts/train_rnn.py \
+  src/wnn/features.py \
+  src/wnn/nn.py \
+  src/wnn/splits.py \
+  src/wnn/training_factorized.py \
+  utils.py \
+  native/Cargo.toml \
+  native/Cargo.lock \
+  native/src/*.rs \
+  > research/campaign_2026-10-04/E420_factorized/source_closure.sha256

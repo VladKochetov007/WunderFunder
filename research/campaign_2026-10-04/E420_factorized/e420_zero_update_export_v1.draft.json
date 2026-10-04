@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "name": "e420_zero_update_export_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "scripts/export_factorized_control.py",
+    "artifacts/runs/c20261003_w384_s3_f0/model.pt",
+    "--output",
+    "research/campaign_2026-10-04/E420_factorized/zero_update_w384_r128.pt",
+    "--rank",
+    "128"
+  ],
+  "code": [
+    "scripts/export_factorized_control.py",
+    "scripts/train_rnn.py",
+    "src/wnn/training_factorized.py",
+    "src/wnn/nn.py",
+    "src/wnn/splits.py"
+  ],
+  "inputs": [
+    "artifacts/runs/c20261003_w384_s3_f0/model.pt",
+    "artifacts/runs/c20261003_w384_s3_f0/provenance.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/E420_factorized/zero_update_w384_r128.pt"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 600,
+    "gpu_memory_bytes": 0
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  }
+}
