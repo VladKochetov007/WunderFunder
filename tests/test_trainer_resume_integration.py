@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -47,18 +48,21 @@ def test_real_main_epoch_resume_and_completed_export(
 ) -> None:
     """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
     _repository(tmp_path)
+    device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+    if device == "cuda":
+        assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
     monkeypatch.setattr(training, "ROOT", tmp_path)
     monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
     monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
     monkeypatch.setattr(training, "WARMUP", 1)
     monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
     monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
-    monkeypatch.setenv("WNN_LOADER_WORKERS", "0")
+    monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
     monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
     base = [
         "train_rnn.py",
         "--device",
-        "cpu",
+        device,
         "--train-source",
         "valid",
         "--full-valid",
@@ -115,6 +119,8 @@ def test_real_main_epoch_resume_and_completed_export(
             "seeded",
             "--antithetic",
         ]
+    if device == "cuda":
+        base += ["--fast"]  # Exercise actual CUDA stream prefetch and fused AdamW.
 
     def run(name: str, extra: list[str]) -> Path:
         monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
@@ -122,10 +128,19 @@ def test_real_main_epoch_resume_and_completed_export(
         return tmp_path / "artifacts/runs" / name
 
     reference_dir = run("reference", [])
+    no_state_args = [argument for argument in base if argument != "--save-training-state"]
+    monkeypatch.setattr(sys, "argv", [*no_state_args, "--name", "without_state"])
+    training.main()
+    without_state = torch.load(
+        tmp_path / "artifacts/runs/without_state/model.pt", map_location="cpu", weights_only=False
+    )
+    reference_model = torch.load(reference_dir / "model.pt", map_location="cpu", weights_only=False)
+    _assert_equal(without_state["model"], reference_model["model"])
     interrupted_dir = run("interrupted", ["--stop-after-epoch", "0"])
     resumed_dir = run("resumed", ["--resume-state", str(interrupted_dir / "training_state.pt")])
     reference = load_training_state(reference_dir / "training_state.pt")
     resumed = load_training_state(resumed_dir / "training_state.pt")
+    assert reference["contract"]["runtime"]["threads"] == training.cpu_threads()
     for key in (
         "contract",
         "model",
@@ -157,3 +172,23 @@ def test_real_main_epoch_resume_and_completed_export(
         ]
         == 12
     )
+
+
+def test_main_restores_thread_budget_after_initialization(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A one-time initializer change must not become the saved fit's thread count."""
+    original_builder = training.build_optimizer
+    initialized = False
+
+    def changing_builder(model: torch.nn.Module, args: object) -> torch.optim.Optimizer:
+        nonlocal initialized
+        optimizer = original_builder(model, args)
+        if not initialized:
+            torch.set_num_threads(training.cpu_threads() + 1)
+            initialized = True
+        return optimizer
+
+    monkeypatch.setattr(training, "build_optimizer", changing_builder)
+    monkeypatch.setenv("WNN_INTEGRATION_DEVICE", "cpu")
+    test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, False)
