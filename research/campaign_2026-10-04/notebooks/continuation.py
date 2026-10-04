@@ -156,5 +156,55 @@ def _(campaign_dir, json, mo, plt):
     return
 
 
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, refresh):
+    refresh
+    catalog_view = json.loads((campaign_dir / "experiment_catalog.json").read_text())
+    mo.vstack([mo.md("### Research inventory\nHistorical negatives remain eligible for bounded retests. Implementation checks and scientific results are tracked separately."), mo.ui.table([{ "id": card["id"], "experiment": card["name"], "mechanism": card["mechanism_family"], "implementation": card["implementation_status"], "evidence_status": card["status"]} for card in catalog_view["cards"]], selection=None, page_size=12)])
+    return
+
+
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, refresh):
+    refresh
+    worker_rows = []
+    for _worker_path in sorted((campaign_dir / "runner/attempts").glob("*.json")):
+        _worker = json.loads(_worker_path.read_text())
+        worker_rows.append({"attempt": _worker["id"], "status": _worker["status"], "kind": _worker["kind"], "peak_RAM_GiB": round(_worker.get("peak_ram_bytes", 0)/1024**3, 2), "peak_VRAM_GB": round(_worker.get("peak_observed_vram_bytes", 0)/1e9, 2), "OOM_kills": _worker.get("final_memory_events", _worker.get("memory_events", {})).get("oom_kill", 0), "failure": _worker.get("failure", "")})
+    mo.vstack([mo.md("### Local execution evidence\nRefresh reads current durable worker records. RAM includes filesystem cache. Full logs, frozen sources and limits are retained with each attempt."), mo.ui.table(worker_rows, selection=None, page_size=10)])
+    return
+
+
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, plt, refresh):
+    refresh
+    feature_pooled = json.loads((campaign_dir / "checks/e415_pooled_v1.json").read_text())
+    feature_rows = []
+    for _cue, _case in feature_pooled["families"].items():
+        for _reference in ("capacity", "unchanged"):
+            _contrast = _case["pooled"]["candidate_minus_" + _reference]
+            feature_rows.append({"cue": _cue, "reference": _reference, "delta": _contrast["mean_diff"], "low": _contrast["ci95"][0], "high": _contrast["ci95"][1]})
+    feature_fig, feature_axes = plt.subplots(1, 2, figsize=(12, 5.5), sharey=True)
+    for _ax, _reference in zip(feature_axes, ("capacity", "unchanged")):
+        _rows = [row for row in feature_rows if row["reference"] == _reference]
+        _ax.errorbar([row["delta"] for row in _rows], range(len(_rows)), xerr=[[row["delta"]-row["low"] for row in _rows], [row["high"]-row["delta"] for row in _rows]], fmt="o", capsize=3, color="#146C94" if _reference == "capacity" else "#A05235")
+        _ax.axvline(0, color="black", linewidth=0.8)
+        _ax.set_yticks(range(len(_rows)), [row["cue"].replace("_", " ") for row in _rows])
+        _ax.set(xlabel="Selected-row Global WP difference", title="Candidate minus " + _reference)
+        _ax.grid(axis="x", alpha=0.2)
+    feature_axes[0].set_xticks([-0.005, 0, 0.005, 0.01, 0.015])
+    feature_axes[1].set_xticks([-0.04, -0.03, -0.02, -0.01, 0])
+    feature_axes[0].invert_yaxis()
+    feature_fig.suptitle("E415: relative control wins do not improve the untouched GRU")
+    feature_fig.tight_layout()
+    _feature_export = campaign_dir / "eda/conditional_features/plots"
+    _feature_export.mkdir(parents=True, exist_ok=True)
+    feature_fig.savefig(_feature_export / "proxy_heads.png", dpi=180)
+    feature_fig.savefig(_feature_export / "proxy_heads.svg")
+    (_feature_export.parent / "data.json").write_text(json.dumps(feature_rows, indent=2) + "\n")
+    mo.vstack([mo.md("### Conditional-feature proxy screen\nAll nine families, both reciprocal directions. 6,158 rows / 460 sequences / 140 components. Every fitted candidate loses to the untouched predictor; exact feature mechanisms remain separate experiments. Component intervals condition on these fitted heads and are descriptive on exposed data."), feature_fig])
+    return
+
+
 if __name__ == "__main__":
     app.run()

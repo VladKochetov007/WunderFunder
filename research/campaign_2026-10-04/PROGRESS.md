@@ -74,3 +74,9 @@ calibration/jitter/privileged-teacher additions. Current public best remains0.66
 E412 full-data seed3 started with frozen source 96ca4b1e61823bec3953158bea12124be1efa3ec29493f7902d3eeea5be885a3. Latest CUDA main integration: 8 passed, including paired origin views. H098 teacher code additionally passed synthetic teacher-to-causal-student tests; scientific teacher fits remain pending.
 
 E411 completed: recurrent q8 delta -0.000022729; recurrent+head q8 delta -0.000019261. Both component intervals cross zero. Float32 represented-weight pilot only; native byte runtime still pending. E414 calibration did not launch: its6GiBCPU specification exceeds the current2GiB worker envelope. The next runner revision is being prepared in isolation; the live E412 run remains frozen.
+
+E413 private Kaggle volume-history/current-input pair is RUNNING (provider confirmation02:21:24UTC); exact code digestbbdba0e2810339765ce9b655fcf1dfaa292fb6642734c23eb894509b2972c9ee. CurrenttrainerCUDA checks precede each fixed4epoch/ep3 scientific fit. Worker/device evidence awaits provider logs. TPU stillqueued.
+
+E415 empty sampled sequence raised ValueError; global pause also stopped E412 withSIGTERM. NoOOM. Exact full epoch2 recovery snapshotverified againstevery savedsourcehash; E412retryv2 usesfreshoutput c20261004_combo_s3_final_r1, samecode/recipe/data/runtime. E415sampling-preservingfix/tests pending. SeeE415_EMPTY_SAMPLE_INCIDENT.md.
+
+2026-10-04T02:48:55.008284+00:00: E412 v2 passed strict epoch-boundary recovery and is training epoch2. E415 sampling-preserving fix passed10 CPU checks; A-v2/B-v1 extraction retries are running, with no OOM. Native q8, QAT/ARTBP, factorized recurrence and exact conditional-feature variants remain distinct implementation branches. Historical negative results do not veto these retests.

@@ -1,0 +1,118 @@
+{
+  "cue": "observable_transitions",
+  "mechanism_scope": "fixed current and lag1 observable changes",
+  "ridge": 0.01,
+  "backend": "numpy",
+  "fit_cache_sha256": "0965c476d5a5c2008954e3fa20e6fc30d37eb8cd1d060dd43ce25de745c16c88",
+  "eval_cache_sha256": "8dc4e36e7c3168c1e8aea4ab7aaa8eb9e51b813757114a02fb989b41eb3599a5",
+  "reports": {
+    "unchanged": {
+      "wp": 0.687177186161638
+    },
+    "candidate": {
+      "wp": 0.657767981865072
+    },
+    "placebo": {
+      "wp": 0.652005444425907
+    },
+    "capacity": {
+      "wp": 0.6520329036265036
+    },
+    "candidate_minus_unchanged": {
+      "candidate_wp": 0.657767981865072,
+      "reference_wp": 0.6871771861616379,
+      "mean_diff": -0.029409204296565905,
+      "bootstrap_sd": 0.004721304355923875,
+      "ci95": [
+        -0.03925123191734339,
+        -0.020926755859110056
+      ],
+      "p_le_0": 1.0,
+      "n_sequences": 66,
+      "n_components": 66,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "candidate_minus_capacity": {
+      "candidate_wp": 0.657767981865072,
+      "reference_wp": 0.6520329036265036,
+      "mean_diff": 0.005735078238568447,
+      "bootstrap_sd": 0.0031197889752593703,
+      "ci95": [
+        -0.0007181533566793547,
+        0.011575384575393503
+      ],
+      "p_le_0": 0.04,
+      "n_sequences": 66,
+      "n_components": 66,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "placebo_minus_unchanged": {
+      "candidate_wp": 0.6520054444259069,
+      "reference_wp": 0.6871771861616379,
+      "mean_diff": -0.03517174173573101,
+      "bootstrap_sd": 0.0064822622459670435,
+      "ci95": [
+        -0.04826689479048164,
+        -0.02241810342868092
+      ],
+      "p_le_0": 1.0,
+      "n_sequences": 66,
+      "n_components": 66,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "placebo_minus_capacity": {
+      "candidate_wp": 0.6520054444259069,
+      "reference_wp": 0.6520329036265036,
+      "mean_diff": -2.745920059665785e-05,
+      "bootstrap_sd": 0.004157349480616397,
+      "ci95": [
+        -0.008440052930657884,
+        0.007899274397768798
+      ],
+      "p_le_0": 0.5105,
+      "n_sequences": 66,
+      "n_components": 66,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "capacity_minus_unchanged": {
+      "candidate_wp": 0.6520329036265036,
+      "reference_wp": 0.6871771861616379,
+      "mean_diff": -0.03514428253513435,
+      "bootstrap_sd": 0.006294290129948064,
+      "ci95": [
+        -0.04750550169108718,
+        -0.02310933112854696
+      ],
+      "p_le_0": 1.0,
+      "n_sequences": 66,
+      "n_components": 66,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    }
+  },
+  "bootstrap": 2000,
+  "selection": "none; all arms reported; independent outer confirmation required",
+  "map": {
+    "baseline_width": 64,
+    "extra_width": 32,
+    "baseline_seed": 271829,
+    "extra_seed": 271830,
+    "normalization": "fit-only mean/std, floor1e-4, clip8",
+    "regime_heads": "matched multiplicative state interaction"
+  },
+  "scope": "exact pooled score on frozen selected rows; not full-validation, end-to-end representation or public gain"
+}

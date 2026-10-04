@@ -998,13 +998,14 @@
       "falsifier": "No runtime benefit or unacceptable score loss",
       "prior_evidence": "E-336,E-406",
       "status": "probing",
-      "implementation_status": "pilot_running",
+      "implementation_status": "accuracy_pilot_complete_native_parity_in_progress",
       "committed_at": "2026-10-04T01:06:16.143188+00:00",
       "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
       "current_evidence": [
-        "E-411"
+        "E-411",
+        "E-416"
       ],
-      "current_reason": "Fixed 64-component q8 accuracy pilot; compressed runtime integration remains pending.",
+      "current_reason": "Both fixed q8 weight presets have negligible sampled WP change; native trained-model parity underway, controlled timing pending.",
       "status_event": {
         "hypothesis_id": "H-068",
         "status": "probing",
@@ -1031,9 +1032,11 @@
       "falsifier": "No recovery over matched fine-tuning",
       "prior_evidence": "E-336",
       "status": "open",
-      "implementation_status": "pending",
+      "implementation_status": "isolated_cpu_checked",
       "committed_at": "2026-10-04T01:06:16.143190+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [],
+      "current_reason": "QAT 55e9e08: raw-state exact resume, canonical int8 representations and 88 focused CPU checks; root landing/CUDA gate/scientific fits pending."
     },
     {
       "id": "H-070",
@@ -1048,9 +1051,11 @@
       "falsifier": "No Pareto improvement",
       "prior_evidence": "E-350",
       "status": "open",
-      "implementation_status": "pending",
+      "implementation_status": "isolated_cpu_checked",
       "committed_at": "2026-10-04T01:06:16.143192+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [],
+      "current_reason": "Factorized recurrence 09ff17e: SVD/rank128, zero-update control and matched dense budget; 97 targeted CPU checks, CUDA and fits pending. Dense materialization gives no runtime claim."
     },
     {
       "id": "H-071",
@@ -1259,12 +1264,14 @@
       "matched_control": "Current-row volume and capacity-matched original trunk",
       "falsifier": "No increment against matched control",
       "prior_evidence": "E-321",
-      "status": "open",
+      "status": "probing",
       "implementation_status": "checked",
       "committed_at": "2026-10-04T01:06:16.143208+00:00",
       "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
-      "current_evidence": [],
-      "current_reason": "Causal volume28 and equal-width current control, streaming parity and trainer checks passed; private T4 pair being prepared.",
+      "current_evidence": [
+        "E-413"
+      ],
+      "current_reason": "Private T4 pair RUNNING at provider; device assignments/scientific worker progress await retained logs.",
       "status_event": {
         "hypothesis_id": "H-078",
         "status": "open",
@@ -1351,10 +1358,14 @@
       "matched_control": "Universal and hash-routed equal-capacity heads",
       "falsifier": "No gain attributable to true regime routing",
       "prior_evidence": "E-335",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "proxy_complete_exact_variants_pending",
       "committed_at": "2026-10-04T01:06:16.143214+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-415"
+      ],
+      "current_reason": "All fixed proxy heads lose to untouched backbone; this does not test every exact proposed mechanism. Separate exact feature implementations remain open."
     },
     {
       "id": "H-083",
@@ -1368,10 +1379,14 @@
       "matched_control": "Identity and global affine corrections",
       "falsifier": "No current crossfit gain",
       "prior_evidence": "E-360",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "proxy_complete_exact_variants_pending",
       "committed_at": "2026-10-04T01:06:16.143216+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-415"
+      ],
+      "current_reason": "All fixed proxy heads lose to untouched backbone; this does not test every exact proposed mechanism. Separate exact feature implementations remain open."
     },
     {
       "id": "H-084",
@@ -1385,10 +1400,14 @@
       "matched_control": "Both histories in common equal-capacity head",
       "falsifier": "No advantage over matched common representation",
       "prior_evidence": "signal/econometrics EDA",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "proxy_complete_exact_variants_pending",
       "committed_at": "2026-10-04T01:06:16.143217+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-415"
+      ],
+      "current_reason": "All fixed proxy heads lose to untouched backbone; this does not test every exact proposed mechanism. Separate exact feature implementations remain open."
     },
     {
       "id": "H-085",
@@ -1402,10 +1421,14 @@
       "matched_control": "Additive features and shuffled-activity control",
       "falsifier": "Interaction adds no repeatable information",
       "prior_evidence": "linear/statphys EDA",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "proxy_complete_exact_variants_pending",
       "committed_at": "2026-10-04T01:06:16.143219+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-415"
+      ],
+      "current_reason": "All fixed proxy heads lose to untouched backbone; this does not test every exact proposed mechanism. Separate exact feature implementations remain open."
     },
     {
       "id": "H-086",
@@ -1419,10 +1442,14 @@
       "matched_control": "Same i0 lags/current-row/shifted-i1 controls",
       "falsifier": "No gain beyond mechanism-specific controls",
       "prior_evidence": "E-383,E-384",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "proxy_complete_exact_variants_pending",
       "committed_at": "2026-10-04T01:06:16.143221+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-415"
+      ],
+      "current_reason": "All fixed proxy heads lose to untouched backbone; this does not test every exact proposed mechanism. Separate exact feature implementations remain open."
     },
     {
       "id": "H-087",
@@ -1436,10 +1463,14 @@
       "matched_control": "Additive age and stale-age control",
       "falsifier": "No genuine age-conditioned benefit",
       "prior_evidence": "statphys EDA",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "proxy_complete_exact_variants_pending",
       "committed_at": "2026-10-04T01:06:16.143223+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-415"
+      ],
+      "current_reason": "All fixed proxy heads lose to untouched backbone; this does not test every exact proposed mechanism. Separate exact feature implementations remain open."
     },
     {
       "id": "H-088",
@@ -1453,10 +1484,14 @@
       "matched_control": "Current features and shuffled transition controls",
       "falsifier": "No out-of-component predictive increment",
       "prior_evidence": "hft EDA",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "proxy_complete_exact_variants_pending",
       "committed_at": "2026-10-04T01:06:16.143224+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-415"
+      ],
+      "current_reason": "All fixed proxy heads lose to untouched backbone; this does not test every exact proposed mechanism. Separate exact feature implementations remain open."
     },
     {
       "id": "H-089",
@@ -1470,10 +1505,14 @@
       "matched_control": "Cycle7 placebo and matched effective horizon",
       "falsifier": "No benefit over smoothing/placebo controls",
       "prior_evidence": "linear EDA",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "proxy_complete_exact_variants_pending",
       "committed_at": "2026-10-04T01:06:16.143226+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-415"
+      ],
+      "current_reason": "All fixed proxy heads lose to untouched backbone; this does not test every exact proposed mechanism. Separate exact feature implementations remain open."
     },
     {
       "id": "H-090",
@@ -1555,10 +1594,14 @@
       "matched_control": "Unconditional and diagonal-only modulation",
       "falsifier": "No conditional benefit beyond extra capacity",
       "prior_evidence": "campaign skill",
-      "status": "open",
-      "implementation_status": "pending",
+      "status": "probing",
+      "implementation_status": "proxy_complete_exact_variants_pending",
       "committed_at": "2026-10-04T01:06:16.143233+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [
+        "E-415"
+      ],
+      "current_reason": "All fixed proxy heads lose to untouched backbone; this does not test every exact proposed mechanism. Separate exact feature implementations remain open."
     },
     {
       "id": "H-095",
@@ -1670,9 +1713,11 @@
       "falsifier": "No valid unbiasedness or predictive advantage",
       "prior_evidence": "E-405",
       "status": "open",
-      "implementation_status": "pending",
+      "implementation_status": "isolated_cpu_checked",
       "committed_at": "2026-10-04T01:06:16.143242+00:00",
-      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready.",
+      "current_evidence": [],
+      "current_reason": "Finite-window compensated credit and unclipped fp32 SGD/momentum c27896e passed CPU gradient/resume checks; CUDA and scientific fits pending."
     },
     {
       "id": "H-101",

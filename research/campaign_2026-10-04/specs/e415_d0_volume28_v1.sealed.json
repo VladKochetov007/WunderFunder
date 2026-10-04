@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "name": "e415_d0_volume28_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "scripts/feature_screen.py",
+    "--fit",
+    "cache/c20261004_feature_f0_a.npz",
+    "--evaluation",
+    "cache/c20261004_feature_f0_b.npz",
+    "--cue",
+    "volume28",
+    "--backend",
+    "numpy",
+    "--ridge",
+    "0.01",
+    "--output",
+    "research/campaign_2026-10-04/feature_results/e415_d0_volume28_v1"
+  ],
+  "code": [
+    {
+      "path": "scripts/feature_cues.py",
+      "size": 3776,
+      "sha256": "88d6b8a5fcbf6d19ca2e8dea9ffe04574309f5fbdd7f534739c1029e4840acfe"
+    },
+    {
+      "path": "scripts/feature_screen.py",
+      "size": 11938,
+      "sha256": "1e0dc7869d69fc00b4f3ccf833acb49777f6e2337120c3f64757801c5bf119de"
+    },
+    {
+      "path": "src/wnn/__init__.py",
+      "size": 63,
+      "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+    },
+    {
+      "path": "src/wnn/evaluation.py",
+      "size": 8080,
+      "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+    },
+    {
+      "path": "src/wnn/gmetric.py",
+      "size": 8902,
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    },
+    {
+      "path": "src/wnn/research_features.py",
+      "size": 6234,
+      "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8"
+    },
+    {
+      "path": "src/wnn/resources.py",
+      "size": 4485,
+      "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+    }
+  ],
+  "code_sha256": "7d96a0573eb1c5245024639f104b59522d8942ba77d14acda6fbfdb1f9421c14",
+  "inputs": [
+    {
+      "path": "cache/c20261004_feature_f0_a.json",
+      "size": 1108389,
+      "sha256": "1eaef01cc5b972add2e5c9959ff0eb6e0c317f4ab18b56e4fe63fcbcc684bfb5"
+    },
+    {
+      "path": "cache/c20261004_feature_f0_a.npz",
+      "size": 19283222,
+      "sha256": "0965c476d5a5c2008954e3fa20e6fc30d37eb8cd1d060dd43ce25de745c16c88"
+    },
+    {
+      "path": "cache/c20261004_feature_f0_b.json",
+      "size": 1183632,
+      "sha256": "f5f92ec09af80a2a23a8f16e45d8843359c6c7ad12544b4511c1235390780b21"
+    },
+    {
+      "path": "cache/c20261004_feature_f0_b.npz",
+      "size": 16668694,
+      "sha256": "8dc4e36e7c3168c1e8aea4ab7aaa8eb9e51b813757114a02fb989b41eb3599a5"
+    }
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/feature_results/e415_d0_volume28_v1/report.json",
+    "research/campaign_2026-10-04/feature_results/e415_d0_volume28_v1/coefficients.npz",
+    "research/campaign_2026-10-04/feature_results/e415_d0_volume28_v1/transforms.npz",
+    "research/campaign_2026-10-04/feature_results/e415_d0_volume28_v1/predictions.npz"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 900,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {}
+}
