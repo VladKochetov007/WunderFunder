@@ -382,7 +382,9 @@ def test_real_main_epoch_resume_and_completed_export(
         if sentinel_arm[1] != "none":
             assert torch.count_nonzero(expected_model["model"]["inp.weight"][:, -112:]) > 0
     if thin_mode is not None:
-        parent_model = torch.load(tmp_path / "artifacts/runs/parent/model.pt", weights_only=False)
+        parent_model = torch.load(
+            tmp_path / "artifacts/runs/parent/model.pt", map_location="cpu", weights_only=False
+        )
         _assert_equal(expected_model["model"]["mean"], parent_model["model"]["mean"])
         _assert_equal(expected_model["model"]["std"], parent_model["model"]["std"])
     assert recovered_model["epoch"] == 2
