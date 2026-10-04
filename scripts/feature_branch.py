@@ -156,7 +156,7 @@ def run(
     secondary_reports = compare(evaluation, secondary, bootstrap)
     # Only now load evaluation classes for descriptive strata, never for predictions.
     eval_classes = label_classes(evaluation, labels_path)
-    class_scores = {}
+    class_scores, class_contrasts = {}, {}
     for label in range(4):
         selected = eval_classes == label
         if selected.any():
@@ -164,6 +164,26 @@ def run(
                 arm: reference_global_wp(evaluation["y"], values, selected)
                 for arm, values in prediction.items()
             }
+            class_data = {key: evaluation[key][selected] for key in ("y", "sequence", "component")}
+            component_count = len(np.unique(class_data["component"]))
+            if component_count >= 4:
+                class_contrasts[str(label)] = {
+                    "factorized_ce": compare(
+                        class_data,
+                        {key: value[selected] for key, value in prediction.items()},
+                        bootstrap,
+                    ),
+                    "factorized_tilted_wmse": compare(
+                        class_data,
+                        {key: value[selected] for key, value in secondary.items()},
+                        bootstrap,
+                    ),
+                }
+            else:
+                class_contrasts[str(label)] = {
+                    "status": "insufficient_components",
+                    "components": component_count,
+                }
     output.mkdir(parents=True)
     np.savez(
         output / "predictions.npz",
@@ -192,6 +212,7 @@ def run(
                 "reports": reports,
                 "factorized_tilted_wmse_reports": secondary_reports,
                 "class_wp": class_scores,
+                "class_contrasts": class_contrasts,
                 "bootstrap": bootstrap,
                 "candidate": "factorized plain CE with empirical rational readout",
                 "factorization": "P(class|h)P(spread-code|h)P(branch|h)P(U-bin|branch,h)",
