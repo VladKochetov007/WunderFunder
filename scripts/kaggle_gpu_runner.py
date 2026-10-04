@@ -187,11 +187,18 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
                         "OMP_NUM_THREADS": str(count),
                         "MKL_NUM_THREADS": str(count),
                         "OPENBLAS_NUM_THREADS": str(count),
+                        "WNN_THREADS": str(count),
+                        "NUMBA_NUM_THREADS": str(count),
+                        "POLARS_MAX_THREADS": str(count),
+                        "ARROW_NUM_THREADS": str(count),
+                        "WNN_GPU_MEMORY_BYTES": str(spec["limits"]["gpu_memory_bytes"]),
                         "WNN_GPU_FRACTION": str(
                             spec["limits"]["gpu_memory_bytes"] / device["total_bytes"]
                         ),
                         "PYTHONPATH": str(root / "src"),
                         "PYTHONDONTWRITEBYTECODE": "1",
+                        "PYTHONHASHSEED": spec["environment"].get("PYTHONHASHSEED", "0"),
+                        "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
                     }
                 )
                 log = (job_output / "worker.log").open("w")
@@ -232,7 +239,9 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
                 limits = spec["limits"]
                 if rss > limits["ram_bytes"] or used > limits["gpu_stop_bytes"]:
                     incident = f"Resource stop for {spec['name']}"
-                elif used > limits["gpu_memory_bytes"]:
+                # Allocator bytes exclude CUDA context/runtime memory. Preserve a
+                # separate 12GiB observed operating target below the hard stop.
+                elif used > min(12 * 1024**3, limits["gpu_stop_bytes"] - 1024**2) + 1024**2:
                     incident = f"GPU operating target exceeded for {spec['name']}"
                 elif now - job["started"] > limits["timeout_seconds"]:
                     incident = f"Timeout for {spec['name']}"

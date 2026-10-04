@@ -118,7 +118,11 @@ def test_worker_lifecycle(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, exit_
     spec = make_spec(root)
     source = root / "worker.py"
     source.write_text(
-        f"from pathlib import Path\nPath('result.json').write_text('{{}}')\nraise SystemExit({exit_code})\n"
+        "from pathlib import Path\nimport os,json\n"
+        "Path('result.json').write_text(json.dumps({key:os.environ[key] for key in "
+        "['WNN_GPU_MEMORY_BYTES','WNN_THREADS','NUMBA_NUM_THREADS','POLARS_MAX_THREADS',"
+        "'ARROW_NUM_THREADS','PYTHONHASHSEED','CUBLAS_WORKSPACE_CONFIG']}))\n"
+        f"raise SystemExit({exit_code})\n"
     )
     spec["code"][0].update(size=source.stat().st_size, sha256=sha256_file(source))
     spec["code_sha256"] = canonical_sha256(spec["code"])
@@ -157,6 +161,12 @@ def test_worker_lifecycle(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, exit_
     assert result["returncode"] == exit_code
     assert result["status"] == ("failed" if exit_code else "complete")
     assert (output / "fixture/artifacts/result.json").is_file()
+    environment = json.loads((output / "fixture/artifacts/result.json").read_text())
+    assert environment["WNN_GPU_MEMORY_BYTES"] == str(12 * 1024**3)
+    assert environment["WNN_THREADS"] == environment["NUMBA_NUM_THREADS"] == "1"
+    assert environment["POLARS_MAX_THREADS"] == environment["ARROW_NUM_THREADS"] == "1"
+    assert environment["PYTHONHASHSEED"] == "0"
+    assert environment["CUBLAS_WORKSPACE_CONFIG"] == ":4096:8"
 
 
 def test_bundle_excludes_external_raw_and_binds_kernel(tmp_path: Path) -> None:
