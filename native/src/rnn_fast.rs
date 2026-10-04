@@ -93,15 +93,36 @@ pub enum Precision {
     /// `Q16x` arithmetic without the AVX2 kernels; what `Q16x` becomes on CPUs without
     /// AVX2/FMA/F16C, and selectable to check that both paths agree.
     Q16xPortable,
+    /// Byte recurrent weights, float32 projection/head/state; transient int16 activations.
+    Q8r,
+    Q8rPortable,
+    /// Byte recurrent and split head.0 weights; float32 projection, final head and state.
+    Q8x,
+    Q8xPortable,
 }
 
 impl Precision {
     fn encoding(self) -> Option<Encoding> {
         match self {
-            Precision::F32 => None,
+            Precision::F32
+            | Precision::Q8r
+            | Precision::Q8rPortable
+            | Precision::Q8x
+            | Precision::Q8xPortable => None,
             Precision::F16 => Some(Encoding::F16),
             Precision::I16 | Precision::Q16x | Precision::Q16xPortable => Some(Encoding::I16),
         }
+    }
+
+    fn q8(self) -> bool {
+        matches!(
+            self,
+            Self::Q8r | Self::Q8rPortable | Self::Q8x | Self::Q8xPortable
+        )
+    }
+
+    fn q8_head(self) -> bool {
+        matches!(self, Self::Q8x | Self::Q8xPortable)
     }
 }
 
@@ -172,6 +193,7 @@ const HIDDEN_SCALE: f32 = 1.0 / crate::half::QX;
 struct Mat {
     w: Range<usize>,
     s: Range<usize>,
+    q8: Option<usize>,
 }
 
 struct LayerIdx {
@@ -191,6 +213,7 @@ pub struct FastRnn {
     weights: Arena,
     /// 16-bit matrices when `precision` is F16 or I16.
     half: HalfArena,
+    q8: Vec<(String, crate::quant8::PackedQ8)>,
     state: Arena,
     w_in_cols: Mat, // column-major hidden x n_in, folded normalization
     b_in: Range<usize>,
@@ -471,9 +494,15 @@ unsafe fn gru_update_avx2(h: &mut [f32], gi: &[f32], gh: &[f32], ahead: &mut Ahe
             ahead.issue(2 * crate::half::AHEAD_LINES);
             let r = sigmoid8(_mm256_add_ps(ld(i, j), ld(g, j)));
             let u = sigmoid8(_mm256_add_ps(ld(i, n + j), ld(g, n + j)));
-            let c = tanh8(_mm256_add_ps(ld(i, 2 * n + j), _mm256_mul_ps(r, ld(g, 2 * n + j))));
+            let c = tanh8(_mm256_add_ps(
+                ld(i, 2 * n + j),
+                _mm256_mul_ps(r, ld(g, 2 * n + j)),
+            ));
             let keep = _mm256_mul_ps(u, ld(hp, j));
-            let y = _mm256_add_ps(_mm256_mul_ps(_mm256_sub_ps(_mm256_set1_ps(1.0), u), c), keep);
+            let y = _mm256_add_ps(
+                _mm256_mul_ps(_mm256_sub_ps(_mm256_set1_ps(1.0), u), c),
+                keep,
+            );
             _mm256_storeu_ps(hp.add(j), y);
         }
     }
@@ -500,7 +529,8 @@ fn gemv_lanes(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
                 acc[k] += w8[k] * x8[k];
             }
         }
-        let mut s = ((acc[0] + acc[1]) + (acc[2] + acc[3])) + ((acc[4] + acc[5]) + (acc[6] + acc[7]));
+        let mut s =
+            ((acc[0] + acc[1]) + (acc[2] + acc[3])) + ((acc[4] + acc[5]) + (acc[6] + acc[7]));
         for (wv, xv) in wt.iter().zip(xt) {
             s += wv * xv;
         }
@@ -582,6 +612,11 @@ impl FastRnn {
         let in_range = |m: &[f32]| m.iter().all(|v| v.abs() <= crate::half::MAX);
         let precision = match precision {
             Precision::F32 => Precision::F32,
+            Precision::Q8r if !crate::half::available() => Precision::Q8rPortable,
+            Precision::Q8x if !crate::half::available() => Precision::Q8xPortable,
+            Precision::Q8r | Precision::Q8rPortable | Precision::Q8x | Precision::Q8xPortable => {
+                precision
+            }
             Precision::Q16x if !crate::half::available() => Precision::Q16xPortable,
             Precision::Q16x | Precision::Q16xPortable => precision,
             _ if !crate::half::available() => Precision::F32,
@@ -598,15 +633,18 @@ impl FastRnn {
         };
         let mut weights = Arena::new();
         let mut half = HalfArena::new();
+        let mut q8 = Vec::new();
         // The 16-bit projection writes whole COL_TILE row tiles; z and b_in are padded to match.
-        let z_len = match precision {
-            Precision::F32 => hidden,
-            _ => hidden.div_ceil(crate::half::COL_TILE) * crate::half::COL_TILE,
+        let z_len = if precision.encoding().is_none() {
+            hidden
+        } else {
+            hidden.div_ceil(crate::half::COL_TILE) * crate::half::COL_TILE
         };
         let w_in_cols = match precision.encoding() {
             None => Mat {
                 w: weights.push(&cols),
                 s: 0..0,
+                q8: None,
             },
             Some(enc) => {
                 let scales = match enc {
@@ -631,6 +669,7 @@ impl FastRnn {
                 b_in.resize(z_len, 0.0);
                 Mat {
                     w: packed,
+                    q8: None,
                     s: if scales.is_empty() {
                         0..0
                     } else {
@@ -641,47 +680,116 @@ impl FastRnn {
         };
         let b_in = weights.push(&b_in);
         // Matrices in step order: `weights` for F32, `half` (+ scales in `weights`) otherwise.
-        let mut matrix =
-            |weights: &mut Arena, m: &[f32], rows: usize, cols: usize| match precision.encoding() {
+        let mut matrix = |weights: &mut Arena,
+                          name: String,
+                          m: &[f32],
+                          rows: usize,
+                          cols: usize,
+                          byte: bool|
+         -> Result<Mat, ShapeError> {
+            if byte {
+                let index = q8.len();
+                let packed = crate::quant8::PackedQ8::pack(m, rows, cols)
+                    .map_err(|e| ShapeError(e.into()))?;
+                q8.push((name, packed));
+                return Ok(Mat {
+                    w: 0..0,
+                    s: 0..0,
+                    q8: Some(index),
+                });
+            }
+            Ok(match precision.encoding() {
                 None => Mat {
                     w: weights.push(m),
                     s: 0..0,
+                    q8: None,
                 },
                 Some(Encoding::F16) => Mat {
                     w: half.push_panel(m, rows, cols),
                     s: 0..0,
+                    q8: None,
                 },
                 Some(Encoding::I16) => {
                     let scales = crate::half::row_scales(m, rows, cols);
                     Mat {
                         w: half.push_panel_as(Encoding::I16, m, &scales, rows, cols),
                         s: weights.push(&scales),
+                        q8: None,
                     }
                 }
-            };
+            })
+        };
         let layers = w
             .layers
             .iter()
-            .map(|l| LayerIdx {
-                w_ih: matrix(&mut weights, &l.w_ih, gates * hidden, hidden),
-                b_ih: weights.push(&l.b_ih),
-                w_hh: matrix(&mut weights, &l.w_hh, gates * hidden, hidden),
-                b_hh: weights.push(&l.b_hh),
+            .enumerate()
+            .map(|(k, l)| {
+                Ok(LayerIdx {
+                    w_ih: matrix(
+                        &mut weights,
+                        format!("gru.weight_ih_l{k}.0"),
+                        &l.w_ih,
+                        gates * hidden,
+                        hidden,
+                        precision.q8(),
+                    )?,
+                    b_ih: weights.push(&l.b_ih),
+                    w_hh: matrix(
+                        &mut weights,
+                        format!("gru.weight_hh_l{k}.0"),
+                        &l.w_hh,
+                        gates * hidden,
+                        hidden,
+                        precision.q8(),
+                    )?,
+                    b_hh: weights.push(&l.b_hh),
+                })
             })
-            .collect::<Vec<_>>();
+            .collect::<Result<Vec<_>, ShapeError>>()?;
         let q16x = matches!(precision, Precision::Q16x | Precision::Q16xPortable);
-        let (w1, w1z) = if q16x {
+        let (w1, w1z) = if q16x || precision.q8_head() {
             let block = |k: usize| -> Vec<f32> {
                 w.w1.chunks_exact(2 * hidden)
                     .flat_map(|row| &row[k * hidden..(k + 1) * hidden])
                     .copied()
                     .collect()
             };
-            let w1 = matrix(&mut weights, &block(0), head, hidden);
-            (w1, matrix(&mut weights, &block(1), head, hidden))
+            let w1 = matrix(
+                &mut weights,
+                "head.0.weight.0".into(),
+                &block(0),
+                head,
+                hidden,
+                precision.q8_head(),
+            )?;
+            (
+                w1,
+                matrix(
+                    &mut weights,
+                    "head.0.weight.1".into(),
+                    &block(1),
+                    head,
+                    hidden,
+                    precision.q8_head(),
+                )?,
+            )
         } else {
-            let w1 = matrix(&mut weights, &w.w1, head, 2 * hidden);
-            (w1, Mat { w: 0..0, s: 0..0 })
+            let w1 = matrix(
+                &mut weights,
+                "head.0.weight".into(),
+                &w.w1,
+                head,
+                2 * hidden,
+                false,
+            )?;
+            (
+                w1,
+                Mat {
+                    w: 0..0,
+                    s: 0..0,
+                    q8: None,
+                },
+            )
         };
         let b1 = weights.push(&w.b1);
         let w2 = weights.push(&w.w2);
@@ -704,7 +812,11 @@ impl FastRnn {
             }
             Cell::Lstm => state.zeros(layers.len() * hidden),
         };
-        let code_blocks = if q16x { layers.len() + 1 } else { 0 };
+        let code_blocks = if q16x || precision.q8() {
+            layers.len() + 1
+        } else {
+            0
+        };
         let codes = vec![Codes([0; TILE_COLS]); code_blocks * hidden.div_ceil(TILE_COLS)];
         debug_assert!(weights.len >= weights.as_ref().len());
         Ok(Self {
@@ -716,6 +828,7 @@ impl FastRnn {
             precision,
             weights,
             half,
+            q8,
             state,
             w_in_cols,
             b_in,
@@ -753,9 +866,41 @@ impl FastRnn {
         self.precision
     }
 
+    /// Exact byte tensors, named using the portable quantization checkpoint schema.
+    pub fn q8_matrices(&self) -> &[(String, crate::quant8::PackedQ8)] {
+        &self.q8
+    }
+
+    /// Replace constructor quantization with preserved codes/scales from an export.
+    pub fn load_q8_matrices(
+        &mut self,
+        matrices: Vec<(String, crate::quant8::PackedQ8)>,
+    ) -> Result<(), ShapeError> {
+        if matrices.len() != self.q8.len() || self.q8.is_empty() {
+            return Err(ShapeError(
+                "q8 tensor count disagrees with precision preset".into(),
+            ));
+        }
+        for ((expected, old), (name, matrix)) in self.q8.iter().zip(&matrices) {
+            if name != expected || old.rows() != matrix.rows() || old.cols() != matrix.cols() {
+                return Err(ShapeError(format!(
+                    "q8 tensor identity or shape mismatch: {name}"
+                )));
+            }
+        }
+        self.q8 = matrices;
+        Ok(())
+    }
+
     /// Weight bytes a step streams (all arenas, padding included).
     pub fn weight_bytes(&self) -> usize {
-        self.weights.len * 4 + self.half.bytes()
+        self.weights.len * 4
+            + self.half.bytes()
+            + self
+                .q8
+                .iter()
+                .map(|(_, matrix)| matrix.storage_bytes())
+                .sum::<usize>()
     }
 
     pub fn cell(&self) -> Cell {
@@ -778,7 +923,11 @@ impl FastRnn {
     /// stepped just before this one prefetches.
     pub fn first_weights(&self) -> Ahead {
         match self.precision {
-            Precision::F32 => Ahead::NONE,
+            Precision::F32
+            | Precision::Q8r
+            | Precision::Q8rPortable
+            | Precision::Q8x
+            | Precision::Q8xPortable => Ahead::NONE,
             _ => Ahead::new(&self.half.as_ref()[self.w_in_cols.w.clone()]),
         }
     }
@@ -799,6 +948,11 @@ impl FastRnn {
             #[cfg(target_arch = "x86_64")]
             Precision::Q16x => unsafe { self.step_q16x(x, out, after) },
             Precision::Q16xPortable => self.step_q_impl::<false>(x, out, after),
+            #[cfg(target_arch = "x86_64")]
+            Precision::Q8r | Precision::Q8x => unsafe { self.step_q16x(x, out, after) },
+            Precision::Q8rPortable | Precision::Q8xPortable => {
+                self.step_q_impl::<false>(x, out, after)
+            }
             #[cfg(not(target_arch = "x86_64"))]
             _ => unreachable!(),
         }
@@ -836,6 +990,15 @@ impl FastRnn {
         let codes: &mut [i16] = bytemuck::cast_slice_mut(&mut self.codes);
         let kc = n.div_ceil(TILE_COLS) * TILE_COLS;
         let matvec = |m: &Mat, xs: f32, q: &[i16], b: Option<&[f32]>, out: &mut [f32]| {
+            if let Some(index) = m.q8 {
+                let packed = &self.q8[index].1;
+                if SIMD {
+                    packed.gemv(q, xs, b, out);
+                } else {
+                    packed.gemv_portable(q, xs, b, out);
+                }
+                return;
+            }
             let (panel, scales) = (&half[m.w.clone()], &wts[m.s.clone()]);
             // SAFETY: SIMD is instantiated only from `step_q16x` (AVX2 + FMA + F16C).
             #[cfg(target_arch = "x86_64")]
@@ -843,6 +1006,11 @@ impl FastRnn {
                 return unsafe { crate::half::gemv_q16x(panel, scales, xs, q, n, b, out) };
             }
             crate::half::gemv_q16x_portable(panel, scales, xs, q, n, b, out)
+        };
+        let matrix_ahead = |m: &Mat| match m.q8 {
+            Some(index) => Ahead::bytes(self.q8[index].1.bytes()),
+            None if self.precision.q8() => Ahead::NONE,
+            None => Ahead::new(&half[m.w.clone()]),
         };
         // Elementwise passes: the AVX2 twins (`approx::avx2`, `quantize_avx2`) return the scalar
         // functions' bits, and prefetch the next matrix while they compute.
@@ -869,22 +1037,36 @@ impl FastRnn {
         };
 
         {
-            let b = &wts[self.b_in.clone()];
-            let padded = &mut st[self.z.start..self.z.start + b.len()];
-            let cols = &half[self.w_in_cols.w.clone()];
-            let scales = &wts[self.w_in_cols.s.clone()];
-            let simd = SIMD && cfg!(target_arch = "x86_64");
-            if simd {
-                // SAFETY: as for `matvec`.
-                #[cfg(target_arch = "x86_64")]
-                unsafe {
-                    crate::half::project_as::<true>(cols, scales, b, x, &mut self.nz, padded)
+            if self.precision.q8() {
+                let z = &mut st[self.z.clone()];
+                z.copy_from_slice(&wts[self.b_in.clone()]);
+                for (col, &xj) in wts[self.w_in_cols.w.clone()].chunks_exact(n).zip(x) {
+                    if xj != 0.0 {
+                        for (value, weight) in z.iter_mut().zip(col) {
+                            *value += weight * xj;
+                        }
+                    }
                 }
             } else {
-                crate::half::project_q16_portable(cols, scales, b, x, padded);
+                let b = &wts[self.b_in.clone()];
+                let padded = &mut st[self.z.start..self.z.start + b.len()];
+                let cols = &half[self.w_in_cols.w.clone()];
+                let scales = &wts[self.w_in_cols.s.clone()];
+                let simd = SIMD && cfg!(target_arch = "x86_64");
+                if simd {
+                    // SAFETY: as for `matvec`.
+                    #[cfg(target_arch = "x86_64")]
+                    unsafe {
+                        crate::half::project_as::<true>(cols, scales, b, x, &mut self.nz, padded)
+                    }
+                } else {
+                    crate::half::project_q16_portable(cols, scales, b, x, padded);
+                }
             }
-            let first = &half[self.layers[0].w_ih.w.clone()];
-            gelu_all(&mut st[self.z.clone()], &mut Ahead::new(first));
+            gelu_all(
+                &mut st[self.z.clone()],
+                &mut matrix_ahead(&self.layers[0].w_ih),
+            );
         }
         let n_layers = self.layers.len();
         let (hq, zq) = codes.split_at_mut(n_layers * kc);
@@ -909,12 +1091,12 @@ impl FastRnn {
             let cur = &mut cur[..kc];
             matvec(&li.w_ih, s_in, q_in, Some(&wts[li.b_ih.clone()]), gi);
             matvec(&li.w_hh, HIDDEN_SCALE, cur, Some(&wts[li.b_hh.clone()]), gh);
-            let next = self.layers.get(k + 1).map_or(&self.w1.w, |l| &l.w_ih.w);
+            let next = self.layers.get(k + 1).map_or(&self.w1, |l| &l.w_ih);
             match self.cell {
                 // SAFETY: as for `matvec`.
                 #[cfg(target_arch = "x86_64")]
                 Cell::Gru if SIMD && fast => unsafe {
-                    gru_update_avx2(h, gi, gh, &mut Ahead::new(&half[next.clone()]))
+                    gru_update_avx2(h, gi, gh, &mut matrix_ahead(next))
                 },
                 Cell::Gru => gru_update(h, gi, gh, fast),
                 Cell::Lstm => lstm_update(h, &mut cells[k * n..(k + 1) * n], gi, gh, fast),
@@ -922,6 +1104,18 @@ impl FastRnn {
             quantize(h, Some(1.0), cur);
         }
 
+        if self.precision.q8() && !self.precision.q8_head() {
+            let last = self.h.start + (n_layers - 1) * n;
+            let (lo, hi) = st.split_at_mut(self.cat.start);
+            let (cat, rest) = hi.split_at_mut(2 * n);
+            cat[..n].copy_from_slice(&lo[last..last + n]);
+            cat[n..].copy_from_slice(&lo[self.z.clone()]);
+            let a = &mut rest[self.a.start - self.cat.end..self.a.end - self.cat.end];
+            gemv_lanes(&wts[self.w1.w.clone()], &wts[self.b1.clone()], cat, a);
+            gelu_all(a, &mut after);
+            gemv_lanes(&wts[self.w2.clone()], &wts[self.b2.clone()], a, out);
+            return;
+        }
         let a = &mut st[self.a.clone()];
         let last = &hq[(n_layers - 1) * kc..];
         matvec(&self.w1, HIDDEN_SCALE, last, Some(&wts[self.b1.clone()]), a);
@@ -1037,6 +1231,85 @@ impl FastRnn {
 mod tests {
     use super::*;
     use crate::rnn::{GruLayer, RnnModel};
+
+    #[test]
+    fn q8_preserves_own_representation_and_matches_scalar_reset() {
+        for (n_in, hidden, layers) in [(37, 20, 2), (40, 33, 3), (211, 128, 2)] {
+            for (precision, portable) in [
+                (Precision::Q8r, Precision::Q8rPortable),
+                (Precision::Q8x, Precision::Q8xPortable),
+            ] {
+                let make = || {
+                    let mut value = weights(n_in, hidden, layers, 17);
+                    // Bound recurrent gain as width grows. Unscaled random recurrent
+                    // matrices are a determinism stress test, not a uniform error bound.
+                    let scale = 1.0 / (hidden as f32).sqrt();
+                    for layer in &mut value.layers {
+                        layer.w_ih.iter_mut().chain(&mut layer.w_hh).for_each(|w| *w *= scale);
+                    }
+                    value.w1.iter_mut().chain(&mut value.w2).for_each(|w| *w *= scale);
+                    value
+                };
+                let mut represented = make();
+                for layer in &mut represented.layers {
+                    for values in [&mut layer.w_ih, &mut layer.w_hh] {
+                        *values = crate::quant8::PackedQ8::pack(values, 3 * hidden, hidden).unwrap().dequantize();
+                    }
+                }
+                if precision.q8_head() {
+                    for half in 0..2 {
+                        let block: Vec<f32> = represented.w1.chunks_exact(2 * hidden)
+                            .flat_map(|row| &row[half * hidden..(half + 1) * hidden]).copied().collect();
+                        let decoded = crate::quant8::PackedQ8::pack(&block, hidden, hidden).unwrap().dequantize();
+                        for (row, values) in represented.w1.chunks_exact_mut(2 * hidden).zip(decoded.chunks_exact(hidden)) {
+                            row[half * hidden..(half + 1) * hidden].copy_from_slice(values);
+                        }
+                    }
+                }
+                let mut q = FastRnn::with_precision(make(), Activations::Fast, precision).unwrap();
+                let mut scalar = FastRnn::with_precision(make(), Activations::Fast, portable).unwrap();
+                let mut reference = FastRnn::new(represented, Activations::Fast).unwrap();
+                assert!(q.weight_bytes() < reference.weight_bytes());
+                let preserved = q.q8_matrices().iter().map(|(name, matrix)| {
+                    let (codes, scales) = matrix.to_rows();
+                    (name.clone(), crate::quant8::PackedQ8::from_rows(&codes, &scales, matrix.rows(), matrix.cols()).unwrap())
+                }).collect();
+                scalar.load_q8_matrices(preserved).unwrap();
+                let (mut a, mut b, mut c) = ([0.0; 2], [0.0; 2], [0.0; 2]);
+                let mut outputs = Vec::new();
+                let mut worst = 0.0f32;
+                for input in inputs(n_in, 300) {
+                    q.step(&input, &mut a);
+                    scalar.step(&input, &mut b);
+                    reference.step(&input, &mut c);
+                    assert_eq!(a.map(f32::to_bits), b.map(f32::to_bits));
+                    worst = worst.max((a[0] - c[0]).abs()).max((a[1] - c[1]).abs());
+                    outputs.push(a);
+                }
+                assert!(worst < 1e-3, "{precision:?} H{hidden} own-reference error: {worst}");
+                q.reset();
+                for (input, expected) in inputs(n_in, 300).iter().zip(outputs) {
+                    q.step(input, &mut a);
+                    assert_eq!(a.map(f32::to_bits), expected.map(f32::to_bits));
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn q8_unscaled_recurrent_stress_is_finite_and_bitwise_portable() {
+        for (precision, portable) in [(Precision::Q8r, Precision::Q8rPortable), (Precision::Q8x, Precision::Q8xPortable)] {
+            let mut simd = FastRnn::with_precision(weights(211, 128, 2, 17), Activations::Fast, precision).unwrap();
+            let mut scalar = FastRnn::with_precision(weights(211, 128, 2, 17), Activations::Fast, portable).unwrap();
+            let (mut a, mut b) = ([0.0; 2], [0.0; 2]);
+            for input in inputs(211, 300) {
+                simd.step(&input, &mut a);
+                scalar.step(&input, &mut b);
+                assert!(a.iter().all(|value| value.is_finite()));
+                assert_eq!(a.map(f32::to_bits), b.map(f32::to_bits));
+            }
+        }
+    }
 
     fn weights(n_in: usize, hidden: usize, layers: usize, seed: u64) -> RnnWeights {
         let mut s = seed | 1;
