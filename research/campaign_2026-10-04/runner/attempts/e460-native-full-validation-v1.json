@@ -19,9 +19,16 @@
     "--expected-sha256",
     "21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb"
   ],
+  "artifacts": [
+    {
+      "path": "research/campaign_2026-10-04/checks/e460_native_full_validation_v1.json",
+      "sha256": "18354ac391a62b6c1774e812b15666914ff01f34b8d619b23fc0b6b6c1bd96d0",
+      "size": 906
+    }
+  ],
   "block_id": "local001",
-  "charged_seconds": 0.0,
-  "elapsed_seconds": 1239.235411456997,
+  "charged_seconds": 3954.0253404120012,
+  "elapsed_seconds": 3954.0253404120012,
   "environment": {
     "ARROW_NUM_THREADS": "1",
     "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
@@ -42,7 +49,30 @@
     "WNN_PRECISION": "i16",
     "WNN_THREADS": "1"
   },
-  "heartbeat_unix": 1791121809.4964726,
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 841893,
+    "low": 0,
+    "max": 5268983,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791124516.8085248,
+  "heartbeat_unix": 1791124516.2981586,
   "id": "e460-native-full-validation-v1",
   "initial_memory_events": {
     "high": 0,
@@ -81,7 +111,7 @@
     "MemorySwapMax": "0"
   },
   "peak_observed_vram_bytes": 0,
-  "peak_ram_bytes": 388300800,
+  "peak_ram_bytes": 495808512,
   "reserved_seconds": 6930,
   "reserved_unix": 1791120562.7147536,
   "runtime_sha256": {
@@ -91,6 +121,7 @@
     "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
     "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
   },
+  "signals": [],
   "spec": {
     "argv": [
       "{python}",
@@ -154,7 +185,8 @@
   },
   "spec_sha256": "7a4bb9a91c7a98462a69507d3b28342d57dbe644d12351ab13c74a42c1af5ca9",
   "started_unix": 1791120570.2586088,
-  "status": "running",
+  "status": "finished",
+  "teardown_verified": true,
   "timeout_seconds": 6000,
   "unit": "wnn-c04-e460-native-full-validation-v1.service",
   "unit_properties": {

@@ -9,7 +9,11 @@ E459 pools all required scored rows from **datasets/valid.parquet**, using the o
 
 The full file has 37,460,000 rows; 3,528,273 satisfy `need_prediction AND is_scored`. The combo's full-file t0/t1 scores are 0.696316655 / 0.704690833. Its excluded-portion t0/t1 scores are 0.687627604 / 0.712016713.
 
-These are cached prediction exports with verified checkpoint and prediction hashes. The combo uses FP32 exports; the legacy D256 export did not record precision. Their exact public native callback arithmetic can differ slightly. E460 is replaying the actual public-confirmed i16 ZIP over the entire validation file; no result is yet available. Its output will be `checks/e460_native_full_validation_v1.json`.
+These table values are cached prediction exports with verified checkpoint and prediction hashes. The combo uses FP32 exports; the legacy D256 export did not record precision.
+
+**E460 completed the actual public-confirmed i16 ZIP callback over the entire supplied validation file: global WP 0.7005037662576581, t0 0.6963166610333626, t1 0.7046908714819534.** It scored all 1,873 sequences and the same 3,528,273 selected rows. Its score differs from the combo's FP32 cached value by only 0.0000000222. The archive SHA-256 is `21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb`.
+
+The replay finished successfully with verified teardown, about 496 MB peak RAM and no worker OOM events. It took 3,946 seconds on the loaded local one-CPU worker to process this complete validation file. That duration covers this file and host; it is not the competition runtime, which the user reported as 37m47s. Raw results are in `checks/e460_native_full_validation_v1.json`, and the resource/exit record is in `runner/attempts/e460-native-full-validation-v1.json`.
 
 Most supplied validation sequences were used for final fitting, so their aggregate score is descriptive. The excluded 368 sequences are historically exposed, not an untouched test. The combo is about 0.000289 lower over all supplied validation, but about 0.002045 higher on the excluded portion. The independent public endpoint improves by 0.0014. Do not tune the fixed submission using these reporting-only results.
 
@@ -25,4 +29,4 @@ E410 measured the **recipe's fold-specific models**, not the final full-data che
 
 The pooled paired component-bootstrap interval is [+0.001565628, +0.003448539], conditional on fitted seed3 models. Existing folds are exposed, and teacher-lineage/selection limitations remain; this does not include training-seed uncertainty.
 
-Reproduction: `scripts/validation_scorecard.py`; sealed inputs/commands in `specs/e459_validation_scorecard_v1.sealed.json`; output `checks/e459_validation_scorecard_v1.json`. CV source: `checks/combo_merged_all_folds_report.json` and `E410_complete_predictor.md`.
+Reproduction: `scripts/validation_scorecard.py`; sealed inputs/commands in `specs/e459_validation_scorecard_v1.sealed.json`; output `checks/e459_validation_scorecard_v1.json`. Exact ZIP replay: `scripts/native_validation_score.py`, sealed command/input hashes in `specs/e460_native_full_validation_v1.sealed.json`. CV source: `checks/combo_merged_all_folds_report.json` and `E410_complete_predictor.md`.
