@@ -56,7 +56,7 @@ from wnn.outcomes import (
 from wnn.propensity import load_propensity, propensity
 from wnn.structured_state import StructuredStateModel
 from wnn.event_content import EventContentModel
-from wnn.resources import configure_torch, dataloader_budget
+from wnn.resources import configure_torch, cpu_threads, dataloader_budget
 from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_identity,
                               sample_order_identity, scaler_source_identity)
 from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
@@ -358,6 +358,9 @@ class CudaPrefetcher:
     def __iter__(self):
         it = iter(self.loader)
         nxt = self._load(it)
+        # The first pinned iterator can lazily initialize CPU thread pools.
+        # Reapply the main-thread budget after its pinning thread is active.
+        torch.set_num_threads(cpu_threads())
         while nxt is not None:
             torch.cuda.current_stream().wait_stream(self.stream)
             dev, scored_cpu = nxt
@@ -497,6 +500,8 @@ def shifted_targets(y, valid, shifts):
 def fit_normalization(model, loader, device, batches=2):
     feats = []
     for b, batch in enumerate(loader):
+        if b == 0:
+            torch.set_num_threads(cpu_threads())
         if b >= batches:
             break
         f = build_inputs(batch[0].to(device))
@@ -1434,6 +1439,9 @@ def main():
     provenance["training_clocks"] = {"micro_rows": args.chunk, "detach_rows": detach_rows,
                                      "update_rows": update_rows, "ema_decay_per_update": ema_update_decay,
                                      "ema_clock": "attempted updates including AMP skips"}
+    # Bind the runtime only after lazy loaders/optimizers have initialized, and
+    # use that same explicit thread budget for uninterrupted and resumed fits.
+    torch.set_num_threads(cpu_threads())
     training_contract = resume_contract(args, provenance, train_loader, total) if continuation else None
     start_epoch = 0
     prior_fit_seconds = 0.0
