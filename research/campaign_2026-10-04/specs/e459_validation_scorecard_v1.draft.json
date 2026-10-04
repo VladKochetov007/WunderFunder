@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "name": "e459_validation_scorecard_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "scripts/validation_scorecard.py",
+    "--output",
+    "research/campaign_2026-10-04/checks/e459_validation_scorecard_v1.json"
+  ],
+  "code": [
+    "scripts/validation_scorecard.py",
+    "utils.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/splits.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "cache/pred_c20261004_combo_s3_final_r1_fp32_valid.npy",
+    "cache/pred_c20261004_combo_s3_final_r1_fp32_valid.json",
+    "artifacts/runs/c20261004_combo_s3_final_r1/model_ep3.pt",
+    "cache/pred_c20261004_combo_head_s3_final_fp32_valid.npy",
+    "cache/pred_c20261004_combo_head_s3_final_fp32_valid.json",
+    "artifacts/runs/c20261004_combo_head_s3_final/model_ep0.pt",
+    "cache/pred_c20261001_final_d256_s3_valid.npy",
+    "cache/pred_c20261001_final_d256_s3_valid.json",
+    "artifacts/runs/c20261001_final_d256_s3/model_ep3.pt",
+    "cache/pred_c20261001_final_d256_s3_gcorrh_valid.npy",
+    "cache/pred_c20261001_final_d256_s3_gcorrh_valid.json",
+    "artifacts/runs/c20261001_final_d256_s3_gcorrh/model_ep0.pt"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e459_validation_scorecard_v1.json"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 300,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {}
+}

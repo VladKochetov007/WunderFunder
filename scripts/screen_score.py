@@ -86,21 +86,35 @@ def holdout_member(name: str, verified: dict) -> np.ndarray:
 
     pred = ROOT / "cache" / f"pred_{name}_valid.npy"
     if name not in verified:
+        side = json.loads(pred.with_suffix(".json").read_text())
+        prediction_sha = file_sha256(pred)
+        if side.get("run") != name:
+            raise ValueError(f"{name}: prediction sidecar names run {side.get('run')!r}")
+        if prediction_sha != side.get("prediction_sha256"):
+            raise ValueError(f"{name}: prediction bytes differ from sidecar")
         run = name
         if not (ROOT / "artifacts" / "runs" / run).is_dir():
             run = re.sub(r"_ep\d+$", "", run)  # cached exports of a fixed epoch are named RUN_epN
+        prediction_run = run
         while run:
             run_dir = ROOT / "artifacts" / "runs" / run
             snaps = sorted(run_dir.glob("model*.pt"))
             if not snaps:
                 raise ValueError(f"{name}: no checkpoint for run {run}")
+            if run == prediction_run:
+                checkpoint_sha = side.get("checkpoint_sha256")
+                matching = [p for p in snaps if file_sha256(p) == checkpoint_sha]
+                if len(matching) != 1:
+                    raise ValueError(f"{name}: sidecar checkpoint hash matches {len(matching)} checkpoints")
+                snaps = matching
             args = torch.load(snaps[0], map_location="cpu", weights_only=False)["args"]
             if args.get("include_heldout_valid") or args.get("valid_fold", -1) not in (-1, None):
                 raise ValueError(f"{name}: run {run} fitted on holdout or a fold split")
             if args.get("train_source") not in ("train", "train+valid", "valid"):
                 raise ValueError(f"{name}: run {run} unknown train source")
             run = (args.get("init") or "").partition("@")[0]
-        verified[name] = {"prediction_sha256": file_sha256(pred), "holdout_safe": True}
+        verified[name] = {"prediction_sha256": prediction_sha, "checkpoint_sha256": side.get("checkpoint_sha256"),
+                          "epoch": side.get("epoch"), "holdout_safe": True}
     return np.load(pred, mmap_mode="r")
 
 

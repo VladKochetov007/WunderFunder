@@ -1,0 +1,9 @@
+[wnn] level=v3 members=1 precision=q16x
+{"package_sha256": "f61577da8745cfc545e9acc528e001198074729e3f0878656194ea93a0fb5ec9", "package_bytes": 5165014, "sequences": 20, "v2_v3_bitwise": true, "sequence_reset_bitwise": true, "q16x_vs_native_f32": {"max_abs": 0.000415802001953125, "wp_delta": 8.745162594081535e-08, "max_abs_limit": 0.0003, "wp_delta_limit": 5e-06, "passed": false}, "gpu_fp16_export_diagnostic": {"max_abs": 0.04049476981163025, "p999_abs": 0.026117391906678746, "wp_delta": 8.661229825113193e-05}, "scope": "20 full validation streams; fixed predictor; verification subset is not score confirmation", "passed": false}
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/checks/verify_final_package.py", line 92, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-04/checks/verify_final_package.py", line 88, in main
+    raise ValueError("Package verification gate failed")
+ValueError: Package verification gate failed

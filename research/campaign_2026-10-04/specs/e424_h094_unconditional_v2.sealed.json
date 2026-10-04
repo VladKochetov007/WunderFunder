@@ -1,0 +1,463 @@
+{
+  "argv": [
+    "{python}",
+    "scripts/train_rnn.py",
+    "--name",
+    "c20261004_h094_unconditional_s3_final",
+    "--train-source",
+    "train+valid",
+    "--full-valid",
+    "--loss",
+    "wmse",
+    "--aux-struct",
+    "0.3",
+    "--aux-next",
+    "0.3",
+    "--propensity",
+    "prop_v1",
+    "--prop-power",
+    "2",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--hidden",
+    "256",
+    "--layers",
+    "2",
+    "--batch",
+    "32",
+    "--chunk",
+    "1000",
+    "--epochs",
+    "4",
+    "--lr",
+    "0.001",
+    "--wd",
+    "0.01",
+    "--seed",
+    "3",
+    "--optim",
+    "muon",
+    "--muon-scope",
+    "rnn",
+    "--ema-teacher",
+    "1",
+    "--ema-decay",
+    "0.999",
+    "--eval-ema",
+    "--since-weight",
+    "32",
+    "--since-floor",
+    "0.25",
+    "--distill",
+    "ab67_final_since_s3,ab67_final_since_s4",
+    "--distill-alpha",
+    "0.5",
+    "--distill-boot-h",
+    "8",
+    "--fast",
+    "--checkpoint-policy",
+    "fixed",
+    "--checkpoint-epoch",
+    "3",
+    "--save-training-state",
+    "--eval-source",
+    "holdout",
+    "--arch",
+    "prefix-adapter",
+    "--hidden",
+    "128",
+    "--layers",
+    "2",
+    "--dropout",
+    "0",
+    "--adapter-rank",
+    "8",
+    "--adapter-mode",
+    "unconditional",
+    "--prefix-rows",
+    "99"
+  ],
+  "artifacts": [
+    "artifacts/runs/c20261004_h094_unconditional_s3_final/model_ep3.pt",
+    "artifacts/runs/c20261004_h094_unconditional_s3_final/provenance.json",
+    "artifacts/runs/c20261004_h094_unconditional_s3_final/history.json",
+    "artifacts/runs/c20261004_h094_unconditional_s3_final/training_state.pt"
+  ],
+  "code": [
+    {
+      "path": "scripts/continuation_recipes.py",
+      "sha256": "26077a78032d6e62440fa5894b2620409c984aae4db69cd3cb276afbcc0739b8",
+      "size": 12650
+    },
+    {
+      "path": "scripts/predict_run.py",
+      "sha256": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee",
+      "size": 5340
+    },
+    {
+      "path": "scripts/train_rnn.py",
+      "sha256": "672a31dfcd92fd5e1a8c6e1ce88368735903f6131f737527ca9f60fee5fc4575",
+      "size": 133474
+    },
+    {
+      "path": "src/wnn/__init__.py",
+      "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+      "size": 63
+    },
+    {
+      "path": "src/wnn/campaign.py",
+      "sha256": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+      "size": 13176
+    },
+    {
+      "path": "src/wnn/campaign_local.py",
+      "sha256": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+      "size": 22065
+    },
+    {
+      "path": "src/wnn/campaign_spec.py",
+      "sha256": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+      "size": 8717
+    },
+    {
+      "path": "src/wnn/data.py",
+      "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "size": 4000
+    },
+    {
+      "path": "src/wnn/evaluation.py",
+      "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+      "size": 8080
+    },
+    {
+      "path": "src/wnn/event_content.py",
+      "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+      "size": 7226
+    },
+    {
+      "path": "src/wnn/features.py",
+      "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+      "size": 5421
+    },
+    {
+      "path": "src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "size": 8902
+    },
+    {
+      "path": "src/wnn/heuristics.py",
+      "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e",
+      "size": 9025
+    },
+    {
+      "path": "src/wnn/infer.py",
+      "sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9",
+      "size": 2377
+    },
+    {
+      "path": "src/wnn/markov.py",
+      "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2",
+      "size": 2624
+    },
+    {
+      "path": "src/wnn/metric.py",
+      "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+      "size": 4806
+    },
+    {
+      "path": "src/wnn/nn.py",
+      "sha256": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+      "size": 19926
+    },
+    {
+      "path": "src/wnn/optim.py",
+      "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+      "size": 11736
+    },
+    {
+      "path": "src/wnn/outcomes.py",
+      "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+      "size": 4538
+    },
+    {
+      "path": "src/wnn/portability.py",
+      "sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+      "size": 1909
+    },
+    {
+      "path": "src/wnn/privileged.py",
+      "sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4",
+      "size": 6608
+    },
+    {
+      "path": "src/wnn/propensity.py",
+      "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+      "size": 1404
+    },
+    {
+      "path": "src/wnn/quantization.py",
+      "sha256": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077",
+      "size": 6050
+    },
+    {
+      "path": "src/wnn/quantization_export.py",
+      "sha256": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0",
+      "size": 3968
+    },
+    {
+      "path": "src/wnn/research_features.py",
+      "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8",
+      "size": 6234
+    },
+    {
+      "path": "src/wnn/resources.py",
+      "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+      "size": 4485
+    },
+    {
+      "path": "src/wnn/run_identity.py",
+      "sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+      "size": 4488
+    },
+    {
+      "path": "src/wnn/sentinel.py",
+      "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec",
+      "size": 8603
+    },
+    {
+      "path": "src/wnn/sentinel_calibration.py",
+      "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599",
+      "size": 8550
+    },
+    {
+      "path": "src/wnn/specialist.py",
+      "sha256": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400",
+      "size": 12064
+    },
+    {
+      "path": "src/wnn/splits.py",
+      "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+      "size": 8647
+    },
+    {
+      "path": "src/wnn/spread_aux.py",
+      "sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512",
+      "size": 7553
+    },
+    {
+      "path": "src/wnn/streaming.py",
+      "sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e",
+      "size": 2422
+    },
+    {
+      "path": "src/wnn/structured_state.py",
+      "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+      "size": 9963
+    },
+    {
+      "path": "src/wnn/symreg.py",
+      "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849",
+      "size": 11386
+    },
+    {
+      "path": "src/wnn/tcn_ref.py",
+      "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa",
+      "size": 3511
+    },
+    {
+      "path": "src/wnn/ticks.py",
+      "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8",
+      "size": 4946
+    },
+    {
+      "path": "src/wnn/training_calibration.py",
+      "sha256": "7a5bb4f593fef1592abbeb3c096ece12dac019c029c43fa5f0f652cb2fe5edbd",
+      "size": 1989
+    },
+    {
+      "path": "src/wnn/training_controls.py",
+      "sha256": "87b69d3cde4d4e0a38fdc4ebcca1c41ca20ab3bc28c540ab222cfba6e76d7cc2",
+      "size": 9979
+    },
+    {
+      "path": "src/wnn/training_credit.py",
+      "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd",
+      "size": 2225
+    },
+    {
+      "path": "src/wnn/training_dynamics.py",
+      "sha256": "902f69a4168555dc059ef0f4fdf7f6d194a8afd9dd594aa7e311141a040a4294",
+      "size": 14936
+    },
+    {
+      "path": "src/wnn/training_factorized.py",
+      "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2",
+      "size": 7615
+    },
+    {
+      "path": "src/wnn/training_qat.py",
+      "sha256": "23d866801e0fef753e8af017e582a32900c40d4925c30a3083c128a2014ccf72",
+      "size": 6146
+    },
+    {
+      "path": "src/wnn/training_sampling.py",
+      "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2",
+      "size": 6540
+    },
+    {
+      "path": "src/wnn/training_state.py",
+      "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac",
+      "size": 8689
+    },
+    {
+      "path": "src/wnn/training_views.py",
+      "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142",
+      "size": 3065
+    },
+    {
+      "path": "src/wnn/twoclock_ref.py",
+      "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44",
+      "size": 3732
+    },
+    {
+      "path": "src/wnn/viz.py",
+      "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5",
+      "size": 4297
+    }
+  ],
+  "code_sha256": "228e39984b3be5b22fca2f3ed4f85255feb4d0aa8769542a42da52c582d8bb75",
+  "environment": {
+    "WNN_LOADER_RAM_GB": "3",
+    "WNN_LOADER_WORKERS": "2",
+    "WNN_PORTABLE_DATA_MANIFEST": "research/campaign_2026-10-04/portable_inputs.json"
+  },
+  "inputs": [
+    {
+      "path": "artifacts/runs/ab67_final_since_s3/history.json",
+      "sha256": "213aa3b30a74d45038f32d15d0ddf3d9b8ebbc2c0005965640e36fe1a0bb13ef",
+      "size": 1781
+    },
+    {
+      "path": "artifacts/runs/ab67_final_since_s3/model.pt",
+      "sha256": "8223c773935b7ce2fb0d8da81b9aa1ea418ebf8a2fb0a0076056897a853149c9",
+      "size": 1052743
+    },
+    {
+      "path": "artifacts/runs/ab67_final_since_s4/history.json",
+      "sha256": "83275cbd770a6af354a84c0f8723514f99efc6dae802c8b771ce83a7e4fc90bf",
+      "size": 1776
+    },
+    {
+      "path": "artifacts/runs/ab67_final_since_s4/model.pt",
+      "sha256": "620b7e18314c753f34273856390bf88a35bb7504379015dec067916f35a164bd",
+      "size": 1052743
+    },
+    {
+      "path": "artifacts/runs/prop_v1/model.pt",
+      "sha256": "71889202ec172f4118bd26813a10a26f4358ecd1a256c7f884c38ff5c840617f",
+      "size": 159607
+    },
+    {
+      "path": "cache/chain_folds.npz",
+      "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+      "size": 550072
+    },
+    {
+      "path": "cache/chains.npz",
+      "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+      "size": 650142
+    },
+    {
+      "path": "cache/pred_ab67_final_since_s3_train.json",
+      "sha256": "10a01c39b36f1338d08c007c174014386e5008347ffb5ab0c9b6cc3800d43887",
+      "size": 105913
+    },
+    {
+      "path": "cache/pred_ab67_final_since_s3_train.npy",
+      "sha256": "cbb4c8a024f5758071ce6508441be4e1d658aa9d956ee7f347d84f9b48fdbbce",
+      "size": 1696960128
+    },
+    {
+      "path": "cache/pred_ab67_final_since_s3_valid.npy",
+      "sha256": "2a0228ba6ea5863dcdffff0329281897ff4aff0d4fc8fb6c9a69294285ae6c4e",
+      "size": 299680128
+    },
+    {
+      "path": "cache/pred_ab67_final_since_s4_train.json",
+      "sha256": "0ae31560506c91d327c7f678a75bd2be92e007fc1350c6d71dd56ec524008279",
+      "size": 105913
+    },
+    {
+      "path": "cache/pred_ab67_final_since_s4_train.npy",
+      "sha256": "831cf87064c990ac2620550606be43b0e2e7718b7186292af7c64a49d857fcae",
+      "size": 1696960128
+    },
+    {
+      "path": "cache/pred_ab67_final_since_s4_valid.npy",
+      "sha256": "7698145a986465d38a0578fc77808abfb431d4ddbd67b837e817bfa798d38ca9",
+      "size": 299680128
+    },
+    {
+      "path": "cache/propcache_prop_v1_train.json",
+      "sha256": "c675cf540162ebc211d327bb3ff171da26c5fe40cf2581e3ab415467c8b5acb9",
+      "size": 174
+    },
+    {
+      "path": "cache/propcache_prop_v1_train.npy",
+      "sha256": "726ac00cad9cf74a18616aecb07fa9515636caee7513a0de42497e5df557d2ab",
+      "size": 848560128
+    },
+    {
+      "path": "cache/propcache_prop_v1_valid.json",
+      "sha256": "b02f4a8330a9690797c3705018dcd1f20d02122408f699eea1e9a84432216dfe",
+      "size": 171
+    },
+    {
+      "path": "cache/propcache_prop_v1_valid.npy",
+      "sha256": "31fd04fbacfb58b074e768e6efc85e4713ac7388b4cdd64acc8a97c93e04f3bf",
+      "size": 149840128
+    },
+    {
+      "path": "cache/train_targets.npz",
+      "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+      "size": 1909335790
+    },
+    {
+      "path": "cache/valid_targets.npz",
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "size": 337186198
+    },
+    {
+      "path": "datasets/train.parquet",
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "size": 29240219011
+    },
+    {
+      "path": "datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "size": 5615509128
+    },
+    {
+      "path": "datasets/valid_mask.parquet",
+      "sha256": "301430165527a6003d44486a8c5051288c31112d327df94fb420e82c018e5251",
+      "size": 91972846
+    },
+    {
+      "path": "research/campaign_2026-10-04/portable_inputs.json",
+      "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+      "size": 2104
+    }
+  ],
+  "kind": "gpu",
+  "limits": {
+    "cpus": 8,
+    "gpu_memory_bytes": 4200000000,
+    "gpu_stop_bytes": 4800000000,
+    "ram_bytes": 25769803776,
+    "timeout_seconds": 3600
+  },
+  "name": "e424_h094_unconditional_v2",
+  "version": 1
+}

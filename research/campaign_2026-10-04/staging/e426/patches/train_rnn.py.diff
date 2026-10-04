@@ -1,0 +1,214 @@
+--- a/scripts/train_rnn.py
++++ b/scripts/train_rnn.py
+@@ -58,6 +58,9 @@
+                             validate_crossfit_cache)
+ from wnn.structured_state import StructuredStateModel
+ from wnn.event_content import EventContentModel
++from wnn.event_ema import (endpoint_events_by_update, inference_ema_module,
++                           make_event_ema_schedule, per_update_event_counts,
++                           update_ema_with_decay)
+ from wnn.resources import configure_torch, cpu_threads, dataloader_budget
+ from wnn.research_features import (RESEARCH_FEATURE_MODES, research_feature_names,
+                                    research_features_torch)
+@@ -837,12 +840,14 @@
+     ema_model: FastEMA | torch.optim.swa_utils.AveragedModel | None,
+     swa_model: torch.optim.swa_utils.AveragedModel | None,
+     use_ema: bool,
++    evaluation_ema_model: FastEMA | torch.optim.swa_utils.AveragedModel | None = None,
+ ) -> torch.nn.Module:
+     """Choose fitted snapshot weights independently of whether evaluation runs."""
+     if use_ema:
+-        if ema_model is None:
++        selected_ema = evaluation_ema_model if evaluation_ema_model is not None else ema_model
++        if selected_ema is None:
+             raise ValueError("EMA checkpoint requested without an EMA model")
+-        return ema_model.module
++        return inference_ema_module(selected_ema)
+     return swa_model.module if swa_model is not None else model
+ 
+ 
+@@ -1144,6 +1149,11 @@
+     ap.add_argument("--ema-metric-weight", action="store_true",
+                     help="weight teacher consistency by |clipped target|, matching the scored loss")
+     ap.add_argument("--ema-decay", type=float, default=0.999)
++    ap.add_argument("--teacher-ema-clock", choices=["shared", "constant", "aligned", "shuffled"],
++                    default="shared",
++                    help="E426 only: split teacher/evaluation EMA; align teacher retention to fit endpoint-event counts")
++    ap.add_argument("--teacher-ema-shuffle-seed", type=int, default=86173,
++                    help="deterministic epoch-specific event-count permutation seed for the E426 shuffled control")
+     ap.add_argument("--ema-reference-rows", type=int, default=0,
+                     help="0 keeps per-attempt decay; otherwise decay**(update_rows/reference_rows)")
+     ap.add_argument("--eval-ema", action="store_true", help="evaluate and save the EMA weights instead of the raw ones")
+@@ -1376,6 +1386,16 @@
+             ap.error("fixed/shuffled distilled normalization needs a positive finite frozen reference mass")
+     if args.ema_reference_rows and SEQUENCE_LENGTH % update_rows:
+         ap.error("EMA row clock requires update rows dividing sequence length")
++    split_teacher_ema = args.teacher_ema_clock != "shared"
++    if split_teacher_ema and (
++            args.ema_teacher <= 0 or not args.eval_ema or args.td_alpha > 0
++            or args.ema_reference_rows or args.batch_order != "seeded" or args.antithetic
++            or args.class_balance or args.epoch_samples or args.max_batches
++            or args.stop_after_epoch is not None or args.thin_prob or args.origin_view != "off"
++            or args.swa_frac or args.valid_repeat not in (0, 1)
++            or args.train_source != "train+valid"):
++        ap.error("split teacher EMA clocks require train+valid, cached teacher consistency, fixed eval EMA, "
++                 "seeded complete batches, no resampling/thinning/origin replay/SWA, and no row EMA clock")
+     ema_update_decay = ema_decay_per_update(args.ema_decay, update_rows, args.ema_reference_rows)
+ 
+     torch.manual_seed(args.seed)
+@@ -1574,6 +1594,20 @@
+         sampler = WeightedRandomSampler(torch.from_numpy(sample_weights), args.epoch_samples,
+                                         replacement=True, generator=torch.Generator().manual_seed(args.seed))
+     valid_ds = None if args.no_eval_during_fit else Sequences("valid", valid_idx)
++    event_sequence_counts = None
++    if split_teacher_ema:
++        source_groups = [train_idx]
++        source_splits = [train_split]
++        if extra_valid is not None and args.valid_repeat:
++            source_groups.append(extra_valid)
++            source_splits.append("valid")
++        event_sequence_counts = np.concatenate(
++            [endpoint_events_by_update(ROOT / "datasets" / f"{split}.parquet", groups, update_rows)
++             for split, groups in zip(source_splits, source_groups, strict=True)],
++            axis=0,
++        )
++        if len(event_sequence_counts) != len(train_ds):
++            ap.error("endpoint-event count rows do not match the actual fitting dataset")
+     valid_batch_bytes = (
+         0 if valid_ds is None else valid_ds.batch_tensor_bytes(16, heuristics=args.heuristics)
+     )
+@@ -1753,6 +1787,7 @@
+     grad_stats = GradStats(model, args.clip) if args.grad_stats else None
+     swa_model = torch.optim.swa_utils.AveragedModel(model) if args.swa_frac > 0 else None
+     ema_model = None
++    evaluation_ema_model = None
+     if args.ema_teacher > 0 or args.eval_ema or args.td_alpha > 0:
+         if args.sync_free:
+             ema_model = FastEMA(model, ema_update_decay)
+@@ -1760,6 +1795,15 @@
+             ema_model = torch.optim.swa_utils.AveragedModel(
+                 model, multi_avg_fn=torch.optim.swa_utils.get_ema_multi_avg_fn(ema_update_decay))
+             ema_model.eval()
++        if split_teacher_ema:
++            if args.sync_free:
++                evaluation_ema_model = FastEMA(model, ema_update_decay)
++            else:
++                evaluation_ema_model = torch.optim.swa_utils.AveragedModel(
++                    model, multi_avg_fn=torch.optim.swa_utils.get_ema_multi_avg_fn(ema_update_decay))
++                evaluation_ema_model.eval()
++        else:
++            evaluation_ema_model = ema_model
+     swa_start = int(total * (1.0 - args.swa_frac))
+     step_count = 0
+ 
+@@ -1839,7 +1883,11 @@
+         if saved_dynamics["is_switched"]:
+             opt, _ = switch_optimizer(opt, sched, saved_dynamics["switch"][1])
+         restore_training_state(saved_training, model=model, optimizer=opt, scheduler=sched,
+-                               scaler=scaler, loader=train_loader, ema=ema_model, swa=swa_model)
++                               scaler=scaler, loader=train_loader,
++                               ema=None if split_teacher_ema else ema_model,
++                               teacher_ema=ema_model if split_teacher_ema else None,
++                               evaluation_ema=evaluation_ema_model if split_teacher_ema else None,
++                               swa=swa_model)
+         dynamics.load_state_dict(saved_dynamics)
+         provenance["optimizer_switch_events"] = dynamics.events
+         progress = saved_training["progress"]
+@@ -1872,6 +1920,38 @@
+         if isinstance(train_loader.sampler, EpochOrderSampler):
+             epoch_order_identity["seeded_order"] = {"seed": args.seed, "epoch": epoch,
+                                                     "antithetic": args.antithetic, "shared_dropped_tail": True}
++        event_schedule = None
++        if split_teacher_ema:
++            if not isinstance(train_loader.sampler, EpochOrderSampler):
++                raise RuntimeError("E426 requires the explicit seeded epoch sampler")
++            update_order = list(iter(train_loader.sampler))
++            observed_event_counts = per_update_event_counts(
++                event_sequence_counts, update_order, args.batch, drop_last=train_loader.drop_last
++            )
++            updates_per_epoch = len(train_loader) * (SEQUENCE_LENGTH // update_rows)
++            if len(observed_event_counts) != updates_per_epoch:
++                raise RuntimeError("E426 event schedule does not match actual optimizer updates")
++            event_schedule = make_event_ema_schedule(
++                observed_event_counts,
++                base_decay=args.ema_decay,
++                updates_per_epoch=updates_per_epoch,
++                mode=args.teacher_ema_clock,
++                seed=args.teacher_ema_shuffle_seed,
++                epoch=epoch,
++            )
++            provenance.setdefault("teacher_ema_clock", {
++                "mode": args.teacher_ema_clock,
++                "endpoint_marker": {"raw_column": 110, "float32_value": -5.199337482452393},
++                "aligned_decay": "base_decay ** (events_t * updates_per_epoch / total_train_events_epoch)",
++                "evaluation_decay_per_update": ema_update_decay,
++                "shuffle_seed": args.teacher_ema_shuffle_seed,
++                "epochs": [],
++            })["epochs"].append({
++                "epoch": epoch,
++                "updates_per_epoch": event_schedule.updates_per_epoch,
++                "total_train_events_epoch": event_schedule.total_events,
++                "applied_count_sha256": event_schedule.count_sha256,
++            })
+         batches = CudaPrefetcher(train_loader, device, timer) if args.pin_memory else train_loader
+         for b, batch in enumerate(batches):
+             if args.max_batches and b >= args.max_batches:
+@@ -2144,13 +2224,20 @@
+                     swa_model.update_parameters(model)
+                     invalidate_qat_cache(swa_model.module)
+                 if ema_model is not None:
+-                    if args.origin_view != "off":
++                    if split_teacher_ema:
++                        update_index = b * (SEQUENCE_LENGTH // update_rows) + window_index
++                        teacher_decay = event_schedule.decays[update_index]
++                        update_ema_with_decay(ema_model, model, teacher_decay)
++                    elif args.origin_view != "off":
+                         update_ema_for_rows(ema_model, model, args.ema_decay, sl.stop - sl.start,
+                                             args.ema_reference_rows)
+                     else:
+                         ema_model.update_parameters(model)
+                     invalidate_qat_cache(ema_model.module)
+                     epoch_counter.ema_updates += 1
++                if evaluation_ema_model is not None and evaluation_ema_model is not ema_model:
++                    update_ema_with_decay(evaluation_ema_model, model, ema_update_decay)
++                    invalidate_qat_cache(evaluation_ema_model.module)
+                 if duty is not None:  # explicit rate limit (WNN_GPU_DUTY < 1): sync, then sleep
+                     torch.cuda.synchronize()
+                     duty.tick()
+@@ -2185,8 +2272,9 @@
+         provenance["update_diagnostics"].append({"epoch_index": epoch, **update_counts})
+         provenance["cumulative_updates"] = cumulative_updates.copy()
+         train_seconds = round(time.time() - t0, 1)
+-        eval_model = checkpoint_model(model, ema_model,
+-                                      swa_model if step_count >= swa_start else None, args.eval_ema)
++        eval_model = checkpoint_model(
++            model, ema_model, swa_model if step_count >= swa_start else None, args.eval_ema,
++            evaluation_ema_model=evaluation_ema_model)
+         if moments is not None:
+             global READOUT, READOUT_TILTED
+             READOUT, READOUT_TILTED = moments.tables(), args.ce_tilt
+@@ -2224,7 +2312,11 @@
+         if continuation:
+             training_state = capture_training_state(
+                 model=model, optimizer=opt, scheduler=sched, scaler=scaler, loader=train_loader,
+-                contract=training_contract, next_epoch=epoch + 1, ema=ema_model, swa=swa_model,
++                contract=training_contract, next_epoch=epoch + 1,
++                ema=None if split_teacher_ema else ema_model,
++                teacher_ema=ema_model if split_teacher_ema else None,
++                evaluation_ema=evaluation_ema_model if split_teacher_ema else None,
++                swa=swa_model,
+                 progress={"step_count": step_count, "best": best, "history": history,
+                           "cumulative_updates": cumulative_updates,
+                           "update_diagnostics": provenance["update_diagnostics"],
+@@ -2238,8 +2330,9 @@
+         t0 = time.time()
+     if saved_training is not None and start_epoch == args.epochs:
+         # A crash after the final atomic state but before export needs no more updates.
+-        eval_model = checkpoint_model(model, ema_model, swa_model if step_count >= swa_start else None,
+-                                      args.eval_ema)
++        eval_model = checkpoint_model(
++            model, ema_model, swa_model if step_count >= swa_start else None, args.eval_ema,
++            evaluation_ema_model=evaluation_ema_model)
+         provenance["selected_epoch"] = args.epochs - 1
+         provenance["cumulative_updates"] = cumulative_updates.copy()
+         provenance["fitting_seconds"] = prior_fit_seconds

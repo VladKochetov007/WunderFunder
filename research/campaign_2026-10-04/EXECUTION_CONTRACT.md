@@ -8,9 +8,8 @@ does not alter historical evidence or authorize competition uploads.
 
 ## Question and deliverables
 
-Improve the complete, deployable predictor beyond the recorded 0.6655 public
-incumbent (E412, user-reported October 4; original baseline 0.6641), while
-testing distinct mechanisms from the reviews. Public 0.6660 is
+Improve the complete, deployable predictor beyond the recorded 0.6641 public
+incumbent, while testing distinct mechanisms from the reviews. Public 0.6660 is
 a milestone, not an inferred result or automatic end to fundamental research.
 Deliver executable experiment specifications, reproducible implementations,
 immutable result bundles, research ledgers and plots, a marimo notebook, and

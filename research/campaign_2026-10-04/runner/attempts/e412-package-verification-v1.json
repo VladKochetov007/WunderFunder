@@ -1,0 +1,211 @@
+{
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "research/campaign_2026-10-04/checks/verify_final_package.py"
+  ],
+  "block_id": "local001",
+  "charged_seconds": 5.438039798002137,
+  "elapsed_seconds": 5.438039798002137,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "0",
+    "WNN_NATIVE_LEVEL": "v3",
+    "WNN_PRECISION": "q16x",
+    "WNN_THREADS": "1"
+  },
+  "exit_code": 1,
+  "failure": "RuntimeError: command exited 1",
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "finished_unix": 1791083610.8819394,
+  "heartbeat_unix": 1791083610.3652468,
+  "id": "e412-package-verification-v1",
+  "kind": "cpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "38654705664",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 0,
+  "peak_ram_bytes": 133398528,
+  "reserved_seconds": 1110,
+  "reserved_unix": 1791083605.3889675,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "530440b79907942bb834a6df87d3e87bb14a3a64bf7f58c058eeb3089befcb6c",
+    "src/wnn/campaign.py": "30c73a83efd045a60f8e22f7f71df75b239daf95caf8542c815802aa03e6c6ef",
+    "src/wnn/campaign_local.py": "eea0848a88f05254646deb25b23fd33804039a1047c4a235adcf903729f1cf6b",
+    "src/wnn/campaign_spec.py": "60971fef34024380356bc42fe6e5443fda000d7779e5f8cb55a6269662f48863",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "signals": [],
+  "spec": {
+    "argv": [
+      "{python}",
+      "research/campaign_2026-10-04/checks/verify_final_package.py"
+    ],
+    "artifacts": [
+      "research/campaign_2026-10-04/checks/e412_package_verification.json"
+    ],
+    "code": [
+      {
+        "path": "research/campaign_2026-10-04/checks/verify_final_package.py",
+        "sha256": "e7b5809045e120f0eb5dc7c6717e10b5e946d9a15737255f611d951e3e3528bd",
+        "size": 4492
+      },
+      {
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+        "size": 63
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "size": 8902
+      },
+      {
+        "path": "utils.py",
+        "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+        "size": 12328
+      }
+    ],
+    "code_sha256": "bc484ea0f4edf99b74b847920a1f88c69dc7b8eb5c4489adc36a420d3698dcf8",
+    "environment": {
+      "WNN_NATIVE_LEVEL": "v3",
+      "WNN_PRECISION": "q16x"
+    },
+    "inputs": [
+      {
+        "path": "cache/pred_c20261004_combo_head_s3_final_valid.npy",
+        "sha256": "426ada2519bd23bbeb188ac3a3f71866a04918bbb206a1d96e2b12124c59dc35",
+        "size": 299680128
+      },
+      {
+        "path": "cache/pred_c20261004_combo_s3_final_r1_valid.npy",
+        "sha256": "f15712573e72ab6469576cb9a61700789e15561073ca5f7ed00ce7582e40e3a1",
+        "size": 299680128
+      },
+      {
+        "path": "cache/valid_subset20.parquet",
+        "sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+        "size": 90874551
+      },
+      {
+        "path": "cache/valid_targets.npz",
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+        "size": 337186198
+      },
+      {
+        "path": "research/campaign_2026-10-04/checks/e412_package_f32_v3.npz",
+        "sha256": "146b25d6d3846bdd8dcbe01ece401897be63e3dcb25ac664d2b486d36d868626",
+        "size": 6800736
+      },
+      {
+        "path": "research/campaign_2026-10-04/checks/e412_package_q16x_v2.npz",
+        "sha256": "744ac606b9445e496afb2b41c40ee98a4b2eac47a935ac108e5b928ff1d58c73",
+        "size": 6800736
+      },
+      {
+        "path": "research/campaign_2026-10-04/checks/e412_package_q16x_v3.npz",
+        "sha256": "744ac606b9445e496afb2b41c40ee98a4b2eac47a935ac108e5b928ff1d58c73",
+        "size": 6800736
+      },
+      {
+        "path": "submissions/c20261004_combo_s3_q16x/pkg/avx2/wnn_native.abi3.so",
+        "sha256": "9754887ddc0a6d1745e507c5b1bdb01ea8d31da79eb25965da043de33f47bfa6",
+        "size": 767680
+      },
+      {
+        "path": "submissions/c20261004_combo_s3_q16x/pkg/members.json",
+        "sha256": "f551b1f0d4a75385ebbdc52b87137bd0e7f9ed72845d19a15e2565b00085ef77",
+        "size": 134
+      },
+      {
+        "path": "submissions/c20261004_combo_s3_q16x/pkg/precision.txt",
+        "sha256": "fc51ddb717d2bab432f602268750f4e8adb3620de39cd128e0b886e36bebc34b",
+        "size": 5
+      },
+      {
+        "path": "submissions/c20261004_combo_s3_q16x/pkg/solution.py",
+        "sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+        "size": 3133
+      },
+      {
+        "path": "submissions/c20261004_combo_s3_q16x/pkg/v2/wnn_native.abi3.so",
+        "sha256": "b01becbbef79e87e61eda24fe4b15bba3a98eb5b7b7d51479ba3c22d420b82d8",
+        "size": 766160
+      },
+      {
+        "path": "submissions/c20261004_combo_s3_q16x/pkg/v3/wnn_native.abi3.so",
+        "sha256": "698b8b2c8b5167e2be5e1e151ef6aa3b325b12ef38c4718ceafa2db3375aa398",
+        "size": 768072
+      },
+      {
+        "path": "submissions/c20261004_combo_s3_q16x/pkg/weights_0.npz",
+        "sha256": "220d0a7a897fb022b8a008fd3e45b825feff1a082244efae6faf33332b4f3da2",
+        "size": 4435640
+      },
+      {
+        "path": "submissions/c20261004_combo_s3_q16x/submission.zip",
+        "sha256": "f61577da8745cfc545e9acc528e001198074729e3f0878656194ea93a0fb5ec9",
+        "size": 5165014
+      }
+    ],
+    "kind": "cpu",
+    "limits": {
+      "cpus": 1,
+      "gpu_memory_bytes": 0,
+      "gpu_stop_bytes": 0,
+      "ram_bytes": 2147483648,
+      "timeout_seconds": 180
+    },
+    "name": "e412_package_verification",
+    "version": 1
+  },
+  "spec_sha256": "4212b3913489d361ffc55dbc184278e5f78bc2a9f422832cf97e96e6c52d90da",
+  "started_unix": 1791083606.2341456,
+  "status": "failed",
+  "timeout_seconds": 180,
+  "unit": "wnn-c04-e412-package-verification-v1.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "1s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e412-package-verification-v1.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "2147483648",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}

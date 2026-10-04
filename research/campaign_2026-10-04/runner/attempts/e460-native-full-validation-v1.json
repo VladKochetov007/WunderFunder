@@ -1,0 +1,170 @@
+{
+  "admission_resources": {
+    "parent_cpu_max": 12,
+    "parent_ram_max": 38654705664,
+    "support_cpus": 2,
+    "support_ram_bytes": 4294967296,
+    "worker_cpus": 9,
+    "worker_ram_bytes": 27917287424
+  },
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "scripts/native_validation_score.py",
+    "--submission",
+    "submissions/c20261004_combo_s3_i16/submission.zip",
+    "--data",
+    "datasets/valid.parquet",
+    "--output",
+    "research/campaign_2026-10-04/checks/e460_native_full_validation_v1.json",
+    "--expected-sha256",
+    "21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb"
+  ],
+  "block_id": "local001",
+  "charged_seconds": 0.0,
+  "elapsed_seconds": 1239.235411456997,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "0",
+    "WNN_NATIVE_LEVEL": "v3",
+    "WNN_PRECISION": "i16",
+    "WNN_THREADS": "1"
+  },
+  "heartbeat_unix": 1791121809.4964726,
+  "id": "e460-native-full-validation-v1",
+  "initial_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "initial_parent_memory_events": {
+    "high": 719113,
+    "low": 0,
+    "max": 4982103,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "kind": "cpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "38654705664",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 0,
+  "peak_ram_bytes": 388300800,
+  "reserved_seconds": 6930,
+  "reserved_unix": 1791120562.7147536,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+    "src/wnn/campaign.py": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+    "src/wnn/campaign_local.py": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+    "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "spec": {
+    "argv": [
+      "{python}",
+      "scripts/native_validation_score.py",
+      "--submission",
+      "submissions/c20261004_combo_s3_i16/submission.zip",
+      "--data",
+      "datasets/valid.parquet",
+      "--output",
+      "research/campaign_2026-10-04/checks/e460_native_full_validation_v1.json",
+      "--expected-sha256",
+      "21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb"
+    ],
+    "artifacts": [
+      "research/campaign_2026-10-04/checks/e460_native_full_validation_v1.json"
+    ],
+    "code": [
+      {
+        "path": "scripts/native_validation_score.py",
+        "sha256": "9ce00a294a35e7a2461e17f4e8b31b6548e1cb3aa86746d990d129fe0eaa8e3f",
+        "size": 2930
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "size": 8902
+      },
+      {
+        "path": "utils.py",
+        "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+        "size": 12328
+      }
+    ],
+    "code_sha256": "2c2bc3353e8c3e19e4c1275e9340e912502697dee0d0f4567e22a7386c868e63",
+    "environment": {
+      "WNN_NATIVE_LEVEL": "v3",
+      "WNN_PRECISION": "i16"
+    },
+    "inputs": [
+      {
+        "path": "datasets/valid.parquet",
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "size": 5615509128
+      },
+      {
+        "path": "submissions/c20261004_combo_s3_i16/submission.zip",
+        "sha256": "21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb",
+        "size": 5165013
+      }
+    ],
+    "kind": "cpu",
+    "limits": {
+      "cpus": 1,
+      "gpu_memory_bytes": 0,
+      "gpu_stop_bytes": 0,
+      "ram_bytes": 2147483648,
+      "timeout_seconds": 6000
+    },
+    "name": "e460_native_full_validation_v1",
+    "version": 1
+  },
+  "spec_sha256": "7a4bb9a91c7a98462a69507d3b28342d57dbe644d12351ab13c74a42c1af5ca9",
+  "started_unix": 1791120570.2586088,
+  "status": "running",
+  "timeout_seconds": 6000,
+  "unit": "wnn-c04-e460-native-full-validation-v1.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "1s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e460-native-full-validation-v1.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "2147483648",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}

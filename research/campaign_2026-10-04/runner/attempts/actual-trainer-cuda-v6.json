@@ -1,0 +1,625 @@
+{
+  "admission_resources": {
+    "parent_cpu_max": 12,
+    "parent_ram_max": 38654705664,
+    "support_cpus": 2,
+    "support_ram_bytes": 4294967296,
+    "worker_cpus": 5,
+    "worker_ram_bytes": 15032385536
+  },
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_trainer_resume_integration.py",
+    "-k",
+    "origin or thinning",
+    "--junitxml=research/campaign_2026-10-04/checks/actual_trainer_cuda_v6.xml"
+  ],
+  "block_id": "local001",
+  "charged_seconds": 16.667991995997,
+  "elapsed_seconds": 16.667991995997,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "4",
+    "NUMBA_NUM_THREADS": "4",
+    "OMP_NUM_THREADS": "4",
+    "OPENBLAS_NUM_THREADS": "4",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "4",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "4200000000",
+    "WNN_INTEGRATION_DEVICE": "cuda",
+    "WNN_LOADER_RAM_GB": "2",
+    "WNN_THREADS": "4"
+  },
+  "exit_code": 1,
+  "failure": "ScientificFailure: command exited 1",
+  "failure_category": "command_exit",
+  "failure_scope": "job",
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 430613,
+    "low": 0,
+    "max": 1745551,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791085230.088832,
+  "heartbeat_unix": 1791085229.5817187,
+  "id": "actual-trainer-cuda-v6",
+  "initial_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "initial_parent_memory_events": {
+    "high": 430613,
+    "low": 0,
+    "max": 1738192,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 12861
+  },
+  "kind": "gpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "38654705664",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 479199232,
+  "peak_ram_bytes": 1483259904,
+  "reserved_seconds": 1530,
+  "reserved_unix": 1791085213.3630092,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+    "src/wnn/campaign.py": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+    "src/wnn/campaign_local.py": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+    "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "signals": [],
+  "spec": {
+    "argv": [
+      "{python}",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_trainer_resume_integration.py",
+      "-k",
+      "origin or thinning",
+      "--junitxml=research/campaign_2026-10-04/checks/actual_trainer_cuda_v6.xml"
+    ],
+    "artifacts": [
+      "research/campaign_2026-10-04/checks/actual_trainer_cuda_v6.xml"
+    ],
+    "code": [
+      {
+        "path": "scripts/export_factorized_control.py",
+        "sha256": "25a4192bab323758cd52c55d454927831357e46c2e15014edf012b872649afcb",
+        "size": 2494
+      },
+      {
+        "path": "scripts/export_qat_control.py",
+        "sha256": "38c0e2e0e8f14bdeb317406dceb249850ec0f78adda5c6d9ced1aaece1977651",
+        "size": 2402
+      },
+      {
+        "path": "scripts/package_submission.py",
+        "sha256": "bfa2e4e0487ef42aee15262efa3614815dcf9bdf9c899e2be9b79e3b5c48c1e5",
+        "size": 5491
+      },
+      {
+        "path": "scripts/privileged_crossfit.py",
+        "sha256": "0c4751ece217cd2d8763650dee44265a1b7fae268fb309f8b03bedb5409a734f",
+        "size": 7651
+      },
+      {
+        "path": "scripts/sentinel_prepare.py",
+        "sha256": "67b40457bd03073d7869e6469fc248b6482cbb39f0ffd0bdc9e114df4d8fe39f",
+        "size": 2663
+      },
+      {
+        "path": "scripts/train_rnn.py",
+        "sha256": "17c3cb4a8f182c84459126be77f22076c14c8d9d64d83c163684bbbb1237086b",
+        "size": 129596
+      },
+      {
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+        "size": 63
+      },
+      {
+        "path": "src/wnn/campaign.py",
+        "sha256": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+        "size": 13176
+      },
+      {
+        "path": "src/wnn/campaign_local.py",
+        "sha256": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+        "size": 22065
+      },
+      {
+        "path": "src/wnn/campaign_spec.py",
+        "sha256": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+        "size": 8717
+      },
+      {
+        "path": "src/wnn/data.py",
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+        "size": 4000
+      },
+      {
+        "path": "src/wnn/evaluation.py",
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+        "size": 8080
+      },
+      {
+        "path": "src/wnn/event_content.py",
+        "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+        "size": 7226
+      },
+      {
+        "path": "src/wnn/features.py",
+        "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "size": 5421
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "size": 8902
+      },
+      {
+        "path": "src/wnn/heuristics.py",
+        "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e",
+        "size": 9025
+      },
+      {
+        "path": "src/wnn/infer.py",
+        "sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9",
+        "size": 2377
+      },
+      {
+        "path": "src/wnn/markov.py",
+        "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2",
+        "size": 2624
+      },
+      {
+        "path": "src/wnn/metric.py",
+        "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+        "size": 4806
+      },
+      {
+        "path": "src/wnn/nn.py",
+        "sha256": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+        "size": 19926
+      },
+      {
+        "path": "src/wnn/optim.py",
+        "sha256": "0e476a54d1fdfeed77970816f91668e271f7e2ed72e13d0c047a01d0ff74dae3",
+        "size": 11145
+      },
+      {
+        "path": "src/wnn/outcomes.py",
+        "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+        "size": 4538
+      },
+      {
+        "path": "src/wnn/portability.py",
+        "sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+        "size": 1909
+      },
+      {
+        "path": "src/wnn/privileged.py",
+        "sha256": "2e87cf8d2cb35fef76d453d8d1c655232964026516bd4278149beb777e2fd408",
+        "size": 5763
+      },
+      {
+        "path": "src/wnn/propensity.py",
+        "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+        "size": 1404
+      },
+      {
+        "path": "src/wnn/quantization.py",
+        "sha256": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077",
+        "size": 6050
+      },
+      {
+        "path": "src/wnn/quantization_export.py",
+        "sha256": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0",
+        "size": 3968
+      },
+      {
+        "path": "src/wnn/research_features.py",
+        "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8",
+        "size": 6234
+      },
+      {
+        "path": "src/wnn/resources.py",
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+        "size": 4485
+      },
+      {
+        "path": "src/wnn/run_identity.py",
+        "sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+        "size": 4488
+      },
+      {
+        "path": "src/wnn/sentinel.py",
+        "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec",
+        "size": 8603
+      },
+      {
+        "path": "src/wnn/sentinel_calibration.py",
+        "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599",
+        "size": 8550
+      },
+      {
+        "path": "src/wnn/splits.py",
+        "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+        "size": 8647
+      },
+      {
+        "path": "src/wnn/spread_aux.py",
+        "sha256": "3aabffc6fc887c0426948e62cbd500679ba3e7a6925e28de9f816fb1da8f9cac",
+        "size": 6290
+      },
+      {
+        "path": "src/wnn/streaming.py",
+        "sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e",
+        "size": 2422
+      },
+      {
+        "path": "src/wnn/structured_state.py",
+        "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+        "size": 9963
+      },
+      {
+        "path": "src/wnn/symreg.py",
+        "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849",
+        "size": 11386
+      },
+      {
+        "path": "src/wnn/tcn_ref.py",
+        "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa",
+        "size": 3511
+      },
+      {
+        "path": "src/wnn/ticks.py",
+        "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8",
+        "size": 4946
+      },
+      {
+        "path": "src/wnn/training_calibration.py",
+        "sha256": "7a5bb4f593fef1592abbeb3c096ece12dac019c029c43fa5f0f652cb2fe5edbd",
+        "size": 1989
+      },
+      {
+        "path": "src/wnn/training_controls.py",
+        "sha256": "87b69d3cde4d4e0a38fdc4ebcca1c41ca20ab3bc28c540ab222cfba6e76d7cc2",
+        "size": 9979
+      },
+      {
+        "path": "src/wnn/training_credit.py",
+        "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd",
+        "size": 2225
+      },
+      {
+        "path": "src/wnn/training_dynamics.py",
+        "sha256": "902f69a4168555dc059ef0f4fdf7f6d194a8afd9dd594aa7e311141a040a4294",
+        "size": 14936
+      },
+      {
+        "path": "src/wnn/training_factorized.py",
+        "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2",
+        "size": 7615
+      },
+      {
+        "path": "src/wnn/training_qat.py",
+        "sha256": "23d866801e0fef753e8af017e582a32900c40d4925c30a3083c128a2014ccf72",
+        "size": 6146
+      },
+      {
+        "path": "src/wnn/training_sampling.py",
+        "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2",
+        "size": 6540
+      },
+      {
+        "path": "src/wnn/training_state.py",
+        "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac",
+        "size": 8689
+      },
+      {
+        "path": "src/wnn/training_views.py",
+        "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142",
+        "size": 3065
+      },
+      {
+        "path": "src/wnn/twoclock_ref.py",
+        "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44",
+        "size": 3732
+      },
+      {
+        "path": "src/wnn/viz.py",
+        "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5",
+        "size": 4297
+      },
+      {
+        "path": "tests/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0
+      },
+      {
+        "path": "tests/conftest.py",
+        "sha256": "3b6cb2e340c522f3d728f3c5cb0a5886f50b5c6668a5037d5b848eedd08bb95f",
+        "size": 547
+      },
+      {
+        "path": "tests/test_campaign_allocator.py",
+        "sha256": "3f902c1f8db654add6e0489ef284b1ca077ec804b3a15293a8b816c40db4ce2e",
+        "size": 1529
+      },
+      {
+        "path": "tests/test_campaign_runner.py",
+        "sha256": "8a15d2a47ae268140b019224772c3e87c864549744a80e4dbb7c1a931caea463",
+        "size": 24365
+      },
+      {
+        "path": "tests/test_campaign_splits.py",
+        "sha256": "2358f2b787d153cf64bae679899c99f5b17d9838697067934237a3690ec6b86c",
+        "size": 3715
+      },
+      {
+        "path": "tests/test_component_bootstrap.py",
+        "sha256": "03bd5f6e4e0f6a5094343dc7c78df667ccad5bd427c5c84e736f67d4fb022513",
+        "size": 3241
+      },
+      {
+        "path": "tests/test_continuation_recipes.py",
+        "sha256": "37eb013e73dcdf3bc8cd5e2d18f72e7f312df9cc3140177a0642245942a26363",
+        "size": 2104
+      },
+      {
+        "path": "tests/test_dual_clock.py",
+        "sha256": "427ff2a65e78433df4d22da6ded251451692e2498c3a19f308b32aa082441833",
+        "size": 1855
+      },
+      {
+        "path": "tests/test_evaluation.py",
+        "sha256": "8f59402e2e9473a809ac1974da6c06c786f213681220c6d477c6601e616466a6",
+        "size": 1084
+      },
+      {
+        "path": "tests/test_features.py",
+        "sha256": "6bbd968aee769a85d7a70017a35d6bfde6eeb609b1ba325356d37e16802fc1e6",
+        "size": 3426
+      },
+      {
+        "path": "tests/test_fixed_checkpoints.py",
+        "sha256": "27aa7ac27705cda62a9a76baf59dac258588b2e229af872d83bc7dae0fa65b92",
+        "size": 6348
+      },
+      {
+        "path": "tests/test_gmetric.py",
+        "sha256": "6a4635c68b2982b7894285340458840f5c10abbd4764b66d3b9cc347f8d81314",
+        "size": 8553
+      },
+      {
+        "path": "tests/test_infer.py",
+        "sha256": "6336e348cfde7e8f57bc085d18c7702399630664a84f690481cd1bfe73cf191f",
+        "size": 1687
+      },
+      {
+        "path": "tests/test_markov.py",
+        "sha256": "f0c756e00a8af902f98948ee154149bb091949d7875f46e42c9761bb4e158270",
+        "size": 1319
+      },
+      {
+        "path": "tests/test_metric.py",
+        "sha256": "02a182d6944a2c51fd1886ce8801e5486f70ca52d60b49dbb8c5009e4b9f881c",
+        "size": 7327
+      },
+      {
+        "path": "tests/test_native_q8_levels.py",
+        "sha256": "5745fc76f453db46709918eb0ac9b4ef29dcf178e42acb24ae6439bf3a0c049e",
+        "size": 1738
+      },
+      {
+        "path": "tests/test_native_quantized_export.py",
+        "sha256": "26ba09cbfb089d8f21d0b185647ca4701b4ec43ba226da02907b2320ed28d6c2",
+        "size": 2596
+      },
+      {
+        "path": "tests/test_optim.py",
+        "sha256": "86cbb5c8e211ba11e19abdbca6a615451c0f96848cc3bae33003b4d9945c6606",
+        "size": 7718
+      },
+      {
+        "path": "tests/test_perf_parity.py",
+        "sha256": "5f5a31c1e085d5bdad3c07a09b8fa668ea41500802e32a25b291485502b91ebf",
+        "size": 2487
+      },
+      {
+        "path": "tests/test_portability.py",
+        "sha256": "286048a818b84cb7a4aca3ece8636153f3cc36150184d970bee5d52bf9838fc0",
+        "size": 1876
+      },
+      {
+        "path": "tests/test_predictor.py",
+        "sha256": "66ec8e4c64fe41025e36b42afca9cc5bf094b6b20939ff246ce96fca32986ce3",
+        "size": 3555
+      },
+      {
+        "path": "tests/test_privileged_crossfit.py",
+        "sha256": "fabc2dcb08154bbf44075d687536255edcfd2afdfdf244113d84481a49ea52ee",
+        "size": 7078
+      },
+      {
+        "path": "tests/test_quantization.py",
+        "sha256": "2cec8b05cc5dd12810b73c6e1a155adb234a6f48cc79afd686aaf94f9ca6c827",
+        "size": 5957
+      },
+      {
+        "path": "tests/test_quantization_export.py",
+        "sha256": "ade02d389155bf19e181710404d91b1f2165e0ea6bfa1281bb630c520cb180ca",
+        "size": 1786
+      },
+      {
+        "path": "tests/test_resources.py",
+        "sha256": "a9b8be876b63fd09acccc841aac8b15503c8149474855a3d4774ff89fffde023",
+        "size": 1240
+      },
+      {
+        "path": "tests/test_sentinel.py",
+        "sha256": "c20328392c0484a5910ddad03cb5960f44b84bd4653f10731bb2a3d029ef7a71",
+        "size": 8905
+      },
+      {
+        "path": "tests/test_streaming_graph.py",
+        "sha256": "90e62d412c9ab1aacffce9cc4b2f43294106a9a2412b9381867a3163059e87d8",
+        "size": 1882
+      },
+      {
+        "path": "tests/test_submission_metric.py",
+        "sha256": "00e1abcdf170b6668876d56ba5d1a37eb10508a61a15bae18644fc7f22af7d5a",
+        "size": 4900
+      },
+      {
+        "path": "tests/test_tcn.py",
+        "sha256": "65a8cb21ae9f42d3d75c94ac352b8782d04829a28511752b8231bab58892b8ce",
+        "size": 3989
+      },
+      {
+        "path": "tests/test_trainer_resume_integration.py",
+        "sha256": "f2fe113483fe5ba96dc985f2a8b0d15ff05e600ef10b80912e49c4e14a5ee37d",
+        "size": 20569
+      },
+      {
+        "path": "tests/test_training_calibration.py",
+        "sha256": "9b74b7a75eafcde6dd125392efa4be15266ad132c9c20cf1d49e89a401a1d175",
+        "size": 5369
+      },
+      {
+        "path": "tests/test_training_controls.py",
+        "sha256": "dcd994a5cd5c3802206996fda22190bacc42f178f63095dcc94ae9aeb165f74a",
+        "size": 8782
+      },
+      {
+        "path": "tests/test_training_credit.py",
+        "sha256": "2c19e84be83f792d3c9036d7a3593e3a9cffc55d1dc021e94928813d3f6c4f11",
+        "size": 5284
+      },
+      {
+        "path": "tests/test_training_dynamics.py",
+        "sha256": "96dbeac124607f27f8e0777918e80b65a0ad2ea07bcd4d6351e3ed8b83352c47",
+        "size": 14419
+      },
+      {
+        "path": "tests/test_training_factorized.py",
+        "sha256": "de32ddc4e627ebd473b2b867853869ff7d37de7a65b89b2e1a8ad065e1e8f108",
+        "size": 8197
+      },
+      {
+        "path": "tests/test_training_qat.py",
+        "sha256": "b324671c4f7d0df34a2f59e71e5e6f634ef291483a368333f30c4266943d554a",
+        "size": 6314
+      },
+      {
+        "path": "tests/test_training_state.py",
+        "sha256": "468c073ba44b248436215e2efcacd13fbe382f397caca9277ff1c5b8a1070840",
+        "size": 7056
+      },
+      {
+        "path": "tests/test_training_views.py",
+        "sha256": "d0d774d241d6d02aa567dbc12dc801e302e2dc960facf4b0686e97d32625606b",
+        "size": 3372
+      },
+      {
+        "path": "tests/test_twoclock.py",
+        "sha256": "ee297239a753e328e2d6a8ed60ec657c3193db503b6a36f791f4bbad1a4526c1",
+        "size": 4660
+      },
+      {
+        "path": "tests/test_viz.py",
+        "sha256": "1b084ade99cd834e095a203fbc42f025555a1b35d0a929e2c1bd651de88f1e13",
+        "size": 1092
+      },
+      {
+        "path": "tests/test_width_runtime_probe.py",
+        "sha256": "3c9dff497f3079068aca21eb676369284121b1bf239eb71a55d4f4be4a082c47",
+        "size": 3650
+      },
+      {
+        "path": "tests/training_dynamics_helpers.py",
+        "sha256": "43def6540bea4c2557030bacaa2f46a9469b5ad68e7d4767b72edcba1f7fc8e8",
+        "size": 5273
+      }
+    ],
+    "code_sha256": "390e3ce19482eadb2ed70133d269f4d5214de3296101ab5be46a6a91c0e5c404",
+    "environment": {
+      "WNN_INTEGRATION_DEVICE": "cuda",
+      "WNN_LOADER_RAM_GB": "2"
+    },
+    "inputs": [],
+    "kind": "gpu",
+    "limits": {
+      "cpus": 4,
+      "gpu_memory_bytes": 4200000000,
+      "gpu_stop_bytes": 4800000000,
+      "ram_bytes": 8589934592,
+      "timeout_seconds": 600
+    },
+    "name": "actual_trainer_cuda_v6",
+    "version": 1
+  },
+  "spec_sha256": "5e398104a2af17dfc37bf4a962bb39ba07c6def357f9daeed2f2c3d4091c074f",
+  "started_unix": 1791085213.4672165,
+  "status": "failed",
+  "teardown_verified": true,
+  "timeout_seconds": 600,
+  "unit": "wnn-c04-actual-trainer-cuda-v6.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "4s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-actual-trainer-cuda-v6.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "8589934592",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}

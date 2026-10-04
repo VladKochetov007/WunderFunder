@@ -1,0 +1,105 @@
+{
+  "asset_dataset_status": "local staged private assets manifest exists; no create/upload performed",
+  "bundle_bytes": 522964,
+  "bundle_sha256": "fda777a44fe1069a84c6028026bddf93a334e70d6f03adf05439209fa2ba1ce3",
+  "created_at_utc": "2026-10-04T07:56:00Z",
+  "dataset": "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v1",
+  "dataset_version": null,
+  "expanded_bytes": 1683990,
+  "external_mounts": 26,
+  "files": 287,
+  "kernel": "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v1-runner",
+  "kernel_code": {
+    "sha256": "6a0d99a085cf8a7fe1f1697abebd8a6f93157731a1f2a3008462b4266a27df93",
+    "size": 8455
+  },
+  "kernel_metadata": {
+    "sha256": "002bf37925c8427263f44e610c968191f071974ccb300f2fd4bb960d0b805fa0",
+    "size": 556
+  },
+  "kernel_version": null,
+  "paired_protocol": {
+    "fold": 1,
+    "memory_gate": "both measured probe peaks <=12 GiB operating target and <=13 GiB stop, RAM <=10 GiB; otherwise stop pair and redesign both arms as a new protocol identity",
+    "original_recipe": "AdamW, batch32, chunk2000, seed3, lr .001, wd .01, distill alpha .5/bootstrap0, EMA .999, FP16; same fold1 data/teachers/objective/preprocessing",
+    "phase1": "same-device production one-batch forward/backward probe on W256 and W384, barrier requires both success before any fit",
+    "phase2": "fixed four epochs, score only epoch3 full-valid predictions",
+    "same_t4_both_arms": true,
+    "screen": "paired fold1 component bootstrap n=2000; W384 minus W256",
+    "selection": "no best-epoch or best-control selection",
+    "widths": [
+      256,
+      384
+    ]
+  },
+  "pushed": false,
+  "resource_contract": {
+    "E419_v3_worst_case_charge_hours": 12.5,
+    "cpus_per_worker": 2,
+    "gpu_allocator_bytes": 11811160064,
+    "gpu_quota_remaining_hours_from_root_last_update": 27.89,
+    "gpu_stop_bytes": 13958643712,
+    "max_concurrent_gpu_kernels": 1,
+    "per_worker_fit_timeout_seconds": 15600,
+    "provider_timeout_seconds": 16200,
+    "ram_per_worker_bytes": 10737418240,
+    "remaining_after_both_if_full": 6.39,
+    "submission": "sequential after root confirms provider concurrency and quota",
+    "this_pair_worst_case_charge_hours": 9.0,
+    "weekly_reserve_floor_hours": 6.0
+  },
+  "root_review_required_before_create_or_push": true,
+  "source_code_sha256": "eb7c54b1d910996a83be8d0724b77fbeeb2f17c437ed199708b4dd03a52e6c23",
+  "source_git_head_at_prep": "deb43dbabed21c0c3c006e4dab4e352c3d4adb0e",
+  "specs": [
+    {
+      "artifacts": [
+        "artifacts/runs/c20261004_w256_adamw_s3_f1_t4v1_fit",
+        "research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v1/plans/c20261004_w256_adamw_s3_f1_t4v1_fit_steps.json",
+        "cache/pred_c20261004_w256_adamw_s3_f1_t4v1_fit_valid.npy",
+        "cache/pred_c20261004_w256_adamw_s3_f1_t4v1_fit_valid.json"
+      ],
+      "code_files": 256,
+      "code_sha256": "eb7c54b1d910996a83be8d0724b77fbeeb2f17c437ed199708b4dd03a52e6c23",
+      "input_files": 31,
+      "name": "c20261004_w256_adamw_s3_f1_t4v1_fit",
+      "timeout_seconds": 15600
+    },
+    {
+      "artifacts": [
+        "artifacts/runs/c20261004_w256_adamw_s3_f1_t4v1_probe",
+        "research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v1/plans/c20261004_w256_adamw_s3_f1_t4v1_probe_steps.json"
+      ],
+      "code_files": 256,
+      "code_sha256": "eb7c54b1d910996a83be8d0724b77fbeeb2f17c437ed199708b4dd03a52e6c23",
+      "input_files": 30,
+      "name": "c20261004_w256_adamw_s3_f1_t4v1_probe",
+      "timeout_seconds": 300
+    },
+    {
+      "artifacts": [
+        "artifacts/runs/c20261004_w384_adamw_s3_f1_t4v1_fit",
+        "research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v1/plans/c20261004_w384_adamw_s3_f1_t4v1_fit_steps.json",
+        "cache/pred_c20261004_w384_adamw_s3_f1_t4v1_fit_valid.npy",
+        "cache/pred_c20261004_w384_adamw_s3_f1_t4v1_fit_valid.json"
+      ],
+      "code_files": 256,
+      "code_sha256": "eb7c54b1d910996a83be8d0724b77fbeeb2f17c437ed199708b4dd03a52e6c23",
+      "input_files": 31,
+      "name": "c20261004_w384_adamw_s3_f1_t4v1_fit",
+      "timeout_seconds": 15600
+    },
+    {
+      "artifacts": [
+        "artifacts/runs/c20261004_w384_adamw_s3_f1_t4v1_probe",
+        "research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v1/plans/c20261004_w384_adamw_s3_f1_t4v1_probe_steps.json"
+      ],
+      "code_files": 256,
+      "code_sha256": "eb7c54b1d910996a83be8d0724b77fbeeb2f17c437ed199708b4dd03a52e6c23",
+      "input_files": 30,
+      "name": "c20261004_w384_adamw_s3_f1_t4v1_probe",
+      "timeout_seconds": 300
+    }
+  ],
+  "status": "prepared_private_bundle_not_uploaded"
+}

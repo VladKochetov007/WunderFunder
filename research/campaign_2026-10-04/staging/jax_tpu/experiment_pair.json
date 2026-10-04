@@ -1,0 +1,62 @@
+{
+  "format": "wnn.jax-tpu-precision-pair-staging",
+  "version": 1,
+  "status": "draft-not-runnable",
+  "purpose": "Bounded real-data preflight and proposed FP32/BF16 continuation from the fold-0 combo checkpoint under the fixed alpha=.5, horizon-8 stopped-bootstrap objective.",
+  "split": {
+    "manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "fit_sources": ["train", "valid_fit"],
+    "evaluation_source": "evaluation.valid",
+    "evaluation_mask": "valid.parquet:need_prediction AND is_scored AND row_index >= 99",
+    "group_order": "seeded_group_batches(groups, seed=3, epoch=e, batch_size=32); serialize and record group_batch_sha256 per epoch; both arms reuse the same preloaded batches byte-for-byte"
+  },
+  "data": {
+    "feature_source": "datasets/{train,valid}.parquet",
+    "feature_builder": "raw112 || event_features(raw112), exact NumPy counterpart of trainer build_inputs with optional blocks disabled",
+    "teacher_runs": [
+      {"run": "c20260929_since_s3_f0", "prediction_splits": ["train", "valid"], "prediction_epoch": 3, "ensemble_weight": 0.5},
+      {"run": "c20260929_since_s4_f0", "prediction_splits": ["train", "valid"], "prediction_epoch": 3, "ensemble_weight": 0.5}
+    ],
+    "teacher_row_identity": "sidecar row_groups, ordered exactly as prediction array; both caches must match fold-0 manifest hash and row order",
+    "propensity": {"cache": "cache/propcache_c20260929_prop_f0_{train,valid}.npy", "power": 2.0, "epsilon": 0.03},
+    "cache_gate": "require prediction arrays and sidecars for both train and valid, exact checkpoint epoch, split hash, row-group mapping, and content hash; fail closed if absent"
+  },
+  "objective": {
+    "primary": "weighted MSE on fixed SBD target: teacher is equal mean at t; substitute equal-mean teacher(t+8) for y only when the target pair remains unchanged through t+8; blend 0.5*bootstrap_label + 0.5*teacher(t); weights abs(clip(original_y,-2,2))*main_row_weights",
+    "ema_consistency": {"coefficient": 1.0, "metric_weight": false, "teacher": "incoming EMA initialized from the same epoch-3 checkpoint; one-update preflight uses a separate recurrent state initialized to zero; consistency uses main_row_weights divided by their row sum"},
+    "aux_struct": {"coefficient": 0.3, "heads": {"spread": [2, 14], "branch": [14, 17], "class": [17, 21]}, "labels": "original target labels; same row weights and denominators as train_rnn.py"},
+    "aux_next": {"coefficient": 0.3, "heads": {"log_rows_to_next_change": 21, "next_change_up_logit": 22}, "labels": "original target D=t0-t1 next-change distance/sign; masked when no later change; same row weights and denominators as train_rnn.py"},
+    "n_out": 23,
+    "row_weights": "warmup99 * (prop_v1**2 + 0.03), per-sequence valid_true_mask=0.03 renormalization on scored VALID sequences, then since_i0px decay scale=32 floor=0.25",
+    "distillation_targets": "fixed before device training; no validation/evaluation targets enter the fit batches"
+  },
+  "shared_training": {
+    "architecture": "ordinary stacked linear GRU; n_in=211, hidden=256, layers=2, n_out=23",
+    "dropout": 0.0,
+    "seed": 3,
+    "epochs": 4,
+    "batch_size": 32,
+    "chunk_rows": 1000,
+    "optimizer": "custom JAX AdamW, explicitly not Muon-equivalent",
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "initial_state_checkpoint": {"path": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt", "sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"},
+    "initial_state_npz": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.jax.npz; export this exact checkpoint using a root-owned bounded CPU conversion before running",
+    "checkpoint": "export Torch-named state tensors through export_npz_state; evaluate both arms with the exact same fold evaluation group list and official need_prediction AND is_scored mask"
+  },
+  "arms": [
+    {"name": "jax_combo_fp32", "precision": "fp32"},
+    {"name": "jax_combo_bf16", "precision": "bf16"}
+  ],
+  "preflight": {
+    "required_before_full_fit": true,
+    "scope": "single device, four fit streams (2 TRAIN and 2 VALID) for one 1000-row chunk, run FP32 and BF16 serially on the identical host batch, one AdamW update each with incoming EMA consistency, evaluate the same four fold-held-out VALID streams on rows 0:1000, export/reload both NPZ states, exact official-mask equality",
+    "resource_ceiling": {"devices": 1, "host_cpus": 1, "host_ram_bytes": 2147483648},
+    "status": "not run; source-only staging, no local JAX imports or launches"
+  },
+  "blockers": [
+    "The exact Torch combo checkpoint is known; its staged NPZ export is still required and must hash back to the checkpoint's state tensors.",
+    "Current trainer checkpoint-selection evaluates is_scored plus warm-up; this bridge's official score mask also includes need_prediction, so select one shared mask policy before sealing.",
+    "The JAX AdamW objective preserves losses and weights but is an optimizer change from E424 Muon, so these arms only isolate precision within the JAX implementation."
+  ]
+}

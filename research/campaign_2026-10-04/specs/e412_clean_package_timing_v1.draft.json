@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "e412_clean_package_timing_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-04/checks/time_i16_packages.py"
+  ],
+  "code": [
+    "research/campaign_2026-10-04/checks/time_i16_packages.py",
+    "scripts/engine_fp16_check.py",
+    "utils.py"
+  ],
+  "inputs": [
+    "research/campaign_2026-10-04/checks/e412_i16_package_verification_v2.json",
+    "submissions/c20261004_combo_s3_i16/submission.zip",
+    "artifacts/submission_quota_2026-10-03/3_precision_q16x_D256.zip",
+    "cache/valid_subset20.parquet"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e412_clean_package_timing_v1.json",
+    "research/campaign_2026-10-04/checks/e412_clean_package_timing_v1_trials.jsonl"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 900,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {}
+}

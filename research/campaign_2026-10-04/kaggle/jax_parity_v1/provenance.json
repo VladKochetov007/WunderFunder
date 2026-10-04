@@ -1,0 +1,152 @@
+{
+  "evidence_id": "E458",
+  "classification": "CPU-only JAX vs Torch implementation parity; no scientific score/public-gain claim",
+  "dataset_slug": "vladkochetov07/wnn-jax-parity-20261004-v1",
+  "kernel_slug": "vladkochetov07/wnn-jax-parity-20261004-v1-runner",
+  "private": true,
+  "internet": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "accelerator": "CPU/default; no accelerator request",
+  "provider_timeout_seconds": 900,
+  "internal_watchdog_seconds": 840,
+  "aggregate_rss_limit_bytes": 4294967296,
+  "cpu_threads": 1,
+  "cuda_visible_devices": "",
+  "jax_platforms": "cpu",
+  "pip_install": false,
+  "test_paths": [
+    "tests/test_rnn_parity.py",
+    "tests/test_rnn_reference_updates.py"
+  ],
+  "skip_policy": "missing JAX/JAXLIB is explicit failed preflight; any pytest skip yields numerical_pass=false",
+  "output_contract": [
+    "runtime.json",
+    "worker_result.json",
+    "runner_result.json",
+    "pytest.xml",
+    "stdout.log",
+    "source-manifest.json"
+  ],
+  "archive_sha256": "1fbe4b111dd03fb430959a3bda14f527b40c777e8ff0821b47d17ef815142000",
+  "source_files": {
+    "src/wnn_jax/__init__.py": {
+      "sha256": "336d175178e074feadbfc150e41bace0e98928ec3a06dcf3745ca33c74b95d95",
+      "size_bytes": 80,
+      "source_path": "research/campaign_2026-10-04/staging/jax_tpu/src/wnn_jax/__init__.py"
+    },
+    "src/wnn_jax/rnn.py": {
+      "sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc",
+      "size_bytes": 14385,
+      "source_path": "research/campaign_2026-10-04/staging/jax_tpu/src/wnn_jax/rnn.py"
+    },
+    "src/wnn/__init__.py": {
+      "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+      "size_bytes": 63,
+      "source_path": "src/wnn/__init__.py"
+    },
+    "src/wnn/nn.py": {
+      "sha256": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+      "size_bytes": 19926,
+      "source_path": "src/wnn/nn.py"
+    },
+    "src/wnn/event_content.py": {
+      "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+      "size_bytes": 7226,
+      "source_path": "src/wnn/event_content.py"
+    },
+    "tests/test_rnn_parity.py": {
+      "sha256": "53badb5aa9d6bb989926013b5507779f04ef69a5d0c27677cdce1687d962aae1",
+      "size_bytes": 6668,
+      "source_path": "research/campaign_2026-10-04/staging/jax_tpu/tests/test_rnn_parity.py"
+    },
+    "tests/test_rnn_reference_updates.py": {
+      "sha256": "ff881919197a0c69b1de5c0f7237514b0edb471e5dd07c50454c194ff48e2979",
+      "size_bytes": 9735,
+      "source_path": "research/campaign_2026-10-04/staging/jax_tpu/tests/test_rnn_reference_updates.py"
+    }
+  },
+  "staged_hashes": {
+    "upload_dataset/source_bundle.zip": "1fbe4b111dd03fb430959a3bda14f527b40c777e8ff0821b47d17ef815142000",
+    "upload_dataset/source-manifest.json": "3f52347a29bfa741feab95caa6776cdddfb308506793a02d0dfb72181988782d",
+    "upload_dataset/dataset-metadata.json": "b43bb94fe63f2840b6f0f25c0de5e7fea79725381bed648147e2c0537f9d0dd2",
+    "kernel_push/kernel.py": "154f3aeaead61050454c8447af46dd37aa9737422343a6389838fcb9d35047ab",
+    "kernel_push/kernel-metadata.json": "aeec460935f992cd5895398c6d83d5b2af241bb7169f8230b8bc06a4dd3a6d1b"
+  },
+  "test_source_note": "Staged source and tests are hashed byte-for-byte; no imports or tests executed locally.",
+  "parallelism_note": "CPU-only kernel; does not consume GPU/TPU quota, subject to Kaggle CPU-session admission.",
+  "dataset_version": 1,
+  "dataset_status": "ready",
+  "provider_prelaunch": {
+    "E419_v4": "RUNNING",
+    "TPU_probe": "QUEUED",
+    "gpu_remaining_hours": 24.28,
+    "tpu_remaining_hours": 20.0
+  },
+  "metadata_validation_note": "Initial private dataset create attempt rejected an overlong title before upload; title was shortened and dataset v1 created private/READY.",
+  "provider_attempts": [
+    {
+      "kernel_version": 1,
+      "actual_kernel_slug": "vladkochetov07/wnn-jax-recurrent-cpu-parity-e458-v1",
+      "status": "ERROR",
+      "failure": "failed_input_resolution",
+      "reason": "Kaggle transparently expanded uploaded ZIP to source_bundle/ instead of exposing source_bundle.zip; no tests/imports ran.",
+      "output_dir": "live_output_v1",
+      "resource_note": "CPU-only run; GPU/TPU quota unchanged."
+    },
+    {
+      "kernel_version": 2,
+      "actual_kernel_slug": "vladkochetov07/wnn-jax-recurrent-cpu-parity-e458-v1",
+      "provider_status": "ERROR",
+      "pushed_at_utc": "2026-10-04T13:23:00Z",
+      "fix": "Validate Kaggle auto-expanded source_bundle/ members against sealed manifest and per-file hashes.",
+      "no_tests_or_imports_locally": true,
+      "failure": "post_test_reporter_unboundlocalerror_actual_sha",
+      "tests_completed": 11,
+      "tests_passed": 11,
+      "tests_skipped": 0,
+      "tests_failed": 0,
+      "test_runtime_seconds": 61.643,
+      "worker_runtime_seconds": 73.127,
+      "jax": "0.11.1",
+      "jaxlib": "0.11.1",
+      "backend": "CPU",
+      "aggregate_peak_rss": "not recorded due reporter exception",
+      "preserved_output_artifact_hashes": {
+        "pytest.xml": {
+          "sha256": "58f0f59ce6a5277a2357f6b73f1e8ebc3f62ef02ce2fe95e8cb3eef25f9ca586",
+          "size_bytes": 2527
+        },
+        "runtime.json": {
+          "sha256": "39454865b5654f64a1300f5ba59c30b202ce89113d5b4a19fd0f33418a2230fc",
+          "size_bytes": 869
+        },
+        "source-manifest.json": {
+          "sha256": "3f52347a29bfa741feab95caa6776cdddfb308506793a02d0dfb72181988782d",
+          "size_bytes": 2037
+        },
+        "stdout.log": {
+          "sha256": "fe9485162ef1bf24ba75566281dbd0bd0e0b69c7cb2ec37cc13930347fe12fed",
+          "size_bytes": 191
+        },
+        "worker.py": {
+          "sha256": "25c4b6be596d7d95606c2119a220ca9ecaec30d6d3102415f0d2b6c6c30c42cc",
+          "size_bytes": 4620
+        },
+        "worker_result.json": {
+          "sha256": "675f9a8b280b351de411dcc26d308c9cc3962b99f87c6a955c6eb209588702bb",
+          "size_bytes": 359
+        }
+      }
+    },
+    {
+      "kernel_version": 3,
+      "actual_kernel_slug": "vladkochetov07/wnn-jax-recurrent-cpu-parity-e458-v1",
+      "provider_status": "prepared_to_push",
+      "fix": "Initialize archive identity from sealed manifest for Kaggle-expanded source; enables final runner_result.json with aggregate peak RSS.",
+      "no_tests_or_imports_locally": true
+    }
+  ],
+  "actual_kernel_slug": "vladkochetov07/wnn-jax-recurrent-cpu-parity-e458-v1",
+  "kernel_id_slug_note": "Kaggle CLI warning occurred because title slug differed from requested metadata id. Version 2 updates the same actual kernel with matching title/id; no second kernel will be created."
+}

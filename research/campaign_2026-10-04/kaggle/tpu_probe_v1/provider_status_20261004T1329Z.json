@@ -1,0 +1,93 @@
+{
+  "interpretation": {
+    "E419": "Provider RUNNING only; no worker heartbeat, telemetry, or experiment completion evidence available in log/output endpoints.",
+    "E458": "CPU numerical parity run completed with 11 tests, 0 skips/failures/errors; this establishes only CPU implementation parity, not TPU behavior or scientific score. Kaggle auto-expanded the source archive: runner archive_sha256 is copied from sealed manifest and must be interpreted as manifest-declared identity, while integrity was verified by manifest hash plus per-member hashes; no archive bytes were present to independently observe a ZIP SHA-256.",
+    "TPU": "Queued only; no assignment and therefore no TPU HBM/device evidence."
+  },
+  "kernels": {
+    "E419_v4": {
+      "logs_available": false,
+      "outputs_available": false,
+      "resource_peaks": null,
+      "slug": "vladkochetov07/wnn-e419-qat-dualt4-20261004-v4-runner",
+      "status": "RUNNING"
+    },
+    "E458_CPU_parity_v1_version3": {
+      "accelerator": "CPU only; GPU/TPU disabled",
+      "elapsed_seconds": 80.44928072800002,
+      "kernel_version": 3,
+      "outputs_sha256": {
+        "live_output_v3/e458_cpu_parity/pytest.xml": {
+          "sha256": "347c1d413919c6891961bd331065a08da4bdfe0de0033a03489f4a436f057679",
+          "size_bytes": 2528
+        },
+        "live_output_v3/e458_cpu_parity/runner_result.json": {
+          "sha256": "3c27805852f48f744b0842fc6a908f050bc1cd80af3fc37ea230cd7c926d21ba",
+          "size_bytes": 1078
+        },
+        "live_output_v3/e458_cpu_parity/runtime.json": {
+          "sha256": "2fb0c6016c780b4386566675f3d83895fea633ff9d40053d160524343f33e2e9",
+          "size_bytes": 869
+        },
+        "live_output_v3/e458_cpu_parity/source-manifest.json": {
+          "sha256": "3f52347a29bfa741feab95caa6776cdddfb308506793a02d0dfb72181988782d",
+          "size_bytes": 2037
+        },
+        "live_output_v3/e458_cpu_parity/stdout.log": {
+          "sha256": "104bdb80536e57f2fb9745e729ee983c7cd1905f240f24f2d20076929dc12d8b",
+          "size_bytes": 191
+        },
+        "live_output_v3/e458_cpu_parity/worker.py": {
+          "sha256": "25c4b6be596d7d95606c2119a220ca9ecaec30d6d3102415f0d2b6c6c30c42cc",
+          "size_bytes": 4620
+        },
+        "live_output_v3/e458_cpu_parity/worker_result.json": {
+          "sha256": "84434abec46a9e54c5916ebc53b4d024abd3a8bda181baeeb0c975d37f5980be",
+          "size_bytes": 359
+        },
+        "live_output_v3/wnn-jax-recurrent-cpu-parity-e458-v1.log": {
+          "sha256": "1f10a597a2a420fa1b5b5e6027d589a53919ddf47ebba34b64142dd3ad6e9707",
+          "size_bytes": 803
+        }
+      },
+      "peak_aggregate_rss_bytes": 902901760,
+      "slug": "vladkochetov07/wnn-jax-recurrent-cpu-parity-e458-v1",
+      "status": "COMPLETE",
+      "worker_result": {
+        "classification": "CPU implementation parity only; no TPU or scientific score claim",
+        "elapsed_seconds": 79.07287564799998,
+        "numerical_pass": true,
+        "status": "numerical_parity_pass",
+        "test_summary": {
+          "errors": 0,
+          "exit_code": 0,
+          "failures": 0,
+          "junit_xml": "pytest.xml",
+          "skips": 0,
+          "tests": 11
+        },
+        "tests_run": true
+      }
+    },
+    "TPU_probe_v1": {
+      "assigned_device": null,
+      "assigned_hbm_bytes": null,
+      "logs_available": false,
+      "outputs_available": false,
+      "requested_machine_shape": "TpuV5E8",
+      "slug": "vladkochetov07/wnn-tpu-probe-20261004",
+      "status": "QUEUED"
+    }
+  },
+  "observed_at_utc": "2026-10-04T13:29:04Z",
+  "quota": {
+    "gpu_remaining_hours": 24.12,
+    "gpu_total_hours": 30.0,
+    "gpu_used_hours": 5.88,
+    "observed_at_utc": "2026-10-04T13:27Z",
+    "refresh_at_utc": "2026-10-10T00:00:00Z",
+    "tpu_remaining_hours": 20.0,
+    "tpu_total_hours": 20.0,
+    "tpu_used_hours": 0.0
+  }
+}

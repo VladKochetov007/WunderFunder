@@ -1,0 +1,39 @@
+--- a/src/wnn/specialist.py
++++ b/src/wnn/specialist.py
+@@ -74,7 +74,8 @@
+     """Shared GRU with always-updated small recurrent specialists.
+ 
+     ``learned`` uses a causal top-one router with a straight-through softmax
+-    gradient. ``hash`` uses a frozen seeded projection of the inclusive
++    gradient. ``soft`` mixes all residuals using the learned router's softmax
++    probabilities. ``hash`` uses a frozen seeded projection of the inclusive
+     first-99-row prefix. Routes are consequently sequence-fixed for scored
+     rows after the 99-row warmup. ``universal`` averages all residuals.
+     All expert GRUs run on every row in every arm, so expert state support and
+@@ -96,8 +97,8 @@
+         super().__init__()
+         if min(n_in, hidden, expert_hidden, experts, layers, n_out, prefix_rows) <= 0:
+             raise ValueError("specialist dimensions and prefix_rows must be positive")
+-        if route not in {"learned", "hash", "universal"}:
+-            raise ValueError("route must be learned, hash, or universal")
++        if route not in {"learned", "soft", "hash", "universal"}:
++            raise ValueError("route must be learned, soft, hash, or universal")
+         self.register_buffer("mean", torch.zeros(n_in))
+         self.register_buffer("std", torch.ones(n_in))
+         self.inp = nn.Linear(n_in, hidden)
+@@ -180,9 +181,12 @@
+         else:
+             logits = self.router(F.gelu(self.prefix_proj(prefix)))
+             probabilities = torch.softmax(logits.float(), dim=-1).to(expert_outputs.dtype)
+-            selected = self.route_indices(prefix)
+-            hard = F.one_hot(selected, num_classes=self.num_experts).to(expert_outputs.dtype)
+-            gate = (hard - probabilities).detach() + probabilities
++            if self.route == "learned":
++                selected = self.route_indices(prefix)
++                hard = F.one_hot(selected, num_classes=self.num_experts).to(expert_outputs.dtype)
++                gate = (hard - probabilities).detach() + probabilities
++            else:
++                gate = probabilities
+             gate = gate[..., None]
+         residual = (expert_outputs * gate).sum(dim=2)
+         next_states.extend((prefix_sum, prefix_count))

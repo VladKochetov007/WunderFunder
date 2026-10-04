@@ -1,0 +1,332 @@
+{
+  "admission_resources": {
+    "parent_cpu_max": 12,
+    "parent_ram_max": 38654705664,
+    "support_cpus": 2,
+    "support_ram_bytes": 4294967296,
+    "worker_cpus": 1,
+    "worker_ram_bytes": 2147483648
+  },
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "scripts/probe_factorized_runtime.py",
+    "--source",
+    "artifacts/runs/c20261003_w384_s3_f0/model.pt",
+    "--control",
+    "research/campaign_2026-10-04/E420_factorized/zero_update_w384_r128.pt",
+    "--parity",
+    "research/campaign_2026-10-04/E420_factorized/full20k_native_parity.json",
+    "--data",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_subset20.parquet",
+    "--e409-manifest",
+    "research/campaign_2026-10-04/E409_width_runtime/manifest.json",
+    "--library-root",
+    "artifacts/native_e420",
+    "--lib-level",
+    "v3",
+    "--cpu",
+    "15",
+    "--repeats",
+    "5",
+    "--out",
+    "research/campaign_2026-10-04/E420_factorized_runtime_v2"
+  ],
+  "artifacts": [
+    {
+      "path": "research/campaign_2026-10-04/E420_factorized_runtime_v2/timing_trials.jsonl",
+      "sha256": "c534fe673f9fd7fa2251ad969bd63dd0b89f5afc1108ec0bbdca1825ac8b1729",
+      "size": 9527
+    },
+    {
+      "path": "research/campaign_2026-10-04/E420_factorized_runtime_v2/result.json",
+      "sha256": "a1e6906c51ac59ea00f6ab51062a727f3bba74b1d0105a4fac5c6db6d255b59a",
+      "size": 49612
+    }
+  ],
+  "block_id": "local001",
+  "charged_seconds": 131.17581462700036,
+  "elapsed_seconds": 131.17581462700036,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "0",
+    "WNN_THREADS": "1"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 430613,
+    "low": 0,
+    "max": 2038772,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791100223.8123026,
+  "heartbeat_unix": 1791100223.2955647,
+  "id": "e420-factorized-runtime-v2",
+  "initial_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "initial_parent_memory_events": {
+    "high": 430613,
+    "low": 0,
+    "max": 2033108,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "kind": "cpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "38654705664",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 0,
+  "peak_ram_bytes": 492302336,
+  "reserved_seconds": 4530,
+  "reserved_unix": 1791100092.5904162,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+    "src/wnn/campaign.py": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+    "src/wnn/campaign_local.py": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+    "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "signals": [],
+  "spec": {
+    "argv": [
+      "{python}",
+      "scripts/probe_factorized_runtime.py",
+      "--source",
+      "artifacts/runs/c20261003_w384_s3_f0/model.pt",
+      "--control",
+      "research/campaign_2026-10-04/E420_factorized/zero_update_w384_r128.pt",
+      "--parity",
+      "research/campaign_2026-10-04/E420_factorized/full20k_native_parity.json",
+      "--data",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_subset20.parquet",
+      "--e409-manifest",
+      "research/campaign_2026-10-04/E409_width_runtime/manifest.json",
+      "--library-root",
+      "artifacts/native_e420",
+      "--lib-level",
+      "v3",
+      "--cpu",
+      "15",
+      "--repeats",
+      "5",
+      "--out",
+      "research/campaign_2026-10-04/E420_factorized_runtime_v2"
+    ],
+    "artifacts": [
+      "research/campaign_2026-10-04/E420_factorized_runtime_v2/timing_trials.jsonl",
+      "research/campaign_2026-10-04/E420_factorized_runtime_v2/result.json"
+    ],
+    "code": [
+      {
+        "path": "native/Cargo.lock",
+        "sha256": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+        "size": 13803
+      },
+      {
+        "path": "native/Cargo.toml",
+        "sha256": "a4d2c473e19cefa1ba647c3d4a689b2c73e4690a60a1f6a098333f9002868e75",
+        "size": 545
+      },
+      {
+        "path": "native/src/approx.rs",
+        "sha256": "4df99ecfb690209c651d40c14a3ef3d7489453c06e25e6c4318c60bc1f901742",
+        "size": 8883
+      },
+      {
+        "path": "native/src/factorized.rs",
+        "sha256": "7e3666cceae408e746d171ea2096500f37aa0b1eaafa5974026f2623cd0d6199",
+        "size": 6409
+      },
+      {
+        "path": "native/src/half.rs",
+        "sha256": "87035e5569bb7a53295c222026337a4a08661f1d6d821c2b26074fa12b4bb9cc",
+        "size": 44676
+      },
+      {
+        "path": "native/src/kernels.rs",
+        "sha256": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+        "size": 3160
+      },
+      {
+        "path": "native/src/lib.rs",
+        "sha256": "0773b7ae7664a0961d348b09b0672c1463b449fe83e7143dce700e915c7de2d2",
+        "size": 229
+      },
+      {
+        "path": "native/src/python.rs",
+        "sha256": "c995e530183b3f236a78263a5e9ef2c36e2738f35e00cc5b3a638be271e7d1c3",
+        "size": 31088
+      },
+      {
+        "path": "native/src/quant8.rs",
+        "sha256": "07354c7f65deaa145127f359448b5fe1f5648e16fe3034bfdccd2939f91347cc",
+        "size": 14381
+      },
+      {
+        "path": "native/src/rnn.rs",
+        "sha256": "544135da67cb156a471d8ca0a9de7837f2ae3657a7885e4f8d95edf238cb0abf",
+        "size": 6736
+      },
+      {
+        "path": "native/src/rnn_fast.rs",
+        "sha256": "ee35219d58b83c5cc2612ed5dceba1fffcedbe42aa182e7301b4715fb013a76f",
+        "size": 82064
+      },
+      {
+        "path": "native/src/stream.rs",
+        "sha256": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6",
+        "size": 9011
+      },
+      {
+        "path": "scripts/engine_fp16_check.py",
+        "sha256": "ebb160667d09193b58255691f0a2433bc47f2d285e34deb199b1758d728582b9",
+        "size": 19164
+      },
+      {
+        "path": "scripts/probe_factorized_runtime.py",
+        "sha256": "241d8079adf8d651360b5c4389f0ecf87cfdf4b408348a9bcee85873290bc088",
+        "size": 23102
+      },
+      {
+        "path": "src/wnn/features.py",
+        "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "size": 5421
+      },
+      {
+        "path": "src/wnn/splits.py",
+        "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+        "size": 8647
+      },
+      {
+        "path": "utils.py",
+        "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+        "size": 12328
+      }
+    ],
+    "code_sha256": "eaae51edbcb0547294be4bb557bc2fa4a0326c76254a4aa501f99e62f6fbba9d",
+    "environment": {},
+    "inputs": [
+      {
+        "path": "artifacts/native_e420/v2/wnn_native/wnn_native.abi3.so",
+        "sha256": "0e707721c5c19767019c56d73cdbfaf2c4d8cde1983f273e4be2ae9ea50c4b0e",
+        "size": 882912
+      },
+      {
+        "path": "artifacts/native_e420/v3/wnn_native/wnn_native.abi3.so",
+        "sha256": "c8d087cc6e96830c5d8e30fd2b770d792e4ad03209e7ead5ed450282100c831c",
+        "size": 898568
+      },
+      {
+        "path": "artifacts/runs/c20261003_w384_s3_f0/model.pt",
+        "sha256": "b5181f3aa948765f22a8c3f23f6e293ba715b52ffb91eb6eac02d6b7e30a8b8d",
+        "size": 8690759
+      },
+      {
+        "path": "cache/valid_subset20.parquet",
+        "sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+        "size": 90874551
+      },
+      {
+        "path": "research/campaign_2026-10-04/E409_width_runtime/manifest.json",
+        "sha256": "815bee9144348fa58c6cd622e0ba2ff48c94b3722228d2b19fafd6e227552464",
+        "size": 2760
+      },
+      {
+        "path": "research/campaign_2026-10-04/E420_factorized/e420_full20k_native_parity_v2.sealed.json",
+        "sha256": "3f486548119630cdc45b9c5941cc5a9ae605e95017f1f33d33e3e4791414176b",
+        "size": 10360
+      },
+      {
+        "path": "research/campaign_2026-10-04/E420_factorized/e420_full20k_native_parity_v3.sealed.json",
+        "sha256": "2b5aceee10645bee033f1500f3638cd8e75099290b59aba90d9951214f068776",
+        "size": 10417
+      },
+      {
+        "path": "research/campaign_2026-10-04/E420_factorized/full20k_native_parity.json",
+        "sha256": "58f1691a9573b35bf1d4bae9c28368dcb2d47c9257e954ed2c9de7714fe0078e",
+        "size": 4860
+      },
+      {
+        "path": "research/campaign_2026-10-04/E420_factorized/zero_update_w384_r128.pt",
+        "sha256": "1e3c440f458e5e9826911b37b5762c8becdce44b1f33965ea80918d1568900e9",
+        "size": 11841497
+      }
+    ],
+    "kind": "cpu",
+    "limits": {
+      "cpus": 1,
+      "gpu_memory_bytes": 0,
+      "gpu_stop_bytes": 0,
+      "ram_bytes": 2147483648,
+      "timeout_seconds": 3600
+    },
+    "name": "e420_factorized_runtime_v2",
+    "version": 1
+  },
+  "spec_sha256": "ac86e9e9fb3e4ac225e53b18f8ba2422ec574dba20a4f6b0714afd74bea36a94",
+  "started_unix": 1791100092.732872,
+  "status": "finished",
+  "teardown_verified": true,
+  "timeout_seconds": 3600,
+  "unit": "wnn-c04-e420-factorized-runtime-v2.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "1s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e420-factorized-runtime-v2.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "2147483648",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}

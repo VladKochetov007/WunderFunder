@@ -1,0 +1,49 @@
+{
+  "archive_sha256": "d2d8fe047d76f85b9dd5931d36b8a9daac6b23adfe197e76bb48c881328b3549",
+  "artifacts": [
+    {
+      "path": "preflight_cpu_20261004T0749Z.xml",
+      "sha256": "fee22104ee20b74bfbf4282d657dfb167364d992ea6f3c0bc813887199680b52",
+      "size": 7711
+    },
+    {
+      "path": "ptq_prediction_smoke_20261004T0749Z.json",
+      "sha256": "80801e244f103326055c8665b77ae1a983850e2fe4f9a49cfcd2894be878f20c",
+      "size": 628
+    }
+  ],
+  "extracted_file_count": 275,
+  "preflight": {
+    "command_tests": [
+      "tests/test_trainer_resume_integration.py",
+      "tests/test_training_state.py",
+      "tests/test_training_qat.py",
+      "tests/test_quantization.py",
+      "tests/test_quantization_export.py"
+    ],
+    "failed": 0,
+    "limits": "1 CPU / 2 GiB RAM via scripts/limited",
+    "mode": "CPU",
+    "passed": 53,
+    "seconds": 16.79,
+    "skipped": 2,
+    "timing_note": "The 16.79 s wall time overlapped the native timing run from 07:48:12Z to 07:50:23Z; it is a correctness check only and not an uncontended runtime estimate."
+  },
+  "ptq_export_prediction_smoke": {
+    "all_finite": true,
+    "mode": "CPU synthetic 32-step forward",
+    "output_shape": [
+      1,
+      32,
+      2
+    ],
+    "presets": [
+      "recurrent",
+      "recurrent_head"
+    ],
+    "scientific_score": null,
+    "source": "existing combo model_ep3 checkpoint",
+    "training_updates": 0
+  },
+  "run_at_utc": "2026-10-04T07:49Z"
+}

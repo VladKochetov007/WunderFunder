@@ -1,0 +1,61 @@
+{
+  "argv": [
+    "{python}",
+    "scripts/native_validation_score.py",
+    "--submission",
+    "submissions/c20261004_combo_s3_i16/submission.zip",
+    "--data",
+    "datasets/valid.parquet",
+    "--output",
+    "research/campaign_2026-10-04/checks/e460_native_full_validation_v1.json",
+    "--expected-sha256",
+    "21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/checks/e460_native_full_validation_v1.json"
+  ],
+  "code": [
+    {
+      "path": "scripts/native_validation_score.py",
+      "sha256": "9ce00a294a35e7a2461e17f4e8b31b6548e1cb3aa86746d990d129fe0eaa8e3f",
+      "size": 2930
+    },
+    {
+      "path": "src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "size": 8902
+    },
+    {
+      "path": "utils.py",
+      "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+      "size": 12328
+    }
+  ],
+  "code_sha256": "2c2bc3353e8c3e19e4c1275e9340e912502697dee0d0f4567e22a7386c868e63",
+  "environment": {
+    "WNN_NATIVE_LEVEL": "v3",
+    "WNN_PRECISION": "i16"
+  },
+  "inputs": [
+    {
+      "path": "datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "size": 5615509128
+    },
+    {
+      "path": "submissions/c20261004_combo_s3_i16/submission.zip",
+      "sha256": "21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb",
+      "size": 5165013
+    }
+  ],
+  "kind": "cpu",
+  "limits": {
+    "cpus": 1,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 6000
+  },
+  "name": "e460_native_full_validation_v1",
+  "version": 1
+}

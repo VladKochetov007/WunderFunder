@@ -1,0 +1,339 @@
+{
+  "admission_resources": {
+    "parent_cpu_max": 12,
+    "parent_ram_max": 38654705664,
+    "support_cpus": 2,
+    "support_ram_bytes": 4294967296,
+    "worker_cpus": 1,
+    "worker_ram_bytes": 2147483648
+  },
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "scripts/head_transfer_packages.py",
+    "--output",
+    "research/campaign_2026-10-04/E457_head_transfer"
+  ],
+  "artifacts": [
+    {
+      "path": "research/campaign_2026-10-04/E457_head_transfer/readiness.json",
+      "sha256": "1f84592c96e2e4a23086039ce59028beb23ac309608ad0cc9956702406f9bdca",
+      "size": 14810
+    },
+    {
+      "path": "research/campaign_2026-10-04/E457_head_transfer/parent/readiness.json",
+      "sha256": "de74ae4d2aab610749393da00fa22243648c03f1aeb1e471f729f164fd6cd0b2",
+      "size": 6986
+    },
+    {
+      "path": "research/campaign_2026-10-04/E457_head_transfer/head/readiness.json",
+      "sha256": "6565cd3069a4bf89491924005b2f0719cfbb525104dfb478d6223c98edacdfea",
+      "size": 6973
+    },
+    {
+      "path": "submissions/c20261004_combo_parent_s3_i16/submission.zip",
+      "sha256": "a908efd5903396070b7e0b2aef98454b91fea31316e3621ce5c6ec5f1b62ae46",
+      "size": 4674336
+    },
+    {
+      "path": "submissions/c20261004_combo_head_s3_i16/submission.zip",
+      "sha256": "715958e25a12cf75b105bfe80668798aa3a4a1153902e0dd28bfa3b53e049a73",
+      "size": 4674263
+    }
+  ],
+  "block_id": "local001",
+  "charged_seconds": 344.73391892100335,
+  "elapsed_seconds": 344.73391892100335,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "0",
+    "WNN_THREADS": "1"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 719113,
+    "low": 0,
+    "max": 4941035,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791119883.8215225,
+  "heartbeat_unix": 1791119883.3034024,
+  "id": "e457-head-transfer-v1",
+  "initial_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "initial_parent_memory_events": {
+    "high": 719113,
+    "low": 0,
+    "max": 4920264,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "kind": "cpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "38654705664",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 0,
+  "peak_ram_bytes": 698429440,
+  "reserved_seconds": 2130,
+  "reserved_unix": 1791119539.0184267,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+    "src/wnn/campaign.py": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+    "src/wnn/campaign_local.py": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+    "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "signals": [],
+  "spec": {
+    "argv": [
+      "{python}",
+      "scripts/head_transfer_packages.py",
+      "--output",
+      "research/campaign_2026-10-04/E457_head_transfer"
+    ],
+    "artifacts": [
+      "research/campaign_2026-10-04/E457_head_transfer/readiness.json",
+      "research/campaign_2026-10-04/E457_head_transfer/parent/readiness.json",
+      "research/campaign_2026-10-04/E457_head_transfer/head/readiness.json",
+      "submissions/c20261004_combo_parent_s3_i16/submission.zip",
+      "submissions/c20261004_combo_head_s3_i16/submission.zip"
+    ],
+    "code": [
+      {
+        "path": "scripts/engine_fp16_check.py",
+        "sha256": "ebb160667d09193b58255691f0a2433bc47f2d285e34deb199b1758d728582b9",
+        "size": 19164
+      },
+      {
+        "path": "scripts/head_transfer_packages.py",
+        "sha256": "9514f008c705bbd2762645695913918ef7f7f16ebd5e4d7b43f3bd101b79cd2c",
+        "size": 14975
+      },
+      {
+        "path": "scripts/package_submission.py",
+        "sha256": "bfa2e4e0487ef42aee15262efa3614815dcf9bdf9c899e2be9b79e3b5c48c1e5",
+        "size": 5491
+      },
+      {
+        "path": "scripts/verify_submission.py",
+        "sha256": "d2c75df6accf8f88c911844171c03a020756833843d0b6db856e0cdebbe6bfb4",
+        "size": 6977
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "size": 8902
+      },
+      {
+        "path": "utils.py",
+        "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+        "size": 12328
+      }
+    ],
+    "code_sha256": "365535a18a41dd96c2aecd16b12e04c829d1cf114c2a9e4bce9dbb0681927017",
+    "environment": {},
+    "inputs": [
+      {
+        "path": "artifacts/runs/c20261004_combo_head_s3_final/model_ep0.pt",
+        "sha256": "f1cb88f38b6d5b5b67859346b439e69d610928bc836baac8867e84e7b1c95d85",
+        "size": 3943015
+      },
+      {
+        "path": "artifacts/runs/c20261004_combo_s3_final_r1/model_ep3.pt",
+        "sha256": "64c2b28651b414778d6af3c33bb9d54f653a46fb0be087de2e3c44ca88c31166",
+        "size": 3978655
+      },
+      {
+        "path": "cache/valid_subset20.parquet",
+        "sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+        "size": 90874551
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/avx2/wnn_native.abi3.so",
+        "sha256": "9754887ddc0a6d1745e507c5b1bdb01ea8d31da79eb25965da043de33f47bfa6",
+        "size": 767680
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/Cargo.lock",
+        "sha256": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+        "size": 13803
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/Cargo.toml",
+        "sha256": "a4d2c473e19cefa1ba647c3d4a689b2c73e4690a60a1f6a098333f9002868e75",
+        "size": 545
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/examples/bench_engine.rs",
+        "sha256": "dc972896c9d9d5d9b59c2ec96ca5d16959f11bad002ed24e5b85f35b3afaea66",
+        "size": 11206
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/examples/bench_fast.rs",
+        "sha256": "2d7695cd5008dd395ef4c8c3452102af19bab85fac2b95a7ffbeabb18bde751f",
+        "size": 2710
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/examples/bench_parts.rs",
+        "sha256": "0bb2c91d5deeac1f3fd5b8b2a50f551b7bc556c45f2975b4700760133da9dda4",
+        "size": 1046
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/examples/bench_saxpy.rs",
+        "sha256": "ffe54e6bec3f0311be01620db5a1e6a46fa433724d1c5f91d2066bc1a58e8356",
+        "size": 2494
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/examples/bench_step.rs",
+        "sha256": "f0bb96530364c6e5e49c6e9833fabe483cf6e0ede2a659b3dabef9e8863778d9",
+        "size": 1561
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/pyproject.toml",
+        "sha256": "c054b64b2ad899fff31e2f5872c38f1a763080f235542474ae1700738595a22e",
+        "size": 186
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/approx.rs",
+        "sha256": "4df99ecfb690209c651d40c14a3ef3d7489453c06e25e6c4318c60bc1f901742",
+        "size": 8883
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/half.rs",
+        "sha256": "e17f805f144d3111888626294602a59d6af93b6450c588371977a2bf652eda83",
+        "size": 44604
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/kernels.rs",
+        "sha256": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+        "size": 3160
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/lib.rs",
+        "sha256": "ee583829676d389d272295fb20e4e94a904b77e19beb425575afa2e4dfce28e3",
+        "size": 193
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/python.rs",
+        "sha256": "04ef01d6b0ffbbfdf71c867b6eacf3760037c41975aae4325635d4c672abfa50",
+        "size": 22132
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/rnn.rs",
+        "sha256": "544135da67cb156a471d8ca0a9de7837f2ae3657a7885e4f8d95edf238cb0abf",
+        "size": 6736
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/rnn_fast.rs",
+        "sha256": "1ae492c08ecf69545bc8cbf6e08759caf784fdc3a2f066831d5bc1e504f675e0",
+        "size": 63711
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/stream.rs",
+        "sha256": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6",
+        "size": 9011
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/v2/wnn_native.abi3.so",
+        "sha256": "b01becbbef79e87e61eda24fe4b15bba3a98eb5b7b7d51479ba3c22d420b82d8",
+        "size": 766160
+      },
+      {
+        "path": "research/campaign_2026-10-02/engine/native_build_l2/b2/v3/wnn_native.abi3.so",
+        "sha256": "698b8b2c8b5167e2be5e1e151ef6aa3b325b12ef38c4718ceafa2db3375aa398",
+        "size": 768072
+      },
+      {
+        "path": "research/campaign_2026-10-04/E457_HEAD_TRANSFER_PREREG.md",
+        "sha256": "89ab6e05072e13206af2f6dbe6b46a09eb605d0ecdea55edc29a517a77f14dd3",
+        "size": 2415
+      },
+      {
+        "path": "submission/solution_native.py",
+        "sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+        "size": 3133
+      },
+      {
+        "path": "submissions/c20261004_combo_s3_i16/submission.zip",
+        "sha256": "21f9b7368eddd64ad8ae19ae0702990a57a1806531a85148b657e5aed719dafb",
+        "size": 5165013
+      }
+    ],
+    "kind": "cpu",
+    "limits": {
+      "cpus": 1,
+      "gpu_memory_bytes": 0,
+      "gpu_stop_bytes": 0,
+      "ram_bytes": 2147483648,
+      "timeout_seconds": 1200
+    },
+    "name": "e457_head_transfer_v1",
+    "version": 1
+  },
+  "spec_sha256": "7ed9249efc6215a6500e186a7d96366495092c387b02e84d93a53ff7cfbf803b",
+  "started_unix": 1791119539.1989238,
+  "status": "finished",
+  "teardown_verified": true,
+  "timeout_seconds": 1200,
+  "unit": "wnn-c04-e457-head-transfer-v1.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "1s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e457-head-transfer-v1.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "2147483648",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}

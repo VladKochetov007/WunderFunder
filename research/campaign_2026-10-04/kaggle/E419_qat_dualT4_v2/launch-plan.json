@@ -1,0 +1,83 @@
+{
+  "bundle_sha256": "818b90818aed37b7a89bdefbfa13cc2f8f708eb95046fb587e682a4de96f73c3",
+  "contrast_contract": {
+    "change_vs_control": "QAT mode only: selected recurrent matrices, plus head matrix for recurrent_head.",
+    "control": "same T4, same seed, fold0, same source/data/teacher/objective/EMA, batch16, FP32, AdamW1e-4, one epoch, fixed epoch0, inherited preprocessing; --qat none",
+    "order": "preflight, QAT probe, FP32 control fit and export/score, then QAT fit and export/score. Both use seed3 internally; control is not selected by score.",
+    "outputs": "separate declared run directories, checkpoints, prediction arrays/metadata, score reports for FP32 control and QAT arm, preflight XML and step reports.",
+    "probe": "one production-shape QAT batch per device under isolated distinct run name; no mutation/reuse of scientific run outputs.",
+    "qat_arms": [
+      "recurrent",
+      "recurrent_head"
+    ],
+    "score_use": "single-arm fold0 diagnostics; root performs paired control-vs-QAT comparisons after download; no promotion or significance conclusion from the worker."
+  },
+  "created_at_utc": "2026-10-04T06:40:00Z",
+  "dataset": "vladkochetov07/wnn-e419-qat-dualt4-20261004-v2",
+  "dataset_version": 1,
+  "dependency_review_added": [
+    "scripts/screen_score.py",
+    "research/campaign_2026-09-30/audit/campaign_score.py"
+  ],
+  "heartbeat": "Current wrapper uses kaggle_gpu_runner.py whitelisted resource heartbeat every30 seconds; no environment or command dumps.",
+  "kernel": "vladkochetov07/wnn-e419-qat-dualt4-20261004-v2-runner",
+  "kernel_version": 1,
+  "max_workers": 2,
+  "missing_combo_asset": "Combo epoch3 checkpoint+provenance are embedded in the bundle because absent from the E413 shared assets dataset.",
+  "provider_status_at_20261004T0647Z": "KernelWorkerStatus.RUNNING",
+  "provider_timeout_application": "Root applies 22500s via the established provider command at push; not encoded in kernel metadata.",
+  "provider_timeout_seconds": 22500,
+  "resource_contract": {
+    "allocator_bytes": 11811160064,
+    "e413_per_arm_peak_ram_bytes": [
+      9242214400,
+      9222451200
+    ],
+    "e413_per_arm_peak_vram_bytes": 6911164416,
+    "e413_per_arm_wall_seconds": [
+      6068.908304514,
+      6099.17363871
+    ],
+    "gpu_quota_remaining_hours_before_pair": 28.11,
+    "max_aggregate_gpu_quota_charge_hours": 12.5,
+    "measured_local_qat_probe_peak_ram_bytes": 7070892032,
+    "measured_local_qat_probe_peak_vram_bytes": 1781530624,
+    "observed_operating_limit_bytes": 12884901888,
+    "per_worker_cpus": 2,
+    "per_worker_ram_bytes": 10737418240,
+    "sampled_stop_bytes": 13958643712,
+    "weekly_reserve_floor_hours": 6.0
+  },
+  "scientific_source_git_head": "112f4fd3c8cca53eb7001c3636516af1af1d8e2d",
+  "source_code_sha256": "b86e83eb78317ad5031e7f5ba924e1b6c74a3aa0e7441735ae921c65e4e38d47",
+  "specs": [
+    {
+      "code_sha256": "b86e83eb78317ad5031e7f5ba924e1b6c74a3aa0e7441735ae921c65e4e38d47",
+      "declared_artifacts": 11,
+      "inputs": 31,
+      "name": "c20261004_e419_qat_recurrent_head_s3_f0_t4v2"
+    },
+    {
+      "code_sha256": "b86e83eb78317ad5031e7f5ba924e1b6c74a3aa0e7441735ae921c65e4e38d47",
+      "declared_artifacts": 11,
+      "inputs": 31,
+      "name": "c20261004_e419_qat_recurrent_s3_f0_t4v2"
+    }
+  ],
+  "status": "private_kernel_v1_pushed_running",
+  "worker_timeout_seconds": 21600,
+  "workers": [
+    {
+      "arm": "recurrent",
+      "qat_probe_run": "c20261004_e419_qat_recurrent_s3_f0_t4v2_prodprobe",
+      "qat_run": "c20261004_e419_qat_recurrent_s3_f0_t4v2",
+      "same_device_fp32_control_run": "c20261004_e419_fp32_control_recurrent_s3_f0_t4v2"
+    },
+    {
+      "arm": "recurrent_head",
+      "qat_probe_run": "c20261004_e419_qat_recurrent_head_s3_f0_t4v2_prodprobe",
+      "qat_run": "c20261004_e419_qat_recurrent_head_s3_f0_t4v2",
+      "same_device_fp32_control_run": "c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v2"
+    }
+  ]
+}

@@ -1,0 +1,696 @@
+{
+  "admission_resources": {
+    "parent_cpu_max": 12,
+    "parent_ram_max": 38654705664,
+    "support_cpus": 2,
+    "support_ram_bytes": 4294967296,
+    "worker_cpus": 8,
+    "worker_ram_bytes": 25769803776
+  },
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "scripts/train_rnn.py",
+    "--name",
+    "c20261004_e419_float_fp32_s3_f0",
+    "--train-source",
+    "train+valid",
+    "--full-valid",
+    "--loss",
+    "wmse",
+    "--aux-struct",
+    "0.3",
+    "--aux-next",
+    "0.3",
+    "--propensity",
+    "c20260929_prop_f0",
+    "--prop-power",
+    "2",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--hidden",
+    "256",
+    "--layers",
+    "2",
+    "--batch",
+    "16",
+    "--chunk",
+    "1000",
+    "--epochs",
+    "1",
+    "--lr",
+    "0.0001",
+    "--wd",
+    "0.01",
+    "--seed",
+    "3",
+    "--optim",
+    "adamw",
+    "--muon-scope",
+    "rnn",
+    "--ema-teacher",
+    "1",
+    "--ema-decay",
+    "0.999",
+    "--eval-ema",
+    "--since-weight",
+    "32",
+    "--since-floor",
+    "0.25",
+    "--distill",
+    "c20260929_since_s3_f0,c20260929_since_s4_f0",
+    "--distill-alpha",
+    "0.5",
+    "--distill-boot-h",
+    "8",
+    "--fast",
+    "--checkpoint-policy",
+    "fixed",
+    "--checkpoint-epoch",
+    "0",
+    "--save-training-state",
+    "--split-manifest",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "--no-eval-during-fit",
+    "--init",
+    "c20261003_combo_s3_f0@ep3",
+    "--inherit-init-preprocessing",
+    "--precision",
+    "fp32",
+    "--qat",
+    "none"
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/runs/c20261004_e419_float_fp32_s3_f0/model_ep0.pt",
+      "sha256": "52debcc489a0b1fbe0cb4ba6920a8e1cd3d064479e0b09f80ac637f67490709b",
+      "size": 3977631
+    },
+    {
+      "path": "artifacts/runs/c20261004_e419_float_fp32_s3_f0/provenance.json",
+      "sha256": "2f4a2e347b0f278f81de8d4205812e64e7a72acee97d5a328093e0b8e8290854",
+      "size": 155793
+    },
+    {
+      "path": "artifacts/runs/c20261004_e419_float_fp32_s3_f0/history.json",
+      "sha256": "eb33cfef75b609ff2134addb3dd2a5f03093774c15f0c65775a5709bb1046b3f",
+      "size": 1540
+    },
+    {
+      "path": "artifacts/runs/c20261004_e419_float_fp32_s3_f0/training_state.pt",
+      "sha256": "21567b7428786aacf6f306c7dc6d76568ec47f48a933491ad10b22899a4f49be",
+      "size": 15750655
+    }
+  ],
+  "block_id": "local001",
+  "charged_seconds": 1522.887122010001,
+  "elapsed_seconds": 1522.887122010001,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "8",
+    "NUMBA_NUM_THREADS": "8",
+    "OMP_NUM_THREADS": "8",
+    "OPENBLAS_NUM_THREADS": "8",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "8",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "4200000000",
+    "WNN_LOADER_RAM_GB": "3",
+    "WNN_LOADER_WORKERS": "2",
+    "WNN_PORTABLE_DATA_MANIFEST": "research/campaign_2026-10-04/portable_inputs.json",
+    "WNN_THREADS": "8"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 3415,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 430613,
+    "low": 0,
+    "max": 1943419,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791099262.6574755,
+  "heartbeat_unix": 1791099262.1307702,
+  "id": "e419-float-fp32-f0-v1",
+  "initial_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "initial_parent_memory_events": {
+    "high": 430613,
+    "low": 0,
+    "max": 1907806,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "kind": "gpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 3415,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "38654705664",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 2297430016,
+  "peak_ram_bytes": 25753325568,
+  "reserved_seconds": 8130,
+  "reserved_unix": 1791097739.7159958,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+    "src/wnn/campaign.py": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+    "src/wnn/campaign_local.py": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+    "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "signals": [],
+  "spec": {
+    "argv": [
+      "{python}",
+      "scripts/train_rnn.py",
+      "--name",
+      "c20261004_e419_float_fp32_s3_f0",
+      "--train-source",
+      "train+valid",
+      "--full-valid",
+      "--loss",
+      "wmse",
+      "--aux-struct",
+      "0.3",
+      "--aux-next",
+      "0.3",
+      "--propensity",
+      "c20260929_prop_f0",
+      "--prop-power",
+      "2",
+      "--prop-eps",
+      "0.03",
+      "--valid-true-mask",
+      "0.03",
+      "--hidden",
+      "256",
+      "--layers",
+      "2",
+      "--batch",
+      "16",
+      "--chunk",
+      "1000",
+      "--epochs",
+      "1",
+      "--lr",
+      "0.0001",
+      "--wd",
+      "0.01",
+      "--seed",
+      "3",
+      "--optim",
+      "adamw",
+      "--muon-scope",
+      "rnn",
+      "--ema-teacher",
+      "1",
+      "--ema-decay",
+      "0.999",
+      "--eval-ema",
+      "--since-weight",
+      "32",
+      "--since-floor",
+      "0.25",
+      "--distill",
+      "c20260929_since_s3_f0,c20260929_since_s4_f0",
+      "--distill-alpha",
+      "0.5",
+      "--distill-boot-h",
+      "8",
+      "--fast",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "0",
+      "--save-training-state",
+      "--split-manifest",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "--no-eval-during-fit",
+      "--init",
+      "c20261003_combo_s3_f0@ep3",
+      "--inherit-init-preprocessing",
+      "--precision",
+      "fp32",
+      "--qat",
+      "none"
+    ],
+    "artifacts": [
+      "artifacts/runs/c20261004_e419_float_fp32_s3_f0/model_ep0.pt",
+      "artifacts/runs/c20261004_e419_float_fp32_s3_f0/provenance.json",
+      "artifacts/runs/c20261004_e419_float_fp32_s3_f0/history.json",
+      "artifacts/runs/c20261004_e419_float_fp32_s3_f0/training_state.pt"
+    ],
+    "code": [
+      {
+        "path": "scripts/continuation_recipes.py",
+        "sha256": "26077a78032d6e62440fa5894b2620409c984aae4db69cd3cb276afbcc0739b8",
+        "size": 12650
+      },
+      {
+        "path": "scripts/predict_run.py",
+        "sha256": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee",
+        "size": 5340
+      },
+      {
+        "path": "scripts/train_rnn.py",
+        "sha256": "de1d87dacb26c628c9917faf8bcd2cd735a43f42e7a2e5f1c63ed14b5f2b6cd1",
+        "size": 129848
+      },
+      {
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+        "size": 63
+      },
+      {
+        "path": "src/wnn/campaign.py",
+        "sha256": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+        "size": 13176
+      },
+      {
+        "path": "src/wnn/campaign_local.py",
+        "sha256": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+        "size": 22065
+      },
+      {
+        "path": "src/wnn/campaign_spec.py",
+        "sha256": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+        "size": 8717
+      },
+      {
+        "path": "src/wnn/data.py",
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+        "size": 4000
+      },
+      {
+        "path": "src/wnn/evaluation.py",
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+        "size": 8080
+      },
+      {
+        "path": "src/wnn/event_content.py",
+        "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+        "size": 7226
+      },
+      {
+        "path": "src/wnn/features.py",
+        "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "size": 5421
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "size": 8902
+      },
+      {
+        "path": "src/wnn/heuristics.py",
+        "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e",
+        "size": 9025
+      },
+      {
+        "path": "src/wnn/infer.py",
+        "sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9",
+        "size": 2377
+      },
+      {
+        "path": "src/wnn/markov.py",
+        "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2",
+        "size": 2624
+      },
+      {
+        "path": "src/wnn/metric.py",
+        "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+        "size": 4806
+      },
+      {
+        "path": "src/wnn/nn.py",
+        "sha256": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+        "size": 19926
+      },
+      {
+        "path": "src/wnn/optim.py",
+        "sha256": "0e476a54d1fdfeed77970816f91668e271f7e2ed72e13d0c047a01d0ff74dae3",
+        "size": 11145
+      },
+      {
+        "path": "src/wnn/outcomes.py",
+        "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+        "size": 4538
+      },
+      {
+        "path": "src/wnn/portability.py",
+        "sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+        "size": 1909
+      },
+      {
+        "path": "src/wnn/privileged.py",
+        "sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4",
+        "size": 6608
+      },
+      {
+        "path": "src/wnn/propensity.py",
+        "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+        "size": 1404
+      },
+      {
+        "path": "src/wnn/quantization.py",
+        "sha256": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077",
+        "size": 6050
+      },
+      {
+        "path": "src/wnn/quantization_export.py",
+        "sha256": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0",
+        "size": 3968
+      },
+      {
+        "path": "src/wnn/research_features.py",
+        "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8",
+        "size": 6234
+      },
+      {
+        "path": "src/wnn/resources.py",
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+        "size": 4485
+      },
+      {
+        "path": "src/wnn/run_identity.py",
+        "sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+        "size": 4488
+      },
+      {
+        "path": "src/wnn/sentinel.py",
+        "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec",
+        "size": 8603
+      },
+      {
+        "path": "src/wnn/sentinel_calibration.py",
+        "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599",
+        "size": 8550
+      },
+      {
+        "path": "src/wnn/splits.py",
+        "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+        "size": 8647
+      },
+      {
+        "path": "src/wnn/spread_aux.py",
+        "sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512",
+        "size": 7553
+      },
+      {
+        "path": "src/wnn/streaming.py",
+        "sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e",
+        "size": 2422
+      },
+      {
+        "path": "src/wnn/structured_state.py",
+        "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+        "size": 9963
+      },
+      {
+        "path": "src/wnn/symreg.py",
+        "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849",
+        "size": 11386
+      },
+      {
+        "path": "src/wnn/tcn_ref.py",
+        "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa",
+        "size": 3511
+      },
+      {
+        "path": "src/wnn/ticks.py",
+        "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8",
+        "size": 4946
+      },
+      {
+        "path": "src/wnn/training_calibration.py",
+        "sha256": "7a5bb4f593fef1592abbeb3c096ece12dac019c029c43fa5f0f652cb2fe5edbd",
+        "size": 1989
+      },
+      {
+        "path": "src/wnn/training_controls.py",
+        "sha256": "87b69d3cde4d4e0a38fdc4ebcca1c41ca20ab3bc28c540ab222cfba6e76d7cc2",
+        "size": 9979
+      },
+      {
+        "path": "src/wnn/training_credit.py",
+        "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd",
+        "size": 2225
+      },
+      {
+        "path": "src/wnn/training_dynamics.py",
+        "sha256": "902f69a4168555dc059ef0f4fdf7f6d194a8afd9dd594aa7e311141a040a4294",
+        "size": 14936
+      },
+      {
+        "path": "src/wnn/training_factorized.py",
+        "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2",
+        "size": 7615
+      },
+      {
+        "path": "src/wnn/training_qat.py",
+        "sha256": "23d866801e0fef753e8af017e582a32900c40d4925c30a3083c128a2014ccf72",
+        "size": 6146
+      },
+      {
+        "path": "src/wnn/training_sampling.py",
+        "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2",
+        "size": 6540
+      },
+      {
+        "path": "src/wnn/training_state.py",
+        "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac",
+        "size": 8689
+      },
+      {
+        "path": "src/wnn/training_views.py",
+        "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142",
+        "size": 3065
+      },
+      {
+        "path": "src/wnn/twoclock_ref.py",
+        "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44",
+        "size": 3732
+      },
+      {
+        "path": "src/wnn/viz.py",
+        "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5",
+        "size": 4297
+      }
+    ],
+    "code_sha256": "81d266311a5317775d86da25963c5732d16652cb87443375beac66e8a6370482",
+    "environment": {
+      "WNN_LOADER_RAM_GB": "3",
+      "WNN_LOADER_WORKERS": "2",
+      "WNN_PORTABLE_DATA_MANIFEST": "research/campaign_2026-10-04/portable_inputs.json"
+    },
+    "inputs": [
+      {
+        "path": "artifacts/runs/c20260929_prop_f0/model.pt",
+        "sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "size": 165623
+      },
+      {
+        "path": "artifacts/runs/c20260929_since_s3_f0/model.pt",
+        "sha256": "d0b3bf32497f22a7fa940ff47b21bbc4ea2414d9f955731d7fbc3e33f2c9350b",
+        "size": 1091079
+      },
+      {
+        "path": "artifacts/runs/c20260929_since_s3_f0/provenance.json",
+        "sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "size": 149468
+      },
+      {
+        "path": "artifacts/runs/c20260929_since_s4_f0/model.pt",
+        "sha256": "25119fefe36f20fb93c8bcafb0748215e24ab956f6944f9ace34d629d36e0d2f",
+        "size": 1091079
+      },
+      {
+        "path": "artifacts/runs/c20260929_since_s4_f0/provenance.json",
+        "sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "size": 149468
+      },
+      {
+        "path": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+        "sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+        "size": 3977183
+      },
+      {
+        "path": "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+        "sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+        "size": 159653
+      },
+      {
+        "path": "cache/chain_folds.npz",
+        "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+        "size": 550072
+      },
+      {
+        "path": "cache/chains.npz",
+        "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+        "size": 650142
+      },
+      {
+        "path": "cache/pred_c20260929_since_s3_f0_train.json",
+        "sha256": "da6b0b23fb0f6a063e7ab59d2bd59e4a045f3ba764dd23246c7386a42683e81f",
+        "size": 105974
+      },
+      {
+        "path": "cache/pred_c20260929_since_s3_f0_train.npy",
+        "sha256": "2e74e44773d3d6d3e7c48c245a71f281b1659e6f6592ea2a9a2e4f96d37d19dc",
+        "size": 1696960128
+      },
+      {
+        "path": "cache/pred_c20260929_since_s3_f0_valid.json",
+        "sha256": "9ba5a0105e0d5265415cc621e50d90148211c85427a540f0ade06e01bb1665ca",
+        "size": 18036
+      },
+      {
+        "path": "cache/pred_c20260929_since_s3_f0_valid.npy",
+        "sha256": "7a01c040849d9455016dee51a1f9c82c1079be085a0e6be23c99c23bddb3fba9",
+        "size": 299680128
+      },
+      {
+        "path": "cache/pred_c20260929_since_s4_f0_train.json",
+        "sha256": "978d949b9d7464c2706051bd351db6c1bbabe4ca3d32256afca3212b5439f5fe",
+        "size": 105974
+      },
+      {
+        "path": "cache/pred_c20260929_since_s4_f0_train.npy",
+        "sha256": "819ab8ef0b1303b289af3475e173da8e9e7ff404ca7a8d8e7e10a3d443648241",
+        "size": 1696960128
+      },
+      {
+        "path": "cache/pred_c20260929_since_s4_f0_valid.json",
+        "sha256": "5f1aae3212e4316d94752b171692a8b8c5fb7d8bd9e141924aa8ddd03e708a07",
+        "size": 18036
+      },
+      {
+        "path": "cache/pred_c20260929_since_s4_f0_valid.npy",
+        "sha256": "6aa7b150097ebdf43ddbea8c3a52f8d705ebd2dbd01470e3c45b7eb2dbcfc430",
+        "size": 299680128
+      },
+      {
+        "path": "cache/propcache_c20260929_prop_f0_train.json",
+        "sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9",
+        "size": 183
+      },
+      {
+        "path": "cache/propcache_c20260929_prop_f0_train.npy",
+        "sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174",
+        "size": 848560128
+      },
+      {
+        "path": "cache/propcache_c20260929_prop_f0_valid.json",
+        "sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a",
+        "size": 181
+      },
+      {
+        "path": "cache/propcache_c20260929_prop_f0_valid.npy",
+        "sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c",
+        "size": 149840128
+      },
+      {
+        "path": "cache/train_targets.npz",
+        "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+        "size": 1909335790
+      },
+      {
+        "path": "cache/valid_targets.npz",
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+        "size": 337186198
+      },
+      {
+        "path": "datasets/train.parquet",
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "size": 29240219011
+      },
+      {
+        "path": "datasets/valid.parquet",
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "size": 5615509128
+      },
+      {
+        "path": "datasets/valid_mask.parquet",
+        "sha256": "301430165527a6003d44486a8c5051288c31112d327df94fb420e82c018e5251",
+        "size": 91972846
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "size": 1388846
+      },
+      {
+        "path": "research/campaign_2026-10-04/portable_inputs.json",
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+        "size": 2104
+      }
+    ],
+    "kind": "gpu",
+    "limits": {
+      "cpus": 8,
+      "gpu_memory_bytes": 4200000000,
+      "gpu_stop_bytes": 4800000000,
+      "ram_bytes": 25769803776,
+      "timeout_seconds": 7200
+    },
+    "name": "c20261004_e419_float_fp32_s3_f0",
+    "version": 1
+  },
+  "spec_sha256": "258c896fe901e7eb03305ea767b7a3a4120401d5aeafced075e480dd5ce59b3d",
+  "started_unix": 1791097785.2241948,
+  "status": "finished",
+  "teardown_verified": true,
+  "timeout_seconds": 7200,
+  "unit": "wnn-c04-e419-float-fp32-f0-v1.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "8s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e419-float-fp32-f0-v1.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "25769803776",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}

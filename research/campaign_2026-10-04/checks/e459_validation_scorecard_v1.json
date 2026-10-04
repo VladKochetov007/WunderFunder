@@ -1,0 +1,146 @@
+{
+  "metric_id": "global_wp_clip2_v1",
+  "dataset": "datasets/valid.parquet",
+  "rows": 37460000,
+  "partition_sequences": {
+    "all_supplied_validation": 1873,
+    "excluded_from_final_fit": 368,
+    "validation_in_final_fit": 1505
+  },
+  "mask": "need_prediction AND is_scored",
+  "members": {
+    "combo_public_0.6655": [
+      {
+        "run": "c20261004_combo_s3_final_r1",
+        "epoch": 3,
+        "coefficient": 0.5,
+        "prediction_sha256": "1253683928bd75915e23c490c72b3b613ef73c6b478dd19813dd453e79b13c7e",
+        "checkpoint_sha256": "64c2b28651b414778d6af3c33bb9d54f653a46fb0be087de2e3c44ca88c31166",
+        "inference_precision": "fp32"
+      },
+      {
+        "run": "c20261004_combo_head_s3_final",
+        "epoch": 0,
+        "coefficient": 0.5,
+        "prediction_sha256": "0847700f6493568b7e23cc153c4b68573366da728f7c3f170cdbde68992f0875",
+        "checkpoint_sha256": "f1cb88f38b6d5b5b67859346b439e69d610928bc836baac8867e84e7b1c95d85",
+        "inference_precision": "fp32"
+      }
+    ],
+    "D256_public_0.6641": [
+      {
+        "run": "c20261001_final_d256_s3",
+        "epoch": 3,
+        "coefficient": 0.5,
+        "prediction_sha256": "50961bd5d6278d5b8f6f7473d10a18f24eada06f337d03e9a98807b14a2d79e3",
+        "checkpoint_sha256": "3cad146823914d76af490c6ca3353ebc97c78e5c9cd877716372c9d82bb74f06",
+        "inference_precision": "not recorded"
+      },
+      {
+        "run": "c20261001_final_d256_s3_gcorrh",
+        "epoch": 0,
+        "coefficient": 0.5,
+        "prediction_sha256": "9a0bc0aa4a9ea375f29b0a4a097d1c53e6d28d6efaca1fa1559f93960aaf6b76",
+        "checkpoint_sha256": "f78090997e7608dc8e719f8fab8f9b4bc0b085dc0828f6d4cfd112314964dd50",
+        "inference_precision": "not recorded"
+      }
+    ]
+  },
+  "scores": {
+    "combo_public_0.6655": {
+      "all_supplied_validation": {
+        "t0": 0.696316655347106,
+        "t1": 0.7046908327408336,
+        "weighted_pearson": 0.7005037440439698,
+        "wp": 0.7005037440439698,
+        "blocks": 1873,
+        "selected_rows": 3528273,
+        "effective_scored_rows": 3528273,
+        "metric_clip": [
+          -2.0,
+          2.0
+        ],
+        "metric_id": "global_wp_clip2_v1",
+        "aggregation": "pool all selected rows per target, then mean t0/t1"
+      },
+      "excluded_from_final_fit": {
+        "t0": 0.6876276039713244,
+        "t1": 0.7120167130441325,
+        "weighted_pearson": 0.6998221585077284,
+        "wp": 0.6998221585077284,
+        "blocks": 368,
+        "selected_rows": 647645,
+        "effective_scored_rows": 647645,
+        "metric_clip": [
+          -2.0,
+          2.0
+        ],
+        "metric_id": "global_wp_clip2_v1",
+        "aggregation": "pool all selected rows per target, then mean t0/t1"
+      },
+      "validation_in_final_fit": {
+        "t0": 0.6982266489385835,
+        "t1": 0.703036913379571,
+        "weighted_pearson": 0.7006317811590772,
+        "wp": 0.7006317811590772,
+        "blocks": 1505,
+        "selected_rows": 2880628,
+        "effective_scored_rows": 2880628,
+        "metric_clip": [
+          -2.0,
+          2.0
+        ],
+        "metric_id": "global_wp_clip2_v1",
+        "aggregation": "pool all selected rows per target, then mean t0/t1"
+      }
+    },
+    "D256_public_0.6641": {
+      "all_supplied_validation": {
+        "t0": 0.6966847794548853,
+        "t1": 0.7049003954418506,
+        "weighted_pearson": 0.7007925874483679,
+        "wp": 0.7007925874483679,
+        "blocks": 1873,
+        "selected_rows": 3528273,
+        "effective_scored_rows": 3528273,
+        "metric_clip": [
+          -2.0,
+          2.0
+        ],
+        "metric_id": "global_wp_clip2_v1",
+        "aggregation": "pool all selected rows per target, then mean t0/t1"
+      },
+      "excluded_from_final_fit": {
+        "t0": 0.6860664634467804,
+        "t1": 0.709488324329607,
+        "weighted_pearson": 0.6977773938881937,
+        "wp": 0.6977773938881937,
+        "blocks": 368,
+        "selected_rows": 647645,
+        "effective_scored_rows": 647645,
+        "metric_clip": [
+          -2.0,
+          2.0
+        ],
+        "metric_id": "global_wp_clip2_v1",
+        "aggregation": "pool all selected rows per target, then mean t0/t1"
+      },
+      "validation_in_final_fit": {
+        "t0": 0.6990274313681359,
+        "t1": 0.7038852943532233,
+        "weighted_pearson": 0.7014563628606796,
+        "wp": 0.7014563628606796,
+        "blocks": 1505,
+        "selected_rows": 2880628,
+        "effective_scored_rows": 2880628,
+        "metric_clip": [
+          -2.0,
+          2.0
+        ],
+        "metric_id": "global_wp_clip2_v1",
+        "aggregation": "pool all selected rows per target, then mean t0/t1"
+      }
+    }
+  },
+  "scope": "Fixed cached predictors, equal parent/head mixture. Combo uses FP32 exports; legacy D256 export precision was not recorded. This is not the exact native-i16 callback replay. Most supplied validation sequences were fitted; the 368-sequence excluded partition is historically exposed, not an untouched test. No selection."
+}

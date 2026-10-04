@@ -1,0 +1,60 @@
+{
+  "bundle_sha256": "ec55f0945454415aaa386625487e264bdb15e70cd93698266fb594d283b5de3a",
+  "created_at_utc": "2026-10-04T06:29:41Z",
+  "dataset": "vladkochetov07/wnn-e419-qat-dualt4-20261004-v1",
+  "execution_contract": {
+    "export": "predict_run valid at epoch0 after training; scoring uses those predictions.",
+    "fit": "Existing QAT draft scientific args kept; batch16, one epoch, fixed epoch0, AdamW 1e-4, FP32, inherited preprocessing, combo parent, both teachers, same objective.",
+    "heartbeat": "Current kaggle_gpu_runner.py emits resource-only whitelisted heartbeat every 30s to kernel stdout; full worker log stays in output artifacts.",
+    "preflight": "Current-source integration and training-state CUDA tests on each T4; failures stop the sequence.",
+    "probe": "One production-shape QAT batch using a distinct run name per worker, before scientific fit; probe artifacts are isolated.",
+    "provider_timeout": "22500s must be set by root through established Kaggle push API/CLI; not a kernel-metadata field.",
+    "score": "Frozen fold0 single-arm diagnostics only; root computes paired component contrast when both results are available."
+  },
+  "kernel": "vladkochetov07/wnn-e419-qat-dualt4-20261004-v1-runner",
+  "max_workers": 2,
+  "missing_asset_note": "Combo epoch3 checkpoint and provenance are included in bundle.wnn; absent from existing E413 fold0-assets manifest.",
+  "provider_timeout_seconds": 22500,
+  "resource_contract": {
+    "allocator_bytes": 11811160064,
+    "e413_arm_peak_ram_bytes": [
+      9242214400,
+      9222451200
+    ],
+    "e413_arm_peak_vram_bytes": 6911164416,
+    "e413_arm_wall_seconds": [
+      6068.908304514,
+      6099.17363871
+    ],
+    "gpu_quota_remaining_hours_at_20261004T0627Z": 28.11,
+    "local_qat_probe_peak_ram_bytes": 7070892032,
+    "local_qat_probe_peak_vram_bytes": 1781530624,
+    "max_pair_gpu_charge_hours": 12.5,
+    "observed_operating_limit_bytes": 12884901888,
+    "per_worker_cpus": 2,
+    "per_worker_ram_bytes": 10737418240,
+    "sampled_stop_bytes": 13958643712,
+    "weekly_gpu_reserve_floor_hours": 6.0
+  },
+  "source_git_head": "112f4fd3c8cca53eb7001c3636516af1af1d8e2d",
+  "specs": [
+    {
+      "code_count": 55,
+      "code_sha256": "f1250749ecb3977ee877ad8feadf5190f0b64e422903409c9c038ed0e556b86b",
+      "input_count": 30,
+      "path": "research/campaign_2026-10-04/kaggle/E419_qat_dualT4_v1/specs/c20261004_e419_qat_recurrent_s3_f0_t4v1.sealed.json"
+    },
+    {
+      "code_count": 55,
+      "code_sha256": "f1250749ecb3977ee877ad8feadf5190f0b64e422903409c9c038ed0e556b86b",
+      "input_count": 30,
+      "path": "research/campaign_2026-10-04/kaggle/E419_qat_dualT4_v1/specs/c20261004_e419_qat_recurrent_head_s3_f0_t4v1.sealed.json"
+    }
+  ],
+  "status": "draft_only_not_pushed",
+  "worker_pair": [
+    "c20261004_e419_qat_recurrent_s3_f0_t4v1",
+    "c20261004_e419_qat_recurrent_head_s3_f0_t4v1"
+  ],
+  "worker_timeout_seconds": 21600
+}

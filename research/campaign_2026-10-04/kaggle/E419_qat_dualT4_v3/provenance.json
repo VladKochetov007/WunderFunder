@@ -1,0 +1,115 @@
+{
+  "bundle_bytes": 4211660,
+  "bundle_sha256": "d2d8fe047d76f85b9dd5931d36b8a9daac6b23adfe197e76bb48c881328b3549",
+  "created_at_utc": "2026-10-04T07:42:00Z",
+  "dataset": "vladkochetov07/wnn-e419-qat-dualt4-20261004-v3",
+  "dataset_version": 1,
+  "expanded_bytes": 5839929,
+  "external_mounts": 26,
+  "kernel": "vladkochetov07/wnn-e419-qat-dualt4-20261004-v3-runner",
+  "kernel_version": 1,
+  "launch_authorization": "private Kaggle compute authorized; root review before upload/push",
+  "manifest_files": 299,
+  "preflight": {
+    "cpu_mode": true,
+    "failed": 0,
+    "limits": "1 CPU / 2 GiB RAM",
+    "output_hashes": [
+      {
+        "path": "preflight_cpu_20261004T0749Z.xml",
+        "sha256": "fee22104ee20b74bfbf4282d657dfb167364d992ea6f3c0bc813887199680b52",
+        "size": 7711
+      },
+      {
+        "path": "ptq_prediction_smoke_20261004T0749Z.json",
+        "sha256": "80801e244f103326055c8665b77ae1a983850e2fe4f9a49cfcd2894be878f20c",
+        "size": 628
+      }
+    ],
+    "passed": 53,
+    "seconds": 16.79,
+    "skipped": 2,
+    "status": "passed",
+    "tests": [
+      "tests/test_trainer_resume_integration.py",
+      "tests/test_training_state.py",
+      "tests/test_training_qat.py",
+      "tests/test_quantization.py",
+      "tests/test_quantization_export.py"
+    ],
+    "timing_note": "Correctness passed, but wall time overlapped native timing (07:48:12Z\u201307:50:23Z), so do not treat it as a clean runtime estimate."
+  },
+  "provider_timeout_seconds": 22500,
+  "ptq_export_prediction_smoke": {
+    "artifact": "ptq_prediction_smoke_20261004T0749Z.json",
+    "finite": true,
+    "presets": [
+      "recurrent",
+      "recurrent_head"
+    ],
+    "score": null,
+    "shape": [
+      1,
+      32,
+      2
+    ],
+    "status": "passed",
+    "synthetic_cpu_steps": 32,
+    "training_updates": 0
+  },
+  "pushed": false,
+  "pushed_at_utc": "2026-10-04T08:07:34Z",
+  "quota_after_push_gpu_remaining_hours": 27.89,
+  "remote_archive_sha256_verified": "d2d8fe047d76f85b9dd5931d36b8a9daac6b23adfe197e76bb48c881328b3549",
+  "resource_contract": {
+    "cpus_each": 2,
+    "gpu_allocator_bytes": 11811160064,
+    "gpu_stop_bytes": 13958643712,
+    "max_aggregate_gpu_charge_hours": 12.5,
+    "per_worker_timeout_seconds": 21600,
+    "provider_timeout_seconds": 22500,
+    "ram_each_bytes": 10737418240,
+    "reserve_floor_hours": 6.0,
+    "weekly_gpu_quota_remaining_at_last_root_update_hours": 27.9
+  },
+  "scientific_design": {
+    "arms": [
+      "recurrent",
+      "recurrent_head"
+    ],
+    "full_valid_fp32_prediction_and_single_arm_score": true,
+    "one_epoch_fixed_epoch0": true,
+    "production_shape_one_batch_qat_probe_per_t4": true,
+    "same_t4_fp32_control": true,
+    "selection_or_best_epoch": false,
+    "zero_update_fp32_continuation_ptq_presets": [
+      "recurrent",
+      "recurrent_head"
+    ],
+    "zero_update_parent_ptq_presets": [
+      "recurrent",
+      "recurrent_head"
+    ]
+  },
+  "source_code_sha256": "36acf3c456209e195e5c8ba8d813ae436fe63adeb0a1ee1eb9b3ca6425db2796",
+  "source_git_head_at_prep": "deb43dbabed21c0c3c006e4dab4e352c3d4adb0e",
+  "specs": [
+    {
+      "code_files": 257,
+      "code_sha256": "36acf3c456209e195e5c8ba8d813ae436fe63adeb0a1ee1eb9b3ca6425db2796",
+      "declared_artifacts": 27,
+      "input_files": 35,
+      "name": "c20261004_e419_qat_recurrent_head_s3_f0_t4v3",
+      "worker_timeout_seconds": 21600
+    },
+    {
+      "code_files": 257,
+      "code_sha256": "36acf3c456209e195e5c8ba8d813ae436fe63adeb0a1ee1eb9b3ca6425db2796",
+      "declared_artifacts": 27,
+      "input_files": 35,
+      "name": "c20261004_e419_qat_recurrent_s3_f0_t4v3",
+      "worker_timeout_seconds": 21600
+    }
+  ],
+  "status": "private_kernel_v1_pushed_running"
+}

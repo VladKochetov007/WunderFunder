@@ -1,0 +1,85 @@
+{
+  "as_of_utc": "2026-10-04T11:38:00Z",
+  "kernel_count": 8,
+  "counts": {
+    "COMPLETE": 3,
+    "ERROR": 3,
+    "QUEUED": 1,
+    "RUNNING": 1
+  },
+  "quota_as_of_utc": "2026-10-04T11:38:00Z",
+  "quota": {
+    "gpu_total_hours": 30,
+    "gpu_used_hours": 4.03,
+    "gpu_remaining_hours": 25.97,
+    "tpu_total_hours": 20,
+    "tpu_used_hours": 0,
+    "tpu_remaining_hours": 20,
+    "refresh_utc": "2026-10-10T00:00:00Z"
+  },
+  "kernels": [
+    {
+      "slug": "wnn-e413-volume-20261004-v1-runner",
+      "status": "COMPLETE",
+      "latest_run_utc": "2026-10-04T02:20:18Z",
+      "result": "Dual-T4 four-epoch volume-history vs current-input matched fit. Volume WP 0.681592; control 0.680630; local paired delta +0.0009618, CI [-0.0000800,+0.0020597], one exposed fold/seed.",
+      "peak_worker_vram_gib": 6.91,
+      "peak_worker_ram_gb": [
+        9.22,
+        9.24
+      ],
+      "oom": false
+    },
+    {
+      "slug": "wnn-e419-qat-dualt4-20261004-v2-runner",
+      "status": "ERROR",
+      "latest_run_utc": "2026-10-04T06:47:22Z",
+      "result": "Portable bundle omitted sentinel_prepare dependency; no model fit.",
+      "oom": false
+    },
+    {
+      "slug": "wnn-e419-qat-dualt4-20261004-v3-runner",
+      "status": "ERROR",
+      "latest_run_utc": "2026-10-04T08:07:17Z",
+      "result": "Matched FP32 controls and exports completed; score step used stale t4v2 names. No PTQ/QAT fit.",
+      "peak_worker_vram_gib": 2.08,
+      "peak_worker_ram_gb": [
+        8.235,
+        8.192
+      ],
+      "oom": false
+    },
+    {
+      "slug": "wnn-e419-qat-dualt4-20261004-v4-runner",
+      "status": "RUNNING",
+      "latest_run_utc": "2026-10-04T11:36:00Z",
+      "result": "Immutable bundle/source/screens and CPU preflight passed (53 passed,2 skipped,0 failed). Dual-T4 run cap8.5 device-GPU-h; allocator11GiB/device and monitored stop13GiB. No worker heartbeat, logs, outputs or peaks available at11:38Z yet.",
+      "oom": null
+    },
+    {
+      "slug": "wnn-tpu-probe-20261004",
+      "status": "QUEUED",
+      "since_utc": "2026-10-04T00:59:22Z",
+      "result": "No TPU worker or provider queue reason exposed."
+    },
+    {
+      "slug": "wnn-t4-trainer-20261004-runner",
+      "status": "COMPLETE",
+      "latest_run_utc": "2026-10-04T01:43:26Z",
+      "result": "Two-T4 CUDA training compatibility smoke passed; no scientific score experiment."
+    },
+    {
+      "slug": "wnn-t4-compat-20261004-runner",
+      "status": "ERROR",
+      "latest_run_utc": "2026-10-04T01:25:41Z",
+      "result": "Bundle tarball path error; no scientific fit."
+    },
+    {
+      "slug": "wnn-t4-compat-20261004-v2-runner",
+      "status": "COMPLETE",
+      "latest_run_utc": "2026-10-04T01:34:59Z",
+      "result": "Two-T4 compatibility probe passed; no scientific score experiment."
+    }
+  ],
+  "notes": "Provider status is distinct from experiment completion. E413 is the only scientifically completed Kaggle result; E419v4 has passed packaging/CPU gates but has not exposed worker progress or a scientific output."
+}

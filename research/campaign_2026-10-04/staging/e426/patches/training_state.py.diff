@@ -1,0 +1,46 @@
+--- a/src/wnn/training_state.py
++++ b/src/wnn/training_state.py
+@@ -131,6 +131,8 @@
+     next_epoch: int,
+     progress: State,
+     ema: Any = None,
++    teacher_ema: Any = None,
++    evaluation_ema: Any = None,
+     swa: Any = None,
+     auxiliary: State | None = None,
+ ) -> State:
+@@ -154,6 +156,8 @@
+             "scheduler": scheduler.state_dict(),
+             "scaler": scaler.state_dict(),
+             "ema": _averaged_state(ema),
++            "teacher_ema": _averaged_state(teacher_ema),
++            "evaluation_ema": _averaged_state(evaluation_ema),
+             "swa": _averaged_state(swa),
+             "loader": loader_state(loader),
+             "auxiliary": auxiliary or {},
+@@ -210,6 +214,8 @@
+     scaler: Any,
+     loader: Any,
+     ema: Any = None,
++    teacher_ema: Any = None,
++    evaluation_ema: Any = None,
+     swa: Any = None,
+ ) -> None:
+     """Restore constructed objects; caller restores auxiliary state, then RNG last."""
+@@ -217,7 +223,15 @@
+     optimizer.load_state_dict(state["optimizer"])
+     scheduler.load_state_dict(state["scheduler"])
+     scaler.load_state_dict(state["scaler"])
+-    _restore_averaged(ema, state["ema"])
++    if "teacher_ema" in state or "evaluation_ema" in state:
++        _restore_averaged(ema, state["ema"])
++        _restore_averaged(teacher_ema, state.get("teacher_ema"))
++        _restore_averaged(evaluation_ema, state.get("evaluation_ema"))
++    else:
++        # Version-1 states written before E426 stored the one shared EMA here.
++        _restore_averaged(ema, state["ema"])
++        _restore_averaged(teacher_ema, None)
++        _restore_averaged(evaluation_ema, None)
+     _restore_averaged(swa, state["swa"])
+     restore_loader(loader, state["loader"])
+ 

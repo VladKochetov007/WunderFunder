@@ -1,0 +1,74 @@
+{
+  "archive_bytes": 4216161,
+  "archive_sha256": "380295f43678ee52fcbb9d64467efef344ef6a39eed105bf4c62477365317de6",
+  "budget": {
+    "fits_reserve_plus_width": true,
+    "hard_attempt_cap_gpu_hours": 8.5,
+    "launch_gate": "READY input dataset, 2 physical Tesla T4 workers, exact bundle/source/hash validation; one dual-T4 kernel at a time",
+    "maximum_device_gpu_hours": 8.0,
+    "physical_gpus": 2,
+    "provider_overhead_reserve_hours": 0.5,
+    "provider_timeout_seconds": 15300,
+    "quota_remaining_after_max_attempt_hours": 17.5,
+    "quota_remaining_before_push_hours": 26.0,
+    "vrm_host_stop_bytes": 13958643712,
+    "weekly_reserve_required_hours": 6.0,
+    "width_pair_staged_budget_hours": 9.0,
+    "worker_timeout_seconds": 14400
+  },
+  "control_checkpoint_hashes": {
+    "recurrent": "937c90f05f7cab604c501781d72b68a234365439bff17b21301f8b57ea1c2314",
+    "recurrent_head": "859f5400e0fa16ad4ddd33560b25160c51704d101a840b0fb04edd74ddb948e6"
+  },
+  "control_model_tensor_sha256": "75cc4446d69e9e309187c366f2d6265ce7261b78ef36e34f1b7e37e69d9e783c",
+  "control_prediction_hashes": {
+    "recurrent": "c0d9f8187049e3d386da24e04171a65c6c0b4cc4dfb2319ad7dbf458b5362db6",
+    "recurrent_head": "c0d9f8187049e3d386da24e04171a65c6c0b4cc4dfb2319ad7dbf458b5362db6"
+  },
+  "control_reuse_manifest_sha256": "517721873ce21231437c0c070fac94cda0fb41170673874f1249622447736e96",
+  "control_score_smokes": {
+    "recurrent": {
+      "report_sha256": "bd8d2e47f2fba46b8750f08d06f4bd8900bfb002afc4a4bcee65cf9971733e89",
+      "wp": 0.681496158054268
+    },
+    "recurrent_head": {
+      "report_sha256": "ccb2871d01aae2b966cc6eb35130935e335e88d557366b51591d862879e4e16e",
+      "wp": 0.681496158054268
+    }
+  },
+  "expected_two_t4_workers_source": "E419 v3 worker results document successful production probes and both FP32 controls on physical GPU UUIDs af02b659 and 87c2b8d4; no v4 job started",
+  "external_mount_count": 34,
+  "frozen_v3_source_archive_sha256": "d2d8fe047d76f85b9dd5931d36b8a9daac6b23adfe197e76bb48c881328b3549",
+  "preflight_counts": {
+    "failed": 0,
+    "passed": 53,
+    "skipped": 2
+  },
+  "preflight_junit_sha256": "2db756d41b1608cf4bae20e308a4d564680757120e7cb6ab1ebea1bb4a8e20b8",
+  "private_kernel_metadata": {
+    "code_file": "kernel.py",
+    "competition_sources": [],
+    "dataset_sources": [
+      "vladkochetov07/wnn-c20261004-fold0-assets",
+      "vladkochetov07/wnn-e419-qat-dualt4-20261004-v4",
+      "vladkochetov07/wunder-funder"
+    ],
+    "enable_gpu": true,
+    "enable_internet": false,
+    "enable_tpu": false,
+    "id": "vladkochetov07/wnn-e419-qat-dualt4-20261004-v4-runner",
+    "is_private": true,
+    "kernel_sources": [],
+    "kernel_type": "script",
+    "language": "python",
+    "machine_shape": "NvidiaTeslaT4",
+    "title": "wnn-e419-qat-dualt4-20261004-v4 runner"
+  },
+  "screen_count": 12,
+  "source_code_sha256": "36acf3c456209e195e5c8ba8d813ae436fe63adeb0a1ee1eb9b3ca6425db2796",
+  "spec_hashes": {
+    "c20261004_e419_qat_recurrent_head_s3_f0_t4v4": "683c2951d77bb51d5c368bd65401823613e280bb7dd6feab738f092d8e8ad9e4",
+    "c20261004_e419_qat_recurrent_s3_f0_t4v4": "6a656fee0f4a130c70f29223a87534df9c970a3c47043f69a0d3e21de215dfe0"
+  },
+  "status": "validated_before_dataset_upload"
+}

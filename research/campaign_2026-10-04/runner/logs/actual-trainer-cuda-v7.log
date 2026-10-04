@@ -1,0 +1,15 @@
+........                                                                 [100%]
+=============================== warnings summary ===============================
+tests/test_trainer_resume_integration.py: 52 warnings
+  /home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/multiprocessing/popen_fork.py:67: DeprecationWarning: This process (pid=870984) is multi-threaded, use of fork() may lead to deadlocks in the child.
+    self.pid = os.fork()
+
+tests/test_spread_aux.py::test_modern_spread_main_resume[proxy_known]
+tests/test_spread_aux.py::test_modern_spread_main_resume[current_known]
+tests/test_privileged_crossfit.py::test_actual_teacher_fit_and_crossfit_extraction[none]
+tests/test_privileged_crossfit.py::test_actual_teacher_fit_and_crossfit_extraction[future]
+  /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/train_rnn.py:2071: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+    sched.step()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+8 passed, 26 deselected, 56 warnings in 8.47s

@@ -1,0 +1,149 @@
+{
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "scripts/verify_submission.py",
+    "submissions/c20261004_combo_s3_q16x/submission.zip",
+    "cache/valid_subset20.parquet",
+    "research/campaign_2026-10-04/checks/e412_package_f32_v3.npz"
+  ],
+  "artifacts": [
+    {
+      "path": "research/campaign_2026-10-04/checks/e412_package_f32_v3.npz",
+      "sha256": "146b25d6d3846bdd8dcbe01ece401897be63e3dcb25ac664d2b486d36d868626",
+      "size": 6800736
+    }
+  ],
+  "block_id": "local001",
+  "charged_seconds": 43.82146720699893,
+  "elapsed_seconds": 43.82146720699893,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "0",
+    "WNN_NATIVE_LEVEL": "v3",
+    "WNN_PRECISION": "f32",
+    "WNN_THREADS": "1"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "finished_unix": 1791083459.367159,
+  "heartbeat_unix": 1791083458.846234,
+  "id": "e412-verify-f32-v3-v1",
+  "kind": "cpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "38654705664",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 0,
+  "peak_ram_bytes": 191299584,
+  "reserved_seconds": 1230,
+  "reserved_unix": 1791083415.4881885,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "530440b79907942bb834a6df87d3e87bb14a3a64bf7f58c058eeb3089befcb6c",
+    "src/wnn/campaign.py": "30c73a83efd045a60f8e22f7f71df75b239daf95caf8542c815802aa03e6c6ef",
+    "src/wnn/campaign_local.py": "eea0848a88f05254646deb25b23fd33804039a1047c4a235adcf903729f1cf6b",
+    "src/wnn/campaign_spec.py": "60971fef34024380356bc42fe6e5443fda000d7779e5f8cb55a6269662f48863",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "signals": [],
+  "spec": {
+    "argv": [
+      "{python}",
+      "scripts/verify_submission.py",
+      "submissions/c20261004_combo_s3_q16x/submission.zip",
+      "cache/valid_subset20.parquet",
+      "research/campaign_2026-10-04/checks/e412_package_f32_v3.npz"
+    ],
+    "artifacts": [
+      "research/campaign_2026-10-04/checks/e412_package_f32_v3.npz"
+    ],
+    "code": [
+      {
+        "path": "scripts/verify_submission.py",
+        "sha256": "d2c75df6accf8f88c911844171c03a020756833843d0b6db856e0cdebbe6bfb4",
+        "size": 6977
+      },
+      {
+        "path": "utils.py",
+        "sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+        "size": 12328
+      }
+    ],
+    "code_sha256": "f879820a6e5b2422c3363a99d58cec612f8731a11bdeefbd595e5a680c6ecf70",
+    "environment": {
+      "WNN_NATIVE_LEVEL": "v3",
+      "WNN_PRECISION": "f32"
+    },
+    "inputs": [
+      {
+        "path": "cache/valid_subset20.parquet",
+        "sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+        "size": 90874551
+      },
+      {
+        "path": "submissions/c20261004_combo_s3_q16x/submission.zip",
+        "sha256": "f61577da8745cfc545e9acc528e001198074729e3f0878656194ea93a0fb5ec9",
+        "size": 5165014
+      }
+    ],
+    "kind": "cpu",
+    "limits": {
+      "cpus": 1,
+      "gpu_memory_bytes": 0,
+      "gpu_stop_bytes": 0,
+      "ram_bytes": 2147483648,
+      "timeout_seconds": 300
+    },
+    "name": "e412_verify_f32_v3",
+    "version": 1
+  },
+  "spec_sha256": "d72c3f4b463f55be86f8cbfb12a05b6274dbd0ce77e425f0f9fe6a39e78e4929",
+  "started_unix": 1791083415.6348403,
+  "status": "finished",
+  "timeout_seconds": 300,
+  "unit": "wnn-c04-e412-verify-f32-v3-v1.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "1s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e412-verify-f32-v3-v1.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "2147483648",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}

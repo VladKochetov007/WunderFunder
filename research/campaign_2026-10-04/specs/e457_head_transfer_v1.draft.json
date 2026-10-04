@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "name": "e457_head_transfer_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "scripts/head_transfer_packages.py",
+    "--output",
+    "research/campaign_2026-10-04/E457_head_transfer"
+  ],
+  "code": [
+    "scripts/head_transfer_packages.py",
+    "scripts/package_submission.py",
+    "scripts/verify_submission.py",
+    "scripts/engine_fp16_check.py",
+    "utils.py",
+    "src/wnn/gmetric.py"
+  ],
+  "inputs": [
+    "artifacts/runs/c20261004_combo_head_s3_final/model_ep0.pt",
+    "artifacts/runs/c20261004_combo_s3_final_r1/model_ep3.pt",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/avx2/wnn_native.abi3.so",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/Cargo.lock",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/Cargo.toml",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/examples/bench_engine.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/examples/bench_fast.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/examples/bench_parts.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/examples/bench_saxpy.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/examples/bench_step.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/pyproject.toml",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/approx.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/half.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/kernels.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/lib.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/python.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/rnn.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/rnn_fast.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/src/src/stream.rs",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/v2/wnn_native.abi3.so",
+    "research/campaign_2026-10-02/engine/native_build_l2/b2/v3/wnn_native.abi3.so",
+    "submission/solution_native.py",
+    "cache/valid_subset20.parquet",
+    "submissions/c20261004_combo_s3_i16/submission.zip",
+    "research/campaign_2026-10-04/E457_HEAD_TRANSFER_PREREG.md"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/E457_head_transfer/readiness.json",
+    "research/campaign_2026-10-04/E457_head_transfer/parent/readiness.json",
+    "research/campaign_2026-10-04/E457_head_transfer/head/readiness.json",
+    "submissions/c20261004_combo_parent_s3_i16/submission.zip",
+    "submissions/c20261004_combo_head_s3_i16/submission.zip"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 1200,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {}
+}

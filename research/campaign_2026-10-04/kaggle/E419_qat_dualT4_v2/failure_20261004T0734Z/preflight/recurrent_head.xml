@@ -1,0 +1,2191 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="11" skipped="0" tests="36" time="70.169" timestamp="2026-10-04T07:19:32.226024+00:00" hostname="b578e18a7950"><testcase classname="tests.test_trainer_resume_integration" name="test_real_main_epoch_resume_and_completed_export[False]" time="10.437" /><testcase classname="tests.test_trainer_resume_integration" name="test_real_main_epoch_resume_and_completed_export[True]" time="2.879" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_restores_thread_budget_after_initialization" time="0.827" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_research_features_resume[volume28]" time="1.817" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_research_features_resume[volume28_current]" time="1.840" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_origin_view_resume[prefix-fixed]" time="3.469" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_origin_view_resume[prefix-random]" time="4.207" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_origin_view_resume[prefix-discard]" time="6.564" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_thinning_resume[compress]" time="2.874" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_thinning_resume[retained-mass]" time="2.883" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_random_credit_resume[random-uncompensated-0.5]" time="3.459" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_random_credit_resume[artbp-0.5]" time="3.289" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_random_credit_resume[artbp-1.0]" time="4.183" /><testcase classname="tests.test_trainer_resume_integration" name="test_main_qat_finetune_resume[False-recurrent]" time="1.396"><failure message="ModuleNotFoundError: No module named 'export_qat_control'">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_qat_finetune_resume_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a07b6d50&gt;
+qat = 'recurrent', controlled = False
+
+    @pytest.mark.parametrize("qat", ["recurrent", "recurrent_head"])
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_main_qat_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, qat: str, controlled: bool
+    ) -&gt; None:
+        """Actual FP32 QAT fine-tuning preserves raw continuation and effective EMA export."""
+&gt;       test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, controlled, qat=qat)
+
+tests/test_trainer_resume_integration.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_qat_finetune_resume_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a07b6d50&gt;
+controlled = False, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'recurrent'
+recurrent_rank = 0, sentinel_arm = None, thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -&gt; None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -&gt; Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+&gt;           from export_qat_control import export_control
+E           ModuleNotFoundError: No module named 'export_qat_control'
+
+tests/test_trainer_resume_integration.py:223: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_trainer_resume_integration" name="test_main_qat_finetune_resume[False-recurrent_head]" time="1.401"><failure message="ModuleNotFoundError: No module named 'export_qat_control'">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_qat_finetune_resume_1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a02ad910&gt;
+qat = 'recurrent_head', controlled = False
+
+    @pytest.mark.parametrize("qat", ["recurrent", "recurrent_head"])
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_main_qat_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, qat: str, controlled: bool
+    ) -&gt; None:
+        """Actual FP32 QAT fine-tuning preserves raw continuation and effective EMA export."""
+&gt;       test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, controlled, qat=qat)
+
+tests/test_trainer_resume_integration.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_qat_finetune_resume_1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a02ad910&gt;
+controlled = False, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'recurrent_head'
+recurrent_rank = 0, sentinel_arm = None, thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -&gt; None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -&gt; Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+&gt;           from export_qat_control import export_control
+E           ModuleNotFoundError: No module named 'export_qat_control'
+
+tests/test_trainer_resume_integration.py:223: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_trainer_resume_integration" name="test_main_qat_finetune_resume[True-recurrent]" time="2.198"><failure message="ModuleNotFoundError: No module named 'export_qat_control'">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_qat_finetune_resume_2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a04beaf0&gt;
+qat = 'recurrent', controlled = True
+
+    @pytest.mark.parametrize("qat", ["recurrent", "recurrent_head"])
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_main_qat_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, qat: str, controlled: bool
+    ) -&gt; None:
+        """Actual FP32 QAT fine-tuning preserves raw continuation and effective EMA export."""
+&gt;       test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, controlled, qat=qat)
+
+tests/test_trainer_resume_integration.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_qat_finetune_resume_2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a04beaf0&gt;
+controlled = True, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'recurrent'
+recurrent_rank = 0, sentinel_arm = None, thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -&gt; None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -&gt; Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+&gt;           from export_qat_control import export_control
+E           ModuleNotFoundError: No module named 'export_qat_control'
+
+tests/test_trainer_resume_integration.py:223: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_trainer_resume_integration" name="test_main_qat_finetune_resume[True-recurrent_head]" time="2.103"><failure message="ModuleNotFoundError: No module named 'export_qat_control'">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_qat_finetune_resume_3')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a054c0f0&gt;
+qat = 'recurrent_head', controlled = True
+
+    @pytest.mark.parametrize("qat", ["recurrent", "recurrent_head"])
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_main_qat_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, qat: str, controlled: bool
+    ) -&gt; None:
+        """Actual FP32 QAT fine-tuning preserves raw continuation and effective EMA export."""
+&gt;       test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, controlled, qat=qat)
+
+tests/test_trainer_resume_integration.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_qat_finetune_resume_3')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a054c0f0&gt;
+controlled = True, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'recurrent_head'
+recurrent_rank = 0, sentinel_arm = None, thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -&gt; None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -&gt; Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+&gt;           from export_qat_control import export_control
+E           ModuleNotFoundError: No module named 'export_qat_control'
+
+tests/test_trainer_resume_integration.py:223: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_trainer_resume_integration" name="test_main_factorized_finetune_resume[False]" time="1.357"><failure message="ModuleNotFoundError: No module named 'export_factorized_control'">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_factorized_finetune_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a04cd630&gt;
+controlled = False
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_main_factorized_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, controlled: bool
+    ) -&gt; None:
+        """Latent factors and their AdamW moments resume exactly with effective EMA export."""
+&gt;       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, controlled, recurrent_rank=2
+        )
+
+tests/test_trainer_resume_integration.py:482: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_factorized_finetune_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a04cd630&gt;
+controlled = False, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'none'
+recurrent_rank = 2, sentinel_arm = None, thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -&gt; None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -&gt; Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+            from export_qat_control import export_control
+    
+            export_control(parent_dir / "model.pt", tmp_path / "no_finetune.pt", qat)
+        if recurrent_rank:
+&gt;           from export_factorized_control import export_control as export_rank_control
+E           ModuleNotFoundError: No module named 'export_factorized_control'
+
+tests/test_trainer_resume_integration.py:227: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_trainer_resume_integration" name="test_main_factorized_finetune_resume[True]" time="2.150"><failure message="ModuleNotFoundError: No module named 'export_factorized_control'">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_factorized_finetune_1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a0673bf0&gt;
+controlled = True
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_main_factorized_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, controlled: bool
+    ) -&gt; None:
+        """Latent factors and their AdamW moments resume exactly with effective EMA export."""
+&gt;       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, controlled, recurrent_rank=2
+        )
+
+tests/test_trainer_resume_integration.py:482: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_factorized_finetune_1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a0673bf0&gt;
+controlled = True, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'none'
+recurrent_rank = 2, sentinel_arm = None, thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -&gt; None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -&gt; Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+            from export_qat_control import export_control
+    
+            export_control(parent_dir / "model.pt", tmp_path / "no_finetune.pt", qat)
+        if recurrent_rank:
+&gt;           from export_factorized_control import export_control as export_rank_control
+E           ModuleNotFoundError: No module named 'export_factorized_control'
+
+tests/test_trainer_resume_integration.py:227: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_trainer_resume_integration" name="test_main_sentinel_finetune_resume[sentinel_arm0]" time="0.039"><failure message="ModuleNotFoundError: No module named 'sentinel_prepare'">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a0609050&gt;
+sentinel_arm = ('unchanged', 'none')
+
+    @pytest.mark.parametrize(
+        "sentinel_arm",
+        [
+            ("unchanged", "none"),
+            ("unchanged", "missing"),
+            ("neutral", "none"),
+            ("safe", "missing"),
+            ("safe", "current"),
+        ],
+    )
+    def test_main_sentinel_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, sentinel_arm: tuple[str, str]
+    ) -&gt; None:
+        """Frozen preprocessing and zero-init feature projections survive actual fine-tune resume."""
+&gt;       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, sentinel_arm=sentinel_arm
+        )
+
+tests/test_trainer_resume_integration.py:501: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a0609050&gt;
+controlled = False, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'none'
+recurrent_rank = 0, sentinel_arm = ('unchanged', 'none'), thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -&gt; None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -&gt; Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+            from export_qat_control import export_control
+    
+            export_control(parent_dir / "model.pt", tmp_path / "no_finetune.pt", qat)
+        if recurrent_rank:
+            from export_factorized_control import export_control as export_rank_control
+    
+            export_rank_control(parent_dir / "model.pt", tmp_path / "zero_update.pt", recurrent_rank)
+        if sentinel_arm is not None:
+&gt;           from sentinel_prepare import prepare
+E           ModuleNotFoundError: No module named 'sentinel_prepare'
+
+tests/test_trainer_resume_integration.py:231: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_trainer_resume_integration" name="test_main_sentinel_finetune_resume[sentinel_arm1]" time="0.030"><failure message="ModuleNotFoundError: No module named 'sentinel_prepare'">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a060b750&gt;
+sentinel_arm = ('unchanged', 'missing')
+
+    @pytest.mark.parametrize(
+        "sentinel_arm",
+        [
+            ("unchanged", "none"),
+            ("unchanged", "missing"),
+            ("neutral", "none"),
+            ("safe", "missing"),
+            ("safe", "current"),
+        ],
+    )
+    def test_main_sentinel_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, sentinel_arm: tuple[str, str]
+    ) -&gt; None:
+        """Frozen preprocessing and zero-init feature projections survive actual fine-tune resume."""
+&gt;       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, sentinel_arm=sentinel_arm
+        )
+
+tests/test_trainer_resume_integration.py:501: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a060b750&gt;
+controlled = False, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'none'
+recurrent_rank = 0, sentinel_arm = ('unchanged', 'missing'), thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -&gt; None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -&gt; Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+            from export_qat_control import export_control
+    
+            export_control(parent_dir / "model.pt", tmp_path / "no_finetune.pt", qat)
+        if recurrent_rank:
+            from export_factorized_control import export_control as export_rank_control
+    
+            export_rank_control(parent_dir / "model.pt", tmp_path / "zero_update.pt", recurrent_rank)
+        if sentinel_arm is not None:
+&gt;           from sentinel_prepare import prepare
+E           ModuleNotFoundError: No module named 'sentinel_prepare'
+
+tests/test_trainer_resume_integration.py:231: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_trainer_resume_integration" name="test_main_sentinel_finetune_resume[sentinel_arm2]" time="0.029"><failure message="ModuleNotFoundError: No module named 'sentinel_prepare'">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a04b40c0&gt;
+sentinel_arm = ('neutral', 'none')
+
+    @pytest.mark.parametrize(
+        "sentinel_arm",
+        [
+            ("unchanged", "none"),
+            ("unchanged", "missing"),
+            ("neutral", "none"),
+            ("safe", "missing"),
+            ("safe", "current"),
+        ],
+    )
+    def test_main_sentinel_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, sentinel_arm: tuple[str, str]
+    ) -&gt; None:
+        """Frozen preprocessing and zero-init feature projections survive actual fine-tune resume."""
+&gt;       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, sentinel_arm=sentinel_arm
+        )
+
+tests/test_trainer_resume_integration.py:501: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a04b40c0&gt;
+controlled = False, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'none'
+recurrent_rank = 0, sentinel_arm = ('neutral', 'none'), thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -&gt; None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -&gt; Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+            from export_qat_control import export_control
+    
+            export_control(parent_dir / "model.pt", tmp_path / "no_finetune.pt", qat)
+        if recurrent_rank:
+            from export_factorized_control import export_control as export_rank_control
+    
+            export_rank_control(parent_dir / "model.pt", tmp_path / "zero_update.pt", recurrent_rank)
+        if sentinel_arm is not None:
+&gt;           from sentinel_prepare import prepare
+E           ModuleNotFoundError: No module named 'sentinel_prepare'
+
+tests/test_trainer_resume_integration.py:231: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_trainer_resume_integration" name="test_main_sentinel_finetune_resume[sentinel_arm3]" time="0.036"><failure message="ModuleNotFoundError: No module named 'sentinel_prepare'">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re3')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f182734e510&gt;
+sentinel_arm = ('safe', 'missing')
+
+    @pytest.mark.parametrize(
+        "sentinel_arm",
+        [
+            ("unchanged", "none"),
+            ("unchanged", "missing"),
+            ("neutral", "none"),
+            ("safe", "missing"),
+            ("safe", "current"),
+        ],
+    )
+    def test_main_sentinel_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, sentinel_arm: tuple[str, str]
+    ) -&gt; None:
+        """Frozen preprocessing and zero-init feature projections survive actual fine-tune resume."""
+&gt;       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, sentinel_arm=sentinel_arm
+        )
+
+tests/test_trainer_resume_integration.py:501: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re3')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f182734e510&gt;
+controlled = False, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'none'
+recurrent_rank = 0, sentinel_arm = ('safe', 'missing'), thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -&gt; None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -&gt; Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+            from export_qat_control import export_control
+    
+            export_control(parent_dir / "model.pt", tmp_path / "no_finetune.pt", qat)
+        if recurrent_rank:
+            from export_factorized_control import export_control as export_rank_control
+    
+            export_rank_control(parent_dir / "model.pt", tmp_path / "zero_update.pt", recurrent_rank)
+        if sentinel_arm is not None:
+&gt;           from sentinel_prepare import prepare
+E           ModuleNotFoundError: No module named 'sentinel_prepare'
+
+tests/test_trainer_resume_integration.py:231: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_trainer_resume_integration" name="test_main_sentinel_finetune_resume[sentinel_arm4]" time="0.040"><failure message="ModuleNotFoundError: No module named 'sentinel_prepare'">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re4')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a04a7c40&gt;
+sentinel_arm = ('safe', 'current')
+
+    @pytest.mark.parametrize(
+        "sentinel_arm",
+        [
+            ("unchanged", "none"),
+            ("unchanged", "missing"),
+            ("neutral", "none"),
+            ("safe", "missing"),
+            ("safe", "current"),
+        ],
+    )
+    def test_main_sentinel_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, sentinel_arm: tuple[str, str]
+    ) -&gt; None:
+        """Frozen preprocessing and zero-init feature projections survive actual fine-tune resume."""
+&gt;       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, sentinel_arm=sentinel_arm
+        )
+
+tests/test_trainer_resume_integration.py:501: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re4')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f17a04a7c40&gt;
+controlled = False, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'none'
+recurrent_rank = 0, sentinel_arm = ('safe', 'current'), thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -&gt; None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -&gt; Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+            from export_qat_control import export_control
+    
+            export_control(parent_dir / "model.pt", tmp_path / "no_finetune.pt", qat)
+        if recurrent_rank:
+            from export_factorized_control import export_control as export_rank_control
+    
+            export_rank_control(parent_dir / "model.pt", tmp_path / "zero_update.pt", recurrent_rank)
+        if sentinel_arm is not None:
+&gt;           from sentinel_prepare import prepare
+E           ModuleNotFoundError: No module named 'sentinel_prepare'
+
+tests/test_trainer_resume_integration.py:231: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_trainer_resume_integration" name="test_research_features_preserve_propensity_input_and_parent_layout" time="0.008" /><testcase classname="tests.test_training_state" name="test_epoch_resume_is_bitwise_identical[False-False-False]" time="0.103" /><testcase classname="tests.test_training_state" name="test_epoch_resume_is_bitwise_identical[False-False-True]" time="0.083" /><testcase classname="tests.test_training_state" name="test_epoch_resume_is_bitwise_identical[False-True-False]" time="0.109" /><testcase classname="tests.test_training_state" name="test_epoch_resume_is_bitwise_identical[False-True-True]" time="0.103" /><testcase classname="tests.test_training_state" name="test_epoch_resume_is_bitwise_identical[True-False-False]" time="0.114" /><testcase classname="tests.test_training_state" name="test_epoch_resume_is_bitwise_identical[True-False-True]" time="0.108" /><testcase classname="tests.test_training_state" name="test_epoch_resume_is_bitwise_identical[True-True-False]" time="0.125" /><testcase classname="tests.test_training_state" name="test_epoch_resume_is_bitwise_identical[True-True-True]" time="0.100" /><testcase classname="tests.test_training_state" name="test_resume_rejects_inference_and_changed_horizon" time="0.046" /><testcase classname="tests.test_training_state" name="test_atomic_failure_preserves_previous_state" time="0.002" /><testcase classname="tests.test_training_state" name="test_capture_owns_tensor_storage" time="0.026" /></testsuite></testsuites>

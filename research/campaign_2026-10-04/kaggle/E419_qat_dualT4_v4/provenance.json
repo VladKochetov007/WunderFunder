@@ -1,0 +1,698 @@
+{
+  "budget": {
+    "fits_reserve_plus_width": true,
+    "hard_attempt_cap_gpu_hours": 8.5,
+    "launch_gate": "READY input dataset, 2 physical Tesla T4 workers, exact bundle/source/hash validation; one dual-T4 kernel at a time",
+    "maximum_device_gpu_hours": 8.0,
+    "physical_gpus": 2,
+    "provider_overhead_reserve_hours": 0.5,
+    "provider_timeout_seconds": 15300,
+    "quota_remaining_after_max_attempt_hours": 17.5,
+    "quota_remaining_before_push_hours": 26.0,
+    "vrm_host_stop_bytes": 13958643712,
+    "weekly_reserve_required_hours": 6.0,
+    "width_pair_staged_budget_hours": 9.0,
+    "worker_timeout_seconds": 14400
+  },
+  "bundle_archive_sha256": "380295f43678ee52fcbb9d64467efef344ef6a39eed105bf4c62477365317de6",
+  "control_reuse": {
+    "controls": {
+      "recurrent": {
+        "alias_run": "c20261004_e419_fp32_control_recurrent_s3_f0_t4v4",
+        "artifacts": {
+          "checkpoint": {
+            "alias_path": "artifacts/runs/c20261004_e419_fp32_control_recurrent_s3_f0_t4v4/model_ep0.pt",
+            "alias_run": "c20261004_e419_fp32_control_recurrent_s3_f0_t4v4",
+            "sha256": "937c90f05f7cab604c501781d72b68a234365439bff17b21301f8b57ea1c2314",
+            "size": 3977631,
+            "source_path": "research/campaign_2026-10-04/kaggle/E419_qat_dualT4_v3/failure_20261004T1022Z/experiment/artifacts/runs/c20261004_e419_fp32_control_recurrent_s3_f0_t4v3/model_ep0.pt",
+            "source_run": "c20261004_e419_fp32_control_recurrent_s3_f0_t4v3"
+          },
+          "prediction": {
+            "alias_path": "cache/pred_c20261004_e419_fp32_control_recurrent_s3_f0_t4v4_valid.npy",
+            "alias_run": "c20261004_e419_fp32_control_recurrent_s3_f0_t4v4",
+            "sha256": "c0d9f8187049e3d386da24e04171a65c6c0b4cc4dfb2319ad7dbf458b5362db6",
+            "size": 299680128,
+            "source_path": "research/campaign_2026-10-04/kaggle/E419_qat_dualT4_v3/failure_20261004T1022Z/experiment/cache/pred_c20261004_e419_fp32_control_recurrent_s3_f0_t4v3_valid.npy",
+            "source_run": "c20261004_e419_fp32_control_recurrent_s3_f0_t4v3"
+          },
+          "provenance": {
+            "alias_path": "artifacts/runs/c20261004_e419_fp32_control_recurrent_s3_f0_t4v4/provenance.json",
+            "alias_run": "c20261004_e419_fp32_control_recurrent_s3_f0_t4v4",
+            "sha256": "1ffbdb6955ee9170c2a0dc6c5dbe5c76a841336ef30f1a5a2e7ab5bd8170a741",
+            "size": 155830,
+            "source_path": "research/campaign_2026-10-04/kaggle/E419_qat_dualT4_v3/failure_20261004T1022Z/experiment/artifacts/runs/c20261004_e419_fp32_control_recurrent_s3_f0_t4v3/provenance.json",
+            "source_run": "c20261004_e419_fp32_control_recurrent_s3_f0_t4v3"
+          },
+          "sidecar": {
+            "alias_path": "cache/pred_c20261004_e419_fp32_control_recurrent_s3_f0_t4v4_valid.json",
+            "alias_run": "c20261004_e419_fp32_control_recurrent_s3_f0_t4v4",
+            "sha256": "01f1b5ed74f9b0dfe3b29e0862b6ef47ee61442d8fb6b1d04eb6a9de07df3098",
+            "size": 18187,
+            "source_path": "research/campaign_2026-10-04/kaggle/E419_qat_dualT4_v3/failure_20261004T1022Z/experiment/cache/pred_c20261004_e419_fp32_control_recurrent_s3_f0_t4v3_valid.json",
+            "source_run": "c20261004_e419_fp32_control_recurrent_s3_f0_t4v3"
+          }
+        },
+        "checkpoint_sha256": "937c90f05f7cab604c501781d72b68a234365439bff17b21301f8b57ea1c2314",
+        "model_tensor_identity": {
+          "state_tensor_sha256": "75cc4446d69e9e309187c366f2d6265ce7261b78ef36e34f1b7e37e69d9e783c",
+          "tensor_count": 16,
+          "tensors": [
+            {
+              "bytes": 3072,
+              "dtype": "torch.float32",
+              "key": "gru.bias_hh_l0",
+              "sha256": "b4bbab0199fafffbe9c05a3e898636d19d60b942e5a8946677f5eec03a61fc7d",
+              "shape": [
+                768
+              ]
+            },
+            {
+              "bytes": 3072,
+              "dtype": "torch.float32",
+              "key": "gru.bias_hh_l1",
+              "sha256": "16004bf6e15b8166cc578bfc678fb95ab10562fbf652dbc139625b287cb13ae7",
+              "shape": [
+                768
+              ]
+            },
+            {
+              "bytes": 3072,
+              "dtype": "torch.float32",
+              "key": "gru.bias_ih_l0",
+              "sha256": "d849b64f8d55ad98f1e3b074fa9e2ec04248944cb0189a265bb58cd0804a8927",
+              "shape": [
+                768
+              ]
+            },
+            {
+              "bytes": 3072,
+              "dtype": "torch.float32",
+              "key": "gru.bias_ih_l1",
+              "sha256": "2352d44c0fb96d8dff91cc9085fa29d04430de38990f245c11e169bc1d437495",
+              "shape": [
+                768
+              ]
+            },
+            {
+              "bytes": 786432,
+              "dtype": "torch.float32",
+              "key": "gru.weight_hh_l0",
+              "sha256": "8d36ce8240fc94d55956b3d402cf2fc60648f97a10388a1cc721fba9d71a0d70",
+              "shape": [
+                768,
+                256
+              ]
+            },
+            {
+              "bytes": 786432,
+              "dtype": "torch.float32",
+              "key": "gru.weight_hh_l1",
+              "sha256": "e891963ac8bd2e5e9b92be18a142c3fc2cf2705778e80522581e0580110a7883",
+              "shape": [
+                768,
+                256
+              ]
+            },
+            {
+              "bytes": 786432,
+              "dtype": "torch.float32",
+              "key": "gru.weight_ih_l0",
+              "sha256": "2257cca10fcf5ab09388a0b7af608378fbcbaff3a16716dd183b7c497df55669",
+              "shape": [
+                768,
+                256
+              ]
+            },
+            {
+              "bytes": 786432,
+              "dtype": "torch.float32",
+              "key": "gru.weight_ih_l1",
+              "sha256": "17a33728b06846a7f8365051c9fc586e863e898358b1175c79c55d11360d454d",
+              "shape": [
+                768,
+                256
+              ]
+            },
+            {
+              "bytes": 1024,
+              "dtype": "torch.float32",
+              "key": "head.0.bias",
+              "sha256": "eaed471d33f4dad4df9c3f4247cf42eabd2ba2e94cc0dc1dd98a685d65f5a489",
+              "shape": [
+                256
+              ]
+            },
+            {
+              "bytes": 524288,
+              "dtype": "torch.float32",
+              "key": "head.0.weight",
+              "sha256": "7506f5db5e3d3beeaa5a4bab02d06ea0f3cebb0c028383c0de274cefd398146a",
+              "shape": [
+                256,
+                512
+              ]
+            },
+            {
+              "bytes": 92,
+              "dtype": "torch.float32",
+              "key": "head.2.bias",
+              "sha256": "572a2ffb337bde38ee555c26f5c5fce14875a88d2ac533cc15206c6f409dfad5",
+              "shape": [
+                23
+              ]
+            },
+            {
+              "bytes": 23552,
+              "dtype": "torch.float32",
+              "key": "head.2.weight",
+              "sha256": "14d8b7f6e7cbbd6c97da00d1687a7e8bd267d191b96779a266500c3847403620",
+              "shape": [
+                23,
+                256
+              ]
+            },
+            {
+              "bytes": 1024,
+              "dtype": "torch.float32",
+              "key": "inp.bias",
+              "sha256": "0b26c345dbe61431b8525e13b9990262b048b293830d000943ddd6fa09f5b4ec",
+              "shape": [
+                256
+              ]
+            },
+            {
+              "bytes": 216064,
+              "dtype": "torch.float32",
+              "key": "inp.weight",
+              "sha256": "038cd2afa8f5a2226b11783158df42cb96f7a1e2fdf18d0fd0d98570639e5887",
+              "shape": [
+                256,
+                211
+              ]
+            },
+            {
+              "bytes": 844,
+              "dtype": "torch.float32",
+              "key": "mean",
+              "sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+              "shape": [
+                211
+              ]
+            },
+            {
+              "bytes": 844,
+              "dtype": "torch.float32",
+              "key": "std",
+              "sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5",
+              "shape": [
+                211
+              ]
+            }
+          ]
+        },
+        "prediction_sha256": "c0d9f8187049e3d386da24e04171a65c6c0b4cc4dfb2319ad7dbf458b5362db6",
+        "provenance_sha256": "1ffbdb6955ee9170c2a0dc6c5dbe5c76a841336ef30f1a5a2e7ab5bd8170a741",
+        "sidecar_run_retained": "c20261004_e419_fp32_control_recurrent_s3_f0_t4v3",
+        "sidecar_sha256": "01f1b5ed74f9b0dfe3b29e0862b6ef47ee61442d8fb6b1d04eb6a9de07df3098",
+        "source_run": "c20261004_e419_fp32_control_recurrent_s3_f0_t4v3",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "recurrent_head": {
+        "alias_run": "c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v4",
+        "artifacts": {
+          "checkpoint": {
+            "alias_path": "artifacts/runs/c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v4/model_ep0.pt",
+            "alias_run": "c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v4",
+            "sha256": "859f5400e0fa16ad4ddd33560b25160c51704d101a840b0fb04edd74ddb948e6",
+            "size": 3977631,
+            "source_path": "research/campaign_2026-10-04/kaggle/E419_qat_dualT4_v3/failure_20261004T1022Z/experiment/artifacts/runs/c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3/model_ep0.pt",
+            "source_run": "c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3"
+          },
+          "prediction": {
+            "alias_path": "cache/pred_c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v4_valid.npy",
+            "alias_run": "c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v4",
+            "sha256": "c0d9f8187049e3d386da24e04171a65c6c0b4cc4dfb2319ad7dbf458b5362db6",
+            "size": 299680128,
+            "source_path": "research/campaign_2026-10-04/kaggle/E419_qat_dualT4_v3/failure_20261004T1022Z/experiment/cache/pred_c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3_valid.npy",
+            "source_run": "c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3"
+          },
+          "provenance": {
+            "alias_path": "artifacts/runs/c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v4/provenance.json",
+            "alias_run": "c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v4",
+            "sha256": "72f871cd985281afb6713d4ad90ff03051a0c50aa4d39817abf87e12ab0ebff8",
+            "size": 155835,
+            "source_path": "research/campaign_2026-10-04/kaggle/E419_qat_dualT4_v3/failure_20261004T1022Z/experiment/artifacts/runs/c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3/provenance.json",
+            "source_run": "c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3"
+          },
+          "sidecar": {
+            "alias_path": "cache/pred_c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v4_valid.json",
+            "alias_run": "c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v4",
+            "sha256": "27c6ee0e00a358e708989f870a1a4b4a8ea39b93e8adbf2216d0b61003ad91bc",
+            "size": 18192,
+            "source_path": "research/campaign_2026-10-04/kaggle/E419_qat_dualT4_v3/failure_20261004T1022Z/experiment/cache/pred_c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3_valid.json",
+            "source_run": "c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3"
+          }
+        },
+        "checkpoint_sha256": "859f5400e0fa16ad4ddd33560b25160c51704d101a840b0fb04edd74ddb948e6",
+        "model_tensor_identity": {
+          "state_tensor_sha256": "75cc4446d69e9e309187c366f2d6265ce7261b78ef36e34f1b7e37e69d9e783c",
+          "tensor_count": 16,
+          "tensors": [
+            {
+              "bytes": 3072,
+              "dtype": "torch.float32",
+              "key": "gru.bias_hh_l0",
+              "sha256": "b4bbab0199fafffbe9c05a3e898636d19d60b942e5a8946677f5eec03a61fc7d",
+              "shape": [
+                768
+              ]
+            },
+            {
+              "bytes": 3072,
+              "dtype": "torch.float32",
+              "key": "gru.bias_hh_l1",
+              "sha256": "16004bf6e15b8166cc578bfc678fb95ab10562fbf652dbc139625b287cb13ae7",
+              "shape": [
+                768
+              ]
+            },
+            {
+              "bytes": 3072,
+              "dtype": "torch.float32",
+              "key": "gru.bias_ih_l0",
+              "sha256": "d849b64f8d55ad98f1e3b074fa9e2ec04248944cb0189a265bb58cd0804a8927",
+              "shape": [
+                768
+              ]
+            },
+            {
+              "bytes": 3072,
+              "dtype": "torch.float32",
+              "key": "gru.bias_ih_l1",
+              "sha256": "2352d44c0fb96d8dff91cc9085fa29d04430de38990f245c11e169bc1d437495",
+              "shape": [
+                768
+              ]
+            },
+            {
+              "bytes": 786432,
+              "dtype": "torch.float32",
+              "key": "gru.weight_hh_l0",
+              "sha256": "8d36ce8240fc94d55956b3d402cf2fc60648f97a10388a1cc721fba9d71a0d70",
+              "shape": [
+                768,
+                256
+              ]
+            },
+            {
+              "bytes": 786432,
+              "dtype": "torch.float32",
+              "key": "gru.weight_hh_l1",
+              "sha256": "e891963ac8bd2e5e9b92be18a142c3fc2cf2705778e80522581e0580110a7883",
+              "shape": [
+                768,
+                256
+              ]
+            },
+            {
+              "bytes": 786432,
+              "dtype": "torch.float32",
+              "key": "gru.weight_ih_l0",
+              "sha256": "2257cca10fcf5ab09388a0b7af608378fbcbaff3a16716dd183b7c497df55669",
+              "shape": [
+                768,
+                256
+              ]
+            },
+            {
+              "bytes": 786432,
+              "dtype": "torch.float32",
+              "key": "gru.weight_ih_l1",
+              "sha256": "17a33728b06846a7f8365051c9fc586e863e898358b1175c79c55d11360d454d",
+              "shape": [
+                768,
+                256
+              ]
+            },
+            {
+              "bytes": 1024,
+              "dtype": "torch.float32",
+              "key": "head.0.bias",
+              "sha256": "eaed471d33f4dad4df9c3f4247cf42eabd2ba2e94cc0dc1dd98a685d65f5a489",
+              "shape": [
+                256
+              ]
+            },
+            {
+              "bytes": 524288,
+              "dtype": "torch.float32",
+              "key": "head.0.weight",
+              "sha256": "7506f5db5e3d3beeaa5a4bab02d06ea0f3cebb0c028383c0de274cefd398146a",
+              "shape": [
+                256,
+                512
+              ]
+            },
+            {
+              "bytes": 92,
+              "dtype": "torch.float32",
+              "key": "head.2.bias",
+              "sha256": "572a2ffb337bde38ee555c26f5c5fce14875a88d2ac533cc15206c6f409dfad5",
+              "shape": [
+                23
+              ]
+            },
+            {
+              "bytes": 23552,
+              "dtype": "torch.float32",
+              "key": "head.2.weight",
+              "sha256": "14d8b7f6e7cbbd6c97da00d1687a7e8bd267d191b96779a266500c3847403620",
+              "shape": [
+                23,
+                256
+              ]
+            },
+            {
+              "bytes": 1024,
+              "dtype": "torch.float32",
+              "key": "inp.bias",
+              "sha256": "0b26c345dbe61431b8525e13b9990262b048b293830d000943ddd6fa09f5b4ec",
+              "shape": [
+                256
+              ]
+            },
+            {
+              "bytes": 216064,
+              "dtype": "torch.float32",
+              "key": "inp.weight",
+              "sha256": "038cd2afa8f5a2226b11783158df42cb96f7a1e2fdf18d0fd0d98570639e5887",
+              "shape": [
+                256,
+                211
+              ]
+            },
+            {
+              "bytes": 844,
+              "dtype": "torch.float32",
+              "key": "mean",
+              "sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+              "shape": [
+                211
+              ]
+            },
+            {
+              "bytes": 844,
+              "dtype": "torch.float32",
+              "key": "std",
+              "sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5",
+              "shape": [
+                211
+              ]
+            }
+          ]
+        },
+        "prediction_sha256": "c0d9f8187049e3d386da24e04171a65c6c0b4cc4dfb2319ad7dbf458b5362db6",
+        "provenance_sha256": "72f871cd985281afb6713d4ad90ff03051a0c50aa4d39817abf87e12ab0ebff8",
+        "sidecar_run_retained": "c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3",
+        "sidecar_sha256": "27c6ee0e00a358e708989f870a1a4b4a8ea39b93e8adbf2216d0b61003ad91bc",
+        "source_run": "c20261004_e419_fp32_control_recurrent_head_s3_f0_t4v3",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      }
+    },
+    "fold": 0,
+    "recovered_report_sha256": "7299b40762d6161d53ba11febfbc40dd98ed1f3eea0f307321eeef947c7e7253",
+    "score_role": "path-check-only; the two recovered controls have duplicate model tensors and identical prediction bytes",
+    "source_archive_sha256": "d2d8fe047d76f85b9dd5931d36b8a9daac6b23adfe197e76bb48c881328b3549",
+    "source_code_paths": [
+      "research/campaign_2026-09-30/audit/campaign_score.py",
+      "scripts/adversarial_validation.py",
+      "scripts/arch_screen.py",
+      "scripts/archive_campaign_code.py",
+      "scripts/assemble_oof.py",
+      "scripts/audit_class3_law.py",
+      "scripts/audit_domain_geometry.py",
+      "scripts/audit_final_pairs.py",
+      "scripts/bandit.py",
+      "scripts/baseline_run.py",
+      "scripts/bench_infer.py",
+      "scripts/bench_step.py",
+      "scripts/branch_synthesis.py",
+      "scripts/build_campaign_splits.py",
+      "scripts/build_heuristics.py",
+      "scripts/build_meta.py",
+      "scripts/build_portable_manifest.py",
+      "scripts/build_train_rows.py",
+      "scripts/cache_propensity.py",
+      "scripts/cache_quote_path.py",
+      "scripts/cache_rowinfo.py",
+      "scripts/cache_rows_to_event.py",
+      "scripts/cache_targets.py",
+      "scripts/campaign_calibration_audit.py",
+      "scripts/campaign_compatibility.py",
+      "scripts/campaign_controls_queue.py",
+      "scripts/campaign_gpu_smoke.py",
+      "scripts/campaign_job.py",
+      "scripts/campaign_pair_head_fit.py",
+      "scripts/campaign_pair_head_score.py",
+      "scripts/campaign_pair_states.py",
+      "scripts/campaign_public_calibration.py",
+      "scripts/campaign_screen_pipeline.py",
+      "scripts/check_package.py",
+      "scripts/compare_runs.py",
+      "scripts/continuation_recipes.py",
+      "scripts/convert_baseline.py",
+      "scripts/cr_dtw_labels_build.py",
+      "scripts/cr_dtw_labels_build2.py",
+      "scripts/cr_dtw_labels_common.py",
+      "scripts/cr_dtw_labels_drift.py",
+      "scripts/cr_dtw_labels_inseg.py",
+      "scripts/cr_dtw_labels_knn.py",
+      "scripts/cr_dtw_labels_proto.py",
+      "scripts/cr_dtw_labels_struct.py",
+      "scripts/cr_dtw_objective_analyze.py",
+      "scripts/cr_dtw_objective_coherent.py",
+      "scripts/cr_dtw_objective_leak.py",
+      "scripts/cr_dtw_objective_panel.py",
+      "scripts/cr_dtw_objective_scored.py",
+      "scripts/cr_dtw_objective_stopped.py",
+      "scripts/cr_dtw_objective_strata.py",
+      "scripts/cr_dtw_readout_core.py",
+      "scripts/cr_dtw_readout_panel.py",
+      "scripts/cr_dtw_readout_q1.py",
+      "scripts/cr_dtw_readout_q2.py",
+      "scripts/cr_dtw_readout_q3.py",
+      "scripts/cr_dtw_readout_q4.py",
+      "scripts/cr_dtw_readout_q5.py",
+      "scripts/cr_dtw_readout_q6.py",
+      "scripts/cr_dtw_readout_q7.py",
+      "scripts/cr_dtw_streams_build.py",
+      "scripts/cr_dtw_streams_ceiling.py",
+      "scripts/cr_dtw_streams_common.py",
+      "scripts/cr_dtw_streams_i1table.py",
+      "scripts/cr_dtw_streams_knn.py",
+      "scripts/cr_dtw_streams_leadlag.py",
+      "scripts/cr_dtw_streams_level.py",
+      "scripts/cr_dtw_streams_linear.py",
+      "scripts/cr_dtw_streams_probe.py",
+      "scripts/cr_dtw_streams_warp.py",
+      "scripts/cr_mature_common.py",
+      "scripts/cr_mature_feedback.py",
+      "scripts/cr_mature_hit.py",
+      "scripts/cr_mature_lag.py",
+      "scripts/cr_queue_build.py",
+      "scripts/cr_queue_importance.py",
+      "scripts/cr_queue_pooled.py",
+      "scripts/cr_queue_probe.py",
+      "scripts/cr_reframer_basis.py",
+      "scripts/cr_reframer_basis_screen.py",
+      "scripts/cr_reframer_event_split.py",
+      "scripts/cr_reframer_i1_identity.py",
+      "scripts/cr_reframer_lambda_gate.py",
+      "scripts/cr_reframer_seq_oracle.py",
+      "scripts/cr_reframer_thinning.py",
+      "scripts/cr_scout_cell_ledger.py",
+      "scripts/cr_scout_fetch.py",
+      "scripts/cr_scout_level_probe.py",
+      "scripts/cr_scout_matured_probe.py",
+      "scripts/cr_scout_tree_stacker.py",
+      "scripts/cr_surprise_build.py",
+      "scripts/cr_surprise_drift.py",
+      "scripts/cr_surprise_events.py",
+      "scripts/cr_surprise_fspace.py",
+      "scripts/cr_surprise_hazard.py",
+      "scripts/cr_surprise_lib.py",
+      "scripts/cr_surprise_plots.py",
+      "scripts/cr_surprise_rawprobe.py",
+      "scripts/cr_surprise_tier.py",
+      "scripts/crossfit_blend.py",
+      "scripts/de_class_mix.py",
+      "scripts/de_proxy_cache.py",
+      "scripts/de_proxy_study.py",
+      "scripts/de_public_proxy.py",
+      "scripts/de_sp2_confirm.py",
+      "scripts/de_target_law.py",
+      "scripts/de_target_state.py",
+      "scripts/decide.py",
+      "scripts/decompose_errors.py",
+      "scripts/diag_struct.py",
+      "scripts/eda_online_ceiling.py",
+      "scripts/eda_plots.py",
+      "scripts/eda_scored_table.py",
+      "scripts/eda_seqstats.py",
+      "scripts/engine_fp16_check.py",
+      "scripts/ensemble_scan.py",
+      "scripts/eval_run.py",
+      "scripts/export_factorized_control.py",
+      "scripts/export_onnx.py",
+      "scripts/export_qat_control.py",
+      "scripts/feature_branch.py",
+      "scripts/feature_branch_head.py",
+      "scripts/feature_cache.py",
+      "scripts/feature_cues.py",
+      "scripts/feature_gain.py",
+      "scripts/feature_plan.py",
+      "scripts/feature_predict.py",
+      "scripts/feature_recipes.py",
+      "scripts/feature_reset.py",
+      "scripts/feature_screen.py",
+      "scripts/feature_synthesis.py",
+      "scripts/feature_v2_cache.py",
+      "scripts/feature_v2_filters.py",
+      "scripts/feature_v2_recipes.py",
+      "scripts/feature_v2_screen.py",
+      "scripts/feature_v2_synthesis.py",
+      "scripts/fold_compare.py",
+      "scripts/forensics_overlap.py",
+      "scripts/gbm_member.py",
+      "scripts/holdout_compare.py",
+      "scripts/interp_runs.py",
+      "scripts/joint_head_ft.py",
+      "scripts/kaggle_assets.py",
+      "scripts/kaggle_bundle.py",
+      "scripts/kaggle_common.py",
+      "scripts/kaggle_gpu_runner.py",
+      "scripts/kaggle_kernel.py",
+      "scripts/kaggle_prepare_probe.py",
+      "scripts/kaggle_sequence.py",
+      "scripts/kaggle_tpu_probe.py",
+      "scripts/lb_calibration.py",
+      "scripts/lift_probe.py",
+      "scripts/micro_features.py",
+      "scripts/online_c3.py",
+      "scripts/package_routed.py",
+      "scripts/package_submission.py",
+      "scripts/pair_eval.py",
+      "scripts/predict_aux_sign.py",
+      "scripts/predict_baseline.py",
+      "scripts/predict_native.py",
+      "scripts/predict_run.py",
+      "scripts/privileged_crossfit.py",
+      "scripts/probe_activity_pair_gate.py",
+      "scripts/probe_aux_sign.py",
+      "scripts/probe_aux_sign_readout.py",
+      "scripts/probe_class3_hgb.py",
+      "scripts/probe_conditional_mask.py",
+      "scripts/probe_event_lags.py",
+      "scripts/probe_factorized_native.py",
+      "scripts/probe_factorized_runtime.py",
+      "scripts/probe_holdout_isolated.py",
+      "scripts/probe_i1_flow_shock.py",
+      "scripts/probe_i1_lead.py",
+      "scripts/probe_level_deviation.py",
+      "scripts/probe_markov_break.py",
+      "scripts/probe_phase_readout.py",
+      "scripts/probe_pure_pair.py",
+      "scripts/probe_q8_model.py",
+      "scripts/probe_q8_native.py",
+      "scripts/probe_rb_class3.py",
+      "scripts/probe_regime_robustness.py",
+      "scripts/probe_scoring_rule.py",
+      "scripts/probe_warmup_regime.py",
+      "scripts/probe_width_runtime.py",
+      "scripts/profile_train.py",
+      "scripts/propensity_valid.py",
+      "scripts/research_index.py",
+      "scripts/run_campaign.py",
+      "scripts/run_card.py",
+      "scripts/scan_parquet.py",
+      "scripts/screen_score.py",
+      "scripts/sentinel_prepare.py",
+      "scripts/sequence_chains.py",
+      "scripts/slice_compare.py",
+      "scripts/soup_epochs.py",
+      "scripts/soup_runs.py",
+      "scripts/study_external_encoding.py",
+      "scripts/symreg_apply.py",
+      "scripts/symreg_explain.py",
+      "scripts/symreg_pdp.py",
+      "scripts/train_propensity.py",
+      "scripts/train_rnn.py",
+      "scripts/verify_submission.py",
+      "scripts/weight_soup.py",
+      "src/wnn/__init__.py",
+      "src/wnn/campaign.py",
+      "src/wnn/campaign_local.py",
+      "src/wnn/campaign_spec.py",
+      "src/wnn/data.py",
+      "src/wnn/evaluation.py",
+      "src/wnn/event_content.py",
+      "src/wnn/features.py",
+      "src/wnn/gmetric.py",
+      "src/wnn/heuristics.py",
+      "src/wnn/infer.py",
+      "src/wnn/markov.py",
+      "src/wnn/metric.py",
+      "src/wnn/nn.py",
+      "src/wnn/optim.py",
+      "src/wnn/outcomes.py",
+      "src/wnn/portability.py",
+      "src/wnn/privileged.py",
+      "src/wnn/propensity.py",
+      "src/wnn/quantization.py",
+      "src/wnn/quantization_export.py",
+      "src/wnn/research_features.py",
+      "src/wnn/resources.py",
+      "src/wnn/run_identity.py",
+      "src/wnn/sentinel.py",
+      "src/wnn/sentinel_calibration.py",
+      "src/wnn/splits.py",
+      "src/wnn/spread_aux.py",
+      "src/wnn/streaming.py",
+      "src/wnn/structured_state.py",
+      "src/wnn/symreg.py",
+      "src/wnn/tcn_ref.py",
+      "src/wnn/ticks.py",
+      "src/wnn/training_calibration.py",
+      "src/wnn/training_controls.py",
+      "src/wnn/training_credit.py",
+      "src/wnn/training_dynamics.py",
+      "src/wnn/training_factorized.py",
+      "src/wnn/training_qat.py",
+      "src/wnn/training_sampling.py",
+      "src/wnn/training_state.py",
+      "src/wnn/training_views.py",
+      "src/wnn/twoclock_ref.py",
+      "src/wnn/viz.py",
+      "tests/__init__.py",
+      "tests/conftest.py",
+      "tests/test_quantization.py",
+      "tests/test_quantization_export.py",
+      "tests/test_trainer_resume_integration.py",
+      "tests/test_training_qat.py",
+      "tests/test_training_state.py",
+      "tests/training_dynamics_helpers.py"
+    ],
+    "source_code_sha256": "36acf3c456209e195e5c8ba8d813ae436fe63adeb0a1ee1eb9b3ca6425db2796",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "version": 1
+  },
+  "control_reuse_manifest_sha256": "517721873ce21231437c0c070fac94cda0fb41170673874f1249622447736e96",
+  "frozen_v3_source_archive_sha256": "d2d8fe047d76f85b9dd5931d36b8a9daac6b23adfe197e76bb48c881328b3549",
+  "source_code_sha256": "36acf3c456209e195e5c8ba8d813ae436fe63adeb0a1ee1eb9b3ca6425db2796",
+  "spec_sha256": {
+    "c20261004_e419_qat_recurrent_head_s3_f0_t4v4": "683c2951d77bb51d5c368bd65401823613e280bb7dd6feab738f092d8e8ad9e4",
+    "c20261004_e419_qat_recurrent_s3_f0_t4v4": "6a656fee0f4a130c70f29223a87534df9c970a3c47043f69a0d3e21de215dfe0"
+  },
+  "status": "prepared_not_pushed"
+}

@@ -328,5 +328,56 @@ def _():
     return
 
 
+app._unparsable_cell(
+    """
+    refresh
+    _progress_state = json.loads((campaign_dir / \"implementation_state.json\").read_text())
+    _progress_inv = json.loads((campaign_dir / \"checks/kaggle_kernel_inventory_20261004T1138Z.json\").read_text())
+    _progress_ledger = [json.loads(line) for line in (project_root / \"research/experiments.jsonl\").read_text().splitlines() if line.strip()]
+    _progress_rows = []
+    for _row in _progress_ledger:
+        _eid = str(_row.get(\"id\", \"\"))
+        if _row.get(\"date\") != \"2026-10-04\" or not _eid.startswith(\"E-\"):
+            continue
+        try:
+            _number = int(_eid.split(\"-\")[1])
+        except ValueError:
+            continue
+        if 407 <= _number <= 424:
+            _progress_rows.append({\"experiment\": _eid, \"status\": _row.get(\"status\", \"missing\"), \"question\": _row.get(\"kind\", \"\")})
+    _progress_counts = _progress_state[\"campaign_progress\"]
+    _kaggle_rows = [{\"kernel\": _row[\"slug\"], \"provider\": _row[\"status\"], \"result / current observation\": _row[\"result\"][:180]} for _row in _progress_inv[\"kernels\"]]
+    mo.vstack([
+        mo.md(f\"\"\"## Live run and compute status
+
+    **Ledger:** {_progress_counts['completed']}/{_progress_counts['total']} complete; {_progress_counts['partial']} partial; {_progress_counts['queued']} queued; {_progress_counts.get('prepared', 0)} prepared.
+
+    **Immediate local tranche:** E-424 has 8 full-recipe model-fit arms (4 primary contrasts, then 4 router/adapter controls). Its 30-GiB spec was rejected before worker admission; corrected v2 specs use the enforced24-GiB cap.
+
+    **Compute:** local block {_progress_state['local_block_gpu_job_hours']}h; 20.44h remain. Kaggle {_progress_inv['quota']['gpu_remaining_hours']:.2f}/30 GPU-h and {_progress_inv['quota']['tpu_remaining_hours']}/20 TPU-h remain. E-419 v4 is **RUNNING** without worker logs/peaks yet; the TPU probe remains **QUEUED**.
+
+    **80-GPU-hour plan:** cumulative across providers and refreshed blocks, not an 80-hour Kaggle reservation. The staged first slate is nine programs / about28 new fitted models; continue to add independent replications and open review ideas as they become executable.
+
+    Refresh this cell with the button after the saved status snapshots change.\"\"\"),
+        mo.ui.table(_progress_rows, selection=None, page_size=10),
+        mo.md(\"### Kaggle notebook audit (provider state is not scientific completion)\"),
+        mo.ui.table(_kaggle_rows, selection=None, page_size=8),
+    ])
+    """,
+    column=None, disabled=False, hide_code=True, expand_output=False, name="Live experiment and compute status"
+)
+
+
+@app.cell(hide_code=True)
+def _(campaign_dir, json, mo, refresh):
+    refresh
+    _validation_card = json.loads((campaign_dir / "checks/e459_validation_scorecard_v1.json").read_text())
+    _validation_rows = []
+    for _name, _scores in _validation_card["scores"].items():
+        _validation_rows.append(f"| {_name} | {_scores['all_supplied_validation']['wp']:.6f} | {_scores['excluded_from_final_fit']['wp']:.6f} |")
+    mo.md("Whole supplied datasets/valid.parquet (1,873 sequences), fixed cached predictions:\n\n| Predictor | All validation | 368 excluded from final fit |\n|---|---:|---:|\n" + "\n".join(_validation_rows) + "\n\nRecipe CV pooled combo/control: 0.693658 / 0.691244. Full validation includes fitted sequences. The combo uses FP32 exports; exact native replay is running. See VALIDATION_SCORECARD.md.")
+    return
+
+
 if __name__ == "__main__":
     app.run()
