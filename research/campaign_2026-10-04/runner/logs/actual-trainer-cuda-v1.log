@@ -1,0 +1,173 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+___________ test_real_main_epoch_resume_and_completed_export[False] ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-vlad/pytest-18/test_real_main_epoch_resume_an0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb0c3f01ba0>
+controlled = False
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, controlled: bool
+    ) -> None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(tmp_path)
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+        ]
+        if device == "cuda":
+            base += ["--fast"]
+        if controlled:
+            base += [
+                "--chunk",
+                "2",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+    
+        def run(name: str, extra: list[str]) -> Path:
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        reference_dir = run("reference", [])
+        interrupted_dir = run("interrupted", ["--stop-after-epoch", "0"])
+        resumed_dir = run("resumed", ["--resume-state", str(interrupted_dir / "training_state.pt")])
+        reference = load_training_state(reference_dir / "training_state.pt")
+        resumed = load_training_state(resumed_dir / "training_state.pt")
+        for key in (
+            "contract",
+            "model",
+            "optimizer",
+            "scheduler",
+            "scaler",
+            "ema",
+            "loader",
+            "rng",
+            "auxiliary",
+        ):
+>           _assert_equal(reference[key], resumed[key])
+
+tests/test_trainer_resume_integration.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_training_state.py:121: in _assert_equal
+    _assert_equal(left[key], right[key])
+tests/test_training_state.py:121: in _assert_equal
+    _assert_equal(left[key], right[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+left = 1, right = 4
+
+    def _assert_equal(left: object, right: object) -> None:
+        if isinstance(left, torch.Tensor):
+            assert torch.equal(left, right)
+        elif isinstance(left, np.ndarray):
+            assert np.array_equal(left, right)
+        elif isinstance(left, dict):
+            assert left.keys() == right.keys()
+            for key in left:
+                _assert_equal(left[key], right[key])
+        elif isinstance(left, list | tuple):
+            assert len(left) == len(right)
+            for first, second in zip(left, right, strict=True):
+                _assert_equal(first, second)
+        else:
+>           assert left == right
+E           assert 1 == 4
+
+tests/test_training_state.py:127: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{"name": "reference", "device": "cuda", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 4, "layers": 1, "dropout": 0.0, "chunk": 4, "update_rows": 0, "detach_rows": 0, "batch": 2, "epochs": 3, "stop_after_epoch": null, "checkpoint_policy": "fixed", "checkpoint_epoch": 2, "no_eval_during_fit": true, "split_manifest": null, "save_training_state": true, "resume_state": null, "lr": 0.001, "wd": 0.01, "optim": "adamw", "muon_scope": "rnn", "beta2": 0.999, "sched": "onecycle", "wsd_decay": 0.2, "wsd_final": 0.01, "rnn_init": "default", "chrono_tmax": 2000.0, "clip": 1.0, "grad_stats": false, "loss": "wmse", "thin_prob": 0.0, "thin_range": "0.1,0.4", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "teacher", "distill_alpha": 0.5, "distill_alpha_far": null, "distill_alpha_tau": 32.0, "distill_boot_h": 0, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "tcn_mix": 0, "decay_init": "multi", "memory_arm": "endpoint-content", "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "dev", "valid_fold": -1, "n_valid_folds": 4, "valid_repeat": 1, "init": "", "inherit_init_preprocessing": false, "freeze": "", "ema_teacher": 1.0, "ema_metric_weight": false, "ema_decay": 0.999, "ema_reference_rows": 0, "eval_ema": true, "mask_weight": false, "propensity": "", "prop_power": 1.0, "prop_eps": 0.0, "class_weight": "", "valid_true_mask": -1.0, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "loss_norm": "chunk", "distill_denominator": "chunk", "distill_reference_mass": 0.0, "denominator_shuffle_seed": 314159, "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "optim_switch": "", "warmup_frac": null, "restarts": 1, "head_lr_mult": 1.0, "clip_per_module": "", "grad_noise": 0.0, "zoneout": 0.0, "init_qmc": false, "batch_order": "random", "antithetic": false}
+{"source_train_sequences": 4, "eligible_valid_train_sequences": 4, "used_valid_train_sequences": 4, "eval_sequences": 4}
+loader workers 2 prefetch 2; params 0.00M; steps 12
+ep 0 batch 0/2 loss 1.5839 lr 8.95e-04 seq/s 5.0
+FIT {"epoch": 0, "train_seconds": 0.4, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 4, "amp_skipped_updates": 0, "optimizer_completed_updates": 4, "ema_updates": 4, "completed_batches": 2}, "cumulative": {"optimizer_attempts": 4, "amp_skipped_updates": 0, "optimizer_completed_updates": 4, "ema_updates": 4, "completed_batches": 2}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 2, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "b5cd4726727a55c55e7d9aa7829525f6531c01d3a29e10938682134e5cd22a25"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "b5cd4726727a55c55e7d9aa7829525f6531c01d3a29e10938682134e5cd22a25"}, "num_workers": 2, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 4}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "de0770f7596708bbeae5efc5d7693c34e4fb8b2a34d0594409fcb55ca74102d3"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "83673027a49292e0362db6b5ebb73528e28a02525c9ea9c8a14d6e0afafc1a67"}}}}
+ep 1 batch 0/2 loss 1.5714 lr 4.04e-04 seq/s 30.4
+FIT {"epoch": 1, "train_seconds": 0.1, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 4, "amp_skipped_updates": 0, "optimizer_completed_updates": 4, "ema_updates": 4, "completed_batches": 2}, "cumulative": {"optimizer_attempts": 8, "amp_skipped_updates": 0, "optimizer_completed_updates": 8, "ema_updates": 8, "completed_batches": 4}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 2, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "af4fd74a38fb36f5f286710e059d38acc6360a6c93d047c508863f59c8f76ee1"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "af4fd74a38fb36f5f286710e059d38acc6360a6c93d047c508863f59c8f76ee1"}, "num_workers": 2, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 4}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "de0770f7596708bbeae5efc5d7693c34e4fb8b2a34d0594409fcb55ca74102d3"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "83673027a49292e0362db6b5ebb73528e28a02525c9ea9c8a14d6e0afafc1a67"}}}}
+ep 2 batch 0/2 loss 1.5625 lr 1.93e-05 seq/s 27.1
+FIT {"epoch": 2, "train_seconds": 0.1, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 4, "amp_skipped_updates": 0, "optimizer_completed_updates": 4, "ema_updates": 4, "completed_batches": 2}, "cumulative": {"optimizer_attempts": 12, "amp_skipped_updates": 0, "optimizer_completed_updates": 12, "ema_updates": 12, "completed_batches": 6}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 2, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "d23b16d389e8769363fecc29a7874e37477e31f37f8c639a8bb7724d8c4b41ed"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "d23b16d389e8769363fecc29a7874e37477e31f37f8c639a8bb7724d8c4b41ed"}, "num_workers": 2, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 4}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "de0770f7596708bbeae5efc5d7693c34e4fb8b2a34d0594409fcb55ca74102d3"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "83673027a49292e0362db6b5ebb73528e28a02525c9ea9c8a14d6e0afafc1a67"}}}}
+SELECTED_FIXED 2
+{"name": "interrupted", "device": "cuda", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 4, "layers": 1, "dropout": 0.0, "chunk": 4, "update_rows": 0, "detach_rows": 0, "batch": 2, "epochs": 3, "stop_after_epoch": 0, "checkpoint_policy": "fixed", "checkpoint_epoch": 2, "no_eval_during_fit": true, "split_manifest": null, "save_training_state": true, "resume_state": null, "lr": 0.001, "wd": 0.01, "optim": "adamw", "muon_scope": "rnn", "beta2": 0.999, "sched": "onecycle", "wsd_decay": 0.2, "wsd_final": 0.01, "rnn_init": "default", "chrono_tmax": 2000.0, "clip": 1.0, "grad_stats": false, "loss": "wmse", "thin_prob": 0.0, "thin_range": "0.1,0.4", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "teacher", "distill_alpha": 0.5, "distill_alpha_far": null, "distill_alpha_tau": 32.0, "distill_boot_h": 0, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "tcn_mix": 0, "decay_init": "multi", "memory_arm": "endpoint-content", "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "dev", "valid_fold": -1, "n_valid_folds": 4, "valid_repeat": 1, "init": "", "inherit_init_preprocessing": false, "freeze": "", "ema_teacher": 1.0, "ema_metric_weight": false, "ema_decay": 0.999, "ema_reference_rows": 0, "eval_ema": true, "mask_weight": false, "propensity": "", "prop_power": 1.0, "prop_eps": 0.0, "class_weight": "", "valid_true_mask": -1.0, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "loss_norm": "chunk", "distill_denominator": "chunk", "distill_reference_mass": 0.0, "denominator_shuffle_seed": 314159, "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "optim_switch": "", "warmup_frac": null, "restarts": 1, "head_lr_mult": 1.0, "clip_per_module": "", "grad_noise": 0.0, "zoneout": 0.0, "init_qmc": false, "batch_order": "random", "antithetic": false}
+{"source_train_sequences": 4, "eligible_valid_train_sequences": 4, "used_valid_train_sequences": 4, "eval_sequences": 4}
+loader workers 2 prefetch 2; params 0.00M; steps 12
+ep 0 batch 0/2 loss 1.5839 lr 8.95e-04 seq/s 29.8
+FIT {"epoch": 0, "train_seconds": 0.1, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 4, "amp_skipped_updates": 0, "optimizer_completed_updates": 4, "ema_updates": 4, "completed_batches": 2}, "cumulative": {"optimizer_attempts": 4, "amp_skipped_updates": 0, "optimizer_completed_updates": 4, "ema_updates": 4, "completed_batches": 2}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 2, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "b5cd4726727a55c55e7d9aa7829525f6531c01d3a29e10938682134e5cd22a25"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "b5cd4726727a55c55e7d9aa7829525f6531c01d3a29e10938682134e5cd22a25"}, "num_workers": 2, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 4}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "de0770f7596708bbeae5efc5d7693c34e4fb8b2a34d0594409fcb55ca74102d3"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "83673027a49292e0362db6b5ebb73528e28a02525c9ea9c8a14d6e0afafc1a67"}}}}
+SELECTED_FIXED 2
+{"name": "resumed", "device": "cuda", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 4, "layers": 1, "dropout": 0.0, "chunk": 4, "update_rows": 0, "detach_rows": 0, "batch": 2, "epochs": 3, "stop_after_epoch": null, "checkpoint_policy": "fixed", "checkpoint_epoch": 2, "no_eval_during_fit": true, "split_manifest": null, "save_training_state": true, "resume_state": "/tmp/pytest-of-vlad/pytest-18/test_real_main_epoch_resume_an0/artifacts/runs/interrupted/training_state.pt", "lr": 0.001, "wd": 0.01, "optim": "adamw", "muon_scope": "rnn", "beta2": 0.999, "sched": "onecycle", "wsd_decay": 0.2, "wsd_final": 0.01, "rnn_init": "default", "chrono_tmax": 2000.0, "clip": 1.0, "grad_stats": false, "loss": "wmse", "thin_prob": 0.0, "thin_range": "0.1,0.4", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "teacher", "distill_alpha": 0.5, "distill_alpha_far": null, "distill_alpha_tau": 32.0, "distill_boot_h": 0, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "tcn_mix": 0, "decay_init": "multi", "memory_arm": "endpoint-content", "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "dev", "valid_fold": -1, "n_valid_folds": 4, "valid_repeat": 1, "init": "", "inherit_init_preprocessing": false, "freeze": "", "ema_teacher": 1.0, "ema_metric_weight": false, "ema_decay": 0.999, "ema_reference_rows": 0, "eval_ema": true, "mask_weight": false, "propensity": "", "prop_power": 1.0, "prop_eps": 0.0, "class_weight": "", "valid_true_mask": -1.0, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "loss_norm": "chunk", "distill_denominator": "chunk", "distill_reference_mass": 0.0, "denominator_shuffle_seed": 314159, "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "optim_switch": "", "warmup_frac": null, "restarts": 1, "head_lr_mult": 1.0, "clip_per_module": "", "grad_noise": 0.0, "zoneout": 0.0, "init_qmc": false, "batch_order": "random", "antithetic": false}
+{"source_train_sequences": 4, "eligible_valid_train_sequences": 4, "used_valid_train_sequences": 4, "eval_sequences": 4}
+loader workers 2 prefetch 2; params 0.00M; steps 12
+ep 1 batch 0/2 loss 1.5714 lr 4.04e-04 seq/s 33.8
+FIT {"epoch": 1, "train_seconds": 0.1, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 4, "amp_skipped_updates": 0, "optimizer_completed_updates": 4, "ema_updates": 4, "completed_batches": 2}, "cumulative": {"optimizer_attempts": 8, "amp_skipped_updates": 0, "optimizer_completed_updates": 8, "ema_updates": 8, "completed_batches": 4}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 2, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "af4fd74a38fb36f5f286710e059d38acc6360a6c93d047c508863f59c8f76ee1"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "af4fd74a38fb36f5f286710e059d38acc6360a6c93d047c508863f59c8f76ee1"}, "num_workers": 2, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 4}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "de0770f7596708bbeae5efc5d7693c34e4fb8b2a34d0594409fcb55ca74102d3"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "83673027a49292e0362db6b5ebb73528e28a02525c9ea9c8a14d6e0afafc1a67"}}}}
+ep 2 batch 0/2 loss 1.5625 lr 1.93e-05 seq/s 30.5
+FIT {"epoch": 2, "train_seconds": 0.1, "evaluation": "withheld", "update_diagnostics": {"epoch": {"optimizer_attempts": 4, "amp_skipped_updates": 0, "optimizer_completed_updates": 4, "ema_updates": 4, "completed_batches": 2}, "cumulative": {"optimizer_attempts": 12, "amp_skipped_updates": 0, "optimizer_completed_updates": 12, "ema_updates": 12, "completed_batches": 6}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 2, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "d23b16d389e8769363fecc29a7874e37477e31f37f8c639a8bb7724d8c4b41ed"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "d23b16d389e8769363fecc29a7874e37477e31f37f8c639a8bb7724d8c4b41ed"}, "num_workers": 2, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 4}, "normalization_identity": {"mean": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "de0770f7596708bbeae5efc5d7693c34e4fb8b2a34d0594409fcb55ca74102d3"}, "std": {"shape": [211], "dtype": "torch.float32", "bytes_sha256": "83673027a49292e0362db6b5ebb73528e28a02525c9ea9c8a14d6e0afafc1a67"}}}}
+SELECTED_FIXED 2
+=============================== warnings summary ===============================
+tests/test_trainer_resume_integration.py: 32 warnings
+  /home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/multiprocessing/popen_fork.py:67: DeprecationWarning: This process (pid=339233) is multi-threaded, use of fork() may lead to deadlocks in the child.
+    self.pid = os.fork()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_trainer_resume_integration.py::test_real_main_epoch_resume_and_completed_export[False]
+1 failed, 1 passed, 32 warnings in 4.09s

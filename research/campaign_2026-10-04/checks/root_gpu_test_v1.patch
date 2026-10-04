@@ -1,0 +1,45 @@
+diff --git a/tests/test_trainer_resume_integration.py b/tests/test_trainer_resume_integration.py
+index ff1dcc6..84a7535 100644
+--- a/tests/test_trainer_resume_integration.py
++++ b/tests/test_trainer_resume_integration.py
+@@ -1,6 +1,7 @@
+ from __future__ import annotations
+ 
+ import json
++import os
+ import sys
+ from pathlib import Path
+ 
+@@ -47,18 +48,21 @@ def test_real_main_epoch_resume_and_completed_export(
+ ) -> None:
+     """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+     _repository(tmp_path)
++    device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
++    if device == "cuda":
++        assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+     monkeypatch.setattr(training, "ROOT", tmp_path)
+     monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+     monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+     monkeypatch.setattr(training, "WARMUP", 1)
+     monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+     monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+-    monkeypatch.setenv("WNN_LOADER_WORKERS", "0")
++    monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+     monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+     base = [
+         "train_rnn.py",
+         "--device",
+-        "cpu",
++        device,
+         "--train-source",
+         "valid",
+         "--full-valid",
+@@ -93,6 +97,8 @@ def test_real_main_epoch_resume_and_completed_export(
+         "3",
+         "--save-training-state",
+     ]
++    if device == "cuda":
++        base += ["--fast"]
+     if controlled:
+         base += [
+             "--chunk",

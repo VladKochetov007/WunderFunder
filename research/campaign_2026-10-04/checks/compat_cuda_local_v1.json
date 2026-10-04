@@ -1,0 +1,47 @@
+{
+  "kind": "compatibility_only",
+  "device_requested": "cuda",
+  "python": "3.13.9",
+  "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-compat-cuda-v1.service\n",
+  "environment": {
+    "WNN_THREADS": "4",
+    "WNN_GPU_MEMORY_BYTES": "4200000000",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8"
+  },
+  "checks": [
+    {
+      "batch": 1,
+      "rows": 64,
+      "hidden": 16,
+      "loss": 1.135811686515808,
+      "grad_norm": 0.1536508947610855,
+      "split_max_abs": 2.9802322387695312e-08,
+      "peak_allocator_bytes": 67320320,
+      "peak_reserved_bytes": 69206016
+    },
+    {
+      "batch": 16,
+      "rows": 1000,
+      "hidden": 256,
+      "loss": 1.005983829498291,
+      "grad_norm": 0.061338916420936584,
+      "split_max_abs": 0.0,
+      "peak_allocator_bytes": 296646144,
+      "peak_reserved_bytes": 369098752
+    }
+  ],
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "cudnn": 92400,
+  "hardware": {
+    "name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "total_bytes": 6141509632,
+    "capability": [
+      8,
+      6
+    ]
+  },
+  "status": "passed",
+  "wall_seconds": 2.149978970999655
+}

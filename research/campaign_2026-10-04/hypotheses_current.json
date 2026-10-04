@@ -1,0 +1,1613 @@
+{
+  "source": "research/hypotheses.jsonl",
+  "events": "hypothesis_status_events.jsonl",
+  "hypotheses": [
+    {
+      "id": "H-001",
+      "mechanism_family": "target clock",
+      "statement": "Targets change only on rows where i0 bid and ask price columns both update.",
+      "predicted_observable": "zero target changes on rows without a joint i0 price event",
+      "falsifier": "any target change on a non-event row",
+      "status": "supported",
+      "evidence": [
+        "E-001"
+      ],
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-002",
+      "mechanism_family": "market classes",
+      "statement": "Each sequence's targets are integer multiples of one of four quanta {0.12543,0.24133,0.46854,0.65687}, defining market classes with different tick regimes.",
+      "falsifier": "non-integer multiples or other quanta",
+      "status": "supported",
+      "evidence": [
+        "E-001",
+        "E-002"
+      ],
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-003",
+      "mechanism_family": "feature encoding",
+      "statement": "Features are rank-Gauss transformed: bounded near +-2.326 (Phi^-1(0.99)) with sentinel -5.19934 = Phi^-1(1e-7) for missing values.",
+      "falsifier": "values outside that support other than the sentinel",
+      "status": "probing",
+      "evidence": [
+        "E-001"
+      ],
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-004",
+      "mechanism_family": "data scaling",
+      "statement": "Training the row-clock GRU on all 10,607 sequences for more epochs lifts validation WP well above baseline.",
+      "predicted_observable": ">= +0.05 WP over 1024-seq run",
+      "falsifier": "gain < 0.02",
+      "status": "refuted",
+      "evidence": [
+        "E-006",
+        "E-007"
+      ],
+      "notes": "1024x1 epoch 0.596 (valid256) vs full x2 epochs 0.596 (valid600); class 3 stays 0.35-0.44.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-005",
+      "mechanism_family": "native rewrite",
+      "statement": "A Rust per-row GRU kernel is several times faster than onnxruntime for the dense GRU 256x2.",
+      "falsifier": "< 1.5x speedup",
+      "status": "refuted",
+      "evidence": [
+        "E-004",
+        "E-005"
+      ],
+      "notes": "Rust 112 us vs ORT 119 us; all dense kernels 12-15 GFLOPS on this host; FLOP-bound.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-006",
+      "mechanism_family": "sparse compute",
+      "statement": "Skipping zero input columns in the input projection cuts its cost proportional to density.",
+      "status": "supported",
+      "evidence": [
+        "E-005"
+      ],
+      "notes": "5.6 vs 16.6 us at 1/3 density (microbenchmark, not yet in model).",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-007",
+      "mechanism_family": "scoring mask",
+      "statement": "is_scored is predictable from causal features, so propensity-weighted training aligns the loss with scored rows.",
+      "predicted_observable": "AUC > 0.75; weighted training improves WP",
+      "falsifier": "AUC < 0.6 or no WP gain",
+      "status": "supported",
+      "evidence": [
+        "E-008",
+        "E-031",
+        "E-034",
+        "E-036",
+        "E-038"
+      ],
+      "notes": "propensity AUC 0.911; weighting adds +0.02 (fine-tune) to +0.034 (full training).",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-008",
+      "mechanism_family": "state history",
+      "statement": "Class-3 targets are a function of recent event-clock book states, so event-lag features fix class 3.",
+      "falsifier": "metric-true class-3 WP does not improve",
+      "status": "refuted",
+      "evidence": [
+        "E-009",
+        "E-010"
+      ],
+      "notes": "Event rows 0.708-0.832 but metric-true 0.017-0.024: long quiet visits dominate scored rows; evaluating on event rows was an artifact.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-009",
+      "mechanism_family": "next break",
+      "statement": "Class-3 WP is bounded by predictability of the next book-state change during a visit.",
+      "predicted_observable": "known next state lifts class-3 metric far above snapshot models",
+      "status": "supported",
+      "evidence": [
+        "E-011"
+      ],
+      "notes": "next 1 state oracle 0.773, next 4 states 0.871; current state only 0.009.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-010",
+      "mechanism_family": "queue imbalance",
+      "statement": "Snapshot queue/flow features (volumes, depletion since event, trades, i1, a*) predict class-3 break direction throughout the visit.",
+      "falsifier": "AUC near 0.5 more than ~20 rows before the break",
+      "status": "refuted",
+      "evidence": [
+        "E-012",
+        "E-013"
+      ],
+      "notes": "AUC 0.997 at 1 row, 0.83 at 6-20, 0.59 at 21-100, 0.55 at >100; row-weighted visit length 247. Class-3 HGB/linear metric 0.33-0.36.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-011",
+      "mechanism_family": "in-context Markov",
+      "statement": "Online (per-sequence, label-free) transition statistics of book states predict the next break direction early in a visit, lifting class 3.",
+      "predicted_observable": "break-direction AUC > 0.7 at >20 rows before break with Markov features",
+      "falsifier": "AUC gain < 0.03 over E-013 features",
+      "status": "refuted",
+      "evidence": [
+        "E-014"
+      ],
+      "notes": "AUC 21-100 rows 0.605 vs 0.602 snapshot; class-3 WP 0.340 vs 0.351.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-012",
+      "mechanism_family": "scoring mask",
+      "statement": "Class-3 scored rows concentrate just before breaks, so near-break weighting would lift class 3.",
+      "falsifier": "scored rows not closer to breaks than unscored rows",
+      "status": "refuted",
+      "evidence": [
+        "E-016"
+      ],
+      "notes": "Class-3 scored rows are farther from breaks: 57% of |y|-weighted scored rows are >=21 rows away vs 38% of unscored rows. Class 2 shows the opposite pattern.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-013",
+      "mechanism_family": "cross-instrument lead-lag / error correction",
+      "statement": "i1 price moves lead i0 breaks, so i1 moves accumulated since the last i0 break predict break direction far from the break.",
+      "falsifier": "univariate AUC < 0.55 at 21-1000 rows in class 3",
+      "status": "refuted",
+      "evidence": [
+        "E-017"
+      ],
+      "notes": "Class 3 best AUC 0.53; class 0 0.58 at 101-1000 rows. Sign-cumsum encoding; a proper cointegration residual on reconstructed levels is not yet tested (H-015).",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-014",
+      "mechanism_family": "bound",
+      "statement": "Class-3 WP is capped near 0.42-0.50 because break direction is only predictable within ~20 rows of a break.",
+      "predicted_observable": "oracle limited to near-break horizon reproduces model scores",
+      "status": "supported",
+      "evidence": [
+        "E-013",
+        "E-014",
+        "E-018",
+        "E-021"
+      ],
+      "notes": "Caveat: E-018 no-future baseline used only current and previous state; E-021 then showed long-memory level deviation adds nothing, so the conclusion stands but the bound is not rigorous. Perfect next-state knowledge within 20 rows gives 0.420, within 100 rows 0.615. With class shares ~25/17/19/38% an overall 0.80 needs classes 0-2 near 1.0 or class-3 direction knowledge ~500 rows ahead.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-015",
+      "mechanism_family": "target definition",
+      "statement": "Targets are future level changes over a horizon on the event clock (t0 ~ future bid - current ask, t1 ~ current bid - future ask), which would make past targets computable online after the horizon.",
+      "predicted_observable": "exact or near-exact reconstruction of targets from later features",
+      "falsifier": "reconstruction correlation stays < 0.8 with better level recovery",
+      "status": "probing",
+      "evidence": [
+        "E-015"
+      ],
+      "notes": "Class-3 targets are -1/0 quanta with mean ~-1 and corr(t0,t1) ~-0.93, consistent with spread-crossing definitions; sign-cumsum levels reach r 0.5-0.6 at K 8-16 events (classes 0-2) and 1-4 events (class 3). Raw p columns are not levels (r ~0).",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-016",
+      "mechanism_family": "error correction / level deviation",
+      "statement": "Class-3 targets are anchor minus current price with a slow anchor, so a label-free level reconstruction from price jumps and its deviation from an EMA equilibrium predicts targets.",
+      "representation_change": "rebuild the unobserved price level from L2 differences",
+      "causal_mechanism": "mean reversion toward a slowly moving fair value",
+      "predicted_observable": "class-3 WP > 0.5 from Q - EMA(Q)",
+      "falsifier": "class-3 WP < 0.1",
+      "status": "refuted",
+      "evidence": [
+        "E-019",
+        "E-020",
+        "E-021"
+      ],
+      "notes": "Price jumps explain 90% of target-jump variance at class-3 events (bounce), but decoded jump sums score ~0 while true jump sums score 0.82: large target jumps are anchor changes, i.e. future information. The -3/+5 jump in research/visual/02 exceeds the +2 price move.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-017",
+      "mechanism_family": "memory layout / activation approximation",
+      "statement": "A 64-byte-aligned weight arena in access order, zero-alloc stepping, folded-normalization sparse input and vectorizable bounded-error activations speed up the per-row GRU by >= 1.5x.",
+      "representation_change": "treat the step as a cache/branch problem instead of a BLAS problem",
+      "causal_mechanism": "fewer cache misses, no libm calls, skipped zero columns",
+      "predicted_observable": ">= 1.5x at hidden 256",
+      "falsifier": "< 1.2x at hidden 256",
+      "status": "refuted",
+      "evidence": [
+        "E-022"
+      ],
+      "notes": "1.15x at hidden 256 (FLOP-bound), 1.25x at 192, 1.46x at 128 with target-cpu=native; portable x86-64-v3 1.11-1.12x. Errors: exact path < 2e-5, approx path < 1e-4 after 300 steps; sigmoid < 2e-6, tanh < 4e-6, GELU < 5e-6.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-018",
+      "mechanism_family": "loss alignment",
+      "statement": "Training directly on the competition objective (weighted Pearson loss per TBPTT chunk) beats the mixed corr + weighted-MSE loss.",
+      "falsifier": "pure corr loss scores below mix on dev600",
+      "status": "refuted",
+      "evidence": [
+        "E-023"
+      ],
+      "notes": "corr 0.294/0.257 vs mix 0.604/0.598 (epochs 0/1). Per-chunk correlation is degenerate when class-3 targets are constant within a 2000-row chunk.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-019",
+      "mechanism_family": "distribution shift",
+      "statement": "Train and validation differ in market-class mix; matching the validation mix by weighted sampling improves validation WP.",
+      "predicted_observable": "class-balanced arm > control on dev600, gains in classes 0/1",
+      "falsifier": "no gain beyond seed noise under paired bootstrap",
+      "status": "probing",
+      "evidence": [
+        "E-024"
+      ],
+      "notes": "train 12.3/11.9/32.9/43.0% vs valid 21.2/18.5/23.0/37.2%.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-020",
+      "mechanism_family": "architecture / dual clock",
+      "statement": "An event-clock GRU stepping only on i0 price events, alongside the row GRU, carries event-level state across long quiet visits and lifts classes 2-3.",
+      "representation_change": "two clocks: rows and price events",
+      "causal_mechanism": "row GRU must hold event information over hundreds of rows; the event GRU sees each price event once",
+      "predicted_observable": ">= +0.005 dev WP, gains in classes 2/3",
+      "falsifier": "paired bootstrap CI includes 0 and class 2/3 unchanged",
+      "status": "refuted",
+      "evidence": [
+        "E-056"
+      ],
+      "notes": "dual clock 0.6305 vs row GRU 0.6310; classes 2/3 unchanged.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-021",
+      "mechanism_family": "data cleaning",
+      "statement": "Sentinel -5.19934 (missing) values distort per-column normalization; replacing them with a neutral value plus missing flags improves WP.",
+      "falsifier": "no gain under paired bootstrap",
+      "status": "open",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-022",
+      "mechanism_family": "factorization by market class",
+      "statement": "Class experts (or a model trained without class-3 dominance) lift classes 0-2, where headroom exists.",
+      "representation_change": "partition by causally inferable tick regime",
+      "causal_mechanism": "43% class-3 train data pulls shared capacity toward large-tick dynamics while validation is 40% classes 0/1",
+      "predicted_observable": "classes 0-2 dev WP +0.02 for a class-0-2-only model",
+      "falsifier": "classes 0-2 within CI of the joint model",
+      "cheap_test": "train on class 0-2 train sequences, score classes 0-2 on dev with oracle class",
+      "status": "refuted",
+      "committed_at": "2026-09-15",
+      "evidence": [
+        "E-055"
+      ],
+      "notes": "expert on classes 0-2: 0.779/0.754/0.715 vs joint 0.777-0.778/0.753/0.716-0.718."
+    },
+    {
+      "id": "H-023",
+      "mechanism_family": "objective derivation",
+      "statement": "The WP-optimal prediction is E[m|y|y|x]/E[m|y||x] with m = is_scored; training with mask x |y| weights beats |y| weights alone.",
+      "representation_change": "treat the scoring mask as part of the measure, not as evaluation bookkeeping",
+      "causal_mechanism": "is_scored is predictable from x (AUC 0.82) and may covary with y given x",
+      "predicted_observable": "devB WP gain of mask-weighted over plain fine-tune on devA",
+      "falsifier": "paired bootstrap CI includes 0",
+      "cheap_test": "2x2 factorial with H-025 on devA->devB",
+      "status": "supported",
+      "committed_at": "2026-09-15",
+      "evidence": [
+        "E-030",
+        "E-033"
+      ],
+      "notes": "devB: mask-weighted 0.6306 (seeds 1 and 2) vs plain 0.6012/0.5998; all classes up, class 3 +0.06. Independent audit pending."
+    },
+    {
+      "id": "H-024",
+      "mechanism_family": "instrumentation",
+      "statement": "Residual decomposition by class x rows-to-break x |y| locates recoverable error in classes 0-2.",
+      "cheap_test": "per-row weighted residual contributions of the best checkpoint on dev",
+      "falsifier": "losses spread uniformly with no actionable slice",
+      "status": "proposed",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-025",
+      "mechanism_family": "recency / distribution shift",
+      "statement": "Validation-period data is closer to test conditions; fine-tuning on devA improves devB more than the same amount of extra train data.",
+      "representation_change": "treat time period as a domain; online-learning analogue of the Jane Street 8th place",
+      "causal_mechanism": "class mix and likely dynamics drift between periods (E-024)",
+      "predicted_observable": "devA fine-tune > train-data continuation > frozen base on devB",
+      "falsifier": "devA fine-tune within CI of the train-data continuation",
+      "cheap_test": "fine-tune ab1_A_mix on 741 devA sequences",
+      "status": "inconclusive",
+      "committed_at": "2026-09-15",
+      "evidence": [
+        "E-030"
+      ],
+      "notes": "devA plain fine-tune 0.6012 vs extra train data 0.6017: classes 0-2 +0.007..0.009, class 3 -0.014."
+    },
+    {
+      "id": "H-026",
+      "mechanism_family": "auxiliary targets",
+      "statement": "Auxiliary heads predicting the target 20 and 200 rows ahead (Jane Street multi-responder pattern) regularize the main head.",
+      "falsifier": "dev600 WP below the mix control",
+      "status": "refuted",
+      "evidence": [
+        "E-027"
+      ],
+      "notes": "0.512 vs 0.598; class 2 collapses to 0.39. Far-horizon row-shifted targets in sparse-event classes are mostly unpredictable future anchor changes and their gradients dominate shared capacity.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-027",
+      "mechanism_family": "capacity / data",
+      "statement": "More recurrent capacity lifts WP; with limited data the gain is only realized with early stopping or more sequences.",
+      "status": "probing",
+      "evidence": [
+        "E-028"
+      ],
+      "notes": "h384 epoch0 0.6096 vs h256 0.6036 (+0.006, single seed, not yet bootstrapped); both degrade in epoch 1 on 3000 sequences.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-028",
+      "mechanism_family": "near-break reaction",
+      "statement": "Class-0/1 models under-react to imminent large moves one to a few rows before a price break, where direction is observable; a sharper near-break pathway (event-time features, dual clock, or a dedicated head) recovers that gap.",
+      "representation_change": "treat the pre-break window as a separate regime",
+      "causal_mechanism": "row GRU smooths over the short pre-break window; the metric's |y| weights concentrate there in class 0",
+      "predicted_observable": "class-0 WP +0.03 with gap at rows_to_break=1 shrinking",
+      "falsifier": "class-0 gap at 1 row unchanged",
+      "cheap_test": "re-run E-029 decomposition on the dual-clock arm",
+      "status": "refuted",
+      "evidence": [
+        "E-029",
+        "E-056"
+      ],
+      "committed_at": "2026-09-15",
+      "notes": "dual clock did not change class-0 or class-2/3 scores."
+    },
+    {
+      "id": "H-029",
+      "mechanism_family": "importance weighting",
+      "statement": "Tempering propensity weights p^alpha trades bias for variance; alpha != 1 beats alpha = 1.",
+      "representation_change": "loss as importance-weighted risk under the scoring distribution",
+      "causal_mechanism": "high-variance weights overfit rare high-propensity rows; low alpha under-focuses",
+      "predicted_observable": "devB WP differs by >= 0.005 between alpha 0.5/1/2",
+      "falsifier": "all within 0.003",
+      "cheap_test": "devA fine-tunes with p^0.5, p^1, p^2",
+      "status": "supported",
+      "committed_at": "2026-09-15",
+      "evidence": [
+        "E-039",
+        "E-048"
+      ],
+      "notes": "power 1 0.6290 (h256), power 2 0.6332 (h256) / 0.6310-0.6314 (h128), power 3 0.6293 (h128): optimum near 2."
+    },
+    {
+      "id": "H-030",
+      "mechanism_family": "training regime",
+      "statement": "Training from scratch on all train sequences with propensity weights exceeds devA fine-tuning gains.",
+      "falsifier": "devB WP <= 0.6306",
+      "status": "supported",
+      "notes": "full train propensity-weighted 0.6290 vs plain 0.5950 (devB). Does not exceed devA mask fine-tune 0.6339 but uses no validation targets.",
+      "committed_at": "2026-09-15",
+      "evidence": [
+        "E-038"
+      ]
+    },
+    {
+      "id": "H-031",
+      "mechanism_family": "scoring rule inversion",
+      "statement": "is_scored is (nearly) a deterministic function of near-future events; adding K future rows lifts propensity AUC toward 1.",
+      "representation_change": "invert the grader's sampling rule",
+      "causal_mechanism": "organizers select rows around future trades/events",
+      "predicted_observable": "AUC >= 0.97 with <= 20 future rows",
+      "falsifier": "AUC gain < 0.02 with 100 future rows",
+      "cheap_test": "HGB on causal flags plus lead flags, devA fit, devB AUC",
+      "status": "refuted",
+      "committed_at": "2026-09-15",
+      "evidence": [
+        "E-037"
+      ],
+      "notes": "flags+20 future rows AUC 0.711 vs flags-only 0.674; GRU causal propensity 0.911."
+    },
+    {
+      "id": "H-032",
+      "mechanism_family": "factorization by scoring regime",
+      "statement": "A propensity-gated mixture (separate heads for high- and low-propensity rows) improves on single-head weighting.",
+      "falsifier": "no gain over H-023/H-007 weighting",
+      "status": "proposed",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-033",
+      "mechanism_family": "deployability frontier",
+      "statement": "A propensity-weighted GRU small enough for the 1-vCPU budget (hidden 128-192) keeps most of the +0.034 gain.",
+      "representation_change": "optimize WP subject to per-row latency",
+      "causal_mechanism": "weighting shifts capacity to scored regimes, which may need less total capacity",
+      "predicted_observable": "h192 devB >= 0.62, h128 >= 0.61",
+      "falsifier": "h192 < 0.60",
+      "cheap_test": "full-train propensity arms at hidden 192 and 128",
+      "estimated_cost": {
+        "gpu_minutes": 25
+      },
+      "status": "supported",
+      "committed_at": "2026-09-15",
+      "evidence": [
+        "E-039",
+        "E-040",
+        "E-042"
+      ],
+      "notes": "devB: h256 0.6332, h192 0.6317, h128 0.6310 (propensity power 2). Rust FastRnn h128 ~31 us/row."
+    },
+    {
+      "id": "H-034",
+      "mechanism_family": "regime conditioning",
+      "statement": "Feeding the causal propensity p(x) as an input feature (not only as a loss weight) improves WP.",
+      "representation_change": "make the scoring regime an observed state",
+      "causal_mechanism": "the model can specialize predictions per regime instead of only reweighting errors",
+      "predicted_observable": "+0.005 devB over E-038",
+      "falsifier": "within 0.003",
+      "status": "refuted",
+      "committed_at": "2026-09-15",
+      "evidence": [
+        "E-045"
+      ],
+      "notes": "0.6315 vs 0.6332 without the input column."
+    },
+    {
+      "id": "H-035",
+      "mechanism_family": "stacking / recency",
+      "statement": "Mask-weighted devA fine-tuning on top of the full-train propensity model adds beyond either alone.",
+      "predicted_observable": "devB > 0.6339",
+      "falsifier": "devB <= 0.6339",
+      "notes": "0.6389 (epoch 0) vs 0.6332/0.6339; uses validation masks and targets (human gate for final model).",
+      "status": "supported",
+      "committed_at": "2026-09-15",
+      "evidence": [
+        "E-045"
+      ]
+    },
+    {
+      "id": "H-036",
+      "mechanism_family": "deployment",
+      "statement": "A single stateful ONNX graph (features + GRU) runs within the 1-vCPU budget at hidden <= 192 once the feature block is fused into few ops.",
+      "predicted_observable": "<= 70 us/row pinned, no quota, exact vs batch",
+      "falsifier": "> 96 us/row at hidden 128",
+      "status": "supported",
+      "evidence": [
+        "E-041",
+        "E-043"
+      ],
+      "notes": "Native Rust Predictor (features + FastRnn) instead of ONNX: h128 39.7 us/row incl Python callback overhead; matches torch batch. ONNX single graph exact but 215-245 us/row at h256.",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-037",
+      "mechanism_family": "weight averaging",
+      "statement": "Averaging weights over the last 30% of steps (SWA) improves the h128 propensity model at zero inference cost.",
+      "predicted_observable": "+0.003 devB",
+      "falsifier": "within 0.002",
+      "cheap_test": "--swa-frac 0.3 on h128 pow2",
+      "status": "refuted",
+      "committed_at": "2026-09-15",
+      "evidence": [
+        "E-052"
+      ],
+      "notes": "SWA over last 30% of steps 0.6306 vs 0.6310 without."
+    },
+    {
+      "id": "H-038",
+      "mechanism_family": "representation / online normalization",
+      "statement": "Causal per-sequence running z-scores of key features make inputs regime-relative and lift cross-class generalization.",
+      "falsifier": "no devB gain over E-042",
+      "status": "proposed",
+      "notes": "requires numpy, torch, streaming and Rust feature twins",
+      "committed_at": "2026-09-15"
+    },
+    {
+      "id": "H-039",
+      "mechanism_family": "objective under importance weights",
+      "statement": "With propensity^2 x |y| weights, the weighted-MSE term alone is WP-optimal and beats the corr + 0.5 wMSE mix.",
+      "representation_change": "drop the per-chunk correlation term that is degenerate on constant-target chunks",
+      "predicted_observable": "+0.003 devB for --loss wmse",
+      "falsifier": "wmse below mix",
+      "status": "refuted",
+      "committed_at": "2026-09-15",
+      "evidence": [
+        "E-051"
+      ],
+      "notes": "wmse-only 0.6272 vs mix 0.6310."
+    },
+    {
+      "id": "H-040",
+      "date": "2026-09-25",
+      "status": "supported",
+      "statement": "The competition metric is now global (pooled) weighted Pearson; the target level (class/spread-driven, 18-20% of weighted variance) and output scale matter, which per-sequence WP ignored.",
+      "evidence": [
+        "E-060",
+        "E-061"
+      ]
+    },
+    {
+      "id": "H-041",
+      "date": "2026-09-25",
+      "status": "supported",
+      "statement": "Clip at +-2 punishes large-scale outputs: rescaling the organizer baseline by ~0.25 lifts validation WP 0.6171 -> 0.6728 (global) and 0.5896 -> 0.6316 (per-seq).",
+      "evidence": [
+        "E-061"
+      ]
+    },
+    {
+      "id": "H-042",
+      "date": "2026-09-25",
+      "status": "supported (class 3 exact); approximate for classes 0-2",
+      "statement": "Target law: with U = F - bid (common future price F, integer ticks) and current spread sp, t0 = U - sp and t1 = -U when F is inside [bid, ask]; above the ask t1 = -(sp+2); below the bid t0 = -(sp+2). Targets are a deterministic 1-D copula of (sp, U).",
+      "mechanism": "two trade PnLs (long at ask, short at bid) marked to one future price with a fixed loss for the losing side",
+      "evidence": [
+        "E-063",
+        "E-064",
+        "E-074"
+      ]
+    },
+    {
+      "id": "H-043",
+      "date": "2026-09-25",
+      "status": "supported",
+      "statement": "Knowing the branch (F below bid / inside spread / above ask) given class and spread gives WP 0.968; magnitude adds only 0.02. The problem reduces to 3-way classification plus analytic tilted readout.",
+      "evidence": [
+        "E-065"
+      ]
+    },
+    {
+      "id": "H-044",
+      "date": "2026-09-25",
+      "status": "refuted as causal gain: E-066 relied on oracle spread (E-073, E-074)",
+      "statement": "A rational readout p = sum_b P(b|x) M1_b / sum_b P(b|x) M0_b beats linear stacking on the same information (+0.015).",
+      "evidence": [
+        "E-066"
+      ]
+    },
+    {
+      "id": "H-045",
+      "date": "2026-09-25",
+      "status": "supported for class 3 in revised form: F = round(mean mid over next 4 book events), not a real-time horizon",
+      "statement": "F is the price at a fixed real-time horizon (rows are irregular in time); a-columns encode clocks. If found, past U become known online and give per-sequence supervision.",
+      "evidence": [
+        "E-062",
+        "E-064",
+        "E-079"
+      ]
+    },
+    {
+      "id": "H-046",
+      "date": "2026-09-25",
+      "status": "inconclusive",
+      "statement": "Loss: a branch/U categorical head trained with CE (propensity-weighted) and read out analytically beats wMSE, which beats Huber and per-sequence correlation losses.",
+      "falsifier": "Huber or wMSE >= CE-readout on the same backbone",
+      "historical_status": "proposed",
+      "status_correction": {
+        "hypothesis_id": "H-046",
+        "status": "inconclusive",
+        "evidence": [
+          "E-071",
+          "E-072"
+        ],
+        "reason": "Joint categorical readout was fitted. New factorized/current-baseline retest remains admitted as H-090.",
+        "recorded_at": "2026-10-04T01:13:06.186498+00:00",
+        "policy": "historical result; not an eligibility veto"
+      }
+    },
+    {
+      "id": "H-047",
+      "date": "2026-09-29",
+      "status": "rejected_for_public_incumbent_pair",
+      "statement": "The teammate's compact raw-plus-first-difference GRU trained with our causal since weighting and cross-fitted propensity mask improves the current public since/since pair.",
+      "mechanism": "First differences, periodic reset, pooled Global WP, since weighting, and cross-fitted soft-mask weights may provide a useful complementary prediction component.",
+      "evidence": "The merged model improved a different since/base reference pair, but adding it to the exact public since/since pair reduced score at every tested weight from 0.025 to 0.50 on OOF folds 0-1; both exact and lambda-0.02 intervals were below zero even at weight 0.025.",
+      "experiment": "E-269; research/merge_2026-09-29/CONTRACT.md; research/merge_2026-09-29/analysis_public_pair_f0_f1.json"
+    },
+    {
+      "id": "H-048",
+      "date": "2026-09-30",
+      "status": "proposed_not_fit",
+      "statement": "Stable structured recurrent state preserves useful multiscale evidence, complementary to the clean since/since pair.",
+      "mechanism": "Two-block width96 scalar/rotation state model; multi versus single timescale initialization, frozen80/20blend; source card B.",
+      "falsifier": "Matched control win and fixed-blend paired Global WP>=+0.0005, provenance/parity/resource passes; independent confirmation and expectation audit required.",
+      "artifact": "research/campaign_2026-09-30/proposals/architecture_cards.json"
+    },
+    {
+      "id": "H-049",
+      "date": "2026-09-30",
+      "status": "proposed_not_fit",
+      "statement": "Normalized content-addressed recurrent memory improves target WP over decay-matched positional memory.",
+      "mechanism": "Fixed row/event memory clocks, positive normalized linear attention; source card A.",
+      "falsifier": "Matched control win and fixed-blend paired Global WP>=+0.0005, provenance/parity/resource passes; independent confirmation and expectation audit required.",
+      "artifact": "research/campaign_2026-09-30/proposals/architecture_cards.json"
+    },
+    {
+      "id": "H-050",
+      "date": "2026-09-30",
+      "status": "proposed_not_fit",
+      "statement": "A causal specialist-state mixture improves the target map over hash routing and a universal operator.",
+      "mechanism": "Four always-updated cheap expert states and deterministic input-conditioned top1 readout; source card C.",
+      "falsifier": "Matched control win and fixed-blend paired Global WP>=+0.0005, provenance/parity/resource passes; independent confirmation and expectation audit required.",
+      "artifact": "research/campaign_2026-09-30/proposals/architecture_cards.json"
+    },
+    {
+      "id": "H-051",
+      "committed_at": "2026-09-30",
+      "mechanism_family": "data-derived endpoint content memory",
+      "statement": "Current a6 endpoint clock plus learned content retrieval retains useful event context beyond a periodic Walsh position control. Clock-source comparison tests a joint write/decay intervention.",
+      "status": "cpu_implementation_pending_independent_grade",
+      "evidence": [
+        "E-273"
+      ],
+      "preregistration": "research/campaign_2026-09-30/proposals/dataderived_cards.json",
+      "falsifier": "Fixed checkpoint candidate fails >=+0.0005 exact Global WP blend gain or fails matched position/code control; numeric or deployment parity fails.",
+      "expected_public_score": "unknown"
+    },
+    {
+      "id": "H-052",
+      "committed_at": "2026-09-30",
+      "mechanism_family": "matched present-spread label supervision",
+      "statement": "On the same TRAIN-code known rows, current-spread auxiliary can improve shared GRU representation over original future-proxy spread; original proxy may retain useful future-tail information.",
+      "status": "refuted",
+      "evidence": [
+        "E-272"
+      ],
+      "preregistration": "research/campaign_2026-09-30/spread_aux/preregistration.json",
+      "falsifier": "Frozen fixed-epoch replacement pair fails +0.0005 versus unchanged pair or does not beat original-proxy known-mask control; any group/mask/label leakage or parity problem.",
+      "expected_public_score": "unknown",
+      "historical_status": "cpu_cache_and_patch_pending_independent_grade",
+      "status_correction": {
+        "hypothesis_id": "H-052",
+        "status": "refuted",
+        "evidence": [
+          "E-287"
+        ],
+        "reason": "Historical tested current-spread auxiliary was null against matched continuation; current-baseline retest remains admitted.",
+        "recorded_at": "2026-10-04T01:13:06.186505+00:00",
+        "policy": "historical result; not an eligibility veto"
+      }
+    },
+    {
+      "id": "H-053",
+      "committed_at": "2026-09-30",
+      "mechanism_family": "shared inverse time coordinate",
+      "statement": "Two monotone age-like features may admit a nondegenerate common increment coordinate useful for variable-time state modeling. Physical units are not assumed.",
+      "status": "inconclusive",
+      "evidence": [
+        "E-274"
+      ],
+      "preregistration": "research/campaign_2026-09-30/data_reconstruction/inverse_clock/preregistration.json",
+      "falsifier": "Frozen support/noncollapse fails or normalized agreement depends on rare cells; no model follows until proof passes.",
+      "expected_public_score": "unknown",
+      "historical_status": "blocked_by_frozen_fit_gate_failure",
+      "status_correction": {
+        "hypothesis_id": "H-053",
+        "status": "inconclusive",
+        "evidence": [
+          "E-274"
+        ],
+        "reason": "Historical support/noncollapse gate failed; this was a scientific result, not a launch incident. New support probe remains admitted.",
+        "recorded_at": "2026-10-04T01:13:06.186506+00:00",
+        "policy": "historical result; not an eligibility veto"
+      }
+    },
+    {
+      "id": "H-054",
+      "committed_at": "2026-10-01",
+      "mechanism_family": "distillation + width (idea from teammate LB evidence; own code)",
+      "statement": "A GRU256 since-student distilled (alpha .5) from the fold's two GRU128 since parents, then GCLP FT, adds >= +0.0005 pooled Global WP when blended equally with the since pair on clean folds 0 and 1; head-only FT is predeclared as a second arm.",
+      "control": "clean since/since reference pair (c20260929_ft_since_s{3,4}_f{k})",
+      "falsifier": "pooled delta < +0.0005 or either fold negative or class delta < -0.0005",
+      "status": "supported",
+      "evidence": [],
+      "historical_status": "running",
+      "status_correction": {
+        "hypothesis_id": "H-054",
+        "status": "supported",
+        "evidence": [
+          "E-324",
+          "E-406"
+        ],
+        "reason": "Distilled D256 is a public0.6641 incumbent; old running status is stale. Additional improvements remain open.",
+        "recorded_at": "2026-10-04T01:13:06.186508+00:00",
+        "policy": "historical result; not an eligibility veto"
+      }
+    },
+    {
+      "id": "H-055",
+      "committed_at": "2026-10-01",
+      "mechanism_family": "objective alignment: pooled-memory correlation loss",
+      "statement": "GCLP FT whose correlation uses decayed pooled sums of earlier chunks (decay .995) follows the whole-pool Pearson gradient and beats batch-pooled gcorr FT, because batch-shared offsets/scales become visible.",
+      "control": "identical reference FT with batch gcorr (same parents, seed, steps)",
+      "falsifier": "pair delta < +0.0005 on folds 0+1",
+      "status": "refuted",
+      "evidence": [],
+      "historical_status": "queued",
+      "status_correction": {
+        "hypothesis_id": "H-055",
+        "status": "refuted",
+        "evidence": [
+          "E-291"
+        ],
+        "reason": "Historical pooled-memory configuration failed; no live queued job.",
+        "recorded_at": "2026-10-04T01:13:06.186509+00:00",
+        "policy": "historical result; not an eligibility veto"
+      }
+    },
+    {
+      "id": "H-056",
+      "committed_at": "2026-10-01",
+      "mechanism_family": "ensemble-aware head training (idea ranked by teammate, untested by them)",
+      "statement": "Jointly fine-tuning members' heads on the pooled correlation of their equal-weight average beats a matched solo extra head FT, since members' effective scale inside the raw average is otherwise untrained.",
+      "control": "joint_head_ft.py --mode solo (same rows, order, steps, schedule)",
+      "falsifier": "joint - solo < +0.0005 pooled or sign flip across folds",
+      "status": "refuted",
+      "evidence": [],
+      "historical_status": "implemented",
+      "status_correction": {
+        "hypothesis_id": "H-056",
+        "status": "refuted",
+        "evidence": [
+          "E-293"
+        ],
+        "reason": "Historical joint-head fit failed its comparison; no live implemented-only job.",
+        "recorded_at": "2026-10-04T01:13:06.186510+00:00",
+        "policy": "historical result; not an eligibility veto"
+      }
+    },
+    {
+      "id": "H-057",
+      "committed_at": "2026-10-01",
+      "mechanism_family": "cross-fitted convex blend weights",
+      "statement": "Convex member weights fitted on other folds' OOF rows improve the held-out fold over equal weights once members differ in type (GRU256 student vs GRU128 since).",
+      "control": "equal weights",
+      "falsifier": "cross-fitted - equal < +0.0002",
+      "status": "refuted",
+      "evidence": [],
+      "historical_status": "tool_ready",
+      "status_correction": {
+        "hypothesis_id": "H-057",
+        "status": "refuted",
+        "evidence": [
+          "E-292"
+        ],
+        "reason": "Historical learned blend-weight configuration failed; tool readiness is not an active hypothesis result.",
+        "recorded_at": "2026-10-04T01:13:06.186511+00:00",
+        "policy": "historical result; not an eligibility veto"
+      }
+    },
+    {
+      "id": "H-058",
+      "committed_at": "2026-10-01",
+      "mechanism_family": "recurrent seed bag with mixed cells (from Jane Street 2025 public-6th notebook eivolkova/public-lb-6th: 10 equal-weight GRU seeds + daily online refit)",
+      "statement": "An LSTM128 since member (seed 5, same recipe) adds diversity beyond GRU seeds: pair+LSTM equal thirds beats the pair by >= +0.0005 on clean folds 0 and 1. Online refit part of the source is not transferable (no labels at Wunder test time).",
+      "control": "clean since GRU pair; secondary control pair+d256",
+      "falsifier": "pooled delta < +0.0005, fold sign flip, or class delta < -0.0005",
+      "status": "open",
+      "evidence": [],
+      "source": "https://www.kaggle.com/code/eivolkova/public-lb-6th",
+      "historical_status": "queued",
+      "status_correction": {
+        "hypothesis_id": "H-058",
+        "status": "open",
+        "evidence": [
+          "E-345"
+        ],
+        "reason": "Exact LSTM128 idea differs from tested LSTM192 diversity negative; bounded current-baseline retest explicitly admitted.",
+        "recorded_at": "2026-10-04T01:13:06.186512+00:00",
+        "policy": "historical result; not an eligibility veto"
+      }
+    },
+    {
+      "id": "H-059",
+      "committed_at": "2026-10-02",
+      "mechanism_family": "noise-adaptive distillation (training-target design)",
+      "statement": "Distillation weight should grow with the label's distance to resolution: target = (1-a(u)) y + a(u) teacher with u = rows until the next target change (known at train time from y; inputs stay causal). Expected to beat a constant alpha because the alpha 0.7 gain is concentrated far from the next quote move (F5) where ~44-50% of the metric loss lives (F3).",
+      "control": "constant alpha 0.7 student, same teachers/seed/fold",
+      "falsifier": "<= +0.0005 vs constant alpha on folds 0/1",
+      "status": "proposed",
+      "evidence": [
+        "E-320",
+        "E-323"
+      ]
+    },
+    {
+      "id": "H-060",
+      "committed_at": "2026-10-02T04:20",
+      "mechanism_family": "distillation target quality (teacher ensemble)",
+      "statement": "At alpha 0.7 the student learns mostly from the teacher mean, so teacher quality bounds it. Adding the fold-bound alpha-0.7 GRU256 student to the two since GRU128 teachers (equal thirds) gives a better-denoised target and a better student, even though averaging that student with weaker members hurts at inference (E-326 D05_D07 -0.0009).",
+      "prediction": "te07_f0 (head-FT/parent mix) beats D07 (c20261001_d256a07_s3_f0 mix) by >= +0.0005 pooled on fold 0, gain concentrated in class 3",
+      "falsifier": "te07_f0 - D07 <= 0 pooled or class 3 negative",
+      "cost": "~65 GPU min (+ ~5 min teacher train export)",
+      "matched_control": "c20261001_d256a07_f0 (same seed, fold, recipe; teachers since s3+s4 only)",
+      "historical_status": null,
+      "status": "inconclusive",
+      "status_correction": {
+        "hypothesis_id": "H-060",
+        "status": "inconclusive",
+        "evidence": [
+          "E-337",
+          "E-339",
+          "E-355",
+          "E-406"
+        ],
+        "reason": "Teacher positive folds, negative/null final comparisons, public TE07.6636 below incumbent. Causal overlap explanation unproven.",
+        "recorded_at": "2026-10-04T01:13:06.186513+00:00",
+        "policy": "historical result; not an eligibility veto"
+      }
+    },
+    {
+      "id": "H-062",
+      "committed_at": "2026-10-02T04:50",
+      "mechanism_family": "weight averaging (zero inference cost)",
+      "statement": "Uniform soup of the student's fixed-epoch EMA checkpoints (ep2+ep3, ep1-3) beats the ep3 checkpoint: EMA 0.999 spans ~0.26 epoch (3,780 optimizer steps/epoch), a soup spans 1-2 epochs and flattens toward a wider optimum.",
+      "prediction": "soup23 parent >= ep3 parent +0.0002 pooled on fold 0 for both alpha 0.7 and 0.5 students",
+      "falsifier": "soup23 parent - ep3 parent <= 0 for alpha 0.7",
+      "cost": "~15 GPU min (3 predicts + one head FT)",
+      "matched_control": "c20261001_d256a07_s3_f0@ep3, c20261001_d256_s3_f0@ep3",
+      "historical_status": null,
+      "status": "refuted",
+      "status_correction": {
+        "hypothesis_id": "H-062",
+        "status": "refuted",
+        "evidence": [
+          "E-332"
+        ],
+        "reason": "Historical weight-soup configuration tested; missing status repaired in derived current view.",
+        "recorded_at": "2026-10-04T01:13:06.186514+00:00",
+        "policy": "historical result; not an eligibility veto"
+      }
+    },
+    {
+      "id": "H-063",
+      "committed_at": "2026-10-02T09:20",
+      "mechanism_family": "class-routed head mixing on one trunk (zero trunk cost)",
+      "statement": "Pre-registered from E-323 (parent better in class-3 long runs, head-FT better in classes 1-2): class 3 -> 0.75 parent/0.25 FT head, classes 0-2 -> 0.25/0.75, beats the 0.5/0.5 merged heads.",
+      "prediction": ">= +0.0002 pooled on the alpha-0.5 4-fold panel and same sign on alpha-0.7 folds 0-1 and holdout",
+      "falsifier": "RCH - M <= 0 on the 4-fold panel",
+      "historical_status": null,
+      "status": "refuted",
+      "status_correction": {
+        "hypothesis_id": "H-063",
+        "status": "refuted",
+        "evidence": [
+          "E-335"
+        ],
+        "reason": "Historical class-routed parent/head proposal null; not evidence against every learned specialist.",
+        "recorded_at": "2026-10-04T01:13:06.186515+00:00",
+        "policy": "historical result; not an eligibility veto"
+      }
+    },
+    {
+      "id": "H-064",
+      "committed_at": "2026-10-02T11:20",
+      "mechanism_family": "architecture diversity inside a distilled seed bag",
+      "statement": "Seed partners of the GRU256 student are 0.985-0.999 residual-correlated, so a bag gains only ~+0.0005 (holdout). A distilled LSTM student learns the same smooth teacher target (so it can be nearly as strong) with a different recurrence, giving lower residual correlation and a larger bag gain. LSTM192 is sized so GRU256 + LSTM192 can fit the runtime budget.",
+      "prediction": "on folds 0+1: pair(D05 GRU256 + LSTM192 student) beats pair(D05 + D07 GRU256) by >= +0.0003 pooled; LSTM192 standalone within 0.002 of D05",
+      "falsifier": "LSTM partner pair <= GRU partner pair on the 2-fold pool",
+      "cost": "~2 x 55 GPU min",
+      "matched_control": "pair D05+D07 (existing fold preds)",
+      "historical_status": null,
+      "status": "supported",
+      "status_correction": {
+        "hypothesis_id": "H-064",
+        "status": "supported",
+        "evidence": [
+          "E-333",
+          "E-342"
+        ],
+        "reason": "Small equal-seed bag gain supported locally; deployment and new structural-diversity experiments remain separate.",
+        "recorded_at": "2026-10-04T01:13:06.186516+00:00",
+        "policy": "historical result; not an eligibility veto"
+      }
+    },
+    {
+      "id": "H-065",
+      "name": "combo_complete",
+      "priority": "P0",
+      "mechanism_family": "recipe transfer",
+      "statement": "Matched single-trunk parent/head combo improves the complete predictor",
+      "representation_change": "recipe transfer",
+      "causal_mechanism": "Matched single-trunk parent/head combo improves the complete predictor",
+      "cheap_test": "Four fold-matched head fits then historic-pool final seed3",
+      "matched_control": "Merged CTRL parent/head, equal weights",
+      "falsifier": "No reproducible deployed-predictor gain",
+      "prior_evidence": "E-359,E-381",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143175+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-066",
+      "name": "width384",
+      "priority": "P1",
+      "mechanism_family": "capacity",
+      "statement": "Width384 improves on the current trunk at useful cost",
+      "representation_change": "capacity",
+      "causal_mechanism": "Width384 improves on the current trunk at useful cost",
+      "cheap_test": "Actual checkpoint CPU timing; fold1 replication and combo interaction",
+      "matched_control": "Width256 same optimizer, data and final head policy",
+      "falsifier": "Current paired width contrast is null or materially harmful",
+      "prior_evidence": "E-350,E-367",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143184+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-067",
+      "name": "pair_bag",
+      "priority": "P1",
+      "mechanism_family": "variance reduction",
+      "statement": "A second combo seed improves the score/runtime frontier",
+      "representation_change": "variance reduction",
+      "causal_mechanism": "A second combo seed improves the score/runtime frontier",
+      "cheap_test": "Seed4 fit and frozen equal pair",
+      "matched_control": "Best single and equal matched-control pair",
+      "falsifier": "No measured gain or unacceptable native runtime",
+      "prior_evidence": "E-333,E-342",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143187+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-068",
+      "name": "weight_int8",
+      "priority": "P1",
+      "mechanism_family": "compression",
+      "statement": "Byte weights reduce memory traffic without material WP loss",
+      "representation_change": "compression",
+      "causal_mechanism": "Byte weights reduce memory traffic without material WP loss",
+      "cheap_test": "Weight-only per-row INT8; full-sequence parity and scoring",
+      "matched_control": "q16x same trained weights",
+      "falsifier": "No runtime benefit or unacceptable score loss",
+      "prior_evidence": "E-336,E-406",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143188+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-069",
+      "name": "qat_student",
+      "priority": "P1",
+      "mechanism_family": "compression training",
+      "statement": "Quantization-aware distillation repairs compressed recurrent accuracy",
+      "representation_change": "compression training",
+      "causal_mechanism": "Quantization-aware distillation repairs compressed recurrent accuracy",
+      "cheap_test": "One matched distillation fine-tune",
+      "matched_control": "Float fine-tune and quantized no-fine-tune",
+      "falsifier": "No recovery over matched fine-tuning",
+      "prior_evidence": "E-336",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143190+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-070",
+      "name": "factorized_recurrence",
+      "priority": "P1",
+      "mechanism_family": "low-rank state",
+      "statement": "Larger state with rank128 recurrence gives useful score per CPU cost",
+      "representation_change": "low-rank state",
+      "causal_mechanism": "Larger state with rank128 recurrence gives useful score per CPU cost",
+      "cheap_test": "W384 rank128 against budget-matched GRU",
+      "matched_control": "Unfactorized W384 and parameter-matched GRU",
+      "falsifier": "No Pareto improvement",
+      "prior_evidence": "E-350",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143192+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-071",
+      "name": "ema_rows",
+      "priority": "P2",
+      "mechanism_family": "teacher exposure",
+      "statement": "EMA retention per row explains part of chunk1000 behavior",
+      "representation_change": "teacher exposure",
+      "causal_mechanism": "EMA retention per row explains part of chunk1000 behavior",
+      "cheap_test": "Combo decay sqrt(.999) versus .999",
+      "matched_control": "Identical combo schedule and updates",
+      "falsifier": "No predictive change beyond paired uncertainty",
+      "prior_evidence": "E-354,E-356",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143195+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-072",
+      "name": "cadence_credit",
+      "priority": "P2",
+      "mechanism_family": "gradient credit",
+      "statement": "Midpoint credit affects prediction independently of optimizer cadence",
+      "representation_change": "gradient credit",
+      "causal_mechanism": "Midpoint credit affects prediction independently of optimizer cadence",
+      "cheap_test": "Common2000-row macrostep: connected versus midpoint-detached",
+      "matched_control": "Same forward values, component denominators, update/EMA/LR clocks",
+      "falsifier": "Current predictive comparison fails despite valid gradients",
+      "prior_evidence": "E-392",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143196+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-073",
+      "name": "distilled_normalizer",
+      "priority": "P2",
+      "mechanism_family": "objective weighting",
+      "statement": "Aligned chunk-mass correction changes useful training emphasis",
+      "representation_change": "objective weighting",
+      "causal_mechanism": "Aligned chunk-mass correction changes useful training emphasis",
+      "cheap_test": "Historical/aligned/shuffled-multiplier comparison",
+      "matched_control": "Identical multiplier distribution and main/auxiliary balance",
+      "falsifier": "Aligned does not improve over shuffled and historical",
+      "prior_evidence": "E-362",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143198+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-074",
+      "name": "muon_handoff",
+      "priority": "P2",
+      "mechanism_family": "optimizer dynamics",
+      "statement": "Late Muon to AdamW improves final fit",
+      "representation_change": "optimizer dynamics",
+      "causal_mechanism": "Late Muon to AdamW improves final fit",
+      "cheap_test": "75percent attempt switch matched full schedule",
+      "matched_control": "Muon throughout, unchanged-rule switch",
+      "falsifier": "No improvement versus both controls",
+      "prior_evidence": "E-352",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143199+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-075",
+      "name": "module_clipping",
+      "priority": "P2",
+      "mechanism_family": "gradient allocation",
+      "statement": "Module clipping prevents head gradients suppressing recurrent learning",
+      "representation_change": "gradient allocation",
+      "causal_mechanism": "Module clipping prevents head gradients suppressing recurrent learning",
+      "cheap_test": "Reviewed module clip versus global clip",
+      "matched_control": "Same optimizer, normalization and attempt schedule",
+      "falsifier": "No gain at equal work",
+      "prior_evidence": "opt2",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143201+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-076",
+      "name": "antithetic_order",
+      "priority": "P2",
+      "mechanism_family": "sampling",
+      "statement": "Order pairing reduces trajectory variance",
+      "representation_change": "sampling",
+      "causal_mechanism": "Order pairing reduces trajectory variance",
+      "cheap_test": "Corrected reversed training order with same normalization and retained rows",
+      "matched_control": "Ordinary identical retained sample multiset",
+      "falsifier": "No lower variance or predictive benefit",
+      "prior_evidence": "opt2_review",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143204+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-077",
+      "name": "efficiency_weighting",
+      "priority": "P2",
+      "mechanism_family": "objective weighting",
+      "statement": "Current teacher does not absorb all benefits of row weighting",
+      "representation_change": "objective weighting",
+      "causal_mechanism": "Current teacher does not absorb all benefits of row weighting",
+      "cheap_test": "Since weighting on/off on modern combo",
+      "matched_control": "Same student/teacher/current recipe",
+      "falsifier": "No repeatable current contrast",
+      "prior_evidence": "E-351",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143206+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-078",
+      "name": "volume28",
+      "priority": "P3",
+      "mechanism_family": "causal feature representation",
+      "statement": "Run-relative volume history improves representation inside GRU",
+      "representation_change": "causal feature representation",
+      "causal_mechanism": "Run-relative volume history improves representation inside GRU",
+      "cheap_test": "28-feature GRU-input fit",
+      "matched_control": "Current-row volume and capacity-matched original trunk",
+      "falsifier": "No increment against matched control",
+      "prior_evidence": "E-321",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143208+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-079",
+      "name": "random_origins",
+      "priority": "P3",
+      "mechanism_family": "training views",
+      "statement": "Changed truncation boundaries provide useful training views",
+      "representation_change": "training views",
+      "causal_mechanism": "Changed truncation boundaries provide useful training views",
+      "cheap_test": "Random boundaries with causal prefix and row-budget matching",
+      "matched_control": "Fixed boundaries with same supervised mass",
+      "falsifier": "No gain versus equal-work control",
+      "prior_evidence": "RESEARCH_RESET Card2",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143209+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-080",
+      "name": "thinning",
+      "priority": "P3",
+      "mechanism_family": "training views",
+      "statement": "Label-aligned thinning augmentation creates useful invariance",
+      "representation_change": "training views",
+      "causal_mechanism": "Label-aligned thinning augmentation creates useful invariance",
+      "cheap_test": "R11 augmentation with recomputed causal features",
+      "matched_control": "No thinning and retained-mass matched control",
+      "falsifier": "Class2 material harm or no pooled improvement",
+      "prior_evidence": "E-314",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143211+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-081",
+      "name": "sentinel",
+      "priority": "P3",
+      "mechanism_family": "input encoding",
+      "statement": "Explicit missingness avoids distortion by sentinel scale",
+      "representation_change": "input encoding",
+      "causal_mechanism": "Explicit missingness avoids distortion by sentinel scale",
+      "cheap_test": "Missing-value indicator and safe scaling",
+      "matched_control": "Unchanged normalization plus capacity control",
+      "falsifier": "No predictive increment",
+      "prior_evidence": "H-021",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143213+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-082",
+      "name": "regime_heads",
+      "priority": "P4",
+      "mechanism_family": "conditional readout",
+      "statement": "Learned regime experts improve modern representations",
+      "representation_change": "conditional readout",
+      "causal_mechanism": "Learned regime experts improve modern representations",
+      "cheap_test": "Cross-fitted head then end-to-end specialist fit",
+      "matched_control": "Universal and hash-routed equal-capacity heads",
+      "falsifier": "No gain attributable to true regime routing",
+      "prior_evidence": "E-335",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143214+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-083",
+      "name": "regime_offsets",
+      "priority": "P4",
+      "mechanism_family": "conditional calibration",
+      "statement": "Offsets/amplitudes improve the strong model under cleaner calibration",
+      "representation_change": "conditional calibration",
+      "causal_mechanism": "Offsets/amplitudes improve the strong model under cleaner calibration",
+      "cheap_test": "Within-outerfold component crossfit",
+      "matched_control": "Identity and global affine corrections",
+      "falsifier": "No current crossfit gain",
+      "prior_evidence": "E-360",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143216+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-084",
+      "name": "target_clocks",
+      "priority": "P4",
+      "mechanism_family": "target-specific history",
+      "statement": "Targets benefit from different row/event histories",
+      "representation_change": "target-specific history",
+      "causal_mechanism": "Targets benefit from different row/event histories",
+      "cheap_test": "Separate t0 row-EMA and t1 event-EMA adapters",
+      "matched_control": "Both histories in common equal-capacity head",
+      "falsifier": "No advantage over matched common representation",
+      "prior_evidence": "signal/econometrics EDA",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143217+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-085",
+      "name": "activity_memory",
+      "priority": "P4",
+      "mechanism_family": "conditional history",
+      "statement": "Activity modulates useful EMA information",
+      "representation_change": "conditional history",
+      "causal_mechanism": "Activity modulates useful EMA information",
+      "cheap_test": "EMA times causal rate/variance adapter",
+      "matched_control": "Additive features and shuffled-activity control",
+      "falsifier": "Interaction adds no repeatable information",
+      "prior_evidence": "linear/statphys EDA",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143219+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-086",
+      "name": "i1_innovation",
+      "priority": "P4",
+      "mechanism_family": "cross-instrument information",
+      "statement": "i1 history provides conditional residual information",
+      "representation_change": "cross-instrument information",
+      "causal_mechanism": "i1 history provides conditional residual information",
+      "cheap_test": "Causal lagged i1 residual inputs on current GRU",
+      "matched_control": "Same i0 lags/current-row/shifted-i1 controls",
+      "falsifier": "No gain beyond mechanism-specific controls",
+      "prior_evidence": "E-383,E-384",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143221+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-087",
+      "name": "event_age",
+      "priority": "P4",
+      "mechanism_family": "conditional memory",
+      "statement": "Event age modulates useful retained history",
+      "representation_change": "conditional memory",
+      "causal_mechanism": "Event age modulates useful retained history",
+      "cheap_test": "Age times EMA adapter",
+      "matched_control": "Additive age and stale-age control",
+      "falsifier": "No genuine age-conditioned benefit",
+      "prior_evidence": "statphys EDA",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143223+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-088",
+      "name": "observable_transitions",
+      "priority": "P4",
+      "mechanism_family": "observable structural features",
+      "statement": "Anonymous transition structure predicts without physical labels",
+      "representation_change": "observable structural features",
+      "causal_mechanism": "Anonymous transition structure predicts without physical labels",
+      "cheap_test": "Causal transition feature head on strong states",
+      "matched_control": "Current features and shuffled transition controls",
+      "falsifier": "No out-of-component predictive increment",
+      "prior_evidence": "hft EDA",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143224+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-089",
+      "name": "cycle_smoothing",
+      "priority": "P4",
+      "mechanism_family": "history representation",
+      "statement": "Cycle-based aggregation provides useful smoothing",
+      "representation_change": "history representation",
+      "causal_mechanism": "Cycle-based aggregation provides useful smoothing",
+      "cheap_test": "Cycle8 then EMA versus row EMA",
+      "matched_control": "Cycle7 placebo and matched effective horizon",
+      "falsifier": "No benefit over smoothing/placebo controls",
+      "prior_evidence": "linear EDA",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143226+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-090",
+      "name": "factorized_branch",
+      "priority": "P5",
+      "mechanism_family": "output factorization",
+      "statement": "Factorized branch and magnitude improve modern readout",
+      "representation_change": "output factorization",
+      "causal_mechanism": "Factorized branch and magnitude improve modern readout",
+      "cheap_test": "Frozen trunk screen then end-to-end fit",
+      "matched_control": "Old504-code CE and wMSE matched modern trunk",
+      "falsifier": "No pooled/class3 gain over matched heads",
+      "prior_evidence": "E-071,E-072",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143227+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-091",
+      "name": "content_memory",
+      "priority": "P5",
+      "mechanism_family": "associative memory",
+      "statement": "Content addressing retains useful event information",
+      "representation_change": "associative memory",
+      "causal_mechanism": "Content addressing retains useful event information",
+      "cheap_test": "Existing H049/H051 unified candidate and position control",
+      "matched_control": "Matched decay/state/write-clock position memory",
+      "falsifier": "Content retrieval does not improve actual predictions",
+      "prior_evidence": "H-049,H-051",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143229+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-092",
+      "name": "structured_state",
+      "priority": "P5",
+      "mechanism_family": "state dynamics",
+      "statement": "Explicit stable modes improve retained weak signals",
+      "representation_change": "state dynamics",
+      "causal_mechanism": "Explicit stable modes improve retained weak signals",
+      "cheap_test": "Repair literal parity then multiscale/single-scale fit",
+      "matched_control": "Same state dimensions and learnable ranges",
+      "falsifier": "No predictive multiscale benefit",
+      "prior_evidence": "H-048,E-278",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143230+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-093",
+      "name": "specialist_state",
+      "priority": "P5",
+      "mechanism_family": "state factorization",
+      "statement": "Activity specialists retain different causal information",
+      "representation_change": "state factorization",
+      "causal_mechanism": "Activity specialists retain different causal information",
+      "cheap_test": "Specialist and universal/hash router comparison",
+      "matched_control": "Same capacity and expert support",
+      "falsifier": "True routing does not beat sham",
+      "prior_evidence": "H-050,H-032",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143232+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-094",
+      "name": "conditional_adapter",
+      "priority": "P5",
+      "mechanism_family": "input transformation",
+      "statement": "Prefix context changes feature interpretation",
+      "representation_change": "input transformation",
+      "causal_mechanism": "Prefix context changes feature interpretation",
+      "cheap_test": "Low-rank conditional adapter",
+      "matched_control": "Unconditional and diagonal-only modulation",
+      "falsifier": "No conditional benefit beyond extra capacity",
+      "prior_evidence": "campaign skill",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143233+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-095",
+      "name": "sequence_gain",
+      "priority": "P5",
+      "mechanism_family": "auxiliary representation",
+      "statement": "Hidden state can learn stable gain from disjoint episodes",
+      "representation_change": "auxiliary representation",
+      "causal_mechanism": "Hidden state can learn stable gain from disjoint episodes",
+      "cheap_test": "Frozen-state recoverability then training-only gain auxiliary",
+      "matched_control": "Input summary and shuffled disjoint-episode gain",
+      "falsifier": "No stable gain signal or no current predictive benefit",
+      "prior_evidence": "E-314,Card3",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143234+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-096",
+      "name": "crossfit_teachers",
+      "priority": "P5",
+      "mechanism_family": "teacher estimation",
+      "statement": "Cross-fitted targets reduce student bias",
+      "representation_change": "teacher estimation",
+      "causal_mechanism": "Cross-fitted targets reduce student bias",
+      "cheap_test": "Same-population teacher lineage contrast then student",
+      "matched_control": "Existing fitted teacher targets",
+      "falsifier": "Better teacher evidence fails student comparison",
+      "prior_evidence": "E-327,E-355,E-406",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143236+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-097",
+      "name": "generation3",
+      "priority": "P5",
+      "mechanism_family": "teacher diversity",
+      "statement": "Confirmed modern teachers produce a better causal student",
+      "representation_change": "teacher diversity",
+      "causal_mechanism": "Confirmed modern teachers produce a better causal student",
+      "cheap_test": "Combo-containing teacher and matched student",
+      "matched_control": "Same student with historical teacher",
+      "falsifier": "No student gain",
+      "prior_evidence": "E-337,E-355,E-406",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143237+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-098",
+      "name": "origin_privileged",
+      "priority": "P5",
+      "mechanism_family": "privileged information",
+      "statement": "Short future features teach the original causal target",
+      "representation_change": "privileged information",
+      "causal_mechanism": "Short future features teach the original causal target",
+      "cheap_test": "Cross-fitted future8 teacher preserving origin label/weights",
+      "matched_control": "Causal teacher with same target and model capacity",
+      "falsifier": "Teacher gain fails to transfer or causal audit fails",
+      "prior_evidence": "privileged time-series literature",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143239+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-099",
+      "name": "reset_lag",
+      "priority": "P6",
+      "mechanism_family": "state utility",
+      "statement": "Useful retained context can be localized by reset lag",
+      "representation_change": "state utility",
+      "causal_mechanism": "Useful retained context can be localized by reset lag",
+      "cheap_test": "Current student WP across fixed reset lengths",
+      "matched_control": "No-reset and state-value controls",
+      "falsifier": "No useful long-lag retention; no credit claim either way",
+      "prior_evidence": "Card4",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143240+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-100",
+      "name": "artbp_linear",
+      "priority": "P6",
+      "mechanism_family": "gradient estimator",
+      "statement": "ARTBP with linear optimizer improves forecasting",
+      "representation_change": "gradient estimator",
+      "causal_mechanism": "ARTBP with linear optimizer improves forecasting",
+      "cheap_test": "Exact-oracle check then SGD/momentum paired predictive pilot",
+      "matched_control": "Matched truncated SGD/momentum",
+      "falsifier": "No valid unbiasedness or predictive advantage",
+      "prior_evidence": "E-405",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143242+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-101",
+      "name": "current_spread_aux",
+      "priority": "P6",
+      "mechanism_family": "auxiliary supervision",
+      "statement": "Current-spread supervision may interact with modern combo",
+      "representation_change": "auxiliary supervision",
+      "causal_mechanism": "Current-spread supervision may interact with modern combo",
+      "cheap_test": "Bounded current-combo replication",
+      "matched_control": "Matched extra continuation and proxy auxiliary",
+      "falsifier": "No current incremental gain",
+      "prior_evidence": "E-287",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143243+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-102",
+      "name": "lstm_diversity",
+      "priority": "P6",
+      "mechanism_family": "architecture diversity",
+      "statement": "An LSTM128 partner complements the modern combo",
+      "representation_change": "architecture diversity",
+      "causal_mechanism": "An LSTM128 partner complements the modern combo",
+      "cheap_test": "LSTM128 matched fit and fixed bag",
+      "matched_control": "Same-size GRU and same-cost GRU bag",
+      "falsifier": "No actual blend increment",
+      "prior_evidence": "E-345,H-058",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143245+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-103",
+      "name": "support_coordinate",
+      "priority": "P6",
+      "mechanism_family": "data representation",
+      "statement": "Broader support yields a noncollapsed predictive increment feature",
+      "representation_change": "data representation",
+      "causal_mechanism": "Broader support yields a noncollapsed predictive increment feature",
+      "cheap_test": "Prospective support panel with original threshold",
+      "matched_control": "Original coordinate and sham-age controls",
+      "falsifier": "Support remains insufficient or feature adds no value",
+      "prior_evidence": "E-274",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143246+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-104",
+      "name": "state_refresh",
+      "priority": "P6",
+      "mechanism_family": "training state consistency",
+      "statement": "Recomputing stale incoming state can improve current recipe",
+      "representation_change": "training state consistency",
+      "causal_mechanism": "Recomputing stale incoming state can improve current recipe",
+      "cheap_test": "Bounded refresh versus equal-work sham predictive pilot",
+      "matched_control": "Unchanged state and repeated-operation control",
+      "falsifier": "No current predictive benefit",
+      "prior_evidence": "E-403",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143249+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    },
+    {
+      "id": "H-105",
+      "name": "amp_stability",
+      "priority": "P6",
+      "mechanism_family": "numerical learning",
+      "statement": "Numerical precision changes matter for current learner",
+      "representation_change": "numerical learning",
+      "causal_mechanism": "Numerical precision changes matter for current learner",
+      "cheap_test": "Matched FP16/BF16/FP32 bounded training contrast",
+      "matched_control": "Same samples, update clocks, optimizer, and scaler accounting",
+      "falsifier": "No measurable predictive or robustness improvement",
+      "prior_evidence": "E-404",
+      "status": "open",
+      "implementation_status": "pending",
+      "committed_at": "2026-10-04T01:06:16.143250+00:00",
+      "policy": "Historical negatives determine controls, not eligibility. No scientific fit until code/check inventory is ready."
+    }
+  ]
+}

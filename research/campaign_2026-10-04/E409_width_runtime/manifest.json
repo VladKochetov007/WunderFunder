@@ -1,0 +1,65 @@
+{
+  "experiment": "E409",
+  "purpose": "actual payload width/head runtime, no public-time extrapolation",
+  "checkpoints": {
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20261001_final_d256_s3/model_ep3.pt": "3cad146823914d76af490c6ca3353ebc97c78e5c9cd877716372c9d82bb74f06",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c20261003_w384_s3_f0/model_ep3.pt": "90b3ef746971e220efaf1c64e7a51302f29fc3f3836edd3ebc00de3c78847be3"
+  },
+  "native_source_sha256": {
+    "rnn_fast.rs": "1ae492c08ecf69545bc8cbf6e08759caf784fdc3a2f066831d5bc1e504f675e0",
+    "half.rs": "e17f805f144d3111888626294602a59d6af93b6450c588371977a2bf652eda83",
+    "approx.rs": "4df99ecfb690209c651d40c14a3ef3d7489453c06e25e6c4318c60bc1f901742",
+    "python.rs": "04ef01d6b0ffbbfdf71c867b6eacf3760037c41975aae4325635d4c672abfa50",
+    "kernels.rs": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+    "stream.rs": "e5efebc7bfb6efba8ab9ea1f694ea11c128dec5869fe7809603e89efbd3ea1e6",
+    "rnn.rs": "544135da67cb156a471d8ca0a9de7837f2ae3657a7885e4f8d95edf238cb0abf"
+  },
+  "libraries": {
+    "v2": "b01becbbef79e87e61eda24fe4b15bba3a98eb5b7b7d51479ba3c22d420b82d8",
+    "avx2": "9754887ddc0a6d1745e507c5b1bdb01ea8d31da79eb25965da043de33f47bfa6",
+    "v3": "698b8b2c8b5167e2be5e1e151ef6aa3b325b12ef38c4718ceafa2db3375aa398"
+  },
+  "data": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_subset20.parquet",
+    "sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37"
+  },
+  "probe_source_sha256": "d1bcbe090392ed14f40efc3b7aea3309c692e879f5cf240b14a7c0e572f9a846",
+  "harness_source_sha256": "ebb160667d09193b58255691f0a2433bc47f2d285e34deb199b1758d728582b9",
+  "row_groups": [
+    0,
+    1,
+    2
+  ],
+  "cases": {
+    "d256_head1": {
+      "hidden": 256,
+      "heads": 1,
+      "sha256": "a27ca3d1eae29fb0514341373f8986ae996ad05d20bd1c4e50684071796763e2",
+      "head2_source": null
+    },
+    "d256_head2": {
+      "hidden": 256,
+      "heads": 2,
+      "sha256": "b18edfb7e5ccdbd587378e2c9b23d4c0e7aa10de542716ef54c8eb12a62017e5",
+      "head2_source": "duplicate identical trained head for workload sizing"
+    },
+    "w384_head1": {
+      "hidden": 384,
+      "heads": 1,
+      "sha256": "719df9aa95057351303ea68fb27db05f00b710c51a1d48357535c6e28578a8f9",
+      "head2_source": null
+    },
+    "w384_head2": {
+      "hidden": 384,
+      "heads": 2,
+      "sha256": "301801b95b4692bc52a43499a0736f7794b57a64dc116a27faf463dec86b24b5",
+      "head2_source": "duplicate identical trained head for workload sizing"
+    }
+  },
+  "gate": {
+    "max_abs": 0.0003,
+    "abs_global_wp_delta": 5e-06,
+    "repeat_bitwise": true,
+    "v2_v3_bitwise": true
+  }
+}

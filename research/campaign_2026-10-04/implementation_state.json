@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "status": "first_wave_running",
+  "authorization": "User accepted maximum continuation, then explicitly requested implementation and Kaggle TPU/GPU use.",
+  "contract": "EXECUTION_CONTRACT.md",
+  "baseline_public": 0.6641,
+  "local_block_gpu_job_hours": 24,
+  "dataset_status": "api_accessible",
+  "roles": {
+    "controller": "campaign records, manifests, marimo, independent acceptance",
+    "resources": "job runner, aggregate caps, resource tests",
+    "trainer": "epoch-boundary recovery and matched training controls",
+    "accelerators": "Kaggle GPU/TPU probing and portable execution"
+  },
+  "completed": [
+    "read_only_evidence_reconciliation",
+    "user_authorization",
+    "dataset_access_check",
+    "portable_identity_code_and_7_tests",
+    "portable_dataset_content_hashes",
+    "marimo_live_notebook",
+    "public_results_E406",
+    "preregistered_41_hypotheses",
+    "training_resume_actor_31_cpu_tests",
+    "resource_runner_81_combined_cpu_tests",
+    "real_systemd_cpu_smoke",
+    "local_cuda_gru_smoke",
+    "local_oom_group_verified",
+    "actual_trainer_cpu_replay",
+    "actual_trainer_cuda_replay_3_passed",
+    "optimizer_controls_cpu_checks",
+    "volume28_streaming_parity",
+    "two_T4_cuda_compatibility",
+    "two_T4_stack_actual_trainer_replay",
+    "E409_native_width_runtime"
+  ],
+  "pending": [
+    "remaining_combo_heads",
+    "complete_predictor_scores",
+    "full_data_combo",
+    "kaggle_gpu_compatibility",
+    "tpu_probe",
+    "conditional_cues",
+    "structural_teacher_controls"
+  ],
+  "experiments_started": [
+    "E-407",
+    "E-408",
+    "E-409",
+    "E-410"
+  ],
+  "notebook_url": "http://localhost:2718",
+  "tpu_probe": {
+    "status": "submitted",
+    "kernel": "vladkochetov07/wnn-tpu-probe-20261004",
+    "experiment_id": "E-407"
+  },
+  "policy_amendment": "Prior negatives are controls; prepare bounded retests, not automatic vetoes.",
+  "checks": {
+    "cpu": "checks/compat_cpu_local_v1.json",
+    "cuda": "checks/compat_cuda_local_v1.json",
+    "cuda_observed_peak_bytes": 667942912,
+    "real_worker_oom_kills": 0,
+    "runner_incident": "Unsupported MemoryOOMGroup property; no workload started. Replaced with independently verified OOMPolicy=kill; fresh attempt passed."
+  },
+  "first_wave_review": "FIRST_WAVE_REVIEW.md",
+  "as_of_utc": "2026-10-04T01:49:09.794609+00:00",
+  "scientific_results": {
+    "E410_fold0": {
+      "delta_global_wp": 0.004613410670397,
+      "ci95": [
+        0.0016866275492326722,
+        0.007846154215367898
+      ],
+      "status": "provisional; remaining folds and fresh CTRL reproduction pending"
+    },
+    "E409_W384_one_head_median_kcycles": 401.617
+  },
+  "active_local": "E410 combo head fold3",
+  "remaining_head_predictions": [
+    1,
+    2,
+    3
+  ]
+}

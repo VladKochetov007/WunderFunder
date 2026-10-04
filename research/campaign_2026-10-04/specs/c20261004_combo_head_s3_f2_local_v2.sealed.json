@@ -1,0 +1,308 @@
+{
+  "argv": [
+    "{python}",
+    "scripts/train_rnn.py",
+    "--name",
+    "c20261004_combo_head_s3_f2",
+    "--init",
+    "c20261003_combo_s3_f2@ep3",
+    "--train-source",
+    "valid",
+    "--full-valid",
+    "--mask-weight",
+    "--seed",
+    "3",
+    "--epochs",
+    "1",
+    "--batch",
+    "16",
+    "--chunk",
+    "2000",
+    "--fast",
+    "--inherit-init-preprocessing",
+    "--loss",
+    "gcorr",
+    "--optim",
+    "adamw",
+    "--freeze",
+    "inp,gru",
+    "--lr",
+    "0.0005",
+    "--wd",
+    "0.01",
+    "--checkpoint-policy",
+    "fixed",
+    "--checkpoint-epoch",
+    "0",
+    "--save-training-state",
+    "--split-manifest",
+    "research/campaign_2026-09-29/artifacts/splits/fold2.json",
+    "--no-eval-during-fit"
+  ],
+  "artifacts": [
+    "artifacts/runs/c20261004_combo_head_s3_f2/model_ep0.pt",
+    "artifacts/runs/c20261004_combo_head_s3_f2/provenance.json",
+    "artifacts/runs/c20261004_combo_head_s3_f2/history.json",
+    "artifacts/runs/c20261004_combo_head_s3_f2/training_state.pt"
+  ],
+  "code": [
+    {
+      "path": "scripts/continuation_recipes.py",
+      "sha256": "26077a78032d6e62440fa5894b2620409c984aae4db69cd3cb276afbcc0739b8",
+      "size": 12650
+    },
+    {
+      "path": "scripts/predict_run.py",
+      "sha256": "f5755e7c73c6598f42555f352341c8b90b534f8341b238ab82045286fad1e6ac",
+      "size": 4226
+    },
+    {
+      "path": "scripts/train_rnn.py",
+      "sha256": "954a0b108cf9b528a40b5ea02376b12938ba7a9fe8cacf0239cf33e3f4f5f1fa",
+      "size": 108164
+    },
+    {
+      "path": "src/wnn/__init__.py",
+      "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+      "size": 63
+    },
+    {
+      "path": "src/wnn/campaign.py",
+      "sha256": "30c73a83efd045a60f8e22f7f71df75b239daf95caf8542c815802aa03e6c6ef",
+      "size": 9405
+    },
+    {
+      "path": "src/wnn/campaign_local.py",
+      "sha256": "eea0848a88f05254646deb25b23fd33804039a1047c4a235adcf903729f1cf6b",
+      "size": 16653
+    },
+    {
+      "path": "src/wnn/campaign_spec.py",
+      "sha256": "60971fef34024380356bc42fe6e5443fda000d7779e5f8cb55a6269662f48863",
+      "size": 8574
+    },
+    {
+      "path": "src/wnn/data.py",
+      "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "size": 4000
+    },
+    {
+      "path": "src/wnn/evaluation.py",
+      "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+      "size": 8080
+    },
+    {
+      "path": "src/wnn/event_content.py",
+      "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+      "size": 7226
+    },
+    {
+      "path": "src/wnn/features.py",
+      "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+      "size": 5421
+    },
+    {
+      "path": "src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "size": 8902
+    },
+    {
+      "path": "src/wnn/heuristics.py",
+      "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e",
+      "size": 9025
+    },
+    {
+      "path": "src/wnn/infer.py",
+      "sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9",
+      "size": 2377
+    },
+    {
+      "path": "src/wnn/markov.py",
+      "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2",
+      "size": 2624
+    },
+    {
+      "path": "src/wnn/metric.py",
+      "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+      "size": 4806
+    },
+    {
+      "path": "src/wnn/nn.py",
+      "sha256": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+      "size": 19926
+    },
+    {
+      "path": "src/wnn/optim.py",
+      "sha256": "0e476a54d1fdfeed77970816f91668e271f7e2ed72e13d0c047a01d0ff74dae3",
+      "size": 11145
+    },
+    {
+      "path": "src/wnn/outcomes.py",
+      "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+      "size": 4538
+    },
+    {
+      "path": "src/wnn/portability.py",
+      "sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+      "size": 1909
+    },
+    {
+      "path": "src/wnn/propensity.py",
+      "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+      "size": 1404
+    },
+    {
+      "path": "src/wnn/research_features.py",
+      "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8",
+      "size": 6234
+    },
+    {
+      "path": "src/wnn/resources.py",
+      "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+      "size": 4485
+    },
+    {
+      "path": "src/wnn/run_identity.py",
+      "sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+      "size": 4488
+    },
+    {
+      "path": "src/wnn/splits.py",
+      "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+      "size": 8647
+    },
+    {
+      "path": "src/wnn/spread_aux.py",
+      "sha256": "3aabffc6fc887c0426948e62cbd500679ba3e7a6925e28de9f816fb1da8f9cac",
+      "size": 6290
+    },
+    {
+      "path": "src/wnn/streaming.py",
+      "sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e",
+      "size": 2422
+    },
+    {
+      "path": "src/wnn/structured_state.py",
+      "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+      "size": 9963
+    },
+    {
+      "path": "src/wnn/symreg.py",
+      "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849",
+      "size": 11386
+    },
+    {
+      "path": "src/wnn/tcn_ref.py",
+      "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa",
+      "size": 3511
+    },
+    {
+      "path": "src/wnn/ticks.py",
+      "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8",
+      "size": 4946
+    },
+    {
+      "path": "src/wnn/training_controls.py",
+      "sha256": "1ae4feeedca4121c7e27a6d42063d987beea2e2aab36efce828ecaf6acaf760c",
+      "size": 8395
+    },
+    {
+      "path": "src/wnn/training_dynamics.py",
+      "sha256": "c3a931ee772961f231770af2a47acb9a72a7f16350d6dc8d153841963ca5dfe2",
+      "size": 13184
+    },
+    {
+      "path": "src/wnn/training_sampling.py",
+      "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2",
+      "size": 6540
+    },
+    {
+      "path": "src/wnn/training_state.py",
+      "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac",
+      "size": 8689
+    },
+    {
+      "path": "src/wnn/twoclock_ref.py",
+      "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44",
+      "size": 3732
+    },
+    {
+      "path": "src/wnn/viz.py",
+      "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5",
+      "size": 4297
+    }
+  ],
+  "code_sha256": "7596697434d0538b541413cc1e98f14b53b7c560772e8a045172987d23c27927",
+  "environment": {
+    "WNN_LOADER_RAM_GB": "3",
+    "WNN_LOADER_WORKERS": "2",
+    "WNN_PORTABLE_DATA_MANIFEST": "research/campaign_2026-10-04/portable_inputs.json"
+  },
+  "inputs": [
+    {
+      "path": "artifacts/runs/c20261003_combo_s3_f2/model_ep3.pt",
+      "sha256": "1cf72d44a4e68fa42c8b1342824b05f139ca5edb523c2d70d8f45333c8c1725f",
+      "size": 3977183
+    },
+    {
+      "path": "artifacts/runs/c20261003_combo_s3_f2/provenance.json",
+      "sha256": "ceccfdc57d421cba9272abf91578ea75b44c8abf8cfa26777743d8fa997ec334",
+      "size": 159696
+    },
+    {
+      "path": "cache/chain_folds.npz",
+      "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+      "size": 550072
+    },
+    {
+      "path": "cache/chains.npz",
+      "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+      "size": 650142
+    },
+    {
+      "path": "cache/train_targets.npz",
+      "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+      "size": 1909335790
+    },
+    {
+      "path": "cache/valid_targets.npz",
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "size": 337186198
+    },
+    {
+      "path": "datasets/train.parquet",
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "size": 29240219011
+    },
+    {
+      "path": "datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "size": 5615509128
+    },
+    {
+      "path": "datasets/valid_mask.parquet",
+      "sha256": "301430165527a6003d44486a8c5051288c31112d327df94fb420e82c018e5251",
+      "size": 91972846
+    },
+    {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold2.json",
+      "sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+      "size": 1388580
+    },
+    {
+      "path": "research/campaign_2026-10-04/portable_inputs.json",
+      "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+      "size": 2104
+    }
+  ],
+  "kind": "gpu",
+  "limits": {
+    "cpus": 8,
+    "gpu_memory_bytes": 4200000000,
+    "gpu_stop_bytes": 4800000000,
+    "ram_bytes": 25769803776,
+    "timeout_seconds": 1800
+  },
+  "name": "c20261004_combo_head_s3_f2",
+  "version": 1
+}

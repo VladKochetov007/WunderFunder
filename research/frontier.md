@@ -1,5 +1,14 @@
 # Active frontier
 
+Current continuation, 2026-10-04: implementation and autonomous local/Kaggle
+GPU/TPU research are user-authorized. Read
+[the execution contract](campaign_2026-10-04/EXECUTION_CONTRACT.md) and
+[implementation state](campaign_2026-10-04/implementation_state.json).
+E-406 binds new user-reported public results: q16x D256 preserves 0.6641 in
+32m17s; repeat reference 0.6641 in 37m37s; TE07 0.6636; chunk500 0.6633.
+Earlier negatives are now controls, not automatic vetoes on bounded retests.
+Historical paragraphs below retain their original time-bound meaning.
+
 Current root Challenge2 campaign update,2026-10-03: user goal is long-term competition understanding and research through23:00 Kyiv today, with0.667 optional. Best reported public0.6641; no0.667 claim. The remainder of this file preserves the earlier September frontier and its historical targets/results.
 
 Current evidence: two-seed/fold0+1 Muon/chunk1000/stopped-bootstrap combo +.001854 local pooledWP, CI[.000420,.003409], fold1/class3 weakness; fixedfold2+3 confirmation nowPASS +.00178777 CI[.00092491,.00274712], all preregistered gates and independent metadata/scorer-route review pass. Combined recipe supported, no isolated-mechanism or public-score claim. Width320 pair +.00007249 CI[-.001211,.001313], no demonstrated gain. Physical coordinate, objective real-state and causal history support gaps now have runnable falsifiers. Peer observable feature fails its gate, independently reproduced; retained GRU influence does not establish a deficit. Capturev1/v2 rejected, minimalv3 correction awaits independent review before actualCUDAreproduction. Read [current synthesis](campaign_2026-10-03/continuation/round2/SYNTHESIS.md), [round4 portfolio](campaign_2026-10-03/continuation/round4/LITERATURE_AND_OPTIONS.md), [current worker registry](campaign_2026-10-03/continuation/round5/agents.json) and research/experiments.jsonl E-359 onward. Optimization prototype remains unapplied; no new GPU candidate promoted from toy/diagnostic evidence.
