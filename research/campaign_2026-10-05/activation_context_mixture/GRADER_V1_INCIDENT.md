@@ -6,6 +6,13 @@ as exact labels such as `recurrent_mix - static_mix`; grader v1 incorrectly
 expected underscore identifiers. The receipt is preserved in
 `research/campaign_2026-10-05/runner/logs/ROOT_FIT_ONLY_GATE_V1.log`.
 
+The manifest's final receipt string is `gelu - fixed_mix`, written in
+reference-minus-candidate order. The registered display label is
+`fixed_mix - gelu`; grader v2 deliberately maps that exact manifest string to
+the preregistered candidate-minus-reference contrast rather than following the
+string's reverse sign. This is a label convention in the actor's inventory,
+not a change to the preregistered contrast direction.
+
 Grader v1 remains unchanged at SHA-256
 `dc312c08b90e0828a2057ca4afba8ae97ab9d49760aee867fb6cb47c67bf62fb`.
 Version 2 checks the full exact actor-registered eight-label list and count,
