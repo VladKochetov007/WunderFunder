@@ -1,0 +1,2030 @@
+{
+  "kind": "E482 six-recipe private T4 replication",
+  "status": "six_fits_complete_test_unread",
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "seed": 271828,
+  "shapes": [
+    "baseline",
+    "sine",
+    "cubic"
+  ],
+  "optimizers": [
+    "adamw",
+    "muon_adamw"
+  ],
+  "fit_count": 6,
+  "probes": [
+    {
+      "status": "probe_passed",
+      "phase": "probe",
+      "fit_only": true,
+      "test_rows_loaded": false,
+      "optimizer": "adamw",
+      "arms": [
+        {
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "batch": 4,
+          "chunk_rows": 256,
+          "updates": 1,
+          "loss": 2.3267135620117188,
+          "changed_parameter_tensors": 14,
+          "parameters": 61058,
+          "telemetry_step0": {
+            "update_index_zero_based": 0,
+            "preclip_gradient_rms": {
+              "inp": 0.005001834571383311,
+              "gru": 0.0012119737239127825,
+              "head": 0.015532640474499166
+            },
+            "parameter_update_rms": {
+              "inp": 0.0009999655654325359,
+              "gru": 0.0009932551780787828,
+              "head": 0.0009999561602436638
+            }
+          }
+        },
+        {
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "batch": 4,
+          "chunk_rows": 256,
+          "updates": 1,
+          "loss": 2.3299026489257812,
+          "changed_parameter_tensors": 14,
+          "parameters": 61058,
+          "telemetry_step0": {
+            "update_index_zero_based": 0,
+            "preclip_gradient_rms": {
+              "inp": 0.0055109256071442575,
+              "gru": 0.002022107439083755,
+              "head": 0.01636849054619088
+            },
+            "parameter_update_rms": {
+              "inp": 0.0009999546581673938,
+              "gru": 0.0009964914534242842,
+              "head": 0.0009999588447536156
+            }
+          }
+        },
+        {
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "batch": 4,
+          "chunk_rows": 256,
+          "updates": 1,
+          "loss": 2.3299286365509033,
+          "changed_parameter_tensors": 14,
+          "parameters": 61058,
+          "telemetry_step0": {
+            "update_index_zero_based": 0,
+            "preclip_gradient_rms": {
+              "inp": 0.005542561775711479,
+              "gru": 0.0020686816843662735,
+              "head": 0.01642380579978287
+            },
+            "parameter_update_rms": {
+              "inp": 0.0009999331375913805,
+              "gru": 0.0009966505325110532,
+              "head": 0.0009998955558323795
+            }
+          }
+        }
+      ],
+      "native_parity": {
+        "optimizer": "adamw",
+        "output_state_input_gradient_parameter_gradient_and_clipped_step": "passed",
+        "parameter_tensors": 14,
+        "precision": {
+          "device_math": "FP32 IEEE",
+          "autocast": false,
+          "torch.backends.fp32_precision": "none",
+          "torch.backends.cuda.matmul.fp32_precision": "none",
+          "torch.backends.cudnn.fp32_precision": "none",
+          "torch.backends.cudnn.rnn.fp32_precision": "tf32"
+        }
+      },
+      "device": "Tesla T4",
+      "assigned_device": {
+        "uuid": "GPU-513b05d3-428f-873b-dde1-1cce3d0997d2",
+        "name": "Tesla T4",
+        "total_memory_bytes": 16106127360,
+        "allocator_fraction": 0.1373419339056244,
+        "muon_cuda_orthogonalization": {
+          "implementation_sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+          "method": "five-step quintic Newton-Schulz",
+          "input_dtype": "bfloat16 when input tensor is CUDA",
+          "output_dtype": "original gradient dtype"
+        }
+      },
+      "device_properties": {
+        "name": "Tesla T4",
+        "total_memory_bytes": 15636037632,
+        "uuid": "GPU-513b05d3-428f-873b-dde1-1cce3d0997d2"
+      },
+      "torch": "2.11.0+cu128",
+      "cuda": "12.8",
+      "cudnn": 91900,
+      "precision": {
+        "device_math": "FP32 IEEE",
+        "autocast": false,
+        "torch.backends.fp32_precision": "none",
+        "torch.backends.cuda.matmul.fp32_precision": "none",
+        "torch.backends.cudnn.fp32_precision": "none",
+        "torch.backends.cudnn.rnn.fp32_precision": "tf32"
+      },
+      "peak_allocated_bytes": 86701056,
+      "peak_reserved_bytes": 98566144,
+      "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+      "source_sha256": {
+        "e481": "3d97d2d07b116b3cf04b365c33e3d3caed2c96c35108bd28f3a6ff63b54d65cc",
+        "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+        "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+        "muon_optimizer": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+        "remote_worker": "ad8bc19fd46a1394b7f9346eeb7451e14f7e4a6fc6bb643fdb6584d9566e4982"
+      }
+    },
+    {
+      "status": "probe_passed",
+      "phase": "probe",
+      "fit_only": true,
+      "test_rows_loaded": false,
+      "optimizer": "muon_adamw",
+      "arms": [
+        {
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "batch": 4,
+          "chunk_rows": 256,
+          "updates": 1,
+          "loss": 2.3267135620117188,
+          "changed_parameter_tensors": 14,
+          "parameters": 61058,
+          "telemetry_step0": {
+            "update_index_zero_based": 0,
+            "preclip_gradient_rms": {
+              "inp": 0.005001834571383311,
+              "gru": 0.0012119737239127825,
+              "head": 0.015532640474499166
+            },
+            "parameter_update_rms": {
+              "inp": 0.0009999656276291893,
+              "gru": 0.0001862646499178018,
+              "head": 0.0009999562416569217
+            }
+          }
+        },
+        {
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "batch": 4,
+          "chunk_rows": 256,
+          "updates": 1,
+          "loss": 2.3299026489257812,
+          "changed_parameter_tensors": 14,
+          "parameters": 61058,
+          "telemetry_step0": {
+            "update_index_zero_based": 0,
+            "preclip_gradient_rms": {
+              "inp": 0.0055109256071442575,
+              "gru": 0.002022107439083755,
+              "head": 0.01636849054619088
+            },
+            "parameter_update_rms": {
+              "inp": 0.0009999547372084945,
+              "gru": 0.00018824553927730225,
+              "head": 0.0009999589172720877
+            }
+          }
+        },
+        {
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "batch": 4,
+          "chunk_rows": 256,
+          "updates": 1,
+          "loss": 2.3299286365509033,
+          "changed_parameter_tensors": 14,
+          "parameters": 61058,
+          "telemetry_step0": {
+            "update_index_zero_based": 0,
+            "preclip_gradient_rms": {
+              "inp": 0.005542561775711479,
+              "gru": 0.0020686816843662735,
+              "head": 0.01642380579978287
+            },
+            "parameter_update_rms": {
+              "inp": 0.0009999331934364792,
+              "gru": 0.000188143538844686,
+              "head": 0.0009998956342444423
+            }
+          }
+        }
+      ],
+      "native_parity": {
+        "optimizer": "muon_adamw",
+        "output_state_input_gradient_parameter_gradient_and_clipped_step": "passed",
+        "parameter_tensors": 14,
+        "precision": {
+          "device_math": "FP32 IEEE",
+          "autocast": false,
+          "torch.backends.fp32_precision": "none",
+          "torch.backends.cuda.matmul.fp32_precision": "none",
+          "torch.backends.cudnn.fp32_precision": "none",
+          "torch.backends.cudnn.rnn.fp32_precision": "tf32"
+        }
+      },
+      "device": "Tesla T4",
+      "assigned_device": {
+        "uuid": "GPU-7fed4ce6-397a-5bde-5505-cbed3c769375",
+        "name": "Tesla T4",
+        "total_memory_bytes": 16106127360,
+        "allocator_fraction": 0.1373419339056244,
+        "muon_cuda_orthogonalization": {
+          "implementation_sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+          "method": "five-step quintic Newton-Schulz",
+          "input_dtype": "bfloat16 when input tensor is CUDA",
+          "output_dtype": "original gradient dtype"
+        }
+      },
+      "device_properties": {
+        "name": "Tesla T4",
+        "total_memory_bytes": 15636037632,
+        "uuid": "GPU-7fed4ce6-397a-5bde-5505-cbed3c769375"
+      },
+      "torch": "2.11.0+cu128",
+      "cuda": "12.8",
+      "cudnn": 91900,
+      "precision": {
+        "device_math": "FP32 IEEE",
+        "autocast": false,
+        "torch.backends.fp32_precision": "none",
+        "torch.backends.cuda.matmul.fp32_precision": "none",
+        "torch.backends.cudnn.fp32_precision": "none",
+        "torch.backends.cudnn.rnn.fp32_precision": "tf32"
+      },
+      "peak_allocated_bytes": 86701056,
+      "peak_reserved_bytes": 98566144,
+      "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+      "source_sha256": {
+        "e481": "3d97d2d07b116b3cf04b365c33e3d3caed2c96c35108bd28f3a6ff63b54d65cc",
+        "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+        "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+        "muon_optimizer": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+        "remote_worker": "ad8bc19fd46a1394b7f9346eeb7451e14f7e4a6fc6bb643fdb6584d9566e4982"
+      }
+    }
+  ],
+  "probe_resources": {
+    "resource_start": {
+      "host": {
+        "capacity_bytes": 32212254720,
+        "available_bytes": 25834901504,
+        "affinity": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "devices": [
+        {
+          "index": 0,
+          "uuid": "GPU-513b05d3-428f-873b-dde1-1cce3d0997d2",
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-7fed4ce6-397a-5bde-5505-cbed3c769375",
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0
+        }
+      ],
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    "resource_end": {
+      "host": {
+        "capacity_bytes": 32212254720,
+        "available_bytes": 25405030400,
+        "affinity": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "devices": [
+        {
+          "index": 0,
+          "uuid": "GPU-513b05d3-428f-873b-dde1-1cce3d0997d2",
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-7fed4ce6-397a-5bde-5505-cbed3c769375",
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0
+        }
+      ],
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    "peak_process_tree_rss_bytes_by_optimizer": {
+      "adamw": 1882218496,
+      "muon_adamw": 1876824064
+    },
+    "exit_codes": {
+      "adamw": 0,
+      "muon_adamw": 0
+    },
+    "thresholds": {
+      "ram_worker_bytes": 6442450944,
+      "gpu_physical_stop_bytes": 3000000000,
+      "host_stop_fraction": 0.9
+    }
+  },
+  "before_fit_host": {
+    "capacity_bytes": 32212254720,
+    "available_bytes": 25404792832,
+    "affinity": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "before_fit_devices": [
+    {
+      "index": 0,
+      "uuid": "GPU-513b05d3-428f-873b-dde1-1cce3d0997d2",
+      "name": "Tesla T4",
+      "total_bytes": 16106127360,
+      "used_bytes": 0
+    },
+    {
+      "index": 1,
+      "uuid": "GPU-7fed4ce6-397a-5bde-5505-cbed3c769375",
+      "name": "Tesla T4",
+      "total_bytes": 16106127360,
+      "used_bytes": 0
+    }
+  ],
+  "fits": [
+    {
+      "status": "three_fit_arms_complete_test_unread",
+      "phase": "fit",
+      "fit_only": true,
+      "test_rows_loaded": false,
+      "seed": 271828,
+      "optimizer": "adamw",
+      "arms": [
+        {
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "baseline",
+          "updates": 474,
+          "parameters": 61058,
+          "fit_seconds": 215.05586515200002,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869,
+            1666,
+            483,
+            1766,
+            1062,
+            1567,
+            105,
+            1390,
+            1130,
+            233,
+            1735,
+            1309,
+            713,
+            1125,
+            807,
+            1725,
+            1015,
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "telemetry": [
+            {
+              "update_index_zero_based": 0,
+              "preclip_gradient_rms": {
+                "inp": 0.005001834578316467,
+                "gru": 0.0012119737287462776,
+                "head": 0.01553264051305017
+              },
+              "parameter_update_rms": {
+                "inp": 0.000999965566994455,
+                "gru": 0.0009932551830204956,
+                "head": 0.0009999561604103746
+              },
+              "seed": 271828,
+              "optimizer": "adamw",
+              "shape": "baseline",
+              "fit_row_groups": [
+                1284,
+                1793,
+                38,
+                1869
+              ],
+              "chunk_start": 0,
+              "loss": 2.3267135620117188,
+              "state_abs_max": 0.5120865106582642
+            },
+            {
+              "update_index_zero_based": 46,
+              "preclip_gradient_rms": {
+                "inp": 0.0034632573327511864,
+                "gru": 0.0011557783054964492,
+                "head": 0.012771517951641827
+              },
+              "parameter_update_rms": {
+                "inp": 0.00028525829084972054,
+                "gru": 0.0003280024216174515,
+                "head": 0.00023736709481986468
+              },
+              "seed": 271828,
+              "optimizer": "adamw",
+              "shape": "baseline",
+              "fit_row_groups": [
+                1284,
+                1793,
+                38,
+                1869
+              ],
+              "chunk_start": 11776,
+              "loss": 0.7148799896240234,
+              "state_abs_max": 0.7104552984237671
+            },
+            {
+              "update_index_zero_based": 236,
+              "preclip_gradient_rms": {
+                "inp": 0.025601805032977806,
+                "gru": 0.0026840522053753566,
+                "head": 0.041080978861982746
+              },
+              "parameter_update_rms": {
+                "inp": 0.00026514958510484815,
+                "gru": 0.0002775559734648307,
+                "head": 0.00025777898796897455
+              },
+              "seed": 271828,
+              "optimizer": "adamw",
+              "shape": "baseline",
+              "fit_row_groups": [
+                1567,
+                105,
+                1390,
+                1130
+              ],
+              "chunk_start": 19968,
+              "loss": 3.209782600402832,
+              "state_abs_max": 0.683334469795227
+            },
+            {
+              "update_index_zero_based": 473,
+              "preclip_gradient_rms": {
+                "inp": 0.00957625956841957,
+                "gru": 0.0009536378124617167,
+                "head": 0.021251710495007983
+              },
+              "parameter_update_rms": {
+                "inp": 0.00016227011591841002,
+                "gru": 0.00019672301805759212,
+                "head": 0.00012005827232870952
+              },
+              "seed": 271828,
+              "optimizer": "adamw",
+              "shape": "baseline",
+              "fit_row_groups": [
+                1053,
+                614,
+                1214,
+                87
+              ],
+              "chunk_start": 19968,
+              "loss": 2.48652982711792,
+              "state_abs_max": 0.8369348049163818
+            }
+          ],
+          "checkpoint": "seed271828_adamw_baseline.pt",
+          "checkpoint_sha256": "0954120ad49bfd369f149b473347ad9b0099d5831a26cf7694f609df275411aa"
+        },
+        {
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "sine",
+          "updates": 474,
+          "parameters": 61058,
+          "fit_seconds": 246.59106797000015,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869,
+            1666,
+            483,
+            1766,
+            1062,
+            1567,
+            105,
+            1390,
+            1130,
+            233,
+            1735,
+            1309,
+            713,
+            1125,
+            807,
+            1725,
+            1015,
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "telemetry": [
+            {
+              "update_index_zero_based": 0,
+              "preclip_gradient_rms": {
+                "inp": 0.0055109256071442575,
+                "gru": 0.002022107439083755,
+                "head": 0.01636849054619088
+              },
+              "parameter_update_rms": {
+                "inp": 0.0009999546581673938,
+                "gru": 0.0009964914534242842,
+                "head": 0.0009999588447536156
+              },
+              "seed": 271828,
+              "optimizer": "adamw",
+              "shape": "sine",
+              "fit_row_groups": [
+                1284,
+                1793,
+                38,
+                1869
+              ],
+              "chunk_start": 0,
+              "loss": 2.3299026489257812,
+              "state_abs_max": 0.6150537133216858
+            },
+            {
+              "update_index_zero_based": 46,
+              "preclip_gradient_rms": {
+                "inp": 0.004435705581998993,
+                "gru": 0.0019375325345839835,
+                "head": 0.013779951833671634
+              },
+              "parameter_update_rms": {
+                "inp": 0.00030244826701954545,
+                "gru": 0.0003464051950418436,
+                "head": 0.00027213370830130176
+              },
+              "seed": 271828,
+              "optimizer": "adamw",
+              "shape": "sine",
+              "fit_row_groups": [
+                1284,
+                1793,
+                38,
+                1869
+              ],
+              "chunk_start": 11776,
+              "loss": 0.7456172108650208,
+              "state_abs_max": 0.8574182391166687
+            },
+            {
+              "update_index_zero_based": 236,
+              "preclip_gradient_rms": {
+                "inp": 0.02297174231256718,
+                "gru": 0.003128652613723101,
+                "head": 0.044665850565041486
+              },
+              "parameter_update_rms": {
+                "inp": 0.00022742689577982383,
+                "gru": 0.00024160381544790656,
+                "head": 0.0002654567817410815
+              },
+              "seed": 271828,
+              "optimizer": "adamw",
+              "shape": "sine",
+              "fit_row_groups": [
+                1567,
+                105,
+                1390,
+                1130
+              ],
+              "chunk_start": 19968,
+              "loss": 3.2108874320983887,
+              "state_abs_max": 0.8610495924949646
+            },
+            {
+              "update_index_zero_based": 473,
+              "preclip_gradient_rms": {
+                "inp": 0.008332668486721005,
+                "gru": 0.0010800103094766398,
+                "head": 0.02349794417148289
+              },
+              "parameter_update_rms": {
+                "inp": 0.00014446902295227473,
+                "gru": 0.00014647742455726158,
+                "head": 0.00012057884305395265
+              },
+              "seed": 271828,
+              "optimizer": "adamw",
+              "shape": "sine",
+              "fit_row_groups": [
+                1053,
+                614,
+                1214,
+                87
+              ],
+              "chunk_start": 19968,
+              "loss": 2.454939603805542,
+              "state_abs_max": 0.9653663039207458
+            }
+          ],
+          "checkpoint": "seed271828_adamw_sine.pt",
+          "checkpoint_sha256": "f6805a42200a8c3e7cc76b8a4bc70bb6a86b8e8b100956b78c3e03712c50633d"
+        },
+        {
+          "seed": 271828,
+          "optimizer": "adamw",
+          "shape": "cubic",
+          "updates": 474,
+          "parameters": 61058,
+          "fit_seconds": 264.0457253100001,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869,
+            1666,
+            483,
+            1766,
+            1062,
+            1567,
+            105,
+            1390,
+            1130,
+            233,
+            1735,
+            1309,
+            713,
+            1125,
+            807,
+            1725,
+            1015,
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "telemetry": [
+            {
+              "update_index_zero_based": 0,
+              "preclip_gradient_rms": {
+                "inp": 0.005542561775711479,
+                "gru": 0.0020686816843662735,
+                "head": 0.01642380579978287
+              },
+              "parameter_update_rms": {
+                "inp": 0.0009999331375913805,
+                "gru": 0.0009966505325110532,
+                "head": 0.0009998955558323795
+              },
+              "seed": 271828,
+              "optimizer": "adamw",
+              "shape": "cubic",
+              "fit_row_groups": [
+                1284,
+                1793,
+                38,
+                1869
+              ],
+              "chunk_start": 0,
+              "loss": 2.3299286365509033,
+              "state_abs_max": 0.641396701335907
+            },
+            {
+              "update_index_zero_based": 46,
+              "preclip_gradient_rms": {
+                "inp": 0.004427884359041566,
+                "gru": 0.001962347301196408,
+                "head": 0.013883751602080998
+              },
+              "parameter_update_rms": {
+                "inp": 0.00030206524130833856,
+                "gru": 0.0003463449942176386,
+                "head": 0.0002757613941273118
+              },
+              "seed": 271828,
+              "optimizer": "adamw",
+              "shape": "cubic",
+              "fit_row_groups": [
+                1284,
+                1793,
+                38,
+                1869
+              ],
+              "chunk_start": 11776,
+              "loss": 0.7476406097412109,
+              "state_abs_max": 0.8976008892059326
+            },
+            {
+              "update_index_zero_based": 236,
+              "preclip_gradient_rms": {
+                "inp": 0.022935822953512076,
+                "gru": 0.0031970397854391317,
+                "head": 0.04537831443279436
+              },
+              "parameter_update_rms": {
+                "inp": 0.00022595446894789354,
+                "gru": 0.000239311878783214,
+                "head": 0.0002663417537150623
+              },
+              "seed": 271828,
+              "optimizer": "adamw",
+              "shape": "cubic",
+              "fit_row_groups": [
+                1567,
+                105,
+                1390,
+                1130
+              ],
+              "chunk_start": 19968,
+              "loss": 3.2161872386932373,
+              "state_abs_max": 0.900553822517395
+            },
+            {
+              "update_index_zero_based": 473,
+              "preclip_gradient_rms": {
+                "inp": 0.008217379028879711,
+                "gru": 0.0010851456747803783,
+                "head": 0.024088002052263174
+              },
+              "parameter_update_rms": {
+                "inp": 0.00014068651893631064,
+                "gru": 0.00014125505191793495,
+                "head": 0.00011843365353220143
+              },
+              "seed": 271828,
+              "optimizer": "adamw",
+              "shape": "cubic",
+              "fit_row_groups": [
+                1053,
+                614,
+                1214,
+                87
+              ],
+              "chunk_start": 19968,
+              "loss": 2.45585298538208,
+              "state_abs_max": 0.9826181530952454
+            }
+          ],
+          "checkpoint": "seed271828_adamw_cubic.pt",
+          "checkpoint_sha256": "f3cb2f892d2f86f3525c951929fd43a8fe28fb27d26981cff134db0e13c61584"
+        }
+      ],
+      "planned_fit_count": 3,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates_per_arm": 474,
+      "architecture": "E481 frozen; 42 features, two-layer H64 GRU, 61,058 parameters",
+      "parent_source_sha256": {
+        "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+        "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068"
+      },
+      "source_sha256": {
+        "e481": "3d97d2d07b116b3cf04b365c33e3d3caed2c96c35108bd28f3a6ff63b54d65cc",
+        "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+        "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+        "muon_optimizer": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+        "remote_worker": "ad8bc19fd46a1394b7f9346eeb7451e14f7e4a6fc6bb643fdb6584d9566e4982"
+      },
+      "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+      "fit_only_cohort": {
+        "cohort": [
+          {
+            "row_group": 1735,
+            "seq_ix": 1989531794,
+            "component": 2795,
+            "label_class_diagnostic_only": 0,
+            "role": "fit"
+          },
+          {
+            "row_group": 1766,
+            "seq_ix": 2024723908,
+            "component": 2854,
+            "label_class_diagnostic_only": 0,
+            "role": "fit"
+          },
+          {
+            "row_group": 233,
+            "seq_ix": 235282549,
+            "component": 2806,
+            "label_class_diagnostic_only": 0,
+            "role": "fit"
+          },
+          {
+            "row_group": 38,
+            "seq_ix": 45323361,
+            "component": 2828,
+            "label_class_diagnostic_only": 0,
+            "role": "fit"
+          },
+          {
+            "row_group": 807,
+            "seq_ix": 941450430,
+            "component": 2991,
+            "label_class_diagnostic_only": 0,
+            "role": "fit"
+          },
+          {
+            "row_group": 1125,
+            "seq_ix": 1294249563,
+            "component": 3200,
+            "label_class_diagnostic_only": 0,
+            "role": "fit"
+          },
+          {
+            "row_group": 1015,
+            "seq_ix": 1168194342,
+            "component": 3010,
+            "label_class_diagnostic_only": 1,
+            "role": "fit"
+          },
+          {
+            "row_group": 105,
+            "seq_ix": 109463899,
+            "component": 2882,
+            "label_class_diagnostic_only": 1,
+            "role": "fit"
+          },
+          {
+            "row_group": 483,
+            "seq_ix": 547472527,
+            "component": 2801,
+            "label_class_diagnostic_only": 1,
+            "role": "fit"
+          },
+          {
+            "row_group": 1062,
+            "seq_ix": 1227566939,
+            "component": 2860,
+            "label_class_diagnostic_only": 1,
+            "role": "fit"
+          },
+          {
+            "row_group": 1666,
+            "seq_ix": 1917373469,
+            "component": 2940,
+            "label_class_diagnostic_only": 1,
+            "role": "fit"
+          },
+          {
+            "row_group": 1214,
+            "seq_ix": 1413037324,
+            "component": 2861,
+            "label_class_diagnostic_only": 1,
+            "role": "fit"
+          },
+          {
+            "row_group": 1130,
+            "seq_ix": 1302007606,
+            "component": 2901,
+            "label_class_diagnostic_only": 2,
+            "role": "fit"
+          },
+          {
+            "row_group": 1793,
+            "seq_ix": 2051491347,
+            "component": 3223,
+            "label_class_diagnostic_only": 2,
+            "role": "fit"
+          },
+          {
+            "row_group": 87,
+            "seq_ix": 89214899,
+            "component": 2866,
+            "label_class_diagnostic_only": 2,
+            "role": "fit"
+          },
+          {
+            "row_group": 1869,
+            "seq_ix": 2144431796,
+            "component": 2902,
+            "label_class_diagnostic_only": 2,
+            "role": "fit"
+          },
+          {
+            "row_group": 1053,
+            "seq_ix": 1218942404,
+            "component": 3182,
+            "label_class_diagnostic_only": 2,
+            "role": "fit"
+          },
+          {
+            "row_group": 1390,
+            "seq_ix": 1596351500,
+            "component": 2948,
+            "label_class_diagnostic_only": 2,
+            "role": "fit"
+          },
+          {
+            "row_group": 614,
+            "seq_ix": 701505430,
+            "component": 3090,
+            "label_class_diagnostic_only": 3,
+            "role": "fit"
+          },
+          {
+            "row_group": 1284,
+            "seq_ix": 1494588886,
+            "component": 2982,
+            "label_class_diagnostic_only": 3,
+            "role": "fit"
+          },
+          {
+            "row_group": 1309,
+            "seq_ix": 1512273149,
+            "component": 3079,
+            "label_class_diagnostic_only": 3,
+            "role": "fit"
+          },
+          {
+            "row_group": 1725,
+            "seq_ix": 1979171607,
+            "component": 3193,
+            "label_class_diagnostic_only": 3,
+            "role": "fit"
+          },
+          {
+            "row_group": 713,
+            "seq_ix": 815144844,
+            "component": 2936,
+            "label_class_diagnostic_only": 3,
+            "role": "fit"
+          },
+          {
+            "row_group": 1567,
+            "seq_ix": 1795366096,
+            "component": 2930,
+            "label_class_diagnostic_only": 3,
+            "role": "fit"
+          }
+        ],
+        "selection_rule": "6 fit + 4 test distinct components per cached label-derived class; SHA256 target-mechanics-v1 component/group order; legacy protected holdout excluded",
+        "component_overlap": [],
+        "historical_exposure": "Validation labels and panels have extensive historical use. This is descriptive, not a fresh holdout or generalization claim. Class is label-derived and never an inference input.",
+        "metric": "global_wp_clip2_v1",
+        "fit_subsample": "every twentieth row >=128; no is_scored fit filtering",
+        "frozen_models": "ridge alpha=100; direct histogram 60 trees/12 leaves; factor sign and magnitude 30 trees each/12 leaves; shared full design; no search",
+        "normalization": {
+          "fit_mean": [
+            -1.5363867282867432,
+            -0.689834713935852,
+            1.2887780666351318,
+            -0.44421306252479553,
+            -1.0049716234207153,
+            0.024608345702290535,
+            -1.5609498023986816,
+            -0.6866507530212402,
+            1.1618949174880981,
+            -0.19426357746124268,
+            -0.881924569606781,
+            -0.014319630339741707,
+            -0.05646130442619324,
+            0.00033203521161340177,
+            -0.169044628739357,
+            -0.25854653120040894,
+            0.03898943215608597,
+            -0.2861734628677368,
+            -0.7288678288459778,
+            -2.0230934619903564,
+            -3.5546049730328377e-06,
+            2.096900971082505e-06,
+            4.6128329813655e-06,
+            -6.393834610207705e-06,
+            -5.608798801404191e-06,
+            2.5743427158886334e-06,
+            3.8066496017563622e-06,
+            4.4812200030719396e-06,
+            2.4200901407311903e-06,
+            -3.6629234045904013e-07,
+            -5.957327630312648e-06,
+            7.801266292517539e-06,
+            -4.835311301576439e-06,
+            9.792628588911612e-06,
+            4.220727987558348e-06,
+            3.4390102428005775e-06,
+            3.5663190374179976e-06,
+            3.5245990147814155e-05,
+            -3.0046541724004783e-05,
+            2.8520629712147638e-05,
+            2.0363821983337402,
+            0.2820541560649872
+          ],
+          "fit_scale": [
+            0.32517191767692566,
+            0.2430306077003479,
+            0.7047637104988098,
+            0.7663655877113342,
+            0.5567672848701477,
+            0.6080858707427979,
+            0.37485629320144653,
+            0.2399095743894577,
+            0.6885117888450623,
+            0.8592969179153442,
+            0.6910661458969116,
+            0.7655671238899231,
+            0.9265031814575195,
+            0.9781677722930908,
+            0.7986375689506531,
+            0.8008037209510803,
+            0.9514464735984802,
+            1.8925610780715942,
+            2.087163209915161,
+            2.956484317779541,
+            0.23587879538536072,
+            0.10206638276576996,
+            0.2836126685142517,
+            0.25912606716156006,
+            0.43994584679603577,
+            1.0169508457183838,
+            0.1448771208524704,
+            0.08167517185211182,
+            0.2859937250614166,
+            0.30186182260513306,
+            0.4794560968875885,
+            1.243190050125122,
+            0.9874710440635681,
+            1.6637933254241943,
+            0.10818876326084137,
+            0.03457668796181679,
+            1.073975682258606,
+            1.5013998746871948,
+            2.07209849357605,
+            2.8346872329711914,
+            1.8456852436065674,
+            0.4499995708465576
+          ]
+        }
+      },
+      "precision": {
+        "device_math": "FP32 IEEE",
+        "autocast": false,
+        "torch.backends.fp32_precision": "none",
+        "torch.backends.cuda.matmul.fp32_precision": "none",
+        "torch.backends.cudnn.fp32_precision": "none",
+        "torch.backends.cudnn.rnn.fp32_precision": "tf32"
+      },
+      "assigned_device": {
+        "uuid": "GPU-513b05d3-428f-873b-dde1-1cce3d0997d2",
+        "name": "Tesla T4",
+        "total_memory_bytes": 16106127360,
+        "allocator_fraction": 0.1373419339056244,
+        "muon_cuda_orthogonalization": {
+          "implementation_sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+          "method": "five-step quintic Newton-Schulz",
+          "input_dtype": "bfloat16 when input tensor is CUDA",
+          "output_dtype": "original gradient dtype"
+        }
+      },
+      "peak_allocated_bytes": 78760960,
+      "peak_reserved_bytes": 100663296,
+      "torch": "2.11.0+cu128",
+      "cuda": "12.8",
+      "cudnn": 91900
+    },
+    {
+      "status": "three_fit_arms_complete_test_unread",
+      "phase": "fit",
+      "fit_only": true,
+      "test_rows_loaded": false,
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "arms": [
+        {
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "baseline",
+          "updates": 474,
+          "parameters": 61058,
+          "fit_seconds": 208.43239211899993,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869,
+            1666,
+            483,
+            1766,
+            1062,
+            1567,
+            105,
+            1390,
+            1130,
+            233,
+            1735,
+            1309,
+            713,
+            1125,
+            807,
+            1725,
+            1015,
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "telemetry": [
+            {
+              "update_index_zero_based": 0,
+              "preclip_gradient_rms": {
+                "inp": 0.005001834578316467,
+                "gru": 0.0012119737287462776,
+                "head": 0.01553264051305017
+              },
+              "parameter_update_rms": {
+                "inp": 0.0009999656297755913,
+                "gru": 0.0001862646502664138,
+                "head": 0.0009999562451561807
+              },
+              "seed": 271828,
+              "optimizer": "muon_adamw",
+              "shape": "baseline",
+              "fit_row_groups": [
+                1284,
+                1793,
+                38,
+                1869
+              ],
+              "chunk_start": 0,
+              "loss": 2.3267135620117188,
+              "state_abs_max": 0.5120865106582642
+            },
+            {
+              "update_index_zero_based": 46,
+              "preclip_gradient_rms": {
+                "inp": 0.002566936408729868,
+                "gru": 0.0007707758389046747,
+                "head": 0.013484935326476016
+              },
+              "parameter_update_rms": {
+                "inp": 0.00040970382843440867,
+                "gru": 0.00015950041896181134,
+                "head": 0.00020591910410883247
+              },
+              "seed": 271828,
+              "optimizer": "muon_adamw",
+              "shape": "baseline",
+              "fit_row_groups": [
+                1284,
+                1793,
+                38,
+                1869
+              ],
+              "chunk_start": 11776,
+              "loss": 0.655383288860321,
+              "state_abs_max": 0.441332072019577
+            },
+            {
+              "update_index_zero_based": 236,
+              "preclip_gradient_rms": {
+                "inp": 0.03078638585602847,
+                "gru": 0.004323564603299112,
+                "head": 0.0376971267062746
+              },
+              "parameter_update_rms": {
+                "inp": 0.00032454755815169967,
+                "gru": 0.00014026518415738253,
+                "head": 0.00026680731827994904
+              },
+              "seed": 271828,
+              "optimizer": "muon_adamw",
+              "shape": "baseline",
+              "fit_row_groups": [
+                1567,
+                105,
+                1390,
+                1130
+              ],
+              "chunk_start": 19968,
+              "loss": 3.2515978813171387,
+              "state_abs_max": 0.43087390065193176
+            },
+            {
+              "update_index_zero_based": 473,
+              "preclip_gradient_rms": {
+                "inp": 0.012059371178064347,
+                "gru": 0.001745192847016307,
+                "head": 0.0169571712225358
+              },
+              "parameter_update_rms": {
+                "inp": 0.00020970652601500712,
+                "gru": 0.00015698492281606075,
+                "head": 0.00014004727800933392
+              },
+              "seed": 271828,
+              "optimizer": "muon_adamw",
+              "shape": "baseline",
+              "fit_row_groups": [
+                1053,
+                614,
+                1214,
+                87
+              ],
+              "chunk_start": 19968,
+              "loss": 2.5190482139587402,
+              "state_abs_max": 0.587827205657959
+            }
+          ],
+          "checkpoint": "seed271828_muon_adamw_baseline.pt",
+          "checkpoint_sha256": "eb73f1e2c3be9117692235442323fdfa5a29651c16d4b023e520a32e25dd0961"
+        },
+        {
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "sine",
+          "updates": 474,
+          "parameters": 61058,
+          "fit_seconds": 239.97082157299997,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869,
+            1666,
+            483,
+            1766,
+            1062,
+            1567,
+            105,
+            1390,
+            1130,
+            233,
+            1735,
+            1309,
+            713,
+            1125,
+            807,
+            1725,
+            1015,
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "telemetry": [
+            {
+              "update_index_zero_based": 0,
+              "preclip_gradient_rms": {
+                "inp": 0.0055109256071442575,
+                "gru": 0.002022107439083755,
+                "head": 0.01636849054619088
+              },
+              "parameter_update_rms": {
+                "inp": 0.0009999547372084945,
+                "gru": 0.00018824553927730225,
+                "head": 0.0009999589172720877
+              },
+              "seed": 271828,
+              "optimizer": "muon_adamw",
+              "shape": "sine",
+              "fit_row_groups": [
+                1284,
+                1793,
+                38,
+                1869
+              ],
+              "chunk_start": 0,
+              "loss": 2.3299026489257812,
+              "state_abs_max": 0.6150537133216858
+            },
+            {
+              "update_index_zero_based": 46,
+              "preclip_gradient_rms": {
+                "inp": 0.002948183728587343,
+                "gru": 0.00133963354681751,
+                "head": 0.014398907916497164
+              },
+              "parameter_update_rms": {
+                "inp": 0.00038827746719077085,
+                "gru": 0.00016105292198205688,
+                "head": 0.0002232592377358587
+              },
+              "seed": 271828,
+              "optimizer": "muon_adamw",
+              "shape": "sine",
+              "fit_row_groups": [
+                1284,
+                1793,
+                38,
+                1869
+              ],
+              "chunk_start": 11776,
+              "loss": 0.660065770149231,
+              "state_abs_max": 0.5402791500091553
+            },
+            {
+              "update_index_zero_based": 236,
+              "preclip_gradient_rms": {
+                "inp": 0.03243125242586605,
+                "gru": 0.006922464451144652,
+                "head": 0.041581579897550285
+              },
+              "parameter_update_rms": {
+                "inp": 0.0002841954331935727,
+                "gru": 0.0001445978376511317,
+                "head": 0.0002630837827554692
+              },
+              "seed": 271828,
+              "optimizer": "muon_adamw",
+              "shape": "sine",
+              "fit_row_groups": [
+                1567,
+                105,
+                1390,
+                1130
+              ],
+              "chunk_start": 19968,
+              "loss": 3.3171894550323486,
+              "state_abs_max": 0.5451692938804626
+            },
+            {
+              "update_index_zero_based": 473,
+              "preclip_gradient_rms": {
+                "inp": 0.012202402077267254,
+                "gru": 0.002665779439388251,
+                "head": 0.01810864321078584
+              },
+              "parameter_update_rms": {
+                "inp": 0.00021517812632305245,
+                "gru": 0.00016357745744098118,
+                "head": 0.00015143132129799854
+              },
+              "seed": 271828,
+              "optimizer": "muon_adamw",
+              "shape": "sine",
+              "fit_row_groups": [
+                1053,
+                614,
+                1214,
+                87
+              ],
+              "chunk_start": 19968,
+              "loss": 2.5389442443847656,
+              "state_abs_max": 0.7185609936714172
+            }
+          ],
+          "checkpoint": "seed271828_muon_adamw_sine.pt",
+          "checkpoint_sha256": "59666fae70d89adb7bb2d9a86ff49dc2f28bff9ba72af61260ab9d222e2295c3"
+        },
+        {
+          "seed": 271828,
+          "optimizer": "muon_adamw",
+          "shape": "cubic",
+          "updates": 474,
+          "parameters": 61058,
+          "fit_seconds": 256.56514527599995,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869,
+            1666,
+            483,
+            1766,
+            1062,
+            1567,
+            105,
+            1390,
+            1130,
+            233,
+            1735,
+            1309,
+            713,
+            1125,
+            807,
+            1725,
+            1015,
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "telemetry": [
+            {
+              "update_index_zero_based": 0,
+              "preclip_gradient_rms": {
+                "inp": 0.005542561775711479,
+                "gru": 0.0020686816843662735,
+                "head": 0.01642380579978287
+              },
+              "parameter_update_rms": {
+                "inp": 0.0009999331934364792,
+                "gru": 0.000188143538844686,
+                "head": 0.0009998956342444423
+              },
+              "seed": 271828,
+              "optimizer": "muon_adamw",
+              "shape": "cubic",
+              "fit_row_groups": [
+                1284,
+                1793,
+                38,
+                1869
+              ],
+              "chunk_start": 0,
+              "loss": 2.3299286365509033,
+              "state_abs_max": 0.641396701335907
+            },
+            {
+              "update_index_zero_based": 46,
+              "preclip_gradient_rms": {
+                "inp": 0.0029799553709426146,
+                "gru": 0.0013812970046145649,
+                "head": 0.014427035821058285
+              },
+              "parameter_update_rms": {
+                "inp": 0.00038743384109566546,
+                "gru": 0.00016071958991534886,
+                "head": 0.00022448657853907643
+              },
+              "seed": 271828,
+              "optimizer": "muon_adamw",
+              "shape": "cubic",
+              "fit_row_groups": [
+                1284,
+                1793,
+                38,
+                1869
+              ],
+              "chunk_start": 11776,
+              "loss": 0.66017746925354,
+              "state_abs_max": 0.5518965125083923
+            },
+            {
+              "update_index_zero_based": 236,
+              "preclip_gradient_rms": {
+                "inp": 0.03289192529360981,
+                "gru": 0.007165061965341073,
+                "head": 0.041867374850388175
+              },
+              "parameter_update_rms": {
+                "inp": 0.0002830238260475433,
+                "gru": 0.00014393913049137326,
+                "head": 0.0002620551642697067
+              },
+              "seed": 271828,
+              "optimizer": "muon_adamw",
+              "shape": "cubic",
+              "fit_row_groups": [
+                1567,
+                105,
+                1390,
+                1130
+              ],
+              "chunk_start": 19968,
+              "loss": 3.3240175247192383,
+              "state_abs_max": 0.5663014054298401
+            },
+            {
+              "update_index_zero_based": 473,
+              "preclip_gradient_rms": {
+                "inp": 0.012210777128630786,
+                "gru": 0.0027272105782933857,
+                "head": 0.01815703034240471
+              },
+              "parameter_update_rms": {
+                "inp": 0.0002158128579933826,
+                "gru": 0.00016308800664248206,
+                "head": 0.00015236497437218178
+              },
+              "seed": 271828,
+              "optimizer": "muon_adamw",
+              "shape": "cubic",
+              "fit_row_groups": [
+                1053,
+                614,
+                1214,
+                87
+              ],
+              "chunk_start": 19968,
+              "loss": 2.539205551147461,
+              "state_abs_max": 0.7490159273147583
+            }
+          ],
+          "checkpoint": "seed271828_muon_adamw_cubic.pt",
+          "checkpoint_sha256": "d546d3c4c2a0ca15316d4f8880f5a2a7c2eae86926387b7d1cdfc6256f21ece5"
+        }
+      ],
+      "planned_fit_count": 3,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates_per_arm": 474,
+      "architecture": "E481 frozen; 42 features, two-layer H64 GRU, 61,058 parameters",
+      "parent_source_sha256": {
+        "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+        "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068"
+      },
+      "source_sha256": {
+        "e481": "3d97d2d07b116b3cf04b365c33e3d3caed2c96c35108bd28f3a6ff63b54d65cc",
+        "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+        "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+        "muon_optimizer": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+        "remote_worker": "ad8bc19fd46a1394b7f9346eeb7451e14f7e4a6fc6bb643fdb6584d9566e4982"
+      },
+      "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+      "fit_only_cohort": {
+        "cohort": [
+          {
+            "row_group": 1735,
+            "seq_ix": 1989531794,
+            "component": 2795,
+            "label_class_diagnostic_only": 0,
+            "role": "fit"
+          },
+          {
+            "row_group": 1766,
+            "seq_ix": 2024723908,
+            "component": 2854,
+            "label_class_diagnostic_only": 0,
+            "role": "fit"
+          },
+          {
+            "row_group": 233,
+            "seq_ix": 235282549,
+            "component": 2806,
+            "label_class_diagnostic_only": 0,
+            "role": "fit"
+          },
+          {
+            "row_group": 38,
+            "seq_ix": 45323361,
+            "component": 2828,
+            "label_class_diagnostic_only": 0,
+            "role": "fit"
+          },
+          {
+            "row_group": 807,
+            "seq_ix": 941450430,
+            "component": 2991,
+            "label_class_diagnostic_only": 0,
+            "role": "fit"
+          },
+          {
+            "row_group": 1125,
+            "seq_ix": 1294249563,
+            "component": 3200,
+            "label_class_diagnostic_only": 0,
+            "role": "fit"
+          },
+          {
+            "row_group": 1015,
+            "seq_ix": 1168194342,
+            "component": 3010,
+            "label_class_diagnostic_only": 1,
+            "role": "fit"
+          },
+          {
+            "row_group": 105,
+            "seq_ix": 109463899,
+            "component": 2882,
+            "label_class_diagnostic_only": 1,
+            "role": "fit"
+          },
+          {
+            "row_group": 483,
+            "seq_ix": 547472527,
+            "component": 2801,
+            "label_class_diagnostic_only": 1,
+            "role": "fit"
+          },
+          {
+            "row_group": 1062,
+            "seq_ix": 1227566939,
+            "component": 2860,
+            "label_class_diagnostic_only": 1,
+            "role": "fit"
+          },
+          {
+            "row_group": 1666,
+            "seq_ix": 1917373469,
+            "component": 2940,
+            "label_class_diagnostic_only": 1,
+            "role": "fit"
+          },
+          {
+            "row_group": 1214,
+            "seq_ix": 1413037324,
+            "component": 2861,
+            "label_class_diagnostic_only": 1,
+            "role": "fit"
+          },
+          {
+            "row_group": 1130,
+            "seq_ix": 1302007606,
+            "component": 2901,
+            "label_class_diagnostic_only": 2,
+            "role": "fit"
+          },
+          {
+            "row_group": 1793,
+            "seq_ix": 2051491347,
+            "component": 3223,
+            "label_class_diagnostic_only": 2,
+            "role": "fit"
+          },
+          {
+            "row_group": 87,
+            "seq_ix": 89214899,
+            "component": 2866,
+            "label_class_diagnostic_only": 2,
+            "role": "fit"
+          },
+          {
+            "row_group": 1869,
+            "seq_ix": 2144431796,
+            "component": 2902,
+            "label_class_diagnostic_only": 2,
+            "role": "fit"
+          },
+          {
+            "row_group": 1053,
+            "seq_ix": 1218942404,
+            "component": 3182,
+            "label_class_diagnostic_only": 2,
+            "role": "fit"
+          },
+          {
+            "row_group": 1390,
+            "seq_ix": 1596351500,
+            "component": 2948,
+            "label_class_diagnostic_only": 2,
+            "role": "fit"
+          },
+          {
+            "row_group": 614,
+            "seq_ix": 701505430,
+            "component": 3090,
+            "label_class_diagnostic_only": 3,
+            "role": "fit"
+          },
+          {
+            "row_group": 1284,
+            "seq_ix": 1494588886,
+            "component": 2982,
+            "label_class_diagnostic_only": 3,
+            "role": "fit"
+          },
+          {
+            "row_group": 1309,
+            "seq_ix": 1512273149,
+            "component": 3079,
+            "label_class_diagnostic_only": 3,
+            "role": "fit"
+          },
+          {
+            "row_group": 1725,
+            "seq_ix": 1979171607,
+            "component": 3193,
+            "label_class_diagnostic_only": 3,
+            "role": "fit"
+          },
+          {
+            "row_group": 713,
+            "seq_ix": 815144844,
+            "component": 2936,
+            "label_class_diagnostic_only": 3,
+            "role": "fit"
+          },
+          {
+            "row_group": 1567,
+            "seq_ix": 1795366096,
+            "component": 2930,
+            "label_class_diagnostic_only": 3,
+            "role": "fit"
+          }
+        ],
+        "selection_rule": "6 fit + 4 test distinct components per cached label-derived class; SHA256 target-mechanics-v1 component/group order; legacy protected holdout excluded",
+        "component_overlap": [],
+        "historical_exposure": "Validation labels and panels have extensive historical use. This is descriptive, not a fresh holdout or generalization claim. Class is label-derived and never an inference input.",
+        "metric": "global_wp_clip2_v1",
+        "fit_subsample": "every twentieth row >=128; no is_scored fit filtering",
+        "frozen_models": "ridge alpha=100; direct histogram 60 trees/12 leaves; factor sign and magnitude 30 trees each/12 leaves; shared full design; no search",
+        "normalization": {
+          "fit_mean": [
+            -1.5363867282867432,
+            -0.689834713935852,
+            1.2887780666351318,
+            -0.44421306252479553,
+            -1.0049716234207153,
+            0.024608345702290535,
+            -1.5609498023986816,
+            -0.6866507530212402,
+            1.1618949174880981,
+            -0.19426357746124268,
+            -0.881924569606781,
+            -0.014319630339741707,
+            -0.05646130442619324,
+            0.00033203521161340177,
+            -0.169044628739357,
+            -0.25854653120040894,
+            0.03898943215608597,
+            -0.2861734628677368,
+            -0.7288678288459778,
+            -2.0230934619903564,
+            -3.5546049730328377e-06,
+            2.096900971082505e-06,
+            4.6128329813655e-06,
+            -6.393834610207705e-06,
+            -5.608798801404191e-06,
+            2.5743427158886334e-06,
+            3.8066496017563622e-06,
+            4.4812200030719396e-06,
+            2.4200901407311903e-06,
+            -3.6629234045904013e-07,
+            -5.957327630312648e-06,
+            7.801266292517539e-06,
+            -4.835311301576439e-06,
+            9.792628588911612e-06,
+            4.220727987558348e-06,
+            3.4390102428005775e-06,
+            3.5663190374179976e-06,
+            3.5245990147814155e-05,
+            -3.0046541724004783e-05,
+            2.8520629712147638e-05,
+            2.0363821983337402,
+            0.2820541560649872
+          ],
+          "fit_scale": [
+            0.32517191767692566,
+            0.2430306077003479,
+            0.7047637104988098,
+            0.7663655877113342,
+            0.5567672848701477,
+            0.6080858707427979,
+            0.37485629320144653,
+            0.2399095743894577,
+            0.6885117888450623,
+            0.8592969179153442,
+            0.6910661458969116,
+            0.7655671238899231,
+            0.9265031814575195,
+            0.9781677722930908,
+            0.7986375689506531,
+            0.8008037209510803,
+            0.9514464735984802,
+            1.8925610780715942,
+            2.087163209915161,
+            2.956484317779541,
+            0.23587879538536072,
+            0.10206638276576996,
+            0.2836126685142517,
+            0.25912606716156006,
+            0.43994584679603577,
+            1.0169508457183838,
+            0.1448771208524704,
+            0.08167517185211182,
+            0.2859937250614166,
+            0.30186182260513306,
+            0.4794560968875885,
+            1.243190050125122,
+            0.9874710440635681,
+            1.6637933254241943,
+            0.10818876326084137,
+            0.03457668796181679,
+            1.073975682258606,
+            1.5013998746871948,
+            2.07209849357605,
+            2.8346872329711914,
+            1.8456852436065674,
+            0.4499995708465576
+          ]
+        }
+      },
+      "precision": {
+        "device_math": "FP32 IEEE",
+        "autocast": false,
+        "torch.backends.fp32_precision": "none",
+        "torch.backends.cuda.matmul.fp32_precision": "none",
+        "torch.backends.cudnn.fp32_precision": "none",
+        "torch.backends.cudnn.rnn.fp32_precision": "tf32"
+      },
+      "assigned_device": {
+        "uuid": "GPU-7fed4ce6-397a-5bde-5505-cbed3c769375",
+        "name": "Tesla T4",
+        "total_memory_bytes": 16106127360,
+        "allocator_fraction": 0.1373419339056244,
+        "muon_cuda_orthogonalization": {
+          "implementation_sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+          "method": "five-step quintic Newton-Schulz",
+          "input_dtype": "bfloat16 when input tensor is CUDA",
+          "output_dtype": "original gradient dtype"
+        }
+      },
+      "peak_allocated_bytes": 78564352,
+      "peak_reserved_bytes": 100663296,
+      "torch": "2.11.0+cu128",
+      "cuda": "12.8",
+      "cudnn": 91900
+    }
+  ],
+  "fit_resources": {
+    "resource_start": {
+      "host": {
+        "capacity_bytes": 32212254720,
+        "available_bytes": 25404768256,
+        "affinity": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "devices": [
+        {
+          "index": 0,
+          "uuid": "GPU-513b05d3-428f-873b-dde1-1cce3d0997d2",
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-7fed4ce6-397a-5bde-5505-cbed3c769375",
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0
+        }
+      ],
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    "resource_end": {
+      "host": {
+        "capacity_bytes": 32212254720,
+        "available_bytes": 25399783424,
+        "affinity": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "devices": [
+        {
+          "index": 0,
+          "uuid": "GPU-513b05d3-428f-873b-dde1-1cce3d0997d2",
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-7fed4ce6-397a-5bde-5505-cbed3c769375",
+          "name": "Tesla T4",
+          "total_bytes": 16106127360,
+          "used_bytes": 0
+        }
+      ],
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    "peak_process_tree_rss_bytes_by_optimizer": {
+      "adamw": 1652441088,
+      "muon_adamw": 1618296832
+    },
+    "exit_codes": {
+      "adamw": 0,
+      "muon_adamw": 0
+    },
+    "thresholds": {
+      "ram_worker_bytes": 6442450944,
+      "gpu_physical_stop_bytes": 3000000000,
+      "host_stop_fraction": 0.9
+    }
+  },
+  "host_initial": {
+    "capacity_bytes": 32212254720,
+    "available_bytes": 31451598848,
+    "affinity": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "devices_initial": [
+    {
+      "index": 0,
+      "uuid": "GPU-513b05d3-428f-873b-dde1-1cce3d0997d2",
+      "name": "Tesla T4",
+      "total_bytes": 16106127360,
+      "used_bytes": 0
+    },
+    {
+      "index": 1,
+      "uuid": "GPU-7fed4ce6-397a-5bde-5505-cbed3c769375",
+      "name": "Tesla T4",
+      "total_bytes": 16106127360,
+      "used_bytes": 0
+    }
+  ],
+  "source_sha256": {
+    "e481": "3d97d2d07b116b3cf04b365c33e3d3caed2c96c35108bd28f3a6ff63b54d65cc",
+    "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+    "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+    "muon_optimizer": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+    "remote_worker": "ad8bc19fd46a1394b7f9346eeb7451e14f7e4a6fc6bb643fdb6584d9566e4982"
+  },
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2"
+}

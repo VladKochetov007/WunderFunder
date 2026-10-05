@@ -1,0 +1,7 @@
+# E482 grader v1 provider-metadata gate failure
+
+Root ran the frozen3cdfcc0b scorer's actual --verify-fit-only mode under1CPU/6GiB/no swap. It exited1 before the dataset fit loader or any test loader. The provider posted kernel source SHA exactly matched the reviewed submitted source. The provider metadata JSON is a normalized record, however, and cannot equal the submitted metadata bytes: Kaggle renamed code_file from kernel.py to the posted filename and added docker_image, numeric id_no137124210, empty model_sources and empty keywords. The field comparison found exactly those five changes; privacy, GPU/TPU, internet and both private dataset identities are unchanged.
+
+The actual provider metadata digest is3ea5d2a35a7a392adcc4f1e8f7fedd2b4c8cf1291daa36d87b0ad1f2d9a7acb4 versus the local submitted metadata digest8935ac6dfe870891c8c6d2fc4308e0dac2bdf17c697528d5ed3ffe7e39894eb0. Both original files and ROOT_FIT_ONLY_GATE_V1.log are preserved. All five synthetic tests passed but did not cover provider normalization; this exposed the gap. No predictions or metric results were produced and no fit needs restarting.
+
+The correction must be a separately versioned grader, pinning both byte identities and comparing all intended semantic fields while explicitly validating the observed five-field provider transformation. Root review and another actual fit-only gate remain required before any scores.

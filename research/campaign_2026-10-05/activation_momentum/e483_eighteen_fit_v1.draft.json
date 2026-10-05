@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "kind": "gpu",
+  "limits": {
+    "cpus": 2,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 7200,
+    "gpu_memory_bytes": 2147483648,
+    "gpu_stop_bytes": 3000000000
+  },
+  "environment": {},
+  "name": "e483_isolated_recurrent_momentum_eighteen_fits_v1",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/activation_momentum/fit_momentum.py",
+    "--run-fits",
+    "--device",
+    "cuda",
+    "--output",
+    "research/campaign_2026-10-05/activation_momentum/runs/eighteen_v1"
+  ],
+  "code": [
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/resources.py",
+    "src/wnn/optim.py",
+    "src/wnn/nn.py",
+    "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+    "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+    "research/campaign_2026-10-05/recurrent_activation_curvature/fit_recurrent_curvature.py",
+    "research/campaign_2026-10-05/activation_momentum/fit_momentum.py",
+    "research/campaign_2026-10-05/activation_momentum/gpu_probe.py",
+    "research/campaign_2026-10-05/activation_momentum/tests.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-05/target_mechanics/cohort.json",
+    "research/campaign_2026-10-05/activation_momentum/E483_DESIGN.md",
+    "research/campaign_2026-10-05/activation_momentum/SPEC_CRITIC.md",
+    "research/campaign_2026-10-05/activation_momentum/ACTOR_SOURCE_NOTE.md",
+    "research/campaign_2026-10-05/activation_momentum/INDEPENDENT_REVIEW.md",
+    "research/campaign_2026-10-05/activation_momentum/preflight_cpu_v3/fit_manifest.json",
+    "research/campaign_2026-10-05/activation_momentum/gpu_probe_v1/probe.json",
+    "research/campaign_2026-10-05/activation_momentum/ROOT_FULL_FIT_ADMISSION.md"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/activation_momentum/runs/eighteen_v1/fit_manifest.json"
+  ]
+}

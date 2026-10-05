@@ -1,0 +1,152 @@
+{
+  "status": "probe_passed",
+  "phase": "probe",
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "optimizer": "muon_adamw",
+  "arms": [
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "shape": "baseline",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.3267135620117188,
+      "changed_parameter_tensors": 14,
+      "parameters": 61058,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005001834571383311,
+          "gru": 0.0012119737239127825,
+          "head": 0.015532640474499166
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999656276291893,
+          "gru": 0.0001862646499178018,
+          "head": 0.0009999562416569217
+        }
+      }
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "shape": "sine",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.3299026489257812,
+      "changed_parameter_tensors": 14,
+      "parameters": 61058,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0055109256071442575,
+          "gru": 0.002022107439083755,
+          "head": 0.01636849054619088
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999547372084945,
+          "gru": 0.00018824553927730225,
+          "head": 0.0009999589172720877
+        }
+      }
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "shape": "cubic",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.3299286365509033,
+      "changed_parameter_tensors": 14,
+      "parameters": 61058,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005542561775711479,
+          "gru": 0.0020686816843662735,
+          "head": 0.01642380579978287
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999331934364792,
+          "gru": 0.000188143538844686,
+          "head": 0.0009998956342444423
+        }
+      }
+    }
+  ],
+  "native_parity": {
+    "optimizer": "muon_adamw",
+    "output_state_input_gradient_parameter_gradient_and_clipped_step": "passed",
+    "parameter_tensors": 14,
+    "precision": {
+      "device_math": "FP32 IEEE",
+      "autocast": false,
+      "torch.backends.fp32_precision": "none",
+      "torch.backends.cuda.matmul.fp32_precision": "none",
+      "torch.backends.cudnn.fp32_precision": "none",
+      "torch.backends.cudnn.rnn.fp32_precision": "tf32"
+    }
+  },
+  "device": "Tesla T4",
+  "assigned_device": {
+    "uuid": "GPU-7fed4ce6-397a-5bde-5505-cbed3c769375",
+    "name": "Tesla T4",
+    "total_memory_bytes": 16106127360,
+    "allocator_fraction": 0.1373419339056244,
+    "muon_cuda_orthogonalization": {
+      "implementation_sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+      "method": "five-step quintic Newton-Schulz",
+      "input_dtype": "bfloat16 when input tensor is CUDA",
+      "output_dtype": "original gradient dtype"
+    }
+  },
+  "device_properties": {
+    "name": "Tesla T4",
+    "total_memory_bytes": 15636037632,
+    "uuid": "GPU-7fed4ce6-397a-5bde-5505-cbed3c769375"
+  },
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "cudnn": 91900,
+  "precision": {
+    "device_math": "FP32 IEEE",
+    "autocast": false,
+    "torch.backends.fp32_precision": "none",
+    "torch.backends.cuda.matmul.fp32_precision": "none",
+    "torch.backends.cudnn.fp32_precision": "none",
+    "torch.backends.cudnn.rnn.fp32_precision": "tf32"
+  },
+  "peak_allocated_bytes": 86701056,
+  "peak_reserved_bytes": 98566144,
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "source_sha256": {
+    "e481": "3d97d2d07b116b3cf04b365c33e3d3caed2c96c35108bd28f3a6ff63b54d65cc",
+    "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+    "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+    "muon_optimizer": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+    "remote_worker": "ad8bc19fd46a1394b7f9346eeb7451e14f7e4a6fc6bb643fdb6584d9566e4982"
+  }
+}
