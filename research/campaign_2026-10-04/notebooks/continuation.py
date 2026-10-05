@@ -874,5 +874,55 @@ def e480_three_seed_schedule_replication(json, mo, project_root):
     return
 
 
+@app.cell(hide_code=True)
+def e479_learned_recurrent_activation(json, mo, project_root):
+    _e479_dir = project_root / "research/campaign_2026-10-05/recurrent_activation_adaptive"
+    _e479_result = json.loads((_e479_dir / "eda/sixteen_v2/RESULT.json").read_text())
+    _e479_arm_rows = []
+    for _e479_key, _e479_arm in _e479_result["arms"].items():
+        _e479_arm_rows.append({"fit_seed": _e479_arm["seed"], "optimizer": _e479_arm["optimizer"], "condition": _e479_arm["condition"], "global_wp": _e479_arm["global_wp"], "t0_wp": _e479_arm["target_wp"]["t0"], "t1_wp": _e479_arm["target_wp"]["t1"]})
+    _e479_contrast_rows = []
+    for _e479_key, _e479_effect in _e479_result["contrasts"].items():
+        _e479_contrast_rows.append({"contrast": _e479_key, "difference": _e479_effect["difference"], "ci95": _e479_effect["ci95"], "fit_seed": _e479_effect["seed"]})
+    mo.vstack([
+        mo.md("""## E479: learned recurrent candidate shape — 16 fits, 28 contrasts
+    This fixed two-seed study compares per-layer learned amplitudes in `u + α sin(πu)` against fixed controls using AdamW and Muon+AdamW. The learned-versus-fixed effects are generally small and mixed: AdamW seed 271828 has a +0.000650 effect for learned-from-0.1 versus fixed 0.1, but the sign does not repeat across all seed/optimizer pairs. Optimizer contrasts reverse direction across the two fit seeds. Results use 16 previously exposed components and are descriptive, not an untouched holdout or a public-score forecast. Full report: `research/campaign_2026-10-05/recurrent_activation_adaptive/REPORT.md`.
+
+    The independent raw-export recomputation matched all 16 arm scores and 28 contrasts to maximum absolute error 2.44e-15."""),
+        mo.image(str(_e479_dir / "eda/sixteen_v2/e479_scores.png")),
+        mo.image(str(_e479_dir / "eda/sixteen_v2/e479_contrasts.png")),
+        mo.image(str(_e479_dir / "eda/coefficient_trajectories.png")),
+        mo.md("### All 16 registered arm scores"),
+        mo.ui.table(_e479_arm_rows),
+        mo.md("### All 28 registered paired contrasts"),
+        mo.ui.table(_e479_contrast_rows),
+    ])
+    return
+
+
+@app.cell(hide_code=True)
+def e481_recurrent_candidate_curvature(json, mo, project_root):
+    _e481_dir = project_root / "research/campaign_2026-10-05/recurrent_activation_curvature"
+    _e481_scores = json.loads((_e481_dir / "eda/eighteen_v2/scores.json").read_text())
+    _e481_arm_rows = []
+    for _e481_key, _e481_arm in _e481_scores["arm_scores"].items():
+        _e481_arm_rows.append({"fit_seed": _e481_arm["seed"], "optimizer": _e481_arm["optimizer"], "candidate": _e481_arm["shape"], "global_wp": _e481_arm["wp"], "t0_wp": _e481_arm["t0"], "t1_wp": _e481_arm["t1"]})
+    _e481_contrast_rows = []
+    for _e481_seed, _e481_effects in _e481_scores["contrasts_by_seed"].items():
+        for _e481_name, _e481_effect in _e481_effects.items():
+            _e481_contrast_rows.append({"fit_seed": int(_e481_seed), "family": _e481_effect["family"], "contrast": _e481_name, "difference": _e481_effect["mean_diff"], "ci95": _e481_effect["ci95"], "p_le_0": _e481_effect["p_le_0"]})
+    mo.vstack([
+        mo.md("""## E481: candidate shape depends on seed and optimizer
+    The reset-after GRU candidate compared baseline `u`, bounded sine `u + 0.1 sin(πu)`, and matched-center cubic `u + 0.1πu(1−u²)`. Across three fixed fit seeds × two optimizers × three shapes, all 18 fits completed and were independently graded. In seed 271828, both nonlinearity variants sharply reduce AdamW score but slightly improve Muon+AdamW; the following two seeds show positive shape-vs-baseline estimates under both optimizers, with one Muon interval crossing zero. Cubic-vs-sine gaps are smaller and mostly uncertain. This uses 16 previously exposed components and does not predict public performance. The CPU grade attempt exited 0 with verified teardown. Full results and limitations: `research/campaign_2026-10-05/recurrent_activation_curvature/REPORT.md`."""),
+        mo.image(str(_e481_dir / "eda/eighteen_v2/e481_scores.png")),
+        mo.image(str(_e481_dir / "eda/eighteen_v2/e481_contrasts.png")),
+        mo.md("### All 18 registered arm scores"),
+        mo.ui.table(_e481_arm_rows),
+        mo.md("### All 30 registered paired global contrasts"),
+        mo.ui.table(_e481_contrast_rows),
+    ])
+    return
+
+
 if __name__ == "__main__":
     app.run()

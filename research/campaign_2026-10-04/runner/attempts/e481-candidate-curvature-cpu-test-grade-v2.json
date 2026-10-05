@@ -1,0 +1,437 @@
+{
+  "admission_resources": {
+    "parent_cpu_max": 12,
+    "parent_ram_max": 38654705664,
+    "support_cpus": 2,
+    "support_ram_bytes": 4294967296,
+    "worker_cpus": 1,
+    "worker_ram_bytes": 6442450944
+  },
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "research/campaign_2026-10-05/recurrent_activation_curvature/score_recurrent_curvature_v2.py",
+    "--run",
+    "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1",
+    "--attempt-record",
+    "research/campaign_2026-10-04/runner/attempts/e481-candidate-curvature-eighteen-fit-v1.json",
+    "--sealed-spec",
+    "research/campaign_2026-10-05/recurrent_activation_curvature/e481_eighteen_fit_v1.sealed.json",
+    "--output",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/recurrent_activation_curvature/eda/eighteen_v2",
+    "--device",
+    "cpu"
+  ],
+  "artifacts": [
+    {
+      "path": "research/campaign_2026-10-05/recurrent_activation_curvature/eda/eighteen_v2/scores.json",
+      "sha256": "e8a405add6bd104fda17978feb2abead5310346d6c006de8da53ad720cfec217",
+      "size": 29932
+    },
+    {
+      "path": "research/campaign_2026-10-05/recurrent_activation_curvature/eda/eighteen_v2/selected_exports.npz",
+      "sha256": "6645cb5c57486b0d90406212957f3e93fe7b5fa363b01e657dc98fe08f260c1c",
+      "size": 4281760
+    }
+  ],
+  "block_id": "local001",
+  "charged_seconds": 369.829436044005,
+  "elapsed_seconds": 369.829436044005,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "1",
+    "NUMBA_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "0",
+    "WNN_THREADS": "1"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 1198882,
+    "low": 0,
+    "max": 7522594,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791173555.6156418,
+  "heartbeat_unix": 1791173555.0946352,
+  "id": "e481-candidate-curvature-cpu-test-grade-v2",
+  "initial_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "initial_parent_memory_events": {
+    "high": 1198882,
+    "low": 0,
+    "max": 7522594,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "kind": "cpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "30000000000",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 0,
+  "peak_ram_bytes": 920653824,
+  "reserved_seconds": 3330,
+  "reserved_unix": 1791173185.7359064,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+    "src/wnn/campaign.py": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+    "src/wnn/campaign_local.py": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+    "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "signals": [],
+  "spec": {
+    "argv": [
+      "{python}",
+      "research/campaign_2026-10-05/recurrent_activation_curvature/score_recurrent_curvature_v2.py",
+      "--run",
+      "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1",
+      "--attempt-record",
+      "research/campaign_2026-10-04/runner/attempts/e481-candidate-curvature-eighteen-fit-v1.json",
+      "--sealed-spec",
+      "research/campaign_2026-10-05/recurrent_activation_curvature/e481_eighteen_fit_v1.sealed.json",
+      "--output",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/recurrent_activation_curvature/eda/eighteen_v2",
+      "--device",
+      "cpu"
+    ],
+    "artifacts": [
+      "research/campaign_2026-10-05/recurrent_activation_curvature/eda/eighteen_v2/scores.json",
+      "research/campaign_2026-10-05/recurrent_activation_curvature/eda/eighteen_v2/selected_exports.npz"
+    ],
+    "code": [
+      {
+        "path": "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+        "sha256": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+        "size": 18964
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+        "sha256": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+        "size": 22424
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/fit_recurrent_curvature.py",
+        "sha256": "3d97d2d07b116b3cf04b365c33e3d3caed2c96c35108bd28f3a6ff63b54d65cc",
+        "size": 18501
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/gpu_probe.py",
+        "sha256": "e311e022232807c407d4fe56720c9e16d6474af04528064f05886487e9fd077a",
+        "size": 5391
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/score_recurrent_curvature_v2.py",
+        "sha256": "ce439bb122d640279f8b199e7ee3af002f4ca70e16d6a171cf47e9587be9a4f3",
+        "size": 43604
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/test_score_recurrent_curvature_v2.py",
+        "sha256": "e89f71e9aafbaf177478fd038c969ebe45d0df8383407cf11b73747d4bcea6e4",
+        "size": 2335
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/tests.py",
+        "sha256": "ae5e277b1551d2b6c338aa90e83bb1fb7ffff0d29271d33f1f3498caa8e69ee2",
+        "size": 8368
+      },
+      {
+        "path": "scripts/run_campaign.py",
+        "sha256": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+        "size": 4273
+      },
+      {
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+        "size": 63
+      },
+      {
+        "path": "src/wnn/campaign.py",
+        "sha256": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+        "size": 13176
+      },
+      {
+        "path": "src/wnn/campaign_local.py",
+        "sha256": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+        "size": 22065
+      },
+      {
+        "path": "src/wnn/campaign_spec.py",
+        "sha256": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+        "size": 8717
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "size": 8902
+      },
+      {
+        "path": "src/wnn/nn.py",
+        "sha256": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+        "size": 19926
+      },
+      {
+        "path": "src/wnn/optim.py",
+        "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+        "size": 11736
+      },
+      {
+        "path": "src/wnn/resources.py",
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+        "size": 4485
+      }
+    ],
+    "code_sha256": "39fb4482cb20b7e6261906e2a1523e2c4ddafa2e8a2f329b76c46c00d0748656",
+    "environment": {},
+    "inputs": [
+      {
+        "path": "datasets/valid.parquet",
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "size": 5615509128
+      },
+      {
+        "path": "research/campaign_2026-10-04/runner/attempts/e481-candidate-curvature-eighteen-fit-v1.json",
+        "sha256": "a52e619382da8df25eda154fb538b2500ce28f9da3b17d0a741d756272b110e7",
+        "size": 10080
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/E481_DESIGN.md",
+        "sha256": "488d42609b7671d6af85eb050e910dc477706a607ade4ad16f9d6627cbfa9e93",
+        "size": 3699
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/GRADER_API_INCIDENT_V1.md",
+        "sha256": "e312a2e9384281e57ac4b251317cc40924490352ed618f94d49498366261b398",
+        "size": 1773
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/GRADER_INDEPENDENT_REVIEW.md",
+        "sha256": "03ac283d4989ec688e72fa0d9892d77d315a59d7613e639a991aa6a48e9b2244",
+        "size": 3449
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/GRADER_V2_INDEPENDENT_REVIEW.md",
+        "sha256": "fff09e3a6e0ae618574482bfd02c8c5e9bac4050e41d9366c2ed484636132c50",
+        "size": 5142
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/INDEPENDENT_REVIEW.md",
+        "sha256": "deb5b122339d67bf43c2000f7fbc4b8dfd170278e48775d396365a08a31d0fda",
+        "size": 3747
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/INDEPENDENT_REVIEW_HASH_ERRATA.md",
+        "sha256": "1a6a5f42d678a782df59f16dc7cb119083d761f10c9fb643d9f644c2d981cda8",
+        "size": 418
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/ROOT_COMPLETED_FIT_GATE.md",
+        "sha256": "22d6ee2e74de15d710d7a0a0c9784bccccca6fbe61f4a9af55b1ec10857b3096",
+        "size": 1261
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/ROOT_FULL_FIT_ADMISSION.md",
+        "sha256": "862d7ea6902a368ba7df71df8c1572588d45fbce117597b3bc94106c86485bc8",
+        "size": 565
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/SOURCE_RECEIPT.md",
+        "sha256": "c934b8842b0aa881010e9f7952f18c54e5f2a5f58b799fbf65f4096021ad28fb",
+        "size": 3077
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/SPEC_CRITIC.md",
+        "sha256": "b16b9a8b94e8867c16b93845c840661a7634787bb68eec1fcce93eba3903f74b",
+        "size": 7506
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/e481_eighteen_fit_v1.sealed.json",
+        "sha256": "974a5e650fd831129a894ceb05173757e4ca1a6d4a9ebf4f1c274decd413535c",
+        "size": 5311
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/gpu_probe_v1/probe.json",
+        "sha256": "bbd03c950e4849d90c05b98c903a93a7b98fc2e3eca00e965d39b10d7af38007",
+        "size": 14647
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/preflight_cpu_v2/fit_manifest.json",
+        "sha256": "83d99ffaf1b037ccf28d62dfc5d40b58a984dd7a2b49f4dea0cea9ae1f3c72b4",
+        "size": 22323
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/fit_manifest.json",
+        "sha256": "9ddb8e20506a996187bba1235ce9c0251bb724939643d543351d04ccf781812a",
+        "size": 74447
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271828_adamw_baseline.pt",
+        "sha256": "373f064ccfb20909ad861f6fd6adbc341ca57c0b187250ad559b6895829c77c3",
+        "size": 250687
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271828_adamw_cubic.pt",
+        "sha256": "176c535229dcc3edb7682b3f2d504164365dc84fef2a09c0c50877fbfc47c8f8",
+        "size": 250557
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271828_adamw_sine.pt",
+        "sha256": "a3250498a8e44f063211964fc1140b7acfff516e0595c1fd7ee966de94602e4f",
+        "size": 250471
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271828_muon_adamw_baseline.pt",
+        "sha256": "a0646b501e578c56d81eead33e0a6424dd5943242552dfad1b4483007a617304",
+        "size": 250797
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271828_muon_adamw_cubic.pt",
+        "sha256": "06f58b5af7abea39b5e1b3a83fb75c8a80aca3958e5002c675ab704e0698c7a9",
+        "size": 250731
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271828_muon_adamw_sine.pt",
+        "sha256": "a7effc74d7cf3fec9e577f032d5cb7cca2a8372175c6a5f44182b0d548191b10",
+        "size": 250709
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271829_adamw_baseline.pt",
+        "sha256": "bf01b618cd07de2137602c6d1171b0313fd9e9d08f0798d3bc9116e6265099d7",
+        "size": 250687
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271829_adamw_cubic.pt",
+        "sha256": "b6caf474b3b21ee03197c5ef8918373eaf8e71ddf5fdf476f04d6a466488714d",
+        "size": 250557
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271829_adamw_sine.pt",
+        "sha256": "3e686ab4ca4029021212d8d9080d2861683e80cb85fa21adfe43a1bf45581ebc",
+        "size": 250471
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271829_muon_adamw_baseline.pt",
+        "sha256": "2bd426dd6cf3980d8665a06251f0907e81780bf30a9bf1fbb0a9480499c0b968",
+        "size": 250797
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271829_muon_adamw_cubic.pt",
+        "sha256": "7822859d3b6e9e307082326e33f90e5c4e1056598222007fe34b49d464b21785",
+        "size": 250731
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271829_muon_adamw_sine.pt",
+        "sha256": "f3c93bf390a0299071f28164b0607a992d79b25f4dc2162059771ea680492e69",
+        "size": 250709
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271830_adamw_baseline.pt",
+        "sha256": "8dd8aedba06a3c425e56c9feeb91b03649562d4796cda997d4361ba607863c90",
+        "size": 250687
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271830_adamw_cubic.pt",
+        "sha256": "a509f1daa89894ae48751642abfd1cf3b6a9c95bf13475baf566546e822de466",
+        "size": 250557
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271830_adamw_sine.pt",
+        "sha256": "09d898baf6eadb09cfc6c47b392a3005fa7d8f6d4a5e05a6a038373e2340a308",
+        "size": 250471
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271830_muon_adamw_baseline.pt",
+        "sha256": "cd49711ab78091ffd151ce9af051f5f86c69aae729ea0a08f8e43e3fe1ca5aea",
+        "size": 250797
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271830_muon_adamw_cubic.pt",
+        "sha256": "ebb870b8148af83463c97b30b2905ae8b16c202f293928c666443b5ae866c402",
+        "size": 250731
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_curvature/runs/eighteen_v1/seed271830_muon_adamw_sine.pt",
+        "sha256": "303c99df2b115786f240cb6fb45eac0517297661208f0fe128079229d5444424",
+        "size": 250709
+      },
+      {
+        "path": "research/campaign_2026-10-05/target_mechanics/cohort.json",
+        "sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+        "size": 6707
+      }
+    ],
+    "kind": "cpu",
+    "limits": {
+      "cpus": 1,
+      "gpu_memory_bytes": 0,
+      "gpu_stop_bytes": 0,
+      "ram_bytes": 6442450944,
+      "timeout_seconds": 2400
+    },
+    "name": "e481_independent_cpu_export_grade_v2",
+    "version": 1
+  },
+  "spec_sha256": "cba114cb0bc4223e45ddc88ab18ee20113f29968f530bad0394d14658f74320a",
+  "started_unix": 1791173189.4020882,
+  "status": "finished",
+  "teardown_verified": true,
+  "timeout_seconds": 2400,
+  "unit": "wnn-c04-e481-candidate-curvature-cpu-test-grade-v2.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "1s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e481-candidate-curvature-cpu-test-grade-v2.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "6442450944",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}

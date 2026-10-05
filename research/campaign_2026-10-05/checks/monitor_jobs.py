@@ -106,9 +106,10 @@ def provider(previous: dict[str, object], now: float) -> dict[str, object]:
         seen = {value["ref"] for value in catalog}
         catalog = list(catalog) + [{"ref": key} for key in pinned if key not in seen]
     cached = result.get("kernels", {})
+    pinned_refs = set(pinned) if pinned_file.exists() else set()
     pending = []
     for kernel in catalog:
-        if "/wnn-" not in kernel["ref"]:
+        if "/wnn-" not in kernel["ref"] and kernel["ref"] not in pinned_refs:
             continue
         old = cached.get(kernel["ref"], {})
         if old.get("status") not in TERMINAL or (
@@ -122,7 +123,6 @@ def provider(previous: dict[str, object], now: float) -> dict[str, object]:
         for key, value in cached.items()
         if key not in refs and value.get("status") not in TERMINAL
     )
-    pinned_refs = set(pinned) if pinned_file.exists() else set()
     pending.sort(
         key=lambda item: (
             0

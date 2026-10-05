@@ -25,7 +25,7 @@ E473 tested that approximation separately. Sources and transfer caveats are in
 | E478 | 6 | Candidate shape in H64 two-layer topology | All three point deltas positive; two conditional intervals positive, one crosses zero. |
 | E479 | 16 | Learned per-layer candidate amplitudes | Learned-minus-fixed effects are small and vary by seed/optimizer; fixed positive shape remains favorable for Muon. All28 contrasts retained. |
 
-Overall158 scientific fits have completed; all158 have official grades. Each
+Overall176 scientific fits have completed; all176 have official grades. Each
 completed activation fit finished without a new OOM. Actual attempt receipts,
 failed probes and rejected grader checks remain in the record. Component
 intervals condition on fitted models and exclude training-seed/search
@@ -54,9 +54,11 @@ unchanged. The optimizer crossover is an observation, not a diagnosed cause.
 |---|---:|---|
 | E479 | 16 | Learned per-layer bounded candidate amplitudes; independent source/CPU/CUDA probe passed; all16 full fits independently graded and all28 global contrasts reproduced with a separate numerical method. |
 | E480 | 24 | Full activation/optimizer/schedule factorial at two additional seeds; all24 full fits independently graded; separate raw-export reproduction matched all24 scores/all44 contrasts. |
-| E481 | 18 | Sine versus central-slope/endpoints-matched cubic candidate; source/CPU/CUDA checks passed; all18 full fits running. |
+| E481 | 18 | All18 fits independently graded and all30 contrasts reproduced from raw exports. Sine and cubic both help Muon at all three seeds; every cubic-minus-sine Muon interval crosses zero. |
+| E482 | 6 | Same six seed271828 recipes on two Kaggle T4s; first private kernel failed worker argument forwarding before GPU probes; versioned CLI repair independently reviewed and new private kernel submitted; real GPU probe pending. |
+| E483 | 18 | Fresh-seed shape × recurrent Muon momentum; design registered, Adam group betas held fixed, implementation and probes pending. |
 
-Do not count one-update probes or source-only packets as completed fits. E477 has now completed its corrected independent grade. Its
+The registered activation program currently contains200 full fits:176 completed and graded,6 awaiting remote runtime gates and18 awaiting implementation/probes. Partial checkpoints from an active matrix are reported separately until its completion receipt validates. Do not count one-update probes or source-only packets as completed fits. E477 has now completed its corrected independent grade. Its
 first export grade failed before predictions because its provenance check
 expected all40 cohort nodes in a saved training-only24-node receipt. Versioned
 corrections and root review preserve that incident; no model result was
