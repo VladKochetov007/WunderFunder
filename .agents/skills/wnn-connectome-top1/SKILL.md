@@ -7,6 +7,15 @@ description: Continue the root Wunder Connectome Challenge 2 research campaign t
 
 ## Current evidence overrides the historical contract below
 
+October 5 update: the user explicitly resumed local GPU and Kaggle GPU/TPU
+research. The October 4 pause below is historical. Read
+`research/campaign_2026-10-05/RESEARCH_CONTRACT.md` and `RESUMPTION.json`;
+refresh quota and resources before reactivating the prepared comparisons.
+Keep older queues blocked and do not treat source-only drafts as admission.
+The new user milestone is honest expected public **0.7000**; 0.6660 is the
+confirmed baseline. Prioritize target-mechanics EDA and independent method
+reviews while retaining the resource and budget limits.
+
 As of the October 4 portal results, the fixed seed-4 combo i16 ZIP scored
 **0.6660** (`2e5j6bnt`, 37m07s /626 MB), reaching the numeric target at displayed
 precision. The research goal is explicitly **paused**: do not start fits,

@@ -1,4 +1,10 @@
-# Current status — paused by user
+# Current status — resumed October 5
+
+**Superseding update:** the user explicitly resumed local GPU, Kaggle GPU and
+TPU research. See [the new contract](../campaign_2026-10-05/RESEARCH_CONTRACT.md)
+and `../campaign_2026-10-05/RESUMPTION.json`. The October 4 pause records are
+archived; only its controlled runner has been reopened. The following snapshot
+describes the earlier pause and remains historical evidence.
 
 As of 2026-10-04T20:59:37.247427+00:00. The research goal is **paused**. No new fits, Kaggle pushes, timing trials, retries or research iterations are authorized. `NO_NEW_RESEARCH_ITERATIONS.json` and `runner/PAUSE.json` are the new pause records. Preserve older unrelated pause/failure markers.
 

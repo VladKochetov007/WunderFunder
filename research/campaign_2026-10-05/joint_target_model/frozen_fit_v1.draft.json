@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "name": "e468_joint_frozen_fit_v1",
+  "kind": "gpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/joint_target_model/fit.py",
+    "--fit-prefix",
+    "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit",
+    "--output-dir",
+    "research/campaign_2026-10-05/joint_target_model/runs/frozen_f0_v1",
+    "--device",
+    "cuda",
+    "--epochs",
+    "1",
+    "--batch",
+    "8192",
+    "--lr",
+    "0.001",
+    "--seed",
+    "271828"
+  ],
+  "code": [
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/resources.py",
+    "research/campaign_2026-10-05/joint_target_model/model.py",
+    "research/campaign_2026-10-05/joint_target_model/codebook.py",
+    "research/campaign_2026-10-05/joint_target_model/fit.py",
+    "research/campaign_2026-10-05/joint_target_model/test_model.py",
+    "research/campaign_2026-10-05/joint_target_model/e2e_model.py",
+    "research/campaign_2026-10-05/joint_target_model/e2e_fit.py",
+    "research/campaign_2026-10-05/joint_target_model/score.py"
+  ],
+  "inputs": [
+    "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit.json",
+    "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit_states.npy",
+    "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit_predictions.npy",
+    "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit_targets.npy",
+    "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit_mask.npy",
+    "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit_row_group.npy",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "artifacts/runs/c20260929_ft_since_s3_f0/model_ep0.pt",
+    "artifacts/runs/c20260929_ft_since_s4_f0/model_ep0.pt",
+    "research/campaign_2026-10-05/joint_target_model/ROOT_PREREG.md"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/joint_target_model/runs/frozen_f0_v1/fit_receipt.json"
+  ],
+  "limits": {
+    "cpus": 2,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 900,
+    "gpu_memory_bytes": 2147483648,
+    "gpu_stop_bytes": 3000000000
+  },
+  "environment": {}
+}

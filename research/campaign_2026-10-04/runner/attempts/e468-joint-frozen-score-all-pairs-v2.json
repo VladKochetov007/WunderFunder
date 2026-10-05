@@ -1,0 +1,393 @@
+{
+  "admission_resources": {
+    "parent_cpu_max": 12,
+    "parent_ram_max": 38654705664,
+    "support_cpus": 2,
+    "support_ram_bytes": 4294967296,
+    "worker_cpus": 2,
+    "worker_ram_bytes": 6442450944
+  },
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "research/campaign_2026-10-05/joint_target_model/score_v2.py",
+    "--fit-prefix",
+    "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit",
+    "--eval-prefix",
+    "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_eval",
+    "--head-dir",
+    "research/campaign_2026-10-05/joint_target_model/runs/frozen_f0_v1",
+    "--output-dir",
+    "research/campaign_2026-10-05/joint_target_model/runs/score_f0_v2",
+    "--device",
+    "cuda",
+    "--batch",
+    "8192",
+    "--boot",
+    "2000",
+    "--seed",
+    "271828"
+  ],
+  "artifacts": [
+    {
+      "path": "research/campaign_2026-10-05/joint_target_model/runs/score_f0_v2/evaluation_report.json",
+      "sha256": "4dcc1d70189782f5e03b99a63472511e023dcc8023ebce1ece8f2f03bb79470e",
+      "size": 29701
+    }
+  ],
+  "block_id": "local001",
+  "charged_seconds": 43.01497170099174,
+  "elapsed_seconds": 43.01497170099174,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "2",
+    "NUMBA_NUM_THREADS": "2",
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "2",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "2147483648",
+    "WNN_THREADS": "2"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 1193809,
+    "low": 0,
+    "max": 7521104,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791157607.6065497,
+  "heartbeat_unix": 1791157607.090038,
+  "id": "e468-joint-frozen-score-all-pairs-v2",
+  "initial_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "initial_parent_memory_events": {
+    "high": 1193809,
+    "low": 0,
+    "max": 7520424,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "kind": "gpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "30000000000",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 337641472,
+  "peak_ram_bytes": 730333184,
+  "reserved_seconds": 1830,
+  "reserved_unix": 1791157564.5479174,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+    "src/wnn/campaign.py": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+    "src/wnn/campaign_local.py": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+    "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "signals": [],
+  "spec": {
+    "argv": [
+      "{python}",
+      "research/campaign_2026-10-05/joint_target_model/score_v2.py",
+      "--fit-prefix",
+      "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit",
+      "--eval-prefix",
+      "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_eval",
+      "--head-dir",
+      "research/campaign_2026-10-05/joint_target_model/runs/frozen_f0_v1",
+      "--output-dir",
+      "research/campaign_2026-10-05/joint_target_model/runs/score_f0_v2",
+      "--device",
+      "cuda",
+      "--batch",
+      "8192",
+      "--boot",
+      "2000",
+      "--seed",
+      "271828"
+    ],
+    "artifacts": [
+      "research/campaign_2026-10-05/joint_target_model/runs/score_f0_v2/evaluation_report.json"
+    ],
+    "code": [
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/codebook.py",
+        "sha256": "b58c8cfa7898ad91fc53799f49639ced8c0833a47c1580376fb3b406e123c646",
+        "size": 3857
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/e2e_fit.py",
+        "sha256": "31e46192bb77e34b8be424101709f778125c50a81cc6fcbd7883822107fe15f9",
+        "size": 13334
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/e2e_model.py",
+        "sha256": "647c44e87dd04d862f69caa3c762852d83776b5ac9cbf1a3fc2be0009cbc945b",
+        "size": 1989
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/fit.py",
+        "sha256": "37d75d41e9281959f42b765f19eb96468a07aa3a3f1debb21feb666bcd762381",
+        "size": 13683
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/model.py",
+        "sha256": "b4a3995f4d82d8b33406f953ab428ae591616a100cf4fdd16d0fc3dddb38eb7d",
+        "size": 7511
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/score.py",
+        "sha256": "c0150b485a678bdce40f790784fdfd3ee03a05892669429f427eafa08fe78b3a",
+        "size": 13948
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/score_v2.py",
+        "sha256": "8bc0dc41d664b32d0a3cbbacadcbabdac9052e816a3eadd185410927f01abf62",
+        "size": 14558
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/test_model.py",
+        "sha256": "d36d5af56e46c4d3577a69f76bdcadf7a7e06d9999a48127f67d68c70241dbbb",
+        "size": 4719
+      },
+      {
+        "path": "scripts/run_campaign.py",
+        "sha256": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+        "size": 4273
+      },
+      {
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+        "size": 63
+      },
+      {
+        "path": "src/wnn/campaign.py",
+        "sha256": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+        "size": 13176
+      },
+      {
+        "path": "src/wnn/campaign_local.py",
+        "sha256": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+        "size": 22065
+      },
+      {
+        "path": "src/wnn/campaign_spec.py",
+        "sha256": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+        "size": 8717
+      },
+      {
+        "path": "src/wnn/data.py",
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+        "size": 4000
+      },
+      {
+        "path": "src/wnn/evaluation.py",
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+        "size": 8080
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "size": 8902
+      },
+      {
+        "path": "src/wnn/resources.py",
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+        "size": 4485
+      },
+      {
+        "path": "src/wnn/splits.py",
+        "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+        "size": 8647
+      }
+    ],
+    "code_sha256": "682ffca002a2064fd77c61f499a2dfcc0a067ce1b5613ce488b938b34f94cb14",
+    "environment": {},
+    "inputs": [
+      {
+        "path": "artifacts/runs/c20260929_ft_since_s3_f0/model_ep0.pt",
+        "sha256": "fa9f0353cf6cdd3c85fc56efc1e8a3f3dae0048fb1ccd995eeb7026afd269dc7",
+        "size": 1059239
+      },
+      {
+        "path": "artifacts/runs/c20260929_ft_since_s4_f0/model_ep0.pt",
+        "sha256": "e06b712decb62799c84be6907b8b5285724bbd6efe1f58a4aa1bf4a92f3b11b7",
+        "size": 1059239
+      },
+      {
+        "path": "cache/valid_targets.npz",
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+        "size": 337186198
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_eval.json",
+        "sha256": "7735ce8521ac9e4cde368b1aa1d56e503729b8953c04e6e25803092087285fcf",
+        "size": 5444
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_eval_mask.npy",
+        "sha256": "43f6501905785eeaa9c139958974c54a0f70e2941d381b33262c0316b93954a6",
+        "size": 9360128
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_eval_predictions.npy",
+        "sha256": "112306b88213fca962c29c6f998d0bcbf4d69b290d22c30277f8c00720f51fb5",
+        "size": 149760128
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_eval_row_group.npy",
+        "sha256": "e3b3e2166d089a039a08254f85910b6bdd55c8bbe4cb95a7e441e13d1f4a7681",
+        "size": 37440128
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_eval_states.npy",
+        "sha256": "f66f7a817d9bfb7a190020f31b07a6d3e74082974ed60d93e61ca1fdb7632241",
+        "size": 4792320128
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_eval_targets.npy",
+        "sha256": "d67c99097a389fc997c88cf22549539d0eae04448ca8187c6a2787fddb34da92",
+        "size": 74880128
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit.json",
+        "sha256": "246d37a9d6161e3c6e18a5c6ec369d5f9e3096d98e5069b6745f7de1666fdb12",
+        "size": 14305
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit_mask.npy",
+        "sha256": "706a16889ffea5c234b91fdeedf27c9c217b29f91661ab0f650657e57e57be10",
+        "size": 2719538
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit_predictions.npy",
+        "sha256": "5660701134fd72d2afb19bf68be571fae426af424d2610618082366dbbbbac05",
+        "size": 43510688
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit_row_group.npy",
+        "sha256": "1780fd857007c3bfee6fcda0ce3749c44fa63dadd112aaae0ac6520bc11e7a39",
+        "size": 10877768
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit_states.npy",
+        "sha256": "f490562a37d736848a993cb959f0b9d7f4eb11736bcc1d0e31e8e80620de8e8c",
+        "size": 1392338048
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/pair_states/c20260929_pair_f0_fit_targets.npy",
+        "sha256": "efd636a4a62fcda023596ba80dcaa0fc177bdccb6af6cc7a0e92855fcb1556c9",
+        "size": 21755408
+      },
+      {
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "size": 1388846
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/ROOT_PREREG.md",
+        "sha256": "03e612f268108491d9ae259c1a8fc3cfd43f7f79e0d82e0f9b2241b47389fde6",
+        "size": 2955
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/runs/frozen_f0_v1/fit_receipt.json",
+        "sha256": "e0e85ed0a09a7487608660d92521e772031de1bd3753ab6e334c67bd7070904b",
+        "size": 2390
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/runs/frozen_f0_v1/independent_tilted.pt",
+        "sha256": "7ce5d6054f84c2a509a55c93cdcebb42178b540121407ad65af006dd05d8c666",
+        "size": 242197
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/runs/frozen_f0_v1/joint_ordinary.pt",
+        "sha256": "9cb56574454ff3a57b03dd2842910f9b84666a4d72437f210a86fdb525a1a952",
+        "size": 242117
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/runs/frozen_f0_v1/joint_tilted.pt",
+        "sha256": "4059572d5dc302421ddf643aca1e4d60e38e9120bc2e3910f9345ede94a7dea1",
+        "size": 242077
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/runs/frozen_f0_v1/regression_anchor.pt",
+        "sha256": "e2ccafe4f5a20f79a2ea926a31ff843a58809f6ebc109c323b998425524fad01",
+        "size": 242177
+      },
+      {
+        "path": "research/campaign_2026-10-05/joint_target_model/runs/frozen_f0_v1/shuffled_tilted.pt",
+        "sha256": "7542f9810e483a40d7480dc4f22d52435b75eb2c3c5b4637c7fb3f75e6bd45d6",
+        "size": 242137
+      }
+    ],
+    "kind": "gpu",
+    "limits": {
+      "cpus": 2,
+      "gpu_memory_bytes": 2147483648,
+      "gpu_stop_bytes": 3000000000,
+      "ram_bytes": 6442450944,
+      "timeout_seconds": 900
+    },
+    "name": "e468_joint_frozen_score_all_pairs_v2",
+    "version": 1
+  },
+  "spec_sha256": "b64903331d918d274f4e713138694cd8a94cdb67dfb045f7ab2499e7cf19f681",
+  "started_unix": 1791157569.0367787,
+  "status": "finished",
+  "teardown_verified": true,
+  "timeout_seconds": 900,
+  "unit": "wnn-c04-e468-joint-frozen-score-all-pairs-v2.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "2s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e468-joint-frozen-score-all-pairs-v2.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "6442450944",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}

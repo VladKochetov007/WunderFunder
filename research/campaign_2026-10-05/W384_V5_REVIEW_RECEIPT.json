@@ -1,0 +1,97 @@
+{
+  "reviewed_at_utc": "2026-10-04T22:44:15Z",
+  "review_type": "independent read-only wrapper, immutable-bundle, and bounded fixture review",
+  "result": "READY_FOR_CONTROLLER_OWNED_PUSH",
+  "push_performed": false,
+  "authorization_source": "research/campaign_2026-10-05/RESUMPTION.json",
+  "bounded_fixture_command": "WNN_CPU_QUOTA=200% WNN_THREADS=2 WNN_MEM_MAX=2G scripts/limited .venv/bin/python research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v5_transport_review/mount_guard_fixtures.py",
+  "fixture_exit_code": 0,
+  "fixture_output": {
+    "status": "passed",
+    "checks": 8,
+    "names": [
+      "all_26_declared_mounts_and_files_accepted",
+      "missing_external_mount_descriptor",
+      "undeclared_external_mount_descriptor",
+      "traversal_path_even_if_misdeclared",
+      "external_path_overlaps_archive_member",
+      "existing_file_target_preserved",
+      "broken_symlink_target_preserved",
+      "missing_provider_external_file"
+    ]
+  },
+  "cpu_memory_bounds": {
+    "cpu_quota": "200%",
+    "threads": 2,
+    "memory_max": "2G",
+    "enforced_by": "scripts/limited systemd user scope"
+  },
+  "kernel_push": {
+    "directory": "research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v5_transport_review/kernel_push",
+    "command": ".venv/bin/kaggle kernels push -p research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v5_transport_review/kernel_push",
+    "metadata_path": "research/campaign_2026-10-04/kaggle/W384_fold1_dualT4_v5_transport_review/kernel_push/kernel-metadata.json",
+    "kernel_id": "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v5-runner",
+    "machine_shape": "NvidiaTeslaT4",
+    "enable_gpu": true,
+    "enable_tpu": false,
+    "enable_internet": false,
+    "is_private": true,
+    "dataset_sources": [
+      "vladkochetov07/wnn-w384-fold1-dualt4-20261004-v4",
+      "vladkochetov07/wnn-c20261004-fold1-assets",
+      "vladkochetov07/wunder-funder"
+    ],
+    "provider_wall_cap_seconds": 25200,
+    "kernel_watchdog_seconds": 25180,
+    "required_visible_physical_gpus": 2
+  },
+  "hashes": {
+    "kernel_py_sha256": "76e2ed1c1c67d8bcd9992cd1ee3026750da228604487b6e3a4dc6e68d2736cbd",
+    "kernel_metadata_sha256": "ae048654ea9e15ddab716cc6aff8edbaa1c60e96a722c0fd1b03a36ad0da0b10",
+    "fixture_sha256": "ebba58f42694854d94e176c216fa6da7d68a0ec7daa16ffb1135248ea48505fc",
+    "bundle_manifest_sha256": "392a9ec0006b553a65a683bbe03c8597f5f6656c23c15bf0f514f89aa84bc09d",
+    "immutable_archive_sha256": "303dad1b77993a06d864cd048657b8c883f50f3b98bb3fccf47bd95249cc6338"
+  },
+  "manifest_review": {
+    "manifest_private": true,
+    "manifest_file_count": 265,
+    "tar_file_count": 265,
+    "archive_member_set_matches_declared_set": true,
+    "external_mount_count": 26,
+    "v5_expected_mounts_exactly_equal_manifest_mounts": true,
+    "archive_hash_matches_manifest_and_v5_pin": true,
+    "archive_path_safety_and_duplicate_member_checks_present": true
+  },
+  "experiment_contract_review": {
+    "probe_shapes": ["hidden=256", "hidden=384"],
+    "probe_batch_sequences": 32,
+    "probe_chunk_rows": 2000,
+    "probe_sequence_length": 20000,
+    "probe_updates_per_shape": 1,
+    "probe_evaluation": "withheld",
+    "probe_workers_must_use_distinct_t4_uuids": true,
+    "fits_start_only_after_both_probes_pass": true,
+    "fit_epochs": 4,
+    "fit_checkpoint_epoch": 3,
+    "fit_evaluation_during_training": false,
+    "prediction_pass": "full validation at fixed epoch 3",
+    "worker_cpus_each": 2,
+    "worker_ram_max_each_bytes": 10737418240,
+    "gpu_allocator_bytes_each": 11811160064,
+    "gpu_sampled_stop_bytes_each": 13958643712,
+    "probe_timeout_seconds_each": 2400,
+    "fit_timeout_seconds_each": 12600
+  },
+  "code_review_findings": [
+    "v5 corrects v4's archive-only membership bug by validating a separate immutable EXPECTED_EXTERNAL_MOUNTS mapping, rejecting path traversal and archive collisions, and checking that extracted targets do not already exist.",
+    "Every external mount is resolved uniquely under its declared dataset slug; downstream sealed worker specs verify exact size and SHA-256 before execution.",
+    "The wrapper checks the pinned archive digest, private manifest, safe regular-file members, allowed names, and duplicates before extraction.",
+    "The fixed 25,180-second outer watchdog is 20 seconds below the prior 25,200-second provider wall cap. Internal job limits and probe-before-fit gate are enforced by the archived phase runner and GPU runner."
+  ],
+  "controller_prelaunch_checks": [
+    "Refresh Kaggle quota immediately before push and preserve the configured provider and 80-device-GPU-hour reserves.",
+    "Confirm the v5 kernel slug still does not exist and dataset v4 plus the two other exact dataset sources remain available.",
+    "Confirm the admitted provider worker exposes two physical Tesla T4 devices and sufficient host capacity; the phase runner fails closed otherwise.",
+    "Do not start either fit unless both fresh production-shape probes complete on distinct GPUs below the per-device and per-process limits."
+  ]
+}

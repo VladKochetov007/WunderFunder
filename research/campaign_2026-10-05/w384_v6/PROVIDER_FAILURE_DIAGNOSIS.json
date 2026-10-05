@@ -1,0 +1,26 @@
+{
+  "cause": "Bootstrap constructs archive_members from manifest.files inventory, which includes external-only declared inputs, rather than actual extracted archive member set accumulated in seen.",
+  "diagnosis_report_sha256": "b17feda0ef5902058ebdd29475d4a6c52679a8cd53f1983d20effd67bdb67e5c",
+  "error": "ValueError: External input mapping overlaps an archive member",
+  "evidence": {
+    "actual_archive_regular_member_count": 265,
+    "external_mount_count": 26,
+    "external_paths_in_actual_archive_count": 0,
+    "external_paths_in_manifest_inventory_count": 26,
+    "first_false_conflict": "artifacts/runs/c20260929_prop_f1/model.pt",
+    "manifest_file_inventory_count": 287
+  },
+  "fit_launch": "none",
+  "kernel_id": "vladkochetov07/wnn-w384-fold1-dualt4-20261005-v6-runner",
+  "narrow_fix": "Pass seen (the successfully extracted actual archive members) to validate_external_mounts; retain rejection if any external path is an actual archive member.",
+  "provider_retry": "none",
+  "runtime_seconds_before_error": 2.0826,
+  "status": "provider_bootstrap_error_before_worker_launch",
+  "traceback_location": "/kaggle/src/script.py:52 in validate_external_mounts",
+  "uploaded_artifacts": {
+    "archive_sha256": "db08107d0df5ee9194959bbba4862385189d1fc0c91324ecd28ed12e8bebdd6e",
+    "kernel_sha256": "c60dd550411bc9efbe858849b1f12a5136867c5599974075c1f3fef7297b496e",
+    "manifest_sha256": "f89a77743159357ba735bbccf6385f73e79537715331bb578e2b833a2b6b6c40"
+  },
+  "worker_launch": "none"
+}

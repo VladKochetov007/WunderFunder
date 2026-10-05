@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "name": "e468_joint_target_gpu_probe_v1",
+  "kind": "gpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/joint_target_model/fit.py",
+    "--smoke",
+    "--device",
+    "cuda"
+  ],
+  "code": [
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/resources.py",
+    "research/campaign_2026-10-05/joint_target_model/model.py",
+    "research/campaign_2026-10-05/joint_target_model/codebook.py",
+    "research/campaign_2026-10-05/joint_target_model/fit.py",
+    "research/campaign_2026-10-05/joint_target_model/test_model.py",
+    "research/campaign_2026-10-05/joint_target_model/e2e_model.py",
+    "research/campaign_2026-10-05/joint_target_model/e2e_fit.py",
+    "research/campaign_2026-10-05/joint_target_model/score.py"
+  ],
+  "inputs": [
+    "research/campaign_2026-10-05/joint_target_model/README.md",
+    "research/campaign_2026-10-05/joint_target_model/INDEPENDENT_REVIEW.md"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-04/runner/logs/e468-joint-target-gpu-probe-v1.log"
+  ],
+  "limits": {
+    "cpus": 2,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 180,
+    "gpu_memory_bytes": 2147483648,
+    "gpu_stop_bytes": 3000000000
+  },
+  "environment": {}
+}

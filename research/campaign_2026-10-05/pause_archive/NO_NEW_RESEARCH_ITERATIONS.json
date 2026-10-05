@@ -1,0 +1,19 @@
+{
+  "status": "paused_by_user",
+  "utc": "2026-10-04T20:47:32.068957+00:00",
+  "request": "Do not start new research iterations; let current experiments land gracefully; write notes, retrospective and further-research plan.",
+  "goal_status": "paused",
+  "allowed_drain": [
+    "e425-soft-s3-final-v2 existing fit and prequeued fixed artifact export",
+    "existing submitted E463 TPU preflight handle if provider assigns it",
+    "read-only result collection and reporting"
+  ],
+  "held_not_started": [
+    "E464 eight-head fits/exports",
+    "E427 three-arm smokes/fits",
+    "W384 corrected v5 kernel",
+    "loaded-host timing v4",
+    "remaining research iterations"
+  ],
+  "guard_note": "Do not create runner/PAUSE.json until E425 artifact export completes: its active controller checks that marker and would stop the authorized drain. This file is a continuation instruction; unstarted E464 controller is separately stopped."
+}

@@ -1,0 +1,816 @@
+{
+  "metric": "global_wp_clip2_v1",
+  "seed": 271828,
+  "scope": "one fixed fit seed and 16 historically exposed diagnostic components; conditional exploratory contrasts, not fresh validation, training-seed uncertainty, or public-score evidence",
+  "fit_recipe": "all 16 registered activation/optimizer arms; fixed LR 0.001; 474 updates each",
+  "component_ids": [
+    2972,
+    2964,
+    3065,
+    3128,
+    2842,
+    3026,
+    1082,
+    2819,
+    2888,
+    341,
+    2877,
+    2933,
+    2285,
+    2995,
+    3015,
+    2817
+  ],
+  "row_groups": [
+    808,
+    249,
+    975,
+    754,
+    1531,
+    738,
+    1261,
+    348,
+    479,
+    715,
+    448,
+    185,
+    1304,
+    652,
+    365,
+    1401
+  ],
+  "scored_rows": 26990,
+  "arm_scores": {
+    "tanh__adamw": {
+      "wp": 0.48225944108057256,
+      "t0": 0.49879393401222355,
+      "t1": 0.46572494814892157,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "tanh__muon_adamw": {
+      "wp": 0.5054984044047159,
+      "t0": 0.5055663697969933,
+      "t1": 0.5054304390124384,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "gelu__adamw": {
+      "wp": 0.49823904024326904,
+      "t0": 0.5265097508831743,
+      "t1": 0.4699683296033638,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "gelu__muon_adamw": {
+      "wp": 0.48912223947898015,
+      "t0": 0.49976363104379745,
+      "t1": 0.4784808479141628,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "relu__adamw": {
+      "wp": 0.4865991610722948,
+      "t0": 0.5201821925366442,
+      "t1": 0.45301612960794535,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "relu__muon_adamw": {
+      "wp": 0.48174381615005435,
+      "t0": 0.49479482514847833,
+      "t1": 0.4686928071516304,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "leaky_relu_001__adamw": {
+      "wp": 0.4798965147995037,
+      "t0": 0.5159566950272195,
+      "t1": 0.4438363345717879,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "leaky_relu_001__muon_adamw": {
+      "wp": 0.48147947002057423,
+      "t0": 0.4946336058223096,
+      "t1": 0.46832533421883893,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "gelu_sine_01__adamw": {
+      "wp": 0.4999631503778984,
+      "t0": 0.5239936166628171,
+      "t1": 0.47593268409297973,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "gelu_sine_01__muon_adamw": {
+      "wp": 0.4979382099514562,
+      "t0": 0.5033758225584258,
+      "t1": 0.4925005973444866,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "gelu_sine_cosine_01__adamw": {
+      "wp": 0.4986526844800636,
+      "t0": 0.5223058002807051,
+      "t1": 0.47499956867942217,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "gelu_sine_cosine_01__muon_adamw": {
+      "wp": 0.49778870170304773,
+      "t0": 0.5034222454347655,
+      "t1": 0.4921551579713299,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "gelu_sinc_05__adamw": {
+      "wp": 0.49468002504413067,
+      "t0": 0.521734780319099,
+      "t1": 0.46762526976916235,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "gelu_sinc_05__muon_adamw": {
+      "wp": 0.49120858006842516,
+      "t0": 0.5000806499629296,
+      "t1": 0.4823365101739208,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "split_gelu_leaky_relu__adamw": {
+      "wp": 0.4866585389179319,
+      "t0": 0.5247736605799725,
+      "t1": 0.4485434172558913,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    },
+    "split_gelu_leaky_relu__muon_adamw": {
+      "wp": 0.48866628360221465,
+      "t0": 0.5018563608080644,
+      "t1": 0.47547620639636495,
+      "scored_rows": 26990,
+      "parameters": 8235,
+      "steps": 474
+    }
+  },
+  "primary_contrast_count": 22,
+  "primary_contrasts": {
+    "gelu__adamw_minus_tanh__adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "gelu__adamw",
+      "reference": "tanh__adamw",
+      "candidate_wp": 0.49823904024326904,
+      "reference_wp": 0.48225944108057267,
+      "mean_diff": 0.015979599162696367,
+      "bootstrap_sd": 0.0091836740968992,
+      "ci95": [
+        -0.0026438147201394186,
+        0.03301229958230723
+      ],
+      "p_le_0": 0.0485,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu__muon_adamw_minus_tanh__muon_adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "gelu__muon_adamw",
+      "reference": "tanh__muon_adamw",
+      "candidate_wp": 0.48912223947898026,
+      "reference_wp": 0.505498404404716,
+      "mean_diff": -0.016376164925735792,
+      "bootstrap_sd": 0.007445332056428426,
+      "ci95": [
+        -0.032350590846889474,
+        -0.0032152938491695716
+      ],
+      "p_le_0": 0.995,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "relu__adamw_minus_tanh__adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "relu__adamw",
+      "reference": "tanh__adamw",
+      "candidate_wp": 0.48659916107229484,
+      "reference_wp": 0.48225944108057267,
+      "mean_diff": 0.0043397199917221685,
+      "bootstrap_sd": 0.011032267482967595,
+      "ci95": [
+        -0.018676500244824527,
+        0.024715490544739385
+      ],
+      "p_le_0": 0.3715,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "relu__muon_adamw_minus_tanh__muon_adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "relu__muon_adamw",
+      "reference": "tanh__muon_adamw",
+      "candidate_wp": 0.48174381615005446,
+      "reference_wp": 0.505498404404716,
+      "mean_diff": -0.02375458825466159,
+      "bootstrap_sd": 0.008719697501582123,
+      "ci95": [
+        -0.0426562283367684,
+        -0.008467831915577304
+      ],
+      "p_le_0": 0.999,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "leaky_relu_001__adamw_minus_tanh__adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "leaky_relu_001__adamw",
+      "reference": "tanh__adamw",
+      "candidate_wp": 0.4798965147995037,
+      "reference_wp": 0.48225944108057267,
+      "mean_diff": -0.002362926281068989,
+      "bootstrap_sd": 0.01119067557553975,
+      "ci95": [
+        -0.02575933364102872,
+        0.018215876248569948
+      ],
+      "p_le_0": 0.6145,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "leaky_relu_001__muon_adamw_minus_tanh__muon_adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "leaky_relu_001__muon_adamw",
+      "reference": "tanh__muon_adamw",
+      "candidate_wp": 0.4814794700205743,
+      "reference_wp": 0.505498404404716,
+      "mean_diff": -0.024018934384141766,
+      "bootstrap_sd": 0.008053319931554963,
+      "ci95": [
+        -0.04140166372600964,
+        -0.009895210096862337
+      ],
+      "p_le_0": 0.9995,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sine_01__adamw_minus_tanh__adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "gelu_sine_01__adamw",
+      "reference": "tanh__adamw",
+      "candidate_wp": 0.4999631503778984,
+      "reference_wp": 0.48225944108057267,
+      "mean_diff": 0.01770370929732573,
+      "bootstrap_sd": 0.008163088444677731,
+      "ci95": [
+        0.0012634475462231967,
+        0.03312151321309285
+      ],
+      "p_le_0": 0.015,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sine_01__muon_adamw_minus_tanh__muon_adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "gelu_sine_01__muon_adamw",
+      "reference": "tanh__muon_adamw",
+      "candidate_wp": 0.4979382099514562,
+      "reference_wp": 0.505498404404716,
+      "mean_diff": -0.007560194453259839,
+      "bootstrap_sd": 0.0062207637517064035,
+      "ci95": [
+        -0.02040970809267375,
+        0.0037325071236747995
+      ],
+      "p_le_0": 0.9135,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sine_cosine_01__adamw_minus_tanh__adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "gelu_sine_cosine_01__adamw",
+      "reference": "tanh__adamw",
+      "candidate_wp": 0.4986526844800636,
+      "reference_wp": 0.48225944108057267,
+      "mean_diff": 0.016393243399490942,
+      "bootstrap_sd": 0.007400346309903641,
+      "ci95": [
+        0.001593690305124161,
+        0.030529151299304363
+      ],
+      "p_le_0": 0.014,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sine_cosine_01__muon_adamw_minus_tanh__muon_adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "gelu_sine_cosine_01__muon_adamw",
+      "reference": "tanh__muon_adamw",
+      "candidate_wp": 0.4977887017030479,
+      "reference_wp": 0.505498404404716,
+      "mean_diff": -0.007709702701668153,
+      "bootstrap_sd": 0.005868325995398053,
+      "ci95": [
+        -0.019967047119111497,
+        0.0029285103711685348
+      ],
+      "p_le_0": 0.9255,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sinc_05__adamw_minus_tanh__adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "gelu_sinc_05__adamw",
+      "reference": "tanh__adamw",
+      "candidate_wp": 0.4946800250441307,
+      "reference_wp": 0.48225944108057267,
+      "mean_diff": 0.012420583963558052,
+      "bootstrap_sd": 0.007644593739808063,
+      "ci95": [
+        -0.003527056309641731,
+        0.026431744377488547
+      ],
+      "p_le_0": 0.0615,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sinc_05__muon_adamw_minus_tanh__muon_adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "gelu_sinc_05__muon_adamw",
+      "reference": "tanh__muon_adamw",
+      "candidate_wp": 0.49120858006842516,
+      "reference_wp": 0.505498404404716,
+      "mean_diff": -0.01428982433629089,
+      "bootstrap_sd": 0.006380527885241001,
+      "ci95": [
+        -0.02855414514427145,
+        -0.0034398234359715803
+      ],
+      "p_le_0": 0.9955,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "split_gelu_leaky_relu__adamw_minus_tanh__adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "split_gelu_leaky_relu__adamw",
+      "reference": "tanh__adamw",
+      "candidate_wp": 0.486658538917932,
+      "reference_wp": 0.48225944108057267,
+      "mean_diff": 0.0043990978373593115,
+      "bootstrap_sd": 0.01015837385410342,
+      "ci95": [
+        -0.017115323689383864,
+        0.02312498824211954
+      ],
+      "p_le_0": 0.354,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "split_gelu_leaky_relu__muon_adamw_minus_tanh__muon_adamw": {
+      "family": "activation_minus_tanh",
+      "candidate": "split_gelu_leaky_relu__muon_adamw",
+      "reference": "tanh__muon_adamw",
+      "candidate_wp": 0.4886662836022147,
+      "reference_wp": 0.505498404404716,
+      "mean_diff": -0.01683212080250135,
+      "bootstrap_sd": 0.007064307685072014,
+      "ci95": [
+        -0.032160995426812104,
+        -0.0045669128341933
+      ],
+      "p_le_0": 0.9975,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "tanh__muon_adamw_minus_tanh__adamw": {
+      "family": "muon_minus_adamw_by_activation",
+      "candidate": "tanh__muon_adamw",
+      "reference": "tanh__adamw",
+      "candidate_wp": 0.505498404404716,
+      "reference_wp": 0.48225944108057267,
+      "mean_diff": 0.02323896332414338,
+      "bootstrap_sd": 0.009831132278994154,
+      "ci95": [
+        0.0041641628129857,
+        0.04312683092966772
+      ],
+      "p_le_0": 0.0075,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu__muon_adamw_minus_gelu__adamw": {
+      "family": "muon_minus_adamw_by_activation",
+      "candidate": "gelu__muon_adamw",
+      "reference": "gelu__adamw",
+      "candidate_wp": 0.48912223947898026,
+      "reference_wp": 0.49823904024326904,
+      "mean_diff": -0.00911680076428878,
+      "bootstrap_sd": 0.00925073949925148,
+      "ci95": [
+        -0.02908804983404774,
+        0.007523441791125047
+      ],
+      "p_le_0": 0.8505,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "relu__muon_adamw_minus_relu__adamw": {
+      "family": "muon_minus_adamw_by_activation",
+      "candidate": "relu__muon_adamw",
+      "reference": "relu__adamw",
+      "candidate_wp": 0.48174381615005446,
+      "reference_wp": 0.48659916107229484,
+      "mean_diff": -0.004855344922240379,
+      "bootstrap_sd": 0.006528945196311576,
+      "ci95": [
+        -0.017888166679537493,
+        0.007938795779335686
+      ],
+      "p_le_0": 0.7725,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "leaky_relu_001__muon_adamw_minus_leaky_relu_001__adamw": {
+      "family": "muon_minus_adamw_by_activation",
+      "candidate": "leaky_relu_001__muon_adamw",
+      "reference": "leaky_relu_001__adamw",
+      "candidate_wp": 0.4814794700205743,
+      "reference_wp": 0.4798965147995037,
+      "mean_diff": 0.0015829552210706033,
+      "bootstrap_sd": 0.00649692661011193,
+      "ci95": [
+        -0.011024846888271558,
+        0.014914772339685
+      ],
+      "p_le_0": 0.422,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sine_01__muon_adamw_minus_gelu_sine_01__adamw": {
+      "family": "muon_minus_adamw_by_activation",
+      "candidate": "gelu_sine_01__muon_adamw",
+      "reference": "gelu_sine_01__adamw",
+      "candidate_wp": 0.4979382099514562,
+      "reference_wp": 0.4999631503778984,
+      "mean_diff": -0.00202494042644219,
+      "bootstrap_sd": 0.009359385250633245,
+      "ci95": [
+        -0.022038294669491858,
+        0.01519817536380211
+      ],
+      "p_le_0": 0.5915,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sine_cosine_01__muon_adamw_minus_gelu_sine_cosine_01__adamw": {
+      "family": "muon_minus_adamw_by_activation",
+      "candidate": "gelu_sine_cosine_01__muon_adamw",
+      "reference": "gelu_sine_cosine_01__adamw",
+      "candidate_wp": 0.4977887017030479,
+      "reference_wp": 0.4986526844800636,
+      "mean_diff": -0.0008639827770157149,
+      "bootstrap_sd": 0.009831509603771374,
+      "ci95": [
+        -0.021769740693715414,
+        0.017256225083806385
+      ],
+      "p_le_0": 0.539,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sinc_05__muon_adamw_minus_gelu_sinc_05__adamw": {
+      "family": "muon_minus_adamw_by_activation",
+      "candidate": "gelu_sinc_05__muon_adamw",
+      "reference": "gelu_sinc_05__adamw",
+      "candidate_wp": 0.49120858006842516,
+      "reference_wp": 0.4946800250441307,
+      "mean_diff": -0.003471444975705562,
+      "bootstrap_sd": 0.008292090915528644,
+      "ci95": [
+        -0.021367603281320917,
+        0.011199514719685713
+      ],
+      "p_le_0": 0.6675,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "split_gelu_leaky_relu__muon_adamw_minus_split_gelu_leaky_relu__adamw": {
+      "family": "muon_minus_adamw_by_activation",
+      "candidate": "split_gelu_leaky_relu__muon_adamw",
+      "reference": "split_gelu_leaky_relu__adamw",
+      "candidate_wp": 0.4886662836022147,
+      "reference_wp": 0.486658538917932,
+      "mean_diff": 0.0020077446842827196,
+      "bootstrap_sd": 0.00646085235224785,
+      "ci95": [
+        -0.011126835192769347,
+        0.014006639812440567
+      ],
+      "p_le_0": 0.3995,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    }
+  },
+  "secondary_contrast_count": 8,
+  "secondary_contrasts": {
+    "gelu_sine_01__adamw_minus_gelu__adamw": {
+      "family": "secondary_activation_minus_gelu",
+      "candidate": "gelu_sine_01__adamw",
+      "reference": "gelu__adamw",
+      "candidate_wp": 0.4999631503778984,
+      "reference_wp": 0.49823904024326904,
+      "mean_diff": 0.0017241101346293641,
+      "bootstrap_sd": 0.0014102899161260432,
+      "ci95": [
+        -0.0006990265137945789,
+        0.004762813779361121
+      ],
+      "p_le_0": 0.09,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sine_01__muon_adamw_minus_gelu__muon_adamw": {
+      "family": "secondary_activation_minus_gelu",
+      "candidate": "gelu_sine_01__muon_adamw",
+      "reference": "gelu__muon_adamw",
+      "candidate_wp": 0.4979382099514562,
+      "reference_wp": 0.48912223947898026,
+      "mean_diff": 0.008815970472475954,
+      "bootstrap_sd": 0.0016393232473650534,
+      "ci95": [
+        0.0058788472756877794,
+        0.012325152465953594
+      ],
+      "p_le_0": 0.0,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sine_cosine_01__adamw_minus_gelu__adamw": {
+      "family": "secondary_activation_minus_gelu",
+      "candidate": "gelu_sine_cosine_01__adamw",
+      "reference": "gelu__adamw",
+      "candidate_wp": 0.4986526844800636,
+      "reference_wp": 0.49823904024326904,
+      "mean_diff": 0.00041364423679457474,
+      "bootstrap_sd": 0.0021394690001700677,
+      "ci95": [
+        -0.0034018010250284657,
+        0.005025171451209273
+      ],
+      "p_le_0": 0.3745,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sine_cosine_01__muon_adamw_minus_gelu__muon_adamw": {
+      "family": "secondary_activation_minus_gelu",
+      "candidate": "gelu_sine_cosine_01__muon_adamw",
+      "reference": "gelu__muon_adamw",
+      "candidate_wp": 0.4977887017030479,
+      "reference_wp": 0.48912223947898026,
+      "mean_diff": 0.00866646222406764,
+      "bootstrap_sd": 0.0018086682252864447,
+      "ci95": [
+        0.005598689600927578,
+        0.012724761672251214
+      ],
+      "p_le_0": 0.0,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sinc_05__adamw_minus_gelu__adamw": {
+      "family": "secondary_activation_minus_gelu",
+      "candidate": "gelu_sinc_05__adamw",
+      "reference": "gelu__adamw",
+      "candidate_wp": 0.4946800250441307,
+      "reference_wp": 0.49823904024326904,
+      "mean_diff": -0.0035590151991383157,
+      "bootstrap_sd": 0.002373080619542232,
+      "ci95": [
+        -0.008388742448478481,
+        0.0009821478737898168
+      ],
+      "p_le_0": 0.9285,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "gelu_sinc_05__muon_adamw_minus_gelu__muon_adamw": {
+      "family": "secondary_activation_minus_gelu",
+      "candidate": "gelu_sinc_05__muon_adamw",
+      "reference": "gelu__muon_adamw",
+      "candidate_wp": 0.49120858006842516,
+      "reference_wp": 0.48912223947898026,
+      "mean_diff": 0.0020863405894449016,
+      "bootstrap_sd": 0.0017349652988697473,
+      "ci95": [
+        -0.001502207687410133,
+        0.005384321867787668
+      ],
+      "p_le_0": 0.1295,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "split_gelu_leaky_relu__adamw_minus_gelu__adamw": {
+      "family": "secondary_activation_minus_gelu",
+      "candidate": "split_gelu_leaky_relu__adamw",
+      "reference": "gelu__adamw",
+      "candidate_wp": 0.486658538917932,
+      "reference_wp": 0.49823904024326904,
+      "mean_diff": -0.011580501325337056,
+      "bootstrap_sd": 0.0031441639299026494,
+      "ci95": [
+        -0.018213289926311056,
+        -0.005976148297306642
+      ],
+      "p_le_0": 1.0,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "split_gelu_leaky_relu__muon_adamw_minus_gelu__muon_adamw": {
+      "family": "secondary_activation_minus_gelu",
+      "candidate": "split_gelu_leaky_relu__muon_adamw",
+      "reference": "gelu__muon_adamw",
+      "candidate_wp": 0.4886662836022147,
+      "reference_wp": 0.48912223947898026,
+      "mean_diff": -0.00045595587676555693,
+      "bootstrap_sd": 0.0012849803945459734,
+      "ci95": [
+        -0.002766089938870976,
+        0.0022970473511729297
+      ],
+      "p_le_0": 0.6745,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    }
+  },
+  "bootstrap": {
+    "method": "wnn.evaluation.paired_component_bootstrap(centered=True)",
+    "components_resampled_as_units": true,
+    "n_boot": 2000,
+    "seed": 271828,
+    "multiple_comparisons": "30 exploratory contrasts reported without pruning or multiplicity correction"
+  },
+  "data_input_identity_from_sealed_fit_spec": {
+    "path": "datasets/valid.parquet",
+    "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "size": 5615509128
+  },
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "fit_source_sha256": {
+    "fit_activation_optimizer.py": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+    "tests.py": "cfb5d94abcf732dd632943177cec2a404134240b45873329168c969795b963db"
+  },
+  "fit_result_sha256": "80b257c69ff31e061b7b4cf2442c8d0da1ab82c757ff0cb7f7c039fe5ab791c1",
+  "prediction_export_sha256": {
+    "tanh__adamw_selected_predictions.npz": "6591e7ea67c0adb5310a5dff9cc57b782a313080afb8cd8c01dbf65ef8c40ca4",
+    "tanh__muon_adamw_selected_predictions.npz": "ce17a644519a03997b784dd6a609bfb1c7b7a00d8aebfa81022a91c6ec0bd8b7",
+    "gelu__adamw_selected_predictions.npz": "22be35445d21a90e971f44204677e7cf55bf7cb6bdf31aba86cf4532767a375c",
+    "gelu__muon_adamw_selected_predictions.npz": "ad7135d38a55a6a1099f3de2ff47d315e757352f23574afe38ecc4618376514d",
+    "relu__adamw_selected_predictions.npz": "68dc556136354f5af7a55abe8eaac64b1a892933f16e29ad66796f4ffb5a110b",
+    "relu__muon_adamw_selected_predictions.npz": "d38b28708147c73551676cf9f112c05eecb886dd9fb6997fcb46dcb397ca366e",
+    "leaky_relu_001__adamw_selected_predictions.npz": "d0637e1a6df11a5f55047a57848eab7dbe143bb7b7eeacea83a21e55ef38a2da",
+    "leaky_relu_001__muon_adamw_selected_predictions.npz": "888613276531e7e47b8fc8178120451dadb425cd4ccc912a190db64822940d81",
+    "gelu_sine_01__adamw_selected_predictions.npz": "534f2c6f5fdcd3a2f51bc8c5ce2a56f5ad6e726dac8d91c14f9c7a4089028093",
+    "gelu_sine_01__muon_adamw_selected_predictions.npz": "8b855544c33163755cfd1f1ac81ddb072cd0ac3bb4024708de9dcb762935c0f6",
+    "gelu_sine_cosine_01__adamw_selected_predictions.npz": "3035ceb768f6377ce9d75539f6aa8a65d79f917c5533009e0e25375b31d15ddb",
+    "gelu_sine_cosine_01__muon_adamw_selected_predictions.npz": "197dfe98da24d1b4513e030a53ee8a826eb747f5403636f043aad58160509a32",
+    "gelu_sinc_05__adamw_selected_predictions.npz": "71cd8bf9b7fafd6f43a2b53fd703429ba7fee91beae56ad2d151129b5899c416",
+    "gelu_sinc_05__muon_adamw_selected_predictions.npz": "8ae931b8927f6ea9ca7f010740de04250ebed49a9aeea6700bc6e99203539182",
+    "split_gelu_leaky_relu__adamw_selected_predictions.npz": "47a683f4afe4e75ebf81eeb2ab6617d7b1f3da66a8de862a20452ce6810013a2",
+    "split_gelu_leaky_relu__muon_adamw_selected_predictions.npz": "3b939ad27aa6753e0fb32fb613cf31fecd371ec129646d067ad49920caed9d6f"
+  },
+  "scorer_sha256": "b85eb93af079d1b003b1fcca2e474d39c5bb8942d95b90a699e13d8da4ea3011"
+}

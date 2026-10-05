@@ -1,0 +1,38 @@
+{
+  "format": "wnn.surprise-volume-cpu-receipt.v1",
+  "date": "2026-10-05",
+  "candidate": "surprise_volume_v1",
+  "verification_tier": "A for synthetic causal and shape invariants; no market-validity evidence",
+  "command": "PYTHONPATH=research/campaign_2026-10-05/volume_revision/src:src WNN_CPU_QUOTA=200% WNN_THREADS=2 WNN_MEM_MAX=2G scripts/limited .venv/bin/python -m unittest discover -s research/campaign_2026-10-05/volume_revision/tests -v",
+  "limits": {
+    "cpu_quota": "200%",
+    "threads": 2,
+    "memory_max": "2G",
+    "gpu_training": false,
+    "market_data_read": false,
+    "kaggle_action": false
+  },
+  "result": {
+    "exit_code": 0,
+    "tests_run": 5,
+    "failures": 0,
+    "errors": 0,
+    "duration_seconds": 1.329,
+    "checks": [
+      "aligned/stale/noop parameter layouts match",
+      "zero-context model matches parent predictions and recurrent state",
+      "only update-gate extension rows receive gradients",
+      "endpoint rows reset cumulative features",
+      "future suffix changes do not alter earlier features",
+      "stale context uses prior completed run terminal row",
+      "uneven TBPTT chunks match full-sequence forward"
+    ]
+  },
+  "sha256": {
+    "README.md": "b4bc601f6b97dde74f2b4a67c9b6feaadb927c978d538724916f2cc4a59ca08c",
+    "src/wnn/__init__.py": "48e79577b05c6e44412da12d49a6fc421e28aaf89fd2946055bc47d7e6a73873",
+    "src/wnn/surprise_volume.py": "d5cb77c6b536b9b4043c15ac5f388326d28d008189abc36246e165c77b4db9de",
+    "tests/test_surprise_volume.py": "1b2650d9d704a1500b4696cb499755348bc17851d69c11bfff44f5c2d36180ba"
+  },
+  "limits_of_claim": "Synthetic CPU invariants do not establish GPU memory/throughput, competition-trainer integration, predictive utility, component-score gain, or generalization."
+}

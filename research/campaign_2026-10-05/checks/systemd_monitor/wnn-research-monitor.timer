@@ -1,0 +1,10 @@
+[Unit]
+Description=Check Connectome tasks every five minutes
+[Timer]
+OnBootSec=1min
+OnUnitInactiveSec=5min
+Persistent=true
+AccuracySec=10s
+Unit=wnn-research-monitor.service
+[Install]
+WantedBy=timers.target

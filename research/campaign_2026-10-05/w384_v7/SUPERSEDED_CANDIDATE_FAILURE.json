@@ -1,0 +1,10 @@
+{
+  "status": "superseded_offline_candidate",
+  "candidate_archive_sha256": "ece9798e46681a86f798be2fb135cb259786e6520ebbf4af74d062571ec5405d",
+  "provider_action": "none",
+  "review_finding": "The first v6 bundle candidate used the generic kernel bootstrap emitted by scripts/kaggle_bundle.py. Independent controller review found that this bootstrap omitted the reviewed v5 whole-job watchdog (25,180 seconds) and did not preserve the exact reviewed v5 mount-cleanup/allow-set kernel implementation and fixtures.",
+  "required_correction": "Rebuild from the pinned reviewed v5 kernel source, replacing only BUNDLE_SLUG, EXPECTED_ARCHIVE_SHA256, and EXPECTED_EXTERNAL_MOUNTS with the v6 dataset/archive values; preserve bundle.wnn naming, mount checks/cleanup/allow-set, and 25,180-second watchdog.",
+  "corrected_template_sha256": "76e2ed1c1c67d8bcd9992cd1ee3026750da228604487b6e3a4dc6e68d2736cbd",
+  "corrected_v6_kernel_sha256": "c60dd550411bc9efbe858849b1f12a5136867c5599974075c1f3fef7297b496e",
+  "corrected_archive_sha256": "db08107d0df5ee9194959bbba4862385189d1fc0c91324ecd28ed12e8bebdd6e"
+}

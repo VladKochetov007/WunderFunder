@@ -1,0 +1,37 @@
+{
+  "observed_at_utc": "2026-10-04T22:45:55Z",
+  "kernel": "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1-runner",
+  "status": "KernelWorkerStatus.QUEUED",
+  "failure_message": "",
+  "submission_at_utc": "2026-10-04T17:23:26Z",
+  "observed_queue_duration_seconds": 19349,
+  "metadata": {
+    "private": true,
+    "machine_shape": "TpuV5E8",
+    "enable_tpu": true,
+    "enable_gpu": false,
+    "enable_internet": false,
+    "version": 1
+  },
+  "current_typed_quota": {
+    "refresh_utc": "2026-10-10T00:00:00Z",
+    "tpu_used_seconds": 134.623,
+    "tpu_reserved_seconds": 0.0,
+    "tpu_allowed_seconds": 72000.0,
+    "tpu_remaining_seconds": 71865.377
+  },
+  "provider_status_surface": {
+    "get_kernel_session_status_fields": ["status", "failure_message"],
+    "queue_position_or_reason_exposed": false,
+    "current_accelerator_inventory_api_exposed_by_installed_kaggle_sdk": false
+  },
+  "hardware_evidence": {
+    "previous_successful_probe_same_machine_shape": "TpuV5E8",
+    "previous_probe_device_count": 8,
+    "previous_probe_kind": "TPU v5 lite",
+    "previous_probe_reported_memory_limit_bytes_per_device": 16909332480,
+    "previous_probe_scope": "hardware/framework smoke only; not E463 or E465 training"
+  },
+  "interpretation": "The queue is not explained by exhausted TPU quota: typed quota remains 19.9626 hours with zero reservation. Kaggle status reports only QUEUED and no failure reason or assignment. The installed provider API exposes no current supply inventory or queue position, so the specific scheduling cause and an alternative available TPU type cannot be established.",
+  "action": "Preserve this exact queued job; do not duplicate or cancel it. Continue read-only status/output collection. Retain the eight-device E465 contract because no alternative topology is evidenced."
+}

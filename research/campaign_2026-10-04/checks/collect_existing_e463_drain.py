@@ -1,4 +1,4 @@
-"""Collect one already-submitted TPU job while new research remains paused."""
+"""Collect compact terminal outputs from the existing TPU preflight."""
 
 from __future__ import annotations
 
@@ -36,11 +36,11 @@ def main() -> None:
         "utc": datetime.now(timezone.utc).isoformat(), "kernel": HANDLE,
         "provider_status": status, "observation_exit_code": result.returncode,
         "outputs_collected": False, "new_launches": 0, "retries": 0,
-        "scope": "read-only drain of the existing submitted preflight, not research resumption",
+        "scope": "read-only collection of the existing submitted preflight; research resumed separately",
     }
     terminal = status in {"COMPLETE", "ERROR", "CANCELED", "CANCELLED"}
     if terminal:
-        downloaded = run([KAGGLE, "kernels", "output", HANDLE, "-p", str(OUTPUT)], 300)
+        downloaded = run([KAGGLE, "kernels", "output", HANDLE, "-p", str(OUTPUT), "--file-pattern", r"\.(json|log|txt|csv)$"], 300)
         record["download_exit_code"] = downloaded.returncode
         record["outputs_collected"] = downloaded.returncode == 0
         record["small_raw_json_results"] = []
@@ -66,7 +66,7 @@ def main() -> None:
         f"Observed {record['utc']}: `{HANDLE}` is **{status}**. "
         f"Terminal outputs collected: **{record['outputs_collected']}**.\n\n"
         "This collector polls and downloads only the already-submitted preflight. "
-        "It starts no kernels, performs no scientific retry, and does not resume the paused goal. "
+        "It starts no kernels, performs no scientific retry, and does not launch research work. "
         "Provider completion and raw self-reported checks require independent interpretation; "
         "neither alone establishes full-model TPU or public-score success.\n\n"
         "Raw status, output paths and small result hashes are in "

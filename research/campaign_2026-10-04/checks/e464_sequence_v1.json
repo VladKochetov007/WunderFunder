@@ -1,12 +1,175 @@
 {
-  "completed": [],
-  "observed": {
-    "ActiveState": "active",
-    "ExecMainStatus": "0",
-    "LoadState": "loaded"
-  },
-  "predecessor": "wnn-e425-sequence-v1.service",
-  "predecessor_seen_active": true,
-  "predecessor_status": "running",
-  "status": "waiting_for_e425"
+  "actual_e464_gpu_seconds": 822.8682156030118,
+  "bootstrap_replicates": 2000,
+  "completed": [
+    "e464-h093-learned-head-s3-final-v1",
+    "e464-h093-hash-head-s3-final-v1",
+    "e464-h093-universal-head-s3-final-v1",
+    "e464-h093-gru-budget-head-s3-final-v1",
+    "e464-h094-conditional-head-s3-final-v1",
+    "e464-h094-unconditional-head-s3-final-v1",
+    "e464-h094-diagonal-head-s3-final-v1",
+    "e464-h094-gru-budget-head-s3-final-v1",
+    "e464-predict-h093-learned-fp32-v1",
+    "e464-predict-h093-hash-fp32-v1",
+    "e464-predict-h093-universal-fp32-v1",
+    "e464-predict-h093-gru-budget-fp32-v1",
+    "e464-predict-h094-conditional-fp32-v1",
+    "e464-predict-h094-unconditional-fp32-v1",
+    "e464-predict-h094-diagonal-fp32-v1",
+    "e464-predict-h094-gru-budget-fp32-v1",
+    "e464-score-all-parent-head-fp32-v1"
+  ],
+  "exports": [
+    {
+      "arm": "h093_learned",
+      "prediction_sha256": "c03e138ce2f90752cdab19242a2a4aa0f39444a80583c308a07a8bcf30887dc4",
+      "run": "c20261004_e464_h093_learned_head_s3_final",
+      "sidecar_sha256": "506773dd07c8569902abf5fd2d2e05bc7fe813dfc48436f2f3d20255070c60c2"
+    },
+    {
+      "arm": "h093_hash",
+      "prediction_sha256": "e2988b4f4a31ddb8802fe3bb73d6f5520b40a6c2f7c432bcfa021f1e2a6df3fc",
+      "run": "c20261004_e464_h093_hash_head_s3_final",
+      "sidecar_sha256": "42d95910acd64e213b72911e2cd87d0d5ed4e723f28358222eeb97a8e4b8e7fe"
+    },
+    {
+      "arm": "h093_universal",
+      "prediction_sha256": "c192b207a7b5368b3e9320e41748f2dfa9451da2f396e402c539464b3f7b0dc0",
+      "run": "c20261004_e464_h093_universal_head_s3_final",
+      "sidecar_sha256": "0e9c7dc63f6b682b3324720e53a7a420825428c407d1fefb8faea3b1d85d8c87"
+    },
+    {
+      "arm": "h093_gru_budget",
+      "prediction_sha256": "603419ab82ac3eaf1ba1fbda5c02ce14fab8431aad39049964b7cef9fede990c",
+      "run": "c20261004_e464_h093_gru_budget_head_s3_final",
+      "sidecar_sha256": "e96242489e45ad0aa74c26200173de6ad270910088d4f8ab42c03347113a2b79"
+    },
+    {
+      "arm": "h094_conditional",
+      "prediction_sha256": "98c1f3639e5057bc82bd0ef518e4e622b55ca0b00b051b7ab189e50b2c07c9d8",
+      "run": "c20261004_e464_h094_conditional_head_s3_final",
+      "sidecar_sha256": "39a14694ace744a6c843b48e2144a8c2338b2ec0943181b5640443ba2d1966fb"
+    },
+    {
+      "arm": "h094_unconditional",
+      "prediction_sha256": "381817670c0560c9bcf758b48d5b7ca29a0c9c024b55a0c7fab503689decb074",
+      "run": "c20261004_e464_h094_unconditional_head_s3_final",
+      "sidecar_sha256": "8db004cc2752838407c9e1035eecdcdbd6bf1f88a1c211edd88286c200812cce"
+    },
+    {
+      "arm": "h094_diagonal",
+      "prediction_sha256": "51d2cc893ec835133cad3d914c6257e16be6c32989b466da6f061715b79f8a9d",
+      "run": "c20261004_e464_h094_diagonal_head_s3_final",
+      "sidecar_sha256": "3974958a6c1d75f3e705cb3c52c6607ff66dd7ab6d72a2a84dcf2c531945b753"
+    },
+    {
+      "arm": "h094_gru_budget",
+      "prediction_sha256": "44994f2c430cd5d9231e25f43e9b3d3c50b688f9d1f0cb4de8ab1056f38dea3c",
+      "run": "c20261004_e464_h094_gru_budget_head_s3_final",
+      "sidecar_sha256": "be9173e9f73d16b2c29286a917e2a7190583a7ef60a4b21bd6b535f6eb0ac44d"
+    }
+  ],
+  "fits": [
+    {
+      "arm": "h093_learned",
+      "audit_path": "research/campaign_2026-10-04/staging/e464/audits/c20261004_e464_h093_learned_head_s3_final.json",
+      "audit_sha256": "a56392e7ba3dbc2102ce8374e9439fa36c83c0eddd67964ab6628443956bdbfe",
+      "checkpoint_path": "artifacts/runs/c20261004_e464_h093_learned_head_s3_final/model_ep0.pt",
+      "child": "c20261004_e464_h093_learned_head_s3_final",
+      "child_checkpoint_sha256": "9bcbbe9b4e47b0c4504ce3be573b7476a14dd0ac7073c2a6d5d18c8763a75044",
+      "completed_batches": 94,
+      "optimizer_attempts": 940,
+      "parent": "c20261004_h093_learned_s3_final",
+      "parent_checkpoint_sha256": "4dca229567c1eef24ad4b185fabea1484f7723bad975adba692fe12c40be433b"
+    },
+    {
+      "arm": "h093_hash",
+      "audit_path": "research/campaign_2026-10-04/staging/e464/audits/c20261004_e464_h093_hash_head_s3_final.json",
+      "audit_sha256": "c14563ce679497d2bb2b5ca76dd95b9737142237c5955d25e5e1dcc841198ff4",
+      "checkpoint_path": "artifacts/runs/c20261004_e464_h093_hash_head_s3_final/model_ep0.pt",
+      "child": "c20261004_e464_h093_hash_head_s3_final",
+      "child_checkpoint_sha256": "8b3ab0853fff6ea5e727aa52dd405251f67bfaad2ccab69cbffae717bb141c88",
+      "completed_batches": 94,
+      "optimizer_attempts": 940,
+      "parent": "c20261004_h093_hash_s3_final",
+      "parent_checkpoint_sha256": "9f5a71c1dd387f096b950a319ddceeb254db2c54b23569d648d901909dac3545"
+    },
+    {
+      "arm": "h093_universal",
+      "audit_path": "research/campaign_2026-10-04/staging/e464/audits/c20261004_e464_h093_universal_head_s3_final.json",
+      "audit_sha256": "d652ff0704a11ed31481ccba983772efb88440832b7ede88527b75a746845a48",
+      "checkpoint_path": "artifacts/runs/c20261004_e464_h093_universal_head_s3_final/model_ep0.pt",
+      "child": "c20261004_e464_h093_universal_head_s3_final",
+      "child_checkpoint_sha256": "0e02c2660e9799a21d78b5c64346efb7fffc39a462fbff6c0c6bca0406d9bc65",
+      "completed_batches": 94,
+      "optimizer_attempts": 940,
+      "parent": "c20261004_h093_universal_s3_final",
+      "parent_checkpoint_sha256": "8ef0f57c2ca443ceca20dfa1a111752c178469217cb64696219eb163a4de8ab3"
+    },
+    {
+      "arm": "h093_gru_budget",
+      "audit_path": "research/campaign_2026-10-04/staging/e464/audits/c20261004_e464_h093_gru_budget_head_s3_final.json",
+      "audit_sha256": "aa38a79697bba60962971cc7f4e83a30d6477f823d0cb9044b49cf565f5407d9",
+      "checkpoint_path": "artifacts/runs/c20261004_e464_h093_gru_budget_head_s3_final/model_ep0.pt",
+      "child": "c20261004_e464_h093_gru_budget_head_s3_final",
+      "child_checkpoint_sha256": "6e28a86696556ab88132ba2144af7fdfd00e12cf08d0e23117e36afb2a9493c2",
+      "completed_batches": 94,
+      "optimizer_attempts": 940,
+      "parent": "c20261004_h093_gru_budget_s3_final",
+      "parent_checkpoint_sha256": "43af87e1c335557d5c4ccfafb9c55a985ad9338becb113dcc9419d446cf27578"
+    },
+    {
+      "arm": "h094_conditional",
+      "audit_path": "research/campaign_2026-10-04/staging/e464/audits/c20261004_e464_h094_conditional_head_s3_final.json",
+      "audit_sha256": "0eda6c2a6d48d83c355a940b01f071c3adb923fa19fdb2210de7370510538524",
+      "checkpoint_path": "artifacts/runs/c20261004_e464_h094_conditional_head_s3_final/model_ep0.pt",
+      "child": "c20261004_e464_h094_conditional_head_s3_final",
+      "child_checkpoint_sha256": "ea134b16d190f9ce327805ca3b00f685c5f62cd3b9ba17e9a0be559247aecb6f",
+      "completed_batches": 94,
+      "optimizer_attempts": 940,
+      "parent": "c20261004_h094_conditional_s3_final",
+      "parent_checkpoint_sha256": "0f9584111367cb8e9468da3f1464b23ec0fd0b54e690033b9250cc44ce1d06a2"
+    },
+    {
+      "arm": "h094_unconditional",
+      "audit_path": "research/campaign_2026-10-04/staging/e464/audits/c20261004_e464_h094_unconditional_head_s3_final.json",
+      "audit_sha256": "6118156a8f1c69a4b504a8f680594fdf6cc0a71a15f65b6affbc46dfb4a4b2ac",
+      "checkpoint_path": "artifacts/runs/c20261004_e464_h094_unconditional_head_s3_final/model_ep0.pt",
+      "child": "c20261004_e464_h094_unconditional_head_s3_final",
+      "child_checkpoint_sha256": "5deb263b698b58eef3632370943a398ad03713ff9c16fc656868dba7b51fc3b5",
+      "completed_batches": 94,
+      "optimizer_attempts": 940,
+      "parent": "c20261004_h094_unconditional_s3_final",
+      "parent_checkpoint_sha256": "e3ce0eb8f712d9780b5eb445d794ab028e42372721344a8faa006f0de517d5cb"
+    },
+    {
+      "arm": "h094_diagonal",
+      "audit_path": "research/campaign_2026-10-04/staging/e464/audits/c20261004_e464_h094_diagonal_head_s3_final.json",
+      "audit_sha256": "9145352300f9d92594e7a7b674bd0fa6f36a32d2349056a24664e5480de9d8b6",
+      "checkpoint_path": "artifacts/runs/c20261004_e464_h094_diagonal_head_s3_final/model_ep0.pt",
+      "child": "c20261004_e464_h094_diagonal_head_s3_final",
+      "child_checkpoint_sha256": "5deba03b503cd707d3960bb73da30d96662bffe13d1f3ce8e2e3ef6e6c2ea87c",
+      "completed_batches": 94,
+      "optimizer_attempts": 940,
+      "parent": "c20261004_h094_diagonal_s3_final",
+      "parent_checkpoint_sha256": "b3723c193ec4f0d27eedd0cd33742f2ddbd751a81f9335dcc9f205f27ed52721"
+    },
+    {
+      "arm": "h094_gru_budget",
+      "audit_path": "research/campaign_2026-10-04/staging/e464/audits/c20261004_e464_h094_gru_budget_head_s3_final.json",
+      "audit_sha256": "55690af466a9bda760da73fb6701117952a3e8b0ebdf9349a138c67e9257fae7",
+      "checkpoint_path": "artifacts/runs/c20261004_e464_h094_gru_budget_head_s3_final/model_ep0.pt",
+      "child": "c20261004_e464_h094_gru_budget_head_s3_final",
+      "child_checkpoint_sha256": "62523ebef7cfe8faa91953f4d305d4d1ef4622234c8f7039f5fbaf622fbc5dbc",
+      "completed_batches": 94,
+      "optimizer_attempts": 940,
+      "parent": "c20261004_h094_gru_budget_s3_final",
+      "parent_checkpoint_sha256": "139c992e7d30101ed10446cb15c4a04ce5d6bcc57da0e3d447359c4d33a9949e"
+    }
+  ],
+  "paired_comparisons": 16,
+  "paired_score_path": "research/campaign_2026-10-04/staging/e464/results/e464_report_all_fp32_v1.json",
+  "paired_score_sha256": "355e3bdda329f3da8223c43e4ee27113524208f2f5009ea4ae4101e04f5d0fc4",
+  "status": "complete"
 }

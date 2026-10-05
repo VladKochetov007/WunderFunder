@@ -18,12 +18,32 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md("""
-    # Connectome continuation — research paused
+    # Connectome continuation — resumed October 5
 
-    Current public best: **0.6660**, fixed seed-4 combo (`2e5j6bnt`), **37m07s /626 MB**. The numeric target is reached at displayed portal precision. Seed 3: 0.6655; its fixed parent/head endpoints: **0.6641 /0.6654**. These results confirm complete-predictor transfer, not isolated optimization mechanisms.
+    Current public best: **0.6660**, fixed seed-4 complete combo, 37m07s /626 MB.
+    User authorized local GPU and Kaggle GPU/TPU research again. Only the October 4
+    controlled queue is reopened; historic pause and failure records are preserved.
 
-    The original q8 ZIPs are withdrawn after a libpython3.13 packaging failure. Rebuilt Python 3.11 binaries pass compatibility; runtime approval is held. This notebook reads saved evidence and starts no training. Local validation is historically exposed and mostly fitted.
+    Next: eight fixed architecture heads; W384 fold-1 matched replication;
+    aligned/stale/sham causal volume gating; existing TPU preflight then distributed
+    FP32/BF16 continuation after actual-device checks. No competition uploads.
+
+    Local ceiling: 12 CPUs /36 GiB aggregate RAM /5 GB observed VRAM, one GPU worker.
+    Kaggle allocation preserves memory and quota reserve. Exposed validation is a
+    conditional comparison, not a public-score forecast.
     """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(json, mo, project_root, refresh):
+    refresh
+    _oct5_root = project_root / "research/campaign_2026-10-05"
+    _oct5_records = []
+    for _oct5_path in sorted((_oct5_root / "checks").glob("*.json")):
+        _oct5_payload = json.loads(_oct5_path.read_text())
+        _oct5_records.append({"record": _oct5_path.name, "status": _oct5_payload.get("status", "receipt"), "utc": _oct5_payload.get("utc", ""), "details": _oct5_payload})
+    mo.vstack([mo.md("## October 5 resumed experiments"), mo.ui.table(_oct5_records)])
     return
 
 
@@ -652,6 +672,81 @@ def _(campaign_dir, climb_history, plt):
     climb_fig.tight_layout()
     climb_fig.savefig(campaign_dir / "eda/leaderboard_climb/score_series_shared_scale.png", dpi=180)
     climb_fig
+    return
+
+
+@app.cell(hide_code=True)
+def _(json, mo, project_root, refresh):
+    refresh
+    _oct5_component_dir = project_root / "research/campaign_2026-10-05/sequence_components"
+    _oct5_e464_file = project_root / "research/campaign_2026-10-04/staging/e464/results/e464_report_all_fp32_v1.json"
+    if _oct5_e464_file.exists():
+        _oct5_e464_scores = json.loads(_oct5_e464_file.read_text())["pooled"]["exact_global_wp"]
+        mo.vstack([mo.md("## Completed architecture comparisons and new memory components\nE464: 8/8 fits, 8/8 exports and 16 paired comparisons completed. Scores below use the exposed 368-sequence holdout; they are not public scores."), mo.ui.table([{"arm": name, **score} for name, score in _oct5_e464_scores.items()]), mo.md("New components: stable diagonal memory, fixed-state associative attention, and additive spline edges. CPU checks passed; actual-shape GPU probe precedes fitting. Review and source: `research/campaign_2026-10-05/sequence_components/`. No fresh validation or expected-public-0.70 claim.")])
+    else:
+        mo.md("Awaiting the fixed architecture score artifact.")
+
+    return
+
+
+@app.cell(hide_code=True)
+def _(json, mo, project_root, refresh):
+    refresh
+    _oct5_sequence_result_path = project_root / "research/campaign_2026-10-05/sequence_components/runs/ten_arm_v1/result.json"
+    _oct5_sequence_images = project_root / "research/campaign_2026-10-05/sequence_components/eda"
+    if _oct5_sequence_result_path.exists():
+        _oct5_sequence_result = json.loads(_oct5_sequence_result_path.read_text())
+        _oct5_sequence_view = [mo.md(f"## Linear memory, attention and spline experiments\nCompleted model outputs: {len(_oct5_sequence_result['arms'])}/10. One fixed epoch, 24 fit and 16 component-separated test sequences. Historically exposed; mechanism screen, no public forecast."), mo.ui.table([{k: a[k] for k in ("arm", "parameters", "wp", "fit_seconds", "steps")} for a in _oct5_sequence_result["arms"]])]
+        if (_oct5_sequence_images / "ten_arm_scores.png").exists():
+            _oct5_sequence_view += [mo.image(str(_oct5_sequence_images / "ten_arm_scores.png")), mo.image(str(_oct5_sequence_images / "learned_spline_edges.png"))]
+        mo.vstack(_oct5_sequence_view)
+    else:
+        mo.md("The ten-model mechanism screen is preparing its first fixed-checkpoint output.")
+
+    return
+
+
+@app.cell(hide_code=True)
+def _(json, mo, project_root, refresh):
+    refresh
+    _joint_result = project_root / "research/campaign_2026-10-05/joint_target_model/RESULT.json"
+    _monitor_file = project_root / "research/campaign_2026-10-05/checks/monitor_runtime/STATUS.json"
+    _joint = json.loads(_joint_result.read_text())
+    _monitor = json.loads(_monitor_file.read_text()) if _monitor_file.exists() else {}
+    mo.vstack([
+        mo.md("### E468: five frozen heads and task monitoring\nAll five fixed GPU fits and ten between-arm comparisons completed. Historical fold0 only; none improves on its unchanged parent. Current public best stays **0.6660**."),
+        mo.ui.table([{"arm": _name, "WP": _v["global_wp"]["wp"]} for _name, _v in _joint["evaluation"]["scores"].items()]),
+        mo.image(str(_joint_result.parent / "eda/five_heads.png")),
+        mo.md("**Latest checker:** " + _monitor.get("utc", "waiting") + "\n\nLocal caps: 12 CPU cores, 30 GB RAM (27 GB soft), 5 GB VRAM. Five-minute status / fifteen-minute Kaggle discovery and quota."),
+        mo.ui.table([{"kernel": _k.split("/")[-1], "status": _v.get("status"), "observed_unix": _v.get("observed_unix")} for _k,_v in _monitor.get("provider", {}).get("kernels", {}).items()]),
+    ])
+    return
+
+
+@app.cell(hide_code=True)
+def _(json, mo, project_root, refresh):
+    refresh
+    _activation_folder = project_root / "research/campaign_2026-10-05/activation_optimizer"
+    _activation_raw = json.loads((_activation_folder / "FIT_RESULT.json").read_text())
+    _activation_rows = [{"Activation": _a["activation"], "Optimizer": _a["optimizer"], "WP": round(_a["wp"], 6), "Updates": _a["steps"]} for _a in _activation_raw["fit"]["arms"]]
+    _activation_plot = _activation_folder / "eda/sixteen_v2/activation_optimizer_wp_heatmap.png"
+    mo.vstack([mo.md("## Activation × optimizer: 16/16 complete\nSmall GRU, 24 fit / 16 historically exposed components. One seed; no public forecast. AdamW sine vs plain GELU: +0.0017, interval crosses zero. Muon sine vs plain GELU: +0.0088, positive conditional interval, still below tanh+Muon. All 30 exploratory contrasts retained."), mo.ui.table(_activation_rows), mo.image(src=str(_activation_plot)), mo.image(src=str(_activation_folder / "eda/sixteen_v2/optimizer_contrasts_by_activation.png"))])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo, project_root, refresh):
+    refresh
+    _seed_folder = project_root / "research/campaign_2026-10-05/sequence_components"
+    mo.vstack([mo.md("## Sequence components: 30/30 fits across three seeds\nLearned-memory spline lead: +0.0386, +0.0288, +0.0125; the last conditional interval includes zero. Learned decay gains remain around +0.003. This exposed panel does not establish public transfer."), mo.image(src=str(_seed_folder / "eda/three_seed_scores.png"))])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo, project_root, refresh):
+    refresh
+    _activation_eda = project_root / "research/campaign_2026-10-05/activation_optimizer/eda"
+    mo.vstack([mo.md("## Activation shapes and fit-only occupancy\nFour fixed fit sequences streamed through all16 checkpoints; no fitting or test-row access. Most preactivations lie near zero. A linear-residual control is needed before attributing gains to periodic curvature."), mo.image(src=str(_activation_eda / "activation_curves.png")), mo.image(src=str(_activation_eda / "fit_pre_activation_summary.png"))])
     return
 
 

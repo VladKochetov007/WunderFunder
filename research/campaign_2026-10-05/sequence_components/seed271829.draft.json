@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "name": "e469_all_ten_seed271829",
+  "kind": "gpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/sequence_components/fit_sequence_replication.py",
+    "--device",
+    "cuda",
+    "--output",
+    "research/campaign_2026-10-05/sequence_components/runs/seed271829",
+    "--seed",
+    "271829"
+  ],
+  "code": [
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/resources.py",
+    "research/campaign_2026-10-05/sequence_components/fit_sequence.py",
+    "research/campaign_2026-10-05/sequence_components/components.py",
+    "research/campaign_2026-10-05/sequence_components/fit_sequence_replication.py"
+  ],
+  "inputs": [
+    "research/campaign_2026-10-05/sequence_components/PREREG.md",
+    "research/campaign_2026-10-05/sequence_components/ROOT_REVIEW.md",
+    "research/campaign_2026-10-05/target_mechanics/cohort.json",
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-05/sequence_components/SEED_REPLICATION_PREREG.md"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/sequence_components/runs/seed271829/result.json"
+  ],
+  "limits": {
+    "cpus": 2,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 3600,
+    "gpu_memory_bytes": 2147483648,
+    "gpu_stop_bytes": 3000000000
+  },
+  "environment": {}
+}

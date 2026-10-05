@@ -1,0 +1,1740 @@
+{
+  "title": "Fit-only activation telemetry for completed E470 checkpoints",
+  "scope": {
+    "training": "none; inference-only checkpoint telemetry",
+    "training_seed": 271828,
+    "optimizer_arms": [
+      "adamw",
+      "muon_adamw"
+    ],
+    "activations": [
+      "tanh",
+      "gelu",
+      "relu",
+      "leaky_relu_001",
+      "gelu_sine_01",
+      "gelu_sine_cosine_01",
+      "gelu_sinc_05",
+      "split_gelu_leaky_relu"
+    ],
+    "fit_sequences": 4,
+    "row_groups": [
+      1284,
+      1793,
+      38,
+      1869
+    ],
+    "rows_per_sequence": 20000,
+    "chunk_rows": 256,
+    "chunks_per_sequence": 79,
+    "state": "GRU state carried across all chunks; reset between row groups",
+    "cohort_role_accessed": "fit only; no test row groups opened",
+    "normalization": {
+      "fit_mean": [
+        -1.5363867282867432,
+        -0.689834713935852,
+        1.2887780666351318,
+        -0.44421306252479553,
+        -1.0049716234207153,
+        0.024608345702290535,
+        -1.5609498023986816,
+        -0.6866507530212402,
+        1.1618949174880981,
+        -0.19426357746124268,
+        -0.881924569606781,
+        -0.014319630339741707,
+        -0.05646130442619324,
+        0.00033203521161340177,
+        -0.169044628739357,
+        -0.25854653120040894,
+        0.03898943215608597,
+        -0.2861734628677368,
+        -0.7288678288459778,
+        -2.0230934619903564,
+        -3.5546049730328377e-06,
+        2.096900971082505e-06,
+        4.6128329813655e-06,
+        -6.393834610207705e-06,
+        -5.608798801404191e-06,
+        2.5743427158886334e-06,
+        3.8066496017563622e-06,
+        4.4812200030719396e-06,
+        2.4200901407311903e-06,
+        -3.6629234045904013e-07,
+        -5.957327630312648e-06,
+        7.801266292517539e-06,
+        -4.835311301576439e-06,
+        9.792628588911612e-06,
+        4.220727987558348e-06,
+        3.4390102428005775e-06,
+        3.5663190374179976e-06,
+        3.5245990147814155e-05,
+        -3.0046541724004783e-05,
+        2.8520629712147638e-05,
+        2.0363821983337402,
+        0.2820541560649872
+      ],
+      "fit_scale": [
+        0.32517191767692566,
+        0.2430306077003479,
+        0.7047637104988098,
+        0.7663655877113342,
+        0.5567672848701477,
+        0.6080858707427979,
+        0.37485629320144653,
+        0.2399095743894577,
+        0.6885117888450623,
+        0.8592969179153442,
+        0.6910661458969116,
+        0.7655671238899231,
+        0.9265031814575195,
+        0.9781677722930908,
+        0.7986375689506531,
+        0.8008037209510803,
+        0.9514464735984802,
+        1.8925610780715942,
+        2.087163209915161,
+        2.956484317779541,
+        0.23587879538536072,
+        0.10206638276576996,
+        0.2836126685142517,
+        0.25912606716156006,
+        0.43994584679603577,
+        1.0169508457183838,
+        0.1448771208524704,
+        0.08167517185211182,
+        0.2859937250614166,
+        0.30186182260513306,
+        0.4794560968875885,
+        1.243190050125122,
+        0.9874710440635681,
+        1.6637933254241943,
+        0.10818876326084137,
+        0.03457668796181679,
+        1.073975682258606,
+        1.5013998746871948,
+        2.07209849357605,
+        2.8346872329711914,
+        1.8456852436065674,
+        0.4499995708465576
+      ]
+    },
+    "derivative_sample_cap_per_site_arm": 50000,
+    "derivative_sample_method": "deterministic evenly spaced indices over captured fit preactivations",
+    "plot_sample_cap_per_site_arm": 2000,
+    "activation_inputs_captured": "forward hooks on embedding_activation and correction_activation",
+    "split_semantics": "derivatives use GELU for the first floor(C/2) channels and LeakyReLU(0.01) for remaining channels, matching the implemented concatenation"
+  },
+  "telemetry_script_sha256": "70509a119610c453804c7bfb1fa73464b33849933f80b1c06c8bc1f1ad4de4da",
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "fit_checkpoint_result_sha256": "80b257c69ff31e061b7b4cf2442c8d0da1ab82c757ff0cb7f7c039fe5ab791c1",
+  "checkpoint_sha256": {
+    "tanh__adamw": "df959238ae72d69a0f8de27fe9b4f96f29eb53152a7831ad6ccfa9e1374d8288",
+    "tanh__muon_adamw": "b4cab9c416dc7c78d76a238ec83d16a7a18272680af6d1c83f9de043b544e59f",
+    "gelu__adamw": "d499daa355809c999c3b9740b524f4b084dc2e5d134b5388e7769c5b6ade0edf",
+    "gelu__muon_adamw": "d3d0a5840e4055dcaf4434d821b2686ac779392b670760218c611d51dd42d351",
+    "relu__adamw": "2dba6a6c931ef3d94a38779ef08eb807078310100300298312243c5106a5bf1b",
+    "relu__muon_adamw": "2d917e8f8cad478fab493605d13fbbd1764ebfb3164932a9b8e240b80c23b1ed",
+    "leaky_relu_001__adamw": "b5e0a413df8e40ff0b12b91f3eb567a5bdd88d057fbf0fdc7c0e303e22e07781",
+    "leaky_relu_001__muon_adamw": "be7f8c6065d537699984e9c1fd00ebaa7cc4e077ebd93698bce7e2859859b50c",
+    "gelu_sine_01__adamw": "5be1fd4d62fce94d1f0ad17af14411b7925febda7e3dd493f707edac1880a77a",
+    "gelu_sine_01__muon_adamw": "d79c80d5c665f1a4443003f7261001ac339c3c87d38198abe7c31f3dd66ae6cb",
+    "gelu_sine_cosine_01__adamw": "93743f6f9c66b3f1147c884de1eaf7eae3d211f4c75ef0b62d16b708de6826a3",
+    "gelu_sine_cosine_01__muon_adamw": "d8ec60386a673864cf0c2f8a571ccccc809c62f91e7b09d6fca3511b31db6b26",
+    "gelu_sinc_05__adamw": "f35214651a6947633c79160e87c65c7477a4495895c41cb1189ae6d21ba4b4bf",
+    "gelu_sinc_05__muon_adamw": "ccbec80415ebff1c7c5be96fbe5ab2e875bc1ba09a05879426362a5c4ab4cd7e",
+    "split_gelu_leaky_relu__adamw": "ac59aa18c9fe16992068ced43476f4692e7b4c6c0b1a7a10142e2d5a0c59bdbb",
+    "split_gelu_leaky_relu__muon_adamw": "99d1c4111b35032ad2f316fc2f4b2ca85f439a04293798b033a1a9a7129427e0"
+  },
+  "arms": [
+    {
+      "arm": "tanh__adamw",
+      "activation": "tanh",
+      "optimizer": "adamw",
+      "wp_from_completed_fit": 0.48225944108057256,
+      "checkpoint_sha256": "df959238ae72d69a0f8de27fe9b4f96f29eb53152a7831ad6ccfa9e1374d8288",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -4.990750789642334,
+            "max": 5.901532173156738,
+            "mean": 0.04010040305023649,
+            "std": 0.6052601484084499,
+            "rms": 0.6065870832586283,
+            "fraction_abs_gt_3": 0.0002421875,
+            "fraction_abs_gt_1": 0.096767578125,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.9999074935913086,
+            "max": 0.9999850392341614,
+            "mean": 0.03335745854616888,
+            "std": 0.4557620025915727,
+            "rms": 0.45698109703459316,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.0018130974161113694,
+            "max": 0.9999999998875742,
+            "mean": 0.7917282845123871,
+            "rms": 0.8246470407460258,
+            "quantiles": {
+              "1": 0.0986783043313215,
+              "5": 0.28284915229025837,
+              "25": 0.6828719716235487,
+              "50": 0.8822705091522773,
+              "75": 0.972619104248382,
+              "95": 0.9989006020412979,
+              "99": 0.9999557916425446
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.6728813052177429,
+            "max": 0.8561779260635376,
+            "mean": 0.09313994478489308,
+            "std": 0.16363139193883855,
+            "rms": 0.1882824520298552,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.5868719816207886,
+            "max": 0.6942831873893738,
+            "mean": 0.09055698880921921,
+            "std": 0.1573807588781135,
+            "rms": 0.1815744240999926,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.5804587452194405,
+            "max": 0.9999999999948699,
+            "mean": 0.9663651882860859,
+            "rms": 0.9674703167513683,
+            "quantiles": {
+              "1": 0.7916272695553307,
+              "5": 0.8693352291671962,
+              "25": 0.953330532019568,
+              "50": 0.9855261817308503,
+              "75": 0.9971719427773652,
+              "95": 0.9998878399714823,
+              "99": 0.999995320981211
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "tanh__muon_adamw",
+      "activation": "tanh",
+      "optimizer": "muon_adamw",
+      "wp_from_completed_fit": 0.5054984044047159,
+      "checkpoint_sha256": "b4cab9c416dc7c78d76a238ec83d16a7a18272680af6d1c83f9de043b544e59f",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.0158491134643555,
+            "max": 6.023871421813965,
+            "mean": 0.046891020618389484,
+            "std": 0.5943957789152309,
+            "rms": 0.596242492453262,
+            "fraction_abs_gt_3": 0.000191015625,
+            "fraction_abs_gt_1": 0.092828515625,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.9999120235443115,
+            "max": 0.9999882578849792,
+            "mean": 0.03863505956183818,
+            "std": 0.4531033548602226,
+            "rms": 0.45474753216805425,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.0037313067656057452,
+            "max": 0.9999999999382148,
+            "mean": 0.7914934162920098,
+            "rms": 0.8235397128663763,
+            "quantiles": {
+              "1": 0.11612202433307575,
+              "5": 0.29485587691480064,
+              "25": 0.6783718044978568,
+              "50": 0.8775894152839955,
+              "75": 0.9733650086404925,
+              "95": 0.9990176500466613,
+              "99": 0.9999556728074738
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.7896373867988586,
+            "max": 0.6577180027961731,
+            "mean": -0.007748625745387443,
+            "std": 0.19789984382830972,
+            "rms": 0.19805148166123737,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.6582035422325134,
+            "max": 0.576842725276947,
+            "mean": -0.007694856849454719,
+            "std": 0.19232973745863227,
+            "rms": 0.19248360640023338,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.677485864951868,
+            "max": 0.9999999983578292,
+            "mean": 0.9636658432300377,
+            "rms": 0.9644541092894798,
+            "quantiles": {
+              "1": 0.8318705576436164,
+              "5": 0.8849727276297332,
+              "25": 0.9448095472808538,
+              "50": 0.9765014716906282,
+              "75": 0.9942289583235939,
+              "95": 0.9997508188179405,
+              "99": 0.9999904104818778
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "gelu__adamw",
+      "activation": "gelu",
+      "optimizer": "adamw",
+      "wp_from_completed_fit": 0.49823904024326904,
+      "checkpoint_sha256": "d499daa355809c999c3b9740b524f4b084dc2e5d134b5388e7769c5b6ade0edf",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.857176780700684,
+            "max": 6.4517035484313965,
+            "mean": 0.0177857298655269,
+            "std": 0.5976816510743866,
+            "rms": 0.5979462251890667,
+            "fraction_abs_gt_3": 0.000359375,
+            "fraction_abs_gt_1": 0.08939375,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.16997122764587402,
+            "max": 6.4517035484313965,
+            "mean": 0.12495125672807483,
+            "std": 0.35699643954555244,
+            "rms": 0.37823177339579306,
+            "fraction_abs_gt_3": 0.00026953125,
+            "fraction_abs_gt_1": 0.031226953125,
+            "fraction_zero": 3.90625e-07
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.1289041427546583,
+            "max": 1.1289041419595789,
+            "mean": 0.5105408826756903,
+            "rms": 0.6152096223624418,
+            "quantiles": {
+              "1": -0.12438292481513068,
+              "5": -0.06631618418654057,
+              "25": 0.2451048473208125,
+              "50": 0.5124918331776114,
+              "75": 0.7832842967046152,
+              "95": 1.0726488497728919,
+              "99": 1.1257841360501766
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.7281521558761597,
+            "max": 0.6130799651145935,
+            "mean": 0.06002281349258388,
+            "std": 0.15631356669917162,
+            "rms": 0.16744153986923885,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.1698489487171173,
+            "max": 0.4476024806499481,
+            "mean": 0.0410481847333783,
+            "std": 0.08423362446069546,
+            "rms": 0.09370302534972409,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.05679657363600944,
+            "max": 0.9327672411319641,
+            "mean": 0.547162069280401,
+            "rms": 0.5611029218338186,
+            "quantiles": {
+              "1": 0.23174307505998257,
+              "5": 0.3291532921859521,
+              "25": 0.46819896250222126,
+              "50": 0.555683367967091,
+              "75": 0.6301261299682106,
+              "95": 0.7462482184410167,
+              "99": 0.8114563800883802
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "gelu__muon_adamw",
+      "activation": "gelu",
+      "optimizer": "muon_adamw",
+      "wp_from_completed_fit": 0.48912223947898015,
+      "checkpoint_sha256": "d3d0a5840e4055dcaf4434d821b2686ac779392b670760218c611d51dd42d351",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.751070499420166,
+            "max": 6.989559650421143,
+            "mean": 0.04069007617768352,
+            "std": 0.6502117789356402,
+            "rms": 0.651483721796635,
+            "fraction_abs_gt_3": 0.000519140625,
+            "fraction_abs_gt_1": 0.1104859375,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.16997122764587402,
+            "max": 6.989559650421143,
+            "mean": 0.15500824612907219,
+            "std": 0.3986102013251125,
+            "rms": 0.42768872906409133,
+            "fraction_abs_gt_3": 0.0003859375,
+            "fraction_abs_gt_1": 0.041479296875,
+            "fraction_zero": 3.90625e-07
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.1289041450426642,
+            "max": 1.1289041446493588,
+            "mean": 0.5221642965906305,
+            "rms": 0.6364884784043442,
+            "quantiles": {
+              "1": -0.12601600053201428,
+              "5": -0.07933912311022391,
+              "25": 0.22985535804155138,
+              "50": 0.5261053720147533,
+              "75": 0.8304401277673259,
+              "95": 1.093409800396318,
+              "99": 1.1272587712214859
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -1.0481562614440918,
+            "max": 0.6153829097747803,
+            "mean": -0.07730995126101188,
+            "std": 0.20658165871027542,
+            "rms": 0.22057382047620422,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 9.615384615384615e-07,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.16997121274471283,
+            "max": 0.44975200295448303,
+            "mean": -0.019756640438397432,
+            "std": 0.08635436378538582,
+            "rms": 0.08858555743568404,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.06007367458881422,
+            "max": 0.867364632057488,
+            "mean": 0.4468069424500488,
+            "rms": 0.4728130571955388,
+            "quantiles": {
+              "1": 0.08662540620850778,
+              "5": 0.18211075093679696,
+              "25": 0.33093097966789375,
+              "50": 0.4514009347177733,
+              "75": 0.5749707156257361,
+              "95": 0.6716504406663465,
+              "99": 0.72543258683318
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "relu__adamw",
+      "activation": "relu",
+      "optimizer": "adamw",
+      "wp_from_completed_fit": 0.4865991610722948,
+      "checkpoint_sha256": "2dba6a6c931ef3d94a38779ef08eb807078310100300298312243c5106a5bf1b",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.743008136749268,
+            "max": 6.782554626464844,
+            "mean": 0.009853966297410694,
+            "std": 0.5802345118713651,
+            "rms": 0.5803181794657062,
+            "fraction_abs_gt_3": 0.000263671875,
+            "fraction_abs_gt_1": 0.081754296875,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": 0.0,
+            "max": 6.782554626464844,
+            "mean": 0.22502981212126327,
+            "std": 0.3529366416123189,
+            "rms": 0.41857220325281214,
+            "fraction_abs_gt_3": 0.000153125,
+            "fraction_abs_gt_1": 0.041719140625,
+            "fraction_zero": 0.49281796875
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.0,
+            "max": 1.0,
+            "mean": 0.5047,
+            "rms": 0.7104224095564554,
+            "quantiles": {
+              "1": 0.0,
+              "5": 0.0,
+              "25": 0.0,
+              "50": 1.0,
+              "75": 1.0,
+              "95": 1.0,
+              "99": 1.0
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.9310450553894043,
+            "max": 0.6560601592063904,
+            "mean": -0.15951897911785187,
+            "std": 0.20109546703279804,
+            "rms": 0.25668208266246556,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": 0.0,
+            "max": 0.6560601592063904,
+            "mean": 0.027803454087457907,
+            "std": 0.07706326311046309,
+            "rms": 0.08192544525619523,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.8083028846153846
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.0,
+            "max": 1.0,
+            "mean": 0.19584,
+            "rms": 0.4425381339500586,
+            "quantiles": {
+              "1": 0.0,
+              "5": 0.0,
+              "25": 0.0,
+              "50": 0.0,
+              "75": 0.0,
+              "95": 1.0,
+              "99": 1.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "relu__muon_adamw",
+      "activation": "relu",
+      "optimizer": "muon_adamw",
+      "wp_from_completed_fit": 0.48174381615005435,
+      "checkpoint_sha256": "2d917e8f8cad478fab493605d13fbbd1764ebfb3164932a9b8e240b80c23b1ed",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.917545318603516,
+            "max": 7.35370397567749,
+            "mean": 0.034841141826938385,
+            "std": 0.6423411445670415,
+            "rms": 0.6432853574950246,
+            "fraction_abs_gt_3": 0.0004375,
+            "fraction_abs_gt_1": 0.10817734375,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": 0.0,
+            "max": 7.35370397567749,
+            "mean": 0.26258307783020673,
+            "std": 0.39888563069040545,
+            "rms": 0.47755588064023147,
+            "fraction_abs_gt_3": 0.000274609375,
+            "fraction_abs_gt_1": 0.058409375,
+            "fraction_zero": 0.479446484375
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.0,
+            "max": 1.0,
+            "mean": 0.5185,
+            "rms": 0.7200694410957876,
+            "quantiles": {
+              "1": 0.0,
+              "5": 0.0,
+              "25": 0.0,
+              "50": 1.0,
+              "75": 1.0,
+              "95": 1.0,
+              "99": 1.0
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.6645628809928894,
+            "max": 0.746764600276947,
+            "mean": -0.034828087521458155,
+            "std": 0.17253232792699463,
+            "rms": 0.17601249915932207,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": 0.0,
+            "max": 0.746764600276947,
+            "mean": 0.05617386874265324,
+            "std": 0.08670190577989957,
+            "rms": 0.10330887665338065,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.5466682692307693
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.0,
+            "max": 1.0,
+            "mean": 0.4586,
+            "rms": 0.6772001181334806,
+            "quantiles": {
+              "1": 0.0,
+              "5": 0.0,
+              "25": 0.0,
+              "50": 0.0,
+              "75": 1.0,
+              "95": 1.0,
+              "99": 1.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "leaky_relu_001__adamw",
+      "activation": "leaky_relu_001",
+      "optimizer": "adamw",
+      "wp_from_completed_fit": 0.4798965147995037,
+      "checkpoint_sha256": "b5e0a413df8e40ff0b12b91f3eb567a5bdd88d057fbf0fdc7c0e303e22e07781",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.668050765991211,
+            "max": 6.791107654571533,
+            "mean": 0.01061016821249641,
+            "std": 0.5808251872860154,
+            "rms": 0.5809220893160563,
+            "fraction_abs_gt_3": 0.000251171875,
+            "fraction_abs_gt_1": 0.081895703125,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.05668050795793533,
+            "max": 6.791107654571533,
+            "mean": 0.22362740993029662,
+            "std": 0.3545472141676673,
+            "rms": 0.4191812800521831,
+            "fraction_abs_gt_3": 0.000149609375,
+            "fraction_abs_gt_1": 0.041809375,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.01,
+            "max": 1.0,
+            "mean": 0.5098311999999999,
+            "rms": 0.7105839232631146,
+            "quantiles": {
+              "1": 0.01,
+              "5": 0.01,
+              "25": 0.01,
+              "50": 1.0,
+              "75": 1.0,
+              "95": 1.0,
+              "99": 1.0
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.7906317710876465,
+            "max": 0.9398177862167358,
+            "mean": -0.02972540807012746,
+            "std": 0.21229248004949572,
+            "rms": 0.21436346930039438,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.007906317710876465,
+            "max": 0.9398177862167358,
+            "mean": 0.0695682404211599,
+            "std": 0.13237805295919008,
+            "rms": 0.1495449396688582,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.01,
+            "max": 1.0,
+            "mean": 0.41330619999999996,
+            "rms": 0.6383096912941241,
+            "quantiles": {
+              "1": 0.01,
+              "5": 0.01,
+              "25": 0.01,
+              "50": 0.01,
+              "75": 1.0,
+              "95": 1.0,
+              "99": 1.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "leaky_relu_001__muon_adamw",
+      "activation": "leaky_relu_001",
+      "optimizer": "muon_adamw",
+      "wp_from_completed_fit": 0.48147947002057423,
+      "checkpoint_sha256": "be7f8c6065d537699984e9c1fd00ebaa7cc4e077ebd93698bce7e2859859b50c",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.807662010192871,
+            "max": 7.3000807762146,
+            "mean": 0.035535334137713565,
+            "std": 0.6431949815734567,
+            "rms": 0.6441758644140264,
+            "fraction_abs_gt_3": 0.000427734375,
+            "fraction_abs_gt_1": 0.1085796875,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.05807662010192871,
+            "max": 7.3000807762146,
+            "mean": 0.26089494048117035,
+            "std": 0.4017171162831139,
+            "rms": 0.47900189089761863,
+            "fraction_abs_gt_3": 0.000276953125,
+            "fraction_abs_gt_1": 0.058826171875,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.01,
+            "max": 1.0,
+            "mean": 0.522721,
+            "rms": 0.7196861885572071,
+            "quantiles": {
+              "1": 0.01,
+              "5": 0.01,
+              "25": 0.01,
+              "50": 1.0,
+              "75": 1.0,
+              "95": 1.0,
+              "99": 1.0
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.6527535915374756,
+            "max": 0.86597740650177,
+            "mean": -0.03740791640255752,
+            "std": 0.13973312906020002,
+            "rms": 0.14465372296119883,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.006527535617351532,
+            "max": 0.86597740650177,
+            "mean": 0.04070002964434628,
+            "std": 0.07121252189552489,
+            "rms": 0.08202265350359786,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.01,
+            "max": 1.0,
+            "mean": 0.4072077999999999,
+            "rms": 0.6334665563390067,
+            "quantiles": {
+              "1": 0.01,
+              "5": 0.01,
+              "25": 0.01,
+              "50": 0.01,
+              "75": 1.0,
+              "95": 1.0,
+              "99": 1.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "gelu_sine_01__adamw",
+      "activation": "gelu_sine_01",
+      "optimizer": "adamw",
+      "wp_from_completed_fit": 0.4999631503778984,
+      "checkpoint_sha256": "5be1fd4d62fce94d1f0ad17af14411b7925febda7e3dd493f707edac1880a77a",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.6134233474731445,
+            "max": 6.327459812164307,
+            "mean": 0.018690805485651652,
+            "std": 0.5924097617131762,
+            "rms": 0.5927045402076526,
+            "fraction_abs_gt_3": 0.000279296875,
+            "fraction_abs_gt_1": 0.087580859375,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.24404500424861908,
+            "max": 6.331885814666748,
+            "mean": 0.1251451025262945,
+            "std": 0.3929879783183231,
+            "rms": 0.4124328403377201,
+            "fraction_abs_gt_3": 0.00021328125,
+            "fraction_abs_gt_1": 0.03831484375,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.12890116653386893,
+            "max": 1.1543824204802253,
+            "mean": 0.5957406993139518,
+            "rms": 0.6865989429374196,
+            "quantiles": {
+              "1": -0.12094903966453942,
+              "5": -0.0041332870659537314,
+              "25": 0.34328264480370707,
+              "50": 0.6135096258300168,
+              "75": 0.8735742438472734,
+              "95": 1.1202445289771235,
+              "99": 1.1528154887646453
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.7849646806716919,
+            "max": 0.7235451936721802,
+            "mean": 0.06666070949235235,
+            "std": 0.16648286820825547,
+            "rms": 0.17933263951905448,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.24041855335235596,
+            "max": 0.6199536323547363,
+            "mean": 0.05254094630226686,
+            "std": 0.10781535753997941,
+            "rms": 0.1199362428951786,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.11057331151126168,
+            "max": 1.0624489019651522,
+            "mean": 0.6503867988727189,
+            "rms": 0.6634076316487026,
+            "quantiles": {
+              "1": 0.310992397076834,
+              "5": 0.4276005168392599,
+              "25": 0.5663957628018861,
+              "50": 0.6544180756081441,
+              "75": 0.7396302624512114,
+              "95": 0.8619185868850422,
+              "99": 0.9204107824793832
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "gelu_sine_01__muon_adamw",
+      "activation": "gelu_sine_01",
+      "optimizer": "muon_adamw",
+      "wp_from_completed_fit": 0.4979382099514562,
+      "checkpoint_sha256": "d79c80d5c665f1a4443003f7261001ac339c3c87d38198abe7c31f3dd66ae6cb",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.396867752075195,
+            "max": 6.736983299255371,
+            "mean": 0.03919722768076845,
+            "std": 0.6353033410533601,
+            "rms": 0.6365113964505423,
+            "fraction_abs_gt_3": 0.000346484375,
+            "fraction_abs_gt_1": 0.104530078125,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.24404501914978027,
+            "max": 6.780821323394775,
+            "mean": 0.15227430233503983,
+            "std": 0.42885589900486853,
+            "rms": 0.4550877335886973,
+            "fraction_abs_gt_3": 0.000253125,
+            "fraction_abs_gt_1": 0.04824765625,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.12890114945221318,
+            "max": 1.1543824079294402,
+            "mean": 0.6037311215725345,
+            "rms": 0.7022791608067752,
+            "quantiles": {
+              "1": -0.12023985325645818,
+              "5": -0.022309587704252776,
+              "25": 0.3307226100061668,
+              "50": 0.62519401600673,
+              "75": 0.9138494934721946,
+              "95": 1.1315717252272202,
+              "99": 1.1533106054769982
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -1.0088810920715332,
+            "max": 0.6347650289535522,
+            "mean": -0.06173619648846171,
+            "std": 0.1970143327051431,
+            "rms": 0.2064606627135415,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 9.615384615384615e-07,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.24404498934745789,
+            "max": 0.5272534489631653,
+            "mean": -0.02024441930195767,
+            "std": 0.10420039960192383,
+            "rms": 0.10614876254612708,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.008980339039214441,
+            "max": 0.9707427785818976,
+            "mean": 0.5561954936178551,
+            "rms": 0.576112130708697,
+            "quantiles": {
+              "1": 0.19740103858610586,
+              "5": 0.2976698990918903,
+              "25": 0.4470917215509118,
+              "50": 0.5654794222054973,
+              "75": 0.6758098840011287,
+              "95": 0.7770731668568198,
+              "99": 0.8301129442527964
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "gelu_sine_cosine_01__adamw",
+      "activation": "gelu_sine_cosine_01",
+      "optimizer": "adamw",
+      "wp_from_completed_fit": 0.4986526844800636,
+      "checkpoint_sha256": "93743f6f9c66b3f1147c884de1eaf7eae3d211f4c75ef0b62d16b708de6826a3",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.601921558380127,
+            "max": 6.4538774490356445,
+            "mean": 0.02049128093477343,
+            "std": 0.5969168668692899,
+            "rms": 0.5972684811267017,
+            "fraction_abs_gt_3": 0.000308984375,
+            "fraction_abs_gt_1": 0.089706640625,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.2954794466495514,
+            "max": 6.469410419464111,
+            "mean": 0.11205507086641296,
+            "std": 0.3851345602016237,
+            "rms": 0.4011046850493956,
+            "fraction_abs_gt_3": 0.00012421875,
+            "fraction_abs_gt_1": 0.03474765625,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.10546197528059502,
+            "max": 1.1131956670650265,
+            "mean": 0.5947785308304031,
+            "rms": 0.6639890367540079,
+            "quantiles": {
+              "1": -0.022734412759701693,
+              "5": 0.07372731436736636,
+              "25": 0.3742467248168217,
+              "50": 0.6123905701120308,
+              "75": 0.8400211148984967,
+              "95": 1.038488880822671,
+              "99": 1.0602691187743774
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.7911601066589355,
+            "max": 0.7262402772903442,
+            "mean": 0.0697221711677544,
+            "std": 0.16383484483404506,
+            "rms": 0.17805346818902815,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.2704595625400543,
+            "max": 0.5975860357284546,
+            "mean": 0.05262159349777508,
+            "std": 0.10540409989076165,
+            "rms": 0.11780940699293392,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.17663520532231164,
+            "max": 0.9968369752861757,
+            "mean": 0.6458905442009113,
+            "rms": 0.6555426940913903,
+            "quantiles": {
+              "1": 0.34894411463431063,
+              "5": 0.45706471344254096,
+              "25": 0.5742904372469727,
+              "50": 0.647580193961172,
+              "75": 0.7237495656197477,
+              "95": 0.8262368005300467,
+              "99": 0.8776342404138295
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "gelu_sine_cosine_01__muon_adamw",
+      "activation": "gelu_sine_cosine_01",
+      "optimizer": "muon_adamw",
+      "wp_from_completed_fit": 0.49778870170304773,
+      "checkpoint_sha256": "d8ec60386a673864cf0c2f8a571ccccc809c62f91e7b09d6fca3511b31db6b26",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.426021099090576,
+            "max": 6.845834255218506,
+            "mean": 0.04030072851513021,
+            "std": 0.6379604276854025,
+            "rms": 0.6392320830585644,
+            "fraction_abs_gt_3": 0.00037578125,
+            "fraction_abs_gt_1": 0.105871484375,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.2954794466495514,
+            "max": 6.883761405944824,
+            "mean": 0.13619544598013977,
+            "std": 0.4178854564719626,
+            "rms": 0.4395195720744523,
+            "fraction_abs_gt_3": 0.00016015625,
+            "fraction_abs_gt_1": 0.043546875,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.1211486278238258,
+            "max": 1.112050821469855,
+            "mean": 0.6009228959875244,
+            "rms": 0.675885390882218,
+            "quantiles": {
+              "1": -0.02272420451564033,
+              "5": 0.06021302876212348,
+              "25": 0.3625803642586196,
+              "50": 0.6216690800080598,
+              "75": 0.872112437917623,
+              "95": 1.0461202672399044,
+              "99": 1.060711768254362
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.9912465214729309,
+            "max": 0.6458221077919006,
+            "mean": -0.0600812669727405,
+            "std": 0.19484789767527252,
+            "rms": 0.20390061762908707,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.2882814109325409,
+            "max": 0.5184727907180786,
+            "mean": -0.021704669404729825,
+            "std": 0.10627632629673596,
+            "rms": 0.10847004289249133,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.095090919393309,
+            "max": 0.9276857680011353,
+            "mean": 0.5624408593769956,
+            "rms": 0.5772986757145341,
+            "quantiles": {
+              "1": 0.2615939266292401,
+              "5": 0.344422764706449,
+              "25": 0.4648126464480238,
+              "50": 0.5661634234808322,
+              "75": 0.6672906432249742,
+              "95": 0.7583612131692932,
+              "99": 0.8037166817614234
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "gelu_sinc_05__adamw",
+      "activation": "gelu_sinc_05",
+      "optimizer": "adamw",
+      "wp_from_completed_fit": 0.49468002504413067,
+      "checkpoint_sha256": "f35214651a6947633c79160e87c65c7477a4495895c41cb1189ae6d21ba4b4bf",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.858505725860596,
+            "max": 6.676575183868408,
+            "mean": 0.018213471173273182,
+            "std": 0.599872987499028,
+            "rms": 0.6001494244462695,
+            "fraction_abs_gt_3": 0.00056015625,
+            "fraction_abs_gt_1": 0.0897015625,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.20626750588417053,
+            "max": 6.811863899230957,
+            "mean": 0.1394492681810944,
+            "std": 0.3799496647953919,
+            "rms": 0.4047318200665392,
+            "fraction_abs_gt_3": 0.000444921875,
+            "fraction_abs_gt_1": 0.024801171875,
+            "fraction_zero": 3.90625e-07
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.1626430974678711,
+            "max": 1.5741335491755999,
+            "mean": 0.5787832455932477,
+            "rms": 0.6932367028286975,
+            "quantiles": {
+              "1": -0.16178165415037452,
+              "5": -0.13908139379522982,
+              "25": 0.2856089686580479,
+              "50": 0.7064742406572664,
+              "75": 0.8975774415014324,
+              "95": 0.9646382195713965,
+              "99": 1.1758595992022858
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.7484030723571777,
+            "max": 0.7175894379615784,
+            "mean": 0.08073708867190885,
+            "std": 0.17906049871507504,
+            "rms": 0.1964208229473318,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.20626747608184814,
+            "max": 0.6420878171920776,
+            "mean": 0.07899860933000427,
+            "std": 0.14302804870162042,
+            "rms": 0.16339462350844883,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.045106329205002876,
+            "max": 0.9661021517562025,
+            "mean": 0.7889396473217366,
+            "rms": 0.8069758222164827,
+            "quantiles": {
+              "1": 0.28102051926976823,
+              "5": 0.45587408271964414,
+              "25": 0.6836561658865291,
+              "50": 0.8375704587145874,
+              "75": 0.9316700575935837,
+              "95": 0.9645462550778413,
+              "99": 0.9660375316077084
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "gelu_sinc_05__muon_adamw",
+      "activation": "gelu_sinc_05",
+      "optimizer": "muon_adamw",
+      "wp_from_completed_fit": 0.49120858006842516,
+      "checkpoint_sha256": "ccbec80415ebff1c7c5be96fbe5ab2e875bc1ba09a05879426362a5c4ab4cd7e",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.722528457641602,
+            "max": 7.053539752960205,
+            "mean": 0.03975116637840847,
+            "std": 0.6360727337927848,
+            "rms": 0.6373136417048287,
+            "fraction_abs_gt_3": 0.000443359375,
+            "fraction_abs_gt_1": 0.103978515625,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.20626750588417053,
+            "max": 7.026895999908447,
+            "mean": 0.16405157700140052,
+            "std": 0.4085642158552069,
+            "rms": 0.4402699608127115,
+            "fraction_abs_gt_3": 0.000329296875,
+            "fraction_abs_gt_1": 0.03052734375,
+            "fraction_zero": 3.90625e-07
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.16264309645968644,
+            "max": 1.5741458350319657,
+            "mean": 0.5737153566213663,
+            "rms": 0.6923134575462961,
+            "quantiles": {
+              "1": -0.16194712065289882,
+              "5": -0.14468337510965637,
+              "25": 0.2697376322789382,
+              "50": 0.7025929433885598,
+              "75": 0.8965915801635991,
+              "95": 0.9647682499756098,
+              "99": 1.2208781516839033
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.9660505056381226,
+            "max": 0.72837233543396,
+            "mean": -0.05558711911417956,
+            "std": 0.20660178880762395,
+            "rms": 0.21394912233969093,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.20626749098300934,
+            "max": 0.6504769921302795,
+            "mean": -0.01292175108988071,
+            "std": 0.1291309710689142,
+            "rms": 0.12977588119689112,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.1484427429002299,
+            "max": 0.9661021492531932,
+            "mean": 0.6552269047011884,
+            "rms": 0.6986034554740738,
+            "quantiles": {
+              "1": 0.02634001288145991,
+              "5": 0.1898064437587013,
+              "25": 0.48607038434499195,
+              "50": 0.7095708711928721,
+              "75": 0.8606278093087963,
+              "95": 0.9504160854895334,
+              "99": 0.9648029537336567
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "split_gelu_leaky_relu__adamw",
+      "activation": "split_gelu_leaky_relu",
+      "optimizer": "adamw",
+      "wp_from_completed_fit": 0.4866585389179319,
+      "checkpoint_sha256": "ac59aa18c9fe16992068ced43476f4692e7b4c6c0b1a7a10142e2d5a0c59bdbb",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.873650074005127,
+            "max": 6.486639022827148,
+            "mean": 0.014684296524461547,
+            "std": 0.5933970263956561,
+            "rms": 0.5935786885490628,
+            "fraction_abs_gt_3": 0.00029609375,
+            "fraction_abs_gt_1": 0.087640625,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.16997122764587402,
+            "max": 6.486639022827148,
+            "mean": 0.1758575711776013,
+            "std": 0.36134107175323205,
+            "rms": 0.401862234448896,
+            "fraction_abs_gt_3": 0.000209375,
+            "fraction_abs_gt_1": 0.037609375,
+            "fraction_zero": 3.90625e-07
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.12890413982335333,
+            "max": 1.1289041427090571,
+            "mean": 0.5069768872899393,
+            "rms": 0.6612510902615795,
+            "quantiles": {
+              "1": -0.11254151608037742,
+              "5": 0.01,
+              "25": 0.01,
+              "50": 0.5177850811417084,
+              "75": 1.0,
+              "95": 1.0,
+              "99": 1.1179846377982277
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -0.7137954831123352,
+            "max": 0.8347784280776978,
+            "mean": -0.024733930553256338,
+            "std": 0.1875994430923536,
+            "rms": 0.18922293298956797,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.16965264081954956,
+            "max": 0.8347784280776978,
+            "mean": 0.03777571706673244,
+            "std": 0.09817745669788999,
+            "rms": 0.10519419092122857,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": 0.01,
+            "max": 1.0,
+            "mean": 0.44488972427911844,
+            "rms": 0.578525335415435,
+            "quantiles": {
+              "1": 0.01,
+              "5": 0.01,
+              "25": 0.01,
+              "50": 0.45716218709957906,
+              "75": 0.6953176144989831,
+              "95": 1.0,
+              "99": 1.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "arm": "split_gelu_leaky_relu__muon_adamw",
+      "activation": "split_gelu_leaky_relu",
+      "optimizer": "muon_adamw",
+      "wp_from_completed_fit": 0.48866628360221465,
+      "checkpoint_sha256": "99d1c4111b35032ad2f316fc2f4b2ca85f439a04293798b033a1a9a7129427e0",
+      "sites": {
+        "embedding": {
+          "shape": [
+            4,
+            20000,
+            32
+          ],
+          "preactivation": {
+            "count": 2560000,
+            "min": -5.7898945808410645,
+            "max": 7.094611644744873,
+            "mean": 0.04101507179454981,
+            "std": 0.6523995922844201,
+            "rms": 0.6536875890876231,
+            "fraction_abs_gt_3": 0.000573046875,
+            "fraction_abs_gt_1": 0.112673046875,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 2560000,
+            "min": -0.16997122764587402,
+            "max": 7.094611644744873,
+            "mean": 0.21233770149890896,
+            "std": 0.40648756901848465,
+            "rms": 0.45860597820394466,
+            "fraction_abs_gt_3": 0.000450390625,
+            "fraction_abs_gt_1": 0.0515828125,
+            "fraction_zero": 3.90625e-07
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.1289041333945043,
+            "max": 1.1289041442824617,
+            "mean": 0.5226663367783941,
+            "rms": 0.678351381602364,
+            "quantiles": {
+              "1": -0.11571434751575269,
+              "5": 0.01,
+              "25": 0.01,
+              "50": 0.5504756916175426,
+              "75": 1.0,
+              "95": 1.03462981152468,
+              "99": 1.1237979047542541
+            }
+          }
+        },
+        "correction_head": {
+          "shape": [
+            4,
+            20000,
+            13
+          ],
+          "preactivation": {
+            "count": 1040000,
+            "min": -1.0612589120864868,
+            "max": 0.7550354599952698,
+            "mean": -0.04401029494892058,
+            "std": 0.19049149944629853,
+            "rms": 0.1955093793729348,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 9.615384615384615e-07,
+            "fraction_zero": 0.0
+          },
+          "activation_output": {
+            "count": 1040000,
+            "min": -0.16997121274471283,
+            "max": 0.7550354599952698,
+            "mean": 0.023475696500978454,
+            "std": 0.10561924930743188,
+            "rms": 0.10819673816927894,
+            "fraction_abs_gt_3": 0.0,
+            "fraction_abs_gt_1": 0.0,
+            "fraction_zero": 0.0
+          },
+          "derivative_on_sampled_fit_preactivations": {
+            "sample_count": 50000,
+            "min": -0.061658935450573625,
+            "max": 1.0,
+            "mean": 0.4612814174789657,
+            "rms": 0.5957176766035028,
+            "quantiles": {
+              "1": 0.01,
+              "5": 0.01,
+              "25": 0.01,
+              "50": 0.40720500849138563,
+              "75": 1.0,
+              "95": 1.0,
+              "99": 1.0
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpretation_limit": "Activation occupancy and derivatives are descriptive for four fit sequences and saved one-seed checkpoints. They do not establish a causal mechanism, market periodicity, or performance on independent components.",
+  "artifacts": [
+    "research/campaign_2026-10-05/activation_optimizer/eda/activation_curves.png",
+    "research/campaign_2026-10-05/activation_optimizer/eda/fit_pre_activation_summary.png"
+  ]
+}
