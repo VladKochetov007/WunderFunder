@@ -831,5 +831,48 @@ def _(json, mo, project_root):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo, project_root):
+    _path = project_root / "research/campaign_2026-10-05/recurrent_activation_adaptive/eda/coefficient_trajectories.png"
+    mo.vstack([
+        mo.md("### Learned recurrent shape: training telemetry\nAll eight learned cells and both layers are shown. Coefficients stayed close to their initial values over 474 updates. This does not establish that learned activations cannot help; scoring is still pending. Scalar LR is fixed at 0.001, with zero coefficient weight decay."),
+        mo.image(str(_path)),
+    ])
+    return
+
+
+@app.cell(hide_code=True)
+def e480_three_seed_schedule_replication(json, mo, project_root):
+    _e480_dir = project_root / "research/campaign_2026-10-05/activation_schedule_replication"
+    _e480_scores = json.loads((_e480_dir / "eda/twentyfour_v1/scores.json").read_text())
+    _e476_scores = json.loads((project_root / "research/campaign_2026-10-05/activation_schedule/eda/twelve_v1/scores.json").read_text())
+    _e480_primary_rows = []
+    for _name, _effect in _e476_scores["pair_contrasts"].items():
+        if _effect.get("family") == "warmcos_minus_constant_mean":
+            _e480_primary_rows.append({"fit_seed": 271828, "run": "E476 original", "contrast": _name, "delta": _effect["mean_diff"], "ci95": _effect["ci95"]})
+    for _seed, _effects in _e480_scores["primary_warmcos_minus_constant_mean_by_seed"].items():
+        for _name, _effect in _effects.items():
+            _e480_primary_rows.append({"fit_seed": int(_seed), "run": "E480 replication", "contrast": _name, "delta": _effect["mean_diff"], "ci95": _effect["ci95"]})
+    _e480_contrast_rows = []
+    for _family_key in ("pair_contrasts_by_seed", "joint_interactions_by_seed"):
+        for _seed, _effects in _e480_scores[_family_key].items():
+            for _name, _effect in _effects.items():
+                _e480_contrast_rows.append({"fit_seed": int(_seed), "family": _effect["family"], "contrast": _name, "delta": _effect["mean_diff"], "ci95": _effect["ci95"], "p_le_0": _effect["p_le_0"]})
+    _e480_arm_rows = [{"arm": _name, **_score} for _name, _score in _e480_scores["arm_scores"].items()]
+    mo.vstack([
+        mo.md("""## Schedule replication: seed effects reverse
+    E476's original seed 271828 had four positive warm-cosine-minus-constant-mean effects. The two registered E480 replications (271829, 271830) have eight negative point estimates, six with component-bootstrap CIs below zero. The same 16 previously exposed components are reused; this is paired descriptive evidence, not an untouched holdout or a seed-population estimate. The E480 CPU grade attempt finished exit 0 with verified teardown. Full report: `research/campaign-2026-10-05/activation_schedule_replication/THREE_SEED_REPORT.md`."""),
+        mo.image(str(_e480_dir / "eda/three_seed_v1/three_seed_scores.png")),
+        mo.image(str(_e480_dir / "eda/three_seed_v1/three_seed_primary_contrasts.png")),
+        mo.md("### All 12 paired primary effects"),
+        mo.ui.table(_e480_primary_rows),
+        mo.md("### All 36 E476/E480 official arm scores"),
+        mo.ui.table(_e480_arm_rows),
+        mo.md("### All 44 registered E480 contrasts (20 pairs + 2 joint interactions per seed)"),
+        mo.ui.table(_e480_contrast_rows),
+    ])
+    return
+
+
 if __name__ == "__main__":
     app.run()

@@ -19,15 +19,17 @@ E473 tested that approximation separately. Sources and transfer caveats are in
 | E473 | 10 | Sine versus linear addition, scaling, approximate GELU | Matched linear addition ties or beats sine at one seed; no periodic-mechanism claim. |
 | E471/E475 | 18 | Bounded candidate shape × optimizer × three seeds | Positive alpha improves Muon at all three seeds; AdamW effects vary. |
 | E474 | 12 | Embedding versus head placement | Embedding effect reverses across seeds; head effects near-neutral. |
-| E476 | 12 | Activation × optimizer × LR protocol | One-seed AdamW warm-cosine advantage; all 22 registered contrasts retained. |
+| E476 | 12 | Activation × optimizer × LR protocol | First-seed AdamW warm-cosine advantage; failed replication in E480. All 22 registered contrasts retained. |
+| E480 | 24 | Two additional seeds for the full schedule factorial | All eight new warm-cosine-minus-constant-mean effects negative; six intervals wholly negative. All 44 new contrasts retained. |
 | E477 | 12 | Parallel/same-channel GELU–LeakyReLU mixture × dropout | Effects reverse with seed; all12 official scores and18 contrasts retained. |
 | E478 | 6 | Candidate shape in H64 two-layer topology | All three point deltas positive; two conditional intervals positive, one crosses zero. |
+| E479 | 16 | Learned per-layer candidate amplitudes | Learned-minus-fixed effects are small and vary by seed/optimizer; fixed positive shape remains favorable for Muon. All28 contrasts retained. |
 
-Overall158 scientific fits have completed;118 have official grades. Each
+Overall158 scientific fits have completed; all158 have official grades. Each
 completed activation fit finished without a new OOM. Actual attempt receipts,
 failed probes and rejected grader checks remain in the record. Component
 intervals condition on fitted models and exclude training-seed/search
-uncertainty. Independent export checks are recorded for E474/E476/E478.
+uncertainty. Independent export checks are recorded for E474/E476/E478. A separate shifted-raw-sum implementation also reproduced every global score and contrast for E477/E480 to within3.4e-15 (checks/activation_export_reproduction.json).
 
 ## Why these are different mechanisms
 
@@ -50,8 +52,8 @@ unchanged. The optimizer crossover is an observation, not a diagnosed cause.
 
 | Study | New fits planned | Current state |
 |---|---:|---|
-| E479 | 16 | Learned per-layer bounded candidate amplitudes; independent source/CPU/CUDA probe passed; all16 full fits complete; independent grade pending. |
-| E480 | 24 | Full activation/optimizer/schedule factorial at two additional seeds; all24 full fits completed after source/CPU/CUDA checks; independent grade pending. |
+| E479 | 16 | Learned per-layer bounded candidate amplitudes; independent source/CPU/CUDA probe passed; all16 full fits independently graded and all28 global contrasts reproduced with a separate numerical method. |
+| E480 | 24 | Full activation/optimizer/schedule factorial at two additional seeds; all24 full fits independently graded; separate raw-export reproduction matched all24 scores/all44 contrasts. |
 | E481 | 18 | Sine versus central-slope/endpoints-matched cubic candidate; source/CPU/CUDA checks passed; all18 full fits running. |
 
 Do not count one-update probes or source-only packets as completed fits. E477 has now completed its corrected independent grade. Its
