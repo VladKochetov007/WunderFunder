@@ -1,0 +1,537 @@
+{
+  "scope": "Six small-model fits on sixteen exposed components; nine conditional contrasts. No public-score, fresh-validation or pooled-training-seed claim.",
+  "arm_scores": {
+    "m10__adamw": {
+      "t0": 0.5010068888239537,
+      "t1": 0.4765732266378491,
+      "wp": 0.48879005773090145,
+      "selected_rows": 26990,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "m10__muon_adamw": {
+      "t0": 0.49910558082319945,
+      "t1": 0.4950984698333257,
+      "wp": 0.4971020253282626,
+      "selected_rows": 26990,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "zero__adamw": {
+      "t0": 0.4987989273093449,
+      "t1": 0.46573005310045024,
+      "wp": 0.4822644902048976,
+      "selected_rows": 26990,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "zero__muon_adamw": {
+      "t0": 0.5055564787570641,
+      "t1": 0.5054344437642416,
+      "wp": 0.5054954612606528,
+      "selected_rows": 26990,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "p10__adamw": {
+      "t0": 0.49458686909973487,
+      "t1": 0.46413143025305276,
+      "wp": 0.4793591496763938,
+      "selected_rows": 26990,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "p10__muon_adamw": {
+      "t0": 0.5086564664108265,
+      "t1": 0.5146185534954706,
+      "wp": 0.5116375099531485,
+      "selected_rows": 26990,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "cudnn_tanh__adamw": {
+      "t0": 0.49879393401222355,
+      "t1": 0.46572494814892157,
+      "wp": 0.48225944108057256,
+      "selected_rows": 26990,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "cudnn_tanh__muon_adamw": {
+      "t0": 0.5055663697969933,
+      "t1": 0.5054304390124384,
+      "wp": 0.5054984044047159,
+      "selected_rows": 26990,
+      "metric_id": "global_wp_clip2_v1"
+    }
+  },
+  "contrasts": {
+    "m10__adamw_minus_zero__adamw": {
+      "candidate_wp": 0.48879005773090156,
+      "reference_wp": 0.4822644902048977,
+      "mean_diff": 0.0065255675260038615,
+      "bootstrap_sd": 0.002659513332479358,
+      "ci95": [
+        0.0003891038443168474,
+        0.010991399359660162
+      ],
+      "p_le_0": 0.02,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "m10__muon_adamw_minus_zero__muon_adamw": {
+      "candidate_wp": 0.4971020253282625,
+      "reference_wp": 0.5054954612606529,
+      "mean_diff": -0.008393435932390447,
+      "bootstrap_sd": 0.002071193519787811,
+      "ci95": [
+        -0.01282930511996595,
+        -0.0047515719165571926
+      ],
+      "p_le_0": 1.0,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "p10__adamw_minus_zero__adamw": {
+      "candidate_wp": 0.4793591496763939,
+      "reference_wp": 0.4822644902048977,
+      "mean_diff": -0.0029053405285037748,
+      "bootstrap_sd": 0.0021624222158668294,
+      "ci95": [
+        -0.006451550946031534,
+        0.001970352028297207
+      ],
+      "p_le_0": 0.8685,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "p10__muon_adamw_minus_zero__muon_adamw": {
+      "candidate_wp": 0.5116375099531486,
+      "reference_wp": 0.5054954612606529,
+      "mean_diff": 0.006142048692495683,
+      "bootstrap_sd": 0.0019031473699423602,
+      "ci95": [
+        0.0028802649367077383,
+        0.01019049534904026
+      ],
+      "p_le_0": 0.0005,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "m10__muon_adamw_minus_m10__adamw": {
+      "candidate_wp": 0.4971020253282625,
+      "reference_wp": 0.48879005773090156,
+      "mean_diff": 0.008311967597360914,
+      "bootstrap_sd": 0.009391945821229762,
+      "ci95": [
+        -0.010881779772811049,
+        0.026274390466452743
+      ],
+      "p_le_0": 0.181,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "zero__muon_adamw_minus_zero__adamw": {
+      "candidate_wp": 0.5054954612606529,
+      "reference_wp": 0.4822644902048977,
+      "mean_diff": 0.023230971055755223,
+      "bootstrap_sd": 0.009833254700363891,
+      "ci95": [
+        0.004152408960532555,
+        0.0431232393025968
+      ],
+      "p_le_0": 0.0075,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "p10__muon_adamw_minus_p10__adamw": {
+      "candidate_wp": 0.5116375099531486,
+      "reference_wp": 0.4793591496763939,
+      "mean_diff": 0.03227836027675468,
+      "bootstrap_sd": 0.01054301047667885,
+      "ci95": [
+        0.011665091006845204,
+        0.053510557476393335
+      ],
+      "p_le_0": 0.0,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "zero__adamw_minus_cudnn_tanh__adamw": {
+      "candidate_wp": 0.4822644902048977,
+      "reference_wp": 0.48225944108057267,
+      "mean_diff": 5.049124325029464e-06,
+      "bootstrap_sd": 1.8480026473923883e-06,
+      "ci95": [
+        1.2421477374804923e-06,
+        8.591424372582368e-06
+      ],
+      "p_le_0": 0.0035,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    },
+    "zero__muon_adamw_minus_cudnn_tanh__muon_adamw": {
+      "candidate_wp": 0.5054954612606529,
+      "reference_wp": 0.505498404404716,
+      "mean_diff": -2.9431440631277894e-06,
+      "bootstrap_sd": 6.3441727027291984e-06,
+      "ci95": [
+        -1.5337015112952545e-05,
+        9.570329517914755e-06
+      ],
+      "p_le_0": 0.632,
+      "n_sequences": 16,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "metric_id": "global_wp_clip2_v1",
+      "centered_moments": true
+    }
+  },
+  "primary_contrast_keys": [
+    "m10__adamw_minus_zero__adamw",
+    "m10__muon_adamw_minus_zero__muon_adamw",
+    "p10__adamw_minus_zero__adamw",
+    "p10__muon_adamw_minus_zero__muon_adamw",
+    "m10__muon_adamw_minus_m10__adamw",
+    "zero__muon_adamw_minus_zero__adamw",
+    "p10__muon_adamw_minus_p10__adamw"
+  ],
+  "historical_backend_diagnostic_keys": [
+    "zero__adamw_minus_cudnn_tanh__adamw",
+    "zero__muon_adamw_minus_cudnn_tanh__muon_adamw"
+  ],
+  "explicit_precision_policy": {
+    "mode": "fit",
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": false,
+    "cudnn_enabled": true,
+    "float32_matmul_precision": "highest",
+    "changed_from_E470": "Historical cuDNN TF32 was enabled; E471 uses a common FP32 policy. Backend comparisons are descriptive, not bit-exact fit reproductions."
+  },
+  "attempt": {
+    "admission_resources": {
+      "parent_cpu_max": 12,
+      "parent_ram_max": 38654705664,
+      "support_cpus": 2,
+      "support_ram_bytes": 4294967296,
+      "worker_cpus": 2,
+      "worker_ram_bytes": 6442450944
+    },
+    "argv": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "research/campaign_2026-10-05/recurrent_activation/fp32_policy_run.py",
+      "--mode",
+      "fit",
+      "--output",
+      "research/campaign_2026-10-05/recurrent_activation/runs/six_v1"
+    ],
+    "artifacts": [
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation/runs/six_v1/result.json",
+        "sha256": "5aec582ea79a8cd15debcb9cd7723e2cedbbc4909485be1f5ef199686daab894",
+        "size": 20506
+      }
+    ],
+    "block_id": "local001",
+    "charged_seconds": 191.70764077300555,
+    "elapsed_seconds": 191.70764077300555,
+    "environment": {
+      "ARROW_NUM_THREADS": "1",
+      "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+      "CUDA_VISIBLE_DEVICES": "0",
+      "HOME": "/home/vlad",
+      "MKL_NUM_THREADS": "2",
+      "NUMBA_NUM_THREADS": "2",
+      "OMP_NUM_THREADS": "2",
+      "OPENBLAS_NUM_THREADS": "2",
+      "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+      "POLARS_MAX_THREADS": "2",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONHASHSEED": "0",
+      "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+      "PYTHONUNBUFFERED": "1",
+      "WNN_GPU_MEMORY_BYTES": "2147483648",
+      "WNN_THREADS": "2"
+    },
+    "exit_code": 0,
+    "failure": null,
+    "failure_category": null,
+    "failure_scope": null,
+    "final_memory_events": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "final_parent_memory_events": {
+      "high": 1198882,
+      "low": 0,
+      "max": 7522594,
+      "oom": 1,
+      "oom_group_kill": 1,
+      "oom_kill": 3,
+      "sock_throttled": 12861
+    },
+    "finished_unix": 1791163438.297191,
+    "heartbeat_unix": 1791163437.7845864,
+    "id": "e471-recurrent-six-fit-v1",
+    "initial_memory_events": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "initial_parent_memory_events": {
+      "high": 1198882,
+      "low": 0,
+      "max": 7522594,
+      "oom": 1,
+      "oom_group_kill": 1,
+      "oom_kill": 3,
+      "sock_throttled": 12861
+    },
+    "kind": "gpu",
+    "memory_events": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_properties": {
+      "ActiveState": "active",
+      "CPUQuotaPerSecUSec": "12s",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "LoadState": "loaded",
+      "MemoryMax": "30000000000",
+      "MemorySwapMax": "0"
+    },
+    "peak_observed_vram_bytes": 371195904,
+    "peak_ram_bytes": 1792749568,
+    "reserved_seconds": 5130,
+    "reserved_unix": 1791163246.5352201,
+    "runtime_sha256": {
+      "scripts/run_campaign.py": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+      "src/wnn/campaign.py": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+      "src/wnn/campaign_local.py": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+      "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+      "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+    },
+    "signals": [],
+    "spec": {
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-05/recurrent_activation/fp32_policy_run.py",
+        "--mode",
+        "fit",
+        "--output",
+        "research/campaign_2026-10-05/recurrent_activation/runs/six_v1"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-05/recurrent_activation/runs/six_v1/result.json"
+      ],
+      "code": [
+        {
+          "path": "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+          "sha256": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+          "size": 18964
+        },
+        {
+          "path": "research/campaign_2026-10-05/activation_optimizer/tests.py",
+          "sha256": "cfb5d94abcf732dd632943177cec2a404134240b45873329168c969795b963db",
+          "size": 7206
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/fit_recurrent_candidate.py",
+          "sha256": "998bceb024b5c29e81e73efc5d0ebe434d53c7356cfcb947f7ca36dd625426cf",
+          "size": 14349
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/fp32_policy_run.py",
+          "sha256": "f035341f36fbac6ae7c6074b4ea3656b2e6b91b1967edbec45681a9c310aeb84",
+          "size": 1955
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/gpu_probe.py",
+          "sha256": "aeac54f44ade8370845746a65c3e5d7c7285d3c4241e96c768d73f1a7c5a5b5d",
+          "size": 11197
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/tests.py",
+          "sha256": "266df5c2a7f126aecf67e37416b3ce17cc011620f3848e747b64019b03678015",
+          "size": 8582
+        },
+        {
+          "path": "scripts/run_campaign.py",
+          "sha256": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+          "size": 4273
+        },
+        {
+          "path": "src/wnn/__init__.py",
+          "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+          "size": 63
+        },
+        {
+          "path": "src/wnn/campaign.py",
+          "sha256": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+          "size": 13176
+        },
+        {
+          "path": "src/wnn/campaign_local.py",
+          "sha256": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+          "size": 22065
+        },
+        {
+          "path": "src/wnn/campaign_spec.py",
+          "sha256": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+          "size": 8717
+        },
+        {
+          "path": "src/wnn/gmetric.py",
+          "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+          "size": 8902
+        },
+        {
+          "path": "src/wnn/optim.py",
+          "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+          "size": 11736
+        },
+        {
+          "path": "src/wnn/resources.py",
+          "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+          "size": 4485
+        }
+      ],
+      "code_sha256": "dad832ca862eec18dc63b46137dfceadd6f11d5deb5bb778ff81fce7615f4bf1",
+      "environment": {},
+      "inputs": [
+        {
+          "path": "datasets/valid.parquet",
+          "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+          "size": 5615509128
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/FP32_POLICY_PREREG.md",
+          "sha256": "18c9b483ef04a54ee39ec587d3bf571e6de900820efe215c4c02a5d24a71680a",
+          "size": 1539
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/GPU_PARITY_INCIDENT_V1.md",
+          "sha256": "394a1b640b1804a95ef86978a64c16a1a989bc9b53184af37dac2e8d7448e251",
+          "size": 1456
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/INDEPENDENT_REVIEW.md",
+          "sha256": "6aeaaf0f4d2771af931c8da4d83590ba7bf336280f07dadf7650c767d834b737",
+          "size": 4495
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/PRECISION_DIAGNOSIS.md",
+          "sha256": "6932822928051065fb86941945af972dd10ba7540b774720dfe15e0bc14b84b3",
+          "size": 3797
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/PRECISION_SOURCE_RECONCILIATION.md",
+          "sha256": "5e5026787e9d2786204a9f2dcbf1e4a782d27cadabeb95b03ae09a09ffd6a5ea",
+          "size": 1300
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/PREREG.md",
+          "sha256": "2b8c39a4aa7230d3d95037195063a2ec3d2260aa181d083be64afb739d189281",
+          "size": 5874
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/cpu_preflight_v2/result.json",
+          "sha256": "b38878723387e134a3d22450b670286d97235b9ccfd78030b92c2319330bb2f3",
+          "size": 2939
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/gpu_probe_fp32_v2/result.json",
+          "sha256": "8afc3bbb0736c71784d6551fd25ba8590bd9b1591290339efa243af56ff788e9",
+          "size": 4020
+        },
+        {
+          "path": "research/campaign_2026-10-05/recurrent_activation/precision_gpu_v1/result.json",
+          "sha256": "d06ada498831c375f7b75161b84cbeb5f9598e8046e5a388c308de6bb070790c",
+          "size": 9975
+        },
+        {
+          "path": "research/campaign_2026-10-05/target_mechanics/cohort.json",
+          "sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+          "size": 6707
+        }
+      ],
+      "kind": "gpu",
+      "limits": {
+        "cpus": 2,
+        "gpu_memory_bytes": 2147483648,
+        "gpu_stop_bytes": 3000000000,
+        "ram_bytes": 6442450944,
+        "timeout_seconds": 4200
+      },
+      "name": "e471_recurrent_six_fit_fp32_v1",
+      "version": 1
+    },
+    "spec_sha256": "8e24ac7656c26776aaa343bc1574c66abb043415c22ad14ba17af83a7758c5d4",
+    "started_unix": 1791163250.5115213,
+    "status": "finished",
+    "teardown_verified": true,
+    "timeout_seconds": 4200,
+    "unit": "wnn-c04-e471-recurrent-six-fit-v1.service",
+    "unit_properties": {
+      "ActiveState": "activating",
+      "CPUQuotaPerSecUSec": "2s",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e471-recurrent-six-fit-v1.service",
+      "ExecMainStatus": "0",
+      "LoadState": "loaded",
+      "MemoryMax": "6442450944",
+      "MemorySwapMax": "0",
+      "Result": "success"
+    }
+  },
+  "selected_prediction_sha256": {
+    "m10__adamw_selected_predictions.npz": "2c96c5ab0229bb0baedf2f0c14967ba77898aa053e96d7947107c40d849e6a8c",
+    "m10__muon_adamw_selected_predictions.npz": "16be9872cd728ad069348aac38f61d5453743d569a443bcdf78f21c6981ff4e9",
+    "zero__adamw_selected_predictions.npz": "223917ef1375011c5faf1396237feb664fe94876108303e6f2f7334061971053",
+    "zero__muon_adamw_selected_predictions.npz": "c3d48a7207da43e50ffa03beb02303c00a802f5e85484a75a855af866cdf26da",
+    "p10__adamw_selected_predictions.npz": "ed10b19c833d75738cb2abcf53b23751a4d6263729bfcb5b42bfce694c111a17",
+    "p10__muon_adamw_selected_predictions.npz": "380209012f2f63eb9dc01e716269e06d7e8b6c199c7ac2a0b01fbeaee961df47"
+  },
+  "fit_result_sha256": "5aec582ea79a8cd15debcb9cd7723e2cedbbc4909485be1f5ef199686daab894",
+  "scorer_sha256": "0f4f985488a402d1139510674a6f8d391565497f9d619534e6b2699df570acd9",
+  "shared_scorer_sha256": "b85eb93af079d1b003b1fcca2e474d39c5bb8942d95b90a699e13d8da4ea3011"
+}

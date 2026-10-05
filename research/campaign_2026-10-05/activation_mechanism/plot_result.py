@@ -22,7 +22,21 @@ def main() -> None:
     for index, (_name, contrast) in enumerate(result["contrasts"].items()):
         axis.hlines(index, *contrast["ci95"], color="#3973ac")
         axis.plot(contrast["mean_diff"], index, "o", color="#3973ac")
-    axis.set_yticks(np.arange(14), list(result["contrasts"]), fontsize=7)
+    labels = []
+    names = {
+        "gelu": "GELU",
+        "gelu_plus_sine_01": "GELU+sine",
+        "gelu_plus_linear_01": "GELU+linear",
+        "scaled_gelu_11": "1.1*GELU",
+        "jax_tanh_gelu_plus_sine_01": "Approx GELU+sine",
+    }
+    for key in result["contrasts"]:
+        candidate, reference = key.split("_minus_")
+        candidate_name, optimizer = candidate.split("__")
+        reference_name, _ = reference.split("__")
+        optimizer_label = "AdamW" if optimizer == "adamw" else "Muon"
+        labels.append(f"{names[candidate_name]} − {names[reference_name]} / {optimizer_label}")
+    axis.set_yticks(np.arange(14), labels, fontsize=9)
     axis.axvline(0, color="gray", linestyle="--")
     axis.invert_yaxis()
     axis.set_xlabel("Pooled WP difference; conditional component 95% interval")

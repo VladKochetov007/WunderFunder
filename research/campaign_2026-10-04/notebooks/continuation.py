@@ -774,5 +774,14 @@ def _(json, mo, project_root, refresh):
     return
 
 
+@app.cell(hide_code=True)
+def _(json, mo, project_root, refresh):
+    _ = refresh.value
+    _r = json.loads((project_root / "research/campaign_2026-10-05/recurrent_activation/RESULT.json").read_text())
+    _rows = [{"recipe": _name, "WP": _score["wp"], "t0": _score["t0"], "t1": _score["t1"]} for _name, _score in _r["arm_scores"].items() if not _name.startswith("cudnn")]
+    mo.vstack([mo.md("### E471: bounded recurrent candidate × optimizer\nSix fits, one exposed seed. Negative perturbation helps AdamW; positive helps Muon. All signs and optimizers are being replicated. No public-score claim."), mo.ui.table(_rows), mo.image(str(project_root / "research/campaign_2026-10-05/recurrent_activation/eda/all_recurrent_contrasts.png"))])
+    return
+
+
 if __name__ == "__main__":
     app.run()

@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "name": "e475_candidate_seed271830_v1",
+  "kind": "gpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/recurrent_activation/fit_seed_replication.py",
+    "--seed",
+    "271830",
+    "--output",
+    "research/campaign_2026-10-05/recurrent_activation/runs/seed271830_v1"
+  ],
+  "code": [
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/resources.py",
+    "src/wnn/optim.py",
+    "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+    "research/campaign_2026-10-05/activation_optimizer/tests.py",
+    "research/campaign_2026-10-05/recurrent_activation/fit_recurrent_candidate.py",
+    "research/campaign_2026-10-05/recurrent_activation/tests.py",
+    "research/campaign_2026-10-05/recurrent_activation/gpu_probe.py",
+    "research/campaign_2026-10-05/recurrent_activation/fp32_policy_run.py",
+    "research/campaign_2026-10-05/recurrent_activation/fit_seed_replication.py",
+    "research/campaign_2026-10-05/recurrent_activation/replication_cpu_check.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-05/target_mechanics/cohort.json",
+    "research/campaign_2026-10-05/recurrent_activation/PREREG.md",
+    "research/campaign_2026-10-05/recurrent_activation/INDEPENDENT_REVIEW.md",
+    "research/campaign_2026-10-05/recurrent_activation/cpu_preflight_v2/result.json",
+    "research/campaign_2026-10-05/recurrent_activation/precision_gpu_v1/result.json",
+    "research/campaign_2026-10-05/recurrent_activation/GPU_PARITY_INCIDENT_V1.md",
+    "research/campaign_2026-10-05/recurrent_activation/FP32_POLICY_PREREG.md",
+    "research/campaign_2026-10-05/recurrent_activation/gpu_probe_fp32_v2/result.json",
+    "research/campaign_2026-10-05/recurrent_activation/PRECISION_DIAGNOSIS.md",
+    "research/campaign_2026-10-05/recurrent_activation/PRECISION_SOURCE_RECONCILIATION.md",
+    "research/campaign_2026-10-05/recurrent_activation/SEED_REPLICATION_PREREG.md",
+    "research/campaign_2026-10-05/recurrent_activation/SEED_REPLICATION_REVIEW.md",
+    "research/campaign_2026-10-05/recurrent_activation/REPLICATION_CPU_CHECK.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/recurrent_activation/runs/seed271830_v1/result.json"
+  ],
+  "limits": {
+    "cpus": 2,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 900,
+    "gpu_memory_bytes": 2147483648,
+    "gpu_stop_bytes": 3000000000
+  },
+  "environment": {}
+}
