@@ -924,5 +924,51 @@ def e481_recurrent_candidate_curvature(json, mo, project_root):
     return
 
 
+@app.cell(hide_code=True)
+def e482_t4_replication_independent_grade(mo, project_root):
+
+    import json as _E482Json
+    _e482_dir = project_root / "research/campaign_2026-10-05/activation_t4_replication_v2"
+    _e482_eda = _e482_dir / "eda/six_v2"
+    _e482_scores = _E482Json.loads((_e482_eda / "scores.json").read_text())
+    _e482_local_all = _E482Json.loads((project_root / "research/campaign_2026-10-05/recurrent_activation_curvature/eda/eighteen_v2/scores.json").read_text())
+    _e482_local = {"arm_scores": {k: v for k, v in _e482_local_all["arm_scores"].items() if v["seed"] == 271828}, "contrasts": _e482_local_all["contrasts_by_seed"]["271828"]}
+    _e482_proof = _E482Json.loads((project_root / "research/campaign_2026-10-05/checks/t4_activation_export_reproduction.json").read_text())
+    _e482_arms = []
+    for _key, _arm in _e482_scores["arm_scores"].items():
+        _local_arm = _e482_local["arm_scores"][f"seed271828__{_key}"]
+        _e482_arms.append({"optimizer": _arm["optimizer"], "shape": _arm["shape"], "T4 global WP": _arm["wp"], "T4 target 0": _arm["t0"], "T4 target 1": _arm["t1"], "T4 − local WP": _arm["wp"] - _local_arm["wp"]})
+    _e482_contrasts = []
+    for _key, _item in _e482_scores["contrasts"].items():
+        _local_item = _e482_local["contrasts"][_key]
+        _e482_contrasts.append({"contrast": _key.replace("__", " ").replace("_", " "), "T4 Δ WP": _item["mean_diff"], "T4 CI low": _item["ci95"][0], "T4 CI high": _item["ci95"][1], "local Δ WP": _local_item["mean_diff"], "local CI low": _local_item["ci95"][0], "local CI high": _local_item["ci95"][1]})
+    _e482_summary = "## E482 private T4 replication — independent grade" + chr(10) + chr(10) + f"Six fits, one seed, and the same 16 exposed components. Root's raw-sum check matched all six arm scores and ten contrasts with max absolute error {_e482_proof['maximum_absolute_error']:.3e}. This is an arithmetic reproduction, not a second grader or new market confirmation. The public best remains 0.6660."
+    mo.vstack([
+        mo.md(_e482_summary),
+        mo.ui.table(_e482_arms, selection=None),
+        mo.image(src=str(_e482_eda / "arm_scores_t4_vs_local.png")),
+        mo.ui.table(_e482_contrasts, selection=None),
+        mo.image(src=str(_e482_eda / "contrasts_t4_vs_local.png")),
+        mo.md("The T4 cubic-minus-sine Muon contrast interval is slightly positive while the same-seed local interval crosses zero. Treat this as hardware/optimizer numerical sensitivity, not new-seed evidence. All six arms and ten contrasts are shown; none is selected or dropped.")
+    ])
+
+    return
+
+
+@app.cell(hide_code=True)
+def e483_momentum_independent_v3_grade(mo, project_root):
+    _e483_root = project_root / "research/campaign_2026-10-05/activation_momentum"
+    _e483_report = (_e483_root / "REPORT.md").read_text()
+    _e483_report = "\n".join(line for line in _e483_report.splitlines() if not line.startswith("!["))
+    mo.vstack([
+        mo.md(_e483_report),
+        mo.md("### Figures"),
+        mo.image(str(_e483_root / "eda/eighteen_v3/all18_arm_scores.png"), alt="All 18 seed, shape, and momentum arm scores"),
+        mo.image(str(_e483_root / "eda/eighteen_v3/all27_contrasts.png"), alt="All 27 registered seed-specific paired contrasts"),
+        mo.image(str(_e483_root / "eda/eighteen_v3/source_telemetry_means.png"), alt="Four-snapshot mean gradient and update RMS by source family"),
+    ])
+    return
+
+
 if __name__ == "__main__":
     app.run()

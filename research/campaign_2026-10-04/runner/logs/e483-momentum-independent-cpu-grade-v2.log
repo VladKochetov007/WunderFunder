@@ -1,0 +1,17 @@
+/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_momentum/score_momentum_v2.py", line 1115, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_momentum/score_momentum_v2.py", line 1067, in main
+    predictions, internal = score_all(
+                            ~~~~~~~~~^
+        cells, test_nodes, x, targets, selected, run, torch.device(args.device)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_momentum/score_momentum_v2.py", line 928, in score_all
+    {key: score_result[f"seed{seed}__{key}"]["wp"] for key in moments_by_seed[seed]},
+          ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'seed271831__baseline_beta0.8'

@@ -1,0 +1,5 @@
+# E483 grader v2 score-key contract failure
+
+The actual v2 fit-only gate passed all18 fit/checkpoint/normalizer identities with test rows unread. Root then explicitly admitted the sealed CPU grade. It exited1 after47.936583s with verified teardown,663,937,024-byte peakRAM, noGPU and noOOM. The score_all loop computed predictions/metrics into memory, then contrast assembly requested seed271831__baseline_beta0.8, while stored score keys were seed271831__baseline__beta0.8. No score/export artifact was persisted, so the whole matrix is still ungraded in the official evidence count.
+
+Preserve v2 source/tests/seal/attempt and rawlog. A separately versioned v3 must use consistent canonical arm keys and add a synthetic end-to-end all18-arm/27-contrast assembly check, not only a test of the isolated contrast function. There is no fit change or new recipe selection. Inference used the already registered exposed panel; do not call this failure test-unread. The correction must pass root review, actual fit proof and a new explicit CPU scoring admission before reported outcomes.

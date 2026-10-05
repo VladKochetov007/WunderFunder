@@ -25,7 +25,7 @@ E473 tested that approximation separately. Sources and transfer caveats are in
 | E478 | 6 | Candidate shape in H64 two-layer topology | All three point deltas positive; two conditional intervals positive, one crosses zero. |
 | E479 | 16 | Learned per-layer candidate amplitudes | Learned-minus-fixed effects are small and vary by seed/optimizer; fixed positive shape remains favorable for Muon. All28 contrasts retained. |
 
-Overall200 scientific fits have completed;176 have official grades and24 completed fits await corrected independent proof gates and grading. Each
+Overall212 scientific fits have completed;200 have official grades and the twelve context-mixture fits await independent grading. Each
 completed activation fit finished without a new OOM. Actual attempt receipts,
 failed probes and rejected grader checks remain in the record. Component
 intervals condition on fitted models and exclude training-seed/search
@@ -55,12 +55,12 @@ unchanged. The optimizer crossover is an observation, not a diagnosed cause.
 | E479 | 16 | Learned per-layer bounded candidate amplitudes; independent source/CPU/CUDA probe passed; all16 full fits independently graded and all28 global contrasts reproduced with a separate numerical method. |
 | E480 | 24 | Full activation/optimizer/schedule factorial at two additional seeds; all24 full fits independently graded; separate raw-export reproduction matched all24 scores/all44 contrasts. |
 | E481 | 18 | All18 fits independently graded and all30 contrasts reproduced from raw exports. Sine and cubic both help Muon at all three seeds; every cubic-minus-sine Muon interval crosses zero. |
-| E482 | 6 | Same six seed271828 recipes on two Kaggle T4s; first private kernel failed worker argument forwarding before GPU probes; repaired v2 completed both native GPU probes and all six fits on distinct T4s; independent grading pending. |
-| E483 | 18 | Fresh-seed shape × recurrent Muon momentum; source and fit-only CPU proof independently reviewed; actual CUDA probe and all18 full fits completed cleanly; independent grader v1 failed its source-map contract before row loading, and a versioned correction is in progress. |
-| E485 | 6 | Registered H128 four-epoch baseline/sine trajectories at three fresh seeds; blind critique completed; actor implementation in progress. |
-| E484 | 12 | Causal context-conditioned GELU/LeakyReLU readout; blind critique resolved in design v2; actor source and twelve-cell fit-only CPU preflight ready for independent source review and CUDA probe. |
+| E482 | 6 | Same six seed271828 recipes on two Kaggle T4s; first private kernel failed worker argument forwarding before GPU probes; repaired v2 completed both native GPU probes and all six fits on distinct T4s; all six independently graded and all ten contrasts reproduced with separate shifted raw sums (max error1.15e-14). |
+| E483 | 18 | Fresh-seed shape × recurrent Muon momentum; source and fit-only CPU proof independently reviewed; actual CUDA probe and all18 full fits completed cleanly; independent grader v1 failed its source-map contract before row loading, and both grader contract incidents are retained; v3 graded all18 fits and root reproduced all27 contrasts (max1.12e-14). All nine sine-minus-baseline intervals are positive; momentum ranking reverses with seed. |
+| E485 | 6 | Registered H128 four-epoch baseline/sine trajectories at three fresh seeds; actor/CPU proof ready; independent review requires a meaningful update-relative native-Muon parity bound before CUDA admission. |
+| E484 | 12 | Causal context-conditioned GELU/LeakyReLU readout; blind critique resolved in design v2; actual CUDA probe v1 caught a CPU/GPU initialization-check mismatch before first update; v2 independently reviewed, actual CUDA probe passed all12 cells and all twelve full fits completed cleanly; independent grading pending. |
 
-The registered activation program currently contains218 full fits:200 completed (176 graded),12 prepared context-mixture fits and six duration trajectories awaiting remaining independent gates. E485 saves18 checkpoints from six continuous four-epoch trajectories; snapshots are not separate fits. Partial checkpoints from an active matrix are reported separately until its completion receipt validates. Do not count one-update probes or source-only packets as completed fits. E477 has now completed its corrected independent grade. Its
+The registered activation program currently contains218 full fits:212 completed (200 graded), with six duration trajectories awaiting the remaining independent gates. E485 saves18 checkpoints from six continuous four-epoch trajectories; snapshots are not separate fits. Partial checkpoints from an active matrix are reported separately until its completion receipt validates. Do not count one-update probes or source-only packets as completed fits. E477 has now completed its corrected independent grade. Its
 first export grade failed before predictions because its provenance check
 expected all40 cohort nodes in a saved training-only24-node receipt. Versioned
 corrections and root review preserve that incident; no model result was
