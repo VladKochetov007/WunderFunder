@@ -1,3 +1,20 @@
+# Current research status — October 5, 06:28 UTC / 09:28 Kyiv
+
+Public best remains **0.6660**; the **0.7000 honest expected public** milestone is unmet. No activation pilot is a new competition-ready submission.
+
+**Activation studies: 212 full scientific fits completed and independently graded, of 230 registered trajectories.** Six E485 H128 trajectories were not admitted after their actual native-step probe failed; twelve E488 native-GRU mixture trajectories await independent source/probe gates. Saved epoch checkpoints and one-update probes are not additional fits. All earlier activation grades have independent raw-export arithmetic verification.
+
+- E486: 36 frozen-weight CPU activation-swap conditions and 54 comparisons complete; all arithmetic reproduced within 1.12e-14. Zero new training fits. Exact diagonal predictions recover E483. Both inference shape and training adaptation matter on the small exposed panel; this is not a public forecast.
+- E487: corrected one-batch Muon precision diagnostic independently reviewed and sealed; actual CUDA replay pending. It preserves the original E485 strict failure, tests BF16 versus FP32 orthogonalization on each captured gradient source, and does not automatically admit training.
+- E488: 12 continuous three-epoch native-GRU runs registered (24 saved snapshots), testing GELU, fixed mixture, learned static mixture and recurrent-context mixture at three fresh seeds. Actor CPU preflight complete; independent source review pending.
+- Kaggle E482 dual-T4 six-fit replication completed and independently graded. W384 v7 stopped on its genuine host-RAM guard without a scientific checkpoint; no replacement launched. Actual E463 TPU experiment remains provider-QUEUED; earlier TPU instrument inventory is not this experiment's device result.
+
+Last provider quota observation: 19.84 GPU hours and 19.96 TPU hours remaining, refresh October 10. Background status monitor remains active. Local aggregate limits: 12 CPUs, 30 decimal GB hard / 27 GB soft RAM, no swap; one GPU worker, 2 CPUs / 6 GiB host RAM / 2 GiB allocator / 3 decimal GB observed-GPU stop for these activation probes. No new OOM in these completed studies.
+
+New admissions stop at 10:00 Kyiv (07:00 UTC) under the existing research goal; admitted experiments may finish gracefully. Results/plots and source failures remain in the experiment ledger and marimo notebook.
+
+## Historical status entries (retain original observation times)
+
 # Resumed research status — October5
 
 Confirmed public best: **0.6660**, seed4 complete Muon/chunk1000/stopped-bootstrap

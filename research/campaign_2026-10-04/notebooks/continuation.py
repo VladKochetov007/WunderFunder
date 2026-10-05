@@ -12,7 +12,7 @@ def _():
     import matplotlib.pyplot as plt
     project_root = Path.cwd()
     campaign_dir = project_root / "research/campaign_2026-10-04"
-    return campaign_dir, json, mo, plt, project_root
+    return Path, campaign_dir, json, mo, plt, project_root
 
 
 @app.cell(hide_code=True)
@@ -967,6 +967,22 @@ def e483_momentum_independent_v3_grade(mo, project_root):
         mo.image(str(_e483_root / "eda/eighteen_v3/all27_contrasts.png"), alt="All 27 registered seed-specific paired contrasts"),
         mo.image(str(_e483_root / "eda/eighteen_v3/source_telemetry_means.png"), alt="Four-snapshot mean gradient and update RMS by source family"),
     ])
+    return
+
+
+@app.cell(hide_code=True)
+def e484_context_mixture_independent_v2_grade(Path, mo):
+    e484_root = Path("/home/vlad/development/wunder/wnn_connectome_starterpack")
+    e484_base = e484_root / "research/campaign_2026-10-05/activation_context_mixture"
+    e484_report = (e484_base / "REPORT.md").read_text()
+    e484_report = "\n".join(line for line in e484_report.splitlines() if not line.startswith("!["))
+    mo.vstack([
+        mo.md(e484_report),
+        mo.image(str(e484_base / "eda/twelve_v1/all12_arm_scores.png"), alt="All twelve E484 arm scores"),
+        mo.image(str(e484_base / "eda/twelve_v1/all16_global_contrasts.png"), alt="All sixteen global contrasts"),
+        mo.image(str(e484_base / "eda/twelve_v1/all32_target_contrasts.png"), alt="All thirty-two target-specific contrasts"),
+    ])
+
     return
 
 
