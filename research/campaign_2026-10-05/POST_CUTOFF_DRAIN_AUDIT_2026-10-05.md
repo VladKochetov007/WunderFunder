@@ -33,3 +33,9 @@ Both `wnn-research-monitor.timer` and `wnn-pause-e463-collector.timer` remain ac
 ## Completion decision
 
 Goal completion remains **unproven** because E463 has no terminal result or collected output. The next justified action depends on provider state: collect and inspect COMPLETE/ERROR/CANCELED output, or continue bounded observations of this same handle. Do not start a replacement kernel, new research iteration, or another fit after the closed admission window. Finished local evidence and the current 0.6660 incumbent remain unchanged.
+
+## Repeated-blocker audit, 08:20 UTC
+
+The same exact provider handle remained QUEUED in direct successful observations at approximately 07:55, 08:16 and 08:20 UTC across three consecutive goal turns. The preceding turns completed the review bundle and durable drain audit while this external condition persisted. At the final observation no local scientific service was running and both read-only timers were active. Completed research has been reported and pushed; no further required scientific work can be admitted after the deadline, and no terminal TPU output exists to interpret. The goal therefore meets the repeated external-blocker threshold and should be marked **blocked**, not complete or paused.
+
+This goal status does not cancel or restart E463, and does not stop its collector. An external provider state change is required for the remaining collection/interpretation step. A later resume must inspect the actual handle and raw output afresh; it must not treat this recorded QUEUED status as permanent.
