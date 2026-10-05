@@ -1,0 +1,7 @@
+# Root admission of the six fixed candidate fits
+
+Independent CPU implementation checks passed, default GPU failure was preserved, and the isolated shared-FP32 diagnostic and fresh v2 six-update probe passed the original thresholds. Every fixed alpha/optimizer arm is admitted under one policy through the hashed wrapper. Scientific sources, controls, data, selected masks, optimizer settings and 474-update budget are unchanged. Seven primary within-E471 contrasts and two explicitly historical backend diagnostics are fixed before fitting.
+
+Production-shape GPU probe peak and finite updates stayed far below the operational limits. Cold first-update timing projects about 2,006 seconds of fits without evaluation; this overcounts compilation for each update but is retained as a conservative initial estimate. Set a 4,200-second full-worker cap allowing loading/evaluation/margin. One local GPU worker, 2CPU, 6GiB host, 2GiB allocator and 3GB observed stop apply; parent 12CPU/30GBhard/27GBsoft/zeroSwap remains enforced. The original 80deviceGPU-hour ceiling and 24-hour local block are not reset. Admission precedes 07UTC; work may finish beyond that boundary.
+
+No E471 test score has been used to make this admission. No competition upload or public-score expectation is authorized from this pilot. The exact recovered diagnostic source and its later unexecuted edit are both retained as provenance.

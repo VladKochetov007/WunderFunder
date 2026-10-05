@@ -25,6 +25,9 @@ No fresh public package or score has been claimed from the following pilots.
   and1.702GB worker RAM, exit0, noOOM. Official score reproduction and all thirty exploratory paired contrasts
   completed; see `activation_optimizer/REPORT.md`.
   Dropout and scheduling are separately planned to identify their effects.
+- **E472 activation replication:** all 32 additional fits finished. Across three seeds (48 total fits), sine-minus-GELU is positive in all six seed/optimizer contrasts. AdamW gains are +0.0007 to +0.0028; Muon gains +0.0027 to +0.0088. Tanh Muon versus AdamW reverses at two seeds. All 90 conditional paired comparisons and official scores are retained in `activation_optimizer/THREE_SEED_ACTIVATION_REPORT.md`. No public prediction follows.
+- **E471 recurrent activation:** six-arm bounded candidate perturbation passed independent CPU equation/state/gradient tests and real-data updates. Default CUDA parity failed before updates; the isolated precision diagnostic restored the original tolerances by disabling cuDNN TF32. The common-FP32 real update probe passed all six arms; six common-FP32 scientific fits are running after source reconciliation and fresh v2 parity/update proof.
+- **E473:** all ten local-slope/scale/GELU-approximation control fits finished. GELU+0.1x exceeds GELU+sine at this seed, particularly with Muon; this challenges periodic curvature as the mechanism. All fourteen contrasts and four exact recipe-reproduction controls are retained in `activation_mechanism/REPORT.md`.
 - **W384/T4:** v5 passed two real-device update probes then failed host-RAM
   admission before any full fit. Reviewed v6 was pushed but failed its external-mount/archive
   intersection guard after2.08s, before any probe/fit. Actual-bundle diagnosis
@@ -41,7 +44,7 @@ No fresh public package or score has been claimed from the following pilots.
 Latest20 Kaggle kernels at23:48UTC:8COMPLETE/11ERROR/1QUEUED. These include
 older setup failures and later successful repairs, not20 scientific fits.
 Approximate quota then:21.6GPUh and20.0TPUh, refreshOctober10. Local GPU cost
-is11.7250h after E469 and E470; the original80-device-GPUh ceiling and24GPU-job-hour
+is approximately11.7460h after E472 (including E469 and E470); the original80-device-GPUh ceiling and24GPU-job-hour
 local block remain unchanged. Failed/queued kernel time is not a model result.
 
 Persistent five-minute checker is enabled; notebook discovery/quota refresh

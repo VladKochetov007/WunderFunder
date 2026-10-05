@@ -1,0 +1,19 @@
+Poll window: 2026-10-05T00:46:58Z to 2026-10-05T00:48:37Z UTC
+
+Command: .venv/bin/kaggle kernels status vladkochetov07/wnn-w384-fold1-dualt4-20261005-v7-runner
+Output: vladkochetov07/wnn-w384-fold1-dualt4-20261005-v7-runner has status "KernelWorkerStatus.RUNNING"
+
+Command: .venv/bin/kaggle kernels status vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1-runner
+Output: vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1-runner has status "KernelWorkerStatus.QUEUED"
+
+Installed Kaggle SDK read-only status response at approximately 2026-10-05T00:48:37Z:
+{"kernel":"vladkochetov07/wnn-w384-fold1-dualt4-20261005-v7-runner","status":"RUNNING","failureMessage":null}
+{"kernel":"vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1-runner","status":"QUEUED","failureMessage":null}
+
+Filtered output command for W384 v7:
+.venv/bin/kaggle kernels output vladkochetov07/wnn-w384-fold1-dualt4-20261005-v7-runner --path research/campaign_2026-10-05/checks/provider_polls/20261005T004658Z/W384_V7 --file-pattern '(?i).*(phase_report|admission|inventory|summary|stderr|stdout|error|log|status|result|manifest).*(\\.json|\\.log|\\.txt)$'
+Exit code 0; no matching files surfaced.
+
+Filtered output command for E463 TPU:
+.venv/bin/kaggle kernels output vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1-runner --path research/campaign_2026-10-05/checks/provider_polls/20261005T004658Z/E463_TPU --file-pattern '(?i).*(phase_report|stderr|stdout|error|log|status|result|report).*(\\.json|\\.log|\\.txt)$'
+Exit code 0; no matching files surfaced.

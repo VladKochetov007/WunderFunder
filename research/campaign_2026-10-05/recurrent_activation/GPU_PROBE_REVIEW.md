@@ -1,0 +1,21 @@
+# E471 CUDA precision-parity incident review
+
+**Decision: NO-GO for E471 full fitting under the current backend policy.** The sealed real-data B4×256 probe failed its alpha-zero CUDA forward parity check before state parity, backward, or any optimizer update. Do not relax the tolerances or run fits on this candidate until an independently sealed precision-policy diagnostic identifies a common backend policy that passes the unchanged checks.
+
+## Failed attempt
+
+The exact sealed attempt was `e471-recurrent-real-gpu-probe-v1`; its status is `failed`, exit code 1, with teardown verified. The structured runner receipt reports 6.64 seconds elapsed, 308,281,344 bytes peak observed VRAM, 1,012,958,208 bytes peak worker RAM, and no worker memory/OOM events. This is a numerical parity failure, not a resource failure.
+
+The recorded log is `research/campaign_2026-10-04/runner/logs/e471-recurrent-real-gpu-probe-v1.log`. It failed at `output_candidate` versus `output_reference` in `alpha_zero_parity`: 459 of 2,048 values exceeded the original tolerances (`atol=2e-5`, `rtol=2e-4`); maximum absolute difference was `1.2123585e-4`, and the largest relative difference was `0.2604736`. Since the output check precedes the final-state and backward checks, this run provides no CUDA state/gradient parity result and completed none of the six update arms.
+
+The attempt's code hashes match the sealed specification: candidate trainer `998bceb024b5c29e81e73efc5d0ebe434d53c7356cfcb947f7ca36dd625426cf`, original probe `aeac54f44ade8370845746a65c3e5d7c7285d3c4241e96c768d73f1a7c5a5b5d`, and CPU tests `266df5c2a7f126aecf67e37416b3ce17cc011620f3848e747b64019b03678015`. The sealed source stays unchanged.
+
+## Diagnosis and discriminating check
+
+The strongest concrete policy concern is mixed TF32 behavior. In the local PyTorch 2.14.0+cu130 runtime, `torch.backends.cudnn.allow_tf32` defaults to `True`, while `torch.backends.cuda.matmul.allow_tf32` defaults to `False`. `configure_torch()` sets the cuDNN deterministic/benchmark flags but does not set either TF32 flag. E470's reference calls `nn.GRU` and takes the cuDNN path on CUDA; the candidate's scripted recurrence uses `F.linear` for gate affines and takes the CUDA matrix-multiply path. Thus the compared paths may use different precision policies. This is a plausible explanation, not a proven cause: cuDNN fused-GRU versus explicit recurrent affine reduction order can also differ under full FP32.
+
+The bounded CPU v3 parity check passed the same original tolerances on the same fit batch: maximum output difference `5.96e-8`, state difference `2.98e-8`, input-gradient difference `1.75e-10`, and parameter-gradient difference `6.71e-8`. CPU success narrows the incident to CUDA/backend arithmetic; it does not prove a TF32 cause.
+
+I added a separate, non-self-launching diagnostic at `precision_policy_probe.py` (SHA-256 `5a41d096c4c0290346c7afbeba7e5930ba70aaee6baee2f7f56246384eeaf067`). It uses the same shuffled fit-only B4×256 batch and unchanged E471 tolerances for three cases: runtime-default flags; explicit `cuda.matmul.allow_tf32=False` and `cudnn.allow_tf32=False` with cuDNN enabled; and the same explicit full-FP32 flags with cuDNN disabled. It runs every policy without stopping on tolerance mismatches, records output/state/loss/input-gradient/parameter-gradient differences and per-field pass booleans, writes the full arrays to an NPZ, and rejects nonfinite values. Its bounded CPU drycheck passed all three cases; CPU flags are not evidence for the CUDA result. The controller can bind this source in a new content-bound probe with the existing two-CPU/6-GiB/2-GiB allocator/3-GB observed-stop/300-second limits.
+
+If the explicit full-FP32 case with cuDNN enabled passes, all comparison/fitting paths must explicitly set both flags to that policy. The existing E470 results were produced under the prior runtime defaults, so they then remain descriptive historical comparisons rather than a matched precision-policy baseline. If full-FP32 parity still fails, cuDNN-off results may distinguish the fused backend from the explicit scan, but the current activation candidate is still not ready for fitting until alpha-zero forward/state/gradient checks pass without widened tolerances. No precision diagnostic GPU run or retry was made in this review.

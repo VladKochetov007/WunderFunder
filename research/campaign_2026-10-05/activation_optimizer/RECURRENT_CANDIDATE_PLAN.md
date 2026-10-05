@@ -37,3 +37,11 @@ TPU availability alone is insufficient. No change to a submission's recurrent
 equations is allowed without a matching inference implementation and full-
 sequence parity against its own reference. This proposal is separate from
 the completed sixteen-arm E470 study and has no public-score forecast.
+
+The prepared E471 implementation is a one-layer width-32 GRU with tanh
+embedding/readout activations, chosen to isolate the recurrent candidate map
+and preserve the matched E470 initialization. The actual incumbent is a
+two-layer GRU with GELU embedding/readout. E471 therefore is not a direct
+incumbent-architecture test; a positive result would need a subsequent exact
+incumbent control and matching inference implementation before it could
+motivate any submission change.

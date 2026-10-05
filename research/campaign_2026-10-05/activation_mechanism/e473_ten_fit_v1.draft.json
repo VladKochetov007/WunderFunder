@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "name": "e473_mechanism_ten_fit_v1",
+  "kind": "gpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/activation_mechanism/fit_activation_mechanism.py",
+    "--output",
+    "research/campaign_2026-10-05/activation_mechanism/runs/ten_v1",
+    "--device",
+    "cuda"
+  ],
+  "code": [
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/resources.py",
+    "src/wnn/optim.py",
+    "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+    "research/campaign_2026-10-05/activation_optimizer/tests.py",
+    "research/campaign_2026-10-05/activation_mechanism/gpu_probe.py",
+    "research/campaign_2026-10-05/activation_mechanism/fit_activation_mechanism.py",
+    "research/campaign_2026-10-05/activation_mechanism/tests.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-05/target_mechanics/cohort.json",
+    "research/campaign_2026-10-05/activation_mechanism/PREREG.md",
+    "research/campaign_2026-10-05/activation_mechanism/cpu_preflight/result.json",
+    "research/campaign_2026-10-05/activation_mechanism/ROOT_REVIEW.md",
+    "research/campaign_2026-10-05/activation_mechanism/gpu_probe_v1/result.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/activation_mechanism/runs/ten_v1/result.json"
+  ],
+  "limits": {
+    "cpus": 2,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 600,
+    "gpu_memory_bytes": 2147483648,
+    "gpu_stop_bytes": 3000000000
+  },
+  "environment": {}
+}

@@ -1,0 +1,22 @@
+/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/recurrent_activation/gpu_probe.py", line 266, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/recurrent_activation/gpu_probe.py", line 228, in main
+    parity = alpha_zero_parity(x, target, need, device)
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/recurrent_activation/gpu_probe.py", line 83, in alpha_zero_parity
+    torch.testing.assert_close(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        output_candidate, output_reference, atol=OUTPUT_ATOL, rtol=OUTPUT_RTOL
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/testing/_comparison.py", line 1689, in assert_close
+    raise error_metas[0].to_error(msg)
+AssertionError: Tensor-likes are not close!
+
+Mismatched elements: 459 / 2048 (22.4%)
+Greatest absolute difference: 0.00012123584747314453 at index (2, 94, 0) (up to 2e-05 allowed)
+Greatest relative difference: 0.2604735791683197 at index (1, 92, 1) (up to 0.0002 allowed)

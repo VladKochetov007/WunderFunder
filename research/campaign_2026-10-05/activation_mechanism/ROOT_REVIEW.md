@@ -1,0 +1,7 @@
+# Root review: activation-mechanism controls
+
+Five parameter-free pointwise choices preserve the exact E470 seeded parameter layout, loader, fit-only preprocessing, weighted objective, carried state, optimizer partition and 474-update budget. Plain GELU and GELU+sine match the previous implementation. GELU+0.1x changes the local slope without periodic curvature; 1.1*GELU tests uniform output scaling (it does not exactly match the sine addition derivative); approximate GELU+sine isolates the exact-versus-tanh approximation. Both optimizers retain fixed nominal LR; this is not equal effective-update-scale tuning.
+
+CPU formula/init/control/state checks and ten real-data updates passed. Before any full fit, run the ten fit-only real GPU updates under 2CPU/6GiB RAM/2GiB allocator/3GB observed stop, with parent 12CPU/30GBhard/27GBsoft/zeroSwap. No candidate changes GRU equations, dataset membership, selected rows, width, parameter count or dropout. The pending candidate-GRU numerical failure is separate from these cuDNN-based pointwise controls.
+
+Retain all ten arms and eight mechanism contrasts (four changed formulas minus plain GELU, each optimizer), plus slope-vs-sine and scale-vs-sine for each optimizer, plus approximation-vs-exact sine for each optimizer: fourteen planned within-optimizer comparisons. All are conditional exploratory component intervals; no public improvement or untouched-data claim. This pointwise mechanism study does not decide optimizer scheduling, dropout, placement or the strong-model representation.

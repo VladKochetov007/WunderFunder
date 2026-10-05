@@ -1,0 +1,104 @@
+{
+  "kind": "E471 fit-only B4 x 256 parity and one-update-per-arm probe",
+  "device": "cpu",
+  "data_scope": "frozen fit role only; no test row groups loaded or scored",
+  "fit_row_groups": [
+    1284,
+    1793,
+    38,
+    1869
+  ],
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "source_sha256": {
+    "gpu_probe.py": "aeac54f44ade8370845746a65c3e5d7c7285d3c4241e96c768d73f1a7c5a5b5d",
+    "fit_recurrent_candidate.py": "998bceb024b5c29e81e73efc5d0ebe434d53c7356cfcb947f7ca36dd625426cf",
+    "tests.py": "266df5c2a7f126aecf67e37416b3ce17cc011620f3848e747b64019b03678015",
+    "fit_activation_optimizer.py": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9"
+  },
+  "elapsed_seconds": 1.5719426989962813,
+  "alpha_zero_parity_seconds": 0.39085378299932927,
+  "full_fit_time_estimate_method": "sum of per-arm measured first real B4x256 update seconds times 474; excludes cohort load and parity",
+  "estimated_six_arm_full_fit_seconds": 371.2478337677603,
+  "alpha_zero_parity": {
+    "passed": true,
+    "batch": 4,
+    "chunk_rows": 256,
+    "output_atol": 2e-05,
+    "output_rtol": 0.0002,
+    "gradient_atol": 5e-05,
+    "gradient_rtol": 0.0005,
+    "max_output_abs_difference": 5.960464477539063e-08,
+    "max_state_abs_difference": 2.9802322387695312e-08,
+    "max_input_gradient_abs_difference": 1.7462298274040222e-10,
+    "max_parameter_gradient_abs_difference": 6.705522537231445e-08
+  },
+  "arms": [
+    {
+      "arm": "m10__adamw",
+      "alpha": -0.1,
+      "optimizer": "adamw",
+      "loss": 2.1917648315429688,
+      "one_update": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "update_seconds": 0.37507719299173914,
+      "estimated_474_update_seconds": 177.78658947808435
+    },
+    {
+      "arm": "m10__muon_adamw",
+      "alpha": -0.1,
+      "optimizer": "muon_adamw",
+      "loss": 2.1917648315429688,
+      "one_update": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "update_seconds": 0.11127945099724457,
+      "estimated_474_update_seconds": 52.746459772693925
+    },
+    {
+      "arm": "zero__adamw",
+      "alpha": 0.0,
+      "optimizer": "adamw",
+      "loss": 2.194490909576416,
+      "one_update": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "update_seconds": 0.1764108609932009,
+      "estimated_474_update_seconds": 83.61874811077723
+    },
+    {
+      "arm": "zero__muon_adamw",
+      "alpha": 0.0,
+      "optimizer": "muon_adamw",
+      "loss": 2.194490909576416,
+      "one_update": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "update_seconds": 0.04013038800621871,
+      "estimated_474_update_seconds": 19.021803914947668
+    },
+    {
+      "arm": "p10__adamw",
+      "alpha": 0.1,
+      "optimizer": "adamw",
+      "loss": 2.1948134899139404,
+      "one_update": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "update_seconds": 0.04053761300747283,
+      "estimated_474_update_seconds": 19.21482856554212
+    },
+    {
+      "arm": "p10__muon_adamw",
+      "alpha": 0.1,
+      "optimizer": "muon_adamw",
+      "loss": 2.1948134899139404,
+      "one_update": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "update_seconds": 0.039787771995179355,
+      "estimated_474_update_seconds": 18.859403925715014
+    }
+  ]
+}

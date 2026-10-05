@@ -1,0 +1,366 @@
+/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+{
+  "kind": "E471 fixed-batch backend precision policy diagnostic",
+  "device": "cuda",
+  "data_scope": "same frozen fit-only B4x256 batch; no test rows loaded or scored",
+  "fit_row_groups": [
+    1284,
+    1793,
+    38,
+    1869
+  ],
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "pytorch_version": "2.14.0+cu130",
+  "device_name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+  "seed": 271828,
+  "original_gpu_probe_sha256": "aeac54f44ade8370845746a65c3e5d7c7285d3c4241e96c768d73f1a7c5a5b5d",
+  "original_tolerances": {
+    "output_atol": 2e-05,
+    "output_rtol": 0.0002,
+    "gradient_atol": 5e-05,
+    "gradient_rtol": 0.0005
+  },
+  "original_runtime_backend_flags": {
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": true,
+    "cudnn_enabled": true,
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false,
+    "float32_matmul_precision": "highest"
+  },
+  "elapsed_seconds": 2.9862159360054648,
+  "policies": [
+    {
+      "policy": "runtime_default",
+      "backend_flags": {
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": true,
+        "cudnn_enabled": true,
+        "cudnn_deterministic": true,
+        "cudnn_benchmark": false,
+        "float32_matmul_precision": "highest"
+      },
+      "output": {
+        "passed_original_tolerance": false,
+        "atol": 2e-05,
+        "rtol": 0.0002,
+        "elements": 2048,
+        "mismatched_elements": 459,
+        "max_abs_difference": 0.00012123584747314453,
+        "max_relative_difference": 0.2604735791683197,
+        "difference_array_key": "runtime_default_output",
+        "shape": [
+          4,
+          256,
+          2
+        ]
+      },
+      "state": {
+        "passed_original_tolerance": false,
+        "atol": 2e-05,
+        "rtol": 0.0002,
+        "elements": 128,
+        "mismatched_elements": 36,
+        "max_abs_difference": 0.00011625885963439941,
+        "max_relative_difference": 0.04927283525466919,
+        "difference_array_key": "runtime_default_state",
+        "shape": [
+          1,
+          4,
+          32
+        ]
+      },
+      "loss": {
+        "reference": 2.194502115249634,
+        "candidate": 2.194490909576416,
+        "difference": -1.1205673217773438e-05,
+        "passed_original_tolerance": true,
+        "atol": 2e-05,
+        "rtol": 0.0002
+      },
+      "input_gradient": {
+        "passed_original_tolerance": true,
+        "atol": 5e-05,
+        "rtol": 0.0005,
+        "elements": 43008,
+        "mismatched_elements": 0,
+        "max_abs_difference": 2.6443012757226825e-07,
+        "max_relative_difference": 33.252376556396484,
+        "difference_array_key": "runtime_default_input_gradient",
+        "shape": [
+          4,
+          256,
+          42
+        ]
+      },
+      "parameter_gradient": {
+        "passed_original_tolerance": true,
+        "atol": 5e-05,
+        "rtol": 0.0005,
+        "elements": 8235,
+        "mismatched_elements": 0,
+        "max_abs_difference": 6.924569606781006e-05,
+        "max_relative_difference": 0.4105314612388611,
+        "difference_array_key": "runtime_default_parameter_gradient",
+        "shape": [
+          8235
+        ]
+      },
+      "all_original_tolerances_passed": false,
+      "elapsed_seconds": 0.31948592100525275
+    },
+    {
+      "policy": "explicit_full_fp32_cudnn_enabled",
+      "backend_flags": {
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "cudnn_enabled": true
+      },
+      "output": {
+        "passed_original_tolerance": true,
+        "atol": 2e-05,
+        "rtol": 0.0002,
+        "elements": 2048,
+        "mismatched_elements": 0,
+        "max_abs_difference": 1.4454126358032227e-06,
+        "max_relative_difference": 0.0063745020888745785,
+        "difference_array_key": "explicit_full_fp32_cudnn_enabled_output",
+        "shape": [
+          4,
+          256,
+          2
+        ]
+      },
+      "state": {
+        "passed_original_tolerance": true,
+        "atol": 2e-05,
+        "rtol": 0.0002,
+        "elements": 128,
+        "mismatched_elements": 0,
+        "max_abs_difference": 2.205371856689453e-06,
+        "max_relative_difference": 0.0002072380593745038,
+        "difference_array_key": "explicit_full_fp32_cudnn_enabled_state",
+        "shape": [
+          1,
+          4,
+          32
+        ]
+      },
+      "loss": {
+        "reference": 2.194490909576416,
+        "candidate": 2.194490909576416,
+        "difference": 0.0,
+        "passed_original_tolerance": true,
+        "atol": 2e-05,
+        "rtol": 0.0002
+      },
+      "input_gradient": {
+        "passed_original_tolerance": true,
+        "atol": 5e-05,
+        "rtol": 0.0005,
+        "elements": 43008,
+        "mismatched_elements": 0,
+        "max_abs_difference": 1.7680577002465725e-09,
+        "max_relative_difference": 0.1928461641073227,
+        "difference_array_key": "explicit_full_fp32_cudnn_enabled_input_gradient",
+        "shape": [
+          4,
+          256,
+          42
+        ]
+      },
+      "parameter_gradient": {
+        "passed_original_tolerance": true,
+        "atol": 5e-05,
+        "rtol": 0.0005,
+        "elements": 8235,
+        "mismatched_elements": 0,
+        "max_abs_difference": 3.2782554626464844e-07,
+        "max_relative_difference": 0.0038142025005072355,
+        "difference_array_key": "explicit_full_fp32_cudnn_enabled_parameter_gradient",
+        "shape": [
+          8235
+        ]
+      },
+      "all_original_tolerances_passed": true,
+      "elapsed_seconds": 2.4111374089989113
+    },
+    {
+      "policy": "explicit_full_fp32_cudnn_disabled",
+      "backend_flags": {
+        "cuda_matmul_allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "cudnn_enabled": false
+      },
+      "output": {
+        "passed_original_tolerance": true,
+        "atol": 2e-05,
+        "rtol": 0.0002,
+        "elements": 2048,
+        "mismatched_elements": 0,
+        "max_abs_difference": 7.450580596923828e-08,
+        "max_relative_difference": 0.00026385224191471934,
+        "difference_array_key": "explicit_full_fp32_cudnn_disabled_output",
+        "shape": [
+          4,
+          256,
+          2
+        ]
+      },
+      "state": {
+        "passed_original_tolerance": true,
+        "atol": 2e-05,
+        "rtol": 0.0002,
+        "elements": 128,
+        "mismatched_elements": 0,
+        "max_abs_difference": 5.960464477539063e-08,
+        "max_relative_difference": 1.2523242730821948e-05,
+        "difference_array_key": "explicit_full_fp32_cudnn_disabled_state",
+        "shape": [
+          1,
+          4,
+          32
+        ]
+      },
+      "loss": {
+        "reference": 2.194490909576416,
+        "candidate": 2.194490909576416,
+        "difference": 0.0,
+        "passed_original_tolerance": true,
+        "atol": 2e-05,
+        "rtol": 0.0002
+      },
+      "input_gradient": {
+        "passed_original_tolerance": true,
+        "atol": 5e-05,
+        "rtol": 0.0005,
+        "elements": 43008,
+        "mismatched_elements": 0,
+        "max_abs_difference": 1.7462298274040222e-10,
+        "max_relative_difference": 0.030490899458527565,
+        "difference_array_key": "explicit_full_fp32_cudnn_disabled_input_gradient",
+        "shape": [
+          4,
+          256,
+          42
+        ]
+      },
+      "parameter_gradient": {
+        "passed_original_tolerance": true,
+        "atol": 5e-05,
+        "rtol": 0.0005,
+        "elements": 8235,
+        "mismatched_elements": 0,
+        "max_abs_difference": 1.1920928955078125e-07,
+        "max_relative_difference": 0.00026671375962905586,
+        "difference_array_key": "explicit_full_fp32_cudnn_disabled_parameter_gradient",
+        "shape": [
+          8235
+        ]
+      },
+      "all_original_tolerances_passed": true,
+      "elapsed_seconds": 0.16847560400492512
+    }
+  ],
+  "all_cases_reported": true,
+  "difference_arrays": {
+    "path": "precision_differences.npz",
+    "sha256": "00e47e3037c2954fceea951b3f822b1a7e24f5431e13e6b3c3b8a03c1373d922",
+    "arrays": {
+      "runtime_default_output": {
+        "shape": [
+          4,
+          256,
+          2
+        ],
+        "dtype": "float32"
+      },
+      "runtime_default_state": {
+        "shape": [
+          1,
+          4,
+          32
+        ],
+        "dtype": "float32"
+      },
+      "runtime_default_input_gradient": {
+        "shape": [
+          4,
+          256,
+          42
+        ],
+        "dtype": "float32"
+      },
+      "runtime_default_parameter_gradient": {
+        "shape": [
+          8235
+        ],
+        "dtype": "float32"
+      },
+      "explicit_full_fp32_cudnn_enabled_output": {
+        "shape": [
+          4,
+          256,
+          2
+        ],
+        "dtype": "float32"
+      },
+      "explicit_full_fp32_cudnn_enabled_state": {
+        "shape": [
+          1,
+          4,
+          32
+        ],
+        "dtype": "float32"
+      },
+      "explicit_full_fp32_cudnn_enabled_input_gradient": {
+        "shape": [
+          4,
+          256,
+          42
+        ],
+        "dtype": "float32"
+      },
+      "explicit_full_fp32_cudnn_enabled_parameter_gradient": {
+        "shape": [
+          8235
+        ],
+        "dtype": "float32"
+      },
+      "explicit_full_fp32_cudnn_disabled_output": {
+        "shape": [
+          4,
+          256,
+          2
+        ],
+        "dtype": "float32"
+      },
+      "explicit_full_fp32_cudnn_disabled_state": {
+        "shape": [
+          1,
+          4,
+          32
+        ],
+        "dtype": "float32"
+      },
+      "explicit_full_fp32_cudnn_disabled_input_gradient": {
+        "shape": [
+          4,
+          256,
+          42
+        ],
+        "dtype": "float32"
+      },
+      "explicit_full_fp32_cudnn_disabled_parameter_gradient": {
+        "shape": [
+          8235
+        ],
+        "dtype": "float32"
+      }
+    }
+  },
+  "peak_allocated_bytes": 81986560,
+  "peak_reserved_bytes": 85983232
+}

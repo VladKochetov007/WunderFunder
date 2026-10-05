@@ -750,5 +750,29 @@ def _(mo, project_root, refresh):
     return
 
 
+@app.cell(hide_code=True)
+def _(json, mo, project_root, refresh):
+    refresh.value
+    _activation_reps = json.loads((project_root / "research/campaign_2026-10-05/activation_optimizer/THREE_SEED_ACTIVATION_RESULT.json").read_text())
+    mo.vstack([
+        mo.md("## Activation × optimizer: all 48 fixed fits. Three seeds, same exposed diagnostic components. Small-model scores, not public forecasts. Sine-minus-GELU stays positive; optimizer ranking varies by seed."),
+        mo.ui.table([{"recipe": _name, **{f"seed {_seed}": _activation_reps["seeds"][_seed]["scores"][_name]["wp"] for _seed in ("271828", "271829", "271830")}} for _name in _activation_reps["descriptive_cross_seed"]]),
+        mo.image(str(project_root / "research/campaign_2026-10-05/activation_optimizer/eda/seed_replication/all_activation_seeds.png")),
+    ])
+    return
+
+
+@app.cell(hide_code=True)
+def _(json, mo, project_root, refresh):
+    refresh.value
+    _mech = json.loads((project_root / "research/campaign_2026-10-05/activation_mechanism/RESULT.json").read_text())
+    mo.vstack([
+        mo.md("## Curvature versus local slope: ten fixed fits. GELU + 0.1x beats GELU + 0.1sin(x) in this one-seed pilot. Periodic curvature is not needed to explain the gain. No public-score claim."),
+        mo.ui.table([{"recipe": _name, **_score} for _name, _score in _mech["arm_scores"].items()]),
+        mo.image(str(project_root / "research/campaign_2026-10-05/activation_mechanism/eda/all_mechanism_contrasts.png")),
+    ])
+    return
+
+
 if __name__ == "__main__":
     app.run()
