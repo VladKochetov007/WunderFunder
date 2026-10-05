@@ -15,16 +15,19 @@ E473 tested that approximation separately. Sources and transfer caveats are in
 
 | Study | Completed fits | Question | Finding |
 |---|---:|---|---|
-| E470/E472 | 48 | Eight activations × two optimizers × three seeds | Sine-minus-GELU is positive at all six seed/optimizer comparisons, but rankings and optimizer advantages change with seed. |
-| E473 | 10 | Sine curvature versus linear addition, scaling, and approximate GELU | GELU+0.1x matches or exceeds GELU+sine at one seed; the Muon difference is +0.00181 with a positive conditional interval. |
-| E471/E475 | 18 | Bounded candidate curvature inside the GRU × optimizer ×three seeds | Positive alpha improves Muon at allthree seeds; negative alpha hurts Muon at allthree. AdamW effects vary. |
-| E474 | 12 | Sine/slope change localized to embedding versus head | Embedding effects reverse across seeds; head effects near-neutral. All14 registered contrasts retained. |
+| E470/E472 | 48 | Eight activations × two optimizers × three seeds | Sine-minus-GELU positive at all six seed/optimizer comparisons; optimizer rankings change with seed. |
+| E473 | 10 | Sine versus linear addition, scaling, approximate GELU | Matched linear addition ties or beats sine at one seed; no periodic-mechanism claim. |
+| E471/E475 | 18 | Bounded candidate shape × optimizer × three seeds | Positive alpha improves Muon at all three seeds; AdamW effects vary. |
+| E474 | 12 | Embedding versus head placement | Embedding effect reverses across seeds; head effects near-neutral. |
+| E476 | 12 | Activation × optimizer × LR protocol | One-seed AdamW warm-cosine advantage; all 22 registered contrasts retained. |
+| E477 | 12 | Parallel/same-channel GELU–LeakyReLU mixture × dropout | Fits finished; corrected independent CPU grade pending. |
+| E478 | 6 | Candidate shape in H64 two-layer topology | All three point deltas positive; two conditional intervals positive, one crosses zero. |
 
-All106 officially graded fits finished without a new OOM;118 fits have completed overall, including12 awaiting independent grades. Failed parity checks and the subsequent
-shared FP32 policy are preserved as incidents, rather than removed from the
-record. Official pooled and per-target scores were recomputed from raw finite
-selected predictions. Component intervals condition on fitted models and do
-not include seed or search uncertainty.
+Overall118 scientific fits have completed;106 have official grades. Each
+completed activation fit finished without a new OOM. Actual attempt receipts,
+failed probes and rejected grader checks remain in the record. Component
+intervals condition on fitted models and exclude training-seed/search
+uncertainty. Independent export checks are recorded for E474/E476/E478.
 
 ## Why these are different mechanisms
 
@@ -45,14 +48,19 @@ unchanged. The optimizer crossover is an observation, not a diagnosed cause.
 
 ## Registered or prepared continuation
 
-| Study | Fits | Change isolated |
+| Study | New fits planned | Current state |
 |---|---:|---|
-| E475 | 12 | Both recurrent perturbations and both optimizers at two additional seeds. |
-| E474 | 12 | Sine versus matched linear slope in the input embedding, output head, or both, at two seeds on the incumbent's two-layer topology scaled to H64. |
-| E476 | 12 | Two activations × two optimizers × three LR protocols. Allscoresfinished: activationrank depends on schedule; warmup/cosinewinsone-seedAdamWcomparisons. |
-| E477 | 12 | GELU, parallel half-width GELU/LeakyReLU readouts, or same-channel mixture, with and without head dropout, at two seeds. |
+| E479 | 16 | Learned per-layer bounded candidate amplitudes; independent source/CPU/CUDA probe passed; full fits running. |
+| E480 | 24 | Full activation/optimizer/schedule factorial at two additional seeds; independent CPU/source review passed; CUDA probe queued behind E479. |
+| E481 | 18 | Sine versus central-slope/endpoints-matched cubic candidate; design registered, blind critique pending. |
 
-E475 and all36 E474/E476/E477 fits have finished. E474 has12officialscores and14jointcontrasts; E476 has12officialscores and22contrasts; E477 independent grades are pending. All6 E478 larger recurrent scaling fits finished; its independent CPU grade finished with6scores/3contrasts. The current completed-fit total is118, with106officiallygraded. E479 registers16new learned-shape comparisons before implementation: two scalar bounded amplitudes, one per GRU layer, fixed/learned controls, two initializations and both optimizers at two seeds. These are designed arms, not completed evidence.
+Do not count one-update probes or source-only packets as completed fits. E477's
+first export grade failed before predictions because its provenance check
+expected all40 cohort nodes in a saved training-only24-node receipt. Versioned
+corrections and root review preserve that incident; no model result was
+inferred from it. Broader learned/contextual mixtures and activation-aware
+compression remain separate mechanisms. Additional primary literature is in
+[adaptive activation reading](activation_optimizer/ADAPTIVE_ACTIVATION_READING.md).
 
 Matching LR sums does not match actual optimizer update magnitudes. Matching
 parameter counts does not match functional capacity or regularization. Fixed

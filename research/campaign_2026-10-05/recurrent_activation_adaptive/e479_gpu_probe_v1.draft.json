@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "kind": "gpu",
+  "limits": {
+    "cpus": 2,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 300,
+    "gpu_memory_bytes": 2147483648,
+    "gpu_stop_bytes": 3000000000
+  },
+  "environment": {},
+  "name": "e479_learned_candidate_real_gpu_probe_v1",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/recurrent_activation_adaptive/gpu_probe.py",
+    "--device",
+    "cuda",
+    "--output",
+    "research/campaign_2026-10-05/recurrent_activation_adaptive/gpu_probe_v1"
+  ],
+  "code": [
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/resources.py",
+    "src/wnn/optim.py",
+    "src/wnn/nn.py",
+    "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+    "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+    "research/campaign_2026-10-05/recurrent_activation_adaptive/fit_recurrent_activation_adaptive.py",
+    "research/campaign_2026-10-05/recurrent_activation_adaptive/gpu_probe.py",
+    "research/campaign_2026-10-05/recurrent_activation_adaptive/tests.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-05/target_mechanics/cohort.json",
+    "research/campaign_2026-10-05/recurrent_activation_adaptive/E479_DESIGN.md",
+    "research/campaign_2026-10-05/recurrent_activation_adaptive/SPEC_CRITIC.md",
+    "research/campaign_2026-10-05/recurrent_activation_adaptive/INDEPENDENT_REVIEW.md",
+    "research/campaign_2026-10-05/recurrent_activation_adaptive/cpu_preflight_v4/fit_manifest.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/recurrent_activation_adaptive/gpu_probe_v1/probe.json"
+  ]
+}

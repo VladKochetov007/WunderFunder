@@ -1,0 +1,133 @@
+{
+  "status": "independent_export_reproduction_passed",
+  "official_metric": "global_wp_clip2_v1",
+  "source_export_sha256": "49e6a36713bb55b7abd70dd46630d36ebfc1397251ceb577e86f7eec60b72ae9",
+  "scores_json_sha256": "3a18a8a58c3e65bdb0b768c98ea255967ed9c95a0f64db9317256eba8a72ecce",
+  "grading_attempt": "e476-activation-cpu-test-grade-v1",
+  "source_rows": {
+    "fit_components": 24,
+    "test_components": 16,
+    "component_ids": [
+      "2972",
+      "2964",
+      "3065",
+      "3128",
+      "2842",
+      "3026",
+      "1082",
+      "2819",
+      "2888",
+      "341",
+      "2877",
+      "2933",
+      "2285",
+      "2995",
+      "3015",
+      "2817"
+    ],
+    "row_groups": [
+      808,
+      249,
+      975,
+      754,
+      1531,
+      738,
+      1261,
+      348,
+      479,
+      715,
+      448,
+      185,
+      1304,
+      652,
+      365,
+      1401
+    ],
+    "selected_rows_per_component": [
+      895,
+      2175,
+      3716,
+      2789,
+      1635,
+      2084,
+      2827,
+      1686,
+      343,
+      494,
+      368,
+      160,
+      2069,
+      1890,
+      1367,
+      2492
+    ],
+    "selected_rows": 26990
+  },
+  "arm_count": 12,
+  "arm_score_max_abs_error": {
+    "wp": 0.0,
+    "t0": 0.0,
+    "t1": 0.0
+  },
+  "reproduced_schedule_pairs": {
+    "base__adamw__warmcos_47_427_minus_base__adamw__constant_mean_warmcos": {
+      "mean_diff": 0.06732830443336302,
+      "bootstrap_sd": 0.01915233629797817,
+      "ci95": [
+        0.027565108061689943,
+        0.10439267219355171
+      ],
+      "p_le_0": 0.0005,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828
+    },
+    "sine_embed__adamw__warmcos_47_427_minus_sine_embed__adamw__constant_mean_warmcos": {
+      "mean_diff": 0.07270010021932904,
+      "bootstrap_sd": 0.0198635769566062,
+      "ci95": [
+        0.03151412959485895,
+        0.110653069616189
+      ],
+      "p_le_0": 0.0,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828
+    }
+  },
+  "reproduced_interactions": {
+    "sine_activation_x_warmcos_shape__adamw": {
+      "mean_diff": 0.005371795785966027,
+      "bootstrap_sd": 0.0011143497032215,
+      "ci95": [
+        0.002670673046118242,
+        0.007005502525627462
+      ],
+      "p_le_0": 0.0,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "joint_component_resampling": true
+    },
+    "sine_activation_x_warmcos_shape__muon_adamw": {
+      "mean_diff": 0.001626049816290831,
+      "bootstrap_sd": 0.0007747585790247107,
+      "ci95": [
+        4.537843157347427e-05,
+        0.0030831883832397036
+      ],
+      "p_le_0": 0.0235,
+      "n_components": 16,
+      "n_boot": 2000,
+      "seed": 271828,
+      "joint_component_resampling": true
+    }
+  },
+  "bootstrap": {
+    "component_draws": 2000,
+    "seed": 271828,
+    "common_draws_reused_across_four_reproductions": true,
+    "pooling": "independently recomputed centered moments then official WP formula"
+  },
+  "scope": "all 12 exported arms and four requested contrasts; no model selection or public inference"
+}

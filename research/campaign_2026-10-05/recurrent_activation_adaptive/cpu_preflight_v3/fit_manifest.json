@@ -1,0 +1,1008 @@
+{
+  "kind": "E479 learned per-layer bounded GRU candidate-shape preflight",
+  "status": "preflight_passed",
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "seeds": [
+    271828,
+    271829
+  ],
+  "optimizers": [
+    "adamw",
+    "muon_adamw"
+  ],
+  "conditions": [
+    "fixed0",
+    "fixed01",
+    "learned0",
+    "learned01"
+  ],
+  "planned_fit_count": 16,
+  "architecture": "42->GELU projection->2x H64 reset-after GRU->concat state/embedding->GELU head",
+  "candidate": "u=tanh(v); n=u+alpha_l*sin(pi*u); learned alpha_l=.2*tanh(raw_l)",
+  "parameters": {
+    "fixed": 61058,
+    "learned": 61060
+  },
+  "optimizer": {
+    "lr": 0.001,
+    "weight_decay_original_parameters": 0.01,
+    "learned_alpha_weight_decay": 0.0,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "schedule": "constant",
+    "clip_norm": 1.0,
+    "muon_matrices": [
+      "gru.weight_hh_l0",
+      "gru.weight_hh_l1",
+      "gru.weight_ih_l0",
+      "gru.weight_ih_l1"
+    ],
+    "muon_blocks_per_matrix": 3
+  },
+  "updates_per_full_fit": 474,
+  "batch": 4,
+  "chunk_rows": 256,
+  "telemetry_steps_zero_based": [
+    0,
+    46,
+    236,
+    473
+  ],
+  "contrasts": [
+    "learned0-fixed0 within each seed and optimizer",
+    "learned01-fixed01 within each seed and optimizer",
+    "fixed01-fixed0 within each seed and optimizer",
+    "learned01-learned0 within each seed and optimizer",
+    "MuonAdamW-AdamW within each seed and candidate condition",
+    "(learned0-fixed0)_Muon-(learned0-fixed0)_AdamW within each seed",
+    "(learned01-fixed01)_Muon-(learned01-fixed01)_AdamW within each seed"
+  ],
+  "parent_source_sha256": {
+    "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+    "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068"
+  },
+  "source_sha256": {
+    "fit_recurrent_activation_adaptive.py": "5b1dee216618579b9cb3f306ad292de0e3709dc9aaa745ca77cc7a9cec819773",
+    "tests.py": "88ce5a39aa8c8a8af869689f5394ba1eae4225c008aaef61e6679de592994b17",
+    "gpu_probe.py": "293fe14c00cc7f76d13daa44f9a3e9f99fbdb1b083a5a0045a020c99e1047f39"
+  },
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "fit_only_cohort": {
+    "cohort": [
+      {
+        "row_group": 1735,
+        "seq_ix": 1989531794,
+        "component": 2795,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1766,
+        "seq_ix": 2024723908,
+        "component": 2854,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 233,
+        "seq_ix": 235282549,
+        "component": 2806,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 38,
+        "seq_ix": 45323361,
+        "component": 2828,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 807,
+        "seq_ix": 941450430,
+        "component": 2991,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1125,
+        "seq_ix": 1294249563,
+        "component": 3200,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1015,
+        "seq_ix": 1168194342,
+        "component": 3010,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 105,
+        "seq_ix": 109463899,
+        "component": 2882,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 483,
+        "seq_ix": 547472527,
+        "component": 2801,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1062,
+        "seq_ix": 1227566939,
+        "component": 2860,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1666,
+        "seq_ix": 1917373469,
+        "component": 2940,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1214,
+        "seq_ix": 1413037324,
+        "component": 2861,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1130,
+        "seq_ix": 1302007606,
+        "component": 2901,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1793,
+        "seq_ix": 2051491347,
+        "component": 3223,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 87,
+        "seq_ix": 89214899,
+        "component": 2866,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1869,
+        "seq_ix": 2144431796,
+        "component": 2902,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1053,
+        "seq_ix": 1218942404,
+        "component": 3182,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1390,
+        "seq_ix": 1596351500,
+        "component": 2948,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 614,
+        "seq_ix": 701505430,
+        "component": 3090,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1284,
+        "seq_ix": 1494588886,
+        "component": 2982,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1309,
+        "seq_ix": 1512273149,
+        "component": 3079,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1725,
+        "seq_ix": 1979171607,
+        "component": 3193,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 713,
+        "seq_ix": 815144844,
+        "component": 2936,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1567,
+        "seq_ix": 1795366096,
+        "component": 2930,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      }
+    ],
+    "selection_rule": "6 fit + 4 test distinct components per cached label-derived class; SHA256 target-mechanics-v1 component/group order; legacy protected holdout excluded",
+    "component_overlap": [],
+    "historical_exposure": "Validation labels and panels have extensive historical use. This is descriptive, not a fresh holdout or generalization claim. Class is label-derived and never an inference input.",
+    "metric": "global_wp_clip2_v1",
+    "fit_subsample": "every twentieth row >=128; no is_scored fit filtering",
+    "frozen_models": "ridge alpha=100; direct histogram 60 trees/12 leaves; factor sign and magnitude 30 trees each/12 leaves; shared full design; no search",
+    "normalization": {
+      "fit_mean": [
+        -1.5363867282867432,
+        -0.689834713935852,
+        1.2887780666351318,
+        -0.44421306252479553,
+        -1.0049716234207153,
+        0.024608345702290535,
+        -1.5609498023986816,
+        -0.6866507530212402,
+        1.1618949174880981,
+        -0.19426357746124268,
+        -0.881924569606781,
+        -0.014319630339741707,
+        -0.05646130442619324,
+        0.00033203521161340177,
+        -0.169044628739357,
+        -0.25854653120040894,
+        0.03898943215608597,
+        -0.2861734628677368,
+        -0.7288678288459778,
+        -2.0230934619903564,
+        -3.5546049730328377e-06,
+        2.096900971082505e-06,
+        4.6128329813655e-06,
+        -6.393834610207705e-06,
+        -5.608798801404191e-06,
+        2.5743427158886334e-06,
+        3.8066496017563622e-06,
+        4.4812200030719396e-06,
+        2.4200901407311903e-06,
+        -3.6629234045904013e-07,
+        -5.957327630312648e-06,
+        7.801266292517539e-06,
+        -4.835311301576439e-06,
+        9.792628588911612e-06,
+        4.220727987558348e-06,
+        3.4390102428005775e-06,
+        3.5663190374179976e-06,
+        3.5245990147814155e-05,
+        -3.0046541724004783e-05,
+        2.8520629712147638e-05,
+        2.0363821983337402,
+        0.2820541560649872
+      ],
+      "fit_scale": [
+        0.32517191767692566,
+        0.2430306077003479,
+        0.7047637104988098,
+        0.7663655877113342,
+        0.5567672848701477,
+        0.6080858707427979,
+        0.37485629320144653,
+        0.2399095743894577,
+        0.6885117888450623,
+        0.8592969179153442,
+        0.6910661458969116,
+        0.7655671238899231,
+        0.9265031814575195,
+        0.9781677722930908,
+        0.7986375689506531,
+        0.8008037209510803,
+        0.9514464735984802,
+        1.8925610780715942,
+        2.087163209915161,
+        2.956484317779541,
+        0.23587879538536072,
+        0.10206638276576996,
+        0.2836126685142517,
+        0.25912606716156006,
+        0.43994584679603577,
+        1.0169508457183838,
+        0.1448771208524704,
+        0.08167517185211182,
+        0.2859937250614166,
+        0.30186182260513306,
+        0.4794560968875885,
+        1.243190050125122,
+        0.9874710440635681,
+        1.6637933254241943,
+        0.10818876326084137,
+        0.03457668796181679,
+        1.073975682258606,
+        1.5013998746871948,
+        2.07209849357605,
+        2.8346872329711914,
+        1.8456852436065674,
+        0.4499995708465576
+      ]
+    }
+  },
+  "arms": [
+    {
+      "seed": 271828,
+      "optimizer": "adamw",
+      "condition": "fixed0",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.3267135620117188,
+      "parameters": 61058,
+      "changed_parameter_tensors": 14,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005001834087291032,
+          "gru": 0.00121197359070301,
+          "head": 0.015532637799003282
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999655752182944,
+          "gru": 0.0009932551955807538,
+          "head": 0.0009999561821618739
+        },
+        "raw_alpha": null,
+        "effective_alpha": [
+          0.0,
+          0.0
+        ],
+        "raw_alpha_gradient": null,
+        "raw_alpha_update": null
+      }
+    },
+    {
+      "seed": 271828,
+      "optimizer": "adamw",
+      "condition": "fixed01",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.329902172088623,
+      "parameters": 61058,
+      "changed_parameter_tensors": 14,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005510925051693243,
+          "gru": 0.002022107192460039,
+          "head": 0.01636848868571305
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999546745270871,
+          "gru": 0.0009964914649702088,
+          "head": 0.0009999588491715757
+        },
+        "raw_alpha": null,
+        "effective_alpha": [
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "raw_alpha_gradient": null,
+        "raw_alpha_update": null
+      }
+    },
+    {
+      "seed": 271828,
+      "optimizer": "adamw",
+      "condition": "learned0",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.3267135620117188,
+      "parameters": 61060,
+      "changed_parameter_tensors": 15,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.00500183410648803,
+          "gru": 0.001211973592801005,
+          "head": 0.015532637799003282
+        },
+        "parameter_update_rms": {
+          "inp": 0.000999965584941133,
+          "gru": 0.0009932550831534505,
+          "head": 0.0009999561861862034
+        },
+        "raw_alpha": [
+          -0.0009999487083405256,
+          -0.0009999984176829457
+        ],
+        "effective_alpha": [
+          -0.00019998967763967812,
+          -0.0001999996165977791
+        ],
+        "raw_alpha_gradient": [
+          0.0002874807978514582,
+          0.00970743503421545
+        ],
+        "raw_alpha_update": [
+          -0.0009999487083405256,
+          -0.0009999984176829457
+        ]
+      }
+    },
+    {
+      "seed": 271828,
+      "optimizer": "adamw",
+      "condition": "learned01",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.329902172088623,
+      "parameters": 61060,
+      "changed_parameter_tensors": 15,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005510925051693243,
+          "gru": 0.002022107192460039,
+          "head": 0.01636848868571305
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999546819837704,
+          "gru": 0.0009964914506963277,
+          "head": 0.0009999588470036979
+        },
+        "raw_alpha": [
+          0.5503061413764954,
+          0.5483061671257019
+        ],
+        "effective_alpha": [
+          0.10014992952346802,
+          0.09984993189573288
+        ],
+        "raw_alpha_gradient": [
+          -0.0024834563955664635,
+          0.0041930340230464935
+        ],
+        "raw_alpha_update": [
+          0.0009999871253967285,
+          -0.0009999871253967285
+        ]
+      }
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "condition": "fixed0",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.3267135620117188,
+      "parameters": 61058,
+      "changed_parameter_tensors": 14,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.00500183410648803,
+          "gru": 0.001211973592801005,
+          "head": 0.015532637799003282
+        },
+        "parameter_update_rms": {
+          "inp": 0.000999965571872572,
+          "gru": 0.00018543716410128567,
+          "head": 0.0009999561821618739
+        },
+        "raw_alpha": null,
+        "effective_alpha": [
+          0.0,
+          0.0
+        ],
+        "raw_alpha_gradient": null,
+        "raw_alpha_update": null
+      }
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "condition": "fixed01",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.329902172088623,
+      "parameters": 61058,
+      "changed_parameter_tensors": 14,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005510925051693243,
+          "gru": 0.002022107192460039,
+          "head": 0.01636848868571305
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999546745270871,
+          "gru": 0.0001873474995942743,
+          "head": 0.0009999588491715757
+        },
+        "raw_alpha": null,
+        "effective_alpha": [
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "raw_alpha_gradient": null,
+        "raw_alpha_update": null
+      }
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "condition": "learned0",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.3267135620117188,
+      "parameters": 61060,
+      "changed_parameter_tensors": 15,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.00500183410648803,
+          "gru": 0.001211973592801005,
+          "head": 0.015532637799003282
+        },
+        "parameter_update_rms": {
+          "inp": 0.000999965584941133,
+          "gru": 0.00018543716073414303,
+          "head": 0.0009999561861862034
+        },
+        "raw_alpha": [
+          -0.0009999487083405256,
+          -0.0009999984176829457
+        ],
+        "effective_alpha": [
+          -0.00019998967763967812,
+          -0.0001999996165977791
+        ],
+        "raw_alpha_gradient": [
+          0.0002874807978514582,
+          0.00970743503421545
+        ],
+        "raw_alpha_update": [
+          -0.0009999487083405256,
+          -0.0009999984176829457
+        ]
+      }
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "condition": "learned01",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.329902172088623,
+      "parameters": 61060,
+      "changed_parameter_tensors": 15,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005510925051693243,
+          "gru": 0.002022107192460039,
+          "head": 0.01636848868571305
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999546819837704,
+          "gru": 0.00018734750787629458,
+          "head": 0.0009999588470036979
+        },
+        "raw_alpha": [
+          0.5503061413764954,
+          0.5483061671257019
+        ],
+        "effective_alpha": [
+          0.10014992952346802,
+          0.09984993189573288
+        ],
+        "raw_alpha_gradient": [
+          -0.0024834563955664635,
+          0.0041930340230464935
+        ],
+        "raw_alpha_update": [
+          0.0009999871253967285,
+          -0.0009999871253967285
+        ]
+      }
+    },
+    {
+      "seed": 271829,
+      "optimizer": "adamw",
+      "condition": "fixed0",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.7827770709991455,
+      "parameters": 61058,
+      "changed_parameter_tensors": 14,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005131167330323518,
+          "gru": 0.0010745817529558721,
+          "head": 0.015643559136168154
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999020092243045,
+          "gru": 0.0009932717092843914,
+          "head": 0.0009999628711747925
+        },
+        "raw_alpha": null,
+        "effective_alpha": [
+          0.0,
+          0.0
+        ],
+        "raw_alpha_gradient": null,
+        "raw_alpha_update": null
+      }
+    },
+    {
+      "seed": 271829,
+      "optimizer": "adamw",
+      "condition": "fixed01",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.7926356792449951,
+      "parameters": 61058,
+      "changed_parameter_tensors": 14,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005620217877623732,
+          "gru": 0.001754568607777683,
+          "head": 0.016436500474489746
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999238729352423,
+          "gru": 0.0009963527699812396,
+          "head": 0.0009999602711026395
+        },
+        "raw_alpha": null,
+        "effective_alpha": [
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "raw_alpha_gradient": null,
+        "raw_alpha_update": null
+      }
+    },
+    {
+      "seed": 271829,
+      "optimizer": "adamw",
+      "condition": "learned0",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.7827770709991455,
+      "parameters": 61060,
+      "changed_parameter_tensors": 15,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005131167330323518,
+          "gru": 0.0010745817529558721,
+          "head": 0.015643559136168154
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999020186311528,
+          "gru": 0.000993271560479312,
+          "head": 0.000999962877064676
+        },
+        "raw_alpha": [
+          -0.0009999980684369802,
+          -0.0009999980684369802
+        ],
+        "effective_alpha": [
+          -0.00019999954383820295,
+          -0.00019999954383820295
+        ],
+        "raw_alpha_gradient": [
+          0.008011001162230968,
+          0.00733021879568696
+        ],
+        "raw_alpha_update": [
+          -0.0009999980684369802,
+          -0.0009999980684369802
+        ]
+      }
+    },
+    {
+      "seed": 271829,
+      "optimizer": "adamw",
+      "condition": "learned01",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.7926356792449951,
+      "parameters": 61060,
+      "changed_parameter_tensors": 15,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005620217877623732,
+          "gru": 0.001754568607777683,
+          "head": 0.016436500474489746
+        },
+        "parameter_update_rms": {
+          "inp": 0.000999923856907099,
+          "gru": 0.0009963526757481805,
+          "head": 0.0009999602563471321
+        },
+        "raw_alpha": [
+          0.5483061671257019,
+          0.5483061671257019
+        ],
+        "effective_alpha": [
+          0.09984993189573288,
+          0.09984993189573288
+        ],
+        "raw_alpha_gradient": [
+          0.00934095960110426,
+          0.008973552845418453
+        ],
+        "raw_alpha_update": [
+          -0.0009999871253967285,
+          -0.0009999871253967285
+        ]
+      }
+    },
+    {
+      "seed": 271829,
+      "optimizer": "muon_adamw",
+      "condition": "fixed0",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.7827770709991455,
+      "parameters": 61058,
+      "changed_parameter_tensors": 14,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005131167330323518,
+          "gru": 0.0010745817529558721,
+          "head": 0.015643559136168154
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999020092243045,
+          "gru": 0.00018529729170586957,
+          "head": 0.0009999628711747925
+        },
+        "raw_alpha": null,
+        "effective_alpha": [
+          0.0,
+          0.0
+        ],
+        "raw_alpha_gradient": null,
+        "raw_alpha_update": null
+      }
+    },
+    {
+      "seed": 271829,
+      "optimizer": "muon_adamw",
+      "condition": "fixed01",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.7926356792449951,
+      "parameters": 61058,
+      "changed_parameter_tensors": 14,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005620217877623732,
+          "gru": 0.001754568607777683,
+          "head": 0.016436500474489746
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999238729352423,
+          "gru": 0.00018810652418625186,
+          "head": 0.0009999602711026395
+        },
+        "raw_alpha": null,
+        "effective_alpha": [
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "raw_alpha_gradient": null,
+        "raw_alpha_update": null
+      }
+    },
+    {
+      "seed": 271829,
+      "optimizer": "muon_adamw",
+      "condition": "learned0",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.7827770709991455,
+      "parameters": 61060,
+      "changed_parameter_tensors": 15,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005131167330323518,
+          "gru": 0.0010745817529558721,
+          "head": 0.015643559136168154
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999020186311528,
+          "gru": 0.00018529728433973878,
+          "head": 0.000999962877064676
+        },
+        "raw_alpha": [
+          -0.0009999980684369802,
+          -0.0009999980684369802
+        ],
+        "effective_alpha": [
+          -0.00019999954383820295,
+          -0.00019999954383820295
+        ],
+        "raw_alpha_gradient": [
+          0.008011001162230968,
+          0.00733021879568696
+        ],
+        "raw_alpha_update": [
+          -0.0009999980684369802,
+          -0.0009999980684369802
+        ]
+      }
+    },
+    {
+      "seed": 271829,
+      "optimizer": "muon_adamw",
+      "condition": "learned01",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.7926356792449951,
+      "parameters": 61060,
+      "changed_parameter_tensors": 15,
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005620217877623732,
+          "gru": 0.001754568607777683,
+          "head": 0.016436500474489746
+        },
+        "parameter_update_rms": {
+          "inp": 0.000999923856907099,
+          "gru": 0.00018810652065758395,
+          "head": 0.0009999602563471321
+        },
+        "raw_alpha": [
+          0.5483061671257019,
+          0.5483061671257019
+        ],
+        "effective_alpha": [
+          0.09984993189573288,
+          0.09984993189573288
+        ],
+        "raw_alpha_gradient": [
+          0.00934095960110426,
+          0.008973552845418453
+        ],
+        "raw_alpha_update": [
+          -0.0009999871253967285,
+          -0.0009999871253967285
+        ]
+      }
+    }
+  ]
+}
