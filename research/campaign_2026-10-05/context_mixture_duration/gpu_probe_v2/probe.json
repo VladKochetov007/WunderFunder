@@ -1,0 +1,673 @@
+{
+  "kind": "E488 actual-shape CUDA probe",
+  "status": "passed",
+  "device": "NVIDIA GeForce RTX 3060 Laptop GPU",
+  "device_count_visible": 1,
+  "reference_parity": {
+    "device": "cuda",
+    "checks": [
+      {
+        "arm": "gelu",
+        "reference": "gelu",
+        "exact_forward_state_input_and_parameter_gradients": true,
+        "preclip_gradient_norm": 181.29051208496094,
+        "clipping_exercised": true,
+        "exact_clipped_adamw_step": true
+      },
+      {
+        "arm": "fixed_mix",
+        "reference": "same_channel_mix",
+        "exact_forward_state_input_and_parameter_gradients": true,
+        "preclip_gradient_norm": 191.80770874023438,
+        "clipping_exercised": true,
+        "exact_clipped_adamw_step": true
+      }
+    ]
+  },
+  "parity_memory": {
+    "allocated_bytes": 67108864,
+    "reserved_bytes": 71303168,
+    "peak_allocated_bytes": 70782976,
+    "peak_reserved_bytes": 71303168
+  },
+  "cells": [
+    {
+      "seed": 271839,
+      "arm": "gelu",
+      "loss": 2.384478807449341,
+      "update_seconds": 0.014872780011501163,
+      "changed_parameter_tensors": 14,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.006995582609459572,
+          "gru": 0.0018130790938733475,
+          "head": 0.017144257803640452
+        },
+        "preclip_global_norm": 1.6624191999435425,
+        "clip_factor": 0.6015326329853072,
+        "parameter_update_rms": {
+          "inp": 0.0009999201867889628,
+          "gru": 0.0009956444597270695,
+          "head": 0.0009999633741317056
+        },
+        "head_update_rms": {
+          "head": 0.0009999633741317056
+        },
+        "gate": null,
+        "gate_coefficient_rms": null
+      },
+      "memory": {
+        "allocated_bytes": 68341248,
+        "reserved_bytes": 92274688,
+        "peak_allocated_bytes": 79226368,
+        "peak_reserved_bytes": 92274688
+      }
+    },
+    {
+      "seed": 271839,
+      "arm": "fixed_mix",
+      "loss": 2.3766415119171143,
+      "update_seconds": 0.03710022900486365,
+      "changed_parameter_tensors": 14,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.007733254979256596,
+          "gru": 0.0019859303961092035,
+          "head": 0.018119735696502128
+        },
+        "preclip_global_norm": 1.7648770809173584,
+        "clip_factor": 0.5666113771894171,
+        "parameter_update_rms": {
+          "inp": 0.000999959505708235,
+          "gru": 0.0009959696087910768,
+          "head": 0.000999959841211408
+        },
+        "head_update_rms": {
+          "head": 0.000999959841211408
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        },
+        "gate_coefficient_rms": null
+      },
+      "memory": {
+        "allocated_bytes": 68341248,
+        "reserved_bytes": 94371840,
+        "peak_allocated_bytes": 79488512,
+        "peak_reserved_bytes": 94371840
+      }
+    },
+    {
+      "seed": 271839,
+      "arm": "static_mix",
+      "loss": 2.3766415119171143,
+      "update_seconds": 0.026127659002668224,
+      "changed_parameter_tensors": 15,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.007733254979256596,
+          "gru": 0.0019859303961092035,
+          "head": 0.018051336053006104
+        },
+        "preclip_global_norm": 1.7649072408676147,
+        "clip_factor": 0.5666016945495184,
+        "parameter_update_rms": {
+          "inp": 0.0009999595256236936,
+          "gru": 0.0009959695508247395,
+          "head": 0.0009999598168123043
+        },
+        "head_update_rms": {
+          "head": 0.0009999598168123043
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        },
+        "gate_coefficient_rms": 0.0009999560425058007
+      },
+      "memory": {
+        "allocated_bytes": 68343808,
+        "reserved_bytes": 94371840,
+        "peak_allocated_bytes": 79228416,
+        "peak_reserved_bytes": 94371840
+      }
+    },
+    {
+      "seed": 271839,
+      "arm": "recurrent_mix",
+      "loss": 2.3766415119171143,
+      "update_seconds": 0.00850163800350856,
+      "changed_parameter_tensors": 15,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.007733254979256596,
+          "gru": 0.0019859303961092035,
+          "head": 0.018051322260767732
+        },
+        "preclip_global_norm": 1.7649060487747192,
+        "clip_factor": 0.5666020772562763,
+        "parameter_update_rms": {
+          "inp": 0.000999959519873906,
+          "gru": 0.0009959695542802898,
+          "head": 0.000999959424696741
+        },
+        "head_update_rms": {
+          "head": 0.000999959424696741
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        },
+        "gate_coefficient_rms": 0.0009999044705182314
+      },
+      "memory": {
+        "allocated_bytes": 68343808,
+        "reserved_bytes": 94371840,
+        "peak_allocated_bytes": 79752192,
+        "peak_reserved_bytes": 94371840
+      }
+    },
+    {
+      "seed": 271840,
+      "arm": "gelu",
+      "loss": 1.8741672039031982,
+      "update_seconds": 0.006815750995883718,
+      "changed_parameter_tensors": 14,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.003154654304001422,
+          "gru": 0.0013289520728807093,
+          "head": 0.017661146435133387
+        },
+        "preclip_global_norm": 1.6526585817337036,
+        "clip_factor": 0.605085288617612,
+        "parameter_update_rms": {
+          "inp": 0.0009999060647625543,
+          "gru": 0.0009938501362183267,
+          "head": 0.0009999488012403443
+        },
+        "head_update_rms": {
+          "head": 0.0009999488012403443
+        },
+        "gate": null,
+        "gate_coefficient_rms": null
+      },
+      "memory": {
+        "allocated_bytes": 68341248,
+        "reserved_bytes": 92274688,
+        "peak_allocated_bytes": 79226368,
+        "peak_reserved_bytes": 92274688
+      }
+    },
+    {
+      "seed": 271840,
+      "arm": "fixed_mix",
+      "loss": 1.8709951639175415,
+      "update_seconds": 0.00765507499454543,
+      "changed_parameter_tensors": 14,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0033602586610129797,
+          "gru": 0.0014192596348638128,
+          "head": 0.01850449887894712
+        },
+        "preclip_global_norm": 1.732954740524292,
+        "clip_factor": 0.5770487823869397,
+        "parameter_update_rms": {
+          "inp": 0.0009999536715628167,
+          "gru": 0.0009943135996589494,
+          "head": 0.0009999624447605288
+        },
+        "head_update_rms": {
+          "head": 0.0009999624447605288
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        },
+        "gate_coefficient_rms": null
+      },
+      "memory": {
+        "allocated_bytes": 68341248,
+        "reserved_bytes": 94371840,
+        "peak_allocated_bytes": 79488512,
+        "peak_reserved_bytes": 94371840
+      }
+    },
+    {
+      "seed": 271840,
+      "arm": "static_mix",
+      "loss": 1.8709951639175415,
+      "update_seconds": 0.007351669002673589,
+      "changed_parameter_tensors": 15,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0033602586610129797,
+          "gru": 0.0014192596348638128,
+          "head": 0.018434573622213037
+        },
+        "preclip_global_norm": 1.7329803705215454,
+        "clip_factor": 0.5770402481009056,
+        "parameter_update_rms": {
+          "inp": 0.0009999536771460355,
+          "gru": 0.0009943135318608615,
+          "head": 0.0009999621323092034
+        },
+        "head_update_rms": {
+          "head": 0.0009999621323092034
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        },
+        "gate_coefficient_rms": 0.0009999213507398963
+      },
+      "memory": {
+        "allocated_bytes": 68343808,
+        "reserved_bytes": 94371840,
+        "peak_allocated_bytes": 79228416,
+        "peak_reserved_bytes": 94371840
+      }
+    },
+    {
+      "seed": 271840,
+      "arm": "recurrent_mix",
+      "loss": 1.8709951639175415,
+      "update_seconds": 0.00733076200413052,
+      "changed_parameter_tensors": 15,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0033602586610129797,
+          "gru": 0.0014192596348638128,
+          "head": 0.01843458076124073
+        },
+        "preclip_global_norm": 1.7329809665679932,
+        "clip_factor": 0.577040049632141,
+        "parameter_update_rms": {
+          "inp": 0.0009999536492792047,
+          "gru": 0.0009943135340934682,
+          "head": 0.0009999621923222778
+        },
+        "head_update_rms": {
+          "head": 0.0009999621923222778
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        },
+        "gate_coefficient_rms": 0.0009999292669817805
+      },
+      "memory": {
+        "allocated_bytes": 68343808,
+        "reserved_bytes": 94371840,
+        "peak_allocated_bytes": 79752192,
+        "peak_reserved_bytes": 94371840
+      }
+    },
+    {
+      "seed": 271841,
+      "arm": "gelu",
+      "loss": 1.6748168468475342,
+      "update_seconds": 0.0072292440017918125,
+      "changed_parameter_tensors": 14,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.00429484597850211,
+          "gru": 0.0007647750641573286,
+          "head": 0.009673039510536554
+        },
+        "preclip_global_norm": 0.9298486709594727,
+        "clip_factor": 1.0,
+        "parameter_update_rms": {
+          "inp": 0.0009999391841247645,
+          "gru": 0.0009960313307052341,
+          "head": 0.0009999668510827836
+        },
+        "head_update_rms": {
+          "head": 0.0009999668510827836
+        },
+        "gate": null,
+        "gate_coefficient_rms": null
+      },
+      "memory": {
+        "allocated_bytes": 68341248,
+        "reserved_bytes": 92274688,
+        "peak_allocated_bytes": 79226368,
+        "peak_reserved_bytes": 92274688
+      }
+    },
+    {
+      "seed": 271841,
+      "arm": "fixed_mix",
+      "loss": 1.6705724000930786,
+      "update_seconds": 0.006865489995107055,
+      "changed_parameter_tensors": 14,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.004833313184248657,
+          "gru": 0.0008530826332360054,
+          "head": 0.010344490877033336
+        },
+        "preclip_global_norm": 0.9989953637123108,
+        "clip_factor": 1.0,
+        "parameter_update_rms": {
+          "inp": 0.000999954217716983,
+          "gru": 0.0009967030868991032,
+          "head": 0.0009999620813442621
+        },
+        "head_update_rms": {
+          "head": 0.0009999620813442621
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        },
+        "gate_coefficient_rms": null
+      },
+      "memory": {
+        "allocated_bytes": 68341248,
+        "reserved_bytes": 94371840,
+        "peak_allocated_bytes": 79488512,
+        "peak_reserved_bytes": 94371840
+      }
+    },
+    {
+      "seed": 271841,
+      "arm": "static_mix",
+      "loss": 1.6705724000930786,
+      "update_seconds": 0.007070799998473376,
+      "changed_parameter_tensors": 15,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.004833313184248657,
+          "gru": 0.0008530826332360054,
+          "head": 0.010305391667506962
+        },
+        "preclip_global_norm": 0.9990084171295166,
+        "clip_factor": 1.0,
+        "parameter_update_rms": {
+          "inp": 0.000999954217716983,
+          "gru": 0.0009967030868991032,
+          "head": 0.0009999620487714128
+        },
+        "head_update_rms": {
+          "head": 0.0009999620487714128
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        },
+        "gate_coefficient_rms": 0.0009999577887356281
+      },
+      "memory": {
+        "allocated_bytes": 68343808,
+        "reserved_bytes": 94371840,
+        "peak_allocated_bytes": 79228416,
+        "peak_reserved_bytes": 94371840
+      }
+    },
+    {
+      "seed": 271841,
+      "arm": "recurrent_mix",
+      "loss": 1.6705724000930786,
+      "update_seconds": 0.007974570005899295,
+      "changed_parameter_tensors": 15,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.004833313184248657,
+          "gru": 0.0008530826332360054,
+          "head": 0.010305416312334538
+        },
+        "preclip_global_norm": 0.9990105628967285,
+        "clip_factor": 1.0,
+        "parameter_update_rms": {
+          "inp": 0.000999954217716983,
+          "gru": 0.0009967030868991032,
+          "head": 0.0009999611954678118
+        },
+        "head_update_rms": {
+          "head": 0.0009999611954678118
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        },
+        "gate_coefficient_rms": 0.0009998450987040997
+      },
+      "memory": {
+        "allocated_bytes": 68343808,
+        "reserved_bytes": 94371840,
+        "peak_allocated_bytes": 79752192,
+        "peak_reserved_bytes": 94371840
+      }
+    }
+  ],
+  "cells_complete": 12,
+  "fit_components": [
+    1735,
+    1766,
+    233,
+    38,
+    807,
+    1125,
+    1015,
+    105,
+    483,
+    1062,
+    1666,
+    1214,
+    1130,
+    1793,
+    87,
+    1869,
+    1053,
+    1390,
+    614,
+    1284,
+    1309,
+    1725,
+    713,
+    1567
+  ],
+  "fit_only_normalization": {
+    "fit_mean": [
+      -1.5363867282867432,
+      -0.689834713935852,
+      1.2887780666351318,
+      -0.44421306252479553,
+      -1.0049716234207153,
+      0.024608345702290535,
+      -1.5609498023986816,
+      -0.6866507530212402,
+      1.1618949174880981,
+      -0.19426357746124268,
+      -0.881924569606781,
+      -0.014319630339741707,
+      -0.05646130442619324,
+      0.00033203521161340177,
+      -0.169044628739357,
+      -0.25854653120040894,
+      0.03898943215608597,
+      -0.2861734628677368,
+      -0.7288678288459778,
+      -2.0230934619903564,
+      -3.5546049730328377e-06,
+      2.096900971082505e-06,
+      4.6128329813655e-06,
+      -6.393834610207705e-06,
+      -5.608798801404191e-06,
+      2.5743427158886334e-06,
+      3.8066496017563622e-06,
+      4.4812200030719396e-06,
+      2.4200901407311903e-06,
+      -3.6629234045904013e-07,
+      -5.957327630312648e-06,
+      7.801266292517539e-06,
+      -4.835311301576439e-06,
+      9.792628588911612e-06,
+      4.220727987558348e-06,
+      3.4390102428005775e-06,
+      3.5663190374179976e-06,
+      3.5245990147814155e-05,
+      -3.0046541724004783e-05,
+      2.8520629712147638e-05,
+      2.0363821983337402,
+      0.2820541560649872
+    ],
+    "fit_scale": [
+      0.32517191767692566,
+      0.2430306077003479,
+      0.7047637104988098,
+      0.7663655877113342,
+      0.5567672848701477,
+      0.6080858707427979,
+      0.37485629320144653,
+      0.2399095743894577,
+      0.6885117888450623,
+      0.8592969179153442,
+      0.6910661458969116,
+      0.7655671238899231,
+      0.9265031814575195,
+      0.9781677722930908,
+      0.7986375689506531,
+      0.8008037209510803,
+      0.9514464735984802,
+      1.8925610780715942,
+      2.087163209915161,
+      2.956484317779541,
+      0.23587879538536072,
+      0.10206638276576996,
+      0.2836126685142517,
+      0.25912606716156006,
+      0.43994584679603577,
+      1.0169508457183838,
+      0.1448771208524704,
+      0.08167517185211182,
+      0.2859937250614166,
+      0.30186182260513306,
+      0.4794560968875885,
+      1.243190050125122,
+      0.9874710440635681,
+      1.6637933254241943,
+      0.10818876326084137,
+      0.03457668796181679,
+      1.073975682258606,
+      1.5013998746871948,
+      2.07209849357605,
+      2.8346872329711914,
+      1.8456852436065674,
+      0.4499995708465576
+    ]
+  },
+  "sources": {
+    "fit_duration.py": "89d38cd71da3ff8905d51da60d369bbe04b07d26789ab242085d59d384ac299e",
+    "tests_duration.py": "29a2b247d5f32e32c5242325c0bbce35f511a44fc32d01c429d29f252d33413d",
+    "gpu_probe_duration.py": "3e1f383c9364e70b2ea0e4846a15de5281090326a1d5fe634061dbaebea5747f"
+  },
+  "test_rows_loaded": false,
+  "active_precision_inside_full_ieee_context": {
+    "device_math": "FP32 IEEE",
+    "autocast": false,
+    "torch.backends.fp32_precision": "ieee",
+    "torch.backends.cuda.matmul.fp32_precision": "ieee",
+    "torch.backends.cudnn.fp32_precision": "ieee",
+    "torch.backends.cudnn.rnn.fp32_precision": "ieee"
+  },
+  "probe_seconds": 5.645548842992866,
+  "probe_v2_sha256": "d7abd232ebbec9a10ec5dff2415103ff75ce672633e512034426669347489d7b",
+  "full_fit_projection_seconds": 633.0783077389933,
+  "projection_safety_multiplier": 1.5,
+  "fixed_full_fit_overhead_margin_seconds": 120,
+  "projected_study_seconds_with_margin": 1075.2630104514828
+}

@@ -342,7 +342,7 @@ def render_target_contrasts(result: dict[str, Any]) -> None:
 
 def write_csvs(result: dict[str, Any]) -> None:
     with (EDA / "all12_arm_scores.csv").open("w", newline="") as stream:
-        writer = csv.writer(stream)
+        writer = csv.writer(stream, lineterminator="\n")
         writer.writerow(("seed", "arm", "global_wp", "target0_wp", "target1_wp", "updates"))
         for seed in SEEDS:
             for arm in ARMS:
@@ -351,14 +351,14 @@ def write_csvs(result: dict[str, Any]) -> None:
                     (seed, ARM_LABELS[arm], row["wp"], row["t0"], row["t1"], row["updates"])
                 )
     with (EDA / "all16_global_contrasts.csv").open("w", newline="") as stream:
-        writer = csv.writer(stream)
+        writer = csv.writer(stream, lineterminator="\n")
         writer.writerow(("seed", "contrast", "candidate_minus_reference", "ci95_low", "ci95_high"))
         for seed in SEEDS:
             for contrast in CONTRASTS:
                 row = result["registered_contrasts"][f"seed{seed}__{contrast}"]
                 writer.writerow((seed, CONTRAST_LABELS[contrast], row["point_diff"], *row["ci95"]))
     with (EDA / "all32_target_contrasts.csv").open("w", newline="") as stream:
-        writer = csv.writer(stream)
+        writer = csv.writer(stream, lineterminator="\n")
         writer.writerow(
             ("seed", "contrast", "target", "candidate_minus_reference", "ci95_low", "ci95_high")
         )

@@ -1,0 +1,13 @@
+# E487: Muon intermediate precision and native/custom GRU update parity
+
+The actual fit-only CUDA diagnostic and independent saved-array verification completed. With the same captured gradients, initial parameters, clipping, optimizer buffers and formulas, BF16 orthogonalization fails native/custom update parity; FP32 orthogonalization passes all seven registered matrix/family checks. This is a one-step numerical result, not a predictor improvement.
+
+All four GRU matrices failed BF16's absolute discrepancy limit2e-5; one also exceeded the 2% RMS limit. FP32 matrix maximum discrepancies ranged1.86e-8 to4.84e-8, and relative RMS errors ranged0.00179% to0.00264%. Native/custom output and parameter-gradient maximum discrepancies were1.56e-7 and4.47e-8. Synthetic shared-gradient controls matched exactly within each precision path; BF16 additionally reproduced the frozen E474 helper. Every finite crossed outcome was retained, including failed gates.
+
+Root verified the sealed source identities, actual runner exit0, teardown, unchanged OOM counters and resource limits. The actual probe took11.148837437seconds, peak1.635GB hostRAM/.424GB observedGPU. Independent verifier v4 numerically checked all four crossed replay cells and five shared-gradient cells; it recomputed all seven update gates and all per-parameter precision sensitivities. Raw captured-gradient and optimizer-state tensors were not exported: their source-bound hashes and equality receipts were checked, not independently reconstructed from those tensors. No new training fit, test-role load, predictive/public score or submission is claimed.
+
+The verifier's development failures remain preserved. V1/v2 initially widened delta dtype before subtraction; v3 corrected that but failed on the actual serializer's explicit FP32 `frozen_e474:null` marker. V4 matches that exact schema, requires the marker null and preserves all nine real delta cells. Source tests/reviews preceded its actual run. No numeric tolerance, original probe result or artifact was changed.
+
+E485's failed probe stays failed and its six full trajectories remain unadmitted. E489 separately preregisters H128 activation-duration training using FP32 orthogonalization and requires fresh all-seed native/custom step checks. This one batch cannot establish later-trajectory parity or better convergence.
+
+Evidence: `gpu_probe_v2/result.json`, immutable `replay_deltas.npz`, `VERIFY_PROBE_REVIEW_V4.md`, `ROOT_ACTUAL_VERIFIER_V4.log`, root `checks/e487_saved_delta_reproduction.json` and `checks/e487_saved_delta_verification_v4.json`. Figure: `eda/verified_v4/all_matrix_and_family_update_gates.png`. Renderer reads saved verified JSON only.

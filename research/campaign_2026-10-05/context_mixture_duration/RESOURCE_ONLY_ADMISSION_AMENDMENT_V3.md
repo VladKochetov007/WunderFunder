@@ -1,0 +1,9 @@
+# E488 v3 resource-only admission amendment
+
+Registered before any full trajectory or new test evaluation. The original 900-second study projection gate **FAILED**: measured synchronized max first update produced 1075.263010451 seconds including 1.5× full-update projection, 120-second overhead margin and probe work. No E488 full trajectory was admitted under v2. Probe and original sealed spec/receipts remain unchanged.
+
+Actual probe SHA256: 6db1e875175f6b7631a1ca126738ebae40ea7db576e9788a60ff04635c6730ba; attempt e488-context-duration-real-gpu-probe-v2 completed 11.659668447 seconds with exit0/verified teardown, no new worker/parent OOM and all12finitechanged updates plus exactnative-reference parity.
+
+Propose a NEW operational spec version with **1800 seconds total study allowance**, charged to the existing authorized local block/80device-GPU-hour campaign budget. The full-worker timeout is floor(1800−actual probe charged time), not1800 additional seconds. Require the unchanged conservative projected total1075.2630104514828 <=1800 BEFORE admission. Scientific identity remains E488: same12seed/arm continuous3epoch trajectories,24snapshots,27GlobalWPcontrasts andtargetcounterparts; exact frozen actor/optimizer/model/precision/shuffle/normalizer/cohort/sources unchanged. No checkpoint/test-driven choice, newarms/seeds/epochs, extraGRUfitcount, score selection, numeric parity relaxation or retrospective claim originalgatepassed.
+
+All memory limits unchanged: one2CPU6GiBGPUworker,2GiBallocator/3decimalGBobservedstop, parent12CPU30decimalGB/noSwap. Independent source review plus separate blind review of this timing-only amendment required; bind both amendment/review/actualprobe to fullfit spec. Admission before07:00UTC. This amendment is requested under existing compute authorization; it changes a research timing allowance, not a safety cap.

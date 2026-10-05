@@ -25,7 +25,7 @@ E473 tested that approximation separately. Sources and transfer caveats are in
 | E478 | 6 | Candidate shape in H64 two-layer topology | All three point deltas positive; two conditional intervals positive, one crosses zero. |
 | E479 | 16 | Learned per-layer candidate amplitudes | Learned-minus-fixed effects are small and vary by seed/optimizer; fixed positive shape remains favorable for Muon. All28 contrasts retained. |
 
-Overall212 scientific fits have completed;all212 have independent official grades. Each
+Overall224 scientific fits have completed;212 have independent official grades. Each
 completed activation fit finished without a new OOM. Actual attempt receipts,
 failed probes and rejected grader checks remain in the record. Component
 intervals condition on fitted models and exclude training-seed/search
@@ -63,7 +63,7 @@ unchanged. The optimizer crossover is an observation, not a diagnosed cause.
 | E485 | 6 | Registered H128 four-epoch baseline/sine trajectories at three fresh seeds; actual CUDA probe failed native-Muon update peak gate before full fitting (1.7153% RMS difference but6.85e-5 peak exceeds preregistered2e-5). No tolerance widening;0/6 full fits admitted; failure preserved. |
 | E484 | 12 | Causal context-conditioned GELU/LeakyReLU readout; blind critique resolved in design v2; actual CUDA probe v1 caught a CPU/GPU initialization-check mismatch before first update; v2 independently reviewed, actual CUDA probe passed all12 cells and all twelve full fits completed cleanly; all12 independently graded and all16 global/32 target contrasts reproduced separately (max3.54e-14). No consistent context-gate advantage across two seeds. |
 
-The registered activation program currently contains230 registered full fits:212 completed (212 graded), six H128 trajectories not admitted after their native-step probe failed, and twelve nativeGRU mixture-duration trajectories awaiting independent gates. E485 saves18 checkpoints from six continuous four-epoch trajectories; snapshots are not separate fits. Partial checkpoints from an active matrix are reported separately until its completion receipt validates. Do not count one-update probes or source-only packets as completed fits. E477 has now completed its corrected independent grade. Its
+The registered activation program currently contains236 registered full fits:224 completed (212 graded), six H128 trajectories not admitted after their native-step probe failed, twelve completed nativeGRU mixture-duration trajectories awaiting independent grades, and six newly registered FP32-Muon H128 duration trajectories awaiting independent gates. E485 saves18 checkpoints from six continuous four-epoch trajectories; snapshots are not separate fits. Partial checkpoints from an active matrix are reported separately until its completion receipt validates. Do not count one-update probes or source-only packets as completed fits. E477 has now completed its corrected independent grade. Its
 first export grade failed before predictions because its provenance check
 expected all40 cohort nodes in a saved training-only24-node receipt. Versioned
 corrections and root review preserve that incident; no model result was
@@ -86,3 +86,7 @@ resource receipt, and failure belongs in the campaign ledger and plots in its
 study's `eda/` directory and the live marimo notebook.
 
 Precision clarification: common FP32/IEEE controls bind recurrent forward/backward arithmetic and the usual CUDA/cuDNN flags. The existing Muon optimizer deliberately converts its Newton–Schulz orthogonalization matrices to BF16 on CUDA (`src/wnn/optim.py:orthogonalize`). That unchanged optimizer implementation is common to the Muon arms; descriptions of FP32 recurrent controls must not imply every internal optimizer operation is FP32.
+
+E486 frozen-checkpoint swaps:36 CPUconditions/54contrasts, independently reproduced; zero additional training fits. E487 fixed-gradient precision diagnostic: BF16 fails native/custom update checks, FP32 passes on one fit-only batch; saved-delta arithmetic review pending. E488 original900-second timing gate failed (projected1075.263 seconds); no fullfit admitted under original spec. A separately reviewed resource-only1800-second amendment is proposed before fitting, with memory and scientific gates unchanged. E489 is a new FP32optimizer study, sixcontinuousH128fourepoch trajectories; it does not retrospectively admit E485.
+
+E488 v3: separately reviewed1800-second resource-only allowance admitted identicalscientificmatrix afteroriginal900timingfailure. All12three-epochfits/24snapshots completed withoutnewOOM; independentgradespending. Fitscount224, officialgrades212.

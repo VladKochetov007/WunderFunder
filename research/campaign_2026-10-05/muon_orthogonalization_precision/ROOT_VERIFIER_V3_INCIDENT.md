@@ -1,0 +1,5 @@
+# E487 actual verifier v3 schema failure
+
+The independently reviewed verifier v3 ran once on the immutable actual result and saved nine-cell delta archive. It exited1 before writing an official verification receipt: `ValueError: shared control replay inventory differs for fp32_diagnostic` in `verify_payload`. It had already read the actual saved diagnostic arrays and recomputed crossed gates/sensitivity in memory; do not claim no actual archive read. No parquet, GPU, full fit or new scientific score was involved.
+
+The frozen probe serializer explicitly emits `frozen_e474: null` in the FP32 shared-control record. The verifier fixture omitted that named null marker and incorrectly required only two keys. The BF16 record contains the real frozen-E474 control receipt. A versioned v4 must require exactly all three keys in both records, require the FP32 marker null, skip only that marker during receipt comparisons and retain all nine real delta cells. Original v3 source/review remain unchanged. Add assembled null-marker and rejection tests before independent re-review; do not relax a numeric or memory gate.
