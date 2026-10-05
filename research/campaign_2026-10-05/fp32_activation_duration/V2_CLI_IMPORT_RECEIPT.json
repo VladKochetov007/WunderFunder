@@ -1,0 +1,24 @@
+{
+  "study": "E489",
+  "entrypoint_version": 2,
+  "purpose": "import-path regression only",
+  "status": "passed",
+  "exit_code": 0,
+  "command": "TMPDIR=/tmp WNN_CPU_PCT=4 WNN_CPU_QUOTA=100% WNN_MEM_MAX=2G WNN_THREADS=1 scripts/limited .venv/bin/python research/campaign_2026-10-05/fp32_activation_duration/gpu_probe_fp32_duration_v2.py --help",
+  "hard_limiter": "scripts/limited systemd scope: CPUQuota=100%, MemoryMax=2G, MemorySwapMax=0",
+  "stdout_path": "/tmp/e489_probe_v2_help_20261005.txt",
+  "stdout_sha256": "b94c4d8f32eab1cda6b68c8d40deda561eae1196e91e7f7c923e56848cc48c15",
+  "data_loaded": false,
+  "cuda_initialized": false,
+  "probe_function_called": false,
+  "sources": {
+    "fit_fp32_duration.py": "af2ad34d8bac617fe5f53e28a2120c5d59a303888b54937e35e27edd1b925cdc",
+    "tests_fp32_duration.py": "fa5cd3da2afd9860b0a34d2a929ae1526747650d1f9dcd71cfbb34e553d66ec6",
+    "gpu_probe_fp32_duration_v2.py": "7ee1bf79dac158d7aaa6530f55173126ad5e8f8df1c4e50832d83e9b0ca19b20"
+  },
+  "checks": {
+    "ruff": "passed",
+    "py_compile": "passed",
+    "cli_import_and_help": "passed"
+  }
+}

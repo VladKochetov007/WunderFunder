@@ -1,8 +1,8 @@
-# Current research status — October 5, 06:45 UTC / 09:45 Kyiv
+# Current research status — October 5, 07:20 UTC / 10:20 Kyiv
 
 Public best remains **0.6660**; the **0.7000 honest expected public** milestone is unmet. No activation pilot is a new competition-ready submission.
 
-**Activation studies: 224 full scientific fits completed, 212 independently graded, of 236 registered trajectories.** Six E485 H128 trajectories were not admitted after their actual native-step probe failed; twelve E488 native-GRU mixture trajectories completed and await independent grades; six new E489 FP32-Muon H128 trajectories await source/probe gates. Saved epoch checkpoints and one-update probes are not additional fits. All earlier activation grades have independent raw-export arithmetic verification.
+**Activation studies: 224 full scientific fits completed, 212 independently graded, of 236 registered trajectories.** Six E485 H128 trajectories were not admitted after their actual native-step probe failed; twelve E488 native-GRU mixture trajectories completed and await independent grades; six new E489 FP32-Muon H128 trajectories remain prepared and unadmitted after an entrypoint import failure before CUDA/data access. Saved epoch checkpoints and one-update probes are not additional fits. All earlier activation grades have independent raw-export arithmetic verification.
 
 - E486: 36 frozen-weight CPU activation-swap conditions and 54 comparisons complete; all arithmetic reproduced within 1.12e-14. Zero new training fits. Exact diagonal predictions recover E483. Both inference shape and training adaptation matter on the small exposed panel; this is not a public forecast.
 - E487: corrected one-batch Muon precision diagnostic independently reviewed and sealed; actual CUDA replay and independent nine-cell saved-delta arithmetic completed (BF16 fails, FP32 passes). It preserves the original E485 strict failure, tests BF16 versus FP32 orthogonalization on each captured gradient source, and does not automatically admit training.
@@ -11,7 +11,7 @@ Public best remains **0.6660**; the **0.7000 honest expected public** milestone 
 
 Last provider quota observation: 19.84 GPU hours and 19.96 TPU hours remaining, refresh October 10. Background status monitor remains active. Local aggregate limits: 12 CPUs, 30 decimal GB hard / 27 GB soft RAM, no swap; one GPU worker, 2 CPUs / 6 GiB host RAM / 2 GiB allocator / 3 decimal GB observed-GPU stop for these activation probes. No new OOM in these completed studies.
 
-New admissions stop at 10:00 Kyiv (07:00 UTC) under the existing research goal; admitted experiments may finish gracefully. Results/plots and source failures remain in the experiment ledger and marimo notebook.
+New scientific admissions are closed after 10:00 Kyiv (07:00 UTC). Completed E488 fits are being scored and documented as drain work. Its grading provenance checks caught role and telemetry schema mistakes before test decoding; versioned repairs preserve the failures and unchanged training outputs. E489 probe reservation missed the cutoff by32.527seconds and failed immediately on import; its repaired source is for a later window, with no GPU retry or six full fits here. Results/plots and source failures remain in the experiment ledger and marimo notebook.
 
 ## Historical status entries (retain original observation times)
 

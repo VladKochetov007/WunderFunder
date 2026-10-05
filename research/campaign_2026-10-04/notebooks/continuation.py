@@ -986,5 +986,34 @@ def e484_context_mixture_independent_v2_grade(Path, mo):
     return
 
 
+@app.cell(hide_code=True)
+def e486_crossed_activation_independent_grade(Path, mo):
+    e486_root = Path("/home/vlad/development/wunder/wnn_connectome_starterpack")
+    e486_base = e486_root / "research/campaign_2026-10-05/activation_counterfactual"
+    e486_report = (e486_base / "REPORT.md").read_text()
+    e486_report = "\n".join(line for line in e486_report.splitlines() if not line.startswith("!["))
+    mo.vstack([
+        mo.md(e486_report),
+        mo.image(str(e486_base / "eda/cross_v1/all36_global_cells.png"), alt="All 36 global crossed-activation cells"),
+        mo.image(str(e486_base / "eda/cross_v1/all36_target0_cells.png"), alt="All 36 target 0 cells"),
+        mo.image(str(e486_base / "eda/cross_v1/all36_target1_cells.png"), alt="All 36 target 1 cells"),
+        mo.image(str(e486_base / "eda/cross_v1/all54_global_contrasts.png"), alt="All 54 paired global contrasts"),
+    ])
+
+    return
+
+
+@app.cell(hide_code=True)
+def _(json, mo, project_root):
+    _e487_root = project_root / "research/campaign_2026-10-05"
+    _e487_proof = json.loads((_e487_root / "checks/e487_saved_delta_reproduction.json").read_text())
+    _e487_ok = _e487_proof["status"] == "all_checked_values_match"
+    mo.vstack([
+        mo.md("### E487: Muon precision diagnostic\n\nAll nine saved update-delta cells independently verified. BF16 native/custom update checks fail; FP32 checks pass on this fixed fit-only batch. This is numerical attribution, not a predictive or public-score gain. Original E485 remains unadmitted." if _e487_ok else "E487 independent verification is pending."),
+        mo.image(str(_e487_root / "muon_orthogonalization_precision/eda/verified_v4/all_matrix_and_family_update_gates.png")) if _e487_ok else mo.md(""),
+    ])
+    return
+
+
 if __name__ == "__main__":
     app.run()

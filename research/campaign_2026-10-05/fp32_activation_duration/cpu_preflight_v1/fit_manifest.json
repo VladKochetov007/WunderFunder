@@ -1,0 +1,662 @@
+{
+  "kind": "E489 H128 activation duration with E487 FP32 Muon",
+  "status": "preflight_passed",
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "seeds": [
+    271836,
+    271837,
+    271838
+  ],
+  "alphas": [
+    0.0,
+    0.1
+  ],
+  "hidden": 128,
+  "parameters_per_trajectory": 236802,
+  "epochs": 4,
+  "snapshots_per_trajectory": [
+    1,
+    2,
+    4
+  ],
+  "updates_per_epoch": 474,
+  "batch_size": 4,
+  "chunk_rows": 256,
+  "candidate": "u=tanh(v); n=u+alpha*sin(pi*u); h'=(1-z)*n+z*h",
+  "optimizer": {
+    "name": "E487 FP32MuonAdamW diagnostic implementation",
+    "muon_names": [
+      "gru.weight_hh_l0",
+      "gru.weight_hh_l1",
+      "gru.weight_ih_l0",
+      "gru.weight_ih_l1"
+    ],
+    "muon_blocks": 3,
+    "muon_beta1": 0.9,
+    "adam_betas": [
+      0.9,
+      0.999
+    ],
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "schedule": "constant",
+    "global_clip_norm": 1.0,
+    "state_continues_across_epochs": true,
+    "cuda_muon_orthogonalization": "E487 FP32 five-step Newton-Schulz diagnostic path"
+  },
+  "shuffle": "canonical np.arange(24), default_rng(seed+epoch_index).shuffle",
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "parent_source_sha256": {
+    "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+    "e471_scan": "998bceb024b5c29e81e73efc5d0ebe434d53c7356cfcb947f7ca36dd625426cf",
+    "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+    "wnn.nn": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+    "wnn.optim": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+    "wnn.resources": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+    "e487_fp32_replay": "480f2ae6d3aa09a3f972a3ad9fc682e7a92e07843d6e002434b2130ec75415d2",
+    "e487_probe_result": "46b1edfc5b63d2da93ddc444b8c40142d4e57e16b6ceb4f80f33bc4fffd89714",
+    "e487_replay_export": "591a2eb248249f1925eca71c85031639b0085fbf58b148144f32bfd3b9a7c152",
+    "e487_verifier_v4": "f717d0d30d1c6e1456b80bdd31d76896633a588ea22e5b9243652af5f92391e6",
+    "e487_root_gate": "4fced259c38beae9a74652cf486ccd952d62c830e5927e5316be161aba6c6cac",
+    "e487_verification_receipt": "8820f1eb3edf954f1d2279843be85d418a8883fad39fff3f9a9689396eeae6a9",
+    "dataset": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "cohort": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2"
+  },
+  "design_sha256": "0859e6ac528b850452183afc46ab28358cac13c97ace5cb0350e413c2b9a7090",
+  "blind_critic_sha256": "e4a8cae780b1e49739dd9474e3c13af459ef75db4bd39eb6e224cffe0ec76e70",
+  "provenance_addendum_sha256": "9a1803680163d556037cabecfbc5cdfb923b30039140e64cda783493bfe2ae68",
+  "e487_saved_delta_gate": null,
+  "source_sha256": {
+    "fit_fp32_duration.py": "af2ad34d8bac617fe5f53e28a2120c5d59a303888b54937e35e27edd1b925cdc",
+    "tests_fp32_duration.py": "fa5cd3da2afd9860b0a34d2a929ae1526747650d1f9dcd71cfbb34e553d66ec6",
+    "gpu_probe_fp32_duration.py": "2f0bd08aa0e760956a233ec144cb41c82613cc5ce98aec1cc5ed7b4400effd6f",
+    "PROVENANCE_ADMISSION_ADDENDUM.md": "9a1803680163d556037cabecfbc5cdfb923b30039140e64cda783493bfe2ae68"
+  },
+  "cohort_manifest": {
+    "cohort": [
+      {
+        "row_group": 1735,
+        "seq_ix": 1989531794,
+        "component": 2795,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1766,
+        "seq_ix": 2024723908,
+        "component": 2854,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 233,
+        "seq_ix": 235282549,
+        "component": 2806,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 38,
+        "seq_ix": 45323361,
+        "component": 2828,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 807,
+        "seq_ix": 941450430,
+        "component": 2991,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1125,
+        "seq_ix": 1294249563,
+        "component": 3200,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1015,
+        "seq_ix": 1168194342,
+        "component": 3010,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 105,
+        "seq_ix": 109463899,
+        "component": 2882,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 483,
+        "seq_ix": 547472527,
+        "component": 2801,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1062,
+        "seq_ix": 1227566939,
+        "component": 2860,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1666,
+        "seq_ix": 1917373469,
+        "component": 2940,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1214,
+        "seq_ix": 1413037324,
+        "component": 2861,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1130,
+        "seq_ix": 1302007606,
+        "component": 2901,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1793,
+        "seq_ix": 2051491347,
+        "component": 3223,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 87,
+        "seq_ix": 89214899,
+        "component": 2866,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1869,
+        "seq_ix": 2144431796,
+        "component": 2902,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1053,
+        "seq_ix": 1218942404,
+        "component": 3182,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1390,
+        "seq_ix": 1596351500,
+        "component": 2948,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 614,
+        "seq_ix": 701505430,
+        "component": 3090,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1284,
+        "seq_ix": 1494588886,
+        "component": 2982,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1309,
+        "seq_ix": 1512273149,
+        "component": 3079,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1725,
+        "seq_ix": 1979171607,
+        "component": 3193,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 713,
+        "seq_ix": 815144844,
+        "component": 2936,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1567,
+        "seq_ix": 1795366096,
+        "component": 2930,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      }
+    ],
+    "selection_rule": "6 fit + 4 test distinct components per cached label-derived class; SHA256 target-mechanics-v1 component/group order; legacy protected holdout excluded",
+    "component_overlap": [],
+    "historical_exposure": "Validation labels and panels have extensive historical use. This is descriptive, not a fresh holdout or generalization claim. Class is label-derived and never an inference input.",
+    "metric": "global_wp_clip2_v1",
+    "fit_subsample": "every twentieth row >=128; no is_scored fit filtering",
+    "frozen_models": "ridge alpha=100; direct histogram 60 trees/12 leaves; factor sign and magnitude 30 trees each/12 leaves; shared full design; no search",
+    "normalization": {
+      "fit_mean": [
+        -1.5363867282867432,
+        -0.689834713935852,
+        1.2887780666351318,
+        -0.44421306252479553,
+        -1.0049716234207153,
+        0.024608345702290535,
+        -1.5609498023986816,
+        -0.6866507530212402,
+        1.1618949174880981,
+        -0.19426357746124268,
+        -0.881924569606781,
+        -0.014319630339741707,
+        -0.05646130442619324,
+        0.00033203521161340177,
+        -0.169044628739357,
+        -0.25854653120040894,
+        0.03898943215608597,
+        -0.2861734628677368,
+        -0.7288678288459778,
+        -2.0230934619903564,
+        -3.5546049730328377e-06,
+        2.096900971082505e-06,
+        4.6128329813655e-06,
+        -6.393834610207705e-06,
+        -5.608798801404191e-06,
+        2.5743427158886334e-06,
+        3.8066496017563622e-06,
+        4.4812200030719396e-06,
+        2.4200901407311903e-06,
+        -3.6629234045904013e-07,
+        -5.957327630312648e-06,
+        7.801266292517539e-06,
+        -4.835311301576439e-06,
+        9.792628588911612e-06,
+        4.220727987558348e-06,
+        3.4390102428005775e-06,
+        3.5663190374179976e-06,
+        3.5245990147814155e-05,
+        -3.0046541724004783e-05,
+        2.8520629712147638e-05,
+        2.0363821983337402,
+        0.2820541560649872
+      ],
+      "fit_scale": [
+        0.32517191767692566,
+        0.2430306077003479,
+        0.7047637104988098,
+        0.7663655877113342,
+        0.5567672848701477,
+        0.6080858707427979,
+        0.37485629320144653,
+        0.2399095743894577,
+        0.6885117888450623,
+        0.8592969179153442,
+        0.6910661458969116,
+        0.7655671238899231,
+        0.9265031814575195,
+        0.9781677722930908,
+        0.7986375689506531,
+        0.8008037209510803,
+        0.9514464735984802,
+        1.8925610780715942,
+        2.087163209915161,
+        2.956484317779541,
+        0.23587879538536072,
+        0.10206638276576996,
+        0.2836126685142517,
+        0.25912606716156006,
+        0.43994584679603577,
+        1.0169508457183838,
+        0.1448771208524704,
+        0.08167517185211182,
+        0.2859937250614166,
+        0.30186182260513306,
+        0.4794560968875885,
+        1.243190050125122,
+        0.9874710440635681,
+        1.6637933254241943,
+        0.10818876326084137,
+        0.03457668796181679,
+        1.073975682258606,
+        1.5013998746871948,
+        2.07209849357605,
+        2.8346872329711914,
+        1.8456852436065674,
+        0.4499995708465576
+      ]
+    }
+  },
+  "trajectories": [],
+  "active_precision": {
+    "device_math": "FP32 IEEE",
+    "autocast": false,
+    "torch.backends.fp32_precision": "ieee",
+    "torch.backends.cuda.matmul.fp32_precision": "ieee",
+    "torch.backends.cudnn.fp32_precision": "ieee",
+    "torch.backends.cudnn.rnn.fp32_precision": "ieee"
+  },
+  "preflight_arms": [
+    {
+      "seed": 271836,
+      "alpha": 0.0,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "fit_row_groups": [
+        1062,
+        1725,
+        1214,
+        1766
+      ],
+      "loss": 2.0263211727142334,
+      "clip_applied": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "global_update_index_zero_based": 0,
+        "epoch_index_zero_based": 0,
+        "batch_index_zero_based": 0,
+        "chunk_start": 0,
+        "alpha": 0.0,
+        "learning_rate": 0.001,
+        "preclip_gradient_rms": {
+          "matrix:gru.weight_hh_l0": 0.00034495446381945996,
+          "matrix:gru.weight_hh_l1": 0.0004882911040969918,
+          "matrix:gru.weight_ih_l0": 0.0010185060373301556,
+          "matrix:gru.weight_ih_l1": 0.0011880485265291655,
+          "adamw": 0.010118756781484366
+        },
+        "raw_gradient_global_norm": 2.062368869781494,
+        "parameter_update_rms": {
+          "matrix:gru.weight_hh_l0": 0.00012121029789411885,
+          "matrix:gru.weight_hh_l1": 0.00010475901040120518,
+          "matrix:gru.weight_ih_l0": 0.00013032004117883805,
+          "matrix:gru.weight_ih_l1": 0.00011391199392231823,
+          "adamw": 0.0009998403612808229
+        },
+        "matrix_adam_family_update_rms": {
+          "matrix:gru.weight_hh_l0": 0.00012121029789411885,
+          "matrix:gru.weight_hh_l1": 0.00010475901040120518,
+          "matrix:gru.weight_ih_l0": 0.00013032004117883805,
+          "matrix:gru.weight_ih_l1": 0.00011391199392231823,
+          "adamw": 0.0009998403612808229
+        },
+        "clip_factor": 0.4848790775371194,
+        "state_abs_max": 0.5337266325950623,
+        "prediction_abs_max": 0.33150386810302734,
+        "candidate_recurrent_output_abs_max": 0.4886642098426819
+      }
+    },
+    {
+      "seed": 271836,
+      "alpha": 0.1,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "fit_row_groups": [
+        1062,
+        1725,
+        1214,
+        1766
+      ],
+      "loss": 2.024550676345825,
+      "clip_applied": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "global_update_index_zero_based": 0,
+        "epoch_index_zero_based": 0,
+        "batch_index_zero_based": 0,
+        "chunk_start": 0,
+        "alpha": 0.1,
+        "learning_rate": 0.001,
+        "preclip_gradient_rms": {
+          "matrix:gru.weight_hh_l0": 0.0007744719574964401,
+          "matrix:gru.weight_hh_l1": 0.0009773872145415854,
+          "matrix:gru.weight_ih_l0": 0.0017751682685782318,
+          "matrix:gru.weight_ih_l1": 0.002026034354213041,
+          "adamw": 0.010756687848363856
+        },
+        "raw_gradient_global_norm": 2.2547247409820557,
+        "parameter_update_rms": {
+          "matrix:gru.weight_hh_l0": 0.00012464904965352929,
+          "matrix:gru.weight_hh_l1": 0.0001095466665485131,
+          "matrix:gru.weight_ih_l0": 0.00013428859726755558,
+          "matrix:gru.weight_ih_l1": 0.00011828380823043881,
+          "adamw": 0.000999853874652641
+        },
+        "matrix_adam_family_update_rms": {
+          "matrix:gru.weight_hh_l0": 0.00012464904965352929,
+          "matrix:gru.weight_hh_l1": 0.0001095466665485131,
+          "matrix:gru.weight_ih_l0": 0.00013428859726755558,
+          "matrix:gru.weight_ih_l1": 0.00011828380823043881,
+          "adamw": 0.000999853874652641
+        },
+        "clip_factor": 0.4435129212497683,
+        "state_abs_max": 0.638899028301239,
+        "prediction_abs_max": 0.33998411893844604,
+        "candidate_recurrent_output_abs_max": 0.6446719169616699
+      }
+    },
+    {
+      "seed": 271837,
+      "alpha": 0.0,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "fit_row_groups": [
+        1666,
+        1125,
+        1015,
+        1725
+      ],
+      "loss": 2.089331865310669,
+      "clip_applied": false,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "global_update_index_zero_based": 0,
+        "epoch_index_zero_based": 0,
+        "batch_index_zero_based": 0,
+        "chunk_start": 0,
+        "alpha": 0.0,
+        "learning_rate": 0.001,
+        "preclip_gradient_rms": {
+          "matrix:gru.weight_hh_l0": 0.00017054707482333197,
+          "matrix:gru.weight_hh_l1": 0.00019593068756549453,
+          "matrix:gru.weight_ih_l0": 0.0005988942153550295,
+          "matrix:gru.weight_ih_l1": 0.0005874333080578419,
+          "adamw": 0.004334051113094
+        },
+        "raw_gradient_global_norm": 0.8904557228088379,
+        "parameter_update_rms": {
+          "matrix:gru.weight_hh_l0": 0.00013546156922476752,
+          "matrix:gru.weight_hh_l1": 0.00011682606425609888,
+          "matrix:gru.weight_ih_l0": 0.00014480512365231096,
+          "matrix:gru.weight_ih_l1": 0.00012891257510043251,
+          "adamw": 0.000999894449114102
+        },
+        "matrix_adam_family_update_rms": {
+          "matrix:gru.weight_hh_l0": 0.00013546156922476752,
+          "matrix:gru.weight_hh_l1": 0.00011682606425609888,
+          "matrix:gru.weight_ih_l0": 0.00014480512365231096,
+          "matrix:gru.weight_ih_l1": 0.00012891257510043251,
+          "adamw": 0.000999894449114102
+        },
+        "clip_factor": 1.0,
+        "state_abs_max": 0.4844443202018738,
+        "prediction_abs_max": 0.30598708987236023,
+        "candidate_recurrent_output_abs_max": 0.4396052658557892
+      }
+    },
+    {
+      "seed": 271837,
+      "alpha": 0.1,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "fit_row_groups": [
+        1666,
+        1125,
+        1015,
+        1725
+      ],
+      "loss": 2.092291831970215,
+      "clip_applied": false,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "global_update_index_zero_based": 0,
+        "epoch_index_zero_based": 0,
+        "batch_index_zero_based": 0,
+        "chunk_start": 0,
+        "alpha": 0.1,
+        "learning_rate": 0.001,
+        "preclip_gradient_rms": {
+          "matrix:gru.weight_hh_l0": 0.00036937116548307517,
+          "matrix:gru.weight_hh_l1": 0.0004245501107077976,
+          "matrix:gru.weight_ih_l0": 0.001009236396493189,
+          "matrix:gru.weight_ih_l1": 0.001008235648697387,
+          "adamw": 0.00464812031356352
+        },
+        "raw_gradient_global_norm": 0.9919610023498535,
+        "parameter_update_rms": {
+          "matrix:gru.weight_hh_l0": 0.00013948518636012583,
+          "matrix:gru.weight_hh_l1": 0.00012087821360108576,
+          "matrix:gru.weight_ih_l0": 0.00014919049470417433,
+          "matrix:gru.weight_ih_l1": 0.00013221333510254362,
+          "adamw": 0.0009999438823543583
+        },
+        "matrix_adam_family_update_rms": {
+          "matrix:gru.weight_hh_l0": 0.00013948518636012583,
+          "matrix:gru.weight_hh_l1": 0.00012087821360108576,
+          "matrix:gru.weight_ih_l0": 0.00014919049470417433,
+          "matrix:gru.weight_ih_l1": 0.00013221333510254362,
+          "adamw": 0.0009999438823543583
+        },
+        "clip_factor": 1.0,
+        "state_abs_max": 0.5697871446609497,
+        "prediction_abs_max": 0.30800530314445496,
+        "candidate_recurrent_output_abs_max": 0.6389955878257751
+      }
+    },
+    {
+      "seed": 271838,
+      "alpha": 0.0,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "fit_row_groups": [
+        87,
+        1793,
+        1125,
+        1666
+      ],
+      "loss": 2.543531894683838,
+      "clip_applied": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "global_update_index_zero_based": 0,
+        "epoch_index_zero_based": 0,
+        "batch_index_zero_based": 0,
+        "chunk_start": 0,
+        "alpha": 0.0,
+        "learning_rate": 0.001,
+        "preclip_gradient_rms": {
+          "matrix:gru.weight_hh_l0": 0.0002031289486779245,
+          "matrix:gru.weight_hh_l1": 0.0003133085877981368,
+          "matrix:gru.weight_ih_l0": 0.0006687157570702647,
+          "matrix:gru.weight_ih_l1": 0.0006995017013316431,
+          "adamw": 0.007678169133584361
+        },
+        "raw_gradient_global_norm": 1.5564355850219727,
+        "parameter_update_rms": {
+          "matrix:gru.weight_hh_l0": 0.00013471082453904567,
+          "matrix:gru.weight_hh_l1": 0.00011569780755033701,
+          "matrix:gru.weight_ih_l0": 0.00014606110910433167,
+          "matrix:gru.weight_ih_l1": 0.00012739241356675825,
+          "adamw": 0.0009998391129602815
+        },
+        "matrix_adam_family_update_rms": {
+          "matrix:gru.weight_hh_l0": 0.00013471082453904567,
+          "matrix:gru.weight_hh_l1": 0.00011569780755033701,
+          "matrix:gru.weight_ih_l0": 0.00014606110910433167,
+          "matrix:gru.weight_ih_l1": 0.00012739241356675825,
+          "adamw": 0.0009998391129602815
+        },
+        "clip_factor": 0.6424932500451875,
+        "state_abs_max": 0.4977363049983978,
+        "prediction_abs_max": 0.32380732893943787,
+        "candidate_recurrent_output_abs_max": 0.4426128566265106
+      }
+    },
+    {
+      "seed": 271838,
+      "alpha": 0.1,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "fit_row_groups": [
+        87,
+        1793,
+        1125,
+        1666
+      ],
+      "loss": 2.542696475982666,
+      "clip_applied": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "global_update_index_zero_based": 0,
+        "epoch_index_zero_based": 0,
+        "batch_index_zero_based": 0,
+        "chunk_start": 0,
+        "alpha": 0.1,
+        "learning_rate": 0.001,
+        "preclip_gradient_rms": {
+          "matrix:gru.weight_hh_l0": 0.00044707573433435484,
+          "matrix:gru.weight_hh_l1": 0.0006341789571890745,
+          "matrix:gru.weight_ih_l0": 0.0011291668774135936,
+          "matrix:gru.weight_ih_l1": 0.0011955452038623171,
+          "adamw": 0.00809761665426275
+        },
+        "raw_gradient_global_norm": 1.6727501153945923,
+        "parameter_update_rms": {
+          "matrix:gru.weight_hh_l0": 0.00013855765658959802,
+          "matrix:gru.weight_hh_l1": 0.00012043236495642447,
+          "matrix:gru.weight_ih_l0": 0.00015050483000538157,
+          "matrix:gru.weight_ih_l1": 0.00013205643492120042,
+          "adamw": 0.0009998989975312453
+        },
+        "matrix_adam_family_update_rms": {
+          "matrix:gru.weight_hh_l0": 0.00013855765658959802,
+          "matrix:gru.weight_hh_l1": 0.00012043236495642447,
+          "matrix:gru.weight_ih_l0": 0.00015050483000538157,
+          "matrix:gru.weight_ih_l1": 0.00013205643492120042,
+          "adamw": 0.0009998989975312453
+        },
+        "clip_factor": 0.5978175658033298,
+        "state_abs_max": 0.5851899981498718,
+        "prediction_abs_max": 0.3246903419494629,
+        "candidate_recurrent_output_abs_max": 0.6048157215118408
+      }
+    }
+  ]
+}

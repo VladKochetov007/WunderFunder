@@ -1,0 +1,453 @@
+{
+  "admission_resources": {
+    "parent_cpu_max": 12,
+    "parent_ram_max": 38654705664,
+    "support_cpus": 2,
+    "support_ram_bytes": 4294967296,
+    "worker_cpus": 2,
+    "worker_ram_bytes": 6442450944
+  },
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "research/campaign_2026-10-05/fp32_activation_duration/gpu_probe_fp32_duration.py",
+    "--output",
+    "research/campaign_2026-10-05/fp32_activation_duration/gpu_probe_v1"
+  ],
+  "block_id": "local001",
+  "charged_seconds": 5.281479689991102,
+  "elapsed_seconds": 5.281479689991102,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "2",
+    "NUMBA_NUM_THREADS": "2",
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "2",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "2147483648",
+    "WNN_THREADS": "2"
+  },
+  "exit_code": 1,
+  "failure": "ScientificFailure: command exited 1",
+  "failure_category": "command_exit",
+  "failure_scope": "job",
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 1198882,
+    "low": 0,
+    "max": 7522594,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791183637.8582182,
+  "heartbeat_unix": 1791183637.3420599,
+  "id": "e489-fp32-duration-real-gpu-probe-v1",
+  "initial_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "initial_parent_memory_events": {
+    "high": 1198882,
+    "low": 0,
+    "max": 7522594,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "kind": "gpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "30000000000",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 79691776,
+  "peak_ram_bytes": 305291264,
+  "reserved_seconds": 1530,
+  "reserved_unix": 1791183632.5273325,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+    "src/wnn/campaign.py": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+    "src/wnn/campaign_local.py": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+    "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "signals": [],
+  "spec": {
+    "argv": [
+      "{python}",
+      "research/campaign_2026-10-05/fp32_activation_duration/gpu_probe_fp32_duration.py",
+      "--output",
+      "research/campaign_2026-10-05/fp32_activation_duration/gpu_probe_v1"
+    ],
+    "artifacts": [
+      "research/campaign_2026-10-05/fp32_activation_duration/gpu_probe_v1/probe.json"
+    ],
+    "code": [
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/GPU_PROBE_UPDATE_GATES.md",
+        "sha256": "52d547abd2da11cd712e5973b2ef1ac2eca70b449cbd143abf8141bea221d164",
+        "size": 1750
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/fit_duration.py",
+        "sha256": "d9a1b9d243a9c9e50082fe0d9e7d98186d63cb0c566fcae0a20c00ccd42c4b48",
+        "size": 23563
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/gpu_probe.py",
+        "sha256": "7f3b9a808eb8adbd0856b61fe8bd36ba53df2c1cd1455b697eb748b880d444fd",
+        "size": 22649
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/tests.py",
+        "sha256": "4f0579a73a7492ce960582d7f744f9b29152e7b5860219593c9fc63a89005534",
+        "size": 9861
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+        "sha256": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+        "size": 18964
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+        "sha256": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+        "size": 22424
+      },
+      {
+        "path": "research/campaign_2026-10-05/fp32_activation_duration/CPU_RESOURCE_COMMAND_CLARIFICATION.md",
+        "sha256": "9a3222f15e0ed4fa317eee32cef12bcd89cb82e7138f0531a6d999d958275f54",
+        "size": 1477
+      },
+      {
+        "path": "research/campaign_2026-10-05/fp32_activation_duration/E489_DESIGN.md",
+        "sha256": "0859e6ac528b850452183afc46ab28358cac13c97ace5cb0350e413c2b9a7090",
+        "size": 3569
+      },
+      {
+        "path": "research/campaign_2026-10-05/fp32_activation_duration/INDEPENDENT_REVIEW.md",
+        "sha256": "6bf0ffaa86db2f7e084f31bbdb54a78a657545241fac304bcf59035d8babd19f",
+        "size": 4567
+      },
+      {
+        "path": "research/campaign_2026-10-05/fp32_activation_duration/PROVENANCE_ADMISSION_ADDENDUM.md",
+        "sha256": "9a1803680163d556037cabecfbc5cdfb923b30039140e64cda783493bfe2ae68",
+        "size": 4698
+      },
+      {
+        "path": "research/campaign_2026-10-05/fp32_activation_duration/SPEC_CRITIC.md",
+        "sha256": "e4a8cae780b1e49739dd9474e3c13af459ef75db4bd39eb6e224cffe0ec76e70",
+        "size": 4190
+      },
+      {
+        "path": "research/campaign_2026-10-05/fp32_activation_duration/fit_fp32_duration.py",
+        "sha256": "af2ad34d8bac617fe5f53e28a2120c5d59a303888b54937e35e27edd1b925cdc",
+        "size": 33641
+      },
+      {
+        "path": "research/campaign_2026-10-05/fp32_activation_duration/gpu_probe_fp32_duration.py",
+        "sha256": "2f0bd08aa0e760956a233ec144cb41c82613cc5ce98aec1cc5ed7b4400effd6f",
+        "size": 17556
+      },
+      {
+        "path": "research/campaign_2026-10-05/fp32_activation_duration/tests_fp32_duration.py",
+        "sha256": "fa5cd3da2afd9860b0a34d2a929ae1526747650d1f9dcd71cfbb34e553d66ec6",
+        "size": 5240
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/INDEPENDENT_REVIEW_V2.md",
+        "sha256": "74abc4a2022b341b5c91140853379efb3ab093c0fc64a3a579c6606860357fe2",
+        "size": 3427
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/ROOT_PROBE_ADMISSION_V2.md",
+        "sha256": "405b136af3036f58113b2ccc659bb3f933f8d46c94c342cd530ee63faa1296a1",
+        "size": 739
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/SOURCE_NOTE_V2.md",
+        "sha256": "55d4dac0e2b9052e0bc1c7b9c613e9050c62fe01ce90c379c99df477135bc1f1",
+        "size": 1838
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/VERIFY_PROBE_REVIEW_V4.md",
+        "sha256": "0685ce65335c956a94003700827798c8d3080d746bb876362074cc19545f9132",
+        "size": 1831
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/cpu_preflight.py",
+        "sha256": "6bcdbbc44c2d329c4c15c1b1ef3e3bb77594c6237fd62393e092e6937ab8f2d5",
+        "size": 947
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/gpu_probe.py",
+        "sha256": "fc0a4c55a2adc33f9dbead86717e3a8ae9ef4d5fedf983c77a18bb9b83aa0f27",
+        "size": 12511
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/precision_replay.py",
+        "sha256": "480f2ae6d3aa09a3f972a3ad9fc682e7a92e07843d6e002434b2130ec75415d2",
+        "size": 39827
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/tests.py",
+        "sha256": "edcd15c558af0a2623c6a5727fd6b5c759d1d5044208148f2c076643e8b7ac5a",
+        "size": 6217
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/verify_probe_v4.py",
+        "sha256": "f717d0d30d1c6e1456b80bdd31d76896633a588ea22e5b9243652af5f92391e6",
+        "size": 17324
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation/fit_recurrent_candidate.py",
+        "sha256": "998bceb024b5c29e81e73efc5d0ebe434d53c7356cfcb947f7ca36dd625426cf",
+        "size": 14349
+      },
+      {
+        "path": "scripts/run_campaign.py",
+        "sha256": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+        "size": 4273
+      },
+      {
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+        "size": 63
+      },
+      {
+        "path": "src/wnn/campaign.py",
+        "sha256": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+        "size": 13176
+      },
+      {
+        "path": "src/wnn/campaign_local.py",
+        "sha256": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+        "size": 22065
+      },
+      {
+        "path": "src/wnn/campaign_spec.py",
+        "sha256": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+        "size": 8717
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "size": 8902
+      },
+      {
+        "path": "src/wnn/nn.py",
+        "sha256": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+        "size": 19926
+      },
+      {
+        "path": "src/wnn/optim.py",
+        "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+        "size": 11736
+      },
+      {
+        "path": "src/wnn/resources.py",
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+        "size": 4485
+      }
+    ],
+    "code_sha256": "e886b40df8b317792fad2010af1b39a35fd4f7c95618c37419055067e5190a05",
+    "environment": {},
+    "inputs": [
+      {
+        "path": "datasets/valid.parquet",
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "size": 5615509128
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/E485_DESIGN.md",
+        "sha256": "bcbf17ec7b632909e9e8792cdf11436822dd4dcac5326befa506c8dcb96e70cc",
+        "size": 5180
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/GPU_PROBE_REVIEW_INCIDENT.md",
+        "sha256": "bd82c454750d9e6995e3aa9d07db6584e205e8f0b074f4cc30aa5941041d730b",
+        "size": 1421
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/GPU_PROBE_UPDATE_GATES.md",
+        "sha256": "52d547abd2da11cd712e5973b2ef1ac2eca70b449cbd143abf8141bea221d164",
+        "size": 1750
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/INDEPENDENT_REVIEW_V1.md",
+        "sha256": "f8256453a7c6226746f279e53093772a9486ed83cf90d67ba9b60a46e1ba6346",
+        "size": 2518
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/INDEPENDENT_REVIEW_V2.md",
+        "sha256": "3c051d38c6072728eb7b799a4854bcdfd682c52c2a9aade3fedc4d12c7291ff9",
+        "size": 1780
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/ROOT_GPU_PROBE_ADMISSION.md",
+        "sha256": "f5d0b127ee00da8d8103693f3d1fcac88446afd5bddd459cd08d162c5ce75c5a",
+        "size": 1451
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/SPEC_CRITIC.md",
+        "sha256": "7e5a2457636febfbec13f9cff7d4205757e0cb7de4efbfe9b2deb679481bbdeb",
+        "size": 4385
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/cpu_preflight_v7/fit_manifest.json",
+        "sha256": "bf23c9bdfb27a3f9367e8d305bcfa632bf410e6c0990fa2670e6538062bf3d8f",
+        "size": 14597
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_duration/cpu_preflight_v7/fit_only_cohort.json",
+        "sha256": "fba072d8783c9b315e26f4e03a0053c19dd950e73338c8e5cd67b706b682a23c",
+        "size": 6662
+      },
+      {
+        "path": "research/campaign_2026-10-05/checks/e487_saved_delta_reproduction.json",
+        "sha256": "4fced259c38beae9a74652cf486ccd952d62c830e5927e5316be161aba6c6cac",
+        "size": 1349
+      },
+      {
+        "path": "research/campaign_2026-10-05/checks/e487_saved_delta_verification_v4.json",
+        "sha256": "8820f1eb3edf954f1d2279843be85d418a8883fad39fff3f9a9689396eeae6a9",
+        "size": 14486
+      },
+      {
+        "path": "research/campaign_2026-10-05/fp32_activation_duration/E485_SEED_EXPOSURE_RECEIPT.json",
+        "sha256": "a2337d712eb84aa021d3a69d15650e9592668dfdf0ef1a65129bbed06814e9f3",
+        "size": 1033
+      },
+      {
+        "path": "research/campaign_2026-10-05/fp32_activation_duration/cpu_preflight_root_limited_v2/fit_manifest.json",
+        "sha256": "3bcd0909c800f9c6f133ad55a23b9490cf85ea64ed8b4deec8151e73702bed6a",
+        "size": 21713
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/CONTROLLER_CLARIFICATIONS.md",
+        "sha256": "942d78c041bd778d9c34c4772a01303cb4fe63f86a1a566af596023fc9b4b015",
+        "size": 1609
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/E487_DESIGN.md",
+        "sha256": "c937a9d6772f70cd56d83e7c9d6bfdde47a52c0e4bb9c66b0ca05a4e29fe8bd6",
+        "size": 6121
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/SOURCE_NOTE.md",
+        "sha256": "38c99e23eae8011d69cb29ed901757e77bd16c3a3248ed582d4d4d277f557409",
+        "size": 2302
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/SOURCE_NOTE_V2.md",
+        "sha256": "55d4dac0e2b9052e0bc1c7b9c613e9050c62fe01ce90c379c99df477135bc1f1",
+        "size": 1838
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/SPEC_CRITIC.md",
+        "sha256": "a65ce0d723b0857972983ed37742c87bb884764221705c5c69d4931d1c3ca60c",
+        "size": 5570
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/cpu_preflight_v6/preflight.json",
+        "sha256": "2c7d2568b3a5e601b330af32cbcea0b70b8306503b5624720b99937d261a9437",
+        "size": 40573
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/gpu_probe_v2/replay_deltas.npz",
+        "sha256": "591a2eb248249f1925eca71c85031639b0085fbf58b148144f32bfd3b9a7c152",
+        "size": 5808677
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/gpu_probe_v2/result.json",
+        "sha256": "46b1edfc5b63d2da93ddc444b8c40142d4e57e16b6ceb4f80f33bc4fffd89714",
+        "size": 43550
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/versions/v1/cpu_preflight.py",
+        "sha256": "6bcdbbc44c2d329c4c15c1b1ef3e3bb77594c6237fd62393e092e6937ab8f2d5",
+        "size": 947
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/versions/v1/gpu_probe.py",
+        "sha256": "db8932ea07115d76472349444334d4e9873f8efd00915e2d8dee06019f9d11bb",
+        "size": 12368
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/versions/v1/precision_replay.py",
+        "sha256": "4f5a3bf0733e3106a5743840e7e97706536962539f840747a958054275e0d726",
+        "size": 37168
+      },
+      {
+        "path": "research/campaign_2026-10-05/muon_orthogonalization_precision/versions/v1/tests.py",
+        "sha256": "813c6a63370222fd7c5db3bcd6626c2685c6d3c7eafd621fccbbeaa957a5d964",
+        "size": 5020
+      },
+      {
+        "path": "research/campaign_2026-10-05/target_mechanics/cohort.json",
+        "sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+        "size": 6707
+      }
+    ],
+    "kind": "gpu",
+    "limits": {
+      "cpus": 2,
+      "gpu_memory_bytes": 2147483648,
+      "gpu_stop_bytes": 3000000000,
+      "ram_bytes": 6442450944,
+      "timeout_seconds": 600
+    },
+    "name": "e489_fp32_duration_gpu_probe_v1",
+    "version": 1
+  },
+  "spec_sha256": "3d1b095fefebc17302ece39c95e8a96efbdce1e1ff6c5ca01b07af480638e883",
+  "started_unix": 1791183636.236196,
+  "status": "failed",
+  "teardown_verified": true,
+  "timeout_seconds": 600,
+  "unit": "wnn-c04-e489-fp32-duration-real-gpu-probe-v1.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "2s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e489-fp32-duration-real-gpu-probe-v1.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "6442450944",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}
