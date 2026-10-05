@@ -1,0 +1,522 @@
+{
+  "kind": "twelve-fit localized activation placement screen",
+  "status": "preflight_passed",
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "seeds": [
+    271828,
+    271829
+  ],
+  "planned_arms": [
+    {
+      "seed": 271828,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine"
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope"
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine"
+    },
+    {
+      "seed": 271829,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine"
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope"
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine"
+    }
+  ],
+  "planned_contrasts": [
+    "sine_embed - base",
+    "slope_embed - base",
+    "sine_embed - slope_embed",
+    "sine_head - base",
+    "slope_head - base",
+    "sine_head - slope_head",
+    "sine_both - sine_embed - sine_head + base"
+  ],
+  "architecture": "RNNModel topology: input GELU -> 2-layer nn.GRU -> concat recurrent+embedding -> GELU head",
+  "hidden": 64,
+  "trainable_parameters_per_arm": 61058,
+  "input_features": 42,
+  "batch": 4,
+  "chunk_rows": 256,
+  "updates_per_fit": 474,
+  "telemetry_protocol": {
+    "steps_zero_based": [
+      0,
+      46,
+      236,
+      473
+    ],
+    "families": [
+      "inp",
+      "gru",
+      "head"
+    ],
+    "gradient": "element-weighted RMS before global norm clipping",
+    "parameter_update": "element-weighted RMS of optimizer parameter delta",
+    "fit_rows_only": true,
+    "descriptive_only": true
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "schedule": "constant",
+    "gradient_clip": 1.0
+  },
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "recipe_source_sha256": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+  "source_sha256": {
+    "fit_activation_placement.py": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+    "tests.py": "867c408de9a2c924b58e1c74a205c132a5f0d805ca3ebf0c68e3f9f64c1d50ce",
+    "gpu_probe.py": "3b96ddfc05c80bb4aa3585a9957145a9b6927613e90ab23270bc80048b8c32c9"
+  },
+  "arms": [
+    {
+      "seed": 271828,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 2.3267135620117188,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.00500183407000636,
+          "gru": 0.0012119735981604804,
+          "head": 0.015532637744486431
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999655780302547,
+          "gru": 0.000993255199512689,
+          "head": 0.0009999561654323085
+        }
+      }
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 2.3284249305725098,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005725668772760047,
+          "gru": 0.0012720110350584164,
+          "head": 0.015970422456516573
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009998000709792113,
+          "gru": 0.0009939721481103689,
+          "head": 0.000999964579426854
+        }
+      }
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 2.329151153564453,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005850269301418853,
+          "gru": 0.0012802479395038317,
+          "head": 0.016040479830778595
+        },
+        "parameter_update_rms": {
+          "inp": 0.000999927723223776,
+          "gru": 0.0009940468250222907,
+          "head": 0.0009999511372017198
+        }
+      }
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 2.3330140113830566,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0059579121130731,
+          "gru": 0.0014333620382600846,
+          "head": 0.016645322365773613
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999410950092852,
+          "gru": 0.000993790043090048,
+          "head": 0.0009999624350007564
+        }
+      }
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 2.3330140113830566,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005970888904281332,
+          "gru": 0.0014368441347532958,
+          "head": 0.016663419327103347
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999382472518656,
+          "gru": 0.0009937834176279913,
+          "head": 0.0009999711884875954
+        }
+      }
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 2.3351621627807617,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.006811858755835989,
+          "gru": 0.0015027616062322719,
+          "head": 0.017205981366333174
+        },
+        "parameter_update_rms": {
+          "inp": 0.000999922562760862,
+          "gru": 0.0009944672731966903,
+          "head": 0.0009999704869855146
+        }
+      }
+    },
+    {
+      "seed": 271829,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 1.7827770709991455,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.00513116734043957,
+          "gru": 0.0010745817605852315,
+          "head": 0.015643559108749712
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999020018206647,
+          "gru": 0.0009932717087639065,
+          "head": 0.0009999628749599479
+        }
+      }
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 1.7822380065917969,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.00589985665338744,
+          "gru": 0.001116886713136488,
+          "head": 0.015970723767954016
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999160765714824,
+          "gru": 0.0009941310220939138,
+          "head": 0.0009998797761959545
+        }
+      }
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 1.7825031280517578,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0060057924393848135,
+          "gru": 0.0011230023096930682,
+          "head": 0.01602263703097509
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999489948797212,
+          "gru": 0.00099422560667772,
+          "head": 0.000999958981848531
+        }
+      }
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 1.781092643737793,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.006098003621138802,
+          "gru": 0.0012840288643536839,
+          "head": 0.016655833553533353
+        },
+        "parameter_update_rms": {
+          "inp": 0.000999922437164759,
+          "gru": 0.0009936717036000086,
+          "head": 0.000999962965840661
+        }
+      }
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 1.7811636924743652,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.006112073922662361,
+          "gru": 0.0012868242399438118,
+          "head": 0.016670175582152495
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999297777087946,
+          "gru": 0.0009936448296321366,
+          "head": 0.000999964239715113
+        }
+      }
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 1.7801427841186523,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.006997524131215739,
+          "gru": 0.001332171611718585,
+          "head": 0.01707235733958682
+        },
+        "parameter_update_rms": {
+          "inp": 0.000999896998055837,
+          "gru": 0.000994526706327324,
+          "head": 0.0009999675107636267
+        }
+      }
+    }
+  ]
+}

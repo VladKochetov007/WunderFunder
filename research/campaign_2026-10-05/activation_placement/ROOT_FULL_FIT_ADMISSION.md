@@ -1,0 +1,5 @@
+# E474 root full-fit admission
+
+Final source trainer40d0f309 and finalized v5 CPU receipts passed independent review, exact RNNModel baseline parity, causal prefix/chunk/state checks and12 real fit-only updates. Repaired real-GPU probe v2 passed all12 finite changed updates and baseline output/state/gradient parity, with successful runner artifact validation and teardown. Prior root output-filename registration failure is retained. No numerical source or tolerance changed between probes.
+
+Admit all12 fixed H64 two-layer fits (six placements at two seeds), without test-driven pruning. Use2CPU6GiBRAM2GiBallocator3GBobservedstop and1800s cap; oneGPUworker, actualparent12CPU30GBhard27GBsoft/noSwap; original80GPUh and24GPU-job-hour local ceilings. The real probe's shape/operation covers these exact recipes. Training reads24fitcomponents only and saves checkpoints; a separately written grader later exports/scorers all16 exposedtestcomponents and14conditionalcontrasts. Publicgain and freshgeneralization remain unclaimed. Admission before07UTC deadline.

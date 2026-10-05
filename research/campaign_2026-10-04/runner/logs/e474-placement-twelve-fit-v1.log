@@ -1,0 +1,1826 @@
+{"seed": 271828, "arm": "base", "embedding_activation": "gelu", "head_activation": "gelu", "activation_formulas": {"embedding": "F.gelu(x, approximate='none')", "head": "F.gelu(x, approximate='none')"}, "parameters": 61058, "updates": 474, "fit_seconds": 1.6081852009956492, "fit_row_groups": [1284, 1793, 38, 1869, 1666, 483, 1766, 1062, 1567, 105, 1390, 1130, 233, 1735, 1309, 713, 1125, 807, 1725, 1015, 1053, 614, 1214, 87], "telemetry_sampling_rule": {"steps_zero_based": [0, 46, 236, 473], "scope": "actual training update, fit rows only, same fixed indices for every arm", "families": ["inp", "gru", "head"], "gradient": "element-weighted RMS before global norm clipping", "parameter_update": "element-weighted RMS of optimizer parameter delta"}, "telemetry": [{"update_index_zero_based": 0, "preclip_gradient_rms": {"inp": 0.005001834424747081, "gru": 0.001211973864233239, "head": 0.01553264107695336}, "parameter_update_rms": {"inp": 0.0009999655798105704, "gru": 0.0009932552438254914, "head": 0.0009999558533425011}, "fit_row_groups": [1284, 1793, 38, 1869], "chunk_start": 0}, {"update_index_zero_based": 46, "preclip_gradient_rms": {"inp": 0.0034632581865582384, "gru": 0.0011557789609456957, "head": 0.012771518487085695}, "parameter_update_rms": {"inp": 0.000285258304525203, "gru": 0.0003280025428270076, "head": 0.00023736712178309106}, "fit_row_groups": [1284, 1793, 38, 1869], "chunk_start": 11776}, {"update_index_zero_based": 236, "preclip_gradient_rms": {"inp": 0.025601828007244292, "gru": 0.00268405690554842, "head": 0.04108095091517811}, "parameter_update_rms": {"inp": 0.0002651497458265142, "gru": 0.00027755619686933115, "head": 0.0002577790552474328}, "fit_row_groups": [1567, 105, 1390, 1130], "chunk_start": 19968}, {"update_index_zero_based": 473, "preclip_gradient_rms": {"inp": 0.009576261380857268, "gru": 0.0009536374786256828, "head": 0.021251715786175924}, "parameter_update_rms": {"inp": 0.0001622700658363902, "gru": 0.00019672311311946493, "head": 0.00012005829250597942}, "fit_row_groups": [1053, 614, 1214, 87], "chunk_start": 19968}], "checkpoint": "seed271828_base.pt", "checkpoint_sha256": "ae56da0895d3598b9fded59f1de3425d814201d3fde25d3a7907dae9dddc993a"}
+{"seed": 271828, "arm": "sine_embed", "embedding_activation": "sine", "head_activation": "gelu", "activation_formulas": {"embedding": "F.gelu(x, approximate='none') + 0.1*sin(x)", "head": "F.gelu(x, approximate='none')"}, "parameters": 61058, "updates": 474, "fit_seconds": 1.3701816959946882, "fit_row_groups": [1284, 1793, 38, 1869, 1666, 483, 1766, 1062, 1567, 105, 1390, 1130, 233, 1735, 1309, 713, 1125, 807, 1725, 1015, 1053, 614, 1214, 87], "telemetry_sampling_rule": {"steps_zero_based": [0, 46, 236, 473], "scope": "actual training update, fit rows only, same fixed indices for every arm", "families": ["inp", "gru", "head"], "gradient": "element-weighted RMS before global norm clipping", "parameter_update": "element-weighted RMS of optimizer parameter delta"}, "telemetry": [{"update_index_zero_based": 0, "preclip_gradient_rms": {"inp": 0.005725669255943655, "gru": 0.001272011145167467, "head": 0.01597042457591849}, "parameter_update_rms": {"inp": 0.0009998017723419211, "gru": 0.000993972165166229, "head": 0.0009999645678721175}, "fit_row_groups": [1284, 1793, 38, 1869], "chunk_start": 0}, {"update_index_zero_based": 46, "preclip_gradient_rms": {"inp": 0.003942738055069873, "gru": 0.0011753359389242595, "head": 0.012737207628972005}, "parameter_update_rms": {"inp": 0.00028168069407796164, "gru": 0.000329594838426601, "head": 0.0002433379550138991}, "fit_row_groups": [1284, 1793, 38, 1869], "chunk_start": 11776}, {"update_index_zero_based": 236, "preclip_gradient_rms": {"inp": 0.027117260630595028, "gru": 0.002626488625419503, "head": 0.042467087340712584}, "parameter_update_rms": {"inp": 0.00025634553600457503, "gru": 0.00027143540800221724, "head": 0.0002633331232657017}, "fit_row_groups": [1567, 105, 1390, 1130], "chunk_start": 19968}, {"update_index_zero_based": 473, "preclip_gradient_rms": {"inp": 0.009892482343510579, "gru": 0.0009276369458298805, "head": 0.021205170503647626}, "parameter_update_rms": {"inp": 0.00016384551951228066, "gru": 0.0002104406484513133, "head": 0.00012324864117195115}, "fit_row_groups": [1053, 614, 1214, 87], "chunk_start": 19968}], "checkpoint": "seed271828_sine_embed.pt", "checkpoint_sha256": "998933c9018decda18f3c4b93692c247e3b8e350c5fca4e7219aa8b3f3ae9592"}
+{"seed": 271828, "arm": "slope_embed", "embedding_activation": "slope", "head_activation": "gelu", "activation_formulas": {"embedding": "F.gelu(x, approximate='none') + 0.1*x", "head": "F.gelu(x, approximate='none')"}, "parameters": 61058, "updates": 474, "fit_seconds": 1.356025465996936, "fit_row_groups": [1284, 1793, 38, 1869, 1666, 483, 1766, 1062, 1567, 105, 1390, 1130, 233, 1735, 1309, 713, 1125, 807, 1725, 1015, 1053, 614, 1214, 87], "telemetry_sampling_rule": {"steps_zero_based": [0, 46, 236, 473], "scope": "actual training update, fit rows only, same fixed indices for every arm", "families": ["inp", "gru", "head"], "gradient": "element-weighted RMS before global norm clipping", "parameter_update": "element-weighted RMS of optimizer parameter delta"}, "telemetry": [{"update_index_zero_based": 0, "preclip_gradient_rms": {"inp": 0.00585026983512428, "gru": 0.0012802481131454655, "head": 0.016040481543606953}, "parameter_update_rms": {"inp": 0.0009999277017811318, "gru": 0.0009940467835955833, "head": 0.0009999510436959475}, "fit_row_groups": [1284, 1793, 38, 1869], "chunk_start": 0}, {"update_index_zero_based": 46, "preclip_gradient_rms": {"inp": 0.004001179128344477, "gru": 0.001176844717079244, "head": 0.012736718859492142}, "parameter_update_rms": {"inp": 0.0002818794370466101, "gru": 0.00033055729090653284, "head": 0.0002454399650459752}, "fit_row_groups": [1284, 1793, 38, 1869], "chunk_start": 11776}, {"update_index_zero_based": 236, "preclip_gradient_rms": {"inp": 0.027387232968817402, "gru": 0.002598687374343037, "head": 0.04258762344415969}, "parameter_update_rms": {"inp": 0.0002543194717584134, "gru": 0.0002675823267524875, "head": 0.00026306295140952966}, "fit_row_groups": [1567, 105, 1390, 1130], "chunk_start": 19968}, {"update_index_zero_based": 473, "preclip_gradient_rms": {"inp": 0.009888880975613296, "gru": 0.0009327121919510762, "head": 0.021202924721346727}, "parameter_update_rms": {"inp": 0.00016322685029935508, "gru": 0.0002128783736920709, "head": 0.00012382816082605487}, "fit_row_groups": [1053, 614, 1214, 87], "chunk_start": 19968}], "checkpoint": "seed271828_slope_embed.pt", "checkpoint_sha256": "b5d5a0332da98f99b57e77350aa2247d7c392d11f5a932cbf57db369ab0a4db9"}
+{"seed": 271828, "arm": "sine_head", "embedding_activation": "gelu", "head_activation": "sine", "activation_formulas": {"embedding": "F.gelu(x, approximate='none')", "head": "F.gelu(x, approximate='none') + 0.1*sin(x)"}, "parameters": 61058, "updates": 474, "fit_seconds": 1.319025580000016, "fit_row_groups": [1284, 1793, 38, 1869, 1666, 483, 1766, 1062, 1567, 105, 1390, 1130, 233, 1735, 1309, 713, 1125, 807, 1725, 1015, 1053, 614, 1214, 87], "telemetry_sampling_rule": {"steps_zero_based": [0, 46, 236, 473], "scope": "actual training update, fit rows only, same fixed indices for every arm", "families": ["inp", "gru", "head"], "gradient": "element-weighted RMS before global norm clipping", "parameter_update": "element-weighted RMS of optimizer parameter delta"}, "telemetry": [{"update_index_zero_based": 0, "preclip_gradient_rms": {"inp": 0.005957912676561987, "gru": 0.0014333623623420315, "head": 0.016645325070654204}, "parameter_update_rms": {"inp": 0.0009999410488325347, "gru": 0.000993790077106212, "head": 0.0009999623596028834}, "fit_row_groups": [1284, 1793, 38, 1869], "chunk_start": 0}, {"update_index_zero_based": 46, "preclip_gradient_rms": {"inp": 0.003986944929033895, "gru": 0.0012925940907604215, "head": 0.01299554704818873}, "parameter_update_rms": {"inp": 0.0002874854861328799, "gru": 0.0003316316538910781, "head": 0.00024169521010684888}, "fit_row_groups": [1284, 1793, 38, 1869], "chunk_start": 11776}, {"update_index_zero_based": 236, "preclip_gradient_rms": {"inp": 0.028219143770674443, "gru": 0.002894493764219762, "head": 0.04077290255458877}, "parameter_update_rms": {"inp": 0.00027504005775409046, "gru": 0.00028036343264825224, "head": 0.00025916908159631815}, "fit_row_groups": [1567, 105, 1390, 1130], "chunk_start": 19968}, {"update_index_zero_based": 473, "preclip_gradient_rms": {"inp": 0.010526624840471855, "gru": 0.0010506098023677546, "head": 0.020169917371193825}, "parameter_update_rms": {"inp": 0.0001670511985349597, "gru": 0.00022013510618082723, "head": 0.00011649042959247896}, "fit_row_groups": [1053, 614, 1214, 87], "chunk_start": 19968}], "checkpoint": "seed271828_sine_head.pt", "checkpoint_sha256": "56cd8fe88845848c8b21cdb386dc2c3a33d7a869f7e1732680ea33bc233d744c"}
+{"seed": 271828, "arm": "slope_head", "embedding_activation": "gelu", "head_activation": "slope", "activation_formulas": {"embedding": "F.gelu(x, approximate='none')", "head": "F.gelu(x, approximate='none') + 0.1*x"}, "parameters": 61058, "updates": 474, "fit_seconds": 1.3320217250002315, "fit_row_groups": [1284, 1793, 38, 1869, 1666, 483, 1766, 1062, 1567, 105, 1390, 1130, 233, 1735, 1309, 713, 1125, 807, 1725, 1015, 1053, 614, 1214, 87], "telemetry_sampling_rule": {"steps_zero_based": [0, 46, 236, 473], "scope": "actual training update, fit rows only, same fixed indices for every arm", "families": ["inp", "gru", "head"], "gradient": "element-weighted RMS before global norm clipping", "parameter_update": "element-weighted RMS of optimizer parameter delta"}, "telemetry": [{"update_index_zero_based": 0, "preclip_gradient_rms": {"inp": 0.005970889579973469, "gru": 0.0014368444695653793, "head": 0.01666342116340808}, "parameter_update_rms": {"inp": 0.0009999382698094082, "gru": 0.0009937833678242882, "head": 0.000999971178498525}, "fit_row_groups": [1284, 1793, 38, 1869], "chunk_start": 0}, {"update_index_zero_based": 46, "preclip_gradient_rms": {"inp": 0.004001243360382162, "gru": 0.0012965353430598168, "head": 0.012996928558123604}, "parameter_update_rms": {"inp": 0.0002883812257140758, "gru": 0.0003312031827349097, "head": 0.0002421406690704515}, "fit_row_groups": [1284, 1793, 38, 1869], "chunk_start": 11776}, {"update_index_zero_based": 236, "preclip_gradient_rms": {"inp": 0.028832743074324003, "gru": 0.002945362584382192, "head": 0.040794679656857395}, "parameter_update_rms": {"inp": 0.0002774957920332851, "gru": 0.00028255391912102343, "head": 0.00026052178800228093}, "fit_row_groups": [1567, 105, 1390, 1130], "chunk_start": 19968}, {"update_index_zero_based": 473, "preclip_gradient_rms": {"inp": 0.010730468142795714, "gru": 0.0010670943293579246, "head": 0.019918132624840174}, "parameter_update_rms": {"inp": 0.0001685512153315111, "gru": 0.00022033483185788738, "head": 0.00011578927412548617}, "fit_row_groups": [1053, 614, 1214, 87], "chunk_start": 19968}], "checkpoint": "seed271828_slope_head.pt", "checkpoint_sha256": "6e6af6720795bd06e1962aa629c2fad2cd6e928f3619da6be4281ce1714414e7"}
+{"seed": 271828, "arm": "sine_both", "embedding_activation": "sine", "head_activation": "sine", "activation_formulas": {"embedding": "F.gelu(x, approximate='none') + 0.1*sin(x)", "head": "F.gelu(x, approximate='none') + 0.1*sin(x)"}, "parameters": 61058, "updates": 474, "fit_seconds": 1.4051731930085225, "fit_row_groups": [1284, 1793, 38, 1869, 1666, 483, 1766, 1062, 1567, 105, 1390, 1130, 233, 1735, 1309, 713, 1125, 807, 1725, 1015, 1053, 614, 1214, 87], "telemetry_sampling_rule": {"steps_zero_based": [0, 46, 236, 473], "scope": "actual training update, fit rows only, same fixed indices for every arm", "families": ["inp", "gru", "head"], "gradient": "element-weighted RMS before global norm clipping", "parameter_update": "element-weighted RMS of optimizer parameter delta"}, "telemetry": [{"update_index_zero_based": 0, "preclip_gradient_rms": {"inp": 0.006811859346935591, "gru": 0.0015027617523213578, "head": 0.017205982210239983}, "parameter_update_rms": {"inp": 0.0009999225380472503, "gru": 0.000994467308206885, "head": 0.0009999704761036456}, "fit_row_groups": [1284, 1793, 38, 1869], "chunk_start": 0}, {"update_index_zero_based": 46, "preclip_gradient_rms": {"inp": 0.004485358774164848, "gru": 0.001296982822525449, "head": 0.013003610491505764}, "parameter_update_rms": {"inp": 0.00028537489941208585, "gru": 0.00033331828981520654, "head": 0.00024906222325885035}, "fit_row_groups": [1284, 1793, 38, 1869], "chunk_start": 11776}, {"update_index_zero_based": 236, "preclip_gradient_rms": {"inp": 0.02992589792537222, "gru": 0.002803212558562738, "head": 0.0421981409146885}, "parameter_update_rms": {"inp": 0.00026691610868276316, "gru": 0.00026841633781620307, "head": 0.0002613923606448477}, "fit_row_groups": [1567, 105, 1390, 1130], "chunk_start": 19968}, {"update_index_zero_based": 473, "preclip_gradient_rms": {"inp": 0.010918580711657414, "gru": 0.0010362553566622976, "head": 0.020212282525614543}, "parameter_update_rms": {"inp": 0.00016956301724542928, "gru": 0.00023774655689968882, "head": 0.00011915770501865543}, "fit_row_groups": [1053, 614, 1214, 87], "chunk_start": 19968}], "checkpoint": "seed271828_sine_both.pt", "checkpoint_sha256": "6434d0d3af771ed5c9003e74f328300d71aadb09c3b1713406ba39be30daf43f"}
+{"seed": 271829, "arm": "base", "embedding_activation": "gelu", "head_activation": "gelu", "activation_formulas": {"embedding": "F.gelu(x, approximate='none')", "head": "F.gelu(x, approximate='none')"}, "parameters": 61058, "updates": 474, "fit_seconds": 1.414660226990236, "fit_row_groups": [1284, 1053, 38, 1309, 614, 1793, 233, 1869, 87, 1130, 1735, 1214, 713, 1725, 1390, 105, 1125, 807, 1015, 1666, 1062, 483, 1766, 1567], "telemetry_sampling_rule": {"steps_zero_based": [0, 46, 236, 473], "scope": "actual training update, fit rows only, same fixed indices for every arm", "families": ["inp", "gru", "head"], "gradient": "element-weighted RMS before global norm clipping", "parameter_update": "element-weighted RMS of optimizer parameter delta"}, "telemetry": [{"update_index_zero_based": 0, "preclip_gradient_rms": {"inp": 0.005131167081835824, "gru": 0.0010745818259284992, "head": 0.015643558335968873}, "parameter_update_rms": {"inp": 0.000999902053992154, "gru": 0.0009932717000009522, "head": 0.0009999628650701163}, "fit_row_groups": [1284, 1053, 38, 1309], "chunk_start": 0}, {"update_index_zero_based": 46, "preclip_gradient_rms": {"inp": 0.006138926262671804, "gru": 0.002234504275696412, "head": 0.008758987023888862}, "parameter_update_rms": {"inp": 0.0003109396189915347, "gru": 0.00026934911234808147, "head": 0.00018821132722518445}, "fit_row_groups": [1284, 1053, 38, 1309], "chunk_start": 11776}, {"update_index_zero_based": 236, "preclip_gradient_rms": {"inp": 0.022551769757698587, "gru": 0.0028486037820282177, "head": 0.0246122001999387}, "parameter_update_rms": {"inp": 0.00036069312323733563, "gru": 0.0002528056315397535, "head": 0.00025449777708559575}, "fit_row_groups": [87, 1130, 1735, 1214], "chunk_start": 19968}, {"update_index_zero_based": 473, "preclip_gradient_rms": {"inp": 0.013050910059385263, "gru": 0.002185503434793072, "head": 0.018435171039485075}, "parameter_update_rms": {"inp": 0.0002651815844073923, "gru": 0.0002335373142439886, "head": 0.00022790119395127653}, "fit_row_groups": [1062, 483, 1766, 1567], "chunk_start": 19968}], "checkpoint": "seed271829_base.pt", "checkpoint_sha256": "2857125648111ec5e03cd4c5c4c522fcfb95632feed9fe938211f01716138f97"}
+{"seed": 271829, "arm": "sine_embed", "embedding_activation": "sine", "head_activation": "gelu", "activation_formulas": {"embedding": "F.gelu(x, approximate='none') + 0.1*sin(x)", "head": "F.gelu(x, approximate='none')"}, "parameters": 61058, "updates": 474, "fit_seconds": 1.3880572210036917, "fit_row_groups": [1284, 1053, 38, 1309, 614, 1793, 233, 1869, 87, 1130, 1735, 1214, 713, 1725, 1390, 105, 1125, 807, 1015, 1666, 1062, 483, 1766, 1567], "telemetry_sampling_rule": {"steps_zero_based": [0, 46, 236, 473], "scope": "actual training update, fit rows only, same fixed indices for every arm", "families": ["inp", "gru", "head"], "gradient": "element-weighted RMS before global norm clipping", "parameter_update": "element-weighted RMS of optimizer parameter delta"}, "telemetry": [{"update_index_zero_based": 0, "preclip_gradient_rms": {"inp": 0.005899856366159064, "gru": 0.0011168867190333187, "head": 0.015970723776309974}, "parameter_update_rms": {"inp": 0.0009999160693644898, "gru": 0.0009941309483741422, "head": 0.0009998784705818513}, "fit_row_groups": [1284, 1053, 38, 1309], "chunk_start": 0}, {"update_index_zero_based": 46, "preclip_gradient_rms": {"inp": 0.006524425311079639, "gru": 0.0020772989846591606, "head": 0.00874647201278023}, "parameter_update_rms": {"inp": 0.0002814401349753558, "gru": 0.00025053438948559233, "head": 0.0001835415308483121}, "fit_row_groups": [1284, 1053, 38, 1309], "chunk_start": 11776}, {"update_index_zero_based": 236, "preclip_gradient_rms": {"inp": 0.023640714545907132, "gru": 0.0028113094368735106, "head": 0.024802864547510215}, "parameter_update_rms": {"inp": 0.00035169596758905615, "gru": 0.0002476092295396931, "head": 0.00026188268561151934}, "fit_row_groups": [87, 1130, 1735, 1214], "chunk_start": 19968}, {"update_index_zero_based": 473, "preclip_gradient_rms": {"inp": 0.013706244913018695, "gru": 0.002126350677851717, "head": 0.018677892984973427}, "parameter_update_rms": {"inp": 0.00026423728186338383, "gru": 0.0002289211306549145, "head": 0.00022439092063192476}, "fit_row_groups": [1062, 483, 1766, 1567], "chunk_start": 19968}], "checkpoint": "seed271829_sine_embed.pt", "checkpoint_sha256": "1d37425c271d341b000ade061fc97db47887b19e4a33f68ef093d3a55fce5eef"}
+{"seed": 271829, "arm": "slope_embed", "embedding_activation": "slope", "head_activation": "gelu", "activation_formulas": {"embedding": "F.gelu(x, approximate='none') + 0.1*x", "head": "F.gelu(x, approximate='none')"}, "parameters": 61058, "updates": 474, "fit_seconds": 1.3627345900022192, "fit_row_groups": [1284, 1053, 38, 1309, 614, 1793, 233, 1869, 87, 1130, 1735, 1214, 713, 1725, 1390, 105, 1125, 807, 1015, 1666, 1062, 483, 1766, 1567], "telemetry_sampling_rule": {"steps_zero_based": [0, 46, 236, 473], "scope": "actual training update, fit rows only, same fixed indices for every arm", "families": ["inp", "gru", "head"], "gradient": "element-weighted RMS before global norm clipping", "parameter_update": "element-weighted RMS of optimizer parameter delta"}, "telemetry": [{"update_index_zero_based": 0, "preclip_gradient_rms": {"inp": 0.006005792210158514, "gru": 0.001123002357400453, "head": 0.016022637192690578}, "parameter_update_rms": {"inp": 0.0009999489723534326, "gru": 0.00099422562608399, "head": 0.0009999589765743203}, "fit_row_groups": [1284, 1053, 38, 1309], "chunk_start": 0}, {"update_index_zero_based": 46, "preclip_gradient_rms": {"inp": 0.006545967046195515, "gru": 0.0020457036940519, "head": 0.008748942425128402}, "parameter_update_rms": {"inp": 0.0002772147625721735, "gru": 0.00024748730029004024, "head": 0.0001830820075530998}, "fit_row_groups": [1284, 1053, 38, 1309], "chunk_start": 11776}, {"update_index_zero_based": 236, "preclip_gradient_rms": {"inp": 0.023663821869278286, "gru": 0.0027860373020406485, "head": 0.024703433830723005}, "parameter_update_rms": {"inp": 0.0003487256456875764, "gru": 0.0002469514986938457, "head": 0.00026225667876876856}, "fit_row_groups": [87, 1130, 1735, 1214], "chunk_start": 19968}, {"update_index_zero_based": 473, "preclip_gradient_rms": {"inp": 0.013606969257109148, "gru": 0.0021449203847881816, "head": 0.018794690834694375}, "parameter_update_rms": {"inp": 0.0002614551956446377, "gru": 0.00023073162286095148, "head": 0.0002236272065967389}, "fit_row_groups": [1062, 483, 1766, 1567], "chunk_start": 19968}], "checkpoint": "seed271829_slope_embed.pt", "checkpoint_sha256": "eba3eb263ea2293c6cba6c4a950d24fc9fc1eaa437281bace8e51849ae4a3686"}
+{"seed": 271829, "arm": "sine_head", "embedding_activation": "gelu", "head_activation": "sine", "activation_formulas": {"embedding": "F.gelu(x, approximate='none')", "head": "F.gelu(x, approximate='none') + 0.1*sin(x)"}, "parameters": 61058, "updates": 474, "fit_seconds": 1.3567996189958649, "fit_row_groups": [1284, 1053, 38, 1309, 614, 1793, 233, 1869, 87, 1130, 1735, 1214, 713, 1725, 1390, 105, 1125, 807, 1015, 1666, 1062, 483, 1766, 1567], "telemetry_sampling_rule": {"steps_zero_based": [0, 46, 236, 473], "scope": "actual training update, fit rows only, same fixed indices for every arm", "families": ["inp", "gru", "head"], "gradient": "element-weighted RMS before global norm clipping", "parameter_update": "element-weighted RMS of optimizer parameter delta"}, "telemetry": [{"update_index_zero_based": 0, "preclip_gradient_rms": {"inp": 0.0060980033242544794, "gru": 0.0012840289617581974, "head": 0.01665583375184319}, "parameter_update_rms": {"inp": 0.0009999224180470253, "gru": 0.0009936716826087985, "head": 0.0009999629544912114}, "fit_row_groups": [1284, 1053, 38, 1309], "chunk_start": 0}, {"update_index_zero_based": 46, "preclip_gradient_rms": {"inp": 0.006679273481312018, "gru": 0.0023883914373237784, "head": 0.008623497804925022}, "parameter_update_rms": {"inp": 0.00030372369419785414, "gru": 0.00025980041146022616, "head": 0.00018545807643082578}, "fit_row_groups": [1284, 1053, 38, 1309], "chunk_start": 11776}, {"update_index_zero_based": 236, "preclip_gradient_rms": {"inp": 0.023641933398055804, "gru": 0.002778811770833477, "head": 0.02501773658790439}, "parameter_update_rms": {"inp": 0.000343208331864746, "gru": 0.00023826587120756435, "head": 0.00025601746888040324}, "fit_row_groups": [87, 1130, 1735, 1214], "chunk_start": 19968}, {"update_index_zero_based": 473, "preclip_gradient_rms": {"inp": 0.013960969042711541, "gru": 0.0022155845769174305, "head": 0.018114545154213797}, "parameter_update_rms": {"inp": 0.0002740313268845835, "gru": 0.0002254914566308798, "head": 0.00022987965034252015}, "fit_row_groups": [1062, 483, 1766, 1567], "chunk_start": 19968}], "checkpoint": "seed271829_sine_head.pt", "checkpoint_sha256": "a3d4003ae449dbd10493816ef4c12f0511f09a820d81474e5ec3ef06eeab12c3"}
+{"seed": 271829, "arm": "slope_head", "embedding_activation": "gelu", "head_activation": "slope", "activation_formulas": {"embedding": "F.gelu(x, approximate='none')", "head": "F.gelu(x, approximate='none') + 0.1*x"}, "parameters": 61058, "updates": 474, "fit_seconds": 1.4078589080017991, "fit_row_groups": [1284, 1053, 38, 1309, 614, 1793, 233, 1869, 87, 1130, 1735, 1214, 713, 1725, 1390, 105, 1125, 807, 1015, 1666, 1062, 483, 1766, 1567], "telemetry_sampling_rule": {"steps_zero_based": [0, 46, 236, 473], "scope": "actual training update, fit rows only, same fixed indices for every arm", "families": ["inp", "gru", "head"], "gradient": "element-weighted RMS before global norm clipping", "parameter_update": "element-weighted RMS of optimizer parameter delta"}, "telemetry": [{"update_index_zero_based": 0, "preclip_gradient_rms": {"inp": 0.006112073787090723, "gru": 0.0012868243163491114, "head": 0.016670176975547048}, "parameter_update_rms": {"inp": 0.0009999297686042207, "gru": 0.0009936448181885353, "head": 0.000999964221814474}, "fit_row_groups": [1284, 1053, 38, 1309], "chunk_start": 0}, {"update_index_zero_based": 46, "preclip_gradient_rms": {"inp": 0.006682828554965897, "gru": 0.002397101229603822, "head": 0.008637307876172225}, "parameter_update_rms": {"inp": 0.0003034713310108811, "gru": 0.00025882292619698247, "head": 0.000185838028121153}, "fit_row_groups": [1284, 1053, 38, 1309], "chunk_start": 11776}, {"update_index_zero_based": 236, "preclip_gradient_rms": {"inp": 0.023620796816737167, "gru": 0.0027587321296856384, "head": 0.024893383421753925}, "parameter_update_rms": {"inp": 0.00034153587282355076, "gru": 0.00023551574470997912, "head": 0.0002552677642837229}, "fit_row_groups": [87, 1130, 1735, 1214], "chunk_start": 19968}, {"update_index_zero_based": 473, "preclip_gradient_rms": {"inp": 0.01395195465165742, "gru": 0.0022080748244943304, "head": 0.01805082320539661}, "parameter_update_rms": {"inp": 0.000274553918760319, "gru": 0.00022512552499371745, "head": 0.0002315165929594924}, "fit_row_groups": [1062, 483, 1766, 1567], "chunk_start": 19968}], "checkpoint": "seed271829_slope_head.pt", "checkpoint_sha256": "c85506c1d4603fb2ef3f38d071cab7fa071ae660069619cd87eef452cf9aafc2"}
+{"seed": 271829, "arm": "sine_both", "embedding_activation": "sine", "head_activation": "sine", "activation_formulas": {"embedding": "F.gelu(x, approximate='none') + 0.1*sin(x)", "head": "F.gelu(x, approximate='none') + 0.1*sin(x)"}, "parameters": 61058, "updates": 474, "fit_seconds": 1.421060235996265, "fit_row_groups": [1284, 1053, 38, 1309, 614, 1793, 233, 1869, 87, 1130, 1735, 1214, 713, 1725, 1390, 105, 1125, 807, 1015, 1666, 1062, 483, 1766, 1567], "telemetry_sampling_rule": {"steps_zero_based": [0, 46, 236, 473], "scope": "actual training update, fit rows only, same fixed indices for every arm", "families": ["inp", "gru", "head"], "gradient": "element-weighted RMS before global norm clipping", "parameter_update": "element-weighted RMS of optimizer parameter delta"}, "telemetry": [{"update_index_zero_based": 0, "preclip_gradient_rms": {"inp": 0.006997524071693068, "gru": 0.001332171610476005, "head": 0.01707235737660724}, "parameter_update_rms": {"inp": 0.000999897030915258, "gru": 0.000994526716445315, "head": 0.0009999674876264208}, "fit_row_groups": [1284, 1053, 38, 1309], "chunk_start": 0}, {"update_index_zero_based": 46, "preclip_gradient_rms": {"inp": 0.006784417741673979, "gru": 0.0021371804337007964, "head": 0.00858201309047014}, "parameter_update_rms": {"inp": 0.0002780206712257516, "gru": 0.00024325001398932286, "head": 0.0001843558135209155}, "fit_row_groups": [1284, 1053, 38, 1309], "chunk_start": 11776}, {"update_index_zero_based": 236, "preclip_gradient_rms": {"inp": 0.02506613043749448, "gru": 0.002774208960344827, "head": 0.025605383194104592}, "parameter_update_rms": {"inp": 0.0003378975751904979, "gru": 0.0002362018056496568, "head": 0.0002608193940062426}, "fit_row_groups": [87, 1130, 1735, 1214], "chunk_start": 19968}, {"update_index_zero_based": 473, "preclip_gradient_rms": {"inp": 0.014634712304442717, "gru": 0.0021588640139460166, "head": 0.018412929124206147}, "parameter_update_rms": {"inp": 0.0002720328437368811, "gru": 0.0002239442420292176, "head": 0.00023064518752510235}, "fit_row_groups": [1062, 483, 1766, 1567], "chunk_start": 19968}], "checkpoint": "seed271829_sine_both.pt", "checkpoint_sha256": "7f2b1720a547349bdaccccd0ea17206965d054dd9e5eb6a90aa69ec62c170fae"}
+{
+  "kind": "twelve-fit localized activation placement screen",
+  "status": "all_12_fit_arms_complete_test_unread",
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "seeds": [
+    271828,
+    271829
+  ],
+  "planned_arms": [
+    {
+      "seed": 271828,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine"
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope"
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine"
+    },
+    {
+      "seed": 271829,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine"
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope"
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine"
+    }
+  ],
+  "planned_contrasts": [
+    "sine_embed - base",
+    "slope_embed - base",
+    "sine_embed - slope_embed",
+    "sine_head - base",
+    "slope_head - base",
+    "sine_head - slope_head",
+    "sine_both - sine_embed - sine_head + base"
+  ],
+  "architecture": "RNNModel topology: input GELU -> 2-layer nn.GRU -> concat recurrent+embedding -> GELU head",
+  "hidden": 64,
+  "trainable_parameters_per_arm": 61058,
+  "input_features": 42,
+  "batch": 4,
+  "chunk_rows": 256,
+  "updates_per_fit": 474,
+  "telemetry_protocol": {
+    "steps_zero_based": [
+      0,
+      46,
+      236,
+      473
+    ],
+    "families": [
+      "inp",
+      "gru",
+      "head"
+    ],
+    "gradient": "element-weighted RMS before global norm clipping",
+    "parameter_update": "element-weighted RMS of optimizer parameter delta",
+    "fit_rows_only": true,
+    "descriptive_only": true
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "schedule": "constant",
+    "gradient_clip": 1.0
+  },
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "recipe_source_sha256": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+  "source_sha256": {
+    "fit_activation_placement.py": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+    "tests.py": "867c408de9a2c924b58e1c74a205c132a5f0d805ca3ebf0c68e3f9f64c1d50ce",
+    "gpu_probe.py": "3b96ddfc05c80bb4aa3585a9957145a9b6927613e90ab23270bc80048b8c32c9"
+  },
+  "precision": {
+    "device_math": "FP32 IEEE",
+    "autocast": false,
+    "torch.backends.fp32_precision": "ieee",
+    "torch.backends.cuda.matmul.fp32_precision": "ieee",
+    "torch.backends.cudnn.fp32_precision": "ieee",
+    "torch.backends.cudnn.rnn.fp32_precision": "ieee"
+  },
+  "arms": [
+    {
+      "seed": 271828,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu",
+      "activation_formulas": {
+        "embedding": "F.gelu(x, approximate='none')",
+        "head": "F.gelu(x, approximate='none')"
+      },
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.6081852009956492,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry_sampling_rule": {
+        "steps_zero_based": [
+          0,
+          46,
+          236,
+          473
+        ],
+        "scope": "actual training update, fit rows only, same fixed indices for every arm",
+        "families": [
+          "inp",
+          "gru",
+          "head"
+        ],
+        "gradient": "element-weighted RMS before global norm clipping",
+        "parameter_update": "element-weighted RMS of optimizer parameter delta"
+      },
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005001834424747081,
+            "gru": 0.001211973864233239,
+            "head": 0.01553264107695336
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999655798105704,
+            "gru": 0.0009932552438254914,
+            "head": 0.0009999558533425011
+          },
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0034632581865582384,
+            "gru": 0.0011557789609456957,
+            "head": 0.012771518487085695
+          },
+          "parameter_update_rms": {
+            "inp": 0.000285258304525203,
+            "gru": 0.0003280025428270076,
+            "head": 0.00023736712178309106
+          },
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.025601828007244292,
+            "gru": 0.00268405690554842,
+            "head": 0.04108095091517811
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002651497458265142,
+            "gru": 0.00027755619686933115,
+            "head": 0.0002577790552474328
+          },
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.009576261380857268,
+            "gru": 0.0009536374786256828,
+            "head": 0.021251715786175924
+          },
+          "parameter_update_rms": {
+            "inp": 0.0001622700658363902,
+            "gru": 0.00019672311311946493,
+            "head": 0.00012005829250597942
+          },
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968
+        }
+      ],
+      "checkpoint": "seed271828_base.pt",
+      "checkpoint_sha256": "ae56da0895d3598b9fded59f1de3425d814201d3fde25d3a7907dae9dddc993a"
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu",
+      "activation_formulas": {
+        "embedding": "F.gelu(x, approximate='none') + 0.1*sin(x)",
+        "head": "F.gelu(x, approximate='none')"
+      },
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.3701816959946882,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry_sampling_rule": {
+        "steps_zero_based": [
+          0,
+          46,
+          236,
+          473
+        ],
+        "scope": "actual training update, fit rows only, same fixed indices for every arm",
+        "families": [
+          "inp",
+          "gru",
+          "head"
+        ],
+        "gradient": "element-weighted RMS before global norm clipping",
+        "parameter_update": "element-weighted RMS of optimizer parameter delta"
+      },
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005725669255943655,
+            "gru": 0.001272011145167467,
+            "head": 0.01597042457591849
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009998017723419211,
+            "gru": 0.000993972165166229,
+            "head": 0.0009999645678721175
+          },
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.003942738055069873,
+            "gru": 0.0011753359389242595,
+            "head": 0.012737207628972005
+          },
+          "parameter_update_rms": {
+            "inp": 0.00028168069407796164,
+            "gru": 0.000329594838426601,
+            "head": 0.0002433379550138991
+          },
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.027117260630595028,
+            "gru": 0.002626488625419503,
+            "head": 0.042467087340712584
+          },
+          "parameter_update_rms": {
+            "inp": 0.00025634553600457503,
+            "gru": 0.00027143540800221724,
+            "head": 0.0002633331232657017
+          },
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.009892482343510579,
+            "gru": 0.0009276369458298805,
+            "head": 0.021205170503647626
+          },
+          "parameter_update_rms": {
+            "inp": 0.00016384551951228066,
+            "gru": 0.0002104406484513133,
+            "head": 0.00012324864117195115
+          },
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968
+        }
+      ],
+      "checkpoint": "seed271828_sine_embed.pt",
+      "checkpoint_sha256": "998933c9018decda18f3c4b93692c247e3b8e350c5fca4e7219aa8b3f3ae9592"
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu",
+      "activation_formulas": {
+        "embedding": "F.gelu(x, approximate='none') + 0.1*x",
+        "head": "F.gelu(x, approximate='none')"
+      },
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.356025465996936,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry_sampling_rule": {
+        "steps_zero_based": [
+          0,
+          46,
+          236,
+          473
+        ],
+        "scope": "actual training update, fit rows only, same fixed indices for every arm",
+        "families": [
+          "inp",
+          "gru",
+          "head"
+        ],
+        "gradient": "element-weighted RMS before global norm clipping",
+        "parameter_update": "element-weighted RMS of optimizer parameter delta"
+      },
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.00585026983512428,
+            "gru": 0.0012802481131454655,
+            "head": 0.016040481543606953
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999277017811318,
+            "gru": 0.0009940467835955833,
+            "head": 0.0009999510436959475
+          },
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.004001179128344477,
+            "gru": 0.001176844717079244,
+            "head": 0.012736718859492142
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002818794370466101,
+            "gru": 0.00033055729090653284,
+            "head": 0.0002454399650459752
+          },
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.027387232968817402,
+            "gru": 0.002598687374343037,
+            "head": 0.04258762344415969
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002543194717584134,
+            "gru": 0.0002675823267524875,
+            "head": 0.00026306295140952966
+          },
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.009888880975613296,
+            "gru": 0.0009327121919510762,
+            "head": 0.021202924721346727
+          },
+          "parameter_update_rms": {
+            "inp": 0.00016322685029935508,
+            "gru": 0.0002128783736920709,
+            "head": 0.00012382816082605487
+          },
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968
+        }
+      ],
+      "checkpoint": "seed271828_slope_embed.pt",
+      "checkpoint_sha256": "b5d5a0332da98f99b57e77350aa2247d7c392d11f5a932cbf57db369ab0a4db9"
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine",
+      "activation_formulas": {
+        "embedding": "F.gelu(x, approximate='none')",
+        "head": "F.gelu(x, approximate='none') + 0.1*sin(x)"
+      },
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.319025580000016,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry_sampling_rule": {
+        "steps_zero_based": [
+          0,
+          46,
+          236,
+          473
+        ],
+        "scope": "actual training update, fit rows only, same fixed indices for every arm",
+        "families": [
+          "inp",
+          "gru",
+          "head"
+        ],
+        "gradient": "element-weighted RMS before global norm clipping",
+        "parameter_update": "element-weighted RMS of optimizer parameter delta"
+      },
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005957912676561987,
+            "gru": 0.0014333623623420315,
+            "head": 0.016645325070654204
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999410488325347,
+            "gru": 0.000993790077106212,
+            "head": 0.0009999623596028834
+          },
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.003986944929033895,
+            "gru": 0.0012925940907604215,
+            "head": 0.01299554704818873
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002874854861328799,
+            "gru": 0.0003316316538910781,
+            "head": 0.00024169521010684888
+          },
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.028219143770674443,
+            "gru": 0.002894493764219762,
+            "head": 0.04077290255458877
+          },
+          "parameter_update_rms": {
+            "inp": 0.00027504005775409046,
+            "gru": 0.00028036343264825224,
+            "head": 0.00025916908159631815
+          },
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.010526624840471855,
+            "gru": 0.0010506098023677546,
+            "head": 0.020169917371193825
+          },
+          "parameter_update_rms": {
+            "inp": 0.0001670511985349597,
+            "gru": 0.00022013510618082723,
+            "head": 0.00011649042959247896
+          },
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968
+        }
+      ],
+      "checkpoint": "seed271828_sine_head.pt",
+      "checkpoint_sha256": "56cd8fe88845848c8b21cdb386dc2c3a33d7a869f7e1732680ea33bc233d744c"
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope",
+      "activation_formulas": {
+        "embedding": "F.gelu(x, approximate='none')",
+        "head": "F.gelu(x, approximate='none') + 0.1*x"
+      },
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.3320217250002315,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry_sampling_rule": {
+        "steps_zero_based": [
+          0,
+          46,
+          236,
+          473
+        ],
+        "scope": "actual training update, fit rows only, same fixed indices for every arm",
+        "families": [
+          "inp",
+          "gru",
+          "head"
+        ],
+        "gradient": "element-weighted RMS before global norm clipping",
+        "parameter_update": "element-weighted RMS of optimizer parameter delta"
+      },
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005970889579973469,
+            "gru": 0.0014368444695653793,
+            "head": 0.01666342116340808
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999382698094082,
+            "gru": 0.0009937833678242882,
+            "head": 0.000999971178498525
+          },
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.004001243360382162,
+            "gru": 0.0012965353430598168,
+            "head": 0.012996928558123604
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002883812257140758,
+            "gru": 0.0003312031827349097,
+            "head": 0.0002421406690704515
+          },
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.028832743074324003,
+            "gru": 0.002945362584382192,
+            "head": 0.040794679656857395
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002774957920332851,
+            "gru": 0.00028255391912102343,
+            "head": 0.00026052178800228093
+          },
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.010730468142795714,
+            "gru": 0.0010670943293579246,
+            "head": 0.019918132624840174
+          },
+          "parameter_update_rms": {
+            "inp": 0.0001685512153315111,
+            "gru": 0.00022033483185788738,
+            "head": 0.00011578927412548617
+          },
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968
+        }
+      ],
+      "checkpoint": "seed271828_slope_head.pt",
+      "checkpoint_sha256": "6e6af6720795bd06e1962aa629c2fad2cd6e928f3619da6be4281ce1714414e7"
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine",
+      "activation_formulas": {
+        "embedding": "F.gelu(x, approximate='none') + 0.1*sin(x)",
+        "head": "F.gelu(x, approximate='none') + 0.1*sin(x)"
+      },
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.4051731930085225,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry_sampling_rule": {
+        "steps_zero_based": [
+          0,
+          46,
+          236,
+          473
+        ],
+        "scope": "actual training update, fit rows only, same fixed indices for every arm",
+        "families": [
+          "inp",
+          "gru",
+          "head"
+        ],
+        "gradient": "element-weighted RMS before global norm clipping",
+        "parameter_update": "element-weighted RMS of optimizer parameter delta"
+      },
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006811859346935591,
+            "gru": 0.0015027617523213578,
+            "head": 0.017205982210239983
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999225380472503,
+            "gru": 0.000994467308206885,
+            "head": 0.0009999704761036456
+          },
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.004485358774164848,
+            "gru": 0.001296982822525449,
+            "head": 0.013003610491505764
+          },
+          "parameter_update_rms": {
+            "inp": 0.00028537489941208585,
+            "gru": 0.00033331828981520654,
+            "head": 0.00024906222325885035
+          },
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.02992589792537222,
+            "gru": 0.002803212558562738,
+            "head": 0.0421981409146885
+          },
+          "parameter_update_rms": {
+            "inp": 0.00026691610868276316,
+            "gru": 0.00026841633781620307,
+            "head": 0.0002613923606448477
+          },
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.010918580711657414,
+            "gru": 0.0010362553566622976,
+            "head": 0.020212282525614543
+          },
+          "parameter_update_rms": {
+            "inp": 0.00016956301724542928,
+            "gru": 0.00023774655689968882,
+            "head": 0.00011915770501865543
+          },
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968
+        }
+      ],
+      "checkpoint": "seed271828_sine_both.pt",
+      "checkpoint_sha256": "6434d0d3af771ed5c9003e74f328300d71aadb09c3b1713406ba39be30daf43f"
+    },
+    {
+      "seed": 271829,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu",
+      "activation_formulas": {
+        "embedding": "F.gelu(x, approximate='none')",
+        "head": "F.gelu(x, approximate='none')"
+      },
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.414660226990236,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry_sampling_rule": {
+        "steps_zero_based": [
+          0,
+          46,
+          236,
+          473
+        ],
+        "scope": "actual training update, fit rows only, same fixed indices for every arm",
+        "families": [
+          "inp",
+          "gru",
+          "head"
+        ],
+        "gradient": "element-weighted RMS before global norm clipping",
+        "parameter_update": "element-weighted RMS of optimizer parameter delta"
+      },
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005131167081835824,
+            "gru": 0.0010745818259284992,
+            "head": 0.015643558335968873
+          },
+          "parameter_update_rms": {
+            "inp": 0.000999902053992154,
+            "gru": 0.0009932717000009522,
+            "head": 0.0009999628650701163
+          },
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.006138926262671804,
+            "gru": 0.002234504275696412,
+            "head": 0.008758987023888862
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003109396189915347,
+            "gru": 0.00026934911234808147,
+            "head": 0.00018821132722518445
+          },
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.022551769757698587,
+            "gru": 0.0028486037820282177,
+            "head": 0.0246122001999387
+          },
+          "parameter_update_rms": {
+            "inp": 0.00036069312323733563,
+            "gru": 0.0002528056315397535,
+            "head": 0.00025449777708559575
+          },
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.013050910059385263,
+            "gru": 0.002185503434793072,
+            "head": 0.018435171039485075
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002651815844073923,
+            "gru": 0.0002335373142439886,
+            "head": 0.00022790119395127653
+          },
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968
+        }
+      ],
+      "checkpoint": "seed271829_base.pt",
+      "checkpoint_sha256": "2857125648111ec5e03cd4c5c4c522fcfb95632feed9fe938211f01716138f97"
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu",
+      "activation_formulas": {
+        "embedding": "F.gelu(x, approximate='none') + 0.1*sin(x)",
+        "head": "F.gelu(x, approximate='none')"
+      },
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.3880572210036917,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry_sampling_rule": {
+        "steps_zero_based": [
+          0,
+          46,
+          236,
+          473
+        ],
+        "scope": "actual training update, fit rows only, same fixed indices for every arm",
+        "families": [
+          "inp",
+          "gru",
+          "head"
+        ],
+        "gradient": "element-weighted RMS before global norm clipping",
+        "parameter_update": "element-weighted RMS of optimizer parameter delta"
+      },
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005899856366159064,
+            "gru": 0.0011168867190333187,
+            "head": 0.015970723776309974
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999160693644898,
+            "gru": 0.0009941309483741422,
+            "head": 0.0009998784705818513
+          },
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.006524425311079639,
+            "gru": 0.0020772989846591606,
+            "head": 0.00874647201278023
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002814401349753558,
+            "gru": 0.00025053438948559233,
+            "head": 0.0001835415308483121
+          },
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.023640714545907132,
+            "gru": 0.0028113094368735106,
+            "head": 0.024802864547510215
+          },
+          "parameter_update_rms": {
+            "inp": 0.00035169596758905615,
+            "gru": 0.0002476092295396931,
+            "head": 0.00026188268561151934
+          },
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.013706244913018695,
+            "gru": 0.002126350677851717,
+            "head": 0.018677892984973427
+          },
+          "parameter_update_rms": {
+            "inp": 0.00026423728186338383,
+            "gru": 0.0002289211306549145,
+            "head": 0.00022439092063192476
+          },
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968
+        }
+      ],
+      "checkpoint": "seed271829_sine_embed.pt",
+      "checkpoint_sha256": "1d37425c271d341b000ade061fc97db47887b19e4a33f68ef093d3a55fce5eef"
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu",
+      "activation_formulas": {
+        "embedding": "F.gelu(x, approximate='none') + 0.1*x",
+        "head": "F.gelu(x, approximate='none')"
+      },
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.3627345900022192,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry_sampling_rule": {
+        "steps_zero_based": [
+          0,
+          46,
+          236,
+          473
+        ],
+        "scope": "actual training update, fit rows only, same fixed indices for every arm",
+        "families": [
+          "inp",
+          "gru",
+          "head"
+        ],
+        "gradient": "element-weighted RMS before global norm clipping",
+        "parameter_update": "element-weighted RMS of optimizer parameter delta"
+      },
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006005792210158514,
+            "gru": 0.001123002357400453,
+            "head": 0.016022637192690578
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999489723534326,
+            "gru": 0.00099422562608399,
+            "head": 0.0009999589765743203
+          },
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.006545967046195515,
+            "gru": 0.0020457036940519,
+            "head": 0.008748942425128402
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002772147625721735,
+            "gru": 0.00024748730029004024,
+            "head": 0.0001830820075530998
+          },
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.023663821869278286,
+            "gru": 0.0027860373020406485,
+            "head": 0.024703433830723005
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003487256456875764,
+            "gru": 0.0002469514986938457,
+            "head": 0.00026225667876876856
+          },
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.013606969257109148,
+            "gru": 0.0021449203847881816,
+            "head": 0.018794690834694375
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002614551956446377,
+            "gru": 0.00023073162286095148,
+            "head": 0.0002236272065967389
+          },
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968
+        }
+      ],
+      "checkpoint": "seed271829_slope_embed.pt",
+      "checkpoint_sha256": "eba3eb263ea2293c6cba6c4a950d24fc9fc1eaa437281bace8e51849ae4a3686"
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine",
+      "activation_formulas": {
+        "embedding": "F.gelu(x, approximate='none')",
+        "head": "F.gelu(x, approximate='none') + 0.1*sin(x)"
+      },
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.3567996189958649,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry_sampling_rule": {
+        "steps_zero_based": [
+          0,
+          46,
+          236,
+          473
+        ],
+        "scope": "actual training update, fit rows only, same fixed indices for every arm",
+        "families": [
+          "inp",
+          "gru",
+          "head"
+        ],
+        "gradient": "element-weighted RMS before global norm clipping",
+        "parameter_update": "element-weighted RMS of optimizer parameter delta"
+      },
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.0060980033242544794,
+            "gru": 0.0012840289617581974,
+            "head": 0.01665583375184319
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999224180470253,
+            "gru": 0.0009936716826087985,
+            "head": 0.0009999629544912114
+          },
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.006679273481312018,
+            "gru": 0.0023883914373237784,
+            "head": 0.008623497804925022
+          },
+          "parameter_update_rms": {
+            "inp": 0.00030372369419785414,
+            "gru": 0.00025980041146022616,
+            "head": 0.00018545807643082578
+          },
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.023641933398055804,
+            "gru": 0.002778811770833477,
+            "head": 0.02501773658790439
+          },
+          "parameter_update_rms": {
+            "inp": 0.000343208331864746,
+            "gru": 0.00023826587120756435,
+            "head": 0.00025601746888040324
+          },
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.013960969042711541,
+            "gru": 0.0022155845769174305,
+            "head": 0.018114545154213797
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002740313268845835,
+            "gru": 0.0002254914566308798,
+            "head": 0.00022987965034252015
+          },
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968
+        }
+      ],
+      "checkpoint": "seed271829_sine_head.pt",
+      "checkpoint_sha256": "a3d4003ae449dbd10493816ef4c12f0511f09a820d81474e5ec3ef06eeab12c3"
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope",
+      "activation_formulas": {
+        "embedding": "F.gelu(x, approximate='none')",
+        "head": "F.gelu(x, approximate='none') + 0.1*x"
+      },
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.4078589080017991,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry_sampling_rule": {
+        "steps_zero_based": [
+          0,
+          46,
+          236,
+          473
+        ],
+        "scope": "actual training update, fit rows only, same fixed indices for every arm",
+        "families": [
+          "inp",
+          "gru",
+          "head"
+        ],
+        "gradient": "element-weighted RMS before global norm clipping",
+        "parameter_update": "element-weighted RMS of optimizer parameter delta"
+      },
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006112073787090723,
+            "gru": 0.0012868243163491114,
+            "head": 0.016670176975547048
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999297686042207,
+            "gru": 0.0009936448181885353,
+            "head": 0.000999964221814474
+          },
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.006682828554965897,
+            "gru": 0.002397101229603822,
+            "head": 0.008637307876172225
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003034713310108811,
+            "gru": 0.00025882292619698247,
+            "head": 0.000185838028121153
+          },
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.023620796816737167,
+            "gru": 0.0027587321296856384,
+            "head": 0.024893383421753925
+          },
+          "parameter_update_rms": {
+            "inp": 0.00034153587282355076,
+            "gru": 0.00023551574470997912,
+            "head": 0.0002552677642837229
+          },
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.01395195465165742,
+            "gru": 0.0022080748244943304,
+            "head": 0.01805082320539661
+          },
+          "parameter_update_rms": {
+            "inp": 0.000274553918760319,
+            "gru": 0.00022512552499371745,
+            "head": 0.0002315165929594924
+          },
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968
+        }
+      ],
+      "checkpoint": "seed271829_slope_head.pt",
+      "checkpoint_sha256": "c85506c1d4603fb2ef3f38d071cab7fa071ae660069619cd87eef452cf9aafc2"
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine",
+      "activation_formulas": {
+        "embedding": "F.gelu(x, approximate='none') + 0.1*sin(x)",
+        "head": "F.gelu(x, approximate='none') + 0.1*sin(x)"
+      },
+      "parameters": 61058,
+      "updates": 474,
+      "fit_seconds": 1.421060235996265,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry_sampling_rule": {
+        "steps_zero_based": [
+          0,
+          46,
+          236,
+          473
+        ],
+        "scope": "actual training update, fit rows only, same fixed indices for every arm",
+        "families": [
+          "inp",
+          "gru",
+          "head"
+        ],
+        "gradient": "element-weighted RMS before global norm clipping",
+        "parameter_update": "element-weighted RMS of optimizer parameter delta"
+      },
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.006997524071693068,
+            "gru": 0.001332171610476005,
+            "head": 0.01707235737660724
+          },
+          "parameter_update_rms": {
+            "inp": 0.000999897030915258,
+            "gru": 0.000994526716445315,
+            "head": 0.0009999674876264208
+          },
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.006784417741673979,
+            "gru": 0.0021371804337007964,
+            "head": 0.00858201309047014
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002780206712257516,
+            "gru": 0.00024325001398932286,
+            "head": 0.0001843558135209155
+          },
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.02506613043749448,
+            "gru": 0.002774208960344827,
+            "head": 0.025605383194104592
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003378975751904979,
+            "gru": 0.0002362018056496568,
+            "head": 0.0002608193940062426
+          },
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.014634712304442717,
+            "gru": 0.0021588640139460166,
+            "head": 0.018412929124206147
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002720328437368811,
+            "gru": 0.0002239442420292176,
+            "head": 0.00023064518752510235
+          },
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968
+        }
+      ],
+      "checkpoint": "seed271829_sine_both.pt",
+      "checkpoint_sha256": "7f2b1720a547349bdaccccd0ea17206965d054dd9e5eb6a90aa69ec62c170fae"
+    }
+  ]
+}

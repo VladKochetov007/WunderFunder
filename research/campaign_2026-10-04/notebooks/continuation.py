@@ -783,5 +783,14 @@ def _(json, mo, project_root, refresh):
     return
 
 
+@app.cell(hide_code=True)
+def _(json, mo, project_root, refresh):
+    _ = refresh.value
+    _r = json.loads((project_root / "research/campaign_2026-10-05/recurrent_activation/THREE_SEED_ACTIVATION_RESULT.json").read_text())
+    _rows = [{"seed": _seed, "recipe": _arm, "WP": _score["wp"]} for _seed, _fit in _r["attempts_and_scores"].items() for _arm, _score in _fit["scores"].items()]
+    mo.vstack([mo.md("### E475: all recurrent recipes replicated\nPositive bounded candidate alpha improves Muon at all three fit seeds (+0.0061/+0.0153/+0.0116). Negative alpha hurts Muon; AdamW effects change sign. Same exposed panel, conditional component intervals, no public-score forecast."), mo.ui.table(_rows), mo.image(str(project_root / "research/campaign_2026-10-05/recurrent_activation/eda/all_recurrent_seeds.png"))])
+    return
+
+
 if __name__ == "__main__":
     app.run()

@@ -1,0 +1,269 @@
+{
+  "admission_resources": {
+    "parent_cpu_max": 12,
+    "parent_ram_max": 38654705664,
+    "support_cpus": 2,
+    "support_ram_bytes": 4294967296,
+    "worker_cpus": 2,
+    "worker_ram_bytes": 6442450944
+  },
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "research/campaign_2026-10-05/recurrent_activation_scale/gpu_probe.py",
+    "--device",
+    "cuda",
+    "--output",
+    "research/campaign_2026-10-05/recurrent_activation_scale/gpu_probe_v1"
+  ],
+  "artifacts": [
+    {
+      "path": "research/campaign_2026-10-05/recurrent_activation_scale/gpu_probe_v1/result.json",
+      "sha256": "630229c05badfaaa019eada9ee6df7873e87eb9b7dcb371a3aab8f208a8c3e32",
+      "size": 3312
+    }
+  ],
+  "block_id": "local001",
+  "charged_seconds": 15.435462671986897,
+  "elapsed_seconds": 15.435462671986897,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "2",
+    "NUMBA_NUM_THREADS": "2",
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "2",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "2147483648",
+    "WNN_THREADS": "2"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 1198882,
+    "low": 0,
+    "max": 7522594,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791165818.3765812,
+  "heartbeat_unix": 1791165817.8600726,
+  "id": "e478-recurrent-scale-real-gpu-probe-v1",
+  "initial_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "initial_parent_memory_events": {
+    "high": 1198882,
+    "low": 0,
+    "max": 7522594,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "kind": "gpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "30000000000",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 402653184,
+  "peak_ram_bytes": 1665282048,
+  "reserved_seconds": 1170,
+  "reserved_unix": 1791165802.8830183,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+    "src/wnn/campaign.py": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+    "src/wnn/campaign_local.py": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+    "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "signals": [],
+  "spec": {
+    "argv": [
+      "{python}",
+      "research/campaign_2026-10-05/recurrent_activation_scale/gpu_probe.py",
+      "--device",
+      "cuda",
+      "--output",
+      "research/campaign_2026-10-05/recurrent_activation_scale/gpu_probe_v1"
+    ],
+    "artifacts": [
+      "research/campaign_2026-10-05/recurrent_activation_scale/gpu_probe_v1/result.json"
+    ],
+    "code": [
+      {
+        "path": "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+        "sha256": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+        "size": 18964
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+        "sha256": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+        "size": 22424
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation/fit_recurrent_candidate.py",
+        "sha256": "998bceb024b5c29e81e73efc5d0ebe434d53c7356cfcb947f7ca36dd625426cf",
+        "size": 14349
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_scale/fit_recurrent_activation_scale.py",
+        "sha256": "3ccc2fcd0601f6a2d239bd47799561834ffd6e42517b2b2af603e03cd3b08d20",
+        "size": 17410
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_scale/gpu_probe.py",
+        "sha256": "e11b1dce6f21e24beb32174758af950e7642d7b1ae448fa60ec3e6763da1d75a",
+        "size": 11123
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_scale/tests.py",
+        "sha256": "1a20253e28df94cf7debca215bc593989a4ea6c5b456c2d8a584b72d1f298d91",
+        "size": 8667
+      },
+      {
+        "path": "scripts/run_campaign.py",
+        "sha256": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+        "size": 4273
+      },
+      {
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+        "size": 63
+      },
+      {
+        "path": "src/wnn/campaign.py",
+        "sha256": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+        "size": 13176
+      },
+      {
+        "path": "src/wnn/campaign_local.py",
+        "sha256": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+        "size": 22065
+      },
+      {
+        "path": "src/wnn/campaign_spec.py",
+        "sha256": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+        "size": 8717
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "size": 8902
+      },
+      {
+        "path": "src/wnn/nn.py",
+        "sha256": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+        "size": 19926
+      },
+      {
+        "path": "src/wnn/optim.py",
+        "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+        "size": 11736
+      },
+      {
+        "path": "src/wnn/resources.py",
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+        "size": 4485
+      }
+    ],
+    "code_sha256": "57e54a46cdf1d27049d7845ad4ddb15a02725513512bf4b2aa0f2c0466f9370f",
+    "environment": {},
+    "inputs": [
+      {
+        "path": "datasets/valid.parquet",
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "size": 5615509128
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_scale/E478_DESIGN.md",
+        "sha256": "da6b300401a9e3d78bc2b29410ec9f142ebb1b0f6da70c00b3bedf8ec05b8cad",
+        "size": 5630
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_scale/INDEPENDENT_REVIEW.md",
+        "sha256": "ebd1ebfb28dc4177947757e7b567ed01dd6744c4f0bcb6fb76b65d984e6bde67",
+        "size": 3557
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_scale/SPEC_CRITIC.md",
+        "sha256": "9a28fa18fc513997f107da17365c669cf39beef974a9832fbfd6a46efef27284",
+        "size": 4291
+      },
+      {
+        "path": "research/campaign_2026-10-05/recurrent_activation_scale/cpu_preflight_v1/fit_manifest.json",
+        "sha256": "a1a587b02933c4d62baa30f8e0f5504c0f9d66978d5ab2358f3a5f86ce7281d5",
+        "size": 6649
+      },
+      {
+        "path": "research/campaign_2026-10-05/target_mechanics/cohort.json",
+        "sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+        "size": 6707
+      }
+    ],
+    "kind": "gpu",
+    "limits": {
+      "cpus": 2,
+      "gpu_memory_bytes": 2147483648,
+      "gpu_stop_bytes": 3000000000,
+      "ram_bytes": 6442450944,
+      "timeout_seconds": 240
+    },
+    "name": "e478_recurrent_scale_real_gpu_probe_v1",
+    "version": 1
+  },
+  "spec_sha256": "bee70b252e55296113c60b48a0a5736f1c4c00a7075cccc6f21022cddefc543d",
+  "started_unix": 1791165806.6409883,
+  "status": "finished",
+  "teardown_verified": true,
+  "timeout_seconds": 240,
+  "unit": "wnn-c04-e478-recurrent-scale-real-gpu-probe-v1.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "2s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e478-recurrent-scale-real-gpu-probe-v1.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "6442450944",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}

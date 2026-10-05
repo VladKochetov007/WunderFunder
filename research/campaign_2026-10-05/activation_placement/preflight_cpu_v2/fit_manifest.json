@@ -1,0 +1,349 @@
+{
+  "kind": "twelve-fit localized activation placement screen",
+  "status": "preflight_passed",
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "seeds": [
+    271828,
+    271829
+  ],
+  "planned_arms": [
+    {
+      "seed": 271828,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine"
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope"
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine"
+    },
+    {
+      "seed": 271829,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu"
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine"
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope"
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine"
+    }
+  ],
+  "planned_contrasts": [
+    "sine_embed - base",
+    "slope_embed - base",
+    "sine_embed - slope_embed",
+    "sine_head - base",
+    "slope_head - base",
+    "sine_head - slope_head",
+    "sine_both - sine_embed - sine_head + base"
+  ],
+  "architecture": "RNNModel topology: input GELU -> 2-layer nn.GRU -> concat recurrent+embedding -> GELU head",
+  "hidden": 64,
+  "trainable_parameters_per_arm": 61058,
+  "input_features": 42,
+  "batch": 4,
+  "chunk_rows": 256,
+  "updates_per_fit": 474,
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "schedule": "constant",
+    "gradient_clip": 1.0
+  },
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "recipe_source_sha256": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+  "source_sha256": {
+    "fit_activation_placement.py": "3f14a6a32db9bc0579d8be10d3483e3d56f6d0dbdde85d8611393efc0d9d9a35",
+    "tests.py": "ee445b477ba7271c23cc10a340e3f20852a4148fba0ce7909cc9c0f6b26c4443",
+    "gpu_probe.py": "cea04ae78bf3affd86b6b2aa69ebbaf3fd4449eafc59eb8137d90478d0f93165"
+  },
+  "arms": [
+    {
+      "seed": 271828,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 2.3267135620117188,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 2.3284249305725098,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 2.329151153564453,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 2.3330140113830566,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 2.3330140113830566,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine",
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 2.3351621627807617,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true
+    },
+    {
+      "seed": 271829,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 1.7827770709991455,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 1.7822380065917969,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 1.7825031280517578,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 1.781092643737793,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 1.7811636924743652,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "optimizer_updates": 1,
+      "loss": 1.7801427841186523,
+      "parameters": 61058,
+      "parameters_changed": true,
+      "parameters_finite": true
+    }
+  ]
+}

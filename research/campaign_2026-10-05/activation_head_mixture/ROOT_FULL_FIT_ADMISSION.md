@@ -1,0 +1,5 @@
+# E477 root full-fit admission
+
+The original device probe exposed a validator-only cuDNN restriction: eval-mode forward cannot be used for backward. The preserved failed v1 stopped before fit updates. Independently repaired probe v2 computes fresh p0 baseline gradients in train mode; original output/state/gradient tolerances and all candidate numerical training sources are unchanged. Real-device v2 passed exact baseline parity and12 finite changed actual-shape updates, validated probe.json artifact, exit0/verified teardown, noOOM.
+
+Admit all12 fixed mixed-head/dropout recipes at2seeds, no ranking-based pruning. Same61058parameters and commoninitialization; inputGELU/sigmoid/tanhGRU unchanged. All train-onlyp=.1 masks are disabled at inference. Use2CPU6GiBRAM2GiBallocator3GBobservedstop,1800s cap,oneGPUworker,parent12CPU30GBhard27GBsoftzeroswap. Originaldevicehourbudgets unchanged; fit-onlytraining and independently reconstructed official test scoring afterward. Same16exposedcomponents, notpublicforecast. Admission before07UTC.

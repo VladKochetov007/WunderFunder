@@ -1,0 +1,235 @@
+{
+  "kind": "E474 actual-data CUDA shape probe",
+  "status": "passed",
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "device": "cuda",
+  "fit_row_groups": [
+    1284,
+    1793,
+    38,
+    1869
+  ],
+  "batch": 4,
+  "chunk_rows": 256,
+  "seeds": [
+    271828,
+    271829
+  ],
+  "trainable_parameters_per_arm": 61058,
+  "precision_policy": "FP32 IEEE, autocast disabled for baseline and candidates",
+  "parity_tolerance": {
+    "atol": 1e-06,
+    "rtol": 1e-05
+  },
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "dataset_bytes": 5615509128,
+  "source_sha256": {
+    "fit_activation_placement.py": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+    "tests.py": "867c408de9a2c924b58e1c74a205c132a5f0d805ca3ebf0c68e3f9f64c1d50ce",
+    "gpu_probe.py": "3b96ddfc05c80bb4aa3585a9957145a9b6927613e90ab23270bc80048b8c32c9"
+  },
+  "arms": [
+    {
+      "seed": 271828,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu",
+      "loss": 2.3267135620117188,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "parameters": 61058,
+      "finite_updated_parameters": true,
+      "parameters_changed": true,
+      "updates": 1
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu",
+      "loss": 2.3284249305725098,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "parameters": 61058,
+      "finite_updated_parameters": true,
+      "parameters_changed": true,
+      "updates": 1
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu",
+      "loss": 2.329151153564453,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "parameters": 61058,
+      "finite_updated_parameters": true,
+      "parameters_changed": true,
+      "updates": 1
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine",
+      "loss": 2.3330140113830566,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "parameters": 61058,
+      "finite_updated_parameters": true,
+      "parameters_changed": true,
+      "updates": 1
+    },
+    {
+      "seed": 271828,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope",
+      "loss": 2.3330140113830566,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "parameters": 61058,
+      "finite_updated_parameters": true,
+      "parameters_changed": true,
+      "updates": 1
+    },
+    {
+      "seed": 271828,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine",
+      "loss": 2.3351621627807617,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "parameters": 61058,
+      "finite_updated_parameters": true,
+      "parameters_changed": true,
+      "updates": 1
+    },
+    {
+      "seed": 271829,
+      "arm": "base",
+      "embedding_activation": "gelu",
+      "head_activation": "gelu",
+      "loss": 2.4332056045532227,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "parameters": 61058,
+      "finite_updated_parameters": true,
+      "parameters_changed": true,
+      "updates": 1
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_embed",
+      "embedding_activation": "sine",
+      "head_activation": "gelu",
+      "loss": 2.429511070251465,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "parameters": 61058,
+      "finite_updated_parameters": true,
+      "parameters_changed": true,
+      "updates": 1
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_embed",
+      "embedding_activation": "slope",
+      "head_activation": "gelu",
+      "loss": 2.4282689094543457,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "parameters": 61058,
+      "finite_updated_parameters": true,
+      "parameters_changed": true,
+      "updates": 1
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_head",
+      "embedding_activation": "gelu",
+      "head_activation": "sine",
+      "loss": 2.4309935569763184,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "parameters": 61058,
+      "finite_updated_parameters": true,
+      "parameters_changed": true,
+      "updates": 1
+    },
+    {
+      "seed": 271829,
+      "arm": "slope_head",
+      "embedding_activation": "gelu",
+      "head_activation": "slope",
+      "loss": 2.4309592247009277,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "parameters": 61058,
+      "finite_updated_parameters": true,
+      "parameters_changed": true,
+      "updates": 1
+    },
+    {
+      "seed": 271829,
+      "arm": "sine_both",
+      "embedding_activation": "sine",
+      "head_activation": "sine",
+      "loss": 2.426661968231201,
+      "state_shape": [
+        2,
+        4,
+        64
+      ],
+      "parameters": 61058,
+      "finite_updated_parameters": true,
+      "parameters_changed": true,
+      "updates": 1
+    }
+  ],
+  "baseline_parity": {
+    "max_output_abs": 0.0,
+    "max_state_abs": 0.0,
+    "max_parameter_gradient_abs": 0.0,
+    "status": "passed"
+  },
+  "cuda_peak_memory_bytes": 84654592,
+  "cuda_peak_reserved_bytes": 94371840
+}
