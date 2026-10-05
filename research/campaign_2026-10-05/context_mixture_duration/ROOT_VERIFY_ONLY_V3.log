@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/context_mixture_duration/score_duration_independent_v3.py", line 1707, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/context_mixture_duration/score_duration_independent_v3.py", line 1658, in main
+    evidence = validate_full_evidence(
+        args.fit_spec,
+    ...<4 lines>...
+        args.probe_json,
+    )
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/context_mixture_duration/score_duration_independent_v3.py", line 966, in validate_full_evidence
+    cells, manifest_receipt = validate_fit_manifest(
+                              ~~~~~~~~~~~~~~~~~~~~~^
+        fit_run, fit_manifest, fit_nodes, fit_mean, fit_scale
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/context_mixture_duration/score_duration_independent_v3.py", line 1281, in validate_fit_manifest
+    cells.update(validate_trajectory(run, trajectory, fit_nodes, initial_hashes[str(key[0])]))
+                 ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/context_mixture_duration/score_duration_independent_v3.py", line 1165, in validate_trajectory
+    validate_sample_telemetry(row, seed, arm, fit_nodes, step)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/context_mixture_duration/score_duration_independent_v3.py", line 1070, in validate_sample_telemetry
+    value = finite(row.get(field), f"E488 telemetry {field}")
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/context_mixture_duration/score_duration_independent_v3.py", line 188, in finite
+    raise ValueError(f"{label} is not numeric")
+ValueError: E488 telemetry head_update_rms is not numeric

@@ -1015,5 +1015,33 @@ def _(json, mo, project_root):
     return
 
 
+@app.cell(hide_code=True)
+def e488_training_duration_independent_grade(json, mo, project_root):
+    _e488_dir = project_root / "research/campaign_2026-10-05/context_mixture_duration"
+    _e488_scores = json.loads((_e488_dir / "eda/duration_v3/scores.json").read_text())
+    _e488_seeds = (271839, 271840, 271841)
+    _e488_keys = []
+    for _seed in _e488_seeds:
+        _e488_keys.extend([
+            (f"seed{_seed}__epoch3__fixed_minus_gelu", "E3 fixed mixture − GELU"),
+            (f"seed{_seed}__epoch3__recurrent_minus_static", "E3 recurrent context − static mixture"),
+            (f"seed{_seed}__duration_interaction", "E3−E1 duration interaction"),
+        ])
+    _e488_rows = []
+    for _key, _label in _e488_keys:
+        _row = _e488_scores["registered_global_contrasts"][_key]
+        _e488_rows.append({
+            "Seed": _row["seed"],
+            "Contrast": _label,
+            "Δ WP": f"{_row['point_diff']:+.6f}",
+            "95% paired component interval": f"[{_row['ci95'][0]:+.6f}, {_row['ci95'][1]:+.6f}]",
+        })
+    mo.vstack([
+        mo.md("## E488: context mixtures over training duration\n\nAll 12 three-epoch fits are graded. At epoch 3, the fixed mixture exceeds GELU in all three seeds; recurrent context is close to the learned static mixture, with every E3 interval crossing zero. The duration interaction is positive in all seeds, but only one interval excludes zero. These estimates condition on 16 historically exposed components and do not forecast public performance.\n\n[Full report, all 24 snapshots, 27 global contrasts, and 54 target contrasts](research/campaign_2026-10-05/context_mixture_duration/REPORT.md). The independent raw-export arithmetic check matched all values within 4.77e−15; the raw receipt and root provenance wrapper are linked in the report."),
+        mo.ui.table(_e488_rows),
+    ])
+    return
+
+
 if __name__ == "__main__":
     app.run()

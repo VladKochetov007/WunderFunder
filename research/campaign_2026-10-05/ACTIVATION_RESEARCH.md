@@ -25,7 +25,7 @@ E473 tested that approximation separately. Sources and transfer caveats are in
 | E478 | 6 | Candidate shape in H64 two-layer topology | All three point deltas positive; two conditional intervals positive, one crosses zero. |
 | E479 | 16 | Learned per-layer candidate amplitudes | Learned-minus-fixed effects are small and vary by seed/optimizer; fixed positive shape remains favorable for Muon. All28 contrasts retained. |
 
-Overall224 scientific fits have completed;212 have independent official grades. Each
+Overall224 scientific fits have completed; all224 have independent official grades and raw-export arithmetic reproduction. Each
 completed activation fit finished without a new OOM. Actual attempt receipts,
 failed probes and rejected grader checks remain in the record. Component
 intervals condition on fitted models and exclude training-seed/search
@@ -90,3 +90,7 @@ Precision clarification: common FP32/IEEE controls bind recurrent forward/backwa
 E486 frozen-checkpoint swaps:36 CPUconditions/54contrasts, independently reproduced; zero additional training fits. E487 fixed-gradient precision diagnostic: BF16 fails native/custom update checks, FP32 passes on one fit-only batch; saved-delta arithmetic review pending. E488 original900-second timing gate failed (projected1075.263 seconds); no fullfit admitted under original spec. A separately reviewed resource-only1800-second amendment is proposed before fitting, with memory and scientific gates unchanged. E489 is a new FP32optimizer study, sixcontinuousH128fourepoch trajectories; it does not retrospectively admit E485.
 
 E488 v3: separately reviewed1800-second resource-only allowance admitted identicalscientificmatrix afteroriginal900timingfailure. All12three-epochfits/24snapshots completed withoutnewOOM; independentgradespending. Fitscount224, officialgrades212.
+
+## Final E488 drain result
+
+All12 three-epoch mixture trajectories and24 saved snapshots have official grades. Independent shifted raw sums reproduced every GlobalWP/t0/t1 score, all27 global and54 target contrasts and every one of2,000 paired component draws within4.78e-15. At epoch3 the fixed GELU/LeakyReLU mixture beats GELU by+0.00893/+0.00431/+0.00869 at the three fixed seeds; two conditional intervals are positive and one includes zero. Recurrent-minus-static learned gate effects are+0.0000838/−0.0000127/+0.0001658, with all three intervals including zero. The duration interaction is positive at all seeds but only one interval excludes zero. This supports a fixed-mixture transfer experiment, not a learned-gate breakthrough or a public forecast. See [complete duration report](context_mixture_duration/REPORT.md), [raw scores](context_mixture_duration/eda/duration_v3/scores.json) and [root arithmetic proof](checks/context_duration_export_root_reproduction.json).

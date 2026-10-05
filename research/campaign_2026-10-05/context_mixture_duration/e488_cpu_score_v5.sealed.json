@@ -1,0 +1,657 @@
+{
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/context_mixture_duration/score_duration_independent_v5.py",
+    "--mode",
+    "score",
+    "--fit-attempt",
+    "research/campaign_2026-10-04/runner/attempts/e488-context-duration-twelve-fit-v3.json",
+    "--probe-attempt",
+    "research/campaign_2026-10-04/runner/attempts/e488-context-duration-real-gpu-probe-v2.json",
+    "--device",
+    "cpu",
+    "--output",
+    "research/campaign_2026-10-05/context_mixture_duration/eda/duration_v3"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/context_mixture_duration/eda/duration_v3/proof.json",
+    "research/campaign_2026-10-05/context_mixture_duration/eda/duration_v3/scores.json",
+    "research/campaign_2026-10-05/context_mixture_duration/eda/duration_v3/selected_predictions.npz"
+  ],
+  "code": [
+    {
+      "path": "research/campaign_2026-10-05/activation_context_mixture/fit_context_mixture_v2.py",
+      "sha256": "2dec963a966ba30e1dc3deed40472fd2d0129a2d24fa07585a3a7ed4e2e1dcbc",
+      "size": 32848
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_context_mixture/gpu_probe_v2.py",
+      "sha256": "06e4b056dd0c9ea3eeab3d7725918801a6796b68d7f82b734e191aa366a2018d",
+      "size": 5311
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_context_mixture/tests_v2.py",
+      "sha256": "0d7030f0197c949c3cd72ea0b1e338cfe8b86e66b7de69b9f00853a6f154c9d2",
+      "size": 9797
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_head_mixture/fit_activation_head_mixture.py",
+      "sha256": "2d4b1b103dd31912fea7ab24a63e6ce176e532dca8d0dfa2cdb32aebd9e567d7",
+      "size": 14659
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+      "sha256": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+      "size": 18964
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+      "sha256": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+      "size": 22424
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/CONTROLLER_CLARIFICATIONS.md",
+      "sha256": "d382f867bd8c889c5c63f40228ba1133e0f52d2a9e396860fbf15009fced0a9c",
+      "size": 1569
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/E488_DESIGN.md",
+      "sha256": "3764a095504af6da66a4faa908a47ff5dd3f94266249d5bea7c07cf611148824",
+      "size": 4000
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/GRADER_V5_ACTUAL_GATE_REVIEW.md",
+      "sha256": "eb3b086619730f4e707428980e5b81dfbe1e1bcbe79ce0bb02082fc17ccd01d8",
+      "size": 2401
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/INDEPENDENT_REVIEW.md",
+      "sha256": "85fc20e06e5894a48f7ea9851d44bd9a934c03cd878b51a0c153dec61a316e3a",
+      "size": 5433
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/RESOURCE_ONLY_ADMISSION_AMENDMENT_V3.md",
+      "sha256": "9309269da0c263053f8fd767142e29dc6a127ac30477c35074e6589535ef9072",
+      "size": 1872
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/RESOURCE_ONLY_ADMISSION_AMENDMENT_V3_REVIEW.md",
+      "sha256": "d99329047aa1d6e21b662019e1e6687ea0f06c44ae1218dbf5d692034d1020b4",
+      "size": 2492
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/ROOT_FULL_FIT_ADMISSION_V3.md",
+      "sha256": "4ac484c54c5638355f292bd3f4a24a0852f93e7a35fdd75da49b874d79a029e6",
+      "size": 935
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/SPEC_CRITIC.md",
+      "sha256": "ccc5caba6eef86b928e31cc78ce65602ad528a6549b0017a3d91ffcf1a3aa3e1",
+      "size": 4360
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/fit_duration.py",
+      "sha256": "89d38cd71da3ff8905d51da60d369bbe04b07d26789ab242085d59d384ac299e",
+      "size": 24026
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/gpu_probe_duration.py",
+      "sha256": "3e1f383c9364e70b2ea0e4846a15de5281090326a1d5fe634061dbaebea5747f",
+      "size": 4062
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/gpu_probe_duration_v2.py",
+      "sha256": "d7abd232ebbec9a10ec5dff2415103ff75ce672633e512034426669347489d7b",
+      "size": 5667
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/score_duration_independent_v5.py",
+      "sha256": "4fcbf4065c985be6a636e920769e9e2e11d9523570ac9ac698d2a7be56df4d9c",
+      "size": 78676
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/test_score_duration_independent_v5.py",
+      "sha256": "ad7c0f3e8c8c7b1b29e5559e30b26a7ec09063ea7357fccd0db491ebe9e86240",
+      "size": 15416
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/tests_duration.py",
+      "sha256": "29a2b247d5f32e32c5242325c0bbce35f511a44fc32d01c429d29f252d33413d",
+      "size": 5276
+    },
+    {
+      "path": "scripts/run_campaign.py",
+      "sha256": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+      "size": 4273
+    },
+    {
+      "path": "src/wnn/__init__.py",
+      "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+      "size": 63
+    },
+    {
+      "path": "src/wnn/campaign.py",
+      "sha256": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+      "size": 13176
+    },
+    {
+      "path": "src/wnn/campaign_local.py",
+      "sha256": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+      "size": 22065
+    },
+    {
+      "path": "src/wnn/campaign_spec.py",
+      "sha256": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+      "size": 8717
+    },
+    {
+      "path": "src/wnn/evaluation.py",
+      "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+      "size": 8080
+    },
+    {
+      "path": "src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "size": 8902
+    },
+    {
+      "path": "src/wnn/nn.py",
+      "sha256": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+      "size": 19926
+    },
+    {
+      "path": "src/wnn/optim.py",
+      "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+      "size": 11736
+    },
+    {
+      "path": "src/wnn/resources.py",
+      "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+      "size": 4485
+    }
+  ],
+  "code_sha256": "e6aca21fa54387bf7323bdb9479d4be7bd7933eca24c61771421de06dd2924ef",
+  "environment": {},
+  "inputs": [
+    {
+      "path": "datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "size": 5615509128
+    },
+    {
+      "path": "research/campaign_2026-10-04/runner/attempts/e484-context-mixture-real-gpu-probe-v1.json",
+      "sha256": "0ad15a5bd00c3da6e287c5301ca0cc62f7d676d0a432757013315b99de985cda",
+      "size": 9853
+    },
+    {
+      "path": "research/campaign_2026-10-04/runner/attempts/e488-context-duration-real-gpu-probe-v2.json",
+      "sha256": "57869d3451dcb5023af62dcf92ba60d2f4d7f8fe6c2cfc67c6a7ade2705a6109",
+      "size": 12745
+    },
+    {
+      "path": "research/campaign_2026-10-04/runner/attempts/e488-context-duration-twelve-fit-v3.json",
+      "sha256": "307d179f464dde4f487b5e6f0d412a827cf1b33dca75bd47d971ab8a917d209a",
+      "size": 14227
+    },
+    {
+      "path": "research/campaign_2026-10-04/runner/logs/e484-context-mixture-real-gpu-probe-v1.log",
+      "sha256": "8bb7723dccd078ef89af5ffd1e7b2a0937f40d330a79399528a1d61ef391145a",
+      "size": 1246
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_context_mixture/ACTOR_SOURCE_NOTE_V2.md",
+      "sha256": "956fbfbbf5f07249cb13d1a41092e8b6332e9277cd0faced7a86a9e81219e452",
+      "size": 1133
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_context_mixture/E484_DESIGN_V2.md",
+      "sha256": "e2657b85e31c10d0bab3edab066ba71faa6f2eee79c5cddfd9aff86c6f89b398",
+      "size": 7602
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_context_mixture/GPU_PROBE_FAILURE_V1.md",
+      "sha256": "bfd4323a391a869c2d7d1664027ffaa204568bc746e42feb76da12fe3c2f8a92",
+      "size": 1225
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_context_mixture/INDEPENDENT_REVIEW.md",
+      "sha256": "92c49932fdd0e716a8df1803c76a077970497f2538a867722ef15db0cb44589c",
+      "size": 4136
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_context_mixture/LITERATURE.md",
+      "sha256": "4e0d140e1aad1918a294fa017665e939d78cd708dd3bdc1ea9f6da01693e0431",
+      "size": 2152
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_context_mixture/ROOT_VERSIONED_SOURCE_REVIEW_V2.md",
+      "sha256": "b26ab42d6848807bcd1a2c0720ed9db1ff2e13e7774f59fdd36ae7cef3e871f3",
+      "size": 1094
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_context_mixture/SPEC_CRITIC.md",
+      "sha256": "7f1325b9f9517199bb0a2af08a4a86a7625c917814458bf17a254fe9b79303d4",
+      "size": 5975
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_context_mixture/SPEC_CRITIC_V2_RESPONSE.md",
+      "sha256": "9325be932eb0427db6631bc616b35dfbe285da78c876df99c966b19b8817315e",
+      "size": 1891
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_context_mixture/preflight_cpu_v5/fit_manifest.json",
+      "sha256": "26073971b2942ce0c70410b9dbb92b89ef1dbd8a992ed4b5a2fcb7167ae42a0f",
+      "size": 28602
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/ROOT_VERIFY_ONLY_V5.log",
+      "sha256": "4424dacb4f0b2355234b10ac96582041bf4475583ff7672d1c99a20d9171f4e5",
+      "size": 3716
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/e488_gpu_probe_v2.sealed.json",
+      "sha256": "353eb321768c31567853c8c2e9314a57dd2a3dbf84f7564b1b70e8d9110afdaf",
+      "size": 7937
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/e488_twelve_fit_v3.sealed.json",
+      "sha256": "5230798a975dfc3b207cf855eccf38ef990ece7fe92578b0c6bf866b5b525936",
+      "size": 9317
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/gpu_probe_v2/probe.json",
+      "sha256": "6db1e875175f6b7631a1ca126738ebae40ea7db576e9788a60ff04635c6730ba",
+      "size": 18322
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/preflight_cpu_v1/fit_manifest.json",
+      "sha256": "d4e25b8e8e84a7506ec5a8eecf973791b3f2aa07569bf5c64704970f6ea8fae6",
+      "size": 19475
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/root_verify_only_v5/proof.json",
+      "sha256": "4424dacb4f0b2355234b10ac96582041bf4475583ff7672d1c99a20d9171f4e5",
+      "size": 3716
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271839_fixed_mix_epoch1.json",
+      "sha256": "3d7249c116c2bc2bb259dfc7297c4284c35d205a00b422dfbe361eec3095f368",
+      "size": 259
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271839_fixed_mix_epoch3.json",
+      "sha256": "d299a66b7b2dcec69176a50bc93b2d51becb3447bc99bfdaec6224208d5cd254",
+      "size": 260
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271839_gelu_epoch1.json",
+      "sha256": "aab1ff7e05978766d07465f317d39091b16f9367a914af2a0126e70f0cda3f44",
+      "size": 254
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271839_gelu_epoch3.json",
+      "sha256": "9eac1e33acda8127ad792d3b754a8bdb8f026fc7a7cf5302693037ae9ed13b60",
+      "size": 255
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271839_recurrent_mix_epoch1.json",
+      "sha256": "7c2823ca19a51fb9b9f0b9f703fdfc130d0b0fc2c4c65fc02b541f99088f7644",
+      "size": 263
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271839_recurrent_mix_epoch3.json",
+      "sha256": "2fb4faed75255307dca46020fd22b8864043aec231ec6dfe2801bf4c3bbda25f",
+      "size": 264
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271839_static_mix_epoch1.json",
+      "sha256": "7bb7802eaf3baf2705b48714cc6d5de72f5794238c24dadfe7168182f0ef83a1",
+      "size": 260
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271839_static_mix_epoch3.json",
+      "sha256": "760cd134e2c168c1e41097e3230ab2c6aa9846249c385a6d4adbbad5e5e23509",
+      "size": 261
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271840_fixed_mix_epoch1.json",
+      "sha256": "46d1fabc1a7ac24b80c5afdcf31cc2e76af1ddd7d4d52dda528df31b50b08a40",
+      "size": 259
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271840_fixed_mix_epoch3.json",
+      "sha256": "c46b1a14d213e7c3cd395db50b08c00d3ea8ab726c0154b076fbc87e51847711",
+      "size": 260
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271840_gelu_epoch1.json",
+      "sha256": "0b3cd3869fbc51a67936d1fbd1fc0b00db2bbe69ee640d53e5ba1826b3628da7",
+      "size": 254
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271840_gelu_epoch3.json",
+      "sha256": "e02d8e4b49478ca232edcf8c1923d5142d676dc0a20bc3b692a29420911a8039",
+      "size": 255
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271840_recurrent_mix_epoch1.json",
+      "sha256": "1a7402374b1066cb7330559700bd0e1845295f4556b37f3782e38af32bff84bc",
+      "size": 263
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271840_recurrent_mix_epoch3.json",
+      "sha256": "473b59086bb5928ae2667ba7a61b1d813a99346c9ef19686338a32430888625e",
+      "size": 264
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271840_static_mix_epoch1.json",
+      "sha256": "88b1abb70fc29890ef9a84a5f85646569b35481ccce1bcdf145ee310135cc547",
+      "size": 260
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271840_static_mix_epoch3.json",
+      "sha256": "f25aecc31e8360d7544950aa890dc959208918eb18ceec9990580e8c7c9138e9",
+      "size": 261
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271841_fixed_mix_epoch1.json",
+      "sha256": "4ff3c783219b999be8df54e5db9c641849d93e5547e424d09c153c92fc5fee6f",
+      "size": 259
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271841_fixed_mix_epoch3.json",
+      "sha256": "984aeae8ce09f8cb6b10b1f25ef7c64b32de7e82d6e62c64aaa60da1b3335658",
+      "size": 260
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271841_gelu_epoch1.json",
+      "sha256": "dbda7e2d5e3ac4cb81c33594b2ecb57ed0b05570771fb345caa19cab49af1048",
+      "size": 254
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271841_gelu_epoch3.json",
+      "sha256": "faa71897cf208dd195801a5d1adf89abbe3628587096f2a8ba7d95e876f657f1",
+      "size": 255
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271841_recurrent_mix_epoch1.json",
+      "sha256": "eba90e8455408c5c6af8416dc2ab4dc620178d44f5100ddb09353a5bb0cee687",
+      "size": 263
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271841_recurrent_mix_epoch3.json",
+      "sha256": "12863f1700e744a06286859a21b036aa3221f479196ca8b3d5c1df035b2c3014",
+      "size": 264
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271841_static_mix_epoch1.json",
+      "sha256": "1d8cc02ffd364157b479822ff56a9d7423b86da670216465210213f7ebca2aa4",
+      "size": 260
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/checkpoint_seed271841_static_mix_epoch3.json",
+      "sha256": "b695ff7279929d51d34715a8e0fbf1fabf45346acf05acaa0093f8dbd5d14a06",
+      "size": 261
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/fit_manifest.json",
+      "sha256": "2f80164533b337538077e17fb2cf1d16b33ed70790e5be253aa218bc9e951633",
+      "size": 129645
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/progress_seed271839_fixed_mix.json",
+      "sha256": "6c49b310e1e0e3194a5592a49691d018c7e5bdf5958d168987c1515340910908",
+      "size": 8242
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/progress_seed271839_gelu.json",
+      "sha256": "64c2028feb26359fad36dd46ded58283db01fc4a07d47ee9ca447f0cb043bc77",
+      "size": 7588
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/progress_seed271839_recurrent_mix.json",
+      "sha256": "2a69df58a4bb98800bc80b926a2c0f1527a06f1af22f1a65c3739020fd8ec2ef",
+      "size": 8581
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/progress_seed271839_static_mix.json",
+      "sha256": "97d0579d3c23ff6a0a4dd713c806a4c78abd28b3963f3861f23f3b697ab9e9f4",
+      "size": 8563
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/progress_seed271840_fixed_mix.json",
+      "sha256": "d22b63249312524f88cfbba105fc88d4f1fb2496d6468d7cc6ab6c8eb7318c63",
+      "size": 8232
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/progress_seed271840_gelu.json",
+      "sha256": "98ce7efe7bf84c92c38e66186d45d446f7fbd1b71da233d9c2f626cb515a8a03",
+      "size": 7577
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/progress_seed271840_recurrent_mix.json",
+      "sha256": "50302e0d2ff02eeb5e42d323402429208ab5591a29e90042eb893bcc02b3c361",
+      "size": 8581
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/progress_seed271840_static_mix.json",
+      "sha256": "bdabb681b6d9eda668c4d370ca51fd9a0e604ef38a827a65258a0734cb70eb07",
+      "size": 8572
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/progress_seed271841_fixed_mix.json",
+      "sha256": "445be6f6b7e589aeee5ca5841e82b7902e7a3c067f539be18ab0b86992865fc7",
+      "size": 8219
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/progress_seed271841_gelu.json",
+      "sha256": "0bc91071672ae883e24075535776553e9d449088d7343f3857c9c6284304aca0",
+      "size": 7543
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/progress_seed271841_recurrent_mix.json",
+      "sha256": "6b93b68d312513c66809d9e6acd64b0d13842bd59c35fef69d2162e39a2b8a0d",
+      "size": 8545
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/progress_seed271841_static_mix.json",
+      "sha256": "de40e449ced01e97733ccb0a3760f92a15418f8a20ffe972ae969c2a953d975b",
+      "size": 8540
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271839_fixed_mix_epoch1.pt",
+      "sha256": "93f7ced223778474506fb1ff0ceb3f5f0c5e4d276a45efe1d0654fa9218e15e5",
+      "size": 250797
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271839_fixed_mix_epoch3.pt",
+      "sha256": "057f3197f064539147ea536c7117f1deb303138f020c5976238561337d4f9522",
+      "size": 250797
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271839_gelu_epoch1.pt",
+      "sha256": "2029cc991fa095a29176745ca4a07835e1a5242cf881e0f614c8e7a1f5851906",
+      "size": 250687
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271839_gelu_epoch3.pt",
+      "sha256": "f40cd33bf6fd3f0a998713fa15b14435284064fd6a567dab5b85e217d3551329",
+      "size": 250687
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271839_recurrent_mix_epoch1.pt",
+      "sha256": "9e9689fc4818a67dcdd867f0c68c8324cef254252e7697f98a6af63fe25eef80",
+      "size": 251549
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271839_recurrent_mix_epoch3.pt",
+      "sha256": "3120835ac58b51be8e8a3fd766e8c64b97bc5854502f8ddb350f7e08b9b15d61",
+      "size": 251549
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271839_static_mix_epoch1.pt",
+      "sha256": "48d17e7033024e347e90d26e744375297592fb9f77dcf6367664d8c98bcc11dd",
+      "size": 251352
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271839_static_mix_epoch3.pt",
+      "sha256": "462269f20cfe50e7ae2f39131d74c0ab1db9d6b841d3ae61a2616234beebda2c",
+      "size": 251352
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271840_fixed_mix_epoch1.pt",
+      "sha256": "565d85e8b8c16f4c3fde0b21fde1238144f6593db77787737180b6c81f0529bc",
+      "size": 250797
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271840_fixed_mix_epoch3.pt",
+      "sha256": "510a5f461979b8dd8c4c8bde8e3c7e34c7ec975c1da5dc8e2909cc6588e816f6",
+      "size": 250797
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271840_gelu_epoch1.pt",
+      "sha256": "bc70f81ecf5ecbd793c44b2bd1edab7274ec6a0e72de15db2dba3828efceb058",
+      "size": 250687
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271840_gelu_epoch3.pt",
+      "sha256": "fd42913e4ad2d06642979f64a17d9c90e401d49f6f7dfbf60c4d7cf237b8a616",
+      "size": 250687
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271840_recurrent_mix_epoch1.pt",
+      "sha256": "3c9139349c08e56d75b08a0ac46cd0909c525430d0de445ec6e325ac61e82a06",
+      "size": 251549
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271840_recurrent_mix_epoch3.pt",
+      "sha256": "0c34977d48a4cc7b092464d96dc9a4398f21f654e31ecb92c1f542d44d79a2e2",
+      "size": 251549
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271840_static_mix_epoch1.pt",
+      "sha256": "26e521424c8786011e75f0cd7a2824d170388674826b451710fd457d5dc36e2d",
+      "size": 251352
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271840_static_mix_epoch3.pt",
+      "sha256": "abbc3c8d88675efdbf5ec5ee51dab4ce0bbb0948e98d991aaf7fb07ffc30592d",
+      "size": 251352
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271841_fixed_mix_epoch1.pt",
+      "sha256": "0919446bf105d4a6e2f6914eed63792e2f7d2843f6f30be3f3f27a0593607068",
+      "size": 250797
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271841_fixed_mix_epoch3.pt",
+      "sha256": "93f520992f6b69239ee3366e37e9cbe3fc24eaa229a352f64117fee9b3dfed00",
+      "size": 250797
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271841_gelu_epoch1.pt",
+      "sha256": "da1a7be78334e18cf027383250d6268cd2be2b3fb20bd5bca17b90c07190864b",
+      "size": 250687
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271841_gelu_epoch3.pt",
+      "sha256": "f18dcbdf5af56e3c7957734e708a88b9f08298501b41434da7b26b3f973e2658",
+      "size": 250687
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271841_recurrent_mix_epoch1.pt",
+      "sha256": "6e28a5cbad48676cecba6086be355b7e54c5584d2a841f91bba79ebb48f3e826",
+      "size": 251549
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271841_recurrent_mix_epoch3.pt",
+      "sha256": "d0e8085626b97d986d4276c866aab97b5d015f60f409218b001daca317287b56",
+      "size": 251549
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271841_static_mix_epoch1.pt",
+      "sha256": "d4ce2882677f1dd4b4160e978197afd2e305ec43a40034d5d859e7a76340412f",
+      "size": 251352
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/seed271841_static_mix_epoch3.pt",
+      "sha256": "e27b037700f9ce197f4f74c06e58c6bc064f3ec9aa0b1e8b9233d91a67e6c82d",
+      "size": 251352
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/trajectory_seed271839_fixed_mix.json",
+      "sha256": "151d34e7d256ce7e75ae4c422c6a0e8329d360c39f189bc832838964cf1f428b",
+      "size": 8590
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/trajectory_seed271839_gelu.json",
+      "sha256": "7f1a2860907381f6593b3f6d7b7a9688155c0d592c61d89693656b4e2b007561",
+      "size": 7935
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/trajectory_seed271839_recurrent_mix.json",
+      "sha256": "77d0fbb82515ed5faa0e6f223fde4c699f11f2b4df4a2bcb4ad6f29df0255b26",
+      "size": 8929
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/trajectory_seed271839_static_mix.json",
+      "sha256": "1dc192d80810ab6db10e34f17a5cbbc117bb7331e6d643a390b7fd9be1d26d46",
+      "size": 8910
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/trajectory_seed271840_fixed_mix.json",
+      "sha256": "8950ee8494e3dd73a5a81abc2b34d24fbc2bb91bce555bc077f5f060cd6b05e0",
+      "size": 8580
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/trajectory_seed271840_gelu.json",
+      "sha256": "7c7c6fcc241674d79cbab1429102415179a38b593eb5aaefc0644bbdb052f2b9",
+      "size": 7924
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/trajectory_seed271840_recurrent_mix.json",
+      "sha256": "9ccceb89bc3fcb372f1f9961ad6830ff3c576880804d5a593716acd242b0ddc4",
+      "size": 8928
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/trajectory_seed271840_static_mix.json",
+      "sha256": "af3edbe9d137f35b6cbe832d20295ece5d65cc4ba29cbb6290e970047a274bf0",
+      "size": 8919
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/trajectory_seed271841_fixed_mix.json",
+      "sha256": "b93de2d186ee650aa8d408542a3fd04acb086756405c114fefedd172c425fc1f",
+      "size": 8567
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/trajectory_seed271841_gelu.json",
+      "sha256": "06a9a6b074a0cba89d58853a1b7ef4cd945544e965679cb2a2ffc7ee75bfe295",
+      "size": 7890
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/trajectory_seed271841_recurrent_mix.json",
+      "sha256": "8765d679deb5f85307d2e9f4700533b618250a89055ffc37e5bfc176abfb87a6",
+      "size": 8893
+    },
+    {
+      "path": "research/campaign_2026-10-05/context_mixture_duration/runs/twelve_v3/trajectory_seed271841_static_mix.json",
+      "sha256": "3ddb7b66f5cf6243c31eb4d54482636d3c9faf0758ca762a86958f177fa65692",
+      "size": 8888
+    },
+    {
+      "path": "research/campaign_2026-10-05/target_mechanics/cohort.json",
+      "sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+      "size": 6707
+    }
+  ],
+  "kind": "cpu",
+  "limits": {
+    "cpus": 1,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 2400
+  },
+  "name": "e488_context_duration_independent_score_v5",
+  "version": 1
+}

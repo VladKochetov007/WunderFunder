@@ -3,8 +3,7 @@
 ## Scope and accounting
 
 At the end-of-window accounting, the activation campaign has **236 registered
-fit slots**. Training completed for **224**: **212** have an official grade,
-while the 12 E488 fits are complete and their independent grade is pending.
+fit slots**. Training completed and received an official grade for **224**. The 12 E488 fits and its independent grade are complete; the score and arithmetic proof are recorded in [the E488 report](context_mixture_duration/REPORT.md).
 The other 12 registered slots did not produce training results: the six E485
 continuations remained unadmitted after the native/custom optimizer probe
 failed, and the six E489 trajectories were prepared but not started. E489's
@@ -83,11 +82,19 @@ recurrent, projection, and self-context mixtures. Recurrent-minus-static
 intervals crossed zero in both seeds, recurrent-minus-self reversed sign,
 and fixed-mixture-minus-GELU intervals crossed zero in both seeds. The small
 differences among gate variants do not show that context adds useful
-information. E488 extends these same comparisons over three continuous
-epochs, with 12 fits complete; its official grade remains pending and is not
-interpreted here. See [E477](activation_head_mixture/REPORT.md),
-[E484](activation_context_mixture/REPORT.md), and the
-[E488 design](context_mixture_duration/E488_DESIGN.md).
+information. E488 extended the four arms to three continuous epochs over
+three seeds and retained all 24 saved snapshots. At epoch 3, fixed-mixture
+minus GELU was +0.0089295, +0.0043077, and +0.0086897; two conditional
+component intervals excluded zero and one crossed it. Recurrent-context minus
+static-mixture was +0.0000838, -0.0000127, and +0.0001658, with all three
+intervals crossing zero. At epoch 1, all three recurrent-minus-static points
+were negative with intervals excluding zero. The epoch-3-minus-epoch-1
+duration interaction was positive for all seeds, with only one of three global
+intervals excluding zero. Thus the larger fixed-mixture effect is consistent
+across these runs, while the extra recurrent gate contributes very little on
+this panel; this does not show that context adds information or predict public
+transfer. See [E477](activation_head_mixture/REPORT.md),
+[E484](activation_context_mixture/REPORT.md), and the [E488 report](context_mixture_duration/REPORT.md).
 
 **Frozen-weight swaps show training/inference dependence, not pure optimizer
 causality.** E486 rescored 18 existing E483 checkpoints under both baseline
