@@ -1,0 +1,50 @@
+{
+  "cache_advice": {
+    "advised_bytes": 42193080989,
+    "advised_files": 286,
+    "api": "POSIX_FADV_DONTNEED",
+    "attempted_files": 286,
+    "failures": [],
+    "status": "complete"
+  },
+  "concurrency": 2,
+  "devices": [
+    {
+      "index": 0,
+      "name": "Tesla T4",
+      "total_bytes": 16106127360,
+      "used_bytes": 0,
+      "uuid": "GPU-4583d2bb-403f-a74f-e705-8dc0d8cd38fb"
+    },
+    {
+      "index": 1,
+      "name": "Tesla T4",
+      "total_bytes": 16106127360,
+      "used_bytes": 0,
+      "uuid": "GPU-a1fd7fa4-2ccc-0b1b-9721-b0a6d2e24334"
+    }
+  ],
+  "guard": "min(0.8*capacity, available-0.2*capacity); unchanged",
+  "host": {
+    "affinity": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "available_bytes": 32020725760,
+    "capacity_bytes": 32212254720,
+    "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+    "versions": {
+      "numpy": "2.1.3",
+      "psutil": "5.9.5",
+      "pyarrow": "23.0.1",
+      "torch": "2.11.0+cu128"
+    }
+  },
+  "specs": [
+    "c20261004_w256_adamw_s3_f1_t4v4_probe",
+    "c20261004_w384_adamw_s3_f1_t4v4_probe"
+  ],
+  "status": "admitted"
+}

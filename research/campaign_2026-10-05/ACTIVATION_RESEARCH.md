@@ -17,9 +17,10 @@ E473 tested that approximation separately. Sources and transfer caveats are in
 |---|---:|---|---|
 | E470/E472 | 48 | Eight activations × two optimizers × three seeds | Sine-minus-GELU is positive at all six seed/optimizer comparisons, but rankings and optimizer advantages change with seed. |
 | E473 | 10 | Sine curvature versus linear addition, scaling, and approximate GELU | GELU+0.1x matches or exceeds GELU+sine at one seed; the Muon difference is +0.00181 with a positive conditional interval. |
-| E471 | 6 | Bounded candidate curvature inside the GRU × optimizer | Negative perturbation helps AdamW; positive perturbation helps Muon at one seed. Both signs are retained for replication. |
+| E471/E475 | 18 | Bounded candidate curvature inside the GRU × optimizer ×three seeds | Positive alpha improves Muon at allthree seeds; negative alpha hurts Muon at allthree. AdamW effects vary. |
+| E474 | 12 | Sine/slope change localized to embedding versus head | Embedding effects reverse across seeds; head effects near-neutral. All14 registered contrasts retained. |
 
-All 64 fits finished without a new OOM. Failed parity checks and the subsequent
+All106 officially graded fits finished without a new OOM;118 fits have completed overall, including12 awaiting independent grades. Failed parity checks and the subsequent
 shared FP32 policy are preserved as incidents, rather than removed from the
 record. Official pooled and per-target scores were recomputed from raw finite
 selected predictions. Component intervals condition on fitted models and do
@@ -48,16 +49,10 @@ unchanged. The optimizer crossover is an observation, not a diagnosed cause.
 |---|---:|---|
 | E475 | 12 | Both recurrent perturbations and both optimizers at two additional seeds. |
 | E474 | 12 | Sine versus matched linear slope in the input embedding, output head, or both, at two seeds on the incumbent's two-layer topology scaled to H64. |
-| E476 | 12 | Two activations × two optimizers × three LR protocols: constant peak, warmup/cosine, and constant at the latter trace's arithmetic mean. |
+| E476 | 12 | Two activations × two optimizers × three LR protocols. Allscoresfinished: activationrank depends on schedule; warmup/cosinewinsone-seedAdamWcomparisons. |
 | E477 | 12 | GELU, parallel half-width GELU/LeakyReLU readouts, or same-channel mixture, with and without head dropout, at two seeds. |
 
-E474/E476/E477 are prepared source studies until independently reviewed,
-sealed, and passed through real-device probes. Prepared arms must never count
-as completed evidence. E475 began serial GPU replication after its unchanged
-shape/policy had passed the preceding real-device gate and its new seed/order
-wrapper passed independent CPU checks. The continuation totals 112 fits if
-all four additional studies are admitted and finish; 64 were complete when
-this overview was written.
+E475 and all36 E474/E476/E477 fits have finished. E474 has12officialscores and14jointcontrasts; E476 has12officialscores and22contrasts; E477 independent grades are pending. All6 E478 larger recurrent scaling fits finished; its independent CPU grade finished with6scores/3contrasts. The current completed-fit total is118, with106officiallygraded. E479 registers16new learned-shape comparisons before implementation: two scalar bounded amplitudes, one per GRU layer, fixed/learned controls, two initializations and both optimizers at two seeds. These are designed arms, not completed evidence.
 
 Matching LR sums does not match actual optimizer update magnitudes. Matching
 parameter counts does not match functional capacity or regularization. Fixed
@@ -72,3 +67,5 @@ device-hour budgets remain in force. Admission stops at 07:00 UTC / 10:00 Kyiv;
 already admitted workers then finish gracefully. Every result, source hash,
 resource receipt, and failure belongs in the campaign ledger and plots in its
 study's `eda/` directory and the live marimo notebook.
+
+Precision clarification: common FP32/IEEE controls bind recurrent forward/backward arithmetic and the usual CUDA/cuDNN flags. The existing Muon optimizer deliberately converts its Newton–Schulz orthogonalization matrices to BF16 on CUDA (`src/wnn/optim.py:orthogonalize`). That unchanged optimizer implementation is common to the Muon arms; descriptions of FP32 recurrent controls must not imply every internal optimizer operation is FP32.

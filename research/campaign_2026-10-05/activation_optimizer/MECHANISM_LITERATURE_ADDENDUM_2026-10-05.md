@@ -1,0 +1,13 @@
+# Activation mechanisms: additional primary sources
+
+[Adaptive activation in recurrent networks (2020)](https://arxiv.org/abs/2006.12253) investigates a parametric activation family and adaptation to task/input statistics. This motivates learning shape rather than treating a fixed function ranking as universal; it is not evidence of a gain on these labels.
+
+[Activation design and continual plasticity (ICLR 2026)](https://proceedings.iclr.cc/paper_files/paper/2026/hash/9c8df8de46c1a1b39b30b9f74be69c02-Abstract-Conference.html) studies negative-branch shape and randomized smooth leakage under distribution shifts. Transfer to stationary/exposed competition panels remains an experiment.
+
+Formula ambiguity resolved using [authors' implementation](https://github.com/lute47lillo/activations_plasticity/blob/iclr2026/utils/custom_activations.py): SmoothLeaky is alpha*x+(1-alpha)*x*sigmoid(c*x/p), with defaults alpha=.1, c=5, p=3. It is division by p, **not x to the power p**. RandomizedSmoothLeaky samples elementwise alpha in training and uses the interval mean at inference. We did not execute their repository. Their constructors estimate a gain using random samples, which would perturb initialization RNG if copied literally; a controlled experiment must avoid that incidental draw or isolate RNG.
+
+Analytic caution: adding .1*x to exact GELU does not guarantee a strictly positive derivative. GELU prime reaches about -.1289 at x=-sqrt(2), so the resulting derivative can be about -.0289. Likewise the SmoothLeaky formula's derivative contains an additional x*sigmoid-prime term; asymptotic leakage is not automatically a global alpha derivative floor. A distinct proposed monotone control is alpha*x+(1-alpha)*(softplus(beta*x)-log(2))/beta, whose derivative lies between alpha and1 for positive beta. It has a different shape/positive asymptotic intercept and is our inference, not the paper's formula. No experiment with that control has yet run.
+
+[Continuous-Time Piecewise-Linear RNNs (ICML 2026)](https://proceedings.mlr.press/v306/brandle26a.html) targets dynamical-system reconstruction and irregular time intervals using tractable dynamics. This is a structurally different recurrent direction; neither its scientific reconstruction results nor previous broad event-clock negatives establish its competition outcome.
+
+The requested [Mining Generalizable Activation Functions](https://arxiv.org/abs/2602.05688) searches activations using small shifted tasks. Our exposed-panel search does not reproduce that out-of-distribution evaluator; reported transfer remains conditional on architecture, optimizer, data quantity, and preactivation occupancy.

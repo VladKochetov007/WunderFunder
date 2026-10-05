@@ -1,0 +1,87 @@
+{
+  "status": "failed_closed_resource_censored_no_fit_result",
+  "provider": {
+    "kernel": "vladkochetov07/wnn-w384-fold1-dualt4-20261005-v7-runner",
+    "phase_report_status": "failed_closed",
+    "elapsed_seconds": 5154.560115225,
+    "retrieval": "bounded logs/json/txt file-pattern only; no model, data, prediction, or checkpoint bulk download"
+  },
+  "failure": {
+    "first_stopped_worker": "c20261004_w256_adamw_s3_f1_t4v4_fit",
+    "reason": "sampled process-tree RSS exceeded its sealed 8 GiB worker limit",
+    "worker_ram_limit_bytes": 8589934592,
+    "w256_peak_ram_bytes": 8597594112,
+    "w256_over_limit_bytes": 7659520,
+    "w384_propagated_peak_ram_bytes": 8470228992,
+    "w256_peak_gpu_bytes": 4054843392,
+    "w384_peak_gpu_bytes": 4778360832,
+    "gpu_sampled_stop_bytes": 13958643712,
+    "last_fit_progress": "epoch 0, batch 120/373 for both workers",
+    "fit_completed_workers": 0,
+    "missing_validation_prediction_caches": [
+      "cache/pred_c20261004_w256_adamw_s3_f1_t4v4_fit_valid.npy",
+      "cache/pred_c20261004_w256_adamw_s3_f1_t4v4_fit_valid.json",
+      "cache/pred_c20261004_w384_adamw_s3_f1_t4v4_fit_valid.npy",
+      "cache/pred_c20261004_w384_adamw_s3_f1_t4v4_fit_valid.json"
+    ],
+    "final_host_available_bytes": 846573568,
+    "scientific_interpretation": "No valid fit, prediction, score, or scientific comparison; not a negative model result"
+  },
+  "fit_admission": {
+    "status": "admitted",
+    "concurrency": 2,
+    "host_capacity_bytes": 32212254720,
+    "host_available_bytes": 32045531136,
+    "host_guard": "min(0.8*capacity, available-0.2*capacity)",
+    "cache_advice_files": 287,
+    "cache_advice_bytes": 42193081253,
+    "cache_advice_failures": 0,
+    "worker_ram_reservation_bytes": 8589934592,
+    "worker_cpu_reservation": 2,
+    "worker_timeout_seconds": 12600,
+    "whole_job_watchdog_seconds": 25180,
+    "provider_timeout_seconds": 25200
+  },
+  "probe_phase": {
+    "status": "both_one_batch_probes_complete",
+    "w256_peak_ram_bytes": 5483782144,
+    "w384_peak_ram_bytes": 5288849408,
+    "w256_peak_gpu_bytes": 3511681024,
+    "w384_peak_gpu_bytes": 4138729472
+  },
+  "memory_trace": {
+    "train_parquet_bytes": 29240219011,
+    "train_sequences_reported_by_worker": 10607,
+    "sequence_rows": 20000,
+    "feature_columns": 112,
+    "batch_size": 32,
+    "returned_batch_bytes": 300160000,
+    "loader_budget_gib": 3,
+    "loader_workers": 1,
+    "prefetch_factor": 2,
+    "accounted_max_inflight_batch_payloads": 4,
+    "accounted_max_inflight_batch_bytes": 1200640000,
+    "existing_teacher_and_propensity_storage": "read-only NumPy memory maps",
+    "cause_assessment": "Host pressure and worker RSS growth are observed. Arrow decode/stack, DataLoader/pinning, and streamed Parquet file-cache refill are plausible contributors; v7 did not capture per-process or anon/file breakdown, so dominant component is unresolved."
+  },
+  "candidate_decision": {
+    "v8_bundle_created": false,
+    "reason": "No full-run resource measurement supports either a paired lower-queue profile or a sequential controller; sequential wall time could exceed unchanged watchdogs.",
+    "recommended_next_step": "Resource-only exact-data profile with WNN_LOADER_WORKERS=0, split process-tree RSS plus host/cgroup anon/file telemetry, preserve all sealed science inputs and recipe. Evaluate a sequential one-fit phase only if the paired profile remains outside the existing guard and total wall time is feasible.",
+    "not_authorized_here": ["provider upload", "provider launch", "fit", "test scoring", "ledger mutation", "worker cap increase"]
+  },
+  "evidence_sha256": {
+    "provider_log": "891177558920f2a1053da11dc422a4f00d70d364301568bcd8c66b45b739676e",
+    "phase_report": "13c0d32d7dffb4df31f10678ece3fad4efc460f7a23f924725509d1af82277a3",
+    "fit_admission": "d4d49d0768a3cb6c0e302aa982362af6ea0291ef2c486ee736671196fbafad0f",
+    "fit_summary": "c6d84136facd37700622a374cc98f5315c3ebd70f57b1f33fbc8a3f951b2655e",
+    "fit_final_inventory": "1500a1a763506882a47a158fe5c1f7d535d1b6c356e04d81b43f119b71dac527",
+    "w256_failure": "5281e0bce118dbdfb9715ecaac5f595f20465ad1ab63aad09ed717eb4cc50794",
+    "w384_failure": "b50ad467354e89eaff3b1a8f09eda42c92c27a043c7aa06807ad9e8f2e0c9fb4",
+    "w256_worker_log": "1815dfc5c60f20333c3961ef47782cb43c7280539204c8ea4e10e7ea6649ee50",
+    "w384_worker_log": "ac866945c8632024b005199a157203a31d142ef3a6089584887a7508daf0d0d2",
+    "probe_summary": "010ba6218f7e9c455b98968a4eda3fb4a8ae0e78d69ac54c487405f45f557ec7",
+    "v7_fit_trainer": "de1d87dacb26c628c9917faf8bcd2cd735a43f42e7a2e5f1c63ed14b5f2b6cd1",
+    "v7_kaggle_gpu_runner": "01bb1846c6825b0af860f86607ef6ecd8acdc1b311c34ba16bab70c0bf328b9d"
+  }
+}

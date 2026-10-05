@@ -1,0 +1,1 @@
+CPU grading source and inputs are sealed as e476_cpu_grade_v1. Admission returned AdmissionBusy while the single larger-memory CPU helper slot was occupied by E478 CPU scoring. This is an unadmitted queued grade, not a failed scientific fit or rerun. It will launch unchanged after that helper drains.

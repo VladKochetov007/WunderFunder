@@ -1,0 +1,1002 @@
+{
+  "kind": "independent E474 activation-placement scorer",
+  "status": "all_12_scored",
+  "metric_id": "global_wp_clip2_v1",
+  "metric_clip": 2.0,
+  "scope": "16 historically exposed diagnostic test components; exploratory and not fresh validation/public-score evidence",
+  "attempt": {
+    "id": "e474-placement-twelve-fit-v1",
+    "status": "finished",
+    "exit_code": 0,
+    "teardown_verified": true,
+    "spec_sha256": "67c602df71a75c3eea722187eab66af765e77ccc19ced21788a6913f529d987a",
+    "fit_result_artifacts": [
+      {
+        "path": "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/fit_manifest.json",
+        "sha256": "89cb23e34e07f40ab11d46fb96b6b67b922047f0f8449e5a11639e34d319b723",
+        "size": 46722
+      }
+    ]
+  },
+  "fit_manifest_sha256": "89cb23e34e07f40ab11d46fb96b6b67b922047f0f8449e5a11639e34d319b723",
+  "fit_normalization_source": "deterministically recomputed from the sealed 24 fit row groups; auxiliary fit_only_cohort.json is not claimed as a campaign artifact",
+  "fit_source_sha256": {
+    "fit_activation_placement.py": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+    "tests.py": "867c408de9a2c924b58e1c74a205c132a5f0d805ca3ebf0c68e3f9f64c1d50ce",
+    "gpu_probe.py": "3b96ddfc05c80bb4aa3585a9957145a9b6927613e90ab23270bc80048b8c32c9"
+  },
+  "recipe_source_sha256": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+  "metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+  "scorer_sha256": "d37634bb45788ebb8cc4d635b0f4f29d90f0b5447b7829d233efda160beeddd7",
+  "dataset_identity": {
+    "path": "datasets/valid.parquet",
+    "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "size": 5615509128
+  },
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "seed_order": [
+    271828,
+    271829
+  ],
+  "arms_per_seed": [
+    "base",
+    "sine_embed",
+    "slope_embed",
+    "sine_head",
+    "slope_head",
+    "sine_both"
+  ],
+  "components": [
+    2972,
+    2964,
+    3065,
+    3128,
+    2842,
+    3026,
+    1082,
+    2819,
+    2888,
+    341,
+    2877,
+    2933,
+    2285,
+    2995,
+    3015,
+    2817
+  ],
+  "test_row_groups": [
+    808,
+    249,
+    975,
+    754,
+    1531,
+    738,
+    1261,
+    348,
+    479,
+    715,
+    448,
+    185,
+    1304,
+    652,
+    365,
+    1401
+  ],
+  "test_sequences": 16,
+  "selected_rows_per_component": {
+    "2972": 895,
+    "2964": 2175,
+    "3065": 3716,
+    "3128": 2789,
+    "2842": 1635,
+    "3026": 2084,
+    "1082": 2827,
+    "2819": 1686,
+    "2888": 343,
+    "341": 494,
+    "2877": 368,
+    "2933": 160,
+    "2285": 2069,
+    "2995": 1890,
+    "3015": 1367,
+    "2817": 2492
+  },
+  "baseline_reconstruction_parity": {
+    "271828": {
+      "max_prediction_abs": 0.0,
+      "max_state_abs": 0.0
+    },
+    "271829": {
+      "max_prediction_abs": 0.0,
+      "max_state_abs": 0.0
+    }
+  },
+  "arm_scores": {
+    "seed271828_base": {
+      "seed": 271828,
+      "arm": "base",
+      "wp": 0.4441838943602319,
+      "t0": 0.5122194746286607,
+      "t1": 0.37614831409180316,
+      "selected_rows": 26990,
+      "parameters": 61058,
+      "updates": 474,
+      "checkpoint": "seed271828_base.pt",
+      "checkpoint_sha256": "ae56da0895d3598b9fded59f1de3425d814201d3fde25d3a7907dae9dddc993a"
+    },
+    "seed271828_sine_embed": {
+      "seed": 271828,
+      "arm": "sine_embed",
+      "wp": 0.43967829062705277,
+      "t0": 0.5097308426546205,
+      "t1": 0.369625738599485,
+      "selected_rows": 26990,
+      "parameters": 61058,
+      "updates": 474,
+      "checkpoint": "seed271828_sine_embed.pt",
+      "checkpoint_sha256": "998933c9018decda18f3c4b93692c247e3b8e350c5fca4e7219aa8b3f3ae9592"
+    },
+    "seed271828_slope_embed": {
+      "seed": 271828,
+      "arm": "slope_embed",
+      "wp": 0.43838798889520875,
+      "t0": 0.5095991045312117,
+      "t1": 0.3671768732592058,
+      "selected_rows": 26990,
+      "parameters": 61058,
+      "updates": 474,
+      "checkpoint": "seed271828_slope_embed.pt",
+      "checkpoint_sha256": "b5d5a0332da98f99b57e77350aa2247d7c392d11f5a932cbf57db369ab0a4db9"
+    },
+    "seed271828_sine_head": {
+      "seed": 271828,
+      "arm": "sine_head",
+      "wp": 0.4436141732542521,
+      "t0": 0.5098945113465712,
+      "t1": 0.3773338351619331,
+      "selected_rows": 26990,
+      "parameters": 61058,
+      "updates": 474,
+      "checkpoint": "seed271828_sine_head.pt",
+      "checkpoint_sha256": "56cd8fe88845848c8b21cdb386dc2c3a33d7a869f7e1732680ea33bc233d744c"
+    },
+    "seed271828_slope_head": {
+      "seed": 271828,
+      "arm": "slope_head",
+      "wp": 0.44410129567248147,
+      "t0": 0.5091221052825752,
+      "t1": 0.3790804860623877,
+      "selected_rows": 26990,
+      "parameters": 61058,
+      "updates": 474,
+      "checkpoint": "seed271828_slope_head.pt",
+      "checkpoint_sha256": "6e6af6720795bd06e1962aa629c2fad2cd6e928f3619da6be4281ce1714414e7"
+    },
+    "seed271828_sine_both": {
+      "seed": 271828,
+      "arm": "sine_both",
+      "wp": 0.4375042456882454,
+      "t0": 0.5063030487951738,
+      "t1": 0.368705442581317,
+      "selected_rows": 26990,
+      "parameters": 61058,
+      "updates": 474,
+      "checkpoint": "seed271828_sine_both.pt",
+      "checkpoint_sha256": "6434d0d3af771ed5c9003e74f328300d71aadb09c3b1713406ba39be30daf43f"
+    },
+    "seed271829_base": {
+      "seed": 271829,
+      "arm": "base",
+      "wp": 0.4940203517775146,
+      "t0": 0.49124519037150344,
+      "t1": 0.49679551318352577,
+      "selected_rows": 26990,
+      "parameters": 61058,
+      "updates": 474,
+      "checkpoint": "seed271829_base.pt",
+      "checkpoint_sha256": "2857125648111ec5e03cd4c5c4c522fcfb95632feed9fe938211f01716138f97"
+    },
+    "seed271829_sine_embed": {
+      "seed": 271829,
+      "arm": "sine_embed",
+      "wp": 0.496496409818472,
+      "t0": 0.49153229287672445,
+      "t1": 0.5014605267602196,
+      "selected_rows": 26990,
+      "parameters": 61058,
+      "updates": 474,
+      "checkpoint": "seed271829_sine_embed.pt",
+      "checkpoint_sha256": "1d37425c271d341b000ade061fc97db47887b19e4a33f68ef093d3a55fce5eef"
+    },
+    "seed271829_slope_embed": {
+      "seed": 271829,
+      "arm": "slope_embed",
+      "wp": 0.4955801166598051,
+      "t0": 0.49026800527434977,
+      "t1": 0.5008922280452605,
+      "selected_rows": 26990,
+      "parameters": 61058,
+      "updates": 474,
+      "checkpoint": "seed271829_slope_embed.pt",
+      "checkpoint_sha256": "eba3eb263ea2293c6cba6c4a950d24fc9fc1eaa437281bace8e51849ae4a3686"
+    },
+    "seed271829_sine_head": {
+      "seed": 271829,
+      "arm": "sine_head",
+      "wp": 0.4939482513463318,
+      "t0": 0.49373148672013806,
+      "t1": 0.49416501597252555,
+      "selected_rows": 26990,
+      "parameters": 61058,
+      "updates": 474,
+      "checkpoint": "seed271829_sine_head.pt",
+      "checkpoint_sha256": "a3d4003ae449dbd10493816ef4c12f0511f09a820d81474e5ec3ef06eeab12c3"
+    },
+    "seed271829_slope_head": {
+      "seed": 271829,
+      "arm": "slope_head",
+      "wp": 0.4929584453279856,
+      "t0": 0.49317829448634665,
+      "t1": 0.49273859616962457,
+      "selected_rows": 26990,
+      "parameters": 61058,
+      "updates": 474,
+      "checkpoint": "seed271829_slope_head.pt",
+      "checkpoint_sha256": "c85506c1d4603fb2ef3f38d071cab7fa071ae660069619cd87eef452cf9aafc2"
+    },
+    "seed271829_sine_both": {
+      "seed": 271829,
+      "arm": "sine_both",
+      "wp": 0.49570772004025154,
+      "t0": 0.49299547542879185,
+      "t1": 0.49841996465171123,
+      "selected_rows": 26990,
+      "parameters": 61058,
+      "updates": 474,
+      "checkpoint": "seed271829_sine_both.pt",
+      "checkpoint_sha256": "7f2b1720a547349bdaccccd0ea17206965d054dd9e5eb6a90aa69ec62c170fae"
+    }
+  },
+  "paired_contrasts_by_seed": {
+    "271828": {
+      "sine_embed_minus_base": {
+        "point_delta": {
+          "t0": -0.0024886319740401452,
+          "t1": -0.006522575492318161,
+          "wp": -0.004505603733179153
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": -0.0021556145632378116,
+            "sd": 0.0018138260854586162,
+            "ci95": [
+              -0.005358547317501169,
+              0.001607059456086136
+            ],
+            "p_le_zero": 0.8795
+          },
+          "t1": {
+            "mean": -0.0065560015966825095,
+            "sd": 0.0024017481042023343,
+            "ci95": [
+              -0.010879665113984659,
+              -0.0012967289201477753
+            ],
+            "p_le_zero": 0.992
+          },
+          "wp": {
+            "mean": -0.004355808079960161,
+            "sd": 0.0013034319905683963,
+            "ci95": [
+              -0.006937384818290121,
+              -0.001788892828772165
+            ],
+            "p_le_zero": 0.9995
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "candidate": "sine_embed",
+        "reference": "base"
+      },
+      "slope_embed_minus_base": {
+        "point_delta": {
+          "t0": -0.0026203700974489763,
+          "t1": -0.008971440832597377,
+          "wp": -0.005795905465023177
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": -0.002152965789533566,
+            "sd": 0.0024590246319666914,
+            "ci95": [
+              -0.006498456533899038,
+              0.003093867867953954
+            ],
+            "p_le_zero": 0.8095
+          },
+          "t1": {
+            "mean": -0.008760015690392205,
+            "sd": 0.0031617377829831774,
+            "ci95": [
+              -0.014178260290983215,
+              -0.001974228191662984
+            ],
+            "p_le_zero": 0.991
+          },
+          "wp": {
+            "mean": -0.005456490739962884,
+            "sd": 0.0015495390893200376,
+            "ci95": [
+              -0.008325519350003079,
+              -0.0022059924694573687
+            ],
+            "p_le_zero": 0.9995
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "candidate": "slope_embed",
+        "reference": "base"
+      },
+      "sine_embed_minus_slope_embed": {
+        "point_delta": {
+          "t0": 0.00013173812340883106,
+          "t1": 0.002448865340279216,
+          "wp": 0.0012903017318440235
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": -2.648773704245905e-06,
+            "sd": 0.0008630311163092339,
+            "ci95": [
+              -0.0017201339842618443,
+              0.0015812863559417965
+            ],
+            "p_le_zero": 0.488
+          },
+          "t1": {
+            "mean": 0.0022040140937096935,
+            "sd": 0.001435847604420058,
+            "ci95": [
+              -0.0003808158899726369,
+              0.005043793787717974
+            ],
+            "p_le_zero": 0.049
+          },
+          "wp": {
+            "mean": 0.0011006826600027234,
+            "sd": 0.000578116629499582,
+            "ci95": [
+              6.11645043996103e-05,
+              0.0022748853644553764
+            ],
+            "p_le_zero": 0.021
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "candidate": "sine_embed",
+        "reference": "slope_embed"
+      },
+      "sine_head_minus_base": {
+        "point_delta": {
+          "t0": -0.0023249632820895316,
+          "t1": 0.0011855210701299246,
+          "wp": -0.0005697211059798035
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": -0.002219049076844591,
+            "sd": 0.0022912569341829413,
+            "ci95": [
+              -0.006706313613054078,
+              0.0024605602638594973
+            ],
+            "p_le_zero": 0.8345
+          },
+          "t1": {
+            "mean": 0.001183784424084496,
+            "sd": 0.002195292824665371,
+            "ci95": [
+              -0.002879486225186553,
+              0.005514229647095182
+            ],
+            "p_le_zero": 0.294
+          },
+          "wp": {
+            "mean": -0.0005176323263800473,
+            "sd": 0.0014143089332088684,
+            "ci95": [
+              -0.0033379902234799987,
+              0.002126900669102253
+            ],
+            "p_le_zero": 0.633
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "candidate": "sine_head",
+        "reference": "base"
+      },
+      "slope_head_minus_base": {
+        "point_delta": {
+          "t0": -0.00309736934608551,
+          "t1": 0.0029321719705845406,
+          "wp": -8.259868775048473e-05
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": -0.0029744340477097352,
+            "sd": 0.002610019843870787,
+            "ci95": [
+              -0.0081384979600078,
+              0.002358366729221861
+            ],
+            "p_le_zero": 0.879
+          },
+          "t1": {
+            "mean": 0.0030167714456460263,
+            "sd": 0.0028791687713724014,
+            "ci95": [
+              -0.0024817210523957827,
+              0.008653371574426775
+            ],
+            "p_le_zero": 0.154
+          },
+          "wp": {
+            "mean": 2.1168698968145358e-05,
+            "sd": 0.0017004540363356555,
+            "ci95": [
+              -0.003357173039593344,
+              0.003193718003141149
+            ],
+            "p_le_zero": 0.4725
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "candidate": "slope_head",
+        "reference": "base"
+      },
+      "sine_head_minus_slope_head": {
+        "point_delta": {
+          "t0": 0.0007724060639959784,
+          "t1": -0.001746650900454616,
+          "wp": -0.0004871224182293188
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": 0.0007553849708651444,
+            "sd": 0.0005012057312731434,
+            "ci95": [
+              -0.0002552560984005872,
+              0.0017210801382114163
+            ],
+            "p_le_zero": 0.067
+          },
+          "t1": {
+            "mean": -0.0018329870215615296,
+            "sd": 0.001018607978155567,
+            "ci95": [
+              -0.0037401629080616424,
+              0.00016593239668581748
+            ],
+            "p_le_zero": 0.962
+          },
+          "wp": {
+            "mean": -0.0005388010253481927,
+            "sd": 0.0004827015059440791,
+            "ci95": [
+              -0.0014602665945626584,
+              0.00045493825094955915
+            ],
+            "p_le_zero": 0.8635
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "candidate": "sine_head",
+        "reference": "slope_head"
+      },
+      "sine_both_minus_sine_embed_minus_sine_head_plus_base": {
+        "point_delta": {
+          "t0": -0.0011028305773571612,
+          "t1": -0.0021058170882979343,
+          "wp": -0.0016043238328275478
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": -0.0009448496358572311,
+            "sd": 0.0011150245150033389,
+            "ci95": [
+              -0.00288706904633821,
+              0.0014104975921802139
+            ],
+            "p_le_zero": 0.8015
+          },
+          "t1": {
+            "mean": -0.0020831719618012805,
+            "sd": 0.000577155236368664,
+            "ci95": [
+              -0.0030787648762352544,
+              -0.0008034697224212469
+            ],
+            "p_le_zero": 0.997
+          },
+          "wp": {
+            "mean": -0.0015140107988292559,
+            "sd": 0.000521418863286187,
+            "ci95": [
+              -0.0024351662354038838,
+              -0.00039982259760225786
+            ],
+            "p_le_zero": 0.996
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "formula": "WP(sine_both) - WP(sine_embed) - WP(sine_head) + WP(base)",
+        "arms": [
+          "sine_both",
+          "sine_embed",
+          "sine_head",
+          "base"
+        ],
+        "joint_component_resampling": true
+      }
+    },
+    "271829": {
+      "sine_embed_minus_base": {
+        "point_delta": {
+          "t0": 0.0002871025052210152,
+          "t1": 0.0046650135766937995,
+          "wp": 0.0024760580409574073
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": 0.00041516896875044195,
+            "sd": 0.0015256132427254128,
+            "ci95": [
+              -0.0022190134603739336,
+              0.0037296789181187045
+            ],
+            "p_le_zero": 0.417
+          },
+          "t1": {
+            "mean": 0.004495811987460776,
+            "sd": 0.0016314294284136032,
+            "ci95": [
+              0.0010536365987607085,
+              0.007498861940850139
+            ],
+            "p_le_zero": 0.005
+          },
+          "wp": {
+            "mean": 0.002455490478105609,
+            "sd": 0.0012960360245830261,
+            "ci95": [
+              -5.599975790299554e-05,
+              0.0049959441439100605
+            ],
+            "p_le_zero": 0.029
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "candidate": "sine_embed",
+        "reference": "base"
+      },
+      "slope_embed_minus_base": {
+        "point_delta": {
+          "t0": -0.0009771850971536655,
+          "t1": 0.004096714861734685,
+          "wp": 0.0015597648822905097
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": -0.0008644283208123105,
+            "sd": 0.0018247046713959405,
+            "ci95": [
+              -0.003922493889581252,
+              0.003166676609395976
+            ],
+            "p_le_zero": 0.7175
+          },
+          "t1": {
+            "mean": 0.003993430780872677,
+            "sd": 0.0024644266646433673,
+            "ci95": [
+              -0.0011310302138208786,
+              0.00838758046453724
+            ],
+            "p_le_zero": 0.0595
+          },
+          "wp": {
+            "mean": 0.0015645012300301833,
+            "sd": 0.0015615051130173795,
+            "ci95": [
+              -0.001359766612005288,
+              0.004656310195783925
+            ],
+            "p_le_zero": 0.1625
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "candidate": "slope_embed",
+        "reference": "base"
+      },
+      "sine_embed_minus_slope_embed": {
+        "point_delta": {
+          "t0": 0.0012642876023746807,
+          "t1": 0.0005682987149591145,
+          "wp": 0.0009162931586668976
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": 0.0012795972895627524,
+            "sd": 0.0007326828057033724,
+            "ci95": [
+              3.0075155638259475e-05,
+              0.002839491956665542
+            ],
+            "p_le_zero": 0.0235
+          },
+          "t1": {
+            "mean": 0.0005023812065880987,
+            "sd": 0.0012592971826647487,
+            "ci95": [
+              -0.0013761747257504565,
+              0.003302905168603901
+            ],
+            "p_le_zero": 0.3655
+          },
+          "wp": {
+            "mean": 0.0008909892480754256,
+            "sd": 0.000711444177081086,
+            "ci95": [
+              -0.0003229000038173141,
+              0.0024200173384269835
+            ],
+            "p_le_zero": 0.108
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "candidate": "sine_embed",
+        "reference": "slope_embed"
+      },
+      "sine_head_minus_base": {
+        "point_delta": {
+          "t0": 0.00248629634863462,
+          "t1": -0.0026304972110002267,
+          "wp": -7.210043118280329e-05
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": 0.0031511808457389792,
+            "sd": 0.00284461833242925,
+            "ci95": [
+              -0.00163912504273602,
+              0.00933449402593497
+            ],
+            "p_le_zero": 0.125
+          },
+          "t1": {
+            "mean": -0.0020986301243793655,
+            "sd": 0.004293689776245604,
+            "ci95": [
+              -0.009955255304934773,
+              0.0068180450816462575
+            ],
+            "p_le_zero": 0.7015
+          },
+          "wp": {
+            "mean": 0.0005262753606798069,
+            "sd": 0.0019830522977608124,
+            "ci95": [
+              -0.002740850942724649,
+              0.004914744723163283
+            ],
+            "p_le_zero": 0.4295
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "candidate": "sine_head",
+        "reference": "base"
+      },
+      "slope_head_minus_base": {
+        "point_delta": {
+          "t0": 0.0019331041148432093,
+          "t1": -0.004056917013901207,
+          "wp": -0.0010619064495289987
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": 0.0026114369720342677,
+            "sd": 0.002976727802731842,
+            "ci95": [
+              -0.0023116667983108545,
+              0.009073154931206468
+            ],
+            "p_le_zero": 0.201
+          },
+          "t1": {
+            "mean": -0.003436079340200256,
+            "sd": 0.004830226458218955,
+            "ci95": [
+              -0.012299916005323227,
+              0.006551797256029616
+            ],
+            "p_le_zero": 0.769
+          },
+          "wp": {
+            "mean": -0.00041232118408299407,
+            "sd": 0.002107623763827012,
+            "ci95": [
+              -0.0038922734426397676,
+              0.004249367434437459
+            ],
+            "p_le_zero": 0.626
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "candidate": "slope_head",
+        "reference": "base"
+      },
+      "sine_head_minus_slope_head": {
+        "point_delta": {
+          "t0": 0.0005531922337914108,
+          "t1": 0.00142641980290098,
+          "wp": 0.0009898060183461954
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": 0.0005397438737047117,
+            "sd": 0.0003538408608366344,
+            "ci95": [
+              -0.0001296834013305201,
+              0.0012494329661426465
+            ],
+            "p_le_zero": 0.057
+          },
+          "t1": {
+            "mean": 0.00133744921582089,
+            "sd": 0.0005582465541410603,
+            "ci95": [
+              0.00013548020516015308,
+              0.002355940268767076
+            ],
+            "p_le_zero": 0.017
+          },
+          "wp": {
+            "mean": 0.0009385965447628008,
+            "sd": 0.0002040047256497107,
+            "ci95": [
+              0.0004905805807310107,
+              0.0012785936954023197
+            ],
+            "p_le_zero": 0.0
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "candidate": "sine_head",
+        "reference": "slope_head"
+      },
+      "sine_both_minus_sine_embed_minus_sine_head_plus_base": {
+        "point_delta": {
+          "t0": -0.001023113796567221,
+          "t1": -0.00041006489750811115,
+          "wp": -0.0007165893470376661
+        },
+        "bootstrap": {
+          "t0": {
+            "mean": -0.0011125139851086816,
+            "sd": 0.0006929181989624685,
+            "ci95": [
+              -0.0025254554448342985,
+              0.00011969861689015915
+            ],
+            "p_le_zero": 0.959
+          },
+          "t1": {
+            "mean": -0.000466870083244987,
+            "sd": 0.0005261210926492113,
+            "ci95": [
+              -0.0015192536338940854,
+              0.0005610829780315498
+            ],
+            "p_le_zero": 0.817
+          },
+          "wp": {
+            "mean": -0.0007896920341768344,
+            "sd": 0.0004067886764011593,
+            "ci95": [
+              -0.0016226350157087892,
+              -5.068654609698826e-05
+            ],
+            "p_le_zero": 0.9795
+          }
+        },
+        "n_components": 16,
+        "n_boot": 2000,
+        "seed": 474271828,
+        "component_draws_shared_across_all_arms": true,
+        "metric_id": "global_wp_clip2_v1",
+        "formula": "WP(sine_both) - WP(sine_embed) - WP(sine_head) + WP(base)",
+        "arms": [
+          "sine_both",
+          "sine_embed",
+          "sine_head",
+          "base"
+        ],
+        "joint_component_resampling": true
+      }
+    }
+  },
+  "bootstrap": {
+    "method": "joint component bootstrap; same 16 component draws shared by every arm in each replicate",
+    "resampling_unit": "connected component; each source test row group is one component",
+    "n_boot": 2000,
+    "seed": 474271828,
+    "interaction": "computed inside each joint resample from four arm-level global WPs, never by combining independent confidence intervals",
+    "multiplicity": "all 6 paired contrasts plus the preregistered interaction retained per seed; no selection or correction"
+  },
+  "prediction_exports": {
+    "seed271828_base_selected_predictions.npz": {
+      "sha256": "2e7e5a571f19014854a5bfec0a928071c7e5929e25102f4ae28face24a694ad3",
+      "selected_rows": 26990,
+      "columns": [
+        "t0",
+        "t1"
+      ],
+      "values_are_raw_before_metric_clipping": true
+    },
+    "seed271828_sine_embed_selected_predictions.npz": {
+      "sha256": "b0de7f5200672912b23717bcb8a0d63eeb19b095c3d7cee880664350bc9f24af",
+      "selected_rows": 26990,
+      "columns": [
+        "t0",
+        "t1"
+      ],
+      "values_are_raw_before_metric_clipping": true
+    },
+    "seed271828_slope_embed_selected_predictions.npz": {
+      "sha256": "ffa25272e703a841608e108ceb7e9088f0960bde95fee615b4d04e40dbc480d5",
+      "selected_rows": 26990,
+      "columns": [
+        "t0",
+        "t1"
+      ],
+      "values_are_raw_before_metric_clipping": true
+    },
+    "seed271828_sine_head_selected_predictions.npz": {
+      "sha256": "84744298cd2cd15c8989327f6e9f3645a5f8e559fc97f49d42e016d9049a0ccf",
+      "selected_rows": 26990,
+      "columns": [
+        "t0",
+        "t1"
+      ],
+      "values_are_raw_before_metric_clipping": true
+    },
+    "seed271828_slope_head_selected_predictions.npz": {
+      "sha256": "b9e76e9ec73420fe86a943a4f31a47a52b26844a8aead2adecab5f6d0854cf0f",
+      "selected_rows": 26990,
+      "columns": [
+        "t0",
+        "t1"
+      ],
+      "values_are_raw_before_metric_clipping": true
+    },
+    "seed271828_sine_both_selected_predictions.npz": {
+      "sha256": "d61246c9c6a01c90aaa667635d63d34c82f8cb2848fd85a7f0ba3f778b28f575",
+      "selected_rows": 26990,
+      "columns": [
+        "t0",
+        "t1"
+      ],
+      "values_are_raw_before_metric_clipping": true
+    },
+    "seed271829_base_selected_predictions.npz": {
+      "sha256": "0d2142144e492a3429839ff27e522b2b7f39cb341853ad15093579f606ea836d",
+      "selected_rows": 26990,
+      "columns": [
+        "t0",
+        "t1"
+      ],
+      "values_are_raw_before_metric_clipping": true
+    },
+    "seed271829_sine_embed_selected_predictions.npz": {
+      "sha256": "293aae7eb23068ee6395db1b4806981c45770c4710a71cfdc387f6480aa34230",
+      "selected_rows": 26990,
+      "columns": [
+        "t0",
+        "t1"
+      ],
+      "values_are_raw_before_metric_clipping": true
+    },
+    "seed271829_slope_embed_selected_predictions.npz": {
+      "sha256": "79fc4f652a15c844700986cd0cf90559db64d5722d4210d88fd6c761c54bb2cd",
+      "selected_rows": 26990,
+      "columns": [
+        "t0",
+        "t1"
+      ],
+      "values_are_raw_before_metric_clipping": true
+    },
+    "seed271829_sine_head_selected_predictions.npz": {
+      "sha256": "3081f8d69f7676a1e2c6a0811b2d41a48b34a1b70833e622e46cf99487326e46",
+      "selected_rows": 26990,
+      "columns": [
+        "t0",
+        "t1"
+      ],
+      "values_are_raw_before_metric_clipping": true
+    },
+    "seed271829_slope_head_selected_predictions.npz": {
+      "sha256": "91c906026f4e303da04993db1601e93bf80f66fb5673ec010f0382abae223f44",
+      "selected_rows": 26990,
+      "columns": [
+        "t0",
+        "t1"
+      ],
+      "values_are_raw_before_metric_clipping": true
+    },
+    "seed271829_sine_both_selected_predictions.npz": {
+      "sha256": "a3005d45f232df200c7e21ebf187a766796b591d69b7fedb51444b5b12bebebd",
+      "selected_rows": 26990,
+      "columns": [
+        "t0",
+        "t1"
+      ],
+      "values_are_raw_before_metric_clipping": true
+    }
+  },
+  "prediction_export_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_placement/scores/twelve_cpu_v1",
+  "selected_targets_validated_from_source_rows": true,
+  "raw_predictions_finite_before_clipping": true,
+  "test_rows_used_for_training": false
+}

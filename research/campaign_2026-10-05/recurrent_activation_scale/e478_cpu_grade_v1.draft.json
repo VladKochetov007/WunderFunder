@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "name": "e478_independent_cpu_grade_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/recurrent_activation_scale/score_recurrent_scale.py",
+    "--device",
+    "cpu",
+    "--output",
+    "research/campaign_2026-10-05/recurrent_activation_scale/eda/six_v1/RESULT.json"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 1800,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {},
+  "code": [
+    "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+    "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+    "research/campaign_2026-10-05/recurrent_activation/fit_recurrent_candidate.py",
+    "research/campaign_2026-10-05/recurrent_activation_scale/fit_recurrent_activation_scale.py",
+    "research/campaign_2026-10-05/recurrent_activation_scale/gpu_probe.py",
+    "research/campaign_2026-10-05/recurrent_activation_scale/tests.py",
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/nn.py",
+    "src/wnn/optim.py",
+    "src/wnn/resources.py",
+    "research/campaign_2026-10-05/recurrent_activation_scale/score_recurrent_scale.py",
+    "src/wnn/evaluation.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-05/recurrent_activation_scale/E478_DESIGN.md",
+    "research/campaign_2026-10-05/recurrent_activation_scale/INDEPENDENT_REVIEW.md",
+    "research/campaign_2026-10-05/recurrent_activation_scale/ROOT_FULL_FIT_ADMISSION.md",
+    "research/campaign_2026-10-05/recurrent_activation_scale/SPEC_CRITIC.md",
+    "research/campaign_2026-10-05/recurrent_activation_scale/cpu_preflight_v1/fit_manifest.json",
+    "research/campaign_2026-10-05/recurrent_activation_scale/gpu_probe_v1/result.json",
+    "research/campaign_2026-10-05/target_mechanics/cohort.json",
+    "research/campaign_2026-10-05/recurrent_activation_scale/e478_six_fit_v1.sealed.json",
+    "research/campaign_2026-10-04/runner/attempts/e478-recurrent-scale-six-fit-v1.json",
+    "research/campaign_2026-10-05/recurrent_activation_scale/runs/six_v1/fit_manifest.json",
+    "research/campaign_2026-10-05/recurrent_activation_scale/runs/six_v1/seed271828_alpha0.0.pt",
+    "research/campaign_2026-10-05/recurrent_activation_scale/runs/six_v1/seed271828_alpha0.1.pt",
+    "research/campaign_2026-10-05/recurrent_activation_scale/runs/six_v1/seed271829_alpha0.0.pt",
+    "research/campaign_2026-10-05/recurrent_activation_scale/runs/six_v1/seed271829_alpha0.1.pt",
+    "research/campaign_2026-10-05/recurrent_activation_scale/runs/six_v1/seed271830_alpha0.0.pt",
+    "research/campaign_2026-10-05/recurrent_activation_scale/runs/six_v1/seed271830_alpha0.1.pt"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/recurrent_activation_scale/eda/six_v1/RESULT.json",
+    "research/campaign_2026-10-05/recurrent_activation_scale/eda/six_v1/RESULT_paired_components.npz"
+  ]
+}

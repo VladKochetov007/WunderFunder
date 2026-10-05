@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "name": "e476_independent_cpu_grade_v1",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/activation_schedule/score_schedule.py",
+    "--device",
+    "cpu",
+    "--output",
+    "research/campaign_2026-10-05/activation_schedule/eda/twelve_v1"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 1800,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {},
+  "code": [
+    "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+    "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+    "research/campaign_2026-10-05/activation_schedule/fit_activation_schedule.py",
+    "research/campaign_2026-10-05/activation_schedule/tests.py",
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/nn.py",
+    "src/wnn/optim.py",
+    "src/wnn/resources.py",
+    "research/campaign_2026-10-05/activation_schedule/score_schedule.py",
+    "src/wnn/evaluation.py",
+    "research/campaign_2026-10-05/activation_schedule/test_score_schedule.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-05/activation_schedule/INDEPENDENT_REVIEW.md",
+    "research/campaign_2026-10-05/activation_schedule/PREREG.md",
+    "research/campaign_2026-10-05/activation_schedule/ROOT_FULL_FIT_ADMISSION.md",
+    "research/campaign_2026-10-05/activation_schedule/gpu_probe_v1/fit_manifest.json",
+    "research/campaign_2026-10-05/activation_schedule/gpu_probe_v1/lr_traces.json",
+    "research/campaign_2026-10-05/activation_schedule/preflight_cpu_v5/fit_manifest.json",
+    "research/campaign_2026-10-05/target_mechanics/cohort.json",
+    "research/campaign_2026-10-05/activation_schedule/e476_twelve_fit_v1.sealed.json",
+    "research/campaign_2026-10-04/runner/attempts/e476-activation-twelve-fit-v1.json",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/fit_manifest.json",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/lr_traces.json",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/base__adamw__constant_peak.pt",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/base__adamw__warmcos_47_427.pt",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/base__adamw__constant_mean_warmcos.pt",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/base__muon_adamw__constant_peak.pt",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/base__muon_adamw__warmcos_47_427.pt",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/base__muon_adamw__constant_mean_warmcos.pt",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/sine_embed__adamw__constant_peak.pt",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/sine_embed__adamw__warmcos_47_427.pt",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/sine_embed__adamw__constant_mean_warmcos.pt",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/sine_embed__muon_adamw__constant_peak.pt",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/sine_embed__muon_adamw__warmcos_47_427.pt",
+    "research/campaign_2026-10-05/activation_schedule/runs/twelve_v1/sine_embed__muon_adamw__constant_mean_warmcos.pt"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/activation_schedule/eda/twelve_v1/scores.json",
+    "research/campaign_2026-10-05/activation_schedule/eda/twelve_v1/selected_exports.npz"
+  ]
+}

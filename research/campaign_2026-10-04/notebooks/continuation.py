@@ -792,5 +792,29 @@ def _(json, mo, project_root, refresh):
     return
 
 
+@app.cell(hide_code=True)
+def _(json, mo, project_root):
+    _placement_path = project_root / 'research/campaign_2026-10-05/activation_placement'
+    _placement_result = json.loads((_placement_path / 'scores/twelve_cpu_v1/score_result.json').read_text())
+    mo.vstack([mo.md('## Activation placement: all 12 fixed fits\nTwo-layer H64;16 exposed components. Sine embedding is seed-dependent; head changes are near-neutral. This is not a public-score forecast.'), mo.ui.table(list(_placement_result['arm_scores'].values())), mo.image(str(_placement_path / 'eda/all_placement_arms.png'))])
+    return
+
+
+@app.cell(hide_code=True)
+def _(json, mo, project_root):
+    _scale_path = project_root / 'research/campaign_2026-10-05/recurrent_activation_scale'
+    _scale_result = json.loads((_scale_path / 'eda/six_v1/RESULT.json').read_text())
+    mo.vstack([mo.md('## Recurrent candidate scaling: three seeds\nPositive point gains at all three seeds; two conditional intervals exclude zero. Six fixed H64 fits, no public forecast.'), mo.ui.table(list(_scale_result['arms'].values())), mo.image(str(_scale_path / 'eda/all_scaling_arms.png'))])
+    return
+
+
+@app.cell(hide_code=True)
+def _(json, mo, project_root):
+    _schedule_path = project_root / 'research/campaign_2026-10-05/activation_schedule'
+    _schedule_result = json.loads((_schedule_path / 'eda/twelve_v1/scores.json').read_text())
+    mo.vstack([mo.md('## Activation × optimizer × LR protocol: all 12 fixed fits\nWarmup/cosine changes the activation ranking. One seed and an exposed diagnostic panel; seed replication is needed.'), mo.ui.table([dict(arm=_arm, **_score) for _arm, _score in _schedule_result['arm_scores'].items()]), mo.image(str(_schedule_path / 'eda/all_schedule_arms.png'))])
+    return
+
+
 if __name__ == "__main__":
     app.run()

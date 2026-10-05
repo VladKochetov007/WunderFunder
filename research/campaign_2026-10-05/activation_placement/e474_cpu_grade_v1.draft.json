@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "kind": "cpu",
+  "limits": {
+    "cpus": 2,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 1800,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {},
+  "name": "e474_independent_cpu_test_export_grade_v1",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/activation_placement/score_placement.py",
+    "--run",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1",
+    "--attempt-record",
+    "research/campaign_2026-10-04/runner/attempts/e474-placement-twelve-fit-v1.json",
+    "--output",
+    "research/campaign_2026-10-05/activation_placement/scores/twelve_cpu_v1",
+    "--device",
+    "cpu"
+  ],
+  "code": [
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/resources.py",
+    "src/wnn/optim.py",
+    "src/wnn/nn.py",
+    "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+    "research/campaign_2026-10-05/activation_placement/gpu_probe.py",
+    "research/campaign_2026-10-05/activation_placement/tests.py",
+    "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+    "research/campaign_2026-10-05/activation_placement/score_placement.py",
+    "research/campaign_2026-10-05/activation_placement/test_score_placement.py",
+    "src/wnn/evaluation.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-05/target_mechanics/cohort.json",
+    "research/campaign_2026-10-05/activation_placement/PREREG.md",
+    "research/campaign_2026-10-05/activation_placement/DESIGN_CORRECTION.md",
+    "research/campaign_2026-10-05/activation_placement/SPEC_CRITIC.md",
+    "research/campaign_2026-10-05/activation_placement/INDEPENDENT_REVIEW.md",
+    "research/campaign_2026-10-05/activation_placement/preflight_cpu_v5/fit_manifest.json",
+    "research/campaign_2026-10-05/activation_placement/GPU_ARTIFACT_INCIDENT_V1.md",
+    "research/campaign_2026-10-05/activation_placement/gpu_probe_v2/probe.json",
+    "research/campaign_2026-10-05/activation_placement/ROOT_FULL_FIT_ADMISSION.md",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/fit_manifest.json",
+    "research/campaign_2026-10-05/activation_placement/e474_twelve_fit_v1.sealed.json",
+    "research/campaign_2026-10-04/runner/attempts/e474-placement-twelve-fit-v1.json",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/seed271828_base.pt",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/seed271828_sine_embed.pt",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/seed271828_slope_embed.pt",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/seed271828_sine_head.pt",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/seed271828_slope_head.pt",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/seed271828_sine_both.pt",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/seed271829_base.pt",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/seed271829_sine_embed.pt",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/seed271829_slope_embed.pt",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/seed271829_sine_head.pt",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/seed271829_slope_head.pt",
+    "research/campaign_2026-10-05/activation_placement/runs/twelve_v1/seed271829_sine_both.pt"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/activation_placement/scores/twelve_cpu_v1/score_result.json"
+  ]
+}
