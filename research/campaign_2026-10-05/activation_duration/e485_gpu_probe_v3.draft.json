@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "name": "e485_h128_duration_gpu_probe_v3",
+  "kind": "gpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/activation_duration/gpu_probe.py",
+    "--device",
+    "cuda",
+    "--output",
+    "research/campaign_2026-10-05/activation_duration/gpu_probe_v3"
+  ],
+  "code": [
+    "research/campaign_2026-10-05/activation_duration/GPU_PROBE_UPDATE_GATES.md",
+    "research/campaign_2026-10-05/activation_duration/fit_duration.py",
+    "research/campaign_2026-10-05/activation_duration/gpu_probe.py",
+    "research/campaign_2026-10-05/activation_duration/tests.py",
+    "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+    "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+    "research/campaign_2026-10-05/recurrent_activation/fit_recurrent_candidate.py",
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/nn.py",
+    "src/wnn/optim.py",
+    "src/wnn/resources.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-05/activation_duration/E485_DESIGN.md",
+    "research/campaign_2026-10-05/activation_duration/GPU_PROBE_REVIEW_INCIDENT.md",
+    "research/campaign_2026-10-05/activation_duration/INDEPENDENT_REVIEW_V1.md",
+    "research/campaign_2026-10-05/activation_duration/INDEPENDENT_REVIEW_V2.md",
+    "research/campaign_2026-10-05/activation_duration/ROOT_GPU_PROBE_ADMISSION.md",
+    "research/campaign_2026-10-05/activation_duration/SOURCE_NOTE.md",
+    "research/campaign_2026-10-05/activation_duration/SPEC_CRITIC.md",
+    "research/campaign_2026-10-05/activation_duration/cpu_preflight_v7/fit_manifest.json",
+    "research/campaign_2026-10-05/activation_duration/cpu_preflight_v7/fit_only_cohort.json",
+    "research/campaign_2026-10-05/target_mechanics/cohort.json",
+    "research/campaign_2026-10-05/activation_duration/ROOT_STRICT_UPDATE_ADMISSION.md",
+    "research/campaign_2026-10-05/activation_duration/INDEPENDENT_REVIEW.md",
+    "research/campaign_2026-10-05/activation_duration/ROOT_PROBE_CONTROLLER_ACCEPTANCE.md"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/activation_duration/gpu_probe_v3/result.json"
+  ],
+  "limits": {
+    "cpus": 2,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 600,
+    "gpu_memory_bytes": 2147483648,
+    "gpu_stop_bytes": 3000000000
+  },
+  "environment": {}
+}

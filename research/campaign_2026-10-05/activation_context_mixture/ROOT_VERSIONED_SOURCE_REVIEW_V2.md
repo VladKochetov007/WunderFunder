@@ -1,0 +1,5 @@
+# E484 root independent v2 source-difference review
+
+GO for the new guarded actual CUDA probe only. Root compared both versioned actor and probe against the independently reviewed v1 source. The only functional correction canonicalizes inherited tensor comparison to contiguous CPU storage and compares exact dtype/shape/raw bytes. Parameter, gate, optimizer, batching, parity, normalization and telemetry equations are unchanged. Import/selfhash identifiers now correctly name v2 files. Seven synthetic tests pass in a root rerun under1CPU/2GiB/no swap; the original source and probe failure remain immutable. No test rows or CUDA computations were used for this review.
+
+Frozen actor2dec963a966ba30e1dc3deed40472fd2d0129a2d24fa07585a3a7ed4e2e1dcbc; tests0d7030f0197c949c3cd72ea0b1e338cfe8b86e66b7de69b9f00853a6f154c9d2; probe06e4b056dd0c9ea3eeab3d7725918801a6796b68d7f82b734e191aa366a2018d. The v5 fit-only preflight is26073971b2942ce0c70410b9dbb92b89ef1dbd8a992ed4b5a2fcb7167ae42a0f. Full fits remain blocked until actual CUDA parity/all12 finite updates, resource limits and teardown pass.

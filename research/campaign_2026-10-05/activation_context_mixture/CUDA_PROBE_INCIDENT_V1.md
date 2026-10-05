@@ -1,0 +1,5 @@
+# E484 CUDA probe v1 mixed-device initialization check
+
+The actual sealed CUDA probe exited1 at11.872740s after its native-reference parity test, before the first registered one-update cell. check_common_parameter_bytes compared CUDA model tensors to the saved CPU initialization using torch.equal, which requires a common device. The six CPU tests could not expose this device-specific contract failure. This is an implementation-check failure, not a scientific rejection of context-conditioned mixtures.
+
+Peak worker RAM1,318,625,280 bytes; observedGPU364,904,448 bytes; no worker or parent OOM delta; teardown verified. Frozen actor03d9bf45/probe0b75626a/tests2581ec07, sealed probe, attempt and raw log remain preserved. There are no full fits or scored predictions to discard/restart. A versioned actor/probe/test correction must compare byte-identical initialization tensors on the same device, obtain independent review and a new actual CUDA probe. It must not weaken parameter-byte equality or native parity.

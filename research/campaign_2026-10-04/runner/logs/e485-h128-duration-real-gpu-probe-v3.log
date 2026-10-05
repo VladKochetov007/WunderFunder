@@ -1,0 +1,19 @@
+/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_duration/gpu_probe.py", line 502, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_duration/gpu_probe.py", line 440, in main
+    parity.append(run_native_parity(seed, initial_states[seed], x_gpu, y_gpu, mask_gpu))
+                  ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_duration/gpu_probe.py", line 326, in run_native_parity
+    delta_comparison = compare_update_deltas(native, custom, native_before, custom_before)
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_duration/gpu_probe.py", line 159, in compare_update_deltas
+    add_gate(f"matrix:{name}", [name], rms(native_deltas[name]))
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_duration/gpu_probe.py", line 154, in add_gate
+    raise ValueError(
+        f"native/custom update-delta gate failed for {label}: {reports[label]}"
+    )
+ValueError: native/custom update-delta gate failed for matrix:gru.weight_hh_l0: {'reference_update_rms': 0.00013628520537167788, 'error_update_rms': 2.3377265279123094e-06, 'relative_error_rms': 0.017153193712676637, 'max_abs_error_by_tensor': {'gru.weight_hh_l0': 6.850063800811768e-05}, 'max_abs_allowed': 6.824260268583894e-05, 'relative_rms_allowed': 0.1, 'passed': False}

@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "kind": "gpu",
+  "limits": {
+    "cpus": 2,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 1800,
+    "gpu_memory_bytes": 2147483648,
+    "gpu_stop_bytes": 3000000000
+  },
+  "environment": {},
+  "name": "e484_context_mixture_twelve_fit_v2",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/activation_context_mixture/fit_context_mixture_v2.py",
+    "--run-fits",
+    "--device",
+    "cuda",
+    "--output",
+    "research/campaign_2026-10-05/activation_context_mixture/runs/twelve_v2"
+  ],
+  "code": [
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/resources.py",
+    "src/wnn/optim.py",
+    "src/wnn/nn.py",
+    "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+    "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+    "research/campaign_2026-10-05/activation_head_mixture/fit_activation_head_mixture.py",
+    "research/campaign_2026-10-05/activation_context_mixture/fit_context_mixture_v2.py",
+    "research/campaign_2026-10-05/activation_context_mixture/gpu_probe_v2.py",
+    "research/campaign_2026-10-05/activation_context_mixture/tests_v2.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-05/target_mechanics/cohort.json",
+    "research/campaign_2026-10-05/activation_context_mixture/E484_DESIGN_V2.md",
+    "research/campaign_2026-10-05/activation_context_mixture/SPEC_CRITIC.md",
+    "research/campaign_2026-10-05/activation_context_mixture/SPEC_CRITIC_V2_RESPONSE.md",
+    "research/campaign_2026-10-05/activation_context_mixture/LITERATURE.md",
+    "research/campaign_2026-10-05/activation_context_mixture/ACTOR_SOURCE_NOTE_V2.md",
+    "research/campaign_2026-10-05/activation_context_mixture/GPU_PROBE_FAILURE_V1.md",
+    "research/campaign_2026-10-05/activation_context_mixture/preflight_cpu_v5/fit_manifest.json",
+    "research/campaign_2026-10-04/runner/attempts/e484-context-mixture-real-gpu-probe-v1.json",
+    "research/campaign_2026-10-04/runner/logs/e484-context-mixture-real-gpu-probe-v1.log",
+    "research/campaign_2026-10-05/activation_context_mixture/gpu_probe_v2/probe.json",
+    "research/campaign_2026-10-05/activation_context_mixture/INDEPENDENT_REVIEW.md",
+    "research/campaign_2026-10-05/activation_context_mixture/INDEPENDENT_REVIEW_V2.md",
+    "research/campaign_2026-10-05/activation_context_mixture/ROOT_VERSIONED_SOURCE_REVIEW_V2.md",
+    "research/campaign_2026-10-05/activation_context_mixture/ROOT_FULL_FIT_ADMISSION_V2.md",
+    "research/campaign_2026-10-05/activation_context_mixture/e484_gpu_probe_v2.sealed.json",
+    "research/campaign_2026-10-04/runner/attempts/e484-context-mixture-real-gpu-probe-v2.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/activation_context_mixture/runs/twelve_v2/fit_manifest.json"
+  ]
+}

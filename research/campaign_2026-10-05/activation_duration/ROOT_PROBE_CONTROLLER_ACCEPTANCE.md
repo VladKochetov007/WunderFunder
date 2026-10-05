@@ -1,0 +1,1 @@
+Root reviewed and accepts the actor-prepared unsealed draft for fit-only CUDA probing after independent GO f47a0e41. Full-fit admission remains governed by ROOT_STRICT_UPDATE_ADMISSION.md, including the absolute zero floor and initialization/checkpoint/teardown runtime margin. No test scoring or full fits are admitted here.

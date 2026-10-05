@@ -1,0 +1,30 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_context_mixture/score_context_mixture.py", line 1268, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_context_mixture/score_context_mixture.py", line 1209, in main
+    proof, cells, report, fit_manifest, fit_x, fit_nodes = validate_full_run(
+                                                           ~~~~~~~~~~~~~~~~~^
+        args.run.resolve(),
+        ^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        args.probe_attempt.resolve(),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_context_mixture/score_context_mixture.py", line 888, in validate_full_run
+    cells = validate_fit_manifest(run, report, fit_spec, fit_nodes, fit_manifest, fit_x)
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_context_mixture/score_context_mixture.py", line 699, in validate_fit_manifest
+    require(
+    ~~~~~~~^
+        report.get("registered_contrasts_per_seed") == list(x[0] for x in CONTRASTS)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        and report.get("registered_contrast_count") == 16,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "E484 registered contrast inventory differs",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_context_mixture/score_context_mixture.py", line 105, in require
+    raise ValueError(message)
+ValueError: E484 registered contrast inventory differs

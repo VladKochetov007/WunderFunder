@@ -1,0 +1,1117 @@
+{
+  "kind": "E484 causal context-conditioned activation mixture",
+  "status": "cpu_fit_only_one_update_per_arm_passed_test_unread",
+  "design_sha256": "e2657b85e31c10d0bab3edab066ba71faa6f2eee79c5cddfd9aff86c6f89b398",
+  "blind_critic_sha256": "7f1325b9f9517199bb0a2af08a4a86a7625c917814458bf17a254fe9b79303d4",
+  "critic_response_sha256": "9325be932eb0427db6631bc616b35dfbe285da78c876df99c966b19b8817315e",
+  "seeds": [
+    271834,
+    271835
+  ],
+  "arms": [
+    "gelu",
+    "fixed_mix",
+    "static_mix",
+    "recurrent_mix",
+    "projection_mix",
+    "self_mix"
+  ],
+  "registered_contrasts_per_seed": [
+    "recurrent_mix - static_mix",
+    "recurrent_mix - projection_mix",
+    "recurrent_mix - self_mix",
+    "static_mix - fixed_mix",
+    "recurrent_mix - fixed_mix",
+    "projection_mix - fixed_mix",
+    "self_mix - fixed_mix",
+    "gelu - fixed_mix"
+  ],
+  "registered_contrast_count": 16,
+  "fit_count": 12,
+  "parameters_per_arm": {
+    "gelu": 61058,
+    "fixed_mix": 61058,
+    "static_mix": 61122,
+    "recurrent_mix": 61122,
+    "projection_mix": 61122,
+    "self_mix": 61122
+  },
+  "updates_per_fit": 474,
+  "batch": 4,
+  "chunk_rows": 256,
+  "telemetry_steps_zero_based": [
+    0,
+    46,
+    236,
+    473
+  ],
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "schedule": "constant",
+    "clip_norm": 1.0
+  },
+  "gate": {
+    "mixture_formula": "g*GELU(h)+(1-g)*LeakyReLU_0.01(h)",
+    "sources": {
+      "recurrent_mix": "recurrent",
+      "projection_mix": "projection",
+      "self_mix": "head_self",
+      "static_mix": "learned constant per-channel",
+      "fixed_mix": "0.5"
+    },
+    "context_rms_epsilon": 1e-06,
+    "context_centered": false,
+    "initial_coefficients": 0.0,
+    "extra_parameters_per_learned_gate": 64
+  },
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "parent_source_sha256": {
+    "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+    "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+    "e477": "2d4b1b103dd31912fea7ab24a63e6ce176e532dca8d0dfa2cdb32aebd9e567d7",
+    "wnn.nn": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+    "wnn.resources": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "actor_source_sha256": {
+    "fit_context_mixture.py": "03d9bf45e51767499fec6f569e7af9eb46882315fe82011068a2f28f1df90bce",
+    "tests.py": "2581ec079ca5533ceb3c5f3e3d4a7973c188ecc957621d770189eae28d42d65e",
+    "gpu_probe.py": "0b75626aa776adef904a571384c85f1ead5852a9e738c8f73e635cd278c4e7a6"
+  },
+  "initial_state_sha256": {
+    "271834": "bf03a2dd7d286dc5099f0b2d024d3d32723ddf13e19785fe2b73f50053199341",
+    "271835": "e3e06add3c401996400bb2749b4f3d7d52d9b356346e617f8816798dfc4be632"
+  },
+  "fit_only_cohort": {
+    "cohort": [
+      {
+        "row_group": 1735,
+        "seq_ix": 1989531794,
+        "component": 2795,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1766,
+        "seq_ix": 2024723908,
+        "component": 2854,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 233,
+        "seq_ix": 235282549,
+        "component": 2806,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 38,
+        "seq_ix": 45323361,
+        "component": 2828,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 807,
+        "seq_ix": 941450430,
+        "component": 2991,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1125,
+        "seq_ix": 1294249563,
+        "component": 3200,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1015,
+        "seq_ix": 1168194342,
+        "component": 3010,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 105,
+        "seq_ix": 109463899,
+        "component": 2882,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 483,
+        "seq_ix": 547472527,
+        "component": 2801,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1062,
+        "seq_ix": 1227566939,
+        "component": 2860,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1666,
+        "seq_ix": 1917373469,
+        "component": 2940,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1214,
+        "seq_ix": 1413037324,
+        "component": 2861,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1130,
+        "seq_ix": 1302007606,
+        "component": 2901,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1793,
+        "seq_ix": 2051491347,
+        "component": 3223,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 87,
+        "seq_ix": 89214899,
+        "component": 2866,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1869,
+        "seq_ix": 2144431796,
+        "component": 2902,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1053,
+        "seq_ix": 1218942404,
+        "component": 3182,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1390,
+        "seq_ix": 1596351500,
+        "component": 2948,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 614,
+        "seq_ix": 701505430,
+        "component": 3090,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1284,
+        "seq_ix": 1494588886,
+        "component": 2982,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1309,
+        "seq_ix": 1512273149,
+        "component": 3079,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1725,
+        "seq_ix": 1979171607,
+        "component": 3193,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 713,
+        "seq_ix": 815144844,
+        "component": 2936,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1567,
+        "seq_ix": 1795366096,
+        "component": 2930,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      }
+    ],
+    "selection_rule": "6 fit + 4 test distinct components per cached label-derived class; SHA256 target-mechanics-v1 component/group order; legacy protected holdout excluded",
+    "component_overlap": [],
+    "historical_exposure": "Validation labels and panels have extensive historical use. This is descriptive, not a fresh holdout or generalization claim. Class is label-derived and never an inference input.",
+    "metric": "global_wp_clip2_v1",
+    "fit_subsample": "every twentieth row >=128; no is_scored fit filtering",
+    "frozen_models": "ridge alpha=100; direct histogram 60 trees/12 leaves; factor sign and magnitude 30 trees each/12 leaves; shared full design; no search",
+    "normalization": {
+      "fit_mean": [
+        -1.5363867282867432,
+        -0.689834713935852,
+        1.2887780666351318,
+        -0.44421306252479553,
+        -1.0049716234207153,
+        0.024608345702290535,
+        -1.5609498023986816,
+        -0.6866507530212402,
+        1.1618949174880981,
+        -0.19426357746124268,
+        -0.881924569606781,
+        -0.014319630339741707,
+        -0.05646130442619324,
+        0.00033203521161340177,
+        -0.169044628739357,
+        -0.25854653120040894,
+        0.03898943215608597,
+        -0.2861734628677368,
+        -0.7288678288459778,
+        -2.0230934619903564,
+        -3.5546049730328377e-06,
+        2.096900971082505e-06,
+        4.6128329813655e-06,
+        -6.393834610207705e-06,
+        -5.608798801404191e-06,
+        2.5743427158886334e-06,
+        3.8066496017563622e-06,
+        4.4812200030719396e-06,
+        2.4200901407311903e-06,
+        -3.6629234045904013e-07,
+        -5.957327630312648e-06,
+        7.801266292517539e-06,
+        -4.835311301576439e-06,
+        9.792628588911612e-06,
+        4.220727987558348e-06,
+        3.4390102428005775e-06,
+        3.5663190374179976e-06,
+        3.5245990147814155e-05,
+        -3.0046541724004783e-05,
+        2.8520629712147638e-05,
+        2.0363821983337402,
+        0.2820541560649872
+      ],
+      "fit_scale": [
+        0.32517191767692566,
+        0.2430306077003479,
+        0.7047637104988098,
+        0.7663655877113342,
+        0.5567672848701477,
+        0.6080858707427979,
+        0.37485629320144653,
+        0.2399095743894577,
+        0.6885117888450623,
+        0.8592969179153442,
+        0.6910661458969116,
+        0.7655671238899231,
+        0.9265031814575195,
+        0.9781677722930908,
+        0.7986375689506531,
+        0.8008037209510803,
+        0.9514464735984802,
+        1.8925610780715942,
+        2.087163209915161,
+        2.956484317779541,
+        0.23587879538536072,
+        0.10206638276576996,
+        0.2836126685142517,
+        0.25912606716156006,
+        0.43994584679603577,
+        1.0169508457183838,
+        0.1448771208524704,
+        0.08167517185211182,
+        0.2859937250614166,
+        0.30186182260513306,
+        0.4794560968875885,
+        1.243190050125122,
+        0.9874710440635681,
+        1.6637933254241943,
+        0.10818876326084137,
+        0.03457668796181679,
+        1.073975682258606,
+        1.5013998746871948,
+        2.07209849357605,
+        2.8346872329711914,
+        1.8456852436065674,
+        0.4499995708465576
+      ]
+    }
+  },
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "fit_manifest_arms": [
+    {
+      "seed": 271834,
+      "arm": "gelu",
+      "fit_row_groups": [
+        713,
+        1793,
+        1015,
+        105
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.665431261062622,
+      "parameters": 61058,
+      "changed_parameter_tensors": 14,
+      "parameters_finite": true,
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61058
+      },
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.005923134102863678,
+          "gru": 0.0009992089241054906,
+          "head": 0.010171626123400349
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999949397656177,
+          "gru": 0.0009964013604180327,
+          "head": 0.000999971653076201
+        },
+        "gate": null
+      }
+    },
+    {
+      "seed": 271834,
+      "arm": "fixed_mix",
+      "fit_row_groups": [
+        713,
+        1793,
+        1015,
+        105
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.6593329906463623,
+      "parameters": 61058,
+      "changed_parameter_tensors": 14,
+      "parameters_finite": true,
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61058
+      },
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.006242436662385495,
+          "gru": 0.0010648414353888807,
+          "head": 0.010533366495404473
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999360054781148,
+          "gru": 0.0009967311874446924,
+          "head": 0.000999957244762276
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        }
+      }
+    },
+    {
+      "seed": 271834,
+      "arm": "static_mix",
+      "fit_row_groups": [
+        713,
+        1793,
+        1015,
+        105
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.6593329906463623,
+      "parameters": 61122,
+      "changed_parameter_tensors": 15,
+      "parameters_finite": true,
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.006242436662385495,
+          "gru": 0.0010648414353888807,
+          "head": 0.010493554248970352
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999359862798592,
+          "gru": 0.0009967311543893744,
+          "head": 0.0009999570633487695
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        }
+      }
+    },
+    {
+      "seed": 271834,
+      "arm": "recurrent_mix",
+      "fit_row_groups": [
+        713,
+        1793,
+        1015,
+        105
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.6593329906463623,
+      "parameters": 61122,
+      "changed_parameter_tensors": 15,
+      "parameters_finite": true,
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.006242436662385495,
+          "gru": 0.0010648414353888807,
+          "head": 0.010493571633284472
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999359721543765,
+          "gru": 0.0009967311509867004,
+          "head": 0.0009999569953972188
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        }
+      }
+    },
+    {
+      "seed": 271834,
+      "arm": "projection_mix",
+      "fit_row_groups": [
+        713,
+        1793,
+        1015,
+        105
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.6593329906463623,
+      "parameters": 61122,
+      "changed_parameter_tensors": 15,
+      "parameters_finite": true,
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.006242436662385495,
+          "gru": 0.0010648414353888807,
+          "head": 0.010493607367118952
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999359997946524,
+          "gru": 0.0009967311397436518,
+          "head": 0.0009999571055092362
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        }
+      }
+    },
+    {
+      "seed": 271834,
+      "arm": "self_mix",
+      "fit_row_groups": [
+        713,
+        1793,
+        1015,
+        105
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 2.6593329906463623,
+      "parameters": 61122,
+      "changed_parameter_tensors": 15,
+      "parameters_finite": true,
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.006242436662385495,
+          "gru": 0.0010648414353888807,
+          "head": 0.010493940661324652
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999359926324966,
+          "gru": 0.000996731066793122,
+          "head": 0.0009999573261342749
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        }
+      }
+    },
+    {
+      "seed": 271835,
+      "arm": "gelu",
+      "fit_row_groups": [
+        1125,
+        1284,
+        1130,
+        483
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.2985657453536987,
+      "parameters": 61058,
+      "changed_parameter_tensors": 14,
+      "parameters_finite": true,
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61058
+      },
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.003494135651320917,
+          "gru": 0.0011292902452348498,
+          "head": 0.014280786443837176
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999559676440776,
+          "gru": 0.0009947056316720049,
+          "head": 0.0009999597535807205
+        },
+        "gate": null
+      }
+    },
+    {
+      "seed": 271835,
+      "arm": "fixed_mix",
+      "fit_row_groups": [
+        1125,
+        1284,
+        1130,
+        483
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.2898950576782227,
+      "parameters": 61058,
+      "changed_parameter_tensors": 14,
+      "parameters_finite": true,
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61058
+      },
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0036891196593195593,
+          "gru": 0.0011463835808641035,
+          "head": 0.014927135773191944
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999427121231996,
+          "gru": 0.0009951792676412665,
+          "head": 0.0009999588055345976
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        }
+      }
+    },
+    {
+      "seed": 271835,
+      "arm": "static_mix",
+      "fit_row_groups": [
+        1125,
+        1284,
+        1130,
+        483
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.2898950576782227,
+      "parameters": 61122,
+      "changed_parameter_tensors": 15,
+      "parameters_finite": true,
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0036891196593195593,
+          "gru": 0.0011463835808641035,
+          "head": 0.014870781965697279
+        },
+        "parameter_update_rms": {
+          "inp": 0.00099994272402486,
+          "gru": 0.0009951791929535593,
+          "head": 0.0009999583542383307
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        }
+      }
+    },
+    {
+      "seed": 271835,
+      "arm": "recurrent_mix",
+      "fit_row_groups": [
+        1125,
+        1284,
+        1130,
+        483
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.2898950576782227,
+      "parameters": 61122,
+      "changed_parameter_tensors": 15,
+      "parameters_finite": true,
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0036891196593195593,
+          "gru": 0.0011463835808641035,
+          "head": 0.014870714576079932
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999427058201829,
+          "gru": 0.000995179210898403,
+          "head": 0.000999958376948498
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        }
+      }
+    },
+    {
+      "seed": 271835,
+      "arm": "projection_mix",
+      "fit_row_groups": [
+        1125,
+        1284,
+        1130,
+        483
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.2898950576782227,
+      "parameters": 61122,
+      "changed_parameter_tensors": 15,
+      "parameters_finite": true,
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0036891196593195593,
+          "gru": 0.0011463835808641035,
+          "head": 0.014870583240372003
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999427170150463,
+          "gru": 0.0009951792428165933,
+          "head": 0.000999957696248901
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        }
+      }
+    },
+    {
+      "seed": 271835,
+      "arm": "self_mix",
+      "fit_row_groups": [
+        1125,
+        1284,
+        1130,
+        483
+      ],
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "loss": 1.2898950576782227,
+      "parameters": 61122,
+      "changed_parameter_tensors": 15,
+      "parameters_finite": true,
+      "optimizer": {
+        "name": "AdamW",
+        "lr": 0.001,
+        "weight_decay": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "groups": 1,
+        "parameter_names": [
+          "inp.weight",
+          "inp.bias",
+          "gru.weight_ih_l0",
+          "gru.weight_hh_l0",
+          "gru.bias_ih_l0",
+          "gru.bias_hh_l0",
+          "gru.weight_ih_l1",
+          "gru.weight_hh_l1",
+          "gru.bias_ih_l1",
+          "gru.bias_hh_l1",
+          "head.0.weight",
+          "head.0.bias",
+          "head.1.gate_coeff",
+          "head.2.weight",
+          "head.2.bias"
+        ],
+        "parameter_count": 61122
+      },
+      "telemetry_step0": {
+        "update_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0036891196593195593,
+          "gru": 0.0011463835808641035,
+          "head": 0.014870786019427346
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999427081948797,
+          "gru": 0.0009951791921316787,
+          "head": 0.0009999582961166993
+        },
+        "gate": {
+          "min": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "saturated_fraction_at_0_01": 0.0
+        }
+      }
+    }
+  ]
+}

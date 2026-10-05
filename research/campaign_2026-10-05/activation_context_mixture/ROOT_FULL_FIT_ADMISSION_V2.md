@@ -1,0 +1,5 @@
+# E484 full twelve-fit admission v2
+
+The actual v2 CUDA probe passed all12 finite/changed B4×256 cells and exact GELU/fixed-mixture output/state/input+parameter gradients and clippedAdamW-step parity. The synthetic parity objectives genuinely clipped(preclip norms117.648 and112.211). Active FP32 flags were captured inside the context and all read ieee. Test rows remained unread. Runner elapsed12.329557s, peakRAM1323831296bytes, observedGPU387973120bytes, exit0, verified teardown and no worker/parent OOM deltas.
+
+Independentv2review44cd5446 and root versioned source review bind the corrected immutable source. Admit the twelve registered fits within the existing1800GPU-second cap, one2CPU/6GiB worker,2GiB allocator/3GB physical stop; actual parent12CPU/30decimalGB/no swap. The original failing cross-device probe is retained; no recipe or fit selection occurred. Checkpoints and per-arm receipts save immediately; any partial completion is reported separately. Explicit independently reviewed grader and actual completion gate remain required before test scoring.

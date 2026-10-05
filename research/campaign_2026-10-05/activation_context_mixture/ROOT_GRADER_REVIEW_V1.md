@@ -1,0 +1,7 @@
+# E484 controller independent grader review
+
+Reviewed the frozen independent scorer dc312c08b90e0828a2057ca4afba8ae97ab9d49760aee867fb6cb47c67bf62fb and tests fcd9dafdf2d3718815d670166e4d47a5602d46a34846dd60f8923adf299bb815. Six bounded synthetic/actual-attempt-metadata tests passed independently under one CPU/2GiB. No evaluation-role rows read during review.
+
+The separate model reconstruction covers all six readouts and carried native state with exact synthetic forward parity. Canonical fit/probe metadata, byte hashes, active precision, clipping-active parity, all12 receipt/checkpoint inventories, telemetry and initialization are checked before any test loader. Fit mean/scale and every normalized fit sequence are independently recomputed from24 raw fit roles using the shared frozen causal feature encoder; this is independent normalization, not an independent feature encoding. Common numeric-sorted2000 component draws/seed271834 are pinned before scoring; all12 scores/16 contrasts and target-wise results are retained separately by seed.
+
+Before freezing, review corrected attempt-artifact file versus directory handling and ROOT depth, and strengthened normalization validation. Source is approved for the actual fit-only gate. A successful gate is required before a separately sealed CPU score attempt. This measures previously exposed-component performance conditional on fitted models, not new-market or public expected gain.

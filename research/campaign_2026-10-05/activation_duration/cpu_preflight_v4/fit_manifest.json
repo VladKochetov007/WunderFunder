@@ -1,0 +1,529 @@
+{
+  "kind": "E485 recurrent activation duration screen",
+  "status": "preflight_passed",
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "seeds": [
+    271836,
+    271837,
+    271838
+  ],
+  "alphas": [
+    0.0,
+    0.1
+  ],
+  "hidden": 128,
+  "parameters_per_trajectory": 236802,
+  "epochs": 4,
+  "snapshots_per_trajectory": [
+    1,
+    2,
+    4
+  ],
+  "updates_per_epoch": 474,
+  "batch_size": 4,
+  "chunk_rows": 256,
+  "candidate": "u=tanh(v); n=u+alpha*sin(pi*u); h'=(1-z)*n+z*h",
+  "optimizer": {
+    "name": "MuonAdamW",
+    "muon_names": [
+      "gru.weight_hh_l0",
+      "gru.weight_hh_l1",
+      "gru.weight_ih_l0",
+      "gru.weight_ih_l1"
+    ],
+    "muon_blocks": 3,
+    "muon_beta1": 0.9,
+    "adam_betas": [
+      0.9,
+      0.999
+    ],
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "schedule": "constant",
+    "global_clip_norm": 1.0,
+    "state_continues_across_epochs": true,
+    "cuda_muon_orthogonalization": "existing wnn.optim BF16 implementation"
+  },
+  "shuffle": "canonical np.arange(24), default_rng(seed+epoch_index).shuffle",
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "parent_source_sha256": {
+    "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+    "e471_scan": "998bceb024b5c29e81e73efc5d0ebe434d53c7356cfcb947f7ca36dd625426cf",
+    "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+    "wnn.nn": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+    "wnn.optim": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+    "wnn.resources": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "design_sha256": "bcbf17ec7b632909e9e8792cdf11436822dd4dcac5326befa506c8dcb96e70cc",
+  "blind_critic_sha256": "7e5a2457636febfbec13f9cff7d4205757e0cb7de4efbfe9b2deb679481bbdeb",
+  "source_sha256": {
+    "fit_duration.py": "9d1d24d0aa9dd53bd442deac7ec8534392ae64eb22161e7efa1e0de00dcb7b30",
+    "tests.py": "44b72a15d4e479d2509cc20fb9bbbe4ce140d28b8a7da7368ffb2290425dd979",
+    "gpu_probe.py": "9a0e3d2de283bbf00dc786c54bfedbfcd02e81e2bb1442ccff1ea5649c1e7e8c"
+  },
+  "cohort_manifest": {
+    "cohort": [
+      {
+        "row_group": 1735,
+        "seq_ix": 1989531794,
+        "component": 2795,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1766,
+        "seq_ix": 2024723908,
+        "component": 2854,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 233,
+        "seq_ix": 235282549,
+        "component": 2806,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 38,
+        "seq_ix": 45323361,
+        "component": 2828,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 807,
+        "seq_ix": 941450430,
+        "component": 2991,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1125,
+        "seq_ix": 1294249563,
+        "component": 3200,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1015,
+        "seq_ix": 1168194342,
+        "component": 3010,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 105,
+        "seq_ix": 109463899,
+        "component": 2882,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 483,
+        "seq_ix": 547472527,
+        "component": 2801,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1062,
+        "seq_ix": 1227566939,
+        "component": 2860,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1666,
+        "seq_ix": 1917373469,
+        "component": 2940,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1214,
+        "seq_ix": 1413037324,
+        "component": 2861,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1130,
+        "seq_ix": 1302007606,
+        "component": 2901,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1793,
+        "seq_ix": 2051491347,
+        "component": 3223,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 87,
+        "seq_ix": 89214899,
+        "component": 2866,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1869,
+        "seq_ix": 2144431796,
+        "component": 2902,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1053,
+        "seq_ix": 1218942404,
+        "component": 3182,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1390,
+        "seq_ix": 1596351500,
+        "component": 2948,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 614,
+        "seq_ix": 701505430,
+        "component": 3090,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1284,
+        "seq_ix": 1494588886,
+        "component": 2982,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1309,
+        "seq_ix": 1512273149,
+        "component": 3079,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1725,
+        "seq_ix": 1979171607,
+        "component": 3193,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 713,
+        "seq_ix": 815144844,
+        "component": 2936,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1567,
+        "seq_ix": 1795366096,
+        "component": 2930,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      }
+    ],
+    "selection_rule": "6 fit + 4 test distinct components per cached label-derived class; SHA256 target-mechanics-v1 component/group order; legacy protected holdout excluded",
+    "component_overlap": [],
+    "historical_exposure": "Validation labels and panels have extensive historical use. This is descriptive, not a fresh holdout or generalization claim. Class is label-derived and never an inference input.",
+    "metric": "global_wp_clip2_v1",
+    "fit_subsample": "every twentieth row >=128; no is_scored fit filtering",
+    "frozen_models": "ridge alpha=100; direct histogram 60 trees/12 leaves; factor sign and magnitude 30 trees each/12 leaves; shared full design; no search",
+    "normalization": {
+      "fit_mean": [
+        -1.5363867282867432,
+        -0.689834713935852,
+        1.2887780666351318,
+        -0.44421306252479553,
+        -1.0049716234207153,
+        0.024608345702290535,
+        -1.5609498023986816,
+        -0.6866507530212402,
+        1.1618949174880981,
+        -0.19426357746124268,
+        -0.881924569606781,
+        -0.014319630339741707,
+        -0.05646130442619324,
+        0.00033203521161340177,
+        -0.169044628739357,
+        -0.25854653120040894,
+        0.03898943215608597,
+        -0.2861734628677368,
+        -0.7288678288459778,
+        -2.0230934619903564,
+        -3.5546049730328377e-06,
+        2.096900971082505e-06,
+        4.6128329813655e-06,
+        -6.393834610207705e-06,
+        -5.608798801404191e-06,
+        2.5743427158886334e-06,
+        3.8066496017563622e-06,
+        4.4812200030719396e-06,
+        2.4200901407311903e-06,
+        -3.6629234045904013e-07,
+        -5.957327630312648e-06,
+        7.801266292517539e-06,
+        -4.835311301576439e-06,
+        9.792628588911612e-06,
+        4.220727987558348e-06,
+        3.4390102428005775e-06,
+        3.5663190374179976e-06,
+        3.5245990147814155e-05,
+        -3.0046541724004783e-05,
+        2.8520629712147638e-05,
+        2.0363821983337402,
+        0.2820541560649872
+      ],
+      "fit_scale": [
+        0.32517191767692566,
+        0.2430306077003479,
+        0.7047637104988098,
+        0.7663655877113342,
+        0.5567672848701477,
+        0.6080858707427979,
+        0.37485629320144653,
+        0.2399095743894577,
+        0.6885117888450623,
+        0.8592969179153442,
+        0.6910661458969116,
+        0.7655671238899231,
+        0.9265031814575195,
+        0.9781677722930908,
+        0.7986375689506531,
+        0.8008037209510803,
+        0.9514464735984802,
+        1.8925610780715942,
+        2.087163209915161,
+        2.956484317779541,
+        0.23587879538536072,
+        0.10206638276576996,
+        0.2836126685142517,
+        0.25912606716156006,
+        0.43994584679603577,
+        1.0169508457183838,
+        0.1448771208524704,
+        0.08167517185211182,
+        0.2859937250614166,
+        0.30186182260513306,
+        0.4794560968875885,
+        1.243190050125122,
+        0.9874710440635681,
+        1.6637933254241943,
+        0.10818876326084137,
+        0.03457668796181679,
+        1.073975682258606,
+        1.5013998746871948,
+        2.07209849357605,
+        2.8346872329711914,
+        1.8456852436065674,
+        0.4499995708465576
+      ]
+    }
+  },
+  "trajectories": [],
+  "preflight_arms": [
+    {
+      "seed": 271836,
+      "alpha": 0.0,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "fit_row_groups": [
+        1062,
+        1725,
+        1214,
+        1766
+      ],
+      "loss": 2.0263211727142334,
+      "clip_applied": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "global_update_index_zero_based": 0,
+        "epoch_index_zero_based": 0,
+        "epoch_step_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.003927209509316123,
+          "gru": 0.0010259997895766411,
+          "head": 0.010928836033193348
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009999106448475921,
+          "gru": 0.00014669112343818275,
+          "head": 0.0009999177127664111
+        }
+      }
+    },
+    {
+      "seed": 271836,
+      "alpha": 0.1,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "fit_row_groups": [
+        1062,
+        1725,
+        1214,
+        1766
+      ],
+      "loss": 2.024550676345825,
+      "clip_applied": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "global_update_index_zero_based": 0,
+        "epoch_index_zero_based": 0,
+        "epoch_step_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.004484398016242133,
+          "gru": 0.0017159473808082241,
+          "head": 0.01150662581930418
+        },
+        "parameter_update_rms": {
+          "inp": 0.000999963308611192,
+          "gru": 0.00014997112633744413,
+          "head": 0.0009999357908104592
+        }
+      }
+    },
+    {
+      "seed": 271837,
+      "alpha": 0.0,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "fit_row_groups": [
+        1666,
+        1125,
+        1015,
+        1725
+      ],
+      "loss": 2.089331865310669,
+      "clip_applied": false,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "global_update_index_zero_based": 0,
+        "epoch_index_zero_based": 0,
+        "epoch_step_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0025524384064135423,
+          "gru": 0.00046089151196211626,
+          "head": 0.00464380408966958
+        },
+        "parameter_update_rms": {
+          "inp": 0.000999945593417278,
+          "gru": 0.00015809045335950876,
+          "head": 0.0009999431601350204
+        }
+      }
+    },
+    {
+      "seed": 271837,
+      "alpha": 0.1,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "fit_row_groups": [
+        1666,
+        1125,
+        1015,
+        1725
+      ],
+      "loss": 2.092291831970215,
+      "clip_applied": false,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "global_update_index_zero_based": 0,
+        "epoch_index_zero_based": 0,
+        "epoch_step_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.0027185654067234254,
+          "gru": 0.0007915138181876216,
+          "head": 0.004970725723171342
+        },
+        "parameter_update_rms": {
+          "inp": 0.000999948367438845,
+          "gru": 0.0001614025460500642,
+          "head": 0.0009999691631649508
+        }
+      }
+    },
+    {
+      "seed": 271838,
+      "alpha": 0.0,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "fit_row_groups": [
+        87,
+        1793,
+        1125,
+        1666
+      ],
+      "loss": 2.543531894683838,
+      "clip_applied": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "global_update_index_zero_based": 0,
+        "epoch_index_zero_based": 0,
+        "epoch_step_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.003283240083885869,
+          "gru": 0.0006407530655606248,
+          "head": 0.008296056406632555
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009998810953253132,
+          "gru": 0.0001576729373331557,
+          "head": 0.0009999179109201315
+        }
+      }
+    },
+    {
+      "seed": 271838,
+      "alpha": 0.1,
+      "batch": 4,
+      "chunk_rows": 256,
+      "updates": 1,
+      "fit_row_groups": [
+        87,
+        1793,
+        1125,
+        1666
+      ],
+      "loss": 2.542696475982666,
+      "clip_applied": true,
+      "parameters_changed": true,
+      "parameters_finite": true,
+      "telemetry": {
+        "global_update_index_zero_based": 0,
+        "epoch_index_zero_based": 0,
+        "epoch_step_index_zero_based": 0,
+        "preclip_gradient_rms": {
+          "inp": 0.003570435833378202,
+          "gru": 0.001055715781852854,
+          "head": 0.008695948345132569
+        },
+        "parameter_update_rms": {
+          "inp": 0.0009998736314571438,
+          "gru": 0.00016137206861880022,
+          "head": 0.0009999468833640764
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+# E484 twelve-fit completion before independent grade
+
+Actual runner finished all12 registered full fits in29.367507s, exit0 and teardownverified. PeakRAM1375019008bytes, observedGPU390070272bytes. Worker and parent OOM counters unchanged. Aggregate manifest's fit_manifest_arms contains12 completed cells; its arms field defines six recipe names. All12 saved checkpoints/per-arm receipts are present; test rows remain unread. The native cuDNN recurrent trunk makes these readout-only interventions much faster than scripted custom-candidate studies. Runtime across different implementations is not a controlled scientific effect; shipping an altered recurrent candidate needs independent CPU deployment/cost validation.
+
+Root confirms completed artifacts/resource evidence only. Independent reconstruction and actual fit-only/checkpoint/normalizer gate, followed by separately admitted explicit scoring, remain required. No public forecast or superiority is inferred from training completion. The original failed v1 initialization-check probe, reviewed source versions and v2 actual parity receipts are preserved.
