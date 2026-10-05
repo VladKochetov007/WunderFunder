@@ -816,5 +816,20 @@ def _(json, mo, project_root):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo, project_root):
+    _curvature_plot = project_root / "research/campaign_2026-10-05/recurrent_activation_curvature/eda/candidate_maps_and_slopes.png"
+    mo.vstack([mo.md("### Candidate shapes: what the sine control actually changes\nE481 is registered, not fitted yet. The cubic matches the sine map at the center and endpoints but changes the slope distribution. These scalar bounds do not prove stability of the whole recurrent model."), mo.image(str(_curvature_plot))])
+    return
+
+
+@app.cell(hide_code=True)
+def _(json, mo, project_root):
+    _head_dir = project_root / "research/campaign_2026-10-05/activation_head_mixture"
+    _head_result = json.loads((_head_dir / "eda/twelve_v6b/RESULT.json").read_text())
+    mo.vstack([mo.md("### E477: mixed activation heads × dropout\nAll12 fits and independent grades landed. Effects reverse with seed: split versus GELU without dropout is −0.017395 / +0.006980. All18 primary/secondary contrasts remain visible. Exposed diagnostic panel; no public forecast."), mo.image(str(_head_dir / "eda/all_head_mixture_arms.png")), mo.ui.table([{"arm": _key, "global_wp": _value["global_wp"], **_value["target_wp"]} for _key, _value in _head_result["arms"].items()]), mo.ui.table([{"contrast": _key, "delta": _value["mean_diff"], "ci95": str(_value["ci95"]), "family": _value["family"]} for _key, _value in _head_result["contrasts"].items()])])
+    return
+
+
 if __name__ == "__main__":
     app.run()

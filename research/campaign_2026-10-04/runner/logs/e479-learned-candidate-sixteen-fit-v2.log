@@ -1,0 +1,3298 @@
+/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+{
+  "kind": "E479 learned per-layer bounded GRU candidate-shape preflight",
+  "status": "all_16_fit_arms_complete_test_unread",
+  "fit_only": true,
+  "test_rows_loaded": false,
+  "seeds": [
+    271828,
+    271829
+  ],
+  "optimizers": [
+    "adamw",
+    "muon_adamw"
+  ],
+  "conditions": [
+    "fixed0",
+    "fixed01",
+    "learned0",
+    "learned01"
+  ],
+  "planned_fit_count": 16,
+  "architecture": "42->GELU projection->2x H64 reset-after GRU->concat state/embedding->GELU head",
+  "candidate": "u=tanh(v); n=u+alpha_l*sin(pi*u); learned alpha_l=.2*tanh(raw_l)",
+  "parameters": {
+    "fixed": 61058,
+    "learned": 61060
+  },
+  "optimizer": {
+    "lr": 0.001,
+    "weight_decay_original_parameters": 0.01,
+    "learned_alpha_weight_decay": 0.0,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "schedule": "constant",
+    "clip_norm": 1.0,
+    "muon_matrices": [
+      "gru.weight_hh_l0",
+      "gru.weight_hh_l1",
+      "gru.weight_ih_l0",
+      "gru.weight_ih_l1"
+    ],
+    "muon_blocks_per_matrix": 3
+  },
+  "updates_per_full_fit": 474,
+  "batch": 4,
+  "chunk_rows": 256,
+  "telemetry_steps_zero_based": [
+    0,
+    46,
+    236,
+    473
+  ],
+  "contrasts": [
+    "learned0-fixed0 within each seed and optimizer",
+    "learned01-fixed01 within each seed and optimizer",
+    "fixed01-fixed0 within each seed and optimizer",
+    "learned01-learned0 within each seed and optimizer",
+    "MuonAdamW-AdamW within each seed and candidate condition",
+    "(learned0-fixed0)_Muon-(learned0-fixed0)_AdamW within each seed",
+    "(learned01-fixed01)_Muon-(learned01-fixed01)_AdamW within each seed"
+  ],
+  "parent_source_sha256": {
+    "e470": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+    "e474": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068"
+  },
+  "source_sha256": {
+    "fit_recurrent_activation_adaptive.py": "6a11025735bb8df7d88b08bdcf7dfd9d8879992a82c1c64d40b43ada7456c7bf",
+    "tests.py": "88ce5a39aa8c8a8af869689f5394ba1eae4225c008aaef61e6679de592994b17",
+    "gpu_probe.py": "293fe14c00cc7f76d13daa44f9a3e9f99fbdb1b083a5a0045a020c99e1047f39"
+  },
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "fit_only_cohort": {
+    "cohort": [
+      {
+        "row_group": 1735,
+        "seq_ix": 1989531794,
+        "component": 2795,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1766,
+        "seq_ix": 2024723908,
+        "component": 2854,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 233,
+        "seq_ix": 235282549,
+        "component": 2806,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 38,
+        "seq_ix": 45323361,
+        "component": 2828,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 807,
+        "seq_ix": 941450430,
+        "component": 2991,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1125,
+        "seq_ix": 1294249563,
+        "component": 3200,
+        "label_class_diagnostic_only": 0,
+        "role": "fit"
+      },
+      {
+        "row_group": 1015,
+        "seq_ix": 1168194342,
+        "component": 3010,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 105,
+        "seq_ix": 109463899,
+        "component": 2882,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 483,
+        "seq_ix": 547472527,
+        "component": 2801,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1062,
+        "seq_ix": 1227566939,
+        "component": 2860,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1666,
+        "seq_ix": 1917373469,
+        "component": 2940,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1214,
+        "seq_ix": 1413037324,
+        "component": 2861,
+        "label_class_diagnostic_only": 1,
+        "role": "fit"
+      },
+      {
+        "row_group": 1130,
+        "seq_ix": 1302007606,
+        "component": 2901,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1793,
+        "seq_ix": 2051491347,
+        "component": 3223,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 87,
+        "seq_ix": 89214899,
+        "component": 2866,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1869,
+        "seq_ix": 2144431796,
+        "component": 2902,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1053,
+        "seq_ix": 1218942404,
+        "component": 3182,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 1390,
+        "seq_ix": 1596351500,
+        "component": 2948,
+        "label_class_diagnostic_only": 2,
+        "role": "fit"
+      },
+      {
+        "row_group": 614,
+        "seq_ix": 701505430,
+        "component": 3090,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1284,
+        "seq_ix": 1494588886,
+        "component": 2982,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1309,
+        "seq_ix": 1512273149,
+        "component": 3079,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1725,
+        "seq_ix": 1979171607,
+        "component": 3193,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 713,
+        "seq_ix": 815144844,
+        "component": 2936,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      },
+      {
+        "row_group": 1567,
+        "seq_ix": 1795366096,
+        "component": 2930,
+        "label_class_diagnostic_only": 3,
+        "role": "fit"
+      }
+    ],
+    "selection_rule": "6 fit + 4 test distinct components per cached label-derived class; SHA256 target-mechanics-v1 component/group order; legacy protected holdout excluded",
+    "component_overlap": [],
+    "historical_exposure": "Validation labels and panels have extensive historical use. This is descriptive, not a fresh holdout or generalization claim. Class is label-derived and never an inference input.",
+    "metric": "global_wp_clip2_v1",
+    "fit_subsample": "every twentieth row >=128; no is_scored fit filtering",
+    "frozen_models": "ridge alpha=100; direct histogram 60 trees/12 leaves; factor sign and magnitude 30 trees each/12 leaves; shared full design; no search",
+    "normalization": {
+      "fit_mean": [
+        -1.5363867282867432,
+        -0.689834713935852,
+        1.2887780666351318,
+        -0.44421306252479553,
+        -1.0049716234207153,
+        0.024608345702290535,
+        -1.5609498023986816,
+        -0.6866507530212402,
+        1.1618949174880981,
+        -0.19426357746124268,
+        -0.881924569606781,
+        -0.014319630339741707,
+        -0.05646130442619324,
+        0.00033203521161340177,
+        -0.169044628739357,
+        -0.25854653120040894,
+        0.03898943215608597,
+        -0.2861734628677368,
+        -0.7288678288459778,
+        -2.0230934619903564,
+        -3.5546049730328377e-06,
+        2.096900971082505e-06,
+        4.6128329813655e-06,
+        -6.393834610207705e-06,
+        -5.608798801404191e-06,
+        2.5743427158886334e-06,
+        3.8066496017563622e-06,
+        4.4812200030719396e-06,
+        2.4200901407311903e-06,
+        -3.6629234045904013e-07,
+        -5.957327630312648e-06,
+        7.801266292517539e-06,
+        -4.835311301576439e-06,
+        9.792628588911612e-06,
+        4.220727987558348e-06,
+        3.4390102428005775e-06,
+        3.5663190374179976e-06,
+        3.5245990147814155e-05,
+        -3.0046541724004783e-05,
+        2.8520629712147638e-05,
+        2.0363821983337402,
+        0.2820541560649872
+      ],
+      "fit_scale": [
+        0.32517191767692566,
+        0.2430306077003479,
+        0.7047637104988098,
+        0.7663655877113342,
+        0.5567672848701477,
+        0.6080858707427979,
+        0.37485629320144653,
+        0.2399095743894577,
+        0.6885117888450623,
+        0.8592969179153442,
+        0.6910661458969116,
+        0.7655671238899231,
+        0.9265031814575195,
+        0.9781677722930908,
+        0.7986375689506531,
+        0.8008037209510803,
+        0.9514464735984802,
+        1.8925610780715942,
+        2.087163209915161,
+        2.956484317779541,
+        0.23587879538536072,
+        0.10206638276576996,
+        0.2836126685142517,
+        0.25912606716156006,
+        0.43994584679603577,
+        1.0169508457183838,
+        0.1448771208524704,
+        0.08167517185211182,
+        0.2859937250614166,
+        0.30186182260513306,
+        0.4794560968875885,
+        1.243190050125122,
+        0.9874710440635681,
+        1.6637933254241943,
+        0.10818876326084137,
+        0.03457668796181679,
+        1.073975682258606,
+        1.5013998746871948,
+        2.07209849357605,
+        2.8346872329711914,
+        1.8456852436065674,
+        0.4499995708465576
+      ]
+    }
+  },
+  "arms": [
+    {
+      "seed": 271828,
+      "optimizer": "adamw",
+      "condition": "fixed0",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 48.02517458300281,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005001834492304007,
+            "gru": 0.001211973728630531,
+            "head": 0.01553264055395748
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999655733820738,
+            "gru": 0.0009932551858892627,
+            "head": 0.0009999561724639222
+          },
+          "condition": "fixed0",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 2.3267135620117188,
+          "state_abs_max": 0.5120865106582642
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0034632572354862516,
+            "gru": 0.0011557782592459057,
+            "head": 0.012771518115856613
+          },
+          "parameter_update_rms": {
+            "inp": 0.00028525828862931634,
+            "gru": 0.00032800242708972354,
+            "head": 0.00023736709653974188
+          },
+          "condition": "fixed0",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 0.7148799896240234,
+          "state_abs_max": 0.7104552984237671
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.025601804794209038,
+            "gru": 0.00268405206178063,
+            "head": 0.04108097865506639
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002651495946856548,
+            "gru": 0.0002775559773150971,
+            "head": 0.00025777899376620074
+          },
+          "condition": "fixed0",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 3.209782600402832,
+          "state_abs_max": 0.683334469795227
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.009576259295944889,
+            "gru": 0.0009536378319579401,
+            "head": 0.021251711962460507
+          },
+          "parameter_update_rms": {
+            "inp": 0.00016227010861857011,
+            "gru": 0.00019672301955559124,
+            "head": 0.00012005825839210758
+          },
+          "condition": "fixed0",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 2.48652982711792,
+          "state_abs_max": 0.8369349241256714
+        }
+      ],
+      "checkpoint": "seed271828_adamw_fixed0.pt",
+      "checkpoint_sha256": "d97f6da416efa1f28084faee3b4ea8f409f6c069361a4cb4b272ad2690876e64"
+    },
+    {
+      "seed": 271828,
+      "optimizer": "adamw",
+      "condition": "fixed01",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 39.80607052000414,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005510925631984411,
+            "gru": 0.002022107442858405,
+            "head": 0.016368490518682673
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999546479501243,
+            "gru": 0.0009964914343543875,
+            "head": 0.0009999588397688684
+          },
+          "condition": "fixed01",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 2.3299026489257812,
+          "state_abs_max": 0.6150537133216858
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.004435705534237905,
+            "gru": 0.001937532581757712,
+            "head": 0.013779951829672253
+          },
+          "parameter_update_rms": {
+            "inp": 0.00030244828027023625,
+            "gru": 0.00034640520771913344,
+            "head": 0.00027213372167019895
+          },
+          "condition": "fixed01",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 0.7456172108650208,
+          "state_abs_max": 0.8574182391166687
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.02297174292461527,
+            "gru": 0.003128652829029662,
+            "head": 0.04466585147064073
+          },
+          "parameter_update_rms": {
+            "inp": 0.00022742690942031816,
+            "gru": 0.0002416038108447749,
+            "head": 0.0002654567756721342
+          },
+          "condition": "fixed01",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 3.2108874320983887,
+          "state_abs_max": 0.8610495924949646
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.00833266848680985,
+            "gru": 0.001080010387255752,
+            "head": 0.023497944064807787
+          },
+          "parameter_update_rms": {
+            "inp": 0.00014446900972257183,
+            "gru": 0.00014647742921073038,
+            "head": 0.00012057884803810015
+          },
+          "condition": "fixed01",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 2.454939842224121,
+          "state_abs_max": 0.9653663635253906
+        }
+      ],
+      "checkpoint": "seed271828_adamw_fixed01.pt",
+      "checkpoint_sha256": "9bc9bbbb24a49288f2dba35a67bb5d3e4f64271ea7060e95022a641ca9503211"
+    },
+    {
+      "seed": 271828,
+      "optimizer": "adamw",
+      "condition": "learned0",
+      "updates": 474,
+      "parameters": 61060,
+      "fit_seconds": 53.49104612899828,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.0050018344486355394,
+            "gru": 0.0012119737292785235,
+            "head": 0.015532640514145475
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999655728674475,
+            "gru": 0.0009932550675509867,
+            "head": 0.0009999561689845043
+          },
+          "condition": "learned0",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            -0.00019998967763967812,
+            -0.0001999996165977791
+          ],
+          "raw_alpha": [
+            -0.0009999487083405256,
+            -0.0009999984176829457
+          ],
+          "raw_alpha_gradient": [
+            0.00028748196200467646,
+            0.0097074368968606
+          ],
+          "raw_alpha_update": [
+            -0.0009999487083405256,
+            -0.0009999984176829457
+          ],
+          "loss": 2.3267135620117188,
+          "state_abs_max": 0.5120865106582642
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0034750512384959546,
+            "gru": 0.0011627685614782953,
+            "head": 0.012778291410198258
+          },
+          "parameter_update_rms": {
+            "inp": 0.00028570228364245976,
+            "gru": 0.00032889174583827985,
+            "head": 0.0002381480801744712
+          },
+          "condition": "learned0",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.001006907899864018,
+            0.0013956549810245633
+          ],
+          "raw_alpha": [
+            0.005034581758081913,
+            0.0069783879444003105
+          ],
+          "raw_alpha_gradient": [
+            -0.00041114643681794405,
+            -0.011347705498337746
+          ],
+          "raw_alpha_update": [
+            -0.00024071335792541504,
+            -0.0002024322748184204
+          ],
+          "loss": 0.7154890298843384,
+          "state_abs_max": 0.711901843547821
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.025627293827628687,
+            "gru": 0.002672487217592821,
+            "head": 0.04102612795405371
+          },
+          "parameter_update_rms": {
+            "inp": 0.00026570802174845815,
+            "gru": 0.0002763350077528958,
+            "head": 0.00025689957259990753
+          },
+          "condition": "learned0",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            -0.0018736387137323618,
+            -0.0013882763450965285
+          ],
+          "raw_alpha": [
+            -0.009368467144668102,
+            -0.006941492669284344
+          ],
+          "raw_alpha_gradient": [
+            0.12387795001268387,
+            0.12309057265520096
+          ],
+          "raw_alpha_update": [
+            -0.0003739967942237854,
+            -0.00029492704197764397
+          ],
+          "loss": 3.2092249393463135,
+          "state_abs_max": 0.6803629994392395
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.009599577452831813,
+            "gru": 0.0009423108822057089,
+            "head": 0.021098431235119095
+          },
+          "parameter_update_rms": {
+            "inp": 0.000162908562655448,
+            "gru": 0.0001985743052516444,
+            "head": 0.00012037819704466874
+          },
+          "condition": "learned0",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            -0.0057917810045182705,
+            -0.004637249745428562
+          ],
+          "raw_alpha": [
+            -0.028967004269361496,
+            -0.02319040335714817
+          ],
+          "raw_alpha_gradient": [
+            0.0561974011361599,
+            0.057174116373062134
+          ],
+          "raw_alpha_update": [
+            -6.356090307235718e-05,
+            -4.4615939259529114e-05
+          ],
+          "loss": 2.4866199493408203,
+          "state_abs_max": 0.8241779208183289
+        }
+      ],
+      "checkpoint": "seed271828_adamw_learned0.pt",
+      "checkpoint_sha256": "b9c81c50fc5888cfa12528f8ba4ca27ac69093995eec9e322ee0853367f9116c"
+    },
+    {
+      "seed": 271828,
+      "optimizer": "adamw",
+      "condition": "learned01",
+      "updates": 474,
+      "parameters": 61060,
+      "fit_seconds": 45.27275167799962,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.0055109255498776025,
+            "gru": 0.00202210736367603,
+            "head": 0.016368490352632076
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999546590797718,
+            "gru": 0.0009964914403186895,
+            "head": 0.0009999588362469675
+          },
+          "condition": "learned01",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            0.10014992207288742,
+            0.09984992444515228
+          ],
+          "raw_alpha": [
+            0.5503061413764954,
+            0.5483061671257019
+          ],
+          "raw_alpha_gradient": [
+            -0.0024834545329213142,
+            0.0041930354200303555
+          ],
+          "raw_alpha_update": [
+            0.0009999871253967285,
+            -0.0009999871253967285
+          ],
+          "loss": 2.3299026489257812,
+          "state_abs_max": 0.615053653717041
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.00444068212368752,
+            "gru": 0.0019418665722359782,
+            "head": 0.013793071304096885
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003029253226350153,
+            "gru": 0.0003469917127799851,
+            "head": 0.00027265059513957243
+          },
+          "condition": "learned01",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.10073478519916534,
+            0.1008250042796135
+          ],
+          "raw_alpha": [
+            0.5542168021202087,
+            0.5548214316368103
+          ],
+          "raw_alpha_gradient": [
+            0.011411892250180244,
+            0.012477340176701546
+          ],
+          "raw_alpha_update": [
+            -0.000338137149810791,
+            -0.0003033876419067383
+          ],
+          "loss": 0.7460311651229858,
+          "state_abs_max": 0.8583827018737793
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.023015884074265726,
+            "gru": 0.00311857345032593,
+            "head": 0.044600929497597586
+          },
+          "parameter_update_rms": {
+            "inp": 0.00022796476671438983,
+            "gru": 0.00024095886036114037,
+            "head": 0.00026460640387912786
+          },
+          "condition": "learned01",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.09785982221364975,
+            0.09760972857475281
+          ],
+          "raw_alpha": [
+            0.5351384282112122,
+            0.5334956645965576
+          ],
+          "raw_alpha_gradient": [
+            0.07221677899360657,
+            0.06284311413764954
+          ],
+          "raw_alpha_update": [
+            -0.0003186464309692383,
+            -0.00025177001953125
+          ],
+          "loss": 3.211010217666626,
+          "state_abs_max": 0.8589255213737488
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.00836355269546113,
+            "gru": 0.0010710057244128508,
+            "head": 0.023332936195963546
+          },
+          "parameter_update_rms": {
+            "inp": 0.00014491713789094621,
+            "gru": 0.000146801458991113,
+            "head": 0.00012026394006797944
+          },
+          "condition": "learned01",
+          "optimizer": "adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.09439422190189362,
+            0.09439971297979355
+          ],
+          "raw_alpha": [
+            0.5126032829284668,
+            0.5126386284828186
+          ],
+          "raw_alpha_gradient": [
+            0.029857806861400604,
+            0.03790675103664398
+          ],
+          "raw_alpha_update": [
+            -9.78708267211914e-05,
+            -0.0001251697540283203
+          ],
+          "loss": 2.4547863006591797,
+          "state_abs_max": 0.9635433554649353
+        }
+      ],
+      "checkpoint": "seed271828_adamw_learned01.pt",
+      "checkpoint_sha256": "bc8b1d7cf038f38f0f7309e374f5f09e5e0beb831a6e77bb167aa2438fbea7cb"
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "condition": "fixed0",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 47.23969104400021,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005001834514321064,
+            "gru": 0.0012119737287706912,
+            "head": 0.0155326405402262
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999656315523508,
+            "gru": 0.00018623281518804672,
+            "head": 0.0009999562419726377
+          },
+          "condition": "fixed0",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 2.3267135620117188,
+          "state_abs_max": 0.5120865106582642
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.002566998695489109,
+            "gru": 0.0007707747928175987,
+            "head": 0.013484870286842726
+          },
+          "parameter_update_rms": {
+            "inp": 0.0004097025882574287,
+            "gru": 0.0001595291096105867,
+            "head": 0.00020591793104908222
+          },
+          "condition": "fixed0",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 0.6553822755813599,
+          "state_abs_max": 0.44135430455207825
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.03078506201421431,
+            "gru": 0.004322813937819556,
+            "head": 0.03769655825450462
+          },
+          "parameter_update_rms": {
+            "inp": 0.00032458058031006024,
+            "gru": 0.00014034875899800157,
+            "head": 0.00026682871203146584
+          },
+          "condition": "fixed0",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 3.2516164779663086,
+          "state_abs_max": 0.4313075542449951
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012056809963740004,
+            "gru": 0.0017446806326149042,
+            "head": 0.01695656516663853
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002096818089076775,
+            "gru": 0.00015706344088191844,
+            "head": 0.0001400856694314772
+          },
+          "condition": "fixed0",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 2.518991470336914,
+          "state_abs_max": 0.5886002779006958
+        }
+      ],
+      "checkpoint": "seed271828_muon_adamw_fixed0.pt",
+      "checkpoint_sha256": "977255286fb9df7e00dceccf750b6999587e1b0f8edaa15b166d6ed2ab933843"
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "condition": "fixed01",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 49.769586462003645,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005510925631984411,
+            "gru": 0.002022107442858405,
+            "head": 0.016368490518682673
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999547380895833,
+            "gru": 0.00018822441597747636,
+            "head": 0.0009999589151286651
+          },
+          "condition": "fixed01",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 2.3299026489257812,
+          "state_abs_max": 0.6150537133216858
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0029481270117911102,
+            "gru": 0.0013395214930005876,
+            "head": 0.014399185873616875
+          },
+          "parameter_update_rms": {
+            "inp": 0.00038827716404310687,
+            "gru": 0.0001611194840053969,
+            "head": 0.00022326112838096573
+          },
+          "condition": "fixed01",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 0.6600676774978638,
+          "state_abs_max": 0.5402671694755554
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.03243828901846303,
+            "gru": 0.006924522148334108,
+            "head": 0.04158673366926211
+          },
+          "parameter_update_rms": {
+            "inp": 0.00028423337221757024,
+            "gru": 0.00014457438636192798,
+            "head": 0.0002630756472387399
+          },
+          "condition": "fixed01",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 3.3173623085021973,
+          "state_abs_max": 0.5448816418647766
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012202260474384942,
+            "gru": 0.0026652332648323686,
+            "head": 0.018110966143742434
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002151573782644344,
+            "gru": 0.00016351372118247968,
+            "head": 0.00015139924855776585
+          },
+          "condition": "fixed01",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 2.5390207767486572,
+          "state_abs_max": 0.7189047336578369
+        }
+      ],
+      "checkpoint": "seed271828_muon_adamw_fixed01.pt",
+      "checkpoint_sha256": "1febbf03bd04e77206cb65978a0f798370243486a75cd412801c1d4136ea9446"
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "condition": "learned0",
+      "updates": 474,
+      "parameters": 61060,
+      "fit_seconds": 56.963773719005985,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005001834514321064,
+            "gru": 0.0012119737287706912,
+            "head": 0.0155326405402262
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999656405948686,
+            "gru": 0.0001863028023024018,
+            "head": 0.0009999562276652165
+          },
+          "condition": "learned0",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            -0.00019998969219159335,
+            -0.00019999964570160955
+          ],
+          "raw_alpha": [
+            -0.0009999488247558475,
+            -0.0009999985340982676
+          ],
+          "raw_alpha_gradient": [
+            0.00028748190379701555,
+            0.009707437828183174
+          ],
+          "raw_alpha_update": [
+            -0.0009999488247558475,
+            -0.0009999985340982676
+          ],
+          "loss": 2.3267135620117188,
+          "state_abs_max": 0.5120865106582642
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0025709782966123183,
+            "gru": 0.000782096888125669,
+            "head": 0.013512280644771842
+          },
+          "parameter_update_rms": {
+            "inp": 0.00040943177560307285,
+            "gru": 0.0001593512161982173,
+            "head": 0.00020653546191714525
+          },
+          "condition": "learned0",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.0007403867202810943,
+            0.0036746342666447163
+          ],
+          "raw_alpha": [
+            0.0037019504234194756,
+            0.01837523840367794
+          ],
+          "raw_alpha_gradient": [
+            -0.0024618995375931263,
+            0.004445245955139399
+          ],
+          "raw_alpha_update": [
+            -4.112487658858299e-06,
+            -0.00011790543794631958
+          ],
+          "loss": 0.6554100513458252,
+          "state_abs_max": 0.44169488549232483
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.03081628122338162,
+            "gru": 0.00433356158098114,
+            "head": 0.037735072305802746
+          },
+          "parameter_update_rms": {
+            "inp": 0.00032396124704248195,
+            "gru": 0.0001402594401941862,
+            "head": 0.0002664659364403986
+          },
+          "condition": "learned0",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            -0.0007501454092562199,
+            0.0010577993234619498
+          ],
+          "raw_alpha": [
+            -0.003750744741410017,
+            0.005289045628160238
+          ],
+          "raw_alpha_gradient": [
+            0.11010420322418213,
+            0.17492225766181946
+          ],
+          "raw_alpha_update": [
+            -0.00047180289402604103,
+            -0.0004087998531758785
+          ],
+          "loss": 3.252568006515503,
+          "state_abs_max": 0.4300546944141388
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012028633191257772,
+            "gru": 0.001727249365068292,
+            "head": 0.01694086978703443
+          },
+          "parameter_update_rms": {
+            "inp": 0.00020940560587577985,
+            "gru": 0.00015699095019124158,
+            "head": 0.00013964744681635116
+          },
+          "condition": "learned0",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            -0.0015339921228587627,
+            -0.0012012943625450134
+          ],
+          "raw_alpha": [
+            -0.007670111022889614,
+            -0.0060065439902246
+          ],
+          "raw_alpha_gradient": [
+            0.04342905431985855,
+            0.07682476192712784
+          ],
+          "raw_alpha_update": [
+            -0.00012982077896595,
+            -2.6380643248558044e-05
+          ],
+          "loss": 2.5181832313537598,
+          "state_abs_max": 0.5871186852455139
+        }
+      ],
+      "checkpoint": "seed271828_muon_adamw_learned0.pt",
+      "checkpoint_sha256": "0dff123999f9987fd7c026d316bb7473c6dfbce3d4d9073330fee31f8eee5623"
+    },
+    {
+      "seed": 271828,
+      "optimizer": "muon_adamw",
+      "condition": "learned01",
+      "updates": 474,
+      "parameters": 61060,
+      "fit_seconds": 57.05474750400754,
+      "fit_row_groups": [
+        1284,
+        1793,
+        38,
+        1869,
+        1666,
+        483,
+        1766,
+        1062,
+        1567,
+        105,
+        1390,
+        1130,
+        233,
+        1735,
+        1309,
+        713,
+        1125,
+        807,
+        1725,
+        1015,
+        1053,
+        614,
+        1214,
+        87
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.0055109255498776025,
+            "gru": 0.00202210736367603,
+            "head": 0.016368490352632076
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999547384885892,
+            "gru": 0.00018824622878331674,
+            "head": 0.0009999589154019016
+          },
+          "condition": "learned01",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            0.10014992207288742,
+            0.09984992444515228
+          ],
+          "raw_alpha": [
+            0.5503061413764954,
+            0.5483061671257019
+          ],
+          "raw_alpha_gradient": [
+            -0.0024834545329213142,
+            0.0041930354200303555
+          ],
+          "raw_alpha_update": [
+            0.0009999871253967285,
+            -0.0009999871253967285
+          ],
+          "loss": 2.3299026489257812,
+          "state_abs_max": 0.615053653717041
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0029543572496287538,
+            "gru": 0.0013493322768206516,
+            "head": 0.014406299527086724
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003881868608940855,
+            "gru": 0.000161335232705015,
+            "head": 0.00022391000276448495
+          },
+          "condition": "learned01",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1284,
+            1793,
+            38,
+            1869
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.10062849521636963,
+            0.10209138691425323
+          ],
+          "raw_alpha": [
+            0.553505003452301,
+            0.563347578048706
+          ],
+          "raw_alpha_gradient": [
+            -0.004059901926666498,
+            0.004106619860976934
+          ],
+          "raw_alpha_update": [
+            -0.00016438961029052734,
+            -0.000310361385345459
+          ],
+          "loss": 0.6600931286811829,
+          "state_abs_max": 0.5409384369850159
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.03243728220539598,
+            "gru": 0.006921776963517907,
+            "head": 0.04159930925975124
+          },
+          "parameter_update_rms": {
+            "inp": 0.00028395339575130714,
+            "gru": 0.00014463872387455087,
+            "head": 0.00026291149177425945
+          },
+          "condition": "learned01",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1567,
+            105,
+            1390,
+            1130
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.09971168637275696,
+            0.10035214573144913
+          ],
+          "raw_alpha": [
+            0.5473859310150146,
+            0.5516566038131714
+          ],
+          "raw_alpha_gradient": [
+            0.11749585717916489,
+            0.14907030761241913
+          ],
+          "raw_alpha_update": [
+            -0.0004203915596008301,
+            -0.00043398141860961914
+          ],
+          "loss": 3.317467212677002,
+          "state_abs_max": 0.544919490814209
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012172724619748101,
+            "gru": 0.002643805433665243,
+            "head": 0.01808598847228957
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002147725873592835,
+            "gru": 0.00016338763037532952,
+            "head": 0.0001510016816573142
+          },
+          "condition": "learned01",
+          "optimizer": "muon_adamw",
+          "seed": 271828,
+          "fit_row_groups": [
+            1053,
+            614,
+            1214,
+            87
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.0987328588962555,
+            0.09834284335374832
+          ],
+          "raw_alpha": [
+            0.5408939123153687,
+            0.5383186936378479
+          ],
+          "raw_alpha_gradient": [
+            0.04201145097613335,
+            0.07498249411582947
+          ],
+          "raw_alpha_update": [
+            -0.00010716915130615234,
+            -4.488229751586914e-05
+          ],
+          "loss": 2.538090229034424,
+          "state_abs_max": 0.7178459167480469
+        }
+      ],
+      "checkpoint": "seed271828_muon_adamw_learned01.pt",
+      "checkpoint_sha256": "05e34bf0e3968b7168ad3061a7246cc76d530ef3bbf4160918980f00b681a0be"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "adamw",
+      "condition": "fixed0",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 45.59976364800241,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005131167124931059,
+            "gru": 0.0010745817535652226,
+            "head": 0.015643559074386793
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999020427093703,
+            "gru": 0.0009932716974859475,
+            "head": 0.0009999628642301227
+          },
+          "condition": "fixed0",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 1.782776951789856,
+          "state_abs_max": 0.5743891596794128
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.006138923524033565,
+            "gru": 0.0022345031025937405,
+            "head": 0.008758986707420672
+          },
+          "parameter_update_rms": {
+            "inp": 0.00031093954494484667,
+            "gru": 0.00026934909501334013,
+            "head": 0.00018821132518130992
+          },
+          "condition": "fixed0",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 0.7648224830627441,
+          "state_abs_max": 0.8119834661483765
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.022551770156747142,
+            "gru": 0.0028486035710066325,
+            "head": 0.024612201361070476
+          },
+          "parameter_update_rms": {
+            "inp": 0.000360693150625378,
+            "gru": 0.00025280568835303786,
+            "head": 0.00025449776559689633
+          },
+          "condition": "fixed0",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 2.3947198390960693,
+          "state_abs_max": 0.536410391330719
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.013050907614859629,
+            "gru": 0.002185502908200057,
+            "head": 0.018435173695213296
+          },
+          "parameter_update_rms": {
+            "inp": 0.00026518154826004323,
+            "gru": 0.00023353733177260326,
+            "head": 0.0002279012140418419
+          },
+          "condition": "fixed0",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 1.3868775367736816,
+          "state_abs_max": 0.6273424029350281
+        }
+      ],
+      "checkpoint": "seed271829_adamw_fixed0.pt",
+      "checkpoint_sha256": "72e58cbf9607a08dce15af37fa77d11b728a3f8fe7e2c356d3385babec14348c"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "adamw",
+      "condition": "fixed01",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 47.11412942499737,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.00562021771551251,
+            "gru": 0.0017545686072202567,
+            "head": 0.016436499319038397
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999238727561215,
+            "gru": 0.00099635275883347,
+            "head": 0.0009999602445926357
+          },
+          "condition": "fixed01",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 1.7926356792449951,
+          "state_abs_max": 0.6791177988052368
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.006822650121669092,
+            "gru": 0.002636996310758567,
+            "head": 0.008821161098413195
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003020557776252663,
+            "gru": 0.0002576045682389899,
+            "head": 0.00017417268260303993
+          },
+          "condition": "fixed01",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 0.7082966566085815,
+          "state_abs_max": 0.8953315615653992
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.020532413399296255,
+            "gru": 0.003377713163126289,
+            "head": 0.02553923829428793
+          },
+          "parameter_update_rms": {
+            "inp": 0.00034891698194786184,
+            "gru": 0.00023787565697673953,
+            "head": 0.00024291937259636668
+          },
+          "condition": "fixed01",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 2.3880364894866943,
+          "state_abs_max": 0.6685805916786194
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012809407140728358,
+            "gru": 0.002461638877280599,
+            "head": 0.020124266176271267
+          },
+          "parameter_update_rms": {
+            "inp": 0.00024819021169691794,
+            "gru": 0.00021149663863394093,
+            "head": 0.00021673317676653485
+          },
+          "condition": "fixed01",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 1.345905065536499,
+          "state_abs_max": 0.7539336681365967
+        }
+      ],
+      "checkpoint": "seed271829_adamw_fixed01.pt",
+      "checkpoint_sha256": "a66ad5729568bce771283dc657ad29484f66b7421303da4cef5d741cad96d584"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "adamw",
+      "condition": "learned0",
+      "updates": 474,
+      "parameters": 61060,
+      "fit_seconds": 55.58497714799887,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005131167124931059,
+            "gru": 0.0010745817535652226,
+            "head": 0.015643559074386793
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999020504273745,
+            "gru": 0.0009932715498125395,
+            "head": 0.0009999628740043362
+          },
+          "condition": "learned0",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            -0.0001999995729420334,
+            -0.00019999954383820295
+          ],
+          "raw_alpha": [
+            -0.000999998184852302,
+            -0.0009999980684369802
+          ],
+          "raw_alpha_gradient": [
+            0.008011001162230968,
+            0.007330219727009535
+          ],
+          "raw_alpha_update": [
+            -0.000999998184852302,
+            -0.0009999980684369802
+          ],
+          "loss": 1.782776951789856,
+          "state_abs_max": 0.5743891596794128
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0061784121623143316,
+            "gru": 0.0022537169432201264,
+            "head": 0.00876863916719215
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003110989997771407,
+            "gru": 0.0002696064844038094,
+            "head": 0.00018777167916014033
+          },
+          "condition": "learned0",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.0022010046523064375,
+            0.0023388646077364683
+          ],
+          "raw_alpha": [
+            0.011005466803908348,
+            0.01169485505670309
+          ],
+          "raw_alpha_gradient": [
+            -0.014248661696910858,
+            -0.09351401031017303
+          ],
+          "raw_alpha_update": [
+            3.860983997583389e-05,
+            2.6470981538295746e-05
+          ],
+          "loss": 0.7641205787658691,
+          "state_abs_max": 0.8148146867752075
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.022477552354317778,
+            "gru": 0.0028219040283166,
+            "head": 0.0245409383392337
+          },
+          "parameter_update_rms": {
+            "inp": 0.00035947142331443845,
+            "gru": 0.00024840110725735874,
+            "head": 0.0002528570167788332
+          },
+          "condition": "learned0",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            -0.0015164846554398537,
+            -0.0018803359707817435
+          ],
+          "raw_alpha": [
+            -0.007582568563520908,
+            -0.0094019565731287
+          ],
+          "raw_alpha_gradient": [
+            0.20595882833003998,
+            0.22977979481220245
+          ],
+          "raw_alpha_update": [
+            -0.0003857892006635666,
+            -0.0005427403375506401
+          ],
+          "loss": 2.3922243118286133,
+          "state_abs_max": 0.5339553356170654
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.013034785030400538,
+            "gru": 0.0021613732475034776,
+            "head": 0.01833775967818677
+          },
+          "parameter_update_rms": {
+            "inp": 0.00026562936369772724,
+            "gru": 0.00023099932934103753,
+            "head": 0.00022719369549701953
+          },
+          "condition": "learned0",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            -0.00501279765740037,
+            -0.0056329527869820595
+          ],
+          "raw_alpha": [
+            -0.025069238618016243,
+            -0.028172213584184647
+          ],
+          "raw_alpha_gradient": [
+            -0.10071907937526703,
+            -0.15537424385547638
+          ],
+          "raw_alpha_update": [
+            0.0003822650760412216,
+            0.0002701040357351303
+          ],
+          "loss": 1.3903651237487793,
+          "state_abs_max": 0.617607057094574
+        }
+      ],
+      "checkpoint": "seed271829_adamw_learned0.pt",
+      "checkpoint_sha256": "610428c1b861e17426de4fe257120e0de5cc1732ebd3a6681b0d0adf195f7609"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "adamw",
+      "condition": "learned01",
+      "updates": 474,
+      "parameters": 61060,
+      "fit_seconds": 59.36503050199826,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005620217647569968,
+            "gru": 0.0017545685437841694,
+            "head": 0.016436499231211196
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999238564458953,
+            "gru": 0.0009963526538886523,
+            "head": 0.0009999602448185069
+          },
+          "condition": "learned01",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            0.09984992444515228,
+            0.09984992444515228
+          ],
+          "raw_alpha": [
+            0.5483061671257019,
+            0.5483061671257019
+          ],
+          "raw_alpha_gradient": [
+            0.00934095960110426,
+            0.008973552845418453
+          ],
+          "raw_alpha_update": [
+            -0.0009999871253967285,
+            -0.0009999871253967285
+          ],
+          "loss": 1.7926356792449951,
+          "state_abs_max": 0.6791178584098816
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.006810927185375545,
+            "gru": 0.0026354102062997307,
+            "head": 0.008818551388540413
+          },
+          "parameter_update_rms": {
+            "inp": 0.00030202563098867096,
+            "gru": 0.0002577967796430317,
+            "head": 0.000174370870990094
+          },
+          "condition": "learned01",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.10113821178674698,
+            0.10114607959985733
+          ],
+          "raw_alpha": [
+            0.5569232702255249,
+            0.5569761395454407
+          ],
+          "raw_alpha_gradient": [
+            -0.006773320492357016,
+            -0.05494755879044533
+          ],
+          "raw_alpha_update": [
+            -8.046627044677734e-05,
+            4.76837158203125e-05
+          ],
+          "loss": 0.7075272798538208,
+          "state_abs_max": 0.896108090877533
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.02053844904688549,
+            "gru": 0.0033454375132381513,
+            "head": 0.02546020929186993
+          },
+          "parameter_update_rms": {
+            "inp": 0.00034866808321605785,
+            "gru": 0.0002350218208012977,
+            "head": 0.00024205108853635315
+          },
+          "condition": "learned01",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.09661156684160233,
+            0.09615053981542587
+          ],
+          "raw_alpha": [
+            0.5269651412963867,
+            0.5239627361297607
+          ],
+          "raw_alpha_gradient": [
+            0.11567949503660202,
+            0.13131077587604523
+          ],
+          "raw_alpha_update": [
+            -0.00041675567626953125,
+            -0.0005280971527099609
+          ],
+          "loss": 2.386276960372925,
+          "state_abs_max": 0.6633161902427673
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012838813244129372,
+            "gru": 0.0024401969168639692,
+            "head": 0.01997468667250935
+          },
+          "parameter_update_rms": {
+            "inp": 0.0002490547899169125,
+            "gru": 0.00021005058992286054,
+            "head": 0.000216936709520331
+          },
+          "condition": "learned01",
+          "optimizer": "adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.09294380992650986,
+            0.09198860824108124
+          ],
+          "raw_alpha": [
+            0.503313422203064,
+            0.49723899364471436
+          ],
+          "raw_alpha_gradient": [
+            -0.06979019194841385,
+            -0.10409393161535263
+          ],
+          "raw_alpha_update": [
+            0.0003476738929748535,
+            0.00023284554481506348
+          ],
+          "loss": 1.3491480350494385,
+          "state_abs_max": 0.7422261238098145
+        }
+      ],
+      "checkpoint": "seed271829_adamw_learned01.pt",
+      "checkpoint_sha256": "d133e0e6debee3cdbb0cc5005907dbb9ddaadeb11b7017c4fc4554a307258a35"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "muon_adamw",
+      "condition": "fixed0",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 52.247181840008125,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005131167124931059,
+            "gru": 0.0010745817535652226,
+            "head": 0.015643559074386793
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999021070365719,
+            "gru": 0.00018631033503919782,
+            "head": 0.000999962935345391
+          },
+          "condition": "fixed0",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 1.782776951789856,
+          "state_abs_max": 0.5743891596794128
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.002836824306118882,
+            "gru": 0.0008394861820355361,
+            "head": 0.004668062683320625
+          },
+          "parameter_update_rms": {
+            "inp": 0.00033903090546445096,
+            "gru": 0.000156777958621374,
+            "head": 0.000268863474160384
+          },
+          "condition": "fixed0",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 0.6877409219741821,
+          "state_abs_max": 0.5999378561973572
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.018773731864054743,
+            "gru": 0.002068883079797948,
+            "head": 0.019504007626119306
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003234360858113614,
+            "gru": 0.0001510727941412614,
+            "head": 0.0002526396005571226
+          },
+          "condition": "fixed0",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 2.229161024093628,
+          "state_abs_max": 0.43112486600875854
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.01293047520022498,
+            "gru": 0.0032066895454730742,
+            "head": 0.0169380930110251
+          },
+          "parameter_update_rms": {
+            "inp": 0.00028655372182647716,
+            "gru": 0.00015081466246102352,
+            "head": 0.00020524470303041732
+          },
+          "condition": "fixed0",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.0,
+            0.0
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 1.4579670429229736,
+          "state_abs_max": 0.39288613200187683
+        }
+      ],
+      "checkpoint": "seed271829_muon_adamw_fixed0.pt",
+      "checkpoint_sha256": "38ca33072d61998a1a1766e2594ea3d91666383f80be3762d76f5bbd872e02c9"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "muon_adamw",
+      "condition": "fixed01",
+      "updates": 474,
+      "parameters": 61058,
+      "fit_seconds": 48.768305518999114,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.00562021771551251,
+            "gru": 0.0017545686072202567,
+            "head": 0.016436499319038397
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999239276592587,
+            "gru": 0.00018900009935070522,
+            "head": 0.0009999603290097043
+          },
+          "condition": "fixed01",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 1.7926356792449951,
+          "state_abs_max": 0.6791177988052368
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0029526506152611452,
+            "gru": 0.0011466693516787357,
+            "head": 0.004703377803634649
+          },
+          "parameter_update_rms": {
+            "inp": 0.00033165162894612286,
+            "gru": 0.0001607064707666402,
+            "head": 0.0002581596454333547
+          },
+          "condition": "fixed01",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 0.6771840453147888,
+          "state_abs_max": 0.6705837845802307
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.019661239554279487,
+            "gru": 0.0035420936630290523,
+            "head": 0.02096509287676594
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003222313518745715,
+            "gru": 0.00015471919894573558,
+            "head": 0.0002491475201396247
+          },
+          "condition": "fixed01",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 2.2750070095062256,
+          "state_abs_max": 0.5259596109390259
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.01337790650626552,
+            "gru": 0.0045706752059525065,
+            "head": 0.017637435222670434
+          },
+          "parameter_update_rms": {
+            "inp": 0.00028463577251276316,
+            "gru": 0.00015575761036987375,
+            "head": 0.00020319803970752346
+          },
+          "condition": "fixed01",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "raw_alpha": null,
+          "raw_alpha_gradient": null,
+          "raw_alpha_update": null,
+          "loss": 1.4298670291900635,
+          "state_abs_max": 0.5527064204216003
+        }
+      ],
+      "checkpoint": "seed271829_muon_adamw_fixed01.pt",
+      "checkpoint_sha256": "f2232eb19b9ecffe3e882c370df19b1c488dc68dd271d2fff0f1bcb8fc086719"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "muon_adamw",
+      "condition": "learned0",
+      "updates": 474,
+      "parameters": 61060,
+      "fit_seconds": 54.728715058998205,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005131167124931059,
+            "gru": 0.0010745817535652226,
+            "head": 0.015643559074386793
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999021122910142,
+            "gru": 0.00018629926557255184,
+            "head": 0.0009999629413767201
+          },
+          "condition": "learned0",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            -0.0001999995729420334,
+            -0.00019999954383820295
+          ],
+          "raw_alpha": [
+            -0.000999998184852302,
+            -0.0009999980684369802
+          ],
+          "raw_alpha_gradient": [
+            0.008011001162230968,
+            0.007330219727009535
+          ],
+          "raw_alpha_update": [
+            -0.000999998184852302,
+            -0.0009999980684369802
+          ],
+          "loss": 1.782776951789856,
+          "state_abs_max": 0.5743891596794128
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.0028367660645307142,
+            "gru": 0.000848210798203161,
+            "head": 0.004652128599500466
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003382402163019988,
+            "gru": 0.00015717664077517977,
+            "head": 0.0002693394477654546
+          },
+          "condition": "learned0",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.003647801000624895,
+            0.005597914103418589
+          ],
+          "raw_alpha": [
+            0.018241027370095253,
+            0.027996882796287537
+          ],
+          "raw_alpha_gradient": [
+            -0.02076326310634613,
+            -0.06290393322706223
+          ],
+          "raw_alpha_update": [
+            8.782371878623962e-05,
+            -0.00015227310359477997
+          ],
+          "loss": 0.6870496273040771,
+          "state_abs_max": 0.6027440428733826
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.018817731613671097,
+            "gru": 0.0021379194828992404,
+            "head": 0.019558742503433285
+          },
+          "parameter_update_rms": {
+            "inp": 0.00032361428255989926,
+            "gru": 0.0001510147185847519,
+            "head": 0.00025232156872325286
+          },
+          "condition": "learned0",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.006222369149327278,
+            0.0019868460949510336
+          ],
+          "raw_alpha": [
+            0.031121889129281044,
+            0.009934556670486927
+          ],
+          "raw_alpha_gradient": [
+            0.07338721305131912,
+            0.08082006126642227
+          ],
+          "raw_alpha_update": [
+            -0.0002230387181043625,
+            -0.00040937308222055435
+          ],
+          "loss": 2.2311809062957764,
+          "state_abs_max": 0.4388917088508606
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.012936674583755121,
+            "gru": 0.003237026951939678,
+            "head": 0.016950751918125253
+          },
+          "parameter_update_rms": {
+            "inp": 0.00028702599486918123,
+            "gru": 0.00015098643091371604,
+            "head": 0.00020526479240575842
+          },
+          "condition": "learned0",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.005634102039039135,
+            0.00022098844056017697
+          ],
+          "raw_alpha": [
+            0.028177965432405472,
+            0.0011049426393583417
+          ],
+          "raw_alpha_gradient": [
+            -0.04083377867937088,
+            -0.15642355382442474
+          ],
+          "raw_alpha_update": [
+            0.0004775822162628174,
+            0.00018230942077934742
+          ],
+          "loss": 1.458209753036499,
+          "state_abs_max": 0.39955058693885803
+        }
+      ],
+      "checkpoint": "seed271829_muon_adamw_learned0.pt",
+      "checkpoint_sha256": "e7c5f88b647d8adfec7f2e2482eef679e06cd70a7e49485dfd345a76a47acd62"
+    },
+    {
+      "seed": 271829,
+      "optimizer": "muon_adamw",
+      "condition": "learned01",
+      "updates": 474,
+      "parameters": 61060,
+      "fit_seconds": 53.76717534600175,
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309,
+        614,
+        1793,
+        233,
+        1869,
+        87,
+        1130,
+        1735,
+        1214,
+        713,
+        1725,
+        1390,
+        105,
+        1125,
+        807,
+        1015,
+        1666,
+        1062,
+        483,
+        1766,
+        1567
+      ],
+      "telemetry": [
+        {
+          "update_index_zero_based": 0,
+          "preclip_gradient_rms": {
+            "inp": 0.005620217647569968,
+            "gru": 0.0017545685437841694,
+            "head": 0.016436499231211196
+          },
+          "parameter_update_rms": {
+            "inp": 0.0009999239215347782,
+            "gru": 0.0001890288447057433,
+            "head": 0.0009999603266410584
+          },
+          "condition": "learned01",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 0,
+          "effective_alpha": [
+            0.09984992444515228,
+            0.09984992444515228
+          ],
+          "raw_alpha": [
+            0.5483061671257019,
+            0.5483061671257019
+          ],
+          "raw_alpha_gradient": [
+            0.00934095960110426,
+            0.008973552845418453
+          ],
+          "raw_alpha_update": [
+            -0.0009999871253967285,
+            -0.0009999871253967285
+          ],
+          "loss": 1.7926356792449951,
+          "state_abs_max": 0.6791178584098816
+        },
+        {
+          "update_index_zero_based": 46,
+          "preclip_gradient_rms": {
+            "inp": 0.002961620082084745,
+            "gru": 0.0011581205307032948,
+            "head": 0.004720086092724637
+          },
+          "parameter_update_rms": {
+            "inp": 0.00033149939134998624,
+            "gru": 0.0001609363394917763,
+            "head": 0.0002582708995281869
+          },
+          "condition": "learned01",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1284,
+            1053,
+            38,
+            1309
+          ],
+          "chunk_start": 11776,
+          "effective_alpha": [
+            0.10241111367940903,
+            0.10331521183252335
+          ],
+          "raw_alpha": [
+            0.56551194190979,
+            0.5716583132743835
+          ],
+          "raw_alpha_gradient": [
+            -0.019512176513671875,
+            -0.041009631007909775
+          ],
+          "raw_alpha_update": [
+            -7.390975952148438e-05,
+            -0.00025916099548339844
+          ],
+          "loss": 0.6771243810653687,
+          "state_abs_max": 0.6728543639183044
+        },
+        {
+          "update_index_zero_based": 236,
+          "preclip_gradient_rms": {
+            "inp": 0.01968998272543413,
+            "gru": 0.003570500966178415,
+            "head": 0.020992865050734662
+          },
+          "parameter_update_rms": {
+            "inp": 0.0003222239121228009,
+            "gru": 0.0001547519601516098,
+            "head": 0.00024883640123796874
+          },
+          "condition": "learned01",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            87,
+            1130,
+            1735,
+            1214
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.10216357558965683,
+            0.10008283704519272
+          ],
+          "raw_alpha": [
+            0.563835859298706,
+            0.549858570098877
+          ],
+          "raw_alpha_gradient": [
+            0.07948818057775497,
+            0.084649957716465
+          ],
+          "raw_alpha_update": [
+            -0.00035685300827026367,
+            -0.0004569888114929199
+          ],
+          "loss": 2.27594256401062,
+          "state_abs_max": 0.528096616268158
+        },
+        {
+          "update_index_zero_based": 473,
+          "preclip_gradient_rms": {
+            "inp": 0.01336588670284957,
+            "gru": 0.004556103613116094,
+            "head": 0.017627317469045195
+          },
+          "parameter_update_rms": {
+            "inp": 0.00028462887789162337,
+            "gru": 0.0001558231292716687,
+            "head": 0.000203273183236272
+          },
+          "condition": "learned01",
+          "optimizer": "muon_adamw",
+          "seed": 271829,
+          "fit_row_groups": [
+            1062,
+            483,
+            1766,
+            1567
+          ],
+          "chunk_start": 19968,
+          "effective_alpha": [
+            0.10149085521697998,
+            0.09821511059999466
+          ],
+          "raw_alpha": [
+            0.5592951774597168,
+            0.5374767184257507
+          ],
+          "raw_alpha_gradient": [
+            -0.04957437142729759,
+            -0.11793708801269531
+          ],
+          "raw_alpha_update": [
+            0.0004981160163879395,
+            0.00026172399520874023
+          ],
+          "loss": 1.4303991794586182,
+          "state_abs_max": 0.5510429739952087
+        }
+      ],
+      "checkpoint": "seed271829_muon_adamw_learned01.pt",
+      "checkpoint_sha256": "693e7a905300f7dda99253330a05b5853a88d85e6f79a2d0e6be0295bbbf6ad3"
+    }
+  ],
+  "precision": {
+    "device_math": "FP32 IEEE",
+    "autocast": false,
+    "torch.backends.fp32_precision": "ieee",
+    "torch.backends.cuda.matmul.fp32_precision": "ieee",
+    "torch.backends.cudnn.fp32_precision": "ieee",
+    "torch.backends.cudnn.rnn.fp32_precision": "ieee"
+  }
+}

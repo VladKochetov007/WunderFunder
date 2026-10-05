@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "kind": "gpu",
+  "limits": {
+    "cpus": 2,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 1800,
+    "gpu_memory_bytes": 2147483648,
+    "gpu_stop_bytes": 3000000000
+  },
+  "environment": {},
+  "name": "e480_activation_schedule_replication_twentyfour_fit_v1",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/activation_schedule_replication/fit_activation_schedule_replication.py",
+    "--device",
+    "cuda",
+    "--seed",
+    "271829",
+    "--seed",
+    "271830",
+    "--output",
+    "research/campaign_2026-10-05/activation_schedule_replication/runs/twentyfour_v1"
+  ],
+  "code": [
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/resources.py",
+    "src/wnn/optim.py",
+    "src/wnn/nn.py",
+    "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+    "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+    "research/campaign_2026-10-05/activation_schedule/fit_activation_schedule.py",
+    "research/campaign_2026-10-05/activation_schedule/tests.py",
+    "research/campaign_2026-10-05/activation_schedule_replication/fit_activation_schedule_replication.py",
+    "research/campaign_2026-10-05/activation_schedule_replication/tests.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-05/target_mechanics/cohort.json",
+    "research/campaign_2026-10-05/activation_schedule/PREREG.md",
+    "research/campaign_2026-10-05/activation_schedule/INDEPENDENT_REVIEW.md",
+    "research/campaign_2026-10-05/activation_schedule/preflight_cpu_v5/fit_manifest.json",
+    "research/campaign_2026-10-05/activation_schedule/preflight_cpu_v5/lr_traces.json",
+    "research/campaign_2026-10-05/activation_schedule_replication/E480_DESIGN.md",
+    "research/campaign_2026-10-05/activation_schedule_replication/SOURCE_RECEIPT.md",
+    "research/campaign_2026-10-05/activation_schedule_replication/INDEPENDENT_REVIEW.md",
+    "research/campaign_2026-10-05/activation_schedule_replication/preflight_cpu_v3/fit_manifest.json",
+    "research/campaign_2026-10-05/activation_schedule_replication/gpu_probe_v1/fit_manifest.json",
+    "research/campaign_2026-10-05/activation_schedule_replication/gpu_probe_v1/lr_traces.json",
+    "research/campaign_2026-10-05/activation_schedule_replication/ROOT_FULL_FIT_ADMISSION.md"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/activation_schedule_replication/runs/twentyfour_v1/fit_manifest.json",
+    "research/campaign_2026-10-05/activation_schedule_replication/runs/twentyfour_v1/lr_traces.json"
+  ]
+}

@@ -1,0 +1,22 @@
+/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/recurrent_activation_adaptive/score_recurrent_adaptive.py", line 964, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/recurrent_activation_adaptive/score_recurrent_adaptive.py", line 948, in main
+    result = score_run(args.run_dir, args.seal, args.attempt, args.output, torch.device("cpu"))
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/recurrent_activation_adaptive/score_recurrent_adaptive.py", line 767, in score_run
+    checkpoints = verify_arms(report, run, fit_nodes)
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/recurrent_activation_adaptive/score_recurrent_adaptive.py", line 359, in verify_arms
+    require(
+    ~~~~~~~^
+        item.get("batch") == 4 and item.get("chunk_rows") == CHUNK_ROWS,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        f"batch/chunk differs for {key}",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/recurrent_activation_adaptive/score_recurrent_adaptive.py", line 70, in require
+    raise ValueError(message)
+ValueError: batch/chunk differs for (271828, 'adamw', 'fixed0')

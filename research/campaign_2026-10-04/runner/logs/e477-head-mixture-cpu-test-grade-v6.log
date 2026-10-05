@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_head_mixture/score_head_mixture_v6.py", line 985, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_head_mixture/score_head_mixture_v6.py", line 965, in main
+    result = evaluate(args.run_dir, torch.device(args.device), paired_export_path)
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_head_mixture/score_head_mixture_v6.py", line 908, in evaluate
+    "path": str(paired_export_path.relative_to(ROOT)),
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py", line 385, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: 'research/campaign_2026-10-05/activation_head_mixture/eda/twelve_v6/RESULT_paired_components.npz' is not in the subpath of '/home/vlad/development/wunder/wnn_connectome_starterpack'

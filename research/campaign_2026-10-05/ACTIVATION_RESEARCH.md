@@ -20,10 +20,10 @@ E473 tested that approximation separately. Sources and transfer caveats are in
 | E471/E475 | 18 | Bounded candidate shape × optimizer × three seeds | Positive alpha improves Muon at all three seeds; AdamW effects vary. |
 | E474 | 12 | Embedding versus head placement | Embedding effect reverses across seeds; head effects near-neutral. |
 | E476 | 12 | Activation × optimizer × LR protocol | One-seed AdamW warm-cosine advantage; all 22 registered contrasts retained. |
-| E477 | 12 | Parallel/same-channel GELU–LeakyReLU mixture × dropout | Fits finished; corrected independent CPU grade pending. |
+| E477 | 12 | Parallel/same-channel GELU–LeakyReLU mixture × dropout | Effects reverse with seed; all12 official scores and18 contrasts retained. |
 | E478 | 6 | Candidate shape in H64 two-layer topology | All three point deltas positive; two conditional intervals positive, one crosses zero. |
 
-Overall118 scientific fits have completed;106 have official grades. Each
+Overall158 scientific fits have completed;118 have official grades. Each
 completed activation fit finished without a new OOM. Actual attempt receipts,
 failed probes and rejected grader checks remain in the record. Component
 intervals condition on fitted models and exclude training-seed/search
@@ -50,11 +50,11 @@ unchanged. The optimizer crossover is an observation, not a diagnosed cause.
 
 | Study | New fits planned | Current state |
 |---|---:|---|
-| E479 | 16 | Learned per-layer bounded candidate amplitudes; independent source/CPU/CUDA probe passed; full fits running. |
-| E480 | 24 | Full activation/optimizer/schedule factorial at two additional seeds; independent CPU/source review passed; CUDA probe queued behind E479. |
-| E481 | 18 | Sine versus central-slope/endpoints-matched cubic candidate; design registered, blind critique pending. |
+| E479 | 16 | Learned per-layer bounded candidate amplitudes; independent source/CPU/CUDA probe passed; all16 full fits complete; independent grade pending. |
+| E480 | 24 | Full activation/optimizer/schedule factorial at two additional seeds; all24 full fits completed after source/CPU/CUDA checks; independent grade pending. |
+| E481 | 18 | Sine versus central-slope/endpoints-matched cubic candidate; source/CPU/CUDA checks passed; all18 full fits running. |
 
-Do not count one-update probes or source-only packets as completed fits. E477's
+Do not count one-update probes or source-only packets as completed fits. E477 has now completed its corrected independent grade. Its
 first export grade failed before predictions because its provenance check
 expected all40 cohort nodes in a saved training-only24-node receipt. Versioned
 corrections and root review preserve that incident; no model result was

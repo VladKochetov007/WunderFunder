@@ -1,0 +1,305 @@
+{
+  "admission_resources": {
+    "parent_cpu_max": 12,
+    "parent_ram_max": 38654705664,
+    "support_cpus": 2,
+    "support_ram_bytes": 4294967296,
+    "worker_cpus": 2,
+    "worker_ram_bytes": 6442450944
+  },
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "research/campaign_2026-10-05/activation_schedule_replication/fit_activation_schedule_replication.py",
+    "--device",
+    "cuda",
+    "--preflight-only",
+    "--seed",
+    "271829",
+    "--seed",
+    "271830",
+    "--output",
+    "research/campaign_2026-10-05/activation_schedule_replication/gpu_probe_v1"
+  ],
+  "artifacts": [
+    {
+      "path": "research/campaign_2026-10-05/activation_schedule_replication/gpu_probe_v1/fit_manifest.json",
+      "sha256": "1137b9b4f83357d2a3293eeaf071a45d7f2f9162c7bc379d6754bf6aa2e95752",
+      "size": 21627
+    },
+    {
+      "path": "research/campaign_2026-10-05/activation_schedule_replication/gpu_probe_v1/lr_traces.json",
+      "sha256": "046f38f67792af73450bbbb958403834d948495e4ba64b263a2a9a2ff935e4ff",
+      "size": 43084
+    }
+  ],
+  "block_id": "local001",
+  "charged_seconds": 13.252589576004539,
+  "elapsed_seconds": 13.252589576004539,
+  "environment": {
+    "ARROW_NUM_THREADS": "1",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "HOME": "/home/vlad",
+    "MKL_NUM_THREADS": "2",
+    "NUMBA_NUM_THREADS": "2",
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "PATH": "/home/vlad/.elan/bin:/home/vlad/.grok/bin:/home/vlad/.openscience/bin:/home/vlad/.opencode/bin:/home/vlad/.local/share/pnpm:/home/vlad/.npm-global/bin:/home/vlad/.bun/bin:/home/vlad/.cargo/bin:/usr/local/cuda-12.6/bin:/home/vlad/.local/bin:/home/vlad/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin",
+    "POLARS_MAX_THREADS": "2",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "PYTHONUNBUFFERED": "1",
+    "WNN_GPU_MEMORY_BYTES": "2147483648",
+    "WNN_THREADS": "2"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "failure_category": null,
+  "failure_scope": null,
+  "final_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_events": {
+    "high": 1198882,
+    "low": 0,
+    "max": 7522594,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "finished_unix": 1791169771.9015114,
+  "heartbeat_unix": 1791169771.3848865,
+  "id": "e480-activation-schedule-replication-real-gpu-probe-v1",
+  "initial_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "initial_parent_memory_events": {
+    "high": 1198882,
+    "low": 0,
+    "max": 7522594,
+    "oom": 1,
+    "oom_group_kill": 1,
+    "oom_kill": 3,
+    "sock_throttled": 12861
+  },
+  "kind": "gpu",
+  "memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "parent_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "12s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "LoadState": "loaded",
+    "MemoryMax": "30000000000",
+    "MemorySwapMax": "0"
+  },
+  "peak_observed_vram_bytes": 392167424,
+  "peak_ram_bytes": 1473380352,
+  "reserved_seconds": 1230,
+  "reserved_unix": 1791169758.5949097,
+  "runtime_sha256": {
+    "scripts/run_campaign.py": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+    "src/wnn/campaign.py": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+    "src/wnn/campaign_local.py": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+    "src/wnn/campaign_spec.py": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+    "src/wnn/resources.py": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+  },
+  "signals": [],
+  "spec": {
+    "argv": [
+      "{python}",
+      "research/campaign_2026-10-05/activation_schedule_replication/fit_activation_schedule_replication.py",
+      "--device",
+      "cuda",
+      "--preflight-only",
+      "--seed",
+      "271829",
+      "--seed",
+      "271830",
+      "--output",
+      "research/campaign_2026-10-05/activation_schedule_replication/gpu_probe_v1"
+    ],
+    "artifacts": [
+      "research/campaign_2026-10-05/activation_schedule_replication/gpu_probe_v1/fit_manifest.json",
+      "research/campaign_2026-10-05/activation_schedule_replication/gpu_probe_v1/lr_traces.json"
+    ],
+    "code": [
+      {
+        "path": "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+        "sha256": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+        "size": 18964
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+        "sha256": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+        "size": 22424
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_schedule/fit_activation_schedule.py",
+        "sha256": "5acc0efa8295338b39ffc0a0c9412484daec277967d8dc2e161affee1d1786e6",
+        "size": 23765
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_schedule/tests.py",
+        "sha256": "dfef4ba199f278dad701fb8c3b005d7ea47f57904b603da5c213c5aa0ffc3a90",
+        "size": 4481
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_schedule_replication/fit_activation_schedule_replication.py",
+        "sha256": "555a99927f94bd62b08b2f8af06b4a4ba5783d43d10e513377b954661377b4b0",
+        "size": 26687
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_schedule_replication/tests.py",
+        "sha256": "511a688f40f782a4b4021d89ca0f1df6b7582155aac87a04fda1cdf627d8d1de",
+        "size": 5433
+      },
+      {
+        "path": "scripts/run_campaign.py",
+        "sha256": "90d5a1f84a506018fc14152311d1d067d5d0b4d3148a7095f7ce823b11a4d9c3",
+        "size": 4273
+      },
+      {
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+        "size": 63
+      },
+      {
+        "path": "src/wnn/campaign.py",
+        "sha256": "88bae5ebcd52d4fe891e1bc508538f582577591b335ac9d84c8ec80d997bb678",
+        "size": 13176
+      },
+      {
+        "path": "src/wnn/campaign_local.py",
+        "sha256": "b08a72c8d946c961d6e617394a966871f706f3b1ff151ec855c5a5c75c80406d",
+        "size": 22065
+      },
+      {
+        "path": "src/wnn/campaign_spec.py",
+        "sha256": "c3dcfbd19c8c416d5850b0e5a74f0bf297b5035658ca32eab9e6fb2fefa68933",
+        "size": 8717
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "size": 8902
+      },
+      {
+        "path": "src/wnn/nn.py",
+        "sha256": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3",
+        "size": 19926
+      },
+      {
+        "path": "src/wnn/optim.py",
+        "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+        "size": 11736
+      },
+      {
+        "path": "src/wnn/resources.py",
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+        "size": 4485
+      }
+    ],
+    "code_sha256": "a48631f7e6d525523dd09c38bee8efadfa13f91f3da5e383e1ebb3e9bef2a4c0",
+    "environment": {},
+    "inputs": [
+      {
+        "path": "datasets/valid.parquet",
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "size": 5615509128
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_schedule/INDEPENDENT_REVIEW.md",
+        "sha256": "59b1260b72d94e488269459132c97e294e70a6a4efe13316ae7077aab62c0923",
+        "size": 3830
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_schedule/PREREG.md",
+        "sha256": "2717180e875347e95b53259d0c2d22b8ebfa7b19b361047eb59fd7b841db7671",
+        "size": 3785
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_schedule/preflight_cpu_v5/fit_manifest.json",
+        "sha256": "e81d601d5424d21475a04ecba3ba6afbbf9fa76dd4ea6412a4f20bf14a1b9531",
+        "size": 11514
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_schedule/preflight_cpu_v5/lr_traces.json",
+        "sha256": "046f38f67792af73450bbbb958403834d948495e4ba64b263a2a9a2ff935e4ff",
+        "size": 43084
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_schedule_replication/E480_DESIGN.md",
+        "sha256": "3ad2ab9d5721b7e342b2549af81e528fab0a9fa1d2a9fe841d43d4fb978d8811",
+        "size": 6013
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_schedule_replication/INDEPENDENT_REVIEW.md",
+        "sha256": "8b5bc29e1fd7147862eac9254310b2ca25ec5af4a2d4ed8cba0e943e71f8daa9",
+        "size": 3808
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_schedule_replication/SOURCE_RECEIPT.md",
+        "sha256": "11a609c99d2f25c373672ecb97fbcd88ae16c3a937ae5498386d0f188106ce75",
+        "size": 3056
+      },
+      {
+        "path": "research/campaign_2026-10-05/activation_schedule_replication/preflight_cpu_v3/fit_manifest.json",
+        "sha256": "4c7eb346c5a85d93580d844c58c90c0cfb2ad016dcf94bae69aacd7989462aae",
+        "size": 21426
+      },
+      {
+        "path": "research/campaign_2026-10-05/target_mechanics/cohort.json",
+        "sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+        "size": 6707
+      }
+    ],
+    "kind": "gpu",
+    "limits": {
+      "cpus": 2,
+      "gpu_memory_bytes": 2147483648,
+      "gpu_stop_bytes": 3000000000,
+      "ram_bytes": 6442450944,
+      "timeout_seconds": 300
+    },
+    "name": "e480_schedule_replication_real_gpu_probe_v1",
+    "version": 1
+  },
+  "spec_sha256": "05513167ec5bc610b4c2eb11584b162be79ed05db97d373947f2b1d3c219b477",
+  "started_unix": 1791169763.3099582,
+  "status": "finished",
+  "teardown_verified": true,
+  "timeout_seconds": 300,
+  "unit": "wnn-c04-e480-activation-schedule-replication-real-gpu-probe-v1.service",
+  "unit_properties": {
+    "ActiveState": "activating",
+    "CPUQuotaPerSecUSec": "2s",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-c04-e480-activation-schedule-replication-real-gpu-probe-v1.service",
+    "ExecMainStatus": "0",
+    "LoadState": "loaded",
+    "MemoryMax": "6442450944",
+    "MemorySwapMax": "0",
+    "Result": "success"
+  }
+}

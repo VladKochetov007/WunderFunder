@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_head_mixture/score_head_mixture_v4.py", line 983, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_head_mixture/score_head_mixture_v4.py", line 963, in main
+    result = evaluate(args.run_dir, torch.device(args.device), paired_export_path)
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_head_mixture/score_head_mixture_v4.py", line 665, in evaluate
+    require(
+    ~~~~~~~^
+        cohort_receipt.get("cohort") == json.loads(COHORT_PATH.read_text())["cohort"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "fit-only cohort provenance differs",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_head_mixture/score_head_mixture_v4.py", line 78, in require
+    raise ValueError(message)
+ValueError: fit-only cohort provenance differs

@@ -1,0 +1,3 @@
+# E477 pre-score provenance failure
+
+CPU grade v4 exited1 before predictions or scoring because it compared the actor saved fit-only24-node cohort with the original full40-node cohort. This is a grader defect, not a model result. Exit9.1217s, peakRAM320253952bytes, noOOMdeltas, verifiedteardown. Frozen v4 and its actual attempt/log remain unchanged. v5 compares exactcanonical24fit entries and independently validates canonical16test entries. Bounded synthetic provenance checks accept the exactsavedfit-only cohort and reject full40/missing/contaminated lists. Separate v5 output avoids overwriting any prior artifact.

@@ -1,0 +1,718 @@
+{
+  "experiment": "E480 two-seed activation x optimizer x learning-rate replication",
+  "status": "preflight_passed",
+  "fit_only": true,
+  "exposed_test_groups_loaded": false,
+  "cohort_rows": 24,
+  "cohort_sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+  "dataset_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "seeds": [
+    271829,
+    271830
+  ],
+  "activations": [
+    "base",
+    "sine_embed"
+  ],
+  "optimizers": [
+    "adamw",
+    "muon_adamw"
+  ],
+  "schedules": [
+    "constant_peak",
+    "warmcos_47_427",
+    "constant_mean_warmcos"
+  ],
+  "parameters_per_cell": 61058,
+  "batch": 4,
+  "chunk_rows": 256,
+  "updates_per_fit": 474,
+  "weight_decay": 0.01,
+  "betas": [
+    0.9,
+    0.999
+  ],
+  "gradient_clip": 1.0,
+  "sampling_steps_zero_based": [
+    0,
+    46,
+    236,
+    473
+  ],
+  "optimizer_details": {
+    "adamw": "all parameters; betas=(0.9,0.999), wd=0.01",
+    "muon_adamw": "Muon only on gru.weight_ih_l0, weight_hh_l0, weight_ih_l1, weight_hh_l1; 3 blocks each; AdamW on input/head/biases"
+  },
+  "lr_trace_receipt": "lr_traces.json",
+  "source_sha256": {
+    "research/campaign_2026-10-05/activation_schedule_replication/fit_activation_schedule_replication.py": "555a99927f94bd62b08b2f8af06b4a4ba5783d43d10e513377b954661377b4b0",
+    "research/campaign_2026-10-05/activation_schedule_replication/tests.py": "511a688f40f782a4b4021d89ca0f1df6b7582155aac87a04fda1cdf627d8d1de",
+    "research/campaign_2026-10-05/activation_schedule_replication/E480_DESIGN.md": "3ad2ab9d5721b7e342b2549af81e528fab0a9fa1d2a9fe841d43d4fb978d8811",
+    "research/campaign_2026-10-05/activation_schedule/fit_activation_schedule.py": "5acc0efa8295338b39ffc0a0c9412484daec277967d8dc2e161affee1d1786e6",
+    "research/campaign_2026-10-05/activation_schedule/preflight_cpu_v5/lr_traces.json": "046f38f67792af73450bbbb958403834d948495e4ba64b263a2a9a2ff935e4ff",
+    "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py": "40d0f309c54c20f54614f413bedbb99a00df11ad4a62c029a0ebf709e9708068",
+    "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py": "871444301fccfa5fda5356dadf80e9aba1205aa91f798839c4bcb8c6704d05b9",
+    "src/wnn/optim.py": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+    "src/wnn/nn.py": "388af04570f0a3944159bf86c1a234dc55c78b951804c38ef59fa314f92f3db3"
+  },
+  "source_admission": "draft only; requires independent source review, root-owned grading and actual-data CUDA probe before any full fits",
+  "device": "cuda",
+  "precision": {
+    "device_math": "FP32 IEEE",
+    "autocast": false,
+    "torch.backends.fp32_precision": "ieee",
+    "torch.backends.cuda.matmul.fp32_precision": "ieee",
+    "torch.backends.cudnn.fp32_precision": "ieee",
+    "torch.backends.cudnn.rnn.fp32_precision": "ieee"
+  },
+  "preflight_cells": [
+    {
+      "seed": 271829,
+      "activation": "base",
+      "optimizer": "adamw",
+      "schedule": "constant_peak",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "optimizer_updates": 1,
+      "loss": 1.782776951789856,
+      "gradient_norm_preclip": 1.477271318435669,
+      "parameter_update_rms": {
+        "hidden_head": 0.0009999639519070343,
+        "input_projection": 0.000999902053992154,
+        "output_head": 0.0009998938401457069,
+        "recurrent_core": 0.0009932717000009522
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271829,
+      "activation": "base",
+      "optimizer": "adamw",
+      "schedule": "warmcos_47_427",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "optimizer_updates": 1,
+      "loss": 1.782776951789856,
+      "gradient_norm_preclip": 1.477271318435669,
+      "parameter_update_rms": {
+        "hidden_head": 9.99967113735605e-05,
+        "input_projection": 9.999103206362258e-05,
+        "output_head": 9.999050330602322e-05,
+        "recurrent_core": 9.932725332282145e-05
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271829,
+      "activation": "base",
+      "optimizer": "adamw",
+      "schedule": "constant_mean_warmcos",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "optimizer_updates": 1,
+      "loss": 1.782776951789856,
+      "gradient_norm_preclip": 1.477271318435669,
+      "parameter_update_rms": {
+        "hidden_head": 0.0005499802606597006,
+        "input_projection": 0.0005499463845850269,
+        "output_head": 0.0005499422728073736,
+        "recurrent_core": 0.0005462994196627188
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271829,
+      "activation": "base",
+      "optimizer": "muon_adamw",
+      "schedule": "constant_peak",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "optimizer_updates": 1,
+      "loss": 1.782776951789856,
+      "gradient_norm_preclip": 1.477271318435669,
+      "parameter_update_rms": {
+        "hidden_head": 0.0009999640196194743,
+        "input_projection": 0.0009999021133680348,
+        "output_head": 0.0009998938705957853,
+        "recurrent_core": 0.0001863439805082495
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271829,
+      "activation": "base",
+      "optimizer": "muon_adamw",
+      "schedule": "warmcos_47_427",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "optimizer_updates": 1,
+      "loss": 1.782776951789856,
+      "gradient_norm_preclip": 1.477271318435669,
+      "parameter_update_rms": {
+        "hidden_head": 9.99967296729611e-05,
+        "input_projection": 9.99910355724882e-05,
+        "output_head": 9.999050330602322e-05,
+        "recurrent_core": 1.863440307775222e-05
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271829,
+      "activation": "base",
+      "optimizer": "muon_adamw",
+      "schedule": "constant_mean_warmcos",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "optimizer_updates": 1,
+      "loss": 1.782776951789856,
+      "gradient_norm_preclip": 1.477271318435669,
+      "parameter_update_rms": {
+        "hidden_head": 0.000549980300707337,
+        "input_projection": 0.0005499464222585641,
+        "output_head": 0.0005499422737029597,
+        "recurrent_core": 0.00010248920701378669
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271829,
+      "activation": "sine_embed",
+      "optimizer": "adamw",
+      "schedule": "constant_peak",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "optimizer_updates": 1,
+      "loss": 1.7822380065917969,
+      "gradient_norm_preclip": 1.5155960321426392,
+      "parameter_update_rms": {
+        "hidden_head": 0.0009998778370962631,
+        "input_projection": 0.0009999160693644898,
+        "output_head": 0.0009999187009675922,
+        "recurrent_core": 0.0009941309483741422
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271829,
+      "activation": "sine_embed",
+      "optimizer": "adamw",
+      "schedule": "warmcos_47_427",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "optimizer_updates": 1,
+      "loss": 1.7822380065917969,
+      "gradient_norm_preclip": 1.5155960321426392,
+      "parameter_update_rms": {
+        "hidden_head": 9.998809757568492e-05,
+        "input_projection": 9.999244018074922e-05,
+        "output_head": 9.999282464120664e-05,
+        "recurrent_core": 9.941317538783904e-05
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271829,
+      "activation": "sine_embed",
+      "optimizer": "adamw",
+      "schedule": "constant_mean_warmcos",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "optimizer_updates": 1,
+      "loss": 1.7822380065917969,
+      "gradient_norm_preclip": 1.5155960321426392,
+      "parameter_update_rms": {
+        "hidden_head": 0.0005499329070057122,
+        "input_projection": 0.0005499541201926181,
+        "output_head": 0.0005499558566499196,
+        "recurrent_core": 0.0005467720066363483
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271829,
+      "activation": "sine_embed",
+      "optimizer": "muon_adamw",
+      "schedule": "constant_peak",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "optimizer_updates": 1,
+      "loss": 1.7822380065917969,
+      "gradient_norm_preclip": 1.5155960321426392,
+      "parameter_update_rms": {
+        "hidden_head": 0.000999877922596889,
+        "input_projection": 0.000999916138357749,
+        "output_head": 0.0009999187242550826,
+        "recurrent_core": 0.00018758852278283114
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271829,
+      "activation": "sine_embed",
+      "optimizer": "muon_adamw",
+      "schedule": "warmcos_47_427",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "optimizer_updates": 1,
+      "loss": 1.7822380065917969,
+      "gradient_norm_preclip": 1.5155960321426392,
+      "parameter_update_rms": {
+        "hidden_head": 9.998811555157828e-05,
+        "input_projection": 9.999244966680584e-05,
+        "output_head": 9.9992853289681e-05,
+        "recurrent_core": 1.8758866495520828e-05
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271829,
+      "activation": "sine_embed",
+      "optimizer": "muon_adamw",
+      "schedule": "constant_mean_warmcos",
+      "fit_row_groups": [
+        1284,
+        1053,
+        38,
+        1309
+      ],
+      "optimizer_updates": 1,
+      "loss": 1.7822380065917969,
+      "gradient_norm_preclip": 1.5155960321426392,
+      "parameter_update_rms": {
+        "hidden_head": 0.000549932957644324,
+        "input_projection": 0.0005499541725766683,
+        "output_head": 0.0005499558638137682,
+        "recurrent_core": 0.0001031736950398692
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271830,
+      "activation": "base",
+      "optimizer": "adamw",
+      "schedule": "constant_peak",
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793
+      ],
+      "optimizer_updates": 1,
+      "loss": 2.3745908737182617,
+      "gradient_norm_preclip": 0.7163764238357544,
+      "parameter_update_rms": {
+        "hidden_head": 0.0009999722072773956,
+        "input_projection": 0.0009999002915598131,
+        "output_head": 0.0009999545533421078,
+        "recurrent_core": 0.0009954571835444413
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271830,
+      "activation": "base",
+      "optimizer": "adamw",
+      "schedule": "warmcos_47_427",
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793
+      ],
+      "optimizer_updates": 1,
+      "loss": 2.3745908737182617,
+      "gradient_norm_preclip": 0.7163764238357544,
+      "parameter_update_rms": {
+        "hidden_head": 9.999750791394884e-05,
+        "input_projection": 9.999097106779182e-05,
+        "output_head": 9.999646405657368e-05,
+        "recurrent_core": 9.95458174597513e-05
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271830,
+      "activation": "base",
+      "optimizer": "adamw",
+      "schedule": "constant_mean_warmcos",
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793
+      ],
+      "optimizer_updates": 1,
+      "loss": 2.3745908737182617,
+      "gradient_norm_preclip": 0.7163764238357544,
+      "parameter_update_rms": {
+        "hidden_head": 0.0005499848125242135,
+        "input_projection": 0.0005499455325744625,
+        "output_head": 0.0005499755420353027,
+        "recurrent_core": 0.0005475014513555502
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271830,
+      "activation": "base",
+      "optimizer": "muon_adamw",
+      "schedule": "constant_peak",
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793
+      ],
+      "optimizer_updates": 1,
+      "loss": 2.3745908737182617,
+      "gradient_norm_preclip": 0.7163764238357544,
+      "parameter_update_rms": {
+        "hidden_head": 0.000999972281667088,
+        "input_projection": 0.0009999003537571752,
+        "output_head": 0.000999954561403122,
+        "recurrent_core": 0.00019121934789428132
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271830,
+      "activation": "base",
+      "optimizer": "muon_adamw",
+      "schedule": "warmcos_47_427",
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793
+      ],
+      "optimizer_updates": 1,
+      "loss": 2.3745908737182617,
+      "gradient_norm_preclip": 0.7163764238357544,
+      "parameter_update_rms": {
+        "hidden_head": 9.999752127101539e-05,
+        "input_projection": 9.999099232556336e-05,
+        "output_head": 9.999646405657368e-05,
+        "recurrent_core": 1.912197406114837e-05
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271830,
+      "activation": "base",
+      "optimizer": "muon_adamw",
+      "schedule": "constant_mean_warmcos",
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793
+      ],
+      "optimizer_updates": 1,
+      "loss": 2.3745908737182617,
+      "gradient_norm_preclip": 0.7163764238357544,
+      "parameter_update_rms": {
+        "hidden_head": 0.000549984853764887,
+        "input_projection": 0.0005499455712942962,
+        "output_head": 0.0005499755532304819,
+        "recurrent_core": 0.00010517063641907342
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271830,
+      "activation": "sine_embed",
+      "optimizer": "adamw",
+      "schedule": "constant_peak",
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793
+      ],
+      "optimizer_updates": 1,
+      "loss": 2.3725435733795166,
+      "gradient_norm_preclip": 0.796833336353302,
+      "parameter_update_rms": {
+        "hidden_head": 0.00099997931262438,
+        "input_projection": 0.0009999479624009128,
+        "output_head": 0.000999931049106954,
+        "recurrent_core": 0.0009962741599765512
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271830,
+      "activation": "sine_embed",
+      "optimizer": "adamw",
+      "schedule": "warmcos_47_427",
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793
+      ],
+      "optimizer_updates": 1,
+      "loss": 2.3725435733795166,
+      "gradient_norm_preclip": 0.796833336353302,
+      "parameter_update_rms": {
+        "hidden_head": 9.999824396372445e-05,
+        "input_projection": 9.999576541924377e-05,
+        "output_head": 9.999402088693405e-05,
+        "recurrent_core": 9.962753147147524e-05
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271830,
+      "activation": "sine_embed",
+      "optimizer": "adamw",
+      "schedule": "constant_mean_warmcos",
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793
+      ],
+      "optimizer_updates": 1,
+      "loss": 2.3725435733795166,
+      "gradient_norm_preclip": 0.796833336353302,
+      "parameter_update_rms": {
+        "hidden_head": 0.0005499887400698597,
+        "input_projection": 0.0005499717651622629,
+        "output_head": 0.0005499625557123617,
+        "recurrent_core": 0.0005479507861519116
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271830,
+      "activation": "sine_embed",
+      "optimizer": "muon_adamw",
+      "schedule": "constant_peak",
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793
+      ],
+      "optimizer_updates": 1,
+      "loss": 2.3725435733795166,
+      "gradient_norm_preclip": 0.796833336353302,
+      "parameter_update_rms": {
+        "hidden_head": 0.000999979389518302,
+        "input_projection": 0.0009999480334413494,
+        "output_head": 0.0009999311690101727,
+        "recurrent_core": 0.00019134990976205343
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271830,
+      "activation": "sine_embed",
+      "optimizer": "muon_adamw",
+      "schedule": "warmcos_47_427",
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793
+      ],
+      "optimizer_updates": 1,
+      "loss": 2.3725435733795166,
+      "gradient_norm_preclip": 0.796833336353302,
+      "parameter_update_rms": {
+        "hidden_head": 9.999825951483714e-05,
+        "input_projection": 9.999577473854152e-05,
+        "output_head": 9.999402088693405e-05,
+        "recurrent_core": 1.9135032706596443e-05
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    },
+    {
+      "seed": 271830,
+      "activation": "sine_embed",
+      "optimizer": "muon_adamw",
+      "schedule": "constant_mean_warmcos",
+      "fit_row_groups": [
+        614,
+        1309,
+        1214,
+        1793
+      ],
+      "optimizer_updates": 1,
+      "loss": 2.3725435733795166,
+      "gradient_norm_preclip": 0.796833336353302,
+      "parameter_update_rms": {
+        "hidden_head": 0.0005499887904755684,
+        "input_projection": 0.0005499718178738685,
+        "output_head": 0.0005499625642210573,
+        "recurrent_core": 0.00010524245459873568
+      },
+      "parameters": 61058,
+      "parameters_changed": true,
+      "changed_parameter_tensors": 14,
+      "device": "cuda",
+      "cuda_peak_allocated_bytes": 79226368,
+      "cuda_peak_reserved_bytes": 92274688
+    }
+  ]
+}

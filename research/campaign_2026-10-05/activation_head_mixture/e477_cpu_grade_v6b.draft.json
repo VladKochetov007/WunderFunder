@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "name": "e477_independent_cpu_export_grade_v6b",
+  "kind": "cpu",
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/activation_head_mixture/score_head_mixture_v6.py",
+    "--device",
+    "cpu",
+    "--output",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/activation_head_mixture/eda/twelve_v6b/RESULT.json"
+  ],
+  "limits": {
+    "cpus": 1,
+    "ram_bytes": 6442450944,
+    "timeout_seconds": 1800,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0
+  },
+  "environment": {},
+  "code": [
+    "research/campaign_2026-10-05/activation_head_mixture/fit_activation_head_mixture.py",
+    "research/campaign_2026-10-05/activation_head_mixture/gpu_probe.py",
+    "research/campaign_2026-10-05/activation_head_mixture/gpu_probe_v2.py",
+    "research/campaign_2026-10-05/activation_head_mixture/tests.py",
+    "research/campaign_2026-10-05/activation_optimizer/fit_activation_optimizer.py",
+    "research/campaign_2026-10-05/activation_placement/fit_activation_placement.py",
+    "scripts/run_campaign.py",
+    "src/wnn/__init__.py",
+    "src/wnn/campaign.py",
+    "src/wnn/campaign_local.py",
+    "src/wnn/campaign_spec.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/nn.py",
+    "src/wnn/optim.py",
+    "src/wnn/resources.py",
+    "research/campaign_2026-10-05/activation_head_mixture/score_head_mixture_v6.py",
+    "src/wnn/evaluation.py"
+  ],
+  "inputs": [
+    "datasets/valid.parquet",
+    "research/campaign_2026-10-05/activation_head_mixture/GPU_MODE_INCIDENT_V1.md",
+    "research/campaign_2026-10-05/activation_head_mixture/INDEPENDENT_REVIEW.md",
+    "research/campaign_2026-10-05/activation_head_mixture/PREREG.md",
+    "research/campaign_2026-10-05/activation_head_mixture/ROOT_FULL_FIT_ADMISSION.md",
+    "research/campaign_2026-10-05/activation_head_mixture/gpu_probe_v2/probe.json",
+    "research/campaign_2026-10-05/activation_head_mixture/preflight_cpu_v1/fit_manifest.json",
+    "research/campaign_2026-10-05/target_mechanics/cohort.json",
+    "research/campaign_2026-10-05/activation_head_mixture/e477_twelve_fit_v1.sealed.json",
+    "research/campaign_2026-10-04/runner/attempts/e477-head-mixture-twelve-fit-v1.json",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/fit_manifest.json",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/seed271828_gelu_p0.pt",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/seed271828_gelu_p01.pt",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/seed271828_channel_split_p0.pt",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/seed271828_channel_split_p01.pt",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/seed271828_same_channel_mix_p0.pt",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/seed271828_same_channel_mix_p01.pt",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/seed271829_gelu_p0.pt",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/seed271829_gelu_p01.pt",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/seed271829_channel_split_p0.pt",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/seed271829_channel_split_p01.pt",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/seed271829_same_channel_mix_p0.pt",
+    "research/campaign_2026-10-05/activation_head_mixture/runs/twelve_v1/seed271829_same_channel_mix_p01.pt",
+    "research/campaign_2026-10-05/activation_head_mixture/GRADER_V6_COHORT_REVIEW.md"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/activation_head_mixture/eda/twelve_v6b/RESULT.json",
+    "research/campaign_2026-10-05/activation_head_mixture/eda/twelve_v6b/RESULT_paired_components.npz"
+  ]
+}
