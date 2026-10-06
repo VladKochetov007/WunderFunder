@@ -1,0 +1,11 @@
+{"event": "phase", "packet": "E508_RAW_BASELINE_V1", "phase": "input_inventory", "updated_unix": 1791326478.1738782}
+{"event": "phase", "packet": "E508_RAW_BASELINE_V1", "phase": "failed", "updated_unix": 1791326478.3666675, "error": "ValueError('audit-only E463 checkpoint is not bound by its source manifest')"}
+Traceback (most recent call last):
+  File "/kaggle/working/e508_raw_teacher_pair/source/packet_worker.py", line 973, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/e508_raw_teacher_pair/source/packet_worker.py", line 812, in main
+    discovered = input_map(Path("/kaggle/input"))
+  File "/kaggle/working/e508_raw_teacher_pair/source/packet_worker.py", line 272, in input_map
+    raise ValueError("audit-only E463 checkpoint is not bound by its source manifest")
+ValueError: audit-only E463 checkpoint is not bound by its source manifest
