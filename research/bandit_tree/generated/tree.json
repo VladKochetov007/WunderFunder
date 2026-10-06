@@ -8,7 +8,7 @@
       "scope": "Next research decision / preparation, not job launch"
     },
     "classification_policy": "Curated membership first; keyword family fallback is navigation-only, not a scientific assertion; uncertain nodes remain unclassified",
-    "config_snapshot": "research/bandit_tree/generated/snapshots/config-e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29.json",
+    "config_snapshot": "research/bandit_tree/generated/snapshots/config-7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36.json",
     "exposure_note": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
     "journal_records": [
       {
@@ -106,6 +106,50 @@
           "line": 4,
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "3075bc77284f6ff09fe27de0d489e7afd1107b53cd19c70901f63ea6173efd9a"
+        }
+      },
+      {
+        "raw_record": "{\"id\": \"TREE-20261006-005\", \"timestamp_utc\": \"2026-10-06T19:59:28.944259+00:00\", \"event_type\": \"campaign_authorization_and_resource_update\", \"node_id\": \"root\", \"decision\": \"Begin independent heterogeneous-distillation continuation plus diverse literature arms; replace old local cutoff/caps with explicit user instruction. First24h allocation; then reassess, continue until explicit stop with graceful drain. Unknown numeric beliefs remain null.\", \"old_resources\": {\"aggregate_cpu_cores_max\": 5, \"aggregate_vram_bytes_max\": 3000000000, \"aggregate_ram_bytes_max\": 40000000000, \"new_local_experiments_after_2026_10_06_1000_Kyiv\": false, \"new_experiment_compute\": \"Kaggle GPU/TPU only; current access and resource admission required\"}, \"resources\": {\"aggregate_cpu_cores_max\": 10, \"aggregate_vram_bytes_max\": 5000000000, \"aggregate_ram_bytes_max\": 20000000000, \"memory_high_bytes\": 18000000000, \"local_allocator_initial_bytes\": 4300000000, \"local_gpu_workers_max\": 1, \"local_admission_cutoff\": null, \"stop_policy\": \"Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs\", \"first_review_after_hours\": 24, \"new_experiment_compute\": \"Local and Kaggle; separate cloud headroom and live quota\", \"authority\": \"research/campaign_2026-10-06/bandit_continuation/CONTRACT.md\"}, \"evidence_refs\": [\"research/campaign_2026-10-06/bandit_continuation/CONTRACT.md\"], \"actor\": {\"tool\": \"Codex\", \"native_subagents\": \"gpt-6-luna/max\", \"external_models\": \"Freebuff GLM, OpenCode free Muse Spark/MiMo after access check\"}, \"compute_runs_launched\": 0}\n",
+        "record": {
+          "actor": {
+            "external_models": "Freebuff GLM, OpenCode free Muse Spark/MiMo after access check",
+            "native_subagents": "gpt-6-luna/max",
+            "tool": "Codex"
+          },
+          "compute_runs_launched": 0,
+          "decision": "Begin independent heterogeneous-distillation continuation plus diverse literature arms; replace old local cutoff/caps with explicit user instruction. First24h allocation; then reassess, continue until explicit stop with graceful drain. Unknown numeric beliefs remain null.",
+          "event_type": "campaign_authorization_and_resource_update",
+          "evidence_refs": [
+            "research/campaign_2026-10-06/bandit_continuation/CONTRACT.md"
+          ],
+          "id": "TREE-20261006-005",
+          "node_id": "root",
+          "old_resources": {
+            "aggregate_cpu_cores_max": 5,
+            "aggregate_ram_bytes_max": 40000000000,
+            "aggregate_vram_bytes_max": 3000000000,
+            "new_experiment_compute": "Kaggle GPU/TPU only; current access and resource admission required",
+            "new_local_experiments_after_2026_10_06_1000_Kyiv": false
+          },
+          "resources": {
+            "aggregate_cpu_cores_max": 10,
+            "aggregate_ram_bytes_max": 20000000000,
+            "aggregate_vram_bytes_max": 5000000000,
+            "authority": "research/campaign_2026-10-06/bandit_continuation/CONTRACT.md",
+            "first_review_after_hours": 24,
+            "local_admission_cutoff": null,
+            "local_allocator_initial_bytes": 4300000000,
+            "local_gpu_workers_max": 1,
+            "memory_high_bytes": 18000000000,
+            "new_experiment_compute": "Local and Kaggle; separate cloud headroom and live quota",
+            "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs"
+          },
+          "timestamp_utc": "2026-10-06T19:59:28.944259+00:00"
+        },
+        "source": {
+          "line": 5,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "31ee8426dae83159dbcae9120503ec69b5f316029f0d8953657b4584bebbb981"
         }
       }
     ],
@@ -1648,6 +1692,7 @@
       "journal": "research/bandit_tree/journal.jsonl",
       "links": [],
       "root": {
+        "active_campaign": "research/campaign_2026-10-06/bandit_continuation",
         "evaluation_exposure": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
         "external_reported_public_result": {
           "branch": "origin/research/creative-iteration-20260930",
@@ -1666,17 +1711,24 @@
         "public_milestone": 0.7,
         "public_milestone_status": "unmet",
         "resources": {
-          "aggregate_cpu_cores_max": 5,
-          "aggregate_ram_bytes_max": 40000000000,
-          "aggregate_vram_bytes_max": 3000000000,
-          "new_experiment_compute": "Kaggle GPU/TPU only; current access and resource admission required",
-          "new_local_experiments_after_2026_10_06_1000_Kyiv": false
+          "aggregate_cpu_cores_max": 10,
+          "aggregate_ram_bytes_max": 20000000000,
+          "aggregate_vram_bytes_max": 5000000000,
+          "authority": "research/campaign_2026-10-06/bandit_continuation/CONTRACT.md",
+          "first_review_after_hours": 24,
+          "local_admission_cutoff": null,
+          "local_allocator_initial_bytes": 4300000000,
+          "local_gpu_workers_max": 1,
+          "memory_high_bytes": 18000000000,
+          "new_experiment_compute": "Local and Kaggle; separate cloud headroom and live quota",
+          "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs"
         },
         "title": "Wunder Connectome Challenge2 research"
       },
       "version": 1
     },
     "root": {
+      "active_campaign": "research/campaign_2026-10-06/bandit_continuation",
       "evaluation_exposure": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
       "external_reported_public_result": {
         "branch": "origin/research/creative-iteration-20260930",
@@ -1695,24 +1747,31 @@
       "public_milestone": 0.7,
       "public_milestone_status": "unmet",
       "resources": {
-        "aggregate_cpu_cores_max": 5,
-        "aggregate_ram_bytes_max": 40000000000,
-        "aggregate_vram_bytes_max": 3000000000,
-        "new_experiment_compute": "Kaggle GPU/TPU only; current access and resource admission required",
-        "new_local_experiments_after_2026_10_06_1000_Kyiv": false
+        "aggregate_cpu_cores_max": 10,
+        "aggregate_ram_bytes_max": 20000000000,
+        "aggregate_vram_bytes_max": 5000000000,
+        "authority": "research/campaign_2026-10-06/bandit_continuation/CONTRACT.md",
+        "first_review_after_hours": 24,
+        "local_admission_cutoff": null,
+        "local_allocator_initial_bytes": 4300000000,
+        "local_gpu_workers_max": 1,
+        "memory_high_bytes": 18000000000,
+        "new_experiment_compute": "Local and Kaggle; separate cloud headroom and live quota",
+        "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs"
       },
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
       "experiments": 506,
       "hypotheses": 179,
-      "journal": 4
+      "journal": 5
     }
   },
   "nodes": [
     {
       "id": "root",
       "metadata": {
+        "active_campaign": "research/campaign_2026-10-06/bandit_continuation",
         "evaluation_exposure": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
         "external_reported_public_result": {
           "branch": "origin/research/creative-iteration-20260930",
@@ -1731,18 +1790,24 @@
         "public_milestone": 0.7,
         "public_milestone_status": "unmet",
         "resources": {
-          "aggregate_cpu_cores_max": 5,
-          "aggregate_ram_bytes_max": 40000000000,
-          "aggregate_vram_bytes_max": 3000000000,
-          "new_experiment_compute": "Kaggle GPU/TPU only; current access and resource admission required",
-          "new_local_experiments_after_2026_10_06_1000_Kyiv": false
+          "aggregate_cpu_cores_max": 10,
+          "aggregate_ram_bytes_max": 20000000000,
+          "aggregate_vram_bytes_max": 5000000000,
+          "authority": "research/campaign_2026-10-06/bandit_continuation/CONTRACT.md",
+          "first_review_after_hours": 24,
+          "local_admission_cutoff": null,
+          "local_allocator_initial_bytes": 4300000000,
+          "local_gpu_workers_max": 1,
+          "memory_high_bytes": 18000000000,
+          "new_experiment_compute": "Local and Kaggle; separate cloud headroom and live quota",
+          "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs"
         },
         "title": "Wunder Connectome Challenge2 research"
       },
       "parent_id": null,
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "title": "Wunder Connectome Challenge2 research",
       "type": "root"
@@ -1757,7 +1822,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "title": "Teachers and knowledge transfer",
       "type": "family"
@@ -1774,7 +1839,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "title": "Temporal state and memory",
       "type": "family"
@@ -1791,7 +1856,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "title": "Targets, losses and supervision",
       "type": "family"
@@ -1809,7 +1874,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "title": "Data and feature representation",
       "type": "family"
@@ -1826,7 +1891,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "title": "Optimization and training stability",
       "type": "family"
@@ -1843,7 +1908,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "title": "Diversity, ensembles and interactions",
       "type": "family"
@@ -1860,7 +1925,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "title": "Serving and compression",
       "type": "family"
@@ -1878,7 +1943,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "title": "Evaluation, data exposure and diagnostics",
       "type": "family"
@@ -1894,7 +1959,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "title": "Compute, safety and recovery",
       "type": "family"
@@ -1905,7 +1970,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "title": "Unresolved classification",
       "type": "family"
@@ -1975,7 +2040,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "source_recipe_evidence": {
         "fifth_member_delta": 0.00028,
@@ -2030,7 +2095,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Transfer Transformer predictions into the serving GRU",
@@ -2072,7 +2137,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Temporal summary / representation transfer",
@@ -2116,7 +2181,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Quiet-row transfer from an attention teacher",
@@ -2174,7 +2239,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Origin-target privileged attention teacher",
@@ -2219,7 +2284,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Teacher lineage, cross-fitting and ensemble targets",
@@ -2275,7 +2340,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -2334,7 +2399,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -2407,7 +2472,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "interrupted",
       "title": "Distillation alpha × bootstrap horizon",
@@ -2451,7 +2516,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Measured denominator: chunk / fixed / shuffled mass",
@@ -2509,7 +2574,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -2568,7 +2633,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "insufficient_evidence",
       "title": "Precision and optimizer-step mechanism",
@@ -2640,7 +2705,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "diagnostic_completed",
       "title": "Production event clock / quiet-row anatomy",
@@ -2695,7 +2760,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Event/quiet residual belief updates",
@@ -2754,7 +2819,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "prepared_unrun",
       "title": "Residual diagonal / content / erase-write memory",
@@ -2822,7 +2887,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "insufficient_evidence",
       "title": "Hole-only episode loss in a tiny recurrent specialist",
@@ -2882,7 +2947,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "screen_failed",
       "title": "All-row and mixed episode objectives: tested recipes",
@@ -2942,7 +3007,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "screen_failed",
       "title": "Quiet-row output holds / online corrections: tested recipes",
@@ -3023,7 +3088,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -3070,7 +3135,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Serving-feasible seed mixtures and tensor soups",
@@ -3117,7 +3182,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Quantization and native runtime headroom",
@@ -3198,7 +3263,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "insufficient_evidence",
       "title": "OOM, provider and monitor recovery",
@@ -3241,7 +3306,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Attention-teacher transfer × origin-label reanchor",
@@ -3284,7 +3349,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Gradient cadence × measured denominator",
@@ -3338,7 +3403,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Convergence-aware causal attention and event context",
@@ -3393,7 +3458,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Transfer predictable teacher structure separately from future innovation",
@@ -3448,7 +3513,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Independent student complementarity and causal blend gates",
@@ -3527,7 +3592,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "source_recipe_details": {
         "additional_epochs": 2,
@@ -3617,7 +3682,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Replace a teacher family with a two-stream teacher",
@@ -3687,7 +3752,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e70fbc1cfb2e18aeb03eb7fd3c45c04019b1fc5213715cd5c2327a652cf15a29"
+        "sha256": "7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36"
       },
       "status": "not_tested",
       "title": "Function-preserving widening of a distilled student",

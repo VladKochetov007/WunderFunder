@@ -10,11 +10,17 @@
     "public_milestone_status": "unmet",
     "evaluation_exposure": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
     "resources": {
-      "aggregate_cpu_cores_max": 5,
-      "aggregate_vram_bytes_max": 3000000000,
-      "aggregate_ram_bytes_max": 40000000000,
-      "new_local_experiments_after_2026_10_06_1000_Kyiv": false,
-      "new_experiment_compute": "Kaggle GPU/TPU only; current access and resource admission required"
+      "aggregate_cpu_cores_max": 10,
+      "aggregate_vram_bytes_max": 5000000000,
+      "aggregate_ram_bytes_max": 20000000000,
+      "memory_high_bytes": 18000000000,
+      "local_allocator_initial_bytes": 4300000000,
+      "local_gpu_workers_max": 1,
+      "local_admission_cutoff": null,
+      "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs",
+      "first_review_after_hours": 24,
+      "new_experiment_compute": "Local and Kaggle; separate cloud headroom and live quota",
+      "authority": "research/campaign_2026-10-06/bandit_continuation/CONTRACT.md"
     },
     "external_reported_public_result": {
       "score": 0.6674,
@@ -25,7 +31,8 @@
       "source_status": "Branch-preserved user-reported competition result; not independently queried",
       "source": "research/campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/iterations/2026-10-05-wave20/public-result.json",
       "changes_root_public_best": false
-    }
+    },
+    "active_campaign": "research/campaign_2026-10-06/bandit_continuation"
   },
   "families": [
     {

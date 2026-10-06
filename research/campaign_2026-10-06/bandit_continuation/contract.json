@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "opened_at": "2026-10-06T19:51:12+00:00",
+  "first_review_at": "2026-10-07T19:51:12+00:00",
+  "resources": {
+    "aggregate_cpu_cores_max": 10,
+    "aggregate_vram_bytes_max": 5000000000,
+    "aggregate_ram_bytes_max": 20000000000,
+    "memory_high_bytes": 18000000000,
+    "local_allocator_initial_bytes": 4300000000,
+    "local_gpu_workers_max": 1,
+    "local_admission_cutoff": null,
+    "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs",
+    "first_review_after_hours": 24,
+    "new_experiment_compute": "Local and Kaggle; separate cloud headroom and live quota",
+    "authority": "research/campaign_2026-10-06/bandit_continuation/CONTRACT.md"
+  },
+  "parent_slice": "wnn-campaign.slice",
+  "initial_kaggle_quota_hours": {
+    "gpu_remaining": 19.71,
+    "tpu_remaining": 19.96,
+    "refresh_at": "2026-10-10T00:00:00Z"
+  },
+  "allocation_fractions": {
+    "leading_lineage": 0.6,
+    "exploration": 0.2,
+    "followup_and_serving": 0.2
+  },
+  "scientific_student_fit_cap_first_window": 24,
+  "disk_new_artifact_budget_bytes": 30000000000,
+  "disk_min_free_bytes": 25000000000,
+  "money_new_paid_api_or_compute": 0,
+  "source_contract_sha256": "f2c04eefb2cbe77962e9d00da457910f78e918ecd01462f3be27541bbe8d3dd6",
+  "status": "preparing_admission"
+}
