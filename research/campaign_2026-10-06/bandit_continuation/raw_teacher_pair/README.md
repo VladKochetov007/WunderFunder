@@ -46,9 +46,9 @@ fit packet only after the controller reviews the actual E508 profile receipt.
 Prepared command (not executed):
 
 ```sh
-./.venv/bin/kaggle kernels push -p research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/packet
+./.venv/bin/kaggle kernels push -p research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/packet -t 4200
 ```
 
-Packet kernel SHA-256: `13599205a508b7937c4ea00216f99114db7522a3e5d3ca70d56dfbea49617b8f`<br>
+Packet kernel SHA-256: `ab1426416ed7d2b030831137d3704c092951b87d27c8b0e01c79485a31f3ead3`<br>
 Trainer source SHA-256: `8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf`<br>
 Fold-0 manifest SHA-256: `09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d`
