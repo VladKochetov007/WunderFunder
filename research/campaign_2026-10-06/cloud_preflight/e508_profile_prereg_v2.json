@@ -1,0 +1,111 @@
+{
+  "budget_authorization": {
+    "actual_retained_campaign_gpu_seconds_before_v2": 80.9149999999936,
+    "authorizer": "root controller after independent review of manifest fix a68e65f",
+    "budget_bucket": "leading 60% allocation while retaining 20% follow-up and 20% exploration",
+    "exploration_reserve_seconds": 14178.009,
+    "fit_packet_requires_profile_review_and_new_immutable_packet": true,
+    "followup_reserve_seconds": 14178.009,
+    "leading_allocation_remaining_after_v2_worst_case": 34053.112,
+    "maximum_charge_device_gpu_seconds": 8400,
+    "maximum_cumulative_campaign_gpu_seconds_from_original_baseline": 8480.915,
+    "no_reserve_exhaustion": true,
+    "original_leading_allocation_seconds": 42534.027,
+    "previous_campaign_gpu_ceiling_seconds": 8462.634,
+    "provider_watch_seconds": 4200,
+    "retained_e508_v1_gpu_seconds": 18.281,
+    "scope": "single corrected E508 profile-only kernel; no baseline fits and no automatic retry",
+    "worst_case_accelerators": 2
+  },
+  "kernel_id": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v2",
+  "observed_at_utc": "2026-10-06T22:58:43+00:00",
+  "packet": {
+    "assets_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+    "builder_commit": "69b2331825e193a070015ca4182872724595209a",
+    "competition_upload": false,
+    "datasets": [
+      "vladkochetov07/wnn-c20261004-fold0-assets",
+      "vladkochetov07/wunder-funder",
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1"
+    ],
+    "e463_source_manifest": {
+      "checkpoint_bytes": 3977183,
+      "checkpoint_manifest_key": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+      "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "path": "research/campaign_2026-10-04/kaggle/jax_tpu_realdata_preflight_v1/upload_dataset/source-manifest.json",
+      "sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb"
+    },
+    "fit_launch": false,
+    "internet": false,
+    "kernel_sha256": "d11bff4336edf8620919545c1683bb8dda668d3eba7f3a165dc7d5c8ae318c24",
+    "machine_shape": "NvidiaTeslaT4 (requested; actual allocation must be recorded)",
+    "metadata_sha256": "dfe3542f4f0db0ac4c6610c1f9aac23d3917af78b7a0a03539e391973f9666a3",
+    "packet_commit": "bc2cc603ffd82eb0f0d70ba3a8af39bf584d966c",
+    "packet_path": "/tmp/wnn-e508-profile-v2-20261007/research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/packet_v2",
+    "portable_inputs_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "private": true,
+    "profile_kernel_timeout_seconds": 3600,
+    "profile_only": true,
+    "raw_inputs": {
+      "full_raw_hash": "not computed; frozen portable registry/footer identity is used",
+      "train_bytes": 29240219011,
+      "train_footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+      "valid_bytes": 5615509128,
+      "valid_footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+    },
+    "result_scope": "input inventory, exact data/checkpoint identity validation, one short profile; no fit, score, or scientific result claim",
+    "review_packet_sha256": "370986d4ce67ff9a6d3c68cf850961e1b8e2a24310a3443612d9f4bc58e03767",
+    "source_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "source_commit": "ffc472cab2285090a35ff010e68824239179eec8",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "trainer_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+    "worker_sha256": "77f134f4c4488901ea351ec0104a43f634535d2eac1291b364deec5842924104",
+    "worktree": "/tmp/wnn-e508-profile-v2-20261007"
+  },
+  "packet_id": "E508_RAW_BASELINE_V2",
+  "prior_v1_terminal": {
+    "failure": "wrong source-manifest key prefix; no profile or device gate; exact evidence in e508_profile_terminal_v1.json",
+    "kernel_id": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007",
+    "terminal_receipt_sha256": "75b210338a31478d038e6c9edfd6cde5aeca540a8d76d013ef413f3446385419",
+    "terminal_status": "KernelWorkerStatus.ERROR",
+    "unchanged_retry": false
+  },
+  "provider_url": "https://www.kaggle.com/code/vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v2",
+  "provider_version": null,
+  "push_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle kernels push -p /tmp/wnn-e508-profile-v2-20261007/research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/packet_v2 -t 4200",
+  "push_response": null,
+  "quota_observation": {
+    "cli_package_version": "2.2.4",
+    "gpu": {
+      "account_headroom_seconds": 70871.764,
+      "campaign_baseline_used_seconds": 37047.321,
+      "campaign_cap_seconds": 8480.915,
+      "campaign_used_seconds": 80.9149999999936,
+      "headroom_to_v2_ceiling_seconds": 8400.0,
+      "maximum_account_headroom_after_v2_seconds": 62471.763999999996,
+      "total_allowed_seconds": 108000.0,
+      "used_seconds": 37128.236
+    },
+    "prepublish_status": "403 from status lookup for the unpublished v2 slug; recorded as unavailable before publish, not as run failure",
+    "refresh_utc": "2026-10-10T00:00:00",
+    "reservations": {
+      "gpu_seconds": 0.0,
+      "tpu_seconds": 0.0
+    },
+    "tpu": {
+      "campaign_used_seconds": 0.0,
+      "total_allowed_seconds": 72000.0,
+      "used_seconds": 134.623
+    }
+  },
+  "quota_snapshot_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python research/campaign_2026-10-06/cloud_preflight/poll_provider.py --targets research/campaign_2026-10-06/cloud_preflight/provider_targets.json --log research/campaign_2026-10-06/cloud_preflight/e508_prelaunch_snapshot_v2.jsonl",
+  "quota_snapshot_file": "e508_prelaunch_snapshot_v2.jsonl",
+  "quota_snapshot_sha256": "32dfbcaeb42383ea7603dddb03e9d2fd8faa18cac8ee1bb7773d6e74a9a1717e",
+  "status": "preregistered_private_profile_only_not_pushed",
+  "terminal_status": null,
+  "test_evidence": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited .venv/bin/python -m unittest -v research.campaign_2026-10-06.bandit_continuation.raw_teacher_pair.test_packet",
+    "tests_failed": 0,
+    "tests_passed": 8
+  }
+}
