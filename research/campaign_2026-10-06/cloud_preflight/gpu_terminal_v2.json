@@ -1,0 +1,61 @@
+{
+  "packet_id": "wnn-gru-device-preflight-20261006-v2",
+  "kernel": "vladkochetov07/wnn-gru-device-preflight-20261006-v2",
+  "provider_version": 1,
+  "terminal_status": "KernelWorkerStatus.ERROR",
+  "observed_terminal_at_utc": "2026-10-06T20:55:32Z",
+  "failure": {
+    "phase": "checkpoint_validation",
+    "type": "FileNotFoundError",
+    "message": "[Errno 2] No such file or directory: '/kaggle/input/wnn-jax-realdata-e463-tpu-20261004-v1/source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt'",
+    "elapsed_payload_seconds": 6.615974016999871,
+    "torch_import_and_embedded_root_model_exec_completed": true,
+    "cuda_device_enumeration_reached": false,
+    "diagnosis": "The expected file exists in the selected Kaggle dataset according to `kaggle datasets files`, but it was absent at the assumed runtime mount path. The failure happened before CUDA discovery; it proves neither a GPU allocation nor numerical parity. The probe must log the `/kaggle/input` mount inventory and avoid depending on this checkpoint for the hardware-only shape test."
+  },
+  "provider_host": {
+    "cpu_count": 4,
+    "host_total_bytes": 33658318848,
+    "host_available_at_start_bytes": 32633991168,
+    "host_available_at_terminal_bytes": 32062947328,
+    "process_peak_rss_bytes": 743198720,
+    "requested_machine_shape": "NvidiaTeslaT4",
+    "actual_gpu_count_and_model": null
+  },
+  "inputs": {
+    "declared_dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "vladkochetov07/wunder-funder"
+    ],
+    "remote_dataset_file_listing_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited kaggle datasets files vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+    "remote_listing_confirmed_checkpoint_path": "source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+    "remote_listing_checkpoint_size_bytes": 3977183,
+    "expected_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+  },
+  "terminal_collection": {
+    "observed_at_utc": null,
+    "collection_completed_after_terminal_observation_utc": "2026-10-06T20:55:32Z",
+    "output_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited kaggle kernels output vladkochetov07/wnn-gru-device-preflight-20261006-v2 -p research/campaign_2026-10-06/cloud_preflight/gpu_results_v2",
+    "output_exit_code": 0,
+    "log_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited kaggle kernels logs vladkochetov07/wnn-gru-device-preflight-20261006-v2",
+    "log_exit_code": 0,
+    "files": {
+      "cloud_preflight_gpu_v2/complete.json": "33cc09fad0f19b4c06894220e9a007d524f49978511d7c4dea0e63f917080034",
+      "cloud_preflight_gpu_v2/host_start.json": "32eb876cc18baf14835d5b705242b8f6ba245d5911e21b78aff8bbc6572581d5",
+      "cloud_preflight_gpu_v2/startup.json": "2819ab8de913af8c9c265385d79fb6755cdb85a483a4f6e226885242afc03e9b",
+      "cloud_preflight_gpu_v2/terminal.json": "4b78aa0254b07d5ef40f999efdd8950117017ba651554c9f06f8a5e1ad7d1d11",
+      "wnn-gru-device-preflight-20261006-v2.log": "14e2b46ad8a2c5f29dd4b70c30b08648f9727b2fa3e97f05848fc18e5f6c9fe8"
+    }
+  },
+  "quota_reconciled_at_utc": "2026-10-06T20:58:34Z",
+  "quota": {
+    "source": "exact KaggleApi.quota_view time_used seconds",
+    "gpu_used_seconds": 37081.896,
+    "gpu_baseline_seconds": 37047.321,
+    "gpu_campaign_delta_seconds": 34.57499999999709,
+    "tpu_used_seconds": 134.623,
+    "tpu_campaign_delta_seconds": 0.0,
+    "refresh_at_utc": "2026-10-10T00:00:00"
+  },
+  "science_scope": "No training fit, score, or competition upload. No actual GPU proof was obtained."
+}
