@@ -1,0 +1,391 @@
+"""Tests for exact function-preserving widening of RNNModel (cell='gru',
+enc='linear', dropout=0, readout_activation='gelu').
+
+These tests verify the construction in /tmp/net2wider_gru.py against the PUBLIC
+model at /mnt/PUBLIC_RNN_MODEL.py. They are cheap CPU-only, tiny, deterministic
+(local RNG only), and runnable with real torch. They intentionally do not train,
+fit data, load checkpoints, use CUDA, or touch the served runtime.
+
+Tolerances: float32 reference computations; parity expected up to float32 rounding.
+We use atol=1e-6 and rtol=1e-6 as a reasonable float32 tolerance for identical
+construction; if the controller uses float64 construction or different ops, adjust.
+
+Records test_not_run_in_sandbox=True if torch is unavailable here.
+"""
+
+from __future__ import annotations
+
+import sys
+from typing import Any, Callable, Optional, Tuple
+
+import torch
+from torch import nn
+
+# The served model must be importable from the controller environment as
+#   from PUBLIC_RNN_MODEL import RNNModel
+# and our utility as
+#   from net2wider_gru import widen_rnn_model, map_hidden_state, inv_scale_hidden
+# For local sandbox runs we try a sys.path insert + import; if torch is absent we
+# set TESTS_NOT_RUN and skip without failing the file parse.
+
+try:
+    torch  # noqa: F401
+    _TORCH_PRESENT = True
+except Exception:  # pragma: no cover
+    _TORCH_PRESENT = False
+
+TESTS_NOT_RUN_IN_SANDBOX = not _TORCH_PRESENT
+
+if _TORCH_PRESENT:
+    # Controller may run from /tmp or another cwd; make both /tmp and the served
+    # model directory importable if needed.
+    for p in ("/tmp", "/mnt"):
+        if p not in sys.path:
+            sys.path.insert(0, p)
+
+    from PUBLIC_RNN_MODEL import RNNModel
+    from net2wider_gru import (
+        widen_rnn_model,
+        map_hidden_state,
+        inv_scale_hidden,
+    )
+
+    DEVICE = torch.device("cpu")
+    DTYPE = torch.float32
+
+    ATOL = 1e-6
+    RTOL = 1e-6
+
+    def _rand(seed: int, shape: Tuple[int, ...], dtype=DTYPE, device=DEVICE) -> torch.Tensor:
+        g = torch.Generator().manual_seed(seed)
+        return torch.randn(shape, generator=g, dtype=dtype, device=device)
+
+    def _approx(a: torch.Tensor, b: torch.Tensor) -> bool:
+        return torch.allclose(a, b, atol=ATOL, rtol=RTOL)
+
+    def _max_abs(a: torch.Tensor, b: torch.Tensor) -> float:
+        return float((a - b).abs().max())
+
+    def _make_teacher(
+        n_in: int,
+        hidden: int,
+        layers: int,
+        n_out: int,
+        seed: int,
+    ) -> RNNModel:
+        t = torch.Generator().manual_seed(seed)
+        m = RNNModel(
+            n_in=n_in,
+            hidden=hidden,
+            layers=layers,
+            dropout=0.0,
+            n_out=n_out,
+            cell="gru",
+            enc="linear",
+            tok_dim=32,
+            att_layers=1,
+            conv_k=16,
+            readout_activation="gelu",
+        )
+        # Initialize teacher with deterministic weights so tests are reproducible.
+        with torch.no_grad():
+            for p in m.parameters():
+                p.copy_(torch.randn_like(p, generator=t))
+        # Ensure GRU biases exist (PyTorch default True, but be explicit for tests).
+        assert all(m.gru.bias_ih_l[k] is not None for k in range(m.gru.num_layers))
+        assert all(m.gru.bias_hh_l[k] is not None for k in range(m.gru.num_layers))
+        m.to(device=DEVICE, dtype=DTYPE)
+        m.eval()
+        return m
+
+    def _run_forward(m: RNNModel, x: torch.Tensor, h: Optional[torch.Tensor]) -> Tuple[torch.Tensor, Optional[torch.Tensor]]:
+        with torch.no_grad():
+            return m(x, h)
+
+
+    def test_identity_width():
+        """Widen hidden 8 -> 8 should be a no-op-equivalent copy: outputs must match
+        exactly for identical construction. This validates the 'no change needed when
+        new_hidden == old.hidden' guard and that widen still produces an exact copy
+        when asked to widen by 0 (our func raises, so here we instead construct two
+        identical teachers and check they match each other).
+        """
+        n_in, H, L, n_out, seed = 3, 8, 2, 2, 17
+        t1 = _make_teacher(n_in, H, L, n_out, seed)
+        t2 = _make_teacher(n_in, H, L, n_out, seed)
+        x = _rand(seed + 1, (1, 5, n_in))
+        h = _rand(seed + 2, (L, 1, H))
+        y1, h1 = _run_forward(t1, x, h)
+        y2, h2 = _run_forward(t2, x, h)
+        assert _approx(y1, y2), f"identity-width outputs differ: max_abs={_max_abs(y1, y2)}"
+        assert _approx(h1, h2), f"identity-width hidden differ: max_abs={_max_abs(h1, h2)}"
+
+
+    def test_widen_hidden8_to_12_layers2_outputs2():
+        """Widen hidden 8 -> 12, layers 2, n_out 2. Check before-training output parity
+        between teacher and student with mapped hidden state, plus parity of the mapped
+        student hidden back to teacher hidden.
+        """
+        n_in, H, Hp, L, n_out, seed = 3, 8, 12, 2, 2, 101
+        t = _make_teacher(n_in, H, L, n_out, seed)
+        s = widen_rnn_model(t, Hp, seed=seed + 999)
+
+        g = s  # not needed; we recompute g from utility internals if needed
+        # Reconstruct the same map used inside widen_rnn_model for hidden mapping.
+        # We expose it by re-deriving from seed via the same local generator policy.
+        from net2wider_gru import _local_generator, _make_map, _counts
+        gen = _local_generator(seed + 999)
+        gg = _make_map(H, Hp, gen)
+        cnt = _counts(gg, H)
+
+        x = _rand(seed + 7, (1, 23, n_in))
+        h = _rand(seed + 11, (L, 1, H))
+        y_t, h_t = _run_forward(t, x, h)
+
+        h_student = map_hidden_state(h, gg, cnt, DEVICE, DTYPE)
+        y_s, h_s = _run_forward(s, x, h_student)
+
+        # student output should match teacher output exactly under construction
+        assert _approx(y_t, y_s), (
+            f"widen outputs differ: max_abs={_max_abs(y_t, y_s)} "
+            f"mean_abs={float((y_t - y_s).abs().mean())}"
+        )
+
+        # student final hidden, reinflated to teacher scale, should match teacher final hidden
+        h_s_inflated = inv_scale_hidden(h_s, gg, cnt)
+        assert h_t.shape == h_s_inflated.shape, (h_t.shape, h_s_inflated.shape)
+        assert _approx(h_t, h_s_inflated), (
+            f"widen hidden differ after inv-scale: max_abs={_max_abs(h_t, h_s_inflated)}"
+        )
+
+
+    def test_nonzero_initial_states():
+        """Check parity with nonzero (nonzero != all zeros) initial hidden states and
+        nonzero inputs. Zero-state parity is necessary but not sufficient; nonzero
+        tests catch missed bias or scaling errors.
+        """
+        n_in, H, Hp, L, n_out, seed = 4, 6, 10, 2, 3, 211
+        t = _make_teacher(n_in, H, L, n_out, seed)
+        s = widen_rnn_model(t, Hp, seed=seed + 777)
+
+        from net2wider_gru import _local_generator, _make_map, _counts
+        gen = _local_generator(seed + 777)
+        gg = _make_map(H, Hp, gen)
+        cnt = _counts(gg, H)
+
+        x = _rand(seed + 3, (2, 7, n_in))
+        h = _rand(seed + 5, (L, 2, H)) + 2.0  # nonzero mean shift
+        y_t, h_t = _run_forward(t, x, h)
+
+        h_student = map_hidden_state(h, gg, cnt, DEVICE, DTYPE)
+        y_s, h_s = _run_forward(s, x, h_student)
+
+        assert _approx(y_t, y_s), f"nonzero-state outputs differ: max_abs={_max_abs(y_t, y_s)}"
+        h_s_inflated = inv_scale_hidden(h_s, gg, cnt)
+        assert _approx(h_t, h_s_inflated), f"nonzero-state hidden differ: max_abs={_max_abs(h_t, h_s_inflated)}"
+
+
+    def test_multiple_sequential_chunks_reset():
+        """Process several chunks sequentially with reset between sequences, with hidden
+        state carried within a sequence and mapped between teacher/student. This validates
+        hidden-state mapping across chunk boundaries and the reset-to-none behavior.
+        """
+        n_in, H, Hp, L, n_out, seed = 3, 5, 9, 2, 2, 311
+        t = _make_teacher(n_in, H, L, n_out, seed)
+        s = widen_rnn_model(t, Hp, seed=seed + 555)
+
+        from net2wider_gru import _local_generator, _make_map, _counts
+        gen = _local_generator(seed + 555)
+        gg = _make_map(H, Hp, gen)
+        cnt = _counts(gg, H)
+
+        # Sequence 1: two chunks carried
+        h_t = _rand(seed + 10, (L, 1, H))
+        h_s = map_hidden_state(h_t, gg, cnt, DEVICE, DTYPE)
+
+        for step in range(2):
+            x = _rand(seed + 100 + step, (1, 4, n_in))
+            y_t, h_t = _run_forward(t, x, h_t)
+            y_s, h_s = _run_forward(s, x, h_s)
+            assert _approx(y_t, y_s), (
+                f"chunk step {step}: outputs differ max_abs={_max_abs(y_t, y_s)}"
+            )
+
+        # Reset: run another sequence with no initial state
+        x = _rand(seed + 200, (1, 3, n_in))
+        y_t, h_t = _run_forward(t, x, None)
+        y_s, h_s = _run_forward(s, x, None)
+        assert _approx(y_t, y_s), f"reset outputs differ max_abs={_max_abs(y_t, y_s)}"
+
+        # After reset, both should have produced some final hidden; map and compare
+        h_s_inflated = inv_scale_hidden(h_s, gg, cnt)
+        assert _approx(h_t, h_s_inflated), f"reset hidden differ max_abs={_max_abs(h_t, h_s_inflated)}"
+
+
+    def test_before_training_output_parity_small():
+        """Independence check: another hidden size transition (4 -> 7) with a different
+        seed and shape, ensuring the construction is not overfitted to one shape/seed.
+        """
+        n_in, H, Hp, L, n_out, seed = 3, 4, 7, 2, 2, 411
+        t = _make_teacher(n_in, H, L, n_out, seed)
+        s = widen_rnn_model(t, Hp, seed=seed + 333)
+
+        from net2wider_gru import _local_generator, _make_map, _counts
+        gen = _local_generator(seed + 333)
+        gg = _make_map(H, Hp, gen)
+        cnt = _counts(gg, H)
+
+        x = _rand(seed + 1, (1, 9, n_in))
+        h = _rand(seed + 2, (L, 1, H))
+        y_t, h_t = _run_forward(t, x, h)
+
+        h_student = map_hidden_state(h, gg, cnt, DEVICE, DTYPE)
+        y_s, h_s = _run_forward(s, x, h_student)
+
+        assert _approx(y_t, y_s), f"small widen outputs differ max_abs={_max_abs(y_t, y_s)}"
+        h_s_inflated = inv_scale_hidden(h_s, gg, cnt)
+        assert _approx(h_t, h_s_inflated), f"small widen hidden differ max_abs={_max_abs(h_t, h_s_inflated)}"
+
+
+    def test_hidden_map_roundtrip_consistency():
+        """Independent check that map_hidden_state + inv_scale_hidden roundtrips the
+        first H student columns back to teacher hidden values used at mapping time.
+        This is not a forward pass parity test; it validates the state maps alone.
+        """
+        L, H, Hp, B, seed = 2, 5, 8, 2, 511
+        gen = torch.Generator().manual_seed(seed)
+        gg = list(range(H))
+        gg.extend(torch.randint(0, H, (Hp - H,), generator=gen).tolist())
+        cnt = _counts(gg, H)
+
+        h_teacher = _rand(seed + 1, (L, B, H))
+        h_student = map_hidden_state(h_teacher, gg, cnt, DEVICE, DTYPE)
+        h_back = inv_scale_hidden(h_student, gg, cnt)
+        assert h_back.shape == h_teacher.shape
+        assert _approx(h_back, h_teacher), f"roundtrip differ max_abs={_max_abs(h_back, h_teacher)}"
+
+
+    def test_gru_bias_presence_guard():
+        """Ensure widening raises if teacher GRU biases are missing (even though the
+        served config always has them). We construct a minimal nn.GRU without biases to
+        confirm the guard logic exists in widen_rnn_model.
+        """
+        H, L, n_in, n_out = 4, 2, 3, 2
+        t = RNNModel(
+            n_in=n_in, hidden=H, layers=L, dropout=0.0, n_out=n_out,
+            cell="gru", enc="linear", tok_dim=32, att_layers=1, conv_k=16,
+            readout_activation="gelu",
+        )
+        # Replace the GRU with a no-bias GRU-like object to exercise the guard.
+        class NoBiasGRU:
+            num_layers = L
+            input_size = H
+            hidden_size = H
+            bias_ih_l = [None] * L
+            bias_hh_l = [None] * L
+            weight_ih_l = [None] * L
+            weight_hh_l = [None] * L
+
+            def forward(self, *a, **k):
+                raise RuntimeError("should not be called")
+
+        t.gru = NoBiasGRU()
+        try:
+            widen_rnn_model(t, H + 1, seed=1)
+        except RuntimeError as e:
+            assert "missing biases" in str(e).lower() or "missing" in str(e).lower()
+        else:  # pragma: no cover
+            raise AssertionError("expected RuntimeError for missing biases")
+
+
+    def test_global_rng_unchanged():
+        """Confirm that widening uses only a local generator and does not alter the
+        global torch RNG stream.
+        """
+        n_in, H, Hp, L, n_out, seed = 3, 5, 9, 2, 2, 611
+        t = _make_teacher(n_in, H, L, n_out, seed)
+
+        g_before = torch.random.get_rng_state().clone()
+        _ = widen_rnn_model(t, Hp, seed=seed + 123)
+        g_after = torch.random.get_rng_state()
+        assert torch.equal(g_before, g_after), "global RNG changed during widening"
+
+
+    def test_batch_first_shapes_preserved():
+        """Validate that output and hidden shapes are correct for batch_first GRU with
+        the expected dimensions after widening.
+        """
+        n_in, H, Hp, L, n_out, seed = 3, 4, 7, 2, 2, 711
+        t = _make_teacher(n_in, H, L, n_out, seed)
+        s = widen_rnn_model(t, Hp, seed=seed + 99)
+
+        B, T = 2, 5
+        x = _rand(seed + 1, (B, T, n_in))
+        h = _rand(seed + 2, (L, B, H))
+
+        from net2wider_gru import _local_generator, _make_map, _counts
+        gen = _local_generator(seed + 99)
+        gg = _make_map(H, Hp, gen)
+        cnt = _counts(gg, H)
+        h_student = map_hidden_state(h, gg, cnt, DEVICE, DTYPE)
+
+        y_t, h_t = _run_forward(t, x, h)
+        y_s, h_s = _run_forward(s, x, h_student)
+
+        assert y_t.shape == (B, T, n_out)
+        assert y_s.shape == (B, T, n_out)
+        assert h_t.shape == (L, B, H)
+        assert h_s.shape == (L, B, Hp)
+
+
+    def test_float32_tolerance_reporting():
+        """Sanity report: print max abs diffs for a few cases so the controller can
+        eyeball float32 behavior. This is informational; assertions are in the parity
+        tests above.
+        """
+        n_in, H, Hp, L, n_out, seed = 3, 6, 11, 2, 2, 811
+        t = _make_teacher(n_in, H, L, n_out, seed)
+        s = widen_rnn_model(t, Hp, seed=seed + 444)
+
+        from net2wider_gru import _local_generator, _make_map, _counts
+        gen = _local_generator(seed + 444)
+        gg = _make_map(H, Hp, gen)
+        cnt = _counts(gg, H)
+
+        x = _rand(seed + 1, (1, 10, n_in))
+        h = _rand(seed + 2, (L, 1, H))
+        y_t, h_t = _run_forward(t, x, h)
+
+        h_student = map_hidden_state(h, gg, cnt, DEVICE, DTYPE)
+        y_s, h_s = _run_forward(s, x, h_student)
+        h_s_inflated = inv_scale_hidden(h_s, gg, cnt)
+
+        print("report max_abs:")
+        print("  outputs:", _max_abs(y_t, y_s))
+        print("  hidden :", _max_abs(h_t, h_s_inflated))
+
+
+    if __name__ == "__main__":
+        if TESTS_NOT_RUN_IN_SANDBOX:
+            print("SKIP: torch not available in this sandbox; tests not run here.")
+            sys.exit(0)
+
+        # Run all test_* functions in deterministic order
+        names = sorted(name for name in globals() if name.startswith("test_"))
+        failed = []
+        for name in names:
+            fn = globals()[name]
+            try:
+                fn()
+            except Exception as e:
+                failed.append((name, repr(e)))
+
+        if failed:
+            print(f"{len(failed)} FAILURES:")
+            for name, trace in failed:
+                print(f"- {name}: {trace}")
+            sys.exit(2)
+        else:
+            print(f"OK: {len(names)} tests passed")
+            print("TESTS_NOT_RUN_IN_SANDBOX:", TESTS_NOT_RUN_IN_SANDBOX)
+            sys.exit(0)

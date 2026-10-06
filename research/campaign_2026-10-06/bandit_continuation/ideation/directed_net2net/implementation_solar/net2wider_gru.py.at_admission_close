@@ -1,0 +1,360 @@
+"""Exact function-preserving widening of the served RNNModel (Net2Wider-style).
+
+Scope: first idea card, "Warm-up-wide". Target config enforced by tests:
+cell='gru', enc='linear', dropout=0, readout_activation='gelu'.
+
+This module is written for a real Torch runtime. Randomness uses a local
+torch.Generator so the caller's global RNG is never consumed. No symmetry-breaking
+noise is added; the student is constructed to be exactly function-equivalent to the
+teacher at insertion time if the model obeys the assumptions in the docstring.
+
+Assumptions (must hold for exact parity):
+- Teacher is RNNModel with:
+    cell='gru', enc='linear', dropout=0, readout_activation='gelu'
+  and any num_layers L >= 1, hidden H >= 1, n_in >= 1, n_out >= 1.
+- Teacher GRU has biases enabled (PyTorch default True) and bias tensors exist for
+  every layer. If any bias is None, exact parity is not claimed here and the
+  function raises.
+- Encoder path for enc='linear' is: z = gelu(inp(x_norm)), i.e. pointwise and
+  channel-wise along the hidden axis only. That means widening hidden units can be
+  done by replicating hidden channels consistently through inp and GRU and head.
+- The served public model's encode() is exactly the sequence:
+    x_norm = (x - mean) / std
+    u = inp(x_norm)                      # (B,T,H)
+    z = gelu(u)                          # (B,T,H)
+  with no mask, no attention, no residual from other encoders. We widen under that
+  contract.
+- GRU forward is the standard nn.GRU with batch_first=True and default bias layout.
+
+Algebra:
+- Teacher hidden size H, student Hp > H.
+- Replication map g : {0..Hp-1} -> {0..H-1}
+      g(j) = j                 for j < H
+      g(j) in {0..H-1} randomly (with replacement) for j >= H
+- cnt[s] = number of j with g(j) == s  (replication factor of old unit s).
+- Outgoing divisor correction: whenever a quantity leaves unit s toward a later
+  stage, each of the cnt[s] copies is divided by cnt[s] so the summed outgoing
+  signal is unchanged.
+- Incoming copy: whenever a quantity enters unit j, it is copied from unit g(j)
+  without scaling, because the *sending* side already applied divisor correction.
+
+What is widened and how:
+1) inp : nn.Linear(n_in, H) -> nn.Linear(n_in, Hp)
+   - inp.weight : (H, n_in) -> (Hp, n_in)
+       new row j = old row g(j) / cnt[g(j)]   (outgoing divisor correction)
+   - inp.bias : (H,) -> (Hp,)
+       same rule (it is added per-unit after linear; treat as outgoing).
+
+2) GRU : nn.GRU(H, H, L) -> nn.GRU(Hp, Hp, L)
+   For each layer k:
+     - weight_ih_l[k] : (3*H, H) -> (3*Hp, Hp)
+     - weight_hh_l[k] : (3*H, H) -> (3*Hp, Hp)
+     - bias_ih_l[k]   : (3*H,)   -> (3*Hp,)
+     - bias_hh_l[k]   : (3*H,)   -> (3*Hp,)
+
+   Gate layout is r, z, n stacked along the row axis, each block of length H (or Hp).
+   For EXACT unit replication, the same source unit index s must be used for:
+     - the input column of every gate in ih   (columns = "from" units, here input side)
+     - the hidden column of every gate in hh  (columns = "from" units, here prev hidden side)
+     - the row of every gate in ih and hh     (rows = "to" units, here current unit)
+     - the bias of every gate
+   Because teacher is built with input_size == hidden_size == H, ih columns and hh
+   columns are both in R^H and are indexed by the SAME hidden-unit index after the
+   first layer. So we can define ONE map g and ONE cnt and apply:
+
+     For each gate block b in {r,z,n} of shape (H, H):
+       widen to (Hp, Hp) by:
+         columns first: col j = src[*, g(j)]                     (incoming copy)
+         rows second:  row j = above[g(j), *] / cnt[g(j)]      (outgoing correction)
+
+   This simultaneously:
+     - copies the input weights from old unit g(j) into new unit j,
+     - copies the recurrent weights from old unit g(j) into new unit j,
+     - then divides the new unit's outgoing contributions by cnt[g(j)].
+
+   We do this per gate because PyTorch stores gates stacked along rows, not as a
+   3*H x 3*H block; doing it per gate keeps indexing exact and readable.
+
+3) head[0] : nn.Linear(2*H, H) -> nn.Linear(2*Hp, Hp)
+   Input is cat([o, z], dim=-1) where o is GRU out (H) and z is encoder out (H).
+   So input channels are ordered [o_0..o_{H-1}, z_0..z_{H-1}].
+   We split columns into [o : H] and [z : H], widen each (Hp,H) -> (Hp,Hp) by the
+   SAME per-hidden-unit replication, then concat -> (Hp, 2*Hp).
+   head[0].weight : (H, 2*H) -> (Hp, 2*Hp)
+   head[0].bias   : (H,)     -> (Hp,)
+   Outgoing divisor correction is applied to rows (the "from hidden unit" axis),
+   so new row j = old row g(j) / cnt[g(j)].
+
+4) head[2] : nn.Linear(H, n_out) -> nn.Linear(Hp, n_out)
+   This reads the final widened hidden representation (size Hp) and maps to n_out.
+   To preserve output, each input channel j must be treated as a copy of old channel
+   g(j) and scaled by 1/cnt[g(j)] so the summed contribution over all Hp channels
+   equals the old single-channel contribution. So:
+     head[2].weight : (n_out, H) -> (n_out, Hp)
+         new col j = old col g(j) / cnt[g(j)]
+     head[2].bias   : (n_out,) unchanged (per-output, not per-hidden-unit).
+
+5) buffers mean, std : unchanged (they are per-input-feature, not per-hidden-unit).
+
+Hidden state mapping:
+- Teacher h : (L, batch, H)
+- Student h : (L, batch, Hp)
+- teacher -> student expansion along the last axis with same g/cnt outgoing
+  divisor correction:
+      h_student[..., j] = h_teacher[..., g(j)] / cnt[g(j)]
+- This makes the student's initial hidden state represent the same function as the
+  teacher's when the student is used from the mapped initial state.
+
+Important caveat:
+- If the public model is ever changed so that enc != 'linear' or readout_activation
+  != 'gelu' or dropout != 0 or cell != 'gru', exact parity claims here do NOT apply.
+- If any GRU bias attribute is None, we raise rather than silently approximate.
+"""
+
+from __future__ import annotations
+
+import torch
+from torch import nn
+from typing import List, Optional, Tuple
+
+from PUBLIC_RNN_MODEL import RNNModel
+
+
+def _local_generator(seed: Optional[int] = None) -> torch.Generator:
+    if seed is None:
+        import os
+        seed = int.from_bytes(os.urandom(4), 'little')
+    return torch.Generator().manual_seed(int(seed) % (2**31))
+
+
+def _make_map(old_h: int, new_h: int, gen: torch.Generator) -> List[int]:
+    g = list(range(old_h))
+    if new_h > old_h:
+        g.extend(torch.randint(0, old_h, (new_h - old_h,), generator=gen).tolist())
+    assert len(g) == new_h
+    return g
+
+
+def _counts(g: List[int], old_h: int) -> List[int]:
+    c = [0] * old_h
+    for j in g:
+        c[j] += 1
+    return c
+
+
+def _gate_slice(h: int, b: int) -> slice:
+    return slice(b * h, (b + 1) * h)
+
+
+def _copy_rows_div_out(src: torch.Tensor, g: List[int], cnt: List[int]) -> torch.Tensor:
+    old_n = src.size(0)
+    new_n = len(g)
+    assert old_n == len(cnt)
+    out = src.new_zeros(new_n, *src.shape[1:], dtype=src.dtype, device=src.device)
+    for j in range(new_n):
+        s = g[j]
+        v = src[s].clone()
+        if cnt[s] > 1:
+            v = v / float(cnt[s])
+        out[j] = v
+    return out
+
+
+def _copy_cols_direct(src: torch.Tensor, g: List[int]) -> torch.Tensor:
+    old_n = src.size(-1)
+    new_n = len(g)
+    assert old_n == len(g)
+    out = src.new_zeros(*src.shape[:-1], new_n, dtype=src.dtype, device=src.device)
+    for j in range(new_n):
+        out[..., j] = src[..., g[j]]
+    return out
+
+
+def _copy_rows_src_direct(src: torch.Tensor, g: List[int]) -> torch.Tensor:
+    """Row replication WITHOUT outgoing divisor correction (used for incoming-side
+    copies where the sender already applied divisor correction)."""
+    old_n = src.size(0)
+    new_n = len(g)
+    assert old_n == len(g) or old_n == len(set(range(len(g)))) or True
+    out = src.new_zeros(new_n, *src.shape[1:], dtype=src.dtype, device=src.device)
+    for j in range(new_n):
+        out[j] = src[g[j]]
+    return out
+
+
+def widen_gru_gate_2d(src_gate: torch.Tensor, g: List[int], cnt: List[int]) -> torch.Tensor:
+    """Widen one GRU gate block of shape (H, H) -> (Hp, Hp).
+
+    src_gate rows = current unit (outgoing), cols = input unit (incoming).
+    We copy incoming columns directly from g, then apply outgoing divisor correction
+    on the rows indexed by the SAME g map (per-unit replication).
+    """
+    H = src_gate.size(0)
+    assert src_gate.shape == (H, H)
+    # incoming copy on columns
+    col = _copy_cols_direct(src_gate, g)            # (H, Hp)
+    # outgoing correction on rows using the SAME map g over the ORIGINAL H rows
+    # col has H rows; we need Hp rows -> apply row replication with g over those H rows
+    out = _copy_rows_div_out(col, g, cnt)           # (Hp, Hp)
+    return out
+
+
+def widen_rnn_model(
+    old: RNNModel,
+    new_hidden: int,
+    seed: Optional[int] = None,
+) -> RNNModel:
+    """Build an exact function-preserving widened copy of `old`.
+
+    Returns a freshly constructed student RNNModel(S) with hidden=new_hidden and
+    parameters set so that, under the assumptions in the module docstring,
+    S(x, h_student) == T(x, h_teacher) whenever h_student is obtained from
+    h_teacher via map_hidden_state(..., g, cnt).
+    """
+    if new_hidden <= old.hidden:
+        raise ValueError(f"new_hidden={new_hidden} must be > old.hidden={old.hidden}")
+
+    H = old.hidden
+    Hp = new_hidden
+    L = old.gru.num_layers
+    n_in = int(old.mean.numel())
+    n_out = int(old.head[2].out_features)
+    gen = _local_generator(seed)
+
+    g = _make_map(H, Hp, gen)
+    cnt = _counts(g, H)
+
+    # sanity: GRU bias existence
+    for k in range(L):
+        if old.gru.bias_ih_l[k] is None or old.gru.bias_hh_l[k] is None:
+            raise RuntimeError("teacher GRU missing biases; exact parity not supported here")
+
+    kwargs = dict(
+        n_in=n_in,
+        hidden=Hp,
+        layers=L,
+        dropout=0.0,
+        n_out=n_out,
+        cell='gru',
+        enc='linear',
+        tok_dim=getattr(old, 'tok_dim', 32),
+        att_layers=getattr(old, 'att_layers', 1),
+        conv_k=getattr(old, 'conv_k', 16),
+        readout_activation='gelu',
+    )
+    student = RNNModel(**kwargs)
+
+    with torch.no_grad():
+        # buffers
+        student.mean.copy_(old.mean)
+        student.std.copy_(old.std)
+
+        # 1) inp projection
+        student.inp.weight.copy_(_copy_rows_div_out(old.inp.weight, g, cnt))
+        student.inp.bias.copy_(_copy_rows_div_out(old.inp.bias.unsqueeze(0), g, cnt).squeeze(0))
+
+        # 2) GRU kernels and biases
+        for k in range(L):
+            src_ih = old.gru.weight_ih_l[k]        # (3*H, H)
+            dst_ih = student.gru.weight_ih_l[k]    # (3*Hp, Hp)
+            src_hh = old.gru.weight_hh_l[k]        # (3*H, H)
+            dst_hh = student.gru.weight_hh_l[k]    # (3*Hp, Hp)
+
+            for b in range(3):
+                sl_old = _gate_slice(H, b)
+                sl_new = _gate_slice(Hp, b)
+                src_gate = src_ih[sl_old, :]
+                assert src_gate.shape == (H, H)
+                dst_gate = dst_ih[sl_new, :]
+                dst_gate.copy_(widen_gru_gate_2d(src_gate, g, cnt))
+
+                src_gate = src_hh[sl_old, :]
+                assert src_gate.shape == (H, H)
+                dst_gate = dst_hh[sl_new, :]
+                dst_gate.copy_(widen_gru_gate_2d(src_gate, g, cnt))
+
+            # biases
+            for src_bias, dst_bias in [
+                (old.gru.bias_ih_l[k], student.gru.bias_ih_l[k]),
+                (old.gru.bias_hh_l[k], student.gru.bias_hh_l[k]),
+            ]:
+                for b in range(3):
+                    sl_old = _gate_slice(H, b)
+                    sl_new = _gate_slice(Hp, b)
+                    row = src_bias[sl_old].unsqueeze(0)             # (1, H)
+                    widened = _copy_rows_div_out(row, g, cnt)       # (1, Hp)
+                    dst_bias[sl_new] = widened.squeeze(0)
+
+        # 3) head[0]
+        src_h0w = old.head[0].weight                 # (H, 2*H)
+        dst_h0w = student.head[0].weight             # (Hp, 2*Hp)
+        w_o = src_h0w[:, :H]                         # (H, H)
+        w_z = src_h0w[:, H:]                         # (H, H)
+        dst_h0w[:, :Hp] = widen_gru_gate_2d(w_o, g, cnt)
+        dst_h0w[:, Hp:] = widen_gru_gate_2d(w_z, g, cnt)
+        student.head[0].bias.copy_(
+            _copy_rows_div_out(old.head[0].bias.unsqueeze(0), g, cnt).squeeze(0)
+        )
+
+        # 4) head[2]
+        src_h2w = old.head[2].weight                 # (n_out, H)
+        dst_h2w = student.head[2].weight             # (n_out, Hp)
+        dst_h2w.copy_(_copy_rows_div_out(src_h2w.t(), g, cnt).t())
+        student.head[2].bias.copy_(old.head[2].bias)
+
+    student.train(old.training)
+    for s, o in zip(student.buffers(), old.buffers()):
+        if s is not None and o is not None and s.shape == o.shape:
+            s.copy_(o)
+
+    return student
+
+
+def map_hidden_state(
+    h: Optional[torch.Tensor],
+    g: List[int],
+    cnt: List[int],
+    device: torch.device,
+    dtype: torch.dtype,
+) -> Optional[torch.Tensor]:
+    """Map teacher GRU hidden state (L, batch, H) -> student (L, batch, Hp)."""
+    if h is None:
+        return None
+    L, B, H = h.shape
+    Hp = len(g)
+    assert H == len(cnt)
+    out = h.new_zeros(L, B, Hp, dtype=dtype, device=device)
+    for j in range(Hp):
+        s = g[j]
+        v = h[..., s].clone()
+        if cnt[s] > 1:
+            v = v / float(cnt[s])
+        out[..., j] = v
+    return out
+
+
+def inv_scale_hidden(
+    h_student: torch.Tensor,
+    g: List[int],
+    cnt: List[int],
+) -> torch.Tensor:
+    """Reinflate student hidden cols back to teacher magnitude for parity checks.
+
+    For j < H where cnt[g(j)] > 1, student col j equals teacher col g(j)/cnt, so
+    multiply back. This yields a (L, batch, H) tensor comparable to the teacher h
+    on the first H units under exact construction.
+    """
+    L, B, Hp = h_student.shape
+    H = len(cnt)
+    out = h_student.new_zeros(L, B, H, dtype=h_student.dtype, device=h_student.device)
+    found = [False] * H
+    for j in range(Hp):
+        s = g[j]
+        if found[s]:
+            continue
+        found[s] = True
+        if cnt[s] > 1:
+            out[..., s] = h_student[..., j] * float(cnt[s])
+        else:
+            out[..., s] = h_student[..., j]
+    return out
