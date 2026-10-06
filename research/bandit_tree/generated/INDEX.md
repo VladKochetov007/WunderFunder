@@ -4,9 +4,9 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 769 · raw hypothesis rows 195 · raw experiment rows 519 · legacy arms 18 · catalog files 57968.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 778 · raw hypothesis rows 199 · raw experiment rows 521 · legacy arms 18 · catalog files 58060.
 
-Config snapshot: [research/bandit_tree/generated/snapshots/config-e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2.json](<snapshots/config-e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2.json>).
+Config snapshot: [research/bandit_tree/generated/snapshots/config-9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf.json](<snapshots/config-9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf.json>).
 
 Missing or ambiguous artifact and relationship links are called out below and in `tree.json` warnings. The recursive file inventory is in `catalog.json`; generated output is excluded.
 
@@ -66,6 +66,16 @@ Missing or ambiguous artifact and relationship links are called out below and in
     - artifact: [research/campaign_2026-10-06/branch_teacher_audit/RECENT_OTHER_BRANCHES.md](<../../campaign_2026-10-06/branch_teacher_audit/RECENT_OTHER_BRANCHES.md>)
     - artifact: [research/campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/iterations/2026-10-05-wave20/public-result.json](<../../campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/iterations/2026-10-05-wave20/public-result.json>)
     - artifact: [research/campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/manifest.json](<../../campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/manifest.json>)
+    - **Warm-up-wide: function-preserving widening of the recurrent blend hidden state** (`arm:net2net-coupled-gru-widening`) — not_tested; eligible=True.
+      - **next_test:** Exact feedforward widening claims do not automatically establish gated recurrence. First test full gate/projection/head/state remapping without noise; profile resources before fitting. Wider models may be teachers followed by compact serving students. On single local historical fold, compare (a) normal retraining of equally wide model its own init versus (b) function-preserving widened student fine-tuned, equal compute budget; measure local1 validation pooled correlation and early-epoch convergence speed.
+      - **claim_scope:** Independent literature proposal; no fit, resource estimate or quality gain verified
+      - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json>)
+      - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json>)
+      - **Channel-coupled widening with symmetry-breaking schedule for recurrent feature maps** (`arm:net2net-coupled-symmetry-break`) — not_tested; eligible=True.
+        - **next_test:** Current model has input normalization buffers but no hidden BatchNorm. Test coupling of gate rows/recurrent columns and all skip/head consumers; add noise only after noiseless parity. Ablate coupling vs no-coupling and noise vs no-noise during widen-and-fine-tune one fold; check whether unconstrained widening degrades early stability or final local metric.
+        - **claim_scope:** Independent literature proposal; no fit, resource estimate or quality gain verified
+        - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json>)
+        - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json>)
   - **Directed relative-distance distillation on causally valid pairs** (`arm:relative-distance-transfer`) — not_tested; eligible=True.
     - **next_test:** Freeze pair construction and scaling from fitting data; compare equal-budget pointwise distillation and shuffled teacher relations. Train a small student with and without the directed relational loss on a local causal-screened subset, comparing pair-relation matching and final utility on rows satisfying need_prediction and is_scored.
     - **claim_scope:** Independent literature proposal; no gain or downstream validity established
@@ -91,6 +101,11 @@ Missing or ambiguous artifact and relationship links are called out below and in
     - **next_test:** Relation targets and privileged teacher access end at training; evaluate complete exported student with unchanged inference budget. Add and remove the relational regularizer in a small local run, checking representation-structure metrics and any change on scored rows.
     - **claim_scope:** Independent literature proposal; no gain or downstream validity established
     - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json>)
+  - **Unconventional: warm-start prediction-head distillation from a no-gradient teacher blend, risking the source's negative result** (`arm:net2net-warm-feature-prediction`) — not_tested; eligible=True.
+    - **next_test:** Source negative result is context-specific. Freeze epochs/weights before exposed-fold comparisons; do not adopt adaptive early stopping. Check overlap with current family-head distillation and test any distinct transfer component. Small sweep of auxiliary weight one fold comparing student-with-aux vs plain fine-tuned student vs teacher; stop early if aux underperforms no-aux.
+    - **claim_scope:** Independent literature proposal; no fit, resource estimate or quality gain verified
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json>)
 
 ### Temporal state and memory (`family:temporal`)
 
@@ -206,6 +221,11 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **evidence state:** latest 3GB packet — prepared; not evidence of completed scientific width comparison (source: [research/campaign_2026-10-06/STATUS_AFTER_OOM.md](<../../campaign_2026-10-06/STATUS_AFTER_OOM.md>))
   - artifact: [research/campaign_2026-10-05/continuation_night/admission/W384_V3R1_INDEPENDENT_REVIEW_GO.md](<../../campaign_2026-10-05/continuation_night/admission/W384_V3R1_INDEPENDENT_REVIEW_GO.md>)
   - artifact: [research/campaign_2026-10-06/STATUS_AFTER_OOM.md](<../../campaign_2026-10-06/STATUS_AFTER_OOM.md>)
+  - **Deeper-recurrent insertion: ReLU-identity layer insertion inside recurrence** (`arm:net2net-identity-depth-transfer`) — not_tested; eligible=True.
+    - **next_test:** Current model uses GELU, not ReLU. Direct nonlinear identity insertion must pass a numeric parity check; adapted activation/linear-residual children remain possible. Insert one identity-initialized layer chosen point, verify pre-training outputs match teacher held-out slice within tolerance, then compare fine-tuned deeper model to depth-matched baseline trained scratch.
+    - **claim_scope:** Independent literature proposal; no fit, resource estimate or quality gain verified
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json>)
 - **Serving-feasible seed mixtures and tensor soups** (`arm:seed-ensemble`) — not_tested; eligible=True.
   - **next_test:** Score exact incumbent replacement weights; separate training seeds from checkpoint replicas and verify delivered ZIP runtime.
   - **claim_scope:** specific recipe / exposed-data exploration; no inferred public gain
@@ -313,6 +333,10 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | arm:paired-view-relational-transfer | Causal-robustness relational distillation with paired view perturbation | arm · not_tested | arm:heterogeneous-teacher-compression | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:amortized-teacher-relations | Unconventional: teacher-relation amortization as an unsupervised student regularizer | arm · not_tested | arm:heterogeneous-teacher-compression | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:bounded-within-sequence-distance-transfer | MiMo bounded within-sequence output-distance transfer | arm · not_tested | arm:relative-distance-transfer | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:net2net-coupled-gru-widening | Warm-up-wide: function-preserving widening of the recurrent blend hidden state | arm · not_tested | arm:distilled-function-preserving-widening | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:net2net-identity-depth-transfer | Deeper-recurrent insertion: ReLU-identity layer insertion inside recurrence | arm · not_tested | arm:width | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:net2net-coupled-symmetry-break | Channel-coupled widening with symmetry-breaking schedule for recurrent feature maps | arm · not_tested | arm:net2net-coupled-gru-widening | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:net2net-warm-feature-prediction | Unconventional: warm-start prediction-head distillation from a no-gradient teacher blend, risking the source's negative result | arm · not_tested | arm:heterogeneous-teacher-compression | [research/bandit_tree/config.json](<../config.json>) | — |
 | hypothesis:H-001 | Targets change only on rows where i0 bid and ask price columns both update. | hypothesis · supported | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L1>) | experiment:E-001 (linked) |
 | hypothesis:H-002 | Each sequence's targets are integer multiples of one of four quanta {0.12543,0.24133,0.46854,0.65687}, defining market classes with different tick regimes. | hypothesis · supported | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L2>) | experiment:E-001 (linked), experiment:E-002 (linked) |
 | hypothesis:H-003 | Features are rank-Gauss transformed: bounded near +-2.326 (Phi^-1(0.99)) with sentinel -5.19934 = Phi^-1(1e-7) for missing values. | hypothesis · probing | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L3>) | experiment:E-001 (linked) |
@@ -508,6 +532,10 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-194 | Causal-robustness relational distillation with paired view perturbation | hypothesis · proposed | arm:paired-view-relational-transfer | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L193>) | — |
 | hypothesis:H-195 | Unconventional: teacher-relation amortization as an unsupervised student regularizer | hypothesis · proposed | arm:amortized-teacher-relations | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L194>) | — |
 | hypothesis:H-196 | Bounded within-sequence output-distance transfer as a child of heterogeneous point distillation | hypothesis · proposed | arm:bounded-within-sequence-distance-transfer | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L195>) | — |
+| hypothesis:H-197 | Warm-up-wide: function-preserving widening of the recurrent blend hidden state | hypothesis · proposed | arm:net2net-coupled-gru-widening | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L196>) | — |
+| hypothesis:H-198 | Deeper-recurrent insertion: ReLU-identity layer insertion inside recurrence | hypothesis · proposed | arm:net2net-identity-depth-transfer | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L197>) | — |
+| hypothesis:H-199 | Channel-coupled widening with symmetry-breaking schedule for recurrent feature maps | hypothesis · proposed | arm:net2net-coupled-symmetry-break | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L198>) | — |
+| hypothesis:H-200 | Unconventional: warm-start prediction-head distillation from a no-gradient teacher blend, risking the source's negative result | hypothesis · proposed | arm:net2net-warm-feature-prediction | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L199>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -1001,12 +1029,13 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-499 | E-499 | experiment · finished | arm:optimizer-precision | [research/experiments.jsonl](<../../experiments.jsonl#L497>), [research/experiments.jsonl](<../../experiments.jsonl#L500>), [research/experiments.jsonl](<../../experiments.jsonl#L502>) | — |
 | experiment:E-501 | E-501 | experiment · resource_profile_completed | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L507>), [research/experiments.jsonl](<../../experiments.jsonl#L508>) | — |
 | experiment:E-502 | E-502 | experiment · paired_control_graded | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L509>), [research/experiments.jsonl](<../../experiments.jsonl#L510>), [research/experiments.jsonl](<../../experiments.jsonl#L516>), [research/experiments.jsonl](<../../experiments.jsonl#L518>) | — |
-| experiment:E-503 | prediction_exports | experiment · preregistered | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L511>) | — |
+| experiment:E-503 | E-503 | experiment · first_strong_train_export_complete_remaining_exports_running | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L511>), [research/experiments.jsonl](<../../experiments.jsonl#L520>) | — |
 | experiment:E-504 | E-504 | experiment · preregistered_not_admitted | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L512>) | — |
 | experiment:E-505 | E-505 | experiment · preregistered_not_admitted | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L513>) | — |
 | experiment:E-506 | E-506 | experiment · preregistered_not_admitted | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L514>) | — |
 | experiment:E-507 | E-507 | experiment · preregistered_not_admitted | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L515>) | — |
 | experiment:E-509 | E-509 | experiment · completed_capacity_screen_only | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L517>), [research/experiments.jsonl](<../../experiments.jsonl#L519>) | — |
+| experiment:E-508 | E-508 | experiment · initial_profile_packet_failed_before_device_corrected_profile_only_approved | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L521>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
@@ -1038,6 +1067,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L8>) `sha256:f7ef8d6f480884e5a795c806a7140a9ddbdbfa0b60122b12969efbe2fcaa69ca` — `{"admitted": false, "arms": ["C1", "C2", "C3", "C4"], "experiments": ["E-504", "E-505", "E-506", "E-507"], "id": "TREE-20261006-008", "kind": "matched_slate_exact_commands_preregistered", "notes": "Exact same-seed controls frozen; complete teacher caches, coefficient validation and resource profiles remain admission dependencies.", "scientific_fits": 8, "timestamp": "2026-10-06T21:18:01.507276+00:00"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L9>) `sha256:4f047ae0bc514740d3cfbfaac2232517655afc92392d445bb52c636b7cfe3397` — `{"control_ci95": [-0.005364034502005696, 0.0035484646519040606], "control_pair_delta": -0.00018901615671507166, "decision": "Retain control as comparator; continue C1–C4 and independent exploration. Capacity result motivates compact-transfer or engine children, without rejecting teacher mechanism.", "experiments": ["E-502", "E-509"], "id": "TREE-20261007-001", "kind": "paired_control_and_serving_evidence", "numerical_public_prior": null, "timestamp": "2026-10-06T22:33:01.967694+00:00"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L10>) `sha256:7cb2c03b8ea2f272806ff3063391febf82122f381bdef72e0aff16f395f6c41d` — `{"critic_assessment": "Weak first response; followup contains incorrect expected checks, corrected in controller review. Not approval.", "critic_model": "OpenCode Nemotron-3.5-lightning-free", "hypothesis_ids": ["H-196"], "id": "TREE-20261007-002", "implementation_status": "underway", "kind": "independent_external_actor_and_spec_critic", "model": "OpenCode MiMo-v2.6-flash-free", "numerical_priors": null, "timestamp": "2026-10-06T22:39:04.702914+00:00"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L11>) `sha256:59b1106e1549beaab302baf29dba4e2c3ae09aac69178ba43c2dbc30485be5ff` — `{"actual_model": "Freebuff SolarPro4", "earlier_glm_attempt": "timeout with incomplete JSON; no scientific refutation", "hypothesis_ids": ["H-197", "H-198", "H-199", "H-200"], "id": "TREE-20261007-003", "implementation_child": "arm:net2net-coupled-gru-widening", "initial_proposal_committed_before_implementation": true, "kind": "independent_net2net_proposals", "nodes": ["arm:net2net-coupled-gru-widening", "arm:net2net-identity-depth-transfer", "arm:net2net-coupled-symmetry-break", "arm:net2net-warm-feature-prediction"], "numerical_priors": null, "timestamp": "2026-10-06T23:01:05.640476+00:00"}`
 
 ## Link and artifact warnings
 

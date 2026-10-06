@@ -1721,6 +1721,138 @@
         "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
       },
       "cost_h": null
+    },
+    {
+      "id": "arm:net2net-coupled-gru-widening",
+      "parent_id": "arm:distilled-function-preserving-widening",
+      "title": "Warm-up-wide: function-preserving widening of the recurrent blend hidden state",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-197"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no fit, resource estimate or quality gain verified",
+      "next_test": "Exact feedforward widening claims do not automatically establish gated recurrence. First test full gate/projection/head/state remapping without noise; profile resources before fitting. Wider models may be teachers followed by compact serving students. On single local historical fold, compare (a) normal retraining of equally wide model its own init versus (b) function-preserving widened student fine-tuned, equal compute budget; measure local1 validation pooled correlation and early-epoch convergence speed.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:net2net-identity-depth-transfer",
+      "parent_id": "arm:width",
+      "title": "Deeper-recurrent insertion: ReLU-identity layer insertion inside recurrence",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-198"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no fit, resource estimate or quality gain verified",
+      "next_test": "Current model uses GELU, not ReLU. Direct nonlinear identity insertion must pass a numeric parity check; adapted activation/linear-residual children remain possible. Insert one identity-initialized layer chosen point, verify pre-training outputs match teacher held-out slice within tolerance, then compare fine-tuned deeper model to depth-matched baseline trained scratch.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:net2net-coupled-symmetry-break",
+      "parent_id": "arm:net2net-coupled-gru-widening",
+      "title": "Channel-coupled widening with symmetry-breaking schedule for recurrent feature maps",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-199"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no fit, resource estimate or quality gain verified",
+      "next_test": "Current model has input normalization buffers but no hidden BatchNorm. Test coupling of gate rows/recurrent columns and all skip/head consumers; add noise only after noiseless parity. Ablate coupling vs no-coupling and noise vs no-noise during widen-and-fine-tune one fold; check whether unconstrained widening degrades early stability or final local metric.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:net2net-warm-feature-prediction",
+      "parent_id": "arm:heterogeneous-teacher-compression",
+      "title": "Unconventional: warm-start prediction-head distillation from a no-gradient teacher blend, risking the source's negative result",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-200"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no fit, resource estimate or quality gain verified",
+      "next_test": "Source negative result is context-specific. Freeze epochs/weights before exposed-fold comparisons; do not adopt adaptive early stopping. Check overlap with current family-head distillation and test any distinct transfer component. Small sweep of auxiliary weight one fold comparing student-with-aux vs plain fine-tuned student vs teacher; stop early if aux underperforms no-aux.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
     }
   ],
   "links": [],

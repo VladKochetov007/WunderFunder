@@ -8,7 +8,7 @@
       "scope": "Next research decision / preparation, not job launch"
     },
     "classification_policy": "Curated membership first; keyword family fallback is navigation-only, not a scientific assertion; uncertain nodes remain unclassified",
-    "config_snapshot": "research/bandit_tree/generated/snapshots/config-e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2.json",
+    "config_snapshot": "research/bandit_tree/generated/snapshots/config-9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf.json",
     "exposure_note": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
     "journal_records": [
       {
@@ -296,6 +296,36 @@
           "line": 10,
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "7cb2c03b8ea2f272806ff3063391febf82122f381bdef72e0aff16f395f6c41d"
+        }
+      },
+      {
+        "raw_record": "{\"id\": \"TREE-20261007-003\", \"timestamp\": \"2026-10-06T23:01:05.640476+00:00\", \"kind\": \"independent_net2net_proposals\", \"nodes\": [\"arm:net2net-coupled-gru-widening\", \"arm:net2net-identity-depth-transfer\", \"arm:net2net-coupled-symmetry-break\", \"arm:net2net-warm-feature-prediction\"], \"hypothesis_ids\": [\"H-197\", \"H-198\", \"H-199\", \"H-200\"], \"actual_model\": \"Freebuff SolarPro4\", \"initial_proposal_committed_before_implementation\": true, \"implementation_child\": \"arm:net2net-coupled-gru-widening\", \"numerical_priors\": null, \"earlier_glm_attempt\": \"timeout with incomplete JSON; no scientific refutation\"}\n",
+        "record": {
+          "actual_model": "Freebuff SolarPro4",
+          "earlier_glm_attempt": "timeout with incomplete JSON; no scientific refutation",
+          "hypothesis_ids": [
+            "H-197",
+            "H-198",
+            "H-199",
+            "H-200"
+          ],
+          "id": "TREE-20261007-003",
+          "implementation_child": "arm:net2net-coupled-gru-widening",
+          "initial_proposal_committed_before_implementation": true,
+          "kind": "independent_net2net_proposals",
+          "nodes": [
+            "arm:net2net-coupled-gru-widening",
+            "arm:net2net-identity-depth-transfer",
+            "arm:net2net-coupled-symmetry-break",
+            "arm:net2net-warm-feature-prediction"
+          ],
+          "numerical_priors": null,
+          "timestamp": "2026-10-06T23:01:05.640476+00:00"
+        },
+        "source": {
+          "line": 11,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "59b1106e1549beaab302baf29dba4e2c3ae09aac69178ba43c2dbc30485be5ff"
         }
       }
     ],
@@ -2237,6 +2267,138 @@
           "related_nodes": [],
           "status": "not_tested",
           "title": "MiMo bounded within-sequence output-distance transfer"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no fit, resource estimate or quality gain verified",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-197"
+          ],
+          "id": "arm:net2net-coupled-gru-widening",
+          "kind": "arm",
+          "next_test": "Exact feedforward widening claims do not automatically establish gated recurrence. First test full gate/projection/head/state remapping without noise; profile resources before fitting. Wider models may be teachers followed by compact serving students. On single local historical fold, compare (a) normal retraining of equally wide model its own init versus (b) function-preserving widened student fine-tuned, equal compute budget; measure local1 validation pooled correlation and early-epoch convergence speed.",
+          "parent_id": "arm:distilled-function-preserving-widening",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Warm-up-wide: function-preserving widening of the recurrent blend hidden state"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no fit, resource estimate or quality gain verified",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-198"
+          ],
+          "id": "arm:net2net-identity-depth-transfer",
+          "kind": "arm",
+          "next_test": "Current model uses GELU, not ReLU. Direct nonlinear identity insertion must pass a numeric parity check; adapted activation/linear-residual children remain possible. Insert one identity-initialized layer chosen point, verify pre-training outputs match teacher held-out slice within tolerance, then compare fine-tuned deeper model to depth-matched baseline trained scratch.",
+          "parent_id": "arm:width",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Deeper-recurrent insertion: ReLU-identity layer insertion inside recurrence"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no fit, resource estimate or quality gain verified",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-199"
+          ],
+          "id": "arm:net2net-coupled-symmetry-break",
+          "kind": "arm",
+          "next_test": "Current model has input normalization buffers but no hidden BatchNorm. Test coupling of gate rows/recurrent columns and all skip/head consumers; add noise only after noiseless parity. Ablate coupling vs no-coupling and noise vs no-noise during widen-and-fine-tune one fold; check whether unconstrained widening degrades early stability or final local metric.",
+          "parent_id": "arm:net2net-coupled-gru-widening",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Channel-coupled widening with symmetry-breaking schedule for recurrent feature maps"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no fit, resource estimate or quality gain verified",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-200"
+          ],
+          "id": "arm:net2net-warm-feature-prediction",
+          "kind": "arm",
+          "next_test": "Source negative result is context-specific. Freeze epochs/weights before exposed-fold comparisons; do not adopt adaptive early stopping. Check overlap with current family-head distillation and test any distinct transfer component. Small sweep of auxiliary weight one fold comparing student-with-aux vs plain fine-tuned student vs teacher; stop early if aux underperforms no-aux.",
+          "parent_id": "arm:heterogeneous-teacher-compression",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Unconventional: warm-start prediction-head distillation from a no-gradient teacher blend, risking the source's negative result"
         }
       ],
       "documents": [
@@ -2421,9 +2583,9 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 519,
-      "hypotheses": 195,
-      "journal": 10
+      "experiments": 521,
+      "hypotheses": 199,
+      "journal": 11
     }
   },
   "nodes": [
@@ -2466,7 +2628,7 @@
       "parent_id": null,
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "title": "Wunder Connectome Challenge2 research",
       "type": "root"
@@ -2481,7 +2643,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "title": "Teachers and knowledge transfer",
       "type": "family"
@@ -2498,7 +2660,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "title": "Temporal state and memory",
       "type": "family"
@@ -2515,7 +2677,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "title": "Targets, losses and supervision",
       "type": "family"
@@ -2533,7 +2695,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "title": "Data and feature representation",
       "type": "family"
@@ -2550,7 +2712,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "title": "Optimization and training stability",
       "type": "family"
@@ -2567,7 +2729,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "title": "Diversity, ensembles and interactions",
       "type": "family"
@@ -2584,7 +2746,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "title": "Serving and compression",
       "type": "family"
@@ -2602,7 +2764,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "title": "Evaluation, data exposure and diagnostics",
       "type": "family"
@@ -2618,7 +2780,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "title": "Compute, safety and recovery",
       "type": "family"
@@ -2629,7 +2791,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "title": "Unresolved classification",
       "type": "family"
@@ -2699,7 +2861,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "source_recipe_evidence": {
         "fifth_member_delta": 0.00028,
@@ -2754,7 +2916,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Transfer Transformer predictions into the serving GRU",
@@ -2796,7 +2958,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Temporal summary / representation transfer",
@@ -2840,7 +3002,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Quiet-row transfer from an attention teacher",
@@ -2898,7 +3060,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Origin-target privileged attention teacher",
@@ -2943,7 +3105,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Teacher lineage, cross-fitting and ensemble targets",
@@ -2999,7 +3161,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -3058,7 +3220,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -3131,7 +3293,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "interrupted",
       "title": "Distillation alpha × bootstrap horizon",
@@ -3175,7 +3337,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Measured denominator: chunk / fixed / shuffled mass",
@@ -3233,7 +3395,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -3292,7 +3454,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "insufficient_evidence",
       "title": "Precision and optimizer-step mechanism",
@@ -3364,7 +3526,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "diagnostic_completed",
       "title": "Production event clock / quiet-row anatomy",
@@ -3419,7 +3581,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Event/quiet residual belief updates",
@@ -3478,7 +3640,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "prepared_unrun",
       "title": "Residual diagonal / content / erase-write memory",
@@ -3546,7 +3708,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "insufficient_evidence",
       "title": "Hole-only episode loss in a tiny recurrent specialist",
@@ -3606,7 +3768,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "screen_failed",
       "title": "All-row and mixed episode objectives: tested recipes",
@@ -3666,7 +3828,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "screen_failed",
       "title": "Quiet-row output holds / online corrections: tested recipes",
@@ -3747,7 +3909,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -3794,7 +3956,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Serving-feasible seed mixtures and tensor soups",
@@ -3841,7 +4003,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Quantization and native runtime headroom",
@@ -3922,7 +4084,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "insufficient_evidence",
       "title": "OOM, provider and monitor recovery",
@@ -3965,7 +4127,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Attention-teacher transfer × origin-label reanchor",
@@ -4008,7 +4170,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Gradient cadence × measured denominator",
@@ -4062,7 +4224,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Convergence-aware causal attention and event context",
@@ -4117,7 +4279,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Transfer predictable teacher structure separately from future innovation",
@@ -4172,7 +4334,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Independent student complementarity and causal blend gates",
@@ -4251,7 +4413,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "source_recipe_details": {
         "additional_epochs": 2,
@@ -4341,7 +4503,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Replace a teacher family with a two-stream teacher",
@@ -4411,7 +4573,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Function-preserving widening of a distilled student",
@@ -4465,7 +4627,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Greedy Sparse Mean-Reverting Feature Cliques (per L11 group)",
@@ -4519,7 +4681,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Pair-Seeded Stagewise Interaction Grower",
@@ -4573,7 +4735,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Greedy Sparse Stationarity Scout for Causal State Management (unconventional)",
@@ -4627,7 +4789,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Simplex-Sparse Greedy Correction of the Served Blend",
@@ -4681,7 +4843,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Greedy Group-Spanning Cointegration to Define Group-Disjoint Fitting",
@@ -4735,7 +4897,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Invert the diagnostic: train a dependence-predictive filter, not a flatness test",
@@ -4789,7 +4951,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Small transferable statistic: nearest-neighbor correlation contrast as a regime cue",
@@ -4843,7 +5005,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Unconventional: invert to mis-specification hunting via alternative-class sensitivity",
@@ -4897,7 +5059,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Unconventional: threshold-style regime switch for dependence diagnostics, not for returns",
@@ -4951,7 +5113,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Null-safe use: treat the test as local specification feedback, not global rejection",
@@ -5005,7 +5167,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Directed relative-distance distillation on causally valid pairs",
@@ -5059,7 +5221,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Angle-wise relational distillation over triplets anchored by a driver feature",
@@ -5113,7 +5275,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Temporal relational contrast across consecutive valid rows",
@@ -5167,7 +5329,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Causal-robustness relational distillation with paired view perturbation",
@@ -5221,7 +5383,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "Unconventional: teacher-relation amortization as an unsupervised student regularizer",
@@ -5283,10 +5445,258 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
       },
       "status": "not_tested",
       "title": "MiMo bounded within-sequence output-distance transfer",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+          "status": "resolved"
+        },
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no fit, resource estimate or quality gain verified",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-197"
+      ],
+      "id": "arm:net2net-coupled-gru-widening",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Exact feedforward widening claims do not automatically establish gated recurrence. First test full gate/projection/head/state remapping without noise; profile resources before fitting. Wider models may be teachers followed by compact serving students. On single local historical fold, compare (a) normal retraining of equally wide model its own init versus (b) function-preserving widened student fine-tuned, equal compute budget; measure local1 validation pooled correlation and early-epoch convergence speed.",
+      "parent_id": "arm:distilled-function-preserving-widening",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
+      },
+      "status": "not_tested",
+      "title": "Warm-up-wide: function-preserving widening of the recurrent blend hidden state",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+          "status": "resolved"
+        },
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no fit, resource estimate or quality gain verified",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-198"
+      ],
+      "id": "arm:net2net-identity-depth-transfer",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Current model uses GELU, not ReLU. Direct nonlinear identity insertion must pass a numeric parity check; adapted activation/linear-residual children remain possible. Insert one identity-initialized layer chosen point, verify pre-training outputs match teacher held-out slice within tolerance, then compare fine-tuned deeper model to depth-matched baseline trained scratch.",
+      "parent_id": "arm:width",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
+      },
+      "status": "not_tested",
+      "title": "Deeper-recurrent insertion: ReLU-identity layer insertion inside recurrence",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+          "status": "resolved"
+        },
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no fit, resource estimate or quality gain verified",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-199"
+      ],
+      "id": "arm:net2net-coupled-symmetry-break",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Current model has input normalization buffers but no hidden BatchNorm. Test coupling of gate rows/recurrent columns and all skip/head consumers; add noise only after noiseless parity. Ablate coupling vs no-coupling and noise vs no-noise during widen-and-fine-tune one fold; check whether unconstrained widening degrades early stability or final local metric.",
+      "parent_id": "arm:net2net-coupled-gru-widening",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
+      },
+      "status": "not_tested",
+      "title": "Channel-coupled widening with symmetry-breaking schedule for recurrent feature maps",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration, first cheap invariant/discriminating probe before expensive fitting"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+          "status": "resolved"
+        },
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no fit, resource estimate or quality gain verified",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-200"
+      ],
+      "id": "arm:net2net-warm-feature-prediction",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Source negative result is context-specific. Freeze epochs/weights before exposed-fold comparisons; do not adopt adaptive early stopping. Check overlap with current family-head distillation and test any distinct transfer component. Small sweep of auxiliary weight one fold comparing student-with-aux vs plain fine-tuned student vs teacher; stop early if aux underperforms no-aux.",
+      "parent_id": "arm:heterogeneous-teacher-compression",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "9d4c18e8aa609957e06a5ea225afd8692473e558871f7dae7564be13a83cefcf"
+      },
+      "status": "not_tested",
+      "title": "Unconventional: warm-start prediction-head distillation from a no-gradient teacher blend, risking the source's negative result",
       "type": "arm"
     },
     {
@@ -15289,6 +15699,180 @@
         }
       ],
       "title": "Bounded within-sequence output-distance transfer as a child of heterogeneous point distillation",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:net2net-coupled-gru-widening"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-197",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:net2net-coupled-gru-widening",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-197\", \"statement\": \"Warm-up-wide: function-preserving widening of the recurrent blend hidden state\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T23:01:05.640476+00:00\", \"parent_ids\": [], \"mechanism_family\": \"function-preserving initialization / capacity expansion\", \"causal_mechanism\": \"Treat current deterministic recurrent-model blend as teacher and create wider student by replicating subset of recurrent/hidden units replication divisor so pre-insertion mapping is preserved, then add small noise to extra copies and continue training there rather scratch.\", \"predicted_observable\": \"Exact transfer invariants and/or matched task improvement, neither established yet.\", \"cheap_test\": \"On single local historical fold, compare (a) normal retraining of equally wide model its own init versus (b) function-preserving widened student fine-tuned, equal compute budget; measure local1 validation pooled correlation and early-epoch convergence speed.\", \"falsifier\": \"If (b) does not beat (a) within budget, or its initial post-insertion score is not least as good as teacher, function-preserving premise is not helping here.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json\", \"source_idea_index\": 0, \"proposed_by\": \"Freebuff Solar Pro4, fresh directed Net2Net assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Exact feedforward widening claims do not automatically establish gated recurrence. First test full gate/projection/head/state remapping without noise; profile resources before fitting. Wider models may be teachers followed by compact serving students.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Treat current deterministic recurrent-model blend as teacher and create wider student by replicating subset of recurrent/hidden units replication divisor so pre-insertion mapping is preserved, then add small noise to extra copies and continue training there rather scratch.",
+            "cheap_test": "On single local historical fold, compare (a) normal retraining of equally wide model its own init versus (b) function-preserving widened student fine-tuned, equal compute budget; measure local1 validation pooled correlation and early-epoch convergence speed.",
+            "committed_at": "2026-10-06T23:01:05.640476+00:00",
+            "controller_protocol_annotation": "Exact feedforward widening claims do not automatically establish gated recurrence. First test full gate/projection/head/state remapping without noise; profile resources before fitting. Wider models may be teachers followed by compact serving students.",
+            "expected_public_gain": null,
+            "falsifier": "If (b) does not beat (a) within budget, or its initial post-insertion score is not least as good as teacher, function-preserving premise is not helping here.",
+            "id": "H-197",
+            "mechanism_family": "function-preserving initialization / capacity expansion",
+            "parent_ids": [],
+            "predicted_observable": "Exact transfer invariants and/or matched task improvement, neither established yet.",
+            "proposed_by": "Freebuff Solar Pro4, fresh directed Net2Net assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+            "source_idea_index": 0,
+            "statement": "Warm-up-wide: function-preserving widening of the recurrent blend hidden state",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 196,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "64444df06a0f91b7bbf88ab16a1a10d2a72e8f7b0216608615b976378b4b7e42"
+          }
+        }
+      ],
+      "title": "Warm-up-wide: function-preserving widening of the recurrent blend hidden state",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:net2net-identity-depth-transfer"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-198",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:net2net-identity-depth-transfer",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-198\", \"statement\": \"Deeper-recurrent insertion: ReLU-identity layer insertion inside recurrence\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T23:01:05.640476+00:00\", \"parent_ids\": [], \"mechanism_family\": \"deepening via identity insertion\", \"causal_mechanism\": \"Where recurrence/transformations use ReLU-like behavior, insert extra layer initialized to approximate identity (e.g. identity init) to deepen model without immediate function change, then allow it to learn; if normalization is present, set scale/bias to neutralize normalization statistics.\", \"predicted_observable\": \"Exact transfer invariants and/or matched task improvement, neither established yet.\", \"cheap_test\": \"Insert one identity-initialized layer chosen point, verify pre-training outputs match teacher held-out slice within tolerance, then compare fine-tuned deeper model to depth-matched baseline trained scratch.\", \"falsifier\": \"If deeper net does not surpass depth-matched random-init control, or insertion breaks output equality beyond tolerance, deepening transfer is moot.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json\", \"source_idea_index\": 1, \"proposed_by\": \"Freebuff Solar Pro4, fresh directed Net2Net assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Current model uses GELU, not ReLU. Direct nonlinear identity insertion must pass a numeric parity check; adapted activation/linear-residual children remain possible.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Where recurrence/transformations use ReLU-like behavior, insert extra layer initialized to approximate identity (e.g. identity init) to deepen model without immediate function change, then allow it to learn; if normalization is present, set scale/bias to neutralize normalization statistics.",
+            "cheap_test": "Insert one identity-initialized layer chosen point, verify pre-training outputs match teacher held-out slice within tolerance, then compare fine-tuned deeper model to depth-matched baseline trained scratch.",
+            "committed_at": "2026-10-06T23:01:05.640476+00:00",
+            "controller_protocol_annotation": "Current model uses GELU, not ReLU. Direct nonlinear identity insertion must pass a numeric parity check; adapted activation/linear-residual children remain possible.",
+            "expected_public_gain": null,
+            "falsifier": "If deeper net does not surpass depth-matched random-init control, or insertion breaks output equality beyond tolerance, deepening transfer is moot.",
+            "id": "H-198",
+            "mechanism_family": "deepening via identity insertion",
+            "parent_ids": [],
+            "predicted_observable": "Exact transfer invariants and/or matched task improvement, neither established yet.",
+            "proposed_by": "Freebuff Solar Pro4, fresh directed Net2Net assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+            "source_idea_index": 1,
+            "statement": "Deeper-recurrent insertion: ReLU-identity layer insertion inside recurrence",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 197,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "7bf06ea9bf008d08207567c70ba35871249ef0016f0f20ec7d2a7656b3b2aea6"
+          }
+        }
+      ],
+      "title": "Deeper-recurrent insertion: ReLU-identity layer insertion inside recurrence",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:net2net-coupled-symmetry-break"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-199",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:net2net-coupled-symmetry-break",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-199\", \"statement\": \"Channel-coupled widening with symmetry-breaking schedule for recurrent feature maps\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T23:01:05.640476+00:00\", \"parent_ids\": [\"H-197\"], \"mechanism_family\": \"constrained remapping / symmetry breaking\", \"causal_mechanism\": \"When widening per-channel/computed feature maps, tie remapping of weights to associated scale/shift parameters so new channel does not mix one unit's weights another's normalization, and add controlled noise schedule to extra copies so they diverge duplicated behavior.\", \"predicted_observable\": \"Exact transfer invariants and/or matched task improvement, neither established yet.\", \"cheap_test\": \"Ablate coupling vs no-coupling and noise vs no-noise during widen-and-fine-tune one fold; check whether unconstrained widening degrades early stability or final local metric.\", \"falsifier\": \"If coupling has no effect and noise either destabilizes or does not improve, mechanism transfers little.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json\", \"source_idea_index\": 2, \"proposed_by\": \"Freebuff Solar Pro4, fresh directed Net2Net assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Current model has input normalization buffers but no hidden BatchNorm. Test coupling of gate rows/recurrent columns and all skip/head consumers; add noise only after noiseless parity.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "When widening per-channel/computed feature maps, tie remapping of weights to associated scale/shift parameters so new channel does not mix one unit's weights another's normalization, and add controlled noise schedule to extra copies so they diverge duplicated behavior.",
+            "cheap_test": "Ablate coupling vs no-coupling and noise vs no-noise during widen-and-fine-tune one fold; check whether unconstrained widening degrades early stability or final local metric.",
+            "committed_at": "2026-10-06T23:01:05.640476+00:00",
+            "controller_protocol_annotation": "Current model has input normalization buffers but no hidden BatchNorm. Test coupling of gate rows/recurrent columns and all skip/head consumers; add noise only after noiseless parity.",
+            "expected_public_gain": null,
+            "falsifier": "If coupling has no effect and noise either destabilizes or does not improve, mechanism transfers little.",
+            "id": "H-199",
+            "mechanism_family": "constrained remapping / symmetry breaking",
+            "parent_ids": [
+              "H-197"
+            ],
+            "predicted_observable": "Exact transfer invariants and/or matched task improvement, neither established yet.",
+            "proposed_by": "Freebuff Solar Pro4, fresh directed Net2Net assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+            "source_idea_index": 2,
+            "statement": "Channel-coupled widening with symmetry-breaking schedule for recurrent feature maps",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 198,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "3efecdc364d72c7981ae166ca4c65747b450ab74266407f50e18083c29279e32"
+          }
+        }
+      ],
+      "title": "Channel-coupled widening with symmetry-breaking schedule for recurrent feature maps",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:net2net-warm-feature-prediction"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-200",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:net2net-warm-feature-prediction",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-200\", \"statement\": \"Unconventional: warm-start prediction-head distillation from a no-gradient teacher blend, risking the source's negative result\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T23:01:05.640476+00:00\", \"parent_ids\": [], \"mechanism_family\": \"auxiliary teacher-prediction loss (distillation-style) - explicitly the source's failed path\", \"causal_mechanism\": \"Deliberately test method paper reports as unhelpful: add auxiliary terms encouraging student hidden representations/predictions to track deterministic teacher blend, then train real forecasting objective; include safety net to disable aux terms if they hurt.\", \"predicted_observable\": \"Exact transfer invariants and/or matched task improvement, neither established yet.\", \"cheap_test\": \"Small sweep of auxiliary weight one fold comparing student-with-aux vs plain fine-tuned student vs teacher; stop early if aux underperforms no-aux.\", \"falsifier\": \"If aux loss never improves no-aux control and/or degrades early behavior, this inherits source's negative result and should be dropped.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json\", \"source_idea_index\": 3, \"proposed_by\": \"Freebuff Solar Pro4, fresh directed Net2Net assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Source negative result is context-specific. Freeze epochs/weights before exposed-fold comparisons; do not adopt adaptive early stopping. Check overlap with current family-head distillation and test any distinct transfer component.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Deliberately test method paper reports as unhelpful: add auxiliary terms encouraging student hidden representations/predictions to track deterministic teacher blend, then train real forecasting objective; include safety net to disable aux terms if they hurt.",
+            "cheap_test": "Small sweep of auxiliary weight one fold comparing student-with-aux vs plain fine-tuned student vs teacher; stop early if aux underperforms no-aux.",
+            "committed_at": "2026-10-06T23:01:05.640476+00:00",
+            "controller_protocol_annotation": "Source negative result is context-specific. Freeze epochs/weights before exposed-fold comparisons; do not adopt adaptive early stopping. Check overlap with current family-head distillation and test any distinct transfer component.",
+            "expected_public_gain": null,
+            "falsifier": "If aux loss never improves no-aux control and/or degrades early behavior, this inherits source's negative result and should be dropped.",
+            "id": "H-200",
+            "mechanism_family": "auxiliary teacher-prediction loss (distillation-style) - explicitly the source's failed path",
+            "parent_ids": [],
+            "predicted_observable": "Exact transfer invariants and/or matched task improvement, neither established yet.",
+            "proposed_by": "Freebuff Solar Pro4, fresh directed Net2Net assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json",
+            "source_idea_index": 3,
+            "statement": "Unconventional: warm-start prediction-head distillation from a no-gradient teacher blend, risking the source's negative result",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 199,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "1287a2ff25202ef23b021e0a2d44565f2e90930741b877fd3897f798d74c5bb9"
+          }
+        }
+      ],
+      "title": "Unconventional: warm-start prediction-head distillation from a no-gradient teacher blend, risking the source's negative result",
       "type": "hypothesis"
     },
     {
@@ -40978,7 +41562,7 @@
         "rule": "multiple_or_missing_linked_hypotheses"
       },
       "id": "experiment:E-503",
-      "latest_recorded_status": "preregistered",
+      "latest_recorded_status": "first_strong_train_export_complete_remaining_exports_running",
       "parent_id": "family:unclassified",
       "raw_rows": [
         {
@@ -40996,9 +41580,31 @@
             "path": "research/experiments.jsonl",
             "sha256": "f184190f1efb07e1362afcf3455d76a3cc1d9c90d2633f70c9f380050e25398a"
           }
+        },
+        {
+          "raw_record": "{\"id\": \"E-503\", \"timestamp\": \"2026-10-06T22:45:24.060042+00:00\", \"status\": \"first_strong_train_export_complete_remaining_exports_running\", \"completed_export\": \"c20261003_combo_s3_f0@ep3 train\", \"elapsed_seconds\": 566.181877444993, \"peak_ram_bytes\": 8000000000, \"peak_observed_vram_bytes\": 1416626176, \"oom_kills\": 0, \"next_admission_initially_refused\": true, \"recovery\": \"file-only bounded reclamation after completed export under GPU lock; reserves and limits unchanged\", \"active_plan\": \"research/campaign_2026-10-06/bandit_continuation/local/TEACHER_EXPORT_SEQUENCE_v2.json\", \"file_reclaim_receipt\": \"research/campaign_2026-10-06/bandit_continuation/local/E503_CACHE_BEFORE_EXPORT_1_v1.json\"}\n",
+          "record": {
+            "active_plan": "research/campaign_2026-10-06/bandit_continuation/local/TEACHER_EXPORT_SEQUENCE_v2.json",
+            "completed_export": "c20261003_combo_s3_f0@ep3 train",
+            "elapsed_seconds": 566.181877444993,
+            "file_reclaim_receipt": "research/campaign_2026-10-06/bandit_continuation/local/E503_CACHE_BEFORE_EXPORT_1_v1.json",
+            "id": "E-503",
+            "next_admission_initially_refused": true,
+            "oom_kills": 0,
+            "peak_observed_vram_bytes": 1416626176,
+            "peak_ram_bytes": 8000000000,
+            "recovery": "file-only bounded reclamation after completed export under GPU lock; reserves and limits unchanged",
+            "status": "first_strong_train_export_complete_remaining_exports_running",
+            "timestamp": "2026-10-06T22:45:24.060042+00:00"
+          },
+          "source": {
+            "line": 520,
+            "path": "research/experiments.jsonl",
+            "sha256": "0588993abf8a646b6a01fed36496eb78b4aa01930c709b4962c6e6a5d7f92558"
+          }
         }
       ],
-      "title": "prediction_exports",
+      "title": "E-503",
       "type": "experiment"
     },
     {
@@ -41174,6 +41780,38 @@
         }
       ],
       "title": "E-509",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-508",
+      "latest_recorded_status": "initial_profile_packet_failed_before_device_corrected_profile_only_approved",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-508\", \"timestamp\": \"2026-10-06T22:54:41.544961+00:00\", \"status\": \"initial_profile_packet_failed_before_device_corrected_profile_only_approved\", \"original_terminal_receipt\": \"research/campaign_2026-10-06/cloud_preflight/e508_profile_terminal_v1.json\", \"original_gpu_seconds\": 18.281, \"original_failure\": \"audit manifest key prefix\", \"review\": \"research/campaign_2026-10-06/bandit_continuation/local/E508_MANIFEST_FIX_REVIEW_v2.json\", \"scientific_fits\": 0, \"expected_public_gain\": null}\n",
+          "record": {
+            "expected_public_gain": null,
+            "id": "E-508",
+            "original_failure": "audit manifest key prefix",
+            "original_gpu_seconds": 18.281,
+            "original_terminal_receipt": "research/campaign_2026-10-06/cloud_preflight/e508_profile_terminal_v1.json",
+            "review": "research/campaign_2026-10-06/bandit_continuation/local/E508_MANIFEST_FIX_REVIEW_v2.json",
+            "scientific_fits": 0,
+            "status": "initial_profile_packet_failed_before_device_corrected_profile_only_approved",
+            "timestamp": "2026-10-06T22:54:41.544961+00:00"
+          },
+          "source": {
+            "line": 521,
+            "path": "research/experiments.jsonl",
+            "sha256": "bd01a9a7b1818bebc13f7b75d45548f6610e8f8c6b7d87ef90b7697516ff799c"
+          }
+        }
+      ],
+      "title": "E-508",
       "type": "experiment"
     },
     {
@@ -42484,6 +43122,17 @@
       },
       "source_id": "hypothesis:H-196",
       "target_id": "hypothesis:H-191"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 198,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "3efecdc364d72c7981ae166ca4c65747b450ab74266407f50e18083c29279e32"
+      },
+      "source_id": "hypothesis:H-199",
+      "target_id": "hypothesis:H-197"
     },
     {
       "relation": "ledger_hypothesis_reference",
@@ -44874,6 +45523,30 @@
       "resolved": true,
       "source_id": "arm:bounded-within-sequence-distance-transfer",
       "target_id": "hypothesis:H-196"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:net2net-coupled-gru-widening",
+      "target_id": "hypothesis:H-197"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:net2net-identity-depth-transfer",
+      "target_id": "hypothesis:H-198"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:net2net-coupled-symmetry-break",
+      "target_id": "hypothesis:H-199"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:net2net-warm-feature-prediction",
+      "target_id": "hypothesis:H-200"
     }
   ],
   "root_id": "root",
