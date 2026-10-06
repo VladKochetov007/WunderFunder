@@ -1,5 +1,6 @@
 {
   "actual_hardware": null,
+  "failure": "source-manifest checkpoint key included an incorrect source_bundle/ prefix; worker failed before profile or device initialization. Do not treat this as a hardware pass.",
   "first_postlaunch_poll": {
     "gpu_campaign_delta_seconds": 79.30803899999592,
     "gpu_increment_vs_prelaunch_seconds": 16.674039,
@@ -30,8 +31,10 @@
   "provider_version": 1,
   "push_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle kernels push -p /tmp/wnn-e508-profile-20261007/research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/packet -t 4200",
   "push_response": "Kernel version 1 successfully pushed. Please check progress at https://www.kaggle.com/code/vladkochetov07/wnn-raw-teacher-pair-e508-20261007",
+  "retained_e508_gpu_increment_seconds": 18.281,
   "session_id_note": "Provider versionNumber is not a global session ID; status API did not expose a session ID.",
-  "status": "pushed_private_profile_only",
-  "terminal_outputs_collected": false,
-  "terminal_status": null
+  "status": "terminal_error_before_profile_or_device_gate",
+  "terminal_outputs_collected": true,
+  "terminal_receipt": "e508_profile_terminal_v1.json",
+  "terminal_status": "KernelWorkerStatus.ERROR"
 }
