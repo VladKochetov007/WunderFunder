@@ -1,0 +1,820 @@
+{
+  "status": "PASS_FIXED_GENERATED_ORACLE",
+  "seconds": 0.046000000002095476,
+  "sources_sha256": {
+    "scripts/train_rnn.py": "f97047e6ef51f32097f2cbe2eefc7c57766771ebaed12ae8798a3c1b7efcd52f",
+    "src/wnn/atom_head.py": "6ad8cef658f81a4895557c25a4ba88f8fb1ce513a6e6c43cc5001101adcc91a5",
+    "src/wnn/outcomes.py": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+    "src/wnn/nn.py": "160447df28fa090684757551a75ee61d4f35c8c8c16c246324565306f46b8ec4"
+  },
+  "oracle_source_sha256": "7eefe1967fa29de1f5691c75f6f8e391644401fa5e082a96caa76857d91c3f2a",
+  "case_count": 5,
+  "cases": [
+    {
+      "name": "class3_law_within_clip",
+      "atoms": [
+        [
+          -1.9706099999999998,
+          0.65687
+        ],
+        [
+          0.65687,
+          -1.9706099999999998
+        ],
+        [
+          -0.65687,
+          -0.65687
+        ],
+        [
+          -0.65687,
+          0.0
+        ],
+        [
+          0.0,
+          -0.65687
+        ]
+      ],
+      "counts": [
+        18.0,
+        7.0,
+        11.0,
+        9.0,
+        5.0
+      ],
+      "row_weights": [
+        1.0,
+        1.0,
+        0.75,
+        0.5,
+        2.0
+      ],
+      "clipped_atoms": [
+        [
+          -1.9706099999999998,
+          0.65687
+        ],
+        [
+          0.65687,
+          -1.9706099999999998
+        ],
+        [
+          -0.65687,
+          -0.65687
+        ],
+        [
+          -0.65687,
+          0.0
+        ],
+        [
+          0.0,
+          -0.65687
+        ]
+      ],
+      "CE_row_tilt": [
+        1.31374,
+        1.31374,
+        0.65687,
+        0.328435,
+        0.328435
+      ],
+      "isolated_CE_optimum": [
+        0.5496183206106869,
+        0.21374045801526717,
+        0.12595419847328243,
+        0.034351145038167934,
+        0.07633587786259542
+      ],
+      "CE_identified": true,
+      "target_risk_identified": [
+        true,
+        true
+      ],
+      "CE_excess_using_untilted_distribution": 0.13632651159755826,
+      "weighted_MSE_optimum": [
+        -1.4941009152542368,
+        -0.7257122707423578
+      ],
+      "alternatives": {
+        "current_raw_atom_decode": {
+          "prediction": [
+            -1.5888817735849052,
+            -0.7432529041095891
+          ],
+          "excess_target_weighted_MSE": [
+            0.008983411105898065,
+            0.00030767381892382595
+          ]
+        },
+        "clip_atoms_only": {
+          "prediction": [
+            -1.5888817735849052,
+            -0.7432529041095891
+          ],
+          "excess_target_weighted_MSE": [
+            0.008983411105898065,
+            0.00030767381892382595
+          ]
+        },
+        "inverse_tilt_only": {
+          "prediction": [
+            -1.4941009152542375,
+            -0.725712270742358
+          ],
+          "excess_target_weighted_MSE": [
+            -2.220446049250313e-16,
+            2.220446049250313e-16
+          ]
+        },
+        "inverse_tilt_and_clipped_atoms": {
+          "prediction": [
+            -1.4941009152542375,
+            -0.725712270742358
+          ],
+          "excess_target_weighted_MSE": [
+            -2.220446049250313e-16,
+            2.220446049250313e-16
+          ]
+        },
+        "untilted_CE_and_clipped_atoms": {
+          "prediction": [
+            -1.4941009152542368,
+            -0.7257122707423581
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            2.220446049250313e-16
+          ]
+        },
+        "outcomes_exact_code_tilted": {
+          "prediction": [
+            -1.4941009152542375,
+            -0.725712270742358
+          ],
+          "excess_target_weighted_MSE": [
+            -2.220446049250313e-16,
+            2.220446049250313e-16
+          ]
+        },
+        "outcomes_exact_code_untilted": {
+          "prediction": [
+            -1.4941009152542368,
+            -0.7257122707423581
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            2.220446049250313e-16
+          ]
+        }
+      },
+      "current_after_prediction_clip": [
+        -1.5888817735849052,
+        -0.7432529041095891
+      ],
+      "current_after_prediction_clip_excess_MSE": [
+        0.008983411105898065,
+        0.00030767381892382595
+      ]
+    },
+    {
+      "name": "class3_law_with_clipping",
+      "atoms": [
+        [
+          -2.62748,
+          0.65687
+        ],
+        [
+          1.31374,
+          -1.9706099999999998
+        ],
+        [
+          -1.31374,
+          0.0
+        ],
+        [
+          0.0,
+          -1.31374
+        ]
+      ],
+      "counts": [
+        3.0,
+        2.0,
+        5.0,
+        7.0
+      ],
+      "row_weights": [
+        1.0,
+        0.8,
+        1.5,
+        0.6
+      ],
+      "clipped_atoms": [
+        [
+          -2.0,
+          0.65687
+        ],
+        [
+          1.31374,
+          -1.9706099999999998
+        ],
+        [
+          -1.31374,
+          0.0
+        ],
+        [
+          0.0,
+          -1.31374
+        ]
+      ],
+      "CE_row_tilt": [
+        1.328435,
+        1.642175,
+        0.65687,
+        0.65687
+      ],
+      "isolated_CE_optimum": [
+        0.2787284437358531,
+        0.18376345382526038,
+        0.34455647592236316,
+        0.19295162651652337
+      ],
+      "CE_identified": true,
+      "target_risk_identified": [
+        true,
+        true
+      ],
+      "CE_excess_using_untilted_distribution": 0.07544584890274009,
+      "weighted_MSE_optimum": [
+        -1.2354688633193345,
+        -1.1434403703703704
+      ],
+      "alternatives": {
+        "current_raw_atom_decode": {
+          "prediction": [
+            -1.543546538261979,
+            -1.1598329650064338
+          ],
+          "excess_target_weighted_MSE": [
+            0.09491185379806599,
+            0.00026871715890230963
+          ]
+        },
+        "clip_atoms_only": {
+          "prediction": [
+            -1.1125793074957082,
+            -1.1598329650064338
+          ],
+          "excess_target_weighted_MSE": [
+            0.015101842930528186,
+            0.00026871715890230963
+          ]
+        },
+        "inverse_tilt_only": {
+          "prediction": [
+            -1.5573474172185429,
+            -1.1434403703703704
+          ],
+          "excess_target_weighted_MSE": [
+            0.10360580346024562,
+            0.0
+          ]
+        },
+        "inverse_tilt_and_clipped_atoms": {
+          "prediction": [
+            -1.235468863319334,
+            -1.1434403703703704
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        },
+        "untilted_CE_and_clipped_atoms": {
+          "prediction": [
+            -1.2354688633193343,
+            -1.1434403703703704
+          ],
+          "excess_target_weighted_MSE": [
+            2.220446049250313e-16,
+            0.0
+          ]
+        },
+        "outcomes_exact_code_tilted": {
+          "prediction": [
+            -1.235468863319334,
+            -1.1434403703703704
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcomes_exact_code_untilted": {
+          "prediction": [
+            -1.2354688633193343,
+            -1.1434403703703704
+          ],
+          "excess_target_weighted_MSE": [
+            2.220446049250313e-16,
+            0.0
+          ]
+        }
+      },
+      "current_after_prediction_clip": [
+        -1.543546538261979,
+        -1.1598329650064338
+      ],
+      "current_after_prediction_clip_excess_MSE": [
+        0.09491185379806599,
+        0.00026871715890230963
+      ]
+    },
+    {
+      "name": "clipping_and_zero_weights",
+      "atoms": [
+        [
+          3.0,
+          0.5
+        ],
+        [
+          -1.0,
+          4.0
+        ],
+        [
+          0.4,
+          -0.2
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          8.0,
+          -9.0
+        ]
+      ],
+      "counts": [
+        6.0,
+        4.0,
+        8.0,
+        3.0,
+        9.0
+      ],
+      "row_weights": [
+        1.0,
+        0.8,
+        0.6,
+        1.0,
+        0.0
+      ],
+      "clipped_atoms": [
+        [
+          2.0,
+          0.5
+        ],
+        [
+          -1.0,
+          2.0
+        ],
+        [
+          0.4,
+          -0.2
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          2.0,
+          -2.0
+        ]
+      ],
+      "CE_row_tilt": [
+        1.25,
+        1.5,
+        0.30000000000000004,
+        0.0,
+        2.0
+      ],
+      "isolated_CE_optimum": [
+        0.5458515283842794,
+        0.3493449781659389,
+        0.10480349344978167,
+        0.0,
+        0.0
+      ],
+      "CE_identified": true,
+      "target_risk_identified": [
+        true,
+        true
+      ],
+      "CE_excess_using_untilted_distribution": 0.3501719492231783,
+      "weighted_MSE_optimum": [
+        1.2598130841121498,
+        1.361776061776062
+      ],
+      "alternatives": {
+        "current_raw_atom_decode": {
+          "prediction": [
+            2.257511838140336,
+            3.3831396849987088
+          ],
+          "excess_target_weighted_MSE": [
+            0.9954028037893956,
+            4.085910897287787
+          ]
+        },
+        "clip_atoms_only": {
+          "prediction": [
+            1.2480565371024734,
+            1.5410910690717115
+          ],
+          "excess_target_weighted_MSE": [
+            0.000138216397591151,
+            0.03215387184143892
+          ]
+        },
+        "inverse_tilt_only": {
+          "prediction": [
+            2.230449826989619,
+            3.1329355608591887
+          ],
+          "excess_target_weighted_MSE": [
+            0.9421356866237833,
+            3.1370059711923926
+          ]
+        },
+        "inverse_tilt_and_clipped_atoms": {
+          "prediction": [
+            1.259813084112149,
+            1.3617760617760617
+          ],
+          "excess_target_weighted_MSE": [
+            2.220446049250313e-16,
+            -1.1102230246251565e-16
+          ]
+        },
+        "untilted_CE_and_clipped_atoms": {
+          "prediction": [
+            1.2598130841121498,
+            1.3617760617760617
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            -1.1102230246251565e-16
+          ]
+        },
+        "outcomes_exact_code_tilted": {
+          "prediction": [
+            1.259813084112149,
+            1.3617760617760617
+          ],
+          "excess_target_weighted_MSE": [
+            2.220446049250313e-16,
+            -1.1102230246251565e-16
+          ]
+        },
+        "outcomes_exact_code_untilted": {
+          "prediction": [
+            1.2598130841121498,
+            1.3617760617760617
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            -1.1102230246251565e-16
+          ]
+        }
+      },
+      "current_after_prediction_clip": [
+        2.0,
+        2.0
+      ],
+      "current_after_prediction_clip_excess_MSE": [
+        0.5478766704515683,
+        0.40732979532207336
+      ]
+    },
+    {
+      "name": "one_zero_weight_target",
+      "atoms": [
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          -2.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "counts": [
+        2.0,
+        3.0,
+        5.0
+      ],
+      "row_weights": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "clipped_atoms": [
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          -2.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "CE_row_tilt": [
+        0.5,
+        1.0,
+        0.0
+      ],
+      "isolated_CE_optimum": [
+        0.25,
+        0.75,
+        0.0
+      ],
+      "CE_identified": true,
+      "target_risk_identified": [
+        false,
+        true
+      ],
+      "CE_excess_using_untilted_distribution": 0.743003936734169,
+      "weighted_MSE_optimum": [
+        0.0,
+        -1.25
+      ],
+      "alternatives": {
+        "current_raw_atom_decode": {
+          "prediction": [
+            0.0,
+            -1.5714285714285714
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.10331632653061185
+          ]
+        },
+        "clip_atoms_only": {
+          "prediction": [
+            0.0,
+            -1.5714285714285714
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.10331632653061185
+          ]
+        },
+        "inverse_tilt_only": {
+          "prediction": [
+            0.0,
+            -1.25
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        },
+        "inverse_tilt_and_clipped_atoms": {
+          "prediction": [
+            0.0,
+            -1.25
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        },
+        "untilted_CE_and_clipped_atoms": {
+          "prediction": [
+            0.0,
+            -1.25
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcomes_exact_code_tilted": {
+          "prediction": [
+            0.0,
+            -1.25
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcomes_exact_code_untilted": {
+          "prediction": [
+            0.0,
+            -1.25
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "current_after_prediction_clip": [
+        0.0,
+        -1.5714285714285714
+      ],
+      "current_after_prediction_clip_excess_MSE": [
+        0.0,
+        0.10331632653061185
+      ]
+    },
+    {
+      "name": "all_zero_row_weights",
+      "atoms": [
+        [
+          1.0,
+          -1.0
+        ],
+        [
+          3.0,
+          0.5
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "counts": [
+        2.0,
+        3.0,
+        1.0
+      ],
+      "row_weights": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "clipped_atoms": [
+        [
+          1.0,
+          -1.0
+        ],
+        [
+          2.0,
+          0.5
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "CE_row_tilt": [
+        1.0,
+        1.25,
+        0.0
+      ],
+      "isolated_CE_optimum": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "CE_identified": false,
+      "target_risk_identified": [
+        false,
+        false
+      ],
+      "CE_excess_using_untilted_distribution": 0.0,
+      "weighted_MSE_optimum": [
+        0.0,
+        0.0
+      ],
+      "alternatives": {
+        "current_raw_atom_decode": {
+          "prediction": [
+            0.0,
+            0.0
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        },
+        "clip_atoms_only": {
+          "prediction": [
+            0.0,
+            0.0
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        },
+        "inverse_tilt_only": {
+          "prediction": [
+            0.0,
+            0.0
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        },
+        "inverse_tilt_and_clipped_atoms": {
+          "prediction": [
+            0.0,
+            0.0
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        },
+        "untilted_CE_and_clipped_atoms": {
+          "prediction": [
+            0.0,
+            0.0
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcomes_exact_code_tilted": {
+          "prediction": [
+            0.0,
+            0.0
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        },
+        "outcomes_exact_code_untilted": {
+          "prediction": [
+            0.0,
+            0.0
+          ],
+          "excess_target_weighted_MSE": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "current_after_prediction_clip": [
+        0.0,
+        0.0
+      ],
+      "current_after_prediction_clip_excess_MSE": [
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "coarse_code_check": {
+    "contexts": 2,
+    "same_code": "class0, spread_bin7plus, above_bin1",
+    "targets": [
+      [
+        0.12543,
+        -1.12887
+      ],
+      [
+        0.12543,
+        -1.50516
+      ]
+    ],
+    "global_code_readout_both_contexts": [
+      0.12542999999999999,
+      -1.3438928571428572
+    ],
+    "conditional_Bayes_predictions": [
+      [
+        0.12543,
+        -1.12887
+      ],
+      [
+        0.12543,
+        -1.50516
+      ]
+    ],
+    "prediction_errors": [
+      [
+        -2.7755575615628914e-17,
+        -0.21502285714285718
+      ],
+      [
+        -2.7755575615628914e-17,
+        0.16126714285714283
+      ]
+    ],
+    "claim": "Inverse tilt does not restore within-code conditional moments lost by global tables."
+  },
+  "scope": "NumPy equation transcription on constructed populations only; no Torch parity/training, actual data/model reads, WP computation or B result access.",
+  "peak_RSS_platform_units": 40108032
+}

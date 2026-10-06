@@ -1,0 +1,135 @@
+{
+  "specs": {
+    "teacher_gpu": {
+      "w19teacher": 1.0
+    },
+    "headwide": {
+      "w31native_headwide_s3": 0.5,
+      "w31native_headwide_s4": 0.5
+    },
+    "headwide_s3": {
+      "w31native_headwide_s3": 1.0
+    },
+    "headwide_s4": {
+      "w31native_headwide_s4": 1.0
+    },
+    "control": {
+      "w21native_distilled_s3": 0.5,
+      "w21native_distilled_s4": 0.5
+    },
+    "control_s3": {
+      "w21native_distilled_s3": 1.0
+    },
+    "control_s4": {
+      "w21native_distilled_s4": 1.0
+    },
+    "headwide_gpu": {
+      "w31_headwide_s3": 0.5,
+      "w31_headwide_s4": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "headwide",
+      "teacher_gpu"
+    ],
+    [
+      "control",
+      "teacher_gpu"
+    ],
+    [
+      "headwide",
+      "control"
+    ],
+    [
+      "headwide",
+      "headwide_gpu"
+    ],
+    [
+      "headwide_s3",
+      "control_s3"
+    ],
+    [
+      "headwide_s4",
+      "control_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher_gpu": 0.7161302310562185,
+        "headwide": 0.7182666986963415,
+        "headwide_s3": 0.7178200389253364,
+        "headwide_s4": 0.7174607595299487,
+        "control": 0.7182578324561746,
+        "control_s3": 0.717756914074282,
+        "control_s4": 0.7175030132706841,
+        "headwide_gpu": 0.7183488674254332
+      },
+      "comparisons": {
+        "headwide - teacher_gpu": {
+          "delta": 0.0021364676401229854,
+          "conditional_ci95": [
+            0.00122226921306047,
+            0.003192447180472185
+          ]
+        },
+        "control - teacher_gpu": {
+          "delta": 0.0021276013999560472,
+          "conditional_ci95": [
+            0.001234473024410529,
+            0.003190021926237881
+          ]
+        },
+        "headwide - control": {
+          "delta": 8.866240166938155e-06,
+          "conditional_ci95": [
+            -0.00012529563777056164,
+            0.00016368100506497507
+          ]
+        },
+        "headwide - headwide_gpu": {
+          "delta": -8.216872909172501e-05,
+          "conditional_ci95": [
+            -0.0001844404527745841,
+            6.389258364838912e-06
+          ]
+        },
+        "headwide_s3 - control_s3": {
+          "delta": 6.312485105441912e-05,
+          "conditional_ci95": [
+            -0.00011216041335307681,
+            0.00024455157546604545
+          ]
+        },
+        "headwide_s4 - control_s4": {
+          "delta": -4.225374073540955e-05,
+          "conditional_ci95": [
+            -0.0002255933218221179,
+            0.00015796666871228094
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Native dynamic-int8 replay. Reused true-mask valid425/123, all train chains excluded. Head256->512 with GRU256 unchanged at initialization, original heterogeneous w19teacher and original d256 parent, fixed epoch1, same optimizer/steps. Constructor CPU RNG state matches ordinary256 control exactly via isolated RNG context for replacement layers; initial all23 and family outputs bit-exact in CPU checks. No honest train holdout; native quality and composite replication needed. Conditional fitted-model intervals; organizer provenance uncertain. V1 initializer omitted preceding PropensityNet RNG consumption: auxiliary family-head initialization differs from control. This is width plus auxiliary-init treatment. Corrected repeat is wave39.",
+  "initialization_audit": {
+    "findings": [
+      {
+        "seed": 3,
+        "training_constructor_rng_still_matched_in_propensity_context": true,
+        "initial_family_weight_max_abs_vs_actual_control": 0.12196120619773865,
+        "initial_family_bias_max_abs_vs_actual_control": 0.09525027871131897
+      },
+      {
+        "seed": 4,
+        "training_constructor_rng_still_matched_in_propensity_context": true,
+        "initial_family_weight_max_abs_vs_actual_control": 0.12288634479045868,
+        "initial_family_bias_max_abs_vs_actual_control": 0.09425201267004013
+      }
+    ],
+    "limitation": "Initializer seeded before constructing student but did not consume preceding PropensityNet constructor RNG. First256 auxiliary family-head weights therefore differ from originalwave19 control. Main23 parentoutputs remain preserved, trainingbatchorder matched. Treat result as headwidth+auxinitialization candidate comparison, not pureheadwidth isolation. Do not promote a microscopic effect as width evidence."
+  }
+}

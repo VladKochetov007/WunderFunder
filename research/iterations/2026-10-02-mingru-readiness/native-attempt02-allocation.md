@@ -1,0 +1,7 @@
+# Mechanical repair after compiler rejection
+
+Attempt01 stopped before numerical checks or benchmark: the copied qualified Predictor was split into raw/prebuilt/common-dense entry points, but the common body retained an undeclared raw `row` reference in an inactive transition-feature branch. This was introduced by our prototype refactor, not by the qualified package. The actor has traced the original header and binary to the preserved serving freeze.
+
+Authorize exactly one mechanical repair in a new native-v2 directory: explicitly pass the raw-row argument to the common body, reject transition-enabled prebuilt calls, retain all dense kernels/model arithmetic/tolerances/generated seeds and fixed repetitions. Add descriptive processCPU timing alongside wall time. Preserve native attempt01 sources, compiler output and failed receipt unchanged. No architecture or quantization search, no quality query. Same root CPU34 affinity,4GiB host,swap0,600-second ceiling; output native-v2/generated-01 and native-v2-execution. This is a second implementation attempt, not a hidden rerun or forecast fit.
+
+Pre-execution addition: benchmark the same GRU weights with exact activations alongside the operational fast-activation GRU, to separate activation-cost context. The operational student4 remains the only serving-cost reference; minGRU implementation is unchanged. Total benchmark still <=600seconds, no tolerance or search change. CPU34 and SMTsibling74 were each <1% busy in the two-second preflight.

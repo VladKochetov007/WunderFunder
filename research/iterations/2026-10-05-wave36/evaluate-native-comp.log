@@ -1,0 +1,261 @@
+{
+  "specs": {
+    "parent": {
+      "w33native_parent_s3": 0.5,
+      "w33native_parent_s4": 0.5
+    },
+    "submitted_recipe": {
+      "w33native_old_s3": 0.5,
+      "w33native_old_s4": 0.5
+    },
+    "uniform": {
+      "w33native_uniform_s3": 0.5,
+      "w33native_uniform_s4": 0.5
+    },
+    "uniform_s3": {
+      "w33native_uniform_s3": 1.0
+    },
+    "uniform_s4": {
+      "w33native_uniform_s4": 1.0
+    },
+    "soft": {
+      "w33native_soft_s3": 0.5,
+      "w33native_soft_s4": 0.5
+    },
+    "soft_s3": {
+      "w33native_soft_s3": 1.0
+    },
+    "soft_s4": {
+      "w33native_soft_s4": 1.0
+    },
+    "off": {
+      "w36native_comp_s3": 0.5,
+      "w36native_comp_s4": 0.5
+    },
+    "off_gpu": {
+      "w36_comp_s3": 0.5,
+      "w36_comp_s4": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "uniform",
+      "parent"
+    ],
+    [
+      "uniform",
+      "submitted_recipe"
+    ],
+    [
+      "soft",
+      "parent"
+    ],
+    [
+      "soft",
+      "submitted_recipe"
+    ],
+    [
+      "soft",
+      "uniform"
+    ],
+    [
+      "soft_s3",
+      "uniform_s3"
+    ],
+    [
+      "soft_s4",
+      "uniform_s4"
+    ],
+    [
+      "soft",
+      "off"
+    ],
+    [
+      "uniform",
+      "off"
+    ],
+    [
+      "off",
+      "off_gpu"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 436,
+      "chains": 129,
+      "scores": {
+        "parent": 0.7127040523285642,
+        "submitted_recipe": 0.7125730511767501,
+        "uniform": 0.7118706497714641,
+        "uniform_s3": 0.7108413593547702,
+        "uniform_s4": 0.710580183292092,
+        "soft": 0.7117997928325168,
+        "soft_s3": 0.7107240669831021,
+        "soft_s4": 0.71058351402789,
+        "off": 0.7119106410546256,
+        "off_gpu": 0.7119640178788482
+      },
+      "comparisons": {
+        "uniform - parent": {
+          "delta": -0.0008334025571000714,
+          "conditional_ci95": [
+            -0.0022873606550595864,
+            0.0003788349408314011
+          ]
+        },
+        "uniform - submitted_recipe": {
+          "delta": -0.0007024014052859906,
+          "conditional_ci95": [
+            -0.0021019853156008404,
+            0.0005357903454859719
+          ]
+        },
+        "soft - parent": {
+          "delta": -0.0009042594960473327,
+          "conditional_ci95": [
+            -0.002480860456112055,
+            0.00037435864513747885
+          ]
+        },
+        "soft - submitted_recipe": {
+          "delta": -0.0007732583442332519,
+          "conditional_ci95": [
+            -0.0022876379064502546,
+            0.0005102042701647682
+          ]
+        },
+        "soft - uniform": {
+          "delta": -7.08569389472613e-05,
+          "conditional_ci95": [
+            -0.00022531472075602578,
+            4.1949575312077974e-05
+          ]
+        },
+        "soft_s3 - uniform_s3": {
+          "delta": -0.00011729237166813178,
+          "conditional_ci95": [
+            -0.000298572933930788,
+            4.1475010139091456e-05
+          ]
+        },
+        "soft_s4 - uniform_s4": {
+          "delta": 3.3307357979461827e-06,
+          "conditional_ci95": [
+            -0.00016375122971190869,
+            0.0001420001799161102
+          ]
+        },
+        "soft - off": {
+          "delta": -0.00011084822210882805,
+          "conditional_ci95": [
+            -0.0003355306863813995,
+            4.8111832621017204e-05
+          ]
+        },
+        "uniform - off": {
+          "delta": -3.999128316156675e-05,
+          "conditional_ci95": [
+            -0.00013704658658330316,
+            5.500012777175376e-05
+          ]
+        },
+        "off - off_gpu": {
+          "delta": -5.337682422257295e-05,
+          "conditional_ci95": [
+            -0.00024338339152065458,
+            0.00011075339776872017
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "parent": 0.5973479553681734,
+        "submitted_recipe": 0.5974647961436341,
+        "uniform": 0.5948390143733316,
+        "uniform_s3": 0.592605747541817,
+        "uniform_s4": 0.5928368898723917,
+        "soft": 0.5948855042221142,
+        "soft_s3": 0.592671869506803,
+        "soft_s4": 0.5928154718927459,
+        "off": 0.5951019418706471,
+        "off_gpu": 0.5950879088806429
+      },
+      "comparisons": {
+        "uniform - parent": {
+          "delta": -0.0025089409948417796,
+          "conditional_ci95": [
+            -0.00475042972442564,
+            -0.0004395108570483681
+          ]
+        },
+        "uniform - submitted_recipe": {
+          "delta": -0.002625781770302482,
+          "conditional_ci95": [
+            -0.00492443838833583,
+            -0.0005042994970785365
+          ]
+        },
+        "soft - parent": {
+          "delta": -0.0024624511460592524,
+          "conditional_ci95": [
+            -0.004789672947537011,
+            -0.00027708718731998355
+          ]
+        },
+        "soft - submitted_recipe": {
+          "delta": -0.002579291921519955,
+          "conditional_ci95": [
+            -0.004958054639745959,
+            -0.0003389360015692298
+          ]
+        },
+        "soft - uniform": {
+          "delta": 4.6489848782527154e-05,
+          "conditional_ci95": [
+            -0.00011552522595649762,
+            0.0002315749011589373
+          ]
+        },
+        "soft_s3 - uniform_s3": {
+          "delta": 6.612196498589906e-05,
+          "conditional_ci95": [
+            -0.00012709551565796284,
+            0.00028010599954678416
+          ]
+        },
+        "soft_s4 - uniform_s4": {
+          "delta": -2.1417979645832474e-05,
+          "conditional_ci95": [
+            -0.00025114473043703065,
+            0.00019210283510036566
+          ]
+        },
+        "soft - off": {
+          "delta": -0.00021643764853296332,
+          "conditional_ci95": [
+            -0.0004978743910655697,
+            8.461991565596455e-05
+          ]
+        },
+        "uniform - off": {
+          "delta": -0.0002629274973154905,
+          "conditional_ci95": [
+            -0.0004445813349049477,
+            -8.106517292917343e-05
+          ]
+        },
+        "off - off_gpu": {
+          "delta": 1.4032990004242407e-05,
+          "conditional_ci95": [
+            -0.0001576910940191384,
+            0.00016763900943864428
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Exploratory reused data. Known teacher parents and students restricted to train half0 + valid folds !=0. Original organizer pretraining provenance uncertain. Train mask estimated; diagnostic only. Intervals conditional on fitted models."
+}

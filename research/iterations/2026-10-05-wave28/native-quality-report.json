@@ -1,0 +1,118 @@
+{
+  "specs": {
+    "teacher_gpu": {
+      "w19teacher": 1.0
+    },
+    "nofamily": {
+      "w28native_nofamily_s3": 0.5,
+      "w28native_nofamily_s4": 0.5
+    },
+    "nofamily_s3": {
+      "w28native_nofamily_s3": 1.0
+    },
+    "nofamily_s4": {
+      "w28native_nofamily_s4": 1.0
+    },
+    "family": {
+      "w21native_distilled_s3": 0.5,
+      "w21native_distilled_s4": 0.5
+    },
+    "family_s3": {
+      "w21native_distilled_s3": 1.0
+    },
+    "family_s4": {
+      "w21native_distilled_s4": 1.0
+    },
+    "nofamily_gpu": {
+      "w28_nofamily_s3": 0.5,
+      "w28_nofamily_s4": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "nofamily",
+      "teacher_gpu"
+    ],
+    [
+      "family",
+      "teacher_gpu"
+    ],
+    [
+      "nofamily",
+      "family"
+    ],
+    [
+      "nofamily",
+      "nofamily_gpu"
+    ],
+    [
+      "nofamily_s3",
+      "family_s3"
+    ],
+    [
+      "nofamily_s4",
+      "family_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher_gpu": 0.7161302310562185,
+        "nofamily": 0.7183686645749356,
+        "nofamily_s3": 0.7178998838368038,
+        "nofamily_s4": 0.7175344686612333,
+        "family": 0.7182578324561746,
+        "family_s3": 0.717756914074282,
+        "family_s4": 0.7175030132706841,
+        "nofamily_gpu": 0.7184031467906296
+      },
+      "comparisons": {
+        "nofamily - teacher_gpu": {
+          "delta": 0.002238433518717109,
+          "conditional_ci95": [
+            0.0012948126719368376,
+            0.003337390595300864
+          ]
+        },
+        "family - teacher_gpu": {
+          "delta": 0.0021276013999560472,
+          "conditional_ci95": [
+            0.001234473024410529,
+            0.003190021926237881
+          ]
+        },
+        "nofamily - family": {
+          "delta": 0.00011083211876106169,
+          "conditional_ci95": [
+            -8.268176559731721e-05,
+            0.00032561648831431475
+          ]
+        },
+        "nofamily - nofamily_gpu": {
+          "delta": -3.4482215693909524e-05,
+          "conditional_ci95": [
+            -0.00012443915827183572,
+            4.7832568743880115e-05
+          ]
+        },
+        "nofamily_s3 - family_s3": {
+          "delta": 0.00014296976252181626,
+          "conditional_ci95": [
+            -0.00013227058853040318,
+            0.0004189776263491788
+          ]
+        },
+        "nofamily_s4 - family_s4": {
+          "delta": 3.145539054916213e-05,
+          "conditional_ci95": [
+            -0.00013966439579543298,
+            0.00023128760668778277
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Native dynamic-int8 replay. Reused true-mask valid425/123, all train chains excluded. Exact wave19 recipe and init/constructor/data order retained; only family auxiliary loss coefficient changes .1 to0. Family heads and cached targets remain present. Fixed epoch1, two seeds. No honest train holdout; native and composite checks needed. Conditional fitted-model bootstrap; organizer pretraining provenance uncertain."
+}

@@ -1,0 +1,39 @@
+--- bootstrap_seed4.py
++++ bootstrap_seed4_v2.py
+@@ -11,8 +11,8 @@
+ HERE = Path(__file__).resolve().parent
+ ROOT = HERE.parents[3]
+ METRIC_SHA = 'd05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0'
+-RECIPES = ('double_shallow', 'current_student4', 'strong4', 'single_seed4')
+-CONTRASTS = ('double_shallow-current_student4', 'double_shallow-strong4', 'single_seed4-current_student4')
++RECIPES = ('double_shallow', 'current_student4', 'strong4', 'single_seed4', 'duplicate_seed3')
++CONTRASTS = ('double_shallow-current_student4', 'double_shallow-strong4', 'single_seed4-current_student4', 'double_vs_duplicate_seed3')
+ REPLICATES = 2000
+ SEED = 0
+ 
+@@ -57,14 +57,14 @@
+ 
+ def deltas(pooled, totals):
+     scores = [pooled(s) for s in totals]
+-    return np.array([scores[0] - scores[1], scores[0] - scores[2], scores[3] - scores[1]])
++    return np.array([scores[0] - scores[1], scores[0] - scores[2], scores[3] - scores[1], scores[0] - scores[4]])
+ 
+ 
+ def bootstrap(arrays):
+     fe = metric_module()
+     grouped = cluster_stats(arrays)
+     rng = np.random.default_rng(SEED)
+-    boot = np.empty((REPLICATES, 3, 3), dtype=np.float64)  # draw, overall/fold0/fold1, contrast
++    boot = np.empty((REPLICATES, 3, 4), dtype=np.float64)  # draw, overall/fold0/fold1, contrast
+     for b in range(REPLICATES):
+         totals = []
+         for f in (0, 1):
+@@ -103,7 +103,7 @@
+               'source_sha256': sha(__file__), 'metric_source_sha256': METRIC_SHA,
+               'replicates': REPLICATES, 'seed': SEED, 'generator': 'NumPy default_rng PCG64',
+               'NumPy_version': np.__version__, 'chain_counts_by_fold': counts,
+-              'resampling': 'Paired whole chains, with replacement, stratified by outer fold; same draws for all three contrasts and all four recipes.',
++              'resampling': 'Paired whole chains, with replacement, stratified by outer fold; same draws for all four contrasts and all five recipes.',
+               'class_mixture': 'No class field in sufficient.npz; no class stratification. Each chain retains all its sequences/class composition. Empirical class shares may vary between resamples within a fold.',
+               'statistic': 'Recompute frozen pooled mean-of-two-targets WP from six sums; never average sequence correlations. Zero-weight/degenerate-variance samples use frozen pooled() zero policy; no draws removed.',
+               'intervals': estimates, 'seconds': time.perf_counter() - start,

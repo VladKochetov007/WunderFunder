@@ -1,0 +1,16 @@
+name: wunder-twostream-distilled-final-cpu-audit-20261005
+cmd: python3 native_lab.py ${REFERENCE} ${CANDIDATE} ${PROBE} ${REPORT}
+env:
+  docker:
+    image: python:3.11-slim-bookworm
+  python:
+    type: manual
+    version: 3.11
+    requirements-file: requirements.txt
+inputs:
+  - ../2026-10-05-wave20/distilled_h256_pair.zip: REFERENCE
+  - distilled_twostream_h256_pair.zip: CANDIDATE
+  - cpu-probe.npz: PROBE
+outputs:
+  - native-datasphere.json: REPORT
+cloud-instance-type: c1.4

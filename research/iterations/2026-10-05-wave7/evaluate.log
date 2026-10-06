@@ -1,0 +1,267 @@
+{
+  "specs": {
+    "reference": {
+      "w2_reference": 1.0
+    },
+    "control": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w7ssl_control_s3": 0.275,
+      "w7ssl_control_s4": 0.275
+    },
+    "control_s3": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w7ssl_control_s3": 0.55
+    },
+    "control_s4": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w7ssl_control_s4": 0.55
+    },
+    "auxiliary": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w7ssl_auxiliary_s3": 0.275,
+      "w7ssl_auxiliary_s4": 0.275
+    },
+    "auxiliary_s3": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w7ssl_auxiliary_s3": 0.55
+    },
+    "auxiliary_s4": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w7ssl_auxiliary_s4": 0.55
+    },
+    "pretrain": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w7ssl_pretrain_s3": 0.275,
+      "w7ssl_pretrain_s4": 0.275
+    },
+    "pretrain_s3": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w7ssl_pretrain_s3": 0.55
+    },
+    "pretrain_s4": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w7ssl_pretrain_s4": 0.55
+    }
+  },
+  "comparisons": [
+    [
+      "auxiliary",
+      "control"
+    ],
+    [
+      "pretrain",
+      "control"
+    ],
+    [
+      "auxiliary",
+      "reference"
+    ],
+    [
+      "pretrain",
+      "reference"
+    ],
+    [
+      "control",
+      "reference"
+    ],
+    [
+      "auxiliary_s3",
+      "control_s3"
+    ],
+    [
+      "pretrain_s3",
+      "control_s3"
+    ],
+    [
+      "auxiliary_s4",
+      "control_s4"
+    ],
+    [
+      "pretrain_s4",
+      "control_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 436,
+      "chains": 129,
+      "scores": {
+        "reference": 0.7099804418669501,
+        "control": 0.7100528404562994,
+        "control_s3": 0.7103516091999214,
+        "control_s4": 0.7084380568504718,
+        "auxiliary": 0.7099891864442547,
+        "auxiliary_s3": 0.710216379999629,
+        "auxiliary_s4": 0.7084296704151143,
+        "pretrain": 0.7067098650404573,
+        "pretrain_s3": 0.7057556341404725,
+        "pretrain_s4": 0.7057155772830696
+      },
+      "comparisons": {
+        "auxiliary - control": {
+          "delta": -6.365401204466714e-05,
+          "conditional_ci95": [
+            -0.0001770038937890045,
+            3.573352775507187e-05
+          ]
+        },
+        "pretrain - control": {
+          "delta": -0.0033429754158420533,
+          "conditional_ci95": [
+            -0.005975075933254614,
+            -0.00036157994948462303
+          ]
+        },
+        "auxiliary - reference": {
+          "delta": 8.744577304597989e-06,
+          "conditional_ci95": [
+            -0.0010837631282316017,
+            0.0009903191571287318
+          ]
+        },
+        "pretrain - reference": {
+          "delta": -0.003270576826492788,
+          "conditional_ci95": [
+            -0.0050198792261683415,
+            -0.0012442693603302221
+          ]
+        },
+        "control - reference": {
+          "delta": 7.239858934926513e-05,
+          "conditional_ci95": [
+            -0.0009556704339556437,
+            0.0010350787783732522
+          ]
+        },
+        "auxiliary_s3 - control_s3": {
+          "delta": -0.00013522920029229724,
+          "conditional_ci95": [
+            -0.0003142457872484239,
+            1.0362795341114967e-05
+          ]
+        },
+        "pretrain_s3 - control_s3": {
+          "delta": -0.004595975059448865,
+          "conditional_ci95": [
+            -0.0070973794742599985,
+            -0.0019275201947945198
+          ]
+        },
+        "auxiliary_s4 - control_s4": {
+          "delta": -8.386435357499167e-06,
+          "conditional_ci95": [
+            -0.00012382831906675718,
+            9.188005400600215e-05
+          ]
+        },
+        "pretrain_s4 - control_s4": {
+          "delta": -0.002722479567402236,
+          "conditional_ci95": [
+            -0.005721009636742561,
+            0.0007891092841534155
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "reference": 0.5926397015685518,
+        "control": 0.591371657380168,
+        "control_s3": 0.5902183659464997,
+        "control_s4": 0.5902728973724289,
+        "auxiliary": 0.5913596390576615,
+        "auxiliary_s3": 0.5900949007415349,
+        "auxiliary_s4": 0.5903539246128611,
+        "pretrain": 0.586042717625308,
+        "pretrain_s3": 0.585387367333135,
+        "pretrain_s4": 0.5840969348506467
+      },
+      "comparisons": {
+        "auxiliary - control": {
+          "delta": -1.2018322506412993e-05,
+          "conditional_ci95": [
+            -0.00012708856287342308,
+            0.0001076308795355251
+          ]
+        },
+        "pretrain - control": {
+          "delta": -0.005328939754859929,
+          "conditional_ci95": [
+            -0.007514862476549108,
+            -0.0031512991500543272
+          ]
+        },
+        "auxiliary - reference": {
+          "delta": -0.0012800625108903008,
+          "conditional_ci95": [
+            -0.002258515812316486,
+            -0.0003974486656717849
+          ]
+        },
+        "pretrain - reference": {
+          "delta": -0.006596983943243817,
+          "conditional_ci95": [
+            -0.008246880820476426,
+            -0.005007182805707735
+          ]
+        },
+        "control - reference": {
+          "delta": -0.0012680441883838878,
+          "conditional_ci95": [
+            -0.0022861445208126885,
+            -0.00032327593901138876
+          ]
+        },
+        "auxiliary_s3 - control_s3": {
+          "delta": -0.00012346520496475666,
+          "conditional_ci95": [
+            -0.00027027511573361475,
+            1.5987587930760013e-05
+          ]
+        },
+        "pretrain_s3 - control_s3": {
+          "delta": -0.004830998613364668,
+          "conditional_ci95": [
+            -0.007885543322712251,
+            -0.001840500860224187
+          ]
+        },
+        "auxiliary_s4 - control_s4": {
+          "delta": 8.102724043212994e-05,
+          "conditional_ci95": [
+            -9.172774968207453e-05,
+            0.0002567437072326066
+          ]
+        },
+        "pretrain_s4 - control_s4": {
+          "delta": -0.006175962521782208,
+          "conditional_ci95": [
+            -0.008333131360078096,
+            -0.004110417115828348
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Exploratory reused data. Known teacher training chains and residual-fit chains excluded. Train mask estimated. Intervals conditional on fitted models."
+}

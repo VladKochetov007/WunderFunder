@@ -1,0 +1,8 @@
+{
+  "purpose": "Conditional final all-data fit of wave45 under03:00MSK submission deadline. No new research arm.",
+  "trigger": "Existing predeclared wave45 gate: candidate >=+.0003 both true-mask panels and >=0 train diagnostic. Start only by02:32MSK.",
+  "parent": "fbc1k_s5/s6@ep3",
+  "teacher": "Original w18final_teacher; alltrain+allvalid",
+  "training": "2ep fixedep1,chunk500/batch64, samewave45recipe mappedtofinaldata. GPUs2/5 only after our comp jobs finish.",
+  "archives": "Newshortpair andfixedfourmean originalpair+shortpair; final selection basednativewave45, functionalZIPchecks only; no additional runtime benchmark per user."
+}

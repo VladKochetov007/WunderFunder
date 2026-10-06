@@ -1,0 +1,118 @@
+{
+  "specs": {
+    "teacher_gpu": {
+      "w19teacher": 1.0
+    },
+    "headwide": {
+      "w39native_headwide_s3": 0.5,
+      "w39native_headwide_s4": 0.5
+    },
+    "headwide_s3": {
+      "w39native_headwide_s3": 1.0
+    },
+    "headwide_s4": {
+      "w39native_headwide_s4": 1.0
+    },
+    "control": {
+      "w21native_distilled_s3": 0.5,
+      "w21native_distilled_s4": 0.5
+    },
+    "control_s3": {
+      "w21native_distilled_s3": 1.0
+    },
+    "control_s4": {
+      "w21native_distilled_s4": 1.0
+    },
+    "headwide_gpu": {
+      "w39_headwide_s3": 0.5,
+      "w39_headwide_s4": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "headwide",
+      "teacher_gpu"
+    ],
+    [
+      "control",
+      "teacher_gpu"
+    ],
+    [
+      "headwide",
+      "control"
+    ],
+    [
+      "headwide",
+      "headwide_gpu"
+    ],
+    [
+      "headwide_s3",
+      "control_s3"
+    ],
+    [
+      "headwide_s4",
+      "control_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher_gpu": 0.7161302310562185,
+        "headwide": 0.7183153598919453,
+        "headwide_s3": 0.7178432373306685,
+        "headwide_s4": 0.7175374784874433,
+        "control": 0.7182578324561746,
+        "control_s3": 0.717756914074282,
+        "control_s4": 0.7175030132706841,
+        "headwide_gpu": 0.7183937251532888
+      },
+      "comparisons": {
+        "headwide - teacher_gpu": {
+          "delta": 0.002185128835726746,
+          "conditional_ci95": [
+            0.0012513522316935865,
+            0.003238372171978951
+          ]
+        },
+        "control - teacher_gpu": {
+          "delta": 0.0021276013999560472,
+          "conditional_ci95": [
+            0.001234473024410529,
+            0.003190021926237881
+          ]
+        },
+        "headwide - control": {
+          "delta": 5.7527435770698965e-05,
+          "conditional_ci95": [
+            -5.194894817480145e-05,
+            0.00017373025754231493
+          ]
+        },
+        "headwide - headwide_gpu": {
+          "delta": -7.836526134352706e-05,
+          "conditional_ci95": [
+            -0.0002329104539411514,
+            4.120184544361136e-05
+          ]
+        },
+        "headwide_s3 - control_s3": {
+          "delta": 8.632325638646687e-05,
+          "conditional_ci95": [
+            -5.7752341319372565e-05,
+            0.00023889075422680583
+          ]
+        },
+        "headwide_s4 - control_s4": {
+          "delta": 3.446521675920522e-05,
+          "conditional_ci95": [
+            -9.55333097371891e-05,
+            0.00016797158778097113
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Native dynamic-int8 replay. Reused true-mask valid425/123, all train chains excluded. Head256->512 with GRU256 unchanged at initialization, original heterogeneous w19teacher and original d256 parent, fixed epoch1, same optimizer/steps. Constructor CPU RNG state matches ordinary256 control exactly via isolated RNG context for replacement layers; initial main23 outputs match parent and auxiliaryfamily head exactly matches actualcontrol initialization after loading PropensityNet; v1wave31 differed in family initialization. No honest train holdout; native quality and composite replication needed. Conditional fitted-model intervals; organizer provenance uncertain."
+}

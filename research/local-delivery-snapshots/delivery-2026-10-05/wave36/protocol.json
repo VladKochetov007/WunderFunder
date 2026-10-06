@@ -1,0 +1,19 @@
+{
+  "hypothesis": "Separate effects of class-residual training from altered DataLoader shuffle RNG versus ordinary control.",
+  "arms": "Additional off control constructs identical zero class_res layer and consumes identical constructor RNG as soft/uniform, but never adds it to predictions. Existing wave23/wave33 soft/uniform are comparators.",
+  "training": "Both fulltrain and compositehalf0 protocols, sameparent/teacher as respective classhead experiment, seeds3/4,fixedepoch1.",
+  "primary": [
+    "full soft minus off",
+    "composite soft minus off onvalid436 andtrain282diagnostic"
+  ],
+  "secondary": [
+    "uniform minusoff",
+    "off minus original no-extra-head control in full setting"
+  ],
+  "limitations": [
+    "new adaptive control after initialclassheadresults",
+    "reusedpanels",
+    "conditional intervals",
+    "off residual parameters unused byoptimizer; computationalcount differs slightly"
+  ]
+}

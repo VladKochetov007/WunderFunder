@@ -1,0 +1,23 @@
+--- continuation/student/predict_fixed.py
++++ predict_fixed.py
+@@ -6,7 +6,7 @@
+ import torch
+ from torch.utils.data import DataLoader
+ HERE=Path(__file__).resolve().parent
+-ROOT=HERE.parents[3]
++ROOT=HERE.parents[2]
+ sys.path.insert(0,str(ROOT/'scripts'))
+ import train_rnn
+ from wnn.resources import configure_torch
+@@ -20,9 +20,9 @@
+ 
+ 
+ def main():
+- ap=argparse.ArgumentParser();ap.add_argument('run');ap.add_argument('--fold',type=int,required=True,choices=[0,1,2,3]);ap.add_argument('--epoch',type=int,default=1);ap.add_argument('--output-dir',type=Path,default=HERE.parent/'cache');ap.add_argument('--batch',type=int,default=16)
++ ap=argparse.ArgumentParser();ap.add_argument('run');ap.add_argument('--fold',type=int,required=True,choices=[0,1,2,3]);ap.add_argument('--epoch',type=int,default=1);ap.add_argument('--output-dir',type=Path,default=HERE/'cache');ap.add_argument('--batch',type=int,default=16)
+  a=ap.parse_args();t0=time.monotonic();configure_torch()
+- outdir=a.output_dir.resolve();campaign=HERE.parent.resolve()
++ outdir=a.output_dir.resolve();campaign=HERE.resolve()
+  if not outdir.is_relative_to(campaign):raise ValueError('prediction output must stay inside campaign')
+  outdir.mkdir(parents=True,exist_ok=True)
+  final=outdir/f'pred_{a.run}_valid.npy'

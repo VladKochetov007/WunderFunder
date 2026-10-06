@@ -1,0 +1,19 @@
+{
+  "hypothesis": "After successful distillation, metric-aligned fine-tuning on actual scored validation masks may help where further jointtrain/valid self-distillation failed.",
+  "historical_recipe": "scripts/ft_gclp.sh: 1epochhead (freezeinp,gru) lr5e-4 then1epochallweights lr2e-4; gcorr+true mask; auxstruct/next.3,chunk2000,batch16. Applied to newh256 distilled student, previouslyuntested stage.",
+  "parents": {
+    "full": "w19distilled_s3/s4@ep1",
+    "comp": "w24comp_distilled_s3/s4@ep1"
+  },
+  "conversion": "Strip unused auxiliaryfamilyhead only; preserve all23 coreoutputs andhiddenstates; plainRNN checkpoint.",
+  "data": "Only validfold!=0, trueis_scored masks; full425eval excludesalltrainchains fromparent; composite436+fixedtrain282diagnostic respectsparentsourcehalf0.",
+  "primary": "two-stageFT versusparent andsubmitted-recipeproxy onbothpanels",
+  "secondary": "head-only stage versusparent, fixedepoch0; notposthoccheckpointchoice",
+  "promotion": "require material positivebothpanels beforefinalfit; nativeactualreplay andZIPaudit ifpromising",
+  "limitations": [
+    "adaptivelyreusedpanels",
+    "trainproxyestimatedweights",
+    "conditionalintervals",
+    "validation-specificFTcanhurttrain/testshift"
+  ]
+}

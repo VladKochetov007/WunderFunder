@@ -1,0 +1,27 @@
+{
+  "hypothesis": "Head512 may preserve heterogeneous-teacher information when expanded BEFORE first distillation; second-generation self-distillation is a distinct question tested in wave27.",
+  "parent": "d256bc1k_f0@ep3 / d256bc1ks4_f0@ep3",
+  "teacher": "w19teacher alpha.7, identical wave19 four-family auxiliary targets/coefficient.1",
+  "training": "2epochs fixed epoch1, seeds3/4, originalwave19 AdamW1e-4/batch16/chunk2000/alltrain+valid!=0. Constructor RNG/data order matched. Fresh family-head control initialized with same seed then copied to wide first256 columns.",
+  "primary": "mean head512 minus w19distilled pair on425true-mask valid/123chains",
+  "deployment": "GRU256/head512, existing native engine; replay after training; composite replication required if promoted.",
+  "limitations": [
+    "reused validation",
+    "conditional intervals do not measure seed uncertainty",
+    "not new information, tests readout capacity at a different training stage"
+  ],
+  "sources": {
+    "native_quality.sh": "a2343f3dfd8411bea8bb940e9efe474bb07098c0cf17e1f360f7a094edf73b00",
+    "widen_head.py": "ef530ce686b2e697b74e59f9f3317f5d3a362904836242a860f3314cd22ed04a",
+    "student_lane.sh": "dfbbd5fd3a31fd63f638750dcc52671af80380c323ee6617f88ee8e52187f356",
+    "evaluate_native.py": "4304ba96f6d9a87636ff73281e0674d4b307ad7690485f2a9a35bc8cbc68ab06",
+    "native_replay.py": "31dd1e5be88c32dd15cc7318b7436d2516f6532f4d8d389083430a57242a86b4",
+    "evaluate.py": "190fea5b6f7d098b795d21621d70b56d1025d0896d85e7042efa3390055758ff",
+    "evaluate_when_done.sh": "e11d1f99ff9529c3c5823610f6d812a9b86beda4a5d5e9cb4537e1de15ae3f5e",
+    "export_oof.py": "a4b61e7519e7e45163199e03902e2498bb68c70ca65545371bd37ab2e015c0bf",
+    "scripts/compress_model.py": "f8943740dc6d99093da7ee96e03a29584380de374b22f4936d894b4119ecca45",
+    "scripts/train_rnn.py": "a59894f9a0e54ed4aff517ec47f7cbc27ae2271eccd2bd9a2da32bb43b462fb0",
+    "scripts/predict_run.py": "6bc5683d5ccaf25ca56a3e220c387344a4ae4a6cb3a1be144e6286019f9c31ca"
+  },
+  "post_start_audit": "initialization-context-audit.json: family-head initialization differs fromactualwave19 becauseinitializer didnot consume PropensityNet RNG. Main23outputs andtrainingdataorder preserved. Scope=width+auxiliaryinit candidate, notisolatedwidth. Correctedpairedrepeat wave39."
+}

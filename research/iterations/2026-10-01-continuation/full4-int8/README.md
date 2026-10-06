@@ -1,0 +1,28 @@
+This is the single full4 INT8 operational point authorized by root after the student launch. No training, coefficient search, kernel tuning, GPU use, GitHub push or public submission. The overnight/delivery artifacts remain unchanged. The study is **complete**: native INT8 WP0.7023370762 (−0.0000083716 versus the same4 native FP16) and actual39.4M full process57m49.44s on the measured v3/VNNI host. See [final outcome](outcome.md) and [hashed evidence](outcome.json).
+
+The new7,465,748-byte ZIP is `package/quant4_fixed.zip`, SHA `c2313be187bb152a7aa0244c2700eae90ab903b50608e23f4023bc51c35bfbdc`. It uses the guarded Q3 native binaries unchanged, with a four-member Python wrapper. Weight arrays are stored FP32; dynamic INT8 quantizes those arrays internally. The comparison's FP16 engine receives the same exported FP32 arrays and performs its ordinary internal half conversion.
+
+| Slot | Final weights, fixed endpoint | Held-fold analogue | Coefficient |
+|---|---|---|---|
+| d256 | find256_s3h2/model_ep1.pt | on_ctld256_f{0,1}/model_ep1.pt | .25 |
+| h128 seed3 | fin128_s3h2/model_ep1.pt | on_ctl128s3_f{0,1}/model_ep1.pt | .25 |
+| h128 seed4 | fin128_s4h2/model_ep1.pt | on_ctl128s4_f{0,1}/model_ep1.pt | .25 |
+| c500 | finc500b_s3h2/model_ep1.pt | on_ctlc500_f{0,1}/model_ep1.pt | .25 |
+
+Each endpoint is the second H2 epoch, indexed1. Original member order and quarter coefficients remain fixed for the whole stream. There is no governor. Native v3 SHA is `b865301e5ff0c9dce78c29c258d991a7b5542e7a63d44eeafd32c3b526166867`; scalar/AVX2 backends are packaged for portability, but this experiment measures the natural VNNI path on beleriand. It does not qualify runtime or held-fold quality on unsupported public hardware.
+
+The old56.5728-minute result was the mean of two100k direct-native-step projections using an earlier block128 prototype. It omitted full data reading, model import and the full Python callback workload. Its old50-minute rejection is preserved. Current generated four-model129-row tests passed an independently summed fmaf oracle, stream/prefix/reset and need_prediction behavior. Fresh-ZIP100k callbacks matched the old fixed4 quantized reference byte for byte; measured88.154µs/callback projects57.888 callback minutes. This is not the final60-minute result.
+
+The allocated experiment is deliberately separate:
+
+- `launch_runtime.py` executes the exact final ZIP on all1,873 validation sequences plus first97 repeated with fresh IDs:39.4M callbacks,39,204,970 emitted pairs, no targets/masks. Full process includes input/source checks, ZIP extraction, imports, weight loading, callbacks and final checks. ScopeCPU39, one CPU-equivalent,16GiB/no swap;4,200s maximum. Actual full process≤3,600s is the official-time criterion. SMT load is recorded rather than used as a5%veto.
+- `run_oof_lane.py --fold 0/1` exports the fixed fold children, runs both quant4 and FP16same4 through native sequence inference, and checks input hashes before/after. CPU30 and35, each one CPU-equivalent,4GiB/no swap,5,400s per lane. These weights differ from final-fit weights and `.run()` does not include per-row Python overhead, so this pass cannot substitute for final-ZIP runtime.
+- `evaluate_quality.py` computes one predeclared native quant4 versus native FP16same4 contrast on pure chains of exposed folds0/1, with the unchanged `scripts/fold_eval.py` sufficient-statistic and pooled functions. No weight, epoch or subset selection; no renewed0.0003 or50-minute hurdle. Metric interpretation remains conditional on these exposed folds, not a hidden-test guarantee.
+
+The three live tool sessions at launch were5004(runtime),2758(fold0),46197(fold1). Runtime started2026-10-01 12:37:07 UTC; worker PID219086/PGID219086/start_ticks502546777. Exact executed worker argv and effective cgroup limits are in `execution/launch.json`. Root allocation SHA is `64c58731de8017cf9d171411c9221f4a14f03896c4cccc4e739a2449c437e487`.
+
+Read [runtime-plan-clarification.json](runtime-plan-clarification.json): the frozen runtime plan accidentally retains unused descriptive V1 fields about its old command/governor. They are not consumed by the new worker. The frozen plan is preserved; actual source, allocation and execution receipts establish fixed4/CPU39/4,200s. No running file or numerical path was changed to correct that prose.
+
+Resource scouting before launch found roughly707GiB host RAM available and84TiB filesystem free. Three selected physical lanes avoid student22–25,28,32 and their siblings, and the other research agents' reserved cores. CPU38's sibling became busy, so runtime uses39/79, sampled idle before launch. Fresh data/schema resources are existing; no full feature cache is created. Expected new prediction storage is1.20GB for four dense OOF files plus roughly14MB exports,7.5MB ZIP and small receipts, below4GiB. Actual OOF lane durations were2,307.30s and2,244.63s; all scopes are now released. Total remote artifact tree was1,223,431,304bytes before the final receipt, below4GiB.
+
+Exact entry points, already allocated/executed where stated, are `package_full4.py --members members.json --native-dir <overnight>/quant3/native/build --output package/quant4_fixed.zip`, `benchmark_smoke.py --zip ... --raw <overnight>/critic/runtime-probe/raw.npy --reference <overnight>/runtime-vnni/dynamic-r0.npy --rows 100000 --output smoke-100k.json`, `launch_runtime.py --allocation allocation.json --allocation-sha256 64c58731…`, and `run_oof_lane.py --fold 0/1`. All execution uses the creative checkout; CPython3.11 scorer environment is used for native inference. Do not rerun these immutable outputs.

@@ -39,6 +39,10 @@ def main():
     elif args.gate_mode != "soft":
         parser.error("--gate-mode requires a gated checkpoint")
     train_rnn.RAW_ONLY = bool(ck["args"].get("raw_only"))
+    if ck["args"].get("zero_groups"):
+        train_rnn.ZERO_COLS = torch.tensor(train_rnn.zero_group_cols(ck["args"]["zero_groups"]), dtype=torch.long)
+    train_rnn.A_MODE = ck["args"].get("a_mode") or "none"
+    train_rnn.DOMAIN_FLAG = bool(ck["args"].get("domain_flag"))
     train_rnn.ONLINE_NORM = bool(ck["args"].get("online_norm"))
     train_rnn.STATE_RESET = int(ck["args"].get("state_reset") or 0)
     train_rnn.LOOKAHEAD = tuple(int(v) for v in str(ck["args"].get("lookahead") or "").split(",") if v)

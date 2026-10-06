@@ -1,0 +1,14 @@
+{
+  "hypothesis": "Family auxiliary imitation can consume capacity or bias the backbone toward unscaled component predictions; main ensemble KD may be sufficient.",
+  "primary": "nofamily pair minus wave19 family pair; fixed epoch1 seeds3/4",
+  "control": "Identical original d256 seed3/4 parents, main teacher w19teacher, alpha.7, auxiliarystruct/next.3, two epochs, optimizer/lr/batches. Only coefficient of family loss changes .1->0.",
+  "rng": "Identical constructors, parameter count and forward tensors; retain family_head and all teacher caches even at zero loss coefficient.",
+  "scope": "alltrain+valid!=0;425cleanvalid123chains; no honest train holdout; reused data and conditional intervals",
+  "source_sha256": {
+    "family_scale.py": "0b02ec0d9b931ee4d6fcea10696ac8d057f2c2d1395ce521f9c3264872389c9c",
+    "evaluate.py": "2c73b7c31fa9a1bd3fc5cbc10a1503592222f12b203cd356d16e834aab767cda",
+    "scripts/compress_model.py": "8a618b49e23bd1302f5cbe1c79ddbb04ea921f44908eb3583a2d414fa038463e",
+    "scripts/train_rnn.py": "1d3823335f5ff8793721c745ba7accee779c503688c09fd6dee2efe79c7b9295",
+    "scripts/predict_run.py": "6bc5683d5ccaf25ca56a3e220c387344a4ae4a6cb3a1be144e6286019f9c31ca"
+  }
+}

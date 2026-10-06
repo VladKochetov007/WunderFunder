@@ -1,0 +1,93 @@
+{
+  "status": "PASS_SOURCE_ONLY_2X103_ARGS",
+  "commands_sha256": "c36f797b5bc7d1736f638d14bf9ba7be122c5dc1063dda494677641b07db3c2e",
+  "jobs": [
+    {
+      "name": "oct02_ow_final_s3",
+      "argument_count": 103,
+      "from_original_final": {
+        "name": [
+          "cont_sh256_final_s3",
+          "oct02_ow_final_s3"
+        ],
+        "epochs": [
+          4,
+          1
+        ],
+        "lr": [
+          0.001,
+          0.0005
+        ],
+        "init": [
+          "",
+          "cont_sh256_final_s3@ep3"
+        ]
+      },
+      "from_W_fold0": {
+        "name": [
+          "oct02_ow_s3_f0",
+          "oct02_ow_final_s3"
+        ],
+        "distill": [
+          "h256_f0,h256s4_f0",
+          "fin256_s3,fin256_s4"
+        ],
+        "include_heldout_valid": [
+          false,
+          true
+        ],
+        "eval_source": [
+          "vfold",
+          "holdout"
+        ],
+        "valid_fold": [
+          0,
+          -1
+        ],
+        "init": [
+          "cont_sh256_s3_f0@ep3",
+          "cont_sh256_final_s3@ep3"
+        ]
+      }
+    },
+    {
+      "name": "oct02_ow_final_s3h2",
+      "argument_count": 103,
+      "from_original_final": {
+        "name": [
+          "cont_sh256_final_s3h2",
+          "oct02_ow_final_s3h2"
+        ],
+        "init": [
+          "cont_sh256_final_s3@ep3",
+          "oct02_ow_final_s3@ep0"
+        ]
+      },
+      "from_W_fold0": {
+        "name": [
+          "oct02_ow_s3h2_f0",
+          "oct02_ow_final_s3h2"
+        ],
+        "include_heldout_valid": [
+          false,
+          true
+        ],
+        "eval_source": [
+          "vfold",
+          "holdout"
+        ],
+        "valid_fold": [
+          0,
+          -1
+        ],
+        "init": [
+          "oct02_ow_s3_f0@ep0",
+          "oct02_ow_final_s3@ep0"
+        ]
+      }
+    }
+  ],
+  "adapter_byte_identical_W": true,
+  "data_reads": 0,
+  "model_imports": 0
+}

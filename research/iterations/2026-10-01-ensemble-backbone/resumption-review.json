@@ -1,0 +1,29 @@
+{
+  "status": "PASS_SOURCE_REVIEW_BEFORE_ANY_PREDICTIVE_METRIC",
+  "utc": "2026-10-01T19:01:47.529455+00:00",
+  "reviews": {
+    "architecture_challenge": [
+      "allocate_resume.py",
+      "finish_resumed.py"
+    ],
+    "root": [
+      "build_resumed_bindings.py",
+      "six generated metadata checks"
+    ]
+  },
+  "checked_properties": [
+    "exact5+7 original job coverage; zero scientific repeats",
+    "own-allocation worker receipt hashes; per-segment checker paths",
+    "same model argv, data, seed, precision, endpoints and original deadline",
+    "original metric source and both fixed comparisons unchanged",
+    "own UUID CPU scope cleanup"
+  ],
+  "source_sha256": {
+    "allocate_resume.py": "a66694027ab82df4d92508cf25f0a609a729c9a4c5c9951bbd9e29e0f05a0b0b",
+    "finish_resumed.py": "60faef5778a9a1f0e64c891c53f958ce129ad6241cbb60b07ec090668723e7a2",
+    "build_resumed_bindings.py": "d3182861794ee9ef7c5f072a0ea2f8c25bc58f8cbe92cad68f6799198de8e39c",
+    "evaluate.py": "c5f3ecc795ebd680872c39a652075a894192bfe9b4e654eca7e826c0310980e9",
+    "resumption-plan.json": "652b06decb8b48dd3bcd5cb0b855ef823fa1c6150d33a479ca35f98e966ccde6"
+  },
+  "limitation": "Worker timeout respects remaining campaign time; process cleanup can add a short overrun. CPU toy/provenance checks are not predictive evidence."
+}

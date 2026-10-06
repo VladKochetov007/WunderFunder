@@ -1,0 +1,16 @@
+{
+  "status": "PASS_FOUR_GENERATED_METRIC_CHECKS_BEFORE_REAL_DATA",
+  "evaluator_sha256": "c0ea2c2b122f5ab0b758942bc2068cce3089dfa2b8d18295fc6818fc48749d33",
+  "test_sha256": "1b4ec8490c4395a942adca37c3032b02a20e1d0416a182400c549bfe7db3b004",
+  "canonical_metric_sha256": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+  "checks": [
+    "six sufficient sums match frozen scorer and independently centered weighted correlation",
+    "original float32 blend order and post-ensemble clipping",
+    "empty/zero/constant target conventions",
+    "paired whole-chain bootstrap stratum counts and identical-arm zero; pooled differs from meanfoldscore"
+  ],
+  "runtime_seconds": 0.02,
+  "actual_study_arrays_read": false,
+  "new_metric_queries": 0,
+  "command": "OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 uv run --no-project --with numpy python research/iterations/2026-10-01-online-normalization/test_evaluate.py"
+}

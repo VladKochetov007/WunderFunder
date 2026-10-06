@@ -1,0 +1,83 @@
+{
+  "status": "complete",
+  "rows": 817118,
+  "tests": "event PMF normalization and finite nonzero gradient passed",
+  "results": {
+    "1": {
+      "chains": 191,
+      "scores": {
+        "reference": 0.5917162743367976,
+        "direct_s3": 0.582689094684256,
+        "race_s3": 0.5881379356928012,
+        "direct_s4": 0.582292362428584,
+        "race_s4": 0.5859193991264902,
+        "direct": 0.5828672820277292,
+        "race": 0.5875307517914589
+      },
+      "comparisons": {
+        "race - direct": {
+          "delta": 0.004663469763729666,
+          "conditional_ci95": [
+            0.0020743950724688848,
+            0.007107710242886231
+          ]
+        },
+        "race - reference": {
+          "delta": -0.004185522545338771,
+          "conditional_ci95": [
+            -0.008054706274504803,
+            -0.0004444969774066029
+          ]
+        },
+        "direct - reference": {
+          "delta": -0.008848992309068437,
+          "conditional_ci95": [
+            -0.014361475812759327,
+            -0.0034886193938463384
+          ]
+        }
+      }
+    },
+    "2": {
+      "chains": 129,
+      "scores": {
+        "reference": 0.7123658699053866,
+        "direct_s3": 0.7037916421057193,
+        "race_s3": 0.7093896501246209,
+        "direct_s4": 0.703163290156532,
+        "race_s4": 0.7086351346512814,
+        "direct": 0.7037555851920423,
+        "race": 0.7092883029713225
+      },
+      "comparisons": {
+        "race - direct": {
+          "delta": 0.005532717779280216,
+          "conditional_ci95": [
+            0.0036201659560927716,
+            0.00753905939494936
+          ]
+        },
+        "race - reference": {
+          "delta": -0.0030775669340641354,
+          "conditional_ci95": [
+            -0.006908169218802024,
+            0.000670226642304282
+          ]
+        },
+        "direct - reference": {
+          "delta": -0.008610284713344352,
+          "conditional_ci95": [
+            -0.013457639903287102,
+            -0.003943539639284772
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Sampled frozen-backbone prototype; requires full replay for promotion. Parent causal class3 probability gates all updates. No target-derived inference gate.",
+  "limitations": [
+    "Four future moves conditionally iid; amplitudes fixed on a nine-point grid.",
+    "Event-clock competing rates normalized to move probabilities; calendar-time hazard not identified by this four-event target model.",
+    "Training mask estimated; reused evaluation data."
+  ]
+}

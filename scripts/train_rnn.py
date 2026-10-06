@@ -62,6 +62,8 @@ class Sequences(Dataset):
             from wnn.heuristics import heuristic_features
 
             x = np.concatenate([x, heuristic_features(x)], axis=1)
+        if DOMAIN_FLAG:  # real sequences: augmentation-domain flag 0 (appended raw column -> extra input)
+            x = np.concatenate([x, np.zeros((len(x), 1), x.dtype)], axis=1)
         y = seq.targets
         if self.teachers:
             if self._teach is None:
@@ -81,6 +83,84 @@ class Sequences(Dataset):
             p = np.array(self._prop[self.indices[i]], dtype=np.float32)
             return torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored), torch.from_numpy(p)
         return torch.from_numpy(x), torch.from_numpy(y), torch.from_numpy(scored)
+
+
+class I1SwapSequences(Sequences):
+    """Class-3 train sequences with i0/i1 roles swapped; labels rebuilt from i1's future book events
+    (wnn.i1swap). The reliable-label mask is returned in the scored slot, so --valid-true-mask weights it."""
+
+    _tables = None
+    with_prop = False
+    true_y = False
+    pseudo = ""
+    _pseudo = None
+    noswap = False  # --i1swap-noswap: same class-3 sequences, i0 kept, labels replaced by rebuilt ones (label-noise control)
+
+    def __getitem__(self, i):
+        import pickle
+
+        from i1swap_aug import swap_instruments
+
+        if self._file is None:
+            self._file = SequenceFile(self.path)
+        if I1SwapSequences._tables is None:  # labels/masks precomputed by build_i1swap_cache.py
+            tag = "i0rb" if I1SwapSequences.noswap else "i1swap"
+            rgs = np.load(ROOT / "cache" / f"{tag}_train_rg.npy")
+            I1SwapSequences._tables = ({int(g): j for j, g in enumerate(rgs)},
+                                       np.load(ROOT / "cache" / f"{tag}_train_y.npy", mmap_mode="r"),
+                                       np.load(ROOT / "cache" / f"{tag}_train_ok.npy", mmap_mode="r"))
+        pos, ycache, okcache = I1SwapSequences._tables
+        g = int(self.indices[i])
+        x = self._file.read(g).features
+        if not I1SwapSequences.noswap:
+            x = swap_instruments(x)
+        y, ok = np.array(ycache[pos[g]]), np.array(okcache[pos[g]])
+        if I1SwapSequences.pseudo:  # noisy-student: teacher soft labels on the swapped stream, every row used
+            if I1SwapSequences._pseudo is None:
+                I1SwapSequences._pseudo = np.load(ROOT / "cache" / f"pred_{I1SwapSequences.pseudo}_i1swap.npy", mmap_mode="r")
+            y = np.array(I1SwapSequences._pseudo[pos[g]], dtype=np.float32)
+            ok = np.ones(len(y), bool)
+        if I1SwapSequences.true_y:  # weighting control: true i0 labels, same reliable-row weighting as the augmentation
+            assert I1SwapSequences.noswap
+            y = np.ascontiguousarray(self._file.read(g).targets, dtype=np.float32)
+        if DOMAIN_FLAG:
+            x = np.concatenate([x, np.ones((len(x), 1), x.dtype)], axis=1)
+        out = (torch.from_numpy(np.ascontiguousarray(x)), torch.from_numpy(y), torch.from_numpy(ok))
+        if I1SwapSequences.with_prop:  # placeholder: rows of masked sequences are weighted by --valid-true-mask, not propensity
+            out = out + (torch.ones(len(ok), dtype=torch.float32),)
+        return out
+
+
+class GateMuon(torch.optim.Muon):
+    """torch Muon, but params in `gatewise` (packed GRU gates, 3h x in) get Newton-Schulz per gate block;
+    match_rms_adamw scaling per block keeps the update RMS equal to the packed variant."""
+
+    def __init__(self, params, gatewise=(), **kw):
+        super().__init__(params, **kw)
+        self.gatewise = set(gatewise)
+
+    @torch.no_grad()
+    def step(self, closure=None):
+        from torch.optim._muon import _zeropower_via_newtonschulz, _adjust_lr
+        for group in self.param_groups:
+            lr, mom = group["lr"], group["momentum"]
+            for prm in group["params"]:
+                if prm.grad is None:
+                    continue
+                st = self.state[prm]
+                if "momentum_buffer" not in st:
+                    st["momentum_buffer"] = torch.zeros_like(prm.grad)
+                buf = st["momentum_buffer"]
+                buf.lerp_(prm.grad, 1 - mom)
+                upd = prm.grad.lerp(buf, mom) if group["nesterov"] else buf
+                prm.mul_(1 - lr * group["weight_decay"])
+                blocks = upd.chunk(3, dim=0) if id(prm) in self.gatewise else (upd,)
+                rows = 0
+                for b in blocks:
+                    o = _zeropower_via_newtonschulz(b, group["ns_coefficients"], group["ns_steps"], group["eps"])
+                    prm[rows:rows + b.shape[0]].add_(o.to(prm.dtype), alpha=-_adjust_lr(lr, group["adjust_lr_fn"], b.shape))
+                    rows += b.shape[0]
+        return None
 
 
 def true_mask_weights(main_valid, valid, scored, eps, branchless):
@@ -245,7 +325,23 @@ LOOKAHEAD: tuple = ()  # PRIVILEGED teacher only: append raw rows t+L (non-causa
 QUANT_I1 = False  # add the i1 order-flow block (cross-impact) to the quant features
 QUANT = False  # append wnn.quant order-flow features accumulated since the last i0 price event
 STATE_RESET = 0  # if > 0: zero the recurrent state every STATE_RESET rows (training and prediction)
+DOMAIN_FLAG = False  # append a 0/1 column marking role-swapped (i1swap) sequences
+A_MODE = "none"  # additional features a0..a7 (raw cols 104-111): none | drop (zero) | demean (minus causal running mean)
+ZERO_COLS = None  # --zero-groups: tensor of input columns (raw 0..111, event 112..) forced to 0 before normalization
 RAW_ONLY = False  # zero the event-feature block (organizer-style raw view; keeps n_in for native export)
+
+
+def zero_group_cols(spec):
+    from wnn.data import I0, I1
+    rng = lambda sl: list(range(sl.start, sl.stop))
+    book = lambda I: rng(I.bid_px) + rng(I.ask_px) + rng(I.bid_vol) + rng(I.ask_vol)
+    trades = lambda I: rng(I.trade_px) + rng(I.trade_vol)
+    px = lambda I: rng(I.bid_px) + rng(I.ask_px) + rng(I.trade_px)
+    vol = lambda I: rng(I.bid_vol) + rng(I.ask_vol) + rng(I.trade_vol)
+    G = {"i0": rng(slice(0, 52)), "i1": rng(slice(52, 104)), "a": rng(slice(104, 112)), "ev": list(range(112, 112 + N_EVENT_FEATURES)),
+         "book": book(I0) + book(I1), "trades": trades(I0) + trades(I1), "i0book": book(I0), "i0trades": trades(I0),
+         "i1book": book(I1), "i1trades": trades(I1), "px": px(I0) + px(I1), "vol": vol(I0) + vol(I1)}
+    return sorted({c for g in spec.split(",") for c in G[g]})
 
 
 def build_inputs(x):
@@ -253,6 +349,18 @@ def build_inputs(x):
     ev = event_features_torch(raw)
     if RAW_ONLY:
         ev = torch.zeros_like(ev)
+    if ZERO_COLS is not None:
+        full = torch.cat([raw, ev], dim=-1)
+        full[..., ZERO_COLS.to(full.device)] = 0
+        raw, ev = full[..., :raw.shape[-1]], full[..., raw.shape[-1]:]
+    if A_MODE != "none":
+        a_cols = raw[..., 104:112]
+        if A_MODE == "drop":
+            a_new = torch.zeros_like(a_cols)
+        else:
+            n = torch.arange(1, raw.shape[1] + 1, device=raw.device, dtype=raw.dtype)[None, :, None]
+            a_new = a_cols - torch.cumsum(a_cols, 1) / n
+        raw = torch.cat([raw[..., :104], a_new, raw[..., 112:]], dim=-1)
     inputs = torch.cat([raw, ev], dim=-1)
     for lag in LOOKAHEAD:  # non-causal privileged inputs for distillation teachers; never for deployed models
         fut = torch.cat([raw[:, lag:], raw[:, -1:].expand(-1, lag, -1)], dim=1)
@@ -426,7 +534,7 @@ def predict(model, x, chunk, device):
     for s in range(0, inputs.shape[1], chunk):
         if STATE_RESET and s % STATE_RESET == 0:
             state = None
-        with torch.autocast("cuda", dtype=torch.float16):
+        with torch.autocast("cuda", dtype=torch.float16, enabled=os.environ.get("WNN_PREDICT_FP32") != "1"):
             out, state = forward_chunk(model, inputs, slice(s, s + chunk), state)
         outs.append(readout(out, *READOUT, tilted=READOUT_TILTED) if READOUT is not None else out[..., :2].float())
     return torch.cat(outs, dim=1).cpu().numpy()
@@ -534,6 +642,9 @@ def main():
     ap.add_argument("--propensity", default="", help="run name of a frozen PropensityNet; weights main loss by p(x)")
     ap.add_argument("--prop-power", type=float, default=1.0, help="weights p(x)**power")
     ap.add_argument("--prop-eps", type=float, default=0.0, help="floor added to propensity weights (mask robustness)")
+    ap.add_argument("--distill-boot-h", type=int, default=0, help="stopped bootstrap distillation target (rows ahead)")
+    ap.add_argument("--seq-repeat", default="", help="npz train/valid per-row_group weights applied by repetition (plain shuffle)")
+    ap.add_argument("--seq-weight", default="", help="npz with float arrays train/valid indexed by row_group: per-sequence sampling weights")
     ap.add_argument("--class-weight", default="", help="per-market-class multipliers on the main loss weights, e.g. 1.19,1.32,2.02,0.79")
     ap.add_argument("--valid-true-mask", type=float, default=-1.0,
                     help="if >= 0: rows of sequences that carry a true scoring mask (validation) are weighted "
@@ -544,6 +655,25 @@ def main():
     ap.add_argument("--train-classes", default="", help="comma-separated market classes to train on (oracle expert test)")
     ap.add_argument("--online-norm", action="store_true")
     ap.add_argument("--heuristics", action="store_true", help="append the causal heuristic library as inputs")
+    ap.add_argument("--optimizer", choices=["adamw", "muon"], default="adamw")
+    ap.add_argument("--muon-lr-mult", type=float, default=1.0)
+    ap.add_argument("--muon-inp", action="store_true", help="Muon also on the input projection")
+    ap.add_argument("--muon-momentum", type=float, default=0.95)
+    ap.add_argument("--zero-groups", default="",
+                    help="comma list of input groups zeroed (feature-subset members): i0,i1,a,ev,book,trades,i0book,i0trades,i1book,i1trades,px,vol")
+    ap.add_argument("--muon-gatewise", choices=["none", "hh", "all"], default="none",
+                    help="orthogonalize GRU gate blocks (r,z,n) separately: weight_hh only or all GRU matrices")
+    ap.add_argument("--beta2", type=float, default=0.999)
+    ap.add_argument("--warmup-frac", type=float, default=0.05)
+    ap.add_argument("--clip", type=float, default=1.0)
+    ap.add_argument("--extra-exclude-fold", type=int, default=-1)
+    ap.add_argument("--no-row-gru", action="store_true")
+    ap.add_argument("--i1swap-noswap", action="store_true")
+    ap.add_argument("--i1swap-truey", action="store_true")
+    ap.add_argument("--i1swap-pseudo", default="", help="teacher name: labels from cache/pred_<name>_i1swap.npy")
+    ap.add_argument("--domain-flag", action="store_true", help="extra input column: 1 on --i1swap sequences, 0 otherwise")
+    ap.add_argument("--i1swap", type=int, default=0, help="add N class-3 train sequences with i0/i1 roles swapped (rebuilt labels)")
+    ap.add_argument("--a-mode", choices=["none", "drop", "demean"], default="none")
     ap.add_argument("--raw-only", action="store_true", help="zero the event-feature inputs (raw 112-column view)")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--atom-head", type=float, default=0.0,
@@ -580,6 +710,8 @@ def main():
                     help="TD targets (ideas_round4 B1b): mix the label with the EMA teacher's output at the last row "
                          "before the next label change (same |y| weights); needs the EMA model")
     ap.add_argument("--td-ramp", type=float, default=0.5, help="epochs over which td-alpha ramps up from 0")
+    ap.add_argument("--gcorr-global", type=float, default=0.0,
+                    help="gcorr with global moments: decay of running (detached) metric sums added to the batch sums (0 = batch only)")
     ap.add_argument("--gcorr-weight", type=float, default=1.0, help="weight of the pooled-Pearson term in --loss wmse_gcorr")
     perf = ap.add_argument_group("throughput (see research/perf-2026-09-27.md)")
     perf.add_argument("--fast", action="store_true",
@@ -589,7 +721,7 @@ def main():
     perf.add_argument("--pin-memory", action="store_true", help="pinned persistent loaders + CUDA-stream prefetch")
     perf.add_argument("--prop-cache", action="store_true",
                       help="read propensity from cache/propcache_<name>_<split>.npy (scripts/cache_propensity.py)")
-    perf.add_argument("--precision", choices=["fp16", "bf16"], default="fp16",
+    perf.add_argument("--precision", choices=["fp16", "bf16", "fp32"], default="fp16",
                       help="autocast dtype; bf16 trains without GradScaler")
     perf.add_argument("--max-batches", type=int, default=0, help="stop each epoch after this many batches (harness)")
     perf.add_argument("--profile-steps", type=int, default=0,
@@ -658,6 +790,14 @@ def main():
                       else all_valid if args.include_heldout_valid else np.asarray(dev_groups))
     elif extra_valid is not None:
         valid_pool = np.asarray(extra_valid)
+    if args.extra_exclude_fold >= 0:  # nested simulation: a second validation fold is withheld from training too
+        if fold_groups is None:
+            ap.error("--extra-exclude-fold needs --valid-fold")
+        excluded = all_valid[fold_of == args.extra_exclude_fold]
+        if valid_pool is not None:
+            valid_pool = np.setdiff1d(valid_pool, excluded)
+        if extra_valid is not None:
+            extra_valid = np.setdiff1d(extra_valid, excluded)
     eligible_valid_count = 0 if valid_pool is None else len(valid_pool)
     if valid_pool is not None and args.valid_train_fraction < 1:
         cf = np.load(ROOT / "cache" / "chain_folds.npz")
@@ -718,18 +858,53 @@ def main():
     prop_cache = {}
     if args.prop_cache and args.propensity:
         prop_cache = {sp: prop_cache_path(args.propensity, sp) for sp in ("train", "valid")}
+    if args.seq_repeat:
+        # weighting by repetition with plain shuffling (no sampling with replacement): each sequence appears
+        # floor(w) or ceil(w) times (stochastic rounding, fixed rng); weights are normalised to mean 1 per source
+        rw = np.load(args.seq_repeat)
+        def repeat_idx(idx, w):
+            w = np.asarray(w, dtype=np.float64)[idx]
+            w = w / max(w.mean(), 1e-12)
+            rng = np.random.default_rng(args.seed + 11)
+            cnt = np.floor(w).astype(int) + (rng.random(len(w)) < (w - np.floor(w)))
+            return np.repeat(idx, cnt)
+        train_idx = repeat_idx(np.asarray(train_idx), rw[train_split])
+        if extra_valid is not None:
+            extra_valid = repeat_idx(np.asarray(extra_valid), rw["valid"])
+        print(f"seq-repeat: train {len(train_idx)} valid {0 if extra_valid is None else len(extra_valid)}", flush=True)
     train_ds = Sequences(train_split, train_idx, teachers, prop_cache.get(train_split),
                          quote_path=args.aux_quote > 0)
     if extra_valid is not None:
         valid_ds = Sequences("valid", extra_valid, teachers, prop_cache.get("valid"),
                              quote_path=args.aux_quote > 0)
         train_ds = torch.utils.data.ConcatDataset([train_ds] + [valid_ds] * args.valid_repeat)
+    if args.i1swap:
+        if teachers or args.valid_true_mask < 0:
+            ap.error("--i1swap needs --valid-true-mask (reliable-label weights) and no --distill")
+        I1SwapSequences.with_prop = bool(prop_cache)
+        I1SwapSequences.noswap = args.i1swap_noswap
+        I1SwapSequences.true_y = args.i1swap_truey
+        I1SwapSequences.pseudo = args.i1swap_pseudo
+        c3_cls = np.load(ROOT / "research" / "artifacts" / "market-classes-v1.npz")["train"]
+        c3_train = np.array([g for g in range(10607) if g not in CORRUPT_TRAIN_ROW_GROUPS and c3_cls[g] == 3])
+        c3_train = np.random.default_rng(args.seed + 7).permutation(c3_train)[: args.i1swap]
+        train_ds = torch.utils.data.ConcatDataset([train_ds, I1SwapSequences("train", c3_train)])
+        print(f"i1swap: +{len(c3_train)} role-swapped class-3 sequences", flush=True)
     if args.epoch_samples:
         sample_weights = np.ones(len(train_ds), dtype=np.float64)
         if extra_valid is not None:
             sample_weights[len(train_idx):] = eligible_valid_count / len(extra_valid)
         sampler = WeightedRandomSampler(torch.from_numpy(sample_weights), args.epoch_samples,
                                         replacement=True, generator=torch.Generator().manual_seed(args.seed))
+    if args.seq_weight:
+        # per-sequence sampling weights (same number of draws per epoch); a uniform file is the matched control
+        sw = np.load(args.seq_weight)
+        parts = [np.asarray(sw[train_split], dtype=np.float64)[train_idx]]
+        if extra_valid is not None:
+            parts += [np.asarray(sw["valid"], dtype=np.float64)[extra_valid]] * args.valid_repeat
+        draws = args.epoch_samples or len(train_ds)
+        sampler = WeightedRandomSampler(torch.from_numpy(np.concatenate(parts)), draws, replacement=True,
+                                        generator=torch.Generator().manual_seed(args.seed))
     train_loader = DataLoader(train_ds, batch_size=args.batch, shuffle=sampler is None,
                               sampler=sampler, drop_last=True, num_workers=workers, prefetch_factor=prefetch,
                               pin_memory=args.pin_memory)  # no persistent workers: they change the shuffle order (parity E-169)
@@ -739,6 +914,16 @@ def main():
     shifts = [int(v) for v in args.aux.split(",") if v]
     prop_model = load_propensity(ROOT / "artifacts" / "runs" / args.propensity / "model.pt", device) if args.propensity else None
     n_in = N_FEATURES + N_EVENT_FEATURES + N_FEATURES * len(LOOKAHEAD)
+    if args.domain_flag:
+        n_in += 1
+    global A_MODE
+    A_MODE = args.a_mode
+    global DOMAIN_FLAG
+    DOMAIN_FLAG = args.domain_flag
+    if args.zero_groups:
+        global ZERO_COLS
+        ZERO_COLS = torch.tensor(zero_group_cols(args.zero_groups), dtype=torch.long)
+        print(f"zero groups {args.zero_groups}: {len(ZERO_COLS)} columns", flush=True)
     if args.raw_only:
         global RAW_ONLY
         RAW_ONLY = True
@@ -787,6 +972,12 @@ def main():
     if args.aux_quote > 0:
         n_out += 2
     model = make_model(vars(args), n_in, n_out).to(device)
+    if args.no_row_gru:  # event-clock only: the dual model's row GRU is zeroed and frozen (its output stays exactly 0)
+        if args.arch != "dual":
+            ap.error("--no-row-gru requires --arch dual")
+        for prm in model.gru.parameters():
+            prm.data.zero_()
+            prm.requires_grad_(False)
     moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
     if args.init:
         init_run, _, init_epoch = args.init.partition("@ep")
@@ -799,11 +990,29 @@ def main():
     for pname, prm in model.named_parameters():
         if frozen and pname.startswith(frozen):
             prm.requires_grad_(False)
-    opt = torch.optim.AdamW([prm for prm in model.parameters() if prm.requires_grad], lr=args.lr, weight_decay=args.wd,
-                            fused=bool(args.fused_adam))
     total = len(train_loader) * math.ceil(20_000 / args.chunk) * args.epochs
-    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=total,
-                                                pct_start=0.05, final_div_factor=100)
+    trainable = [(n, prm) for n, prm in model.named_parameters() if prm.requires_grad]
+    if args.optimizer == "muon":
+        # Muon on hidden 2-D matrices (GRU weights, hidden head layer); AdamW on input projection, output layer, biases
+        skip = ("head.2", "mean", "std") if args.muon_inp else ("inp", "head.2", "mean", "std")
+        is_muon = lambda n, prm: prm.ndim == 2 and not n.startswith(skip)
+        mu = [prm for n, prm in trainable if is_muon(n, prm)]
+        ad = [prm for n, prm in trainable if not is_muon(n, prm)]
+        print(f"muon params {sum(x.numel() for x in mu)} adamw params {sum(x.numel() for x in ad)}", flush=True)
+        gw = {id(prm) for n, prm in trainable if is_muon(n, prm) and n.startswith("gru.") and
+              (args.muon_gatewise == "all" or (args.muon_gatewise == "hh" and "weight_hh" in n))}
+        muon_cls = (lambda *a, **k: GateMuon(*a, gatewise=gw, **k)) if gw else torch.optim.Muon
+        if gw:
+            print(f"gate-wise Muon on {len(gw)} GRU matrices", flush=True)
+        opts = [muon_cls(mu, lr=args.lr * args.muon_lr_mult, weight_decay=args.wd, momentum=args.muon_momentum,
+                                 adjust_lr_fn="match_rms_adamw"),
+                torch.optim.AdamW(ad, lr=args.lr, weight_decay=args.wd, betas=(0.9, args.beta2), fused=bool(args.fused_adam))]
+    else:
+        opts = [torch.optim.AdamW([prm for _, prm in trainable], lr=args.lr, weight_decay=args.wd, betas=(0.9, args.beta2),
+                                  fused=bool(args.fused_adam))]
+    scheds = [torch.optim.lr_scheduler.OneCycleLR(o, max_lr=o.param_groups[0]["lr"], total_steps=total,
+                                                  pct_start=args.warmup_frac, final_div_factor=100) for o in opts]
+    opt, sched = opts[-1], scheds[-1]
     amp_dtype = torch.bfloat16 if args.precision == "bf16" else torch.float16
     scaler = torch.amp.GradScaler(enabled=args.precision == "fp16")
     swa_model = torch.optim.swa_utils.AveragedModel(model) if args.swa_frac > 0 else None
@@ -818,6 +1027,25 @@ def main():
     swa_start = int(total * (1.0 - args.swa_frac))
     step_count = 0
 
+    gsums = {}
+
+    def global_corr_loss(pred, target, valid):
+        # pooled |y|-weighted Pearson from running sums of earlier batches (detached, decayed) + this batch (with grad)
+        y = target.float().clamp(-2, 2)
+        p = pred.float()
+        w = y.abs() * valid[..., None]
+        k = y.shape[-1]
+        w, y, p = w.reshape(-1, k), y.reshape(-1, k), p.reshape(-1, k)
+        cur = torch.stack([w.sum(0), (w * y).sum(0), (w * p).sum(0), (w * y * y).sum(0), (w * p * p).sum(0), (w * y * p).sum(0)])
+        run = gsums.get("s")
+        tot = cur if run is None else cur + run
+        W, sy, sp_, syy, spp, syp = tot.clamp_min(0)[0].clamp_min(1e-8), tot[1], tot[2], tot[3], tot[4], tot[5]
+        my, mp = sy / W, sp_ / W
+        cov = syp / W - my * mp
+        vy, vp = (syy / W - my * my).clamp_min(1e-8), (spp / W - mp * mp).clamp_min(1e-8)
+        gsums["s"] = cur.detach() if run is None else args.gcorr_global * run + cur.detach()
+        return 1.0 - (cov / torch.sqrt(vy * vp)).mean()
+
     def objective(o, t, v):
         if args.loss == "corr":
             return weighted_corr_loss(o, t, v)
@@ -829,6 +1057,8 @@ def main():
             return (vv * (o.float() - yv) ** 2).sum() / (vv.sum() * yv.shape[-1]).clamp_min(1e-8)
         if args.loss == "huber":
             return weighted_huber_loss(o, t, v, args.huber_delta)
+        if args.loss == "gcorr" and args.gcorr_global > 0:
+            return global_corr_loss(o, t, v)
         if args.loss == "gcorr":
             return weighted_pooled_corr_loss(o, t, v)
         if args.loss == "wmse_gcorr":
@@ -942,12 +1172,12 @@ def main():
                 sl = slice(s, s + args.chunk)
                 if args.state_reset and s % args.state_reset == 0:
                     h = h_ema = None
-                with torch.autocast("cuda", dtype=amp_dtype):
+                with torch.autocast("cuda", dtype=amp_dtype, enabled=args.precision != "fp32"):
                     out, h = forward_chunk(model, inputs, sl, h)
                 h = detach_state(h)
                 timer.mark("forward")
                 if args.ema_teacher > 0 or args.td_alpha > 0:
-                    with torch.no_grad(), torch.autocast("cuda", dtype=amp_dtype):
+                    with torch.no_grad(), torch.autocast("cuda", dtype=amp_dtype, enabled=args.precision != "fp32"):
                         out_ema, h_ema = forward_chunk(ema_model.module, inputs, sl, h_ema)
                     h_ema = detach_state(h_ema)
                 if moments is not None:
@@ -959,7 +1189,17 @@ def main():
                         loss = loss + args.ce_mse * weighted_mse_loss(pred, y[:, sl], main_valid[:, sl])
                 elif teach is not None:
                     yc = y[:, sl].float().clamp(-2, 2)
-                    tgt = (1 - args.distill_alpha) * yc + args.distill_alpha * teach[:, sl].float().clamp(-2, 2)
+                    label = yc
+                    if args.distill_boot_h:
+                        # stopped bootstrap (ported from VladKochetov007/WunderFunder main): while the label run outlives
+                        # t+h, replace y_t by the teacher at t+h (training-time target only)
+                        nxt_label = next_label_change(y)
+                        rows = torch.arange(sl.start, sl.start + yc.shape[1], device=yc.device)[None]
+                        ahead = rows + args.distill_boot_h
+                        alive = (nxt_label[:, sl] > ahead) & (ahead < teach.shape[1])
+                        idx = ahead.clamp(max=teach.shape[1] - 1).expand(yc.shape[0], -1)[..., None].expand(-1, -1, 2)
+                        label = torch.where(alive[..., None], teach.gather(1, idx).float().clamp(-2, 2), yc)
+                    tgt = (1 - args.distill_alpha) * label + args.distill_alpha * teach[:, sl].float().clamp(-2, 2)
                     w = yc.abs() * main_valid[:, sl][..., None]
                     loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
                 elif args.td_alpha > 0:
@@ -1071,14 +1311,18 @@ def main():
                         consistency_scale = 2.0  # preserve the original two-target loss scale
                     loss = loss + args.ema_teacher * consistency_scale * (cw * (out[..., :2].float() - out_ema[..., :2].float()) ** 2).sum() / cw.sum().clamp_min(1e-8)
                 timer.mark("loss")
-                opt.zero_grad(set_to_none=True)
+                for o in opts:
+                    o.zero_grad(set_to_none=True)
                 scaler.scale(loss).backward()
                 timer.mark("backward")
-                scaler.unscale_(opt)
-                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-                scaler.step(opt)
+                for o in opts:
+                    scaler.unscale_(o)
+                torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
+                for o in opts:
+                    scaler.step(o)
                 scaler.update()
-                sched.step()
+                for sc in scheds:
+                    sc.step()
                 timer.mark("optimizer")
                 if args.parity_dump:
                     losses_trace.append(loss.detach().float())

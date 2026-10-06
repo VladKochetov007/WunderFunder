@@ -1,0 +1,143 @@
+{
+  "specs": {
+    "old_pair": {
+      "w33native_old_s3": 0.5,
+      "w33native_old_s4": 0.5
+    },
+    "teacher_pair": {
+      "w33native_parent_s3": 0.5,
+      "w33native_parent_s4": 0.5
+    },
+    "four_old": {
+      "w33native_old_s3": 0.25,
+      "w33native_old_s4": 0.25,
+      "w43native_comp_s13": 0.25,
+      "w43native_comp_s14": 0.25
+    },
+    "four_twostream": {
+      "w33native_parent_s3": 0.25,
+      "w33native_parent_s4": 0.25,
+      "w43native_comp_s13": 0.25,
+      "w43native_comp_s14": 0.25
+    }
+  },
+  "comparisons": [
+    [
+      "teacher_pair",
+      "old_pair"
+    ],
+    [
+      "four_old",
+      "old_pair"
+    ],
+    [
+      "four_twostream",
+      "old_pair"
+    ],
+    [
+      "four_twostream",
+      "teacher_pair"
+    ],
+    [
+      "four_twostream",
+      "four_old"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 436,
+      "chains": 129,
+      "scores": {
+        "old_pair": 0.7125730511767501,
+        "teacher_pair": 0.7127040523285642,
+        "four_old": 0.7126416118341858,
+        "four_twostream": 0.71271354250709
+      },
+      "comparisons": {
+        "teacher_pair - old_pair": {
+          "delta": 0.00013100115181408079,
+          "conditional_ci95": [
+            -2.3035703364049365e-05,
+            0.0003140157231427242
+          ]
+        },
+        "four_old - old_pair": {
+          "delta": 6.856065743576778e-05,
+          "conditional_ci95": [
+            -5.8389225607660686e-05,
+            0.00019392001020022414
+          ]
+        },
+        "four_twostream - old_pair": {
+          "delta": 0.00014049133033988692,
+          "conditional_ci95": [
+            9.846407577687732e-06,
+            0.0002808971522688136
+          ]
+        },
+        "four_twostream - teacher_pair": {
+          "delta": 9.490178525806137e-06,
+          "conditional_ci95": [
+            -0.00015835210120880295,
+            0.00015840766192947703
+          ]
+        },
+        "four_twostream - four_old": {
+          "delta": 7.193067290411914e-05,
+          "conditional_ci95": [
+            -5.350676440923907e-06,
+            0.0001639463295115301
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "old_pair": 0.5974647961436341,
+        "teacher_pair": 0.5973479553681734,
+        "four_old": 0.5974896625845958,
+        "four_twostream": 0.5974417823954309
+      },
+      "comparisons": {
+        "teacher_pair - old_pair": {
+          "delta": -0.0001168407754607026,
+          "conditional_ci95": [
+            -0.00033742345187951774,
+            0.00012880099124931146
+          ]
+        },
+        "four_old - old_pair": {
+          "delta": 2.4866440961668346e-05,
+          "conditional_ci95": [
+            -0.0001719804493941379,
+            0.00023303577619412084
+          ]
+        },
+        "four_twostream - old_pair": {
+          "delta": -2.301374820323776e-05,
+          "conditional_ci95": [
+            -0.00026336302028454885,
+            0.00022355104267356428
+          ]
+        },
+        "four_twostream - teacher_pair": {
+          "delta": 9.382702725746483e-05,
+          "conditional_ci95": [
+            -0.00012410470419757513,
+            0.00032343481995620314
+          ]
+        },
+        "four_twostream - four_old": {
+          "delta": -4.7880189164906106e-05,
+          "conditional_ci95": [
+            -0.00015734305174590346,
+            7.433586168109334e-05
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Deadline exploratory comparison of one fixed equal four-member blend: existing twostream-teacher pair plus two newseed original-teacher students. No fitted mixture weights. Reused panels and conditional fitted-model bootstrap, no fresh holdout or public claim. Valid436 true mask and train282 estimated-mask diagnostic; known training chains excluded."
+}

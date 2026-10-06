@@ -1,0 +1,76 @@
+{
+  "status": "PASS_SOURCE_ONLY_2_JOBS_103_ARGS",
+  "commands_sha256": "e7e38e8b80ee59ef3d3cb89b6d373e153c44ad59a3a3831f011440de9c624595",
+  "historical_diffs": [
+    {
+      "name": [
+        "find256_s3",
+        "cont_sh256_final_s3"
+      ],
+      "layers": [
+        2,
+        1
+      ]
+    },
+    {
+      "name": [
+        "find256_s3h2",
+        "cont_sh256_final_s3h2"
+      ],
+      "layers": [
+        2,
+        1
+      ],
+      "init": [
+        "find256_s3@ep3",
+        "cont_sh256_final_s3@ep3"
+      ]
+    }
+  ],
+  "CV_diffs": [
+    {
+      "name": [
+        "cont_sh256_s3_f0",
+        "cont_sh256_final_s3"
+      ],
+      "distill": [
+        "h256_f0,h256s4_f0",
+        "fin256_s3,fin256_s4"
+      ],
+      "include_heldout_valid": [
+        false,
+        true
+      ],
+      "eval_source": [
+        "vfold",
+        "holdout"
+      ],
+      "valid_fold": [
+        0,
+        -1
+      ]
+    },
+    {
+      "name": [
+        "cont_sh256_s3h2_f0",
+        "cont_sh256_final_s3h2"
+      ],
+      "include_heldout_valid": [
+        false,
+        true
+      ],
+      "eval_source": [
+        "vfold",
+        "holdout"
+      ],
+      "valid_fold": [
+        0,
+        -1
+      ],
+      "init": [
+        "cont_sh256_s3_f0@ep3",
+        "cont_sh256_final_s3@ep3"
+      ]
+    }
+  ]
+}

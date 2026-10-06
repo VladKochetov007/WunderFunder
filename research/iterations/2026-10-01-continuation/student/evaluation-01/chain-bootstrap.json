@@ -1,0 +1,77 @@
+{
+  "input": "research/iterations/2026-10-01-continuation/student/evaluation-01/sufficient.npz",
+  "input_sha256": "db535edf1c243d2dd6ac995062e06b145731b8ac45d5199db9f6b2e6c4eec9b7",
+  "source_sha256": "d0ae633d3fec89d8ee62cecd3c63ff34982fffa006c1b11b25c6507d4b5770d0",
+  "metric_source_sha256": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+  "replicates": 2000,
+  "seed": 0,
+  "generator": "NumPy default_rng PCG64",
+  "NumPy_version": "2.2.6",
+  "chain_counts_by_fold": {
+    "0": 123,
+    "1": 127
+  },
+  "resampling": "Paired whole chains, with replacement, stratified by outer fold; same draws for both contrasts and all three recipes.",
+  "class_mixture": "No class field in sufficient.npz; no class stratification. Each chain retains all its sequences/class composition. Empirical class shares may vary between resamples within a fold.",
+  "statistic": "Recompute frozen pooled mean-of-two-targets WP from six sums; never average sequence correlations. Zero-weight/degenerate-variance samples use frozen pooled() zero policy; no draws removed.",
+  "intervals": {
+    "overall": {
+      "candidate4-reference4": {
+        "delta": 1.244210040018956e-05,
+        "percentile_CI95": [
+          -0.0004962466414973998,
+          0.00046004445450762967
+        ]
+      },
+      "candidate4-reference3": {
+        "delta": 0.0006372380098537134,
+        "percentile_CI95": [
+          0.0002478266847644295,
+          0.0010079822610712494
+        ]
+      }
+    },
+    "fold0": {
+      "candidate4-reference4": {
+        "delta": 6.221569652897774e-05,
+        "percentile_CI95": [
+          -0.0006287158527747749,
+          0.0006531813721453977
+        ]
+      },
+      "candidate4-reference3": {
+        "delta": 0.0007056266849363446,
+        "percentile_CI95": [
+          0.0002329197412307249,
+          0.001134447286513939
+        ]
+      }
+    },
+    "fold1": {
+      "candidate4-reference4": {
+        "delta": 0.00011577072950075262,
+        "percentile_CI95": [
+          -0.0004331772808813361,
+          0.0006631083842901019
+        ]
+      },
+      "candidate4-reference3": {
+        "delta": 0.000564039069173683,
+        "percentile_CI95": [
+          -7.160975911938149e-05,
+          0.0011622395127867992
+        ]
+      }
+    }
+  },
+  "seconds": 0.46491587348282337,
+  "uncertainty_scope": "Chain sampling conditional on these fitted models and the observed pure-chain population.",
+  "not_estimated": [
+    "training-seed variation",
+    "adaptive model/recipe selection",
+    "hidden-test/domain shift"
+  ],
+  "simultaneous_or_selection_adjusted": false,
+  "new_gates": false,
+  "confirmation_established": false
+}

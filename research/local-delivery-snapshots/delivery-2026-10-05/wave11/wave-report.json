@@ -1,0 +1,164 @@
+{
+  "specs": {
+    "reference": {
+      "w6fullteacher": 1.0
+    },
+    "parent_pair": {
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_rawwmse_s3": 0.125,
+      "cmp_rawwmse65r2_s4": 0.125,
+      "orgbase": 0.0625,
+      "d256bc1k_f0": 0.15,
+      "d256bc1ks4_f0": 0.15
+    },
+    "h8": {
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_rawwmse_s3": 0.125,
+      "cmp_rawwmse65r2_s4": 0.125,
+      "orgbase": 0.0625,
+      "w11boot_h8_s3": 0.15,
+      "w11boot_h8_s4": 0.15
+    },
+    "h8_s3": {
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_rawwmse_s3": 0.125,
+      "cmp_rawwmse65r2_s4": 0.125,
+      "orgbase": 0.0625,
+      "w11boot_h8_s3": 0.3
+    },
+    "h8_s4": {
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_rawwmse_s3": 0.125,
+      "cmp_rawwmse65r2_s4": 0.125,
+      "orgbase": 0.0625,
+      "w11boot_h8_s4": 0.3
+    },
+    "cap32": {
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_rawwmse_s3": 0.125,
+      "cmp_rawwmse65r2_s4": 0.125,
+      "orgbase": 0.0625,
+      "w11boot_cap32_s3": 0.15,
+      "w11boot_cap32_s4": 0.15
+    },
+    "cap32_s3": {
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_rawwmse_s3": 0.125,
+      "cmp_rawwmse65r2_s4": 0.125,
+      "orgbase": 0.0625,
+      "w11boot_cap32_s3": 0.3
+    },
+    "cap32_s4": {
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_rawwmse_s3": 0.125,
+      "cmp_rawwmse65r2_s4": 0.125,
+      "orgbase": 0.0625,
+      "w11boot_cap32_s4": 0.3
+    }
+  },
+  "comparisons": [
+    [
+      "cap32",
+      "h8"
+    ],
+    [
+      "cap32",
+      "parent_pair"
+    ],
+    [
+      "h8",
+      "parent_pair"
+    ],
+    [
+      "cap32",
+      "reference"
+    ],
+    [
+      "h8",
+      "reference"
+    ],
+    [
+      "cap32_s3",
+      "h8_s3"
+    ],
+    [
+      "cap32_s4",
+      "h8_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "reference": 0.7153249862709401,
+        "parent_pair": 0.7153664312785785,
+        "h8": 0.7154743985895797,
+        "h8_s3": 0.7154309382584594,
+        "h8_s4": 0.7153927801106753,
+        "cap32": 0.7149504485323074,
+        "cap32_s3": 0.7149278875980003,
+        "cap32_s4": 0.7148586725902215
+      },
+      "comparisons": {
+        "cap32 - h8": {
+          "delta": -0.0005239500572723488,
+          "conditional_ci95": [
+            -0.0007886505437864789,
+            -0.0002376538323774047
+          ]
+        },
+        "cap32 - parent_pair": {
+          "delta": -0.0004159827462710819,
+          "conditional_ci95": [
+            -0.0006968177137564619,
+            -0.00012210140300299442
+          ]
+        },
+        "h8 - parent_pair": {
+          "delta": 0.00010796731100126689,
+          "conditional_ci95": [
+            2.419262491011043e-05,
+            0.00018944297658028117
+          ]
+        },
+        "cap32 - reference": {
+          "delta": -0.00037453773863271866,
+          "conditional_ci95": [
+            -0.0007402725425327883,
+            2.7880552438821902e-05
+          ]
+        },
+        "h8 - reference": {
+          "delta": 0.00014941231863963012,
+          "conditional_ci95": [
+            -5.747829352336642e-05,
+            0.00034562918192038427
+          ]
+        },
+        "cap32_s3 - h8_s3": {
+          "delta": -0.0005030506604590812,
+          "conditional_ci95": [
+            -0.0007680055763369497,
+            -0.00022145423506084215
+          ]
+        },
+        "cap32_s4 - h8_s4": {
+          "delta": -0.0005341075204537971,
+          "conditional_ci95": [
+            -0.000804740620743577,
+            -0.0002479921555894328
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid fold0; ALL train chains excluded because d256 teacher used all train. No train holdout claim. Organizer provenance not certified. Conditional fitted-model intervals."
+}

@@ -1,0 +1,45 @@
+--- student/run_plan.py
++++ student-seed4/run_plan.py
+@@ -65,7 +65,7 @@
+     plan = json.loads(path.read_text()); sources(plan)
+     parser = parser_from_source(); steps = []
+     for job in plan['jobs']:
+-        assert re.fullmatch(r'cont_sh256_s3(?:h2)?_f[01]', job['name'])
++        assert re.fullmatch(r'cont_sh256_s4(?:h2)?_f[01]', job['name'])
+         assert job['argv'][:2] == ['.venv/bin/python', 'research/iterations/2026-10-01-overnight/training/train_aux.py']
+         assert resolve(parser, job['argv'][2:]) == job['resolved_args']
+         steps.append((job, job['stage'], job['argv']))
+@@ -88,17 +88,21 @@
+     assert a['commands_sha256'] == sha(path) and a['runner_sha256'] == sha(Path(__file__))
+     deadline = datetime.fromisoformat(a['deadline_utc'])
+     assert deadline.utcoffset() is not None and deadline > utc()
+-    assert type(a['GPU_id']) is int and a['GPU_id'] >= 0
+-    assert 0 < a['allocator_fraction'] <= .9 and 0 < a['allocator_max_MiB'] < 5632
++    assert type(a['GPU_id']) is int and a['GPU_id'] == 7
++    assert a['allocator_fraction'] == .25 and 0 < a['allocator_max_MiB'] < 5632
+     assert 0 < a['host_memory_bytes'] <= 20 * 2**30 and a['swap_bytes'] == 0
+     assert 0 < a['cpu_quota_percent'] <= 600 and 0 < a['stage_seconds'] <= 6000
+     assert a['CPU_ids'] and all(type(x) is int and x >= 0 for x in a['CPU_ids'])
+     assert 0 < a['monitor_seconds'] <= 1 and a['minimum_free_MiB'] > 0
+-    assert 0 <= a['initial_max_used_MiB'] < a['device_total_envelope_MiB'] <= a['GPU_total_MiB']
++    assert 0 <= a['initial_max_used_MiB'] < a['device_total_envelope_MiB'] <= 5632 <= a['GPU_total_MiB']
+     for kind, upper in [('parent', 3600), ('H2', 1200), ('OOF', 1200)]:
+         assert 0 < a['step_seconds'][kind] <= upper
++    assert a['inventory_receipt'] == plan['input_inventory'] and a['inventory_receipt_sha256'] == plan['input_inventory_sha256']
+     inventory = ROOT / a['inventory_receipt']
+     assert sha(inventory) == a['inventory_receipt_sha256'] and a['inventory_accepted_by_root'] is True
++    for name, expected in plan['input_stat_bindings'].items():
++        st = Path(name).stat()
++        assert (st.st_size, st.st_mtime_ns, st.st_ino) == (expected['size'], expected['mtime_ns'], expected['inode']), ('input stat changed', name)
+     for name in required_files(plan):
+         assert (ROOT / name).is_file(), ('missing dependency', name)
+     for job in plan['jobs']:
+@@ -138,7 +142,7 @@
+             else:
+                 run = ROOT / 'artifacts/runs' / job['name']
+                 assert not run.exists() and not run.is_symlink(), ('run collision', str(run))
+-            unit = 'student-' + uuid.uuid4().hex
++            unit = 'student-seed4-' + uuid.uuid4().hex
+             prior = command(['systemctl', '--user', 'show', unit + '.scope', '-p', 'LoadState', '--value'])
+             assert prior.stdout.strip() in ('', 'not-found')
+             # Independent child deadline survives supervisor/SSH loss; KILL grace is explicit.

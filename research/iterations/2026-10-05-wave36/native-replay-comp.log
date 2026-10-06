@@ -1,0 +1,25 @@
+valid 0 / 436
+valid 50 / 436
+valid 100 / 436
+valid 150 / 436
+valid 200 / 436
+valid 250 / 436
+valid 300 / 436
+valid 350 / 436
+valid 400 / 436
+train 0 / 282
+train 50 / 282
+train 100 / 282
+train 150 / 282
+train 200 / 282
+train 250 / 282
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-05-wave36/native_replay.py", line 45, in <module>
+    if not quant:assert err<.001,(tag,err)
+                         ^^^^^^
+  File "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-05-wave36/native_replay.py", line 43, in main
+    got=wnn_cpp.Ensemble([w],[1.],dynamic_int8=quant).run(z['x']);ref=z['reference'];err=float(abs(got-ref).max());corr=[float(np.corrcoef(got[:,j],ref[:,j])[0,1]) for j in (0,1)]
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/.local/share/uv/python/cpython-3.11.16-linux-x86_64-gnu/lib/python3.11/pathlib.py", line 1175, in rename
+    os.rename(self, target)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/grinchenkoeg/WunderFunder-creative/cache/pred_w36native_comp_s3_train.npy.partial' -> '/home/grinchenkoeg/WunderFunder-creative/cache/pred_w36native_comp_s3_train.npy'

@@ -1,0 +1,48 @@
+{
+  "status": "GENERATED_PASS_READY_AWAITING_RESOURCE_RELEASE",
+  "generated_receipt_sha256": "71799f0438580da44d1c63327c753829f3fa7a8cca03d5454dd0745ecf14d322",
+  "generated_seconds": 144.9032751787454,
+  "generated_selector_fits": 24,
+  "generated_calibration_fits": 24,
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "empirical_stages_started": 0,
+  "sources": {
+    "fit_selectors.py": "d9a981d37f95f35001027884f0f54bf73fefe9d8b5599f7fde35eca556a63a8f",
+    "gradient_core.py": "f5fcbb1a695ecec8d4e86425b7734e64095a08301b20d791fb896024d38a7c44",
+    "selftest.py": "35adfb2f736ffcbb6e008a0bc78ae451b208c7e55780fb33280675f9058b12b1",
+    "stage_entry.py": "dea6d33cace49bebda091056d58656452edca02605439c7c21132e5b020eafe8",
+    "launch.py": "0b3f88c9d738598da3f1f99547db5467f6911548b0c3f2d22385ea3686d50e56",
+    "common.py": "7daf491b37c19696d0c8c64cebf5b74f0ed05c8cb0c07c4fbead76947602ad3f",
+    "create_bindings.py": "7a291ed60577f3fdb404af2e1d31b7c41fbd97c75bca75f90db8a0b172d1fd20",
+    "extract_selected.py": "260ada363262ad0251262e5157b3e0f8afa846e4b267de7cd9bb463eb95bac4a"
+  },
+  "dependencies": {
+    "numpy": "2.2.6",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "torch": "2.14.0+cu130",
+    "pyarrow": "19.0.1",
+    "threadpoolctl": "3.6.0"
+  },
+  "resource_amendment_sha256": "5f35cb14e801c6d434c550bd2202ece92375bd40bac7cfdc08e071586c974095",
+  "invocation": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python research/iterations/2026-10-01-continuation/selection-risk/launch.py --allocation research/iterations/2026-10-01-continuation/selection-risk/allocation.json --allocation-sha256 <sha256>",
+  "budgets": {
+    "extract_seconds": 600,
+    "analysis_seconds": 300,
+    "CPU_count": 2,
+    "host_GiB": 4,
+    "GPU_MiB": 5632,
+    "allocator_fraction": 0.3
+  },
+  "gpu": 7,
+  "cpus": [
+    34,
+    36
+  ],
+  "wait_conditions": [
+    "root notice all6 student steps complete",
+    "peer minGRU GPU7 release",
+    "fresh GPU7<=256MiB and no compute process"
+  ]
+}

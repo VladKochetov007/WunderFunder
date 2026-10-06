@@ -1,0 +1,160 @@
+{
+  "specs": {
+    "parent": {
+      "w19distilled_s3": 0.5,
+      "w19distilled_s4": 0.5
+    },
+    "submitted_recipe": {
+      "w12compress256_distilled_s3": 0.5,
+      "w12compress256_distilled_s4": 0.5
+    },
+    "head": {
+      "w41_full_head_s3": 0.5,
+      "w41_full_head_s4": 0.5
+    },
+    "head_s3": {
+      "w41_full_head_s3": 1.0
+    },
+    "parent_s3": {
+      "w19distilled_s3": 1.0
+    },
+    "head_s4": {
+      "w41_full_head_s4": 1.0
+    },
+    "parent_s4": {
+      "w19distilled_s4": 1.0
+    },
+    "ft": {
+      "w41_full_ft_s3": 0.5,
+      "w41_full_ft_s4": 0.5
+    },
+    "ft_s3": {
+      "w41_full_ft_s3": 1.0
+    },
+    "ft_s4": {
+      "w41_full_ft_s4": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "head",
+      "parent"
+    ],
+    [
+      "head",
+      "submitted_recipe"
+    ],
+    [
+      "head_s3",
+      "parent_s3"
+    ],
+    [
+      "head_s4",
+      "parent_s4"
+    ],
+    [
+      "ft",
+      "parent"
+    ],
+    [
+      "ft",
+      "submitted_recipe"
+    ],
+    [
+      "ft_s3",
+      "parent_s3"
+    ],
+    [
+      "ft_s4",
+      "parent_s4"
+    ],
+    [
+      "ft",
+      "head"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "parent": 0.718363943590675,
+        "submitted_recipe": 0.718150292592171,
+        "head": 0.716455205155847,
+        "head_s3": 0.7137825426585545,
+        "parent_s3": 0.7178956938633227,
+        "head_s4": 0.7150928512786818,
+        "parent_s4": 0.717590093778095,
+        "ft": 0.7168543665673888,
+        "ft_s3": 0.7134129168346646,
+        "ft_s4": 0.7160642650949938
+      },
+      "comparisons": {
+        "head - parent": {
+          "delta": -0.0019087384348279723,
+          "conditional_ci95": [
+            -0.0051689156415944595,
+            0.0009419710996125941
+          ]
+        },
+        "head - submitted_recipe": {
+          "delta": -0.001695087436323961,
+          "conditional_ci95": [
+            -0.004971302570954472,
+            0.0012018140106114287
+          ]
+        },
+        "head_s3 - parent_s3": {
+          "delta": -0.004113151204768295,
+          "conditional_ci95": [
+            -0.007938352775077534,
+            -0.000597152588579394
+          ]
+        },
+        "head_s4 - parent_s4": {
+          "delta": -0.002497242499413188,
+          "conditional_ci95": [
+            -0.005768983614329171,
+            0.0001757780259518809
+          ]
+        },
+        "ft - parent": {
+          "delta": -0.001509577023286246,
+          "conditional_ci95": [
+            -0.004765065857181455,
+            0.00152447152146859
+          ]
+        },
+        "ft - submitted_recipe": {
+          "delta": -0.0012959260247822346,
+          "conditional_ci95": [
+            -0.004630892928205186,
+            0.0017915751182012091
+          ]
+        },
+        "ft_s3 - parent_s3": {
+          "delta": -0.00448277702865818,
+          "conditional_ci95": [
+            -0.008646319627408994,
+            -0.0006092837967503766
+          ]
+        },
+        "ft_s4 - parent_s4": {
+          "delta": -0.001525828683101249,
+          "conditional_ci95": [
+            -0.005304690407818754,
+            0.0015917769676000511
+          ]
+        },
+        "ft - head": {
+          "delta": 0.00039916141154172635,
+          "conditional_ci95": [
+            -0.0007174089245578441,
+            0.0014258073719729636
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid425/123, all train chains excluded. Exact wave19 recipe and init/constructor/data order retained; post-distillation two-stage true-mask LP-FT from the historicalchampion recipe is applied, no familyKDloss. Stagehead ep0 andstagefull ep0 predefined. Family heads and cached targets remain present. Fixed epoch1, two seeds. No honest train holdout; native and composite checks needed. Conditional fitted-model bootstrap; organizer pretraining provenance uncertain."
+}

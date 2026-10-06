@@ -1,0 +1,54 @@
+{
+  "status": "RUNNING",
+  "started_utc": "2026-10-02T01:04:34.394764+00:00",
+  "PID": 986541,
+  "argv": [
+    "research/iterations/2026-10-02-interval-memory/check_cuda.py",
+    "--output-dir",
+    "research/iterations/2026-10-02-interval-memory/cuda-01",
+    "--seconds",
+    "45",
+    "--gpu-fraction",
+    ".375",
+    "--threads",
+    "2"
+  ],
+  "source_sha256": {
+    "research/iterations/2026-10-02-interval-memory/check_cuda.py": "16e2dea1d9070de44328715f94e97b065680d10d05f9b4aa44fa0d6f650a5e90",
+    "research/iterations/2026-10-02-interval-memory/interval_memory.py": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241",
+    "src/wnn/nn.py": "160447df28fa090684757551a75ee61d4f35c8c8c16c246324565306f46b8ec4",
+    "src/wnn/resources.py": "471b33adb48a897e3cd68374edb6be4f683a00d947296d97eb39024dee14ca89"
+  },
+  "shape": [
+    32,
+    2000,
+    211,
+    23
+  ],
+  "arms": [
+    "accumulated",
+    "instantaneous"
+  ],
+  "chunks_per_arm": 2,
+  "synthetic_optimizer_steps_per_arm": 2,
+  "real_data": false,
+  "checkpoints_read": false,
+  "forecast_fits": 0,
+  "metrics": 0,
+  "CPU_affinity": [
+    37,
+    38
+  ],
+  "limits": {
+    "seconds": 45,
+    "threads": 2,
+    "allocator_fraction": 0.375,
+    "external_owned_GPU_MiB": 7168,
+    "external_RAM_bytes": 4294967296
+  },
+  "parity_limits": {
+    "max_abs": 0.003,
+    "RMSE": 0.0003,
+    "meaning": "fixed initial zero-extra AMP compatibility; not a forecast-quality threshold"
+  }
+}

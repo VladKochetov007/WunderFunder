@@ -1,0 +1,182 @@
+{
+  "specs": {
+    "reference": {
+      "w2_reference": 1.0
+    },
+    "teacher": {
+      "w6fullteacher": 1.0
+    },
+    "two_stream_teacher": {
+      "d256bc1k_f0": 0.3,
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_tstream_s3": 0.125,
+      "cmp_tstream_s4": 0.125,
+      "orgbase": 0.0625
+    },
+    "direct": {
+      "w12compress256_direct_s3": 0.5,
+      "w12compress256_direct_s4": 0.5
+    },
+    "direct_addition": {
+      "w6fullteacher": 0.8,
+      "w12compress256_direct_s3": 0.1,
+      "w12compress256_direct_s4": 0.1
+    },
+    "direct_s3": {
+      "w12compress256_direct_s3": 1.0
+    },
+    "direct_s4": {
+      "w12compress256_direct_s4": 1.0
+    },
+    "distilled": {
+      "w12compress256_distilled_s3": 0.5,
+      "w12compress256_distilled_s4": 0.5
+    },
+    "distilled_addition": {
+      "w6fullteacher": 0.8,
+      "w12compress256_distilled_s3": 0.1,
+      "w12compress256_distilled_s4": 0.1
+    },
+    "distilled_s3": {
+      "w12compress256_distilled_s3": 1.0
+    },
+    "distilled_s4": {
+      "w12compress256_distilled_s4": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "teacher",
+      "reference"
+    ],
+    [
+      "two_stream_teacher",
+      "teacher"
+    ],
+    [
+      "distilled",
+      "direct"
+    ],
+    [
+      "distilled",
+      "teacher"
+    ],
+    [
+      "distilled_addition",
+      "teacher"
+    ],
+    [
+      "direct_addition",
+      "teacher"
+    ],
+    [
+      "distilled_s3",
+      "direct_s3"
+    ],
+    [
+      "distilled_s3",
+      "teacher"
+    ],
+    [
+      "distilled_s4",
+      "direct_s4"
+    ],
+    [
+      "distilled_s4",
+      "teacher"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "reference": 0.7137966321379976,
+        "teacher": 0.7153249862709401,
+        "two_stream_teacher": 0.7161302310266537,
+        "direct": 0.7165484800129776,
+        "direct_addition": 0.7170041438179825,
+        "direct_s3": 0.7154105923372706,
+        "direct_s4": 0.714154073439712,
+        "distilled": 0.718150292592171,
+        "distilled_addition": 0.7161683045073246,
+        "distilled_s3": 0.717657803642783,
+        "distilled_s4": 0.7174401336510119
+      },
+      "comparisons": {
+        "teacher - reference": {
+          "delta": 0.0015283541329424999,
+          "conditional_ci95": [
+            0.0008263273361206163,
+            0.0024056027074408595
+          ]
+        },
+        "two_stream_teacher - teacher": {
+          "delta": 0.0008052447557136411,
+          "conditional_ci95": [
+            0.00040625192029797584,
+            0.001266956170040375
+          ]
+        },
+        "distilled - direct": {
+          "delta": 0.0016018125791934512,
+          "conditional_ci95": [
+            -0.000768267522986496,
+            0.004074340544913054
+          ]
+        },
+        "distilled - teacher": {
+          "delta": 0.0028253063212309026,
+          "conditional_ci95": [
+            0.0019574716377756735,
+            0.003836316112495734
+          ]
+        },
+        "distilled_addition - teacher": {
+          "delta": 0.0008433182363845049,
+          "conditional_ci95": [
+            0.0006599575761976507,
+            0.001062707822870301
+          ]
+        },
+        "direct_addition - teacher": {
+          "delta": 0.001679157547042398,
+          "conditional_ci95": [
+            0.0010309212203936547,
+            0.0024366339664282583
+          ]
+        },
+        "distilled_s3 - direct_s3": {
+          "delta": 0.00224721130551242,
+          "conditional_ci95": [
+            -0.00023152294532068074,
+            0.004606821211758427
+          ]
+        },
+        "distilled_s3 - teacher": {
+          "delta": 0.002332817371842877,
+          "conditional_ci95": [
+            0.001215222268432689,
+            0.003651568116842962
+          ]
+        },
+        "distilled_s4 - direct_s4": {
+          "delta": 0.003286060211299846,
+          "conditional_ci95": [
+            0.00046240290481710524,
+            0.006666281162191496
+          ]
+        },
+        "distilled_s4 - teacher": {
+          "delta": 0.0021151473800717913,
+          "conditional_ci95": [
+            0.0009048599252612727,
+            0.003412016075593066
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid fold0; ALL train chains excluded because d256 teacher used all train. No train holdout claim. Organizer provenance not certified. Conditional fitted-model intervals."
+}

@@ -1,0 +1,18 @@
+{
+  "status": "PASS_GENERATED_ONLY_7_CHECKS_BEFORE_REAL_ANALYSIS",
+  "source_sha256": "95c915a36722169d7925d818a26235251c3b35a40fe15803af9d875ec32cbd18",
+  "test_sha256": "d80fdba694866fcc7ef83449674c7263e37ecae39e0df6ec811d1bc18c2c1879",
+  "checks": [
+    "metric and additive components including degenerate targets",
+    "q analytic gradient and weighted orthogonality",
+    "consensus identity including signed cross term",
+    "ridge vs manual augmented weighted least squares",
+    "planted available signal and independent noise; heldout-label isolation",
+    "whole-chain split order invariance",
+    "full261 Gram pipeline and conditional-bootstrap shapes"
+  ],
+  "command": "OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 uv run --no-project --with numpy python research/iterations/2026-10-01-error-analysis/test_analyze_errors.py",
+  "observed_runtime_seconds": 0.064,
+  "real_arrays_read": false,
+  "note": "Receipt records the seven-check test run completed before the frozen actual analysis; no additional rerun."
+}

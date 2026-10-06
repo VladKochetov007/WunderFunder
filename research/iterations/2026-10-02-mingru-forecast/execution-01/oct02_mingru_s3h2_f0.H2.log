@@ -1,0 +1,40 @@
+{"name": "oct02_mingru_s3h2_f0", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 256, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 16, "epochs": 2, "lr": 0.0005, "wd": 0.01, "loss": "gcorr", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "aux_next_k": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "aux_loss_scale": 1.0, "arch": "mingru", "tfm_d": 256, "tfm_layers": 6, "tfm_heads": 8, "tfm_ff": 1024, "tfm_block": 250, "hidden1": 0, "attn_k": 32, "attn_d": 64, "attn_heads": 4, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 4, "valid_repeat": 1, "init": "oct02_mingru_s3_f0@ep3", "freeze": "inp,cells", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": false, "mask_weight": true, "propensity": "", "prop_power": 1.0, "prop_eps": 0.0, "class_weight": "", "valid_true_mask": -1.0, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "atom_head": 0.0, "vrex": 0.0, "vrex_start": 1, "level_aug": 0.0, "level_drop": 0.0, "lookahead": "", "train_half": -1, "class_heads": false, "quant_feats": false, "quant_i1": false, "state_reset": 0, "loss_norm": "chunk", "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "architecture_source_sha256": "16585c0fdcd6cf16b63234c64ea7a02d620a8f705f933fac4324c0a880a234a6", "recurrent_state": "positive FP32 tensor [layers,batch,hidden]"}
+{"source_train_sequences": 1406, "eligible_valid_train_sequences": 1406, "used_valid_train_sequences": 1406, "eval_sequences": 467}
+loader workers 2 prefetch 2; params 0.45M; steps 1740
+ep 0 batch 0/87 loss 0.8648 lr 3.58e-05 seq/s 3.7
+ep 0 batch 20/87 loss 0.8701 lr 4.93e-04 seq/s 20.7
+ep 0 batch 40/87 loss 1.0354 lr 4.54e-04 seq/s 23.4
+ep 0 batch 60/87 loss 0.7414 lr 3.86e-04 seq/s 24.6
+ep 0 batch 80/87 loss 0.9104 lr 2.98e-04 seq/s 25.1
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 0, "eval_seconds": 0.0, "split": "vfold467"}
+ep 1 batch 0/87 loss 0.8874 lr 2.66e-04 seq/s 10.2
+ep 1 batch 20/87 loss 0.9286 lr 1.72e-04 seq/s 24.9
+ep 1 batch 40/87 loss 0.7858 lr 8.94e-05 seq/s 25.9
+ep 1 batch 60/87 loss 0.9417 lr 2.99e-05 seq/s 26.3
+ep 1 batch 80/87 loss 0.7433 lr 1.77e-06 seq/s 26.5
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 1, "eval_seconds": 0.0, "split": "vfold467"}
+BEST 0.0
+{"status": "PASS_FIXED_ENDPOINT_FINITE_LINEAGE", "run": "oct02_mingru_s3h2_f0", "stage": "H2", "fold": 0, "epoch": 1, "n_in": 211, "checkpoint": {"path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/oct02_mingru_s3h2_f0/model_ep1.pt", "sha256": "46f2a12e69038670ddd3d80817e03d5822e9759ee4793e087eb32d5a761488c6"}, "model_pt_sha256": "77490533c2fadb80a7f3a6a5e465c7eafae388438ef106d302a76113087aaf4c", "model_pt_state_byte_equal": true, "all_resolved_args_equal": true, "architecture_source_sha256": "16585c0fdcd6cf16b63234c64ea7a02d620a8f705f933fac4324c0a880a234a6", "strict_state_shapes": true, "all_state_finite": true, "parent": {"path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/oct02_mingru_s3_f0/model_ep3.pt", "sha256": "f67309e5aee68dc9aa5ab08df558ee11ccce1f68d02b09dd22d06d904353f7d7"}, "byte_identical_frozen_tensors": ["mean", "std", "inp.weight", "inp.bias", "cells.0.gate.weight", "cells.0.gate.bias", "cells.0.candidate.weight", "cells.0.candidate.bias", "cells.1.gate.weight", "cells.1.gate.bias", "cells.1.candidate.weight", "cells.1.candidate.bias"], "commands_sha256": "9ef811a34bdf4bb6111061f5815a236eb30f08a5339c976eff39b15e127122b7", "validator_sha256": "7cef9a1580f15115d637098ef4d149a3cef51afc912bc29740c294e722ec5b57", "inference": false, "metrics": 0}
+	Command being timed: ".venv/bin/python research/iterations/2026-10-02-mingru-forecast/run_queue.py --allocation /home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-mingru-forecast/training-allocation.json --allocation-sha256 b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8 --worker 1"
+	User time (seconds): 165.99
+	System time (seconds): 38.40
+	Percent of CPU this job got: 176%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:55.49
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 3083060
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 9741408
+	Voluntary context switches: 28979
+	Involuntary context switches: 773
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 10872
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

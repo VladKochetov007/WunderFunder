@@ -1,0 +1,34 @@
+{"name": "oct02_ac_original_s3h1_f0", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 128, "layers": 2, "dropout": 0.0, "chunk": 2000, "batch": 16, "epochs": 1, "lr": 0.0005, "wd": 0.01, "loss": "gcorr", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "aux_next_k": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "tfm_d": 256, "tfm_layers": 6, "tfm_heads": 8, "tfm_ff": 1024, "tfm_block": 250, "hidden1": 0, "attn_k": 32, "attn_d": 64, "attn_heads": 4, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 4, "valid_repeat": 1, "init": "oct02_ac_original_s3_f0@ep3", "freeze": "inp,gru", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": false, "mask_weight": true, "propensity": "", "prop_power": 1.0, "prop_eps": 0.0, "class_weight": "", "valid_true_mask": -1.0, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "atom_head": 0.5, "vrex": 0.0, "vrex_start": 1, "level_aug": 0.0, "level_drop": 0.0, "lookahead": "", "train_half": -1, "class_heads": false, "quant_feats": false, "quant_i1": false, "state_reset": 0, "loss_norm": "chunk", "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "atom_decoder": "original"}
+{"source_train_sequences": 1406, "eligible_valid_train_sequences": 1406, "used_valid_train_sequences": 1406, "eval_sequences": 467}
+loader workers 2 prefetch 2; params 0.30M; steps 870
+ep 0 batch 0/87 loss 1.5298 lr 8.26e-05 seq/s 4.1
+ep 0 batch 20/87 loss 2.0415 lr 4.51e-04 seq/s 40.1
+ep 0 batch 40/87 loss 1.7995 lr 2.93e-04 seq/s 48.3
+ep 0 batch 60/87 loss 1.6238 lr 1.12e-04 seq/s 54.0
+ep 0 batch 80/87 loss 2.1148 lr 6.46e-06 seq/s 56.1
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metrics_computed": 0, "metric_placeholder_not_a_readout": true, "reason": "placeholder only: prospectively fixed parent ep3/head ep0", "epoch": 0, "eval_seconds": 0.0, "split": "vfold467"}
+BEST 0.0
+{"status": "COMPLETE_FIXED_ENDPOINT", "run": "oct02_ac_original_s3h1_f0", "decoder": "original", "epoch": 0, "checkpoint_sha256": "ad4314855d6384fbe2506da0e655a0dfeb2d69c9bcff11d7574554e5bbb510a6", "initial_state_sha256": "e638719b0be40fc9fe5319583ceb9e7fa7f5cff0fe7d8b19046145dd2e3e8b93", "normalized_initial_sha256": [], "sampler_iterations": [{"count": 1406, "complete": true, "sha256": "252a2d8e455919df5149e5cb9111753d28676f382dc3d90f7b33dc406b798c89"}], "frozen_trunk_exact": true, "source_base_sha256": "f97047e6ef51f32097f2cbe2eefc7c57766771ebaed12ae8798a3c1b7efcd52f", "metrics_computed": 0, "atom_tensor_sha256": "37b0fc4b86dc5a9a261329f4e4a7732e7ef520b2e83a32ac5a022d231c599019"}
+	Command being timed: ".venv/bin/python research/iterations/2026-10-02-atom-consistent-training/run_queue.py --allocation /home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-atom-consistent-training/training-allocation.json --allocation-sha256 02aee3a51027d185c6ccf94b922af897a82efd254ad34f082d45a75e05ca6806 --worker 1"
+	User time (seconds): 48.72
+	System time (seconds): 21.88
+	Percent of CPU this job got: 231%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:30.47
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 3186088
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 5550253
+	Voluntary context switches: 10524
+	Involuntary context switches: 2027
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 7232
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

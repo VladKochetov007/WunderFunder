@@ -1,0 +1,16 @@
+name: wunder-retrieval-causal-student-20261005
+cmd: python3 retrieval_student.py ${DATA} ${REPORT} ${ARTIFACT}
+env:
+  python:
+    type: manual
+    version: 3.12
+    requirements-file: requirements.txt
+    pip:
+      extra-index-urls:
+        - https://download.pytorch.org/whl/cu126
+inputs:
+  - ../2026-10-05-wave3/probe.npz: DATA
+outputs:
+  - student-datasphere.json: REPORT
+  - student-artifacts.npz: ARTIFACT
+cloud-instance-type: gt4i.1

@@ -1,0 +1,63 @@
+{
+  "status": "PASS_SOURCE_ONLY_AND_GENERATED_ARRAYS",
+  "evaluator_sha256": "a4b7e4b7840b9f5aa472099bb6a2e0a665c5de1a0e086991dcf255b6575a8aa4",
+  "spec_sha256": "1861ab67ccdb9403051689886a8d75b281f869b22331ce71aac3625188707167",
+  "metric_sha256": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+  "recipes": {
+    "double_shallow": [
+      "cont_sh256_s3h2",
+      "cont_sh256_s4h2",
+      "on_ctl128s3",
+      "on_ctlc500"
+    ],
+    "current_student4": [
+      "cont_sh256_s3h2",
+      "on_ctl128s3",
+      "on_ctl128s4",
+      "on_ctlc500"
+    ],
+    "strong4": [
+      "on_ctld256",
+      "on_ctl128s3",
+      "on_ctl128s4",
+      "on_ctlc500"
+    ],
+    "single_seed4": [
+      "cont_sh256_s4h2",
+      "on_ctl128s3",
+      "on_ctl128s4",
+      "on_ctlc500"
+    ]
+  },
+  "fixed_contrasts": {
+    "double_vs_current": [
+      "double_shallow",
+      "current_student4"
+    ],
+    "double_vs_strong": [
+      "double_shallow",
+      "strong4"
+    ],
+    "single_seed4_vs_current": [
+      "single_seed4",
+      "current_student4"
+    ]
+  },
+  "checks": [
+    "ROOT/continuation path resolution",
+    "12 exact new/existing prediction paths with incomplete hashes",
+    "4 literal ordered float32 quarter blends",
+    "3 frozen pooled comparisons",
+    "input lexical/output containment rejection",
+    "unallocated draft stops before metric/data entry"
+  ],
+  "real_data_or_model_reads": false,
+  "model_forwards": 0,
+  "WP_queries": 0,
+  "authority_prose_correction": {
+    "previous_spec_sha256": "2a74a8f42d59f732c7b76084df8bf8db2f27e5758730522456684503b530ad08",
+    "source_and_recipes_unchanged": true,
+    "unbound_input_early_stop_rechecked": true,
+    "new_permission_gate": false
+  }
+}

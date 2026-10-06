@@ -1,0 +1,137 @@
+{
+  "specs": {
+    "old_pair": {
+      "w18compcompress_distilled_s3": 0.5,
+      "w18compcompress_distilled_s4": 0.5
+    },
+    "new_pair": {
+      "w43_comp_s13": 0.5,
+      "w43_comp_s14": 0.5
+    },
+    "four_mean": {
+      "w18compcompress_distilled_s3": 0.25,
+      "w18compcompress_distilled_s4": 0.25,
+      "w43_comp_s13": 0.25,
+      "w43_comp_s14": 0.25
+    },
+    "new_s13": {
+      "w43_comp_s13": 1.0
+    },
+    "old_s3": {
+      "w18compcompress_distilled_s3": 1.0
+    },
+    "new_s14": {
+      "w43_comp_s14": 1.0
+    },
+    "old_s4": {
+      "w18compcompress_distilled_s4": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "four_mean",
+      "old_pair"
+    ],
+    [
+      "new_pair",
+      "old_pair"
+    ],
+    [
+      "new_s13",
+      "old_s3"
+    ],
+    [
+      "new_s14",
+      "old_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 436,
+      "chains": 129,
+      "scores": {
+        "old_pair": 0.7126204198255042,
+        "new_pair": 0.712680153463275,
+        "four_mean": 0.712684247993159,
+        "new_s13": 0.7119478358387064,
+        "old_s3": 0.7119980228251297,
+        "new_s14": 0.7119534560968586,
+        "old_s4": 0.7117972064601032
+      },
+      "comparisons": {
+        "four_mean - old_pair": {
+          "delta": 6.382816765482247e-05,
+          "conditional_ci95": [
+            -5.46975629742763e-05,
+            0.00017880077726333812
+          ]
+        },
+        "new_pair - old_pair": {
+          "delta": 5.9733637770786885e-05,
+          "conditional_ci95": [
+            -0.00017688148492641387,
+            0.0002876634448246094
+          ]
+        },
+        "new_s13 - old_s3": {
+          "delta": -5.018698642333952e-05,
+          "conditional_ci95": [
+            -0.00045631653841296527,
+            0.0002850438099841062
+          ]
+        },
+        "new_s14 - old_s4": {
+          "delta": 0.00015624963675531234,
+          "conditional_ci95": [
+            -0.00019144601202692179,
+            0.0005406248751842979
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "old_pair": 0.5975019974748828,
+        "new_pair": 0.5973704526717678,
+        "four_mean": 0.5974822455927167,
+        "new_s13": 0.5964160801181126,
+        "old_s3": 0.5966977400915545,
+        "new_s14": 0.5957855711590468,
+        "old_s4": 0.5957761994369203
+      },
+      "comparisons": {
+        "four_mean - old_pair": {
+          "delta": -1.9751882166074708e-05,
+          "conditional_ci95": [
+            -0.00020436331222962456,
+            0.00016772254253455963
+          ]
+        },
+        "new_pair - old_pair": {
+          "delta": -0.00013154480311494687,
+          "conditional_ci95": [
+            -0.0005048563219890001,
+            0.00024531175625988605
+          ]
+        },
+        "new_s13 - old_s3": {
+          "delta": -0.0002816599734418723,
+          "conditional_ci95": [
+            -0.0008014971070625599,
+            0.0002393753120315499
+          ]
+        },
+        "new_s14 - old_s4": {
+          "delta": 9.37172212656101e-06,
+          "conditional_ci95": [
+            -0.000662808298620246,
+            0.0006504335771807089
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused panels, fixed ep1, two new student seeds13/14 from original parent3/4 and teacher. Four-member mean has fixed equal weights. Only two independent parent basins. Conditional chain bootstrap, not seed variance. Organizer pretrained baseline provenance uncertain. Valid436 true mask and train282 estimated-mask diagnostic; all known training chains excluded."
+}

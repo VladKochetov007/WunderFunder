@@ -1,0 +1,38 @@
+{
+  "status": "CLARIFICATION_ONLY_NO_RUNNING_SOURCE_PLAN_OR_ALLOCATION_CHANGE",
+  "utc": "2026-10-01T12:40:50.703870+00:00",
+  "frozen_runtime_plan_sha256": "35eb89808044cf9648200d7c434df76eb2df00d97864fd23d8dae93dd6a5938e",
+  "unused_inherited_fields": [
+    "command_argv",
+    "governor_observation",
+    "limits",
+    "required_root_allocation_fields",
+    "derived_from_baseline_plan_sha256"
+  ],
+  "cause": "Preparation builder copied historicalV1 plan wholesale and retained obsolete descriptive fields. Actual worker does not consume these fields. No midrun alteration or retry.",
+  "authoritative_actual": {
+    "allocation_sha256": "64c58731de8017cf9d171411c9221f4a14f03896c4cccc4e739a2449c437e487",
+    "ZIP_sha256": "c2313be187bb152a7aa0244c2700eae90ab903b50608e23f4023bc51c35bfbdc",
+    "fixed_members": [
+      "find256_s3h2",
+      "fin128_s3h2",
+      "fin128_s4h2",
+      "finc500b_s3h2"
+    ],
+    "coefficients": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "governor": false,
+    "CPU": 39,
+    "SMT": 79,
+    "scope": "q4-full-runtime-20261001",
+    "runtime_hard_seconds": 4200,
+    "official_full_process_threshold_seconds": 3600,
+    "runtime_actual_argv_receipt": "execution/launch.json",
+    "runtime_worker_identity": "execution/worker-process.json"
+  },
+  "prohibits_claim": "Old governor/pruning fields do not describe this fixed4 experiment."
+}

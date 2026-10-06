@@ -1,0 +1,339 @@
+{
+  "status": "PASS_GENERATED_INTERVAL_CUDA",
+  "started_utc": "2026-10-02T01:04:34.394764+00:00",
+  "PID": 986541,
+  "argv": [
+    "research/iterations/2026-10-02-interval-memory/check_cuda.py",
+    "--output-dir",
+    "research/iterations/2026-10-02-interval-memory/cuda-01",
+    "--seconds",
+    "45",
+    "--gpu-fraction",
+    ".375",
+    "--threads",
+    "2"
+  ],
+  "source_sha256": {
+    "research/iterations/2026-10-02-interval-memory/check_cuda.py": "16e2dea1d9070de44328715f94e97b065680d10d05f9b4aa44fa0d6f650a5e90",
+    "research/iterations/2026-10-02-interval-memory/interval_memory.py": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241",
+    "src/wnn/nn.py": "160447df28fa090684757551a75ee61d4f35c8c8c16c246324565306f46b8ec4",
+    "src/wnn/resources.py": "471b33adb48a897e3cd68374edb6be4f683a00d947296d97eb39024dee14ca89"
+  },
+  "shape": [
+    32,
+    2000,
+    211,
+    23
+  ],
+  "arms": [
+    "accumulated",
+    "instantaneous"
+  ],
+  "chunks_per_arm": 2,
+  "synthetic_optimizer_steps_per_arm": 2,
+  "real_data": false,
+  "checkpoints_read": false,
+  "forecast_fits": 0,
+  "metrics": 0,
+  "CPU_affinity": [
+    37,
+    38
+  ],
+  "limits": {
+    "seconds": 45,
+    "threads": 2,
+    "allocator_fraction": 0.375,
+    "external_owned_GPU_MiB": 7168,
+    "external_RAM_bytes": 4294967296
+  },
+  "parity_limits": {
+    "max_abs": 0.003,
+    "RMSE": 0.0003,
+    "meaning": "fixed initial zero-extra AMP compatibility; not a forecast-quality threshold"
+  },
+  "device": {
+    "name": "NVIDIA RTX A4000",
+    "total_bytes": 16749428736
+  },
+  "torch_version": "2.14.0+cu130",
+  "cudnn_version": 92400,
+  "cudnn_benchmark": true,
+  "TF32_policy": {
+    "matmul": false,
+    "cudnn": true
+  },
+  "ordinary_reference_peak_allocated_bytes": 635649024,
+  "ordinary_reference_peak_reserved_bytes": 692060160,
+  "arms_results": [
+    {
+      "arm": "accumulated",
+      "seconds": 1.632511479780078,
+      "initial_state_sha256": "134fc20528634e056fa11ef90b1ad2f0908120e698eaf6641ae04a67d0d44328",
+      "steps": [
+        {
+          "chunk": 0,
+          "event_counts": [
+            0,
+            111,
+            80,
+            62,
+            51,
+            43,
+            38,
+            182,
+            111,
+            80,
+            63,
+            52,
+            44,
+            38,
+            182,
+            111,
+            80,
+            63,
+            51,
+            43,
+            37,
+            182,
+            111,
+            80,
+            62,
+            52,
+            44,
+            38,
+            182,
+            111,
+            80,
+            63
+          ],
+          "output_dtype": "torch.float16",
+          "incoming_carried": false,
+          "zero_extra_vs_plain": {
+            "max_abs": 0.0,
+            "RMSE": 0.0
+          },
+          "row_hidden_vs_plain": {
+            "max_abs": 0.0,
+            "RMSE": 0.0
+          },
+          "student_vs_initial_EMA": {
+            "max_abs": 0.0,
+            "RMSE": 0.0
+          },
+          "loss": 0.04154655337333679,
+          "gradient_norm_before_clip": 0.019321147352457047,
+          "gradient_tensors": 17,
+          "scaler_before": 65536.0,
+          "scaler_after": 65536.0,
+          "optimizer_step_values": [
+            1.0
+          ],
+          "carried_sum_dtype": "torch.float32",
+          "carried_count_max": 2000
+        },
+        {
+          "chunk": 1,
+          "event_counts": [
+            0,
+            112,
+            80,
+            63,
+            51,
+            44,
+            37,
+            182,
+            111,
+            80,
+            62,
+            51,
+            43,
+            38,
+            182,
+            111,
+            80,
+            62,
+            51,
+            44,
+            38,
+            182,
+            111,
+            80,
+            63,
+            51,
+            43,
+            37,
+            182,
+            112,
+            80,
+            62
+          ],
+          "output_dtype": "torch.float16",
+          "incoming_carried": true,
+          "loss": 0.0408853143453598,
+          "gradient_norm_before_clip": 0.02484292909502983,
+          "gradient_tensors": 17,
+          "scaler_before": 65536.0,
+          "scaler_after": 65536.0,
+          "optimizer_step_values": [
+            2.0
+          ],
+          "carried_sum_dtype": "torch.float32",
+          "carried_count_max": 4000
+        }
+      ],
+      "peak_allocated_bytes": 868381184,
+      "peak_reserved_bytes": 1151336448,
+      "final_live_allocated_bytes": 29872128,
+      "H2_trainable": [
+        "extra_weight",
+        "head.0.weight",
+        "head.0.bias",
+        "head.2.weight",
+        "head.2.bias"
+      ],
+      "normalization_unchanged": true
+    },
+    {
+      "arm": "instantaneous",
+      "seconds": 0.8378934860229492,
+      "initial_state_sha256": "134fc20528634e056fa11ef90b1ad2f0908120e698eaf6641ae04a67d0d44328",
+      "steps": [
+        {
+          "chunk": 0,
+          "event_counts": [
+            0,
+            111,
+            80,
+            62,
+            51,
+            43,
+            38,
+            182,
+            111,
+            80,
+            63,
+            52,
+            44,
+            38,
+            182,
+            111,
+            80,
+            63,
+            51,
+            43,
+            37,
+            182,
+            111,
+            80,
+            62,
+            52,
+            44,
+            38,
+            182,
+            111,
+            80,
+            63
+          ],
+          "output_dtype": "torch.float16",
+          "incoming_carried": false,
+          "zero_extra_vs_plain": {
+            "max_abs": 0.0,
+            "RMSE": 0.0
+          },
+          "row_hidden_vs_plain": {
+            "max_abs": 0.0,
+            "RMSE": 0.0
+          },
+          "student_vs_initial_EMA": {
+            "max_abs": 0.0,
+            "RMSE": 0.0
+          },
+          "paired_initial_output": {
+            "max_abs": 0.0,
+            "RMSE": 0.0
+          },
+          "loss": 0.04154655337333679,
+          "gradient_norm_before_clip": 0.019320257008075714,
+          "gradient_tensors": 17,
+          "scaler_before": 65536.0,
+          "scaler_after": 65536.0,
+          "optimizer_step_values": [
+            1.0
+          ],
+          "carried_sum_dtype": "torch.float32",
+          "carried_count_max": 2000
+        },
+        {
+          "chunk": 1,
+          "event_counts": [
+            0,
+            112,
+            80,
+            63,
+            51,
+            44,
+            37,
+            182,
+            111,
+            80,
+            62,
+            51,
+            43,
+            38,
+            182,
+            111,
+            80,
+            62,
+            51,
+            44,
+            38,
+            182,
+            111,
+            80,
+            63,
+            51,
+            43,
+            37,
+            182,
+            112,
+            80,
+            62
+          ],
+          "output_dtype": "torch.float16",
+          "incoming_carried": true,
+          "loss": 0.04088541865348816,
+          "gradient_norm_before_clip": 0.024843906983733177,
+          "gradient_tensors": 17,
+          "scaler_before": 65536.0,
+          "scaler_after": 65536.0,
+          "optimizer_step_values": [
+            2.0
+          ],
+          "carried_sum_dtype": "torch.float32",
+          "carried_count_max": 4000
+        }
+      ],
+      "peak_allocated_bytes": 854211072,
+      "peak_reserved_bytes": 1172307968,
+      "final_live_allocated_bytes": 29872128,
+      "H2_trainable": [
+        "extra_weight",
+        "head.0.weight",
+        "head.0.bias",
+        "head.2.weight",
+        "head.2.bias"
+      ],
+      "normalization_unchanged": true
+    }
+  ],
+  "matched_synthetic_initial_state_sha256": "134fc20528634e056fa11ef90b1ad2f0908120e698eaf6641ae04a67d0d44328",
+  "peak_allocated_bytes": 868381184,
+  "peak_reserved_bytes": 1172307968,
+  "limitations": "Generated resource/AMP smoke only. No actual frozen trainer auxiliaries/loader, no forecast fit, no native latency or quality claim; external controller owns NVML/cgroup limits.",
+  "seconds": 6.994413131847978,
+  "finished_utc": "2026-10-02T01:04:41.385459+00:00",
+  "terminal_memory": {
+    "allocated": 17117696,
+    "reserved": 77594624
+  }
+}

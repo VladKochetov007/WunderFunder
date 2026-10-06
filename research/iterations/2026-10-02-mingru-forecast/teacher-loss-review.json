@@ -1,0 +1,47 @@
+{
+  "status": "READ_ONLY_REVIEW_NO_NEW_FIT_OR_VALIDATION_QUERY",
+  "date_utc": "2026-10-01",
+  "question": "Does the current parent loss force an architecture candidate to inherit the incumbent teachers' limitations?",
+  "finding": "The objective supplies both fixed-teacher and EMA attraction, but neither source inspection nor historical results establishes a quality ceiling. Do not use a negative minGRU result as evidence that teacher release will help.",
+  "source": {
+    "path": "research/iterations/2026-10-01-overnight/training/train_aux.py",
+    "sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f",
+    "distillation_lines": [964, 968],
+    "consistency_lines": [1070, 1076],
+    "row_weight_lines": [896, 916]
+  },
+  "exact_local_quadratic": {
+    "scope": "Main two-target squared losses for one chunk, holding teacher predictions and masks fixed; excludes auxiliary losses and parameter sharing. Assume positive denominators above their numerical floors.",
+    "definitions": "y=clipped label, t=clipped fixed teacher, e=unclipped EMA output, m_i=main_valid row weight, W=sum_i,k m_i*abs(y_ik), M=sum_i m_i, lambda=ema_teacher, alpha=distill_alpha.",
+    "formula": "L=sum_i,k [m_i*abs(y_ik)/W]*(p_ik-((1-alpha)*y_ik+alpha*t_ik))^2 + lambda*sum_i,k [m_i/M]*(p_ik-e_ik)^2",
+    "pointwise_minimizer": "For m_i>0 and lambda>0: p*_ik=(abs(y_ik)*((1-alpha)*y_ik+alpha*t_ik)+lambda*(W/M)*e_ik)/(abs(y_ik)+lambda*(W/M)).",
+    "interpretation": "For alpha=.5 and lambda=1, the direct label coefficient is .5*abs(y)/(abs(y)+W/M), not a global 25%. W/M sums both targets per weighted row. At equal absolute magnitudes for both targets this coefficient is 1/6. This is a local frozen-teacher algebraic decomposition, not the fraction of learned information coming from labels: EMA evolves from label-trained weights and shared auxiliary losses also train the representation.",
+    "zero_label_case": "A target with y=0 receives no direct main WMSE gradient but may receive an EMA consistency gradient; its evaluation weight is also zero.",
+    "H2": "The current H2 has no distillation or EMA consistency and freezes the input projection and recurrent backbone. It can adapt the readout but does not update the representation."
+  },
+  "historical_counterevidence": [
+    {
+      "source": "research/quant-probes-2026-09-29.md:263",
+      "result": "Ordinary distilled h256 improved +.0016 against plain h256 seed3, positive on both folds; replacing the wide ensemble member improved +.0004. These are historical protocols, not the current fixed-four metric recomputed here."
+    },
+    {
+      "source": "research/quant-probes-2026-09-29.md:304",
+      "result": "Generation-2 teachers with alpha=.7 improved their standalone pair slightly but lost .00006 in C. Six rather than four distillation epochs did not improve the tested parent."
+    },
+    {
+      "source": "research/experiments.jsonl:E-222",
+      "result": "Target-magnitude-weighted EMA consistency was already tested and was negative on fold0. This is not an EMA-removal or taper experiment."
+    },
+    {
+      "source": "research/quant-probes-2026-09-29.md:190",
+      "result": "Full-network fine-tuning was already tested on plain h128/h256. For the h256 pair, head-only WP .70143 exceeded full FT .70070 and lower-LR full FT .70080. This precedes ordinary d256 and is not a matched teacher-release test on current shallow256. It nevertheless argues against treating unfreezing as an obvious fix."
+    }
+  ],
+  "search_limits": "Searched the local experiment ledger, research reports, run reports and saved command JSONs. No matched current-shallow256 parent-stage teacher-release/EMA-taper result was found. The original remote artifacts/logs directory exists but contained no matching top-level shell scripts; absence from this search is not proof that no such experiment ever ran.",
+  "decision": {
+    "current_minGRU_screen": "Continue unchanged to its fixed two-fold H2 readout. Do not interrupt or alter its loss.",
+    "teacher_release": "Reserve hypothesis only; no new training allocation. If selected later, isolate one change against a matched continuation control, retain the same training population, distinguish fixed-teacher removal from EMA removal, and evaluate the final fixed ensemble. A validation-only full FT would also change the data distribution and cannot isolate this mechanism.",
+    "next_after_positive_minGRU": "Inspect trained native numerical drift and serving cost; use a separate seed before claiming a robust architecture advantage.",
+    "next_after_negative_minGRU": "Close this particular architecture recipe, inspect its already-declared fold/class3/quiet-age readout, and choose a mechanism supported by those results. Do not automatically start an alpha/lambda sweep or claim an information-theoretic ceiling."
+  }
+}

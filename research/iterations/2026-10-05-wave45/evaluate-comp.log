@@ -1,0 +1,137 @@
+{
+  "specs": {
+    "old_pair": {
+      "w18compcompress_distilled_s3": 0.5,
+      "w18compcompress_distilled_s4": 0.5
+    },
+    "short_pair": {
+      "w45_comp_s3": 0.5,
+      "w45_comp_s4": 0.5
+    },
+    "four_mean": {
+      "w18compcompress_distilled_s3": 0.25,
+      "w18compcompress_distilled_s4": 0.25,
+      "w45_comp_s3": 0.25,
+      "w45_comp_s4": 0.25
+    },
+    "short_s3": {
+      "w45_comp_s3": 1.0
+    },
+    "old_s3": {
+      "w18compcompress_distilled_s3": 1.0
+    },
+    "short_s4": {
+      "w45_comp_s4": 1.0
+    },
+    "old_s4": {
+      "w18compcompress_distilled_s4": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "short_pair",
+      "old_pair"
+    ],
+    [
+      "four_mean",
+      "old_pair"
+    ],
+    [
+      "short_s3",
+      "old_s3"
+    ],
+    [
+      "short_s4",
+      "old_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 436,
+      "chains": 129,
+      "scores": {
+        "old_pair": 0.7126204198255042,
+        "short_pair": 0.7123872445957594,
+        "four_mean": 0.7125164146478624,
+        "short_s3": 0.7117092449262308,
+        "old_s3": 0.7119980228251297,
+        "short_s4": 0.7115894677486805,
+        "old_s4": 0.7117972064601032
+      },
+      "comparisons": {
+        "short_pair - old_pair": {
+          "delta": -0.00023317522974475313,
+          "conditional_ci95": [
+            -0.0005920912129725953,
+            0.00011988250821466901
+          ]
+        },
+        "four_mean - old_pair": {
+          "delta": -0.00010400517764175277,
+          "conditional_ci95": [
+            -0.0002829702029212511,
+            7.245360322816189e-05
+          ]
+        },
+        "short_s3 - old_s3": {
+          "delta": -0.0002887778988989176,
+          "conditional_ci95": [
+            -0.0007086745436933606,
+            8.959182707637919e-05
+          ]
+        },
+        "short_s4 - old_s4": {
+          "delta": -0.0002077387114227669,
+          "conditional_ci95": [
+            -0.00072087213917236,
+            0.00025651189629171653
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "old_pair": 0.5975019974748828,
+        "short_pair": 0.5975852906558856,
+        "four_mean": 0.5975681040332721,
+        "short_s3": 0.596879058646812,
+        "old_s3": 0.5966977400915545,
+        "short_s4": 0.595700596793944,
+        "old_s4": 0.5957761994369203
+      },
+      "comparisons": {
+        "short_pair - old_pair": {
+          "delta": 8.329318100286365e-05,
+          "conditional_ci95": [
+            -0.00035824024835618415,
+            0.0005201014622952436
+          ]
+        },
+        "four_mean - old_pair": {
+          "delta": 6.610655838934498e-05,
+          "conditional_ci95": [
+            -0.00015621042865026358,
+            0.00028566053460222737
+          ]
+        },
+        "short_s3 - old_s3": {
+          "delta": 0.00018131855525749252,
+          "conditional_ci95": [
+            -0.0004032882878929611,
+            0.0007594977774350246
+          ]
+        },
+        "short_s4 - old_s4": {
+          "delta": -7.560264297623576e-05,
+          "conditional_ci95": [
+            -0.0006036721104027976,
+            0.0004416163758646003
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused panels, fixed ep1, same student seeds3/4 and original parent/teacher. Change TBPTT chunk2000/batch16 to chunk500/batch64, keeping nominal32000 rows per optimizer step; sequence batch composition and truncation both change. Four-member mean has fixed equal weights. Only two independent parent basins. Conditional chain bootstrap, not seed variance. Organizer pretrained baseline provenance uncertain. Valid436 true mask and train282 estimated-mask diagnostic; all known training chains excluded."
+}

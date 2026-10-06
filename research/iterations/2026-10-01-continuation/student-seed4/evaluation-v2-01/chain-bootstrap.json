@@ -1,0 +1,119 @@
+{
+  "input": "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/student-seed4/evaluation-v2-01/sufficient.npz",
+  "input_sha256": "6dcea78413a5404e0531a2c598e7628166d55acaba1792fd5cdadc81be1d789c",
+  "source_sha256": "aeafd580e04389c069d3278b56862334bc6c913d50c8229470ef648ef6f58f94",
+  "metric_source_sha256": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+  "replicates": 2000,
+  "seed": 0,
+  "generator": "NumPy default_rng PCG64",
+  "NumPy_version": "2.2.6",
+  "chain_counts_by_fold": {
+    "0": 123,
+    "1": 127
+  },
+  "resampling": "Paired whole chains, with replacement, stratified by outer fold; same draws for all four contrasts and all five recipes.",
+  "class_mixture": "No class field in sufficient.npz; no class stratification. Each chain retains all its sequences/class composition. Empirical class shares may vary between resamples within a fold.",
+  "statistic": "Recompute frozen pooled mean-of-two-targets WP from six sums; never average sequence correlations. Zero-weight/degenerate-variance samples use frozen pooled() zero policy; no draws removed.",
+  "intervals": {
+    "overall": {
+      "double_shallow-current_student4": {
+        "delta": -2.6126972428985873e-05,
+        "percentile_CI95": [
+          -0.0006353722626644687,
+          0.00048092907734230384
+        ]
+      },
+      "double_shallow-strong4": {
+        "delta": -1.3684872028796313e-05,
+        "percentile_CI95": [
+          -0.0008753732411265924,
+          0.0006850805615068341
+        ]
+      },
+      "single_seed4-current_student4": {
+        "delta": -0.00014529769114779434,
+        "percentile_CI95": [
+          -0.0003788227148446038,
+          9.429174429821094e-05
+        ]
+      },
+      "double_vs_duplicate_seed3": {
+        "delta": 7.741030803176674e-05,
+        "percentile_CI95": [
+          -0.00015398584096041335,
+          0.0003187631883059205
+        ]
+      }
+    },
+    "fold0": {
+      "double_shallow-current_student4": {
+        "delta": 0.0002926815715067477,
+        "percentile_CI95": [
+          -0.00018019926809601793,
+          0.0007552424762276188
+        ]
+      },
+      "double_shallow-strong4": {
+        "delta": 0.0003548972680357254,
+        "percentile_CI95": [
+          -0.0006076421594194109,
+          0.001124323108236105
+        ]
+      },
+      "single_seed4-current_student4": {
+        "delta": -2.8119446562113737e-05,
+        "percentile_CI95": [
+          -0.00027348678616995745,
+          0.00021698768764058515
+        ]
+      },
+      "double_vs_duplicate_seed3": {
+        "delta": 0.0001838950434527309,
+        "percentile_CI95": [
+          -5.630810779263806e-05,
+          0.0004261169991263025
+        ]
+      }
+    },
+    "fold1": {
+      "double_shallow-current_student4": {
+        "delta": -0.0003357500863259144,
+        "percentile_CI95": [
+          -0.0014872596375856751,
+          0.00048675407964043557
+        ]
+      },
+      "double_shallow-strong4": {
+        "delta": -0.0002199793568251618,
+        "percentile_CI95": [
+          -0.0014860846339398131,
+          0.0008448345678651414
+        ]
+      },
+      "single_seed4-current_student4": {
+        "delta": -0.00034862679558012033,
+        "percentile_CI95": [
+          -0.0007663773366482274,
+          5.656163256257664e-05
+        ]
+      },
+      "double_vs_duplicate_seed3": {
+        "delta": -0.0001245753879077771,
+        "percentile_CI95": [
+          -0.0005338060816628299,
+          0.00027837603210865145
+        ]
+      }
+    }
+  },
+  "seconds": 0.6676451321691275,
+  "uncertainty_scope": "Chain sampling conditional on these fitted models and the observed pure-chain population.",
+  "not_estimated": [
+    "training-seed variation",
+    "adaptive model/recipe selection",
+    "hidden-test/domain shift"
+  ],
+  "simultaneous_or_selection_adjusted": false,
+  "new_gates": false,
+  "confirmation_established": false
+}

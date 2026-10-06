@@ -1,0 +1,40 @@
+{
+  "utc": "2026-10-01T13:02:40.858806+00:00",
+  "status": "PASS_FINITE_FIXED_ENDPOINTS_AND_FROZEN_TRUNK",
+  "fold": 1,
+  "checkpoints": {
+    "parent": {
+      "checkpoint": "artifacts/runs/cont_sh256_s3_f1/model_ep3.pt",
+      "sha256": "373d9002cb63a698b1bda5070a9dadfd83278f630c97ea49fe87bbcdaf46561c",
+      "epoch": 3,
+      "resolved_args_match": true,
+      "resolved_arg_count": 103,
+      "all_state_values_finite": true
+    },
+    "H2": {
+      "checkpoint": "artifacts/runs/cont_sh256_s3h2_f1/model_ep1.pt",
+      "sha256": "d90770ba95c8801bacacd7040ae0c239f8fab8ef322c3c6ea8d31ecb10982c8e",
+      "epoch": 1,
+      "resolved_args_match": true,
+      "resolved_arg_count": 103,
+      "all_state_values_finite": true
+    }
+  },
+  "unchanged_trunk_and_normalization": [
+    "mean",
+    "std",
+    "inp.weight",
+    "inp.bias",
+    "gru.weight_ih_l0",
+    "gru.weight_hh_l0",
+    "gru.bias_ih_l0",
+    "gru.bias_hh_l0"
+  ],
+  "changed_head_tensors": [
+    "head.0.weight",
+    "head.0.bias",
+    "head.2.weight",
+    "head.2.bias"
+  ],
+  "WP_queries": 0
+}

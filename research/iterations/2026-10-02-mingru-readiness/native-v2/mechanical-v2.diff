@@ -1,0 +1,106 @@
+--- native/include/wnn/model.hpp
++++ native-v2/include/wnn/model.hpp
+@@ -276,16 +276,17 @@
+     std::copy(row, row + kRaw, x_.begin());
+     events_.update(row, x_.data() + kRaw);
+     if (w_.online_norm) online_.update(row, x_.data() + kInputs);
+-    step_dense(out);
++    step_dense(row,out);
+   }
+ 
+   // Isolated benchmark entry: same qualified dense path, already built211 inputs.
+   void step_prebuilt(const float* row211, float out[2]) {
++    if(w_.feature_config.enabled) throw std::invalid_argument("prebuilt211 comparator forbids raw-dependent transition head");
+     std::copy(row211,row211+w_.n_in,x_.begin());
+-    step_dense(out);
+-  }
+-
+-  void step_dense(float out[2]) {
++    step_dense(nullptr,out);
++  }
++
++  void step_dense(const float* row,float out[2]) {
+     const int H=w_.hidden;
+     float* z = cat_.data() + H;  // the projection lives in the second half of the head input
+     const Arena& A = w_.arena;
+@@ -328,6 +329,7 @@
+ #endif
+       dense(w_.w_h1, w_.half_h1, A.at(w_.b_h1), cat_.data(), head_.data(), w_.head_hidden, 2 * H);
+     if (w_.feature_config.enabled) {
++      if(!row) throw std::invalid_argument("transition head requires raw input");
+       const float* feature = transition_.update(row+48);
+       kernels::gemv(A.at(w_.w_extra),zero_.data(),feature,extra_.data(),w_.head_hidden,kTransitionWidth);
+       for(int i=0;i<w_.head_hidden;++i) head_[i]+=extra_[i];
+--- native/native.cpp
++++ native-v2/native.cpp
+@@ -72,6 +72,7 @@
+ int fast_state(void*p,float*s){if(!p||!s)return -1;auto&m=*static_cast<Minimal*>(p);std::copy(m.state.begin(),m.state.end(),s);return 0;}
+ int fast_run(void*p,const float*x,int rows,float*y,int raw){try{auto&m=*static_cast<Minimal*>(p);if(rows<0)return -1;finite(x,1LL*rows*(raw?112:211));for(int i=0;i<rows;++i){if(raw)m.raw(x+112LL*i,y+1LL*i*m.o);else m.step(x+211LL*i,y+1LL*i*m.o);}return 0;}catch(const std::exception&e){last_error=e.what();return -3;}}
+ void* gru_create(int h,int l,const float*w,long long count){try{if((h!=128&&h!=256)||l<1||l>2)return nullptr;const long long n=422LL+h*212LL+h*(2LL*h+1)+2*(h+1LL)+l*(6LL*h*h+6*h);if(n!=count)return nullptr;finite(w,n);auto m=gru_weights(h,l,w);return new wnn::Predictor(wnn::Weights::from(m),true,false,false,true,"vnni");}catch(const std::exception&e){last_error=e.what();return nullptr;}}
++void* gru_create_exact(int h,int l,const float*w,long long count){try{if((h!=128&&h!=256)||l<1||l>2)return nullptr;const long long n=422LL+h*212LL+h*(2LL*h+1)+2*(h+1LL)+l*(6LL*h*h+6*h);if(n!=count)return nullptr;finite(w,n);auto m=gru_weights(h,l,w);return new wnn::Predictor(wnn::Weights::from(m),false,false,false,true,"vnni");}catch(const std::exception&e){last_error=e.what();return nullptr;}}
+ void gru_destroy(void*p){delete static_cast<wnn::Predictor*>(p);}
+ void gru_reset(void*p){static_cast<wnn::Predictor*>(p)->reset();}
+ int gru_run(void*p,const float*x,int rows,float*y,int raw){try{finite(x,1LL*rows*(raw?112:211));auto&m=*static_cast<wnn::Predictor*>(p);for(int i=0;i<rows;++i){if(raw)m.step(x+112LL*i,y+2LL*i);else m.step_prebuilt(x+211LL*i,y+2LL*i);}return 0;}catch(const std::exception&e){last_error=e.what();return -3;}}
+--- native/check_benchmark.py
++++ native-v2/check_benchmark.py
+@@ -23,6 +23,7 @@
+  new.fast_create.argtypes=[C.c_int]*4+[FP,C.c_longlong,C.c_int,C.c_int];new.fast_create.restype=C.c_void_p
+  new.fast_destroy.argtypes=[C.c_void_p];new.fast_reset.argtypes=[C.c_void_p,FP];new.fast_state.argtypes=[C.c_void_p,FP];new.fast_run.argtypes=[C.c_void_p,FP,C.c_int,FP,C.c_int]
+  new.gru_create.argtypes=[C.c_int,C.c_int,FP,C.c_longlong];new.gru_create.restype=C.c_void_p
++ new.gru_create_exact.argtypes=new.gru_create.argtypes;new.gru_create_exact.restype=C.c_void_p
+  new.gru_destroy.argtypes=[C.c_void_p];new.gru_reset.argtypes=[C.c_void_p];new.gru_run.argtypes=[C.c_void_p,FP,C.c_int,FP,C.c_int]
+  new.build_features.argtypes=[FP,C.c_int,FP];new.prototype_error.restype=C.c_char_p
+  new.mixed_run.argtypes=[C.c_void_p,C.c_int,C.c_void_p,C.c_void_p,C.c_void_p,FP,C.c_int,FP]
+@@ -42,8 +43,8 @@
+   code=self.lib.min_run(self.handle,ptr(x),len(x),ptr(y)) if self.kind=='reference' else self.lib.fast_run(self.handle,ptr(x),len(x),ptr(y),int(raw));assert code==0,(self.kind,code);return y
+  def close(self):getattr(self.lib,'min_destroy' if self.kind=='reference' else 'fast_destroy')(self.handle)
+ class Gru:
+- def __init__(self,lib,m):
+-  self.lib=lib;w=pack(m,'gru');self.flat=w;self.handle=lib.gru_create(m.gru.hidden_size,m.gru.num_layers,ptr(w),len(w));assert self.handle,lib.prototype_error()
++ def __init__(self,lib,m,exact=False):
++  self.lib=lib;w=pack(m,'gru');self.flat=w;create=lib.gru_create_exact if exact else lib.gru_create;self.handle=create(m.gru.hidden_size,m.gru.num_layers,ptr(w),len(w));assert self.handle,lib.prototype_error()
+  def reset(self):self.lib.gru_reset(self.handle)
+  def run(self,x,raw=False):
+   x=np.ascontiguousarray(x,np.float32);y=np.empty((len(x),2),np.float32);assert self.lib.gru_run(self.handle,ptr(x),len(x),ptr(y),int(raw))==0;return y
+@@ -97,27 +98,27 @@
+  assert np.isfinite(v).all() and (fast.state()>=0).all();drifts['long20000']=dict(output=describe(v,r),state=describe(fast.state(),ref.state()))
+  fast.reset();raw_out=fast.run(raw,True);fast.reset();close('raw_feature_wrapper_vs_prebuilt',raw_out,fast.run(engineered),0,0)
+  # Benchmark exact same synthetic streams, affinity and process. Alternate paired execution order.
+- g=Gru(new,shallow);anchors=[Gru(new,m) for m in small];bench={k:[] for k in ('reference_min2000','INT8_min2000','qualified_shallow2000','whole4_student','whole4_min')}
++ g=Gru(new,shallow);g_exact=Gru(new,shallow,True);anchors=[Gru(new,m) for m in small];bench={k:[] for k in ('reference_min2000','INT8_min2000','qualified_shallow2000','exact_shallow2000','whole4_student','whole4_exact_shallow','whole4_min')};cpu_bench={k:[] for k in bench}
+  rows=x[0].numpy()
+- def bench_member(obj,data,rawflag=False):obj.reset();t=time.perf_counter();obj.run(data,rawflag);return time.perf_counter()-t
++ def bench_member(obj,data,rawflag=False):obj.reset();t=time.perf_counter();cpu=time.process_time();obj.run(data,rawflag);return time.perf_counter()-t,time.process_time()-cpu
+  def mixed(wide,is_min):
+   wide.reset()
+   for q in anchors:q.reset()
+-  y=np.empty((len(raw),2),np.float32);t=time.perf_counter();code=new.mixed_run(wide.handle,int(is_min),*[q.handle for q in anchors],ptr(raw),len(raw),ptr(y));elapsed=time.perf_counter()-t
+-  assert code==0 and np.isfinite(y).all();return elapsed,y
+- for obj in (ref,fast,g):bench_member(obj,rows)
+- mixed(g,False);mixed(fast,True)
++  y=np.empty((len(raw),2),np.float32);t=time.perf_counter();cpu=time.process_time();code=new.mixed_run(wide.handle,int(is_min),*[q.handle for q in anchors],ptr(raw),len(raw),ptr(y));elapsed=time.perf_counter()-t;cpu_elapsed=time.process_time()-cpu
++  assert code==0 and np.isfinite(y).all();return elapsed,cpu_elapsed,y
++ for obj in (ref,fast,g,g_exact):bench_member(obj,rows)
++ mixed(g,False);mixed(g_exact,False);mixed(fast,True)
+  for rep in range(5):
+-  order=[('reference_min2000',ref),('INT8_min2000',fast),('qualified_shallow2000',g)]
+-  for name,obj in (order if rep%2==0 else order[::-1]):bench[name].append(bench_member(obj,rows))
+-  order=[('whole4_student',g,False),('whole4_min',fast,True)]
+-  for name,obj,is_min in (order if rep%2==0 else order[::-1]):elapsed,y=mixed(obj,is_min);bench[name].append(elapsed)
+- median={k:float(np.median(v)) for k,v in bench.items()};delta=(median['whole4_min']-median['whole4_student'])/len(raw)
+- result=dict(status='COMPLETE_GENERATED_MIN_NATIVE_READINESS',checks=checks,INT8_drift=drifts,timings_seconds=bench,median_seconds=median,
++  order=[('reference_min2000',ref),('INT8_min2000',fast),('qualified_shallow2000',g),('exact_shallow2000',g_exact)]
++  for name,obj in (order if rep%2==0 else order[::-1]):wall,cpu=bench_member(obj,rows);bench[name].append(wall);cpu_bench[name].append(cpu)
++  order=[('whole4_student',g,False),('whole4_exact_shallow',g_exact,False),('whole4_min',fast,True)]
++  for name,obj,is_min in (order if rep%2==0 else order[::-1]):wall,cpu,y=mixed(obj,is_min);bench[name].append(wall);cpu_bench[name].append(cpu)
++ median={k:float(np.median(v)) for k,v in bench.items()};cpu_median={k:float(np.median(v)) for k,v in cpu_bench.items()};delta=(median['whole4_min']-median['whole4_student'])/len(raw)
++ result=dict(status='COMPLETE_GENERATED_MIN_NATIVE_READINESS',checks=checks,INT8_drift=drifts,timings_seconds=bench,process_CPU_seconds=cpu_bench,median_seconds=median,median_process_CPU_seconds=cpu_median,wall_minus_process_CPU_seconds={k:[w-c for w,c in zip(bench[k],cpu_bench[k])] for k in bench},
+   descriptive_incremental=dict(seconds_per_raw_row=delta,whole4_ratio=median['whole4_min']/median['whole4_student'],additive_projection_minutes=44.53686675+delta*39400000/60,ratio_projection_minutes=44.53686675*median['whole4_min']/median['whole4_student']),
+-  benchmark=dict(member_rows=2000,whole4_rows=20000,repetitions=5,order='alternate paired order each repeat; reset every whole run',CPU=a.cpu,cgroup=limits,qualified_shallow='private unchanged qualified dynamic INT8/VNNI dense body and fast activations; generated H256x1 weights',min='FP32 carried states, exact sigmoid/positive_g and exact-erf GELU; fused2H gates/candidates, qualified INT8 kernels/head0; normalized input folding FP32',whole4='generated raw112, original event211 per member, matched three H128x2 anchors, same alternating member-order and float32 quarter accumulation'),
++  benchmark=dict(member_rows=2000,whole4_rows=20000,repetitions=5,order='alternate paired order each repeat; reset every whole run',CPU=a.cpu,cgroup=limits,qualified_shallow='private qualified dynamic INT8/VNNI dense body, operational fast activations; generated H256x1 weights',equal_precision_shallow='same weights and INT8 kernels/state, exact sigmoid/tanh/erf activations; no tuned kernel or architecture change',min='FP32 carried states, exact sigmoid/positive_g and exact-erf GELU; fused2H gates/candidates, qualified INT8 kernels/head0; normalized input folding FP32',whole4='generated raw112, original event211 per member, matched three H128x2 anchors, same alternating member-order and float32 quarter accumulation'),
+   limitations=['Random weights/input only: no trained quality, AMP parity or runtime qualification.','Additive and ratio projections assume transfer to the historical44.54min host-run; cache interaction, generated data and Python/ABI/process overhead can differ.','Full4 loops include native event construction and blending but exclude submission Python callback/loader, process startup and scorer; original FP32 reference has engineered211-only boundary.','INT8 drift includes input-normalization folding/reduction-order differences; FP32 folded control bounds this separate arithmetic change.','No kernel sweep or changed tolerance after failure.'],source_sha256=sha(__file__),generated_inventory_sha256=sha(out/'generated-before.json'),library_sha256={'reference':sha(out/'reference.so'),'optimized':sha(out/'optimized.so')},torch_version=torch.__version__,peak_RSS_KiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,seconds=time.monotonic()-start,GPU=False,real_data=False,trained_checkpoints=False,forecast_fit=False)
+  for name,rec in inputs.items():assert sha(out/name)==rec['sha256']
+- for obj in (ref,fast,g,*anchors):obj.close()
++ for obj in (ref,fast,g,g_exact,*anchors):obj.close()
+  (out/'result.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({k:result[k] for k in ('status','median_seconds','descriptive_incremental','seconds')}))
+ if __name__=='__main__':main()

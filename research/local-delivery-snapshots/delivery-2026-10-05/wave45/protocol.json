@@ -1,0 +1,23 @@
+{
+  "hypothesis": "Shorter TBPTT with a larger sequence batch may improve optimization and complementary errors of the current heterogeneous-distillation recipe. Earlier chunk500 results were on older EMA/since models, not this student.",
+  "arms": "chunk500/batch64 versus existing chunk2000/batch16 original distillation. Same nominal32000 rows per step and approximately same update count, same seeds3/4,parent,teacher,2ep fixedep1,LR/aux/family losses.",
+  "mechanistic_limit": "Both truncation and sequence composition change; not an isolated horizon experiment.",
+  "primary": "short_pair vsold_pair on full true-mask425 and composite true-mask436 + estimated-masktrain282.",
+  "secondary": "Fixed equal four-member mean old+short vsold; no weight scan.",
+  "teacher": "w6fullteacher / w18comp_teacher, original rawfamily version publiclysuccessful.",
+  "deployment": "Standard denseh256 native engine; two orfourmembers, audit required ifpositive.",
+  "limitations": [
+    "Reusedpanels",
+    "Conditional intervals",
+    "No publicclaim"
+  ],
+  "native_screen_gate": {
+    "arms": [
+      "short_pair",
+      "four_mean"
+    ],
+    "minimum_delta_each_true_mask_panel": 0.0003,
+    "minimum_delta_train_diagnostic": 0,
+    "scope": "Gate to spend native validation, not automatic final promotion; set before results."
+  }
+}

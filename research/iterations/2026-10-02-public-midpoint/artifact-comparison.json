@@ -1,0 +1,130 @@
+{
+  "packages": {
+    "V1": {
+      "local_path": "/Users/nb/Documents/wunder/submissions/candV1_ft2.zip",
+      "zip_sha256": "ea494921497d9f3cf53b19b1b68285133983560a249b38ef40738b3d846d319d",
+      "bytes": 7382512,
+      "members": [
+        {
+          "weights": "weights_0.npz",
+          "coef": 0.25,
+          "source": "find256_s3h2"
+        },
+        {
+          "weights": "weights_1.npz",
+          "coef": 0.25,
+          "source": "fin128_s3h2"
+        },
+        {
+          "weights": "weights_2.npz",
+          "coef": 0.25,
+          "source": "fin128_s4h2"
+        },
+        {
+          "weights": "weights_3.npz",
+          "coef": 0.25,
+          "source": "finc500b_s3h2"
+        }
+      ],
+      "entry_sha256": {
+        "solution.py": "9275b116a8a259aa972c848bc58359894c778b6a9d922311eaac69029f8f1ad4",
+        "members.json": "41d8375755bed3e12215bd92efcdd62470d8b0195a29b4d08121e31549b6b41f",
+        "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "b1201c773fcc1c51b29c39fcafa1324b5bf37f8debfdca717bdbb1cf40e18457",
+        "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "10441fbb2e062385c9fe1149f6cd641c023668a0dcee473c20a0fb1381131fc4",
+        "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "ffdd8528ea7c5b98145d3718a11e55a47eb250b37f4347457acfcf6dc2723bd0",
+        "weights_0.npz": "56b93589549f278ec35da24d9835cc831ccd674546c36ce07a91fa31a0b39433",
+        "weights_1.npz": "66b80d33c1ef84d5a5dc0ff5893b0f121bf72122b59b8ef95411a691b4351a52",
+        "weights_2.npz": "6c4cd532707b46762b9a3fc73a65ec013ff64bd3ed1cfabc42c03a05fa583976",
+        "weights_3.npz": "688188e4c3068dc35d931557c7a93e31c9e6096b12fa3fc188631c79c0b573d6"
+      },
+      "wrapper_evidence": [
+        "BUDGET_S = float(os.environ.get(\"WNN_BUDGET_S\", 52 * 60))",
+        "            half_weights=True,  # fp16 dense weights on v3 builds (ignored on v2/avx2)",
+        "    def _govern(self, now):",
+        "        allowed = (BUDGET_S - (now - self.t_start)) / remaining_rows",
+        "                self._govern(now)"
+      ]
+    },
+    "student": {
+      "local_path": "/Users/nb/Documents/wunder/WunderFunder-creative/research/iterations/2026-10-01-continuation/student-runtime/package/student_fixed4.zip",
+      "zip_sha256": "eec571629b0829aeb9c73db80a1170fcb7cb3ccfd132f72f3ddd51f779d2fdd4",
+      "bytes": 6000321,
+      "members": [
+        {
+          "weights": "weights_0.npz",
+          "coef": 0.25
+        },
+        {
+          "weights": "weights_1.npz",
+          "coef": 0.25
+        },
+        {
+          "weights": "weights_2.npz",
+          "coef": 0.25
+        },
+        {
+          "weights": "weights_3.npz",
+          "coef": 0.25
+        }
+      ],
+      "entry_sha256": {
+        "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "1d27cf1f906c171cab9b3924159bad8293a53e646ffbf298cf85b5bc557dc60c",
+        "members.json": "d4cb50b9dbd86340ba71f066a111cd77a5bb5803fbe16b1299a5443589fc3b2a",
+        "solution.py": "03ae884e98e8a90bda25e521dd9dbe7202817e892413b854c33709fa862dd2f1",
+        "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "35dc95048c108cbcd4b9043f77d8b64e4dc21d42d79bc931a2ff8d80a11e7db5",
+        "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "b865301e5ff0c9dce78c29c258d991a7b5542e7a63d44eeafd32c3b526166867",
+        "weights_0.npz": "cc0d2509fb39aeab1a35b7a9a48dae205bcb306c74a3d49aef719cea042e14df",
+        "weights_1.npz": "66b80d33c1ef84d5a5dc0ff5893b0f121bf72122b59b8ef95411a691b4351a52",
+        "weights_2.npz": "6c4cd532707b46762b9a3fc73a65ec013ff64bd3ed1cfabc42c03a05fa583976",
+        "weights_3.npz": "688188e4c3068dc35d931557c7a93e31c9e6096b12fa3fc188631c79c0b573d6"
+      },
+      "wrapper_evidence": [
+        "        kwargs=dict(fast_activations=True,half_weights=False,dynamic_int8=True,quant_backend=\"auto\")",
+        "        self.member_count=len(members)"
+      ]
+    },
+    "midpoint": {
+      "local_path": "/Users/nb/Documents/wunder/WunderFunder-creative/research/iterations/2026-10-02-midpoint-delivery/package/midpoint_student_fixed4.zip",
+      "zip_sha256": "ae5998ac36ee1153a3df2a6b261238c97cdbe5f9ba7aaba761f5711693d5b23c",
+      "bytes": 5995375,
+      "members": [
+        {
+          "weights": "weights_0.npz",
+          "coef": 0.25
+        },
+        {
+          "weights": "weights_1.npz",
+          "coef": 0.25
+        },
+        {
+          "weights": "weights_2.npz",
+          "coef": 0.25
+        },
+        {
+          "weights": "weights_3.npz",
+          "coef": 0.25
+        }
+      ],
+      "entry_sha256": {
+        "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "1d27cf1f906c171cab9b3924159bad8293a53e646ffbf298cf85b5bc557dc60c",
+        "members.json": "d4cb50b9dbd86340ba71f066a111cd77a5bb5803fbe16b1299a5443589fc3b2a",
+        "solution.py": "03ae884e98e8a90bda25e521dd9dbe7202817e892413b854c33709fa862dd2f1",
+        "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "35dc95048c108cbcd4b9043f77d8b64e4dc21d42d79bc931a2ff8d80a11e7db5",
+        "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "b865301e5ff0c9dce78c29c258d991a7b5542e7a63d44eeafd32c3b526166867",
+        "weights_0.npz": "74c120e6a4f63dcbbcd0b8c6b745e4b11d8124eb0cc6f768983da494134c9246",
+        "weights_1.npz": "66b80d33c1ef84d5a5dc0ff5893b0f121bf72122b59b8ef95411a691b4351a52",
+        "weights_2.npz": "6c4cd532707b46762b9a3fc73a65ec013ff64bd3ed1cfabc42c03a05fa583976",
+        "weights_3.npz": "688188e4c3068dc35d931557c7a93e31c9e6096b12fa3fc188631c79c0b573d6"
+      },
+      "wrapper_evidence": [
+        "        kwargs=dict(fast_activations=True,half_weights=False,dynamic_int8=True,quant_backend=\"auto\")",
+        "        self.member_count=len(members)"
+      ]
+    }
+  },
+  "student_to_midpoint_changed_entries": [
+    "weights_0.npz"
+  ],
+  "historical_V1_public_active_member_trace": "unknown",
+  "current_public_native_backend": "unknown_without_organizer_logs"
+}

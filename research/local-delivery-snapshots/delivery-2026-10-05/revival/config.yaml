@@ -1,0 +1,12 @@
+name: wunder-revival-chain-audit-20261005
+cmd: python3 bootstrap.py ${MOMENTS} ${REPORT}
+env:
+  python:
+    type: manual
+    version: 3.12
+    requirements-file: requirements.txt
+inputs:
+  - moments.npz: MOMENTS
+outputs:
+  - report.json: REPORT
+cloud-instance-type: c1.4

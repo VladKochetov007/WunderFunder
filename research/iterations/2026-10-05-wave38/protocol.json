@@ -1,0 +1,14 @@
+{
+  "hypothesis": "Guarded future bootstrap may improve the second heterogeneous-teacher distillation stage; earlier h8/cap32 screen used the weaker original homogeneous teacher and different alpha/chunk, so it did not answer thisstage question.",
+  "relation_to_original_ideas": "Revisit futureteacher/bootstrap ideas3/4 with full end-to-end recurrent student, using alreadyimplemented guard8; not anotherfrozenheadprobe orcap32retry.",
+  "parent": "Originald256seed3/4@ep3, identicalwave19",
+  "teacher": "w19teacher main, fourfamilytargets unchanged",
+  "target": "If both rawtargetvalues unchanged through t+8 and t+8 inside sequence, .7clip(teacher_t)+.3clip(teacher_t+8); otherwise .7clip(teacher_t)+.3clip(y_t). Labels areoffline trainingonly.",
+  "training": "2epfixedepoch1,batch16/chunk2000,AdamW1e-4, aux.3/family.1,seeds3/4, sameconstructor/dataorder aswave19",
+  "primary": "bootstrap pair minuswave19pair, thennative/compositeifpromising",
+  "limitations": [
+    "reusedvalidation",
+    "futureprivilegedtrainingdoesnotguaranteetransfer",
+    "no future input/state in deployedmodel"
+  ]
+}

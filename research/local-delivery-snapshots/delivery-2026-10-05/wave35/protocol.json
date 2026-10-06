@@ -1,0 +1,18 @@
+{
+  "hypothesis": "An h256 student initialized from separate i0/i1 GRUs may retain complementary errors compared with d256-bootstrap initialization, even when distilled from the same ensemble.",
+  "parent": "cmp_tstream_s3/s4_ft@ep1, exact embedding into ordinary denseh256; freshhead128rows havezero outgoingcolumns; allconnections trainable",
+  "training": "Originalwave19 2epfixedepoch1, teacherw19alpha.7, families.1, aux.3, samebatch/dataRNG/seeds3,4",
+  "comparisons": [
+    "newpair minusoldpair",
+    "fixed equal fourmodelmean versusoldpair (higher runtime)",
+    "both fixed mixed pairs new3+old4 /new4+old3; no bestseed selection"
+  ],
+  "deployment": "Ordinary denseh256 engine, no sparseGRU metadata because off-block entries learn. Up to fourmembers require actual ZIP size/runtime audit.",
+  "limitations": [
+    "parenttraininghistoriesdifferent",
+    "reused validation",
+    "conditional intervals",
+    "composite replication required",
+    "not a physicalprice decoder"
+  ]
+}

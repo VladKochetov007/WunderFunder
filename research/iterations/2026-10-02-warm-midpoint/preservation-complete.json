@@ -1,0 +1,966 @@
+{
+  "status": "PASS_LOCAL_SSH_LOSSLESS_PRESERVATION",
+  "allocation_sha256": "bf014e845354cadfe919962d2a30a5451707b5e72d117dafc5bb24d779a75c1b",
+  "terminal_results": {
+    "execution-01/result.json": {
+      "status": "COMPLETE_0_FITS_4_OOF_NO_METRICS",
+      "failure": null,
+      "allocation_sha256": "bf014e845354cadfe919962d2a30a5451707b5e72d117dafc5bb24d779a75c1b",
+      "runner_sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2",
+      "started_utc": "2026-10-02T02:49:34.468943+00:00",
+      "finished_utc": "2026-10-02T02:50:49.909891+00:00",
+      "seconds": 75.44096242357045,
+      "jobs": [
+        {
+          "name": "oct02_wm_s3h2_f0_OOF",
+          "stage": "OOF",
+          "unit": "eb-46d52d62e2b64392adf7588bfa583ab4",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-46d52d62e2b64392adf7588bfa583ab4",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "290.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-warm-midpoint/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-warm-midpoint/training-allocation.json",
+            "--allocation-sha256",
+            "bf014e845354cadfe919962d2a30a5451707b5e72d117dafc5bb24d779a75c1b",
+            "--worker",
+            "0"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1338,
+          "pid": 1061687,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f0_OOF.OOF.worker-result.json",
+            "sha256": "c153b56efccb88ebcff817ca0cd29903375b1aa419171efeecbf7cd3fc082548"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 20.11842462979257
+        },
+        {
+          "name": "oct02_wm_s3h2_f1_OOF",
+          "stage": "OOF",
+          "unit": "eb-efa3d36c795a48a694a693b1990367da",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-efa3d36c795a48a694a693b1990367da",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "290.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-warm-midpoint/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-warm-midpoint/training-allocation.json",
+            "--allocation-sha256",
+            "bf014e845354cadfe919962d2a30a5451707b5e72d117dafc5bb24d779a75c1b",
+            "--worker",
+            "1"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1342,
+          "pid": 1062072,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f1_OOF.OOF.worker-result.json",
+            "sha256": "825c44258e20c3e40aabe78d81121fd159db331ca97627e7f87478bf03694181"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 19.848907838575542
+        },
+        {
+          "name": "oct02_wm_s4h2_f0_OOF",
+          "stage": "OOF",
+          "unit": "eb-f7de17fd606d440e98f0d49bb24600ce",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-f7de17fd606d440e98f0d49bb24600ce",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "290.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-warm-midpoint/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-warm-midpoint/training-allocation.json",
+            "--allocation-sha256",
+            "bf014e845354cadfe919962d2a30a5451707b5e72d117dafc5bb24d779a75c1b",
+            "--worker",
+            "2"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1338,
+          "pid": 1062437,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f0_OOF.OOF.worker-result.json",
+            "sha256": "ee7ef86ccab581f41c33d26b91aebb43d77de90ce7e6a48c9051cc8e0fbedb79"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 17.009291513822973
+        },
+        {
+          "name": "oct02_wm_s4h2_f1_OOF",
+          "stage": "OOF",
+          "unit": "eb-b3d228eefdac466e98d17f208cf0e160",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-b3d228eefdac466e98d17f208cf0e160",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "290.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-warm-midpoint/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-warm-midpoint/training-allocation.json",
+            "--allocation-sha256",
+            "bf014e845354cadfe919962d2a30a5451707b5e72d117dafc5bb24d779a75c1b",
+            "--worker",
+            "3"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1342,
+          "pid": 1062588,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f1_OOF.OOF.worker-result.json",
+            "sha256": "d50245862b9597b83a1ec9c7db9bdba84fbbe640a9aa5112de7bca262d825086"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 17.429029120132327
+        }
+      ],
+      "fits": 0,
+      "OOF_jobs": 4,
+      "metric_calls": 0,
+      "retries": 0
+    },
+    "finish-01/result.json": {
+      "status": "COMPLETE_FIXED_FORECAST_READOUT",
+      "evaluation_source_sha256": "119fba49c8d1fcbf36716bb362f73e6cdc78670826763ed44e93f900665b101c",
+      "allocation_sha256": "bf014e845354cadfe919962d2a30a5451707b5e72d117dafc5bb24d779a75c1b",
+      "unit": "warm-midpoint-score-16eb25c039a340009077ee429d178f41",
+      "started_utc": "2026-10-02T02:49:34.393100+00:00",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "warm-midpoint-score-16eb25c039a340009077ee429d178f41",
+        "-p",
+        "CPUQuota=200%",
+        "-p",
+        "MemoryMax=4294967296",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "28,29",
+        "nice",
+        "-n",
+        "10",
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "600s",
+        ".venv/bin/python",
+        "research/iterations/2026-10-02-warm-midpoint/evaluate.py",
+        "--evaluation-source-sha256",
+        "119fba49c8d1fcbf36716bb362f73e6cdc78670826763ed44e93f900665b101c",
+        "--output-dir",
+        "research/iterations/2026-10-02-warm-midpoint/evaluation-01"
+      ],
+      "exit_code": 0,
+      "report_sha256": "1b53275bf3c024144efb341dea4687d1a0241ae623c5971928087a0c1dc95824",
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "finished_utc": "2026-10-02T02:51:04.618072+00:00"
+    }
+  },
+  "files": 72,
+  "bytes": 1208580799,
+  "records": [
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/allocate.py",
+      "bytes": 3976,
+      "sha256": "c6dff0da0ef7a47328c5a630ea5f3a904e3ca725b92fc523e01b1f92fc0aa826",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/allocate.py",
+      "representation": "raw",
+      "local_bytes": 3976,
+      "local_sha256": "c6dff0da0ef7a47328c5a630ea5f3a904e3ca725b92fc523e01b1f92fc0aa826"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/build_plan.py",
+      "bytes": 4629,
+      "sha256": "01959afe9e305e4789768bd43d2939096bbb2904bc22318eaa3b7509de691642",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/build_plan.py",
+      "representation": "raw",
+      "local_bytes": 4629,
+      "local_sha256": "01959afe9e305e4789768bd43d2939096bbb2904bc22318eaa3b7509de691642"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s3h2_f0_valid.inputs.json",
+      "bytes": 10025,
+      "sha256": "0c2b40492c1534e12175bba12a0005d23a405f3996b670e615877067a94b3e75",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s3h2_f0_valid.inputs.json",
+      "representation": "raw",
+      "local_bytes": 10025,
+      "local_sha256": "0c2b40492c1534e12175bba12a0005d23a405f3996b670e615877067a94b3e75"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s3h2_f0_valid.npy",
+      "bytes": 299680128,
+      "sha256": "a32e394a73690a8b4f6e9292ab01b2e49872f031649f811522195c2d4363601f",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s3h2_f0_valid.npy.gz",
+      "representation": "gzip_lossless",
+      "local_bytes": 44696251,
+      "local_sha256": "6f7af8e3c7284300336c4edf2315ea085704ee3e764bdc0aa5ce35873bfe2887"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s3h2_f1_valid.inputs.json",
+      "bytes": 10093,
+      "sha256": "0c1a8f7c41d22953026f1070f9e8e2466a110df6271f63ddde1c44811e9240b7",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s3h2_f1_valid.inputs.json",
+      "representation": "raw",
+      "local_bytes": 10093,
+      "local_sha256": "0c1a8f7c41d22953026f1070f9e8e2466a110df6271f63ddde1c44811e9240b7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s3h2_f1_valid.npy",
+      "bytes": 299680128,
+      "sha256": "20c7e64de49707f982fe8355dea9e01eeb72d116f7ed4deeacb0eba45768d944",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s3h2_f1_valid.npy.gz",
+      "representation": "gzip_lossless",
+      "local_bytes": 44620920,
+      "local_sha256": "78fd5864bc8da43bcd8ef2cc35b4b9dc9e4389d78f18bbc46beef011b55b9ef5"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s4h2_f0_valid.inputs.json",
+      "bytes": 10025,
+      "sha256": "433c21debf794ea5b98e7e5242550f9a7327914b4b1ce291fe54829165e73b5f",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s4h2_f0_valid.inputs.json",
+      "representation": "raw",
+      "local_bytes": 10025,
+      "local_sha256": "433c21debf794ea5b98e7e5242550f9a7327914b4b1ce291fe54829165e73b5f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s4h2_f0_valid.npy",
+      "bytes": 299680128,
+      "sha256": "6280854a4665d9e7fd1fcb15734ff6a8335508b088f5ba94f9e6558cdbdb39ae",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s4h2_f0_valid.npy.gz",
+      "representation": "gzip_lossless",
+      "local_bytes": 44705763,
+      "local_sha256": "8cda73e447e8de935d1076647dc5882578b8c22c74a19d7134e2ee8eb4bf4da6"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s4h2_f1_valid.inputs.json",
+      "bytes": 10092,
+      "sha256": "6ec71ab908b424a80cc05349c7d8bafaa3ad0780cb2691aa2715619ba835b538",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s4h2_f1_valid.inputs.json",
+      "representation": "raw",
+      "local_bytes": 10092,
+      "local_sha256": "6ec71ab908b424a80cc05349c7d8bafaa3ad0780cb2691aa2715619ba835b538"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s4h2_f1_valid.npy",
+      "bytes": 299680128,
+      "sha256": "157d109db71d71236ae7b6d88dc952f1309a15ee85ca61c1d3e068c9210cbb2d",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/cache/pred_oct02_wm_s4h2_f1_valid.npy.gz",
+      "representation": "gzip_lossless",
+      "local_bytes": 44842686,
+      "local_sha256": "214de8ef27fb2cbd5f3ad0219a5d319776f5e856cf0cebbab01693f74ef56f38"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/check_checkpoint.py",
+      "bytes": 2290,
+      "sha256": "3de1cacd6fbb479fd080610bf7567841304d8d678442e00b7ac026eb505b935b",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/check_checkpoint.py",
+      "representation": "raw",
+      "local_bytes": 2290,
+      "local_sha256": "3de1cacd6fbb479fd080610bf7567841304d8d678442e00b7ac026eb505b935b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/check_generated.py",
+      "bytes": 2011,
+      "sha256": "50f056e3dcc73256c095754c1608adffa6a262b5a88abef224a8c501bc8b47b1",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/check_generated.py",
+      "representation": "raw",
+      "local_bytes": 2011,
+      "local_sha256": "50f056e3dcc73256c095754c1608adffa6a262b5a88abef224a8c501bc8b47b1"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/collect_when_finished.py",
+      "bytes": 6355,
+      "sha256": "b4b2a97071f96342096fdc7f7d330e4dc44e0580478bd635713d954202a6f6cd",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/collect_when_finished.py",
+      "representation": "raw",
+      "local_bytes": 6355,
+      "local_sha256": "b4b2a97071f96342096fdc7f7d330e4dc44e0580478bd635713d954202a6f6cd"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/commands.json",
+      "bytes": 50432,
+      "sha256": "f4094bb61426c0380050a13a50d7adc11fb3f7d425554c82d20892da538da497",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/commands.json",
+      "representation": "raw",
+      "local_bytes": 50432,
+      "local_sha256": "f4094bb61426c0380050a13a50d7adc11fb3f7d425554c82d20892da538da497"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/construct.py",
+      "bytes": 1764,
+      "sha256": "779386b4207ca1304a22436acef208e18f2dadb8000dbdc47cba9833243d36b7",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/construct.py",
+      "representation": "raw",
+      "local_bytes": 1764,
+      "local_sha256": "779386b4207ca1304a22436acef208e18f2dadb8000dbdc47cba9833243d36b7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/constructed-bindings.json",
+      "bytes": 3434,
+      "sha256": "8e130443c29ae45aa355f148079b4011040eae0b2b184f49774c124be29313f4",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/constructed-bindings.json",
+      "representation": "raw",
+      "local_bytes": 3434,
+      "local_sha256": "8e130443c29ae45aa355f148079b4011040eae0b2b184f49774c124be29313f4"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/evaluate.py",
+      "bytes": 17485,
+      "sha256": "79a92747abd1983ca575eee2c479bd3dd0a5ac3eeaaaf3c585885440e28af885",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/evaluate.py",
+      "representation": "raw",
+      "local_bytes": 17485,
+      "local_sha256": "79a92747abd1983ca575eee2c479bd3dd0a5ac3eeaaaf3c585885440e28af885"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/evaluation-01/receipt.json",
+      "bytes": 752,
+      "sha256": "ae82d4dc281a6fcc8256fb6578fef1a4c4710442d22511dbadcad2a09675eb3b",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/evaluation-01/receipt.json",
+      "representation": "raw",
+      "local_bytes": 752,
+      "local_sha256": "ae82d4dc281a6fcc8256fb6578fef1a4c4710442d22511dbadcad2a09675eb3b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/evaluation-01/report.json",
+      "bytes": 59117,
+      "sha256": "1b53275bf3c024144efb341dea4687d1a0241ae623c5971928087a0c1dc95824",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/evaluation-01/report.json",
+      "representation": "raw",
+      "local_bytes": 59117,
+      "local_sha256": "1b53275bf3c024144efb341dea4687d1a0241ae623c5971928087a0c1dc95824"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/evaluation-01/started.json",
+      "bytes": 18036,
+      "sha256": "7998735b95348aab29245a41e753881e2da62ee34df5950e5ff81c86d776c256",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/evaluation-01/started.json",
+      "representation": "raw",
+      "local_bytes": 18036,
+      "local_sha256": "7998735b95348aab29245a41e753881e2da62ee34df5950e5ff81c86d776c256"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/evaluation-01/sufficient.npz",
+      "bytes": 84332,
+      "sha256": "9ae3e5451441ad10c4d22677a803deca250a4b85eebe7109c580841f877730db",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/evaluation-01/sufficient.npz",
+      "representation": "raw",
+      "local_bytes": 84332,
+      "local_sha256": "9ae3e5451441ad10c4d22677a803deca250a4b85eebe7109c580841f877730db"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/evaluation-source.json",
+      "bytes": 2430,
+      "sha256": "119fba49c8d1fcbf36716bb362f73e6cdc78670826763ed44e93f900665b101c",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/evaluation-source.json",
+      "representation": "raw",
+      "local_bytes": 2430,
+      "local_sha256": "119fba49c8d1fcbf36716bb362f73e6cdc78670826763ed44e93f900665b101c"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/allocation.json",
+      "bytes": 12419,
+      "sha256": "bf014e845354cadfe919962d2a30a5451707b5e72d117dafc5bb24d779a75c1b",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/allocation.json",
+      "representation": "raw",
+      "local_bytes": 12419,
+      "local_sha256": "bf014e845354cadfe919962d2a30a5451707b5e72d117dafc5bb24d779a75c1b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/events.jsonl",
+      "bytes": 14228,
+      "sha256": "7fde6766e51596cb96399d2dd2eb8054242af438adb3a21862405f04286c4c6e",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/events.jsonl",
+      "representation": "raw",
+      "local_bytes": 14228,
+      "local_sha256": "7fde6766e51596cb96399d2dd2eb8054242af438adb3a21862405f04286c4c6e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f0_OOF.OOF.log",
+      "bytes": 2221,
+      "sha256": "c2bfee4090423830f06434b3449417e7ae1e1a66a77402068e23720f89b0b8c7",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f0_OOF.OOF.log",
+      "representation": "raw",
+      "local_bytes": 2221,
+      "local_sha256": "c2bfee4090423830f06434b3449417e7ae1e1a66a77402068e23720f89b0b8c7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f0_OOF.OOF.worker-result.json",
+      "bytes": 1074,
+      "sha256": "c153b56efccb88ebcff817ca0cd29903375b1aa419171efeecbf7cd3fc082548",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f0_OOF.OOF.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 1074,
+      "local_sha256": "c153b56efccb88ebcff817ca0cd29903375b1aa419171efeecbf7cd3fc082548"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f0_OOF.OOF.worker-started.json",
+      "bytes": 528,
+      "sha256": "ac70d18a65b32c8ddd4293fea02cd50215cc80157622d7820ef27295b045c33d",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f0_OOF.OOF.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 528,
+      "local_sha256": "ac70d18a65b32c8ddd4293fea02cd50215cc80157622d7820ef27295b045c33d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f1_OOF.OOF.log",
+      "bytes": 2221,
+      "sha256": "bd1d48043556875e4102ffaedf953db7127aae205d364d718c7169993c8ea4c7",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f1_OOF.OOF.log",
+      "representation": "raw",
+      "local_bytes": 2221,
+      "local_sha256": "bd1d48043556875e4102ffaedf953db7127aae205d364d718c7169993c8ea4c7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f1_OOF.OOF.worker-result.json",
+      "bytes": 1073,
+      "sha256": "825c44258e20c3e40aabe78d81121fd159db331ca97627e7f87478bf03694181",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f1_OOF.OOF.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 1073,
+      "local_sha256": "825c44258e20c3e40aabe78d81121fd159db331ca97627e7f87478bf03694181"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f1_OOF.OOF.worker-started.json",
+      "bytes": 528,
+      "sha256": "df774a09db8d6a8a7bdf6016154797f4051519376ec97680ecc0a170b7487d6c",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s3h2_f1_OOF.OOF.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 528,
+      "local_sha256": "df774a09db8d6a8a7bdf6016154797f4051519376ec97680ecc0a170b7487d6c"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f0_OOF.OOF.log",
+      "bytes": 2221,
+      "sha256": "5c3c9efe697e30fa3bad6d308f57bf2f61b906293b8718c3231c836677511e56",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f0_OOF.OOF.log",
+      "representation": "raw",
+      "local_bytes": 2221,
+      "local_sha256": "5c3c9efe697e30fa3bad6d308f57bf2f61b906293b8718c3231c836677511e56"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f0_OOF.OOF.worker-result.json",
+      "bytes": 1074,
+      "sha256": "ee7ef86ccab581f41c33d26b91aebb43d77de90ce7e6a48c9051cc8e0fbedb79",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f0_OOF.OOF.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 1074,
+      "local_sha256": "ee7ef86ccab581f41c33d26b91aebb43d77de90ce7e6a48c9051cc8e0fbedb79"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f0_OOF.OOF.worker-started.json",
+      "bytes": 528,
+      "sha256": "f83b9f634eeebad0dbfd1571b106248d47f5cebbfae5f85b63a20c164ccb777f",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f0_OOF.OOF.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 528,
+      "local_sha256": "f83b9f634eeebad0dbfd1571b106248d47f5cebbfae5f85b63a20c164ccb777f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f1_OOF.OOF.log",
+      "bytes": 2220,
+      "sha256": "3dda2c629f27a405870def9e955d28d9780c92eaed5c121e4fb7bee442a23765",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f1_OOF.OOF.log",
+      "representation": "raw",
+      "local_bytes": 2220,
+      "local_sha256": "3dda2c629f27a405870def9e955d28d9780c92eaed5c121e4fb7bee442a23765"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f1_OOF.OOF.worker-result.json",
+      "bytes": 1074,
+      "sha256": "d50245862b9597b83a1ec9c7db9bdba84fbbe640a9aa5112de7bca262d825086",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f1_OOF.OOF.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 1074,
+      "local_sha256": "d50245862b9597b83a1ec9c7db9bdba84fbbe640a9aa5112de7bca262d825086"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f1_OOF.OOF.worker-started.json",
+      "bytes": 528,
+      "sha256": "fb3a315cef13d3d73872979095af28bda761b5bd1c3411a7bdffe8b01377fa98",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/oct02_wm_s4h2_f1_OOF.OOF.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 528,
+      "local_sha256": "fb3a315cef13d3d73872979095af28bda761b5bd1c3411a7bdffe8b01377fa98"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/execution-01/result.json",
+      "bytes": 7533,
+      "sha256": "038314998c615dd2a91516974d61c4fd1f2630c0fe7ae3b0af010f8b9d2eef43",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/execution-01/result.json",
+      "representation": "raw",
+      "local_bytes": 7533,
+      "local_sha256": "038314998c615dd2a91516974d61c4fd1f2630c0fe7ae3b0af010f8b9d2eef43"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/finish-01/evaluate.log",
+      "bytes": 14751,
+      "sha256": "2eebe1a698ecb0028cb03a6d0df776a5791410deda0099d1466759b094289a0f",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/finish-01/evaluate.log",
+      "representation": "raw",
+      "local_bytes": 14751,
+      "local_sha256": "2eebe1a698ecb0028cb03a6d0df776a5791410deda0099d1466759b094289a0f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/finish-01/result.json",
+      "bytes": 1335,
+      "sha256": "771049c61dc4a6b7298885c80151ddffcf29057a6d1bf1b337bbfeef8a507503",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/finish-01/result.json",
+      "representation": "raw",
+      "local_bytes": 1335,
+      "local_sha256": "771049c61dc4a6b7298885c80151ddffcf29057a6d1bf1b337bbfeef8a507503"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/finish-01/started.json",
+      "bytes": 353,
+      "sha256": "58e67539f5295e515100a37b8ea330044805a44149802509c8e663a900f83013",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/finish-01/started.json",
+      "representation": "raw",
+      "local_bytes": 353,
+      "local_sha256": "58e67539f5295e515100a37b8ea330044805a44149802509c8e663a900f83013"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/finish-launch.json",
+      "bytes": 349,
+      "sha256": "a4e1dfb645c14cf86c067bd7c0e778bc038c8be7c158e8121ddb3d24d3562d32",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/finish-launch.json",
+      "representation": "raw",
+      "local_bytes": 349,
+      "local_sha256": "a4e1dfb645c14cf86c067bd7c0e778bc038c8be7c158e8121ddb3d24d3562d32"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/finish.log",
+      "bytes": 1175,
+      "sha256": "4d49d456a26d84c219417791e12718520433b9a1d1595f1bb11862e225dff48e",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/finish.log",
+      "representation": "raw",
+      "local_bytes": 1175,
+      "local_sha256": "4d49d456a26d84c219417791e12718520433b9a1d1595f1bb11862e225dff48e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/finish.py",
+      "bytes": 3046,
+      "sha256": "76c806f9e25c9dd3c336dda9ad9bc0a1e0b0176fbc8b0debaf79dbc0a6addb37",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/finish.py",
+      "representation": "raw",
+      "local_bytes": 3046,
+      "local_sha256": "76c806f9e25c9dd3c336dda9ad9bc0a1e0b0176fbc8b0debaf79dbc0a6addb37"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/freeze_evaluation.py",
+      "bytes": 2408,
+      "sha256": "266b788166c357f3d247356ce814417bafe5ad2d868a3076e006699ce7bbf9a0",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/freeze_evaluation.py",
+      "representation": "raw",
+      "local_bytes": 2408,
+      "local_sha256": "266b788166c357f3d247356ce814417bafe5ad2d868a3076e006699ce7bbf9a0"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/launch.json",
+      "bytes": 448,
+      "sha256": "7cd343ed77ea3cb002d490fb7a9bd26711c2534f932e66a323388559c95269f6",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/launch.json",
+      "representation": "raw",
+      "local_bytes": 448,
+      "local_sha256": "7cd343ed77ea3cb002d490fb7a9bd26711c2534f932e66a323388559c95269f6"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/launch.py",
+      "bytes": 1144,
+      "sha256": "9be4763d4b999ff6047b7943a20153e0b9ed061e58b46dd138b1640a4a5f9e87",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/launch.py",
+      "representation": "raw",
+      "local_bytes": 1144,
+      "local_sha256": "9be4763d4b999ff6047b7943a20153e0b9ed061e58b46dd138b1640a4a5f9e87"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/launch_collector.py",
+      "bytes": 1189,
+      "sha256": "7cb60a62731404863246c282ca0546c77fdfa5d672767982bead4b91089fba47",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/launch_collector.py",
+      "representation": "raw",
+      "local_bytes": 1189,
+      "local_sha256": "7cb60a62731404863246c282ca0546c77fdfa5d672767982bead4b91089fba47"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/launch_finish.py",
+      "bytes": 1051,
+      "sha256": "3cd443d91b614b8deb0839d641d283cfc9d78c89393aa98b146f9fc25506b03b",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/launch_finish.py",
+      "representation": "raw",
+      "local_bytes": 1051,
+      "local_sha256": "3cd443d91b614b8deb0839d641d283cfc9d78c89393aa98b146f9fc25506b03b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/midpoint.py",
+      "bytes": 2621,
+      "sha256": "a6ef8e8378724db48278fe263bd23c34d8a4f04768619cd5c33858d9978fef71",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/midpoint.py",
+      "representation": "raw",
+      "local_bytes": 2621,
+      "local_sha256": "a6ef8e8378724db48278fe263bd23c34d8a4f04768619cd5c33858d9978fef71"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/predict_fixed.py",
+      "bytes": 5355,
+      "sha256": "05236a5f2721cc236f8cb4db1d1ef0dc72eecadbbdca34297ed2288827023eda",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/predict_fixed.py",
+      "representation": "raw",
+      "local_bytes": 5355,
+      "local_sha256": "05236a5f2721cc236f8cb4db1d1ef0dc72eecadbbdca34297ed2288827023eda"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/preparation-allocation.json",
+      "bytes": 6039,
+      "sha256": "1aae6c9e8bf77293e72fae86f23e5fc367ea17053178425996f8064377487623",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/preparation-allocation.json",
+      "representation": "raw",
+      "local_bytes": 6039,
+      "local_sha256": "1aae6c9e8bf77293e72fae86f23e5fc367ea17053178425996f8064377487623"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/prepare-01/checkpoints.json",
+      "bytes": 4092,
+      "sha256": "8e7938083e86c2cdfbd1bd772656b9d32c0c0701c9d73c3a358b4ebc41f5cd09",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/prepare-01/checkpoints.json",
+      "representation": "raw",
+      "local_bytes": 4092,
+      "local_sha256": "8e7938083e86c2cdfbd1bd772656b9d32c0c0701c9d73c3a358b4ebc41f5cd09"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/prepare-01/checkpoints.log",
+      "bytes": 3382,
+      "sha256": "5b39a2ec1e2dd0d019019e057bb6ebf7e55abea3d26f99ed2e6536222c6f0c7f",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/prepare-01/checkpoints.log",
+      "representation": "raw",
+      "local_bytes": 3382,
+      "local_sha256": "5b39a2ec1e2dd0d019019e057bb6ebf7e55abea3d26f99ed2e6536222c6f0c7f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/prepare-01/construction.log",
+      "bytes": 5991,
+      "sha256": "cb977379fc113e04a2102fbfc4cd15cf14b29e71f9b306746bfa5336f2ddf4ed",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/prepare-01/construction.log",
+      "representation": "raw",
+      "local_bytes": 5991,
+      "local_sha256": "cb977379fc113e04a2102fbfc4cd15cf14b29e71f9b306746bfa5336f2ddf4ed"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/prepare-01/generated.log",
+      "bytes": 534,
+      "sha256": "715a249d0a8e32a285f1f0f069ecaf53d8b4188300311d848e0a11a0b943da9e",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/prepare-01/generated.log",
+      "representation": "raw",
+      "local_bytes": 534,
+      "local_sha256": "715a249d0a8e32a285f1f0f069ecaf53d8b4188300311d848e0a11a0b943da9e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/prepare-01/outer.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/prepare-01/outer.log",
+      "representation": "raw",
+      "local_bytes": 0,
+      "local_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/prepare-01/result.json",
+      "bytes": 1587,
+      "sha256": "7ff34c90df47c7001118a9b1f09793961633cfe846984202d0363b462d215971",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/prepare-01/result.json",
+      "representation": "raw",
+      "local_bytes": 1587,
+      "local_sha256": "7ff34c90df47c7001118a9b1f09793961633cfe846984202d0363b462d215971"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/prepare_once.py",
+      "bytes": 3009,
+      "sha256": "1132f703a75d0d2797bc97911908fb48117a943da1351eed56b493e2bbfa2e84",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/prepare_once.py",
+      "representation": "raw",
+      "local_bytes": 3009,
+      "local_sha256": "1132f703a75d0d2797bc97911908fb48117a943da1351eed56b493e2bbfa2e84"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/protocol.md",
+      "bytes": 3068,
+      "sha256": "a54185926c3fa3ba0f13478ba3a18b207f7c99dd7308d8833b994d2f0c23544f",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/protocol.md",
+      "representation": "raw",
+      "local_bytes": 3068,
+      "local_sha256": "a54185926c3fa3ba0f13478ba3a18b207f7c99dd7308d8833b994d2f0c23544f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/queue.log",
+      "bytes": 5679,
+      "sha256": "3a3d65e0cb6cfa77fd93efb30c9f5017cf283959af13b82978111ff101e9f3a6",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/queue.log",
+      "representation": "raw",
+      "local_bytes": 5679,
+      "local_sha256": "3a3d65e0cb6cfa77fd93efb30c9f5017cf283959af13b82978111ff101e9f3a6"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/root-contract.json",
+      "bytes": 1336,
+      "sha256": "30b209f3d708b12f44a38ced53477c444ef8388e84ef681547339a04fe42b485",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/root-contract.json",
+      "representation": "raw",
+      "local_bytes": 1336,
+      "local_sha256": "30b209f3d708b12f44a38ced53477c444ef8388e84ef681547339a04fe42b485"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/run_queue.py",
+      "bytes": 8440,
+      "sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/run_queue.py",
+      "representation": "raw",
+      "local_bytes": 8440,
+      "local_sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/source-proof.json",
+      "bytes": 322,
+      "sha256": "f1d6ef5163ba5caa9f89ef944ae8870dea165d669745e3ceead37ae327b1e92a",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/source-proof.json",
+      "representation": "raw",
+      "local_bytes": 322,
+      "local_sha256": "f1d6ef5163ba5caa9f89ef944ae8870dea165d669745e3ceead37ae327b1e92a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-warm-midpoint/training-allocation.json",
+      "bytes": 12419,
+      "sha256": "bf014e845354cadfe919962d2a30a5451707b5e72d117dafc5bb24d779a75c1b",
+      "local_path": "research/iterations/2026-10-02-warm-midpoint/training-allocation.json",
+      "representation": "raw",
+      "local_bytes": 12419,
+      "local_sha256": "bf014e845354cadfe919962d2a30a5451707b5e72d117dafc5bb24d779a75c1b"
+    },
+    {
+      "path": "artifacts/runs/oct02_wm_s3h2_f0/construction.json",
+      "bytes": 1621,
+      "sha256": "86aacd49b15dd39df0cbb2bcc35e506a03a1d5ae8eced5a36ab57ddabdf49567",
+      "local_path": "artifacts/runs/oct02_wm_s3h2_f0/construction.json",
+      "representation": "raw",
+      "local_bytes": 1621,
+      "local_sha256": "86aacd49b15dd39df0cbb2bcc35e506a03a1d5ae8eced5a36ab57ddabdf49567"
+    },
+    {
+      "path": "artifacts/runs/oct02_wm_s3h2_f0/model_ep1.pt",
+      "bytes": 2353983,
+      "sha256": "1d556c1cfcab24315c1b5b5815594fcf8345ede387a92826e2488bc3e3658ca8",
+      "local_path": "artifacts/runs/oct02_wm_s3h2_f0/model_ep1.pt",
+      "representation": "raw",
+      "local_bytes": 2353983,
+      "local_sha256": "1d556c1cfcab24315c1b5b5815594fcf8345ede387a92826e2488bc3e3658ca8"
+    },
+    {
+      "path": "artifacts/runs/oct02_wm_s3h2_f1/construction.json",
+      "bytes": 1621,
+      "sha256": "f21bfbb73824e1ca0b4cb108313168fdfc929bcd03e02f5f8ec6b61eeedb9cd7",
+      "local_path": "artifacts/runs/oct02_wm_s3h2_f1/construction.json",
+      "representation": "raw",
+      "local_bytes": 1621,
+      "local_sha256": "f21bfbb73824e1ca0b4cb108313168fdfc929bcd03e02f5f8ec6b61eeedb9cd7"
+    },
+    {
+      "path": "artifacts/runs/oct02_wm_s3h2_f1/model_ep1.pt",
+      "bytes": 2353983,
+      "sha256": "54833d1f3b1ea07cecee828f2c6241369e9289dcc3f6b2b16d7df295c32178a7",
+      "local_path": "artifacts/runs/oct02_wm_s3h2_f1/model_ep1.pt",
+      "representation": "raw",
+      "local_bytes": 2353983,
+      "local_sha256": "54833d1f3b1ea07cecee828f2c6241369e9289dcc3f6b2b16d7df295c32178a7"
+    },
+    {
+      "path": "artifacts/runs/oct02_wm_s4h2_f0/construction.json",
+      "bytes": 1621,
+      "sha256": "a1f247d74d7be26d95e848197786b93b6a06c0626b8e98b55410f53630f37e3a",
+      "local_path": "artifacts/runs/oct02_wm_s4h2_f0/construction.json",
+      "representation": "raw",
+      "local_bytes": 1621,
+      "local_sha256": "a1f247d74d7be26d95e848197786b93b6a06c0626b8e98b55410f53630f37e3a"
+    },
+    {
+      "path": "artifacts/runs/oct02_wm_s4h2_f0/model_ep1.pt",
+      "bytes": 2353983,
+      "sha256": "f858f912c286974a657e04151e3c3aff30ff2e93f309b8553d1a62f8fe09bfcf",
+      "local_path": "artifacts/runs/oct02_wm_s4h2_f0/model_ep1.pt",
+      "representation": "raw",
+      "local_bytes": 2353983,
+      "local_sha256": "f858f912c286974a657e04151e3c3aff30ff2e93f309b8553d1a62f8fe09bfcf"
+    },
+    {
+      "path": "artifacts/runs/oct02_wm_s4h2_f1/construction.json",
+      "bytes": 1621,
+      "sha256": "b2a7206a286cf2f6d06bbd9cf3d438b501c32ee66bff6263d8e5cbe51947eabd",
+      "local_path": "artifacts/runs/oct02_wm_s4h2_f1/construction.json",
+      "representation": "raw",
+      "local_bytes": 1621,
+      "local_sha256": "b2a7206a286cf2f6d06bbd9cf3d438b501c32ee66bff6263d8e5cbe51947eabd"
+    },
+    {
+      "path": "artifacts/runs/oct02_wm_s4h2_f1/model_ep1.pt",
+      "bytes": 2353983,
+      "sha256": "34e004013efec802dbb45f2994a3ef0ab8720c7910fc446ce052fd6ec59287de",
+      "local_path": "artifacts/runs/oct02_wm_s4h2_f1/model_ep1.pt",
+      "representation": "raw",
+      "local_bytes": 2353983,
+      "local_sha256": "34e004013efec802dbb45f2994a3ef0ab8720c7910fc446ce052fd6ec59287de"
+    }
+  ],
+  "created_utc": "2026-10-02T02:55:25.186961+00:00",
+  "collector_sha256": "b4b2a97071f96342096fdc7f7d330e4dc44e0580478bd635713d954202a6f6cd"
+}

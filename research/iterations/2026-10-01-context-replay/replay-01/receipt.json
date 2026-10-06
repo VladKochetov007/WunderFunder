@@ -1,0 +1,134 @@
+{
+  "status": "COMPLETE",
+  "parity_checks_passed": true,
+  "source_sha256": "2302dee66a23b9327660d30f6bd3904d6426b8fd36fdd78e72715cfa7782e2e8",
+  "plan_sha256": "f352f4fe3e819b5993f22e49d009d623d98016211e4dc5a22c324f2c6f55d895",
+  "rows": 1761280,
+  "sequences": 860,
+  "chains": 250,
+  "engines": [
+    "amp_fp16",
+    "fp32_tf32_off"
+  ],
+  "arms": [
+    "full",
+    "reset256",
+    "reset2048"
+  ],
+  "cached_comparison_all20000rows": {
+    "amp_fp16": {
+      "count": 34400000,
+      "sum_squared": 1.2979644679944613e-05,
+      "max_abs": 0.0009765625,
+      "rmse": 6.142599224464927e-07
+    },
+    "fp32_tf32_off": {
+      "count": 34400000,
+      "sum_squared": 1203.2408467403534,
+      "max_abs": 0.11161870509386063,
+      "rmse": 0.0059142143680534056
+    }
+  },
+  "AMP_cache_tolerances": {
+    "max_abs": 0.003,
+    "rmse": 0.0003
+  },
+  "FP32_vs_cache": "descriptive only; different arithmetic; no AMP tolerance applied",
+  "incoming_state_checks": [
+    {
+      "fold": 0,
+      "engine": "amp_fp16",
+      "batch_size": 16,
+      "output_equal": true,
+      "state_equal": true
+    },
+    {
+      "fold": 0,
+      "engine": "fp32_tf32_off",
+      "batch_size": 16,
+      "output_equal": true,
+      "state_equal": true
+    },
+    {
+      "fold": 1,
+      "engine": "amp_fp16",
+      "batch_size": 16,
+      "output_equal": true,
+      "state_equal": true
+    },
+    {
+      "fold": 1,
+      "engine": "fp32_tf32_off",
+      "batch_size": 16,
+      "output_equal": true,
+      "state_equal": true
+    }
+  ],
+  "inputs_unchanged_before_after": true,
+  "raw_identity": {
+    "resolved": "/home/grinchenkoeg/WunderFunder/datasets/valid.parquet",
+    "bytes": 5615509128,
+    "mtime_ns": 1577833200000000000,
+    "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "verification": "Prior registered hash;freshdevice/inode/size/mtime before andafter, no newfullParquet rehash."
+  },
+  "raw_verification": "stat/inode before-after plus registered historical SHA; no new full hash",
+  "selected_raw_sha256": "054192fe911d8c0bda47969b523a36f7c7301b6efde3023c704f471e65d62c86",
+  "fullprefix211_sha256": "3e164b041b74ceac874d31e16216cb4246f9f03c799c48c060444a6fa85bd3a5",
+  "outputs": {
+    "replay-rows.npz": {
+      "sha256": "4fd834d00a4d35797951964d20127e7a41195006a0346c840638b57f8e31956e",
+      "bytes": 103277439
+    }
+  },
+  "schema": {
+    "file": "replay-rows.npz",
+    "metadata": [
+      "cache_position",
+      "row_group",
+      "step",
+      "chain",
+      "fold",
+      "market_class_retrospective",
+      "age_i0"
+    ],
+    "engines": [
+      "amp_fp16",
+      "fp32_tf32_off"
+    ],
+    "arms": [
+      "full",
+      "reset256",
+      "reset2048"
+    ],
+    "arrays": {
+      "metadata": "int32[N,7]",
+      "y": "float32[N,2]",
+      "is_scored": "bool[N]",
+      "member_predictions": "float32[N,2engines,3arms,2targets]",
+      "partner_predictions": "float32[N,3partners,2]",
+      "cached_shallow_reference": "float32[N,2]"
+    },
+    "partners": [
+      "on_ctl128s3",
+      "on_ctl128s4",
+      "on_ctlc500"
+    ],
+    "rows": 1761280,
+    "ensemble_arithmetic": "Sequential float32 (((member+partner0)+partner1)+partner2)/4, then scorer clipping.",
+    "interpretation": "GRU-only state intervention with unchanged fullprefix features; OOD state, not natural suffix restart."
+  },
+  "seconds": 169.35324098169804,
+  "max_RSS_KiB": 3425696,
+  "cuda_max_allocated_bytes": 898494464,
+  "cuda_max_reserved_bytes": 1205862400,
+  "initial_tf32": {
+    "matmul": false,
+    "cudnn": true
+  },
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "cudnn": 92400,
+  "fits": 0,
+  "metric_calls": 0
+}

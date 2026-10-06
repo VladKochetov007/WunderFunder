@@ -1,0 +1,76 @@
+{
+  "status": "PASS_GENERATED_CUDA_SMOKE",
+  "failure": null,
+  "allocation_sha256": "f604516133a066a680e7f18a3fe7b121821c3d99386bbab0cd197714d22cc907",
+  "runner_sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2",
+  "started_utc": "2026-10-02T01:04:34.026879+00:00",
+  "finished_utc": "2026-10-02T01:04:44.763566+00:00",
+  "seconds": 10.736709689721465,
+  "jobs": [
+    {
+      "name": "interval-generated",
+      "stage": "CUDA_generated",
+      "unit": "eb-7b476739c66d48f19d11beecd8f66caa",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "eb-7b476739c66d48f19d11beecd8f66caa",
+        "-p",
+        "CPUQuota=200%",
+        "-p",
+        "MemoryMax=4294967296",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "37,38",
+        "nice",
+        "-n",
+        "10",
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "50.000s",
+        "/usr/bin/time",
+        "-v",
+        ".venv/bin/python",
+        "research/iterations/2026-10-02-interval-memory/run_queue.py",
+        "--allocation",
+        "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/cuda-allocation.json",
+        "--allocation-sha256",
+        "f604516133a066a680e7f18a3fe7b121821c3d99386bbab0cd197714d22cc907",
+        "--worker",
+        "0"
+      ],
+      "gpu_before": {
+        "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+        "total_MiB": 16376,
+        "used_MiB": 6087,
+        "free_MiB": 9888
+      },
+      "peak_owned_GPU_MiB": 1114,
+      "pid": 986532,
+      "worker_result": {
+        "path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/interval-generated.CUDA_generated.worker-result.json",
+        "sha256": "61530114475f277babed488bbf1b1a5640bdfdc1fd2f72858c295d97f8523caa"
+      },
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "exit_code": 0,
+      "failure": null,
+      "seconds": 10.514879630878568
+    }
+  ],
+  "fits": 0,
+  "OOF_jobs": 0,
+  "metric_calls": 0,
+  "retries": 0
+}

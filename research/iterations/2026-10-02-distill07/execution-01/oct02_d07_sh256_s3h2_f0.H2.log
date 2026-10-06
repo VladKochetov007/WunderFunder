@@ -1,0 +1,40 @@
+{"name": "oct02_d07_sh256_s3h2_f0", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 256, "layers": 1, "dropout": 0.0, "chunk": 2000, "batch": 16, "epochs": 2, "lr": 0.0005, "wd": 0.01, "loss": "gcorr", "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_alpha": 0.5, "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "aux_next_k": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "aux_loss_scale": 1.0, "arch": "gru", "tfm_d": 256, "tfm_layers": 6, "tfm_heads": 8, "tfm_ff": 1024, "tfm_block": 250, "hidden1": 0, "attn_k": 32, "attn_d": 64, "attn_heads": 4, "gate_ce": 0.0, "cell": "gru", "enc": "linear", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 4, "valid_repeat": 1, "init": "oct02_d07_sh256_s3_f0@ep3", "freeze": "inp,gru", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "eval_ema": false, "mask_weight": true, "propensity": "", "prop_power": 1.0, "prop_eps": 0.0, "class_weight": "", "valid_true_mask": -1.0, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "seed": 3, "atom_head": 0.0, "vrex": 0.0, "vrex_start": 1, "level_aug": 0.0, "level_drop": 0.0, "lookahead": "", "train_half": -1, "class_heads": false, "quant_feats": false, "quant_i1": false, "state_reset": 0, "loss_norm": "chunk", "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": true, "sync_free": true, "fused_adam": true, "pin_memory": true, "prop_cache": true, "precision": "fp16", "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false}
+{"source_train_sequences": 1406, "eligible_valid_train_sequences": 1406, "used_valid_train_sequences": 1406, "eval_sequences": 467}
+loader workers 2 prefetch 2; params 0.59M; steps 1740
+ep 0 batch 0/87 loss 0.8493 lr 3.58e-05 seq/s 4.4
+ep 0 batch 20/87 loss 0.8640 lr 4.93e-04 seq/s 33.0
+ep 0 batch 40/87 loss 0.7871 lr 4.54e-04 seq/s 39.7
+ep 0 batch 60/87 loss 0.8743 lr 3.86e-04 seq/s 42.6
+ep 0 batch 80/87 loss 0.8276 lr 2.98e-04 seq/s 44.2
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 0, "eval_seconds": 0.0, "split": "vfold467"}
+ep 1 batch 0/87 loss 0.7229 lr 2.66e-04 seq/s 11.9
+ep 1 batch 20/87 loss 0.6637 lr 1.72e-04 seq/s 42.1
+ep 1 batch 40/87 loss 0.7683 lr 8.94e-05 seq/s 45.6
+ep 1 batch 60/87 loss 0.5738 lr 2.99e-05 seq/s 47.0
+ep 1 batch 80/87 loss 0.6932 lr 1.77e-06 seq/s 47.5
+VALID {"weighted_pearson": 0.0, "evaluation_skipped": true, "metric_placeholder_not_a_readout": true, "epoch": 1, "eval_seconds": 0.0, "split": "vfold467"}
+BEST 0.0
+{"status": "PASS_FIXED_ENDPOINT_FINITE_AND_LINEAGE", "output": "research/iterations/2026-10-02-distill07/execution-01/oct02_d07_sh256_s3h2_f0.check.json", "sha256": "33182e299047bda1b16ae660eedc47f26f218eda60f5f93a8327d990a71e6221", "checkpoint": {"path": "artifacts/runs/oct02_d07_sh256_s3h2_f0/model_ep1.pt", "sha256": "08db902449b79387d69064d464fd92c2eedcd305ed7e7a61ad3c8730071151a6", "bytes": 2353191, "epoch": 1, "n_in": 211}}
+	Command being timed: ".venv/bin/python research/iterations/2026-10-02-distill07/run_queue.py --allocation /home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-distill07/training-allocation.json --allocation-sha256 b5e527147ef3d38704c2c46387d91e4108a9c4984478f5d6ad2067e7ba0acf65 --worker 1"
+	User time (seconds): 121.97
+	System time (seconds): 40.49
+	Percent of CPU this job got: 236%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:08.62
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 3144056
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 9839075
+	Voluntary context switches: 16813
+	Involuntary context switches: 612
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 13896
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

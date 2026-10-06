@@ -1,0 +1,170 @@
+{
+  "specs": {
+    "reference": {
+      "w2_reference": 1.0
+    },
+    "state": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w4warm_state_s3": 0.275,
+      "w4warm_state_s4": 0.275
+    },
+    "state_s3": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w4warm_state_s3": 0.55
+    },
+    "state_s4": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w4warm_state_s4": 0.55
+    },
+    "pool": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w4warm_pool_s3": 0.275,
+      "w4warm_pool_s4": 0.275
+    },
+    "pool_s3": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w4warm_pool_s3": 0.55
+    },
+    "pool_s4": {
+      "cmp_rawwmse_s3": 0.1,
+      "cmp_rawwmse65r2_s4": 0.1,
+      "orgbase": 0.0625,
+      "w4warm_pool_s4": 0.55
+    }
+  },
+  "comparisons": [
+    [
+      "pool",
+      "state"
+    ],
+    [
+      "pool",
+      "reference"
+    ],
+    [
+      "state",
+      "reference"
+    ],
+    [
+      "pool_s3",
+      "state_s3"
+    ],
+    [
+      "pool_s4",
+      "state_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 436,
+      "chains": 129,
+      "scores": {
+        "reference": 0.7099804418669501,
+        "state": 0.7098467974046806,
+        "state_s3": 0.7099633433157293,
+        "state_s4": 0.708819229288109,
+        "pool": 0.7098365559392783,
+        "pool_s3": 0.7099621927545987,
+        "pool_s4": 0.7087989260662171
+      },
+      "comparisons": {
+        "pool - state": {
+          "delta": -1.0241465402294203e-05,
+          "conditional_ci95": [
+            -6.096307925274047e-05,
+            4.065558127648024e-05
+          ]
+        },
+        "pool - reference": {
+          "delta": -0.000143885927671783,
+          "conditional_ci95": [
+            -0.0005720271507253044,
+            0.0002288981661504011
+          ]
+        },
+        "state - reference": {
+          "delta": -0.00013364446226948878,
+          "conditional_ci95": [
+            -0.0005332903447549081,
+            0.0002096563826244013
+          ]
+        },
+        "pool_s3 - state_s3": {
+          "delta": -1.150561130591754e-06,
+          "conditional_ci95": [
+            -9.605891436418878e-05,
+            9.281325218810642e-05
+          ]
+        },
+        "pool_s4 - state_s4": {
+          "delta": -2.0303221891948553e-05,
+          "conditional_ci95": [
+            -5.8572376095006315e-05,
+            1.3648200749985509e-05
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "reference": 0.5926397015685518,
+        "state": 0.5927236970061103,
+        "state_s3": 0.5918272858712728,
+        "state_s4": 0.5921067158751983,
+        "pool": 0.5927484941696919,
+        "pool_s3": 0.5918582744188823,
+        "pool_s4": 0.5921095010402959
+      },
+      "comparisons": {
+        "pool - state": {
+          "delta": 2.4797163581613546e-05,
+          "conditional_ci95": [
+            -2.1552364778959497e-05,
+            7.052816985846361e-05
+          ]
+        },
+        "pool - reference": {
+          "delta": 0.00010879260114005085,
+          "conditional_ci95": [
+            -0.00018585503458951324,
+            0.0003838122910630734
+          ]
+        },
+        "state - reference": {
+          "delta": 8.39954375584373e-05,
+          "conditional_ci95": [
+            -0.00018565645654924635,
+            0.0003416117339697044
+          ]
+        },
+        "pool_s3 - state_s3": {
+          "delta": 3.0988547609522854e-05,
+          "conditional_ci95": [
+            -5.9464034000980544e-05,
+            0.00010718396147285367
+          ]
+        },
+        "pool_s4 - state_s4": {
+          "delta": 2.7851650976629116e-06,
+          "conditional_ci95": [
+            -3.6533566735322263e-05,
+            4.121745717645391e-05
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Exploratory reused data. Known teacher training chains and residual-fit chains excluded. Train mask estimated. Intervals conditional on fitted models."
+}

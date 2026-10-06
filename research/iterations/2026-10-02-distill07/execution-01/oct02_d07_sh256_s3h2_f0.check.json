@@ -1,0 +1,97 @@
+{
+  "status": "PASS_FIXED_ENDPOINT_FINITE_AND_LINEAGE",
+  "utc": "2026-10-02T00:30:08.967076+00:00",
+  "job": "oct02_d07_sh256_s3h2_f0",
+  "stage": "H2",
+  "fold": 0,
+  "commands_sha256": "e79bb80cd7a2a366e710db05a88f2f1acbb5296f2d23ee8f864b8856959508d2",
+  "validator_sha256": "06da1ac2a461ef37401fe2690511d4b4000ec803372de826a3fa64a227694f05",
+  "checkpoint": {
+    "path": "artifacts/runs/oct02_d07_sh256_s3h2_f0/model_ep1.pt",
+    "sha256": "08db902449b79387d69064d464fd92c2eedcd305ed7e7a61ad3c8730071151a6",
+    "bytes": 2353191,
+    "epoch": 1,
+    "n_in": 211
+  },
+  "model_pt": {
+    "path": "artifacts/runs/oct02_d07_sh256_s3h2_f0/model.pt",
+    "sha256": "fd3ccf6277f5e7a8a73512f8705ef5eed16ec5811d998c42ef0f0afaba579180",
+    "bytes": 2352747,
+    "epoch": null,
+    "n_in": 211
+  },
+  "model_pt_state_byte_equals_endpoint": true,
+  "history_sha256": "d1871c3389556912b5be35a046700b273f16be7fc2ded26266dda2c68c683fa1",
+  "all103_args_match": true,
+  "state_shapes": {
+    "mean": [
+      211
+    ],
+    "std": [
+      211
+    ],
+    "inp.weight": [
+      256,
+      211
+    ],
+    "inp.bias": [
+      256
+    ],
+    "gru.weight_ih_l0": [
+      768,
+      256
+    ],
+    "gru.weight_hh_l0": [
+      768,
+      256
+    ],
+    "gru.bias_ih_l0": [
+      768
+    ],
+    "gru.bias_hh_l0": [
+      768
+    ],
+    "head.0.weight": [
+      256,
+      512
+    ],
+    "head.0.bias": [
+      256
+    ],
+    "head.2.weight": [
+      23,
+      256
+    ],
+    "head.2.bias": [
+      23
+    ]
+  },
+  "all_state_finite_float32": true,
+  "parent": {
+    "path": "artifacts/runs/oct02_d07_sh256_s3_f0/model_ep3.pt",
+    "sha256": "2c693071da843c386d259c6d018fc523e7a46026d6c302872b27b05e55e9daf1",
+    "bytes": 2353827,
+    "epoch": 3,
+    "n_in": 211
+  },
+  "byte_identical_frozen_tensors": [
+    "mean",
+    "std",
+    "inp.weight",
+    "inp.bias",
+    "gru.weight_ih_l0",
+    "gru.weight_hh_l0",
+    "gru.bias_ih_l0",
+    "gru.bias_hh_l0"
+  ],
+  "changed_head_tensors": [
+    "head.0.weight",
+    "head.0.bias",
+    "head.2.weight",
+    "head.2.bias"
+  ],
+  "EMA_identity": "Parent checkpoint args eval_ema=true and bound frozen trainer saves ema_model.module; EMA trajectory is not reconstructed.",
+  "data_or_targets_read": false,
+  "model_forward_calls": 0,
+  "metrics": 0
+}

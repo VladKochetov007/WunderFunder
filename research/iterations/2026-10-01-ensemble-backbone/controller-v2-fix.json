@@ -1,0 +1,14 @@
+{
+  "status": "MECHANICAL_CONTROLLER_FIX_BEFORE_ANY_FIT",
+  "utc": "2026-10-01T17:57:58.567229+00:00",
+  "cause": "prepare_inputs.assemble uses lexical relative_to(ROOT) on its input path; root controller passed a relative --inputs. It reached that check before writing any partner binding.",
+  "changes": [
+    "pass absolute input binding path",
+    "versioned controller executable and output directory"
+  ],
+  "scientific_settings_changed": false,
+  "forecast_fit_retries": 0,
+  "cache_reuse": "all six completed immutable streams",
+  "source_sha256": "3312a1ba0aa21d97f160c3f2670a03b518b69a0c6b061b58691d76fab61d5ddc",
+  "check": "AST and absolute-path/relative_to roundtrip PASS"
+}

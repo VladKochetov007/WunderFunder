@@ -1,0 +1,16 @@
+name: wunder-future-retrieval-probe-20261005
+cmd: python3 probe_lab.py ${DATA} ${REPORT} ${PREDS}
+env:
+  python:
+    type: manual
+    version: 3.12
+    requirements-file: probe-requirements.txt
+    pip:
+      extra-index-urls:
+        - https://download.pytorch.org/whl/cu126
+inputs:
+  - probe.npz: DATA
+outputs:
+  - probe-datasphere.json: REPORT
+  - probe-predictions.npz: PREDS
+cloud-instance-type: gt4i.1

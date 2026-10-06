@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "returncode": 0,
+  "seconds": 2.8522019386291504,
+  "scope": "atom-review-5f2357691b8a49719912bb61f0f43850",
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--unit",
+    "atom-review-5f2357691b8a49719912bb61f0f43850",
+    "-p",
+    "CPUQuota=100%",
+    "-p",
+    "MemoryMax=2147483648",
+    "-p",
+    "MemorySwapMax=0",
+    "--",
+    "taskset",
+    "-c",
+    "21",
+    "env",
+    "CUDA_VISIBLE_DEVICES=",
+    "OMP_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "NUMBA_NUM_THREADS=1",
+    "ARROW_NUM_THREADS=1",
+    "WNN_THREADS=1",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=3s",
+    "55s",
+    "/home/grinchenkoeg/WunderFunder-creative/.venv/bin/python",
+    "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-atom-consistent-training/test_synthetic.py"
+  ],
+  "commands_sha256": "d61670df1cb90668c11ff861b963229c74a37702e1cf5a6064602f562a523eda",
+  "checks": {
+    "status": "PASS_GENERATED_CPU_ONLY",
+    "two_atom_q": [
+      [
+        0.5294117647058824,
+        0.47058823529411764
+      ]
+    ],
+    "corrected": [
+      [
+        0.19999999999999996,
+        -1.3571428571428572
+      ]
+    ],
+    "analytic": [
+      [
+        0.2,
+        -1.3571428571428572
+      ]
+    ],
+    "original": [
+      [
+        2.9024390243902443,
+        -1.6707317073170733
+      ]
+    ],
+    "checks": [
+      "weighted_CE_stationary",
+      "twoatom_clipped_metric_optimum",
+      "zero_atom_and_zero_coordinate_fallback",
+      "identical_initial_state_and_RNG",
+      "exact_original_forward_and_carried_state",
+      "unchanged_aux_logits_and_backbone",
+      "corrected_gradient_connected",
+      "skipped_evaluation_RNG",
+      "lazy_sampler_order_RNG"
+    ],
+    "source_sha256": {
+      "research/iterations/2026-10-02-atom-consistent-training/model.py": "c94c3b315c9835b1825ae9d73bbb9e0da9a54fbb32d624c8a1dc5c17152d5b1f",
+      "research/iterations/2026-10-02-atom-consistent-training/train.py": "2ddebe0f56b343cd0cfdc68a808ef7f81e2c9365fdc0d53e2c2c8c77ed74fb5a",
+      "research/iterations/2026-10-02-atom-consistent-training/test_synthetic.py": "15d00556ab9f52ffd4b6bcdba5fb8f983279c848c5b62cdd47014b347866b502",
+      "src/wnn/atom_head.py": "6ad8cef658f81a4895557c25a4ba88f8fb1ce513a6e6c43cc5001101adcc91a5"
+    },
+    "data_reads": 0,
+    "metrics": 0,
+    "GPU": false
+  }
+}

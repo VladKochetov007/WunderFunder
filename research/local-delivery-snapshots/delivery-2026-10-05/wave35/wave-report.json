@@ -1,0 +1,152 @@
+{
+  "specs": {
+    "teacher": {
+      "w19teacher": 1.0
+    },
+    "altinit": {
+      "w35_altinit_s3": 0.5,
+      "w35_altinit_s4": 0.5
+    },
+    "altinit_s3": {
+      "w35_altinit_s3": 1.0
+    },
+    "altinit_s4": {
+      "w35_altinit_s4": 1.0
+    },
+    "family": {
+      "w19distilled_s3": 0.5,
+      "w19distilled_s4": 0.5
+    },
+    "family_s3": {
+      "w19distilled_s3": 1.0
+    },
+    "family_s4": {
+      "w19distilled_s4": 1.0
+    },
+    "four_mean": {
+      "w35_altinit_s3": 0.25,
+      "w35_altinit_s4": 0.25,
+      "w19distilled_s3": 0.25,
+      "w19distilled_s4": 0.25
+    },
+    "mixed_3": {
+      "w35_altinit_s3": 0.5,
+      "w19distilled_s4": 0.5
+    },
+    "mixed_4": {
+      "w35_altinit_s4": 0.5,
+      "w19distilled_s3": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "altinit",
+      "teacher"
+    ],
+    [
+      "family",
+      "teacher"
+    ],
+    [
+      "altinit",
+      "family"
+    ],
+    [
+      "altinit_s3",
+      "family_s3"
+    ],
+    [
+      "altinit_s4",
+      "family_s4"
+    ],
+    [
+      "four_mean",
+      "family"
+    ],
+    [
+      "mixed_3",
+      "family"
+    ],
+    [
+      "mixed_4",
+      "family"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher": 0.7161302310562185,
+        "altinit": 0.7150767931396652,
+        "altinit_s3": 0.7146344258378858,
+        "altinit_s4": 0.7138742296605494,
+        "family": 0.718363943590675,
+        "family_s3": 0.7178956938633227,
+        "family_s4": 0.717590093778095,
+        "four_mean": 0.7174114633495363,
+        "mixed_3": 0.7171543103279152,
+        "mixed_4": 0.7169480992684003
+      },
+      "comparisons": {
+        "altinit - teacher": {
+          "delta": -0.0010534379165533236,
+          "conditional_ci95": [
+            -0.001974412168517331,
+            -0.00011348320582864366
+          ]
+        },
+        "family - teacher": {
+          "delta": 0.002233712534456478,
+          "conditional_ci95": [
+            0.0013547937209006876,
+            0.003256026245273075
+          ]
+        },
+        "altinit - family": {
+          "delta": -0.0032871504510098015,
+          "conditional_ci95": [
+            -0.004726375777401736,
+            -0.0017554210969978337
+          ]
+        },
+        "altinit_s3 - family_s3": {
+          "delta": -0.003261268025436914,
+          "conditional_ci95": [
+            -0.005114672213649971,
+            -0.0013857087725313803
+          ]
+        },
+        "altinit_s4 - family_s4": {
+          "delta": -0.003715864117545653,
+          "conditional_ci95": [
+            -0.005329643409057255,
+            -0.0021411479859551694
+          ]
+        },
+        "four_mean - family": {
+          "delta": -0.0009524802411386979,
+          "conditional_ci95": [
+            -0.0016547158883744029,
+            -0.00019166942499478933
+          ]
+        },
+        "mixed_3 - family": {
+          "delta": -0.0012096332627598017,
+          "conditional_ci95": [
+            -0.0021199400552014388,
+            -0.0002752755573021108
+          ]
+        },
+        "mixed_4 - family": {
+          "delta": -0.0014158443222747064,
+          "conditional_ci95": [
+            -0.0022046420138001704,
+            -0.0006467371959741023
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid425/123, all train chains excluded. Exact wave19 recipe and init/constructor/data order retained; only source initialization changes from d256 parent to exact two-stream embedding, with trainable dense cross-stream connections. Parent histories differ, so this is a candidate efficacy comparison, not a unique mechanism claim. Family heads and cached targets remain present. Fixed epoch1, two seeds. No honest train holdout; native and composite checks needed. Conditional fitted-model bootstrap; organizer pretraining provenance uncertain."
+}

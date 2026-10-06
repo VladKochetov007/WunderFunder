@@ -1,0 +1,142 @@
+{
+  "specs": {
+    "fp32": {
+      "cmp_fullft_s3": 0.275,
+      "cmp_fullft_s4": 0.275,
+      "cmp_tstream_s3": 0.1,
+      "cmp_tstream_s4": 0.1,
+      "w13native_fp32": 0.0625
+    },
+    "half": {
+      "cmp_fullft_s3": 0.275,
+      "cmp_fullft_s4": 0.275,
+      "cmp_tstream_s3": 0.1,
+      "cmp_tstream_s4": 0.1,
+      "w13native_half": 0.0625
+    },
+    "int8": {
+      "cmp_fullft_s3": 0.275,
+      "cmp_fullft_s4": 0.275,
+      "cmp_tstream_s3": 0.1,
+      "cmp_tstream_s4": 0.1,
+      "w13native_int8": 0.0625
+    },
+    "weight8": {
+      "cmp_fullft_s3": 0.275,
+      "cmp_fullft_s4": 0.275,
+      "cmp_tstream_s3": 0.1,
+      "cmp_tstream_s4": 0.1,
+      "w13native_weight8": 0.0625
+    },
+    "oldhalf": {
+      "cmp_fullft_s3": 0.275,
+      "cmp_fullft_s4": 0.275,
+      "cmp_tstream_s3": 0.1,
+      "cmp_tstream_s4": 0.1,
+      "w13native_oldhalf": 0.0625
+    }
+  },
+  "comparisons": [
+    [
+      "fp32",
+      "oldhalf"
+    ],
+    [
+      "half",
+      "oldhalf"
+    ],
+    [
+      "int8",
+      "oldhalf"
+    ],
+    [
+      "weight8",
+      "oldhalf"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "fp32": 0.7144610843581212,
+        "half": 0.7144611661513012,
+        "int8": 0.7144650584472199,
+        "weight8": 0.7144621084093323,
+        "oldhalf": 0.7144603240978092
+      },
+      "comparisons": {
+        "fp32 - oldhalf": {
+          "delta": 7.602603119272189e-07,
+          "conditional_ci95": [
+            -1.33585540322001e-06,
+            3.0710027332653263e-06
+          ]
+        },
+        "half - oldhalf": {
+          "delta": 8.420534919340028e-07,
+          "conditional_ci95": [
+            -1.2188288829623195e-06,
+            3.1933190992899927e-06
+          ]
+        },
+        "int8 - oldhalf": {
+          "delta": 4.734349410617789e-06,
+          "conditional_ci95": [
+            -1.808441097342073e-05,
+            2.9153584161950573e-05
+          ]
+        },
+        "weight8 - oldhalf": {
+          "delta": 1.7843115230897766e-06,
+          "conditional_ci95": [
+            -6.862408468386039e-06,
+            1.0272142943731902e-05
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "fp32": 0.5927887903263559,
+        "half": 0.5927907677010602,
+        "int8": 0.5927515355299284,
+        "weight8": 0.592868021624053,
+        "oldhalf": 0.5927716297849883
+      },
+      "comparisons": {
+        "fp32 - oldhalf": {
+          "delta": 1.716054136757794e-05,
+          "conditional_ci95": [
+            1.3360962536151932e-05,
+            2.0934686899484744e-05
+          ]
+        },
+        "half - oldhalf": {
+          "delta": 1.9137916071887418e-05,
+          "conditional_ci95": [
+            1.5279727540828957e-05,
+            2.3019100209328846e-05
+          ]
+        },
+        "int8 - oldhalf": {
+          "delta": -2.0094255059888155e-05,
+          "conditional_ci95": [
+            -4.193110184065318e-05,
+            2.5874465901742845e-06
+          ]
+        },
+        "weight8 - oldhalf": {
+          "delta": 9.639183906473558e-05,
+          "conditional_ci95": [
+            8.059463506382703e-05,
+            0.00011224842594979022
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Exploratory reused data. Known composite parent training chains excluded; original organizer pretraining provenance uncertain. Train mask estimated, train is diagnostic. D256 excluded from this composite since trained all train chains. Intervals conditional on fitted models."
+}

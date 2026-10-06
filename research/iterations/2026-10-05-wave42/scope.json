@@ -1,0 +1,8 @@
+{
+  "cause": "Same positional train feature-reader error as wave33; only wave13/precision-report train panel consumed those oldnative traincaches. Wave13 main/scale reports andwave18 mixture reports usevalidonly. GPU baselineFT/composite decisions useorgbase/w13frozen correctly loaded. Distillationtraining usesGPUorgbase caches, notthese nativecachefiles.",
+  "affected": [
+    "pred_w13native_{fp32,half,int8,weight8,oldhalf}_train.npy",
+    "wave13/precision-report.json trainpanel"
+  ],
+  "repair": "Explicitnamedfeatures, canonicalSequenceFile equality andTorchmodelparity, preservebadversions andrerun."
+}

@@ -1,0 +1,19 @@
+{
+  "status": "SOURCE_REVIEW_AND_GENERATED_CHECKS_PASS_BEFORE_FITS",
+  "utc": "2026-10-01T17:44:16.882677+00:00",
+  "independent_reviews": [
+    "architecture_challenge: producer/trainer/evaluator source review; independent NumPy derivative",
+    "code_audit: run_queue and continue_once resource/interface review"
+  ],
+  "controller_review_fixes": [
+    "Always record CPU phase cleanup and reap owned launcher",
+    "Cap prepare timeout by whole-campaign remaining time"
+  ],
+  "controller_sha256": "0dfa0bb3b516f7c157f93bc2b9dc591ac6aaac5321c360d1fa6040e4bb51584f",
+  "generated_checks": [
+    "generated-checks-attempt01.json",
+    "evaluation-generated-checks.json"
+  ],
+  "forecast_fits_at_freeze": 0,
+  "limitation": "Source and CPU toy checks; no claim of production CUDA parity, unseen transfer, or predictive benefit"
+}

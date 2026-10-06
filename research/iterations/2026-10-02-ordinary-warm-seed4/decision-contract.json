@@ -1,0 +1,22 @@
+{
+  "created_utc": "2026-10-02T01:58:18.138790+00:00",
+  "status": "CONDITIONAL_SOURCE_ONLY_BEFORE_CANDIDATE_RESULTS",
+  "activation": "Wseed3fixedensemble delta>=.0001 and bothfoldspositive; otherwise nofit",
+  "primary": "seed4ordinarywarm four minus originalseed4four (.7022343699230701), identicalquarter anchors",
+  "secondary": "seed4ordinarywarmfour minus operationalcurrentseed3four",
+  "purpose": "Check sign/magnitude of recipe response on second training seed; all evaluation folds remain exposed. Chain bootstrap is conditional on models, not uncertainty over a seed population.",
+  "budget": {
+    "fits": 4,
+    "OOF": 2,
+    "seed": 4,
+    "folds": [
+      0,
+      1
+    ],
+    "GPU_wall_hours_max": 1,
+    "metric_reads": 1
+  },
+  "final_recipe_choice": "If supportive, final seed3 is retained from the original deployment recipe; no best-seed selection, new averaging or coefficientsearch.",
+  "negative": "If paired replication fails, do not call the warm recipe robust or automatically promote it. Retain incumbent; source-only finaldelivery plan can stay unallocated.",
+  "publication": "NoGitHub/publicsubmission"
+}

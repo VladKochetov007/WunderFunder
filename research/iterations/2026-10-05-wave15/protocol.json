@@ -1,0 +1,9 @@
+{
+ "purpose":"A strong h256 composite proxy that excludes the existing train holdout, allowing mixture changes to be compared across train and valid distributions instead of optimizing only reused valid.",
+ "parents":"Two from-scratch h256 AdamW parents; train half0 + valid chain folds !=0, four epochs, EMA. No initialization or distillation from all-train models.",
+ "students":"Two from-scratch h256 Muon x3 students, guarded h8 bootstrap from the new parent pair, same train groups, four epochs.",
+ "primary":"Compare replacement of raw-only pair with two-stream pair in the strong composite on fixed 282-sequence train diagnostic and chain-clean valid fold0; separately assess original baseline inclusion/removal and head FT.",
+ "evaluation":"Fixed final epoch, no best-epoch selection. Train mask estimated. Original organizer pretraining unknown; previously reused validation. Chain bootstrap intervals conditional on fitted models. No public score prediction.",
+ "seeds":[3,4],
+ "max_wall_seconds_per_lane":18000
+}

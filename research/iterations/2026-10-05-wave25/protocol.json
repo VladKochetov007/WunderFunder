@@ -1,0 +1,18 @@
+{
+  "hypothesis": "Clone widening yielded 97-98% top GRU clone correlation>.99 after two epochs in a label-free diagnostic. Fresh extra recurrent units may make new capacity more accessible.",
+  "primary": "fresh384 pair vs cloned384 pair; fixed epoch1 seeds3/4",
+  "deployment": "mixed fresh384_s3+continued256_s4 and reciprocal; also report fresh pair but not presume CPU feasible.",
+  "initial_function": "Old GRU gate rows have zero incoming columns from new units; old head hidden rows ignore fresh recurrent and input units. New readout columns start zero; fresh hidden units use deterministic independent random initialization. Preserve all23 old outputs and8family outputs.",
+  "data": "same train+valid!=0, teacherw22, alpha.7,2epochs,AdamW1e-4",
+  "rng_limitation": "Fresh and cloned h384 use same constructor/shape so same shuffle RNG consumption. h256 width control has different constructor RNG consumption and data order; equal step counts are not bitwise paired batches.",
+  "limitations": [
+    "reused valid425/123",
+    "no honest train holdout for these all-train parents",
+    "native quality and composite replication required",
+    "FP32 preservation does not guarantee int8 initial parity to parent"
+  ],
+  "sources": {
+    "evaluate.py": "a8266a7dbc08664940fc8e2abdd3506aa1070fbff4b86323a8651aabfff13946",
+    "widen_fresh.py": "2d82abd609723e028238b11b7d1fc66dcd94bae899059e2afd06a04d45c71b1f"
+  }
+}

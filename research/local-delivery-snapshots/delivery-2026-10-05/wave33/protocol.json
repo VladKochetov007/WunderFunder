@@ -1,0 +1,18 @@
+{
+  "hypothesis": "Replicate wave23 class-conditioned residual gain with train-half0 models on valid436 true mask and held train282 propensity diagnostic.",
+  "parent": "w24comp_distilled_s3/s4@ep1; w33teacher meanpair full train and valid caches",
+  "arms": "uniform and soft, seeds3/4, fixed epoch1; same model parameters/constructor RNG/data order. UnitL2 gate from causal class logits, detached from regression.",
+  "training": "train hash half0+valid!=0,2ep,AdamW1e-4,alpha.7, family.1, auxstruct/next.3,chunk2000/batch16",
+  "comparisons": [
+    "soft-uniform primary",
+    "each vsparentpair",
+    "each vsold submitted-recipe compositepair"
+  ],
+  "limitations": [
+    "reusedpanels",
+    "train estimated propensity diagnostic",
+    "organizer pretraining provenance uncertain",
+    "conditional bootstrap intervals",
+    "comparison toparent also includes extra2epochs; no mechanistic claim"
+  ]
+}

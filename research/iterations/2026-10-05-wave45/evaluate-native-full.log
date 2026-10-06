@@ -1,0 +1,128 @@
+{
+  "specs": {
+    "old_pair": {
+      "w18native_distilled_s3": 0.5,
+      "w18native_distilled_s4": 0.5
+    },
+    "short_pair": {
+      "w45native_full_s3": 0.5,
+      "w45native_full_s4": 0.5
+    },
+    "four_mean": {
+      "w18native_distilled_s3": 0.25,
+      "w18native_distilled_s4": 0.25,
+      "w45native_full_s3": 0.25,
+      "w45native_full_s4": 0.25
+    },
+    "short_s3": {
+      "w45native_full_s3": 1.0
+    },
+    "old_s3": {
+      "w18native_distilled_s3": 1.0
+    },
+    "short_s4": {
+      "w45native_full_s4": 1.0
+    },
+    "old_s4": {
+      "w18native_distilled_s4": 1.0
+    },
+    "short_pair_gpu": {
+      "w45_full_s3": 0.5,
+      "w45_full_s4": 0.5
+    },
+    "four_mean_gpu": {
+      "w12compress256_distilled_s3": 0.25,
+      "w12compress256_distilled_s4": 0.25,
+      "w45_full_s3": 0.25,
+      "w45_full_s4": 0.25
+    }
+  },
+  "comparisons": [
+    [
+      "short_pair",
+      "old_pair"
+    ],
+    [
+      "four_mean",
+      "old_pair"
+    ],
+    [
+      "short_s3",
+      "old_s3"
+    ],
+    [
+      "short_s4",
+      "old_s4"
+    ],
+    [
+      "short_pair",
+      "short_pair_gpu"
+    ],
+    [
+      "four_mean",
+      "four_mean_gpu"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "old_pair": 0.7180618737229577,
+        "short_pair": 0.7181293408322698,
+        "four_mean": 0.7181072446310851,
+        "short_s3": 0.7174676358109234,
+        "old_s3": 0.7175547540155092,
+        "short_s4": 0.7175623754248852,
+        "old_s4": 0.7173540122202415,
+        "short_pair_gpu": 0.7181846120567379,
+        "four_mean_gpu": 0.7181773459509966
+      },
+      "comparisons": {
+        "short_pair - old_pair": {
+          "delta": 6.746710931204714e-05,
+          "conditional_ci95": [
+            -0.00021854890832032347,
+            0.00033430469212197557
+          ]
+        },
+        "four_mean - old_pair": {
+          "delta": 4.537090812739564e-05,
+          "conditional_ci95": [
+            -9.766479496813308e-05,
+            0.00017894045928179824
+          ]
+        },
+        "short_s3 - old_s3": {
+          "delta": -8.711820458573438e-05,
+          "conditional_ci95": [
+            -0.0004105615781195365,
+            0.00023286576255358553
+          ]
+        },
+        "short_s4 - old_s4": {
+          "delta": 0.00020836320464368008,
+          "conditional_ci95": [
+            -0.0001903980992913279,
+            0.0005938294758996345
+          ]
+        },
+        "short_pair - short_pair_gpu": {
+          "delta": -5.527122446813415e-05,
+          "conditional_ci95": [
+            -0.00017617963301550242,
+            4.529350552260309e-05
+          ]
+        },
+        "four_mean - four_mean_gpu": {
+          "delta": -7.010131991147528e-05,
+          "conditional_ci95": [
+            -0.00019816899353863882,
+            3.631164178163612e-05
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused panels, fixed ep1, same student seeds3/4 and original parent/teacher. Change TBPTT chunk2000/batch16 to chunk500/batch64, keeping nominal32000 rows per optimizer step; sequence batch composition and truncation both change. Four-member mean has fixed equal weights. Only two independent parent basins. Conditional chain bootstrap, not seed variance. Organizer pretrained baseline provenance uncertain. All train chains excluded from valid425, no honest train holdout."
+}

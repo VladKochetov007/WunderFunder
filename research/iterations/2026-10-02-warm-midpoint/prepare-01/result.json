@@ -1,0 +1,41 @@
+{
+  "status": "COMPLETE_FIXED_MIDPOINT_CPU_PREPARATION",
+  "allocation_sha256": "1aae6c9e8bf77293e72fae86f23e5fc367ea17053178425996f8064377487623",
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--unit",
+    "warm-midpoint-prepare-5dc6a4382ee5493987a230a77b073642",
+    "-p",
+    "CPUQuota=100%",
+    "-p",
+    "MemoryMax=4G",
+    "-p",
+    "MemorySwapMax=0",
+    "--",
+    "taskset",
+    "-c",
+    "28",
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "60s",
+    ".venv/bin/python",
+    "-c",
+    "import subprocess;from pathlib import Path;p=Path('/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-warm-midpoint');steps=[('generated',['check_generated.py']),('construction',['construct.py']),('checkpoints',['check_checkpoint.py','--output',str(p/'prepare-01/checkpoints.json')])];\nfor name,args in steps:\n with (p/'prepare-01'/(name+'.log')).open('x') as f:\n  r=subprocess.run([str(p.parents[2]/'.venv/bin/python'),str(p/args[0]),*args[1:]],stdout=f,stderr=subprocess.STDOUT);assert r.returncode==0,(name,r.returncode)"
+  ],
+  "unit": "warm-midpoint-prepare-5dc6a4382ee5493987a230a77b073642",
+  "started_utc": "2026-10-02T02:49:28.365481+00:00",
+  "exit_code": 0,
+  "checkpoints_sha256": "8e7938083e86c2cdfbd1bd772656b9d32c0c0701c9d73c3a358b4ebc41f5cd09",
+  "generated_sha256": "715a249d0a8e32a285f1f0f069ecaf53d8b4188300311d848e0a11a0b943da9e",
+  "scope_state": {
+    "ControlGroup": "",
+    "ActiveState": "inactive",
+    "SubState": "dead"
+  },
+  "remaining_scope_pids": [],
+  "seconds": 5.361120300367475
+}

@@ -1,0 +1,22 @@
+{
+  "hypothesis": "Sharing recurrent and readout features while routing a zero-initialized cheap 4x2 residual by causal predicted class may address class-dependent errors.",
+  "primary": "soft pair minus uniform pair; fixed epoch1; seeds3,4",
+  "controls": "Identical parameter count, initialization, teacher, optimizer, steps; no-extra-head wave22 controls secondary.",
+  "teacher": "mean wave19 distilled seed3/4; alpha0.7",
+  "initializers": "wave19 distilled same seed",
+  "data": "all train + valid folds !=0; evaluate 425 sequences/123 chains excluding all train chains; reused validation, no fresh holdout or true train-mask claim",
+  "class_gate": "Detached softmax output logits17:21 normalized to unit L2 norm; uniform control coefficients0.5 each (also squared norm1). Equal per-row residual Jacobian norm avoids 4x effective learning-rate confound.",
+  "capacity": "Linear256->8 only; shared existing f; zero initialization; no penalty; both arms normalize routing to squared norm1.",
+  "epochs": 2,
+  "learning_rate": 0.0001,
+  "deployment": "Native export/parity/runtime required if positive; existing submitted ZIP preserved",
+  "sources": {
+    "check_model.py": "4b4f644b536ef4fb0bb20d150868a87016211a416e83edf282f5c404fbe78ce3",
+    "evaluate.py": "016207613c4c10309601e087e907b75b3c94856c0f4874baab98dbef19502e8e",
+    "scripts/compress_model.py": "741040a9948dabd25a3765d5ccde97aa58428ef5d17bfd1646395a4e33a86dc7",
+    "scripts/train_rnn.py": "66ab0a782ede39649789dd99a5ba85ca578f28a338f0067109f1b7d0df398ffd",
+    "scripts/predict_run.py": "6bc5683d5ccaf25ca56a3e220c387344a4ae4a6cb3a1be144e6286019f9c31ca"
+  },
+  "protocol_revision": "Before any wave23 training, inspection found ordinary softmax routing changes effective head learning rate with confidence; normalize both arms to unit L2 norm.",
+  "data_order_note": "Primary soft/uniform arms have identical model constructor RNG consumption and data order. Secondary no-extra-head wave22 control consumes fewer initialization draws, hence does not have identical batch order."
+}

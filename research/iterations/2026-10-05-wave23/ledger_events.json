@@ -1,0 +1,2237 @@
+{
+  "hypotheses": [
+    {
+      "id": "H-20261005-W23",
+      "date": "2026-10-05",
+      "status": "queued",
+      "statement": "A zero-initialized shared-feature class-conditioned readout improves the distilled h256 GRU versus a uniform readout with identical parameter count and unit-L2 routing norm. Gate uses only causal predicted class probabilities; detached from regression loss.",
+      "falsifier": "Two-seed mean and paired seeds fail to improve reused chain-clean valid; any promising result requires composite replication and native audit.",
+      "protocol": "iterations/2026-10-05-wave23/protocol.json"
+    },
+    {
+      "id": "H-20261005-W24",
+      "date": "2026-10-05",
+      "status": "queued",
+      "statement": "Replacing raw teacher members with two-stream members transfers beyond the all-train fold0 study into the train-half0 composite protocol.",
+      "falsifier": "Negative mean change on either composite true-mask valid or fixed train diagnostic; uncertainty reported conditionally.",
+      "protocol": "iterations/2026-10-05-wave24/protocol.json"
+    },
+    {
+      "id": "H-20261005-W28",
+      "date": "2026-10-05",
+      "statement": "Removing family auxiliary loss improves original heterogeneous distillation.",
+      "status": "running",
+      "protocol": "iterations/2026-10-05-wave28/protocol.json",
+      "falsifier": "No reproducible two-seed gain, or negative native/composite replication. Fixed epoch1, no post-hoc checkpoint rescue."
+    },
+    {
+      "id": "H-20261005-W29",
+      "date": "2026-10-05",
+      "statement": "Scaling only organizer baseline family target by.25 reduces auxiliary-task interference.",
+      "status": "running",
+      "protocol": "iterations/2026-10-05-wave29/protocol.json",
+      "falsifier": "No reproducible two-seed gain, or negative native/composite replication. Fixed epoch1, no post-hoc checkpoint rescue."
+    },
+    {
+      "id": "H-20261005-W31",
+      "date": "2026-10-05",
+      "statement": "Head512 expansion before original heterogeneous distillation preserves teacher information better than head256.",
+      "status": "running",
+      "protocol": "iterations/2026-10-05-wave31/protocol.json",
+      "falsifier": "No reproducible two-seed gain, or negative native/composite replication. Fixed epoch1, no post-hoc checkpoint rescue."
+    },
+    {
+      "id": "H-20261005-W32",
+      "date": "2026-10-05",
+      "statement": "Exact joint code identities before feature mixing may encode discontinuous relationships lost by16-knot scalar PLE; retain ordinary input path.",
+      "status": "running_or_queued",
+      "protocol": "iterations/2026-10-05-wave32/protocol.json"
+    },
+    {
+      "id": "H-20261005-W33",
+      "date": "2026-10-05",
+      "statement": "Replicate wave23 class-conditioned residual gain with train-half0 models on valid436 true mask and held train282 propensity diagnostic.",
+      "status": "running_or_queued",
+      "protocol": "iterations/2026-10-05-wave33/protocol.json"
+    },
+    {
+      "id": "H-20261005-W35",
+      "date": "2026-10-05",
+      "statement": "An h256 student initialized from separate i0/i1 GRUs may retain complementary errors compared with d256-bootstrap initialization, even when distilled from the same ensemble.",
+      "status": "running_or_queued",
+      "protocol": "iterations/2026-10-05-wave35/protocol.json"
+    },
+    {
+      "id": "H-20261005-W36",
+      "date": "2026-10-05",
+      "statement": "Separate effects of class-residual training from altered DataLoader shuffle RNG versus ordinary control.",
+      "status": "running_or_queued",
+      "protocol": "iterations/2026-10-05-wave36/protocol.json"
+    },
+    {
+      "id": "H-20261005-W37",
+      "date": "2026-10-05",
+      "statement": "Prepare all-data student-teacher caches for possible final continuation after composite selection. No final student training or submission authorized by results yet; no quality claims on this all-data prediction set.",
+      "status": "running_or_queued",
+      "protocol": "iterations/2026-10-05-wave37/protocol.json"
+    },
+    {
+      "id": "H-20261005-W38",
+      "date": "2026-10-05",
+      "statement": "Guard8 futurebootstrap at heterogeneous-teacher distillation stage may improve the original student",
+      "status": "queued",
+      "protocol": "iterations/2026-10-05-wave38/protocol.json"
+    },
+    {
+      "id": "H-20261005-W39",
+      "date": "2026-10-05",
+      "statement": "Correctly isolate original-stage head512 expansion by matching auxiliary-family initialization as well as mainoutputs andtrainingdataorder.",
+      "status": "running",
+      "protocol": "iterations/2026-10-05-wave39/protocol.json"
+    },
+    {
+      "id": "H-20261005-W40",
+      "date": "2026-10-05",
+      "statement": "Use stronger mean-distilled-student teacher while RESETTING learner to originald256 parent, avoiding extra continuation of an alreadyfine-tuned student.",
+      "status": "running",
+      "protocol": "iterations/2026-10-05-wave40/protocol.json"
+    },
+    {
+      "id": "H-20261005-W41",
+      "date": "2026-10-05",
+      "kind": "Wave41 preregistered protocol",
+      "protocol": {
+        "hypothesis": "After successful distillation, metric-aligned fine-tuning on actual scored validation masks may help where further jointtrain/valid self-distillation failed.",
+        "historical_recipe": "scripts/ft_gclp.sh: 1epochhead (freezeinp,gru) lr5e-4 then1epochallweights lr2e-4; gcorr+true mask; auxstruct/next.3,chunk2000,batch16. Applied to newh256 distilled student, previouslyuntested stage.",
+        "parents": {
+          "full": "w19distilled_s3/s4@ep1",
+          "comp": "w24comp_distilled_s3/s4@ep1"
+        },
+        "conversion": "Strip unused auxiliaryfamilyhead only; preserve all23 coreoutputs andhiddenstates; plainRNN checkpoint.",
+        "data": "Only validfold!=0, trueis_scored masks; full425eval excludesalltrainchains fromparent; composite436+fixedtrain282diagnostic respectsparentsourcehalf0.",
+        "primary": "two-stageFT versusparent andsubmitted-recipeproxy onbothpanels",
+        "secondary": "head-only stage versusparent, fixedepoch0; notposthoccheckpointchoice",
+        "promotion": "require material positivebothpanels beforefinalfit; nativeactualreplay andZIPaudit ifpromising",
+        "limitations": [
+          "adaptivelyreusedpanels",
+          "trainproxyestimatedweights",
+          "conditionalintervals",
+          "validation-specificFTcanhurttrain/testshift"
+        ]
+      }
+    },
+    {
+      "id": "H-20261005-W43",
+      "date": "2026-10-05",
+      "kind": "Wave43 preregistered protocol",
+      "protocol": {
+        "hypothesis": "A four-member equal ensemble of independently shuffled heterogeneous-distillation students may reduce optimization variance within the two fixed parent basins.",
+        "parents": "Original d256 s3/s4, and composite w15d256 s3/s4; new student seeds13/14 map to parent3/4.",
+        "teacher": "Original publicly successful recipe: w6fullteacher in full, w18comp_teacher in composite; family d256/full/raw/org.",
+        "training": "2epochs fixedepoch1, AdamW1e-4,batch16/chunk2000,alpha.7,family.1,auxstruct/next.3; only student seed differs from original pair.",
+        "primary": "Fixed equal four-member mean (old3,old4,new13,new14) versus original pair, GPU then native, valid425/full and valid436+train282 diagnostic/composite.",
+        "secondary": "Newpair vsoldpair and each parent-matched newseed vsoldseed. No bestseed selection.",
+        "promotion": "Material positive native gain on both true-mask validation panels, no material adverse train diagnostic; actual four-member archive <20MB and DataSphere runtime sufficiently below60min.",
+        "limitations": [
+          "Only two parent initializations, not four independent base models",
+          "Validation reused; conditional bootstrap does not estimate training seed variance",
+          "Extra runtime and archive size",
+          "No promised public score"
+        ]
+      }
+    },
+    {
+      "id": "H-20261005-W45",
+      "date": "2026-10-05",
+      "protocol": {
+        "hypothesis": "Shorter TBPTT with a larger sequence batch may improve optimization and complementary errors of the current heterogeneous-distillation recipe. Earlier chunk500 results were on older EMA/since models, not this student.",
+        "arms": "chunk500/batch64 versus existing chunk2000/batch16 original distillation. Same nominal32000 rows per step and approximately same update count, same seeds3/4,parent,teacher,2ep fixedep1,LR/aux/family losses.",
+        "mechanistic_limit": "Both truncation and sequence composition change; not an isolated horizon experiment.",
+        "primary": "short_pair vsold_pair on full true-mask425 and composite true-mask436 + estimated-masktrain282.",
+        "secondary": "Fixed equal four-member mean old+short vsold; no weight scan.",
+        "teacher": "w6fullteacher / w18comp_teacher, original rawfamily version publiclysuccessful.",
+        "deployment": "Standard denseh256 native engine; two orfourmembers, audit required ifpositive.",
+        "limitations": [
+          "Reusedpanels",
+          "Conditional intervals",
+          "No publicclaim"
+        ],
+        "native_screen_gate": {
+          "arms": [
+            "short_pair",
+            "four_mean"
+          ],
+          "minimum_delta_each_true_mask_panel": 0.0003,
+          "minimum_delta_train_diagnostic": 0,
+          "scope": "Gate to spend native validation, not automatic final promotion; set before results."
+        }
+      }
+    },
+    {
+      "id": "H-20261005-W46",
+      "date": "2026-10-05",
+      "protocol": {
+        "purpose": "Speculative all-data preparation for wave43 fixed four-member candidate under user deadline03:00MSK; does not promote the model before validation.",
+        "parent": "fbc1k_s5/s6@ep3",
+        "student_seeds": [
+          15,
+          16
+        ],
+        "teacher": "w18final_teacher, original successful heterogeneous recipe",
+        "training": "Same originalfinal recipe2ep fixedep1; changed student seeds15/16 from original5/6. Alltrain+allvalid.",
+        "package": "Equal mean originalw18final_s5/s6 plusneww46final_s15/s16, standardh256native, expected~16MB/<60min basedfourmodelDataSpherecalibration.",
+        "selection": "Wave43 paired models/means on full425valid and composite436valid+282train diagnostic; actualfinalZIP verification required. No finaltraining quality claims.",
+        "deadline_msk": "2026-10-06T03:00:00+03:00",
+        "delivery_target_msk": "2026-10-06T02:50:00+03:00",
+        "fallback": "Existing fully audited distilled_twostream_h256_pair.zip; uncertain improvement, no publicresult."
+      }
+    },
+    {
+      "id": "H-20261005-W47",
+      "date": "2026-10-05",
+      "protocol": {
+        "purpose": "Conditional final all-data fit of wave45 under03:00MSK submission deadline. No new research arm.",
+        "trigger": "Existing predeclared wave45 gate: candidate >=+.0003 both true-mask panels and >=0 train diagnostic. Start only by02:32MSK.",
+        "parent": "fbc1k_s5/s6@ep3",
+        "teacher": "Original w18final_teacher; alltrain+allvalid",
+        "training": "2ep fixedep1,chunk500/batch64, samewave45recipe mappedtofinaldata. GPUs2/5 only after our comp jobs finish.",
+        "archives": "Newshortpair andfixedfourmean originalpair+shortpair; final selection basednativewave45, functionalZIPchecks only; no additional runtime benchmark per user."
+      }
+    },
+    {
+      "id": "H-20261005-W48",
+      "date": "2026-10-05",
+      "protocol": {
+        "purpose": "Deadline choice between existing twostreamteacher pair, originalfour-seed mean and one fixed blend twostreampair+newseed oldteacherpair.",
+        "weights": "Equal .25 for four members; no scan/fit.",
+        "selection_caveat": "Exploratory additional mixture after composite newseed result, reused panels; do not claim freshvalidation or statistical significance.",
+        "full_predictions": "waitwave43 full GPU/native",
+        "comp_predictions": "alreadyavailable, wave33 corrected named-feature native references",
+        "additional_training": "none; final members w21final5/6 andw46final15/16 are ready or alreadytraining."
+      }
+    }
+  ],
+  "experiments": [
+    {
+      "id": "E-20261005-W20-PUBLIC",
+      "date": "2026-10-05",
+      "kind": "user-reported public submission result",
+      "result": {
+        "score": 0.6674,
+        "old_score": 0.6666,
+        "delta": 0.0008,
+        "duration_seconds": 1497,
+        "memory_mb": 640,
+        "submission_id": "26n9pg4y"
+      },
+      "artifact": "iterations/2026-10-05-wave20/distilled_h256_pair.zip",
+      "sha256": "86020dcf384430ae5fd3a848c8a8b4533cd81031caad3b0feec7647c4a5491f9",
+      "claim": "Public gain confirmed by user report; top1 user reference.6711 not achieved."
+    },
+    {
+      "id": "E-20261005-W21-NATIVE",
+      "date": "2026-10-05",
+      "kind": "two-stream teacher student native int8 validation",
+      "command": "iterations/2026-10-05-wave21/native_quality.sh",
+      "result": {
+        "native_wp": 0.7182578324561746,
+        "old_native_wp": 0.7180618737229577,
+        "delta": 0.00019595873321687218,
+        "conditional_ci95": [
+          3.1773622713721085e-05,
+          0.0003758880895976035
+        ],
+        "sequences": 425,
+        "chains": 123
+      },
+      "claim": "Small local gain survives native int8. Reused true-mask valid, all train chains excluded; not leaderboard prediction or fresh holdout. Composite replication pending."
+    },
+    {
+      "id": "E-20261005-W22-DS-CPU",
+      "date": "2026-10-05",
+      "kind": "DataSphere independent CPU compatibility and timing",
+      "job": "bt19m6uj4pa7bjout5aj",
+      "result": {
+        "fp32_max_abs": 1.9073486328125e-06,
+        "wide384_to_pair256_time_ratio": 1.121314651823397,
+        "mixed384_256_projected_minutes": 40.45180056299375
+      },
+      "claim": "Untrained function-preserving widened model passes native parity; mixed model runtime is a rough additive estimate relative to actual public24m57s, not certification."
+    },
+    {
+      "id": "E-20261005-W24-RESULT",
+      "date": "2026-10-05",
+      "kind": "Composite replication of two-stream teacher replacement",
+      "result": {
+        "valid_delta": 0.00011734671292618071,
+        "train_diagnostic_delta": -0.00014466985285832568
+      },
+      "status": "mixed_not_promoted",
+      "evidence": "iterations/2026-10-05-wave24/composite-report.json",
+      "scope": "Adaptively reused local panels; no public score claim. Native results where specified; conditional bootstrap uncertainty in evidence."
+    },
+    {
+      "id": "E-20261005-W22-RESULT",
+      "date": "2026-10-05",
+      "kind": "Cloned GRU384 versus continued GRU256",
+      "result": {
+        "native_wide_minus_control": -1.55333e-05
+      },
+      "status": "not_promoted",
+      "evidence": "iterations/2026-10-05-wave22/native-quality-report.json",
+      "scope": "Adaptively reused local panels; no public score claim. Native results where specified; conditional bootstrap uncertainty in evidence."
+    },
+    {
+      "id": "E-20261005-W25-RESULT",
+      "date": "2026-10-05",
+      "kind": "Fresh-unit GRU384 versus cloned GRU384 and continued GRU256",
+      "result": {
+        "native_fresh_minus_parent": 6.4718e-06,
+        "native_fresh_minus_control": -1.49019e-05
+      },
+      "status": "not_promoted",
+      "evidence": "iterations/2026-10-05-wave25/native-quality-report.json",
+      "scope": "Adaptively reused local panels; no public score claim. Native results where specified; conditional bootstrap uncertainty in evidence."
+    },
+    {
+      "id": "E-20261005-W27-RESULT",
+      "date": "2026-10-05",
+      "kind": "Second-generation head512 versus matched head256",
+      "result": {
+        "gpu_delta": -1.947003540936354e-05,
+        "paired_seed_deltas": [
+          -9.902570637931873e-06,
+          -3.5506837640975064e-05
+        ]
+      },
+      "status": "gpu_negative_native_pending",
+      "evidence": "iterations/2026-10-05-wave27/wave-report.json",
+      "scope": "Adaptively reused local panels; no public score claim. Native results where specified; conditional bootstrap uncertainty in evidence."
+    },
+    {
+      "id": "E-20261005-W30-RESULT",
+      "date": "2026-10-05",
+      "kind": "Oracle class3-specific baseline addback versus global addback",
+      "result": {
+        "class3_gate_improved_both_panels": false
+      },
+      "status": "do_not_implement_causal_gate",
+      "evidence": "iterations/2026-10-05-wave30/composite-report.json",
+      "scope": "Adaptively reused local panels; no public score claim. Native results where specified; conditional bootstrap uncertainty in evidence."
+    },
+    {
+      "id": "E-20261005-W26-RESULT",
+      "date": "2026-10-05",
+      "kind": "best_screen",
+      "result": {
+        "name": "w23_soft pair",
+        "gpu_wp": 0.7187504127324331,
+        "native_wp": 0.7186153705372033,
+        "native_delta_vs_parent": 0.00035753808102867435,
+        "conditional_ci95": [
+          -0.000530819854625178,
+          0.001327887267410906
+        ],
+        "native_delta_soft_minus_uniform": 8.251996926056382e-05,
+        "status": "provisional_not_promoted",
+        "evidence": "wave26/native-quality-report.json",
+        "caveat": "reusedvalid425,123chains; fulltraining nativeproxy notpublic"
+      }
+    },
+    {
+      "id": "E-20261005-W34-RESULT",
+      "date": "2026-10-05",
+      "kind": "class_head_cpu",
+      "result": {
+        "ratio_to_submitted_pair": 1.0069946700276382,
+        "projected_minutes": 25.12451701718957,
+        "status": "SUCCESS",
+        "evidence": "wave34/native-datasphere.json",
+        "scope": "OOF pair labZIP, not finalcandidate; reference public24m57; no scorer certification"
+      }
+    },
+    {
+      "id": "E-20261005-W28-RESULT",
+      "date": "2026-10-05",
+      "kind": "family_loss_tests",
+      "result": {
+        "off_gpu_delta": 3.920319995454058e-05,
+        "off_native_delta": 0.00011083211876106169,
+        "scaled_gpu_delta": -7.363744960686702e-06,
+        "scaled_native_delta": 3.6586132000859806e-05,
+        "decision": "not_promoted_small_uncertain_effects",
+        "evidence": [
+          "wave28/native-quality-report.json",
+          "wave29/native-quality-report.json"
+        ]
+      }
+    },
+    {
+      "id": "E-20261005-W33-RESULT",
+      "date": "2026-10-05",
+      "kind": "Class-head composite replication",
+      "result": {
+        "soft_valid_vs_submitted_recipe": {
+          "delta": -0.0007715980729479099,
+          "conditional_ci95": [
+            -0.0023267391496856445,
+            0.0005148864124864114
+          ]
+        },
+        "soft_train_diagnostic_vs_submitted_recipe": {
+          "delta": -0.0026146337186045976,
+          "conditional_ci95": [
+            -0.005000591236577839,
+            -0.00036405598773382454
+          ]
+        },
+        "decision": "Do not final-fit or submit this continuation; native closure and matched-shuffle off-control remain in progress",
+        "evidence": "wave33/composite-report.json"
+      },
+      "scope": "GPU predictions, fixedepoch1, twoseeds; reusedtrue-mask valid436/129 andestimatedpropensity train282/191. No publicclaim."
+    },
+    {
+      "id": "E-20261005-W36-COMP",
+      "date": "2026-10-05",
+      "kind": "Exact-shuffle ordinary continuation control",
+      "result": {
+        "off_valid": 0.7119640178788482,
+        "off_train_diagnostic": 0.5950879088806429,
+        "soft_vs_off_valid": -0.00011519612629196097,
+        "soft_vs_off_train": -0.00020054512436473715,
+        "finding": "Most composite deterioration also occurs in ordinary continuation with same dataorder; classhead adds no robust gain.",
+        "evidence": "wave36/comp-report.json"
+      }
+    },
+    {
+      "id": "E-20261005-W32-CLOSURE",
+      "date": "2026-10-05",
+      "kind": "Wave32 validated closure",
+      "result": {
+        "evidence": "wave32/wave-report.json",
+        "results": {
+          "valid_clean": {
+            "sequences": 425,
+            "chains": 123,
+            "scores": {
+              "teacher": 0.7161302310562185,
+              "codebook": 0.7183919894509698,
+              "codebook_s3": 0.7179171852669871,
+              "codebook_s4": 0.7176214151831817,
+              "family": 0.718363943590675,
+              "family_s3": 0.7178956938633227,
+              "family_s4": 0.717590093778095
+            },
+            "comparisons": {
+              "codebook - teacher": {
+                "delta": 0.00226175839475129,
+                "conditional_ci95": [
+                  0.0013800677003910744,
+                  0.003288005427776213
+                ]
+              },
+              "family - teacher": {
+                "delta": 0.002233712534456478,
+                "conditional_ci95": [
+                  0.0013547937209006876,
+                  0.003256026245273075
+                ]
+              },
+              "codebook - family": {
+                "delta": 2.804586029481193e-05,
+                "conditional_ci95": [
+                  -1.227562164982654e-05,
+                  6.619971497359711e-05
+                ]
+              },
+              "codebook_s3 - family_s3": {
+                "delta": 2.1491403664364306e-05,
+                "conditional_ci95": [
+                  -2.867634734872171e-05,
+                  6.626380818401938e-05
+                ]
+              },
+              "codebook_s4 - family_s4": {
+                "delta": 3.132140508665948e-05,
+                "conditional_ci95": [
+                  -2.2584562511798743e-05,
+                  8.175224574352155e-05
+                ]
+              }
+            }
+          }
+        },
+        "decision": "not_promoted"
+      }
+    },
+    {
+      "id": "E-20261005-W33-CLOSURE",
+      "date": "2026-10-05",
+      "kind": "Wave33 validated closure",
+      "result": {
+        "evidence": "wave33/native-quality-report.json",
+        "results": {
+          "valid_clean": {
+            "sequences": 436,
+            "chains": 129,
+            "scores": {
+              "parent": 0.7127040523285642,
+              "submitted_recipe": 0.7125730511767501,
+              "uniform": 0.7118706497714641,
+              "uniform_s3": 0.7108413593547702,
+              "uniform_s4": 0.710580183292092,
+              "soft": 0.7117997928325168,
+              "soft_s3": 0.7107240669831021,
+              "soft_s4": 0.71058351402789,
+              "uniform_gpu": 0.7119183718742197,
+              "soft_gpu": 0.7118488217525563
+            },
+            "comparisons": {
+              "uniform - parent": {
+                "delta": -0.0008334025571000714,
+                "conditional_ci95": [
+                  -0.0022873606550595864,
+                  0.0003788349408314011
+                ]
+              },
+              "uniform - submitted_recipe": {
+                "delta": -0.0007024014052859906,
+                "conditional_ci95": [
+                  -0.0021019853156008404,
+                  0.0005357903454859719
+                ]
+              },
+              "soft - parent": {
+                "delta": -0.0009042594960473327,
+                "conditional_ci95": [
+                  -0.002480860456112055,
+                  0.00037435864513747885
+                ]
+              },
+              "soft - submitted_recipe": {
+                "delta": -0.0007732583442332519,
+                "conditional_ci95": [
+                  -0.0022876379064502546,
+                  0.0005102042701647682
+                ]
+              },
+              "soft - uniform": {
+                "delta": -7.08569389472613e-05,
+                "conditional_ci95": [
+                  -0.00022531472075602578,
+                  4.1949575312077974e-05
+                ]
+              },
+              "soft_s3 - uniform_s3": {
+                "delta": -0.00011729237166813178,
+                "conditional_ci95": [
+                  -0.000298572933930788,
+                  4.1475010139091456e-05
+                ]
+              },
+              "soft_s4 - uniform_s4": {
+                "delta": 3.3307357979461827e-06,
+                "conditional_ci95": [
+                  -0.00016375122971190869,
+                  0.0001420001799161102
+                ]
+              },
+              "uniform - uniform_gpu": {
+                "delta": -4.772210275560962e-05,
+                "conditional_ci95": [
+                  -0.000229881023360895,
+                  0.00010405078816051718
+                ]
+              },
+              "soft - soft_gpu": {
+                "delta": -4.902892003944004e-05,
+                "conditional_ci95": [
+                  -0.00021483192905720206,
+                  8.355779925436334e-05
+                ]
+              }
+            }
+          },
+          "train_clean": {
+            "sequences": 282,
+            "chains": 191,
+            "scores": {
+              "parent": 0.5973479553681734,
+              "submitted_recipe": 0.5974647961436341,
+              "uniform": 0.5948390143733316,
+              "uniform_s3": 0.592605747541817,
+              "uniform_s4": 0.5928368898723917,
+              "soft": 0.5948855042221142,
+              "soft_s3": 0.592671869506803,
+              "soft_s4": 0.5928154718927459,
+              "uniform_gpu": 0.5948912116523333,
+              "soft_gpu": 0.5948873637562782
+            },
+            "comparisons": {
+              "uniform - parent": {
+                "delta": -0.0025089409948417796,
+                "conditional_ci95": [
+                  -0.00475042972442564,
+                  -0.0004395108570483681
+                ]
+              },
+              "uniform - submitted_recipe": {
+                "delta": -0.002625781770302482,
+                "conditional_ci95": [
+                  -0.00492443838833583,
+                  -0.0005042994970785365
+                ]
+              },
+              "soft - parent": {
+                "delta": -0.0024624511460592524,
+                "conditional_ci95": [
+                  -0.004789672947537011,
+                  -0.00027708718731998355
+                ]
+              },
+              "soft - submitted_recipe": {
+                "delta": -0.002579291921519955,
+                "conditional_ci95": [
+                  -0.004958054639745959,
+                  -0.0003389360015692298
+                ]
+              },
+              "soft - uniform": {
+                "delta": 4.6489848782527154e-05,
+                "conditional_ci95": [
+                  -0.00011552522595649762,
+                  0.0002315749011589373
+                ]
+              },
+              "soft_s3 - uniform_s3": {
+                "delta": 6.612196498589906e-05,
+                "conditional_ci95": [
+                  -0.00012709551565796284,
+                  0.00028010599954678416
+                ]
+              },
+              "soft_s4 - uniform_s4": {
+                "delta": -2.1417979645832474e-05,
+                "conditional_ci95": [
+                  -0.00025114473043703065,
+                  0.00019210283510036566
+                ]
+              },
+              "uniform - uniform_gpu": {
+                "delta": -5.219727900163118e-05,
+                "conditional_ci95": [
+                  -0.00018582180019362238,
+                  7.097009942761964e-05
+                ]
+              },
+              "soft - soft_gpu": {
+                "delta": -1.859534163983767e-06,
+                "conditional_ci95": [
+                  -0.00014273584660873527,
+                  0.00012590777357819605
+                ]
+              }
+            }
+          }
+        },
+        "decision": "not_promoted"
+      }
+    },
+    {
+      "id": "E-20261005-W35-CLOSURE",
+      "date": "2026-10-05",
+      "kind": "Wave35 validated closure",
+      "result": {
+        "evidence": "wave35/native-quality-report.json",
+        "results": {
+          "valid_clean": {
+            "sequences": 425,
+            "chains": 123,
+            "scores": {
+              "teacher_gpu": 0.7161302310562185,
+              "altinit": 0.7149605195091426,
+              "altinit_s3": 0.7145291151701623,
+              "altinit_s4": 0.7137401358664394,
+              "family": 0.7182578324561746,
+              "family_s3": 0.717756914074282,
+              "family_s4": 0.7175030132706841,
+              "altinit_gpu": 0.7150767931396652,
+              "four_mean": 0.7173052550610285,
+              "mixed_3": 0.7170630373114328,
+              "mixed_4": 0.7168220106806182
+            },
+            "comparisons": {
+              "altinit - teacher_gpu": {
+                "delta": -0.0011697115470759023,
+                "conditional_ci95": [
+                  -0.0020613880216823893,
+                  -0.0003013092206210554
+                ]
+              },
+              "family - teacher_gpu": {
+                "delta": 0.0021276013999560472,
+                "conditional_ci95": [
+                  0.001234473024410529,
+                  0.003190021926237881
+                ]
+              },
+              "altinit - family": {
+                "delta": -0.0032973129470319495,
+                "conditional_ci95": [
+                  -0.004668790518598737,
+                  -0.0018887773477782295
+                ]
+              },
+              "altinit - altinit_gpu": {
+                "delta": -0.00011627363052257866,
+                "conditional_ci95": [
+                  -0.00031481145113448905,
+                  1.8810547685538212e-05
+                ]
+              },
+              "altinit_s3 - family_s3": {
+                "delta": -0.0032277989041197275,
+                "conditional_ci95": [
+                  -0.004962092417662473,
+                  -0.0014918564939390597
+                ]
+              },
+              "altinit_s4 - family_s4": {
+                "delta": -0.0037628774042447466,
+                "conditional_ci95": [
+                  -0.005321618257950409,
+                  -0.0021695202573171553
+                ]
+              },
+              "four_mean - family": {
+                "delta": -0.0009525773951460925,
+                "conditional_ci95": [
+                  -0.0016170751348224877,
+                  -0.00025145266774866473
+                ]
+              },
+              "mixed_3 - family": {
+                "delta": -0.0011947951447417449,
+                "conditional_ci95": [
+                  -0.002060681880805032,
+                  -0.0003351400557598252
+                ]
+              },
+              "mixed_4 - family": {
+                "delta": -0.0014358217755563452,
+                "conditional_ci95": [
+                  -0.0022001982395077058,
+                  -0.0006484897007683788
+                ]
+              }
+            }
+          }
+        },
+        "decision": "not_promoted"
+      }
+    },
+    {
+      "id": "E-20261005-W36-CLOSURE",
+      "date": "2026-10-05",
+      "kind": "Wave36 validated closure",
+      "result": {
+        "evidence": "wave36/native-full-report.json",
+        "results": {
+          "valid_clean": {
+            "sequences": 425,
+            "chains": 123,
+            "scores": {
+              "teacher": 0.7182578324561746,
+              "no_extra_head": 0.7182792060980467,
+              "uniform": 0.7185328505679427,
+              "uniform_s3": 0.7181200586640051,
+              "uniform_s4": 0.7170594339738814,
+              "soft": 0.7186153705372033,
+              "soft_s3": 0.7182701104253825,
+              "soft_s4": 0.7170861101380792,
+              "off": 0.7184980938388934,
+              "off_gpu": 0.7186037845745568
+            },
+            "comparisons": {
+              "uniform - teacher": {
+                "delta": 0.00027501811176811053,
+                "conditional_ci95": [
+                  -0.0005974515366263422,
+                  0.0011991106131486154
+                ]
+              },
+              "uniform - no_extra_head": {
+                "delta": 0.0002536444698959528,
+                "conditional_ci95": [
+                  -0.00010461946633346374,
+                  0.0006663860555885744
+                ]
+              },
+              "soft - teacher": {
+                "delta": 0.00035753808102867435,
+                "conditional_ci95": [
+                  -0.000530819854625178,
+                  0.001327887267410906
+                ]
+              },
+              "soft - no_extra_head": {
+                "delta": 0.0003361644391565166,
+                "conditional_ci95": [
+                  -2.865897953579221e-05,
+                  0.000768685250564663
+                ]
+              },
+              "soft - uniform": {
+                "delta": 8.251996926056382e-05,
+                "conditional_ci95": [
+                  -3.976152332024474e-05,
+                  0.00019548581665451405
+                ]
+              },
+              "soft_s3 - uniform_s3": {
+                "delta": 0.00015005176137738996,
+                "conditional_ci95": [
+                  6.522955263410513e-06,
+                  0.00031349156793680766
+                ]
+              },
+              "soft_s4 - uniform_s4": {
+                "delta": 2.667616419782526e-05,
+                "conditional_ci95": [
+                  -0.00012257681145935173,
+                  0.0001593313733160184
+                ]
+              },
+              "soft - off": {
+                "delta": 0.00011727669830985388,
+                "conditional_ci95": [
+                  -4.397101147826654e-06,
+                  0.0002507692333102437
+                ]
+              },
+              "uniform - off": {
+                "delta": 3.475672904929006e-05,
+                "conditional_ci95": [
+                  -4.346977813062536e-05,
+                  0.00011695761078965849
+                ]
+              },
+              "off - no_extra_head": {
+                "delta": 0.00021888774084666274,
+                "conditional_ci95": [
+                  -0.0001592030154703189,
+                  0.0006509905527187882
+                ]
+              },
+              "off - off_gpu": {
+                "delta": -0.00010569073566335518,
+                "conditional_ci95": [
+                  -0.0002968247311999739,
+                  3.180315383563828e-05
+                ]
+              }
+            }
+          }
+        },
+        "decision": "not_promoted",
+        "composite_native": {
+          "valid_clean": {
+            "sequences": 436,
+            "chains": 129,
+            "scores": {
+              "parent": 0.7127040523285642,
+              "submitted_recipe": 0.7125730511767501,
+              "uniform": 0.7118706497714641,
+              "uniform_s3": 0.7108413593547702,
+              "uniform_s4": 0.710580183292092,
+              "soft": 0.7117997928325168,
+              "soft_s3": 0.7107240669831021,
+              "soft_s4": 0.71058351402789,
+              "off": 0.7119106410546256,
+              "off_gpu": 0.7119640178788482
+            },
+            "comparisons": {
+              "uniform - parent": {
+                "delta": -0.0008334025571000714,
+                "conditional_ci95": [
+                  -0.0022873606550595864,
+                  0.0003788349408314011
+                ]
+              },
+              "uniform - submitted_recipe": {
+                "delta": -0.0007024014052859906,
+                "conditional_ci95": [
+                  -0.0021019853156008404,
+                  0.0005357903454859719
+                ]
+              },
+              "soft - parent": {
+                "delta": -0.0009042594960473327,
+                "conditional_ci95": [
+                  -0.002480860456112055,
+                  0.00037435864513747885
+                ]
+              },
+              "soft - submitted_recipe": {
+                "delta": -0.0007732583442332519,
+                "conditional_ci95": [
+                  -0.0022876379064502546,
+                  0.0005102042701647682
+                ]
+              },
+              "soft - uniform": {
+                "delta": -7.08569389472613e-05,
+                "conditional_ci95": [
+                  -0.00022531472075602578,
+                  4.1949575312077974e-05
+                ]
+              },
+              "soft_s3 - uniform_s3": {
+                "delta": -0.00011729237166813178,
+                "conditional_ci95": [
+                  -0.000298572933930788,
+                  4.1475010139091456e-05
+                ]
+              },
+              "soft_s4 - uniform_s4": {
+                "delta": 3.3307357979461827e-06,
+                "conditional_ci95": [
+                  -0.00016375122971190869,
+                  0.0001420001799161102
+                ]
+              },
+              "soft - off": {
+                "delta": -0.00011084822210882805,
+                "conditional_ci95": [
+                  -0.0003355306863813995,
+                  4.8111832621017204e-05
+                ]
+              },
+              "uniform - off": {
+                "delta": -3.999128316156675e-05,
+                "conditional_ci95": [
+                  -0.00013704658658330316,
+                  5.500012777175376e-05
+                ]
+              },
+              "off - off_gpu": {
+                "delta": -5.337682422257295e-05,
+                "conditional_ci95": [
+                  -0.00024338339152065458,
+                  0.00011075339776872017
+                ]
+              }
+            }
+          },
+          "train_clean": {
+            "sequences": 282,
+            "chains": 191,
+            "scores": {
+              "parent": 0.5973479553681734,
+              "submitted_recipe": 0.5974647961436341,
+              "uniform": 0.5948390143733316,
+              "uniform_s3": 0.592605747541817,
+              "uniform_s4": 0.5928368898723917,
+              "soft": 0.5948855042221142,
+              "soft_s3": 0.592671869506803,
+              "soft_s4": 0.5928154718927459,
+              "off": 0.5951019418706471,
+              "off_gpu": 0.5950879088806429
+            },
+            "comparisons": {
+              "uniform - parent": {
+                "delta": -0.0025089409948417796,
+                "conditional_ci95": [
+                  -0.00475042972442564,
+                  -0.0004395108570483681
+                ]
+              },
+              "uniform - submitted_recipe": {
+                "delta": -0.002625781770302482,
+                "conditional_ci95": [
+                  -0.00492443838833583,
+                  -0.0005042994970785365
+                ]
+              },
+              "soft - parent": {
+                "delta": -0.0024624511460592524,
+                "conditional_ci95": [
+                  -0.004789672947537011,
+                  -0.00027708718731998355
+                ]
+              },
+              "soft - submitted_recipe": {
+                "delta": -0.002579291921519955,
+                "conditional_ci95": [
+                  -0.004958054639745959,
+                  -0.0003389360015692298
+                ]
+              },
+              "soft - uniform": {
+                "delta": 4.6489848782527154e-05,
+                "conditional_ci95": [
+                  -0.00011552522595649762,
+                  0.0002315749011589373
+                ]
+              },
+              "soft_s3 - uniform_s3": {
+                "delta": 6.612196498589906e-05,
+                "conditional_ci95": [
+                  -0.00012709551565796284,
+                  0.00028010599954678416
+                ]
+              },
+              "soft_s4 - uniform_s4": {
+                "delta": -2.1417979645832474e-05,
+                "conditional_ci95": [
+                  -0.00025114473043703065,
+                  0.00019210283510036566
+                ]
+              },
+              "soft - off": {
+                "delta": -0.00021643764853296332,
+                "conditional_ci95": [
+                  -0.0004978743910655697,
+                  8.461991565596455e-05
+                ]
+              },
+              "uniform - off": {
+                "delta": -0.0002629274973154905,
+                "conditional_ci95": [
+                  -0.0004445813349049477,
+                  -8.106517292917343e-05
+                ]
+              },
+              "off - off_gpu": {
+                "delta": 1.4032990004242407e-05,
+                "conditional_ci95": [
+                  -0.0001576910940191384,
+                  0.00016763900943864428
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "E-20261005-W41-CLOSURE",
+      "date": "2026-10-05",
+      "kind": "Wave41 validated closure",
+      "result": {
+        "evidence": "wave41/full-report.json",
+        "results": {
+          "valid_clean": {
+            "sequences": 425,
+            "chains": 123,
+            "scores": {
+              "parent": 0.718363943590675,
+              "submitted_recipe": 0.718150292592171,
+              "head": 0.716455205155847,
+              "head_s3": 0.7137825426585545,
+              "parent_s3": 0.7178956938633227,
+              "head_s4": 0.7150928512786818,
+              "parent_s4": 0.717590093778095,
+              "ft": 0.7168543665673888,
+              "ft_s3": 0.7134129168346646,
+              "ft_s4": 0.7160642650949938
+            },
+            "comparisons": {
+              "head - parent": {
+                "delta": -0.0019087384348279723,
+                "conditional_ci95": [
+                  -0.0051689156415944595,
+                  0.0009419710996125941
+                ]
+              },
+              "head - submitted_recipe": {
+                "delta": -0.001695087436323961,
+                "conditional_ci95": [
+                  -0.004971302570954472,
+                  0.0012018140106114287
+                ]
+              },
+              "head_s3 - parent_s3": {
+                "delta": -0.004113151204768295,
+                "conditional_ci95": [
+                  -0.007938352775077534,
+                  -0.000597152588579394
+                ]
+              },
+              "head_s4 - parent_s4": {
+                "delta": -0.002497242499413188,
+                "conditional_ci95": [
+                  -0.005768983614329171,
+                  0.0001757780259518809
+                ]
+              },
+              "ft - parent": {
+                "delta": -0.001509577023286246,
+                "conditional_ci95": [
+                  -0.004765065857181455,
+                  0.00152447152146859
+                ]
+              },
+              "ft - submitted_recipe": {
+                "delta": -0.0012959260247822346,
+                "conditional_ci95": [
+                  -0.004630892928205186,
+                  0.0017915751182012091
+                ]
+              },
+              "ft_s3 - parent_s3": {
+                "delta": -0.00448277702865818,
+                "conditional_ci95": [
+                  -0.008646319627408994,
+                  -0.0006092837967503766
+                ]
+              },
+              "ft_s4 - parent_s4": {
+                "delta": -0.001525828683101249,
+                "conditional_ci95": [
+                  -0.005304690407818754,
+                  0.0015917769676000511
+                ]
+              },
+              "ft - head": {
+                "delta": 0.00039916141154172635,
+                "conditional_ci95": [
+                  -0.0007174089245578441,
+                  0.0014258073719729636
+                ]
+              }
+            }
+          }
+        },
+        "decision": "Rejected: head-only and subsequent full FT lose both panels and seeds; no native/final fit.",
+        "composite_gpu": {
+          "valid_clean": {
+            "sequences": 436,
+            "chains": 129,
+            "scores": {
+              "parent": 0.7127377665384304,
+              "submitted_recipe": 0.7126204198255042,
+              "head": 0.7086733720657301,
+              "head_s3": 0.7068209618671002,
+              "parent_s3": 0.7120741541915118,
+              "head_s4": 0.7059080728669098,
+              "parent_s4": 0.7119102541882595,
+              "ft": 0.7090454325022193,
+              "ft_s3": 0.7064171506512247,
+              "ft_s4": 0.7065758758671619
+            },
+            "comparisons": {
+              "head - parent": {
+                "delta": -0.004064394472700239,
+                "conditional_ci95": [
+                  -0.007893767034067509,
+                  -0.0006315853475042031
+                ]
+              },
+              "head - submitted_recipe": {
+                "delta": -0.003947047759774058,
+                "conditional_ci95": [
+                  -0.00777202148655905,
+                  -0.0004918662020330125
+                ]
+              },
+              "head_s3 - parent_s3": {
+                "delta": -0.005253192324411571,
+                "conditional_ci95": [
+                  -0.009246394986557655,
+                  -0.0014358975679379514
+                ]
+              },
+              "head_s4 - parent_s4": {
+                "delta": -0.006002181321349664,
+                "conditional_ci95": [
+                  -0.010306106584977433,
+                  -0.0024844958250395555
+                ]
+              },
+              "ft - parent": {
+                "delta": -0.0036923340362110535,
+                "conditional_ci95": [
+                  -0.00780713052344009,
+                  0.0002459962391449774
+                ]
+              },
+              "ft - submitted_recipe": {
+                "delta": -0.003574987323284873,
+                "conditional_ci95": [
+                  -0.0076884856995698804,
+                  0.0004323516468857922
+                ]
+              },
+              "ft_s3 - parent_s3": {
+                "delta": -0.005657003540287087,
+                "conditional_ci95": [
+                  -0.010628073832049622,
+                  -0.0010124971634873363
+                ]
+              },
+              "ft_s4 - parent_s4": {
+                "delta": -0.0053343783210976214,
+                "conditional_ci95": [
+                  -0.009489038564176353,
+                  -0.0017300014716243566
+                ]
+              },
+              "ft - head": {
+                "delta": 0.0003720604364891855,
+                "conditional_ci95": [
+                  -0.000804981543086003,
+                  0.001482818638642691
+                ]
+              }
+            }
+          },
+          "train_clean": {
+            "sequences": 282,
+            "chains": 191,
+            "scores": {
+              "parent": 0.5973573276220244,
+              "submitted_recipe": 0.5975019974748828,
+              "head": 0.5855156132101491,
+              "head_s3": 0.5824618859319393,
+              "parent_s3": 0.5964967206612046,
+              "head_s4": 0.5817963447225108,
+              "parent_s4": 0.5956195300714836,
+              "ft": 0.5851827662249107,
+              "ft_s3": 0.5807511801867182,
+              "ft_s4": 0.5816944928276182
+            },
+            "comparisons": {
+              "head - parent": {
+                "delta": -0.011841714411875315,
+                "conditional_ci95": [
+                  -0.015574624603900555,
+                  -0.008087194217589425
+                ]
+              },
+              "head - submitted_recipe": {
+                "delta": -0.01198638426473364,
+                "conditional_ci95": [
+                  -0.015787081576488417,
+                  -0.00811457981318869
+                ]
+              },
+              "head_s3 - parent_s3": {
+                "delta": -0.014034834729265366,
+                "conditional_ci95": [
+                  -0.018573044794168214,
+                  -0.009572567255221449
+                ]
+              },
+              "head_s4 - parent_s4": {
+                "delta": -0.013823185348972755,
+                "conditional_ci95": [
+                  -0.017600239869056768,
+                  -0.010105328192640295
+                ]
+              },
+              "ft - parent": {
+                "delta": -0.012174561397113703,
+                "conditional_ci95": [
+                  -0.01634041467778848,
+                  -0.007935358071713958
+                ]
+              },
+              "ft - submitted_recipe": {
+                "delta": -0.012319231249972029,
+                "conditional_ci95": [
+                  -0.016579997579320514,
+                  -0.007935306213512504
+                ]
+              },
+              "ft_s3 - parent_s3": {
+                "delta": -0.015745540474486397,
+                "conditional_ci95": [
+                  -0.020820199420829,
+                  -0.010403054665699197
+                ]
+              },
+              "ft_s4 - parent_s4": {
+                "delta": -0.013925037243865401,
+                "conditional_ci95": [
+                  -0.018969101275223728,
+                  -0.009111062367217551
+                ]
+              },
+              "ft - head": {
+                "delta": -0.0003328469852383886,
+                "conditional_ci95": [
+                  -0.002039051247953147,
+                  0.0016295434030032204
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "E-20261005-W42-SCHEMA-REPAIR",
+      "date": "2026-10-05",
+      "kind": "Native train feature schema correction and recomputation",
+      "result": {
+        "detected_utc": "2026-10-05T22:46:00Z",
+        "cause": "Positional [4:116] selection only correct for valid, not train (train has 3 metadata columns). Wrong train replay dropped i0_p0 and included t0.",
+        "affected": "Wave33/36 CPU train replay, historical wave13 precision train replay. Deployed Predictor API and GPU training/teachers unaffected.",
+        "repair": "Explicit 112 feature names; byte equality against independent SequenceFile and Torch/native parity on both schemas; native/GPU score-gap guards for new students. Invalid outputs preserved; affected train panels recomputed.",
+        "evidence": [
+          "wave33/schema-incident.json",
+          "wave33/schema-repair-complete.json",
+          "wave36/native-comp-report.json",
+          "wave42/scope.json",
+          "wave42/input-model-parity.json",
+          "wave42/corrected-precision-report.json"
+        ],
+        "status": "repaired_and_recomputed"
+      },
+      "baseline_precision": {
+        "valid_clean": {
+          "sequences": 425,
+          "chains": 123,
+          "scores": {
+            "fp32": 0.7144610843581212,
+            "half": 0.7144611661513012,
+            "int8": 0.7144650584472199,
+            "weight8": 0.7144621084093323,
+            "oldhalf": 0.7144603240978092
+          },
+          "comparisons": {
+            "fp32 - oldhalf": {
+              "delta": 7.602603119272189e-07,
+              "conditional_ci95": [
+                -1.33585540322001e-06,
+                3.0710027332653263e-06
+              ]
+            },
+            "half - oldhalf": {
+              "delta": 8.420534919340028e-07,
+              "conditional_ci95": [
+                -1.2188288829623195e-06,
+                3.1933190992899927e-06
+              ]
+            },
+            "int8 - oldhalf": {
+              "delta": 4.734349410617789e-06,
+              "conditional_ci95": [
+                -1.808441097342073e-05,
+                2.9153584161950573e-05
+              ]
+            },
+            "weight8 - oldhalf": {
+              "delta": 1.7843115230897766e-06,
+              "conditional_ci95": [
+                -6.862408468386039e-06,
+                1.0272142943731902e-05
+              ]
+            }
+          }
+        },
+        "train_clean": {
+          "sequences": 282,
+          "chains": 191,
+          "scores": {
+            "fp32": 0.5932874656238216,
+            "half": 0.5932874053035183,
+            "int8": 0.593292732616961,
+            "weight8": 0.593287817196493,
+            "oldhalf": 0.5932862745311707
+          },
+          "comparisons": {
+            "fp32 - oldhalf": {
+              "delta": 1.1910926509539621e-06,
+              "conditional_ci95": [
+                -2.424995631497562e-06,
+                5.063320152032257e-06
+              ]
+            },
+            "half - oldhalf": {
+              "delta": 1.1307723476461362e-06,
+              "conditional_ci95": [
+                -2.5502734651211555e-06,
+                5.115621145390657e-06
+              ]
+            },
+            "int8 - oldhalf": {
+              "delta": 6.458085790361778e-06,
+              "conditional_ci95": [
+                -1.8601541330232064e-05,
+                3.074096155778471e-05
+              ]
+            },
+            "weight8 - oldhalf": {
+              "delta": 1.542665322373793e-06,
+              "conditional_ci95": [
+                -1.0932851644418485e-05,
+                1.442227802238294e-05
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "E-20261005-W38-NATIVE",
+      "date": "2026-10-05",
+      "result": {
+        "evidence": "wave38/native-quality-report.json",
+        "results": {
+          "valid_clean": {
+            "sequences": 425,
+            "chains": 123,
+            "scores": {
+              "teacher_gpu": 0.7161302310562185,
+              "bootstrap": 0.7175558623713767,
+              "bootstrap_s3": 0.7171071187889502,
+              "bootstrap_s4": 0.7170479926876341,
+              "family": 0.7182578324561746,
+              "family_s3": 0.717756914074282,
+              "family_s4": 0.7175030132706841,
+              "bootstrap_gpu": 0.7176059748703922
+            },
+            "comparisons": {
+              "bootstrap - teacher_gpu": {
+                "delta": 0.00142563131515816,
+                "conditional_ci95": [
+                  0.00084192599779985,
+                  0.0020527492609720005
+                ]
+              },
+              "family - teacher_gpu": {
+                "delta": 0.0021276013999560472,
+                "conditional_ci95": [
+                  0.001234473024410529,
+                  0.003190021926237881
+                ]
+              },
+              "bootstrap - family": {
+                "delta": -0.0007019700847978871,
+                "conditional_ci95": [
+                  -0.0017363034509973619,
+                  0.000322973773368849
+                ]
+              },
+              "bootstrap - bootstrap_gpu": {
+                "delta": -5.0112499015542156e-05,
+                "conditional_ci95": [
+                  -0.00017785429011074881,
+                  5.295137623003429e-05
+                ]
+              },
+              "bootstrap_s3 - family_s3": {
+                "delta": -0.0006497952853318223,
+                "conditional_ci95": [
+                  -0.0017301943558921036,
+                  0.0003363954339411608
+                ]
+              },
+              "bootstrap_s4 - family_s4": {
+                "delta": -0.00045502058305002535,
+                "conditional_ci95": [
+                  -0.0015602021870984918,
+                  0.0007564747585486776
+                ]
+              }
+            }
+          }
+        },
+        "decision": "not_promoted: negative bootstrap or small inconclusive gain; no final fit"
+      }
+    },
+    {
+      "id": "E-20261005-W39-NATIVE",
+      "date": "2026-10-05",
+      "result": {
+        "evidence": "wave39/native-quality-report.json",
+        "results": {
+          "valid_clean": {
+            "sequences": 425,
+            "chains": 123,
+            "scores": {
+              "teacher_gpu": 0.7161302310562185,
+              "headwide": 0.7183153598919453,
+              "headwide_s3": 0.7178432373306685,
+              "headwide_s4": 0.7175374784874433,
+              "control": 0.7182578324561746,
+              "control_s3": 0.717756914074282,
+              "control_s4": 0.7175030132706841,
+              "headwide_gpu": 0.7183937251532888
+            },
+            "comparisons": {
+              "headwide - teacher_gpu": {
+                "delta": 0.002185128835726746,
+                "conditional_ci95": [
+                  0.0012513522316935865,
+                  0.003238372171978951
+                ]
+              },
+              "control - teacher_gpu": {
+                "delta": 0.0021276013999560472,
+                "conditional_ci95": [
+                  0.001234473024410529,
+                  0.003190021926237881
+                ]
+              },
+              "headwide - control": {
+                "delta": 5.7527435770698965e-05,
+                "conditional_ci95": [
+                  -5.194894817480145e-05,
+                  0.00017373025754231493
+                ]
+              },
+              "headwide - headwide_gpu": {
+                "delta": -7.836526134352706e-05,
+                "conditional_ci95": [
+                  -0.0002329104539411514,
+                  4.120184544361136e-05
+                ]
+              },
+              "headwide_s3 - control_s3": {
+                "delta": 8.632325638646687e-05,
+                "conditional_ci95": [
+                  -5.7752341319372565e-05,
+                  0.00023889075422680583
+                ]
+              },
+              "headwide_s4 - control_s4": {
+                "delta": 3.446521675920522e-05,
+                "conditional_ci95": [
+                  -9.55333097371891e-05,
+                  0.00016797158778097113
+                ]
+              }
+            }
+          }
+        },
+        "decision": "not_promoted: negative bootstrap or small inconclusive gain; no final fit"
+      }
+    },
+    {
+      "id": "E-20261005-W40-NATIVE",
+      "date": "2026-10-05",
+      "result": {
+        "evidence": "wave40/native-quality-report.json",
+        "results": {
+          "valid_clean": {
+            "sequences": 425,
+            "chains": 123,
+            "scores": {
+              "teacher_gpu": 0.718363943590675,
+              "restart": 0.7183234472436755,
+              "restart_s3": 0.7177375941595989,
+              "restart_s4": 0.7172621573497823,
+              "family": 0.7182578324561746,
+              "family_s3": 0.717756914074282,
+              "family_s4": 0.7175030132706841,
+              "restart_gpu": 0.7184715894481277,
+              "continued": 0.7182792060980467
+            },
+            "comparisons": {
+              "restart - teacher_gpu": {
+                "delta": -4.049634699954119e-05,
+                "conditional_ci95": [
+                  -0.0008104308717569147,
+                  0.000689869484222516
+                ]
+              },
+              "family - teacher_gpu": {
+                "delta": -0.00010611113450043064,
+                "conditional_ci95": [
+                  -0.0003050617629707764,
+                  4.238424996179098e-05
+                ]
+              },
+              "restart - family": {
+                "delta": 6.561478750088945e-05,
+                "conditional_ci95": [
+                  -0.0005728880122540276,
+                  0.0007147376582681767
+                ]
+              },
+              "restart - restart_gpu": {
+                "delta": -0.00014814220445225068,
+                "conditional_ci95": [
+                  -0.00033670263602208486,
+                  -3.0921296151899327e-06
+                ]
+              },
+              "restart_s3 - family_s3": {
+                "delta": -1.931991468306915e-05,
+                "conditional_ci95": [
+                  -0.0006378792636074187,
+                  0.0006461717560981376
+                ]
+              },
+              "restart_s4 - family_s4": {
+                "delta": -0.00024085592090183905,
+                "conditional_ci95": [
+                  -0.0010616156104434893,
+                  0.000495639828361552
+                ]
+              },
+              "restart - continued": {
+                "delta": 4.4241145628731715e-05,
+                "conditional_ci95": [
+                  -0.00038351899634415655,
+                  0.00048127958792403274
+                ]
+              }
+            }
+          }
+        },
+        "decision": "not_promoted: negative bootstrap or small inconclusive gain; no final fit"
+      }
+    },
+    {
+      "id": "E-20261005-W44-DS",
+      "date": "2026-10-05",
+      "result": {
+        "runs": {
+          "reference": [
+            {
+              "seconds": 12.641097515001093,
+              "cpu_level": "v3",
+              "backend": 2,
+              "reset_bit_exact": true,
+              "finite_shape_pass": true,
+              "parity": {}
+            },
+            {
+              "seconds": 12.672035745999892,
+              "cpu_level": "v3",
+              "backend": 2,
+              "reset_bit_exact": true,
+              "finite_shape_pass": true,
+              "parity": {}
+            }
+          ],
+          "candidate": [
+            {
+              "seconds": 25.082637812998655,
+              "cpu_level": "v3",
+              "backend": 2,
+              "reset_bit_exact": true,
+              "finite_shape_pass": true,
+              "parity": {
+                "False": {
+                  "max_abs": 5.960464477539062e-07,
+                  "correlation": [
+                    0.9999999999999714,
+                    0.9999999999999721
+                  ]
+                },
+                "True": {
+                  "max_abs": 0.016350984573364258,
+                  "correlation": [
+                    0.9999848287825858,
+                    0.9999841303584562
+                  ]
+                }
+              }
+            },
+            {
+              "seconds": 25.014276416999564,
+              "cpu_level": "v3",
+              "backend": 2,
+              "reset_bit_exact": true,
+              "finite_shape_pass": true,
+              "parity": {
+                "False": {
+                  "max_abs": 5.960464477539062e-07,
+                  "correlation": [
+                    0.9999999999999714,
+                    0.9999999999999721
+                  ]
+                },
+                "True": {
+                  "max_abs": 0.016350984573364258,
+                  "correlation": [
+                    0.9999848287825858,
+                    0.9999841303584562
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "rows_per_run": 100000,
+        "candidate_to_reference_ratio": 1.9790878400336436,
+        "public_minutes_relative_projection": 49.3782416088394,
+        "candidate_sha256": "48fe8dbdfca91aa843703c35f1a89900301d308d6292f39bcd4a0299d505d8d0",
+        "scope": "Four distinct h256 students (old and twostream teacher final pairs), LAB ONLY for four-member deployment cost; not a promoted candidate. Python3.11 DataSphere CPU, 100k actual callback rows per run, two orders, resets, FP32/int8 parity against Torch mean. Relative to public24m57s; no scoring-host runtime guarantee or quality claim. Four-new-seed ensemble needs its own quality/final-package audit."
+      },
+      "scope": "Four-model deployment lab, no quality promotion; subsequent timing benchmarks waived by user."
+    },
+    {
+      "id": "E-20261005-DEADLINE",
+      "date": "2026-10-05",
+      "decision": {
+        "deliver_by_msk": "2026-10-06T02:50:00+03:00",
+        "submit_before_msk": "2026-10-06T03:00:00+03:00",
+        "user_instruction": "Best available submission before quota expires; user waives further runtime checks.",
+        "fallback": "submissions/distilled_twostream_h256_pair.zip",
+        "final_seed_candidate_preparing": "wave46, selected only after wave43 quality and functional archive checks",
+        "timing_checks": "No further benchmarks per user instruction"
+      },
+      "scope": "User requirement to provide best available archive before03:00MSK. Further runtime checks waived, functional checks retained."
+    },
+    {
+      "id": "E-20261005-W43-CLOSURE",
+      "date": "2026-10-05",
+      "result": {
+        "full_native": {
+          "valid_clean": {
+            "sequences": 425,
+            "chains": 123,
+            "scores": {
+              "old_pair": 0.7180618737229577,
+              "new_pair": 0.7180953986074332,
+              "four_mean": 0.7181076876440688,
+              "new_s13": 0.7177734179808859,
+              "old_s3": 0.7175547540155092,
+              "new_s14": 0.717210317851759,
+              "old_s4": 0.7173540122202415,
+              "new_pair_gpu": 0.7181848999080666,
+              "four_mean_gpu": 0.7181939510323239
+            },
+            "comparisons": {
+              "four_mean - old_pair": {
+                "delta": 4.581392111113747e-05,
+                "conditional_ci95": [
+                  -7.897355171188614e-05,
+                  0.00020741288164881312
+                ]
+              },
+              "new_pair - old_pair": {
+                "delta": 3.352488447549984e-05,
+                "conditional_ci95": [
+                  -0.00021561751379546023,
+                  0.0003570400805514928
+                ]
+              },
+              "new_s13 - old_s3": {
+                "delta": 0.00021866396537673083,
+                "conditional_ci95": [
+                  -0.00024007738281449365,
+                  0.0007412076271139121
+                ]
+              },
+              "new_s14 - old_s4": {
+                "delta": -0.00014369436848249428,
+                "conditional_ci95": [
+                  -0.00038241348350210035,
+                  8.206110444775037e-05
+                ]
+              },
+              "new_pair - new_pair_gpu": {
+                "delta": -8.950130063334338e-05,
+                "conditional_ci95": [
+                  -0.0002269039584237076,
+                  1.7381402026816817e-05
+                ]
+              },
+              "four_mean - four_mean_gpu": {
+                "delta": -8.626338825501456e-05,
+                "conditional_ci95": [
+                  -0.00022553904652072854,
+                  2.2103321473587644e-05
+                ]
+              }
+            }
+          }
+        },
+        "comp_native": {
+          "valid_clean": {
+            "sequences": 436,
+            "chains": 129,
+            "scores": {
+              "old_pair": 0.7125730511767501,
+              "new_pair": 0.7126376292141308,
+              "four_mean": 0.7126416118341858,
+              "new_s13": 0.7118691514690223,
+              "old_s3": 0.7119193019511818,
+              "new_s14": 0.7119282664004933,
+              "old_s4": 0.7117700528331887,
+              "new_pair_gpu": 0.712680153463275,
+              "four_mean_gpu": 0.712684247993159
+            },
+            "comparisons": {
+              "four_mean - old_pair": {
+                "delta": 6.856065743576778e-05,
+                "conditional_ci95": [
+                  -5.8389225607660686e-05,
+                  0.00019392001020022414
+                ]
+              },
+              "new_pair - old_pair": {
+                "delta": 6.457803738069146e-05,
+                "conditional_ci95": [
+                  -0.0001927646477303896,
+                  0.0003156459786666203
+                ]
+              },
+              "new_s13 - old_s3": {
+                "delta": -5.015048215950557e-05,
+                "conditional_ci95": [
+                  -0.0004281405792604637,
+                  0.00026418349294651247
+                ]
+              },
+              "new_s14 - old_s4": {
+                "delta": 0.00015821356730461034,
+                "conditional_ci95": [
+                  -0.00027539749622343125,
+                  0.0006120819458241611
+                ]
+              },
+              "new_pair - new_pair_gpu": {
+                "delta": -4.2524249144193504e-05,
+                "conditional_ci95": [
+                  -0.00013793317389191318,
+                  4.69684235724965e-05
+                ]
+              },
+              "four_mean - four_mean_gpu": {
+                "delta": -4.263615897315276e-05,
+                "conditional_ci95": [
+                  -0.000140989618477938,
+                  3.89794811602894e-05
+                ]
+              }
+            }
+          },
+          "train_clean": {
+            "sequences": 282,
+            "chains": 191,
+            "scores": {
+              "old_pair": 0.5974647961436341,
+              "new_pair": 0.5974147867303321,
+              "four_mean": 0.5974896625845958,
+              "new_s13": 0.5963901842941713,
+              "old_s3": 0.5966653995283848,
+              "new_s14": 0.5958816991513389,
+              "old_s4": 0.595720556193251,
+              "new_pair_gpu": 0.5973704526717678,
+              "four_mean_gpu": 0.5974822455927167
+            },
+            "comparisons": {
+              "four_mean - old_pair": {
+                "delta": 2.4866440961668346e-05,
+                "conditional_ci95": [
+                  -0.0001719804493941379,
+                  0.00023303577619412084
+                ]
+              },
+              "new_pair - old_pair": {
+                "delta": -5.0009413302021244e-05,
+                "conditional_ci95": [
+                  -0.00044653512672815365,
+                  0.0003666682246493771
+                ]
+              },
+              "new_s13 - old_s3": {
+                "delta": -0.00027521523421347727,
+                "conditional_ci95": [
+                  -0.0007824810458054137,
+                  0.0002646140494840187
+                ]
+              },
+              "new_s14 - old_s4": {
+                "delta": 0.0001611429580878898,
+                "conditional_ci95": [
+                  -0.0005640793869020027,
+                  0.0008792411309385984
+                ]
+              },
+              "new_pair - new_pair_gpu": {
+                "delta": 4.4334058564299283e-05,
+                "conditional_ci95": [
+                  -7.509203458692659e-05,
+                  0.00015227462965028413
+                ]
+              },
+              "four_mean - four_mean_gpu": {
+                "delta": 7.416991879116708e-06,
+                "conditional_ci95": [
+                  -9.025860329539281e-05,
+                  0.00010278267761523736
+                ]
+              }
+            }
+          }
+        },
+        "decision": "Not selected; see deadline/selection.json"
+      }
+    },
+    {
+      "id": "E-20261005-W45-CLOSURE",
+      "date": "2026-10-05",
+      "result": {
+        "full_native": {
+          "valid_clean": {
+            "sequences": 425,
+            "chains": 123,
+            "scores": {
+              "old_pair": 0.7180618737229577,
+              "short_pair": 0.7181293408322698,
+              "four_mean": 0.7181072446310851,
+              "short_s3": 0.7174676358109234,
+              "old_s3": 0.7175547540155092,
+              "short_s4": 0.7175623754248852,
+              "old_s4": 0.7173540122202415,
+              "short_pair_gpu": 0.7181846120567379,
+              "four_mean_gpu": 0.7181773459509966
+            },
+            "comparisons": {
+              "short_pair - old_pair": {
+                "delta": 6.746710931204714e-05,
+                "conditional_ci95": [
+                  -0.00021854890832032347,
+                  0.00033430469212197557
+                ]
+              },
+              "four_mean - old_pair": {
+                "delta": 4.537090812739564e-05,
+                "conditional_ci95": [
+                  -9.766479496813308e-05,
+                  0.00017894045928179824
+                ]
+              },
+              "short_s3 - old_s3": {
+                "delta": -8.711820458573438e-05,
+                "conditional_ci95": [
+                  -0.0004105615781195365,
+                  0.00023286576255358553
+                ]
+              },
+              "short_s4 - old_s4": {
+                "delta": 0.00020836320464368008,
+                "conditional_ci95": [
+                  -0.0001903980992913279,
+                  0.0005938294758996345
+                ]
+              },
+              "short_pair - short_pair_gpu": {
+                "delta": -5.527122446813415e-05,
+                "conditional_ci95": [
+                  -0.00017617963301550242,
+                  4.529350552260309e-05
+                ]
+              },
+              "four_mean - four_mean_gpu": {
+                "delta": -7.010131991147528e-05,
+                "conditional_ci95": [
+                  -0.00019816899353863882,
+                  3.631164178163612e-05
+                ]
+              }
+            }
+          }
+        },
+        "comp_native": {
+          "valid_clean": {
+            "sequences": 436,
+            "chains": 129,
+            "scores": {
+              "old_pair": 0.7125730511767501,
+              "short_pair": 0.712354251823383,
+              "four_mean": 0.7124790036473228,
+              "short_s3": 0.7117060931578161,
+              "old_s3": 0.7119193019511818,
+              "short_s4": 0.7115149833596462,
+              "old_s4": 0.7117700528331887,
+              "short_pair_gpu": 0.7123872445957594,
+              "four_mean_gpu": 0.7125164146478624
+            },
+            "comparisons": {
+              "short_pair - old_pair": {
+                "delta": -0.0002187993533671051,
+                "conditional_ci95": [
+                  -0.0006113013593279426,
+                  0.0001746818426410996
+                ]
+              },
+              "four_mean - old_pair": {
+                "delta": -9.404752942732131e-05,
+                "conditional_ci95": [
+                  -0.00028988779643648324,
+                  0.0001047777053207493
+                ]
+              },
+              "short_s3 - old_s3": {
+                "delta": -0.00021320879336572673,
+                "conditional_ci95": [
+                  -0.0006648806714775662,
+                  0.00019232043040703608
+                ]
+              },
+              "short_s4 - old_s4": {
+                "delta": -0.00025506947354247966,
+                "conditional_ci95": [
+                  -0.0008342306907425711,
+                  0.00023981586392927945
+                ]
+              },
+              "short_pair - short_pair_gpu": {
+                "delta": -3.299277237645004e-05,
+                "conditional_ci95": [
+                  -0.00013104612598585085,
+                  4.564254134679907e-05
+                ]
+              },
+              "four_mean - four_mean_gpu": {
+                "delta": -3.741100053966662e-05,
+                "conditional_ci95": [
+                  -0.00013675731082843923,
+                  4.34991005208718e-05
+                ]
+              }
+            }
+          },
+          "train_clean": {
+            "sequences": 282,
+            "chains": 191,
+            "scores": {
+              "old_pair": 0.5974647961436341,
+              "short_pair": 0.5975346867473388,
+              "four_mean": 0.5975268410802281,
+              "short_s3": 0.5968112778871443,
+              "old_s3": 0.5966653995283848,
+              "short_s4": 0.5956511919611794,
+              "old_s4": 0.595720556193251,
+              "short_pair_gpu": 0.5975852906558856,
+              "four_mean_gpu": 0.5975681040332721
+            },
+            "comparisons": {
+              "short_pair - old_pair": {
+                "delta": 6.989060370465872e-05,
+                "conditional_ci95": [
+                  -0.000372861298763999,
+                  0.000514734949802553
+                ]
+              },
+              "four_mean - old_pair": {
+                "delta": 6.20449365940079e-05,
+                "conditional_ci95": [
+                  -0.00016013757915593342,
+                  0.00028324561859084375
+                ]
+              },
+              "short_s3 - old_s3": {
+                "delta": 0.00014587835875945476,
+                "conditional_ci95": [
+                  -0.0004254940678700914,
+                  0.0007320526494046969
+                ]
+              },
+              "short_s4 - old_s4": {
+                "delta": -6.936423207160036e-05,
+                "conditional_ci95": [
+                  -0.0005936197350975114,
+                  0.0004742288819490263
+                ]
+              },
+              "short_pair - short_pair_gpu": {
+                "delta": -5.060390854683128e-05,
+                "conditional_ci95": [
+                  -0.00016477895949773834,
+                  5.681949697631794e-05
+                ]
+              },
+              "four_mean - four_mean_gpu": {
+                "delta": -4.1262953043963435e-05,
+                "conditional_ci95": [
+                  -0.0001431403750455751,
+                  5.513483678263035e-05
+                ]
+              }
+            }
+          }
+        },
+        "decision": "Not selected; see deadline/selection.json"
+      }
+    },
+    {
+      "id": "E-20261005-W48-CLOSURE",
+      "date": "2026-10-05",
+      "result": {
+        "full_native": {
+          "valid_clean": {
+            "sequences": 425,
+            "chains": 123,
+            "scores": {
+              "old_pair": 0.7180618737229577,
+              "teacher_pair": 0.7182578324561746,
+              "four_old": 0.7181076876440688,
+              "four_twostream": 0.7182145659127683
+            },
+            "comparisons": {
+              "teacher_pair - old_pair": {
+                "delta": 0.00019595873321687218,
+                "conditional_ci95": [
+                  3.1773622713721085e-05,
+                  0.0003758880895976035
+                ]
+              },
+              "four_old - old_pair": {
+                "delta": 4.581392111113747e-05,
+                "conditional_ci95": [
+                  -7.897355171188614e-05,
+                  0.00020741288164881312
+                ]
+              },
+              "four_twostream - old_pair": {
+                "delta": 0.0001526921898106215,
+                "conditional_ci95": [
+                  -1.3646293996452674e-05,
+                  0.0003586855672002398
+                ]
+              },
+              "four_twostream - teacher_pair": {
+                "delta": -4.326654340625069e-05,
+                "conditional_ci95": [
+                  -0.0001813126412220839,
+                  0.000109593721030371
+                ]
+              },
+              "four_twostream - four_old": {
+                "delta": 0.00010687826869948402,
+                "conditional_ci95": [
+                  2.4691965417864004e-05,
+                  0.0001967924644867918
+                ]
+              }
+            }
+          }
+        },
+        "comp_native": {
+          "valid_clean": {
+            "sequences": 436,
+            "chains": 129,
+            "scores": {
+              "old_pair": 0.7125730511767501,
+              "teacher_pair": 0.7127040523285642,
+              "four_old": 0.7126416118341858,
+              "four_twostream": 0.71271354250709
+            },
+            "comparisons": {
+              "teacher_pair - old_pair": {
+                "delta": 0.00013100115181408079,
+                "conditional_ci95": [
+                  -2.3035703364049365e-05,
+                  0.0003140157231427242
+                ]
+              },
+              "four_old - old_pair": {
+                "delta": 6.856065743576778e-05,
+                "conditional_ci95": [
+                  -5.8389225607660686e-05,
+                  0.00019392001020022414
+                ]
+              },
+              "four_twostream - old_pair": {
+                "delta": 0.00014049133033988692,
+                "conditional_ci95": [
+                  9.846407577687732e-06,
+                  0.0002808971522688136
+                ]
+              },
+              "four_twostream - teacher_pair": {
+                "delta": 9.490178525806137e-06,
+                "conditional_ci95": [
+                  -0.00015835210120880295,
+                  0.00015840766192947703
+                ]
+              },
+              "four_twostream - four_old": {
+                "delta": 7.193067290411914e-05,
+                "conditional_ci95": [
+                  -5.350676440923907e-06,
+                  0.0001639463295115301
+                ]
+              }
+            }
+          },
+          "train_clean": {
+            "sequences": 282,
+            "chains": 191,
+            "scores": {
+              "old_pair": 0.5974647961436341,
+              "teacher_pair": 0.5973479553681734,
+              "four_old": 0.5974896625845958,
+              "four_twostream": 0.5974417823954309
+            },
+            "comparisons": {
+              "teacher_pair - old_pair": {
+                "delta": -0.0001168407754607026,
+                "conditional_ci95": [
+                  -0.00033742345187951774,
+                  0.00012880099124931146
+                ]
+              },
+              "four_old - old_pair": {
+                "delta": 2.4866440961668346e-05,
+                "conditional_ci95": [
+                  -0.0001719804493941379,
+                  0.00023303577619412084
+                ]
+              },
+              "four_twostream - old_pair": {
+                "delta": -2.301374820323776e-05,
+                "conditional_ci95": [
+                  -0.00026336302028454885,
+                  0.00022355104267356428
+                ]
+              },
+              "four_twostream - teacher_pair": {
+                "delta": 9.382702725746483e-05,
+                "conditional_ci95": [
+                  -0.00012410470419757513,
+                  0.00032343481995620314
+                ]
+              },
+              "four_twostream - four_old": {
+                "delta": -4.7880189164906106e-05,
+                "conditional_ci95": [
+                  -0.00015734305174590346,
+                  7.433586168109334e-05
+                ]
+              }
+            }
+          }
+        },
+        "decision": "Not selected; see deadline/selection.json"
+      }
+    },
+    {
+      "id": "E-20261005-DEADLINE-SELECTION",
+      "date": "2026-10-05",
+      "selected": {
+        "archive": "/Users/nb/Documents/wunder/submissions/distilled_twostream_h256_pair.zip",
+        "sha256": "bb3736944e19940272b038b045687c76af6ace56cca9a8569438f2745199e723",
+        "bytes": 8235045,
+        "status": "selected_for_expiring_submission_slot",
+        "public_score": null,
+        "decision_evidence": "deadline/selection.json",
+        "confidence_note": "Exploratory deadline submission, not a demonstrated public improvement or top1 forecast. Small gains on reused true-mask panels; train diagnostic mixed. Earlier stronger-teacher promotion gate was inconclusive and is not retroactively marked passed."
+      },
+      "decision": "Choose the already functional-audited twostream-teacher h256 pair. Highest full-panel native score among these candidates; the mixed fourmember ensemble is lower by0.00004327 on fullvalid and only higher by0.00000949 on compositevalid, with uncertain differences. No convincing case to replace the ready pair with fourmembers.",
+      "evidence_limit": "Exploratory deadline submission, not a demonstrated public improvement or top1 forecast. Small gains on reused true-mask panels; train diagnostic mixed. Earlier stronger-teacher promotion gate was inconclusive and is not retroactively marked passed."
+    },
+    {
+      "id": "E-20261006-TWOSTREAM-PAIR-USER-SUBMITTED",
+      "date": "2026-10-06",
+      "kind": "User confirmed submission",
+      "archive": "distilled_twostream_h256_pair.zip",
+      "sha256": "bb3736944e19940272b038b045687c76af6ace56cca9a8569438f2745199e723",
+      "public_score": null,
+      "submission_id": null,
+      "source": "User: \u0432\u0441\u0435 \u043e\u0442\u043f\u0440\u0430\u0432\u0438\u043b",
+      "recorded_at_utc": "2026-10-05T23:53:31.954023+00:00"
+    }
+  ]
+}

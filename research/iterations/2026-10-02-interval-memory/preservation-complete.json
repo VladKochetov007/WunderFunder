@@ -1,0 +1,2408 @@
+{
+  "status": "PASS_LOCAL_SSH_LOSSLESS_PRESERVATION",
+  "allocation_sha256": "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+  "terminal_results": {
+    "execution-01/result.json": {
+      "status": "COMPLETE_8_FITS_4_OOF_NO_METRICS",
+      "failure": null,
+      "allocation_sha256": "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+      "runner_sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2",
+      "started_utc": "2026-10-02T01:10:39.064522+00:00",
+      "finished_utc": "2026-10-02T01:43:57.800977+00:00",
+      "seconds": 1998.7364704525098,
+      "jobs": [
+        {
+          "name": "oct02_im_instantaneous_s3_f0",
+          "stage": "parent",
+          "unit": "eb-44f4cf2d3a8b45bd8859ce2b55ed8fa7",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-44f4cf2d3a8b45bd8859ce2b55ed8fa7",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "1190.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-interval-memory/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/training-allocation.json",
+            "--allocation-sha256",
+            "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+            "--worker",
+            "0"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 3772,
+          "pid": 991902,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f0.parent.worker-result.json",
+            "sha256": "06a8864edd1f91959aea546046b7b7f129fc0456d10e0eff94babc6fd64b8bf1"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 408.3478088732809
+        },
+        {
+          "name": "oct02_im_instantaneous_s3h2_f0",
+          "stage": "H2",
+          "unit": "eb-6d92422124bc45f0854645010c1a0539",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-6d92422124bc45f0854645010c1a0539",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "890.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-interval-memory/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/training-allocation.json",
+            "--allocation-sha256",
+            "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+            "--worker",
+            "1"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 2228,
+          "pid": 996545,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0.H2.worker-result.json",
+            "sha256": "1373e142cabcfd4c2e83ae88a7aa8af493226673e946a98ca60cbc95ee771e62"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 74.03894189745188
+        },
+        {
+          "name": "oct02_im_instantaneous_s3h2_f0_OOF",
+          "stage": "OOF",
+          "unit": "eb-eaa910e8df5a4bc99138883bcda93da1",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-eaa910e8df5a4bc99138883bcda93da1",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "590.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-interval-memory/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/training-allocation.json",
+            "--allocation-sha256",
+            "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+            "--worker",
+            "2"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1340,
+          "pid": 997399,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0_OOF.OOF.worker-result.json",
+            "sha256": "a0608d20b5054007fe9d9e787ee364b2eaddd7eaf6e05b5a91bf1a1c6bf12749"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 17.638352036476135
+        },
+        {
+          "name": "oct02_im_accumulated_s3_f0",
+          "stage": "parent",
+          "unit": "eb-8a11a4a1c78f4aa2bc76488e8e213762",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-8a11a4a1c78f4aa2bc76488e8e213762",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "1190.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-interval-memory/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/training-allocation.json",
+            "--allocation-sha256",
+            "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+            "--worker",
+            "3"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 4046,
+          "pid": 997657,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f0.parent.worker-result.json",
+            "sha256": "fbc7bf8e24ed2c3621544d2ba77cc5d266251f78f38a72afe19d3842d061d364"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 407.05144188180566
+        },
+        {
+          "name": "oct02_im_accumulated_s3h2_f0",
+          "stage": "H2",
+          "unit": "eb-662c692bbbf54124a979c499312e309e",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-662c692bbbf54124a979c499312e309e",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "890.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-interval-memory/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/training-allocation.json",
+            "--allocation-sha256",
+            "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+            "--worker",
+            "4"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 2228,
+          "pid": 1003005,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0.H2.worker-result.json",
+            "sha256": "db012598344230f1cedb95623c6ec08f245fe9eb84b658412b6d852be75d1200"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 71.69470414705575
+        },
+        {
+          "name": "oct02_im_accumulated_s3h2_f0_OOF",
+          "stage": "OOF",
+          "unit": "eb-adbe31c5ddf84ab1b3e94ce45fc4ad0f",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-adbe31c5ddf84ab1b3e94ce45fc4ad0f",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "590.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-interval-memory/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/training-allocation.json",
+            "--allocation-sha256",
+            "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+            "--worker",
+            "5"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1340,
+          "pid": 1003965,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0_OOF.OOF.worker-result.json",
+            "sha256": "cef2d12992b235f455d34de70a2b6ef8e37d9d36c1daa1b94924983181b3bfd7"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 19.749621281400323
+        },
+        {
+          "name": "oct02_im_instantaneous_s3_f1",
+          "stage": "parent",
+          "unit": "eb-2e138e3d334546968778a6c4f9d30c96",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-2e138e3d334546968778a6c4f9d30c96",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "1190.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-interval-memory/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/training-allocation.json",
+            "--allocation-sha256",
+            "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+            "--worker",
+            "6"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 3772,
+          "pid": 1004185,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f1.parent.worker-result.json",
+            "sha256": "f507d6d41e35467df08816b3703a5e0c6b39229f12558550901aaa9c6e82ddff"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 402.5045209256932
+        },
+        {
+          "name": "oct02_im_instantaneous_s3h2_f1",
+          "stage": "H2",
+          "unit": "eb-8f0e5d17d0de4f5597292c5090d3fe32",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-8f0e5d17d0de4f5597292c5090d3fe32",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "890.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-interval-memory/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/training-allocation.json",
+            "--allocation-sha256",
+            "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+            "--worker",
+            "7"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 2228,
+          "pid": 1008842,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1.H2.worker-result.json",
+            "sha256": "688d1a1391a89a24ae6cdd1987742b8ddea62a46dd6a6675633f6aff2ca4e659"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 82.19255175162107
+        },
+        {
+          "name": "oct02_im_instantaneous_s3h2_f1_OOF",
+          "stage": "OOF",
+          "unit": "eb-c673e01b47ed4260a1b54df9e2890f18",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-c673e01b47ed4260a1b54df9e2890f18",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "590.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-interval-memory/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/training-allocation.json",
+            "--allocation-sha256",
+            "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+            "--worker",
+            "8"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1340,
+          "pid": 1009869,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1_OOF.OOF.worker-result.json",
+            "sha256": "4b5ea03e662d1087ba7ac71f7569b3e2e4a2325fb84fbaa9ac28401ff338b42c"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 17.370835105888546
+        },
+        {
+          "name": "oct02_im_accumulated_s3_f1",
+          "stage": "parent",
+          "unit": "eb-1552f35778b34563842c7d3456ddd48d",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-1552f35778b34563842c7d3456ddd48d",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "1190.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-interval-memory/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/training-allocation.json",
+            "--allocation-sha256",
+            "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+            "--worker",
+            "9"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 3764,
+          "pid": 1010038,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f1.parent.worker-result.json",
+            "sha256": "d60da551fe7f411ec6981affa8498cd120a8678891719f23b017bb87df82852a"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 402.14551752526313
+        },
+        {
+          "name": "oct02_im_accumulated_s3h2_f1",
+          "stage": "H2",
+          "unit": "eb-aacdc722176346c9a9c98710587160d4",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-aacdc722176346c9a9c98710587160d4",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "890.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-interval-memory/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/training-allocation.json",
+            "--allocation-sha256",
+            "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+            "--worker",
+            "10"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 2228,
+          "pid": 1015150,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1.H2.worker-result.json",
+            "sha256": "bd47644504358070f22899371ae4a812fa098630a1d96042ae8391846c8e5e15"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 74.84297441970557
+        },
+        {
+          "name": "oct02_im_accumulated_s3h2_f1_OOF",
+          "stage": "OOF",
+          "unit": "eb-88f897b279c04522b0ddc158acd325d6",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-88f897b279c04522b0ddc158acd325d6",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "590.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-interval-memory/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-interval-memory/training-allocation.json",
+            "--allocation-sha256",
+            "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+            "--worker",
+            "11"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1342,
+          "pid": 1015957,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1_OOF.OOF.worker-result.json",
+            "sha256": "c66a354f5d8c23c03e7693dcca265bb8ec94c3d979de67ea661e4365a4d8a2e3"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 17.306200478225946
+        }
+      ],
+      "fits": 8,
+      "OOF_jobs": 4,
+      "metric_calls": 0,
+      "retries": 0
+    },
+    "finish-01/result.json": {
+      "status": "COMPLETE_FIXED_FORECAST_READOUT",
+      "evaluation_source_sha256": "a1f65871d7324840addb2f4c21e8c90ede8c513ebe0f34898c94ad0b93d4ca87",
+      "allocation_sha256": "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+      "unit": "interval-score-f5362b344db04f568766377a648e9909",
+      "started_utc": "2026-10-02T01:10:38.970003+00:00",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "interval-score-f5362b344db04f568766377a648e9909",
+        "-p",
+        "CPUQuota=200%",
+        "-p",
+        "MemoryMax=4294967296",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "28,29",
+        "nice",
+        "-n",
+        "10",
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "600s",
+        ".venv/bin/python",
+        "research/iterations/2026-10-02-interval-memory/evaluate.py",
+        "--evaluation-source-sha256",
+        "a1f65871d7324840addb2f4c21e8c90ede8c513ebe0f34898c94ad0b93d4ca87",
+        "--output-dir",
+        "research/iterations/2026-10-02-interval-memory/evaluation-01"
+      ],
+      "exit_code": 0,
+      "report_sha256": "70e7dc865d8ad5ec4295356d60054804843d2d379545f920005a60036653c19c",
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "finished_utc": "2026-10-02T01:44:11.107432+00:00"
+    }
+  },
+  "files": 178,
+  "bytes": 1266129422,
+  "records": [
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/README.md",
+      "bytes": 4797,
+      "sha256": "b81fdc9abff0d0e0856f3731a919ed06cf985b1f7d9bd4c28e141691668b6edc",
+      "local_path": "research/iterations/2026-10-02-interval-memory/README.md",
+      "representation": "raw",
+      "local_bytes": 4797,
+      "local_sha256": "b81fdc9abff0d0e0856f3731a919ed06cf985b1f7d9bd4c28e141691668b6edc"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/allocate.py",
+      "bytes": 6719,
+      "sha256": "d45896fbe33fc617141c5d22677faa61ced04b3cbfb2d6ba5e57bea963c7a9bf",
+      "local_path": "research/iterations/2026-10-02-interval-memory/allocate.py",
+      "representation": "raw",
+      "local_bytes": 6719,
+      "local_sha256": "d45896fbe33fc617141c5d22677faa61ced04b3cbfb2d6ba5e57bea963c7a9bf"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/allocate_cuda.py",
+      "bytes": 2071,
+      "sha256": "e81ed2b36c7c1ac5cc473fb5fff12d7b1b479b52c9f096e6045523303bfb1ed6",
+      "local_path": "research/iterations/2026-10-02-interval-memory/allocate_cuda.py",
+      "representation": "raw",
+      "local_bytes": 2071,
+      "local_sha256": "e81ed2b36c7c1ac5cc473fb5fff12d7b1b479b52c9f096e6045523303bfb1ed6"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/argument-proof.json",
+      "bytes": 6864,
+      "sha256": "399a1d1558973fde3c1b41ebb640fa8426c7d58931f44032f6d3f256a680225a",
+      "local_path": "research/iterations/2026-10-02-interval-memory/argument-proof.json",
+      "representation": "raw",
+      "local_bytes": 6864,
+      "local_sha256": "399a1d1558973fde3c1b41ebb640fa8426c7d58931f44032f6d3f256a680225a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/build_plan.py",
+      "bytes": 6230,
+      "sha256": "c340f115d3911fa96135ead852231a26048761fe4d3a61de4db23205bf16ed49",
+      "local_path": "research/iterations/2026-10-02-interval-memory/build_plan.py",
+      "representation": "raw",
+      "local_bytes": 6230,
+      "local_sha256": "c340f115d3911fa96135ead852231a26048761fe4d3a61de4db23205bf16ed49"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_accumulated_s3h2_f0_valid.inputs.json",
+      "bytes": 9982,
+      "sha256": "4bad49cadb2bd8fa51dd8977101726a40e8ed383b2d78307e84150a1dc6f882d",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_accumulated_s3h2_f0_valid.inputs.json",
+      "representation": "raw",
+      "local_bytes": 9982,
+      "local_sha256": "4bad49cadb2bd8fa51dd8977101726a40e8ed383b2d78307e84150a1dc6f882d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_accumulated_s3h2_f0_valid.npy",
+      "bytes": 299680128,
+      "sha256": "5832f65dd91c54d56263b145e18a821877a7b5480d0dfd16249aa67df6b159b9",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_accumulated_s3h2_f0_valid.npy.gz",
+      "representation": "gzip_lossless",
+      "local_bytes": 44741713,
+      "local_sha256": "ead9cf608172f2ca8f4a6b5f7e82bb943d78185f644348fb1df3c81bfef58a15"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_accumulated_s3h2_f1_valid.inputs.json",
+      "bytes": 10048,
+      "sha256": "bbd9a26ed8bed4fb6b4237bf4d6b5b64d404ca707ef165a45bd1729abd1f6ff3",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_accumulated_s3h2_f1_valid.inputs.json",
+      "representation": "raw",
+      "local_bytes": 10048,
+      "local_sha256": "bbd9a26ed8bed4fb6b4237bf4d6b5b64d404ca707ef165a45bd1729abd1f6ff3"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_accumulated_s3h2_f1_valid.npy",
+      "bytes": 299680128,
+      "sha256": "53303d8c34dc677e53e44d1162ae274d052a3cbcc520a0e637a9fe3e5ec07ca9",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_accumulated_s3h2_f1_valid.npy.gz",
+      "representation": "gzip_lossless",
+      "local_bytes": 44644966,
+      "local_sha256": "2141884b46548f0f256923024f9e8384507596df46da15cbf52f9f43a4de7265"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_instantaneous_s3h2_f0_valid.inputs.json",
+      "bytes": 9990,
+      "sha256": "398c13ce905793e0f26b84bfc84db6f54cf4b3b84552cbe426715d7cbf57856f",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_instantaneous_s3h2_f0_valid.inputs.json",
+      "representation": "raw",
+      "local_bytes": 9990,
+      "local_sha256": "398c13ce905793e0f26b84bfc84db6f54cf4b3b84552cbe426715d7cbf57856f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_instantaneous_s3h2_f0_valid.npy",
+      "bytes": 299680128,
+      "sha256": "9d68fa5d28deafbbaf6522a6b56de3072051a68f2469ad74f9e522fe73adbf6f",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_instantaneous_s3h2_f0_valid.npy.gz",
+      "representation": "gzip_lossless",
+      "local_bytes": 44790175,
+      "local_sha256": "6701980168d10e2fa0f3f2c492ccd1e910f59cf35aa452dc97fe11b5a24cea59"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_instantaneous_s3h2_f1_valid.inputs.json",
+      "bytes": 10058,
+      "sha256": "e4be0e285b413158b3e51f269f125b78218a15c50a4e2bc68ccc1b81a70fac60",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_instantaneous_s3h2_f1_valid.inputs.json",
+      "representation": "raw",
+      "local_bytes": 10058,
+      "local_sha256": "e4be0e285b413158b3e51f269f125b78218a15c50a4e2bc68ccc1b81a70fac60"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_instantaneous_s3h2_f1_valid.npy",
+      "bytes": 299680128,
+      "sha256": "4b14b4674f3fb26a84cad44a2f82d3cbc4eb3ff10155573807ffc602f33ff726",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cache/pred_oct02_im_instantaneous_s3h2_f1_valid.npy.gz",
+      "representation": "gzip_lossless",
+      "local_bytes": 44621934,
+      "local_sha256": "5dfdcf2e1d8a2a22733f3f937cafe834d4ce706b541335fa0e1539cf034861f5"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/check_checkpoint.py",
+      "bytes": 5270,
+      "sha256": "924c680a44197b3a4608e91ee3b47bf91e4e2bf07ae01284c5ac9e2c6ea100dd",
+      "local_path": "research/iterations/2026-10-02-interval-memory/check_checkpoint.py",
+      "representation": "raw",
+      "local_bytes": 5270,
+      "local_sha256": "924c680a44197b3a4608e91ee3b47bf91e4e2bf07ae01284c5ac9e2c6ea100dd"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/check_cuda.py",
+      "bytes": 11730,
+      "sha256": "16e2dea1d9070de44328715f94e97b065680d10d05f9b4aa44fa0d6f650a5e90",
+      "local_path": "research/iterations/2026-10-02-interval-memory/check_cuda.py",
+      "representation": "raw",
+      "local_bytes": 11730,
+      "local_sha256": "16e2dea1d9070de44328715f94e97b065680d10d05f9b4aa44fa0d6f650a5e90"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/check_generated.py",
+      "bytes": 9510,
+      "sha256": "be0b66940369e05dab241008e0e9c7d1c06bd67fe9701f94d879528af130c686",
+      "local_path": "research/iterations/2026-10-02-interval-memory/check_generated.py",
+      "representation": "raw",
+      "local_bytes": 9510,
+      "local_sha256": "be0b66940369e05dab241008e0e9c7d1c06bd67fe9701f94d879528af130c686"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/collect_when_finished.py",
+      "bytes": 6348,
+      "sha256": "19c95172e8cbbc236a5dd66fc9f9f112a5830fe6b979649531af94175f304938",
+      "local_path": "research/iterations/2026-10-02-interval-memory/collect_when_finished.py",
+      "representation": "raw",
+      "local_bytes": 6348,
+      "local_sha256": "19c95172e8cbbc236a5dd66fc9f9f112a5830fe6b979649531af94175f304938"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/commands.json",
+      "bytes": 54172,
+      "sha256": "e4deda87a9520aad4ec0c3a95886bfddacbaa4e11a4bdc36ed838f2d0de3c663",
+      "local_path": "research/iterations/2026-10-02-interval-memory/commands.json",
+      "representation": "raw",
+      "local_bytes": 54172,
+      "local_sha256": "e4deda87a9520aad4ec0c3a95886bfddacbaa4e11a4bdc36ed838f2d0de3c663"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cuda-01/result.json",
+      "bytes": 8296,
+      "sha256": "c391814f13c80cc5a3bbb6947b7603b9d420c72b940a4d173a742b3c585de513",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cuda-01/result.json",
+      "representation": "raw",
+      "local_bytes": 8296,
+      "local_sha256": "c391814f13c80cc5a3bbb6947b7603b9d420c72b940a4d173a742b3c585de513"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cuda-01/started.json",
+      "bytes": 1462,
+      "sha256": "791b9a9ee91a9df807bc305212c454dd236e16883be11d0696a29d5735dc083b",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cuda-01/started.json",
+      "representation": "raw",
+      "local_bytes": 1462,
+      "local_sha256": "791b9a9ee91a9df807bc305212c454dd236e16883be11d0696a29d5735dc083b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cuda-allocation.json",
+      "bytes": 4583,
+      "sha256": "f604516133a066a680e7f18a3fe7b121821c3d99386bbab0cd197714d22cc907",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cuda-allocation.json",
+      "representation": "raw",
+      "local_bytes": 4583,
+      "local_sha256": "f604516133a066a680e7f18a3fe7b121821c3d99386bbab0cd197714d22cc907"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/allocation.json",
+      "bytes": 4583,
+      "sha256": "f604516133a066a680e7f18a3fe7b121821c3d99386bbab0cd197714d22cc907",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/allocation.json",
+      "representation": "raw",
+      "local_bytes": 4583,
+      "local_sha256": "f604516133a066a680e7f18a3fe7b121821c3d99386bbab0cd197714d22cc907"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/events.jsonl",
+      "bytes": 2995,
+      "sha256": "36180147b68e6b1d8b152ce7031affb8aa086cc77c83b69ea72ad7ab42d0db9b",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/events.jsonl",
+      "representation": "raw",
+      "local_bytes": 2995,
+      "local_sha256": "36180147b68e6b1d8b152ce7031affb8aa086cc77c83b69ea72ad7ab42d0db9b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/interval-generated.CUDA_generated.log",
+      "bytes": 4209,
+      "sha256": "48875fe85a13c8edbea4a444aeb95f1727a1ff335e4fe2479923ab200e31f33f",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/interval-generated.CUDA_generated.log",
+      "representation": "raw",
+      "local_bytes": 4209,
+      "local_sha256": "48875fe85a13c8edbea4a444aeb95f1727a1ff335e4fe2479923ab200e31f33f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/interval-generated.CUDA_generated.worker-result.json",
+      "bytes": 820,
+      "sha256": "61530114475f277babed488bbf1b1a5640bdfdc1fd2f72858c295d97f8523caa",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/interval-generated.CUDA_generated.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 820,
+      "local_sha256": "61530114475f277babed488bbf1b1a5640bdfdc1fd2f72858c295d97f8523caa"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/interval-generated.CUDA_generated.worker-started.json",
+      "bytes": 508,
+      "sha256": "ad775d4161e75b564dc91e090373b8b3739e8115810ebf6dd349c24ed2f03166",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/interval-generated.CUDA_generated.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 508,
+      "local_sha256": "ad775d4161e75b564dc91e090373b8b3739e8115810ebf6dd349c24ed2f03166"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/result.json",
+      "bytes": 2240,
+      "sha256": "ca52f9a159f1751ff6fb519d2718cc81f91d224d4d6984bc9cecb08fefbee1fb",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cuda-execution-01/result.json",
+      "representation": "raw",
+      "local_bytes": 2240,
+      "local_sha256": "ca52f9a159f1751ff6fb519d2718cc81f91d224d4d6984bc9cecb08fefbee1fb"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/cuda-outer.log",
+      "bytes": 1754,
+      "sha256": "69c77c8a759cbe917e51654a89db15783cfd88000ef50fb01ea86101fd7e0126",
+      "local_path": "research/iterations/2026-10-02-interval-memory/cuda-outer.log",
+      "representation": "raw",
+      "local_bytes": 1754,
+      "local_sha256": "69c77c8a759cbe917e51654a89db15783cfd88000ef50fb01ea86101fd7e0126"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/decision-contract.json",
+      "bytes": 1664,
+      "sha256": "811c588c93d8083cc84f9feb7867734868dbed91bcb07098d8ec52bc7c0fcb70",
+      "local_path": "research/iterations/2026-10-02-interval-memory/decision-contract.json",
+      "representation": "raw",
+      "local_bytes": 1664,
+      "local_sha256": "811c588c93d8083cc84f9feb7867734868dbed91bcb07098d8ec52bc7c0fcb70"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/evaluate.py",
+      "bytes": 17372,
+      "sha256": "58504ff48a8ce8bfe7004d1d37f6c9133306886561fd2fdd4a008ccb22b32a18",
+      "local_path": "research/iterations/2026-10-02-interval-memory/evaluate.py",
+      "representation": "raw",
+      "local_bytes": 17372,
+      "local_sha256": "58504ff48a8ce8bfe7004d1d37f6c9133306886561fd2fdd4a008ccb22b32a18"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/evaluation-01/receipt.json",
+      "bytes": 754,
+      "sha256": "43283c302eb0960a85b6b5a6e1297f788450c0352762261216b6aedc4c064595",
+      "local_path": "research/iterations/2026-10-02-interval-memory/evaluation-01/receipt.json",
+      "representation": "raw",
+      "local_bytes": 754,
+      "local_sha256": "43283c302eb0960a85b6b5a6e1297f788450c0352762261216b6aedc4c064595"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/evaluation-01/report.json",
+      "bytes": 89198,
+      "sha256": "70e7dc865d8ad5ec4295356d60054804843d2d379545f920005a60036653c19c",
+      "local_path": "research/iterations/2026-10-02-interval-memory/evaluation-01/report.json",
+      "representation": "raw",
+      "local_bytes": 89198,
+      "local_sha256": "70e7dc865d8ad5ec4295356d60054804843d2d379545f920005a60036653c19c"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/evaluation-01/started.json",
+      "bytes": 23558,
+      "sha256": "a7a1a0d90bcab1ff597a39b57a82def61ca941c2287cd5cbb7968582f96a1f27",
+      "local_path": "research/iterations/2026-10-02-interval-memory/evaluation-01/started.json",
+      "representation": "raw",
+      "local_bytes": 23558,
+      "local_sha256": "a7a1a0d90bcab1ff597a39b57a82def61ca941c2287cd5cbb7968582f96a1f27"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/evaluation-01/sufficient.npz",
+      "bytes": 72076,
+      "sha256": "272500765109d14702486510fc0fe03811c4b342cd617262a7646a6e021338f9",
+      "local_path": "research/iterations/2026-10-02-interval-memory/evaluation-01/sufficient.npz",
+      "representation": "raw",
+      "local_bytes": 72076,
+      "local_sha256": "272500765109d14702486510fc0fe03811c4b342cd617262a7646a6e021338f9"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/evaluation-source.json",
+      "bytes": 1351,
+      "sha256": "a1f65871d7324840addb2f4c21e8c90ede8c513ebe0f34898c94ad0b93d4ca87",
+      "local_path": "research/iterations/2026-10-02-interval-memory/evaluation-source.json",
+      "representation": "raw",
+      "local_bytes": 1351,
+      "local_sha256": "a1f65871d7324840addb2f4c21e8c90ede8c513ebe0f34898c94ad0b93d4ca87"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/allocation.json",
+      "bytes": 29470,
+      "sha256": "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/allocation.json",
+      "representation": "raw",
+      "local_bytes": 29470,
+      "local_sha256": "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/events.jsonl",
+      "bytes": 157458,
+      "sha256": "2952444015ac82ce1405018bb960354fff8b8c7a927901858a283d6ae647b668",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/events.jsonl",
+      "representation": "raw",
+      "local_bytes": 157458,
+      "local_sha256": "2952444015ac82ce1405018bb960354fff8b8c7a927901858a283d6ae647b668"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f0.check.json",
+      "bytes": 1161,
+      "sha256": "082c43b0cca007fb41ec30b1efc22d3eefd67b895368ac82f340bc6940879692",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f0.check.json",
+      "representation": "raw",
+      "local_bytes": 1161,
+      "local_sha256": "082c43b0cca007fb41ec30b1efc22d3eefd67b895368ac82f340bc6940879692"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f0.parent.log",
+      "bytes": 6946,
+      "sha256": "64509fbcc7859853540d32a7f40b9012ace353446ac2a86fec6b47e3f3f9a60b",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f0.parent.log",
+      "representation": "raw",
+      "local_bytes": 6946,
+      "local_sha256": "64509fbcc7859853540d32a7f40b9012ace353446ac2a86fec6b47e3f3f9a60b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f0.parent.worker-result.json",
+      "bytes": 2209,
+      "sha256": "fbc7bf8e24ed2c3621544d2ba77cc5d266251f78f38a72afe19d3842d061d364",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f0.parent.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2209,
+      "local_sha256": "fbc7bf8e24ed2c3621544d2ba77cc5d266251f78f38a72afe19d3842d061d364"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f0.parent.worker-started.json",
+      "bytes": 1135,
+      "sha256": "2dbfd99b8f90771696fd3f7a87763f70e525fa0fb5c4c4e84e3b772e46c5f374",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f0.parent.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 1135,
+      "local_sha256": "2dbfd99b8f90771696fd3f7a87763f70e525fa0fb5c4c4e84e3b772e46c5f374"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f1.check.json",
+      "bytes": 1161,
+      "sha256": "fe5e66ddd64535982b1e6afd8ceb339ec75d356b5c26846d223422123ce9e3d7",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f1.check.json",
+      "representation": "raw",
+      "local_bytes": 1161,
+      "local_sha256": "fe5e66ddd64535982b1e6afd8ceb339ec75d356b5c26846d223422123ce9e3d7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f1.parent.log",
+      "bytes": 6946,
+      "sha256": "cee9dd80330401cadee7cc3fffa0b84565fd626eb722bfeb1a9ae85034d48c43",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f1.parent.log",
+      "representation": "raw",
+      "local_bytes": 6946,
+      "local_sha256": "cee9dd80330401cadee7cc3fffa0b84565fd626eb722bfeb1a9ae85034d48c43"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f1.parent.worker-result.json",
+      "bytes": 2209,
+      "sha256": "d60da551fe7f411ec6981affa8498cd120a8678891719f23b017bb87df82852a",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f1.parent.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2209,
+      "local_sha256": "d60da551fe7f411ec6981affa8498cd120a8678891719f23b017bb87df82852a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f1.parent.worker-started.json",
+      "bytes": 1135,
+      "sha256": "0f7b16adef231095d5f7a10c6035acd908623dfdc11225742faa886eb5666b83",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f1.parent.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 1135,
+      "local_sha256": "0f7b16adef231095d5f7a10c6035acd908623dfdc11225742faa886eb5666b83"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0.H2.log",
+      "bytes": 6602,
+      "sha256": "5d6c782ffe319d8bc9ae69a8f299d46541cd8c570e5dd4dce5da4ccc7844877e",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0.H2.log",
+      "representation": "raw",
+      "local_bytes": 6602,
+      "local_sha256": "5d6c782ffe319d8bc9ae69a8f299d46541cd8c570e5dd4dce5da4ccc7844877e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0.H2.worker-result.json",
+      "bytes": 2221,
+      "sha256": "db012598344230f1cedb95623c6ec08f245fe9eb84b658412b6d852be75d1200",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0.H2.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2221,
+      "local_sha256": "db012598344230f1cedb95623c6ec08f245fe9eb84b658412b6d852be75d1200"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0.H2.worker-started.json",
+      "bytes": 957,
+      "sha256": "5a7ae0bce0d4731731483dd1ea81f8453f40a7353a92308a890eb04429dbb36d",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0.H2.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 957,
+      "local_sha256": "5a7ae0bce0d4731731483dd1ea81f8453f40a7353a92308a890eb04429dbb36d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0.check.json",
+      "bytes": 1504,
+      "sha256": "067f1185b7b04876d733a3ef3b37f0ddb56ca5b7739690dc2d6c39c169916383",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0.check.json",
+      "representation": "raw",
+      "local_bytes": 1504,
+      "local_sha256": "067f1185b7b04876d733a3ef3b37f0ddb56ca5b7739690dc2d6c39c169916383"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0_OOF.OOF.log",
+      "bytes": 2182,
+      "sha256": "1a876f58a90efdde0f2491db0b90c0bae9027e1ed95c3b3648ea51aebc7fa708",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0_OOF.OOF.log",
+      "representation": "raw",
+      "local_bytes": 2182,
+      "local_sha256": "1a876f58a90efdde0f2491db0b90c0bae9027e1ed95c3b3648ea51aebc7fa708"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0_OOF.OOF.worker-result.json",
+      "bytes": 1105,
+      "sha256": "cef2d12992b235f455d34de70a2b6ef8e37d9d36c1daa1b94924983181b3bfd7",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0_OOF.OOF.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 1105,
+      "local_sha256": "cef2d12992b235f455d34de70a2b6ef8e37d9d36c1daa1b94924983181b3bfd7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0_OOF.OOF.worker-started.json",
+      "bytes": 533,
+      "sha256": "0d24074abff029558b4db56450f22be4493e2854a60319b45040e4d3f882a529",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f0_OOF.OOF.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 533,
+      "local_sha256": "0d24074abff029558b4db56450f22be4493e2854a60319b45040e4d3f882a529"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1.H2.log",
+      "bytes": 6603,
+      "sha256": "db9697132cea439aa0892e5a7e0f805f821457ef6c723568ea1b2c8b01a0b0e4",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1.H2.log",
+      "representation": "raw",
+      "local_bytes": 6603,
+      "local_sha256": "db9697132cea439aa0892e5a7e0f805f821457ef6c723568ea1b2c8b01a0b0e4"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1.H2.worker-result.json",
+      "bytes": 2221,
+      "sha256": "bd47644504358070f22899371ae4a812fa098630a1d96042ae8391846c8e5e15",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1.H2.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2221,
+      "local_sha256": "bd47644504358070f22899371ae4a812fa098630a1d96042ae8391846c8e5e15"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1.H2.worker-started.json",
+      "bytes": 957,
+      "sha256": "cb4a87eb09e7d3b80382892b0462022a7c3464cc1da70ed4135f922c882d4b44",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1.H2.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 957,
+      "local_sha256": "cb4a87eb09e7d3b80382892b0462022a7c3464cc1da70ed4135f922c882d4b44"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1.check.json",
+      "bytes": 1504,
+      "sha256": "1fd27b4b26eb8df2c8d671955057d8c5bb9df7383c8e7138985573a474f3e9ff",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1.check.json",
+      "representation": "raw",
+      "local_bytes": 1504,
+      "local_sha256": "1fd27b4b26eb8df2c8d671955057d8c5bb9df7383c8e7138985573a474f3e9ff"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1_OOF.OOF.log",
+      "bytes": 2181,
+      "sha256": "34ff23dfd0a89f3b0bda6fcdaa7749380ba179e1adcec33500a54dab584e6b81",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1_OOF.OOF.log",
+      "representation": "raw",
+      "local_bytes": 2181,
+      "local_sha256": "34ff23dfd0a89f3b0bda6fcdaa7749380ba179e1adcec33500a54dab584e6b81"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1_OOF.OOF.worker-result.json",
+      "bytes": 1106,
+      "sha256": "c66a354f5d8c23c03e7693dcca265bb8ec94c3d979de67ea661e4365a4d8a2e3",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1_OOF.OOF.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 1106,
+      "local_sha256": "c66a354f5d8c23c03e7693dcca265bb8ec94c3d979de67ea661e4365a4d8a2e3"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1_OOF.OOF.worker-started.json",
+      "bytes": 533,
+      "sha256": "57c5c6b9f866510f9dd0de400b5253ed076ec7fb6fb47dfbef796e5512d4cf71",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3h2_f1_OOF.OOF.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 533,
+      "local_sha256": "57c5c6b9f866510f9dd0de400b5253ed076ec7fb6fb47dfbef796e5512d4cf71"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f0.check.json",
+      "bytes": 1169,
+      "sha256": "f0281bc890cc1ebb9d218c37dcb15980def18f9c4e39a875eb2668cbebff3816",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f0.check.json",
+      "representation": "raw",
+      "local_bytes": 1169,
+      "local_sha256": "f0281bc890cc1ebb9d218c37dcb15980def18f9c4e39a875eb2668cbebff3816"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f0.parent.log",
+      "bytes": 6962,
+      "sha256": "e9f2e3222ecf74f655a43098a9c288a4e738599abd8f59e52d7b923e6a34913d",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f0.parent.log",
+      "representation": "raw",
+      "local_bytes": 6962,
+      "local_sha256": "e9f2e3222ecf74f655a43098a9c288a4e738599abd8f59e52d7b923e6a34913d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f0.parent.worker-result.json",
+      "bytes": 2225,
+      "sha256": "06a8864edd1f91959aea546046b7b7f129fc0456d10e0eff94babc6fd64b8bf1",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f0.parent.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2225,
+      "local_sha256": "06a8864edd1f91959aea546046b7b7f129fc0456d10e0eff94babc6fd64b8bf1"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f0.parent.worker-started.json",
+      "bytes": 1141,
+      "sha256": "8b15a5672d6e0543415aa5a04db05ea981ff2e99a1f4f6c2bb6e72a623a06a81",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f0.parent.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 1141,
+      "local_sha256": "8b15a5672d6e0543415aa5a04db05ea981ff2e99a1f4f6c2bb6e72a623a06a81"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f1.check.json",
+      "bytes": 1169,
+      "sha256": "8528a7f06fe177492f6aa4fecce64c616cc3434711e8ad3161d9d5abaf64cc1e",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f1.check.json",
+      "representation": "raw",
+      "local_bytes": 1169,
+      "local_sha256": "8528a7f06fe177492f6aa4fecce64c616cc3434711e8ad3161d9d5abaf64cc1e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f1.parent.log",
+      "bytes": 6962,
+      "sha256": "75cc67be5ffd5059fb1634ffb91612caacd4263fa83e44b5ca7ea7b74f480c61",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f1.parent.log",
+      "representation": "raw",
+      "local_bytes": 6962,
+      "local_sha256": "75cc67be5ffd5059fb1634ffb91612caacd4263fa83e44b5ca7ea7b74f480c61"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f1.parent.worker-result.json",
+      "bytes": 2225,
+      "sha256": "f507d6d41e35467df08816b3703a5e0c6b39229f12558550901aaa9c6e82ddff",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f1.parent.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2225,
+      "local_sha256": "f507d6d41e35467df08816b3703a5e0c6b39229f12558550901aaa9c6e82ddff"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f1.parent.worker-started.json",
+      "bytes": 1141,
+      "sha256": "987e7c7496f942f7c96c40bf4e259364a37f27c58dbfa95e9c402ea80c646c7d",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3_f1.parent.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 1141,
+      "local_sha256": "987e7c7496f942f7c96c40bf4e259364a37f27c58dbfa95e9c402ea80c646c7d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0.H2.log",
+      "bytes": 6622,
+      "sha256": "42dc54c58d4c8942496603bc1f31f91928cc50ec1c50317382da0f5596be3b8f",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0.H2.log",
+      "representation": "raw",
+      "local_bytes": 6622,
+      "local_sha256": "42dc54c58d4c8942496603bc1f31f91928cc50ec1c50317382da0f5596be3b8f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0.H2.worker-result.json",
+      "bytes": 2240,
+      "sha256": "1373e142cabcfd4c2e83ae88a7aa8af493226673e946a98ca60cbc95ee771e62",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0.H2.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2240,
+      "local_sha256": "1373e142cabcfd4c2e83ae88a7aa8af493226673e946a98ca60cbc95ee771e62"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0.H2.worker-started.json",
+      "bytes": 965,
+      "sha256": "14d3b30d2e8dd3df4fa48ef2ec35c9e4aaa6db86a9e3108a8216f4a3e98989f5",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0.H2.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 965,
+      "local_sha256": "14d3b30d2e8dd3df4fa48ef2ec35c9e4aaa6db86a9e3108a8216f4a3e98989f5"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0.check.json",
+      "bytes": 1512,
+      "sha256": "bba31a09db30e32da252626f65a354245c56e3e10e5ee8b865caf5075516f05f",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0.check.json",
+      "representation": "raw",
+      "local_bytes": 1512,
+      "local_sha256": "bba31a09db30e32da252626f65a354245c56e3e10e5ee8b865caf5075516f05f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0_OOF.OOF.log",
+      "bytes": 2190,
+      "sha256": "a8ebb638b31a61591f870fa389d5f0278a7953f61ca64aa8bfa2af1c7dc2d210",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0_OOF.OOF.log",
+      "representation": "raw",
+      "local_bytes": 2190,
+      "local_sha256": "a8ebb638b31a61591f870fa389d5f0278a7953f61ca64aa8bfa2af1c7dc2d210"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0_OOF.OOF.worker-result.json",
+      "bytes": 1113,
+      "sha256": "a0608d20b5054007fe9d9e787ee364b2eaddd7eaf6e05b5a91bf1a1c6bf12749",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0_OOF.OOF.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 1113,
+      "local_sha256": "a0608d20b5054007fe9d9e787ee364b2eaddd7eaf6e05b5a91bf1a1c6bf12749"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0_OOF.OOF.worker-started.json",
+      "bytes": 537,
+      "sha256": "944b9b9fe91d259d5fdf80a33fa988eda50317c799263640b6e75cb89e80848a",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f0_OOF.OOF.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 537,
+      "local_sha256": "944b9b9fe91d259d5fdf80a33fa988eda50317c799263640b6e75cb89e80848a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1.H2.log",
+      "bytes": 6623,
+      "sha256": "66e787d894bada78456bbfa221beb13af94007096293defd383a74aaa822fa48",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1.H2.log",
+      "representation": "raw",
+      "local_bytes": 6623,
+      "local_sha256": "66e787d894bada78456bbfa221beb13af94007096293defd383a74aaa822fa48"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1.H2.worker-result.json",
+      "bytes": 2241,
+      "sha256": "688d1a1391a89a24ae6cdd1987742b8ddea62a46dd6a6675633f6aff2ca4e659",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1.H2.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2241,
+      "local_sha256": "688d1a1391a89a24ae6cdd1987742b8ddea62a46dd6a6675633f6aff2ca4e659"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1.H2.worker-started.json",
+      "bytes": 965,
+      "sha256": "8bc269ec09bfb00def4097c1d868f98e9b3022503e9a5a42f8ad7abb5ef64171",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1.H2.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 965,
+      "local_sha256": "8bc269ec09bfb00def4097c1d868f98e9b3022503e9a5a42f8ad7abb5ef64171"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1.check.json",
+      "bytes": 1512,
+      "sha256": "da82b2969f26e56624eeb5081d39045fde7f2ce184dbd03836db38c9cdddbd85",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1.check.json",
+      "representation": "raw",
+      "local_bytes": 1512,
+      "local_sha256": "da82b2969f26e56624eeb5081d39045fde7f2ce184dbd03836db38c9cdddbd85"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1_OOF.OOF.log",
+      "bytes": 2190,
+      "sha256": "204ea60290b22b0e7c00ae40f8f84133516579766cbe6e9b5f6b9e5ce80e987e",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1_OOF.OOF.log",
+      "representation": "raw",
+      "local_bytes": 2190,
+      "local_sha256": "204ea60290b22b0e7c00ae40f8f84133516579766cbe6e9b5f6b9e5ce80e987e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1_OOF.OOF.worker-result.json",
+      "bytes": 1115,
+      "sha256": "4b5ea03e662d1087ba7ac71f7569b3e2e4a2325fb84fbaa9ac28401ff338b42c",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1_OOF.OOF.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 1115,
+      "local_sha256": "4b5ea03e662d1087ba7ac71f7569b3e2e4a2325fb84fbaa9ac28401ff338b42c"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1_OOF.OOF.worker-started.json",
+      "bytes": 537,
+      "sha256": "80fe597553b52da5a8e32148c39a84ecd5572496825fafba86eca3cfa70b421b",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_instantaneous_s3h2_f1_OOF.OOF.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 537,
+      "local_sha256": "80fe597553b52da5a8e32148c39a84ecd5572496825fafba86eca3cfa70b421b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-01/result.json",
+      "bytes": 21979,
+      "sha256": "80c651475acab51be5b96d1961bcc93a395e60a250075b936c9fa00a069e74e3",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-01/result.json",
+      "representation": "raw",
+      "local_bytes": 21979,
+      "local_sha256": "80c651475acab51be5b96d1961bcc93a395e60a250075b936c9fa00a069e74e3"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/execution-protocol.md",
+      "bytes": 3014,
+      "sha256": "ef40a5f4fc1d327f3a9b7af96d4fc2fefc2babddea54720fb88e4784a87eb03c",
+      "local_path": "research/iterations/2026-10-02-interval-memory/execution-protocol.md",
+      "representation": "raw",
+      "local_bytes": 3014,
+      "local_sha256": "ef40a5f4fc1d327f3a9b7af96d4fc2fefc2babddea54720fb88e4784a87eb03c"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/finish-01/evaluate.log",
+      "bytes": 21774,
+      "sha256": "aebdc07c1630d973e35170ed148961d29fc990b21c05b012fbc51905f83bad80",
+      "local_path": "research/iterations/2026-10-02-interval-memory/finish-01/evaluate.log",
+      "representation": "raw",
+      "local_bytes": 21774,
+      "local_sha256": "aebdc07c1630d973e35170ed148961d29fc990b21c05b012fbc51905f83bad80"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/finish-01/result.json",
+      "bytes": 1329,
+      "sha256": "1bd0832e1b16ac944bdeb5c59a02bf64e09704fca539d47c4a94bb04b6300938",
+      "local_path": "research/iterations/2026-10-02-interval-memory/finish-01/result.json",
+      "representation": "raw",
+      "local_bytes": 1329,
+      "local_sha256": "1bd0832e1b16ac944bdeb5c59a02bf64e09704fca539d47c4a94bb04b6300938"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/finish-01/started.json",
+      "bytes": 348,
+      "sha256": "07a34cb5d4564830370a25991f442a492545ef84993397dd373e5f8667d6bcf5",
+      "local_path": "research/iterations/2026-10-02-interval-memory/finish-01/started.json",
+      "representation": "raw",
+      "local_bytes": 348,
+      "local_sha256": "07a34cb5d4564830370a25991f442a492545ef84993397dd373e5f8667d6bcf5"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/finish-launch.json",
+      "bytes": 352,
+      "sha256": "3c392f2c9c80cb293ae95daae9e7ec90e2f9da4d9c0b9c835722937ded0b679e",
+      "local_path": "research/iterations/2026-10-02-interval-memory/finish-launch.json",
+      "representation": "raw",
+      "local_bytes": 352,
+      "local_sha256": "3c392f2c9c80cb293ae95daae9e7ec90e2f9da4d9c0b9c835722937ded0b679e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/finish.log",
+      "bytes": 1169,
+      "sha256": "c5d5a10a9555d8f3921fd49112fbc37753d574bf16d20f56619f82d3ce7d7e50",
+      "local_path": "research/iterations/2026-10-02-interval-memory/finish.log",
+      "representation": "raw",
+      "local_bytes": 1169,
+      "local_sha256": "c5d5a10a9555d8f3921fd49112fbc37753d574bf16d20f56619f82d3ce7d7e50"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/finish.py",
+      "bytes": 3043,
+      "sha256": "af55aefb3114548695cd0d82850f64537e60679d9b2d77ce6cdf6d356dd49ffd",
+      "local_path": "research/iterations/2026-10-02-interval-memory/finish.py",
+      "representation": "raw",
+      "local_bytes": 3043,
+      "local_sha256": "af55aefb3114548695cd0d82850f64537e60679d9b2d77ce6cdf6d356dd49ffd"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/freeze_evaluation.py",
+      "bytes": 2163,
+      "sha256": "af1ff79aceba27fb8e16399dbe0d2acc29a4c7cbf171534e0173cc731ee78aa7",
+      "local_path": "research/iterations/2026-10-02-interval-memory/freeze_evaluation.py",
+      "representation": "raw",
+      "local_bytes": 2163,
+      "local_sha256": "af1ff79aceba27fb8e16399dbe0d2acc29a4c7cbf171534e0173cc731ee78aa7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/generated-01-execution.json",
+      "bytes": 1085,
+      "sha256": "67494db3081f2db31ce6a148eb21e16c966396535858880611e404aef1284b94",
+      "local_path": "research/iterations/2026-10-02-interval-memory/generated-01-execution.json",
+      "representation": "raw",
+      "local_bytes": 1085,
+      "local_sha256": "67494db3081f2db31ce6a148eb21e16c966396535858880611e404aef1284b94"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/generated-01.json",
+      "bytes": 7815,
+      "sha256": "7a704f41a9aa7769efae100277d6c583f5134f54bb1d20c5fe86267dc993af26",
+      "local_path": "research/iterations/2026-10-02-interval-memory/generated-01.json",
+      "representation": "raw",
+      "local_bytes": 7815,
+      "local_sha256": "7a704f41a9aa7769efae100277d6c583f5134f54bb1d20c5fe86267dc993af26"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/generated-01.stderr",
+      "bytes": 458,
+      "sha256": "10f6fae8f1d4e74a2a382e38fd5784cad2db77e4bb6c6425d6783133116eb825",
+      "local_path": "research/iterations/2026-10-02-interval-memory/generated-01.stderr",
+      "representation": "raw",
+      "local_bytes": 458,
+      "local_sha256": "10f6fae8f1d4e74a2a382e38fd5784cad2db77e4bb6c6425d6783133116eb825"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/generated-01.stdout",
+      "bytes": 5985,
+      "sha256": "d86025b11378d577583a0c26e1cbf53b26a943298c90c1bede02eef5d2347023",
+      "local_path": "research/iterations/2026-10-02-interval-memory/generated-01.stdout",
+      "representation": "raw",
+      "local_bytes": 5985,
+      "local_sha256": "d86025b11378d577583a0c26e1cbf53b26a943298c90c1bede02eef5d2347023"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/interval_memory.py",
+      "bytes": 7476,
+      "sha256": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241",
+      "local_path": "research/iterations/2026-10-02-interval-memory/interval_memory.py",
+      "representation": "raw",
+      "local_bytes": 7476,
+      "local_sha256": "7ef61881baf1ad0befe229ea087c958f9aad6aa65240c0b3d8580dd90015d241"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/launch.json",
+      "bytes": 453,
+      "sha256": "8aa3b5fe29038229d849f86556f47b498e8ce37a92491ebeb411a80668753279",
+      "local_path": "research/iterations/2026-10-02-interval-memory/launch.json",
+      "representation": "raw",
+      "local_bytes": 453,
+      "local_sha256": "8aa3b5fe29038229d849f86556f47b498e8ce37a92491ebeb411a80668753279"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/launch.py",
+      "bytes": 1144,
+      "sha256": "9be4763d4b999ff6047b7943a20153e0b9ed061e58b46dd138b1640a4a5f9e87",
+      "local_path": "research/iterations/2026-10-02-interval-memory/launch.py",
+      "representation": "raw",
+      "local_bytes": 1144,
+      "local_sha256": "9be4763d4b999ff6047b7943a20153e0b9ed061e58b46dd138b1640a4a5f9e87"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/launch_collector.py",
+      "bytes": 1189,
+      "sha256": "7cb60a62731404863246c282ca0546c77fdfa5d672767982bead4b91089fba47",
+      "local_path": "research/iterations/2026-10-02-interval-memory/launch_collector.py",
+      "representation": "raw",
+      "local_bytes": 1189,
+      "local_sha256": "7cb60a62731404863246c282ca0546c77fdfa5d672767982bead4b91089fba47"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/launch_finish.py",
+      "bytes": 1051,
+      "sha256": "3cd443d91b614b8deb0839d641d283cfc9d78c89393aa98b146f9fc25506b03b",
+      "local_path": "research/iterations/2026-10-02-interval-memory/launch_finish.py",
+      "representation": "raw",
+      "local_bytes": 1051,
+      "local_sha256": "3cd443d91b614b8deb0839d641d283cfc9d78c89393aa98b146f9fc25506b03b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-execution-01/result.json",
+      "bytes": 1203,
+      "sha256": "18800c3319e7bce78fb93a8c58d66d5e648ee2dc8161f46989fbc9fe58270095",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-execution-01/result.json",
+      "representation": "raw",
+      "local_bytes": 1203,
+      "local_sha256": "18800c3319e7bce78fb93a8c58d66d5e648ee2dc8161f46989fbc9fe58270095"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-execution-01/run.log",
+      "bytes": 981,
+      "sha256": "949ceccbc11a7c62ac1ac223b4089265a748b96ea6e25055698605237dd3f841",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-execution-01/run.log",
+      "representation": "raw",
+      "local_bytes": 981,
+      "local_sha256": "949ceccbc11a7c62ac1ac223b4089265a748b96ea6e25055698605237dd3f841"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-execution-01/started.json",
+      "bytes": 909,
+      "sha256": "36155e17cb8e932249713c98d48fe8f76ce710fe75321d69962ec4d1872a1d87",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-execution-01/started.json",
+      "representation": "raw",
+      "local_bytes": 909,
+      "local_sha256": "36155e17cb8e932249713c98d48fe8f76ce710fe75321d69962ec4d1872a1d87"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/README.md",
+      "bytes": 3721,
+      "sha256": "ef3df2f0cf4ca9adb5833e6615928848ef74cf96b93be5bbee4ad9e22ec8c468",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/README.md",
+      "representation": "raw",
+      "local_bytes": 3721,
+      "local_sha256": "ef3df2f0cf4ca9adb5833e6615928848ef74cf96b93be5bbee4ad9e22ec8c468"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/check_benchmark.py",
+      "bytes": 9253,
+      "sha256": "f86aee3faf151c28e9e348d2bb9d66e9f3b1b81cb727001d61ed192d4f1e4c14",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/check_benchmark.py",
+      "representation": "raw",
+      "local_bytes": 9253,
+      "local_sha256": "f86aee3faf151c28e9e348d2bb9d66e9f3b1b81cb727001d61ed192d4f1e4c14"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/accumulated.npz",
+      "bytes": 2558936,
+      "sha256": "e9456572576f785a3ee7314abb283045bc4dbd63a2a6069c038210d1979f0bca",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/accumulated.npz",
+      "representation": "raw",
+      "local_bytes": 2558936,
+      "local_sha256": "e9456572576f785a3ee7314abb283045bc4dbd63a2a6069c038210d1979f0bca"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/anchor0.npz",
+      "bytes": 1039544,
+      "sha256": "3b14eb51ca68b0ea2ef2add4a50d5d2367ce72be632526b5d907a20729d39018",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/anchor0.npz",
+      "representation": "raw",
+      "local_bytes": 1039544,
+      "local_sha256": "3b14eb51ca68b0ea2ef2add4a50d5d2367ce72be632526b5d907a20729d39018"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/anchor1.npz",
+      "bytes": 1039544,
+      "sha256": "f427c0b057c27ece88fbb98483e304549ed9cc6fede80754a5497f9e1fa8cb46",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/anchor1.npz",
+      "representation": "raw",
+      "local_bytes": 1039544,
+      "local_sha256": "f427c0b057c27ece88fbb98483e304549ed9cc6fede80754a5497f9e1fa8cb46"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/anchor2.npz",
+      "bytes": 1039544,
+      "sha256": "fa01f4f58f3eeb13b0244a09bd028574a6bce2dc943e38574293ce62ac625624",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/anchor2.npz",
+      "representation": "raw",
+      "local_bytes": 1039544,
+      "local_sha256": "fa01f4f58f3eeb13b0244a09bd028574a6bce2dc943e38574293ce62ac625624"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/check_benchmark.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/check_benchmark.stderr",
+      "representation": "raw",
+      "local_bytes": 0,
+      "local_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/check_benchmark.stdout",
+      "bytes": 988,
+      "sha256": "687f60c19667ba47a77b47afd1ac05ded4af48bfba1f65e23cd9c2498cda1cb6",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/check_benchmark.stdout",
+      "representation": "raw",
+      "local_bytes": 988,
+      "local_sha256": "687f60c19667ba47a77b47afd1ac05ded4af48bfba1f65e23cd9c2498cda1cb6"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/compile.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/compile.stderr",
+      "representation": "raw",
+      "local_bytes": 0,
+      "local_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/compile.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/compile.stdout",
+      "representation": "raw",
+      "local_bytes": 0,
+      "local_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/execution.json",
+      "bytes": 1413,
+      "sha256": "5d9c49c1ea6faf3af084d5d719013c7b3c2b518ffe61ad1d18b6af2e86e9976a",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/execution.json",
+      "representation": "raw",
+      "local_bytes": 1413,
+      "local_sha256": "5d9c49c1ea6faf3af084d5d719013c7b3c2b518ffe61ad1d18b6af2e86e9976a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/generated-raw.npz",
+      "bytes": 4480492,
+      "sha256": "2d6decc8b11805001cf80049cb8d94edfc8999fa9e43639ff923458cf0e4c787",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/generated-raw.npz",
+      "representation": "raw",
+      "local_bytes": 4480492,
+      "local_sha256": "2d6decc8b11805001cf80049cb8d94edfc8999fa9e43639ff923458cf0e4c787"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/instantaneous.npz",
+      "bytes": 2558936,
+      "sha256": "e9456572576f785a3ee7314abb283045bc4dbd63a2a6069c038210d1979f0bca",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/instantaneous.npz",
+      "representation": "raw",
+      "local_bytes": 2558936,
+      "local_sha256": "e9456572576f785a3ee7314abb283045bc4dbd63a2a6069c038210d1979f0bca"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/plain.npz",
+      "bytes": 2349812,
+      "sha256": "955b35928f08f5a1135d3acfe799221ace0ac2e530c105066c58ca5497ec1ca7",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/plain.npz",
+      "representation": "raw",
+      "local_bytes": 2349812,
+      "local_sha256": "955b35928f08f5a1135d3acfe799221ace0ac2e530c105066c58ca5497ec1ca7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/probe.so",
+      "bytes": 149512,
+      "sha256": "cc35d72451ccf5efc2c13b382fb049bc99c0ddc7fb787349bd00d132ba11e477",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/probe.so",
+      "representation": "raw",
+      "local_bytes": 149512,
+      "local_sha256": "cc35d72451ccf5efc2c13b382fb049bc99c0ddc7fb787349bd00d132ba11e477"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/result.json",
+      "bytes": 11949,
+      "sha256": "98fe6eef9febe0aa8e606ce804b344cb3b4db25428618a25f35605ca32bc11b0",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/result.json",
+      "representation": "raw",
+      "local_bytes": 11949,
+      "local_sha256": "98fe6eef9febe0aa8e606ce804b344cb3b4db25428618a25f35605ca32bc11b0"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/sources.json",
+      "bytes": 1936,
+      "sha256": "7605e5fee211b97caf2de84d54a5134f9d12a7c1fce7e0d413cfc057ffd1b884",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/execution-01/sources.json",
+      "representation": "raw",
+      "local_bytes": 1936,
+      "local_sha256": "7605e5fee211b97caf2de84d54a5134f9d12a7c1fce7e0d413cfc057ffd1b884"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/activations.hpp",
+      "bytes": 2066,
+      "sha256": "688ade56b1b0ffb9b59e423ad7cb3069f06564654c4a266f644c2a9ce973133d",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/activations.hpp",
+      "representation": "raw",
+      "local_bytes": 2066,
+      "local_sha256": "688ade56b1b0ffb9b59e423ad7cb3069f06564654c4a266f644c2a9ce973133d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/event_features.hpp",
+      "bytes": 2826,
+      "sha256": "9baefba832ab21980da40a8819d6d996112cd159e37ac114e019c42001d6f689",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/event_features.hpp",
+      "representation": "raw",
+      "local_bytes": 2826,
+      "local_sha256": "9baefba832ab21980da40a8819d6d996112cd159e37ac114e019c42001d6f689"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/interval_memory.hpp",
+      "bytes": 2401,
+      "sha256": "2ef969dadaa126610908a34ceb5800ce888e5a8ed94d41f71568f9a0920d3b02",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/interval_memory.hpp",
+      "representation": "raw",
+      "local_bytes": 2401,
+      "local_sha256": "2ef969dadaa126610908a34ceb5800ce888e5a8ed94d41f71568f9a0920d3b02"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/kernels.hpp",
+      "bytes": 9964,
+      "sha256": "b0aa344e3e3dbe23a6cec670a436e1405fd70bbf6e3889bdeedeca6b5bffa1e4",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/kernels.hpp",
+      "representation": "raw",
+      "local_bytes": 9964,
+      "local_sha256": "b0aa344e3e3dbe23a6cec670a436e1405fd70bbf6e3889bdeedeca6b5bffa1e4"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/model.hpp",
+      "bytes": 19005,
+      "sha256": "3ed67fe84b542f5f21725401bfe778dfce5305b247711c7bfe3583cd87051318",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/model.hpp",
+      "representation": "raw",
+      "local_bytes": 19005,
+      "local_sha256": "3ed67fe84b542f5f21725401bfe778dfce5305b247711c7bfe3583cd87051318"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/online_norm.hpp",
+      "bytes": 1632,
+      "sha256": "cb6f96a910cc9138f9f5e87cf14ecc5b0730d14819ad484274c3efaaf24123c8",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/online_norm.hpp",
+      "representation": "raw",
+      "local_bytes": 1632,
+      "local_sha256": "cb6f96a910cc9138f9f5e87cf14ecc5b0730d14819ad484274c3efaaf24123c8"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/quant_portable.hpp",
+      "bytes": 3505,
+      "sha256": "2e5e94766987dfddada0c8bbdb16aa4872949edb7defbbf2cf2958f007617cbd",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/quant_portable.hpp",
+      "representation": "raw",
+      "local_bytes": 3505,
+      "local_sha256": "2e5e94766987dfddada0c8bbdb16aa4872949edb7defbbf2cf2958f007617cbd"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/transition_features.hpp",
+      "bytes": 3217,
+      "sha256": "4fed9a92f5b7422d37cdb605f697e94466959930a916daf74b2e0ee170d82fa2",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/transition_features.hpp",
+      "representation": "raw",
+      "local_bytes": 3217,
+      "local_sha256": "4fed9a92f5b7422d37cdb605f697e94466959930a916daf74b2e0ee170d82fa2"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/vnni.hpp",
+      "bytes": 2966,
+      "sha256": "5564b59c15848b428de242bdf014a53c88c4bd7fc9be0edbc8ba4c23a48c164a",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/vnni.hpp",
+      "representation": "raw",
+      "local_bytes": 2966,
+      "local_sha256": "5564b59c15848b428de242bdf014a53c88c4bd7fc9be0edbc8ba4c23a48c164a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/vnni_block128.hpp",
+      "bytes": 1128,
+      "sha256": "bc27eda211285a49dedf892ffaf15eb7762c31ec8bc42c9c4bf012a40d7dd2d5",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/vnni_block128.hpp",
+      "representation": "raw",
+      "local_bytes": 1128,
+      "local_sha256": "bc27eda211285a49dedf892ffaf15eb7762c31ec8bc42c9c4bf012a40d7dd2d5"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/vnni_packed.hpp",
+      "bytes": 2841,
+      "sha256": "5402f152a10c9bac90581959c7ba3277a3710f809a6eb31b95e793a7f658f9e7",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/include/wnn/vnni_packed.hpp",
+      "representation": "raw",
+      "local_bytes": 2841,
+      "local_sha256": "5402f152a10c9bac90581959c7ba3277a3710f809a6eb31b95e793a7f658f9e7"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/model.diff",
+      "bytes": 1194,
+      "sha256": "3b8ab00c6d9395b0f4f70488b616fd2e9c991578c4dabf510562979bb726ab67",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/model.diff",
+      "representation": "raw",
+      "local_bytes": 1194,
+      "local_sha256": "3b8ab00c6d9395b0f4f70488b616fd2e9c991578c4dabf510562979bb726ab67"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/native.cpp",
+      "bytes": 3099,
+      "sha256": "d3034320c3dc7b89e309184278117250b01454bc033fcee5b3bea7969b51c306",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/native.cpp",
+      "representation": "raw",
+      "local_bytes": 3099,
+      "local_sha256": "d3034320c3dc7b89e309184278117250b01454bc033fcee5b3bea7969b51c306"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/prepare.py",
+      "bytes": 2371,
+      "sha256": "3ff1ad87f9887cd2f35366e9a641b46d5d7efa10c91c70d345b350a8c30960b8",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/prepare.py",
+      "representation": "raw",
+      "local_bytes": 2371,
+      "local_sha256": "3ff1ad87f9887cd2f35366e9a641b46d5d7efa10c91c70d345b350a8c30960b8"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/native-probe/source-origins.json",
+      "bytes": 2841,
+      "sha256": "2858c1c428cb6eb49f95b8b74adaab34c20c619139e56f5f1c50c4d575665830",
+      "local_path": "research/iterations/2026-10-02-interval-memory/native-probe/source-origins.json",
+      "representation": "raw",
+      "local_bytes": 2841,
+      "local_sha256": "2858c1c428cb6eb49f95b8b74adaab34c20c619139e56f5f1c50c4d575665830"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/plain-parent-bindings.json",
+      "bytes": 1046,
+      "sha256": "c06916e7942110223f787d747a95c26007f2aaea94ed2372b48128bc8f45030a",
+      "local_path": "research/iterations/2026-10-02-interval-memory/plain-parent-bindings.json",
+      "representation": "raw",
+      "local_bytes": 1046,
+      "local_sha256": "c06916e7942110223f787d747a95c26007f2aaea94ed2372b48128bc8f45030a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/predict_fixed.py",
+      "bytes": 4782,
+      "sha256": "9a5d035b9b2ce8b1ba1a9010f155b3aa80fcf8d0ccdce29ff92c547fc285ff5c",
+      "local_path": "research/iterations/2026-10-02-interval-memory/predict_fixed.py",
+      "representation": "raw",
+      "local_bytes": 4782,
+      "local_sha256": "9a5d035b9b2ce8b1ba1a9010f155b3aa80fcf8d0ccdce29ff92c547fc285ff5c"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/queue.log",
+      "bytes": 16477,
+      "sha256": "102aeaab8cdb2dfe2b0d2626053058a8092c8fd01cfb39c5f002694d84522474",
+      "local_path": "research/iterations/2026-10-02-interval-memory/queue.log",
+      "representation": "raw",
+      "local_bytes": 16477,
+      "local_sha256": "102aeaab8cdb2dfe2b0d2626053058a8092c8fd01cfb39c5f002694d84522474"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/run_native_once.py",
+      "bytes": 2377,
+      "sha256": "9a3246239bc079986bd28be6c0615fdf092279dcf910cb2e977326858b4262d0",
+      "local_path": "research/iterations/2026-10-02-interval-memory/run_native_once.py",
+      "representation": "raw",
+      "local_bytes": 2377,
+      "local_sha256": "9a3246239bc079986bd28be6c0615fdf092279dcf910cb2e977326858b4262d0"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/run_queue.py",
+      "bytes": 8440,
+      "sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2",
+      "local_path": "research/iterations/2026-10-02-interval-memory/run_queue.py",
+      "representation": "raw",
+      "local_bytes": 8440,
+      "local_sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/train_interval.py",
+      "bytes": 6026,
+      "sha256": "59f51f476f004b938883026787e00ad65de2569c67b09a37052591e33b5ce281",
+      "local_path": "research/iterations/2026-10-02-interval-memory/train_interval.py",
+      "representation": "raw",
+      "local_bytes": 6026,
+      "local_sha256": "59f51f476f004b938883026787e00ad65de2569c67b09a37052591e33b5ce281"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/training-allocation.json",
+      "bytes": 29470,
+      "sha256": "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+      "local_path": "research/iterations/2026-10-02-interval-memory/training-allocation.json",
+      "representation": "raw",
+      "local_bytes": 29470,
+      "local_sha256": "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151"
+    },
+    {
+      "path": "research/iterations/2026-10-02-interval-memory/training-protocol.md",
+      "bytes": 3421,
+      "sha256": "dbb824196e32ac31c3e2bb472119d3912b609a1e213ae4780eb67230eeaa0d5c",
+      "local_path": "research/iterations/2026-10-02-interval-memory/training-protocol.md",
+      "representation": "raw",
+      "local_bytes": 3421,
+      "local_sha256": "dbb824196e32ac31c3e2bb472119d3912b609a1e213ae4780eb67230eeaa0d5c"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3_f0/history.json",
+      "bytes": 169,
+      "sha256": "9620f1f3ca51a66b7256cf4f6c97de32c37316c020d0f2a80aced6a241567164",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3_f0/history.json",
+      "representation": "raw",
+      "local_bytes": 169,
+      "local_sha256": "9620f1f3ca51a66b7256cf4f6c97de32c37316c020d0f2a80aced6a241567164"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3_f0/initial-state.json",
+      "bytes": 1387,
+      "sha256": "ea453642cfe66d1797a89b6a5835f1988b0cad03ad5f6b1c5ef53a8e433db777",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3_f0/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1387,
+      "local_sha256": "ea453642cfe66d1797a89b6a5835f1988b0cad03ad5f6b1c5ef53a8e433db777"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3_f0/model.pt",
+      "bytes": 2562360,
+      "sha256": "2c8b4cb10b7fd32cd570d4e4d6d91238e156045a97cb4fc92d75d79d0f939a00",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3_f0/model.pt",
+      "representation": "raw",
+      "local_bytes": 2562360,
+      "local_sha256": "2c8b4cb10b7fd32cd570d4e4d6d91238e156045a97cb4fc92d75d79d0f939a00"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3_f0/model_ep0.pt",
+      "bytes": 2563548,
+      "sha256": "544ff8a702a559de122fe0a93a231aa1b792f0de29fbb6d1ecc6c5e41e135101",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3_f0/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2563548,
+      "local_sha256": "544ff8a702a559de122fe0a93a231aa1b792f0de29fbb6d1ecc6c5e41e135101"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3h2_f0/history.json",
+      "bytes": 336,
+      "sha256": "d1871c3389556912b5be35a046700b273f16be7fc2ded26266dda2c68c683fa1",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3h2_f0/history.json",
+      "representation": "raw",
+      "local_bytes": 336,
+      "local_sha256": "d1871c3389556912b5be35a046700b273f16be7fc2ded26266dda2c68c683fa1"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3h2_f0/initial-state.json",
+      "bytes": 1084,
+      "sha256": "5c8ca16125af776710bf3a3a81abdfc91cfc40603c6a0c553787148633fed17b",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3h2_f0/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1084,
+      "local_sha256": "5c8ca16125af776710bf3a3a81abdfc91cfc40603c6a0c553787148633fed17b"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3h2_f0/model.pt",
+      "bytes": 2561622,
+      "sha256": "42f5dd7df1a934ac390ba79dff248d3004919a5e914eac427120f55d18c7427d",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3h2_f0/model.pt",
+      "representation": "raw",
+      "local_bytes": 2561622,
+      "local_sha256": "42f5dd7df1a934ac390ba79dff248d3004919a5e914eac427120f55d18c7427d"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3h2_f0/model_ep0.pt",
+      "bytes": 2562338,
+      "sha256": "cd43f6fa0db9c7dcb0b265190798ea2d8033869f0b2bae56a67af744e814a88a",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3h2_f0/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2562338,
+      "local_sha256": "cd43f6fa0db9c7dcb0b265190798ea2d8033869f0b2bae56a67af744e814a88a"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3h2_f0/model_ep1.pt",
+      "bytes": 2562338,
+      "sha256": "cc9268c992e73bbe7dae7e48022053780c9bd27daa9690ff6844a97eb98bdd6d",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3h2_f0/model_ep1.pt",
+      "representation": "raw",
+      "local_bytes": 2562338,
+      "local_sha256": "cc9268c992e73bbe7dae7e48022053780c9bd27daa9690ff6844a97eb98bdd6d"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3_f0/history.json",
+      "bytes": 169,
+      "sha256": "9620f1f3ca51a66b7256cf4f6c97de32c37316c020d0f2a80aced6a241567164",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3_f0/history.json",
+      "representation": "raw",
+      "local_bytes": 169,
+      "local_sha256": "9620f1f3ca51a66b7256cf4f6c97de32c37316c020d0f2a80aced6a241567164"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3_f0/initial-state.json",
+      "bytes": 1383,
+      "sha256": "e91cb7f5e3e20478051757fae41c59379c4a7fb583a1f85535e01e0993824796",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3_f0/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1383,
+      "local_sha256": "e91cb7f5e3e20478051757fae41c59379c4a7fb583a1f85535e01e0993824796"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3_f0/model.pt",
+      "bytes": 2562360,
+      "sha256": "ad61961712a47409956d529e11fe7ba66af40431bf1f1573e59108ef4802d694",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3_f0/model.pt",
+      "representation": "raw",
+      "local_bytes": 2562360,
+      "local_sha256": "ad61961712a47409956d529e11fe7ba66af40431bf1f1573e59108ef4802d694"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3_f0/model_ep0.pt",
+      "bytes": 2563548,
+      "sha256": "ddf9744605fdbd1413e694cd0c56019573c580edec2d0244540e42a5917d62c5",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3_f0/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2563548,
+      "local_sha256": "ddf9744605fdbd1413e694cd0c56019573c580edec2d0244540e42a5917d62c5"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3h2_f0/history.json",
+      "bytes": 336,
+      "sha256": "d1871c3389556912b5be35a046700b273f16be7fc2ded26266dda2c68c683fa1",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3h2_f0/history.json",
+      "representation": "raw",
+      "local_bytes": 336,
+      "local_sha256": "d1871c3389556912b5be35a046700b273f16be7fc2ded26266dda2c68c683fa1"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3h2_f0/initial-state.json",
+      "bytes": 1078,
+      "sha256": "798fa5ed6f404db7405ba8702f4ddc065830ea3e628904367dd301c59d083bcd",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3h2_f0/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1078,
+      "local_sha256": "798fa5ed6f404db7405ba8702f4ddc065830ea3e628904367dd301c59d083bcd"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3h2_f0/model.pt",
+      "bytes": 2561622,
+      "sha256": "1b422afaaf55b89fa6bb78dafb01308bdb584934a47aa1df63e8bb00876b1b8d",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3h2_f0/model.pt",
+      "representation": "raw",
+      "local_bytes": 2561622,
+      "local_sha256": "1b422afaaf55b89fa6bb78dafb01308bdb584934a47aa1df63e8bb00876b1b8d"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3h2_f0/model_ep0.pt",
+      "bytes": 2562338,
+      "sha256": "df1d1dfb1869833e3e3726ad5c58dccea49c351fb399fa566ee2cb5d7b968edc",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3h2_f0/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2562338,
+      "local_sha256": "df1d1dfb1869833e3e3726ad5c58dccea49c351fb399fa566ee2cb5d7b968edc"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3h2_f0/model_ep1.pt",
+      "bytes": 2562338,
+      "sha256": "8e20ec81cac9a135b6b619948893a491539a676bb1c4236ec730e43c6f372113",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3h2_f0/model_ep1.pt",
+      "representation": "raw",
+      "local_bytes": 2562338,
+      "local_sha256": "8e20ec81cac9a135b6b619948893a491539a676bb1c4236ec730e43c6f372113"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3_f1/history.json",
+      "bytes": 169,
+      "sha256": "a133753462517e540f7a520afcb4dde9a8c385d84a0b135683a13916ade9ae2f",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3_f1/history.json",
+      "representation": "raw",
+      "local_bytes": 169,
+      "local_sha256": "a133753462517e540f7a520afcb4dde9a8c385d84a0b135683a13916ade9ae2f"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3_f1/initial-state.json",
+      "bytes": 1387,
+      "sha256": "17e7055ea8227613ecb408322a4b0773f66f6077734c4e612f4540f7c0659cc5",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3_f1/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1387,
+      "local_sha256": "17e7055ea8227613ecb408322a4b0773f66f6077734c4e612f4540f7c0659cc5"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3_f1/model.pt",
+      "bytes": 2562360,
+      "sha256": "6bfe3a1ab145417875d0ad3c265b318ff23cfe99620a4dfb477bbe3f3821a861",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3_f1/model.pt",
+      "representation": "raw",
+      "local_bytes": 2562360,
+      "local_sha256": "6bfe3a1ab145417875d0ad3c265b318ff23cfe99620a4dfb477bbe3f3821a861"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3_f1/model_ep0.pt",
+      "bytes": 2563548,
+      "sha256": "0770a23fc8a24b66121c005815911a335d7332e49e2e1b54fc490c0e6fb2c163",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3_f1/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2563548,
+      "local_sha256": "0770a23fc8a24b66121c005815911a335d7332e49e2e1b54fc490c0e6fb2c163"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3h2_f1/history.json",
+      "bytes": 336,
+      "sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3h2_f1/history.json",
+      "representation": "raw",
+      "local_bytes": 336,
+      "local_sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3h2_f1/initial-state.json",
+      "bytes": 1084,
+      "sha256": "c531956c37118413d1974813288ebf137375516491c26a7c0f12798e526b8f1e",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3h2_f1/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1084,
+      "local_sha256": "c531956c37118413d1974813288ebf137375516491c26a7c0f12798e526b8f1e"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3h2_f1/model.pt",
+      "bytes": 2561622,
+      "sha256": "7b4112c91b39e4e21f78a42243890b15607cb5dc563d8bb9df61ccc70a6dcb12",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3h2_f1/model.pt",
+      "representation": "raw",
+      "local_bytes": 2561622,
+      "local_sha256": "7b4112c91b39e4e21f78a42243890b15607cb5dc563d8bb9df61ccc70a6dcb12"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3h2_f1/model_ep0.pt",
+      "bytes": 2562338,
+      "sha256": "ffd5dc19758737807d8b46a7a09cec3366b87d55b3c814d8ada0c7b18f7cd4ae",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3h2_f1/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2562338,
+      "local_sha256": "ffd5dc19758737807d8b46a7a09cec3366b87d55b3c814d8ada0c7b18f7cd4ae"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_instantaneous_s3h2_f1/model_ep1.pt",
+      "bytes": 2562338,
+      "sha256": "4736423b4946800a163f159ca24a623411b3078937d07e527b63581003ca335e",
+      "local_path": "artifacts/runs/oct02_im_instantaneous_s3h2_f1/model_ep1.pt",
+      "representation": "raw",
+      "local_bytes": 2562338,
+      "local_sha256": "4736423b4946800a163f159ca24a623411b3078937d07e527b63581003ca335e"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3_f1/history.json",
+      "bytes": 169,
+      "sha256": "a133753462517e540f7a520afcb4dde9a8c385d84a0b135683a13916ade9ae2f",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3_f1/history.json",
+      "representation": "raw",
+      "local_bytes": 169,
+      "local_sha256": "a133753462517e540f7a520afcb4dde9a8c385d84a0b135683a13916ade9ae2f"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3_f1/initial-state.json",
+      "bytes": 1383,
+      "sha256": "0eb12d4180675f5d12935bb00a66c4c255bcd6504e084d147edc4603ea143f31",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3_f1/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1383,
+      "local_sha256": "0eb12d4180675f5d12935bb00a66c4c255bcd6504e084d147edc4603ea143f31"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3_f1/model.pt",
+      "bytes": 2562360,
+      "sha256": "0df9141b489052abd280c63d4060d05f2499d59d245d7ef36b683c160d0c65d9",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3_f1/model.pt",
+      "representation": "raw",
+      "local_bytes": 2562360,
+      "local_sha256": "0df9141b489052abd280c63d4060d05f2499d59d245d7ef36b683c160d0c65d9"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3_f1/model_ep0.pt",
+      "bytes": 2563548,
+      "sha256": "b384f27ca7dd9f47c209a0a46f94e7bc60017e2bc762921357ebbb79b2a8afb6",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3_f1/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2563548,
+      "local_sha256": "b384f27ca7dd9f47c209a0a46f94e7bc60017e2bc762921357ebbb79b2a8afb6"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3h2_f1/history.json",
+      "bytes": 336,
+      "sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3h2_f1/history.json",
+      "representation": "raw",
+      "local_bytes": 336,
+      "local_sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3h2_f1/initial-state.json",
+      "bytes": 1078,
+      "sha256": "178f87dd846e5ff99d6446eb2ee54fb4dfd563cb5aedaf0f7616f480c9a10f43",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3h2_f1/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1078,
+      "local_sha256": "178f87dd846e5ff99d6446eb2ee54fb4dfd563cb5aedaf0f7616f480c9a10f43"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3h2_f1/model.pt",
+      "bytes": 2561622,
+      "sha256": "a387190978cdc7ef6ce6c516d16a5a93e0de9efa5123c7d565e186a2f9518a56",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3h2_f1/model.pt",
+      "representation": "raw",
+      "local_bytes": 2561622,
+      "local_sha256": "a387190978cdc7ef6ce6c516d16a5a93e0de9efa5123c7d565e186a2f9518a56"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3h2_f1/model_ep0.pt",
+      "bytes": 2562338,
+      "sha256": "7a1ac5c2be0694a2a18182afca796de621198441dd7c4dda862185937a87eded",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3h2_f1/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2562338,
+      "local_sha256": "7a1ac5c2be0694a2a18182afca796de621198441dd7c4dda862185937a87eded"
+    },
+    {
+      "path": "artifacts/runs/oct02_im_accumulated_s3h2_f1/model_ep1.pt",
+      "bytes": 2562338,
+      "sha256": "695096a3c84d439e2599d40d0dde44da1d6543952b1aae244787d59c53a99d1a",
+      "local_path": "artifacts/runs/oct02_im_accumulated_s3h2_f1/model_ep1.pt",
+      "representation": "raw",
+      "local_bytes": 2562338,
+      "local_sha256": "695096a3c84d439e2599d40d0dde44da1d6543952b1aae244787d59c53a99d1a"
+    }
+  ],
+  "created_utc": "2026-10-02T01:47:15.459444+00:00",
+  "collector_sha256": "19c95172e8cbbc236a5dd66fc9f9f112a5830fe6b979649531af94175f304938"
+}

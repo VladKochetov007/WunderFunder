@@ -1,0 +1,78 @@
+{
+  "status": "PASS_SOURCE_ARGUMENT_PROOF_ONLY",
+  "method": "Execute AST-extracted argparse declarations only; no trainer import/data/model execution.",
+  "trainer_sha256": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f",
+  "reference_sha256": "f0804cda8b2dde75490496e2014898352ce205fe54837f8c7cbcdfa7823ce30a",
+  "commands_sha256": "e79bb80cd7a2a366e710db05a88f2f1acbb5296f2d23ee8f864b8856959508d2",
+  "jobs": [
+    {
+      "name": "oct02_d07_sh256_s3_f0",
+      "arguments": 103,
+      "resolved_exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s3_f0",
+          "new": "oct02_d07_sh256_s3_f0"
+        },
+        "distill_alpha": {
+          "old": 0.5,
+          "new": 0.7
+        }
+      }
+    },
+    {
+      "name": "oct02_d07_sh256_s3h2_f0",
+      "arguments": 103,
+      "resolved_exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s3h2_f0",
+          "new": "oct02_d07_sh256_s3h2_f0"
+        },
+        "init": {
+          "old": "cont_sh256_s3_f0@ep3",
+          "new": "oct02_d07_sh256_s3_f0@ep3"
+        }
+      }
+    },
+    {
+      "name": "oct02_d07_sh256_s3_f1",
+      "arguments": 103,
+      "resolved_exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s3_f1",
+          "new": "oct02_d07_sh256_s3_f1"
+        },
+        "distill_alpha": {
+          "old": 0.5,
+          "new": 0.7
+        }
+      }
+    },
+    {
+      "name": "oct02_d07_sh256_s3h2_f1",
+      "arguments": 103,
+      "resolved_exact": true,
+      "changes": {
+        "name": {
+          "old": "cont_sh256_s3h2_f1",
+          "new": "oct02_d07_sh256_s3h2_f1"
+        },
+        "init": {
+          "old": "cont_sh256_s3_f1@ep3",
+          "new": "oct02_d07_sh256_s3_f1@ep3"
+        }
+      }
+    }
+  ],
+  "runner_byte_identical": true,
+  "scientific_processes_started": 0,
+  "AST_equal_to_original_student_predictor_dependencies": [
+    "make_model",
+    "build_inputs",
+    "forward_chunk",
+    "predict"
+  ],
+  "all_new_python_AST_parse": true
+}

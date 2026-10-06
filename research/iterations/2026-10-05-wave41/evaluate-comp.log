@@ -1,0 +1,241 @@
+{
+  "specs": {
+    "parent": {
+      "w24comp_distilled_s3": 0.5,
+      "w24comp_distilled_s4": 0.5
+    },
+    "submitted_recipe": {
+      "w18compcompress_distilled_s3": 0.5,
+      "w18compcompress_distilled_s4": 0.5
+    },
+    "head": {
+      "w41_comp_head_s3": 0.5,
+      "w41_comp_head_s4": 0.5
+    },
+    "head_s3": {
+      "w41_comp_head_s3": 1.0
+    },
+    "parent_s3": {
+      "w24comp_distilled_s3": 1.0
+    },
+    "head_s4": {
+      "w41_comp_head_s4": 1.0
+    },
+    "parent_s4": {
+      "w24comp_distilled_s4": 1.0
+    },
+    "ft": {
+      "w41_comp_ft_s3": 0.5,
+      "w41_comp_ft_s4": 0.5
+    },
+    "ft_s3": {
+      "w41_comp_ft_s3": 1.0
+    },
+    "ft_s4": {
+      "w41_comp_ft_s4": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "head",
+      "parent"
+    ],
+    [
+      "head",
+      "submitted_recipe"
+    ],
+    [
+      "head_s3",
+      "parent_s3"
+    ],
+    [
+      "head_s4",
+      "parent_s4"
+    ],
+    [
+      "ft",
+      "parent"
+    ],
+    [
+      "ft",
+      "submitted_recipe"
+    ],
+    [
+      "ft_s3",
+      "parent_s3"
+    ],
+    [
+      "ft_s4",
+      "parent_s4"
+    ],
+    [
+      "ft",
+      "head"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 436,
+      "chains": 129,
+      "scores": {
+        "parent": 0.7127377665384304,
+        "submitted_recipe": 0.7126204198255042,
+        "head": 0.7086733720657301,
+        "head_s3": 0.7068209618671002,
+        "parent_s3": 0.7120741541915118,
+        "head_s4": 0.7059080728669098,
+        "parent_s4": 0.7119102541882595,
+        "ft": 0.7090454325022193,
+        "ft_s3": 0.7064171506512247,
+        "ft_s4": 0.7065758758671619
+      },
+      "comparisons": {
+        "head - parent": {
+          "delta": -0.004064394472700239,
+          "conditional_ci95": [
+            -0.007893767034067509,
+            -0.0006315853475042031
+          ]
+        },
+        "head - submitted_recipe": {
+          "delta": -0.003947047759774058,
+          "conditional_ci95": [
+            -0.00777202148655905,
+            -0.0004918662020330125
+          ]
+        },
+        "head_s3 - parent_s3": {
+          "delta": -0.005253192324411571,
+          "conditional_ci95": [
+            -0.009246394986557655,
+            -0.0014358975679379514
+          ]
+        },
+        "head_s4 - parent_s4": {
+          "delta": -0.006002181321349664,
+          "conditional_ci95": [
+            -0.010306106584977433,
+            -0.0024844958250395555
+          ]
+        },
+        "ft - parent": {
+          "delta": -0.0036923340362110535,
+          "conditional_ci95": [
+            -0.00780713052344009,
+            0.0002459962391449774
+          ]
+        },
+        "ft - submitted_recipe": {
+          "delta": -0.003574987323284873,
+          "conditional_ci95": [
+            -0.0076884856995698804,
+            0.0004323516468857922
+          ]
+        },
+        "ft_s3 - parent_s3": {
+          "delta": -0.005657003540287087,
+          "conditional_ci95": [
+            -0.010628073832049622,
+            -0.0010124971634873363
+          ]
+        },
+        "ft_s4 - parent_s4": {
+          "delta": -0.0053343783210976214,
+          "conditional_ci95": [
+            -0.009489038564176353,
+            -0.0017300014716243566
+          ]
+        },
+        "ft - head": {
+          "delta": 0.0003720604364891855,
+          "conditional_ci95": [
+            -0.000804981543086003,
+            0.001482818638642691
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "parent": 0.5973573276220244,
+        "submitted_recipe": 0.5975019974748828,
+        "head": 0.5855156132101491,
+        "head_s3": 0.5824618859319393,
+        "parent_s3": 0.5964967206612046,
+        "head_s4": 0.5817963447225108,
+        "parent_s4": 0.5956195300714836,
+        "ft": 0.5851827662249107,
+        "ft_s3": 0.5807511801867182,
+        "ft_s4": 0.5816944928276182
+      },
+      "comparisons": {
+        "head - parent": {
+          "delta": -0.011841714411875315,
+          "conditional_ci95": [
+            -0.015574624603900555,
+            -0.008087194217589425
+          ]
+        },
+        "head - submitted_recipe": {
+          "delta": -0.01198638426473364,
+          "conditional_ci95": [
+            -0.015787081576488417,
+            -0.00811457981318869
+          ]
+        },
+        "head_s3 - parent_s3": {
+          "delta": -0.014034834729265366,
+          "conditional_ci95": [
+            -0.018573044794168214,
+            -0.009572567255221449
+          ]
+        },
+        "head_s4 - parent_s4": {
+          "delta": -0.013823185348972755,
+          "conditional_ci95": [
+            -0.017600239869056768,
+            -0.010105328192640295
+          ]
+        },
+        "ft - parent": {
+          "delta": -0.012174561397113703,
+          "conditional_ci95": [
+            -0.01634041467778848,
+            -0.007935358071713958
+          ]
+        },
+        "ft - submitted_recipe": {
+          "delta": -0.012319231249972029,
+          "conditional_ci95": [
+            -0.016579997579320514,
+            -0.007935306213512504
+          ]
+        },
+        "ft_s3 - parent_s3": {
+          "delta": -0.015745540474486397,
+          "conditional_ci95": [
+            -0.020820199420829,
+            -0.010403054665699197
+          ]
+        },
+        "ft_s4 - parent_s4": {
+          "delta": -0.013925037243865401,
+          "conditional_ci95": [
+            -0.018969101275223728,
+            -0.009111062367217551
+          ]
+        },
+        "ft - head": {
+          "delta": -0.0003328469852383886,
+          "conditional_ci95": [
+            -0.002039051247953147,
+            0.0016295434030032204
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Exploratory reused data. Known teacher parents and students restricted to train half0 + valid folds !=0. Original organizer pretraining provenance uncertain. Train mask estimated; diagnostic only. Intervals conditional on fitted models."
+}

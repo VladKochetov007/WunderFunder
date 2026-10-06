@@ -1,0 +1,607 @@
+{
+  "status": "COMPLETE",
+  "name": "cont_onsh256_s3_h2_f1",
+  "stage": "H2",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-01-overnight/training/train_aux.py",
+    "--name",
+    "cont_onsh256_s3_h2_f1",
+    "--init",
+    "cont_onsh256_s3_f1@ep3",
+    "--valid-fold",
+    "1",
+    "--seed",
+    "3",
+    "--hidden",
+    "256",
+    "--chunk",
+    "2000",
+    "--aux-loss-scale",
+    "1",
+    "--train-source",
+    "valid",
+    "--n-valid-folds",
+    "4",
+    "--full-valid",
+    "--loss",
+    "gcorr",
+    "--mask-weight",
+    "--batch",
+    "16",
+    "--epochs",
+    "2",
+    "--aux-struct",
+    "0.3",
+    "--aux-next",
+    "0.3",
+    "--fast",
+    "--freeze",
+    "inp,gru",
+    "--lr",
+    "5e-4",
+    "--eval-source",
+    "vfold",
+    "--layers",
+    "1",
+    "--online-norm"
+  ],
+  "pid": 670060,
+  "start_ticks": 504185384,
+  "started_utc": "2026-10-01T17:10:13.295245+00:00",
+  "input_stat_before": [
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256_f0_train.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256_f0_train.npy",
+      "size": 1696960128,
+      "mtime_ns": 1790703080826595132,
+      "inode": 742428601,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256_f0_valid.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256_f0_valid.npy",
+      "size": 299680128,
+      "mtime_ns": 1790645650600073735,
+      "inode": 742428440,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256s4_f0_train.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256s4_f0_train.npy",
+      "size": 1696960128,
+      "mtime_ns": 1790703403557306157,
+      "inode": 742428603,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256s4_f0_valid.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256s4_f0_valid.npy",
+      "size": 299680128,
+      "mtime_ns": 1790647189452924691,
+      "inode": 742428450,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256_f1_train.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256_f1_train.npy",
+      "size": 1696960128,
+      "mtime_ns": 1790703712021709207,
+      "inode": 742428611,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256_f1_valid.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256_f1_valid.npy",
+      "size": 299680128,
+      "mtime_ns": 1790645649556981144,
+      "inode": 742428439,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256s4_f1_train.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256s4_f1_train.npy",
+      "size": 1696960128,
+      "mtime_ns": 1790704010240182410,
+      "inode": 742428617,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256s4_f1_valid.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256s4_f1_valid.npy",
+      "size": 299680128,
+      "mtime_ns": 1790647160771391616,
+      "inode": 742428449,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f0/model.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f0/model.pt",
+      "size": 3932615,
+      "mtime_ns": 1790644536305503364,
+      "inode": 743838129,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f0/model_ep3.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f0/model_ep3.pt",
+      "size": 3933599,
+      "mtime_ns": 1790645182490556490,
+      "inode": 743838231,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f0/model.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f0/model.pt",
+      "size": 3932615,
+      "mtime_ns": 1790647128293523963,
+      "inode": 743838230,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f0/model_ep3.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f0/model_ep3.pt",
+      "size": 3933599,
+      "mtime_ns": 1790647128286523345,
+      "inode": 743838322,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f1/model.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f1/model.pt",
+      "size": 3932615,
+      "mtime_ns": 1790644709912780798,
+      "inode": 743838131,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f1/model_ep3.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f1/model_ep3.pt",
+      "size": 3933599,
+      "mtime_ns": 1790645406818442208,
+      "inode": 743838236,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f1/model.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f1/model.pt",
+      "size": 3932615,
+      "mtime_ns": 1790647103296317359,
+      "inode": 743838228,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f1/model_ep3.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f1/model_ep3.pt",
+      "size": 3933599,
+      "mtime_ns": 1790647103288316653,
+      "inode": 743838320,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/train_targets.npz",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/train_targets.npz",
+      "size": 1909335790,
+      "mtime_ns": 1790702729565256036,
+      "inode": 742428599,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/valid_targets.npz",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/valid_targets.npz",
+      "size": 337186198,
+      "mtime_ns": 1790638944452596999,
+      "inode": 742428078,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/chain_folds.npz",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/chain_folds.npz",
+      "size": 562791,
+      "mtime_ns": 1790639031893387562,
+      "inode": 742428362,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/prop_f0/model.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/prop_f0/model.pt",
+      "size": 159607,
+      "mtime_ns": 1790639207133002664,
+      "inode": 746029181,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/prop_f1/model.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/prop_f1/model.pt",
+      "size": 159607,
+      "mtime_ns": 1790639203171649653,
+      "inode": 746029183,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f0_train.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f0_train.npy",
+      "size": 848560128,
+      "mtime_ns": 1790639357253381150,
+      "inode": 742428377,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f0_train.json",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f0_train.json",
+      "size": 173,
+      "mtime_ns": 1790639358302474648,
+      "inode": 742428366,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f0_valid.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f0_valid.npy",
+      "size": 149840128,
+      "mtime_ns": 1790639390235320611,
+      "inode": 742428382,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f0_valid.json",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f0_valid.json",
+      "size": 171,
+      "mtime_ns": 1790639390808371684,
+      "inode": 742428386,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f1_train.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f1_train.npy",
+      "size": 848560128,
+      "mtime_ns": 1790639358112457713,
+      "inode": 742428378,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f1_train.json",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f1_train.json",
+      "size": 173,
+      "mtime_ns": 1790639358306475004,
+      "inode": 742428380,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f1_valid.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f1_valid.npy",
+      "size": 149840128,
+      "mtime_ns": 1790639388275145912,
+      "inode": 742428381,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f1_valid.json",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f1_valid.json",
+      "size": 171,
+      "mtime_ns": 1790639388962207146,
+      "inode": 742428385,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/datasets/train.parquet",
+      "resolved": "/home/grinchenkoeg/WunderFunder/datasets/train.parquet",
+      "size": 29240219011,
+      "mtime_ns": 1577833200000000000,
+      "inode": 743836249,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/datasets/valid.parquet",
+      "resolved": "/home/grinchenkoeg/WunderFunder/datasets/valid.parquet",
+      "size": 5615509128,
+      "mtime_ns": 1577833200000000000,
+      "inode": 743836257,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/research/artifacts/market-classes-v1.npz",
+      "resolved": "/home/grinchenkoeg/WunderFunder-creative/research/artifacts/market-classes-v1.npz",
+      "size": 100346,
+      "mtime_ns": 1790801957801109266,
+      "inode": 745968123,
+      "device": 64512
+    }
+  ],
+  "allocation_sha256": "5bd5235593168d22fc3883d3c7168b2bfeee205690e700f9d009bee583e2dde6",
+  "commands_sha256": "d7bfb8e4287c2189f85c1c7d71d362bb42f7ce61e259d7bd513228ae49b21d0a",
+  "scope": "onorm-712ad3021bb943639505e5fa732181e5",
+  "scope_limits": {
+    "cpu.max": "600000 100000",
+    "memory.max": "21474836480",
+    "memory.swap.max": "0"
+  },
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": "6",
+    "WNN_GPU_FRACTION": "0.375",
+    "WNN_THREADS": "4",
+    "WNN_LOADER_WORKERS": "2",
+    "PYTHONPATH": "/home/grinchenkoeg/WunderFunder-creative/src"
+  },
+  "fit_or_OOF_returncode": 0,
+  "validator_argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-01-online-normalization/check_checkpoint.py",
+    "cont_onsh256_s3_h2_f1",
+    "--commands",
+    "research/iterations/2026-10-01-online-normalization/commands.json",
+    "--output",
+    "research/iterations/2026-10-01-online-normalization/execution-01/cont_onsh256_s3_h2_f1.check.json"
+  ],
+  "validator_returncode": 0,
+  "validator_receipt": {
+    "path": "research/iterations/2026-10-01-online-normalization/execution-01/cont_onsh256_s3_h2_f1.check.json",
+    "sha256": "7fa2e15f1bb4ed56a015b29faed54a8e560bbd47fa0143c6e79e6e49d809f4f2",
+    "checkpoint": {
+      "path": "artifacts/runs/cont_onsh256_s3_h2_f1/model_ep1.pt",
+      "sha256": "601ed58f265da1ed08061a6ee98ca0b7238ef738194a134c002c23b2fc3e2d2d",
+      "bytes": 2468839,
+      "epoch": 1,
+      "n_in": 323
+    }
+  },
+  "input_stat_after": [
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256_f0_train.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256_f0_train.npy",
+      "size": 1696960128,
+      "mtime_ns": 1790703080826595132,
+      "inode": 742428601,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256_f0_valid.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256_f0_valid.npy",
+      "size": 299680128,
+      "mtime_ns": 1790645650600073735,
+      "inode": 742428440,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256s4_f0_train.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256s4_f0_train.npy",
+      "size": 1696960128,
+      "mtime_ns": 1790703403557306157,
+      "inode": 742428603,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256s4_f0_valid.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256s4_f0_valid.npy",
+      "size": 299680128,
+      "mtime_ns": 1790647189452924691,
+      "inode": 742428450,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256_f1_train.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256_f1_train.npy",
+      "size": 1696960128,
+      "mtime_ns": 1790703712021709207,
+      "inode": 742428611,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256_f1_valid.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256_f1_valid.npy",
+      "size": 299680128,
+      "mtime_ns": 1790645649556981144,
+      "inode": 742428439,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256s4_f1_train.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256s4_f1_train.npy",
+      "size": 1696960128,
+      "mtime_ns": 1790704010240182410,
+      "inode": 742428617,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/pred_h256s4_f1_valid.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/pred_h256s4_f1_valid.npy",
+      "size": 299680128,
+      "mtime_ns": 1790647160771391616,
+      "inode": 742428449,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f0/model.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f0/model.pt",
+      "size": 3932615,
+      "mtime_ns": 1790644536305503364,
+      "inode": 743838129,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f0/model_ep3.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f0/model_ep3.pt",
+      "size": 3933599,
+      "mtime_ns": 1790645182490556490,
+      "inode": 743838231,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f0/model.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f0/model.pt",
+      "size": 3932615,
+      "mtime_ns": 1790647128293523963,
+      "inode": 743838230,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f0/model_ep3.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f0/model_ep3.pt",
+      "size": 3933599,
+      "mtime_ns": 1790647128286523345,
+      "inode": 743838322,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f1/model.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f1/model.pt",
+      "size": 3932615,
+      "mtime_ns": 1790644709912780798,
+      "inode": 743838131,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f1/model_ep3.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256_f1/model_ep3.pt",
+      "size": 3933599,
+      "mtime_ns": 1790645406818442208,
+      "inode": 743838236,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f1/model.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f1/model.pt",
+      "size": 3932615,
+      "mtime_ns": 1790647103296317359,
+      "inode": 743838228,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f1/model_ep3.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder/artifacts/runs/h256s4_f1/model_ep3.pt",
+      "size": 3933599,
+      "mtime_ns": 1790647103288316653,
+      "inode": 743838320,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/train_targets.npz",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/train_targets.npz",
+      "size": 1909335790,
+      "mtime_ns": 1790702729565256036,
+      "inode": 742428599,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/valid_targets.npz",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/valid_targets.npz",
+      "size": 337186198,
+      "mtime_ns": 1790638944452596999,
+      "inode": 742428078,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/chain_folds.npz",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/chain_folds.npz",
+      "size": 562791,
+      "mtime_ns": 1790639031893387562,
+      "inode": 742428362,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/prop_f0/model.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/prop_f0/model.pt",
+      "size": 159607,
+      "mtime_ns": 1790639207133002664,
+      "inode": 746029181,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/prop_f1/model.pt",
+      "resolved": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/prop_f1/model.pt",
+      "size": 159607,
+      "mtime_ns": 1790639203171649653,
+      "inode": 746029183,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f0_train.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f0_train.npy",
+      "size": 848560128,
+      "mtime_ns": 1790639357253381150,
+      "inode": 742428377,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f0_train.json",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f0_train.json",
+      "size": 173,
+      "mtime_ns": 1790639358302474648,
+      "inode": 742428366,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f0_valid.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f0_valid.npy",
+      "size": 149840128,
+      "mtime_ns": 1790639390235320611,
+      "inode": 742428382,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f0_valid.json",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f0_valid.json",
+      "size": 171,
+      "mtime_ns": 1790639390808371684,
+      "inode": 742428386,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f1_train.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f1_train.npy",
+      "size": 848560128,
+      "mtime_ns": 1790639358112457713,
+      "inode": 742428378,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f1_train.json",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f1_train.json",
+      "size": 173,
+      "mtime_ns": 1790639358306475004,
+      "inode": 742428380,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f1_valid.npy",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f1_valid.npy",
+      "size": 149840128,
+      "mtime_ns": 1790639388275145912,
+      "inode": 742428381,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/propcache_prop_f1_valid.json",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/propcache_prop_f1_valid.json",
+      "size": 171,
+      "mtime_ns": 1790639388962207146,
+      "inode": 742428385,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/datasets/train.parquet",
+      "resolved": "/home/grinchenkoeg/WunderFunder/datasets/train.parquet",
+      "size": 29240219011,
+      "mtime_ns": 1577833200000000000,
+      "inode": 743836249,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/datasets/valid.parquet",
+      "resolved": "/home/grinchenkoeg/WunderFunder/datasets/valid.parquet",
+      "size": 5615509128,
+      "mtime_ns": 1577833200000000000,
+      "inode": 743836257,
+      "device": 64512
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/research/artifacts/market-classes-v1.npz",
+      "resolved": "/home/grinchenkoeg/WunderFunder-creative/research/artifacts/market-classes-v1.npz",
+      "size": 100346,
+      "mtime_ns": 1790801957801109266,
+      "inode": 745968123,
+      "device": 64512
+    }
+  ],
+  "seconds": 70.62341749854386,
+  "finished_utc": "2026-10-01T17:11:23.918607+00:00"
+}

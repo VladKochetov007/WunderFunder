@@ -1,0 +1,47 @@
+{
+  "status": "FROZEN_BEFORE_METRIC_READOUT",
+  "utc": "2026-10-02T00:23:06.898587+00:00",
+  "training_allocation_sha256": "97b7195922eb6742704f1e70c0cc5d12e957390e1999cd03b25df637eefb548f",
+  "source_sha256": {
+    "research/iterations/2026-10-02-temporal-screen/evaluate.py": "036e06e3a38678c09aec59ed88adf8523e1f8bb42bd5c514a383b24273d83332",
+    "research/iterations/2026-10-01-ensemble-backbone/evaluate.py": "c5f3ecc795ebd680872c39a652075a894192bfe9b4e654eca7e826c0310980e9"
+  },
+  "legacy_bindings_sha256": "573cd5cbaaddbda844abd4fd6736fe01de01726b2ceb118ed1b5b4d1682b8ff8",
+  "resource_budget": {
+    "CPU_quota": 200,
+    "CPU_affinity": [
+      26,
+      27
+    ],
+    "host_memory_bytes": 4294967296,
+    "swap": 0,
+    "timeout_seconds": 600,
+    "GPU": false,
+    "metric_readouts": 1
+  },
+  "expected_report_status": "COMPLETE_FIXED_TEMPORAL_SCREEN",
+  "comparisons": {
+    "primary": [
+      "candidate4",
+      "current_student4"
+    ],
+    "scientific": [
+      "candidate4",
+      "control4"
+    ],
+    "control_vs_incumbent": [
+      "control4",
+      "current_student4"
+    ]
+  },
+  "verification": "Source/schema adaptation only; unchanged B blend/sufficient/metric/resamples/comparison. Baseline six-sum reproduction required. All8fits4OOF and external finite/shape/lineage validators required. Source-derived randomness coupling, no runtime sampler trace claimed. No model/data/metric execution during preparation.",
+  "independent_source_review": {
+    "status": "NO_CONCRETE_BLOCKER",
+    "mechanism": "500 versus2000 recurrent gradient cuts inside identical500 forward partitions; one unchanged full2000 loss/backward/optimizer/scheduler/EMA update. Hidden numerical state is carried, never zero-reset.",
+    "H2_and_serving": "Ordinary GRU strict state dictionary; parent105args, head103args; fixed ep3/ep1.",
+    "generated_receipt_sha256": "35c0653ff6e9f26305e999269a227b858693e3012ad249fcdb58ccf69cbea36d",
+    "argument_proof_sha256": "3fefbcddc3135dbf28db2616492beec4377d2e7b87494af484c48e30c8da51f6",
+    "generated_scope": "Previously completed float64 CPU synthetic forward/gradient/RNG checks; no GPU AMP or forecast validation.",
+    "no_new_tests_or_candidate_edits": true
+  }
+}

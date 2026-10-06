@@ -1,0 +1,91 @@
+{
+  "legacy_bit_exact": [
+    {
+      "level": "v2",
+      "run": 0,
+      "formats": [
+        "h256",
+        "h384",
+        "sparse",
+        "linear"
+      ],
+      "pass": true
+    },
+    {
+      "level": "avx2",
+      "run": 0,
+      "formats": [
+        "h256",
+        "h384",
+        "sparse",
+        "linear"
+      ],
+      "pass": true
+    },
+    {
+      "level": "v3",
+      "run": 0,
+      "formats": [
+        "h256",
+        "h384",
+        "sparse",
+        "linear"
+      ],
+      "pass": true
+    },
+    {
+      "level": "v3",
+      "run": 1,
+      "formats": [
+        "h256",
+        "h384",
+        "sparse",
+        "linear"
+      ],
+      "pass": true
+    }
+  ],
+  "timing_runs": {
+    "legacy-v2-0": {},
+    "extended-v2-0": {},
+    "legacy-avx2-0": {},
+    "extended-avx2-0": {},
+    "legacy-v3-0": {
+      "h256": 1.9653308980050497,
+      "h384": 6.334456055017654,
+      "sparse": 0.9735643179737963,
+      "linear": 0.3329807939589955
+    },
+    "extended-v3-0": {
+      "h256": 1.9444821290089749,
+      "h384": 6.20338871300919,
+      "sparse": 1.0750601550098509,
+      "linear": 0.33043085399549454,
+      "class_zero": 1.967939334048424,
+      "class_soft": 2.036437737988308,
+      "class_uniform": 1.9188230510335416
+    },
+    "extended-v3-1": {
+      "h256": 1.929894192959182,
+      "h384": 6.167114383017179,
+      "sparse": 1.0342974200029857,
+      "linear": 0.3114086930290796,
+      "class_zero": 2.024003648024518,
+      "class_soft": 2.2346053370274603,
+      "class_uniform": 2.171206618018914
+    },
+    "legacy-v3-1": {
+      "h256": 2.0194880140479654,
+      "h384": 6.191956210997887,
+      "sparse": 1.0557048479677178,
+      "linear": 0.34429773496231064
+    }
+  },
+  "scope": "Four legacy weight formats, 2000 real rows each, all three builds. Timing is a local native run microbenchmark with sequence reset every2000 rows; no full-package runtime certification.",
+  "extended_to_legacy_time_ratio": {
+    "h256": 0.9722841633403217,
+    "h384": 0.9875535654840167,
+    "sparse": 1.0394666269095771,
+    "linear": 0.9476744346920679
+  }
+}

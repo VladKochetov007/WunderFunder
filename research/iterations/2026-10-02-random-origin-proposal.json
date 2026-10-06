@@ -1,0 +1,62 @@
+{
+  "status": "SOURCE_DESIGN_ONLY_NOT_ALLOCATED",
+  "recommendation": "Low-priority reserve; do not start this merely because current temporal branches fail. Existing replay/reset evidence does not support immediate spending. Stop source work after this proposal unless root reactivates it on interval evidence.",
+  "hypothesis": "One training-only random state origin per full sequence, followed by a genuine 2000-row causal no-gradient burn-in, can reduce dependence on accidental recurrent origin without changing deployed inference. This is state-distribution augmentation, not longer credit assignment or inferred harmful memory.",
+  "evidence": [
+    {
+      "source": "research/iterations/2026-10-01-context-replay/readout.md:1",
+      "finding": "State intervention persists after2048rows and inFP32, but pooled intervals includezero and fold signs oppose. Quietclass3 shows the same contradiction. Sensitivity is established; useful removal is not."
+    },
+    {
+      "source": "research/quant-probes-2026-09-29.md:38",
+      "finding": "Training+prediction periodicreset2000/4000 negative on bothfolds; historical pairaverage worse than both reference singles. Serious counterevidence, although training-only loss-free burn-in is different."
+    },
+    {
+      "source": "research/iterations/2026-10-02-temporal-screen/proposal.md:5",
+      "finding": "Current500vs2000 gradient-horizon screen preserves numerical state; proposed origin augmentation changes state values but keeps2000-row credit horizon."
+    },
+    {
+      "source": "research/lit/opus_arch.md:166",
+      "finding": "Historical random1024windows+256burn-in is a proposed follow-up, not evidence that it ran. No matching implementation was located in current source/history search."
+    }
+  ],
+  "fixed_recipe": {
+    "model": "Original ordinary shallowGRU256x1,211inputs,23outputs; no added parameters. Strict init cont_sh256_s3_f{0,1}@ep3 with original mean/std.",
+    "parent": "One additional epoch, fixed EMAep0, batch32/chunk2000,lr5e-4; current alpha.5 causal teacher pair, EMA1/.999, propensity/since32, original auxiliaries and losses. New paired OneCycle schedule with len(loader)*10 steps; all parent weights trainable.",
+    "H2": "Ordinary unchanged twoepochs/fixedep1, ownparentep0 strictinit; inp/gru frozen; full20k ordinary carry, no origin intervention.",
+    "count": "Twoarms x twofolds x parent/H2 =8fits, plus4OOF; seed3 only. Not allocated.",
+    "origin_rule": "For each training minibatch choose one r from{2000,4000,6000,8000,10000,12000,14000,16000} using fixed SHA256(seed3,fold,epoch,batch_index) modulo8. Same location across batch, same schedule botharms, no Torch/NumPy RNG consumption or target/feature dependence. First loss affected is s=r+2000; serving always starts at true row0.",
+    "all_rows": "Build all211features, masks, propensity/since weights and auxiliary labels once from the original full20k sequence. Original loss windows[0:2000],...,[18000:20000] are each used exactlyonce in botharms; original warmup99 staysglobal. No crop/reweight/resampling of rows or denominators."
+  },
+  "one_intervention_pseudocode": [
+    "At the selected ordinary training chunk[r:r+2000], clone/detach its real incoming student h_r and separately its EMA h_ema_r before the normal forward.",
+    "Run the existing main+aux+EMA-consistency forward/loss/backward/unscale/clip exactly as usual on that chunk.",
+    "BEFORE scaler.step or EMA update, rerun only inputs[r:r+2000] under no_grad and the SAME autocast precision/current PRE-UPDATE weights. Control initializes from saved h_r; candidate initializes from zero. Discard every replay output and retain only detached final h as the next ordinary chunk incoming state.",
+    "Separately rerun EMA with its own saved h_ema_r(control) or zero(candidate), still before updating EMA weights. Never feed student h into EMA or use the real-data cachedteacher state.",
+    "Then execute exactly one original scaler.step/update,scheduler step and EMA parameter update. Remaining chunks proceed normally. Replay also occurs on an AMP-skipped attempt; no extra optimizer/backward/EMA/scaler/scheduler operations are introduced."
+  ],
+  "why_control_is_specific": "Replaying before the optimizer update avoids confounding zero-origin treatment with refresh under newer weights. With dropout0, unchanged normalization and same full2000 forward shape, control replay reconstructs the same outgoing state as its original pass; it preserves original stale-carry semantics. Candidate removes history before r only after a2000-row causal burn-in. Both pay exactly one extra student+EMA forward, neither adds loss on replay rows.",
+  "teacher_consistency": "Fixed external teacher predictions remain original full-origin cached supervision for identical rows in botharms; no re-inference/target changes. Student and ownEMA use matched origin rules but their own weights/states. Full-origin external teacher versus shortened student context is intentional context augmentation, not evidence that shorter history is sufficient.",
+  "minimum_preflight_if_later_allocated": [
+    "Generated dropout0 ordinary model: control replay before optimizer step equals direct outgoing h and complete original training outputs/gradients/AdamW/EMA state across twochunks; candidate first changes next-chunk state, not already computed current loss.",
+    "Generated cloned pair: identical initial parameters/RNG,rowselection,all loss denominators,update/EMA/scheduler counts; replay creates no autograd graph or extra parameter gradients. Forced AMP skip obeys identical attempt clock.",
+    "Generated causal prefix and full-feature checks: perturb future rows after a prediction cannot change it; replay uses original sliced211features and never rebuilds feature clocks from r. No new real-data diagnostic needed before the fixed paired training experiment."
+  ],
+  "comparison": "One fixed candidate4 minus warm-control4 is the treatment contrast; candidate4 minus existing incumbent4 is utility; control4 minus incumbent4 measures one-epoch adaptation. Three original partners and quarter weights unchanged; ordinary full-origin prediction. Existing exposed folds, wholechain intervals conditional on one trainingseed. No best-origin/length/epoch/mixture selection.",
+  "falsifier_and_limits": "If candidate does not improve the fixed incumbent and pairedcontrol with direction/uncertainty persuasive enough for root spending, close this exact augmentation. Do not infer impossibility. Even a gain would test one warmstart regularization recipe, not identify forgetting or a noise ceiling. Full-prefix engineeredfeatures intentionally retain pre-origin information; state reset is not a genuine new marketsequence. H2 may wash out adaptation; short warmstart cannot establish from-scratch behavior.",
+  "cost_estimate": "Serving byte-layout/state/arithmetic unchanged. Training adds1 no-grad student+EMA2000-row replay per10 ordinarychunks: +10% forward-only row work, not10% total training or measured walltime. Rough25-40min total8fits+4OOF on oneA4000 from existing warmstart/H2 timings; estimate only, no new measurement.",
+  "source_anchors": [
+    "research/iterations/2026-10-01-overnight/training/train_aux.py:800",
+    "research/iterations/2026-10-01-overnight/training/train_aux.py:808",
+    "research/iterations/2026-10-01-overnight/training/train_aux.py:882",
+    "research/iterations/2026-10-01-overnight/training/train_aux.py:944",
+    "research/iterations/2026-10-01-overnight/training/train_aux.py:1077",
+    "src/wnn/nn.py:47"
+  ],
+  "source_sha256": {
+    "research/iterations/2026-10-01-overnight/training/train_aux.py": "f13e61b4d43f011c132f6b7f88df3f62775d0a43189776437c42cc484ac0f39f"
+  },
+  "actual_data_or_weights_read": false,
+  "jobs_or_metrics_run": 0,
+  "implementation_written": false
+}

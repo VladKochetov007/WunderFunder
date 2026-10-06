@@ -1,0 +1,118 @@
+{
+  "specs": {
+    "teacher_gpu": {
+      "w19teacher": 1.0
+    },
+    "bootstrap": {
+      "w38native_bootstrap_s3": 0.5,
+      "w38native_bootstrap_s4": 0.5
+    },
+    "bootstrap_s3": {
+      "w38native_bootstrap_s3": 1.0
+    },
+    "bootstrap_s4": {
+      "w38native_bootstrap_s4": 1.0
+    },
+    "family": {
+      "w21native_distilled_s3": 0.5,
+      "w21native_distilled_s4": 0.5
+    },
+    "family_s3": {
+      "w21native_distilled_s3": 1.0
+    },
+    "family_s4": {
+      "w21native_distilled_s4": 1.0
+    },
+    "bootstrap_gpu": {
+      "w38_bootstrap_s3": 0.5,
+      "w38_bootstrap_s4": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "bootstrap",
+      "teacher_gpu"
+    ],
+    [
+      "family",
+      "teacher_gpu"
+    ],
+    [
+      "bootstrap",
+      "family"
+    ],
+    [
+      "bootstrap",
+      "bootstrap_gpu"
+    ],
+    [
+      "bootstrap_s3",
+      "family_s3"
+    ],
+    [
+      "bootstrap_s4",
+      "family_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher_gpu": 0.7161302310562185,
+        "bootstrap": 0.7175558623713767,
+        "bootstrap_s3": 0.7171071187889502,
+        "bootstrap_s4": 0.7170479926876341,
+        "family": 0.7182578324561746,
+        "family_s3": 0.717756914074282,
+        "family_s4": 0.7175030132706841,
+        "bootstrap_gpu": 0.7176059748703922
+      },
+      "comparisons": {
+        "bootstrap - teacher_gpu": {
+          "delta": 0.00142563131515816,
+          "conditional_ci95": [
+            0.00084192599779985,
+            0.0020527492609720005
+          ]
+        },
+        "family - teacher_gpu": {
+          "delta": 0.0021276013999560472,
+          "conditional_ci95": [
+            0.001234473024410529,
+            0.003190021926237881
+          ]
+        },
+        "bootstrap - family": {
+          "delta": -0.0007019700847978871,
+          "conditional_ci95": [
+            -0.0017363034509973619,
+            0.000322973773368849
+          ]
+        },
+        "bootstrap - bootstrap_gpu": {
+          "delta": -5.0112499015542156e-05,
+          "conditional_ci95": [
+            -0.00017785429011074881,
+            5.295137623003429e-05
+          ]
+        },
+        "bootstrap_s3 - family_s3": {
+          "delta": -0.0006497952853318223,
+          "conditional_ci95": [
+            -0.0017301943558921036,
+            0.0003363954339411608
+          ]
+        },
+        "bootstrap_s4 - family_s4": {
+          "delta": -0.00045502058305002535,
+          "conditional_ci95": [
+            -0.0015602021870984918,
+            0.0007564747585486776
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Native dynamic-int8 replay. Reused true-mask valid425/123, all train chains excluded. Exact wave19 recipe and init/constructor/data order retained; only distill-boot-h8 is enabled at this heterogeneous-teacher stage: replace hard label by teacher(t+8) when the raw targetpair remains unchanged through t+8. Teacher atcurrentrow still contributes.7, guardedreplacement contributes.3. No future input at inference. Family heads and cached targets remain present. Fixed epoch1, two seeds. No honest train holdout; native and composite checks needed. Conditional fitted-model bootstrap; organizer pretraining provenance uncertain."
+}

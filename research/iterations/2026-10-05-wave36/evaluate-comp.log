@@ -1,0 +1,236 @@
+{
+  "specs": {
+    "parent": {
+      "w33teacher": 1.0
+    },
+    "submitted_recipe": {
+      "w18compcompress_distilled_s3": 0.5,
+      "w18compcompress_distilled_s4": 0.5
+    },
+    "uniform": {
+      "w33_uniform_s3": 0.5,
+      "w33_uniform_s4": 0.5
+    },
+    "uniform_s3": {
+      "w33_uniform_s3": 1.0
+    },
+    "uniform_s4": {
+      "w33_uniform_s4": 1.0
+    },
+    "soft": {
+      "w33_soft_s3": 0.5,
+      "w33_soft_s4": 0.5
+    },
+    "soft_s3": {
+      "w33_soft_s3": 1.0
+    },
+    "soft_s4": {
+      "w33_soft_s4": 1.0
+    },
+    "off": {
+      "w36_comp_s3": 0.5,
+      "w36_comp_s4": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "uniform",
+      "parent"
+    ],
+    [
+      "uniform",
+      "submitted_recipe"
+    ],
+    [
+      "soft",
+      "parent"
+    ],
+    [
+      "soft",
+      "submitted_recipe"
+    ],
+    [
+      "soft",
+      "uniform"
+    ],
+    [
+      "soft_s3",
+      "uniform_s3"
+    ],
+    [
+      "soft_s4",
+      "uniform_s4"
+    ],
+    [
+      "soft",
+      "off"
+    ],
+    [
+      "uniform",
+      "off"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 436,
+      "chains": 129,
+      "scores": {
+        "parent": 0.7127377665384304,
+        "submitted_recipe": 0.7126204198255042,
+        "uniform": 0.7119183718742197,
+        "uniform_s3": 0.7108917442032208,
+        "uniform_s4": 0.7106333108408673,
+        "soft": 0.7118488217525563,
+        "soft_s3": 0.7107940527299264,
+        "soft_s4": 0.710617636783037,
+        "off": 0.7119640178788482
+      },
+      "comparisons": {
+        "uniform - parent": {
+          "delta": -0.0008193946642106598,
+          "conditional_ci95": [
+            -0.0022642743647062814,
+            0.0003874082617222617
+          ]
+        },
+        "uniform - submitted_recipe": {
+          "delta": -0.0007020479512844791,
+          "conditional_ci95": [
+            -0.002142125051624491,
+            0.0005265417018552951
+          ]
+        },
+        "soft - parent": {
+          "delta": -0.0008889447858740906,
+          "conditional_ci95": [
+            -0.0024915948274297274,
+            0.0004013177840241965
+          ]
+        },
+        "soft - submitted_recipe": {
+          "delta": -0.0007715980729479099,
+          "conditional_ci95": [
+            -0.0023267391496856445,
+            0.0005148864124864114
+          ]
+        },
+        "soft - uniform": {
+          "delta": -6.955012166343089e-05,
+          "conditional_ci95": [
+            -0.00021398924689720045,
+            4.5459332842317984e-05
+          ]
+        },
+        "soft_s3 - uniform_s3": {
+          "delta": -9.769147329441452e-05,
+          "conditional_ci95": [
+            -0.0002774810406308115,
+            5.7198067907621126e-05
+          ]
+        },
+        "soft_s4 - uniform_s4": {
+          "delta": -1.5674057830317167e-05,
+          "conditional_ci95": [
+            -0.0001737170081580558,
+            0.00011155252218111307
+          ]
+        },
+        "soft - off": {
+          "delta": -0.00011519612629196097,
+          "conditional_ci95": [
+            -0.0003237762165405722,
+            4.476710489969835e-05
+          ]
+        },
+        "uniform - off": {
+          "delta": -4.564600462853008e-05,
+          "conditional_ci95": [
+            -0.0001299289407948767,
+            3.142023481766113e-05
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "parent": 0.5973573276220244,
+        "submitted_recipe": 0.5975019974748828,
+        "uniform": 0.5948912116523333,
+        "uniform_s3": 0.5927749684899553,
+        "uniform_s4": 0.5927833342129698,
+        "soft": 0.5948873637562782,
+        "soft_s3": 0.5927758290009553,
+        "soft_s4": 0.5927219815845604,
+        "off": 0.5950879088806429
+      },
+      "comparisons": {
+        "uniform - parent": {
+          "delta": -0.0024661159696911517,
+          "conditional_ci95": [
+            -0.004724781911200027,
+            -0.00037209139911400076
+          ]
+        },
+        "uniform - submitted_recipe": {
+          "delta": -0.0026107858225494773,
+          "conditional_ci95": [
+            -0.004898381330081475,
+            -0.00047083380090788687
+          ]
+        },
+        "soft - parent": {
+          "delta": -0.002469963865746272,
+          "conditional_ci95": [
+            -0.004826779579381648,
+            -0.000323721081168614
+          ]
+        },
+        "soft - submitted_recipe": {
+          "delta": -0.0026146337186045976,
+          "conditional_ci95": [
+            -0.005000591236577839,
+            -0.00036405598773382454
+          ]
+        },
+        "soft - uniform": {
+          "delta": -3.847896055120259e-06,
+          "conditional_ci95": [
+            -0.00013865248420975585,
+            0.00014564074366734124
+          ]
+        },
+        "soft_s3 - uniform_s3": {
+          "delta": 8.60511000011499e-07,
+          "conditional_ci95": [
+            -0.00018908366102262652,
+            0.000217507184508633
+          ]
+        },
+        "soft_s4 - uniform_s4": {
+          "delta": -6.13526284094501e-05,
+          "conditional_ci95": [
+            -0.00020464571169377942,
+            8.855644038908694e-05
+          ]
+        },
+        "soft - off": {
+          "delta": -0.00020054512436473715,
+          "conditional_ci95": [
+            -0.0004658200221185599,
+            6.602415703176566e-05
+          ]
+        },
+        "uniform - off": {
+          "delta": -0.0001966972283096169,
+          "conditional_ci95": [
+            -0.00035704411159346303,
+            -4.022443550898982e-05
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Exploratory reused data. Known teacher parents and students restricted to train half0 + valid folds !=0. Original organizer pretraining provenance uncertain. Train mask estimated; diagnostic only. Intervals conditional on fitted models."
+}

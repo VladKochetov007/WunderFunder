@@ -1,0 +1,24 @@
+{
+  "hypothesis": "A four-member equal ensemble of independently shuffled heterogeneous-distillation students may reduce optimization variance within the two fixed parent basins.",
+  "parents": "Original d256 s3/s4, and composite w15d256 s3/s4; new student seeds13/14 map to parent3/4.",
+  "teacher": "Original publicly successful recipe: w6fullteacher in full, w18comp_teacher in composite; family d256/full/raw/org.",
+  "training": "2epochs fixedepoch1, AdamW1e-4,batch16/chunk2000,alpha.7,family.1,auxstruct/next.3; only student seed differs from original pair.",
+  "primary": "Fixed equal four-member mean (old3,old4,new13,new14) versus original pair, GPU then native, valid425/full and valid436+train282 diagnostic/composite.",
+  "secondary": "Newpair vsoldpair and each parent-matched newseed vsoldseed. No bestseed selection.",
+  "promotion": "Material positive native gain on both true-mask validation panels, no material adverse train diagnostic; actual four-member archive <20MB and DataSphere runtime sufficiently below60min.",
+  "limitations": [
+    "Only two parent initializations, not four independent base models",
+    "Validation reused; conditional bootstrap does not estimate training seed variance",
+    "Extra runtime and archive size",
+    "No promised public score"
+  ],
+  "native_screen_gate": {
+    "arms": [
+      "four_mean"
+    ],
+    "minimum_delta_each_true_mask_panel": 0.0003,
+    "minimum_delta_train_diagnostic": 0,
+    "scope": "Gate to spend native validation, not automatic final promotion; set before results."
+  },
+  "deadline_amendment": "User now requires best available archive by03:00MSK. Native quality will be completed regardless of statistical screening gate because the final four-seed candidate is being prepared speculatively. Gate remains reported; no significance claim or automatic promotion."
+}

@@ -1,0 +1,40 @@
+{
+  "utc": "2026-10-01T14:39:28.074427+00:00",
+  "GPU": {
+    "argv": [
+      "nvidia-smi",
+      "-i",
+      "7",
+      "--query-gpu=uuid,memory.total,memory.used,memory.free",
+      "--format=csv,noheader,nounits"
+    ],
+    "exit": 0,
+    "stdout": "GPU-2551b12a-3435-ca76-deac-9f15dfc2dd8a, 16376, 8667, 7307\n",
+    "stderr": ""
+  },
+  "apps": {
+    "argv": [
+      "nvidia-smi",
+      "--query-compute-apps=gpu_uuid,pid,used_memory",
+      "--format=csv,noheader,nounits"
+    ],
+    "exit": 0,
+    "stdout": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8, 565358, 8664\nGPU-a922981b-b848-d027-b714-170d91808e71, 321629, 15534\nGPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 321630, 15534\nGPU-972b1ac9-5c27-384f-8f3b-b917fd06deba, 216986, 5556\nGPU-a8fab7e3-7598-a8c6-a311-4c3fdbd02042, 1563115, 8636\nGPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c, 275733, 13038\nGPU-53eaee12-1803-f8da-7399-ccdbfda91a18, 275733, 15584\nGPU-2551b12a-3435-ca76-deac-9f15dfc2dd8a, 573621, 8624\n",
+    "stderr": ""
+  },
+  "known_foreign": {
+    "argv": [
+      "ps",
+      "-p",
+      "573621",
+      "-o",
+      "pid,ppid,user,lstart,etime,args"
+    ],
+    "exit": 0,
+    "stdout": "    PID    PPID USER                      STARTED     ELAPSED COMMAND\n 573621  565342 afendul+ Thu Oct  1 14:34:14 2026       05:14 /home/afendulevki/venvs/hybrid-steering/bin/python /home/afendulevki/caa-clean-tnf-dev8-20261001/experiments/caa-clean-tnf-dev8/run.py /home/afendulevki/caa-clean-tnf-dev8-20261001 2\n",
+    "stderr": ""
+  },
+  "foreign_stat": "573621 (python) R 565342 565341 565341 34850 565341 4194304 888791 0 0 0 20600 797 0 0 20 0 93 0 503249517 47563923456 5096458 18446744073709551615 1 1 0 0 0 0 0 19927040 2 0 0 0 17 30 0 0 0 0 0 0 0 0 0 0 0 0 0\n",
+  "source_sha256": "5bbd1146445e60c898dbf7a1163b703f3921da39d5d19ae695adb87b2d4c5353",
+  "allocation_sha256": "b048dc0d0022ad237b71fb8de9ecacf7feda46025bb08db6c73717089029b8b6"
+}

@@ -1,0 +1,5 @@
+Stage diagnosis completed: four saved-parent OOF jobs, no training. Candidate parent already loses to matched control by -0.0006347898; H2 changes this gap by +0.0001235004. Thus the overall negative result does not require an H2-erased parent advantage. The quiet64 diagnostic behaves differently (interaction -0.0035649338), with a wide interval; it cannot rescue the full recipe.
+
+A separate exploratory observation: ordinary seed3 parent ensemble WP 0.7025000567 exceeds ordinary H2 0.7023796676. Parent-H2 is +0.000120389, fold0 +0.000084625, fold1 +0.000110477; conditional95%chainCI[-0.000283318,+0.000544451]. This is small, uncertain and discovered after the negative study. It motivates two saved-parent OOF passes for already fitted seed4. No automatic promotion or claim of fresh holdout confirmation.
+
+All rows/scopes/H2 scores reproduced from fixed prior artifacts. Raw outputs: [report](evaluation-01/report.json), [execution](execution-01/result.json), [preservation](preservation-phase1.json). Research priority shifts away from fixing only ensemble-aware H2: its parent recipe is already inferior here.

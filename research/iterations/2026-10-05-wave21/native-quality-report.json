@@ -1,0 +1,70 @@
+{
+  "specs": {
+    "old_gpu": {
+      "w12compress256_distilled_s3": 0.5,
+      "w12compress256_distilled_s4": 0.5
+    },
+    "old_native": {
+      "w18native_distilled_s3": 0.5,
+      "w18native_distilled_s4": 0.5
+    },
+    "new_gpu": {
+      "w19distilled_s3": 0.5,
+      "w19distilled_s4": 0.5
+    },
+    "new_native": {
+      "w21native_distilled_s3": 0.5,
+      "w21native_distilled_s4": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "new_native",
+      "old_native"
+    ],
+    [
+      "new_native",
+      "new_gpu"
+    ],
+    [
+      "new_gpu",
+      "old_gpu"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "old_gpu": 0.718150292592171,
+        "old_native": 0.7180618737229577,
+        "new_gpu": 0.718363943590675,
+        "new_native": 0.7182578324561746
+      },
+      "comparisons": {
+        "new_native - old_native": {
+          "delta": 0.00019595873321687218,
+          "conditional_ci95": [
+            3.1773622713721085e-05,
+            0.0003758880895976035
+          ]
+        },
+        "new_native - new_gpu": {
+          "delta": -0.00010611113450043064,
+          "conditional_ci95": [
+            -0.0003050617629707764,
+            4.238424996179098e-05
+          ]
+        },
+        "new_gpu - old_gpu": {
+          "delta": 0.00021365099850401137,
+          "conditional_ci95": [
+            3.162405223853804e-05,
+            0.00041088737695311735
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid fold0; ALL train chains excluded because d256 teacher used all train. No train holdout claim. Organizer provenance not certified. Conditional fitted-model intervals."
+}

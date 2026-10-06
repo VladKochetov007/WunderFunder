@@ -1,0 +1,134 @@
+{
+  "specs": {
+    "teacher_gpu": {
+      "w19teacher": 1.0
+    },
+    "scaled": {
+      "w29native_scaled_s3": 0.5,
+      "w29native_scaled_s4": 0.5
+    },
+    "scaled_s3": {
+      "w29native_scaled_s3": 1.0
+    },
+    "scaled_s4": {
+      "w29native_scaled_s4": 1.0
+    },
+    "family": {
+      "w21native_distilled_s3": 0.5,
+      "w21native_distilled_s4": 0.5
+    },
+    "family_s3": {
+      "w21native_distilled_s3": 1.0
+    },
+    "family_s4": {
+      "w21native_distilled_s4": 1.0
+    },
+    "scaled_gpu": {
+      "w29_scaled_s3": 0.5,
+      "w29_scaled_s4": 0.5
+    },
+    "nofamily": {
+      "w28native_nofamily_s3": 0.5,
+      "w28native_nofamily_s4": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "scaled",
+      "teacher_gpu"
+    ],
+    [
+      "family",
+      "teacher_gpu"
+    ],
+    [
+      "scaled",
+      "family"
+    ],
+    [
+      "scaled",
+      "scaled_gpu"
+    ],
+    [
+      "scaled_s3",
+      "family_s3"
+    ],
+    [
+      "scaled_s4",
+      "family_s4"
+    ],
+    [
+      "scaled",
+      "nofamily"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher_gpu": 0.7161302310562185,
+        "scaled": 0.7182944185881754,
+        "scaled_s3": 0.7178607649709019,
+        "scaled_s4": 0.7174510848343918,
+        "family": 0.7182578324561746,
+        "family_s3": 0.717756914074282,
+        "family_s4": 0.7175030132706841,
+        "scaled_gpu": 0.7183565798457143,
+        "nofamily": 0.7183686645749356
+      },
+      "comparisons": {
+        "scaled - teacher_gpu": {
+          "delta": 0.002164187531956907,
+          "conditional_ci95": [
+            0.0012439144584791228,
+            0.003237396298463917
+          ]
+        },
+        "family - teacher_gpu": {
+          "delta": 0.0021276013999560472,
+          "conditional_ci95": [
+            0.001234473024410529,
+            0.003190021926237881
+          ]
+        },
+        "scaled - family": {
+          "delta": 3.6586132000859806e-05,
+          "conditional_ci95": [
+            -0.00012125576975350328,
+            0.00018269140646147422
+          ]
+        },
+        "scaled - scaled_gpu": {
+          "delta": -6.216125753888413e-05,
+          "conditional_ci95": [
+            -0.00018629920480538742,
+            4.246098027635689e-05
+          ]
+        },
+        "scaled_s3 - family_s3": {
+          "delta": 0.00010385089661990587,
+          "conditional_ci95": [
+            -0.00014258003039450406,
+            0.00030982685554593046
+          ]
+        },
+        "scaled_s4 - family_s4": {
+          "delta": -5.192843629231447e-05,
+          "conditional_ci95": [
+            -0.00017415144362401547,
+            7.23991786164085e-05
+          ]
+        },
+        "scaled - nofamily": {
+          "delta": -7.424598676020189e-05,
+          "conditional_ci95": [
+            -0.0001976235134847737,
+            3.165275452836889e-05
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Native dynamic-int8 replay. Reused true-mask valid425/123, all train chains excluded. Exact wave19 recipe and init/constructor/data order retained; only orgbase family target is multiplied by.25; main ensemble teacher and family loss coefficient.1 unchanged. Family heads and cached targets remain present. Fixed epoch1, two seeds. No honest train holdout; native and composite checks needed. Conditional fitted-model bootstrap; organizer pretraining provenance uncertain."
+}

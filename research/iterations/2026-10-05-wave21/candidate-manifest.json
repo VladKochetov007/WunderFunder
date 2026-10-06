@@ -1,0 +1,30 @@
+{
+  "candidate": "distilled_twostream_h256_pair",
+  "training": "Final all-data heterogeneous distillation; fixed epoch1; seed5/6 parents. No final-training scores treated as holdout.",
+  "validation": "Fold0 seed3/4 pair .71836394; native int8 .71825783 on 425 sequences/123 chains. Native delta +.00019596 versus submitted recipe proxy; conditional 95% CI [.00003177,.00037589]. Reused validation. Composite replication of changed teacher pending wave24; no public score yet.",
+  "status": "native_audits_passed_not_submitted_not_promoted_mixed_composite_replication",
+  "files": {
+    "solution.py": "7e589131036e788d2ba6e7bff9765bd5e287d0e894663157de3c8385051b3686",
+    "members.json": "0fd34840bcdaac976da74d7804a42e9833b187ebdf2d0b256be024a11f316063",
+    "weights_s5.npz": "0d919415a97d845537ed4918e2e6af015a9c6e393e882bdcfc6489fbba60bb6a",
+    "weights_s6.npz": "cb566d998914d831baf932f0af1eb253d14fa2aa6186ac1180fc37248489c7c0",
+    "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "4fbe47fa136a3556f709321702937bd244ca6f444a244b97e672c6d7100de43a",
+    "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "b2368ed3ea3a8438af501ecee0f5e93b08c5ebf88709639672967dddcf1e23f0",
+    "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "1fde1646023f6fe0ecee7ff51e9de9e93ae4d047c57c2ee3bfeccd48fae67373"
+  },
+  "archive_sha256": "bb3736944e19940272b038b045687c76af6ace56cca9a8569438f2745199e723",
+  "audit_evidence": [
+    "submission-audit.json",
+    "parity-v2.json",
+    "parity-avx2.json",
+    "parity-v3.json",
+    "native-datasphere.json"
+  ],
+  "composite_replication": {
+    "valid_delta": 0.00011734671292618071,
+    "train_diagnostic_delta": -0.00014466985285832568,
+    "both_conditional_intervals_include_zero": true,
+    "evidence": "../wave24/composite-report.json",
+    "decision": "No robust improvement over submitted recipe; hold as exploratory artifact."
+  }
+}

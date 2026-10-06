@@ -1,0 +1,231 @@
+{
+  "specs": {
+    "two_stream_teacher": {
+      "d256bc1k_f0": 0.3,
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_tstream_s3": 0.125,
+      "cmp_tstream_s4": 0.125,
+      "w13native_oldhalf": 0.0625
+    },
+    "student_pair": {
+      "w12compress256_distilled_s3": 0.5,
+      "w12compress256_distilled_s4": 0.5
+    },
+    "old_teacher": {
+      "w6fullteacher": 1.0
+    },
+    "mix_0.25": {
+      "d256bc1k_f0": 0.22499999999999998,
+      "cmp_fullft_s3": 0.07500000000000001,
+      "cmp_fullft_s4": 0.07500000000000001,
+      "cmp_tstream_s3": 0.09375,
+      "cmp_tstream_s4": 0.09375,
+      "w13native_oldhalf": 0.046875,
+      "w12compress256_distilled_s3": 0.125,
+      "w12compress256_distilled_s4": 0.125
+    },
+    "mix_0.5": {
+      "d256bc1k_f0": 0.15,
+      "cmp_fullft_s3": 0.05,
+      "cmp_fullft_s4": 0.05,
+      "cmp_tstream_s3": 0.0625,
+      "cmp_tstream_s4": 0.0625,
+      "w13native_oldhalf": 0.03125,
+      "w12compress256_distilled_s3": 0.25,
+      "w12compress256_distilled_s4": 0.25
+    },
+    "mix_0.75": {
+      "d256bc1k_f0": 0.075,
+      "cmp_fullft_s3": 0.025,
+      "cmp_fullft_s4": 0.025,
+      "cmp_tstream_s3": 0.03125,
+      "cmp_tstream_s4": 0.03125,
+      "w13native_oldhalf": 0.015625,
+      "w12compress256_distilled_s3": 0.375,
+      "w12compress256_distilled_s4": 0.375
+    },
+    "student_s3": {
+      "w12compress256_distilled_s3": 1.0
+    },
+    "student_s4": {
+      "w12compress256_distilled_s4": 1.0
+    },
+    "student_plus_baseline_0.025": {
+      "w12compress256_distilled_s3": 0.5,
+      "w12compress256_distilled_s4": 0.5,
+      "w13native_oldhalf": 0.025
+    },
+    "student_plus_baseline_0.0625": {
+      "w12compress256_distilled_s3": 0.5,
+      "w12compress256_distilled_s4": 0.5,
+      "w13native_oldhalf": 0.0625
+    }
+  },
+  "comparisons": [
+    [
+      "student_pair",
+      "two_stream_teacher"
+    ],
+    [
+      "mix_0.25",
+      "two_stream_teacher"
+    ],
+    [
+      "mix_0.25",
+      "student_pair"
+    ],
+    [
+      "mix_0.5",
+      "two_stream_teacher"
+    ],
+    [
+      "mix_0.5",
+      "student_pair"
+    ],
+    [
+      "mix_0.75",
+      "two_stream_teacher"
+    ],
+    [
+      "mix_0.75",
+      "student_pair"
+    ],
+    [
+      "student_s3",
+      "two_stream_teacher"
+    ],
+    [
+      "student_s4",
+      "two_stream_teacher"
+    ],
+    [
+      "student_plus_baseline_0.025",
+      "student_pair"
+    ],
+    [
+      "student_plus_baseline_0.025",
+      "two_stream_teacher"
+    ],
+    [
+      "student_plus_baseline_0.0625",
+      "student_pair"
+    ],
+    [
+      "student_plus_baseline_0.0625",
+      "two_stream_teacher"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "two_stream_teacher": 0.7161343764359889,
+        "student_pair": 0.718150292592171,
+        "old_teacher": 0.7153249862709401,
+        "mix_0.25": 0.7169408508920649,
+        "mix_0.5": 0.7175388693849754,
+        "mix_0.75": 0.7179386220623128,
+        "student_s3": 0.717657803642783,
+        "student_s4": 0.7174401336510119,
+        "student_plus_baseline_0.025": 0.7177944054280851,
+        "student_plus_baseline_0.0625": 0.7169221666184753
+      },
+      "comparisons": {
+        "student_pair - two_stream_teacher": {
+          "delta": 0.0020159161561821293,
+          "conditional_ci95": [
+            0.0011381165668196108,
+            0.0030106467280168435
+          ]
+        },
+        "mix_0.25 - two_stream_teacher": {
+          "delta": 0.0008064744560760673,
+          "conditional_ci95": [
+            0.0005794003534494829,
+            0.0010801266126512464
+          ]
+        },
+        "mix_0.25 - student_pair": {
+          "delta": -0.001209441700106062,
+          "conditional_ci95": [
+            -0.0019330041307643792,
+            -0.0005624275752596137
+          ]
+        },
+        "mix_0.5 - two_stream_teacher": {
+          "delta": 0.00140449294898648,
+          "conditional_ci95": [
+            0.0009575826484694878,
+            0.0019378328525232302
+          ]
+        },
+        "mix_0.5 - student_pair": {
+          "delta": -0.0006114232071956494,
+          "conditional_ci95": [
+            -0.0010805385149145834,
+            -0.00019017240000658895
+          ]
+        },
+        "mix_0.75 - two_stream_teacher": {
+          "delta": 0.0018042456263239748,
+          "conditional_ci95": [
+            0.0011359466855499877,
+            0.0025718597900293762
+          ]
+        },
+        "mix_0.75 - student_pair": {
+          "delta": -0.0002116705298581545,
+          "conditional_ci95": [
+            -0.0004393123110053604,
+            -5.289628912619243e-06
+          ]
+        },
+        "student_s3 - two_stream_teacher": {
+          "delta": 0.0015234272067941035,
+          "conditional_ci95": [
+            0.0004369225919754749,
+            0.00282341715855891
+          ]
+        },
+        "student_s4 - two_stream_teacher": {
+          "delta": 0.001305757215023018,
+          "conditional_ci95": [
+            5.77711383864671e-05,
+            0.0026393652656032133
+          ]
+        },
+        "student_plus_baseline_0.025 - student_pair": {
+          "delta": -0.0003558871640858552,
+          "conditional_ci95": [
+            -0.0005930413420335012,
+            -0.00013148879357319522
+          ]
+        },
+        "student_plus_baseline_0.025 - two_stream_teacher": {
+          "delta": 0.001660028992096274,
+          "conditional_ci95": [
+            0.0008872353460992882,
+            0.0025422003837455454
+          ]
+        },
+        "student_plus_baseline_0.0625 - student_pair": {
+          "delta": -0.001228125973695704,
+          "conditional_ci95": [
+            -0.0017391107625378045,
+            -0.0007227364659602307
+          ]
+        },
+        "student_plus_baseline_0.0625 - two_stream_teacher": {
+          "delta": 0.0007877901824864253,
+          "conditional_ci95": [
+            1.9361232759462776e-05,
+            0.0015922888176727872
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid fold0; ALL train chains excluded because d256 teacher used all train. No train holdout claim. Predeclared mixture grid for h256 student pair and two-stream teacher; mixtures exploratory after student success. Full mixture runtime not yet certified. Organizer provenance not certified. Conditional fitted-model intervals."
+}

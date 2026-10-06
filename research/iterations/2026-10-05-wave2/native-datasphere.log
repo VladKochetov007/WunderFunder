@@ -1,0 +1,31 @@
+[37m2026-10-05 12:04:11,081 - [INFO] - logs file path: /tmp/datasphere/job_2026-10-05T12:04:11.071829[0m
+[37m2026-10-05 12:04:11,089 - [ERROR] - Error occurred
+	logs file path: /tmp/datasphere/job_2026-10-05T12:04:11.071829[0m
+[37m2026-10-05 12:04:11,090 - [INFO] - see job log files at /tmp/datasphere/job_2026-10-05T12:04:11.071829[0m
+[37m2026-10-05 12:04:11,090 - [INFO] -   * docker_stats.tsv  (0.0B)[0m
+[37m2026-10-05 12:04:11,090 - [INFO] -   * system.log  (0.0B)[0m
+[37m2026-10-05 12:04:11,090 - [INFO] -   * gpu_stats.tsv  (0.0B)[0m
+[37m2026-10-05 12:04:11,090 - [INFO] -   * job_progress.jsonl  (0.0B)[0m
+[37m2026-10-05 12:04:11,090 - [INFO] -   * stderr.txt  (0.0B)[0m
+[37m2026-10-05 12:04:11,091 - [INFO] -   * log.txt  (2.3KB)[0m
+[37m2026-10-05 12:04:11,091 - [INFO] -   * stdout.txt  (0.0B)[0m
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/ds-venv/bin/datasphere", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/grinchenkoeg/ds-venv/lib/python3.12/site-packages/datasphere/main.py", line 232, in main
+    args.func(args, sdk)
+  File "/home/grinchenkoeg/ds-venv/lib/python3.12/site-packages/datasphere/main.py", line 17, in execute
+    sdk._execute(args)
+  File "/home/grinchenkoeg/ds-venv/lib/python3.12/site-packages/datasphere/sdk.py", line 89, in _execute
+    py_env = define_py_env(cfg.python_root_modules, cfg.env.python)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/ds-venv/lib/python3.12/site-packages/datasphere/pyenv.py", line 62, in define_py_env
+    local_modules_paths = get_local_modules_paths(root_modules, explorer)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/ds-venv/lib/python3.12/site-packages/datasphere/utils.py", line 265, in get_local_modules_paths
+    namespace = _get_module_namespace(module)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/ds-venv/lib/python3.12/site-packages/datasphere/utils.py", line 295, in _get_module_namespace
+    raise ValueError(f'Main script `{module_params.path}` must have line `{main_module_checks[0]}`')
+ValueError: Main script `native_audit.py` must have line `if __name__ == '__main__':`

@@ -1,0 +1,96 @@
+{
+  "specs": {
+    "old_pair": {
+      "w12compress256_distilled_s3": 0.5,
+      "w12compress256_distilled_s4": 0.5
+    },
+    "teacher_pair": {
+      "w19distilled_s3": 0.5,
+      "w19distilled_s4": 0.5
+    },
+    "four_old": {
+      "w12compress256_distilled_s3": 0.25,
+      "w12compress256_distilled_s4": 0.25,
+      "w43_full_s13": 0.25,
+      "w43_full_s14": 0.25
+    },
+    "four_twostream": {
+      "w19distilled_s3": 0.25,
+      "w19distilled_s4": 0.25,
+      "w43_full_s13": 0.25,
+      "w43_full_s14": 0.25
+    }
+  },
+  "comparisons": [
+    [
+      "teacher_pair",
+      "old_pair"
+    ],
+    [
+      "four_old",
+      "old_pair"
+    ],
+    [
+      "four_twostream",
+      "old_pair"
+    ],
+    [
+      "four_twostream",
+      "teacher_pair"
+    ],
+    [
+      "four_twostream",
+      "four_old"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "old_pair": 0.718150292592171,
+        "teacher_pair": 0.718363943590675,
+        "four_old": 0.7181939510323239,
+        "four_twostream": 0.7183094442366846
+      },
+      "comparisons": {
+        "teacher_pair - old_pair": {
+          "delta": 0.00021365099850401137,
+          "conditional_ci95": [
+            3.162405223853804e-05,
+            0.00041088737695311735
+          ]
+        },
+        "four_old - old_pair": {
+          "delta": 4.365844015286058e-05,
+          "conditional_ci95": [
+            -8.783558154335236e-05,
+            0.0002075262396076637
+          ]
+        },
+        "four_twostream - old_pair": {
+          "delta": 0.00015915164451363317,
+          "conditional_ci95": [
+            -1.520629254277428e-05,
+            0.00038650093529378195
+          ]
+        },
+        "four_twostream - teacher_pair": {
+          "delta": -5.4499353990378196e-05,
+          "conditional_ci95": [
+            -0.0001918764962260261,
+            8.458262905789156e-05
+          ]
+        },
+        "four_twostream - four_old": {
+          "delta": 0.0001154932043607726,
+          "conditional_ci95": [
+            2.4771609109053296e-05,
+            0.0002136535409974687
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Deadline exploratory comparison of one fixed equal four-member blend: existing twostream-teacher pair plus two newseed original-teacher students. No fitted mixture weights. Reused panels and conditional fitted-model bootstrap, no fresh holdout or public claim. Valid425 excludes all known train chains."
+}

@@ -1,0 +1,168 @@
+{
+  "specs": {
+    "teacher_gpu": {
+      "w19teacher": 1.0
+    },
+    "altinit": {
+      "w35native_altinit_s3": 0.5,
+      "w35native_altinit_s4": 0.5
+    },
+    "altinit_s3": {
+      "w35native_altinit_s3": 1.0
+    },
+    "altinit_s4": {
+      "w35native_altinit_s4": 1.0
+    },
+    "family": {
+      "w21native_distilled_s3": 0.5,
+      "w21native_distilled_s4": 0.5
+    },
+    "family_s3": {
+      "w21native_distilled_s3": 1.0
+    },
+    "family_s4": {
+      "w21native_distilled_s4": 1.0
+    },
+    "altinit_gpu": {
+      "w35_altinit_s3": 0.5,
+      "w35_altinit_s4": 0.5
+    },
+    "four_mean": {
+      "w35native_altinit_s3": 0.25,
+      "w35native_altinit_s4": 0.25,
+      "w21native_distilled_s3": 0.25,
+      "w21native_distilled_s4": 0.25
+    },
+    "mixed_3": {
+      "w35native_altinit_s3": 0.5,
+      "w21native_distilled_s4": 0.5
+    },
+    "mixed_4": {
+      "w35native_altinit_s4": 0.5,
+      "w21native_distilled_s3": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "altinit",
+      "teacher_gpu"
+    ],
+    [
+      "family",
+      "teacher_gpu"
+    ],
+    [
+      "altinit",
+      "family"
+    ],
+    [
+      "altinit",
+      "altinit_gpu"
+    ],
+    [
+      "altinit_s3",
+      "family_s3"
+    ],
+    [
+      "altinit_s4",
+      "family_s4"
+    ],
+    [
+      "four_mean",
+      "family"
+    ],
+    [
+      "mixed_3",
+      "family"
+    ],
+    [
+      "mixed_4",
+      "family"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher_gpu": 0.7161302310562185,
+        "altinit": 0.7149605195091426,
+        "altinit_s3": 0.7145291151701623,
+        "altinit_s4": 0.7137401358664394,
+        "family": 0.7182578324561746,
+        "family_s3": 0.717756914074282,
+        "family_s4": 0.7175030132706841,
+        "altinit_gpu": 0.7150767931396652,
+        "four_mean": 0.7173052550610285,
+        "mixed_3": 0.7170630373114328,
+        "mixed_4": 0.7168220106806182
+      },
+      "comparisons": {
+        "altinit - teacher_gpu": {
+          "delta": -0.0011697115470759023,
+          "conditional_ci95": [
+            -0.0020613880216823893,
+            -0.0003013092206210554
+          ]
+        },
+        "family - teacher_gpu": {
+          "delta": 0.0021276013999560472,
+          "conditional_ci95": [
+            0.001234473024410529,
+            0.003190021926237881
+          ]
+        },
+        "altinit - family": {
+          "delta": -0.0032973129470319495,
+          "conditional_ci95": [
+            -0.004668790518598737,
+            -0.0018887773477782295
+          ]
+        },
+        "altinit - altinit_gpu": {
+          "delta": -0.00011627363052257866,
+          "conditional_ci95": [
+            -0.00031481145113448905,
+            1.8810547685538212e-05
+          ]
+        },
+        "altinit_s3 - family_s3": {
+          "delta": -0.0032277989041197275,
+          "conditional_ci95": [
+            -0.004962092417662473,
+            -0.0014918564939390597
+          ]
+        },
+        "altinit_s4 - family_s4": {
+          "delta": -0.0037628774042447466,
+          "conditional_ci95": [
+            -0.005321618257950409,
+            -0.0021695202573171553
+          ]
+        },
+        "four_mean - family": {
+          "delta": -0.0009525773951460925,
+          "conditional_ci95": [
+            -0.0016170751348224877,
+            -0.00025145266774866473
+          ]
+        },
+        "mixed_3 - family": {
+          "delta": -0.0011947951447417449,
+          "conditional_ci95": [
+            -0.002060681880805032,
+            -0.0003351400557598252
+          ]
+        },
+        "mixed_4 - family": {
+          "delta": -0.0014358217755563452,
+          "conditional_ci95": [
+            -0.0022001982395077058,
+            -0.0006484897007683788
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Native dynamic-int8 replay. Reused true-mask valid425/123, all train chains excluded. Exact wave19 recipe and init/constructor/data order retained; only source initialization changes from d256 parent to exact two-stream embedding, with trainable dense cross-stream connections. Parent histories differ, so this is a candidate efficacy comparison, not a unique mechanism claim. Family heads and cached targets remain present. Fixed epoch1, two seeds. No honest train holdout; native and composite checks needed. Conditional fitted-model bootstrap; organizer pretraining provenance uncertain."
+}

@@ -1,0 +1,189 @@
+{
+  "specs": {
+    "teacher": {
+      "w21native_distilled_s3": 0.5,
+      "w21native_distilled_s4": 0.5
+    },
+    "control": {
+      "w22native_control_s3": 0.5,
+      "w22native_control_s4": 0.5
+    },
+    "control_gpu": {
+      "w22_control_s3": 0.5,
+      "w22_control_s4": 0.5
+    },
+    "control_s3": {
+      "w22native_control_s3": 1.0
+    },
+    "control_s4": {
+      "w22native_control_s4": 1.0
+    },
+    "wide": {
+      "w22native_wide_s3": 0.5,
+      "w22native_wide_s4": 0.5
+    },
+    "wide_gpu": {
+      "w22_wide_s3": 0.5,
+      "w22_wide_s4": 0.5
+    },
+    "wide_s3": {
+      "w22native_wide_s3": 1.0
+    },
+    "wide_s4": {
+      "w22native_wide_s4": 1.0
+    },
+    "mixed_width_s3": {
+      "w22native_wide_s3": 0.5,
+      "w22native_control_s4": 0.5
+    },
+    "mixed_width_s4": {
+      "w22native_wide_s4": 0.5,
+      "w22native_control_s3": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "control",
+      "teacher"
+    ],
+    [
+      "control",
+      "control_gpu"
+    ],
+    [
+      "wide",
+      "teacher"
+    ],
+    [
+      "wide",
+      "wide_gpu"
+    ],
+    [
+      "wide",
+      "control"
+    ],
+    [
+      "mixed_width_s3",
+      "control"
+    ],
+    [
+      "mixed_width_s3",
+      "teacher"
+    ],
+    [
+      "wide_s3",
+      "control_s3"
+    ],
+    [
+      "mixed_width_s4",
+      "control"
+    ],
+    [
+      "mixed_width_s4",
+      "teacher"
+    ],
+    [
+      "wide_s4",
+      "control_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher": 0.7182578324561746,
+        "control": 0.7182792060980467,
+        "control_gpu": 0.7183179571329839,
+        "control_s3": 0.7177917514428983,
+        "control_s4": 0.7168529027415553,
+        "wide": 0.7182636727841223,
+        "wide_gpu": 0.7183356894300577,
+        "wide_s3": 0.7179523285834113,
+        "wide_s4": 0.7166529783235762,
+        "mixed_width_s3": 0.7183598475441848,
+        "mixed_width_s4": 0.7181767208680834
+      },
+      "comparisons": {
+        "control - teacher": {
+          "delta": 2.1373641872157734e-05,
+          "conditional_ci95": [
+            -0.000887557444365017,
+            0.0009275936033268815
+          ]
+        },
+        "control - control_gpu": {
+          "delta": -3.8751034937112294e-05,
+          "conditional_ci95": [
+            -0.00016369910070727635,
+            7.881786881895058e-05
+          ]
+        },
+        "wide - teacher": {
+          "delta": 5.840327947703727e-06,
+          "conditional_ci95": [
+            -0.0011071038312426007,
+            0.0011448512445185962
+          ]
+        },
+        "wide - wide_gpu": {
+          "delta": -7.201664593536883e-05,
+          "conditional_ci95": [
+            -0.0001964382993190017,
+            3.3265626864001355e-05
+          ]
+        },
+        "wide - control": {
+          "delta": -1.5533313924454006e-05,
+          "conditional_ci95": [
+            -0.0005148944004173984,
+            0.0004625129701069622
+          ]
+        },
+        "mixed_width_s3 - control": {
+          "delta": 8.064144613806334e-05,
+          "conditional_ci95": [
+            -0.0003342528227334357,
+            0.0005267600280130068
+          ]
+        },
+        "mixed_width_s3 - teacher": {
+          "delta": 0.00010201508801022108,
+          "conditional_ci95": [
+            -0.001017071484809312,
+            0.0012155057864311363
+          ]
+        },
+        "wide_s3 - control_s3": {
+          "delta": 0.00016057714051298522,
+          "conditional_ci95": [
+            -0.0006537983828820287,
+            0.0010356669623337645
+          ]
+        },
+        "mixed_width_s4 - control": {
+          "delta": -0.00010248522996336717,
+          "conditional_ci95": [
+            -0.00033256363872133653,
+            0.0001295220649984492
+          ]
+        },
+        "mixed_width_s4 - teacher": {
+          "delta": -8.111158809120944e-05,
+          "conditional_ci95": [
+            -0.0010553389372383066,
+            0.0008417136668779852
+          ]
+        },
+        "wide_s4 - control_s4": {
+          "delta": -0.00019992441797911376,
+          "conditional_ci95": [
+            -0.0006650544819199911,
+            0.0002663866250047213
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid fold0; ALL train chains excluded because d256 teacher used all train. No train holdout claim. Wider pair is replication-only until runtime checked; prespecified mixed-width pairs are deployment candidates. Native dynamic-int8 replay of trained checkpoint weights. Fixed epochs; width comparison matches teacher, step counts, loss and original FP32 function, but NOT batch order: constructor RNG consumption differs across widths. Organizer provenance not certified. Conditional fitted-model intervals."
+}

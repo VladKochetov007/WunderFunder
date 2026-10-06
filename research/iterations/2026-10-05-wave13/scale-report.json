@@ -1,0 +1,252 @@
+{
+  "specs": {
+    "no_baseline": {
+      "d256bc1k_f0": 0.3,
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_tstream_s3": 0.125,
+      "cmp_tstream_s4": 0.125
+    },
+    "old_baseline": {
+      "d256bc1k_f0": 0.3,
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_tstream_s3": 0.125,
+      "cmp_tstream_s4": 0.125,
+      "w13native_oldhalf": 0.0625
+    },
+    "head_ft": {
+      "d256bc1k_f0": 0.3,
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_tstream_s3": 0.125,
+      "cmp_tstream_s4": 0.125,
+      "w13base_headwmse_s3": 0.03125,
+      "w13base_headwmse_s4": 0.03125
+    },
+    "old_scale0.25": {
+      "d256bc1k_f0": 0.3,
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_tstream_s3": 0.125,
+      "cmp_tstream_s4": 0.125,
+      "w13native_oldhalf": 0.015625
+    },
+    "old_scale0.5": {
+      "d256bc1k_f0": 0.3,
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_tstream_s3": 0.125,
+      "cmp_tstream_s4": 0.125,
+      "w13native_oldhalf": 0.03125
+    },
+    "old_scale0.75": {
+      "d256bc1k_f0": 0.3,
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_tstream_s3": 0.125,
+      "cmp_tstream_s4": 0.125,
+      "w13native_oldhalf": 0.046875
+    },
+    "old_scale1.25": {
+      "d256bc1k_f0": 0.3,
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_tstream_s3": 0.125,
+      "cmp_tstream_s4": 0.125,
+      "w13native_oldhalf": 0.078125
+    },
+    "old_scale2.0": {
+      "d256bc1k_f0": 0.3,
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_tstream_s3": 0.125,
+      "cmp_tstream_s4": 0.125,
+      "w13native_oldhalf": 0.125
+    },
+    "old_scale4.0": {
+      "d256bc1k_f0": 0.3,
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_tstream_s3": 0.125,
+      "cmp_tstream_s4": 0.125,
+      "w13native_oldhalf": 0.25
+    }
+  },
+  "comparisons": [
+    [
+      "head_ft",
+      "no_baseline"
+    ],
+    [
+      "no_baseline",
+      "old_baseline"
+    ],
+    [
+      "old_scale0.25",
+      "old_baseline"
+    ],
+    [
+      "head_ft",
+      "old_scale0.25"
+    ],
+    [
+      "old_scale0.5",
+      "old_baseline"
+    ],
+    [
+      "head_ft",
+      "old_scale0.5"
+    ],
+    [
+      "old_scale0.75",
+      "old_baseline"
+    ],
+    [
+      "head_ft",
+      "old_scale0.75"
+    ],
+    [
+      "old_scale1.25",
+      "old_baseline"
+    ],
+    [
+      "head_ft",
+      "old_scale1.25"
+    ],
+    [
+      "old_scale2.0",
+      "old_baseline"
+    ],
+    [
+      "head_ft",
+      "old_scale2.0"
+    ],
+    [
+      "old_scale4.0",
+      "old_baseline"
+    ],
+    [
+      "head_ft",
+      "old_scale4.0"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "no_baseline": 0.7168998465565963,
+        "old_baseline": 0.7161343764359889,
+        "head_ft": 0.7168855183408639,
+        "old_scale0.25": 0.7168481942709732,
+        "old_scale0.5": 0.716680131543032,
+        "old_scale0.75": 0.7164326444623739,
+        "old_scale1.25": 0.7158057749640898,
+        "old_scale2.0": 0.7145798710734426,
+        "old_scale4.0": 0.7079387898072806
+      },
+      "comparisons": {
+        "head_ft - no_baseline": {
+          "delta": -1.4328215732439809e-05,
+          "conditional_ci95": [
+            -0.0002795507070041725,
+            0.0002579963328069311
+          ]
+        },
+        "no_baseline - old_baseline": {
+          "delta": 0.0007654701206074588,
+          "conditional_ci95": [
+            4.3593514042591934e-05,
+            0.0015011207585344409
+          ]
+        },
+        "old_scale0.25 - old_baseline": {
+          "delta": 0.0007138178349843649,
+          "conditional_ci95": [
+            0.00020405522498101182,
+            0.0012359359141380281
+          ]
+        },
+        "head_ft - old_scale0.25": {
+          "delta": 3.7324069890654066e-05,
+          "conditional_ci95": [
+            -0.00012288678102472805,
+            0.0002039798978826973
+          ]
+        },
+        "old_scale0.5 - old_baseline": {
+          "delta": 0.0005457551070431332,
+          "conditional_ci95": [
+            0.00022278992667879027,
+            0.0008770603685923665
+          ]
+        },
+        "head_ft - old_scale0.5": {
+          "delta": 0.00020538679783188574,
+          "conditional_ci95": [
+            -3.730325081831298e-05,
+            0.0004815943330939624
+          ]
+        },
+        "old_scale0.75 - old_baseline": {
+          "delta": 0.0002982680263849957,
+          "conditional_ci95": [
+            0.00014431814465582226,
+            0.00045609368449189814
+          ]
+        },
+        "head_ft - old_scale0.75": {
+          "delta": 0.00045287387849002325,
+          "conditional_ci95": [
+            7.047645559251359e-05,
+            0.0008619634870215575
+          ]
+        },
+        "old_scale1.25 - old_baseline": {
+          "delta": -0.0003286014718990593,
+          "conditional_ci95": [
+            -0.00047262325376046244,
+            -0.00018991640057570703
+          ]
+        },
+        "head_ft - old_scale1.25": {
+          "delta": 0.0010797433767740783,
+          "conditional_ci95": [
+            0.00040944673688807497,
+            0.0017890129056318282
+          ]
+        },
+        "old_scale2.0 - old_baseline": {
+          "delta": -0.0015545053625463101,
+          "conditional_ci95": [
+            -0.0020241260373477813,
+            -0.0010751598132080378
+          ]
+        },
+        "head_ft - old_scale2.0": {
+          "delta": 0.002305647267421329,
+          "conditional_ci95": [
+            0.0012874885042067686,
+            0.003319995429544471
+          ]
+        },
+        "old_scale4.0 - old_baseline": {
+          "delta": -0.008195586628708229,
+          "conditional_ci95": [
+            -0.009908659098872433,
+            -0.006380499493675721
+          ]
+        },
+        "head_ft - old_scale4.0": {
+          "delta": 0.008946728533583248,
+          "conditional_ci95": [
+            0.00693452144620405,
+            0.010829467324624208
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid fold0; ALL train chains excluded because d256 teacher used all train. No train holdout claim. Same frozen two-stream mixture, organizer component replaced. Three predeclared fullcorr scales are exploratory and require correction for selection. Baseline FT uses valid fold !=0 only; baseline original pretraining provenance uncertain. Organizer provenance not certified. Conditional fitted-model intervals."
+}

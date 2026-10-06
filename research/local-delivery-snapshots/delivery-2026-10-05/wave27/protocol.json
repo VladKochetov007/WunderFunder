@@ -1,0 +1,22 @@
+{
+  "hypothesis": "Increase nonlinear readout capacity without widening recurrent state. Fresh head256->512 units start with zero outgoing columns, preserving all parent predictions.",
+  "primary": "headwide pair minus w22_control pair, fixed epoch1 seeds3/4",
+  "parent": "w19distilled same seed, function-preserving checkpoint w27head_init",
+  "teacher": "w22teacher, alpha.7; same fourfamilyteachers",
+  "training": "alltrain+valid!=0,2epochs,AdamW1e-4,chunk2000,batch16, all trainable parameters including GRU",
+  "matched_data_order": "New layer constructors run inside CPU fork_rng(devices=[]), restoring global state. Unit check proves same constructor RNG state as baseline h256; no additional random draws outside fork.",
+  "deployment": "Standard existing native engine supports GRU256/head512; quality/parity/runtime still checked before promotion.",
+  "limitations": [
+    "reused valid425/123",
+    "conditional fitted-model intervals",
+    "no honest train holdout for parentmodels",
+    "initial function match does not isolate a unique mechanism for later gains"
+  ],
+  "sources": {
+    "widen_head.py": "399dfc5a2becbfd8a89ceaf340b06975a7cb8487708e2a9c49988dd2f7359369",
+    "evaluate.py": "7521980c34e50c856965984aeeeb49c59b948095c6efe102137435fc906eeede",
+    "scripts/compress_model.py": "f8943740dc6d99093da7ee96e03a29584380de374b22f4936d894b4119ecca45",
+    "scripts/train_rnn.py": "a59894f9a0e54ed4aff517ec47f7cbc27ae2271eccd2bd9a2da32bb43b462fb0",
+    "scripts/predict_run.py": "6bc5683d5ccaf25ca56a3e220c387344a4ae4a6cb3a1be144e6286019f9c31ca"
+  }
+}

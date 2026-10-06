@@ -1,0 +1,49 @@
+{
+  "status": "PASS_INTERVAL_FIXED_ENDPOINT_AND_LINEAGE",
+  "job": "oct02_im_instantaneous_s3h2_f0",
+  "stage": "H2",
+  "arm": "instantaneous",
+  "fold": 0,
+  "checkpoint": {
+    "path": "artifacts/runs/oct02_im_instantaneous_s3h2_f0/model_ep1.pt",
+    "sha256": "cc9268c992e73bbe7dae7e48022053780c9bd27daa9690ff6844a97eb98bdd6d",
+    "epoch": 1
+  },
+  "model_pt": {
+    "path": "artifacts/runs/oct02_im_instantaneous_s3h2_f0/model.pt",
+    "sha256": "42f5dd7df1a934ac390ba79dff248d3004919a5e914eac427120f55d18c7427d",
+    "epoch": null
+  },
+  "model_pt_state_byte_equals_endpoint": true,
+  "all106_args_match": true,
+  "byte_identical_frozen_tensors": [
+    "event_gru.bias_hh_l0",
+    "event_gru.bias_ih_l0",
+    "event_gru.weight_hh_l0",
+    "event_gru.weight_ih_l0",
+    "gru.bias_hh_l0",
+    "gru.bias_ih_l0",
+    "gru.weight_hh_l0",
+    "gru.weight_ih_l0",
+    "inp.bias",
+    "inp.weight",
+    "interval_proj.bias",
+    "interval_proj.weight",
+    "mean",
+    "std"
+  ],
+  "normalization_matches_parent": true,
+  "changed_readout_tensors": [
+    "head.2.bias",
+    "head.0.weight",
+    "head.2.weight",
+    "head.0.bias",
+    "extra_weight"
+  ],
+  "initial_state_receipt_sha256": "5c8ca16125af776710bf3a3a81abdfc91cfc40603c6a0c553787148633fed17b",
+  "commands_sha256": "e4deda87a9520aad4ec0c3a95886bfddacbaa4e11a4bdc36ed838f2d0de3c663",
+  "validator_sha256": "924c680a44197b3a4608e91ee3b47bf91e4e2bf07ae01284c5ac9e2c6ea100dd",
+  "data_or_targets_read": false,
+  "model_forward_calls": 0,
+  "metrics": 0
+}

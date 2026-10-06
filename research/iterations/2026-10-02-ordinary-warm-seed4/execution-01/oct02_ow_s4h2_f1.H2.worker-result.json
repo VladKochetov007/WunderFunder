@@ -1,0 +1,74 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_ow_s4h2_f1",
+  "stage": "H2",
+  "allocation_sha256": "f98323f10b63ca49bd4260cc98b726f637bd884c4be337cb26b4eed7e48c0b09",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-ordinary-warm-seed4/train_warm.py",
+    "--name",
+    "oct02_ow_s4h2_f1",
+    "--full-valid",
+    "--layers",
+    "1",
+    "--batch",
+    "16",
+    "--lr",
+    "0.0005",
+    "--loss",
+    "gcorr",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "1",
+    "--init",
+    "oct02_ow_s4_f1@ep0",
+    "--freeze",
+    "inp,gru",
+    "--mask-weight",
+    "--seed",
+    "4",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache"
+  ],
+  "started_utc": "2026-10-02T02:23:28.421116+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_ow_s4h2_f1/model_ep0.pt": {
+      "bytes": 2353191,
+      "sha256": "a3bfa3ee77d40a0447cdd618bec48d4aa032e8ff89739364211563702776161e"
+    },
+    "artifacts/runs/oct02_ow_s4h2_f1/model_ep1.pt": {
+      "bytes": 2353191,
+      "sha256": "d38c6f23ed2c7dc5dd4274d5c0828bf29d8a735a2fd4dffe2526d07a39d9b667"
+    },
+    "artifacts/runs/oct02_ow_s4h2_f1/model.pt": {
+      "bytes": 2352747,
+      "sha256": "de88f0b2db6ded13bdf3618bff65bc5663bf20a571640a31b645b2f3c3e90fe5"
+    },
+    "artifacts/runs/oct02_ow_s4h2_f1/history.json": {
+      "bytes": 336,
+      "sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5"
+    },
+    "artifacts/runs/oct02_ow_s4h2_f1/initial-state.json": {
+      "bytes": 1263,
+      "sha256": "988d166a5c2b7789fae032c422fa7a3240db9f964445fa324a7f322087f96072"
+    },
+    "research/iterations/2026-10-02-ordinary-warm-seed4/execution-01/oct02_ow_s4h2_f1.check.json": {
+      "bytes": 1259,
+      "sha256": "3309240f8b4909a8ec85dbcd7d34345aa555aa123d22e2b5cd80626b6effb0a8"
+    }
+  },
+  "seconds": 70.54385573696345,
+  "finished_utc": "2026-10-02T02:24:38.964992+00:00"
+}

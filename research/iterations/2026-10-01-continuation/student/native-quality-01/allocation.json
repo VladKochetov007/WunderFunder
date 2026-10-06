@@ -1,0 +1,69 @@
+{
+  "id": "STUDENT-NATIVE-QUALITY-01",
+  "authorized": true,
+  "authorization": "Root explicit task: exactly two native INT8 OOF passes plus one frozen-metric comparison and fixed2000 paired-chain resamples.",
+  "OOF_passes": 2,
+  "metric_readouts": 1,
+  "folds": [
+    0,
+    1
+  ],
+  "coefficients": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+  ],
+  "members": [
+    "cont_sh256_s3h2",
+    "on_ctl128s3",
+    "on_ctl128s4",
+    "on_ctlc500"
+  ],
+  "epoch": 1,
+  "native_sha256": "b865301e5ff0c9dce78c29c258d991a7b5542e7a63d44eeafd32c3b526166867",
+  "reference_expected_wp": 0.7023370762430894,
+  "reference_quality_sha256": "06ece489d13f05589ffc74f484938fa0191a16a74a545c7786eb087b7e839fa1",
+  "reference_prediction_sha256": {
+    "0": "ad8086a55b976c5cc20bbb0ed781fbcbe394383882680d19338364978a1970b8",
+    "1": "7d303d9fdbb96edb4e08453f9b9345f7d14b8dddd6cc5eba471514f19d041449"
+  },
+  "prior_GPU_candidate_wp": 0.7023796676,
+  "GPU_drift_interpretation": "Combined backend/AMP/quant drift only, not isolated quant penalty.",
+  "lanes": {
+    "0": 30,
+    "1": 35
+  },
+  "siblings": {
+    "0": 70,
+    "1": 75
+  },
+  "cpu_quota_each": "100%",
+  "memory_bytes_each": 4294967296,
+  "swap_bytes": 0,
+  "prediction_wall_seconds_each": 1800,
+  "prepare_wall_seconds": 60,
+  "evaluation_wall_seconds": 600,
+  "kill_grace_seconds": 5,
+  "new_disk_cap_bytes": 1073741824,
+  "GPU_execution": false,
+  "new_fits": 0,
+  "retries": false,
+  "bootstrap": {
+    "replicates": 2000,
+    "generator": "PCG64",
+    "seed": 0,
+    "paired_whole_chain": true,
+    "fold_stratified": true,
+    "selection_adjusted": false
+  },
+  "source_sha256": {
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/predict.py": "2fa3e53bd0388735620eba5eec1ed1377a22cd03a00d6fc624b284a3708f254b",
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/launch.py": "d008bfb4ff3c92cfb9baaea40cb48587e484e2929b1a939eea25eaa5e72048b9",
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/common.py": "b0d3cd69c42aff30fa09ed7aa06b7e3f020efff20425289044eb501adc57dfc7",
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/evaluate.py": "9dd71d06373121176133e1cfa3bd2455eabcd40f35f3e38824908c52a88f4986",
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/prepare.py": "b85d5ea0920e512a798a0a5e07494687a54fa351b8233f7575d01a63eeacae5c",
+    "scripts/fold_eval.py": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+  }
+}

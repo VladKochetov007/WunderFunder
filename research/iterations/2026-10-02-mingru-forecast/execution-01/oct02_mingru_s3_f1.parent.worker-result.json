@@ -1,0 +1,94 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_mingru_s3_f1",
+  "stage": "parent",
+  "allocation_sha256": "b3a56832f644ba0ca3253ef4ef711c1a39b4674320181ad3a787db22348f6cd8",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-mingru-forecast/train_minimal.py",
+    "--name",
+    "oct02_mingru_s3_f1",
+    "--full-valid",
+    "--layers",
+    "2",
+    "--epochs",
+    "4",
+    "--loss",
+    "wmse",
+    "--distill",
+    "h256_f1,h256s4_f1",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "train+valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "1",
+    "--ema-teacher",
+    "1.0",
+    "--eval-ema",
+    "--propensity",
+    "prop_f1",
+    "--prop-power",
+    "2.0",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--seed",
+    "3",
+    "--since-weight",
+    "32.0",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache",
+    "--arch",
+    "mingru",
+    "--hidden",
+    "256",
+    "--batch",
+    "32",
+    "--chunk",
+    "2000"
+  ],
+  "started_utc": "2026-10-01T22:46:11.039118+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_mingru_s3_f1/model_ep0.pt": {
+      "bytes": 1829087,
+      "sha256": "f791025a07a3ba95c9b5f0ff9c47da133564d54beff9f0401cffdf7cc85a82bc"
+    },
+    "artifacts/runs/oct02_mingru_s3_f1/model_ep1.pt": {
+      "bytes": 1829087,
+      "sha256": "880681b52f148756333e32b84ba4c2ee177c2b73e7f512695513b04c52e6c43e"
+    },
+    "artifacts/runs/oct02_mingru_s3_f1/model_ep2.pt": {
+      "bytes": 1829087,
+      "sha256": "9a0895ef10e4ddda812025284207f2379377c64d5fd65ac36c2834bf346e5cbd"
+    },
+    "artifacts/runs/oct02_mingru_s3_f1/model_ep3.pt": {
+      "bytes": 1829087,
+      "sha256": "2d12084894a2e303fa141d29fd9b6174ec3350da8d0eefe72c8ba4df88d425d4"
+    },
+    "artifacts/runs/oct02_mingru_s3_f1/model.pt": {
+      "bytes": 1828167,
+      "sha256": "b14876e78e07c4e9232baef76097d00e3bbae5599c031d68945c8c2d1e17f78d"
+    },
+    "artifacts/runs/oct02_mingru_s3_f1/history.json": {
+      "bytes": 670,
+      "sha256": "8bb2d6ead133be5dbdef68134e0dc17b4fcdc1da8cad08e42c25119356df4359"
+    },
+    "research/iterations/2026-10-02-mingru-forecast/execution-01/oct02_mingru_s3_f1.check.json": {
+      "bytes": 948,
+      "sha256": "3607f4bc64df1ce9afa37a60e478b613aad72cd59de6c6c90d3540aa126cbc85"
+    }
+  },
+  "seconds": 4921.423923242837,
+  "finished_utc": "2026-10-02T00:08:12.463064+00:00"
+}

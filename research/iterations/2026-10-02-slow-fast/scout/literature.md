@@ -1,0 +1,12 @@
+# Literature scouting for large-tick, quiet-regime prediction (2026-10-02; untrusted summaries)
+- Queue imbalance predicts next mid move for large-tick stocks (Gould & Bonart, arXiv 1512.03492); local logistic slightly better.
+- Micro-price (Stoikov, SSRN 2970694): Markov function of (imbalance, spread); clock-free.
+- Cont–de Larrard Markov queues (arXiv 1104.4596): closed-form P(up | q_bid, q_ask) and time-to-change.
+- Queue-reactive model (Huang–Lehalle–Rosenbaum arXiv 1312.0563), +Hawkes (1901.08938), deep QR (2405.18594, 2501.08822).
+- Survival/time-to-event heads on LOB (2306.05479).
+- Large-tick predictability higher in event time (2403.09267); stationary order-flow inputs generalize better (Kolm–Turiel–Westray SSRN 3900141; 2211.13777); universal model across stocks/time (1803.06917).
+- Continuous-time RNNs: GRU-D (1606.01865), ODE-RNN (1907.03907), neural CDE (2005.08926).
+- Domain generalization: ERM ≈ IRM/V-REx when tuned (2007.01434); covariate-shift importance weighting.
+- Jane Street 2024-25 2nd place (reconstruction github cweill): GRUs, multi-target head, seed ensembles, online updates on lagged labels (+0.0064 R²).
+- Optiver Trading at the Close 1st: CatBoost/GRU/Transformer blend, time-forward holdout tracked LB, online learning, cross-sectional demeaning.
+- Pearson/CCC losses beat MSE on noisy targets (1902.05180).

@@ -1,0 +1,92 @@
+{
+  "id": "CONDITIONAL_FIXED_MIDPOINT_NATIVE_QUALITY",
+  "authorized": false,
+  "activation_condition": "Explicit root only after seed3>=.0001 versus incumbent, seed4>0 versus originalseed4, all4folds>0; fixedseed3.",
+  "OOF_passes": 2,
+  "metric_readouts": 1,
+  "folds": [
+    0,
+    1
+  ],
+  "coefficients": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+  ],
+  "members": [
+    "oct02_wm_s3h2",
+    "on_ctl128s3",
+    "on_ctl128s4",
+    "on_ctlc500"
+  ],
+  "epoch": 1,
+  "native_sha256": "b865301e5ff0c9dce78c29c258d991a7b5542e7a63d44eeafd32c3b526166867",
+  "reference_prepared_sha256": "096af7fec60113981269ffacbec6eca6f9df2b34976638cbe73739cfd66eeae1",
+  "reference_prediction_sha256": {
+    "0": "5fab2d3197bd16028640d1702d19c827491a2da978573640bd656b6c7d41d43f",
+    "1": "099284c295cd62757be381508ec6dba736e714d48efccfad8e2c2ff3d6fe329b"
+  },
+  "reference_receipt_sha256": {
+    "0": "c0a083c10c90bfad43d607c4817556a4ff9167b04471883e7c464dff0552a17d",
+    "1": "f9740942171974711450c215369bf9109faca712accf1c356995ff844f478b97"
+  },
+  "lanes": {
+    "0": 30,
+    "1": 35
+  },
+  "siblings": {
+    "0": 70,
+    "1": 75
+  },
+  "cpu_quota_each": "100%",
+  "memory_bytes_each": 4294967296,
+  "swap_bytes": 0,
+  "prediction_wall_seconds_each": 1800,
+  "prepare_wall_seconds": 60,
+  "evaluation_wall_seconds": 600,
+  "kill_grace_seconds": 5,
+  "new_disk_cap_bytes": 1073741824,
+  "GPU_execution": false,
+  "new_fits": 0,
+  "retries": false,
+  "source_sha256": {
+    "research/iterations/2026-10-02-midpoint-delivery/native-quality/common.py": "8eaf85c4eb06cae54c2135feb4a6d648edcc17376f9afb6dc3275e266c5c87c5",
+    "research/iterations/2026-10-02-midpoint-delivery/native-quality/prepare.py": "2520b93a84b6510fe4c2b714746b30e17b9b8976bce12654ae8935e2fbf4ec88",
+    "research/iterations/2026-10-02-midpoint-delivery/native-quality/predict.py": "cee6cbd3c5f28e809d0f6b1d63bb1282f8a29a70d6f99802b66847492f705ab6",
+    "research/iterations/2026-10-02-midpoint-delivery/native-quality/launch.py": "dba86f7778f7586c84778c181d6cce9cdc8172fee843c1d0a4ebb7abd21ffb89",
+    "research/iterations/2026-10-02-midpoint-delivery/native-quality/start.py": "d4f65b3c7f4170ce55d2db8450e30c020e434ea93246ebcb6958bdbb8c984a87",
+    "research/iterations/2026-10-02-midpoint-delivery/native-quality/README.md": "f4c410acc7ad960b53a10b5b0e2a6ffa2c24d2f339196ab156b774733ec22f64",
+    "research/iterations/2026-10-02-midpoint-delivery/native-quality/evaluate.py": "41b39bc0cbbe74a6ed499e09c50b552e27031701bccc044d92f3203d8865ae65",
+    "research/iterations/2026-10-02-warm-midpoint/commands.json": "f4094bb61426c0380050a13a50d7adc11fb3f7d425554c82d20892da538da497",
+    "research/iterations/2026-10-02-warm-midpoint/midpoint.py": "a6ef8e8378724db48278fe263bd23c34d8a4f04768619cd5c33858d9978fef71",
+    "research/iterations/2026-10-02-warm-midpoint/construct.py": "779386b4207ca1304a22436acef208e18f2dadb8000dbdc47cba9833243d36b7",
+    "research/iterations/2026-10-02-warm-midpoint/check_checkpoint.py": "3de1cacd6fbb479fd080610bf7567841304d8d678442e00b7ac026eb505b935b",
+    "research/iterations/2026-10-02-warm-midpoint/check_generated.py": "50f056e3dcc73256c095754c1608adffa6a262b5a88abef224a8c501bc8b47b1",
+    "research/iterations/2026-10-02-warm-midpoint/evaluate.py": "79a92747abd1983ca575eee2c479bd3dd0a5ac3eeaaaf3c585885440e28af885",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "scripts/fold_eval.py": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+    "research/iterations/2026-10-01-ensemble-backbone/evaluate.py": "c5f3ecc795ebd680872c39a652075a894192bfe9b4e654eca7e826c0310980e9"
+  },
+  "evaluation_input_sha256": {
+    "research/iterations/2026-10-02-warm-midpoint/evaluation-01/report.json": null,
+    "research/iterations/2026-10-02-warm-midpoint/evaluation-01/sufficient.npz": null,
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/evaluation/report.json": null,
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/evaluation/sufficient.npz": null,
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/cache/pred_student_quant_f0_valid.json": null,
+    "research/iterations/2026-10-01-continuation/student/native-quality-01/cache/pred_student_quant_f1_valid.json": null
+  },
+  "root_fill_required": [
+    "midpoint_checkpoint_sha256 from completed M construction proof",
+    "midpoint_proof_sha256 and six evaluation_input hashes from frozen M/currentnative producers",
+    "authorized=True only through root allocation"
+  ],
+  "primary": "native midpoint4 minus CURRENT student_native4",
+  "secondary": "native midpoint4 minus exact GPU midpoint_seed3_4",
+  "source_preparation_only": true,
+  "midpoint_checkpoint_sha256": {
+    "0": null,
+    "1": null
+  },
+  "midpoint_proof_sha256": {}
+}

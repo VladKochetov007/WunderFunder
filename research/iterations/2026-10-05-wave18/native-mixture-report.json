@@ -1,0 +1,176 @@
+{
+  "specs": {
+    "two_stream_teacher": {
+      "d256bc1k_f0": 0.3,
+      "cmp_fullft_s3": 0.1,
+      "cmp_fullft_s4": 0.1,
+      "cmp_tstream_s3": 0.125,
+      "cmp_tstream_s4": 0.125,
+      "w13native_oldhalf": 0.0625
+    },
+    "gpu_student": {
+      "w12compress256_distilled_s3": 0.5,
+      "w12compress256_distilled_s4": 0.5
+    },
+    "native_student": {
+      "w18native_distilled_s3": 0.5,
+      "w18native_distilled_s4": 0.5
+    },
+    "student_twostream_a0.1_base0.0": {
+      "w12compress256_distilled_s3": 0.45,
+      "w12compress256_distilled_s4": 0.45,
+      "cmp_tstream_s3": 0.05,
+      "cmp_tstream_s4": 0.05
+    },
+    "student_twostream_a0.1_base0.0625": {
+      "w12compress256_distilled_s3": 0.45,
+      "w12compress256_distilled_s4": 0.45,
+      "cmp_tstream_s3": 0.05,
+      "cmp_tstream_s4": 0.05,
+      "w13native_oldhalf": 0.0625
+    },
+    "student_twostream_a0.2_base0.0": {
+      "w12compress256_distilled_s3": 0.4,
+      "w12compress256_distilled_s4": 0.4,
+      "cmp_tstream_s3": 0.1,
+      "cmp_tstream_s4": 0.1
+    },
+    "student_twostream_a0.2_base0.0625": {
+      "w12compress256_distilled_s3": 0.4,
+      "w12compress256_distilled_s4": 0.4,
+      "cmp_tstream_s3": 0.1,
+      "cmp_tstream_s4": 0.1,
+      "w13native_oldhalf": 0.0625
+    }
+  },
+  "comparisons": [
+    [
+      "native_student",
+      "gpu_student"
+    ],
+    [
+      "native_student",
+      "two_stream_teacher"
+    ],
+    [
+      "student_twostream_a0.1_base0.0",
+      "gpu_student"
+    ],
+    [
+      "student_twostream_a0.1_base0.0",
+      "two_stream_teacher"
+    ],
+    [
+      "student_twostream_a0.1_base0.0625",
+      "gpu_student"
+    ],
+    [
+      "student_twostream_a0.1_base0.0625",
+      "two_stream_teacher"
+    ],
+    [
+      "student_twostream_a0.2_base0.0",
+      "gpu_student"
+    ],
+    [
+      "student_twostream_a0.2_base0.0",
+      "two_stream_teacher"
+    ],
+    [
+      "student_twostream_a0.2_base0.0625",
+      "gpu_student"
+    ],
+    [
+      "student_twostream_a0.2_base0.0625",
+      "two_stream_teacher"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "two_stream_teacher": 0.7161343764359889,
+        "gpu_student": 0.718150292592171,
+        "native_student": 0.7180618737229577,
+        "student_twostream_a0.1_base0.0": 0.7182414515082093,
+        "student_twostream_a0.1_base0.0625": 0.7170355842816794,
+        "student_twostream_a0.2_base0.0": 0.7182270699782585,
+        "student_twostream_a0.2_base0.0625": 0.7170746262610985
+      },
+      "comparisons": {
+        "native_student - gpu_student": {
+          "delta": -8.841886921329145e-05,
+          "conditional_ci95": [
+            -0.00022976487757450648,
+            2.852272848592177e-05
+          ]
+        },
+        "native_student - two_stream_teacher": {
+          "delta": 0.0019274972869688378,
+          "conditional_ci95": [
+            0.001028758236443414,
+            0.002944312315427854
+          ]
+        },
+        "student_twostream_a0.1_base0.0 - gpu_student": {
+          "delta": 9.115891603828086e-05,
+          "conditional_ci95": [
+            -9.104499082159822e-05,
+            0.0002658896687659755
+          ]
+        },
+        "student_twostream_a0.1_base0.0 - two_stream_teacher": {
+          "delta": 0.00210707507222041,
+          "conditional_ci95": [
+            0.001345762041370524,
+            0.0029993768904556205
+          ]
+        },
+        "student_twostream_a0.1_base0.0625 - gpu_student": {
+          "delta": -0.0011147083104916522,
+          "conditional_ci95": [
+            -0.0016220295479165369,
+            -0.0006157155266994988
+          ]
+        },
+        "student_twostream_a0.1_base0.0625 - two_stream_teacher": {
+          "delta": 0.0009012078456904771,
+          "conditional_ci95": [
+            0.0002610158703275578,
+            0.001612836337263443
+          ]
+        },
+        "student_twostream_a0.2_base0.0 - gpu_student": {
+          "delta": 7.677738608746765e-05,
+          "conditional_ci95": [
+            -0.00028741053884340505,
+            0.00042740372845128657
+          ]
+        },
+        "student_twostream_a0.2_base0.0 - two_stream_teacher": {
+          "delta": 0.002092693542269597,
+          "conditional_ci95": [
+            0.0013692014613694958,
+            0.0029604692898637596
+          ]
+        },
+        "student_twostream_a0.2_base0.0625 - gpu_student": {
+          "delta": -0.0010756663310724779,
+          "conditional_ci95": [
+            -0.0016287555109922385,
+            -0.0005677318558586971
+          ]
+        },
+        "student_twostream_a0.2_base0.0625 - two_stream_teacher": {
+          "delta": 0.0009402498251096514,
+          "conditional_ci95": [
+            0.00041250733771721617,
+            0.0015727844580952107
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid fold0; ALL train chains excluded because d256 teacher used all train. No train holdout claim. Predeclared mixture grid for h256 student pair and two-stream teacher; mixtures exploratory after student success. Full mixture runtime not yet certified. Organizer provenance not certified. Conditional fitted-model intervals."
+}

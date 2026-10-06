@@ -1,0 +1,115 @@
+{
+  "specs": {
+    "kd": {
+      "w18compcompress_distilled_s3": 0.5,
+      "w18compcompress_distilled_s4": 0.5
+    },
+    "direct": {
+      "w18compcompress_direct_s3": 0.5,
+      "w18compcompress_direct_s4": 0.5
+    },
+    "direct_mix_0.1": {
+      "w18compcompress_distilled_s3": 0.45,
+      "w18compcompress_distilled_s4": 0.45,
+      "w18compcompress_direct_s3": 0.05,
+      "w18compcompress_direct_s4": 0.05
+    },
+    "direct_mix_0.25": {
+      "w18compcompress_distilled_s3": 0.375,
+      "w18compcompress_distilled_s4": 0.375,
+      "w18compcompress_direct_s3": 0.125,
+      "w18compcompress_direct_s4": 0.125
+    },
+    "direct_mix_0.5": {
+      "w18compcompress_distilled_s3": 0.25,
+      "w18compcompress_distilled_s4": 0.25,
+      "w18compcompress_direct_s3": 0.25,
+      "w18compcompress_direct_s4": 0.25
+    }
+  },
+  "comparisons": [
+    [
+      "direct_mix_0.1",
+      "kd"
+    ],
+    [
+      "direct_mix_0.25",
+      "kd"
+    ],
+    [
+      "direct_mix_0.5",
+      "kd"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 436,
+      "chains": 129,
+      "scores": {
+        "kd": 0.7126204198255042,
+        "direct": 0.7095253131924937,
+        "direct_mix_0.1": 0.7125724479109172,
+        "direct_mix_0.25": 0.7123752678950106,
+        "direct_mix_0.5": 0.7117429317262435
+      },
+      "comparisons": {
+        "direct_mix_0.1 - kd": {
+          "delta": -4.797191458694172e-05,
+          "conditional_ci95": [
+            -0.0003373266875277864,
+            0.0002289749530949486
+          ]
+        },
+        "direct_mix_0.25 - kd": {
+          "delta": -0.0002451519304935701,
+          "conditional_ci95": [
+            -0.0009601306615451388,
+            0.00043925858592458174
+          ]
+        },
+        "direct_mix_0.5 - kd": {
+          "delta": -0.0008774880992606926,
+          "conditional_ci95": [
+            -0.0022966405949842615,
+            0.0004584698374286096
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "kd": 0.5975019974748828,
+        "direct": 0.5895289049510343,
+        "direct_mix_0.1": 0.5971851062765429,
+        "direct_mix_0.25": 0.5964715224138348,
+        "direct_mix_0.5": 0.5947180645979471
+      },
+      "comparisons": {
+        "direct_mix_0.1 - kd": {
+          "delta": -0.0003168911983398859,
+          "conditional_ci95": [
+            -0.0006822267651549058,
+            4.5110613477142275e-05
+          ]
+        },
+        "direct_mix_0.25 - kd": {
+          "delta": -0.0010304750610479196,
+          "conditional_ci95": [
+            -0.0019510505515928172,
+            -0.00011313296522866577
+          ]
+        },
+        "direct_mix_0.5 - kd": {
+          "delta": -0.0027839328769356797,
+          "conditional_ci95": [
+            -0.004636338450292052,
+            -0.0009389917150214061
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Exploratory reused data. Known teacher parents and students restricted to train half0 + valid folds !=0. Original organizer pretraining provenance uncertain. Train mask estimated; diagnostic only. Intervals conditional on fitted models."
+}

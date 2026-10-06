@@ -1,0 +1,21 @@
+{
+  "hypothesis": "Repeat wave19 teacher replacement in composite split, known learned ancestors trained on train half0+valid!=0 only.",
+  "primary": "new KD pair minus old KD pair on valid436 and train282 fixed diagnostic; train mask estimated",
+  "controls": "Same init w15d256 same seeds3/4, two epochs, alpha.7, AdamW.0001, losses and batches. Change main teacher raw pair to two-stream pair plus corresponding family teacher.",
+  "fixed_epoch": 1,
+  "limitations": [
+    "adaptive reused holdouts",
+    "organizer initial pretraining provenance uncertain",
+    "conditional bootstrap not seed-level uncertainty"
+  ],
+  "deployment": "wave21 final all-data pair pending package audit; current public.6674 unchanged",
+  "resource_restart": {
+    "failed_seed": 3,
+    "gpu": 5,
+    "cause": "External process claimed14.3GB during startup; OOM before any checkpoint.",
+    "preserved": "artifacts/runs/w24comp_distilled_s3_oom_gpu5 and matching log",
+    "restart_gpu": 6,
+    "gpu_fraction": 0.35,
+    "scientific_changes": "none; same seed, dataset, model, teacher, batch, optimizer, epochs"
+  }
+}

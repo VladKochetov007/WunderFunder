@@ -1,0 +1,102 @@
+{
+  "specs": {
+    "teacher": {
+      "w19teacher": 1.0
+    },
+    "codebook": {
+      "w32_codebook_s3": 0.5,
+      "w32_codebook_s4": 0.5
+    },
+    "codebook_s3": {
+      "w32_codebook_s3": 1.0
+    },
+    "codebook_s4": {
+      "w32_codebook_s4": 1.0
+    },
+    "family": {
+      "w19distilled_s3": 0.5,
+      "w19distilled_s4": 0.5
+    },
+    "family_s3": {
+      "w19distilled_s3": 1.0
+    },
+    "family_s4": {
+      "w19distilled_s4": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "codebook",
+      "teacher"
+    ],
+    [
+      "family",
+      "teacher"
+    ],
+    [
+      "codebook",
+      "family"
+    ],
+    [
+      "codebook_s3",
+      "family_s3"
+    ],
+    [
+      "codebook_s4",
+      "family_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher": 0.7161302310562185,
+        "codebook": 0.7183919894509698,
+        "codebook_s3": 0.7179171852669871,
+        "codebook_s4": 0.7176214151831817,
+        "family": 0.718363943590675,
+        "family_s3": 0.7178956938633227,
+        "family_s4": 0.717590093778095
+      },
+      "comparisons": {
+        "codebook - teacher": {
+          "delta": 0.00226175839475129,
+          "conditional_ci95": [
+            0.0013800677003910744,
+            0.003288005427776213
+          ]
+        },
+        "family - teacher": {
+          "delta": 0.002233712534456478,
+          "conditional_ci95": [
+            0.0013547937209006876,
+            0.003256026245273075
+          ]
+        },
+        "codebook - family": {
+          "delta": 2.804586029481193e-05,
+          "conditional_ci95": [
+            -1.227562164982654e-05,
+            6.619971497359711e-05
+          ]
+        },
+        "codebook_s3 - family_s3": {
+          "delta": 2.1491403664364306e-05,
+          "conditional_ci95": [
+            -2.867634734872171e-05,
+            6.626380818401938e-05
+          ]
+        },
+        "codebook_s4 - family_s4": {
+          "delta": 3.132140508665948e-05,
+          "conditional_ci95": [
+            -2.2584562511798743e-05,
+            8.175224574352155e-05
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid425/123, all train chains excluded. Exact wave19 recipe and init/constructor/data order retained; only a causal exact paired-code embedding residual is added before input GELU. Vocab fitted on64train chains,4096keys perinstrument, rank16; initial function and constructor RNG match. Family heads and cached targets remain present. Fixed epoch1, two seeds. No honest train holdout; native and composite checks needed. Conditional fitted-model bootstrap; organizer pretraining provenance uncertain."
+}

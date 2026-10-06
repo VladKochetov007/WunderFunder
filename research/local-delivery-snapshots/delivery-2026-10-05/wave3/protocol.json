@@ -1,0 +1,35 @@
+{
+  "target_public": 0.6711,
+  "confirmed_public": 0.6666,
+  "leader_source": "user 2026-10-05",
+  "status": "active",
+  "runs": {
+    "quiet_adapter": {
+      "seeds": [
+        3,
+        4
+      ],
+      "control": "shared adapter same rank16 architecture",
+      "gate": "parent causal class3 probability",
+      "epochs": 3,
+      "checkpoint": "fixed epoch2",
+      "parent": "cmp_fullft_s{seed}_ft@ep1",
+      "frozen": "all except adapter"
+    },
+    "ratio_adapter": {
+      "seeds": [
+        3,
+        4
+      ],
+      "control": "direct adapter same rank16 four outputs",
+      "target": "E[mask abs(y) y] / E[mask abs(y)]",
+      "shrinkage": 0.25,
+      "denominator_floor": 0.05,
+      "epochs": 3,
+      "checkpoint": "fixed epoch2",
+      "frozen": "all except adapter"
+    }
+  },
+  "validation": "full fold0 with known parent-training chains excluded, plus fixed wave2 complement hold; per-seed and pair; fixed .2 addition to reference and parent replacement; 2000 chain bootstrap; reused data acknowledged",
+  "promotion": "Both domains and paired seeds checked; sampled probes require full replay before promotion; no leaderboard score inferred from local delta"
+}

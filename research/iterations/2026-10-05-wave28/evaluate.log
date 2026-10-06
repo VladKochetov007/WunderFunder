@@ -1,0 +1,102 @@
+{
+  "specs": {
+    "teacher": {
+      "w19teacher": 1.0
+    },
+    "nofamily": {
+      "w28_nofamily_s3": 0.5,
+      "w28_nofamily_s4": 0.5
+    },
+    "nofamily_s3": {
+      "w28_nofamily_s3": 1.0
+    },
+    "nofamily_s4": {
+      "w28_nofamily_s4": 1.0
+    },
+    "family": {
+      "w19distilled_s3": 0.5,
+      "w19distilled_s4": 0.5
+    },
+    "family_s3": {
+      "w19distilled_s3": 1.0
+    },
+    "family_s4": {
+      "w19distilled_s4": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "nofamily",
+      "teacher"
+    ],
+    [
+      "family",
+      "teacher"
+    ],
+    [
+      "nofamily",
+      "family"
+    ],
+    [
+      "nofamily_s3",
+      "family_s3"
+    ],
+    [
+      "nofamily_s4",
+      "family_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher": 0.7161302310562185,
+        "nofamily": 0.7184031467906296,
+        "nofamily_s3": 0.7179322896402017,
+        "nofamily_s4": 0.7175836175023854,
+        "family": 0.718363943590675,
+        "family_s3": 0.7178956938633227,
+        "family_s4": 0.717590093778095
+      },
+      "comparisons": {
+        "nofamily - teacher": {
+          "delta": 0.0022729157344110185,
+          "conditional_ci95": [
+            0.0013532722395301234,
+            0.003356095122162698
+          ]
+        },
+        "family - teacher": {
+          "delta": 0.002233712534456478,
+          "conditional_ci95": [
+            0.0013547937209006876,
+            0.003256026245273075
+          ]
+        },
+        "nofamily - family": {
+          "delta": 3.920319995454058e-05,
+          "conditional_ci95": [
+            -0.00012732741711651285,
+            0.0002110335130608707
+          ]
+        },
+        "nofamily_s3 - family_s3": {
+          "delta": 3.659577687897819e-05,
+          "conditional_ci95": [
+            -0.00020627072502414078,
+            0.0002636076702156986
+          ]
+        },
+        "nofamily_s4 - family_s4": {
+          "delta": -6.4762757095992995e-06,
+          "conditional_ci95": [
+            -0.00015084691584647537,
+            0.00015553233697027926
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid425/123, all train chains excluded. Exact wave19 recipe and init/constructor/data order retained; only family auxiliary loss coefficient changes .1 to0. Family heads and cached targets remain present. Fixed epoch1, two seeds. No honest train holdout; native and composite checks needed. Conditional fitted-model bootstrap; organizer pretraining provenance uncertain."
+}

@@ -1,0 +1,74 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_ow_s3h2_f1",
+  "stage": "H2",
+  "allocation_sha256": "5ff36560372ba1487b0d155b4c29cc6a0a5a2d0e92b8e4c6cc43ba1620c5baf8",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-ordinary-warm/train_warm.py",
+    "--name",
+    "oct02_ow_s3h2_f1",
+    "--full-valid",
+    "--layers",
+    "1",
+    "--batch",
+    "16",
+    "--lr",
+    "0.0005",
+    "--loss",
+    "gcorr",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "1",
+    "--init",
+    "oct02_ow_s3_f1@ep0",
+    "--freeze",
+    "inp,gru",
+    "--mask-weight",
+    "--seed",
+    "3",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache"
+  ],
+  "started_utc": "2026-10-02T02:06:08.336790+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_ow_s3h2_f1/model_ep0.pt": {
+      "bytes": 2353191,
+      "sha256": "0e600774d87b9fabcd03c47da4215a33a9e055f02acd1aa046c74a9f8e2544d5"
+    },
+    "artifacts/runs/oct02_ow_s3h2_f1/model_ep1.pt": {
+      "bytes": 2353191,
+      "sha256": "12c7f2e192de7e0ac5a8e830430217bb51f07ce2803537c86fe892a89fe4d975"
+    },
+    "artifacts/runs/oct02_ow_s3h2_f1/model.pt": {
+      "bytes": 2352747,
+      "sha256": "e1f3232320011276977f498711d8df25b998a4bde5d8f15ada743e5b2ce4063b"
+    },
+    "artifacts/runs/oct02_ow_s3h2_f1/history.json": {
+      "bytes": 336,
+      "sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5"
+    },
+    "artifacts/runs/oct02_ow_s3h2_f1/initial-state.json": {
+      "bytes": 1263,
+      "sha256": "4bd1d762bc6c6cf12539db87c2bb233d8efcf506b31a046c6afe6d928deaae1f"
+    },
+    "research/iterations/2026-10-02-ordinary-warm/execution-01/oct02_ow_s3h2_f1.check.json": {
+      "bytes": 1259,
+      "sha256": "f8d137c171f8467bf5d82917231ef7365946c70bf076e8d754a6babd8610fc90"
+    }
+  },
+  "seconds": 70.62243531364948,
+  "finished_utc": "2026-10-02T02:07:18.959264+00:00"
+}

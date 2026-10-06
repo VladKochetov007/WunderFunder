@@ -1,0 +1,14 @@
+{
+  "hypothesis": "Correctly isolate original-stage head512 expansion by matching auxiliary-family initialization as well as mainoutputs andtrainingdataorder.",
+  "correction": "Wave31 initializer omitted RNGconsumption of preceding PropensityNet constructor, changing auxiliaryfamilyinit. Wave39 consumes that constructor before bothplain andwidemodel creation, matchingactualwave19 control.",
+  "parent": "d256bc1k_f0/d256bc1ks4_f0@ep3",
+  "teacher": "w19teacher alpha.7; allfamily targets andcoefficient.1 unchanged",
+  "training": "Originalwave19,2epfixedepoch1,seeds3/4, sameAdamW/batch16/chunk2000/dataorder; allparams trainable",
+  "primary": "headwidepair minusw19distilledpair GPU/native on425valid/123chains",
+  "limitations": [
+    "reusedvalidation",
+    "conditional intervals",
+    "compositecheckrequired",
+    "v1 result remains separatelyarchived, not overwritten"
+  ]
+}

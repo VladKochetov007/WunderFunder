@@ -1,0 +1,119 @@
+{
+  "specs": {
+    "teacher": {
+      "w21native_distilled_s3": 0.5,
+      "w21native_distilled_s4": 0.5
+    },
+    "headwide": {
+      "w27native_headwide_s3": 0.5,
+      "w27native_headwide_s4": 0.5
+    },
+    "headwide_s3": {
+      "w27native_headwide_s3": 1.0
+    },
+    "headwide_s4": {
+      "w27native_headwide_s4": 1.0
+    },
+    "control": {
+      "w22native_control_s3": 0.5,
+      "w22native_control_s4": 0.5
+    },
+    "control_s3": {
+      "w22native_control_s3": 1.0
+    },
+    "control_s4": {
+      "w22native_control_s4": 1.0
+    },
+    "headwide_gpu": {
+      "w27_headwide_s3": 0.5,
+      "w27_headwide_s4": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "headwide",
+      "teacher"
+    ],
+    [
+      "control",
+      "teacher"
+    ],
+    [
+      "headwide",
+      "control"
+    ],
+    [
+      "headwide",
+      "headwide_gpu"
+    ],
+    [
+      "headwide_s3",
+      "control_s3"
+    ],
+    [
+      "headwide_s4",
+      "control_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher": 0.7182578324561746,
+        "headwide": 0.7182807330840735,
+        "headwide_s3": 0.7178044398227232,
+        "headwide_s4": 0.7168388342465687,
+        "control": 0.7182792060980467,
+        "control_s3": 0.7177917514428983,
+        "control_s4": 0.7168529027415553,
+        "headwide_gpu": 0.7182984870975745
+      },
+      "comparisons": {
+        "headwide - teacher": {
+          "delta": 2.2900627898891912e-05,
+          "conditional_ci95": [
+            -0.000899165340215552,
+            0.0009538265612477416
+          ]
+        },
+        "control - teacher": {
+          "delta": 2.1373641872157734e-05,
+          "conditional_ci95": [
+            -0.000887557444365017,
+            0.0009275936033268815
+          ]
+        },
+        "headwide - control": {
+          "delta": 1.5269860267341784e-06,
+          "conditional_ci95": [
+            -6.790558865686636e-05,
+            8.157957607685115e-05
+          ]
+        },
+        "headwide - headwide_gpu": {
+          "delta": -1.7754013501014576e-05,
+          "conditional_ci95": [
+            -0.00012944833562172076,
+            9.040064330226022e-05
+          ]
+        },
+        "headwide_s3 - control_s3": {
+          "delta": 1.2688379824932206e-05,
+          "conditional_ci95": [
+            -8.325691207095864e-05,
+            0.0001256326883422502
+          ]
+        },
+        "headwide_s4 - control_s4": {
+          "delta": -1.4068494986640978e-05,
+          "conditional_ci95": [
+            -8.06285633012882e-05,
+            4.9077163872732195e-05
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Native dynamic-int8 replay. Reused true-mask valid425/123, all train chains excluded. Head256->512 with GRU256 unchanged at initialization, same teacher, fixed epoch1, same optimizer/steps. Constructor CPU RNG state matches ordinary256 control exactly via isolated RNG context for replacement layers; initial all23 and family outputs bit-exact in CPU checks. No honest train holdout; native quality and composite replication needed. Conditional fitted-model intervals; organizer provenance uncertain."
+}

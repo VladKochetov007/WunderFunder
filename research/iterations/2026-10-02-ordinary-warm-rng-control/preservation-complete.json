@@ -1,0 +1,921 @@
+{
+  "status": "PASS_LOCAL_SSH_LOSSLESS_PRESERVATION",
+  "allocation_sha256": "c24e0745d0dbdc0f5ab0af0e22aa142418154c7d1d7361d5646f4e61b261e50e",
+  "terminal_results": {
+    "execution-01/result.json": {
+      "status": "COMPLETE_2_FITS_2_OOF_NO_METRICS",
+      "failure": null,
+      "allocation_sha256": "c24e0745d0dbdc0f5ab0af0e22aa142418154c7d1d7361d5646f4e61b261e50e",
+      "runner_sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2",
+      "started_utc": "2026-10-02T02:33:20.610864+00:00",
+      "finished_utc": "2026-10-02T02:36:12.859534+00:00",
+      "seconds": 172.24867953080684,
+      "jobs": [
+        {
+          "name": "oct02_ow_rng_s3h2_f0",
+          "stage": "H2",
+          "unit": "eb-820c5c7e3be9498693229dbf976c5989",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-820c5c7e3be9498693229dbf976c5989",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "290.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-ordinary-warm-rng-control/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-ordinary-warm-rng-control/training-allocation.json",
+            "--allocation-sha256",
+            "c24e0745d0dbdc0f5ab0af0e22aa142418154c7d1d7361d5646f4e61b261e50e",
+            "--worker",
+            "0"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 2228,
+          "pid": 1051757,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0.H2.worker-result.json",
+            "sha256": "ddd2020facd033bb4057611eb3e533f34059288e693e169173672367a7bfe27f"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 69.48233572766185
+        },
+        {
+          "name": "oct02_ow_rng_s3h2_f0_OOF",
+          "stage": "OOF",
+          "unit": "eb-b8a8bc9450cc4f4c86d5d7307ae04650",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-b8a8bc9450cc4f4c86d5d7307ae04650",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "290.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-ordinary-warm-rng-control/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-ordinary-warm-rng-control/training-allocation.json",
+            "--allocation-sha256",
+            "c24e0745d0dbdc0f5ab0af0e22aa142418154c7d1d7361d5646f4e61b261e50e",
+            "--worker",
+            "1"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1338,
+          "pid": 1052724,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0_OOF.OOF.worker-result.json",
+            "sha256": "73bfc0d4cbd2a568b0c85e796998c5a29d287359504dec2334aa82ce28194d8a"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 17.45355853997171
+        },
+        {
+          "name": "oct02_ow_rng_s3h2_f1",
+          "stage": "H2",
+          "unit": "eb-530492a77daf4fc4b06ac78beccd8100",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-530492a77daf4fc4b06ac78beccd8100",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "290.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-ordinary-warm-rng-control/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-ordinary-warm-rng-control/training-allocation.json",
+            "--allocation-sha256",
+            "c24e0745d0dbdc0f5ab0af0e22aa142418154c7d1d7361d5646f4e61b261e50e",
+            "--worker",
+            "2"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 2228,
+          "pid": 1052999,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1.H2.worker-result.json",
+            "sha256": "780fc79eb925fc00ca17af5a7a0043aba82952087f732065dc9a9e172a994efd"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 69.53435703460127
+        },
+        {
+          "name": "oct02_ow_rng_s3h2_f1_OOF",
+          "stage": "OOF",
+          "unit": "eb-1f306e1a239a484fae116df9882bbd04",
+          "argv": [
+            "systemd-run",
+            "--user",
+            "--scope",
+            "--quiet",
+            "--unit",
+            "eb-1f306e1a239a484fae116df9882bbd04",
+            "-p",
+            "CPUQuota=600%",
+            "-p",
+            "MemoryMax=21474836480",
+            "-p",
+            "MemorySwapMax=0",
+            "--",
+            "taskset",
+            "-c",
+            "16,17,18,19,20,21",
+            "nice",
+            "-n",
+            "10",
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "290.000s",
+            "/usr/bin/time",
+            "-v",
+            ".venv/bin/python",
+            "research/iterations/2026-10-02-ordinary-warm-rng-control/run_queue.py",
+            "--allocation",
+            "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-02-ordinary-warm-rng-control/training-allocation.json",
+            "--allocation-sha256",
+            "c24e0745d0dbdc0f5ab0af0e22aa142418154c7d1d7361d5646f4e61b261e50e",
+            "--worker",
+            "3"
+          ],
+          "gpu_before": {
+            "uuid": "GPU-aa969728-9b37-ac58-7855-3f03494fb9e8",
+            "total_MiB": 16376,
+            "used_MiB": 251,
+            "free_MiB": 15723
+          },
+          "peak_owned_GPU_MiB": 1342,
+          "pid": 1053835,
+          "worker_result": {
+            "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1_OOF.OOF.worker-result.json",
+            "sha256": "5e7eb6b0424e0d9f72292e6ef831a2a2bb542b74119820de7da9f5f410094e6e"
+          },
+          "scope_state": {
+            "ControlGroup": "",
+            "ActiveState": "inactive",
+            "SubState": "dead"
+          },
+          "remaining_scope_pids": [],
+          "exit_code": 0,
+          "failure": null,
+          "seconds": 14.584924409165978
+        }
+      ],
+      "fits": 2,
+      "OOF_jobs": 2,
+      "metric_calls": 0,
+      "retries": 0
+    },
+    "finish-01/result.json": {
+      "status": "COMPLETE_FIXED_FORECAST_READOUT",
+      "evaluation_source_sha256": "0baa513368ee804c885de54721c36ecef4829ee4045a144600da6da0a025d39b",
+      "allocation_sha256": "c24e0745d0dbdc0f5ab0af0e22aa142418154c7d1d7361d5646f4e61b261e50e",
+      "unit": "ordinary-warm-rng-score-ca47192911b24413aa0a71d491214fea",
+      "started_utc": "2026-10-02T02:33:20.540654+00:00",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--unit",
+        "ordinary-warm-rng-score-ca47192911b24413aa0a71d491214fea",
+        "-p",
+        "CPUQuota=200%",
+        "-p",
+        "MemoryMax=4294967296",
+        "-p",
+        "MemorySwapMax=0",
+        "--",
+        "taskset",
+        "-c",
+        "28,29",
+        "nice",
+        "-n",
+        "10",
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "600s",
+        ".venv/bin/python",
+        "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluate.py",
+        "--evaluation-source-sha256",
+        "0baa513368ee804c885de54721c36ecef4829ee4045a144600da6da0a025d39b",
+        "--output-dir",
+        "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluation-01"
+      ],
+      "exit_code": 0,
+      "report_sha256": "79ed1b2015943c6b8dd0d1a8d556d361b6245334a8af25c5d2dd29358710fb95",
+      "scope_state": {
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "remaining_scope_pids": [],
+      "finished_utc": "2026-10-02T02:36:28.518271+00:00"
+    }
+  },
+  "files": 67,
+  "bytes": 613815178,
+  "records": [
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/allocate.py",
+      "bytes": 4428,
+      "sha256": "683e57a7bcb52e090da5ee21cc80489d6dcfbefb9cafecc5ec9b3df5a241462d",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/allocate.py",
+      "representation": "raw",
+      "local_bytes": 4428,
+      "local_sha256": "683e57a7bcb52e090da5ee21cc80489d6dcfbefb9cafecc5ec9b3df5a241462d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/argument-proof.json",
+      "bytes": 1139,
+      "sha256": "a797e837c0b5fa73444c6fe9173e0940afe5a6fe13692024d06efcbfc3c767a1",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/argument-proof.json",
+      "representation": "raw",
+      "local_bytes": 1139,
+      "local_sha256": "a797e837c0b5fa73444c6fe9173e0940afe5a6fe13692024d06efcbfc3c767a1"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/build_plan.py",
+      "bytes": 4723,
+      "sha256": "2a81dde304cc66f385bee2eeaf16fac90ea398e1e3c8051ea37cf04fccca19ef",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/build_plan.py",
+      "representation": "raw",
+      "local_bytes": 4723,
+      "local_sha256": "2a81dde304cc66f385bee2eeaf16fac90ea398e1e3c8051ea37cf04fccca19ef"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/cache/pred_oct02_ow_rng_s3h2_f0_valid.inputs.json",
+      "bytes": 9839,
+      "sha256": "a7d7a681af6a5e789226ffce6e8ba79c529f012e1a1dfa495c3eb3f1f10bd1e5",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/cache/pred_oct02_ow_rng_s3h2_f0_valid.inputs.json",
+      "representation": "raw",
+      "local_bytes": 9839,
+      "local_sha256": "a7d7a681af6a5e789226ffce6e8ba79c529f012e1a1dfa495c3eb3f1f10bd1e5"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/cache/pred_oct02_ow_rng_s3h2_f0_valid.npy",
+      "bytes": 299680128,
+      "sha256": "38be48881b55befb616a423a240bb6197eed3e6c02300cab4ea9f6888ea40a10",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/cache/pred_oct02_ow_rng_s3h2_f0_valid.npy.gz",
+      "representation": "gzip_lossless",
+      "local_bytes": 44742834,
+      "local_sha256": "d961e64392899b016bbfada8e7a06421b5e646943cced1469c8fe79473e9fe9e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/cache/pred_oct02_ow_rng_s3h2_f1_valid.inputs.json",
+      "bytes": 9907,
+      "sha256": "f42602873e7824120c9e79ac48bfe7d9a5d4d9c73ab6f025baba16a901b7a5a3",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/cache/pred_oct02_ow_rng_s3h2_f1_valid.inputs.json",
+      "representation": "raw",
+      "local_bytes": 9907,
+      "local_sha256": "f42602873e7824120c9e79ac48bfe7d9a5d4d9c73ab6f025baba16a901b7a5a3"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/cache/pred_oct02_ow_rng_s3h2_f1_valid.npy",
+      "bytes": 299680128,
+      "sha256": "2cc43689f8f5a2b9a9779fe9b2157df282e2b46094d00fa7e35b6502f593a128",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/cache/pred_oct02_ow_rng_s3h2_f1_valid.npy.gz",
+      "representation": "gzip_lossless",
+      "local_bytes": 44590950,
+      "local_sha256": "90b353b913d187d0592dee1ac09c1be79ded964283f53d3ed3b86492d702d1d6"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/check_checkpoint.py",
+      "bytes": 4672,
+      "sha256": "cb54eafb78947a57800194ee83633eea6d9dc0ec912c6572fd1bbf2815b5e158",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/check_checkpoint.py",
+      "representation": "raw",
+      "local_bytes": 4672,
+      "local_sha256": "cb54eafb78947a57800194ee83633eea6d9dc0ec912c6572fd1bbf2815b5e158"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/check_generated.py",
+      "bytes": 3207,
+      "sha256": "d513fa7d76a8834654583697ae0f5624d54f494f70f6a151ec17b80c3761c118",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/check_generated.py",
+      "representation": "raw",
+      "local_bytes": 3207,
+      "local_sha256": "d513fa7d76a8834654583697ae0f5624d54f494f70f6a151ec17b80c3761c118"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/collect_when_finished.py",
+      "bytes": 6354,
+      "sha256": "246cee54f14caf46277b888bd8fe114c0a34163f7272bfd6a98914b2dd14971b",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/collect_when_finished.py",
+      "representation": "raw",
+      "local_bytes": 6354,
+      "local_sha256": "246cee54f14caf46277b888bd8fe114c0a34163f7272bfd6a98914b2dd14971b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/commands.json",
+      "bytes": 22898,
+      "sha256": "8abd2b87f7a31933d6e07b74635647f16789737346df255b3c028827f2312cf6",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/commands.json",
+      "representation": "raw",
+      "local_bytes": 22898,
+      "local_sha256": "8abd2b87f7a31933d6e07b74635647f16789737346df255b3c028827f2312cf6"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/design.md",
+      "bytes": 5278,
+      "sha256": "439447beb6fef2899dcf5bd2590dfcaa7a9c62e69b1e451205a07daa706c16fe",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/design.md",
+      "representation": "raw",
+      "local_bytes": 5278,
+      "local_sha256": "439447beb6fef2899dcf5bd2590dfcaa7a9c62e69b1e451205a07daa706c16fe"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluate.py",
+      "bytes": 17141,
+      "sha256": "b422f023b84bc242a0a5e468e7782bff0c5ce56a10e47c224766b742b0aaca2a",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluate.py",
+      "representation": "raw",
+      "local_bytes": 17141,
+      "local_sha256": "b422f023b84bc242a0a5e468e7782bff0c5ce56a10e47c224766b742b0aaca2a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluation-01/receipt.json",
+      "bytes": 756,
+      "sha256": "54d706717c7ef13d57087995c11c81cdce6e36edb78e71665e0650c3ca08ff42",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluation-01/receipt.json",
+      "representation": "raw",
+      "local_bytes": 756,
+      "local_sha256": "54d706717c7ef13d57087995c11c81cdce6e36edb78e71665e0650c3ca08ff42"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluation-01/report.json",
+      "bytes": 39140,
+      "sha256": "79ed1b2015943c6b8dd0d1a8d556d361b6245334a8af25c5d2dd29358710fb95",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluation-01/report.json",
+      "representation": "raw",
+      "local_bytes": 39140,
+      "local_sha256": "79ed1b2015943c6b8dd0d1a8d556d361b6245334a8af25c5d2dd29358710fb95"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluation-01/started.json",
+      "bytes": 15203,
+      "sha256": "9060703e55766ceac04462bd5aab766649ac950aa7401612cf1a5b77f618f831",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluation-01/started.json",
+      "representation": "raw",
+      "local_bytes": 15203,
+      "local_sha256": "9060703e55766ceac04462bd5aab766649ac950aa7401612cf1a5b77f618f831"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluation-01/sufficient.npz",
+      "bytes": 49002,
+      "sha256": "978f4b72f858af461cfabb908c697cdd5364e43114630d7e9f5e59c43fcf3f19",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluation-01/sufficient.npz",
+      "representation": "raw",
+      "local_bytes": 49002,
+      "local_sha256": "978f4b72f858af461cfabb908c697cdd5364e43114630d7e9f5e59c43fcf3f19"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluation-source.json",
+      "bytes": 1994,
+      "sha256": "0baa513368ee804c885de54721c36ecef4829ee4045a144600da6da0a025d39b",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/evaluation-source.json",
+      "representation": "raw",
+      "local_bytes": 1994,
+      "local_sha256": "0baa513368ee804c885de54721c36ecef4829ee4045a144600da6da0a025d39b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/allocation.json",
+      "bytes": 13414,
+      "sha256": "c24e0745d0dbdc0f5ab0af0e22aa142418154c7d1d7361d5646f4e61b261e50e",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/allocation.json",
+      "representation": "raw",
+      "local_bytes": 13414,
+      "local_sha256": "c24e0745d0dbdc0f5ab0af0e22aa142418154c7d1d7361d5646f4e61b261e50e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/events.jsonl",
+      "bytes": 20752,
+      "sha256": "14c73a0acd85190087adc3e01ce2e337a5aa1b7d8eec4551d834a2bad029c391",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/events.jsonl",
+      "representation": "raw",
+      "local_bytes": 20752,
+      "local_sha256": "14c73a0acd85190087adc3e01ce2e337a5aa1b7d8eec4551d834a2bad029c391"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0.H2.log",
+      "bytes": 6627,
+      "sha256": "2b296f514ecabe9516d5b156937523ee0e369388f926bb424687e24214bc6e63",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0.H2.log",
+      "representation": "raw",
+      "local_bytes": 6627,
+      "local_sha256": "2b296f514ecabe9516d5b156937523ee0e369388f926bb424687e24214bc6e63"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0.H2.worker-result.json",
+      "bytes": 2098,
+      "sha256": "ddd2020facd033bb4057611eb3e533f34059288e693e169173672367a7bfe27f",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0.H2.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2098,
+      "local_sha256": "ddd2020facd033bb4057611eb3e533f34059288e693e169173672367a7bfe27f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0.H2.worker-started.json",
+      "bytes": 872,
+      "sha256": "b0c7f8a4437ebe66ffe55dbc6953afc6a6e6f7c93457c57fe64105f832d7d276",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0.H2.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 872,
+      "local_sha256": "b0c7f8a4437ebe66ffe55dbc6953afc6a6e6f7c93457c57fe64105f832d7d276"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0.check.json",
+      "bytes": 1310,
+      "sha256": "90616a3ca6f5c6dc2bd1c4d9b8226aab7e7778bfa4ef89441e2aba41f4cc722f",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0.check.json",
+      "representation": "raw",
+      "local_bytes": 1310,
+      "local_sha256": "90616a3ca6f5c6dc2bd1c4d9b8226aab7e7778bfa4ef89441e2aba41f4cc722f"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0_OOF.OOF.log",
+      "bytes": 2059,
+      "sha256": "3e2558bb0dd4a6246cfc67dd12f1986062380c361519ec69a4c64a5c2a46b7b4",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0_OOF.OOF.log",
+      "representation": "raw",
+      "local_bytes": 2059,
+      "local_sha256": "3e2558bb0dd4a6246cfc67dd12f1986062380c361519ec69a4c64a5c2a46b7b4"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0_OOF.OOF.worker-result.json",
+      "bytes": 1114,
+      "sha256": "73bfc0d4cbd2a568b0c85e796998c5a29d287359504dec2334aa82ce28194d8a",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0_OOF.OOF.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 1114,
+      "local_sha256": "73bfc0d4cbd2a568b0c85e796998c5a29d287359504dec2334aa82ce28194d8a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0_OOF.OOF.worker-started.json",
+      "bytes": 537,
+      "sha256": "25e659474ceb3ecc002e36b5f1bee04fa5e5e5c92f9f3a95587d5511d4095045",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f0_OOF.OOF.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 537,
+      "local_sha256": "25e659474ceb3ecc002e36b5f1bee04fa5e5e5c92f9f3a95587d5511d4095045"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1.H2.log",
+      "bytes": 6628,
+      "sha256": "d8842697c0f92606e5a851c9ca67b2461d78fb1ac7bc431c71a998aba76343c5",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1.H2.log",
+      "representation": "raw",
+      "local_bytes": 6628,
+      "local_sha256": "d8842697c0f92606e5a851c9ca67b2461d78fb1ac7bc431c71a998aba76343c5"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1.H2.worker-result.json",
+      "bytes": 2097,
+      "sha256": "780fc79eb925fc00ca17af5a7a0043aba82952087f732065dc9a9e172a994efd",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1.H2.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 2097,
+      "local_sha256": "780fc79eb925fc00ca17af5a7a0043aba82952087f732065dc9a9e172a994efd"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1.H2.worker-started.json",
+      "bytes": 872,
+      "sha256": "baa89ce9340f0bdf8dba20b952b058de07c9747c0b4a189115cec939800c096b",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1.H2.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 872,
+      "local_sha256": "baa89ce9340f0bdf8dba20b952b058de07c9747c0b4a189115cec939800c096b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1.check.json",
+      "bytes": 1310,
+      "sha256": "f98cfe36c954b4fff44e88745e1287c448a396a440540b790e7ee3ae0a947bce",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1.check.json",
+      "representation": "raw",
+      "local_bytes": 1310,
+      "local_sha256": "f98cfe36c954b4fff44e88745e1287c448a396a440540b790e7ee3ae0a947bce"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1_OOF.OOF.log",
+      "bytes": 2059,
+      "sha256": "84a423cd5d6e6f5ff4d8c2a869f5a74eb7b15ba84bb987cafc4f58d18865ff2d",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1_OOF.OOF.log",
+      "representation": "raw",
+      "local_bytes": 2059,
+      "local_sha256": "84a423cd5d6e6f5ff4d8c2a869f5a74eb7b15ba84bb987cafc4f58d18865ff2d"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1_OOF.OOF.worker-result.json",
+      "bytes": 1112,
+      "sha256": "5e7eb6b0424e0d9f72292e6ef831a2a2bb542b74119820de7da9f5f410094e6e",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1_OOF.OOF.worker-result.json",
+      "representation": "raw",
+      "local_bytes": 1112,
+      "local_sha256": "5e7eb6b0424e0d9f72292e6ef831a2a2bb542b74119820de7da9f5f410094e6e"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1_OOF.OOF.worker-started.json",
+      "bytes": 537,
+      "sha256": "b9ee4972a3fd40775ef39187b2fdbf75a6f010a926f80b781c3726adf700dcc1",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/oct02_ow_rng_s3h2_f1_OOF.OOF.worker-started.json",
+      "representation": "raw",
+      "local_bytes": 537,
+      "local_sha256": "b9ee4972a3fd40775ef39187b2fdbf75a6f010a926f80b781c3726adf700dcc1"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/result.json",
+      "bytes": 7688,
+      "sha256": "ae034b93478469d10a3026f6fcf0f51f2cb55bf6b08475390918b842ec9e4a66",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/execution-01/result.json",
+      "representation": "raw",
+      "local_bytes": 7688,
+      "local_sha256": "ae034b93478469d10a3026f6fcf0f51f2cb55bf6b08475390918b842ec9e4a66"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/finish-01/evaluate.log",
+      "bytes": 7400,
+      "sha256": "b9c2dac5991ddd74fd2f7efa023b3a626d293e47d39a63ab8e4a2b7992849fe1",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/finish-01/evaluate.log",
+      "representation": "raw",
+      "local_bytes": 7400,
+      "local_sha256": "b9c2dac5991ddd74fd2f7efa023b3a626d293e47d39a63ab8e4a2b7992849fe1"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/finish-01/result.json",
+      "bytes": 1367,
+      "sha256": "2083b6a486c21aa15f137f55068b547cb88f4f81649307d88158c752f807d6ff",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/finish-01/result.json",
+      "representation": "raw",
+      "local_bytes": 1367,
+      "local_sha256": "2083b6a486c21aa15f137f55068b547cb88f4f81649307d88158c752f807d6ff"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/finish-01/started.json",
+      "bytes": 357,
+      "sha256": "2c1b8361137be5bedf47da395c983920778bd5c059ccf13d38f736325e01eeca",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/finish-01/started.json",
+      "representation": "raw",
+      "local_bytes": 357,
+      "local_sha256": "2c1b8361137be5bedf47da395c983920778bd5c059ccf13d38f736325e01eeca"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/finish-launch.json",
+      "bytes": 373,
+      "sha256": "59130dfbe96eb50073171b2132e564d87d776e1312cfedeb8b9d88180cef97de",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/finish-launch.json",
+      "representation": "raw",
+      "local_bytes": 373,
+      "local_sha256": "59130dfbe96eb50073171b2132e564d87d776e1312cfedeb8b9d88180cef97de"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/finish.log",
+      "bytes": 1207,
+      "sha256": "f5aa91af6ba299051303ee9b70ad977c3f09955f79ce4a72afe911207ba44e30",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/finish.log",
+      "representation": "raw",
+      "local_bytes": 1207,
+      "local_sha256": "f5aa91af6ba299051303ee9b70ad977c3f09955f79ce4a72afe911207ba44e30"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/finish.py",
+      "bytes": 3054,
+      "sha256": "e984dd761dc2185ba02ca7e3b9338c5be2be7077d99dce704025f369d89b1150",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/finish.py",
+      "representation": "raw",
+      "local_bytes": 3054,
+      "local_sha256": "e984dd761dc2185ba02ca7e3b9338c5be2be7077d99dce704025f369d89b1150"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/freeze_evaluation.py",
+      "bytes": 2559,
+      "sha256": "5a577d38808e84f17b6cf0c6d4076a1872138324b826cc153dc49c8f5c8ea9ac",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/freeze_evaluation.py",
+      "representation": "raw",
+      "local_bytes": 2559,
+      "local_sha256": "5a577d38808e84f17b6cf0c6d4076a1872138324b826cc153dc49c8f5c8ea9ac"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/generated-01.json",
+      "bytes": 611,
+      "sha256": "63b2504357782dddd41adad8c91a73807372814cbfaaffccadbd0f6999f138f8",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/generated-01.json",
+      "representation": "raw",
+      "local_bytes": 611,
+      "local_sha256": "63b2504357782dddd41adad8c91a73807372814cbfaaffccadbd0f6999f138f8"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/generated-allocation.json",
+      "bytes": 486,
+      "sha256": "8628293bc17f24698b1374476ec88f6db626fd1ac23cfe9cb3f12060d270bf6a",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/generated-allocation.json",
+      "representation": "raw",
+      "local_bytes": 486,
+      "local_sha256": "8628293bc17f24698b1374476ec88f6db626fd1ac23cfe9cb3f12060d270bf6a"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/generated-execution.json",
+      "bytes": 1091,
+      "sha256": "a88c4e202ae07390b3aec7b892ab90c31dc0b98e8e48d3bdf4d6271c53fe5c08",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/generated-execution.json",
+      "representation": "raw",
+      "local_bytes": 1091,
+      "local_sha256": "a88c4e202ae07390b3aec7b892ab90c31dc0b98e8e48d3bdf4d6271c53fe5c08"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/launch.json",
+      "bytes": 484,
+      "sha256": "65560a57c51a26e75c7bda0e99ab5d894a326e826b9fd5cab71c7046f62bc390",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/launch.json",
+      "representation": "raw",
+      "local_bytes": 484,
+      "local_sha256": "65560a57c51a26e75c7bda0e99ab5d894a326e826b9fd5cab71c7046f62bc390"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/launch.py",
+      "bytes": 1144,
+      "sha256": "9be4763d4b999ff6047b7943a20153e0b9ed061e58b46dd138b1640a4a5f9e87",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/launch.py",
+      "representation": "raw",
+      "local_bytes": 1144,
+      "local_sha256": "9be4763d4b999ff6047b7943a20153e0b9ed061e58b46dd138b1640a4a5f9e87"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/launch_collector.py",
+      "bytes": 1189,
+      "sha256": "7cb60a62731404863246c282ca0546c77fdfa5d672767982bead4b91089fba47",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/launch_collector.py",
+      "representation": "raw",
+      "local_bytes": 1189,
+      "local_sha256": "7cb60a62731404863246c282ca0546c77fdfa5d672767982bead4b91089fba47"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/launch_finish.py",
+      "bytes": 1051,
+      "sha256": "3cd443d91b614b8deb0839d641d283cfc9d78c89393aa98b146f9fc25506b03b",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/launch_finish.py",
+      "representation": "raw",
+      "local_bytes": 1051,
+      "local_sha256": "3cd443d91b614b8deb0839d641d283cfc9d78c89393aa98b146f9fc25506b03b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/plain-parent-bindings.json",
+      "bytes": 1768,
+      "sha256": "ef4bf01e26ed27813cd508e58882675b8f29ccf98bc0e58993e68b0e42fc886b",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/plain-parent-bindings.json",
+      "representation": "raw",
+      "local_bytes": 1768,
+      "local_sha256": "ef4bf01e26ed27813cd508e58882675b8f29ccf98bc0e58993e68b0e42fc886b"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/predict_fixed.py",
+      "bytes": 4622,
+      "sha256": "8c7da578b83669a23aed2549ba0a457e8c51dc0ed157550e2972610374807317",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/predict_fixed.py",
+      "representation": "raw",
+      "local_bytes": 4622,
+      "local_sha256": "8c7da578b83669a23aed2549ba0a457e8c51dc0ed157550e2972610374807317"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/protocol.md",
+      "bytes": 2104,
+      "sha256": "d08b7d98398f7c5c5bd50451551642d48749e5b048c19ee4aa7c0bfed767fcf9",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/protocol.md",
+      "representation": "raw",
+      "local_bytes": 2104,
+      "local_sha256": "d08b7d98398f7c5c5bd50451551642d48749e5b048c19ee4aa7c0bfed767fcf9"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/queue.log",
+      "bytes": 5834,
+      "sha256": "f50cbf418c03516daf3c65890cb7529e11048fb190a6a278e97d2c7688b2f5f1",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/queue.log",
+      "representation": "raw",
+      "local_bytes": 5834,
+      "local_sha256": "f50cbf418c03516daf3c65890cb7529e11048fb190a6a278e97d2c7688b2f5f1"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/run_generated_once.py",
+      "bytes": 2234,
+      "sha256": "e006f66c95ede44df84c09cea31514046a26b2c793b0f163e4bfe677ab376bec",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/run_generated_once.py",
+      "representation": "raw",
+      "local_bytes": 2234,
+      "local_sha256": "e006f66c95ede44df84c09cea31514046a26b2c793b0f163e4bfe677ab376bec"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/run_queue.py",
+      "bytes": 8440,
+      "sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/run_queue.py",
+      "representation": "raw",
+      "local_bytes": 8440,
+      "local_sha256": "a6d51d912635c071bcf001d98e1e7e251718992a40c84db2a4586345019bd5c2"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/train_warm.py",
+      "bytes": 5466,
+      "sha256": "ed97b8665aa92f52b156b649c36bff8b06d9dc2e7ae041e5c0219cd13b810524",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/train_warm.py",
+      "representation": "raw",
+      "local_bytes": 5466,
+      "local_sha256": "ed97b8665aa92f52b156b649c36bff8b06d9dc2e7ae041e5c0219cd13b810524"
+    },
+    {
+      "path": "research/iterations/2026-10-02-ordinary-warm-rng-control/training-allocation.json",
+      "bytes": 13414,
+      "sha256": "c24e0745d0dbdc0f5ab0af0e22aa142418154c7d1d7361d5646f4e61b261e50e",
+      "local_path": "research/iterations/2026-10-02-ordinary-warm-rng-control/training-allocation.json",
+      "representation": "raw",
+      "local_bytes": 13414,
+      "local_sha256": "c24e0745d0dbdc0f5ab0af0e22aa142418154c7d1d7361d5646f4e61b261e50e"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_rng_s3h2_f0/history.json",
+      "bytes": 336,
+      "sha256": "d1871c3389556912b5be35a046700b273f16be7fc2ded26266dda2c68c683fa1",
+      "local_path": "artifacts/runs/oct02_ow_rng_s3h2_f0/history.json",
+      "representation": "raw",
+      "local_bytes": 336,
+      "local_sha256": "d1871c3389556912b5be35a046700b273f16be7fc2ded26266dda2c68c683fa1"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_rng_s3h2_f0/initial-state.json",
+      "bytes": 1485,
+      "sha256": "7209ebb3ec819f4b97a419f329521fa39e688d4cc122379d7d68d54fd6488467",
+      "local_path": "artifacts/runs/oct02_ow_rng_s3h2_f0/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1485,
+      "local_sha256": "7209ebb3ec819f4b97a419f329521fa39e688d4cc122379d7d68d54fd6488467"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_rng_s3h2_f0/model.pt",
+      "bytes": 2352747,
+      "sha256": "1d9e1aa5abae45acaf8832b75340196261201d7d5e2ab9daa7e74e13580e9677",
+      "local_path": "artifacts/runs/oct02_ow_rng_s3h2_f0/model.pt",
+      "representation": "raw",
+      "local_bytes": 2352747,
+      "local_sha256": "1d9e1aa5abae45acaf8832b75340196261201d7d5e2ab9daa7e74e13580e9677"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_rng_s3h2_f0/model_ep0.pt",
+      "bytes": 2353191,
+      "sha256": "999f7b0f80efd34bc599cd85979e6ffb0368d845fb323b1dddd3895b608168c6",
+      "local_path": "artifacts/runs/oct02_ow_rng_s3h2_f0/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2353191,
+      "local_sha256": "999f7b0f80efd34bc599cd85979e6ffb0368d845fb323b1dddd3895b608168c6"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_rng_s3h2_f0/model_ep1.pt",
+      "bytes": 2353191,
+      "sha256": "b7d69c1593d25283a9b1b97416416ae785d87e57e8830572c95b222041c1851b",
+      "local_path": "artifacts/runs/oct02_ow_rng_s3h2_f0/model_ep1.pt",
+      "representation": "raw",
+      "local_bytes": 2353191,
+      "local_sha256": "b7d69c1593d25283a9b1b97416416ae785d87e57e8830572c95b222041c1851b"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_rng_s3h2_f1/history.json",
+      "bytes": 336,
+      "sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5",
+      "local_path": "artifacts/runs/oct02_ow_rng_s3h2_f1/history.json",
+      "representation": "raw",
+      "local_bytes": 336,
+      "local_sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_rng_s3h2_f1/initial-state.json",
+      "bytes": 1485,
+      "sha256": "cb05cd3d953766d5c8bd34bf458b6b9fb975b174bced0f4d6f0bd4f49eb20545",
+      "local_path": "artifacts/runs/oct02_ow_rng_s3h2_f1/initial-state.json",
+      "representation": "raw",
+      "local_bytes": 1485,
+      "local_sha256": "cb05cd3d953766d5c8bd34bf458b6b9fb975b174bced0f4d6f0bd4f49eb20545"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_rng_s3h2_f1/model.pt",
+      "bytes": 2352747,
+      "sha256": "208e10f8ff621d21f7d3e351f7783edcd487dde16d5c107cb0b67160bf3aa861",
+      "local_path": "artifacts/runs/oct02_ow_rng_s3h2_f1/model.pt",
+      "representation": "raw",
+      "local_bytes": 2352747,
+      "local_sha256": "208e10f8ff621d21f7d3e351f7783edcd487dde16d5c107cb0b67160bf3aa861"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_rng_s3h2_f1/model_ep0.pt",
+      "bytes": 2353191,
+      "sha256": "1c69526b506e11cf275f3945a38f39abb93054469c75c1a693b9d7e38a4fb264",
+      "local_path": "artifacts/runs/oct02_ow_rng_s3h2_f1/model_ep0.pt",
+      "representation": "raw",
+      "local_bytes": 2353191,
+      "local_sha256": "1c69526b506e11cf275f3945a38f39abb93054469c75c1a693b9d7e38a4fb264"
+    },
+    {
+      "path": "artifacts/runs/oct02_ow_rng_s3h2_f1/model_ep1.pt",
+      "bytes": 2353191,
+      "sha256": "9f7234c24deb5d4a740e7bda0fd05be071b28b414987580a6bc0600182664d78",
+      "local_path": "artifacts/runs/oct02_ow_rng_s3h2_f1/model_ep1.pt",
+      "representation": "raw",
+      "local_bytes": 2353191,
+      "local_sha256": "9f7234c24deb5d4a740e7bda0fd05be071b28b414987580a6bc0600182664d78"
+    }
+  ],
+  "created_utc": "2026-10-02T02:38:11.106118+00:00",
+  "collector_sha256": "246cee54f14caf46277b888bd8fe114c0a34163f7272bfd6a98914b2dd14971b"
+}

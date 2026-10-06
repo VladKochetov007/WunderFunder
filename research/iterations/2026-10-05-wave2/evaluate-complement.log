@@ -1,0 +1,140 @@
+{
+  "specs": {
+    "reference": {
+      "w2_reference": 1.0
+    },
+    "complement_direct": {
+      "w2_reference": 0.8,
+      "w2comp_direct_s3": 0.1,
+      "w2comp_direct_s4": 0.1
+    },
+    "complement_residual": {
+      "w2_reference": 0.8,
+      "w2comp_residual_s3": 0.1,
+      "w2comp_residual_s4": 0.1
+    },
+    "complement_direct_s3": {
+      "w2_reference": 0.8,
+      "w2comp_direct_s3": 0.2
+    },
+    "complement_residual_s3": {
+      "w2_reference": 0.8,
+      "w2comp_residual_s3": 0.2
+    },
+    "complement_direct_s4": {
+      "w2_reference": 0.8,
+      "w2comp_direct_s4": 0.2
+    },
+    "complement_residual_s4": {
+      "w2_reference": 0.8,
+      "w2comp_residual_s4": 0.2
+    }
+  },
+  "comparisons": [
+    [
+      "complement_residual",
+      "complement_direct"
+    ],
+    [
+      "complement_residual",
+      "reference"
+    ],
+    [
+      "complement_residual_s3",
+      "complement_direct_s3"
+    ],
+    [
+      "complement_residual_s4",
+      "complement_direct_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 436,
+      "chains": 129,
+      "scores": {
+        "reference": 0.7099804418669501,
+        "complement_direct": 0.7101832295582726,
+        "complement_residual": 0.7100690704707247,
+        "complement_direct_s3": 0.7103694557961341,
+        "complement_residual_s3": 0.7102064201738343,
+        "complement_direct_s4": 0.7098868453212088,
+        "complement_residual_s4": 0.7097236981088071
+      },
+      "comparisons": {
+        "complement_residual - complement_direct": {
+          "delta": -0.00011415908754797144,
+          "conditional_ci95": [
+            -0.0008006450330852122,
+            0.0005216810872406797
+          ]
+        },
+        "complement_residual - reference": {
+          "delta": 8.862860377456538e-05,
+          "conditional_ci95": [
+            -0.0009855759600147702,
+            0.0010812987861897065
+          ]
+        },
+        "complement_residual_s3 - complement_direct_s3": {
+          "delta": -0.00016303562229980084,
+          "conditional_ci95": [
+            -0.0010456505802241666,
+            0.0006476181631458104
+          ]
+        },
+        "complement_residual_s4 - complement_direct_s4": {
+          "delta": -0.00016314721240173746,
+          "conditional_ci95": [
+            -0.000674606769478997,
+            0.0003343461330110064
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "reference": 0.5926397015685518,
+        "complement_direct": 0.5931545665315849,
+        "complement_residual": 0.5937883208433595,
+        "complement_direct_s3": 0.5931187499065204,
+        "complement_residual_s3": 0.5938017346925679,
+        "complement_direct_s4": 0.5930228538797395,
+        "complement_residual_s4": 0.5934550145902313
+      },
+      "comparisons": {
+        "complement_residual - complement_direct": {
+          "delta": 0.0006337543117745925,
+          "conditional_ci95": [
+            -0.00013180025311295419,
+            0.0013299083061145713
+          ]
+        },
+        "complement_residual - reference": {
+          "delta": 0.001148619274807694,
+          "conditional_ci95": [
+            6.657992712287286e-05,
+            0.0022320457077749443
+          ]
+        },
+        "complement_residual_s3 - complement_direct_s3": {
+          "delta": 0.000682984786047558,
+          "conditional_ci95": [
+            -0.00016997779294212478,
+            0.0014388189061600076
+          ]
+        },
+        "complement_residual_s4 - complement_direct_s4": {
+          "delta": 0.0004321607104917913,
+          "conditional_ci95": [
+            -0.0002691457417532073,
+            0.0010808980984699753
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Exploratory reused data. Known teacher training chains and residual-fit chains excluded. Train mask estimated. Intervals conditional on fitted models."
+}

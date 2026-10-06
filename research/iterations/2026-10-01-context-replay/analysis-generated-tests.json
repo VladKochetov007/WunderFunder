@@ -1,0 +1,22 @@
+{
+  "status": "PASS_4_GENERATED_ONLY_CHECKS",
+  "analysis_sha256": "9186eeb161ba1fdff9b0208a8757576dd43d0738378d8b1c19f703ca037dbe74",
+  "test_sha256": "410a18dc1929801de401baa52b19ee47d78911f5d77ec40ecabf1387e44bb0ec",
+  "test_log_sha256": "b705a385300daef4ffae033ab3a1930ab8dc526be12e8deade25a71b88f567c8",
+  "design_review_sha256": "87d3b398f5b51e4fab269cb509835f68b12937cb2e9e0a663e15d296ee18e98a",
+  "actual_data_reads": 0,
+  "inference_runs": 0,
+  "fits": 0,
+  "command": "OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 uv run --no-project --with numpy python research/iterations/2026-10-01-context-replay/test_analysis.py",
+  "tests": [
+    "float32 addition and final clipping",
+    "pooled weighted metric sufficient sums vs direct",
+    "fixed-reference identity and first-order derivative",
+    "whole-chain paired bootstrap identical-arm null"
+  ],
+  "engines_fixed": [
+    "amp_fp16",
+    "fp32_tf32_off"
+  ],
+  "planned_bootstrap_strata": "fold x retrospective class, analysis-only"
+}

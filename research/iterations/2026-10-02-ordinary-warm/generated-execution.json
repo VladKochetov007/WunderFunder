@@ -1,0 +1,43 @@
+{
+  "status": "COMPLETE",
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--unit",
+    "ordinary-warm-generated-38c52965060e4f9bb2ca0d8d1f2a535c",
+    "-p",
+    "CPUQuota=100%",
+    "-p",
+    "MemoryMax=1073741824",
+    "-p",
+    "MemorySwapMax=0",
+    "--",
+    "taskset",
+    "-c",
+    "37",
+    "nice",
+    "-n",
+    "10",
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "15s",
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-ordinary-warm/check_generated.py"
+  ],
+  "unit": "ordinary-warm-generated-38c52965060e4f9bb2ca0d8d1f2a535c",
+  "allocation_sha256": "508accff2201f4def52406282edcf527486fffcb2afb5257a6a65253d3f9e8b8",
+  "started_utc": "2026-10-02T01:51:25.215371+00:00",
+  "exit_code": 0,
+  "diagnostic_status": "PASS_GENERATED_ORDINARY_WARM",
+  "result_sha256": "2430c3d3b93a149145745265dc8f38ef4a7e1944b8106948678276c169ffbb7d",
+  "scope_state": {
+    "ControlGroup": "",
+    "ActiveState": "inactive",
+    "SubState": "dead"
+  },
+  "remaining_scope_pids": [],
+  "seconds": 3.8119552433490753
+}

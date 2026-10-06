@@ -1,0 +1,23 @@
+{
+  "parent": "w19distilled_s3/s4@ep1",
+  "teacher": "mean of these parents, all train + valid !=0; evaluation excludes all train chains",
+  "arms": [
+    "256 continuation",
+    "384 function-preserving widening"
+  ],
+  "seeds": [
+    3,
+    4
+  ],
+  "training": "identical two epochs, AdamW 1e-4, alpha .7, all train + valid folds !=0, fixed epoch1",
+  "widening": "clone first 128 hidden coordinates and head units; divide outgoing columns by multiplicity; independent zero-sum .02*weight_std column perturbations preserve function and break gradient symmetry",
+  "primary": "wide pair - control pair on 425 clean valid sequences; paired seed comparisons",
+  "deployment": "mixed width seed3-wide/seed4-control and symmetric pairing declared before scores; double h384 not presumed CPU-feasible",
+  "limitations": [
+    "adaptively reused valid",
+    "no clean train holdout for these all-train parents",
+    "conditional bootstrap only",
+    "future composite replication needed for robust promotion"
+  ],
+  "data_order_note": "Source audit: DataLoader shuffle uses global CPU RNG after model construction. h256/h384 constructors consume different RNG counts, so widths share seed and step counts but NOT identical batch order. Fresh384 wave25 vs cloned384 wave22 uses identical constructor shape/consumption."
+}

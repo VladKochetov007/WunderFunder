@@ -1,0 +1,102 @@
+{
+  "specs": {
+    "teacher": {
+      "w19teacher": 1.0
+    },
+    "headwide": {
+      "w39_headwide_s3": 0.5,
+      "w39_headwide_s4": 0.5
+    },
+    "headwide_s3": {
+      "w39_headwide_s3": 1.0
+    },
+    "headwide_s4": {
+      "w39_headwide_s4": 1.0
+    },
+    "control": {
+      "w19distilled_s3": 0.5,
+      "w19distilled_s4": 0.5
+    },
+    "control_s3": {
+      "w19distilled_s3": 1.0
+    },
+    "control_s4": {
+      "w19distilled_s4": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "headwide",
+      "teacher"
+    ],
+    [
+      "control",
+      "teacher"
+    ],
+    [
+      "headwide",
+      "control"
+    ],
+    [
+      "headwide_s3",
+      "control_s3"
+    ],
+    [
+      "headwide_s4",
+      "control_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher": 0.7161302310562185,
+        "headwide": 0.7183937251532888,
+        "headwide_s3": 0.7179465897696378,
+        "headwide_s4": 0.717603551997924,
+        "control": 0.718363943590675,
+        "control_s3": 0.7178956938633227,
+        "control_s4": 0.717590093778095
+      },
+      "comparisons": {
+        "headwide - teacher": {
+          "delta": 0.0022634940970702733,
+          "conditional_ci95": [
+            0.0013604500824924537,
+            0.0033154877968276735
+          ]
+        },
+        "control - teacher": {
+          "delta": 0.002233712534456478,
+          "conditional_ci95": [
+            0.0013547937209006876,
+            0.003256026245273075
+          ]
+        },
+        "headwide - control": {
+          "delta": 2.9781562613795387e-05,
+          "conditional_ci95": [
+            -5.8629017172823206e-05,
+            0.0001266340993966219
+          ]
+        },
+        "headwide_s3 - control_s3": {
+          "delta": 5.089590631501828e-05,
+          "conditional_ci95": [
+            -9.053534474898206e-05,
+            0.00018244240144215052
+          ]
+        },
+        "headwide_s4 - control_s4": {
+          "delta": 1.3458219829010076e-05,
+          "conditional_ci95": [
+            -8.740907682386612e-05,
+            0.00012245938218121677
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid425/123, all train chains excluded. Head256->512 with GRU256 unchanged at initialization, original heterogeneous w19teacher and original d256 parent, fixed epoch1, same optimizer/steps. Constructor CPU RNG state matches ordinary256 control exactly via isolated RNG context for replacement layers; initial main23 outputs match parent and auxiliaryfamily head exactly matches actualcontrol initialization after loading PropensityNet; v1wave31 differed in family initialization. No honest train holdout; native quality and composite replication needed. Conditional fitted-model intervals; organizer provenance uncertain."
+}

@@ -1,0 +1,35 @@
+{
+  "created_utc": "2026-10-02T01:09:34.687758+00:00",
+  "mechanism_family": "temporal_representation",
+  "lineage": "ordinary GRU -> causal interval accumulation; instantaneous same-capacity control",
+  "fallback": "student_fixed4.zip",
+  "best": "fallback",
+  "experiment": "one epoch warm adaptation of matched parents, two head-only epochs; 8fits4OOF; no epoch or mixing-weight search",
+  "primary": "candidate4 minus current_student4 pooled WP; original fixed quarter blend",
+  "secondary": [
+    "candidate4 minus instantaneous_control4",
+    "instantaneous_control4 minus current_student4",
+    "per-fold pooled WP",
+    "fixed class3 quiet64"
+  ],
+  "practical_allocation_threshold": {
+    "delta_WP": 0.0002,
+    "meaning": "A serving-cost-bearing candidate below this exploratory gain normally does not justify more training. This is a spending rule, not scientific significance. Both-fold direction, whole-chain uncertainty and native runtime inform the final decision."
+  },
+  "selection_budget": {
+    "configurations": 2,
+    "paired_seed": 3,
+    "folds": [
+      0,
+      1
+    ],
+    "fits": 8,
+    "OOF": 4,
+    "metric_readouts": 1,
+    "posthoc_blend_search": 0,
+    "max_GPU_hours": 1.25
+  },
+  "promotion": "No automatic promotion. Positive ensemble evidence must survive native parity/runtime; use fresh training seed if budget permits. All available folds reused; CI excludes training-seed/adaptive-selection/hidden-shift uncertainty.",
+  "negative": "Archive tested recipe and stop its training; do not infer no historical information remains.",
+  "authorization": "Prior autonomous competition research request; no push or submission."
+}

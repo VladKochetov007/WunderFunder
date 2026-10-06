@@ -1,0 +1,184 @@
+{
+  "specs": {
+    "teacher": {
+      "w21native_distilled_s3": 0.5,
+      "w21native_distilled_s4": 0.5
+    },
+    "no_extra_head": {
+      "w22native_control_s3": 0.5,
+      "w22native_control_s4": 0.5
+    },
+    "uniform": {
+      "w26native_uniform_s3": 0.5,
+      "w26native_uniform_s4": 0.5
+    },
+    "uniform_s3": {
+      "w26native_uniform_s3": 1.0
+    },
+    "uniform_s4": {
+      "w26native_uniform_s4": 1.0
+    },
+    "soft": {
+      "w26native_soft_s3": 0.5,
+      "w26native_soft_s4": 0.5
+    },
+    "soft_s3": {
+      "w26native_soft_s3": 1.0
+    },
+    "soft_s4": {
+      "w26native_soft_s4": 1.0
+    },
+    "off": {
+      "w36native_full_s3": 0.5,
+      "w36native_full_s4": 0.5
+    },
+    "off_gpu": {
+      "w36_full_s3": 0.5,
+      "w36_full_s4": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "uniform",
+      "teacher"
+    ],
+    [
+      "uniform",
+      "no_extra_head"
+    ],
+    [
+      "soft",
+      "teacher"
+    ],
+    [
+      "soft",
+      "no_extra_head"
+    ],
+    [
+      "soft",
+      "uniform"
+    ],
+    [
+      "soft_s3",
+      "uniform_s3"
+    ],
+    [
+      "soft_s4",
+      "uniform_s4"
+    ],
+    [
+      "soft",
+      "off"
+    ],
+    [
+      "uniform",
+      "off"
+    ],
+    [
+      "off",
+      "no_extra_head"
+    ],
+    [
+      "off",
+      "off_gpu"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher": 0.7182578324561746,
+        "no_extra_head": 0.7182792060980467,
+        "uniform": 0.7185328505679427,
+        "uniform_s3": 0.7181200586640051,
+        "uniform_s4": 0.7170594339738814,
+        "soft": 0.7186153705372033,
+        "soft_s3": 0.7182701104253825,
+        "soft_s4": 0.7170861101380792,
+        "off": 0.7184980938388934,
+        "off_gpu": 0.7186037845745568
+      },
+      "comparisons": {
+        "uniform - teacher": {
+          "delta": 0.00027501811176811053,
+          "conditional_ci95": [
+            -0.0005974515366263422,
+            0.0011991106131486154
+          ]
+        },
+        "uniform - no_extra_head": {
+          "delta": 0.0002536444698959528,
+          "conditional_ci95": [
+            -0.00010461946633346374,
+            0.0006663860555885744
+          ]
+        },
+        "soft - teacher": {
+          "delta": 0.00035753808102867435,
+          "conditional_ci95": [
+            -0.000530819854625178,
+            0.001327887267410906
+          ]
+        },
+        "soft - no_extra_head": {
+          "delta": 0.0003361644391565166,
+          "conditional_ci95": [
+            -2.865897953579221e-05,
+            0.000768685250564663
+          ]
+        },
+        "soft - uniform": {
+          "delta": 8.251996926056382e-05,
+          "conditional_ci95": [
+            -3.976152332024474e-05,
+            0.00019548581665451405
+          ]
+        },
+        "soft_s3 - uniform_s3": {
+          "delta": 0.00015005176137738996,
+          "conditional_ci95": [
+            6.522955263410513e-06,
+            0.00031349156793680766
+          ]
+        },
+        "soft_s4 - uniform_s4": {
+          "delta": 2.667616419782526e-05,
+          "conditional_ci95": [
+            -0.00012257681145935173,
+            0.0001593313733160184
+          ]
+        },
+        "soft - off": {
+          "delta": 0.00011727669830985388,
+          "conditional_ci95": [
+            -4.397101147826654e-06,
+            0.0002507692333102437
+          ]
+        },
+        "uniform - off": {
+          "delta": 3.475672904929006e-05,
+          "conditional_ci95": [
+            -4.346977813062536e-05,
+            0.00011695761078965849
+          ]
+        },
+        "off - no_extra_head": {
+          "delta": 0.00021888774084666274,
+          "conditional_ci95": [
+            -0.0001592030154703189,
+            0.0006509905527187882
+          ]
+        },
+        "off - off_gpu": {
+          "delta": -0.00010569073566335518,
+          "conditional_ci95": [
+            -0.0002968247311999739,
+            3.180315383563828e-05
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid fold0; ALL train chains excluded because d256 teacher used all train. No train holdout claim. Fixed epochs. Soft causal predicted-class routing versus uniform routing, equal parameters and zero-initialized residual. Class labels never used for inference. Conditional gate detached from main loss. No-extra-head continuation is an additional control. Native class support implemented and validated in wave26; thisoffcontrol exportsplainweights. Organizer provenance not certified. Conditional fitted-model intervals."
+}

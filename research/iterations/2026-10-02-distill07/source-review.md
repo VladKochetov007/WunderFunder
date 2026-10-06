@@ -1,0 +1,13 @@
+# Distill07 source handoff
+
+One fixed exploratory recipe: parent target blend changes from `0.5*y + 0.5*mean(original teachers)` to `0.3*y + 0.7*mean(original teachers)`, with the frozen trainer's existing clipping/weighting. Both folds retain teachers `h256_fF,h256s4_fF`; no gen2 inputs. All other103 resolved arguments match the archived student recipe except names and the H2 own-parent path. `argument-proof.json` records direct parsing of the frozen trainer's argument declarations; no trainer/module/data/model execution occurred.
+
+Parent uses the same shallow256×1, seed3, batch32, chunk2000, four epochs and fixed EMA ep3. H2 uses the same frozen `inp,gru`, batch16, two epochs and fixed ep1. Alpha does not alter initialization or the sampler before optimization. CUDA execution on another physical GPU is not a bitwise reproduction guarantee. The archived alpha.5 control is reused; this remains a one-seed exposed-fold utility screen.
+
+`predict_fixed.py` uses target-free `SequenceFile(..., targets=False, mask=False)`, original fold-row order, batch16, causal full-prefix211 feature construction and AMP chunks4000 with carried state. `make_model`, `build_inputs`, `forward_chunk` and `predict` in its frozen trainer are AST-identical to the original student predictor dependencies. The full array shape and standard receipt fields match the existing scorer interface; unused fold rows remain NaN. No labels affect inference.
+
+`check_checkpoint.py` validates all103 arguments, finite FP32 exact211/256×1/23 shapes, model.pt equality to the fixed endpoint, no epoch metric evaluation, and H2 byte-identical normalization/input/recurrent tensors with changed head tensors. Receipt status is `PASS_FIXED_ENDPOINT_FINITE_AND_LINEAGE`; fields include `checkpoint`, `model_pt`, `all103_args_match`, `parent`, `byte_identical_frozen_tensors`, `changed_head_tensors`, `commands_sha256`, `validator_sha256`, `data_or_targets_read:false`, `model_forward_calls:0`, `metrics:0`.
+
+`run_queue.py` is a byte-identical copy of the current minGRU generic queue. Root owns GPU3/CPU10–15 allocation, input bindings, all launch and grading decisions. Postcheck CLI: `check_checkpoint.py JOB --commands research/iterations/2026-10-02-distill07/commands.json --output research/iterations/2026-10-02-distill07/execution-01/JOB.check.json`. Queue success status may be `COMPLETE_4_FITS_2_OOF_NO_METRICS`.
+
+No fits, model/feature-array reads, OOF or metrics were executed during preparation. E-320 is user-reported motivation, not independently verified evidence or a claimed reproduction. The common diverse-screens contract governs uncertainty and the fixed quarter-ensemble comparison; no epoch/alpha/weight search is introduced.

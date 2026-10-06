@@ -1,0 +1,177 @@
+{
+  "status": "SOURCE_ONLY_NOT_EXECUTED",
+  "jobs": [
+    {
+      "name": "lateatom_candidate_s3_f0",
+      "stage": "H2",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-late-atom-head/run.py",
+        "train",
+        "--fold",
+        "0",
+        "--arm",
+        "candidate",
+        "--vocab",
+        "research/iterations/2026-10-01-late-atom-head/vocab-01/atoms.npy",
+        "--output-dir",
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_candidate_s3_f0"
+      ],
+      "timeout_seconds": 900,
+      "require_absent": [
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_candidate_s3_f0"
+      ],
+      "required_outputs": [
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_candidate_s3_f0/model_ep1.pt",
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_candidate_s3_f0/receipt.json"
+      ]
+    },
+    {
+      "name": "lateatom_control_s3_f0",
+      "stage": "H2",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-late-atom-head/run.py",
+        "train",
+        "--fold",
+        "0",
+        "--arm",
+        "control",
+        "--vocab",
+        "research/iterations/2026-10-01-late-atom-head/vocab-01/atoms.npy",
+        "--output-dir",
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_control_s3_f0"
+      ],
+      "timeout_seconds": 900,
+      "require_absent": [
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_control_s3_f0"
+      ],
+      "required_outputs": [
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_control_s3_f0/model_ep1.pt",
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_control_s3_f0/receipt.json"
+      ]
+    },
+    {
+      "name": "lateatom_oof_f0",
+      "stage": "OOF",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-late-atom-head/run.py",
+        "predict",
+        "--fold",
+        "0",
+        "--vocab",
+        "research/iterations/2026-10-01-late-atom-head/vocab-01/atoms.npy",
+        "--candidate",
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_candidate_s3_f0/model_ep1.pt",
+        "--control",
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_control_s3_f0/model_ep1.pt",
+        "--output-dir",
+        "research/iterations/2026-10-01-late-atom-head/predictions-01"
+      ],
+      "timeout_seconds": 300,
+      "require_absent": [
+        "research/iterations/2026-10-01-late-atom-head/predictions-01/fold0.npz",
+        "research/iterations/2026-10-01-late-atom-head/predictions-01/fold0.json"
+      ],
+      "required_outputs": [
+        "research/iterations/2026-10-01-late-atom-head/predictions-01/fold0.npz",
+        "research/iterations/2026-10-01-late-atom-head/predictions-01/fold0.json"
+      ]
+    },
+    {
+      "name": "lateatom_candidate_s3_f1",
+      "stage": "H2",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-late-atom-head/run.py",
+        "train",
+        "--fold",
+        "1",
+        "--arm",
+        "candidate",
+        "--vocab",
+        "research/iterations/2026-10-01-late-atom-head/vocab-01/atoms.npy",
+        "--output-dir",
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_candidate_s3_f1"
+      ],
+      "timeout_seconds": 900,
+      "require_absent": [
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_candidate_s3_f1"
+      ],
+      "required_outputs": [
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_candidate_s3_f1/model_ep1.pt",
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_candidate_s3_f1/receipt.json"
+      ]
+    },
+    {
+      "name": "lateatom_control_s3_f1",
+      "stage": "H2",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-late-atom-head/run.py",
+        "train",
+        "--fold",
+        "1",
+        "--arm",
+        "control",
+        "--vocab",
+        "research/iterations/2026-10-01-late-atom-head/vocab-01/atoms.npy",
+        "--output-dir",
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_control_s3_f1"
+      ],
+      "timeout_seconds": 900,
+      "require_absent": [
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_control_s3_f1"
+      ],
+      "required_outputs": [
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_control_s3_f1/model_ep1.pt",
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_control_s3_f1/receipt.json"
+      ]
+    },
+    {
+      "name": "lateatom_oof_f1",
+      "stage": "OOF",
+      "argv": [
+        ".venv/bin/python",
+        "research/iterations/2026-10-01-late-atom-head/run.py",
+        "predict",
+        "--fold",
+        "1",
+        "--vocab",
+        "research/iterations/2026-10-01-late-atom-head/vocab-01/atoms.npy",
+        "--candidate",
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_candidate_s3_f1/model_ep1.pt",
+        "--control",
+        "research/iterations/2026-10-01-late-atom-head/runs/lateatom_control_s3_f1/model_ep1.pt",
+        "--output-dir",
+        "research/iterations/2026-10-01-late-atom-head/predictions-01"
+      ],
+      "timeout_seconds": 300,
+      "require_absent": [
+        "research/iterations/2026-10-01-late-atom-head/predictions-01/fold1.npz",
+        "research/iterations/2026-10-01-late-atom-head/predictions-01/fold1.json"
+      ],
+      "required_outputs": [
+        "research/iterations/2026-10-01-late-atom-head/predictions-01/fold1.npz",
+        "research/iterations/2026-10-01-late-atom-head/predictions-01/fold1.json"
+      ]
+    }
+  ],
+  "success_status": "FOUR_LATE_HEAD_FITS_TWO_OOF",
+  "vocab": {
+    "argv": [
+      ".venv/bin/python",
+      "research/iterations/2026-10-01-late-atom-head/vocab.py",
+      "--inputs",
+      "research/iterations/2026-10-01-online-normalization/input-bindings.json",
+      "--output-dir",
+      "research/iterations/2026-10-01-late-atom-head/vocab-01"
+    ],
+    "required_outputs": [
+      "research/iterations/2026-10-01-late-atom-head/vocab-01/atoms.npy",
+      "research/iterations/2026-10-01-late-atom-head/vocab-01/receipt.json"
+    ],
+    "timeout_seconds": 600
+  }
+}

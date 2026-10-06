@@ -1,0 +1,17 @@
+{
+  "hypothesis": "Use stronger mean-distilled-student teacher while RESETTING learner to originald256 parent, avoiding extra continuation of an alreadyfine-tuned student.",
+  "difference_from_wave22and33": "Those initialized from w19/w24 distilled students then continued2epochs. This uses original pre-distillation parent andsame2epochs aswave19; only mainteacher differs. Family auxiliary targets/coefficient unchanged.",
+  "teacher": "w22teacher meanw19distilled_s3/s4 fullcaches; localteacher425score.71836 vsheterogeneousteacher.71613",
+  "parent": "d256bc1k_f0/d256bc1ks4_f0@ep3",
+  "training": "Originalwave19 2epfixedepoch1,AdamW1e-4/chunk2000/batch16,alpha.7,family.1,aux.3, sameconstructor/RNG/dataorder",
+  "primary": "restartpair minusw19distilledpair GPU/native",
+  "secondary": "restartpair minusw22_control continuationwithsameteacher",
+  "replication_ifpositive": "Originalw15d256 parents + w33teacher oncomposite; comparew24distilled andoldw18KD onbothpanels",
+  "final_ifpositive": "Originalfbc1k_s5/s6 + preparedw37finalteacher; no continuationfromstudentweights",
+  "limitations": [
+    "reusedpanels",
+    "conditionalintervals",
+    "iterated KD can amplifybias",
+    "no publicclaim"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "purpose": "Optional native unit-L2 class-conditioned residual readout for wave23, frozen production engine unchanged.",
+  "native_base": "wave16/native-sparse",
+  "changes": "Four FP32 class logits and8 FP32 residual outputs on shared readout feature, stable exp normalized to unitL2. Uniform mode coefficients.5. Main trunk dynamic int8 unchanged.",
+  "tests": "nonzero/zero/uniform/saturated Torch references; all v2/avx2/v3 and scalar/AVX2/VNNI backends; reset and zero-head equivalence; uniform folded-linear equivalence; malformed metadata rejection. Legacy engine comparison and runtime pending.",
+  "promotion": "Only if trained wave23 quality beats both matched uniform and current teacher; then composite replication and actualZIP runtime.",
+  "source_sha256": {
+    "native-class/build.sh": "1877edd2a55e43ff99a93c77d98c1aef1913625025e8552cf3efc5aeb4c37f66",
+    "native-class/include/wnn/online_norm.hpp": "cb6f96a910cc9138f9f5e87cf14ecc5b0730d14819ad484274c3efaaf24123c8",
+    "native-class/include/wnn/vnni_packed.hpp": "e307a1a2d9f34df0fd177d167b319a09164f9a1a966cef7b8fe350f03bd2381d",
+    "native-class/include/wnn/vnni_block128.hpp": "378be58e62c81d679297c046af15d869f7107e28d4fc61ac650b427c61b85a3c",
+    "native-class/include/wnn/activations.hpp": "688ade56b1b0ffb9b59e423ad7cb3069f06564654c4a266f644c2a9ce973133d",
+    "native-class/include/wnn/transition_features.hpp": "4fed9a92f5b7422d37cdb605f697e94466959930a916daf74b2e0ee170d82fa2",
+    "native-class/include/wnn/kernels.hpp": "b0aa344e3e3dbe23a6cec670a436e1405fd70bbf6e3889bdeedeca6b5bffa1e4",
+    "native-class/include/wnn/event_features.hpp": "9baefba832ab21980da40a8819d6d996112cd159e37ac114e019c42001d6f689",
+    "native-class/include/wnn/model.hpp": "4509c6654ccd74aa77f621d72345089b1cfc934d079dadfea25494d545758bf1",
+    "native-class/include/wnn/vnni.hpp": "c63868527d426c9b28f052a40016a5ca8c70a97b6bc510c86a63bfe44c6dc329",
+    "native-class/include/wnn/quant_portable.hpp": "1158ae802384cc39ffbcda513a19e08667f29e28eb560d2c9037c77c2f21ceb5",
+    "native-class/src/glibc_compat.c": "cdf6c82aa9ddd0a41adc39a920ea54ff31435c361b9e9a9b5e29e077c3c9ebd6",
+    "native-class/src/bindings.cpp": "fecb238d86426fbdff2b33a3c69a5f9b36619d612c1cc353a8ec78131c5cd8f4"
+  },
+  "verification": {
+    "parity": "all3builds x4fixturetypes x3backends passed; FP32 max<.001; int8 correlations>.999",
+    "legacy": "h256,h384,block-sparse,linear metadata bitwise unchanged all3builds",
+    "runtime": "h256 legacy ratio.972 in local microbenchmark; conditional head roughly+0-15% on short segments; actualZIP timing still required"
+  }
+}

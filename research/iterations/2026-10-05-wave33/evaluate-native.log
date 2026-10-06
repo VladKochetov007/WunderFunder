@@ -1,0 +1,243 @@
+{
+  "specs": {
+    "parent": {
+      "w33native_parent_s3": 0.5,
+      "w33native_parent_s4": 0.5
+    },
+    "submitted_recipe": {
+      "w33native_old_s3": 0.5,
+      "w33native_old_s4": 0.5
+    },
+    "uniform": {
+      "w33native_uniform_s3": 0.5,
+      "w33native_uniform_s4": 0.5
+    },
+    "uniform_s3": {
+      "w33native_uniform_s3": 1.0
+    },
+    "uniform_s4": {
+      "w33native_uniform_s4": 1.0
+    },
+    "soft": {
+      "w33native_soft_s3": 0.5,
+      "w33native_soft_s4": 0.5
+    },
+    "soft_s3": {
+      "w33native_soft_s3": 1.0
+    },
+    "soft_s4": {
+      "w33native_soft_s4": 1.0
+    },
+    "uniform_gpu": {
+      "w33_uniform_s3": 0.5,
+      "w33_uniform_s4": 0.5
+    },
+    "soft_gpu": {
+      "w33_soft_s3": 0.5,
+      "w33_soft_s4": 0.5
+    }
+  },
+  "comparisons": [
+    [
+      "uniform",
+      "parent"
+    ],
+    [
+      "uniform",
+      "submitted_recipe"
+    ],
+    [
+      "soft",
+      "parent"
+    ],
+    [
+      "soft",
+      "submitted_recipe"
+    ],
+    [
+      "soft",
+      "uniform"
+    ],
+    [
+      "soft_s3",
+      "uniform_s3"
+    ],
+    [
+      "soft_s4",
+      "uniform_s4"
+    ],
+    [
+      "uniform",
+      "uniform_gpu"
+    ],
+    [
+      "soft",
+      "soft_gpu"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 436,
+      "chains": 129,
+      "scores": {
+        "parent": 0.7127040523285642,
+        "submitted_recipe": 0.7125730511767501,
+        "uniform": 0.7118706497714641,
+        "uniform_s3": 0.7108413593547702,
+        "uniform_s4": 0.710580183292092,
+        "soft": 0.7117997928325168,
+        "soft_s3": 0.7107240669831021,
+        "soft_s4": 0.71058351402789,
+        "uniform_gpu": 0.7119183718742197,
+        "soft_gpu": 0.7118488217525563
+      },
+      "comparisons": {
+        "uniform - parent": {
+          "delta": -0.0008334025571000714,
+          "conditional_ci95": [
+            -0.0022873606550595864,
+            0.0003788349408314011
+          ]
+        },
+        "uniform - submitted_recipe": {
+          "delta": -0.0007024014052859906,
+          "conditional_ci95": [
+            -0.0021019853156008404,
+            0.0005357903454859719
+          ]
+        },
+        "soft - parent": {
+          "delta": -0.0009042594960473327,
+          "conditional_ci95": [
+            -0.002480860456112055,
+            0.00037435864513747885
+          ]
+        },
+        "soft - submitted_recipe": {
+          "delta": -0.0007732583442332519,
+          "conditional_ci95": [
+            -0.0022876379064502546,
+            0.0005102042701647682
+          ]
+        },
+        "soft - uniform": {
+          "delta": -7.08569389472613e-05,
+          "conditional_ci95": [
+            -0.00022531472075602578,
+            4.1949575312077974e-05
+          ]
+        },
+        "soft_s3 - uniform_s3": {
+          "delta": -0.00011729237166813178,
+          "conditional_ci95": [
+            -0.000298572933930788,
+            4.1475010139091456e-05
+          ]
+        },
+        "soft_s4 - uniform_s4": {
+          "delta": 3.3307357979461827e-06,
+          "conditional_ci95": [
+            -0.00016375122971190869,
+            0.0001420001799161102
+          ]
+        },
+        "uniform - uniform_gpu": {
+          "delta": -4.772210275560962e-05,
+          "conditional_ci95": [
+            -0.000229881023360895,
+            0.00010405078816051718
+          ]
+        },
+        "soft - soft_gpu": {
+          "delta": -4.902892003944004e-05,
+          "conditional_ci95": [
+            -0.00021483192905720206,
+            8.355779925436334e-05
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "parent": 0.03392121042940398,
+        "submitted_recipe": 0.03462480629226848,
+        "uniform": 0.03051020208001476,
+        "uniform_s3": 0.08949604070504591,
+        "uniform_s4": 0.022578976740717835,
+        "soft": 0.021069185336709775,
+        "soft_s3": 0.05273335987240374,
+        "soft_s4": 0.01567938640657693,
+        "uniform_gpu": 0.5948912116523333,
+        "soft_gpu": 0.5948873637562782
+      },
+      "comparisons": {
+        "uniform - parent": {
+          "delta": -0.003411008349389219,
+          "conditional_ci95": [
+            -0.008534038703090024,
+            0.0012621743565776082
+          ]
+        },
+        "uniform - submitted_recipe": {
+          "delta": -0.004114604212253722,
+          "conditional_ci95": [
+            -0.009919610103330378,
+            0.0014939552616436947
+          ]
+        },
+        "soft - parent": {
+          "delta": -0.012852025092694203,
+          "conditional_ci95": [
+            -0.019885551943728055,
+            -0.007235918765271292
+          ]
+        },
+        "soft - submitted_recipe": {
+          "delta": -0.013555620955558706,
+          "conditional_ci95": [
+            -0.02121409759546966,
+            -0.0074706923619074946
+          ]
+        },
+        "soft - uniform": {
+          "delta": -0.009441016743304984,
+          "conditional_ci95": [
+            -0.013177021361781744,
+            -0.006198353021539812
+          ]
+        },
+        "soft_s3 - uniform_s3": {
+          "delta": -0.03676268083264217,
+          "conditional_ci95": [
+            -0.04321132465451307,
+            -0.028078979618270723
+          ]
+        },
+        "soft_s4 - uniform_s4": {
+          "delta": -0.0068995903341409065,
+          "conditional_ci95": [
+            -0.012069973388597405,
+            -0.001979246644939679
+          ]
+        },
+        "uniform - uniform_gpu": {
+          "delta": -0.5643810095723185,
+          "conditional_ci95": [
+            -0.6155216282333127,
+            -0.5109832036307627
+          ]
+        },
+        "soft - soft_gpu": {
+          "delta": -0.5738181784195684,
+          "conditional_ci95": [
+            -0.625527189729163,
+            -0.520313634054787
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Exploratory reused data. Known teacher parents and students restricted to train half0 + valid folds !=0. Original organizer pretraining provenance uncertain. Train mask estimated; diagnostic only. Intervals conditional on fitted models."
+}

@@ -1,0 +1,76 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_d07_sh256_s3h2_f1",
+  "stage": "H2",
+  "allocation_sha256": "b5e527147ef3d38704c2c46387d91e4108a9c4984478f5d6ad2067e7ba0acf65",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-01-overnight/training/train_aux.py",
+    "--name",
+    "oct02_d07_sh256_s3h2_f1",
+    "--init",
+    "oct02_d07_sh256_s3_f1@ep3",
+    "--valid-fold",
+    "1",
+    "--seed",
+    "3",
+    "--hidden",
+    "256",
+    "--chunk",
+    "2000",
+    "--aux-loss-scale",
+    "1",
+    "--train-source",
+    "valid",
+    "--n-valid-folds",
+    "4",
+    "--full-valid",
+    "--loss",
+    "gcorr",
+    "--mask-weight",
+    "--batch",
+    "16",
+    "--epochs",
+    "2",
+    "--aux-struct",
+    "0.3",
+    "--aux-next",
+    "0.3",
+    "--fast",
+    "--freeze",
+    "inp,gru",
+    "--lr",
+    "5e-4",
+    "--eval-source",
+    "vfold",
+    "--layers",
+    "1"
+  ],
+  "started_utc": "2026-10-02T00:54:42.272328+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_d07_sh256_s3h2_f1/model_ep0.pt": {
+      "bytes": 2353191,
+      "sha256": "0e9ed993f265aa6fb6a7610111794de847f1fab85b665bdd752085eac3bff012"
+    },
+    "artifacts/runs/oct02_d07_sh256_s3h2_f1/model_ep1.pt": {
+      "bytes": 2353191,
+      "sha256": "9b368ced676c93fccfd111c3160598cd85e41306cc9441c66da3139591ce7e3b"
+    },
+    "artifacts/runs/oct02_d07_sh256_s3h2_f1/model.pt": {
+      "bytes": 2352747,
+      "sha256": "fa2d8c9d81392232c9c0019c652341d56930473d80ac6ad4731f2681d809aeec"
+    },
+    "artifacts/runs/oct02_d07_sh256_s3h2_f1/history.json": {
+      "bytes": 336,
+      "sha256": "728f8b773d281d068b05d5017e33263f406bfa1c9626df49fda86d560db9acb5"
+    },
+    "research/iterations/2026-10-02-distill07/execution-01/oct02_d07_sh256_s3h2_f1.check.json": {
+      "bytes": 2273,
+      "sha256": "71227a2178355ece4243adb9d921de25ab7a69ec3ca69d1698496b1102cbfd93"
+    }
+  },
+  "seconds": 67.37661811057478,
+  "finished_utc": "2026-10-02T00:55:49.648970+00:00"
+}

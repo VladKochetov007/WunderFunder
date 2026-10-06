@@ -1,0 +1,187 @@
+{
+  "specs": {
+    "old_pair": {
+      "w33native_old_s3": 0.5,
+      "w33native_old_s4": 0.5
+    },
+    "new_pair": {
+      "w43native_comp_s13": 0.5,
+      "w43native_comp_s14": 0.5
+    },
+    "four_mean": {
+      "w33native_old_s3": 0.25,
+      "w33native_old_s4": 0.25,
+      "w43native_comp_s13": 0.25,
+      "w43native_comp_s14": 0.25
+    },
+    "new_s13": {
+      "w43native_comp_s13": 1.0
+    },
+    "old_s3": {
+      "w33native_old_s3": 1.0
+    },
+    "new_s14": {
+      "w43native_comp_s14": 1.0
+    },
+    "old_s4": {
+      "w33native_old_s4": 1.0
+    },
+    "new_pair_gpu": {
+      "w43_comp_s13": 0.5,
+      "w43_comp_s14": 0.5
+    },
+    "four_mean_gpu": {
+      "w18compcompress_distilled_s3": 0.25,
+      "w18compcompress_distilled_s4": 0.25,
+      "w43_comp_s13": 0.25,
+      "w43_comp_s14": 0.25
+    }
+  },
+  "comparisons": [
+    [
+      "four_mean",
+      "old_pair"
+    ],
+    [
+      "new_pair",
+      "old_pair"
+    ],
+    [
+      "new_s13",
+      "old_s3"
+    ],
+    [
+      "new_s14",
+      "old_s4"
+    ],
+    [
+      "new_pair",
+      "new_pair_gpu"
+    ],
+    [
+      "four_mean",
+      "four_mean_gpu"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 436,
+      "chains": 129,
+      "scores": {
+        "old_pair": 0.7125730511767501,
+        "new_pair": 0.7126376292141308,
+        "four_mean": 0.7126416118341858,
+        "new_s13": 0.7118691514690223,
+        "old_s3": 0.7119193019511818,
+        "new_s14": 0.7119282664004933,
+        "old_s4": 0.7117700528331887,
+        "new_pair_gpu": 0.712680153463275,
+        "four_mean_gpu": 0.712684247993159
+      },
+      "comparisons": {
+        "four_mean - old_pair": {
+          "delta": 6.856065743576778e-05,
+          "conditional_ci95": [
+            -5.8389225607660686e-05,
+            0.00019392001020022414
+          ]
+        },
+        "new_pair - old_pair": {
+          "delta": 6.457803738069146e-05,
+          "conditional_ci95": [
+            -0.0001927646477303896,
+            0.0003156459786666203
+          ]
+        },
+        "new_s13 - old_s3": {
+          "delta": -5.015048215950557e-05,
+          "conditional_ci95": [
+            -0.0004281405792604637,
+            0.00026418349294651247
+          ]
+        },
+        "new_s14 - old_s4": {
+          "delta": 0.00015821356730461034,
+          "conditional_ci95": [
+            -0.00027539749622343125,
+            0.0006120819458241611
+          ]
+        },
+        "new_pair - new_pair_gpu": {
+          "delta": -4.2524249144193504e-05,
+          "conditional_ci95": [
+            -0.00013793317389191318,
+            4.69684235724965e-05
+          ]
+        },
+        "four_mean - four_mean_gpu": {
+          "delta": -4.263615897315276e-05,
+          "conditional_ci95": [
+            -0.000140989618477938,
+            3.89794811602894e-05
+          ]
+        }
+      }
+    },
+    "train_clean": {
+      "sequences": 282,
+      "chains": 191,
+      "scores": {
+        "old_pair": 0.5974647961436341,
+        "new_pair": 0.5974147867303321,
+        "four_mean": 0.5974896625845958,
+        "new_s13": 0.5963901842941713,
+        "old_s3": 0.5966653995283848,
+        "new_s14": 0.5958816991513389,
+        "old_s4": 0.595720556193251,
+        "new_pair_gpu": 0.5973704526717678,
+        "four_mean_gpu": 0.5974822455927167
+      },
+      "comparisons": {
+        "four_mean - old_pair": {
+          "delta": 2.4866440961668346e-05,
+          "conditional_ci95": [
+            -0.0001719804493941379,
+            0.00023303577619412084
+          ]
+        },
+        "new_pair - old_pair": {
+          "delta": -5.0009413302021244e-05,
+          "conditional_ci95": [
+            -0.00044653512672815365,
+            0.0003666682246493771
+          ]
+        },
+        "new_s13 - old_s3": {
+          "delta": -0.00027521523421347727,
+          "conditional_ci95": [
+            -0.0007824810458054137,
+            0.0002646140494840187
+          ]
+        },
+        "new_s14 - old_s4": {
+          "delta": 0.0001611429580878898,
+          "conditional_ci95": [
+            -0.0005640793869020027,
+            0.0008792411309385984
+          ]
+        },
+        "new_pair - new_pair_gpu": {
+          "delta": 4.4334058564299283e-05,
+          "conditional_ci95": [
+            -7.509203458692659e-05,
+            0.00015227462965028413
+          ]
+        },
+        "four_mean - four_mean_gpu": {
+          "delta": 7.416991879116708e-06,
+          "conditional_ci95": [
+            -9.025860329539281e-05,
+            0.00010278267761523736
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused panels, fixed ep1, two new student seeds13/14 from original parent3/4 and teacher. Four-member mean has fixed equal weights. Only two independent parent basins. Conditional chain bootstrap, not seed variance. Organizer pretrained baseline provenance uncertain. Valid436 true mask and train282 estimated-mask diagnostic; all known training chains excluded."
+}

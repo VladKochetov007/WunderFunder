@@ -1,0 +1,96 @@
+{
+  "status": "COMPLETE_ONE_FIXED_NATIVE_COMPARISON",
+  "primary": {
+    "candidate_wp": 0.702355321332776,
+    "reference_wp": 0.7023370762430894,
+    "delta": 1.824508968661931e-05
+  },
+  "by_fold": {
+    "0": {
+      "candidate_wp": 0.7152442731454596,
+      "reference_wp": 0.7151731259314875,
+      "delta": 7.114721397205592e-05
+    },
+    "1": {
+      "candidate_wp": 0.6902005812588841,
+      "reference_wp": 0.6900780350724203,
+      "delta": 0.00012254618646379
+    }
+  },
+  "pure_sequences": 860,
+  "pure_chains": 250,
+  "coefficients": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+  ],
+  "native": "same unchanged guarded VNNI INT8 implementation for candidate and reference",
+  "bootstrap": {
+    "replicates": 2000,
+    "seed": 0,
+    "generator": "NumPy PCG64",
+    "numpy_version": "2.2.6",
+    "chain_counts_by_fold": {
+      "0": 123,
+      "1": 127
+    },
+    "percentile_CI95": {
+      "overall": [
+        -0.0004887653611511167,
+        0.0004685578916109682
+      ],
+      "fold0": [
+        -0.000597287094235771,
+        0.0006439332783908482
+      ],
+      "fold1": [
+        -0.0004399679234814019,
+        0.0006772103919916779
+      ]
+    },
+    "resampling": "Paired whole chains with replacement, stratified by outer fold; all sequences and class composition of each selected chain retained. No class stratification.",
+    "uncertainty_scope": "Conditional on these fitted models and exposed pure-chain population; excludes training-seed variability, adaptive selection, and hidden-test/domain shift.",
+    "selection_adjusted": false,
+    "fresh_confirmation": false
+  },
+  "prior_GPU_candidate_wp": 0.7023796676,
+  "native_minus_prior_GPU_candidate": -2.4346267224029106e-05,
+  "GPU_comparison_interpretation": "Combined backend, AMP and dynamic-quantization drift; not an isolated quantization penalty. Prior score is the supplied rounded value.",
+  "adaptive_exposure": "Same previously exposed folds and selected student recipe; no independent confirmation or automatic promotion.",
+  "provenance": {
+    "candidate_f0": {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/student/native-quality-01/cache/pred_student_quant_f0_valid.npy",
+      "sha256": "5fab2d3197bd16028640d1702d19c827491a2da978573640bd656b6c7d41d43f",
+      "receipt_sha256": "c0a083c10c90bfad43d607c4817556a4ff9167b04471883e7c464dff0552a17d"
+    },
+    "reference_f0": {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/full4-int8/cache/pred_on_q4quant_f0_valid.npy",
+      "sha256": "ad8086a55b976c5cc20bbb0ed781fbcbe394383882680d19338364978a1970b8",
+      "receipt_sha256": "d5ed464a7275c9c66f169d9ad0c733a0297f7042634f854b8818331d2a0745d2"
+    },
+    "candidate_f1": {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/student/native-quality-01/cache/pred_student_quant_f1_valid.npy",
+      "sha256": "099284c295cd62757be381508ec6dba736e714d48efccfad8e2c2ff3d6fe329b",
+      "receipt_sha256": "f9740942171974711450c215369bf9109faca712accf1c356995ff844f478b97"
+    },
+    "reference_f1": {
+      "path": "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-01-continuation/full4-int8/cache/pred_on_q4quant_f1_valid.npy",
+      "sha256": "7d303d9fdbb96edb4e08453f9b9345f7d14b8dddd6cc5eba471514f19d041449",
+      "receipt_sha256": "ab562b5cdfadb0fe45de2c2bf2a8e3e108ed048a3b9006922b32f711017d3102"
+    }
+  },
+  "metric_source_sha256": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+  "allocation_sha256": "f58ed2ad0e06f4cdbe482ed1df3b5d92e1164324e73a17b3a7e92c41eac3af2f",
+  "evaluation_source_sha256": "9dd71d06373121176133e1cfa3bd2455eabcd40f35f3e38824908c52a88f4986",
+  "seconds": 7.769134556874633,
+  "limits": {
+    "cpu.max": "100000 100000",
+    "memory.max": "4294967296",
+    "memory.swap.max": "0"
+  },
+  "new_models": 0,
+  "blend_search": false,
+  "metric_readouts": 1,
+  "sufficient_sha256": "8d59367fd1641e133a86a74ca053046f72d92cdbbce6cb12e1019f03ee9a021f"
+}

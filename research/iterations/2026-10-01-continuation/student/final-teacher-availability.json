@@ -1,0 +1,246 @@
+{
+  "checked_utc": "2026-10-01T13:00:23.092326+00:00",
+  "purpose": "Read-only availability and historical lineage prerequisites for a possible final shallow student fit; no quality or promotion claim.",
+  "conclusion": "Historical final parent and full teacher checkpoints are retained in original base checkout. Creative artifacts are a partial overlay; no restoration download is necessary. Four teacher caches are already reachable through shared creative/cache.",
+  "scope": "No training, GPU use, prediction/target body decode, OOF/WP query, symlink or original-checkout modification. Three tiny checkpoint metadata loads/hashes on CPU18 with one thread and CUDA hidden completed in about two seconds.",
+  "base": "/home/grinchenkoeg/WunderFunder",
+  "creative_cache_symlink": "/home/grinchenkoeg/WunderFunder-creative/cache -> ../WunderFunder/cache",
+  "checkpoints": [
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/find256_s3/model_ep3.pt",
+      "bytes": 3933599,
+      "sha256": "ccd7074ddace43771c0ff8053056677fff76713e6e86da142c3c181ee59810d2",
+      "actual_checkpoint_epoch": 3,
+      "actual_args": {
+        "name": "find256_s3",
+        "hidden": 256,
+        "layers": 2,
+        "train_source": "train+valid",
+        "include_heldout_valid": true,
+        "valid_fold": -1,
+        "seed": 3,
+        "epochs": 4,
+        "lookahead_key": "absent",
+        "distill": "fin256_s3,fin256_s4",
+        "distill_alpha": 0.5,
+        "ema_teacher": 1.0,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "init": ""
+      },
+      "creative_run_directory_exists": false,
+      "base_model_pt_and_ep0_through_ep3_exist": true
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/fin256_s3/model_ep3.pt",
+      "bytes": 3933599,
+      "sha256": "8590dae1c0fb9289c5b56bd4c4520383be089c010baa1a260919b75977f388fb",
+      "actual_checkpoint_epoch": 3,
+      "actual_args": {
+        "name": "fin256_s3",
+        "hidden": 256,
+        "layers": 2,
+        "train_source": "train+valid",
+        "include_heldout_valid": true,
+        "valid_fold": -1,
+        "seed": 3,
+        "epochs": 4,
+        "lookahead_key": "absent",
+        "distill": "",
+        "distill_alpha": 0.5,
+        "ema_teacher": 1.0,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "init": ""
+      },
+      "creative_run_directory_exists": false,
+      "base_model_pt_and_ep0_through_ep3_exist": true
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/artifacts/runs/fin256_s4/model_ep3.pt",
+      "bytes": 3933599,
+      "sha256": "24d0f4b0edc2a800702b205e32cf61e9d36b213f2477cf852679155d0472abd7",
+      "actual_checkpoint_epoch": 3,
+      "actual_args": {
+        "name": "fin256_s4",
+        "hidden": 256,
+        "layers": 2,
+        "train_source": "train+valid",
+        "include_heldout_valid": true,
+        "valid_fold": -1,
+        "seed": 4,
+        "epochs": 4,
+        "lookahead_key": "absent",
+        "distill": "",
+        "distill_alpha": 0.5,
+        "ema_teacher": 1.0,
+        "ema_decay": 0.999,
+        "eval_ema": true,
+        "init": ""
+      },
+      "creative_run_directory_exists": false,
+      "base_model_pt_and_ep0_through_ep3_exist": true
+    }
+  ],
+  "teacher_caches": [
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/cache/pred_fin256_s3_train.npy",
+      "bytes": 1696960128,
+      "mtime_ns": 1790710907699950550,
+      "inode": 742428681,
+      "current_stat_matches_historical_inventory": true,
+      "exact_epoch_sidecars_found": [],
+      "available_in_creative_via_shared_cache": true
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/cache/pred_fin256_s3_valid.npy",
+      "bytes": 299680128,
+      "mtime_ns": 1790710973511903115,
+      "inode": 742428682,
+      "current_stat_matches_historical_inventory": true,
+      "exact_epoch_sidecars_found": [],
+      "available_in_creative_via_shared_cache": true
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/cache/pred_fin256_s4_train.npy",
+      "bytes": 1696960128,
+      "mtime_ns": 1790711312129636016,
+      "inode": 742428683,
+      "current_stat_matches_historical_inventory": true,
+      "exact_epoch_sidecars_found": [],
+      "available_in_creative_via_shared_cache": true
+    },
+    {
+      "path": "/home/grinchenkoeg/WunderFunder/cache/pred_fin256_s4_valid.npy",
+      "bytes": 299680128,
+      "mtime_ns": 1790711376299073343,
+      "inode": 742428684,
+      "current_stat_matches_historical_inventory": true,
+      "exact_epoch_sidecars_found": [],
+      "available_in_creative_via_shared_cache": true
+    }
+  ],
+  "cached_row_order_prior_evidence": [
+    {
+      "kind": "row_map",
+      "seconds": 0.005191624164581299,
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/train_targets.npz",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/train_targets.npz",
+      "size": 1909335790,
+      "mtime_ns": 1790702729565256036,
+      "inode": 742428599,
+      "row_group_shape": [
+        10606
+      ],
+      "row_group_dtype": "int64",
+      "unique": 10606,
+      "minimum": 0,
+      "maximum": 10606,
+      "row_group_bytes_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+      "target_arrays_not_loaded": true
+    },
+    {
+      "kind": "row_map",
+      "seconds": 0.0057890890166163445,
+      "path": "/home/grinchenkoeg/WunderFunder-creative/cache/valid_targets.npz",
+      "resolved": "/home/grinchenkoeg/WunderFunder/cache/valid_targets.npz",
+      "size": 337186198,
+      "mtime_ns": 1790638944452596999,
+      "inode": 742428078,
+      "row_group_shape": [
+        1873
+      ],
+      "row_group_dtype": "int64",
+      "unique": 1873,
+      "minimum": 0,
+      "maximum": 1872,
+      "row_group_bytes_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+      "target_arrays_not_loaded": true
+    }
+  ],
+  "train_row_order_prior_evidence": {
+    "kind": "train_row_order_followup",
+    "shape": [
+      10606
+    ],
+    "dtype": "int64",
+    "missing_raw_row_groups": [
+      528
+    ],
+    "exact_ascending_order_excluding_528": true,
+    "target_values_decoded": false
+  },
+  "row_order_source_mapping": {
+    "producer": "scripts/predict_run.py reads cache/{split}_targets.npz row_group and writes predictions in that order.",
+    "consumer": "scripts/train_rnn.py Sequences maps raw row_group to index in that same targets row_group array.",
+    "train": "10606 teacher rows; ascending raw row_group order excluding 528. Propensity cache instead addresses all 10607 raw row groups.",
+    "validation": "1873 teacher rows; see existing inventory row_group metadata.",
+    "evidence_reused": "student/inventory/receipt.json and inventory/row-order-followup.json; no target values decoded in this task."
+  },
+  "historical_parent_recipe": {
+    "log": "/home/grinchenkoeg/WunderFunder/artifacts/logs/find256_s3.log",
+    "distill": "fin256_s3,fin256_s4",
+    "distill_alpha": 0.5,
+    "hidden": 256,
+    "layers": 2,
+    "seed": 3,
+    "train_source": "train+valid",
+    "include_heldout_valid": true,
+    "epochs": 4,
+    "checkpoint": "model_ep3.pt",
+    "loss": "wmse",
+    "batch": 32,
+    "chunk": 2000,
+    "lr": 0.001,
+    "wd": 0.01,
+    "aux_struct": 0.3,
+    "aux_next": 0.3,
+    "propensity": "prop_f0",
+    "prop_power": 2,
+    "prop_eps": 0.03,
+    "valid_true_mask": 0.03,
+    "ema_teacher": 1.0,
+    "ema_decay": 0.999,
+    "eval_ema": true,
+    "since_weight": 32,
+    "since_floor": 0.25,
+    "precision": "fp16",
+    "fast": true,
+    "historical_script_equivalent": "PARENT_EXTRA=\"--distill fin256_s3,fin256_s4 --distill-alpha 0.5\" scripts/final_job.sh find256_s3 GPU 3 --hidden 256",
+    "command_caveat": "Equivalent reconstructed from script and actual logged args; original full shell invocation was not located. This is the historical two-layer recipe, not authorization or a command to launch a new fit."
+  },
+  "historical_h2_recipe": {
+    "log": "/home/grinchenkoeg/WunderFunder/artifacts/logs/find256_s3h2.log",
+    "init": "find256_s3@ep3",
+    "train_source": "valid",
+    "include_heldout_valid": true,
+    "epochs": 2,
+    "loss": "gcorr",
+    "mask_weight": true,
+    "freeze": "inp,gru",
+    "batch": 16,
+    "lr": 0.0005,
+    "distill": "",
+    "seed": 3,
+    "endpoint": "model_ep1.pt",
+    "schedule_note": "Fresh two-epoch schedule from parent ep3, not an extra epoch appended to h child."
+  },
+  "other_prerequisites": {
+    "creative_prop_f0_checkpoint_exists": true,
+    "base_propensity_cache_train_bytes": 848560128,
+    "base_propensity_cache_valid_bytes": 149840128,
+    "train_targets_bytes": 1909335790,
+    "valid_targets_bytes": 337186198
+  },
+  "archive_indexes_if_later_needed": [
+    "/home/grinchenkoeg/WunderFunder-export-20261001/archive-final/run_index.json",
+    "/home/grinchenkoeg/WunderFunder-export-20261001/archive-final/run_index.tsv",
+    "/home/grinchenkoeg/WunderFunder-export-20261001/archive-final/archive_manifest.json"
+  ],
+  "material_limitations": [
+    "No original teacher cache producer command or exact-epoch sidecar found; predict_run.py defaults to model.pt unless --epoch supplied. Retained ep3 checkpoints and logged four-epoch runs do not prove these historical cache bytes came from ep3.",
+    "Cache stat identity matches historical retained inventory (size, mtime_ns, inode), but no fresh full-array hash or finite-value scan was run.",
+    "Teacher checkpoints have no lookahead key (predate option); current loader interprets missing lookahead as empty. Logs identify causal ordinary GRU/linear setup; no new privileged teacher is proposed.",
+    "Full teacher and original distilled parent checkpoints are absent from creative/artifacts/runs; available under base paths above. No symlinks created. Distillation consumes caches and does not itself require loading the full teacher checkpoints."
+  ]
+}

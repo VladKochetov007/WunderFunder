@@ -1,0 +1,129 @@
+{
+  "specs": {
+    "teacher": {
+      "w22teacher": 1.0
+    },
+    "no_extra_head": {
+      "w22_control_s3": 0.5,
+      "w22_control_s4": 0.5
+    },
+    "uniform": {
+      "w23_uniform_s3": 0.5,
+      "w23_uniform_s4": 0.5
+    },
+    "uniform_s3": {
+      "w23_uniform_s3": 1.0
+    },
+    "uniform_s4": {
+      "w23_uniform_s4": 1.0
+    },
+    "soft": {
+      "w23_soft_s3": 0.5,
+      "w23_soft_s4": 0.5
+    },
+    "soft_s3": {
+      "w23_soft_s3": 1.0
+    },
+    "soft_s4": {
+      "w23_soft_s4": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "uniform",
+      "teacher"
+    ],
+    [
+      "uniform",
+      "no_extra_head"
+    ],
+    [
+      "soft",
+      "teacher"
+    ],
+    [
+      "soft",
+      "no_extra_head"
+    ],
+    [
+      "soft",
+      "uniform"
+    ],
+    [
+      "soft_s3",
+      "uniform_s3"
+    ],
+    [
+      "soft_s4",
+      "uniform_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher": 0.718363943590675,
+        "no_extra_head": 0.7183179571329839,
+        "uniform": 0.7186559934336934,
+        "uniform_s3": 0.7181977275325482,
+        "uniform_s4": 0.7172364937204552,
+        "soft": 0.7187504127324331,
+        "soft_s3": 0.7183506898406031,
+        "soft_s4": 0.7172848949653936
+      },
+      "comparisons": {
+        "uniform - teacher": {
+          "delta": 0.00029204984301833825,
+          "conditional_ci95": [
+            -0.0005667914393060469,
+            0.001203730241383946
+          ]
+        },
+        "uniform - no_extra_head": {
+          "delta": 0.00033803630070949886,
+          "conditional_ci95": [
+            -5.2753108146752493e-05,
+            0.0007914292166100507
+          ]
+        },
+        "soft - teacher": {
+          "delta": 0.00038646914175810565,
+          "conditional_ci95": [
+            -0.0004957717680618617,
+            0.0013360641229733347
+          ]
+        },
+        "soft - no_extra_head": {
+          "delta": 0.00043245559944926626,
+          "conditional_ci95": [
+            1.300896180744249e-05,
+            0.0009502314169811232
+          ]
+        },
+        "soft - uniform": {
+          "delta": 9.44192987397674e-05,
+          "conditional_ci95": [
+            -2.000672446497154e-05,
+            0.00021174076915227987
+          ]
+        },
+        "soft_s3 - uniform_s3": {
+          "delta": 0.00015296230805494915,
+          "conditional_ci95": [
+            3.43151119604701e-05,
+            0.00028466754317514034
+          ]
+        },
+        "soft_s4 - uniform_s4": {
+          "delta": 4.840124493843412e-05,
+          "conditional_ci95": [
+            -9.477846850898252e-05,
+            0.00018230927064011017
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid fold0; ALL train chains excluded because d256 teacher used all train. No train holdout claim. Fixed epochs. Soft causal predicted-class routing versus uniform routing, equal parameters and zero-initialized residual. Class labels never used for inference. Conditional gate detached from main loss. No-extra-head continuation is an additional control. Native export is not yet implemented. Organizer provenance not certified. Conditional fitted-model intervals."
+}

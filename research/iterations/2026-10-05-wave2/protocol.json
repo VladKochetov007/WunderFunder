@@ -1,0 +1,206 @@
+{
+  "date": "2026-10-05",
+  "name": "wave2",
+  "objective": "Turn replicated two-stream gain into a tested submission candidate and screen sentinel/complement ideas.",
+  "decisions": {
+    "two_stream": "Replicated positive, start full-data seed3 and native package.",
+    "online_norm": "Positive train-HO, uncertain valid; retain research candidate, no full retrain yet.",
+    "bootstrap_card4": "Withdraw original novelty claim: existing distill_boot_h already checks next_label_change > t+h. No duplicate experiment.",
+    "sentinel": "No robust advantage over equal-dimension zero control; do not promote.",
+    "complement": "Positive train-HO, slightly negative vs direct FT on valid; do not include in submission. Future research only."
+  },
+  "replication": {
+    "reference": "raw_pair",
+    "valid_clean": {
+      "delta": 0.0006785185018061135,
+      "ci95": [
+        0.0003496630565169717,
+        0.001061705660087983
+      ]
+    },
+    "train_clean": {
+      "delta": 0.0006057363724155662,
+      "ci95": [
+        0.0001448990419660956,
+        0.0010720665382605435
+      ]
+    },
+    "caveat": "Conditional intervals on reused model artifacts; not unseen-domain certainty."
+  },
+  "experiments": [
+    {
+      "id": "sentinel",
+      "seeds": [
+        3,
+        4
+      ],
+      "arms": [
+        "zero",
+        "age"
+      ],
+      "feature_definition": "a5-a7 <= -5.19 treated as missing; retain indicators, replace sentinel numeric by 0, append log1p consecutive missing age. Zero control appends same six zero columns and keeps original raw values.",
+      "recipe": "raw-view h128, composite train-half0 + valid folds1/2/3; same 4ep Muon parent +2ep full FT",
+      "primary": "blend(age pair)-blend(zero pair), fixed component weight .2",
+      "secondary": "blend(age pair)-raw pair",
+      "status": "complete"
+    },
+    {
+      "id": "complement",
+      "seeds": [
+        3,
+        4
+      ],
+      "arms": [
+        "direct",
+        "residual"
+      ],
+      "fit_sequences": 598,
+      "fit_chains": 389,
+      "hold_sequences": 282,
+      "hold_chains": 191,
+      "recipe": "2ep full FT from same cmp_fullft seed checkpoint; only chain-excluded train-half1 fit subset; no new valid labels used in fit",
+      "loss": "|clip(y)| * ((.8*B+.2*f-y)/.2)^2; direct control uses weighted MSE on original y; propensity weights identical",
+      "primary": "(.8B+.2residual pair)-(.8B+.2direct pair)",
+      "secondary": "(.8B+.2residual pair)-B",
+      "teacher_provenance": "Known learned mixture teachers excluded fit/hold chains. Organizer baseline training lineage not independently certified.",
+      "status": "complete"
+    },
+    {
+      "id": "full_twostream",
+      "seeds": [
+        3
+      ],
+      "recipe": "Full train+valid 4ep Muon x6 +2ep full valid FT, architecture twostream h128x2 per stream",
+      "export": "Exact block-diagonal embedding into dense GRU256; legacy native inference engine, no new C++ source.",
+      "status": "complete"
+    }
+  ],
+  "validation": {
+    "chain_resampling": 2000,
+    "primary_domains": [
+      "valid fold0 without known training-chain overlap",
+      "reserved residual hold chains from train-half1"
+    ],
+    "training_scores_not_used_for_final_quality": true,
+    "feature_causality_test": "PASS prefix-invariance, input immutability, missing age resets",
+    "complement_loss_test": "PASS gradient equality with unconstrained residual targets",
+    "embedding_test": {
+      "max_abs": 5.960464477539062e-07
+    },
+    "native_fold_probe": {
+      "correlation": [
+        0.9999646480986618,
+        0.9999614135063349
+      ],
+      "wp_delta_one_sequence": -0.00015873749484374144,
+      "us_per_row": 36.74687864986481,
+      "deterministic": true
+    },
+    "datasphere_native": {
+      "python": "3.11.17 (main, Oct  1 2026, 21:52:00) [GCC 12.2.0]",
+      "engine": "engine/v3",
+      "rows": 20000,
+      "native": {
+        "fp32": {
+          "max_abs": 1.0728836059570312e-06,
+          "corr": [
+            0.9999999999999191,
+            0.9999999999998884
+          ],
+          "wp_delta": 2.4124284792037543e-09,
+          "us_per_row": 167.93114944994159,
+          "deterministic": true
+        },
+        "int8": {
+          "max_abs": 0.03626725822687149,
+          "corr": [
+            0.9999646480986618,
+            0.9999614135063349
+          ],
+          "wp_delta": -0.00015873749484374144,
+          "us_per_row": 38.66284800005815,
+          "deterministic": true
+        }
+      }
+    }
+  },
+  "infrastructure": {
+    "gpu_allocation": {
+      "0": "complement four sequential runs",
+      "2": "sentinel seed3 zero then age",
+      "3": "sentinel seed4 zero then age",
+      "6": "full twostream seed3"
+    },
+    "datasphere": "Native CPU audit with only 6.1MB inputs; default Ubuntu image rejected existing GLIBC2.36 binary; retry using python:3.11-slim-bookworm per official docker config docs.",
+    "datasphere_docs": "https://yandex.cloud/en/docs/datasphere/concepts/jobs/docker",
+    "max_service_runtime_seconds": {
+      "research_lanes": 10800,
+      "full_twostream": 7200
+    },
+    "datasphere_job": "bt16bgpsdmqg48gs6hd7",
+    "datasphere_status": "SUCCESS"
+  },
+  "delivery": {
+    "planned_archive": "blend_twostream.zip",
+    "change": "replace public incumbent raw pair coefficient .25 by full-data twostream seed3 coefficient .25, keep other components",
+    "gates": [
+      "native fidelity",
+      "determinism",
+      "finite 2-vector outputs",
+      "weighted-member-sum parity",
+      "ZIP <20MB",
+      "100k-row runtime projection"
+    ],
+    "public_submission": "not submitted; both ZIPs downloaded and CRC/hash verified",
+    "supervisors": [
+      "wunder-wave2-finish",
+      "wunder-wave2-package"
+    ],
+    "archives": {
+      "blend_twostream.zip": {
+        "bytes": 9559618,
+        "sha256": "ce4f2ccd28cc7134580b21c2688f1d98794db5238b4e53187e82fa166e7ce88d",
+        "local": "/Users/nb/Documents/wunder/submissions/blend_twostream.zip",
+        "status": "prepared_not_submitted"
+      },
+      "blend_twostream_lite.zip": {
+        "bytes": 7630117,
+        "sha256": "a71a63f77fe3610279e10ae093f6d010ab3ecf20e924839f64e7194056af658e",
+        "local": "/Users/nb/Documents/wunder/submissions/blend_twostream_lite.zip",
+        "status": "prepared_not_submitted"
+      }
+    },
+    "paired_runtime": {
+      "rows_per_run": 60000,
+      "timings_seconds": {
+        "reference": [
+          7.8465129639953375,
+          8.527562930015847
+        ],
+        "full": [
+          9.588004726014333,
+          9.16679801599821
+        ],
+        "lite": [
+          7.956286078988342,
+          7.735184997000033
+        ]
+      },
+      "historical_incumbent_public_minutes": 37.85,
+      "ratio_to_incumbent": {
+        "reference": 1.0,
+        "full": 1.1453961043915835,
+        "lite": 0.9583118569596668
+      },
+      "public_minutes_if_relative_speed_transfers": {
+        "reference": 37.85,
+        "full": 43.353242551221435,
+        "lite": 36.27210378592339
+      },
+      "caveat": "Same-harness relative timing, calibrated to recorded 37m51s incumbent run. Not a measured scorer runtime for new packages."
+    },
+    "full_runtime_conservative_gate": "failed historical upper-ratio screen (56.1 min), but fresh relative timing to scored incumbent projects 43.4 min",
+    "lite_runtime_conservative_gate": "passed 50-minute projection screen (46.8 min upper); paired incumbent timing projects 36.3 min",
+    "status": "complete; full and lite packages prepared, paired timing and native correctness audits done"
+  }
+}

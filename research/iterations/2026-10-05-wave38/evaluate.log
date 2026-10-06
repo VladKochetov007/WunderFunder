@@ -1,0 +1,102 @@
+{
+  "specs": {
+    "teacher": {
+      "w19teacher": 1.0
+    },
+    "bootstrap": {
+      "w38_bootstrap_s3": 0.5,
+      "w38_bootstrap_s4": 0.5
+    },
+    "bootstrap_s3": {
+      "w38_bootstrap_s3": 1.0
+    },
+    "bootstrap_s4": {
+      "w38_bootstrap_s4": 1.0
+    },
+    "family": {
+      "w19distilled_s3": 0.5,
+      "w19distilled_s4": 0.5
+    },
+    "family_s3": {
+      "w19distilled_s3": 1.0
+    },
+    "family_s4": {
+      "w19distilled_s4": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "bootstrap",
+      "teacher"
+    ],
+    [
+      "family",
+      "teacher"
+    ],
+    [
+      "bootstrap",
+      "family"
+    ],
+    [
+      "bootstrap_s3",
+      "family_s3"
+    ],
+    [
+      "bootstrap_s4",
+      "family_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "teacher": 0.7161302310562185,
+        "bootstrap": 0.7176059748703922,
+        "bootstrap_s3": 0.7171503442105971,
+        "bootstrap_s4": 0.7171153039932083,
+        "family": 0.718363943590675,
+        "family_s3": 0.7178956938633227,
+        "family_s4": 0.717590093778095
+      },
+      "comparisons": {
+        "bootstrap - teacher": {
+          "delta": 0.0014757438141737023,
+          "conditional_ci95": [
+            0.0008710193054594084,
+            0.0021611450920418157
+          ]
+        },
+        "family - teacher": {
+          "delta": 0.002233712534456478,
+          "conditional_ci95": [
+            0.0013547937209006876,
+            0.003256026245273075
+          ]
+        },
+        "bootstrap - family": {
+          "delta": -0.0007579687202827756,
+          "conditional_ci95": [
+            -0.0017573419523515543,
+            0.0002002365609750607
+          ]
+        },
+        "bootstrap_s3 - family_s3": {
+          "delta": -0.0007453496527256576,
+          "conditional_ci95": [
+            -0.001817694769527703,
+            0.0002068681601414478
+          ]
+        },
+        "bootstrap_s4 - family_s4": {
+          "delta": -0.00047478978488668666,
+          "conditional_ci95": [
+            -0.0015563641655019472,
+            0.0006985085266782067
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid425/123, all train chains excluded. Exact wave19 recipe and init/constructor/data order retained; only distill-boot-h8 is enabled at this heterogeneous-teacher stage: replace hard label by teacher(t+8) when the raw targetpair remains unchanged through t+8. Teacher atcurrentrow still contributes.7, guardedreplacement contributes.3. No future input at inference. Family heads and cached targets remain present. Fixed epoch1, two seeds. No honest train holdout; native and composite checks needed. Conditional fitted-model bootstrap; organizer pretraining provenance uncertain."
+}

@@ -1,0 +1,10 @@
+
+## Public .6674 and resumed research, 2026-10-05 20:35 UTC
+
+User reported `distilled_h256_pair.zip`, submission `26n9pg4y`: public .6674, 24m57s, 640MB. New best +.0008 vs .6666. User leader .6711, remaining gap .0037. Daily counter 4/5 as reported; no automatic submission performed. Archive SHA256 86020dcf384430ae5fd3a848c8a8b4533cd81031caad3b0feec7647c4a5491f9.
+
+Train-disjoint replication completed: distilled pair vs its teacher +.0017429 valid, +.0016844 train diagnostic (estimated scoring mask); both conditional chain-bootstrap intervals positive. New two-stream teacher yields another +.0002137 on full-train-model valid cohort; full-data final counterparts training as w21final_distilled_s5/s6.
+
+Direct-student blending rejected: full-train-model valid has a small gain, but composite holdout loses .0003169 to .0027839 on train as direct weight rises .1 to .5, and valid also declines.
+
+Wave22: h256 -> h384 function-preserving GRU/head widening with zero-sum outgoing jitter; two seed parity passes, all-head output error <3.6e-5. Both widths receive identical 2-epoch continuation against stronger ensemble teacher. h384 seeds3/4 train on GPUs5/6, matched h256 controls sequentially on GPU1. Independent DataSphere CPU audit passed; single h384 roughly 28 min, mixed h384+h256 roughly 40.5 min relative to newly scored h256 pair. This is a projection, not actual scoring-host timing or a quality result.

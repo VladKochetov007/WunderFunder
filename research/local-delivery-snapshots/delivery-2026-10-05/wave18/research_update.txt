@@ -1,0 +1,16 @@
+
+## Autonomous continuation, 2026-10-05 14:36 UTC
+
+User target: top-1 = 0.6711. Recorded public remains 0.6666. No new submissions.
+
+All 15 directions received an experiment or feasibility check, not exhaustive validation of every implementation. Exact mirror failed full feature-map verification; future/race/retrieval started as limited prototypes. Current registry: AUTONOMOUS_STATUS.json.
+
+Main result: heterogeneous distillation into h256, two seeds. On 425 true-mask valid sequences / 123 chains excluding ALL train chains, student pair 0.7181503 vs teacher 0.7153250 (+0.0028253, conditional CI [0.0019575, 0.0038363]); single seeds 0.7176578 / 0.7174401. Two-stream teacher 0.7161344. Adding that teacher lowers the student pair score. Train-disjoint composite replication and final all-data training are active. These are NOT public/private score estimates.
+
+Retrieval revived: 65536-row chain-balanced bank, GRU-only PCA64, k128, correction .05. Stride32 pair: train +0.0002378, valid +0.0002250; conditional CIs positive. Causal MLP student retains about +0.00016 on both, but intervals cross zero. Full-stream replay active.
+
+Negative followups: capped32 bootstrap loses guarded h8 by .000524. Event8 adaptive compute loses matched all-update control. Warmup summary, quiet adapter, moment-ratio head, SSL pretrain and joint objective show no reliable gain. H512 distillation beats h128 but loses h256.
+
+Baseline: old FP32 path kept cuDNN TF32 enabled; +16 shifts impaired optimizer conditioning. Corrected FT trains, but head FT loses .00133 on train diagnostic, removing baseline loses .00235. Keep baseline in robust candidate rather than select on valid alone.
+
+Native: skip exactly zero GRU blocks while preserving global int8 activation scale. Bit-exact on all scalar/AVX2/VNNI backends and v2/avx2/v3 builds; reset/step parity pass. Relative projected public runtime: sparse single two-stream package 36.8 min, with linear int8 baseline 31.3 min; two-stream pair ~40.7 min. Not actual scorer time. Final seed4 training completed.

@@ -1,0 +1,191 @@
+{
+  "specs": {
+    "kd": {
+      "w12compress256_distilled_s3": 0.5,
+      "w12compress256_distilled_s4": 0.5
+    },
+    "direct": {
+      "w12compress256_direct_s3": 0.5,
+      "w12compress256_direct_s4": 0.5
+    },
+    "direct_mix_0.1": {
+      "w12compress256_distilled_s3": 0.45,
+      "w12compress256_distilled_s4": 0.45,
+      "w12compress256_direct_s3": 0.05,
+      "w12compress256_direct_s4": 0.05
+    },
+    "direct_mix_0.25": {
+      "w12compress256_distilled_s3": 0.375,
+      "w12compress256_distilled_s4": 0.375,
+      "w12compress256_direct_s3": 0.125,
+      "w12compress256_direct_s4": 0.125
+    },
+    "direct_mix_0.5": {
+      "w12compress256_distilled_s3": 0.25,
+      "w12compress256_distilled_s4": 0.25,
+      "w12compress256_direct_s3": 0.25,
+      "w12compress256_direct_s4": 0.25
+    },
+    "new_kd": {
+      "w19distilled_s3": 0.5,
+      "w19distilled_s4": 0.5
+    },
+    "new_direct_mix_0.1": {
+      "w19distilled_s3": 0.45,
+      "w19distilled_s4": 0.45,
+      "w12compress256_direct_s3": 0.05,
+      "w12compress256_direct_s4": 0.05
+    },
+    "new_direct_mix_0.25": {
+      "w19distilled_s3": 0.375,
+      "w19distilled_s4": 0.375,
+      "w12compress256_direct_s3": 0.125,
+      "w12compress256_direct_s4": 0.125
+    },
+    "new_direct_mix_0.5": {
+      "w19distilled_s3": 0.25,
+      "w19distilled_s4": 0.25,
+      "w12compress256_direct_s3": 0.25,
+      "w12compress256_direct_s4": 0.25
+    },
+    "old_new_kd": {
+      "w12compress256_distilled_s3": 0.25,
+      "w12compress256_distilled_s4": 0.25,
+      "w19distilled_s3": 0.25,
+      "w19distilled_s4": 0.25
+    }
+  },
+  "comparisons": [
+    [
+      "direct_mix_0.1",
+      "kd"
+    ],
+    [
+      "direct_mix_0.25",
+      "kd"
+    ],
+    [
+      "direct_mix_0.5",
+      "kd"
+    ],
+    [
+      "new_direct_mix_0.1",
+      "new_kd"
+    ],
+    [
+      "new_direct_mix_0.1",
+      "kd"
+    ],
+    [
+      "new_direct_mix_0.25",
+      "new_kd"
+    ],
+    [
+      "new_direct_mix_0.25",
+      "kd"
+    ],
+    [
+      "new_direct_mix_0.5",
+      "new_kd"
+    ],
+    [
+      "new_direct_mix_0.5",
+      "kd"
+    ],
+    [
+      "old_new_kd",
+      "new_kd"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "kd": 0.718150292592171,
+        "direct": 0.7165484800129776,
+        "direct_mix_0.1": 0.7183101710619757,
+        "direct_mix_0.25": 0.7183964861845717,
+        "direct_mix_0.5": 0.7181685209846613,
+        "new_kd": 0.718363943590675,
+        "new_direct_mix_0.1": 0.7184817390078926,
+        "new_direct_mix_0.25": 0.7185146792461831,
+        "new_direct_mix_0.5": 0.7182215660264284,
+        "old_new_kd": 0.7182643668772024
+      },
+      "comparisons": {
+        "direct_mix_0.1 - kd": {
+          "delta": 0.00015987846980469733,
+          "conditional_ci95": [
+            -9.179679356565717e-05,
+            0.00042365367689965456
+          ]
+        },
+        "direct_mix_0.25 - kd": {
+          "delta": 0.00024619359240074523,
+          "conditional_ci95": [
+            -0.0003824648544659276,
+            0.0008949104847360129
+          ]
+        },
+        "direct_mix_0.5 - kd": {
+          "delta": 1.822839249032704e-05,
+          "conditional_ci95": [
+            -0.0012359693118128457,
+            0.0012664382808860446
+          ]
+        },
+        "new_direct_mix_0.1 - new_kd": {
+          "delta": 0.00011779541721756992,
+          "conditional_ci95": [
+            -0.00014151996334850202,
+            0.0003819264950449483
+          ]
+        },
+        "new_direct_mix_0.1 - kd": {
+          "delta": 0.0003314464157215813,
+          "conditional_ci95": [
+            3.211273139419324e-05,
+            0.0006810323025624168
+          ]
+        },
+        "new_direct_mix_0.25 - new_kd": {
+          "delta": 0.00015073565550804968,
+          "conditional_ci95": [
+            -0.000486472130027471,
+            0.0007980603220756632
+          ]
+        },
+        "new_direct_mix_0.25 - kd": {
+          "delta": 0.00036438665401206105,
+          "conditional_ci95": [
+            -0.00027263877935383707,
+            0.0010638250923241388
+          ]
+        },
+        "new_direct_mix_0.5 - new_kd": {
+          "delta": -0.00014237756424662074,
+          "conditional_ci95": [
+            -0.001410849425014224,
+            0.0011002993949199337
+          ]
+        },
+        "new_direct_mix_0.5 - kd": {
+          "delta": 7.127343425739063e-05,
+          "conditional_ci95": [
+            -0.0011600662753124935,
+            0.001342313106525813
+          ]
+        },
+        "old_new_kd - new_kd": {
+          "delta": -9.957671347260444e-05,
+          "conditional_ci95": [
+            -0.00019772852972104737,
+            -8.440396751760474e-06
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid fold0; ALL train chains excluded because d256 teacher used all train. No train holdout claim. Organizer provenance not certified. Conditional fitted-model intervals."
+}

@@ -1,0 +1,55 @@
+{
+  "updated_utc": "2026-10-02T01:06:26.877093+00:00",
+  "workflow": "User-directed tree search: three live mechanism families, each with fallback, best, experiment; promote a measured best to fallback after robustness and serving checks. Record failed children; do not run until a reused fold wins without a bounded budget.",
+  "global_fallback": {
+    "package": "research/iterations/2026-10-01-continuation/student-runtime/package/student_fixed4.zip",
+    "GPU_WP": 0.7023796676142182,
+    "native_WP": 0.702355321333
+  },
+  "branches": {
+    "training_targets": {
+      "fallback": "current shallow256 alpha=.5 original teachers",
+      "best": "fallback",
+      "current_experiment": null,
+      "next": "Retain alpha .5; next child only for a distinct diagnosed target mismatch.",
+      "completed_experiment": {
+        "path": "research/iterations/2026-10-02-distill07/evaluation-01/report.json",
+        "sha256": "4edba9022bbeca445357595180769d0856c27ba835ce97f5b82c7205513801fa",
+        "delta_WP": -0.0001269453302805701,
+        "fold_deltas": [
+          -0.0001062553632903418,
+          -0.00022055947196042425
+        ],
+        "decision": "screen_failed; do not allocate seed4 confirmation or alpha sweep; exact E320 unavailable"
+      }
+    },
+    "distributional": {
+      "fallback": "global_fallback; original atom recipe retained as matched scientific control",
+      "best": "No atom candidate shown to beat global fallback",
+      "current_experiment": "atom-consistent-training running; last corrected fold1 parent; paired initialization/order match",
+      "next": "Final fixed comparisons; any positive needs train-only vocabulary provenance confirmation"
+    },
+    "temporal_representation": {
+      "fallback": "current ordinary GRU ensemble",
+      "best": "fallback",
+      "completed_experiment": {
+        "path": "2026-10-02-mingru-forecast",
+        "delta_WP": -0.00024057241023123233,
+        "fold_deltas": [
+          -0.0006247398416402428,
+          0.0001312790643397399
+        ],
+        "decision": "Do not replace incumbent; preserve architecture as negative tested recipe"
+      },
+      "current_experiment": "temporal-screen running GPU3 since00:56UTC; detach500 vs connected2000 at equal optimizer clock",
+      "next": "interval-memory accumulated vs instantaneous, one warm-start epoch then H2; CPU+CUDA checks pass, allocation pending",
+      "closed_children": [
+        {
+          "path": "temporal-screen/i1-turn",
+          "decision": "screen_failed; normalized residual SSE skill -.000437475, not WP; no coordinate/lag sweep"
+        }
+      ]
+    }
+  },
+  "limitations": "All local folds previously exposed; confidence intervals condition on trained models. No public submission or GitHub pushes. Incumbent unchanged."
+}

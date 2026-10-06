@@ -1,0 +1,69 @@
+{
+  "id": "MINIMAL-NATIVE-FP32-01",
+  "status": "fixed_before_generated_checks",
+  "seed": 2043,
+  "model": {
+    "n_in": 211,
+    "hidden": 256,
+    "layers": 2,
+    "n_out": [
+      23,
+      2
+    ],
+    "dtype": "FP32",
+    "step": "h=(1-sigmoid(k))*actual_h0+sigmoid(k)*positive_g(v)",
+    "positive_g": "v+.5 for v>=0 else sigmoid(v)",
+    "GELU": "exact erf, PyTorch default approximate=none",
+    "normalization": "(engineered_input-mean)/std from generated positive std"
+  },
+  "checks": [
+    "T2000 zero/positive actual h0 against copied actual Torch step and forward",
+    "head23 and sliced head2 export identity",
+    "irregular chunk boundaries, reset replay, future-prefix and prefix-state parity",
+    "finite nonnegative states; reject negative/NaN/Inf state and NaN input without mutation",
+    "cell and whole-model gate/candidate extremes +/-80, direct recurrence vs literal/scan/FP64",
+    "five fixed generated CPU timing repetitions after warmup, native loop and per-row ctypes"
+  ],
+  "tolerance": {
+    "ordinary_atol": 2e-05,
+    "extreme_atol": 0.0002,
+    "rtol": 2e-05,
+    "native_split_reset_prefix_and_export": "bit exact"
+  },
+  "bounds": {
+    "compile_seconds": 300,
+    "check_seconds": 300,
+    "total_active_seconds": 900,
+    "CPU_affinity_compile": [
+      34,
+      36
+    ],
+    "CPU_affinity_check": [
+      34
+    ],
+    "CPUQuota": "200%",
+    "MemoryMax": "4GiB",
+    "MemorySwapMax": 0,
+    "CUDA_VISIBLE_DEVICES": "",
+    "disk_MiB": 200
+  },
+  "retry": "No retry changing model math; failures retain receipts; any mechanical fix explicitly documented",
+  "scope": [
+    "Generated tensors/configs/models only. No data, fitted checkpoints, targets, OOF, WP, GPU, forecasting fit.",
+    "Only isolated native-prototype files, copied source references. No active or closed engine mutation.",
+    "No raw112-to-211 feature builder, competition callback or submission ABI; no full-ensemble or deadline inference.",
+    "FP32 parity does not establish AMP equivalence or forecast/training readiness."
+  ],
+  "sources": {
+    "minimal_native.cpp": "305db802ce58cd88e6427ae9af49bde5c207b036b013e098f4425f6fa87829fe",
+    "check_native.py": "8084c028de3cf974d8c53051f5b2ba37e84222dccdcb4d7f0dd0255425eeab6f",
+    "run_cpu.py": "f4517c92c6e967d1f63a47a11e25012ea9367522088e8448007b9c38db51459d",
+    "torch_reference.py": "7ce33c53b53c2be91a7726a9d36e3bba027dbabf81b3f1ea01b51b030dd2e65f",
+    "kernels.hpp": "b0aa344e3e3dbe23a6cec670a436e1405fd70bbf6e3889bdeedeca6b5bffa1e4",
+    "activations.hpp": "688ade56b1b0ffb9b59e423ad7cb3069f06564654c4a266f644c2a9ce973133d"
+  },
+  "reference_origin": {
+    "torch": "../minimal_rnn.py",
+    "kernels_activations": "../../2026-10-01-overnight/quant3/native/include/wnn (unchanged copies)"
+  }
+}

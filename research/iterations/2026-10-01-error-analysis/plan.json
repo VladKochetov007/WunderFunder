@@ -1,0 +1,117 @@
+{
+  "created_utc": "2026-10-01T15:02:27.895012+00:00",
+  "purpose": "Diagnose the errors of the retained shallow-student ensemble to choose the next substantive intervention; no new architecture/seed/forecast training in this study.",
+  "user_direction": "Analyze model errors instead of more seed/serving iterations.",
+  "population": {
+    "folds": [
+      0,
+      1
+    ],
+    "exposure": "previously exposed discovery data",
+    "pure_sequences": 860,
+    "chains": 250,
+    "scored_rows_after_warmup": 1614484,
+    "warmup": 99
+  },
+  "predictions": {
+    "backend": "coherent existing GPU/AMP OOF caches",
+    "primary": "current_student4",
+    "comparators": [
+      "strong4",
+      "fixed3"
+    ],
+    "components": "four current members; shallow seed4 individual for fixed diagnostic disagreement features only",
+    "new_inference_jobs": 0,
+    "new_blend_search": false
+  },
+  "metric": {
+    "source": "scripts/fold_eval.py",
+    "sha256": "d05791f5f8c6ea64d9863d4f4b45430eb46b9d0b29ccbdac1a4ff5b36a2573c0",
+    "expected_WP": {
+      "current_student4": 0.7023796676142179,
+      "strong4": 0.7023672255138177,
+      "fixed3": 0.7017424296043642
+    },
+    "error_budget": "For each target, globally weighted-standardize clipped y and each clipped model prediction. Each group contributes one quarter of the target-wise weighted squared standardized differences divided by the global target weight. Groups sum exactly to 1-WP.",
+    "not_used": "Old mean-per-sequence/block Pearson deficit"
+  },
+  "extraction": {
+    "one_pass_raw_pure_sequences": true,
+    "scored_row_table": "float32 y2, eight prediction pairs, thirty causal summaries; integer sequence/row/chain/fold/retrospective-class identifiers",
+    "full_prefix_before_mask": true,
+    "chain_Gram": "float64[250,2,261,261], target-specific |clip(y)| weights, exact feature registry stored with result",
+    "Gram_features": [
+      "intercept1",
+      "clipped primary prediction/confidence7",
+      "normalized current model input211 from fixed same-fold training normalizers",
+      "causal summary/history30",
+      "member deviations10",
+      "clipped targets2"
+    ],
+    "row_cache_211_features": false,
+    "events": "At most64 observed encoded i0 joint-price-change anchors per sequence, selected independently of labels by fixed linspace. Offsets -32,-8,-1,0,1,4,16,64; retain masks, raw-code and model-output anchor directions. Retrospective event-aligned sample, not a causal feature or oracle predictor."
+  },
+  "diagnostics": {
+    "budget": [
+      "target",
+      "retrospective class",
+      "chain concentration",
+      "fixed prediction-confidence bins",
+      "input activity and recency",
+      "position/chunk phase",
+      "model disagreement"
+    ],
+    "probe": "Cross-fitted linear prediction of the fit-defined normalized post-clip metric-gradient component q=(u-rho*z)/sqrt(1-rho^2). Not a forecast candidate or an estimate of attainable WP gain.",
+    "probe_splits": "Two deterministic chain halves within each outer fold, seed20261001; two-way crossfit. Stratify by retrospective class only for split balance; class/chain/sequence IDs excluded from predictor features.",
+    "probe_blocks": [
+      "prediction/confidence only",
+      "plus existing211 input features",
+      "plus causal summary/history30",
+      "plus member deviations10"
+    ],
+    "probe_fit": "Every q mean/SD/rho and weighted X centering/scale estimated only from the fitting chains. One ridge lambda0.01 on normalized weighted Gram; no tuning. Heldout SSE uses fitting constants and training-mean constant baseline.",
+    "probe_uncertainty": "2000 paired whole-chain bootstrap draws stratified by fold and inner half, conditional on the fitted probes; no seed/selection/domain-shift uncertainty claim.",
+    "event_response": "Signed response and residual/gradient around observed input-code events; report both folds/targets and retrospective classes. No future-prediction shift score, event-time oracle, physical-price interpretation, or causal-effect claim from event curves alone."
+  },
+  "small_generated_checks": [
+    "Exact deficit/group additivity and baseline WP reconstruction",
+    "Leakage-safe ridge algebra, planted available signal and independent-noise control",
+    "Event offset/alignment and distinction between causal input features and retrospective anchor selection"
+  ],
+  "resources": {
+    "extract": {
+      "CPU_ids": [
+        30,
+        31,
+        34,
+        35
+      ],
+      "quota_CPUs": 4,
+      "memory_GiB": 8,
+      "swap": 0,
+      "seconds": 900,
+      "output_cap_GiB": 1
+    },
+    "analysis": {
+      "quota_CPUs": 4,
+      "memory_GiB": 8,
+      "seconds": 600
+    },
+    "event_analysis": {
+      "quota_CPUs": 2,
+      "memory_GiB": 4,
+      "seconds": 300
+    },
+    "GPU_jobs": 0,
+    "foreign_process_actions": 0,
+    "run_each_actual_analysis_once_after_source_and_inputs_bound": true
+  },
+  "decision_rule": "Rank mechanisms by error mass, conditional predictability, fold robustness, historical counterevidence and intervention cost. No universal significance/gain cutoff; negative linear probes do not establish an irreducible-noise ceiling. Freeze any subsequent training experiment separately.",
+  "outputs": [
+    "error-budget and predictable-residual tables",
+    "event-response plots with honest selection scope",
+    "concise diagnosis and at most three testable next interventions, each tied to evidence"
+  ],
+  "publication": "local and beleriand only; no GitHub or public submission",
+  "protected": "Existing qualified student ZIP, continuation commit6729dcf06902070a6dbeb021a87263bda5667459 and closed overnight artifacts remain unchanged."
+}

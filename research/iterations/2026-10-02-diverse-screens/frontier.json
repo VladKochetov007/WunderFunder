@@ -1,0 +1,38 @@
+{
+  "updated_utc": "2026-10-02T00:12:19.402365+00:00",
+  "workflow": "User-directed tree search: three live mechanism families, each with fallback, best, experiment; promote a measured best to fallback after robustness and serving checks. Record failed children; do not run until a reused fold wins without a bounded budget.",
+  "global_fallback": {
+    "package": "research/iterations/2026-10-01-continuation/student-runtime/package/student_fixed4.zip",
+    "GPU_WP": 0.7023796676142182,
+    "native_WP": 0.702355321333
+  },
+  "branches": {
+    "training_targets": {
+      "fallback": "current shallow256 alpha=.5 original teachers",
+      "best": "fallback",
+      "current_experiment": "2026-10-02-distill07; fixed alpha=.7, running GPU3",
+      "next": "Choose after paired ensemble result; no alpha sweep allocated"
+    },
+    "distributional": {
+      "fallback": "global_fallback; original atom recipe retained as matched scientific control",
+      "best": "No atom candidate shown to beat global fallback",
+      "current_experiment": "2026-10-02-atom-consistent-training; original vs untilted readout from initialization, source checks",
+      "next": "Resolve train-only dictionary evidence; no wider head sweep"
+    },
+    "temporal_representation": {
+      "fallback": "current ordinary GRU ensemble",
+      "best": "fallback",
+      "completed_experiment": {
+        "path": "2026-10-02-mingru-forecast",
+        "delta_WP": -0.00024057241023123233,
+        "fold_deltas": [
+          -0.0006247398416402428,
+          0.0001312790643397399
+        ],
+        "decision": "Do not replace incumbent; preserve architecture as negative tested recipe"
+      },
+      "current_experiment": "2026-10-02-temporal-screen; source and synthetic checks pass, allocation pending",
+      "next": "Matched detach500 vs connected2000 with same2000 update clock"
+    }
+  }
+}

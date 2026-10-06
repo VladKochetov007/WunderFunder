@@ -1,0 +1,84 @@
+{
+  "status": "COMPLETE",
+  "name": "oct02_im_accumulated_s3_f0",
+  "stage": "parent",
+  "allocation_sha256": "61b8dc75c5e1e80c2146753ae1ace2d7a0c08b3f81a3dc07297316d97b455151",
+  "argv": [
+    ".venv/bin/python",
+    "research/iterations/2026-10-02-interval-memory/train_interval.py",
+    "--name",
+    "oct02_im_accumulated_s3_f0",
+    "--full-valid",
+    "--layers",
+    "1",
+    "--epochs",
+    "1",
+    "--lr",
+    "0.0005",
+    "--loss",
+    "wmse",
+    "--distill",
+    "h256_f0,h256s4_f0",
+    "--aux-next",
+    "0.3",
+    "--aux-struct",
+    "0.3",
+    "--train-source",
+    "train+valid",
+    "--eval-source",
+    "vfold",
+    "--valid-fold",
+    "0",
+    "--init",
+    "cont_sh256_s3_f0@ep3",
+    "--ema-teacher",
+    "1.0",
+    "--eval-ema",
+    "--propensity",
+    "prop_f0",
+    "--prop-power",
+    "2.0",
+    "--prop-eps",
+    "0.03",
+    "--valid-true-mask",
+    "0.03",
+    "--seed",
+    "3",
+    "--since-weight",
+    "32.0",
+    "--fast",
+    "--sync-free",
+    "--fused-adam",
+    "--pin-memory",
+    "--prop-cache",
+    "--interval-arm",
+    "accumulated"
+  ],
+  "started_utc": "2026-10-02T01:19:00.690402+00:00",
+  "returncode": 0,
+  "post_returncode": 0,
+  "outputs": {
+    "artifacts/runs/oct02_im_accumulated_s3_f0/model_ep0.pt": {
+      "bytes": 2563548,
+      "sha256": "ddf9744605fdbd1413e694cd0c56019573c580edec2d0244540e42a5917d62c5"
+    },
+    "artifacts/runs/oct02_im_accumulated_s3_f0/model.pt": {
+      "bytes": 2562360,
+      "sha256": "ad61961712a47409956d529e11fe7ba66af40431bf1f1573e59108ef4802d694"
+    },
+    "artifacts/runs/oct02_im_accumulated_s3_f0/history.json": {
+      "bytes": 169,
+      "sha256": "9620f1f3ca51a66b7256cf4f6c97de32c37316c020d0f2a80aced6a241567164"
+    },
+    "artifacts/runs/oct02_im_accumulated_s3_f0/initial-state.json": {
+      "bytes": 1383,
+      "sha256": "e91cb7f5e3e20478051757fae41c59379c4a7fb583a1f85535e01e0993824796"
+    },
+    "research/iterations/2026-10-02-interval-memory/execution-01/oct02_im_accumulated_s3_f0.check.json": {
+      "bytes": 1161,
+      "sha256": "082c43b0cca007fb41ec30b1efc22d3eefd67b895368ac82f340bc6940879692"
+    }
+  },
+  "seconds": 406.3149476191029,
+  "finished_utc": "2026-10-02T01:25:47.005372+00:00"
+}

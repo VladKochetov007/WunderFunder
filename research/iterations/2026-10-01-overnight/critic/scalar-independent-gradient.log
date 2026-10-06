@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "scalar_source_sha256": "5cb4b2e0b3a400a5c6f7f2b535afeb5a6a26c492624eb50d8aba406a13895dd8",
+  "checker_sha256": "4692ea5b2bf39a91eee8552d2c090443b33ce53302478de41f3c0b17b9f14723",
+  "oracle": "Independently built literal-search triangular basis in float64; no actor interpolation helper used for reference.",
+  "cases": [
+    {
+      "case": "random",
+      "rows": 37,
+      "gradient_vs_dense_float64_max_abs": 2.0497376485018037e-07,
+      "gradient_relative_RMS": 9.764893133048448e-08,
+      "featurewise_offset_derivative_max_abs": 2.739715352362282e-07,
+      "unused_padding_gradient_exact_zero": true
+    },
+    {
+      "case": "all_left_clamped",
+      "rows": 2048,
+      "gradient_vs_dense_float64_max_abs": 1.8772943800371422e-05,
+      "gradient_relative_RMS": 8.988270455102351e-07,
+      "featurewise_offset_derivative_max_abs": 1.8772943800371422e-05,
+      "unused_padding_gradient_exact_zero": true
+    },
+    {
+      "case": "all_right_clamped",
+      "rows": 2048,
+      "gradient_vs_dense_float64_max_abs": 1.1457344841758754e-05,
+      "gradient_relative_RMS": 7.658635708383877e-07,
+      "featurewise_offset_derivative_max_abs": 1.1457344841758754e-05,
+      "unused_padding_gradient_exact_zero": true
+    },
+    {
+      "case": "exact_knots",
+      "rows": 61,
+      "gradient_vs_dense_float64_max_abs": 7.26805855055801e-07,
+      "gradient_relative_RMS": 1.22986054745232e-07,
+      "featurewise_offset_derivative_max_abs": 7.26805855055801e-07,
+      "unused_padding_gradient_exact_zero": true
+    },
+    {
+      "case": "adjacent_boundaries",
+      "rows": 61,
+      "gradient_vs_dense_float64_max_abs": 2.372277831952374e-07,
+      "gradient_relative_RMS": 9.54133279778042e-08,
+      "featurewise_offset_derivative_max_abs": 4.417047763105586e-07,
+      "unused_padding_gradient_exact_zero": true
+    }
+  ],
+  "scope": "Mathematical table VJP accuracy, not bitidentity of distinct floating accumulation orders. Generated CPU only.",
+  "empirical_data_reads": 0,
+  "GPU_initialized": false,
+  "forecast_fits": 0,
+  "WP_queries": 0,
+  "seconds": 0.9709314415231347
+}

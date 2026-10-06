@@ -1,0 +1,106 @@
+{
+  "specs": {
+    "old_teacher": {
+      "w6fullteacher": 1.0
+    },
+    "new_teacher": {
+      "w19teacher": 1.0
+    },
+    "old_student": {
+      "w12compress256_distilled_s3": 0.5,
+      "w12compress256_distilled_s4": 0.5
+    },
+    "new_student": {
+      "w19distilled_s3": 0.5,
+      "w19distilled_s4": 0.5
+    },
+    "old_s3": {
+      "w12compress256_distilled_s3": 1.0
+    },
+    "new_s3": {
+      "w19distilled_s3": 1.0
+    },
+    "old_s4": {
+      "w12compress256_distilled_s4": 1.0
+    },
+    "new_s4": {
+      "w19distilled_s4": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "new_teacher",
+      "old_teacher"
+    ],
+    [
+      "new_student",
+      "old_student"
+    ],
+    [
+      "new_student",
+      "new_teacher"
+    ],
+    [
+      "new_s3",
+      "old_s3"
+    ],
+    [
+      "new_s4",
+      "old_s4"
+    ]
+  ],
+  "results": {
+    "valid_clean": {
+      "sequences": 425,
+      "chains": 123,
+      "scores": {
+        "old_teacher": 0.7153249862709401,
+        "new_teacher": 0.7161302310562185,
+        "old_student": 0.718150292592171,
+        "new_student": 0.718363943590675,
+        "old_s3": 0.717657803642783,
+        "new_s3": 0.7178956938633227,
+        "old_s4": 0.7174401336510119,
+        "new_s4": 0.717590093778095
+      },
+      "comparisons": {
+        "new_teacher - old_teacher": {
+          "delta": 0.0008052447852784361,
+          "conditional_ci95": [
+            0.0004062519339269849,
+            0.0012669562108334855
+          ]
+        },
+        "new_student - old_student": {
+          "delta": 0.00021365099850401137,
+          "conditional_ci95": [
+            3.162405223853804e-05,
+            0.00041088737695311735
+          ]
+        },
+        "new_student - new_teacher": {
+          "delta": 0.002233712534456478,
+          "conditional_ci95": [
+            0.0013547937209006876,
+            0.003256026245273075
+          ]
+        },
+        "new_s3 - old_s3": {
+          "delta": 0.0002378902205397715,
+          "conditional_ci95": [
+            4.6219455597826256e-05,
+            0.0004443846932238591
+          ]
+        },
+        "new_s4 - old_s4": {
+          "delta": 0.00014996012708312634,
+          "conditional_ci95": [
+            -4.001841188562838e-05,
+            0.00034566400455054145
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Reused true-mask valid fold0; ALL train chains excluded because d256 teacher used all train. No train holdout claim. Organizer provenance not certified. Conditional fitted-model intervals."
+}

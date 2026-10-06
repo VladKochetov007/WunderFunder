@@ -1,0 +1,20 @@
+{
+  "hypothesis": "Unscaled organizer family target has RMS2.5-2.8 vs .86-.96 for otherfamilies, accounting for74% target squared energy in64trainingsequences. Scaling that auxiliary target by.25 may balance the representation task without dropping it.",
+  "primary": "scaled family pair vs original wave19 family pair, fixed epoch1 seeds3/4",
+  "secondary": "vs wave28 nofamily pair; do not select epochs",
+  "exact_change": "Only last2 auxiliary family targets multiply.25; main teacher w19teacher and alpha.7 unchanged, auxiliary loss coefficient.1, same architecture/init/data order/epochs/steps/optimizer. Scale.25 matches historical baseline output scale, not fitted on validation.",
+  "scale_diagnostic": "../wave28/family-scale.json; target energy is not actual fitted loss or gradient energy",
+  "parents": "d256bc1k_f0 seed3, d256bc1ks4_f0 seed4 @ep3",
+  "limitations": [
+    "reused true-mask valid425/123",
+    "no honest trainholdout",
+    "conditional bootstrap",
+    "composite replication and native quality required"
+  ],
+  "sources": {
+    "evaluate.py": "f240be78991c9051d33064508bd17b8cf7de0b720a04fcb84880253ee62402d6",
+    "scripts/compress_model.py": "8a618b49e23bd1302f5cbe1c79ddbb04ea921f44908eb3583a2d414fa038463e",
+    "scripts/train_rnn.py": "1800a610f8cdc9bac90bd0208834e44a4bdffba24f6e650fc56ba8fe49e53cff",
+    "scripts/predict_run.py": "6bc5683d5ccaf25ca56a3e220c387344a4ae4a6cb3a1be144e6286019f9c31ca"
+  }
+}

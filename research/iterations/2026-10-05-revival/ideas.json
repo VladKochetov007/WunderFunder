@@ -1,0 +1,336 @@
+{
+  "date": "2026-10-05",
+  "objective": "Продолжить исследование ради top-1; достижение top-1 не заявляется",
+  "public_reference": {
+    "score": 0.6674,
+    "artifact": "distilled_h256_pair.zip",
+    "submission_id": "26n9pg4y",
+    "duration_seconds": 1497,
+    "memory_mb": 640,
+    "source": "user-reported 2026-10-05; previous public .6666; daily4/5 at report only"
+  },
+  "execution": {
+    "beleriand": [
+      "onorm65r2 seed3 GPU2",
+      "onorm65r2 seed4 GPU3",
+      "tstream seed4 GPU6",
+      "rawwmse65r2 seed4 GPU0"
+    ],
+    "datasphere_job": "bt1je9p2d21o87q81dik",
+    "ds_task": "2000 paired chain bootstrap draws on fixed model moments, plus chain-pure subsets",
+    "notes": [
+      "First online-norm attempt was interrupted when user systemd manager stopped after logout; enabled linger for own user and restarted under new names.",
+      "Existing OOM at GPU fraction .25 was not a negative forecasting result; retry uses .65, same batch/optimizer.",
+      "Train-HO 345/2000 and valid 436/467 sequences have no same-chain members in composite parent training; this does not undo adaptive reuse.",
+      "Budget estimates are rough single-GPU trial allocations, not measured runtime or expected gains."
+    ],
+    "datasphere_status": "SUCCESS; report downloaded",
+    "supervisor": "wunder-revival-finish; checks four runs, extracts chain moments and compares against raw_pair",
+    "followup_remote": "~/WunderFunder-creative/research/iterations/2026-10-05-revival/followup/report.json",
+    "beleriand_previous_wave": "all four runs and followup evaluation completed successfully"
+  },
+  "reconsider": [
+    {
+      "idea": "raw-only view",
+      "evidence": "Historical dismissal contradicted by diversity ablation and public mixed packages .6664/.6666; baseline/reweighting contributions confounded on public."
+    },
+    {
+      "idea": "bootstrap and smaller chunk",
+      "evidence": "chunk1000 Muon x6 collapsed, x3 recovered; paired local bc1k gain ~.0005 over boot8."
+    },
+    {
+      "idea": "online normalization",
+      "evidence": "Latest composite tests failed from artificial memory cap; no score verdict."
+    },
+    {
+      "idea": "exact mirror",
+      "evidence": "Naive bid/ask swap was not true reflection; empirical graph incomplete."
+    },
+    {
+      "idea": "quiet expert",
+      "evidence": "From-scratch c3 expert failed, shared frozen backbone + small residual adapter not equivalent."
+    },
+    {
+      "idea": "context distillation",
+      "evidence": "Localized early-row gain in both seeds, weak overall mean ~.0003; sensible to test warm-start mechanism."
+    },
+    {
+      "idea": "baseline fine-tuning",
+      "evidence": "Converted baseline inference parity high but training collapses even with last layer; investigate graph/numerical mismatch before rejecting FT."
+    },
+    {
+      "idea": "LSTM/two-clock/two-stream as ensemble members",
+      "evidence": "Evaluate increment over raw-view reference and chain-pure subsets; standalone scores insufficient."
+    }
+  ],
+  "ideas": [
+    {
+      "id": 1,
+      "priority": "P0",
+      "title": "Учить участника исправлять текущую смесь",
+      "mechanism": "Заморозить OOF-смесь fullft + raw-wMSE + baseline; обучать компактный GRU на остаток смеси с ограниченным коэффициентом.",
+      "why_different": "От обычной дистилляции отличается целевая функция ансамбля, а не качество одиночки.",
+      "first_test": "Два seed; сравнить смесь с residual-учеником и с обычным учеником той же ширины и стоимости.",
+      "where": "beleriand",
+      "budget": "1–2 GPU-часа",
+      "risk": "Учителя обязаны быть OOF для обучаемых остатков; иначе модель выучит переобучение учителя.",
+      "status": "tested_two_seeds_mixed_not_promoted",
+      "evidence": "wave2/wave-report.json",
+      "latest_evidence": "wave2/wave-report.json"
+    },
+    {
+      "id": 2,
+      "priority": "P0",
+      "title": "Сжать весь сильный ансамбль в одного ученика",
+      "mechanism": "Дистиллировать совместные предсказания bootstrap d256, fullft h128, raw-wMSE и baseline; добавить ученику вспомогательные головы для каждой семьи.",
+      "why_different": "Предыдущие 2-vs-4 teacher проверки не проверяли эту новую неоднородную смесь.",
+      "first_test": "Сначала OOF teacher-mixture ceiling, затем два seed; измерять потерю относительно учителя и освобождённое CPU-время.",
+      "where": "beleriand затем Datasphere при компактном кеше",
+      "budget": "2–4 GPU-часа",
+      "risk": "Ученик может потерять именно полезные различия между семействами.",
+      "status": "h256_distillation_confirmed_public_0.6674_composite_replication_positive; stronger_teacher_native_positive_wave24_replication_queued",
+      "evidence": "wave6/wave-report.json",
+      "latest_evidence": "wave18/composite-report.json;wave20/public-result.json;wave21/native-quality-report.json"
+    },
+    {
+      "id": 3,
+      "priority": "P1",
+      "title": "Учитель с будущим, которое ученик способен восстановить",
+      "mechanism": "Учитель видит короткий будущий фрагмент только при обучении; отдельный causal probe определяет, какая часть поправки учителя предсказуема по прошлому.",
+      "why_different": "Ограничение достижимости заменяет слепое копирование недоступного сигнала.",
+      "first_test": "Cross-fit по цепочкам, сравнение causal teacher / future teacher / reachability-gated teacher; будущие входы отсутствуют на инференсе.",
+      "where": "Datasphere после оптимизации входных данных",
+      "budget": "3–6 GPU-часов",
+      "risk": "Выигрыш оракула может целиком оказаться непредсказуемым шумом.",
+      "status": "two_seed_crossfit_frozen_feature_probe_no_reliable_causal_transfer",
+      "evidence": "wave3/probe-datasphere.json",
+      "latest_evidence": "wave3/probe-datasphere.json"
+    },
+    {
+      "id": 4,
+      "priority": "P0",
+      "title": "Bootstrap в пределах одного события",
+      "mechanism": "Вместо постоянного h=8 смешивать цель с остановленным учителем только внутри интервала неизменной обучающей метки, либо обрывать у первой смены события.",
+      "why_different": "h32 проиграл; это не ещё один длинный фиксированный горизонт.",
+      "first_test": "Сначала аудит пересечений границ метки для h8; затем event-bounded против h8 при одинаковых шагах и seed.",
+      "where": "beleriand",
+      "budget": "1–2 GPU-часа",
+      "risk": "Границы метки доступны только для формирования обучающей цели.",
+      "status": "two_seed_cap32_loses_guarded_h8_by_0.000524",
+      "audit_correction": "2026-10-05 source audit: distill_boot_h already uses next_label_change(y) > t+h. No duplicate trial.",
+      "evidence": "wave11/cap_lane.sh",
+      "latest_evidence": "wave11/wave-report.json"
+    },
+    {
+      "id": 5,
+      "priority": "P1",
+      "title": "Отдельная инициализация скрытого состояния",
+      "mechanism": "Маленький encoder первых 99 разрешённых строк формирует h0 для основного GRU; после warm-up обычный causal GRU.",
+      "why_different": "Адресует локальный ранний выигрыш context-distillation без переноса состояния между тестовыми последовательностями.",
+      "first_test": "Два seed; отдельно WP шагов 99–2000 и поздней части; контроль — та же ёмкость в обычной сети.",
+      "where": "beleriand",
+      "budget": "1–2 GPU-часа",
+      "risk": "Начальный encoder может лишь дублировать уже накопленное GRU состояние.",
+      "status": "two_seed_warm_summary_test_complete_no_gain_including_early_rows",
+      "evidence": "wave4/wave-report-early.json",
+      "latest_evidence": "wave4/wave-report-early.json"
+    },
+    {
+      "id": 6,
+      "priority": "P0",
+      "title": "Отделить отсутствие данных от экстремального значения",
+      "mechanism": "Для a5–a7 отделить sentinel -5.199: числовое значение, индикатор отсутствия, время с последнего наблюдения; обучать с маскированием наблюдений.",
+      "why_different": "Подтверждённый sentinel ранее подавался как обычное число.",
+      "first_test": "Два seed; ablation indicator-only / indicator+age; сравнение с неизменённым raw-view.",
+      "where": "beleriand",
+      "budget": "1–2 GPU-часа",
+      "risk": "Sentinel может сам нести полезный режимный сигнал; индикатор его сохраняет.",
+      "status": "two_seed_sentinel_age_test_complete_no_robust_gain",
+      "evidence": "wave2/wave-report.json",
+      "latest_evidence": "wave2/wave-report.json"
+    },
+    {
+      "id": 7,
+      "priority": "P1",
+      "title": "Зеркало через декодирование, не перестановку колонок",
+      "mechanism": "Построить согласованное отображение кодированных цен, объёмов и trade-признаков, с преобразованием меток; применять только на поддержанных состояниях.",
+      "why_different": "Старый bid/ask swap не был зеркалом, неполный граф не доказывает невозможность симметрии.",
+      "first_test": "До обучения: двойное отражение восстанавливает x, выполняются геометрия книги и закон меток; затем 2 seed.",
+      "where": "beleriand CPU, затем GPU",
+      "budget": "CPU-проба, 1–2 GPU-часа после прохождения",
+      "risk": "При невозможности точного преобразования не генерировать заведомо неверные метки.",
+      "status": "feasibility_gate_failed_full_encoded_mirror_unverified_not_proven_impossible",
+      "evidence": "wave9/law-mirror-audit.json",
+      "latest_evidence": "wave9/law-mirror-audit.json"
+    },
+    {
+      "id": 8,
+      "priority": "P1",
+      "title": "Тихий эксперт поверх общего представления",
+      "mechanism": "Сохранить общий backbone; обучать маленький low-rank residual adapter для quiet c3 с сильным штрафом к нулю.",
+      "why_different": "Не повторяет провал эксперта, обученного с нуля только на c3.",
+      "first_test": "Общие родители и два seed; сравнение с адаптером той же ёмкости без разделения режимов.",
+      "where": "beleriand",
+      "budget": "0.5–1 GPU-час",
+      "risk": "Режим должен определяться по текущей и прошлой информации, не по будущей активности.",
+      "status": "two_seed_frozen_quiet_adapter_loses_matched_shared_control",
+      "evidence": "wave3/wave-report.json",
+      "latest_evidence": "wave3/wave-report.json"
+    },
+    {
+      "id": 9,
+      "priority": "P2",
+      "title": "Нейронная гонка до следующего движения",
+      "mechanism": "Предсказывать конкурирующие интенсивности изменения bid/ask и условную амплитуду, интегрировать их в t0/t1.",
+      "why_different": "Цена-состояние Markov lookup провалился; здесь вся история GRU управляет интенсивностями.",
+      "first_test": "Проверить восстановление целей и достижимый ceiling; затем сравнение с прямой головой и как участника смеси.",
+      "where": "Datasphere",
+      "budget": "3–6 GPU-часов",
+      "risk": "Неверный закон формирования метки обесценит структурную модель.",
+      "status": "two_seed_four_event_race_probe_loses_reference_limited_prototype",
+      "evidence": "wave10/race-datasphere.json",
+      "latest_evidence": "wave10/race-datasphere.json"
+    },
+    {
+      "id": 10,
+      "priority": "P1",
+      "title": "Моделировать числитель и знаменатель целевого среднего",
+      "mechanism": "На valid true mask учить E[s|y|y|x] и E[s|y||x], формировать их отношение с регуляризацией к прямому регрессору.",
+      "why_different": "Это совместная модель отбора и таргета, не очередной показатель степени propensity.",
+      "first_test": "Общие признаки и matched head capacity; OOF valid, стресс по низкому знаменателю; сравнить с wmse.",
+      "where": "beleriand",
+      "budget": "1–2 GPU-часа",
+      "risk": "Оценки отношения нестабильны; floor и shrinkage выбираются до теста.",
+      "status": "two_seed_moment_ratio_adapter_loses_direct_control",
+      "evidence": "wave3/wave-report.json",
+      "latest_evidence": "wave3/wave-report.json"
+    },
+    {
+      "id": 11,
+      "priority": "P2",
+      "title": "Предобучение на восстановлении динамики кодов",
+      "mechanism": "Самообучение на переходах кодированной книги и маскированных прошлых признаках, затем supervised FT; метки цены не синтезировать.",
+      "why_different": "Использует богатые сырые переходы вместо ненадёжных восстановленных t0/t1.",
+      "first_test": "Равный бюджет шагов: supervised-only / auxiliary-online / pretrain+FT; два seed.",
+      "where": "Datasphere",
+      "budget": "3–6 GPU-часов",
+      "risk": "Может учить представление шума, уже доступное supervised GRU.",
+      "status": "equal_step_two_seed_selfsupervised_pretrain_hurts_auxiliary_neutral",
+      "evidence": "wave7/wave-report.json",
+      "latest_evidence": "wave7/wave-report.json"
+    },
+    {
+      "id": 12,
+      "priority": "P2",
+      "title": "Причинная самоадаптация на текущей последовательности",
+      "mechanism": "Маленький адаптер обновляется по ошибке прогноза уже пришедших признаков i1/книги, без ценовых меток; состояние сбрасывается на границе sequence.",
+      "why_different": "Обходит провал адаптации по ошибочным восстановленным таргетам.",
+      "first_test": "Побитовый streaming replay без будущих строк; сравнить frozen vs adapted; жёсткий CPU-лимит.",
+      "where": "beleriand",
+      "budget": "CPU-проба + 1–2 GPU-часа",
+      "risk": "Self-supervised улучшение может не коррелировать с WP; адаптация должна быть дешёвой.",
+      "status": "two_seed_full_streaming_feature_adaptation_neutral",
+      "evidence": "wave9/wave-report.json",
+      "latest_evidence": "wave9/wave-report.json"
+    },
+    {
+      "id": 13,
+      "priority": "P2",
+      "title": "Учитель с поиском исторических аналогов",
+      "mechanism": "Искать похожие causal embedding-окна в разрешённом train, исключая целую цепочку запроса; затем дистиллировать прогноз в маленькую сеть.",
+      "why_different": "Поиск используется при обучении учителя, поэтому стоимость памяти не переносится в сабмит.",
+      "first_test": "Сначала OOF ceiling retrieval-teacher относительно смеси; не обучать ученика без положительного ceiling.",
+      "where": "beleriand CPU, затем Datasphere",
+      "budget": "CPU-проба + 2–4 GPU-часа",
+      "risk": "Соседние окна одной цепочки создают сильную утечку; исключать по chain id.",
+      "status": "large_bank_positive_sampled; full_stream_causal_student_weak_inconclusive_not_promoted",
+      "evidence": "wave3/probe-datasphere.json",
+      "latest_evidence": "wave14/retrieval-datasphere.json;wave17/wave-report.json"
+    },
+    {
+      "id": 14,
+      "priority": "P1",
+      "title": "Совместно учить дешёвых участников на итоговую смесь",
+      "mechanism": "Два h128 обучать по loss среднего прогноза, с разными видами входа и небольшим штрафом за совпадение остаточных ошибок.",
+      "why_different": "Не повторяет обычный feature-subset ensemble: оптимизируется совместная ошибка при фиксированном бюджете инференса.",
+      "first_test": "Контроль — два независимо обученных h128 с теми же входами; два seed-пакета, без подбора по public.",
+      "where": "beleriand",
+      "budget": "2–3 GPU-часа",
+      "risk": "Штраф разнообразия способен создавать антикоррелированный шум вместо сигнала.",
+      "status": "two_seed_joint_objective_loses_independent_training",
+      "evidence": "wave5/wave-report.json",
+      "latest_evidence": "wave5/wave-report.json"
+    },
+    {
+      "id": 15,
+      "priority": "P2",
+      "title": "Модель с переменным расходом вычислений",
+      "mechanism": "Дешёвая recurrent-модель обновляется каждый шаг; тяжёлый эксперт обучается с тем же заранее заданным causal расписанием обновлений и вызывается лишь в сложных состояниях.",
+      "why_different": "Освобождает CPU для большей мощности, не пропуская обновления GRU произвольным образом.",
+      "first_test": "Сперва одинаковая схема train/replay и бюджет операций; затем full runtime harness и паритет экспорта.",
+      "where": "beleriand",
+      "budget": "2–4 GPU-часа + runtime audit",
+      "risk": "Пропуск обновлений уже обученного обычного GRU недопустим как эквивалентная оптимизация.",
+      "status": "two_seed_event8_loses_all_update_control_all_update_weak_positive_both_splits",
+      "evidence": "wave8/adaptive_lane.sh",
+      "latest_evidence": "wave8/wave-report.json"
+    }
+  ],
+  "new_result": {
+    "twostream_seed3_delta_valid_clean": 0.000684847,
+    "twostream_seed3_delta_train_clean": 0.000930668,
+    "status": "Two-stream teacher stronger, distilled candidate mixed composite replication; archived but not promoted."
+  },
+  "leaderboard_target": {
+    "score": 0.6711,
+    "source": "user update 2026-10-05",
+    "gap_from_confirmed": 0.0037
+  },
+  "autonomous_execution": {
+    "status": "active",
+    "leader_score_user": 0.6711,
+    "confirmed_our_public": 0.6674,
+    "public_submissions_this_run": 0,
+    "strongest_replicated_local_change": "heterogeneous h256 distillation: composite positive on both panels; final pair public .6674",
+    "caveat": "Several ideas have only limited frozen-representation probes, not full recurrent-model trials. All reused evaluation data. No public/private gain inferred."
+  },
+  "leader_reference": {
+    "score": 0.6711,
+    "source": "user update 2026-10-05"
+  },
+  "autonomous_followup": "../AUTONOMOUS_STATUS.json",
+  "public_reference_history": [
+    {
+      "score": 0.6666,
+      "artifact": "blend_pair_rw.zip",
+      "source": "recorded prior submission; no new public submission during autonomous waves"
+    }
+  ],
+  "latest_execution": {
+    "updated_utc": "2026-10-05T21:59:59.075594+00:00",
+    "status_file": "../AUTONOMOUS_STATUS.json",
+    "active_units": [
+      "wunder-wave23-evaluate",
+      "wunder-wave23-student-3",
+      "wunder-wave23-student-4",
+      "wunder-wave26-native-quality",
+      "wunder-wave27-evaluate",
+      "wunder-wave27-head-3",
+      "wunder-wave27-head-4",
+      "wunder-wave27-native-quality",
+      "wunder-wave28-evaluate",
+      "wunder-wave28-native-quality",
+      "wunder-wave28-nofamily-3",
+      "wunder-wave28-nofamily-4",
+      "wunder-wave29-evaluate",
+      "wunder-wave29-native-quality",
+      "wunder-wave29-scaled-3",
+      "wunder-wave29-scaled-4"
+    ],
+    "latest_closed": [
+      "wave22 cloned384 no gain",
+      "wave25 fresh384 no gain",
+      "wave30 oracle class3 baseline gate negative"
+    ]
+  }
+}

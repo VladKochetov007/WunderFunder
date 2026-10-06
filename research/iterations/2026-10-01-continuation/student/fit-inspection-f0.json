@@ -1,0 +1,78 @@
+{
+  "utc": "2026-10-01T12:47:59.674476+00:00",
+  "status": "PASS_FINITE_FIXED_ENDPOINTS_AND_FROZEN_TRUNK",
+  "fold": 0,
+  "checkpoints": {
+    "parent": {
+      "checkpoint": "artifacts/runs/cont_sh256_s3_f0/model_ep3.pt",
+      "sha256": "518dbe5c483dd4fe956c5fb08ea96b78b54d7283e6a3ee35c0b82a835f387017",
+      "epoch": 3,
+      "args": {
+        "arch": "gru",
+        "hidden": 256,
+        "layers": 1,
+        "epochs": 4,
+        "loss": "wmse",
+        "distill": "h256_f0,h256s4_f0",
+        "distill_alpha": 0.5,
+        "ema_teacher": 1.0,
+        "eval_ema": true,
+        "init": "",
+        "freeze": "",
+        "train_source": "train+valid",
+        "eval_source": "vfold",
+        "valid_fold": 0,
+        "seed": 3,
+        "since_weight": 32.0,
+        "mask_weight": false,
+        "aux_next": 0.3,
+        "aux_struct": 0.3
+      },
+      "all_state_values_finite": true
+    },
+    "H2": {
+      "checkpoint": "artifacts/runs/cont_sh256_s3h2_f0/model_ep1.pt",
+      "sha256": "1e0cfb8931e7fb351aff9903aac173887fb7fbdd085c28c90514aa6a0bb13616",
+      "epoch": 1,
+      "args": {
+        "arch": "gru",
+        "hidden": 256,
+        "layers": 1,
+        "epochs": 2,
+        "loss": "gcorr",
+        "distill": "",
+        "distill_alpha": 0.5,
+        "ema_teacher": 0.0,
+        "eval_ema": false,
+        "init": "cont_sh256_s3_f0@ep3",
+        "freeze": "inp,gru",
+        "train_source": "valid",
+        "eval_source": "vfold",
+        "valid_fold": 0,
+        "seed": 3,
+        "since_weight": 0.0,
+        "mask_weight": true,
+        "aux_next": 0.3,
+        "aux_struct": 0.3
+      },
+      "all_state_values_finite": true
+    }
+  },
+  "unchanged_trunk_and_normalization": [
+    "mean",
+    "std",
+    "inp.weight",
+    "inp.bias",
+    "gru.weight_ih_l0",
+    "gru.weight_hh_l0",
+    "gru.bias_ih_l0",
+    "gru.bias_hh_l0"
+  ],
+  "changed_head_tensors": [
+    "head.0.weight",
+    "head.0.bias",
+    "head.2.weight",
+    "head.2.bias"
+  ],
+  "WP_queries": 0
+}
