@@ -401,3 +401,9 @@ C already captures nearly all the signal these model families see.
   fails for >= 2-tick moves in every class (<= 2-28%); no single event or row horizon fits both regimes.
 All unexplained parts are future-dependent; the known parts (spread, loser floor shape) are visible to the model.
 No new lever; aux targets from the future quote path were refuted earlier (E-251).
+
+## Transformer teacher (4.9M, --arch tfm, d256 x6, block 250, ALiBi, lr 5e-4, 4 epochs, fold 0)
+- Epochs 0.6876 / 0.6963 / 0.6992 / 0.7001 vs h128 0.6866 / 0.6968 / 0.6997 / 0.7005, h256 0.6900 / 0.6990 / 0.7014 / 0.7012.
+- After head FT (freeze inp, blocks, ln), pure chains fold 0: fttfmH 0.71328 vs ft256H 0.71323 (+0.00005, sd 0.0022),
+  vs ft128H +0.0003 (sd 0.0015). As a 5th blend member over ft256dH+ft128H+ft128s4H+ftc500H: +0.00028 (sd 0.00039).
+- Verdict: 38x more parameters and a different inductive bias land on the same ceiling; no distillation headroom.

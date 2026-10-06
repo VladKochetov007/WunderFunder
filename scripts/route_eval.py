@@ -12,7 +12,7 @@ import argparse
 import json
 
 import numpy as np
-from fold_eval import ROOT, WARMUP, pooled, sums
+from fold_eval import ROOT, WARMUP, load_fold, pooled, sums
 
 
 def main() -> None:
@@ -31,10 +31,10 @@ def main() -> None:
         rows = np.array([i for i, g in enumerate(rg) if info[int(g)][0] == k and info[int(g)][2]])
         y = tg["y"][rows]; m = tg["mask"][rows].copy(); m[:, :WARMUP] = False
         use = np.isin(classes[rg[rows]], list(route))
-        pr = np.load(ROOT / "cache" / f"pred_{a.routed}_f{k}_valid.npy", mmap_mode="r")[rows]
-        pb = np.load(ROOT / "cache" / f"pred_{a.base}_f{k}_valid.npy", mmap_mode="r")[rows]
+        pr = load_fold(a.routed, k, rows)
+        pb = load_fold(a.base, k, rows)
         p = np.where(use[:, None, None], pr, pb)
-        sc.append(sums(y, p, m)); sr.append(sums(y, np.load(ROOT / "cache" / f"pred_{a.reference}_f{k}_valid.npy", mmap_mode="r")[rows], m))
+        sc.append(sums(y, p, m)); sr.append(sums(y, load_fold(a.reference, k, rows), m))
         ch += [info[int(rg[i])][1] for i in rows]; fo += [k] * len(rows)
     sc, sr, ch, fo = np.concatenate(sc), np.concatenate(sr), np.array(ch), np.array(fo)
     d = lambda idx: pooled(sc[idx].sum(0)) - pooled(sr[idx].sum(0))  # noqa: E731
