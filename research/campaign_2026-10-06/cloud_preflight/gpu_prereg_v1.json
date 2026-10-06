@@ -1,0 +1,144 @@
+{
+  "budget_cap": "0.25 provider GPU-hours maximum; one notebook, one active GPU worker",
+  "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+  "embedded_model_source_sha256": "e15c723744e378ade7db2ef11b44e6e5304ce75b582b9222bb2dd75fbf8bdf39",
+  "hardware_request": "NvidiaTeslaT4; actual device count and model recorded at runtime",
+  "metadata": {
+    "code_file": "probe.py",
+    "competition_sources": [],
+    "dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "vladkochetov07/wunder-funder"
+    ],
+    "enable_gpu": true,
+    "enable_internet": false,
+    "enable_tpu": false,
+    "id": "vladkochetov07/wnn-gru-device-preflight-20261006-v1",
+    "is_private": true,
+    "kernel_sources": [],
+    "kernel_type": "script",
+    "language": "python",
+    "machine_shape": "NvidiaTeslaT4",
+    "title": "wnn-gru-device-preflight-20261006-v1"
+  },
+  "packet_files": {
+    "kernel-metadata.json": "569569836b47faac5b4594ff06399e97c067774b3b0e74d5e2027bb7a44e64d0",
+    "model_source.py": "e15c723744e378ade7db2ef11b44e6e5304ce75b582b9222bb2dd75fbf8bdf39",
+    "probe.py": "776210534c64803177a59e9fc3c483b32d0597a509ff81ff5ee7c175e1acf764"
+  },
+  "packet_id": "wnn-gru-device-preflight-20261006-v1",
+  "payload_timeout_seconds": 360,
+  "prelaunch_admission": {
+    "admission_status": "preregistered_pending_push",
+    "cli_version": "Kaggle CLI 2.2.4",
+    "data_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "vladkochetov07/wunder-funder"
+    ],
+    "early_call_effect": "read-only API discovery only; no worker push, GPU/TPU assignment, or training",
+    "early_read_only_cli_calls_outside_slice": [
+      "kaggle --version",
+      "kaggle kernels list -m --page-size 10",
+      "kaggle kernels status on previously failed W384/E463 IDs"
+    ],
+    "first_stage_gpu_cap_hours": 0.25,
+    "local_model_source_sanity": {
+      "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "input_shape": [
+        1,
+        8,
+        211
+      ],
+      "output_shape": [
+        1,
+        8,
+        23
+      ],
+      "scope": "CPU load/forward only; no local backward or training",
+      "state_shape": [
+        2,
+        1,
+        256
+      ],
+      "status": "passed"
+    },
+    "local_resource_parent": {
+      "cpu_quota": "10 cores (1000%)",
+      "helper_for_all_packet_builds_and_later_cli_calls": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited",
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000,
+      "memory_swap_max_bytes": 0,
+      "slice": "wnn-campaign.slice"
+    },
+    "observed_at_utc": "2026-10-06T20:16:07+00:00",
+    "packet_file_sha256": {
+      "kernel-metadata.json": "569569836b47faac5b4594ff06399e97c067774b3b0e74d5e2027bb7a44e64d0",
+      "model_source.py": "e15c723744e378ade7db2ef11b44e6e5304ce75b582b9222bb2dd75fbf8bdf39",
+      "probe.py": "776210534c64803177a59e9fc3c483b32d0597a509ff81ff5ee7c175e1acf764"
+    },
+    "packet_manifest_sha256": "6fdbd1630e924a9e57def800858305d6140725f42fdffa89401963ddddf100c2",
+    "payload_timeout_seconds": 360,
+    "prior_relevant_kernel_statuses": {
+      "previous_e463_tpu": {
+        "exit_code": 0,
+        "kernel": "vladkochetov07/wnn-night-e463-tpu-20261005-v3",
+        "stderr": "",
+        "stdout": "vladkochetov07/wnn-night-e463-tpu-20261005-v3 has status \"KernelWorkerStatus.ERROR\""
+      },
+      "previous_w384_gpu": {
+        "exit_code": 0,
+        "kernel": "vladkochetov07/wnn-w384-fold1-dualt4-20261005-v7-runner",
+        "stderr": "",
+        "stdout": "vladkochetov07/wnn-w384-fold1-dualt4-20261005-v7-runner has status \"KernelWorkerStatus.ERROR\""
+      }
+    },
+    "provider_push_command": "kaggle kernels push -p research/campaign_2026-10-06/cloud_preflight/gpu_packet_v1 -t 420",
+    "provider_timeout_seconds": 420,
+    "quota_refresh_utc": "2026-10-10 00:00:00",
+    "raw_data_dataset_attached_but_unread": "vladkochetov07/wunder-funder",
+    "training_checkpoint": {
+      "dataset": "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "path": "source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+      "sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+    },
+    "typed_quota": {
+      "gpu": {
+        "allowed_seconds": 108000.0,
+        "remaining_hours": 19.7090775,
+        "remaining_seconds": 70952.679,
+        "reserved_seconds": 0.0,
+        "used_seconds": 37047.321
+      },
+      "tpu": {
+        "allowed_seconds": 72000.0,
+        "remaining_hours": 19.96260472222222,
+        "remaining_seconds": 71865.377,
+        "reserved_seconds": 0.0,
+        "used_seconds": 134.623
+      }
+    },
+    "worst_case_dual_t4_device_hours": 0.23333333333333334
+  },
+  "prior_failures_reviewed_before_push": {
+    "e463": {
+      "new_packet_change": "fresh slug; writes startup before JAX import; framework child log and terminal status in finally; asserts actual TPU assignment and samples per-device HBM",
+      "v1": "dead keyword argument in checkpoint hash call; worker did not start",
+      "v2": "JAX ran on CPU without TPU assignment and exceeded its 2 GiB host RSS cap before model update",
+      "v3_downloaded_log_bytes": 2,
+      "v3_downloaded_log_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "v3_downloaded_log_text": "[]",
+      "v3_kernel": "vladkochetov07/wnn-night-e463-tpu-20261005-v3",
+      "v3_status": "KernelWorkerStatus.ERROR"
+    },
+    "review_file": "research/campaign_2026-10-06/cloud_preflight/PRIOR_FAILURE_REVIEW.md",
+    "review_sha256": "52fda5f1ef6bd7194bcc7a78a6707ca615b0fc04b79d11729dfa61f3ef7530bf",
+    "w384": {
+      "classification": "v2 failed 24 fixture checks because the transported loader retained a stale import-by-value sequence length; the V3 correction resolves it dynamically and checks production metadata",
+      "evidence_file": "research/campaign_2026-10-05/continuation_night/kaggle/W384_V3_FIX.md",
+      "resolution_status": "resolved in prior packet with staged integration 36/36 and width transport 16/16; new packet does not import W384 loader or train W384"
+    }
+  },
+  "provider_timeout_seconds": 420,
+  "root_nn_py_sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+  "scientific_scope": "device, checkpoint-load, numerical-parity, one production-chunk backward/update/export only"
+}
