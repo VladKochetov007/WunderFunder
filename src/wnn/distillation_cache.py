@@ -62,7 +62,7 @@ def validate_distillation_cache(
     """
     if variant not in MAIN_VARIANTS:
         raise ValueError(f"unknown distillation target variant: {variant}")
-    cache_root = cache_root.resolve()
+    cache_root = cache_root.resolve(strict=True)
     metadata_path = cache_root / "metadata.json"
     metadata = json.loads(metadata_path.read_text())
     if metadata.get("format") != CACHE_FORMAT or metadata.get("version") != CACHE_VERSION:
@@ -166,7 +166,11 @@ def validate_distillation_cache(
             relative_path = Path(str(entry.get("path", "")))
             if relative_path.is_absolute() or len(relative_path.parts) != 1:
                 raise ValueError(f"cache filename must be a single relative path: {key}")
-            path = cache_root / relative_path
+            path = (cache_root / relative_path).resolve(strict=True)
+            try:
+                path.relative_to(cache_root)
+            except ValueError as error:
+                raise ValueError(f"cache file escapes the registered cache root: {key}") from error
             if not path.is_file():
                 raise FileNotFoundError(path)
             row_groups = list(map(int, entry.get("row_groups", [])))

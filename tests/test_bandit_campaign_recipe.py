@@ -114,16 +114,20 @@ class BanditRecipeValidatorTests(unittest.TestCase):
         cls.artifact_hashes = make_artifact_hashes(cls.snapshot)
 
     def recipe(self, arm: str) -> dict[str, object]:
-        path = CAMPAIGN / "local" / f"E50{4 + int(arm[1:]) - 1}_{arm}_PAIRED.json"
-        if arm == "C1":
-            path = CAMPAIGN / "local/E504_C1_PAIRED.json"
-        elif arm == "C2":
-            path = CAMPAIGN / "local/E505_C2_PAIRED.json"
-        elif arm == "C3":
-            path = CAMPAIGN / "local/E506_C3_PAIRED.json"
-        elif arm == "C4":
-            path = CAMPAIGN / "local/E507_C4_PAIRED.json"
+        path = self.recipe_path(arm)
         return json.loads(path.read_text())
+
+    def recipe_path(self, arm: str) -> Path:
+        return (
+            CAMPAIGN
+            / "local"
+            / {
+                "C1": "E504_C1_PAIRED.json",
+                "C2": "E505_C2_PAIRED.json",
+                "C3": "E506_C3_PAIRED.json",
+                "C4": "E507_C4_PAIRED.json",
+            }[arm]
+        )
 
     def validate(
         self, recipe: dict[str, object], cache: dict[str, object] | None = None
@@ -134,6 +138,10 @@ class BanditRecipeValidatorTests(unittest.TestCase):
             self.snapshot,
             self.cache if cache is None else cache,
             split_manifest=SPLIT_MANIFEST,
+            recipe_path=self.recipe_path(str(recipe["arm"])).relative_to(ROOT).as_posix(),
+            recipe_sha256=hashlib.sha256(
+                self.recipe_path(str(recipe["arm"])).read_bytes()
+            ).hexdigest(),
             sealed_families_sha256=SOURCE_HASH,
             realized_snapshot_sha256=self.snapshot_sha,
             expected_realized_snapshot_sha256=self.snapshot_sha,
@@ -183,6 +191,8 @@ class BanditRecipeValidatorTests(unittest.TestCase):
                 self.snapshot,
                 self.cache,
                 split_manifest=SPLIT_MANIFEST,
+                recipe_path=self.recipe_path("C1").relative_to(ROOT).as_posix(),
+                recipe_sha256=hashlib.sha256(self.recipe_path("C1").read_bytes()).hexdigest(),
                 sealed_families_sha256=SOURCE_HASH,
                 realized_snapshot_sha256=self.snapshot_sha,
                 expected_realized_snapshot_sha256="0" * 64,
@@ -211,6 +221,8 @@ class BanditRecipeValidatorTests(unittest.TestCase):
                 self.snapshot,
                 self.cache,
                 split_manifest=SPLIT_MANIFEST,
+                recipe_path=self.recipe_path("C2").relative_to(ROOT).as_posix(),
+                recipe_sha256=hashlib.sha256(self.recipe_path("C2").read_bytes()).hexdigest(),
                 sealed_families_sha256=SOURCE_HASH,
                 realized_snapshot_sha256=self.snapshot_sha,
                 expected_realized_snapshot_sha256=self.snapshot_sha,

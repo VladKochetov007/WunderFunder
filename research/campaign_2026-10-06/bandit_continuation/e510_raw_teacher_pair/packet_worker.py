@@ -42,6 +42,8 @@ CHUNK = 2_000
 MAX_PRODUCTION_WALL_SECONDS = 6_300
 OUTPUT_MIN_FREE_BYTES = 1_500_000_000
 GPU_ALLOCATOR_BYTES = 4_300_000_000
+MIN_HOST_HEADROOM_BYTES = 4 * 1024**3
+MIN_HOST_HEADROOM_FRACTION = 0.20
 
 ROOT = Path(__file__).resolve().parent
 RUNTIME_ROOT = Path(os.environ.get("WNN_E510_RUNTIME", "/kaggle/working/e510_raw_teacher_pair"))
@@ -264,11 +266,10 @@ def profile_estimate_seconds(step_wall_ms: float) -> float:
 
 
 def validate_external_profile_receipt() -> tuple[dict[str, object], str]:
-    """Require the exact controller-reviewed E508 profile before any fit work."""
+    """Require the exact E508 profile bytes selected by the reviewed packet builder."""
     expected_sha = os.environ.get("WNN_E508_PROFILE_RECEIPT_SHA256", "")
-    reviewed_sha = os.environ.get("WNN_E508_PROFILE_REVIEWED_SHA256", "")
-    if not re.fullmatch(r"[0-9a-f]{64}", expected_sha) or reviewed_sha != expected_sha:
-        raise ValueError("missing controller approval bound to an exact E508 profile hash")
+    if not re.fullmatch(r"[0-9a-f]{64}", expected_sha):
+        raise ValueError("missing exact E508 profile receipt hash")
     receipt_bytes = PROFILE_RECEIPT_PATH.read_bytes()
     actual_sha = hashlib.sha256(receipt_bytes).hexdigest()
     if actual_sha != expected_sha:
@@ -466,6 +467,7 @@ def hardware_snapshot() -> dict[str, object]:
         "cpu_affinity_count": len(affinity),
         "cpu_affinity": affinity,
         "meminfo_bytes": meminfo,
+        **memory_headroom_snapshot(meminfo),
         "cuda_available": torch.cuda.is_available(),
         "cuda_devices": devices,
         "nvidia_smi": subprocess.run(
@@ -481,19 +483,75 @@ def hardware_snapshot() -> dict[str, object]:
     }
 
 
+def memory_headroom_snapshot(meminfo: dict[str, int] | None = None) -> dict[str, int | None]:
+    """Measure host and cgroup headroom for aggregate concurrent worker admission."""
+    values = meminfo
+    if values is None:
+        values = {}
+        for line in Path("/proc/meminfo").read_text().splitlines():
+            key, _, value = line.partition(":")
+            fields = value.strip().split()
+            if fields and fields[0].isdigit():
+                values[key] = int(fields[0]) * (
+                    1024 if len(fields) > 1 and fields[1] == "kB" else 1
+                )
+    host_total = values.get("MemTotal", 0)
+    host_available = values.get("MemAvailable", 0)
+    cgroup_limit: int | None = None
+    cgroup_current: int | None = None
+    cgroup_root = Path("/sys/fs/cgroup")
+    limit_path = cgroup_root / "memory.max"
+    current_path = cgroup_root / "memory.current"
+    if limit_path.is_file() and current_path.is_file():
+        raw_limit = limit_path.read_text().strip()
+        if raw_limit.isdigit():
+            parsed_limit = int(raw_limit)
+            if parsed_limit < (1 << 60):
+                cgroup_limit = parsed_limit
+                cgroup_current = int(current_path.read_text().strip())
+    capacity = min(host_total, cgroup_limit) if cgroup_limit is not None else host_total
+    cgroup_available = (
+        max(cgroup_limit - cgroup_current, 0)
+        if cgroup_limit is not None and cgroup_current is not None
+        else host_available
+    )
+    return {
+        "host_total_bytes": host_total,
+        "host_available_bytes": host_available,
+        "cgroup_limit_bytes": cgroup_limit,
+        "cgroup_current_bytes": cgroup_current,
+        "memory_capacity_bytes": capacity,
+        "memory_headroom_bytes": min(host_available, cgroup_available),
+    }
+
+
+def require_memory_headroom(snapshot: dict[str, object]) -> dict[str, int]:
+    """Require at least four GiB and twenty percent capacity for other workloads."""
+    capacity = int(snapshot.get("memory_capacity_bytes", 0))
+    headroom = int(snapshot.get("memory_headroom_bytes", 0))
+    required = max(MIN_HOST_HEADROOM_BYTES, int(capacity * MIN_HOST_HEADROOM_FRACTION))
+    if capacity <= 0 or headroom < required:
+        raise RuntimeError(f"host RAM headroom {headroom} is below required {required} bytes")
+    return {
+        "capacity_bytes": capacity,
+        "headroom_bytes": headroom,
+        "required_headroom_bytes": required,
+        "headroom_fraction": headroom / capacity,
+    }
+
+
 def gate_hardware(snapshot: dict[str, object]) -> None:
     """Require one usable GPU and enough host headroom for a serial worker."""
     if not snapshot["cuda_available"] or not snapshot["cuda_devices"]:
         raise RuntimeError("actual Kaggle GPU inventory is empty")
     if snapshot["cpu_affinity_count"] < 2:
         raise RuntimeError("fewer than two host CPUs are available")
-    mem = snapshot["meminfo_bytes"]
-    if int(mem.get("MemAvailable", 0)) < 4 * 1024**3:
-        raise RuntimeError("less than 4 GiB host memory is available for the profile gate")
+    memory_gate = require_memory_headroom(snapshot)
     if int(snapshot["cuda_devices"][0]["total_memory"]) < 6 * 1024**3:
         raise RuntimeError("selected GPU has less than 6 GiB total memory")
     if not re.search(r"Tesla T4", str(snapshot["cuda_devices"][0]["name"])):
         raise RuntimeError("actual device is not a Tesla T4 as declared in kernel metadata")
+    snapshot["memory_admission"] = memory_gate
 
 
 def set_worker_environment() -> None:
@@ -698,15 +756,17 @@ def run_trainer(argv: list[str], log_path: Path) -> str:
 
 
 def heartbeat_loop(stop: threading.Event, state: dict[str, object]) -> None:
-    """Persist lightweight host heartbeats while native training code is running."""
+    """Monitor aggregate RAM headroom and persist worker resource heartbeats."""
     try:
         import resource
 
         peak_rss = 0
-        while not stop.wait(30):
+        while not stop.wait(10):
             usage = resource.getrusage(resource.RUSAGE_SELF)
             # Linux reports ru_maxrss in KiB.
             peak_rss = max(peak_rss, int(usage.ru_maxrss) * 1024)
+            memory = memory_headroom_snapshot()
+            admission = require_memory_headroom(memory)
             write_json(
                 WORKER_STATUS,
                 {
@@ -714,6 +774,7 @@ def heartbeat_loop(stop: threading.Event, state: dict[str, object]) -> None:
                     "phase": state.get("phase", "unknown"),
                     "heartbeat_unix": time.time(),
                     "peak_rss_bytes": peak_rss,
+                    "memory": {**memory, "admission": admission},
                     "pid": os.getpid(),
                 },
             )
@@ -723,12 +784,25 @@ def heartbeat_loop(stop: threading.Event, state: dict[str, object]) -> None:
                         "event": "heartbeat",
                         "phase": state.get("phase"),
                         "peak_rss_bytes": peak_rss,
+                        "memory_headroom_bytes": admission["headroom_bytes"],
+                        "memory_headroom_fraction": round(admission["headroom_fraction"], 4),
                     }
                 ),
                 flush=True,
             )
-    except OSError as error:
-        print(json.dumps({"event": "heartbeat_error", "error": str(error)}), flush=True)
+    except (OSError, RuntimeError, ValueError) as error:
+        failure = {
+            "packet": PACKET_ID,
+            "phase": "ram_headroom_guard_failed",
+            "heartbeat_unix": time.time(),
+            "error": str(error),
+            "pid": os.getpid(),
+        }
+        with contextlib.suppress(OSError):
+            write_json(WORKER_STATUS, failure)
+        print(json.dumps({"event": "ram_headroom_guard_failed", **failure}), flush=True)
+        with contextlib.suppress(ProcessLookupError):
+            os.kill(os.getpid(), signal.SIGTERM)
 
 
 def call_trainer_logged(

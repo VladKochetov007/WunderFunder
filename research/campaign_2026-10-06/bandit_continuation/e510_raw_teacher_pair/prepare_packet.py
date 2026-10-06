@@ -9,6 +9,7 @@ import math
 import subprocess
 import tarfile
 import zlib
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -40,16 +41,15 @@ def validate_profile_receipt(
     receipt_bytes: bytes,
     *,
     expected_sha256: str,
-    controller_reviewed_sha256: str,
 ) -> dict[str, Any]:
-    """Validate E508's real profile and require its digest as review attestation."""
+    """Validate E508's profile structure and exact caller-supplied file identity."""
     if len(expected_sha256) != 64 or any(c not in "0123456789abcdef" for c in expected_sha256):
         raise ValueError("expected E508 profile hash must be a lowercase SHA-256")
-    if controller_reviewed_sha256 != expected_sha256:
-        raise ValueError("controller review must pin the exact E508 profile receipt hash")
     if sha256_bytes(receipt_bytes) != expected_sha256:
         raise ValueError("E508 profile receipt bytes do not match the supplied digest")
     receipt = json.loads(receipt_bytes)
+    if not isinstance(receipt, dict):
+        raise ValueError("E508 profile receipt must be a JSON object")
     expected_counts = {"train": 10_535, "valid": 1_405}
     expected_targets = {"train": 10_606, "valid": 1_873}
     if (
@@ -67,11 +67,23 @@ def validate_profile_receipt(
     if not isinstance(profile, dict) or not isinstance(profile.get("metrics"), dict):
         raise ValueError("E508 result omits measured profile fields")
     try:
-        step_wall = float(profile["metrics"]["step_wall"])
-        peak_reserved = int(profile["peak_reserved_bytes"])
-        projected = float(profile["estimated_pair_fit_and_export_seconds"])
+        raw_step_wall = profile["metrics"]["step_wall"]
+        raw_peak_reserved = profile["peak_reserved_bytes"]
+        raw_projected = profile["estimated_pair_fit_and_export_seconds"]
     except (KeyError, TypeError, ValueError) as error:
         raise ValueError("E508 profile fields are incomplete or malformed") from error
+    if (
+        isinstance(raw_step_wall, bool)
+        or not isinstance(raw_step_wall, (int, float))
+        or isinstance(raw_peak_reserved, bool)
+        or not isinstance(raw_peak_reserved, int)
+        or isinstance(raw_projected, bool)
+        or not isinstance(raw_projected, (int, float))
+    ):
+        raise ValueError("E508 profile values must use JSON numeric types")
+    step_wall = float(raw_step_wall)
+    peak_reserved = raw_peak_reserved
+    projected = float(raw_projected)
     if (
         not math.isfinite(step_wall)
         or step_wall <= 0
@@ -126,6 +138,124 @@ def source_archive() -> tuple[bytes, dict[str, str]]:
     if "src/wnn/splits.py" not in identities or "src/wnn/portability.py" not in identities:
         raise ValueError("pinned source archive omits campaign split validation")
     return archive, identities
+
+
+def sha256_file(path: Path) -> str:
+    """Hash a potentially large downloaded terminal output in bounded memory."""
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        while block := stream.read(1 << 20):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def controller_review_targets(
+    profile_receipt: bytes, profile_receipt_sha256: str
+) -> dict[str, object]:
+    """Compute exact E510 code identities for the external controller review."""
+    validate_profile_receipt(profile_receipt, expected_sha256=profile_receipt_sha256)
+    for path, expected in (
+        (SPLIT_PATH, SPLIT_SHA256),
+        (ASSETS_MANIFEST, ASSETS_SHA256),
+        (PORTABLE_INPUTS, PORTABLE_SHA256),
+        (SOURCE_FAMILIES, SOURCE_FAMILIES_SHA256),
+    ):
+        if sha256_bytes(path.read_bytes()) != expected:
+            raise ValueError(f"review input identity changed: {path}")
+    source, source_hashes = source_archive()
+    worker = (HERE / "packet_worker.py").read_bytes()
+    kernel = kernel_source(
+        source,
+        source_hashes,
+        worker,
+        profile_receipt,
+        profile_receipt_sha256,
+        SOURCE_FAMILIES.read_bytes(),
+    )
+    return {
+        "kernel_sha256": sha256_bytes(kernel),
+        "worker_sha256": sha256_bytes(worker),
+        "builder_sha256": sha256_file(Path(__file__).resolve()),
+        "trainer_sha256": source_hashes["scripts/train_rnn.py"],
+        "source_archive_sha256": sha256_bytes(source),
+    }
+
+
+def validate_controller_review_receipt(
+    review_bytes: bytes,
+    *,
+    expected_review_sha256: str,
+    profile_receipt_sha256: str,
+    terminal_output_sha256: str,
+    code_identities: dict[str, object],
+    now_utc: datetime | None = None,
+) -> dict[str, Any]:
+    """Require separate controller approval tied to E508 evidence and E510 code."""
+    if sha256_bytes(review_bytes) != expected_review_sha256:
+        raise ValueError("controller review receipt bytes do not match the supplied digest")
+    review = json.loads(review_bytes)
+    if not isinstance(review, dict):
+        raise ValueError("controller review receipt must be a JSON object")
+    if (
+        review.get("format") != "wnn.controller.e510-review.v1"
+        or review.get("version") != 1
+        or review.get("status") != "approved"
+        or review.get("packet_id") != "E510_RAW_TEACHER_PAIR_V1"
+    ):
+        raise ValueError("separate controller review receipt is missing or not approved")
+    profile_decision = review.get("profile_review")
+    if not isinstance(profile_decision, dict) or profile_decision.get("status") != "approved":
+        raise ValueError("controller did not approve the actual E508 profile")
+    expected_profile = {
+        "packet_id": "E508_RAW_BASELINE_V1",
+        "receipt_sha256": profile_receipt_sha256,
+        "terminal_output_sha256": terminal_output_sha256,
+    }
+    for key, value in expected_profile.items():
+        if profile_decision.get(key) != value:
+            raise ValueError(f"controller receipt does not bind E508 {key}")
+    code_review = review.get("e510_code_review")
+    if not isinstance(code_review, dict) or code_review.get("status") != "approved":
+        raise ValueError("controller did not approve the revised E510 code")
+    for key, value in code_identities.items():
+        if code_review.get(key) != value:
+            raise ValueError(f"controller receipt does not bind E510 {key}")
+
+    budget = review.get("production_budget")
+    if (
+        not isinstance(budget, dict)
+        or budget.get("status") != "approved"
+        or budget.get("provider") != "kaggle"
+        or budget.get("provider_watch_seconds") != 7_200
+        or budget.get("worker_wall_cap_seconds") != 6_300
+        or budget.get("worst_case_dual_t4_gpu_hours") != 4.0
+        or budget.get("ram_headroom_fraction") != 0.2
+        or budget.get("ram_monitor_required") is not True
+        or budget.get("fresh_quota_checked") is not True
+    ):
+        raise ValueError("controller production-budget approval is incomplete")
+    try:
+        remaining_hours = float(budget["gpu_hours_remaining"])
+        reserved_hours = float(budget["gpu_hours_reserved"])
+        quota_time = datetime.fromisoformat(
+            str(budget["quota_checked_at_utc"]).replace("Z", "+00:00")
+        )
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError("controller quota evidence is incomplete") from error
+    if (
+        not math.isfinite(remaining_hours)
+        or not math.isfinite(reserved_hours)
+        or remaining_hours < 4.0
+        or reserved_hours < 4.0
+        or remaining_hours < reserved_hours
+        or quota_time.tzinfo is None
+    ):
+        raise ValueError("controller quota evidence does not cover the frozen pair budget")
+    current_time = now_utc or datetime.now(UTC)
+    quota_age = current_time - quota_time.astimezone(UTC)
+    if quota_age < timedelta(0) or quota_age > timedelta(hours=6):
+        raise ValueError("provider quota evidence is stale or future-dated")
+    return review
 
 
 def compressed_source(source: bytes) -> str:
@@ -261,7 +391,6 @@ def main() -> None:
                 "PYTHONDONTWRITEBYTECODE": "1",
                 "WNN_E510_RUNTIME": str(RUNTIME),
                 "WNN_E508_PROFILE_RECEIPT_SHA256": PROFILE_RECEIPT_SHA256,
-                "WNN_E508_PROFILE_REVIEWED_SHA256": PROFILE_RECEIPT_SHA256,
                 "PYTHONPATH": os.pathsep.join(
                     [str(PROJECT / "src"), str(PROJECT / "scripts"), env.get("PYTHONPATH", "")]
                 ),
@@ -468,22 +597,33 @@ def build_packet(
     profile_receipt_path: Path | None = None,
     *,
     profile_receipt_sha256: str | None = None,
-    controller_reviewed_sha256: str | None = None,
+    terminal_output_path: Path | None = None,
+    controller_review_receipt_path: Path | None = None,
+    controller_review_receipt_sha256: str | None = None,
 ) -> dict[str, object]:
-    """Materialize a private packet only after the real E508 receipt is reviewed."""
+    """Materialize only after a separate controller receipt approves evidence, code and budget."""
     if (
         profile_receipt_path is None
         or profile_receipt_sha256 is None
-        or controller_reviewed_sha256 is None
+        or terminal_output_path is None
+        or controller_review_receipt_path is None
+        or controller_review_receipt_sha256 is None
     ):
-        raise ValueError(
-            "E510 packet is sealed until a controller-reviewed E508 receipt hash is supplied"
-        )
+        raise ValueError("E510 requires actual E508 files and a separate controller review receipt")
     receipt_bytes = profile_receipt_path.read_bytes()
     profile = validate_profile_receipt(
         receipt_bytes,
         expected_sha256=profile_receipt_sha256,
-        controller_reviewed_sha256=controller_reviewed_sha256,
+    )
+    terminal_output_sha256 = sha256_file(terminal_output_path)
+    identities = controller_review_targets(receipt_bytes, profile_receipt_sha256)
+    review_bytes = controller_review_receipt_path.read_bytes()
+    review = validate_controller_review_receipt(
+        review_bytes,
+        expected_review_sha256=controller_review_receipt_sha256,
+        profile_receipt_sha256=profile_receipt_sha256,
+        terminal_output_sha256=terminal_output_sha256,
+        code_identities=identities,
     )
     if PACKET_DIR.exists():
         raise FileExistsError(f"packet already exists; refusing to overwrite: {PACKET_DIR}")
@@ -505,6 +645,8 @@ def build_packet(
         profile_receipt_sha256,
         SOURCE_FAMILIES.read_bytes(),
     )
+    if sha256_bytes(kernel) != identities["kernel_sha256"]:
+        raise RuntimeError("kernel source changed after the controller reviewed its identity")
     metadata = {
         "code_file": "kernel.py",
         "competition_sources": [],
@@ -562,7 +704,10 @@ def build_packet(
         "external_profile_gate": {
             "packet": "E508_RAW_BASELINE_V1",
             "receipt_sha256": profile_receipt_sha256,
-            "controller_reviewed_sha256": controller_reviewed_sha256,
+            "terminal_output_sha256": terminal_output_sha256,
+            "controller_review_receipt_sha256": controller_review_receipt_sha256,
+            "controller_review_receipt_path": str(controller_review_receipt_path),
+            "approval_status": review["status"],
             "status": profile["status"],
             "fit_admitted": profile["fit_admitted"],
             "fit_stages_started": profile["fit_stages_started"],
@@ -570,6 +715,7 @@ def build_packet(
             "profile": profile["profile"],
             "only_after_controller_review": True,
         },
+        "controller_reviewed_code_identities": identities,
         "trainer": {
             "commit": TRAINER_COMMIT,
             "source_sha256": source_hashes["scripts/train_rnn.py"],
@@ -628,6 +774,9 @@ def build_packet(
             "kaggle_push_run": False,
         },
         "guardrails": {
+            "separate_controller_receipt_binds_e508_profile_and_terminal_output": True,
+            "controller_receipt_binds_exact_e510_kernel_worker_and_builder_hashes": True,
+            "controller_receipt_approves_fresh_kaggle_quota_and_production_budget": True,
             "e508_profile_receipt_hash_gate_before_any_fit": True,
             "profile_status_must_be_reviewed_no_fit": True,
             "internal_profile_then_serial_pair": True,
@@ -647,18 +796,20 @@ def build_packet(
 
 
 def readme(receipt: dict[str, object]) -> str:
-    """Write an operator handoff that keeps profile review and push separate."""
+    """Write an operator handoff that keeps approval and provider push separate."""
     profile_gate = receipt["external_profile_gate"]
     commands = receipt["commands"]
     return f"""# E510 raw teacher pair
 
 This private packet was prepared from the frozen trainer at `{TRAINER_COMMIT}`.
-It has **not** been pushed or run. It embeds the exact E508 profile receipt
-`{profile_gate["receipt_sha256"]}` and refuses to start unless that receipt's bytes,
-status, fold membership, timing and allocator peak match the controller-reviewed
-hash. Its provider watch is 7,200 seconds and its worker process-group deadline is
-6,300 seconds. The two teachers run serially on `cuda:0` after a short in-kernel
-profile passes.
+It has **not** been pushed or run. A separate controller receipt approves E508's
+profile result and terminal output and binds their hashes to this exact E510
+kernel, worker, and builder. The builder refuses packet creation unless that
+receipt also approves a fresh Kaggle quota check and the frozen production
+budget. At runtime the worker rechecks E508 profile bytes, status, fold
+membership, timing, and allocator peak before input discovery. Its provider watch
+is 7,200 seconds and its worker process-group deadline is 6,300 seconds. The two
+teachers run serially on `cuda:0` after a short in-kernel profile passes.
 
 The pair is an independent same-fold raw-label baseline: fresh raw-only GRU(128,
 two layers), seeds 3/4, four epochs, fixed zero-based epoch 3, wMSE with the
@@ -685,26 +836,49 @@ Prepared command (not executed):
 
 Kernel SHA-256: `{receipt["packet_sha256"]["kernel.py"]}`<br>
 Trainer source SHA-256: `{TRAINER_SHA256}`<br>
-E508 reviewed profile SHA-256: `{profile_gate["receipt_sha256"]}`<br>
+E508 profile SHA-256: `{profile_gate["receipt_sha256"]}`<br>
+E508 terminal output SHA-256: `{profile_gate["terminal_output_sha256"]}`<br>
+Controller review receipt SHA-256: `{profile_gate["controller_review_receipt_sha256"]}`<br>
 SOURCE_FAMILIES SHA-256: `{SOURCE_FAMILIES_SHA256}`
 """
 
 
 def main() -> None:
-    """Require a real receipt path and explicit matching controller review hash."""
+    """Preview code hashes or build only with an independent controller review."""
     import argparse
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--e508-profile-receipt", type=Path, required=True)
     parser.add_argument("--e508-profile-receipt-sha256", required=True)
-    parser.add_argument("--controller-reviewed-profile-sha256", required=True)
+    parser.add_argument("--review-targets-only", action="store_true")
+    parser.add_argument("--e508-terminal-output", type=Path)
+    parser.add_argument("--controller-review-receipt", type=Path)
+    parser.add_argument("--controller-review-receipt-sha256")
     args = parser.parse_args()
+    if args.review_targets_only:
+        profile_bytes = args.e508_profile_receipt.read_bytes()
+        print(
+            json.dumps(
+                controller_review_targets(profile_bytes, args.e508_profile_receipt_sha256), indent=2
+            )
+        )
+        return
+    if (
+        args.e508_terminal_output is None
+        or args.controller_review_receipt is None
+        or args.controller_review_receipt_sha256 is None
+    ):
+        parser.error(
+            "packet creation requires E508 terminal output and separate controller approval"
+        )
     print(
         json.dumps(
             build_packet(
                 args.e508_profile_receipt,
                 profile_receipt_sha256=args.e508_profile_receipt_sha256,
-                controller_reviewed_sha256=args.controller_reviewed_profile_sha256,
+                terminal_output_path=args.e508_terminal_output,
+                controller_review_receipt_path=args.controller_review_receipt,
+                controller_review_receipt_sha256=args.controller_review_receipt_sha256,
             ),
             indent=2,
         )
