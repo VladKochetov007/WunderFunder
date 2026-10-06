@@ -1,0 +1,44 @@
+{
+  "timestamp_utc": "2026-10-06T21:14:21.153099+00:00",
+  "attempt": "e502-c0-s3-f0-v1",
+  "trigger": "Root installed Kaggle monitor and invoked systemctl daemon-reload at 2026-10-06T21:12Z. Old persistent user.control slice drop-ins restored CPU=500%, MemoryHigh=36e9, MemoryMax=40e9, despite previously verified effective limits10CPU/18e9/20e9.",
+  "raw_record_status": "failed",
+  "raw_record_exit_status": 0,
+  "raw_record_failure": "aggregate parent changed during attempt: aggregate parent limits not verified: {'CPUQuotaPerSecUSec': ('5s', '10s'), 'MemoryHigh': ('36000000000', '18000000000'), 'MemoryMax': ('40000000000', '20000000000')}, group='/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice'",
+  "fit_log_terminal": "SELECTED_FIXED 1",
+  "peak_ram_bytes": 8000000000,
+  "peak_parent_ram_bytes": 11897507840,
+  "peak_observed_vram_bytes": 2601517056,
+  "final_memory_event_deltas": {
+    "high": 0,
+    "low": 0,
+    "max": 673584,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "final_parent_memory_event_deltas": {
+    "high": 0,
+    "low": 0,
+    "max": 673584,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0,
+    "sock_throttled": 0
+  },
+  "fix_command": [
+    "systemctl",
+    "--user",
+    "set-property",
+    "wnn-campaign.slice",
+    "CPUQuota=1000%",
+    "MemoryHigh=18000000000",
+    "MemoryMax=20000000000",
+    "MemorySwapMax=0"
+  ],
+  "regression_verification": "Explicit systemctl --user daemon-reload after persistent fix followed by show returned CPUQuotaPerSecUSec=10s, MemoryHigh=18000000000, MemoryMax=20000000000, MemorySwapMax=0.",
+  "artifact_disposition": "Independent attestation accepts completed fit prerequisite with guard incident; failed receipt unchanged. Revised sequence starts seed4 without rerunning seed3.",
+  "observed_oom": false,
+  "independent_attestation": "research/campaign_2026-10-06/bandit_continuation/local/E502_C0_S3_GUARD_INCIDENT_ATTESTATION.json"
+}
