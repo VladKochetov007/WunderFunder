@@ -1,0 +1,195 @@
+{
+  "acceptance_rationale": [
+    "The immutable attempt record shows the exact frozen E-502 seed-3 command, a normally exited child (status 0), and a failure only because the aggregate parent properties changed during the attempt.",
+    "The selected fixed epoch-1 checkpoint exists, predates the attempt terminal time, matches its provenance hash, matches every explicit E-502 option, and has no-evaluation fixed-epoch args.",
+    "The source manifest still matches the manifest frozen at launch; the recursive split/ancestor audit passed; final attempt and parent OOM deltas are zero.",
+    "Acceptance is limited to the completed fit prerequisite with an explicit guard incident. The worker receipt remains failed and does not become a clean resource-policy success.",
+    "The direct checkpoint/run provenance arguments and all recursive checkpoint/run provenance arguments agree."
+  ],
+  "attempt": {
+    "allocator_admission_bytes": 4300000000,
+    "child_exit_status": 0,
+    "command_matches_E502_seed3": true,
+    "failure": "aggregate parent changed during attempt: aggregate parent limits not verified: {'CPUQuotaPerSecUSec': ('5s', '10s'), 'MemoryHigh': ('36000000000', '18000000000'), 'MemoryMax': ('40000000000', '20000000000')}, group='/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice'",
+    "finished_utc": "2026-10-06T21:12:13.661538+00:00",
+    "frozen_E502_preregistration_sha256": "c51b1716a3a9478d625f41d0c6f77348f114749407a19b5f89c979540b84db17",
+    "id": "e502-c0-s3-f0-v1",
+    "observed_vram_cap_bytes": 5000000000,
+    "oom_deltas": {
+      "attempt": {
+        "high": 0,
+        "low": 0,
+        "max": 673584,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0,
+        "sock_throttled": 0
+      },
+      "parent": {
+        "high": 0,
+        "low": 0,
+        "max": 673584,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0,
+        "sock_throttled": 0
+      }
+    },
+    "parent_change_failure_observed": "aggregate parent changed during attempt: aggregate parent limits not verified: {'CPUQuotaPerSecUSec': ('5s', '10s'), 'MemoryHigh': ('36000000000', '18000000000'), 'MemoryMax': ('40000000000', '20000000000')}, group='/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice'",
+    "parent_properties_at_launch": {
+      "CPUQuotaPerSecUSec": "10s",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    },
+    "peak_observed_vram_bytes": 2601517056,
+    "peak_parent_ram_bytes": 11897507840,
+    "peak_ram_bytes": 8000000000,
+    "phase": "terminal",
+    "record_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e502-c0-s3-f0-v1.json",
+    "record_sha256": "e118ead263ab049455a6195a79ce8727995e24c4176990fb5933f16f72ab5d8b",
+    "record_status": "failed",
+    "reservation": {
+      "cpus": 3,
+      "ram_bytes": 8000000000
+    },
+    "source_commit": "69b2331825e193a070015ca4182872724595209a",
+    "source_manifest_mismatches": [],
+    "source_manifest_sha256": "84840edd7c8942a3158430a52815745d9d0386de9310fd80e96bc140a92a8a44",
+    "source_manifest_still_matches": true,
+    "started_utc": "2026-10-06T20:34:24.343127+00:00"
+  },
+  "attested_at_utc": "2026-10-06T21:18:59.652679+00:00",
+  "checkpoint": {
+    "args": {
+      "batch": 16,
+      "checkpoint_epoch": 1,
+      "checkpoint_policy": "fixed",
+      "chunk": 2000,
+      "epochs": 2,
+      "init": "c20261003_combo_s3_f0@ep3",
+      "loss": "wmse",
+      "lr": 0.0001,
+      "name": "bd26_c0_s3_f0",
+      "no_eval_during_fit": true,
+      "seed": 3,
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "train_seqs": 10607,
+      "train_source": "train+valid",
+      "valid_fold": 0
+    },
+    "bytes": 3975975,
+    "checkpoint_and_external_fit_membership_match": true,
+    "checkpoint_and_run_provenance_args_match": true,
+    "checkpoint_mtime_precedes_attempt_terminal": true,
+    "epoch": 1,
+    "explicit_command_args_match_E502": true,
+    "model_tensor_count": 16,
+    "output_head_weight_shape": [
+      23,
+      256
+    ],
+    "path": "/tmp/wnn-bandit-c0-20261006/artifacts/runs/bd26_c0_s3_f0/model_ep1.pt",
+    "provenance_bytes": 156417,
+    "provenance_checkpoint_hash_matches": true,
+    "provenance_path": "/tmp/wnn-bandit-c0-20261006/artifacts/runs/bd26_c0_s3_f0/provenance.json",
+    "provenance_sha256": "2bddf79d3a7f371ba32e78968f0561e47ddf01fa6bf475302ac9f83797338cf3",
+    "sha256": "8c5742536bb90b01a376e776ad9bcaa419a5fe734d89580c5ceeb718629b8532",
+    "training_state_bytes": 11820015,
+    "training_state_path": "/tmp/wnn-bandit-c0-20261006/artifacts/runs/bd26_c0_s3_f0/training_state.pt",
+    "training_state_sha256": "26c838e7f49a0331ed00b73d43b293755a6743b5c04d7e7a985fa4b2a1d57e4d"
+  },
+  "decision": "accept_as_completed_with_guard_incident",
+  "fit_lineage": {
+    "direct_fit_group_counts": {
+      "train": 10535,
+      "valid": 1405
+    },
+    "evaluation_group_count": 468,
+    "fold": 0,
+    "lineage": [
+      {
+        "checkpoint_file": "model_ep1.pt",
+        "checkpoint_sha256": "8c5742536bb90b01a376e776ad9bcaa419a5fe734d89580c5ceeb718629b8532",
+        "fit_group_counts": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_row_group_hashes": {
+          "train": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9",
+          "valid": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+        },
+        "run": "bd26_c0_s3_f0",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      {
+        "checkpoint_file": "model_ep3.pt",
+        "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+        "fit_group_counts": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_row_group_hashes": {
+          "train": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9",
+          "valid": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+        },
+        "run": "c20261003_combo_s3_f0",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      {
+        "checkpoint_file": "model.pt",
+        "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "fit_group_counts": {
+          "train": 0,
+          "valid": 1405
+        },
+        "fit_row_group_hashes": {
+          "train": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "valid": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+        },
+        "run": "c20260929_prop_f0",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      {
+        "checkpoint_file": "model.pt",
+        "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "fit_group_counts": {
+          "train": 0,
+          "valid": 1405
+        },
+        "fit_row_group_hashes": {
+          "train": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "valid": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+        },
+        "run": "c20260929_prop_f0",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      }
+    ],
+    "recursive_ancestor_audit": "passed; audit verified every checkpoint/provenance fit membership against the frozen split and rejected evaluation-linked components",
+    "recursive_checkpoint_and_run_provenance_args_match": true,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "id": "A-E502-C0-S3-GUARD-INCIDENT-ACCEPTANCE-1",
+  "not_reviewed": "Training logs, prediction caches, validation scores, evaluation metrics, or public scores were not opened or read for this attestation.",
+  "parent_recovery": {
+    "current_properties": {
+      "CPUQuotaPerSecUSec": "10s",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    },
+    "current_properties_match_expected": true,
+    "current_properties_snapshot_utc": "2026-10-06T21:18:59.652679+00:00",
+    "daemon_reload_persistence_test": "Controller reported that daemon-reload after persistent set-property retained the corrected limits. This attestation independently read the current properties; it did not issue daemon-reload.",
+    "expected": {
+      "CPUQuotaPerSecUSec": "10s",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    }
+  },
+  "schema_version": 1,
+  "scope": "Accept the seed-3 scientific fit as a completed paired-fit prerequisite. Preserve its original failed systemd attempt record; do not relabel that receipt or rerun/overwrite the fit."
+}
