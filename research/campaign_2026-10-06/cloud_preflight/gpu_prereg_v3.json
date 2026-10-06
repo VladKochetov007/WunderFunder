@@ -1,0 +1,91 @@
+{
+  "embedded_model_source_sha256": "e15c723744e378ade7db2ef11b44e6e5304ce75b582b9222bb2dd75fbf8bdf39",
+  "metadata": {
+    "code_file": "probe.py",
+    "competition_sources": [],
+    "dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "vladkochetov07/wunder-funder"
+    ],
+    "enable_gpu": true,
+    "enable_internet": false,
+    "enable_tpu": false,
+    "id": "vladkochetov07/wnn-gru-device-preflight-20261006-v3",
+    "is_private": true,
+    "kernel_sources": [],
+    "kernel_type": "script",
+    "language": "python",
+    "machine_shape": "NvidiaTeslaT4",
+    "title": "wnn-gru-device-preflight-20261006-v3"
+  },
+  "packet_files": {
+    "kernel-metadata.json": "73fef4c958bc6e6a374a8f3c5bc25e781765ace709932201a8942ff3713838d4",
+    "probe.py": "7c1161987982b4e886d74fa361660ee96fbf4de24322e03d4fea437166c737c9"
+  },
+  "packet_id": "wnn-gru-device-preflight-20261006-v3",
+  "packet_manifest_sha256": "1f915d99cb38d2e1b261b49e1ff3a4b16d7854898ddfa31f110d559ef0a8f04a",
+  "prelaunch_admission": {
+    "active_campaign_worker_statuses": {
+      "wnn-e463-real-tpu-fullshape-preflight-20261006-v1": "KernelWorkerStatus.QUEUED",
+      "wnn-gru-device-preflight-20261006-v2": "KernelWorkerStatus.ERROR"
+    },
+    "checkpoint": {
+      "dataset": "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "download_verified": true,
+      "expected_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "fallback": "deterministic random-init; output explicitly labels trained-checkpoint/data path not_verified",
+      "relative_path": "source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+      "remote_size_bytes": 3977183,
+      "runtime_mount_unverified_in_v2": true
+    },
+    "cli_version": "Kaggle CLI 2.2.4",
+    "gpu_quota": {
+      "baseline_used_seconds": 37047.321,
+      "headroom_after_worst_case_seconds": 145.425,
+      "original_first_stage_cap_seconds": 900.0,
+      "projected_cumulative_first_stage_seconds": 754.575,
+      "refresh_at_utc": "2026-10-10T00:00:00Z",
+      "reserved_seconds": 0.0,
+      "retained_campaign_delta_seconds": 34.575,
+      "separate_controller_extension_cap_seconds": 1800.0,
+      "used_seconds": 37081.896,
+      "worst_case_this_packet_device_seconds": 720.0
+    },
+    "hardware_request": "NvidiaTeslaT4; actual GPU count/model/VRAM will be recorded; worst case assumes two T4 devices at 360 provider seconds each",
+    "local_validation": {
+      "input_mount_inventory_and_missing_checkpoint_helpers": "passed",
+      "model_source_sha256": "e15c723744e378ade7db2ef11b44e6e5304ce75b582b9222bb2dd75fbf8bdf39",
+      "py_compile": "passed",
+      "ruff_check": "passed",
+      "ruff_format_check": "passed",
+      "scope": "static/helper checks only; no local model forward, backward, training, or device claim"
+    },
+    "no_competition_upload": true,
+    "no_scientific_fit": true,
+    "no_score_claim": true,
+    "observed_at_utc": "2026-10-06T21:08:49+00:00",
+    "one_active_gpu_worker": true,
+    "payload_alarm_seconds": 300,
+    "provider_timeout_assumption": "Prior v2 provider status remained running after nominal timeout and account quota snapshots were provisional; poll the exact slug to terminal, retain provider status/quota evidence, and do not start another GPU worker until terminal outputs are collected.",
+    "provider_timeout_seconds": 360,
+    "source_manifest": {
+      "bytes": 11621,
+      "path": "source-manifest.json",
+      "sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb"
+    },
+    "tpu_quota": {
+      "baseline_used_seconds": 134.623,
+      "campaign_delta_seconds": 0.0,
+      "first_stage_cap_seconds": 900.0,
+      "refresh_at_utc": "2026-10-10T00:00:00Z",
+      "reserved_seconds": 0.0,
+      "used_seconds": 134.623
+    }
+  },
+  "prepared_at_utc": "2026-10-06T21:09:47+00:00",
+  "provider_push_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited kaggle kernels push -p research/campaign_2026-10-06/cloud_preflight/gpu_packet_v3 -t 360",
+  "revision_of": "wnn-gru-device-preflight-20261006-v2",
+  "revision_reason": "v2 reached Torch import and embedded model setup but aborted at checkpoint_validation because its assumed fixed mount path was absent; v3 records all /kaggle/input mounts before framework import, discovers the exact dataset-relative checkpoint path by content hash, and permits deterministic random initialization solely for an explicitly labeled device-only gate if the checkpoint is not mounted. A present but hash-mismatched checkpoint is a hard failure.",
+  "root_nn_source_sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+  "scope": "synthetic actual-device root GRU forward/backward, finite checks, one diagnostic optimizer update and CPU/GPU export reload; no real dataset batches, scientific training, or scoring"
+}
