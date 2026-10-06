@@ -20,7 +20,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset
 
-PACKET_ID = "E508_RAW_BASELINE_V1"
+PACKET_ID = "E508_RAW_BASELINE_V2"
 SPLIT_SHA256 = "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
 ASSETS_SHA256 = "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7"
 ASSETS_BYTES = 6268

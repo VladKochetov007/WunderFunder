@@ -161,11 +161,16 @@ class PacketRecipeTests(unittest.TestCase):
         self.assertIn("profile_ready_awaiting_controller_review", source)
 
     def test_materialized_packet_hashes_and_embedded_worker_match_receipt(self) -> None:
-        packet = HERE / "packet"
+        packet = HERE / "packet_v2"
         receipt = json.loads((packet / "review_packet.json").read_text(encoding="utf-8"))
         kernel = (packet / "kernel.py").read_bytes()
         metadata = (packet / "kernel-metadata.json").read_bytes()
         self.assertEqual(hashlib.sha256(kernel).hexdigest(), receipt["packet_sha256"]["kernel.py"])
+        self.assertEqual(receipt["packet_id"], "E508_RAW_BASELINE_V2")
+        self.assertEqual(
+            receipt["kernel_id"],
+            "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v2",
+        )
         self.assertEqual(
             hashlib.sha256(metadata).hexdigest(),
             receipt["packet_sha256"]["kernel-metadata.json"],
@@ -182,6 +187,10 @@ class PacketRecipeTests(unittest.TestCase):
         }
         worker = zlib.decompress(base64.b85decode(assignments["WORKER_CODE"].encode("ascii")))
         self.assertEqual(hashlib.sha256(worker).hexdigest(), assignments["WORKER_SHA256"])
+        self.assertEqual(
+            hashlib.sha256(worker).hexdigest(),
+            hashlib.sha256((HERE / "packet_worker.py").read_bytes()).hexdigest(),
+        )
         self.assertEqual(assignments["WORKER_SHA256"], receipt["packet_sha256"]["packet_worker.py"])
         self.assertEqual(assignments["GLOBAL_TIMEOUT_SECONDS"], 3_600)
         worker_text = worker.decode("utf-8")
