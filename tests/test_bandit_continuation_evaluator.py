@@ -11,6 +11,7 @@ import pytest
 from scripts.evaluate_bandit_continuation import (
     _blend_equal_pair,
     _expected_c0_runs,
+    _expected_target_groups,
     _official_mask,
     _validate_prediction_artifact,
     _validate_target_index,
@@ -96,16 +97,28 @@ def test_fixed_pair_blends_raw_members_before_official_clipping() -> None:
     assert not np.array_equal(pair, (clipped_first + clipped_second) * 0.5)
 
 
-def test_target_cache_index_must_match_full_frozen_valid_split() -> None:
-    row_groups = [17, 41]
-    targets = np.zeros((2, 20_000, 2), dtype=np.float32)
-    scored = np.ones((2, 20_000), dtype=bool)
-    market_class = np.array([2, 3], dtype=np.int64)
-    _validate_target_index(row_groups, targets, scored, market_class, (41, 17))
-    with pytest.raises(ValueError, match="frozen valid groups"):
-        _validate_target_index(row_groups, targets, scored, market_class, (41, 52))
-    with pytest.raises(ValueError, match="frozen valid groups"):
-        _validate_target_index([17, 17], targets, scored, market_class, (17, 41))
+def test_target_cache_requires_exact_fit_valid_and_evaluation_union() -> None:
+    """The cache contains fit-valid and frozen eval rows; fit rules stay separate."""
+    fit_valid_groups = (17, 41)
+    evaluation_groups = (52,)
+    expected_groups = _expected_target_groups(fit_valid_groups, evaluation_groups)
+    assert expected_groups == (17, 41, 52)
+    with pytest.raises(ValueError, match="groups overlap"):
+        _expected_target_groups((17, 41), (41, 52))
+    row_groups = [17, 41, 52]
+    targets = np.zeros((3, 20_000, 2), dtype=np.float32)
+    scored = np.ones((3, 20_000), dtype=bool)
+    market_class = np.array([2, 3, 4], dtype=np.int64)
+    _validate_target_index(row_groups, targets, scored, market_class, expected_groups)
+
+    with pytest.raises(ValueError, match="frozen validation groups"):
+        _validate_target_index(
+            row_groups[:2], targets[:2], scored[:2], market_class[:2], expected_groups
+        )
+    with pytest.raises(ValueError, match="frozen validation groups"):
+        _validate_target_index([17, 41, 99], targets, scored, market_class, expected_groups)
+    with pytest.raises(ValueError, match="frozen validation groups"):
+        _validate_target_index([17, 17, 52], targets, scored, market_class, expected_groups)
 
 
 def test_paired_stream_score_matches_official_global_metric() -> None:

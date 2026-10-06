@@ -250,23 +250,34 @@ def _official_mask(is_scored: np.ndarray) -> np.ndarray:
     return scored & need_prediction[None, :]
 
 
+def _expected_target_groups(
+    fit_valid_groups: tuple[int, ...], evaluation_groups: tuple[int, ...]
+) -> tuple[int, ...]:
+    """Bind target-cache coverage to both fit-valid and frozen evaluation rows."""
+    fit_valid = set(map(int, fit_valid_groups))
+    evaluation = set(map(int, evaluation_groups))
+    if fit_valid & evaluation:
+        raise ValueError("fit-valid and frozen evaluation groups overlap")
+    return tuple(sorted(fit_valid | evaluation))
+
+
 def _validate_target_index(
     row_groups: list[int],
     targets: np.ndarray,
     is_scored: np.ndarray,
     market_class: np.ndarray,
-    valid_groups: tuple[int, ...],
+    expected_groups: tuple[int, ...],
 ) -> None:
-    """Require the score cache to cover exactly the frozen validation index."""
+    """Require targets to cover the exact frozen fit-valid and evaluation rows."""
     if (
         len(set(row_groups)) != len(row_groups)
-        or set(row_groups) != set(map(int, valid_groups))
+        or set(row_groups) != set(map(int, expected_groups))
         or targets.shape != (len(row_groups), SEQUENCE_ROWS, 2)
         or targets.dtype != np.float32
         or is_scored.shape != (len(row_groups), SEQUENCE_ROWS)
         or market_class.shape != (len(row_groups),)
     ):
-        raise ValueError("valid target cache is malformed or differs from frozen valid groups")
+        raise ValueError("valid target cache is malformed or differs from frozen validation groups")
 
 
 def _blend_equal_pair(first: np.ndarray, second: np.ndarray) -> np.ndarray:
@@ -505,7 +516,8 @@ def grade(
         targets = cache["y"]
         is_scored = cache["mask"]
         classes_all = cache["market_class"]
-    _validate_target_index(row_groups, targets, is_scored, classes_all, split.valid_groups)
+    expected_target_groups = _expected_target_groups(split.valid_groups, split.evaluation_groups)
+    _validate_target_index(row_groups, targets, is_scored, classes_all, expected_target_groups)
     position = {group: index for index, group in enumerate(row_groups)}
     groups = list(map(int, split.evaluation_groups))
     if len(set(groups)) != EVALUATION_GROUPS or any(group not in position for group in groups):
