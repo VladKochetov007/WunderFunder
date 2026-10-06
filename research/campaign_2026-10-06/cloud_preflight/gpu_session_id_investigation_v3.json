@@ -1,0 +1,42 @@
+{
+  "target_kernel": "vladkochetov07/wnn-gru-device-preflight-20261006-v3/1",
+  "observed_at_utc": "2026-10-06T21:17:16+00:00",
+  "provider_status": "KernelWorkerStatus.RUNNING",
+  "raw_status_response": {
+    "http_status": 200,
+    "route": "kernels.KernelsApiService/GetKernelSessionStatus",
+    "json": {
+      "status": "RUNNING"
+    }
+  },
+  "session_id_field_present": false,
+  "provider_version_number": 1,
+  "version_number_used_as_session_id": false,
+  "installed_cancellation_api": {
+    "request_type": "ApiCancelKernelSessionRequest",
+    "required_field": "kernel_session_id: int",
+    "invoked": false,
+    "reason": "The exact active session ID was not exposed by raw provider status; version number and kernel ID are not substitutes."
+  },
+  "bounded_log_probe": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited timeout 20s kaggle kernels logs vladkochetov07/wnn-gru-device-preflight-20261006-v3",
+    "exit_code": 0,
+    "stdout": ""
+  },
+  "bounded_live_output_probe": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited timeout 20s kaggle kernels output vladkochetov07/wnn-gru-device-preflight-20261006-v3 -p /tmp/wnn-gpu-v3-live-output",
+    "exit_code": 0,
+    "stdout": ""
+  },
+  "quota_at_observation": {
+    "gpu_used_seconds": 37509.841797,
+    "baseline_used_seconds": 37047.321,
+    "campaign_delta_seconds": 462.520797,
+    "reserved_seconds": 0.0,
+    "original_first_stage_cap_seconds": 900.0,
+    "remaining_to_original_cap_seconds": 437.479203,
+    "quota_refresh_utc": "2026-10-10T00:00:00Z"
+  },
+  "timeout_assumption": "The v3 session is still reported RUNNING after roughly 428 seconds of post-launch account GPU quota consumption, exceeding both the 300 second payload alarm and 360 second Kaggle session timeout parameter. This active-time estimate uses prelaunch/postlaunch account quota deltas; provider terminal reconciliation can change the retained charge.",
+  "action": "Continue read-only quota/status polling for this exact kernel only; do not push another GPU kernel while it is active."
+}
