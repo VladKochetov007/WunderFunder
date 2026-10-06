@@ -2,43 +2,75 @@
 
 Orchestration, data validation, risk geometry, hypothesis execution, and forensic audit for quantitative research. The infrastructure that makes alpha-squad's hypotheses real - or kills them.
 
+## Shared task protocol
+
+The active research contract sets the objective, metric, permitted data, exposure history,
+resource limits and stopping rule. Use the [research controller](../../.agents/skills/conduct-creative-research/SKILL.md)
+for registration, adaptive-selection controls, uncertainty, grading and evidence records.
+These roles supply specialist questions; they do not replace that protocol.
+
+- **Prediction/competition:** validate information availability at inference time, split integrity,
+  incremental out-of-sample value on the task metric, and deployment constraints. A useful predictor
+  need not identify a causal treatment effect or a losing counterparty.
+- **Causal-effect research:** define the intervention, estimand and identification assumptions.
+  A DAG records assumptions; agreement with it, residualization or Double ML does not establish
+  identification. Instruments are one option, not a universal requirement.
+- **Trading:** additionally examine costs, capacity, exposure and a plausible mechanism. Counterparty
+  and constraint stories remain hypotheses unless supported by data.
+- Distinguish temporal causality (no unavailable future information) from causal identification
+  (effects of interventions). Predicting past returns is not itself leakage; negative controls
+  need a justified null and a resampling design that respects dependence.
+- Select only relevant roles and checks. Mark unavailable or irrelevant fields **unknown/N/A** with
+  reasons; do not invent timestamps, venues, corporate actions or institutional identities.
+  Use `/venue-expert` only if installed, relevant and supported by the available context.
+- Thresholds must be justified for this metric, sample, dependence and decision cost, and registered
+  before the comparison. No universal OLS, LARS, R², Sharpe or entropy veto applies. A failed screen
+  rejects the tested implementation or narrows the claim; it need not refute the whole mechanism.
+- Persona names and shared-model agreement are not independent evidence. Record initial proposals
+  separately, scope a critic independently, and decide using reproducible artifacts and the contract.
+- Use the contract's worker/compute limits and stop rules; default to one proposal/review cycle,
+  not repeated debate until agreement. Additional variants are additional exploratory trials.
+- Reuse established authorization and context. Ask the user only for material missing information
+  or actions outside authorized scope, not every routine transform or scientific interpretation.
+  Approval is not evidence of statistical validity.
+
 ## Philosophy
 
-- **Data Sentinel first** - always validate data before research
-- **Geometry before validation** - need factor structure to test properly
-- **Dual gauntlet** - causal mechanism AND statistical robustness required
-- **Kill fast** - better to miss a real edge than trade a fake one
+- **Data audit first** - verify data relevant to the claim; reuse unchanged, provenance-matched audits
+- **Geometry when relevant** - factor exposure is not a prerequisite for every prediction task
+- **Claim-specific checks** - predictive validation, temporal availability and causal identification are distinct
+- **Stop weak candidates early** - use registered, task-specific evidence and cost gates
 - **Audit everything** - assumptions fail silently, find them before they compound
-- **User decides** - agents present verdicts, never auto-approve
+- **Contract governs** - recommendations do not authorize deployment
 
 ## Agents
 
 ### mft-strategist - Obsessive Coordinator
-The single brain that orchestrates hypothesis generation and destruction. Routes to Data Sentinel FIRST, always, no exceptions. Sequences Alpha Squad → Factor Geometer → Skeptic. Synthesizes SHIP/KILL/ITERATE.
+Coordinates bounded hypothesis generation and verification. Inspects the data audit, selects relevant roles and synthesizes scoped SHIP/KILL/ITERATE recommendations.
 
-**Invokes**: All agents across both alpha-squad and mft-research-experts
+**May invoke**: Relevant specialists within the contract budget
 **Key trait**: Refuses to let any step proceed without understanding the full chain
 
 ---
 
 ### data-sentinel - Paranoid Gatekeeper
-MUST BE INVOKED FIRST on any data. Trusts nothing. Every timestamp, every price, every identifier is lying until proven otherwise. Asks user before any filter/transform.
+Checks provenance, information availability and data integrity before fitting or grading. Reuses completed audits and documents transformations within authorized scope.
 
-**Invoked by**: Strategist (always first), any agent needing data
+**Invoked by**: Strategist for new data or material audit gaps; agents with data concerns
 **Key trait**: Point-in-time or point-in-lie
 
 ---
 
 ### factor-geometer - Risk Architect
-Builds factor loadings, estimates covariance with proper shrinkage, computes alpha-orthogonal decomposition. Defines what "alpha" actually means. If your alpha is spanned by known factors, it's not alpha.
+Builds applicable exposure and covariance diagnostics. A factor-spanned predictor can remain useful for a prediction objective; incremental value and risk constraints determine the decision.
 
 **Invoked by**: Strategist, Alpha Squad (exposure check), Skeptic
-**Key trait**: Your alpha lives in my null space - or it's not alpha
+**Key trait**: Diagnose exposure and redundancy against the actual objective.
 
 ---
 
 ### skeptic - Hypothesis Executioner
-Unified causal + statistical validation engine. Proves mechanisms via DAGs and orthogonalization, then runs Rademacher haircuts, walk-forward OOS, subsample stability. No hypothesis survives without passing both gauntlets.
+Checks information availability, registered comparisons and statistical uncertainty. Tests identification only for causal-effect claims; DAGs and orthogonalization alone prove no mechanism.
 
 **Invoked by**: Strategist (after Factor Geometer)
 **Key trait**: Your backtest is an adversarial game. I represent your future self.
@@ -49,18 +81,18 @@ Unified causal + statistical validation engine. Proves mechanisms via DAGs and o
 Finds what we believed wrong. Traces assumption failures through the full chain. Runs on schedule AND on crisis. Never trusts "it just stopped working."
 
 **Invoked by**: Strategist (scheduled, crisis), any agent (anomaly)
-**Key trait**: The first explanation is always wrong
+**Key trait**: Compare explanations against reproducible evidence.
 
 ---
 
-## Flow
+## Flow (route only through applicable roles)
 
 ```mermaid
 flowchart TD
     USER([USER]) --> strat[/"mft-strategist<br/>🔴 Obsessive Coordinator"/]
 
     subgraph datagate [Data Gate]
-        sentinel[/"data-sentinel<br/>🔵 ALWAYS FIRST"/]
+        sentinel[/"data-sentinel<br/>🔵 Data audit"/]
     end
 
     strat --> sentinel
@@ -93,20 +125,20 @@ flowchart TD
 ### Mode 1: Brainstorm & Formalize
 ```
 USER → Strategist → Data Sentinel → Alpha Squad (parallel brainstorm)
-  → Strategist synthesizes → Factor Geometer (exposure check)
-  → Skeptic (causal check only) → ITERATE until mechanism solid
+  → Record separate proposals → Relevant diagnostics → Skeptic
+  → One contracted review cycle → scoped verdict or bounded next experiment
 ```
 
 ### Mode 2: Full Validation
 ```
 Hypothesis Bundle → Data Sentinel (final data check)
-  → Factor Geometer (α⊥, Ω) → Skeptic (full gauntlet)
+  → Factor Geometer if exposure/risk matters → Skeptic (applicable checks)
   → SHIP / KILL / ITERATE
 ```
 
 ### Mode 3: Pipeline Scavenge
 ```
-Strategist triggers → Forensic Auditor → All agents (parallel review)
+Contracted audit → Forensic Auditor → Only relevant specialists
   → Auditor synthesizes → Prioritized findings
   → Strategist assigns fixes
 ```
@@ -120,16 +152,16 @@ Anomaly detected → Forensic Auditor (lead)
 
 ## Venue Context
 
-All agents invoke `/venue-expert` skill first for venue-specific microstructure context (exchange mechanics, order books, auctions, feed protocols, etc.).
+Use supplied venue context when relevant. A missing `/venue-expert` or anonymized venue is not itself a reason to block a prediction study.
 
 ## Key Rules
 
-1. **Data Sentinel FIRST** - always validate data before research
-2. **Factor Geometer BEFORE Skeptic** - need geometry to validate properly
-3. **Both gauntlets required** - causal AND statistical, no shortcuts
-4. **Forensic Auditor on schedule** - monthly minimum, crisis on demand
-5. **Strategist ASKS** - complementary questions every time
-6. **USER DECIDES** - verdicts are recommendations, not orders
+1. **Audit data** before fitting/grading; reuse a valid existing audit.
+2. **Select applicable roles** within the worker and compute budgets.
+3. **Match checks to claims**; do not require causal identification for predictive utility.
+4. **Audit failures** on a material anomaly or the agreed schedule.
+5. **Register gates** and stop rules before observing the comparison.
+6. **Scope verdicts** to tested candidates and preserve uncertainty.
 
 ---
 

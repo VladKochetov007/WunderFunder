@@ -1,13 +1,15 @@
 ---
 name: conduct-creative-research
-description: Conduct long-horizon, experiment-driven research with bounded actor-critic agent teams, independent falsification, creative reframing, tool-assisted verification, and structured evidence memory. Use for autonomous scientific or engineering investigations, ML/Kaggle optimization, algorithm discovery, security research, difficult debugging, proof search, benchmark improvement, or any open-ended problem where Codex must generate novel hypotheses, run experiments, learn from failures, and return reproducible claims. Do not use for simple lookups, routine edits, or work where the user has not authorized experiments or changes.
+description: Conduct long-horizon, experiment-driven research with bounded actor-critic agent teams, independent falsification, creative reframing, tool-assisted verification, and structured evidence memory. Use for autonomous scientific or engineering investigations, ML/Kaggle optimization, algorithm discovery, security research, difficult debugging, proof search, benchmark improvement, or open-ended work requiring hypothesis generation, experiments, and reproducible claims. Do not use for simple lookups, routine edits, or work where the user has not authorized experiments or changes.
 ---
 
 # Conduct Creative Research
 
 ## Mission
 
-Operate as a research controller, not as a single all-knowing solver. Turn an open question into a bounded search over hypotheses, artifacts, experiments, and falsifiers. Optimize for novel mechanisms that survive independent verification, not for persuasive prose, agent agreement, or public-score improvement.
+Operate as a research controller. Turn an open question into a bounded search over hypotheses, artifacts, experiments, and falsifiers. Optimize the user's declared objective with evidence that matches the claim.
+
+Set `objective_mode` in the contract: **competition** prioritizes expected unseen-score improvement under serving and rule constraints; **engineering** prioritizes the specified behavior, reliability, and cost; **discovery** prioritizes a new, independently verified mechanism or result. Novelty is optional outside discovery. A useful incremental improvement need not establish a causal mechanism, and an interesting mechanism need not improve the deliverable. Treat public-score gains as observations on that benchmark, not proof of unseen performance.
 
 Treat the core loop as:
 
@@ -21,6 +23,7 @@ Return the strongest supported claim, the evidence chain behind it, the live unc
 - Separate proposing, criticizing, grading, and reproducing. Do not let an agent approve its own result.
 - Preserve informational independence. Give each role only the context it needs; hide expected answers, other agents' conclusions, and private tests when possible.
 - Treat agreement as weak evidence when agents share a model family, prompt, sources, or parent summary. Prefer different methods, models, data slices, and independently written tests.
+- Separate agent independence from statistical independence: a blind critic or different model family does not make reused evaluation data fresh.
 - Prefer deterministic checks, formal verification, held-out data, and physical measurements over LLM judgment. Use LLM critics to find what to check, not as the final source of truth.
 - Keep raw artifacts immutable and provenance-addressed. Treat summaries and memories as indexes, never as evidence.
 - Preserve failed and negative experiments. Avoid rediscovering the same dead end under different wording.
@@ -35,11 +38,13 @@ Choose the strongest applicable tier, where A is strongest; do not pretend a wea
 | Tier | Feedback surface | Permitted autonomy |
 | --- | --- | --- |
 | A | Compiler, exact tests, Lean/SMT, mathematical checker, deterministic simulator with validated specification | Run unattended within explicit compute and permission limits |
-| B | Private holdout, repeated empirical measurement, statistical test, reproducible benchmark | Run long experiments; require leakage checks, multiple seeds, and independent reproduction |
+| B | Private holdout, repeated empirical measurement, statistical test, reproducible benchmark | Run long experiments; require leakage checks, suitable independent repetitions, and independent reproduction |
 | C | Proxy metric, imperfect simulator, visual similarity, literature-based or LLM judge | Triangulate proxies, perform sensitivity analysis, and require periodic human review |
 | D | Wet lab, medicine, manufacturing, human behavior, novel real-world intervention | Use agents for proposals and analysis; require qualified human or physical validation before accepting claims |
 
 State the tier and its model-to-reality gap in the research contract.
+
+For empirical candidate selection, read [references/empirical-validation.md](references/empirical-validation.md) before interpreting scores or defining promotion gates. Record evaluation exposure, selection budget, and a confirmation plan. Repartitioning inspected data does not restore an untouched holdout. This statistical protocol does not apply to exact proofs or deterministic correctness checks; their specifications still require validation.
 
 ## Estimate tractability before scaling compute
 
@@ -60,7 +65,7 @@ If artifact inspectability, evaluator fidelity, or affordable feedback is weak, 
 
 Before delegation or expensive experiments, record:
 
-1. The exact question or target claim.
+1. The exact question or target claim, objective mode, and utility used to allocate effort.
 2. The deliverable and machine-checkable submission format.
 3. The baseline and current best-known result.
 4. Public metrics, private metrics, and invariants that must never be violated.
@@ -68,7 +73,7 @@ Before delegation or expensive experiments, record:
 6. Allowed data, tools, network access, and mutation scope.
 7. Time, token, CPU/GPU, disk, and monetary budgets.
 8. Expected external-validity tier and mandatory human gates.
-9. Plateau, success, abort, and rollback conditions.
+9. Plateau, success, abort, and rollback conditions; for empirical search, the trial budget, exposure history, frozen primary comparison, and available confirmation evidence.
 
 Resolve material ambiguities with at most one blocking question. Otherwise record assumptions and continue.
 
@@ -124,13 +129,13 @@ Instantiate only the roles needed for the verification regime. Prefer three inde
 
 - Reimplement or rerun the leading mechanism from a clean context and fresh workspace.
 - Use a different model family, implementation strategy, seed set, or toolchain when available.
-- Report whether the causal mechanism and effect survive, not whether the files look similar.
+- Report whether the stated behavior or effect survives; claim a causal mechanism only when the design tests it. Rerunning fixed predictions verifies computation, not training-seed robustness or transfer to new data.
 
 ### Arbiter
 
 - Compare evidence only after independent work is complete.
 - Prefer verified artifacts over eloquent arguments or majority votes.
-- Mark claims `supported`, `contradicted`, or `unknown`; never average incompatible conclusions into false certainty.
+- Distinguish `not_tested`, `screen_failed`, `insufficient_evidence`, `supported`, `replicated`, and `contradicted` as defined in the artifact reference. Never turn a budget gate failure into a universal refutation or average incompatible conclusions into false certainty.
 
 Keep delegation depth at most two. Allow a sub-agent to launch a verifier only when this creates a genuinely independent test surface; prohibit recursive discussion trees. Wait for parallel branches before synthesis. Make write-heavy branches isolated to prevent conflicts.
 
@@ -164,8 +169,8 @@ For reference reconstruction tasks, first reproduce the reference-generating pro
 
 Require every proposed hypothesis to include:
 
-- the representation change or non-incremental idea;
-- a causal mechanism;
+- the proposed change, incremental or representational;
+- why it could help, identifying any causal explanation as a hypothesis;
 - assumptions and likely breakpoints;
 - a predicted observable and approximate effect direction;
 - the cheapest discriminating test;
@@ -194,7 +199,7 @@ Score novelty by mechanism distance, not wording distance. Cluster semantic dupl
 
 - Assign different creativity lenses and disjoint evidence subsets.
 - Keep proposals blind until committed.
-- Reserve roughly 10-20% of the experimental budget for high-novelty, low-prior branches; spend the remainder on evidence-guided exploitation.
+- Choose an exploration allocation appropriate to the objective and budget (10-20% is a possible starting point). Do not require novelty from every useful candidate.
 
 ### 3. Attack before compute
 
@@ -205,7 +210,7 @@ Score novelty by mechanism distance, not wording distance. Cluster semantic dupl
 ### 4. Run cheap probes
 
 - Use toy cases, tiny data, static checks, dimensional analysis, low-fidelity simulation, or short training runs.
-- Apply successive halving: terminate clearly invalid branches and increase budget only for survivors.
+- Apply successive halving when cheap-probe rankings are informative. A noisy failure can stop spending without disproving the mechanism; record the tested recipe and uncertainty.
 
 ### 5. Implement in parallel
 
@@ -215,14 +220,14 @@ Score novelty by mechanism distance, not wording distance. Cluster semantic dupl
 
 ### 6. Grade and stress
 
-- Run public checks, then inaccessible private checks.
-- Perform multi-seed evaluation, ablations, perturbation tests, and out-of-distribution checks appropriate to the tier.
+- Run development checks, freeze selected candidates, then use genuinely unexposed confirmation if available. If none exists, keep selection exploratory and specify a prospective external check; do not rename a reused fold "private".
+- For stochastic training, use predeclared paired candidate/control seeds and report seed variation separately from evaluation-unit resampling. Perform ablations, perturbation tests, and distribution-shift checks appropriate to the claim.
 - Investigate suspiciously large improvements as possible leakage, evaluator bugs, numerical errors, or reward hacking.
 
 ### 7. Reproduce independently
 
 - Give the winning claim and minimal mechanism description to a clean reproducer, not the author's full trajectory.
-- Require a fresh run or independent implementation before promoting a result to `supported`.
+- Require independent verification for a supported result and claim-appropriate fresh evidence for `replicated`. A new agent or rerun on the same adaptively reused data cannot confirm generalization; follow the empirical-validation reference.
 - Downgrade non-reproducible improvements even when their original score is high.
 
 ### 8. Update the frontier
@@ -233,9 +238,8 @@ Score novelty by mechanism distance, not wording distance. Cluster semantic dupl
 
 ### 9. Reframe on plateau
 
-- Detect a plateau from repeated valid runs, not agent sentiment.
-- Fork the global best under a fresh representation or experimental protocol.
-- Prohibit another hyperparameter-tuning round until a representation-changing hypothesis has been tested.
+- Detect a plateau using the contract's utility, costs, uncertainty, and stop rules.
+- Compare the expected value of incremental optimization, new representations, better measurement, and stopping. Reframe when warranted; do not prohibit tuning merely because it lacks novelty.
 - Reopen the evaluator and assumption map if all branches fail in the same way.
 
 Repeat until a stop condition fires.
@@ -307,8 +311,8 @@ In the final report, include:
 
 1. The research contract and verification tier.
 2. The strongest supported claims with source or artifact links.
-3. Baselines, metrics, uncertainty, seeds, and costs.
-4. The causal mechanism and decisive ablations.
+3. Baselines, metrics, uncertainty, seeds, costs, and empirical selection/exposure history where applicable.
+4. The tested explanation and decisive ablations; distinguish predictive gains from established causal mechanisms.
 5. Independent reproduction status.
 6. Counterevidence, failed branches, and external-validity limits.
 7. Reproduction commands or a machine-readable artifact manifest.
@@ -332,4 +336,5 @@ Do not continue merely because agents can keep generating text.
 ## Load supporting references selectively
 
 - Read [references/research-artifacts.md](references/research-artifacts.md) when starting a persistent campaign, defining schemas, or handing a run to another harness.
+- Read [references/empirical-validation.md](references/empirical-validation.md) for adaptive empirical search, training comparisons, or confirmation planning.
 - Read [references/design-basis.md](references/design-basis.md) when modifying this workflow, choosing infrastructure, or checking which external results motivated a design choice.
