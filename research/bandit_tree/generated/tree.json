@@ -8,7 +8,7 @@
       "scope": "Next research decision / preparation, not job launch"
     },
     "classification_policy": "Curated membership first; keyword family fallback is navigation-only, not a scientific assertion; uncertain nodes remain unclassified",
-    "config_snapshot": "research/bandit_tree/generated/snapshots/config-42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc.json",
+    "config_snapshot": "research/bandit_tree/generated/snapshots/config-e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2.json",
     "exposure_note": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
     "journal_records": [
       {
@@ -275,6 +275,27 @@
           "line": 9,
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "4f047ae0bc514740d3cfbfaac2232517655afc92392d445bb52c636b7cfe3397"
+        }
+      },
+      {
+        "raw_record": "{\"id\": \"TREE-20261007-002\", \"timestamp\": \"2026-10-06T22:39:04.702914+00:00\", \"kind\": \"independent_external_actor_and_spec_critic\", \"hypothesis_ids\": [\"H-196\"], \"model\": \"OpenCode MiMo-v2.6-flash-free\", \"critic_model\": \"OpenCode Nemotron-3.5-lightning-free\", \"critic_assessment\": \"Weak first response; followup contains incorrect expected checks, corrected in controller review. Not approval.\", \"implementation_status\": \"underway\", \"numerical_priors\": null}\n",
+        "record": {
+          "critic_assessment": "Weak first response; followup contains incorrect expected checks, corrected in controller review. Not approval.",
+          "critic_model": "OpenCode Nemotron-3.5-lightning-free",
+          "hypothesis_ids": [
+            "H-196"
+          ],
+          "id": "TREE-20261007-002",
+          "implementation_status": "underway",
+          "kind": "independent_external_actor_and_spec_critic",
+          "model": "OpenCode MiMo-v2.6-flash-free",
+          "numerical_priors": null,
+          "timestamp": "2026-10-06T22:39:04.702914+00:00"
+        },
+        "source": {
+          "line": 10,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "7cb2c03b8ea2f272806ff3063391febf82122f381bdef72e0aff16f395f6c41d"
         }
       }
     ],
@@ -2183,6 +2204,39 @@
           "related_nodes": [],
           "status": "not_tested",
           "title": "Unconventional: teacher-relation amortization as an unsupervised student regularizer"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Reserved independent exploration; no outcome prior, admit only after deterministic and resource checks"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd_mimo/proposal_stdout.txt",
+            "research/campaign_2026-10-06/bandit_continuation/ideation/critic_nemotron/CONTROLLER_REVIEW.md"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent external actor proposal; implementation pending; no scientific quality result",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-196"
+          ],
+          "id": "arm:bounded-within-sequence-distance-transfer",
+          "kind": "arm",
+          "next_test": "Finite-gradient, masks, teacher detachment, global RNG snapshots, disabled-loss identity and multi-pair permutation tests; then matched point-KD recipe versus added relational term with fixed seeds/epochs.",
+          "parent_id": "arm:relative-distance-transfer",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "MiMo bounded within-sequence output-distance transfer"
         }
       ],
       "documents": [
@@ -2368,8 +2422,8 @@
     },
     "source_rows": {
       "experiments": 519,
-      "hypotheses": 194,
-      "journal": 9
+      "hypotheses": 195,
+      "journal": 10
     }
   },
   "nodes": [
@@ -2412,7 +2466,7 @@
       "parent_id": null,
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "title": "Wunder Connectome Challenge2 research",
       "type": "root"
@@ -2427,7 +2481,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "title": "Teachers and knowledge transfer",
       "type": "family"
@@ -2444,7 +2498,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "title": "Temporal state and memory",
       "type": "family"
@@ -2461,7 +2515,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "title": "Targets, losses and supervision",
       "type": "family"
@@ -2479,7 +2533,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "title": "Data and feature representation",
       "type": "family"
@@ -2496,7 +2550,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "title": "Optimization and training stability",
       "type": "family"
@@ -2513,7 +2567,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "title": "Diversity, ensembles and interactions",
       "type": "family"
@@ -2530,7 +2584,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "title": "Serving and compression",
       "type": "family"
@@ -2548,7 +2602,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "title": "Evaluation, data exposure and diagnostics",
       "type": "family"
@@ -2564,7 +2618,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "title": "Compute, safety and recovery",
       "type": "family"
@@ -2575,7 +2629,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "title": "Unresolved classification",
       "type": "family"
@@ -2645,7 +2699,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "source_recipe_evidence": {
         "fifth_member_delta": 0.00028,
@@ -2700,7 +2754,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Transfer Transformer predictions into the serving GRU",
@@ -2742,7 +2796,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Temporal summary / representation transfer",
@@ -2786,7 +2840,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Quiet-row transfer from an attention teacher",
@@ -2844,7 +2898,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Origin-target privileged attention teacher",
@@ -2889,7 +2943,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Teacher lineage, cross-fitting and ensemble targets",
@@ -2945,7 +2999,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -3004,7 +3058,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -3077,7 +3131,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "interrupted",
       "title": "Distillation alpha × bootstrap horizon",
@@ -3121,7 +3175,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Measured denominator: chunk / fixed / shuffled mass",
@@ -3179,7 +3233,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -3238,7 +3292,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "insufficient_evidence",
       "title": "Precision and optimizer-step mechanism",
@@ -3310,7 +3364,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "diagnostic_completed",
       "title": "Production event clock / quiet-row anatomy",
@@ -3365,7 +3419,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Event/quiet residual belief updates",
@@ -3424,7 +3478,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "prepared_unrun",
       "title": "Residual diagonal / content / erase-write memory",
@@ -3492,7 +3546,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "insufficient_evidence",
       "title": "Hole-only episode loss in a tiny recurrent specialist",
@@ -3552,7 +3606,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "screen_failed",
       "title": "All-row and mixed episode objectives: tested recipes",
@@ -3612,7 +3666,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "screen_failed",
       "title": "Quiet-row output holds / online corrections: tested recipes",
@@ -3693,7 +3747,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -3740,7 +3794,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Serving-feasible seed mixtures and tensor soups",
@@ -3787,7 +3841,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Quantization and native runtime headroom",
@@ -3868,7 +3922,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "insufficient_evidence",
       "title": "OOM, provider and monitor recovery",
@@ -3911,7 +3965,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Attention-teacher transfer × origin-label reanchor",
@@ -3954,7 +4008,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Gradient cadence × measured denominator",
@@ -4008,7 +4062,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Convergence-aware causal attention and event context",
@@ -4063,7 +4117,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Transfer predictable teacher structure separately from future innovation",
@@ -4118,7 +4172,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Independent student complementarity and causal blend gates",
@@ -4197,7 +4251,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "source_recipe_details": {
         "additional_epochs": 2,
@@ -4287,7 +4341,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Replace a teacher family with a two-stream teacher",
@@ -4357,7 +4411,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Function-preserving widening of a distilled student",
@@ -4411,7 +4465,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Greedy Sparse Mean-Reverting Feature Cliques (per L11 group)",
@@ -4465,7 +4519,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Pair-Seeded Stagewise Interaction Grower",
@@ -4519,7 +4573,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Greedy Sparse Stationarity Scout for Causal State Management (unconventional)",
@@ -4573,7 +4627,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Simplex-Sparse Greedy Correction of the Served Blend",
@@ -4627,7 +4681,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Greedy Group-Spanning Cointegration to Define Group-Disjoint Fitting",
@@ -4681,7 +4735,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Invert the diagnostic: train a dependence-predictive filter, not a flatness test",
@@ -4735,7 +4789,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Small transferable statistic: nearest-neighbor correlation contrast as a regime cue",
@@ -4789,7 +4843,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Unconventional: invert to mis-specification hunting via alternative-class sensitivity",
@@ -4843,7 +4897,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Unconventional: threshold-style regime switch for dependence diagnostics, not for returns",
@@ -4897,7 +4951,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Null-safe use: treat the test as local specification feedback, not global rejection",
@@ -4951,7 +5005,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Directed relative-distance distillation on causally valid pairs",
@@ -5005,7 +5059,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Angle-wise relational distillation over triplets anchored by a driver feature",
@@ -5059,7 +5113,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Temporal relational contrast across consecutive valid rows",
@@ -5113,7 +5167,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Causal-robustness relational distillation with paired view perturbation",
@@ -5167,10 +5221,72 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
       },
       "status": "not_tested",
       "title": "Unconventional: teacher-relation amortization as an unsupervised student regularizer",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Reserved independent exploration; no outcome prior, admit only after deterministic and resource checks"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Reserved independent exploration; no outcome prior, admit only after deterministic and resource checks"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd_mimo/proposal_stdout.txt"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd_mimo/proposal_stdout.txt",
+          "status": "resolved"
+        },
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/critic_nemotron/CONTROLLER_REVIEW.md"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/critic_nemotron/CONTROLLER_REVIEW.md",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd_mimo/proposal_stdout.txt",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/critic_nemotron/CONTROLLER_REVIEW.md"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent external actor proposal; implementation pending; no scientific quality result",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-196"
+      ],
+      "id": "arm:bounded-within-sequence-distance-transfer",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Finite-gradient, masks, teacher detachment, global RNG snapshots, disabled-loss identity and multi-pair permutation tests; then matched point-KD recipe versus added relational term with fixed seeds/epochs.",
+      "parent_id": "arm:relative-distance-transfer",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "e1ab29d04873672dfe885f418fa1ccf3fc4179c675d153fe8a75ad8158e0bab2"
+      },
+      "status": "not_tested",
+      "title": "MiMo bounded within-sequence output-distance transfer",
       "type": "arm"
     },
     {
@@ -15130,6 +15246,49 @@
         }
       ],
       "title": "Unconventional: teacher-relation amortization as an unsupervised student regularizer",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:bounded-within-sequence-distance-transfer"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-196",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:bounded-within-sequence-distance-transfer",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-196\", \"statement\": \"Bounded within-sequence output-distance transfer as a child of heterogeneous point distillation\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T22:39:04.702914+00:00\", \"parent_ids\": [\"H-191\"], \"mechanism_family\": \"sampled relational output distillation\", \"causal_mechanism\": \"Add normalized distances from at most256 within-sequence teacher/student pairs per chunk without changing labels, label weights or serving heads. Use a local seeded generator and per-sequence normalization.\", \"predicted_observable\": \"Nontrivial teacher geometry transfers beyond point-target matching without changing causal serving state. Useful task improvement remains unknown.\", \"cheap_test\": \"Finite-gradient, masks, teacher detachment, global RNG snapshots, disabled-loss identity and multi-pair permutation tests; then matched point-KD recipe versus added relational term with fixed seeds/epochs.\", \"falsifier\": \"Implementation invariant failure invalidates the artifact. No measurable task gain under matched comparisons leaves utility unsupported; a zero-crossing interval is not universal rejection.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd_mimo/proposal_stdout.txt\", \"proposed_by\": \"OpenCode MiMo-v2.6-flash-free, fresh source-only actor\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Original proposal retained. One-pair normalized geometry is vacuous; use multiple pairs for mechanism checks. epsilon limits scale invariance. No scientific fit yet.\"}\n",
+          "record": {
+            "causal_mechanism": "Add normalized distances from at most256 within-sequence teacher/student pairs per chunk without changing labels, label weights or serving heads. Use a local seeded generator and per-sequence normalization.",
+            "cheap_test": "Finite-gradient, masks, teacher detachment, global RNG snapshots, disabled-loss identity and multi-pair permutation tests; then matched point-KD recipe versus added relational term with fixed seeds/epochs.",
+            "committed_at": "2026-10-06T22:39:04.702914+00:00",
+            "controller_protocol_annotation": "Original proposal retained. One-pair normalized geometry is vacuous; use multiple pairs for mechanism checks. epsilon limits scale invariance. No scientific fit yet.",
+            "expected_public_gain": null,
+            "falsifier": "Implementation invariant failure invalidates the artifact. No measurable task gain under matched comparisons leaves utility unsupported; a zero-crossing interval is not universal rejection.",
+            "id": "H-196",
+            "mechanism_family": "sampled relational output distillation",
+            "parent_ids": [
+              "H-191"
+            ],
+            "predicted_observable": "Nontrivial teacher geometry transfers beyond point-target matching without changing causal serving state. Useful task improvement remains unknown.",
+            "proposed_by": "OpenCode MiMo-v2.6-flash-free, fresh source-only actor",
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd_mimo/proposal_stdout.txt",
+            "statement": "Bounded within-sequence output-distance transfer as a child of heterogeneous point distillation",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 195,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "be679d1f92b4abd67d12c6b4c1eacf5eca8ec881d34aa1c993a568003746cc99"
+          }
+        }
+      ],
+      "title": "Bounded within-sequence output-distance transfer as a child of heterogeneous point distillation",
       "type": "hypothesis"
     },
     {
@@ -42316,6 +42475,17 @@
       "target_id": "hypothesis:H-124"
     },
     {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 195,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "be679d1f92b4abd67d12c6b4c1eacf5eca8ec881d34aa1c993a568003746cc99"
+      },
+      "source_id": "hypothesis:H-196",
+      "target_id": "hypothesis:H-191"
+    },
+    {
       "relation": "ledger_hypothesis_reference",
       "resolved": true,
       "source": {
@@ -44698,6 +44868,12 @@
       "resolved": true,
       "source_id": "arm:amortized-teacher-relations",
       "target_id": "hypothesis:H-195"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:bounded-within-sequence-distance-transfer",
+      "target_id": "hypothesis:H-196"
     }
   ],
   "root_id": "root",

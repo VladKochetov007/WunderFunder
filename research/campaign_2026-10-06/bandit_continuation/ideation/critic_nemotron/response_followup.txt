@@ -1,0 +1,46 @@
+# 8 Concrete pytest-style checks
+
+**Check 1 — identical predictions**  
+`student = teacher = torch.tensor([[[1.0, 2.0], [3.0, 4.0]]])`, `mask=None`, `pair_seed=42`, `max_pairs=1`  
+- **Expected:** `loss < 1e-6` (scalar near zero)  
+- **Bug detected:** Zero loss may reflect trivial identity mapping, not meaningful prediction quality.
+
+**Check 2 — translated/scaled shift**  
+`student = teacher * 2.0 + 1.0`, same mask/seeds  
+- **Expected:** `0 < loss < 1e-4` (small but non‑zero)  
+- **Bug detected:** Model rewarded for learning scale/translation rather than correct relational structure.
+
+**Check 3 — permuted row order**  
+`student = teacher[:, [1, 0], :]` (rows swapped), same teacher  
+- **Expected:** `loss > 1e-3` (substantially higher than identical case)  
+- **Bug detected:** Permutation invariance not enforced; model may exploit row order.
+
+**Check 4 — collapsed student rows**  
+`student = torch.full((1, 2, 2), 0.5)`, `teacher` as in Check 1  
+- **Expected:** `loss > 1.0` (high; degenerate predictions penalized)  
+- **Bug detected:** If teacher also constant, low loss rewarded despite meaningless collapse.
+
+**Check 5 — nonfinite inputs**  
+`student = torch.tensor([[[float('nan'), 2.0], [3.0, 4.0]]])`  
+- **Expected:** loss is `NaN` or raises `ValueError` without process crash  
+- **Bug detected:** Numerical instability silently propagates NaN through loss.
+
+**Check 6 — single active row mask**  
+`mask = torch.tensor([[True, False]])`, other settings as Check 1  
+- **Expected:** loss depends only on first time step; perturbing second step changes loss < `1e-8`  
+- **Bug detected:** mask ignored; all rows contribute equally to loss.
+
+**Check 7 — teacher gradient isolation**  
+`teacher.requires_grad_(True)`; run forward; check `teacher.grad is None`  
+- **Expected:** `teacher.grad is None` (no gradient flow)  
+- **Bug detected:** Teacher gradients computed, violating isolation contract.
+
+**Check 8 — global RNG determinism**  
+Fix `torch.manual_seed(0)`, `numpy.random.seed(0)`, `random.seed(0)`; run twice, compare scalars  
+- **Expected:** `|loss1 - loss2| < 1e-7`  
+- **Bug detected:** Non‑deterministic behavior from unseeded global state.
+
+---
+
+## Degeneracy identification
+Zero relational loss is **not** evidence of useful predictions when the student outputs a constant tensor that matches the teacher’s mean or a degenerate collapsed state. In such cases the loss function cannot distinguish “trivially correct” from “informative” predictions, masking model failure. This is the core failure mode checked by Check 1 and Check 4.

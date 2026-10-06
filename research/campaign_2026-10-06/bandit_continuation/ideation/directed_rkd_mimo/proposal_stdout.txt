@@ -1,0 +1,27 @@
+## Proposal: per-sequence RKD distance-relation term
+
+**Equation / objective.** For each sequence `b` in the chunk `(B,T,2)`, draw a bounded set `P_b` of `K` index pairs. With `t_i, s_i ∈ R²` the teacher/student rows, define `dᵀ_p = ||t_i − t_j||₂`, `dˢ_p = ||s_i − s_j||₂` for `p ∈ P_b`, normalize per sequence by the sampled-pair mean `ρ(x) = x / (mean_p x + ε)` (`ε = 1e-6`), and regress with Smooth-L1: `L_rel = (1/|C|) Σ_{b∈C} mean_p Huber(ρ(dˢ_p) − ρ(dᵀ_p))`, `C` = sequences contributing ≥1 pair. Total loss `L = L_label + λ·L_rel`. Mean normalization makes the term purely relational (invariant to per-sequence scale drift); labels and label weights are never read by this path, `λ` scales only the added scalar, so `L_label` and its weight tensor are byte-identical to the untouched trainer computation.
+
+**Bounded pairs.** Per sequence: gather valid positions `M = mask[b].nonzero()` (or `arange(T)` if no mask); if `M < 2` skip; take `u = randperm(M, generator=g)[:2·K_b]` with `K_b = min(K, ⌊M/2⌋)`, split into `i = u[:K_b]`, `j = u[K_b:]`. Cost `O(B·(T + K))`, pairs ≤ `B·K` (default `K = 256` → ≤ 4096 pair rows); `randperm` guarantees `i ≠ j` with no rejection loop. Never materialize `T²` or the 20 000-row cache.
+
+**Per-sequence, not cross-sequence.** Pairs are strictly within one sequence's time axis (REFERENCE.md: unrelated sequence scales must not mix). Normalization `ρ` is also per-sequence; no statistic is ever pooled across `b`.
+
+**Mask / degenerate handling.** Masking is eligibility-only: pairs are sampled exclusively from valid positions, so both endpoints are valid by construction. Degenerate pairs — `dᵀ_p < 1e-12`, or any non-finite entry in `t_i, t_j, s_i, s_j` — are dropped from numerator *and* denominator of both the mean and the Huber mean. Sequences left with zero pairs drop out of `C`; if `C` is empty the term returns a graph-connected `0·student.sum()` (numerically exact 0, backward-safe), never NaN.
+
+**Normalization / reduction.** `ρ` per sequence, then mean over pairs, then mean over contributing sequences, then `λ`-weighted addition to the scalar label loss. No sum-reduction over `B·T`, so magnitude is independent of `B`, `T`, `K`.
+
+**Local RNG.** One `torch.Generator(device=chunk.device)` seeded from an explicit integer `pair_seed` argument (config base seed + trainer-supplied step index), constructed *after* the disable check. Python `random`, NumPy global, and `torch` global RNG states are never touched; DataLoader order is unaffected because nothing global is drawn.
+
+**Disabled path.** `λ == 0` (or `enabled=False`) → immediate `return label_loss` with object identity preserved: no generator allocation, no `randperm`, no gather, no arithmetic. Bit-exact no-op, zero RNG consumption — testable by snapshotting all three global RNG states before/after.
+
+**Untouched surfaces.** Term reads only the two `(B,T,2)` chunks + optional mask; it returns one scalar, adds no head, no served output, no change to the two-value inference API, and never touches label weights, labels, eval data, or the cache definitions in REFERENCE.md.
+
+## Falsifier (one, with two readings)
+
+**Synthetic check.** On a fixed teacher chunk, build students: (a) `s = t`; (b) `s = t` with the time axis permuted (marginals identical, pairwise geometry destroyed); (c) `s = a·t + c`. Assert `L_rel(c) ≈ 0` (scale invariance), `L_rel(a) < tol`, and `L_rel(b) − L_rel(a) > δ` (δ = 10·tol). **Reject:** if (b) does not strictly exceed (a), the term is blind to relational structure and is useless.
+
+**Matched paired training.** ≥3 seeds, each producing two runs with identical init, batch order, and global RNG differing only in `λ = 0` vs `λ = λ₀ > 0`, paired by seed; primary endpoint = label validation metric, guardrail = label train loss. **Reject:** if the paired Δ favors `λ = 0` (or CI includes 0 / label loss degrades), the term is not useful — no claimed score gain is assumed.
+
+## Minimum missing interface detail
+
+The trainer hook contract: exact signature for injecting the term (does the trainer pass a per-step index for `pair_seed`, or is a constant seed across steps acceptable?), and the runner's config/provenance output schema (where `results/` and `provenance/` are written). I will not guess these.
