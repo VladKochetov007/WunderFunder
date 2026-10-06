@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import os
 import subprocess
 from pathlib import Path
@@ -125,6 +126,65 @@ def test_admission_obeys_aggregate_cpu_ram_and_measured_headroom(
     monkeypatch.setattr(resources, "memory_current", lambda _group: 14_000_000_000)
     with pytest.raises(RuntimeError, match="measured parent RAM"):
         resources.verify_capacity(state, "/test/parent", 1, 5_000_000_000)
+
+
+def test_launch_preflight_excludes_its_own_unresolved_record(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = tmp_path / "repo"
+    (root / "scripts").mkdir(parents=True)
+    (root / "scripts" / "limited").write_text("#!/bin/sh\n", encoding="utf-8")
+    contract = tmp_path / "CONTRACT.md"
+    contract.write_text("frozen test contract\n", encoding="utf-8")
+    state = tmp_path / "runtime"
+    monkeypatch.setattr(resources, "verify_controller_membership", lambda: None)
+    monkeypatch.setattr(resources, "parent_properties", parent_properties)
+    monkeypatch.setattr(resources, "verify_parent_membership", lambda *_args: None)
+    monkeypatch.setattr(resources, "memory_current", lambda _group: 1_000_000_000)
+    monkeypatch.setattr(
+        resources,
+        "memory_events",
+        lambda _group: {"oom": 0, "oom_kill": 0, "oom_group_kill": 0},
+    )
+    monkeypatch.setattr(resources, "support_cpu_reservations", lambda *_args: {})
+    monkeypatch.setattr(
+        resources.subprocess,
+        "run",
+        lambda command, **_kwargs: subprocess.CompletedProcess(command, 0, "", ""),
+    )
+    args = argparse.Namespace(
+        attempt="launch-v2",
+        kind="cpu",
+        cpus=1,
+        reserve_bytes=1_000_000_000,
+        admission_timeout=5,
+        command=["python", "-c", "pass"],
+        contract=contract,
+        state=state,
+        root=root,
+        python="python",
+        profile="smoke",
+    )
+
+    launched = resources.launch(args)
+
+    assert launched["status"] == "reserved"
+    record = resources.read_json(resources.attempt_path(state, "launch-v2"))
+    assert record["status"] == "reserved"
+    assert record["admission_measurement"]["committed_cpu_cores"] == 0
+
+
+def test_another_unresolved_attempt_still_blocks_admission(tmp_path: Path) -> None:
+    state = tmp_path / "state"
+    own = attempt_record("own", cpus=1, ram_bytes=1_000_000_000)
+    own["status"] = "preflight"
+    blocked = attempt_record("blocked", cpus=1, ram_bytes=1_000_000_000)
+    blocked["status"] = "launch_uncertain"
+    resources.atomic_json(resources.attempt_path(state, "own"), own)
+    resources.atomic_json(resources.attempt_path(state, "blocked"), blocked)
+
+    with pytest.raises(RuntimeError, match="blocked"):
+        resources.active_reservations(state, exclude="own")
 
 
 def test_active_support_units_are_reserved_from_parent_cgroup(
