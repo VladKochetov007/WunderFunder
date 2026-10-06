@@ -14,6 +14,7 @@ import platform
 import sys
 import time
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 import torch
@@ -29,6 +30,8 @@ from wnn.data import (
     SequenceFile,
     market_class,
 )
+from wnn.distillation import extend_family_output_head, four_family_weighted_mse
+from wnn.distillation_cache import validate_distillation_cache
 from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch, online_zscore_torch
 from wnn.metric import block_aggregate_score, block_scores, score
 from wnn.nn import (
@@ -120,7 +123,11 @@ def bind_fold_teachers(teachers, campaign_split, splits):
 
 class Sequences(Dataset):
     def __init__(self, split: str, indices, teachers=None, prop_cache=None, quote_path=False,
-                 quote_cache_root=None, spread_cache_root=None, thin=None):
+                 quote_cache_root=None, spread_cache_root=None, thin=None,
+                 distill_cache_root: str | Path | None = None,
+                 distill_cache_variant: str = "source",
+                 distill_cache_metadata: dict[str, Any] | None = None,
+                 include_family_targets: bool = False):
         self.path = ROOT / "datasets" / f"{split}.parquet"
         # thin = (probability, low, high[, mode]): paired event-preserving training views.
         self.thin = thin
@@ -137,8 +144,27 @@ class Sequences(Dataset):
         self._quote = None
         self.spread_cache_root = Path(spread_cache_root) if spread_cache_root else None
         self._spread = None
-        if teachers and quote_path:
+        self.distill_cache_root = Path(distill_cache_root) if distill_cache_root else None
+        self.distill_cache_variant = distill_cache_variant
+        self.distill_cache_metadata = distill_cache_metadata
+        self.include_family_targets = include_family_targets
+        self._distill_main = None
+        self._distill_families = None
+        self._distill_pos = None
+        if (teachers or self.distill_cache_root) and quote_path:
             raise ValueError("distillation and quote-path auxiliaries share target columns")
+        if self.distill_cache_root and teachers:
+            raise ValueError("use either a legacy teacher list or a preweighted distillation cache")
+        if self.distill_cache_root:
+            if self.distill_cache_metadata is None:
+                raise ValueError("preweighted distillation cache metadata was not validated")
+            files = self.distill_cache_metadata["metadata"]["files"]
+            key = f"main_{self.distill_cache_variant}_{split}"
+            rows = list(map(int, files[key]["row_groups"]))
+            self._distill_pos = {group: position for position, group in enumerate(rows)}
+            absent = set(map(int, self.indices)) - self._distill_pos.keys()
+            if absent:
+                raise ValueError(f"distillation cache does not contain selected {split} fitting rows")
 
     def __len__(self):
         return len(self.indices)
@@ -171,6 +197,8 @@ class Sequences(Dataset):
             if len(widths) != 1:
                 raise ValueError("teacher target widths differ")
             targets += widths.pop()
+        elif self.distill_cache_root:
+            targets += 2 + (8 if self.include_family_targets else 0)
         elif self.quote_path:
             values = np.load(
                 self.quote_cache_root / f"quote_path_{self.split}.npy", mmap_mode="r"
@@ -209,6 +237,19 @@ class Sequences(Dataset):
             j = self._pos[int(self.indices[i])]
             t = sum(sc * np.asarray(arr[j], dtype=np.float32) for arr, sc in self._teach) / len(self._teach)
             y = np.concatenate([y, t.astype(np.float32)], axis=1)
+        if self.distill_cache_root:
+            j = self._distill_pos[int(self.indices[i])]
+            if self._distill_main is None:
+                self._distill_main = np.load(
+                    self.distill_cache_root / f"main_{self.distill_cache_variant}_{self.split}.npy",
+                    mmap_mode="r", allow_pickle=False)
+            y = np.concatenate([y, np.asarray(self._distill_main[j], dtype=np.float32)], axis=1)
+            if self.include_family_targets:
+                if self._distill_families is None:
+                    self._distill_families = np.load(
+                        self.distill_cache_root / f"families_{self.split}.npy",
+                        mmap_mode="r", allow_pickle=False)
+                y = np.concatenate([y, np.asarray(self._distill_families[j], dtype=np.float32)], axis=1)
         if self.quote_path:
             if self._quote is None:
                 self._quote = np.load(self.quote_cache_root / f"quote_path_{self.split}.npy", mmap_mode="r")
@@ -960,6 +1001,11 @@ def resume_contract(args: argparse.Namespace, provenance: dict, loader: DataLoad
             path = prop_cache_path(args.propensity, split)
             caches[path.name] = file_sha256(path)
             caches[path.with_suffix(".json").name] = file_sha256(path.with_suffix(".json"))
+    cache_provenance = provenance.get("distillation_cache")
+    if cache_provenance:
+        caches["distillation_cache_metadata"] = cache_provenance["metadata_sha256"]
+        for name, digest in cache_provenance["verified_files"].items():
+            caches[f"distillation_{name}"] = digest
     if args.prop_input:
         caches["input_propensity"] = file_sha256(ROOT / "artifacts/runs" / args.prop_input / "model.pt")
     sampling = loader_state(loader)
@@ -1066,6 +1112,12 @@ def main():
     ap.add_argument("--ce-tilt", action="store_true", help="weight code cross-entropy rows by mean |clip(y)|")
     ap.add_argument("--ce-mse", type=float, default=0.0, help="add this weight x wMSE on the differentiable readout")
     ap.add_argument("--distill", default="", help="teacher runs name[*scale],...; cached pred_<name>_<split>.npy")
+    ap.add_argument("--distill-cache-root", default="",
+                    help="validated preweighted two-column teacher cache for independent distillation")
+    ap.add_argument("--distill-cache-variant", choices=["source", "normalized", "homogeneous"],
+                    default="source", help="main target column set in the preweighted cache")
+    ap.add_argument("--distill-family-weight", type=float, default=0.0,
+                    help="training-only weighted-MSE coefficient for the four-family eight-output head")
     ap.add_argument("--distill-alpha", type=float, default=0.5, help="target = (1-a) y + a mean(teachers)")
     ap.add_argument("--distill-alpha-far", type=float, default=None,
                     help="noise-adaptive distillation: a(u) = a + (far - a)(1 - exp(-u/tau)), u = rows until the label "
@@ -1225,10 +1277,17 @@ def main():
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     add_dynamics_arguments(ap)
     args = ap.parse_args()
+    distillation_requested = bool(args.distill or args.distill_cache_root)
+    if args.distill and args.distill_cache_root:
+        ap.error("--distill and --distill-cache-root are mutually exclusive")
+    if not math.isfinite(args.distill_family_weight) or args.distill_family_weight < 0:
+        ap.error("--distill-family-weight must be finite and nonnegative")
+    if args.distill_family_weight > 0 and not args.distill_cache_root:
+        ap.error("--distill-family-weight requires --distill-cache-root")
     if not math.isfinite(args.distill_reanchor) or not 0 <= args.distill_reanchor <= 1:
         ap.error("--distill-reanchor must be finite and between zero and one")
     if args.distill_reanchor and (
-        not args.distill or args.distill_boot_h <= 0 or args.distill_alpha_far is not None
+        not distillation_requested or args.distill_boot_h <= 0 or args.distill_alpha_far is not None
     ):
         ap.error("--distill-reanchor requires constant-alpha distillation and positive bootstrap horizon")
     if args.recurrent_rank < 0:
@@ -1298,7 +1357,7 @@ def main():
     inner_crossfit = None
     if args.fit_groups_manifest is not None:
         if (campaign_split is None or args.train_source != "train+valid"
-                or args.init or args.distill or args.propensity or args.prop_input
+                or args.init or distillation_requested or args.propensity or args.prop_input
                 or args.train_seqs != 10607 or args.valid_train_fraction != 1 or args.train_classes):
             ap.error("inner crossfit requires a fresh train+valid teacher, no learned external ancestors, and full inner membership")
         inner_crossfit = load_inner_manifest(args.fit_groups_manifest, campaign_split)
@@ -1321,14 +1380,20 @@ def main():
         args.split_manifest_sha256 = campaign_split.sha256
     if args.loss == "gcorr_pool" and args.aux:
         ap.error("--loss gcorr_pool keeps one pooled memory for the main head; --aux shift heads would share it")
-    if args.distill and args.loss != "wmse":
-        ap.error("--distill trains wMSE toward the blended target; pass --loss wmse")
-    if args.distill and args.loss_norm != "chunk":
+    if args.distill_cache_root and campaign_split is None:
+        ap.error("--distill-cache-root requires a clean --split-manifest")
+    if distillation_requested and args.loss != "wmse":
+        ap.error("cached distillation trains wMSE toward the blended target; pass --loss wmse")
+    if distillation_requested and args.loss_norm != "chunk":
         ap.error("--loss-norm running does not apply to cached distillation; use --distill-denominator")
-    if args.distill_boot_h and not args.distill:
-        ap.error("--distill-boot-h bootstraps from the distillation teacher; pass --distill")
-    if args.aux_quote > 0 and args.distill:
-        ap.error("--aux-quote and --distill both use target columns 2:4")
+    if args.distill_boot_h and not distillation_requested:
+        ap.error("--distill-boot-h bootstraps from the distillation teacher; enable distillation")
+    if args.aux_quote > 0 and distillation_requested:
+        ap.error("--aux-quote and distillation both use target columns 2:4")
+    if args.distill_family_weight > 0 and (
+            args.arch != "gru" or args.cell != "gru" or args.enc != "linear"
+            or args.aux_quote or args.spread_aux_mode != "original"):
+        ap.error("the four-family head requires a plain GRU with no quote-path or spread-cache head")
     if args.quote_cache_root and args.aux_quote <= 0:
         ap.error("--quote-cache-root requires --aux-quote")
     if args.fast:
@@ -1387,13 +1452,15 @@ def main():
                 or detach_rows % args.chunk or update_rows % detach_rows
                 or SEQUENCE_LENGTH % update_rows):
             ap.error("controlled micro/detach/update rows must divide each other and the sequence length")
-        if (not args.distill or args.loss != "wmse" or args.arch not in ("gru", "specialist", "prefix-adapter")
+        if (not distillation_requested or args.loss != "wmse" or args.arch not in ("gru", "specialist", "prefix-adapter")
                 or args.enc != "linear" or args.dropout
                 or args.distill_alpha_far is not None or args.td_alpha
                 or args.aux or args.aux_next_k or args.aux_tier or args.aux_mask
                 or args.aux_sign or args.aux_quote or args.thin_prob
                 or args.spread_aux_mode != "original" or args.loss_norm != "chunk"):
             ap.error("controlled macro losses require cached-distilled GRU-family wmse, linear encoding, and no auxiliary arms")
+        if args.distill_family_weight > 0:
+            ap.error("the family-head loss is not available with controlled macro losses")
         if args.distill_denominator != "chunk" and (
                 args.distill_reference_mass <= 0 or not math.isfinite(args.distill_reference_mass)):
             ap.error("fixed/shuffled distilled normalization needs a positive finite frozen reference mass")
@@ -1574,18 +1641,36 @@ def main():
         args.spread_cache_root = str(spread_root)
     elif args.spread_cache_root:
         raise ValueError("spread cache supplied without a matched known-code mode")
+    distill_cache_validation = None
+    if args.distill_cache_root:
+        cache_root = Path(args.distill_cache_root)
+        if not cache_root.is_absolute():
+            cache_root = ROOT / cache_root
+        cache_root = cache_root.resolve()
+        distill_cache_validation = validate_distillation_cache(
+            cache_root, ROOT, campaign_split, args.distill_cache_variant,
+            require_families=args.distill_family_weight > 0)
+        args.distill_cache_root = str(cache_root)
     thin = None
     if args.thin_prob > 0:
         low, high = (float(v) for v in args.thin_range.split(","))
         thin = (args.thin_prob, low, high, args.thin_mode)
     train_ds = Sequences(train_split, train_idx, teachers, prop_cache.get(train_split),
                          quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root,
-                         spread_cache_root=args.spread_cache_root, thin=thin)
+                         spread_cache_root=args.spread_cache_root, thin=thin,
+                         distill_cache_root=args.distill_cache_root,
+                         distill_cache_variant=args.distill_cache_variant,
+                         distill_cache_metadata=distill_cache_validation,
+                         include_family_targets=args.distill_family_weight > 0)
     train_batch_bytes = train_ds.batch_tensor_bytes(args.batch, heuristics=args.heuristics)
     if extra_valid is not None:
         valid_ds = Sequences("valid", extra_valid, teachers, prop_cache.get("valid"),
                              quote_path=args.aux_quote > 0, quote_cache_root=args.quote_cache_root,
-                             spread_cache_root=args.spread_cache_root, thin=thin)
+                             spread_cache_root=args.spread_cache_root, thin=thin,
+                             distill_cache_root=args.distill_cache_root,
+                             distill_cache_variant=args.distill_cache_variant,
+                             distill_cache_metadata=distill_cache_validation,
+                             include_family_targets=args.distill_family_weight > 0)
         train_batch_bytes = max(
             train_batch_bytes, valid_ds.batch_tensor_bytes(args.batch, heuristics=args.heuristics)
         )
@@ -1626,6 +1711,19 @@ def main():
                                      "valid": train_idx.tolist() if train_split == "valid" else
                                      extra_valid.tolist() if extra_valid is not None else []},
                   "evaluation_row_groups": valid_idx.tolist(), "checkpoint_sha256": {}}
+    if distill_cache_validation is not None:
+        cache_metadata = distill_cache_validation["metadata"]
+        provenance["distillation_cache"] = {
+            "root": args.distill_cache_root,
+            "variant": args.distill_cache_variant,
+            "metadata_sha256": distill_cache_validation["metadata_sha256"],
+            "verified_files": distill_cache_validation["verified_files"],
+            "source_coefficients": cache_metadata["source_coefficients"],
+            "coefficient_sum": cache_metadata["coefficient_sum"],
+            "homogeneous_family": cache_metadata["homogeneous_family"],
+            "family_order": cache_metadata["family_order"],
+            "epoch_convention": cache_metadata["epoch_convention"],
+        }
     if inner_crossfit is not None:
         provenance["inner_crossfit"] = inner_crossfit
         provenance["deployment_safe"] = args.privileged_mode == "none"
@@ -1702,6 +1800,9 @@ def main():
     quote_at = n_out
     if args.aux_quote > 0:
         n_out += 2
+    family_at = n_out
+    if args.distill_family_weight > 0:
+        n_out += 8
     model = make_model(vars(args), n_in, n_out).to(device)
     if args.init_qmc and saved_training is None:
         init_qmc_(model, args.seed)
@@ -1723,7 +1824,10 @@ def main():
         if args.spread_aux_mode != "original":
             validate_spread_parent(init, campaign_split.sha256, provenance["fit_row_groups"])
         provenance["initial_checkpoint_sha256"] = file_sha256(init_path)
-        model.load_state_dict(init["model"])
+        if args.distill_family_weight > 0:
+            model.load_state_dict(extend_family_output_head(init["model"], model.state_dict()))
+        else:
+            model.load_state_dict(init["model"])
         sentinel_metadata = init.get("sentinel_preprocessing")
         if bool(sentinel_metadata) != bool(args.sentinel_base_width):
             ap.error("sentinel metadata requires matching inherited preprocessing options")
@@ -1927,11 +2031,16 @@ def main():
             inputs = build_inputs(x)
             timer.mark("inputs")
             teach = None
+            family_targets = None
             quote_label = None
             if y.shape[-1] > 2:
                 if args.aux_quote > 0:
                     quote_label, y = y[..., 2:4], y[..., :2]
                 else:
+                    if args.distill_family_weight > 0:
+                        if y.shape[-1] != 12:
+                            raise ValueError("four-family cache must append exactly eight family targets")
+                        family_targets = y[..., 4:12]
                     teach, y = y[..., 2:4], y[..., :2]
             steps = torch.arange(inputs.shape[1], device=device)[None].expand(inputs.shape[0], -1)
             valid = steps >= WARMUP
@@ -2074,6 +2183,13 @@ def main():
                             )
                         w = yc.abs() * main_valid[:, sl][..., None]
                         loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
+                        if family_targets is not None:
+                            family_prediction = out[..., family_at:family_at + 8].float().reshape(
+                                *out.shape[:-1], 4, 2)
+                            family_target = family_targets[:, sl].float().clamp(-2, 2).reshape(
+                                *out.shape[:-1], 4, 2)
+                            family_loss = four_family_weighted_mse(family_prediction, family_target, w)
+                            loss = loss + args.distill_family_weight * family_loss
                     elif args.td_alpha > 0:
                         yc = y[:, sl].float().clamp(-2, 2)
                         s_end = min(s + args.chunk, inputs.shape[1])
