@@ -1,0 +1,22 @@
+Bounded local transport verification; 1 CPU, 2 GiB MemoryMax, swap disabled,
+CUDA hidden, no GPU or scientific worker.
+
+Initial collection attempt, exit 2:
+
+env WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2G WNN_SLICE=wnn-campaign.slice WNN_RUNTIME_MAX=300 CUDA_VISIBLE_DEVICES= PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 scripts/limited .venv/bin/python -m pytest research/campaign_2026-10-05/continuation_night/width/test_transport.py -q
+
+ERROR: test module could not import `build_packets` because pytest did not add
+the nested width/kaggle packet directories to `sys.path`. No test body ran.
+
+Successful rerun, exit 0:
+
+env WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2G WNN_SLICE=wnn-campaign.slice WNN_RUNTIME_MAX=300 CUDA_VISIBLE_DEVICES= PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH=research/campaign_2026-10-05/continuation_night/width:research/campaign_2026-10-05/continuation_night/kaggle:src scripts/limited .venv/bin/python -m pytest research/campaign_2026-10-05/continuation_night/width/test_transport.py -q
+
+...........                                                              [100%]
+11 passed in 22.20s
+
+Ruff, exit 0:
+
+env WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2G WNN_SLICE=wnn-campaign.slice WNN_RUNTIME_MAX=120 CUDA_VISIBLE_DEVICES= PYTHONPATH=research/campaign_2026-10-05/continuation_night/width:research/campaign_2026-10-05/continuation_night/kaggle:src scripts/limited .venv/bin/ruff check --output-format concise research/campaign_2026-10-05/continuation_night/kaggle/host_guard.py research/campaign_2026-10-05/continuation_night/kaggle/build_packets.py research/campaign_2026-10-05/continuation_night/width/test_transport.py
+
+All checks passed!

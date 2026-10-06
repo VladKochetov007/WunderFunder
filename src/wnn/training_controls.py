@@ -26,6 +26,7 @@ class DistilledLoss(NamedTuple):
     spread_bins: int
     next_event: float
     next_start: int
+    reanchor: float = 0.0
 
 
 def ema_decay_per_update(decay: float, update_rows: int, reference_rows: int) -> float:
@@ -51,9 +52,19 @@ def blended_target(
     rows: slice,
     alpha: float,
     horizon: int,
+    reanchor: float = 0.0,
 ) -> Tensor:
-    """Reproduce strict stopped bootstrap; target weights still use real labels."""
+    """Blend teachers, optionally retaining origin labels on surviving rows only.
+
+    Reanchoring is a fraction of the final blended target. Its zero default
+    preserves historical arithmetic; loss weights always use the real labels.
+    """
+    if not np.isfinite(reanchor) or not 0 <= reanchor <= 1:
+        raise ValueError("reanchor must be finite and between zero and one")
+    if reanchor and horizon <= 0:
+        raise ValueError("reanchor requires a positive stopped-bootstrap horizon")
     label = labels[:, rows].float().clamp(-2, 2)
+    original = label
     if horizon:
         if next_change is None:
             raise ValueError("stopped bootstrap requires next-label-change indices")
@@ -62,7 +73,12 @@ def blended_target(
         indices = ahead.clamp(max=teacher.shape[1] - 1).expand(label.shape[0], -1)
         later = teacher.gather(1, indices[..., None].expand(-1, -1, 2)).float().clamp(-2, 2)
         label = torch.where(alive[..., None], later, label)
-    return (1 - alpha) * label + alpha * teacher[:, rows].float().clamp(-2, 2)
+    target = (1 - alpha) * label + alpha * teacher[:, rows].float().clamp(-2, 2)
+    if reanchor:
+        target = torch.where(
+            alive[..., None], (1 - reanchor) * target + reanchor * original, target
+        )
+    return target
 
 
 def shuffled_masses(weights: Tensor, update_rows: int, seed: int) -> Tensor:
@@ -157,7 +173,13 @@ def distilled_macro_losses(
     consistency_mass = consistency_weights.sum().clamp_min(1e-8)
     next_mass = None if next_labels is None else next_labels[2][:, rows].sum().clamp_min(1e-8)
     target = blended_target(
-        labels, teacher, next_change, rows, config.alpha, config.bootstrap_horizon
+        labels,
+        teacher,
+        next_change,
+        rows,
+        config.alpha,
+        config.bootstrap_horizon,
+        config.reanchor,
     )
     partial = None
     for start in range(rows.start, rows.stop, micro_rows):

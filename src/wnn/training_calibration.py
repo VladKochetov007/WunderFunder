@@ -35,7 +35,23 @@ class RecordedOrder(Sampler[int]):
         }
 
 
-def summarize_masses(masses: Sequence[float]) -> dict[str, float | int]:
+def mass_observation_artifact(masses: Sequence[float]) -> dict[str, object]:
+    """Serialize measured update masses with a canonical little-endian identity."""
+    values = np.asarray(masses, dtype="<f8")
+    if not values.size or not np.isfinite(values).all() or (values < 0).any():
+        raise ValueError("calibration observations need finite nonnegative update masses")
+    raw = values.tobytes()
+    return {
+        "format": "wnn.float64-le-update-masses",
+        "version": 1,
+        "dtype": "<f8",
+        "count": int(values.size),
+        "sha256": hashlib.sha256(raw).hexdigest(),
+        "values": values.tolist(),
+    }
+
+
+def summarize_masses(masses: Sequence[float]) -> dict[str, object]:
     """Describe a frozen empirical fit-batch reference, including sampling variability."""
     values = np.asarray(masses, dtype=np.float64)
     if not values.size or not np.isfinite(values).all() or (values < 0).any():
@@ -50,4 +66,5 @@ def summarize_masses(masses: Sequence[float]) -> dict[str, float | int]:
         "maximum": float(values.max()),
         "standard_deviation": float(values.std()),
         "zero_mass_updates": int((values == 0).sum()),
+        "update_masses": mass_observation_artifact(values.tolist()),
     }

@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "experiment": "E-497",
+  "hypotheses": ["H-148", "H-153"],
+  "status": "prepared_not_executable_before_trainer_integration_and_review",
+  "executed_resource_probes": 0,
+  "executed_science_fits": 0,
+  "smoke_test": {
+    "status": "cpu_correctness_tests_passed",
+    "command": "WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2G scripts/limited .venv/bin/pytest -q --junitxml=research/campaign_2026-10-05/continuation_night/residual_memory/cpu_tests.xml research/campaign_2026-10-05/continuation_night/residual_memory/test_model.py",
+    "limits": {
+      "cpus": 1,
+      "ram_bytes": 2147483648,
+      "gpu": false
+    }
+  },
+  "arms": [
+    {
+      "name": "delta_erase_write",
+      "update_mode": "M <- M + beta * key outer (value - key @ M)"
+    },
+    {
+      "name": "additive_fixed_decay",
+      "update_mode": "M <- 0.999 * M + beta * key outer value"
+    }
+  ],
+  "primary_shape": {
+    "batch_size": 32,
+    "rows_per_sequence": 20000,
+    "chunk_rows": 1000,
+    "base_model": "GRU hidden 256, 2 layers",
+    "event_input_column": 112,
+    "event_input_name": "ev_i0px",
+    "key_dim": 16,
+    "value_dim": 16,
+    "persistent_state_bytes_per_sequence": 1024,
+    "persistent_state_bytes_per_batch": 32768,
+    "dense_time_by_time_attention": false
+  },
+  "required_measurements": [
+    "forward wall seconds per 1000-row chunk",
+    "forward plus backward wall seconds per 1000-row chunk",
+    "peak allocated and reserved device bytes",
+    "process-tree RAM and host headroom",
+    "persistent state bytes and activation peak",
+    "OOM and allocator failure counters",
+    "full versus chunked output/state parity"
+  ],
+  "preconditions": [
+    "reviewed wrapper exposing causal base predictions and current-row input features",
+    "event bit derived from current input column 112 (ev_i0px)",
+    "explicit memory reset between independent sequences",
+    "explicit state detach at the registered credit boundary",
+    "independent source review and fresh controller admission"
+  ],
+  "unsupported_until_preconditions": [
+    "main trainer has no residual-memory call path",
+    "main trainer has no external-memory reset/detach contract",
+    "native export and checkpoint provenance are not implemented"
+  ],
+  "execution": {
+    "argv": null,
+    "reason": "No runnable trainer interface exists; do not invent a memory flag or claim an integrated probe."
+  },
+  "science_fit_admission": "forbidden until reviewed integration and an admitted resource probe",
+  "score_claim": null
+}

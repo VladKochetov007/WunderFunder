@@ -1,0 +1,117 @@
+{
+  "date": "2026-10-06",
+  "experiment": "W384 isolated transport recovery v3",
+  "status": "private_source_and_packet_prepared_for_independent_review",
+  "failure_class": "legacy_preflight_fixture_length_contract_mismatch",
+  "failure_context": {
+    "attempt": "wnn-night-w384-serial-20261005-v2",
+    "worker_status": "failed",
+    "returncode": 1,
+    "elapsed_seconds": 148.11673011499988,
+    "peak_gpu_bytes": 133169152,
+    "peak_rss_bytes": 5779951616,
+    "remaining_processes": 0,
+    "teardown_status": "complete",
+    "root_cgroup_oom_events": 0,
+    "root_cgroup_oom_kill_events": 0,
+    "source_derivation": {
+      "bounded_loader_sha256": "52e8c75c74af50f26b283bfe2680e4de9e3d831b03d2e82e94651ba6f5e3923a",
+      "derived_trainer_sha256": "8b691b00a0727bc5081c96973ff3e2cb4cb557b5a65775501513443e781bf4de",
+      "loader_workers": 0,
+      "original_trainer_sha256": "de1d87dacb26c628c9917faf8bcd2cd735a43f42e7a2e5f1c63ed14b5f2b6cd1",
+      "sampler_changed": false,
+      "science_arguments_changed": false,
+      "transformation": "SequenceFile import and post-copy mmap residency release"
+    },
+    "worker_result_sha256": "407609ed4dfcc633bb521a019a01c73197125e1c59394225d8d8bc3e44f28e80",
+    "worker_log_sha256": "3d8f9a3942db1c3a419d9cbe4c82bb3466f6d2c22f3b05ac0e5b17d8f473a4d6"
+  },
+  "fix": {
+    "runtime_sequence_rows_source": "wnn.data.SEQUENCE_LENGTH at BoundedSequenceFile construction",
+    "production_rows_pinned": 20000,
+    "production_pin": "manifest-bound src/wnn/data.py must contain exactly one top-level SEQUENCE_LENGTH = 20000",
+    "rowgroup_guards": [
+      "metadata row count equals expected rows before allocation",
+      "decoded offset cannot exceed expected rows",
+      "decoded final offset equals expected rows",
+      "all seq_ix values in a row group match",
+      "target and mask columns use the same checked decoded row batches"
+    ],
+    "legacy_original_files_bound_by_manifest": {
+      "scripts/train_rnn.py": {
+        "sha256": "de1d87dacb26c628c9917faf8bcd2cd735a43f42e7a2e5f1c63ed14b5f2b6cd1",
+        "size": 129848
+      },
+      "src/wnn/data.py": {
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+        "size": 4000
+      },
+      "tests/test_trainer_resume_integration.py": {
+        "sha256": "832981b1c8cdce23cd09bb9b2098da10d3e0e612aedac975e62128f2d1a0b2d9",
+        "size": 20611
+      },
+      "tests/test_training_state.py": {
+        "sha256": "468c073ba44b248436215e2efcacd13fbe382f397caca9277ff1c5b8a1070840",
+        "size": 7056
+      }
+    },
+    "derived_trainer_sha256": "8b691b00a0727bc5081c96973ff3e2cb4cb557b5a65775501513443e781bf4de",
+    "science_arguments_changed": false,
+    "sampler_changed": false,
+    "loader_workers": 0
+  },
+  "cpu_validation": {
+    "legacy_staged_preflight": {
+      "tests": 36,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 10.87,
+      "receipt": "research/campaign_2026-10-05/continuation_night/width/legacy_cpu_tests.xml",
+      "receipt_sha256": "2463b2a801229e4098abc95f6f869e9655cdb4408c7b2376dde947fa2f46c820",
+      "scope": {
+        "cpus": 1,
+        "memory_bytes": 8589934592,
+        "cuda_visible": false
+      },
+      "source": "W384 bundle_source, verified against W384 bundle manifest before staging",
+      "command": "WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=8G PYTHONPATH=src:research/campaign_2026-10-05/continuation_night/width scripts/limited .venv/bin/python research/campaign_2026-10-05/continuation_night/width/run_cpu_preflight.py"
+    },
+    "private_transport_suite": {
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 21.958,
+      "receipt": "research/campaign_2026-10-05/continuation_night/width/transport_cpu_tests.xml",
+      "receipt_sha256": "a908b82aa715d9a47797659599633e065c546dd6bf5e621811b8af79d6bf04a3",
+      "scope": {
+        "cpus": 1,
+        "memory_bytes": 2147483648,
+        "gpu": false
+      }
+    },
+    "ruff": {
+      "status": "passed",
+      "command": "scripts/limited .venv/bin/ruff check <changed width and kaggle source files>"
+    }
+  },
+  "source_sha256": {
+    "research/campaign_2026-10-05/continuation_night/width/bounded_loader.py": "e50c47eeabd8c23cc9bcef0f197891a4c06da5acbc48be2f22b0726f1c01dac2",
+    "research/campaign_2026-10-05/continuation_night/width/derive_source.py": "be47273d0e46d4df06caa5ea511173979967e575f8c18c87dc78076042138f0c",
+    "research/campaign_2026-10-05/continuation_night/width/phase.py": "99d755da36650aaf84c14c7603343d51c55bd379f7e013b1240c577c17cfa9e4",
+    "research/campaign_2026-10-05/continuation_night/width/test_transport.py": "4c27115f9c150f6d2ba876e20c9a28ec58d0a2064167b74c2b560ba4e569b49a",
+    "research/campaign_2026-10-05/continuation_night/width/run_cpu_preflight.py": "ba85d4b3b7d8acb48167cb3b25cf6f5c04314df3b117ae6f6d575aa0c5e2f0c7",
+    "research/campaign_2026-10-05/continuation_night/kaggle/build_packets.py": "6e1cb50e1eb32ecf4e7abd4dfe6e85871fe5d976f117a1be34896349def2c074",
+    "research/campaign_2026-10-05/continuation_night/kaggle/W384_V3_FIX.md": "3fbbceff22cd047bd8dd24c5919b4dcf0ee89e6a0e91a09a1da9a6ed30eb1b88",
+    "research/campaign_2026-10-05/w384_v7/bundle/bundle-manifest.json": "4518e583e9eab4bcaa5c5eb499958e9329748191006e68cd89a101d12cee1958",
+    "research/campaign_2026-10-05/continuation_night/kaggle/diagnostics/wnn-night-w384-serial-20261005-v2/width_384_serial_v1/source_derivation.json": "f251b4686068b61504e4f6bad86cba456735090adff2160c411d4cdb40e61421",
+    "research/campaign_2026-10-05/continuation_night/kaggle/diagnostics/wnn-night-w384-serial-20261005-v2/width_384_serial_v1/cuda_preflight/result.json": "407609ed4dfcc633bb521a019a01c73197125e1c59394225d8d8bc3e44f28e80",
+    "research/campaign_2026-10-05/continuation_night/kaggle/diagnostics/wnn-night-w384-serial-20261005-v2/width_384_serial_v1/cuda_preflight/worker.log": "3d8f9a3942db1c3a419d9cbe4c82bb3466f6d2c22f3b05ac0e5b17d8f473a4d6"
+  },
+  "provider_launches_for_v3": 0,
+  "scientific_fits_for_v3": 0,
+  "resource_probes_for_v3": 0,
+  "score_claim": null,
+  "review_gate": "cloud_critic_luna GO and root reservation required before provider action"
+}

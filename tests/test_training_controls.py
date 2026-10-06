@@ -62,6 +62,13 @@ def _oracle(output: torch.Tensor, averaged: torch.Tensor, fixture: tuple) -> tor
             ):
                 target[batch, row] = teachers[batch, ahead].clamp(-2, 2)
     target = (1 - config.alpha) * target + config.alpha * teachers[:, :4].clamp(-2, 2)
+    for batch in range(2):
+        for row in range(4):
+            ahead = row + config.bootstrap_horizon
+            if config.reanchor and change[batch, row] > ahead and ahead < teachers.shape[1]:
+                target[batch, row] = (1 - config.reanchor) * target[
+                    batch, row
+                ] + config.reanchor * clipped[batch, row]
     weighted = clipped.abs() * weights[:, :4, None]
     loss = (weighted * (output[..., :2] - target).square()).sum() / weighted.sum()
     consistency = weights[:, :4, None]
@@ -130,13 +137,16 @@ def _controlled(fixture: tuple, micro: int, detach: int, **kwargs: object) -> tu
 
 @pytest.mark.parametrize("metric_weight", [False, True])
 @pytest.mark.parametrize("micro", [2, 4])
+@pytest.mark.parametrize("reanchor", [0.0, 0.1])
 def test_pooled_loss_and_uncut_gradient_match_independent_whole_oracle(
-    metric_weight: bool, micro: int
+    metric_weight: bool, micro: int, reanchor: float
 ) -> None:
     fixture = list(_fixture())
     fixture[0] = RNNModel(3, hidden=4, layers=1, n_out=12)
     fixture[1] = copy.deepcopy(fixture[0])
-    fixture[-1] = fixture[-1]._replace(next_event=0.3, ema_metric_weight=metric_weight)
+    fixture[-1] = fixture[-1]._replace(
+        next_event=0.3, ema_metric_weight=metric_weight, reanchor=reanchor
+    )
     reference = copy.deepcopy(fixture[0])
     output, state = reference(fixture[2][:, :4])
     with torch.no_grad():

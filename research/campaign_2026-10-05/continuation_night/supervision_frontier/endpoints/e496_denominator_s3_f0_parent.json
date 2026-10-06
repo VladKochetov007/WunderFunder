@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "experiment": "E-496",
+  "family": "denominator",
+  "folds": [
+    0
+  ],
+  "seed": 3,
+  "endpoint": "parent",
+  "n_boot": 2000,
+  "metric": "global_wp_clip2_v1",
+  "arms": {
+    "chunk": {
+      "c20261005_e496_ah_a070_h8_s3_f0": 1.0
+    },
+    "fixed": {
+      "c20261005_e496_den_fixed_s3_f0": 1.0
+    },
+    "shuffled": {
+      "c20261005_e496_den_shuffled_s3_f0": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "fixed",
+      "chunk"
+    ],
+    [
+      "shuffled",
+      "fixed"
+    ],
+    [
+      "shuffled",
+      "chunk"
+    ]
+  ],
+  "interactions": [],
+  "class_mix_sensitivity": {
+    "status": "secondary_inferred_scenario",
+    "pub143_scenario": [
+      0.183,
+      0.16,
+      0.198,
+      0.459
+    ]
+  },
+  "report": [
+    "both_targets",
+    "class_by_event_age",
+    "paired_component_bootstrap",
+    "per_seed_fold"
+  ],
+  "selection": "none; every registered arm and contrast is reported"
+}

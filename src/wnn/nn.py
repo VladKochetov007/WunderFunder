@@ -11,14 +11,25 @@ from wnn.event_content import ENDPOINT
 METRIC_CLIP = 2.0
 
 
+class FixedReadoutMixture(nn.Module):
+    """Parameter-free E488 mixture, restricted to the readout activation."""
+
+    def forward(self, values: torch.Tensor) -> torch.Tensor:
+        """Mix equal GELU and LeakyReLU contributions without modifying inputs."""
+        return 0.5 * F.gelu(values) + 0.5 * F.leaky_relu(values, negative_slope=0.01)
+
+
 class RNNModel(nn.Module):
     """Input projection -> stacked GRU -> head fed by GRU output and the projection skip."""
 
     def __init__(
         self, n_in: int, hidden: int = 256, layers: int = 2, dropout: float = 0.0, n_out: int = 2,
         cell: str = "gru", enc: str = "linear", tok_dim: int = 32, att_layers: int = 1, conv_k: int = 16,
+        readout_activation: str = "gelu",
     ):
         super().__init__()
+        if readout_activation not in ("gelu", "fixed_mix"):
+            raise ValueError("readout_activation must be gelu or fixed_mix")
         self.register_buffer("mean", torch.zeros(n_in))
         self.register_buffer("std", torch.ones(n_in))
         self.inp = nn.Linear(n_in, hidden)
@@ -53,7 +64,9 @@ class RNNModel(nn.Module):
             dropout=dropout if layers > 1 else 0.0,
         )
         self.head = nn.Sequential(
-            nn.Linear(2 * hidden, hidden), nn.GELU(), nn.Linear(hidden, n_out)
+            nn.Linear(2 * hidden, hidden),
+            nn.GELU() if readout_activation == "gelu" else FixedReadoutMixture(),
+            nn.Linear(hidden, n_out),
         )
 
     def encode(self, xn):

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/continuation_night/event_semantics/reproduce_counts.py", line 206, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/continuation_night/event_semantics/reproduce_counts.py", line 200, in main
+    json.dumps(run_reproduction(arguments.artifact_dir, arguments.output), indent=2),
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/continuation_night/event_semantics/reproduce_counts.py", line 158, in run_reproduction
+    component_check = _assert_csv_matches(
+        "per-component", _read_rows(per_component_path), expected_rows
+    )
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/continuation_night/event_semantics/reproduce_counts.py", line 80, in _assert_csv_matches
+    raise ValueError(f"E492 {label} row identities differ (missing={missing}, extra={extra})")
+ValueError: E492 per-component row identities differ (missing=384, extra=384)

@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "experiment": "E-496",
+  "family": "direction",
+  "folds": [
+    1
+  ],
+  "seed": 3,
+  "endpoint": "parent",
+  "n_boot": 2000,
+  "metric": "global_wp_clip2_v1",
+  "arms": {
+    "direction_off": {
+      "c20261005_e496_ah_a070_h8_s3_f1": 1.0
+    },
+    "direction_on_010": {
+      "c20261005_e496_direction_on_s3_f1": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "direction_on_010",
+      "direction_off"
+    ]
+  ],
+  "interactions": [],
+  "class_mix_sensitivity": {
+    "status": "secondary_inferred_scenario",
+    "pub143_scenario": [
+      0.183,
+      0.16,
+      0.198,
+      0.459
+    ]
+  },
+  "report": [
+    "both_targets",
+    "class_by_event_age",
+    "paired_component_bootstrap",
+    "per_seed_fold"
+  ],
+  "selection": "none; every registered arm and contrast is reported"
+}

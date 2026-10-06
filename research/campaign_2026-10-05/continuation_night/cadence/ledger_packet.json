@@ -1,0 +1,76 @@
+{
+  "experiment": {
+    "id": "E-495",
+    "date": "2026-10-05",
+    "hypotheses": [
+      "H-155"
+    ],
+    "kind": "fresh strong-recipe cadence and recurrent-credit comparison",
+    "status": "implemented_cpu_validated_pending_independent_review_and_resource_admission",
+    "design": "research/campaign_2026-10-05/continuation_night/cadence/DESIGN.md",
+    "arms": {
+      "update1000": {
+        "update_rows": 1000,
+        "detach_rows": 1000
+      },
+      "pooled2000": {
+        "update_rows": 2000,
+        "detach_rows": 1000
+      },
+      "connected2000": {
+        "update_rows": 2000,
+        "detach_rows": 2000
+      }
+    },
+    "screen": {
+      "seed": 3,
+      "fold": 0,
+      "parent_epoch": 3,
+      "head_epoch": 0,
+      "head_seed": 3
+    },
+    "confirmations": [
+      {
+        "seed": 4,
+        "fold": 0
+      },
+      {
+        "seed": 3,
+        "fold": 1
+      }
+    ],
+    "endpoint": "fixed equal prediction mixture of parent ep3 and head ep0; parent scored separately",
+    "metric": "global_wp_clip2_v1",
+    "bootstrap_draws": 2000,
+    "scientific_fits_launched": 0,
+    "resource_probes_launched": 0,
+    "public_forecast": null,
+    "cpu_validation": {
+      "tests": 8,
+      "seconds": 0.87,
+      "receipt": "research/campaign_2026-10-05/continuation_night/cadence/cpu_tests.xml",
+      "receipt_sha256": "b77e8b5e0caa3167f7ab4861ae9302a056b49816b9bb30f21e5e634d47c930e0",
+      "limits": {
+        "cpus": 1,
+        "ram_bytes": 2147483648,
+        "gpu": false
+      }
+    }
+  },
+  "source_sha256": {
+    "scripts/train_rnn.py": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+    "src/wnn/training_controls.py": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39",
+    "src/wnn/training_dynamics.py": "902f69a4168555dc059ef0f4fdf7f6d194a8afd9dd594aa7e311141a040a4294",
+    "scripts/continuation_recipes.py": "26077a78032d6e62440fa5894b2620409c984aae4db69cd3cb276afbcc0739b8",
+    "scripts/kaggle_sequence.py": "4d658bb757d3a62ae91f6999b3219005ccba4b257f14dde2ed32538ec0fefb11",
+    "scripts/kaggle_common.py": "84ea63373021e3b229845f0aecff74e155896c9522f97d06f6aa142a545ac380",
+    "research/campaign_2026-10-05/continuation_night/cadence/materialize_specs.py": "d6497f0253a50f790bad6af9ceedbdf59381020eb444c8861e432f04dccd8c27",
+    "research/campaign_2026-10-05/continuation_night/cadence/test_cadence.py": "3b5780e3967a58d38c167834f6414f0088ea7b212e872a846bde39d2c51157fb",
+    "research/campaign_2026-10-05/continuation_night/cadence/DESIGN.md": "19a11506d0f60e73d4bac250c3747f92c2e40b8da2667de8ec78f56614c2a9f9",
+    "research/campaign_2026-10-05/continuation_night/CONTRACT.md": "917967a5602161286c38a59ef027a221cad44e3b4f5dd50f0c1f5eefe0a08cac",
+    "research/campaign_2026-10-05/continuation_night/supervision/NEXT_BLOCKS.md": "b88abf188c485caf976c8a0adcb554f2780af3fe705d383142a3bd2af066b8e5",
+    "research/campaign_2026-10-04/E430_optimizer_cadence/CRITIQUE_AND_PREREG.md": "a186fe93e3aadb3803bc489b4cf35941a05d7012795fa6e2ca9aa275406acec1"
+  },
+  "root_ledger_written_by_actor": false,
+  "admission_status": "unsealed drafts only; no science or score claim"
+}

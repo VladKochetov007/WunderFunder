@@ -54,6 +54,7 @@ def parent_properties() -> dict[str, str]:
     return {
         "CPUQuotaPerSecUSec": "12s",
         "MemoryMax": str(campaign_spec.RAM_MAX),
+        "MemoryHigh": "36000000000",
         "MemorySwapMax": "0",
         "ControlGroup": "/test/wnn-campaign.slice",
     }
@@ -378,12 +379,22 @@ def test_reconcile_lost_monitor_preserves_failure_evidence(
         "source_changed",
         "other_job_failure",
         "global_pause",
+        "policy_delayed_preflight",
+        "policy_delayed_notify",
+        "policy_memory_backpressure",
+        "policy_drain_after_cutoff",
+        "policy_parent_soft_limit",
     ],
 )
 def test_worker_lifecycle_without_launching_processes(
     workspace: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch, mode: str
 ) -> None:
     root, state = workspace
+    if mode.startswith("policy_"):
+        policy = enable_policy(root, state)
+        before_cutoff = campaign_spec.admission_cutoff(policy) - 1
+        monkeypatch.setattr(campaign.time, "time", lambda: before_cutoff)
+        monkeypatch.setattr(campaign, "mem_available", lambda: 60_000_000_000)
     record = reserve(root, state)
     group = "/test/wnn-campaign.slice/wnn-c04-attempt1.service"
     original_read = Path.read_text
@@ -392,6 +403,8 @@ def test_worker_lifecycle_without_launching_processes(
         if str(path) == "/proc/self/cgroup":
             return f"0::{group}\n"
         if str(path).endswith("/memory.current"):
+            if mode == "policy_parent_soft_limit" and path.parent.name == campaign_spec.SLICE:
+                return "36000000000"
             return "2000000"
         if str(path).endswith("/memory.oom.group"):
             return "1"
@@ -417,6 +430,22 @@ def test_worker_lifecycle_without_launching_processes(
 
     monkeypatch.setattr(campaign_local, "memory_events", events)
     monkeypatch.setattr(campaign_local, "notify_ready", lambda: None)
+    if mode in {"policy_delayed_preflight", "policy_delayed_notify"}:
+
+        def reach_cutoff(*_: object) -> None:
+            monkeypatch.setattr(campaign.time, "time", lambda: before_cutoff + 1)
+
+        monkeypatch.setattr(
+            campaign_local,
+            "verify_scientific_inputs" if mode == "policy_delayed_preflight" else "notify_ready",
+            reach_cutoff,
+        )
+    elif mode == "policy_memory_backpressure":
+
+        def lose_memory() -> None:
+            monkeypatch.setattr(campaign, "mem_available", lambda: 10_000_000_000)
+
+        monkeypatch.setattr(campaign_local, "notify_ready", lose_memory)
     monkeypatch.setattr(campaign_local, "stop_child", lambda _: None)
     monkeypatch.setattr(campaign_local.time, "sleep", lambda _: None)
     observations = 0
@@ -436,6 +465,8 @@ def test_worker_lifecycle_without_launching_processes(
         def __init__(self, *args: object, **kwargs: object) -> None:
             nonlocal child_started
             child_started = True
+            if mode == "policy_drain_after_cutoff":
+                monkeypatch.setattr(campaign.time, "time", lambda: before_cutoff + 1)
             self.returncode = {
                 "nonzero": 7,
                 "cuda_oom_exit": 1,
@@ -479,15 +510,26 @@ def test_worker_lifecycle_without_launching_processes(
         monkeypatch.setattr(campaign_local.time, "monotonic", lambda: next(ticks))
     result = campaign_local.run_worker(root, state, "attempt1", "/test/python")
     final = campaign.read_json(state / "attempts/attempt1.json")
-    success = mode in {"success", "other_job_failure"}
+    success = mode in {"success", "other_job_failure", "policy_drain_after_cutoff"}
     scoped = mode in {"nonzero", "missing_output", "deadline", "input_changed"}
+    backpressure = mode in {
+        "policy_delayed_preflight",
+        "policy_delayed_notify",
+        "policy_memory_backpressure",
+    }
     assert result == (0 if success else 1)
-    assert final["status"] == ("finished" if success else "failed")
+    assert final["status"] == (
+        "finished" if success else "not_started" if backpressure else "failed"
+    )
     assert final["spec_sha256"] == record["spec_sha256"]
     assert final["charged_seconds"] >= 0
-    assert (state / "PAUSE.json").exists() == (not success and not scoped)
+    assert (state / "PAUSE.json").exists() == (not success and not scoped and not backpressure)
     assert (state / "quarantines/experiment.json").exists() == scoped
-    assert final["failure_scope"] == (None if success else "job" if scoped else "global")
+    assert final["failure_scope"] == (
+        None if success else "job" if scoped else "admission" if backpressure else "global"
+    )
+    if backpressure:
+        assert not child_started
     if mode == "global_pause":
         assert campaign.read_json(state / "PAUSE.json")["reason"] == "primary resource incident"
     if success:
@@ -597,3 +639,186 @@ def test_failure_log_scans_resource_markers_across_chunks(tmp_path: Path) -> Non
     assert campaign_local.resource_failure_marker(log) == "out of memory"
     log.write_bytes(b"ValueError: empty sequence\n")
     assert campaign_local.resource_failure_marker(log) is None
+
+
+def continuation_policy() -> campaign_spec.AdmissionPolicy:
+    return {
+        "version": 1,
+        "local_start_cutoff_utc": "2026-10-06T07:00:00Z",
+        "parent_ram_max_bytes": 40_000_000_000,
+        "parent_ram_high_bytes": 36_000_000_000,
+        "mem_available_reserve_bytes": 8_000_000_000,
+    }
+
+
+def enable_policy(root: Path, state: Path) -> campaign_spec.AdmissionPolicy:
+    policy = continuation_policy()
+    path = root / "admission-policy.json"
+    campaign.atomic_json(path, policy)
+    value = campaign.read_json(state / "READY.json")
+    value.update(admission_policy=str(path), admission_policy_sha256=campaign_spec.file_hash(path))
+    campaign.atomic_json(state / "READY.json", value)
+    return policy
+
+
+@pytest.mark.parametrize("offset", [-0.001, 0.0, 0.001])
+@pytest.mark.parametrize("kind", ["cpu", "gpu"])
+def test_continuation_cutoff_at_reservation_and_retry(
+    workspace: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch, offset: float, kind: str
+) -> None:
+    root, state = workspace
+    policy = enable_policy(root, state)
+    cutoff = campaign_spec.admission_cutoff(policy)
+    monkeypatch.setattr(campaign, "mem_available", lambda: 60_000_000_000)
+    monkeypatch.setattr(campaign.time, "time", lambda: cutoff + offset)
+    if offset < 0:
+        record = reserve(root, state, kind=kind)
+        record.update(status="failed", charged_seconds=1)
+        campaign.atomic_json(state / "attempts/attempt1.json", record)
+        monkeypatch.setattr(campaign.time, "time", lambda: cutoff)
+        with pytest.raises(campaign.AdmissionClosed):
+            reserve(root, state, "retry", kind)
+        assert not (state / "attempts/retry.json").exists()
+    else:
+        with pytest.raises(campaign.AdmissionClosed):
+            reserve(root, state, kind=kind)
+        assert not campaign.attempts(state)
+    assert not (state / "PAUSE.json").exists()
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"version": True},
+        {"version": 2},
+        {"unknown": 1},
+        {"local_start_cutoff_utc": "2026-10-06T10:00:00"},
+        {"local_start_cutoff_utc": "2026-10-06T07:00:01Z"},
+        {"local_start_cutoff_utc": "2026-99-06T07:00:00Z"},
+        {"parent_ram_max_bytes": 40_000_000_001},
+        {"parent_ram_high_bytes": 36_000_000_001},
+        {"mem_available_reserve_bytes": 7_999_999_999},
+        {"mem_available_reserve_bytes": "8000000000"},
+    ],
+)
+def test_admission_policy_rejects_malformed_or_widened_contract(change: dict[str, object]) -> None:
+    with pytest.raises(ValueError):
+        campaign_spec.validate_admission_policy({**continuation_policy(), **change})
+
+
+def test_policy_identity_cannot_be_partially_removed_or_changed(
+    workspace: tuple[Path, Path],
+) -> None:
+    root, state = workspace
+    enable_policy(root, state)
+    value = campaign.read_json(state / "READY.json")
+    del value["admission_policy_sha256"]
+    with pytest.raises(ValueError, match="incomplete"):
+        campaign.admission_policy(value)
+    (root / "admission-policy.json").write_text("{}")
+    with pytest.raises(ValueError, match="policy changed"):
+        campaign.ready(state, root)
+
+
+@pytest.mark.parametrize("ram_gib,passes", [(2, True), (6, False)])
+def test_memavailable_uses_incremental_worker_limit_without_support_double_count(
+    workspace: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch, ram_gib: int, passes: bool
+) -> None:
+    root, state = workspace
+    policy = enable_policy(root, state)
+    monkeypatch.setattr(campaign.time, "time", lambda: campaign_spec.admission_cutoff(policy) - 1)
+    monkeypatch.setattr(campaign, "mem_available", lambda: 13_000_000_000)
+    spec = specification(root, "cpu")
+    spec["limits"]["ram_bytes"] = ram_gib * 1024**3
+    with campaign.locked(state):
+        if passes:
+            record = campaign.reserve_attempt(state, root, spec, "memory")
+            assert record["admission_resources"]["additional_reservation_bytes"] == 2 * 1024**3
+        else:
+            with pytest.raises(campaign.AdmissionBusy, match="MemAvailable"):
+                campaign.reserve_attempt(state, root, spec, "memory")
+    assert not (state / "PAUSE.json").exists()
+
+
+@pytest.mark.parametrize("available_delta,passes", [(0, True), (-1, False)])
+def test_memavailable_exact_boundary_and_outstanding_reservations(
+    workspace: tuple[Path, Path],
+    monkeypatch: pytest.MonkeyPatch,
+    available_delta: int,
+    passes: bool,
+) -> None:
+    root, state = workspace
+    policy = enable_policy(root, state)
+    monkeypatch.setattr(campaign.time, "time", lambda: campaign_spec.admission_cutoff(policy) - 1)
+    monkeypatch.setattr(
+        campaign, "mem_available", lambda: 8_000_000_000 + 4 * 1024**3 + available_delta
+    )
+    reserve(root, state, "cpu1", "cpu")
+    if passes:
+        reserve(root, state, "cpu2", "cpu")
+    else:
+        with pytest.raises(campaign.AdmissionBusy):
+            reserve(root, state, "cpu2", "cpu")
+
+
+def test_carryover_preserves_used_budget_and_source_bytes(
+    workspace: tuple[Path, Path], tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root, old = workspace
+    record = reserve(root, old)
+    spent = 48_511.247415846
+    record.update(status="finished", charged_seconds=spent)
+    campaign.atomic_json(old / "attempts/attempt1.json", record)
+    original = (old / "attempts/attempt1.json").read_bytes()
+    path = root / "policy.json"
+    campaign.atomic_json(path, continuation_policy())
+    new = tmp_path / "continued"
+    campaign.initialize(new, root, root / "contract.md", "local001", path, old)
+    value = campaign.ready(new, root)
+    assert value["gpu_lock_path"] == str(old / "gpu.lock")
+    assert campaign.budget(new, "local001")["used_seconds"] == spent
+    assert campaign.budget(new, "local001")["remaining_seconds"] == 86400 - spent
+    assert (old / "attempts/attempt1.json").read_bytes() == original
+    with pytest.raises(ValueError, match="renewal"):
+        campaign.open_block(new, root, "fresh", "request does not authorize extra budget")
+    monkeypatch.setattr(campaign.time, "time", lambda: 0)
+    monkeypatch.setattr(campaign, "mem_available", lambda: 60_000_000_000)
+    spec = specification(root)
+    spec["limits"]["timeout_seconds"] = 37_000
+    with campaign.locked(new), pytest.raises(campaign.BudgetExhausted):
+        campaign.reserve_attempt(new, root, spec, "overbudget")
+    record["charged_seconds"] = spent + 1
+    campaign.atomic_json(old / "attempts/attempt1.json", record)
+    with pytest.raises(ValueError, match="source changed"):
+        campaign.budget(new, "local001")
+
+
+@pytest.mark.parametrize("status", ["reserved", "running", "launch_uncertain"])
+def test_carryover_refuses_unreconciled_source_attempts(
+    workspace: tuple[Path, Path], tmp_path: Path, status: str
+) -> None:
+    root, old = workspace
+    record = reserve(root, old)
+    record["status"] = status
+    campaign.atomic_json(old / "attempts/attempt1.json", record)
+    path = root / "policy.json"
+    campaign.atomic_json(path, continuation_policy())
+    with pytest.raises(ValueError, match="reconcile"):
+        campaign.initialize(tmp_path / "new", root, root / "contract.md", "b", path, old)
+
+
+def test_continuation_requires_carryover_and_parent_soft_limit(
+    workspace: tuple[Path, Path],
+) -> None:
+    root, _ = workspace
+    path = root / "policy.json"
+    policy = continuation_policy()
+    campaign.atomic_json(path, policy)
+    with pytest.raises(ValueError, match="previous budget"):
+        campaign.initialize(root / "new", root, root / "contract.md", "b", path)
+    parent = {**parent_properties(), "MemoryMax": "40000000000"}
+    campaign_local.check_parent(parent, policy)
+    with pytest.raises(RuntimeError):
+        campaign_local.check_parent(parent)
+    with pytest.raises(RuntimeError, match="soft"):
+        campaign_local.check_parent({**parent, "MemoryHigh": "36000000001"}, policy)

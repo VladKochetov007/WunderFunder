@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "experiment": "E-496",
+  "family": "alpha_bootstrap",
+  "folds": [
+    0
+  ],
+  "seed": 3,
+  "endpoint": "parent",
+  "n_boot": 2000,
+  "metric": "global_wp_clip2_v1",
+  "arms": {
+    "a050_h0": {
+      "c20261005_e496_ah_a050_h0_s3_f0": 1.0
+    },
+    "a050_h8": {
+      "c20261005_e496_ah_a050_h8_s3_f0": 1.0
+    },
+    "a070_h0": {
+      "c20261005_e496_ah_a070_h0_s3_f0": 1.0
+    },
+    "a070_h8": {
+      "c20261005_e496_ah_a070_h8_s3_f0": 1.0
+    },
+    "a085_h0": {
+      "c20261005_e496_ah_a085_h0_s3_f0": 1.0
+    },
+    "a085_h8": {
+      "c20261005_e496_ah_a085_h8_s3_f0": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "a050_h8",
+      "a050_h0"
+    ],
+    [
+      "a070_h8",
+      "a070_h0"
+    ],
+    [
+      "a085_h8",
+      "a085_h0"
+    ],
+    [
+      "a070_h0",
+      "a050_h0"
+    ],
+    [
+      "a085_h0",
+      "a050_h0"
+    ],
+    [
+      "a070_h8",
+      "a050_h8"
+    ],
+    [
+      "a085_h8",
+      "a050_h8"
+    ]
+  ],
+  "interactions": [
+    {
+      "id": "a070_boot_interaction",
+      "cells": [
+        "a070_h8",
+        "a070_h0",
+        "a050_h8",
+        "a050_h0"
+      ],
+      "operation": "(cell0-cell1)-(cell2-cell3)"
+    },
+    {
+      "id": "a085_boot_interaction",
+      "cells": [
+        "a085_h8",
+        "a085_h0",
+        "a050_h8",
+        "a050_h0"
+      ],
+      "operation": "(cell0-cell1)-(cell2-cell3)"
+    }
+  ],
+  "class_mix_sensitivity": {
+    "status": "secondary_inferred_scenario",
+    "pub143_scenario": [
+      0.183,
+      0.16,
+      0.198,
+      0.459
+    ]
+  },
+  "report": [
+    "both_targets",
+    "class_by_event_age",
+    "paired_component_bootstrap",
+    "per_seed_fold"
+  ],
+  "selection": "none; every registered arm and contrast is reported"
+}

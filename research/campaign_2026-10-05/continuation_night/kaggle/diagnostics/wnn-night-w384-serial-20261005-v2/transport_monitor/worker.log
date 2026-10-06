@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "/kaggle/working/continuation_runtime/phase.py", line 232, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/continuation_runtime/phase.py", line 223, in main
+    run(
+    ~~~^
+        Path("/kaggle/working/experiment"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        args.manifest,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "/kaggle/working/continuation_runtime/phase.py", line 156, in run
+    supervised(
+    ~~~~~~~~~~^
+        [
+        ^
+    ...<15 lines>...
+        gpu_stop=stop,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "/kaggle/working/continuation_runtime/host_guard.py", line 390, in supervised
+    raise RuntimeError(f"child failed: {result['returncode']}")
+RuntimeError: child failed: 1
+Traceback (most recent call last):
+  File "/kaggle/working/continuation_runtime/payload.py", line 359, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/continuation_runtime/payload.py", line 353, in main
+    _kernel_work()
+    ~~~~~~~~~~~~^^
+  File "/kaggle/working/continuation_runtime/payload.py", line 138, in _kernel_work
+    subprocess.run(command, check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/usr/bin/python3', '/kaggle/working/continuation_runtime/phase.py', '--width', '384', '--manifest', '/kaggle/input/datasets/vladkochetov07/wnn-w384-fold1-dualt4-20261005-v7/bundle-manifest.json']' returned non-zero exit status 1.

@@ -1,0 +1,18 @@
+/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/continuation_night/baseline_snapshot/research/campaign_2026-10-05/fp32_activation_duration/gpu_probe_fp32_duration_v2.py:212: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  "output_max_abs_error": float((candidate_prediction - native_prediction).abs().max().cpu()),
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/continuation_night/baseline_snapshot/research/campaign_2026-10-05/fp32_activation_duration/gpu_probe_fp32_duration_v2.py", line 408, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/continuation_night/baseline_snapshot/research/campaign_2026-10-05/fp32_activation_duration/gpu_probe_fp32_duration_v2.py", line 404, in main
+    print(json.dumps(run_probe(args.output, args.e487_root_proof), indent=2), flush=True)
+                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/continuation_night/baseline_snapshot/research/campaign_2026-10-05/fp32_activation_duration/gpu_probe_fp32_duration_v2.py", line 341, in run_probe
+    parity_records.append(native_parity(seed, states[seed], xx, yy, mask, device))
+                          ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/continuation_night/baseline_snapshot/research/campaign_2026-10-05/fp32_activation_duration/gpu_probe_fp32_duration_v2.py", line 202, in native_parity
+    raise ValueError("E489 native alpha-zero parity update must activate clipping")
+ValueError: E489 native alpha-zero parity update must activate clipping

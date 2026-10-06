@@ -44,6 +44,8 @@ def main():
     args = ap.parse_args()
     ck = torch.load(ROOT / "artifacts" / "runs" / args.run / "model.pt", map_location="cpu", weights_only=False)
     a = ck["args"]
+    if a.get("readout_activation", "gelu") != "gelu":
+        raise SystemExit("non-GELU readout requires an explicitly supported streaming exporter")
     if a.get("arch", "gru") != "gru" or a.get("prop_input"):
         raise SystemExit("only plain RNNModel runs are exportable here")
     n_out = 2 + 2 * len([v for v in a.get("aux", "").split(",") if v])

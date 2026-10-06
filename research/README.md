@@ -15,3 +15,5 @@ stay in the ledger; they are not deleted or rewritten.
 Rules: validation numbers name the split (`valid600` = 600 sequences from
 `permutation(1873, seed=12345)`, `full` = all 1873). Probes fitted on validation
 sequences say so. A claim from one run is provisional.
+
+October 5–6 continuation: [research index](campaign_2026-10-05/continuation_night/INDEX.md), [prepared experiment code](campaign_2026-10-05/continuation_night/FURTHER_EXPERIMENTS.md), and [background compute monitor](campaign_2026-10-05/continuation_night/kaggle/MONITOR.md).

@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import TypedDict, cast
 
@@ -62,6 +63,40 @@ class ExperimentSpec(TypedDict):
     artifacts: list[str]
     limits: Limits
     environment: dict[str, str]
+
+
+class AdmissionPolicy(TypedDict):
+    version: int
+    local_start_cutoff_utc: str
+    parent_ram_max_bytes: int
+    parent_ram_high_bytes: int
+    mem_available_reserve_bytes: int
+
+
+def validate_admission_policy(value: object) -> AdmissionPolicy:
+    """Validate the optional continuation contract without relaxing worker limits."""
+    if not isinstance(value, dict) or set(value) != set(AdmissionPolicy.__annotations__):
+        raise ValueError("invalid admission policy fields")
+    _integer(value["version"], 1, 1, "admission policy version")
+    cutoff = value["local_start_cutoff_utc"]
+    if not isinstance(cutoff, str) or not re.fullmatch(
+        r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", cutoff
+    ):
+        raise ValueError("local start cutoff must be an explicit UTC timestamp")
+    timestamp = datetime.fromisoformat(cutoff.replace("Z", "+00:00"))
+    if timestamp > datetime(2026, 10, 6, 7, tzinfo=UTC):
+        raise ValueError("local start cutoff exceeds the continuation authorization")
+    maximum = _integer(value["parent_ram_max_bytes"], 1, 40_000_000_000, "parent RAM max")
+    _integer(value["parent_ram_high_bytes"], 1, min(maximum, 36_000_000_000), "parent RAM high")
+    _integer(value["mem_available_reserve_bytes"], 8_000_000_000, 2**63 - 1, "host reserve")
+    return cast(AdmissionPolicy, dict(value))
+
+
+def admission_cutoff(policy: AdmissionPolicy) -> float:
+    """Return the absolute cutoff for a validated admission policy."""
+    return datetime.fromisoformat(
+        policy["local_start_cutoff_utc"].replace("Z", "+00:00")
+    ).timestamp()
 
 
 def canonical(value: object) -> bytes:

@@ -66,7 +66,7 @@ from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_
 from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
 from wnn.spread_aux import (PackedSpreadCache, structural_loss, validate_spread_cache,
                             validate_spread_parent)
-from wnn.training_controls import (DistilledLoss, distilled_macro_losses,
+from wnn.training_controls import (DistilledLoss, blended_target, distilled_macro_losses,
                                    detach_boundary_offset, ema_decay_per_update, shuffled_masses)
 from wnn.training_credit import credit_edge_scales
 from wnn.training_dynamics import (Dynamics, add_arguments as add_dynamics_arguments,
@@ -648,6 +648,12 @@ def detach_state(state):
 
 
 def make_model(args_dict, n_in, n_out):
+    if args_dict.get("readout_activation", "gelu") != "gelu" and (
+        args_dict.get("arch", "gru") != "gru"
+        or args_dict.get("cell", "gru") != "gru"
+        or args_dict.get("enc", "linear") != "linear"
+    ):
+        raise ValueError("fixed readout mixture requires a plain GRU and linear encoder")
     if args_dict.get("arch") == "specialist":
         if (
             args_dict.get("cell", "gru") != "gru"
@@ -738,6 +744,7 @@ def make_model(args_dict, n_in, n_out):
         tok_dim=args_dict.get("tok_dim", 32),
         att_layers=args_dict.get("att_layers", 1),
         conv_k=args_dict.get("conv_k", 16),
+        readout_activation=args_dict.get("readout_activation", "gelu"),
     )
     if args_dict.get("sentinel_indicators", "none") != "none":
         model.inp = SentinelInputProjection(model.inp, args_dict["sentinel_base_width"])
@@ -860,6 +867,7 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
         "tok_dim",
         "att_layers",
         "conv_k",
+        "readout_activation",
         "tcn_mix",
         "event_hidden",
         "expert_hidden",
@@ -1066,6 +1074,10 @@ def main():
     ap.add_argument("--distill-boot-h", type=int, default=0,
                     help="stopped bootstrap: in the distillation blend replace y by the teacher at row t+h while the label "
                          "run outlives t+h, else keep y (training-time only; min(t+h, run end) is a stopping time)")
+    ap.add_argument("--distill-reanchor", type=float, default=0.0,
+                    help="original-label fraction of final distilled target on bootstrap-surviving rows only")
+    ap.add_argument("--readout-activation", choices=["gelu", "fixed_mix"], default="gelu",
+                    help="readout-only fixed equal GELU/LeakyReLU(.01) mixture; research export required")
     ap.add_argument("--aux-next", type=float, default=0.0,
                     help="weight of auxiliary heads: log rows to next target change (MSE) and its sign (BCE)")
     ap.add_argument("--aux-tier", type=float, default=0.0,
@@ -1213,6 +1225,12 @@ def main():
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     add_dynamics_arguments(ap)
     args = ap.parse_args()
+    if not math.isfinite(args.distill_reanchor) or not 0 <= args.distill_reanchor <= 1:
+        ap.error("--distill-reanchor must be finite and between zero and one")
+    if args.distill_reanchor and (
+        not args.distill or args.distill_boot_h <= 0 or args.distill_alpha_far is not None
+    ):
+        ap.error("--distill-reanchor requires constant-alpha distillation and positive bootstrap horizon")
     if args.recurrent_rank < 0:
         ap.error("--recurrent-rank cannot be negative")
     if args.arch == "specialist":
@@ -1247,6 +1265,11 @@ def main():
         init_checkpoint = torch.load(ROOT / "artifacts" / "runs" / parent_run / parent_file,
                                      map_location="cpu", weights_only=False)
         inherit_init_arguments(args, init_checkpoint, sys.argv[1:])
+    if args.readout_activation != "gelu" and (
+        args.arch != "gru" or args.cell != "gru" or args.enc != "linear"
+        or args.qat != "none" or args.recurrent_rank
+    ):
+        ap.error("fixed readout mixture requires a plain dense GRU, linear encoder and no QAT")
     if args.recurrent_rank and (args.precision != "fp32" or args.optim != "adamw"
             or args.optim_switch or args.qat != "none" or not args.init
             or args.arch != "gru" or args.cell != "gru" or args.enc != "linear"
@@ -1606,6 +1629,9 @@ def main():
     if inner_crossfit is not None:
         provenance["inner_crossfit"] = inner_crossfit
         provenance["deployment_safe"] = args.privileged_mode == "none"
+    if args.readout_activation != "gelu":
+        provenance["native_export_supported"] = False
+        provenance["readout_activation"] = args.readout_activation
     if args.arch == "structured":
         provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/structured_state.py")
     if spread_provenance is not None:
@@ -1687,6 +1713,8 @@ def main():
         init_file = f"model_ep{int(init_epoch)}.pt" if init_epoch else "model.pt"
         init_path = ROOT / "artifacts" / "runs" / init_run / init_file
         init = init_checkpoint if init_checkpoint is not None else torch.load(init_path, map_location="cpu", weights_only=False)
+        if init["args"].get("readout_activation", "gelu") != args.readout_activation:
+            ap.error("readout activation differs from initialization; inherit the parent preprocessing")
         if args.recurrent_rank and (init.get("quantization") or init.get("factorization")):
             ap.error("factorized initialization must be a dense float checkpoint; use raw state for exact resume")
         if args.qat != "none" and init.get("factorization"):
@@ -1981,7 +2009,7 @@ def main():
                     configuration = DistilledLoss(
                         args.distill_alpha, args.distill_boot_h, args.ema_teacher,
                         args.ema_metric_weight, args.aux_struct, struct_at, N_SP_AUX,
-                        args.aux_next, next_at)
+                        args.aux_next, next_at, args.distill_reanchor)
                     for contribution, h, h_ema in distilled_macro_losses(
                             forward=raw_forward, ema_forward=teacher_forward,
                             state=h, ema_state=h_ema, labels=y, teacher=teach,
@@ -2039,6 +2067,11 @@ def main():
                             idx = ahead.clamp(max=teach.shape[1] - 1).expand(yc.shape[0], -1)[..., None].expand(-1, -1, 2)
                             label = torch.where(alive[..., None], teach.gather(1, idx).float().clamp(-2, 2), yc)
                         tgt = (1 - a) * label + a * teach[:, sl].float().clamp(-2, 2)
+                        if args.distill_reanchor:
+                            tgt = blended_target(
+                                y, teach, nxt_label, sl, args.distill_alpha,
+                                args.distill_boot_h, args.distill_reanchor,
+                            )
                         w = yc.abs() * main_valid[:, sl][..., None]
                         loss = (w * (out[..., :2].float() - tgt) ** 2).sum() / w.sum().clamp_min(1e-8)
                     elif args.td_alpha > 0:

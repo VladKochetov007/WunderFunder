@@ -1043,5 +1043,53 @@ def e488_training_duration_independent_grade(json, mo, project_root):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    import json as _night_json
+    from pathlib import Path as _NightPath
+    _night_root = _NightPath("/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-05/continuation_night")
+    _night_coverage = _night_json.loads((_night_root / "coverage.json").read_text())["items"]
+    mo.vstack([
+        mo.md("## October 5–6 continuation\nPublic anchor **0.6660**; **0.7000** remains a research target. Local starts close October 6 at **10:00 Europe/Kyiv**. Every registered mechanism has a control; registration is not a completed fit."),
+        mo.md(f"**{len(_night_coverage)} distinct mechanisms registered.** Follow coverage, independent reviews and results below."),
+        mo.ui.table([{ "Hypothesis": row["hypothesis_id"], "Mechanism": row["title"], "Placement": row["placement"], "Status": row["status"], "Next": row["next_action"] } for row in _night_coverage], page_size=12),
+    ])
+    return
+
+
+@app.cell(hide_code=True)
+def _(json, mo, project_root):
+    _prepared_base = project_root / "research/campaign_2026-10-05/continuation_night"
+    _prepared_queue = json.loads((_prepared_base / "prepared_queue.json").read_text())
+    _prepared_rows = [{key: job[key] for key in ("name", "kind", "preparation_status", "fits_local_shape_limits")} for job in _prepared_queue["jobs"]]
+    mo.vstack([
+        mo.md("### Prepared continuation experiments\nDrafts require independent review, real source/input sealing, live resource admission and remaining budget. Queued designs are not results."),
+        mo.ui.table(_prepared_rows, page_size=12),
+        mo.md("### Raw event-clock EDA\n24 fitting components only; independent raw-count reproduction pending."),
+        mo.image(str(_prepared_base / "event_semantics/eda/v1/event_alignment.png")),
+        mo.image(str(_prepared_base / "event_semantics/eda/v1/joint_support.png")),
+    ])
+    return
+
+
+app._unparsable_cell(
+    r"""
+    _e499_root = project_root / "research/campaign_2026-10-05/continuation_night/activation_transfer/e489_clipping_diagnostic"
+    _e499_summary = json.loads((_e499_root / "actual_v1/summary.json").read_text())
+    mo.vstack([mo.md("E499 actual three-seed diagnostic completed. Original E489 admission remains blocked; no fit or score follows from this diagnostic."), mo.ui.table(_e499_summary), mo.image(str(_e499_root / "eda/v1/clipping_and_update_parity.png"))])
+    """,
+    column=None, disabled=False, hide_code=True, expand_output=False, name="E499 measured clipping diagnostic"
+)
+
+
+app._unparsable_cell(
+    r"""
+    _recount_receipt = json.loads((project_root / "research/campaign_2026-10-05/continuation_night/event_semantics/reproduction/v2/receipt.json").read_text())
+    mo.vstack([mo.md("**E492 independent raw-count reproduction passed.** 24 fit components; zero evaluation components or model calls. Counts matched exactly; this verifies descriptive event-clock EDA and does not establish prediction gain. New-run limits: 5 CPU cores and 3 GB VRAM."), mo.ui.table([_recount_receipt["raw_group_count"], _recount_receipt["aggregate_count"]])])
+    """,
+    column=None, disabled=False, hide_code=True, expand_output=False, name="E492 independently verified event counts"
+)
+
+
 if __name__ == "__main__":
     app.run()

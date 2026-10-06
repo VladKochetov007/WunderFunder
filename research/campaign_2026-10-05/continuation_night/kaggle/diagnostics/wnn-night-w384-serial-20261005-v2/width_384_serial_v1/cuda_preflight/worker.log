@@ -1,0 +1,2422 @@
+FFFFFFFFFFFFFFFFFFFFFFFF............                                     [100%]
+=================================== FAILURES ===================================
+___________ test_real_main_epoch_resume_and_completed_export[False] ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_real_main_epoch_resume_an0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f792c1b9220>
+controlled = False, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'none'
+recurrent_rank = 0, sentinel_arm = None, thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -> None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -> Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+            from export_qat_control import export_control
+    
+            export_control(parent_dir / "model.pt", tmp_path / "no_finetune.pt", qat)
+        if recurrent_rank:
+            from export_factorized_control import export_control as export_rank_control
+    
+            export_rank_control(parent_dir / "model.pt", tmp_path / "zero_update.pt", recurrent_rank)
+        if sentinel_arm is not None:
+            from sentinel_prepare import prepare
+    
+            parent_dir = run("parent", [])
+            directory = tmp_path / "artifacts/runs/sentinel_initializers"
+            prepare(parent_dir / "model.pt", directory, tmp_path, sequence_count=3, row_stride=2)
+            base += [
+                "--init",
+                "sentinel_initializers/" + "_".join(sentinel_arm),
+                "--inherit-init-preprocessing",
+            ]
+    
+        if thin_mode is not None:
+            run("parent", [])
+            base += [
+                "--init",
+                "parent",
+                "--inherit-init-preprocessing",
+                "--thin-mode",
+                thin_mode,
+                "--thin-prob",
+                "1",
+                "--thin-range",
+                "0.4,0.8",
+            ]
+>       reference_dir = run("reference", [])
+                        ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_trainer_resume_integration.py:255: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f7928f838c0>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+____________ test_real_main_epoch_resume_and_completed_export[True] ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_real_main_epoch_resume_an1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7a4b957100>
+controlled = True, research_features = 'none', origin_view = 'off'
+credit_mode = 'deterministic', keep_probability = 0.5, qat = 'none'
+recurrent_rank = 0, sentinel_arm = None, thin_mode = None
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_real_main_epoch_resume_and_completed_export(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        controlled: bool,
+        research_features: str = "none",
+        origin_view: str = "off",
+        credit_mode: str = "deterministic",
+        keep_probability: float = 0.5,
+        qat: str = "none",
+        recurrent_rank: int = 0,
+        sentinel_arm: tuple[str, str] | None = None,
+        thin_mode: str | None = None,
+    ) -> None:
+        """Execute actual main, parquet reads, normalization, all P0 losses and exports."""
+        _repository(
+            tmp_path, with_sentinels=sentinel_arm is not None, with_quiet_rows=thin_mode is not None
+        )
+        device = os.environ.get("WNN_INTEGRATION_DEVICE", "cpu")
+        if device == "cuda":
+            assert torch.cuda.is_available(), "requested CUDA integration requires a visible device"
+        monkeypatch.setattr(training, "ROOT", tmp_path)
+        monkeypatch.setattr(training, "SENTINEL_PREPROCESSOR", None)
+        monkeypatch.setattr(training, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(data, "SEQUENCE_LENGTH", 8)
+        monkeypatch.setattr(training, "WARMUP", 1)
+        monkeypatch.setattr(training, "valid_row_groups", lambda path: (np.arange(4), np.array([4])))
+        monkeypatch.setattr(training, "dev_halves", lambda path: (np.arange(2), np.arange(2, 4)))
+        monkeypatch.setenv("WNN_LOADER_WORKERS", "2" if device == "cuda" else "0")
+        monkeypatch.delenv("WNN_PORTABLE_DATA_MANIFEST", raising=False)
+        base = [
+            "train_rnn.py",
+            "--device",
+            device,
+            "--train-source",
+            "valid",
+            "--full-valid",
+            "--batch",
+            "2",
+            "--hidden",
+            "4",
+            "--layers",
+            "1",
+            "--chunk",
+            "4",
+            "--epochs",
+            "3",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "2",
+            "--no-eval-during-fit",
+            "--loss",
+            "wmse",
+            "--distill",
+            "teacher",
+            "--aux-struct",
+            ".3",
+            "--aux-next",
+            ".3",
+            "--ema-teacher",
+            "1",
+            "--eval-ema",
+            "--sync-free",
+            "--seed",
+            "3",
+            "--save-training-state",
+            "--research-features",
+            research_features,
+        ]
+        if controlled:
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "2",
+                "--detach-boundary-jitter",
+                "--distill-boot-h",
+                "1",
+                "--ema-reference-rows",
+                "4",
+                "--optim",
+                "muon",
+                "--optim-switch",
+                "0.5:adamw",
+                "--grad-noise",
+                "1e-6",
+                "--batch-order",
+                "seeded",
+                "--antithetic",
+            ]
+        if device == "cuda":
+            base += ["--fast"] if credit_mode == "deterministic" else ["--pin-memory", "--prop-cache"]
+        if origin_view != "off":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "2",
+                "--detach-rows",
+                "2",
+                "--origin-view",
+                origin_view,
+                "--ema-reference-rows",
+                "2",
+            ]
+        if credit_mode != "deterministic":
+            base += [
+                "--chunk",
+                "1",
+                "--update-rows",
+                "4",
+                "--detach-rows",
+                "4",
+                "--credit-mode",
+                credit_mode,
+                "--credit-keep-probability",
+                str(keep_probability),
+                "--optim",
+                "sgd",
+                "--momentum",
+                ".9",
+                "--precision",
+                "fp32",
+                "--no-gradient-clip",
+            ]
+        if qat != "none":
+            base += ["--qat", qat, "--precision", "fp32"]
+        if recurrent_rank:
+            base += [
+                "--recurrent-rank",
+                str(recurrent_rank),
+                "--precision",
+                "fp32",
+                "--optim",
+                "adamw",
+                "--optim-switch",
+                "",
+            ]
+    
+        forward_rows: dict[str, int] = {}
+        active_run = ""
+        original_forward = training.forward_chunk
+    
+        def counted_forward(model, inputs, window, state):
+            forward_rows[active_run] = forward_rows.get(active_run, 0) + window.stop - window.start
+            return original_forward(model, inputs, window, state)
+    
+        if origin_view == "prefix-discard":
+            monkeypatch.setattr(training, "forward_chunk", counted_forward)
+    
+        def run(name: str, extra: list[str]) -> Path:
+            nonlocal active_run
+            active_run = name
+            monkeypatch.setattr(sys, "argv", [*base, "--name", name, *extra])
+            training.main()
+            return tmp_path / "artifacts/runs" / name
+    
+        if qat != "none" or recurrent_rank:
+            parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+            base += ["--init", "parent"]
+            float_dir = run("float_continuation", ["--qat", "none", "--recurrent-rank", "0"])
+            float_state = load_training_state(float_dir / "training_state.pt")
+        if qat != "none":
+            from export_qat_control import export_control
+    
+            export_control(parent_dir / "model.pt", tmp_path / "no_finetune.pt", qat)
+        if recurrent_rank:
+            from export_factorized_control import export_control as export_rank_control
+    
+            export_rank_control(parent_dir / "model.pt", tmp_path / "zero_update.pt", recurrent_rank)
+        if sentinel_arm is not None:
+            from sentinel_prepare import prepare
+    
+            parent_dir = run("parent", [])
+            directory = tmp_path / "artifacts/runs/sentinel_initializers"
+            prepare(parent_dir / "model.pt", directory, tmp_path, sequence_count=3, row_stride=2)
+            base += [
+                "--init",
+                "sentinel_initializers/" + "_".join(sentinel_arm),
+                "--inherit-init-preprocessing",
+            ]
+    
+        if thin_mode is not None:
+            run("parent", [])
+            base += [
+                "--init",
+                "parent",
+                "--inherit-init-preprocessing",
+                "--thin-mode",
+                thin_mode,
+                "--thin-prob",
+                "1",
+                "--thin-range",
+                "0.4,0.8",
+            ]
+>       reference_dir = run("reference", [])
+                        ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_trainer_resume_integration.py:255: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f7928ea6c10>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+____________ test_main_restores_thread_budget_after_initialization _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_restores_thread_budg0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7928e94b90>
+
+    def test_main_restores_thread_budget_after_initialization(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """A one-time initializer change must not become the saved fit's thread count."""
+        original_builder = training.build_optimizer
+        initialize_once = iter([True])
+    
+        def changing_builder(model: torch.nn.Module, args: argparse.Namespace) -> torch.optim.Optimizer:
+            optimizer = original_builder(model, args)
+            if next(initialize_once, False):
+                torch.set_num_threads(training.cpu_threads() + 1)
+            return optimizer
+    
+        monkeypatch.setattr(training, "build_optimizer", changing_builder)
+        monkeypatch.setenv("WNN_INTEGRATION_DEVICE", "cpu")
+>       test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, False)
+
+tests/test_trainer_resume_integration.py:415: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:255: in test_real_main_epoch_resume_and_completed_export
+    reference_dir = run("reference", [])
+                    ^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:801: in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py:54: in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:195: in __getitem__
+    seq = self._file.read(self.indices[i])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <wnn.bounded_loader.BoundedSequenceFile object at 0x7f79206b06e0>
+index = np.int64(1)
+
+    def read(self, index: int, *, targets: bool = True, mask: bool = True) -> Sequence:
+        """Return unchanged dense rows, then release transient decode allocations."""
+        want_targets = targets and self.has_targets
+        want_mask = mask and self.has_mask
+        columns = ["seq_ix", *FEATURE_COLUMNS]
+        if want_targets:
+            columns.extend(TARGET_COLUMNS)
+        if want_mask:
+            columns.append("is_scored")
+        x = np.empty((SEQUENCE_LENGTH, len(FEATURE_COLUMNS)), np.float32)
+        y = np.empty((SEQUENCE_LENGTH, 2), np.float32) if want_targets else None
+        scored = np.empty(SEQUENCE_LENGTH, bool) if want_mask else None
+        offset, sequence_id = 0, None
+        reader = self._reader
+        metadata = reader.metadata.row_group(index)
+        if metadata.num_rows != SEQUENCE_LENGTH:
+>           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E           ValueError: row group 1 has 8 rows
+
+src/wnn/bounded_loader.py:50: ValueError
+_________________ test_main_research_features_resume[volume28] _________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_research_features_re0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7928fc3ac0>
+research_features = 'volume28'
+
+    @pytest.mark.parametrize("research_features", ["volume28", "volume28_current"])
+    def test_main_research_features_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, research_features: str
+    ) -> None:
+        """Expanded normalization and feature checkpoints survive actual trainer resume."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, research_features
+        )
+
+tests/test_trainer_resume_integration.py:423: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:255: in test_real_main_epoch_resume_and_completed_export
+    reference_dir = run("reference", [])
+                    ^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f7928dd7ce0>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 3 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+_____________ test_main_research_features_resume[volume28_current] _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_research_features_re1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7928fc3f00>
+research_features = 'volume28_current'
+
+    @pytest.mark.parametrize("research_features", ["volume28", "volume28_current"])
+    def test_main_research_features_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, research_features: str
+    ) -> None:
+        """Expanded normalization and feature checkpoints survive actual trainer resume."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, research_features
+        )
+
+tests/test_trainer_resume_integration.py:423: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:255: in test_real_main_epoch_resume_and_completed_export
+    reference_dir = run("reference", [])
+                    ^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f7928fc2f10>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 3 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+__________________ test_main_origin_view_resume[prefix-fixed] __________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_origin_view_resume_p0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f791c295850>
+origin_view = 'prefix-fixed'
+
+    @pytest.mark.parametrize("origin_view", ["prefix-fixed", "prefix-random", "prefix-discard"])
+    def test_main_origin_view_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, origin_view: str
+    ) -> None:
+        """Full prefix replay with actual row-clock EMA stays exact across epoch resume."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, origin_view=origin_view
+        )
+
+tests/test_trainer_resume_integration.py:433: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:255: in test_real_main_epoch_resume_and_completed_export
+    reference_dir = run("reference", [])
+                    ^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c295c50>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+_________________ test_main_origin_view_resume[prefix-random] __________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_origin_view_resume_p1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f791c295b50>
+origin_view = 'prefix-random'
+
+    @pytest.mark.parametrize("origin_view", ["prefix-fixed", "prefix-random", "prefix-discard"])
+    def test_main_origin_view_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, origin_view: str
+    ) -> None:
+        """Full prefix replay with actual row-clock EMA stays exact across epoch resume."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, origin_view=origin_view
+        )
+
+tests/test_trainer_resume_integration.py:433: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:255: in test_real_main_epoch_resume_and_completed_export
+    reference_dir = run("reference", [])
+                    ^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c5185f0>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+_________________ test_main_origin_view_resume[prefix-discard] _________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_origin_view_resume_p2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7928e572f0>
+origin_view = 'prefix-discard'
+
+    @pytest.mark.parametrize("origin_view", ["prefix-fixed", "prefix-random", "prefix-discard"])
+    def test_main_origin_view_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, origin_view: str
+    ) -> None:
+        """Full prefix replay with actual row-clock EMA stays exact across epoch resume."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, origin_view=origin_view
+        )
+
+tests/test_trainer_resume_integration.py:433: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:255: in test_real_main_epoch_resume_and_completed_export
+    reference_dir = run("reference", [])
+                    ^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c55f930>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+_____________________ test_main_thinning_resume[compress] ______________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_thinning_resume_comp0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f791c5554f0>
+thin_mode = 'compress'
+
+    @pytest.mark.parametrize("thin_mode", ["compress", "retained-mass"])
+    def test_main_thinning_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, thin_mode: str
+    ) -> None:
+        """Quiet-row views keep frozen normalization and exact loader/RNG continuation."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, thin_mode=thin_mode
+        )
+
+tests/test_trainer_resume_integration.py:443: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:243: in test_real_main_epoch_resume_and_completed_export
+    run("parent", [])
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c75cbb0>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+___________________ test_main_thinning_resume[retained-mass] ___________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_thinning_resume_reta0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7928dfe5f0>
+thin_mode = 'retained-mass'
+
+    @pytest.mark.parametrize("thin_mode", ["compress", "retained-mass"])
+    def test_main_thinning_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, thin_mode: str
+    ) -> None:
+        """Quiet-row views keep frozen normalization and exact loader/RNG continuation."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, thin_mode=thin_mode
+        )
+
+tests/test_trainer_resume_integration.py:443: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:243: in test_real_main_epoch_resume_and_completed_export
+    run("parent", [])
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f7928e007d0>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+___________ test_main_random_credit_resume[random-uncompensated-0.5] ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_random_credit_resume0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7928dfc210>
+credit_mode = 'random-uncompensated', keep_probability = 0.5
+
+    @pytest.mark.parametrize(
+        "credit_mode,keep_probability",
+        [
+            ("random-uncompensated", 0.5),
+            ("artbp", 0.5),
+            ("artbp", 1.0),
+        ],
+    )
+    def test_main_random_credit_resume(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        credit_mode: str,
+        keep_probability: float,
+    ) -> None:
+        """Private credit gates and actual SGD momentum continuation remain deterministic."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, credit_mode=credit_mode, keep_probability=keep_probability
+        )
+
+tests/test_trainer_resume_integration.py:463: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:255: in test_real_main_epoch_resume_and_completed_export
+    reference_dir = run("reference", [])
+                    ^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c5d0890>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+__________________ test_main_random_credit_resume[artbp-0.5] ___________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_random_credit_resume1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f79284e0c80>
+credit_mode = 'artbp', keep_probability = 0.5
+
+    @pytest.mark.parametrize(
+        "credit_mode,keep_probability",
+        [
+            ("random-uncompensated", 0.5),
+            ("artbp", 0.5),
+            ("artbp", 1.0),
+        ],
+    )
+    def test_main_random_credit_resume(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        credit_mode: str,
+        keep_probability: float,
+    ) -> None:
+        """Private credit gates and actual SGD momentum continuation remain deterministic."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, credit_mode=credit_mode, keep_probability=keep_probability
+        )
+
+tests/test_trainer_resume_integration.py:463: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:255: in test_real_main_epoch_resume_and_completed_export
+    reference_dir = run("reference", [])
+                    ^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c5765d0>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+__________________ test_main_random_credit_resume[artbp-1.0] ___________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_random_credit_resume2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7928e02ed0>
+credit_mode = 'artbp', keep_probability = 1.0
+
+    @pytest.mark.parametrize(
+        "credit_mode,keep_probability",
+        [
+            ("random-uncompensated", 0.5),
+            ("artbp", 0.5),
+            ("artbp", 1.0),
+        ],
+    )
+    def test_main_random_credit_resume(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        credit_mode: str,
+        keep_probability: float,
+    ) -> None:
+        """Private credit gates and actual SGD momentum continuation remain deterministic."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, credit_mode=credit_mode, keep_probability=keep_probability
+        )
+
+tests/test_trainer_resume_integration.py:463: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:255: in test_real_main_epoch_resume_and_completed_export
+    reference_dir = run("reference", [])
+                    ^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c7ae150>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+________________ test_main_qat_finetune_resume[False-recurrent] ________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_qat_finetune_resume_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7a3ba6b4d0>
+qat = 'recurrent', controlled = False
+
+    @pytest.mark.parametrize("qat", ["recurrent", "recurrent_head"])
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_main_qat_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, qat: str, controlled: bool
+    ) -> None:
+        """Actual FP32 QAT fine-tuning preserves raw continuation and effective EMA export."""
+>       test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, controlled, qat=qat)
+
+tests/test_trainer_resume_integration.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:218: in test_real_main_epoch_resume_and_completed_export
+    parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c5d6820>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+_____________ test_main_qat_finetune_resume[False-recurrent_head] ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_qat_finetune_resume_1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7928e45bd0>
+qat = 'recurrent_head', controlled = False
+
+    @pytest.mark.parametrize("qat", ["recurrent", "recurrent_head"])
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_main_qat_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, qat: str, controlled: bool
+    ) -> None:
+        """Actual FP32 QAT fine-tuning preserves raw continuation and effective EMA export."""
+>       test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, controlled, qat=qat)
+
+tests/test_trainer_resume_integration.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:218: in test_real_main_epoch_resume_and_completed_export
+    parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c5de330>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+________________ test_main_qat_finetune_resume[True-recurrent] _________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_qat_finetune_resume_2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f791c56c9f0>
+qat = 'recurrent', controlled = True
+
+    @pytest.mark.parametrize("qat", ["recurrent", "recurrent_head"])
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_main_qat_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, qat: str, controlled: bool
+    ) -> None:
+        """Actual FP32 QAT fine-tuning preserves raw continuation and effective EMA export."""
+>       test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, controlled, qat=qat)
+
+tests/test_trainer_resume_integration.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:218: in test_real_main_epoch_resume_and_completed_export
+    parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f79284ecdd0>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+______________ test_main_qat_finetune_resume[True-recurrent_head] ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_qat_finetune_resume_3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f791c577c50>
+qat = 'recurrent_head', controlled = True
+
+    @pytest.mark.parametrize("qat", ["recurrent", "recurrent_head"])
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_main_qat_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, qat: str, controlled: bool
+    ) -> None:
+        """Actual FP32 QAT fine-tuning preserves raw continuation and effective EMA export."""
+>       test_real_main_epoch_resume_and_completed_export(tmp_path, monkeypatch, controlled, qat=qat)
+
+tests/test_trainer_resume_integration.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:218: in test_real_main_epoch_resume_and_completed_export
+    parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c5a3bf0>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+_________________ test_main_factorized_finetune_resume[False] __________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_factorized_finetune_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f791c574b90>
+controlled = False
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_main_factorized_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, controlled: bool
+    ) -> None:
+        """Latent factors and their AdamW moments resume exactly with effective EMA export."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, controlled, recurrent_rank=2
+        )
+
+tests/test_trainer_resume_integration.py:482: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:218: in test_real_main_epoch_resume_and_completed_export
+    parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c5a2210>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+__________________ test_main_factorized_finetune_resume[True] __________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_factorized_finetune_1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f791c5ab4a0>
+controlled = True
+
+    @pytest.mark.parametrize("controlled", [False, True])
+    def test_main_factorized_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, controlled: bool
+    ) -> None:
+        """Latent factors and their AdamW moments resume exactly with effective EMA export."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, controlled, recurrent_rank=2
+        )
+
+tests/test_trainer_resume_integration.py:482: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:218: in test_real_main_epoch_resume_and_completed_export
+    parent_dir = run("parent", ["--qat", "none", "--recurrent-rank", "0"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c5a0e30>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+______________ test_main_sentinel_finetune_resume[sentinel_arm0] _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f791c3a74d0>
+sentinel_arm = ('unchanged', 'none')
+
+    @pytest.mark.parametrize(
+        "sentinel_arm",
+        [
+            ("unchanged", "none"),
+            ("unchanged", "missing"),
+            ("neutral", "none"),
+            ("safe", "missing"),
+            ("safe", "current"),
+        ],
+    )
+    def test_main_sentinel_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, sentinel_arm: tuple[str, str]
+    ) -> None:
+        """Frozen preprocessing and zero-init feature projections survive actual fine-tune resume."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, sentinel_arm=sentinel_arm
+        )
+
+tests/test_trainer_resume_integration.py:501: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:233: in test_real_main_epoch_resume_and_completed_export
+    parent_dir = run("parent", [])
+                 ^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c537dd0>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+______________ test_main_sentinel_finetune_resume[sentinel_arm1] _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f791c43e650>
+sentinel_arm = ('unchanged', 'missing')
+
+    @pytest.mark.parametrize(
+        "sentinel_arm",
+        [
+            ("unchanged", "none"),
+            ("unchanged", "missing"),
+            ("neutral", "none"),
+            ("safe", "missing"),
+            ("safe", "current"),
+        ],
+    )
+    def test_main_sentinel_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, sentinel_arm: tuple[str, str]
+    ) -> None:
+        """Frozen preprocessing and zero-init feature projections survive actual fine-tune resume."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, sentinel_arm=sentinel_arm
+        )
+
+tests/test_trainer_resume_integration.py:501: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:233: in test_real_main_epoch_resume_and_completed_export
+    parent_dir = run("parent", [])
+                 ^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c5a0ad0>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+______________ test_main_sentinel_finetune_resume[sentinel_arm2] _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f79284e59b0>
+sentinel_arm = ('neutral', 'none')
+
+    @pytest.mark.parametrize(
+        "sentinel_arm",
+        [
+            ("unchanged", "none"),
+            ("unchanged", "missing"),
+            ("neutral", "none"),
+            ("safe", "missing"),
+            ("safe", "current"),
+        ],
+    )
+    def test_main_sentinel_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, sentinel_arm: tuple[str, str]
+    ) -> None:
+        """Frozen preprocessing and zero-init feature projections survive actual fine-tune resume."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, sentinel_arm=sentinel_arm
+        )
+
+tests/test_trainer_resume_integration.py:501: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:233: in test_real_main_epoch_resume_and_completed_export
+    parent_dir = run("parent", [])
+                 ^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f792852a4b0>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+______________ test_main_sentinel_finetune_resume[sentinel_arm3] _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f79284d6740>
+sentinel_arm = ('safe', 'missing')
+
+    @pytest.mark.parametrize(
+        "sentinel_arm",
+        [
+            ("unchanged", "none"),
+            ("unchanged", "missing"),
+            ("neutral", "none"),
+            ("safe", "missing"),
+            ("safe", "current"),
+        ],
+    )
+    def test_main_sentinel_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, sentinel_arm: tuple[str, str]
+    ) -> None:
+        """Frozen preprocessing and zero-init feature projections survive actual fine-tune resume."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, sentinel_arm=sentinel_arm
+        )
+
+tests/test_trainer_resume_integration.py:501: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:233: in test_real_main_epoch_resume_and_completed_export
+    parent_dir = run("parent", [])
+                 ^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f792852b230>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+______________ test_main_sentinel_finetune_resume[sentinel_arm4] _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_main_sentinel_finetune_re4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f792c28a120>
+sentinel_arm = ('safe', 'current')
+
+    @pytest.mark.parametrize(
+        "sentinel_arm",
+        [
+            ("unchanged", "none"),
+            ("unchanged", "missing"),
+            ("neutral", "none"),
+            ("safe", "missing"),
+            ("safe", "current"),
+        ],
+    )
+    def test_main_sentinel_finetune_resume(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, sentinel_arm: tuple[str, str]
+    ) -> None:
+        """Frozen preprocessing and zero-init feature projections survive actual fine-tune resume."""
+>       test_real_main_epoch_resume_and_completed_export(
+            tmp_path, monkeypatch, False, sentinel_arm=sentinel_arm
+        )
+
+tests/test_trainer_resume_integration.py:501: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_trainer_resume_integration.py:233: in test_real_main_epoch_resume_and_completed_export
+    parent_dir = run("parent", [])
+                 ^^^^^^^^^^^^^^^^^
+tests/test_trainer_resume_integration.py:214: in run
+    training.main()
+scripts/train_rnn.py:1648: in main
+    fit_normalization(model, train_loader, device)
+/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+scripts/train_rnn.py:610: in fit_normalization
+    for b, batch in enumerate(loader):
+                    ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:741: in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1548: in _next_data
+    return self._process_data(data, worker_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/dist-packages/torch/utils/data/dataloader.py:1586: in _process_data
+    data.reraise()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <torch._utils.ExceptionWrapper object at 0x7f791c534f50>
+
+    def reraise(self):
+        r"""Reraises the wrapped exception in the current thread"""
+        # Format a message such as: "Caught ValueError in DataLoader worker
+        # process 2. Original Traceback:", followed by the traceback.
+        msg = f"Caught {self.exc_type.__name__} {self.where}.\nOriginal {self.exc_msg}"  # pyrefly: ignore [missing-attribute]
+        if self.exc_type is KeyError:
+            # KeyError calls repr() on its argument (usually a dict key). This
+            # makes stack traces unreadable. It will not be changed in Python
+            # (https://bugs.python.org/issue2651), so we work around it.
+            msg = KeyErrorMessage(msg)
+        elif getattr(self.exc_type, "message", None):
+            # Some exceptions have first argument as non-str but explicitly
+            # have message field
+            # pyrefly: ignore [not-callable]
+            raise self.exc_type(
+                # pyrefly: ignore [unexpected-keyword]
+                message=msg
+            )
+        try:
+            exception = self.exc_type(msg)  # pyrefly: ignore [not-callable]
+        except Exception:
+            # If the exception takes multiple arguments or otherwise can't
+            # be constructed, don't try to instantiate since we don't know how to
+            raise RuntimeError(msg) from None
+>       raise exception
+E       ValueError: Caught ValueError in DataLoader worker process 0.
+E       Original Traceback (most recent call last):
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/worker.py", line 358, in _worker_loop
+E           data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+E         File "/usr/local/lib/python3.13/dist-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+E           data = [self.dataset[idx] for idx in possibly_batched_index]
+E                   ~~~~~~~~~~~~^^^^^
+E         File "/kaggle/working/experiment/scripts/train_rnn.py", line 195, in __getitem__
+E           seq = self._file.read(self.indices[i])
+E         File "/kaggle/working/experiment/src/wnn/bounded_loader.py", line 50, in read
+E           raise ValueError(f"row group {index} has {metadata.num_rows} rows")
+E       ValueError: row group 1 has 8 rows
+
+/usr/local/lib/python3.13/dist-packages/torch/_utils.py:785: ValueError
+=============================== warnings summary ===============================
+tests/test_trainer_resume_integration.py: 23 warnings
+  /usr/lib/python3.13/multiprocessing/popen_fork.py:73: DeprecationWarning: This process (pid=19) is multi-threaded, use of fork() may lead to deadlocks in the child.
+    self.pid = os.fork()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_trainer_resume_integration.py::test_real_main_epoch_resume_and_completed_export[False]
+FAILED tests/test_trainer_resume_integration.py::test_real_main_epoch_resume_and_completed_export[True]
+FAILED tests/test_trainer_resume_integration.py::test_main_restores_thread_budget_after_initialization
+FAILED tests/test_trainer_resume_integration.py::test_main_research_features_resume[volume28]
+FAILED tests/test_trainer_resume_integration.py::test_main_research_features_resume[volume28_current]
+FAILED tests/test_trainer_resume_integration.py::test_main_origin_view_resume[prefix-fixed]
+FAILED tests/test_trainer_resume_integration.py::test_main_origin_view_resume[prefix-random]
+FAILED tests/test_trainer_resume_integration.py::test_main_origin_view_resume[prefix-discard]
+FAILED tests/test_trainer_resume_integration.py::test_main_thinning_resume[compress]
+FAILED tests/test_trainer_resume_integration.py::test_main_thinning_resume[retained-mass]
+FAILED tests/test_trainer_resume_integration.py::test_main_random_credit_resume[random-uncompensated-0.5]
+FAILED tests/test_trainer_resume_integration.py::test_main_random_credit_resume[artbp-0.5]
+FAILED tests/test_trainer_resume_integration.py::test_main_random_credit_resume[artbp-1.0]
+FAILED tests/test_trainer_resume_integration.py::test_main_qat_finetune_resume[False-recurrent]
+FAILED tests/test_trainer_resume_integration.py::test_main_qat_finetune_resume[False-recurrent_head]
+FAILED tests/test_trainer_resume_integration.py::test_main_qat_finetune_resume[True-recurrent]
+FAILED tests/test_trainer_resume_integration.py::test_main_qat_finetune_resume[True-recurrent_head]
+FAILED tests/test_trainer_resume_integration.py::test_main_factorized_finetune_resume[False]
+FAILED tests/test_trainer_resume_integration.py::test_main_factorized_finetune_resume[True]
+FAILED tests/test_trainer_resume_integration.py::test_main_sentinel_finetune_resume[sentinel_arm0]
+FAILED tests/test_trainer_resume_integration.py::test_main_sentinel_finetune_resume[sentinel_arm1]
+FAILED tests/test_trainer_resume_integration.py::test_main_sentinel_finetune_resume[sentinel_arm2]
+FAILED tests/test_trainer_resume_integration.py::test_main_sentinel_finetune_resume[sentinel_arm3]
+FAILED tests/test_trainer_resume_integration.py::test_main_sentinel_finetune_resume[sentinel_arm4]
+24 failed, 12 passed, 23 warnings in 133.85s (0:02:13)

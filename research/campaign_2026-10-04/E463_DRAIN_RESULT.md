@@ -1,6 +1,6 @@
 # E463 existing TPU job drain
 
-Observed 2026-10-05T08:17:54.841644+00:00: `vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1-runner` is **QUEUED**. Terminal outputs collected: **False**.
+Observed 2026-10-05T16:42:58.767679+00:00: `vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1-runner` is **ERROR**. Terminal outputs collected: **True**.
 
 This collector polls and downloads only the already-submitted preflight. It starts no kernels, performs no scientific retry, and does not launch research work. Provider completion and raw self-reported checks require independent interpretation; neither alone establishes full-model TPU or public-score success.
 

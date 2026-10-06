@@ -148,9 +148,39 @@ def provider(previous: dict[str, object], now: float) -> dict[str, object]:
         key = str(value["ref"])
         log = command([KAGGLE, "kernels", "logs", key])
         path = RUNTIME / (key.split("/")[-1] + ".error.log")
-        path.write_text(str(log["stdout"])[-65536:])
-        value["error_log"] = str(path.relative_to(ROOT))
+        path.write_text(str(log["stdout"])[-65536:] + str(log["stderr"])[-4000:])
+        if log["exit"] == 0:
+            value["error_log"] = str(path.relative_to(ROOT))
         value["log_observation_exit"] = log["exit"]
+    diagnostic_candidates = sorted(
+        cached.values(),
+        key=lambda item: ("/wnn-night-" not in str(item["ref"]), item.get("status") != "ERROR"),
+    )
+    for value in diagnostic_candidates:
+        if value.get("status") not in TERMINAL or value.get("diagnostics_collected"):
+            continue
+        key = str(value["ref"])
+        destination = RUNTIME / "provider_outputs" / key.split("/")[-1]
+        destination.mkdir(parents=True, exist_ok=True)
+        output = command(
+            [
+                KAGGLE,
+                "kernels",
+                "output",
+                key,
+                "-p",
+                str(destination),
+                "--file-pattern",
+                r".*\.(json|jsonl|log|txt|csv)$",
+                "--quiet",
+            ],
+            timeout=45,
+        )
+        value["diagnostic_collection_exit"] = output["exit"]
+        value["diagnostic_collection_error"] = output["stderr"]
+        value["diagnostics_collected"] = output["exit"] == 0
+        value["diagnostic_directory"] = str(destination.relative_to(ROOT))
+        break  # Bound each observer invocation to one provider download.
     result["kernels"] = cached
     return result
 
@@ -158,7 +188,11 @@ def provider(previous: dict[str, object], now: float) -> dict[str, object]:
 def local(now: float) -> dict[str, object]:
     """Observe all guarded attempts, live services and aggregate resource use."""
     attempts = []
-    for path in (ROOT / "research/campaign_2026-10-04/runner/attempts").glob("*.json"):
+    attempt_paths = list((ROOT / "research/campaign_2026-10-04/runner/attempts").glob("*.json"))
+    attempt_paths.extend(
+        (ROOT / "research/campaign_2026-10-05/continuation_night/runner/attempts").glob("*.json")
+    )
+    for path in attempt_paths:
         value = read_json(path)
         state = value.get("status")
         terminal = state in {"finished", "failed", "lost", "cancelled"}
@@ -234,7 +268,7 @@ def local(now: float) -> dict[str, object]:
                 (key, int(value))
                 for key, value in (line.split() for line in event_file.read_text().splitlines())
             )
-        except OSError as error:
+        except (OSError, ValueError) as error:
             events = {"observation_error": str(error)}
     return {
         "slice_properties": properties,
@@ -321,21 +355,28 @@ def alerts(snapshot: dict[str, object], now: float) -> list[str]:
         ):
             messages.append(f"Local {value['id']}: active attempt's service unavailable/ended")
     observed_local = snapshot["local"]
+    parent_events = observed_local.get("parent_memory_events", {})
+    required_events = {"oom", "oom_kill", "oom_group_kill"}
+    if not isinstance(parent_events, dict) or parent_events.get("observation_error"):
+        messages.append("Local parent memory.events unavailable; OOM monitoring incomplete")
+    elif not required_events.issubset(parent_events):
+        missing = sorted(required_events - set(parent_events))
+        messages.append("Local parent memory.events missing OOM counters: " + ", ".join(missing))
     properties = observed_local["slice_properties"]
     for field in ("MemoryCurrent", "MemoryHigh", "MemoryMax"):
         if not str(properties.get(field, "")).isdigit():
             messages.append(f"Local slice {field}: unavailable")
     if (
         str(properties.get("MemoryCurrent", "")).isdigit()
-        and int(properties["MemoryCurrent"]) >= 27_000_000_000
+        and int(properties["MemoryCurrent"]) >= 36_000_000_000
     ):
-        messages.append("Local aggregate RAM reached the 27 GB soft limit")
-    if properties.get("MemoryHigh") != "27000000000":
-        messages.append("Local RAM soft limit differs from 27 GB")
-    if properties.get("MemoryMax") != "30000000000":
-        messages.append("Local hard RAM cap differs from the user-authorized 30 GB")
-    if properties.get("CPUQuotaPerSecUSec") != "12s":
-        messages.append("Local CPU quota differs from the user-authorized 12 cores")
+        messages.append("Local aggregate RAM reached the 36 GB soft limit")
+    if properties.get("MemoryHigh") != "36000000000":
+        messages.append("Local RAM soft limit differs from 36 GB")
+    if properties.get("MemoryMax") != "40000000000":
+        messages.append("Local hard RAM cap differs from the user-authorized 40 GB")
+    if properties.get("CPUQuotaPerSecUSec") != "5s":
+        messages.append("Local CPU quota differs from the user-authorized 5 cores")
     if properties.get("MemorySwapMax") != "0":
         messages.append("Local worker swap is not disabled")
     for line in str(observed_local["services"]["stdout"]).splitlines():
@@ -346,8 +387,8 @@ def alerts(snapshot: dict[str, object], now: float) -> list[str]:
     if gpu and snapshot["local"]["gpu"]["exit"] == 0:
         try:
             used = sum(int(line.split(",")[0]) * 1024**2 for line in gpu.splitlines())
-            if used > 4_500_000_000:
-                messages.append(f"Local GPU near 5 GB ceiling: {used} bytes")
+            if used >= 2_800_000_000:
+                messages.append(f"Local GPU near 3 GB ceiling: {used} bytes")
         except ValueError:
             messages.append("Local GPU memory observation invalid")
     else:

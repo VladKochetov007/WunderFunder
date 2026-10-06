@@ -22,6 +22,8 @@ def main() -> int:
     init = commands.add_parser("init")
     init.add_argument("--contract", type=Path, required=True)
     init.add_argument("--block", required=True)
+    init.add_argument("--admission-policy", type=Path)
+    init.add_argument("--carryover-state", type=Path)
     block = commands.add_parser("block")
     block.add_argument("id")
     block.add_argument("--review", required=True)
@@ -52,8 +54,17 @@ def main() -> int:
             raise FileExistsError("spec already exists; choose a new identity")
         campaign.atomic_json(args.output, value)
     elif args.action == "init":
-        campaign_local.check_parent(campaign_local.properties(campaign_spec.SLICE))
-        campaign.initialize(state, root, args.contract, args.block)
+        policy = (
+            campaign_spec.validate_admission_policy(campaign.read_json(args.admission_policy))
+            if args.admission_policy is not None
+            else None
+        )
+        campaign_local.check_parent(campaign_local.properties(campaign_spec.SLICE), policy)
+        if args.carryover_state is not None:
+            campaign_local.check_orphans(args.carryover_state)
+        campaign.initialize(
+            state, root, args.contract, args.block, args.admission_policy, args.carryover_state
+        )
     elif args.action == "block":
         campaign_local.check_orphans(state)
         campaign.open_block(state, root, args.id, args.review)
@@ -70,11 +81,13 @@ def main() -> int:
     elif args.action == "pause":
         campaign.pause(state, args.reason)
     elif args.action == "acknowledge":
-        campaign_local.check_parent(campaign_local.properties(campaign_spec.SLICE))
+        policy = campaign.admission_policy(campaign.read_json(state / "READY.json"))
+        campaign_local.check_parent(campaign_local.properties(campaign_spec.SLICE), policy)
         campaign_local.check_orphans(state)
         campaign.acknowledge(state, root, args.incident, args.review)
     elif args.action == "acknowledge-job":
-        campaign_local.check_parent(campaign_local.properties(campaign_spec.SLICE))
+        policy = campaign.admission_policy(campaign.read_json(state / "READY.json"))
+        campaign_local.check_parent(campaign_local.properties(campaign_spec.SLICE), policy)
         campaign_local.check_orphans(state)
         campaign.acknowledge_job(state, root, args.job, args.incident, args.review)
     else:

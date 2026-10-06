@@ -6,16 +6,20 @@ import signal
 import socket
 import subprocess
 import time
-from contextlib import suppress
+from contextlib import ExitStack, suppress
 from pathlib import Path
 from types import FrameType
 
 from wnn.campaign import (
     ACTIVE,
     AdmissionBusy,
+    AdmissionClosed,
     BudgetExhausted,
+    admission_policy,
     atomic_json,
     attempts,
+    check_admission,
+    check_start_deadline,
     locked,
     pause,
     pause_locked,
@@ -28,6 +32,7 @@ from wnn.campaign import (
 from wnn.campaign_spec import (
     RAM_MAX,
     SLICE,
+    AdmissionPolicy,
     ExperimentSpec,
     content_file,
     digest,
@@ -113,21 +118,26 @@ def properties(unit: str) -> dict[str, str]:
             "show",
             unit,
             "-p",
-            "LoadState,ActiveState,Result,ExecMainStatus,ControlGroup,CPUQuotaPerSecUSec,MemoryMax,MemorySwapMax",
+            "LoadState,ActiveState,Result,ExecMainStatus,ControlGroup,CPUQuotaPerSecUSec,MemoryMax,MemoryHigh,MemorySwapMax",
         ]
     )
     return dict(line.split("=", 1) for line in output.splitlines() if "=" in line)
 
 
-def check_parent(value: dict[str, str]) -> None:
+def check_parent(value: dict[str, str], policy: AdmissionPolicy | None = None) -> None:
     """Reject absent, oversized or uninspectable parent resource controls."""
     quota = value.get("CPUQuotaPerSecUSec", "")
     if not quota.endswith("s") or not quota[:-1].replace(".", "", 1).isdigit():
         raise RuntimeError("cannot interpret parent CPU quota")
     if not 0 < float(quota[:-1]) <= 12:
         raise RuntimeError("parent CPU quota exceeds 12 CPUs")
-    if not 0 < int(value.get("MemoryMax", "0")) <= RAM_MAX or value.get("MemorySwapMax") != "0":
+    maximum = RAM_MAX if policy is None else policy["parent_ram_max_bytes"]
+    if not 0 < int(value.get("MemoryMax", "0")) <= maximum or value.get("MemorySwapMax") != "0":
         raise RuntimeError("parent RAM/swap limits are not confirmed")
+    if policy is not None and not 0 < int(value.get("MemoryHigh", "0")) <= min(
+        policy["parent_ram_high_bytes"], int(value["MemoryMax"])
+    ):
+        raise RuntimeError("parent soft RAM limit is not confirmed")
     if not value.get("ControlGroup", "").endswith(f"/{SLICE}"):
         raise RuntimeError("parent control group is absent")
 
@@ -268,16 +278,22 @@ def launch(
     record = None
     try:
         with locked(state):
-            ready(state, root)
+            value = ready(state, root)
+            policy = admission_policy(value)
+            check_start_deadline(policy)
             verify_files(root, spec["code"])
-            check_parent(properties(SLICE))
+            check_parent(properties(SLICE), policy)
             check_orphans(state)
             if spec["kind"] == "gpu" and device_memory() >= spec["limits"]["gpu_stop_bytes"]:
                 raise RuntimeError("device already exceeds operational threshold")
             record = reserve_attempt(state, root, spec, attempt)
             command = service_command(root, state, record, interpreter)
+            check_start_deadline(policy)
             subprocess.run(command, check=True, capture_output=True, text=True, timeout=10)
     except (AdmissionBusy, BudgetExhausted, FileExistsError):
+        if record is not None:
+            record.update(status="not_started", charged_seconds=0.0, finished_unix=time.time())
+            atomic_json(state / "attempts" / f"{attempt}.json", record)
         raise
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
         detail = str(error)
@@ -361,15 +377,17 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
     parent_group = None
     initial_events = None
     initial_parent_events = None
-    lock_handle = None
+    lock_context = ExitStack()
+    policy = None
     try:
-        ready(state, root)
+        readiness = ready(state, root)
+        policy = admission_policy(readiness)
         if record["status"] != "reserved" or record["spec_sha256"] != digest(spec):
             raise ValueError("attempt is not an unstarted matching reservation")
         if record["runtime_sha256"] != runtime_identity(root):
             raise ValueError("reserved runner content changed")
         parent = properties(SLICE)
-        check_parent(parent)
+        check_parent(parent, policy)
         own = properties(str(record["unit"]))
         expected = f"{parent['ControlGroup']}/{record['unit']}"
         if (
@@ -387,8 +405,12 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
             initial_memory_events=initial_events, initial_parent_memory_events=initial_parent_events
         )
         if spec["kind"] == "gpu":
-            lock_handle = (state / "gpu.lock").open("a")
-            fcntl.flock(lock_handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            lock_path = Path(str(readiness.get("gpu_lock_path", state / "gpu.lock")))
+            lock_handle = lock_context.enter_context(lock_path.open("a"))
+            try:
+                fcntl.flock(lock_handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError as error:
+                raise AdmissionBusy("the shared local GPU lock is occupied") from error
         verify_files(root, spec["code"])
         verify_scientific_inputs(root, spec)
         if signals or (state / "PAUSE.json").exists():
@@ -418,14 +440,24 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
         log_path = state / "logs" / f"{attempt}.log"
         log_path.parent.mkdir(parents=True, exist_ok=True)
         with log_path.open("xb") as log:
-            child = subprocess.Popen(
-                argv,
-                cwd=root,
-                env=env,
-                stdout=log,
-                stderr=subprocess.STDOUT,
-                start_new_session=True,
-            )
+            with locked(state):
+                policy = admission_policy(ready(state, root))
+                allocated = [
+                    validate_spec(item["spec"])
+                    for item in attempts(state)
+                    if item["status"] in ACTIVE
+                ]
+                record["prelaunch_resources"] = check_admission(policy, allocated)
+                atomic_json(record_path, record)
+                check_start_deadline(policy)
+                child = subprocess.Popen(
+                    argv,
+                    cwd=root,
+                    env=env,
+                    stdout=log,
+                    stderr=subprocess.STDOUT,
+                    start_new_session=True,
+                )
             while child.poll() is None:
                 elapsed = time.monotonic() - start
                 if signals or (state / "PAUSE.json").exists():
@@ -449,7 +481,11 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
                     raise RuntimeError("observed VRAM operational threshold exceeded")
                 if oom_increased(initial_events, counters):
                     raise RuntimeError("cgroup OOM event observed")
-                check_parent(properties(SLICE))
+                check_parent(properties(SLICE), policy)
+                if policy is not None:
+                    parent_ram = int((parent_group / "memory.current").read_text())
+                    if parent_ram >= policy["parent_ram_high_bytes"]:
+                        raise RuntimeError("aggregate parent RAM soft threshold reached")
                 time.sleep(0.5)
             if child.returncode != 0:
                 if child.returncode < 0 or child.returncode >= 128:
@@ -465,6 +501,10 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
                 raise ScientificFailure(
                     "artifact_missing", f"required output missing: {error}"
                 ) from error
+    except (AdmissionBusy, AdmissionClosed) as error:
+        failure = f"{type(error).__name__}: {error}"
+        failure_scope = "admission"
+        failure_category = "not_started"
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
         failure = f"{type(error).__name__}: {error}"
         failure_scope = "job" if isinstance(error, ScientificFailure) else "global"
@@ -483,7 +523,11 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
                 failure_scope = "global"
         elapsed = time.monotonic() - accounting_start
         record.update(
-            status="finished" if failure is None else "failed",
+            status="finished"
+            if failure is None
+            else "not_started"
+            if failure_scope == "admission"
+            else "failed",
             failure=failure,
             failure_scope=failure_scope,
             failure_category=failure_category,
@@ -505,7 +549,7 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
                     initial_parent_events, final_parent_events
                 ):
                     raise RuntimeError("worker or aggregate parent OOM event observed")
-                check_parent(properties(SLICE))
+                check_parent(properties(SLICE), policy)
                 if spec["kind"] == "gpu" and device_memory() >= spec["limits"]["gpu_stop_bytes"]:
                     raise RuntimeError("final device usage exceeds operational threshold")
                 verify_no_children(group)
@@ -514,7 +558,7 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
                 failure = f"{failure}; final cgroup observation: {error}"
                 failure_scope = "global"
                 record.update(status="failed", failure=failure, failure_scope=failure_scope)
-        if failure is not None and group is None:
+        if failure is not None and group is None and failure_scope != "admission":
             failure_scope = "global"
         record["failure_scope"] = failure_scope
         with locked(state):
@@ -522,10 +566,9 @@ def run_worker(root: Path, state: Path, attempt: str, interpreter: str) -> int:
             if failure is not None:
                 if failure_scope == "job":
                     quarantine_locked(state, spec, attempt, failure, str(failure_category))
-                else:
+                elif failure_scope != "admission":
                     pause_locked(state, failure, attempt)
-        if lock_handle is not None:
-            lock_handle.close()
+        lock_context.close()
         for sig, handler in previous.items():
             signal.signal(sig, handler)
     return 0 if failure is None else 1

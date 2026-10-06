@@ -1,0 +1,2303 @@
+{
+  "version": 1,
+  "experiment": "E-496",
+  "hids": [
+    "H-180",
+    "H-134",
+    "H-126"
+  ],
+  "launch_authorized": false,
+  "nodes": [
+    {
+      "id": "calibration_s3_f0",
+      "kind": "fit_only_cpu_calibration",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_calibration_s3_f0.draft.json",
+      "outputs": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f0.json"
+      ],
+      "depends_on": [],
+      "launch_authorized": false
+    },
+    {
+      "id": "parent_s3_f0_ah_a070_h8",
+      "kind": "parent_fit",
+      "arm": "ah_a070_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s3_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f0/history.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f0_ah_a070_h8",
+      "kind": "head_fit",
+      "arm": "ah_a070_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s3_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f0_ah_a070_h8"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f0_ah_a070_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s3_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a070_h8_s3_f0_valid.npy",
+        "cache/pred_c20261005_e496_ah_a070_h8_s3_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f0_ah_a070_h8"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f0_ah_a070_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s3_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a070_h8_s3_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a070_h8_s3_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f0_ah_a070_h8"
+      ]
+    },
+    {
+      "id": "parent_s3_f0_ah_a050_h0",
+      "kind": "parent_fit",
+      "arm": "ah_a050_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s3_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f0/history.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f0_ah_a050_h0",
+      "kind": "head_fit",
+      "arm": "ah_a050_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s3_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f0_ah_a050_h0"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f0_ah_a050_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s3_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a050_h0_s3_f0_valid.npy",
+        "cache/pred_c20261005_e496_ah_a050_h0_s3_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f0_ah_a050_h0"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f0_ah_a050_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s3_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a050_h0_s3_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a050_h0_s3_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f0_ah_a050_h0"
+      ]
+    },
+    {
+      "id": "parent_s3_f0_ah_a050_h8",
+      "kind": "parent_fit",
+      "arm": "ah_a050_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s3_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f0/history.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f0_ah_a050_h8",
+      "kind": "head_fit",
+      "arm": "ah_a050_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s3_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f0_ah_a050_h8"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f0_ah_a050_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s3_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a050_h8_s3_f0_valid.npy",
+        "cache/pred_c20261005_e496_ah_a050_h8_s3_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f0_ah_a050_h8"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f0_ah_a050_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s3_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a050_h8_s3_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a050_h8_s3_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f0_ah_a050_h8"
+      ]
+    },
+    {
+      "id": "parent_s3_f0_ah_a070_h0",
+      "kind": "parent_fit",
+      "arm": "ah_a070_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s3_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f0/history.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f0_ah_a070_h0",
+      "kind": "head_fit",
+      "arm": "ah_a070_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s3_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f0_ah_a070_h0"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f0_ah_a070_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s3_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a070_h0_s3_f0_valid.npy",
+        "cache/pred_c20261005_e496_ah_a070_h0_s3_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f0_ah_a070_h0"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f0_ah_a070_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s3_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a070_h0_s3_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a070_h0_s3_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f0_ah_a070_h0"
+      ]
+    },
+    {
+      "id": "parent_s3_f0_ah_a085_h0",
+      "kind": "parent_fit",
+      "arm": "ah_a085_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s3_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f0/history.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f0_ah_a085_h0",
+      "kind": "head_fit",
+      "arm": "ah_a085_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s3_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f0_ah_a085_h0"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f0_ah_a085_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s3_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a085_h0_s3_f0_valid.npy",
+        "cache/pred_c20261005_e496_ah_a085_h0_s3_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f0_ah_a085_h0"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f0_ah_a085_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s3_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a085_h0_s3_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a085_h0_s3_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f0_ah_a085_h0"
+      ]
+    },
+    {
+      "id": "parent_s3_f0_ah_a085_h8",
+      "kind": "parent_fit",
+      "arm": "ah_a085_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s3_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f0/history.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f0_ah_a085_h8",
+      "kind": "head_fit",
+      "arm": "ah_a085_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s3_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f0_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f0_ah_a085_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s3_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a085_h8_s3_f0_valid.npy",
+        "cache/pred_c20261005_e496_ah_a085_h8_s3_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f0_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f0_ah_a085_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s3_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a085_h8_s3_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a085_h8_s3_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f0_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "parent_s3_f0_direction_on",
+      "kind": "parent_fit",
+      "arm": "direction_on",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s3_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_direction_on_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f0/history.json",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f0_direction_on",
+      "kind": "head_fit",
+      "arm": "direction_on",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s3_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_direction_on_s3_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f0_direction_on"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f0_direction_on",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s3_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_direction_on_s3_f0_valid.npy",
+        "cache/pred_c20261005_e496_direction_on_s3_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f0_direction_on"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f0_direction_on",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s3_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_direction_on_s3_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_direction_on_s3_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f0_direction_on"
+      ]
+    },
+    {
+      "id": "parent_s3_f0_den_fixed",
+      "kind": "parent_fit",
+      "arm": "den_fixed",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f0.template.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f0/history.json",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f0/training_state.pt"
+      ],
+      "depends_on": [
+        "calibration_s3_f0"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f0.json::reference_mass"
+      ]
+    },
+    {
+      "id": "head_s3_f0_den_fixed",
+      "kind": "head_fit",
+      "arm": "den_fixed",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f0_den_fixed"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f0_den_fixed",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_den_fixed_s3_f0_valid.npy",
+        "cache/pred_c20261005_e496_den_fixed_s3_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f0_den_fixed"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f0_den_fixed",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_den_fixed_s3_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_den_fixed_s3_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f0_den_fixed"
+      ]
+    },
+    {
+      "id": "parent_s3_f0_den_shuffled",
+      "kind": "parent_fit",
+      "arm": "den_shuffled",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f0.template.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f0/history.json",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f0/training_state.pt"
+      ],
+      "depends_on": [
+        "calibration_s3_f0"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f0.json::reference_mass"
+      ]
+    },
+    {
+      "id": "head_s3_f0_den_shuffled",
+      "kind": "head_fit",
+      "arm": "den_shuffled",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f0_den_shuffled"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f0_den_shuffled",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_den_shuffled_s3_f0_valid.npy",
+        "cache/pred_c20261005_e496_den_shuffled_s3_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f0_den_shuffled"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f0_den_shuffled",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_den_shuffled_s3_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_den_shuffled_s3_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f0_den_shuffled"
+      ]
+    },
+    {
+      "id": "probe_alpha_horizon_envelope_s3_f0",
+      "kind": "resource_probe_plan",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_probe_ah_a085_h8_s3_f0.draft.json",
+      "outputs": [],
+      "depends_on": [],
+      "unresolved": [],
+      "launch_authorized": false
+    },
+    {
+      "id": "probe_direction_auxiliary_s3_f0",
+      "kind": "resource_probe_plan",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_probe_direction_on_s3_f0.draft.json",
+      "outputs": [],
+      "depends_on": [],
+      "unresolved": [],
+      "launch_authorized": false
+    },
+    {
+      "id": "probe_fixed_denominator_s3_f0",
+      "kind": "resource_probe_plan",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_probe_den_fixed_s3_f0.template.json",
+      "outputs": [],
+      "depends_on": [
+        "calibration_s3_f0"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f0.json::reference_mass"
+      ],
+      "launch_authorized": false
+    },
+    {
+      "id": "probe_shuffled_denominator_s3_f0",
+      "kind": "resource_probe_plan",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_probe_den_shuffled_s3_f0.template.json",
+      "outputs": [],
+      "depends_on": [
+        "calibration_s3_f0"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f0.json::reference_mass"
+      ],
+      "launch_authorized": false
+    },
+    {
+      "id": "endpoint_alpha_bootstrap_parent_s3_f0",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_alpha_bootstrap_s3_f0_parent.json",
+      "outputs": [],
+      "depends_on": [
+        "parent_prediction_s3_f0_ah_a050_h0",
+        "parent_prediction_s3_f0_ah_a050_h8",
+        "parent_prediction_s3_f0_ah_a070_h0",
+        "parent_prediction_s3_f0_ah_a070_h8",
+        "parent_prediction_s3_f0_ah_a085_h0",
+        "parent_prediction_s3_f0_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "endpoint_alpha_bootstrap_complete_s3_f0",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_alpha_bootstrap_s3_f0_complete.json",
+      "outputs": [],
+      "depends_on": [
+        "head_prediction_s3_f0_ah_a050_h0",
+        "head_prediction_s3_f0_ah_a050_h8",
+        "head_prediction_s3_f0_ah_a070_h0",
+        "head_prediction_s3_f0_ah_a070_h8",
+        "head_prediction_s3_f0_ah_a085_h0",
+        "head_prediction_s3_f0_ah_a085_h8",
+        "parent_prediction_s3_f0_ah_a050_h0",
+        "parent_prediction_s3_f0_ah_a050_h8",
+        "parent_prediction_s3_f0_ah_a070_h0",
+        "parent_prediction_s3_f0_ah_a070_h8",
+        "parent_prediction_s3_f0_ah_a085_h0",
+        "parent_prediction_s3_f0_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "endpoint_direction_parent_s3_f0",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_direction_s3_f0_parent.json",
+      "outputs": [],
+      "depends_on": [
+        "parent_prediction_s3_f0_ah_a070_h8",
+        "parent_prediction_s3_f0_direction_on"
+      ]
+    },
+    {
+      "id": "endpoint_direction_complete_s3_f0",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_direction_s3_f0_complete.json",
+      "outputs": [],
+      "depends_on": [
+        "head_prediction_s3_f0_ah_a070_h8",
+        "head_prediction_s3_f0_direction_on",
+        "parent_prediction_s3_f0_ah_a070_h8",
+        "parent_prediction_s3_f0_direction_on"
+      ]
+    },
+    {
+      "id": "endpoint_denominator_parent_s3_f0",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_denominator_s3_f0_parent.json",
+      "outputs": [],
+      "depends_on": [
+        "parent_prediction_s3_f0_ah_a070_h8",
+        "parent_prediction_s3_f0_den_fixed",
+        "parent_prediction_s3_f0_den_shuffled"
+      ]
+    },
+    {
+      "id": "endpoint_denominator_complete_s3_f0",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_denominator_s3_f0_complete.json",
+      "outputs": [],
+      "depends_on": [
+        "head_prediction_s3_f0_ah_a070_h8",
+        "head_prediction_s3_f0_den_fixed",
+        "head_prediction_s3_f0_den_shuffled",
+        "parent_prediction_s3_f0_ah_a070_h8",
+        "parent_prediction_s3_f0_den_fixed",
+        "parent_prediction_s3_f0_den_shuffled"
+      ]
+    },
+    {
+      "id": "calibration_s4_f0",
+      "kind": "fit_only_cpu_calibration",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_calibration_s4_f0.draft.json",
+      "outputs": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s4_f0.json"
+      ],
+      "depends_on": [],
+      "launch_authorized": false
+    },
+    {
+      "id": "parent_s4_f0_ah_a070_h8",
+      "kind": "parent_fit",
+      "arm": "ah_a070_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s4_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s4_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s4_f0/history.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s4_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s4_f0_ah_a070_h8",
+      "kind": "head_fit",
+      "arm": "ah_a070_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s4_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s4_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s4_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s4_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s4_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s4_f0_ah_a070_h8"
+      ]
+    },
+    {
+      "id": "parent_prediction_s4_f0_ah_a070_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s4_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a070_h8_s4_f0_valid.npy",
+        "cache/pred_c20261005_e496_ah_a070_h8_s4_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s4_f0_ah_a070_h8"
+      ]
+    },
+    {
+      "id": "head_prediction_s4_f0_ah_a070_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s4_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a070_h8_s4_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a070_h8_s4_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s4_f0_ah_a070_h8"
+      ]
+    },
+    {
+      "id": "parent_s4_f0_ah_a050_h0",
+      "kind": "parent_fit",
+      "arm": "ah_a050_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s4_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s4_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s4_f0/history.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s4_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s4_f0_ah_a050_h0",
+      "kind": "head_fit",
+      "arm": "ah_a050_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s4_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s4_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s4_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s4_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s4_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s4_f0_ah_a050_h0"
+      ]
+    },
+    {
+      "id": "parent_prediction_s4_f0_ah_a050_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s4_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a050_h0_s4_f0_valid.npy",
+        "cache/pred_c20261005_e496_ah_a050_h0_s4_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s4_f0_ah_a050_h0"
+      ]
+    },
+    {
+      "id": "head_prediction_s4_f0_ah_a050_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s4_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a050_h0_s4_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a050_h0_s4_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s4_f0_ah_a050_h0"
+      ]
+    },
+    {
+      "id": "parent_s4_f0_ah_a050_h8",
+      "kind": "parent_fit",
+      "arm": "ah_a050_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s4_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s4_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s4_f0/history.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s4_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s4_f0_ah_a050_h8",
+      "kind": "head_fit",
+      "arm": "ah_a050_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s4_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s4_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s4_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s4_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s4_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s4_f0_ah_a050_h8"
+      ]
+    },
+    {
+      "id": "parent_prediction_s4_f0_ah_a050_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s4_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a050_h8_s4_f0_valid.npy",
+        "cache/pred_c20261005_e496_ah_a050_h8_s4_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s4_f0_ah_a050_h8"
+      ]
+    },
+    {
+      "id": "head_prediction_s4_f0_ah_a050_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s4_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a050_h8_s4_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a050_h8_s4_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s4_f0_ah_a050_h8"
+      ]
+    },
+    {
+      "id": "parent_s4_f0_ah_a070_h0",
+      "kind": "parent_fit",
+      "arm": "ah_a070_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s4_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s4_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s4_f0/history.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s4_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s4_f0_ah_a070_h0",
+      "kind": "head_fit",
+      "arm": "ah_a070_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s4_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s4_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s4_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s4_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s4_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s4_f0_ah_a070_h0"
+      ]
+    },
+    {
+      "id": "parent_prediction_s4_f0_ah_a070_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s4_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a070_h0_s4_f0_valid.npy",
+        "cache/pred_c20261005_e496_ah_a070_h0_s4_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s4_f0_ah_a070_h0"
+      ]
+    },
+    {
+      "id": "head_prediction_s4_f0_ah_a070_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s4_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a070_h0_s4_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a070_h0_s4_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s4_f0_ah_a070_h0"
+      ]
+    },
+    {
+      "id": "parent_s4_f0_ah_a085_h0",
+      "kind": "parent_fit",
+      "arm": "ah_a085_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s4_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s4_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s4_f0/history.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s4_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s4_f0_ah_a085_h0",
+      "kind": "head_fit",
+      "arm": "ah_a085_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s4_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s4_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s4_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s4_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s4_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s4_f0_ah_a085_h0"
+      ]
+    },
+    {
+      "id": "parent_prediction_s4_f0_ah_a085_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s4_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a085_h0_s4_f0_valid.npy",
+        "cache/pred_c20261005_e496_ah_a085_h0_s4_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s4_f0_ah_a085_h0"
+      ]
+    },
+    {
+      "id": "head_prediction_s4_f0_ah_a085_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s4_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a085_h0_s4_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a085_h0_s4_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s4_f0_ah_a085_h0"
+      ]
+    },
+    {
+      "id": "parent_s4_f0_ah_a085_h8",
+      "kind": "parent_fit",
+      "arm": "ah_a085_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s4_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s4_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s4_f0/history.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s4_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s4_f0_ah_a085_h8",
+      "kind": "head_fit",
+      "arm": "ah_a085_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s4_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s4_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s4_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s4_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s4_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s4_f0_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "parent_prediction_s4_f0_ah_a085_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s4_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a085_h8_s4_f0_valid.npy",
+        "cache/pred_c20261005_e496_ah_a085_h8_s4_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s4_f0_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "head_prediction_s4_f0_ah_a085_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s4_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a085_h8_s4_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a085_h8_s4_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s4_f0_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "parent_s4_f0_direction_on",
+      "kind": "parent_fit",
+      "arm": "direction_on",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s4_f0.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_direction_on_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_direction_on_s4_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_direction_on_s4_f0/history.json",
+        "artifacts/runs/c20261005_e496_direction_on_s4_f0/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s4_f0_direction_on",
+      "kind": "head_fit",
+      "arm": "direction_on",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s4_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_direction_on_s4_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_direction_on_s4_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_direction_on_s4_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_direction_on_s4_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s4_f0_direction_on"
+      ]
+    },
+    {
+      "id": "parent_prediction_s4_f0_direction_on",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s4_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_direction_on_s4_f0_valid.npy",
+        "cache/pred_c20261005_e496_direction_on_s4_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s4_f0_direction_on"
+      ]
+    },
+    {
+      "id": "head_prediction_s4_f0_direction_on",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s4_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_direction_on_s4_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_direction_on_s4_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s4_f0_direction_on"
+      ]
+    },
+    {
+      "id": "parent_s4_f0_den_fixed",
+      "kind": "parent_fit",
+      "arm": "den_fixed",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s4_f0.template.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_den_fixed_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_den_fixed_s4_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_den_fixed_s4_f0/history.json",
+        "artifacts/runs/c20261005_e496_den_fixed_s4_f0/training_state.pt"
+      ],
+      "depends_on": [
+        "calibration_s4_f0"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s4_f0.json::reference_mass"
+      ]
+    },
+    {
+      "id": "head_s4_f0_den_fixed",
+      "kind": "head_fit",
+      "arm": "den_fixed",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s4_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_den_fixed_s4_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_den_fixed_s4_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_den_fixed_s4_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_den_fixed_s4_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s4_f0_den_fixed"
+      ]
+    },
+    {
+      "id": "parent_prediction_s4_f0_den_fixed",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s4_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_den_fixed_s4_f0_valid.npy",
+        "cache/pred_c20261005_e496_den_fixed_s4_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s4_f0_den_fixed"
+      ]
+    },
+    {
+      "id": "head_prediction_s4_f0_den_fixed",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s4_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_den_fixed_s4_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_den_fixed_s4_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s4_f0_den_fixed"
+      ]
+    },
+    {
+      "id": "parent_s4_f0_den_shuffled",
+      "kind": "parent_fit",
+      "arm": "den_shuffled",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s4_f0.template.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_den_shuffled_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_den_shuffled_s4_f0/provenance.json",
+        "artifacts/runs/c20261005_e496_den_shuffled_s4_f0/history.json",
+        "artifacts/runs/c20261005_e496_den_shuffled_s4_f0/training_state.pt"
+      ],
+      "depends_on": [
+        "calibration_s4_f0"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s4_f0.json::reference_mass"
+      ]
+    },
+    {
+      "id": "head_s4_f0_den_shuffled",
+      "kind": "head_fit",
+      "arm": "den_shuffled",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s4_f0_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_den_shuffled_s4_f0_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_den_shuffled_s4_f0_head/provenance.json",
+        "artifacts/runs/c20261005_e496_den_shuffled_s4_f0_head/history.json",
+        "artifacts/runs/c20261005_e496_den_shuffled_s4_f0_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s4_f0_den_shuffled"
+      ]
+    },
+    {
+      "id": "parent_prediction_s4_f0_den_shuffled",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s4_f0_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_den_shuffled_s4_f0_valid.npy",
+        "cache/pred_c20261005_e496_den_shuffled_s4_f0_valid.json"
+      ],
+      "depends_on": [
+        "parent_s4_f0_den_shuffled"
+      ]
+    },
+    {
+      "id": "head_prediction_s4_f0_den_shuffled",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s4_f0_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_den_shuffled_s4_f0_head_valid.npy",
+        "cache/pred_c20261005_e496_den_shuffled_s4_f0_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s4_f0_den_shuffled"
+      ]
+    },
+    {
+      "id": "endpoint_alpha_bootstrap_parent_s4_f0",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_alpha_bootstrap_s4_f0_parent.json",
+      "outputs": [],
+      "depends_on": [
+        "parent_prediction_s4_f0_ah_a050_h0",
+        "parent_prediction_s4_f0_ah_a050_h8",
+        "parent_prediction_s4_f0_ah_a070_h0",
+        "parent_prediction_s4_f0_ah_a070_h8",
+        "parent_prediction_s4_f0_ah_a085_h0",
+        "parent_prediction_s4_f0_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "endpoint_alpha_bootstrap_complete_s4_f0",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_alpha_bootstrap_s4_f0_complete.json",
+      "outputs": [],
+      "depends_on": [
+        "head_prediction_s4_f0_ah_a050_h0",
+        "head_prediction_s4_f0_ah_a050_h8",
+        "head_prediction_s4_f0_ah_a070_h0",
+        "head_prediction_s4_f0_ah_a070_h8",
+        "head_prediction_s4_f0_ah_a085_h0",
+        "head_prediction_s4_f0_ah_a085_h8",
+        "parent_prediction_s4_f0_ah_a050_h0",
+        "parent_prediction_s4_f0_ah_a050_h8",
+        "parent_prediction_s4_f0_ah_a070_h0",
+        "parent_prediction_s4_f0_ah_a070_h8",
+        "parent_prediction_s4_f0_ah_a085_h0",
+        "parent_prediction_s4_f0_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "endpoint_direction_parent_s4_f0",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_direction_s4_f0_parent.json",
+      "outputs": [],
+      "depends_on": [
+        "parent_prediction_s4_f0_ah_a070_h8",
+        "parent_prediction_s4_f0_direction_on"
+      ]
+    },
+    {
+      "id": "endpoint_direction_complete_s4_f0",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_direction_s4_f0_complete.json",
+      "outputs": [],
+      "depends_on": [
+        "head_prediction_s4_f0_ah_a070_h8",
+        "head_prediction_s4_f0_direction_on",
+        "parent_prediction_s4_f0_ah_a070_h8",
+        "parent_prediction_s4_f0_direction_on"
+      ]
+    },
+    {
+      "id": "endpoint_denominator_parent_s4_f0",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_denominator_s4_f0_parent.json",
+      "outputs": [],
+      "depends_on": [
+        "parent_prediction_s4_f0_ah_a070_h8",
+        "parent_prediction_s4_f0_den_fixed",
+        "parent_prediction_s4_f0_den_shuffled"
+      ]
+    },
+    {
+      "id": "endpoint_denominator_complete_s4_f0",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_denominator_s4_f0_complete.json",
+      "outputs": [],
+      "depends_on": [
+        "head_prediction_s4_f0_ah_a070_h8",
+        "head_prediction_s4_f0_den_fixed",
+        "head_prediction_s4_f0_den_shuffled",
+        "parent_prediction_s4_f0_ah_a070_h8",
+        "parent_prediction_s4_f0_den_fixed",
+        "parent_prediction_s4_f0_den_shuffled"
+      ]
+    },
+    {
+      "id": "calibration_s3_f1",
+      "kind": "fit_only_cpu_calibration",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_calibration_s3_f1.draft.json",
+      "outputs": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f1.json"
+      ],
+      "depends_on": [],
+      "launch_authorized": false
+    },
+    {
+      "id": "parent_s3_f1_ah_a070_h8",
+      "kind": "parent_fit",
+      "arm": "ah_a070_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s3_f1.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f1/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f1/history.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f1/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f1_ah_a070_h8",
+      "kind": "head_fit",
+      "arm": "ah_a070_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s3_f1_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f1_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f1_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f1_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f1_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f1_ah_a070_h8"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f1_ah_a070_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s3_f1_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a070_h8_s3_f1_valid.npy",
+        "cache/pred_c20261005_e496_ah_a070_h8_s3_f1_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f1_ah_a070_h8"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f1_ah_a070_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s3_f1_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a070_h8_s3_f1_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a070_h8_s3_f1_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f1_ah_a070_h8"
+      ]
+    },
+    {
+      "id": "parent_s3_f1_ah_a050_h0",
+      "kind": "parent_fit",
+      "arm": "ah_a050_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s3_f1.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f1/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f1/history.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f1/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f1_ah_a050_h0",
+      "kind": "head_fit",
+      "arm": "ah_a050_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s3_f1_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f1_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f1_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f1_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f1_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f1_ah_a050_h0"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f1_ah_a050_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s3_f1_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a050_h0_s3_f1_valid.npy",
+        "cache/pred_c20261005_e496_ah_a050_h0_s3_f1_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f1_ah_a050_h0"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f1_ah_a050_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s3_f1_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a050_h0_s3_f1_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a050_h0_s3_f1_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f1_ah_a050_h0"
+      ]
+    },
+    {
+      "id": "parent_s3_f1_ah_a050_h8",
+      "kind": "parent_fit",
+      "arm": "ah_a050_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s3_f1.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f1/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f1/history.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f1/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f1_ah_a050_h8",
+      "kind": "head_fit",
+      "arm": "ah_a050_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s3_f1_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f1_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f1_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f1_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f1_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f1_ah_a050_h8"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f1_ah_a050_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s3_f1_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a050_h8_s3_f1_valid.npy",
+        "cache/pred_c20261005_e496_ah_a050_h8_s3_f1_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f1_ah_a050_h8"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f1_ah_a050_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s3_f1_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a050_h8_s3_f1_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a050_h8_s3_f1_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f1_ah_a050_h8"
+      ]
+    },
+    {
+      "id": "parent_s3_f1_ah_a070_h0",
+      "kind": "parent_fit",
+      "arm": "ah_a070_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s3_f1.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f1/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f1/history.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f1/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f1_ah_a070_h0",
+      "kind": "head_fit",
+      "arm": "ah_a070_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s3_f1_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f1_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f1_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f1_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f1_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f1_ah_a070_h0"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f1_ah_a070_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s3_f1_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a070_h0_s3_f1_valid.npy",
+        "cache/pred_c20261005_e496_ah_a070_h0_s3_f1_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f1_ah_a070_h0"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f1_ah_a070_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s3_f1_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a070_h0_s3_f1_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a070_h0_s3_f1_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f1_ah_a070_h0"
+      ]
+    },
+    {
+      "id": "parent_s3_f1_ah_a085_h0",
+      "kind": "parent_fit",
+      "arm": "ah_a085_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s3_f1.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f1/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f1/history.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f1/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f1_ah_a085_h0",
+      "kind": "head_fit",
+      "arm": "ah_a085_h0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s3_f1_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f1_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f1_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f1_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f1_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f1_ah_a085_h0"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f1_ah_a085_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s3_f1_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a085_h0_s3_f1_valid.npy",
+        "cache/pred_c20261005_e496_ah_a085_h0_s3_f1_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f1_ah_a085_h0"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f1_ah_a085_h0",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s3_f1_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a085_h0_s3_f1_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a085_h0_s3_f1_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f1_ah_a085_h0"
+      ]
+    },
+    {
+      "id": "parent_s3_f1_ah_a085_h8",
+      "kind": "parent_fit",
+      "arm": "ah_a085_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s3_f1.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f1/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f1/history.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f1/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f1_ah_a085_h8",
+      "kind": "head_fit",
+      "arm": "ah_a085_h8",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s3_f1_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f1_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f1_head/provenance.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f1_head/history.json",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f1_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f1_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f1_ah_a085_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s3_f1_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a085_h8_s3_f1_valid.npy",
+        "cache/pred_c20261005_e496_ah_a085_h8_s3_f1_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f1_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f1_ah_a085_h8",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s3_f1_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_ah_a085_h8_s3_f1_head_valid.npy",
+        "cache/pred_c20261005_e496_ah_a085_h8_s3_f1_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f1_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "parent_s3_f1_direction_on",
+      "kind": "parent_fit",
+      "arm": "direction_on",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s3_f1.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_direction_on_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f1/provenance.json",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f1/history.json",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f1/training_state.pt"
+      ],
+      "depends_on": [],
+      "unresolved": []
+    },
+    {
+      "id": "head_s3_f1_direction_on",
+      "kind": "head_fit",
+      "arm": "direction_on",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s3_f1_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_direction_on_s3_f1_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f1_head/provenance.json",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f1_head/history.json",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f1_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f1_direction_on"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f1_direction_on",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s3_f1_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_direction_on_s3_f1_valid.npy",
+        "cache/pred_c20261005_e496_direction_on_s3_f1_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f1_direction_on"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f1_direction_on",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s3_f1_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_direction_on_s3_f1_head_valid.npy",
+        "cache/pred_c20261005_e496_direction_on_s3_f1_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f1_direction_on"
+      ]
+    },
+    {
+      "id": "parent_s3_f1_den_fixed",
+      "kind": "parent_fit",
+      "arm": "den_fixed",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f1.template.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f1/provenance.json",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f1/history.json",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f1/training_state.pt"
+      ],
+      "depends_on": [
+        "calibration_s3_f1"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f1.json::reference_mass"
+      ]
+    },
+    {
+      "id": "head_s3_f1_den_fixed",
+      "kind": "head_fit",
+      "arm": "den_fixed",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f1_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f1_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f1_head/provenance.json",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f1_head/history.json",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f1_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f1_den_fixed"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f1_den_fixed",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f1_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_den_fixed_s3_f1_valid.npy",
+        "cache/pred_c20261005_e496_den_fixed_s3_f1_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f1_den_fixed"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f1_den_fixed",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f1_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_den_fixed_s3_f1_head_valid.npy",
+        "cache/pred_c20261005_e496_den_fixed_s3_f1_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f1_den_fixed"
+      ]
+    },
+    {
+      "id": "parent_s3_f1_den_shuffled",
+      "kind": "parent_fit",
+      "arm": "den_shuffled",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f1.template.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f1/provenance.json",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f1/history.json",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f1/training_state.pt"
+      ],
+      "depends_on": [
+        "calibration_s3_f1"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f1.json::reference_mass"
+      ]
+    },
+    {
+      "id": "head_s3_f1_den_shuffled",
+      "kind": "head_fit",
+      "arm": "den_shuffled",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f1_head.draft.json",
+      "outputs": [
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f1_head/model_ep0.pt",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f1_head/provenance.json",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f1_head/history.json",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f1_head/training_state.pt"
+      ],
+      "depends_on": [
+        "parent_s3_f1_den_shuffled"
+      ]
+    },
+    {
+      "id": "parent_prediction_s3_f1_den_shuffled",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f1_parent_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_den_shuffled_s3_f1_valid.npy",
+        "cache/pred_c20261005_e496_den_shuffled_s3_f1_valid.json"
+      ],
+      "depends_on": [
+        "parent_s3_f1_den_shuffled"
+      ]
+    },
+    {
+      "id": "head_prediction_s3_f1_den_shuffled",
+      "kind": "prediction",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f1_head_head_prediction.draft.json",
+      "outputs": [
+        "cache/pred_c20261005_e496_den_shuffled_s3_f1_head_valid.npy",
+        "cache/pred_c20261005_e496_den_shuffled_s3_f1_head_valid.json"
+      ],
+      "depends_on": [
+        "head_s3_f1_den_shuffled"
+      ]
+    },
+    {
+      "id": "endpoint_alpha_bootstrap_parent_s3_f1",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_alpha_bootstrap_s3_f1_parent.json",
+      "outputs": [],
+      "depends_on": [
+        "parent_prediction_s3_f1_ah_a050_h0",
+        "parent_prediction_s3_f1_ah_a050_h8",
+        "parent_prediction_s3_f1_ah_a070_h0",
+        "parent_prediction_s3_f1_ah_a070_h8",
+        "parent_prediction_s3_f1_ah_a085_h0",
+        "parent_prediction_s3_f1_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "endpoint_alpha_bootstrap_complete_s3_f1",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_alpha_bootstrap_s3_f1_complete.json",
+      "outputs": [],
+      "depends_on": [
+        "head_prediction_s3_f1_ah_a050_h0",
+        "head_prediction_s3_f1_ah_a050_h8",
+        "head_prediction_s3_f1_ah_a070_h0",
+        "head_prediction_s3_f1_ah_a070_h8",
+        "head_prediction_s3_f1_ah_a085_h0",
+        "head_prediction_s3_f1_ah_a085_h8",
+        "parent_prediction_s3_f1_ah_a050_h0",
+        "parent_prediction_s3_f1_ah_a050_h8",
+        "parent_prediction_s3_f1_ah_a070_h0",
+        "parent_prediction_s3_f1_ah_a070_h8",
+        "parent_prediction_s3_f1_ah_a085_h0",
+        "parent_prediction_s3_f1_ah_a085_h8"
+      ]
+    },
+    {
+      "id": "endpoint_direction_parent_s3_f1",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_direction_s3_f1_parent.json",
+      "outputs": [],
+      "depends_on": [
+        "parent_prediction_s3_f1_ah_a070_h8",
+        "parent_prediction_s3_f1_direction_on"
+      ]
+    },
+    {
+      "id": "endpoint_direction_complete_s3_f1",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_direction_s3_f1_complete.json",
+      "outputs": [],
+      "depends_on": [
+        "head_prediction_s3_f1_ah_a070_h8",
+        "head_prediction_s3_f1_direction_on",
+        "parent_prediction_s3_f1_ah_a070_h8",
+        "parent_prediction_s3_f1_direction_on"
+      ]
+    },
+    {
+      "id": "endpoint_denominator_parent_s3_f1",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_denominator_s3_f1_parent.json",
+      "outputs": [],
+      "depends_on": [
+        "parent_prediction_s3_f1_ah_a070_h8",
+        "parent_prediction_s3_f1_den_fixed",
+        "parent_prediction_s3_f1_den_shuffled"
+      ]
+    },
+    {
+      "id": "endpoint_denominator_complete_s3_f1",
+      "kind": "score_endpoint_spec",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/endpoints/e496_denominator_s3_f1_complete.json",
+      "outputs": [],
+      "depends_on": [
+        "head_prediction_s3_f1_ah_a070_h8",
+        "head_prediction_s3_f1_den_fixed",
+        "head_prediction_s3_f1_den_shuffled",
+        "parent_prediction_s3_f1_ah_a070_h8",
+        "parent_prediction_s3_f1_den_fixed",
+        "parent_prediction_s3_f1_den_shuffled"
+      ]
+    }
+  ],
+  "missing_inputs": [
+    {
+      "node": "c20261005_e496_calibration_s3_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_calibration_s3_f0.draft.json",
+      "inputs": [],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f0.json"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a070_h8_s3_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s3_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a070_h8_s3_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s3_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a050_h0_s3_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s3_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a050_h0_s3_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s3_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a050_h8_s3_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s3_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a050_h8_s3_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s3_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a070_h0_s3_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s3_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a070_h0_s3_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s3_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a085_h0_s3_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s3_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a085_h0_s3_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s3_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a085_h8_s3_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s3_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a085_h8_s3_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s3_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_direction_on_s3_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s3_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_direction_on_s3_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s3_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_direction_on_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_direction_on_s3_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_den_fixed_s3_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f0.template.json",
+      "inputs": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f0.json"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f0.json::reference_mass"
+      ]
+    },
+    {
+      "node": "c20261005_e496_den_fixed_s3_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_den_shuffled_s3_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f0.template.json",
+      "inputs": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f0.json"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f0.json::reference_mass"
+      ]
+    },
+    {
+      "node": "c20261005_e496_den_shuffled_s3_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_calibration_s4_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_calibration_s4_f0.draft.json",
+      "inputs": [],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s4_f0.json"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a070_h8_s4_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s4_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a070_h8_s4_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s4_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s4_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s4_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a050_h0_s4_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s4_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a050_h0_s4_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s4_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s4_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s4_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a050_h8_s4_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s4_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a050_h8_s4_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s4_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s4_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s4_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a070_h0_s4_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s4_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a070_h0_s4_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s4_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s4_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s4_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a085_h0_s4_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s4_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a085_h0_s4_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s4_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s4_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s4_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a085_h8_s4_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s4_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a085_h8_s4_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s4_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s4_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s4_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_direction_on_s4_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s4_f0.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_direction_on_s4_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s4_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_direction_on_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_direction_on_s4_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_direction_on_s4_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_den_fixed_s4_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s4_f0.template.json",
+      "inputs": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s4_f0.json"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s4_f0.json::reference_mass"
+      ]
+    },
+    {
+      "node": "c20261005_e496_den_fixed_s4_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s4_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_den_fixed_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_den_fixed_s4_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_den_fixed_s4_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_den_shuffled_s4_f0",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s4_f0.template.json",
+      "inputs": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s4_f0.json"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s4_f0.json::reference_mass"
+      ]
+    },
+    {
+      "node": "c20261005_e496_den_shuffled_s4_f0_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s4_f0_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_den_shuffled_s4_f0/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_den_shuffled_s4_f0/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_den_shuffled_s4_f0/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_calibration_s3_f1",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_calibration_s3_f1.draft.json",
+      "inputs": [],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f1.json"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a070_h8_s3_f1",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s3_f1.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a070_h8_s3_f1_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h8_s3_f1_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f1/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a070_h8_s3_f1/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a050_h0_s3_f1",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s3_f1.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a050_h0_s3_f1_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h0_s3_f1_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f1/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a050_h0_s3_f1/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a050_h8_s3_f1",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s3_f1.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a050_h8_s3_f1_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a050_h8_s3_f1_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f1/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a050_h8_s3_f1/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a070_h0_s3_f1",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s3_f1.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a070_h0_s3_f1_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a070_h0_s3_f1_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f1/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a070_h0_s3_f1/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a085_h0_s3_f1",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s3_f1.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a085_h0_s3_f1_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h0_s3_f1_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f1/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a085_h0_s3_f1/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_ah_a085_h8_s3_f1",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s3_f1.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_ah_a085_h8_s3_f1_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_ah_a085_h8_s3_f1_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f1/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_ah_a085_h8_s3_f1/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_direction_on_s3_f1",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s3_f1.draft.json",
+      "inputs": [],
+      "unresolved": []
+    },
+    {
+      "node": "c20261005_e496_direction_on_s3_f1_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_direction_on_s3_f1_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_direction_on_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_direction_on_s3_f1/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_direction_on_s3_f1/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_den_fixed_s3_f1",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f1.template.json",
+      "inputs": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f1.json"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f1.json::reference_mass"
+      ]
+    },
+    {
+      "node": "c20261005_e496_den_fixed_s3_f1_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f1_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f1/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_den_fixed_s3_f1/model_ep3.pt"
+      ]
+    },
+    {
+      "node": "c20261005_e496_den_shuffled_s3_f1",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f1.template.json",
+      "inputs": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f1.json"
+      ],
+      "unresolved": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/calibration/reference_s3_f1.json::reference_mass"
+      ]
+    },
+    {
+      "node": "c20261005_e496_den_shuffled_s3_f1_head",
+      "spec": "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f1_head.draft.json",
+      "inputs": [
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f1/model_ep3.pt",
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f1/provenance.json"
+      ],
+      "unresolved": [
+        "artifacts/runs/c20261005_e496_den_shuffled_s3_f1/model_ep3.pt"
+      ]
+    }
+  ],
+  "unresolved_templates": [
+    "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f0.template.json",
+    "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f0.template.json",
+    "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_probe_den_fixed_s3_f0.template.json",
+    "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_probe_den_shuffled_s3_f0.template.json",
+    "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s4_f0.template.json",
+    "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s4_f0.template.json",
+    "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_fixed_s3_f1.template.json",
+    "research/campaign_2026-10-05/continuation_night/supervision_frontier/specs/c20261005_e496_den_shuffled_s3_f1.template.json"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "experiment": {
+    "id": "E-494",
+    "date": "2026-10-05",
+    "hypotheses": [
+      "H-124"
+    ],
+    "kind": "complete strong recipe reanchor010",
+    "status": "implemented_cpu_validated_pending_independent_review_and_resource_admission",
+    "design": "research/campaign_2026-10-05/continuation_night/supervision/DESIGN.md",
+    "treatment": "reanchor010",
+    "controls": [
+      "control",
+      "bootstrap_off"
+    ],
+    "screen": {
+      "seed": 3,
+      "fold": 0,
+      "parent_epoch": 3,
+      "head_epoch": 0,
+      "head_seed": 3
+    },
+    "confirmations": [
+      {
+        "seed": 4,
+        "fold": 0
+      },
+      {
+        "seed": 3,
+        "fold": 1
+      }
+    ],
+    "shared_control": "predeclared one fresh control per seed/fold across E-493 and E-494",
+    "metric": "global_wp_clip2_v1",
+    "bootstrap_draws": 2000,
+    "scientific_fits_launched": 0,
+    "resource_probes_launched": 0,
+    "public_forecast": null,
+    "cpu_validation": {
+      "tests": 28,
+      "seconds": 3.141,
+      "receipt": "research/campaign_2026-10-05/continuation_night/activation_transfer/cpu_tests_v2.xml",
+      "receipt_sha256": "ca79566270687040465be2a5c44a3aafa9fa7f2ec5578dd66d6f5b73a28c1a58",
+      "limits": {
+        "cpus": 1,
+        "ram_bytes": 2147483648,
+        "gpu": false
+      }
+    }
+  },
+  "source_sha256": {
+    "src/wnn/nn.py": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+    "src/wnn/training_controls.py": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39",
+    "scripts/train_rnn.py": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+    "scripts/export_onnx.py": "8faa1c835d6cad0eec20de03112c62b8d750ec6e380c80cc1d3b9962d3cf84b5",
+    "scripts/package_submission.py": "cc609367b4aba93a7ba6d022fe0ad44625b1e63b898232e762c8e53532897bb2",
+    "tests/test_training_controls.py": "4a64e35002d1f4a5032180ba0a9aa9e64fd8e11afe44e7af66b7b8f2a8d426f4",
+    "tests/test_continuation_treatments.py": "a79a9dbd0153de26f06bd32b2fb6ccf3b69cf83c7e44fb68ec2b0b7851bc2f55",
+    "research/campaign_2026-10-05/continuation_night/activation_transfer/materialize_specs.py": "1df3ca3efc473ea75af14bc982cd788e685a66639d58ba7e441196f6a63841df"
+  },
+  "root_ledger_written_by_actor": false,
+  "admission_status": "unsealed drafts; no science, transfer or deployment claim"
+}

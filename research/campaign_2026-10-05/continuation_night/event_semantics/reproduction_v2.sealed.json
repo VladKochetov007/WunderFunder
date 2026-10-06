@@ -1,0 +1,69 @@
+{
+  "argv": [
+    "{python}",
+    "research/campaign_2026-10-05/continuation_night/event_semantics/reproduce_counts.py",
+    "--artifact-dir",
+    "research/campaign_2026-10-05/continuation_night/event_semantics/eda/v1",
+    "--output",
+    "research/campaign_2026-10-05/continuation_night/event_semantics/reproduction/v2/receipt.json"
+  ],
+  "artifacts": [
+    "research/campaign_2026-10-05/continuation_night/event_semantics/reproduction/v2/receipt.json"
+  ],
+  "code": [
+    {
+      "path": "research/campaign_2026-10-05/continuation_night/event_semantics/analyze.py",
+      "sha256": "36c82e18d4a9b15b613f629ce78ab29d7b96c1e2b4f0fd2dcd84a063ffd57388",
+      "size": 9007
+    },
+    {
+      "path": "research/campaign_2026-10-05/continuation_night/event_semantics/raw_fixtures.py",
+      "sha256": "e3d9f7c2a7e4da44c395beb3ac5d9c1c1784ac3151fa2d0cbbcc6c5d4e07aa4e",
+      "size": 5591
+    },
+    {
+      "path": "research/campaign_2026-10-05/continuation_night/event_semantics/reproduce_counts.py",
+      "sha256": "2064466409cefaa593a229c6b8ccd7504771bba405a588a9dd21ff8677b9ec61",
+      "size": 8030
+    }
+  ],
+  "code_sha256": "c0d4418a76a71101ef99b2e376eaf918752fb7f5df1a877dd697af15f825d0e5",
+  "environment": {},
+  "inputs": [
+    {
+      "path": "datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "size": 5615509128
+    },
+    {
+      "path": "research/campaign_2026-10-05/continuation_night/event_semantics/eda/v1/aggregate.csv",
+      "sha256": "627ed45bc52356b906cfb18195308725335bb8ab7d3392d1a913814344ef8e20",
+      "size": 5099
+    },
+    {
+      "path": "research/campaign_2026-10-05/continuation_night/event_semantics/eda/v1/per_component.csv",
+      "sha256": "01b434eeb70671a4f1ef80c020d0ecb06bba23917414a856719a13db61ca7519",
+      "size": 33260
+    },
+    {
+      "path": "research/campaign_2026-10-05/continuation_night/event_semantics/eda/v1/report.json",
+      "sha256": "ef6f3d01dbc8ef9bcef598e82a72379c8a1aa7b3cb2004e7b57e53eab384a55f",
+      "size": 23745
+    },
+    {
+      "path": "research/campaign_2026-10-05/target_mechanics/cohort.json",
+      "sha256": "068103c71663bc445aab943e314c5be1d9a094f7f83456fdb406fbdc1012a6f2",
+      "size": 6707
+    }
+  ],
+  "kind": "cpu",
+  "limits": {
+    "cpus": 1,
+    "gpu_memory_bytes": 0,
+    "gpu_stop_bytes": 0,
+    "ram_bytes": 2147483648,
+    "timeout_seconds": 600
+  },
+  "name": "night-e492-independent-count-reproduction-v2",
+  "version": 1
+}

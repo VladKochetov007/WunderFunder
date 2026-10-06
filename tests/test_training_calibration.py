@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -13,7 +14,7 @@ import torch
 from tests.test_trainer_resume_integration import _repository, training
 from wnn import data
 from wnn.propensity import PropensityNet
-from wnn.training_calibration import summarize_masses
+from wnn.training_calibration import mass_observation_artifact, summarize_masses
 
 
 def test_weight_path_uses_joint_mask_scale_before_since_weight() -> None:
@@ -129,6 +130,11 @@ def test_actual_main_calibrates_mixed_pool_and_writes_no_model(
     expected = 7 * (2 * (0.2**2 + 0.03) + 4 * (0.8**2 + 0.03)) * (0.12543 + 0.25086) / 6
     assert report["reference_mass"] == pytest.approx(expected, rel=2e-7)
     assert report["updates"] == 6
+    observation = report["update_masses"]
+    values = np.asarray(observation["values"], dtype="<f8")
+    assert observation["count"] == 6
+    assert observation["sha256"] == hashlib.sha256(values.tobytes()).hexdigest()
+    assert values.mean() == pytest.approx(report["reference_mass"], rel=1e-12)
     assert report["sample_order"][0]["unique_retained_count"] == 6
     assert report["contract"]["fit_membership"]["train"]["count"] == 2
     assert report["contract"]["fit_membership"]["valid"]["count"] == 4
@@ -140,3 +146,13 @@ def test_actual_main_calibrates_mixed_pool_and_writes_no_model(
 def test_invalid_calibration_rejected(values: list[float]) -> None:
     with pytest.raises(ValueError):
         summarize_masses(values)
+
+
+def test_update_mass_artifact_binds_float64_le_observations() -> None:
+    artifact = mass_observation_artifact([1.0, 0.0, 2.5])
+    values = np.asarray(artifact["values"], dtype="<f8")
+    assert artifact["format"] == "wnn.float64-le-update-masses"
+    assert artifact["dtype"] == "<f8"
+    assert artifact["count"] == 3
+    assert artifact["sha256"] == hashlib.sha256(values.tobytes()).hexdigest()
+    assert values.tolist() == [1.0, 0.0, 2.5]
