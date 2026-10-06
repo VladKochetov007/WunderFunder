@@ -71,7 +71,7 @@ def extract_sources(archive: bytes) -> None:
         raise ValueError("extracted source tree count differs from the build receipt")
 
 
-def stop_worker(process: subprocess.Popen[str]) -> None:
+def stop_worker(process: subprocess.Popen[bytes]) -> None:
     """Terminate native work by process group, then kill it after a fixed grace."""
     try:
         os.killpg(process.pid, signal.SIGTERM)
@@ -90,6 +90,7 @@ def main() -> None:
     print(json.dumps({"event": "kernel_entry", **ENTRY}), flush=True)
     RUNTIME.mkdir(parents=True, exist_ok=False)
     write_json(RUNTIME / "wrapper_status.json", {**ENTRY, "phase": "source_unpack"})
+    process: subprocess.Popen[bytes] | None = None
     try:
         archive = decode_source(SOURCE_ARCHIVE, SOURCE_ARCHIVE_SHA256)
         worker = decode_source(WORKER_CODE, WORKER_SHA256)
@@ -186,15 +187,18 @@ def main() -> None:
         if timed_out or return_code != 0:
             raise SystemExit(124 if timed_out else return_code)
     except BaseException as error:
-        write_json(
-            RUNTIME / "wrapper_status.json",
-            {
-                **ENTRY,
-                "phase": "wrapper_failed",
-                "error": repr(error),
-                "finished_unix": time.time(),
-            },
-        )
+        failure: dict[str, object] = {
+            **ENTRY,
+            "phase": "wrapper_failed",
+            "error": repr(error),
+            "finished_unix": time.time(),
+        }
+        if process is not None and process.poll() is None:
+            try:
+                stop_worker(process)
+            except Exception as stop_error:
+                failure["child_cleanup_error"] = repr(stop_error)
+        write_json(RUNTIME / "wrapper_status.json", failure)
         raise
 
 

@@ -97,6 +97,8 @@ class PacketRecipeTests(unittest.TestCase):
         self.assertIn("GLOBAL_TIMEOUT_SECONDS = 3600", source)
         self.assertIn("os.set_blocking(output_fd, False)", source)
         self.assertNotIn("process.stdout.readline()", source)
+        self.assertIn("child_cleanup_error", source)
+        self.assertIn("stop_worker(process)", source)
 
     def test_prediction_export_projects_features_without_labels_or_masks(self) -> None:
         source = (HERE / "packet_worker.py").read_text(encoding="utf-8")
@@ -135,6 +137,10 @@ class PacketRecipeTests(unittest.TestCase):
         self.assertIn("profile_ready_awaiting_controller_review", worker_text)
         self.assertIn("os.set_blocking(output_fd, False)", source)
         self.assertIn('"is_private": true', metadata.decode("utf-8"))
+        self.assertTrue(
+            receipt["commands"]["kaggle_push_command_prepared_not_run"].endswith("-t 4200")
+        )
+        self.assertEqual(receipt["profile_gate"]["profile_provider_watch_seconds"], 4_200)
 
 
 if __name__ == "__main__":
