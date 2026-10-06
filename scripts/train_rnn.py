@@ -30,7 +30,11 @@ from wnn.data import (
     SequenceFile,
     market_class,
 )
-from wnn.distillation import extend_family_output_head, four_family_weighted_mse
+from wnn.distillation import (
+    append_family_output_head,
+    extend_family_output_head,
+    four_family_weighted_mse,
+)
 from wnn.distillation_cache import validate_distillation_cache
 from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch, online_zscore_torch
 from wnn.metric import block_aggregate_score, block_scores, score
@@ -1801,9 +1805,13 @@ def main():
     if args.aux_quote > 0:
         n_out += 2
     family_at = n_out
+    base_n_out = n_out
     if args.distill_family_weight > 0:
         n_out += 8
-    model = make_model(vars(args), n_in, n_out).to(device)
+    model = make_model(vars(args), n_in, base_n_out)
+    if args.distill_family_weight > 0:
+        model = append_family_output_head(model)
+    model = model.to(device)
     if args.init_qmc and saved_training is None:
         init_qmc_(model, args.seed)
     if args.rnn_init != "default" and not args.init:

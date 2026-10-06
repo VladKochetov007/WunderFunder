@@ -120,6 +120,48 @@ def extend_family_output_head(
     return merged
 
 
+def append_family_output_head(model: torch.nn.Module) -> torch.nn.Module:
+    """Append eight readout rows without advancing the legacy CPU RNG stream.
+
+    The family head is initialized only for the opt-in family-distillation arm.
+    Construct it on the CPU under a forked RNG and copy the original readout
+    rows exactly, so subsequent global-RNG consumers retain the order produced
+    by the same model with its original output width.
+
+    Args:
+        model: An unplaced model with a ``Sequential`` head ending in ``Linear``.
+
+    Returns:
+        The same model with eight initialized output rows appended.
+
+    Raises:
+        ValueError: If the model has no supported CPU linear output head.
+    """
+    head = getattr(model, "head", None)
+    if not isinstance(head, torch.nn.Sequential) or not isinstance(head[-1], torch.nn.Linear):
+        raise ValueError("family distillation requires a sequential linear output head")
+    output = head[-1]
+    if output.weight.device.type != "cpu":
+        raise ValueError("append the family output head before moving the model to a device")
+
+    old_width = output.out_features
+    with torch.random.fork_rng(devices=[]):
+        expanded = torch.nn.Linear(
+            output.in_features,
+            old_width + 8,
+            bias=output.bias is not None,
+            device=output.weight.device,
+            dtype=output.weight.dtype,
+        )
+    with torch.no_grad():
+        expanded.weight[:old_width].copy_(output.weight)
+        if output.bias is not None:
+            assert expanded.bias is not None
+            expanded.bias[:old_width].copy_(output.bias)
+    head[-1] = expanded
+    return model
+
+
 def four_family_weighted_mse(
     predictions: torch.Tensor,
     targets: torch.Tensor,
