@@ -1,0 +1,304 @@
+{
+  "generated_at": "2026-10-06",
+  "verification_tier": "C",
+  "public_best": 0.666,
+  "milestone_unmet": 0.7,
+  "rule": "No local delta may be added to 0.6660. ab85 gclpall 0.7040365552180464 fit the holdout (include_heldout_valid true).",
+  "hypotheses": [
+    {
+      "id": "CC-20261006-INV",
+      "parent_ids": [],
+      "mechanism_family": "impossibility/transfer-gap",
+      "statement": "A public move of +0.034 from 0.6660 to 0.7000 is algebraically allowed and empirically unsupported as leftover in-sample estimation error. The same-sized local/public level gap is larger for D256 (0.700792587 local, 0.6641 public) than the seed-4 recipe's improvement, and E-301 already reports that class-mix reweighting does not remove the slope gap.",
+      "representation_change": "Replace 'sum of pilot deltas' with a ceiling check: metric range, recorded post-alignment public steps, and mix sensitivity of the frozen champion.",
+      "causal_mechanism": "After the type-A scorer repair (+0.0568), remaining recorded gains are O(0.001). The 0.034 local level gap is a different functional (1,505/1,873 validation sequences were fit; D256 wins the full file and loses publicly).",
+      "assumptions": [
+        "No unidentified type-A scorer mismatch remains in the opened records",
+        "E-301's 'no mix fixes the slope' is about the level gap, not a champion-specific recomputation"
+      ],
+      "predicted_observable": "Reweighted WP of frozen seed-4 predictions across the published class-3 share interval ~0.41-0.51 stays a few thousandths, and later complete-predictor paired deltas stay O(0.001-0.003).",
+      "predicted_direction_or_delta": "Not +0.034. Unknown exact mix range on seed-4 until the probe is run. Do not add any local delta to 0.6660.",
+      "cheap_test": "CPU reweight of cached seed-4 predictions under the existing class-mix interval. No fit.",
+      "falsifier": "A pre-registered public score >= 0.676 with no future labels. A local +0.01 does not falsify.",
+      "known_failure_modes": [
+        "treating class WP or difference-mode energy as additive WP",
+        "using ab85 0.704 which fit the holdout"
+      ],
+      "estimated_cost": {
+        "class": "probe",
+        "gpu_hours": 0
+      },
+      "proposed_by": "creative-continuation-20261006",
+      "committed_at": "2026-10-06",
+      "status": "proposed",
+      "not_a_duplicate_of": [
+        "GELU/LeakyReLU transfer",
+        "event/quiet residual",
+        "LRU spline",
+        "joint-head control",
+        "privileged origin teacher"
+      ]
+    },
+    {
+      "id": "CC-20261006-FACTOR",
+      "parent_ids": [],
+      "mechanism_family": "score-numerator partition",
+      "statement": "The champion's missed covariance is concentrated in a deployable clock-cell x age-bucket x target cell. Eligible cells must be defined from inputs, not from target-derived class.",
+      "representation_change": "Attribute w*(y-mean_y)*(p-mean_p) with global means so cells sum to the official numerator, crossed with (delta i0_p0, delta i0_p11) in {00,10,01,11} and age buckets from both the OR clock and the AND clock.",
+      "causal_mechanism": "Pooled correlation is dominated by high-|y| rows. The strong 16-group diagnostic shows age-0 WP 0.8496 vs 128+ WP 0.4728, while class 2 does not decay and class 3 does; excluded-368 t0 0.687627604 is weaker than t1 0.712016713. A specialist on a low-weight cell cannot move the pool by 0.034.",
+      "assumptions": [
+        "Cached seed-4 complete predictions match the submitted equal parent/head",
+        "Component resampling is descriptive, not a fresh holdout"
+      ],
+      "predicted_observable": "Weight share and covariance contribution per cell, per target, on the 368 excluded sequences, with a fit-only table stored separately and not used to pick the winner.",
+      "predicted_direction_or_delta": "Unknown until computed. Promotion requires weight share >= 0.15 and a component interval on the per-weight deficit that excludes zero versus the complement.",
+      "cheap_test": "CPU pass over cached predictions and raw i0_p0/i0_p11. No training.",
+      "falsifier": "No deployable cell meets the 15% weight gate, or age-0 event cells hold the deficit the narrative assigned to long quiet rows.",
+      "known_failure_modes": [
+        "using target class as a deployable gate",
+        "adding cell WP to get the official score"
+      ],
+      "estimated_cost": {
+        "class": "probe",
+        "gpu_hours": 0
+      },
+      "proposed_by": "creative-continuation-20261006",
+      "committed_at": "2026-10-06",
+      "status": "proposed",
+      "not_a_duplicate_of": "Not an event/quiet residual network. It is a partition of the existing numerator."
+    },
+    {
+      "id": "CC-20261006-INSTR",
+      "parent_ids": [
+        "CC-20261006-FACTOR"
+      ],
+      "mechanism_family": "measurement",
+      "statement": "The OR event law (3,761/3,763) and the production AND flag ev_i0px are not yet shown to be the same bit, and a6 has not been identified with either.",
+      "representation_change": "A scored-row contingency of label-change by clock cell, plus agreement of a6 changes with OR and AND.",
+      "causal_mechanism": "Every later event model conditions on a bit. If label changes are almost all cell 11, OR vs AND is empty. If many are single-sided, ev_i0px misses them even though the raw columns are already inputs.",
+      "assumptions": [
+        "a6 is the column named in research/campaign_2026-10-03/eda/puzzle_a/scan2.py",
+        "scored destination mask matches gmetric selection"
+      ],
+      "predicted_observable": "Counts of (dp0, dp11, label_changed) on need_prediction AND is_scored, and the symmetric-difference rate of a6 versus AND and OR.",
+      "predicted_direction_or_delta": "Unknown. Do not invent the rate.",
+      "cheap_test": "Same CPU pass as CC-20261006-FACTOR. No fit.",
+      "falsifier": "AND agrees with OR on label changes up to the known handful of exceptions, and a6 matches that bit. Then drop clock-identity work.",
+      "known_failure_modes": [
+        "quoting 3761/3763 as if it were the AND clock"
+      ],
+      "estimated_cost": {
+        "class": "probe",
+        "gpu_hours": 0
+      },
+      "proposed_by": "creative-continuation-20261006",
+      "committed_at": "2026-10-06",
+      "status": "proposed",
+      "not_a_duplicate_of": "Not 'add event features'. The incumbent already has ev_i0px, since_*, and last deltas."
+    },
+    {
+      "id": "CC-20261006-HAWKES",
+      "parent_ids": [
+        "CC-20261006-FACTOR",
+        "CC-20261006-INSTR"
+      ],
+      "mechanism_family": "point-process/hawkes",
+      "statement": "A five-mark linear Hawkes compensator of observable book events carries excitation that is not collinear with age and ev_i0px, and a matched shuffled-mark control does not.",
+      "representation_change": "Inputs Lambda_k(t)=exp(-beta)*Lambda_k(t-1)+1{mark k}, marks {p0-only, p11-only, both prices, i0 trade, i0 volume}, beta fixed from the training inter-event age histogram.",
+      "causal_mechanism": "Mutually exciting point processes summarize history by the compensator. A row-wise GRU must store that excitation in hidden state. This is not a binary quiet/event gate, not LRU, and not a gated delta write v-Sk.",
+      "assumptions": [
+        "Linear constant-beta excitation is a sufficient probe",
+        "Marks are functions of current and previous raw columns only",
+        "P1 weight gate passed; otherwise this fit is not admitted"
+      ],
+      "predicted_observable": "Partial weighted correlation of FWL residuals of Lambda (against age_OR, age_AND, ev_i0px, since_i0px) with frozen seed-4 (y-p), per target, versus a within-sequence mark shuffle.",
+      "predicted_direction_or_delta": "Unknown. No local delta is a forecast of public score.",
+      "cheap_test": "Probe correlations first. Only if they clear the placebo, one complete seed of the incumbent recipe with Lambda inputs versus shuffled Lambda, same final head.",
+      "falsifier": "Every partial-correlation component interval covers 0, or the shuffled placebo matches the real compensator, or the complete one-seed paired delta is <= 0 after the final head.",
+      "known_failure_modes": [
+        "beta grid search on the evaluation panel",
+        "replacing the GRU with a neural Hawkes",
+        "stacking the probe delta onto 0.6660"
+      ],
+      "estimated_cost": {
+        "class": "probe then one complete fit",
+        "gpu_hours": "one production-shaped seed if the probe survives; else 0"
+      },
+      "proposed_by": "creative-continuation-20261006",
+      "committed_at": "2026-10-06",
+      "status": "proposed",
+      "not_a_duplicate_of": "October 5 elephants review names gated delta and LRU. Positive-kernel attention was the E467/E469 arm and went mixed/negative. This falsifier is a shuffled-mark partial correlation, not another attention width."
+    },
+    {
+      "id": "CC-20261006-DEPLETION",
+      "parent_ids": [
+        "E-215"
+      ],
+      "mechanism_family": "microstructure/order-flow",
+      "statement": "Train-decoded signed touch depletion/refill intensities, residualized against existing event features, still have a partial correlation with the champion residual. E-215 did not test this.",
+      "representation_change": "Replace raw 22-column volume-code shocks with a low-dimensional decoded intensity on the i0 event clock.",
+      "causal_mechanism": "Queue depletion changes the hazard of the next price mark. Raw code displacement confounds dictionary noise with that intensity, which is why E-215's AUC fell by 0.040 and 0.009.",
+      "assumptions": [
+        "A stable train-only code dictionary exists",
+        "The intensity is not a relabeling of E413's volume28 history"
+      ],
+      "predicted_observable": "FWL partial weighted correlation on excluded components, then at most one complete-seed input arm if CC-20261006-FACTOR assigns the deficit to a volume-linked cell and Hawkes is collinear.",
+      "predicted_direction_or_delta": "Unknown. E-215's negative AUC is evidence against the raw shock, not an expected delta for intensities.",
+      "cheap_test": "Event-level partial correlation on cached predictions before any GPU fit.",
+      "falsifier": "Partial correlation interval covers 0 on both targets, or the feature is >0.95 correlated with an existing last_d_i0 / ev_i0 channel.",
+      "known_failure_modes": [
+        "rebuilding the E-088 heuristic library",
+        "selecting the dictionary on the 368"
+      ],
+      "estimated_cost": {
+        "class": "probe, or one complete fit only as the P2 substitute"
+      },
+      "proposed_by": "creative-continuation-20261006",
+      "committed_at": "2026-10-06",
+      "status": "proposed",
+      "closing_evidence_that_did_not_test_this": "E-215 claim: raw 22-column i0 volume-code displacement fails; 'does not rule out train-decoded queue refill/depletion intensities.'",
+      "absent_from": [
+        "ELEPHANTS_REVIEW_2026-10-05.md priority table",
+        "RESEARCH_DIRECTION_AUDIT_2026-10-05.md ranked list"
+      ]
+    },
+    {
+      "id": "CC-20261006-TRUNK-GCORR",
+      "parent_ids": [
+        "H-018",
+        "E-023"
+      ],
+      "mechanism_family": "objective",
+      "statement": "Correlation gradients through the recurrent trunk, with a denominator that survives constant class-3 chunks, are untested. E-023 killed per-chunk corr only.",
+      "representation_change": "Parent loss wmse versus wmse_gcorr or gcorr_pool, same teachers and the same final head. gcorr_weight is already 1.0 in the seed-4 provenance and is ignored because loss is wmse.",
+      "causal_mechanism": "The head's gcorr epoch already showed that finite-model WP and weighted MSE disagree (public head +0.0013; strong diagnostic: head WP up, weighted MSE worse, prediction sd up). Trunk features never received that gradient.",
+      "assumptions": [
+        "weighted_pooled_corr_loss is not already applied on the wmse branch",
+        "A fixed or accumulated denominator is used so constant chunks do not zero the loss"
+      ],
+      "predicted_observable": "Complete-predictor paired WP and a feature-covariance check that the trunk moved, not only the head scale.",
+      "predicted_direction_or_delta": "Unknown. E-023's 0.29 versus 0.60 is not the predicted delta.",
+      "cheap_test": "Confirm in one forward that wmse ignores gcorr_weight (already true in train_rnn.py:1801-1812), then one paired complete seed, not an H64 panel.",
+      "falsifier": "Trunk representations match the wmse parent within the head's ability to absorb the change, or constant-target chunks still produce a vanishing denominator, or the complete paired delta is <= 0.",
+      "known_failure_modes": [
+        "another per-chunk corr run",
+        "claiming a new Bayes estimator"
+      ],
+      "estimated_cost": {
+        "class": "one complete fit",
+        "note": "not in the next three unless P1 fails closed and a human replaces P2; default P2 is Hawkes/depletion"
+      },
+      "proposed_by": "creative-continuation-20261006",
+      "committed_at": "2026-10-06",
+      "status": "proposed",
+      "closing_evidence_that_did_not_test_this": "E-023 corr 0.2937/0.2575 vs mix 0.6036/0.5983; H-018 note that per-chunk correlation is degenerate on constant class-3 chunks.",
+      "absent_from": [
+        "ELEPHANTS_REVIEW_2026-10-05.md priority table",
+        "RESEARCH_DIRECTION_AUDIT_2026-10-05.md ranked list"
+      ]
+    },
+    {
+      "id": "CC-20261006-LAG4",
+      "parent_ids": [],
+      "mechanism_family": "lag/recurrence-gate",
+      "statement": "An input-only lag-4 recurrence gate with a lag-7 sham on reserved components is unrun. The +0.007909 ridge was closed by concentration in two sequences.",
+      "representation_change": "One predeclared lag versus sham, not a period scan.",
+      "causal_mechanism": "puzzle_b recurrence4 added +0.006931 and full4 +0.007909 versus cap4, but excluding rg54 and rg1385 cut the full4 delta to +0.000613.",
+      "assumptions": [
+        "New components are chosen without target-derived scale",
+        "t0 and t1 are both reported"
+      ],
+      "predicted_observable": "Component-paired WP of baseline-plus-lag4 minus baseline-plus-sham.",
+      "predicted_direction_or_delta": "Unknown. Do not carry +0.007909 forward.",
+      "cheap_test": "Frozen correction on cached strong states, sham-controlled, before any trunk fit.",
+      "falsifier": "Gain confined to the same corner regimes, or t1 loss offsets t0, or sham matches lag4.",
+      "known_failure_modes": [
+        "reopening stride/period search"
+      ],
+      "estimated_cost": {
+        "class": "probe"
+      },
+      "proposed_by": "creative-continuation-20261006",
+      "committed_at": "2026-10-06",
+      "status": "proposed",
+      "closing_evidence_that_did_not_test_this": "puzzle_b REPORT: excluding both corners reduces +0.007909 to +0.000613. The report's own next test was not run.",
+      "absent_from": [
+        "ELEPHANTS_REVIEW_2026-10-05.md priority table",
+        "RESEARCH_DIRECTION_AUDIT_2026-10-05.md ranked list"
+      ]
+    },
+    {
+      "id": "CC-20261006-COINT",
+      "parent_ids": [
+        "H-013",
+        "H-015"
+      ],
+      "mechanism_family": "error-correction",
+      "statement": "A cointegration-style residual of reconstructed levels is untested. Univariate i1 AUC closed only H-013.",
+      "representation_change": "Causal deviation of a train-only reconstructed level from its own EMA, then FWL against existing price-difference features.",
+      "causal_mechanism": "H-016 showed raw jump sums do not reproduce targets; anchor changes dominate. A slow level residual can still correlate with the champion error without being an online price decoder.",
+      "assumptions": [
+        "Reconstruction uses past rows only",
+        "No physical instrument identity is claimed"
+      ],
+      "predicted_observable": "Partial weighted correlation with frozen seed-4 residual on excluded rows, per target.",
+      "predicted_direction_or_delta": "Unknown. E-017 AUC 0.525/0.528 is not a predicted delta.",
+      "cheap_test": "CPU partial correlation. No fit unless the partial interval excludes zero and the feature is not collinear with existing inputs.",
+      "falsifier": "Partial correlation covers 0, or the residual is a linear function of features already in the incumbent.",
+      "known_failure_modes": [
+        "another sign-cumsum AUC table",
+        "oracle spread"
+      ],
+      "estimated_cost": {
+        "class": "probe"
+      },
+      "proposed_by": "creative-continuation-20261006",
+      "committed_at": "2026-10-06",
+      "status": "proposed",
+      "closing_evidence_that_did_not_test_this": "E-017 class-3 AUC 0.525 and 0.528. H-013 note: a proper cointegration residual on reconstructed levels is not yet tested.",
+      "absent_from": [
+        "ELEPHANTS_REVIEW_2026-10-05.md priority table",
+        "RESEARCH_DIRECTION_AUDIT_2026-10-05.md ranked list"
+      ]
+    }
+  ],
+  "priority_stack": [
+    {
+      "rank": 1,
+      "experiments": [
+        "CC-20261006-FACTOR",
+        "CC-20261006-INSTR"
+      ],
+      "cost_class": "probe",
+      "gpu_hours": 0,
+      "stop_rule": "If no deployable cell has weight share >= 0.15 and a worse per-weight covariance deficit than its complement, do not run P2."
+    },
+    {
+      "rank": 2,
+      "experiments": [
+        "CC-20261006-HAWKES"
+      ],
+      "fallback_if_hawkes_collinear": "CC-20261006-DEPLETION",
+      "cost_class": "one complete fit",
+      "seeds": 1,
+      "note": "One seed cannot be promoted. Do not add the local delta to 0.6660."
+    },
+    {
+      "rank": 3,
+      "experiments": [
+        "INT8 one-CPU timing of existing seed-4 weights"
+      ],
+      "cost_class": "deployment measurement",
+      "gpu_hours": 0,
+      "note": "Kills or keeps QAT-as-ensemble-enabler. Not an accuracy screen. E419 already shows ~0 WP change."
+    }
+  ],
+  "do_not_run": [
+    "next activation sweep or tiny-panel seed",
+    "complete GELU/LeakyReLU transfer as the default GPU spend",
+    "E464 prefix routers repeated",
+    "E468 codebook repeated",
+    "ab85 gclpall submission or any blend justified by 0.704",
+    "seed-3/seed-4 near-copy bag"
+  ]
+}

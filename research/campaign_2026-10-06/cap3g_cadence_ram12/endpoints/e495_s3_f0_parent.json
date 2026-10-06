@@ -1,0 +1,48 @@
+{
+  "arms": {
+    "connected2000": {
+      "c20261006_cap3g_cadence_connected2000_b16_s3_f0": 1.0
+    },
+    "pooled2000": {
+      "c20261006_cap3g_cadence_pooled2000_b16_s3_f0": 1.0
+    },
+    "update1000": {
+      "c20261006_cap3g_cadence_update1000_b16_s3_f0": 1.0
+    }
+  },
+  "comparisons": [
+    [
+      "pooled2000",
+      "update1000"
+    ],
+    [
+      "connected2000",
+      "pooled2000"
+    ],
+    [
+      "connected2000",
+      "update1000"
+    ]
+  ],
+  "endpoint": "parent",
+  "folds": [
+    0
+  ],
+  "n_boot": 2000,
+  "registered_seed": 3,
+  "report_requirements": {
+    "event_age": "book touch-event age, bins [0,4), [4,16), [16,64), [64,inf)",
+    "market_class": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "metric": "global_wp_clip2_v1",
+    "paired_component_bootstrap_seed": 271828,
+    "targets": [
+      "t0",
+      "t1"
+    ]
+  }
+}
