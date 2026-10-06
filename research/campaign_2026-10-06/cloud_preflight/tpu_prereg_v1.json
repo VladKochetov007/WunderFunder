@@ -1,0 +1,120 @@
+{
+  "durability": "startup/host records precede JAX import; child writes inventory and stage outputs, parent captures worker stdout/stderr and always writes terminal.json/complete.json in finally; bounded child is terminated if parent deadline arrives",
+  "first_stage_tpu_cap_hours": 0.25,
+  "hardware_request": "TpuV5E8; requires exactly eight local TPU devices and records actual device kinds and per-device HBM stats",
+  "headroom": "host and every TPU must retain at least 20 percent free capacity at start; after the full-shape update every TPU peak use must remain at or below 80 percent of reported HBM capacity",
+  "local_validation": {
+    "checks": [
+      "ruff check and format",
+      "py_compile",
+      "AST compile",
+      "exact E463 JAX model source SHA-256",
+      "packet/source byte equality",
+      "private TpuV5E8 metadata and single-file transport"
+    ],
+    "local_rnn_source_sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc",
+    "observed_at_utc": "2026-10-06T20:40:14+00:00",
+    "probe_sha256": "88a47294f143d7e47202364bd755745523f734750fc7e4a40f9bd24586934b1d",
+    "scope": "static/local metadata checks only; no local JAX training or accelerator use",
+    "status": "passed"
+  },
+  "maximum_new_provider_tpu_seconds": 600,
+  "metadata": {
+    "code_file": "probe.py",
+    "competition_sources": [],
+    "dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "vladkochetov07/wunder-funder"
+    ],
+    "enable_gpu": false,
+    "enable_internet": false,
+    "enable_tpu": true,
+    "id": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261006-v1",
+    "is_private": true,
+    "kernel_sources": [],
+    "kernel_type": "script",
+    "language": "python",
+    "machine_shape": "TpuV5E8",
+    "title": "wnn-e463-real-tpu-fullshape-preflight-20261006-v1"
+  },
+  "packet_files": {
+    "kernel-metadata.json": "b01d5c942c5ef92f85b739d58dbbea8e7b1e7d251e414580fa0f39008728cd37",
+    "probe.py": "88a47294f143d7e47202364bd755745523f734750fc7e4a40f9bd24586934b1d"
+  },
+  "packet_id": "wnn-e463-real-tpu-fullshape-preflight-20261006-v1",
+  "payload_timeout_seconds": 540,
+  "prelaunch_admission": {
+    "active_gpu_workers": [
+      {
+        "kernel": "vladkochetov07/wnn-gru-device-preflight-20261006-v2",
+        "provider_version": 1,
+        "status": "KernelWorkerStatus.RUNNING at immediately preceding scoped status check; separate GPU budget/device"
+      }
+    ],
+    "active_tpu_workers": [],
+    "cli_version": "Kaggle CLI 2.2.4",
+    "competition_sources": [],
+    "dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "vladkochetov07/wunder-funder"
+    ],
+    "first_stage_tpu_cap_hours": 0.25,
+    "fit_or_score": false,
+    "local_helper": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited",
+    "observed_at_utc": "2026-10-06T20:40:15+00:00",
+    "one_worker_per_hardware": true,
+    "previous_stage_tpu_seconds_spent_by_this_preflight": 0.0,
+    "prior_tpu_workers": {
+      "wnn-jax-real-data-preflight-e463-v1-runner": "KernelWorkerStatus.ERROR; dead deadline keyword blocked worker",
+      "wnn-jax-realdata-e463-20261004-v2-runner": "KernelWorkerStatus.ERROR; CPU fallback, no TPU assignment; 2.31 GB peak RSS over old 2 GiB cap before update",
+      "wnn-jax-realdata-e463-20261004-v3-runner": "KernelWorkerStatus.COMPLETE; its recorded backend was CPU, so not TPU evidence",
+      "wnn-jax-realdata-e463-tpu-20261004-v1-runner": "KernelWorkerStatus.ERROR",
+      "wnn-night-e463-tpu-20261005-v3": "KernelWorkerStatus.ERROR; downloaded provider log was 2-byte empty JSON list"
+    },
+    "provider_push_command": "kaggle kernels push -p research/campaign_2026-10-06/cloud_preflight/tpu_packet_v1 -t 600",
+    "quota_refresh_utc": "2026-10-10 00:00:00",
+    "remaining_first_stage_tpu_seconds_after_worst_case_attempt": 300.0,
+    "this_attempt_maximum_provider_tpu_seconds": 600,
+    "this_attempt_maximum_tpu_hours": 0.16666666666666666,
+    "typed_quota": {
+      "gpu": {
+        "allowed_seconds": 108000.0,
+        "remaining_hours": 19.546335057222226,
+        "remaining_seconds": 70366.80620600001,
+        "reserved_seconds": 0.0,
+        "used_seconds": 37633.193794
+      },
+      "tpu": {
+        "allowed_seconds": 72000.0,
+        "remaining_hours": 19.96260472222222,
+        "remaining_seconds": 71865.377,
+        "reserved_seconds": 0.0,
+        "used_seconds": 134.623
+      }
+    }
+  },
+  "provider_timeout_seconds": 600,
+  "revision_reason": "Fresh E463 device packet after historical dead-keyword, CPU-fallback/RSS, and empty-log failures; asserts actual 8-device TPU backend, writes pre-framework startup/host telemetry, runs bounded child with stdout/stderr log and terminal status, checks checkpoint/source hashes and full shape, and refuses unknown/low HBM headroom.",
+  "shape_gate": {
+    "chunk_rows": 2000,
+    "global_batch": 16,
+    "hidden": 256,
+    "input_width": 211,
+    "layers": 2,
+    "objective": "synthetic finite diagnostic objective only; no score or scientific fit",
+    "output_width": 23,
+    "per_tpu_batch": 2,
+    "updates": 1
+  },
+  "verified_private_inputs": {
+    "dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "vladkochetov07/wunder-funder"
+    ],
+    "epoch3_jax_npz_sha256": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+    "epoch3_jax_npz_sidecar_sha256": "3e65d2a88352d22bc90d88b829f05beee3faa7a66b9de41c7507f521aab12668",
+    "epoch3_torch_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "exact_wnn_jax_rnn_source_sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc"
+  },
+  "worker_timeout_seconds": 480
+}
