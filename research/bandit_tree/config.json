@@ -416,7 +416,7 @@
     {
       "id": "arm:supervision-frontier",
       "parent_id": "family:objective",
-      "title": "Distillation alpha × bootstrap horizon",
+      "title": "Distillation alpha \u00d7 bootstrap horizon",
       "kind": "arm",
       "hypothesis_ids": [
         "H-180",
@@ -932,7 +932,7 @@
     {
       "id": "arm:transformer-reanchor-interaction",
       "parent_id": "arm:transformer-student",
-      "title": "Attention-teacher transfer × origin-label reanchor",
+      "title": "Attention-teacher transfer \u00d7 origin-label reanchor",
       "kind": "arm",
       "status": "not_tested",
       "hypothesis_ids": [],
@@ -961,7 +961,7 @@
     {
       "id": "arm:cadence-denominator-interaction",
       "parent_id": "arm:cadence",
-      "title": "Gradient cadence × measured denominator",
+      "title": "Gradient cadence \u00d7 measured denominator",
       "kind": "arm",
       "status": "not_tested",
       "hypothesis_ids": [],
@@ -1206,6 +1206,166 @@
         "unit": "absolute_global_wp_delta",
         "reviewed": false,
         "update_rule": "Update from this root endpoint paired comparison; no automatic reuse of external public or validation deltas"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:greedy-stationary-feature-cliques",
+      "parent_id": "family:representation",
+      "title": "Greedy Sparse Mean-Reverting Feature Cliques (per L11 group)",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-181"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Literature-inspired proposal only; no numerical gain prior",
+      "next_test": "Fit selection and stationarity tests on fit groups only; features must be causal at serving. Full data cointegration is not an allowed shortcut. One historical fold: build greedy k=2..5 simplex combinations per group, concatenate to frozen penultimate features, fit an OLS/logistic head, compare weighted Pearson to controls. CPU-only, seconds.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Manual exploration priority; choose a bounded discriminating test before allocation",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Paired evidence with exact endpoint; ancestor gains are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:stagewise-interaction-grower",
+      "parent_id": "family:representation",
+      "title": "Pair-Seeded Stagewise Interaction Grower",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-182"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Literature-inspired proposal only; no numerical gain prior",
+      "next_test": "Freeze number of candidates/forward-selection steps; compare equal-cost random subsets and unchanged parent. One fold, frozen features, linear head: compare pair-seeded greedy interactions vs main-effects-only head. CPU minutes.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Manual exploration priority; choose a bounded discriminating test before allocation",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Paired evidence with exact endpoint; ancestor gains are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:stationarity-state-clock",
+      "parent_id": "family:temporal",
+      "title": "Greedy Sparse Stationarity Scout for Causal State Management (unconventional)",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-183"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Literature-inspired proposal only; no numerical gain prior",
+      "next_test": "State resets need a causal past-only statistic and rate-matched random reset control; historical output-hold failures do not answer this distinct gate. Replay one sequence strictly causally: fixed state vs stationarity-gated reset; compare pooled weighted Pearson on that sequence. CPU seconds.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Manual exploration priority; choose a bounded discriminating test before allocation",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Paired evidence with exact endpoint; ancestor gains are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:sparse-simplex-blend",
+      "parent_id": "family:ensemble",
+      "title": "Simplex-Sparse Greedy Correction of the Served Blend",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-184"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Literature-inspired proposal only; no numerical gain prior",
+      "next_test": "Calibrate only on registered fitting/calibration predictions; compare unchanged fixed blend on a separate exposed robustness panel. No leaderboard tuning or metric translation. Cache member predictions on one held-out fold; run greedy k-sparse simplex selection; compare weighted Pearson to the current blend. CPU seconds.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Manual exploration priority; choose a bounded discriminating test before allocation",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Paired evidence with exact endpoint; ancestor gains are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:cointegration-split-diagnostic",
+      "parent_id": "family:evaluation",
+      "title": "Greedy Group-Spanning Cointegration to Define Group-Disjoint Fitting",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-185"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Literature-inspired proposal only; no numerical gain prior",
+      "next_test": "Keep the established fold memberships frozen. Register as a diagnostic of dependence or fit-only regularization; do not select easier folds or call redesigned folds fresh. One fold re-run with greedy-derived group splits vs random group splits; compare weighted correlation and gap. CPU minutes.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "reason": "Manual exploration priority; choose a bounded discriminating test before allocation",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Paired evidence with exact endpoint; ancestor gains are not additive"
       },
       "cost_h": null
     }

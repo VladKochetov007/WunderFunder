@@ -4,9 +4,9 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 729 · raw hypothesis rows 179 · raw experiment rows 506 · legacy arms 18 · catalog files 57769.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 741 · raw hypothesis rows 184 · raw experiment rows 510 · legacy arms 18 · catalog files 57799.
 
-Config snapshot: [research/bandit_tree/generated/snapshots/config-7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36.json](<snapshots/config-7937734920b291d001f4c53ffd4062f7c07171a00a9556582d2e3b8cd0437c36.json>).
+Config snapshot: [research/bandit_tree/generated/snapshots/config-5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4.json](<snapshots/config-5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4.json>).
 
 Missing or ambiguous artifact and relationship links are called out below and in `tree.json` warnings. The recursive file inventory is in `catalog.json`; generated output is excluded.
 
@@ -88,6 +88,10 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **claim_scope:** specific recipe / exposed-data exploration; no inferred public gain
   - artifact: [research/campaign_2026-10-06/ONLINE.md](<../../campaign_2026-10-06/ONLINE.md>)
   - artifact: [research/campaign_2026-10-06/STRETCH.md](<../../campaign_2026-10-06/STRETCH.md>)
+- **Greedy Sparse Stationarity Scout for Causal State Management (unconventional)** (`arm:stationarity-state-clock`) — not_tested; eligible=True.
+  - **next_test:** State resets need a causal past-only statistic and rate-matched random reset control; historical output-hold failures do not answer this distinct gate. Replay one sequence strictly causally: fixed state vs stationarity-gated reset; compare pooled weighted Pearson on that sequence. CPU seconds.
+  - **claim_scope:** Literature-inspired proposal only; no numerical gain prior
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json>)
 
 ### Targets, losses and supervision (`family:objective`)
 
@@ -126,7 +130,14 @@ Missing or ambiguous artifact and relationship links are called out below and in
 
 ### Data and feature representation (`family:representation`)
 
-No curated nodes.
+- **Greedy Sparse Mean-Reverting Feature Cliques (per L11 group)** (`arm:greedy-stationary-feature-cliques`) — not_tested; eligible=True.
+  - **next_test:** Fit selection and stationarity tests on fit groups only; features must be causal at serving. Full data cointegration is not an allowed shortcut. One historical fold: build greedy k=2..5 simplex combinations per group, concatenate to frozen penultimate features, fit an OLS/logistic head, compare weighted Pearson to controls. CPU-only, seconds.
+  - **claim_scope:** Literature-inspired proposal only; no numerical gain prior
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json>)
+- **Pair-Seeded Stagewise Interaction Grower** (`arm:stagewise-interaction-grower`) — not_tested; eligible=True.
+  - **next_test:** Freeze number of candidates/forward-selection steps; compare equal-cost random subsets and unchanged parent. One fold, frozen features, linear head: compare pair-seeded greedy interactions vs main-effects-only head. CPU minutes.
+  - **claim_scope:** Literature-inspired proposal only; no numerical gain prior
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json>)
 
 ### Optimization and training stability (`family:optimization`)
 
@@ -161,6 +172,10 @@ No curated nodes.
     - **next_test:** Aligned common-endpoint predictions: compare frozen equal/fixed-weight blend with a predeclared causal-context gate; account for weight/gate selection on exposed slices, then frozen other-slice evaluation.
     - **claim_scope:** New proposed protocol; no fit, reproduced improvement or public forecast
     - artifact: [research/campaign_2026-10-06/branch_teacher_audit/post_fetch_b7fd5d2f/OBSERVATIONS.md](<../../campaign_2026-10-06/branch_teacher_audit/post_fetch_b7fd5d2f/OBSERVATIONS.md>)
+- **Simplex-Sparse Greedy Correction of the Served Blend** (`arm:sparse-simplex-blend`) — not_tested; eligible=True.
+  - **next_test:** Calibrate only on registered fitting/calibration predictions; compare unchanged fixed blend on a separate exposed robustness panel. No leaderboard tuning or metric translation. Cache member predictions on one held-out fold; run greedy k-sparse simplex selection; compare weighted Pearson to the current blend. CPU seconds.
+  - **claim_scope:** Literature-inspired proposal only; no numerical gain prior
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json>)
 
 ### Serving and compression (`family:deployment`)
 
@@ -170,7 +185,10 @@ No curated nodes.
 
 ### Evaluation, data exposure and diagnostics (`family:evaluation`)
 
-No curated nodes.
+- **Greedy Group-Spanning Cointegration to Define Group-Disjoint Fitting** (`arm:cointegration-split-diagnostic`) — not_tested; eligible=True.
+  - **next_test:** Keep the established fold memberships frozen. Register as a diagnostic of dependence or fit-only regularization; do not select easier folds or call redesigned folds fresh. One fold re-run with greedy-derived group splits vs random group splits; compare weighted correlation and gap. CPU minutes.
+  - **claim_scope:** Literature-inspired proposal only; no numerical gain prior
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json>)
 
 ### Compute, safety and recovery (`family:infrastructure`)
 
@@ -234,6 +252,11 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | arm:heterogeneous-teacher-compression | Compress complementary teacher recipes into a GRU256 student pair | arm · not_tested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:two-stream-teacher-compression | Replace a teacher family with a two-stream teacher | arm · not_tested | arm:heterogeneous-teacher-compression | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:distilled-function-preserving-widening | Function-preserving widening of a distilled student | arm · not_tested | arm:heterogeneous-teacher-compression | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:greedy-stationary-feature-cliques | Greedy Sparse Mean-Reverting Feature Cliques (per L11 group) | arm · not_tested | family:representation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:stagewise-interaction-grower | Pair-Seeded Stagewise Interaction Grower | arm · not_tested | family:representation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:stationarity-state-clock | Greedy Sparse Stationarity Scout for Causal State Management (unconventional) | arm · not_tested | family:temporal | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:sparse-simplex-blend | Simplex-Sparse Greedy Correction of the Served Blend | arm · not_tested | family:ensemble | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:cointegration-split-diagnostic | Greedy Group-Spanning Cointegration to Define Group-Disjoint Fitting | arm · not_tested | family:evaluation | [research/bandit_tree/config.json](<../config.json>) | — |
 | hypothesis:H-001 | Targets change only on rows where i0 bid and ask price columns both update. | hypothesis · supported | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L1>) | experiment:E-001 (linked) |
 | hypothesis:H-002 | Each sequence's targets are integer multiples of one of four quanta {0.12543,0.24133,0.46854,0.65687}, defining market classes with different tick regimes. | hypothesis · supported | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L2>) | experiment:E-001 (linked), experiment:E-002 (linked) |
 | hypothesis:H-003 | Features are rank-Gauss transformed: bounded near +-2.326 (Phi^-1(0.99)) with sentinel -5.19934 = Phi^-1(1e-7) for missing values. | hypothesis · probing | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L3>) | experiment:E-001 (linked) |
@@ -413,6 +436,11 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-178 | Older finals/all-valid transfer survey | hypothesis · proposed | arm:seed-ensemble | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L177>) | — |
 | hypothesis:H-179 | E463/E465 actual TPU recovery | hypothesis · proposed | arm:resource-recovery | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L178>) | — |
 | hypothesis:H-180 | Distillation-alpha by stopped-bootstrap horizon interaction in the complete strong recipe | hypothesis · proposed | arm:supervision-frontier | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L179>) | — |
+| hypothesis:H-181 | Greedy Sparse Mean-Reverting Feature Cliques (per L11 group) | hypothesis · proposed | arm:greedy-stationary-feature-cliques | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L180>) | — |
+| hypothesis:H-182 | Pair-Seeded Stagewise Interaction Grower | hypothesis · proposed | arm:stagewise-interaction-grower | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L181>) | — |
+| hypothesis:H-183 | Greedy Sparse Stationarity Scout for Causal State Management (unconventional) | hypothesis · proposed | arm:stationarity-state-clock | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L182>) | — |
+| hypothesis:H-184 | Simplex-Sparse Greedy Correction of the Served Blend | hypothesis · proposed | arm:sparse-simplex-blend | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L183>) | — |
+| hypothesis:H-185 | Greedy Group-Spanning Cointegration to Define Group-Disjoint Fitting | hypothesis · proposed | arm:cointegration-split-diagnostic | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L184>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -904,6 +932,8 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-496 | E-496 | experiment · calibration_interrupted_no_report | arm:supervision-frontier | [research/experiments.jsonl](<../../experiments.jsonl#L495>), [research/experiments.jsonl](<../../experiments.jsonl#L503>), [research/experiments.jsonl](<../../experiments.jsonl#L506>) | — |
 | experiment:E-498 | prepared_dependency_queue_inventory | experiment · prepared_not_launched | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L496>) | — |
 | experiment:E-499 | E-499 | experiment · finished | arm:optimizer-precision | [research/experiments.jsonl](<../../experiments.jsonl#L497>), [research/experiments.jsonl](<../../experiments.jsonl#L500>), [research/experiments.jsonl](<../../experiments.jsonl#L502>) | — |
+| experiment:E-501 | E-501 | experiment · resource_profile_completed | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L507>), [research/experiments.jsonl](<../../experiments.jsonl#L508>) | — |
+| experiment:E-502 | E-502 | experiment · preregistration_command_corrected_before_launch | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L509>), [research/experiments.jsonl](<../../experiments.jsonl#L510>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
@@ -930,6 +960,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L3>) `sha256:caaa6a5a50f6a959e92500c2503370e6fd00c523d500f0f0333be8e846842100` — `{"code_merged_from_friend": false, "compute_runs_launched": 0, "decision": "User refreshed origin/quant-probes to b7fd5d2f. Archive completed singlefold attention result (+0.00005 vs GRU256; fifth-member+0.00028) without universal ceiling inference. Add convergence/context, causally learnable privileged transfer, and complementarity/gated-blend child protocols. Prior access failures retained as historical. No expected public gain inferred.", "event_type": "remote_evidence_update", "evidence_refs": ["research/campaign_2026-10-06/branch_teacher_audit/post_fetch_b7fd5d2f/manifest.json", "research/campaign_2026-10-06/branch_teacher_audit/post_fetch_b7fd5d2f/OBSERVATIONS.md"], "id": "TREE-20261006-003", "new_node_ids": ["arm:teacher-convergence-context", "arm:learnable-privileged-transfer", "arm:complementarity-gated-blend"], "node_id": "arm:causal-transformer-teacher", "timestamp_utc": "2026-10-06T18:58:28Z"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L4>) `sha256:3075bc77284f6ff09fe27de0d489e7afd1107b53cd19c70901f63ea6173efd9a` — `{"actor_model": "Luna/max independent scout; root source audit", "code_merged_from_friend": false, "compute_runs_launched": 0, "decision": "Refreshed creative-iteration branch records user-reportedpublic0.6674 for heterogeneous-distilled GRU256 studentpair. Prioritize independent heterogeneous compression; retain attentionchildren. Source-specific warmstart,twoepoch alpha.7,fourfamilyauxhead .1 andunnormalized .8125 teacher scale require matchedcontrols. External result doesnotreplace rootbest0.6660 or become expectedpublicdelta.", "event_type": "external_public_evidence_and_frontier_update", "evidence_refs": ["research/campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/manifest.json", "research/campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/iterations/2026-10-05-wave20/public-result.json", "research/bandit_tree/HETEROGENEOUS_AGENT_BRIEF.md"], "id": "TREE-20261006-004", "new_node_ids": ["arm:heterogeneous-teacher-compression", "arm:two-stream-teacher-compression", "arm:distilled-function-preserving-widening"], "node_id": "arm:heterogeneous-teacher-compression", "timestamp_utc": "2026-10-06T19:04:52Z"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L5>) `sha256:31ee8426dae83159dbcae9120503ec69b5f316029f0d8953657b4584bebbb981` — `{"actor": {"external_models": "Freebuff GLM, OpenCode free Muse Spark/MiMo after access check", "native_subagents": "gpt-6-luna/max", "tool": "Codex"}, "compute_runs_launched": 0, "decision": "Begin independent heterogeneous-distillation continuation plus diverse literature arms; replace old local cutoff/caps with explicit user instruction. First24h allocation; then reassess, continue until explicit stop with graceful drain. Unknown numeric beliefs remain null.", "event_type": "campaign_authorization_and_resource_update", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/CONTRACT.md"], "id": "TREE-20261006-005", "node_id": "root", "old_resources": {"aggregate_cpu_cores_max": 5, "aggregate_ram_bytes_max": 40000000000, "aggregate_vram_bytes_max": 3000000000, "new_experiment_compute": "Kaggle GPU/TPU only; current access and resource admission required", "new_local_experiments_after_2026_10_06_1000_Kyiv": false}, "resources": {"aggregate_cpu_cores_max": 10, "aggregate_ram_bytes_max": 20000000000, "aggregate_vram_bytes_max": 5000000000, "authority": "research/campaign_2026-10-06/bandit_continuation/CONTRACT.md", "first_review_after_hours": 24, "local_admission_cutoff": null, "local_allocator_initial_bytes": 4300000000, "local_gpu_workers_max": 1, "memory_high_bytes": 18000000000, "new_experiment_compute": "Local and Kaggle; separate cloud headroom and live quota", "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs"}, "timestamp_utc": "2026-10-06T19:59:28.944259+00:00"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L6>) `sha256:1a0d78e6f9d849825cf9be4ae3da8e33a675c2305dc56f220b7c37d08f4fabf1` — `{"hypothesis_ids": ["H-181", "H-182", "H-183", "H-184", "H-185"], "id": "TREE-20261006-006", "kind": "independent_literature_arms_added", "nodes": ["arm:greedy-stationary-feature-cliques", "arm:stagewise-interaction-grower", "arm:stationarity-state-clock", "arm:sparse-simplex-blend", "arm:cointegration-split-diagnostic"], "numerical_priors": "unknown/null", "preservation": "Raw response and source/prompt hashes retained; protocol annotations do not rewrite model output", "source": "research/campaign_2026-10-06/bandit_continuation/ideation/random_1/job.json", "timestamp": "2026-10-06T20:29:40.579669+00:00"}`
 
 ## Link and artifact warnings
 
