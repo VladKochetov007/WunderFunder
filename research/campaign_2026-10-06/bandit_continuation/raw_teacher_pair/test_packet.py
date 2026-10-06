@@ -71,6 +71,58 @@ class PacketRecipeTests(unittest.TestCase):
             prepare_packet.profile_estimate_seconds(500.0),
         )
 
+    def test_pinned_e463_manifest_binds_checkpoint_at_exact_logical_path(self) -> None:
+        worker_tree = ast.parse((HERE / "packet_worker.py").read_text(encoding="utf-8"))
+        constants = {
+            target.id: ast.literal_eval(node.value)
+            for node in worker_tree.body
+            if isinstance(node, ast.Assign)
+            for target in node.targets
+            if isinstance(target, ast.Name)
+            and target.id
+            in {
+                "AUDIT_CHECKPOINT_RELATIVE",
+                "AUDIT_CHECKPOINT_SHA256",
+                "AUDIT_CHECKPOINT_BYTES",
+            }
+        }
+        helper = next(
+            node
+            for node in worker_tree.body
+            if isinstance(node, ast.FunctionDef)
+            and node.name == "audit_checkpoint_manifest_entry"
+        )
+        namespace: dict[str, object] = dict(constants)
+        exec(
+            compile(ast.Module(body=[helper], type_ignores=[]), "packet_manifest_audit", "exec"),
+            namespace,
+        )
+
+        pinned_manifest = (
+            HERE.parents[3]
+            / "research/campaign_2026-10-04/kaggle/jax_tpu_realdata_preflight_v1"
+            / "upload_dataset/source-manifest.json"
+        )
+        manifest_bytes = pinned_manifest.read_bytes()
+        self.assertEqual(
+            hashlib.sha256(manifest_bytes).hexdigest(),
+            "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb",
+        )
+        manifest = json.loads(manifest_bytes)
+        relative = constants["AUDIT_CHECKPOINT_RELATIVE"]
+        self.assertEqual(relative, "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt")
+        entry = manifest["files"][relative]
+        self.assertEqual(namespace["audit_checkpoint_manifest_entry"](manifest), entry)
+        self.assertEqual(entry["sha256"], constants["AUDIT_CHECKPOINT_SHA256"])
+        self.assertEqual(entry["size_bytes"], constants["AUDIT_CHECKPOINT_BYTES"])
+
+        wrong_key_manifest = json.loads(manifest_bytes)
+        wrong_key_manifest["files"]["source_bundle/" + relative] = wrong_key_manifest[
+            "files"
+        ].pop(relative)
+        with self.assertRaisesRegex(ValueError, "not bound by its source manifest"):
+            namespace["audit_checkpoint_manifest_entry"](wrong_key_manifest)
+
     def test_profile_cost_gate_rejects_nan_and_bounds_pair(self) -> None:
         self.assertAlmostEqual(prepare_packet.profile_estimate_seconds(500.0), 4469.75)
         with self.assertRaises(ValueError):

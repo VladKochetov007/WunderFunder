@@ -26,7 +26,9 @@ ASSETS_SHA256 = "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c
 ASSETS_BYTES = 6268
 PORTABLE_SHA256 = "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
 SOURCE_MANIFEST_SHA256 = "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb"
+AUDIT_CHECKPOINT_RELATIVE = "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt"
 AUDIT_CHECKPOINT_SHA256 = "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+AUDIT_CHECKPOINT_BYTES = 3_977_183
 TRAIN_BYTES = 29_240_219_011
 VALID_BYTES = 5_615_509_128
 TARGET_ORDERS = {"train": 10_606, "valid": 1_873}
@@ -97,6 +99,26 @@ def find_unique_file(
             f"expected one {name} matching size={size} sha256={digest}; found {len(matches)}"
         )
     return matches[0]
+
+
+def audit_checkpoint_manifest_entry(
+    source_manifest: dict[str, object],
+) -> dict[str, object]:
+    """Require the pinned source manifest to bind the audit-only checkpoint."""
+    files = source_manifest.get("files")
+    expected = (
+        files.get(AUDIT_CHECKPOINT_RELATIVE)
+        if isinstance(files, dict)
+        else None
+    )
+    if (
+        not isinstance(expected, dict)
+        or expected.get("sha256") != AUDIT_CHECKPOINT_SHA256
+        or expected.get("size_bytes") != AUDIT_CHECKPOINT_BYTES
+        or expected.get("source_path") != AUDIT_CHECKPOINT_RELATIVE
+    ):
+        raise ValueError("audit-only E463 checkpoint is not bound by its source manifest")
+    return expected
 
 
 def asset_file(
@@ -262,14 +284,10 @@ def input_map(input_root: Path) -> dict[str, object]:
     checkpoint_path = find_unique_file(
         input_root,
         "model_ep3.pt",
-        size=3_977_183,
+        size=AUDIT_CHECKPOINT_BYTES,
         digest=AUDIT_CHECKPOINT_SHA256,
     )
-    expected_checkpoint = source_manifest["files"].get(
-        "source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt"
-    )
-    if expected_checkpoint is None or expected_checkpoint.get("sha256") != AUDIT_CHECKPOINT_SHA256:
-        raise ValueError("audit-only E463 checkpoint is not bound by its source manifest")
+    audit_checkpoint_manifest_entry(source_manifest)
 
     required_assets: dict[str, tuple[Path, dict[str, object]]] = {
         relative: asset_file(input_root, assets, relative) for relative in ASSET_PATHS
