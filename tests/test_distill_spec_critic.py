@@ -11,6 +11,7 @@ from torch.utils.data import DataLoader, TensorDataset
 
 from scripts import package_submission, train_rnn
 from wnn.distillation import append_family_output_head, extend_family_output_head
+from wnn.splits import CampaignSplit
 
 
 def _small_gru_args() -> dict[str, object]:
@@ -112,3 +113,31 @@ def test_family_head_extension_rejects_unsupported_model() -> None:
     """Only the supported Sequential(..., Linear) output head may be extended."""
     with pytest.raises(ValueError, match="sequential linear output head"):
         append_family_output_head(torch.nn.Linear(3, 23))
+
+
+def test_teacher_membership_rejects_corrupt_train_and_evaluation_groups() -> None:
+    """Teacher fit provenance may use only the clean training and validation pools."""
+    from scripts.build_distill_cache import _verify_run_membership
+    from wnn.data import CORRUPT_TRAIN_ROW_GROUPS
+
+    split = CampaignSplit(
+        Path("fold0.json"),
+        "fold0-sha",
+        0,
+        4,
+        (10,),
+        (20,),
+        (21,),
+        (("train", 10, 0), ("valid", 20, 1), ("valid", 21, 2)),
+    )
+    assert 528 in CORRUPT_TRAIN_ROW_GROUPS
+    provenance = {
+        "split_manifest_sha256": split.sha256,
+        "fit_row_groups": {"train": [528], "valid": [20]},
+    }
+    with pytest.raises(ValueError, match="outside the clean train pool"):
+        _verify_run_membership(provenance, split, "corrupt_teacher")
+
+    provenance["fit_row_groups"] = {"train": [10], "valid": [21]}
+    with pytest.raises(ValueError, match="outside the clean valid pool"):
+        _verify_run_membership(provenance, split, "eval_teacher")
