@@ -134,3 +134,14 @@ def test_external_or_symlinked_asset_is_rejected(tmp_path: Path) -> None:
             approved_commands=paths["commands"],
             review_receipt=paths["review"],
         )
+
+
+def test_controller_receipt_may_be_supplied_from_outside_project(tmp_path: Path) -> None:
+    project = tmp_path / "project"
+    paths = _synthetic_inputs(project)
+    external_receipt = tmp_path / "controller-review.json"
+    external_receipt.write_bytes(paths["review"].read_bytes())
+    paths["review"] = external_receipt
+
+    packet = _build(paths)
+    assert packet["review_receipt_path"] == str(external_receipt.resolve())

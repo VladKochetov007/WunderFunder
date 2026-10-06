@@ -34,8 +34,10 @@ def _sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _project_file(path_arg: str | Path, project_root: Path) -> tuple[Path, str]:
-    """Resolve an existing non-symlink file under the project root."""
+def _project_file(
+    path_arg: str | Path, project_root: Path, *, allow_external: bool = False
+) -> tuple[Path, str]:
+    """Resolve an existing non-symlink file, normally under the project root."""
     candidate = Path(path_arg)
     if not candidate.is_absolute():
         candidate = project_root / candidate
@@ -54,12 +56,16 @@ def _project_file(path_arg: str | Path, project_root: Path) -> tuple[Path, str]:
     try:
         relative = resolved.relative_to(root)
     except ValueError as exc:
-        raise ValueError(f"path must be inside project root: {path_arg}") from exc
+        if not allow_external:
+            raise ValueError(f"path must be inside project root: {path_arg}") from exc
+        label = str(resolved)
+    else:
+        label = relative.as_posix()
     if not resolved.is_file():
         raise ValueError(f"expected a regular file: {path_arg}")
     if resolved.stat().st_size == 0:
         raise ValueError(f"expected a nonempty file: {path_arg}")
-    return resolved, relative.as_posix()
+    return resolved, label
 
 
 def _code_digest(code_args: list[str | Path], project_root: Path) -> tuple[str, list[str]]:
@@ -158,7 +164,7 @@ def build_trial_packet(
     input_path, input_rel = _project_file(input_manifest, root)
     profile_path, profile_rel = _project_file(profile_receipt, root)
     commands_path, commands_rel = _project_file(approved_commands, root)
-    review_path, review_rel = _project_file(review_receipt, root)
+    review_path, review_rel = _project_file(review_receipt, root, allow_external=True)
 
     expected_hashes = {
         "actor_code_sha256": actor_code_sha256,

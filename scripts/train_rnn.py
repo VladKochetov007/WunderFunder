@@ -1120,6 +1120,10 @@ def main():
                     help="validated preweighted two-column teacher cache for independent distillation")
     ap.add_argument("--distill-cache-variant", choices=["source", "normalized", "homogeneous"],
                     default="source", help="main target column set in the preweighted cache")
+    ap.add_argument("--distill-rkd-weight", type=float, default=0.0,
+                    help="opt-in coefficient for bounded relational KD on source-cache predictions")
+    ap.add_argument("--distill-rkd-pairs", type=int, default=256,
+                    help="maximum sampled pair count per sequence for relational KD")
     ap.add_argument("--distill-family-weight", type=float, default=0.0,
                     help="training-only weighted-MSE coefficient for the four-family eight-output head")
     ap.add_argument("--distill-alpha", type=float, default=0.5, help="target = (1-a) y + a mean(teachers)")
@@ -1282,6 +1286,29 @@ def main():
     add_dynamics_arguments(ap)
     args = ap.parse_args()
     distillation_requested = bool(args.distill or args.distill_cache_root)
+    rkd_add_loss = None
+    if args.distill_rkd_weight != 0.0:
+        from wnn.rkd_component import add_relation_loss as rkd_add_loss
+        from wnn.rkd_component import validate_rkd_configuration
+
+        try:
+            validate_rkd_configuration(
+                weight=args.distill_rkd_weight,
+                max_pairs=args.distill_rkd_pairs,
+                has_source_cache=bool(args.distill_cache_root),
+                cache_variant=args.distill_cache_variant,
+                architecture=args.arch,
+                auxiliary_quote=args.aux_quote,
+                calibrating_reference=args.calibrate_distill_reference,
+                controlled_loss=bool(
+                    args.update_rows or args.detach_rows or args.distill_denominator != "chunk"
+                    or args.detach_boundary_jitter or args.origin_view != "off"
+                    or args.credit_mode != "deterministic"
+                ),
+                classification_joint=args.loss == "ce_joint",
+            )
+        except ValueError as exc:
+            ap.error(str(exc))
     if args.distill and args.distill_cache_root:
         ap.error("--distill and --distill-cache-root are mutually exclusive")
     if not math.isfinite(args.distill_family_weight) or args.distill_family_weight < 0:
@@ -2279,6 +2306,19 @@ def main():
                             cw = cw * y[:, sl].float().clamp(-2, 2).abs()
                             consistency_scale = 2.0  # preserve the original two-target loss scale
                         loss = loss + args.ema_teacher * consistency_scale * (cw * (out[..., :2].float() - out_ema[..., :2].float()) ** 2).sum() / cw.sum().clamp_min(1e-8)
+                    if args.distill_rkd_weight != 0.0:
+                        if teach is None:
+                            raise RuntimeError("relational KD source cache was not loaded for this batch")
+                        assert rkd_add_loss is not None
+                        loss = rkd_add_loss(
+                            loss,
+                            teach[:, sl],
+                            out[..., :2],
+                            valid[:, sl],
+                            weight=args.distill_rkd_weight,
+                            pair_seed=args.seed + step_count,
+                            max_pairs=args.distill_rkd_pairs,
+                        )
                     timer.mark("loss")
                     opt.zero_grad(set_to_none=True)
                     scaler.scale(loss).backward()
