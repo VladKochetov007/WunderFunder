@@ -1,0 +1,13 @@
+# Friend branch / transformer teacher audit
+
+Read-only Git inspection; no merge, checkout, cherry-pick or friend implementation copied. GitHub remote listing failed DNS resolution; web fallback unavailable. Branch inventory is a cached local view, not proof of latest remote commits. See branch_inventory.json for every available branch and its last commit/date/subject.
+
+Relevant branches: origin/quant-probes@0927b1e implements a causal segment-recurrent Transformer-XL-style teacher,6layers,d256,8heads,FF1024,block250,ALiBi,about4.9Mparameters. It carries layer memories between chunks and predicts every row. It is intended for offline teaching because row-serving cost is reported20–30×GRU128. These are code/journal claims, not newly benchmarked results.
+
+origin/archive/2026-10-01@538003d includes snapshot/2026-10-01/delta-late/LATEST_RESULTS.md: fold1 parent0.6753309203, head-onlyFT0.6757656017, fullFT0.6748358573. These are historical ordinary-fold readouts, not a matched current-champion improvement. SOTA_STATE.md records highest public0.6641. The user's friend may have newer results outside these cached refs; nothing here disproves that report.
+
+Source inspirations: first isolate teacher architecture with pairedGRU/causalTransformer controls; compare a GRU student distilled fromTransformer against a student fromsame-architectureGRU teachers; examine cross-fittedteacher residual quality on quiet/class3rows and deployable context regimes; separately test privileged origin-targetTransformer teaching with future inputs usedonlybyoffline teacher. Always bindteacher/student fit memberships bycontinuouschain and comparefixedparent/head orblendendpoint usingglobal_wp_clip2_v1. Do not inferstudentgain fromteacher scorealone.
+
+The old branch also tested privilegedGRUteachers: future-inputteacher score~0.813 butstudentimprovement~0.0007–0.0011, ordinaryGRU distillation~0.0010, onefold/seed. This is evidence about thatspecificrecipe, not a veto onTransformerteachers ornewtransfermechanisms. Causalteacher and privilegedteacher are separate arms.
+
+Proposed later tree: capacity teacher → causalTransformer → prediction distillation / temporal-state transfer / quiet-regime transfer; privilegedTransformer → origin-targetcrossfit → causalstudent. Nodes retainparent IDs, precisechange, pairedcomparator, source/result hashes, exposed-data status, expectedincremental utility, uncertainty andcost. Deeperchildren canearn higher expectations fromnewmeasurements; oldparent priorsarenot ceilings. Correlatedancestral gains andteacher-only improvementsarenot additive publicscoreevidence. No banditrewriteperformed: userrequested thatafterbranchreview.
