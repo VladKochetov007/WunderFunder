@@ -1,0 +1,31 @@
+{
+  "authorized_by": "root controller",
+  "authorized_at_utc": null,
+  "authorization_recorded_after_utc": "2026-10-06T20:45:52Z",
+  "reason": "The corrected GPU v2 provider worker remained RUNNING past the preregistered cumulative 900 device-GPU-second limit while status, logs, and output were still nonterminal/empty. The provider timeout assumption did not bound charged setup/runtime as expected.",
+  "original_preregistration": "gpu_prereg_v2.json",
+  "original_cap_seconds": 900.0,
+  "new_cumulative_cap_seconds": 1800.0,
+  "new_cumulative_cap_device_gpu_hours": 0.5,
+  "quota_measurement_source": "KaggleApi.quota_view exact time_used duration; sampled in scripts/limited under wnn-campaign.slice",
+  "baseline_gpu_used_seconds": 37047.321,
+  "largest_preterminal_quota_snapshot": {
+    "observed_at_utc": "2026-10-06T20:53:44Z",
+    "gpu_used_seconds": 38441.995093,
+    "campaign_delta_seconds": 1394.674093,
+    "remaining_to_1800_second_cap": 405.325907,
+    "provider_status": "KernelWorkerStatus.RUNNING"
+  },
+  "post_terminal_quota_reconciliation": {
+    "observed_at_utc": "2026-10-06T20:58:34Z",
+    "gpu_used_seconds": 37081.896,
+    "campaign_delta_seconds": 34.575,
+    "remaining_to_1800_second_cap": 1765.425,
+    "provider_status": "KernelWorkerStatus.ERROR",
+    "interpretation": "The live-run quota snapshots were provisional and were reconciled downward after this failed kernel reached terminal status. The terminal quota value is the retained account charge."
+  },
+  "last_observed_logs": "empty",
+  "last_observed_output": "empty",
+  "action": "Continue polling this exact private kernel only; no further GPU push until terminal; preserve original preregistration and this explicit budget adjustment.",
+  "science_scope_change": false
+}

@@ -1,0 +1,47 @@
+{
+  "recorded_at_utc": "2026-10-06T21:04:54Z",
+  "dataset": {
+    "id": 12366928,
+    "slug": "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+    "private": true,
+    "metadata_sha256": "21d7760f62590c12aca55ec1504c698df0e066c1806afe8c909cbecffd8f08ab",
+    "version_number": null,
+    "version_note": "The installed CLI's `datasets status` printed `ready`; metadata did not expose a version number. The packet source metadata named the dataset slug without a version pin."
+  },
+  "provider_file_listing_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited kaggle datasets files vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+  "verified_files": [
+    {
+      "path": "source-manifest.json",
+      "size_bytes": 11621,
+      "sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb"
+    },
+    {
+      "path": "source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+      "size_bytes": 3977183,
+      "sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+    },
+    {
+      "path": "source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.jax.npz",
+      "size_bytes": 3929868,
+      "sha256": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a"
+    },
+    {
+      "path": "source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.jax.npz.json",
+      "size_bytes": 572,
+      "sha256": "3e65d2a88352d22bc90d88b829f05beee3faa7a66b9de41c7507f521aab12668"
+    }
+  ],
+  "checkpoint_download": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited kaggle datasets download --unzip -p research/campaign_2026-10-06/cloud_preflight/dataset_checkpoint_v1 -f source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+    "downloaded_size_bytes": 3977183,
+    "downloaded_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "matches_declared_manifest": true
+  },
+  "gpu_v2_runtime_mount": {
+    "declared_path": "/kaggle/input/wnn-jax-realdata-e463-tpu-20261004-v1/source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+    "exists_at_runtime": false,
+    "actual_mount_path": null,
+    "reason": "GPU v2 exited before it recorded /kaggle/input inventory. A fresh packet must enumerate mounted roots before attempting checkpoint access."
+  },
+  "large_raw_data_downloaded_or_hashed": false
+}

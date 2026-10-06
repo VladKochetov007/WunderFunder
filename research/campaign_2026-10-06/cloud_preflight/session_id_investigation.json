@@ -1,0 +1,44 @@
+{
+  "target_kernel": "vladkochetov07/wnn-gru-device-preflight-20261006-v2/1",
+  "cancellation_api_from_installed_kagglesdk": {
+    "request_type": "ApiCancelKernelSessionRequest",
+    "request_field": "kernel_session_id: int",
+    "endpoint": "POST /api/v1/kernels/cancel-session/{kernel_session_id}",
+    "invoked": false
+  },
+  "raw_provider_response_probe": {
+    "observed_at_utc": "2026-10-06T21:01:12Z",
+    "method": "read-only GetKernelSessionStatus through the installed SDK response_processor, before generated type parsing",
+    "http_status": 200,
+    "raw_json": {
+      "status": "ERROR"
+    },
+    "session_id_field_present": false,
+    "get_kernel_attempt_http_status": 403,
+    "get_kernel_session_id_exposed": false
+  },
+  "live_log_header_probe": {
+    "method": "read-only GET to the SDK live logs route; response body was never read",
+    "first_attempt": "404 from a guessed /api/v1 path on api.kaggle.com",
+    "corrected_attempt": "timed out waiting 10 seconds for response headers on the SDK /v1 path",
+    "session_id_exposed": false
+  },
+  "provider_push_response": {
+    "cli_output_recorded_in_attempt_manifest": false,
+    "provider_version": 1,
+    "installed_ApiSaveKernelResponse_schema_fields": [
+      "ref",
+      "url",
+      "versionNumber",
+      "error",
+      "invalidTags",
+      "invalidDatasetSources",
+      "invalidCompetitionSources",
+      "invalidKernelSources",
+      "invalidModelSources",
+      "kernelId"
+    ],
+    "kernel_session_id_field_present_in_schema": false
+  },
+  "decision": "Do not substitute versionNumber or kernelId for kernel_session_id. The exact worker is terminal and its output/log artifacts have been downloaded, so no cancellation was needed."
+}

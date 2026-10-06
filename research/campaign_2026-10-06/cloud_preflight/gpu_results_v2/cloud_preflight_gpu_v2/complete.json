@@ -1,0 +1,17 @@
+{
+  "completed": 1791320026.388001,
+  "elapsed_seconds": 6.615974016999871,
+  "error": "[Errno 2] No such file or directory: '/kaggle/input/wnn-jax-realdata-e463-tpu-20261004-v1/source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt'",
+  "error_type": "FileNotFoundError",
+  "last_phase": "checkpoint_validation",
+  "phase": "checkpoint_validation",
+  "status": "failed",
+  "terminal_memory": {
+    "cpu_count": 4,
+    "host_available_bytes": 32062947328,
+    "host_total_bytes": 33658318848,
+    "process_peak_rss_bytes": 743198720,
+    "process_rss_bytes": 743739392
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 147, in run_probe\n    loaded = checkpoint_state(torch)\n  File \"/kaggle/src/script.py\", line 67, in checkpoint_state\n    digest = sha256_file(CHECKPOINT)\n  File \"/kaggle/src/script.py\", line 42, in sha256_file\n    with path.open(\"rb\") as source:\n         ~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.13/pathlib/_local.py\", line 537, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/kaggle/input/wnn-jax-realdata-e463-tpu-20261004-v1/source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt'\n"
+}
