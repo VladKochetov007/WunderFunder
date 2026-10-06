@@ -1,0 +1,115 @@
+{
+  "budget_cap": "This v2 is capped at 360 provider seconds; cumulative first-stage GPU cap is 0.25 device-hours including v1; one notebook, one active GPU worker.",
+  "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+  "embedded_model_source_sha256": "e15c723744e378ade7db2ef11b44e6e5304ce75b582b9222bb2dd75fbf8bdf39",
+  "failure_durability": "startup and host admission precede framework import; exception phase and traceback persist in terminal.json and complete.json from finally; provider logs are downloaded separately",
+  "hardware_request": "NvidiaTeslaT4; actual device count, model, VRAM, and host RAM are recorded at runtime",
+  "local_model_source_sanity": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited python3 <embedded-source AST extraction; instantiate root RNNModel; CPU inference-only forward>",
+    "embedded_model_source_sha256": "e15c723744e378ade7db2ef11b44e6e5304ce75b582b9222bb2dd75fbf8bdf39",
+    "finite": true,
+    "input_shape": [
+      1,
+      8,
+      211
+    ],
+    "observed_at_utc": "2026-10-06T20:29:59+00:00",
+    "output_shape": [
+      1,
+      8,
+      23
+    ],
+    "probe_py_sha256": "8b5f8a832f4c828ba18505f83ed00bc83134d64a37289164520dfa32f6c0c036",
+    "scope": "local CPU forward only; no backward or training",
+    "state_shape": [
+      2,
+      1,
+      256
+    ],
+    "status": "passed"
+  },
+  "metadata": {
+    "code_file": "probe.py",
+    "competition_sources": [],
+    "dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "vladkochetov07/wunder-funder"
+    ],
+    "enable_gpu": true,
+    "enable_internet": false,
+    "enable_tpu": false,
+    "id": "vladkochetov07/wnn-gru-device-preflight-20261006-v2",
+    "is_private": true,
+    "kernel_sources": [],
+    "kernel_type": "script",
+    "language": "python",
+    "machine_shape": "NvidiaTeslaT4",
+    "title": "wnn-gru-device-preflight-20261006-v2"
+  },
+  "packet_files": {
+    "kernel-metadata.json": "091ac75683e80e6a31d2e617d5fe578cfdf54a0532087609b157917a5165fb9a",
+    "probe.py": "8b5f8a832f4c828ba18505f83ed00bc83134d64a37289164520dfa32f6c0c036"
+  },
+  "packet_id": "wnn-gru-device-preflight-20261006-v2",
+  "payload_timeout_seconds": 300,
+  "prelaunch_admission": {
+    "active_campaign_workers": [],
+    "checkpoint_path": "source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+    "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "cli_version": "Kaggle CLI 2.2.4",
+    "cumulative_first_stage_worst_case_gpu_device_hours_including_v1": 0.20563666666666666,
+    "current_checked_worker_statuses": {
+      "wnn-gru-device-preflight-20261006-v1": "KernelWorkerStatus.ERROR",
+      "wnn-night-e463-tpu-20261005-v3": "KernelWorkerStatus.ERROR",
+      "wnn-w384-fold1-dualt4-20261005-v7-runner": "KernelWorkerStatus.ERROR"
+    },
+    "dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "vladkochetov07/wunder-funder"
+    ],
+    "first_stage_gpu_cap_hours": 0.25,
+    "local_resource_parent": {
+      "helper": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited",
+      "parent_cpu_quota": "10 CPU cores",
+      "parent_memory_high_bytes": 18000000000,
+      "parent_memory_max_bytes": 20000000000,
+      "parent_memory_swap_max_bytes": 0
+    },
+    "observed_at_utc": "2026-10-06T20:28:57+00:00",
+    "previous_gpu_probe_accounted_seconds": 20.292,
+    "prior_terminal_campaign_workers": {
+      "gpu_v1": "KernelWorkerStatus.ERROR; downloaded outputs diagnose sibling-module import failure before device discovery",
+      "prior_e463_v3": "KernelWorkerStatus.ERROR; independently terminal",
+      "prior_w384_v7": "KernelWorkerStatus.ERROR; independently terminal"
+    },
+    "provider_account_mine_recent_kernels_listing": "latest 10 entries contained no active campaign worker; v1 and prior ERROR kernels checked individually immediately before preregistration",
+    "provider_push_command": "kaggle kernels push -p research/campaign_2026-10-06/cloud_preflight/gpu_packet_v2 -t 360",
+    "quota_refresh_utc": "2026-10-10 00:00:00",
+    "remaining_gpu_headroom_after_worst_case_v2_seconds": 159.70799999999997,
+    "root_nn_py_sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+    "scientific_fit_or_competition_upload": false,
+    "typed_quota": {
+      "gpu": {
+        "allowed_seconds": 108000.0,
+        "remaining_hours": 19.703440833333335,
+        "remaining_seconds": 70932.387,
+        "reserved_seconds": 0.0,
+        "used_seconds": 37067.613
+      },
+      "tpu": {
+        "allowed_seconds": 72000.0,
+        "remaining_hours": 19.96260472222222,
+        "remaining_seconds": 71865.377,
+        "reserved_seconds": 0.0,
+        "used_seconds": 134.623
+      }
+    },
+    "v2_provider_timeout_seconds": 360,
+    "v2_worst_case_dual_t4_device_seconds": 720
+  },
+  "provider_timeout_seconds": 360,
+  "revision_of": "wnn-gru-device-preflight-20261006-v1",
+  "revision_reason": "v1 terminal Python failure showed Kaggle script kernels do not expose sibling uploaded files next to /kaggle/src/script.py; v2 embeds the exact model classes in its single uploaded code_file.",
+  "root_nn_py_sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+  "scientific_scope": "actual-device inventory, checkpoint-load, short CPU/GPU parity, one synthetic production-chunk backward/update/export only; no scientific fit or score"
+}

@@ -1,0 +1,42 @@
+{
+  "actual_hardware_observed": null,
+  "classification": "revised packet required; Python code error before CUDA device inventory or model work",
+  "diagnosis": "Kaggle script kernel runs as /kaggle/src/script.py and does not mount sibling source files beside __file__; code_file must be self-contained, so v2 embeds the hash-bound root RNNModel source in the single script before push.",
+  "downloaded_terminal_artifacts": {
+    "gpu_results_v1/cloud_preflight_gpu/complete.json": "cd46afaf3f7ecc964e21a19090f4dd3cd3e45755406d7f0e60c59d634f059c25",
+    "gpu_results_v1/cloud_preflight_gpu/startup.json": "2e59cb64316274f2c4a8a6760d209a7b6d19607d15f1a7dde3a601d12ef13c73",
+    "gpu_results_v1/cloud_preflight_gpu/terminal.json": "f0613c108fee8e7d6cbb68dd67becb90c38aa68df923b17bf4e8aa2751d0e594",
+    "gpu_results_v1/wnn-gru-device-preflight-20261006-v1.log": "2a2d971e1e57fb19c9bb51063e7ce875f2876b6fa6cf9d1164f7ab9faec575ed"
+  },
+  "failure": {
+    "elapsed_seconds": 9.611601863999994,
+    "error": "No module named 'model_source'",
+    "error_type": "ModuleNotFoundError",
+    "phase": "framework_import"
+  },
+  "first_stage_gpu_cap_hours": 0.25,
+  "kernel": "vladkochetov07/wnn-gru-device-preflight-20261006-v1",
+  "observed_at_utc": "2026-10-06T20:24:16+00:00",
+  "provider_gpu_hours_consumed_since_prereg": 0.005636666666665001,
+  "provider_gpu_seconds_consumed_since_prereg": 20.291999999994005,
+  "provider_quota_after_terminal": {
+    "gpu": {
+      "allowed_seconds": 108000.0,
+      "remaining_hours": 19.703440833333335,
+      "remaining_seconds": 70932.387,
+      "reserved_seconds": 0.0,
+      "used_seconds": 37067.613
+    },
+    "tpu": {
+      "allowed_seconds": 72000.0,
+      "remaining_hours": 19.96260472222222,
+      "remaining_seconds": 71865.377,
+      "reserved_seconds": 0.0,
+      "used_seconds": 134.623
+    }
+  },
+  "provider_version": 1,
+  "requested_hardware": "NvidiaTeslaT4",
+  "status_exit_code": 0,
+  "terminal_provider_status": "vladkochetov07/wnn-gru-device-preflight-20261006-v1 has status \"KernelWorkerStatus.ERROR\""
+}
