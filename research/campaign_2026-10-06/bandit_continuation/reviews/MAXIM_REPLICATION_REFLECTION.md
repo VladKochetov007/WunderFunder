@@ -55,3 +55,5 @@ The failed profile also omitted the observed footer digest, leaving diagnosis le
 6. Update bandit beliefs only from relevant measurements: C0's result belongs to ordinary continuation; cloud errors contribute cost and reliability evidence; unrun C1–C4/H196/widening retain unknown quality. Reserve diverse agents for bounded exploration after the leading path has a result owner and runnable dependencies.
 
 No score gain is promised. Our public best remains0.6660; Maxim's reported0.6674 is still ahead. All experiment admissions stay closed until the user resumes.
+
+Independent read-only audit by `replication_audit_luna` (gpt-6-luna/max) agrees: family-loss denominators are equivalent, the raw-versus-clipped family targets are the concrete objective discrepancy, the linear-head partition is structurally equivalent, and completed exports do not constitute a realized eight-source cache. It independently traced the final seed5/6 submission and distinguished it from our unrun fold0 seed3/4 analogues. No new scientific work was performed for this audit.
