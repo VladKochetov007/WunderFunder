@@ -1,0 +1,135 @@
+{
+  "id": "E-503",
+  "registered_at": "2026-10-06T20:50:49.216982+00:00",
+  "status": "preregistered",
+  "kind": "prediction_exports",
+  "source_commit": "69b23318",
+  "experiments": [
+    {
+      "attempt": "e503-bd26-c0-s3-f0-valid-v1",
+      "run": "bd26_c0_s3_f0",
+      "split": "valid",
+      "checkpoint_epoch": 1,
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "1h",
+        ".venv/bin/python",
+        "scripts/predict_run.py",
+        "bd26_c0_s3_f0",
+        "valid",
+        "--epoch",
+        "1"
+      ],
+      "output": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_bd26_c0_s3_f0_valid.npy",
+      "purpose": "C0 fixed evaluation export"
+    },
+    {
+      "attempt": "e503-bd26-c0-s4-f0-valid-v1",
+      "run": "bd26_c0_s4_f0",
+      "split": "valid",
+      "checkpoint_epoch": 1,
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "1h",
+        ".venv/bin/python",
+        "scripts/predict_run.py",
+        "bd26_c0_s4_f0",
+        "valid",
+        "--epoch",
+        "1"
+      ],
+      "output": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_bd26_c0_s4_f0_valid.npy",
+      "purpose": "C0 fixed evaluation export"
+    },
+    {
+      "attempt": "e503-c20261003-combo-s3-f0-train-v1",
+      "run": "c20261003_combo_s3_f0",
+      "split": "train",
+      "checkpoint_epoch": 3,
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "1h",
+        ".venv/bin/python",
+        "scripts/predict_run.py",
+        "c20261003_combo_s3_f0",
+        "train",
+        "--epoch",
+        "3"
+      ],
+      "output": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20261003_combo_s3_f0_train.npy",
+      "purpose": "missing teacher training prediction cache"
+    },
+    {
+      "attempt": "e503-c20261003-combo-s4-f0-train-v1",
+      "run": "c20261003_combo_s4_f0",
+      "split": "train",
+      "checkpoint_epoch": 3,
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "1h",
+        ".venv/bin/python",
+        "scripts/predict_run.py",
+        "c20261003_combo_s4_f0",
+        "train",
+        "--epoch",
+        "3"
+      ],
+      "output": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20261003_combo_s4_f0_train.npy",
+      "purpose": "missing teacher training prediction cache"
+    },
+    {
+      "attempt": "e503-c20260929-ft-since-s3-f0-train-v1",
+      "run": "c20260929_ft_since_s3_f0",
+      "split": "train",
+      "checkpoint_epoch": 0,
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "1h",
+        ".venv/bin/python",
+        "scripts/predict_run.py",
+        "c20260929_ft_since_s3_f0",
+        "train",
+        "--epoch",
+        "0"
+      ],
+      "output": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20260929_ft_since_s3_f0_train.npy",
+      "purpose": "missing teacher training prediction cache"
+    },
+    {
+      "attempt": "e503-c20260929-ft-since-s4-f0-train-v1",
+      "run": "c20260929_ft_since_s4_f0",
+      "split": "train",
+      "checkpoint_epoch": 0,
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "1h",
+        ".venv/bin/python",
+        "scripts/predict_run.py",
+        "c20260929_ft_since_s4_f0",
+        "train",
+        "--epoch",
+        "0"
+      ],
+      "output": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c20260929_ft_since_s4_f0_train.npy",
+      "purpose": "missing teacher training prediction cache"
+    }
+  ],
+  "data_scope": "Prediction-only full cache row order. Any grading must select frozen fold0 evaluation groups. No fitting in exports.",
+  "new_scientific_fits": 0,
+  "expected_public_gain": null,
+  "resource_policy": "3CPU/8GB job cap, shared GPUlock,4.3GBallocator/5GB observed. Inference4000rowchunks is guarded extrapolation from 2000row forward/backward profile; abort on real resource breach, no automatic retry.",
+  "estimated_new_disk_bytes": 7388320768,
+  "admission_precondition": "both C0fits terminalsuccess; each output must not alreadyexist; currentdiskfree>=25GB"
+}

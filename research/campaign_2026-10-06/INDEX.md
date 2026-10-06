@@ -1,5 +1,9 @@
 # Campaign 2026-10-06 index
 
+## Active bandit continuation
+
+See [live frontier](bandit_continuation/FRONTIER.md), [contract](bandit_continuation/CONTRACT.md), [marimo EDA and plots](bandit_continuation/EDA_NOTES.md), and [independent literature tasks](bandit_continuation/ideation/README.md). The current local limits are 10 CPU cores, 20 decimal GB RAM and 5 decimal GB observed VRAM. Earlier sections below preserve their historical limits and status.
+
 Supplied-validation numbers below are not public forecasts. Confirmed public best is 0.6660. No upload in this pass. Local cap for the stretch probe: 5 cores, 10 GB, no GPU.
 
 | Note | What it is |

@@ -1,0 +1,121 @@
+{
+  "registered_at": "2026-10-06T20:42:42.287676+00:00",
+  "source_recipe_is_independent_analogue": true,
+  "organizer_source_used": false,
+  "source_coefficient_sum": 0.8125,
+  "family_auxiliary_coefficient": 0.1,
+  "C1_homogeneous_control": {
+    "strong_pair_coefficients": [
+      0.40625,
+      0.40625
+    ]
+  },
+  "families": [
+    {
+      "family": "strong",
+      "run": "c20261003_combo_s3_f0",
+      "seed": 3,
+      "epoch_zero_based": 3,
+      "main_coefficient": 0.15,
+      "hidden": 256,
+      "layers": 2,
+      "status": "existing_audited",
+      "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f"
+    },
+    {
+      "family": "strong",
+      "run": "c20261003_combo_s4_f0",
+      "seed": 4,
+      "epoch_zero_based": 3,
+      "main_coefficient": 0.15,
+      "hidden": 256,
+      "layers": 2,
+      "status": "existing_audited",
+      "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+      "provenance_sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332"
+    },
+    {
+      "family": "full_finetuned",
+      "run": "c20260929_ft_since_s3_f0",
+      "seed": 3,
+      "epoch_zero_based": 0,
+      "main_coefficient": 0.1,
+      "hidden": 128,
+      "layers": 2,
+      "status": "existing_audited",
+      "checkpoint_sha256": "fa9f0353cf6cdd3c85fc56efc1e8a3f3dae0048fb1ccd995eeb7026afd269dc7",
+      "provenance_sha256": "4b5bbb44d3d2e9a30acb198ea55a95f3d559f0480819d225fac6699ad1202e7d"
+    },
+    {
+      "family": "full_finetuned",
+      "run": "c20260929_ft_since_s4_f0",
+      "seed": 4,
+      "epoch_zero_based": 0,
+      "main_coefficient": 0.1,
+      "hidden": 128,
+      "layers": 2,
+      "status": "existing_audited",
+      "checkpoint_sha256": "e06b712decb62799c84be6907b8b5285724bbd6efe1f58a4aa1bf4a92f3b11b7",
+      "provenance_sha256": "236b4d4536b268186295f003b3ea0fc3550dc20d0a6eac21695f8fe2bee86f4c"
+    },
+    {
+      "family": "raw_wmse",
+      "run": "c20260929_since_s3_f0",
+      "seed": 3,
+      "epoch_zero_based": 3,
+      "main_coefficient": 0.125,
+      "hidden": 128,
+      "layers": 2,
+      "status": "existing_audited",
+      "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+      "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a"
+    },
+    {
+      "family": "raw_wmse",
+      "run": "c20260929_since_s4_f0",
+      "seed": 4,
+      "epoch_zero_based": 3,
+      "main_coefficient": 0.125,
+      "hidden": 128,
+      "layers": 2,
+      "status": "existing_audited",
+      "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+      "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c"
+    },
+    {
+      "family": "samefold_baseline",
+      "run": "bd26_samefold_s3_f0",
+      "seed": 3,
+      "epoch_zero_based": 3,
+      "main_coefficient": 0.03125,
+      "hidden": 128,
+      "layers": 2,
+      "status": "planned_fit",
+      "checkpoint_sha256": null,
+      "provenance_sha256": null
+    },
+    {
+      "family": "samefold_baseline",
+      "run": "bd26_samefold_s4_f0",
+      "seed": 4,
+      "epoch_zero_based": 3,
+      "main_coefficient": 0.03125,
+      "hidden": 128,
+      "layers": 2,
+      "status": "planned_fit",
+      "checkpoint_sha256": null,
+      "provenance_sha256": null
+    }
+  ],
+  "missing_exports": [
+    "combo_s3/s4 train ep3",
+    "full_finetuned_s3/s4 train ep0",
+    "samefold_baseline_s3/s4 train+valid ep3 afterfit"
+  ],
+  "new_baseline_recipe": "raw-only GRU128x2 from scratch; seeds3/4;4epochs fixedep3;wmse;AdamW/OneCycle;lr.001;batch16;chunk2000;noEMA/distillation/auxiliary/propensity; exact fold0 fitting groups",
+  "cache_budget_estimate_new_bytes": 24200000000,
+  "fit_membership_policy": "Allowed fitting subset plus recursively audited initializer/teacher/propensity ancestors; no evaluation-linked or corrupt groups",
+  "implementation_commit": "1fca65707e13c55b1d099fcd5b4d3e1407bd4bef",
+  "implementation_review_status": "independent critic in progress"
+}
