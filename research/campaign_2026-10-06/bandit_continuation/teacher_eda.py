@@ -128,5 +128,50 @@ def _(
     return
 
 
+@app.cell(hide_code=True)
+def _(eda_dir, json, mo, np, plot_dir, plt):
+
+    _c0 = json.loads((eda_dir / "local/E502_C0_EVALUATION_v2/report.json").read_text())
+    _c0_names = ["seed 3", "seed 4", "equal pair"]
+    _c0_values = list(_c0["comparisons"].values())
+    _c0_delta = np.array([v["mean_diff"] for v in _c0_values])
+    _c0_ci = np.array([v["ci95"] for v in _c0_values])
+    _c0_dir = plot_dir / "C0"
+    _c0_dir.mkdir(exist_ok=True)
+    _c0_fig, _c0_ax = plt.subplots(figsize=(7, 4))
+    _c0_ax.errorbar(_c0_delta, np.arange(3), xerr=np.stack([_c0_delta-_c0_ci[:,0], _c0_ci[:,1]-_c0_delta]), fmt="o", capsize=4)
+    _c0_ax.axvline(0, color="gray", linestyle="--")
+    _c0_ax.set_yticks(np.arange(3), _c0_names)
+    _c0_ax.set_xlabel("Local weighted correlation change versus warm parent")
+    _c0_ax.set_title("Ordinary continuation control: component bootstrap 95% intervals")
+    _c0_fig.tight_layout()
+    for _c0_ext in ["png", "svg"]:
+        _c0_fig.savefig(_c0_dir / f"paired_control.{_c0_ext}", dpi=160)
+    mo.vstack([mo.md("**C0: no demonstrated gain.** Exposed fold 0; intervals condition on fitted models and do not include training-seed uncertainty. This comparison is against warm parents, not the public champion. No public forecast."), _c0_fig])
+
+    return
+
+
+@app.cell(hide_code=True)
+def _(eda_dir, json, mo, plot_dir, plt):
+
+    _sv = json.loads((eda_dir / "local/E509_SERVING_CAPACITY_RESULT.json").read_text())
+    _sv_cases = list(_sv["median_seconds"])
+    _sv_dir = plot_dir / "serving"
+    _sv_dir.mkdir(exist_ok=True)
+    _sv_fig, _sv_ax = plt.subplots(figsize=(7,4))
+    _sv_ax.bar(["public champion: one trunk", "warm parents: two trunks"], [_sv["median_seconds"][k] for k in _sv_cases], color=["#4278a8", "#a77743"])
+    for _sv_i, _sv_case in enumerate(_sv_cases):
+        _sv_ax.scatter([_sv_i] * 4, [t["seconds"] for t in _sv["trials"] if t["case"] == _sv_case], color="black", s=20, zorder=3)
+    _sv_ax.set_ylabel("Seconds per 20,000-row stream; one pinned CPU")
+    _sv_ax.set_title("Capacity screen under concurrent laptop load")
+    _sv_fig.tight_layout()
+    for _sv_ext in ["png", "svg"]:
+        _sv_fig.savefig(_sv_dir / f"single_vs_pair.{_sv_ext}", dpi=160)
+    mo.vstack([mo.md("**Serving follow-up required:** pair median runtime is 1.713× champion runtime. Four alternating repeats after warm-up. Parent checkpoints size the architecture; this is not a candidate runtime guarantee or a quality result."), _sv_fig])
+
+    return
+
+
 if __name__ == "__main__":
     app.run()

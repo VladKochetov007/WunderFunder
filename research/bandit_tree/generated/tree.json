@@ -224,6 +224,58 @@
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "60d78d3a08fa3aa07e476b3f6f373c8c3601d71025d27b6845b8dc2abb79947f"
         }
+      },
+      {
+        "raw_record": "{\"id\": \"TREE-20261006-008\", \"timestamp\": \"2026-10-06T21:18:01.507276+00:00\", \"kind\": \"matched_slate_exact_commands_preregistered\", \"experiments\": [\"E-504\", \"E-505\", \"E-506\", \"E-507\"], \"arms\": [\"C1\", \"C2\", \"C3\", \"C4\"], \"scientific_fits\": 8, \"admitted\": false, \"notes\": \"Exact same-seed controls frozen; complete teacher caches, coefficient validation and resource profiles remain admission dependencies.\"}\n",
+        "record": {
+          "admitted": false,
+          "arms": [
+            "C1",
+            "C2",
+            "C3",
+            "C4"
+          ],
+          "experiments": [
+            "E-504",
+            "E-505",
+            "E-506",
+            "E-507"
+          ],
+          "id": "TREE-20261006-008",
+          "kind": "matched_slate_exact_commands_preregistered",
+          "notes": "Exact same-seed controls frozen; complete teacher caches, coefficient validation and resource profiles remain admission dependencies.",
+          "scientific_fits": 8,
+          "timestamp": "2026-10-06T21:18:01.507276+00:00"
+        },
+        "source": {
+          "line": 8,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "f7ef8d6f480884e5a795c806a7140a9ddbdbfa0b60122b12969efbe2fcaa69ca"
+        }
+      },
+      {
+        "raw_record": "{\"id\": \"TREE-20261007-001\", \"timestamp\": \"2026-10-06T22:33:01.967694+00:00\", \"kind\": \"paired_control_and_serving_evidence\", \"experiments\": [\"E-502\", \"E-509\"], \"control_pair_delta\": -0.00018901615671507166, \"control_ci95\": [-0.005364034502005696, 0.0035484646519040606], \"decision\": \"Retain control as comparator; continue C1\\u2013C4 and independent exploration. Capacity result motivates compact-transfer or engine children, without rejecting teacher mechanism.\", \"numerical_public_prior\": null}\n",
+        "record": {
+          "control_ci95": [
+            -0.005364034502005696,
+            0.0035484646519040606
+          ],
+          "control_pair_delta": -0.00018901615671507166,
+          "decision": "Retain control as comparator; continue C1–C4 and independent exploration. Capacity result motivates compact-transfer or engine children, without rejecting teacher mechanism.",
+          "experiments": [
+            "E-502",
+            "E-509"
+          ],
+          "id": "TREE-20261007-001",
+          "kind": "paired_control_and_serving_evidence",
+          "numerical_public_prior": null,
+          "timestamp": "2026-10-06T22:33:01.967694+00:00"
+        },
+        "source": {
+          "line": 9,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "4f047ae0bc514740d3cfbfaac2232517655afc92392d445bb52c636b7cfe3397"
+        }
       }
     ],
     "legacy_archive": {
@@ -2315,9 +2367,9 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 511,
+      "experiments": 519,
       "hypotheses": 194,
-      "journal": 7
+      "journal": 9
     }
   },
   "nodes": [
@@ -40622,7 +40674,7 @@
         "rule": "multiple_or_missing_linked_hypotheses"
       },
       "id": "experiment:E-502",
-      "latest_recorded_status": "preregistration_command_corrected_before_launch",
+      "latest_recorded_status": "paired_control_graded",
       "parent_id": "family:unclassified",
       "raw_rows": [
         {
@@ -40663,6 +40715,99 @@
             "path": "research/experiments.jsonl",
             "sha256": "4d74cac1a03e59d7f246262496274526e494f892b3d5c99a50ea673ded0a2189"
           }
+        },
+        {
+          "raw_record": "{\"id\": \"E-502\", \"timestamp\": \"2026-10-06T21:21:16.013487+00:00\", \"status\": \"seed3_completed_with_guard_incident_seed4_running\", \"completed_scientific_fits\": 1, \"running_scientific_fits\": 1, \"evaluations_completed\": 0, \"fit_guard_status\": \"failed, child exit0; noOOM; independent attestation accepts completed artifact\", \"attestation\": \"research/campaign_2026-10-06/bandit_continuation/local/E502_C0_S3_GUARD_INCIDENT_ATTESTATION.json\", \"active_sequence_plan\": \"research/campaign_2026-10-06/bandit_continuation/local/C0_AND_EXPORT_SEQUENCE_v2.json\", \"active_sequence_receipt\": \"research/campaign_2026-10-06/bandit_continuation/runtime/sequence_c0_exports_v3.json\"}\n",
+          "record": {
+            "active_sequence_plan": "research/campaign_2026-10-06/bandit_continuation/local/C0_AND_EXPORT_SEQUENCE_v2.json",
+            "active_sequence_receipt": "research/campaign_2026-10-06/bandit_continuation/runtime/sequence_c0_exports_v3.json",
+            "attestation": "research/campaign_2026-10-06/bandit_continuation/local/E502_C0_S3_GUARD_INCIDENT_ATTESTATION.json",
+            "completed_scientific_fits": 1,
+            "evaluations_completed": 0,
+            "fit_guard_status": "failed, child exit0; noOOM; independent attestation accepts completed artifact",
+            "id": "E-502",
+            "running_scientific_fits": 1,
+            "status": "seed3_completed_with_guard_incident_seed4_running",
+            "timestamp": "2026-10-06T21:21:16.013487+00:00"
+          },
+          "source": {
+            "line": 516,
+            "path": "research/experiments.jsonl",
+            "sha256": "9aee4a9eff34b8d6cf93c8b85056aff2e10322aa868f165cf0b90fd8146cc9a1"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-502\", \"timestamp\": \"2026-10-06T22:33:01.967694+00:00\", \"status\": \"paired_control_graded\", \"completed_scientific_fits\": 2, \"comparisons\": {\"seed3_candidate_vs_parent\": {\"candidate_wp\": 0.6799524642404509, \"reference_wp\": 0.680941206807155, \"mean_diff\": -0.000988742566704115, \"bootstrap_sd\": 0.001862358289270575, \"ci95\": [-0.004673323286670949, 0.0024440227114304446], \"p_le_0\": 0.6715, \"n_sequences\": 468, \"n_components\": 141, \"n_boot\": 2000, \"seed\": 271828, \"metric_id\": \"global_wp_clip2_v1\", \"centered_moments\": true, \"selected_rows\": 808863}, \"seed4_candidate_vs_parent\": {\"candidate_wp\": 0.6799707977036729, \"reference_wp\": 0.6810293773471171, \"mean_diff\": -0.0010585796434442463, \"bootstrap_sd\": 0.003112090137102042, \"ci95\": [-0.00804564308717266, 0.003741318398144383], \"p_le_0\": 0.5875, \"n_sequences\": 468, \"n_components\": 141, \"n_boot\": 2000, \"seed\": 271828, \"metric_id\": \"global_wp_clip2_v1\", \"centered_moments\": true, \"selected_rows\": 808863}, \"equal_pair_candidate_vs_parent\": {\"candidate_wp\": 0.681152959695954, \"reference_wp\": 0.6813419758526691, \"mean_diff\": -0.00018901615671507166, \"bootstrap_sd\": 0.0023416935175859174, \"ci95\": [-0.005364034502005696, 0.0035484646519040606], \"p_le_0\": 0.4915, \"n_sequences\": 468, \"n_components\": 141, \"n_boot\": 2000, \"seed\": 271828, \"metric_id\": \"global_wp_clip2_v1\", \"centered_moments\": true, \"selected_rows\": 808863}}, \"report\": \"research/campaign_2026-10-06/bandit_continuation/local/E502_C0_EVALUATION_v2/report.json\", \"interpretation\": \"No demonstrated gain from ordinary continuation. Exposed fold0; fixed-model component bootstrap; comparator warm parents, not public champion. Distillation arms remain untested.\", \"expected_public_gain\": null}\n",
+          "record": {
+            "comparisons": {
+              "equal_pair_candidate_vs_parent": {
+                "bootstrap_sd": 0.0023416935175859174,
+                "candidate_wp": 0.681152959695954,
+                "centered_moments": true,
+                "ci95": [
+                  -0.005364034502005696,
+                  0.0035484646519040606
+                ],
+                "mean_diff": -0.00018901615671507166,
+                "metric_id": "global_wp_clip2_v1",
+                "n_boot": 2000,
+                "n_components": 141,
+                "n_sequences": 468,
+                "p_le_0": 0.4915,
+                "reference_wp": 0.6813419758526691,
+                "seed": 271828,
+                "selected_rows": 808863
+              },
+              "seed3_candidate_vs_parent": {
+                "bootstrap_sd": 0.001862358289270575,
+                "candidate_wp": 0.6799524642404509,
+                "centered_moments": true,
+                "ci95": [
+                  -0.004673323286670949,
+                  0.0024440227114304446
+                ],
+                "mean_diff": -0.000988742566704115,
+                "metric_id": "global_wp_clip2_v1",
+                "n_boot": 2000,
+                "n_components": 141,
+                "n_sequences": 468,
+                "p_le_0": 0.6715,
+                "reference_wp": 0.680941206807155,
+                "seed": 271828,
+                "selected_rows": 808863
+              },
+              "seed4_candidate_vs_parent": {
+                "bootstrap_sd": 0.003112090137102042,
+                "candidate_wp": 0.6799707977036729,
+                "centered_moments": true,
+                "ci95": [
+                  -0.00804564308717266,
+                  0.003741318398144383
+                ],
+                "mean_diff": -0.0010585796434442463,
+                "metric_id": "global_wp_clip2_v1",
+                "n_boot": 2000,
+                "n_components": 141,
+                "n_sequences": 468,
+                "p_le_0": 0.5875,
+                "reference_wp": 0.6810293773471171,
+                "seed": 271828,
+                "selected_rows": 808863
+              }
+            },
+            "completed_scientific_fits": 2,
+            "expected_public_gain": null,
+            "id": "E-502",
+            "interpretation": "No demonstrated gain from ordinary continuation. Exposed fold0; fixed-model component bootstrap; comparator warm parents, not public champion. Distillation arms remain untested.",
+            "report": "research/campaign_2026-10-06/bandit_continuation/local/E502_C0_EVALUATION_v2/report.json",
+            "status": "paired_control_graded",
+            "timestamp": "2026-10-06T22:33:01.967694+00:00"
+          },
+          "source": {
+            "line": 518,
+            "path": "research/experiments.jsonl",
+            "sha256": "456ef8002361d1b186fef5c4a77d91f70d348389b8cba346c90df838f8b0048d"
+          }
         }
       ],
       "title": "E-502",
@@ -40695,6 +40840,181 @@
         }
       ],
       "title": "prediction_exports",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-504",
+      "latest_recorded_status": "preregistered_not_admitted",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-504\", \"registered_at\": \"2026-10-06T21:17:19.958077+00:00\", \"status\": \"preregistered_not_admitted\", \"arm\": \"C1\", \"scientific_fit_count\": 2, \"primary_comparison\": \"C0: effect of matched homogeneous distillation\", \"expected_public_gain\": null, \"artifact\": \"research/campaign_2026-10-06/bandit_continuation/local/E504_C1_PAIRED.json\"}\n",
+          "record": {
+            "arm": "C1",
+            "artifact": "research/campaign_2026-10-06/bandit_continuation/local/E504_C1_PAIRED.json",
+            "expected_public_gain": null,
+            "id": "E-504",
+            "primary_comparison": "C0: effect of matched homogeneous distillation",
+            "registered_at": "2026-10-06T21:17:19.958077+00:00",
+            "scientific_fit_count": 2,
+            "status": "preregistered_not_admitted"
+          },
+          "source": {
+            "line": 512,
+            "path": "research/experiments.jsonl",
+            "sha256": "831c2ce0bde7a2e08f04d55388c47239092b7f9439bc0d1ca0d7307bccfd90b3"
+          }
+        }
+      ],
+      "title": "E-504",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-505",
+      "latest_recorded_status": "preregistered_not_admitted",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-505\", \"registered_at\": \"2026-10-06T21:17:19.958476+00:00\", \"status\": \"preregistered_not_admitted\", \"arm\": \"C2\", \"scientific_fit_count\": 2, \"primary_comparison\": \"C1: effect of heterogeneous teacher families\", \"expected_public_gain\": null, \"artifact\": \"research/campaign_2026-10-06/bandit_continuation/local/E505_C2_PAIRED.json\"}\n",
+          "record": {
+            "arm": "C2",
+            "artifact": "research/campaign_2026-10-06/bandit_continuation/local/E505_C2_PAIRED.json",
+            "expected_public_gain": null,
+            "id": "E-505",
+            "primary_comparison": "C1: effect of heterogeneous teacher families",
+            "registered_at": "2026-10-06T21:17:19.958476+00:00",
+            "scientific_fit_count": 2,
+            "status": "preregistered_not_admitted"
+          },
+          "source": {
+            "line": 513,
+            "path": "research/experiments.jsonl",
+            "sha256": "51600f285509dcdabda9243f45ccdf2b0c99aa7254f31357f6b8439f8a0ee742"
+          }
+        }
+      ],
+      "title": "E-505",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-506",
+      "latest_recorded_status": "preregistered_not_admitted",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-506\", \"registered_at\": \"2026-10-06T21:17:19.958692+00:00\", \"status\": \"preregistered_not_admitted\", \"arm\": \"C3\", \"scientific_fit_count\": 2, \"primary_comparison\": \"C2: effect of training-only family head\", \"expected_public_gain\": null, \"artifact\": \"research/campaign_2026-10-06/bandit_continuation/local/E506_C3_PAIRED.json\"}\n",
+          "record": {
+            "arm": "C3",
+            "artifact": "research/campaign_2026-10-06/bandit_continuation/local/E506_C3_PAIRED.json",
+            "expected_public_gain": null,
+            "id": "E-506",
+            "primary_comparison": "C2: effect of training-only family head",
+            "registered_at": "2026-10-06T21:17:19.958692+00:00",
+            "scientific_fit_count": 2,
+            "status": "preregistered_not_admitted"
+          },
+          "source": {
+            "line": 514,
+            "path": "research/experiments.jsonl",
+            "sha256": "3d39d1859f85708e30dfe314b4e97e7177ca586b0bf6c2ed81d74bb387e6ede1"
+          }
+        }
+      ],
+      "title": "E-506",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-507",
+      "latest_recorded_status": "preregistered_not_admitted",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-507\", \"registered_at\": \"2026-10-06T21:17:19.958866+00:00\", \"status\": \"preregistered_not_admitted\", \"arm\": \"C4\", \"scientific_fit_count\": 2, \"primary_comparison\": \"C3: effect of normalizing main teacher coefficients\", \"expected_public_gain\": null, \"artifact\": \"research/campaign_2026-10-06/bandit_continuation/local/E507_C4_PAIRED.json\"}\n",
+          "record": {
+            "arm": "C4",
+            "artifact": "research/campaign_2026-10-06/bandit_continuation/local/E507_C4_PAIRED.json",
+            "expected_public_gain": null,
+            "id": "E-507",
+            "primary_comparison": "C3: effect of normalizing main teacher coefficients",
+            "registered_at": "2026-10-06T21:17:19.958866+00:00",
+            "scientific_fit_count": 2,
+            "status": "preregistered_not_admitted"
+          },
+          "source": {
+            "line": 515,
+            "path": "research/experiments.jsonl",
+            "sha256": "1d8a9d1ebc5f75a25938931aafc1851e97cba265b6d2f9653fc9a18cc06842d1"
+          }
+        }
+      ],
+      "title": "E-507",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-509",
+      "latest_recorded_status": "completed_capacity_screen_only",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-509\", \"registered_at\": \"2026-10-06T21:25:00.881230+00:00\", \"status\": \"preregistered\", \"kind\": \"serving_capacity_screen\", \"artifact\": \"research/campaign_2026-10-06/bandit_continuation/local/E509_SERVING_CAPACITY_PREREG.json\", \"expected_public_gain\": null}\n",
+          "record": {
+            "artifact": "research/campaign_2026-10-06/bandit_continuation/local/E509_SERVING_CAPACITY_PREREG.json",
+            "expected_public_gain": null,
+            "id": "E-509",
+            "kind": "serving_capacity_screen",
+            "registered_at": "2026-10-06T21:25:00.881230+00:00",
+            "status": "preregistered"
+          },
+          "source": {
+            "line": 517,
+            "path": "research/experiments.jsonl",
+            "sha256": "0ba32a221b5f40fecb50bc4010d5d92d21cb98e65bea1469c8a3aeb522220ee5"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-509\", \"timestamp\": \"2026-10-06T22:33:01.967694+00:00\", \"status\": \"completed_capacity_screen_only\", \"median_seconds\": {\"public_champion_single_trunk\": 2.4106241059998865, \"two_warm_parent_trunks\": 4.128984897499322}, \"pair_to_champion_median_ratio\": 1.7128281789029436, \"requires_serving_cost_followup\": true, \"report\": \"research/campaign_2026-10-06/bandit_continuation/local/E509_SERVING_CAPACITY_RESULT.json\", \"limitation\": \"Concurrent GPU training and support work; one process and laptop CPU. Warm parents size the student architecture but are not candidate checkpoints. No public-time guarantee, quality score, or submission approval.\", \"expected_public_gain\": null}\n",
+          "record": {
+            "expected_public_gain": null,
+            "id": "E-509",
+            "limitation": "Concurrent GPU training and support work; one process and laptop CPU. Warm parents size the student architecture but are not candidate checkpoints. No public-time guarantee, quality score, or submission approval.",
+            "median_seconds": {
+              "public_champion_single_trunk": 2.4106241059998865,
+              "two_warm_parent_trunks": 4.128984897499322
+            },
+            "pair_to_champion_median_ratio": 1.7128281789029436,
+            "report": "research/campaign_2026-10-06/bandit_continuation/local/E509_SERVING_CAPACITY_RESULT.json",
+            "requires_serving_cost_followup": true,
+            "status": "completed_capacity_screen_only",
+            "timestamp": "2026-10-06T22:33:01.967694+00:00"
+          },
+          "source": {
+            "line": 519,
+            "path": "research/experiments.jsonl",
+            "sha256": "9bea9646ca4fda5515f2bd0a531221d6a05a76ade52e4021403b96b1b71591c0"
+          }
+        }
+      ],
+      "title": "E-509",
       "type": "experiment"
     },
     {

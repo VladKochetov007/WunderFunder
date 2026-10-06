@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/tmp/wnn-bandit-evaluator-20261006/scripts/evaluate_bandit_continuation.py", line 691, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/wnn-bandit-evaluator-20261006/scripts/evaluate_bandit_continuation.py", line 678, in main
+    report = grade(
+        args.artifact_root,
+    ...<5 lines>...
+        n_boot=args.bootstrap_replicates,
+    )
+  File "/tmp/wnn-bandit-evaluator-20261006/scripts/evaluate_bandit_continuation.py", line 508, in grade
+    _validate_target_index(row_groups, targets, is_scored, classes_all, split.valid_groups)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/wnn-bandit-evaluator-20261006/scripts/evaluate_bandit_continuation.py", line 269, in _validate_target_index
+    raise ValueError("valid target cache is malformed or differs from frozen valid groups")
+ValueError: valid target cache is malformed or differs from frozen valid groups
