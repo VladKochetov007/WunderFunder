@@ -356,9 +356,11 @@ def active_reservations(state: Path, *, exclude: str | None = None) -> tuple[flo
     cpus = 0.0
     ram = 0
     for item in job_records(state):
+        if exclude is not None and item.get("id") == exclude:
+            continue
         if item.get("status") in UNRESOLVED:
             raise RuntimeError(f"unreconciled attempt blocks admission: {item.get('id')}")
-        if item.get("status") in ACTIVE and item.get("id") != exclude:
+        if item.get("status") in ACTIVE:
             limits = item.get("reservation")
             if not isinstance(limits, dict):
                 raise ValueError(f"attempt has no reservation: {item.get('id')}")
@@ -610,6 +612,7 @@ def launch(args: argparse.Namespace) -> dict[str, object]:
                 parent_group,
                 args.cpus,
                 args.reserve_bytes,
+                exclude=args.attempt,
                 current_memory_bytes=measured,
             )
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
