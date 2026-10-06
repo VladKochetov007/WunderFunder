@@ -329,7 +329,7 @@ def _run_grader(
     output_dir = Path(str(plan["output_dir"]))
     if output_dir.exists():
         raise GateError("grader output already exists; refusing to overwrite or repeat")
-    log_path = runtime / "logs" / "c0-eval-gate-v1.stderr.log"
+    log_path = runtime / "logs" / f"{receipt.stem}.stderr.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
     command = _grader_command(plan)
     with log_path.open("xb") as stderr_log, locked(runtime):

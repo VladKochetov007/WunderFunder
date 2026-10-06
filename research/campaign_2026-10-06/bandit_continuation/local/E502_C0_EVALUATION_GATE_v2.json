@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "poll_seconds": 15,
+  "runtime": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime",
+  "artifact_root": "/tmp/wnn-bandit-c0-20261006",
+  "receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/evaluation_c0_gate_v2.json",
+  "output_dir": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/local/E502_C0_EVALUATION_v2",
+  "frozen_sources": {
+    "repository_root": "/tmp/wnn-bandit-evaluator-indexfix-20261007",
+    "commit": "d762ba7cf9eb9ed2ac474653d135e91de1f5b60c",
+    "grader": {
+      "path": "scripts/evaluate_bandit_continuation.py",
+      "sha256": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44"
+    },
+    "e502_preregistration": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/local/E502_C0_PAIRED_v2.json",
+      "sha256": "c51b1716a3a9478d625f41d0c6f77348f114749407a19b5f89c979540b84db17"
+    },
+    "e503_preregistration": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/local/E503_PREDICTION_EXPORTS.json",
+      "sha256": "18782bdd4852c9d3c62b3055ef0ffd7a8a4267f1127edc0904484fc9c38515f6"
+    },
+    "source_families": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/SOURCE_FAMILIES.json",
+      "sha256": "9d54c87be7fe1eeb1092e237f2f38d644a4c1b846bf96be675d5268aebff741b"
+    },
+    "seed3_attestation": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/local/E502_C0_S3_GUARD_INCIDENT_ATTESTATION.json",
+      "sha256": "b8970c89e2fb90fca8ab9838420a091af51f89386bfbaee649856f8d2480f6d4"
+    }
+  },
+  "exports": [
+    {
+      "attempt": "e503-bd26-c0-s3-f0-valid-v1",
+      "run": "bd26_c0_s3_f0",
+      "split": "valid",
+      "checkpoint_epoch": 1,
+      "kind": "gpu",
+      "parent_slice": "wnn-campaign.slice",
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "1h",
+        ".venv/bin/python",
+        "scripts/predict_run.py",
+        "bd26_c0_s3_f0",
+        "valid",
+        "--epoch",
+        "1"
+      ],
+      "output": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_bd26_c0_s3_f0_valid.npy"
+    },
+    {
+      "attempt": "e503-bd26-c0-s4-f0-valid-v1",
+      "run": "bd26_c0_s4_f0",
+      "split": "valid",
+      "checkpoint_epoch": 1,
+      "kind": "gpu",
+      "parent_slice": "wnn-campaign.slice",
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "1h",
+        ".venv/bin/python",
+        "scripts/predict_run.py",
+        "bd26_c0_s4_f0",
+        "valid",
+        "--epoch",
+        "1"
+      ],
+      "output": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_bd26_c0_s4_f0_valid.npy"
+    }
+  ],
+  "revision": 2,
+  "revision_of": "E502_C0_EVALUATION_GATE.json",
+  "revision_reason": "Gate v1 reached the frozen evaluator, which rejected the target index before member scoring because the expected set omitted the 468 frozen evaluation groups. The prior plan, receipt, failed resource attempt, and stderr are retained unchanged."
+}
