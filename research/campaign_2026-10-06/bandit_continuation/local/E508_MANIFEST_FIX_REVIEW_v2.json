@@ -1,0 +1,18 @@
+{
+  "id": "E508-SOURCE-FIX-REVIEW-v2",
+  "reviewed_utc": "2026-10-06T22:54:41.544961+00:00",
+  "actor_commit": "a68e65f3c022a91112e9cf38c0f17b45b524e72d",
+  "main_commit": "ffc472ca",
+  "controller_review": "approved_corrected_profile_only",
+  "delta": "Remove erroneous source_bundle manifest-key prefix; preserve exact manifest SHA, checkpoint SHA, size and source_path binding.",
+  "verification": {
+    "packet_tests_passed": 8,
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited .venv/bin/python -m pytest -q /tmp/wnn-e508-profile-20261007/research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/test_packet.py",
+    "actual_manifest_inspected": true
+  },
+  "production_fit_authorized": false,
+  "next_stage_max_device_gpu_seconds": 8400,
+  "retained_campaign_device_gpu_seconds": 80.915,
+  "next_accounting_ceiling_seconds": 8480.915,
+  "required_new_kernel_id": true
+}
