@@ -1,0 +1,11 @@
+{"event": "phase", "packet": "E508_RAW_BASELINE_V2", "phase": "input_inventory", "updated_unix": 1791327990.9770994}
+{"event": "phase", "packet": "E508_RAW_BASELINE_V2", "phase": "failed", "updated_unix": 1791327992.0496373, "error": "ValueError('raw parquet footer changed: datasets/train.parquet')"}
+Traceback (most recent call last):
+  File "/kaggle/working/e508_raw_teacher_pair/source/packet_worker.py", line 991, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/e508_raw_teacher_pair/source/packet_worker.py", line 830, in main
+    discovered = input_map(Path("/kaggle/input"))
+  File "/kaggle/working/e508_raw_teacher_pair/source/packet_worker.py", line 326, in input_map
+    raise ValueError(f"raw parquet footer changed: {logical_name}")
+ValueError: raw parquet footer changed: datasets/train.parquet
