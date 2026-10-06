@@ -1,0 +1,26 @@
+{
+  "id": "E-509",
+  "registered_at": "2026-10-06T21:25:00.881230+00:00",
+  "status": "preregistered",
+  "purpose": "Capacity screen of two GRU256x2 trunks versus exact incumbent single trunk with merged head; no score evaluation",
+  "script": "research/campaign_2026-10-06/bandit_continuation/local/serving_capacity_probe.py",
+  "source_sha256": "1d758d851b923538b20f83ff662abe5c0bc3d17a073b27d795c03379d4ba733e",
+  "fixed_inputs": [
+    "c20261003_combo_s3_f0@ep3",
+    "c20261003_combo_s4_f0@ep3",
+    "submissions/c20261004_combo_s4_i16/pkg/weights_0.npz",
+    "submissions/c20261004_combo_s4_i16/pkg/v3/wnn_native.abi3.so",
+    "cache/valid_subset20.parquet row group0 features only"
+  ],
+  "trials": "One warm-up per endpoint, then four alternating-order pairs; fresh native instance each trial; keep every timing; no fastest-trial selection",
+  "endpoint": "Two-parent pair/champion median wall ratio; report per-trial cycles if available and repeated prediction identity",
+  "followup_flag": "Ratio>1.4 prompts clean-window actual-candidate serving study or separately registered single/compact-student/engine arm. Does not reject heterogeneous teaching.",
+  "resources": {
+    "cpu_cores": 1,
+    "ram_bytes": 1500000000,
+    "gpu": false,
+    "wall_timeout_seconds": 300
+  },
+  "concurrency": "GPU fit continues; runtime screen is explicitly under background load, not submission readiness or a public-time projection",
+  "expected_public_gain": null
+}
