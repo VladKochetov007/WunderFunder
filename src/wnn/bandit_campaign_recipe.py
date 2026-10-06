@@ -6,16 +6,49 @@ import hashlib
 import json
 import math
 from collections.abc import Mapping, Sequence
+from pathlib import Path
 from typing import cast
 
 CAMPAIGN_SPLIT_SHA256 = "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
 SOURCE_COEFFICIENT_SUM = 0.8125
 FAMILY_ORDER = ("strong", "full_finetuned", "raw_wmse", "samefold_baseline")
 RECIPE_VARIANTS = {
-    "C1": {"id": "E-504", "variant": "homogeneous", "family_weight": 0.0, "normalized": False},
-    "C2": {"id": "E-505", "variant": "source", "family_weight": 0.0, "normalized": False},
-    "C3": {"id": "E-506", "variant": "source", "family_weight": 0.1, "normalized": False},
-    "C4": {"id": "E-507", "variant": "normalized", "family_weight": 0.1, "normalized": True},
+    "C1": {
+        "id": "E-504",
+        "variant": "homogeneous",
+        "family_weight": 0.0,
+        "normalized": False,
+        "cache_root": "cache/bd26_four_family_f0_v1",
+        "recipe_path": "research/campaign_2026-10-06/bandit_continuation/local/E504_C1_PAIRED.json",
+        "recipe_sha256": "cc0709e6127d8bb38f119606e64d99c65683467098faeb3e0ddb24983515e515",
+    },
+    "C2": {
+        "id": "E-505",
+        "variant": "source",
+        "family_weight": 0.0,
+        "normalized": False,
+        "cache_root": "cache/bd26_four_family_f0_v1",
+        "recipe_path": "research/campaign_2026-10-06/bandit_continuation/local/E505_C2_PAIRED.json",
+        "recipe_sha256": "3b432a086cee575f0215f11a2d8c45783db3bd313e1171d7e0bf32bb20d3196a",
+    },
+    "C3": {
+        "id": "E-506",
+        "variant": "source",
+        "family_weight": 0.1,
+        "normalized": False,
+        "cache_root": "cache/bd26_four_family_f0_v1",
+        "recipe_path": "research/campaign_2026-10-06/bandit_continuation/local/E506_C3_PAIRED.json",
+        "recipe_sha256": "6acd7901f05f85eab0702acd82f3375f055db0f60bcb3098bdb8bc8bf722101a",
+    },
+    "C4": {
+        "id": "E-507",
+        "variant": "normalized",
+        "family_weight": 0.1,
+        "normalized": True,
+        "cache_root": "cache/bd26_four_family_f0_v1",
+        "recipe_path": "research/campaign_2026-10-06/bandit_continuation/local/E507_C4_PAIRED.json",
+        "recipe_sha256": "7835167ac07dc7b475542cf94632584af8e222fc8d895e7f0749513644abdacf",
+    },
 }
 _EXPECTED_OPTIONS = {
     "--device",
@@ -197,7 +230,9 @@ def _validate_commands(recipe: Mapping[str, object], expected: Mapping[str, obje
     if len(commands) != 2 or len(digests) != 2:
         raise ValueError("preregistered recipe must contain exactly two paired commands")
 
-    cache_root = _string(recipe.get("cache_root"), "recipe.cache_root")
+    cache_root = _string(expected.get("cache_root"), "registered cache root")
+    if recipe.get("cache_root") != cache_root:
+        raise ValueError("preregistered recipe cache root differs from the sealed campaign root")
     expected_seeds = (3, 4)
     for index, (raw_command, expected_digest) in enumerate(zip(commands, digests, strict=True)):
         command = [
@@ -254,6 +289,220 @@ def _validate_commands(recipe: Mapping[str, object], expected: Mapping[str, obje
                 raise ValueError(f"recipe command {index} must retain {flag}")
 
 
+def verify_derived_distillation_targets(
+    cache_root: Path,
+    teacher_cache_root: Path,
+    cache_metadata: Mapping[str, object],
+    realized_snapshot: Mapping[str, object],
+    target_orders: Mapping[str, Sequence[int]],
+    expected_fit_groups: Mapping[str, Sequence[int]],
+    *,
+    variant: str,
+    require_families: bool,
+    chunk_rows: int = 8,
+) -> dict[str, object]:
+    """Rebuild selected cache targets from bound source predictions in bounded chunks.
+
+    The generic cache validator verifies each requested array's hash, shape, dtype,
+    finiteness, row order, and fold membership. This second pass proves the target
+    bytes equal the exact source-scale/normalized/homogeneous/family arithmetic
+    over the eight registered teacher prediction files.
+    """
+    import numpy as np
+
+    from wnn.distillation import TeacherSource, combine_teacher_chunk
+
+    if variant not in ("source", "normalized", "homogeneous"):
+        raise ValueError(f"unknown derived main target variant: {variant}")
+    if chunk_rows < 1 or chunk_rows > 32:
+        raise ValueError("derived target verification chunk must be between 1 and 32 sequences")
+    cache_root = Path(cache_root).resolve(strict=True)
+    teacher_cache_root = Path(teacher_cache_root).resolve(strict=True)
+    source_rows = _records_by_run(realized_snapshot.get("families"), "realized.families")
+    coefficients = _records_by_run(
+        cache_metadata.get("source_coefficients"), "cache source_coefficients"
+    )
+    metadata_sources = _records_by_run(cache_metadata.get("sources"), "cache sources")
+    if set(source_rows) != set(coefficients) or set(source_rows) != set(metadata_sources):
+        raise ValueError("derived-target inputs do not contain exactly the registered teachers")
+
+    files = _mapping(cache_metadata.get("files"), "cache files")
+    variants = {
+        "source": "main_source",
+        "normalized": "main_normalized",
+        "homogeneous": "main_homogeneous",
+    }
+    selected = [f"{variants[variant]}_train", f"{variants[variant]}_valid"]
+    if require_families:
+        selected.extend(("families_train", "families_valid"))
+    target_paths: dict[str, object] = {}
+    for key in selected:
+        entry = _mapping(files.get(key), f"cache files.{key}")
+        relative = _string(entry.get("path"), f"cache files.{key}.path")
+        relative_path = Path(relative)
+        if relative_path.is_absolute() or len(relative_path.parts) != 1:
+            raise ValueError(f"cache target path must be one relative filename: {key}")
+        target_path = (cache_root / relative_path).resolve(strict=True)
+        try:
+            target_path.relative_to(cache_root)
+        except ValueError as error:
+            raise ValueError(f"cache target escapes its registered root: {key}") from error
+        array = np.load(target_path, mmap_mode="r", allow_pickle=False)
+        split_name = key.rsplit("_", 1)[1]
+        width = 2 if key.startswith("main_") else len(FAMILY_ORDER) * 2
+        expected_shape = (len(expected_fit_groups[split_name]), 20_000, width)
+        if array.shape != expected_shape or array.dtype != np.float32:
+            raise ValueError(f"derived cache target shape or dtype is invalid for {key}")
+        target_paths[key] = array
+
+    source_arrays: dict[str, dict[str, object]] = {"train": {}, "valid": {}}
+    source_identities: dict[str, dict[str, object]] = {}
+    for run, expected in source_rows.items():
+        source_record = metadata_sources[run]
+        prediction_records = _mapping(source_record.get("predictions"), f"{run}.predictions")
+        family = _string(expected.get("family"), f"{run}.family")
+        epoch = _integer(expected.get("epoch_zero_based"), f"{run}.epoch")
+        coefficient_record = coefficients[run]
+        if (
+            coefficient_record.get("family") != family
+            or coefficient_record.get("epoch") != epoch
+            or not math.isclose(
+                _number(coefficient_record.get("coefficient"), f"{run}.coefficient"),
+                _number(expected.get("main_coefficient"), f"{run}.registered coefficient"),
+                rel_tol=0.0,
+                abs_tol=1e-8,
+            )
+            or source_record.get("checkpoint_sha256") != expected.get("checkpoint_sha256")
+            or source_record.get("epoch") != epoch
+            or source_record.get("family") != family
+        ):
+            raise ValueError(f"source prediction manifest differs from registered teacher {run}")
+        for split_name in ("train", "valid"):
+            prediction_record = _mapping(
+                prediction_records.get(split_name), f"{run}.predictions.{split_name}"
+            )
+            path = (teacher_cache_root / f"pred_{run}_{split_name}.npy").resolve(strict=True)
+            try:
+                path.relative_to(teacher_cache_root)
+            except ValueError as error:
+                raise ValueError(
+                    f"source prediction escapes its registered cache root: {run}/{split_name}"
+                ) from error
+            sidecar_path = path.with_suffix(".json")
+            sidecar_path = sidecar_path.resolve(strict=True)
+            try:
+                sidecar_path.relative_to(teacher_cache_root)
+            except ValueError as error:
+                raise ValueError(
+                    f"source prediction sidecar escapes its registered cache root: {run}/{split_name}"
+                ) from error
+            sidecar_bytes = sidecar_path.read_bytes()
+            sidecar = json.loads(sidecar_bytes)
+            expected_order = list(map(int, target_orders[split_name]))
+            array = np.load(path, mmap_mode="r", allow_pickle=False)
+            if (
+                array.shape != (len(expected_order), 20_000, 2)
+                or array.dtype != np.float32
+                or sidecar.get("run") != run
+                or sidecar.get("split") != split_name
+                or sidecar.get("epoch") != epoch
+                or sidecar.get("checkpoint_sha256") != expected.get("checkpoint_sha256")
+                or sidecar.get("split_manifest_sha256") != CAMPAIGN_SPLIT_SHA256
+                or sidecar.get("row_groups") != expected_order
+                or sidecar.get("feature_only_export") is not True
+                or sidecar.get("label_columns_read") is not False
+                or sidecar.get("mask_columns_read") is not False
+            ):
+                raise ValueError(
+                    f"source prediction schema/order is invalid for {run}/{split_name}"
+                )
+            prediction_sha256 = _sha256_file(path)
+            sidecar_sha256 = sha256_bytes(sidecar_bytes)
+            if (
+                sidecar.get("prediction_sha256") != prediction_sha256
+                or prediction_record.get("prediction_sha256") != prediction_sha256
+                or prediction_record.get("sidecar_sha256") != sidecar_sha256
+                or prediction_record.get("checkpoint_sha256") != expected.get("checkpoint_sha256")
+                or prediction_record.get("epoch") != epoch
+                or prediction_record.get("row_groups_sha256")
+                != hashlib.sha256(np.asarray(expected_order, dtype="<i8").tobytes()).hexdigest()
+            ):
+                raise ValueError(
+                    f"source prediction bytes differ from cache builder record: {run}/{split_name}"
+                )
+            if Path(str(prediction_record.get("prediction_path", ""))).name != path.name:
+                raise ValueError(f"source prediction path identity differs for {run}/{split_name}")
+            source_arrays[split_name][run] = array
+            source_identities[f"{run}/{split_name}"] = {
+                "prediction_sha256": prediction_sha256,
+                "sidecar_sha256": sidecar_sha256,
+            }
+
+    source_specs = [
+        TeacherSource(
+            family=_string(coefficients[run].get("family"), f"{run}.family"),
+            run=run,
+            coefficient=_number(coefficients[run].get("coefficient"), f"{run}.coefficient"),
+            epoch=_integer(coefficients[run].get("epoch"), f"{run}.epoch"),
+        )
+        for run in coefficients
+    ]
+    verified_chunks = 0
+    for split_name in ("train", "valid"):
+        target_order = list(map(int, target_orders[split_name]))
+        fitting = set(map(int, expected_fit_groups[split_name]))
+        selected_order = [group for group in target_order if group in fitting]
+        positions = {group: index for index, group in enumerate(target_order)}
+        source_rows_by_index = np.asarray(
+            [positions[group] for group in selected_order], dtype=np.int64
+        )
+        source_cache = source_arrays[split_name]
+        destination_keys = [f"{variants[variant]}_{split_name}"]
+        if require_families:
+            destination_keys.append(f"families_{split_name}")
+        for start in range(0, len(selected_order), chunk_rows):
+            stop = min(start + chunk_rows, len(selected_order))
+            rows = source_rows_by_index[start:stop]
+            source_chunk = {
+                run: np.asarray(array[rows], dtype=np.float32)
+                for run, array in source_cache.items()
+            }
+            if any(not np.isfinite(array).all() for array in source_chunk.values()):
+                raise ValueError(f"source teacher predictions are nonfinite for {split_name}")
+            main, normalized, homogeneous, families = combine_teacher_chunk(
+                source_chunk, source_specs, FAMILY_ORDER, "strong"
+            )
+            values_by_name = {
+                "main_source": main,
+                "main_normalized": normalized,
+                "main_homogeneous": homogeneous,
+                "families": families,
+            }
+            for key in destination_keys:
+                name, _ = key.rsplit("_", 1)
+                actual = target_paths[key][start:stop]
+                if not np.isfinite(actual).all():
+                    raise ValueError(f"derived cache target is nonfinite for {key}")
+                if not np.array_equal(actual, values_by_name[name]):
+                    raise ValueError(f"derived cache target values differ from teachers for {key}")
+            verified_chunks += 1
+    return {
+        "selected_target_keys": selected,
+        "source_prediction_identities": source_identities,
+        "derived_chunks_compared_bitwise": verified_chunks,
+        "chunk_rows": chunk_rows,
+    }
+
+
+def _sha256_file(path: Path) -> str:
+    """Hash a large source or cache artifact in bounded memory."""
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        while block := stream.read(8 << 20):
+            digest.update(block)
+    return digest.hexdigest()
+
+
 def validate_bandit_recipe(
     recipe: Mapping[str, object],
     sealed_families: Mapping[str, object],
@@ -261,6 +510,8 @@ def validate_bandit_recipe(
     cache_metadata: Mapping[str, object],
     *,
     split_manifest: Mapping[str, object],
+    recipe_path: str,
+    recipe_sha256: str,
     sealed_families_sha256: str,
     realized_snapshot_sha256: str,
     expected_realized_snapshot_sha256: str,
@@ -273,6 +524,8 @@ def validate_bandit_recipe(
         sealed_families: The immutable ``SOURCE_FAMILIES.json`` JSON object.
         realized_snapshot: E510's source-family snapshot after both baseline fits.
         cache_metadata: The exact ``metadata.json`` emitted by the cache builder.
+        recipe_path: Repository-relative path of the preregistered arm JSON.
+        recipe_sha256: SHA-256 of the exact preregistration bytes.
         sealed_families_sha256: Digest of the original source-family manifest bytes.
         realized_snapshot_sha256: Digest of E510's realized source snapshot bytes.
         expected_realized_snapshot_sha256: Controller-pinned snapshot digest.
@@ -305,8 +558,13 @@ def validate_bandit_recipe(
     expected = RECIPE_VARIANTS.get(arm)
     if expected is None:
         raise ValueError(f"unregistered campaign arm: {arm}")
+    if (
+        recipe_path != expected["recipe_path"]
+        or _digest(recipe_sha256, "preregistered recipe source hash") != expected["recipe_sha256"]
+    ):
+        raise ValueError(f"{arm} recipe path or bytes differ from its immutable registration")
     for key, value in expected.items():
-        if key == "variant":
+        if key in {"variant", "recipe_path", "recipe_sha256", "cache_root"}:
             continue
         recipe_key = {
             "family_weight": "family_auxiliary_weight",

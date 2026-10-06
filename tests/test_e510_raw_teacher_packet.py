@@ -5,6 +5,7 @@ import hashlib
 import importlib.util
 import json
 import unittest
+from datetime import UTC, datetime
 from pathlib import Path
 from types import ModuleType
 
@@ -76,24 +77,17 @@ class E510PacketGateTests(unittest.TestCase):
         result = self.builder.validate_profile_receipt(
             self.receipt_bytes,
             expected_sha256=self.receipt_sha,
-            controller_reviewed_sha256=self.receipt_sha,
         )
         self.assertEqual(result["packet"], "E508_RAW_BASELINE_V1")
-        with self.assertRaisesRegex(ValueError, "controller review"):
-            self.builder.validate_profile_receipt(
-                self.receipt_bytes,
-                expected_sha256=self.receipt_sha,
-                controller_reviewed_sha256="0" * 64,
-            )
+        with self.assertRaisesRegex(ValueError, "supplied digest"):
+            self.builder.validate_profile_receipt(self.receipt_bytes, expected_sha256="0" * 64)
 
         rejected = profile_receipt()
         rejected["fit_stages_started"] = ["fit_seed_3"]
         changed = (json.dumps(rejected, sort_keys=True) + "\n").encode()
         digest = hashlib.sha256(changed).hexdigest()
         with self.assertRaisesRegex(ValueError, "no-fit profile"):
-            self.builder.validate_profile_receipt(
-                changed, expected_sha256=digest, controller_reviewed_sha256=digest
-            )
+            self.builder.validate_profile_receipt(changed, expected_sha256=digest)
 
     def test_profile_timing_allocator_and_group_counts_fail_closed(self) -> None:
         for mutate, message in (
@@ -109,16 +103,14 @@ class E510PacketGateTests(unittest.TestCase):
             encoded = (json.dumps(row, sort_keys=True) + "\n").encode()
             digest = hashlib.sha256(encoded).hexdigest()
             with self.subTest(message=message), self.assertRaisesRegex(ValueError, message):
-                self.builder.validate_profile_receipt(
-                    encoded, expected_sha256=digest, controller_reviewed_sha256=digest
-                )
+                self.builder.validate_profile_receipt(encoded, expected_sha256=digest)
 
     def test_packet_builder_refuses_to_materialize_without_real_profile_receipt(self) -> None:
-        with self.assertRaisesRegex(ValueError, "sealed until"):
+        with self.assertRaisesRegex(ValueError, "separate controller review receipt"):
             self.builder.build_packet()
         self.assertFalse((PACKET_DIR / "packet").exists())
 
-    def test_generated_kernel_embeds_exact_profile_and_family_snapshot_hashes(self) -> None:
+    def test_generated_kernel_embeds_profile_but_no_self_attested_review(self) -> None:
         source_families = (PACKET_DIR.parent / "SOURCE_FAMILIES.json").read_bytes()
         kernel_bytes = self.builder.kernel_source(
             b"synthetic-archive",
@@ -135,8 +127,75 @@ class E510PacketGateTests(unittest.TestCase):
         self.assertEqual(recovered, self.receipt_bytes)
         self.assertEqual(namespace["PROFILE_RECEIPT_SHA256"], self.receipt_sha)
         self.assertIn(
-            '"WNN_E508_PROFILE_REVIEWED_SHA256": PROFILE_RECEIPT_SHA256', kernel_bytes.decode()
+            '"WNN_E508_PROFILE_RECEIPT_SHA256": PROFILE_RECEIPT_SHA256', kernel_bytes.decode()
         )
+        self.assertNotIn("WNN_E508_PROFILE_REVIEWED_SHA256", kernel_bytes.decode())
+
+    def test_separate_review_binds_real_profile_output_code_and_resource_budget(self) -> None:
+        code_identities = {
+            "kernel_sha256": "1" * 64,
+            "worker_sha256": "2" * 64,
+            "builder_sha256": "3" * 64,
+            "trainer_sha256": "4" * 64,
+            "source_archive_sha256": "5" * 64,
+        }
+        now = datetime.now(UTC)
+        review = {
+            "format": "wnn.controller.e510-review.v1",
+            "version": 1,
+            "status": "approved",
+            "packet_id": "E510_RAW_TEACHER_PAIR_V1",
+            "profile_review": {
+                "status": "approved",
+                "packet_id": "E508_RAW_BASELINE_V1",
+                "receipt_sha256": self.receipt_sha,
+                "terminal_output_sha256": "6" * 64,
+            },
+            "e510_code_review": {"status": "approved", **code_identities},
+            "production_budget": {
+                "status": "approved",
+                "provider": "kaggle",
+                "provider_watch_seconds": 7_200,
+                "worker_wall_cap_seconds": 6_300,
+                "worst_case_dual_t4_gpu_hours": 4.0,
+                "ram_headroom_fraction": 0.2,
+                "ram_monitor_required": True,
+                "fresh_quota_checked": True,
+                "gpu_hours_remaining": 4.5,
+                "gpu_hours_reserved": 4.0,
+                "quota_checked_at_utc": now.isoformat(),
+            },
+        }
+        review_bytes = (json.dumps(review, sort_keys=True) + "\n").encode()
+        digest = hashlib.sha256(review_bytes).hexdigest()
+        accepted = self.builder.validate_controller_review_receipt(
+            review_bytes,
+            expected_review_sha256=digest,
+            profile_receipt_sha256=self.receipt_sha,
+            terminal_output_sha256="6" * 64,
+            code_identities=code_identities,
+            now_utc=now,
+        )
+        self.assertEqual(accepted["status"], "approved")
+
+        for path, value in (
+            (("profile_review", "terminal_output_sha256"), "7" * 64),
+            (("e510_code_review", "kernel_sha256"), "8" * 64),
+            (("production_budget", "ram_monitor_required"), False),
+            (("production_budget", "gpu_hours_remaining"), 3.9),
+        ):
+            changed = json.loads(review_bytes)
+            changed[path[0]][path[1]] = value
+            encoded = (json.dumps(changed, sort_keys=True) + "\n").encode()
+            with self.subTest(path=path), self.assertRaises(ValueError):
+                self.builder.validate_controller_review_receipt(
+                    encoded,
+                    expected_review_sha256=hashlib.sha256(encoded).hexdigest(),
+                    profile_receipt_sha256=self.receipt_sha,
+                    terminal_output_sha256="6" * 64,
+                    code_identities=code_identities,
+                    now_utc=now,
+                )
 
     def test_source_manifest_checkpoint_mapping_uses_exact_logical_path(self) -> None:
         namespace = function_namespace(
@@ -188,6 +247,28 @@ class E510PacketGateTests(unittest.TestCase):
             main_source.index("validate_external_profile_receipt()"),
             main_source.index('mark_phase("input_inventory")'),
         )
+
+    def test_worker_requires_continuous_twenty_percent_ram_headroom(self) -> None:
+        namespace = function_namespace(
+            WORKER_PATH,
+            "require_memory_headroom",
+            {
+                "MIN_HOST_HEADROOM_BYTES": 4 * 1024**3,
+                "MIN_HOST_HEADROOM_FRACTION": 0.2,
+            },
+        )
+        require_headroom = namespace["require_memory_headroom"]
+        accepted = require_headroom(
+            {"memory_capacity_bytes": 32 * 1024**3, "memory_headroom_bytes": 8 * 1024**3}
+        )
+        self.assertEqual(accepted["required_headroom_bytes"], int(32 * 1024**3 * 0.2))
+        with self.assertRaisesRegex(RuntimeError, "below required"):
+            require_headroom(
+                {
+                    "memory_capacity_bytes": 32 * 1024**3,
+                    "memory_headroom_bytes": int(32 * 1024**3 * 0.2) - 1,
+                }
+            )
 
 
 if __name__ == "__main__":
