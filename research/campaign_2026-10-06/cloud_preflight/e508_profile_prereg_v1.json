@@ -1,0 +1,104 @@
+{
+  "budget_authorization": {
+    "authorizer": "root controller message",
+    "budget_bucket": "leading 60% allocation after retaining 20% follow-up and 20% exploration",
+    "followup_fit_remains_separate_and_requires_profile_review_and_new_immutable_packet": true,
+    "maximum_charge_device_gpu_seconds": 8400,
+    "provider_watch_seconds": 4200,
+    "scope": "single E508 profile-only kernel; no full fits",
+    "worst_case_accelerators": 2
+  },
+  "device_evidence": null,
+  "kernel_id": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007",
+  "observed_at_utc": "2026-10-06T22:22:58+00:00",
+  "packet": {
+    "actual_trainer_profile_must_be_reviewed_before_followup_fit_packet": true,
+    "assets_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+    "audit_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "builder_commit": "b608cb8b",
+    "competition_upload": false,
+    "e463_source_manifest_sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb",
+    "internet": false,
+    "kernel_sha256": "ab1426416ed7d2b030831137d3704c092951b87d27c8b0e01c79485a31f3ead3",
+    "metadata_sha256": "fcf6a08d5a909b25112a1addf6a99dfa4081ffa0f554d8026360d12cf3f6c3b1",
+    "portable_inputs_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "private": true,
+    "profile_only": true,
+    "raw_inputs": {
+      "full_raw_data_hash": "not computed; frozen portable registry/footer identity is used",
+      "train_bytes": 29240219011,
+      "train_footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+      "valid_bytes": 5615509128,
+      "valid_footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+    },
+    "review_receipt_sha256": "ff86b5921c5fdba0efed10fa15172aadac6120cdfe3b4f8b2771505087095912",
+    "source_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "source_datasets": [
+      "vladkochetov07/wnn-c20261004-fold0-assets",
+      "vladkochetov07/wunder-funder",
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1"
+    ],
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "trainer_commit": "69b2331825e193a070015ca4182872724595209a",
+    "trainer_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+    "worker_sha256": "ff718e2ec278847d4af568fba0480eb0c78808a685314c05c24247087708a315",
+    "worktree": "/tmp/wnn-e508-profile-20261007"
+  },
+  "packet_id": "E508_RAW_BASELINE_V1",
+  "prior_quota_snapshot_file": "e508_prelaunch_snapshot_v1.jsonl",
+  "prior_quota_snapshot_sha256": "e083dee3066a4e4dc3f56c8aa9005bc6038199e570766af696eaccdc934bee5d",
+  "provider_version": null,
+  "push_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle kernels push -p /tmp/wnn-e508-profile-20261007/research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/packet -t 4200",
+  "push_response": null,
+  "quota_observation": {
+    "cli_package_version": "2.2.4",
+    "existing_provider_status": [
+      {
+        "kernel": "vladkochetov07/wnn-gru-device-preflight-20261006-v3",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.COMPLETE"
+      },
+      {
+        "kernel": "vladkochetov07/wnn-gru-device-preflight-20261006-v2",
+        "monitoring_state": "stopped_after_terminal_evidence_downloaded",
+        "resource": "gpu",
+        "status": "KernelWorkerStatus.ERROR"
+      },
+      {
+        "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261006-v1",
+        "monitoring_state": "polling_until_terminal_evidence_downloaded",
+        "resource": "tpu",
+        "status": "KernelWorkerStatus.QUEUED"
+      }
+    ],
+    "gpu": {
+      "e508_worst_case_account_headroom_after_seconds": 62490.045,
+      "e508_worst_case_after_reserve_headroom_seconds": 34134.027,
+      "e508_worst_case_device_gpu_seconds": 8400,
+      "exploration_reserve_seconds": 14178.009,
+      "followup_reserve_seconds": 14178.009,
+      "headroom_before_admission_seconds": 70890.045,
+      "leading_allocation_seconds": 42534.027,
+      "prior_cloud_preflight_delta_seconds": 62.633999999998196,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 108000.0,
+      "used_seconds": 37109.955
+    },
+    "new_slug_prelaunch_lookup": {
+      "http_error": "403 Client Error: Forbidden from GetKernelSessionStatus",
+      "interpretation": "pre-publish status lookup only; not evidence of run failure or terminal state",
+      "status": "not_observable_before_publish"
+    },
+    "refresh_utc": "2026-10-10T00:00:00",
+    "tpu": {
+      "campaign_delta_seconds": 0.0,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 72000.0,
+      "used_seconds": 134.623
+    }
+  },
+  "quota_snapshot_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python3 /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/poll_provider.py --targets /tmp/wnn-bandit-cloud-20261006/research/campaign_2026-10-06/cloud_preflight/e508_profile_targets_v1.json --log /tmp/wnn-bandit-cloud-20261006/research/campaign_2026-10-06/cloud_preflight/e508_prelaunch_snapshot_v1.jsonl",
+  "status": "preregistered_private_profile_only_not_yet_pushed",
+  "terminal_status": null
+}
