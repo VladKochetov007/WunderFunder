@@ -4,9 +4,9 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 741 · raw hypothesis rows 184 · raw experiment rows 510 · legacy arms 18 · catalog files 57799.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 762 · raw hypothesis rows 194 · raw experiment rows 511 · legacy arms 18 · catalog files 57874.
 
-Config snapshot: [research/bandit_tree/generated/snapshots/config-5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4.json](<snapshots/config-5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4.json>).
+Config snapshot: [research/bandit_tree/generated/snapshots/config-42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc.json](<snapshots/config-42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc.json>).
 
 Missing or ambiguous artifact and relationship links are called out below and in `tree.json` warnings. The recursive file inventory is in `catalog.json`; generated output is excluded.
 
@@ -66,6 +66,26 @@ Missing or ambiguous artifact and relationship links are called out below and in
     - artifact: [research/campaign_2026-10-06/branch_teacher_audit/RECENT_OTHER_BRANCHES.md](<../../campaign_2026-10-06/branch_teacher_audit/RECENT_OTHER_BRANCHES.md>)
     - artifact: [research/campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/iterations/2026-10-05-wave20/public-result.json](<../../campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/iterations/2026-10-05-wave20/public-result.json>)
     - artifact: [research/campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/manifest.json](<../../campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/manifest.json>)
+  - **Directed relative-distance distillation on causally valid pairs** (`arm:relative-distance-transfer`) — not_tested; eligible=True.
+    - **next_test:** Freeze pair construction and scaling from fitting data; compare equal-budget pointwise distillation and shuffled teacher relations. Train a small student with and without the directed relational loss on a local causal-screened subset, comparing pair-relation matching and final utility on rows satisfying need_prediction and is_scored.
+    - **claim_scope:** Independent literature proposal; no gain or downstream validity established
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json>)
+  - **Angle-wise relational distillation over triplets anchored by a driver feature** (`arm:driver-anchored-angle-transfer`) — not_tested; eligible=True.
+    - **next_test:** Anchor and triplet selection must be causal or training-only; handle degenerate angles and unequal target scales explicitly. Compare student with small angle-wise distillation on driver-anchored triples versus no relational term, using local validation on scored rows.
+    - **claim_scope:** Independent literature proposal; no gain or downstream validity established
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json>)
+  - **Temporal relational contrast across consecutive valid rows** (`arm:temporal-relational-transfer`) — not_tested; eligible=True.
+    - **next_test:** Future teacher relationships may be training targets only; serving remains causal and sequence boundaries never connect. Ablate temporal relational term versus same-weight static relational term on local sequences with reset, measuring whether temporal relations improve on scored rows.
+    - **claim_scope:** Independent literature proposal; no gain or downstream validity established
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json>)
+  - **Causal-robustness relational distillation with paired view perturbation** (`arm:paired-view-relational-transfer`) — not_tested; eligible=True.
+    - **next_test:** Use justified feature perturbations with preserved causal semantics; include augmentation-only and shuffled-relation controls. Compare student with view-invariant relational term to student without it, on a local perturbation-consistent validation split that respects causal constraints.
+    - **claim_scope:** Independent literature proposal; no gain or downstream validity established
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json>)
+  - **Unconventional: teacher-relation amortization as an unsupervised student regularizer** (`arm:amortized-teacher-relations`) — not_tested; eligible=True.
+    - **next_test:** Relation targets and privileged teacher access end at training; evaluate complete exported student with unchanged inference budget. Add and remove the relational regularizer in a small local run, checking representation-structure metrics and any change on scored rows.
+    - **claim_scope:** Independent literature proposal; no gain or downstream validity established
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json>)
 
 ### Temporal state and memory (`family:temporal`)
 
@@ -92,6 +112,14 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **next_test:** State resets need a causal past-only statistic and rate-matched random reset control; historical output-hold failures do not answer this distinct gate. Replay one sequence strictly causally: fixed state vs stationarity-gated reset; compare pooled weighted Pearson on that sequence. CPU seconds.
   - **claim_scope:** Literature-inspired proposal only; no numerical gain prior
   - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json>)
+- **Invert the diagnostic: train a dependence-predictive filter, not a flatness test** (`arm:dependence-predictive-filter`) — not_tested; eligible=True.
+  - **next_test:** Labels/residuals may supervise training only; serving filter sees causal feature history, never observed future labels. On held-out warm-up sequences, ablate the dependence-geometry input and compare the predictor's calibration/ordering behavior on rows satisfying the prediction eligibility condition, using the same scoring mask and clip rule as the deployed metric where feasible; keep the test within cheap local compute.
+  - **claim_scope:** Independent literature proposal; no gain or downstream validity established
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json>)
+- **Unconventional: threshold-style regime switch for dependence diagnostics, not for returns** (`arm:dependence-regime-gate`) — not_tested; eligible=True.
+  - **next_test:** Regime gates must use past-only state; compare a matched-rate sham and unchanged parent. Compare fixed-dependence-handling baseline to a two-mode causal interpolation on warm-up eligible rows, controlling for added capacity by giving the fixed baseline a comparable parameter budget.
+  - **claim_scope:** Independent literature proposal; no gain or downstream validity established
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json>)
 
 ### Targets, losses and supervision (`family:objective`)
 
@@ -127,6 +155,10 @@ Missing or ambiguous artifact and relationship links are called out below and in
     - **claim_scope:** specific recipe / exposed-data exploration; no inferred public gain
     - artifact: [research/campaign_2026-10-06/wave1_tiny_gru_all_s0.json](<../../campaign_2026-10-06/wave1_tiny_gru_all_s0.json>)
     - artifact: [research/campaign_2026-10-06/wave1_tiny_gru_mixed_s0.json](<../../campaign_2026-10-06/wave1_tiny_gru_mixed_s0.json>)
+- **Null-safe use: treat the test as local specification feedback, not global rejection** (`arm:local-specification-feedback`) — not_tested; eligible=True.
+  - **next_test:** A null-test statistic is not the competition objective. Require a fixed downstream comparison before promotion. Compare predictor variants with and without the diagnostic-driven small adjustment on warm-up eligible rows, using matched capacity and the same eligibility/scoring definition.
+  - **claim_scope:** Independent literature proposal; no gain or downstream validity established
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json>)
 
 ### Data and feature representation (`family:representation`)
 
@@ -138,6 +170,10 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **next_test:** Freeze number of candidates/forward-selection steps; compare equal-cost random subsets and unchanged parent. One fold, frozen features, linear head: compare pair-seeded greedy interactions vs main-effects-only head. CPU minutes.
   - **claim_scope:** Literature-inspired proposal only; no numerical gain prior
   - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json>)
+- **Small transferable statistic: nearest-neighbor correlation contrast as a regime cue** (`arm:neighbor-dependence-cue`) — not_tested; eligible=True.
+  - **next_test:** Fit nearest-neighbor bank and thresholds on fitting groups only; forbid indexing evaluation/future rows. Split warm-up eligible rows by the cue and check whether a cheap model or even the reference blend's residual structure differs across cue bins, using the brief's eligibility and scoring mask.
+  - **claim_scope:** Independent literature proposal; no gain or downstream validity established
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json>)
 
 ### Optimization and training stability (`family:optimization`)
 
@@ -189,6 +225,10 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **next_test:** Keep the established fold memberships frozen. Register as a diagnostic of dependence or fit-only regularization; do not select easier folds or call redesigned folds fresh. One fold re-run with greedy-derived group splits vs random group splits; compare weighted correlation and gap. CPU minutes.
   - **claim_scope:** Literature-inspired proposal only; no numerical gain prior
   - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json>)
+- **Unconventional: invert to mis-specification hunting via alternative-class sensitivity** (`arm:alternative-sensitive-objective`) — not_tested; eligible=True.
+  - **next_test:** Treat diagnostic rejection as a falsifier or stratification clue, not a predictive gain. Freeze original folds and endpoint. On cheap local data, compare a targeted small correction driven by the dominant fingerprint to (a) no correction and (b) an unstructured nonlinear correction, under the same causal constraints and eligibility mask.
+  - **claim_scope:** Independent literature proposal; no gain or downstream validity established
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json>)
 
 ### Compute, safety and recovery (`family:infrastructure`)
 
@@ -257,6 +297,16 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | arm:stationarity-state-clock | Greedy Sparse Stationarity Scout for Causal State Management (unconventional) | arm · not_tested | family:temporal | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:sparse-simplex-blend | Simplex-Sparse Greedy Correction of the Served Blend | arm · not_tested | family:ensemble | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:cointegration-split-diagnostic | Greedy Group-Spanning Cointegration to Define Group-Disjoint Fitting | arm · not_tested | family:evaluation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:dependence-predictive-filter | Invert the diagnostic: train a dependence-predictive filter, not a flatness test | arm · not_tested | family:temporal | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:neighbor-dependence-cue | Small transferable statistic: nearest-neighbor correlation contrast as a regime cue | arm · not_tested | family:representation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:alternative-sensitive-objective | Unconventional: invert to mis-specification hunting via alternative-class sensitivity | arm · not_tested | family:evaluation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:dependence-regime-gate | Unconventional: threshold-style regime switch for dependence diagnostics, not for returns | arm · not_tested | family:temporal | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:local-specification-feedback | Null-safe use: treat the test as local specification feedback, not global rejection | arm · not_tested | family:objective | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:relative-distance-transfer | Directed relative-distance distillation on causally valid pairs | arm · not_tested | arm:heterogeneous-teacher-compression | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:driver-anchored-angle-transfer | Angle-wise relational distillation over triplets anchored by a driver feature | arm · not_tested | arm:heterogeneous-teacher-compression | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:temporal-relational-transfer | Temporal relational contrast across consecutive valid rows | arm · not_tested | arm:heterogeneous-teacher-compression | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:paired-view-relational-transfer | Causal-robustness relational distillation with paired view perturbation | arm · not_tested | arm:heterogeneous-teacher-compression | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:amortized-teacher-relations | Unconventional: teacher-relation amortization as an unsupervised student regularizer | arm · not_tested | arm:heterogeneous-teacher-compression | [research/bandit_tree/config.json](<../config.json>) | — |
 | hypothesis:H-001 | Targets change only on rows where i0 bid and ask price columns both update. | hypothesis · supported | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L1>) | experiment:E-001 (linked) |
 | hypothesis:H-002 | Each sequence's targets are integer multiples of one of four quanta {0.12543,0.24133,0.46854,0.65687}, defining market classes with different tick regimes. | hypothesis · supported | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L2>) | experiment:E-001 (linked), experiment:E-002 (linked) |
 | hypothesis:H-003 | Features are rank-Gauss transformed: bounded near +-2.326 (Phi^-1(0.99)) with sentinel -5.19934 = Phi^-1(1e-7) for missing values. | hypothesis · probing | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L3>) | experiment:E-001 (linked) |
@@ -441,6 +491,16 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-183 | Greedy Sparse Stationarity Scout for Causal State Management (unconventional) | hypothesis · proposed | arm:stationarity-state-clock | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L182>) | — |
 | hypothesis:H-184 | Simplex-Sparse Greedy Correction of the Served Blend | hypothesis · proposed | arm:sparse-simplex-blend | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L183>) | — |
 | hypothesis:H-185 | Greedy Group-Spanning Cointegration to Define Group-Disjoint Fitting | hypothesis · proposed | arm:cointegration-split-diagnostic | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L184>) | — |
+| hypothesis:H-186 | Invert the diagnostic: train a dependence-predictive filter, not a flatness test | hypothesis · proposed | arm:dependence-predictive-filter | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L185>) | — |
+| hypothesis:H-187 | Small transferable statistic: nearest-neighbor correlation contrast as a regime cue | hypothesis · proposed | arm:neighbor-dependence-cue | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L186>) | — |
+| hypothesis:H-188 | Unconventional: invert to mis-specification hunting via alternative-class sensitivity | hypothesis · proposed | arm:alternative-sensitive-objective | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L187>) | — |
+| hypothesis:H-189 | Unconventional: threshold-style regime switch for dependence diagnostics, not for returns | hypothesis · proposed | arm:dependence-regime-gate | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L188>) | — |
+| hypothesis:H-190 | Null-safe use: treat the test as local specification feedback, not global rejection | hypothesis · proposed | arm:local-specification-feedback | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L189>) | — |
+| hypothesis:H-191 | Directed relative-distance distillation on causally valid pairs | hypothesis · proposed | arm:relative-distance-transfer | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L190>) | — |
+| hypothesis:H-192 | Angle-wise relational distillation over triplets anchored by a driver feature | hypothesis · proposed | arm:driver-anchored-angle-transfer | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L191>) | — |
+| hypothesis:H-193 | Temporal relational contrast across consecutive valid rows | hypothesis · proposed | arm:temporal-relational-transfer | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L192>) | — |
+| hypothesis:H-194 | Causal-robustness relational distillation with paired view perturbation | hypothesis · proposed | arm:paired-view-relational-transfer | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L193>) | — |
+| hypothesis:H-195 | Unconventional: teacher-relation amortization as an unsupervised student regularizer | hypothesis · proposed | arm:amortized-teacher-relations | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L194>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -934,6 +994,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-499 | E-499 | experiment · finished | arm:optimizer-precision | [research/experiments.jsonl](<../../experiments.jsonl#L497>), [research/experiments.jsonl](<../../experiments.jsonl#L500>), [research/experiments.jsonl](<../../experiments.jsonl#L502>) | — |
 | experiment:E-501 | E-501 | experiment · resource_profile_completed | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L507>), [research/experiments.jsonl](<../../experiments.jsonl#L508>) | — |
 | experiment:E-502 | E-502 | experiment · preregistration_command_corrected_before_launch | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L509>), [research/experiments.jsonl](<../../experiments.jsonl#L510>) | — |
+| experiment:E-503 | prediction_exports | experiment · preregistered | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L511>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
@@ -961,6 +1022,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L4>) `sha256:3075bc77284f6ff09fe27de0d489e7afd1107b53cd19c70901f63ea6173efd9a` — `{"actor_model": "Luna/max independent scout; root source audit", "code_merged_from_friend": false, "compute_runs_launched": 0, "decision": "Refreshed creative-iteration branch records user-reportedpublic0.6674 for heterogeneous-distilled GRU256 studentpair. Prioritize independent heterogeneous compression; retain attentionchildren. Source-specific warmstart,twoepoch alpha.7,fourfamilyauxhead .1 andunnormalized .8125 teacher scale require matchedcontrols. External result doesnotreplace rootbest0.6660 or become expectedpublicdelta.", "event_type": "external_public_evidence_and_frontier_update", "evidence_refs": ["research/campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/manifest.json", "research/campaign_2026-10-06/branch_teacher_audit/post_fetch_833aaf54/iterations/2026-10-05-wave20/public-result.json", "research/bandit_tree/HETEROGENEOUS_AGENT_BRIEF.md"], "id": "TREE-20261006-004", "new_node_ids": ["arm:heterogeneous-teacher-compression", "arm:two-stream-teacher-compression", "arm:distilled-function-preserving-widening"], "node_id": "arm:heterogeneous-teacher-compression", "timestamp_utc": "2026-10-06T19:04:52Z"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L5>) `sha256:31ee8426dae83159dbcae9120503ec69b5f316029f0d8953657b4584bebbb981` — `{"actor": {"external_models": "Freebuff GLM, OpenCode free Muse Spark/MiMo after access check", "native_subagents": "gpt-6-luna/max", "tool": "Codex"}, "compute_runs_launched": 0, "decision": "Begin independent heterogeneous-distillation continuation plus diverse literature arms; replace old local cutoff/caps with explicit user instruction. First24h allocation; then reassess, continue until explicit stop with graceful drain. Unknown numeric beliefs remain null.", "event_type": "campaign_authorization_and_resource_update", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/CONTRACT.md"], "id": "TREE-20261006-005", "node_id": "root", "old_resources": {"aggregate_cpu_cores_max": 5, "aggregate_ram_bytes_max": 40000000000, "aggregate_vram_bytes_max": 3000000000, "new_experiment_compute": "Kaggle GPU/TPU only; current access and resource admission required", "new_local_experiments_after_2026_10_06_1000_Kyiv": false}, "resources": {"aggregate_cpu_cores_max": 10, "aggregate_ram_bytes_max": 20000000000, "aggregate_vram_bytes_max": 5000000000, "authority": "research/campaign_2026-10-06/bandit_continuation/CONTRACT.md", "first_review_after_hours": 24, "local_admission_cutoff": null, "local_allocator_initial_bytes": 4300000000, "local_gpu_workers_max": 1, "memory_high_bytes": 18000000000, "new_experiment_compute": "Local and Kaggle; separate cloud headroom and live quota", "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs"}, "timestamp_utc": "2026-10-06T19:59:28.944259+00:00"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L6>) `sha256:1a0d78e6f9d849825cf9be4ae3da8e33a675c2305dc56f220b7c37d08f4fabf1` — `{"hypothesis_ids": ["H-181", "H-182", "H-183", "H-184", "H-185"], "id": "TREE-20261006-006", "kind": "independent_literature_arms_added", "nodes": ["arm:greedy-stationary-feature-cliques", "arm:stagewise-interaction-grower", "arm:stationarity-state-clock", "arm:sparse-simplex-blend", "arm:cointegration-split-diagnostic"], "numerical_priors": "unknown/null", "preservation": "Raw response and source/prompt hashes retained; protocol annotations do not rewrite model output", "source": "research/campaign_2026-10-06/bandit_continuation/ideation/random_1/job.json", "timestamp": "2026-10-06T20:29:40.579669+00:00"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L7>) `sha256:60d78d3a08fa3aa07e476b3f6f373c8c3601d71025d27b6845b8dc2abb79947f` — `{"hypothesis_ids": ["H-186", "H-187", "H-188", "H-189", "H-190", "H-191", "H-192", "H-193", "H-194", "H-195"], "id": "TREE-20261006-007", "kind": "independent_literature_arms_added", "model": "Freebuff SolarPro4", "nodes": ["arm:dependence-predictive-filter", "arm:neighbor-dependence-cue", "arm:alternative-sensitive-objective", "arm:dependence-regime-gate", "arm:local-specification-feedback", "arm:relative-distance-transfer", "arm:driver-anchored-angle-transfer", "arm:temporal-relational-transfer", "arm:paired-view-relational-transfer", "arm:amortized-teacher-relations"], "numerical_priors": "unknown/null", "sources": ["random library BDSL pages20-23 OCR", "directed primary RKD pages1-5"], "timestamp": "2026-10-06T20:53:21.158922+00:00"}`
 
 ## Link and artifact warnings
 

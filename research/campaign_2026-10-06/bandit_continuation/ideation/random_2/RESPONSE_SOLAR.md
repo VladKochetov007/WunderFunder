@@ -1,0 +1,92 @@
+```json
+{
+  "source_assessment": "OCR of pages 20-23 of a 39-page PDF on dependence/nonlinearity testing. Garbled formulas; I reconstruct only the qualitative form: ARCH/GARCH, NLMA, ENLMA, TAR as alternatives; BDS-style and Tsay-style diagnostics; residual-size tables after AR(1)/MA(1)/NLMA fits. Extraction is incomplete by design: I do not see the exact null definition, exact statistic formula, the full simulation design, or any financial application. I treat the source as a small-transferable-method source, not a contest recipe. Explicit uncertainty: symbol-level OCR errors (e.g. epsilon/subscripts/superscripts) may change small constant values and distributional details; I do not claim to have read inaccessible details.",
+  "ideas": [
+    {
+      "title": "Invert the diagnostic: train a dependence-predictive filter, not a flatness test",
+      "mechanism_family": "invert + instrument (dependence diagnostic repurposed as forward signal)",
+      "source_component_and_location": "BDS-style nearest-neighbor correlation structure idea from page 20-21 power/size tables and page 23 discussion of residuals appearing IID after a correct fit; the transferable component is the dependence structure contrast, not the specific null test.",
+      "task_mapping": "Nonlinear serial dependence is plausible in causal market features/sequences; the brief objective rewards nonlinear transfer, not linear decorrelation.",
+      "proposed_change": "Build a small auxiliary module that estimates local serial-dependence geometry on recent fitted residuals/predictive errors within a causal window, and expose that geometry as an explicit conditioning input to the predictor rather than testing residuals for flatness.",
+      "assumptions": "Some nonlinear structure is present but non-uniform across regimes; a coarse dependence geometry can be estimated causally with limited history; the predictor can use coarse geometry without lookahead or leakage.",
+      "predicted_observable": "Conditioning on recent dependence geometry should change predictions in a regime-dependent way; if the source analogy holds, dependence geometry may carry small incremental information even when marginal autocorrelations are weak.",
+      "cheapest_discriminating_test": "On held-out warm-up sequences, ablate the dependence-geometry input and compare the predictor's calibration/ordering behavior on rows satisfying the prediction eligibility condition, using the same scoring mask and clip rule as the deployed metric where feasible; keep the test within cheap local compute.",
+      "matched_control": "Same predictor with a slaved dependence-geometry input drawn from permuted/shuffled causal windows, or replaced by a simple linear autocorrelation proxy.",
+      "falsifier": "Dependence-geometry input does not change eligible predictions beyond controls, or changes them only in a way fully explained by linear lags.",
+      "resource_estimate": "Small; adds a low-dimensional feature computation over a short causal window plus a tiny conditioning path in the model blend. Fits the cheap-local envelope.",
+      "suggested_parent_direction": "Nonlinear residual structure as a conditioning state rather than a yes/no test.",
+      "genuinely_new_part": "Using a dependence-geometry estimate as a causal conditioning input to a repetitive prediction model, inverting the diagnostic from 'reject IID' to 'how does recent dependence look, right now?'",
+      "possible_interactions": "May interact with regime reset between sequences, with clipping [-2,2], and with any recurrent state that already tracks volatility; could alias with volatility proxies.",
+      "expected_public_gain": null
+    },
+    {
+      "title": "Small transferable statistic: nearest-neighbor correlation contrast as a regime cue",
+      "mechanism_family": "instrument (small statistic transfer)",
+      "source_component_and_location": "The paper's contrast between IID nulls and nonlinear alternatives via correlation/distance-based contrasts of nearest-neighbor pairs (pages 20-23), especially the discussion that residuals from a correct fit can still appear close to IID.",
+      "task_mapping": "If only part of the dependence structure is captured, the leftover residual dependence may indicate where the current model is mis-specified in a locally detectable way.",
+      "proposed_change": "Extract a tiny scalar or vector summarizing residual nearest-neighbor correlation contrast from recent predictions over the causal window, and use it as a lightweight regime/uncertainty cue, separate from the main state.",
+      "assumptions": "The contrast is estimable on small windows and is not fully destroyed by censoring/clipping; the cue is useful if residual structure correlates with predictiveness rather than being pure noise.",
+      "predicted_observable": "Low-contrast residual windows should behave differently from high-contrast windows; the cue should help identify windows where the main predictor is more or less reliable.",
+      "cheapest_discriminating_test": "Split warm-up eligible rows by the cue and check whether a cheap model or even the reference blend's residual structure differs across cue bins, using the brief's eligibility and scoring mask.",
+      "matched_control": "Cue computed from independently shuffled residual pairs, or from a purely linear dependence measure.",
+      "falsifier": "Cue bins show no systematic difference in prediction quality/structure beyond what linear diagnostics already capture.",
+      "resource_estimate": "Small; nearest-neighbor contrast on short windows is cheap and can be computed with bounded history.",
+      "suggested_parent_direction": "Lightweight residual-geometry feature for adaptive blending or masking.",
+      "genuinely_new_part": "Repurposing a residual-dependence contrast as a small real-time cue for prediction reliability rather than as a post-hoc specification test.",
+      "possible_interactions": "Could correlate with volatility, with clipping, or with sequence identity if not carefully reset; needs causal window discipline.",
+      "expected_public_gain": null
+    },
+    {
+      "title": "Unconventional: invert to mis-specification hunting via alternative-class sensitivity",
+      "mechanism_family": "invert + instrument (use alternative sensitivity to locate blind spots)",
+      "source_component_and_location": "Page 21 power table contrasting different tests against ARCH/GARCH/NLMA/ENLMA/TAR; the transferable idea is that different dependence structures are picked up differently, so a single flatness test can miss structured failures.",
+      "task_mapping": "A recurrent blend may leave structured nonlinear blind spots in specific causal features; the competitive metric rewards the blend only on eligible scored rows, so blind spots matter only where they affect those rows.",
+      "proposed_change": "Run a small battery of cheap dependence probes on recent residuals/prediction errors, not to reject a null, but to produce a coarse 'what kind of nonlinearity is left' fingerprint; then target only the dominant fingerprint with a small correction path.",
+      "assumptions": "The source's qualitative pattern of differential power is transferable enough to justify a multi-probe fingerprint; the dominant leftover structure is stable enough locally to be worth a targeted correction.",
+      "predicted_observable": "When one probe class is consistently elevated relative to others in a window, a small targeted correction should improve local predictions more than a uniform nonlinear expansion.",
+      "cheapest_discriminating_test": "On cheap local data, compare a targeted small correction driven by the dominant fingerprint to (a) no correction and (b) an unstructured nonlinear correction, under the same causal constraints and eligibility mask.",
+      "matched_control": "Uniform nonlinear correction using the same capacity budget, or fingerprint computed on shuffled residuals.",
+      "falsifier": "Fingerprint-driven correction does not beat uniform nonlinear correction; or fingerprints are unstable/noisy within causal windows.",
+      "resource_estimate": "Moderate-local; a few cheap probes plus a tiny targeted path. Must stay inside cheap-test envelope.",
+      "suggested_parent_direction": "Diagnose residual structure shape, then spend capacity only on that shape.",
+      "genuinely_new_part": "Treating alternative-class sensitivity as a steering signal for capacity allocation rather than as model selection.",
+      "possible_interactions": "Fingerprint could alias with volatility or censoring; multiple probes may overfit small windows; sequence resets matter.",
+      "expected_public_gain": null
+    },
+    {
+      "title": "Unconventional: threshold-style regime switch for dependence diagnostics, not for returns",
+      "mechanism_family": "instrument + invert (threshold form borrowed, purpose inverted)",
+      "source_component_and_location": "The TAR-style form in the source, thresholded dynamics depending on a regime condition (page 20-21); the transferable component is the idea of regime-dependent behavior with a small triggering condition, not the exact threshold or the exact dynamics.",
+      "task_mapping": "Dependence structure may change with market state; the blend may benefit from different residual-dependence handling in different causal regimes, especially if eligible rows cluster in some regimes.",
+      "proposed_change": "Use a small causal state variable to switch or interpolate between two lightweight dependence-handling modes: one mode optimized for low-dependence windows, one for high-dependence windows, with the switch rule being deliberately simple and causal.",
+      "assumptions": "A simple causal regime cue is cheap and reasonable; the main value is in adapting residual handling rather than predicting the threshold crossing itself.",
+      "predicted_observable": "A simple regime-dependent dependence policy should outperform a single fixed dependence policy on eligible rows if the underlying dependence regime genuinely shifts and is detectable within the causal window.",
+      "cheapest_discriminating_test": "Compare fixed-dependence-handling baseline to a two-mode causal interpolation on warm-up eligible rows, controlling for added capacity by giving the fixed baseline a comparable parameter budget.",
+      "matched_control": "Same architecture with regime cue replaced by a random/shuffled regime label or by a constant mode.",
+      "falsifier": "No per-mode difference emerges, or mode interpolation hurts under the eligibility/scoring mask.",
+      "resource_estimate": "Small; one extra regime cue and one interpolation between two small modes.",
+      "suggested_parent_direction": "Regime-dependent treatment of dependence structure rather than regime-dependent return prediction per se.",
+      "genuinely_new_part": "Applying threshold-style regime switching to the dependence diagnostic pathway, inverting the source's modeling role into a conditioning role.",
+      "possible_interactions": "Threshold choice can overfit; clipping and eligibility may distort apparent regime value; sequence resets can break mode memory.",
+      "expected_public_gain": null
+    },
+    {
+      "title": "Null-safe use: treat the test as local specification feedback, not global rejection",
+      "mechanism_family": "invert (diagnostic inversion) with instrument (residual analysis)",
+      "source_component_and_location": "Page 23 discussion of the statistic as a diagnostic for neglected nonlinearity or model specification, plus page 21-22 residual size results suggesting residuals from a correct fit can remain close to IID.",
+      "task_mapping": "The blend's public score depends on residual-like predictive errors on eligible rows; local specification feedback can guide cheap model refinement before deployment.",
+      "proposed_change": "Use a small dependence/redundancy diagnostic on rolling residuals as continuous local feedback to adjust a small part of the model (for example, which feature groups are emphasized, or whether a nonlinear mixing path is active), while keeping the diagnostic strictly causal and sequence-reset-consistent.",
+      "assumptions": "Local diagnostic feedback can be integrated without lookahead; a correct or closer fit reduces residual dependence; the diagnostic is stable enough on short windows to be useful.",
+      "predicted_observable": "Windows with higher residual dependence should correspond to windows where a small targeted adjustment helps, and the adjustment should reduce residual dependence locally if the analogy holds.",
+      "cheapest_discriminating_test": "Compare predictor variants with and without the diagnostic-driven small adjustment on warm-up eligible rows, using matched capacity and the same eligibility/scoring definition.",
+      "matched_control": "Same feedback signal computed from shuffled residuals, or a time-lagged version that breaks the local causal relationship.",
+      "falsifier": "Diagnostic-driven adjustment does not improve eligible predictions relative to a capacity-matched control, or changes are fully attributable to a simpler proxy.",
+      "resource_estimate": "Small; a rolling diagnostic plus a tiny feedback connection.",
+      "suggested_parent_direction": "Close-loop local specification feedback for a subset of model capacity.",
+      "genuinely_new_part": "Treating a dependence diagnostic as an online, low-level control signal for one small part of the predictor instead of as a hypothesis test.",
+      "possible_interactions": "Feedback can amplify noise on short windows; may interact with clipping and with the recurrent state; reset discipline is essential.",
+      "expected_public_gain": null
+    }
+  ]
+}
+```

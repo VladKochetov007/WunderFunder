@@ -1368,6 +1368,326 @@
         "update_rule": "Paired evidence with exact endpoint; ancestor gains are not additive"
       },
       "cost_h": null
+    },
+    {
+      "id": "arm:dependence-predictive-filter",
+      "parent_id": "family:temporal",
+      "title": "Invert the diagnostic: train a dependence-predictive filter, not a flatness test",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-186"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "next_test": "Labels/residuals may supervise training only; serving filter sees causal feature history, never observed future labels. On held-out warm-up sequences, ablate the dependence-geometry input and compare the predictor's calibration/ordering behavior on rows satisfying the prediction eligibility condition, using the same scoring mask and clip rule as the deployed metric where feasible; keep the test within cheap local compute.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:neighbor-dependence-cue",
+      "parent_id": "family:representation",
+      "title": "Small transferable statistic: nearest-neighbor correlation contrast as a regime cue",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-187"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "next_test": "Fit nearest-neighbor bank and thresholds on fitting groups only; forbid indexing evaluation/future rows. Split warm-up eligible rows by the cue and check whether a cheap model or even the reference blend's residual structure differs across cue bins, using the brief's eligibility and scoring mask.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:alternative-sensitive-objective",
+      "parent_id": "family:evaluation",
+      "title": "Unconventional: invert to mis-specification hunting via alternative-class sensitivity",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-188"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "next_test": "Treat diagnostic rejection as a falsifier or stratification clue, not a predictive gain. Freeze original folds and endpoint. On cheap local data, compare a targeted small correction driven by the dominant fingerprint to (a) no correction and (b) an unstructured nonlinear correction, under the same causal constraints and eligibility mask.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:dependence-regime-gate",
+      "parent_id": "family:temporal",
+      "title": "Unconventional: threshold-style regime switch for dependence diagnostics, not for returns",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-189"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "next_test": "Regime gates must use past-only state; compare a matched-rate sham and unchanged parent. Compare fixed-dependence-handling baseline to a two-mode causal interpolation on warm-up eligible rows, controlling for added capacity by giving the fixed baseline a comparable parameter budget.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:local-specification-feedback",
+      "parent_id": "family:objective",
+      "title": "Null-safe use: treat the test as local specification feedback, not global rejection",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-190"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "next_test": "A null-test statistic is not the competition objective. Require a fixed downstream comparison before promotion. Compare predictor variants with and without the diagnostic-driven small adjustment on warm-up eligible rows, using matched capacity and the same eligibility/scoring definition.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:relative-distance-transfer",
+      "parent_id": "arm:heterogeneous-teacher-compression",
+      "title": "Directed relative-distance distillation on causally valid pairs",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-191"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "next_test": "Freeze pair construction and scaling from fitting data; compare equal-budget pointwise distillation and shuffled teacher relations. Train a small student with and without the directed relational loss on a local causal-screened subset, comparing pair-relation matching and final utility on rows satisfying need_prediction and is_scored.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:driver-anchored-angle-transfer",
+      "parent_id": "arm:heterogeneous-teacher-compression",
+      "title": "Angle-wise relational distillation over triplets anchored by a driver feature",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-192"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "next_test": "Anchor and triplet selection must be causal or training-only; handle degenerate angles and unequal target scales explicitly. Compare student with small angle-wise distillation on driver-anchored triples versus no relational term, using local validation on scored rows.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:temporal-relational-transfer",
+      "parent_id": "arm:heterogeneous-teacher-compression",
+      "title": "Temporal relational contrast across consecutive valid rows",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-193"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "next_test": "Future teacher relationships may be training targets only; serving remains causal and sequence boundaries never connect. Ablate temporal relational term versus same-weight static relational term on local sequences with reset, measuring whether temporal relations improve on scored rows.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:paired-view-relational-transfer",
+      "parent_id": "arm:heterogeneous-teacher-compression",
+      "title": "Causal-robustness relational distillation with paired view perturbation",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-194"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "next_test": "Use justified feature perturbations with preserved causal semantics; include augmentation-only and shuffled-relation controls. Compare student with view-invariant relational term to student without it, on a local perturbation-consistent validation split that respects causal constraints.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:amortized-teacher-relations",
+      "parent_id": "arm:heterogeneous-teacher-compression",
+      "title": "Unconventional: teacher-relation amortization as an unsupervised student regularizer",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-195"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+      ],
+      "status": "not_tested",
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "next_test": "Relation targets and privileged teacher access end at training; evaluate complete exported student with unchanged inference budget. Add and remove the relational regularizer in a small local run, checking representation-structure metrics and any change on scored rows.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "cost_h": null
     }
   ],
   "links": [],

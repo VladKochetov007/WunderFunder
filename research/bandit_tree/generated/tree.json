@@ -8,7 +8,7 @@
       "scope": "Next research decision / preparation, not job launch"
     },
     "classification_policy": "Curated membership first; keyword family fallback is navigation-only, not a scientific assertion; uncertain nodes remain unclassified",
-    "config_snapshot": "research/bandit_tree/generated/snapshots/config-5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4.json",
+    "config_snapshot": "research/bandit_tree/generated/snapshots/config-42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc.json",
     "exposure_note": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
     "journal_records": [
       {
@@ -180,6 +180,49 @@
           "line": 6,
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "1a0d78e6f9d849825cf9be4ae3da8e33a675c2305dc56f220b7c37d08f4fabf1"
+        }
+      },
+      {
+        "raw_record": "{\"id\": \"TREE-20261006-007\", \"timestamp\": \"2026-10-06T20:53:21.158922+00:00\", \"kind\": \"independent_literature_arms_added\", \"nodes\": [\"arm:dependence-predictive-filter\", \"arm:neighbor-dependence-cue\", \"arm:alternative-sensitive-objective\", \"arm:dependence-regime-gate\", \"arm:local-specification-feedback\", \"arm:relative-distance-transfer\", \"arm:driver-anchored-angle-transfer\", \"arm:temporal-relational-transfer\", \"arm:paired-view-relational-transfer\", \"arm:amortized-teacher-relations\"], \"hypothesis_ids\": [\"H-186\", \"H-187\", \"H-188\", \"H-189\", \"H-190\", \"H-191\", \"H-192\", \"H-193\", \"H-194\", \"H-195\"], \"model\": \"Freebuff SolarPro4\", \"sources\": [\"random library BDSL pages20-23 OCR\", \"directed primary RKD pages1-5\"], \"numerical_priors\": \"unknown/null\"}\n",
+        "record": {
+          "hypothesis_ids": [
+            "H-186",
+            "H-187",
+            "H-188",
+            "H-189",
+            "H-190",
+            "H-191",
+            "H-192",
+            "H-193",
+            "H-194",
+            "H-195"
+          ],
+          "id": "TREE-20261006-007",
+          "kind": "independent_literature_arms_added",
+          "model": "Freebuff SolarPro4",
+          "nodes": [
+            "arm:dependence-predictive-filter",
+            "arm:neighbor-dependence-cue",
+            "arm:alternative-sensitive-objective",
+            "arm:dependence-regime-gate",
+            "arm:local-specification-feedback",
+            "arm:relative-distance-transfer",
+            "arm:driver-anchored-angle-transfer",
+            "arm:temporal-relational-transfer",
+            "arm:paired-view-relational-transfer",
+            "arm:amortized-teacher-relations"
+          ],
+          "numerical_priors": "unknown/null",
+          "sources": [
+            "random library BDSL pages20-23 OCR",
+            "directed primary RKD pages1-5"
+          ],
+          "timestamp": "2026-10-06T20:53:21.158922+00:00"
+        },
+        "source": {
+          "line": 7,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "60d78d3a08fa3aa07e476b3f6f373c8c3601d71025d27b6845b8dc2abb79947f"
         }
       }
     ],
@@ -1768,6 +1811,326 @@
           "related_nodes": [],
           "status": "not_tested",
           "title": "Greedy Group-Spanning Cointegration to Define Group-Disjoint Fitting"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-186"
+          ],
+          "id": "arm:dependence-predictive-filter",
+          "kind": "arm",
+          "next_test": "Labels/residuals may supervise training only; serving filter sees causal feature history, never observed future labels. On held-out warm-up sequences, ablate the dependence-geometry input and compare the predictor's calibration/ordering behavior on rows satisfying the prediction eligibility condition, using the same scoring mask and clip rule as the deployed metric where feasible; keep the test within cheap local compute.",
+          "parent_id": "family:temporal",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Invert the diagnostic: train a dependence-predictive filter, not a flatness test"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-187"
+          ],
+          "id": "arm:neighbor-dependence-cue",
+          "kind": "arm",
+          "next_test": "Fit nearest-neighbor bank and thresholds on fitting groups only; forbid indexing evaluation/future rows. Split warm-up eligible rows by the cue and check whether a cheap model or even the reference blend's residual structure differs across cue bins, using the brief's eligibility and scoring mask.",
+          "parent_id": "family:representation",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Small transferable statistic: nearest-neighbor correlation contrast as a regime cue"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-188"
+          ],
+          "id": "arm:alternative-sensitive-objective",
+          "kind": "arm",
+          "next_test": "Treat diagnostic rejection as a falsifier or stratification clue, not a predictive gain. Freeze original folds and endpoint. On cheap local data, compare a targeted small correction driven by the dominant fingerprint to (a) no correction and (b) an unstructured nonlinear correction, under the same causal constraints and eligibility mask.",
+          "parent_id": "family:evaluation",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Unconventional: invert to mis-specification hunting via alternative-class sensitivity"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-189"
+          ],
+          "id": "arm:dependence-regime-gate",
+          "kind": "arm",
+          "next_test": "Regime gates must use past-only state; compare a matched-rate sham and unchanged parent. Compare fixed-dependence-handling baseline to a two-mode causal interpolation on warm-up eligible rows, controlling for added capacity by giving the fixed baseline a comparable parameter budget.",
+          "parent_id": "family:temporal",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Unconventional: threshold-style regime switch for dependence diagnostics, not for returns"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-190"
+          ],
+          "id": "arm:local-specification-feedback",
+          "kind": "arm",
+          "next_test": "A null-test statistic is not the competition objective. Require a fixed downstream comparison before promotion. Compare predictor variants with and without the diagnostic-driven small adjustment on warm-up eligible rows, using matched capacity and the same eligibility/scoring definition.",
+          "parent_id": "family:objective",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Null-safe use: treat the test as local specification feedback, not global rejection"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-191"
+          ],
+          "id": "arm:relative-distance-transfer",
+          "kind": "arm",
+          "next_test": "Freeze pair construction and scaling from fitting data; compare equal-budget pointwise distillation and shuffled teacher relations. Train a small student with and without the directed relational loss on a local causal-screened subset, comparing pair-relation matching and final utility on rows satisfying need_prediction and is_scored.",
+          "parent_id": "arm:heterogeneous-teacher-compression",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Directed relative-distance distillation on causally valid pairs"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-192"
+          ],
+          "id": "arm:driver-anchored-angle-transfer",
+          "kind": "arm",
+          "next_test": "Anchor and triplet selection must be causal or training-only; handle degenerate angles and unequal target scales explicitly. Compare student with small angle-wise distillation on driver-anchored triples versus no relational term, using local validation on scored rows.",
+          "parent_id": "arm:heterogeneous-teacher-compression",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Angle-wise relational distillation over triplets anchored by a driver feature"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-193"
+          ],
+          "id": "arm:temporal-relational-transfer",
+          "kind": "arm",
+          "next_test": "Future teacher relationships may be training targets only; serving remains causal and sequence boundaries never connect. Ablate temporal relational term versus same-weight static relational term on local sequences with reset, measuring whether temporal relations improve on scored rows.",
+          "parent_id": "arm:heterogeneous-teacher-compression",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Temporal relational contrast across consecutive valid rows"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-194"
+          ],
+          "id": "arm:paired-view-relational-transfer",
+          "kind": "arm",
+          "next_test": "Use justified feature perturbations with preserved causal semantics; include augmentation-only and shuffled-relation controls. Compare student with view-invariant relational term to student without it, on a local perturbation-consistent validation split that respects causal constraints.",
+          "parent_id": "arm:heterogeneous-teacher-compression",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Causal-robustness relational distillation with paired view perturbation"
+        },
+        {
+          "allocation": {
+            "eligible": true,
+            "launch_authorized": false,
+            "priority": 3,
+            "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+          },
+          "artifacts": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+          ],
+          "belief": {
+            "mu": null,
+            "noise_sd": null,
+            "reviewed": false,
+            "sd": null,
+            "unit": "absolute_global_wp_delta",
+            "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+          },
+          "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+          "cost_h": null,
+          "experiment_ids": [],
+          "hypothesis_ids": [
+            "H-195"
+          ],
+          "id": "arm:amortized-teacher-relations",
+          "kind": "arm",
+          "next_test": "Relation targets and privileged teacher access end at training; evaluate complete exported student with unchanged inference budget. Add and remove the relational regularizer in a small local run, checking representation-structure metrics and any change on scored rows.",
+          "parent_id": "arm:heterogeneous-teacher-compression",
+          "related_nodes": [],
+          "status": "not_tested",
+          "title": "Unconventional: teacher-relation amortization as an unsupervised student regularizer"
         }
       ],
       "documents": [
@@ -1952,9 +2315,9 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 510,
-      "hypotheses": 184,
-      "journal": 6
+      "experiments": 511,
+      "hypotheses": 194,
+      "journal": 7
     }
   },
   "nodes": [
@@ -1997,7 +2360,7 @@
       "parent_id": null,
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "title": "Wunder Connectome Challenge2 research",
       "type": "root"
@@ -2012,7 +2375,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "title": "Teachers and knowledge transfer",
       "type": "family"
@@ -2029,7 +2392,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "title": "Temporal state and memory",
       "type": "family"
@@ -2046,7 +2409,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "title": "Targets, losses and supervision",
       "type": "family"
@@ -2064,7 +2427,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "title": "Data and feature representation",
       "type": "family"
@@ -2081,7 +2444,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "title": "Optimization and training stability",
       "type": "family"
@@ -2098,7 +2461,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "title": "Diversity, ensembles and interactions",
       "type": "family"
@@ -2115,7 +2478,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "title": "Serving and compression",
       "type": "family"
@@ -2133,7 +2496,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "title": "Evaluation, data exposure and diagnostics",
       "type": "family"
@@ -2149,7 +2512,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "title": "Compute, safety and recovery",
       "type": "family"
@@ -2160,7 +2523,7 @@
       "parent_id": "root",
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "title": "Unresolved classification",
       "type": "family"
@@ -2230,7 +2593,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "source_recipe_evidence": {
         "fifth_member_delta": 0.00028,
@@ -2285,7 +2648,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Transfer Transformer predictions into the serving GRU",
@@ -2327,7 +2690,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Temporal summary / representation transfer",
@@ -2371,7 +2734,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Quiet-row transfer from an attention teacher",
@@ -2429,7 +2792,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Origin-target privileged attention teacher",
@@ -2474,7 +2837,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Teacher lineage, cross-fitting and ensemble targets",
@@ -2530,7 +2893,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -2589,7 +2952,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -2662,7 +3025,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "interrupted",
       "title": "Distillation alpha × bootstrap horizon",
@@ -2706,7 +3069,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Measured denominator: chunk / fixed / shuffled mass",
@@ -2764,7 +3127,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -2823,7 +3186,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "insufficient_evidence",
       "title": "Precision and optimizer-step mechanism",
@@ -2895,7 +3258,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "diagnostic_completed",
       "title": "Production event clock / quiet-row anatomy",
@@ -2950,7 +3313,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Event/quiet residual belief updates",
@@ -3009,7 +3372,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "prepared_unrun",
       "title": "Residual diagonal / content / erase-write memory",
@@ -3077,7 +3440,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "insufficient_evidence",
       "title": "Hole-only episode loss in a tiny recurrent specialist",
@@ -3137,7 +3500,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "screen_failed",
       "title": "All-row and mixed episode objectives: tested recipes",
@@ -3197,7 +3560,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "screen_failed",
       "title": "Quiet-row output holds / online corrections: tested recipes",
@@ -3278,7 +3641,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "prepared_unrun",
       "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
@@ -3325,7 +3688,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Serving-feasible seed mixtures and tensor soups",
@@ -3372,7 +3735,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Quantization and native runtime headroom",
@@ -3453,7 +3816,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "insufficient_evidence",
       "title": "OOM, provider and monitor recovery",
@@ -3496,7 +3859,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Attention-teacher transfer × origin-label reanchor",
@@ -3539,7 +3902,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Gradient cadence × measured denominator",
@@ -3593,7 +3956,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Convergence-aware causal attention and event context",
@@ -3648,7 +4011,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Transfer predictable teacher structure separately from future innovation",
@@ -3703,7 +4066,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Independent student complementarity and causal blend gates",
@@ -3782,7 +4145,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "source_recipe_details": {
         "additional_epochs": 2,
@@ -3872,7 +4235,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Replace a teacher family with a two-stream teacher",
@@ -3942,7 +4305,7 @@
       ],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Function-preserving widening of a distilled student",
@@ -3996,7 +4359,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Greedy Sparse Mean-Reverting Feature Cliques (per L11 group)",
@@ -4050,7 +4413,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Pair-Seeded Stagewise Interaction Grower",
@@ -4104,7 +4467,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Greedy Sparse Stationarity Scout for Causal State Management (unconventional)",
@@ -4158,7 +4521,7 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Simplex-Sparse Greedy Correction of the Served Blend",
@@ -4212,10 +4575,550 @@
       "related_nodes": [],
       "source": {
         "path": "research/bandit_tree/config.json",
-        "sha256": "5ef1cf116714df4a4c8450b2c90ad5a363440b6a3ed6cfae3cf8e855cb1221f4"
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
       },
       "status": "not_tested",
       "title": "Greedy Group-Spanning Cointegration to Define Group-Disjoint Fitting",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-186"
+      ],
+      "id": "arm:dependence-predictive-filter",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Labels/residuals may supervise training only; serving filter sees causal feature history, never observed future labels. On held-out warm-up sequences, ablate the dependence-geometry input and compare the predictor's calibration/ordering behavior on rows satisfying the prediction eligibility condition, using the same scoring mask and clip rule as the deployed metric where feasible; keep the test within cheap local compute.",
+      "parent_id": "family:temporal",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+      },
+      "status": "not_tested",
+      "title": "Invert the diagnostic: train a dependence-predictive filter, not a flatness test",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-187"
+      ],
+      "id": "arm:neighbor-dependence-cue",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Fit nearest-neighbor bank and thresholds on fitting groups only; forbid indexing evaluation/future rows. Split warm-up eligible rows by the cue and check whether a cheap model or even the reference blend's residual structure differs across cue bins, using the brief's eligibility and scoring mask.",
+      "parent_id": "family:representation",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+      },
+      "status": "not_tested",
+      "title": "Small transferable statistic: nearest-neighbor correlation contrast as a regime cue",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-188"
+      ],
+      "id": "arm:alternative-sensitive-objective",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Treat diagnostic rejection as a falsifier or stratification clue, not a predictive gain. Freeze original folds and endpoint. On cheap local data, compare a targeted small correction driven by the dominant fingerprint to (a) no correction and (b) an unstructured nonlinear correction, under the same causal constraints and eligibility mask.",
+      "parent_id": "family:evaluation",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+      },
+      "status": "not_tested",
+      "title": "Unconventional: invert to mis-specification hunting via alternative-class sensitivity",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-189"
+      ],
+      "id": "arm:dependence-regime-gate",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Regime gates must use past-only state; compare a matched-rate sham and unchanged parent. Compare fixed-dependence-handling baseline to a two-mode causal interpolation on warm-up eligible rows, controlling for added capacity by giving the fixed baseline a comparable parameter budget.",
+      "parent_id": "family:temporal",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+      },
+      "status": "not_tested",
+      "title": "Unconventional: threshold-style regime switch for dependence diagnostics, not for returns",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-190"
+      ],
+      "id": "arm:local-specification-feedback",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "A null-test statistic is not the competition objective. Require a fixed downstream comparison before promotion. Compare predictor variants with and without the diagnostic-driven small adjustment on warm-up eligible rows, using matched capacity and the same eligibility/scoring definition.",
+      "parent_id": "family:objective",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+      },
+      "status": "not_tested",
+      "title": "Null-safe use: treat the test as local specification feedback, not global rejection",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-191"
+      ],
+      "id": "arm:relative-distance-transfer",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Freeze pair construction and scaling from fitting data; compare equal-budget pointwise distillation and shuffled teacher relations. Train a small student with and without the directed relational loss on a local causal-screened subset, comparing pair-relation matching and final utility on rows satisfying need_prediction and is_scored.",
+      "parent_id": "arm:heterogeneous-teacher-compression",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+      },
+      "status": "not_tested",
+      "title": "Directed relative-distance distillation on causally valid pairs",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-192"
+      ],
+      "id": "arm:driver-anchored-angle-transfer",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Anchor and triplet selection must be causal or training-only; handle degenerate angles and unequal target scales explicitly. Compare student with small angle-wise distillation on driver-anchored triples versus no relational term, using local validation on scored rows.",
+      "parent_id": "arm:heterogeneous-teacher-compression",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+      },
+      "status": "not_tested",
+      "title": "Angle-wise relational distillation over triplets anchored by a driver feature",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-193"
+      ],
+      "id": "arm:temporal-relational-transfer",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Future teacher relationships may be training targets only; serving remains causal and sequence boundaries never connect. Ablate temporal relational term versus same-weight static relational term on local sequences with reset, measuring whether temporal relations improve on scored rows.",
+      "parent_id": "arm:heterogeneous-teacher-compression",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+      },
+      "status": "not_tested",
+      "title": "Temporal relational contrast across consecutive valid rows",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-194"
+      ],
+      "id": "arm:paired-view-relational-transfer",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Use justified feature perturbations with preserved causal semantics; include augmentation-only and shuffled-relation controls. Compare student with view-invariant relational term to student without it, on a local perturbation-consistent validation split that respects causal constraints.",
+      "parent_id": "arm:heterogeneous-teacher-compression",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+      },
+      "status": "not_tested",
+      "title": "Causal-robustness relational distillation with paired view perturbation",
+      "type": "arm"
+    },
+    {
+      "allocation": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "allocation_config": {
+        "eligible": true,
+        "launch_authorized": false,
+        "priority": 3,
+        "reason": "Unknown-value exploration; admit one discriminating bounded test when allocated"
+      },
+      "artifact_refs": [
+        {
+          "candidates": [
+            "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json",
+          "status": "resolved"
+        }
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json"
+      ],
+      "belief": {
+        "mu": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "sd": null,
+        "unit": "absolute_global_wp_delta",
+        "update_rule": "Measured paired endpoint evidence only; ancestor deltas are not additive"
+      },
+      "claim_scope": "Independent literature proposal; no gain or downstream validity established",
+      "cost_h": null,
+      "current_override": false,
+      "experiment_ids": [],
+      "hypothesis_ids": [
+        "H-195"
+      ],
+      "id": "arm:amortized-teacher-relations",
+      "kind": "arm",
+      "legacy_reference_stale": false,
+      "next_test": "Relation targets and privileged teacher access end at training; evaluate complete exported student with unchanged inference budget. Add and remove the relational regularizer in a small local run, checking representation-structure metrics and any change on scored rows.",
+      "parent_id": "arm:heterogeneous-teacher-compression",
+      "related_nodes": [],
+      "source": {
+        "path": "research/bandit_tree/config.json",
+        "sha256": "42ae068f9383d53298a1219be4c17b76d9bc0a0cbe25acd497b670bc8ff0c5bc"
+      },
+      "status": "not_tested",
+      "title": "Unconventional: teacher-relation amortization as an unsupervised student regularizer",
       "type": "arm"
     },
     {
@@ -13745,6 +14648,436 @@
         }
       ],
       "title": "Greedy Group-Spanning Cointegration to Define Group-Disjoint Fitting",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:dependence-predictive-filter"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-186",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:dependence-predictive-filter",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-186\", \"statement\": \"Invert the diagnostic: train a dependence-predictive filter, not a flatness test\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T20:53:21.158922+00:00\", \"parent_ids\": [], \"mechanism_family\": \"invert + instrument (dependence diagnostic repurposed as forward signal)\", \"causal_mechanism\": \"Build a small auxiliary module that estimates local serial-dependence geometry on recent fitted residuals/predictive errors within a causal window, and expose that geometry as an explicit conditioning input to the predictor rather than testing residuals for flatness.\", \"predicted_observable\": \"Conditioning on recent dependence geometry should change predictions in a regime-dependent way; if the source analogy holds, dependence geometry may carry small incremental information even when marginal autocorrelations are weak.\", \"cheap_test\": \"On held-out warm-up sequences, ablate the dependence-geometry input and compare the predictor's calibration/ordering behavior on rows satisfying the prediction eligibility condition, using the same scoring mask and clip rule as the deployed metric where feasible; keep the test within cheap local compute.\", \"falsifier\": \"Dependence-geometry input does not change eligible predictions beyond controls, or changes them only in a way fully explained by linear lags.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json\", \"source_idea_index\": 0, \"proposed_by\": \"Freebuff Solar Pro4, fresh independent source assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Labels/residuals may supervise training only; serving filter sees causal feature history, never observed future labels.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Build a small auxiliary module that estimates local serial-dependence geometry on recent fitted residuals/predictive errors within a causal window, and expose that geometry as an explicit conditioning input to the predictor rather than testing residuals for flatness.",
+            "cheap_test": "On held-out warm-up sequences, ablate the dependence-geometry input and compare the predictor's calibration/ordering behavior on rows satisfying the prediction eligibility condition, using the same scoring mask and clip rule as the deployed metric where feasible; keep the test within cheap local compute.",
+            "committed_at": "2026-10-06T20:53:21.158922+00:00",
+            "controller_protocol_annotation": "Labels/residuals may supervise training only; serving filter sees causal feature history, never observed future labels.",
+            "expected_public_gain": null,
+            "falsifier": "Dependence-geometry input does not change eligible predictions beyond controls, or changes them only in a way fully explained by linear lags.",
+            "id": "H-186",
+            "mechanism_family": "invert + instrument (dependence diagnostic repurposed as forward signal)",
+            "parent_ids": [],
+            "predicted_observable": "Conditioning on recent dependence geometry should change predictions in a regime-dependent way; if the source analogy holds, dependence geometry may carry small incremental information even when marginal autocorrelations are weak.",
+            "proposed_by": "Freebuff Solar Pro4, fresh independent source assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json",
+            "source_idea_index": 0,
+            "statement": "Invert the diagnostic: train a dependence-predictive filter, not a flatness test",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 185,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "3754c20c9786966ec98f7984de52af47cbccf0557e4bbcd2a4e590f03d2269e4"
+          }
+        }
+      ],
+      "title": "Invert the diagnostic: train a dependence-predictive filter, not a flatness test",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:neighbor-dependence-cue"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-187",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:neighbor-dependence-cue",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-187\", \"statement\": \"Small transferable statistic: nearest-neighbor correlation contrast as a regime cue\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T20:53:21.158922+00:00\", \"parent_ids\": [], \"mechanism_family\": \"instrument (small statistic transfer)\", \"causal_mechanism\": \"Extract a tiny scalar or vector summarizing residual nearest-neighbor correlation contrast from recent predictions over the causal window, and use it as a lightweight regime/uncertainty cue, separate from the main state.\", \"predicted_observable\": \"Low-contrast residual windows should behave differently from high-contrast windows; the cue should help identify windows where the main predictor is more or less reliable.\", \"cheap_test\": \"Split warm-up eligible rows by the cue and check whether a cheap model or even the reference blend's residual structure differs across cue bins, using the brief's eligibility and scoring mask.\", \"falsifier\": \"Cue bins show no systematic difference in prediction quality/structure beyond what linear diagnostics already capture.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json\", \"source_idea_index\": 1, \"proposed_by\": \"Freebuff Solar Pro4, fresh independent source assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Fit nearest-neighbor bank and thresholds on fitting groups only; forbid indexing evaluation/future rows.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Extract a tiny scalar or vector summarizing residual nearest-neighbor correlation contrast from recent predictions over the causal window, and use it as a lightweight regime/uncertainty cue, separate from the main state.",
+            "cheap_test": "Split warm-up eligible rows by the cue and check whether a cheap model or even the reference blend's residual structure differs across cue bins, using the brief's eligibility and scoring mask.",
+            "committed_at": "2026-10-06T20:53:21.158922+00:00",
+            "controller_protocol_annotation": "Fit nearest-neighbor bank and thresholds on fitting groups only; forbid indexing evaluation/future rows.",
+            "expected_public_gain": null,
+            "falsifier": "Cue bins show no systematic difference in prediction quality/structure beyond what linear diagnostics already capture.",
+            "id": "H-187",
+            "mechanism_family": "instrument (small statistic transfer)",
+            "parent_ids": [],
+            "predicted_observable": "Low-contrast residual windows should behave differently from high-contrast windows; the cue should help identify windows where the main predictor is more or less reliable.",
+            "proposed_by": "Freebuff Solar Pro4, fresh independent source assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json",
+            "source_idea_index": 1,
+            "statement": "Small transferable statistic: nearest-neighbor correlation contrast as a regime cue",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 186,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "03138394220a0bde96497729917a174d48da1121f98831d030a995a82c3949d2"
+          }
+        }
+      ],
+      "title": "Small transferable statistic: nearest-neighbor correlation contrast as a regime cue",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:alternative-sensitive-objective"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-188",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:alternative-sensitive-objective",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-188\", \"statement\": \"Unconventional: invert to mis-specification hunting via alternative-class sensitivity\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T20:53:21.158922+00:00\", \"parent_ids\": [], \"mechanism_family\": \"invert + instrument (use alternative sensitivity to locate blind spots)\", \"causal_mechanism\": \"Run a small battery of cheap dependence probes on recent residuals/prediction errors, not to reject a null, but to produce a coarse 'what kind of nonlinearity is left' fingerprint; then target only the dominant fingerprint with a small correction path.\", \"predicted_observable\": \"When one probe class is consistently elevated relative to others in a window, a small targeted correction should improve local predictions more than a uniform nonlinear expansion.\", \"cheap_test\": \"On cheap local data, compare a targeted small correction driven by the dominant fingerprint to (a) no correction and (b) an unstructured nonlinear correction, under the same causal constraints and eligibility mask.\", \"falsifier\": \"Fingerprint-driven correction does not beat uniform nonlinear correction; or fingerprints are unstable/noisy within causal windows.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json\", \"source_idea_index\": 2, \"proposed_by\": \"Freebuff Solar Pro4, fresh independent source assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Treat diagnostic rejection as a falsifier or stratification clue, not a predictive gain. Freeze original folds and endpoint.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Run a small battery of cheap dependence probes on recent residuals/prediction errors, not to reject a null, but to produce a coarse 'what kind of nonlinearity is left' fingerprint; then target only the dominant fingerprint with a small correction path.",
+            "cheap_test": "On cheap local data, compare a targeted small correction driven by the dominant fingerprint to (a) no correction and (b) an unstructured nonlinear correction, under the same causal constraints and eligibility mask.",
+            "committed_at": "2026-10-06T20:53:21.158922+00:00",
+            "controller_protocol_annotation": "Treat diagnostic rejection as a falsifier or stratification clue, not a predictive gain. Freeze original folds and endpoint.",
+            "expected_public_gain": null,
+            "falsifier": "Fingerprint-driven correction does not beat uniform nonlinear correction; or fingerprints are unstable/noisy within causal windows.",
+            "id": "H-188",
+            "mechanism_family": "invert + instrument (use alternative sensitivity to locate blind spots)",
+            "parent_ids": [],
+            "predicted_observable": "When one probe class is consistently elevated relative to others in a window, a small targeted correction should improve local predictions more than a uniform nonlinear expansion.",
+            "proposed_by": "Freebuff Solar Pro4, fresh independent source assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json",
+            "source_idea_index": 2,
+            "statement": "Unconventional: invert to mis-specification hunting via alternative-class sensitivity",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 187,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "18ae1c641e0cd09e3cff81484bf787136643bfbd5b49637f3a77cc139948d04b"
+          }
+        }
+      ],
+      "title": "Unconventional: invert to mis-specification hunting via alternative-class sensitivity",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:dependence-regime-gate"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-189",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:dependence-regime-gate",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-189\", \"statement\": \"Unconventional: threshold-style regime switch for dependence diagnostics, not for returns\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T20:53:21.158922+00:00\", \"parent_ids\": [], \"mechanism_family\": \"instrument + invert (threshold form borrowed, purpose inverted)\", \"causal_mechanism\": \"Use a small causal state variable to switch or interpolate between two lightweight dependence-handling modes: one mode optimized for low-dependence windows, one for high-dependence windows, with the switch rule being deliberately simple and causal.\", \"predicted_observable\": \"A simple regime-dependent dependence policy should outperform a single fixed dependence policy on eligible rows if the underlying dependence regime genuinely shifts and is detectable within the causal window.\", \"cheap_test\": \"Compare fixed-dependence-handling baseline to a two-mode causal interpolation on warm-up eligible rows, controlling for added capacity by giving the fixed baseline a comparable parameter budget.\", \"falsifier\": \"No per-mode difference emerges, or mode interpolation hurts under the eligibility/scoring mask.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json\", \"source_idea_index\": 3, \"proposed_by\": \"Freebuff Solar Pro4, fresh independent source assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Regime gates must use past-only state; compare a matched-rate sham and unchanged parent.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Use a small causal state variable to switch or interpolate between two lightweight dependence-handling modes: one mode optimized for low-dependence windows, one for high-dependence windows, with the switch rule being deliberately simple and causal.",
+            "cheap_test": "Compare fixed-dependence-handling baseline to a two-mode causal interpolation on warm-up eligible rows, controlling for added capacity by giving the fixed baseline a comparable parameter budget.",
+            "committed_at": "2026-10-06T20:53:21.158922+00:00",
+            "controller_protocol_annotation": "Regime gates must use past-only state; compare a matched-rate sham and unchanged parent.",
+            "expected_public_gain": null,
+            "falsifier": "No per-mode difference emerges, or mode interpolation hurts under the eligibility/scoring mask.",
+            "id": "H-189",
+            "mechanism_family": "instrument + invert (threshold form borrowed, purpose inverted)",
+            "parent_ids": [],
+            "predicted_observable": "A simple regime-dependent dependence policy should outperform a single fixed dependence policy on eligible rows if the underlying dependence regime genuinely shifts and is detectable within the causal window.",
+            "proposed_by": "Freebuff Solar Pro4, fresh independent source assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json",
+            "source_idea_index": 3,
+            "statement": "Unconventional: threshold-style regime switch for dependence diagnostics, not for returns",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 188,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "bbf5f2d6a83e8649685974563cf6b67f61dcb0710bcbf44f730b8f717a00b99f"
+          }
+        }
+      ],
+      "title": "Unconventional: threshold-style regime switch for dependence diagnostics, not for returns",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:local-specification-feedback"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-190",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:local-specification-feedback",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-190\", \"statement\": \"Null-safe use: treat the test as local specification feedback, not global rejection\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T20:53:21.158922+00:00\", \"parent_ids\": [], \"mechanism_family\": \"invert (diagnostic inversion) with instrument (residual analysis)\", \"causal_mechanism\": \"Use a small dependence/redundancy diagnostic on rolling residuals as continuous local feedback to adjust a small part of the model (for example, which feature groups are emphasized, or whether a nonlinear mixing path is active), while keeping the diagnostic strictly causal and sequence-reset-consistent.\", \"predicted_observable\": \"Windows with higher residual dependence should correspond to windows where a small targeted adjustment helps, and the adjustment should reduce residual dependence locally if the analogy holds.\", \"cheap_test\": \"Compare predictor variants with and without the diagnostic-driven small adjustment on warm-up eligible rows, using matched capacity and the same eligibility/scoring definition.\", \"falsifier\": \"Diagnostic-driven adjustment does not improve eligible predictions relative to a capacity-matched control, or changes are fully attributable to a simpler proxy.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json\", \"source_idea_index\": 4, \"proposed_by\": \"Freebuff Solar Pro4, fresh independent source assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"A null-test statistic is not the competition objective. Require a fixed downstream comparison before promotion.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Use a small dependence/redundancy diagnostic on rolling residuals as continuous local feedback to adjust a small part of the model (for example, which feature groups are emphasized, or whether a nonlinear mixing path is active), while keeping the diagnostic strictly causal and sequence-reset-consistent.",
+            "cheap_test": "Compare predictor variants with and without the diagnostic-driven small adjustment on warm-up eligible rows, using matched capacity and the same eligibility/scoring definition.",
+            "committed_at": "2026-10-06T20:53:21.158922+00:00",
+            "controller_protocol_annotation": "A null-test statistic is not the competition objective. Require a fixed downstream comparison before promotion.",
+            "expected_public_gain": null,
+            "falsifier": "Diagnostic-driven adjustment does not improve eligible predictions relative to a capacity-matched control, or changes are fully attributable to a simpler proxy.",
+            "id": "H-190",
+            "mechanism_family": "invert (diagnostic inversion) with instrument (residual analysis)",
+            "parent_ids": [],
+            "predicted_observable": "Windows with higher residual dependence should correspond to windows where a small targeted adjustment helps, and the adjustment should reduce residual dependence locally if the analogy holds.",
+            "proposed_by": "Freebuff Solar Pro4, fresh independent source assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json",
+            "source_idea_index": 4,
+            "statement": "Null-safe use: treat the test as local specification feedback, not global rejection",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 189,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "fcec5f124858435049f2a9ddaf1c2ef2f0af3dea2fb520ffe64a2a6ebddc0721"
+          }
+        }
+      ],
+      "title": "Null-safe use: treat the test as local specification feedback, not global rejection",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:relative-distance-transfer"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-191",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:relative-distance-transfer",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-191\", \"statement\": \"Directed relative-distance distillation on causally valid pairs\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T20:53:21.158922+00:00\", \"parent_ids\": [], \"mechanism_family\": \"relational knowledge distillation (directed/paired)\", \"causal_mechanism\": \"Add a small auxiliary loss that penalizes differences in the teacher versus student relative distance structure across valid pairs, using a normalized squared-distance potential analogous to RKD-D but restricted to causally valid pairs and optionally re-weighted by clip-weight magnitude.\", \"predicted_observable\": \"Student may track teacher-relative structure better on causally admissible pairs than on unconstrained pairs; effect should be largest where absolute feature matching is weak but relational structure is stable.\", \"cheap_test\": \"Train a small student with and without the directed relational loss on a local causal-screened subset, comparing pair-relation matching and final utility on rows satisfying need_prediction and is_scored.\", \"falsifier\": \"If relational loss helps no more than pointwise matching on the same valid pairs, then the benefit is not from relational transfer in this setting.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json\", \"source_idea_index\": 0, \"proposed_by\": \"Freebuff Solar Pro4, fresh independent source assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Freeze pair construction and scaling from fitting data; compare equal-budget pointwise distillation and shuffled teacher relations.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Add a small auxiliary loss that penalizes differences in the teacher versus student relative distance structure across valid pairs, using a normalized squared-distance potential analogous to RKD-D but restricted to causally valid pairs and optionally re-weighted by clip-weight magnitude.",
+            "cheap_test": "Train a small student with and without the directed relational loss on a local causal-screened subset, comparing pair-relation matching and final utility on rows satisfying need_prediction and is_scored.",
+            "committed_at": "2026-10-06T20:53:21.158922+00:00",
+            "controller_protocol_annotation": "Freeze pair construction and scaling from fitting data; compare equal-budget pointwise distillation and shuffled teacher relations.",
+            "expected_public_gain": null,
+            "falsifier": "If relational loss helps no more than pointwise matching on the same valid pairs, then the benefit is not from relational transfer in this setting.",
+            "id": "H-191",
+            "mechanism_family": "relational knowledge distillation (directed/paired)",
+            "parent_ids": [],
+            "predicted_observable": "Student may track teacher-relative structure better on causally admissible pairs than on unconstrained pairs; effect should be largest where absolute feature matching is weak but relational structure is stable.",
+            "proposed_by": "Freebuff Solar Pro4, fresh independent source assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json",
+            "source_idea_index": 0,
+            "statement": "Directed relative-distance distillation on causally valid pairs",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 190,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "ed067bd573d61fdfe1d615cccae34c0856225339883c44e25f0be732e451d828"
+          }
+        }
+      ],
+      "title": "Directed relative-distance distillation on causally valid pairs",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:driver-anchored-angle-transfer"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-192",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:driver-anchored-angle-transfer",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-192\", \"statement\": \"Angle-wise relational distillation over triplets anchored by a driver feature\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T20:53:21.158922+00:00\", \"parent_ids\": [], \"mechanism_family\": \"relational knowledge distillation (third-order angle)\", \"causal_mechanism\": \"Introduce a light angle-wise distillation term computed on a constrained triplet family, for example anchor-positive-contrastive triples defined by a chosen shared feature or regime signal, transferring teacher angles to the student.\", \"predicted_observable\": \"Angular structure alignment may improve for triplets sharing a driver even when pairwise distance alignment is similar; may be most useful when the task involves contrastive regime separation.\", \"cheap_test\": \"Compare student with small angle-wise distillation on driver-anchored triples versus no relational term, using local validation on scored rows.\", \"falsifier\": \"If driver-anchored angular distillation does not improve pair/triplet relational alignment or downstream scoring beyond controls, then third-order angles are not useful here.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json\", \"source_idea_index\": 1, \"proposed_by\": \"Freebuff Solar Pro4, fresh independent source assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Anchor and triplet selection must be causal or training-only; handle degenerate angles and unequal target scales explicitly.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Introduce a light angle-wise distillation term computed on a constrained triplet family, for example anchor-positive-contrastive triples defined by a chosen shared feature or regime signal, transferring teacher angles to the student.",
+            "cheap_test": "Compare student with small angle-wise distillation on driver-anchored triples versus no relational term, using local validation on scored rows.",
+            "committed_at": "2026-10-06T20:53:21.158922+00:00",
+            "controller_protocol_annotation": "Anchor and triplet selection must be causal or training-only; handle degenerate angles and unequal target scales explicitly.",
+            "expected_public_gain": null,
+            "falsifier": "If driver-anchored angular distillation does not improve pair/triplet relational alignment or downstream scoring beyond controls, then third-order angles are not useful here.",
+            "id": "H-192",
+            "mechanism_family": "relational knowledge distillation (third-order angle)",
+            "parent_ids": [],
+            "predicted_observable": "Angular structure alignment may improve for triplets sharing a driver even when pairwise distance alignment is similar; may be most useful when the task involves contrastive regime separation.",
+            "proposed_by": "Freebuff Solar Pro4, fresh independent source assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json",
+            "source_idea_index": 1,
+            "statement": "Angle-wise relational distillation over triplets anchored by a driver feature",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 191,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "6ac7b1193d5c281751f855357e3557aeac790a56ae8bf63928d9ead5d4ec30fc"
+          }
+        }
+      ],
+      "title": "Angle-wise relational distillation over triplets anchored by a driver feature",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:temporal-relational-transfer"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-193",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:temporal-relational-transfer",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-193\", \"statement\": \"Temporal relational contrast across consecutive valid rows\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T20:53:21.158922+00:00\", \"parent_ids\": [], \"mechanism_family\": \"relational + temporal structure transfer\", \"causal_mechanism\": \"Define a temporal relational term that compares teacher and student differences or relative positions between consecutive causally valid rows, encouraging the student to reproduce the teacher's short-horizon relational dynamics.\", \"predicted_observable\": \"Student may capture local temporal relational patterns more faithfully, especially where pointwise targets are weak but transitions are structured.\", \"cheap_test\": \"Ablate temporal relational term versus same-weight static relational term on local sequences with reset, measuring whether temporal relations improve on scored rows.\", \"falsifier\": \"If temporal adjacency adds no benefit beyond static relational matching from the same rows, then the temporal relation is not transferring useful knowledge.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json\", \"source_idea_index\": 2, \"proposed_by\": \"Freebuff Solar Pro4, fresh independent source assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Future teacher relationships may be training targets only; serving remains causal and sequence boundaries never connect.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Define a temporal relational term that compares teacher and student differences or relative positions between consecutive causally valid rows, encouraging the student to reproduce the teacher's short-horizon relational dynamics.",
+            "cheap_test": "Ablate temporal relational term versus same-weight static relational term on local sequences with reset, measuring whether temporal relations improve on scored rows.",
+            "committed_at": "2026-10-06T20:53:21.158922+00:00",
+            "controller_protocol_annotation": "Future teacher relationships may be training targets only; serving remains causal and sequence boundaries never connect.",
+            "expected_public_gain": null,
+            "falsifier": "If temporal adjacency adds no benefit beyond static relational matching from the same rows, then the temporal relation is not transferring useful knowledge.",
+            "id": "H-193",
+            "mechanism_family": "relational + temporal structure transfer",
+            "parent_ids": [],
+            "predicted_observable": "Student may capture local temporal relational patterns more faithfully, especially where pointwise targets are weak but transitions are structured.",
+            "proposed_by": "Freebuff Solar Pro4, fresh independent source assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json",
+            "source_idea_index": 2,
+            "statement": "Temporal relational contrast across consecutive valid rows",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 192,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "d26c763b838f83e0809fe3794ebaae2b5c245069c9d334f898f40d7b15f72a17"
+          }
+        }
+      ],
+      "title": "Temporal relational contrast across consecutive valid rows",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:paired-view-relational-transfer"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-194",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:paired-view-relational-transfer",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-194\", \"statement\": \"Causal-robustness relational distillation with paired view perturbation\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T20:53:21.158922+00:00\", \"parent_ids\": [], \"mechanism_family\": \"relational distillation with invariance / re-encoded views\", \"causal_mechanism\": \"Construct paired views from within the causal feature set where permissible, then add a relational term encouraging the student to preserve teacher-like relations across views, effectively distilling relational invariance rather than raw predictions.\", \"predicted_observable\": \"Student may become more stable across admissible perturbations without using disallowed future or identity information; relational stability may improve on scored rows if perturbation structure is meaningful.\", \"cheap_test\": \"Compare student with view-invariant relational term to student without it, on a local perturbation-consistent validation split that respects causal constraints.\", \"falsifier\": \"If relational invariance across views does not improve stability or scoring beyond pointwise view matching, then relational invariance is not the effective ingredient.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json\", \"source_idea_index\": 3, \"proposed_by\": \"Freebuff Solar Pro4, fresh independent source assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Use justified feature perturbations with preserved causal semantics; include augmentation-only and shuffled-relation controls.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Construct paired views from within the causal feature set where permissible, then add a relational term encouraging the student to preserve teacher-like relations across views, effectively distilling relational invariance rather than raw predictions.",
+            "cheap_test": "Compare student with view-invariant relational term to student without it, on a local perturbation-consistent validation split that respects causal constraints.",
+            "committed_at": "2026-10-06T20:53:21.158922+00:00",
+            "controller_protocol_annotation": "Use justified feature perturbations with preserved causal semantics; include augmentation-only and shuffled-relation controls.",
+            "expected_public_gain": null,
+            "falsifier": "If relational invariance across views does not improve stability or scoring beyond pointwise view matching, then relational invariance is not the effective ingredient.",
+            "id": "H-194",
+            "mechanism_family": "relational distillation with invariance / re-encoded views",
+            "parent_ids": [],
+            "predicted_observable": "Student may become more stable across admissible perturbations without using disallowed future or identity information; relational stability may improve on scored rows if perturbation structure is meaningful.",
+            "proposed_by": "Freebuff Solar Pro4, fresh independent source assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json",
+            "source_idea_index": 3,
+            "statement": "Causal-robustness relational distillation with paired view perturbation",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 193,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "70995fdcb5364c96061bfab38215347b0cef5872c90847a459473995f21d27db"
+          }
+        }
+      ],
+      "title": "Causal-robustness relational distillation with paired view perturbation",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": null,
+        "matches": [
+          "arm:amortized-teacher-relations"
+        ],
+        "rule": "curated_membership"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-195",
+      "latest_recorded_status": "proposed",
+      "parent_id": "arm:amortized-teacher-relations",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-195\", \"statement\": \"Unconventional: teacher-relation amortization as an unsupervised student regularizer\", \"status\": \"proposed\", \"committed_at\": \"2026-10-06T20:53:21.158922+00:00\", \"parent_ids\": [], \"mechanism_family\": \"unsupervised / self-distilled relational regularizer\", \"causal_mechanism\": \"Add a small relational regularizer that encourages the student to preserve teacher-like relations on a deliberately chosen subset of rows, even when task labels are not used for that term, to shape representation structure before or alongside the main task objective.\", \"predicted_observable\": \"Student representation geometry may become more teacher-like and possibly more organized, with unclear direct effect on final pooled correlation; benefit is qualitative and setting-dependent.\", \"cheap_test\": \"Add and remove the relational regularizer in a small local run, checking representation-structure metrics and any change on scored rows.\", \"falsifier\": \"If the relational regularizer does not change student geometry or scored-row behavior relative to control, then the unsupervised relational signal is not useful here.\", \"source\": \"research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json\", \"source_idea_index\": 4, \"proposed_by\": \"Freebuff Solar Pro4, fresh independent source assignment\", \"expected_public_gain\": null, \"controller_protocol_annotation\": \"Relation targets and privileged teacher access end at training; evaluate complete exported student with unchanged inference budget.\", \"raw_proposal_preserved\": true}\n",
+          "record": {
+            "causal_mechanism": "Add a small relational regularizer that encourages the student to preserve teacher-like relations on a deliberately chosen subset of rows, even when task labels are not used for that term, to shape representation structure before or alongside the main task objective.",
+            "cheap_test": "Add and remove the relational regularizer in a small local run, checking representation-structure metrics and any change on scored rows.",
+            "committed_at": "2026-10-06T20:53:21.158922+00:00",
+            "controller_protocol_annotation": "Relation targets and privileged teacher access end at training; evaluate complete exported student with unchanged inference budget.",
+            "expected_public_gain": null,
+            "falsifier": "If the relational regularizer does not change student geometry or scored-row behavior relative to control, then the unsupervised relational signal is not useful here.",
+            "id": "H-195",
+            "mechanism_family": "unsupervised / self-distilled relational regularizer",
+            "parent_ids": [],
+            "predicted_observable": "Student representation geometry may become more teacher-like and possibly more organized, with unclear direct effect on final pooled correlation; benefit is qualitative and setting-dependent.",
+            "proposed_by": "Freebuff Solar Pro4, fresh independent source assignment",
+            "raw_proposal_preserved": true,
+            "source": "research/campaign_2026-10-06/bandit_continuation/ideation/directed_rkd/ideas_solar.json",
+            "source_idea_index": 4,
+            "statement": "Unconventional: teacher-relation amortization as an unsupervised student regularizer",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 194,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "da704a7fd8ba48d750543433319ba09c7b34745f004d521eb968c67c83aa7f61"
+          }
+        }
+      ],
+      "title": "Unconventional: teacher-relation amortization as an unsupervised student regularizer",
       "type": "hypothesis"
     },
     {
@@ -39336,6 +40669,35 @@
       "type": "experiment"
     },
     {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-503",
+      "latest_recorded_status": "preregistered",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-503\", \"registered_at\": \"2026-10-06T20:50:49.216982+00:00\", \"status\": \"preregistered\", \"kind\": \"prediction_exports\", \"scientific_fits_completed\": 0, \"artifact\": \"research/campaign_2026-10-06/bandit_continuation/local/E503_PREDICTION_EXPORTS.json\"}\n",
+          "record": {
+            "artifact": "research/campaign_2026-10-06/bandit_continuation/local/E503_PREDICTION_EXPORTS.json",
+            "id": "E-503",
+            "kind": "prediction_exports",
+            "registered_at": "2026-10-06T20:50:49.216982+00:00",
+            "scientific_fits_completed": 0,
+            "status": "preregistered"
+          },
+          "source": {
+            "line": 511,
+            "path": "research/experiments.jsonl",
+            "sha256": "f184190f1efb07e1362afcf3455d76a3cc1d9c90d2633f70c9f380050e25398a"
+          }
+        }
+      ],
+      "title": "prediction_exports",
+      "type": "experiment"
+    },
+    {
       "allocation": {
         "eligible": false,
         "launch_authorized": false,
@@ -42956,6 +44318,66 @@
       "resolved": true,
       "source_id": "arm:cointegration-split-diagnostic",
       "target_id": "hypothesis:H-185"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:dependence-predictive-filter",
+      "target_id": "hypothesis:H-186"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:neighbor-dependence-cue",
+      "target_id": "hypothesis:H-187"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:alternative-sensitive-objective",
+      "target_id": "hypothesis:H-188"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:dependence-regime-gate",
+      "target_id": "hypothesis:H-189"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:local-specification-feedback",
+      "target_id": "hypothesis:H-190"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:relative-distance-transfer",
+      "target_id": "hypothesis:H-191"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:driver-anchored-angle-transfer",
+      "target_id": "hypothesis:H-192"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:temporal-relational-transfer",
+      "target_id": "hypothesis:H-193"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:paired-view-relational-transfer",
+      "target_id": "hypothesis:H-194"
+    },
+    {
+      "relation": "curated_hypothesis_membership",
+      "resolved": true,
+      "source_id": "arm:amortized-teacher-relations",
+      "target_id": "hypothesis:H-195"
     }
   ],
   "root_id": "root",
