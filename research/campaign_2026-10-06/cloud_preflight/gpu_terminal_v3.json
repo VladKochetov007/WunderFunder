@@ -1,0 +1,210 @@
+{
+  "evidence_classification": {
+    "claim": "actual dual-T4 synthetic root-GRU forward/backward/one-step/export hardware preflight",
+    "competition_upload": false,
+    "device_gate": "passed",
+    "scientific_fit": false,
+    "score_claim": false,
+    "trained_checkpoint_gate": "not_verified",
+    "training_data_path_gate": "not_tested",
+    "weights_origin": "deterministic_random_init_for_hardware_only_gate"
+  },
+  "input_mount_diagnosis": {
+    "checkpoint_search_status": "not_found",
+    "note": "The packet searched one directory below /kaggle/input. Runtime inventory exposed /kaggle/input/datasets/vladkochetov07 at the first two levels, so the expected checkpoint path was not resolved. This does not prove the attached dataset or checkpoint is absent; deeper mount inventory and real training-data access were not tested.",
+    "runtime_inventory": {
+      "exists": true,
+      "mounts": [
+        {
+          "entries_first_30": [
+            "vladkochetov07"
+          ],
+          "is_dir": true,
+          "name": "datasets"
+        }
+      ],
+      "root": "/kaggle/input"
+    }
+  },
+  "kernel": "vladkochetov07/wnn-gru-device-preflight-20261006-v3",
+  "observed_terminal_at_utc": "2026-10-06T21:29:35+00:00",
+  "packet_id": "wnn-gru-device-preflight-20261006-v3",
+  "payload": {
+    "elapsed_payload_seconds": 17.421696267000016,
+    "phase": "complete",
+    "platform": "Linux-6.18.48+-x86_64-with-glibc2.39",
+    "python_completed_at_utc": "2026-10-06T21:29:00.052927+00:00",
+    "python_started_at_utc": "2026-10-06T21:28:42.630920+00:00",
+    "python_version": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+    "status": "passed"
+  },
+  "provider_timing": {
+    "first_observed_running_at_utc": "2026-10-06T21:10:13+00:00",
+    "interpretation": "The provider reported RUNNING for about 19m22s, but the Python payload started at 21:28:42.63Z and completed in 17.42s. Provider setup/session status time is not equivalent to Python payload runtime; the specific setup delay cause is unresolved.",
+    "observed_running_interval_seconds": 1162.0,
+    "payload_alarm_seconds": 300,
+    "payload_process_completed_at_utc": "2026-10-06T21:29:00.052927+00:00",
+    "payload_process_started_at_utc": "2026-10-06T21:28:42.630920+00:00",
+    "provider_timeout_parameter_seconds": 360,
+    "terminal_observed_at_utc": "2026-10-06T21:29:35+00:00"
+  },
+  "provider_version": 1,
+  "quota": {
+    "active_controller_cap_seconds": 1800.0,
+    "baseline_gpu_used_seconds": 37047.321,
+    "first_stage_notification_threshold_seconds": 900.0,
+    "largest_preterminal_campaign_delta_seconds": 1133.629141999998,
+    "largest_preterminal_observed_at_utc": "2026-10-06T21:28:27+00:00",
+    "largest_preterminal_used_seconds": 38180.950142,
+    "prelaunch_campaign_delta_seconds": 34.575,
+    "prelaunch_gpu_used_seconds": 37081.896,
+    "preterminal_to_terminal_reconciliation": "Large RUNNING snapshots were provisional and reconciled downward after COMPLETE; terminal used-seconds is the retained quota sample.",
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "source": "exact KaggleApi.quota_view time_used seconds via read-only poll_provider.py under wnn-campaign.slice",
+    "terminal_campaign_delta_seconds": 62.633999999998196,
+    "terminal_gpu_used_seconds": 37109.955,
+    "terminal_tpu_used_seconds": 134.623,
+    "tpu_campaign_delta_seconds": 0.0,
+    "v3_retained_increment_seconds": 28.058999999998193
+  },
+  "result": {
+    "actual_gpus": [
+      {
+        "free_bytes_at_start": 15526068224,
+        "index": 0,
+        "name": "Tesla T4",
+        "required_headroom_bytes": 3127207526,
+        "total_bytes": 15636037632
+      },
+      {
+        "free_bytes_at_start": 15526068224,
+        "index": 1,
+        "name": "Tesla T4",
+        "required_headroom_bytes": 3127207526,
+        "total_bytes": 15636037632
+      }
+    ],
+    "checkpoint": {
+      "expected_relative_path": "source_bundle/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+      "expected_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "status": "not_found",
+      "trained_checkpoint_gate": "not_verified",
+      "training_data_path_gate": "not_tested",
+      "weights_origin": "deterministic_random_init_for_hardware_only_gate"
+    },
+    "classification": "actual T4 root-GRU hardware-only numerical/resource preflight; weights origin is recorded separately; one synthetic diagnostic update; no scientific fit or score",
+    "elapsed_seconds": 17.421687212999814,
+    "export": {
+      "bytes": 3931689,
+      "path": "root_gru_one_step_export.pt",
+      "post_reload_max_abs_error": 2.9802322387695312e-08,
+      "sha256": "c6bf93995aac2c229aaa0b634b3cb204cc049b9f6873ff233a58c5c4bac9bc6a"
+    },
+    "gpu_memory": {
+      "free_bytes_after": 15337324544,
+      "peak_allocated_bytes": 99415040,
+      "peak_reserved_bytes": 148897792,
+      "required_headroom_bytes": 3127207526,
+      "total_bytes": 15636037632
+    },
+    "host_memory": {
+      "cpu_count": 4,
+      "host_available_bytes": 31653904384,
+      "host_total_bytes": 33658318848,
+      "process_peak_rss_bytes": 1250861056,
+      "process_rss_bytes": 1251184640
+    },
+    "input_mounts": {
+      "exists": true,
+      "mounts": [
+        {
+          "entries_first_30": [
+            "vladkochetov07"
+          ],
+          "is_dir": true,
+          "name": "datasets"
+        }
+      ],
+      "root": "/kaggle/input"
+    },
+    "model_dimensions": {
+      "hidden": 256,
+      "layers": 2,
+      "n_in": 211,
+      "n_out": 23
+    },
+    "parity": {
+      "cpu_state_shape": [
+        2,
+        1,
+        256
+      ],
+      "finite": true,
+      "input_shape": [
+        1,
+        8,
+        211
+      ],
+      "max_abs_error": 2.9802322387695312e-08,
+      "output_shape": [
+        1,
+        8,
+        23
+      ],
+      "state_shape": [
+        2,
+        1,
+        256
+      ]
+    },
+    "production_chunk": {
+      "chunk_rows": 2000,
+      "finite_gradients": 14,
+      "finite_loss": 0.003548691049218178,
+      "input_shape": [
+        1,
+        2000,
+        211
+      ],
+      "optimizer_steps": 1,
+      "output_shape": [
+        1,
+        2000,
+        23
+      ],
+      "state_shape": [
+        2,
+        1,
+        256
+      ]
+    },
+    "root_nn_source_sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+    "status": "passed",
+    "versions": {
+      "numpy": "2.1.3",
+      "torch": "2.11.0+cu128"
+    }
+  },
+  "science_scope": "No real-data batches, scientific fit, score, or competition upload; one synthetic diagnostic optimizer update only.",
+  "terminal_collection": {
+    "files": {
+      "cloud_preflight_gpu_v3/checkpoint_discovery.json": "2d4c32bbf3014ad8b353431199d537b62e3baa402f10a11a402339df0dcf4786",
+      "cloud_preflight_gpu_v3/complete.json": "f7141ac12552c75eca4ad25148df430831186b468996297213e3261f51c45275",
+      "cloud_preflight_gpu_v3/heartbeat.json": "1a7840091c8d62413dc46003d19159001ecae1b9c756b687096f7c85fa265f4b",
+      "cloud_preflight_gpu_v3/host_start.json": "fac7ea80a093c19b3fc453dfe3f792d8da5d62ec461f43304f3ecc41735ef5a6",
+      "cloud_preflight_gpu_v3/result.json": "b799f301f879d567c598a5d2365cdaf16757c2c321895af67b047868e5ce8a63",
+      "cloud_preflight_gpu_v3/root_gru_one_step_export.pt": "c6bf93995aac2c229aaa0b634b3cb204cc049b9f6873ff233a58c5c4bac9bc6a",
+      "cloud_preflight_gpu_v3/startup.json": "096232d6bb360c034751d00ba448867321ca7eaffbdf53d744bf39f7b8e049ba",
+      "cloud_preflight_gpu_v3/terminal.json": "592c4f1570413f613142b31c8d7d6c6cd4d05fe8b37b265a82f99416813c5429",
+      "wnn-gru-device-preflight-20261006-v3.log": "71f78efd91ab9c366ce3ee6d54c63ba3ffe4acbab88f7e2b708a114f7f5fe10d"
+    },
+    "log_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited kaggle kernels logs vladkochetov07/wnn-gru-device-preflight-20261006-v3",
+    "log_exit_code": 0,
+    "observed_at_utc": "2026-10-06T21:31:21+00:00",
+    "output_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited kaggle kernels output vladkochetov07/wnn-gru-device-preflight-20261006-v3 -p research/campaign_2026-10-06/cloud_preflight/gpu_results_v3",
+    "output_exit_code": 0,
+    "separate_saved_log": "wnn-gru-device-preflight-20261006-v3.log",
+    "separate_saved_log_sha256": "2c26164ce3453425936b29c7bf1c53f4d62ce546b264db1aeeefc7ad151bd786"
+  },
+  "terminal_status": "KernelWorkerStatus.COMPLETE"
+}
