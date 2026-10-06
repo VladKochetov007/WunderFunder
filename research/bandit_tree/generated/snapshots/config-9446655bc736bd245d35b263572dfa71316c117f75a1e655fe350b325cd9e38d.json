@@ -1,0 +1,978 @@
+{
+  "version": 1,
+  "root": {
+    "id": "root",
+    "title": "Wunder Connectome Challenge2 research",
+    "objective_mode": "competition",
+    "metric_id": "global_wp_clip2_v1",
+    "public_best": 0.666,
+    "public_milestone": 0.7,
+    "public_milestone_status": "unmet",
+    "evaluation_exposure": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
+    "resources": {
+      "aggregate_cpu_cores_max": 5,
+      "aggregate_vram_bytes_max": 3000000000,
+      "aggregate_ram_bytes_max": 40000000000,
+      "new_local_experiments_after_2026_10_06_1000_Kyiv": false,
+      "new_experiment_compute": "Kaggle GPU/TPU only; current access and resource admission required"
+    }
+  },
+  "families": [
+    {
+      "id": "family:teacher",
+      "title": "Teachers and knowledge transfer",
+      "keywords": [
+        "teacher",
+        "distill",
+        "privileged"
+      ]
+    },
+    {
+      "id": "family:temporal",
+      "title": "Temporal state and memory",
+      "keywords": [
+        "memory",
+        "recurrence",
+        "state",
+        "clock",
+        "event"
+      ]
+    },
+    {
+      "id": "family:objective",
+      "title": "Targets, losses and supervision",
+      "keywords": [
+        "objective",
+        "supervision",
+        "target",
+        "readout",
+        "gradient estimator"
+      ]
+    },
+    {
+      "id": "family:representation",
+      "title": "Data and feature representation",
+      "keywords": [
+        "representation",
+        "feature",
+        "encoding",
+        "market classes",
+        "data scaling",
+        "augmentation"
+      ]
+    },
+    {
+      "id": "family:optimization",
+      "title": "Optimization and training stability",
+      "keywords": [
+        "optimization",
+        "numerical",
+        "regularization",
+        "averaging",
+        "learning"
+      ]
+    },
+    {
+      "id": "family:ensemble",
+      "title": "Diversity, ensembles and interactions",
+      "keywords": [
+        "diversity",
+        "ensemble",
+        "bag",
+        "soup",
+        "capacity"
+      ]
+    },
+    {
+      "id": "family:deployment",
+      "title": "Serving and compression",
+      "keywords": [
+        "deployment",
+        "native",
+        "quantization",
+        "runtime",
+        "sparse compute"
+      ]
+    },
+    {
+      "id": "family:evaluation",
+      "title": "Evaluation, data exposure and diagnostics",
+      "keywords": [
+        "measurement",
+        "metadata",
+        "instrumentation",
+        "scoring mask",
+        "eligibility",
+        "validation"
+      ]
+    },
+    {
+      "id": "family:infrastructure",
+      "title": "Compute, safety and recovery",
+      "keywords": [
+        "infrastructure",
+        "resource",
+        "tpu",
+        "kaggle"
+      ]
+    },
+    {
+      "id": "family:unclassified",
+      "title": "Unresolved classification",
+      "keywords": []
+    }
+  ],
+  "curated_nodes": [
+    {
+      "id": "arm:causal-transformer-teacher",
+      "parent_id": "family:teacher",
+      "title": "Causal segment-memory Transformer teacher",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-097"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/branch_teacher_audit/REPORT.md",
+        "research/bandit_tree/TEACHER_AGENT_BRIEF.md"
+      ],
+      "status": "not_tested",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Independently implement/profile a small causal attention teacher on Kaggle; compare matched causal GRU teacher and inspect frozen residual complementarity.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 5,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null,
+      "branch_refresh_status": "User identifies quant-probes as probable recent branch; fetch blocked by read-only .git, ls-remote DNS failure, web fallback unavailable; cached September30 revision only."
+    },
+    {
+      "id": "arm:transformer-student",
+      "parent_id": "arm:causal-transformer-teacher",
+      "title": "Transfer Transformer predictions into the serving GRU",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-096"
+      ],
+      "experiment_ids": [],
+      "artifacts": [],
+      "status": "not_tested",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Same student recipe and paired seeds: cross-fitted attention-teacher targets versus GRU-teacher targets; fixed parent/head blend endpoint.",
+      "related_nodes": [
+        "arm:teacher-crossfit"
+      ],
+      "allocation": {
+        "eligible": false,
+        "priority": 5,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:transformer-temporal-transfer",
+      "parent_id": "arm:transformer-student",
+      "title": "Temporal summary / representation transfer",
+      "kind": "arm",
+      "hypothesis_ids": [],
+      "experiment_ids": [],
+      "artifacts": [],
+      "status": "not_tested",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Prediction-only control versus a single predeclared causal temporal-summary auxiliary; no teacher representation at inference.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": false,
+        "priority": 2,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:transformer-quiet-transfer",
+      "parent_id": "arm:transformer-student",
+      "title": "Quiet-row transfer from an attention teacher",
+      "kind": "arm",
+      "hypothesis_ids": [],
+      "experiment_ids": [],
+      "artifacts": [],
+      "status": "not_tested",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Use causal age/activity for training emphasis, retain all-row objective; compare global and quiet-row scores on same exposed components.",
+      "related_nodes": [
+        "arm:quiet-episode-specialist"
+      ],
+      "allocation": {
+        "eligible": false,
+        "priority": 3,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:privileged-transformer",
+      "parent_id": "arm:causal-transformer-teacher",
+      "title": "Origin-target privileged attention teacher",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-098",
+        "H-132",
+        "H-133"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-05/continuation_night/NEXT_UNTESTED_IDEAS.md"
+      ],
+      "status": "not_tested",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Cross-fit teacher by continuous chain; future inputs allowed only offline; predict Y_t with origin weights/masks. Contrast teacher and student separately.",
+      "related_nodes": [
+        "arm:teacher-crossfit"
+      ],
+      "allocation": {
+        "eligible": false,
+        "priority": 4,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:teacher-crossfit",
+      "parent_id": "family:teacher",
+      "title": "Teacher lineage, cross-fitting and ensemble targets",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-130",
+        "H-131"
+      ],
+      "experiment_ids": [],
+      "artifacts": [],
+      "status": "not_tested",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Verify actual teacher checkpoint hashes, chain membership and cache sidecars; compare fresh modern ensemble teachers without overlap.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 4,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:readout-transfer",
+      "parent_id": "family:objective",
+      "title": "Fixed readout mixture on the complete GRU256 recipe",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-121"
+      ],
+      "experiment_ids": [
+        "E-493"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/cap3g_transfer_ram12/RECEIPT.json"
+      ],
+      "status": "prepared_unrun",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Kaggle B16 common control and fixed mixture: profile first, paired fits and fixed complete endpoint. Tiny-panel gains do not establish public transfer.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null,
+      "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts."
+    },
+    {
+      "id": "arm:reanchor",
+      "parent_id": "family:objective",
+      "title": "Original-label reanchor versus unchanged / bootstrap-off",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-124"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/cap3g_transfer_ram12/RECEIPT.json"
+      ],
+      "status": "prepared_unrun",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Profile and run matched reanchor0.1, unchanged bootstrap and bootstrap-off on a common full recipe.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 4,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null,
+      "planned_experiment_ids": [
+        "E-494"
+      ],
+      "registration_note": "E-494 is the prepared study label; no experiment ledger row exists yet.",
+      "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts."
+    },
+    {
+      "id": "arm:supervision-frontier",
+      "parent_id": "family:objective",
+      "title": "Distillation alpha × bootstrap horizon",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-180",
+        "H-134"
+      ],
+      "experiment_ids": [
+        "E-496"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-05/continuation_night/supervision_frontier/E496_HANDOFF_PACKET.json",
+        "research/campaign_2026-10-06/STATUS_AFTER_OOM.md"
+      ],
+      "status": "interrupted",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Recover fit-only calibration on Kaggle; bind measured mass vectors, then profile paired alpha/horizon and direction contrasts.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 4,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null,
+      "evidence_states": [
+        {
+          "scope": "E-496 CPU calibration attempt",
+          "state": "interrupted: exit -15 after 751.8seconds; no report; own cgroup OOM kills zero; parent counter 3 before and after; laptop OOM cause unestablished",
+          "source": "research/campaign_2026-10-06/STATUS_AFTER_OOM.md"
+        }
+      ]
+    },
+    {
+      "id": "arm:denominator",
+      "parent_id": "arm:supervision-frontier",
+      "title": "Measured denominator: chunk / fixed / shuffled mass",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-126"
+      ],
+      "experiment_ids": [],
+      "artifacts": [],
+      "status": "not_tested",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Obtain genuine fit-pass calibration; resolve fixed/shuffled templates with unchanged order/control and actual teacher epoch hashes.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": false,
+        "priority": 3,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:cadence",
+      "parent_id": "family:optimization",
+      "title": "Update cadence and recurrent gradient credit",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-155",
+        "H-157",
+        "H-162"
+      ],
+      "experiment_ids": [
+        "E-495"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/cap3g_cadence_ram12/RECEIPT.json"
+      ],
+      "status": "prepared_unrun",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Profile matched1000/1000,2000/1000,2000/2000 with row-matched EMA on Kaggle; choose a common batch within3GB.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null,
+      "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts."
+    },
+    {
+      "id": "arm:optimizer-precision",
+      "parent_id": "family:optimization",
+      "title": "Precision and optimizer-step mechanism",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-105",
+        "H-123"
+      ],
+      "experiment_ids": [
+        "E-489",
+        "E-499"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-05/continuation_night/admission/E499_ACTUAL_DIAGNOSTIC_REVIEW.md"
+      ],
+      "status": "insufficient_evidence",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Resolve the seed-specific AdamW update discrepancy and clipping-coverage scope before admitting a full recipe; preserve diagnostic-only results.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": false,
+        "priority": 1,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:event-clock",
+      "parent_id": "family:temporal",
+      "title": "Production event clock / quiet-row anatomy",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-120"
+      ],
+      "experiment_ids": [
+        "E-492"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-05/continuation_night/event_semantics/reproduction/v2/receipt.json",
+        "research/campaign_2026-10-06/REPORT.md",
+        "research/campaign_2026-10-06/STRETCH.md"
+      ],
+      "status": "diagnostic_completed",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Use independently reproduced AND-clock facts to predeclare a causal state update test, not output holding.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": false,
+        "priority": 2,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:event-quiet-state",
+      "parent_id": "arm:event-clock",
+      "title": "Event/quiet residual belief updates",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-150",
+        "H-151"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-05/continuation_night/event_semantics/NEXT_TEST_CONTRACT.md"
+      ],
+      "status": "not_tested",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Independent implementation and small resource profile; compare unrestricted residual and lagged-event control, preserving all-row output.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 4,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:residual-memory",
+      "parent_id": "family:temporal",
+      "title": "Residual diagonal / content / erase-write memory",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-148",
+        "H-152",
+        "H-153",
+        "H-154"
+      ],
+      "experiment_ids": [
+        "E-497"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-05/continuation_night/residual_memory/DESIGN.md"
+      ],
+      "status": "prepared_unrun",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Integrate causal sequence reset/detach and event-index contract; compare fixed additive versus delta memory with same parent.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:quiet-episode-specialist",
+      "parent_id": "family:objective",
+      "title": "Hole-only episode loss in a tiny recurrent specialist",
+      "kind": "arm",
+      "hypothesis_ids": [],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/TINY_GRU.md",
+        "research/campaign_2026-10-06/wave1_tiny_gru_s0.json",
+        "research/campaign_2026-10-06/wave1_tiny_gru_s1.json"
+      ],
+      "status": "insufficient_evidence",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Preserve two positive specialist seeds but first test a champion-preserving residual/specialist contribution; tiny absolute score is below incumbent.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:quiet-episode-global",
+      "parent_id": "arm:quiet-episode-specialist",
+      "title": "All-row and mixed episode objectives: tested recipes",
+      "kind": "arm",
+      "hypothesis_ids": [],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/wave1_tiny_gru_all_s0.json",
+        "research/campaign_2026-10-06/wave1_tiny_gru_mixed_s0.json"
+      ],
+      "status": "screen_failed",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "A new descendant must specify what repairs the tested negative objective interaction; no blanket family rejection.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": false,
+        "priority": 0,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:quiet-output-holds",
+      "parent_id": "family:temporal",
+      "title": "Quiet-row output holds / online corrections: tested recipes",
+      "kind": "arm",
+      "hypothesis_ids": [],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/ONLINE.md",
+        "research/campaign_2026-10-06/STRETCH.md"
+      ],
+      "status": "screen_failed",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Preserve measured failures; any child must change the mechanism and match a complete predictor control.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": false,
+        "priority": 0,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:width",
+      "parent_id": "family:ensemble",
+      "title": "Matched width / optimizer / teacher capacity",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-167"
+      ],
+      "experiment_ids": [
+        "E-500"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-05/continuation_night/admission/W384_V3R1_INDEPENDENT_REVIEW_GO.md",
+        "research/campaign_2026-10-06/STATUS_AFTER_OOM.md"
+      ],
+      "status": "prepared_unrun",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Finish3GB-capped Kaggle pairedW256/W384 resource probes, B16 with commonB8 fallback, then same-optimizer fixed endpoints.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null,
+      "status_scope": "Latest 3GB-cap packet/draft only; prior attempts/profiles retained separately in raw ledger events and source receipts.",
+      "evidence_states": [
+        {
+          "scope": "prior W384 provider packet",
+          "state": "ERROR in compatibility preflight before scientific fits",
+          "source": "research/campaign_2026-10-06/STATUS_AFTER_OOM.md"
+        },
+        {
+          "scope": "W384 v3r1 immutable handoff packet",
+          "state": "review GO for handoff only; no push or fit during review; admission required under current 3GB cap",
+          "source": "research/campaign_2026-10-05/continuation_night/admission/W384_V3R1_INDEPENDENT_REVIEW_GO.md"
+        },
+        {
+          "scope": "latest 3GB packet",
+          "state": "prepared; not evidence of completed scientific width comparison",
+          "source": "research/campaign_2026-10-06/STATUS_AFTER_OOM.md"
+        }
+      ]
+    },
+    {
+      "id": "arm:seed-ensemble",
+      "parent_id": "family:ensemble",
+      "title": "Serving-feasible seed mixtures and tensor soups",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-176",
+        "H-177",
+        "H-178"
+      ],
+      "experiment_ids": [],
+      "artifacts": [],
+      "status": "not_tested",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Score exact incumbent replacement weights; separate training seeds from checkpoint replicas and verify delivered ZIP runtime.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:deployment",
+      "parent_id": "family:deployment",
+      "title": "Quantization and native runtime headroom",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-174",
+        "H-175"
+      ],
+      "experiment_ids": [
+        "E-462"
+      ],
+      "artifacts": [],
+      "status": "not_tested",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Recheck exact ZIP ABI and realistic timing before submission; use saved public results as anchor, not proxy forecast.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:resource-recovery",
+      "parent_id": "family:infrastructure",
+      "title": "OOM, provider and monitor recovery",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-179"
+      ],
+      "experiment_ids": [
+        "E-463"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/STATUS_AFTER_OOM.md",
+        "research/campaign_2026-10-06/kaggle_inbox/NOTE.md"
+      ],
+      "status": "insufficient_evidence",
+      "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
+      "next_test": "Diagnose failed TPUpreflight and aggregatehostmemory pressure; provider-only experiments afterlocalcutoff, bounded reviewed retries.",
+      "related_nodes": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 5,
+        "reason": "Manual next-decision priority; experimental compute needs separate admission",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Revise from paired evidence and recipe/endpoint transfer, not additive ancestor gains"
+      },
+      "cost_h": null,
+      "evidence_states": [
+        {
+          "scope": "E-463 and provider monitor history",
+          "state": "earlier recorded running state is not a current live-status check",
+          "source": "research/experiments.jsonl"
+        },
+        {
+          "scope": "saved night W384 and TPU monitor, Oct6 19:57 Kyiv",
+          "state": "both ERROR; no active experiment service; watchers remain active",
+          "source": "research/campaign_2026-10-06/STATUS_AFTER_OOM.md"
+        },
+        {
+          "scope": "current session observability",
+          "state": "systemd bus unavailable; NVIDIA query failed; live state unknown",
+          "source": "research/campaign_2026-10-06/STATUS_AFTER_OOM.md"
+        }
+      ]
+    },
+    {
+      "id": "arm:transformer-reanchor-interaction",
+      "parent_id": "arm:transformer-student",
+      "title": "Attention-teacher transfer × origin-label reanchor",
+      "kind": "arm",
+      "status": "not_tested",
+      "hypothesis_ids": [],
+      "experiment_ids": [],
+      "artifacts": [],
+      "related_nodes": [
+        "arm:reanchor"
+      ],
+      "next_test": "Paired factorial unchanged/teacher/reanchor/combination complete endpoints; measure interaction rather than add separate deltas.",
+      "allocation": {
+        "eligible": false,
+        "priority": 2,
+        "reason": "Interaction exploration after individual protocols/profile constraints are understood",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false
+      },
+      "cost_h": null,
+      "claim_scope": "A new interaction proposal, no run or forecast"
+    },
+    {
+      "id": "arm:cadence-denominator-interaction",
+      "parent_id": "arm:cadence",
+      "title": "Gradient cadence × measured denominator",
+      "kind": "arm",
+      "status": "not_tested",
+      "hypothesis_ids": [],
+      "experiment_ids": [],
+      "artifacts": [],
+      "related_nodes": [
+        "arm:denominator"
+      ],
+      "next_test": "Hold row budget, EMA horizon, teacher lineage and sampler fixed across a small factorial; inspect pooled loss and complete prediction endpoint.",
+      "allocation": {
+        "eligible": false,
+        "priority": 2,
+        "reason": "Interaction exploration after individual protocols/profile constraints are understood",
+        "launch_authorized": false
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false
+      },
+      "cost_h": null,
+      "claim_scope": "A new interaction proposal, no run or forecast"
+    }
+  ],
+  "links": [],
+  "documents": [
+    "research",
+    "reflect_05_day"
+  ],
+  "journal": "research/bandit_tree/journal.jsonl",
+  "classification_policy": "Curated membership first; keyword family fallback is navigation-only, not a scientific assertion; uncertain nodes remain unclassified",
+  "allocation_policy": {
+    "scope": "Next research decision / preparation, not job launch",
+    "manual_priority_higher_is_earlier": true,
+    "numeric_rank_requires": "Reviewed current absolute-WP incremental belief plus measured/declared cost. Historical public priors are not silently reused.",
+    "diversity": "Select across mechanism families; keep an exploration share alongside depth on evidence-led branches; log allocation choices",
+    "correlation": "Never sum ancestor/sibling improvements. Combination nodes require their own matched endpoint measurement."
+  }
+}
