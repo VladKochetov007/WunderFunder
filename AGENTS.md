@@ -2,7 +2,7 @@
 
 ## Mission and session entry
 
-This repository's root task is Wunder Connectome Challenge2. Maximize long-term expected competition performance with independently trained models, reproducible experiments and valid deterministic submissions. The user wants top-1 and public score above 0.700 as active, achievable research objectives. Do not prune promising directions because current scores are lower or a public forecast is unavailable; report claims and uncertainty honestly. Follow [ADR0008](specs/adr/0008-research-scale-beyond-serving-envelope.md) when distinguishing competition rules from relaxable serving limits. Exclude `wunder/challenge-3`; nested challenge packages can have different formats.
+This repository's root task is Wunder Connectome Challenge2. Maximize long-term expected competition performance with independently trained models, reproducible experiments and valid deterministic submissions. The user wants top-1 and public score above 0.700 as active, achievable research objectives. Do not prune promising directions because current scores are lower or a public forecast is unavailable; report claims and uncertainty honestly. A confidence interval crossing zero is not a universal reject/stop rule; follow [ADR0009](specs/adr/0009-uncertainty-is-not-a-kill-switch.md) and the research methods when allocating uncertain arms. Follow [ADR0008](specs/adr/0008-research-scale-beyond-serving-envelope.md) when distinguishing competition rules from relaxable serving limits. Exclude `wunder/challenge-3`; nested challenge packages can have different formats.
 
 At the start of a session or agent task:
 
@@ -23,7 +23,9 @@ The latest user instruction overrides older instructions, specs and campaign all
 | Diverse LLMs and random/directed literature | [ADR0003](specs/adr/0003-independent-diverse-ideation.md), [idea generation](specs/idea-generation.md) |
 | Independent weights and target treatments | [ADR0004](specs/adr/0004-independent-training-and-target-variants.md) |
 | End-to-end result ownership | [ADR0005](specs/adr/0005-result-ownership-and-independent-arms.md), [agent contract](specs/agent-contract.md) |
+| Continuous execution and repair | [ADR0010](specs/adr/0010-continuous-experiment-delivery.md); keep an active owner for runnable next steps and overlap the next recipe with cloud execution |
 | OOM prevention and autonomous repair | [ADR0006](specs/adr/0006-resource-safe-autonomous-execution.md), [execution](specs/experiment-execution.md) |
+| Uncertainty and stop/allocation decisions | [ADR0009](specs/adr/0009-uncertainty-is-not-a-kill-switch.md), [research methods](research/RESEARCH_METHODS.md) |
 
 The [ADR index/template](specs/adr/README.md) makes this extendable. Add a decision for consequential changes to objective, allocation, data/recipe semantics or execution ownership. Preserve superseded decisions and link successors. Frozen experiments and raw artifacts are never silently rewritten.
 
@@ -47,6 +49,8 @@ Use **objective → mechanism family → direction → hypothesis → experiment
 
 The controller allocates bounded effort across leading lineages, independent exploration and confirmation/serving. Unknown arms may have null numerical priors and qualitative priorities. Update measured cost, effect and uncertainty only from actual relevant runs. Infrastructure/access failure provides execution evidence, not a negative scientific result. An individually weaker model may still improve a teacher target, residual, representation or served blend; measure that contribution.
 
+Treat confidence intervals as uncertainty summaries, not automatic arm-kill gates. Keep validity/resource admission, scientific interpretation, and allocation as separate decisions. Positive but imprecise results can justify a bounded follow-up when expected information value warrants it; defer an arm for opportunity cost without declaring its mechanism false. Preserve an exploration reserve across families. A stop applies to the exact recipe or spending path supported by relevant evidence, while materially different descendants remain eligible.
+
 Deepen promising directions and escape repeated uninformative loops. Move a stale recipe out of active context while preserving its archive. Assign a fresh-context agent a different source/lens/framing, without requiring the old failed explanation. Reopen a direction on a concrete new representation, interaction or contradictory observation.
 
 The authoritative reusable workflow is [research/RESEARCH_METHODS.md](research/RESEARCH_METHODS.md). Existing tree tooling:
@@ -54,7 +58,7 @@ The authoritative reusable workflow is [research/RESEARCH_METHODS.md](research/R
 - `research/hypotheses.jsonl`, `research/experiments.jsonl`: append-only scientific records.
 - `research/bandit_tree/config.json`, `journal.jsonl`: curated lineage/allocation decisions.
 - `scripts/research_tree.py --root . build`, `check`, `rank`: generated navigation, integrity and optional ranking.
-- `scripts/bandit.py`, `research/bandit/arms.json`: earlier quantitative allocation machinery. Use only compatible reviewed beliefs; do not manufacture numbers for untested arms.
+- `scripts/bandit.py`, `research/bandit/arms.json`: earlier quantitative allocation machinery with standalone/additive reward assumptions. Use only compatible reviewed system-level beliefs; do not use it to reject low-scoring components with proposed conditional value or interactions. Register combinations as explicit nodes and evaluate the complete served endpoint. Never manufacture numbers for untested arms.
 - `research/bandit_tree/generated/INDEX.md`: entry point; specs are included in its document catalog.
 
 Mutable monitoring logs can make a generated catalog stale. Rebuild after meaningful changes and distinguish snapshot freshness from scientific integrity. Preserve historical rows, notes and raw artifacts.
@@ -123,7 +127,7 @@ Read each selected `SKILL.md`; user instructions override its generic defaults. 
 
 Use `rg`/`rg --files`, never `grep`. Batch independent reads/checks, keep dependent operations sequential. Preserve unrelated dirty files. Commit/push meaningful contract, implementation, results and packaging steps separately. Frozen source worktrees must survive a running job; vanished `/tmp` paths must be recreated from commits rather than assumed present.
 
-Current local aggregate limits are **10 CPU cores,20 decimal GB RAM,5 decimal GB observed VRAM**, one GPU worker. Use persistent `wnn-campaign.slice` with18 GB memory-high,20 GB maximum and no swap. Recheck effective properties after service/daemon changes. Support CLIs, tests and notebooks count toward the same aggregate. New user caps supersede these values.
+Current local aggregate limits are **6 CPU cores,20 decimal GB RAM,5 decimal GB observed VRAM**, one GPU worker. Use persistent `wnn-campaign.slice` with18 GB memory-high,20 GB maximum and no swap. Recheck effective properties after service/daemon changes. Support CLIs, tests and notebooks count toward the same aggregate. New user caps supersede these values.
 
 For small CPU support tasks, set explicit limits rather than the wrapper's historical defaults:
 

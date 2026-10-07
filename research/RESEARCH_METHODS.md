@@ -158,6 +158,55 @@ Record why an arm was chosen, deferred, reopened, split, or archived. Update
 allocation from measured evidence rather than from how confidently an agent
 writes about its idea.
 
+### Uncertainty informs the next experiment; it does not automatically reject an arm
+
+A confidence interval that crosses zero is an uncertainty description, not a
+universal hypothesis test or bandit kill rule. In a small or costly study, a
+promising mechanism may remain unresolved even when its useful effect is real.
+Do not relabel “not resolved” as “no effect.” Record the point estimate,
+interval width, evaluation-unit count, exposure, training variation and what
+mechanism was actually tested.
+
+Keep three decisions separate. First, validity and resource safety are hard
+gates: the recipe, data identity, split, serving semantics and OOM protections
+must pass. Second, interpret scientific evidence at the level of the exact
+recipe and its mechanism. Third, allocate using expected long-term value,
+information gain, cost, reversibility, reusable artifacts and opportunity
+cost. A positive but imprecise observation can justify a cheap independent or
+discriminating test; it does not justify a public claim. A repeated uninformative
+test can be deferred for low value-of-information without declaring its whole
+lineage false.
+
+Keep an exploration reserve across distinct families so uncertainty in the
+current leader does not consume the entire research budget. Stop an exact recipe
+when relevant evidence or the cost of another attempt warrants it; preserve
+siblings and materially different descendants unless their mechanism was
+tested. Never count new seeds, agents or partitions of exposed data as fresh
+evaluation evidence. See [ADR-0009](../specs/adr/0009-uncertainty-is-not-a-kill-switch.md)
+for the decision record.
+
+### A scalar bandit reward is not the value of every research component
+
+The older `scripts/bandit.py` knowledge-gradient calculation assumes arms have
+standalone gain against “adopt nothing” and that adopted gains add. That is a
+useful approximation only for compatible, reviewed system-level arms. It is not
+the current universal allocator and must not be used to discard a weak
+standalone model, teacher, feature or representation whose proposed value is
+conditional on another model or training recipe. Record that role in the tree
+and create an explicit interaction node with matched controls. Estimate its
+value at the complete served endpoint while also tracking the component's
+conditional contribution and information value. A component's negative
+standalone score is evidence about standalone use, not proof of zero value as a
+target, residual source or expert.
+
+For allocation, ask what the next action can teach across the lineage: a cheap
+ancestry/representation check, a conditional-signal screen, a matched fit, a
+replication, or a serving comparison. Do not turn a confidence interval into a
+universal acquisition function. Use numerical knowledge-gradient ranking only
+when the reward scope, compatible arm structure, current priors and cost model
+match its assumptions; otherwise use the curated tree, qualitative evidence,
+explicit exploration reserve and recorded controller judgment.
+
 ## Escape loops by changing the context, not deleting the evidence
 
 A research loop is suspect when agents repeatedly rename the same intervention,

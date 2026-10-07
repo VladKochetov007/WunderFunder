@@ -24,7 +24,8 @@ TPU_BASELINE_SECONDS = 134.623
 # Retain the original baseline: 94.516s landed before the user resumed, plus
 # 56,686s newly allocated in RESUMED_ALLOCATION_20261007.md, with 20% headroom.
 GPU_BUDGET_SECONDS = 56780.516
-TPU_BUDGET_SECONDS = 900.0
+# ADR-0010 admits independent TPU recovery with the original usage baseline kept.
+TPU_BUDGET_SECONDS = 7200.0
 TERMINAL_STATES = {"COMPLETE", "COMPLETED", "ERROR", "FAILED", "CANCELED", "CANCELLED"}
 
 

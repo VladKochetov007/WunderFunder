@@ -14,6 +14,9 @@ Read in order:
 5. [Experiment execution](experiment-execution.md).
 6. [Decision index](adr/README.md).
 
+For experiment allocation, do not treat a confidence interval crossing zero as
+a universal stop rule; see [ADR-0009](adr/0009-uncertainty-is-not-a-kill-switch.md).
+
 These files are compact specifications, not replacements for research evidence. [General research methods](../research/RESEARCH_METHODS.md) explain the full workflow; [research tree](../research/bandit_tree/generated/INDEX.md) and campaign records index individual hypotheses, experiments and artifacts. Follow raw evidence links before making claims.
 
 The latest user instruction overrides older specifications and allocations. Record that change and its effective scope. Current-state entries are mutable; frozen recipes, results and raw artifacts are immutable. ADRs explain consequential decisions: append a new ADR when changing one, mark the old decision superseded and link its successor. Do not silently change an experiment already admitted.

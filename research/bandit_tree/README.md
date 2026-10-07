@@ -171,6 +171,25 @@ forecast. Document subjective priors as subjective and revise them with evidence
 Do not add parent, child or sibling gains together. A combination needs its own
 matched complete-endpoint result.
 
+The older `scripts/bandit.py` calculation assumes each arm has standalone value
+against adopting nothing and that adopted gains add. Use it only for compatible
+system-level arms with reviewed current beliefs and costs. It cannot value a
+teacher, residual source or other component whose value depends on a student,
+partner, or serving rule. Such work needs a separate interaction node and
+matched complete-endpoint comparison; a negative standalone score does not
+make a component worthless.
+
+A confidence interval crossing zero never sets arm eligibility or stopping by
+itself. It summarizes uncertainty for one estimand and design; it is not a
+posterior over the whole lineage or the probability that an idea can ultimately
+work. Record the estimate, interval, evaluation units, exposure and design
+limits, then choose among a discriminating test, independent replication,
+cheap diagnostic, deferment for opportunity cost, or closure of the exact
+recipe. Null numerical priors mean unknown, not zero. Use qualitative priority
+and retain a bounded exploration share when numerical inputs are not defensible.
+An interval may inform a promotion or public-claim threshold, but it must not
+silently become the research admission gate. See [ADR-0009](../../specs/adr/0009-uncertainty-is-not-a-kill-switch.md).
+
 Allocate across families as well as within promising lineages. Reserve a declared
 exploration share for genuinely different arms and vary book/article sources for
 ideation. A positive branch can receive several deeper tests; a queue must not loop

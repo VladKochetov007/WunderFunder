@@ -58,3 +58,15 @@ H-204 disagreement-guided training first needs a clean prediction cache and a
 no-fit association screen. None has a numeric prior or launch authorization.
 The exact E-514 pool/rule stays closed. A second read-only bandit reflection
 is scheduled for08:59:24 Europe/Kyiv and its prompt now includes the v5 state.
+
+## Continuous delivery and latest CPU override — 2026-10-07
+
+The latest user directs consistent experimentation and autonomous repairs.
+[ADR-0010](../../../specs/adr/0010-continuous-experiment-delivery.md) records
+active result ownership and current conditional cloud recovery/fit allocations.
+The local aggregate CPU cap is now6cores (persistentCPUQuota600% verified);
+RAM20GB,VRAM5GB,no swap and the10:00 local-fit cutoff remain unchanged.
+The original resume caps and failed attempts above remain historical evidence.
+GPU operator owns reviewed E520v3 hashing repair through actual cloud profile
+and then conditional scratch-pair fit/export/grade. TPU operator owns E463v2
+terminal collection and reviewed direct-source-layout repair.
