@@ -1,0 +1,78 @@
+{
+  "id": "H230-root-conditional-delivery-v1",
+  "created_utc": "2026-10-07T14:15:03.619189+00:00",
+  "authority": "Root controller under latest user continue-until-explicit-pause authorization",
+  "scope": "End-to-end independently trained heterogeneous raw-family student pair; distinct wide baseline family variant",
+  "actor_owner": "weak_diversity_kaggle_actor",
+  "controller_owner": "root",
+  "independent_reviewer_grader": "tpu_recovery_delivery",
+  "recipe_draft": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/SOURCE_FAMILIES_DRAFT_V2.json",
+  "recipe_draft_sha256": "a292a8e241698d898feea434d5c86ab6b8e91781fcafe5db5287bb29b5549836",
+  "global_caps": {
+    "cpu_cores": 6,
+    "ram_bytes": 20000000000,
+    "memory_high_bytes": 18000000000,
+    "observed_vram_bytes": 5000000000,
+    "allocator_bytes": 4300000000,
+    "gpu_workers": 1,
+    "swap_bytes": 0
+  },
+  "allowed_stages": [
+    {
+      "stage": "seal_actual_source_checkpoint_export_ancestry_and_cache_recipe",
+      "cpu_cores": 1,
+      "ram_bytes": 1500000000,
+      "gpu": false,
+      "condition": "All E521 fixedep3 pair fit+train+valid exports terminalsuccess and byte/membership identities available; no null hashes in admitted recipe."
+    },
+    {
+      "stage": "cache_build",
+      "max_attempts": 1,
+      "cpu_cores": 1,
+      "ram_bytes": 6500000000,
+      "timeout_seconds": 3600,
+      "condition": "Exact independently reviewed source/cache command; new output directory; full builder provenance/row-order/finite/hash checks; >=25GiB free floor plus actual output estimate; resource admission. Chunk2 streaming, no loaderworkers."
+    },
+    {
+      "stage": "actual_fullshape_student_profile",
+      "max_attempts": 1,
+      "cpu_cores": 3,
+      "ram_bytes": 6500000000,
+      "timeout_seconds": 900,
+      "condition": "Cache valid/actualhashsealed, independent recipe PASS, singleGPUlock, actual B16/chunk2000/full family outputs + propensity/struct/next paths. Include forward/backward/optimizer, warmup excluded, official masks frozen."
+    },
+    {
+      "stage": "fixed_student_pair_fit",
+      "max_attempts_per_seed": 1,
+      "seeds": [
+        3,
+        4
+      ],
+      "cpu_cores": 3,
+      "ram_bytes": 6500000000,
+      "timeout_seconds_per_seed": 5400,
+      "condition": "Actual fullshape profile PASS with headroom, projected 2epochs+export <=5400s each, independently reviewed exactcommands/source/init/cache, source scratch/profile output distinct; own seed-matched warmstarts; serialGPUlock. 2epochs/fixedep1, no fit-time eval/selection."
+    },
+    {
+      "stage": "fixedep1_valid_prediction_export",
+      "max_attempts_per_seed": 1,
+      "cpu_cores": 3,
+      "ram_bytes": 6500000000,
+      "timeout_seconds_per_seed": 1800,
+      "condition": "Each exact corresponding fit terminalsuccess, checkpoint hashbound, source predictor identity/ancestry and new-only outputpaths, zero loaders."
+    },
+    {
+      "stage": "independent_complete_pair_grade",
+      "cpu_cores": 1,
+      "ram_bytes": 1500000000,
+      "gpu": false,
+      "condition": "Frozen exact candidate/control artifact comparison before scores; actor cannot selfapprove or modify grader."
+    }
+  ],
+  "primary_comparison": "Equal raw H230 student seed3/4 pair versus existing audited E511 C1 equal pair on exposed excluded fold0, official global_wp_clip2_v1; report T0/T1 and main pooled endpoint, paired component resampling 2000 replicates seed271828 only if independently frozen. Not isolated family-head ablation.",
+  "public_forecast": null,
+  "submission_gate": "Established human upload; no submission from this allocation",
+  "failure_behavior": "Closed admission drains healthy work. Preserve failed original; no blind OOM retry, no threshold/hash/mask suppression; identified diagnosed correction needs independentreview and this same remaining budget or root successor. Source cache/profile/fit failures are not automatic scientific negative rewards.",
+  "paid_compute_authorized": false,
+  "cloud_fit_authorized_by_this_receipt": false
+}

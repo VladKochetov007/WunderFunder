@@ -1,0 +1,76 @@
+{
+  "schema": "independent-tcn-preflight-receipt-v1",
+  "recorded_at_utc": "2026-10-07T14:06:20Z",
+  "owner": "independent preflight reviewer",
+  "scope": "CPU-only correctness and long-lag synthetic oracle for the frozen TCNModel implementation",
+  "source_files": {
+    "src/wnn/nn.py": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+    "src/wnn/tcn_ref.py": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa",
+    "tests/test_tcn.py": "65a8cb21ae9f42d3d75c94ac352b8782d04829a28511752b8231bab58892b8ce",
+    "INDEPENDENT_PREFLIGHT_TCN_ORACLE_20261007.py": "b8583524b9500446c98f908a5aa8673ab0e999b204fffeff321dc0ff7dd65ed8"
+  },
+  "resource_envelope": {
+    "slice": "wnn-campaign.slice",
+    "cpu_quota": "100%",
+    "threads": 1,
+    "memory_max_bytes": 1500000000,
+    "runtime_max": "120s per command",
+    "cuda_visible_devices": "empty",
+    "fits_or_evaluated_labels": false
+  },
+  "existing_tests": {
+    "status": "PASS",
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s CUDA_VISIBLE_DEVICES= PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 scripts/limited /usr/bin/time -v .venv/bin/python -m pytest -p no:cacheprovider -q tests/test_tcn.py",
+    "exit_code": 0,
+    "result": "13 passed in 3.05s",
+    "wall_seconds_including_time_wrapper": 4.46,
+    "peak_rss_kib": 774196,
+    "stdout_log": {
+      "path": "INDEPENDENT_PREFLIGHT_TCN_TESTS_20261007.stdout.log",
+      "sha256": "f102e581c5d82bb9aa5eb69af347e64f35112c258341d3b5fe53c55b7bfc6d3c"
+    },
+    "time_log": {
+      "path": "INDEPENDENT_PREFLIGHT_TCN_TESTS_20261007.time.log",
+      "sha256": "b06675f249d9af43e2b67b06daa82f5655cdfd5c5ad44a0b41fb6d3704a0d298"
+    },
+    "coverage_finding": "The largest-dilation fixture uses n_in=211, channels=128, layers=12, mix=false, but only 160 timesteps. Other chunk tests use six layers and at most 300 timesteps; the explicit receptive-field test is six layers (lag 64). Existing tests therefore do not reach the 2048-step dilation."
+  },
+  "standalone_oracle": {
+    "status": "PASS",
+    "path": "INDEPENDENT_PREFLIGHT_TCN_ORACLE_20261007.py",
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s CUDA_VISIBLE_DEVICES= PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 scripts/limited /usr/bin/time -v .venv/bin/python research/campaign_2026-10-06/bandit_continuation/ideation/tcn_teacher_recipe_grok_20261007/INDEPENDENT_PREFLIGHT_TCN_ORACLE_20261007.py",
+    "exit_code": 0,
+    "shape": {
+      "batch": 1,
+      "timesteps": 4101,
+      "input_features": 211,
+      "channels": 128,
+      "layers": 12,
+      "mix": true,
+      "chunk_lengths": [2000, 2000, 101]
+    },
+    "results": {
+      "full_vs_chunked_forward": "PASS",
+      "max_absolute_forward_difference": 0.0,
+      "state_tail_lengths": [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048],
+      "future_perturbation_prefix_bitwise_unchanged": true,
+      "row_zero_perturbation_effect_at_lag_2048_max_abs": 0.04326173663139343,
+      "stream_reset_first_row_max_abs_difference": 6.253186662918964e-08,
+      "detached_tbptt_within_chunk_gradients_finite": true,
+      "within_chunk_input_gradient_norm": 0.0015204634983092546,
+      "full_bptt_gradient_equality_required_or_tested": false
+    },
+    "wall_seconds_including_time_wrapper": 3.77,
+    "peak_rss_kib": 848224,
+    "stdout_log": {
+      "path": "INDEPENDENT_PREFLIGHT_TCN_ORACLE_20261007.stdout.log",
+      "sha256": "600fe9d38b68c2fa230a44b0d762cf1a7568cf21c2009af4470f993aa86e865d"
+    },
+    "time_log": {
+      "path": "INDEPENDENT_PREFLIGHT_TCN_ORACLE_20261007.time.log",
+      "sha256": "24e397ed0d86e7c97d1f491f9df7b64cc8f1336015eca46dc9ddc775f6f26561"
+    },
+    "interpretation": "Forward chunking preserves outputs through the 2048 lag and across chunk boundaries. The detached second-chunk gradient is finite and nonzero. No full-sequence BPTT comparison is appropriate because carry state is detached between chunks."
+  },
+  "diagnostic_note": "An initial collection attempt without PYTHONPATH=src exited 2 with ModuleNotFoundError for wnn; rerunning under the same limits with the repository source path set passed. No repository production source or tests were changed."
+}
