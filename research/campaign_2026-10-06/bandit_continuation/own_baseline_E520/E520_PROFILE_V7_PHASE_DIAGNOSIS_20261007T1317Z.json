@@ -1,0 +1,171 @@
+{
+  "attempt_id": "E520_PROFILE_VERIFIED_DIGEST_HANDOFF_V7",
+  "controller_admission_sha256": "d59e66115773464be173524d07cf1b3f38c45ee3d61261ab57be5c985feeebf1",
+  "data_and_loader_identity": {
+    "evaluation_group_count": 468,
+    "fit_membership_counts": {
+      "train": 10535,
+      "valid": 1405
+    },
+    "input_identity_sha256": "feb2f785c212cbabf6a55289385b7b7a3fc2867efe04957fca14710c843725e5",
+    "input_identity_status": "matched",
+    "portable_digest_handoff_metrics": {
+      "train": {
+        "digest_reuse_hits": 1,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 1
+      },
+      "valid": {
+        "digest_reuse_hits": 1,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 1
+      }
+    },
+    "portable_registry_comparison_retained": true,
+    "raw_hash_memory_stat_deltas": {
+      "datasets/train.parquet": {
+        "bytes": 29240219011,
+        "elapsed_seconds": 309.246865,
+        "memory_stat_deltas": {
+          "active_file": 12288,
+          "file": 3129344,
+          "file_dirty": -1617920,
+          "file_writeback": 0,
+          "inactive_file": 3121152
+        },
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "status": "complete"
+      },
+      "datasets/valid.parquet": {
+        "bytes": 5615509128,
+        "elapsed_seconds": 56.811088,
+        "memory_stat_deltas": {
+          "active_file": 0,
+          "file": 335872,
+          "file_dirty": 0,
+          "file_writeback": 0,
+          "inactive_file": 335872
+        },
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "status": "complete"
+      }
+    },
+    "raw_hashes": {
+      "datasets/train.parquet": {
+        "advice_calls": 27886,
+        "advice_failures": 0,
+        "bytes": 29240219011,
+        "bytes_advised": 29240217600,
+        "elapsed_seconds": 309.246865,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "status": "complete"
+      },
+      "datasets/valid.parquet": {
+        "advice_calls": 5356,
+        "advice_failures": 0,
+        "bytes": 5615509128,
+        "bytes_advised": 5615505408,
+        "elapsed_seconds": 56.811088,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "status": "complete"
+      }
+    },
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "splits_file_sha256_unmodified": true,
+    "target_counts": {
+      "train": 10606,
+      "valid": 1873
+    }
+  },
+  "diagnosis": {
+    "classification": "runtime resource-observation failure, not scientific result, data identity mismatch, RAM threshold, or OOM",
+    "confirmed_facts": [
+      "raw train and valid SHA-256/size/footer identities matched campaign expectations and the portable registry",
+      "train and valid portable-verifier calls each recorded one digest reuse hit, zero misses, and zero fallback digest calls",
+      "fold-0 membership and target counts passed and were written before failure",
+      "headroom exceeded 90 percent and final working disk free was about 20.9 GB",
+      "the worker terminated at 404.543 seconds, before environment identity or training profile receipts appeared",
+      "no fit, checkpoint, prediction export, grade, or score occurred"
+    ],
+    "likely_mechanism": "the nvidia-smi compute-process query did not yield a usable allocation for this process at startup; exact raw response was not persisted on the abort path",
+    "no_fallback_or_threshold_relaxation_authorized": true,
+    "repair_scope": "new identified profile-only attempt; persist raw failed GPU query and exact device inventory; address only startup GPU-memory observation while retaining the existing 3 GB allocation cap and 6 GiB free-memory floor for actual profile, plus all RAM/disk/hash/fold gates",
+    "trigger": "enforce_resource_caps aborts because gpu_process_bytes is null outside the explicit pre-CUDA idle marker",
+    "trigger_location": "profile_worker.run_profile first guard.check after CUDA availability/device count and assigning guard.torch"
+  },
+  "observed_at_utc": "2026-10-07T13:18:46+00:00",
+  "provider_status": {
+    "failure_message": "",
+    "source": "read-only Kaggle provider poll plus direct status command",
+    "status": "KernelWorkerStatus.ERROR",
+    "verified_at_utc": "2026-10-07T13:17:51+00:00"
+  },
+  "quota_accounting": {
+    "account_seconds_beyond_20_percent_reserve": 39951.649,
+    "actual_global_gpu_quota_delta_seconds": 413.308,
+    "billing_interpretation": "quota delta is close to one times worker wall, but account delta does not prove physical device count",
+    "current_account_quota_total_seconds": 108000.0,
+    "current_account_quota_used_seconds": 46448.351,
+    "current_campaign_gpu_headroom_seconds": 47379.486000000004,
+    "e520_profile_recovery_budget_seconds": 7200.0,
+    "e520_recovery_cumulative_actual_spend_seconds": 4090.69,
+    "e520_recovery_remaining_seconds": 3109.31,
+    "gpu_used_seconds_at_terminal_poll": 46448.351,
+    "gpu_used_seconds_before_push": 46035.043,
+    "max_conservative_retry_wall_at_2x_quota_seconds": 1554.655,
+    "paid_compute": false,
+    "physical_gpu_count": "unknown in this attempt",
+    "prior_e520_actual_spend_seconds": 3677.382,
+    "quota_per_wall_ratio": 1.021667,
+    "source": "pre-push quota receipt and terminal read-only Kaggle poll",
+    "worker_wall_seconds": 404.542832217
+  },
+  "receipt_id": "E520_PROFILE_V7_PHASE_DIAGNOSIS_20261007T1317Z",
+  "resource_observations": {
+    "cuda_allocated_reserved_utilization": "unknown: no environment/profile telemetry receipt was produced",
+    "gpu_environment_receipt_present": false,
+    "gpu_profile_telemetry_receipt_present": false,
+    "latest_resource_path": "research/campaign_2026-10-06/cloud_preflight/downloads/e520_profile_v7/e520_profile_v7/resource.json",
+    "latest_resource_phase": "profile_active",
+    "latest_resource_sha256": "0817ca49dcc8d1aaa5072638c4303af97c90aa20e2dbc6efda51370dcc05d5da",
+    "latest_snapshot": {
+      "cgroup_available_bytes": 29152899072,
+      "cgroup_available_fraction": 0.9050251007080078,
+      "cgroup_limit_bytes": 32212254720,
+      "cuda_allocated_bytes": null,
+      "cuda_allocated_peak_bytes": null,
+      "cuda_reserved_bytes": null,
+      "cuda_reserved_peak_bytes": null,
+      "disk_free_bytes": 20938469376,
+      "gpu_free_bytes": null,
+      "gpu_process_bytes": null,
+      "gpu_process_query_raw": null,
+      "gpu_process_query_status": "pre_cuda_idle",
+      "host_available_bytes": 32286425088,
+      "host_available_fraction": 0.9592405738921355,
+      "host_total_bytes": 33658318848,
+      "rss_current_bytes": 549654528,
+      "rss_peak_bytes": 549363712
+    },
+    "memory_stat_filecache": "raw hashes completed with small file-cache deltas; do not infer the earlier v6 failure cause from this attempt",
+    "nvidia_process_query_raw": "not durably captured: abort occurred inside the first post-CUDA guard check before its failed snapshot was persisted",
+    "physical_gpu_inventory": "not observed: worker failed before runtime_identity/nvidia-smi inventory receipt",
+    "training_peak_receipt_present": false
+  },
+  "schema_version": 1,
+  "source_review_sha256": "a16e05539cd4d3a7196a8ddc6ba15e8f3c9af8d369722e5230dce9d958999c74",
+  "terminal_download_manifest_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V7_TERMINAL_DOWNLOAD_20261007T1317Z.json",
+  "terminal_download_manifest_sha256": "02d798aeb04b0041bc1dd4cc43c9b46bf6ff43aca4d8a78d2ca292002747f13e",
+  "transport_review_sha256": "5cdba1e97007f08dd3c89af4236ac799cfb0c987b992af7374ca83a385ee69ec",
+  "worker": {
+    "error": "ProfileAbort: GPU process allocation is unavailable outside explicit pre-CUDA idle",
+    "phase": "failed",
+    "status": "aborted",
+    "traceback_log_path": "research/campaign_2026-10-06/cloud_preflight/downloads/e520_profile_v7/e520-profile-v7-digest-handoff.log",
+    "traceback_log_sha256": "fc9541f3795a78aa2d8d124c2a7ad16dd2e3a907d1281ee4b1b4e40b47e7f7bc",
+    "wall_cap_seconds": 1700,
+    "wall_seconds": 404.542832217
+  }
+}

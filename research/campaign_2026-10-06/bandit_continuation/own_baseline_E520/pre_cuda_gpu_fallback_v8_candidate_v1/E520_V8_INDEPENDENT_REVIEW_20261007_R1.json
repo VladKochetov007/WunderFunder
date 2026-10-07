@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "receipt_id": "E520_V8_INDEPENDENT_REVIEW_20261007_R1",
+  "observed_at_utc": "2026-10-07T13:46:35Z",
+  "experiment_id": "E520_PROFILE_GPU_OBSERVATION_FALLBACK_V8",
+  "decision": "PASS",
+  "review_scope": "Independent read-only source and builder review of the exact V8 freeze. This is not packet assembly, provider admission, profile execution, fit, prediction, grading, or score.",
+  "freeze": {
+    "candidate_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pre_cuda_gpu_fallback_v8_candidate_v1",
+    "review_targets_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pre_cuda_gpu_fallback_v8_candidate_v1/E520_V8_REVIEW_TARGETS.json",
+    "review_targets_sha256": "50e6d95d9d260a386dde37bd4a5654587a6b8138b5e99786173ac89ee4730849",
+    "code_receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pre_cuda_gpu_fallback_v8_candidate_v1/E520_V8_CODE_RECEIPT.json",
+    "code_receipt_sha256": "ddc20b31848e5e59a1ab74c4e127b684485da8d2a539c7abe1e1064ea2d03b3d",
+    "reviewed_hashes": {
+      "E520_PACKET_PLAN.json": "9f4c49e33e6c186d029cc59398b0b707253feaf16b9c8d5e36b69ca7c5fe54e1",
+      "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+      "prepare_profile_packet.py": "8ca6f6bc324e48e3f289bfa6a0b96684d989fe72a6cebd7ff5ba739bf733a98f",
+      "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+      "profile_worker.py": "63b0b8278e73f0f1451f25379dfd0cc8f5ceed309c878f5311eb3429328bdf22",
+      "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+      "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+      "tests/test_digest_handoff_integration.py": "ecafa7c47d572ae45c26cf3f0d327ab87e39eca2ba008c093c9a4048e082f434",
+      "tests/test_loader_hash_advice.py": "2291f4fca5bce5ee1adc99cb6a9b8b37d484e70268acfb0de70f879d8fa6c5a4",
+      "tests/test_portable_manifest_binding.py": "bb49dead105505b5e9279ef6af5b6fc0a936efa0d5e4585df285a86729726761",
+      "tests/test_profile_bundle.py": "aab5acbcdbcbcfe00f9c4afdd5d739560e97bc02e905cc260381bac94c5dd6e5",
+      "tests/test_profile_guards.py": "6905b0517be0b529b0ac5b4306897203e113356374a091388e73362a6a5594c7",
+      "verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424"
+    }
+  },
+  "findings": [
+    "All 13 mapped files match the exact review-target map. The builder's review-target-only run reproduced the same map and reported review-targets-only-no-packet-created.",
+    "Against the reviewed V7 worker, the V8 changes are limited to the new packet/output identity, a stricter 1,500-second wall cap, GPU query evidence and physical-inventory handling, the no-PID device-wide upper-bound fallback, and the pre-CUDA-to-active guard handoff. The source archive, digest helper, split/input/recipe/profile path, and scientific settings are unchanged. The 1,500-second cap matches the V8 plan and worker constant; the plan reserves at most 3,000 quota seconds and requires fresh quota evidence before any provider admission.",
+    "When the process query has no matching PID, the worker never treats missing usage as zero. It requires matching CUDA device-total and memory-info-total values and a valid nonnegative total-minus-free upper bound at or below 3,000,000,000 bytes; inconsistent or missing totals abort. The selected device must also have at least 6 GiB free. Allocator current and peak observations remain required, with the existing 2,000,000,000-byte allocated and 2,500,000,000-byte reserved caps; RSS, host/cgroup headroom, disk, and one-visible-GPU gates retain their prior thresholds.",
+    "Both process and physical-device nvidia-smi queries preserve bounded stdout/stderr, original byte lengths, SHA-256, truncation flags, return codes, and diagnostics. Physical inventory reports all returned devices; unavailable N/A fields remain null. Startup requires observed UUID and memory identity for the selected physical device and checks its total against CUDA's total. The existing 5-second, at-most-24-sample telemetry remains bounded.",
+    "The worker performs the last pre-CUDA guard check and stops its poll thread before importing Torch. After CUDA initialization it persists environment identity and the initial resource snapshot, runs the synchronous active resource gate, and starts active polling only after that gate and physical-inventory validation. LiveGuard atomically persists resource.json before enforcement and writes resource_abort.json with the exact failed snapshot and reason before raising on a synchronous resource-cap violation; the focused synthetic test verifies this behavior.",
+    "The deterministic builder's focused bundle invariant covers the complete runtime-reviewed set, while profile-only command checks reject fit/save/export flags. The frozen workflow remains a diagnostic only; this review created no packet and performed no provider, profile, fit, prediction, or score action."
+  ],
+  "verification": {
+    "mapped_hashes": "All 13 exact target entries matched the frozen map SHA above.",
+    "focused_tests": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -p no:cacheprovider -q research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pre_cuda_gpu_fallback_v8_candidate_v1/tests",
+      "result": "29 passed in 0.22s"
+    },
+    "ruff_check": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/ruff check research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pre_cuda_gpu_fallback_v8_candidate_v1",
+      "result": "All checks passed"
+    },
+    "ruff_format": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/ruff format --check research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pre_cuda_gpu_fallback_v8_candidate_v1",
+      "result": "12 files already formatted"
+    },
+    "review_targets_only": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/pre_cuda_gpu_fallback_v8_candidate_v1/prepare_profile_packet.py --review-targets-only --repo-root .",
+      "result": "Exact 13-member map reproduced; review-targets-only-no-packet-created."
+    },
+    "source_diff": "Read-only V7-to-V8 worker diff reviewed; no source, recipe, fold, objective, training, prediction, or score behavior changed."
+  },
+  "limitations_and_conditions": [
+    "This PASS is bound only to the exact V8 source freeze. It is not provider admission; a fresh quota/reserve/device check, exact packet/transport review, and controller admission are still required before push.",
+    "This code review does not establish end-to-end Kaggle startup behavior or a profile result. Physical-inventory rejection is preserved through environment/resource and failed phase receipts; resource_abort.json is specifically emitted for resource-guard violations.",
+    "No packet was assembled or pushed, and no provider, profile, fit, prediction, grading, or scoring action was performed by this reviewer."
+  ]
+}
