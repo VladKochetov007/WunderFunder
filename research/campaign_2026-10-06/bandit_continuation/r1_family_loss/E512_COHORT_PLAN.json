@@ -1,0 +1,129 @@
+{
+  "format": "wnn.r1.family-cohort-plan.v1",
+  "packet_id": "R1_FAMILY_CACHE_PROFILE_V1",
+  "status": "prepared_waiting_for_e510_output_and_controller_admission",
+  "basis": {
+    "recipe_path": "research/campaign_2026-10-06/bandit_continuation/local/R1_FAMILY_TARGET_MODE_PAIRED.json",
+    "source_families_path": "research/campaign_2026-10-06/bandit_continuation/SOURCE_FAMILIES.json",
+    "fold0_split_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "fold0_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "fold0_assets_dataset": "vladkochetov07/wnn-c20261004-fold0-assets",
+    "fold0_assets_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+    "portable_inputs_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "source_families_sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d",
+    "teacher_assets_dataset": "vladkochetov07/wnn-r1-source-teachers-e512-20261007",
+    "teacher_assets_manifest_sha256": "98014f1463b1e377e94896c1906aa60c190a2d5b975fd1f89c2dde4bada51472"
+  },
+  "kaggle_inputs": {
+    "datasets": [
+      "vladkochetov07/wnn-r1-source-teachers-e512-20261007",
+      "vladkochetov07/wnn-c20261004-fold0-assets",
+      "vladkochetov07/wunder-funder"
+    ],
+    "kernel_sources": [
+      "vladkochetov07/wnn-raw-teacher-pair-e510-20261007"
+    ],
+    "source_kernel_version_is_pinned_by": "controller E510 terminal output receipt plus embedded e510_source_families_realized.json SHA-256"
+  },
+  "source_families": [
+    {
+      "family": "strong",
+      "run": "c20261003_combo_s3_f0",
+      "epoch": 3,
+      "coefficient": 0.15,
+      "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "prediction_status": "feature_only_export_required_on_kaggle"
+    },
+    {
+      "family": "strong",
+      "run": "c20261003_combo_s4_f0",
+      "epoch": 3,
+      "coefficient": 0.15,
+      "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+      "prediction_status": "feature_only_export_required_on_kaggle"
+    },
+    {
+      "family": "full_finetuned",
+      "run": "c20260929_ft_since_s3_f0",
+      "epoch": 0,
+      "coefficient": 0.1,
+      "checkpoint_sha256": "fa9f0353cf6cdd3c85fc56efc1e8a3f3dae0048fb1ccd995eeb7026afd269dc7",
+      "prediction_status": "feature_only_export_required_on_kaggle"
+    },
+    {
+      "family": "full_finetuned",
+      "run": "c20260929_ft_since_s4_f0",
+      "epoch": 0,
+      "coefficient": 0.1,
+      "checkpoint_sha256": "e06b712decb62799c84be6907b8b5285724bbd6efe1f58a4aa1bf4a92f3b11b7",
+      "prediction_status": "feature_only_export_required_on_kaggle"
+    },
+    {
+      "family": "raw_wmse",
+      "run": "c20260929_since_s3_f0",
+      "epoch": 3,
+      "coefficient": 0.125,
+      "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+      "prediction_status": "reuse_fold0_asset_predictions_after_runtime_hash_validation"
+    },
+    {
+      "family": "raw_wmse",
+      "run": "c20260929_since_s4_f0",
+      "epoch": 3,
+      "coefficient": 0.125,
+      "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+      "prediction_status": "reuse_fold0_asset_predictions_after_runtime_hash_validation"
+    },
+    {
+      "family": "samefold_baseline",
+      "run": "bd26_samefold_s3_f0",
+      "epoch": 3,
+      "coefficient": 0.03125,
+      "checkpoint_sha256": null,
+      "prediction_status": "pending_e510_terminal_output"
+    },
+    {
+      "family": "samefold_baseline",
+      "run": "bd26_samefold_s4_f0",
+      "epoch": 3,
+      "coefficient": 0.03125,
+      "checkpoint_sha256": null,
+      "prediction_status": "pending_e510_terminal_output"
+    }
+  ],
+  "cache": {
+    "root": "cache/bd26_four_family_f0_v1",
+    "main_variant": "source",
+    "family_order": ["strong", "full_finetuned", "raw_wmse", "samefold_baseline"],
+    "source_coefficient_sum": 0.8125,
+    "fitting_groups": {"train": 10535, "valid": 1405},
+    "evaluation_groups_excluded": 468,
+    "corrupt_train_group_excluded": 528,
+    "target_cache_rows": {"train": 10606, "valid": 1873},
+    "output_bytes": 9552000000,
+    "temporary_missing_teacher_prediction_bytes": 7986560000,
+    "minimum_free_bytes_before_exports": 19100000000,
+    "minimum_free_bytes_after_cache": 1500000000,
+    "large_teacher_arrays_uploaded_from_laptop": false
+  },
+  "profile": {
+    "run_name": "r1_cache_profile_s3_f0",
+    "model": "same-seed c20261003_combo_s3_f0@ep3 GRU256x2 with eight appended family outputs",
+    "recipe_arm": "clip2",
+    "warmup_batches": 1,
+    "measured_batches": 2,
+    "save_training_state": false,
+    "no_fit": true,
+    "no_evaluation": true,
+    "terminal_status_expected": "profile_ready_awaiting_controller_review"
+  },
+  "production": {
+    "kernel_id": "vladkochetov07/wnn-r1-family-students-e513-20261007",
+    "kernel_sources": ["vladkochetov07/wnn-r1-family-profile-e512-20261007"],
+    "fit_count": 4,
+    "pairings": ["clip2 seeds 3/4", "raw seeds 3/4"],
+    "commands": "unchanged from the four exact arrays in R1_FAMILY_TARGET_MODE_PAIRED.json",
+    "evaluation_exports": "468 held-out valid groups only; feature-only; official grader is independent",
+    "push_status": "not_authorized_before_actual_cache_profile_review"
+  }
+}
