@@ -1,0 +1,143 @@
+{
+  "attempt_id": "E520_PROFILE_GPU_OBSERVATION_FALLBACK_V8",
+  "download_path": "research/campaign_2026-10-06/cloud_preflight/downloads/e520_profile_v8_terminal_20261007T1422Z",
+  "download_sha256_manifest_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V8_TERMINAL_OUTPUT_SHA256SUMS_20261007T1422Z.txt",
+  "download_sha256_manifest_sha256": "2c2efebc524c00b06b4cbe8da05cc99779a9c364b977e5e5f457d88f7c7aeff8",
+  "downloaded_file_count": 75,
+  "hardware_and_resource_observation": {
+    "allocated_bytes": 0,
+    "cgroup_available_fraction": 0.9039994557698567,
+    "cuda_free_bytes": 15526068224,
+    "cuda_total_bytes": 15636037632,
+    "cuda_visible_devices": "0",
+    "device_used_upper_bound_bytes": 109969408,
+    "disk_free_bytes": 20938424320,
+    "gpu_process_query_status": "pid_not_reported",
+    "host_available_fraction": 0.9574761392432097,
+    "inventory_status": "ok",
+    "nvml_physical_total_bytes": 16106127360,
+    "physical_gpu_count": 2,
+    "physical_gpus": [
+      {
+        "driver_version": "580.178.04",
+        "index": 0,
+        "memory_total_mib": 15360,
+        "memory_used_mib": 3,
+        "name": "Tesla T4",
+        "utilization_gpu_percent": 0,
+        "utilization_memory_percent": 0,
+        "uuid": "GPU-2f8814a9-d330-e294-0068-7d7cac59cd21"
+      },
+      {
+        "driver_version": "580.178.04",
+        "index": 1,
+        "memory_total_mib": 15360,
+        "memory_used_mib": 0,
+        "name": "Tesla T4",
+        "utilization_gpu_percent": 0,
+        "utilization_memory_percent": 0,
+        "uuid": "GPU-2a3b821b-c1f5-bcb2-5946-c937deb21a03"
+      }
+    ],
+    "physical_minus_cuda_bytes": 470089728,
+    "physical_minus_cuda_fraction": 0.02918701171875,
+    "physical_minus_cuda_mib": 448.3125,
+    "reserved_bytes": 0,
+    "rss_peak_bytes": 569274368,
+    "selected_gpu_uuid": "GPU-2f8814a9-d330-e294-0068-7d7cac59cd21",
+    "visible_gpu_count": 1
+  },
+  "identity_and_hashing": {
+    "digest_handoff": {
+      "train": {
+        "digest_reuse_hits": 1,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 1
+      },
+      "valid": {
+        "digest_reuse_hits": 1,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 1
+      }
+    },
+    "evaluation_group_count": 468,
+    "fit_membership_counts": {
+      "train": 10535,
+      "valid": 1405
+    },
+    "input_identity_status": "matched",
+    "pagecache_advice_status": {
+      "datasets/train.parquet": "complete",
+      "datasets/valid.parquet": "complete"
+    },
+    "raw_hashes": {
+      "train": {
+        "bytes": 29240219011,
+        "cgroup_file_bytes_delta": 4374528,
+        "cgroup_inactive_file_bytes_delta": 4382720,
+        "seconds": 957.04992,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+      },
+      "valid": {
+        "bytes": 5615509128,
+        "cgroup_file_bytes_delta": 851968,
+        "cgroup_inactive_file_bytes_delta": 851968,
+        "seconds": 182.777196,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+      }
+    },
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "interpretation": "V8 completed raw hashing, matched input/split identity, and digest handoff (one hit per raw path), then aborted at CUDA-to-NVML capacity reconciliation before trainer profiling. Same selected UUID appears in the physical inventory; CUDA usable total is lower than NVML physical total. No fit, prediction export, grade, or score ran.",
+  "kernel": "vladkochetov07/e520-profile-v8-gpu-observation-fallback",
+  "observed_at_utc": "2026-10-07T14:29:21.967061+00:00",
+  "packet_payload_binding": {
+    "all_payload_and_local_entrypoint_hashes_match": true,
+    "embedded_payload_count": 16,
+    "entrypoint_is_not_expected_in_working_output": true,
+    "local_profile_kernel_bundle_sha256": "1b364177673c9dacb8ab2d810767577a9853f4d303ceda7cfc18d7e1bb7c31ea",
+    "manifest_member_count": 17,
+    "matching_member_count": 17,
+    "mismatches": []
+  },
+  "phase": {
+    "failure": "CUDA and physical GPU memory totals do not agree",
+    "fit_or_score_started": false,
+    "last_persisted_phase": "failed",
+    "profile_result_present": false,
+    "resource_snapshot_phase": "cuda_initialized_pre_profile_resource_gate",
+    "status": "aborted",
+    "traceback_confirms_error": true,
+    "trainer_profile_started": false,
+    "training_profile_peak_present": false,
+    "worker_error_time_seconds": 1221.192942523
+  },
+  "provider_version": 1,
+  "quota": {
+    "account_headroom_after_20_percent_reserve_seconds": 38721.156,
+    "actual_quota_charge_seconds": 1230.492999999995,
+    "campaign_headroom_after_terminal_seconds": 46148.99300000001,
+    "e520_cumulative_spend_after_v8_seconds": 5321.182999999995,
+    "e520_cumulative_spend_before_v8_seconds": 4090.69,
+    "e520_recovery_cap_seconds": 7200.0,
+    "e520_recovery_remaining_seconds": 1878.817000000005,
+    "paid_compute": false,
+    "prepush_gpu_used_seconds": 46448.351,
+    "prepush_observed_at_utc": "2026-10-07T13:58:57+00:00",
+    "quota_per_worker_elapsed_second": 1.0076155512803577,
+    "terminal_gpu_used_seconds": 47678.844,
+    "terminal_observed_at_utc": "2026-10-07T14:22:27+00:00",
+    "v8_attempt_quota_reservation_seconds": 3000.0,
+    "v8_attempt_reservation_remaining_seconds": 1769.507000000005,
+    "worker_elapsed_to_abort_seconds": 1221.192942523
+  },
+  "receipt_id": "E520_PROFILE_V8_TERMINAL_DIAGNOSIS_20261007_R1",
+  "schema_version": 1,
+  "terminal_logs_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V8_TERMINAL_LOGS_20261007T1422Z.txt",
+  "terminal_logs_sha256": "5afdfc458dc7c824dc8e69f59d0f30c1306f37e36c227f686bb4dd9c6535703b",
+  "terminal_status": "KernelWorkerStatus.ERROR",
+  "terminal_status_observed_at_utc": "2026-10-07T14:22:27+00:00",
+  "terminal_status_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V8_TERMINAL_STATUS_20261007T1422Z.txt"
+}
