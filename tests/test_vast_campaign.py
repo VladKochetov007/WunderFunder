@@ -29,6 +29,33 @@ def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def bind_reliability_floor(
+    intent_path: Path,
+    admission_path: Path,
+    *,
+    floor: object = "0.97",
+    frozen_reliability: object = 0.9943072,
+) -> tuple[dict[str, object], dict[str, object], dict[str, object]]:
+    intent = vast._read_object(intent_path)
+    offer = intent["offer"]
+    assert isinstance(offer, dict)
+    offer["reliability"] = frozen_reliability
+    offer["reliability2"] = frozen_reliability
+    intent["min_offer_reliability"] = floor
+    write_json(intent_path, intent)
+    normalized = vast._validate_intent(intent, intent_path)
+
+    admission = vast._read_object(admission_path)
+    vast_admission = admission["vast_admission"]
+    assert isinstance(vast_admission, dict)
+    vast_admission["intent_sha256"] = normalized["intent_sha256"]
+    vast_admission["offer_snapshot_sha256"] = normalized["offer_snapshot_sha256"]
+    vast_admission["request_sha256"] = normalized["request_sha256"]
+    vast_admission["min_offer_reliability"] = normalized["min_offer_reliability"]
+    write_json(admission_path, admission)
+    return intent, normalized, admission
+
+
 def test_create_payload_cannot_switch_authenticated_client_scope(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -457,6 +484,120 @@ def test_live_offer_memory_fields_are_mib_and_worker_limit_uses_decimal_bytes(
     intent["max_worker_host_ram_gb"] = "36.00"
     with pytest.raises(vast.CampaignError, match="20% selected-host headroom"):
         vast._validate_intent(intent, intent_path)
+
+
+def test_reliability_floor_is_root_bound_and_records_live_offer_before_create(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    intent_path, admission_path, dispatch_path, offer = make_attempt(tmp_path, monkeypatch)
+    intent, normalized, _ = bind_reliability_floor(intent_path, admission_path)
+    provider, controller = controller_for(tmp_path, offer)
+    provider.offer["reliability"] = 0.9943179
+    provider.offer["reliability2"] = 0.9943179
+
+    admission = vast._read_object(admission_path)
+    vast._validate_admission(
+        admission,
+        intent,
+        normalized,
+        vast._read_object(dispatch_path),
+        admission_path,
+    )
+
+    original_create = provider.create_instance
+
+    def assert_receipt_precedes_post(
+        offer_id: int, payload: dict[str, object]
+    ) -> dict[str, object]:
+        record = controller._get_attempt("vast-attempt-001")
+        assert record["offer_revalidation_snapshot"] == vast._offer_snapshot(
+            provider.offer, query_type="on-demand"
+        )
+        assert record["offer_revalidation_snapshot_sha256"] == vast.canonical_sha256(
+            record["offer_revalidation_snapshot"]
+        )
+        assert record["offer_revalidation_allowed_diffs"] == {
+            "reliability": {"frozen": 0.9943072, "live": 0.9943179},
+            "reliability2": {"frozen": 0.9943072, "live": 0.9943179},
+        }
+        assert record["min_offer_reliability"] == "0.97"
+        return original_create(offer_id, payload)
+
+    monkeypatch.setattr(provider, "create_instance", assert_receipt_precedes_post)
+    created = controller._create_one_unarmed(intent_path, admission_path, dispatch_path)
+    assert created["status"] == "created"
+
+
+@pytest.mark.parametrize(
+    "field,value,match",
+    [
+        ("reliability", 0.9699, "below the admitted reliability floor"),
+        ("reliability2", 0.9699, "below the admitted reliability floor"),
+        ("reliability", "__MISSING__", "fresh offer reliability"),
+        ("reliability2", float("nan"), "fresh offer reliability2"),
+        ("dph_total", "0.11", "differs from the frozen"),
+        ("gpu_ram", 6144, "24 GiB GPU"),
+        ("id", 99999, "fresh offer differs"),
+    ],
+)
+def test_reliability_floor_never_relaxes_offer_safety_fields(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    field: str,
+    value: object,
+    match: str,
+) -> None:
+    intent_path, admission_path, dispatch_path, offer = make_attempt(tmp_path, monkeypatch)
+    intent, _, _ = bind_reliability_floor(intent_path, admission_path)
+    offer["reliability"] = 0.9943072
+    offer["reliability2"] = 0.9943072
+    provider, controller = controller_for(tmp_path, offer)
+    if value == "__MISSING__":
+        provider.offer.pop(field)
+    else:
+        provider.offer[field] = value
+    with pytest.raises(vast.CampaignError, match=match):
+        controller._create_one_unarmed(intent_path, admission_path, dispatch_path)
+    assert provider.create_calls == 0
+    with pytest.raises(vast.CampaignError, match="no local creation receipt"):
+        controller._get_attempt("vast-attempt-001")
+
+
+def test_historical_intent_keeps_exact_offer_snapshot_and_floor_requires_root_binding(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    intent_path, admission_path, dispatch_path, offer = make_attempt(tmp_path, monkeypatch)
+    provider, controller = controller_for(tmp_path, offer)
+    provider.offer["reliability"] = 0.95001
+    with pytest.raises(vast.CampaignError, match="differs from the frozen"):
+        controller._create_one_unarmed(intent_path, admission_path, dispatch_path)
+    assert provider.create_calls == 0
+
+    intent, normalized, admission = bind_reliability_floor(intent_path, admission_path)
+    approval = vast._read_object(admission_path)
+    vast_admission = approval["vast_admission"]
+    assert isinstance(vast_admission, dict)
+    vast_admission.pop("min_offer_reliability")
+    write_json(admission_path, approval)
+    with pytest.raises(vast.CampaignError, match="min_offer_reliability"):
+        vast._validate_admission(
+            approval,
+            intent,
+            normalized,
+            vast._read_object(dispatch_path),
+            admission_path,
+        )
+
+    approval["vast_admission"]["min_offer_reliability"] = "0.96"
+    write_json(admission_path, approval)
+    with pytest.raises(vast.CampaignError, match="min_offer_reliability"):
+        vast._validate_admission(
+            approval,
+            intent,
+            normalized,
+            vast._read_object(dispatch_path),
+            admission_path,
+        )
 
 
 def test_cli_create_is_blocked_before_credentials_or_provider_access(

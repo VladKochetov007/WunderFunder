@@ -734,6 +734,15 @@ def _validate_intent(intent: Mapping[str, object], path: Path) -> dict[str, obje
     if not isinstance(offer, dict):
         raise CampaignError("intent must contain the exact selected offer snapshot")
     snapshot = _offer_snapshot(offer, query_type=cast(str | None, offer.get("query_type")))
+    reliability_floor: Decimal | None = None
+    if "min_offer_reliability" in intent:
+        reliability_floor = _decimal(intent.get("min_offer_reliability"), "min_offer_reliability")
+        if reliability_floor <= 0 or reliability_floor > 1:
+            raise CampaignError("min_offer_reliability must be in (0, 1]")
+        for field in ("reliability", "reliability2"):
+            frozen_reliability = _decimal(snapshot.get(field), f"frozen offer {field}")
+            if frozen_reliability < reliability_floor:
+                raise CampaignError(f"frozen offer {field} is below the admitted reliability floor")
     payload = intent.get("create_payload")
     if not isinstance(payload, dict):
         raise CampaignError("intent must contain one frozen instance request payload")
@@ -822,6 +831,9 @@ def _validate_intent(intent: Mapping[str, object], path: Path) -> dict[str, obje
         "offer": snapshot,
         "offer_id": _offer_id(snapshot),
         "offer_snapshot_sha256": canonical_sha256(snapshot),
+        "min_offer_reliability": (
+            None if reliability_floor is None else format(reliability_floor.normalize(), "f")
+        ),
         "create_payload": payload,
         "request_sha256": request_hash,
         "intent_sha256": file_sha256(path),
@@ -862,6 +874,39 @@ def _parse_provider_time(value: object) -> datetime | None:
         except CampaignError:
             return None
     return None
+
+
+def _compare_revalidated_offer(
+    frozen: Mapping[str, object],
+    live: Mapping[str, object],
+    *,
+    reliability_floor: object,
+) -> dict[str, dict[str, object]]:
+    """Require exact offer identity/resources, with only floor-bounded reliability drift."""
+    if reliability_floor is None:
+        if canonical_sha256(dict(live)) != canonical_sha256(dict(frozen)):
+            raise CampaignError("fresh offer differs from the frozen, root-approved offer snapshot")
+        return {}
+
+    floor = _decimal(reliability_floor, "min_offer_reliability")
+    if floor <= 0 or floor > 1:
+        raise CampaignError("min_offer_reliability must be in (0, 1]")
+    telemetry_fields = {"reliability", "reliability2"}
+    if set(live) != set(frozen):
+        raise CampaignError("fresh offer fields differ from the frozen offer snapshot")
+    for key in frozen:
+        if key not in telemetry_fields and live[key] != frozen[key]:
+            raise CampaignError("fresh offer differs from the frozen, root-approved offer snapshot")
+
+    allowed_diffs: dict[str, dict[str, object]] = {}
+    for field in sorted(telemetry_fields):
+        frozen_value = _decimal(frozen.get(field), f"frozen offer {field}")
+        live_value = _decimal(live.get(field), f"fresh offer {field}")
+        if live_value < floor:
+            raise CampaignError(f"fresh offer {field} is below the admitted reliability floor")
+        if live_value != frozen_value:
+            allowed_diffs[field] = {"frozen": frozen[field], "live": live[field]}
+    return allowed_diffs
 
 
 def _require_fresh_root_window(
@@ -971,6 +1016,8 @@ def _validate_admission(
         "hard_stop_utc",
         "cleanup_deadline_utc",
     )
+    if normalized.get("min_offer_reliability") is not None:
+        required_vast += ("min_offer_reliability",)
     missing_vast = [key for key in required_vast if key not in vast]
     if missing_vast:
         raise CampaignError(f"Vast-specific root admission is missing: {', '.join(missing_vast)}")
@@ -994,6 +1041,8 @@ def _validate_admission(
         ("worker_inputs_sha256", normalized["worker_inputs_sha256"]),
         ("max_disk_gb", payload["disk"]),
     )
+    if normalized.get("min_offer_reliability") is not None:
+        exact_pairs += (("min_offer_reliability", normalized["min_offer_reliability"]),)
     if normalized["worker_setup_timeout_seconds"] > 0:
         exact_pairs += (
             (
@@ -1300,11 +1349,14 @@ class VastCampaign:
             for row in offers
             if str(row.get("id")) == str(offer_id)
         ]
-        if (
-            len(matching) != 1
-            or canonical_sha256(matching[0]) != normalized["offer_snapshot_sha256"]
-        ):
+        if len(matching) != 1:
             raise CampaignError("fresh offer differs from the frozen, root-approved offer snapshot")
+        live_offer_snapshot = matching[0]
+        reliability_diffs = _compare_revalidated_offer(
+            offer_snapshot,
+            live_offer_snapshot,
+            reliability_floor=normalized.get("min_offer_reliability"),
+        )
         user = self.api.current_user()
         account_scope = _account_scope(user)
         if account_scope != normalized["account_scope_sha256"]:
@@ -1405,6 +1457,10 @@ class VastCampaign:
                 "job_sha256": dispatch_receipt["job_sha256"],
                 "machine_id": offer_snapshot["machine_id"],
                 "offer_snapshot_sha256": normalized["offer_snapshot_sha256"],
+                "offer_revalidation_snapshot": live_offer_snapshot,
+                "offer_revalidation_snapshot_sha256": canonical_sha256(live_offer_snapshot),
+                "offer_revalidation_allowed_diffs": reliability_diffs,
+                "min_offer_reliability": normalized.get("min_offer_reliability"),
                 "max_runtime_seconds": normalized["max_runtime_seconds"],
                 "worker_setup_timeout_seconds": normalized["worker_setup_timeout_seconds"],
                 "max_worker_host_ram_gb": str(normalized["max_worker_host_ram_gb"]),
@@ -1423,6 +1479,10 @@ class VastCampaign:
                     "baseline_instance_records": [_sanitized_instance(row) for row in instances],
                     "root_controller_receipt_sha256": root_receipt,
                     "cost_breakdown_usd": costs,
+                    "offer_revalidation_snapshot": live_offer_snapshot,
+                    "offer_revalidation_snapshot_sha256": canonical_sha256(live_offer_snapshot),
+                    "offer_revalidation_allowed_diffs": reliability_diffs,
+                    "min_offer_reliability": normalized.get("min_offer_reliability"),
                 },
                 "cohort_stage": str(stage),
                 "evidence_release_receipt_sha256": release_hash,
