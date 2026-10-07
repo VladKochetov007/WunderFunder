@@ -13,6 +13,7 @@ from wnn.distillation import (
     TeacherSource,
     combine_teacher_chunk,
     extend_family_output_head,
+    family_targets_for_loss,
     four_family_weighted_mse,
 )
 from wnn.distillation_cache import CACHE_FORMAT, CACHE_VERSION, FAMILY_ORDER, row_groups_sha256
@@ -65,6 +66,28 @@ def test_family_loss_uses_the_original_two_target_weights() -> None:
 
     assert loss.item() == pytest.approx(1.0)
     assert four_family_weighted_mse(predictions, targets, torch.zeros_like(weights)).item() == 0.0
+
+
+def test_family_target_modes_preserve_legacy_clip_and_allow_raw_teacher_outputs() -> None:
+    targets = torch.tensor([-4.0, -2.0, -0.5, 2.0, 3.5])
+
+    torch.testing.assert_close(family_targets_for_loss(targets), targets.clamp(-2, 2))
+    torch.testing.assert_close(family_targets_for_loss(targets, "clip2"), targets.clamp(-2, 2))
+    torch.testing.assert_close(family_targets_for_loss(targets, "raw"), targets)
+    with pytest.raises(ValueError, match="unknown family target mode"):
+        family_targets_for_loss(targets, "unbounded")
+
+
+def test_family_target_mode_keeps_the_main_label_weights_unchanged() -> None:
+    predictions = torch.zeros((1, 2, 4, 2))
+    targets = torch.full_like(predictions, 3.0)
+    weights = torch.tensor([[[0.25, 0.0], [2.0, 1.0]]])
+
+    clipped = four_family_weighted_mse(predictions, family_targets_for_loss(targets), weights)
+    raw = four_family_weighted_mse(predictions, family_targets_for_loss(targets, "raw"), weights)
+
+    assert clipped.item() == pytest.approx(4.0)
+    assert raw.item() == pytest.approx(9.0)
 
 
 def test_family_head_warm_start_copies_parent_and_preserves_appended_outputs() -> None:
