@@ -27,3 +27,7 @@ User reopened localGPU+Kaggle after historical10:00 cutoff,6CPU/20GBRAM/5GBobser
 ## E522 measured resource optimization
 
 KaggleV6 exhausted1800s preCUDA on984s firstinputhash and749s duplicate trainhash; verifieddigesthandoff implementation/review andV7integration underway. Compactlocalbatch32+1.94%throughput for81.94%moreVRAM;1loaderworker+4.42%;2workersfailed scoped5GBRAM (not parent20GB). Noautomaticretry orproductionworkerpromotion. [Measuredreport/plot](throughput_optimization_E522/UTILIZATION_REPORT.md). E5214epochfitcompletedexit0/checkpoints,gradepending.
+
+## Active continuation2026-10-07 16:04Kyiv
+
+E521seed3 fit andfixedep3 predictionexportcompleted; independent descriptivegrade owns excludedfold0, matchingE520compactcontrol pending. Seed4 same-recipe teacher/diversity fit prepared for proportionalreview. E520V7 source+transportPASS, operator owns fresh guardedpush and actualdeviceprofile then conditionalreviewedfit. E463v3stillqueued, operator owns terminalcollection. Fresh native/Grok ideation uses directed plus randomlibrary components, separatecards beforetree integration. [Vastcredit assessment](throughput_optimization_E522/VAST_CREDIT_PLAN_20261007.md) retains $20 planningreserve, read-onlyaccess401; no rentedresources. Latest user says continueuntil explicitpause; allmemory/CPU/VRAM ceilings remain.

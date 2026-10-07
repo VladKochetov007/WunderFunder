@@ -37,7 +37,7 @@ Replicated identical data does not establish real-data throughput or sharded los
 [Google v5e specifications](https://docs.cloud.google.com/tpu/docs/v5e) list16GB HBM
 per chip. Eight chips do not make128GB automatically available to each replica. Verify
 actual Kaggle topology/HBM instead of assuming specification memory is free. Keep20%
-headroom including temporary compiler/backward buffers; host pinned buffers also count.
+HBM headroom including temporary compiler/backward buffers. Budget host pinned buffers separately in host RAM.
 
 ## Original illustrative input-hoisting example
 
@@ -111,6 +111,14 @@ weighted numerators and denominators globally, or sum numerator gradients and di
 by the global fixed-label weightmass. Test with deliberately unequal shard masses.
 Keep official evaluator clipping independent of this training objective.
 
+Independent review correction: the primary WMSE oracle below covers only one term.
+`wnn_jax.bridge.combo_sbd_loss` also has EMA consistency, three structural CE heads
+and next-row MSE+BCE, with distinct weight masses. Preserve each component's global
+numerator/denominator (primary: absolute clipped label times main weight; consistency
+and each structural head: main weight; next-row losses: next weight). Compare full
+distributed gradients and an AdamW update against a concatenated unsharded oracle,
+including unequal and zero-mass shards. Global primary loss parity alone is insufficient.
+
 ## First bounded device profile after E463 lands
 
 Freeze input/weightancestry and profile identity once; save real-deviceinventory. Compare
@@ -178,3 +186,5 @@ actual TPU/GPU forward plus backward, then bounded fits. Report compiler/startup
 cost as well as step throughput; compare complete endpoints, not isolated kernels.
 Keep a cheap matched GRU execution lane alongside architecture exploration. No new
 numerical reward or automatic production admission is created by this reading.
+
+Reviewed correction2026-10-07: original brief remains in commit c438422; this successor separates host RAM from HBM and expands distributed-loss parity to all existing auxiliary terms. The queued diagnostic remains unchanged.
