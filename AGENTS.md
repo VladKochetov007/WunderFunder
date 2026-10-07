@@ -2,7 +2,7 @@
 
 ## Mission and session entry
 
-This repository's root task is Wunder Connectome Challenge2. Maximize long-term expected competition performance with independently trained models, reproducible experiments and valid deterministic submissions. The user wants serious research, diverse ideas, useful submissions and eventual winning, rather than short-term convenience. The 0.7000 public milestone is an ambition, not an evidence-supported forecast. Exclude `wunder/challenge-3`; nested challenge packages can have different formats.
+This repository's root task is Wunder Connectome Challenge2. Maximize long-term expected competition performance with independently trained models, reproducible experiments and valid deterministic submissions. The user wants top-1 and public score above 0.700 as active, achievable research objectives. Do not prune promising directions because current scores are lower or a public forecast is unavailable; report claims and uncertainty honestly. Follow [ADR0008](specs/adr/0008-research-scale-beyond-serving-envelope.md) when distinguishing competition rules from relaxable serving limits. Exclude `wunder/challenge-3`; nested challenge packages can have different formats.
 
 At the start of a session or agent task:
 
@@ -34,6 +34,8 @@ The user confirms the competition hosts approved the team merge. Recipe and code
 Use only permitted supplied data and allowed publicly available pretrained sources. Official competition documentation lives in `docs/`; verify current rules online when a new rules question arises. Permitted training includes supplied `train.parquet` and `valid.parquet`; data used for fitting cannot support a held-out claim. Keep teacher/source/propensity ancestry out of the evaluated fitting groups for local recipe comparisons.
 
 The official metric is `global_wp_clip2_v1` in `src/wnn/gmetric.py`: fixed scored/prediction mask, clipping ±2 and original clipped-label magnitude weights. Training-target clipping is a separate experimental variable. Never change official evaluation clipping to make an experiment appear better. Predictions/serving must be causal and deterministic with correct sequence-state reset.
+
+Keep data, pretrained-source and weight-independence rules binding. Research-time models may exceed final serving limits in size, context, precision, inference cost, or ensemble count if the active compute allocation permits it. Include explicit model-family/scale ladders and a student/compression/blend path for larger teachers; do not assume a submission constraint is a training constraint.
 
 Previously inspected validation folds and holdouts remain exposed. Different agents, seeds or repartitioning do not make them fresh. Separate evaluation-unit resampling, training variation and public transfer uncertainty. Do not add a local delta to a public score. Public best and current candidate status belong in the live state, not hardcoded promises in prompts.
 

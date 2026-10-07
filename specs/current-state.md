@@ -4,7 +4,7 @@ Current continuation: [resumed allocation](../research/campaign_2026-10-06/bandi
 
 | Basis | Supported claim / next use |
 |---|---|
-| Own public best |0.6660. No later own public gain verified. |
+| Own public best |0.6660. No later own public gain verified. Top-1 and >0.700 are active research objectives; current score is not a search ceiling. |
 | Maxim branch | User-reported0.6674 ZIP, recurrent heterogeneous teacher/student recipe. Source snapshot833aaf54; do not describe the submitted recipe as an established Transformer-teacher result. |
 | Our C0 | Ordinary supervised continuation completed; no clear gain versus its warm parents. It does not test heterogeneous distillation. |
 | Own teacher sources | Six existing independently trained teacher checkpoints; four missing training exports completed. Two new same-fold baseline teachers still require fitting. |
