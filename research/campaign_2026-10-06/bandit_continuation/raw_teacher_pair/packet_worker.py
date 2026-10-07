@@ -192,7 +192,9 @@ def exact_group_sets(split: object) -> dict[str, set[int]]:
         EVAL_VALID_COUNT,
     ):
         raise ValueError("fold0 split membership counts changed")
-    if CORRUPT_TRAIN_GROUP in train or CORRUPT_TRAIN_GROUP in valid:
+    # Row-group identifiers are scoped to their source Parquet file. Group 528
+    # is corrupt only in train.parquet; valid.parquet has its own group 528.
+    if CORRUPT_TRAIN_GROUP in train:
         raise ValueError("corrupt train row group entered fit membership")
     return {"train": train, "valid": valid, "evaluation": evaluation}
 

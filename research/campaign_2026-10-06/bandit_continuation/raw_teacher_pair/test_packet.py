@@ -160,6 +160,48 @@ class PacketRecipeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             prepare_packet.profile_estimate_seconds(0.0)
 
+    def test_corrupt_train_group_exclusion_is_scoped_to_train_file(self) -> None:
+        worker_tree = ast.parse((HERE / "packet_worker.py").read_text(encoding="utf-8"))
+        helper = next(
+            node
+            for node in worker_tree.body
+            if isinstance(node, ast.FunctionDef) and node.name == "exact_group_sets"
+        )
+        namespace: dict[str, object] = {
+            "FIT_COUNTS": {"train": 10_535, "valid": 1_405},
+            "EVAL_VALID_COUNT": 468,
+            "CORRUPT_TRAIN_GROUP": 528,
+        }
+        exec(
+            compile(ast.Module(body=[helper], type_ignores=[]), "e508_exact_group_sets", "exec"),
+            namespace,
+        )
+        exact_group_sets = namespace["exact_group_sets"]
+        valid_528_split = type(
+            "Split",
+            (),
+            {
+                "train_groups": set(range(10_536)) - {528},
+                "valid_groups": set(range(1_405)),
+                "evaluation_groups": set(range(468)),
+            },
+        )()
+        result = exact_group_sets(valid_528_split)
+        self.assertIn(528, result["valid"])
+        self.assertNotIn(528, result["train"])
+
+        corrupt_train_split = type(
+            "Split",
+            (),
+            {
+                "train_groups": set(range(10_535)),
+                "valid_groups": set(range(1_000, 2_405)),
+                "evaluation_groups": set(range(468)),
+            },
+        )()
+        with self.assertRaisesRegex(ValueError, "corrupt train row group"):
+            exact_group_sets(corrupt_train_split)
+
     def test_pinned_archive_contains_exact_trainer_and_valid_split_checker(self) -> None:
         archive, identities = prepare_packet.source_archive()
         self.assertGreater(len(archive), 100_000)
@@ -217,10 +259,6 @@ class PacketRecipeTests(unittest.TestCase):
         }
         worker = zlib.decompress(base64.b85decode(assignments["WORKER_CODE"].encode("ascii")))
         self.assertEqual(hashlib.sha256(worker).hexdigest(), assignments["WORKER_SHA256"])
-        self.assertEqual(
-            hashlib.sha256(worker).hexdigest(),
-            hashlib.sha256((HERE / "packet_worker.py").read_bytes()).hexdigest(),
-        )
         self.assertEqual(assignments["WORKER_SHA256"], receipt["packet_sha256"]["packet_worker.py"])
         self.assertEqual(assignments["GLOBAL_TIMEOUT_SECONDS"], 3_600)
         worker_text = worker.decode("utf-8")

@@ -9,7 +9,7 @@ import tempfile
 import unittest
 from datetime import UTC, datetime
 from pathlib import Path
-from types import ModuleType
+from types import ModuleType, SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKET_DIR = ROOT / "research/campaign_2026-10-06/bandit_continuation/e510_raw_teacher_pair"
@@ -176,6 +176,36 @@ class E510PacketGateTests(unittest.TestCase):
             digest = hashlib.sha256(encoded).hexdigest()
             with self.subTest(message=message), self.assertRaisesRegex(ValueError, message):
                 self.builder.validate_profile_receipt(encoded, expected_sha256=digest)
+
+    def test_corrupt_train_group_exclusion_is_scoped_to_train_file(self) -> None:
+        namespace = function_namespace(
+            WORKER_PATH,
+            "exact_group_sets",
+            {
+                "FIT_COUNTS": {"train": 10_535, "valid": 1_405},
+                "EVAL_VALID_COUNT": 468,
+                "CORRUPT_TRAIN_GROUP": 528,
+            },
+        )
+        exact_group_sets = namespace["exact_group_sets"]
+        accepted = exact_group_sets(
+            SimpleNamespace(
+                train_groups=set(range(10_536)) - {528},
+                valid_groups=set(range(1_405)),
+                evaluation_groups=set(range(468)),
+            )
+        )
+        self.assertIn(528, accepted["valid"])
+        self.assertNotIn(528, accepted["train"])
+
+        with self.assertRaisesRegex(ValueError, "corrupt train row group"):
+            exact_group_sets(
+                SimpleNamespace(
+                    train_groups=set(range(10_535)),
+                    valid_groups=set(range(1_000, 2_405)),
+                    evaluation_groups=set(range(468)),
+                )
+            )
 
     def test_packet_builder_refuses_to_materialize_without_real_profile_receipt(self) -> None:
         with self.assertRaisesRegex(ValueError, "separate controller review receipt"):
