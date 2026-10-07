@@ -1,0 +1,79 @@
+{
+  "schema": "h232-v5-packet-assembly-v1",
+  "packet_id": "E529_H232_FULLFEATURE_GRU384_B8_AMP4096_CONDITIONAL_PROFILE_FIT_V5",
+  "assembled_utc": "2026-10-07T23:48:41.870742+00:00",
+  "packet_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v5/packet",
+  "status": "assembled-awaiting-independent-review-and-fresh-admission",
+  "provider_push_authorized": false,
+  "conditional_fit_authorized": false,
+  "external_review_status": "pending_root_review",
+  "external_review_sha256": "d1fa40e13941470c3d4495aaf168b5363ce68586a2720d2aae0b795ae1e73c82",
+  "packet_meta_sha256": "758044bcc626f84453408784fa7f27323266b64d9b9540e993cbea25324f0424",
+  "reviewed_packet_hashes": {
+    "profile_worker.py": "557bad7673af3261c792a27d5b7897ff9af0baae9df5e170c5b1b18f9987cb83",
+    "profile_kernel.py": "fa8307541fee254f75624fc06db751aa42ad4a3547e6eba80b1ee9cbbf2c874c",
+    "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+    "verified_digest_handoff.py": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f",
+    "prior_input_identity_v2.json": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e",
+    "H232_PROFILE_PLAN.json": "3b25c00d5e59f0c0686213a8f7f03cbd17e54efbac7c9448d2c261ce10703542",
+    "H232_AMP4096_SUCCESSOR_RECIPE.json": "c4bb48589f07b32226e486b6db00d197686be3abf260583e443e8af89587190b",
+    "source_archive_manifest.json": "e9ca52c7247ebc944bac086261715879f37006033c556c9c9890445ac22bbb01",
+    "source_archive.tar": "afde296e1c5e2f0c47a6fb352c2dea8e0a3df75900f53c26f103b3921df1f565"
+  },
+  "bundle": {
+    "embedded_zip_sha256": "63a1aeeaf0ffb8decc4ba46bc9fb560a447dc9952251781d850a7a645b3098c8",
+    "embedded_member_count": 11,
+    "wrapper_code_sha256": "8f936379e7680c518a35c2c97d08e515c4f2fa23fb1db31f23d3b11b77b8468d",
+    "wrapper_bytes": 300384,
+    "all_embedded_members_match_declared_hashes": true
+  },
+  "recipe": {
+    "architecture": "GRU384x2",
+    "seed": 3,
+    "batch_size": 8,
+    "chunk_rows": 2000,
+    "epochs": 4,
+    "checkpoint_epoch_zero_based": 3,
+    "precision": "fp16",
+    "amp_initial_scale": 4096.0,
+    "recipe_change": "none; gate and operational packet identity repaired only"
+  },
+  "gate_repairs": [
+    "Pinned archived source smoke derives 112 raw + 99 event features = runtime model input width 211.",
+    "V5 records the observed loader budget 73120000 bytes from eight batches of raw features, targets and masks; event features remain on-device.",
+    "V5 measures train and valid raw-file digest counters immediately before and after the timed profile; each path must resolve its profile lookup by an exact digest hit or original full-content hash fallback.",
+    "All digest misses must equal original-verifier fallback calls; auxiliary-cache fallbacks are accepted only with that explicit accounting.",
+    "V4 profile remains preserved as evidence and its prior review/push receipts do not authorize V5."
+  ],
+  "v4_observed_profile_handoff": {
+    "verifier_lookups": 6,
+    "digest_reuse_hits": 2,
+    "digest_reuse_misses": 4,
+    "fallback_digest_calls": 4
+  },
+  "validation": {
+    "command": ".venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v5/tests/test_conditional_fit_gate.py",
+    "pytest": "10 passed",
+    "ruff": "All checks passed for packet worker, focused tests, and bundle builder",
+    "bundle_roundtrip": "Embedded archive SHA and every embedded member SHA verified against generated wrapper constants.",
+    "fit_or_provider_execution": "none; this receipt assembles and validates the corrected packet only."
+  },
+  "next_gate": "Independent V5 review, followed by a distinct root approval receipt and fresh provider/resource admission.",
+  "artifact_sha256": {
+    "build_h232_bundle.py": "f55e71c2655788fa40b395656e7b2322af0b5fd69ba95fff0fc12e032a45767a",
+    "packet/H232_AMP4096_SUCCESSOR_RECIPE.json": "c4bb48589f07b32226e486b6db00d197686be3abf260583e443e8af89587190b",
+    "packet/H232_PROFILE_PLAN.json": "3b25c00d5e59f0c0686213a8f7f03cbd17e54efbac7c9448d2c261ce10703542",
+    "packet/external_review.json": "d1fa40e13941470c3d4495aaf168b5363ce68586a2720d2aae0b795ae1e73c82",
+    "packet/gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+    "packet/h232_profile_kernel_bundle.py": "8f936379e7680c518a35c2c97d08e515c4f2fa23fb1db31f23d3b11b77b8468d",
+    "packet/kernel-metadata.json": "4e013c803bd3b4291df51161c57409a6102b5545ab8c9ce233b006a2479fd1a9",
+    "packet/packet_meta.json": "758044bcc626f84453408784fa7f27323266b64d9b9540e993cbea25324f0424",
+    "packet/prior_input_identity_v2.json": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e",
+    "packet/profile_kernel.py": "fa8307541fee254f75624fc06db751aa42ad4a3547e6eba80b1ee9cbbf2c874c",
+    "packet/profile_worker.py": "557bad7673af3261c792a27d5b7897ff9af0baae9df5e170c5b1b18f9987cb83",
+    "packet/source_archive.tar": "afde296e1c5e2f0c47a6fb352c2dea8e0a3df75900f53c26f103b3921df1f565",
+    "packet/source_archive_manifest.json": "e9ca52c7247ebc944bac086261715879f37006033c556c9c9890445ac22bbb01",
+    "packet/verified_digest_handoff.py": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f",
+    "tests/test_conditional_fit_gate.py": "df08d02bd0a97c9892aae1260a1bea2ba7c175eea2dbce75dda2a95bc9d90aa7"
+  }
+}
