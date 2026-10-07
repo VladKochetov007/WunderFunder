@@ -1,5 +1,17 @@
 # Live frontier — resumed independent training
 
+## Current result and allocation — 2026-10-08 02:09 Kyiv
+
+H230 matched family-off control retry completed successfully at23:06:49Z in2,004.93s; both epochs landed and fixed epoch1 checkpoint is sealed. No OOM/kill. Its actor is preparing bounded export and independent grade; no treatment result is claimed before those predictions land. H230 candidate ZIP remains delivered for human upload, with no new public score. Own public best remains0.6660.
+
+[Independent membership audit](wide_baseline_heterogeneous_H230/H230_MEMBERSHIP_INDEPENDENT_REVIEW_V1_20261008.md) invalidates the earlier held-out ranking against the all-data incumbent: both incumbent references fit374/468 evaluated validation groups, while H230 candidate, initializer and eleven recorded teacher-cache ancestors overlap zero. Preserve original grades and exposed-data limitations; reconsider exact affected gates without treating every earlier clean negative as invalid.
+
+Kaggle H232 V2 ended before profiling because Path-valued argv could not be serialized; collected diagnostics show about544s of input hashing and no fit. The cloud operator is preparing an identified same-session profile→conditional fit→export successor to amortize verification. TPU V5's latest provider observation was queued; no production TPU fit claimed.
+
+Vast A2 was verified destroyed after staging timeout, with no fit. The bounded resumable successor adapter is committed, root-reviewed and passed55 focused tests. A3B's operator is preparing exact current-offer dispatch; no new creation is claimed at this snapshot. [ADR0015](../../../specs/adr/0015-flexible-credit-bounded-parallel-compute.md) permits useful parallel cohorts within existing credit/$20 cumulative ceiling, while preserving strict campaign creation ownership and teardown.
+
+[Throughput scaleout plan](../../../specs/plans/2026-10-08-throughput-scaleout.md) targets5–6 completed distinct idea screens/hour after cloud fits become operational; this is not achieved capacity. Count meaningful comparisons separately from seeds, failed startup and profiles. Size additional owned workers from measured warm cycle cost, while maintaining full-training/public-finalist work and resource headroom. Earlier status blocks below are historical snapshots.
+
 ## Reconciled research and idea register — 2026-10-07T22:04:21.973150+00:00
 
 [All curated directions](IDEA_REGISTER.md) and [new causal-feature/warm-session cards](causal_feature_and_warm_session_E531/PROPOSALS_V1.md) preserve the existing backlog and add H248–H252 with null numerical priors. [ROGII transfer](rogii_transfer_E532/README.md) has separate full-source Grok/Muse prompts; provider requests are not completed proposals. The selected prior screen had 14 scientific directions; four new causal-feature/interaction hypotheses expand that to 18, plus H248 systems work. Directed-source ideation has no fixed child count before outputs land.
