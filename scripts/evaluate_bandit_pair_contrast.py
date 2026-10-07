@@ -97,7 +97,7 @@ def _validate_frozen_inputs(repository_root: Path, spec_path: Path) -> dict[str,
     if (
         spec.get("format") != "fixed-pair-contrast-grader-v1"
         or spec.get("status") != "frozen_before_candidate_prediction_scoring"
-        or spec.get("id") != "E512-C1V2-vs-C0-fixed-pair"
+        or spec.get("id") != "E511-C1V2-vs-C0-fixed-pair"
     ):
         raise ValueError("pair grader specification is not the frozen E512 record")
 
