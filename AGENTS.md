@@ -172,6 +172,8 @@ The specialist-skill design and MFTE comparison are recorded in
 
 ## New tooling, EDA and delivery
 
+The user requests scaling toward **5–6 distinct evaluated idea screens per hour** when Kaggle and Vast are operational. Follow [the throughput scaleout plan](specs/plans/2026-10-08-throughput-scaleout.md). Measure cold-start and warm rates separately; count completed mechanism comparisons rather than seed repeats or startup jobs. Use measured cycle time to allocate additional owned cloud capacity and warm multi-recipe sessions, while retaining full-scale confirmation and memory headroom. This is a target, not evidence of current throughput.
+
 ### Standing compute-utilization instruction
 
 The user's latest instruction is to keep **Kaggle GPUs/TPUs, the local GPU and authorized Vast workers continuously supplied with useful experiments until the user explicitly says to stop**. This supersedes historical clock cutoffs and stop snapshots. Follow [ADR0014](specs/adr/0014-continuous-useful-compute.md) and the [live delivery estimates](specs/plans/2026-10-07-live-research-estimates.md).
