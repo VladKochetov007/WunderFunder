@@ -6,6 +6,10 @@ See [live frontier](bandit_continuation/FRONTIER.md), [contract](bandit_continua
 
 Supplied-validation numbers below are not public forecasts. Confirmed public best is 0.6660. No upload in this pass. Local cap for the stretch probe: 5 cores, 10 GB, no GPU.
 
+Current continuation status (2026-10-07 07:18 Europe/Kyiv): E-508-v4 failed before fit because the trainer rejects `--device cuda:0`; no CUDA allocation or OOM. Its one-token v5 repair passed an independent packet review and was pushed privately as a profile-only Kaggle run. Provider reports `RUNNING`, but logs are empty and worker phase is not yet observed. E-463-v2 remains queued on TPU. See the [live frontier](bandit_continuation/FRONTIER.md), [v4 diagnosis](bandit_continuation/raw_teacher_pair/E508_V4_FAILURE_20261007.md), [v5 admission](bandit_continuation/raw_teacher_pair/E508_V5_REPAIR_PREREGISTRATION_20261007.md), and [provider receipt](cloud_preflight/e508_profile_prereg_v5.json).
+
+E-514 closed its exact fixed weak-model pool/scalar-mixture rule on exposed fold 0: calibration selected zero weight for all candidates. The broader idea remains as unlaunched H-203 residual correction, H-204 disagreement-guided student training, and H-205 state gating, each waiting for an ancestry-audited candidate. See the [result](bandit_continuation/conditional_weak_portfolio_E514/REPORT.md), [independent review](bandit_continuation/conditional_weak_portfolio_E514/INDEPENDENT_EVIDENCE_REVIEW_20261007.md), and [allocation rationale](bandit_continuation/ideation/weak_complementarity_reframe_20261007/PRIORITY_DECISION_20261007.md). The second read-only bandit reflection is scheduled for 08:59:24 Kyiv.
+
 | Note | What it is |
 |---|---|
 | `REPORT.md` | Wave 1. Feature, book, and tiny residual probes do not beat the blend. |

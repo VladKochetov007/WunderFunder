@@ -1,0 +1,36 @@
+{
+  "attempt": "comparison-cell-v1",
+  "comparison_score_calculation_started": true,
+  "exception": "NameError: name '_merge_moments' is not defined",
+  "experiment_id": "E-514",
+  "failure_kind": "runtime_name_error",
+  "notebook_cell": "bkHC",
+  "observed_utc": "2026-10-07T03:05:33.256260Z",
+  "oom_kills": 0,
+  "original_unverified_started_utc_claim": "2026-10-07T03:00:00Z",
+  "partial_globals_present": [
+    "selected_by_fold",
+    "params_by_fold",
+    "fold_scores",
+    "chain_moments"
+  ],
+  "partial_numeric_values_inspected": false,
+  "partial_work": "The cell completed calibration-only official-WP/member-selection calculations for the first outer fold, then accumulated anchor sufficient statistics for the first held-out fold before failing at the missing moment-merger symbol. No held-out aggregate score or candidate-versus-anchor delta was produced.",
+  "plots_written": false,
+  "recovery": "Import _merge_moments and _wp_from_moments inside the comparison cell; re-audit under immutable source manifest v3; rerun the same frozen cross-fit once, without changing candidates, split or selection protocol.",
+  "report_written": false,
+  "result_file_written": false,
+  "scientific_reward": null,
+  "source_manifest": "SOURCE_MANIFEST_E514_V2.json",
+  "source_manifest_sha256": "cf336b64ec027a176c3c284cf89ec9500d2a118341bc369660797f1080f52c23",
+  "start_time_correction": {
+    "corrected_utc": "2026-10-07T03:06:04.832799+00:00",
+    "known_interval": {
+      "basis": "terminal completion of the baseline receipt-validation attempt, which preceded the source-gate v2 review and comparison activation",
+      "not_after": "2026-10-07T03:05:33.256260Z",
+      "not_before": "2026-10-07T03:00:20.474522Z"
+    },
+    "status": "exact start not captured; do not use the original estimate as a timestamp"
+  },
+  "started_utc": null
+}

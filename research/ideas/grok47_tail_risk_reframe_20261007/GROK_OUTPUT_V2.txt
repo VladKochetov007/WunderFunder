@@ -1,0 +1,250 @@
+The public objective stays the global weighted squared error on the two clipped channels. Holland & Haress (2021) justify a diagnostic and a selection rule under stated assumptions. They do not establish that these residuals or gradients are heavy-tailed, and they do not license a different leaderboard loss.
+
+## Framing
+
+**Metric.** For scored rows, labels and predictions lie in \([-2, 2]\), so each channel’s squared error is at most 16. The training and promotion loss is the competition’s global weighted squared error: target-magnitude weights, scored-row mask, fixed global normalizer. A public score that is a strictly monotone transform of that loss ranks models the same way. Tail, channel, and group functionals are diagnostics or temporary regularizers. Promotion uses the official weighted error on a locked split.
+
+**What clipping does to the source analogy.** If the weight of a row is a function of the clipped target only, the per-row weighted error is bounded, so finite variance holds automatically and the paper’s heavy-tail regime is not the row-level regime. Heavy tails can still appear in three other places: unbounded weights that are not functions of the clipped label, group totals whose exposure (length, mask rate, weight mass) is highly unbalanced, and minibatch gradients dominated by a few high-weight rows. Those are empirical questions. The local-quantile assumption can fail even then, because group totals are discrete and often atomic.
+
+**Source versus proposal.** The paper establishes CVaR estimation of loss feedback under finite variance and a local-quantile condition, and robust choice among stochastic-gradient candidates, with a regression application. Every training tilt, gate, architecture, and distillation path below is a proposal that uses that mechanism as an analogy.
+
+**Lineage protocol, used by all eight.** Freeze three disjoint group folds: train \(T\), selection \(S\), locked \(L\). Fit every threshold, early stop, and checkpoint choice on \(S\). Read each idea once on \(L\), and require the same sign on a second pre-registered pair \((S', L')\) before a later rung. Exposed development groups are a one-shot confirmation of a shortlist, never a search surface. Teachers and students are both trained from allowed data with independent initializations. Distillation passes clipped predictions or a representation target. It does not copy teammate or teacher weight files, and it does not use external data or external pretrained weights. Label-derived quantities may enter the loss. They stay out of the feature inputs.
+
+**Rank versus schedule.** Rank is information value times long-run structural upside. Schedule is different: CPU falsifiers can run locally now; the single local GPU job, if it can finish before 10:00 Europe/Kyiv today, is the tiny matched comparison in H3. Every later GPU or TPU rung goes to Kaggle free quota.
+
+| Rank | Idea | Family | Capacity path | Where |
+|---|---|---|---|---|
+| 1 | Loss-unit audit and CVaR candidate selection | Source: robust selection | No | Local CPU |
+| 2 | Linear long-lag ceiling, then one-axis scale, then distill | Scaling | Research teacher | CPU, then Kaggle |
+| 3 | Selective versus invariant state, then long teacher | Selective state space | Research teacher | One tiny local GPU job if it finishes before cutoff; else Kaggle |
+| 4 | Rail / interior two-part mean | Distributional output | No | CPU audit, Kaggle head |
+| 5 | Quantile-gated residual specialist | Combination + quantile | Uses a weak model | Kaggle, small |
+| 6 | Legal cross-group teacher, compressed student | Relational | Research teacher | CPU gate, then Kaggle |
+| 7 | Stagewise scale-residual pyramid | Causal multi-scale conv | Distill only if it wins | Kaggle |
+| 8 | Event-clock decay | Continuous-time state | Distill only at the top rung | Kaggle; rung 1 is small |
+
+## 1. Loss-unit geometry and CVaR candidate selection
+
+**Mechanism family.** Robust selection among stochastic-gradient candidates.
+
+**Source mechanism and analogy.** Source-established: with finite variance and a local condition at the quantile, a CVaR estimate of loss feedback can rank a finite set of SGD candidates more stably than the empirical mean when feedback is heavy-tailed. Proposed analogy: treat checkpoints and independent seeds as that candidate pool, and treat the group-level sum of official weighted error as the feedback unit. The paper does not define the unit, and it does not claim this dataset’s residuals are heavy-tailed.
+
+**Exact intervention.** Pre-register three distributions of the same official weighted error: per scored row, per group sum, and per channel. On each, estimate a few pre-registered upper quantiles and the corresponding CVaR, plus the share of total weight in the largest groups and the support of the weight column. From one training trajectory, select a checkpoint by official weighted error on \(S\) and another by group-level CVaR on \(S\). Score both on \(L\) with the official metric only.
+
+**Ladder.**
+- Rung 1: CPU audit only. Weight support, row-error bound, group-weight concentration, channel shares, gap irregularity of scored rows, atom size at common loss values.
+- Rung 2: checkpoint selection on one run, then the same rule on a second fold pair.
+- Rung 3: only after rung 2, expand the pool to independent seeds. A training tilt is allowed only here: upweight groups above the selection-fold VaR early, then finish with the official weights alone.
+
+**Data / split / lineage.** \(T/S/L\) as above. The quantile level is frozen before reading \(L\). Rung 3 runs are new trainings, not reused teammate checkpoints.
+
+**Observable.** Whether the two selectors pick the same checkpoint; whether their official-metric order on \(S\) agrees with \(L\); whether the group-loss histogram has mass in a neighborhood of the empirical VaR or is dominated by a few atoms; whether the largest groups hold a disproportionate share of weight.
+
+**Cheapest falsifier.** Rung 1. If per-row weighted error is bounded, group weight shares are nearly even, and checkpoint order by official loss already agrees across two selection folds, CVaR selection has nothing unstable to correct.
+
+**Main risk.** Choosing the tail level on \(L\), or promoting a CVaR winner that loses the official metric. That outcome means the objectives are misaligned; it is a stop, not a prompt to keep training for CVaR.
+
+**Where.** Local CPU, before or after the GPU cutoff.
+
+**Artifacts.** Weight-support and concentration table; row, group, and channel loss histograms; checkpoint ledger with both selectors; fold-replicate note.
+
+**Next rung.** Rung 2 only if concentration is strong or official checkpoint ranks flip across folds. Rung 3 only if the CVaR-chosen checkpoint also wins the locked official metric on both fold pairs. If it wins group-CVaR on \(S\) and loses official error on \(L\), stop. Do not anneal a tilt.
+
+## 2. Linear long-lag ceiling, then one scale axis, then distillation
+
+**Mechanism family.** Capacity and inductive-bias probe, with an explicit research-only teacher.
+
+**Source mechanism and analogy.** Proposed, not a finding of the paper. A high-capacity linear function of causal lags is a ceiling on what timescale and feature memory can do without a recurrent state. The structural analogy to robust selection is narrow: the linear fit, a small nonlinear model, and a large teacher form a candidate pool ranked by locked official error, with group-level CVaR recorded only as a diagnostic from H1.
+
+**Exact intervention.** Fit a ridge (or equivalent streaming linear) model on a pre-registered dictionary of causal lags at a few timescales, official weighted error, predictions clipped to \([-2, 2]\). Compare with a small gated recurrent model of matched train budget on the same folds. Then scale exactly one axis of a nonlinear model. The top rung trains a large fp32 teacher, possibly a seed ensemble, and distills it.
+
+**Ladder.**
+- Rung 1: linear long-lag probe versus the small recurrent model. If the design matrix exceeds local RAM, use a streaming solver or a pre-registered feature subset locally, and the full dictionary on Kaggle.
+- Rung 2: one axis only, chosen by the rung-1 failure mode. Context if the linear model keeps improving at the longest pre-registered lag; width if a short nonlinear model already beats the linear probe; precision if fp32 and the serving precision disagree on \(S\).
+- Rung 3: teacher at the winning axis, independent initialization, allowed data only. Student initialized independently, trained with official hard-label weighted error plus weighted squared error to the teacher’s clipped predictions, distillation coefficient chosen on \(S\) and annealed down. Architectures may differ.
+
+**Data / split / lineage.** Lags use only information legal at inference time. Standardization statistics come from \(T\). The teacher checkpoint is chosen on \(S\). The student does not load the teacher’s weights.
+
+**Observable.** Sign of linear-minus-nonlinear official error on \(L\), replicated on the second fold pair; which single axis moves locked official error; distillation gap, defined as teacher official error minus student official error on \(L\), and the same gap for a hard-label-only student of the student’s size.
+
+**Cheapest falsifier.** Rung 1 on a small lag set. If the linear probe matches the nonlinear baseline on both locked folds, further recurrent width is low priority and the live branch is longer linear memory or features. If the linear probe is far worse at short lags already, long-lag capacity is the wrong first spend.
+
+**Main risk.** A lag dictionary that silently includes same-time labels, other groups’ targets, or statistics fit on \(L\). Also a teacher early-stopped on \(L\), which makes the distillation gap look small.
+
+**Where.** Rung 1 local CPU if it fits in 20 GB; otherwise Kaggle. Rungs 2 and 3 on Kaggle after the local GPU cutoff.
+
+**Artifacts.** Lag specification, solver, and RAM footprint; official-metric curve versus lag span; one-axis scale card; distillation-gap table with lineage ids.
+
+**Next rung.** If the linear probe loses on both locked folds, rung 2 is a nonlinear axis. If the linear probe wins and is still improving at the longest lag, rung 2 extends linear memory before any new architecture. Rung 3 only if the larger model beats the small model on both locked folds. A flat scale curve ends this branch and moves quota to H3, H4, or H6.
+
+**Serving-limit reading.** A large, stable distillation gap, with the teacher trained only on legal inputs, is evidence that a larger student or a small ensemble is carrying signal. A gap that the hard-label student closes means the teacher’s extra capacity is distillable and the serving limit need not be revisited.
+
+## 3. Selective state versus invariant state
+
+**Mechanism family.** Input-dependent state-space dynamics.
+
+**Source mechanism and analogy.** Proposed architecture. Selection means the discrete step, input matrix, or output matrix depends on the current features and the scored-row mask, wrapped around a structured linear transition that can carry memory across ignored steps. The matched controls are a linear time-invariant state-space model and a causal convolution with the same state size, parameter count, context, and train budget. That pair isolates selection from “a longer convolutional memory,” which existing TCN and structured-state runs already cover.
+
+**Exact intervention.** Train the selective model and both controls on \(T\). Choose checkpoints on \(S\) by official weighted error. Record group-CVaR from H1 as a side column. At the top rung, a long-context fp32 selective teacher distills into an independently initialized short student (short causal conv or small gated RNN), using the same distillation loss as H2.
+
+**Ladder.**
+- Rung 1: tiny matched triple at the baseline context.
+- Rung 2: context extended by the same factor for the selective model and the invariant state model.
+- Rung 3: Kaggle-scale context and width, then distillation to a serving-plausible student.
+
+**Data / split / lineage.** Same \(T/S/L\) protocol. Mask and time-gap channels are legal inputs only if they are known at inference. No external pretrained state-space weights.
+
+**Observable.** Official-metric order of selective, invariant, and convolution on \(L\); whether that order changes when context grows; teacher-to-student gap on \(L\).
+
+**Cheapest falsifier.** Rung 1. If the selective model fails to beat both matched controls on two locked folds, selection is not earning its parameters. Stop the branch. Do not scale it.
+
+**Main risk.** Extra optimizer tuning for the selective model, which confuses a capacity effect with a selection effect. Also a long teacher whose checkpoint was picked on \(L\).
+
+**Where.** Rung 1 is the one local GPU job only if it can finish before 10:00 Europe/Kyiv today inside 5 GB. Otherwise all rungs are Kaggle GPU.
+
+**Artifacts.** Matched-budget card (parameters, state size, context, wall time); locked metric by model; context curve shared with H2 so the curve is not built twice; distillation lineage.
+
+**Next rung.** Rung 2 only if selection beats both controls on both locked folds. Rung 3 only if the context extension still ranks selection first. If the invariant model captures the entire gain from longer context, the live mechanism is long linear memory and H2 is the follow-up.
+
+## 4. Rail / interior two-part mean
+
+**Mechanism family.** Distributional parameterization of a point prediction.
+
+**Source mechanism and analogy.** Proposed. The paper’s quantile object is the loss, not the label. This hypothesis is about the clipped target: values piled at the clip boundaries make one squared-error head mix a classification problem (on the rail or off it) with an interior regression. The submitted number is still the implied conditional mean of the observed clipped label, passed through the clip. Under pure squared error the flexible conditional mean is already the right population target. The claim is finite-sample and optimization-shaped: separate parameters reduce interference between rail rows and interior rows.
+
+**Exact intervention.** Parameterize each channel as a mixture of a point mass at \(-2\), a point mass at \(+2\), and an interior mean. The training loss of the head is official weighted squared error of that implied mean. A proper scoring rule on the mixture may be logged. It does not replace the promotion loss.
+
+**Ladder.**
+- Rung 1: CPU measurement of the fraction of labels at each rail, by channel, and their share of total weight. Include a pre-registered float tolerance.
+- Rung 2: freeze a small backbone already trained under the official loss. Train only a linear head and the two-part head.
+- Rung 3: unfreeze the backbone only if the frozen-backbone two-part head wins.
+
+**Data / split / lineage.** Rail rates can be counted on \(T\) and reported on \(S\). The head is selected on \(S\). Backbone training groups must not include \(L\).
+
+**Observable.** Rail weight share by channel; locked official error of two-part head minus linear head on the same frozen backbone; whether that gap survives unfreezing.
+
+**Cheapest falsifier.** Rung 1. A negligible rail weight share ends the idea before any training. If the share is large and rung 2 still ties, the rail structure is representable by the linear head and the mixture is not the bottleneck.
+
+**Main risk.** Reading a better mixture NLL as a win while the implied mean loses official weighted error. Also tuning the float tolerance on \(L\).
+
+**Where.** Rung 1 local CPU now. Rungs 2 and 3 on Kaggle unless rung 2 fits in the single pre-cutoff GPU slot after H3 is secured.
+
+**Artifacts.** Rail-mass table by channel and weight share; head-comparison card on \(S\) and \(L\); confirmation that the submitted tensor is the clipped implied mean.
+
+**Next rung.** Rung 2 only if rails carry nontrivial weight. Rung 3 only if the two-part head improves locked official error on both fold pairs with the backbone frozen. A gap that vanishes once the backbone is flexible stops the branch and records the result as an optimization effect of small models only.
+
+## 5. Quantile-gated residual specialist
+
+**Mechanism family.** Conditional specialization on top of a weaker model.
+
+**Source mechanism and analogy.** Source-adjacent, not source-established. Holland & Haress estimate a loss quantile as the threshold inside CVaR, then choose among models. This proposal estimates a quantile of a frozen weak model’s weighted residual and uses it to choose where a second model may act. The paper does not define region specialization, residual targets, or disagreement gates.
+
+**Exact intervention.** Freeze a weak model \(W\) trained on \(T\) under the official loss. On \(S\), compute a scalar residual score \(s = w\, m\, \|e\|^2\) and one pre-registered upper quantile. Train a specialist \(R\), initialized independently, so the served prediction is \(\mathrm{clip}(W + G R)\), where the gate \(G\) is zero below the quantile and one above it, or a smooth monotone map fixed before \(L\). The loss is official weighted error of the sum on all scored rows, including rows where \(G = 0\). \(W\)’s weights stay frozen and are not a student initialization.
+
+**Ladder.**
+- Rung 1: one weak model, one quantile, one small specialist.
+- Rung 2: two pre-registered quantiles, still one specialist family.
+- Rung 3: two weak models from different families; the gate opens only where residual score is high and the two weak predictions disagree.
+
+**Data / split / lineage.** \(W\) is early-stopped on a slice of \(T\) disjoint from the slice used to set the quantile, and both are disjoint from \(L\). The specialist’s features are the legal inputs plus \(W\)’s prediction and the gate. They exclude the label and the weight.
+
+**Observable.** Official error of \(W\) alone versus \(\mathrm{clip}(W+GR)\) on \(L\), reported globally and inside the gate; agreement of specialist outputs across two seeds; per-channel split of the change.
+
+**Cheapest falsifier.** Rung 1 on one fold pair. If the gated sum matches \(W\) on \(L\), and a second seed of \(R\) disagrees inside the gate, the high-quantile rows are noise and specialization has no target.
+
+**Main risk.** Setting the quantile on \(L\), or letting \(R\) improve \(S\) by fitting \(W\)’s selection noise. A specialist that helps inside the gate and hurts the global official loss fails promotion.
+
+**Where.** Kaggle, small GPU. It waits on a frozen \(W\) from a legal run, so it should not consume the pre-cutoff local GPU slot.
+
+**Artifacts.** Quantile definition and the slice it was fit on; gated-versus-global official error; seed-agreement of \(R\); lineage of \(W\).
+
+**Next rung.** Rung 2 only if rung 1 improves locked global official error on both fold pairs. Rung 3 only if the helpful region is stable across quantiles. If the gain is real and confined to one channel, keep the specialist channel-specific rather than widening it.
+
+## 6. Cross-group teacher, only on legal simultaneous inputs
+
+**Mechanism family.** Relational coupling, used as a research teacher and judged by whether a per-series student can absorb it.
+
+**Source mechanism and analogy.** Proposed. Groups are not a graph until a legal joint observation exists. The analogy to the paper is the candidate pool: a purely per-series model versus a relational teacher, ranked by official loss, with group-CVaR as a diagnostic of whether a few groups supply the apparent graph gain.
+
+**Exact intervention.** Rung 0 checks whether, at a shared time index, features other than labels are jointly observed and would be jointly observed at inference. If that check passes, add one lagged relational layer over other groups’ past legal features. Same-time labels, future rows, and correlations estimated on \(S\) or \(L\) stay out. The graph, if learned, is fit on \(T\). The top rung distills the relational teacher into an independently initialized per-series student. If a low-rank set of causal factors closes the gap, the serving model consumes those factors and never instantiates an all-pairs graph.
+
+**Ladder.**
+- Rung 1: alignment and legality audit, CPU, no training.
+- Rung 2: one lagged relational layer against the matched per-series backbone.
+- Rung 3: distill, then try a low-rank factor bottleneck if the unconstrained teacher wins and the student does not follow.
+
+**Data / split / lineage.** Neighbor definition frozen on \(T\). No edge uses another group’s target. Development groups enter only if the same joint features exist at inference.
+
+**Observable.** Whether a legal joint feature exists; locked official-error gap of relational teacher over per-series backbone; fraction of that gap the student and the low-rank factors recover.
+
+**Cheapest falsifier.** Rung 1. No legal simultaneous input ends the branch with no model trained.
+
+**Main risk.** Leakage through same-time labels, a correlation graph fit on all groups, or a teacher that sees \(L\). A non-compressible gap is a serving-cost finding, not permission to break inference rules.
+
+**Where.** Rung 1 local CPU now. Later rungs on Kaggle.
+
+**Artifacts.** Alignment memo stating what is jointly observed at inference; edge definition; gap table for per-series, full relational teacher, low-rank factors, and distilled student.
+
+**Next rung.** Rung 2 only if rung 1 finds legal joint inputs. Rung 3 only if the relational model wins locked official error on both fold pairs. If the student recovers the gain, ship the student path. If only the heavy graph wins, the next experiment is a cheaper legal factor model, still inside the rules.
+
+## 7. Stagewise scale-residual pyramid
+
+**Mechanism family.** Causal multi-scale convolution with residual targets across scales.
+
+**Source mechanism and analogy.** Proposed. A dilated stack already mixes scales inside one residual stream. The new mechanism is the target: scale 0 predicts a causal low-pass version of both channels; scale \(k\) predicts the residual left by the sum of frozen coarser scales; the served prediction is the clipped sum. Stagewise freezing is the intervention. The matched control is a one-shot multi-scale convolution of the same total parameter count, context, and loss, trained jointly on the raw clipped targets.
+
+**Exact intervention.** Pre-register dyadic scales and a causal low-pass. Train coarse to fine on \(T\), official weighted error at every stage. Then train the one-shot control. Optionally distill the stagewise specialists into one jointly trained student of similar size, independent initialization, to test whether the residual targets still matter once the scales can co-adapt.
+
+**Ladder.**
+- Rung 1: two scales versus the matched one-shot conv.
+- Rung 2: four scales, same protocol.
+- Rung 3: distillation into a joint student only if stagewise training won.
+
+**Data / split / lineage.** Low-pass definition and scales frozen before \(L\). Coarser scales are fit on \(T\) and stopped on \(S\). No weight sharing with an existing TCN checkpoint from another person.
+
+**Observable.** Locked official error of stagewise sum versus one-shot conv; per-scale residual energy on \(S\); whether the joint student keeps or loses the stagewise gap.
+
+**Cheapest falsifier.** Rung 1. A tie with the one-shot conv means the residual target decomposition is not doing work beyond multi-scale capacity, which existing TCN runs already represent.
+
+**Main risk.** A low-pass that uses future rows, or a coarser scale stopped on \(L\). Also counting a prettier per-scale residual curve as success while the summed prediction loses the official metric.
+
+**Where.** Kaggle GPU.
+
+**Artifacts.** Scale definition; stagewise versus one-shot card; per-scale residual energy; distillation gap if rung 3 runs.
+
+**Next rung.** Four scales only if two scales beat the matched one-shot model on both locked folds. Distillation only if that win persists at four scales. Otherwise stop: multi-scale capacity without residual targets is the surviving hypothesis, and it is already in the TCN family.
+
+## 8. Event-clock state
+
+**Mechanism family.** Continuous-time, gap-conditioned decay.
+
+**Source mechanism and analogy.** Proposed. The state derivative depends on a time gap: across uninformative spans the state decays, and it updates on informative rows. This is distinct from a second discrete clock. A selective model can learn a similar skip, so this hypothesis earns a top rung only when an explicit gap feature beats a plain mask gate. H1’s gap-irregularity audit is the precondition.
+
+**Exact intervention.** Rung 1 is the discrete analogue on a small recurrent baseline: the state updates only on pre-registered informative rows (scored rows, or rows whose legal features changed), and holds otherwise. Rung 2 multiplies a learned decay by the observed inter-arrival. Rung 3 is a diagonal continuous-time linear state whose transition uses that gap, trained as a teacher and distilled into the rung-1 skip recurrence if the explicit decay wins.
+
+**Ladder.**
+- Rung 1: hold-state versus uniform stepping, same weights budget and same features apart from the update rule.
+- Rung 2: decay linear in observed \(\Delta t\).
+- Rung 3: continuous-time diagonal teacher plus distillation into the skip student.
+
+**Data / split / lineage.** \(\Delta t\) comes from the series’ own legal time index. The informative-row rule is frozen before \(L\).
+
+**Observable.** Locked official error of hold-state versus uniform step; additional change when \(\Delta t\) decay is added; whether H3’s selective model, at matched size, already captures the hold-state gain.
+
+**Cheapest falsifier.** H1’s gap audit plus rung 1. Nearly regular gaps make rung 1 uninformative and stop the branch. Irregular gaps with a tie between hold-state and uniform step also stop it: timing is irregular and the state does not need to know.
+
+**Main risk.** Defining “informative” using the label, the mask’s future, or the residual of a model that saw \(L\). A \(\Delta t\) feature unavailable at inference is leakage.
+
+**Where.** Kaggle. Rung 1 is small enough to be the local GPU job only if H3 rung 1 is already done or cannot finish before the cutoff.
+
+**Artifacts.** Gap-irregularity summary from H1; update-rule card; official-error comparison against uniform step and, when available, against the H3 selective model; distillation note at rung 3.
+
+**Next rung.** Rung 2 only if hold-state beats uniform stepping on both locked folds and the selective matched model does not already capture that gap. Rung 3 only if explicit \(\Delta t\) decay beats the binary hold rule on both locked folds.
+
+## Composition rule and stop conditions
+
+Run H1 and the H4 and H6 CPU audits immediately; they decide whether H5 and H6 deserve any Kaggle slot. Spend the single pre-cutoff GPU job on H3 rung 1 if it can finish in time. After the cutoff, Kaggle priority follows the rank among hypotheses whose falsifier did not fire.
+
+A hybrid is justified only after two families win on disjoint, pre-registered slices of the official loss (for example long-range groups versus high-frequency residuals) on both fold pairs. Until then, a hybrid confounds the mechanism tests.
+
+H2’s distillation gap is the evidence relevant to a later conversation about serving limits. The research program itself stays inside the official data rules, trains every teacher and student independently, and promotes only on the fixed weighted metric.

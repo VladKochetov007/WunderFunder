@@ -1,0 +1,5 @@
+# E-514 pre-score graph repair and audit retry
+
+Recorded 2026-10-07T03:03:05.795097Z before comparative scoring. The first source-only audit passed and was frozen as `SOURCE_MANIFEST_E514.json` (SHA-256 `95fa6c080b26ae2d6186585c83f9eb725645f1504c3b64c1de0cb50e713f1654`). When the one-shot comparison cell was invoked, Marimo rejected the dataflow graph because the audit cell introduced a top-level `name` loop binding that collided with the comparison cell. The failure happened before cell execution: `E514_RESULT.json` and `REPORT.md` do not exist, so no candidate or blend score was computed.
+
+Preserve the first manifest and this failure receipt unchanged. Repair the notebook by renaming that binding to a unique private variable. The retry uses a new immutable `SOURCE_MANIFEST_E514_V2.json`; it also binds the frozen chain-partition hash and this repair note. Candidate identities, calibration rules, mixture grid, official metric, outer-chain assignment, and interpretation remain unchanged. The source/ancestry gate must pass again before the one-shot comparison is run.

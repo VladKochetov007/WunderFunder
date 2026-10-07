@@ -1,0 +1,57 @@
+{
+  "durability": "startup/host records precede JAX import; child writes inventory and stage outputs, parent captures worker stdout/stderr and always writes terminal.json/complete.json in finally; bounded child is terminated if parent deadline arrives",
+  "first_stage_tpu_cap_hours": 0.25,
+  "hardware_request": "TpuV5E8; requires exactly eight local TPU devices and records actual device kinds and per-device HBM stats",
+  "headroom": "host and every TPU must retain at least 20 percent free capacity at start; after the full-shape update every TPU peak use must remain at or below 80 percent of reported HBM capacity",
+  "maximum_new_provider_tpu_seconds": 600,
+  "metadata": {
+    "code_file": "probe.py",
+    "competition_sources": [],
+    "dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "vladkochetov07/wunder-funder"
+    ],
+    "enable_gpu": false,
+    "enable_internet": false,
+    "enable_tpu": true,
+    "id": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+    "is_private": true,
+    "kernel_sources": [],
+    "kernel_type": "script",
+    "language": "python",
+    "machine_shape": "TpuV5E8",
+    "title": "wnn-e463-real-tpu-fullshape-preflight-20261007-v2"
+  },
+  "packet_files": {
+    "kernel-metadata.json": "81ed87a5a78082267f71c1a82434aeea4cd5411729f3bc58c176d73fff1edd12",
+    "probe.py": "a311878bb2cef8be3d17535405e6179f2ccd746578e317f2f156c23bf30dcc50"
+  },
+  "packet_id": "wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+  "payload_timeout_seconds": 540,
+  "provider_timeout_seconds": 600,
+  "revision_reason": "V2 fixes the observed Kaggle mount layout and source packaging: resolves the private E463 manifest by frozen SHA-256, verifies the ZIP and every manifest-listed file, safely materializes the source bundle, and writes an input-mount inventory before TPU work. It preserves the prior actual-eight-device, bounded-child, checkpoint/source identity, full-shape and HBM headroom gates.",
+  "shape_gate": {
+    "chunk_rows": 2000,
+    "global_batch": 16,
+    "hidden": 256,
+    "input_width": 211,
+    "layers": 2,
+    "objective": "synthetic finite diagnostic objective only; no score or scientific fit",
+    "output_width": 23,
+    "per_tpu_batch": 2,
+    "updates": 1
+  },
+  "verified_private_inputs": {
+    "dataset_sources": [
+      "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "vladkochetov07/wunder-funder"
+    ],
+    "epoch3_jax_npz_sha256": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+    "epoch3_jax_npz_sidecar_sha256": "3e65d2a88352d22bc90d88b829f05beee3faa7a66b9de41c7507f521aab12668",
+    "epoch3_torch_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "exact_wnn_jax_rnn_source_sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc",
+    "source_archive_sha256": "a29bdf21a910a6d7b403d9ed8c52cf0761618f5ef6576b5f06d70d0a8fd5ec9e",
+    "source_manifest_sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb"
+  },
+  "worker_timeout_seconds": 480
+}

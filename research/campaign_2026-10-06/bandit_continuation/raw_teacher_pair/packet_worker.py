@@ -20,7 +20,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset
 
-PACKET_ID = "E508_RAW_BASELINE_V3"
+PACKET_ID = "E508_RAW_BASELINE_V4"
 SPLIT_SHA256 = "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
 ASSETS_SHA256 = "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7"
 ASSETS_BYTES = 6268
@@ -192,8 +192,10 @@ def exact_group_sets(split: object) -> dict[str, set[int]]:
         EVAL_VALID_COUNT,
     ):
         raise ValueError("fold0 split membership counts changed")
-    if CORRUPT_TRAIN_GROUP in train or CORRUPT_TRAIN_GROUP in valid:
-        raise ValueError("corrupt train row group entered fit membership")
+    # Row-group IDs are local to each parquet table. Group 528 is excluded
+    # from the train namespace; valid-table group 528 is a different group.
+    if CORRUPT_TRAIN_GROUP in train:
+        raise ValueError("corrupt train row group entered train fit membership")
     return {"train": train, "valid": valid, "evaluation": evaluation}
 
 

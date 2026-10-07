@@ -1,0 +1,27 @@
+{
+  "id": "E514-pre-score-legacy-metric-diagnostic-20261007",
+  "status": "contained_resource_limit_failure_replaced_by_streaming_diagnostic",
+  "timestamp_local": "2026-10-07 Europe/Kyiv",
+  "scope_unit": "run-p403495-i426572.scope",
+  "purpose": "Diagnose why the legacy ab12 run-card scalar did not reproduce from its unbound cache; no E-514 portfolio comparison was scored.",
+  "resource_limit": {
+    "memory_max_bytes": 1500000000,
+    "memory_peak_bytes": 1499996160,
+    "systemd_result": "oom-kill"
+  },
+  "aggregate_observation": {
+    "campaign_parent_memory_current_bytes_after": 10813624320,
+    "campaign_parent_memory_events_local": {
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "campaign_parent_hierarchical_oom_kill_count_after": 2,
+    "interpretation": "The helper scope was killed at its own 1.5 GB cap; the campaign parent and laptop remained below their configured memory ceilings."
+  },
+  "result": "No scalar was emitted by the killed whole-array diagnostic. A separate streaming block_scores calculation over chunks of four completed and returned ab12 block-WP diagnostic 0.5950697126, which does not reproduce the old run-log scalar 0.5978185610. The current official global-WP replay on the legacy cache was 0.6056136781. These are provenance/metric diagnostics, not E-514 treatment effects.",
+  "recovery": "Replace whole-array block scoring with chunked calculation and use fresh checkpoint-bound exports for all E-514 members. No repeated full-array attempt is needed.",
+  "oom_kill_scope_limited": true,
+  "campaign_gpu_or_tpu_job_killed": false,
+  "e514_comparison_score_created": false
+}

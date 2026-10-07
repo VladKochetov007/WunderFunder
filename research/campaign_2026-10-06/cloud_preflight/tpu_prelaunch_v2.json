@@ -1,0 +1,41 @@
+{
+  "packet_id": "wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+  "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+  "resource": "tpu",
+  "purpose": "synthetic full-shape hardware preflight only; no scientific fit or score",
+  "created_at_utc": "2026-10-07T03:53:30.202071+00:00",
+  "created_at_local": "2026-10-07T06:53:30.202153+03:00",
+  "latest_live_poll_utc": "2026-10-07T03:53:18+00:00",
+  "latest_poll_source": "read-only Kaggle SDK quota/status calls; no resubmit or cancel",
+  "quota": {
+    "campaign_baseline_used_seconds": 134.623,
+    "campaign_cap_seconds": 900.0,
+    "campaign_headroom_seconds": 881.5699999999999,
+    "campaign_used_seconds": 18.430000000000007,
+    "reserved_seconds": 0.0,
+    "total_allowed_seconds": 72000.0,
+    "used_seconds": 153.053
+  },
+  "required_provider_seconds": 600,
+  "headroom_gate_passed": true,
+  "competing_tracked_tpu_kernels": [],
+  "terminal_predecessor": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261006-v1",
+  "predecessor_terminal_status": "KernelWorkerStatus.ERROR",
+  "packet_files_sha256": {
+    "probe.py": "a311878bb2cef8be3d17535405e6179f2ccd746578e317f2f156c23bf30dcc50",
+    "kernel-metadata.json": "81ed87a5a78082267f71c1a82434aeea4cd5411729f3bc58c176d73fff1edd12"
+  },
+  "independent_review": "TPU_V2_INDEPENDENT_PACKET_REVIEW_20261007.md",
+  "independent_review_verdict": "PASS",
+  "focused_tests": {
+    "command": "pytest -q research/campaign_2026-10-06/cloud_preflight/test_tpu_probe_v2.py",
+    "passed": 3
+  },
+  "launch_state": "prelaunch_gates_passed_push_pending",
+  "push_status": "pushed",
+  "kaggle_cli_exit_code": 0,
+  "kaggle_kernel_version": 1,
+  "kaggle_page": "https://www.kaggle.com/code/vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+  "push_completed_at_utc": "2026-10-07T03:54:10.037298+00:00",
+  "push_command": "kaggle kernels push -p research/campaign_2026-10-06/cloud_preflight/tpu_packet_v2 -t 600"
+}

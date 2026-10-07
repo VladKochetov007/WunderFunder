@@ -1,0 +1,14 @@
+{
+  "cause": "JSON object keys in chain_to_outer_fold are serialized as strings, while the reconstructed in-memory mapping used integer keys; direct Python dict equality rejects an equivalent frozen partition.",
+  "comparison_score_calculation_started": false,
+  "error": "frozen artifact differs from current audit: E514_CHAIN_PARTITION.json",
+  "error_kind": "audit_replay",
+  "experiment_id": "E-514",
+  "marimo_cell_id": "vblA",
+  "observed_utc": "2026-10-07T03:03:49.189313Z",
+  "partition_mutated": false,
+  "repair": "Canonicalize the candidate document through JSON serialization/deserialization before comparing with an existing frozen JSON artifact; this normalizes keys without changing the assigned chain folds.",
+  "result_path_exists": false,
+  "scientific_result": null,
+  "stage": "pre_score_frozen_partition_replay_guard_failure"
+}

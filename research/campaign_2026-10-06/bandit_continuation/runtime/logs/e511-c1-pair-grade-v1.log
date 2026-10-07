@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/evaluate_bandit_pair_contrast.py", line 574, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/evaluate_bandit_pair_contrast.py", line 564, in main
+    result = _grade_pair(
+        args.artifact_root,
+    ...<2 lines>...
+        spec_path=args.spec,
+    )
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/evaluate_bandit_pair_contrast.py", line 406, in _grade_pair
+    candidate_prediction, candidate_binding = campaign_eval._member(
+                                              ~~~~~~~~~~~~~~~~~~~~~^
+        artifact_root,
+        ^^^^^^^^^^^^^^
+    ...<6 lines>...
+        expected_command=candidate_command,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/evaluate_bandit_continuation.py", line 394, in _member
+    prediction, binding = _validate_prediction_artifact(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        prediction_path,
+        ^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        shape=(len(row_groups), SEQUENCE_ROWS, 2),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/evaluate_bandit_continuation.py", line 217, in _validate_prediction_artifact
+    raise ValueError(f"{run}: prediction sidecar disagrees with the fixed checkpoint")
+ValueError: bd26_c1v2_s3_f0: prediction sidecar disagrees with the fixed checkpoint

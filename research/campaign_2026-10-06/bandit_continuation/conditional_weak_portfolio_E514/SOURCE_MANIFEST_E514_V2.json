@@ -1,0 +1,124 @@
+{
+  "ancestry_and_row_order_gate": {
+    "baseline_prediction_receipt": {
+      "baseline_onnx_sha256": "321ec67b93f3c5dde2c0901ca4532072dad5f65753c2e6519e93ea3555f6a6fd",
+      "prediction_sha256": "594900211d7cac860a73536cc74f2bd4f491d319a93729d6e2112d278ad37463",
+      "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    },
+    "c1_split_and_propensity_ancestry": "both seeds: fixed epoch 1, no evaluation during fit, exact fold-0 fit/eval membership and clean fixed epoch-3 propensity source",
+    "fold0_exposure": "previously inspected; no independent-confirmation claim",
+    "passed": true,
+    "prediction_layout": "all arrays float32 with exact target-cache shape; fresh C1 and weak-model sidecars bind checkpoints and complete row-group order; organizer baseline receipt binds ONNX, target cache, predictor, predictions and rows",
+    "weak_candidate_ancestry": {
+      "ab12": "train-only, no propensity/mask input, one fixed epoch",
+      "ab48": "legacy fold-0 fit excludes fold-0 groups, no propensity input, one fixed epoch; prior score exposure recorded",
+      "baseline": "supplied organizer artifact; train-only source"
+    },
+    "weak_prediction_sidecars": {
+      "ab12": {
+        "checkpoint_sha256": "a552bd0a327deb824cb8e9c594fcbf6c976c0960103582e2a4888bc30d0b0af8",
+        "prediction_sha256": "21f2db8ba76f69fc37f9f9dbb5c61320f16c0decdf7a80ff73a496216038165e",
+        "run": "ab12_h128_plain_fallback"
+      },
+      "ab48": {
+        "checkpoint_sha256": "d3ffa08142dccbc438800fc31c63ec13a3af6979fbbbc08db8b58f5ca15ece3d",
+        "prediction_sha256": "8943f11f7f07ec15791ac56038858f690bbde22bdc668a3055e0a47c251ed096",
+        "run": "ab48_basehead_f0"
+      }
+    }
+  },
+  "chain_partition": "E514_CHAIN_PARTITION.json",
+  "chain_partition_sha256": "e9e0cb9391789f54e34c1d02836d02c336c5d3a13bde6f9473196bbbc71da1c2",
+  "created_utc": "2026-10-07T03:04:00.788626+00:00",
+  "data_exposure": "Exploratory; all fold-0 chains and candidate families have prior exposure.",
+  "experiment_id": "E-514",
+  "fold0_split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "metric_id": "global_wp_clip2_v1",
+  "notebook_sha256": "dba406f9261566cb0240a6da1404f76c6701191470dfdf05296962537c71e92a",
+  "pre_registration_sha256": "4ed8b18724f88b3e39f25c097e4410d22963dc986834fa5853b5812362c815c7",
+  "pre_score_retry_amendment_sha256": "872ceeb14f08450ff511f11b41bcbe1aac2ddcdf434b334f4cf73db45cb679d5",
+  "prediction_hashes": {
+    "ab12": "21f2db8ba76f69fc37f9f9dbb5c61320f16c0decdf7a80ff73a496216038165e",
+    "ab48": "8943f11f7f07ec15791ac56038858f690bbde22bdc668a3055e0a47c251ed096",
+    "baseline": "594900211d7cac860a73536cc74f2bd4f491d319a93729d6e2112d278ad37463",
+    "c1_s3": "cb832b1397c75e318551fd6d6f0e22d09f3c4230c3c5ad56cab1a4c4e603c7e8",
+    "c1_s4": "78635629c73738b29b4680eda0b15430078b01f09ba06c8c24fdfb8c6d71d1cd"
+  },
+  "prediction_shapes": {
+    "ab12": [
+      1873,
+      20000,
+      2
+    ],
+    "ab48": [
+      1873,
+      20000,
+      2
+    ],
+    "baseline": [
+      1873,
+      20000,
+      2
+    ],
+    "c1_s3": [
+      1873,
+      20000,
+      2
+    ],
+    "c1_s4": [
+      1873,
+      20000,
+      2
+    ]
+  },
+  "source_hashes": {
+    "artifacts/logs/ab12.sh": "ecf9efff76056ba2376203a30e0df784adebd9d5c57503c0ce44ecf1e6a6d450",
+    "artifacts/logs/ab12_h128_plain_fallback.log": "9a6b1b705936a0d253f6f80094f59e2cecd4864b3de44b52d58f56b5b5d52841",
+    "artifacts/logs/ab48_basehead_f0.log": "9abe406f0386eb452d5e69ce270ba1184cbad32b2c07e2fc011f57f5ea6c4537",
+    "artifacts/logs/q14.sh": "7136ab54e7bae5387f3ff3dbe1daeda436918e03221854e17681a301546302d8",
+    "artifacts/runs/ab12_h128_plain_fallback/model.pt": "a552bd0a327deb824cb8e9c594fcbf6c976c0960103582e2a4888bc30d0b0af8",
+    "artifacts/runs/ab48_basehead_f0/model.pt": "d3ffa08142dccbc438800fc31c63ec13a3af6979fbbbc08db8b58f5ca15ece3d",
+    "artifacts/runs/bd26_c1v2_s3_f0/model.pt": "5f21361d47cc1f010abb363e6aca6e3cbf50a3d5d40d88ad81851aed7519fc4d",
+    "artifacts/runs/bd26_c1v2_s3_f0/model_ep1.pt": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+    "artifacts/runs/bd26_c1v2_s3_f0/provenance.json": "60e8884d3d5886dc53dcb2b7d280fef284a702de8769ab333e07e1819d66f28a",
+    "artifacts/runs/bd26_c1v2_s4_f0/model.pt": "457a595baed2e38f4bbbd541a8b8da02866a28271b216e66ebe1e8ad389cbf2b",
+    "artifacts/runs/bd26_c1v2_s4_f0/model_ep1.pt": "fd48545b6e24ec275ff0d3874590cb0c6c4e2e717bc81ff94be50a0439f162c2",
+    "artifacts/runs/bd26_c1v2_s4_f0/provenance.json": "fee8029b38a6677f7414cc4185a5298f1d148283bd2ad64b2c84e68d473ee15f",
+    "artifacts/runs/c20260929_prop_f0/model.pt": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "artifacts/runs/c20260929_prop_f0/provenance.json": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+    "baseline/baseline.onnx": "321ec67b93f3c5dde2c0901ca4532072dad5f65753c2e6519e93ea3555f6a6fd",
+    "cache/chain_folds.npz": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+    "cache/pred_baseline_valid.json": "d2dd0821794ba0625196ce8a88287f19f6c9e831af32311e0a0a5348695a74c9",
+    "cache/pred_baseline_valid.npy": "594900211d7cac860a73536cc74f2bd4f491d319a93729d6e2112d278ad37463",
+    "cache/pred_bd26_c1v2_s3_f0_valid.json": "bb335392edc599f181c0bbcb6523fd430b036647454bc0d76facf5b592211ad3",
+    "cache/pred_bd26_c1v2_s3_f0_valid.npy": "cb832b1397c75e318551fd6d6f0e22d09f3c4230c3c5ad56cab1a4c4e603c7e8",
+    "cache/pred_bd26_c1v2_s4_f0_valid.json": "e659527584fadb6df41d08efd62f3e7d9abf4ab9a989c811e65cf450efc35ea4",
+    "cache/pred_bd26_c1v2_s4_f0_valid.npy": "78635629c73738b29b4680eda0b15430078b01f09ba06c8c24fdfb8c6d71d1cd",
+    "cache/pred_e514_ab12_h128_plain_fallback_valid.json": "c4aed0f5d9e9e8e402cc7a33754324be2f6aaa1dca20a5e844ca66e7b803d4fa",
+    "cache/pred_e514_ab12_h128_plain_fallback_valid.npy": "21f2db8ba76f69fc37f9f9dbb5c61320f16c0decdf7a80ff73a496216038165e",
+    "cache/pred_e514_ab48_basehead_f0_valid.json": "f41802be3d827b9b3094791ddb558c3e02ff213da14e4af60c4ffc0986184f5b",
+    "cache/pred_e514_ab48_basehead_f0_valid.npy": "8943f11f7f07ec15791ac56038858f690bbde22bdc668a3055e0a47c251ed096",
+    "cache/valid_targets.npz": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "research/campaign_2026-10-06/bandit_continuation/conditional_weak_portfolio_E514/PRE_REGISTRATION.md": "4ed8b18724f88b3e39f25c097e4410d22963dc986834fa5853b5812362c815c7",
+    "research/campaign_2026-10-06/bandit_continuation/conditional_weak_portfolio_E514/PRE_SCORE_AUDIT_AMENDMENT_20261007.md": "6cd44ce6d98a4abcbcac5bc1b56fdbe1f12f9ba174515b7254b4ae4628fcf611",
+    "research/campaign_2026-10-06/bandit_continuation/conditional_weak_portfolio_E514/PRE_SCORE_AUDIT_RETRY_20261007.md": "872ceeb14f08450ff511f11b41bcbe1aac2ddcdf434b334f4cf73db45cb679d5",
+    "research/campaign_2026-10-06/bandit_continuation/conditional_weak_portfolio_E514/PRE_SCORE_AUDIT_RETRY_2_20261007.md": "1fd043e49c2025c635e279417433da8669a10224513636e049df309c2edfd1f7",
+    "research/campaign_2026-10-06/bandit_continuation/conditional_weak_portfolio_E514/make_baseline_receipt.py": "23ea53dd2248933207a193cd200ea93f3a7a29597c8ac32c67bf901e0d722c09",
+    "research/campaign_2026-10-06/bandit_continuation/conditional_weak_portfolio_E514/weak_portfolio_eda.py": "dba406f9261566cb0240a6da1404f76c6701191470dfdf05296962537c71e92a",
+    "research/campaign_2026-10-06/bandit_continuation/local/C1V2_C0_PAIRED_GRADER_SPEC.json": "a23f03bc5f3ba42647456972cd6a06581d77723a42b5f7d7c99c6bd9d5377224",
+    "research/campaign_2026-10-06/bandit_continuation/local/E511_C1_MINIMAL_PAIRED.json": "c686c026a32fc986333aec8674f1b306b0e545938be5eeb85a71d09e9cd41362",
+    "research/runs/ab12_h128_plain_fallback.md": "9f48ee1fe5c4197866a5261c284ede3d3d3d26ea0feae999244b7145e2beb233",
+    "research/runs/ab48_basehead_f0.md": "9395e27dd9fd482ac7358ca27be35cf12580e7eec4d51196ffc7db069cf26f8d",
+    "scripts/decide.py": "559ee46e403e28da2ea09e85b3c62c6499e5dd3b33acc0674e8e98541d0ef5a8",
+    "scripts/ensemble_scan.py": "580d27984875a25cac4f13d3255c80fa2857996556f4d858e0166563ec050b7f",
+    "scripts/predict_baseline.py": "e2c1276a86997840244b0f1cd9a34f7b65a35b7871853457ec234f0e8ac42373",
+    "scripts/predict_run.py": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee",
+    "scripts/train_rnn.py": "0e622a87888769ff7467fadd1d1a230886008d1803099e8881e100939082467d",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+    "submissions/_parts/baseline_rnnmodel.npz": "ace005fa13077706e333b8534110539dade61dd3cb6171a1a3ec40a4fb99fbc9"
+  },
+  "stage": "pre_comparison_score_source_and_ancestry_gate_passed",
+  "target_row_groups_sha256_little_endian_int64": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+}

@@ -12,7 +12,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
 HERE = Path(__file__).resolve().parent
-PACKET_DIR = HERE / "packet_v3"
+PACKET_DIR = HERE / "packet_v4"
+PACKET_ID = "E508_RAW_BASELINE_V4"
+KERNEL_ID = "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v4"
 TRAINER_COMMIT = "69b2331825e193a070015ca4182872724595209a"
 TRAINER_SHA256 = "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf"
 SPLIT_PATH = ROOT / "research/campaign_2026-09-29/artifacts/splits/fold0.json"
@@ -93,7 +95,7 @@ def kernel_source(
 ) -> bytes:
     """Create a self-contained kernel entry that inventories inputs before training."""
     constants = (
-        f"PACKET_ID = {'e508_raw_teacher_pair'!r}\n"
+        f"PACKET_ID = {PACKET_ID!r}\n"
         f"SOURCE_ARCHIVE = {compressed_source(archive)!r}\n"
         f"SOURCE_ARCHIVE_SHA256 = {sha256_bytes(archive)!r}\n"
         f"SOURCE_HASHES = {source_hashes!r}\n"
@@ -339,13 +341,13 @@ def build_packet() -> dict[str, object]:
         "enable_gpu": True,
         "enable_internet": False,
         "enable_tpu": False,
-        "id": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v3",
+        "id": KERNEL_ID,
         "is_private": True,
         "kernel_sources": [],
         "kernel_type": "script",
         "language": "python",
         "machine_shape": "NvidiaTeslaT4",
-        "title": "wnn-raw-teacher-pair-e508-20261007-v3",
+        "title": "wnn-raw-teacher-pair-e508-20261007-v4",
     }
     PACKET_DIR.mkdir(parents=True)
     kernel_path = PACKET_DIR / "kernel.py"
@@ -363,7 +365,7 @@ def build_packet() -> dict[str, object]:
         for seed in (3, 4)
     }
     receipt: dict[str, object] = {
-        "packet_id": "E508_RAW_BASELINE_V3",
+        "packet_id": PACKET_ID,
         "status": "prepared_private_not_uploaded",
         "kernel_id": metadata["id"],
         "metadata": metadata,
@@ -594,7 +596,7 @@ def training_args(name: str, seed: int, *, profile: bool = False) -> list[str]:
 def readme(receipt: dict[str, object]) -> str:
     """Write an operator-facing handoff with status and one reviewed command."""
     packet = str(receipt["packet_path"])
-    return f"""# E508 v3 raw-only baseline teacher pair
+    return f"""# E508 v4 raw-only baseline teacher pair
 
 This is a private Kaggle profile-gate packet prepared locally from the frozen
 production trainer at `{TRAINER_COMMIT}`. It is reviewable but has **not** been

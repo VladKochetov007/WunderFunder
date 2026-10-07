@@ -1,0 +1,29 @@
+{
+  "experiment_id": "E-513",
+  "recorded_utc": "2026-10-07T01:12:00Z",
+  "stage": "before_any_E-513_score",
+  "source_manifest": "SOURCE_MANIFEST_E513.json",
+  "source_manifest_sha256": "ee83330c404dfa696665233dd43946055a8104baf4607344ebb71ff2c20dca79",
+  "bootstrap_seed_rule": "int(first 8 hex digits of source_manifest_sha256, 16)",
+  "bootstrap_replicates": 2000,
+  "run_card_reproduction_gate": {
+    "expected_scores": {
+      "ab56_ema_e4_f0": 0.6761,
+      "ab58_ema_e4_f1": 0.6623,
+      "ab53_p2_f0": 0.6739,
+      "ab53_p2_f1": 0.6595
+    },
+    "maximum_absolute_difference": 0.000051,
+    "reason": "Run-card values are rounded to four decimal places; all four must reproduce on the full corresponding fold before any E-513 cohort comparison is calculated."
+  },
+  "scoring": {
+    "metric": "global_wp_clip2_v1",
+    "official_mask": "is_scored AND step >= 99",
+    "prediction_clip": [-2.0, 2.0],
+    "candidate_grid": [0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4],
+    "mixing": "float32 raw predictions blended in float64 arithmetic, cast to float32, then clipped by the official scorer",
+    "selection_tie_rule": "maximum WP; among values within 1e-8 of maximum choose smallest lambda",
+    "analysis_unit": "pure-chain validation group; bootstrap resamples complete connected chains"
+  },
+  "stop_rule": "If row-group mapping, fold/ancestry checks, or any run-card score fails its gate, stop before scoring E-513 blends and preserve the failure as provenance evidence."
+}

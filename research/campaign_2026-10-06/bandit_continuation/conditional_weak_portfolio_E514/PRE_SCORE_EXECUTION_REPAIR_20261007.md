@@ -1,0 +1,5 @@
+# E-514 comparison-cell runtime repair
+
+Recorded 2026-10-07T03:05:33.256260Z. The first admitted comparison attempt used source manifest v2 and failed in Marimo cell `bkHC` with `NameError: _merge_moments is not defined`. It had completed the preregistered calibration calculations for outer fold 0 and started collecting anchor sufficient statistics for that fold's held-out chains. It failed before computing the first held-out aggregate score. No `E514_RESULT.json`, report, plots, or candidate-versus-anchor delta was written. The partial cell globals existed in memory; their numeric values were not inspected and will be reset by the next complete cell execution. No OOM occurred.
+
+The frozen plan remains unchanged. Import the two internal moment-merging helpers locally inside the score cell. Preserve the v2 source manifest and this failure receipt, then create `SOURCE_MANIFEST_E514_V3.json` binding the repaired notebook and this note. Re-run all source/ancestry gates and launch the same predeclared three-fold comparison once. Treat any eventual result as exploratory on previously exposed fold 0.
