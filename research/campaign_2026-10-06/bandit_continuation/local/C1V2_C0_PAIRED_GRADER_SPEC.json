@@ -1,0 +1,100 @@
+{
+  "format": "fixed-pair-contrast-grader-v1",
+  "id": "E512-C1V2-vs-C0-fixed-pair",
+  "frozen_at_utc": "2026-10-07T00:23:06Z",
+  "status": "frozen_before_candidate_prediction_scoring",
+  "purpose": "Compare the equal-seed C1v2 pair against the equal-seed C0 pair on the same frozen fold-0 evaluation groups.",
+  "candidate": {
+    "recipe_path": "research/campaign_2026-10-06/bandit_continuation/local/E511_C1_MINIMAL_PAIRED.json",
+    "recipe_sha256": "c686c026a32fc986333aec8674f1b306b0e545938be5eeb85a71d09e9cd41362",
+    "id": "E-511",
+    "prefix": "bd26_c1v2",
+    "seeds": [3, 4],
+    "fixed_epoch_zero_based": 1,
+    "command_hash_encoding": "compact-json",
+    "command_sha256": [
+      "5a266802cf87480ec2ab650b809912b504f8a5f627b5b71a1b03fb9003190e23",
+      "193a16c53c7e02f5cfcf1227541bdcf4b5cb9d351057626b2c6a38fd1d1a3366"
+    ],
+    "source_commit": "d837c24b47e59d0e7b5dc9367452a0bbd7196e0d",
+    "training_contract_sources_sha256": "62a5706746f850f5c1d65cccd46660f76c1823e0f082b54f7bb45e2a54e2b0f6",
+    "teacher_audit_path": "research/campaign_2026-10-06/bandit_continuation/local/E511_C1_MINIMAL_TEACHER_AUDIT.json",
+    "teacher_audit_sha256": "e4fd58ec09cef2764bbedb392d2c50fc4f44e644160120a106f56d693e306ffc",
+    "teacher_run_names": [
+      "c20261003_combo_s3_f0",
+      "c20261003_combo_s4_f0"
+    ],
+    "effective_teacher_coefficients": [0.40625, 0.40625],
+    "effective_teacher_coefficient_sum": 0.8125
+  },
+  "source_families": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/SOURCE_FAMILIES.json",
+    "sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d"
+  },
+  "reference": {
+    "id": "E-502-C0",
+    "prefix": "bd26_c0",
+    "seeds": [3, 4],
+    "fixed_epoch_zero_based": 1,
+    "preregistration_path": "research/campaign_2026-10-06/bandit_continuation/local/E502_C0_PAIRED_v2.json",
+    "preregistration_sha256": "c51b1716a3a9478d625f41d0c6f77348f114749407a19b5f89c979540b84db17",
+    "command_hash_encoding": "json-default",
+    "command_sha256": [
+      "60e179125cfbc2d9691288d2b186b7e266bbb8c26d8744b5e509b67aebcf44cb",
+      "41a2bce993354bbba9d24e5b05c398244f32507a39c07453646450b63fe06019"
+    ],
+    "evaluation_report_path": "research/campaign_2026-10-06/bandit_continuation/local/E502_C0_EVALUATION_v2/report.json",
+    "evaluation_report_sha256": "37b3d372e3d304fe9d0bd798644cd25fe40752cbae5eb638c1cb865d71836947",
+    "members": [
+      {
+        "seed": 3,
+        "run": "bd26_c0_s3_f0",
+        "checkpoint_sha256": "8c5742536bb90b01a376e776ad9bcaa419a5fe734d89580c5ceeb718629b8532",
+        "prediction_sha256": "c71a60051ec0fc22d1b7a7d5881f2d677ed699ea8bc9b7bed069ed10aec88c47",
+        "provenance_sha256": "2bddf79d3a7f371ba32e78968f0561e47ddf01fa6bf475302ac9f83797338cf3"
+      },
+      {
+        "seed": 4,
+        "run": "bd26_c0_s4_f0",
+        "checkpoint_sha256": "ea9ad9f2f0f9842edfe696ecba1e25a70777641fe05f96de1fbec45920a19803",
+        "prediction_sha256": "1858ad54c829d88279b5863811e4a6c219bfcbcc4cfb60c167f82256a7a106bf",
+        "provenance_sha256": "8a6c8b2b9300063010704afb1968122223c68ee660b3ce70c51dfffcd011f7b8"
+      }
+    ]
+  },
+  "split": {
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "fold": 0,
+    "evaluation_group_count": 468,
+    "valid_target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "valid_target_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+  },
+  "metric": {
+    "id": "global_wp_clip2_v1",
+    "selection": "need_prediction AND is_scored",
+    "warmup_steps_excluded": 99,
+    "pair_blend": "equal 0.5/0.5 raw seed predictions before official metric clipping",
+    "bootstrap": {
+      "replicates": 2000,
+      "seed": 271828,
+      "unit": "frozen connected evaluation component",
+      "centered": true,
+      "interpretation": "conditional on these fixed checkpoints; excludes training-seed and public uncertainty"
+    }
+  },
+  "grader_dependencies": {
+    "scripts/evaluate_bandit_continuation.py": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+    "scripts/build_distill_cache.py": "09f7110f21507195199d1f50fad6d1074fef1cd4d670a91093935be333f9dd26",
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4"
+  },
+  "frozen_comparisons": [
+    "same-seed seed 3 C1v2 versus C0",
+    "same-seed seed 4 C1v2 versus C0",
+    "equal-weight two-seed C1v2 pair versus C0 pair"
+  ],
+  "public_forecast": null,
+  "data_exposure": "Fold-0 evaluation groups are exposed development data."
+}
