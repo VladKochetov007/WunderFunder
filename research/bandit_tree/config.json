@@ -2228,6 +2228,111 @@
         "reason": "Measured984s initialhash+749s duplicatehash aborted cloud beforeCUDA; safely removeverifiedduplicate andamortizecohortstartup. Localbatch/loaderprobesyieldedsmallgains; two-worker5GB probeOOM preserved.",
         "authorization_scope": "Navigation only. Root/controller receipts own exactlocal/cloud admission; frozenE520 unchanged."
       }
+    },
+    {
+      "id": "arm:tpu-gru-input-projection",
+      "parent_id": "family:infrastructure",
+      "title": "Hoist GRU input-gate projection outside causal scan",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-214"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "launch_authorized": false,
+        "reason": "Compute time-independent B\u00d7T inputprojection as one dense operation, preserve reset-after hidden recurrence and chunkstate.",
+        "authorization_scope": "Sourcegroundedidea only; preservequeuedE463 andfreezeactualproductionrecipe/resources beforefits."
+      }
+    },
+    {
+      "id": "arm:tpu-independent-model-cohort",
+      "parent_id": "family:infrastructure",
+      "title": "Independent own model cohorts per TPU chip",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-215"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "Use chips for independently trained seed/model jobs at batch16 rather than tinybatch2 data replicas; maintain separate params, RNG and outputs.",
+        "authorization_scope": "Sourcegroundedidea only; preservequeuedE463 andfreezeactualproductionrecipe/resources beforefits."
+      }
+    },
+    {
+      "id": "arm:tpu-parallel-recurrence-teacher",
+      "parent_id": "family:teacher",
+      "title": "Parallel linear recurrence as complementary TPU teacher",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-216"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "Use affine associativeprefix computation with nonlinear readouts to train causal long-sequence teacher efficiently and test complementary distillation signal.",
+        "authorization_scope": "Sourcegroundedidea only; preservequeuedE463 andfreezeactualproductionrecipe/resources beforefits."
+      }
+    },
+    {
+      "id": "arm:hardware-causal-tcn",
+      "parent_id": "family:teacher",
+      "title": "Hardware-shaped causal TCN teacher",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-217"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "launch_authorized": false,
+        "reason": "Residual dilated convolutions parallelize time while retaining a causal finite-history prediction path.",
+        "authorization_scope": "Navigation only; exact runnable recipe/profile/admission remains separately owned."
+      }
+    },
+    {
+      "id": "arm:hardware-block-attention",
+      "parent_id": "family:teacher",
+      "title": "Block-recurrent causal attention teacher",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-218"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "Parallel within-block dense attention and recurrent cross-block memory may improve teacher diversity per allocated hour.",
+        "authorization_scope": "Navigation only; exact runnable recipe/profile/admission remains separately owned."
+      }
     }
   ],
   "links": [],
