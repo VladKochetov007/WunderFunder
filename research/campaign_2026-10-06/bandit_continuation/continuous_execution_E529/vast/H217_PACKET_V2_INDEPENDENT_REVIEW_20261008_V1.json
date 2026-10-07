@@ -1,0 +1,43 @@
+{
+  "admission_condition": "The worker uses WNN_MAX_RUNTIME_SECONDS to form its deadline but does not compare it to runtime_resources.json. Root admission/dispatch must bind WNN_MAX_RUNTIME_SECONDS exactly to the frozen intent max_runtime_seconds=21600 and verify the same value in the dispatch/resource receipts. If not, do not create.",
+  "build_receipt_sha256": "4eca2bbd2ac198ea90a2be38ee535c0d33d19a750980a92fdde312b4fd9bf905",
+  "checks": {
+    "account_scope_guard_inspected": "scripts/vast_campaign.py rejects explicit client_id other than me before create; focused test covers unrelated-account rejection.",
+    "failure_evidence_path": "Worker writes failed result and diagnostics archive from finally; run.sh records exit_code/worker_success and emits artifact_manifest.json for the exact expected artifact_bundle.tar, result.json, worker.log set.",
+    "frozen_intent_matches_runtime": true,
+    "large_inputs_staged_separately": "Six project-relative input records are declared in intent; parquet/target payloads are not members of the code packet.",
+    "profile_fit_export_bounds": "Profile requires one finite completed-update receipt and checks projected four-epoch fit plus two exports against fit/cohort deadlines; each child phase has bounded timeout plus RSS/available-RAM/VRAM checks.",
+    "resource_env_checked": "Worker checks WNN_THREADS, WNN_LOADER_WORKERS, WNN_WORKER_RAM_BYTES, WNN_WORKER_VRAM_BYTES, and WNN_GPU_MEMORY_BYTES against runtime_resources.json before data staging or training.",
+    "runtime_resources_explicit": "V2 binds CPU=6, RAM=28,000,000,000 bytes, CUDA allocator=18,000,000,000 bytes, observed VRAM=19,000,000,000 bytes, loader workers=3, Arrow CPU/I/O threads=1, phase caps 900/7200/1800 seconds, cohort cap=21600 seconds.",
+    "science_argv_preserved": "run_phase wraps scripts with Python -c only to set PyArrow CPU/I/O thread counts before runpy; it reconstructs sys.argv with the original script and arguments.",
+    "scientific_source_and_recipe_unchanged_from_v1": "V1/V2 archive member comparison: only run.sh and worker.py changed; runtime_resources.json was added; all project source members and recipe.json remain byte-identical.",
+    "v1_archive_preserved": true,
+    "v2_receipt_packet_hash_matches_archive": true
+  },
+  "date": "2026-10-08",
+  "intent_packet_sha256_matches": true,
+  "intent_sha256": "601fbd6d4d75f92286bdd1c3bf26bfd92fdd6d210e577363cb22928673dfff1f",
+  "limitations": [
+    "Review is code/content only: no GPU execution, remote data staging, provider create, or worker fit was performed.",
+    "The four focused worker tests exercise the shared worker helper, not a full packet execution on the pinned image.",
+    "This packet intentionally returns delivered_ungraded; it contains no score or grader operation."
+  ],
+  "packet_is_still_not_admitted": true,
+  "packet_sha256": "401e3a7e5315ad851f3b7aae3135fcf81e9dda71420d1fd26a6b595f197745b6",
+  "review_id": "H217_PACKET_V2_INDEPENDENT_REVIEW_20261008_V1",
+  "review_scope": [
+    "H217 V2 packet member/content and source identity",
+    "run.sh invocation, resource declarations and terminal output handling",
+    "worker argv preservation, phase gates, staged inputs, and failure behavior",
+    "Vast intent packet/runtime binding consistency"
+  ],
+  "reviewer_role": "independent_packet_reviewer",
+  "schema_version": 1,
+  "status": "PASS_WITH_ADMISSION_CONDITION",
+  "verification": {
+    "archive_comparison": "V1 58 files; V2 59 files; added runtime_resources.json; changed run.sh and worker.py only; all project source members byte-identical.",
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/test_h217_worker.py",
+    "result": "4 passed in 0.19s",
+    "shell_syntax": "bash -n h217_packet_v2/run.sh passed"
+  }
+}
