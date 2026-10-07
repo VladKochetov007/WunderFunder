@@ -18,6 +18,8 @@ Native Luna/max owners:
 
 ## Estimates and their limits
 
+Current scope is fourteen planned hypothesis directions: six main directions (H230, H232, H217, H233, H216, H218) plus eight online-learning arms (H240–H247). The initial E529 queue has fifteen operational jobs, including profiles/controls. Its first four-direction cohort contains twelve fitted variants/endpoints: four H230 seed/control fits, two H232 teachers, TCN plus its GRU control, and four conditional readouts. These are planned counts, not completed fits. New descendants and other historical eligible nodes are not included in this finite screen estimate.
+
 | Deliverable | Planning wall time | Evidence basis and uncertainty |
 |---|---:|---|
 | First own H230 student ZIP ready for human upload | 2–4 hours | Existing measured laptop profile projects 1,634 seconds, about 27 minutes, for two training epochs. Export, native packaging, independent grading and delivered-ZIP checks add time. This is an upload artifact ETA, not a score promise. |
@@ -36,3 +38,5 @@ Choose a valid single student or a measured compliant combination from actual de
 ## Continuous allocation
 
 Preserve the existing approximate 55% leading lineages / 30% independent exploration / 15% confirmation, serving and useful systems work. Keep a reviewed successor ready for each admitted lane. Reassess every two hours and at meaningful terminal results. Hardware or provider failures receive diagnosed repairs under new IDs; never interpret them as negative scientific results. Empty useful queues trigger collection and teardown of our Vast worker, not idle paid runtime. No top-up, subscription or unrelated-instance operation is authorized.
+
+Latest user steering permits multiple owned Vast machines concurrently or one larger host. Choose by measured useful experiments per dollar, including repeated staging, shared CPU/RAM and collection, within existing budget. Prioritize diverse families before detailed sweeps. When results land or ready useful work is insufficient, replenish the tree with independent directed/random-literature ideas and explicit interactions; retain the allocation reserve rather than cycling uninformatively inside one explanation.
