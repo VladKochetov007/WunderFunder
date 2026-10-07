@@ -1,0 +1,242 @@
+{
+  "actual_event_width": 99,
+  "actual_model_width": 211,
+  "actual_preprofile_raw_digest_metrics": {
+    "train": {
+      "digest_reuse_hits": 1,
+      "digest_reuse_misses": 0,
+      "fallback_digest_calls": 0,
+      "verifier_lookups": 1
+    },
+    "valid": {
+      "digest_reuse_hits": 1,
+      "digest_reuse_misses": 0,
+      "fallback_digest_calls": 0,
+      "verifier_lookups": 1
+    }
+  },
+  "actual_raw_width": 112,
+  "limitations": [
+    "trainer args reconstructed from exact gate source; actual receipt reports no argument mismatches",
+    "resources_final replays unchanged passing resource checks; original gate-time resources not separately persisted",
+    "raw per-file metrics in primary identity are preprofile; postprofile proof uses unchanged identities, aggregate counts and exact scope reproduction"
+  ],
+  "primary_fit_started": false,
+  "replayed_gate": {
+    "export_shape_probe": [
+      {
+        "gpu_free_after_bytes": 14852882432,
+        "input_dtype": "torch.float32",
+        "input_float32_bytes": 54016000,
+        "model_input_shape": [
+          16,
+          4000,
+          211
+        ],
+        "output_dtype": "torch.float32",
+        "output_finite": true,
+        "output_float32_bytes_if_written": 512000,
+        "output_shape": [
+          16,
+          4000,
+          2
+        ],
+        "predictions_written": false,
+        "raw_input_shape": [
+          16,
+          4000,
+          112
+        ],
+        "rss_after_bytes": 2902720512,
+        "rss_before_bytes": 2902556672,
+        "rss_peak_bytes": 2937917440,
+        "split": "train",
+        "torch_allocated_peak_bytes": 404321280,
+        "torch_reserved_peak_bytes": 608174080
+      },
+      {
+        "gpu_free_after_bytes": 14869659648,
+        "input_dtype": "torch.float32",
+        "input_float32_bytes": 54016000,
+        "model_input_shape": [
+          16,
+          4000,
+          211
+        ],
+        "output_dtype": "torch.float32",
+        "output_finite": true,
+        "output_float32_bytes_if_written": 512000,
+        "output_shape": [
+          16,
+          4000,
+          2
+        ],
+        "predictions_written": false,
+        "raw_input_shape": [
+          16,
+          4000,
+          112
+        ],
+        "rss_after_bytes": 2875846656,
+        "rss_before_bytes": 2875846656,
+        "rss_peak_bytes": 2937917440,
+        "split": "valid",
+        "torch_allocated_peak_bytes": 404855808,
+        "torch_reserved_peak_bytes": 591396864
+      }
+    ],
+    "fit_authorized_by_gate": false,
+    "lifetime_projection": {
+      "epochs": 4,
+      "fit_batches_per_epoch": 1492,
+      "fit_sequences": 11940,
+      "fit_setup_overhead_seconds": 600,
+      "max_projected_fit_seconds": 28000,
+      "p50_batch_interval_ms": 1297.6667870000256,
+      "p90_batch_interval_ms": 1457.918463999988,
+      "projected_fit_seconds_p50": 9893.370461779383,
+      "projected_fit_seconds_p90": 11041.028871782313,
+      "safety_factor": 1.2,
+      "total_fit_batches": 5968,
+      "worker_elapsed_before_fit_seconds": 133.324789559,
+      "worker_wall_cap_seconds": 34000
+    },
+    "loader_budget": {
+      "batch_tensor_bytes": 73120000,
+      "configured_worker_cap": 2,
+      "effective_prefetch_factor": 1,
+      "effective_workers": 2,
+      "max_workers": 4,
+      "observed_threads": 4,
+      "ram_budget_bytes": 322122547
+    },
+    "profile_digest_handoff_delta": {
+      "digest_reuse_hits": 2,
+      "digest_reuse_misses": 4,
+      "fallback_digest_calls": 4,
+      "verifier_lookups": 6
+    },
+    "raw_input_identity": {
+      "all_unchanged": true,
+      "files": {
+        "datasets/train.parquet": {
+          "canonical_path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/train.parquet",
+          "ctime_ns": 1791103235523599835,
+          "device": 52,
+          "identity_matches_initial_verified_binding": true,
+          "inode": 101726090503,
+          "mode": 33188,
+          "mtime_ns": 1791103235523599835,
+          "size": 29240219011
+        },
+        "datasets/valid.parquet": {
+          "canonical_path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/valid.parquet",
+          "ctime_ns": 1791101681739823113,
+          "device": 52,
+          "identity_matches_initial_verified_binding": true,
+          "inode": 101721042171,
+          "mode": 33188,
+          "mtime_ns": 1791101681739823113,
+          "size": 5615509128
+        }
+      }
+    },
+    "reasons": [
+      "profile_input_width_is_not_full_feature_160",
+      "same_worker_profile_digest_handoff_not_observed"
+    ],
+    "recipe_argument_mismatches": {},
+    "resource_failures": {},
+    "status": "reject_no_fit",
+    "timing": {
+      "cuda_stage_median_ms": {
+        "backward": 656.3023910522461,
+        "forward": 508.31468200683594,
+        "gpu_total": 1191.1395874023438,
+        "h2d": 0.059248000383377075,
+        "inputs": 8.014880180358887,
+        "labels": 0.002047999994829297,
+        "loader_wait": 0.252282000019477,
+        "loss": 4.056591987609863,
+        "optimizer": 13.149551957845688,
+        "seq_per_s": 6.164910807723279,
+        "step_wall": 1297.6667870000256,
+        "syncs_per_step": 0.05,
+        "weights": 0.012064000125974417
+      },
+      "end_to_end_inter_start_ms": {
+        "count": 19,
+        "p50": 1297.6667870000256,
+        "p90": 1457.918463999988
+      },
+      "host_batch_span_ms": {
+        "count": 20,
+        "p50": 1184.2509059999884,
+        "p90": 1218.2503710000105
+      },
+      "loader_wait_ms": {
+        "count": 21,
+        "p50": 0.252282000019477,
+        "p90": 0.3946090000113145
+      },
+      "timed_outer_batches": 20,
+      "timing_note": "p50/p90 of inter-start throughput intervals (19 observations from 20 timed starts); separate host spans and loader waits are not added."
+    },
+    "trace": {
+      "expected_timed_optimizer_updates": 200,
+      "expected_timed_outer_batches": 20,
+      "expected_warmup_outer_batches": 3,
+      "numeric_policy": {
+        "backoff_factor": 0.5,
+        "capture_method": "device-side clone of GradScaler._scale; no per-update host synchronization",
+        "growth_factor": 2.0,
+        "growth_interval": 2000,
+        "initial_scale": 4096.0,
+        "scale_schedule_basis": "actual GradScaler device scale cloned before and after each update; all values transferred once after profile and checked against the configured found_inf recurrence"
+      },
+      "observed_timed_optimizer_updates": 200,
+      "timed_amp_skipped_updates": 0,
+      "timed_gradient_finite": true,
+      "timed_loss_finite": true,
+      "warmup_amp_skipped_updates": 0,
+      "warmup_optimizer_updates": 30
+    }
+  },
+  "source_sha256": {
+    "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/downloads/h232_conditional_v4/h232_conditional_v4/profile_gate_result.json": "6e2a34765570b0a125bbd6cf21a10ed344acb5dbe647a9ebb9a23bfbc85ebafe",
+    "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/downloads/h232_conditional_v4/h232_conditional_v4/profile_result.json": "3696d349202e2a81df821e95efdedbbbbf217fac2e68df397c407f40afb74ea9",
+    "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/downloads/h232_conditional_v4/h232_source_v4/scripts/train_rnn.py": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a",
+    "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/downloads/h232_conditional_v4/h232_source_v4/src/wnn/features.py": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+    "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v4/packet/profile_worker.py": "0bbebb928a2a628cf4e953b8c088223f01bc57af206a7251eec5f5f2062cf20d",
+    "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v4/packet/source_archive.tar": "afde296e1c5e2f0c47a6fb352c2dea8e0a3df75900f53c26f103b3921df1f565"
+  },
+  "status": "confirmed_exact_replay",
+  "tiny_digest_scope_reproduction": {
+    "aggregate": {
+      "digest_reuse_hits": 2,
+      "digest_reuse_misses": 4,
+      "fallback_digest_calls": 4,
+      "verifier_lookups": 6
+    },
+    "original_verifier_calls": [
+      "auxiliary-0",
+      "auxiliary-1",
+      "auxiliary-2",
+      "auxiliary-3"
+    ],
+    "raw": {
+      "train.parquet": {
+        "digest_reuse_hits": 1,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 1
+      },
+      "valid.parquet": {
+        "digest_reuse_hits": 1,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 1
+      }
+    }
+  }
+}

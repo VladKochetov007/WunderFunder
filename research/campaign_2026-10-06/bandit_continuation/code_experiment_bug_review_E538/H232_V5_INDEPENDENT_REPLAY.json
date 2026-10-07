@@ -1,0 +1,136 @@
+{
+  "assembled_transport": {
+    "dataset_sources": [
+      "vladkochetov07/wunder-funder",
+      "vladkochetov07/wnn-c20261004-fold0-assets"
+    ],
+    "embedded_members": 11,
+    "embedded_zip_sha256": "63a1aeeaf0ffb8decc4ba46bc9fb560a447dc9952251781d850a7a645b3098c8",
+    "plan_sha256": "3b25c00d5e59f0c0686213a8f7f03cbd17e54efbac7c9448d2c261ce10703542",
+    "private_offline_gpu_metadata": true,
+    "provider_push_authorized_at_inspection": false,
+    "review_status_at_inspection": "awaiting_v5_independent_review",
+    "verified_source_archive_members": 54,
+    "wrapper_sha256": "8f936379e7680c518a35c2c97d08e515c4f2fa23fb1db31f23d3b11b77b8468d"
+  },
+  "cases": [
+    {
+      "name": "actual_v4_shape_trace_resources_with_scoped_path_evidence",
+      "reasons": [],
+      "status": "pass"
+    },
+    {
+      "name": "160_width_rejects",
+      "reasons": [
+        "profile_input_width_differs_from_pinned_source_probe"
+      ],
+      "status": "reject_no_fit"
+    },
+    {
+      "name": "missing_raw_path_evidence_rejects",
+      "reasons": [
+        "raw_train_valid_digest_verification_not_fail_closed"
+      ],
+      "status": "reject_no_fit"
+    },
+    {
+      "name": "zero_profile_lookups_rejects",
+      "reasons": [
+        "raw_train_valid_digest_verification_not_fail_closed"
+      ],
+      "status": "reject_no_fit"
+    },
+    {
+      "name": "auxiliary_miss_without_fallback_rejects",
+      "reasons": [
+        "profile_digest_lookup_accounting_or_fallback_mismatch"
+      ],
+      "status": "reject_no_fit"
+    },
+    {
+      "name": "changed_raw_stat_identity_rejects",
+      "reasons": [
+        "verified_readonly_input_stat_tuple_changed_before_fit"
+      ],
+      "status": "reject_no_fit"
+    },
+    {
+      "name": "amp_skip_rejects_under_current_frozen_policy",
+      "reasons": [
+        "timed_updates_not_all_finite_and_completed"
+      ],
+      "status": "reject_no_fit"
+    },
+    {
+      "name": "loader_bytes_mismatch_rejects",
+      "reasons": [
+        "observed_loader_tensor_bytes_differ_from_frozen_batch_shape"
+      ],
+      "status": "reject_no_fit"
+    },
+    {
+      "name": "one_raw_full_verifier_fallback_remains_valid",
+      "reasons": [],
+      "status": "pass"
+    }
+  ],
+  "feature_width_probe": {
+    "declared_event_feature_count": 99,
+    "derived_model_input_width": 211,
+    "event_feature_count": 99,
+    "event_features_source": "pinned source archive: src/wnn/features.py:event_features",
+    "probe_event_output_shape": [
+      2,
+      3,
+      99
+    ],
+    "probe_input_shape": [
+      2,
+      3,
+      112
+    ],
+    "raw_feature_count": 112
+  },
+  "limits": [
+    "No CUDA profile or fit executed by reviewer",
+    "V4 actual aggregate evidence combined with separately executed tiny scoped path evidence; V4 postprofile per-path counters were not persisted",
+    "Provider quota, spending authority and final assembled packet sealing remain controller-owned"
+  ],
+  "scientific_profile_argv_unchanged": true,
+  "status": "bounded_independent_code_review_pass",
+  "tiny_handoff": {
+    "aggregate": {
+      "digest_reuse_hits": 2,
+      "digest_reuse_misses": 4,
+      "fallback_digest_calls": 4,
+      "verifier_lookups": 6
+    },
+    "original_verifier_calls": [
+      "auxiliary-0",
+      "auxiliary-1",
+      "auxiliary-2",
+      "auxiliary-3"
+    ],
+    "raw": {
+      "train.parquet": {
+        "digest_reuse_hits": 1,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 1
+      },
+      "valid.parquet": {
+        "digest_reuse_hits": 1,
+        "digest_reuse_misses": 0,
+        "fallback_digest_calls": 0,
+        "verifier_lookups": 1
+      }
+    }
+  },
+  "trainer_source_archive_unchanged": true,
+  "v5_file_sha256": {
+    "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+    "profile_worker.py": "557bad7673af3261c792a27d5b7897ff9af0baae9df5e170c5b1b18f9987cb83",
+    "source_archive.tar": "afde296e1c5e2f0c47a6fb352c2dea8e0a3df75900f53c26f103b3921df1f565",
+    "verified_digest_handoff.py": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
+  }
+}
