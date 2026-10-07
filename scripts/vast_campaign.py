@@ -24,6 +24,7 @@ import tarfile
 import tempfile
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from collections.abc import Callable, Iterator, Mapping
 from contextlib import contextmanager
@@ -34,7 +35,9 @@ from pathlib import Path, PurePosixPath
 from typing import IO, Never, Protocol, cast
 
 LOG = logging.getLogger("vast_campaign")
-API_BASE = "https://console.vast.ai/api/v0"
+API_ROOT = "https://console.vast.ai"
+API_BASE = f"{API_ROOT}/api/v0"
+API_V1_BASE = f"{API_ROOT}/api/v1"
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_LEDGER = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state")) / (
     "wnn-campaign/vast/ledger.json"
@@ -177,11 +180,28 @@ class VastApi:
         self._opener = urllib.request.build_opener(NoRedirectHandler())
 
     def _request(
-        self, method: str, route: str, body: dict[str, object] | None = None
+        self,
+        method: str,
+        route: str,
+        body: dict[str, object] | None = None,
+        *,
+        api_version: int = 0,
+        query: Mapping[str, str] | None = None,
     ) -> dict[str, object]:
         if not route.startswith("/") or "?" in route or "#" in route:
             raise ValueError("API route must be a relative path without query parameters")
-        url = API_BASE + route
+        if api_version not in {0, 1}:
+            raise ValueError("only Vast API versions 0 and 1 are supported")
+        if api_version == 1 and (method != "GET" or route != "/instances/"):
+            raise ValueError("the v1 transport is restricted to read-only instance inventory")
+        if query is not None and any(
+            not isinstance(key, str) or not isinstance(value, str) for key, value in query.items()
+        ):
+            raise ValueError("API query parameters must contain string keys and values")
+        base = API_BASE if api_version == 0 else API_V1_BASE
+        url = base + route
+        if query:
+            url += "?" + urllib.parse.urlencode(query)
         data = None if body is None else json.dumps(body, sort_keys=True).encode("utf-8")
         headers = {
             "Accept": "application/json",
@@ -219,8 +239,29 @@ class VastApi:
         return self._request("GET", "/users/current/")
 
     def list_instances(self) -> list[dict[str, object]]:
-        """List current-account instances without modifying them."""
-        return _instance_rows(self._request("GET", "/instances/"))
+        """List every current-account instance through the supported v1 API."""
+        query = {
+            "select_filters": json.dumps({}),
+            "order_by": json.dumps([{"col": "id", "dir": "asc"}]),
+            "limit": "25",
+        }
+        rows: list[dict[str, object]] = []
+        seen_tokens: set[str] = set()
+        while True:
+            page = self._request("GET", "/instances/", api_version=1, query=query)
+            page_rows = page.get("instances")
+            if not isinstance(page_rows, list) or any(
+                not isinstance(row, dict) for row in page_rows
+            ):
+                raise ApiError("Vast v1 instance response did not contain an instances list")
+            rows.extend(cast(list[dict[str, object]], page_rows))
+            token = page.get("next_token")
+            if token is None or token == "":
+                return rows
+            if not isinstance(token, str) or token in seen_tokens:
+                raise ApiError("Vast v1 instance pagination returned an invalid or repeated token")
+            seen_tokens.add(token)
+            query["after_token"] = token
 
     def search_offers(self, criteria: dict[str, object]) -> list[dict[str, object]]:
         """Search verified, rentable, on-demand offers through the documented bundles API."""
@@ -499,15 +540,6 @@ def _balance(user: Mapping[str, object]) -> Decimal:
     if "credit" in user:
         return _decimal(user["credit"], "Vast available credit")
     return _decimal(user.get("balance"), "Vast account balance")
-
-
-def _instance_rows(response: Mapping[str, object]) -> list[dict[str, object]]:
-    rows: object = response.get("instances")
-    if isinstance(rows, dict):
-        rows = [rows]
-    if not isinstance(rows, list) or any(not isinstance(row, dict) for row in rows):
-        raise CampaignError("Vast instance response did not contain an instances list")
-    return cast(list[dict[str, object]], rows)
 
 
 def _wrapped_instance(response: Mapping[str, object]) -> dict[str, object]:

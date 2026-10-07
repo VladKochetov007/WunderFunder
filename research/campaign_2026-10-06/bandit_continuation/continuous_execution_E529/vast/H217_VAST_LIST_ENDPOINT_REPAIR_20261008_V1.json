@@ -1,0 +1,63 @@
+{
+  "admission": "No create, rent, provider-instance operation, dispatch-receipt mutation, or relaunch was performed.",
+  "attempt_id": "e529-vast-h217-pair-v2-20261008-a1",
+  "failure_report": {
+    "evidence_source": "root controller handoff; not replayed during this repair",
+    "http_status": 410,
+    "phase": "pre-create inventory",
+    "provider_creation_receipt": "none reported",
+    "request": "GET https://console.vast.ai/api/v0/instances/"
+  },
+  "kind": "vast_instance_inventory_transport_repair",
+  "local_unit": {
+    "name": "wnn-vast-e529-h217-pair-v2-20261008-a1.service",
+    "post_stop_state": "inactive/dead; MainPID 0",
+    "provider_instance_touched": false,
+    "stop_command": "systemctl --user stop wnn-vast-e529-h217-pair-v2-20261008-a1.service"
+  },
+  "official_sdk": {
+    "distribution": "vastai",
+    "legacy_v0_list": "deprecated",
+    "pagination": {
+      "continuation_field": "next_token",
+      "order_by": [
+        {
+          "col": "id",
+          "dir": "asc"
+        }
+      ],
+      "page_size": 25,
+      "select_filters": {}
+    },
+    "source_files": [
+      {
+        "path": "/home/vlad/.local/lib/python3.14/site-packages/vastai/api/instances.py",
+        "sha256": "0fe3dcddd971e38f5d48cf5d20a8704c9a4e5afbdb6888e7846042ea332fca77"
+      },
+      {
+        "path": "/home/vlad/.local/lib/python3.14/site-packages/vastai/sync/client.py",
+        "sha256": "b54e9c9f93a3d0a8be44f1e3af1aa8e9c26ca0ebc9a15a7d05b11c1db72a93b6"
+      }
+    ],
+    "supported_inventory_endpoint": "GET https://console.vast.ai/api/v1/instances/",
+    "version": "1.8.3"
+  },
+  "recorded_at_utc": "2026-10-07T21:58:55.411434+00:00",
+  "repair": {
+    "adapter": "scripts/vast_campaign.py",
+    "adapter_sha256": "4632fa642b39a2b3d5768c3ebeb77b3fa32013f84cbfc7239377c27e12f1c204",
+    "pagination_validation": "reject malformed instance pages and invalid or repeated cursors",
+    "tests": "tests/test_vast_campaign.py",
+    "tests_sha256": "be0d029ba010db47c81eb43d366b36e9ba856c472f6eedd2618166db676b92f0",
+    "transport_scope": "read-only v1 inventory only; create/get/destroy/SSH routes remain v0"
+  },
+  "schema_version": 1,
+  "verification": {
+    "command": "scripts/limited .venv/bin/pytest -q tests/test_vast_campaign.py",
+    "network_calls": 0,
+    "provider_mutations": 0,
+    "result": "45 passed",
+    "ruff_check": "passed",
+    "ruff_format_check": "passed"
+  }
+}

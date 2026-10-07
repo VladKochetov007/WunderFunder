@@ -6,6 +6,7 @@ import io
 import json
 import tarfile
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import UTC, datetime, timedelta
 from http.client import HTTPMessage
@@ -1423,3 +1424,64 @@ def test_api_redirect_is_refused_without_logging_bearer_or_body(
         )
         is None
     )
+
+
+def test_instance_inventory_uses_paginated_official_v1_endpoint(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    pages = [
+        {"instances": [{"id": 101, "label": "owned-a"}], "next_token": "page 2/+"},
+        {"instances": [{"id": 202, "label": "owned-b"}], "next_token": None},
+    ]
+
+    class JsonResponse(io.BytesIO):
+        def __init__(self, url: str, body: dict[str, object]) -> None:
+            super().__init__(json.dumps(body).encode("utf-8"))
+            self.url = url
+
+        def geturl(self) -> str:
+            return self.url
+
+        def __enter__(self) -> JsonResponse:
+            return self
+
+        def __exit__(self, *_args: object) -> None:
+            self.close()
+
+    class PagingOpener:
+        def __init__(self) -> None:
+            self.requests: list[urllib.request.Request] = []
+
+        def open(self, request: urllib.request.Request, timeout: float) -> JsonResponse:
+            assert timeout == 15.0
+            self.requests.append(request)
+            return JsonResponse(request.full_url, pages[len(self.requests) - 1])
+
+    opener = PagingOpener()
+    monkeypatch.setattr(vast.urllib.request, "build_opener", lambda *_handlers: opener)
+    api = vast.VastApi("private-test-key")
+
+    assert api.list_instances() == [
+        {"id": 101, "label": "owned-a"},
+        {"id": 202, "label": "owned-b"},
+    ]
+    assert len(opener.requests) == 2
+    first, second = opener.requests
+    for request in opener.requests:
+        assert request.get_method() == "GET"
+        assert request.full_url.startswith(f"{vast.API_V1_BASE}/instances/?")
+        assert request.get_header("Authorization") == "Bearer private-test-key"
+    first_query = urllib.parse.parse_qs(urllib.parse.urlsplit(first.full_url).query)
+    second_query = urllib.parse.parse_qs(urllib.parse.urlsplit(second.full_url).query)
+    assert first_query["select_filters"] == ["{}"]
+    assert json.loads(first_query["order_by"][0]) == [{"col": "id", "dir": "asc"}]
+    assert first_query["limit"] == ["25"]
+    assert "after_token" not in first_query
+    assert second_query["after_token"] == ["page 2/+"]
+    assert "private-test-key" not in first.full_url
+
+
+def test_v1_instance_transport_cannot_be_used_for_mutating_routes() -> None:
+    api = vast.VastApi("private-test-key")
+    with pytest.raises(ValueError, match="restricted to read-only instance inventory"):
+        api._request("DELETE", "/instances/123/", api_version=1)
