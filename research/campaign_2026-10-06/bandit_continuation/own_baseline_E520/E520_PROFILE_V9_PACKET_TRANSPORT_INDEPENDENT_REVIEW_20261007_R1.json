@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "receipt_id": "E520_PROFILE_V9_PACKET_TRANSPORT_INDEPENDENT_REVIEW_20261007_R1",
+  "observed_at_utc": "2026-10-07T15:03:30Z",
+  "experiment_id": "E520_PROFILE_GPU_MEMORY_DOMAIN_V9",
+  "decision": "PASS",
+  "review_scope": "Read-only static transport review of the exact assembled private profile-only packet and embedded wrapper ZIP. The wrapper was parsed and its literals inspected without execution. No packet regeneration, provider action, fit, prediction, grade, or score was performed.",
+  "freeze": {
+    "packet_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v9",
+    "assembly_receipt_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V9_PACKET_ASSEMBLY_20261007_R1.json",
+    "assembly_receipt_sha256": "0817674b77d35b2c31dbd708ad86ea8afa047880a90dddd386da2e2035f2de07",
+    "packet_sha256sums_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V9_PACKET_SHA256SUMS_20261007_R1.txt",
+    "packet_sha256sums_sha256": "a019fb208c95b9a986c00077c7201d2b70c126e7630b5a02b395a762897359ad",
+    "controller_builder_admission_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V9_CONTROLLER_BUILDER_ADMISSION_20261007_R1.json",
+    "controller_builder_admission_sha256": "14f1c9d3500f5ebaeb4281f34451dc5f4b313e02125dd24b78a7893f479de436",
+    "source_review_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V9_INDEPENDENT_SOURCE_REVIEW_20261007_R1.json",
+    "source_review_sha256": "b8c2d3f9dbb481a6009c4f8bd6e4ae2d5b7e40ea2327d1e0f44baa22e5d2f1f7",
+    "source_review_map_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/physical_memory_domain_v9_candidate_v1/E520_V9_REVIEW_TARGETS.json",
+    "source_review_map_sha256": "60bac7cba692a3462cc0ffaee03bac7ca107762050fbfce396d9a6c29b4a88af",
+    "packet_file_count_including_wrapper": 19,
+    "unique_embedded_zip_member_count": 18,
+    "wrapper_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v9/profile_kernel_bundle.py",
+    "wrapper_sha256": "d90ca0008e08204fb03ed0dc78a4a9a69458eedb553582e1b2f2a389283d6e8d",
+    "embedded_zip_sha256": "e11a80481e116905ce7a5401648d6ab28210293bfb621c0a9c153a5113871c71"
+  },
+  "findings": [
+    "The assembly receipt, checksum manifest, controller builder admission, source-review receipt, and exact source-review map all match their declared SHA-256 values. All 19 packet files match the assembly byte counts and hashes, and the parsed SHA256SUMS entries equal the assembly packet map exactly.",
+    "The wrapper's embedded ZIP was recovered from Python AST literal assignments without executing the wrapper. Its SHA-256 matches the embedded constant. The ZIP contains 18 unique names, exactly the expected bundle payload set; every extracted member hash matches the wrapper hash map and the corresponding packet file. All names are safe relative paths and no member is a symlink. The 15 independently reviewed source-map members are all included.",
+    "The included pinned source archive has 51 safe regular-file/directory entries, no absolute or traversal paths, no symlinks or hard links, and its regular files stay within scripts/train_rnn.py and src/wnn/.",
+    "Kaggle metadata identifies a private Python script at vladkochetov07/e520-profile-v9-memory-domains with profile_kernel_bundle.py as its sole code entrypoint. The wrapper checks the ZIP digest and every extracted payload hash before import and uses a fresh fixed v9 extraction directory.",
+    "The frozen plan is profile-only: fit, checkpoint writes, prediction export, grading, and scoring are disabled. The packet binds the reviewed 1,700-second worker wall cap and 3,400-second provisional quota cap. external_review.json is byte-identical to the controller's packet-build admission, which itself binds the independent source PASS; that admission explicitly does not authorize provider push."
+  ],
+  "verification": {
+    "assembly_and_manifest": "19/19 packet files and manifest entries exactly match the frozen assembly map.",
+    "embedded_zip": "18/18 unique safe payload members match local packet bytes, wrapper SHA map, and embedded archive SHA.",
+    "reviewed_source_coverage": "15/15 source-review map entries are present in the embedded ZIP.",
+    "metadata_and_gates": "Private slug, one script entrypoint, profile-only flags, extraction path, and worker/quota caps match the exact plan and assembly.",
+    "support_execution": "Bounded 1-CPU, 1.5-GB, 120-second local static verification; wrapper not executed."
+  },
+  "limitations_and_conditions": [
+    "This PASS binds only the exact assembled bytes listed above and is transport review, not a provider execution authorization or evidence of successful profile execution.",
+    "Before push, the operator/controller must obtain fresh exact-slug, quota/account-reserve, campaign-headroom, source-seal, hardware/runtime, and target-registration evidence and record a separate pre-push admission. Provider status alone is not profile success; terminal logs and outputs require reconciliation."
+  ]
+}
