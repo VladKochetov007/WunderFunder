@@ -153,7 +153,7 @@ Existing tooling: `scripts/kaggle_bundle.py`, `kaggle_assets.py`, `kaggle_gpu_ru
 Each admitted cloud cohort needs:
 
 1. A new identified packet with exact source/config/data/recipe hashes, private inputs and output path.
-2. Live quota, separate cloud headroom and representative actual-device timing/memory. Local ceilings do not define cloud memory capacity. No new paid rental/subscription is authorized.
+2. Live quota, separate cloud headroom and representative actual-device timing/memory. Local ceilings do not define cloud memory capacity. Paid Vast execution is authorized only under the bounded plan below; no subscription or credit top-up is authorized.
 3. Input identity and split/membership checks, including expected/observed fingerprints persisted before failure. Correct producer/consumer hash ranges; diagnose mismatches rather than suppressing them.
 4. Phase/resource heartbeat, bounded worker execution, terminal status and complete output/log/checkpoint downloads.
 5. Diagnosed corrected retry under a new ID when necessary. Provider RUNNING is not proof fitting started; startup delays are not bounded by timeout-from-push assumptions.
@@ -167,6 +167,22 @@ The specialist-skill design and MFTE comparison are recorded in
 `conduct-creative-research`; they do not replace the controller or current contract.
 
 ## New tooling, EDA and delivery
+
+### Standing compute-utilization instruction
+
+The user's latest instruction is to keep **Kaggle GPUs/TPUs, the local GPU and authorized Vast workers continuously supplied with useful experiments until the user explicitly says to stop**. This supersedes historical clock cutoffs and stop snapshots. Follow [ADR0014](specs/adr/0014-continuous-useful-compute.md) and the [live delivery estimates](specs/plans/2026-10-07-live-research-estimates.md).
+
+The controller owns actual execution, not only a prepared queue. Give every admitted lane an end-to-end operator and prepare its reviewed successor while its current job runs. Check actual phase/heartbeat, resource consumption and terminal outputs; provider RUNNING alone is insufficient. Diagnose errors and launch identified corrected attempts within existing authority. Do not leave a healthy runnable scientific arm idle waiting for unrelated ideation, infrastructure or ablations. If a lane is idle, record its concrete dependency, current repair owner and next action, then work to remove that dependency. Refresh live quota and allocate bounded production TPU work after numerical/real-data parity; old probe-only budgets are not a permanent research cap.
+
+Continuous utilization means useful computation: never spin, duplicate completed runs, relax causality/data/metric checks, exceed local aggregate caps or spend on idle rentals to manufacture utilization. Existing $4 initial/$20 cumulative Vast limits, no top-up, independent review requirements and strict campaign-created-instance ownership remain binding. Collect results, update evidence and teardown our paid worker when its useful queue is empty. An explicit stop drains healthy admitted jobs and closes new admission; a later explicit resume records its supersession.
+
+### Approved continuous execution and Vast ownership
+
+Follow [the saved execution plan](specs/plans/2026-10-07-continuous-research.md). The user approved up to $4 all-in for the first Vast cohort and $20 cumulatively, with the remainder released from completed evidence. Load the private `.env` `vastai` credential only inside the API client; never log, commit, include it in agent prompts or upload it to workers.
+
+The user's strict ownership rule is: **“touch only machines you rented. do not hurt existing, they are not mine.”** Never stop, delete, reconfigure, connect to, collect from or adopt pre-existing/unrelated Vast instances. Every such operation requires the campaign's durable creation receipt binding attempt ID, account scope and provider instance ID. Matching labels alone are insufficient. An ambiguous create must be reconciled without duplicate creation or touching an unproven instance. No bulk cleanup. Preserve this boundary in delegated tasks and tests.
+
+Keep successors prepared and switch only after valid terminal evidence or a diagnosed repair. Reassess the research allocation every two hours. Provider/tool access errors are execution evidence, not negative scientific results; a prepared queue is not a running job.
 
 Build a new helper only when an existing tool cannot perform the required concrete task. Give it a narrow schema, bounded inputs/resources, explicit failure behavior, provenance and focused tests for material invariants. Independently review before production. Avoid constructing a generic framework as a prerequisite for one runnable experiment.
 

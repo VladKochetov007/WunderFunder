@@ -19,3 +19,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 
 - [ADR0011: measured pipeline utilization](0011-measured-pipeline-utilization.md): verifieddigestreuse, completecohortcost and bounded loaderprofiling.
 - [ADR0012: independently implement teammate methods](0012-independent-teammate-method-implementation.md): read code for ideas and implementation details; independently write training and serving code in our own project conventions.
+- [ADR0013: bounded paid compute and owned instances](0013-owned-paid-compute-and-continuous-queue.md): finite useful-run queues, $4 initial/$20 cumulative Vast spend, and no actions on pre-existing or unrelated machines.
+- [ADR0014: continuous useful compute](0014-continuous-useful-compute.md): keep local/Kaggle/authorized Vast lanes supplied with useful work until explicit user stop; own repairs, terminal artifacts and prepared successors.
