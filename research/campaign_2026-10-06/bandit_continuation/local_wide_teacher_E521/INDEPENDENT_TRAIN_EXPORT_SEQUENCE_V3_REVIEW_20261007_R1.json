@@ -1,0 +1,93 @@
+{
+  "id": "E521-train-export-pair-sequence-v3-independent-review-r1",
+  "reviewed_at_utc": "2026-10-07T14:43:56Z",
+  "reviewer": "tpu_recovery_delivery",
+  "role": "independent static sequence/resource/source-boundary reviewer",
+  "decision": "PASS_CONDITIONAL_ROOT_ADMISSION",
+  "scope": "Read-only review of exact train-export sequence V3, completed seed4 fit and fixed-epoch-3 valid export predecessors, predictor/source identities, row-count/output sizing, no-overwrite gates, and declared local resource limits. No export or fit launched by reviewer.",
+  "bound_plan": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/TRAIN_EXPORT_PAIR_SEQUENCE_V3.json",
+    "sha256": "e6e51ab739c4d9fcda5a37e76993b60941ad0bbd108ae07863ce265952235bf3"
+  },
+  "predecessor_evidence": {
+    "seed4_fit_attempt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e521-w384-s4-fit-v1.json",
+      "sha256": "c7f61ad9a8d7d776a7a21de57e397abb13d8f142726c379c628548b77ca6a840",
+      "status": "finished",
+      "exit_status": 0,
+      "elapsed_seconds": 5162.210238266001,
+      "contract_sha256": "d63e103f25c2b266379cb64e13a8dc60b8be4bcd3dd036df07f4eb347b3193fb",
+      "checkpoint_path": "artifacts/runs/bd26_w384raw_s4_f0/model_ep3.pt",
+      "checkpoint_sha256": "7e83bebaab7f5de9601b9612ac637a53edd044aec4570d1cf787026b77b43e73",
+      "peak_parent_ram_bytes": 17230094336,
+      "peak_observed_vram_bytes": 3994025984,
+      "parent_oom_delta": 0,
+      "comment": "Frozen original seed4 fit command matched the V3 predecessor step exactly; failed export-v1 remained not_started and is not used."
+    },
+    "seed4_valid_export_v2_attempt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e521-w384-s4-export-v2.json",
+      "sha256": "ee2ae4c45e366113e615450ec2f378c6a3a732cc20b3c917da58371401d5960a",
+      "status": "finished",
+      "exit_status": 0,
+      "elapsed_seconds": 101.05618946900358,
+      "contract_path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/SEED4_EXPORT_CONTRACT_V2.json",
+      "contract_sha256": "a5e10cdf7d47ffc058166a0722c1ad3570f8d060d22202a07a3e4aa35c76974a",
+      "peak_parent_ram_bytes": 12719865856,
+      "peak_scoped_ram_bytes": 4522299392,
+      "peak_observed_vram_bytes": 1192230912,
+      "parent_oom_delta": 0,
+      "checkpoint_sha256": "7e83bebaab7f5de9601b9612ac637a53edd044aec4570d1cf787026b77b43e73",
+      "prediction_path": "cache/pred_bd26_w384raw_s4_f0_valid.npy",
+      "prediction_bytes": 299680128,
+      "sidecar_path": "cache/pred_bd26_w384raw_s4_f0_valid.json",
+      "sidecar_sha256": "e7442896c7572654e58d7a670d02ff0e8a9de674538a376519c43235ff876ea",
+      "sidecar_prediction_sha256": "47a42be2a55248b9fdd8af5ce63c4fed14ddf07ee178206d266b0bf2294e3379",
+      "shape_dtype_row_groups": "sidecar records epoch 3, 1873 rows and the fold0 split-manifest hash; array payload digest is recorded by the producer and will be rechecked at later source seal."
+    }
+  },
+  "future_sequence_contracts": [
+    {
+      "step": 2,
+      "attempt": "e521-pre-s3-train-cache-v1",
+      "contract": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/TRAIN_EXPORT_S3_CACHE_CONTRACT_V3.json",
+      "sha256": "8da09d5a907a413e8f11512f620fdd5700d4fff91a9f936eee3243bcac7b7860",
+      "kind": "1-CPU/256-MB clean file-cache handoff after exact successful GPU export; GPU lock and unchanged parent caps."
+    },
+    {
+      "step": 3,
+      "attempt": "e521-w384-s3-train-export-v1",
+      "contract": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/TRAIN_EXPORT_S3_CONTRACT_V1.json",
+      "sha256": "6b0173a9a9c163c957f01317a2a7382480d14e29d81b24ed90b93888404a31e1",
+      "kind": "3-CPU/6.5-GB/1800-s GPU streaming prediction export of seed3 fixed epoch3; checkpoint SHA 90b7357c8d5cf01219764ae58373099710f11d041a01ef5400e683bf854eb08f."
+    },
+    {
+      "step": 4,
+      "attempt": "e521-pre-s4-train-cache-v1",
+      "contract": "research/campaign-2026-10-06/bandit_continuation/local_wide_teacher_E521/TRAIN_EXPORT_S4_CACHE_CONTRACT_V2.json",
+      "sha256": "e59e61368718e95719641f1300c59ce19b0ae6dc4a09259c1cf9e6970c4c731b",
+      "kind": "1-CPU/256-MB clean file-cache handoff after exact successful seed3 export; GPU lock and unchanged parent caps."
+    },
+    {
+      "step": 5,
+      "attempt": "e521-w384-s4-train-export-v1",
+      "contract": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/TRAIN_EXPORT_S4_CONTRACT_V2.json",
+      "sha256": "a2811ac1bf0786c453b11ef0818a54557f5ee30ad3daf7e5d827ff2279c1fd2b",
+      "kind": "3-CPU/6.5-GB/1800-s GPU streaming prediction export of seed4 fixed epoch3; checkpoint SHA 7e83bebaab7f5de9601b9612ac637a53edd044aec4570d1cf787026b77b43e73 and successful fit-record SHA is bound."
+    }
+  ],
+  "verified_findings": [
+    "The current V3 plan hash matches the submitted exact SHA; the two wait-only steps match existing finished/exit_status-0 attempt records byte-for-byte on command. All four child contract command arrays match their sequence expected commands.",
+    "Current train target index is 10,606 unique row groups and the fold manifest has 10,535 allowed train groups; the index intentionally contains rows outside the fold0 fitting set for later filtering. The prediction exporter streams the full target index; cache/source sealing must continue filtering to the manifest fit groups.",
+    "Each train export has a 1.8-GB disk output reservation; expected float32 payload is 1,696,960,000 bytes (10,606 x 20,000 x 2 x 4), plus a 128-byte NPY header. The plan requires 10,000,000,000 bytes free plus that output reservation before launch.",
+    "Both future GPU steps use the unchanged predict_run.py SHA de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee; it writes an NPY memmap with batch 16, inference chunk 4,000, fixed epoch 3, and only the first two prediction channels. bandit_resources sets WNN_LOADER_WORKERS=0, WNN_THREADS=3, WNN_GPU_MEMORY_BYTES=4,300,000,000 and the shared GPU lock under the current 6-CPU/20-GB/5-GB-VRAM parent limits.",
+    "The cache-handoff helper SHA 81768a3ac2c2569423cce1eb1d1548dcbcb2ed5892b608e02adb6b4e754fe361 checks its successful GPU predecessor, validates the campaign parent bounds, takes the GPU lock, and performs bounded memory.reclaim without changing limits.",
+    "All four future attempt records, both handoff receipts, both train prediction arrays/sidecars/partials and the protected seqsums files are currently absent. The sequence refuses existing outputs and terminal failures instead of overwriting or retrying.",
+    "The previous seed4 export-v1 admission refusal is preserved; this sequence waits on successful seed4 export-v2 and does not retry or alter its command/resources."
+  ],
+  "limitations_and_admission_boundary": [
+    "This PASS covers the current frozen sequence and successful predecessor receipts only. It is not the controller resource-admission receipt and does not authorize this reviewer to launch the sequence.",
+    "The plan field launch_authorized=false is descriptive; scripts/bandit_sequence.py does not enforce it. Root must issue its separate exact external admission before starting the sequence, then refresh live disk/parent/GPU gates.",
+    "After each train export, the owner must verify the full-array SHA, sidecar/checkpoint hashes, fixed epoch, dtype/shape, exact ordered train-target row groups and finite values before H230 source sealing/cache use. Sequence exit alone is not source-seal evidence."
+  ],
+  "no_fit_or_export_launched_by_reviewer": true
+}

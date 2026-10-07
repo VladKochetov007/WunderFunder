@@ -1,0 +1,39 @@
+{
+  "id": "e521-w384-s4-train-export-v1",
+  "scope": "teacher train predictions only, fixed ep3, no scored claim or checkpoint selection",
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=20s",
+    "1800",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "scripts/predict_run.py",
+    "bd26_w384raw_s4_f0",
+    "train",
+    "--epoch",
+    "3"
+  ],
+  "source_predictor_sha256": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee",
+  "checkpoint_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_w384raw_s4_f0/model_ep3.pt",
+  "checkpoint_sha256": "7e83bebaab7f5de9601b9612ac637a53edd044aec4570d1cf787026b77b43e73",
+  "checkpoint_binding": "Actual successful seed4 fit fixedep3, sourcefit/provenance exactbinding recorded beforeexport",
+  "resources": {
+    "cpus": 3,
+    "ram_bytes": 6500000000,
+    "loader_workers": 0,
+    "batch": 16,
+    "prediction_chunk": 4000,
+    "allocator_bytes": 4300000000,
+    "observed_vram_bytes": 5000000000,
+    "timeout_seconds": 1800
+  },
+  "shape_rationale": "same per-batch predictor as measured seed3 valid export; more sequences stream into NPY memmap, no all-predictions RAM materialization",
+  "output": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_bd26_w384raw_s4_f0_train.npy",
+  "overwrite_authorized": false,
+  "fit_receipt_sha256": "c7f61ad9a8d7d776a7a21de57e397abb13d8f142726c379c628548b77ca6a840",
+  "supersedes": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/TRAIN_EXPORT_S4_CONTRACT_V1.json",
+    "sha256": "afa4a5e997971be029a0e9211eda975b9a83ee4baeee94dad07d432b6b9068bd",
+    "reason": "Fill actualcheckpoint identity afterfit; no command/source/resources change"
+  }
+}
