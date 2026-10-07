@@ -1,0 +1,151 @@
+{
+  "id": "E524-C1-delivered-zip-validation-v1",
+  "created_utc": "2026-10-07T16:10:21Z",
+  "owner": "e520_cloud_delivery",
+  "scope": "Deliver and validate own C1 pair and own single-seed CPU submission ZIPs; no public upload, fit, or new score claim",
+  "contract": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/C1_PAIR_PACKAGE_CONTRACT_V1.json",
+    "sha256": "640495f6dcff319f7a19cdc9f8b40826f801b408c80af00b6b13147ec1e45e7d",
+    "metric": "global_wp_clip2_v1",
+    "member_ancestry": "Own independently trained C1 seed 3 and seed 4 checkpoints; no Maxim code, weights, or libraries copied",
+    "human_upload_gate": "retained; no submission was uploaded"
+  },
+  "execution_limits": {
+    "host_callbacks": "scripts/limited with WNN_SLICE=wnn-campaign.slice, WNN_CPU_QUOTA=100%, WNN_THREADS=1, WNN_MEM_MAX=1000000000; no GPU requested",
+    "python311": {
+      "image": "wnn-python311-submission-check:latest",
+      "image_id": "sha256:949c72c9cf887a68e25dc00955ab030f1e528c21f1049459330ff022a7d51317",
+      "python": "3.11.16",
+      "network": "none",
+      "cpu_limit": 1,
+      "memory_limit_bytes": 1000000000,
+      "swap_limit_bytes": 1000000000,
+      "cuda_visible_devices": "empty; no GPU device passed",
+      "numpy": "2.2.6",
+      "pyarrow": "19.0.1"
+    },
+    "torch_cpu_reference": {
+      "threads": 1,
+      "memory_limit_bytes": 2000000000,
+      "cuda_initialized": false
+    }
+  },
+  "packages": {
+    "pair": {
+      "upload_file": "submissions/c20261007_c1_pair_i16/c20261007_c1_pair_i16.zip",
+      "sha256": "e83909ecccbad8b5af3ab48bf316f7dda71ebfd13cf0da6ab95333ef5b9840ff",
+      "bytes": 8301244,
+      "members": [
+        {"source": "bd26_c1v2_s3_f0@ep1", "weight_member": "weights_0.npz", "coef": 0.5},
+        {"source": "bd26_c1v2_s4_f0@ep1", "weight_member": "weights_1.npz", "coef": 0.5}
+      ],
+      "package_copy_identical": true,
+      "static_abi_pass": true,
+      "python311_single_gate": "not run for the over-limit pair",
+      "runtime_gate": "failed; not recommended for upload under the 60-minute serving bound"
+    },
+    "s3": {
+      "upload_file": "submissions/c20261007_c1_s3_i16/c20261007_c1_s3_i16.zip",
+      "sha256": "95b4a730e61182b37f5bfd238aa8077430666bb9f5acfc5d76635bf23138163c",
+      "bytes": 4674361,
+      "members": [
+        {"source": "bd26_c1v2_s3_f0@ep1", "weight_member": "weights_0.npz", "coef": 1.0}
+      ],
+      "package_copy_identical": true,
+      "static_abi_pass": true,
+      "python311_callback_reset_and_cross_level_pass": true,
+      "cpu_float32_export_parity_pass": true,
+      "runtime_projection_minutes": 46.7
+    },
+    "s4": {
+      "upload_file": "submissions/c20261007_c1_s4_i16/c20261007_c1_s4_i16.zip",
+      "sha256": "7d9059c6817b2fefeb98e6bcefa536f9c6488ff25697a7d3e58ee0603186667a",
+      "bytes": 4674695,
+      "members": [
+        {"source": "bd26_c1v2_s4_f0@ep1", "weight_member": "weights_0.npz", "coef": 1.0}
+      ],
+      "package_copy_identical": true,
+      "static_abi_pass": true,
+      "python311_callback_reset_and_cross_level_pass": true,
+      "cpu_float32_export_parity_pass": true,
+      "runtime_projection_minutes": 50.9
+    },
+    "all_zips_under_20_mb": true,
+    "all_have_root_solution_py": true,
+    "all_paths_safe_and_unique": true,
+    "all_members_i16": true,
+    "exact_checkpoint_tensor_exports": true,
+    "package_provenance_report": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_PACKAGE_PROVENANCE_VALIDATION.json",
+      "sha256": "669d7d12f878e8a090273d2111ba1530c76dc26f0dd2a5402dba3d207b816031"
+    }
+  },
+  "static_abi": {
+    "gate": "scripts/check_submission_abi.py",
+    "all_checked_libraries_pass": true,
+    "maximum_glibc": "2.34",
+    "libpython_dt_needed": false,
+    "reports": {
+      "pair": {"path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/pair_abi.json", "sha256": "5706cc90f6a9649943156e1122dc57c19e611d0fbb9a410c43c066d3520f4118"},
+      "s3": {"path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/s3_abi.json", "sha256": "f0f0b7b6e8ac12dfc0e9fbe47e022925c7a957c6ddf41f0304a78cdec1893d26"},
+      "s4": {"path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/s4_abi.json", "sha256": "503560eaa792dacc8ae87b134dabb70bf5bbde7d39e64093382a38a38f0c5c95"},
+      "incumbent": {"path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/incumbent_abi.json", "sha256": "7b9e0d25ee1f6b37b698c8610412091863df4e2030a58b1667ca560a71a79442"}
+    }
+  },
+  "python311_offline_callbacks": {
+    "gate": "scripts/check_submission_python311.py",
+    "actual_zip_import": true,
+    "offline_cpu_only": true,
+    "full_streams": 2,
+    "rows": 40000,
+    "warmup_rows": 99,
+    "reset_replay_rows": 120,
+    "reset_and_determinism_pass": true,
+    "all_cross_level_outputs_exact_to_host_v3_reference": true,
+    "max_abs_vs_archived_native": 0.0,
+    "passes": [
+      {"variant": "s3", "level": "v2", "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/s3_python311_v2.json", "sha256": "9bbb97d95d98c9d5758d12120706a543b14014fbd72ef1d29ad6337584c93a42"},
+      {"variant": "s3", "level": "avx2", "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/s3_python311_avx2.json", "sha256": "5bdd1ac9ed54ded7625b7c91912aa5b3d1eda10df932d985f44c68f3b43a18d8"},
+      {"variant": "s3", "level": "v3", "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/s3_python311_v3.json", "sha256": "249f2b7fda0d5f1e3429a4850ec217c15e30ec482746545a5b230766c6a23b31"},
+      {"variant": "s4", "level": "v2", "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/s4_python311_v2.json", "sha256": "045d2b833aecb3c9549162da9d43734d63d9d2aad1bc6a7aad1ccd0da24a2168"},
+      {"variant": "s4", "level": "avx2", "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/s4_python311_avx2.json", "sha256": "bd6ea845846356010be748a0b13bf10946e8a59e99f57402060cccb05b6e1246"},
+      {"variant": "s4", "level": "v3", "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/s4_python311_v3.json", "sha256": "61449a5bf15040492e68f4c1301627d89b2f948828b629a4903611269f445837"}
+    ]
+  },
+  "torch_export_parity": {
+    "cpu_float32_results": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_TORCH_CPU_PARITY_AND_FP16_DIAGNOSTIC.json",
+    "cpu_float32_results_sha256": "323aeef0ced8059aac83891b2080efbcfe3449fb236eb3d2b651f3011ff27020",
+    "i16_vs_cpu_float32_max_abs": {"s3": 0.00007534027099609375, "s4": 0.00010380148887634277, "pair": 0.00005577504634857178},
+    "i16_vs_cpu_float32_limit": 0.0003,
+    "all_pass": true,
+    "cached_gpu_fp16_comparison": "recorded separately as a diagnostic, not used for the float32 gate"
+  },
+  "same_host_20_sequence_runtime": {
+    "dataset": "cache/valid_subset20.parquet",
+    "dataset_sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+    "rows_per_package": 400000,
+    "sequences": 20,
+    "runtime_process": "scripts/verify_submission.py, v3 i16 package, one CPU, one thread, 1 GB cap, no GPU",
+    "sample_is_exposed": true,
+    "public_score_claim": false,
+    "measurements": {
+      "pair": {"us_per_row": 137.4, "projected_minutes_39_4m_rows": 90.2, "ratio_vs_incumbent": 1.59212, "estimated_runtime_change": "+59.2%", "within_60_minute_bound": false, "output_sha256": "de52e142f6dda5e1270e8d344da8202ba6b2ad873f4d7101d5f45d7a9807b3a4"},
+      "s3": {"us_per_row": 71.1, "projected_minutes_39_4m_rows": 46.7, "ratio_vs_incumbent": 0.82387, "estimated_runtime_change": "-17.6%", "within_60_minute_bound": true, "output_sha256": "f9d8b56e19d2f6ac93aa070a71bbc979964f995c460a58dfc9992e931c1216f7"},
+      "s4": {"us_per_row": 77.6, "projected_minutes_39_4m_rows": 50.9, "ratio_vs_incumbent": 0.89803, "estimated_runtime_change": "-10.2%", "within_60_minute_bound": true, "output_sha256": "90039a2bded969c4d76f10c016331231742195738c0a8a1c5faf7e2ca2ae784e"},
+      "incumbent": {"us_per_row": 86.3, "projected_minutes_39_4m_rows": 56.6, "ratio_vs_incumbent": 1.0, "within_60_minute_bound": true, "output_sha256": "cc20ecb6a2085a1e4140981536c51ba74eedbb084ac21bbdd6940cc3b3b50606"}
+    },
+    "limits": "These are 20-stream same-host projections, not full competition runtime or public measurements. The public incumbent portal runtime is 2,227 seconds; this screen reports only a matched local comparison."
+  },
+  "execution_commands": {
+    "package_s3": "PYTHONPATH=src scripts/limited .venv/bin/python scripts/package_submission.py c20261007_c1_s3_i16 'bd26_c1v2_s3_f0@ep1:1.0' --native-from submissions/c20261004_combo_s4_i16/pkg --solution submissions/c20261004_combo_s4_i16/pkg/solution.py --precision i16",
+    "package_s4": "PYTHONPATH=src scripts/limited .venv/bin/python scripts/package_submission.py c20261007_c1_s4_i16 'bd26_c1v2_s4_f0@ep1:1.0' --native-from submissions/c20261004_combo_s4_i16/pkg --solution submissions/c20261004_combo_s4_i16/pkg/solution.py --precision i16",
+    "runtime_check": "WNN_NATIVE_LEVEL=v3 PYTHONPATH=src WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=600s scripts/limited .venv/bin/python scripts/verify_submission.py ZIP cache/valid_subset20.parquet OUTPUT.npz",
+    "python311_check": "docker run --rm --network none --cpus=1 --memory=1g --memory-swap=1g --pids-limit=128 -e CUDA_VISIBLE_DEVICES= -e NVIDIA_VISIBLE_DEVICES=void -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 wnn-python311-submission-check:latest python scripts/check_submission_python311.py --zip ZIP --data cache/valid_subset20.parquet --level LEVEL --reference NATIVE_20SEQ_OUTPUT.npz --output CHECK.json"
+  },
+  "result": {
+    "s3_and_s4_technical_package_validation": "pass for the tested ZIP bytes and runtime screen",
+    "pair": "retained as an artifact but fails the sampled 60-minute runtime projection; not recommended for upload",
+    "fit_or_score": "none",
+    "public_upload": "not performed; root retains final recommendation and the human upload gate"
+  }
+}

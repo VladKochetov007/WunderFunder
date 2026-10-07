@@ -1,0 +1,30 @@
+{
+  "purpose": "independent CPU float32 model-export reference for C1 ZIP parity",
+  "runs": [
+    "bd26_c1v2_s3_f0",
+    "bd26_c1v2_s4_f0"
+  ],
+  "checkpoint_sha256": {
+    "bd26_c1v2_s3_f0": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+    "bd26_c1v2_s4_f0": "fd48545b6e24ec275ff0d3874590cb0c6c4e2e717bc81ff94be50a0439f162c2"
+  },
+  "data": "cache/valid_subset20.parquet",
+  "data_sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+  "sequence_ids": [
+    256678,
+    1990332
+  ],
+  "rows_per_sequence": 20000,
+  "output_shape": [
+    2,
+    2,
+    20000,
+    2
+  ],
+  "output_dtype": "float32",
+  "torch_version": "2.14.0+cu130",
+  "cpu_threads": 1,
+  "cuda_initialized": false,
+  "reference_source": "scripts/train_rnn.py make_model and predict, eval mode, CPU/no autocast",
+  "output_sha256": "66a9011b36faf6ba3cfc414bd438492c7ef13c31d6bd54cc882ed58e4a1e9a23"
+}

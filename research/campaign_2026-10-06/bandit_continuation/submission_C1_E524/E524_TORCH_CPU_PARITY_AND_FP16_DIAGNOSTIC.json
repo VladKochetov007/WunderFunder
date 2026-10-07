@@ -1,0 +1,145 @@
+{
+  "id": "E524-C1-delivery-torch-parity-diagnostic-v1",
+  "created_utc": "2026-10-07T16:10:21Z",
+  "scope": "CPU float32 model-export parity on two exact streams; GPU FP16 cache comparison and official metric on the fixed exposed 20-stream sample",
+  "input": {
+    "sample": "cache/valid_subset20.parquet",
+    "sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+    "sequence_ids": [
+      256678,
+      1990332,
+      8348957,
+      9579986,
+      9831922,
+      1200028,
+      4490992,
+      28417254,
+      29941155,
+      30273600,
+      751005,
+      6746551,
+      9147005,
+      16979262,
+      23433965,
+      1892371,
+      2308749,
+      19569293,
+      24654613,
+      28399078
+    ],
+    "full_valid_prediction_indices": [
+      0,
+      4,
+      8,
+      10,
+      11,
+      2,
+      6,
+      23,
+      27,
+      28,
+      1,
+      7,
+      9,
+      13,
+      17,
+      3,
+      5,
+      14,
+      18,
+      22
+    ],
+    "feature_identity_vs_full_valid": "exact for all 20 sequence groups",
+    "cache_row_group_index_is_identity": true
+  },
+  "torch_cpu_float32_reference": {
+    "script": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/torch_cpu_reference.py",
+    "script_sha256": "8933bcff83ab94ee15d7166653c311a6a375570493baf306d5491608929e37df",
+    "output": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/torch_cpu_reference_first2.npz",
+    "output_sha256": "66a9011b36faf6ba3cfc414bd438492c7ef13c31d6bd54cc882ed58e4a1e9a23",
+    "metadata": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/torch_cpu_reference_first2.json",
+    "metadata_sha256": "cb9a6e0f16ac9136b93e665cde619128ea25c68b8e60dd93bc5c844bd173e904",
+    "implementation": "scripts/train_rnn.py make_model/predict, eval mode, one CPU thread, CPU float32 with no autocast, same raw two sequence inputs",
+    "cuda_initialized": false,
+    "torch_version": "2.14.0+cu130",
+    "checkpoint_sha256": {
+      "bd26_c1v2_s3_f0@ep1": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+      "bd26_c1v2_s4_f0@ep1": "fd48545b6e24ec275ff0d3874590cb0c6c4e2e717bc81ff94be50a0439f162c2"
+    },
+    "checkpoint_model_state_equal_to_cached_prediction_checkpoint": true,
+    "comparison_rows": "all post-warmup rows from the first two sample sequences; 79,604 scalar outputs per model"
+  },
+  "i16_vs_cpu_float32": {
+    "maximum_absolute_error_limit": 0.0003,
+    "s3": {
+      "max_abs": 0.00007534027099609375,
+      "p999_abs": 0.000050377799198031425,
+      "mean_abs": 0.000010068803021567874,
+      "rmse": 0.000012895411600766238,
+      "passed": true
+    },
+    "s4": {
+      "max_abs": 0.00010380148887634277,
+      "p999_abs": 0.00006683403626084328,
+      "mean_abs": 0.000012746477295877412,
+      "rmse": 0.000016348920325981453,
+      "passed": true
+    },
+    "pair": {
+      "max_abs": 0.00005577504634857178,
+      "p999_abs": 0.000041797757148742676,
+      "mean_abs": 0.000009402742762176786,
+      "rmse": 0.00001170579434034195,
+      "passed": true
+    },
+    "threshold_basis": "existing accepted E450 i16-versus-float32 parity limit; not widened"
+  },
+  "cached_torch_prediction_diagnostic": {
+    "s3_cache_sha256": "cb832b1397c75e318551fd6d6f0e22d09f3c4230c3c5ad56cab1a4c4e603c7e8",
+    "s4_cache_sha256": "78635629c73738b29b4680eda0b15430078b01f09ba06c8c24fdfb8c6d71d1cd",
+    "sidecars_inference_precision": "fp16",
+    "scope": "all post-warmup rows across the fixed 20-sequence sample; diagnostic only because this is a GPU-FP16 versus native-i16 cross-backend comparison",
+    "maximum_absolute_error": {
+      "s3": 0.026541173458099365,
+      "s4": 0.046257227659225464,
+      "pair": 0.020393669605255127
+    },
+    "p999_absolute_error": {
+      "s3": 0.019500017166137695,
+      "s4": 0.023395180702209473,
+      "pair": 0.013696670532226562
+    },
+    "mean_absolute_error": {
+      "s3": 0.0012896469561383128,
+      "s4": 0.0012772318441420794,
+      "pair": 0.0010362723842263222
+    },
+    "rmse": {
+      "s3": 0.0021156941074877977,
+      "s4": 0.002316828351467848,
+      "pair": 0.0016750970389693975
+    },
+    "interpretation": "The GPU-FP16 max errors exceed the CPU-float32 parity limit but do not replace or fail the CPU-float32 gate."
+  },
+  "official_metric_on_exposed_20_sequence_sample": {
+    "metric_id": "global_wp_clip2_v1",
+    "selected_rows": 35029,
+    "diagnostic_only": true,
+    "native_scores": {
+      "s3": {"global_wp": 0.7223291140196718, "t0": 0.7385086304166365, "t1": 0.7061495976227071},
+      "s4": {"global_wp": 0.7162819204043703, "t0": 0.7330995359505582, "t1": 0.6994643048581825},
+      "pair": {"global_wp": 0.7199035913105606, "t0": 0.7364507711568656, "t1": 0.7033564114642555}
+    },
+    "gpu_fp16_cache_scores": {
+      "s3": {"global_wp": 0.722113566883998, "t0": 0.7382166831064555, "t1": 0.7060104506615403},
+      "s4": {"global_wp": 0.7162715987786783, "t0": 0.7330070267193076, "t1": 0.6995361708380491},
+      "pair": {"global_wp": 0.7197900478264062, "t0": 0.7362565383387392, "t1": 0.7033235573140733}
+    },
+    "native_minus_gpu_fp16_metric_delta": {
+      "s3": {"global_wp": 0.00021554713567384365, "t0": 0.0002919473101810066, "t1": 0.0001391469611667917},
+      "s4": {"global_wp": 0.000010321625692033543, "t0": 0.00009250923125059263, "t1": -0.00007186597986663656},
+      "pair": {"global_wp": 0.00011354348415437698, "t0": 0.00019423281812647186, "t1": 0.000032854150182285105}
+    },
+    "score_use": "No local score is a public forecast or promotion claim."
+  }
+}

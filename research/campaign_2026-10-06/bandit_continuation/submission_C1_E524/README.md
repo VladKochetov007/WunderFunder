@@ -4,10 +4,18 @@ The user requested uploadable ZIPs using improvements that have actually landed,
 
 The frozen E511 comparison evaluated 468 exposed fold-0 sequences, 141 connected components and 808,863 scored rows using the official metric. C1 seed3 scored 0.681618 versus C0 0.679952; seed4 scored 0.681647 versus 0.679971. Their fixed equal-weight pair scored 0.682176 versus 0.681153. These are local development improvements, not a forecast that the public score exceeds 0.6660 or Maxim's 0.6674. Conditional bootstrap intervals and exact artifacts are in [E511 report](../local/E511_C1V2_C0_EVALUATION_v1/REPORT.md).
 
-The pair was packaged first. Single seed3 and seed4 variants are being prepared as faster alternatives. Pair inference executes two separate recurrent trunks, while the previous public-best package shares one trunk; therefore pair runtime must be measured before recommending upload. A completed ZIP build does not constitute delivery approval.
+The two single-seed variants are built and passed static ABI, offline Python3.11 callback/reset and cross-build archived-output equivalence checks on v2, AVX2 and v3. Root independently replayed their numerical comparison against the exact own CPU float32 checkpoint reference: maximum differences 0.00007534 (seed3) and 0.00010380 (seed4), below the 0.0003 gate. See `ROOT_NUMERICAL_REPLAY_V1.json` and the six `*_python311_*.json` receipts. The cached GPU FP16 predictions are a separate diagnostic reference, not a float32 weight-quantization oracle.
+
+| Candidate | Named ZIP SHA256 | Size bytes | One-core timing, microseconds/row |
+|---|---|---:|---:|
+| Seed3 | `95b4a730e61182b37f5bfd238aa8077430666bb9f5acfc5d76635bf23138163c` | 4,674,361 | 71.1 |
+| Seed4 | `7d9059c6817b2fefeb98e6bcefa536f9c6488ff25697a7d3e58ee0603186667a` | 4,674,695 | 77.6 |
+| Pair, do not upload | `e83909ecccbad8b5af3ab48bf316f7dda71ebfd13cf0da6ab95333ef5b9840ff` | 8,301,244 | 137.4 |
+
+The previous public-best ZIP measured 86.3 microseconds/row on the identical 20-sequence, 400,000-row workload. At the harness's 39.4-million-row reference size, the estimates are 46.7 and 50.9 minutes for the singles, 56.6 for the previous best, and 90.2 for the pair. These are representative local timings, not scorer hardware measurements or runtime guarantees. The pair executes two recurrent trunks and is excluded from upload recommendation because it exceeds the 60-minute envelope in this test. Keep its built artifact as evidence.
 
 These checkpoints retain their fold-0 training membership. They are not newly trained all-data production models. Do not silently relabel their ancestry or add the observed local delta to a public score.
 
-Delivery evidence must bind each final ZIP hash to its static ABI checks, offline Python3.11 CPU callback/reset/determinism tests, numerical parity, fixed membership and representative one-core timing. Only variants passing those checks belong in the final upload recommendation. Public upload remains the human gate.
+The uniquely named single ZIPs in `submissions/c20261007_c1_s3_i16/` and `submissions/c20261007_c1_s4_i16/` are byte-identical to the tested `submission.zip` files. Serving tests cover two complete streams, reset-prefix replay and archived native output equivalence; numerical parity covers those two streams, and timing covers twenty. They do not establish a fresh full-fold CPU score or public performance. Public upload remains the human gate.
 
 See [initial frozen pair contract](C1_PAIR_PACKAGE_CONTRACT_V1.json) and [independent implementation decision](../../../../specs/adr/0012-independent-teammate-method-implementation.md). The delivery operator owns the ZIP tests and exact terminal receipts; the independent critic owns provenance and evidence interpretation.
