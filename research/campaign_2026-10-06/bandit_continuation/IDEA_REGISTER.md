@@ -1,5 +1,9 @@
 # Research idea register
 
+## Additions on 2026-10-08 Kyiv
+
+Grok H253–H259 and the user-supplied manual Muse / Freebuff effective DeepSeek proposals are consolidated in [the updated source integration](rogii_transfer_E532/MULTIPROVIDER_INTEGRATION_V2.md), with [independent crosswalk](rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md). New H260 observable innovation auxiliary and H261 privileged belief-to-student interaction have explicit parent links. H262 preserves the user's matched Huber/target-range question; H263 preserves representative nested-data screening with [its protocol](../../../specs/plans/2026-10-08-small-data-screening.md). All remain untested, with null numerical priors. The table below is the earlier navigation snapshot; generated catalogs will be refreshed after resource headroom permits, rather than competing with the healthy local GPU fit.
+
 Reconciled 2026-10-07T21:58:26.843098+00:00. This navigates the full curated tree, not just the latest active queue. Original cards, raw results and historical decisions remain authoritative. No arm is deleted by this register.
 
 Latest additions: [warm sessions and causal feature proposals](causal_feature_and_warm_session_E531/PROPOSALS_V1.md). [Live frontier](FRONTIER.md) tracks execution; [delivery estimates](../../../specs/plans/2026-10-07-live-research-estimates.md) track the selected finite cohort. Tree allocation eligibility is distinct from resource admission.

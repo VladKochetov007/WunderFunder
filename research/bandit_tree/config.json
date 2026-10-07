@@ -21,7 +21,14 @@
       "first_review_after_hours": 24,
       "new_experiment_compute": "Local and Kaggle plus campaign-owned Vast within $4 initial/$20 cumulative all-in; separate measured headroom",
       "authority": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_GPU_RESUME_20261007.json",
-      "paid_compute_authority": "specs/adr/0013-owned-paid-compute-and-continuous-queue.md"
+      "paid_compute_authority": "specs/adr/0013-owned-paid-compute-and-continuous-queue.md",
+      "temporary_cpu_window": {
+        "cores": 12,
+        "ends_utc": "2026-10-08T07:00:00Z",
+        "default_cores_after": 6,
+        "authority": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_WINDOW_20261008_V1.json"
+      },
+      "cpu_purpose": "Analysis/EDA/support; no large CPU model fitting."
     },
     "external_reported_public_result": {
       "score": 0.6674,
@@ -3052,7 +3059,9 @@
       "experiment_ids": [],
       "artifacts": [
         "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md",
-        "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json"
+        "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md"
       ],
       "status": "source_grounded_untested",
       "scientific_parent_hypotheses": [
@@ -3159,17 +3168,313 @@
         "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/README.md",
         "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_BINDING_V1.json",
         "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_TASK.md",
-        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/MUSE_TASK.md"
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/MUSE_TASK.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/manual_muse-spark-1.3-contributor-free_PROPOSALS.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/MANUAL_MUSE_HANDOFF_V1_20261008.json",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/FREEBUFF_DEEPSEEK_V4_1_FLASH_PROPOSALS_V1_20261008.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md"
       ],
-      "status": "ideation_in_progress",
+      "status": "three_provider_proposals_delivered_crosswalk_reviewed",
       "allocation": {
         "eligible": true,
         "priority": 2,
         "launch_authorized": false,
-        "reason": "User-directed independent source transfer. Pending actual provider proposals, not model-quality evidence.",
+        "reason": "Grok, manual Muse and Freebuff/DeepSeek proposals delivered; shared themes are one mechanism family, not independent empirical confirmations.",
         "authorization_scope": "Bounded source-only Grok4.7/MuseSpark ideation; no fits."
       },
       "next_test": "Archive independent final provider proposals, cluster duplicates and register concrete mechanism/interaction children before bounded recipes."
+    },
+    {
+      "id": "arm:soft-value-grid-head",
+      "parent_id": "family:objective",
+      "title": "Soft scalar value-grid head and expectation loss",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-253"
+      ],
+      "experiment_ids": [],
+      "scientific_parent_hypotheses": [
+        "H-230"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "Independent source transfer; apply controller causality/ancestry corrections before bounded recipe/admission. No measured gain or numerical prior.",
+        "authorization_scope": "Ideation only; no fit launched by registration."
+      },
+      "next_test": "Matched point-loss head versus predeclared soft-grid kernels on the same causal backbone, weighting, mask and update budget."
+    },
+    {
+      "id": "arm:rare-jump-causal-belief",
+      "parent_id": "family:online-learning",
+      "title": "Deterministic rare-jump causal belief as model component",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-254"
+      ],
+      "experiment_ids": [],
+      "scientific_parent_hypotheses": [
+        "H-240",
+        "H-253"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "Independent source transfer; apply controller causality/ancestry corrections before bounded recipe/admission. No measured gain or numerical prior.",
+        "authorization_scope": "Ideation only; no fit launched by registration."
+      },
+      "next_test": "Prefix/reset tests and CPU likelihood-only versus forward histogram; then matched belief-channel refit or fixed full-endpoint blend."
+    },
+    {
+      "id": "arm:belief-shape-reliability-gate",
+      "parent_id": "family:ensemble",
+      "title": "Reliability gate for new belief and shape endpoints",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-255"
+      ],
+      "experiment_ids": [],
+      "scientific_parent_hypotheses": [
+        "H-205",
+        "H-249",
+        "H-254"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 1,
+        "launch_authorized": false,
+        "reason": "Independent source transfer; apply controller causality/ancestry corrections before bounded recipe/admission. No measured gain or numerical prior.",
+        "authorization_scope": "Ideation only; no fit launched by registration."
+      },
+      "next_test": "New audited prediction cohort: causal train-frozen reliability gate versus both endpoints and constant mixture.",
+      "mechanism_kind": "interaction"
+    },
+    {
+      "id": "arm:coherent-affine-joint-augmentation",
+      "parent_id": "family:representation",
+      "title": "Coherent affine nuisance corruption with joint training",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-256"
+      ],
+      "experiment_ids": [],
+      "scientific_parent_hypotheses": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 1,
+        "launch_authorized": false,
+        "reason": "Independent source transfer; apply controller causality/ancestry corrections before bounded recipe/admission. No measured gain or numerical prior.",
+        "authorization_scope": "Ideation only; no fit launched by registration."
+      },
+      "next_test": "Declared channel-group corruption versus clean matched model; constant update budget and unchanged inference."
+    },
+    {
+      "id": "arm:fixed-causal-tcn-resampling",
+      "parent_id": "family:temporal",
+      "title": "Fixed causal pooling and hold-last TCN resampling",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-257"
+      ],
+      "experiment_ids": [],
+      "scientific_parent_hypotheses": [
+        "H-217"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "Independent source transfer; apply controller causality/ancestry corrections before bounded recipe/admission. No measured gain or numerical prior.",
+        "authorization_scope": "Ideation only; no fit launched by registration."
+      },
+      "next_test": "Prefix/streaming alignment check followed by fixed pooling versus learned causal stride at matched receptive field."
+    },
+    {
+      "id": "arm:causal-auxiliary-shortcut-corruption",
+      "parent_id": "family:optimization",
+      "title": "Causal auxiliary-channel anti-shortcut corruption",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-258"
+      ],
+      "experiment_ids": [],
+      "scientific_parent_hypotheses": [
+        "H-230",
+        "H-254"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 1,
+        "launch_authorized": false,
+        "reason": "Independent source transfer; apply controller causality/ancestry corrections before bounded recipe/admission. No measured gain or numerical prior.",
+        "authorization_scope": "Ideation only; no fit launched by registration."
+      },
+      "next_test": "Declare actually available auxiliary feature block; clean versus corrupted-training student evaluated with clean inputs and missing-block diagnostic."
+    },
+    {
+      "id": "arm:prefix-bin-feature-calibration",
+      "parent_id": "family:online-learning",
+      "title": "Earlier-prefix bin calibration with raw residual context",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-259"
+      ],
+      "experiment_ids": [],
+      "scientific_parent_hypotheses": [
+        "H-238",
+        "H-240"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 1,
+        "launch_authorized": false,
+        "reason": "Independent source transfer; apply controller causality/ancestry corrections before bounded recipe/admission. No measured gain or numerical prior.",
+        "authorization_scope": "Ideation only; no fit launched by registration."
+      },
+      "next_test": "Small streaming raw/fixed-prior/adaptive-bin feature reference and matched teacher endpoints with strict earlier-row/reset rules."
+    },
+    {
+      "id": "arm:window-innovation-auxiliary",
+      "parent_id": "family:objective",
+      "title": "Observable window-innovation auxiliary supervision",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-260"
+      ],
+      "experiment_ids": [],
+      "scientific_parent_hypotheses": [
+        "H-249"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md"
+      ],
+      "status": "proposed_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "Manual Muse M06/H6; auxiliary target is a new extension beyond ROGII feature summaries.",
+        "authorization_scope": "Prepare bounded recipe; no fit by registration."
+      },
+      "next_test": "Train causal window-shape feature packet with separately declared auxiliary next-step innovation target; compare feature-only and equal-capacity auxiliary-off controls."
+    },
+    {
+      "id": "arm:privileged-belief-distillation",
+      "parent_id": "family:teacher",
+      "title": "Privileged smoothed belief teacher to causal student",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-261"
+      ],
+      "experiment_ids": [],
+      "scientific_parent_hypotheses": [
+        "H-230",
+        "H-254"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md"
+      ],
+      "status": "proposed_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "Manual Muse M03/H3 and Freebuff M4; smoothing is fitting-only, never a served input.",
+        "authorization_scope": "Prepare bounded recipe; no fit by registration."
+      },
+      "next_test": "Fold-isolated forward/smoothed teacher target with causal student inputs; compare forward-only teacher, smoothed teacher and direct-label controls."
+    },
+    {
+      "id": "arm:matched-huber-target-range",
+      "parent_id": "family:objective",
+      "title": "Matched robust point-loss and target-range comparison",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-262"
+      ],
+      "experiment_ids": [],
+      "scientific_parent_hypotheses": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md"
+      ],
+      "status": "proposed_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "User proposed Huber; current own weighted_huber_loss already clips targets, so raw-label treatment needs explicit implementation.",
+        "authorization_scope": "Prepare bounded recipe; no fit by registration."
+      },
+      "next_test": "Audit previous Huber evidence; same-backbone GPU WMSE versus existing weighted clipped-target Huber delta0.5, then separately declared raw-target variant."
+    },
+    {
+      "id": "arm:representative-data-fidelity",
+      "parent_id": "family:evaluation",
+      "title": "Representative nested-data multi-fidelity screens",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-263"
+      ],
+      "experiment_ids": [],
+      "scientific_parent_hypotheses": [],
+      "artifacts": [
+        "specs/plans/2026-10-08-small-data-screening.md"
+      ],
+      "status": "proposed_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "User proposed small training subsets; protocol in specs/plans/2026-10-08-small-data-screening.md.",
+        "authorization_scope": "Prepare bounded recipe; no fit by registration."
+      },
+      "next_test": "Fit-only whole-component nested membership, same full validation and declared epochs/updates; compare rank changes across families at two scales before using allocation proxy."
     }
   ],
   "links": [],
