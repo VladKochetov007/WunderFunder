@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "receipt_id": "E520_FIT_V3_INDEPENDENT_REVIEW_20261007_R1",
+  "recorded_at_utc": "2026-10-07T13:03:55Z",
+  "experiment_id": "E520_SCRATCH_PAIR_FIT_V1",
+  "candidate_revision": "e520_fit_digest_handoff_candidate_v1",
+  "decision": "PASS",
+  "status": "approved",
+  "reviewer": {
+    "id": "tpu_recovery_delivery",
+    "role": "independent-integration-reviewer",
+    "independent_of_implementation": true
+  },
+  "target": {
+    "candidate_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_fit_digest_handoff_candidate_v1",
+    "review_targets_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_fit_digest_handoff_candidate_v1/E520_FIT_V3_REVIEW_TARGETS.json",
+    "review_targets_sha256": "8def0f759dce32828ee8f2075ac5b22a4ce53dd66b1e33363b764aa8798bb6eb",
+    "code_receipt_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_fit_digest_handoff_candidate_v1/E520_FIT_V3_CODE_RECEIPT.json",
+    "code_receipt_sha256": "265cf3b28abdc1ca517ef37cca76c889e1c85cce50bd204b73fdabf814ea6c61"
+  },
+  "reviewed_hashes": {
+    "E520_FIT_STAGE_PLAN.json": "265189efcbfce9573b9ff1dbe865b4cd68b220dbb1d30524e2401817de55784b",
+    "E520_GRADER_SPEC.json": "2ea67ab2f701d38de48c9aadae1b6b00d879f9da75fb87e1ec31e969080b853f",
+    "FIT_OUTPUT_RECEIPT_SCHEMA.json": "058fc7a66656145cc716f42f38df1643e6e3b79ccb32b7d2f24a0e3eb293e5e4",
+    "FIT_STAGE_CONFIG.json": "8a19743bd78e453d0607211c6083c57d7a26079d3534535b54b0c4ed94e44f55",
+    "FIT_STAGE_README.md": "0bc09182fa6ad6a202f3a3fbfd8daff44904397189890e9ba87d9191dc355e96",
+    "evaluate_e520_pair.py": "d724e4ce789b97be8097c4956db08ff01e946093b22fa6703b0ead2f7f50fe96",
+    "fit_guards.py": "922221b45a557e44cd5ef877008be534c7b40c832bcbc5af3928054fe2a34fc2",
+    "fit_kernel.py": "c877f0f297420cf6a713d2000c2ba44c2719a8b86be243a3148c9f91f950e198",
+    "fit_worker.py": "571be4b42651d69bc85b1870718dc616f8262357ced77d6b5d666ff77c9cae07",
+    "prepare_fit_packet.py": "31b322884eb98c361baa28744bc1cbbbbad6dc12ee61d9f4bb62d06464ff69a8",
+    "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "support/export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+    "support/input_identity.py": "8ee04a072725af6a3b2047c0101d35b5c2792930fd08238894627535109e113c",
+    "support/verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424",
+    "tests/test_digest_handoff.py": "dd4d362672febbd3ebf6bd0ba1d2f2f10c43714203209fef7330d75e1e741c54",
+    "tests/test_fit_guards.py": "77ffd73891af820b668dacb1904af061f00272b5339974bfac47c4d6f51e8b84",
+    "tests/test_fit_packet_builder.py": "95fa80ae96a259ad45dfe45d3e117d0884adc93287f18eced3236396f3eebb9f",
+    "tests/test_training_target_semantics.py": "0ecb3dee22b2a3064c9075a3a719b662be6c746a7cc2daa64efd8de865f490fb"
+  },
+  "findings": [
+    "All 18 frozen member hashes matched. The bounded prepare_fit_packet.py --review-targets-only replay reproduced the same complete map and reported no packet created.",
+    "The digest handoff is restricted to exact resolved allowlisted regular files. Hashing compares path and open-descriptor identity before and after the full streaming read, checks bytes read against the initial size, and issues an unapproved receipt until observed bytes equal both the campaign expected SHA-256 and mounted portable-registry SHA-256. Authorization re-stats the path and rejects changed identity.",
+    "Reuse is limited to an authorized exact path and the unchanged full stat tuple; it also requires agreement with the pinned verifier's device/inode/size/mtime/ctime arguments. A miss or stale identity calls the pinned original _content_digest. Only that digest callback is wrapped; the pinned portability metadata and registry digest comparisons remain, as do split source checks and membership validation. The integration test exercises changed same-size bytes with restored mtime and observes fallback plus rejection.",
+    "Input identity ordering remains fail-closed: expected and registry hashes are persisted before raw hashing; observed digest/size and footer results are persisted before authorization; the two hashes and expected size must match; the original portable registry is bound only after its hash and all source identities pass. The wrapper is installed before the initial load_campaign_split, and the worker imports and invokes the pinned trainer in-process, so the exact-stat handoff remains worker-local across the serial seeds.",
+    "Runtime counters are written atomically immediately after initial split validation, after each seed, and on abort where staging completed. Per-file hit/miss/fallback counts and avoided bytes from the first split load are separated from later calls that the original lru_cache already served; the frozen plan makes no speedup or fit-time forecast.",
+    "Compared with the reviewed fit-v2 candidate, recipe, evaluation, input-identity contract, resource policy, fit budget, grader/evaluator and pinned source archive are byte-identical. The added execution optimization changes no training target, model, split, seed, checkpoint selection, prediction or scoring semantics."
+  ],
+  "verification": {
+    "hash_binding": "All 18 candidate map entries independently rehashed with no mismatch.",
+    "builder_replay": "Bounded --review-targets-only replay reproduced the map; it did not assemble a packet.",
+    "focused_tests": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/pytest -q research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_fit_digest_handoff_candidate_v1/tests",
+      "result": "21 passed in 1.29s"
+    },
+    "recipe_comparison": "FIT_STAGE_CONFIG recipe/evaluation/input_identity/resource_policy equal fit-v2; fit-stage plan budget and recipe equal; grader spec, evaluator, and source archive SHA-256 values match fit-v2.",
+    "execution_scope": "Read-only code/hash review and focused tests only; no packet build, provider action, fit, export, grade, or score."
+  },
+  "limitations": [
+    "This is a static integration review plus focused synthetic tests. It does not demonstrate a Kaggle throughput improvement or authorize fit/provider work; packet, quota, profile, and root admission gates remain separate.",
+    "Stat binding detects changes at authorization and lookup but does not lock a mounted raw file against concurrent mutation after a successful lookup; the design relies on the admitted read-only mounted input source."
+  ]
+}

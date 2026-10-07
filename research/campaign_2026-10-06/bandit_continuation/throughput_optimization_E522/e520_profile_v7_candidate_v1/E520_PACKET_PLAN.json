@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E520_PROFILE_VERIFIED_DIGEST_HANDOFF_V7",
+  "parent_packet": {
+    "id": "E520_PROFILE_LOADER_HASH_ADVICE_V2",
+    "source_candidate": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/bounded_memory_stat_read_v6_candidate_v1",
+    "plan_sha256": "e7eb003bbd485638c42fe218d478fe5da00474061e070c5829300f5fa22fff47",
+    "terminal_evidence_path": "research/campaign_2026-10-06/cloud_preflight/downloads/e520_profile_v6/e520_profile_v6",
+    "terminal_diagnosis_sha256": "e0ed69df0b8ebebfff060a7466432c13b195fc1bf85005211ba199b02c24747e"
+  },
+  "status": "isolated_profile_only_candidate_independent_review_and_root_admission_pending",
+  "objective": "Preserve E520 v6 identity/fold/resource/profile checks while reusing each exact initial raw parquet digest during the same worker's portable registry verification, avoiding duplicate 35 GB raw reads.",
+  "science": {
+    "profile_only": true,
+    "fit_enabled": false,
+    "prediction_export_enabled": false,
+    "checkpoint_write_enabled": false,
+    "architecture": "raw-only GRU, hidden=128, layers=2, dropout=0",
+    "seed": 3,
+    "profile_warmup_outer_batches": 3,
+    "profile_timed_outer_batches": 20,
+    "scientific_recipe_changed": false,
+    "official_metric_or_grader_changed": false
+  },
+  "input_identity": {
+    "expected_raw_train": {
+      "bytes": 29240219011,
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "footer_bytes": 60437285,
+      "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb"
+    },
+    "expected_raw_valid": {
+      "bytes": 5615509128,
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "footer_bytes": 10686926,
+      "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+    },
+    "expected_fold_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "portable_manifest_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "target_cache_sha256": {
+      "train": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+      "valid": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    },
+    "fold_membership": {
+      "train_groups": 10535,
+      "valid_groups": 1405,
+      "evaluation_groups": 468,
+      "target_rows_train": 10606,
+      "target_rows_valid": 1873,
+      "corrupt_group_excluded": 528
+    },
+    "portable_manifest_env": "Set WNN_PORTABLE_DATA_MANIFEST only after staged registry bytes and expected SHA are durably checked, as implemented in the unchanged v6 worker."
+  },
+  "digest_handoff": {
+    "initial_hash": "Hash raw train and valid once with existing page-aligned POSIX_FADV_DONTNEED advice. Preserve the v6 before/after memory.stat and hash-progress receipts.",
+    "authorization": "Authorize only the handoff-issued receipt whose SHA-256 equals both the fixed expected raw digest and the already verified portable registry digest, whose byte count matches stat size, and whose descriptor/path stat identity stayed unchanged.",
+    "stat_tuple": ["device", "inode", "size", "mtime_ns", "ctime_ns", "mode"],
+    "scope": "Exact canonical train/valid paths in this worker process only; no persisted or cross-attempt cache.",
+    "consumer": "Wrap only the pinned wnn.portability._content_digest after verifying module path and source SHA. The pinned portable registry and split loader continue their own source metadata and digest comparisons. Other paths and any stale/missing/mutated raw path fall through to the original pinned full content hash.",
+    "observability": "Record per-raw-path portable verifier lookup, exact-stat hit/miss, and original full-hash fallback counts in input_identity.json and memory_stat_phases.json after load_campaign_split.",
+    "integrity_failure": "Persist expected and observed input identities before a mismatch abort; never suppress a failed hash, fadvise, registry comparison, or split-membership check."
+  },
+  "v6_measured_cost_basis": {
+    "train_initial_hash_seconds": 795.473306,
+    "valid_initial_hash_seconds": 188.74719,
+    "train_duplicate_verifier_hash_seconds": 748.676424,
+    "train_duplicate_verifier_bytes": 29240219011,
+    "valid_duplicate_verifier_started_seconds": 4.448242,
+    "valid_duplicate_verifier_exact_bytes": null,
+    "initial_pair_hash_seconds": 984.220496,
+    "potential_duplicate_pair_bytes_per_worker": 34855728139,
+    "memory_or_oom_failure": false,
+    "no_cuda_or_profile_batches": true,
+    "runtime_interpretation": "v6 hit its 1800 s wall cap during the duplicate valid pass. One full repeated train pass is measured; the valid repeat's exact partial bytes are unknown. These timings motivate removing only the redundant same-worker digest pass; they are not profile or fit runtime estimates."
+  },
+  "limits": {
+    "profile_worker_wall_cap_seconds": 1700,
+    "new_cap_reason": "Separate execution version for current remaining E520 profile quota; <=1700 seconds leaves reserve under the currently reported 3522.618 quota seconds after a 2x physical-T4 reservation.",
+    "rss_hard_cap_bytes": 8000000000,
+    "cuda_allocated_cap_bytes": 2000000000,
+    "cuda_reserved_cap_bytes": 2500000000,
+    "gpu_process_cap_bytes": 3000000000,
+    "host_and_cgroup_min_available_bytes": 4294967296,
+    "host_and_cgroup_min_available_fraction": 0.2,
+    "disk_min_free_bytes": 8000000000,
+    "visible_gpus": 1,
+    "gpu_telemetry": "Before and during trainer.main, sample all nvidia-smi physical rows every 5 seconds, maximum 24 samples, 2-second subprocess timeout. Preserve index/name/driver/UUID/memory and utilization columns; N/A/query errors stay null or diagnostic, never zero. Torch visibility remains exactly one selected device.",
+    "auto_retry": false,
+    "parallel_workers": false
+  },
+  "pinned_sources": {
+    "commit": "69b2331825e193a070015ca4182872724595209a",
+    "source_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "trainer_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+    "portability_sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+    "splits_sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4"
+  },
+  "transport": {
+    "kernel_id": "vladkochetov07/e520-profile-v7-digest-handoff",
+    "kernel_title": "E520 Profile V7 Digest Handoff",
+    "kernel_type": "private Python script, one GPU",
+    "embedded_single_file_wrapper": true,
+    "extraction_path": "/kaggle/working/e520_profile_packet_v7",
+    "bundle_must_include_every_worker_review_target": true,
+    "builder_never_calls_provider": true
+  },
+  "resource_and_terminal_receipts": [
+    "input_identity.json",
+    "hash_io_advice.json",
+    "memory_stat_phases.json",
+    "environment.json",
+    "runtime_identity.json",
+    "phase.json",
+    "resource.json",
+    "resource_abort.json",
+    "training_profile_peak.json",
+    "gpu_telemetry.json"
+  ],
+  "pre_execution_gates": {
+    "external_review": "exact independent receipt must bind current worker, helper, builder, bundle, tests, plan, and source archive hashes",
+    "controller_admission": "fresh quota/provider/runtime/resource receipt; current budget after reserve; worker <=1700s; one T4",
+    "input_refresh": "mounted bytes and hashes, portable manifest, fold split and target cache identities must pass before reuse authorization",
+    "output_validation": "offline self-contained bundle checks and actual downloaded files required after any future run",
+    "score": "not part of this profile-only candidate"
+  },
+  "commands": {
+    "review_target_only": "python research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/prepare_profile_packet.py --review-targets-only --repo-root .",
+    "focused_tests": "python -m pytest -q research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/tests",
+    "packet_build": null,
+    "provider_push": null,
+    "fit": null
+  },
+  "admission": {
+    "independent_review_sha256": null,
+    "root_admission": null,
+    "quota_receipt_sha256": null,
+    "runtime_receipt_sha256": null,
+    "execution_authorized": false
+  }
+}

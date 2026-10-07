@@ -1,0 +1,1383 @@
+--- fit_v2/E520_FIT_STAGE_PLAN.json
++++ fit_v3/E520_FIT_STAGE_PLAN.json
+@@ -454,6 +454,34 @@
+     "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+     "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+   },
++  "execution_optimization": {
++    "allowed_sources": [
++      "datasets/train.parquet",
++      "datasets/valid.parquet"
++    ],
++    "authorization": "the same observed SHA-256 must equal both FIT_STAGE_CONFIG campaign expectation and the mounted portable registry SHA-256; expected and observed values are persisted before mismatch failure; byte size and Parquet footer checks still run before authorization",
++    "cache_semantics": "the first support-layer split load is the redundant full hash measured in v6; later pinned lru_cache hits would already avoid physical reads, so receipt reports first-load comparable bytes separately from total handoff lookups",
++    "change_scope": "execution-only exact digest handoff; trainer, objective, split, grader, seeds, checkpoints, and export unchanged",
++    "failure_behavior": "missing advice support, fadvise errors, unstable file identity, digest mismatch, registry mismatch, or stale-stat lookup aborts/falls through to the pinned content hash as appropriate; no identity check is skipped",
++    "initial_hash": "VerifiedDigestHandoff hashes once with stable descriptor/path identity checks and the existing strict page-aligned POSIX_FADV_DONTNEED advice; advice failure aborts without a second hash path.",
++    "observed_baseline": {
++      "initial_train_bytes": 29240219011,
++      "initial_train_seconds": 795.473306,
++      "initial_valid_bytes": 5615509128,
++      "initial_valid_seconds": 188.74719,
++      "raw_cache_cause": "not established; memory.stat/file-cache evidence did not indicate a material cache increase",
++      "receipt_path": "research/campaign_2026-10-06/cloud_preflight/downloads/e520_profile_v6/E520_PROFILE_V6_PHASE_DIAGNOSIS_20261007T1225Z.json",
++      "receipt_sha256": "e0ed69df0b8ebebfff060a7466432c13b195fc1bf85005211ba199b02c24747e",
++      "repeated_train_bytes": 29240219011,
++      "repeated_train_seconds": 748.676424,
++      "repeated_valid_bytes_observed": null,
++      "repeated_valid_note": "verification began but was terminated at the worker wall cap; full repeated-valid timing is unknown",
++      "repeated_valid_seconds_observed": 4.448242
++    },
++    "portable_verifier_integration": "wrap only pinned wnn.portability._content_digest; unchanged verify_portable_source metadata/registry comparisons and all split membership checks remain active; a stat/allowlist miss calls the pinned original hash",
++    "runtime_claim": "no speedup or fit-runtime forecast is claimed; future receipts must show per-path reuse/fallback counts and verified bytes",
++    "worker_lifetime": "one in-memory handoff spans input identity and the initial split load plus serial seed-3/seed-4 trainer split loads in this process"
++  },
+   "execution_started": false,
+   "experiment_id": "E520",
+   "external_review_gate": {
+--- fit_v2/FIT_OUTPUT_RECEIPT_SCHEMA.json
++++ fit_v3/FIT_OUTPUT_RECEIPT_SCHEMA.json
+@@ -65,6 +65,25 @@
+     },
+     "input_identity": {
+       "$ref": "#/$defs/inputIdentity"
++    },
++    "verified_digest_handoff_runtime": {
++      "type": "object",
++      "properties": {
++        "path": {
++          "type": "string"
++        },
++        "sha256": {
++          "$ref": "#/$defs/sha256"
++        },
++        "phase": {
++          "type": "string"
++        },
++        "sources": {
++          "type": "object"
++        }
++      },
++      "required": ["path", "sha256", "phase", "sources"],
++      "additionalProperties": false
+     },
+     "target_orders": {
+       "$ref": "#/$defs/targetOrders"
+@@ -135,6 +154,7 @@
+           "input_identity_path",
+           "input_identity_sha256",
+           "input_identity",
++          "verified_digest_handoff_runtime",
+           "target_orders",
+           "fit_order",
+           "parallel_fits",
+--- fit_v2/FIT_STAGE_CONFIG.json
++++ fit_v3/FIT_STAGE_CONFIG.json
+@@ -56,6 +56,34 @@
+     "shared_target_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+     "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+     "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
++  },
++  "execution_optimization": {
++    "allowed_sources": [
++      "datasets/train.parquet",
++      "datasets/valid.parquet"
++    ],
++    "authorization": "the same observed SHA-256 must equal both FIT_STAGE_CONFIG campaign expectation and the mounted portable registry SHA-256; expected and observed values are persisted before mismatch failure; byte size and Parquet footer checks still run before authorization",
++    "cache_semantics": "the first support-layer split load is the redundant full hash measured in v6; later pinned lru_cache hits would already avoid physical reads, so receipt reports first-load comparable bytes separately from total handoff lookups",
++    "change_scope": "execution-only exact digest handoff; trainer, objective, split, grader, seeds, checkpoints, and export unchanged",
++    "failure_behavior": "missing advice support, fadvise errors, unstable file identity, digest mismatch, registry mismatch, or stale-stat lookup aborts/falls through to the pinned content hash as appropriate; no identity check is skipped",
++    "initial_hash": "VerifiedDigestHandoff hashes once with stable descriptor/path identity checks and the existing strict page-aligned POSIX_FADV_DONTNEED advice; advice failure aborts without a second hash path.",
++    "observed_baseline": {
++      "initial_train_bytes": 29240219011,
++      "initial_train_seconds": 795.473306,
++      "initial_valid_bytes": 5615509128,
++      "initial_valid_seconds": 188.74719,
++      "raw_cache_cause": "not established; memory.stat/file-cache evidence did not indicate a material cache increase",
++      "receipt_path": "research/campaign_2026-10-06/cloud_preflight/downloads/e520_profile_v6/E520_PROFILE_V6_PHASE_DIAGNOSIS_20261007T1225Z.json",
++      "receipt_sha256": "e0ed69df0b8ebebfff060a7466432c13b195fc1bf85005211ba199b02c24747e",
++      "repeated_train_bytes": 29240219011,
++      "repeated_train_seconds": 748.676424,
++      "repeated_valid_bytes_observed": null,
++      "repeated_valid_note": "verification began but was terminated at the worker wall cap; full repeated-valid timing is unknown",
++      "repeated_valid_seconds_observed": 4.448242
++    },
++    "portable_verifier_integration": "wrap only pinned wnn.portability._content_digest; unchanged verify_portable_source metadata/registry comparisons and all split membership checks remain active; a stat/allowlist miss calls the pinned original hash",
++    "runtime_claim": "no speedup or fit-runtime forecast is claimed; future receipts must show per-path reuse/fallback counts and verified bytes",
++    "worker_lifetime": "one in-memory handoff spans input identity and the initial split load plus serial seed-3/seed-4 trainer split loads in this process"
+   },
+   "experiment_id": "E520_SCRATCH_PAIR_FIT_V1",
+   "fit_argv_template": [
+@@ -334,7 +362,7 @@
+     ]
+   },
+   "fit_stage_plan_path": "E520_FIT_STAGE_PLAN.json",
+-  "fit_stage_plan_sha256": "bacb7bec44f2722d5f771a4a4478187f03bc667f184a06ae73a7067b1319c5d6",
++  "fit_stage_plan_sha256": "265189efcbfce9573b9ff1dbe865b4cd68b220dbb1d30524e2401817de55784b",
+   "grader_artifacts": {
+     "script_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/scratch_pair_fit_candidate_v1/evaluate_e520_pair.py",
+     "script_sha256": "d724e4ce789b97be8097c4956db08ff01e946093b22fa6703b0ead2f7f50fe96",
+@@ -381,7 +409,7 @@
+     }
+   },
+   "no_fit_or_score_authorized_by_this_candidate": true,
+-  "packet_id": "vladkochetov07/e520-scratch-pair-fit-v2",
++  "packet_id": "vladkochetov07/e520-scratch-pair-fit-v3-digest-handoff",
+   "parent_plan_path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PACKET_PLAN.json",
+   "parent_plan_sha256": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13",
+   "prediction_export": {
+--- fit_v2/FIT_STAGE_README.md
++++ fit_v3/FIT_STAGE_README.md
+@@ -1,4 +1,4 @@
+-# E520 scratch-pair fit candidate v2 (code only)
++# E520 scratch-pair fit v3 digest-handoff candidate (code only)
+ 
+ This candidate implements exactly two independently scratch-initialized raw-only
+ GRU fits from `FIT_STAGE_CONFIG.json`: seed 3, then seed 4, serially on one GPU.
+@@ -7,6 +7,35 @@
+ chunks, hashes them incrementally, and records input, split, checkpoint,
+ provenance, command, resource, and sidecar identities. It never invokes the
+ grader or selects an epoch, seed, or pair weight.
++
++
++The v3 change is limited to raw-input identity execution. The frozen training
++recipe, objective and target clipping, fold, targets, fixed checkpoint,
++export format, E520 grader endpoint and resource thresholds are unchanged.
++
++| Path | v2 behavior | v3 candidate behavior |
++|---|---|---|
++| Initial train/valid identity | Stream and hash each raw parquet with page-cache advice | Same byte stream and advice, with a stable descriptor/path identity receipt retained in worker memory |
++| First `load_campaign_split` portability verification | Pinned `_content_digest` reads each raw parquet again | Reuses a digest only when campaign SHA, registry SHA, size, device, inode, mtime, ctime and mode still match |
++| Later seed split loads | Pinned `lru_cache` reuses the first loader digest | Worker handoff serves the same verified digest; receipt distinguishes the first-load read avoided from later lookups already cached by the pinned implementation |
++| Any mismatch or mutation | Pinned verifier detects changed bytes or metadata | Expected/observed hashes are durably recorded; mismatch aborts, and a stale-stat miss falls through to the unchanged pinned full content hash |
++
++The worker writes `receipts/verified_digest_handoff_runtime.json` before CUDA
++initialization and after each completed seed. It records per-file cumulative
++lookups, hits, misses, original-hash fallbacks, exact first-loader comparable
++bytes, and later same-process lookups separately. `input_identity.json` retains
++the initial SHA/registry/footer checks and the split loader's first reuse
++receipt; the runtime receipt does not rewrite its bound input-identity hash.
++
++V6 observed the initial train hash at 29,240,219,011 bytes / 795.473306 s
++and the repeated portable train digest at the same byte count / 748.676424 s.
++The valid input initial hash was 5,615,509,128 bytes / 188.747190 s; its
++repeat began 4.448242 s before the 1,800-second worker cap, so a full repeated
++valid duration was not observed. The measured diagnosis found no material
++file-cache increase and did not establish the earlier suspected cache-pressure
++cause. One first-loader digest reuse per raw input would cover 34,855,728,139 raw
++bytes in total if both input lookups hit. No v3 runtime or speedup has been
++measured.
+ 
+ The training objective is pinned to `source_archive.tar` at
+ `src/wnn/nn.py::weighted_mse_loss` (the function SHA-256 is recorded in both
+@@ -40,7 +69,7 @@
+ WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 \
+ WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s \
+ scripts/limited .venv/bin/python \
+-  research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/scratch_pair_fit_candidate_v2/prepare_fit_packet.py \
++  research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_fit_digest_handoff_candidate_v1/prepare_fit_packet.py \
+   --review-targets-only
+ ```
+ 
+@@ -49,9 +78,9 @@
+ quota/resource evidence, or fit admission is absent:
+ 
+ ```sh
+-.venv/bin/python research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/scratch_pair_fit_candidate_v2/prepare_fit_packet.py \
++.venv/bin/python research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_fit_digest_handoff_candidate_v1/prepare_fit_packet.py \
+   --build \
+-  --output-dir /kaggle/working/e520-scratch-pair-fit-v2 \
++  --output-dir /kaggle/working/e520-scratch-pair-fit-v3-digest-handoff \
+   --review-receipt /path/to/external_review.json \
+   --review-sha256 <controller-published-review-sha256> \
+   --controller-admission /path/to/controller_admission.json \
+@@ -68,7 +97,7 @@
+ review, is:
+ 
+ ```sh
+-.venv/bin/python research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/scratch_pair_fit_candidate_v2/evaluate_e520_pair.py \
++.venv/bin/python research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_fit_digest_handoff_candidate_v1/evaluate_e520_pair.py \
+   --repository-root /path/to/wnn_connectome_starterpack \
+   --candidate-root /path/to/downloaded/e520_fit_output \
+   --output-dir /path/to/new/e520_pair_grade
+--- fit_v2/fit_guards.py
++++ fit_v3/fit_guards.py
+@@ -22,10 +22,12 @@
+     "evaluate_e520_pair.py",
+     "support/export_guards.py",
+     "support/input_identity.py",
++    "support/verified_digest_handoff.py",
+     "source_archive.tar",
+     "tests/test_fit_guards.py",
+     "tests/test_fit_packet_builder.py",
+     "tests/test_training_target_semantics.py",
++    "tests/test_digest_handoff.py",
+ )
+ MAX_WORKER_WALL_SECONDS = 10_200
+ WMSE_TRAINING_TARGET_SEMANTICS = {
+@@ -93,6 +95,16 @@
+     plan_revision = plan.get("fit_stage_candidate_v2")
+     if not isinstance(plan_recipe, dict) or not isinstance(plan_revision, dict):
+         raise FitGateError("fit-stage plan lacks its recipe or candidate revision object")
++    handoff_contract = config.get("execution_optimization")
++    if (
++        not isinstance(handoff_contract, dict)
++        or handoff_contract != plan.get("execution_optimization")
++        or handoff_contract.get("allowed_sources")
++        != ["datasets/train.parquet", "datasets/valid.parquet"]
++        or handoff_contract.get("portable_verifier_integration")
++        != "wrap only pinned wnn.portability._content_digest; unchanged verify_portable_source metadata/registry comparisons and all split membership checks remain active; a stat/allowlist miss calls the pinned original hash"
++    ):
++        raise FitGateError("digest-handoff execution contract differs between config and plan")
+     if (
+         plan_recipe.get("training_target_semantics") != WMSE_TRAINING_TARGET_SEMANTICS
+         or plan_revision.get("revision") != config.get("candidate_revision")
+--- fit_v2/fit_worker.py
++++ fit_v3/fit_worker.py
+@@ -310,6 +310,27 @@
+             ],
+         }
+     return orders
++
++
++def _write_digest_handoff_runtime(
++    staged: dict[str, Any], receipts: Path, *, phase: str
++) -> dict[str, Any]:
++    """Persist cumulative digest handoff counters without re-reading raw data."""
++    path = receipts / "verified_digest_handoff_runtime.json"
++    report = input_identity.digest_handoff_runtime_report(
++        staged["identity"],
++        staged["digest_handoff"],
++        staged["raw_paths"],
++        staged["digest_receipts"],
++        phase=phase,
++    )
++    _atomic_json(path, report)
++    return {
++        "path": str(path),
++        "sha256": sha256_file(path),
++        "phase": phase,
++        "sources": report["sources"],
++    }
+ 
+ 
+ def _expected_fit_group_order(split: Any, seed: int) -> dict[str, Any]:
+@@ -1026,6 +1047,7 @@
+     }
+     _atomic_json(receipt_path, receipt)
+     guard: FitResourceGuard | None = None
++    staged: dict[str, Any] | None = None
+     signal_previous = signal.getsignal(signal.SIGTERM)
+ 
+     def terminate_handler(_signum: int, _frame: Any) -> None:
+@@ -1083,6 +1105,9 @@
+             source_root,
+             identity_path,
+         )
++        digest_handoff_receipt = _write_digest_handoff_runtime(
++            staged, receipts, phase="initial_split_load_complete"
++        )
+         identity_bytes = identity_path.read_bytes()
+         input_orders = _input_order_receipts(source_root, staged["identity"], config)
+         receipt.update(
+@@ -1091,6 +1116,7 @@
+                 "input_identity_path": str(identity_path),
+                 "input_identity_sha256": sha256_bytes(identity_bytes),
+                 "input_identity": staged["identity"],
++                "verified_digest_handoff_runtime": digest_handoff_receipt,
+                 "source_archive_sha256": archive_hash,
+                 "trainer_source_sha256": config["source"]["trainer_sha256"],
+                 "target_orders": {
+@@ -1168,6 +1194,9 @@
+             receipt["members"].append(member)
+             receipt["phase"] = f"seed{seed}_fit_and_exports_completed"
+             receipt["elapsed_seconds"] = round(time.monotonic() - started, 3)
++            receipt["verified_digest_handoff_runtime"] = _write_digest_handoff_runtime(
++                staged, receipts, phase=f"seed{seed}_completed"
++            )
+             _atomic_json(receipt_path, receipt)
+         guard.check_full()
+         if remaining_payload != 0:
+@@ -1187,6 +1216,15 @@
+         _atomic_json(receipt_path, receipt)
+         return receipt
+     except Exception as error:
++        if staged is not None:
++            try:
++                receipt["verified_digest_handoff_runtime"] = _write_digest_handoff_runtime(
++                    staged, receipts, phase="worker_aborted"
++                )
++            except Exception as telemetry_error:
++                receipt["verified_digest_handoff_persist_error"] = (
++                    f"{type(telemetry_error).__name__}: {telemetry_error}"
++                )
+         receipt.update(
+             {
+                 "status": "aborted",
+--- fit_v2/prepare_fit_packet.py
++++ fit_v3/prepare_fit_packet.py
+@@ -25,8 +25,8 @@
+     validate_training_target_semantics,
+ )
+ 
+-PACKET_ID = "vladkochetov07/e520-scratch-pair-fit-v2"
+-KAGGLE_TITLE = "E520 Scratch Pair Fit V2"
++PACKET_ID = "vladkochetov07/e520-scratch-pair-fit-v3-digest-handoff"
++KAGGLE_TITLE = "E520 Scratch Pair Fit V3 Digest Handoff"
+ KAGGLE_DATASETS = [
+     "vladkochetov07/wunder-funder",
+     "vladkochetov07/wnn-c20261004-fold0-assets",
+@@ -104,7 +104,7 @@
+     archive_bytes = base64.b64decode(PAYLOAD_B64, validate=True)
+     if hashlib.sha256(archive_bytes).hexdigest() != PAYLOAD_ZIP_SHA256:
+         raise RuntimeError("embedded E520 packet archive digest mismatch")
+-    packet_root = Path("/kaggle/working/e520_fit_packet_v2")
++    packet_root = Path("/kaggle/working/e520_fit_packet_v3")
+     packet_root.mkdir(parents=True, exist_ok=False)
+     with zipfile.ZipFile(io.BytesIO(archive_bytes), "r") as archive:
+         names = sorted(item.filename for item in archive.infolist())
+--- fit_v2/support/input_identity.py
++++ fit_v3/support/input_identity.py
+@@ -21,6 +21,8 @@
+ import time
+ from pathlib import Path, PurePosixPath
+ from typing import Any
++
++from support.verified_digest_handoff import DigestReceipt, VerifiedDigestHandoff
+ 
+ PACKET_ID = "E520_PROFILE_PAGECACHE_REPAIR_V1"
+ PROFILE_WARMUP = 3
+@@ -223,6 +225,210 @@
+     return str(record["sha256"])
+ 
+ 
++class _RawParquetPageCacheAdviser:
++    """Record strict page-aligned cache advice while the handoff hashes bytes."""
++
++    def __init__(self, path: Path, receipt_path: Path, logical_name: str) -> None:
++        """Validate advice support and durably start a raw-file hash receipt."""
++        self.path = path
++        self.receipt_path = receipt_path
++        self.logical_name = logical_name
++        self.fadvise = getattr(os, "posix_fadvise", None)
++        self.dontneed = getattr(os, "POSIX_FADV_DONTNEED", None)
++        try:
++            self.page_size = int(os.sysconf("SC_PAGE_SIZE"))
++            self.file_size = path.stat().st_size
++        except (OSError, ValueError, TypeError, AttributeError) as error:
++            self._write(
++                {
++                    "status": "failed_preflight",
++                    "path": str(path),
++                    "diagnostic": f"{type(error).__name__}: {error}",
++                }
++            )
++            raise ProfileAbort(f"page-cache hash preflight failed for {logical_name}") from error
++        if (
++            not callable(self.fadvise)
++            or self.dontneed is None
++            or self.page_size <= 0
++            or HASH_BLOCK_BYTES % self.page_size != 0
++        ):
++            self._write(
++                {
++                    "status": "unsupported",
++                    "path": str(path),
++                    "diagnostic": "POSIX_FADV_DONTNEED or compatible page size unavailable",
++                }
++            )
++            raise ProfileAbort("required POSIX page-cache advice is unavailable")
++        self.bytes_advised = 0
++        self.next_receipt_bytes = HASH_PROGRESS_RECEIPT_BYTES
++        self.record: dict[str, Any] = {
++            "status": "starting",
++            "path": str(path),
++            "expected_file_bytes": self.file_size,
++            "hash_block_bytes": HASH_BLOCK_BYTES,
++            "page_size_bytes": self.page_size,
++            "advice": "POSIX_FADV_DONTNEED",
++            "posix_fadvise_available": True,
++            "dontneed_constant_available": True,
++            "bytes_hashed": 0,
++            "bytes_advised": 0,
++            "advice_calls": 0,
++            "advice_failures": 0,
++            "advice_semantics": "successful calls are kernel hints, not proof pages were evicted",
++            "hash_source": "VerifiedDigestHandoff.hash_file",
++        }
++        self._write(self.record)
++
++    def on_progress(self, file_descriptor: int, bytes_hashed: int) -> None:
++        """Advise completed pages and durably report periodic byte progress."""
++        if bytes_hashed < 0 or bytes_hashed > self.file_size:
++            raise ProfileAbort("raw hash progress exceeded the initial file size")
++        advised_end = bytes_hashed - (bytes_hashed % self.page_size)
++        if advised_end > self.bytes_advised:
++            try:
++                self.fadvise(
++                    file_descriptor,
++                    self.bytes_advised,
++                    advised_end - self.bytes_advised,
++                    self.dontneed,
++                )
++            except (OSError, NotImplementedError) as error:
++                self.record.update(
++                    {
++                        "status": "failed",
++                        "bytes_hashed": bytes_hashed,
++                        "bytes_advised": self.bytes_advised,
++                        "advice_failures": int(self.record["advice_failures"]) + 1,
++                        "diagnostic": f"{type(error).__name__}: {error}",
++                    }
++                )
++                self._write(self.record)
++                raise ProfileAbort(f"page-cache advice failed for {self.logical_name}") from error
++            self.record["advice_calls"] += 1
++            self.bytes_advised = advised_end
++        self.record["bytes_hashed"] = bytes_hashed
++        self.record["bytes_advised"] = self.bytes_advised
++        if bytes_hashed >= self.next_receipt_bytes:
++            self.record["status"] = "in_progress"
++            self._write(self.record)
++            self.next_receipt_bytes += HASH_PROGRESS_RECEIPT_BYTES
++
++    def complete(self, receipt: DigestReceipt) -> None:
++        """Finalize advice evidence after the handoff verifies stable file identity."""
++        if receipt.bytes_hashed != self.file_size:
++            self.record.update(
++                {
++                    "status": "file_size_changed",
++                    "bytes_hashed": receipt.bytes_hashed,
++                    "bytes_advised": self.bytes_advised,
++                }
++            )
++            self._write(self.record)
++            raise ProfileAbort(f"file size changed while hashing {self.logical_name}")
++        self.record.update(
++            {
++                "status": "complete",
++                "bytes_hashed": receipt.bytes_hashed,
++                "bytes_advised": self.bytes_advised,
++                "sha256": receipt.sha256,
++            }
++        )
++        self._write(self.record)
++
++    def fail(self, error: Exception) -> None:
++        """Persist a terminal hash/advice failure without retrying or fallback."""
++        if self.record.get("status") in ("failed", "unsupported", "failed_preflight"):
++            return
++        self.record.update(
++            {
++                "status": "failed",
++                "bytes_advised": self.bytes_advised,
++                "advice_failures": int(self.record.get("advice_failures", 0)),
++                "diagnostic": f"{type(error).__name__}: {error}",
++            }
++        )
++        self._write(self.record)
++
++    def _write(self, record: dict[str, Any]) -> None:
++        """Atomically persist this raw-file advice record."""
++        _record_hash_advice(self.receipt_path, self.logical_name, record)
++
++
++def hash_raw_with_handoff(
++    path: Path,
++    receipt_path: Path,
++    logical_name: str,
++    handoff: VerifiedDigestHandoff,
++) -> DigestReceipt:
++    """Hash a declared raw parquet once while preserving strict cache advice."""
++    adviser = _RawParquetPageCacheAdviser(path, receipt_path, logical_name)
++    try:
++        receipt = handoff.hash_file(path, adviser.on_progress)
++        adviser.complete(receipt)
++        return receipt
++    except Exception as error:
++        adviser.fail(error)
++        raise
++
++
++def digest_handoff_runtime_report(
++    identity: dict[str, Any],
++    handoff: VerifiedDigestHandoff,
++    raw_paths: dict[str, Path],
++    digest_receipts: dict[str, DigestReceipt],
++    *,
++    phase: str,
++) -> dict[str, Any]:
++    """Build cumulative exact-path reuse metrics without rereading raw data."""
++    sources: dict[str, Any] = {}
++    metric_names = (
++        "verifier_lookups",
++        "digest_reuse_hits",
++        "digest_reuse_misses",
++        "fallback_digest_calls",
++    )
++    for split_name, path in raw_paths.items():
++        logical_name = f"datasets/{split_name}.parquet"
++        initial = identity["verified_digest_handoff"][logical_name]["loader_verification"]
++        initial_counts = {name: int(initial.get(name, 0)) for name in metric_names}
++        totals = handoff.metrics_for(path)
++        later = {name: totals[name] - initial_counts[name] for name in metric_names}
++        receipt = digest_receipts[split_name]
++        sources[logical_name] = {
++            "sha256": receipt.sha256,
++            "bytes_hashed_once": receipt.bytes_hashed,
++            "file_identity": {
++                "device": receipt.identity.device,
++                "inode": receipt.identity.inode,
++                "size": receipt.identity.size,
++                "modified_ns": receipt.identity.modified_ns,
++                "changed_ns": receipt.identity.changed_ns,
++                "mode": receipt.identity.mode,
++            },
++            "initial_split_load_counters": initial_counts,
++            "cumulative_worker_counters": totals,
++            "post_initial_split_load_counters": later,
++            "first_load_baseline_duplicate_bytes_avoided": int(
++                initial.get("first_split_load_comparable_bytes_avoided", 0)
++            ),
++            "all_handoff_hit_bytes": totals["digest_reuse_hits"] * receipt.bytes_hashed,
++            "later_calls_note": (
++                "The pinned lru_cache would already serve subsequent same-stat split loads "
++                "after the first miss; later handoff hit bytes are reported, not counted as "
++                "additional baseline duplicate reads avoided."
++            ),
++        }
++    return {
++        "schema_version": 1,
++        "phase": phase,
++        "mechanism": "same-process exact-stat raw parquet SHA-256 reuse",
++        "pinned_portability_registry_and_split_checks_active": True,
++        "sources": sources,
++    }
++
++
+ def atomic_json(path: Path, payload: dict[str, Any]) -> None:
+     """Durably replace a small JSON receipt after writing its staging file."""
+     path.parent.mkdir(parents=True, exist_ok=True)
+@@ -579,12 +785,15 @@
+     logical_name: str,
+     expected: dict[str, Any],
+     observed: dict[str, Any],
++    *,
++    checked_fields: tuple[str, ...] | None = None,
+ ) -> None:
+     """Atomically persist both sides of an identity check before raising mismatch."""
+     identity.setdefault("expected", {})[logical_name] = expected
+     identity.setdefault("observed", {})[logical_name] = observed
+     atomic_json(receipt_path, identity)
+-    mismatches = [key for key, value in expected.items() if observed.get(key) != value]
++    fields = checked_fields if checked_fields is not None else tuple(expected)
++    mismatches = [key for key in fields if observed.get(key) != expected.get(key)]
+     if mismatches:
+         raise ProfileAbort(f"identity mismatch for {logical_name}: fields={','.join(mismatches)}")
+ 
+@@ -692,12 +901,44 @@
+         persist_identity_check(receipt_path, identity, relative, expected_asset, observed_asset)
+         staged[relative] = path
+     portable = json.loads(staged[PORTABLE_RELATIVE.as_posix()].read_text())
++    portable_sources = portable.get("sources")
++    if not isinstance(portable_sources, dict):
++        identity["portable_registry_sources_status"] = "malformed"
++        atomic_json(receipt_path, identity)
++        raise ProfileAbort("portable registry has no source map")
++
+     raw: dict[str, Path] = {}
++    registry_digests: dict[str, str] = {}
+     for split_name in ("train", "valid"):
+         logical_name = f"datasets/{split_name}.parquet"
+         expected = EXPECTED[split_name]
++        registry_entry = portable_sources.get(logical_name)
++        registry_digest = registry_entry.get("sha256") if isinstance(registry_entry, dict) else None
++        receipt_record = {
++            "status": "preflight",
++            "campaign_expected_sha256": expected["sha256"],
++            "portable_registry_sha256": registry_digest,
++            "observed_sha256": None,
++            "loader_verification": {},
++        }
++        identity.setdefault("verified_digest_handoff", {})[logical_name] = receipt_record
++        atomic_json(receipt_path, identity)
++        if (
++            not isinstance(registry_digest, str)
++            or len(registry_digest) != 64
++            or registry_digest != expected["sha256"]
++        ):
++            receipt_record.update(
++                {
++                    "status": "registry_digest_mismatch",
++                    "diagnostic": "portable registry SHA-256 does not match campaign expectation",
++                }
++            )
++            atomic_json(receipt_path, identity)
++            raise ProfileAbort(f"portable registry digest mismatch for {logical_name}")
++        registry_digests[split_name] = registry_digest
+         try:
+-            path = _unique(input_root, f"{split_name}.parquet")
++            raw[split_name] = _unique(input_root, f"{split_name}.parquet")
+         except ProfileAbort as error:
+             persist_identity_check(
+                 receipt_path,
+@@ -706,26 +947,98 @@
+                 expected,
+                 {"status": "unavailable", "diagnostic": str(error)},
+             )
++            receipt_record.update({"status": "input_unavailable", "diagnostic": str(error)})
++            atomic_json(receipt_path, identity)
+             raise
++
++    digest_handoff = VerifiedDigestHandoff(tuple(raw.values()))
++    digest_receipts: dict[str, DigestReceipt] = {}
++    for split_name, path in raw.items():
++        logical_name = f"datasets/{split_name}.parquet"
++        expected = EXPECTED[split_name]
++        record = identity["verified_digest_handoff"][logical_name]
++        try:
++            digest_receipt = hash_raw_with_handoff(
++                path,
++                receipt_path.with_name("hash_io_advice.json"),
++                logical_name,
++                digest_handoff,
++            )
++        except Exception as error:
++            record.update(
++                {"status": "hash_failed", "diagnostic": f"{type(error).__name__}: {error}"}
++            )
++            identity.setdefault("observed", {})[logical_name] = {
++                "status": "hash_failed",
++                "diagnostic": f"{type(error).__name__}: {error}",
++            }
++            atomic_json(receipt_path, identity)
++            raise
++        digest_receipts[split_name] = digest_receipt
+         observed: dict[str, Any] = {
+-            "sha256": sha256_file(
+-                path,
+-                pagecache_receipt_path=receipt_path.with_name("hash_io_advice.json"),
+-                logical_name=logical_name,
+-            ),
+-            "bytes": path.stat().st_size,
++            "sha256": digest_receipt.sha256,
++            "bytes": digest_receipt.bytes_hashed,
+         }
++        record.update(
++            {
++                "observed_sha256": digest_receipt.sha256,
++                "observed_bytes": digest_receipt.bytes_hashed,
++                "file_identity": {
++                    "device": digest_receipt.identity.device,
++                    "inode": digest_receipt.identity.inode,
++                    "size": digest_receipt.identity.size,
++                    "modified_ns": digest_receipt.identity.modified_ns,
++                    "changed_ns": digest_receipt.identity.changed_ns,
++                    "mode": digest_receipt.identity.mode,
++                },
++            }
++        )
+         identity.setdefault("observed", {})[logical_name] = observed
+         atomic_json(receipt_path, identity)
++        if (
++            digest_receipt.sha256 != expected["sha256"]
++            or digest_receipt.sha256 != registry_digests[split_name]
++            or digest_receipt.bytes_hashed != expected["bytes"]
++        ):
++            record.update(
++                {
++                    "status": "digest_mismatch",
++                    "diagnostic": "observed bytes do not match both frozen digests and size",
++                }
++            )
++            atomic_json(receipt_path, identity)
++            persist_identity_check(
++                receipt_path,
++                identity,
++                logical_name,
++                expected,
++                observed,
++                checked_fields=("sha256", "bytes"),
++            )
++            raise ProfileAbort(f"raw source digest mismatch for {logical_name}")
+         try:
+             observed.update(parquet_footer(path))
+         except ProfileAbort as error:
+             observed["footer_status"] = "invalid"
+             observed["footer_diagnostic"] = str(error)
++            record.update({"status": "footer_invalid", "diagnostic": str(error)})
+             atomic_json(receipt_path, identity)
+             raise
+         persist_identity_check(receipt_path, identity, logical_name, expected, observed)
+-        raw[split_name] = path
++        try:
++            digest_handoff.authorize(
++                digest_receipt,
++                expected_sha256=expected["sha256"],
++                registry_sha256=registry_digests[split_name],
++            )
++        except Exception as error:
++            record.update(
++                {"status": "authorization_failed", "diagnostic": f"{type(error).__name__}: {error}"}
++            )
++            atomic_json(receipt_path, identity)
++            raise
++        record.update({"status": "authorized_for_same_worker_portability_checks"})
++        atomic_json(receipt_path, identity)
+     for logical, path in raw.items():
+         destination = source_root / "datasets" / f"{logical}.parquet"
+         destination.parent.mkdir(parents=True, exist_ok=True)
+@@ -740,9 +1053,29 @@
+         destination.symlink_to(path)
+     bind_verified_portable_manifest(source_root, receipt_path, identity)
+     sys.path.insert(0, str(source_root / "src"))
++    from wnn import portability
+     from wnn.splits import load_campaign_split
+ 
+-    split = load_campaign_split(source_root / SPLIT_RELATIVE, source_root)
++    digest_handoff.install_portable_verifier(portability)
++    try:
++        split = load_campaign_split(source_root / SPLIT_RELATIVE, source_root)
++    finally:
++        for split_name, path in raw.items():
++            logical_name = f"datasets/{split_name}.parquet"
++            metrics = digest_handoff.metrics_for(path)
++            initial_hits = min(metrics["digest_reuse_hits"], 1)
++            identity["verified_digest_handoff"][logical_name]["loader_verification"] = {
++                **metrics,
++                "first_split_load_reuse_hits": initial_hits,
++                "first_split_load_comparable_bytes_avoided": (
++                    initial_hits * digest_receipts[split_name].bytes_hashed
++                ),
++                "note": (
++                    "The first split-loader call would miss the pinned lru_cache; later trainer calls "
++                    "would hit that baseline cache. Total handoff hits are reported separately."
++                ),
++            }
++        atomic_json(receipt_path, identity)
+     train, valid, evaluation = (
+         set(map(int, split.train_groups)),
+         set(map(int, split.valid_groups)),
+@@ -814,7 +1147,14 @@
+         }
+     )
+     atomic_json(receipt_path, identity)
+-    return {"identity": identity, "orders": orders, "split": split}
++    return {
++        "identity": identity,
++        "orders": orders,
++        "split": split,
++        "digest_handoff": digest_handoff,
++        "raw_paths": raw,
++        "digest_receipts": digest_receipts,
++    }
+ 
+ 
+ def bind_verified_portable_manifest(
+--- fit_v2/support/verified_digest_handoff.py
++++ fit_v3/support/verified_digest_handoff.py
+@@ -0,0 +1,319 @@
++"""Reuse an in-process SHA-256 only for the exact file identity that produced it."""
++
++from __future__ import annotations
++
++import hashlib
++import os
++import re
++import stat
++import threading
++from collections.abc import Callable
++from dataclasses import dataclass
++from pathlib import Path
++from types import ModuleType
++from typing import cast
++
++DigestProgress = Callable[[int, int], None]
++PortableDigest = Callable[[str, int, int, int, int, int], str]
++_SHA256_PATTERN = re.compile(r"[0-9a-f]{64}\Z")
++_CHUNK_BYTES = 1 << 20
++
++
++class DigestHandoffError(RuntimeError):
++    """Base error for invalid or unstable digest handoffs."""
++
++
++class SourceChangedError(DigestHandoffError):
++    """Raised when the file identity changes during hashing or authorization."""
++
++
++class DigestMismatchError(DigestHandoffError):
++    """Raised when observed bytes disagree with the frozen source digests."""
++
++
++@dataclass(frozen=True, slots=True)
++class FileIdentity:
++    """Filesystem identity fields used to scope a single-process digest."""
++
++    device: int
++    inode: int
++    size: int
++    modified_ns: int
++    changed_ns: int
++    mode: int
++
++    @classmethod
++    def from_stat(cls, value: os.stat_result) -> FileIdentity:
++        """Build a stable identity snapshot from an open descriptor or path stat."""
++        return cls(
++            device=value.st_dev,
++            inode=value.st_ino,
++            size=value.st_size,
++            modified_ns=value.st_mtime_ns,
++            changed_ns=value.st_ctime_ns,
++            mode=value.st_mode,
++        )
++
++    def portable_key_matches(
++        self,
++        device: int,
++        inode: int,
++        size: int,
++        modified_ns: int,
++        changed_ns: int,
++    ) -> bool:
++        """Match the five stat fields supplied by the pinned portability verifier."""
++        return (
++            self.device,
++            self.inode,
++            self.size,
++            self.modified_ns,
++            self.changed_ns,
++        ) == (device, inode, size, modified_ns, changed_ns)
++
++
++@dataclass(frozen=True, slots=True)
++class DigestReceipt:
++    """Unapproved candidate digest produced by one complete stable file read."""
++
++    canonical_path: str
++    identity: FileIdentity
++    sha256: str
++    bytes_hashed: int
++
++
++class VerifiedDigestHandoff:
++    """Hold verified raw-source digests for exact allowed paths and stat tuples.
++
++    The handoff is intentionally memory-only and worker-local. A digest is
++    reusable only after the bytes match both the campaign's expected SHA-256
++    and the portable registry SHA-256, and only while the full filesystem
++    identity remains unchanged. A miss falls through to the pinned verifier's
++    original content hash.
++    """
++
++    def __init__(self, allowed_paths: tuple[Path, ...]) -> None:
++        """Create a handoff whose reads and lookups are restricted to exact files."""
++        if not allowed_paths:
++            raise ValueError("at least one exact source path is required")
++        canonical_paths = tuple(self._resolve(path) for path in allowed_paths)
++        if len(set(canonical_paths)) != len(canonical_paths):
++            raise ValueError("allowed source paths must be unique after resolution")
++        self._allowed_paths = frozenset(canonical_paths)
++        self._pending: dict[int, DigestReceipt] = {}
++        self._authorized: dict[str, DigestReceipt] = {}
++        self._metrics = {
++            "verifier_lookups": 0,
++            "digest_reuse_hits": 0,
++            "digest_reuse_misses": 0,
++            "fallback_digest_calls": 0,
++        }
++        self._path_metrics: dict[str, dict[str, int]] = {}
++        self._lock = threading.RLock()
++
++    def hash_file(self, path: Path, on_progress: DigestProgress | None = None) -> DigestReceipt:
++        """Hash exact allowed bytes once, rejecting any stat change during the read.
++
++        Args:
++            path: Exact raw-source path previously declared in ``allowed_paths``.
++            on_progress: Optional callback given file descriptor and cumulative
++                bytes hashed after each block. A page-cache adviser may use it.
++
++        Returns:
++            An unapproved receipt bound to the file descriptor and path identity.
++
++        Raises:
++            DigestHandoffError: If the path is outside scope, unreadable, or
++                changes while being hashed.
++        """
++        resolved = self._resolve(path)
++        if resolved not in self._allowed_paths:
++            raise DigestHandoffError(f"source path is outside handoff scope: {resolved}")
++        with self._lock:
++            self._authorized.pop(str(resolved), None)
++
++        try:
++            before_path = FileIdentity.from_stat(resolved.stat())
++            if not stat.S_ISREG(before_path.mode):
++                raise DigestHandoffError(f"source is not a regular file: {resolved}")
++            digest = hashlib.sha256()
++            bytes_hashed = 0
++            with resolved.open("rb", buffering=0) as stream:
++                before_fd = FileIdentity.from_stat(os.fstat(stream.fileno()))
++                if before_fd != before_path:
++                    raise SourceChangedError(f"source changed before hashing: {resolved}")
++                while block := stream.read(_CHUNK_BYTES):
++                    digest.update(block)
++                    bytes_hashed += len(block)
++                    if on_progress is not None:
++                        on_progress(stream.fileno(), bytes_hashed)
++                after_fd = FileIdentity.from_stat(os.fstat(stream.fileno()))
++            after_path = FileIdentity.from_stat(resolved.stat())
++        except OSError as error:
++            raise DigestHandoffError(f"cannot hash source file {resolved}: {error}") from error
++
++        if before_path != before_fd or before_fd != after_fd or after_fd != after_path:
++            raise SourceChangedError(f"source changed while hashing: {resolved}")
++        if bytes_hashed != before_path.size:
++            raise SourceChangedError(
++                f"source byte count changed while hashing: {resolved} "
++                f"({bytes_hashed} != {before_path.size})"
++            )
++        receipt = DigestReceipt(
++            canonical_path=str(resolved),
++            identity=after_path,
++            sha256=digest.hexdigest(),
++            bytes_hashed=bytes_hashed,
++        )
++        with self._lock:
++            self._pending[id(receipt)] = receipt
++        return receipt
++
++    def authorize(
++        self,
++        receipt: DigestReceipt,
++        *,
++        expected_sha256: str,
++        registry_sha256: str,
++    ) -> None:
++        """Authorize a receipt only after both frozen digests match its bytes."""
++        with self._lock:
++            issued = self._pending.pop(id(receipt), None)
++        if issued is not receipt:
++            raise DigestHandoffError("digest receipt was not issued by this handoff")
++        if not _SHA256_PATTERN.fullmatch(expected_sha256) or not _SHA256_PATTERN.fullmatch(
++            registry_sha256
++        ):
++            raise DigestMismatchError("expected and registry digests must be lowercase SHA-256")
++        if expected_sha256 != registry_sha256 or receipt.sha256 != expected_sha256:
++            raise DigestMismatchError("observed source digest disagrees with frozen identity")
++        path = Path(receipt.canonical_path)
++        try:
++            current = FileIdentity.from_stat(path.stat())
++        except OSError as error:
++            raise SourceChangedError(
++                f"source became unavailable before digest authorization: {path}"
++            ) from error
++        if current != receipt.identity:
++            raise SourceChangedError(f"source changed before digest authorization: {path}")
++        with self._lock:
++            self._authorized[receipt.canonical_path] = receipt
++
++    def lookup(
++        self,
++        path: str,
++        *,
++        device: int,
++        inode: int,
++        size: int,
++        modified_ns: int,
++        changed_ns: int,
++    ) -> str | None:
++        """Return an authorized digest only for a matching current stat identity."""
++        try:
++            resolved = self._resolve(Path(path))
++            current = FileIdentity.from_stat(resolved.stat())
++        except (DigestHandoffError, OSError):
++            self._record_lookup(hit=False, canonical_path=path)
++            return None
++        if resolved not in self._allowed_paths:
++            self._record_lookup(hit=False, canonical_path=str(resolved))
++            return None
++        key = str(resolved)
++        with self._lock:
++            receipt = self._authorized.get(key)
++            if receipt is None:
++                self._record_lookup(hit=False, canonical_path=key)
++                return None
++            if receipt.identity != current or not current.portable_key_matches(
++                device, inode, size, modified_ns, changed_ns
++            ):
++                self._authorized.pop(key, None)
++                self._record_lookup(hit=False, canonical_path=key)
++                return None
++            self._record_lookup(hit=True, canonical_path=key)
++            return receipt.sha256
++
++    def metrics(self) -> dict[str, int]:
++        """Return a copy of worker-local lookup and pinned-verifier fallback counts."""
++        with self._lock:
++            return self._metrics.copy()
++
++    def metrics_for(self, path: Path) -> dict[str, int]:
++        """Return handoff lookup and fallback counts for one canonical file path."""
++        try:
++            key = str(self._resolve(path))
++        except DigestHandoffError:
++            key = str(path)
++        with self._lock:
++            return self._path_metrics.get(key, self._empty_metrics()).copy()
++
++    def _record_lookup(self, *, hit: bool, canonical_path: str) -> None:
++        with self._lock:
++            self._metrics["verifier_lookups"] += 1
++            path_metrics = self._path_metrics.setdefault(canonical_path, self._empty_metrics())
++            path_metrics["verifier_lookups"] += 1
++            event = "digest_reuse_hits" if hit else "digest_reuse_misses"
++            self._metrics[event] += 1
++            path_metrics[event] += 1
++
++    def _record_fallback(self, path: str) -> None:
++        try:
++            key = str(self._resolve(Path(path)))
++        except DigestHandoffError:
++            key = path
++        with self._lock:
++            self._metrics["fallback_digest_calls"] += 1
++            self._path_metrics.setdefault(key, self._empty_metrics())["fallback_digest_calls"] += 1
++
++    @staticmethod
++    def _empty_metrics() -> dict[str, int]:
++        return {
++            "verifier_lookups": 0,
++            "digest_reuse_hits": 0,
++            "digest_reuse_misses": 0,
++            "fallback_digest_calls": 0,
++        }
++
++    def install_portable_verifier(self, module: ModuleType) -> None:
++        """Wrap only ``_content_digest``; all non-hit calls use the pinned original.
++
++        Install this before the first ``load_campaign_split`` call. The pinned
++        verifier continues to check original metadata and compare the returned
++        digest to the portable registry. ``wnn.splits.file_sha256`` is untouched.
++        """
++        original_value = getattr(module, "_content_digest", None)
++        if not callable(original_value):
++            raise DigestHandoffError("portable module has no callable _content_digest")
++        # The private verifier is dynamically supplied by the frozen source module.
++        original_digest = cast(PortableDigest, original_value)
++
++        def content_digest(
++            path: str,
++            device: int,
++            inode: int,
++            size: int,
++            modified_ns: int,
++            changed_ns: int,
++        ) -> str:
++            reused = self.lookup(
++                path,
++                device=device,
++                inode=inode,
++                size=size,
++                modified_ns=modified_ns,
++                changed_ns=changed_ns,
++            )
++            if reused is not None:
++                return reused
++            self._record_fallback(path)
++            return original_digest(path, device, inode, size, modified_ns, changed_ns)
++
++        module._content_digest = content_digest
++
++    @staticmethod
++    def _resolve(path: Path) -> Path:
++        try:
++            return path.resolve(strict=True)
++        except OSError as error:
++            raise DigestHandoffError(f"source path cannot be resolved: {path}") from error
+--- fit_v2/tests/conftest.py
++++ fit_v3/tests/conftest.py
+@@ -6,3 +6,4 @@
+ from pathlib import Path
+ 
+ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++sys.path.insert(0, str(Path(__file__).resolve().parents[6] / "src"))
+--- fit_v2/tests/test_digest_handoff.py
++++ fit_v3/tests/test_digest_handoff.py
+@@ -0,0 +1,221 @@
++"""Focused safety checks for E520 raw-source digest reuse."""
++
++from __future__ import annotations
++
++import hashlib
++import json
++import os
++from pathlib import Path
++from types import ModuleType
++
++import pytest
++from support import input_identity
++from support.verified_digest_handoff import (
++    DigestMismatchError,
++    VerifiedDigestHandoff,
++)
++
++from wnn import portability
++
++
++def _counting_portability_module() -> tuple[ModuleType, dict[str, int]]:
++    """Return a small verifier substitute that counts fallback bytes."""
++    module = ModuleType("synthetic_wnn_portability")
++    counters = {"calls": 0, "bytes_read": 0}
++
++    def content_digest(
++        path: str,
++        _device: int,
++        _inode: int,
++        _size: int,
++        _modified_ns: int,
++        _changed_ns: int,
++    ) -> str:
++        counters["calls"] += 1
++        digest = hashlib.sha256()
++        with Path(path).open("rb") as stream:
++            while block := stream.read(1 << 20):
++                counters["bytes_read"] += len(block)
++                digest.update(block)
++        return digest.hexdigest()
++
++    module._content_digest = content_digest
++    return module, counters
++
++
++def _verify(module: ModuleType, path: Path, expected_sha256: str) -> str:
++    """Exercise the exact portability callback signature and digest comparison."""
++    stat_result = path.stat()
++    digest = module._content_digest(
++        str(path.resolve()),
++        stat_result.st_dev,
++        stat_result.st_ino,
++        stat_result.st_size,
++        stat_result.st_mtime_ns,
++        stat_result.st_ctime_ns,
++    )
++    if digest != expected_sha256:
++        raise ValueError("portable source content changed")
++    return digest
++
++
++def test_raw_hash_advice_and_portable_reuse_preserve_exact_digest(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """The initial pass advises pages and later verification reuses those bytes."""
++    path = tmp_path / "train.parquet"
++    payload = (b"verified-parquet-row-group\0" * 80_000) + b"tail"
++    path.write_bytes(payload)
++    advised: list[tuple[int, int, int]] = []
++
++    def fake_fadvise(file_descriptor: int, offset: int, length: int, advice: int) -> None:
++        advised.append((offset, length, advice))
++
++    monkeypatch.setattr(input_identity.os, "posix_fadvise", fake_fadvise, raising=False)
++    monkeypatch.setattr(input_identity.os, "POSIX_FADV_DONTNEED", 4, raising=False)
++    expected = hashlib.sha256(payload).hexdigest()
++    handoff = VerifiedDigestHandoff((path,))
++    receipt_path = tmp_path / "hash_io_advice.json"
++
++    digest_receipt = input_identity.hash_raw_with_handoff(
++        path, receipt_path, "datasets/train.parquet", handoff
++    )
++    handoff.authorize(
++        digest_receipt,
++        expected_sha256=expected,
++        registry_sha256=expected,
++    )
++    module, fallback = _counting_portability_module()
++    handoff.install_portable_verifier(module)
++
++    assert _verify(module, path, expected) == expected
++    first_metrics = handoff.metrics_for(path)
++    assert _verify(module, path, expected) == expected
++    advice = json.loads(receipt_path.read_text())["files"]["datasets/train.parquet"]
++    page_size = os.sysconf("SC_PAGE_SIZE")
++    assert digest_receipt.sha256 == expected
++    assert advice["status"] == "complete"
++    assert advice["bytes_hashed"] == len(payload)
++    assert advice["bytes_advised"] == len(payload) - (len(payload) % page_size)
++    assert advised
++    assert all(offset % page_size == 0 and length % page_size == 0 for offset, length, _ in advised)
++    assert handoff.metrics_for(path)["digest_reuse_hits"] == 2
++    assert fallback == {"calls": 0, "bytes_read": 0}
++    runtime = input_identity.digest_handoff_runtime_report(
++        {
++            "verified_digest_handoff": {
++                "datasets/train.parquet": {
++                    "loader_verification": {
++                        **first_metrics,
++                        "first_split_load_comparable_bytes_avoided": len(payload),
++                    }
++                }
++            }
++        },
++        handoff,
++        {"train": path},
++        {"train": digest_receipt},
++        phase="synthetic_after_seed3",
++    )
++    train_runtime = runtime["sources"]["datasets/train.parquet"]
++    assert train_runtime["first_load_baseline_duplicate_bytes_avoided"] == len(payload)
++    assert train_runtime["post_initial_split_load_counters"]["digest_reuse_hits"] == 1
++    assert train_runtime["all_handoff_hit_bytes"] == 2 * len(payload)
++
++
++def test_digest_authorization_requires_campaign_and_registry_agreement(tmp_path: Path) -> None:
++    """A correct byte hash is still unusable if either frozen digest disagrees."""
++    path = tmp_path / "valid.parquet"
++    path.write_bytes(b"exact source identity")
++    digest = hashlib.sha256(path.read_bytes()).hexdigest()
++    handoff = VerifiedDigestHandoff((path,))
++    receipt = handoff.hash_file(path)
++
++    with pytest.raises(DigestMismatchError, match="disagrees"):
++        handoff.authorize(
++            receipt,
++            expected_sha256=digest,
++            registry_sha256="0" * 64,
++        )
++    assert (
++        handoff.lookup(
++            str(path),
++            device=receipt.identity.device,
++            inode=receipt.identity.inode,
++            size=receipt.identity.size,
++            modified_ns=receipt.identity.modified_ns,
++            changed_ns=receipt.identity.changed_ns,
++        )
++        is None
++    )
++
++
++def test_stat_mutation_forces_pinned_verifier_fallback(tmp_path: Path) -> None:
++    """Changed input bytes cannot reuse a stale digest, even with restored mtime."""
++    path = tmp_path / "valid.parquet"
++    original_bytes = b"a" * 1_100_000
++    changed_bytes = b"b" * len(original_bytes)
++    path.write_bytes(original_bytes)
++    expected = hashlib.sha256(original_bytes).hexdigest()
++    handoff = VerifiedDigestHandoff((path,))
++    receipt = handoff.hash_file(path)
++    handoff.authorize(receipt, expected_sha256=expected, registry_sha256=expected)
++    module, fallback = _counting_portability_module()
++    handoff.install_portable_verifier(module)
++
++    before = path.stat()
++    path.write_bytes(changed_bytes)
++    os.utime(path, ns=(before.st_atime_ns, before.st_mtime_ns))
++    after = path.stat()
++    assert after.st_size == before.st_size
++    assert after.st_mtime_ns == before.st_mtime_ns
++    assert after.st_ctime_ns != receipt.identity.changed_ns
++
++    with pytest.raises(ValueError, match="content changed"):
++        _verify(module, path, expected)
++    assert handoff.metrics_for(path)["digest_reuse_misses"] == 1
++    assert handoff.metrics_for(path)["fallback_digest_calls"] == 1
++    assert fallback == {"calls": 1, "bytes_read": len(changed_bytes)}
++
++
++def test_pinned_portability_registry_checks_remain_before_digest_reuse(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """The real pinned verifier retains metadata checks around the wrapped digest."""
++    path = tmp_path / "train.parquet"
++    payload = b"portable raw bytes" * 100
++    path.write_bytes(payload)
++    digest = hashlib.sha256(payload).hexdigest()
++    handoff = VerifiedDigestHandoff((path,))
++    receipt = handoff.hash_file(path)
++    handoff.authorize(receipt, expected_sha256=digest, registry_sha256=digest)
++    original_digest = portability._content_digest
++    monkeypatch.setattr(portability, "_content_digest", original_digest)
++    handoff.install_portable_verifier(portability)
++    stat_result = path.stat()
++    original_identity = {"bytes": len(payload), "mtime_ns": stat_result.st_mtime_ns}
++    registry = tmp_path / "portable_inputs.json"
++    registry.write_text(
++        json.dumps(
++            {
++                "version": 1,
++                "sources": {
++                    "datasets/train.parquet": {
++                        "original_identity": original_identity,
++                        "sha256": digest,
++                    }
++                },
++            }
++        )
++    )
++
++    portability.verify_portable_source(path, "datasets/train.parquet", original_identity, registry)
++    assert handoff.metrics_for(path)["digest_reuse_hits"] == 1
++
++    with pytest.raises(ValueError, match="portable identity disagrees"):
++        portability.verify_portable_source(
++            path,
++            "datasets/train.parquet",
++            {"bytes": len(payload), "mtime_ns": stat_result.st_mtime_ns + 1},
++            registry,
++        )
+--- fit_v2/tests/test_fit_packet_builder.py
++++ fit_v3/tests/test_fit_packet_builder.py
+@@ -6,14 +6,18 @@
+ import base64
+ import hashlib
+ import io
++import json
+ import zipfile
++from pathlib import Path
+ 
+ import pytest
+ from fit_guards import REQUIRED_ARTIFACTS
+ from prepare_fit_packet import (
+     ADMISSION_NAME,
+     BUNDLE_PAYLOAD_FILES,
++    KAGGLE_TITLE,
+     META_NAME,
++    PACKET_ID,
+     REVIEW_NAME,
+     render_fit_kernel_bundle,
+ )
+@@ -24,8 +28,19 @@
+     assert {
+         "E520_FIT_STAGE_PLAN.json",
+         "tests/test_training_target_semantics.py",
++        "support/verified_digest_handoff.py",
++        "tests/test_digest_handoff.py",
+     }.issubset(REQUIRED_ARTIFACTS)
+     assert {ADMISSION_NAME, META_NAME, REVIEW_NAME}.issubset(BUNDLE_PAYLOAD_FILES)
++
++
++def test_fit_packet_metadata_matches_the_new_candidate_identity() -> None:
++    packet_root = Path(__file__).resolve().parents[1]
++    config = json.loads((packet_root / "FIT_STAGE_CONFIG.json").read_text())
++    assert config["packet_id"] == PACKET_ID
++    author, slug = PACKET_ID.split("/", maxsplit=1)
++    assert author == "vladkochetov07"
++    assert KAGGLE_TITLE.lower().replace(" ", "-") == slug
+ 
+ 
+ def test_fit_bundle_is_deterministic_and_embeds_exact_hash_map() -> None:
+--- fit_v2/tests/test_training_target_semantics.py
++++ fit_v3/tests/test_training_target_semantics.py
+@@ -65,3 +65,10 @@
+     config["fit_stage_plan_sha256"] = "0" * 64
+     with pytest.raises(FitGateError, match="plan bytes differ"):
+         validate_training_target_semantics(config, PACKET_ROOT)
++
++
++def test_digest_handoff_contract_is_bound_to_the_stage_plan() -> None:
++    config = _load_json(PACKET_ROOT / "FIT_STAGE_CONFIG.json")
++    config["execution_optimization"]["allowed_sources"] = ["datasets/train.parquet"]
++    with pytest.raises(FitGateError, match="digest-handoff execution contract differs"):
++        validate_training_target_semantics(config, PACKET_ROOT)

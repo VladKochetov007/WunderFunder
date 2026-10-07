@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E520_PROFILE_VERIFIED_DIGEST_HANDOFF_V7",
+  "status": "author-frozen-code-only-independent-review-pending",
+  "freeze_map_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/E520_V7_FREEZE_MAP.json",
+  "freeze_map_sha256": "562725e008033e71e4074a72d3172e93d6830d1a06bb2b9533fa63dd919e9ff1",
+  "builder_review_targets_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/E520_V7_REVIEW_TARGETS.json",
+  "builder_review_targets_sha256": "7dfc4a33c944b035638fb6dbb128c0dd88e21cd4d5b3fa96562ae5242c96085b",
+  "author_role": "implementation actor; not independent reviewer or admission authority",
+  "reviewed_source_sha256": {
+    "profile_worker.py": "3318e1d54804a695d08a81a970b5f317cb492556de6b6b7c8dcc83027310a1f9",
+    "prepare_profile_packet.py": "83abdb02b3813a15aae98ba0e6345e4a9c94788f9b926ab07cea34b057bf66f7",
+    "verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424",
+    "E520_PACKET_PLAN.json": "3724931842415af796c7d31d42dd33c92fc4097baf7f7cae2ec51e5aca883439",
+    "tests/test_digest_handoff_integration.py": "ecafa7c47d572ae45c26cf3f0d327ab87e39eca2ba008c093c9a4048e082f434",
+    "tests/test_profile_guards.py": "9a6288ebef94f1cb02ca79fa51f2f5fdce229612aacb36adb5c720b70442adb8",
+    "README.md": "fcae481986ba944552198934a82f79d2297b38a8e1f113b1837727b143d5f213",
+    "V7_WORKER_DIFF_FROM_V6.patch": "e2f7ab1952c2c47d24bbe187e150298f1c0fe63078b02731cb671c7dfa305af5"
+  },
+  "checks": [
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/tests",
+      "result": "23 passed in 0.16 s"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/ruff check research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1",
+      "result": "All checks passed"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/ruff format --check research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/profile_worker.py research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/prepare_profile_packet.py research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/verified_digest_handoff.py research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/tests",
+      "result": "9 files already formatted"
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/prepare_profile_packet.py --review-targets-only --repo-root .",
+      "result": "review-targets-only-no-packet-created; pinned source archive digest matched"
+    }
+  ],
+  "prohibited_actions_not_performed": [
+    "packet build",
+    "Kaggle/provider call or upload",
+    "local or remote GPU profile",
+    "fit",
+    "prediction or scoring"
+  ],
+  "approval": null
+}

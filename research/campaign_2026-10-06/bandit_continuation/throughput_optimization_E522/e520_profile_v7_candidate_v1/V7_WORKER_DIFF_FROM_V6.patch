@@ -1,0 +1,607 @@
+--- E520-v6/profile_worker.py
++++ E520-v7/profile_worker.py
+@@ -19,11 +19,14 @@
+ import tarfile
+ import threading
+ import time
++from collections.abc import Callable
+ from functools import lru_cache
+ from pathlib import Path, PurePosixPath
+ from typing import Any
+ 
+-PACKET_ID = "E520_PROFILE_LOADER_HASH_ADVICE_V2"
++from verified_digest_handoff import DigestReceipt, VerifiedDigestHandoff
++
++PACKET_ID = "E520_PROFILE_VERIFIED_DIGEST_HANDOFF_V7"
+ REVIEWED_PACKET_FILES = (
+     "profile_worker.py",
+     "profile_kernel.py",
+@@ -34,12 +37,14 @@
+     "tests/test_portable_manifest_binding.py",
+     "tests/test_profile_bundle.py",
+     "tests/test_loader_hash_advice.py",
++    "verified_digest_handoff.py",
++    "tests/test_digest_handoff_integration.py",
+     "E520_PACKET_PLAN.json",
+     "source_archive.tar",
+ )
+ PROFILE_WARMUP = 3
+ PROFILE_STEPS = 20
+-PROFILE_WALL_CAP_S = 1_800
++PROFILE_WALL_CAP_S = 1_700
+ HASH_BLOCK_BYTES = 1 << 20
+ HASH_PROGRESS_RECEIPT_BYTES = 1 << 28
+ MEMORY_STAT_MAX_BYTES = 65_536
+@@ -334,6 +339,145 @@
+         )
+ 
+ 
++def _hash_raw_with_handoff(
++    path: Path,
++    *,
++    handoff: VerifiedDigestHandoff,
++    hash_receipt_path: Path,
++    memory_stat_receipt_path: Path,
++    logical_name: str,
++    diagnostic_phase: str,
++) -> DigestReceipt:
++    """Hash once through the worker-local handoff and preserve v6 I/O receipts."""
++    started = time.monotonic()
++    _record_memory_stat_phase(memory_stat_receipt_path, diagnostic_phase, "before")
++    receipt: DigestReceipt | None = None
++    record: dict[str, Any] | None = None
++    status = "failed"
++    diagnostic: str | None = None
++    fadvise = getattr(os, "posix_fadvise", None)
++    dontneed = getattr(os, "POSIX_FADV_DONTNEED", None)
++    try:
++        try:
++            page_size = int(os.sysconf("SC_PAGE_SIZE"))
++            file_size = path.stat().st_size
++        except (OSError, ValueError, TypeError, AttributeError) as error:
++            raise ProfileAbort(f"page-cache hash preflight failed for {logical_name}") from error
++        record = {
++            "status": "starting",
++            "path": str(path),
++            "expected_file_bytes": file_size,
++            "hash_block_bytes": HASH_BLOCK_BYTES,
++            "page_size_bytes": page_size,
++            "advice": "POSIX_FADV_DONTNEED",
++            "posix_fadvise_available": callable(fadvise),
++            "dontneed_constant_available": dontneed is not None,
++            "bytes_hashed": 0,
++            "bytes_advised": 0,
++            "advice_calls": 0,
++            "advice_failures": 0,
++            "advice_semantics": "successful calls are kernel hints, not proof pages were evicted",
++        }
++        _record_hash_advice(hash_receipt_path, logical_name, record)
++        if (
++            not callable(fadvise)
++            or dontneed is None
++            or page_size <= 0
++            or HASH_BLOCK_BYTES % page_size != 0
++        ):
++            record.update(
++                {
++                    "status": "unsupported",
++                    "diagnostic": "POSIX_FADV_DONTNEED or a compatible page size is unavailable",
++                }
++            )
++            _record_hash_advice(hash_receipt_path, logical_name, record)
++            raise ProfileAbort("required POSIX page-cache advice is unavailable")
++
++        advised_bytes = 0
++        next_receipt_bytes = HASH_PROGRESS_RECEIPT_BYTES
++
++        def advise_completed_bytes(file_descriptor: int, bytes_hashed: int) -> None:
++            nonlocal advised_bytes, next_receipt_bytes
++            advised_end = bytes_hashed - (bytes_hashed % page_size)
++            if advised_end > advised_bytes:
++                try:
++                    fadvise(
++                        file_descriptor,
++                        advised_bytes,
++                        advised_end - advised_bytes,
++                        dontneed,
++                    )
++                except (OSError, NotImplementedError) as error:
++                    record.update(
++                        {
++                            "status": "failed",
++                            "bytes_hashed": bytes_hashed,
++                            "bytes_advised": advised_bytes,
++                            "advice_failures": int(record["advice_failures"]) + 1,
++                            "diagnostic": f"{type(error).__name__}: {error}",
++                        }
++                    )
++                    _record_hash_advice(hash_receipt_path, logical_name, record)
++                    raise
++                record["advice_calls"] = int(record["advice_calls"]) + 1
++                advised_bytes = advised_end
++            record["bytes_hashed"] = bytes_hashed
++            record["bytes_advised"] = advised_bytes
++            if bytes_hashed >= next_receipt_bytes:
++                record["status"] = "in_progress"
++                _record_hash_advice(hash_receipt_path, logical_name, record)
++                next_receipt_bytes += HASH_PROGRESS_RECEIPT_BYTES
++
++        receipt = handoff.hash_file(path, on_progress=advise_completed_bytes)
++        if receipt.bytes_hashed != file_size:
++            raise ProfileAbort(f"file size changed while hashing {logical_name}")
++        record.update(
++            {
++                "status": "complete",
++                "bytes_hashed": receipt.bytes_hashed,
++                "bytes_advised": advised_bytes,
++                "sha256": receipt.sha256,
++            }
++        )
++        _record_hash_advice(hash_receipt_path, logical_name, record)
++        status = "complete"
++        return receipt
++    except Exception as error:
++        if record is not None and record.get("status") != "unsupported":
++            record.update(
++                {
++                    "status": "failed",
++                    "diagnostic": f"{type(error).__name__}: {error}",
++                }
++            )
++            _record_hash_advice(hash_receipt_path, logical_name, record)
++        causes: list[str] = []
++        cause: BaseException | None = error
++        while cause is not None:
++            causes.append(f"{type(cause).__name__}: {cause}")
++            cause = cause.__cause__
++        diagnostic = " <- ".join(causes)
++        raise
++    finally:
++        details: dict[str, Any] = {
++            "status": status,
++            "elapsed_seconds": round(time.monotonic() - started, 6),
++            "bytes": path.stat().st_size if path.exists() else None,
++        }
++        if receipt is not None:
++            details["sha256"] = receipt.sha256
++            details["bytes_hashed"] = receipt.bytes_hashed
++        if diagnostic is not None:
++            details["diagnostic"] = diagnostic
++        _record_memory_stat_phase(
++            memory_stat_receipt_path,
++            diagnostic_phase,
++            "after",
++            details=details,
++        )
++
++
+ def install_loader_portable_hash_advice(
+     source_root: Path,
+     hash_receipt_path: Path,
+@@ -430,6 +574,43 @@
+         "raw_source_names": sorted(raw_sources.values()),
+         "cache_maxsize": 64,
+         "original_registry_verification_retained": True,
++        "splits_file_sha256_unmodified": True,
++    }
++
++
++def install_loader_verified_digest_handoff(
++    source_root: Path,
++    handoff: VerifiedDigestHandoff,
++    portability_module: Any | None = None,
++) -> dict[str, Any]:
++    """Reuse only exact raw digests after authenticating the pinned verifier path."""
++    if portability_module is None:
++        import wnn.portability as portability_module
++
++    expected_module = source_root / "src" / "wnn" / "portability.py"
++    try:
++        observed_module = Path(portability_module.__file__).resolve(strict=True)
++        expected_module = expected_module.resolve(strict=True)
++    except (OSError, AttributeError) as error:
++        raise ProfileAbort("pinned portability module path is unavailable") from error
++    if observed_module != expected_module:
++        raise ProfileAbort("portable verifier import did not resolve from the pinned source tree")
++    module_sha = sha256_file(observed_module)
++    if module_sha != PINNED_PORTABILITY_SOURCE_SHA256:
++        raise ProfileAbort("pinned portability verifier source hash mismatch")
++    try:
++        handoff.install_portable_verifier(portability_module)
++    except Exception as error:
++        raise ProfileAbort("verified digest handoff could not bind the pinned verifier") from error
++    return {
++        "module_path": str(observed_module),
++        "module_sha256": module_sha,
++        "patched_symbol": "wnn.portability._content_digest",
++        "raw_source_names": ["datasets/train.parquet", "datasets/valid.parquet"],
++        "cache_maxsize": 0,
++        "handoff_scope": "exact canonical path plus device/inode/size/mtime_ns/ctime_ns/mode",
++        "fallback": "original pinned full content verifier on every miss",
++        "registry_comparison_retained": True,
+         "splits_file_sha256_unmodified": True,
+     }
+ 
+@@ -739,24 +920,8 @@
+ 
+ def runtime_identity(torch_module: Any) -> dict[str, Any]:
+     """Capture actual selected-GPU, Torch, CUDA, cuDNN, driver, and Python identity."""
+-    import subprocess
+-
+     properties = torch_module.cuda.get_device_properties(0)
+-    try:
+-        completed = subprocess.run(
+-            [
+-                "nvidia-smi",
+-                "--query-gpu=name,driver_version,memory.total,uuid",
+-                "--format=csv,noheader,nounits",
+-            ],
+-            check=True,
+-            capture_output=True,
+-            text=True,
+-            timeout=5,
+-        )
+-        nvidia_smi = {"status": "ok", "rows": completed.stdout[:4_096]}
+-    except (OSError, subprocess.SubprocessError) as error:
+-        nvidia_smi = {"status": "query_error", "diagnostic": f"{type(error).__name__}: {error}"}
++    nvidia_smi = nvidia_smi_gpu_sample(timeout_seconds=5)
+     return {
+         "visible_gpu_count": int(torch_module.cuda.device_count()),
+         "selected_gpu_name": str(torch_module.cuda.get_device_name(0)),
+@@ -766,14 +931,192 @@
+         "cuda_runtime_version": torch_module.version.cuda,
+         "cudnn_version": torch_module.backends.cudnn.version(),
+         "python_version": platform.python_version(),
+-        "nvidia_smi_identity": nvidia_smi,
++        "physical_gpu_inventory_and_utilization": nvidia_smi,
+     }
++
++
++GPU_QUERY_FIELDS = (
++    "index,name,driver_version,uuid,memory.used,memory.total,utilization.gpu,utilization.memory"
++)
++
++
++def _optional_gpu_integer(value: str) -> int | None:
++    """Parse an observed integer metric while preserving N/A as unavailable."""
++    normalized = value.strip()
++    if not normalized or normalized.lower() in {"n/a", "na", "not supported"}:
++        return None
++    numeric = normalized.split(maxsplit=1)[0]
++    try:
++        return int(numeric)
++    except ValueError:
++        return None
++
++
++def parse_nvidia_smi_gpu_rows(output: str) -> list[dict[str, Any]]:
++    """Parse every physical GPU row, retaining unavailable metrics as null."""
++    import csv
++    import io
++
++    rows: list[dict[str, Any]] = []
++    for fields in csv.reader(io.StringIO(output), skipinitialspace=True):
++        if not fields or all(not field.strip() for field in fields):
++            continue
++        if len(fields) != 8:
++            raise ValueError(f"expected 8 nvidia-smi columns, got {len(fields)}")
++        rows.append(
++            {
++                "index": _optional_gpu_integer(fields[0]),
++                "name": fields[1].strip() or None,
++                "driver_version": fields[2].strip() or None,
++                "uuid": fields[3].strip() or None,
++                "memory_used_mib": _optional_gpu_integer(fields[4]),
++                "memory_total_mib": _optional_gpu_integer(fields[5]),
++                "utilization_gpu_percent": _optional_gpu_integer(fields[6]),
++                "utilization_memory_percent": _optional_gpu_integer(fields[7]),
++            }
++        )
++    return rows
++
++
++def nvidia_smi_gpu_sample(*, timeout_seconds: float = 2.0) -> dict[str, Any]:
++    """Collect bounded physical-GPU inventory/utilization; never invent zero values."""
++    import subprocess
++
++    sample: dict[str, Any] = {
++        "sampled_at_unix": time.time(),
++        "query_fields": GPU_QUERY_FIELDS,
++        "status": "unavailable",
++        "rows": [],
++    }
++    try:
++        completed = subprocess.run(
++            [
++                "nvidia-smi",
++                f"--query-gpu={GPU_QUERY_FIELDS}",
++                "--format=csv,noheader,nounits",
++            ],
++            check=True,
++            capture_output=True,
++            text=True,
++            timeout=timeout_seconds,
++        )
++    except (OSError, subprocess.SubprocessError) as error:
++        sample.update(
++            {
++                "status": "query_error",
++                "diagnostic": f"{type(error).__name__}: {error}",
++            }
++        )
++        return sample
++    try:
++        rows = parse_nvidia_smi_gpu_rows(completed.stdout)
++    except ValueError as error:
++        sample.update(
++            {
++                "status": "malformed_output",
++                "raw_output": completed.stdout[:4_096],
++                "diagnostic": str(error),
++            }
++        )
++        return sample
++    sample["status"] = "ok" if rows else "unavailable"
++    sample["rows"] = rows
++    if not rows:
++        sample["diagnostic"] = "nvidia-smi returned no physical GPU rows"
++    return sample
++
++
++class GpuTelemetrySampler:
++    """Collect capped, timestamped all-device GPU telemetry during trainer.profile."""
++
++    def __init__(
++        self,
++        receipt_path: Path,
++        *,
++        interval_seconds: float = 5.0,
++        max_samples: int = 24,
++        sample_fn: Callable[[], dict[str, Any]] = nvidia_smi_gpu_sample,
++    ) -> None:
++        if interval_seconds <= 0 or max_samples < 2:
++            raise ValueError("GPU telemetry interval and sample cap must be positive")
++        self.receipt_path = receipt_path
++        self.interval_seconds = interval_seconds
++        self.max_samples = max_samples
++        self.sample_fn = sample_fn
++        self.samples: list[dict[str, Any]] = []
++        self._stop_event = threading.Event()
++        self._thread = threading.Thread(
++            target=self._sample_loop,
++            name="e520-gpu-telemetry",
++            daemon=True,
++        )
++        self._started = False
++        self._status = "not_started"
++
++    def _record(self, sample_phase: str) -> None:
++        if len(self.samples) >= self.max_samples:
++            self._status = "sample_limit_reached"
++            self._persist()
++            return
++        try:
++            sample = self.sample_fn()
++        except Exception as error:
++            sample = {
++                "status": "query_error",
++                "diagnostic": f"{type(error).__name__}: {error}",
++                "rows": [],
++            }
++        sample["sample_phase"] = sample_phase
++        sample.setdefault("sampled_at_unix", time.time())
++        self.samples.append(sample)
++        self._status = "sampling"
++        self._persist()
++
++    def _persist(self) -> None:
++        atomic_json(
++            self.receipt_path,
++            {
++                "schema_version": 1,
++                "phase": "trainer_profile_gpu_telemetry",
++                "sampling_interval_seconds": self.interval_seconds,
++                "sample_limit": self.max_samples,
++                "status": self._status,
++                "samples": self.samples,
++            },
++        )
++
++    def _sample_loop(self) -> None:
++        while not self._stop_event.wait(self.interval_seconds):
++            if len(self.samples) >= self.max_samples - 1:
++                self._status = "sample_limit_reached"
++                self._persist()
++                return
++            self._record("during_trainer_main")
++
++    def start(self) -> None:
++        """Record a bounded pre-profile sample, then poll in a background thread."""
++        if self._started:
++            raise RuntimeError("GPU telemetry sampler cannot be started twice")
++        self._started = True
++        self._record("before_trainer_main")
++        self._thread.start()
++
++    def stop(self) -> None:
++        """Stop polling and record one bounded post-profile sample."""
++        if not self._started:
++            return
++        self._stop_event.set()
++        self._thread.join(timeout=self.interval_seconds + 2.5)
++        self._record("after_trainer_main")
++        if self._status != "sample_limit_reached":
++            self._status = "complete"
++        self._persist()
+ 
+ 
+ def enforce_resource_caps(snapshot: dict[str, Any], elapsed_s: float) -> None:
+     """Raise immediately on a hard worker limit or missing resource observation."""
+     if elapsed_s > PROFILE_WALL_CAP_S:
+-        raise ProfileAbort("profile worker exceeded its 1,800-second engineering wall cap")
++        raise ProfileAbort("profile worker exceeded its 1,700-second admitted wall cap")
+     if snapshot["rss_peak_bytes"] > CAPS["rss_bytes"]:
+         raise ProfileAbort("worker RSS high-water exceeded 8,000,000,000 bytes")
+     for field, cap in (
+@@ -1013,27 +1356,32 @@
+     raw: dict[str, Path] = {}
+     for split_name in ("train", "valid"):
+         logical_name = f"datasets/{split_name}.parquet"
+-        expected = EXPECTED[split_name]
+         try:
+-            path = _unique(input_root, f"{split_name}.parquet")
++            raw[split_name] = _unique(input_root, f"{split_name}.parquet")
+         except ProfileAbort as error:
+             persist_identity_check(
+                 receipt_path,
+                 identity,
+                 logical_name,
+-                expected,
++                EXPECTED[split_name],
+                 {"status": "unavailable", "diagnostic": str(error)},
+             )
+             raise
++    handoff = VerifiedDigestHandoff(tuple(raw.values()))
++    for split_name, path in raw.items():
++        logical_name = f"datasets/{split_name}.parquet"
++        expected = EXPECTED[split_name]
++        candidate = _hash_raw_with_handoff(
++            path,
++            handoff=handoff,
++            hash_receipt_path=hash_receipt_path,
++            memory_stat_receipt_path=memory_stat_receipt_path,
++            logical_name=logical_name,
++            diagnostic_phase=f"initial_raw_hash:{logical_name}",
++        )
+         observed: dict[str, Any] = {
+-            "sha256": _hash_with_memory_stat(
+-                path,
+-                hash_receipt_path=hash_receipt_path,
+-                memory_stat_receipt_path=memory_stat_receipt_path,
+-                logical_name=logical_name,
+-                diagnostic_phase=f"initial_raw_hash:{logical_name}",
+-            ),
+-            "bytes": path.stat().st_size,
++            "sha256": candidate.sha256,
++            "bytes": candidate.bytes_hashed,
+         }
+         identity.setdefault("observed", {})[logical_name] = observed
+         atomic_json(receipt_path, identity)
+@@ -1045,7 +1393,23 @@
+             atomic_json(receipt_path, identity)
+             raise
+         persist_identity_check(receipt_path, identity, logical_name, expected, observed)
+-        raw[split_name] = path
++        registry_entry = portable.get("sources", {}).get(logical_name)
++        registry_digest = registry_entry.get("sha256") if isinstance(registry_entry, dict) else None
++        persist_identity_check(
++            receipt_path,
++            identity,
++            f"{logical_name}.portable_registry_sha256",
++            {"sha256": candidate.sha256},
++            {"sha256": registry_digest},
++        )
++        try:
++            handoff.authorize(
++                candidate,
++                expected_sha256=expected["sha256"],
++                registry_sha256=str(registry_digest),
++            )
++        except Exception as error:
++            raise ProfileAbort(f"raw digest could not be authorized for {split_name}") from error
+     for logical, path in raw.items():
+         destination = source_root / "datasets" / f"{logical}.parquet"
+         destination.parent.mkdir(parents=True, exist_ok=True)
+@@ -1063,24 +1427,31 @@
+     sys.path.insert(0, str(source_root / "src"))
+     import wnn.portability as portability
+ 
+-    loader_advice = install_loader_portable_hash_advice(
++    loader_handoff = install_loader_verified_digest_handoff(
+         source_root,
+-        hash_receipt_path,
+-        memory_stat_receipt_path,
++        handoff,
+         portability_module=portability,
+     )
+-    identity["loader_portable_hash_advice"] = loader_advice
++    identity["loader_verified_digest_handoff"] = loader_handoff
+     atomic_json(receipt_path, identity)
+     try:
+         from wnn.splits import load_campaign_split
+ 
+         split = load_campaign_split(source_root / SPLIT_RELATIVE, source_root)
+     finally:
++        raw_lookup_metrics = {
++            split_name: handoff.metrics_for(path) for split_name, path in raw.items()
++        }
++        identity["portable_verifier_raw_digest_metrics"] = raw_lookup_metrics
++        atomic_json(receipt_path, identity)
+         _record_memory_stat_phase(
+             memory_stat_receipt_path,
+             "load_campaign_split",
+             "after",
+-            details={"portable_verification_hashes_advised": True},
++            details={
++                "portable_verification_hashes_advised": False,
++                "raw_digest_handoff_metrics": raw_lookup_metrics,
++            },
+         )
+     train, valid, evaluation = (
+         set(map(int, split.train_groups)),
+@@ -1216,18 +1587,20 @@
+ def run_profile(packet_root: Path) -> dict[str, Any]:
+     """Run mounted-data preflight, frozen trainer profile, and real-input 4,000-row probe."""
+     work = Path(os.environ.get("KAGGLE_WORKING", "/kaggle/working"))
+-    receipts = work / "e520_profile_v6"
++    receipts = work / "e520_profile_v7"
+     receipts.mkdir(parents=True, exist_ok=False)
+     start = time.monotonic()
+     phase: dict[str, Any] = {
+         "packet": PACKET_ID,
+         "status": "active",
+         "phase": "review_gate",
++        "worker_wall_cap_seconds": PROFILE_WALL_CAP_S,
+         "start_unix": time.time(),
+     }
+     phase_path = receipts / "phase.json"
+     atomic_json(phase_path, phase)
+     guard: LiveGuard | None = None
++    gpu_sampler: GpuTelemetrySampler | None = None
+     identity_path = receipts / "input_identity.json"
+ 
+     def handle_termination(signum: int, frame: Any) -> None:
+@@ -1266,7 +1639,7 @@
+             raise ProfileAbort("pinned source archive hash mismatch")
+         if sha256_file(source_tar) != meta["reviewed_hashes"].get("source_archive.tar"):
+             raise ProfileAbort("source archive is not the reviewed archive")
+-        source_root = work / "e520_source_v6"
++        source_root = work / "e520_source_v7"
+         source_root.mkdir(parents=True, exist_ok=False)
+         with tarfile.open(source_tar, "r:") as archive:
+             members = archive.getmembers()
+@@ -1495,9 +1868,12 @@
+         )
+         atomic_json(phase_path, phase)
+         sys.argv = [str(trainer), *argv]
++        gpu_sampler = GpuTelemetrySampler(receipts / "gpu_telemetry.json")
++        gpu_sampler.start()
+         try:
+             module.main()
+         finally:
++            gpu_sampler.stop()
+             module.StageTimer.stop = original_stop
+             module.StageTimer.report = original_report
+         guard.raise_if_failed()
+@@ -1620,9 +1996,11 @@
+             "timing": profile_capture.get("timing"),
+             "training_cuda_peaks": profile_capture.get("training_cuda_peaks"),
+             "environment_identity": device_identity,
++            "gpu_telemetry_receipt": str(receipts / "gpu_telemetry.json"),
+             "export_probe": export_metrics,
+             "resources_final": final_resource,
+             "caps": CAPS,
++            "worker_wall_cap_seconds": PROFILE_WALL_CAP_S,
+             "wall_seconds": time.monotonic() - start,
+         }
+         atomic_json(receipts / "profile_result.json", result)

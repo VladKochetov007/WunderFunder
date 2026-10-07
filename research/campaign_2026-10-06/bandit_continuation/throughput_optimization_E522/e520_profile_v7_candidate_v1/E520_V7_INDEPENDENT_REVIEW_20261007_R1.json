@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "receipt_id": "E520_V7_INDEPENDENT_REVIEW_20261007_R1",
+  "observed_at_utc": "2026-10-07T12:50:40Z",
+  "experiment_id": "E520_PROFILE_VERIFIED_DIGEST_HANDOFF_V7",
+  "decision": "PASS",
+  "review_scope": "Independent read-only review of the exact E520-v7 source, worker, packet builder, plan, integration tests, and bundle coverage. This is source/code review only; it is not provider admission and does not authorize or evidence packet submission, profile execution, fit, prediction, grading, or score.",
+  "freeze": {
+    "candidate_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1",
+    "review_targets_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/E520_V7_REVIEW_TARGETS.json",
+    "review_targets_sha256": "7dfc4a33c944b035638fb6dbb128c0dd88e21cd4d5b3fa96562ae5242c96085b",
+    "freeze_map_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/E520_V7_FREEZE_MAP.json",
+    "freeze_map_sha256": "562725e008033e71e4074a72d3172e93d6830d1a06bb2b9533fa63dd919e9ff1",
+    "code_receipt_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/E520_V7_CODE_RECEIPT.json",
+    "code_receipt_sha256": "d81c0ff8f6a040a3d15daf09e83f923980ca6140edd83048983731fe4adef68c",
+    "reviewed_hashes": {
+      "E520_PACKET_PLAN.json": "3724931842415af796c7d31d42dd33c92fc4097baf7f7cae2ec51e5aca883439",
+      "export_guards.py": "eb8ceb817e3ff3bd8297e973b94569d0853b2921f2f5184a601f9f419d802550",
+      "prepare_profile_packet.py": "83abdb02b3813a15aae98ba0e6345e4a9c94788f9b926ab07cea34b057bf66f7",
+      "profile_kernel.py": "b0b14b4e4dba28bf8a55d19e3e5731abbe2f2c1b47783e816a3fc1f1f3a9afbb",
+      "profile_worker.py": "3318e1d54804a695d08a81a970b5f317cb492556de6b6b7c8dcc83027310a1f9",
+      "source_archive.tar": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+      "tests/conftest.py": "13036fc151746459b7afdf055e3683d4e8807a4862e841ea30a94012c751c840",
+      "tests/test_digest_handoff_integration.py": "ecafa7c47d572ae45c26cf3f0d327ab87e39eca2ba008c093c9a4048e082f434",
+      "tests/test_loader_hash_advice.py": "a2df3a805c64f959093a6e7d4989407312e1ee7e9a39d193e608448152980107",
+      "tests/test_portable_manifest_binding.py": "35981c55652723d5ba1ea47c026edb22a5711070ce73e4f56a93da1e01060295",
+      "tests/test_profile_bundle.py": "9051c3ab0bd3667dc5749e279fce645b964ae6a3049d543bb9531789fd62190a",
+      "tests/test_profile_guards.py": "9a6288ebef94f1cb02ca79fa51f2f5fdce229612aacb36adb5c720b70442adb8",
+      "verified_digest_handoff.py": "9b381c3e2a039502d107e1161a0655b7938c85ca06b0a7d4c436a569fd456424"
+    },
+    "additional_review_artifacts": {
+      "V7_WORKER_DIFF_FROM_V6.patch": "e2f7ab1952c2c47d24bbe187e150298f1c0fe63078b02731cb671c7dfa305af5",
+      "README.md": "fcae481986ba944552198934a82f79d2297b38a8e1f113b1837727b143d5f213"
+    }
+  },
+  "findings": [
+    "Digest reuse is limited to the exact raw train/valid files discovered under the read-only Kaggle input mount. The helper accepts only canonical allowlisted regular files and verifies descriptor/path identity around the complete byte-stream hash; cache authorization follows equality with both the frozen expected digest and pinned portable-registry digest.",
+    "The worker writes observed input identity and verifies parquet footer, expected digest/byte count, portable manifest, and source-module identity before authorizing reuse. It then wraps only the pinned portability module's _content_digest before the first split load. The registry checks remain active and wnn.splits.file_sha256 is unchanged. A stale or mutated stat identity evicts the cache entry and falls back to the original full digest; a synthetic same-size mutation check confirmed the pinned verifier rejects changed content.",
+    "The profile recipe, input/fold/target identities, model and training settings, and resource/headroom thresholds are unchanged from the reviewed v6 profile-only attempt. The 1,700-second worker wall cap matches the plan and builder/worker constants. The worker remains a bounded profile/shape diagnostic and does not fit, export predictions, or score.",
+    "GPU telemetry inventories all physical GPUs and records each device's identity, memory, and utilization fields. N/A values remain null; query errors and malformed output are retained as diagnostics rather than converted to zero. Sampling is bounded and stopped in the trainer cleanup path; tests cover multi-device rows, N/A, query failure, and pre/post samples.",
+    "The deterministic self-contained kernel bundle includes every reviewed runtime file and tests the reviewed-set-to-payload coverage invariant. Exact review-target-only generation reproduced the frozen map and created no packet. The frozen v6 transport shape is retained with the v7 code; no packet or provider operation was performed during this review."
+  ],
+  "verification": {
+    "mapped_hashes": "All 13 review-target entries matched the immutable review-target map; the map, freeze map, and code receipt matched the exact hashes above.",
+    "focused_tests": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/tests",
+      "result": "23 passed in 0.16s"
+    },
+    "review_targets_only": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/e520_profile_v7_candidate_v1/prepare_profile_packet.py --review-targets-only --repo-root .",
+      "result": "Exact frozen target map reproduced; status review-targets-only-no-packet-created."
+    },
+    "ruff": "Independent Ruff format/check passed for the frozen v7 source during this review cycle.",
+    "additional_synthetic_check": "Using the exact pinned portability module and frozen v7 helper, an ephemeral bounded integration check confirmed cache hit after verified hashing and rejection through the pinned verifier after same-size raw-file mutation; no source file was created."
+  },
+  "limitations_and_conditions": [
+    "This PASS applies only to the exact source freeze and its bounded profile-only purpose. Fresh provider slug/status, quota/reserve, packet hashes, and controller admission must be checked independently before any push.",
+    "This review establishes correctness of the digest-reuse guard and intended workload boundaries, not end-to-end Kaggle speedup, TPU behavior, or a training/scoring result.",
+    "No packet was built or pushed, and no provider, fit, prediction, grading, or scoring action was performed by this reviewer."
+  ]
+}
