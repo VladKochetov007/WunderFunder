@@ -97,6 +97,52 @@ SEQ_BYTES = 20_000 * (N_FEATURES + 3) * 4
 EV_I0PX = N_FEATURES + FEATURE_NAMES.index("ev_i0px")
 
 
+def profile_update_evidence(
+    optimizer_attempts: int,
+    optimizer_completed_updates: int,
+    amp_skipped_updates: int,
+    loss_checks: int,
+    loss_finite: bool,
+    amp_enabled: bool,
+) -> dict[str, object]:
+    """Return JSON-safe profile validity evidence for the measured optimizer steps.
+
+    Enabled GradScaler found-inf flags are the gradient-finiteness check because
+    they are observed after unscale and before the optimizer step. Profiles
+    without enabled AMP are marked incomplete instead of implying gradients
+    were checked.
+    """
+    counts_consistent = (
+        optimizer_attempts > 0
+        and optimizer_completed_updates + amp_skipped_updates == optimizer_attempts
+    )
+    losses_complete = loss_checks == optimizer_attempts
+    gradients_finite = (
+        amp_skipped_updates == 0 if amp_enabled and counts_consistent else None
+    )
+    valid = (
+        counts_consistent
+        and losses_complete
+        and loss_finite
+        and gradients_finite is True
+    )
+    return {
+        "optimizer_attempts": optimizer_attempts,
+        "optimizer_completed_updates": optimizer_completed_updates,
+        "amp_skipped_updates": amp_skipped_updates,
+        "loss_checks": loss_checks,
+        "loss_finite": loss_finite if losses_complete else None,
+        "gradient_finite": gradients_finite,
+        "gradient_check_basis": (
+            "GradScaler found-inf flags after unscale, before optimizer step"
+            if amp_enabled
+            else "not checked because GradScaler is disabled"
+        ),
+        "counts_consistent": counts_consistent,
+        "valid_for_throughput": valid,
+    }
+
+
 def bind_fold_teachers(teachers, campaign_split, splits):
     """Distillation targets under a clean fold must come from teachers fitted on that same fold.
 
@@ -1936,6 +1982,7 @@ def main():
     timer = StageTimer(args.profile_steps > 0, args.profile_warmup)
     norm_ema = None  # running weight-sum normalizer for --loss-norm running
     losses_trace = []
+    profile_losses: list[torch.Tensor] | None = [] if args.profile_steps else None
     best, t0, history = -1.0, time.time(), []
     fitting_started = t0
     cumulative_updates = {}
@@ -2146,6 +2193,8 @@ def main():
                             donor_mass=None if donor_masses is None else donor_masses[window_index]):
                         scaler.scale(contribution).backward()
                         loss = loss + contribution.detach()
+                    if profile_losses is not None:
+                        profile_losses.append(loss.detach())
                     timer.mark("loss")
                 else:
                     with torch.autocast(device.type, dtype=amp_dtype, enabled=use_autocast):
@@ -2279,6 +2328,8 @@ def main():
                             cw = cw * y[:, sl].float().clamp(-2, 2).abs()
                             consistency_scale = 2.0  # preserve the original two-target loss scale
                         loss = loss + args.ema_teacher * consistency_scale * (cw * (out[..., :2].float() - out_ema[..., :2].float()) ** 2).sum() / cw.sum().clamp_min(1e-8)
+                    if profile_losses is not None:
+                        profile_losses.append(loss.detach())
                     timer.mark("loss")
                     opt.zero_grad(set_to_none=True)
                     scaler.scale(loss).backward()
@@ -2317,7 +2368,7 @@ def main():
             epoch_counter.completed_batches += 1
             if args.profile_steps and b + 1 == args.max_batches:
                 break
-            if b % 20 == 0:
+            if b % 20 == 0 and not args.profile_steps:
                 rate = (b + 1) * args.batch / (time.time() - t0)
                 print(f"ep {epoch} batch {b}/{len(train_loader)} loss {loss.item():.4f} "
                       f"lr {sched.get_last_lr()[0]:.2e} seq/s {rate:.1f}", flush=True)
@@ -2327,6 +2378,23 @@ def main():
         if args.profile_steps:
             med = timer.report(args.profile_warmup, args.batch)
             print("PROFILE", json.dumps({k: round(v, 2) for k, v in med.items()}), flush=True)
+            update_counts = epoch_counter.finish(cumulative_updates)
+            loss_finite = bool(
+                profile_losses
+                and torch.isfinite(torch.stack(profile_losses)).all().item()
+            )
+            epoch_updates = update_counts["epoch"]
+            evidence = profile_update_evidence(
+                epoch_updates["optimizer_attempts"],
+                epoch_updates["optimizer_completed_updates"],
+                epoch_updates["amp_skipped_updates"],
+                len(profile_losses or []),
+                loss_finite,
+                scaler.is_enabled(),
+            )
+            print("PROFILE_UPDATE_EVIDENCE", json.dumps(evidence), flush=True)
+            if not evidence["valid_for_throughput"]:
+                raise RuntimeError("profile update evidence is incomplete or nonfinite")
             return
         if args.parity_dump:
             torch.save({"losses": torch.stack(losses_trace).cpu(), "model": {k: v.detach().cpu() for k, v in model.state_dict().items()},
