@@ -6,9 +6,9 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 921 · raw hypothesis rows 257 · raw experiment rows 593 · legacy arms 18 · catalog files 61458.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 953 · raw hypothesis rows 273 · raw experiment rows 598 · legacy arms 18 · catalog files 62222.
 
-Config snapshot: [research/bandit_tree/generated/snapshots/config-767fc8dbe13f3119dd6bae5bf7949e92dec8922ee0c5ead58b34693b8f9ef213.json](<snapshots/config-767fc8dbe13f3119dd6bae5bf7949e92dec8922ee0c5ead58b34693b8f9ef213.json>).
+Config snapshot: [research/bandit_tree/generated/snapshots/config-7d64fe4e922a93e375a0a6a4fb9b014e705aa784ef9e6e63145984cb1cdb8c00.json](<snapshots/config-7d64fe4e922a93e375a0a6a4fb9b014e705aa784ef9e6e63145984cb1cdb8c00.json>).
 
 Missing or ambiguous artifact and relationship links are called out below and in `tree.json` warnings. The recursive file inventory is in `catalog.json`; generated output is excluded.
 
@@ -153,6 +153,9 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - artifact: [research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/CONDITIONAL_DELIVERY_ALLOCATION_V1.json](<../../campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/CONDITIONAL_DELIVERY_ALLOCATION_V1.json>)
 - **Own teacher capacity × live causal event features** (`arm:wide-event-feature-teacher`) — interaction_recipe_proposed; eligible=True.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/tcn_teacher_recipe_grok_20261007/H232_CAPACITY_EVENT_FEATURE_INTERACTION_V1.md](<../../campaign_2026-10-06/bandit_continuation/ideation/tcn_teacher_recipe_grok_20261007/H232_CAPACITY_EVENT_FEATURE_INTERACTION_V1.md>)
+- **Privileged smoothed belief teacher to causal student** (`arm:privileged-belief-distillation`) — proposed_untested; eligible=True.
+  - **next_test:** Fold-isolated forward/smoothed teacher target with causal student inputs; compare forward-only teacher, smoothed teacher and direct-label controls.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md>)
 
 ### Temporal state and memory (`family:temporal`)
 
@@ -195,6 +198,11 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/review2_reframe_E526/E526_REVIEW2_REFRAME_CARDS_V1.md](<../../campaign_2026-10-06/bandit_continuation/ideation/review2_reframe_E526/E526_REVIEW2_REFRAME_CARDS_V1.md>)
 - **Fixed-query content-weighted discounted pooling of recurrent states** (`arm:fixed-query-discounted-pooling`) — source_grounded_untested; eligible=True.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/review2_reframe_E526/E526_REVIEW2_REFRAME_CARDS_V1.md](<../../campaign_2026-10-06/bandit_continuation/ideation/review2_reframe_E526/E526_REVIEW2_REFRAME_CARDS_V1.md>)
+- **Fixed causal pooling and hold-last TCN resampling** (`arm:fixed-causal-tcn-resampling`) — source_grounded_untested; eligible=True.
+  - **next_test:** Prefix/streaming alignment check followed by fixed pooling versus learned causal stride at matched receptive field.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json>)
 
 ### Targets, losses and supervision (`family:objective`)
 
@@ -236,6 +244,17 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json>)
 - **Low-rank conditional residual from frozen recurrent state and causal context** (`arm:conditional-bilinear-readout`) — source_grounded_untested; eligible=True.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/review2_reframe_E526/E526_REVIEW2_REFRAME_CARDS_V1.md](<../../campaign_2026-10-06/bandit_continuation/ideation/review2_reframe_E526/E526_REVIEW2_REFRAME_CARDS_V1.md>)
+- **Soft scalar value-grid head and expectation loss** (`arm:soft-value-grid-head`) — source_grounded_untested; eligible=True.
+  - **next_test:** Matched point-loss head versus predeclared soft-grid kernels on the same causal backbone, weighting, mask and update budget.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json>)
+- **Observable window-innovation auxiliary supervision** (`arm:window-innovation-auxiliary`) — proposed_untested; eligible=True.
+  - **next_test:** Train causal window-shape feature packet with separately declared auxiliary next-step innovation target; compare feature-only and equal-capacity auxiliary-off controls.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md>)
+- **Matched robust point-loss and target-range comparison** (`arm:matched-huber-target-range`) — proposed_untested; eligible=True.
+  - **next_test:** Audit previous Huber evidence; same-backbone GPU WMSE versus existing weighted clipped-target Huber delta0.5, then separately declared raw-target variant.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md>)
 
 ### Data and feature representation (`family:representation`)
 
@@ -260,6 +279,8 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **next_test:** Streaming/prefix parity followed by matched baseline/statistics/window-shape own teacher fit.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md](<../../campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json](<../../campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md>)
 - **Causal lagged and cross-channel feature coupling** (`arm:causal-lagged-feature-coupling`) — source_grounded_untested; eligible=True.
   - **next_test:** Compare lag-zero/lagged coupling with train-only channel selection and matched fitting budget.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md](<../../campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md>)
@@ -268,12 +289,23 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **next_test:** Small selected nonlinear summaries versus distribution-only and equal-dimensional nuisance controls.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md](<../../campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json](<../../campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json>)
-- **Independent Grok/Muse transfer from ROGII first-place writeup** (`arm:rogii-directed-source-transfer`) — ideation_in_progress; eligible=True.
+- **Independent Grok/Muse transfer from ROGII first-place writeup** (`arm:rogii-directed-source-transfer`) — three_provider_proposals_delivered_crosswalk_reviewed; eligible=True.
   - **next_test:** Archive independent final provider proposals, cluster duplicates and register concrete mechanism/interaction children before bounded recipes.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/README.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/README.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_BINDING_V1.json](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_BINDING_V1.json>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_TASK.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_TASK.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/MUSE_TASK.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/MUSE_TASK.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/manual_muse-spark-1.3-contributor-free_PROPOSALS.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/manual_muse-spark-1.3-contributor-free_PROPOSALS.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/MANUAL_MUSE_HANDOFF_V1_20261008.json](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/MANUAL_MUSE_HANDOFF_V1_20261008.json>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/FREEBUFF_DEEPSEEK_V4_1_FLASH_PROPOSALS_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/FREEBUFF_DEEPSEEK_V4_1_FLASH_PROPOSALS_V1_20261008.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md>)
+- **Coherent affine nuisance corruption with joint training** (`arm:coherent-affine-joint-augmentation`) — source_grounded_untested; eligible=True.
+  - **next_test:** Declared channel-group corruption versus clean matched model; constant update budget and unchanged inference.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json>)
 
 ### Optimization and training stability (`family:optimization`)
 
@@ -303,6 +335,11 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - artifact: [research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E515_RESULT.json](<../../campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E515_RESULT.json>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E515_RESULT_METADATA_CORRECTION_20261007.md](<../../campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E515_RESULT_METADATA_CORRECTION_20261007.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/weak_model_complementarity_reframe_round2_20261007/DECISION_AND_TREE_MAPPING_20261007.md](<../../campaign_2026-10-06/bandit_continuation/ideation/weak_model_complementarity_reframe_round2_20261007/DECISION_AND_TREE_MAPPING_20261007.md>)
+- **Causal auxiliary-channel anti-shortcut corruption** (`arm:causal-auxiliary-shortcut-corruption`) — source_grounded_untested; eligible=True.
+  - **next_test:** Declare actually available auxiliary feature block; clean versus corrupted-training student evaluated with clean inputs and missing-block diagnostic.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json>)
 
 ### Diversity, ensembles and interactions (`family:ensemble`)
 
@@ -415,6 +452,11 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **next_test:** Measure complete fixed-student endpoint against both parents and fixed-mixture control.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md](<../../campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json](<../../campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json>)
+- **Reliability gate for new belief and shape endpoints** (`arm:belief-shape-reliability-gate`) — source_grounded_untested; eligible=True.
+  - **next_test:** New audited prediction cohort: causal train-frozen reliability gate versus both endpoints and constant mixture.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json>)
 
 ### Serving and compression (`family:deployment`)
 
@@ -432,6 +474,9 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **next_test:** Treat diagnostic rejection as a falsifier or stratification clue, not a predictive gain. Freeze original folds and endpoint. On cheap local data, compare a targeted small correction driven by the dominant fingerprint to (a) no correction and (b) an unstructured nonlinear correction, under the same causal constraints and eligibility mask.
   - **claim_scope:** Independent literature proposal; no gain or downstream validity established
   - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json](<../../campaign_2026-10-06/bandit_continuation/ideation/random_2/ideas_solar.json>)
+- **Representative nested-data multi-fidelity screens** (`arm:representative-data-fidelity`) — proposed_untested; eligible=True.
+  - **next_test:** Fit-only whole-component nested membership, same full validation and declared epochs/updates; compare rank changes across families at two scales before using allocation proxy.
+  - artifact: [specs/plans/2026-10-08-small-data-screening.md](<../../../specs/plans/2026-10-08-small-data-screening.md>)
 
 ### Compute, safety and recovery (`family:infrastructure`)
 
@@ -529,6 +574,16 @@ No curated nodes.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/PROPOSALS.md](<../../campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/PROPOSALS.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/cards.json](<../../campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/cards.json>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/online_learning_E530/SYNTHESIS_V1.md](<../../campaign_2026-10-06/bandit_continuation/online_learning_E530/SYNTHESIS_V1.md>)
+- **Deterministic rare-jump causal belief as model component** (`arm:rare-jump-causal-belief`) — source_grounded_untested; eligible=True.
+  - **next_test:** Prefix/reset tests and CPU likelihood-only versus forward histogram; then matched belief-channel refit or fixed full-endpoint blend.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json>)
+- **Earlier-prefix bin calibration with raw residual context** (`arm:prefix-bin-feature-calibration`) — source_grounded_untested; eligible=True.
+  - **next_test:** Small streaming raw/fixed-prior/adaptive-bin feature reference and matched teacher endpoints with strict earlier-row/reset rules.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json>)
 
 ## Node and source index
 
@@ -644,7 +699,18 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | arm:causal-lagged-feature-coupling | Causal lagged and cross-channel feature coupling | arm · source_grounded_untested | family:representation | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:causal-nonlinear-feature-morphology | Bounded nonlinear temporal feature morphology | arm · source_grounded_untested | family:representation | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:feature-context-teacher-interaction | Causal feature regime context × complementary teacher | arm · source_grounded_untested | family:ensemble | [research/bandit_tree/config.json](<../config.json>) | — |
-| arm:rogii-directed-source-transfer | Independent Grok/Muse transfer from ROGII first-place writeup | arm · ideation_in_progress | family:representation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:rogii-directed-source-transfer | Independent Grok/Muse transfer from ROGII first-place writeup | arm · three_provider_proposals_delivered_crosswalk_reviewed | family:representation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:soft-value-grid-head | Soft scalar value-grid head and expectation loss | arm · source_grounded_untested | family:objective | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:rare-jump-causal-belief | Deterministic rare-jump causal belief as model component | arm · source_grounded_untested | family:online-learning | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:belief-shape-reliability-gate | Reliability gate for new belief and shape endpoints | arm · source_grounded_untested | family:ensemble | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:coherent-affine-joint-augmentation | Coherent affine nuisance corruption with joint training | arm · source_grounded_untested | family:representation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:fixed-causal-tcn-resampling | Fixed causal pooling and hold-last TCN resampling | arm · source_grounded_untested | family:temporal | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:causal-auxiliary-shortcut-corruption | Causal auxiliary-channel anti-shortcut corruption | arm · source_grounded_untested | family:optimization | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:prefix-bin-feature-calibration | Earlier-prefix bin calibration with raw residual context | arm · source_grounded_untested | family:online-learning | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:window-innovation-auxiliary | Observable window-innovation auxiliary supervision | arm · proposed_untested | family:objective | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:privileged-belief-distillation | Privileged smoothed belief teacher to causal student | arm · proposed_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:matched-huber-target-range | Matched robust point-loss and target-range comparison | arm · proposed_untested | family:objective | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:representative-data-fidelity | Representative nested-data multi-fidelity screens | arm · proposed_untested | family:evaluation | [research/bandit_tree/config.json](<../config.json>) | — |
 | hypothesis:H-001 | Targets change only on rows where i0 bid and ask price columns both update. | hypothesis · supported | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L1>) | experiment:E-001 (linked) |
 | hypothesis:H-002 | Each sequence's targets are integer multiples of one of four quanta {0.12543,0.24133,0.46854,0.65687}, defining market classes with different tick regimes. | hypothesis · supported | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L2>) | experiment:E-001 (linked), experiment:E-002 (linked) |
 | hypothesis:H-003 | Features are rank-Gauss transformed: bounded near +-2.326 (Phi^-1(0.99)) with sentinel -5.19934 = Phi^-1(1e-7) for missing values. | hypothesis · probing | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L3>) | experiment:E-001 (linked) |
@@ -896,6 +962,22 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-250 | Causal lagged and cross-channel feature coupling | hypothesis · source_grounded_untested | arm:causal-lagged-feature-coupling | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L255>) | — |
 | hypothesis:H-251 | Bounded nonlinear temporal feature morphology | hypothesis · source_grounded_untested | arm:causal-nonlinear-feature-morphology | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L256>) | — |
 | hypothesis:H-252 | Causal feature regime context × complementary teacher | hypothesis · source_grounded_untested | arm:feature-context-teacher-interaction | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L257>) | — |
+| hypothesis:H-253 | Soft scalar value-grid head and expectation loss | hypothesis · source_grounded_untested | arm:soft-value-grid-head | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L258>) | — |
+| hypothesis:H-254 | Deterministic rare-jump causal belief as model component | hypothesis · source_grounded_untested | arm:rare-jump-causal-belief | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L259>) | — |
+| hypothesis:H-255 | Reliability gate for new belief and shape endpoints | hypothesis · source_grounded_untested | arm:belief-shape-reliability-gate | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L260>) | — |
+| hypothesis:H-256 | Coherent affine nuisance corruption with joint training | hypothesis · source_grounded_untested | arm:coherent-affine-joint-augmentation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L261>) | — |
+| hypothesis:H-257 | Fixed causal pooling and hold-last TCN resampling | hypothesis · source_grounded_untested | arm:fixed-causal-tcn-resampling | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L262>) | — |
+| hypothesis:H-258 | Causal auxiliary-channel anti-shortcut corruption | hypothesis · source_grounded_untested | arm:causal-auxiliary-shortcut-corruption | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L263>) | — |
+| hypothesis:H-259 | Earlier-prefix bin calibration with raw residual context | hypothesis · source_grounded_untested | arm:prefix-bin-feature-calibration | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L264>) | — |
+| hypothesis:H-260 | Observable window-innovation auxiliary supervision | hypothesis · proposed_untested | arm:window-innovation-auxiliary | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L265>) | — |
+| hypothesis:H-261 | Privileged smoothed belief teacher to causal student | hypothesis · proposed_untested | arm:privileged-belief-distillation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L266>) | — |
+| hypothesis:H-262 | Matched robust point-loss and target-range comparison | hypothesis · proposed_untested | arm:matched-huber-target-range | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L267>) | — |
+| hypothesis:H-263 | Representative nested-data multi-fidelity screens | hypothesis · proposed_untested | arm:representative-data-fidelity | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L268>) | — |
+| hypothesis:H-E535-HYP-01 | row-clock plus price-code event-clock gating | hypothesis · proposed_untested | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L269>) | — |
+| hypothesis:H-E535-HYP-02 | single fixed-fold student versus equal two-seed prediction mean | hypothesis · proposed_untested | family:optimization | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L270>) | — |
+| hypothesis:H-E535-HYP-03 | two-epoch versus longer fixed schedule, family head on/off matched | hypothesis · proposed_untested | family:optimization | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L271>) | — |
+| hypothesis:H-E535-HYP-04 | reference-inspired source mixture versus H230 same-fold wide-baseline substitution | hypothesis · proposed_untested | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L272>) | — |
+| hypothesis:H-E535-HYP-05 | reference-versus-H230 deterministic weight/reset probe | hypothesis · audit_probe_optional | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L273>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -1439,6 +1521,11 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-524-C1-PUBLIC-RESULTS-20261007 | User-reported public leaderboard results for delivered C1 singles | experiment · both_scored_below_incumbent | arm:teacher-crossfit | [research/experiments.jsonl](<../../experiments.jsonl#L591>) | — |
 | experiment:E-529-H233-V2-REVIEW | Teacher ancestry and evaluation-mask repair review | experiment · narrow_source_repair_passed_no_admission | hypothesis:H-233 | [research/experiments.jsonl](<../../experiments.jsonl#L592>) | — |
 | experiment:E-530-DYNAMICS-LONG-SEQUENCE-STRESS-V1 | E-530-DYNAMICS-LONG-SEQUENCE-STRESS-V1 | experiment · completed_numerical_protocol_with_failures | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L593>) | — |
+| experiment:E-H230-INCUMBENT-MEMBERSHIP-AUDIT-V2-20261008 | E-H230-INCUMBENT-MEMBERSHIP-AUDIT-V2-20261008 | experiment · completed_independent_comparison_validity_audit | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L594>) | — |
+| experiment:E-H230-PUBLIC-07d1xqsz-20261008 | E-H230-PUBLIC-07d1xqsz-20261008 | experiment · public_scored_user_report | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L595>) | — |
+| experiment:E-H232-AMP4096-CONDITIONAL-V4-PUSH-20261008 | E-H232-AMP4096-CONDITIONAL-V4-PUSH-20261008 | experiment · provider_running_payload_phase_unknown | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L596>) | — |
+| experiment:E-H230-MATCHED-FAMILY-GRADE-20261008 | E-H230-MATCHED-FAMILY-GRADE-20261008 | experiment · completed_exposed_matched_comparison | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L597>) | — |
+| experiment:E-H232-V4-TERMINAL-GATE-BUG-20261008 | E-H232-V4-TERMINAL-GATE-BUG-20261008 | experiment · execution_censored_admission_bug_no_fit | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L598>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
@@ -1533,6 +1620,12 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L71>) `sha256:c3db7951b530c00b0a52f8ca0a9de03b8b56d67b84daf9e2f8694f187b67f860` — `{"decision": "Approach diversity before additional seeds; actual H230 fit; Kaggle V12/V5 pushes; Vast packet built no rental yet. Repair transport rather than interpret failures scientifically. Multiple owned workers permitted within aggregate budget. Replenish arms when useful queue insufficient or evidence lands.", "event_type": "execution_and_allocation_update", "evidence_refs": ["specs/adr/0014-continuous-useful-compute.md", "specs/plans/2026-10-07-live-research-estimates.md", "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/TPU_V5_ROOT_REVIEW_20261008_V1.json", "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_PACKET_V1_BUILD_RECEIPT.json"], "id": "TREE-20261008-APPROACH-FIRST-PARALLEL-EXECUTION", "timestamp_utc": "2026-10-07T21:32:47.674713+00:00"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L72>) `sha256:f1b5c1918d15710a8cc1f8d4f03dee8d787ca8815f65feb91369d44944fc48ed` — `{"decision": "Register H248 systems and H249-H251 causal feature arms plus explicit H252 interaction. Preserve spectral/EMA/online overlap through existing nodes. Proposals are not fits or negative outcomes; all numerical priors remain null.", "event_type": "user_requested_ideas_registered", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md", "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json"], "id": "TREE-20261008-CAUSAL-FEATURES-WARM-COHORT", "timestamp_utc": "2026-10-07T21:58:26.843098+00:00"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L73>) `sha256:4896c184bd78338d20d418033d83f2c8ac76403b81676080c72fd240b5cf359c` — `{"decision": "Give same full writeup and minimal competition context independently to Grok4.7 and MuseSpark; requests are not completed proposals; archive final public outputs only and preserve actual access errors.", "event_type": "user_directed_independent_provider_ideation", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_BINDING_V1.json", "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/README.md"], "id": "TREE-20261008-ROGII-PROVIDER-REQUEST", "node_id": "arm:rogii-directed-source-transfer", "timestamp_utc": "2026-10-07T22:03:17.317230+00:00"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L74>) `sha256:b1a707d690197ad3fd446c4b123a0960960d3afc85ac16158f53048e1ad3df64` — `{"decision": "Eight native Grok4.7 cards: merge R02 into H249, register seven new mechanisms/interaction cards H253-H259; retain source wording and explicit controller causality corrections separately. No fits or numerical rewards. Freebuff proposal remains hidden/pending.", "event_type": "independent_source_proposals_integrated", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/CONTROLLER_INTEGRATION_V1.md", "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_CARDS_INTEGRATED_V1.json", "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_4_7_PROPOSALS_V1_20261008.md"], "id": "TREE-20261008-GROK-ROGII-CARDS-COMMITTED", "timestamp_utc": "2026-10-07T22:13:42.964649+00:00"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L75>) `sha256:67db17132a06d9b1f96269c453f3bc23798f0c18527bccb577799520c0d03d20` — `{"decision": "Preserve manual Muse provenance and Freebuff effective DeepSeek output; merge overlapping ideas into H249/H253-H259, add H260 observable auxiliary and H261 privileged belief interaction, H262 matched Huber and H263 representative-data screening. No numerical rewards or fits claimed.", "event_type": "source_proposal_consolidation", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/MANUAL_MUSE_HANDOFF_V1_20261008.json", "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md", "specs/plans/2026-10-08-small-data-screening.md"], "id": "TREE-20261008-MANUAL-MUSE-CROSSWALK-SUBSET", "timestamp_utc": "2026-10-07T22:36:24.672716+00:00"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L76>) `sha256:557baeb9d0b821823e1f980905fc08a6e863102f22813206c70ed71904fc1b7c` — `{"decision": "Target 5–6 distinct evaluated idea screens per hour after cloud fitting becomes operational. Measure sustained warm cycle cost, count paired mechanism comparisons separately from seed runs and startup, prepare reusable data sessions and allocate additional owned capacity from actual timings. No achieved rate claimed.", "event_type": "user_allocation_target", "evidence_refs": ["specs/plans/2026-10-08-throughput-scaleout.md", "specs/adr/0015-flexible-credit-bounded-parallel-compute.md"], "id": "TREE-20261008-THROUGHPUT-SCALEOUT-V1", "timestamp_utc": "2026-10-07T23:07:17.080947+00:00"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L77>) `sha256:6d8e197ffe0e2aa4f8133c6b6be55a0833c3413472667106328d3d56e7698dfd` — `{"decision": "Reopen H230 ranking/allocation: incumbent references directly fit 374/468 evaluation groups, candidate/initializer/all eleven recorded teacher ancestors overlap zero. Preserve raw grades, invalidate held-out inferiority inference against this incumbent. Audit exact affected rejection decisions; do not automatically reopen negatives with clean C1 comparators. No numeric reward/public forecast.", "event_type": "comparison_validity_correction", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_INCUMBENT_MEMBERSHIP_CORRECTION_V2_20261008.json", "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_MEMBERSHIP_INDEPENDENT_REVIEW_V1_20261008.json"], "hypothesis_ids": ["H230"], "id": "TREE-20261008-H230-INCUMBENT-COMPARATOR-CORRECTION-V2", "timestamp_utc": "2026-10-07T23:07:17.080947+00:00"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L78>) `sha256:ba9476587692638d561561e8d546c97d5d3dc1c941070f1755419f61e5a0f782` — `{"decision": "Preserve0.6649 public negative relative to ownbest0.6660; prioritize exact successful-reference recipe audit/fresh-weight diagnostic, independent data/sequence/prediction forensics and matched control grade. Keep family eligible; single fold-trained candidate versus all-data pair is not exact endpoint replication. User permits isolated exactreference training, production code remains independent.", "event_type": "public_result_and_research_reallocation", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PUBLIC_RESULT_20261008_V1.json", "specs/adr/0016-exact-reference-diagnostic-training.md"], "hypothesis_ids": ["H230"], "id": "TREE-20261008-H230-PUBLIC-EXACT-REFERENCE-DIAGNOSTIC", "timestamp_utc": "2026-10-07T23:17:27.255118+00:00"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L79>) `sha256:975f7d7f17d6145dad0289f6150eea5fbcb4374b0eaa387109641a0f3713b842` — `{"decision": "Matchedfamily small positive keeps eligibility; prioritize ownall-data endpoint and diverse stronger teachers. Repair censored H232 admission undernewpacket, preservecleannegatives. Register5forensiccards unknownpriors. Bayesian ceilings donotkillarms.", "event_type": "evidence_and_allocation", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/CONTROLLER_REFLECTION_20261008_0248.md", "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_MATCHED_CONTROL_GRADE_V1_20261008.json", "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_HYPOTHESIS_CARDS_V1_20261008.jsonl"], "hypothesis_ids": ["H-230", "H-232"], "id": "TREE-20261008-MATCHED-CONTROL-INDEPENDENT-REFLECTION", "timestamp_utc": "2026-10-07T23:46:11.832047+00:00"}`
 
 ## Link and artifact warnings
 
