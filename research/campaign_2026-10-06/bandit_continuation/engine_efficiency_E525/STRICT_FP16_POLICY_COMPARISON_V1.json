@@ -1,0 +1,69 @@
+{
+  "scope": "Identical represented FP16 input/GRU/first-head matrices; FP32 bias/state/output-head. Both use float32 arithmetic. No training or public claim.",
+  "weights": {
+    "3": {
+      "original_sha256": "5e7c9a00706e8e49f2704f7615c301572880de6355db8b2c945aa146f417f826",
+      "represented_sha256": "55f6a980d443ea6f41f43c1caea2ece09e0e29c6d8e717ed0cbfb9205b08c769"
+    },
+    "4": {
+      "original_sha256": "c5646d8d485ab508535c400c2052831c05820dfbdc77b45bbe8c85c448babad1",
+      "represented_sha256": "cfb21598ec947eb92d238b29690dce2a7f703d3bd41783ce023cb350b69886a2"
+    }
+  },
+  "source_sha256": "de53b414e20ad128271287af60f96e18c934c97aede71add92eaed7c6a1fd5d5",
+  "data_sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+  "results": [
+    {
+      "members": 1,
+      "case": "rust_strict_f16",
+      "median_us_per_row": 57.41938765004306,
+      "trials_us_per_row": [
+        57.89516624990938,
+        57.29698732502584,
+        57.41938765004306
+      ],
+      "max_abs_rust_vs_cpp": 4.76837158203125e-07,
+      "mean_abs_rust_vs_cpp": 5.890703036470768e-08,
+      "repeat_exact": true
+    },
+    {
+      "members": 1,
+      "case": "cpp_strict_f16",
+      "median_us_per_row": 59.653439025169064,
+      "trials_us_per_row": [
+        59.653439025169064,
+        59.37333239999134,
+        59.792388124878926
+      ],
+      "max_abs_rust_vs_cpp": 4.76837158203125e-07,
+      "mean_abs_rust_vs_cpp": 5.890703036470768e-08,
+      "repeat_exact": true
+    },
+    {
+      "members": 2,
+      "case": "rust_strict_f16",
+      "median_us_per_row": 116.02456747496035,
+      "trials_us_per_row": [
+        116.02456747496035,
+        118.45355592504349,
+        115.68464424999547
+      ],
+      "max_abs_rust_vs_cpp": 3.5762786865234375e-07,
+      "mean_abs_rust_vs_cpp": 4.4212512761987455e-08,
+      "repeat_exact": true
+    },
+    {
+      "members": 2,
+      "case": "cpp_strict_f16",
+      "median_us_per_row": 121.33522792501026,
+      "trials_us_per_row": [
+        121.3227363748956,
+        121.78240269986419,
+        121.33522792501026
+      ],
+      "max_abs_rust_vs_cpp": 3.5762786865234375e-07,
+      "mean_abs_rust_vs_cpp": 4.4212512761987455e-08,
+      "repeat_exact": true
+    }
+  ]
+}

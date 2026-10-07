@@ -1,0 +1,142 @@
+{
+  "schema": "e525-independent-comparison-review-v1",
+  "reviewed_on": "2026-10-07",
+  "review_type": "independent evidence review",
+  "disposition": "PASS_WITH_SCOPE_AND_DOCUMENTATION_CAVEATS",
+  "summary": "E525 supports a bounded CPU engine comparison and a local full-shape training-stage profile. It does not establish a general language ranking, GPU utilization percentage, Kaggle/Vast throughput, a fit-quality gain, or a public-score gain. The strict same-represented-FP16 and FP32 medians show a small consistent Rust speed lead on this one host. The V1 precision diagnostic's mislabeled output hash is corrected by V2; all V2 identity fields and metrics were independently checked.",
+  "review_boundary": {
+    "requested_limit": "1 CPU, 1 GB RAM, 10 minutes; no GPU, model fit, or network-service write",
+    "wrapper_result": "scripts/limited failed before launching work because the sandbox denied the systemd user bus (Operation not permitted). No escalation was attempted.",
+    "fallback": "Read-only shell commands used prlimit with 120 CPU-seconds and 1,000,000,000 bytes address-space limits; the substantive calculations were serial, small, and completed in seconds. This did not enforce an aggregate cgroup CPU quota.",
+    "gpu_or_fit_work": "none",
+    "network_service_writes": "none",
+    "workspace_mutation": "Only this review JSON was added by this reviewer; existing campaign changes were preserved."
+  },
+  "checked_artifacts": [
+    "COMPARISON.md",
+    "matched_engines_v1.json and matched_engines_v1.log",
+    "matched_quant_engines_v2.json",
+    "STRICT_FP16_POLICY_COMPARISON_V1.json",
+    "NATIVE_PROFILE_SUMMARY_V1.json and all four saved native profile files",
+    "PRECISION_QUALITY_DIAGNOSTIC_V1.json and PRECISION_QUALITY_DIAGNOSTIC_V2.json",
+    "executed_sources/benchmark_quant_v2.py and executed_sources/strict_f16_policy_v1.py",
+    "LITERATURE_OPTIMIZATION_APPLICABILITY.md",
+    "wide_baseline_heterogeneous_H230/H230_PROFILE_RESULT_V1.json",
+    "cloud_preflight/tpu_terminal_v3.json",
+    "VAST_ACCESS_RECHECK_V1.json"
+  ],
+  "recomputed_checks": [
+    {
+      "check": "Float/16-bit benchmark bindings",
+      "result": "pass",
+      "details": "The v1 executed-source SHA-256 matches benchmark_engines_v1.py; the valid_subset20.parquet SHA-256 matches the manifest; both seed weight hashes match the current files; Rust and C++ shared-library hashes match the manifest."
+    },
+    {
+      "check": "Quantized benchmark bindings",
+      "result": "pass",
+      "details": "The quant-v2 executed-source SHA-256 matches executed_sources/benchmark_quant_v2.py; its data and both weight hashes match; the Rust q8 library hash matches E462_python311_repair_v1/q8x/pkg/v3 and the C++ library hash matches the recorded reference binary."
+    },
+    {
+      "check": "Strict FP16 bindings",
+      "result": "pass_with_manifest_limit",
+      "details": "The strict policy source hash matches executed_sources/strict_f16_policy_v1.py; the data and both original-weight hashes match. The script loads the same Rust and C++ library paths as the v1 run, whose binary hashes were verified; the strict result JSON itself does not repeat those library hashes."
+    },
+    {
+      "check": "V2 precision prediction identity and metric preservation",
+      "result": "pass",
+      "details": "For all 22 case/member/version records, recomputed NPZ-container SHA-256, contiguous prediction-array byte SHA-256, dtype, and shape match V2. Every WP, delta, and selected-row count equals V1. V2 explicitly records that V1's prediction_sha256 named a container digest."
+    },
+    {
+      "check": "Strict same-represented-FP16 ratios",
+      "result": "pass",
+      "details": "Recomputed from the three-trial medians: Rust/C++ is 57.419/59.653 us per row for one member and 116.025/121.335 for two. Rust is 3.75% and 4.38% faster, respectively. The maximum cross-engine output gaps are 4.77e-7 and 3.58e-7."
+    }
+  ],
+  "claim_assessments": [
+    {
+      "claim": "Rust versus Maxim reference C++ at matched FP32 precision",
+      "status": "supported_for_this_host_and_workload",
+      "evidence": "One-member medians are 85.17 us/row Rust versus 88.89 C++; two-member medians are 183.80 versus 197.89. Recomputed Rust median advantages are 4.19% and 7.12%. Both engines closely match the CPU FP32 reference, with maximum errors no larger than 1.49e-6.",
+      "limits": "One Intel i9-11900H host, one pinned CPU, three trials, two exposed 20,000-row streams, and native row-step timing. These data do not estimate cross-host or scoring-callback performance."
+    },
+    {
+      "claim": "Rust versus reference C++ at identical represented FP16 matrix storage",
+      "status": "supported_for_this_host_and_workload",
+      "evidence": "The strict run uses identical represented binary16 input, GRU, and first-head matrices, with FP32 bias, state, and output head. Arithmetic remains FP32. The measured medians and output gaps are recorded above.",
+      "limits": "This is FP16 weight storage with FP32 arithmetic, not GPU FP16 arithmetic. Three trials on one CPU host do not establish a language-wide ranking or a practical benefit on other hardware."
+    },
+    {
+      "claim": "Existing nominal FP16 paths are exactly matched",
+      "status": "not_supported_and_report_correctly_qualifies_it",
+      "evidence": "The initial Rust and C++ FP16 policies differ in whether the folded input projection is rounded. The strict follow-up corrects this by representing the same matrices for both engines."
+    },
+    {
+      "claim": "Quantized Rust q8x versus C++ dynamic INT8 performance",
+      "status": "supported_as_a_policy_and_ISA_tradeoff_only",
+      "evidence": "C++ VNNI medians are 19.33/49.49 us per row versus Rust q8x 51.38/103.75; forcing the same C++ policy to AVX2 gives 77.86/149.09 and scalar gives 122.02/243.30.",
+      "limits": "The activation representations differ (C++ dynamic INT8 versus Rust int16 activations), and output errors differ. These are not equal-precision or language-only comparisons. VNNI results are specific to the tested CPU. Integer8 is not FP8."
+    },
+    {
+      "claim": "GPU training-stage bottleneck on the present local recipe",
+      "status": "supported_as_a_local_resource_profile",
+      "evidence": "The H230 receipt records a profile-only GRU256x2 run, batch 16, 20,000 rows, 2,000-row chunks, FP16 autocast, and zero workers: p50 outer-batch interval 1,095.08 ms; loader wait 418.46 ms; CUDA event total 675.80 ms; forward 245.16 ms; backward 404.99 ms; optimizer 2.43 ms; observed VRAM 2.226 GB.",
+      "limits": "This was a local RTX 3060 Laptop GPU profile, not a Kaggle T4 profile or a fit. No p90 or sampled nvidia-smi utilization trace was emitted. CUDA components and host waits can overlap, so event time divided by wall time is not SM utilization. The 6.5 GB worker RAM scope reached its page-rounded cap; no OOM occurred. The two-epoch 1,634-second estimate is median-based and excludes unmeasured export time."
+    },
+    {
+      "claim": "TPU v5e path readiness",
+      "status": "systems_preflight_passed_but_not_a_scientific_training_result",
+      "evidence": "tpu_terminal_v3.json records eight actual v5e devices, synthetic B16/local B2/chunk 2,000, finite outputs/states/gradients/losses/updated parameters, one AdamW update per replica, and successful export/reload with zero reported output difference.",
+      "limits": "The 4.261-second interval includes the first pmap compilation/call, update and finite checks; it is not a steady-state step time. Inputs and targets were synthetic. No model-quality score or Torch/JAX gradient parity was measured."
+    },
+    {
+      "claim": "Kaggle and Vast GPU throughput/cost",
+      "status": "not_measured",
+      "evidence": "E525 itself identifies a corrected Kaggle full-shape device profile and combined two-GPU resource measurement as outstanding. VAST_ACCESS_RECHECK_V1 records HTTP 401, no authenticated access, zero credits spent and no instances created.",
+      "limits": "The local RTX 3060 profile must not be presented as Kaggle or Vast performance. The hardware table is a conditional selection guide, not a verified current offer or rental recommendation."
+    },
+    {
+      "claim": "Delayed-gradient literature applies as a direct speedup for the current single-GPU GRU",
+      "status": "not_supported_and_applicability_note_is_correct",
+      "evidence": "The primary paper studies fixed one-step staleness in asynchronous multi-stage pipeline parallel LLM training. The note correctly distinguishes that from TBPTT and asynchronous host-to-device prefetch, and treats optimizer/error-feedback as separate experiments rather than free speedups.",
+      "primary_source": "https://arxiv.org/html/2606.30634v1",
+      "limits": "Its optimizer results do not predict this GRU's quality or throughput. The current single-GPU path has no pipeline bubbles to remove."
+    }
+  ],
+  "confirmed_findings": [
+    {
+      "id": "E525-R1",
+      "severity": "low",
+      "status": "resolved_by_PRECISION_QUALITY_DIAGNOSTIC_V2",
+      "finding": "V1's prediction_sha256 is the hash of the containing NPZ file, so all cases inside that file share the digest; it is not a per-case prediction hash.",
+      "support": "analyze_predictions.py in V1 hashes path.read_bytes(); V2 names the container digest separately and supplies per-array bytes hash, dtype, and shape. Independent recomputation passed for all 22 records, and metric rows are unchanged.",
+      "consequence": "V1 alone cannot bind a score row to one prediction array. V2 repairs the case-level identity without changing the measured WP values.",
+      "follow_up": "Keep V1 bytes as historical evidence and use V2. The V2 JSON does not embed the analysis-script SHA-256; add it if the diagnostic is regenerated for a final evidence bundle."
+    },
+    {
+      "id": "E525-R2",
+      "severity": "low",
+      "status": "open_at_review_time",
+      "finding": "COMPARISON.md line 115 still says TPU gradient/reload/full-shape evidence is pending while the newly recorded v3 terminal receipt passes the corresponding synthetic systems preflight; the document also contains the newer result at line 119.",
+      "support": "COMPARISON.md:115,119; cloud_preflight/tpu_terminal_v3.json.",
+      "consequence": "The document is internally inconsistent about TPU path readiness. The 4.261-second first-call interval must still not be stated as steady-state throughput or a scientific result.",
+      "follow_up": "Replace the pending-gate sentence with a systems-preflight-passed statement and retain the compile-inclusive timing, synthetic-data, and no-quality/no-Torch-JAX-parity limits."
+    },
+    {
+      "id": "E525-R3",
+      "severity": "low",
+      "status": "wording_recommendation",
+      "finding": "The summary phrase that no meaningful same-precision language advantage has been demonstrated is a practical judgment; the measured same-precision medians consistently favor Rust by about 4-7% in these runs.",
+      "support": "The matched FP32 and strict represented-FP16 medians in the two result manifests; recalculated ratios above.",
+      "consequence": "Readers could miss a small observed local Rust throughput edge, or mistake it for a general language effect.",
+      "follow_up": "State the measured local Rust median advantage and keep the inference limited to these binaries, this CPU, and three trials. Do not make a blanket language-best claim."
+    }
+  ],
+  "nonblocking_evidence_limits": [
+    "The C++ reference commit and compiler flags are described, and the built shared object hash is recorded, but E525 does not preserve a C++ source-tree hash/build receipt that independently binds that binary to the named commit.",
+    "The v2 precision metric diagnostic binds reference, labels, containers, and arrays; its JSON does not bind the analyzer source hash. The reviewer recorded the then-current analyze_predictions.py hash as 6a301f27f1f98678da56e3c3047dc2bdf5419111d0e660abf6bd8e0756f63ae8.",
+    "The CPU metric diagnostic covers two exposed validation sequences only (5,599 scored rows per listed result); it is not fresh confirmation, full-fold model selection, a new fitted model, or public transfer evidence.",
+    "No FP8 training or same-recipe BF16-versus-FP16 quality comparison was performed. The CPU INT8 path is a different integer representation and cannot stand in for FP8.",
+    "Optimizer, gradient-storage and activation-storage conclusions derive from the recorded local trainer/profile and parameter-count arithmetic; they do not compare optimizer-state compression, different update schedules, or complete training endpoints."
+  ],
+  "promotion_boundary": "Use E525 for bounded CPU implementation timing, local profile-stage prioritization, explicit future experiments, and systems readiness distinctions only. Do not use it to promote a model, infer public-score improvement, claim GPU utilization, or select Kaggle/Vast hardware without the missing actual-device and fixed-endpoint evidence."
+}

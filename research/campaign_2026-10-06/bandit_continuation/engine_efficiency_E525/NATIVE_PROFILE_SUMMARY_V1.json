@@ -1,0 +1,221 @@
+{
+  "scope": "Sampled native leaf frames including startup; inlining limits attribution",
+  "profiles": [
+    {
+      "case": "cpp_auto",
+      "total_sample_weight_seconds": 14.989999999999824,
+      "top_leaf_frames": [
+        {
+          "name": "wnn::vnni::gemv_block128",
+          "fraction": 0.6964643095396894
+        },
+        {
+          "name": "wnn::vnni::projection_registers<16>",
+          "fraction": 0.11607738492328364
+        },
+        {
+          "name": "wnn::Predictor::step",
+          "fraction": 0.08472314876584496
+        },
+        {
+          "name": "__libc_start_call_main",
+          "fraction": 0.020013342228152344
+        },
+        {
+          "name": "__memmove_evex_unaligned_erms",
+          "fraction": 0.008005336891260933
+        },
+        {
+          "name": "malloc",
+          "fraction": 0.007338225483655855
+        },
+        {
+          "name": "PyArray_NewFromDescr_int",
+          "fraction": 0.007338225483655855
+        },
+        {
+          "name": "wnn::kernels::gemv",
+          "fraction": 0.004669779853235545
+        },
+        {
+          "name": "PyArray_DiscoverDTypeAndShape_Recursive",
+          "fraction": 0.0040026684456304674
+        },
+        {
+          "name": "pybind11::cpp_function::dispatcher",
+          "fraction": 0.0033355570380253895
+        },
+        {
+          "name": "pybind11::detail::get_global_type_info_lock_held",
+          "fraction": 0.0026684456304203116
+        },
+        {
+          "name": "pybind11::cpp_function::initialize<pybind11_init_wnn_cpp(pybind11::module_&)::{lambda(wnn::Ensemble&, pybind11::array_t<float, 17> const&)#8}, pybind11::array_t<float, 16>, wnn::Ensemble&, pybind11::array_t<float, 17> const&, pybind11::name, pybind11::is_method, pybind11::sibling, pybind11::arg>(pybind11_init_wnn_cpp(pybind11::module_&)::{lambda(wnn::Ensemble&, pybind11::array_t<float, 17> const&)#8}, pybind11::array_t<float, 16> (*)(wnn::Ensemble&, pybind11::array_t<float, 17> const&), pybind11::name const, pybind11::is_method&, pybind11::sibling, pybind11::arg)::{lambda(pybind11::detail::function_call&)#3}::_FUN",
+          "fraction": 0.0026684456304203116
+        }
+      ]
+    },
+    {
+      "case": "cpp_avx2",
+      "total_sample_weight_seconds": 14.979999999999777,
+      "top_leaf_frames": [
+        {
+          "name": "wnn::vnni::gemv_avx2",
+          "fraction": 0.652202937249665
+        },
+        {
+          "name": "wnn::Predictor::step",
+          "fraction": 0.32376502002670315
+        },
+        {
+          "name": "__libc_start_call_main",
+          "fraction": 0.006675567423231074
+        },
+        {
+          "name": "elf_machine_rela",
+          "fraction": 0.0013351134846462148
+        },
+        {
+          "name": "PyDataMem_GetHandler",
+          "fraction": 0.0013351134846462148
+        },
+        {
+          "name": "logp1f32",
+          "fraction": 0.0013351134846462148
+        },
+        {
+          "name": "pybind11::cpp_function::initialize<pybind11_init_wnn_cpp(pybind11::module_&)::{lambda(wnn::Ensemble&, pybind11::array_t<float, 17> const&)#8}, pybind11::array_t<float, 16>, wnn::Ensemble&, pybind11::array_t<float, 17> const&, pybind11::name, pybind11::is_method, pybind11::sibling, pybind11::arg>(pybind11_init_wnn_cpp(pybind11::module_&)::{lambda(wnn::Ensemble&, pybind11::array_t<float, 17> const&)#8}, pybind11::array_t<float, 16> (*)(wnn::Ensemble&, pybind11::array_t<float, 17> const&), pybind11::name const, pybind11::is_method&, pybind11::sibling, pybind11::arg)::{lambda(pybind11::detail::function_call&)#3}::_FUN",
+          "fraction": 0.0013351134846462148
+        },
+        {
+          "name": "_dl_new_hash",
+          "fraction": 0.0006675567423231074
+        },
+        {
+          "name": "resolve_map",
+          "fraction": 0.0006675567423231074
+        },
+        {
+          "name": "do_lookup_x",
+          "fraction": 0.0006675567423231074
+        },
+        {
+          "name": "0x7f023fd5a513",
+          "fraction": 0.0006675567423231074
+        },
+        {
+          "name": "__tls_get_addr",
+          "fraction": 0.0006675567423231074
+        }
+      ]
+    },
+    {
+      "case": "rust_i16",
+      "total_sample_weight_seconds": 14.989999999999778,
+      "top_leaf_frames": [
+        {
+          "name": "wnn_native::rnn_fast::FastRnn::step_impl::_$u7b$$u7b$closure$u7d$$u7d$::h03bc171e07f51533",
+          "fraction": 0.8385590393595705
+        },
+        {
+          "name": "wnn_native::rnn_fast::FastRnn::step_then::h6570ea4c569b6db7",
+          "fraction": 0.07605070046697916
+        },
+        {
+          "name": "wnn_native::half::project_as::hce42f7ba2898e54d",
+          "fraction": 0.056037358238826745
+        },
+        {
+          "name": "__libc_start_call_main",
+          "fraction": 0.008672448298866037
+        },
+        {
+          "name": "__Pyx_Import",
+          "fraction": 0.00466977985323556
+        },
+        {
+          "name": "__memmove_evex_unaligned_erms",
+          "fraction": 0.00400266844563048
+        },
+        {
+          "name": "_aligned_contig_to_strided_size4",
+          "fraction": 0.00200133422281524
+        },
+        {
+          "name": "pyo3::impl_::trampoline::fastcall_cfunction_with_keywords::h59bb9969319eef21",
+          "fraction": 0.00200133422281524
+        },
+        {
+          "name": "wnn_native::python::PyEnsemblePredictor::advance::he3b61c90abf19293",
+          "fraction": 0.00133422281521016
+        },
+        {
+          "name": "PyDataMem_UserNEW",
+          "fraction": 0.00133422281521016
+        },
+        {
+          "name": "0x7fb4accf1308",
+          "fraction": 0.00066711140760508
+        },
+        {
+          "name": "0x7fb4ac7ac1ca",
+          "fraction": 0.00066711140760508
+        }
+      ]
+    },
+    {
+      "case": "rust_q8x",
+      "total_sample_weight_seconds": 14.989999999999776,
+      "top_leaf_frames": [
+        {
+          "name": "wnn_native::rnn_fast::FastRnn::step_q_impl::_$u7b$$u7b$closure$u7d$$u7d$::hbb8e2eb628fa7227",
+          "fraction": 0.8445630420280162
+        },
+        {
+          "name": "wnn_native::rnn_fast::FastRnn::step_q16x::h4cf8c5f2dfebf3a2",
+          "fraction": 0.11941294196130942
+        },
+        {
+          "name": "wnn_native::rnn_fast::FastRnn::step_q_impl::_$u7b$$u7b$closure$u7d$$u7d$::h479a797e84c489f6",
+          "fraction": 0.01067378252168128
+        },
+        {
+          "name": "__libc_start_call_main",
+          "fraction": 0.0040026684456304805
+        },
+        {
+          "name": "__memmove_evex_unaligned_erms",
+          "fraction": 0.0033355570380254004
+        },
+        {
+          "name": "__Pyx_Import",
+          "fraction": 0.00266844563042032
+        },
+        {
+          "name": "PyArray_NewFromDescr_int",
+          "fraction": 0.00200133422281524
+        },
+        {
+          "name": "_dl_new_hash",
+          "fraction": 0.00133422281521016
+        },
+        {
+          "name": "__pyx_pymod_exec_lib",
+          "fraction": 0.00133422281521016
+        },
+        {
+          "name": "arrow::util::RleDecoder::GetBatchWithDict<float>",
+          "fraction": 0.00133422281521016
+        },
+        {
+          "name": "do_lookup_x",
+          "fraction": 0.00066711140760508
+        },
+        {
+          "name": "_int_malloc",
+          "fraction": 0.00066711140760508
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "scope": "matched own weights/raw streams; native row step API, not full scorer callback; no training/public claim",
+  "cpu_affinity": 0,
+  "rows_per_trial": 40000,
+  "complete_sequences": 2,
+  "trials": 3,
+  "weights_sha256": {
+    "/workspace/submissions/c20261007_c1_s3_i16/pkg/weights_0.npz": "5e7c9a00706e8e49f2704f7615c301572880de6355db8b2c945aa146f417f826",
+    "/workspace/submissions/c20261007_c1_s4_i16/pkg/weights_0.npz": "c5646d8d485ab508535c400c2052831c05820dfbdc77b45bbe8c85c448babad1"
+  },
+  "data_sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+  "benchmark_source_sha256": "c66a248024db66602597656dbb0922ad4554e6d80d76ed24e24d9672ff3cb19f",
+  "rust_library_sha256": "698b8b2c8b5167e2be5e1e151ef6aa3b325b12ef38c4718ceafa2db3375aa398",
+  "cpp_library_sha256": "db00b1774a0095e3b86a90e7f0f8e96aee70acabd8460ccf047e272317c9e3cf",
+  "cpp_quant_backend": 2,
+  "python": "3.11.16 (main, Sep  1 2026, 00:14:22) [GCC 12.2.0]",
+  "results": [
+    {
+      "members": 1,
+      "case": "rust_f32",
+      "trials_us_per_row": [
+        85.16697867507901,
+        85.04090580008778,
+        86.12318887498986
+      ],
+      "median_us_per_row": 85.16697867507901,
+      "minimum_us_per_row": 85.04090580008778,
+      "max_abs_vs_cpu_float32": 1.4901161193847656e-06,
+      "mean_abs_vs_cpu_float32": 2.03922809305368e-07,
+      "full_repeat_exact": true,
+      "f32_parity_pass": true
+    },
+    {
+      "members": 1,
+      "case": "rust_f16",
+      "trials_us_per_row": [
+        54.85032569995383,
+        57.48893195013807,
+        59.725229924879386
+      ],
+      "median_us_per_row": 57.48893195013807,
+      "minimum_us_per_row": 54.85032569995383,
+      "max_abs_vs_cpu_float32": 0.0004265010356903076,
+      "mean_abs_vs_cpu_float32": 6.165506783872843e-05,
+      "full_repeat_exact": true,
+      "f32_parity_pass": null
+    },
+    {
+      "members": 1,
+      "case": "rust_i16",
+      "trials_us_per_row": [
+        64.78658647502016,
+        64.36606192492036,
+        64.92626802482846
+      ],
+      "median_us_per_row": 64.78658647502016,
+      "minimum_us_per_row": 64.36606192492036,
+      "max_abs_vs_cpu_float32": 7.534027099609375e-05,
+      "mean_abs_vs_cpu_float32": 1.0068803021567874e-05,
+      "full_repeat_exact": true,
+      "f32_parity_pass": null
+    },
+    {
+      "members": 1,
+      "case": "cpp_f32",
+      "trials_us_per_row": [
+        89.72557932484051,
+        88.1794871751481,
+        88.89050052493985
+      ],
+      "median_us_per_row": 88.89050052493985,
+      "minimum_us_per_row": 88.1794871751481,
+      "max_abs_vs_cpu_float32": 1.3113021850585938e-06,
+      "mean_abs_vs_cpu_float32": 1.6315685513745848e-07,
+      "full_repeat_exact": true,
+      "f32_parity_pass": true
+    },
+    {
+      "members": 1,
+      "case": "cpp_f16",
+      "trials_us_per_row": [
+        57.01024787485949,
+        57.05543937510811,
+        59.0787299499425
+      ],
+      "median_us_per_row": 57.05543937510811,
+      "minimum_us_per_row": 57.01024787485949,
+      "max_abs_vs_cpu_float32": 0.00035941600799560547,
+      "mean_abs_vs_cpu_float32": 5.206867717788555e-05,
+      "full_repeat_exact": true,
+      "f32_parity_pass": null
+    },
+    {
+      "members": 1,
+      "case": "cpp_int8",
+      "trials_us_per_row": [
+        17.328266275035276,
+        17.426337849974516,
+        17.753689649907756
+      ],
+      "median_us_per_row": 17.426337849974516,
+      "minimum_us_per_row": 17.328266275035276,
+      "max_abs_vs_cpu_float32": 0.07181772589683533,
+      "mean_abs_vs_cpu_float32": 0.004608933348208666,
+      "full_repeat_exact": true,
+      "f32_parity_pass": null
+    },
+    {
+      "members": 2,
+      "case": "rust_f32",
+      "trials_us_per_row": [
+        183.80392675007897,
+        177.30631812501088,
+        195.43272315004288
+      ],
+      "median_us_per_row": 183.80392675007897,
+      "minimum_us_per_row": 177.30631812501088,
+      "max_abs_vs_cpu_float32": 1.0728836059570312e-06,
+      "mean_abs_vs_cpu_float32": 1.4237394907468115e-07,
+      "full_repeat_exact": true,
+      "f32_parity_pass": true
+    },
+    {
+      "members": 2,
+      "case": "rust_f16",
+      "trials_us_per_row": [
+        118.5323341498588,
+        121.70669472507143,
+        119.81033949996345
+      ],
+      "median_us_per_row": 119.81033949996345,
+      "minimum_us_per_row": 118.5323341498588,
+      "max_abs_vs_cpu_float32": 0.00027623772621154785,
+      "mean_abs_vs_cpu_float32": 4.191662083030678e-05,
+      "full_repeat_exact": true,
+      "f32_parity_pass": null
+    },
+    {
+      "members": 2,
+      "case": "rust_i16",
+      "trials_us_per_row": [
+        134.2273760750686,
+        136.18071732507815,
+        138.28312992500287
+      ],
+      "median_us_per_row": 136.18071732507815,
+      "minimum_us_per_row": 134.2273760750686,
+      "max_abs_vs_cpu_float32": 5.577504634857178e-05,
+      "mean_abs_vs_cpu_float32": 9.402741852682084e-06,
+      "full_repeat_exact": true,
+      "f32_parity_pass": null
+    },
+    {
+      "members": 2,
+      "case": "cpp_f32",
+      "trials_us_per_row": [
+        199.01832659998036,
+        185.64923994999845,
+        197.89229187499586
+      ],
+      "median_us_per_row": 197.89229187499586,
+      "minimum_us_per_row": 185.64923994999845,
+      "max_abs_vs_cpu_float32": 9.5367431640625e-07,
+      "mean_abs_vs_cpu_float32": 1.1963985002694244e-07,
+      "full_repeat_exact": true,
+      "f32_parity_pass": true
+    },
+    {
+      "members": 2,
+      "case": "cpp_f16",
+      "trials_us_per_row": [
+        124.36092687494238,
+        122.96787989998846,
+        125.43347782502677
+      ],
+      "median_us_per_row": 124.36092687494238,
+      "minimum_us_per_row": 122.96787989998846,
+      "max_abs_vs_cpu_float32": 0.00032806769013404846,
+      "mean_abs_vs_cpu_float32": 3.985466901212931e-05,
+      "full_repeat_exact": true,
+      "f32_parity_pass": null
+    },
+    {
+      "members": 2,
+      "case": "cpp_int8",
+      "trials_us_per_row": [
+        50.20504907497525,
+        50.498934324969014,
+        50.20032939992234
+      ],
+      "median_us_per_row": 50.20504907497525,
+      "minimum_us_per_row": 50.20032939992234,
+      "max_abs_vs_cpu_float32": 0.04797005653381348,
+      "mean_abs_vs_cpu_float32": 0.003261627396568656,
+      "full_repeat_exact": true,
+      "f32_parity_pass": null
+    }
+  ]
+}
