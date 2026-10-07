@@ -1,0 +1,32 @@
+{
+  "conditional_fit_authorized": false,
+  "experiment_id": "E529_H232_FULLFEATURE_GRU384_B8_AMP4096_CONDITIONAL_PROFILE_FIT_V4",
+  "findings": [
+    "Pending exact root review and fresh quota admission. This placeholder does not authorize a provider push or fit.",
+    "This is an explicitly identified H232 AMP4096 numeric successor. Historical H232 fit default65536 is preserved separately; profile and conditional fit both use explicit4096, so exact reproduction of the historical default-scale recipe is not claimed.",
+    "Only the trainer Path-to-string JSON serialization repair is a source-code change relative to H232 PROFILE V2. The scientific successor change is the declared GradScaler initial scale; model, data, fold, sample membership/order, objective, optimizer, schedule and checkpoint policy are otherwise unchanged.",
+    "Profile includes 3 warmup outer batches and20 timed outer batches (30 warmup and200 timed optimizer updates at chunk2000). Fit can only begin in the same worker after every finite-update, resource, device-identity, shape, input-stat, loader and lifetime gate passes.",
+    "Input SHA reuse requires an exact canonical read-only path and full stat tuple; every mismatch uses the original full content SHA fallback and retains registry/footer/assets/split/membership checks.",
+    "The worker verifies fixed epoch3 checkpoint hashes and exact train/valid/evaluation membership. It performs no prediction export, grading, or score."
+  ],
+  "fit_admission": "same-worker-only-after-profile-gate",
+  "provider_push_authorized": false,
+  "reviewed_hashes": {
+    "H232_AMP4096_SUCCESSOR_RECIPE.json": "c4bb48589f07b32226e486b6db00d197686be3abf260583e443e8af89587190b",
+    "H232_PROFILE_PLAN.json": "48ce3244a54c2e5b0f6c6491944a294baea844335c41e56e5685cb54b9b5e22a",
+    "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+    "prior_input_identity_v2.json": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e",
+    "profile_kernel.py": "fa8307541fee254f75624fc06db751aa42ad4a3547e6eba80b1ee9cbbf2c874c",
+    "profile_worker.py": "0bbebb928a2a628cf4e953b8c088223f01bc57af206a7251eec5f5f2062cf20d",
+    "source_archive.tar": "afde296e1c5e2f0c47a6fb352c2dea8e0a3df75900f53c26f103b3921df1f565",
+    "source_archive_manifest.json": "e9ca52c7247ebc944bac086261715879f37006033c556c9c9890445ac22bbb01",
+    "verified_digest_handoff.py": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
+  },
+  "reviewer": {
+    "id": "pending",
+    "role": "independent-controller"
+  },
+  "schema": "independent-cloud-packet-review-v1",
+  "scope": "conditional-profile-gated-fit",
+  "status": "pending-independent-root-review"
+}

@@ -1,0 +1,72 @@
+{
+  "cpu_checks": {
+    "python_compile": "passed",
+    "resource_budget": "1 CPU / 1.5 GB wrapper; no fit, GPU, or dataset hash performed",
+    "ruff_select_F": "passed",
+    "worker_profile_kernel_test": "passed: 3 tests including actual trace summary schema, strict gate pass, timed AMP skip rejects, argv preserves AMP4096 and changes only run name/profile flags"
+  },
+  "created_utc": "2026-10-07T23:13:31Z",
+  "fit_can_start_only_after": "root-signed external packet review plus live quota admission, then in-worker exact profile gate pass",
+  "kernel_slug": "vladkochetov07/h232-full-feature-gru384-b8-amp4096-conditional-profile-fit-v4",
+  "next_action": "Independent root review of this exact packet and source, then root refreshes Kaggle quota and updates the external review/admission. Rebuild the embedded wrapper after any approved receipt change; do not push this pending version.",
+  "other_packet_hashes": {
+    "external_review.json": "fde8bc218b369b2af5e60d67da34e8727aa52784244a3caefd36eabf5fed46fd",
+    "kernel-metadata.json": "bc28b7bdba7921c09406e8c0c3c3c12f32befbc40a3713a40e3aa4f904f14b66",
+    "packet_meta.json": "c423affaef3c1c551d030fd8945a4c75e3ba2838261423806f870ff0f4742662"
+  },
+  "packet_id": "E529_H232_FULLFEATURE_GRU384_B8_AMP4096_CONDITIONAL_PROFILE_FIT_V4",
+  "packet_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v4/packet",
+  "prior_measured_timing": {
+    "e520_v12_full_raw_hash_seconds": {
+      "total": 544.533,
+      "train": 456.929,
+      "valid": 87.604
+    },
+    "v4_profile_fit_shapeprobe_output_validation_seconds": "conditional measured fields in worker result; no projected values presented as observations",
+    "v4_raw_hash_or_stat_reuse_seconds": "unknown until mount identity check",
+    "v4_startup_provider_queue_seconds": "unknown until push/phase logs"
+  },
+  "provider_push_authorized_in_packet": false,
+  "provider_push_performed": false,
+  "receipt_id": "H232_AMP4096_CONDITIONAL_V4_ASSEMBLY_20261008_R1",
+  "reviewed_packet_hashes": {
+    "H232_AMP4096_SUCCESSOR_RECIPE.json": "c4bb48589f07b32226e486b6db00d197686be3abf260583e443e8af89587190b",
+    "H232_PROFILE_PLAN.json": "48ce3244a54c2e5b0f6c6491944a294baea844335c41e56e5685cb54b9b5e22a",
+    "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+    "prior_input_identity_v2.json": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e",
+    "profile_kernel.py": "fa8307541fee254f75624fc06db751aa42ad4a3547e6eba80b1ee9cbbf2c874c",
+    "profile_worker.py": "0bbebb928a2a628cf4e953b8c088223f01bc57af206a7251eec5f5f2062cf20d",
+    "source_archive.tar": "afde296e1c5e2f0c47a6fb352c2dea8e0a3df75900f53c26f103b3921df1f565",
+    "source_archive_manifest.json": "e9ca52c7247ebc944bac086261715879f37006033c556c9c9890445ac22bbb01",
+    "verified_digest_handoff.py": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
+  },
+  "schema": "e529-h232-conditional-v4-assembly-v1",
+  "scientific_numeric_successor": {
+    "historical_fit_initial_scale": 65536.0,
+    "other_recipe_changes": [],
+    "parent_recipe": "recipes/H232_FULLFEATURE_GRU384_STAGED_V1.json",
+    "reproduction_claim": "not exact historical default-scale reproduction",
+    "successor_profile_and_fit_initial_scale": 4096.0,
+    "successor_recipe": "recipes/H232_FULLFEATURE_GRU384_STAGED_V1_AMP4096_S3.json",
+    "successor_recipe_sha256": "c4bb48589f07b32226e486b6db00d197686be3abf260583e443e8af89587190b"
+  },
+  "screening_note": "This packet yields one profile and at most one fitted checkpoint; it does not export predictions or grade a candidate/control screen. A separate same-session diverse-approach cohort packet is needed for the 5-screen/hour target.",
+  "source": {
+    "archive_member_count": 54,
+    "changed_members_vs_h232_profile_v2": [
+      "scripts/train_rnn.py"
+    ],
+    "source_archive_manifest_sha256": "e9ca52c7247ebc944bac086261715879f37006033c556c9c9890445ac22bbb01",
+    "source_archive_sha256": "afde296e1c5e2f0c47a6fb352c2dea8e0a3df75900f53c26f103b3921df1f565",
+    "successor_recipe_embedded_sha256": "c4bb48589f07b32226e486b6db00d197686be3abf260583e443e8af89587190b",
+    "trainer_sha256": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a"
+  },
+  "status": "assembled-awaiting-independent-root-review-and-fresh-quota-admission",
+  "transport": {
+    "code_file": "h232_profile_kernel_bundle.py",
+    "code_file_sha256": "a2f7937b37f7d7a4e885701e18a665fba19d5733c9523512173e25421d519746",
+    "embedded_payload_members": 11,
+    "embedded_zip_sha256": "e5db8d4675b8d7e2cd132e5c363f83f79f8ba61198d70e56932e1f34a1bfd3a0",
+    "validation": "embedded ZIP and each member digest rechecked against the packet byte-for-byte; Kaggle metadata confirms private, GPU enabled, internet disabled"
+  }
+}

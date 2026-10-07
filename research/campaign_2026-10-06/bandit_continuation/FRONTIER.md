@@ -1,5 +1,11 @@
 # Live frontier — resumed independent training
 
+## Public transfer and exact-reference diagnostic — 2026-10-08 Kyiv
+
+H230 seed3 single publicly scored **0.6649**, so ownbest remains0.6660 and teammate0.6674 remains unreplicated. [Result receipt](wide_baseline_heterogeneous_H230/H230_PUBLIC_RESULT_20261008_V1.json). Latest user priority: isolate exact successful-reference training with our fresh weights, independent recipe/data/sequence/prediction investigation and matched control grading. Reference commit is833aaf541155c591e930bbc6c640b8817e01a536; source locator alone is not replication. H230 control fit/export landed successfully, predictions frozen for independent grade.
+
+H232 AMP4096 V4 was root-reviewed and pushed once; actual returned kernel `vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v4` is API RUNNING, payload phase unknown. It can fit only after the actual-device gate, and saves fixed epoch3 checkpoints; prediction export is outside this packet. Vast no-create preflight repairs are progressing under new source-bound admissions; no new owned instance is claimed here.
+
 ## Current result and allocation — 2026-10-08 02:09 Kyiv
 
 H230 matched family-off control retry completed successfully at23:06:49Z in2,004.93s; both epochs landed and fixed epoch1 checkpoint is sealed. No OOM/kill. Its actor is preparing bounded export and independent grade; no treatment result is claimed before those predictions land. H230 candidate ZIP remains delivered for human upload, with no new public score. Own public best remains0.6660.
