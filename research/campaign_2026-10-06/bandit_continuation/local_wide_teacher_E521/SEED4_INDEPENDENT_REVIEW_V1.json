@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "review_id": "E521_SEED4_INDEPENDENT_REVIEW_20261007_R1",
+  "recorded_at_utc": "2026-10-07T13:06:59Z",
+  "result": "PASS",
+  "scope": "Narrow command/source review of the proposed independent E521 seed-4 replicate against the completed seed-3 run; not a resource admission or fit authorization.",
+  "reviewer": {
+    "id": "tpu_recovery_delivery",
+    "role": "independent-recipe-reviewer",
+    "independent_of_implementation": true
+  },
+  "target": {
+    "contract_path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/SEED4_CONTRACT_V1.json",
+    "contract_sha256": "d63e103f25c2b266379cb64e13a8dc60b8be4bcd3dd036df07f4eb347b3193fb",
+    "base_recipe_review_path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_RECIPE_INDEPENDENT_REVIEW_20261007_R1.json",
+    "base_recipe_review_sha256": "e72eb86e7bcf5508a8919d39b48e34dc104977b589de5e79729471f6efe63b91",
+    "seed3_attempt_id": "e521-w384-s3-fit-v2",
+    "seed3_attempt_status": "finished",
+    "seed3_exit_status": 0,
+    "seed3_run": "artifacts/runs/bd26_w384raw_s3_f0"
+  },
+  "findings": [
+    "The complete seed-4 argv equals the successful seed-3 fit attempt argv except for the run name (`bd26_w384raw_s3_f0` to `bd26_w384raw_s4_f0`) and seed (`3` to `4`); no other argument differs.",
+    "The current train_rnn.py SHA-256 is `0e622a87888769ff7467fadd1d1a230886008d1803099e8881e100939082467d`, matching both the seed-4 contract and the successful seed-3 attempt source manifest. The fold-0 split SHA matches the seed-3 provenance.",
+    "Seed-3 trainer provenance confirms scratch initialization, raw-only GRU-384, fixed epoch 3, no in-fit evaluation, and no saved training state. The proposed seed-4 command preserves those semantics. The seed-3 attempt reached terminal success; its checkpoint metadata records selected epoch 3.",
+    "This is an independent seed replicate for training variation and teacher diversity. There is no matched E520 GRU-128 seed-3 control yet, so it does not support a width ablation or a public-score forecast. Fold 0 remains exposed development data."
+  ],
+  "verification": {
+    "command_comparison": "Programmatically compared all argv entries; exactly two expected differences and no length mismatch.",
+    "source_binding": "Trainer SHA matches both contract and successful seed-3 attempt source manifest.",
+    "checkpoint_policy": "Seed-3 provenance identifies fixed zero-based epoch 3; contract retains the same fixed checkpoint policy for seed 4.",
+    "execution_scope": "Read-only contract/provenance review only. This receipt grants no compute quota and does not itself authorize a launch."
+  },
+  "limitations": [
+    "No seed-4 fit or score was performed by this reviewer.",
+    "The proposed model remains a development teacher candidate until its outputs and any teacher contribution are evaluated in a frozen downstream recipe."
+  ]
+}
