@@ -144,6 +144,11 @@ def parquet_footer_identity(path: Path) -> dict[str, object]:
     }
 
 
+def input_identity_status(footer_matches: bool, full_file_matches: bool) -> str:
+    """Report a match only when both Parquet-footer and full-file identities match."""
+    return "matched" if footer_matches and full_file_matches else "mismatch"
+
+
 def asset_file(
     root: Path, manifest: dict[str, object], relative: str
 ) -> tuple[Path, dict[str, object]]:
@@ -552,7 +557,11 @@ def input_map(input_root: Path, profile_receipt: dict[str, object]) -> dict[str,
         }
         write_json(
             INPUT_IDENTITY_REPORT,
-            {"packet": PACKET_ID, "status": "matched", "raw_parquet": parquet_identity},
+            {
+                "packet": PACKET_ID,
+                "status": input_identity_status(footer_matches, full_file_matches),
+                "raw_parquet": parquet_identity,
+            },
         )
         if not footer_matches or not full_file_matches:
             raise ValueError(

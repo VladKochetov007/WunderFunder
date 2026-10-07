@@ -323,6 +323,13 @@ class E510PacketGateTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "invalid parquet trailer"):
                 namespace["parquet_footer_identity"](path)
 
+    def test_identity_report_matches_only_when_both_hashes_match(self) -> None:
+        namespace = function_namespace(WORKER_PATH, "input_identity_status", {})
+        status = namespace["input_identity_status"]
+        self.assertEqual(status(True, True), "matched")
+        self.assertEqual(status(False, True), "mismatch")
+        self.assertEqual(status(True, False), "mismatch")
+
     def test_worker_checks_profile_hash_before_input_inventory(self) -> None:
         tree = ast.parse(WORKER_PATH.read_text())
         main = next(
