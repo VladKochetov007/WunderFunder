@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import numpy as np
@@ -12,6 +13,8 @@ from torch.utils.data import DataLoader, TensorDataset
 from scripts import package_submission, train_rnn
 from wnn.distillation import append_family_output_head, extend_family_output_head
 from wnn.splits import CampaignSplit
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def _small_gru_args() -> dict[str, object]:
@@ -137,7 +140,66 @@ def test_teacher_membership_rejects_corrupt_train_and_evaluation_groups() -> Non
     }
     with pytest.raises(ValueError, match="outside the clean train pool"):
         _verify_run_membership(provenance, split, "corrupt_teacher")
-
     provenance["fit_row_groups"] = {"train": [10], "valid": [21]}
     with pytest.raises(ValueError, match="outside the clean valid pool"):
         _verify_run_membership(provenance, split, "eval_teacher")
+
+
+def _parse_registered_command(command: list[str]) -> dict[str, str | bool]:
+    assert command[:2] == [".venv/bin/python", "scripts/train_rnn.py"]
+    options: dict[str, str | bool] = {}
+    index = 2
+    while index < len(command):
+        option = command[index]
+        if index + 1 < len(command) and not command[index + 1].startswith("--"):
+            options[option] = command[index + 1]
+            index += 2
+        else:
+            options[option] = True
+            index += 1
+    return options
+
+
+def test_minimal_c1_has_no_full_family_cache_dependency() -> None:
+    path = (
+        ROOT / "research/campaign_2026-10-06/bandit_continuation/local/E511_C1_MINIMAL_PAIRED.json"
+    )
+    recipe = json.loads(path.read_text())
+    assert len(recipe["commands"]) == 2
+    assert len(recipe["profile_only_commands"]) == 2
+    for command in recipe["commands"]:
+        options = _parse_registered_command(command)
+        assert "--distill-cache-root" not in options
+        assert "--distill-cache-variant" not in options
+        assert options["--distill"] == ("c20261003_combo_s3_f0*0.8125,c20261003_combo_s4_f0*0.8125")
+        assert "--save-training-state" in options
+    for command in recipe["profile_only_commands"]:
+        options = _parse_registered_command(command)
+        assert options["--profile-steps"] == "2"
+        assert "--save-training-state" not in options
+
+
+def test_r1_family_target_recipes_are_matched_except_for_the_target_mode() -> None:
+    path = (
+        ROOT
+        / "research/campaign_2026-10-06/bandit_continuation/local/R1_FAMILY_TARGET_MODE_PAIRED.json"
+    )
+    recipe = json.loads(path.read_text())
+    assert len(recipe["commands"]) == 4
+    commands = [_parse_registered_command(command) for command in recipe["commands"]]
+    for seed_index in range(2):
+        clipped = commands[seed_index]
+        raw = commands[seed_index + 2]
+        assert clipped["--distill-family-target-mode"] == "clip2"
+        assert raw["--distill-family-target-mode"] == "raw"
+        assert clipped["--distill-cache-variant"] == "source"
+        assert clipped["--distill-family-weight"] == "0.1"
+        assert {
+            key: value
+            for key, value in clipped.items()
+            if key not in {"--name", "--distill-family-target-mode"}
+        } == {
+            key: value
+            for key, value in raw.items()
+            if key not in {"--name", "--distill-family-target-mode"}
+        }
