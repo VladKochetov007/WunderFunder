@@ -1,5 +1,11 @@
 # Live frontier — resumed independent training
 
+## Matched result and delivery repair — 2026-10-08 02:48 Kyiv
+
+H230's matched family-on/off fixed-seed comparison landed:0.681719502 versus0.681658487,delta+0.000061015, exposed468-group chain-bootstrap interval[-0.000091445,0.000210497]. This small positive effect keeps the family eligible; priority shifts toward the independent all-data paired endpoint and stronger diverse teachers. Own public best remains0.6660; H230 public0.6649; teammate0.6674 unreplicated. [Controller reflection](CONTROLLER_REFLECTION_20261008_0248.md) links the independent forensic report, Astra critique, matched grade and allocation decisions.
+
+Kaggle H232V4 completed without fitting because two reproduced admission guards were wrong: actual full-feature width211 rather than160, and expected auxiliary hash fallbacks were mistaken for failed raw digest reuse. All230 profile updates were finite/zero skips; worker133.419s, projected fit2.75–3.07h plus export. An identified V5 repair is being built and independently reviewed. Root owns export/grade delivery. Owned Vast A3D54734753 has an active supervisor and is uploading37.1GB; no fitting evidence yet. TPUV5 remains queued. Local all-data parent one-update profile passed withoutOOM, but is not a throughput benchmark; worker RAM reached its3GB ceiling and needs headroom for fitting. Historical status blocks below are preserved snapshots.
+
 ## Public transfer and exact-reference diagnostic — 2026-10-08 Kyiv
 
 H230 seed3 single publicly scored **0.6649**, so ownbest remains0.6660 and teammate0.6674 remains unreplicated. [Result receipt](wide_baseline_heterogeneous_H230/H230_PUBLIC_RESULT_20261008_V1.json). Latest user priority: isolate exact successful-reference training with our fresh weights, independent recipe/data/sequence/prediction investigation and matched control grading. Reference commit is833aaf541155c591e930bbc6c640b8817e01a536; source locator alone is not replication. H230 control fit/export landed successfully, predictions frozen for independent grade.
