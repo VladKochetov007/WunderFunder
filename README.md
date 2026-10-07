@@ -3,6 +3,9 @@
 Predict `t0` and `t1`, two indicators of future price movements of instrument
 `i0`, from the L11 book-feature representation, trade and additional features.
 
+For ongoing research and agent handoffs, start with the
+[research specifications and decision records](specs/README.md).
+
 ## Data
 
 Each input has 112 float32 features: two 52-feature book/trade groups

@@ -1,0 +1,18 @@
+# Research specifications and decisions
+
+Start here when resuming research or assigning an agent. Our objective is long-term competition winning through reproducible improvements, useful exploration and reliable execution. A completed code task is not a completed experiment.
+
+Read in order:
+
+1. [Objective and constraints](research-objective.md).
+2. [Evidence basis and current state](current-state.md).
+3. [Idea generation and research-tree allocation](idea-generation.md).
+4. [Agent assignments and result handoffs](agent-contract.md).
+5. [Experiment execution](experiment-execution.md).
+6. [Decision index](adr/README.md).
+
+These files are compact specifications, not replacements for research evidence. [General research methods](../research/RESEARCH_METHODS.md) explain the full workflow; [research tree](../research/bandit_tree/generated/INDEX.md) and campaign records index individual hypotheses, experiments and artifacts. Follow raw evidence links before making claims.
+
+The latest user instruction overrides older specifications and allocations. Record that change and its effective scope. Current-state entries are mutable; frozen recipes, results and raw artifacts are immutable. ADRs explain consequential decisions: append a new ADR when changing one, mark the old decision superseded and link its successor. Do not silently change an experiment already admitted.
+
+Maintain this folder after a meaningful change to objective, evidence basis, allocation policy, scientific recipe or execution ownership. Update current state after a result or failure changes the next action. Do not fill the main agent's context with the entire historical archive.
