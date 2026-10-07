@@ -10,5 +10,6 @@ ADRs explain why a consequential research or orchestration decision was made. Th
 | [0004](0004-independent-training-and-target-variants.md) | Train own models; explicitly distinguish raw/clipped target recipes | Accepted |
 | [0005](0005-result-ownership-and-independent-arms.md) | Assign end-to-end result owners and arm-specific dependencies | Accepted |
 | [0006](0006-resource-safe-autonomous-execution.md) | Bound resources and autonomously repair identified execution failures | Accepted |
+| [0007](0007-specialized-research-skills.md) | Specialize research workflows around concrete failure modes | Accepted |
 
 For a new decision, copy [the template](template.md), choose the next unused number and add it here. If superseding a decision, preserve its text/history and link both records. User instructions take precedence; record their effective scope rather than quietly editing an old scientific specification.

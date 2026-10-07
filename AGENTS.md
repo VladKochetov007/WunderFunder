@@ -108,6 +108,10 @@ Read each selected `SKILL.md`; user instructions override its generic defaults. 
 | `$wnn-connectome-top1` | `.agents/skills/wnn-connectome-top1/SKILL.md`; root competition metric/exposure/serving constraints. Historical resource numbers defer to the latest user allocation. |
 | `$marimo-pair` | `~/.agents/skills/marimo-pair/SKILL.md`; paired EDA through a running notebook kernel. Discover sessions rather than assuming an old port/service still exists. |
 | `$python-standards` | `.agents/skills/python-standards/SKILL.md`; meaningful Python changes and focused checks. |
+| `$research-recipe-audit` | [.agents/skills/research-recipe-audit/SKILL.md](.agents/skills/research-recipe-audit/SKILL.md); equation-to-code and exact-command fidelity before fits/replication claims. |
+| `$research-evidence-review` | [.agents/skills/research-evidence-review/SKILL.md](.agents/skills/research-evidence-review/SKILL.md); independent leakage/comparison/uncertainty and deliverable review. |
+| `$research-experiment-delivery` | [.agents/skills/research-experiment-delivery/SKILL.md](.agents/skills/research-experiment-delivery/SKILL.md); end-to-end authorized computation and failure repair. |
+| `$research-reframe` | [.agents/skills/research-reframe/SKILL.md](.agents/skills/research-reframe/SKILL.md); fresh-context, source-grounded independent tree arms and combinations. |
 | `$arxiv-search` / paper-reading skills | Available skills catalog; primary literature/source verification when a scout needs it. |
 | `$autoresearch` | `.agents/skills/claude-autoresearch-skill/SKILL.md`; optional bounded iterative search. Existing authorized data/compute need not be requested again. |
 
@@ -146,6 +150,10 @@ Each admitted cloud cohort needs:
 `research/campaign_2026-10-06/cloud_preflight/poll_provider.py`, `provider_targets.json` and the `wnn-campaign-kaggle-poller.timer` provide durable read-only monitoring. Add new targets and terminal receipts, refresh the allocation, and reconcile provisional quota at terminal status. A monitor alone does not collect/validate results or rerun failures; that belongs to the cloud operator/controller. TPU production requires real-device numerical, gradient/reload and full-shape checks before spending on fits.
 
 The user authorized autonomous cloud troubleshooting. Continue with concrete repairs rather than repeatedly asking for routine permission. Preserve diagnostic evidence and actual hardware/resource observations. Do not mark an experiment successful from provider status alone.
+
+The specialist-skill design and MFTE comparison are recorded in
+[ADR0007](specs/adr/0007-specialized-research-skills.md). Use these roles within
+`conduct-creative-research`; they do not replace the controller or current contract.
 
 ## New tooling, EDA and delivery
 
