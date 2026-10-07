@@ -192,6 +192,8 @@ The user's strict ownership rule is: **“touch only machines you rented. do not
 
 Keep successors prepared and switch only after valid terminal evidence or a diagnosed repair. Reassess the research allocation every two hours. Provider/tool access errors are execution evidence, not negative scientific results; a prepared queue is not a running job.
 
+The user explicitly authorizes terminating an inefficient or bugged job when a diagnosed corrected successor has better long-term value. Preserve its partial outputs, failure/resource evidence and costs; do not classify loading failure as a negative scientific result. Continue healthy informative runs. Paid-worker termination remains limited to instances proven campaign-owned by creation receipts.
+
 Build a new helper only when an existing tool cannot perform the required concrete task. Give it a narrow schema, bounded inputs/resources, explicit failure behavior, provenance and focused tests for material invariants. Independently review before production. Avoid constructing a generic framework as a prerequisite for one runnable experiment.
 
 Use marimo-pair for EDA and save PNG/SVG images inside each research lineage's `plots/` subdirectory. Edit a running notebook through its kernel APIs; keep reactive cells from launching fits. Preserve standalone artifacts for humans and later agents.

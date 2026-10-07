@@ -1,5 +1,11 @@
 # Evidence basis and current state
 
+## Owned Vast staging timeout — 2026-10-07 22:40:30 UTC
+
+The authoritative ledger now marks A2 instance `54725432` **destroyed_verified**, absent from a successful account inventory. Its staging failed `TimeoutExpired` after the frozen 1,800-second total upload window; no profile, fit or scientific score ran. A read-only progress check at 22:39:22Z measured a 20,825,505,792-byte partial training file, alongside 2,249,841,882 verified bytes of other inputs, out of 37,105,570,021 total planned bytes. The transfer was progressing, but the original staging bound underestimated its cost. Partial bytes were not verified training input and are not claimed reusable after destruction.
+
+The lifecycle actor owns settlement and an identified successor transport plan: compare a correctly measured longer transfer allowance with a direct authorized provider download, preserving raw-data hashes, credential privacy, overall lifetime, paid headroom and strict creation ownership. No new rental is claimed. The user's latest instruction explicitly permits terminating inefficient or bugged jobs when a corrected successor has better long-term value; healthy informative fits continue. Local H230 control has actual epoch-0 batch logs and no OOM; Kaggle H232 V2 was pushed once and provider RUNNING, payload phase still unknown; TPU V5 queued.
+
 ## Current execution and public handoff — 2026-10-07 22:34 UTC / 2026-10-08 Kyiv
 
 H230 seed3 single ZIP is [delivered for human public upload](../research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PUBLIC_HANDOFF_V1_20261008.md), SHA256 `446836bd5fcf88f1d84e83513aca87a4928727755517b5bed404760642fc6048`. Packaging checks passed; no portal acceptance or score is claimed. Exposed local grade is below the incumbent source reconstruction, so this upload is a prospective transfer test rather than a claimed new best. Own public best remains 0.6660; teammate 0.6674 remains unreplicated.
