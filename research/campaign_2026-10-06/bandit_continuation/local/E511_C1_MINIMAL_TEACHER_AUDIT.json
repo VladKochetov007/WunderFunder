@@ -1,0 +1,199 @@
+{
+  "format": "minimal-c1-teacher-audit-v1",
+  "source_families_path": "research/campaign_2026-10-06/bandit_continuation/SOURCE_FAMILIES.json",
+  "source_families_sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "status": "passed",
+  "target_orders": {
+    "train": {
+      "row_count": 10606,
+      "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe"
+    },
+    "valid": {
+      "row_count": 1873,
+      "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+    }
+  },
+  "target_recipe": {
+    "cli_scales": [
+      0.8125,
+      0.8125
+    ],
+    "coefficient_sum": 0.8125,
+    "effective_coefficients": [
+      0.40625,
+      0.40625
+    ],
+    "legacy_loader_divisor": 2,
+    "teacher_runs": [
+      "c20261003_combo_s3_f0",
+      "c20261003_combo_s4_f0"
+    ]
+  },
+  "teachers": [
+    {
+      "ancestor_closure": [
+        {
+          "checkpoint_file": "model_ep3.pt",
+          "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+          "fit_group_counts": {
+            "train": 10535,
+            "valid": 1405
+          },
+          "fit_row_group_hashes": {
+            "train": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9",
+            "valid": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+          },
+          "run": "c20261003_combo_s3_f0",
+          "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+        },
+        {
+          "checkpoint_file": "model.pt",
+          "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+          "fit_group_counts": {
+            "train": 0,
+            "valid": 1405
+          },
+          "fit_row_group_hashes": {
+            "train": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "valid": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+          },
+          "run": "c20260929_prop_f0",
+          "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+        }
+      ],
+      "architecture": "gru",
+      "cell": "gru",
+      "checkpoint_path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+      "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "epoch": 3,
+      "fit_group_counts": {
+        "train": 10535,
+        "valid": 1405
+      },
+      "fit_row_group_hashes": {
+        "train": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9",
+        "valid": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      },
+      "hidden": 256,
+      "layers": 2,
+      "predictions": {
+        "train": {
+          "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+          "dtype": "float32",
+          "epoch": 3,
+          "finite_scan": "passed in 64-sequence blocks",
+          "prediction_path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/cache/pred_c20261003_combo_s3_f0_train.npy",
+          "prediction_sha256": "55be3dffe899260f875e7d6460d37a24257067ebedb9273514cb38accc6af086",
+          "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+          "shape": [
+            10606,
+            20000,
+            2
+          ],
+          "sidecar_sha256": "d9fa1459057e93d481db28aa6388cc7e801242ddcc6eb3e658cf83a559068837"
+        },
+        "valid": {
+          "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+          "dtype": "float32",
+          "epoch": 3,
+          "finite_scan": "passed in 64-sequence blocks",
+          "prediction_path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/cache/pred_c20261003_combo_s3_f0_valid.npy",
+          "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+          "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+          "shape": [
+            1873,
+            20000,
+            2
+          ],
+          "sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2"
+        }
+      },
+      "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+      "run": "c20261003_combo_s3_f0",
+      "seed": 3
+    },
+    {
+      "ancestor_closure": [
+        {
+          "checkpoint_file": "model_ep3.pt",
+          "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+          "fit_group_counts": {
+            "train": 10535,
+            "valid": 1405
+          },
+          "fit_row_group_hashes": {
+            "train": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49",
+            "valid": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+          },
+          "run": "c20261003_combo_s4_f0",
+          "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+        },
+        {
+          "checkpoint_file": "model.pt",
+          "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+          "fit_group_counts": {
+            "train": 0,
+            "valid": 1405
+          },
+          "fit_row_group_hashes": {
+            "train": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "valid": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+          },
+          "run": "c20260929_prop_f0",
+          "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+        }
+      ],
+      "architecture": "gru",
+      "cell": "gru",
+      "checkpoint_path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/artifacts/runs/c20261003_combo_s4_f0/model_ep3.pt",
+      "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+      "epoch": 3,
+      "fit_group_counts": {
+        "train": 10535,
+        "valid": 1405
+      },
+      "fit_row_group_hashes": {
+        "train": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49",
+        "valid": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      },
+      "hidden": 256,
+      "layers": 2,
+      "predictions": {
+        "train": {
+          "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+          "dtype": "float32",
+          "epoch": 3,
+          "finite_scan": "passed in 64-sequence blocks",
+          "prediction_path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/cache/pred_c20261003_combo_s4_f0_train.npy",
+          "prediction_sha256": "6188bba89a0d5e30516c8ec4163746310aa0e4b634dd1bbc3da9a156b8d9bfb2",
+          "row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+          "shape": [
+            10606,
+            20000,
+            2
+          ],
+          "sidecar_sha256": "ea462accb17312f12c5a254df9aa94989952562f948234b5ebe2bcc6d5f8401e"
+        },
+        "valid": {
+          "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+          "dtype": "float32",
+          "epoch": 3,
+          "finite_scan": "passed in 64-sequence blocks",
+          "prediction_path": "/home/vlad/development/wunder/worktrees/wnn-bandit-r1-familyloss-20261007/cache/pred_c20261003_combo_s4_f0_valid.npy",
+          "prediction_sha256": "f1a3b07072a62dce620dc0c90e9568093367d0aed1afa4e9ec550866f94df12b",
+          "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+          "shape": [
+            1873,
+            20000,
+            2
+          ],
+          "sidecar_sha256": "ad1257c7278c5402c409ec0e273c2202525bd1d6173699438efb6627262b9750"
+        }
+      },
+      "provenance_sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332",
+      "run": "c20261003_combo_s4_f0",
+      "seed": 4
+    }
+  ]
+}
