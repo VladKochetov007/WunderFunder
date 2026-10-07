@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "id": "E521_S3_STANDALONE_EXCLUDED_FOLD0_V1",
+  "frozen_at_utc": "2026-10-07T13:14:38Z",
+  "status": "frozen_before_candidate_prediction_scoring",
+  "owner": "independent grader: tpu_recovery_delivery",
+  "candidate": {
+    "experiment_id": "E-521",
+    "run": "bd26_w384raw_s3_f0",
+    "seed": 3,
+    "architecture": "scratch raw-only GRU, hidden=384, layers=2",
+    "checkpoint_epoch_zero_based": 3,
+    "checkpoint_selection": "fixed checkpoint_epoch=3; no in-fit evaluation or metric-based selection",
+    "initialization": "scratch; no teacher or teammate weight ancestry",
+    "prediction_split_exported": "valid (all 1,873 valid target groups); the grade selects only fold-0 excluded groups"
+  },
+  "primary_outcome": {
+    "metric_id": "global_wp_clip2_v1",
+    "direction": "higher_is_better",
+    "comparator": null,
+    "practical_effect_threshold": null,
+    "interpretation": "single fixed model's absolute descriptive score; no treatment effect is estimated",
+    "official_selection": "need_prediction AND is_scored; need_prediction means step_in_seq >= 99",
+    "official_metric": "clip labels and predictions to [-2, 2], weight by absolute clipped label magnitude, calculate pooled weighted Pearson separately for both targets, then average the two target scores"
+  },
+  "evaluation_unit": {
+    "split_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "fold": 0,
+    "fit_excluded_group_count": 468,
+    "expected_connected_component_count": 141,
+    "target_cache_path": "cache/valid_targets.npz",
+    "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "aggregation": "official pooled metric over selected rows in exactly the 468 manifest evaluation row groups; never score fit-valid groups",
+    "exposure_status": "exposed development data: excluded from this model's fitting membership but previously inspected and used in research decisions; not fresh confirmation"
+  },
+  "selection_and_stopping": {
+    "candidate_models_or_checkpoints_scored": 1,
+    "training_seeds_scored": [3],
+    "posthoc_slices_or_blends": 0,
+    "stopping_rule": "run the frozen standalone grade once after all hash, provenance, split, and membership checks pass; do not adapt or select from this score",
+    "matched_control": "pending E520 GRU-128 seed-3 result; any later comparison requires its own frozen comparison spec before opening its score",
+    "interval": "none; one-seed absolute descriptive result only"
+  },
+  "grader": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_S3_STANDALONE_GRADE_V1.py",
+    "sha256": "34e3d399df401a8c430e5d5d48bb99fdee3b4b05b78060a3d23b1a25f160c2bc",
+    "existing_evaluator_helpers": "scripts/evaluate_bandit_continuation.py:load_campaign_split, membership validation, fixed-checkpoint/sidecar/lineage binding, and official mask",
+    "metric_implementation": "src/wnn/gmetric.py:GlobalAccumulator (official implementation); sequence-batched streaming; no GPU or new metric formula"
+  },
+  "artifacts": {
+    "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/RECIPE.json": "3ac30113507f16a555e4e65daac39567a544c395a38233fa56b936deaf6458fd",
+    "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_RECIPE_INDEPENDENT_REVIEW_20261007_R1.json": "e72eb86e7bcf5508a8919d39b48e34dc104977b589de5e79729471f6efe63b91",
+    "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/EXPORT_CONTRACT_V1.json": "678f5e6afaa8cb95c436efe73d2eecf7f8ecfcbe13116978d9072e0d06d99a70",
+    "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/FIT_EXPORT_RESULT_V1.json": "d8a252daf4894852292418b655409e1b26d0765115eb8035bb743590bcfd2b31",
+    "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e521-w384-s3-fit-v2.json": "4de98e646d0df3c22c524ab022b12fdd583a92dd2a767ce3955d765d704d2e22",
+    "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e521-w384-s3-export-v1.json": "10b652f913489a60d0eac48d11c6b7fcd8e94a57560212cd6c5965d19db221dc",
+    "artifacts/runs/bd26_w384raw_s3_f0/model_ep3.pt": "90b7357c8d5cf01219764ae58373099710f11d041a01ef5400e683bf854eb08f",
+    "artifacts/runs/bd26_w384raw_s3_f0/provenance.json": "3301c3033587829ac5166ae6fee9eb911ee29c8a6412e15010dd3e9fc4423d6d",
+    "artifacts/runs/bd26_w384raw_s3_f0/history.json": "557b6e20a3e466e8a11f7cff7584a4b76a6d68e1c9627f4ac34d2770f322eb8a",
+    "cache/pred_bd26_w384raw_s3_f0_valid.npy": "0dae84be777f8bf4ef80bb7c292e1466de5e326c6471cd2e28f22ef9e075ee2b",
+    "cache/pred_bd26_w384raw_s3_f0_valid.json": "a45e6c5224e5c09216e199120f75261676416a9d8c8b9b5d0129f4d437b7b6c3",
+    "cache/valid_targets.npz": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "cache/chains.npz": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
+    "cache/chain_folds.npz": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "scripts/train_rnn.py": "0e622a87888769ff7467fadd1d1a230886008d1803099e8881e100939082467d",
+    "scripts/predict_run.py": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee",
+    "scripts/evaluate_bandit_continuation.py": "8174b21afec67cd3a5f7fef5f390bc3ca20b35138a50e3e83245ba69c3f6ec44",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+    "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_S3_STANDALONE_GRADE_V1.py": "34e3d399df401a8c430e5d5d48bb99fdee3b4b05b78060a3d23b1a25f160c2bc"
+  },
+  "outputs": {
+    "result": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_S3_EXCLUDED_FOLD0_RESULT_V1.json",
+    "report": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_S3_EXCLUDED_FOLD0_REPORT_V1.md"
+  },
+  "resource_policy": {
+    "cpu_quota": "100%",
+    "worker_cpu_threads": 1,
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 120,
+    "gpu": false
+  },
+  "no_fit_or_prediction_export": true,
+  "no_public_forecast": true
+}
