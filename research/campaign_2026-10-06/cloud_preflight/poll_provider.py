@@ -21,8 +21,9 @@ from kagglesdk.kernels.types.kernels_api_service import (
 
 GPU_BASELINE_SECONDS = 37047.321
 TPU_BASELINE_SECONDS = 134.623
-# Retained preflight quota (80.915s) plus E508 v2's 2-device/4200-second ceiling.
-GPU_BUDGET_SECONDS = 8480.915
+# Retain the original baseline: 94.516s landed before the user resumed, plus
+# 56,686s newly allocated in RESUMED_ALLOCATION_20261007.md, with 20% headroom.
+GPU_BUDGET_SECONDS = 56780.516
 TPU_BUDGET_SECONDS = 900.0
 TERMINAL_STATES = {"COMPLETE", "COMPLETED", "ERROR", "FAILED", "CANCELED", "CANCELLED"}
 
