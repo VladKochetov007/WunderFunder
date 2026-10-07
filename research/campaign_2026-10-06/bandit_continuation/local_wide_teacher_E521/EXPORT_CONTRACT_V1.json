@@ -1,0 +1,31 @@
+{
+  "id": "E521-export-v1",
+  "timestamp_utc": "2026-10-07T12:59:33.727957+00:00",
+  "owner": "root execution; independent grader comparison",
+  "scope": "Export fixed epoch3 candidate, no fit or checkpoint selection; matched E520 control pending",
+  "command": [
+    ".venv/bin/python",
+    "scripts/predict_run.py",
+    "bd26_w384raw_s3_f0",
+    "valid",
+    "--epoch",
+    "3"
+  ],
+  "resources": {
+    "cpus": 3,
+    "ram_bytes": 5500000000,
+    "observed_vram_bytes": 5000000000,
+    "allocator_bytes": 4300000000,
+    "loader_workers": 0,
+    "timeout_seconds": 1800
+  },
+  "basis": "Successful B16 fullshape training and completed fit; forward-only streamed export, existing monitored cgroup and GPU lock. No additional loader workers.",
+  "file_sha256": {
+    "scripts/predict_run.py": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee",
+    "scripts/train_rnn.py": "0e622a87888769ff7467fadd1d1a230886008d1803099e8881e100939082467d",
+    "artifacts/runs/bd26_w384raw_s3_f0/model_ep3.pt": "90b7357c8d5cf01219764ae58373099710f11d041a01ef5400e683bf854eb08f",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "output": "cache/pred_bd26_w384raw_s3_f0_valid.npy",
+  "evaluation_exposure": "Previously exposed fold0; all-valid export not all-valid held-out claim."
+}
