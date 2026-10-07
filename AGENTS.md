@@ -83,7 +83,7 @@ External models are authorized for diversity, literature ideation, criticism and
 |---|---|
 | OpenCode | Installed at `~/.opencode/bin/opencode`; version 1.18.35 at inspection. `opencode models` inspects available routes; `opencode run --help` documents invocation. MiMo-v2.6-flash-free supplied a proposal; Nemotron supplied criticism. Later free coding calls were denied, so verify each route before depending on it. |
 | Freebuff | Installed at `~/.npm-global/bin/freebuff`; version 0.2.15. Interactive CLI: `freebuff --cwd <isolated-workspace>`; `--continue [conversation-id]` resumes a conversation. Use its actual model picker. SolarPro4 produced proposals/draft code; a GLM attempt timed out. Do not invent headless flags. |
-| Grok | Requested Grok4.7 was unavailable through previously configured routes. Recheck actual provider catalog/authentication when needed; use an existing authorized route if available. Never claim Grok ran from a requested label or guess a model ID. |
+| Grok | Native CLI `~/.grok/bin/grok`, version 1.0.46, is authenticated through grok.com. On 2026-10-07, `grok models` listed `grok-4.7` and a bounded native request using that model completed successfully. Default is `grok-4.6`, so select `--model grok-4.7` explicitly. Earlier alternate-route failures do not establish native CLI unavailability. See [access receipt](research/campaign_2026-10-06/bandit_continuation/reviews/GROK_NATIVE_ACCESS_20261007.json). |
 
 A bounded OpenCode invocation, after verifying the exact model and preparing an isolated context, is:
 
@@ -95,6 +95,8 @@ timeout --signal=TERM --kill-after=10s 10m \
 ```
 
 Run the CLI itself inside the campaign's CPU/RAM boundary. Permission configuration must match the role: read-only source access for ideators, scoped isolated writes for builders, no grader/budget mutation. Do not enable sharing or indiscriminate auto-approval. Freebuff's `--trust-agents` loads `.agents`/MCP configuration; inspect that configuration before trusting it. Keep private competition code/data in authorized private workspaces.
+
+For a bounded native Grok review, use `grok --cwd /path/to/isolated/workspace --model grok-4.7 --no-subagents --permission-mode plan --max-turns 4 --prompt-file /path/to/task.md` inside the same resource wrapper. Inspect `grok --help` for the installed interface. Use the existing grok.com authentication; do not switch to a paid API route to work around a CLI problem. Recheck access after a concrete failure rather than carry historical provider status as a permanent restriction.
 
 Mix directed papers with randomly selected books/articles/passages from the user's library. Record selection seeds and actual passages. Ask for several distinct ideas and a real effort to extract at least one transferable component, including an unconventional one. A small algorithmic detail can matter when the headline method is irrelevant. Do not fabricate applicability. Keep first proposals independent until committed.
 

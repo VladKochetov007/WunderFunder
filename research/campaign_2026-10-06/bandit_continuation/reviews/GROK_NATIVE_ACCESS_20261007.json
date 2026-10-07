@@ -1,0 +1,16 @@
+{
+  "verification_date": "2026-10-07",
+  "purpose": "Correct stale agent-routing guidance after the user reported native terminal access",
+  "executable": "/home/vlad/.grok/bin/grok",
+  "version": "grok 1.0.46 (2765805b9442) [stable]",
+  "authentication_route": "grok.com; catalog reports logged in",
+  "catalog": ["grok-4.7", "grok-4.7-build-fast", "grok-4.6", "grok-4.5"],
+  "default_model": "grok-4.6",
+  "requested_probe_model": "grok-4.7",
+  "probe_arguments": ["--cwd", "/tmp/wnn-grok-access-check", "--model", "grok-4.7", "--no-subagents", "--disable-web-search", "--permission-mode", "plan", "--max-turns", "1", "--single", "Access check only. Do not call tools, read files, or perform research. Reply with exactly GROK_ACCESS_OK."],
+  "resource_limits": {"slice": "wnn-campaign.slice", "cpu_cores": 1, "ram_bytes": 1500000000, "timeout_seconds": 60},
+  "exit_code": 0,
+  "stdout": "GROK_ACCESS_OK",
+  "conclusion": "Native authenticated Grok CLI accepts grok-4.7 and completed an actual response. Earlier failures concerned other routes; native availability was not checked then.",
+  "limitations": "This verifies a small native response, not sustained quota, coding quality or unrestricted tool execution. No scientific experiment or research proposal was run."
+}
