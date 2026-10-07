@@ -20,12 +20,15 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset
 
-PACKET_ID = "E508_RAW_BASELINE_V2"
+PACKET_ID = "E508_RAW_BASELINE_V3"
 SPLIT_SHA256 = "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
 ASSETS_SHA256 = "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7"
 ASSETS_BYTES = 6268
 PORTABLE_SHA256 = "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
 SOURCE_MANIFEST_SHA256 = "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb"
+RAW_DATASET_REF = "vladkochetov07/wunder-funder"
+RAW_DATASET_VERSION_AT_PREREGISTRATION = 1
+RAW_DATASET_VERSION_OBSERVED_AT_UTC = "2026-10-07T00:11:43+00:00"
 AUDIT_CHECKPOINT_RELATIVE = "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt"
 AUDIT_CHECKPOINT_SHA256 = "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
 AUDIT_CHECKPOINT_BYTES = 3_977_183
@@ -48,6 +51,7 @@ GPU_ALLOCATOR_BYTES = 4_300_000_000
 ROOT = Path(__file__).resolve().parent
 PHASE_FILE = Path("/kaggle/working/e508_raw_teacher_pair/phase.json")
 WORKER_STATUS = Path("/kaggle/working/e508_raw_teacher_pair/worker_status.json")
+INPUT_IDENTITY_REPORT = Path("/kaggle/working/e508_raw_teacher_pair/input_identity.json")
 LOG_DIR = Path("/kaggle/working/e508_raw_teacher_pair/logs")
 SPLIT_RELATIVE = Path("research/campaign_2026-09-29/artifacts/splits/fold0.json")
 PORTABLE_RELATIVE = Path("research/campaign_2026-10-04/portable_inputs.json")
@@ -99,6 +103,42 @@ def find_unique_file(
             f"expected one {name} matching size={size} sha256={digest}; found {len(matches)}"
         )
     return matches[0]
+
+
+def parquet_footer_identity(path: Path) -> dict[str, object]:
+    """Hash the exact Parquet metadata footer and its eight-byte trailer."""
+    stat = path.stat()
+    if stat.st_size < 8:
+        raise ValueError(f"parquet file is shorter than its trailer: {path}")
+    with path.open("rb") as stream:
+        stream.seek(-8, os.SEEK_END)
+        trailer = stream.read(8)
+        footer_bytes = int.from_bytes(trailer[:4], "little")
+        if trailer[4:] != b"PAR1" or footer_bytes > stat.st_size - 8:
+            raise ValueError(
+                f"invalid parquet trailer for {path}: "
+                f"footer_bytes={footer_bytes}, trailer_magic={trailer[4:].hex()}"
+            )
+        range_bytes = footer_bytes + 8
+        stream.seek(-range_bytes, os.SEEK_END)
+        digest = hashlib.sha256()
+        remaining = range_bytes
+        while remaining:
+            block = stream.read(min(remaining, 1 << 20))
+            if not block:
+                raise ValueError(f"truncated parquet footer for {path}")
+            digest.update(block)
+            remaining -= len(block)
+    return {
+        "path": str(path.resolve()),
+        "bytes": stat.st_size,
+        "mtime_ns": stat.st_mtime_ns,
+        "footer_bytes": footer_bytes,
+        "footer_range_bytes_including_trailer": range_bytes,
+        "footer_range_start_offset": stat.st_size - range_bytes,
+        "trailer_magic": trailer[4:].decode("ascii"),
+        "footer_sha256": digest.hexdigest(),
+    }
 
 
 def audit_checkpoint_manifest_entry(
@@ -304,32 +344,125 @@ def input_map(input_root: Path) -> dict[str, object]:
             raise ValueError(f"small chain asset hash changed: {relative}")
 
     raw_files = {
-        "datasets/train.parquet": find_unique_file(input_root, "train.parquet", size=TRAIN_BYTES),
-        "datasets/valid.parquet": find_unique_file(input_root, "valid.parquet", size=VALID_BYTES),
+        "datasets/train.parquet": find_unique_file(input_root, "train.parquet"),
+        "datasets/valid.parquet": find_unique_file(input_root, "valid.parquet"),
     }
     portable = json.loads(portable_path.read_text())
     parquet_identity: dict[str, dict[str, object]] = {}
     for logical_name, source in raw_files.items():
         registry_entry = portable["sources"][logical_name]
         identity = registry_entry["original_identity"]
-        if source.stat().st_size != identity["bytes"]:
-            raise ValueError(f"raw input byte size changed: {logical_name}")
-        # Validate only the predeclared footer range here. Full-file SHA runs only if
-        # the trainer's frozen metadata identity differs and requests the registry.
-        footer_digest = hashlib.sha256()
-        with source.open("rb") as stream:
-            stream.seek(source.stat().st_size - int(identity["footer_bytes"]))
-            for block in iter(lambda: stream.read(1 << 20), b""):
-                footer_digest.update(block)
-        footer_hash = footer_digest.hexdigest()
-        if footer_hash != identity["footer_sha256"]:
-            raise ValueError(f"raw parquet footer changed: {logical_name}")
-        parquet_identity[logical_name] = {
-            "path": str(source),
-            "bytes": source.stat().st_size,
-            "mtime_ns": source.stat().st_mtime_ns,
-            "footer_sha256": footer_hash,
+        mount_relative = source.resolve().relative_to(input_root.resolve())
+        mount_root = input_root / mount_relative.parts[0]
+        expected = {
+            "dataset_ref": RAW_DATASET_REF,
+            "dataset_version_at_preregistration": RAW_DATASET_VERSION_AT_PREREGISTRATION,
+            "dataset_version_observed_at_utc": RAW_DATASET_VERSION_OBSERVED_AT_UTC,
+            "logical_path": logical_name,
+            "bytes": int(identity["bytes"]),
+            "footer_bytes": int(identity["footer_bytes"]),
+            "footer_sha256": str(identity["footer_sha256"]),
+            "sha256": str(registry_entry["sha256"]),
         }
+        observed: dict[str, object] = {
+            "dataset_ref": RAW_DATASET_REF,
+            "dataset_version_from_runtime_mount": None,
+            "mount_path": str(mount_root.resolve()),
+            "relative_path_under_kaggle_input": mount_relative.as_posix(),
+            "dataset_version_note": (
+                "Kaggle does not expose the attached dataset version in the mounted "
+                "filesystem; version 1 was current at preregistration and exact file "
+                "hashes bind mounted bytes to that frozen source registry"
+            ),
+        }
+        hash_started_unix: float | None = None
+        try:
+            observed.update(parquet_footer_identity(source))
+            hash_started_unix = time.time()
+            parquet_identity[logical_name] = {
+                "expected": expected,
+                "observed": observed,
+                "status": "full_file_sha256_in_progress",
+                "sha256_started_unix": hash_started_unix,
+            }
+            write_json(
+                INPUT_IDENTITY_REPORT,
+                {
+                    "packet": PACKET_ID,
+                    "dataset_version_at_preregistration": RAW_DATASET_VERSION_AT_PREREGISTRATION,
+                    "dataset_version_observed_at_utc": RAW_DATASET_VERSION_OBSERVED_AT_UTC,
+                    "status": "full_file_sha256_in_progress",
+                    "raw_parquet": parquet_identity,
+                },
+            )
+            print(
+                json.dumps(
+                    {
+                        "event": "raw_source_sha256",
+                        "logical_path": logical_name,
+                        "stage": "started",
+                        "source_path": str(source.resolve()),
+                        "expected_sha256": expected["sha256"],
+                        "started_unix": hash_started_unix,
+                    }
+                ),
+                flush=True,
+            )
+            observed["sha256"] = sha256_path(source)
+            hash_finished_unix = time.time()
+            observed["sha256_started_unix"] = hash_started_unix
+            observed["sha256_finished_unix"] = hash_finished_unix
+            observed["sha256_elapsed_seconds"] = hash_finished_unix - hash_started_unix
+            print(
+                json.dumps(
+                    {
+                        "event": "raw_source_sha256",
+                        "logical_path": logical_name,
+                        "stage": "completed",
+                        "elapsed_seconds": hash_finished_unix - hash_started_unix,
+                        "actual_sha256": observed["sha256"],
+                    }
+                ),
+                flush=True,
+            )
+        except Exception as error:
+            report = {
+                "status": "inspection_failed",
+                "logical_path": logical_name,
+                "expected": expected,
+                "observed": {**observed, "inspection_error": repr(error)},
+                "sha256_started_unix": hash_started_unix,
+                "already_inspected": parquet_identity,
+            }
+            write_json(INPUT_IDENTITY_REPORT, report)
+            raise
+        footer_matches = all(
+            observed.get(key) == expected[key]
+            for key in ("bytes", "footer_bytes", "footer_sha256")
+        )
+        full_file_matches = observed["sha256"] == expected["sha256"]
+        entry = {
+            "expected": expected,
+            "observed": observed,
+            "footer_identity_matches": footer_matches,
+            "full_file_sha256_matches": full_file_matches,
+        }
+        parquet_identity[logical_name] = entry
+        write_json(
+            INPUT_IDENTITY_REPORT,
+            {
+                "packet": PACKET_ID,
+                "dataset_version_at_preregistration": RAW_DATASET_VERSION_AT_PREREGISTRATION,
+                "dataset_version_observed_at_utc": RAW_DATASET_VERSION_OBSERVED_AT_UTC,
+                "status": "matched" if footer_matches and full_file_matches else "mismatch",
+                "raw_parquet": parquet_identity,
+            },
+        )
+        if not footer_matches or not full_file_matches:
+            raise ValueError(
+                f"raw parquet source identity changed: {logical_name}; "
+                f"footer_matches={footer_matches}, full_file_sha256_matches={full_file_matches}"
+            )
 
     for relative, (source, _) in required_assets.items():
         destination = ROOT / relative

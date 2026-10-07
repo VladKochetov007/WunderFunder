@@ -6,6 +6,8 @@ import hashlib
 import importlib.util
 import json
 import math
+import os
+import tempfile
 import unittest
 import zlib
 from pathlib import Path
@@ -123,6 +125,34 @@ class PacketRecipeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "not bound by its source manifest"):
             namespace["audit_checkpoint_manifest_entry"](wrong_key_manifest)
 
+    def test_parquet_footer_identity_hashes_metadata_and_eight_byte_trailer(self) -> None:
+        worker_tree = ast.parse((HERE / "packet_worker.py").read_text(encoding="utf-8"))
+        helper = next(
+            node
+            for node in worker_tree.body
+            if isinstance(node, ast.FunctionDef) and node.name == "parquet_footer_identity"
+        )
+        namespace: dict[str, object] = {"hashlib": hashlib, "os": os, "Path": Path}
+        exec(
+            compile(ast.Module(body=[helper], type_ignores=[]), "parquet_footer_identity", "exec"),
+            namespace,
+        )
+        prefix = b"parquet-data-prefix"
+        footer = b"serialized row-group and schema metadata"
+        trailer = len(footer).to_bytes(4, "little") + b"PAR1"
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "fixture.parquet"
+            path.write_bytes(prefix + footer + trailer)
+            actual = namespace["parquet_footer_identity"](path)
+            self.assertEqual(actual["footer_bytes"], len(footer))
+            self.assertEqual(actual["footer_range_bytes_including_trailer"], len(footer) + 8)
+            self.assertEqual(actual["footer_range_start_offset"], len(prefix))
+            self.assertEqual(actual["trailer_magic"], "PAR1")
+            self.assertEqual(actual["footer_sha256"], hashlib.sha256(footer + trailer).hexdigest())
+            path.write_bytes(prefix + footer + len(footer).to_bytes(4, "little") + b"BAD!")
+            with self.assertRaisesRegex(ValueError, "invalid parquet trailer"):
+                namespace["parquet_footer_identity"](path)
+
     def test_profile_cost_gate_rejects_nan_and_bounds_pair(self) -> None:
         self.assertAlmostEqual(prepare_packet.profile_estimate_seconds(500.0), 4469.75)
         with self.assertRaises(ValueError):
@@ -161,15 +191,15 @@ class PacketRecipeTests(unittest.TestCase):
         self.assertIn("profile_ready_awaiting_controller_review", source)
 
     def test_materialized_packet_hashes_and_embedded_worker_match_receipt(self) -> None:
-        packet = HERE / "packet_v2"
+        packet = HERE / "packet_v3"
         receipt = json.loads((packet / "review_packet.json").read_text(encoding="utf-8"))
         kernel = (packet / "kernel.py").read_bytes()
         metadata = (packet / "kernel-metadata.json").read_bytes()
         self.assertEqual(hashlib.sha256(kernel).hexdigest(), receipt["packet_sha256"]["kernel.py"])
-        self.assertEqual(receipt["packet_id"], "E508_RAW_BASELINE_V2")
+        self.assertEqual(receipt["packet_id"], "E508_RAW_BASELINE_V3")
         self.assertEqual(
             receipt["kernel_id"],
-            "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v2",
+            "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v3",
         )
         self.assertEqual(
             hashlib.sha256(metadata).hexdigest(),
@@ -194,6 +224,9 @@ class PacketRecipeTests(unittest.TestCase):
         self.assertEqual(assignments["WORKER_SHA256"], receipt["packet_sha256"]["packet_worker.py"])
         self.assertEqual(assignments["GLOBAL_TIMEOUT_SECONDS"], 3_600)
         worker_text = worker.decode("utf-8")
+        self.assertIn("footer_range_bytes_including_trailer", worker_text)
+        self.assertIn("full_file_sha256_matches", worker_text)
+        self.assertIn("input_identity.json", worker_text)
         self.assertIn("PROFILE_ONLY = True", worker_text)
         self.assertIn("profile_ready_awaiting_controller_review", worker_text)
         self.assertIn("os.set_blocking(output_fd, False)", source)
@@ -202,6 +235,26 @@ class PacketRecipeTests(unittest.TestCase):
             receipt["commands"]["kaggle_push_command_prepared_not_run"].endswith("-t 4200")
         )
         self.assertEqual(receipt["profile_gate"]["profile_provider_watch_seconds"], 4_200)
+
+    def test_v3_raw_identity_binds_api_version_and_full_portable_hashes(self) -> None:
+        packet = HERE / "packet_v3"
+        receipt = json.loads((packet / "review_packet.json").read_text(encoding="utf-8"))
+        portable_path = HERE.parents[3] / "research/campaign_2026-10-04/portable_inputs.json"
+        portable = json.loads(portable_path.read_text(encoding="utf-8"))
+        raw = receipt["input_map"]["raw"]
+        self.assertEqual(raw["dataset"], "vladkochetov07/wunder-funder")
+        self.assertEqual(raw["dataset_id"], 12352811)
+        self.assertEqual(raw["dataset_version_at_preregistration"], 1)
+        self.assertEqual(raw["dataset_version_observed_at_utc"], "2026-10-07T00:11:43+00:00")
+        for logical_path in ("datasets/train.parquet", "datasets/valid.parquet"):
+            registry = portable["sources"][logical_path]
+            self.assertEqual(
+                raw["expected_files"][logical_path],
+                {
+                    **registry["original_identity"],
+                    "sha256": registry["sha256"],
+                },
+            )
 
 
 if __name__ == "__main__":
