@@ -12,7 +12,7 @@ from scripts import bandit_resources as resources
 
 def parent_properties() -> dict[str, str]:
     return {
-        "CPUQuotaPerSecUSec": "10s",
+        "CPUQuotaPerSecUSec": "6s",
         "MemoryHigh": "18000000000",
         "MemoryMax": "20000000000",
         "MemorySwapMax": "0",
@@ -102,6 +102,8 @@ def prepare_worker_observers(
 
 def test_parent_requires_exact_aggregate_caps() -> None:
     assert resources.verify_parent(parent_properties()).endswith("/wnn-campaign.slice")
+    with pytest.raises(RuntimeError, match="not verified"):
+        resources.verify_parent({**parent_properties(), "CPUQuotaPerSecUSec": "10s"})
     changed = {**parent_properties(), "MemoryMax": "24000000000"}
     with pytest.raises(RuntimeError, match="not verified"):
         resources.verify_parent(changed)
@@ -113,7 +115,7 @@ def test_admission_obeys_aggregate_cpu_ram_and_measured_headroom(
     state = tmp_path / "state"
     resources.atomic_json(
         resources.attempt_path(state, "existing"),
-        attempt_record("existing", cpus=8, ram_bytes=12_000_000_000),
+        attempt_record("existing", cpus=4, ram_bytes=12_000_000_000),
     )
     monkeypatch.setattr(resources, "support_cpu_reservations", lambda *_args: {})
     monkeypatch.setattr(resources, "memory_current", lambda _group: 2_000_000_000)
@@ -205,10 +207,10 @@ def test_active_support_units_are_reserved_from_parent_cgroup(
     support = resources.support_cpu_reservations(tmp_path / "state", "/test/parent")
     assert support == {"freebuff.scope": 1.0, "marimo.service": 2.0, "watcher.service": 0.05}
     monkeypatch.setattr(resources, "memory_current", lambda _path: 1_000_000_000)
-    admitted = resources.verify_capacity(tmp_path / "state", "/test/parent", 6, 1_000_000_000)
+    admitted = resources.verify_capacity(tmp_path / "state", "/test/parent", 2, 1_000_000_000)
     assert admitted["support_cpu_reserve_cores"] == 3.05
     with pytest.raises(RuntimeError, match="CPU reservation"):
-        resources.verify_capacity(tmp_path / "state", "/test/parent", 7, 1_000_000_000)
+        resources.verify_capacity(tmp_path / "state", "/test/parent", 3, 1_000_000_000)
 
 
 def test_gpu_service_is_directly_bounded_under_campaign_parent(tmp_path: Path) -> None:

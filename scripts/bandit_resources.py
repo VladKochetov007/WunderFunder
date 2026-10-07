@@ -6,7 +6,7 @@ profile identifier and a RAM reservation derived from a completed representative
 profile; this controller records that evidence but does not guess a reservation.
 
 The parent slice is the hard aggregate boundary. This controller also admits
-jobs only when their profiled reservations fit the 10 CPU / 18 GB working
+jobs only when their profiled reservations fit the 6 CPU / 18 GB working
 allowance and records every launch and terminal outcome.
 """
 
@@ -32,7 +32,7 @@ from typing import TextIO, TypeVar
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_STATE = ROOT / "research/campaign_2026-10-06/bandit_continuation/runtime"
 SLICE = "wnn-campaign.slice"
-CPU_CAP = 10
+CPU_CAP = 6
 RAM_WORKING_BYTES = 18_000_000_000
 RAM_PARENT_BYTES = 20_000_000_000
 RAM_HIGH_BYTES = 18_000_000_000
@@ -128,7 +128,7 @@ def parent_properties() -> dict[str, str]:
 def verify_parent(properties: dict[str, str]) -> str:
     """Require the exact authorized aggregate limits and return its cgroup path."""
     expected = {
-        "CPUQuotaPerSecUSec": "10s",
+        "CPUQuotaPerSecUSec": f"{CPU_CAP}s",
         "MemoryHigh": str(RAM_HIGH_BYTES),
         "MemoryMax": str(RAM_PARENT_BYTES),
         "MemorySwapMax": "0",
