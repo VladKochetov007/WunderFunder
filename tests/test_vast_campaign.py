@@ -4,6 +4,7 @@ import base64
 import hashlib
 import io
 import json
+import re
 import tarfile
 import urllib.error
 import urllib.parse
@@ -49,6 +50,8 @@ def make_attempt(
     released_usd: str | None = None,
     expected_artifacts: list[str] | None = None,
     worker_inputs: list[dict[str, object]] | None = None,
+    upload_timeout_seconds: int = 600,
+    worker_setup_timeout_seconds: int = 0,
     offer_id: int = 12345,
     machine_id: int = 777,
 ) -> tuple[Path, Path, Path, dict[str, object]]:
@@ -128,7 +131,8 @@ def make_attempt(
             "packet_sha256": digest(packet.read_bytes()),
             "worker_inputs": worker_inputs or [],
             "max_upload_bytes": 1_000_000,
-            "upload_timeout_seconds": 600,
+            "upload_timeout_seconds": upload_timeout_seconds,
+            "worker_setup_timeout_seconds": worker_setup_timeout_seconds,
             "offer": offer,
             "create_payload": payload,
             "expected_artifacts": expected_artifacts or ["profile.json"],
@@ -177,6 +181,7 @@ def make_attempt(
         "minimum_live_balance_usd": "30.00",
         "total_campaign_ceiling_usd": total_ceiling,
         "max_runtime_seconds": 3600,
+        "worker_setup_timeout_seconds": worker_setup_timeout_seconds,
         "max_upload_bytes": normalized["max_upload_bytes"],
         "upload_timeout_seconds": normalized["upload_timeout_seconds"],
         "worker_inputs_sha256": normalized["worker_inputs_sha256"],
@@ -275,6 +280,92 @@ def test_frozen_worker_inputs_bind_size_hash_and_upload_ceiling(
     source.write_bytes(b"different size")
     with pytest.raises(vast.CampaignError, match="size differs"):
         vast._validate_intent(vast._read_object(intent_path), intent_path)
+
+
+def test_upload_resume_window_is_bounded_and_root_admission_binds_it(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    intent_path, admission_path, dispatch_path, _ = make_attempt(
+        tmp_path, monkeypatch, upload_timeout_seconds=5400
+    )
+    intent = vast._read_object(intent_path)
+    normalized = vast._validate_intent(intent, intent_path)
+    vast._validate_admission(
+        vast._read_object(admission_path),
+        intent,
+        normalized,
+        vast._read_object(dispatch_path),
+        admission_path,
+    )
+    assert normalized["upload_timeout_seconds"] == 5400
+
+    intent["upload_timeout_seconds"] = 5401
+    with pytest.raises(vast.CampaignError, match=r"must be in \(0, 5400\]"):
+        vast._validate_intent(intent, intent_path)
+
+
+def test_worker_setup_timeout_is_frozen_and_root_admission_bound(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    intent_path, admission_path, dispatch_path, _ = make_attempt(
+        tmp_path, monkeypatch, worker_setup_timeout_seconds=450
+    )
+    intent = vast._read_object(intent_path)
+    normalized = vast._validate_intent(intent, intent_path)
+    assert normalized["worker_setup_timeout_seconds"] == 450
+    vast._validate_admission(
+        vast._read_object(admission_path),
+        intent,
+        normalized,
+        vast._read_object(dispatch_path),
+        admission_path,
+    )
+
+    approval = vast._read_object(admission_path)
+    approval["vast_admission"]["worker_setup_timeout_seconds"] = 449
+    write_json(admission_path, approval)
+    with pytest.raises(vast.CampaignError, match="worker_setup_timeout_seconds"):
+        vast._validate_admission(
+            approval, intent, normalized, vast._read_object(dispatch_path), admission_path
+        )
+
+    intent["worker_setup_timeout_seconds"] = 3601
+    with pytest.raises(vast.CampaignError, match="worker_setup_timeout_seconds"):
+        vast._validate_intent(intent, intent_path)
+
+
+def test_upload_calls_never_outlive_the_receipted_hard_stop(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    intent, admission, dispatch, offer = make_attempt(
+        tmp_path, monkeypatch, upload_timeout_seconds=5400
+    )
+    _, controller = controller_for(tmp_path, offer)
+    controller._create_one_unarmed(intent, admission, dispatch)
+    mock_campaign_host_key(monkeypatch, tmp_path)
+    hard_stop = datetime.now(UTC) + timedelta(seconds=20)
+    controller._update_attempt("vast-attempt-001", hard_stop_utc=hard_stop.isoformat())
+    observed_timeouts: list[int] = []
+
+    def stop_after_first_owned_ssh(
+        host: str,
+        port: int,
+        command: str,
+        timeout: int,
+        *,
+        known_hosts_path: Path,
+        allowed_exit_codes: tuple[int, ...] = (),
+    ) -> int:
+        del host, port, command, known_hosts_path, allowed_exit_codes
+        observed_timeouts.append(timeout)
+        raise vast.CampaignError("test stop after bounded first SSH call")
+
+    monkeypatch.setattr(vast, "_ssh_command", stop_after_first_owned_ssh)
+    with pytest.raises(vast.CampaignError, match="test stop"):
+        controller._stage_and_launch("vast-attempt-001")
+
+    assert observed_timeouts
+    assert all(0 < timeout <= 20 for timeout in observed_timeouts)
 
 
 def test_frozen_worker_input_paths_cannot_include_credentials(
@@ -842,7 +933,12 @@ def test_stage_uploads_exact_inputs_verifies_remote_hashes_and_launches_once(
             "remote_path": "valid.parquet",
         }
     ]
-    intent, admission, dispatch, offer = make_attempt(tmp_path, monkeypatch, worker_inputs=inputs)
+    intent, admission, dispatch, offer = make_attempt(
+        tmp_path,
+        monkeypatch,
+        worker_inputs=inputs,
+        worker_setup_timeout_seconds=450,
+    )
     provider, controller = controller_for(tmp_path, offer)
     controller._create_one_unarmed(intent, admission, dispatch)
     mock_path = mock_campaign_host_key(monkeypatch, tmp_path)
@@ -907,11 +1003,92 @@ def test_stage_uploads_exact_inputs_verifies_remote_hashes_and_launches_once(
     assert "WNN_ATTEMPT_ID=vast-attempt-001" in launch_commands[0]
     assert "WNN_INPUT_DIR=" in launch_commands[0]
     assert "WNN_INPUT_MANIFEST=" in launch_commands[0]
-    assert "WNN_MAX_RUNTIME_SECONDS=3600" in launch_commands[0]
+    runtime_match = re.search(r"WNN_MAX_RUNTIME_SECONDS=(\d+)", launch_commands[0])
+    assert runtime_match is not None
+    worker_runtime = int(runtime_match.group(1))
+    assert 2700 <= worker_runtime < 2850
+    assert staged["worker_runtime_seconds"] == worker_runtime
+    assert staged["worker_setup_timeout_seconds"] == 450
 
     controller._stage_and_launch("vast-attempt-001")
     assert len([command for command in commands if "nohup env" in command]) == 1
     assert len(uploads) == 2
+
+
+def test_stage_refuses_launch_without_worker_and_collection_runway(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    intent, admission, dispatch, offer = make_attempt(tmp_path, monkeypatch)
+    provider, controller = controller_for(tmp_path, offer)
+    controller._create_one_unarmed(intent, admission, dispatch)
+    mock_path = mock_campaign_host_key(monkeypatch, tmp_path)
+    hard_stop = datetime.now(UTC) + timedelta(seconds=240)
+    controller._update_attempt("vast-attempt-001", hard_stop_utc=hard_stop.isoformat())
+    commands: list[str] = []
+
+    def ssh_command(
+        host: str,
+        port: int,
+        command: str,
+        timeout: int,
+        *,
+        known_hosts_path: Path,
+        allowed_exit_codes: tuple[int, ...] = (),
+    ) -> int:
+        del host, port, timeout, allowed_exit_codes
+        assert known_hosts_path == mock_path
+        commands.append(command)
+        if "sha256sum --check --status" in command and "mv -f" not in command:
+            return 1
+        return 0
+
+    monkeypatch.setattr(vast, "_ssh_command", ssh_command)
+    monkeypatch.setattr(vast, "_rsync_push", lambda *_args, **_kwargs: None)
+
+    with pytest.raises(vast.CampaignError, match="insufficient hard-stop runway"):
+        controller._stage_and_launch("vast-attempt-001")
+
+    assert not any("nohup env" in command for command in commands)
+    assert controller._get_attempt("vast-attempt-001").get("worker_runtime_seconds") is None
+
+
+def test_rsync_push_resumes_partial_and_keeps_strict_host_pinning(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    make_attempt(tmp_path, monkeypatch)
+    source = tmp_path / "data" / "train.parquet"
+    source.parent.mkdir(parents=True, exist_ok=True)
+    source.write_bytes(b"immutable staged input")
+    known_hosts = tmp_path / ".runtime" / "vast" / "known_hosts"
+    invocations: list[tuple[list[str], dict[str, object]]] = []
+
+    def fake_run(command: list[str], **kwargs: object) -> SimpleNamespace:
+        invocations.append((command, kwargs))
+        return SimpleNamespace(returncode=0, stdout="", stderr="")
+
+    monkeypatch.setattr(vast.subprocess, "run", fake_run)
+    vast._rsync_push(
+        "ssh-proxy.example",
+        2200,
+        source,
+        "/workspace/inputs/train.parquet.part",
+        5400,
+        source.stat().st_size,
+        known_hosts,
+    )
+
+    assert len(invocations) == 1
+    command, kwargs = invocations[0]
+    assert "--partial" in command
+    assert "--append-verify" in command
+    assert "--inplace" not in command
+    assert f"--max-size={source.stat().st_size}" in command
+    ssh_options = command[command.index("-e") + 1]
+    assert "StrictHostKeyChecking=yes" in ssh_options
+    assert f"UserKnownHostsFile={known_hosts}" in ssh_options
+    assert "GlobalKnownHostsFile=/dev/null" in ssh_options
+    assert kwargs["timeout"] == 5400
+    assert command[-1] == "root@ssh-proxy.example:/workspace/inputs/train.parquet.part"
 
 
 def test_repeated_remote_integrity_failure_destroys_only_the_owned_worker(
@@ -1150,6 +1327,77 @@ def test_supervisor_hard_stop_destroys_only_the_receipt_owned_instance(
     assert provider.destroy_calls == [str(created["instance_id"])]
 
 
+def authorize_parallel_spending(admission: Path) -> None:
+    """Bind the new root spending decision without changing historical receipts."""
+    relative = "specs/adr/0015-flexible-credit-bounded-parallel-compute.md"
+    original = Path(__file__).resolve().parents[1] / relative
+    authority = vast.ROOT / relative
+    authority.parent.mkdir(parents=True, exist_ok=True)
+    authority.write_bytes(original.read_bytes())
+    approval = vast._read_object(admission)
+    approval["source_hashes"][relative] = digest(authority.read_bytes())
+    approval["vast_admission"]["spending_authority_sha256"] = digest(authority.read_bytes())
+    write_json(admission, approval)
+
+
+def test_parallel_cohort_uses_root_authority_without_evidence_release(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    intent, admission, dispatch, offer = make_attempt(
+        tmp_path, monkeypatch, stage="parallel_authorized", ceiling="6.00"
+    )
+    authorize_parallel_spending(admission)
+    provider, controller = controller_for(tmp_path, offer)
+    created = controller._create_one_unarmed(intent, admission, dispatch)
+    assert created["reserved_all_in_usd"] == "6.00"
+    assert provider.create_calls == 1
+
+
+@pytest.mark.parametrize("missing", ["authority", "source"])
+def test_parallel_cohort_requires_exact_source_bound_authority(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, missing: str
+) -> None:
+    intent, admission, dispatch, offer = make_attempt(
+        tmp_path, monkeypatch, stage="parallel_authorized", ceiling="6.00"
+    )
+    authorize_parallel_spending(admission)
+    approval = vast._read_object(admission)
+    if missing == "authority":
+        approval["vast_admission"]["spending_authority_sha256"] = "0" * 64
+    else:
+        del approval["source_hashes"]["specs/adr/0015-flexible-credit-bounded-parallel-compute.md"]
+    write_json(admission, approval)
+    provider, controller = controller_for(tmp_path, offer)
+    with pytest.raises(vast.CampaignError, match="spending authority"):
+        controller._create_one_unarmed(intent, admission, dispatch)
+    assert provider.create_calls == 0
+
+
+def test_parallel_reservations_still_cannot_exceed_twenty(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    intent, admission, dispatch, offer = make_attempt(
+        tmp_path, monkeypatch, stage="parallel_authorized", ceiling="12.00"
+    )
+    authorize_parallel_spending(admission)
+    provider, controller = controller_for(tmp_path, offer)
+    controller._create_one_unarmed(intent, admission, dispatch)
+    intent2, admission2, dispatch2, offer2 = make_attempt(
+        tmp_path,
+        monkeypatch,
+        "vast-attempt-002",
+        stage="parallel_authorized",
+        ceiling="12.00",
+        offer_id=12346,
+        machine_id=778,
+    )
+    authorize_parallel_spending(admission2)
+    provider.offer = offer2
+    with pytest.raises(vast.CampaignError, match="cumulative Vast credit ceiling"):
+        controller._create_one_unarmed(intent2, admission2, dispatch2)
+    assert provider.create_calls == 1
+
+
 def test_first_cohort_allows_exactly_four_but_not_over_four(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -1353,6 +1601,29 @@ def test_search_cannot_relax_verified_provider_filters(
     assert provider.search_calls[0]["limit"] == 20
     with pytest.raises(vast.CampaignError, match="may not override"):
         vast.search_verified_offers(provider, {"verified": {"eq": False}})
+
+
+def test_search_skips_explicitly_deverified_rows_from_live_bundles_response(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _, _, _, offer = make_attempt(tmp_path, monkeypatch)
+
+    class ShapedProvider(FakeProvider):
+        def search_offers(self, criteria: dict[str, object]) -> list[dict[str, object]]:
+            self.search_calls.append(dict(criteria))
+            return [
+                {**self.offer, "id": 54321, "is_vm_deverified": True},
+                {**self.offer, "id": 54322, "is_vm_deverified": False},
+            ]
+
+    provider = ShapedProvider(offer)
+    results = vast.search_verified_offers(
+        provider, {"gpu_ram": {"gte": 24576}, "allocated_storage": 100}
+    )
+
+    assert [row["offer"]["id"] for row in results] == [54322]
+    assert provider.search_calls[0]["verified"] == {"eq": True}
+    assert provider.search_calls[0]["type"] == "on-demand"
 
 
 def test_offer_memory_uses_live_mib_units_and_preserves_fee_quote_fields(

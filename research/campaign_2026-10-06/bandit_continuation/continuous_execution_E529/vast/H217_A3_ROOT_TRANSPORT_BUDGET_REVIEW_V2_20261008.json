@@ -1,0 +1,22 @@
+{
+  "schema": "vast-transport-budget-root-review-v2",
+  "reviewer": "root-controller",
+  "observed_utc": "2026-10-07T23:07:48.520169+00:00",
+  "status": "PASS",
+  "supersedes_review": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A3_ROOT_TRANSPORT_BUDGET_REVIEW_V1_20261008.json",
+  "source_hashes": {
+    "scripts/vast_campaign.py": "0c87feb5b6aa4f93e861516c069611545d9b3b10f8ebaf45bfab5340796930b6",
+    "tests/test_vast_campaign.py": "29c153fad5ee7430468ab4a47f5df0f36a79d04333a762a3e82ec10099285a29",
+    "specs/adr/0015-flexible-credit-bounded-parallel-compute.md": "fa4b8cd6fb759d0b494cbb7b2d55581d39a28ca4d8ff48c57a1593983378700b"
+  },
+  "focused_tests_passed": 55,
+  "checks": [
+    "Ruff check passed; Ruff format check passed.",
+    "Resumable upload has a 5400-second fresh-intent limit clipped to the immutable hard stop; full SHA verification and attempt-local host pinning remain mandatory.",
+    "Worker runtime subtracts bounded 450-second packet setup and configured collection time from actual remaining hard-stop time.",
+    "Explicit ineligible/deverified market rows are excluded; admitted snapshots still undergo strict validation.",
+    "Parallel authorization binds ADR0015; historical spending paths, aggregate20USD ceiling, live-credit checks and creation ownership remain enforced."
+  ],
+  "scope": "Review of source and focused tests. Exact new intent, offer, data, job and fresh root admission are required before creation.",
+  "provider_mutations": false
+}

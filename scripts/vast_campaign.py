@@ -46,6 +46,8 @@ MAX_CAMPAIGN_USD = Decimal("20.00")
 FIRST_COHORT_MAX_USD = Decimal("4.00")
 LATER_RELEASE_MAX_USD = Decimal("16.00")
 WORKER_STARTUP_TIMEOUT_SECONDS = 1800
+MAX_UPLOAD_TIMEOUT_SECONDS = 5400
+MAX_WORKER_SETUP_TIMEOUT_SECONDS = 3600
 MAX_COLLECTION_ATTEMPTS = 2
 DEFAULT_SSH_PUBLIC_KEY = Path.home() / ".ssh/id_ed25519.pub"
 TERMINAL_STARTUP_STATUSES = {"deleted", "exited", "failed", "offline", "stopped"}
@@ -724,8 +726,10 @@ def _validate_intent(intent: Mapping[str, object], path: Path) -> dict[str, obje
     upload_timeout = intent.get("upload_timeout_seconds")
     if isinstance(upload_timeout, bool) or not isinstance(upload_timeout, int):
         raise CampaignError("intent upload_timeout_seconds must be an integer")
-    if upload_timeout <= 0 or upload_timeout > 1800:
-        raise CampaignError("intent upload_timeout_seconds must be in (0, 1800]")
+    if upload_timeout <= 0 or upload_timeout > MAX_UPLOAD_TIMEOUT_SECONDS:
+        raise CampaignError(
+            f"intent upload_timeout_seconds must be in (0, {MAX_UPLOAD_TIMEOUT_SECONDS}]"
+        )
     offer = intent.get("offer")
     if not isinstance(offer, dict):
         raise CampaignError("intent must contain the exact selected offer snapshot")
@@ -787,6 +791,17 @@ def _validate_intent(intent: Mapping[str, object], path: Path) -> dict[str, obje
     runtime = intent.get("max_runtime_seconds")
     if isinstance(runtime, bool) or not isinstance(runtime, int) or runtime <= 0:
         raise CampaignError("intent must set a positive max_runtime_seconds")
+    setup_timeout = intent.get("worker_setup_timeout_seconds", 0)
+    if (
+        isinstance(setup_timeout, bool)
+        or not isinstance(setup_timeout, int)
+        or setup_timeout < 0
+        or setup_timeout > MAX_WORKER_SETUP_TIMEOUT_SECONDS
+    ):
+        raise CampaignError(
+            "intent worker_setup_timeout_seconds must be in "
+            f"[0, {MAX_WORKER_SETUP_TIMEOUT_SECONDS}]"
+        )
     max_bytes = intent.get("max_artifact_bytes")
     if isinstance(max_bytes, bool) or not isinstance(max_bytes, int) or max_bytes <= 0:
         raise CampaignError("intent must set a positive artifact collection byte ceiling")
@@ -817,6 +832,7 @@ def _validate_intent(intent: Mapping[str, object], path: Path) -> dict[str, obje
         "expected_artifacts": normalized_files,
         "remote_output_dir": _valid_remote_root(intent.get("remote_output_dir")),
         "max_runtime_seconds": runtime,
+        "worker_setup_timeout_seconds": setup_timeout,
         "max_artifact_bytes": max_bytes,
         "max_worker_host_ram_gb": worker_ram,
     }
@@ -965,6 +981,13 @@ def _validate_admission(
         ("worker_inputs_sha256", normalized["worker_inputs_sha256"]),
         ("max_disk_gb", payload["disk"]),
     )
+    if normalized["worker_setup_timeout_seconds"] > 0:
+        exact_pairs += (
+            (
+                "worker_setup_timeout_seconds",
+                normalized["worker_setup_timeout_seconds"],
+            ),
+        )
     for key, expected in exact_pairs:
         if vast.get(key) != expected:
             raise CampaignError(f"Vast admission {key} does not match frozen intent")
@@ -1020,6 +1043,17 @@ def _validate_admission(
             raise CampaignError("first cohort must not use a later evidence release")
         release = None
         release_receipt = None
+    elif stage == "parallel_authorized":
+        authority_relative = "specs/adr/0015-flexible-credit-bounded-parallel-compute.md"
+        authority_hash = file_sha256(ROOT / authority_relative)
+        if vast.get("spending_authority_sha256") != authority_hash:
+            raise CampaignError("parallel cohort lacks the exact spending authority")
+        if source_hashes.get(authority_relative) != authority_hash:
+            raise CampaignError("parallel spending authority is not source-bound")
+        if vast.get("evidence_release_receipt_sha256") is not None:
+            raise CampaignError("parallel cohort must not consume an evidence release")
+        release = None
+        release_receipt = None
     elif stage == "evidence_released":
         if ceiling > LATER_RELEASE_MAX_USD:
             raise CampaignError("later Vast evidence releases are limited to the remaining $16")
@@ -1030,7 +1064,9 @@ def _validate_admission(
         if release < ceiling or release > LATER_RELEASE_MAX_USD:
             raise CampaignError("later-cohort ceiling exceeds its explicit evidence release")
     else:
-        raise CampaignError("cohort_stage must be first_cohort or evidence_released")
+        raise CampaignError(
+            "cohort_stage must be first_cohort, parallel_authorized or evidence_released"
+        )
     balance_floor = _money(vast["minimum_live_balance_usd"], "minimum_live_balance_usd")
     costs = vast.get("cost_breakdown_usd")
     if not isinstance(costs, dict) or set(costs) != set(MONEY_KEYS):
@@ -1165,6 +1201,20 @@ def search_verified_offers(api: Provider, criteria: dict[str, object]) -> list[d
     rows = api.search_offers(query)
     result: list[dict[str, object]] = []
     for row in rows:
+        verification = row.get("verification")
+        if (
+            row.get("is_vm_deverified") is True
+            or (verification is not None and verification != "verified")
+            or (verification is None and row.get("verified") is not True)
+            or row.get("rentable") is not True
+            or row.get("rented") is True
+            or row.get("external") is True
+            or row.get("type") not in (None, "ondemand", "on-demand")
+        ):
+            # The bundles endpoint can return rows that do not satisfy every
+            # requested filter; omit explicit non-candidates and validate all
+            # remaining snapshot fields strictly below.
+            continue
         snapshot = _offer_snapshot(row, query_type="on-demand")
         result.append({"offer": snapshot, "offer_snapshot_sha256": canonical_sha256(snapshot)})
     return result
@@ -1343,6 +1393,7 @@ class VastCampaign:
                 "machine_id": offer_snapshot["machine_id"],
                 "offer_snapshot_sha256": normalized["offer_snapshot_sha256"],
                 "max_runtime_seconds": normalized["max_runtime_seconds"],
+                "worker_setup_timeout_seconds": normalized["worker_setup_timeout_seconds"],
                 "max_worker_host_ram_gb": str(normalized["max_worker_host_ram_gb"]),
                 "hard_deadline_seconds_after_create": normalized["max_runtime_seconds"],
                 "remote_output_dir": normalized["remote_output_dir"],
@@ -1728,8 +1779,12 @@ class VastCampaign:
         )
         return known_hosts_path
 
-    def _stage_and_launch(self, attempt_id: str) -> dict[str, object]:
+    def _stage_and_launch(
+        self, attempt_id: str, *, collection_timeout_seconds: int = 300
+    ) -> dict[str, object]:
         """Stage hash-bound files and launch once on the receipt-owned worker."""
+        if collection_timeout_seconds <= 0 or collection_timeout_seconds > 3600:
+            raise ValueError("collection timeout must be in (0, 3600] seconds")
         record = self._get_attempt(attempt_id)
         if record.get("worker_launch_status") in {"launch_uncertain", "worker_started"}:
             return _status_view(record)
@@ -1884,9 +1939,14 @@ class VastCampaign:
         upload_started_at = self._get_attempt(attempt_id).get("upload_started_at_utc")
         upload_started = _parse_time(upload_started_at, "upload_started_at_utc")
         elapsed_upload = max(0.0, (datetime.now(UTC) - upload_started).total_seconds())
-        remaining_upload = upload_timeout - elapsed_upload
+        hard_stop_value = record.get("hard_stop_utc")
+        hard_stop = _parse_time(hard_stop_value, "hard_stop_utc")
+        remaining_hard_stop = max(0, int((hard_stop - datetime.now(UTC)).total_seconds()))
+        remaining_upload = min(upload_timeout - elapsed_upload, remaining_hard_stop)
         if remaining_upload <= 0:
-            raise CampaignError("frozen packet and input total upload deadline expired")
+            raise CampaignError(
+                "frozen packet and input upload deadline expired or cohort hard stop reached"
+            )
         deadline = time.monotonic() + remaining_upload
 
         def remaining_seconds() -> int:
@@ -2000,6 +2060,32 @@ class VastCampaign:
             separators=(",", ":"),
         )
         work_dir = f"{remote_work_dir}/work"
+        hard_stop = _parse_time(record.get("hard_stop_utc"), "hard_stop_utc")
+        remaining_hard_stop = int((hard_stop - datetime.now(UTC)).total_seconds())
+        maximum_runtime = record.get("max_runtime_seconds")
+        worker_setup_timeout = record.get("worker_setup_timeout_seconds", 0)
+        if (
+            isinstance(maximum_runtime, bool)
+            or not isinstance(maximum_runtime, int)
+            or maximum_runtime <= 0
+        ):
+            raise CampaignError("owned attempt worker runtime ceiling is malformed")
+        if (
+            isinstance(worker_setup_timeout, bool)
+            or not isinstance(worker_setup_timeout, int)
+            or worker_setup_timeout < 0
+            or worker_setup_timeout > MAX_WORKER_SETUP_TIMEOUT_SECONDS
+        ):
+            raise CampaignError("owned attempt worker setup timeout is malformed")
+        worker_runtime_seconds = min(
+            maximum_runtime,
+            remaining_hard_stop - collection_timeout_seconds - worker_setup_timeout,
+        )
+        # Reserve bounded packet setup and collection before handing the remaining
+        # worker deadline to the packet. The H217 worker then reserves 90 seconds
+        # inside WNN_MAX_RUNTIME_SECONDS for its own finalization.
+        if worker_runtime_seconds <= 90:
+            raise CampaignError("insufficient hard-stop runway for worker and artifact collection")
         environment = {
             "WNN_ATTEMPT_ID": attempt_id,
             "WNN_PACKET_SHA256": packet_sha256,
@@ -2007,7 +2093,7 @@ class VastCampaign:
             "WNN_INPUT_DIR": f"{remote_work_dir}/inputs",
             "WNN_EXPECTED_ARTIFACTS": expected_json,
             "WNN_INPUT_MANIFEST": input_json,
-            "WNN_MAX_RUNTIME_SECONDS": str(record["max_runtime_seconds"]),
+            "WNN_MAX_RUNTIME_SECONDS": str(worker_runtime_seconds),
         }
         exports = " ".join(f"{key}={shlex.quote(value)}" for key, value in environment.items())
         remote_packet = f"{remote_work_dir}/packet.tar"
@@ -2025,6 +2111,8 @@ class VastCampaign:
             status="worker_launch_uncertain",
             worker_launch_status="launch_uncertain",
             worker_launch_requested_at_utc=utc_now(),
+            worker_setup_timeout_seconds=worker_setup_timeout,
+            worker_runtime_seconds=worker_runtime_seconds,
             remote_work_dir=remote_work_dir,
             upload_completed_at_utc=utc_now(),
             updated_at_utc=utc_now(),
@@ -2217,7 +2305,10 @@ class VastCampaign:
                             "worker_started",
                         }:
                             try:
-                                record = self._stage_and_launch(attempt_id)
+                                record = self._stage_and_launch(
+                                    attempt_id,
+                                    collection_timeout_seconds=collection_timeout_seconds,
+                                )
                             except (CampaignError, subprocess.SubprocessError) as error:
                                 stage_record = self._get_attempt(attempt_id)
                                 stage_attempts = stage_record.get("worker_stage_attempts", 0)
@@ -2228,6 +2319,7 @@ class VastCampaign:
                                         error, (WorkerStagingIntegrityError, WorkerStartupFailure)
                                     )
                                     or "total upload deadline expired" in str(error)
+                                    or "insufficient hard-stop runway" in str(error)
                                     or "staging retry limit reached" in str(error)
                                     or (
                                         isinstance(stage_attempts, int)
@@ -2728,6 +2820,9 @@ def _status_view(record: Mapping[str, object]) -> dict[str, object]:
         "upload_verified_files",
         "upload_verified_bytes",
         "worker_stage_attempts",
+        "max_runtime_seconds",
+        "worker_setup_timeout_seconds",
+        "worker_runtime_seconds",
         "worker_startup_status",
         "worker_startup_deadline_utc",
         "worker_launch_status",
@@ -2878,6 +2973,7 @@ def _rsync_push(
         "--no-perms",
         "--protect-args",
         "--partial",
+        "--append-verify",
         f"--max-size={max_bytes}",
         "--timeout=60",
         "-e",
