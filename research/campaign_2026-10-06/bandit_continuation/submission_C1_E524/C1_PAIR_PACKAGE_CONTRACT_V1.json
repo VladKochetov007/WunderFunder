@@ -1,0 +1,42 @@
+{
+  "created_utc": "2026-10-07T15:38:24.065567+00:00",
+  "name": "c20261007_c1_pair_i16",
+  "command": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "scripts/package_submission.py",
+    "c20261007_c1_pair_i16",
+    "bd26_c1v2_s3_f0@ep1:0.5",
+    "bd26_c1v2_s4_f0@ep1:0.5",
+    "--native-from",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261004_combo_s4_i16/pkg",
+    "--solution",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/c20261004_combo_s4_i16/pkg/solution.py",
+    "--precision",
+    "i16"
+  ],
+  "members": [
+    "bd26_c1v2_s3_f0@ep1:0.5",
+    "bd26_c1v2_s4_f0@ep1:0.5"
+  ],
+  "checkpoint_hashes": {
+    "artifacts/runs/bd26_c1v2_s3_f0/model_ep1.pt": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+    "artifacts/runs/bd26_c1v2_s4_f0/model_ep1.pt": "fd48545b6e24ec275ff0d3874590cb0c6c4e2e717bc81ff94be50a0439f162c2"
+  },
+  "implementation_basis": "Existing own Rust streaming engine and independently trained C1 checkpoints; no Maxim code or weights copied/merged into serving ZIP. Ideas and recipe inspection authorized.",
+  "source_hashes": {
+    "scripts/package_submission.py": "cc609367b4aba93a7ba6d022fe0ad44625b1e63b898232e762c8e53532897bb2",
+    "solution.py": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+    "v2/wnn_native.abi3.so": "b01becbbef79e87e61eda24fe4b15bba3a98eb5b7b7d51479ba3c22d420b82d8",
+    "avx2/wnn_native.abi3.so": "9754887ddc0a6d1745e507c5b1bdb01ea8d31da79eb25965da043de33f47bfa6",
+    "v3/wnn_native.abi3.so": "698b8b2c8b5167e2be5e1e151ef6aa3b325b12ef38c4718ceafa2db3375aa398"
+  },
+  "measured_evidence": "E511 equalpair exposedfold0 +0.001023 versusC0, no publicforecast. Nativeprecision/callback/runtime notyetverified for these newweights.",
+  "user_authorization": "Make submission from local improvement. Human upload gate retained.",
+  "delivered_zip_ready": false,
+  "validation_required": [
+    "ZIPsize/path/root entrypoint and ELFABI",
+    "OfflinePython3.11CPU-only deliveredZIP callback/reset/determinism",
+    "OwnTorch/precomputed prediction parity and officialmaskscore delta",
+    "Representative1CPU runtime versuspublicbest/60minute bound; retain tested singlemember fallback ifpairtoo slow."
+  ]
+}
