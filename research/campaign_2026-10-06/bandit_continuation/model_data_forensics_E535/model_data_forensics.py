@@ -32,7 +32,6 @@ def _():
     _e535_fig.savefig(_e535_out / "E535_event_and_target_clocks_corrected_V1.png", dpi=180)
     _e535_fig.savefig(_e535_out / "E535_event_and_target_clocks_corrected_V1.svg")
     _e535_fig
-
     return
 
 
@@ -182,6 +181,15 @@ def bounded_valid_row_group_diagnostic():
     ''' + '\n'.join(f"| {r['role']} | {r['n']} | {r['scored_rows_median']} | {r['label_events_median']:.1f} | {r['i0_events_median']:.1f} | {r['target_run_median_rows']:.1f} |" for r in role_summary) + '''
 
     The plot records two causal data clocks available before any fit. Use it to choose a matched follow-up; do not read the sample difference as an effect estimate.''')
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    # One-shot bounded descriptive diagnostic; this cell launches no model fits.
+    import runpy as _e535_runpy
+    _e535_namespace = _e535_runpy.run_path("research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_FIXED468_SCAN_V1.py", run_name="__main__")
+    _e535_namespace["FIGURE"]
 
     return
 
