@@ -1,0 +1,1 @@
+I'll re-check the real source and the round-1 boundary, then write only a public recipe with CLIs that match the code.Round 1 blocked the CLI on missing trainer and manifest source. I'll check the real flags, detach, masks, and schedule before writing any command.

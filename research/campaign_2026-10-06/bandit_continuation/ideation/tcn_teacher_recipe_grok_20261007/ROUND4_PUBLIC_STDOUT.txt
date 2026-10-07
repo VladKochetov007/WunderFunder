@@ -1,0 +1,137 @@
+The inline trainer is truncated mid-function, so I am reading only the omitted source span needed to bind the argv and state semantics.## H217 raw scratch TCN teacher, fold 0 held out
+
+This run fits one existing causal TCN from scratch and then stops. It does not distill, it does not score, and it does not admit a full fit. Legacy E346/E347 stay a different recipe (distilled α = 0.5). A weight update, including every profile step below, is not a predictive gain. No official-metric number is claimed.
+
+The architectural width stays **211**. The live width is **112**. The head writes **2** outputs. There is no auxiliary head.
+
+### Feature width raw-only actually retains
+
+`--raw-only` does not drop inputs. `build_inputs` still concatenates raw columns with the event block, and `n_in` is not reduced. The checkpoint width matches a native export.
+
+| Span | Width | What the forward sees |
+|---|---|---|
+| Raw parquet columns `0:112` | 112 | Live values |
+| Event block `112:211` | 99 | Computed, then replaced with `zeros_like` |
+| Tensor / `TCNModel.inp` / `mean` / `std` | **211** | 112 + 99 |
+| Online z-score, heuristics, research, privileged, propensity, sentinel | 0 | Flags omitted, so not appended |
+| Head outputs | **2** | No shift, struct, next, tier, mask, sign, quote, or family head |
+
+The integers 112 and 99 are fixed by the inlined `--raw-only` help text and by `token_groups` in `nn.py` (raw groups end at 112, event groups end at 211). The assignments of `N_FEATURES` and `N_EVENT_FEATURES` themselves are imported and are not in the supplied source.
+
+Scratch normalization runs on two loader batches before any timed step. Event columns are identically zero there, so their `std` collapses to the `1e-3` floor and their normalized values stay 0. Those 99 `Linear` columns stay in the parameter vector and get no input gradient.
+
+### State this argv locks
+
+- TCN, channels 128, 12 blocks, `--tcn-mix 1`. Dilations `1 .. 2048`. Receptive field `2^12 = 4096` rows. Kernel 2. Each block is pre-norm GELU, a linear map on `[a(t−d); a(t)]`, then GELU + 1×1, then a residual add.
+- State is the twelve activation tails, lengths `1+2+…+2048 = 4095`, channels 128. Chunked forward is the full-sequence forward. `detach_state` runs after every chunk, so backward depth is the chunk, not 4096.
+- Chunk 2000 with sequence length 20000 (see the limitation below) gives ten chunks of shape `(16, 2000, 211) → (16, 2000, 2)`. Dilation 2048 is longer than the chunk, so that block’s lag tap is a detached constant on every update.
+- Objective is the trainer default `--loss mix`: per-sequence weighted correlation plus `0.5` weighted MSE, weights `|clip(y, 2)|`, rows `t >= WARMUP`, predictions unclipped in the loss. That is not `global_wp_clip2_v1`.
+- AdamW + OneCycle at lr `0.001`, wd `0.01`, β2 `0.999`, clip `1.0`, fp16 autocast with `GradScaler`. Loss is computed in fp32. cuDNN deterministic is turned on by `configure_torch`.
+- Four epochs. Selected checkpoint is zero-based epoch 3, the last epoch, at the end of the cycle. Epochs 0–2 are snapshotted and not selected. No validation loader is built.
+- Fit population is the manifest train groups plus the manifest valid groups. The manifest’s evaluation groups (fold 0) stay out. `--include-heldout-valid` is illegal with a campaign manifest and is not passed.
+
+### (a) Exact argv
+
+`scripts/limited` is named by the trainer and its body is not in the supplied source, so it is not part of this command. Set the envelope in the environment, then run the profile process to completion before starting the fit process. Do not resume one from the other.
+
+```bash
+export CUDA_VISIBLE_DEVICES=0
+export WNN_THREADS=4
+export WNN_GPU_MEMORY_BYTES=4300000000
+export WNN_GPU_DUTY=1.0
+unset WNN_GPU_FRACTION
+```
+
+`WNN_THREADS=4` is `int(0.75 × 6)` from `cpu_threads`. Pinning it keeps loader-worker count stable. Leaving `WNN_LOADER_RAM_GB` unset keeps the inlined default of 6 GiB inside the 20 GB host. `4300000000` is 4.3 × 10⁹ bytes (decimal GB, not GiB). The 5 GB observed ceiling is the external device monitor. `configure_torch` enforces only the allocator fraction.
+
+Profile, 3 warmup steps + 20 measured steps, then exit. This process does call `scaler.step` twenty-three times. It returns before any checkpoint, provenance, or history write. Discard it. In a second terminal, sample the one visible GPU for the whole process:
+
+```bash
+nvidia-smi --query-gpu=timestamp,memory.used,memory.total --format=csv,noheader -lms 200
+```
+
+```bash
+.venv/bin/python scripts/train_rnn.py \
+  --name h217-tcn128l12mix1-raw-s7-fold0-profile \
+  --device cuda \
+  --arch tcn --hidden 128 --layers 12 --tcn-mix 1 \
+  --dropout 0 --enc linear \
+  --raw-only \
+  --loss mix \
+  --seed 7 \
+  --train-source train+valid \
+  --split-manifest "$FOLD0_MANIFEST" --valid-fold 0 \
+  --epochs 4 --checkpoint-policy fixed --checkpoint-epoch 3 \
+  --no-eval-during-fit \
+  --batch 16 --chunk 2000 \
+  --precision fp16 --optim adamw --sched onecycle \
+  --lr 0.001 --wd 0.01 \
+  --profile-steps 20 --profile-warmup 3
+```
+
+Launch the fit only if that process prints `PROFILE`, the allocator does not raise, and observed `memory.used` stays at or under 5 GB. Same flags, profile flags removed, fit name:
+
+```bash
+.venv/bin/python scripts/train_rnn.py \
+  --name h217-tcn128l12mix1-raw-s7-fold0 \
+  --device cuda \
+  --arch tcn --hidden 128 --layers 12 --tcn-mix 1 \
+  --dropout 0 --enc linear \
+  --raw-only \
+  --loss mix \
+  --seed 7 \
+  --train-source train+valid \
+  --split-manifest "$FOLD0_MANIFEST" --valid-fold 0 \
+  --epochs 4 --checkpoint-policy fixed --checkpoint-epoch 3 \
+  --no-eval-during-fit \
+  --batch 16 --chunk 2000 \
+  --precision fp16 --optim adamw --sched onecycle \
+  --lr 0.001 --wd 0.01
+```
+
+`$FOLD0_MANIFEST` must be the frozen component-excluded outer-fold manifest whose fold is 0. The trainer copies fold and fold count from that file and rejects a disagreeing `--valid-fold`. There is no `--n-out` switch. Output width 2 is what falls out when the loss is not `ce_joint` and every auxiliary flag is absent.
+
+Do not add `--init`, `--distill`, `--distill-cache-root`, `--distill-alpha`, `--aux`, `--aux-next`, `--aux-struct`, `--aux-tier`, `--aux-mask`, `--aux-sign`, `--aux-quote`, `--heuristics`, `--online-norm`, `--research-features`, `--privileged-mode`, `--propensity`, `--prop-input`, `--mask-weight`, `--include-heldout-valid`, `--full-valid`, `--fit-groups-manifest`, `--fast`, `--fused-adam`, `--sync-free`, `--pin-memory`, `--freeze`, `--eval-ema`, `--swa-frac`, `--save-training-state`, `--resume-state`, `--max-batches`, `--stop-after-epoch`, `--parity-dump`.
+
+`PROFILE` contains stage medians only: `h2d`, `inputs`, `weights`, `labels`, `forward`, `loss`, `backward`, `optimizer`, `gpu_total`, `loader_wait`, `step_wall`, `seq_per_s`, `syncs_per_step`. It has no memory field. The `nvidia-smi` series is the memory reading. Batches 0 and 20 also print `loss.item()`, which syncs once outside the CUDA-event span.
+
+Conditional on sequence length 20000 and raw width 112, each loader batch is `16 × 20000 × (114 × 4 + 1) = 146240000` bytes, and the device input after `build_inputs` is `16 × 20000 × 211 × 4 = 270080000` bytes. Those are identities of the tensors, not measured peaks.
+
+### (b) Recipe drift risks
+
+1. `--tcn-mix` defaults to 0. Dropping `--tcn-mix 1` trains a different block.
+2. `--loss mix` is not the distilled `wmse` path E346/E347 had to use. Setting `--distill` or `--loss wmse` makes this a student or a different objective. α = 0.5 does nothing unless distillation is on.
+3. Forward memory is 4096 rows. Backward memory is 2000, and the dilation-2048 tap is entirely inside the detached tail. The CPU long-lag oracle does not cover this fp16 detach path. Passing the profile does not re-prove that oracle.
+4. A later loader that strips the 99 zeros will disagree with checkpoint `n_in` 211.
+5. Normalization is two batches, seed 7, with `drop_last` and non-persistent workers. Changing `WNN_THREADS` or `WNN_LOADER_*` changes worker count and can change that sample and the shuffle.
+6. `--train-seqs` stays 10607. On a campaign manifest the trainer slices `train_groups` to that length and does not assert equality. A longer manifest is silently truncated.
+7. With eval withheld, `evaluation_row_groups` is still a 600-row draw, RNG 12345, from the exposed fold. The rows actually excluded from the fit are the manifest’s full evaluation set. Do not score the 600-row list as fold 0. `--full-valid` would rewrite only that recorded list. It is omitted so the argv cannot be read as a full fit.
+8. `--fast` switches on fused AdamW and turns off the per-step sync. That is a different optimizer than the one profiled.
+9. OneCycle’s `pct_start` and final division are inside `build_scheduler`, which is not in the supplied source. Epoch 3 is the scheduled end only if that scheduler really spans `epochs × steps_per_epoch`.
+10. `add_dynamics_arguments` adds flags whose defaults are not inlined, including `head_lr_mult`, gradient noise, and the optimizer switch. The specialist check compares `head_lr_mult` to 1, which is consistent with a neutral default and does not prove it. A non-neutral default would move the head off lr 0.001 without appearing in this argv.
+11. Putting `--profile-steps` on the fit command returns after 23 updates and writes no `model.pt`.
+12. In-trainer `evaluate` uses chunk 4000 and `wnn.metric`, neither of which this run calls. An fp16 score at chunk 4000 can differ from chunk 2000 even though the fp32 tail contract says the forward matches.
+13. Promoting `model_ep0.pt` … `model_ep2.pt` because the printed train loss fell selects on the mix loss. The fit never computes the official metric.
+14. Default GPU fraction 0.70 is not the 4.3 GB cap. Unsetting `WNN_GPU_MEMORY_BYTES` profiles a different ceiling. If device 0 has total memory below 4300000000 bytes, startup raises.
+15. E346/E347’s epoch count, seed, mix bit, and raw-only bit are not in the supplied source. Four epochs here is the budget you set, and it is not evidence their budget matched.
+
+### (c) One transferable component
+
+**Hold the slow delay line on quiet rows.** The TCN already carries an exact delay line: twelve tails, the longest at 2048 rows, and a forward that matches one full pass. In the same sources, labels stay constant when raw price-code columns `0:22` do not change, and `TwoClockModel` already steps a second state only when raw column `a6` (index 110) is the endpoint. This TCN does not. It advances the dilation-2048 tap on every publication, and under chunk 2000 that tap is detached anyway.
+
+The component to carry to the fixed student or the served ensemble is that slow tail used as event time: update the dilation-2048 delay line only on those quote-code changes, and hold it on quiet rows, so the 4096-row field counts events. No new output head, no change to `global_wp_clip2_v1`, and no flag on this argv. `--credit-mode`, `--origin-view`, and `--detach-boundary-jitter` all refuse a non-distilled TCN, so they cannot smuggle this in.
+
+### (d) Cheapest discriminating test
+
+1. Profile gate. Pass means `PROFILE` printed, allocator stayed inside 4300000000 bytes, observed memory stayed at or under 5 GB, and the measured keys include `forward`, `backward`, and `optimizer`. Fail means the fit is not started and the shape is not quietly shrunk.
+2. Fit the second argv. `SELECTED_FIXED 3` and `evaluation: withheld` confirm the checkpoint. The train loss is not the result.
+3. One later prediction cache of `model.pt` on the full exposed fold 0 only. The export command is not in the supplied source (`predict` exists only behind `evaluate`, which this recipe disables).
+4. On those same rows and the same official pooled metric (`global_wp_clip2_v1`, clip 2, centered moments, mean of the two targets), swap only the teacher channel in the fixed student or the served ensemble: this checkpoint against the legacy C128/L12 distilled teacher, blend weight and every other member held fixed. Report Δ = WP(this teacher) − WP(legacy teacher), plus an interval that resamples whole sequences and recomputes the pooled statistic.
+
+A confidence interval that contains 0 does not reject the arm. The swap can be underpowered, and a standalone score can disagree with the blend, which is already the E346/E347 pattern. An interval that excludes 0 is a contribution at this budget, not a new family. Sequence resampling can be too narrow if chains are the real unit. Chain ids are not in the inlined metric, so this interval is the cheap one and it is not a universal test. No public forecast.
+
+### What could not be verified inline
+
+Bound hashes, as supplied: `train_rnn.py` `0e622a87888769ff7467fadd1d1a230886008d1803099e8881e100939082467d`, `nn.py` `9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca`, `resources.py` `06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09`, `gmetric.py` `2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa`.
+
+Not in the supplied source, so not verified: the fold-0 manifest path and sha256, `load_campaign_split`, `SEQUENCE_LENGTH` (20000 is a literal in `SEQ_BYTES` and in the inactive TD ramp, not the imported constant), `wnn.data.WARMUP` against `gmetric.WARMUP = 99`, `FEATURE_NAMES` and `event_features_torch`, `wnn.metric.score`, `build_optimizer` / `build_scheduler` / `add_dynamics_arguments` defaults, `scripts/limited`, and the prediction-export CLI. `wnn.tcn_ref.TCNStream` is named as the row-at-a-time reference and is not inlined. The CPU oracle is taken as already passed.

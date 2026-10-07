@@ -1,0 +1,11 @@
+# H217 raw scratch TCN teacher: inherited evidence and new test
+
+The existing TCN implementation and NumPy serving reference are reused. E346/E347 already tested C128/L12 distilled-alpha0.5 recipes; their standalone and GRU-blend outcomes remain negative evidence for those recipes. They do not settle a scratch raw teacher with mix layers or its conditional distillation contribution. The new proposed direction has independent initialization, raw-only inputs, mix1, fixed-epoch selection and a teacher role. Its feature width remains211: raw-only zeros the99 event channels rather than shrinking the ABI.
+
+The independent CPU preflight E523 covers long-history forward state, chunk boundaries, future-prefix invariance, reset and a finite detached-chunk gradient. It does not establish training quality, FP16 GPU behaviour, hardware speed, teacher utility or competition feasibility. No full fit is admitted by this document.
+
+A useful next profile carries the actual feature, mask, optimizer and carried state paths. Declare exact model/seed/config/source, measure full updates and peak device/host memory, then allocate a bounded fit only from actual headroom and timing. A failed resource shape suggests a corrected identified shape, rather than closing the entire architecture family.
+
+The predictive endpoint should measure both standalone performance and contribution to a fixed own student or delivered blend against its declared control. Previously inspected fold0 remains exposed. Prefer an equal-budget candidate/control for a causal recipe claim, and label unmatched descriptive observations accurately. Do not add a local delta to a public score; uncertainty is evidence rather than a universal veto. Separately freeze any target/weight/epoch selection before looking at its evaluation.
+
+Grok4.7 provided a mathematical/source-bound first proposal. Rounds2/3 exhausted CLI tool turns before a final runnable recipe; that is execution evidence, not architecture evidence. Round4 supplies inline source to reduce tool rereads; if it still fails, derive argv from the existing parser and have an independent critic check it. Preserve all original outputs and prompts, and do not make another agent responsible for guessing why a source handoff was incomplete.
