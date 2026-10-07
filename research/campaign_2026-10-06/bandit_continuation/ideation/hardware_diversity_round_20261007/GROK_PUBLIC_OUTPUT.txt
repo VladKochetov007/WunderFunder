@@ -1,0 +1,153 @@
+I'll ground proposals in the campaign's research-reframe rules and the isolated context, then return only public hypothesis summaries. No files, code, or experiments.Applying the research-reframe skill. This is a read-only Grok 4.7 ideation pass: directed primary literature only, no library draw, no fits, and no launch authority. Development-fold `global_wp_clip2_v1` figures below are screens. Every map is fit from the stated seed on our own data.
+
+Shared constraints for all six: state resets at each sequence; rows 0–98 are warm-up; scored outputs use inputs at that row and earlier only; labels never enter the inference state; fit sequences and screen sequences are chain-disjoint; the official mask, ±2 clip, and label-magnitude weights stay fixed. Local throughput numbers (about 50 sequences/s, batch 32 VRAM cost, two-worker 5 GB kill, pre-CUDA hash timeout) shape the memory design. They are not speed claims for these components.
+
+## 1. Sliding-DFT bin state
+
+**Lens:** signal processing.
+
+**Source fact.** Jacobsen and Lyons, “The Sliding DFT,” IEEE Signal Processing Magazine 20(2):74–80, 2003, equation (4) and the stability discussion. DOI: [10.1109/MSP.2003.1184347](https://doi.org/10.1109/MSP.2003.1184347). A length-N bin is a comb plus a resonator. Printed recursion: \(S_k(n)=S_k(n-1)e^{j2\pi k/N}-x(n-N)+x(n)\). The pole lies on the unit circle, so finite precision can grow. The author later recommended the phase-aligned form \(S_k(n)=(S_k(n-1)-x(n-N)+x(n))e^{j2\pi k/N}\) ([discussion](https://www.dsprelated.com/showthread/comp.dsp/22070-1.php)).
+
+**Intervention.** On each instrument’s trade-price and trade-volume only, run a double-precision sliding DFT at a few bins (N in {32, 64, 128}, k in a small fixed set). Reset comb and resonator at step 0. At each row from 99, map real and imaginary bin values with a ridge head to the two targets. Use the phase-aligned recursion. Keep one undamped double-precision arm so damping is not required for the test.
+
+**Why it might help.** The state is a handful of complex scalars updated by fused multiply-adds, with a streaming normal-equation head. A completed arm is one pass plus a small solve, so an accelerator-hour can hold many (N, k, channel) arms. The teacher is a causal spectrum of trade channels, a different object from a learned gated hidden state.
+
+**Assumption.** Horizon structure in the two targets is carried by a few Fourier bins of those four series.
+
+**Observable.** On the screen, weighted Pearson of this head moves above a matched ridge on the same four raw series with the same delay N. Bin magnitudes stay bounded across all 20,000 steps.
+
+**Cheapest test.** One chain-disjoint training set; one screen; same ridge penalty; control is the raw delay line of those four channels. Single worker, stream the four columns, accumulate the Gram matrix in place.
+
+**Falsifier.** The spectral head does not beat that delay control on the screen, or any bin grows without bound in double precision.
+
+**Risk and leakage.** Delay memory is N times four channels, small beside a full-sequence training state. A 112-wide full-band DFT would erase that advantage. No future sample enters \(S_k(n)\). The head never sees labels at apply time. Damping, if added later, changes bin gain and needs its own arm.
+
+**Provenance.** N, k, channel indices, recursion form, ridge penalty, sequence-id split, Gram checksum, prediction file, and a timed full-pass profile on the hardware that runs it.
+
+## 2. Input-only extended dynamic mode decomposition
+
+**Lens:** control and dynamical systems.
+
+**Source fact.** Williams, Kevrekidis, and Rowley, “A Data-Driven Approximation of the Koopman Operator: Extending Dynamic Mode Decomposition,” Journal of Nonlinear Science 25:1307–1346, 2015, Section 2.2, equations (8)–(12). [arXiv:1408.4408](https://arxiv.org/abs/1408.4408). For a dictionary \(\Psi\), the finite Koopman matrix is the least-squares map \(K=G^{+}A\) from snapshot pairs, with eigenfunctions \(\varphi_j=\Psi\xi_j\). Section 5: on Markov data the same algorithm targets the stochastic Koopman operator.
+
+**Inference.** These anonymized inputs are not established as a Markov state. The proposal still treats the current 112-vector as the snapshot.
+
+**Intervention.** Fit K only on input pairs \((x_t,x_{t+1})\) from training sequences, using a random Fourier dictionary of size 64 (see proposal 3 for the feature law). Stream the Gram factors G and A; do not store the snapshot matrix. The teacher coordinates at row t are \(\varphi(x_t)\). A second ridge, also fit on training sequences, reads the two labels from \(\varphi(x_t)\).
+
+**Why it might help.** The heavy object is a 64×64 solve, not backpropagation through 20,000 steps, so many dictionaries can finish per accelerator-hour. The coordinates are chosen to linearize input evolution, which is a different target than a label-trained recurrent state.
+
+**Assumption.** A small dictionary makes one-step input evolution approximately linear, and those coordinates still carry label information.
+
+**Observable.** On training sequences, the one-step input residual \(\|\Psi(x_{t+1})-\Psi(x_t)K\|\) falls below a frozen-identity control. On the screen, the label ridge on \(\varphi(x_t)\) moves above the same ridge on \(\Psi(x_t)\).
+
+**Cheapest test.** One dictionary seed, one chain-disjoint split, K from inputs only, identical ridge for \(\varphi\) and for raw \(\Psi\).
+
+**Falsifier.** The residual does not fall, or the screen score of \(\varphi\) does not rise relative to \(\Psi\).
+
+**Risk and leakage.** \(x_{t+1}\) is used only while fitting K offline. The row-t prediction reads \(x_t\) alone. State for \(\varphi\) is memoryless given \(x_t\); any delay inside \(\Psi\) must stop at t. A dense dictionary on all 112 raw dimensions blows up the Gram. Streaming outer products stay far under the 5 GB worker cap if the dictionary width stays near 64. Profile the full pass before calling it faster.
+
+**Provenance.** Dictionary seed, width, frequencies, K, eigenpairs, both ridge coefficients, split ids, residual log, predictions, timed pass.
+
+## 3. Random Fourier features of a short causal window
+
+**Lens:** randomized algorithms.
+
+**Source fact.** Rahimi and Recht, “Random Features for Large-Scale Kernel Machines,” NeurIPS 2007, Section 2. [paper](https://papers.nips.cc/paper/3182-random-features-for-large-scale-kernel-machines). Bochner’s theorem supplies a Monte Carlo map whose inner products approximate a shift-invariant kernel: draw \(\omega_j\) from the spectral measure and \(b_j\) uniform on \([0,2\pi)\), and use \(z_j(u)=\sqrt{2/D}\cos(\omega_j^\top u+b_j)\).
+
+**Intervention.** Let \(u_t\) be the concatenation of inputs on \([t-L+1,t]\) with L in {4, 8}, zeros before step 0. Draw D=128 features, then solve a label-weighted ridge from \(z(u_t)\) to the two targets. Weights in the normal equations are the official clipped label-magnitude weights on training rows. The draw is data-independent.
+
+**Why it might help.** Each seed is a new teacher and a new Gram of size 128×128, accumulated in one stream. That is a direct way to finish many independent components per hour. The teacher is a kernel expansion of a short window, not a recurrent trajectory embedding.
+
+**Assumption.** Useful dependence sits inside a short shift-invariant kernel on the raw window.
+
+**Observable.** Screen weighted Pearson rises as D goes from 32 to 128 and then flattens, and it sits above a linear ridge on the same window \(u_t\).
+
+**Cheapest test.** Three widths, one L, one penalty, one split, same rows. Control is the linear window ridge.
+
+**Falsifier.** The random-feature ridge does not beat the linear window ridge at D=128, or a second draw seed moves the screen by an amount comparable to the D=32-to-128 gap (the feature draw, rather than the kernel, is the whole effect).
+
+**Risk and leakage.** The window never extends past t. Labels appear only in the training normal equations. Materializing every z row would copy the dataset; accumulating \(Z^\top W Z\) and \(Z^\top W Y\) in one pass avoids that and avoids a second loader. D=128 is the memory budget. Do not claim a sequences-per-second gain until that full pass is timed.
+
+**Provenance.** L, D, kernel bandwidth, \(\omega\), b, penalty, weight definition, split, coefficients, predictions, timed pass.
+
+## 4. Set pooling inside each instrument
+
+**Lens:** invariance and representation.
+
+**Source fact.** Zaheer, Kottur, Ravanbakhsh, Poczos, Salakhutdinov, and Smola, “Deep Sets,” NeurIPS 2017, Theorem 2. [arXiv:1703.06114](https://arxiv.org/abs/1703.06114). A function on a countable set is permutation-invariant if and only if it has the form \(\rho(\sum_i \phi(x_i))\).
+
+**Inference.** The brief says numbered price and volume channels are not guaranteed to be sorted depth. It does not say they are exchangeable. Invariance is a hypothesis, not a data fact.
+
+**Intervention.** Per instrument, treat the price-like channels as one set and the volume-like channels as another. Use a shared odd map \(\phi\) on each scalar, sum within each set, and concatenate the two instrument sums with the trade-price, trade-volume, and eight extra fields, which keep their indices. Read the two targets with the same short-window ridge as proposal 3. The matched control applies an index-aware map of the same width to the concatenated numbered channels.
+
+**Why it might help.** If the numbering is an arbitrary label, index-aware models spend capacity on a spurious order; the pooled teacher then disagrees with those models in a useful way. The sum reduces the row width before the temporal head, which cuts the Gram width. Training \(\phi\) is per-row and has no backpropagation through time.
+
+**Assumption.** Within an instrument, the numbered price channels are exchangeable, and the numbered volume channels are exchangeable.
+
+**Observable.** Screen weighted Pearson of the pooled arm rises above the index-aware control. Shuffling numbered channels inside a set, after fitting, leaves pooled predictions unchanged and moves the control.
+
+**Cheapest test.** One \(\phi\) width, one window, one split. The shuffle check is an evaluation-only permutation of screen inputs.
+
+**Falsifier.** The pooled arm loses on the screen, or the shuffle moves pooled predictions. Either result says the given order carries target information.
+
+**Risk and leakage.** Summation has no cross-time path. The window still ends at t. A learned \(\phi\) must be stored with the ridge as our own fit. Keep \(\phi\) tiny so the per-row activation stays inside the same worker memory that already killed a two-worker probe.
+
+**Provenance.** Channel-to-set assignment, \(\phi\) seed and weights, window, ridge, split, shuffle-check log, predictions, timed pass.
+
+## 5. Gaussian past–future bottleneck
+
+**Lens:** information theory.
+
+**Source facts.** Creutzig, Globerson, and Tishby, “Past-future information bottleneck in dynamical systems,” Physical Review E 79:041925, 2009. DOI: [10.1103/PhysRevE.79.041925](https://doi.org/10.1103/PhysRevE.79.041925). The state is a compressed past that retains information about the future. Chechik, Globerson, Tishby, and Weiss, “Information Bottleneck for Gaussian Variables,” JMLR 6:165–188, 2005, Theorem 3.1 and Section 7.1. [PDF](https://jmlr.org/papers/volume6/chechik05a/chechik05a.pdf). For jointly Gaussian variables the optimum is a noisy linear projection onto eigenvectors of \(\Sigma_{x|y}\Sigma_x^{-1}\), the same basis as canonical correlation analysis. Hotelling, “Relations Between Two Sets of Variates,” Biometrika 28:321–377, 1936, is the CCA source they cite.
+
+**Inference.** The competition pairs are not Gaussian. The Gaussian solution is a closed-form screen, not the optimal bottleneck. Putting the official label-magnitude weights into the covariances is an adaptation of the estimator, not part of either paper.
+
+**Intervention.** Let the past be a causal window \(u_t\) of length 8, reduced by a fixed random projection to 64 dimensions so the covariance stays small. Let the relevance variable be the two labels. Fit the Gaussian-IB projection on weighted training covariances. Predict with the resulting linear map. Vary the bottleneck parameter \(\beta\) along the phase transitions in Theorem 3.1, which changes the retained rank.
+
+**Why it might help.** Each \(\beta\) is a generalized eigenproblem on a 64-dimensional covariance accumulated in one pass, so many ranks finish per hour. The teacher maximizes a Gaussian relevance–compression tradeoff with the two labels, which is aimed at a correlation metric and is distinct from an input-dynamics basis (proposal 2) and from a shift-invariant kernel (proposal 3).
+
+**Assumption.** A linear Gaussian approximation of the past–label pair retains the dependence that weighted Pearson measures.
+
+**Observable.** As \(\beta\) crosses successive critical values, screen weighted Pearson rises and then stalls. The weighted projection beats an unweighted principal-component projection of \(u_t\) of equal rank under the same linear readout.
+
+**Cheapest test.** One window, one projection seed, four values of \(\beta\), one split. Control is equal-rank PCA of the same projected window.
+
+**Falsifier.** Rank increases leave the screen flat, or PCA matches the IB projection at equal rank.
+
+**Risk and leakage.** Covariances use training labels and training inputs only. The apply-time map reads \(u_t\). A 112×8 unprojected covariance is unnecessary and should not be formed. Streaming the 64-dimensional outer products stays inside a single worker. Profile the pass.
+
+**Provenance.** Window, projection seed, weight formula, \(\beta\) grid, eigenvalues, projection matrix, split, predictions, timed pass.
+
+## 6. Truncated signature of a time-augmented projected path
+
+**Lens:** rough paths. This is the unconventional arm.
+
+**Source fact.** Chevyrev and Kormilitzin, “A Primer on the Signature Method in Machine Learning,” arXiv:1603.03788, 2016, Section 2.3. [arXiv:1603.03788](https://arxiv.org/abs/1603.03788). The signature is the collection of iterated integrals of a path. Chen’s identity updates it when a new segment is appended. Reparameterization invariance and the shuffle product are core properties of that object.
+
+**Inference.** Invariance to reparameterization would discard the row clock. Appending the normalized step index as an extra coordinate is a deliberate break with that invariance so two-step targets can still see speed. That augmentation is not a theorem of the primer.
+
+**Intervention.** Draw a fixed ±1 map from the 112 inputs to 4 coordinates, append \(t/20000\), and maintain the depth-2 signature with Chen’s identity, reset at step 0. Depth 2 in 5 dimensions is 31 coordinates. A ridge reads the two targets. The control is the same projected path, including the time coordinate, summarized by a delay of length 8 and the same ridge. No iterated integrals in the control.
+
+**Why it might help.** The state is 31 numbers updated by a bilinear recurrence, independent of sequence length, so the fit is again one streaming Gram. The teacher encodes areas between projected channels, which a delay of the same projection does not. That is a small, sharp disagreement with current sequence models.
+
+**Assumption.** Pairwise time-ordered interactions among a few projected channels carry target information beyond the projected values themselves.
+
+**Observable.** Screen weighted Pearson of the signature ridge rises above the delay control. The fitted coefficients on the second-level block are not all numerically zero.
+
+**Cheapest test.** One projection seed, depth 2, one penalty, one split, delay control as above. CPU stream is enough for this falsification.
+
+**Falsifier.** The signature arm does not beat the delay control, or the level-2 coefficients vanish.
+
+**Risk and leakage.** Depth 3 or a wider projection makes the signature dimension explode; depth 2 and width 4 are the budget. The update uses the increment at t only. Time augmentation uses the row index inside the sequence, which is known at apply time, and uses no absolute timestamp. Labels stay in the training ridge only. Profile the full pass before any throughput claim.
+
+**Provenance.** Projection seed, depth, time coordinate definition, Chen truncation, ridge, split, level-2 coefficient norms, predictions, timed pass.
+
+## Source list
+
+- Jacobsen and Lyons, “The Sliding DFT,” IEEE Signal Processing Magazine, 2003. [10.1109/MSP.2003.1184347](https://doi.org/10.1109/MSP.2003.1184347). Equation (4); author phase correction in the [comp.dsp thread](https://www.dsprelated.com/showthread/comp.dsp/22070-1.php).
+- Williams, Kevrekidis, and Rowley, Journal of Nonlinear Science, 2015. [arXiv:1408.4408](https://arxiv.org/abs/1408.4408). Section 2.2, equations (8)–(12); Section 5.
+- Rahimi and Recht, NeurIPS 2007. [Random Features for Large-Scale Kernel Machines](https://papers.nips.cc/paper/3182-random-features-for-large-scale-kernel-machines). Section 2.
+- Zaheer et al., NeurIPS 2017. [arXiv:1703.06114](https://arxiv.org/abs/1703.06114). Theorem 2.
+- Creutzig, Globerson, and Tishby, Physical Review E, 2009. [10.1103/PhysRevE.79.041925](https://doi.org/10.1103/PhysRevE.79.041925).
+- Chechik, Globerson, Tishby, and Weiss, JMLR, 2005. [PDF](https://jmlr.org/papers/volume6/chechik05a/chechik05a.pdf). Theorem 3.1, Section 7.1.
+- Chevyrev and Kormilitzin, 2016. [arXiv:1603.03788](https://arxiv.org/abs/1603.03788). Section 2.3.
