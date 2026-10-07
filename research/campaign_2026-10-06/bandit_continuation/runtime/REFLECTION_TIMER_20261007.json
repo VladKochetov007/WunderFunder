@@ -1,0 +1,24 @@
+{
+  "requested_by_user": "After about two hours, reflect whether the low-score/low-correlation model combination direction merits continuation and what the bandit tree recommends.",
+  "scheduled_using": "systemd-run --user one-shot transient timer",
+  "issued_local": "2026-10-07T03:49:40+03:00",
+  "scheduled_delay_seconds": 7200,
+  "due_local_approx": "2026-10-07T05:49:40+03:00",
+  "timer_unit": "wnn-bandit-reflection-20261007.timer",
+  "service_unit": "wnn-bandit-reflection-20261007.service",
+  "script": "research/campaign_2026-10-06/bandit_continuation/runtime/reflect_bandit_tree_after_2h_20261007.sh",
+  "output": "research/campaign_2026-10-06/bandit_continuation/reviews/GROK_BANDIT_REFLECTION_AFTER_2H_20261007.md",
+  "model": "grok-4.7",
+  "provider": "native grok CLI via grok.com",
+  "review_mode": "read-only; plan permission; no subagents; no web; no training or submission",
+  "resource_limits": {
+    "cpu_cores": 1,
+    "memory_bytes": 1500000000,
+    "service_timeout_seconds": 660,
+    "model_timeout_seconds": 600
+  },
+  "status": "scheduled",
+  "scheduled_at_utc": "2026-10-07T00:49:40+00:00",
+  "script_sha256": "38334dcdf83ec9eb116d8701849fd6c88d4d6ad486747bb33bc4188f06efbee9",
+  "systemd_timer_registered": true
+}
