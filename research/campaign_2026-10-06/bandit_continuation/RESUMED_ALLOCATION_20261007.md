@@ -70,3 +70,7 @@ The original resume caps and failed attempts above remain historical evidence.
 GPU operator owns reviewed E520v3 hashing repair through actual cloud profile
 and then conditional scratch-pair fit/export/grade. TPU operator owns E463v2
 terminal collection and reviewed direct-source-layout repair.
+
+## Explicit local GPU reopening
+
+The user explicitly answered “Use local GPU and Kaggle now, within the new caps.” This supersedes the prior10:00 local admission cutoff and retains6CPU/20GBRAM/5GBobservedVRAM, one GPU worker and no swap. Historical receipts remain intact. [Effective scope](runtime/LOCAL_GPU_RESUME_20261007.json). E521 profiles passed; bounded full fitting follows independent recipe review.

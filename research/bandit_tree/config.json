@@ -16,11 +16,11 @@
       "memory_high_bytes": 18000000000,
       "local_allocator_initial_bytes": 4300000000,
       "local_gpu_workers_max": 1,
-      "local_admission_cutoff": "2026-10-07T10:00:00+03:00 (Europe/Kyiv); after cutoff, experiment compute is Kaggle-only",
+      "local_admission_cutoff": "Historical10:00 cutoff explicitly superseded by user localGPU+Kaggle resume on2026-10-07; see LOCAL_GPU_RESUME_20261007.json",
       "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs",
       "first_review_after_hours": 24,
       "new_experiment_compute": "Local and Kaggle; separate cloud headroom and live quota",
-      "authority": "research/campaign_2026-10-06/bandit_continuation/CONTRACT.md"
+      "authority": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_GPU_RESUME_20261007.json"
     },
     "external_reported_public_result": {
       "score": 0.6674,
@@ -329,12 +329,12 @@
       ],
       "status": "partial_exploratory_effect_uncertain",
       "claim_scope": "Fold-0 development evidence only; fixed C1v2 pair has a small positive point delta versus C0, with a zero-crossing component interval; no public-gain inference.",
-      "next_test": "Consider a separately frozen same-recipe C1v2/C0 contrast on another ancestry-clean chain fold before raising a quantitative belief; preserve the current result as exposed development evidence.",
+      "next_test": "Keep the positive but imprecise effect as unresolved development evidence. If an actually unexposed, ancestry-clean evaluation unit exists, freeze a same-recipe contrast there; otherwise test mechanism and training variation with group-OOF fitting and label it development evidence. Do not require the interval to exclude zero for eligibility or follow-up.",
       "related_nodes": [],
       "allocation": {
         "eligible": true,
         "priority": 5,
-        "reason": "E-511 pair point estimate is positive but its component-bootstrap interval includes zero on exposed fold 0. Keep lineage available as a separately gated confirmation; no numerical prior update. It ranks ahead of direct weak-pool remixing, whose E-514 endpoint stayed at the anchor.",
+        "reason": "E-511 has a positive but imprecise point effect on exposed fold 0. Keep this unresolved lineage eligible; the interval width informs what a follow-up should discriminate, not whether the idea deserves testing. No numerical public-gain prior because this exposed development comparison does not identify public transfer. It ranks ahead of direct weak-pool remixing, whose E-514 endpoint stayed at the anchor.",
         "launch_authorized": false
       },
       "belief": {
@@ -897,7 +897,8 @@
         "E-463-V2",
         "E-508-V4-TERMINAL",
         "E-508-V5",
-        "E-508-V5-BOOKKEEPING-CORRECTION"
+        "E-508-V5-BOOKKEEPING-CORRECTION",
+        "E-508-V5-MONITOR-RECONCILIATION"
       ],
       "artifacts": [
         "research/campaign_2026-10-06/STATUS_AFTER_OOM.md",
@@ -912,20 +913,24 @@
         "research/campaign_2026-10-06/cloud_preflight/tpu_prereg_v2.json",
         "research/campaign_2026-10-06/cloud_preflight/tpu_prelaunch_v2.json",
         "research/campaign_2026-10-06/cloud_preflight/e508_profile_terminal_v4.json",
+        "research/campaign_2026-10-06/cloud_preflight/e508_profile_terminal_v5.json",
+        "research/campaign_2026-10-06/cloud_preflight/e508_profile_terminal_v5_poll_receipt.json",
+        "research/campaign_2026-10-06/cloud_preflight/provider_targets.json",
+        "research/campaign_2026-10-06/cloud_preflight/provider_poll_log.jsonl",
         "research/campaign_2026-10-06/cloud_preflight/e508_profile_prereg_v5.json",
         "research/campaign_2026-10-06/cloud_preflight/e508_profile_push_attempt_v5.json",
         "research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/E508_V5_REPAIR_PREREGISTRATION_20261007.md",
         "research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/E508_V5_INDEPENDENT_PACKET_REVIEW_20261007.md",
         "research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/E508_V5_TRACKING_CORRECTION_20261007.md"
       ],
-      "status": "in_progress_gpu_profile_v5_and_tpu_preflight_v2",
+      "status": "E508_v5_profile_terminal_E463_v2_queued_E520_profile_planning",
       "claim_scope": "specific recipe / exposed-data exploration; no inferred public gain",
-      "next_test": "Monitor E-508-V5 to terminal and collect outputs/logs; validate source identity and measured T4 profile before preparing any separate fit packet. E-463-V2 remains a TPU-only queued systems preflight. No teacher fit is admitted by E-508-V5.",
+      "next_test": "E-508-v5 is terminal after profile-only capacity guard; all 57 downloaded files are hash-verified and the poller now recognizes terminal evidence. No fit or OOM occurred. Keep polling E-463-v2 as a TPU-only systems preflight. E-520 profile-only preparation requires a bounded worker and independent review plus fresh quota/resources; a separate fit review is mandatory and no teacher result is implied.",
       "related_nodes": [],
       "allocation": {
         "eligible": true,
         "priority": 5,
-        "reason": "E-508-V5 profile-only retry is pushed after independent PASS and fresh GPU quota gate; no further GPU launch is authorized until terminal evidence and profile review.",
+        "reason": "E-508-v5 ended before fitting at the frozen runtime guard, so it informs feasibility only, not teacher quality. E-520 is a distinct raw-baseline recovery plan; profile-only cloud work remains gated on an independently reviewed worker and fresh quota/resource receipt. No fit is authorized by this infrastructure node.",
         "launch_authorized": false
       },
       "belief": {
@@ -1100,18 +1105,20 @@
       "kind": "arm",
       "hypothesis_ids": [
         "H-203",
-        "H-205"
+        "H-205",
+        "H-208"
       ],
       "experiment_ids": [],
       "artifacts": [
         "research/campaign_2026-10-06/branch_teacher_audit/post_fetch_b7fd5d2f/OBSERVATIONS.md",
         "research/campaign_2026-10-06/bandit_continuation/ideation/weak_complementarity_reframe_20261007/SCOUT_PROPOSALS.md",
         "research/campaign_2026-10-06/bandit_continuation/ideation/weak_complementarity_reframe_20261007/INDEPENDENT_CRITIC_REVIEW_20261007.md",
-        "research/campaign_2026-10-06/bandit_continuation/ideation/weak_complementarity_reframe_20261007/PRIORITY_DECISION_20261007.md"
+        "research/campaign_2026-10-06/bandit_continuation/ideation/weak_complementarity_reframe_20261007/PRIORITY_DECISION_20261007.md",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/weak_model_complementarity_reframe_round2_20261007/DECISION_AND_TREE_MAPPING_20261007.md"
       ],
       "status": "not_tested",
       "claim_scope": "Proposed residual-correction and causal-gate hypotheses only; no new candidate, fit, score improvement or public forecast.",
-      "next_test": "Do not reopen E-514\u2019s fixed pool or rule. After current baseline/raw-teacher work produces a materially new ancestry-audited candidate, verify group-OOF residual signal for H-203; only then test one output-only corrector against input-only, shuffled-candidate and unchanged-anchor controls. H-205 uses legal input-state features and remains a separate child hypothesis.",
+      "next_test": "After current own-baseline/raw-teacher recovery produces a materially new ancestry-audited candidate, first test H-208's group-cross-fitted hidden-state residual signal against anchor-only and shuffled-state controls; only then fit one corrector on disjoint groups. H-205 remains a separate legal input-state output gate. E-514/E-516 pool and rules stay closed.",
       "related_nodes": [
         "arm:transformer-quiet-transfer",
         "arm:quiet-episode-specialist",
@@ -1297,15 +1304,17 @@
       "title": "Pair-Seeded Stagewise Interaction Grower",
       "kind": "arm",
       "hypothesis_ids": [
-        "H-182"
+        "H-182",
+        "H-210"
       ],
       "experiment_ids": [],
       "artifacts": [
-        "research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json"
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/weak_model_complementarity_reframe_round2_20261007/DECISION_AND_TREE_MAPPING_20261007.md"
       ],
       "status": "not_tested",
       "claim_scope": "Literature-inspired proposal only; no numerical gain prior",
-      "next_test": "Freeze number of candidates/forward-selection steps; compare equal-cost random subsets and unchanged parent. One fold, frozen features, linear head: compare pair-seeded greedy interactions vs main-effects-only head. CPU minutes.",
+      "next_test": "For H-182/H-210, freeze a bounded interaction basis on fitting groups and screen group-held-out residual information; only then compare one recurrent student against matched-parameter input-only and random-basis controls using the complete official endpoint.",
       "related_nodes": [],
       "allocation": {
         "eligible": true,
@@ -1329,15 +1338,17 @@
       "title": "Greedy Sparse Stationarity Scout for Causal State Management (unconventional)",
       "kind": "arm",
       "hypothesis_ids": [
-        "H-183"
+        "H-183",
+        "H-209"
       ],
       "experiment_ids": [],
       "artifacts": [
-        "research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json"
+        "research/campaign_2026-10-06/bandit_continuation/ideation/random_1/ideas.json",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/weak_model_complementarity_reframe_round2_20261007/DECISION_AND_TREE_MAPPING_20261007.md"
       ],
       "status": "not_tested",
       "claim_scope": "Literature-inspired proposal only; no numerical gain prior",
-      "next_test": "State resets need a causal past-only statistic and rate-matched random reset control; historical output-hold failures do not answer this distinct gate. Replay one sequence strictly causally: fixed state vs stationarity-gated reset; compare pooled weighted Pearson on that sequence. CPU seconds.",
+      "next_test": "For H-183/H-209, first test oracle reset headroom on ancestry-clean fitting groups, then train a causal reset-benefit trigger on separate groups and compare with no-reset and rate-matched sham controls on held-out groups. Oracle outcomes are diagnostic only; no exposed-fold tuning or launch authorization.",
       "related_nodes": [],
       "allocation": {
         "eligible": true,
@@ -1412,7 +1423,7 @@
       "allocation": {
         "eligible": false,
         "priority": 99,
-        "reason": "Close the exact cohort: the OOF ancestry gate failed and conditional intervals include zero. Keep the broader mechanism in the new conditional-signal child arm; do not treat E-513 as a numerical reward.",
+        "reason": "Close this exact cohort because the declared OOF ancestry gate failed; its interval is descriptive and is not the stop reason. Keep the broader mechanism in the new conditional-signal child arm; do not treat invalid-cohort values as a numerical reward.",
         "launch_authorized": false
       },
       "belief": {
@@ -2007,25 +2018,37 @@
       "hypothesis_ids": [
         "H-204"
       ],
-      "experiment_ids": [],
+      "experiment_ids": [
+        "E-515"
+      ],
       "artifacts": [
         "research/campaign_2026-10-06/bandit_continuation/ideation/weak_complementarity_reframe_20261007/SCOUT_PROPOSALS.md",
         "research/campaign_2026-10-06/bandit_continuation/ideation/weak_complementarity_reframe_20261007/INDEPENDENT_CRITIC_REVIEW_20261007.md",
-        "research/campaign_2026-10-06/bandit_continuation/ideation/weak_complementarity_reframe_20261007/PRIORITY_DECISION_20261007.md"
+        "research/campaign_2026-10-06/bandit_continuation/ideation/weak_complementarity_reframe_20261007/PRIORITY_DECISION_20261007.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/PRE_REGISTRATION.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/disagreement_screen.py",
+        "tests/test_weak_model_complementarity.py",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/INDEPENDENT_PRE_SCORE_REVIEW_20261007.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E515_REPORT.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E515_RESULT.json",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E515_RESULT_METADATA_CORRECTION_20261007.md",
+        "research/campaign_2026-10-06/bandit_continuation/ideation/weak_model_complementarity_reframe_round2_20261007/DECISION_AND_TREE_MAPPING_20261007.md"
       ],
-      "status": "proposed_deferred",
-      "claim_scope": "Untested training-example allocation hypothesis; no clean cache, student comparison, score evidence or public forecast.",
-      "next_test": "After ancestry-clean group-OOF candidate predictions exist, compare predeclared disagreement strata with matched random strata for residual/error association on separate exposed groups. Only if informative, freeze sampling probabilities and correction and run equal-compute uniform/guided/sham student recipes.",
+      "status": "completed_exposed_error_location_signal_no_fit",
+      "claim_scope": "E-515 found one exposed ab12/target-0 disagreement/error association; this is not training or official-score evidence.",
+      "next_test": "After ancestry-clean group-OOF disagreement/ambiguity scores exist on supplied training groups, freeze sampling probabilities and importance correction; compare equal-compute guided, uniform and matched-random student schedules. Do not use E-515's exposed validation disagreements as a training schedule.",
       "related_nodes": [
         "arm:teacher-crossfit",
         "arm:heterogeneous-teacher-compression",
-        "arm:dependence-regime-gate"
+        "arm:dependence-regime-gate",
+        "arm:targetwise-weak-simplex"
       ],
       "allocation": {
-        "eligible": true,
+        "eligible": false,
         "priority": 2,
-        "reason": "Distinct but lower-priority unknown-value exploration. Its no-fit screen is cheap only after clean group-OOF predictions exist; current candidate/profile recovery leads.",
-        "launch_authorized": false
+        "reason": "One ab12/target-0 exposed association passed its screen, but valid guided training requires ancestry-clean training-group OOF disagreements and matched controls; defer behind teacher/candidate recovery.",
+        "launch_authorized": false,
+        "authorization_scope": "E-515 no-fit diagnostic only; no student training."
       },
       "belief": {
         "mu": null,
@@ -2036,6 +2059,149 @@
         "update_rule": "Update only from the complete matched student endpoint comparison; no reward from disagreement/error association alone and no additive ancestor gains."
       },
       "cost_h": null
+    },
+    {
+      "id": "arm:targetwise-weak-simplex",
+      "parent_id": "family:ensemble",
+      "title": "Target-wise stacking of weak, less-correlated models",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-206"
+      ],
+      "experiment_ids": [
+        "E-516"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/SIMPLEX_STACKING_PREREGISTRATION_E516.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/simplex_stack.py",
+        "research/campaign_2026-10-06/bandit_continuation/conditional_weak_portfolio_E514/REPORT.md",
+        "research/campaign_2026-10-06/bandit_continuation/conditional_weak_portfolio_E514/INDEPENDENT_EVIDENCE_REVIEW_20261007.md",
+        "tests/test_weak_model_complementarity.py",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/INDEPENDENT_PRE_SCORE_REVIEW_20261007.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E516_REPORT.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E516_RESULT.json",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E516_SUCCESSFUL_RETRY_RECEIPT_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/plots/E516_CHAIN_SUMMARY.csv",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/plots/simplex_per_chain_delta.png"
+      ],
+      "status": "closed_exact_pool_rule_negative",
+      "claim_scope": "E-516 target-wise simplex on E-514 exposed sources selected only the anchor and slightly reduced pooled WP; no confirmation or public-gain inference.",
+      "next_test": "Do not retune this pool, simplex, ridge or member subset. Reopen only for a materially new ancestry-audited candidate cohort and a separately frozen comparison on genuinely unexposed groups.",
+      "related_nodes": [
+        "arm:conditional-signal-weak-portfolio",
+        "arm:complementarity-gated-blend",
+        "arm:disagreement-guided-training"
+      ],
+      "allocation": {
+        "eligible": false,
+        "priority": 1,
+        "reason": "E-514 and E-516 both selected the anchor on the same exposed weak pool. Close this exact rule; a different cohort or representation is required before another blend test.",
+        "launch_authorized": false,
+        "authorization_scope": "E-516 one-time prediction-only cross-fit; no training, submission, or further same-pool search."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "No numerical update from this exposed screen; future update only from a new ancestry-audited cohort and unexposed confirmation."
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:disagreement-gated-weak-blend",
+      "parent_id": "family:ensemble",
+      "title": "Rowwise disagreement-gated weak-model blend",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-207",
+        "H-211"
+      ],
+      "experiment_ids": [
+        "E-517",
+        "E-518"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/GATED_BLEND_PREREGISTRATION_E517.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/disagreement_gate.py",
+        "tests/test_weak_model_complementarity.py",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E517_single_action_eda.py",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E517_EXECUTION_REPAIR_20261007.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E517_SESSION_LEASE_TIMEOUT_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E517_INDEPENDENT_PRE_SCORE_REVIEW_20261007.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E517_POST_RUN_EXECUTION_RECEIPT_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/METRIC_ALIGNED_GATE_PREREGISTRATION_E518.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/metric_aligned_gate.py",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_metric_aligned_gate_eda.py",
+        "tests/test_metric_aligned_gate.py",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_INDEPENDENT_PRE_SCORE_REVIEW_20261007.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_PRE_SCORE_ADMISSION_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_PRIORITY_DECISION_20261007.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_PRE_ACTION_RESOURCE_RECEIPT_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_ATTEMPT_STARTED.json",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_RESULT.json",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_POST_RUN_EXECUTION_RECEIPT_20261007.json",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_REPORT.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_INDEPENDENT_EVIDENCE_REVIEW_20261007.md",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/plots/E518_METRIC_ALIGNED_GATE.png",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/plots/E518_DELTA_DETAIL.png",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_GATED_OOF_PREDICTIONS.npy",
+        "research/campaign_2026-10-06/bandit_continuation/disagreement_guided_H204/E518_GLOBAL_OOF_PREDICTIONS.npy"
+      ],
+      "status": "closed_exact_exposed_pool_gate_screen_failed",
+      "claim_scope": "E-517 WLS-fit and E-518 exact-metric gate both failed on the same exposed E-514 candidate pool. No evidence against all complementary-model mechanisms and no public-transfer claim.",
+      "next_test": "Do not run another E-514-pool blend or gate variant. Reopen only after a materially new, independently trained, ancestry-audited cohort exists; evaluate conditional residual contribution on groups excluded from model fitting and use genuinely unexposed confirmation. Keep own-baseline/raw-teacher recovery and heterogeneous-teacher compression ahead.",
+      "related_nodes": [
+        "arm:targetwise-weak-simplex",
+        "arm:disagreement-guided-training",
+        "arm:conditional-signal-weak-portfolio"
+      ],
+      "allocation": {
+        "eligible": false,
+        "priority": 1,
+        "reason": "The one admitted E-518 screen has been independently reconstructed and failed. No more same-pool analysis. New model sources and teacher recovery offer greater information and action value.",
+        "launch_authorized": false,
+        "authorization_scope": "Closed after one E-518 direct-metric gate screen on exposed predictions."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "No numeric update from this exposed screen; require a new ancestry-audited cohort and unexposed comparison."
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:wide-raw-own-teacher",
+      "parent_id": "family:teacher",
+      "title": "Independent raw-feature GRU384 capacity source",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-212"
+      ],
+      "experiment_ids": [
+        "E-521"
+      ],
+      "status": "running",
+      "manual_priority": 4,
+      "expected_public_gain": null,
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/RECIPE.json",
+        "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_RECIPE_INDEPENDENT_REVIEW_20261007_R1.json",
+        "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/FIT_ADMISSION_V3.json",
+        "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e521-w384-s3-fit-v2.json"
+      ],
+      "decision": "B8/B16 actual-data profiles passed; independently reviewed scratch full fit running. Compare matched compact seed3 when available; later teacher interaction needs separate endpoint.",
+      "allocation": {
+        "eligible": true,
+        "priority": 4,
+        "reason": "Distinct independently trained wider raw-feature teacher source; actual B16 profile and independent recipe review passed. Scientific fit is underway; matched control still pending.",
+        "launch_authorized": false,
+        "authorization_scope": "Navigation only; actual E521 admitted running fit is authorized by FIT_ADMISSION_V3.json. Tree never grants launch authority."
+      }
     }
   ],
   "links": [],
@@ -2050,6 +2216,9 @@
     "scope": "Next research decision / preparation, not job launch",
     "manual_priority_higher_is_earlier": true,
     "numeric_rank_requires": "Reviewed current absolute-WP incremental belief plus measured/declared cost. Historical public priors are not silently reused.",
+    "uncertainty": "A confidence interval crossing zero never sets eligibility or a stop by itself. It describes one estimand/design and is not a posterior over the lineage. Null numerical priors mean unknown, not zero; use qualitative priority and bounded cross-family exploration when numeric inputs are indefensible.",
+    "stop_scope": "Close an exact recipe or spending path only for relevant validity, mechanism, repeated-outcome or opportunity-cost reasons; preserve materially different descendants and specify whether a proposed follow-up is discriminating, confirmatory, diagnostic or deferred.",
+    "reward_scope": "Legacy bandit math assumes standalone/additive system gains. Do not rank a component only by standalone score when its declared role is conditional; register the interaction and evaluate a matched complete served endpoint.",
     "diversity": "Select across mechanism families; keep an exploration share alongside depth on evidence-led branches; log allocation choices",
     "correlation": "Never sum ancestor/sibling improvements. Combination nodes require their own matched endpoint measurement."
   }

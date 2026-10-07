@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "review_id": "E521_RECIPE_INDEPENDENT_REVIEW_20261007_R1",
+  "result": "PASS",
+  "scope": "Narrow independent review of E521 recipe identity, fold membership, target/weight semantics, and B16 profile record against E520 scratch-GRU128 template. This is not a fit, score, public forecast, or packaging review.",
+  "targets": {
+    "E521_RECIPE.json": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/RECIPE.json",
+      "sha256": "3ac30113507f16a555e4e65daac39567a544c395a38233fa56b936deaf6458fd"
+    },
+    "E521_PROFILE_B16_V1.json": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/PROFILE_B16_V1.json",
+      "sha256": "26e356d8d97f2cbe790712ce9369a4e5273ca73fd9572ad41dc4c799612c2c0d"
+    },
+    "E521_CONTRACT.md": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/CONTRACT.md",
+      "sha256": "3d11d12b302299c87a2b0a0485150ffcaa8d45939224b1f9ce16b36507782e6c"
+    },
+    "E520_PACKET_PLAN.json": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v2/E520_PACKET_PLAN.json",
+      "sha256": "42465f4047ec43c5fda904b532583e7192ac256a3d67322fd657ba4282ea9e13"
+    },
+    "E520_source_archive.tar": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/packet_v2/source_archive.tar",
+      "sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc"
+    },
+    "E521_B16_attempt.json": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e521-w384-b16-profile-v1.json",
+      "sha256": "c88ff317aff42ea7403ac47c8217b25920b222c2b6b166e3f1ff04affeafd1d9"
+    },
+    "E521_B16_log": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/e521-w384-b16-profile-v1.log",
+      "sha256": "35ddeb59e3124872e41995141c2bcd01d8c5e3a89a33dfcc716c9635db64c532"
+    },
+    "fold0_split.json": {
+      "path": "research/campaign-2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "E521_trainer": {
+      "path": "scripts/train_rnn.py",
+      "sha256": "0e622a87888769ff7467fadd1d1a230886008d1803099e8881e100939082467d"
+    },
+    "E520_pinned_trainer_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+    "shared_training_modules": {
+      "src/wnn/nn.py": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+      "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4"
+    }
+  },
+  "findings": [
+    {
+      "check": "declared_width_contrast",
+      "result": "pass",
+      "detail": "Normalizing E520's fit template seed placeholder to seed 3 and ignoring run-name differences, the E521 conditional fit command differs only at --hidden: 128 to 384. Both use GRU/linear raw-only features, batch 16, chunk 2000, same seed, optimizer/scheduler, learning rate/weight decay, fp16, four epochs, fixed epoch 3, and no in-fit evaluation."
+    },
+    {
+      "check": "B16_profile_command_and_result",
+      "result": "pass",
+      "detail": "The B16 profile command matches the E521 fit recipe apart from run name and --profile-warmup 2/--profile-steps 8. The actual attempt record is terminal with exit_status=0 and no failure; it completed in 20.16 seconds with peak scoped RAM 4,300,406,784 bytes, parent RAM 14,278,795,264 bytes, and observed total VRAM 2,622,488,576 bytes. Its log shows the profile early-return after 8 timed batches; no fit completion or checkpoint is claimed. These are completed attempt measurements, not current live resource readings."
+    },
+    {
+      "check": "targets_and_official_metric_boundary",
+      "result": "pass",
+      "detail": "The reviewed trainer defines --raw-only as the raw 112-column feature view. The unchanged weighted_mse_loss clips training labels to +/-2 and weights by the absolute clipped label; with loss_norm=chunk it is applied per chunk. This training target treatment does not alter official global_wp_clip2_v1 evaluation clipping. The profile performs no scoring."
+    },
+    {
+      "check": "split_and_ancestry",
+      "result": "pass",
+      "detail": "The same fold0 manifest SHA is used. In the actual B16 profile log, source train groups=10,535, eligible/used fitting-valid groups=1,405, and evaluation groups=468. The manifest excludes corrupt train.parquet row group 528 from fit.train and keeps fold0 evaluation groups out of train+valid fitting. Initialization, distillation/cache, propensity, and auxiliary flags are empty or zero; the weights are scratch-trained and have no teammate-weight ancestry. Fold0 is exposed development data."
+    },
+    {
+      "check": "trainer_source_revision",
+      "result": "pass_with_qualification",
+      "detail": "E521 uses current train_rnn.py SHA 0e622a87888769ff7467fadd1d1a230886008d1803099e8881e100939082467d; E520's pinned archive contains trainer SHA 8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf, while E520 also recorded the same current-workspace trainer hash as E521. Comparing the E520 archive's 47 files with the E521 B16 attempt manifest, the only present-code difference is train_rnn.py; its additions implement distillation-cache/family-target options. With E521's empty distillation/cache flags and zero family weight, those branches are disabled and the raw training path remains the same. The E520 archive also contains an unrelated C++ screen source absent from the local runtime source manifest; this GRU recipe does not use it. Do not describe trainer files as byte-identical; bind exact source hashes in any result."
+    },
+    {
+      "check": "claim_scope",
+      "result": "pass",
+      "detail": "E521 declares no expected public gain. The recipe and successful profile establish a runnable width variant and shape/resource evidence only; they establish no accuracy improvement, teacher value, or public-score transfer."
+    }
+  ],
+  "verification": {
+    "commands_compared": [
+      "E521 RECIPE.json conditional_fit_command",
+      "E521 PROFILE_B16_V1.json command",
+      "E520 E520_PACKET_PLAN.json fit_argv_template"
+    ],
+    "local_source_diff": "Compared all 47 archived E520 source files against the E521 B16 attempt's source manifest and inspected the trainer diff; no fit was run for this review.",
+    "profile_artifacts": "Read the identified B16 attempt receipt and its terminal log; the profile itself was executed by the assigned root/operator, not this reviewer."
+  },
+  "limits": [
+    "No fitted E521 or E520 weights, prediction arrays, or scores were reviewed; this is not a scientific result.",
+    "No fresh public forecast is supported by this recipe or profile.",
+    "The E521 trainer source file hash differs from E520's pinned trainer file hash, although the recipe path difference is limited to unused distillation extensions; any paired-result claim must retain this source-level qualification.",
+    "No --save-training-state flag appears in the conditional fit command; training-state saving remains off."
+  ]
+}
