@@ -914,13 +914,26 @@ def _validate_admission(
         raise CampaignError("root admission attempt_id differs from frozen intent")
     if dispatch_receipt.get("attempt_id") != normalized["attempt_id"]:
         raise CampaignError("dispatcher pre-submit receipt attempt_id differs")
-    if (
-        dispatch_receipt.get("lane") != "vast"
-        or dispatch_receipt.get("status") != "launch_uncertain"
-    ):
+    dispatch_status = dispatch_receipt.get("status")
+    if dispatch_receipt.get("lane") != "vast" or dispatch_status not in {
+        "launch_uncertain",
+        "submitted",
+    }:
         raise CampaignError("Vast mutation requires the root dispatcher's persisted launch intent")
     if dispatch_receipt.get("job_sha256") != approval.get("job_sha256"):
         raise CampaignError("dispatcher pre-submit receipt is not bound to root admission job hash")
+    if dispatch_status == "launch_uncertain" and "returncode" in dispatch_receipt:
+        raise CampaignError("uncertain dispatcher receipt cannot contain a completed return code")
+    if dispatch_status == "submitted":
+        returncode = dispatch_receipt.get("returncode")
+        if isinstance(returncode, bool) or not isinstance(returncode, int) or returncode != 0:
+            raise CampaignError("submitted dispatcher receipt must record a successful return code")
+        observed = _parse_time(dispatch_receipt.get("observed_utc"), "dispatch observed_utc")
+        observed_now = datetime.now(UTC)
+        if observed > observed_now or observed_now - observed > timedelta(seconds=120):
+            raise CampaignError(
+                "submitted dispatcher receipt is outside the fresh 120-second window"
+            )
     payload_value = normalized.get("create_payload")
     offer_value = normalized.get("offer")
     runtime_value = normalized.get("max_runtime_seconds")

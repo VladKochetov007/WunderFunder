@@ -1,0 +1,18 @@
+{
+  "schema": "vast-dispatch-status-root-review-v3",
+  "reviewer": "root-controller",
+  "observed_utc": "2026-10-07T23:14:19.478538+00:00",
+  "status": "PASS",
+  "extends_review": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A3_ROOT_TRANSPORT_BUDGET_REVIEW_V2_20261008.json",
+  "source_hashes": {
+    "scripts/vast_campaign.py": "ea1cbc2161e06f01fba07d6d9c5116dc4e143e1475e2a41a57aa0bb4dc8fd193",
+    "tests/test_vast_campaign.py": "2826eec0c346887c388f5ecbad4320a67e24976c53cfdc46a0153a87c4ef621d"
+  },
+  "focused_tests_passed": 56,
+  "test_wall_seconds": 0.58,
+  "findings": [
+    "No-block dispatcher returns before adapter reads receipt; submitted state is legitimate only with successful literal returncode0, exact job/attempt/lane and observed time <=120s.",
+    "Existing source-bound fresh root admission and pre-submit creation time window remain required. needs_review and failed/stale submissions remain rejected.",
+    "No creation ownership or budget checks relaxed."
+  ]
+}

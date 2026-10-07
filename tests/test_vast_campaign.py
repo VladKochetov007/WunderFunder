@@ -304,6 +304,41 @@ def test_upload_resume_window_is_bounded_and_root_admission_binds_it(
         vast._validate_intent(intent, intent_path)
 
 
+def test_root_admission_accepts_only_fresh_successful_submitted_dispatch_receipt(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    intent_path, admission_path, dispatch_path, _ = make_attempt(tmp_path, monkeypatch)
+    intent = vast._read_object(intent_path)
+    normalized = vast._validate_intent(intent, intent_path)
+    approval = vast._read_object(admission_path)
+    dispatch = vast._read_object(dispatch_path)
+    dispatch.update(
+        status="submitted",
+        returncode=0,
+        observed_utc=datetime.now(UTC).isoformat(),
+    )
+    vast._validate_admission(approval, intent, normalized, dispatch, admission_path)
+
+    dispatch["returncode"] = 1
+    with pytest.raises(vast.CampaignError, match="successful return code"):
+        vast._validate_admission(approval, intent, normalized, dispatch, admission_path)
+
+    dispatch["returncode"] = 0
+    dispatch["observed_utc"] = (datetime.now(UTC) - timedelta(seconds=121)).isoformat()
+    with pytest.raises(vast.CampaignError, match="fresh 120-second window"):
+        vast._validate_admission(approval, intent, normalized, dispatch, admission_path)
+
+    dispatch["observed_utc"] = datetime.now(UTC).isoformat()
+    dispatch["job_sha256"] = "e" * 64
+    with pytest.raises(vast.CampaignError, match="not bound to root admission job hash"):
+        vast._validate_admission(approval, intent, normalized, dispatch, admission_path)
+
+    dispatch["job_sha256"] = approval["job_sha256"]
+    dispatch["status"] = "needs_review"
+    with pytest.raises(vast.CampaignError, match="persisted launch intent"):
+        vast._validate_admission(approval, intent, normalized, dispatch, admission_path)
+
+
 def test_worker_setup_timeout_is_frozen_and_root_admission_bound(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
