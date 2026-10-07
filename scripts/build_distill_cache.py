@@ -19,6 +19,7 @@ from wnn.distillation_cache import (
     CACHE_FORMAT,
     CACHE_VERSION,
     FAMILY_ORDER,
+    MAIN_VARIANTS,
     SEQUENCE_ROWS,
     file_sha256,
     row_groups_sha256,
@@ -330,6 +331,23 @@ def _array_entry(path: Path, row_groups: list[int], array: np.ndarray) -> dict[s
     }
 
 
+def _selected_main_variants(requested: list[str] | None) -> tuple[str, ...]:
+    """Keep the legacy three variants by default and validate opt-in subsets."""
+    selected = tuple(MAIN_VARIANTS if requested is None else requested)
+    if not selected or len(set(selected)) != len(selected):
+        raise ValueError("main target variants must be nonempty and unique")
+    if set(selected) - set(MAIN_VARIANTS):
+        raise ValueError(f"main target variants must be selected from {MAIN_VARIANTS}")
+    return selected
+
+
+def _estimated_cache_bytes(fit_rows: int, main_variants: tuple[str, ...]) -> int:
+    """Estimate only the arrays this cache build will write."""
+    if fit_rows <= 0 or not main_variants:
+        raise ValueError("cache size needs fitting rows and at least one main target")
+    return fit_rows * SEQUENCE_ROWS * 4 * (2 * len(main_variants) + 8)
+
+
 def build_cache(args: argparse.Namespace) -> Path:
     """Create the fixed four-family distillation targets without retaining array copies."""
     data_root = args.data_root.resolve()
@@ -351,6 +369,7 @@ def build_cache(args: argparse.Namespace) -> Path:
         raise ValueError("homogeneous family must be one of the declared teacher families")
     if args.chunk_sequences < 1 or args.chunk_sequences > 64:
         raise ValueError("chunk sequence count must be between 1 and 64")
+    main_variants = _selected_main_variants(args.main_variant)
 
     target_orders = {name: _target_order(data_root, name) for name in ("train", "valid")}
     row_groups = {
@@ -384,7 +403,7 @@ def build_cache(args: argparse.Namespace) -> Path:
     if output_path.exists():
         raise FileExistsError(f"refusing to replace existing cache directory: {output_path}")
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    estimated_bytes = fit_rows * SEQUENCE_ROWS * 4 * (2 * 3 + 8)
+    estimated_bytes = _estimated_cache_bytes(fit_rows, main_variants)
     usage = shutil.disk_usage(output_path.parent)
     free_floor = int(args.min_free_gb * (1 << 30))
     output_budget = int(args.output_budget_gb * (1 << 30))
@@ -403,9 +422,7 @@ def build_cache(args: argparse.Namespace) -> Path:
         groups = row_groups[split_name]
         position = {group: index for index, group in enumerate(target_orders[split_name])}
         shapes = {
-            "main_source": (len(groups), SEQUENCE_ROWS, 2),
-            "main_normalized": (len(groups), SEQUENCE_ROWS, 2),
-            "main_homogeneous": (len(groups), SEQUENCE_ROWS, 2),
+            **{f"main_{variant}": (len(groups), SEQUENCE_ROWS, 2) for variant in main_variants},
             "families": (len(groups), SEQUENCE_ROWS, 8),
         }
         outputs = {
@@ -425,13 +442,13 @@ def build_cache(args: argparse.Namespace) -> Path:
                 source_chunk, args.teacher, FAMILY_ORDER, args.homogeneous_family
             )
             stop = start + len(selected)
-            for name, values in (
-                ("main_source", main),
-                ("main_normalized", normalized),
-                ("main_homogeneous", homogeneous),
-                ("families", families),
-            ):
-                outputs[name][start:stop] = values
+            main_targets = {
+                "main_source": main,
+                "main_normalized": normalized,
+                "main_homogeneous": homogeneous,
+            }
+            for name in outputs:
+                outputs[name][start:stop] = families if name == "families" else main_targets[name]
         for array in outputs.values():
             array.flush()
         for name, array in outputs.items():
@@ -450,6 +467,7 @@ def build_cache(args: argparse.Namespace) -> Path:
         "fit_groups": {"train": list(split.train_groups), "valid": list(split.valid_groups)},
         "evaluation_valid_groups": list(split.evaluation_groups),
         "family_order": list(FAMILY_ORDER),
+        "main_variants": list(main_variants),
         "source_coefficients": [
             {
                 "family": source.family,
@@ -504,6 +522,12 @@ def main() -> None:
     )
     parser.add_argument("--expected-coefficient-sum", type=float, default=0.8125)
     parser.add_argument("--chunk-sequences", type=int, default=8)
+    parser.add_argument(
+        "--main-variant",
+        action="append",
+        choices=MAIN_VARIANTS,
+        help="write only the requested main target variant(s); default writes all three",
+    )
     parser.add_argument("--output-budget-gb", type=float, default=30.0)
     parser.add_argument("--min-free-gb", type=float, default=25.0)
     args = parser.parse_args()

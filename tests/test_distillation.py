@@ -20,6 +20,21 @@ from wnn.distillation_cache import CACHE_FORMAT, CACHE_VERSION, FAMILY_ORDER, ro
 from wnn.splits import CampaignSplit
 
 
+def test_source_and_family_cache_omits_unused_main_variants_from_r1_budget() -> None:
+    from scripts.build_distill_cache import _estimated_cache_bytes, _selected_main_variants
+
+    source_only = _selected_main_variants(["source"])
+    all_variants = _selected_main_variants(None)
+
+    assert source_only == ("source",)
+    assert _estimated_cache_bytes(11_940, source_only) == 9_552_000_000
+    assert _estimated_cache_bytes(11_940, all_variants) == 13_372_800_000
+    with pytest.raises(ValueError, match="nonempty and unique"):
+        _selected_main_variants([])
+    with pytest.raises(ValueError, match="nonempty and unique"):
+        _selected_main_variants(["source", "source"])
+
+
 def test_teacher_mix_preserves_source_scale_and_family_means() -> None:
     sources = (
         TeacherSource("strong", "strong3", 0.15),
