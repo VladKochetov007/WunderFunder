@@ -60,6 +60,14 @@ Deepen promising directions and escape repeated uninformative loops. Move a stal
 
 The authoritative reusable workflow is [research/RESEARCH_METHODS.md](research/RESEARCH_METHODS.md). Existing tree tooling:
 
+The compact [research pipeline](specs/research-pipeline.md) connects portfolio
+renewal, independent ideation, interaction experiments and warm compute delivery.
+Use `research-portfolio-control` when selecting/reframing lineages and
+`research-compute-throughput` when loading/setup or idle lanes limit measured
+results. They complement the actor/critic research workflow and do not add an
+approval layer. Treat the task as a quant brainteaser when useful: interrogate
+measurement, anonymous encodings, causal clocks and invariants as well as models.
+
 - `research/hypotheses.jsonl`, `research/experiments.jsonl`: append-only scientific records.
 - `research/bandit_tree/config.json`, `journal.jsonl`: curated lineage/allocation decisions.
 - `scripts/research_tree.py --root . build`, `check`, `rank`: generated navigation, integrity and optional ranking.
@@ -118,6 +126,8 @@ Read each selected `SKILL.md`; user instructions override its generic defaults. 
 | Skill | Location / purpose |
 |---|---|
 | `$conduct-creative-research` | `.agents/skills/conduct-creative-research/SKILL.md`; research contract, independent actor/critic/grader roles, evidence and stopping. Read its empirical-validation reference for score interpretation. |
+| `$research-portfolio-control` | [.agents/skills/research-portfolio-control/SKILL.md](.agents/skills/research-portfolio-control/SKILL.md); mechanism diversity, explicit combinations, evidence-driven deepening and fresh-context renewal. |
+| `$research-compute-throughput` | [.agents/skills/research-compute-throughput/SKILL.md](.agents/skills/research-compute-throughput/SKILL.md); phase measurements, verified warm cohorts, end-to-end delivery and bounded scaleout. |
 | `$wnn-connectome-top1` | `.agents/skills/wnn-connectome-top1/SKILL.md`; root competition metric/exposure/serving constraints. Historical resource numbers defer to the latest user allocation. |
 | `$marimo-pair` | `~/.agents/skills/marimo-pair/SKILL.md`; paired EDA through a running notebook kernel. Discover sessions rather than assuming an old port/service still exists. |
 | `$python-standards` | `.agents/skills/python-standards/SKILL.md`; meaningful Python changes and focused checks. |

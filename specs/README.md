@@ -23,6 +23,10 @@ a universal stop rule; see [ADR-0009](adr/0009-uncertainty-is-not-a-kill-switch.
 
 These files are compact specifications, not replacements for research evidence. [General research methods](../research/RESEARCH_METHODS.md) explain the full workflow; [research tree](../research/bandit_tree/generated/INDEX.md) and campaign records index individual hypotheses, experiments and artifacts. Follow raw evidence links before making claims.
 
+[Research pipeline](research-pipeline.md) is the compact portfolio/compute entry
+point: diverse independent proposals, explicit combinations, fresh-context renewal,
+warm cohorts and scaling from useful ready work and measured costs.
+
 The latest user instruction overrides older specifications and allocations. Record that change and its effective scope. Current-state entries are mutable; frozen recipes, results and raw artifacts are immutable. ADRs explain consequential decisions: append a new ADR when changing one, mark the old decision superseded and link its successor. Do not silently change an experiment already admitted.
 
 Maintain this folder after a meaningful change to objective, evidence basis, allocation policy, scientific recipe or execution ownership. Update current state after a result or failure changes the next action. Do not fill the main agent's context with the entire historical archive.

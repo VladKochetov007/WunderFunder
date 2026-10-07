@@ -1,5 +1,9 @@
 # Evidence basis and current state
 
+## Corrected Kaggle fit submitted — 2026-10-08 02:55 Kyiv
+
+H232V5 was independently replayed and mutation-tested, root-sealed with unchanged scientific worker/source/plan, and pushed once. Actual kernel `vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v5` is providerRUNNING; payload fitting is not yet observed. [Approval](../research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v5/H232_V5_ROOT_FINAL_APPROVAL_20261008_R1.json) and [push receipt](../research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v5/H232_V5_PROVIDER_PUSH_RECEIPT_20261008_R1.json). Root owns monitoring, terminal checkpoint collection, bounded GPU validation export and independent grade. V4 remained no-fit due two false guards; its historical artifacts are preserved. Vast owned A3D transfer observation found9.94GB partial train bytes, not verified training input; supervisor remains active and hardstop unchanged.
+
 ## Matched result and delivery repair — 2026-10-08 02:48 Kyiv
 
 H230's matched family-on/off fixed-seed comparison landed:0.681719502 versus0.681658487,delta+0.000061015, exposed468-group chain-bootstrap interval[-0.000091445,0.000210497]. This small positive effect keeps the family eligible; priority shifts toward the independent all-data paired endpoint and stronger diverse teachers. Own public best remains0.6660; H230 public0.6649; teammate0.6674 unreplicated. [Controller reflection](../research/campaign_2026-10-06/bandit_continuation/CONTROLLER_REFLECTION_20261008_0248.md) links the independent forensic report, Astra critique, matched grade and allocation decisions.
