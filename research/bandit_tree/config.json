@@ -19,8 +19,9 @@
       "local_admission_cutoff": "Historical10:00 cutoff explicitly superseded by user localGPU+Kaggle resume on2026-10-07; see LOCAL_GPU_RESUME_20261007.json",
       "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs",
       "first_review_after_hours": 24,
-      "new_experiment_compute": "Local and Kaggle; separate cloud headroom and live quota",
-      "authority": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_GPU_RESUME_20261007.json"
+      "new_experiment_compute": "Local and Kaggle plus campaign-owned Vast within $4 initial/$20 cumulative all-in; separate measured headroom",
+      "authority": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_GPU_RESUME_20261007.json",
+      "paid_compute_authority": "specs/adr/0013-owned-paid-compute-and-continuous-queue.md"
     },
     "external_reported_public_result": {
       "score": 0.6674,
@@ -137,6 +138,17 @@
       "id": "family:unclassified",
       "title": "Unresolved classification",
       "keywords": []
+    },
+    {
+      "id": "family:online-learning",
+      "title": "Within-sequence online learning and adaptive state",
+      "keywords": [
+        "online learning",
+        "test-time learning",
+        "fast weights",
+        "adaptive dynamics",
+        "self-supervised adaptation"
+      ]
     }
   ],
   "curated_nodes": [
@@ -320,21 +332,23 @@
         "H-131"
       ],
       "experiment_ids": [
-        "E-511"
+        "E-511",
+        "E-524-C1-PUBLIC-RESULTS-20261007"
       ],
       "artifacts": [
         "research/campaign_2026-10-06/bandit_continuation/local/E511_C1V2_C0_EVALUATION_v1/REPORT.md",
         "research/campaign_2026-10-06/bandit_continuation/local/E511_C1V2_C0_EVALUATION_v1/report.json",
-        "research/campaign_2026-10-06/bandit_continuation/local/C1V2_C0_PAIRED_GRADER_SPEC.json"
+        "research/campaign_2026-10-06/bandit_continuation/local/C1V2_C0_PAIRED_GRADER_SPEC.json",
+        "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_PUBLIC_RESULTS_20261007_V1.json"
       ],
-      "status": "partial_exploratory_effect_uncertain",
-      "claim_scope": "Fold-0 development evidence only; fixed C1v2 pair has a small positive point delta versus C0, with a zero-crossing component interval; no public-gain inference.",
+      "status": "local_gain_vs_C0_public_single_regression",
+      "claim_scope": "E511 local positive vs matched C0; subsequently C1 singles scored0.6647/0.6654 public below incumbent0.6660. Full heterogeneous H230 recipe untested.",
       "next_test": "Keep the positive but imprecise effect as unresolved development evidence. If an actually unexposed, ancestry-clean evaluation unit exists, freeze a same-recipe contrast there; otherwise test mechanism and training variation with group-OOF fitting and label it development evidence. Do not require the interval to exclude zero for eligibility or follow-up.",
       "related_nodes": [],
       "allocation": {
         "eligible": true,
-        "priority": 5,
-        "reason": "E-511 has a positive but imprecise point effect on exposed fold 0. Keep this unresolved lineage eligible; the interval width informs what a follow-up should discriminate, not whether the idea deserves testing. No numerical public-gain prior because this exposed development comparison does not identify public transfer. It ranks ahead of direct weak-pool remixing, whose E-514 endpoint stayed at the anchor.",
+        "priority": 1,
+        "reason": "Public single endpoints regressed; retain useful weights/components, do not repeat identical uploads. Prioritize full-family H230 fit and materially changed descendants, not another minimal-C1 seed without a changed mechanism.",
         "launch_authorized": false
       },
       "belief": {
@@ -2786,6 +2800,376 @@
         "H-212",
         "H-232"
       ]
+    },
+    {
+      "id": "arm:online-feature-dynamics",
+      "parent_id": "family:online-learning",
+      "title": "Causal adaptive feature dynamics and innovation readout",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-240"
+      ],
+      "experiment_ids": [
+        "E-530-ONLINE-PROTOCOL-V1"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/CONTROLLER_PROPOSALS_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/BRIEF.md",
+        "src/wnn/online_dynamics.py",
+        "tests/test_online_dynamics.py",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/ONLINE_DYNAMICS_PROTOCOL_V1.json"
+      ],
+      "status": "cpu_protocol_passed_no_task_fit",
+      "allocation": {
+        "eligible": true,
+        "priority": 3,
+        "launch_authorized": false,
+        "reason": "User-requested independent family in protected exploration allocation; keep leading teacher/student jobs independently owned. No target result yet; null numerical prior.",
+        "authorization_scope": "CPU numerical protocol complete for H240. Future task fits require concrete recipe and fresh resource admission."
+      },
+      "next_test": "Fit the same readout on fixed, warm-up-only and continuously adapted latent dynamics; score full endpoint, not auxiliary prediction error."
+    },
+    {
+      "id": "arm:learned-fast-weight-state",
+      "parent_id": "family:online-learning",
+      "title": "Offline-trained self-supervised fast-weight recurrence",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-241"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/CONTROLLER_PROPOSALS_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/BRIEF.md"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "User-requested independent family in protected exploration allocation; keep leading teacher/student jobs independently owned. No target result yet; null numerical prior.",
+        "authorization_scope": "CPU numerical protocol complete for H240. Future task fits require concrete recipe and fresh resource admission."
+      },
+      "next_test": "Matched recurrent/no-write/learned-write controls; reset/prefix and full/chunk/row parity before a small independently trained teacher."
+    },
+    {
+      "id": "arm:task-aligned-online-adapter",
+      "parent_id": "family:online-learning",
+      "title": "Task-aligned causal self-supervised adapter updates",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-242"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/CONTROLLER_PROPOSALS_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/BRIEF.md",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/PROPOSALS.md",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/cards.json",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/SYNTHESIS_V1.md"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "User-requested independent family in protected exploration allocation; keep leading teacher/student jobs independently owned. No target result yet; null numerical prior.",
+        "authorization_scope": "CPU numerical protocol complete for H240. Future task fits require concrete recipe and fresh resource admission."
+      },
+      "next_test": "Joint offline model with and without online updates versus meta-trained updates; only observed feature transitions feed online loss."
+    },
+    {
+      "id": "arm:online-expert-reliability",
+      "parent_id": "family:online-learning",
+      "title": "Adaptive expert reliability from observable proxy errors",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-243"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/CONTROLLER_PROPOSALS_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/BRIEF.md"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "User-requested independent family in protected exploration allocation; keep leading teacher/student jobs independently owned. No target result yet; null numerical prior.",
+        "authorization_scope": "CPU numerical protocol complete for H240. Future task fits require concrete recipe and fresh resource admission."
+      },
+      "next_test": "New independently trained expert cohort; compare fixed/adaptive/stale proxy-error gates on full target endpoint with sequence reset.",
+      "mechanism_kind": "interaction",
+      "scientific_parent_hypotheses": [
+        "H-205",
+        "H-240"
+      ]
+    },
+    {
+      "id": "arm:online-robust-statistics",
+      "parent_id": "family:online-learning",
+      "title": "Robust fast/slow sequence-local feature statistics",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-244"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/PROPOSALS.md",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/cards.json",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/SYNTHESIS_V1.md"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "Independent Luna/max directed literature and seeded random-library component; no numerical prior, protected exploration. Follow controller corrections on naive replay and serving-vs-training eligibility.",
+        "authorization_scope": "Proposal only; future bounded recipe and fresh resource admission required."
+      },
+      "next_test": "Matched fitted raw/cumulative/one-timescale/fast-slow views; exact parent recipe and causal update order.",
+      "mechanism_kind": "interaction",
+      "scientific_parent_hypotheses": [
+        "H-238"
+      ]
+    },
+    {
+      "id": "arm:online-bayesian-regimes",
+      "parent_id": "family:online-learning",
+      "title": "Feature-likelihood regime posterior over own experts",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-245"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/PROPOSALS.md",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/cards.json",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/SYNTHESIS_V1.md"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "Independent Luna/max directed literature and seeded random-library component; no numerical prior, protected exploration. Follow controller corrections on naive replay and serving-vs-training eligibility.",
+        "authorization_scope": "Proposal only; future bounded recipe and fresh resource admission required."
+      },
+      "next_test": "Equal/constant/posterior/stale posterior mixtures with identical own experts and no task-label updates.",
+      "mechanism_kind": "interaction",
+      "scientific_parent_hypotheses": [
+        "H-205"
+      ]
+    },
+    {
+      "id": "arm:prequential-training",
+      "parent_id": "family:online-learning",
+      "title": "Prequential supervised training with fixed deployment weights",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-246"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/PROPOSALS.md",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/cards.json",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/SYNTHESIS_V1.md"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 1,
+        "launch_authorized": false,
+        "reason": "Independent Luna/max directed literature and seeded random-library component; no numerical prior, protected exploration. Follow controller corrections on naive replay and serving-vs-training eligibility.",
+        "authorization_scope": "Proposal only; future bounded recipe and fresh resource admission required."
+      },
+      "next_test": "Same initialization and fitting groups, equal update budget, chronological/shuffled training controls; inference has no label-fed updates."
+    },
+    {
+      "id": "arm:spectral-adaptation-trigger",
+      "parent_id": "family:online-learning",
+      "title": "Innovation-spectrum trigger for sparse adaptation",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-247"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/PROPOSALS.md",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/native_scout/cards.json",
+        "research/campaign_2026-10-06/bandit_continuation/online_learning_E530/SYNTHESIS_V1.md"
+      ],
+      "status": "source_grounded_untested",
+      "allocation": {
+        "eligible": true,
+        "priority": 1,
+        "launch_authorized": false,
+        "reason": "Independent Luna/max directed literature and seeded random-library component; no numerical prior, protected exploration. Follow controller corrections on naive replay and serving-vs-training eligibility.",
+        "authorization_scope": "Proposal only; future bounded recipe and fresh resource admission required."
+      },
+      "next_test": "Train-calibrated block-preserving spectral null versus equal-rate random/no trigger; evaluate complete adaptation endpoint.",
+      "mechanism_kind": "interaction",
+      "scientific_parent_hypotheses": [
+        "H-242",
+        "H-245"
+      ]
+    },
+    {
+      "id": "arm:warm-verified-research-cohort",
+      "parent_id": "family:infrastructure",
+      "title": "Warm verified data sessions across diverse experiment cohorts",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-248"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json"
+      ],
+      "status": "source_grounded_untested",
+      "scientific_parent_hypotheses": [
+        "H-213"
+      ],
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "User-requested independent approach; null numerical prior; preserve exploration and freeze bounded recipe before admission.",
+        "authorization_scope": "Scientific proposal registered; existing execution contract applies to future admitted jobs."
+      },
+      "next_test": "Measure identical cold versus warm recipes with artifact equality and full overhead/cost accounting."
+    },
+    {
+      "id": "arm:causal-window-distribution-shape",
+      "parent_id": "family:representation",
+      "title": "Causal trailing-window distribution shape",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-249"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json"
+      ],
+      "status": "source_grounded_untested",
+      "scientific_parent_hypotheses": [
+        "H-244",
+        "H-235"
+      ],
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "User-requested independent approach; null numerical prior; preserve exploration and freeze bounded recipe before admission.",
+        "authorization_scope": "Scientific proposal registered; existing execution contract applies to future admitted jobs."
+      },
+      "next_test": "Streaming/prefix parity followed by matched baseline/statistics/window-shape own teacher fit."
+    },
+    {
+      "id": "arm:causal-lagged-feature-coupling",
+      "parent_id": "family:representation",
+      "title": "Causal lagged and cross-channel feature coupling",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-250"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json"
+      ],
+      "status": "source_grounded_untested",
+      "scientific_parent_hypotheses": [
+        "H-249"
+      ],
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "User-requested independent approach; null numerical prior; preserve exploration and freeze bounded recipe before admission.",
+        "authorization_scope": "Scientific proposal registered; existing execution contract applies to future admitted jobs."
+      },
+      "next_test": "Compare lag-zero/lagged coupling with train-only channel selection and matched fitting budget."
+    },
+    {
+      "id": "arm:causal-nonlinear-feature-morphology",
+      "parent_id": "family:representation",
+      "title": "Bounded nonlinear temporal feature morphology",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-251"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json"
+      ],
+      "status": "source_grounded_untested",
+      "scientific_parent_hypotheses": [],
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "User-requested independent approach; null numerical prior; preserve exploration and freeze bounded recipe before admission.",
+        "authorization_scope": "Scientific proposal registered; existing execution contract applies to future admitted jobs."
+      },
+      "next_test": "Small selected nonlinear summaries versus distribution-only and equal-dimensional nuisance controls."
+    },
+    {
+      "id": "arm:feature-context-teacher-interaction",
+      "parent_id": "family:ensemble",
+      "title": "Causal feature regime context \u00d7 complementary teacher",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-252"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md",
+        "research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/CARDS_V1.json"
+      ],
+      "status": "source_grounded_untested",
+      "scientific_parent_hypotheses": [
+        "H-238",
+        "H-249",
+        "H-250",
+        "H-230"
+      ],
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "User-requested independent approach; null numerical prior; preserve exploration and freeze bounded recipe before admission.",
+        "authorization_scope": "Scientific proposal registered; existing execution contract applies to future admitted jobs."
+      },
+      "next_test": "Measure complete fixed-student endpoint against both parents and fixed-mixture control.",
+      "mechanism_kind": "interaction"
+    },
+    {
+      "id": "arm:rogii-directed-source-transfer",
+      "parent_id": "family:representation",
+      "title": "Independent Grok/Muse transfer from ROGII first-place writeup",
+      "kind": "arm",
+      "hypothesis_ids": [],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/README.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_BINDING_V1.json",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/GROK_TASK.md",
+        "research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/MUSE_TASK.md"
+      ],
+      "status": "ideation_in_progress",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "User-directed independent source transfer. Pending actual provider proposals, not model-quality evidence.",
+        "authorization_scope": "Bounded source-only Grok4.7/MuseSpark ideation; no fits."
+      },
+      "next_test": "Archive independent final provider proposals, cluster duplicates and register concrete mechanism/interaction children before bounded recipes."
     }
   ],
   "links": [],

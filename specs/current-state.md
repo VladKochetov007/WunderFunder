@@ -1,5 +1,23 @@
 # Evidence basis and current state
 
+## Reconciled research and idea register — 2026-10-07T22:04:21.973150+00:00
+
+[All curated directions](../research/campaign_2026-10-06/bandit_continuation/IDEA_REGISTER.md) and [new causal-feature/warm-session cards](../research/campaign_2026-10-06/bandit_continuation/causal_feature_and_warm_session_E531/PROPOSALS_V1.md) preserve the existing backlog and add H248–H252 with null numerical priors. [ROGII transfer](../research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/README.md) has separate full-source Grok/Muse prompts; provider requests are not completed proposals. The selected prior screen had 14 scientific directions; four new causal-feature/interaction hypotheses expand that to 18, plus H248 systems work. Directed-source ideation has no fixed child count before outputs land.
+
+H230 seed3 fit/export/package checks landed. Its independent exposed-data grade is in [the sealed receipt](../research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_INDEPENDENT_GRADE_V1.json): positive versus its warm parent, below the frozen incumbent FP32 source reconstruction. No new public best or validated public forecast. Matched family-off control is actually running under attempt `h230-hetero-familyoff-s3-sourcev2-20261008-v1`; it is needed for treatment interpretation. Candidate package availability does not imply promotion.
+
+Kaggle E520 V12 is completed and collected (profile only): measured loader wait dominated its wall time. H232 loader2/prefetch1 full-feature B8 profile was root-reviewed and pushed once; canonical returned slug `h232-full-feature-gru384-b8-loader2-profile-v1` is RUNNING but initially had no worker logs. TPU V5 remains queued in the latest operator snapshot; no fit claimed. Cloud profiles precede separately admitted fits.
+
+Vast A1 failed inventory HTTP410 before any creation. The owned local unit was stopped; installed-SDK v1 inventory transport repair passed 45 focused checks, and root's actual read-only API verification returned zero instances and $19.65 credit. No rental/spend or connection to another machine is claimed. Fresh root admission is required for the identified successor; old admission/dispatch records remain preserved.
+
+Earlier snapshots below remain historical evidence; current status must use terminal receipts and live provider reconciliation.
+
+
+## Live parallel execution — 2026-10-08 Kyiv
+
+H230 candidate is actually training in epoch 1 (second epoch), with zero attempt OOM/OOM-kill deltas; fixed-epoch export and packaging follow. Kaggle GPU V12 has been pushed and is provider RUNNING, with payload phase still unverified. TPU V4 failed at a missing packaged helper before compute; terminal artifacts collected, about 40.7 seconds quota delta and its large provider reservation released. V5 embeds the unchanged helper with SHA verification and has been pushed under independent root review. Vast H217 packet and 37.103 GB input manifest are built, four local worker checks passed; no rental yet. Actual team-account SSH attachment, live offer schema, startup and collection retry repairs are owned by the lifecycle actor. Approach diversity precedes extra seeds; already planned comparisons remain eligible. Current public best remains 0.6660; no new scored submission.
+
+
 ## Continuous compute instruction and actual H230 fit — 2026-10-08 Kyiv
 
 The user explicitly requires useful local/Kaggle/Vast execution until they say to stop; [ADR0014](adr/0014-continuous-useful-compute.md) records the standing rule. H230 seed-3 candidate attempt `h230-hetero-s3-fit-sourcev2-20261008-v1` started at 2026-10-07 21:05:05 UTC in its durable guarded worker. Epoch-0 batch/update logs confirm actual fitting. Worker caps are 3 CPU/9 GB/2,400 seconds; observed VRAM about 2.21 GB, parent RAM peak about 15.25 GB below 18 GB high, and observed OOM counters zero at the first live reconciliation. No checkpoint, grade or new public result is claimed yet. Its owner prepares fixed-epoch export and matched-control successors. [Bound source/resource contract](../research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_RESOURCE_BINDING_V3_SOURCEV2_20261008.json).

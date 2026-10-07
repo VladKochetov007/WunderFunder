@@ -1,5 +1,56 @@
 # Live frontier — resumed independent training
 
+## Reconciled research and idea register — 2026-10-07T22:04:21.973150+00:00
+
+[All curated directions](IDEA_REGISTER.md) and [new causal-feature/warm-session cards](causal_feature_and_warm_session_E531/PROPOSALS_V1.md) preserve the existing backlog and add H248–H252 with null numerical priors. [ROGII transfer](rogii_transfer_E532/README.md) has separate full-source Grok/Muse prompts; provider requests are not completed proposals. The selected prior screen had 14 scientific directions; four new causal-feature/interaction hypotheses expand that to 18, plus H248 systems work. Directed-source ideation has no fixed child count before outputs land.
+
+H230 seed3 fit/export/package checks landed. Its independent exposed-data grade is in [the sealed receipt](wide_baseline_heterogeneous_H230/H230_SEED3_INDEPENDENT_GRADE_V1.json): positive versus its warm parent, below the frozen incumbent FP32 source reconstruction. No new public best or validated public forecast. Matched family-off control is actually running under attempt `h230-hetero-familyoff-s3-sourcev2-20261008-v1`; it is needed for treatment interpretation. Candidate package availability does not imply promotion.
+
+Kaggle E520 V12 is completed and collected (profile only): measured loader wait dominated its wall time. H232 loader2/prefetch1 full-feature B8 profile was root-reviewed and pushed once; canonical returned slug `h232-full-feature-gru384-b8-loader2-profile-v1` is RUNNING but initially had no worker logs. TPU V5 remains queued in the latest operator snapshot; no fit claimed. Cloud profiles precede separately admitted fits.
+
+Vast A1 failed inventory HTTP410 before any creation. The owned local unit was stopped; installed-SDK v1 inventory transport repair passed 45 focused checks, and root's actual read-only API verification returned zero instances and $19.65 credit. No rental/spend or connection to another machine is claimed. Fresh root admission is required for the identified successor; old admission/dispatch records remain preserved.
+
+Earlier snapshots below remain historical evidence; current status must use terminal receipts and live provider reconciliation.
+
+
+[Proposal register](IDEA_REGISTER.md) includes warm-session H248, causal-feature H249–H251 and teacher-interaction H252, alongside all existing curated arms. Registered proposals are not completed experiments.
+
+## Actual execution supersedes historical preparation snapshots — 2026-10-08
+
+H230 seed-3 candidate is in its second training epoch, OOM deltas zero. Kaggle GPU V12 is provider RUNNING (payload phase not yet verified); TPU V5 repair is pushed after V4 missing-helper failure and terminal collection. H217 Vast workload is built but no instance rented; lifecycle repair is the concrete dependency. Prioritize H232 full-feature recurrent teachers and H217 TCN in parallel with H230, before additional seed sweeps. Fourteen planned hypothesis directions include six main mechanisms and eight online arms; operational profiles/controls are not additional ideas. Public incumbent remains0.6660. Older unrun/access-blocked entries below are preserved history.
+
+
+## New public evidence: C1 singles scored below the incumbent
+
+The user reported C1 seed 3 **0.6647** and seed 4 **0.6654** (about 33 minutes / 624 MB each). Own public best remains **0.6660**. [Portal-result receipt](submission_C1_E524/E524_PUBLIC_RESULTS_20261007_V1.json). These supersede earlier “upload-ready/unscored” snapshots below. Lower priority for repeating this exact minimal-C1 recipe or identical uploads; preserve component/interaction value. The full H230 student fit remains unrun and remains a leading task. No new Vast instance is rented; all paid activity is still staged behind actual execution access and lifecycle enforcement.
+
+## Online-learning exploration / replication status
+
+[E530](online_learning_E530/README.md) adds H240–H247: causal adaptive dynamics, learned fast weights, task-aligned adapters, adaptive expert reliability, robust statistics, Bayesian regimes, training-time prequential updates and spectral-trigger interactions. Five controller-prototype CPU checks passed independent review; no online model fit or score. Independent native literature/library proposals are preserved; requested external CLIs were blocked at local state storage before inference. This family uses protected exploration and does not gate existing leading jobs.
+
+Own public best remains 0.6660; the full Maxim-inspired result has not been reproduced. Completed C1 singles remain upload-ready partial-distillation candidates. H230 cache/profile are complete, but its student fit remains unrun. Prepared source/queue and code tests must not be called an active fit or a failed scientific replication.
+
+## Current E529 preparation / E528 result — 2026-10-07
+
+[Saved approved plan](../../../specs/plans/2026-10-07-continuous-research.md): 55% leading directions, 30% independent exploration, 15% confirmation/serving/systems. Paid budget $4 initial / $20 cumulative, only campaign-created instances; choose across the market, no offer selected/rented. Older no-paid and running snapshots below are preserved history.
+
+[E528-A2](decoded_feature_efficiency_E528/E528_REPORT_A2.md) completed: exact decoded-feature parity, measured subset cache break-even five passes, 342 MB peak tree RSS, 12.685 s worker wall. Root artifact verification passed. No full-fit speedup or score claim.
+
+[E529 queue and implementation](continuous_execution_E529/README.md): H217 TCN / H232 event-feature wide teacher recipes prepared; H218 causal block-memory prototype passed independent CPU checks; H230 comparison repair preserves architecture while switching auxiliary loss off; H233 frozen-parent readout implementation active. Recipe locking and frozen parent weights do not defer these arms. Current session GPU/systemd/provider-DNS access remains unavailable, so no new fit, rental or background dispatcher is claimed. Own C1 singles remain the delivered upload candidates; public best stays 0.6660.
+
+## E527 efficiency allocation
+
+[Selection V2](optimization_next_moves_E527/FOLLOWUP_SELECTION_V2.md) completes the delegated optimization study. Next systems measurement: E528 bounded decoded-feature reuse benchmark, owned by Luna/max `h230_delivery_resume`; independent E527 source audit owned by `cloud_delivery_resume`. The hardware scout has completed. Keep PyTorch/cuDNN training and our Rust serving engine. Consider independent fits per GPU before DDP, and a single economical measured Vast device before a larger paid cohort. No rental, matched cloud profile, new fit or public gain follows from the study alone. The original raw-input padding and blanket teacher/student fitting-disjointness suggestions are superseded by the source corrections in V2.
+
+## Latest reconciliation: comparison results and execution boundary
+
+E525 matched own-weight CPU benchmarks are complete. Same float32: Rust85.17µs/row vsC++88.89; strict identicalFP16body/F32state:57.42 vs59.65 (one member),116.02 vs121.34 (pair). The C++ integer8 VNNI path is faster, but forcedAVX2 changes that comparison and its activation precision differs from our q8. [Detailed GPU/CPU/precision/storage comparison](engine_efficiency_E525/COMPARISON.md), [prospective device matrix](engine_efficiency_E525/GPU_EFFICIENCY_MATRIX_V1.md). Independent review passed with bounded scope and documentation caveats; subsequent precision-source binding/TPU wording corrections are preserved.
+
+OwnC1 seed3/seed4 singleZIPs passed final independent technical delivery review and are ready for the human upload gate; ownpublicbest remains0.6660, no newpublicscore. H230 cache/fullshape profile passed (2.226GBobservedVRAM,noOOM); seed3 fit preflight/7GB3CPU2400s allocation is ready, but nofitattempt is evidenced in durable receipts at this boundary. E520V10 input/liveUUIDpassed then failed relative-split lookup; V11 absolute stagedpath and realfixture cwd test are prepared, with independentreview/packet pending. E463v3 actualeight-v5e systems/finitegradient/oneupdate/reload preflight passed; notscientificfit or warmedthroughput.
+
+Latest managedenvironment cannot access hostsystemd/GPU or resolve api.kaggle.com. Re-established nativeLuna/max owners are finishing code/packet/diagnostic preparation insideworkspace; do not inferhostjob liveness from inaccessibleobservers or blindlyduplicatejobs. Fresh actualresource/quota gates precedenew computeadmission. Accessfailure doesnotnegate scientificarms. H-233–H-239 preserve seven review_2 componentideas withnull numericalpriors, including refinements/interactions, in the tree. Top1/>0.700 remain activeobjectives; uncertainty is not a universalarm-kill gate.
+
+
 Live controller reconciliation at 2026-10-07T15:55:50.639194+00:00: Public best remains 0.6660. Own C1 pair ZIP is built and offline CPU/ABI/parity/runtime checks plus single-seed alternatives are owned by e520_cloud_delivery; no new ZIP is yet delivery-approved. User explicitly requires independently written teammate-inspired code (ADR0012), superseding direct reference-code execution. E521 seed3/4 fits and both train/valid exports completed without observed OOM; equal raw pair scored 0.674093 on 468 exposed groups versus 0.672810/0.671273 members, not a matched width gain or public forecast. H230 actual eight-teacher/sixteen-export source seal passed independent review; actor owns fresh cache-stage disk/data/resource admission under existing conditional allocation, then profile/fits. E520 V9 terminal ERROR after 526s before trainer because a prior-session GPU UUID was pinned; terminal artifacts collected, fit remains unlaunched and V10 unadmitted while submission delivery is prioritized. E463 TPU remains queued. Scheduled Grok4.7 reflection completed exit0 at15:53Z; advice needs factual reconciliation with live source review/admission and user-systemd cgroup. Aggregate limits remain6CPU/20GBRAM/5GBobservedVRAM; Docker submission checks reserve1CPU/1GB separately within that aggregate.
 
 

@@ -1,0 +1,15 @@
+# Manual independent ideation prompt
+
+Paste the following into Freebuff, Grok, OpenCode or another coding-agent session opened in this repository. Select Muse Spark if accessible; otherwise record the actual selected model. Do not show other agents' proposals before this response is saved. The full frozen source-only prompt is also in `MUSE_TASK.md` beside this file.
+
+---
+
+Read `writeups/rogii_top1.txt` in full. Use `.agents/skills/research-reframe/SKILL.md` and `.agents/skills/conduct-creative-research/SKILL.md` for an ideation-only task. Work independently and do not read other ideators' outputs.
+
+Our task is Wunder Connectome Challenge2: supplied sequences of 112 anonymous numerical input channels, two regression targets, deterministic causal row-by-row inference with sequence reset. Evaluation is the fixed official weighted Pearson metric with +/-2 clipping and original label-magnitude weights. Training clipping is a separate variable. Train our own weights and independently implement methods; no teammate code or weights may be copied. Only permitted supplied data/public pretrained sources. Large research teachers are allowed with a compression/serving path. Do not assume geological semantics or invariants exist in our anonymous channels.
+
+Generate at least six distinct, implementable research hypothesis cards inspired by the writeup, including at least one unconventional small-component transfer. A headline can be irrelevant while its aggregation, calibration, augmentation, rare-jump belief state, geometry, auxiliary loss or conditional-diversity detail transfers. Make a serious effort to extract something useful, without inventing applicability. Causally unsafe bidirectional smoothing/symmetric U-Nets need a causal substitute or a separately justified training-only teacher; no future inputs at inference.
+
+For each card provide: local ID; source section/component; structural analogy; intervention; assumptions; leakage/causality risks; predicted observable; cheapest bounded test and matched control; exact-recipe falsifier; approximate cost tier (no invented timings); parent/interaction links; and level-2 follow-ups. Include weak standalone models as possible useful teachers/residuals/ensemble members and evaluate the complete combined endpoint. Keep numerical priors/public forecasts null until measured; a confidence interval crossing zero is not an automatic rejection.
+
+Existing directions include heterogeneous recurrent-teacher distillation, causal TCN, wider event-feature GRU, block memory, online feature dynamics and causal rolling heuristic features. Go beyond merely paraphrasing these. Rank a diverse top three by long-term usefulness and information gain. Return standalone markdown proposals and a compact integration table. Report the actual tool/provider/model. Do not run fits, change budgets/evaluators, access credentials or read other proposals. Save final public ideas to a new `research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/manual_<actual-model>_PROPOSALS.md`; no private reasoning transcript.
