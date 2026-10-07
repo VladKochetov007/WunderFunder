@@ -48,6 +48,8 @@ The teammate-inspired direction is heterogeneous recurrent-teacher distillation 
 
 ## How the bandit-like research tree works
 
+Latest diagnostic exception: [ADR0016](specs/adr/0016-exact-reference-diagnostic-training.md) records the user's explicit request to train the identified Maxim source unchanged with our fresh weights for comparison and EDA. This supersedes the earlier no-direct-run rule only for isolated reference diagnostics. No teammate weights or source code enter our production submission pipeline.
+
 Use **objective → mechanism family → direction → hypothesis → experiment**. Give combinations explicit interaction nodes and parent links. Preserve ancestor evidence without assuming gains add or a failed parent makes descendants impossible.
 
 The controller allocates bounded effort across leading lineages, independent exploration and confirmation/serving. Unknown arms may have null numerical priors and qualitative priorities. Update measured cost, effect and uncertainty only from actual relevant runs. Infrastructure/access failure provides execution evidence, not a negative scientific result. An individually weaker model may still improve a teacher target, residual, representation or served blend; measure that contribution.
