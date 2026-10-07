@@ -22,6 +22,7 @@ The latest user instruction overrides older instructions, specs and campaign all
 | Context management without information loss | [ADR0002](specs/adr/0002-layered-evidence-memory.md) |
 | Diverse LLMs and random/directed literature | [ADR0003](specs/adr/0003-independent-diverse-ideation.md), [idea generation](specs/idea-generation.md) |
 | Independent weights and target treatments | [ADR0004](specs/adr/0004-independent-training-and-target-variants.md) |
+| Independent implementation of shared teammate methods | [ADR0012](specs/adr/0012-independent-teammate-method-implementation.md); inspect ideas and details, write our own code and builds |
 | End-to-end result ownership | [ADR0005](specs/adr/0005-result-ownership-and-independent-arms.md), [agent contract](specs/agent-contract.md) |
 | Continuous execution and repair | [ADR0010](specs/adr/0010-continuous-experiment-delivery.md); keep an active owner for runnable next steps and overlap the next recipe with cloud execution |
 | OOM prevention and autonomous repair | [ADR0006](specs/adr/0006-resource-safe-autonomous-execution.md), [execution](specs/experiment-execution.md) |
