@@ -6,9 +6,9 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 826 · raw hypothesis rows 222 · raw experiment rows 568 · legacy arms 18 · catalog files 59561.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 850 · raw hypothesis rows 234 · raw experiment rows 570 · legacy arms 18 · catalog files 59687.
 
-Config snapshot: [research/bandit_tree/generated/snapshots/config-dfa23f53253f9ddb24ebcf16b8a6ac74cf92ac34972d4bc77825ecad49f85568.json](<snapshots/config-dfa23f53253f9ddb24ebcf16b8a6ac74cf92ac34972d4bc77825ecad49f85568.json>).
+Config snapshot: [research/bandit_tree/generated/snapshots/config-4181f4a673b5f5db453b0f073252440e01ce44c1dedbdf9af2f5900d40eaba80.json](<snapshots/config-4181f4a673b5f5db453b0f073252440e01ce44c1dedbdf9af2f5900d40eaba80.json>).
 
 Missing or ambiguous artifact and relationship links are called out below and in `tree.json` warnings. The recursive file inventory is in `catalog.json`; generated output is excluded.
 
@@ -111,19 +111,41 @@ Missing or ambiguous artifact and relationship links are called out below and in
     - **claim_scope:** Independent literature proposal; no fit, resource estimate or quality gain verified
     - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/ideas_solar_20261007.json>)
     - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json](<../../campaign_2026-10-06/bandit_continuation/ideation/directed_net2net/job_solar_20261007_proposal.json>)
-- **Independent raw-feature GRU384 capacity source** (`arm:wide-raw-own-teacher`) — seed3_fit_export_completed_grade_pending; eligible=True.
+- **Independent raw-feature GRU384 capacity source** (`arm:wide-raw-own-teacher`) — seed3_descriptive_grade_completed_seed4_training; eligible=True.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/RECIPE.json](<../../campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/RECIPE.json>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_RECIPE_INDEPENDENT_REVIEW_20261007_R1.json](<../../campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_RECIPE_INDEPENDENT_REVIEW_20261007_R1.json>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/FIT_ADMISSION_V3.json](<../../campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/FIT_ADMISSION_V3.json>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e521-w384-s3-fit-v2.json](<../../campaign_2026-10-06/bandit_continuation/runtime/attempts/e521-w384-s3-fit-v2.json>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/FIT_EXPORT_RESULT_V1.json](<../../campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/FIT_EXPORT_RESULT_V1.json>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/FIT_EXPORT_REPORT_V1.md](<../../campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/FIT_EXPORT_REPORT_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_S3_EXCLUDED_FOLD0_RESULT_V2.json](<../../campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_S3_EXCLUDED_FOLD0_RESULT_V2.json>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_S3_EXCLUDED_FOLD0_REPORT_V2.md](<../../campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_S3_EXCLUDED_FOLD0_REPORT_V2.md>)
 - **Parallel linear recurrence as complementary TPU teacher** (`arm:tpu-parallel-recurrence-teacher`) — source_grounded_untested; eligible=True.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md](<../../campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md>)
 - **Hardware-shaped causal TCN teacher** (`arm:hardware-causal-tcn`) — source_grounded_untested; eligible=True.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md](<../../campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md>)
 - **Block-recurrent causal attention teacher** (`arm:hardware-block-attention`) — source_grounded_untested; eligible=True.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md](<../../campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md>)
+- **Sparse echo-state reservoir with streaming readout** (`arm:hardware-reservoir`) — source_grounded_untested; eligible=True.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md](<../../campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md>)
+- **Liquid microstate with input-dependent retention** (`arm:hardware-liquid-retention`) — source_grounded_untested; eligible=True.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md](<../../campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md>)
+- **Sliding-DFT state on trade channels** (`arm:hardware-sliding-dft`) — source_grounded_untested; eligible=True.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md](<../../campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md>)
+- **Input-only EDMD coordinates** (`arm:hardware-edmd`) — source_grounded_untested; eligible=True.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md](<../../campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md>)
+- **Random Fourier features on short causal windows** (`arm:hardware-random-fourier`) — source_grounded_untested; eligible=True.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md](<../../campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md>)
+- **Instrument-wise invariant pooling** (`arm:hardware-invariant-pooling`) — source_grounded_untested; eligible=True.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md](<../../campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md>)
+- **Gaussian predictive information bottleneck** (`arm:hardware-gaussian-ib`) — source_grounded_untested; eligible=True.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md](<../../campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md>)
+- **Time-augmented depth2 path signature** (`arm:hardware-path-signature`) — source_grounded_untested; eligible=True.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md](<../../campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md>)
+- **Shared semantic group encoder before small recurrent core** (`arm:hardware-semantic-encoder`) — source_grounded_untested; eligible=True.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/NATIVE_IDEAS_PRE_GROK.md](<../../campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/NATIVE_IDEAS_PRE_GROK.md>)
+- **Fixed causal scattering features as low-backprop teacher** (`arm:hardware-causal-scattering`) — source_grounded_untested; eligible=True.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/NATIVE_IDEAS_PRE_GROK.md](<../../campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/NATIVE_IDEAS_PRE_GROK.md>)
 
 ### Temporal state and memory (`family:temporal`)
 
@@ -406,6 +428,8 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - artifact: [research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md](<../../campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md>)
 - **Independent own model cohorts per TPU chip** (`arm:tpu-independent-model-cohort`) — source_grounded_untested; eligible=True.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md](<../../campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md>)
+- **Independent own seeds on separate physical Kaggle GPUs** (`arm:dual-gpu-independent-seeds`) — source_grounded_untested; eligible=True.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md](<../../campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md>)
 
 ### Unresolved classification (`family:unclassified`)
 
@@ -483,13 +507,24 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | arm:disagreement-guided-training | Disagreement-guided student optimization | arm · completed_exposed_error_location_signal_no_fit | family:optimization | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:targetwise-weak-simplex | Target-wise stacking of weak, less-correlated models | arm · closed_exact_pool_rule_negative | family:ensemble | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:disagreement-gated-weak-blend | Rowwise disagreement-gated weak-model blend | arm · closed_exact_exposed_pool_gate_screen_failed | family:ensemble | [research/bandit_tree/config.json](<../config.json>) | — |
-| arm:wide-raw-own-teacher | Independent raw-feature GRU384 capacity source | arm · seed3_fit_export_completed_grade_pending | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:wide-raw-own-teacher | Independent raw-feature GRU384 capacity source | arm · seed3_descriptive_grade_completed_seed4_training | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:verified-input-throughput | Verify once per worker; improve useful GPU throughput | arm · engineering_measurements_and_integration | family:infrastructure | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:tpu-gru-input-projection | Hoist GRU input-gate projection outside causal scan | arm · source_grounded_untested | family:infrastructure | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:tpu-independent-model-cohort | Independent own model cohorts per TPU chip | arm · source_grounded_untested | family:infrastructure | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:tpu-parallel-recurrence-teacher | Parallel linear recurrence as complementary TPU teacher | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:hardware-causal-tcn | Hardware-shaped causal TCN teacher | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:hardware-block-attention | Block-recurrent causal attention teacher | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:dual-gpu-independent-seeds | Independent own seeds on separate physical Kaggle GPUs | arm · source_grounded_untested | family:infrastructure | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:hardware-reservoir | Sparse echo-state reservoir with streaming readout | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:hardware-liquid-retention | Liquid microstate with input-dependent retention | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:hardware-sliding-dft | Sliding-DFT state on trade channels | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:hardware-edmd | Input-only EDMD coordinates | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:hardware-random-fourier | Random Fourier features on short causal windows | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:hardware-invariant-pooling | Instrument-wise invariant pooling | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:hardware-gaussian-ib | Gaussian predictive information bottleneck | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:hardware-path-signature | Time-augmented depth2 path signature | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:hardware-semantic-encoder | Shared semantic group encoder before small recurrent core | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:hardware-causal-scattering | Fixed causal scattering features as low-backprop teacher | arm · source_grounded_untested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
 | hypothesis:H-001 | Targets change only on rows where i0 bid and ask price columns both update. | hypothesis · supported | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L1>) | experiment:E-001 (linked) |
 | hypothesis:H-002 | Each sequence's targets are integer multiples of one of four quanta {0.12543,0.24133,0.46854,0.65687}, defining market classes with different tick regimes. | hypothesis · supported | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L2>) | experiment:E-001 (linked), experiment:E-002 (linked) |
 | hypothesis:H-003 | Features are rank-Gauss transformed: bounded near +-2.326 (Phi^-1(0.99)) with sentinel -5.19934 = Phi^-1(1e-7) for missing values. | hypothesis · probing | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L3>) | experiment:E-001 (linked) |
@@ -700,13 +735,24 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-209 | A causal memory-reset event expert can improve a recurrent anchor when it detects transitions after which retaining stale recurrent state is harmful. | hypothesis · proposed | arm:stationarity-state-clock | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L211>) | — |
 | hypothesis:H-210 | A fixed degree-bounded interaction sidecar can improve a recurrent student by adding controlled nonlinear input structure that is absent from a linear head over pair-selected features. | hypothesis · proposed | arm:stagewise-interaction-grower | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L212>) | — |
 | hypothesis:H-211 | H-211 | hypothesis · screen_failed_on_fixed_exposed_pool | arm:disagreement-gated-weak-blend | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L214>), [research/hypotheses.jsonl](<../../hypotheses.jsonl#L215>) | — |
-| hypothesis:H-212 | GRU384 capacity may supply useful prediction/teacher diversity relative to compact raw GRU128; no failed previous width recipe excludes this distinct raw-feature/source interaction. | hypothesis · proposed_profile_admitted | arm:wide-raw-own-teacher | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L216>) | — |
+| hypothesis:H-212 | H-212 | hypothesis · seed3_grade_completed_seed4_training | arm:wide-raw-own-teacher | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L216>), [research/hypotheses.jsonl](<../../hypotheses.jsonl#L234>) | — |
 | hypothesis:H-213 | Eliminate duplicate verified data reads and overlap bounded loading to increase useful experiments per allocated GPU-hour without changing the fixed model objective. | hypothesis · implementation_and_resource_profiles | arm:verified-input-throughput | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L217>) | — |
 | hypothesis:H-214 | Hoist GRU input-gate projection outside causal scan | hypothesis · source_grounded_untested | arm:tpu-gru-input-projection | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L218>) | — |
 | hypothesis:H-215 | Independent own model cohorts per TPU chip | hypothesis · source_grounded_untested | arm:tpu-independent-model-cohort | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L219>) | — |
 | hypothesis:H-216 | Parallel linear recurrence as complementary TPU teacher | hypothesis · source_grounded_untested | arm:tpu-parallel-recurrence-teacher | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L220>) | — |
 | hypothesis:H-217 | Hardware-shaped causal TCN teacher | hypothesis · source_grounded_untested | arm:hardware-causal-tcn | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L221>) | — |
 | hypothesis:H-218 | Block-recurrent causal attention teacher | hypothesis · source_grounded_untested | arm:hardware-block-attention | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L222>) | — |
+| hypothesis:H-219 | Independent own seeds on separate physical Kaggle GPUs | hypothesis · source_grounded_untested | arm:dual-gpu-independent-seeds | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L223>) | — |
+| hypothesis:H-220 | Sparse echo-state reservoir with streaming readout | hypothesis · source_grounded_untested | arm:hardware-reservoir | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L224>) | — |
+| hypothesis:H-221 | Liquid microstate with input-dependent retention | hypothesis · source_grounded_untested | arm:hardware-liquid-retention | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L225>) | — |
+| hypothesis:H-222 | Sliding-DFT state on trade channels | hypothesis · source_grounded_untested | arm:hardware-sliding-dft | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L226>) | — |
+| hypothesis:H-223 | Input-only EDMD coordinates | hypothesis · source_grounded_untested | arm:hardware-edmd | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L227>) | — |
+| hypothesis:H-224 | Random Fourier features on short causal windows | hypothesis · source_grounded_untested | arm:hardware-random-fourier | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L228>) | — |
+| hypothesis:H-225 | Instrument-wise invariant pooling | hypothesis · source_grounded_untested | arm:hardware-invariant-pooling | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L229>) | — |
+| hypothesis:H-226 | Gaussian predictive information bottleneck | hypothesis · source_grounded_untested | arm:hardware-gaussian-ib | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L230>) | — |
+| hypothesis:H-227 | Time-augmented depth2 path signature | hypothesis · source_grounded_untested | arm:hardware-path-signature | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L231>) | — |
+| hypothesis:H-228 | Shared semantic group encoder before small recurrent core | hypothesis · source_grounded_untested | arm:hardware-semantic-encoder | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L232>) | — |
+| hypothesis:H-229 | Fixed causal scattering features as low-backprop teacher | hypothesis · source_grounded_untested | arm:hardware-causal-scattering | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L233>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -1225,6 +1271,8 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-521 | local reopened scratch wide raw-feature teacher resource profile | experiment · profile_preregistered | arm:wide-raw-own-teacher | [research/experiments.jsonl](<../../experiments.jsonl#L566>) | — |
 | experiment:E-522 | execution-efficiency audit, bounded throughput probes and verifieddigesthandoff | experiment · localprofiles_completed_with_recorded_workerOOM; cloudintegration_pending | arm:verified-input-throughput | [research/experiments.jsonl](<../../experiments.jsonl#L567>) | — |
 | experiment:E-521-SEED3-FIT-EXPORT | E-521-SEED3-FIT-EXPORT | experiment · fit_and_fixed_checkpoint_export_completed | hypothesis:H-212 | [research/experiments.jsonl](<../../experiments.jsonl#L568>) | — |
+| experiment:E-521-SEED4-FIT | Independent same-recipe scratch seed variation and teacher diversity | experiment · running | hypothesis:H-212 | [research/experiments.jsonl](<../../experiments.jsonl#L569>) | — |
+| experiment:E-521-SEED3-GRADE-V2 | E-521-SEED3-GRADE-V2 | experiment · complete_descriptive_grade | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L570>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
@@ -1304,6 +1352,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L56>) `sha256:f1f1a4eaf6e73a687b4e080456fda21ac155931128a282a42596d480128af278` — `{"compute_runs_launched": 0, "decision": "ReadGoogle/JAX/Flax/XLA/Pallas primarydocs andLRUpaper, auditexistingGRU/preflight, addH214-H216 withnullnumericpriors. Currentbatch2/chipdiagnostic isnotproductionthroughput evidence; futureweightedshardloss mustreduceglobalmass. NoTPUfit/queuedjobmutation.", "event_type": "primary_source_TPU_reframe", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md"], "id": "TREE-20261007-048", "node_id": "family:infrastructure", "timestamp_utc": "2026-10-07T12:48:01.565484+00:00"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L57>) `sha256:604478b78ee8cbbd5fc476add897b8b6417d53b82fff52cbda95ded6605448ea` — `{"compute_runs_launched": 0, "decision": "User requests architecture diversity for hardware efficiency. Add source-grounded TCN and block-recurrent causal attention arms alongside H216 linear recurrence; compare useful complete candidates and conditional contribution per hour, preserve unknown numerical priors.", "event_type": "hardware_shaped_architecture_exploration", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/TPU_UTILIZATION_RESEARCH.md"], "id": "TREE-20261007-049", "node_id": "family:teacher", "timestamp_utc": "2026-10-07T12:53:05.495437+00:00"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L58>) `sha256:5cc22032eaded3042a7a06da851f941e737f9b91764ce6c78cc9ababa17f3237` — `{"compute_runs_launched": 1, "decision": "Explicit continueuntilpause. Seed3fit/export delivered; prepareseed4 recipe-onlyreplication, independentgrade. ParallelcloudV7 actualprofile→conditionalfit recovery, TPUqueueowned, freshrandom/directedsources ideation. Vastexistingcredit read-onlyassessment401, no spend. Preserve zero-loader limit after scopedworkerOOM; boundedcleanfilecachehandoff restoresheadroom.", "event_type": "continued_delivery_allocation", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/FIT_EXPORT_RESULT_V1.json", "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/VAST_CREDIT_PLAN_20261007.md"], "id": "TREE-20261007-050", "node_id": "arm:wide-raw-own-teacher", "timestamp_utc": "2026-10-07T13:05:24.168662+00:00"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L59>) `sha256:95521ed7b7c7719da1843dac5374e402ff17c31291ad3e69941e98670603197f` — `{"compute_runs_launched": 0, "decision": "IndependentE521seed3 descriptivegrade delivered, seed4training. Register8slate and2archivednative mechanism proposals, independentpreGrokfreeze andrandomlibrarypassage. Prioritize cheap representation/state oracles while cloudV8observability repair proceeds; scientificquality/publicpriors remainunknown. Add contingentparallelGPU seedexecution arm withouteditingfrozenfitV3.", "event_type": "independent_grade_and_diverse_ideation", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/ideation/hardware_diversity_round_20261007/HYPOTHESIS_CARDS.md", "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_S3_EXCLUDED_FOLD0_RESULT_V2.json"], "id": "TREE-20261007-051", "node_id": "family:teacher", "timestamp_utc": "2026-10-07T13:24:54.009076+00:00"}`
 
 ## Link and artifact warnings
 
