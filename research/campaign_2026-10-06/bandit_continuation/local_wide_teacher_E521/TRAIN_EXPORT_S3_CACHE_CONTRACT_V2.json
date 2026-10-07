@@ -1,0 +1,34 @@
+{
+  "id": "e521-pre-s3-train-cache-v1",
+  "scope": "bounded clean file-cache handoff after successful exact GPU export; no changed caps",
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "120",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "scripts/reclaim_bandit_export_cache.py",
+    "--runtime",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime",
+    "--predecessor",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e521-w384-s4-export-v1.json",
+    "--receipt",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/TRAIN_EXPORT_S3_CACHE_HANDOFF_V1.json"
+  ],
+  "resources": {
+    "cpus": 1,
+    "ram_bytes": 256000000,
+    "timeout_seconds": 120
+  },
+  "helper_sha256": "81768a3ac2c2569423cce1eb1d1548dcbcb2ed5892b608e02adb6b4e754fe361",
+  "caps": {
+    "cpu_cores": 6,
+    "ram_bytes": 20000000000,
+    "vram_bytes": 5000000000
+  },
+  "supersedes": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/TRAIN_EXPORT_S3_CACHE_CONTRACT_V1.json",
+    "sha256": "c2a9dd505052e33f7a455b9b712fec17d431a267854bad2061c5c4e1d0a93daa",
+    "reason": "Contract command includes exact admitted timeout wrapper, same actual command"
+  }
+}
