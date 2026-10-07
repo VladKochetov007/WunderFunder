@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "receipt_id": "E522_VERIFIED_DIGEST_HANDOFF_INDEPENDENT_REVIEW_20261007_R1",
+  "observed_at_utc": "2026-10-07T12:32:06Z",
+  "experiment_id": "E522_VERIFIED_DIGEST_HANDOFF_CORE",
+  "decision": "PASS",
+  "review_scope": "Frozen core helper, focused tests, and synthetic logical-byte measurement only. This receipt does not review or admit the pending E520-v7 worker/builder integration, packet, provider action, profile, fit, or score.",
+  "freeze": {
+    "review_targets_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/E522_REVIEW_TARGETS.json",
+    "review_targets_sha256": "9c4fcfea49b56e7eaed24fc072d5720b7eaf7a525036a352206b46d25f4ba141",
+    "code_receipt_path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/E522_CODE_RECEIPT.json",
+    "code_receipt_sha256": "90a53e042e4c6694cf7b8ebf05eac746edba9dc46f815277ca8189a98360637a",
+    "reviewed_hashes": {
+      "verified_digest_handoff.py": "ac36b25b0864ef239b4503d44b0ecce4837b68565141116ec1c14f6570a80f15",
+      "measure_io.py": "aa3a0f483546cb4eb350add2c11e79c1b02cd676f6b8244f47fa5b22bd4ae8bc",
+      "README.md": "4b977413c45ac8ea6e3d56956006088231d2aac2f7d6776494f251c21d76a28e",
+      "FROZEN_RECIPE_DIFFERENCE.md": "07249d658b893ec8309dbc8967398113258723e9738c4ba909b4021b30b8d06a",
+      "E522_PLAN.json": "232f701f37241e501493b5dde898116d9603bbd21aa5fdca447615c186f98649",
+      "E522_SMALL_FILE_IO_MEASUREMENT.json": "b2b1bf6c67e476008162b7fe21233dcfab761f9267e454455daf1aa4583a058a",
+      "tests/conftest.py": "fc455eb0632fe2f4417cdb5f55509c7a6d018564b35429c68ceb079e7ffdc9f0",
+      "tests/test_verified_digest_handoff.py": "f3912006e1f740ef611e4e7e4490487ade0b3c4f2ef46ab34c39875cd6893fcc"
+    },
+    "pinned_source_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "pinned_portability_sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a"
+  },
+  "findings": [
+    "The helper hashes complete bytes from an exact canonical-path allowlist, accepts regular files only, checks path and open-descriptor identity before and after the streaming read, and requires the bytes-read count to equal the original size.",
+    "A cache entry is installed only from a receipt issued by this handoff after its observed SHA-256 equals both valid lowercase frozen expected and portable-registry SHA-256 values; authorization also re-stats and requires unchanged device, inode, size, mtime, ctime, and mode.",
+    "Lookup requires the exact allowlisted canonical path, unchanged current full stat identity, and agreement with the pinned verifier's supplied device/inode/size/mtime/ctime tuple. A stale or changed identity evicts the entry and returns a miss, which calls the pinned original full content digest.",
+    "The integration hook wraps only the pinned portability module's _content_digest. The pinned registry identity, registry digest comparison, and all other verifier logic remain in the reviewed source archive; wnn.splits.file_sha256 is not modified. The helper itself does not establish the provenance of caller-supplied expected/registry digest strings, so the worker must preserve and prove the existing source-identity receipt ordering.",
+    "The helper is worker-local and memory-only, and a new hash attempt removes any prior authorized entry for that path. There is no cross-worker or cross-attempt digest persistence."
+  ],
+  "verification": {
+    "target_hashes": "All eight mapped files matched the frozen review-target map.",
+    "focused_tests": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/tests/test_verified_digest_handoff.py",
+      "result": "6 passed in 0.13s"
+    },
+    "ruff_format_check": "3 files already formatted",
+    "ruff_check": "All checks passed",
+    "synthetic_io_measurement": {
+      "sample_bytes": 8388608,
+      "baseline_logical_bytes": 16777216,
+      "handoff_logical_bytes": 8388608,
+      "digest_reuse_hits": 2,
+      "fallback_digest_calls": 0,
+      "result": "Reproduced under 1 CPU / 1 GB / 120 s limits; local synthetic-file measurement only, not a Kaggle or parquet throughput forecast."
+    }
+  },
+  "conditions_for_integrated_review": [
+    "The E520-v7 integration review must prove the raw inputs remain on the read-only mounted source path for the digest-reuse interval; the helper's stat checks do not lock a mutable file against a concurrent change after lookup's stat.",
+    "The worker must persist observed input identity before mismatch handling, authorize only with the existing frozen expected digest and pinned portable-registry digest, retain footer/membership/registry checks, and install the wrapper before the first split load.",
+    "The worker/builder/packet must be independently reviewed against its own immutable exact hash map before any provider admission."
+  ],
+  "scope_exclusions": [
+    "No E520-v7 candidate bytes were inspected under this receipt.",
+    "No packet build, provider action, GPU work, profile, fit, grade, or score was performed."
+  ]
+}

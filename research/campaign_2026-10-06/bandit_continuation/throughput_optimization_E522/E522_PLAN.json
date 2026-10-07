@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E522_VERIFIED_DIGEST_HANDOFF",
+  "status": "code_only_pre_review_no_execution",
+  "scope": {
+    "target": "Reuse the exact raw train/valid SHA-256 already computed by one worker during that worker's pinned portable-registry verification.",
+    "not_in_scope": [
+      "cross-worker or cross-attempt digest cache",
+      "skipping mounted input identity, footer, portable registry, or fold checks",
+      "trainer, loss, sampler, model, checkpoint, prediction, or grader changes",
+      "GPU work, profile, fit, score, provider call, packet build, or upload"
+    ]
+  },
+  "evidence": {
+    "terminal_manifest": {
+      "path": "cloud_preflight/downloads/e520_profile_v6/terminal_manifest.json",
+      "sha256": null,
+      "note": "Operator reported 5d81e50c…948054; no corresponding file is present in this workspace, so it is deliberately not bound as a full hash."
+    },
+    "diagnosis_receipt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/own_baseline_E520/E520_PROFILE_V6_PHASE_DIAGNOSIS_20261007T1225Z.json",
+      "sha256": "e0ed69df0b8ebebfff060a7466432c13b195fc1bf85005211ba199b02c24747e"
+    },
+    "memory_stat_phases": "da06cceaa903fa5f9556c7dbb61c1b88d4e16cd21a449c9e331778e9dd2a9e91",
+    "hash_io_advice": "1d275f3deb0a1899b7d4dfbfb398f77d798e8f9201cee39ecbfabe51eb7466fd",
+    "input_identity": "3481cfeaa53d9b6a981a1aefc7d87456cb24d040513c9f063b12ecfc1680ed01",
+    "resource_abort": "7c71a356a6ce897b6fc120bbb603b41b6c01ef80636d8d6e2435cb48a24cc109",
+    "phase": "3becf982dd53262eca1dd1c20db02e09dc91247b8032a9fed76d4aff89211d45",
+    "worker_log": "be960e6d6af450fab994a5e5a9e70d04ef39927e6525c0b167674e7ad3c48f44"
+  },
+  "v6_measured_io": {
+    "train_bytes": 29240219011,
+    "valid_bytes": 5615509128,
+    "initial_train_seconds": 795.473306,
+    "initial_valid_seconds": 188.74719,
+    "portable_repeat_train_bytes": 29240219011,
+    "portable_repeat_train_seconds": 748.676424,
+    "portable_repeat_valid_started_seconds": 4.448242,
+    "portable_repeat_valid_exact_bytes": null,
+    "total_raw_pair_bytes": 34855728139,
+    "observed_complete_redundant_bytes_removed_by_future_integration": 29240219011,
+    "potential_complete_redundant_pair_bytes_per_worker": 34855728139,
+    "memory_available_fraction_at_abort": 0.9255,
+    "rss_peak_bytes_at_abort": 72600000,
+    "cuda_phase": "pre_cuda_idle",
+    "profile_batches": 0,
+    "fit_started": false,
+    "interpretation": "One full duplicate train digest pass is directly measured. The valid repeat started but its progress interval did not produce an exact byte count before the 1800-second cap. Source sizes establish the maximum full pair pass, not a fully observed valid repeat. Memory snapshots do not support OOM or cgroup pressure as the cause."
+  },
+  "source_bindings": {
+    "pinned_source_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "pinned_portability_sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+    "pinned_splits_sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+    "pinned_trainer_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+    "fold_train_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+    "fold_valid_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "profile_worker_v6_sha256": "79019507b460f7a9c7e2f17073a6498bfab612b57f6b17b3c738cdcb87ca5b33",
+    "fit_input_identity_v2_sha256": "aa8a694905e019acbe3788327e5762e64d65601e963f505a80a83cfd2f8d83de"
+  },
+  "handoff_contract": {
+    "scope": "one Python worker process and an exact allowlist of raw train/valid canonical paths",
+    "hash": "stream complete file once; compare descriptor and path stat identities before and after; require bytes_hashed == original stat size",
+    "authorization": "receipt must be issued by this handoff; observed digest must equal both frozen expected SHA-256 and portable-registry SHA-256; current exact stat identity must still match",
+    "consumer": "wrap only pinned wnn.portability._content_digest; pinned registry and metadata checks remain active; every miss calls the original full content verifier on current bytes",
+    "stat_identity": ["device", "inode", "size", "mtime_ns", "ctime_ns", "mode"],
+    "cache_persistence": "memory only; no digest receipt survives the current worker",
+    "pagecache_advice": "initial hash continues the existing page-aligned POSIX_FADV_DONTNEED strict advice path; advice errors abort",
+    "changed_input_behavior": "path replacement, mutation, stat drift, missing file, allowlist miss, receipt mismatch, or digest mismatch never reuses the receipt; pinned hash/check rejects changed content"
+  },
+  "synthetic_measurement": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/E522_SMALL_FILE_IO_MEASUREMENT.json",
+    "sample_bytes": 8388608,
+    "baseline_hash_passes": 2,
+    "baseline_bytes_read": 16777216,
+    "baseline_seconds": 0.012164218001998961,
+    "handoff_hash_passes": 1,
+    "handoff_bytes_read": 8388608,
+    "handoff_fallback_calls": 0,
+    "handoff_seconds": 0.006500594005046878,
+    "logical_bytes_eliminated": 8388608,
+    "timing_claim": "This is an 8 MiB local synthetic-file microbenchmark only; it is not a 35 GB parquet, Kaggle runtime, or fit-throughput forecast."
+  },
+  "recipe_boundary": "See FROZEN_RECIPE_DIFFERENCE.md. E-522 only removes one duplicate same-worker raw SHA read when exact verified digest/stat conditions hold; scientific recipe and official grader remain fixed.",
+  "admission": {
+    "independent_review": "pending",
+    "external_review_sha256": null,
+    "root_admission": "not_requested",
+    "quota_or_provider_authority": false,
+    "profile_or_fit_authority": false
+  }
+}
