@@ -186,7 +186,7 @@ Prioritize different approaches over additional seeds. Keep already admitted see
 
 ### Approved continuous execution and Vast ownership
 
-Follow [the saved execution plan](specs/plans/2026-10-07-continuous-research.md). The user approved up to $4 all-in for the first Vast cohort and $20 cumulatively, with the remainder released from completed evidence. Load the private `.env` `vastai` credential only inside the API client; never log, commit, include it in agent prompts or upload it to workers.
+Follow [the saved execution plan](specs/plans/2026-10-07-continuous-research.md). The initial user allocation was $4 for the first Vast cohort and $20 cumulative. The latest flexible-spending instruction supersedes the first-cohort release gate: follow [ADR0015](specs/adr/0015-flexible-credit-bounded-parallel-compute.md), using existing credit with a conservative $20 cumulative operating ceiling, bounded reviewed reservations, and no top-up. Historical allocation receipts remain immutable. Load the private `.env` `vastai` credential only inside the API client; never log, commit, include it in agent prompts or upload it to workers.
 
 The user's strict ownership rule is: **“touch only machines you rented. do not hurt existing, they are not mine.”** Never stop, delete, reconfigure, connect to, collect from or adopt pre-existing/unrelated Vast instances. Every such operation requires the campaign's durable creation receipt binding attempt ID, account scope and provider instance ID. Matching labels alone are insufficient. An ambiguous create must be reconciled without duplicate creation or touching an unproven instance. No bulk cleanup. Preserve this boundary in delegated tasks and tests.
 

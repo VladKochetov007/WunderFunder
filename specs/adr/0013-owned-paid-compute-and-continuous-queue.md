@@ -2,6 +2,8 @@
 
 Status: accepted, 2026-10-07. Basis: user approved the continuous research plan, chose evidence-led Vast spending, and explicitly restricted actions to machines rented by this campaign.
 
+Spending-stage gates superseded on 2026-10-08 by [ADR0015](0015-flexible-credit-bounded-parallel-compute.md). Preserve this original allocation and all frozen receipts; ownership and bounded execution remain binding.
+
 ## Decision
 
 Use a finite queue across local GPU, Kaggle GPU/TPU and Vast, with a reviewed successor ready before a running job ends. Existing local guards remain authoritative; cloud jobs use separate measured headroom. Source/metric/ancestry invariants remain unchanged. Allocation reflects long-term component and interaction value, not only standalone score.
