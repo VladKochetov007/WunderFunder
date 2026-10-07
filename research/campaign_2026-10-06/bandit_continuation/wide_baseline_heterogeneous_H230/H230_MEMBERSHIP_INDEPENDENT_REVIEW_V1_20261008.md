@@ -1,0 +1,7 @@
+# H230 membership and incumbent ancestry review
+
+Read-only audit at 2026-10-07T22:58:38.590226+00:00. It reconstructed the frozen fold-0 mask and compared it with the parent, head, candidate, candidate initializer, and every teacher-cache ancestor provenance file. No GPU, prediction scoring, or training-data scan was used. Full evidence is in [H230_MEMBERSHIP_INDEPENDENT_REVIEW_V1_20261008.json](H230_MEMBERSHIP_INDEPENDENT_REVIEW_V1_20261008.json).
+
+The incumbent parent and head each fit 1,505 validation row groups; each overlaps 374 of the 468 frozen evaluation groups. They use the same overlapping group set. The earlier correction V1 text saying “every” evaluated group overstates its own counts; the correct statement is **374 of 468**. The frozen ZIP and its embedded member/weight hashes match the freeze, and `members.json` names `c20261004_combo_s4_final@ep3|c20261004_combo_head_s4_final@ep0`. Both source checkpoint hashes and their FP32 prediction sidecars bind to those exact epochs.
+
+The H230 candidate fit uses the exact fold-0 fit set (10,535 train and 1,405 validation groups) and has zero overlap with the 468 evaluation groups. Its warm initializer and all recorded distillation-cache ancestors also use the frozen fit membership with zero overlap. Its existing 0.68172 grade remains exposed fold-0 development evidence. The 0.68983 incumbent source-reconstruction comparison is not a valid quality ranking against it because of the 374-group direct training overlap. No prediction arrays were rehashed or rescored.

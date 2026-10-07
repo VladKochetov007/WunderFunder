@@ -12,3 +12,5 @@ The user requests public scoring despite the lower exposed local grade. Human-up
 Public result will test this exact ZIP. If it contradicts local ranking, investigate serving endpoint parity, fitting/evaluation membership, component distribution and selection exposure. Preserve the original local grade and validation; introduce identified successor comparisons rather than rewriting outcomes or selecting a favorable new split after seeing the score. One public observation can justify a validation audit but does not establish a universally better protocol.
 
 Status: delivered for human upload; awaiting submission ID and public score.
+
+Subsequent membership correction: [audit V2](H230_INCUMBENT_MEMBERSHIP_CORRECTION_V2_20261008.json) shows that the incumbent final models directly fitted374 of468 evaluated groups, while H230 directly fitted0. The numerical scores above are preserved but their comparison cannot establish held-out inferiority of H230. Independent audit is requested; official metric and frozen validation membership remain unchanged.
