@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WNN research tree</title>
+<style>
+:root{color-scheme:dark;--bg:#0a101b;--panel:#101a29;--line:#26374e;--ink:#e2eaf5;--muted:#91a5bf;--green:#46d5a1;--red:#f07983;--blue:#64b4ff;--amber:#e9b459;--violet:#bb9cf2}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px system-ui,sans-serif}header{padding:22px 26px 14px;border-bottom:1px solid var(--line)}h1{font-size:23px;margin:0 0 6px;letter-spacing:-.5px}p{color:var(--muted);line-height:1.5;margin:6px 0}.top{display:flex;justify-content:space-between;gap:16px;align-items:center}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{padding:9px 13px;background:var(--panel);border:1px solid var(--line);border-radius:9px}.stat b{font-size:20px;display:block}.stat span{font-size:11px;color:var(--muted)}.controls{display:flex;gap:8px;flex-wrap:wrap;padding:12px 26px;align-items:center;border-bottom:1px solid var(--line)}input,select,button{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:8px 10px}input[type=search]{width:min(370px,100%)}button{cursor:pointer}button:hover{border-color:var(--blue)}button.active{border-color:var(--blue);color:var(--blue)}label{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:12px}.legend{display:flex;flex-wrap:wrap;gap:14px;padding:10px 26px;color:var(--muted);font-size:12px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;height:calc(100vh - 250px);min-height:480px}.canvas{position:relative;overflow:hidden;background:radial-gradient(ellipse at 20% 30%,#111f31,transparent 60%)}svg{width:100%;height:100%;touch-action:none;cursor:grab}svg:active{cursor:grabbing}.edge{fill:none;stroke:#334863;stroke-width:1.3}.node rect{stroke-width:1.2}.node{cursor:pointer}.node text{pointer-events:none}.node.selected rect{stroke:white;stroke-width:2.5}.hint{position:absolute;bottom:12px;left:18px;font-size:12px;color:var(--muted);background:#0a101bca;padding:7px;border-radius:5px}.sidebar{overflow:auto;padding:20px;border-left:1px solid var(--line);background:var(--panel)}h2{font-size:19px;line-height:1.35;margin:0 0 10px}h3{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:22px 0 9px}.badge{display:inline-block;border:1px solid var(--line);border-radius:5px;padding:4px 7px;margin:2px;font-size:11px;overflow-wrap:anywhere}.field{margin:10px 0;line-height:1.5;overflow-wrap:anywhere}.field small{display:block;color:var(--muted)}a{color:var(--blue);text-decoration:none;overflow-wrap:anywhere}a:hover{text-decoration:underline}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;line-height:1.5;color:#b8c8dc}.related button{display:block;width:100%;margin:6px 0;text-align:left}.empty{position:absolute;top:25%;left:20%;color:var(--muted)}.snapshot{font-size:11px;color:var(--muted);padding:8px 26px;border-top:1px solid var(--line)}.snapshot a{margin-right:12px}#results{font-size:12px;color:var(--muted)}@media(max-width:850px){.layout{grid-template-columns:1fr;height:auto}.canvas{height:65vh}.sidebar{max-height:60vh;border-top:1px solid var(--line);border-left:0}.stats{display:none}header,.controls,.legend{padding-left:14px;padding-right:14px}}
+</style>
+</head>
+<body>
+<header><div class="top"><div><h1>WNN · research tree</h1><p>Mechanisms, hypotheses, experiments and combinations — explore the whole lineage.</p></div><div class="stats" id="stats"></div></div><p>Colors describe recorded outcomes of exact recipes. Untested descendants stay open; execution failures carry no scientific penalty.</p></header>
+<div class="controls">
+<input id="search" type="search" placeholder="Search ideas, IDs, recipes, results…" aria-label="Search research tree">
+<button id="frontier">Eligible frontier</button><button id="all">Whole archive</button><button id="collapse">Directions</button>
+<select id="color" aria-label="Color mode"><option value="outcome">Recorded outcome</option><option value="priority">Allocation priority</option></select>
+<label><input type="checkbox" id="records"> Show hypotheses / experiments</label>
+<button id="fit">Fit view</button><button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button>
+<span id="results"></span>
+</div>
+<div class="legend" id="legend"></div>
+<div class="layout"><div class="canvas"><svg id="graph" aria-label="Interactive research lineage tree"><g id="viewport"></g></svg><div class="hint">Drag to pan · scroll to zoom · click a card for evidence · click its + / − to expand</div></div><aside class="sidebar" id="detail"></aside></div>
+<div class="snapshot" id="snapshot"></div>
+<script id="tree-data" type="application/json">__TREE_DATA__</script>
+<script>
+'use strict';
+const tree=JSON.parse(document.getElementById('tree-data').textContent);
+const nodes=new Map(tree.nodes.map(n=>[n.id,n]));
+const children=new Map(tree.nodes.map(n=>[n.id,[]]));
+for(const n of tree.nodes)if(children.has(n.parent_id))children.get(n.parent_id).push(n.id);
+for(const ids of children.values())ids.sort((a,b)=>((nodes.get(b).allocation?.priority||0)-(nodes.get(a).allocation?.priority||0))||a.localeCompare(b,undefined,{numeric:true}));
+const $=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';
+const palette={positive:'#46d5a1',negative:'#f07983',untested:'#64b4ff',execution:'#e9b459',invalid:'#bb9cf2',neutral:'#91a5bf'};
+let expanded=new Set([tree.root_id]);
+let selected='root',frontier=false,scale=1,panX=25,panY=25,positions=[],allowed=null;
+const record=n=>n.raw_rows?.at(-1)?.record||{};
+const status=n=>String(n.status||n.latest_recorded_status||record(n).status||'unrecorded');
+function outcome(n){
+ const s=status(n).toLowerCase(),r=record(n),result=r.result;
+ if(/provenance.*fail|ancestry.*fail|invalid|leakage/.test(s))return{kind:'invalid',label:'Validity / ancestry issue'};
+ if(/resource.*fail|runtime.*fail|runtime.*gate|execution.*fail|error_before|profile.*fail|oom|api.*fail|queued|provider_running/.test(s))return{kind:'execution',label:'Execution / resource evidence'};
+ // Only explicit official-metric contrasts get quantitative brightness.
+ if(result&&typeof result==='object'&&['global_wp_clip2_v1'].includes(result.metric||r.metric)){
+  for(const key of ['pair_delta','pooled_delta','delta_wp','delta'])if(typeof result[key]==='number'&&Number.isFinite(result[key])){
+   const d=result[key];return{kind:d>0?'positive':d<0?'negative':'neutral',label:'Measured local contrast',delta:d,key,metric:result.metric||r.metric};
+  }
+ }
+ if(/positive|improv|supported|public_confirmed/.test(s)&&!/no_supported|no_improv/.test(s))return{kind:'positive',label:'Recorded favorable outcome (qualitative)'};
+ if(/negative|rejected|screen_fail|no_improv|no_gain|below.*gate|contradicted/.test(s))return{kind:'negative',label:'Recorded unfavorable exact-recipe screen'};
+ if(/plan|propos|untest|not_tested|prepar|registered|draft/.test(s)||n.allocation?.eligible)return{kind:'untested',label:'Open / untested / eligible direction'};
+ return{kind:'neutral',label:'Diagnostic / historical / unclassified'};
+}
+function paint(n){
+ if($('color').value==='priority'){
+  const p=n.allocation?.priority||0;return{color:p?'#64b4ff':'#91a5bf',opacity:p?Math.min(.9,.2+p/8):.1,label:`Qualitative priority ${p} · not a score prediction`};
+ }
+ const o=outcome(n);return{color:palette[o.kind],opacity:o.delta===undefined?.13:Math.min(.65,.12+Math.abs(o.delta)/.003*.5),label:o.label};
+}
+function ancestors(id,set){while(id&&nodes.has(id)){set.add(id);id=nodes.get(id).parent_id;}}
+function activeSet(){
+ const query=$('search').value.trim().toLowerCase();
+ if(!query&&!frontier)return null;
+ const set=new Set();
+ for(const n of tree.nodes){
+  const eligible=n.allocation?.eligible===true;
+  const match=!query||JSON.stringify(n).toLowerCase().includes(query);
+  if(match&&(!frontier||eligible)){ancestors(n.id,set);for(const id of [...set])expanded.add(id);}
+ }
+ return set;
+}
+function canShow(n){return(!allowed||allowed.has(n.id))&&($('records').checked||!['hypothesis','experiment','legacy_arm'].includes(n.type));}
+function visibleChildren(id){return(children.get(id)||[]).filter(cid=>canShow(nodes.get(cid)));}
+function svg(tag,attrs,parent){const el=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))el.setAttribute(k,v);parent.appendChild(el);return el;}
+function short(s,len){return s.length>len?s.slice(0,len-1)+'…':s;}
+function render(){
+ allowed=activeSet();positions=[];let row=0;
+ function walk(id,depth){const n=nodes.get(id);if(!canShow(n))return;const pos={id,depth,x:depth*310,y:row++*86};positions.push(pos);if(expanded.has(id))for(const cid of visibleChildren(id))walk(cid,depth+1);}
+ walk(tree.root_id,0);
+ const g=$('viewport');g.replaceChildren();const byId=new Map(positions.map(p=>[p.id,p]));
+ for(const p of positions){const parent=byId.get(nodes.get(p.id).parent_id);if(parent)svg('path',{d:`M${parent.x+276},${parent.y+31} C${parent.x+298},${parent.y+31} ${p.x-28},${p.y+31} ${p.x},${p.y+31}`,class:'edge'},g);}
+ for(const p of positions){
+  const n=nodes.get(p.id),c=paint(n),o=outcome(n),kids=visibleChildren(p.id);
+  const group=svg('g',{class:`node${selected===p.id?' selected':''}`,transform:`translate(${p.x},${p.y})`,'data-id':p.id,role:'button',tabindex:'0','aria-label':n.title||n.id},g);
+  svg('rect',{width:276,height:65,rx:9,fill:c.color,'fill-opacity':c.opacity,stroke:c.color},group);
+  svg('text',{x:12,y:19,fill:'#a5b7cf','font-size':10},group).textContent=`${n.id} · ${n.type}${n.allocation?.eligible?' · eligible':''}`;
+  svg('text',{x:12,y:37,fill:'#edf2fa','font-size':12},group).textContent=short(String(n.title||n.id),36);
+  svg('text',{x:12,y:54,fill:c.color,'font-size':10},group).textContent=o.delta===undefined?short(status(n),42):`Δ ${o.delta>=0?'+':''}${o.delta.toFixed(6)} · local point estimate`;
+  const open=()=>{selected=p.id;detail(n);render();};group.addEventListener('click',open);group.addEventListener('keydown',e=>{if(e.key==='Enter')open();});
+  if(kids.length){const toggle=svg('g',{'aria-label':'Expand or collapse',role:'button',tabindex:'0'},group);svg('circle',{cx:267,cy:9,r:10,fill:'#162438',stroke:c.color},toggle);svg('text',{x:267,y:13,'text-anchor':'middle',fill:'#fff','font-size':13},toggle).textContent=expanded.has(p.id)?'−':'+';const change=e=>{e.stopPropagation();expanded.has(p.id)?expanded.delete(p.id):expanded.add(p.id);render();};toggle.addEventListener('click',change);toggle.addEventListener('keydown',e=>{if(e.key==='Enter')change(e);});}
+ }
+ $('results').textContent=`${positions.length} visible / ${tree.nodes.length} preserved nodes`;
+ $('frontier').classList.toggle('active',frontier);transform();legend();
+}
+function addText(parent,tag,text,className){const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;parent.appendChild(el);return el;}
+function localLink(path){
+ if(typeof path!=='string'||path.includes('://')||path.startsWith('/')||path.split('/').includes('..'))return null;
+ return '../../../'+path.split('/').map(encodeURIComponent).join('/');
+}
+function detail(n){
+ const box=$('detail');box.replaceChildren();const o=outcome(n),r=record(n),c=paint(n);
+ addText(box,'h2',n.title||n.id);addText(box,'div',n.id,'badge');addText(box,'div',n.type,'badge');
+ const label=addText(box,'div',c.label,'field');label.style.color=c.color;
+ addText(box,'p','No color is a verdict on the whole idea family. Children and interactions have their own evidence.');
+ function field(name,value){if(value===undefined||value===null)return;const el=addText(box,'div','','field');addText(el,'small',name);addText(el,'span',typeof value==='object'?JSON.stringify(value):String(value));}
+ field('Recorded status',status(n));if(o.delta!==undefined){field('Matched point contrast',`${o.delta>=0?'+':''}${o.delta.toFixed(8)} (${o.key}; ${o.metric})`);field('Uncertainty',r.result?.pair_ci95||r.result?.ci95||'See original report. Color does not encode statistical confidence.');}
+ if(n.allocation){field('Eligible',n.allocation.eligible);field('Priority',n.allocation.priority);field('Next allocation rationale',n.allocation.reason);}
+ field('Mechanism / scope',n.mechanism||n.description||n.basis);field('Exposure',r.execution?.fold_exposure||r.exposure||r.data_exposure||'Consult original recipe / report.');
+ addText(box,'h3','Lineage and interactions');const rel=addText(box,'div','','related');
+ const related=new Set([n.parent_id,...(children.get(n.id)||[])]);
+ for(const e of tree.related_edges||[])if(e.source_id===n.id)related.add(e.target_id);else if(e.target_id===n.id)related.add(e.source_id);
+ for(const id of related)if(nodes.has(id)){const b=addText(rel,'button',short(`${id} · ${nodes.get(id).title||''}`,85));b.onclick=()=>{selected=id;ancestors(id,expanded);if(['hypothesis','experiment','legacy_arm'].includes(nodes.get(id).type))$('records').checked=true;frontier=false;$('search').value='';render();detail(nodes.get(id));focus(id);};}
+ addText(box,'h3','Original evidence');const paths=new Set([n.source?.path,...(n.artifacts||[]),...(n.artifact_refs||[]).map(a=>a.path)]);
+ for(const row of n.raw_rows||[]){paths.add(row.source?.path);for(const [k,v]of Object.entries(row.record))if(typeof v==='string'&&/report|recipe|receipt|grader|manifest|spec|path/.test(k)&&v.startsWith('research/'))paths.add(v);}
+ for(const path of paths){const href=localLink(path);if(href){const el=addText(box,'div','','field');const a=addText(el,'a',path);a.href=href;a.target='_blank';a.rel='noopener';}}
+ const disclosure=document.createElement('details');box.appendChild(disclosure);addText(disclosure,'summary',`Preserved node record (${n.raw_rows?.length||0} ledger events)`);addText(disclosure,'pre',JSON.stringify(n,null,2));
+}
+function legend(){
+ const el=$('legend');el.replaceChildren();const list=$('color').value==='priority'?{untested:'Brighter blue = higher manual allocation priority',neutral:'No current priority'}:{positive:'Favorable recorded result',negative:'Unfavorable exact-recipe screen',untested:'Open / untested',execution:'Execution / resource issue',invalid:'Validity / ancestry issue',neutral:'Diagnostic / historical'};
+ for(const [kind,label]of Object.entries(list)){const item=addText(el,'span','');const dot=addText(item,'i','','dot');dot.style.background=palette[kind];addText(item,'span',label);}
+ if($('color').value==='outcome')addText(el,'span','Numeric tint: |official-metric Δ| saturates at 0.003. Each contrast has its own control; this is not a ranking across folds.');
+}
+function transform(){$('viewport').setAttribute('transform',`translate(${panX},${panY}) scale(${scale})`);}
+function fit(){if(!positions.length)return;const w=$('graph').clientWidth,h=$('graph').clientHeight;const maxX=Math.max(...positions.map(p=>p.x))+276,maxY=Math.max(...positions.map(p=>p.y))+65;scale=Math.min(1.1,(w-40)/maxX,(h-40)/maxY);panX=20;panY=20;transform();}
+function focus(id){const p=positions.find(p=>p.id===id);if(p){scale=Math.max(scale,.75);panX=30-p.x*scale;panY=$('graph').clientHeight/2-p.y*scale;transform();}}
+function zoom(f,cx=$('graph').clientWidth/2,cy=$('graph').clientHeight/2){const next=Math.max(.035,Math.min(2.5,scale*f));panX=cx-(cx-panX)*next/scale;panY=cy-(cy-panY)*next/scale;scale=next;transform();}
+let drag=null;$('graph').addEventListener('pointerdown',e=>{if(e.target.closest('.node'))return;drag={x:e.clientX,y:e.clientY,px:panX,py:panY};$('graph').setPointerCapture(e.pointerId);});$('graph').addEventListener('pointermove',e=>{if(drag){panX=drag.px+e.clientX-drag.x;panY=drag.py+e.clientY-drag.y;transform();}});$('graph').addEventListener('pointerup',()=>drag=null);$('graph').addEventListener('pointercancel',()=>drag=null);
+ $('graph').addEventListener('wheel',e=>{e.preventDefault();const rect=$('graph').getBoundingClientRect();zoom(e.deltaY>0?.88:1.13,e.clientX-rect.left,e.clientY-rect.top);},{passive:false});
+ $('search').addEventListener('input',()=>{if($('search').value.trim())$('records').checked=true;render();fit();});
+ $('frontier').onclick=()=>{frontier=!frontier;render();fit();};$('all').onclick=()=>{frontier=false;$('search').value='';$('records').checked=true;expanded=new Set(nodes.keys());render();fit();};$('collapse').onclick=()=>{frontier=false;$('search').value='';$('records').checked=false;expanded=new Set(tree.nodes.filter(n=>['root','family'].includes(n.type)).map(n=>n.id));render();fit();};$('records').onchange=()=>{render();fit();};$('color').onchange=()=>{render();detail(nodes.get(selected));};$('fit').onclick=fit;$('zoomIn').onclick=()=>zoom(1.25);$('zoomOut').onclick=()=>zoom(.8);
+ const root=nodes.get(tree.root_id).metadata||{};for(const [value,label]of [[tree.nodes.length,'preserved nodes'],[tree.nodes.filter(n=>n.allocation?.eligible).length,'eligible directions'],[Number(root.public_best||0).toFixed(4),'verified own public']]){const stat=addText($('stats'),'div','','stat');addText(stat,'b',String(value));addText(stat,'span',label);}
+ const snapshot=$('snapshot');for(const [path,label]of [['tree.json','Source tree'],['INDEX.md','Research index'],['../../../specs/current-state.md','Current state']]){const a=addText(snapshot,'a',label);a.href=path;}addText(snapshot,'span',`Offline snapshot · source SHA256 ${tree.view_provenance.sha256.slice(0,16)} · all ${tree.nodes.length} nodes included`);
+ render();detail(nodes.get(selected));fit();window.addEventListener('resize',fit);
+</script>
+</body>
+</html>

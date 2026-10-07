@@ -1,5 +1,37 @@
 # Extendable bandit research tree
 
+## Interactive view
+
+Open [the HTML research explorer](generated/view.html). It works offline, embeds
+every generated node, and provides search, collapsible branches, evidence links,
+interaction navigation, and an eligible-frontier filter.
+
+Green/red describe recorded favorable/unfavorable outcomes of exact recipes.
+Blue marks open or untested directions; amber marks execution/resource issues;
+purple marks validity/ancestry issues; gray marks diagnostic or historical nodes.
+Official-metric signed contrasts use stronger tint for larger absolute deltas,
+saturating at 0.003. Each delta is relative to its own recorded control, not a
+cross-fold ranking or a public prediction. Qualitative statuses are identified
+in the detail panel. Priority mode shows manual allocation priorities. Neither
+coloring mode infers that a child is bad because its parent failed.
+
+Rebuild after updating ledgers/configuration, inside the campaign boundary:
+
+```sh
+WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 \
+WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s \
+scripts/limited .venv/bin/python scripts/research_tree.py --root . build
+WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 \
+WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s \
+scripts/limited .venv/bin/python scripts/research_tree_view.py --root .
+```
+
+The local web service binds only `127.0.0.1:8765` and runs inside the campaign
+slice with 0.5 CPU, 256 MB RAM and no swap. Open
+`http://127.0.0.1:8765/research/bandit_tree/generated/view.html`.
+Inspect it with `systemctl --user status wnn-research-tree-web.service`.
+The HTML snapshot records its source tree SHA-256; rebuild after meaningful updates.
+
 This is an additive navigation and allocation layer for root Challenge 2.
 Original ledgers, notes, plots, failed attempts, historical bandit state and raw
 artifacts remain in their existing locations. Nothing is merged from the friend’s

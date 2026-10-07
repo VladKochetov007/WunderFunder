@@ -815,6 +815,8 @@ def _build_index(
     lines = [
         "# Research bandit tree",
         "",
+        "[Interactive HTML explorer](view.html) — rebuild with `scripts/research_tree_view.py --root .` after updating this tree.",
+        "",
         "Generated navigational index. Original ledgers and legacy bandit remain archived; every ledger event is retained with its original line bytes and SHA-256.",
         "",
         "Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.",
