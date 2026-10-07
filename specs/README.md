@@ -14,6 +14,10 @@ Read in order:
 5. [Experiment execution](experiment-execution.md).
 6. [Decision index](adr/README.md).
 
+Current approved execution plan: [continuous local/Kaggle/Vast research](plans/2026-10-07-continuous-research.md), including the strict campaign-owned-instance boundary. [ADR0015](adr/0015-flexible-credit-bounded-parallel-compute.md) supersedes the initial cohort release gate with bounded useful parallel spending within existing credit and the $20 cumulative ceiling.
+
+Status terminology: **recipe locked** means the settings, sources and evaluation are fixed for reproducibility; it does not pause an experiment. **Backbone weights frozen** means that training updates only the specified heads or adapters. **Deferred** means no current compute allocation, with the reason and condition for reconsideration recorded. **Execution blocked** means a concrete missing resource, access route or implementation dependency. Avoid the standalone status “frozen,” which conflates these distinct meanings. Historical records retain their original wording.
+
 For experiment allocation, do not treat a confidence interval crossing zero as
 a universal stop rule; see [ADR-0009](adr/0009-uncertainty-is-not-a-kill-switch.md).
 

@@ -1,0 +1,131 @@
+{
+  "created_utc": "2026-10-07T16:18:19Z",
+  "id": "E524-C1-independent-single-delivery-review-v1",
+  "independent_checks": [
+    "Rehashed the final operator receipts and all three named ZIPs; hashes and byte sizes matched the recorded artifacts.",
+    "Reviewed the CPU-float32 reference implementation and independently reproduced its reported parity statistics; root's separate numerical replay agrees.",
+    "Independently checked the distinction between true CPU-float32 parity and cached GPU-FP16 cross-backend diagnostics."
+  ],
+  "limitations": [
+    "Runtime is projected from the same-host exposed 20-sequence sample, not a full competition runtime measurement.",
+    "Python 3.11 offline testing covers two full streams and reset-prefix replay, not a repeated 311-sequence determinism suite.",
+    "CPU-float32 parity compares the first two sequences; cached GPU-FP16 diagnostics and metric values use 20 exposed sequences.",
+    "No full 468-sequence I16 rescore, public forecast, or public upload is claimed; the human upload gate remains outside this review."
+  ],
+  "pair_package": {
+    "path": "submissions/c20261007_c1_pair_i16/c20261007_c1_pair_i16.zip",
+    "reason": "Projected runtime exceeds the 60-minute serving bound; Python 3.11 single-package gate was not run for this pair.",
+    "result": "NOT_RECOMMENDED_FOR_UPLOAD",
+    "runtime_projection_minutes_39_4m_rows": 90.2,
+    "sha256": "e83909ecccbad8b5af3ab48bf316f7dda71ebfd13cf0da6ab95333ef5b9840ff"
+  },
+  "precision_review": {
+    "cached_fp16_vs_native_i16": {
+      "s3": {
+        "global_wp_delta_native_minus_fp16": 0.00021554713567384365,
+        "max_abs": 0.026541173458099365
+      },
+      "s4": {
+        "global_wp_delta_native_minus_fp16": 1.0321625692033543e-05,
+        "max_abs": 0.046257227659225464
+      }
+    },
+    "cached_gpu_fp16": "Separate diagnostic on 20 exposed validation sequences; not substituted for or failed against the CPU-float32 parity gate.",
+    "cpu_float32_reference_metadata_sha256": "cb9a6e0f16ac9136b93e665cde619128ea25c68b8e60dd93bc5c844bd173e904",
+    "cpu_float32_reference_output_sha256": "66a9011b36faf6ba3cfc414bd438492c7ef13c31d6bd54cc882ed58e4a1e9a23",
+    "cpu_float32_reference_source_sha256": "8933bcff83ab94ee15d7166653c311a6a375570493baf306d5491608929e37df",
+    "metric_interpretation": "global_wp_clip2_v1 values/deltas are diagnostic on an exposed 20-sequence sample, not a fresh holdout or public forecast.",
+    "replay_agrees_with_root_independent_numerical_replay": true
+  },
+  "python311_validation": {
+    "environment": "Python 3.11.16, offline CPU-only, one CPU, no GPU device",
+    "full_streams_per_package": 2,
+    "interpretation": "The actual ZIP callbacks match archived outputs exactly across the tested levels, and a prefix replay after another stream confirms state reset for this test. This is not a separate repeated full 311-sequence determinism run.",
+    "levels": [
+      "v2",
+      "avx2",
+      "v3"
+    ],
+    "max_abs_vs_archived_host_v3": 0.0,
+    "receipt_sha256s": [
+      "9bbb97d95d98c9d5758d12120706a543b14014fbd72ef1d29ad6337584c93a42",
+      "5bdd1ac9ed54ded7625b7c91912aa5b3d1eda10df932d985f44c68f3b43a18d8",
+      "249f2b7fda0d5f1e3429a4850ec217c15e30ec482746545a5b230766c6a23b31",
+      "045d2b833aecb3c9549162da9d43734d63d9d2aad1bc6a7aad1ccd0da24a2168",
+      "bd6ea845846356010be748a0b13bf10946e8a59e99f57402060cccb05b6e1246",
+      "61449a5bf15040492e68f4c1301627d89b2f948828b629a4903611269f445837"
+    ],
+    "reset_replay_rows": 120,
+    "rows_per_package": 40000,
+    "six_receipts_all_pass": true
+  },
+  "result": "PASS_FOR_TESTED_TECHNICAL_SINGLE_PACKAGE_SCOPE",
+  "reviewer": "tpu_recovery_delivery",
+  "scope": "Independent review of the final C1 seed-3 and seed-4 single-member I16 delivery artifacts. No fit, public upload, or new scientific score claim.",
+  "single_packages": {
+    "s3": {
+      "bytes": 4674361,
+      "checks": {
+        "cpu_float32_export_parity": true,
+        "projected_runtime_within_60_minutes": true,
+        "python311_offline_cpu_callbacks_cross_level_and_reset_replay": true,
+        "safe_unique_members_root_solution_and_exact_checkpoint_export": true,
+        "static_abi": true
+      },
+      "cpu_float32_vs_i16": {
+        "gate": 0.0003,
+        "max_abs": 7.534027099609375e-05
+      },
+      "path": "submissions/c20261007_c1_s3_i16/c20261007_c1_s3_i16.zip",
+      "result": "PASS",
+      "runtime": {
+        "projected_minutes_39_4m_rows": 46.7,
+        "sample_sequences": 20,
+        "us_per_row": 71.1,
+        "vs_incumbent": "-17.6%"
+      },
+      "sha256": "95b4a730e61182b37f5bfd238aa8077430666bb9f5acfc5d76635bf23138163c"
+    },
+    "s4": {
+      "bytes": 4674695,
+      "checks": {
+        "cpu_float32_export_parity": true,
+        "projected_runtime_within_60_minutes": true,
+        "python311_offline_cpu_callbacks_cross_level_and_reset_replay": true,
+        "safe_unique_members_root_solution_and_exact_checkpoint_export": true,
+        "static_abi": true
+      },
+      "cpu_float32_vs_i16": {
+        "gate": 0.0003,
+        "max_abs": 0.00010380148887634277
+      },
+      "path": "submissions/c20261007_c1_s4_i16/c20261007_c1_s4_i16.zip",
+      "result": "PASS",
+      "runtime": {
+        "projected_minutes_39_4m_rows": 50.9,
+        "sample_sequences": 20,
+        "us_per_row": 77.6,
+        "vs_incumbent": "-10.2%"
+      },
+      "sha256": "7d9059c6817b2fefeb98e6bcefa536f9c6488ff25697a7d3e58ee0603186667a"
+    }
+  },
+  "upstream_receipts": {
+    "cpu_float32_and_fp16_diagnostics": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_TORCH_CPU_PARITY_AND_FP16_DIAGNOSTIC.json",
+      "sha256": "323aeef0ced8059aac83891b2080efbcfe3449fb236eb3d2b651f3011ff27020"
+    },
+    "delivered_zip_validation": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_DELIVERED_ZIP_VALIDATION_RECEIPT_V1.json",
+      "sha256": "727c20c898c20228e3792a8c6b1a1aa2290e4ae02784fd4828db11cca0e9e01e"
+    },
+    "package_provenance": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/E524_PACKAGE_PROVENANCE_VALIDATION.json",
+      "sha256": "669d7d12f878e8a090273d2111ba1530c76dc26f0dd2a5402dba3d207b816031"
+    },
+    "root_independent_numerical_replay": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/submission_C1_E524/ROOT_NUMERICAL_REPLAY_V1.json",
+      "sha256": "0ea43134a39f7032870031427b1d84e2836a56ed3b49ebc98848241212269b69"
+    }
+  }
+}

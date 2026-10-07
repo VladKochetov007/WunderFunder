@@ -1,5 +1,16 @@
 # E524: independently implemented C1 submission candidates
 
+## Public results reported by the user on 2026-10-07
+
+| Candidate | Public score | Versus incumbent 0.6660 | Portal runtime / memory |
+|---|---:|---:|---|
+| C1 seed 3, `1n6uxwb6` | 0.6647 | −0.0013 | 33m11s / 624 MB |
+| C1 seed 4, `1cymqpkk` | 0.6654 | −0.0006 | 33m07s / 624 MB |
+
+Both uploads completed scoring and neither improved the public best. [Preserved result receipt](E524_PUBLIC_RESULTS_20261007_V1.json) binds the user-reported portal rows to the local filenames and hashes; the portal itself did not report ZIP hashes. These are now scored candidates, not an unscored upload queue. Do not reupload identical files. Their measured runtime and possible value in materially different combinations remain useful. Public single timings do not establish pair runtime or score. Own best stays **0.6660**; Maxim's reported **0.6674** is not reproduced, H230 subsequently fitted and publicly scored0.6649; see [its public receipt](../wide_baseline_heterogeneous_H230/H230_PUBLIC_RESULT_20261008_V1.json).
+
+The original technical delivery and exposed local comparison below are preserved. The E511 gain was against matched C0 continuation, while this public comparison is against the incumbent served endpoint. Neither comparison isolates every recipe, training-membership and serving difference.
+
 The user requested uploadable ZIPs using improvements that have actually landed, and explicitly prohibited copying teammate implementation code. These candidates use our existing Rust streaming engine, our wrapper and our independently trained C1 epoch-1 checkpoints. Read-only teammate snapshots are methodological references and are not included in the packages.
 
 The frozen E511 comparison evaluated 468 exposed fold-0 sequences, 141 connected components and 808,863 scored rows using the official metric. C1 seed3 scored 0.681618 versus C0 0.679952; seed4 scored 0.681647 versus 0.679971. Their fixed equal-weight pair scored 0.682176 versus 0.681153. These are local development improvements, not a forecast that the public score exceeds 0.6660 or Maxim's 0.6674. Conditional bootstrap intervals and exact artifacts are in [E511 report](../local/E511_C1V2_C0_EVALUATION_v1/REPORT.md).
