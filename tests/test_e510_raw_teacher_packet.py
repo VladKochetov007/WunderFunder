@@ -4,6 +4,8 @@ import ast
 import hashlib
 import importlib.util
 import json
+import os
+import tempfile
 import unittest
 from datetime import UTC, datetime
 from pathlib import Path
@@ -27,8 +29,54 @@ def load_builder() -> ModuleType:
 
 def profile_receipt() -> dict[str, object]:
     """Return a minimal synthetic, no-fit E508 receipt for gate tests."""
+    raw_files = {
+        "datasets/train.parquet": {
+            "expected": {
+                "dataset_ref": "vladkochetov07/wunder-funder",
+                "dataset_version_at_preregistration": 1,
+                "dataset_version_observed_at_utc": "2026-10-07T00:11:43+00:00",
+                "logical_path": "datasets/train.parquet",
+                "bytes": 29_240_219_011,
+                "footer_bytes": 60_437_285,
+                "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+                "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+            },
+            "observed": {
+                "dataset_ref": "vladkochetov07/wunder-funder",
+                "path": "/kaggle/input/wunder-funder/train.parquet",
+                "bytes": 29_240_219_011,
+                "footer_bytes": 60_437_285,
+                "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+                "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+            },
+            "footer_identity_matches": True,
+            "full_file_sha256_matches": True,
+        },
+        "datasets/valid.parquet": {
+            "expected": {
+                "dataset_ref": "vladkochetov07/wunder-funder",
+                "dataset_version_at_preregistration": 1,
+                "dataset_version_observed_at_utc": "2026-10-07T00:11:43+00:00",
+                "logical_path": "datasets/valid.parquet",
+                "bytes": 5_615_509_128,
+                "footer_bytes": 10_686_926,
+                "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+                "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+            },
+            "observed": {
+                "dataset_ref": "vladkochetov07/wunder-funder",
+                "path": "/kaggle/input/wunder-funder/valid.parquet",
+                "bytes": 5_615_509_128,
+                "footer_bytes": 10_686_926,
+                "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+                "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+            },
+            "footer_identity_matches": True,
+            "full_file_sha256_matches": True,
+        },
+    }
     return {
-        "packet": "E508_RAW_BASELINE_V1",
+        "packet": "E508_RAW_BASELINE_V3",
         "status": "profile_ready_awaiting_controller_review",
         "fit_admitted": False,
         "fit_stages_started": [],
@@ -44,6 +92,12 @@ def profile_receipt() -> dict[str, object]:
         "hardware": {
             "cuda_available": True,
             "cuda_devices": [{"name": "Tesla T4", "total_memory": 16_000_000_000}],
+        },
+        "input_map": {
+            "portable_registry": {
+                "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+            },
+            "raw_files": raw_files,
         },
     }
 
@@ -78,7 +132,7 @@ class E510PacketGateTests(unittest.TestCase):
             self.receipt_bytes,
             expected_sha256=self.receipt_sha,
         )
-        self.assertEqual(result["packet"], "E508_RAW_BASELINE_V1")
+        self.assertEqual(result["packet"], "E508_RAW_BASELINE_V3")
         with self.assertRaisesRegex(ValueError, "supplied digest"):
             self.builder.validate_profile_receipt(self.receipt_bytes, expected_sha256="0" * 64)
 
@@ -87,6 +141,24 @@ class E510PacketGateTests(unittest.TestCase):
         changed = (json.dumps(rejected, sort_keys=True) + "\n").encode()
         digest = hashlib.sha256(changed).hexdigest()
         with self.assertRaisesRegex(ValueError, "no-fit profile"):
+            self.builder.validate_profile_receipt(changed, expected_sha256=digest)
+
+        wrong_identity = profile_receipt()
+        wrong_identity["input_map"]["raw_files"]["datasets/train.parquet"][
+            "full_file_sha256_matches"
+        ] = False
+        changed = (json.dumps(wrong_identity, sort_keys=True) + "\n").encode()
+        digest = hashlib.sha256(changed).hexdigest()
+        with self.assertRaisesRegex(ValueError, "raw input identity"):
+            self.builder.validate_profile_receipt(changed, expected_sha256=digest)
+
+        wrong_version = profile_receipt()
+        wrong_version["input_map"]["raw_files"]["datasets/train.parquet"]["expected"][
+            "dataset_version_at_preregistration"
+        ] = 2
+        changed = (json.dumps(wrong_version, sort_keys=True) + "\n").encode()
+        digest = hashlib.sha256(changed).hexdigest()
+        with self.assertRaisesRegex(ValueError, "raw input identity"):
             self.builder.validate_profile_receipt(changed, expected_sha256=digest)
 
     def test_profile_timing_allocator_and_group_counts_fail_closed(self) -> None:
@@ -147,7 +219,7 @@ class E510PacketGateTests(unittest.TestCase):
             "packet_id": "E510_RAW_TEACHER_PAIR_V1",
             "profile_review": {
                 "status": "approved",
-                "packet_id": "E508_RAW_BASELINE_V1",
+                "packet_id": "E508_RAW_BASELINE_V3",
                 "receipt_sha256": self.receipt_sha,
                 "terminal_output_sha256": "6" * 64,
             },
@@ -230,6 +302,26 @@ class E510PacketGateTests(unittest.TestCase):
         ):
             with self.subTest(files=files), self.assertRaisesRegex(ValueError, "not bound"):
                 validate_entry({"files": files})
+
+    def test_parquet_footer_hash_includes_validated_trailer(self) -> None:
+        namespace = function_namespace(
+            WORKER_PATH,
+            "parquet_footer_identity",
+            {"Path": Path, "hashlib": hashlib, "os": os},
+        )
+        prefix = b"parquet-data-prefix"
+        footer = b"serialized row-group and schema metadata"
+        trailer = len(footer).to_bytes(4, "little") + b"PAR1"
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "fixture.parquet"
+            path.write_bytes(prefix + footer + trailer)
+            actual = namespace["parquet_footer_identity"](path)
+            self.assertEqual(actual["footer_range_bytes_including_trailer"], len(footer) + 8)
+            self.assertEqual(actual["footer_range_start_offset"], len(prefix))
+            self.assertEqual(actual["footer_sha256"], hashlib.sha256(footer + trailer).hexdigest())
+            path.write_bytes(prefix + footer + len(footer).to_bytes(4, "little") + b"BAD!")
+            with self.assertRaisesRegex(ValueError, "invalid parquet trailer"):
+                namespace["parquet_footer_identity"](path)
 
     def test_worker_checks_profile_hash_before_input_inventory(self) -> None:
         tree = ast.parse(WORKER_PATH.read_text())

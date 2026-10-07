@@ -28,6 +28,9 @@ ASSETS_BYTES = 6268
 PORTABLE_SHA256 = "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
 SOURCE_MANIFEST_SHA256 = "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb"
 AUDIT_CHECKPOINT_SHA256 = "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+RAW_DATASET_REF = "vladkochetov07/wunder-funder"
+RAW_DATASET_VERSION_AT_PREREGISTRATION = 1
+RAW_DATASET_VERSION_OBSERVED_AT_UTC = "2026-10-07T00:11:43+00:00"
 TRAIN_BYTES = 29_240_219_011
 VALID_BYTES = 5_615_509_128
 TARGET_ORDERS = {"train": 10_606, "valid": 1_873}
@@ -49,6 +52,7 @@ ROOT = Path(__file__).resolve().parent
 RUNTIME_ROOT = Path(os.environ.get("WNN_E510_RUNTIME", "/kaggle/working/e510_raw_teacher_pair"))
 PHASE_FILE = RUNTIME_ROOT / "phase.json"
 WORKER_STATUS = RUNTIME_ROOT / "worker_status.json"
+INPUT_IDENTITY_REPORT = RUNTIME_ROOT / "input_identity.json"
 LOG_DIR = RUNTIME_ROOT / "logs"
 PROFILE_RECEIPT_PATH = RUNTIME_ROOT / "e508_profile_receipt.json"
 SOURCE_FAMILIES_PATH = RUNTIME_ROOT / "SOURCE_FAMILIES.json"
@@ -102,6 +106,42 @@ def find_unique_file(
             f"expected one {name} matching size={size} sha256={digest}; found {len(matches)}"
         )
     return matches[0]
+
+
+def parquet_footer_identity(path: Path) -> dict[str, object]:
+    """Hash the exact Parquet metadata footer and its eight-byte trailer."""
+    stat = path.stat()
+    if stat.st_size < 8:
+        raise ValueError(f"parquet file is shorter than its trailer: {path}")
+    with path.open("rb") as stream:
+        stream.seek(-8, os.SEEK_END)
+        trailer = stream.read(8)
+        footer_bytes = int.from_bytes(trailer[:4], "little")
+        if trailer[4:] != b"PAR1" or footer_bytes > stat.st_size - 8:
+            raise ValueError(
+                f"invalid parquet trailer for {path}: "
+                f"footer_bytes={footer_bytes}, trailer_magic={trailer[4:].hex()}"
+            )
+        range_bytes = footer_bytes + 8
+        stream.seek(-range_bytes, os.SEEK_END)
+        digest = hashlib.sha256()
+        remaining = range_bytes
+        while remaining:
+            block = stream.read(min(remaining, 1 << 20))
+            if not block:
+                raise ValueError(f"truncated parquet footer for {path}")
+            digest.update(block)
+            remaining -= len(block)
+    return {
+        "path": str(path.resolve()),
+        "bytes": stat.st_size,
+        "mtime_ns": stat.st_mtime_ns,
+        "footer_bytes": footer_bytes,
+        "footer_range_bytes_including_trailer": range_bytes,
+        "footer_range_start_offset": stat.st_size - range_bytes,
+        "trailer_magic": trailer[4:].decode("ascii"),
+        "footer_sha256": digest.hexdigest(),
+    }
 
 
 def asset_file(
@@ -276,7 +316,7 @@ def validate_external_profile_receipt() -> tuple[dict[str, object], str]:
         raise ValueError("external E508 profile receipt hash differs from the reviewed digest")
     receipt = json.loads(receipt_bytes)
     if (
-        receipt.get("packet") != "E508_RAW_BASELINE_V1"
+        receipt.get("packet") != "E508_RAW_BASELINE_V3"
         or receipt.get("status") != "profile_ready_awaiting_controller_review"
         or receipt.get("fit_admitted") is not False
         or receipt.get("fit_stages_started") != []
@@ -286,6 +326,40 @@ def validate_external_profile_receipt() -> tuple[dict[str, object], str]:
         or receipt.get("target_row_counts") != TARGET_ORDERS
     ):
         raise ValueError("E508 receipt is not the reviewed profile for the sealed fold-0 recipe")
+    input_map = receipt.get("input_map")
+    raw_files = input_map.get("raw_files") if isinstance(input_map, dict) else None
+    portable_registry = input_map.get("portable_registry") if isinstance(input_map, dict) else None
+    if (
+        not isinstance(input_map, dict)
+        or not isinstance(portable_registry, dict)
+        or portable_registry.get("sha256") != PORTABLE_SHA256
+        or not isinstance(raw_files, dict)
+    ):
+        raise ValueError("E508 profile receipt omits its sealed raw input identity")
+    for logical_path in ("datasets/train.parquet", "datasets/valid.parquet"):
+        identity = raw_files.get(logical_path)
+        expected = identity.get("expected") if isinstance(identity, dict) else None
+        observed = identity.get("observed") if isinstance(identity, dict) else None
+        if (
+            not isinstance(expected, dict)
+            or not isinstance(observed, dict)
+            or expected.get("dataset_ref") != RAW_DATASET_REF
+            or isinstance(expected.get("dataset_version_at_preregistration"), bool)
+            or expected.get("dataset_version_at_preregistration")
+            != RAW_DATASET_VERSION_AT_PREREGISTRATION
+            or expected.get("dataset_version_observed_at_utc")
+            != RAW_DATASET_VERSION_OBSERVED_AT_UTC
+            or expected.get("logical_path") != logical_path
+            or observed.get("dataset_ref") != RAW_DATASET_REF
+            or expected.get("bytes") != observed.get("bytes")
+            or expected.get("footer_bytes") != observed.get("footer_bytes")
+            or expected.get("footer_sha256") != observed.get("footer_sha256")
+            or expected.get("sha256") != observed.get("sha256")
+            or identity.get("footer_identity_matches") is not True
+            or identity.get("full_file_sha256_matches") is not True
+            or not str(observed.get("path", "")).startswith("/kaggle/input/")
+        ):
+            raise ValueError(f"E508 profile raw input identity is incomplete or changed: {logical_path}")
     profile = receipt.get("profile")
     if not isinstance(profile, dict) or not isinstance(profile.get("metrics"), dict):
         raise ValueError("E508 profile result has no timing metrics")
@@ -320,7 +394,7 @@ def validate_external_profile_receipt() -> tuple[dict[str, object], str]:
     return receipt, actual_sha
 
 
-def input_map(input_root: Path) -> dict[str, object]:
+def input_map(input_root: Path, profile_receipt: dict[str, object]) -> dict[str, object]:
     """Audit attached assets and raw inputs, then create only symlinked data paths."""
     if not input_root.is_dir():
         raise FileNotFoundError("/kaggle/input is absent")
@@ -357,32 +431,134 @@ def input_map(input_root: Path) -> dict[str, object]:
             raise ValueError(f"small chain asset hash changed: {relative}")
 
     raw_files = {
-        "datasets/train.parquet": find_unique_file(input_root, "train.parquet", size=TRAIN_BYTES),
-        "datasets/valid.parquet": find_unique_file(input_root, "valid.parquet", size=VALID_BYTES),
+        "datasets/train.parquet": find_unique_file(input_root, "train.parquet"),
+        "datasets/valid.parquet": find_unique_file(input_root, "valid.parquet"),
     }
     portable = json.loads(portable_path.read_text())
+    profile_input_map = profile_receipt["input_map"]
+    profile_raw_files = profile_input_map["raw_files"]
     parquet_identity: dict[str, dict[str, object]] = {}
     for logical_name, source in raw_files.items():
         registry_entry = portable["sources"][logical_name]
         identity = registry_entry["original_identity"]
-        if source.stat().st_size != identity["bytes"]:
-            raise ValueError(f"raw input byte size changed: {logical_name}")
-        # Validate only the predeclared footer range here. Full-file SHA runs only if
-        # the trainer's frozen metadata identity differs and requests the registry.
-        footer_digest = hashlib.sha256()
-        with source.open("rb") as stream:
-            stream.seek(source.stat().st_size - int(identity["footer_bytes"]))
-            for block in iter(lambda: stream.read(1 << 20), b""):
-                footer_digest.update(block)
-        footer_hash = footer_digest.hexdigest()
-        if footer_hash != identity["footer_sha256"]:
-            raise ValueError(f"raw parquet footer changed: {logical_name}")
-        parquet_identity[logical_name] = {
-            "path": str(source),
-            "bytes": source.stat().st_size,
-            "mtime_ns": source.stat().st_mtime_ns,
-            "footer_sha256": footer_hash,
+        profile_identity = profile_raw_files[logical_name]
+        profile_expected = profile_identity["expected"]
+        expected = {
+            "dataset_ref": RAW_DATASET_REF,
+            "dataset_version_at_preregistration": RAW_DATASET_VERSION_AT_PREREGISTRATION,
+            "dataset_version_observed_at_utc": RAW_DATASET_VERSION_OBSERVED_AT_UTC,
+            "logical_path": logical_name,
+            "bytes": int(identity["bytes"]),
+            "footer_bytes": int(identity["footer_bytes"]),
+            "footer_sha256": str(identity["footer_sha256"]),
+            "sha256": str(registry_entry["sha256"]),
         }
+        if any(
+            profile_expected.get(key) != expected[key]
+            for key in (
+                "dataset_ref",
+                "dataset_version_at_preregistration",
+                "dataset_version_observed_at_utc",
+                "logical_path",
+                "bytes",
+                "footer_bytes",
+                "footer_sha256",
+                "sha256",
+            )
+        ):
+            raise ValueError(f"E508 profile raw identity differs from the pinned registry: {logical_name}")
+        mount_relative = source.resolve().relative_to(input_root.resolve())
+        mount_root = input_root / mount_relative.parts[0]
+        observed: dict[str, object] = {
+            "dataset_ref": RAW_DATASET_REF,
+            "dataset_version_from_runtime_mount": None,
+            "dataset_version_from_e508_profile": RAW_DATASET_VERSION_AT_PREREGISTRATION,
+            "dataset_version_observed_at_utc": RAW_DATASET_VERSION_OBSERVED_AT_UTC,
+            "mount_path": str(mount_root.resolve()),
+            "relative_path_under_kaggle_input": mount_relative.as_posix(),
+        }
+        hash_started_unix: float | None = None
+        try:
+            observed.update(parquet_footer_identity(source))
+            hash_started_unix = time.time()
+            parquet_identity[logical_name] = {
+                "expected": expected,
+                "observed": observed,
+                "status": "full_file_sha256_in_progress",
+                "sha256_started_unix": hash_started_unix,
+            }
+            write_json(
+                INPUT_IDENTITY_REPORT,
+                {
+                    "packet": PACKET_ID,
+                    "status": "full_file_sha256_in_progress",
+                    "raw_parquet": parquet_identity,
+                },
+            )
+            print(
+                json.dumps(
+                    {
+                        "event": "raw_source_sha256",
+                        "logical_path": logical_name,
+                        "stage": "started",
+                        "source_path": str(source.resolve()),
+                        "expected_sha256": expected["sha256"],
+                        "started_unix": hash_started_unix,
+                    }
+                ),
+                flush=True,
+            )
+            observed["sha256"] = sha256_path(source)
+            hash_finished_unix = time.time()
+            observed["sha256_started_unix"] = hash_started_unix
+            observed["sha256_finished_unix"] = hash_finished_unix
+            observed["sha256_elapsed_seconds"] = hash_finished_unix - hash_started_unix
+            print(
+                json.dumps(
+                    {
+                        "event": "raw_source_sha256",
+                        "logical_path": logical_name,
+                        "stage": "completed",
+                        "elapsed_seconds": hash_finished_unix - hash_started_unix,
+                        "actual_sha256": observed["sha256"],
+                    }
+                ),
+                flush=True,
+            )
+        except Exception as error:
+            write_json(
+                INPUT_IDENTITY_REPORT,
+                {
+                    "packet": PACKET_ID,
+                    "status": "inspection_failed",
+                    "logical_path": logical_name,
+                    "expected": expected,
+                    "observed": {**observed, "inspection_error": repr(error)},
+                    "sha256_started_unix": hash_started_unix,
+                    "already_inspected": parquet_identity,
+                },
+            )
+            raise
+        footer_matches = all(
+            observed.get(key) == expected[key]
+            for key in ("bytes", "footer_bytes", "footer_sha256")
+        )
+        full_file_matches = observed["sha256"] == expected["sha256"]
+        parquet_identity[logical_name] = {
+            "expected": expected,
+            "observed": observed,
+            "footer_identity_matches": footer_matches,
+            "full_file_sha256_matches": full_file_matches,
+        }
+        write_json(
+            INPUT_IDENTITY_REPORT,
+            {"packet": PACKET_ID, "status": "matched", "raw_parquet": parquet_identity},
+        )
+        if not footer_matches or not full_file_matches:
+            raise ValueError(
+                f"raw parquet source identity changed: {logical_name}; "
+                f"footer_matches={footer_matches}, full_file_sha256_matches={full_file_matches}"
+            )
 
     for relative, (source, _) in required_assets.items():
         destination = ROOT / relative
@@ -990,12 +1166,12 @@ def main() -> None:
     try:
         # Fail closed before source inventory, device allocation, or trainer startup.
         mark_phase("external_profile_receipt_gate")
-        _, profile_receipt_sha256 = validate_external_profile_receipt()
+        profile_receipt, profile_receipt_sha256 = validate_external_profile_receipt()
         result["e508_profile_review_receipt_sha256"] = profile_receipt_sha256
         mark_phase("external_profile_receipt_verified", receipt_sha256=profile_receipt_sha256)
 
         mark_phase("input_inventory")
-        discovered = input_map(Path("/kaggle/input"))
+        discovered = input_map(Path("/kaggle/input"), profile_receipt)
         print(json.dumps({"event": "input_map", "value": discovered}), flush=True)
         set_worker_environment()
         if discovered["portable_registry_required_by_mtime"]:

@@ -28,6 +28,9 @@ SPLIT_SHA256 = "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d
 SOURCE_FAMILIES_SHA256 = "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d"
 SOURCE_MANIFEST_SHA256 = "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb"
 SOURCE_CHECKPOINT_SHA256 = "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+RAW_DATASET_REF = "vladkochetov07/wunder-funder"
+RAW_DATASET_VERSION_AT_PREREGISTRATION = 1
+RAW_DATASET_VERSION_OBSERVED_AT_UTC = "2026-10-07T00:11:43+00:00"
 PROFILE_ALLOCATOR_BYTES = 4_300_000_000
 MAX_PAIR_SECONDS = 6_300
 
@@ -53,7 +56,7 @@ def validate_profile_receipt(
     expected_counts = {"train": 10_535, "valid": 1_405}
     expected_targets = {"train": 10_606, "valid": 1_873}
     if (
-        receipt.get("packet") != "E508_RAW_BASELINE_V1"
+        receipt.get("packet") != "E508_RAW_BASELINE_V3"
         or receipt.get("status") != "profile_ready_awaiting_controller_review"
         or receipt.get("fit_admitted") is not False
         or receipt.get("fit_stages_started") != []
@@ -63,6 +66,40 @@ def validate_profile_receipt(
         or receipt.get("target_row_counts") != expected_targets
     ):
         raise ValueError("receipt is not the E508 fold-0 no-fit profile result")
+    input_map = receipt.get("input_map")
+    raw_files = input_map.get("raw_files") if isinstance(input_map, dict) else None
+    portable_registry = input_map.get("portable_registry") if isinstance(input_map, dict) else None
+    if (
+        not isinstance(input_map, dict)
+        or not isinstance(portable_registry, dict)
+        or portable_registry.get("sha256") != PORTABLE_SHA256
+        or not isinstance(raw_files, dict)
+    ):
+        raise ValueError("E508 profile receipt omits its sealed raw input identity")
+    for logical_path in ("datasets/train.parquet", "datasets/valid.parquet"):
+        identity = raw_files.get(logical_path)
+        expected = identity.get("expected") if isinstance(identity, dict) else None
+        observed = identity.get("observed") if isinstance(identity, dict) else None
+        if (
+            not isinstance(expected, dict)
+            or not isinstance(observed, dict)
+            or expected.get("dataset_ref") != RAW_DATASET_REF
+            or isinstance(expected.get("dataset_version_at_preregistration"), bool)
+            or expected.get("dataset_version_at_preregistration")
+            != RAW_DATASET_VERSION_AT_PREREGISTRATION
+            or expected.get("dataset_version_observed_at_utc")
+            != RAW_DATASET_VERSION_OBSERVED_AT_UTC
+            or expected.get("logical_path") != logical_path
+            or observed.get("dataset_ref") != RAW_DATASET_REF
+            or expected.get("bytes") != observed.get("bytes")
+            or expected.get("footer_bytes") != observed.get("footer_bytes")
+            or expected.get("footer_sha256") != observed.get("footer_sha256")
+            or expected.get("sha256") != observed.get("sha256")
+            or identity.get("footer_identity_matches") is not True
+            or identity.get("full_file_sha256_matches") is not True
+            or not str(observed.get("path", "")).startswith("/kaggle/input/")
+        ):
+            raise ValueError(f"E508 profile raw input identity is incomplete or changed: {logical_path}")
     profile = receipt.get("profile")
     if not isinstance(profile, dict) or not isinstance(profile.get("metrics"), dict):
         raise ValueError("E508 result omits measured profile fields")
@@ -207,7 +244,7 @@ def validate_controller_review_receipt(
     if not isinstance(profile_decision, dict) or profile_decision.get("status") != "approved":
         raise ValueError("controller did not approve the actual E508 profile")
     expected_profile = {
-        "packet_id": "E508_RAW_BASELINE_V1",
+        "packet_id": "E508_RAW_BASELINE_V3",
         "receipt_sha256": profile_receipt_sha256,
         "terminal_output_sha256": terminal_output_sha256,
     }
@@ -702,7 +739,7 @@ def build_packet(
             "source_archive.tar": sha256_bytes(source),
         },
         "external_profile_gate": {
-            "packet": "E508_RAW_BASELINE_V1",
+            "packet": "E508_RAW_BASELINE_V3",
             "receipt_sha256": profile_receipt_sha256,
             "terminal_output_sha256": terminal_output_sha256,
             "controller_review_receipt_sha256": controller_review_receipt_sha256,
@@ -711,6 +748,7 @@ def build_packet(
             "status": profile["status"],
             "fit_admitted": profile["fit_admitted"],
             "fit_stages_started": profile["fit_stages_started"],
+            "raw_input_identity": profile["input_map"]["raw_files"],
             "split_sha256": profile["split_sha256"],
             "profile": profile["profile"],
             "only_after_controller_review": True,
@@ -821,7 +859,12 @@ and corrupt group 528. The legacy `--train-seqs 10607` argument remains only a
 ceiling; the fold manifest provides actual membership.
 
 The worker recursively discovers mounted inputs by exact manifest/hash and byte
-identity, checks Parquet footers, and symlinks raw data without copying it. After
+identity, checks the complete Parquet footer plus its eight-byte length/PAR1
+trailer against the portable registry, and streams full-file SHA-256 checks for
+both raw tables before any fit. The frozen E508 v3 profile receipt also binds
+the dataset version snapshot and the observed input paths/hashes. A mismatch
+blocks the worker before profiling or fitting and leaves an atomic identity
+report. The worker symlinks raw data without copying it. After
 both fits it exports train/valid float32 predictions in full cache row order using
 feature-only projections, then writes `e510_source_families_realized.json` with
 the two checkpoint and provenance hashes plus the sealed six existing teacher
