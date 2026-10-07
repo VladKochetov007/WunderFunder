@@ -18,3 +18,4 @@ ADRs explain why a consequential research or orchestration decision was made. Th
 For a new decision, copy [the template](template.md), choose the next unused number and add it here. If superseding a decision, preserve its text/history and link both records. User instructions take precedence; record their effective scope rather than quietly editing an old scientific specification.
 
 - [ADR0011: measured pipeline utilization](0011-measured-pipeline-utilization.md): verifieddigestreuse, completecohortcost and bounded loaderprofiling.
+- [ADR0012: independently implement teammate methods](0012-independent-teammate-method-implementation.md): read code for ideas and implementation details; independently write training and serving code in our own project conventions.
