@@ -1,0 +1,83 @@
+{
+  "packet_id": "E508_RAW_BASELINE_V3",
+  "kernel_id": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v3",
+  "status": "preregistered_private_profile_only_not_pushed",
+  "observed_at_utc": "2026-10-07T00:20:09+00:00",
+  "packet": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/packet_v3",
+    "private": true,
+    "competition_upload": false,
+    "internet": false,
+    "fit_launch": false,
+    "machine_shape": "NvidiaTeslaT4 (requested; actual allocation will be recorded)",
+    "kernel_sha256": "b9c684f94852bfd9f9d302aa7b9e69be4e03c409287146608cacd2073b0c1928",
+    "metadata_sha256": "17cb676d1811160c08bc66d23c5b73230f92e5f3c5b6a2145e4db9bf8de0f3fa",
+    "worker_sha256": "f7cf383368ed7bee4f4354ac2bb8f0016ca484b3d26e1abf084fefc363aba88d",
+    "source_archive_sha256": "78f9e5c3d001b8a0254ed535846f07b3b9a906adba2a270f7ddc1ab6606081fc",
+    "trainer_commit": "69b2331825e193a070015ca4182872724595209a",
+    "trainer_sha256": "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "assets_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+    "portable_inputs_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "e463_source_manifest_sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb",
+    "audit_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+  },
+  "raw_input_dataset": {
+    "ref": "vladkochetov07/wunder-funder",
+    "dataset_id": 12352811,
+    "version_at_preregistration": 1,
+    "version_observed_at_utc": "2026-10-07T00:11:43+00:00",
+    "last_updated": "2026-10-04T00:36:57.853000Z",
+    "train": {
+      "bytes": 29240219011,
+      "footer_bytes": 60437285,
+      "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+    },
+    "valid": {
+      "bytes": 5615509128,
+      "footer_bytes": 10686926,
+      "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+    }
+  },
+  "commands": {
+    "quota_snapshot": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited .venv/bin/python research/campaign_2026-10-06/cloud_preflight/poll_provider.py --targets research/campaign_2026-10-06/cloud_preflight/provider_targets.json --log /tmp/e508_v3_prelaunch_quota.jsonl",
+    "quota_snapshot_path": "research/campaign_2026-10-06/cloud_preflight/e508_prelaunch_quota_v3.jsonl",
+    "quota_snapshot_sha256": "1a10c3311362894f868e1638cd17866ecc21dabd3f26a0e9548a51a5bb97fb5c",
+    "kaggle_push": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 scripts/limited .venv/bin/kaggle kernels push -p research/campaign_2026-10-06/bandit_continuation/raw_teacher_pair/packet_v3 -t 4200"
+  },
+  "budget": {
+    "gpu_quota_used_seconds": 37141.837,
+    "gpu_campaign_baseline_seconds": 37047.321,
+    "gpu_campaign_delta_before_v3_seconds": 94.516,
+    "gpu_campaign_cap_seconds": 56780.516,
+    "gpu_campaign_headroom_before_v3_seconds": 56686.0,
+    "gpu_reserved_seconds_before_v3": 0.0,
+    "maximum_provider_execution_allowance_seconds": 4200,
+    "maximum_accelerator_count_assumed": 2,
+    "maximum_device_gpu_charge_seconds": 8400,
+    "maximum_device_gpu_charge_hours": 2.3333333333333335,
+    "remaining_allocated_headroom_after_worst_case_seconds": 48286.0,
+    "scope": "one private E508 footer/data identity plus short trainer profile; no fits or automatic retry",
+    "retained_followup_and_exploration_reserve": true
+  },
+  "preregistration": {
+    "expected_footer_range": "Parquet metadata footer and eight-byte length/PAR1 trailer; footer_bytes + 8 bytes from EOF",
+    "expected_full_file_hashes_required": true,
+    "mismatch_policy": "persist expected and observed mount path, size, footer and full SHA-256; do not profile or infer logical row identity on a mismatch",
+    "profile_only": true,
+    "profile_worker_timeout_seconds": 3600,
+    "provider_watch_seconds": 4200,
+    "no_oom_retry": true,
+    "controller_review_before_any_fit": true,
+    "provider_status_prelaunch": "unpublished kernel status returned 403; no run failure inferred",
+    "live_quota_snapshot_status": "GPU headroom 56,686 seconds, no reservations; E463 TPU preflight remains QUEUED"
+  },
+  "predecessors": {
+    "v1_terminal_receipt_sha256": "75b210338a31478d038e6c9edfd6cde5aeca540a8d76d013ef413f3446385419",
+    "v2_terminal_receipt": "e508_profile_terminal_v2.json",
+    "unchanged_retry": false,
+    "diagnosis": "v1 manifest-key bug corrected in v2; v2 then exposed the worker's eight-byte footer range offset bug; v3 corrects it and records actual source identity"
+  }
+}
