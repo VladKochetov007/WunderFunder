@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
 HERE = Path(__file__).resolve().parent
-PACKET_DIR = HERE / "packet_v2"
+PACKET_DIR = HERE / "packet_v3"
 TRAINER_COMMIT = "69b2331825e193a070015ca4182872724595209a"
 TRAINER_SHA256 = "8a29459e998f7f5d6a03b7a4b87c6f4b569002e65b8c87127c37138360909cbf"
 SPLIT_PATH = ROOT / "research/campaign_2026-09-29/artifacts/splits/fold0.json"
@@ -23,6 +23,12 @@ PORTABLE_SHA256 = "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328f
 SPLIT_SHA256 = "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
 SOURCE_MANIFEST_SHA256 = "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb"
 SOURCE_CHECKPOINT_SHA256 = "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+RAW_DATASET_REF = "vladkochetov07/wunder-funder"
+RAW_DATASET_VERSION_AT_PREREGISTRATION = 1
+RAW_DATASET_VERSION_OBSERVED_AT_UTC = "2026-10-07T00:11:43+00:00"
+RAW_DATASET_ID = 12352811
+RAW_DATASET_LAST_UPDATED = "2026-10-04T00:36:57.853000Z"
+RAW_DATASET_TOTAL_BYTES = 34_947_700_985
 
 
 def sha256_bytes(value: bytes) -> str:
@@ -314,6 +320,14 @@ def build_packet() -> dict[str, object]:
     source, source_hashes = source_archive()
     worker = (HERE / "packet_worker.py").read_bytes()
     kernel = kernel_source(source, source_hashes, worker)
+    portable_sources = json.loads(PORTABLE_INPUTS.read_text())["sources"]
+    raw_identity = {
+        logical_path: {
+            **portable_sources[logical_path]["original_identity"],
+            "sha256": portable_sources[logical_path]["sha256"],
+        }
+        for logical_path in ("datasets/train.parquet", "datasets/valid.parquet")
+    }
     metadata = {
         "code_file": "kernel.py",
         "competition_sources": [],
@@ -325,13 +339,13 @@ def build_packet() -> dict[str, object]:
         "enable_gpu": True,
         "enable_internet": False,
         "enable_tpu": False,
-        "id": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v2",
+        "id": "vladkochetov07/wnn-raw-teacher-pair-e508-20261007-v3",
         "is_private": True,
         "kernel_sources": [],
         "kernel_type": "script",
         "language": "python",
         "machine_shape": "NvidiaTeslaT4",
-        "title": "wnn-raw-teacher-pair-e508-20261007-v2",
+        "title": "wnn-raw-teacher-pair-e508-20261007-v3",
     }
     PACKET_DIR.mkdir(parents=True)
     kernel_path = PACKET_DIR / "kernel.py"
@@ -349,7 +363,7 @@ def build_packet() -> dict[str, object]:
         for seed in (3, 4)
     }
     receipt: dict[str, object] = {
-        "packet_id": "E508_RAW_BASELINE_V2",
+        "packet_id": "E508_RAW_BASELINE_V3",
         "status": "prepared_private_not_uploaded",
         "kernel_id": metadata["id"],
         "metadata": metadata,
@@ -418,11 +432,18 @@ def build_packet() -> dict[str, object]:
             "assets_manifest_sha256": ASSETS_SHA256,
             "portable_inputs_sha256": PORTABLE_SHA256,
             "raw": {
-                "dataset": "vladkochetov07/wunder-funder",
+                "dataset": RAW_DATASET_REF,
+                "dataset_id": RAW_DATASET_ID,
+                "dataset_version_at_preregistration": RAW_DATASET_VERSION_AT_PREREGISTRATION,
+                "dataset_version_observed_at_utc": RAW_DATASET_VERSION_OBSERVED_AT_UTC,
+                "dataset_last_updated": RAW_DATASET_LAST_UPDATED,
+                "dataset_total_bytes": RAW_DATASET_TOTAL_BYTES,
+                "version_binding": "Kaggle runtime mount does not expose a version identifier; exact per-file full SHA-256 binds observed bytes to the frozen portable registry",
                 "train_bytes": 29_240_219_011,
                 "valid_bytes": 5_615_509_128,
-                "footer_hashes_checked": True,
-                "full_hash": "only through the frozen portable registry when source metadata differs",
+                "footer_hashes_checked": "Parquet metadata plus the eight-byte length/PAR1 trailer, using the portable registry's exact range",
+                "full_sha256_checked": True,
+                "expected_files": raw_identity,
             },
             "audit_only_source": {
                 "dataset": "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
@@ -470,7 +491,7 @@ def build_packet() -> dict[str, object]:
         },
     }
     (PACKET_DIR / "review_packet.json").write_text(json.dumps(receipt, indent=2) + "\n")
-    (HERE / "README.md").write_text(readme(receipt))
+    (PACKET_DIR / "README.md").write_text(readme(receipt))
     return receipt
 
 
@@ -573,7 +594,7 @@ def training_args(name: str, seed: int, *, profile: bool = False) -> list[str]:
 def readme(receipt: dict[str, object]) -> str:
     """Write an operator-facing handoff with status and one reviewed command."""
     packet = str(receipt["packet_path"])
-    return f"""# E508 v2 raw-only baseline teacher pair
+    return f"""# E508 v3 raw-only baseline teacher pair
 
 This is a private Kaggle profile-gate packet prepared locally from the frozen
 production trainer at `{TRAINER_COMMIT}`. It is reviewable but has **not** been
@@ -595,10 +616,16 @@ The trainer never reads evaluation labels during fitting.
 At startup the kernel recursively inventories `/kaggle/input`; it resolves the
 fold-0 asset manifest, raw parquet tables, and audit-only E463 source manifest by
 content identity rather than assuming a mount directory. The raw files are
-symlinked, not copied. Their predeclared Parquet footer hashes are checked; the
-frozen portable registry triggers full-file checks only if source metadata differs.
-The E463 checkpoint is checked against its manifest and is not used to fit this
-scratch baseline.
+symlinked, not copied. The Parquet validator reads the final eight-byte
+length/PAR1 trailer, then hashes exactly the metadata footer plus that trailer.
+This matches the portable registry builder's recorded range. It also computes
+each full raw-file SHA-256 against the frozen portable registry, so matching
+footer metadata alone cannot pass a changed data file. An atomic
+`input_identity.json` records expected and observed hashes, sizes, mount paths,
+and the Kaggle dataset version captured at preregistration. Kaggle's mounted
+filesystem does not expose an attachment version identifier; full-file hashes
+bind the observed bytes to the version-1 source registry. The E463 checkpoint is
+checked against its manifest and is not used to fit this scratch baseline.
 
 The kernel runs one short seed-3 profile only. It requires a finite multi-step
 timing, the declared T4 device, enough host/device/disk headroom, and a projected
