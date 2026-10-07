@@ -10,6 +10,12 @@ import pytest
 from scripts import bandit_resources as resources
 
 
+@pytest.fixture(autouse=True)
+def historical_cpu_policy(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Keep these existing reservation tests on their declared six-core policy."""
+    monkeypatch.setattr(resources, "authorized_cpu_cap", lambda: 6)
+
+
 def parent_properties() -> dict[str, str]:
     return {
         "CPUQuotaPerSecUSec": "6s",

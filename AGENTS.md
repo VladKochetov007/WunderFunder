@@ -128,7 +128,11 @@ Read each selected `SKILL.md`; user instructions override its generic defaults. 
 
 ## Local execution and existing tools
 
+Latest user scope (2026-10-08): CPU is for analysis, EDA and execution support; do not allocate large CPU model fits. Model training uses admitted GPU/TPU workers. Small-data screens follow [the subset protocol](specs/plans/2026-10-08-small-data-screening.md): preserve complete sequences/components and causal histories, keep fixed evaluation membership, record fidelity and optimization budgets, and confirm scale-dependent directions without a universal small-screen kill gate.
+
 Use `rg`/`rg --files`, never `grep`. Batch independent reads/checks, keep dependent operations sequential. Preserve unrelated dirty files. Commit/push meaningful contract, implementation, results and packaging steps separately. Frozen source worktrees must survive a running job; vanished `/tmp` paths must be recreated from commits rather than assumed present.
+
+Temporary user allocation: **12 CPU cores until approximately 2026-10-08 10:00 Europe/Kyiv**, then 6. RAM/VRAM limits remain unchanged. See [dated authorization](research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_WINDOW_20261008_V1.json). The verified user timer restores the parent quota; local admission uses the same dated window. Reconcile controller guards before changing parent properties so healthy jobs are not terminated by stale policy.
 
 Current local aggregate limits are **6 CPU cores,20 decimal GB RAM,5 decimal GB observed VRAM**, one GPU worker. Use persistent `wnn-campaign.slice` with18 GB memory-high,20 GB maximum and no swap. Recheck effective properties after service/daemon changes. Support CLIs, tests and notebooks count toward the same aggregate. New user caps supersede these values.
 

@@ -6,7 +6,7 @@ profile identifier and a RAM reservation derived from a completed representative
 profile; this controller records that evidence but does not guess a reservation.
 
 The parent slice is the hard aggregate boundary. This controller also admits
-jobs only when their profiled reservations fit the 6 CPU / 18 GB working
+jobs only when their profiled reservations fit the authorized CPU / 18 GB working
 allowance and records every launch and terminal outcome.
 """
 
@@ -33,6 +33,18 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_STATE = ROOT / "research/campaign_2026-10-06/bandit_continuation/runtime"
 SLICE = "wnn-campaign.slice"
 CPU_CAP = 6
+TEMPORARY_CPU_START = datetime(2026, 10, 7, 22, 16, 56, tzinfo=UTC)
+TEMPORARY_CPU_END = datetime(2026, 10, 8, 7, 0, tzinfo=UTC)
+
+
+def authorized_cpu_cap(now: datetime | None = None) -> int:
+    """Apply the user's twelve-core window, then restore the six-core ceiling."""
+    current = datetime.now(UTC) if now is None else now
+    if current.tzinfo is None:
+        raise ValueError("CPU authorization time must include a timezone")
+    return 12 if TEMPORARY_CPU_START <= current < TEMPORARY_CPU_END else CPU_CAP
+
+
 RAM_WORKING_BYTES = 18_000_000_000
 RAM_PARENT_BYTES = 20_000_000_000
 RAM_HIGH_BYTES = 18_000_000_000
@@ -128,7 +140,7 @@ def parent_properties() -> dict[str, str]:
 def verify_parent(properties: dict[str, str]) -> str:
     """Require the exact authorized aggregate limits and return its cgroup path."""
     expected = {
-        "CPUQuotaPerSecUSec": f"{CPU_CAP}s",
+        "CPUQuotaPerSecUSec": f"{authorized_cpu_cap()}s",
         "MemoryHigh": str(RAM_HIGH_BYTES),
         "MemoryMax": str(RAM_PARENT_BYTES),
         "MemorySwapMax": "0",
@@ -395,7 +407,7 @@ def support_cpu_reservations(state: Path, parent_group: str) -> dict[str, float]
         ):
             raise ValueError(f"invalid cpu.max for support cgroup {group.name}: {parts}")
         if parts[0] == "max":
-            result[group.name] = float(CPU_CAP)
+            result[group.name] = float(authorized_cpu_cap())
         elif parts[0].isascii() and parts[0].isdigit():
             result[group.name] = int(parts[0]) / int(parts[1])
         else:
@@ -416,8 +428,9 @@ def verify_capacity(
     active_cpus, active_ram = active_reservations(state, exclude=exclude)
     support = support_cpu_reservations(state, parent_group)
     support_cpus = sum(support.values())
-    if active_cpus + support_cpus + cpus > CPU_CAP:
-        raise RuntimeError(f"CPU reservation would exceed {CPU_CAP} aggregate cores")
+    cpu_cap = authorized_cpu_cap()
+    if active_cpus + support_cpus + cpus > cpu_cap:
+        raise RuntimeError(f"CPU reservation would exceed {cpu_cap} aggregate cores")
     if active_ram + ram_bytes > RAM_WORKING_BYTES:
         raise RuntimeError("profiled RAM reservations would exceed the 18 GB working allowance")
     measured = (
@@ -528,8 +541,9 @@ def launch(args: argparse.Namespace) -> dict[str, object]:
     verify_attempt_id(args.attempt)
     if args.kind not in {"cpu", "gpu"}:
         raise ValueError("local job kind must be cpu or gpu")
-    if not 1 <= args.cpus <= CPU_CAP:
-        raise ValueError(f"worker CPU reservation must be in [1, {CPU_CAP}]")
+    cpu_cap = authorized_cpu_cap()
+    if not 1 <= args.cpus <= cpu_cap:
+        raise ValueError(f"worker CPU reservation must be in [1, {cpu_cap}]")
     if not 1 <= args.reserve_bytes <= RAM_WORKING_BYTES:
         raise ValueError("profile reserve must be a positive byte count within 18 GB")
     if args.admission_timeout <= 0:

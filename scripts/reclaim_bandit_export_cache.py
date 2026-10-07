@@ -8,9 +8,9 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 if __package__:
-    from scripts.bandit_resources import atomic_json, read_json
+    from scripts.bandit_resources import ROOT, atomic_json, authorized_cpu_cap, read_json
 else:
-    from bandit_resources import atomic_json, read_json
+    from bandit_resources import ROOT, atomic_json, authorized_cpu_cap, read_json
 
 
 def memory_snapshot(cgroup: Path) -> dict[str, int]:
@@ -37,7 +37,9 @@ def reclaim_completed_export(
         record.get("status") != "finished"
         or record.get("exit_status") != 0
         or record.get("kind") != "gpu"
-        or "scripts/predict_run.py" not in record.get("command", [])
+        or not {"scripts/predict_run.py", str(ROOT / "scripts/predict_run.py")}.intersection(
+            record.get("command", [])
+        )
     ):
         raise ValueError("predecessor must be a successfully completed guarded export")
     cgroup = cgroup_root / record["parent_properties_at_start"]["ControlGroup"].lstrip("/")
@@ -50,8 +52,8 @@ def reclaim_completed_export(
     ):
         raise ValueError("campaign memory limits differ from the authorized bounds")
     quota, period = map(int, (cgroup / "cpu.max").read_text().split())
-    if quota > 10 * period:
-        raise ValueError("campaign CPU limit exceeds ten cores")
+    if quota > authorized_cpu_cap() * period:
+        raise ValueError("campaign CPU limit exceeds the current authorized cores")
     with (runtime / "gpu.lock").open("a+") as handle:
         fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
         before = memory_snapshot(cgroup)

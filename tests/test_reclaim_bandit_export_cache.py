@@ -18,7 +18,7 @@ def cache_fixture(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
         "memory.max": "20000000000",
         "memory.high": "18000000000",
         "memory.swap.max": "0",
-        "cpu.max": "1000000 100000",
+        "cpu.max": "600000 100000",
         "memory.reclaim": "",
     }.items():
         (cgroup / name).write_text(value)
