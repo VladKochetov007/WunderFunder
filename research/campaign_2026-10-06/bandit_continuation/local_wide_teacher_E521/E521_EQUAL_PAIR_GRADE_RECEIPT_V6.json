@@ -1,0 +1,107 @@
+{
+  "artifact_hash_map_sha256": "16340e046d7c420884fbdd8d833596fdd22b2dc86bdbf17b0aa614a905cbb5ab",
+  "command": "CUDA_VISIBLE_DEVICES= WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_EQUAL_PAIR_EXCLUDED_FOLD0_GRADE_V6.py --spec research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_EQUAL_PAIR_EXCLUDED_FOLD0_GRADING_SPEC_V6.json",
+  "evaluation": {
+    "components": 141,
+    "exposure": "exposed development data previously inspected and used in research decisions; not fresh confirmation",
+    "fold": 0,
+    "groups": 468,
+    "selected_rows": 808863
+  },
+  "exit_status": 0,
+  "frozen_spec_path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_EQUAL_PAIR_EXCLUDED_FOLD0_GRADING_SPEC_V6.json",
+  "frozen_spec_sha256": "d6f2b76737a80f61e61a3c3a793fffced5df6e27dbd6d803fcb59bcceee45bcc",
+  "grader_path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_EQUAL_PAIR_EXCLUDED_FOLD0_GRADE_V6.py",
+  "grader_sha256": "98e9ee32e897f4718be2fd1fcf08ed436f2560f18ca5be4957081f095c97efeb",
+  "id": "E521_EQUAL_PAIR_EXCLUDED_FOLD0_GRADE_RECEIPT_V6",
+  "integrity_checks": {
+    "checkpoint_prediction_sidecar_binding_for_both_seeds": true,
+    "corrupt_train_group_528_excluded_for_both_seeds": true,
+    "exact_recipe_and_fixed_epoch3_binding": true,
+    "fit_and_export_terminal_success_for_both_seeds": true,
+    "full_fold_membership_and_component_validation": true,
+    "only_frozen_evaluation_groups_scored": true,
+    "scratch_raw_only_independent_members": true,
+    "seed3_reproduces_prior_independent_grade": true
+  },
+  "official_metric": "global_wp_clip2_v1",
+  "pair_minus_seed3": {
+    "bootstrap_sd": 0.0016839283950691576,
+    "candidate_wp": 0.6740931558246093,
+    "centered_moments": true,
+    "ci95": [
+      -0.001906470750157846,
+      0.004742826198961002
+    ],
+    "mean_diff": 0.0012826864230106594,
+    "metric_id": "global_wp_clip2_v1",
+    "n_boot": 2000,
+    "n_components": 141,
+    "n_sequences": 468,
+    "reference_wp": 0.6728104694015986,
+    "seed": 271828
+  },
+  "pair_minus_seed4": {
+    "bootstrap_sd": 0.0015319302839718932,
+    "candidate_wp": 0.6740931558246093,
+    "centered_moments": true,
+    "ci95": [
+      -9.252549321943082e-05,
+      0.0059123615678641816
+    ],
+    "mean_diff": 0.0028205183672201928,
+    "metric_id": "global_wp_clip2_v1",
+    "n_boot": 2000,
+    "n_components": 141,
+    "n_sequences": 468,
+    "reference_wp": 0.6712726374573891,
+    "seed": 271828
+  },
+  "recorded_at_utc": "2026-10-07T15:31:37.682955+00:00",
+  "report_path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_EQUAL_PAIR_EXCLUDED_FOLD0_REPORT_V6.md",
+  "report_sha256": "1c76ee9aa858b08f678a632ba8d1de9ffb52913fe3863ed7326bf8f0a118771f",
+  "reproducibility_note": "Seed-3 standalone score reproduces the previously frozen independent grade within 1e-8.",
+  "resource_boundary": {
+    "cpu_quota": "100%",
+    "gpu_visible": false,
+    "memory_max_bytes": 1500000000,
+    "peak_memory_bytes": null,
+    "peak_memory_note": "The limited wrapper enforced the specified cap; this invocation did not produce a peak-RSS sample.",
+    "runtime_max_seconds": 120,
+    "worker_threads": 1
+  },
+  "result_path": "research/campaign_2026-10-06/bandit_continuation/local_wide_teacher_E521/E521_EQUAL_PAIR_EXCLUDED_FOLD0_RESULT_V6.json",
+  "result_sha256": "1a9fb6c8c6a171553fdfb6f1cd9b93235a940ade4988456a1d30628f2d233644",
+  "schema_version": 1,
+  "scientific_limits": [
+    "exposed fold-0 descriptive development grade",
+    "conditional component intervals do not estimate training-seed variability",
+    "no matched GRU-128 control; no width effect claim",
+    "no public forecast"
+  ],
+  "scores": {
+    "equal_pair": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6645248405223813,
+      "t1": 0.6836614711268377,
+      "wp": 0.6740931558246095
+    },
+    "seed3": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6627419150997785,
+      "t1": 0.6828790237034191,
+      "wp": 0.6728104694015988
+    },
+    "seed4": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.662059372480788,
+      "t1": 0.6804859024339913,
+      "wp": 0.6712726374573896
+    }
+  },
+  "status": "finished_exit_0",
+  "wall_seconds": 5.896
+}
