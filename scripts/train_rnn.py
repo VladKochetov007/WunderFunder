@@ -33,6 +33,7 @@ from wnn.data import (
 from wnn.distillation import (
     append_family_output_head,
     extend_family_output_head,
+    family_targets_for_loss,
     four_family_weighted_mse,
 )
 from wnn.distillation_cache import validate_distillation_cache
@@ -1122,6 +1123,8 @@ def main():
                     default="source", help="main target column set in the preweighted cache")
     ap.add_argument("--distill-family-weight", type=float, default=0.0,
                     help="training-only weighted-MSE coefficient for the four-family eight-output head")
+    ap.add_argument("--distill-family-target-mode", choices=["clip2", "raw"], default="clip2",
+                    help="family-head teacher targets: legacy clip2 default or raw teacher outputs")
     ap.add_argument("--distill-alpha", type=float, default=0.5, help="target = (1-a) y + a mean(teachers)")
     ap.add_argument("--distill-alpha-far", type=float, default=None,
                     help="noise-adaptive distillation: a(u) = a + (far - a)(1 - exp(-u/tau)), u = rows until the label "
@@ -1288,6 +1291,8 @@ def main():
         ap.error("--distill-family-weight must be finite and nonnegative")
     if args.distill_family_weight > 0 and not args.distill_cache_root:
         ap.error("--distill-family-weight requires --distill-cache-root")
+    if args.distill_family_target_mode == "raw" and args.distill_family_weight <= 0:
+        ap.error("--distill-family-target-mode raw requires a positive --distill-family-weight")
     if not math.isfinite(args.distill_reanchor) or not 0 <= args.distill_reanchor <= 1:
         ap.error("--distill-reanchor must be finite and between zero and one")
     if args.distill_reanchor and (
@@ -2194,8 +2199,9 @@ def main():
                         if family_targets is not None:
                             family_prediction = out[..., family_at:family_at + 8].float().reshape(
                                 *out.shape[:-1], 4, 2)
-                            family_target = family_targets[:, sl].float().clamp(-2, 2).reshape(
-                                *out.shape[:-1], 4, 2)
+                            family_target = family_targets_for_loss(
+                                family_targets[:, sl].float(), args.distill_family_target_mode
+                            ).reshape(*out.shape[:-1], 4, 2)
                             family_loss = four_family_weighted_mse(family_prediction, family_target, w)
                             loss = loss + args.distill_family_weight * family_loss
                     elif args.td_alpha > 0:

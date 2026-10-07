@@ -175,3 +175,23 @@ def four_family_weighted_mse(
     weights = target_weights.unsqueeze(-2)
     denominator = (weights.sum() * 4).clamp_min(1e-8)
     return (weights * (predictions.float() - targets.float()).square()).sum() / denominator
+
+
+def family_targets_for_loss(targets: torch.Tensor, mode: str = "clip2") -> torch.Tensor:
+    """Transform family-head targets for training without changing serving labels.
+
+    Args:
+        targets: Cached raw teacher outputs with the family and target dimensions.
+        mode: ``clip2`` preserves the historical behavior; ``raw`` keeps teacher values.
+
+    Returns:
+        Targets with the original shape and either clipped or unchanged values.
+
+    Raises:
+        ValueError: If the requested target mode is unsupported.
+    """
+    if mode == "clip2":
+        return targets.clamp(-2, 2)
+    if mode == "raw":
+        return targets
+    raise ValueError(f"unknown family target mode: {mode}")
