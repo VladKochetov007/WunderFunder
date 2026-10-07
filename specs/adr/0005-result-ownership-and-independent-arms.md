@@ -1,6 +1,6 @@
 # ADR-0005: Own complete results and separate dependencies
 
-Status: Accepted. Date:2026-10-07.
+Status: Accepted. Date: 2026-10-07.
 
 ## Context and evidence
 

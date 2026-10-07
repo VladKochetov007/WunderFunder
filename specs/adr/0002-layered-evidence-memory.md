@@ -1,6 +1,6 @@
 # ADR-0002: Separate active context from preserved evidence
 
-Status: Accepted. Date:2026-10-07.
+Status: Accepted. Date: 2026-10-07.
 
 ## Context and evidence
 
@@ -8,7 +8,7 @@ The user requires no information loss and an extendable bandit tree. Long histor
 
 ## Decision
 
-Maintain three layers: compact specs/livefrontier; indexed hypothesis/experiment episodes; immutable raw evidence. Use ADRs for rationale. Retrieve source evidence progressively and give agents minimal role-specific packets. [Memory entry point](../README.md), [full methods](../../research/RESEARCH_METHODS.md).
+Maintain three layers: compact specs/live frontier; indexed hypothesis/experiment episodes; immutable raw evidence. Use ADRs for rationale. Retrieve source evidence progressively and give agents minimal role-specific packets. [Memory entry point](../README.md), [full methods](../../research/RESEARCH_METHODS.md).
 
 ## Alternatives and consequences
 

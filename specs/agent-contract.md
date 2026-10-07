@@ -22,4 +22,4 @@ A lead scientific actor owns the route to a trained model and predictions, coord
 
 Handoff must distinguish: proposed, implemented, verified on synthetic cases, profiled on actual data, fitted, predictions exported, evaluated, packaged and publicly scored. Return the last completed stage, pending owner/action, source revision and paths. Test counts and commits must never be reported as model-quality gains.
 
-Use nativeLuna/max under the current user preference and actual authorized external providers for model diversity. Keep at most three subordinate roles active with isolated write ownership. Do not let agents change their own grader, budget authority or frozen recipe. A source-reading agent must not launch fits unless that execution scope is explicitly delegated.
+Use native Luna/max under the current user preference and actual authorized external providers for model diversity. Keep at most three subordinate roles active with isolated write ownership. Do not let agents change their own grader, budget authority or frozen recipe. A source-reading agent must not launch fits unless that execution scope is explicitly delegated.

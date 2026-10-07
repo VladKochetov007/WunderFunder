@@ -1,6 +1,6 @@
 # ADR-0004: Own training and explicit target variants
 
-Status: Accepted. Date:2026-10-07.
+Status: Accepted. Date: 2026-10-07.
 
 ## Context and evidence
 

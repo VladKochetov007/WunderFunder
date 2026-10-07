@@ -2,6 +2,9 @@
 
 Start here when resuming research or assigning an agent. Our objective is long-term competition winning through reproducible improvements, useful exploration and reliable execution. A completed code task is not a completed experiment.
 
+[Project AGENTS.md](../AGENTS.md) describes agent invocation, model/provider routes,
+skills, existing tooling and Kaggle execution.
+
 Read in order:
 
 1. [Objective and constraints](research-objective.md).

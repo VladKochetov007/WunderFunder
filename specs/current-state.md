@@ -23,4 +23,4 @@ Primary links:
 
 Next result owners: distillation lead prepares runnable minimalC1 and raw-family recipes; cloud operator fixes/profiles actual inputs and fits own missing baseline pair; independent critic reviews objective/data checks and freezes the paired grader; root admits, sequences and integrates results. Production fits are pending their own checks, not every other arm's completion.
 
-Current local aggregate ceiling:10CPUcores,20decimalGBRAM,5decimalGBobservedVRAM, oneGPUworker. Kaggle uses a separate allocation with20%headroom and live quota checks. The resumed contract governs exact budgets. No new paid compute is authorized.
+Current local aggregate ceiling:10 CPU cores,20 decimal GB RAM,5 decimal GB observed VRAM, one GPU worker. Kaggle uses a separate allocation with 20% headroom and live quota checks. The resumed contract governs exact budgets. No new paid compute is authorized.

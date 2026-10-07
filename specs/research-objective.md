@@ -1,6 +1,6 @@
 # Research objective
 
-Maximize long-term expected competition performance of a valid, deterministic submission. The user's ambition is to win, with0.7000 public score as a long-term milestone. This is an objective, not a forecast. Useful incremental gains, stronger teachers, complementary models, new representations and better measurement all count as progress when their evidence supports that claim.
+Maximize long-term expected competition performance of a valid, deterministic submission. The user's ambition is to win, with 0.7000 public score as a long-term milestone. This is an objective, not a forecast. Useful incremental gains, stronger teachers, complementary models, new representations and better measurement all count as progress when their evidence supports that claim.
 
 Do not optimize for the easiest short-term task, number of ideas, commits, agent agreement or infrastructure completeness. Prefer a bounded experiment that resolves a useful uncertainty or produces a competitive model. Necessary correctness and resource checks protect this objective; unrelated checks must not become prerequisites for every arm.
 

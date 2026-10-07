@@ -1,6 +1,6 @@
 # ADR-0006: Repair execution failures within measured bounds
 
-Status: Accepted. Date:2026-10-07.
+Status: Accepted. Date: 2026-10-07.
 
 ## Context and evidence
 
@@ -8,7 +8,7 @@ The laptop previously suffered OOM. The user authorizes Kaggle and autonomous re
 
 ## Decision
 
-Use verified local aggregatecgroup/GPUlimits and separate cloudheadroom. Profile actual shapes; observe resources, phase, exits andOOMcounters; preserve failures and correct them under new IDs. Keep expected/observed input evidence before raising errors. Diagnose and rerun repaired attempts without routine user approval. Current numerical limits/allocation live in the [resumed contract](../../research/campaign_2026-10-06/bandit_continuation/RESUMED_ALLOCATION_20261007.md).
+Use verified local aggregatecgroup/GPU limits and separate cloud headroom. Profile actual shapes; observe resources, phase, exits andOOM counters; preserve failures and correct them under new IDs. Keep expected/observed input evidence before raising errors. Diagnose and rerun repaired attempts without routine user approval. Current numerical limits/allocation live in the [resumed contract](../../research/campaign_2026-10-06/bandit_continuation/RESUMED_ALLOCATION_20261007.md).
 
 ## Alternatives and consequences
 
