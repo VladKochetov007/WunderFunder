@@ -1,0 +1,129 @@
+{
+  "at_utc": "2026-10-07T12:28:36.349521+00:00",
+  "scope": "Laptop compactGRU128 fullshape resource probes; no scores, productionrecipe or cloudthroughput claim",
+  "rows": [
+    {
+      "label": "B16 / 0 workers",
+      "attempt": "e522-compact-b16-profile-v1",
+      "status": "finished",
+      "exit_status": 0,
+      "failure": null,
+      "profile": {
+        "backward": 102.9,
+        "forward": 95.48,
+        "gpu_total": 210.23,
+        "h2d": 0.03,
+        "inputs": 9.79,
+        "labels": 0.01,
+        "loss": 0.58,
+        "optimizer": 1.41,
+        "weights": 0.03,
+        "loader_wait": 290.88,
+        "step_wall": 323.02,
+        "seq_per_s": 49.53,
+        "syncs_per_step": 0.08
+      },
+      "observed_vram_bytes": 2096103424,
+      "peak_ram_bytes": 4999999488,
+      "peak_parent_ram_bytes": 17304985600,
+      "memory_events": {
+        "high": 0,
+        "low": 0,
+        "max": 4958,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0,
+        "sock_throttled": 0
+      }
+    },
+    {
+      "label": "B32 / 0 workers",
+      "attempt": "e522-compact-b32-profile-v2",
+      "status": "finished",
+      "exit_status": 0,
+      "failure": null,
+      "profile": {
+        "backward": 134.08,
+        "forward": 117.76,
+        "gpu_total": 273.77,
+        "h2d": 0.03,
+        "inputs": 19.61,
+        "labels": 0.01,
+        "loss": 0.75,
+        "optimizer": 1.49,
+        "weights": 0.03,
+        "loader_wait": 585.92,
+        "step_wall": 633.76,
+        "seq_per_s": 50.49,
+        "syncs_per_step": 0.08
+      },
+      "observed_vram_bytes": 3813670912,
+      "peak_ram_bytes": 4999999488,
+      "peak_parent_ram_bytes": 15869640704,
+      "memory_events": {
+        "high": 0,
+        "low": 0,
+        "max": 16013,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0,
+        "sock_throttled": 0
+      }
+    },
+    {
+      "label": "B16 / 1 worker",
+      "attempt": "e522-compact-b16-w1-profile-v1",
+      "status": "finished",
+      "exit_status": 0,
+      "failure": null,
+      "profile": {
+        "backward": 103.54,
+        "forward": 96.11,
+        "gpu_total": 211.52,
+        "h2d": 0.03,
+        "inputs": 9.79,
+        "labels": 0.01,
+        "loss": 0.6,
+        "optimizer": 1.45,
+        "weights": 0.03,
+        "loader_wait": 264.36,
+        "step_wall": 309.38,
+        "seq_per_s": 51.72,
+        "syncs_per_step": 0.08
+      },
+      "observed_vram_bytes": 2096103424,
+      "peak_ram_bytes": 4999999488,
+      "peak_parent_ram_bytes": 16449409024,
+      "memory_events": {
+        "high": 0,
+        "low": 0,
+        "max": 151,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0,
+        "sock_throttled": 0
+      }
+    },
+    {
+      "label": "B16 / 2 workers",
+      "attempt": "e522-compact-b16-w2-profile-v2",
+      "status": "failed",
+      "exit_status": -9,
+      "failure": "aggregate parent OOM counters increased at exit: {'low': 0, 'high': 0, 'max': 1543, 'oom': 5, 'oom_kill': 3, 'oom_group_kill': 0, 'sock_throttled': 0}",
+      "profile": null,
+      "observed_vram_bytes": 2096103424,
+      "peak_ram_bytes": 4999999488,
+      "peak_parent_ram_bytes": 16657858560,
+      "memory_events": {
+        "high": 0,
+        "low": 0,
+        "max": 1543,
+        "oom": 5,
+        "oom_group_kill": 0,
+        "oom_kill": 3,
+        "sock_throttled": 0
+      }
+    }
+  ],
+  "device_sample_caveat": "B16 sampling started after completion and provides no activeGPU utilization evidence. B32 sampled during execution, separate timestamped JSONL."
+}

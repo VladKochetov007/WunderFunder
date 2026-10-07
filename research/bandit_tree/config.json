@@ -2202,6 +2202,32 @@
         "launch_authorized": false,
         "authorization_scope": "Navigation only; actual E521 admitted running fit is authorized by FIT_ADMISSION_V3.json. Tree never grants launch authority."
       }
+    },
+    {
+      "id": "arm:verified-input-throughput",
+      "parent_id": "family:infrastructure",
+      "title": "Verify once per worker; improve useful GPU throughput",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-213"
+      ],
+      "experiment_ids": [
+        "E-522"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/UTILIZATION_REPORT.md",
+        "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/LOCAL_PROFILE_RESULTS_V1.json",
+        "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/E522_REVIEW_TARGETS.json",
+        "research/campaign_2026-10-06/bandit_continuation/throughput_optimization_E522/plots/local_throughput_vs_vram.png"
+      ],
+      "status": "engineering_measurements_and_integration",
+      "allocation": {
+        "eligible": true,
+        "priority": 5,
+        "launch_authorized": false,
+        "reason": "Measured984s initialhash+749s duplicatehash aborted cloud beforeCUDA; safely removeverifiedduplicate andamortizecohortstartup. Localbatch/loaderprobesyieldedsmallgains; two-worker5GB probeOOM preserved.",
+        "authorization_scope": "Navigation only. Root/controller receipts own exactlocal/cloud admission; frozenE520 unchanged."
+      }
     }
   ],
   "links": [],

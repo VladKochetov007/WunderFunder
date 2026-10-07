@@ -16,3 +16,5 @@ ADRs explain why a consequential research or orchestration decision was made. Th
 | [0010](0010-continuous-experiment-delivery.md) | Keep authorized experiment owners active through repairs and measured results | Accepted |
 
 For a new decision, copy [the template](template.md), choose the next unused number and add it here. If superseding a decision, preserve its text/history and link both records. User instructions take precedence; record their effective scope rather than quietly editing an old scientific specification.
+
+- [ADR0011: measured pipeline utilization](0011-measured-pipeline-utilization.md): verifieddigestreuse, completecohortcost and bounded loaderprofiling.

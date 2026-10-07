@@ -23,3 +23,7 @@ Twenty literature/implementation proposals H181–H200 are preserved with unknow
 ## Latest explicit localGPU resume / E521
 
 User reopened localGPU+Kaggle after historical10:00 cutoff,6CPU/20GBRAM/5GBobservedVRAM. E521 scratch rawGRU384 seed3 B16 profile passed and independent recipe review passed; full4epoch fixedep3 fit is actually running under durable admission as `e521-w384-s3-fit-v2`. Root owns checkpoint/export handoff and independent grader comparison to matchingE520GRU128. No score/publicforecast yet. E520v3 hashes/cache checks passed but portablemanifest env handoff failed beforeCUDA; minimal identifiedv4 repair is underway. E463v3 remainsqueued with activeoperator.
+
+## E522 measured resource optimization
+
+KaggleV6 exhausted1800s preCUDA on984s firstinputhash and749s duplicate trainhash; verifieddigesthandoff implementation/review andV7integration underway. Compactlocalbatch32+1.94%throughput for81.94%moreVRAM;1loaderworker+4.42%;2workersfailed scoped5GBRAM (not parent20GB). Noautomaticretry orproductionworkerpromotion. [Measuredreport/plot](throughput_optimization_E522/UTILIZATION_REPORT.md). E5214epochfitcompletedexit0/checkpoints,gradepending.
