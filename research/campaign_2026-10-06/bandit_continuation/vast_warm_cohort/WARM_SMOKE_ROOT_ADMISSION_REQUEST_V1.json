@@ -1,0 +1,195 @@
+{
+  "attempt_id": "e529-vast-warm-smoke-c1v2-f0-20261008",
+  "campaign_label": "wnn-e529-warm-smoke-c1v2-20261008",
+  "dispatch_command_after_root_admission": [
+    "systemd-run",
+    "--user",
+    "--slice=wnn-campaign.slice",
+    "--no-block",
+    "--unit=wnn-vast-warm-smoke-c1v2-v1-20261008",
+    "-p",
+    "CPUQuota=100%",
+    "-p",
+    "MemoryHigh=1200000000",
+    "-p",
+    "MemoryMax=1500000000",
+    "-p",
+    "MemorySwapMax=0",
+    "-p",
+    "TasksMax=256",
+    "-p",
+    "Restart=no",
+    "-p",
+    "RuntimeMaxSec=12600",
+    "-p",
+    "TimeoutStopSec=20",
+    "--working-directory=/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "--setenv=WNN_THREADS=1",
+    "--setenv=OMP_NUM_THREADS=1",
+    "--setenv=OPENBLAS_NUM_THREADS=1",
+    "--setenv=MKL_NUM_THREADS=1",
+    "--",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/vast_campaign.py",
+    "--ledger",
+    "/home/vlad/.local/state/wnn-campaign/vast/ledger.json",
+    "run",
+    "--intent",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/vast_warm_cohort/warm_smoke_intent.json",
+    "--admission",
+    "<ROOT_ADMISSION_JSON_TO_BE_WRITTEN_BY_ROOT>",
+    "--dispatch-receipt",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.runtime/vast_dispatch_warm_smoke_v1/attempts/e529-vast-warm-smoke-c1v2-f0-20261008.json",
+    "--destination",
+    "<ROOT_DESTINATION_ARG_PER_CURRENT_CLI>",
+    "--confirm-create",
+    "e529-vast-warm-smoke-c1v2-f0-20261008",
+    "--poll-interval",
+    "30",
+    "--collection-timeout",
+    "300",
+    "--prefetch-plan",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.runtime/e529-vast-warm-smoke-c1v2-f0-20261008/signed_prefetch_v1.private.json",
+    "--prefetch-admission",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.runtime/e529-vast-warm-smoke-c1v2-f0-20261008/prefetch_admission_v1.json"
+  ],
+  "dispatch_note": "Placeholders must be replaced by root-issued files; the CLI's --destination semantics were not verified offline and must be checked against vast_campaign.py run --help before dispatch.",
+  "expected_artifacts": [
+    "artifact_bundle.tar",
+    "result.json",
+    "worker.log",
+    "image_preflight.json"
+  ],
+  "expected_bundle_members": [
+    "result.json",
+    "input_receipt.json",
+    "image_preflight.json",
+    "queue/results.jsonl",
+    "queue/logs/*",
+    "queue/done/*",
+    "project/artifacts/runs/smoke_c1v2_s3_f0/model_ep0.pt (+provenance.json, sidecars)",
+    "project/artifacts/smoke/grade_smoke_c1v2_s3_f0.json",
+    "project/cache/pred_smoke_c1v2_s3_f0_valid.npy (+json)"
+  ],
+  "intent": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/vast_warm_cohort/warm_smoke_intent.json",
+    "sha256": "8a006e74a67f0882f27c98ba429dc94b8bb4f074596dbb50c7e4fca6b9b42513"
+  },
+  "kind": "root_admission_request",
+  "limits": {
+    "max_artifact_bytes": 3500000000,
+    "max_runtime_seconds": 10800,
+    "max_upload_bytes": 42103435470,
+    "max_worker_host_ram_gb": "28",
+    "upload_timeout_seconds": 5400,
+    "worker_setup_timeout_seconds": 450
+  },
+  "not_done": [
+    "no vast_campaign run/create",
+    "no Kaggle kernel or dataset touched",
+    "no admission or dispatch receipt created",
+    "no commit to main"
+  ],
+  "not_validated_offline": [
+    "GPU/CUDA, real training, predict and grade on the RTX 3090 (only the smoke run can do this)",
+    "trainer post-parse guards and the full portability SHA of the 35 GB Parquet inside each step (~2 min per step)"
+  ],
+  "offer": {
+    "cpu_ram_gib": "251.880",
+    "cuda_max_good": 13.0,
+    "disk_space_gb": 389.0,
+    "dph_total_usd_per_hour": 0.252,
+    "geolocation": "Pennsylvania, US",
+    "gpu_name": "RTX 3090",
+    "id": 47997542,
+    "inet_down_cost_usd_per_gb": 0.00390625,
+    "inet_up_cost_usd_per_gb": 0.00390625,
+    "machine_id": 145688,
+    "other_gpu_classes": "RTX 4090 and RTX A5000 searches returned zero verified offers under the same criteria",
+    "reliability": 0.9957888,
+    "snapshot_file": "research/campaign_2026-10-06/bandit_continuation/vast_warm_cohort/OFFER_SNAPSHOT_RTX3090_20261008_R1.json",
+    "snapshot_observed": "2026-10-08, same session as this request (read-only search; the snapshot file carries no timestamp); criteria: RTX 3090, 1 GPU, reliability>=0.97, disk>=120 GB, RAM>=32 GiB (filtered client-side), inet_down>=250",
+    "verification": "verified"
+  },
+  "owner": "vast_builder (worktree agent-a16765116c0ce4cda)",
+  "ownership": "No instance exists for this attempt; the only rental path is root run with the creation receipt written by vast_campaign.py. No existing Vast instance is touched.",
+  "packet": {
+    "bytes": 737280,
+    "path": "research/campaign_2026-10-06/bandit_continuation/vast_warm_cohort/warm_smoke_v1.tar",
+    "run_sh_at_root": true,
+    "sha256": "f544308175c633411b61243f7828968f62ed133752b51a2ec874972241dfcb68"
+  },
+  "prefetch": {
+    "private_plan_path": ".runtime/e529-vast-warm-smoke-c1v2-f0-20261008/signed_prefetch_v1.private.json",
+    "private_plan_sha256": "e8770c5fee0f85f65a2c9c3690696b735be45a65debafd673cb5fa2b3ee35871",
+    "public_admission_path": ".runtime/e529-vast-warm-smoke-c1v2-f0-20261008/prefetch_admission_v1.json",
+    "public_admission_sha256": "09b62310eb150acfceb4deac9d7b82319f23655a007dbc8d5e9783962267852f",
+    "url_expiry_note": "same signed URLs as the V7 plan (X-Goog-Date 2026-10-08T15:49Z, 259200 s); rebound to this attempt only",
+    "validated_offline": "kaggle_vast_prefetch.prepare_prefetch and make_remote_payload passed; no URL printed"
+  },
+  "purpose": "warm-cohort transport smoke: one fold-0 C1v2 continuation, prediction and official panel grade; no scientific claim",
+  "queue": {
+    "file": "queue/pending/smoke-c1v2-s3-f0-v1.json (inside packet)",
+    "run_id": "smoke-c1v2-s3-f0-v1",
+    "steps": [
+      "train_fit_ep0 (fold-0 C1v2 seed3 continuation, train_seqs=1000, 1 epoch)",
+      "predict_valid (epoch 0, fp32)",
+      "grade_fold0_panel (score_fold0_panel, 468 evaluation groups)"
+    ],
+    "worker_idle_exit_seconds": 600
+  },
+  "reservation_usd": {
+    "ceiling_check": "ledger committed 1.79 + 2.00 = 3.79 <= 20 cumulative; root must re-verify live credit",
+    "cleanup_usd": "0.30",
+    "compute_storage_usd": "1.20",
+    "download_usd": "0.10",
+    "total": "2.00",
+    "upload_usd": "0.40"
+  },
+  "schema_version": 1,
+  "scientific_claim": false,
+  "status": "requested_not_approved",
+  "validations_done_offline": [
+    "production intent validator vast_campaign._validate_intent passed (packet sha, 20 frozen inputs, offer snapshot, image digest, ram ceiling)",
+    "packet stage_inputs.py --verify-only passed on producer-side files: 20 identities, portable registry, fold-0 split 468 groups",
+    "all three queued argv parsed by the packet's own train_rnn/predict_run/score_fold0_panel parsers (parse-only driver)",
+    "warm_queue_worker.py tested on a no-op queue; finalize.py tested to write result.json and artifact_bundle.tar"
+  ],
+  "worker_inputs": {
+    "count": 20,
+    "rsync_bytes": 6246970051,
+    "rsync_remote_paths": [
+      "artifacts/runs/c20260929_prop_f0/model.pt",
+      "artifacts/runs/c20260929_prop_f0/provenance.json",
+      "artifacts/runs/c20261003_combo_s3_f0/history.json",
+      "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+      "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+      "cache/chain_folds.npz",
+      "cache/chains.npz",
+      "cache/pred_c20261003_combo_s3_f0_train.json",
+      "cache/pred_c20261003_combo_s3_f0_train.npy",
+      "cache/pred_c20261003_combo_s3_f0_valid.json",
+      "cache/pred_c20261003_combo_s3_f0_valid.npy",
+      "cache/pred_c20261003_combo_s4_f0_train.json",
+      "cache/pred_c20261003_combo_s4_f0_train.npy",
+      "cache/pred_c20261003_combo_s4_f0_valid.json",
+      "cache/pred_c20261003_combo_s4_f0_valid.npy",
+      "cache/train_targets.npz",
+      "cache/valid_targets.npz",
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json"
+    ],
+    "signed_prefetch_parquet": [
+      {
+        "remote_path": "datasets/train.parquet",
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "size_bytes": 29240219011
+      },
+      {
+        "remote_path": "datasets/valid.parquet",
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "size_bytes": 5615509128
+      }
+    ],
+    "total_upload_bytes_including_prefetch_identity": 41103435470
+  }
+}

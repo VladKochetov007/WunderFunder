@@ -1,0 +1,197 @@
+{
+  "account_scope_sha256": "5edaeb435fffdc8d36029206229fcf1ee9a930816996519f3c4fdeeb3d35858a",
+  "attempt_id": "e529-vast-warm-smoke-c1v2-f0-20261008",
+  "campaign_label": "wnn-e529-warm-smoke-c1v2-20261008",
+  "create_payload": {
+    "cancel_unavail": true,
+    "client_id": "me",
+    "disk": 120,
+    "image": "vastai/pytorch@sha256:450710d89268fcd55632f28fdd80508ee920a53075b3f8e9f828bdc154e3d856",
+    "label": "wnn-e529-warm-smoke-c1v2-20261008",
+    "onstart": "sleep infinity",
+    "runtype": "ssh_direc ssh_proxy"
+  },
+  "expected_artifacts": [
+    "artifact_bundle.tar",
+    "result.json",
+    "worker.log",
+    "image_preflight.json"
+  ],
+  "max_artifact_bytes": 3500000000,
+  "max_runtime_seconds": 10800,
+  "max_upload_bytes": 42103435470,
+  "max_worker_host_ram_gb": "28",
+  "min_offer_reliability": "0.97",
+  "offer": {
+    "cpu_cores": 40,
+    "cpu_cores_effective": 20.0,
+    "cpu_ram": 257925,
+    "cpu_ram_gib": "251.880",
+    "cuda_max_good": 13.0,
+    "disk_space": 389.0,
+    "dph_cpu": null,
+    "dph_disk": null,
+    "dph_gpu": null,
+    "dph_ram": null,
+    "dph_total": 0.252,
+    "external": null,
+    "geolocation": "Pennsylvania, US",
+    "gpu_name": "RTX 3090",
+    "gpu_ram": 24576,
+    "gpu_ram_gib": "24.000",
+    "id": 47997542,
+    "inet_down": 678.4,
+    "inet_down_cost": 0.00390625,
+    "inet_up": 855.8,
+    "inet_up_cost": 0.00390625,
+    "is_vm_deverified": false,
+    "machine_id": 145688,
+    "num_gpus": 1,
+    "query_type": "on-demand",
+    "reliability": 0.9957888,
+    "reliability2": 0.9957888,
+    "rentable": true,
+    "rented": false,
+    "storage_cost": 0.11999999999999998,
+    "type": null,
+    "verification": "verified",
+    "verified": null,
+    "verified_for_admission": true
+  },
+  "packet_path": "research/campaign_2026-10-06/bandit_continuation/vast_warm_cohort/warm_smoke_v1.tar",
+  "packet_sha256": "f544308175c633411b61243f7828968f62ed133752b51a2ec874972241dfcb68",
+  "purpose": "warm-cohort transport smoke: one fold-0 C1v2 continuation, prediction and official panel grade; no scientific claim",
+  "remote_output_dir": "/workspace/results",
+  "reservation_total_usd": "2.00",
+  "reservation_usd": {
+    "cleanup_usd": "0.30",
+    "compute_storage_usd": "1.20",
+    "download_usd": "0.10",
+    "upload_usd": "0.40"
+  },
+  "schema_version": 1,
+  "upload_timeout_seconds": 5400,
+  "worker_inputs": [
+    {
+      "remote_path": "artifacts/runs/c20260929_prop_f0/model.pt",
+      "size_bytes": 165623,
+      "source_path": "artifacts/runs/c20260929_prop_f0/model.pt",
+      "source_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7"
+    },
+    {
+      "remote_path": "artifacts/runs/c20260929_prop_f0/provenance.json",
+      "size_bytes": 21626,
+      "source_path": "artifacts/runs/c20260929_prop_f0/provenance.json",
+      "source_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812"
+    },
+    {
+      "remote_path": "artifacts/runs/c20261003_combo_s3_f0/history.json",
+      "size_bytes": 6138,
+      "source_path": "artifacts/runs/c20261003_combo_s3_f0/history.json",
+      "source_sha256": "ab5338d7ee4a86f9262a9197dc0b2f0e5803571c7eb48cbf19e5aee3d4010ac6"
+    },
+    {
+      "remote_path": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+      "size_bytes": 3977183,
+      "source_path": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+      "source_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+    },
+    {
+      "remote_path": "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+      "size_bytes": 159653,
+      "source_path": "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+      "source_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f"
+    },
+    {
+      "remote_path": "cache/chain_folds.npz",
+      "size_bytes": 550072,
+      "source_path": "cache/chain_folds.npz",
+      "source_sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+    },
+    {
+      "remote_path": "cache/chains.npz",
+      "size_bytes": 650142,
+      "source_path": "cache/chains.npz",
+      "source_sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+    },
+    {
+      "remote_path": "cache/pred_c20261003_combo_s3_f0_train.json",
+      "size_bytes": 106098,
+      "source_path": "cache/pred_c20261003_combo_s3_f0_train.json",
+      "source_sha256": "d9fa1459057e93d481db28aa6388cc7e801242ddcc6eb3e658cf83a559068837"
+    },
+    {
+      "remote_path": "cache/pred_c20261003_combo_s3_f0_train.npy",
+      "size_bytes": 1696960128,
+      "source_path": "cache/pred_c20261003_combo_s3_f0_train.npy",
+      "source_sha256": "55be3dffe899260f875e7d6460d37a24257067ebedb9273514cb38accc6af086"
+    },
+    {
+      "remote_path": "cache/pred_c20261003_combo_s3_f0_valid.json",
+      "size_bytes": 18036,
+      "source_path": "cache/pred_c20261003_combo_s3_f0_valid.json",
+      "source_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2"
+    },
+    {
+      "remote_path": "cache/pred_c20261003_combo_s3_f0_valid.npy",
+      "size_bytes": 299680128,
+      "source_path": "cache/pred_c20261003_combo_s3_f0_valid.npy",
+      "source_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19"
+    },
+    {
+      "remote_path": "cache/pred_c20261003_combo_s4_f0_train.json",
+      "size_bytes": 106098,
+      "source_path": "cache/pred_c20261003_combo_s4_f0_train.json",
+      "source_sha256": "ea462accb17312f12c5a254df9aa94989952562f948234b5ebe2bcc6d5f8401e"
+    },
+    {
+      "remote_path": "cache/pred_c20261003_combo_s4_f0_train.npy",
+      "size_bytes": 1696960128,
+      "source_path": "cache/pred_c20261003_combo_s4_f0_train.npy",
+      "source_sha256": "6188bba89a0d5e30516c8ec4163746310aa0e4b634dd1bbc3da9a156b8d9bfb2"
+    },
+    {
+      "remote_path": "cache/pred_c20261003_combo_s4_f0_valid.json",
+      "size_bytes": 18036,
+      "source_path": "cache/pred_c20261003_combo_s4_f0_valid.json",
+      "source_sha256": "ad1257c7278c5402c409ec0e273c2202525bd1d6173699438efb6627262b9750"
+    },
+    {
+      "remote_path": "cache/pred_c20261003_combo_s4_f0_valid.npy",
+      "size_bytes": 299680128,
+      "source_path": "cache/pred_c20261003_combo_s4_f0_valid.npy",
+      "source_sha256": "f1a3b07072a62dce620dc0c90e9568093367d0aed1afa4e9ec550866f94df12b"
+    },
+    {
+      "remote_path": "cache/train_targets.npz",
+      "size_bytes": 1909335790,
+      "source_path": "cache/train_targets.npz",
+      "source_sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9"
+    },
+    {
+      "remote_path": "cache/valid_targets.npz",
+      "size_bytes": 337186198,
+      "source_path": "cache/valid_targets.npz",
+      "source_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    },
+    {
+      "remote_path": "datasets/train.parquet",
+      "size_bytes": 29240219011,
+      "source_path": "datasets/train.parquet",
+      "source_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+    },
+    {
+      "remote_path": "datasets/valid.parquet",
+      "size_bytes": 5615509128,
+      "source_path": "datasets/valid.parquet",
+      "source_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+    },
+    {
+      "remote_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "size_bytes": 1388846,
+      "source_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "source_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    }
+  ],
+  "worker_setup_timeout_seconds": 450
+}
