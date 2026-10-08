@@ -115,7 +115,7 @@ def test_validate_config_rejects_an_unpinned_kernel(tmp_path: Path) -> None:
     config["targets"][0]["kernel"] = "test-owner/other"
     _write_json(config_path, config)
 
-    with pytest.raises(ValueError, match="exactly the two pinned kernels"):
+    with pytest.raises(ValueError, match="exact pinned target set"):
         collector.validate_config(config_path, repo_root, pinned_targets=pins)
 
 

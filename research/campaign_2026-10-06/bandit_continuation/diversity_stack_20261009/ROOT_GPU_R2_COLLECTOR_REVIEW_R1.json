@@ -1,0 +1,23 @@
+{
+  "observed_utc": "2026-10-08T23:45:19.562534+00:00",
+  "status": "pass",
+  "targets": [
+    "vladkochetov07/wnn-warm-cohort-smoke-20261008-v4",
+    "vladkochetov07/e463-tpu-real-data-reload-v7-20261008",
+    "vladkochetov07/wnn-loss-pair-gpu-20261009-v2"
+  ],
+  "checks": {
+    "exact_actual_config_admission_push_receipts": "pass",
+    "focused_and_legacy_suite": {
+      "passed_initial": 18,
+      "failed_initial": 1,
+      "failure": "legacy rejection-message expectation named exactly two kernels; new permitted third target changes wording; behavior correctly rejected unpinned target",
+      "corrected_negative_test": "pass"
+    },
+    "initial_invocation_error": "wrong legacy test path; no tests ran; corrected"
+  },
+  "limits": {
+    "maximum_download_bytes": 8589934592,
+    "minimum_free_bytes": 4294967296
+  }
+}
