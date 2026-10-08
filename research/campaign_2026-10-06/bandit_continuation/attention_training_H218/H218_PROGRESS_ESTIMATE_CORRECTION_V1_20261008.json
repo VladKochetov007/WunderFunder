@@ -1,0 +1,42 @@
+{
+  "schema": "h218-progress-estimate-correction-v1",
+  "receipt_id": "H218_PROGRESS_ESTIMATE_CORRECTION_V1_20261008",
+  "recorded_utc": "2026-10-08T05:29:11Z",
+  "preserves_prior_evidence": true,
+  "supersedes_actor_update": {
+    "content": "The actor update at approximately 05:25Z incorrectly interpreted ep3 batch460 as 2.15/4 epochs complete and gave a roughly 63-minute remaining-fit estimate.",
+    "why_wrong": "Trainer epoch labels are zero-based; ep3 means three full epochs have completed and the current fourth epoch is in progress."
+  },
+  "corrected_observation": {
+    "attempt_id": "h218-block-memory-b128-l2-h4-r256-b4-c2000-fold0-seed7-4ep-fixedep3-v1-20261008",
+    "unit": "wnn-bandit-h218-block-memory-b128-l2-h4-r256-b4-c2000-fold0-seed7-4ep-fixedep3-v1-20261008.service",
+    "unit_manager": "systemd --user",
+    "unit_state": "active/running",
+    "training_log_path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/h218-block-memory-b128-l2-h4-r256-b4-c2000-fold0-seed7-4ep-fixedep3-v1-20261008.log",
+    "training_log_sha256": "51bb5f4452ee31bf5649aabcf5b9f1411fd1c7adf3f2257eccced927570f8803",
+    "latest_progress_line": "ep 3 batch 980/2985 loss 1.2789 lr 7.54e-05 seq/s 9.0",
+    "epoch_indexing": "zero-based",
+    "batches_per_epoch": 2985,
+    "total_epochs": 4,
+    "completed_global_batches": 9935,
+    "scheduled_global_batches": 11940,
+    "remaining_batches": 2005,
+    "sequences_per_batch": 4,
+    "remaining_scheduled_sequences": 8020,
+    "recent_interval_start_utc": "2026-10-08T05:28:03Z",
+    "recent_interval_start_progress": {"epoch": 3, "batch": 820},
+    "recent_interval_end_unix": 1791437351.0650744,
+    "recent_interval_seconds": 67.20,
+    "recent_interval_sequences": 640,
+    "recent_interval_sequences_per_second": 9.5238,
+    "remaining_fit_seconds_at_recent_interval_rate": 842.1,
+    "remaining_fit_minutes_at_recent_interval_rate": 14.04,
+    "eta_scope": "fit work only; excludes epoch checkpoint/state writes and the separately admitted fixed-epoch-3 export"
+  },
+  "resources_at_observation": {
+    "worker_memory_current_bytes": 8918958080,
+    "worker_memory_peak_bytes": 8999997440,
+    "worker_memory_events_local": {"oom": 0, "oom_kill": 0, "oom_group_kill": 0, "max_delta": 988757}
+  },
+  "interpretation": "The earlier 63-minute estimate is withdrawn. Use the zero-based global batch count and the latest measured row-counter interval for subsequent ETA updates. This estimate is still a progress projection, not a terminal guarantee."
+}
