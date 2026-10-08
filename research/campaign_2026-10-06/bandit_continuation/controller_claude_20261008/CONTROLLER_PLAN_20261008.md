@@ -57,3 +57,5 @@ Compute lanes:
 - Local lane: durable unit wnn-chain-after-seed9-v1-20261008 → after seed9 parent, reclaim file cache and launch guarded warm queue worker (attempt warm-queue-local-v1-20261008, 2 CPU / 9 GB / 6 h). Queue: faithful students seed99 (p10), seed9 (p11), then A00 s3 (p21), A01 s4 (p22), A04 s3 (p23). Profiles: student 9.0e9 peak; C1 fold0 fit 8.0e9; predict 4.0e9.
 - Agents: blend-lab-2 (marimo H-274..276), kaggle-cohort-2 (warm 2×T4 kernel, smoke first), vast-cohort-2 (warm rental admission request).
 - Maxim comparison: not comparable yet (his final models all-data; no fold0 panel run of his recipe). A00 vs C1 (0.6816181) is the first matched measurement.
+
+- Planned (user): H-280 diverse-architecture ensemble — blend-lab component-CV weights first; then complementary cheap members or diverse-ensemble distillation into the served GRU; runtime-aware (f16 ~15% faster).

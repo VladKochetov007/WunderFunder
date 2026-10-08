@@ -1,0 +1,125 @@
+{
+ "run_id": "c1f0st_a00hft_s3_f0",
+ "priority": 21,
+ "arm": "A00-HFT",
+ "hypothesis": "H-277 student x GCorr head-FT finishing (parent+head equal mix gave +0.0013 public on combo parents)",
+ "notes": "Head-only GCorr fine-tune on fold0 fit-valid groups (1405) from A00 student, exact e529_s4_served_head_f0_control_v1 recipe; score fixed 0.5/0.5 student/head blend vs A00 and vs C1.",
+ "steps": [
+  {
+   "name": "base_check",
+   "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "-c",
+    "import pathlib,sys; sys.exit(0 if pathlib.Path('/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c1f0st_a00_s3_f0/model_ep1.pt').is_file() and pathlib.Path('/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_c1f0st_a00_s3_f0_valid.json').is_file() else 3)"
+   ],
+   "timeout_seconds": 60
+  },
+  {
+   "name": "fit",
+   "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/train_rnn.py",
+    "--name",
+    "c1f0st_a00hft_s3_f0",
+    "--init",
+    "c1f0st_a00_s3_f0@ep1",
+    "--train-source",
+    "valid",
+    "--full-valid",
+    "--mask-weight",
+    "--seed",
+    "3",
+    "--epochs",
+    "1",
+    "--batch",
+    "16",
+    "--chunk",
+    "2000",
+    "--fast",
+    "--inherit-init-preprocessing",
+    "--loss",
+    "gcorr",
+    "--optim",
+    "adamw",
+    "--freeze",
+    "inp,gru",
+    "--lr",
+    "0.0005",
+    "--wd",
+    "0.01",
+    "--checkpoint-policy",
+    "fixed",
+    "--checkpoint-epoch",
+    "0",
+    "--save-training-state",
+    "--split-manifest",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "--no-eval-during-fit"
+   ],
+   "timeout_seconds": 1800,
+   "env": {
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "OMP_NUM_THREADS": "2",
+    "MKL_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "WNN_LOADER_WORKERS": "0",
+    "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "PYTHONHASHSEED": "0"
+   },
+   "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+  },
+  {
+   "name": "predict",
+   "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/predict_run.py",
+    "c1f0st_a00hft_s3_f0",
+    "valid",
+    "--epoch",
+    "0"
+   ],
+   "timeout_seconds": 1800,
+   "env": {
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "OMP_NUM_THREADS": "2",
+    "MKL_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "WNN_LOADER_WORKERS": "0",
+    "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "PYTHONHASHSEED": "0"
+   },
+   "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+  },
+  {
+   "name": "score",
+   "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/score_fold0_panel.py",
+    "c1f0st_a00_s3_f0@ep1*0.5,c1f0st_a00hft_s3_f0@ep0*0.5",
+    "--reference",
+    "c1f0st_a00_s3_f0@ep1",
+    "--reference",
+    "bd26_c1v2_s3_f0@ep1",
+    "--reference",
+    "c1f0st_a00hft_s3_f0@ep0",
+    "--out",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c1f0st_a00hft_s3_f0/grade_fold0.json"
+   ],
+   "timeout_seconds": 900,
+   "env": {
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "OMP_NUM_THREADS": "2",
+    "MKL_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "WNN_LOADER_WORKERS": "0",
+    "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "PYTHONHASHSEED": "0"
+   },
+   "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+  }
+ ],
+ "expected_outputs": [
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c1f0st_a00hft_s3_f0/model_ep0.pt",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/c1f0st_a00hft_s3_f0/grade_fold0.json"
+ ]
+}

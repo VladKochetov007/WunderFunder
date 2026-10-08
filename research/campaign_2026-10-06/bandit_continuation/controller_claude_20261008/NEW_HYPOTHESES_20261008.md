@@ -36,3 +36,23 @@ Family `distillation_target_treatment`; parents H-230.
 Training family targets unclipped (raw exported teacher predictions, as in the reference) instead of clamped to +-2 changes student quality; this is the one concrete objective discrepancy vs the reference recipe.
 
 Cheapest test / falsifier: Matched pair same seed/order/cache; only family-target clipping differs. Falsifier: |delta| below seed noise on component CV and no public difference.
+
+## H-279 — organizer_baseline_teacher_slot
+Family `teacher_diversity_x_distillation`; parents H-230, H-206.
+
+Replacing our two own raw GRU128 teachers (2x0.03125) with the organizer baseline at 0.0625, as in the reference teacher mix, improves the distilled student because the baseline is a structurally different (more diverse) teacher.
+
+Cheapest test / caveat: Build main-target variant with baseline slot, run A00 recipe with only the cache variant changed; compare on fold0 panel with provenance caveat; public test via all-data student if positive. Needs cache variant built from cache/pred_baseline_{train,valid}.npy; verify baseline fitting provenance before any local held-out claim (organizer may have fit on valid).
+
+## H-280 — diverse_architecture_blend_or_distill (planned; user idea)
+Family `architecture_diversity_ensembling`; parents H-206, H-218, H-264, H-274, H-275, H-276, H-230.
+
+A deliberately diverse architecture set (GRU256 trunk plus cheap structurally different members: LSTM/GRU128 on raw or alternative input encodings, small causal TCN, block-memory attention, numerical-embedding encoders), trained to be complementary and blended with component-CV weights or distilled into one served student, beats any same-recipe seed ensemble under the 60-min / 1-vCPU budget.
+
+Prior evidence: Individually weaker members (H218 attention, raw TCN, H232 GRU384 scratch, E540 PLE) and FIXED equal blends lowered the exposed fold0 reference; same-recipe seed pairs gave ~+0.0004 public (H230 pair 0.6653 vs single 0.6649). Untested: learned/CV weights, complementarity-targeted training, diverse-ensemble distillation into the served GRU.
+
+Plan:
+- 1. Blend-lab (H-274) component-CV weights over existing fold0-clean diverse members -> conditional value per architecture, with runtime cost per member.
+- 2. If any member adds value: train complementary versions (residual/negative-correlation objective vs frozen GRU256 trunk, H-276) at cheap serving size; measure fold0 panel + runtime.
+- 3. Serving routes: (a) <=1 extra small trunk within ~20 min headroom (f16 engine ~15% faster); (b) distill the diverse ensemble into the GRU256 student via the teacher cache (H230 family) so serving cost is unchanged.
+- 4. Confirm on fold1 before any public package; human upload gate.
