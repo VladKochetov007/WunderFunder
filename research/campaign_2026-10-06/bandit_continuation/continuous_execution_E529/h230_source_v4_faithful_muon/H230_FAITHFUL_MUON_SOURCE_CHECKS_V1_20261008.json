@@ -1,0 +1,56 @@
+{
+  "checks": [
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s PYTHONPATH=<V4-source>/src scripts/limited .venv/bin/pytest -q <V4-source>/tests/test_muon_fidelity_controls.py",
+      "exit_code": 0,
+      "name": "focused_muon_fidelity_tests",
+      "result": "10 passed in 2.37s",
+      "scope": "CPU-only tests for whole/per-gate geometry, OneCycle LR ratios, decoupled decay, dtype-policy gates, default orthogonalize behavior, exact model shape/group fixture, CLI option parsing and finite update."
+    },
+    {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/ruff check <V4-source>/scripts/profile_muon_device.py <V4-source>/src/wnn/optim.py <V4-source>/src/wnn/training_dynamics.py <V4-source>/tests/test_muon_fidelity_controls.py",
+      "exit_code": 0,
+      "name": "focused_ruff",
+      "result": "All checks passed!"
+    },
+    {
+      "command": "PYTHONPATH=<V4-source>/src .venv/bin/python <V4-source>/scripts/train_rnn.py --help",
+      "exit_code": 0,
+      "name": "trainer_cli_help",
+      "result": "CLI exposes whole-matrix/gatewise mode, Muon scope/multiplier/momentum/dtype policy, all-data membership controls and fixed checkpoint flags; help defines none=whole packed matrices, hh=split hidden-to-hidden gates, all=split both recurrent matrix families."
+    },
+    {
+      "command": "PYTHONPATH=<V4-source>/src .venv/bin/python <V4-source>/scripts/profile_muon_device.py --help",
+      "exit_code": 0,
+      "name": "profile_cli_help",
+      "result": "CLI accepts --output, --seed and --allocator-cap-bytes."
+    },
+    {
+      "command": "PYTHONPATH=<V4-source>/src .venv/bin/python -c 'import wnn.optim,wnn.distillation; print(wnn.optim.__file__); print(wnn.distillation.__file__)'",
+      "exit_code": 0,
+      "name": "snapshot_import_resolution",
+      "result": "Both modules resolve inside the sealed V4 source snapshot."
+    },
+    {
+      "command": "scripts/limited .venv/bin/ruff check --output-format=concise <V3-source>/scripts/train_rnn.py and V4 trainer",
+      "exit_code": 1,
+      "name": "inherited_trainer_ruff_baseline",
+      "result": "Both source versions have the same eight inherited lint rule instances: I001, SIM102, two B023, two B020 and two B007. Focused lint over V4 changes passes; inherited trainer-wide lint findings were not edited as unrelated cleanup."
+    }
+  ],
+  "limitations": [
+    "This receipt is actor-owned source validation, not independent root review.",
+    "No GPU profile, training, supplied-data read, prediction export, or score was run."
+  ],
+  "receipt_id": "H230_FAITHFUL_MUON_SOURCE_CHECKS_V1_20261008",
+  "resource_boundary": {
+    "cpu_quota": "1 core",
+    "fit_executed": false,
+    "gpu_profile_executed": false,
+    "worker_memory_cap_bytes": 1500000000
+  },
+  "schema": "h230-faithful-muon-source-checks-v1",
+  "source_manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_FAITHFUL_MUON_SOURCE_MANIFEST_V4_20261008.json",
+  "source_manifest_sha256": "49a4048f559fb6092e71fa2b447069fbce4956bdf8f062924df0d1f81c1e3ff6",
+  "status": "passed_source_checks_no_profile_or_fit"
+}

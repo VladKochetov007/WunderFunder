@@ -1,0 +1,62 @@
+{
+  "schema": "h230-muon-profile-root-authorization-v1",
+  "approved_by": "root",
+  "status": "approved_conditional_on_fresh_durable_admission",
+  "created_utc": "2026-10-08T09:36:17.653054+00:00",
+  "scope": "One synthetic CUDA update only; no supplied data, fit, quality, full-training throughput or serving claim.",
+  "contract_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_MUON_ACTUAL_DEVICE_PROFILE_CONTRACT_V1_20261008.json",
+  "contract_sha256": "d3a14e700913ab00d2fa6a2648bc81bcdd951a74193f81aab9a976d8f5969ce5",
+  "source_manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_FAITHFUL_MUON_SOURCE_MANIFEST_V4_20261008.json",
+  "source_manifest_sha256": "49a4048f559fb6092e71fa2b447069fbce4956bdf8f062924df0d1f81c1e3ff6",
+  "source_members_rehashed": 57,
+  "exact_argv": [
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "180",
+    "/usr/bin/env",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/src",
+    "WNN_THREADS=1",
+    "OMP_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "NUMEXPR_NUM_THREADS=1",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/scripts/profile_muon_device.py",
+    "--output",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_MUON_DEVICE_PROFILE_ATTEMPT1_RESULT_V1_20261008.json",
+    "--seed",
+    "9",
+    "--allocator-cap-bytes",
+    "4300000000"
+  ],
+  "resource_request": {
+    "cpu_cores": 1,
+    "cuda_allocator_cap_bytes": 4300000000,
+    "kind": "gpu",
+    "loader_workers": 0,
+    "local_gpu_workers_max": 1,
+    "observed_vram_hard_ceiling_bytes": 5000000000,
+    "resource_status": "proposal only; fresh root-reviewed durable admission required; do not raise slice limits",
+    "slice_constraints": {
+      "aggregate_cpu_cores": 5,
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000,
+      "swap_bytes": 0
+    },
+    "timeout_seconds": 180,
+    "worker_memory_reserve_bytes": 1500000000,
+    "worker_threads": 1
+  },
+  "review": "Root inspected actual runner/optimizer dtype-resolution and whole-matrix update path plus profile-shaped fixture. Synthetic FP32 forward differs explicitly from production FP16 autocast. Final source57/57pins verified; independently executed focused10tests passed2.35s.",
+  "preparation_failure_preserved": "Earlier root full closure check stopped at trainer digest mismatch before authorization or launch. Actor identified final CLI help-wording edit and delivered corrected finalmanifest49a404 and contractd3a14; all57members now verified.",
+  "conditions": [
+    "Fresh exclusive durable GPU admission and output absence check with CPU5/18GBhigh/20GBmax/swap0 aggregate.",
+    "No live changes to the offered57memberclosure.",
+    "Exact timeout-wrapped argv,180s wall bound,1CPU/1.5GB worker and observedGPU<=5GB.",
+    "Collect actual device/dtype/group geometry/finite update and worker/parent OOM counters; profile cannot authorize scientific fit."
+  ],
+  "fit_authorized": false
+}

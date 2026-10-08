@@ -1,0 +1,106 @@
+{
+  "attempt": {
+    "attempt_id": "h230-faithful-muon-matrix-profile-v1-20261008",
+    "fresh_preflight_required": true,
+    "one_gpu_lock_required": true,
+    "required_preflight": [
+      "Rehash all V4 source members and verify manifest digest still matches.",
+      "Root source review is recorded and explicitly admits this profile only.",
+      "No local GPU worker is active and the exclusive GPU lock is free.",
+      "Fresh bandit_resources admission observes actual campaign slice limits, current RAM headroom and VRAM availability.",
+      "Attempt result path is absent; preserve any failure under this attempt ID and use a new ID for a retry."
+    ],
+    "result_path_must_be_absent": true
+  },
+  "contract_id": "H230_MUON_ACTUAL_DEVICE_PROFILE_CONTRACT_V1_20261008",
+  "created_utc": "2026-10-08",
+  "fit_admission": false,
+  "interpretation": "This is a device/numerics readiness check only. It is not a fit, quality estimate, throughput estimate for full training, prediction artifact, or score.",
+  "launch_authorized": false,
+  "objective": "Verify one real synthetic CUDA optimizer update at the planned strong-parent batch/chunk shape, including whole-matrix Muon geometry and device-resolved orthogonalization precision. Do not read supplied data or produce a trained result.",
+  "profile_command": "/usr/bin/timeout --signal=TERM --kill-after=10s 180 /usr/bin/env PYTHONDONTWRITEBYTECODE=1 WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/src WNN_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/scripts/profile_muon_device.py --output /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_MUON_DEVICE_PROFILE_ATTEMPT1_RESULT_V1_20261008.json --seed 9 --allocator-cap-bytes 4300000000",
+  "profile_design": {
+    "model": {
+      "architecture": "plain GRU",
+      "dropout": 0,
+      "event_feature_width": 99,
+      "hidden": 256,
+      "layers": 2,
+      "model_input_width": 211,
+      "output_width": 2,
+      "raw_feature_width": 112
+    },
+    "optimizer": {
+      "base_learning_rate": 0.001,
+      "gatewise": "none",
+      "geometry": "each packed GRU matrix and head.0.weight is orthogonalized as a whole matrix; no per-gate split",
+      "kind": "MuonAdamW with AdamW parameter groups",
+      "model_autocast": "disabled in this synthetic matrix check; orthogonalization policy is validated independently",
+      "momentum": 0.95,
+      "muon_lr_multiplier": 3,
+      "orthogonalization_dtype_policy": "native_bf16_if_supported_else_fp32_v1",
+      "schedule": "OneCycle, total=100 synthetic steps, warmup fraction 0.05; only one step is executed",
+      "scope": "hidden",
+      "weight_decay": 0.01
+    },
+    "result_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_MUON_DEVICE_PROFILE_ATTEMPT1_RESULT_V1_20261008.json",
+    "side_effects": "Write one small profile-result JSON atomically. No dataset, cache, checkpoint, prediction, score or scientific run output is read or written.",
+    "synthetic_update": {
+      "batch_size": 16,
+      "context_rows": 1000,
+      "finite_gradient_and_parameter_checks": true,
+      "input_shape": [
+        16,
+        1000,
+        211
+      ],
+      "optimizer_updates": 1
+    }
+  },
+  "profile_only": true,
+  "resource_request": {
+    "cpu_cores": 1,
+    "cuda_allocator_cap_bytes": 4300000000,
+    "kind": "gpu",
+    "loader_workers": 0,
+    "local_gpu_workers_max": 1,
+    "observed_vram_hard_ceiling_bytes": 5000000000,
+    "resource_status": "proposal only; fresh root-reviewed durable admission required; do not raise slice limits",
+    "slice_constraints": {
+      "aggregate_cpu_cores": 5,
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000,
+      "swap_bytes": 0
+    },
+    "timeout_seconds": 180,
+    "worker_memory_reserve_bytes": 1500000000,
+    "worker_threads": 1
+  },
+  "schema": "h230-muon-actual-device-profile-contract-v1",
+  "scientific_result": false,
+  "source": {
+    "checks_receipt_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_FAITHFUL_MUON_SOURCE_CHECKS_V1_20261008.json",
+    "checks_receipt_sha256": "b81a12c31db765d7558efb15c8dc5a0fa9294469b0da567e83e066e21e8c9efa",
+    "manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/H230_FAITHFUL_MUON_SOURCE_MANIFEST_V4_20261008.json",
+    "manifest_sha256": "49a4048f559fb6092e71fa2b447069fbce4956bdf8f062924df0d1f81c1e3ff6",
+    "optimizer_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/src/wnn/optim.py",
+    "optimizer_sha256": "fd91a383ddc8cfd8e8cce64403ea0af2f71ac98fd2ae7f9aa8334ed76230ded3",
+    "profile_runner_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/scripts/profile_muon_device.py",
+    "profile_runner_sha256": "c5cb400011acceee24244fbdc99a405aa2fc0ff4a5cbecdb52d5915c5ab3e690",
+    "source_id": "h230-source-v4-faithful-muon-20261008",
+    "source_root": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon",
+    "trainer_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/scripts/train_rnn.py",
+    "trainer_sha256": "0e4c5e228c68aea12d2e4701475b71a5b881dac0229fcfe708a7caf46198e44a",
+    "training_dynamics_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/src/wnn/training_dynamics.py",
+    "training_dynamics_sha256": "9e019586100c44d106c7d68130773781000fe2f1a7003da0d20b581ec7ad6d6d"
+  },
+  "status": "prepared_for_root_review_no_phase_admitted",
+  "success_gates": [
+    "Runner reports the actual CUDA device, compute capability, BF16 support, selected orthogonalization dtype and applied allocator cap.",
+    "Actual model parameter dimensions equal the bound 211-input, GRU256x2, two-output shape.",
+    "All Muon groups use whole-matrix blocks=1 and lr_scale=3; every expected matrix is assigned to a Muon group.",
+    "Exactly one optimizer step occurs; loss, gradients, updated parameters and output values are finite, and at least one parameter tensor changes.",
+    "Torch allocated and reserved peaks remain at or below 4,300,000,000 bytes; the external observed device VRAM measurement remains below 5,000,000,000 bytes.",
+    "Worker exits 0 within 180 seconds; worker and parent OOM/kill deltas are recorded separately."
+  ]
+}
