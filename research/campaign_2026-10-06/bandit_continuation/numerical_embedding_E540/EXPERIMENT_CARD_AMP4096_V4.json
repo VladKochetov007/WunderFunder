@@ -1,0 +1,78 @@
+{
+  "allocation_owner": "root",
+  "builder": "scripts/build_e540_kaggle_cohort.py",
+  "changed_factor": {
+    "field": "profile projection accounting and kernel-process deadline enforcement",
+    "reason": "Remove duplicate profile time from the remaining-work estimate and enforce one 6,000-second process deadline from bootstrap entry through runner completion, dynamically reducing the worker timeout.",
+    "scientific_factors": "carried forward unchanged from V3, including AMP4096 in both arms"
+  },
+  "comparison": {
+    "amp_initial_scale": 4096.0,
+    "arms": [
+      "linear_raw_bypass",
+      "ple8_plus_raw_bypass"
+    ],
+    "auxiliary_objectives": "disabled in both arms",
+    "checkpoint": "fixed epoch 0; no evaluation during fitting",
+    "distillation": "disabled in both arms",
+    "dropped_sequence_identity": "unknown; this packet does not record actual sampler batch indices",
+    "eligible_components": 3148,
+    "epochs": 1,
+    "evaluation": "the exact frozen 468 component-separated valid row groups; previously exposed",
+    "expected_sequences_consumed_per_arm_epoch0": 1848,
+    "expected_sequences_dropped_by_batch2_drop_last": 1,
+    "fit_subset_selection_rule": "exactly the first 512 components from the seed-540 permutation of sorted eligible component IDs",
+    "membership_protocol_correction_from_v2": "The preserved V2 10%-of-components rule yields 315/3,148 eligible components under the frozen split, not its stated 512. V3 explicitly selects 512 by permutation rank and is not called a 10% subset or same-size V2 realization.",
+    "metric": "global_wp_clip2_v1",
+    "paired_order_status": "same seed and sampler configuration; realized order equivalence is not independently verified",
+    "propensity": "disabled in both arms",
+    "raw_target_wmse": "separate future factor; not part of this pair",
+    "realized_component_fraction": 0.16264294790343076,
+    "seed": 540,
+    "selected_components": 512,
+    "selected_fit_sequences": 1849,
+    "training_objective": "WMSE on targets clipped to \u00b12 and weighted by absolute clipped target; chunk denominator"
+  },
+  "delivery_correction": {
+    "profile_projection": "The post-profile elapsed duration already includes the two profile runs; projection adds only remaining fit/prediction work plus its 300-second estimate margin.",
+    "provider_timing_scope": "Kaggle queue/cold start before kernel-process entry and output transport after process exit are outside this packet watchdog and have no hard 6,000-second promise.",
+    "runtime_deadline": "A 6,000-second kernel-process deadline starts at bootstrap entry; the recipe worker and runner timeout are reduced by actual bootstrap/preflight elapsed time while preserving a separate 300 seconds for runner finalization."
+  },
+  "fit_admitted": false,
+  "grader": "Root owns the independent grader and must verify both prediction row-group indexes against the frozen 468 evaluation groups before scoring.",
+  "hypothesis_ids": [
+    "H-234",
+    "H-E537-C",
+    "H-E540-A"
+  ],
+  "id": "E540_AMP4096_V4",
+  "kind": "same frozen V3 scientific recipe with corrected profile projection and kernel-process deadline enforcement",
+  "known_comparison_limit": "Allocated parameter counts are equal, but linear-control ramp coordinates are identically zero, reducing effective trainable capacity. A future PLE result is not by itself evidence for spline geometry over generic nonlinear capacity.",
+  "predecessor": "EXPERIMENT_CARD_AMP4096_V3.json",
+  "prediction_delivery": {
+    "membership_source": "the exact E540 fit-subset manifest",
+    "onnx_or_full-valid_export": false,
+    "precision": "fp32",
+    "prediction_input_columns": "features only; targets and scored masks are not read",
+    "row_order": "sorted evaluation group IDs recorded in each prediction metadata sidecar"
+  },
+  "profile_gate": {
+    "amp_skips_allowed": 0,
+    "device": "one verified Kaggle Tesla T4",
+    "fit_requires_profile_pass": true,
+    "maximum_cuda_allocator_reserved_bytes": 4300000000,
+    "profile_optimizer_attempts_per_arm": 316,
+    "projected_worker_wall_max_seconds": 5200,
+    "timed_outer_batches": 3,
+    "warmup_outer_batches": 1
+  },
+  "provider_mutation": false,
+  "public_forecast": null,
+  "recipe": "RECIPE_V4_AMP4096.json",
+  "recipe_source": "V3 scientific factors carried forward unchanged; V4 changes execution accounting and timeout enforcement only.",
+  "resource_profiles_launched": 0,
+  "scientific_fits_launched": 0,
+  "status": "prepared_packet_pending_independent_root_review_and_live_admission",
+  "version": 4,
+  "worker": "scripts/e540_kaggle_worker.py"
+}
