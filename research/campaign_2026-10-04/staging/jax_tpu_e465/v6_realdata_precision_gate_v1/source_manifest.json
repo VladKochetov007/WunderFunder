@@ -1,0 +1,151 @@
+{
+  "actual_frozen_v6_producer": {
+    "actual_asset_closure_matches_consumer": true,
+    "packet_manifest_sha256": "a609e728b212065a53459b1c2630bced018cb80614d7eea55ebc5ecce3401448",
+    "packet_path": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v6_realdata_reload_candidate_v1",
+    "producer_code_sha256": "3392ed77b9000c7bab9b236531c9a16734325152b95a60c955408df1b9bb02f2",
+    "static_producer_constants_test": "passed"
+  },
+  "actual_main_delivery_receipt": {
+    "accepted_version": 1,
+    "bytes": 6224,
+    "path": "research/campaign_2026-10-06/cloud_preflight/E463_TPU_V6_OPERATOR_DELIVERY_20261008_R1.json",
+    "provider_canonical_id": "vladkochetov07/e463-tpu-real-data-reload-v6-20261008",
+    "sha256": "665e69d1168e5d544ad8d04bdf7bc8e01287cdd3e9e39e6fefb0b3a7ba8d009c",
+    "strict_validate_delivery_test": "passed",
+    "submitted_id": "vladkochetov07/e463-tpu-realdata-reload-v6-20261008"
+  },
+  "base_commit": "515d49af800bfad920bf4d7bbdaa6423d9aad649",
+  "changed_members": {
+    "README.md": "Source scope and safe invocation contract.",
+    "protocol_proposal.json": "Source-only gates require terminal V6 evidence, actual precision evidence and a separate root fit authorization; scientific fields retained.",
+    "scripts/run_e465_tpu.py": "Validates complete V6 bundle before importing JAX and requires profile plus root fit authorization in fit mode.",
+    "src/wnn_jax/e465_gate.py": "Standard-library V6 delivery, terminal, producer, input, membership, artifact, profile and authorization checks.",
+    "src/wnn_jax/e465_tpu_worker.py": "Uses the V6 receipt gate, retains paired actual-data precision diagnostics, validates the measured profile and root authorization; objective, optimizer, model, data, fit and export math are unchanged.",
+    "tests/test_e465_gate.py": "Includes direct validation of the actual main V6 delivery receipt and frozen producer manifest/code plus synthetic no-data contract regressions."
+  },
+  "credentials_included": false,
+  "data_or_prediction_artifacts_included": false,
+  "manifest_self_excluded": true,
+  "packet_id": "e465-v6-realdata-precision-gate-v1",
+  "provider_launch_performed": false,
+  "schema": "wnn.e465-v6-precision-gate-source-manifest.v1",
+  "scientific_recipe_changed": false,
+  "source_members": [
+    {
+      "bytes": 3143,
+      "path": "README.md",
+      "sha256": "34c8e4393d3cfb1fd31d0e9a5c18e6ed1c9e42d75fb1548b21cee51c46249f3d"
+    },
+    {
+      "bytes": 2381,
+      "path": "input_manifest.schema.json",
+      "sha256": "23ea2d93e96e18224bb04376ccc3c41069f558aadb04d8c186cdfdf39ae5e142"
+    },
+    {
+      "bytes": 5432,
+      "path": "protocol_proposal.json",
+      "sha256": "23c89c51fc3906897769d97964a0c36f36edff52c33d04fbaeda994ce2cdca61"
+    },
+    {
+      "bytes": 4103,
+      "path": "scripts/run_e465_tpu.py",
+      "sha256": "45953d7201b240f9b4bb8c139116c3694ffe3577e22a4525c626f0031bd9ad5d"
+    },
+    {
+      "bytes": 26330,
+      "path": "src/wnn_jax/bridge.py",
+      "sha256": "788e83eb24759e63c1dc877252ae4ad4a400f1f7f64af2dce8611e844d1990bb"
+    },
+    {
+      "bytes": 4700,
+      "path": "src/wnn_jax/distributed_combo.py",
+      "sha256": "24e4ea77a3c2524d3c62b2beb5e83e48a9789c7dc5bad24faabd7fd52501cb68"
+    },
+    {
+      "bytes": 38439,
+      "path": "src/wnn_jax/e465_gate.py",
+      "sha256": "c0544bdffe1883c503215f02dea3cd2a75b523f6a5b121c77d1934331ca87f1c"
+    },
+    {
+      "bytes": 6977,
+      "path": "src/wnn_jax/e465_host_contract.py",
+      "sha256": "a40807275271d5ccbb1a38867bf8c9328756e9e663b89c278bf6439126213370"
+    },
+    {
+      "bytes": 60280,
+      "path": "src/wnn_jax/e465_tpu_worker.py",
+      "sha256": "b150571479c3bf067aa2c053df08183a0043a57fe3f47339fd6049e7e4a9beb6"
+    },
+    {
+      "bytes": 3851,
+      "path": "src/wnn_jax/onecycle.py",
+      "sha256": "f857fe857a361249c2742e3486cd32b846e0f47413a5c4db2ae1fb6c65509ded"
+    },
+    {
+      "bytes": 14385,
+      "path": "src/wnn_jax/rnn.py",
+      "sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc"
+    },
+    {
+      "bytes": 6148,
+      "path": "tests/test_distributed_combo.py",
+      "sha256": "278542ec1a4ded004e1100b4eb7c6e2618f3820e780c7bfc05e15b95c5914443"
+    },
+    {
+      "bytes": 4269,
+      "path": "tests/test_distributed_state_boundary.py",
+      "sha256": "12623fb86358e9d44dd24f09dcce84f97508e39b65852fff5c8879ee2c38fdea"
+    },
+    {
+      "bytes": 21601,
+      "path": "tests/test_e465_gate.py",
+      "sha256": "f282905a5d3137686c2dfae90d742de1c4d0836f3ca02036068caa5ab1932221"
+    }
+  ],
+  "status": "source-only-not-launched",
+  "target_runtime": "Kaggle Python 3.11; TPU v5e-8",
+  "unmodified_recipe_and_source_members": {
+    "src/wnn_jax/bridge.py": {
+      "source_sha256": "788e83eb24759e63c1dc877252ae4ad4a400f1f7f64af2dce8611e844d1990bb",
+      "staged_sha256": "788e83eb24759e63c1dc877252ae4ad4a400f1f7f64af2dce8611e844d1990bb"
+    },
+    "src/wnn_jax/distributed_combo.py": {
+      "source_sha256": "24e4ea77a3c2524d3c62b2beb5e83e48a9789c7dc5bad24faabd7fd52501cb68",
+      "staged_sha256": "24e4ea77a3c2524d3c62b2beb5e83e48a9789c7dc5bad24faabd7fd52501cb68"
+    },
+    "src/wnn_jax/e465_host_contract.py": {
+      "source_sha256": "a40807275271d5ccbb1a38867bf8c9328756e9e663b89c278bf6439126213370",
+      "staged_sha256": "a40807275271d5ccbb1a38867bf8c9328756e9e663b89c278bf6439126213370"
+    },
+    "src/wnn_jax/onecycle.py": {
+      "source_sha256": "f857fe857a361249c2742e3486cd32b846e0f47413a5c4db2ae1fb6c65509ded",
+      "staged_sha256": "f857fe857a361249c2742e3486cd32b846e0f47413a5c4db2ae1fb6c65509ded"
+    },
+    "src/wnn_jax/rnn.py": {
+      "source_sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc",
+      "staged_sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc"
+    },
+    "tests/test_distributed_combo.py": {
+      "source_sha256": "278542ec1a4ded004e1100b4eb7c6e2618f3820e780c7bfc05e15b95c5914443",
+      "staged_sha256": "278542ec1a4ded004e1100b4eb7c6e2618f3820e780c7bfc05e15b95c5914443"
+    },
+    "tests/test_distributed_state_boundary.py": {
+      "source_sha256": "12623fb86358e9d44dd24f09dcce84f97508e39b65852fff5c8879ee2c38fdea",
+      "staged_sha256": "12623fb86358e9d44dd24f09dcce84f97508e39b65852fff5c8879ee2c38fdea"
+    }
+  },
+  "validation": {
+    "ast_parse": "passed for runner, gate, worker and focused tests",
+    "diff_check": "passed",
+    "focused_tests": "15 passed in 0.69s",
+    "json_parse": "passed for protocol and input schema",
+    "not_run": [
+      "JAX distributed-device tests (local environment has no JAX package)",
+      "TPU profile",
+      "fit",
+      "provider mutation"
+    ],
+    "ruff": "passed"
+  }
+}

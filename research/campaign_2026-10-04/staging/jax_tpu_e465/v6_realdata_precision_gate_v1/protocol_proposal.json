@@ -1,0 +1,104 @@
+{
+  "campaign_id": "E465",
+  "status": "source-only proposal; not preregistered, not launchable",
+  "hardware": "Kaggle TPU v5e-8; completed E463 V6 terminal evidence must be collected and source/input-bound; E465 all-eight-device actual-data precision profile and a separate root fit authorization are required before fit",
+  "arms": [
+    {
+      "name": "fp32_adamw_continuation",
+      "compute_precision": "fp32"
+    },
+    {
+      "name": "bf16_adamw_continuation",
+      "compute_precision": "bf16"
+    }
+  ],
+  "shared_scientific_identity": {
+    "parent": "c20261003_combo_s3_f0@ep3 evaluation EMA",
+    "portable_parent_npz_sha256": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+    "parent_conversion_sidecar_sha256": "3e65d2a88352d22bc90d88b829f05beee3faa7a66b9de41c7507f521aab12668",
+    "initial_optimizer_state": "fresh zeroed AdamW moments for both arms",
+    "seed": 3,
+    "epoch": 0,
+    "epochs": 1,
+    "optimizer": "AdamW",
+    "learning_rate_peak": 0.001,
+    "learning_rate_schedule": "PyTorch OneCycleLR port; see E465_ONECYCLE_AMENDMENT.md",
+    "learning_rate_schedule_parameters": {
+      "total_steps": 7460,
+      "warmup_fraction": 0.05,
+      "max_lr": 0.001,
+      "div_factor": 25.0,
+      "final_div_factor": 100.0,
+      "cycle_momentum": true,
+      "base_momentum_beta1": 0.85,
+      "max_momentum_beta1": 0.95,
+      "beta2": 0.999,
+      "optimizer_update_indices": [0, 7459],
+      "warmup_endpoint_index": 372,
+      "final_used_index": 7459,
+      "post_last_unused_scheduler_index": 7460,
+      "post_last_cosine_extrapolation": "preserve PyTorch OneCycleLR behavior; do not clamp"
+    },
+    "global_gradient_norm_clip": 1.0,
+    "gradient_clip_order": "pmean replica gradients first, then one global norm clip",
+    "batch_size_global": 32,
+    "batch_size_per_tpu_core": 4,
+    "fit_groups": 11940,
+    "full_batches": 373,
+    "dropped_remainder_groups": 4,
+    "chunk_rows": 1000,
+    "sequence_rows": 20000,
+    "optimizer_updates_per_batch": 20,
+    "total_optimizer_updates_per_arm": 7460,
+    "fit_batch_order": "seeded_group_batches with seed=3, epoch=0; one exact shared order across arms",
+    "teachers": [
+      {
+        "run": "c20260929_since_s3_f0",
+        "epoch": 3
+      },
+      {
+        "run": "c20260929_since_s4_f0",
+        "epoch": 3
+      }
+    ],
+    "objective": {
+      "teacher_aggregation": "equal mean",
+      "distill_alpha": 0.5,
+      "bootstrap_horizon": 8,
+      "bootstrap_gradient": "stopped",
+      "propensity_weight": "propensity^2 + 0.03",
+      "valid_true_mask_correction": 0.03,
+      "since_weight": 32.0,
+      "since_floor": 0.25,
+      "structural_auxiliary_coefficient": 0.3,
+      "next_change_auxiliary_coefficient": 0.3,
+      "ema_consistency_coefficient": 1.0,
+      "ema_parameter_decay": 0.999,
+      "ema_update_clock": "after each 1000-row optimizer update, matching production update path",
+      "student_and_ema_state": "carry all 20 chunks per sequence; stop gradient at each chunk boundary"
+    },
+    "distributed_objective": {
+      "reduction": "psum each numerator and denominator across all 8 cores before division",
+      "gradient": "scaled local-numerator surrogate, pmean gradients for replicated parameters",
+      "required_proof": "loss and parameter-gradient parity versus unsharded reference on unequal and zero-mass shards, including every auxiliary and EMA term"
+    },
+    "selection": "fixed final epoch-0 state; no validation-based checkpoint selection",
+    "conversion": "export to Torch layout only after FP32 CPU forward parity succeeds"
+  },
+  "gates_before_fit": [
+    "the accepted E463 V6 version-1 push has a successful terminal receipt and complete hash-verified output inventory; its 16 actual B16/C2000 update groups are checked as source-qualified VALID fit groups outside the fixed 468-group evaluation set",
+    "root supplies and seals an E465 input manifest matching the exact V6 fold, parent checkpoint/NPZ, required fold-asset closure, raw train/valid parquet, teachers and propensity hashes",
+    "E465 full-shape profile runs on all eight TPU devices for two real global-32 20,000-row batches per precision with all 20 chunks, identical host-batch hashes, 40 finite update checks per precision, finite final states, host RSS below 12 GiB and every TPU below 90% of its memory limit",
+    "root reviews paired FP32/BF16 loss and gradient-norm diagnostics and the measured runtime/resource evidence; these diagnostics do not by themselves assert precision parity",
+    "root writes a separate fit authorization bound to the exact profile, V6 terminal receipt, input manifest, source hashes and worker-time limit",
+    "bounded CPU comparison passes against production PyTorch OneCycleLR at all indices 0..7460",
+    "JAX-free host fold/order/domain/counter and worker helper-call-shape checks pass",
+    "bounded scalar dynamic-beta AdamW comparison passes against production torch.optim.AdamW at all 7460 used indices",
+    "distributed pooled loss and gradient tests execute successfully on a two-device JAX CPU test",
+    "20-chunk recurrent carry and stop-gradient boundary parity test",
+    "FP32 and BF16 output and carry parity against Torch CPU references",
+    "EMA update and optimizer first-step parity checks",
+    "root review of immutable source/input hashes and bounded runtime/quota admission"
+  ],
+  "scientific_claim": "none; design only"
+}
