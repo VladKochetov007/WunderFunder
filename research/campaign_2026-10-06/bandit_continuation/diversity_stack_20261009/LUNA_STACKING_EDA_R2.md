@@ -1,0 +1,42 @@
+# Luna stacking proposal R2: corrected ancestry and bounded meta-crossfit
+
+R2 supersedes the eligibility and execution wording in [R1](LUNA_STACKING_EDA_R1.md); R1 remains unchanged as the historical first proposal. The eight mechanism cards in R1 remain hypotheses, but its seed-99 export must not be used as an OOF input.
+
+## Correction and eligible source pool
+
+The H230 seed-99 parent/teacher exports are all-data descendants. A held-out row slice from an all-data prediction array does not make the model prediction OOF. The terminal receipt itself labels the export `heldout_claim: false`; exclude seed-99 entirely from candidate features, target generation, calibration, and meta-training. Preserve its prediction hashes as archival artifact identities only. This corrects R1's contrary eligibility statement. No result from seed-99 is used below.
+
+The eligible pool is exactly four already-evaluated, matched fold-0 endpoints, each reconstructed from its two frozen member arrays before final metric clipping:
+
+| Endpoint column | Recipe | Member prediction SHA-256 values | Role |
+|---|---|---|---|
+| `P3` | `0.5*c20261003_combo_s3_f0@ep3 + 0.5*f0_combo_s3_parent_hft_v1@ep0` | `aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19`, `c58e4914b81bff5214f7f9b18ae1a203eb5ea2713ea3948e1d8d680b4312fede` | seed-3 parent control |
+| `H3` | `0.5*bd26_h230_hetero_s3_f0@ep1 + 0.5*f0_h230_hetero_s3_hft_v1@ep0` | `8f0f53f7990739847cb4ecd785b508ef32a59c982a702b5e05cf04bbd1d78e78`, `353b8ff61e26fd659c0a4d7e579094e63a79a9675364f9fd1fb2fb7605b5e60e` | seed-3 H230 candidate |
+| `P4` | `0.5*c20261003_combo_s4_f0@ep3 + 0.5*f0_z3_combo_s4_parent_hft_v2@ep0` | `f1a3b07072a62dce620dc0c90e9568093367d0aed1afa4e9ec550866f94df12b`, `ffd97736e444fdb457e8af8e433860e59d5b0c2e5430ace86d6e464445271d84` | seed-4 anchor/control and primary shrinkage prior |
+| `Z4` | `0.5*f0_z3_combo_s4_student_v2_core_identity_v2@ep1 + 0.5*f0_z3_combo_s4_student_hft_v3@ep0` | `d045c767343d7872a6eaa8ddf7ecf3402982a3d9a7df3cb10510dae4bd09e9d3`, `462326e735d298661abd631d995ced444962de28f8316436ceb8454cd7463c5e` | seed-4 exact-Z3 candidate |
+
+The raw member predictions must be bound to the exact grade reports, checkpoint hashes, split-manifest SHA `09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d`, target-index SHA `dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955`, row order, and complete training/teacher/initializer/propensity ancestry. Existing Z3 and H230 reports establish zero evaluated-group fit overlap for their matched endpoint members. Stop if any of these source identities or membership checks fails.
+
+The three-way C1/`ab12`/`ab48`/organizer pool from E-516 is not included. E-516's target-wise simplex/intercept selected the anchor in all folds and declined by 0.000293914 on its 432-group/123-chain exposed pool. That exact recipe and pool remain closed. The R2 pool is different: the new H230 and exact-Z3 endpoint families on 468 groups/141 components. Its result is still exposed fold-0 discovery, not confirmation or proof that simplex stacking works generally.
+
+## Frozen bounded experiment
+
+This is a single analytic meta-crossfit recipe, not a parameter sweep. It reuses only the eight listed fold-0 NPY member arrays; there are no new base fits. It produces rowwise OOF predictions, per-component statistics, fold coefficients, and exact input/output hashes in the SSD artifact area. The complete membership assignment and its digest are in `LUNA_STACKING_META_CROSSFIT_R2.json`.
+
+**Outer component assignment.** Read the existing fold-0 split manifest at `research/campaign_2026-09-29/artifacts/splits/fold0.json`. Restrict its component map to the 468 `evaluation.valid` groups, yielding exactly 141 connected feature-only components. For each integer component ID `c`, compute `SHA256(UTF8("LUNA-STACK-R2-20261009") + NUL + ASCII(decimal(c)))`; sort by `(digest, c)`. The first 47 components are outer fold 0, the next 47 fold 1, and the last 47 fold 2. This is fixed without labels, scores, or model outputs. All rows from a component stay together. Component IDs are used only to group training/evaluation, never as model features.
+
+**Primary candidate.** `P4` is the frozen anchor. For each target `k`, form three correction columns `D=[P3−P4, H3−P4, Z4−P4]` and clipped response `R=clip(y_k,−2,2)−P4`. On the other 94 outer-training components, use the official selected mask and `w=abs(clip(y_k,−2,2))`. Calculate weighted means `μD, μR`, covariance `C = Σw(D−μD)(D−μD)ᵀ/Σw`, and cross-covariance `c = Σw(D−μD)(R−μR)/Σw`. Freeze `λ=0.5·trace(C)/3 + 1e−12` from those training components, with no tuning. Set `θ=(C+λI)⁻¹c` separately per target. On the held-out component fold, emit raw `P4 + (D−μD)θ`; clip only in the unchanged official evaluator. `θ=0` recovers the seed-4 parent/head endpoint, so the fixed ridge penalty shrinks toward the anchor.
+
+**Controls and outputs.** Primary control is `P4`. Also score the fixed same-pool equal blend `(P3+H3+P4+Z4)/4`, and report all four standalone endpoint scores. Recompute the already-published H230 and Z3 matched candidate/control comparisons only as input-integrity checks; do not use their test-set scores to choose λ, members, component assignment, or scoring slices. Each outer fold scores exactly once after its coefficients are frozen. Concatenate the three held-out folds for one OOF vector and report official `t0`, `t1`, pooled WP, selected rows, each fold's coefficient vector, the equal/anchor controls, per-component contributions, and a paired bootstrap over the 141 components. Bootstrap uncertainty remains conditional on these fixed base models and fitted crossfold procedure.
+
+**Required gates.** Reject the run as invalid if a source/checkpoint/prediction/split/target hash differs, an evaluated component appears in any endpoint's transitive fit ancestry, row order or shapes differ, selected values are nonfinite, or any component crosses folds. Preserve expected and observed fingerprints on failure. Do not inspect full validation arrays as training rows: use only the 468 split-manifest evaluation groups for the target and all eight member NPYs. Read those NPYs with `mmap_mode='r'`; process whole groups/components in bounded chunks; read only selected target columns/row groups from valid parquet if the existing target cache cannot supply selected groups without loading a huge NPZ. No full parquet or NPZ materialization. Output raw rowwise OOF meta predictions and bounded sufficient statistics; no checkpoint or weights artifact is produced.
+
+**Resource and interpretation.** Root admission is still required before executing this config. The requested cap is one support process, 1 CPU, 1 GB max memory, 600 seconds, no GPU, no provider/kernel, no new spending. If input materialization or output hashing cannot fit, stop and preserve the partial receipt; do not relax the cap. Positive pooled OOF performance is a useful conditional-combination signal on exposed discovery data, not a promotion or public forecast. A flat result is specific to this four-endpoint, fixed-ridge recipe and leaves other model families and nonlinear descendants open.
+
+## Primary source and historical evidence
+
+- Official objective: [`global_wp_clip2_v1`](../../../../../src/wnn/gmetric.py), fixed clipping and `abs(clipped target)` weights.
+- Existing endpoint results: [`H230_FOLD0_ENDPOINT_GRADE_20261008_R1.json`](../../../../../reports/H230_FOLD0_ENDPOINT_GRADE_20261008_R1.json) and [`Z3_EXACT_FOLD0_INDEPENDENT_GRADE_R1.json`](../../../../../reports/Z3_EXACT_FOLD0_INDEPENDENT_GRADE_R1.json).
+- Prior simplex preregistration/results: `bandit_continuation/disagreement_guided_H204/SIMPLEX_STACKING_PREREGISTRATION_E516.md` and `E516_RESULT.json`; only used to avoid repeating its closed pool/recipe, not as evidence against the new candidate pool.
+- Cross-validation for learner selection: van der Laan, Polley, Hubbard, [“Super Learner” (2007)](https://doi.org/10.2202/1544-6115.1309). This motivates validation of the full selection procedure; it does not validate our dependency grouping or metric.
+- Metric-gradient boosting reference: Friedman, [“Greedy Function Approximation: A Gradient Boosting Machine” (2001)](https://doi.org/10.1214/aos/1013203451). The task-specific gradient is derived from our official metric code.
