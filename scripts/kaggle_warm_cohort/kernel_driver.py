@@ -26,6 +26,7 @@ import shutil
 import subprocess
 import sys
 import tarfile
+import tempfile
 import time
 from pathlib import Path
 
@@ -81,10 +82,9 @@ def link(target: Path, path: Path) -> None:
         if path.is_symlink() and Path(os.readlink(path)) == target:
             return
         raise FileExistsError(f"refusing to replace {path}")
-    if DRY_RUN:
-        # The dry run mirrors mounts with symlinks; the target must exist to be useful.
-        if not target.exists():
-            raise FileNotFoundError(target)
+    # The dry run mirrors mounts with symlinks; the target must exist to be useful.
+    if DRY_RUN and not target.exists():
+        raise FileNotFoundError(target)
     os.symlink(target, path)
 
 
@@ -105,9 +105,8 @@ def mount_manifests() -> list[dict[str, object]]:
             size = source.stat().st_size
             if size != int(entry["size"]):
                 raise ValueError(f"size mismatch for {rel}: {size} != {entry['size']}")
-            if size <= SMALL_BYTES and not DRY_RUN:
-                if sha256(source) != entry["sha256"]:
-                    raise ValueError(f"sha256 mismatch for {rel}")
+            if size <= SMALL_BYTES and not DRY_RUN and sha256(source) != entry["sha256"]:
+                raise ValueError(f"sha256 mismatch for {rel}")
             link(source, REPO / rel)
             seen[rel] = str(source)
             mounted.append({"path": rel, "bytes": size, "dataset_dir": str(directory)})
@@ -126,12 +125,36 @@ def mount_raw_data() -> None:
     phase("raw_data_mounted", root=str(raw))
 
 
+def write_boot_marker() -> None:
+    """Persist proof of Python entry before any mounted-input discovery."""
+    WORK.mkdir(parents=True, exist_ok=True)
+    marker = {
+        "event": "kernel_boot",
+        "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "pid": os.getpid(),
+        "input_root": str(INPUT),
+    }
+    marker_path = WORK / "boot_marker.json"
+    with marker_path.open("w") as handle:
+        json.dump(marker, handle, sort_keys=True)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    print(json.dumps(marker, sort_keys=True), flush=True)
+
+
 def unpack_source() -> None:
-    """Unpack the source archive, or copy the tree when Kaggle has already extracted it."""
+    """Unpack a manifest-bound archive or copy a legacy Kaggle-extracted tree."""
     archives = find_dirs(SRC_ARCHIVE)
     REPO.mkdir(parents=True, exist_ok=True)
-    if len(archives) == 1:
+    repository_archive = REPO / SRC_ARCHIVE
+    if repository_archive.is_file():
+        archive = repository_archive
+    elif len(archives) == 1:
         archive = archives[0] / SRC_ARCHIVE
+    else:
+        archive = None
+    if archive is not None:
         with tarfile.open(archive, "r:gz") as tar:
             if hasattr(tarfile, "data_filter"):
                 tar.extractall(REPO, filter="data")
@@ -181,7 +204,7 @@ def validate_spec(spec: dict[str, object]) -> list[str]:
         known = set(re.findall(r"add_argument\(\s*\"(--[a-z0-9-]+)\"", script_path.read_text()))
         known |= set(re.findall(r"add_argument\(\s*\"[^\"]+\",\s*\"(--[a-z0-9-]+)\"", script_path.read_text()))
         for arg in argv:
-            if arg.startswith("--") and known and arg not in known and "--help" != arg:
+            if arg.startswith("--") and known and arg not in known and arg != "--help":
                 problems.append(f"{spec['run_id']}/{step['name']}: unknown flag {arg} for {script}")
     for out in spec.get("expected_outputs", []):  # type: ignore[union-attr]
         if not str(out).startswith(str(OUT)) and not str(out).startswith(str(REPO)):
@@ -195,9 +218,31 @@ def write_queues(specs: list[dict[str, object]]) -> dict[int, int]:
         gpu = int(spec.get("gpu", GPUS[index % len(GPUS)]))
         if gpu not in GPUS:
             raise ValueError(f"{spec['run_id']}: gpu must be 0 or 1")
-        pending = WORK / "queues" / f"gpu{gpu}" / "pending"
-        pending.mkdir(parents=True, exist_ok=True)
-        (pending / f"{spec['run_id']}.json").write_text(json.dumps(spec, indent=1) + "\n")
+        queue = WORK / "queues" / f"gpu{gpu}"
+        filename = f"{spec['run_id']}.json"
+        encoded = (json.dumps(spec, indent=1) + "\n").encode()
+        destinations = {
+            name: queue / name / filename
+            for name in ("pending", "running", "done", "failed")
+        }
+        existing = [path for path in destinations.values() if path.is_file()]
+        if existing:
+            if any(path.read_bytes() != encoded for path in existing):
+                raise RuntimeError(f"existing queue spec differs from frozen spec {filename}")
+            if any(path.parent.name in {"pending", "running"} for path in existing):
+                counts[gpu] += 1
+            continue
+
+        pending = destinations["pending"]
+        pending.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.NamedTemporaryFile(
+            mode="wb", dir=pending.parent, delete=False, suffix=".tmp"
+        ) as temporary:
+            temporary.write(encoded)
+            temporary.flush()
+            os.fsync(temporary.fileno())
+            temporary_path = Path(temporary.name)
+        os.replace(temporary_path, pending)
         counts[gpu] += 1
     return counts
 
@@ -297,14 +342,15 @@ def gpu_inventory() -> str:
 
 
 def main() -> int:
+    write_boot_marker()
     phase("start", dry_run=DRY_RUN, python=sys.version.split()[0], input=str(INPUT))
     if not DRY_RUN:
         phase("gpus", inventory=gpu_inventory())
     OUT.mkdir(parents=True, exist_ok=True)
     if REPO.exists():
         shutil.rmtree(REPO)
-    unpack_source()
     mounted = mount_manifests()
+    unpack_source()
     mount_raw_data()
     phase("inputs_ready", manifest_files=len(mounted))
     specs = load_specs()
