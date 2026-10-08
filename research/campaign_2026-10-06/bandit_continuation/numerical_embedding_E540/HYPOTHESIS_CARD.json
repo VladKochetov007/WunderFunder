@@ -1,0 +1,35 @@
+{
+  "id": "H-E540-A",
+  "title": "Feature-wise PLE before the shared recurrent encoder",
+  "status": "proposed_untested_refinement",
+  "objective_mode": "competition",
+  "mechanism_family": "precontrast-monotone-calibration",
+  "parents": ["H-234", "H-E537-C"],
+  "source_basis": {
+    "handoff_commit": "6da11221",
+    "handoff": "research/campaign_2026-10-06/bandit_continuation/attention_architecture_interpretability_E537/LUNA_HANDOFFS.md#handoff-1-h234-child-feature-wise-ple-front-end",
+    "source_review": "research/campaign_2026-10-06/bandit_continuation/attention_architecture_interpretability_E537/SOURCE_REVIEW.md",
+    "paper": "Gorishniy et al., On Embeddings for Numerical Features, https://arxiv.org/abs/2203.05556",
+    "implementation_note": "Project-authored quantile PLE recipe; not an exact paper reproduction."
+  },
+  "intervention": "Before the existing GRU input projection, replace each standardized raw scalar by eight cumulative linear ramps over up to nine unique, bounded-sample training quantiles and retain its unbounded standardized raw coordinate. Pass the existing 99 event features through unchanged.",
+  "control": "Equal-width feature map with the same learned outer projection, GRU and head; only each raw scalar bypass is active and its eight ramp coordinates are zero.",
+  "allocated_parameter_count": 274050,
+  "effective_capacity_note": "Allocated parameter counts match, but the 896 zero control ramp coordinates make the connected input-projection weights ineffective for data-dependent fitting.",
+  "assumptions": [
+    "Feature-wise scalar response geometry can help before temporal mixing.",
+    "The anonymous raw feature order is stable; no physical depth or quote semantics are inferred.",
+    "Clamped basis coordinates plus a raw bypass preserve information outside the fitting quantile range."
+  ],
+  "observable": "On identical component-complete fitting/evaluation membership, seed and update budget, PLE changes official global_wp_clip2_v1 more than the linear-map control; a later matched ordinary MLP control separates geometry from generic nonlinear capacity.",
+  "cheapest_discriminating_test": "Manual knot/tie/sentinel/range and reload checks, causal full/chunk/stream parity, then one profiled single-seed small-data GPU pair.",
+  "falsifier": "The declared PLE recipe is invalid if any knot depends on evaluation membership, a raw value outside the knot range is lost, fitted buffers fail reload, or streaming/full outputs disagree. A small noisy score alone does not refute the broader H234 family.",
+  "estimated_cost": "One 10% complete-component fit subset, one seed per arm, one full fixed epoch after actual-device profiling; E537's 20 GPU-minute pair was a proposal, not a measured cost or spending authorization.",
+  "numerical_prior": null,
+  "expected_public_score": null,
+  "fit_admitted": false,
+  "implementation_owner": "E540 isolated Luna/max worktree",
+  "execution_owner": "root assigns profile and GPU operator",
+  "grader_owner": "root independent grader",
+  "next_descendant_if_informative": "A separately registered parameter-matched ordinary input MLP control to distinguish PLE geometry from generic nonlinear active capacity; do not attribute a future PLE gain solely to geometry."
+}

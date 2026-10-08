@@ -7,12 +7,14 @@ The holdout split (wnn.splits) is read only with --eval-source holdout, for grad
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import os
 import platform
 import sys
 import time
+from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
 
@@ -50,6 +52,7 @@ from wnn.nn import (
     weighted_mse_loss,
     weighted_pooled_corr_loss,
 )
+from wnn.numeric_ple import NumericFeatureMap, fit_training_quantile_knots
 from wnn.optim import GradStats, rnn_init_
 from wnn.outcomes import (
     N_CODES,
@@ -70,7 +73,7 @@ from wnn.research_features import (RESEARCH_FEATURE_MODES, research_feature_name
                                    research_features_torch)
 from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_identity,
                               sample_order_identity, scaler_source_identity)
-from wnn.splits import dev_halves, file_sha256, load_campaign_split, valid_row_groups
+from wnn.splits import CampaignSplit, dev_halves, file_sha256, load_campaign_split, valid_row_groups
 from wnn.spread_aux import (PackedSpreadCache, structural_loss, validate_spread_cache,
                             validate_spread_parent)
 from wnn.training_controls import (DistilledLoss, blended_target, distilled_macro_losses,
@@ -710,6 +713,144 @@ def fit_normalization(model, loader, device, batches=2):
     model.std.copy_(f.std(0).clamp_min(1e-3))
 
 
+def load_e540_fit_subset(path: Path, campaign_split: CampaignSplit) -> dict[str, object]:
+    """Validate the exact component-complete E540 fitting and evaluation members."""
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(manifest, dict) or manifest.get("version") != 1:
+        raise ValueError("E540 subset manifest must be a version-1 JSON object")
+    if manifest.get("experiment_id") != "E540":
+        raise ValueError("fit subset belongs to a different experiment")
+    if manifest.get("split_manifest_sha256") != campaign_split.sha256:
+        raise ValueError("fit subset was built from a different campaign split")
+    groups_by_split = manifest.get("selected_groups")
+    if not isinstance(groups_by_split, dict):
+        raise ValueError("fit subset has no selected_groups object")
+    allowed = {
+        "train": set(campaign_split.train_groups),
+        "valid": set(campaign_split.valid_groups),
+    }
+    selected: dict[str, list[int]] = {}
+    for split in ("train", "valid"):
+        raw_groups = groups_by_split.get(split)
+        if not isinstance(raw_groups, list) or not raw_groups:
+            raise ValueError(f"E540 subset must include selected {split} groups")
+        if any(type(group) is not int or group < 0 for group in raw_groups):
+            raise ValueError(f"selected {split} groups must be nonnegative integers")
+        groups = [int(group) for group in raw_groups]
+        if len(set(groups)) != len(groups) or not set(groups).issubset(allowed[split]):
+            raise ValueError(f"selected {split} groups are duplicated or outside the fit split")
+        selected[split] = groups
+    members = sorted(
+        (split, group) for split, groups in selected.items() for group in groups
+    )
+    member_bytes = json.dumps(members, separators=(",", ":"), ensure_ascii=True).encode("ascii")
+    if hashlib.sha256(member_bytes).hexdigest() != manifest.get("selected_members_sha256"):
+        raise ValueError("fit subset membership digest is invalid")
+    component_list = manifest.get("selected_components")
+    if (
+        not isinstance(component_list, list)
+        or any(type(component) is not int or component < 0 for component in component_list)
+        or component_list != sorted(set(component_list))
+    ):
+        raise ValueError("selected component IDs must be unique sorted nonnegative integers")
+    component_bytes = np.asarray(component_list, dtype="<i8").tobytes()
+    if hashlib.sha256(component_bytes).hexdigest() != manifest.get("selected_component_sha256"):
+        raise ValueError("selected component digest is invalid")
+    component_of = {
+        (split, int(group)): int(component)
+        for split, group, component in campaign_split.components
+    }
+    selected_components = {component_of[(split, group)] for split, group in members}
+    if sorted(selected_components) != component_list:
+        raise ValueError("selected component IDs disagree with their group membership")
+    evaluation_components = {
+        component_of[("valid", group)] for group in campaign_split.evaluation_groups
+    }
+    if selected_components.intersection(evaluation_components):
+        raise ValueError("E540 fit subset overlaps an evaluated component")
+    evaluation_bytes = np.asarray(sorted(campaign_split.evaluation_groups), dtype="<i8").tobytes()
+    if hashlib.sha256(evaluation_bytes).hexdigest() != manifest.get(
+        "evaluation_membership_sha256"
+    ):
+        raise ValueError("fit subset was built against a different evaluation membership")
+    expected_members = {
+        (split, group)
+        for split, group, component in campaign_split.components
+        if group in allowed[split] and component in selected_components
+    }
+    if set(members) != expected_members:
+        raise ValueError("E540 subset splits an eligible fitting component")
+    campaign_split.assert_fit_groups(selected["train"], selected["valid"])
+    return {
+        "manifest": manifest,
+        "train_groups": selected["train"],
+        "valid_groups": selected["valid"],
+    }
+
+
+def iter_e540_fit_features(
+    train_groups: list[int], valid_groups: list[int]
+) -> Iterable[np.ndarray]:
+    """Read feature-only sequences in the same order as E540 fit membership."""
+    for split, groups in (("train", train_groups), ("valid", valid_groups)):
+        source = SequenceFile(ROOT / "datasets" / f"{split}.parquet")
+        for group in groups:
+            sequence = source.read(group, targets=False, mask=False)
+            yield sequence.features
+
+
+def fit_e540_numeric_preprocessing(
+    model: torch.nn.Module,
+    train_groups: list[int],
+    valid_groups: list[int],
+    split_manifest_sha256: str,
+) -> dict[str, object] | None:
+    """Fit and bind PLE knots from exact feature-only fitting membership."""
+    numeric_map = getattr(model, "numeric_feature_map", None)
+    if numeric_map is None:
+        return None
+    members = [("train", group) for group in train_groups]
+    members.extend(("valid", group) for group in valid_groups)
+    result: dict[str, object] = {
+        "mode": numeric_map.mode,
+        "n_features": N_FEATURES,
+        "base_input_width": numeric_map.input_width,
+        "mapped_input_width": numeric_map.output_width,
+        "n_intervals": numeric_map.n_intervals,
+        "feature_order": "raw112 supplied channel order; no physical semantics inferred",
+        "raw_bypass": "one unbounded standardized raw coordinate per channel",
+        "event_features": "passed through after the expanded raw block",
+        "split_manifest_sha256": split_manifest_sha256,
+        "fit_members": {"train": train_groups, "valid": valid_groups},
+        "fit_members_sha256": hashlib.sha256(
+            json.dumps(sorted(members), separators=(",", ":")).encode("ascii")
+        ).hexdigest(),
+        "module_source_sha256": file_sha256(ROOT / "src/wnn/numeric_ple.py"),
+    }
+    if numeric_map.mode == "linear":
+        result["control_definition"] = "same K+1 slots; only raw bypass coordinate is active"
+        return result
+    center = model.mean[:N_FEATURES].detach().cpu().numpy().astype(np.float32, copy=True)
+    scale = model.std[:N_FEATURES].detach().cpu().numpy().astype(np.float32, copy=True)
+    knots, counts, metadata = fit_training_quantile_knots(
+        iter_e540_fit_features(train_groups, valid_groups),
+        members,
+        center,
+        scale,
+        n_intervals=numeric_map.n_intervals,
+    )
+    numeric_map.set_knots(knots, counts)
+    normalization_hash = hashlib.sha256(
+        center.astype("<f4", copy=False).tobytes()
+        + scale.astype("<f4", copy=False).tobytes()
+    ).hexdigest()
+    result.update(metadata)
+    result["training_raw_normalization_sha256"] = normalization_hash
+    result["knot_counts"] = counts.tolist()
+    result["knot_buffer"] = "model.numeric_feature_map.knots"
+    return result
+
+
 def forward_chunk(model, inputs, sl, state):
     if getattr(model, "_recurrent_rank", 0):
         return factorized_forward(model, inputs[:, sl], state)
@@ -739,6 +880,13 @@ def detach_state(state):
 
 
 def make_model(args_dict, n_in, n_out):
+    numeric_map = args_dict.get("numeric_map", "none")
+    if numeric_map != "none" and (
+        args_dict.get("arch", "gru") != "gru"
+        or args_dict.get("cell", "gru") != "gru"
+        or args_dict.get("enc", "linear") != "linear"
+    ):
+        raise ValueError("numeric maps require the plain GRU with linear input encoding")
     if args_dict.get("readout_activation", "gelu") != "gelu" and (
         args_dict.get("arch", "gru") != "gru"
         or args_dict.get("cell", "gru") != "gru"
@@ -836,6 +984,8 @@ def make_model(args_dict, n_in, n_out):
         att_layers=args_dict.get("att_layers", 1),
         conv_k=args_dict.get("conv_k", 16),
         readout_activation=args_dict.get("readout_activation", "gelu"),
+        numeric_map=numeric_map,
+        ple_intervals=args_dict.get("ple_intervals", 8),
     )
     if args_dict.get("sentinel_indicators", "none") != "none":
         model.inp = SentinelInputProjection(model.inp, args_dict["sentinel_base_width"])
@@ -1120,6 +1270,12 @@ def main():
     ap.add_argument("--sentinel-base-width", type=int, default=0,
                     help="inherited only from a frozen sentinel_prepare initializer")
     ap.add_argument("--batch", type=int, default=32)
+    ap.add_argument("--numeric-map", choices=("none", *NumericFeatureMap.MODES), default="none",
+                    help="E540 matched raw-linear or feature-wise PLE map before the GRU projection")
+    ap.add_argument("--ple-intervals", type=int, default=8,
+                    help="E540 PLE interval count; both arms allocate K+1 slots per raw feature")
+    ap.add_argument("--fit-subset-manifest", type=Path, default=None,
+                    help="frozen component-complete E540 fitting subset bound to --split-manifest")
     ap.add_argument("--epochs", type=int, default=2)
     ap.add_argument("--stop-after-epoch", type=int, default=None,
                     help="end training after this epoch while the lr schedule still spans --epochs (cheap screens)")
@@ -1327,6 +1483,33 @@ def main():
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     add_dynamics_arguments(ap)
     args = ap.parse_args()
+    if args.numeric_map != "none":
+        if (
+            args.arch != "gru" or args.cell != "gru" or args.enc != "linear"
+            or args.hidden != 128 or args.layers != 1 or args.dropout != 0.0
+            or args.train_source != "train+valid" or args.split_manifest is None
+            or args.fit_subset_manifest is None or args.train_classes or args.class_balance
+            or args.valid_train_fraction != 1.0 or args.valid_repeat != 1 or args.epoch_samples
+            or args.init or args.resume_state or args.fit_groups_manifest or args.distill
+            or args.distill_cache_root or args.distill_family_weight
+            or args.privileged_mode != "none" or args.propensity or args.prop_input
+            or args.aux or args.aux_struct or args.aux_next or args.aux_tier
+            or args.aux_mask or args.aux_sign or args.aux_quote or args.aux_next_k
+            or args.spread_aux_mode != "original" or args.spread_cache_root
+            or args.raw_only or args.online_norm or args.heuristics
+            or args.research_features != "none" or args.quote_cache_root
+            or args.sentinel_base_width or args.sentinel_values != "unchanged"
+            or args.sentinel_indicators != "none" or args.loss != "wmse"
+            or args.mask_weight or args.class_weight or args.valid_true_mask != -1.0
+            or args.ema_teacher or args.swa_frac or args.eval_ema
+            or not args.no_eval_during_fit or args.checkpoint_policy != "fixed"
+            or args.checkpoint_epoch is None
+        ):
+            ap.error("E540 numeric maps require the matched fixed-subset plain-GRU WMSE screen")
+        if args.ple_intervals != 8:
+            ap.error("E540 has a fixed n_intervals=8 comparison")
+    elif args.fit_subset_manifest is not None:
+        ap.error("--fit-subset-manifest is reserved for the E540 numeric-map screen")
     distillation_requested = bool(args.distill or args.distill_cache_root)
     if args.distill and args.distill_cache_root:
         ap.error("--distill and --distill-cache-root are mutually exclusive")
@@ -1404,6 +1587,17 @@ def main():
     if args.resume_state:
         args.resume_state = str(args.resume_state)
     campaign_split = load_campaign_split(args.split_manifest, ROOT) if args.split_manifest else None
+    fit_subset = None
+    if args.fit_subset_manifest is not None:
+        if campaign_split is None:
+            ap.error("E540 fit subsets require --split-manifest")
+        subset_path = args.fit_subset_manifest
+        if not subset_path.is_absolute():
+            subset_path = ROOT / subset_path
+        subset_path = subset_path.resolve()
+        fit_subset = load_e540_fit_subset(subset_path, campaign_split)
+        args.fit_subset_manifest = str(subset_path)
+        args.fit_subset_manifest_sha256 = file_sha256(subset_path)
     inner_crossfit = None
     if args.fit_groups_manifest is not None:
         if (campaign_split is None or args.train_source != "train+valid"
@@ -1586,7 +1780,13 @@ def main():
         valid_pool = valid_pool[np.isin(pool_chains, selected_chains)]
         if args.train_source == "train+valid":
             extra_valid = valid_pool
-    if args.train_source == "valid":
+    if fit_subset is not None:
+        train_split = "train"
+        train_idx = np.asarray(fit_subset["train_groups"], dtype=np.int64)
+        extra_valid = np.asarray(fit_subset["valid_groups"], dtype=np.int64)
+        valid_pool = extra_valid
+        eligible_valid_count = len(extra_valid)
+    elif args.train_source == "valid":
         # with --valid-fold: all valid minus the held-out chain fold; without: devA + devB (holdout never)
         train_split = "valid"
         train_idx = np.random.default_rng(args.seed).permutation(valid_pool)
@@ -1761,6 +1961,9 @@ def main():
                                      "valid": train_idx.tolist() if train_split == "valid" else
                                      extra_valid.tolist() if extra_valid is not None else []},
                   "evaluation_row_groups": valid_idx.tolist(), "checkpoint_sha256": {}}
+    if fit_subset is not None:
+        provenance["fit_subset_manifest_sha256"] = args.fit_subset_manifest_sha256
+        provenance["fit_subset_members_sha256"] = fit_subset["manifest"]["selected_members_sha256"]
     if distill_cache_validation is not None:
         cache_metadata = distill_cache_validation["metadata"]
         provenance["distillation_cache"] = {
@@ -1897,6 +2100,17 @@ def main():
             provenance["sentinel_preprocessing"] = sentinel_metadata
     elif saved_training is None:
         fit_normalization(model, train_loader, device)
+    if args.numeric_map != "none":
+        fit_groups_train = train_idx.tolist() if train_split == "train" else []
+        fit_groups_valid = (train_idx.tolist() if train_split == "valid" else
+                            extra_valid.tolist() if extra_valid is not None else [])
+        numeric_preprocessing = fit_e540_numeric_preprocessing(
+            model, fit_groups_train, fit_groups_valid, campaign_split.sha256)
+        if numeric_preprocessing is None:
+            raise RuntimeError("E540 numeric map disappeared during model construction")
+        provenance["numeric_preprocessing"] = numeric_preprocessing
+        provenance["trainer_source_sha256"] = file_sha256(ROOT / "scripts/train_rnn.py")
+        provenance["model_source_sha256"] = file_sha256(ROOT / "src/wnn/nn.py")
     configure_factorized(model, args.recurrent_rank)
     if saved_training is not None:
         model.load_state_dict(saved_training["model"])

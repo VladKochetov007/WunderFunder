@@ -15,10 +15,10 @@ from pathlib import Path
 import numpy as np
 import onnxruntime as ort
 import torch
+import train_rnn
 
 from wnn.data import SequenceFile
 from wnn.features import event_features
-from wnn.nn import RNNModel
 from wnn.streaming import StreamingGraph, initial_state
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -49,7 +49,7 @@ def main():
     if a.get("arch", "gru") != "gru" or a.get("prop_input"):
         raise SystemExit("only plain RNNModel runs are exportable here")
     n_out = 2 + 2 * len([v for v in a.get("aux", "").split(",") if v])
-    model = RNNModel(ck["n_in"], a["hidden"], a["layers"], 0.0, n_out=n_out).eval()
+    model = train_rnn.make_model(a, ck["n_in"], n_out).eval()
     model.load_state_dict(ck["model"])
     graph = StreamingGraph(model).eval()
     out = Path(args.out) if args.out else ROOT / "submissions" / args.run / "model.onnx"
@@ -58,7 +58,9 @@ def main():
     torch.onnx.export(graph, (torch.zeros(1, 112), *state), str(out), input_names=NAMES_IN,
                       output_names=NAMES_OUT, opset_version=17, dynamo=False)
 
-    seq = SequenceFile(ROOT / "datasets" / "valid.parquet").read(0)
+    seq = SequenceFile(ROOT / "datasets" / "valid.parquet").read(
+        0, targets=False, mask=False
+    )
     x = seq.features[: args.rows]
     with torch.no_grad():
         want, _ = model(torch.cat([torch.from_numpy(x), torch.from_numpy(event_features(x))], -1)[None])

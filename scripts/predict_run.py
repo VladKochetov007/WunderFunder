@@ -111,6 +111,7 @@ def main():
         "quantization_preset": ck.get("quantization", {}).get("preset"),
         "recurrent_rank": ck.get("factorization", {}).get("rank"),
         "sentinel_preprocessing": ck.get("sentinel_preprocessing"),
+        "numeric_preprocessing": ck.get("provenance", {}).get("numeric_preprocessing"),
         "row_groups": groups.tolist(),
     }
     final.with_suffix(".json").write_text(json.dumps(metadata, indent=2) + "\n")

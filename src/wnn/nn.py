@@ -7,6 +7,7 @@ import torch.nn.functional as F
 from torch import nn
 
 from wnn.event_content import ENDPOINT
+from wnn.numeric_ple import NumericFeatureMap
 
 METRIC_CLIP = 2.0
 
@@ -25,14 +26,20 @@ class RNNModel(nn.Module):
     def __init__(
         self, n_in: int, hidden: int = 256, layers: int = 2, dropout: float = 0.0, n_out: int = 2,
         cell: str = "gru", enc: str = "linear", tok_dim: int = 32, att_layers: int = 1, conv_k: int = 16,
-        readout_activation: str = "gelu",
+        readout_activation: str = "gelu", numeric_map: str = "none", ple_intervals: int = 8,
     ):
         super().__init__()
         if readout_activation not in ("gelu", "fixed_mix"):
             raise ValueError("readout_activation must be gelu or fixed_mix")
+        if numeric_map not in ("none", *NumericFeatureMap.MODES):
+            raise ValueError(f"unknown numeric map mode: {numeric_map}")
         self.register_buffer("mean", torch.zeros(n_in))
         self.register_buffer("std", torch.ones(n_in))
-        self.inp = nn.Linear(n_in, hidden)
+        self.numeric_feature_map = (
+            None if numeric_map == "none" else NumericFeatureMap(n_in, numeric_map, ple_intervals)
+        )
+        input_width = n_in if self.numeric_feature_map is None else self.numeric_feature_map.output_width
+        self.inp = nn.Linear(input_width, hidden)
         # Optional per-row encoders, added as residuals to the linear projection (research screening only;
         # the native engine supports enc="linear").
         self.enc = enc
@@ -70,6 +77,8 @@ class RNNModel(nn.Module):
         )
 
     def encode(self, xn):
+        if self.numeric_feature_map is not None:
+            xn = self.numeric_feature_map(xn)
         u = self.inp(xn)
         if self.enc == "tokens":
             b, t, _ = xn.shape
