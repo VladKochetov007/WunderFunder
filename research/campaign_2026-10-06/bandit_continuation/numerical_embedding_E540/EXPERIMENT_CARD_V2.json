@@ -1,0 +1,48 @@
+{
+  "id": "E540",
+  "version": 2,
+  "predecessor": "EXPERIMENT_CARD.json",
+  "hypothesis_ids": ["H-234", "H-E537-C", "H-E540-A"],
+  "kind": "matched feature-wise numerical input-map screen",
+  "status": "implementation_repaired_pending_independent_root_review_and_admission",
+  "scientific_fits_launched": 0,
+  "resource_profiles_launched": 0,
+  "public_forecast": null,
+  "fit_admitted": false,
+  "provider_mutation": false,
+  "allocation_owner": "root",
+  "implementation_commit": null,
+  "recipe": "RECIPE_V2.json",
+  "packet_builder": "scripts/build_e540_packet.py",
+  "implementation": [
+    "src/wnn/numeric_ple.py",
+    "src/wnn/nn.py",
+    "scripts/train_rnn.py",
+    "scripts/prepare_e540_fit_subset.py",
+    "scripts/predict_run.py",
+    "scripts/export_onnx.py",
+    "scripts/build_e540_packet.py"
+  ],
+  "correctness_tests": "tests/test_numeric_ple.py",
+  "comparison": {
+    "arms": ["linear_raw_bypass", "ple8_plus_raw_bypass"],
+    "seed": 540,
+    "fit_subset_target_fraction": 0.1,
+    "expected_selected_components": 512,
+    "epochs": 1,
+    "checkpoint": "fixed epoch 0; no evaluation during fitting",
+    "training_target_clip": [-2.0, 2.0],
+    "training_target_weight": "absolute clipped target magnitude",
+    "evaluation": "the exact frozen 468 component-separated valid row groups; previously exposed",
+    "metric": "global_wp_clip2_v1",
+    "raw_target_wmse": "separate future factor; not part of this pair"
+  },
+  "prediction_delivery": {
+    "membership_source": "RECIPE_V2 fit-subset manifest",
+    "prediction_input_columns": "features only; targets and scored masks are not read",
+    "row_order": "sorted evaluation group IDs recorded in prediction metadata",
+    "onnx_parity_group": "first selected fitting train group; feature-only read"
+  },
+  "known_comparison_limit": "Allocated parameter counts are equal, but linear-control ramp coordinates are identically zero, reducing its effective trainable capacity. A future PLE result is not by itself evidence for spline geometry over generic nonlinear capacity.",
+  "grader": "Root owns the independent grader and must verify both prediction row-group indexes against the frozen 468 evaluation groups before scoring."
+}

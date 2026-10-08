@@ -28,9 +28,12 @@ SOURCE_FILES = (
     "scripts/train_rnn.py",
     "tests/test_numeric_ple.py",
     "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/EXPERIMENT_CARD.json",
+    "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/EXPERIMENT_CARD_V2.json",
     "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/HYPOTHESIS_CARD.json",
     "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/RECIPE_V1.json",
+    "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/RECIPE_V2.json",
     "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/README.md",
+    "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_INDEPENDENT_RECIPE_DELIVERY_REVIEW_V2_20261008.md",
     "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/DATA_SHAPE_SMOKE_ACTUAL_TRAIN_RG0_V1.jsonl",
     "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/DATA_SHAPE_SMOKE_ATTEMPTS_V1.json",
     "src/wnn/data.py",
@@ -149,7 +152,11 @@ def build_packet(split_manifest: Path, output_dir: Path) -> dict[str, object]:
 
     campaign = load_campaign_split(split_path, ROOT)
     subset = build_manifest(split_path, fraction=0.1, seed=540, root=ROOT)
-    subset_path = output / "E540_FIT_SUBSET_V1.json"
+    if subset["selected_component_count"] != 512:
+        raise ValueError("E540 V2 requires exactly 512 complete fitting components")
+    if len(campaign.evaluation_groups) != 468:
+        raise ValueError("E540 V2 requires the frozen 468-group evaluation membership")
+    subset_path = output / "E540_FIT_SUBSET_V2.json"
     split_source = json.loads(split_path.read_text(encoding="utf-8"))
     data_identities = {
         name: split_source["sources"][name]
@@ -179,6 +186,10 @@ def build_packet(split_manifest: Path, output_dir: Path) -> dict[str, object]:
                 "0",
                 "--inference-precision",
                 "fp32",
+                "--output-name",
+                f"{run_name}-eval",
+                "--fit-subset-manifest",
+                str(subset_path),
             ],
             ROOT,
         )
@@ -191,14 +202,20 @@ def build_packet(split_manifest: Path, output_dir: Path) -> dict[str, object]:
                 str(output / f"{mode}.onnx"),
                 "--rows",
                 "20000",
+                "--parity-split",
+                "train",
+                "--parity-group",
+                str(subset["selected_groups"]["train"][0]),
             ],
             ROOT,
         )
 
     source_hashes = {name: file_sha256(ROOT / name) for name in SOURCE_FILES}
     packet = {
-        "version": 1,
+        "version": 2,
         "experiment_id": "E540",
+        "recipe": "RECIPE_V2.json",
+        "predecessor_recipe": "RECIPE_V1.json",
         "status": "prepared_pending_root_admission",
         "fit_admitted": False,
         "provider_launch_authorized": False,
@@ -238,6 +255,9 @@ def build_packet(split_manifest: Path, output_dir: Path) -> dict[str, object]:
                 "owner": "root supplies and independently runs the grader",
                 "metric_id": "global_wp_clip2_v1",
                 "scored_members": "the exact evaluation members in the split manifest",
+                "expected_scored_group_count": 468,
+                "prediction_row_order": "the exact sorted evaluation_groups in the E540 subset manifest",
+                "prediction_output_scope": "only those frozen evaluation groups; feature-only parquet reads",
                 "paired_unit": "evaluation component",
                 "report": [
                     "candidate and control scores",
