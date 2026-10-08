@@ -107,24 +107,41 @@ def profile_update_evidence(
     loss_checks: int,
     loss_finite: bool,
     amp_enabled: bool,
+    gradient_stats_steps: int | None = None,
+    gradient_stats_nonfinite_steps: int | None = None,
 ) -> dict[str, object]:
     """Return JSON-safe profile validity evidence for the measured optimizer steps.
 
-    Enabled GradScaler found-inf flags are the gradient-finiteness check because
-    they are observed after unscale and before the optimizer step. Profiles
-    without enabled AMP are marked incomplete instead of implying gradients
-    were checked.
+    Enabled GradScaler found-inf flags check AMP gradients after unscale. When
+    AMP is disabled, complete pre-clip GradStats observations provide the
+    gradient-finiteness check instead.
     """
     counts_consistent = (
         optimizer_attempts > 0
         and optimizer_completed_updates + amp_skipped_updates == optimizer_attempts
     )
     losses_complete = loss_checks == optimizer_attempts
-    gradients_finite = (
-        amp_skipped_updates == 0 if amp_enabled and counts_consistent else None
-    )
+    if amp_enabled and counts_consistent:
+        gradients_finite = amp_skipped_updates == 0
+        gradient_check_basis = "GradScaler found-inf flags after unscale, before optimizer step"
+    elif (
+        not amp_enabled
+        and counts_consistent
+        and gradient_stats_steps == optimizer_attempts
+        and gradient_stats_nonfinite_steps is not None
+    ):
+        gradients_finite = gradient_stats_nonfinite_steps == 0
+        gradient_check_basis = "complete pre-clip GradStats gradient norms"
+    else:
+        gradients_finite = None
+        gradient_check_basis = (
+            "GradScaler found-inf flags after unscale, before optimizer step"
+            if amp_enabled
+            else "not checked because GradScaler is disabled and GradStats is incomplete"
+        )
     valid = (
         counts_consistent
+        and amp_skipped_updates == 0
         and losses_complete
         and loss_finite
         and gradients_finite is True
@@ -133,14 +150,13 @@ def profile_update_evidence(
         "optimizer_attempts": optimizer_attempts,
         "optimizer_completed_updates": optimizer_completed_updates,
         "amp_skipped_updates": amp_skipped_updates,
+        "grad_scaler_enabled": amp_enabled,
         "loss_checks": loss_checks,
         "loss_finite": loss_finite if losses_complete else None,
         "gradient_finite": gradients_finite,
-        "gradient_check_basis": (
-            "GradScaler found-inf flags after unscale, before optimizer step"
-            if amp_enabled
-            else "not checked because GradScaler is disabled"
-        ),
+        "gradient_check_basis": gradient_check_basis,
+        "gradient_stats_steps": gradient_stats_steps,
+        "gradient_stats_nonfinite_steps": gradient_stats_nonfinite_steps,
         "counts_consistent": counts_consistent,
         "valid_for_throughput": valid,
     }
@@ -2623,6 +2639,8 @@ def main():
                 len(profile_losses or []),
                 loss_finite,
                 scaler.is_enabled(),
+                None if epoch_grad_stats is None else epoch_grad_stats.get("steps"),
+                None if epoch_grad_stats is None else epoch_grad_stats.get("nonfinite_steps"),
             )
             print("PROFILE_UPDATE_EVIDENCE", json.dumps(evidence), flush=True)
             if not evidence["valid_for_throughput"]:

@@ -8,7 +8,7 @@ from typing import cast
 
 import pytest
 
-ProfileEvidence = Callable[[int, int, int, int, bool, bool], dict[str, object]]
+ProfileEvidence = Callable[..., dict[str, object]]
 
 
 def load_profile_evidence_helper() -> ProfileEvidence:
@@ -61,6 +61,25 @@ def test_inconsistent_counts_and_disabled_amp_do_not_claim_finite_gradients() ->
     assert inconsistent["valid_for_throughput"] is False
     assert disabled_amp["gradient_finite"] is None
     assert disabled_amp["valid_for_throughput"] is False
+
+
+def test_disabled_scaler_accepts_only_complete_finite_grad_stats() -> None:
+    finite = profile_update_evidence(2, 2, 0, 2, True, False, 2, 0)
+    skipped = profile_update_evidence(2, 1, 1, 2, True, False, 2, 0)
+    nonfinite = profile_update_evidence(2, 2, 0, 2, True, False, 2, 1)
+    incomplete = profile_update_evidence(2, 2, 0, 2, True, False, 1, 0)
+
+    assert finite["grad_scaler_enabled"] is False
+    assert finite["gradient_stats_steps"] == 2
+    assert finite["gradient_stats_nonfinite_steps"] == 0
+    assert finite["gradient_finite"] is True
+    assert finite["valid_for_throughput"] is True
+    assert skipped["grad_scaler_enabled"] is False
+    assert skipped["valid_for_throughput"] is False
+    assert nonfinite["gradient_finite"] is False
+    assert nonfinite["valid_for_throughput"] is False
+    assert incomplete["gradient_finite"] is None
+    assert incomplete["valid_for_throughput"] is False
 
 
 @pytest.mark.parametrize(
