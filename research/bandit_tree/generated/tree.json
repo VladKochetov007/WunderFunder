@@ -2437,6 +2437,21 @@
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "4256f895d36c6d1a53868a9cb59bd76445b7f7f0fb123601e155c031f513386e"
         }
+      },
+      {
+        "raw_record": "{\"date\": \"2026-10-08T08:40:02.163719+00:00\", \"kind\": \"evidence\", \"experiment\": \"E-E540-FIXED-PAIR-GRADE-20261008-R1\", \"path\": \"research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIXED_PAIR_RESULT_20261008_R1.json\", \"decision\": \"Defer exact one-epoch PLE endpoint; preserve scale/teacher/interaction descendants. Prioritize faithful heterogeneous-distillation blended endpoint under ADR0023.\"}\n",
+        "record": {
+          "date": "2026-10-08T08:40:02.163719+00:00",
+          "decision": "Defer exact one-epoch PLE endpoint; preserve scale/teacher/interaction descendants. Prioritize faithful heterogeneous-distillation blended endpoint under ADR0023.",
+          "experiment": "E-E540-FIXED-PAIR-GRADE-20261008-R1",
+          "kind": "evidence",
+          "path": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIXED_PAIR_RESULT_20261008_R1.json"
+        },
+        "source": {
+          "line": 90,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "71161ea1db340c837f9593b314788b522d0ecbaf8ee043165a36b46271c0c3a9"
+        }
       }
     ],
     "legacy_archive": {
@@ -6355,9 +6370,9 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 624,
+      "experiments": 626,
       "hypotheses": 301,
-      "journal": 89
+      "journal": 90
     }
   },
   "nodes": [
@@ -58114,6 +58129,95 @@
       "type": "experiment"
     },
     {
+      "classification": {
+        "matches": [
+          "H-230"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-H230-NORMALIZED-PUBLIC-20261008-R1",
+      "latest_recorded_status": "public_scored",
+      "parent_id": "hypothesis:H-230",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-H230-NORMALIZED-PUBLIC-20261008-R1\",\"timestamp_utc\":\"2026-10-08T08:23:37.129884+00:00\",\"hypotheses\":[\"H-230\"],\"kind\":\"Human-uploaded official public result\",\"status\":\"public_scored\",\"result\":\"research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_NORMALIZED_PUBLIC_RESULT_20261008_R1.json\",\"result_sha256\":\"bf8e34103e3afa101b253cbbeba5a9bcdf18824da5f49a19aa89d5663b7ebb80\",\"public_score\":0.6653,\"zip_sha256\":\"8f333e11f8d2fc9035d26a604ef9731f8990fb77ee748bda83d690ca8f0a8e27\",\"source\":\"user_report\",\"public_best_remains\":0.666,\"causal_attribution\":null}\n",
+          "record": {
+            "causal_attribution": null,
+            "hypotheses": [
+              "H-230"
+            ],
+            "id": "E-H230-NORMALIZED-PUBLIC-20261008-R1",
+            "kind": "Human-uploaded official public result",
+            "public_best_remains": 0.666,
+            "public_score": 0.6653,
+            "result": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_NORMALIZED_PUBLIC_RESULT_20261008_R1.json",
+            "result_sha256": "bf8e34103e3afa101b253cbbeba5a9bcdf18824da5f49a19aa89d5663b7ebb80",
+            "source": "user_report",
+            "status": "public_scored",
+            "timestamp_utc": "2026-10-08T08:23:37.129884+00:00",
+            "zip_sha256": "8f333e11f8d2fc9035d26a604ef9731f8990fb77ee748bda83d690ca8f0a8e27"
+          },
+          "source": {
+            "line": 625,
+            "path": "research/experiments.jsonl",
+            "sha256": "f37c357e2f1df15802e65e31c843b46d4038d45df8fea6bbb4b6a573c587297d"
+          }
+        }
+      ],
+      "title": "Human-uploaded official public result",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-E540-FIXED-PAIR-GRADE-20261008-R1",
+      "latest_recorded_status": "evaluated_exposed_discovery",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-E540-FIXED-PAIR-GRADE-20261008-R1\", \"date\": \"2026-10-08T08:40:02.163719+00:00\", \"kind\": \"fixed matched FP32 linear versus PLE numerical embedding and preregistered equal mixture\", \"status\": \"evaluated_exposed_discovery\", \"metric\": \"global_wp_clip2_v1\", \"groups\": 468, \"result_path\": \"research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIXED_PAIR_RESULT_20261008_R1.json\", \"result_sha256\": \"53ec9edfb0303ca1fd162363d57b2ad64ecb432895b511191a6b924290bc9f61\", \"all_declared_weights\": [{\"ple_weight\": 0.0, \"wp\": 0.6361859351788547, \"delta\": 0.0}, {\"ple_weight\": 0.5, \"wp\": 0.6349392976098907, \"delta\": -0.0012466375689640374}, {\"ple_weight\": 1.0, \"wp\": 0.6254095462613392, \"delta\": -0.010776388917515534}], \"interpretation\": \"PLE and fixed equal mixture lower; exact recipe not promoted, family and interaction descendants remain eligible\", \"public_forecast\": null}\n",
+          "record": {
+            "all_declared_weights": [
+              {
+                "delta": 0.0,
+                "ple_weight": 0.0,
+                "wp": 0.6361859351788547
+              },
+              {
+                "delta": -0.0012466375689640374,
+                "ple_weight": 0.5,
+                "wp": 0.6349392976098907
+              },
+              {
+                "delta": -0.010776388917515534,
+                "ple_weight": 1.0,
+                "wp": 0.6254095462613392
+              }
+            ],
+            "date": "2026-10-08T08:40:02.163719+00:00",
+            "groups": 468,
+            "id": "E-E540-FIXED-PAIR-GRADE-20261008-R1",
+            "interpretation": "PLE and fixed equal mixture lower; exact recipe not promoted, family and interaction descendants remain eligible",
+            "kind": "fixed matched FP32 linear versus PLE numerical embedding and preregistered equal mixture",
+            "metric": "global_wp_clip2_v1",
+            "public_forecast": null,
+            "result_path": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIXED_PAIR_RESULT_20261008_R1.json",
+            "result_sha256": "53ec9edfb0303ca1fd162363d57b2ad64ecb432895b511191a6b924290bc9f61",
+            "status": "evaluated_exposed_discovery"
+          },
+          "source": {
+            "line": 626,
+            "path": "research/experiments.jsonl",
+            "sha256": "e78343d469d2f30d9a8cab4bb267172d47ff3eae9a15965906f83a98ce66d86a"
+          }
+        }
+      ],
+      "title": "fixed matched FP32 linear versus PLE numerical embedding and preregistered equal mixture",
+      "type": "experiment"
+    },
+    {
       "allocation": {
         "eligible": false,
         "launch_authorized": false,
@@ -63006,6 +63110,17 @@
         "sha256": "2534eca894723257e547c87e79a519257e57f11915a09b76a1e6af5b00db7099"
       },
       "source_id": "experiment:E-H230-HISTORY-SWAP-ZIP-RELEASE-20261008-R1",
+      "target_id": "hypothesis:H-230"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 625,
+        "path": "research/experiments.jsonl",
+        "sha256": "f37c357e2f1df15802e65e31c843b46d4038d45df8fea6bbb4b6a573c587297d"
+      },
+      "source_id": "experiment:E-H230-NORMALIZED-PUBLIC-20261008-R1",
       "target_id": "hypothesis:H-230"
     },
     {

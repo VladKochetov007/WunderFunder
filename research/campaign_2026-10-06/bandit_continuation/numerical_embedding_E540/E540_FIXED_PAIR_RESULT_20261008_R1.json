@@ -1,0 +1,119 @@
+{
+  "created_utc": "2026-10-08T08:38:50.296547+00:00",
+  "status": "evaluated_exposed_discovery",
+  "metric": "global_wp_clip2_v1",
+  "preregistration_sha256": "24ec8e827a344bddc8fede204e384c190701b5b59fac1b6c3cfc828fb88b6903",
+  "authorization_sha256": "0462812162ba48b0a5510269aa008320dc87ed692db317ac875889231be671b8",
+  "grader_sha256": "64d547a9f4f7861f5c104ebc95b6d9f8315f4d51554e092ec6cfd5076ccc5376",
+  "membership": {
+    "linear": {
+      "fit_groups_by_source": {
+        "train": 1597,
+        "valid": 252
+      },
+      "evaluation_groups": 468,
+      "fit_evaluation_source_qualified_overlap": 0,
+      "fit_evaluation_component_overlap": 0,
+      "evaluation_components": 141
+    },
+    "ple": {
+      "fit_groups_by_source": {
+        "train": 1597,
+        "valid": 252
+      },
+      "evaluation_groups": 468,
+      "fit_evaluation_source_qualified_overlap": 0,
+      "fit_evaluation_component_overlap": 0,
+      "evaluation_components": 141
+    }
+  },
+  "group_count": 468,
+  "predeclared_weights_all_reported": [
+    {
+      "weight_on_ple": 0.0,
+      "score": {
+        "t0": 0.6284510817497175,
+        "t1": 0.6439207886079918,
+        "wp": 0.6361859351788547
+      },
+      "delta_wp_vs_linear": 0.0,
+      "paired_component_bootstrap": {
+        "candidate_wp": 0.6361859351788548,
+        "reference_wp": 0.6361859351788548,
+        "mean_diff": 0.0,
+        "bootstrap_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "p_le_0": 1.0,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    },
+    {
+      "weight_on_ple": 0.5,
+      "score": {
+        "t0": 0.6265145374956484,
+        "t1": 0.6433640577241327,
+        "wp": 0.6349392976098907
+      },
+      "delta_wp_vs_linear": -0.0012466375689640374,
+      "paired_component_bootstrap": {
+        "candidate_wp": 0.6349392976098904,
+        "reference_wp": 0.6361859351788548,
+        "mean_diff": -0.0012466375689643705,
+        "bootstrap_sd": 0.0013521712478270897,
+        "ci95": [
+          -0.004101649525922277,
+          0.0011917073379092307
+        ],
+        "p_le_0": 0.812,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    },
+    {
+      "weight_on_ple": 1.0,
+      "score": {
+        "t0": 0.6158635786076554,
+        "t1": 0.634955513915023,
+        "wp": 0.6254095462613392
+      },
+      "delta_wp_vs_linear": -0.010776388917515534,
+      "paired_component_bootstrap": {
+        "candidate_wp": 0.6254095462613394,
+        "reference_wp": 0.6361859351788548,
+        "mean_diff": -0.010776388917515423,
+        "bootstrap_sd": 0.002772348302537704,
+        "ci95": [
+          -0.016713578731868343,
+          -0.005900843357568126
+        ],
+        "p_le_0": 1.0,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    }
+  ],
+  "scientific_limits": [
+    "Small512component training cohort/one epoch; not full-training score or scaling conclusion",
+    "Same declared architecture/objective/membership/step budget but feature-map implementation and parameterization differ",
+    "Equal seed does not establish identical optimizer trajectories or sampler orders; inspect actual producer metadata and disclose differences",
+    "No separate new repeat, fresh evaluation, or public-transfer evidence"
+  ],
+  "public_forecast": null,
+  "weight_selection": false
+}
