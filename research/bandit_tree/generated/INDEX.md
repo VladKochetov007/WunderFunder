@@ -6,9 +6,9 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1008 · raw hypothesis rows 301 · raw experiment rows 626 · legacy arms 18 · catalog files 65695.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1048 · raw hypothesis rows 308 · raw experiment rows 626 · legacy arms 18 · catalog files 65702.
 
-Config snapshot: [research/bandit_tree/generated/snapshots/config-44e5fa81a6469e33e22ea398f689d6f80f9c49948d51af8706634db75292c604.json](<snapshots/config-44e5fa81a6469e33e22ea398f689d6f80f9c49948d51af8706634db75292c604.json>).
+Config snapshot: [research/bandit_tree/generated/snapshots/config-f5057562b2f07045a43b36a0de942fa84c7666eeea3f7808581aaaa1d6c0422b.json](<snapshots/config-f5057562b2f07045a43b36a0de942fa84c7666eeea3f7808581aaaa1d6c0422b.json>).
 
 Missing or ambiguous artifact and relationship links are called out below and in `tree.json` warnings. The recursive file inventory is in `catalog.json`; generated output is excluded.
 
@@ -159,6 +159,21 @@ Missing or ambiguous artifact and relationship links are called out below and in
 - **Privileged smoothed belief teacher to causal student** (`arm:privileged-belief-distillation`) — proposed_untested; eligible=True.
   - **next_test:** Fold-isolated forward/smoothed teacher target with causal student inputs; compare forward-only teacher, smoothed teacher and direct-label controls.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md](<../../campaign_2026-10-06/bandit_continuation/rogii_transfer_E532/SOURCE_CROSSWALK_REVIEW_V1_20261008.md>)
+- **Teacher-mixture amplitude as a treatment** (`arm:astra-asr-04`) — proposed_not_tested; eligible=True.
+  - **next_test:** existing cache transform primitives; freeze clipping order; execute the bounded source-card comparison only after a distinct runnable recipe and admission.
+  - **claim_scope:** Source-grounded Astra proposal; no fit or public forecast; actual numerical priors null.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl>)
+- **Residual family supervision** (`arm:astra-asr-06`) — proposed_not_tested; eligible=True.
+  - **next_test:** new independently authored residual cache transform; existing heads; execute the bounded source-card comparison only after a distinct runnable recipe and admission.
+  - **claim_scope:** Source-grounded Astra proposal; no fit or public forecast; actual numerical priors null.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl>)
+- **Antithetic teacher-disagreement dither** (`arm:astra-asr-07`) — proposed_not_tested; eligible=True.
+  - **next_test:** new deterministic epoch-aware target transform; execute the bounded source-card comparison only after a distinct runnable recipe and admission.
+  - **claim_scope:** Source-grounded Astra proposal; no fit or public forecast; actual numerical priors null.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl>)
 
 ### Temporal state and memory (`family:temporal`)
 
@@ -348,6 +363,151 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **claim_scope:** Paper mechanisms and earlier own Muon comparison motivate allocation; new SOAP/Lion/Prodigy/NorMuon/capacity endpoints untested, numerical priors null.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
   - artifact: [research/campaign_2026-10-03/scores/muonfull_report.json](<../../campaign_2026-10-03/scores/muonfull_report.json>)
+  - **AdamW** (`arm:optimizer-adamw`) — proposed_not_tested; eligible=True.
+    - **next_test:** Keep the faithful final AdamW+OneCycle stage; compare a named alternative at fixed parent/data/objective.
+    - **claim_scope:** Reference final-student adaptation and matched optimizer control; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **RAdam** (`arm:optimizer-radam`) — proposed_not_tested; eligible=True.
+    - **next_test:** One matched GRU512 arm; keep OneCycle and disclose its existing warmup overlap.
+    - **claim_scope:** Early adaptive-step instability or sensitive warmup; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **AdaBelief** (`arm:optimizer-adabelief`) — proposed_not_tested; eligible=True.
+    - **next_test:** Match AdamW budget and define epsilon/decay; compare endpoint and component contribution.
+    - **claim_scope:** Gradient direction varies across heterogeneous targets; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Adafactor** (`arm:optimizer-adafactor`) — proposed_not_tested; eligible=True.
+    - **next_test:** Factor recurrent matrix moments with explicit relative-step and update-clipping treatment.
+    - **claim_scope:** Larger teachers make optimizer-state memory significant; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Muon hybrid** (`arm:optimizer-muon`) — proposed_not_tested; eligible=True.
+    - **next_test:** Reconstruct strong-parent stage, then compare stage-specific use against AdamW.
+    - **claim_scope:** Recurrent representations benefit from matrix update geometry; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **NorMuon** (`arm:optimizer-normuon`) — proposed_not_tested; eligible=True.
+    - **next_test:** Add row-second-moment normalization only; same architecture and objective.
+    - **claim_scope:** Orthogonalized updates have unequal row/neuron scales; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Polar Express** (`arm:optimizer-polar-express`) — proposed_not_tested; eligible=True.
+    - **next_test:** Replace the matrix subroutine only, keeping outer momentum/scaling/decay fixed.
+    - **claim_scope:** Polar approximation dominates optimizer time or fidelity; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Scion norm-constrained updates** (`arm:optimizer-scion`) — proposed_not_tested; eligible=True.
+    - **next_test:** One norm/radius recipe versus Muon; do not borrow transformer scaling without a test.
+    - **claim_scope:** Width scaling or bounded operator geometry may change training; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Shampoo** (`arm:optimizer-shampoo`) — proposed_not_tested; eligible=True.
+    - **next_test:** Bound block size/preconditioner frequency, preserve full state for checkpoints.
+    - **claim_scope:** Cross-coordinate curvature limits progress; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **SOAP** (`arm:optimizer-soap`) — proposed_not_tested; eligible=True.
+    - **next_test:** One recurrent-block SOAP arm versus AdamW/Muon, with explicit refresh frequency.
+    - **claim_scope:** Adam directions may improve in a matrix covariance eigenbasis; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **SPlus** (`arm:optimizer-splus`) — proposed_not_tested; eligible=True.
+    - **next_test:** Bound one whitening/averaging recipe; compare full served endpoint, not training loss alone.
+    - **claim_scope:** Whitening stability and iterate averaging may improve the endpoint; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **DASH** (`arm:optimizer-dash`) — proposed_not_tested; eligible=True.
+    - **next_test:** Test accelerated block preconditioning at fixed mathematical treatment where possible.
+    - **claim_scope:** Preconditioner implementation costs obstruct useful curvature tests; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **K-FAC** (`arm:optimizer-kfac`) — proposed_not_tested; eligible=True.
+    - **next_test:** Small full-sequence component screen; charge curvature-estimator work explicitly.
+    - **claim_scope:** Recurrent gradient covariance suggests a structured curvature advantage; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Lion/sign momentum** (`arm:optimizer-lion`) — proposed_not_tested; eligible=True.
+    - **next_test:** Matched finite run with sign updates; measure standalone and teacher/blend contribution.
+    - **claim_scope:** A low-state direction or different magnitude sensitivity may provide diversity; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **SGD/momentum/Nesterov** (`arm:optimizer-sgd`) — proposed_not_tested; eligible=True.
+    - **next_test:** Compare nonadaptive direction at fixed loss/order/clipping, with explicit schedule.
+    - **claim_scope:** Coordinate adaptivity may obscure a useful alternative training path; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Schedule-Free** (`arm:optimizer-schedule-free`) — proposed_not_tested; eligible=True.
+    - **next_test:** AdamW-based schedule-free versus OneCycle, exporting its prescribed evaluation weights.
+    - **claim_scope:** Schedule sensitivity or averaging may limit adaptation; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Prodigy** (`arm:optimizer-prodigy`) — proposed_not_tested; eligible=True.
+    - **next_test:** A frozen adaptive-step protocol versus tuned fixed-LR anchor, not a silent OneCycle substitution.
+    - **claim_scope:** Effective step scale is difficult to choose for a new stage; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **D-Adaptation** (`arm:optimizer-d-adaptation`) — proposed_not_tested; eligible=True.
+    - **next_test:** One adaptive-scale control; compare with Prodigy without claiming parameter-free means no choices.
+    - **claim_scope:** Learning-rate scale uncertainty across teacher/students; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Sophia** (`arm:optimizer-sophia`) — proposed_not_tested; eligible=True.
+    - **next_test:** Bound estimator frequency/clip constants and count estimator backward work.
+    - **claim_scope:** Diagonal curvature/clipped steps may help noisy regression; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Muon whole matrix versus per gate** (`arm:optimizer-muon-gate-grouping`) — proposed_not_tested; eligible=True.
+    - **next_test:** Match outer optimizer/schedule and change only grouping; compare fixed endpoint.
+    - **claim_scope:** Coupling GRU gates may change useful recurrent representations; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Muon recurrent-only versus hidden matrices** (`arm:optimizer-muon-parameter-scope`) — proposed_not_tested; eligible=True.
+    - **next_test:** Compare recurrent-only with one declared wider scope; keep biases on an appropriate vector optimizer.
+    - **claim_scope:** Input/readout geometry may matter alongside the recurrent core; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Muon RMS/shape/LR scaling** (`arm:optimizer-muon-row-scaling`) — proposed_not_tested; eligible=True.
+    - **next_test:** Test explicit LR multiplier/shape scaling while holding grouping and momentum fixed.
+    - **claim_scope:** Width and update magnitude may distort optimizer comparisons; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Stage-specific optimizer handoff** (`arm:optimizer-stage-handoff`) — proposed_not_tested; eligible=True.
+    - **next_test:** Faithful handoff anchor versus a named final-stage Muon variant; specify whether state resets.
+    - **claim_scope:** Representation learning and fine-tuning may need different geometry; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **LR schedule and beta1 coupling** (`arm:optimizer-schedule-momentum`) — proposed_not_tested; eligible=True.
+    - **next_test:** Compare named OneCycle/WSD/SGDR packages first; isolate LR shape with matched beta1 in a descendant.
+    - **claim_scope:** A cooldown result can arise from momentum as well as LR; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Finite plateau reheating/noise** (`arm:optimizer-plateau-noise`) — proposed_not_tested; eligible=True.
+    - **next_test:** Use the Astra bounded trigger recipe; no evaluated-group checkpoint selection.
+    - **claim_scope:** A fitted trajectory may plateau in a narrow region; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+  - **Muon matrix precision/device policy** (`arm:optimizer-orthogonalization-precision`) — proposed_not_tested; eligible=True.
+    - **next_test:** Explicit native-BF16-or-FP32 policy profile; execution evidence alone is not scientific optimizer superiority.
+    - **claim_scope:** A hardware numerical path may change feasible training cost; new comparison untested. No numerical gain inferred from papers.
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md>)
+    - artifact: [research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md](<../../campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.md>)
+- **Stage-specific final-student optimizer transfer** (`arm:astra-asr-01`) — proposed_not_tested; eligible=True.
+  - **next_test:** existing own variant flags; exact reference Muon reconstruction remains separate; execute the bounded source-card comparison only after a distinct runnable recipe and admission.
+  - **claim_scope:** Source-grounded Astra proposal; no fit or public forecast; actual numerical priors null.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl>)
+- **Stable WSD cooldown package** (`arm:astra-asr-02`) — proposed_not_tested; eligible=True.
+  - **next_test:** existing WSD; beta1 confound explicitly retained as package; execute the bounded source-card comparison only after a distinct runnable recipe and admission.
+  - **claim_scope:** Source-grounded Astra proposal; no fit or public forecast; actual numerical priors null.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl>)
+- **Finite plateau-triggered reheating and noise** (`arm:astra-asr-03`) — proposed_not_tested; eligible=True.
+  - **next_test:** existing SGDR screen; new bounded plateau/pulse policy needed; execute the bounded source-card comparison only after a distinct runnable recipe and admission.
+  - **claim_scope:** Source-grounded Astra proposal; no fit or public forecast; actual numerical priors null.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl>)
 
 ### Diversity, ensembles and interactions (`family:ensemble`)
 
@@ -469,6 +629,11 @@ Missing or ambiguous artifact and relationship links are called out below and in
   - **next_test:** No repeat of fixed equal mixture; prioritize distinct history-target, numeric representation and capacity evidence.
   - artifact: [research/campaign_2026-10-06/bandit_continuation/interaction_attention_tcn_H264/README.md](<../../campaign_2026-10-06/bandit_continuation/interaction_attention_tcn_H264/README.md>)
   - artifact: [research/campaign_2026-10-06/bandit_continuation/interaction_attention_tcn_H264/H264_FIXED_EQUAL_MIXTURE_RESULT_20261008_R1.json](<../../campaign_2026-10-06/bandit_continuation/interaction_attention_tcn_H264/H264_FIXED_EQUAL_MIXTURE_RESULT_20261008_R1.json>)
+- **Own-best and heterogeneous-distillation endpoint interaction** (`arm:astra-asr-05`) — proposed_not_tested; eligible=True.
+  - **next_test:** existing fixed blend/cache primitives; new target identity; execute the bounded source-card comparison only after a distinct runnable recipe and admission.
+  - **claim_scope:** Source-grounded Astra proposal; no fit or public forecast; actual numerical priors null.
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_REFRAME_20261008_V1.md>)
+  - artifact: [research/campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl](<../../campaign_2026-10-06/bandit_continuation/reviews/ASTRA_SCHEDULE_COMBINATION_CARDS_20261008_V1.jsonl>)
 
 ### Serving and compression (`family:deployment`)
 
@@ -725,6 +890,39 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | arm:representative-data-fidelity | Representative nested-data multi-fidelity screens | arm · proposed_untested | family:evaluation | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:attention-tcn-equal | Equal attention/TCN mixture conditional value | arm · tested_exact_recipe_point_negative | family:ensemble | [research/bandit_tree/config.json](<../config.json>) | — |
 | arm:recurrent-optimizer-geometry-and-adaptation | Recurrent matrix geometry, preconditioning and adaptive-step optimizer families | arm · source_grounded_proposals_and_existing_muon_evidence | family:optimization | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:astra-asr-01 | Stage-specific final-student optimizer transfer | arm · proposed_not_tested | family:optimization | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:astra-asr-02 | Stable WSD cooldown package | arm · proposed_not_tested | family:optimization | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:astra-asr-03 | Finite plateau-triggered reheating and noise | arm · proposed_not_tested | family:optimization | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:astra-asr-04 | Teacher-mixture amplitude as a treatment | arm · proposed_not_tested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:astra-asr-05 | Own-best and heterogeneous-distillation endpoint interaction | arm · proposed_not_tested | family:ensemble | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:astra-asr-06 | Residual family supervision | arm · proposed_not_tested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:astra-asr-07 | Antithetic teacher-disagreement dither | arm · proposed_not_tested | family:teacher | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-adamw | AdamW | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-radam | RAdam | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-adabelief | AdaBelief | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-adafactor | Adafactor | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-muon | Muon hybrid | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-normuon | NorMuon | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-polar-express | Polar Express | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-scion | Scion norm-constrained updates | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-shampoo | Shampoo | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-soap | SOAP | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-splus | SPlus | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-dash | DASH | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-kfac | K-FAC | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-lion | Lion/sign momentum | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-sgd | SGD/momentum/Nesterov | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-schedule-free | Schedule-Free | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-prodigy | Prodigy | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-d-adaptation | D-Adaptation | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-sophia | Sophia | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-muon-gate-grouping | Muon whole matrix versus per gate | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-muon-parameter-scope | Muon recurrent-only versus hidden matrices | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-muon-row-scaling | Muon RMS/shape/LR scaling | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-stage-handoff | Stage-specific optimizer handoff | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-schedule-momentum | LR schedule and beta1 coupling | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-plateau-noise | Finite plateau reheating/noise | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
+| arm:optimizer-orthogonalization-precision | Muon matrix precision/device policy | arm · proposed_not_tested | arm:recurrent-optimizer-geometry-and-adaptation | [research/bandit_tree/config.json](<../config.json>) | — |
 | hypothesis:H-001 | Targets change only on rows where i0 bid and ask price columns both update. | hypothesis · supported | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L1>) | experiment:E-001 (linked) |
 | hypothesis:H-002 | Each sequence's targets are integer multiples of one of four quanta {0.12543,0.24133,0.46854,0.65687}, defining market classes with different tick regimes. | hypothesis · supported | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L2>) | experiment:E-001 (linked), experiment:E-002 (linked) |
 | hypothesis:H-003 | Features are rank-Gauss transformed: bounded near +-2.326 (Phi^-1(0.99)) with sentinel -5.19934 = Phi^-1(1e-7) for missing values. | hypothesis · probing | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L3>) | experiment:E-001 (linked) |
@@ -1018,6 +1216,13 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H217-FULLFEATURE-CAPACITY-256 | H217-FULLFEATURE-CAPACITY-256 | hypothesis · code_only_preparation | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L298>) | — |
 | hypothesis:H-GRAD-BUDGET-20261008 | H-GRAD-BUDGET-20261008 | hypothesis · proposed_unrun | family:optimization | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L299>), [research/hypotheses.jsonl](<../../hypotheses.jsonl#L300>) | — |
 | hypothesis:H-264 | A fixed equal mixture of independently trained block-memory attention and raw-view TCN can improve the own recurrent reference despite weaker single-parent blends. | hypothesis · tested_exact_combination_point_negative | arm:attention-tcn-equal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L301>) | experiment:E-H264-FIXED-EQUAL-MIXTURE-20261008-R1 (linked) |
+| hypothesis:H-265 | Stage-specific final-student optimizer transfer | hypothesis · proposed | arm:astra-asr-01 | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L302>) | — |
+| hypothesis:H-266 | Stable WSD cooldown package | hypothesis · proposed | arm:astra-asr-02 | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L303>) | — |
+| hypothesis:H-267 | Finite plateau-triggered reheating and noise | hypothesis · proposed | arm:astra-asr-03 | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L304>) | — |
+| hypothesis:H-268 | Teacher-mixture amplitude as a treatment | hypothesis · proposed | arm:astra-asr-04 | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L305>) | — |
+| hypothesis:H-269 | Own-best and heterogeneous-distillation endpoint interaction | hypothesis · proposed | arm:astra-asr-05 | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L306>) | — |
+| hypothesis:H-270 | Residual family supervision | hypothesis · proposed | arm:astra-asr-06 | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L307>) | — |
+| hypothesis:H-271 | Antithetic teacher-disagreement dither | hypothesis · proposed | arm:astra-asr-07 | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L308>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -1705,6 +1910,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L89>) `sha256:4256f895d36c6d1a53868a9cb59bd76445b7f7f0fb123601e155c031f513386e` — `{"decision": "Fixed equal attention/TCN mixture did not improve any declared ownreference blend; no repeat allocation or public promotion. Preserve lineage and materially different teacher/residual/representation interactions. Use completed predictions cheaply instead of pruning weak components by standalone score.", "event_type": "measured_conditional_value_and_allocation", "evidence_refs": ["research/campaign_2026-10-06/bandit_continuation/interaction_attention_tcn_H264/H264_FIXED_EQUAL_MIXTURE_RESULT_20261008_R1.json"], "hypothesis_ids": ["H-264", "H-217", "H-218"], "id": "TREE-20261008-H264-FIXED-INTERACTION", "timestamp_utc": "2026-10-08T06:44:56.570733+00:00"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L90>) `sha256:71161ea1db340c837f9593b314788b522d0ecbaf8ee043165a36b46271c0c3a9` — `{"date": "2026-10-08T08:40:02.163719+00:00", "decision": "Defer exact one-epoch PLE endpoint; preserve scale/teacher/interaction descendants. Prioritize faithful heterogeneous-distillation blended endpoint under ADR0023.", "experiment": "E-E540-FIXED-PAIR-GRADE-20261008-R1", "kind": "evidence", "path": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIXED_PAIR_RESULT_20261008_R1.json"}`
 - [research/bandit_tree/journal.jsonl](<../journal.jsonl#L91>) `sha256:1980f8b1bcc3616ae942eb20ecefd11031b095a6eb6cbea777ffe3c344425d58` — `{"authority": "specs/adr/0023-faithful-method-reconstruction-before-variants.md", "date": "2026-10-08T08:45:26.799660+00:00", "decision": "ADR0023 faithful method first; seed9/99 pair and source-matched teacher/parent optimization. Optimizer-family scout retained as a separate bounded exploration arm.", "kind": "allocation", "node": "arm:heterogeneous-teacher-compression"}`
+- [research/bandit_tree/journal.jsonl](<../journal.jsonl#L92>) `sha256:cbecf0556f0cad166b26b9f9c80bcc01346966e5474cd720b1b6f5d7687de6ff` — `{"date": "2026-10-08T08:52:38.310657+00:00", "decision": "Preserve all26 optimizer-family/component arms plus7 Astra schedule/interaction proposals. When-to-use, triggering evidence and bounded first tests registered; null unmeasured priors. Technical feasibility informs test delivery, not automatic scientific rejection.", "hypotheses": ["H-265", "H-266", "H-267", "H-268", "H-269", "H-270", "H-271"], "kind": "research_registration", "launch_authorized": false, "source": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/OPTIMIZER_RESEARCH_REGISTER_20261008_R1.json"}`
 
 ## Link and artifact warnings
 
