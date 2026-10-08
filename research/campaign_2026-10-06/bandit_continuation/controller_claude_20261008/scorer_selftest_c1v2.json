@@ -1,0 +1,81 @@
+{
+ "metric_id": "global_wp_clip2_v1",
+ "created_utc": "2026-10-08T18:16:33.212375+00:00",
+ "candidate": "bd26_c1v2_s3_f0@ep1",
+ "candidate_members": [
+  {
+   "run": "bd26_c1v2_s3_f0",
+   "epoch": 1,
+   "checkpoint_sha256": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+   "prediction_sha256": "cb832b1397c75e318551fd6d6f0e22d09f3c4230c3c5ad56cab1a4c4e603c7e8",
+   "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+   "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+   "inference_precision": "fp16",
+   "weight": 1.0
+  }
+ ],
+ "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+ "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+ "evaluation_groups": 468,
+ "components": 141,
+ "official": {
+  "t0": 0.6747800742937051,
+  "t1": 0.6884562100681467,
+  "wp": 0.681618142180926,
+  "selected_rows": 808863,
+  "metric_id": "global_wp_clip2_v1"
+ },
+ "exposure": "fold0 excluded-468 panel; repeatedly inspected development evidence, not a public forecast",
+ "contrasts": [
+  {
+   "reference": "bd26_c1v2_s3_f0@ep1*0.5,bd26_c1v2_s4_f0@ep1*0.5",
+   "reference_members": [
+    {
+     "run": "bd26_c1v2_s3_f0",
+     "epoch": 1,
+     "checkpoint_sha256": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+     "prediction_sha256": "cb832b1397c75e318551fd6d6f0e22d09f3c4230c3c5ad56cab1a4c4e603c7e8",
+     "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+     "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+     "inference_precision": "fp16",
+     "weight": 0.5
+    },
+    {
+     "run": "bd26_c1v2_s4_f0",
+     "epoch": 1,
+     "checkpoint_sha256": "fd48545b6e24ec275ff0d3874590cb0c6c4e2e717bc81ff94be50a0439f162c2",
+     "prediction_sha256": "78635629c73738b29b4680eda0b15430078b01f09ba06c8c24fdfb8c6d71d1cd",
+     "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+     "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+     "inference_precision": "fp16",
+     "weight": 0.5
+    }
+   ],
+   "reference_official": {
+    "t0": 0.6752592522763023,
+    "t1": 0.6890924890089661,
+    "wp": 0.6821758706426342,
+    "selected_rows": 808863,
+    "metric_id": "global_wp_clip2_v1"
+   },
+   "paired": {
+    "candidate_wp": 0.681618142180926,
+    "reference_wp": 0.6821758706426342,
+    "mean_diff": -0.0005577284617082068,
+    "bootstrap_sd": 0.0003526458759162984,
+    "ci95": [
+     -0.0013510321558531796,
+     8.006868771259982e-07
+    ],
+    "p_le_0": 0.975,
+    "n_sequences": 468,
+    "n_components": 141,
+    "n_boot": 200,
+    "seed": 271828,
+    "metric_id": "global_wp_clip2_v1",
+    "centered_moments": true,
+    "selected_rows": 808863
+   }
+  }
+ ]
+}

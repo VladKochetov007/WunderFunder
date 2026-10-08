@@ -1,0 +1,25 @@
+{
+ "id": "HOST_OOM_SESSION_CRASH_20261008_R1",
+ "recorded_utc": "2026-10-08T18:11:50.709035+00:00",
+ "events": [
+  {
+   "kernel_utc_local": "2026-10-08 20:27:54 EEST",
+   "type": "global_oom",
+   "killed": "code (VS Code renderer) pid 12761"
+  },
+  {
+   "kernel_utc_local": "2026-10-08 20:31:15 EEST",
+   "type": "global_oom",
+   "killed": "python3 pid 2098065 anon-rss 15.8 GB",
+   "task_memcg": "user@1000.service/app.slice/app-com.microsoft.VSCode-12216.scope"
+  }
+ ],
+ "diagnosis": "Previous Claude Code session ran inside the VS Code integrated terminal; an unwrapped python3 started by root or a Haiku subagent (blend-lab / kaggle-cohort / vast-cohort were active) ran in the VS Code scope outside wnn-campaign.slice, reached 15.8 GB anon and caused global OOM; the Claude Code process/session died, stopping all subagents. Campaign-slice systemd fit h230-strong-parent-seed9-muon-local-v1 survived with zero OOM in its cgroup.",
+ "impact": "Lost: kaggle-cohort and vast-cohort builders (no durable files), blend-lab analysis (no outputs), session cron loop. Not lost: seed9 fit, marimo server unit, committed work.",
+ "corrective_rules": [
+  "Every subagent python/CLI command runs via scripts/limited inside wnn-campaign.slice with WNN_MEM_MAX <= 4e9 unless root admits more",
+  "Never read whole parquet files; use row groups / column projection",
+  "Long work runs as systemd units, never as session-bound background shells",
+  "Root chains critical-path stages in durable systemd units so a session crash does not stall compute"
+ ]
+}
