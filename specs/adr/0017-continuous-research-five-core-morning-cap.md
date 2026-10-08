@@ -1,0 +1,9 @@
+# ADR0017: continuous research with a five-core morning local cap
+
+Status: accepted, 2026-10-08 Europe/Kyiv. Latest explicit user instruction supersedes the six-core post-window allocation, while preserving ADR0014 continuous useful execution.
+
+The user said not to stop research at10:00, to continue until explicit stop, and to limit local CPU utilization after10:00 to five cores. The current twelve-core allowance lasts until2026-10-08 10:00Kyiv/07:00UTC. At that boundary, the parent campaign slice becomes500%CPU. There is no admission cutoff for research; local GPU, Kaggle GPU/TPU and campaign-owned Vast jobs continue within their separate resource/budget contracts. Local memory remains18GBhigh/20GBmax, no swap,5GBobservedVRAM and oneGPUworker.
+
+The new identified500%timer replaces the old600%timer. The admission/observation helper preserves historical six-core authority before the temporary window and uses five cores after it. Exact-boundary and stale-six-core rejection checks cover the new policy. Healthy jobs are not terminated merely because the clock reaches10:00; prepare compatible observers and successor reservations before that boundary. Reconcile actual parent properties, memory and live jobs after the timer fires. Support agents, notebooks, transfers and tests count toward aggregate local resources.
+
+The original authorization receipt and failed observer incidents remain unchanged. [Latest receipt](../../research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_CONTINUOUS_20261008_V2.json) binds the timer, parent properties and helper source. [ADR0014](0014-continuous-useful-compute.md) and [ADR0006](0006-resource-safe-autonomous-execution.md) continue to govern useful execution and repair. No new spending or permission over unrelated machines is granted.

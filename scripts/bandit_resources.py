@@ -33,16 +33,19 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_STATE = ROOT / "research/campaign_2026-10-06/bandit_continuation/runtime"
 SLICE = "wnn-campaign.slice"
 CPU_CAP = 6
+POST_WINDOW_CPU_CAP = 5
 TEMPORARY_CPU_START = datetime(2026, 10, 7, 22, 16, 56, tzinfo=UTC)
 TEMPORARY_CPU_END = datetime(2026, 10, 8, 7, 0, tzinfo=UTC)
 
 
 def authorized_cpu_cap(now: datetime | None = None) -> int:
-    """Apply the user's twelve-core window, then restore the six-core ceiling."""
+    """Apply the dated twelve-core window, then the user's five-core ceiling."""
     current = datetime.now(UTC) if now is None else now
     if current.tzinfo is None:
         raise ValueError("CPU authorization time must include a timezone")
-    return 12 if TEMPORARY_CPU_START <= current < TEMPORARY_CPU_END else CPU_CAP
+    if current >= TEMPORARY_CPU_END:
+        return POST_WINDOW_CPU_CAP
+    return 12 if current >= TEMPORARY_CPU_START else CPU_CAP
 
 
 RAM_WORKING_BYTES = 18_000_000_000

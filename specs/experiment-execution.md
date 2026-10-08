@@ -13,3 +13,5 @@ For data identity, hash the same byte ranges and representation as the producer.
 Evaluate the frozen predictions against the declared reference. Preserve per-seed effects and fixed-model evaluation uncertainty separately. Exposed folds remain exposed; a local gain does not promise public transfer. Evaluate weak candidates' contributions to explicit blends/teacher combinations where scientifically useful.
 
 Save human-readable notes, machine-readable manifests/results and plots in the lineage directory. Use marimo-pair for EDA without reactive fits. Update the frontier, tree/index and current-state specification after meaningful results. Commit/push contract, implementation, results and packaging as distinct reviewable steps.
+
+Latest dated resource scope: research has no 10:00 stop. At 2026-10-08 10:00 Europe/Kyiv, aggregate local CPU quota becomes five cores; memory/VRAM and one-local-GPU limits stay unchanged. Cloud headroom remains separate. See [ADR0017](adr/0017-continuous-research-five-core-morning-cap.md).

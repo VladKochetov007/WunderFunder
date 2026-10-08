@@ -10,8 +10,8 @@ def test_temporary_cpu_window_has_exact_boundaries() -> None:
     assert resources.authorized_cpu_cap(start - timedelta(microseconds=1)) == 6
     assert resources.authorized_cpu_cap(start) == 12
     assert resources.authorized_cpu_cap(end - timedelta(microseconds=1)) == 12
-    assert resources.authorized_cpu_cap(end) == 6
-    assert resources.authorized_cpu_cap(end + timedelta(days=1)) == 6
+    assert resources.authorized_cpu_cap(end) == 5
+    assert resources.authorized_cpu_cap(end + timedelta(days=1)) == 5
     with pytest.raises(ValueError, match="timezone"):
         resources.authorized_cpu_cap(datetime(2026, 10, 8))
 
@@ -35,3 +35,19 @@ def test_twelve_core_parent_still_requires_original_memory_caps(
     ):
         with pytest.raises(RuntimeError):
             resources.verify_parent({**properties, **changed})
+
+
+def test_five_core_parent_rejects_old_six_core_quota(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(resources, "authorized_cpu_cap", lambda: 5)
+    properties = {
+        "CPUQuotaPerSecUSec": "5s",
+        "MemoryHigh": "18000000000",
+        "MemoryMax": "20000000000",
+        "MemorySwapMax": "0",
+        "ControlGroup": "/user.slice/user-1000.slice/wnn-campaign.slice",
+    }
+    assert resources.verify_parent(properties) == properties["ControlGroup"]
+    with pytest.raises(RuntimeError):
+        resources.verify_parent({**properties, "CPUQuotaPerSecUSec": "6s"})

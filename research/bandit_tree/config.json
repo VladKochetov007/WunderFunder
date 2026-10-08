@@ -10,13 +10,13 @@
     "public_milestone_status": "unmet",
     "evaluation_exposure": "All previously inspected validation/holdout/folds remain exposed; no reset by repartitioning or agent changes",
     "resources": {
-      "aggregate_cpu_cores_max": 6,
+      "aggregate_cpu_cores_max": 5,
       "aggregate_vram_bytes_max": 5000000000,
       "aggregate_ram_bytes_max": 20000000000,
       "memory_high_bytes": 18000000000,
       "local_allocator_initial_bytes": 4300000000,
       "local_gpu_workers_max": 1,
-      "local_admission_cutoff": "Historical10:00 cutoff explicitly superseded by user localGPU+Kaggle resume on2026-10-07; see LOCAL_GPU_RESUME_20261007.json",
+      "local_admission_cutoff": "None: latest explicit user instruction on2026-10-08 continues research until explicit stop; only local CPU quota changes at10:00Kyiv.",
       "stop_policy": "Explicit user stop closes admission and drains healthy jobs; resource emergencies stop offending jobs",
       "first_review_after_hours": 24,
       "new_experiment_compute": "Local and Kaggle plus campaign-owned Vast bounded useful parallel cohorts within existing credit/$20 cumulative all-in; separate measured headroom. ADR0015 supersedes initial $4 release gate.",
@@ -25,8 +25,8 @@
       "temporary_cpu_window": {
         "cores": 12,
         "ends_utc": "2026-10-08T07:00:00Z",
-        "default_cores_after": 6,
-        "authority": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_WINDOW_20261008_V1.json"
+        "default_cores_after": 5,
+        "authority": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_CONTINUOUS_20261008_V2.json"
       },
       "cpu_purpose": "Analysis/EDA/support; no large CPU model fitting."
     },

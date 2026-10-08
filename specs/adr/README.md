@@ -23,3 +23,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0014: continuous useful compute](0014-continuous-useful-compute.md): keep local/Kaggle/authorized Vast lanes supplied with useful work until explicit user stop; own repairs, terminal artifacts and prepared successors.
 - [ADR0015: flexible credit-bounded parallel compute](0015-flexible-credit-bounded-parallel-compute.md): latest user spending instruction removes the first-cohort release gate, retaining existing credit and a conservative $20 cumulative operating ceiling with reviewed bounded cohorts.
 - [ADR0016: exact teammate-source diagnostic training](0016-exact-reference-diagnostic-training.md): latest user instruction permits isolated exact-source reference training with independently trained weights; production submissions remain independently implemented.
+
+- [ADR0017: continuous research and five-core morning cap](0017-continuous-research-five-core-morning-cap.md): research continues until explicit stop; local CPU drops to five cores at10:00Kyiv with unchanged memory/VRAM and separate cloud allocation.

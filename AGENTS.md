@@ -144,9 +144,9 @@ Latest user scope (2026-10-08): CPU is for analysis, EDA and execution support; 
 
 Use `rg`/`rg --files`, never `grep`. Batch independent reads/checks, keep dependent operations sequential. Preserve unrelated dirty files. Commit/push meaningful contract, implementation, results and packaging steps separately. Frozen source worktrees must survive a running job; vanished `/tmp` paths must be recreated from commits rather than assumed present.
 
-Temporary user allocation: **12 CPU cores until approximately 2026-10-08 10:00 Europe/Kyiv**, then 6. RAM/VRAM limits remain unchanged. See [dated authorization](research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_WINDOW_20261008_V1.json). The verified user timer restores the parent quota; local admission uses the same dated window. Reconcile controller guards before changing parent properties so healthy jobs are not terminated by stale policy.
+Temporary user allocation: **12 CPU cores until approximately 2026-10-08 10:00 Europe/Kyiv**, then **5 CPU cores**. Research continues with no time cutoff until explicit user stop; RAM/VRAM limits remain unchanged. See [latest dated authorization](research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_CONTINUOUS_20261008_V2.json) and [ADR0017](specs/adr/0017-continuous-research-five-core-morning-cap.md). The verified user timer restores the parent quota; local admission uses the same dated window. Reconcile controller guards before changing parent properties so healthy jobs are not terminated by stale policy.
 
-Current local aggregate limits are **6 CPU cores,20 decimal GB RAM,5 decimal GB observed VRAM**, one GPU worker. Use persistent `wnn-campaign.slice` with18 GB memory-high,20 GB maximum and no swap. Recheck effective properties after service/daemon changes. Support CLIs, tests and notebooks count toward the same aggregate. New user caps supersede these values.
+Local aggregate limits after 10:00 are **5 CPU cores,20 decimal GB RAM,5 decimal GB observed VRAM**, one GPU worker. Use persistent `wnn-campaign.slice` with18 GB memory-high,20 GB maximum and no swap. Recheck effective properties after service/daemon changes. Support CLIs, tests and notebooks count toward the same aggregate. New user caps supersede these values.
 
 For small CPU support tasks, set explicit limits rather than the wrapper's historical defaults:
 
