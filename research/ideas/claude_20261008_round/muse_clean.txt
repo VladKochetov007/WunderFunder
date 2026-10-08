@@ -1,0 +1,104 @@
+
+> build · muse-spark-1.3-contributor-free
+
+Ideation brief received — reading your architecture lens and bottleneck to draft testable ideas.
+→ Read .
+→ Read BRIEF.md
+→ Read LENS.md
+Ideas — architecture / optimization / ensembling / distillation under 60 CPU-min. Bottleneck: why GRU256x2 saturates ~0.666.
+
+1. Factorized fair-value student (F-trunk + analytic readout)
+
+Family: state representation / decomposition.
+Source: BRIEF Sec.3 class-3 identity t0=F-ask, t1=bid-F. No defensible correspondence to either random passage; both passages concern search initialization and portfolio variance, not algebraic label structure.
+Analogy: current single trunk must represent F, side-specific microstructure noise, and non-class-3 regimes in one 256-d state, causing interference.
+Intervention: one GRU192 trunk predicts scalar F only + small regime classifier; class-3 predictions computed analytically as F-ask, bid-F; separate tiny residual MLP (64-d) corrects non-class-3 rows, gated by classifier. Distill F from privileged offline teacher (see 3), distill residual from teacher ensemble.
+Observable: move class-3 quiet-row Pearson (46% of metric weight); expect global gain via t0/t1 jointly.
+Effect: +0.002 to +0.006 global, uncertainty +-0.003 (wide; depends on classifier accuracy).
+Test: fold-0 panel, same fit membership/seeds: control GRU256x2 vs factorized GRU192+F head; report global + class-3-only + quiet (|label|<0.2) subset.
+Cost: ~20-24 min (smaller trunk + scalar ops), saves ~10 min vs 33 min baseline.
+Novel: new mechanism; Sec.4 items 12-13 tried readouts but not analytic F subtraction with gated residual.
+
+2. Budget-split heterogeneous student mixture with volatility gate
+
+Family: ensembling under latency budget.
+Source/correspondence: Markowitz passage (p.5, variance of weighted sum, covariance). Direct correspondence: ensemble prediction is a weighted sum R=sum a_i R_i; its error variance depends on member covariances, not just mean skill. Minimum-variance blend favors decorrelated members over two same-recipe seeds (BRIEF: two seeds +0.0004).
+Analogy: two identical GRU256 trunks = highly correlated R1,R2, little variance reduction per CPU-minute.
+Intervention: spend same ~33 min as GRU192 recurrent + causal dilated-TCN/linear-recurrence student (~12+18 min) with tiny learned gate on causal volatility proxy (realized spread/volume EMA). Distill each branch from a different teacher family (recurrent vs convolutional/spectral). Blend weights from fold-0 error covariance (inverse-covariance, shrinkage), not uniform.
+Observable: global gain concentrated in off-quiet vs quiet split differently per branch; lower pooled error variance.
+Effect: +0.0015 to +0.004, +-0.0025.
+Test: fold-0: A=GRU256x2 single, B=hetero pair with fixed covariance weights; same teachers; report global + branch-disagreement vs gain.
+Cost: ~30-34 min total, neutral vs baseline.
+Novel: reframing/extension of Sec.4 items 1,6,9,12 with explicit covariance weighting and budget-split constraint.
+
+3. Privileged-F teacher with uncertainty target (free training-time compute)
+
+Family: distillation schedule / privileged information.
+Source: no defensible correspondence to RLAlphas or Markowitz; privileged future view has no analogue in seed-alpha or static variance formulas.
+Analogy: serving student is causal with truncated credit (chunk 1000 vs 20000 steps); an offline bidirectional/whole-sequence teacher can estimate F using future book/trades, denoising the hard latent component quiet rows cannot identify causally.
+Intervention: train large offline teacher (BiGRU/attention, any size) cross-fitted to predict F and its aleatoric variance on class-3 rows; student distills mean (MSE on F) + variance-weighted loss (downweight teacher-uncertain rows), plus standard t0/t1 loss elsewhere. Teacher never served.
+Observable: class-3 quiet-row error down; global Pearson up.
+Effect: +0.002 to +0.005, +-0.003.
+Test: fold-0 cross-fit: control = bootstrap-parent targets (current), treatment = privileged-F mean+variance targets, same student arch/seeds.
+Cost: +0 min serving (targets only); small variance head <1 min.
+Novel: extends Sec.4 item 3 (privileged teacher) with F-specific target + learned uncertainty weighting and cross-fit requirement.
+
+4. Metric-matched two-stage sample-weight curriculum
+
+Family: optimizer/sampling geometry.
+Source: Markowitz-adjacent but claimed as no forced correspondence; weight-by-|label| is importance sampling, not portfolio diversification. Explicitly: no defensible correspondence to either passage.
+Analogy: metric weights proportional to |clipped label|; training with uniform or static propensity weights misallocates gradient to un-scored/small-weight rows, starving quiet-but-scored rows with large errors.
+Intervention: stage A uniform/propensity for representation; stage B short fine-tune with exact metric-mass weights (|clipped label|, clipped predictions +-2) + quiet-row floor (e.g., min weight quantile 10%) to avoid collapse; freeze trunk first 50% of stage B (head-only), then unfreeze all with 10x lower LR.
+Observable: global weighted Pearson up with flat or slightly worse unweighted MSE — diagnostic of metric alignment.
+Effect: +0.001 to +0.003, +-0.0015.
+Test: fold-0 same checkpoint fork: control continues stage-A weights, treatment switches to stage-B curriculum; fixed eval mask/weights.
+Cost: +0 min serving.
+Novel: reframing of Sec.4 items 12-14 (propensity, denominator, robust loss) as staged freeze/unfreeze curriculum with quiet floor.
+
+5. Low-rank wide student: same FLOPs, larger state
+
+Family: architecture / factorization under budget.
+Source: no defensible correspondence; neither passage discusses parameterization.
+Analogy: CPU cost scales ~ O(d^2) per step for GRU; memory/state scales O(d). Dense GRU384 was weaker/slower; low-rank factorization (d=384, rank r=96-128 for update/reset/candidate matrices) buys larger state at ~GRU256 FLOPs, changing what long-horizon/quiet structure fits in 33 min.
+Intervention: GRU320-384 with factorized recurrent+input matrices + small dense correction; distill hidden-state trajectory (hint loss on projected teacher state) from GRU256x2 or hetero teachers, then fine-tune on graded correlation objective.
+Observable: quiet-row and long-range (step>10000) subset gain; global up if state was binding.
+Effect: +0.001 to +0.0035, +-0.002.
+Test: fold-0: dense GRU256x2 vs low-rank GRU384 matched to equal measured CPU-min on 2000-row probe; same targets/seeds.
+Cost: ~30-35 min by construction (tune rank to budget); ZIP smaller (fewer params, helps 20 MB).
+Novel: new vs Sec.4 item 7 (Net2Net widening was dense/function-preserving, not low-rank).
+
+6. Seed-alpha teacher pool + disagreement-selected distillation (unconventional, transferable sampling rule)
+
+Family: teacher diversity / ensemble construction.
+Source/correspondence: RLAlphas passage p.4 (seed-alpha initialization, original vs expanded search space, 5 seeds, IC +0.0034 within std in original space, -0.0016 in expanded). Direct correspondence: seeding the alpha pool with prior formulas helped only within narrow operator space and vanished when space expanded; analogously, same-recipe teacher seeds give +0.0004 (noise), and diversity must come from expanded operator set, not more seeds of one recipe.
+Analogy: treat Sec.4 item 9 families (linear recurrence, TCN, DFT, signatures, RFF, etc.) as expanded operator space; seed a pool of ~20 cheap small teachers with distinct inductive biases, keep the subset maximizing pairwise disagreement subject to individual quality floor, distill their mean.
+Intervention: train 20 small teachers (GRU128-scale or linear, cheap) each with different front-end operator; select K=4-6 by max disagreement + quality gate on fold-0; distill ensemble mean into GRU256x2 student. Do not distill full 20 (noise).
+Observable: student gain tracks teacher-pool disagreement, not mean teacher skill; global up.
+Effect: +0.0015 to +0.004, +-0.0025.
+Test: fold-0: control distilled from 4 same-recipe GRU seeds vs treatment distilled from 4 disagreement-selected heterogeneous small teachers; equal student budget.
+Cost: +0 serving (teacher-side only); selection is offline compute.
+Novel: combination of Sec.4 items 5,6,9 with explicit seed-pool/disagreement selection rule; sampling/selection component is transferable.
+
+7. Staged optimizer geometry: Muon early, second-order-ish late, chunk curriculum
+
+Family: optimization.
+Source: no defensible correspondence to either passage.
+Analogy: saturation may be optimization, not capacity: Muon (orthogonalized updates) makes fast early progress on chunk-1000 truncated BPTT but underfits ill-conditioned quiet-row fine structure over 20k context; same-chunk cadence throughout (Sec.4 item 14) freezes credit horizon.
+Intervention: Muon for 70% of schedule at chunk 1000, then switch to AdamW/SOAP/Shampoo-diagonal with 10x lower LR at chunk 2000-4000 for short late phase + head-only graded-correlation fine-tune. Keep total steps fixed.
+Observable: late-stage quiet-row loss drops without changing arch; global +0.001-0.003.
+Effect: +0.001 to +0.0025, +-0.0015.
+Test: fold-0 fork from same mid-checkpoint: control continues Muon/chunk-1000, treatment switches optimizer/chunk; fixed membership.
+Cost: +0 serving.
+Novel: new interaction of Sec.4 items 14+15 (cadence x optimizer family), neither tested jointly.
+
+8. Cheap EMA fair-value side-state with erase-write gate (cheapest representational change)
+
+Family: state/memory augmentation.
+Source: no defensible correspondence; side-state is a structural memory claim unrelated to seed factors or weighted-sum variance.
+Analogy: 20k-step sequences with chunk-1000 truncation lose slow-moving F level; a scalar/vector EMA side-state (infinite horizon, O(d) per step) carries the level while GRU carries innovations.
+Intervention: add 16-32-d EMA side vector updated by learned gain g_t=sigmoid(W x_t + b) with erase term; head reads [h_t; s_t; s_t - h_t projection]. Cost ~1-2 min. Distill s_t toward privileged teacher F where available (aux loss), else free.
+Observable: long-horizon drift rows (late-sequence, low-volatility) improve; ablate by zeroing s_t at eval (should hurt those rows only).
+Effect: +0.001 to +0.003, +-0.002.
+Test: fold-0: GRU256x2 vs +side-state, same seeds/targets; report global + late-sequence + quiet subsets and zero-ablation.
+Cost: +1-2 min (total ~35 min, still under 60).
+Novel: extends Sec.4 item 10 (residual memory variants) with EMA erase-write + teacher-anchored auxiliary; prior quiet-hold failed, this is distinct state not output hold.

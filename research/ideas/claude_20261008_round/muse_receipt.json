@@ -1,0 +1,17 @@
+{
+  "tool": "OpenCode run",
+  "version": "1.18.35",
+  "model": "opencode/muse-spark-1.3-contributor-free",
+  "verified_route": "opencode models lists opencode/muse-spark-1.3-contributor-free; trivial prompt returned OK, exit 0",
+  "invocation": "opencode run --dir isolated_muse --model opencode/muse-spark-1.3-contributor-free --file muse_task.md -- 'Perform the assigned task in the attached file.' (wrapped in scripts/limited, timeout 600s; default text format)",
+  "prompt_file": "muse_task.md",
+  "prompt_sha256": "0d97e17c58813b5631c519a5310f22da371b8bbc7d13119070403456ecf98f4a",
+  "passages": ["RLAlphas.pdf p4 off983", "Markowitz_1952_Portfolio.pdf p5 off143"],
+  "attempts": [
+    {"id": "A1", "invocation": "--format json with --file before message; message parsed as file path", "exit_code": 1, "output_bytes": 0, "outcome": "argument-parsing failure, not a model failure"},
+    {"id": "A2", "invocation": "--format json, message before --file", "exit_code": 1, "output_bytes": 0, "outcome": "no output, cause not isolated; not used"},
+    {"id": "A3", "invocation": "text format, --file then -- separator", "exit_code": 0, "output_bytes": 10654, "outcome": "completed; this is the output in muse_raw.md"}
+  ],
+  "output_file": "muse_raw.md",
+  "duration": "about 1-2 minutes (wall time not separately recorded for A3)"
+}

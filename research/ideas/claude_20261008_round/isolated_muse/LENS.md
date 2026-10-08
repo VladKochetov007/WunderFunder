@@ -1,0 +1,3 @@
+# Lens for this reviewer: learning architecture, optimization, ensembling and distillation under a runtime budget
+
+Think as an ML engineer who must hit a fixed CPU latency budget. Consider how state size, recurrence depth, distillation schedules, parameter sharing, mixture or gating of heterogeneous students, quantization or low-rank factorization, sample weighting and optimizer geometry interact with the budget. Look for the cheapest component that changes what the student can represent, and for ways to spend training-time compute (a larger teacher, a family of teachers, cross-fitted targets, a privileged offline view) that the serving endpoint does not pay for.

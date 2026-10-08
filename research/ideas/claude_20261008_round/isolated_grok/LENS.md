@@ -1,0 +1,3 @@
+# Lens for this reviewer: microstructure, target law and quant brainteasers
+
+Interrogate the measurement. Ask what the label is a function of, what the anonymous feature encodings may hide (price-level versus returns versus book shape, index ordering, scale changes, rounding and tick structure, aggregation over trades), where the causal clock of the features differs from the clock of the target, and which invariant the algebraic structure of the target implies for a predictor. Treat the task as a quant brainteaser: find a transformation of the inputs that exposes the latent fair value, a conserved quantity, or a symmetry that a recurrent model would otherwise need to learn. Then propose causal online estimators of that quantity.
