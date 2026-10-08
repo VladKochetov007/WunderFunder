@@ -138,6 +138,26 @@ def test_kaggle_driver_selects_named_source_dataset_and_materializes_exact_packe
     assert authorization["conditional_fit_authorized"] is False
 
 
+def test_kaggle_driver_rejects_changed_source_manifest(tmp_path: Path) -> None:
+    driver_spec = importlib.util.spec_from_file_location(
+        "gru_capacity_v3_kaggle_driver_stale_test", PACKET / "kernel_upload/kernel.py"
+    )
+    assert driver_spec is not None and driver_spec.loader is not None
+    driver = importlib.util.module_from_spec(driver_spec)
+    driver_spec.loader.exec_module(driver)
+    input_root = tmp_path / "input"
+    source_root = (
+        input_root / "datasets/vladkochetov07/e529-gru512-768-muon-capacity-v3-source-20261008"
+    )
+    source_root.parent.mkdir(parents=True)
+    shutil.copytree(PACKET / "source_dataset_upload", source_root)
+    manifest_path = source_root / "assets-manifest.json"
+    manifest_path.write_bytes(manifest_path.read_bytes() + b" ")
+
+    with pytest.raises(ValueError, match="manifest identity changed"):
+        driver.materialize_packet(input_root, tmp_path / "working/packet")
+
+
 def test_actual_fold_uses_source_qualified_groups_and_components() -> None:
     split = _actual_split()
     receipt = worker._validate_source_qualified_fit_membership(
