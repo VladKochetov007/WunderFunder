@@ -1,0 +1,96 @@
+{
+  "api_endpoint": "/api/v1/kernels/quota",
+  "arithmetic_observation": {
+    "account_aggregate_reserved_seconds": 42782.971249,
+    "meaning": "These are separate documented fields. The account-level reserved value is greater than total_time_allowed - time_used in this response; do not interpret their subtraction as per-kernel free time or assign the excess to a specific session.",
+    "reserved_minus_allowed_minus_used_seconds": 2583.959750000002,
+    "weekly_allowed_minus_used_seconds": 40199.011499
+  },
+  "field_semantics": {
+    "minimum_time_allowed": "Minimum guaranteed weekly quota for the user.",
+    "quota_refresh_time": "Time at which the weekly quota window resets.",
+    "time_reserved": "Quota reserved by currently-running sessions.",
+    "time_used": "Quota consumed in the current weekly window.",
+    "total_time_allowed": "Quota the user is allowed in the current weekly window."
+  },
+  "gpu_quota": {
+    "has_ever_run": true,
+    "is_pay_to_scale_enabled": false,
+    "minimum_time_allowed": {
+      "days": 1,
+      "microseconds_component": 0,
+      "repr": "datetime.timedelta(days=1, seconds=21600)",
+      "seconds_component": 21600,
+      "total_seconds": 108000.0
+    },
+    "time_reserved": {
+      "days": 0,
+      "microseconds_component": 971249,
+      "repr": "datetime.timedelta(seconds=42782, microseconds=971249)",
+      "seconds_component": 42782,
+      "total_seconds": 42782.971249
+    },
+    "time_used": {
+      "days": 0,
+      "microseconds_component": 988501,
+      "repr": "datetime.timedelta(seconds=67800, microseconds=988501)",
+      "seconds_component": 67800,
+      "total_seconds": 67800.988501
+    },
+    "total_time_allowed": {
+      "days": 1,
+      "microseconds_component": 0,
+      "repr": "datetime.timedelta(days=1, seconds=21600)",
+      "seconds_component": 21600,
+      "total_seconds": 108000.0
+    }
+  },
+  "interpretation_limit": "time_reserved is account-wide aggregate reserved by currently-running sessions; this API response has no per-kernel attribution.",
+  "observed_at_utc": "2026-10-08T11:36:49+00:00",
+  "provider": "Kaggle",
+  "quota_refresh_time": "2026-10-10T00:00:00",
+  "quota_refresh_time_sdk_value": {
+    "isoformat": "2026-10-10T00:00:00",
+    "tzinfo": "None"
+  },
+  "read_only": true,
+  "schema": "wnn-e529-kaggle-quota-raw-sdk-snapshot-v1",
+  "sdk": {
+    "kaggle": "2.2.4",
+    "kagglesdk": "0.1.37",
+    "quota_model_source": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/kagglesdk/kernels/types/kernels_api_service.py",
+    "quota_model_source_sha256": "a7dd65206e7fc27950385e7b163cda48a40766eb8ff7f89d7a334b9bfb151b5c"
+  },
+  "tpu_quota": {
+    "has_ever_run": true,
+    "is_pay_to_scale_enabled": false,
+    "minimum_time_allowed": {
+      "days": 0,
+      "microseconds_component": 0,
+      "repr": "datetime.timedelta(seconds=72000)",
+      "seconds_component": 72000,
+      "total_seconds": 72000.0
+    },
+    "time_reserved": {
+      "days": 0,
+      "microseconds_component": 0,
+      "repr": "datetime.timedelta(0)",
+      "seconds_component": 0,
+      "total_seconds": 0.0
+    },
+    "time_used": {
+      "days": 0,
+      "microseconds_component": 665000,
+      "repr": "datetime.timedelta(seconds=378, microseconds=665000)",
+      "seconds_component": 378,
+      "total_seconds": 378.665
+    },
+    "total_time_allowed": {
+      "days": 0,
+      "microseconds_component": 0,
+      "repr": "datetime.timedelta(seconds=72000)",
+      "seconds_component": 72000,
+      "total_seconds": 72000.0
+    }
+  }
+}
