@@ -1,0 +1,20 @@
+{
+  "correction": "The original V1 failure record lists destinations as absent without timestamp. They were confirmed absent after the scope had already OOM-killed; this addendum records that post-failure check and does not claim it preceded the failed read.",
+  "created_utc": "2026-10-08T06:00:19.453156+00:00",
+  "post_failure_destination_check": {
+    "all_destinations_absent": true,
+    "checked_utc": "2026-10-08T06:00:19.453156+00:00",
+    "no_controller_attempt_reserved": true,
+    "no_gpu_export_started": true,
+    "receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_PARENT_TRAIN_EXPORT_PREFLIGHT_V1_20261008.json",
+    "receipt_sha256": "08fd3a4d73e84a62af0bb91bd5dd38ba13c4fb8079ece549f7d78f37f9b185f5"
+  },
+  "preserves_record": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_PARENT_TRAIN_EXPORT_PREFLIGHT_FAILURE_V1_20261008.json",
+    "sha256": "b1361d4cc1fbef75f27921ca95c27dd288b9bc5c1f05a891bdb206e76f14787c"
+  },
+  "record_id": "H230_HISTORY_PARENT_TRAIN_EXPORT_PREFLIGHT_FAILURE_CORRECTION_V1_20261008",
+  "repair": "Use the stat-bound V3 profile identity for train_targets.npz, do not open/read/re-hash its 1.91GB contents in the small support scope.",
+  "schema": "h230-train-export-preflight-failure-correction-v1",
+  "status": "post_failure_destination_absence_verified_and_original_ordering_clarified"
+}

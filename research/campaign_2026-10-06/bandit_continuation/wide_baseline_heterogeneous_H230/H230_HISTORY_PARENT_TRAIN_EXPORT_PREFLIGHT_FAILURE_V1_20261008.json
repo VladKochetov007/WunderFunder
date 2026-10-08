@@ -1,0 +1,101 @@
+{
+  "bound_target_index_identity": {
+    "current_bytes": 1909335790,
+    "current_mtime_ns": 1790380544698167443,
+    "path": "cache/train_targets.npz",
+    "profile_bytes": 1909335790,
+    "profile_mtime_ns": 1790380544698167443,
+    "profile_sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9",
+    "stat_matches_profile": true
+  },
+  "created_utc": "2026-10-08T05:56:56.810938+00:00",
+  "failure": {
+    "cause": "An erroneous full-file read was used only to construct a zero-length hash expression: Path.read_bytes()[:0] on the 1,909,335,790-byte train target-index NPZ.",
+    "correct_safe_repair": "Use the full SHA256 already computed and recorded by the terminal V3 profile plus a stat identity comparison; do not read or rehash the entire NPZ in the 1.5GB support scope.",
+    "fit_or_source_mutation": false,
+    "no_gpu_work_started": true,
+    "no_output_created": true,
+    "no_train_export_controller_attempt_reserved": true,
+    "phase": "metadata preflight target-index identity check"
+  },
+  "observed_parent": {
+    "cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "limits": {
+      "memory.high": "17999998976",
+      "memory.max": "19999997952",
+      "memory.swap.max": "0"
+    },
+    "memory_current_bytes": 10852069376,
+    "memory_events_hierarchical": {
+      "high": 194296,
+      "low": 0,
+      "max": 11452001,
+      "oom": 16,
+      "oom_group_kill": 0,
+      "oom_kill": 12,
+      "sock_throttled": 34
+    },
+    "memory_events_local": {
+      "high": 1458,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "memory_hierarchical_baseline_from_profile_launch": {
+      "high": 194296,
+      "low": 0,
+      "max": 11451929,
+      "oom": 14,
+      "oom_group_kill": 0,
+      "oom_kill": 11,
+      "sock_throttled": 34
+    },
+    "profile_attempt_parent_hierarchical_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "profile_attempt_parent_local_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    }
+  },
+  "output_paths_checked_absent": [
+    "cache/pred_h230_history_parent_ep3_fp32_v1_train.npy",
+    "cache/pred_h230_history_parent_ep3_fp32_v1_train.npy.partial",
+    "cache/pred_h230_history_parent_ep3_fp32_v1_train.json",
+    "cache/pred_h230_history_parent_ep3_fp32_v1_train.json.partial"
+  ],
+  "owner": "h230_actual_delivery",
+  "record_id": "H230_HISTORY_PARENT_TRAIN_EXPORT_PREFLIGHT_FAILURE_V1_20261008",
+  "recovery": "Preserve this failure and use a fresh metadata-only preflight, then fresh durable controller admission for the single root-authorized train export.",
+  "schema": "h230-train-export-preflight-failure-v1",
+  "status": "support_preflight_oom_before_export_admission",
+  "support_scope": {
+    "memory_max_bytes": 1500000000,
+    "memory_swap_max_bytes": 0,
+    "scope_cgroup_removed_after_terminal": true,
+    "systemd_result": {
+      "ActiveState": "failed",
+      "ExecMainStatus": "",
+      "MemoryMax": "1500000000",
+      "MemoryPeak": "1499996160",
+      "MemorySwapMax": "0",
+      "Result": "oom-kill",
+      "SubState": "failed"
+    },
+    "systemd_unit": "run-p230058-i4452645.scope"
+  }
+}
