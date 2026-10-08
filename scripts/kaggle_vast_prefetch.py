@@ -20,7 +20,14 @@ MAX_PLAN_BYTES = 64_000
 MAX_URL_CHARS = 16_384
 MAX_REMOTE_PAYLOAD_BYTES = 48_000
 MAX_PREFETCH_SECONDS = 1_200
-ALLOWED_REMOTE_PATHS = frozenset({"datasets/train.parquet", "datasets/valid.parquet"})
+ALLOWED_REMOTE_PATHS = frozenset(
+    {
+        "datasets/train.parquet",
+        "datasets/valid.parquet",
+        "cache/train_targets.npz",
+        "cache/valid_targets.npz",
+    }
+)
 _ATTEMPT_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}\Z")
 _LABEL_RE = re.compile(r"wnn-e529-[a-z0-9][a-z0-9-]{6,63}\Z")
 _SHA256_RE = re.compile(r"[0-9a-f]{64}\Z")
@@ -219,7 +226,7 @@ def prepare_prefetch(
             or size <= 0
             or path in frozen_rows
         ):
-            raise PrefetchPlanError("frozen parquet input identity is malformed")
+            raise PrefetchPlanError("frozen prefetch input identity is malformed")
         frozen_rows[path] = (digest, size)
     plan_rows_value = private_value.get("inputs")
     admission_rows_value = admission_value.get("source_binding")
@@ -239,7 +246,7 @@ def prepare_prefetch(
         plan_rows[path] = (digest, size, _validate_url(row.get("url")))
     admission_rows = _identity_rows(admission_rows_value, field_name="public source binding")
     if not frozen_rows or plan_rows.keys() != frozen_rows.keys() or admission_rows != frozen_rows:
-        raise PrefetchPlanError("prefetch plan and admission differ from frozen parquet inputs")
+        raise PrefetchPlanError("prefetch plan and admission differ from frozen prefetch inputs")
     for path, (digest, size, _) in plan_rows.items():
         if frozen_rows[path] != (digest, size):
             raise PrefetchPlanError("prefetch source binding differs from frozen input identity")

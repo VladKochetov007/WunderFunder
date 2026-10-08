@@ -24,7 +24,14 @@ MAX_PAYLOAD_BYTES = 48_000
 ATTEMPT_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}\Z")
 LABEL_RE = re.compile(r"wnn-e529-[a-z0-9][a-z0-9-]{6,63}\Z")
 SHA256_RE = re.compile(r"[0-9a-f]{64}\Z")
-ALLOWED_PATHS = frozenset({"datasets/train.parquet", "datasets/valid.parquet"})
+ALLOWED_PATHS = frozenset(
+    {
+        "datasets/train.parquet",
+        "datasets/valid.parquet",
+        "cache/train_targets.npz",
+        "cache/valid_targets.npz",
+    }
+)
 
 
 class SafeFailure(ValueError):
@@ -296,7 +303,7 @@ def validate_payload(value: object) -> dict[str, object]:
         or not isinstance(budget, int)
         or not 1 <= budget <= MAX_RUNTIME_SECONDS
         or not isinstance(inputs, list)
-        or not 1 <= len(inputs) <= 2
+        or not 1 <= len(inputs) <= 4
     ):
         raise SafeFailure("invalid_payload")
     seen: set[str] = set()
