@@ -147,7 +147,7 @@ Use `rg`/`rg --files`, never `grep`. Batch independent reads/checks, keep depend
 
 Temporary user allocation: **12 CPU cores until approximately 2026-10-08 10:00 Europe/Kyiv**, then **5 CPU cores**. Research continues with no time cutoff until explicit user stop; RAM/VRAM limits remain unchanged. See [latest dated authorization](research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_CONTINUOUS_20261008_V2.json) and [ADR0017](specs/adr/0017-continuous-research-five-core-morning-cap.md). The verified user timer restores the parent quota; local admission uses the same dated window. Reconcile controller guards before changing parent properties so healthy jobs are not terminated by stale policy.
 
-Local aggregate limits after 10:00 are **5 CPU cores,20 decimal GB RAM,5 decimal GB observed VRAM**, one GPU worker. Use persistent `wnn-campaign.slice` with18 GB memory-high,20 GB maximum and no swap. Recheck effective properties after service/daemon changes. Support CLIs, tests and notebooks count toward the same aggregate. New user caps supersede these values.
+Local aggregate limits after 10:00 are **5 CPU cores,20 decimal GB RAM,5 decimal GB observed VRAM**, one GPU worker. The 2026-10-08 morning transition has been observed: the effective parent quota is500%CPU. Reaching10:00 never closes research admission; continue until the user explicitly stops. Use persistent `wnn-campaign.slice` with18 GB memory-high,20 GB maximum and no swap. Recheck effective properties after service/daemon changes. Support CLIs, tests and notebooks count toward the same aggregate. New user caps supersede these values.
 
 For small CPU support tasks, set explicit limits rather than the wrapper's historical defaults:
 
