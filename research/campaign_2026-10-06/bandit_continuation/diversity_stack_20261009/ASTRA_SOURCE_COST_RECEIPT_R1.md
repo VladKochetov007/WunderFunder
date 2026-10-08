@@ -1,0 +1,31 @@
+# Astra independent design: source, access and cost receipt
+
+Scope: one-off ADR0027 ideation task; root assignment requests native `gpt-6-astra`, `xhigh`. The native task was delivered and executed through the collaboration harness. No independent provider billing/model-version endpoint is exposed in this task, so a finer build identifier, token usage and dollar cost are unknown, not zero. No external model route was used. No other new proposal was read and no subagent was created.
+
+Base main commit at entry: `c5d324e04a1d84cc4045e6cdf5239a944ec8a1e9`. Isolated branch `research/astra-diversity-20261009`, worktree `/home/vlad/development/wunder/worktrees/astra-diversity-20261009`. Root's unrelated dirty files were inspected and left unchanged. Only the proposal and this receipt were authored in the worktree.
+
+Authority/input: `INDEPENDENT_BRIEF_R1.md`, `CONTRACT_R1.md`, ADR0027; specs README/objective/current-state; ADR0004/0008/0009/0012/0021/0023; creative-research skill and empirical-validation reference; research-reframe skill. Historical objective/provider restrictions are superseded only within the explicit one-task exception. No authority was changed.
+
+Local support commands used the prescribed shared flock and one-CPU/one-GB/120-second `scripts/limited` scope. Actual read-only entry resource observation: campaign CPU quota5s per period (500%), memory-current12,612,337,664 bytes, memory-high18,000,000,000, memory-max20,000,000,000 and no swap; GPU2111MiB observed,83% utilization. This is an instantaneous entry snapshot, not a peak or a lane-allocation authorization. No training, full parquet/model materialization, provider quota mutation, rental, upload, public submission or paid API call. Scientific GPU seconds consumed by this task:0. New paid compute reservations:0. Shell commands, literature retrieval and native ideation have nonzero unmetered cost.
+
+Tool path: bounded `exec_command` for text/git/resource inspection; `web__run` for primary-source discovery/inspection; `apply_patch` for two Markdown files. Root explicitly clarified at completion that plain git/rg/cat and small hashes are allowed without the support wrapper; final git checks/commit use that clarification after a queued lock wait was interrupted. Some initial batched text output was truncated; subsequent focused reads supplied the relevant ADR, skill, metric and artifact sections. No claims below depend on unseen candidate prediction values. The proposal includes no empirical experiment result computed by this agent.
+
+Primary literature verified through tool output:
+
+| Source/version | URL | Observed source claim | Proposed transfer; not source-established |
+|---|---|---|---|
+| Breiman1996, Stacked Regressions; publisher abstract | https://doi.org/10.1023/A:1018046112532 | Cross-validation predictions and nonnegative least-squares combination | Incumbent shrinkage, simplex restriction and component meta-cross-fit for this clipped correlation metric |
+| Friedman2001, Annals of Statistics29(5),1189–1232; publisher abstract | https://doi.org/10.1214/aos/1013203451 | Functional optimization motivates additive steepest-descent fitting, including squared and Huber losses | One-stage neural correction using the derived weighted-correlation gradient |
+| Liu et al.2025, Muon paperv1; arXiv abstract | https://arxiv.org/abs/2502.16982 | Weight decay and update scaling matter in LLM Muon scaling | Matched GRU optimizer diversity; no LLM speedup transferred numerically |
+| Hinton/Vinyals/Dean2015v1; arXiv abstract | https://arxiv.org/abs/1503.02531 | Ensembles can be compressed into one easier-to-deploy model; specialist ensembles discussed | Regression teacher-system distillation and contrast-target heads |
+| Voelker/Kajić/Eliasmith2019; NeurIPS abstract | https://papers.nips.cc/paper_files/paper/2019/hash/952285b9b7e7a1be5aa7849f32ffff05-Abstract.html | LMU represents long causal histories using structured memory dynamics | Simpler explicit multi-timescale exponential channels; not an LMU implementation |
+| Gu/Dao/Ermon/Rudra/Ré2020v2; arXiv abstract | https://arxiv.org/abs/2008.07669v2 | Online history compression through polynomial projections | Structured memory as an architectural diversity source |
+| Jacobs/Jordan/Nowlan/Hinton1991; author PDF first page and publisher abstract | https://www.cs.toronto.edu/~hinton/absps/jjnh91.pdf | Experts and a gate partition cases into subtasks | Frozen causal experts with strongly shrunk logistic gate |
+
+Also attempted the Huber1964 DOI `https://doi.org/10.1214/aoms/1177703732`; it returned no substantive readable content. It is not used to support a source claim. Secondary search hits, Reddit, and third-party summaries were not used as technical authority. Abstract-only access is explicitly distinguished from full-method reproduction; proposed equations are given directly in the proposal.
+
+Random-library component: reused the existing recorded selection, not a newly randomized draw. `research/ideas/claude_20261008_round/passages_selected.json` records seed20261008, `random.Random(seed): sample3 from curated filtered list, random page, random1200-char window`; chosen Markowitz1952 PDF page5, offset143. The exact extracted passage remains in that receipt. This task inspected the actual passage: it discusses covariance in weighted-sum variance. No extra user-library files were opened. The transfer is conditional geometry and a contrast-preserving student; this is an analogy, not a financial recommendation or a claim that minimum-variance portfolio weights optimize competition WP.
+
+Local evidence inspected: official metric source; exact Z3 independent grade and its producer/member hashes; E540 fixed pair Markdown; current-state/frontier snapshots; filenames for H230 membership/grade artifacts. Exact Z3 and E540 scores in the proposal are attributed historical observations, not new computation. Other prediction-bank entries remain conditional on producer/membership audit. No weights or prediction arrays were read or changed.
+
+Scientific review status: **not_tested / proposal_only**. Parent/root must assign independent review and admission before execution. Planned cost classes are explicitly unmeasured; the target of5–6 completed mechanism screens/hour is not claimed achieved.
