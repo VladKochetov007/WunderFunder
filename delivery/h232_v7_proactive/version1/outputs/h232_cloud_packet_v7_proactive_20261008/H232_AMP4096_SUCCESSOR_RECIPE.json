@@ -1,0 +1,107 @@
+{
+  "authorization": {
+    "automatic_admission": false,
+    "fit": false,
+    "grading": false,
+    "prediction_export": false,
+    "profile": false,
+    "score": false
+  },
+  "comparison_design": {
+    "candidate": "one seed-3 B8 H232 full-feature fit, only numeric-policy change is AMP initial scale4096",
+    "claim_scope": "no prediction export or grade in this packet; no candidate/control screen or score is claimed",
+    "control": "historical 65536-default H232 recipe remains preserved and is not refit by this packet"
+  },
+  "created_date": "2026-10-08",
+  "declared_successor_change": {
+    "all_other_scientific_recipe_fields": "unchanged from parent recipe",
+    "applies_to": [
+      "actual-device profile",
+      "conditional seed-3 fit"
+    ],
+    "field": "FP16 GradScaler initial scale",
+    "historical_value": 65536.0,
+    "reason": "V1 profile recorded an AMP startup skip with aggregate-only evidence; V2 diagnostic trace established exact warmup/timed updates and introduced the explicit lower scale. This successor tests that same numeric policy during the actual fit.",
+    "successor_value": 4096.0
+  },
+  "execution_repair_parent": "E529_H232_FULLFEATURE_GRU384_B8_AMP4096_CONDITIONAL_PROFILE_FIT_V6",
+  "historical_recipe": {
+    "fit_amp_initial_scale": 65536.0,
+    "prior_status": "preserved; not rewritten",
+    "recipe_id": "E529-H232-FULLFEATURE-GRU384-STAGED-V1",
+    "scale_basis": "pinned trainer default when --amp-init-scale is absent"
+  },
+  "hypothesis": "The previously observed startup AMP-skip failure at default scale65536 may be prevented by an explicit scale4096 while preserving the H232 full-feature model, fold, samples, objective, optimizer, schedule and checkpoint policy.",
+  "input_identity": {
+    "expected_train_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+    "expected_valid_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "measured_prior_full_hash_seconds": {
+      "total": 544.533,
+      "train": 456.929,
+      "valid": 87.604
+    },
+    "prior_receipt": "prior_input_identity_v2.json",
+    "reuse": "exact read-only canonical path and full file stat tuple only; otherwise full content SHA fallback"
+  },
+  "next_gate": "Root independently reviews the V7 execution-repair diff and fresh quota. Scientific recipe fields remain the V6 seed-3 GRU384 B8 AMP4096 treatment.",
+  "parent_recipe": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H232_FULLFEATURE_GRU384_STAGED_V1.json",
+  "parent_recipe_sha256": "5ef62a3568eee2020068bd828f06bdeab696e5ee2c05441812753df9b3acfc61",
+  "profile_gate": {
+    "fit_action": "same worker and already verified input digest handoff only if status=pass; otherwise diagnostic terminal no-fit",
+    "required": "all 200 timed updates have finite loss, finite gradients after unscale, zero AMP skips, complete optimizer updates and scale recurrence; warmup trace separately complete; actual device/loader/headroom/identity/lifetime/shape gates pass",
+    "timed_optimizer_attempts": 200,
+    "timed_outer_batches": 20,
+    "warmup_optimizer_attempts": 30,
+    "warmup_outer_batches": 3
+  },
+  "recipe_id": "E529-H232-FULLFEATURE-GRU384-B8-AMP4096-S3-V1",
+  "runtime": {
+    "cpu_threads": 4,
+    "execution_budget_change_from_v6": "16000-second whole-worker bound with profile admission reserving the full valid-export cap; all four fit epochs and fixed epoch-3 checkpoint remain required.",
+    "loader_ram_gb": 0.3,
+    "loader_workers": 2,
+    "observed_host_basis": "T4x2/cgroup 32,212,254,720 bytes from E520 V12",
+    "one_visible_T4": true,
+    "provider": "Kaggle",
+    "second_T4_use": "deferred until measured loader bandwidth and aggregate RAM justify independent parallel approach screens",
+    "worker_wall_cap_seconds": 16000
+  },
+  "schema_version": 1,
+  "scientific_recipe": {
+    "amp_init_scale": 4096.0,
+    "architecture": "GRU384x2",
+    "auxiliary_loss": false,
+    "batch_size": 8,
+    "chunk_rows": 2000,
+    "distillation": false,
+    "dropout": 0,
+    "ema": false,
+    "epochs": 4,
+    "evaluation_during_fit": false,
+    "fixed_checkpoint_epoch_zero_based": 3,
+    "fold_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "initialization": "scratch",
+    "input_view": "full causal feature view",
+    "learning_rate": 0.001,
+    "loss": "WMSE",
+    "loss_norm": "chunk",
+    "membership": {
+      "excluded_evaluation_groups": 468,
+      "train_fit_groups": 10535,
+      "valid_fit_groups": 1405
+    },
+    "optimizer": "AdamW",
+    "precision": "fp16",
+    "propensity": false,
+    "schedule": "OneCycle",
+    "seed": 3,
+    "swa": false,
+    "teacher_or_checkpoint_initializer": false,
+    "train_seqs_argument": 10607,
+    "train_source": "train+valid",
+    "weight_decay": 0.01
+  },
+  "scope": "One H232 seed-3 full-feature GRU384x2 numerical-policy successor. Profile with initial GradScaler scale4096 and, only after the exact strict profile gate passes, fit the same seed-3 scratch recipe at that same explicit scale. This is not an exact reproduction of the historical default65536 recipe.",
+  "status": "same-science-recipe-v7-resource-repair-pending-root-admission",
+  "supersedes": null
+}
