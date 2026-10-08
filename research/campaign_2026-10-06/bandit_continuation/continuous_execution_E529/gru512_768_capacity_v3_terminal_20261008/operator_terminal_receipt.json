@@ -1,0 +1,90 @@
+{
+  "expected_observed_raw_fingerprints": {
+    "datasets/train.parquet": {
+      "expected_bytes": 29240219011,
+      "expected_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "portable_manifest_entry_keys": [
+        "original_identity",
+        "sha256"
+      ],
+      "prior_identity_size": 29240219011,
+      "prior_observed_bytes": 29240219011,
+      "prior_observed_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+    },
+    "datasets/valid.parquet": {
+      "expected_bytes": 5615509128,
+      "expected_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "portable_manifest_entry_keys": [
+        "original_identity",
+        "sha256"
+      ],
+      "prior_identity_size": 5615509128,
+      "prior_observed_bytes": 5615509128,
+      "prior_observed_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+    }
+  },
+  "failure": {
+    "consumer": "capacity_worker.py::_verify_raw_source",
+    "key": "bytes",
+    "line": 201,
+    "traceback_summary": "_prepare_project -> _verify_raw_source -> expected[\"bytes\"] raised KeyError.",
+    "type": "KeyError"
+  },
+  "fit_or_profile_started": false,
+  "input_schema_observation": {
+    "consumer_required_top_level_field": "bytes",
+    "portable_manifest_raw_entry_fields": [
+      "sha256",
+      "original_identity.bytes",
+      "original_identity.footer_bytes",
+      "original_identity.footer_sha256",
+      "original_identity.mtime_ns"
+    ],
+    "portable_manifest_sha256": "a73aa3c3bb31c752ecbe6a02e087a606946093384b5340d4857bb97146a186b1",
+    "prior_observed_raw_entry_has_top_level_bytes": true
+  },
+  "kernel": "vladkochetov07/gru512-768-muon-v3-profile-only",
+  "last_emitted_phases": [
+    "bootstrap@0.0s",
+    "source_verify@0.0s",
+    "terminal:fail@0.1s"
+  ],
+  "observed_at_utc": "2026-10-08T10:37:49+00:00",
+  "output_manifest": "downloaded_file_manifest.json",
+  "provider_logs_exit_code": 0,
+  "provider_output_command": {
+    "argv": [
+      "kaggle",
+      "kernels",
+      "output",
+      "vladkochetov07/gru512-768-muon-v3-profile-only",
+      "-p",
+      "/tmp/e5v3out-v3",
+      "--force",
+      "--page-size",
+      "200",
+      "--quiet"
+    ],
+    "download_tree_bytes": 2846261,
+    "downloaded_file_count": 71,
+    "exit_code": 0
+  },
+  "provider_status_exit_code": 0,
+  "provider_status_files": [
+    "provider_status.stdout.txt",
+    "provider_status.stderr.txt",
+    "provider_logs.stdout.json.txt",
+    "provider_logs.stderr.txt"
+  ],
+  "provider_terminal_status": "KernelWorkerStatus.ERROR",
+  "schema": "wnn-e529-gru-capacity-v3-terminal-operator-receipt-v1",
+  "source_bindings": {
+    "capacity_worker_sha256": "e8bda2e3d077f3f2a3f4b8665158a30da63078e44407e85525db612bc4d7cea8",
+    "recipe_sha256": "a73aa3c3bb31c752ecbe6a02e087a606946093384b5340d4857bb97146a186b1",
+    "source_archive_sha256": "a38899dc8a51231936f32c43b6ae56b3e6e6fffde647116337adf603bd709a02"
+  },
+  "worker_terminal_receipt_error_type": "KeyError",
+  "worker_terminal_receipt_fit_started": false,
+  "worker_terminal_receipt_note": "The BaseException handler rewrote the receipt and re-raised, but status remained starting because it used setdefault on the existing status field; the receipt still records KeyError and worker_seconds.",
+  "worker_terminal_receipt_status": "starting"
+}
