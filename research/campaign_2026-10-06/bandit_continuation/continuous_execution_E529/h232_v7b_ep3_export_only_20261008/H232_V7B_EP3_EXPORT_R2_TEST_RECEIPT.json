@@ -1,0 +1,77 @@
+{
+  "created_at_utc": "2026-10-08T04:52:42Z",
+  "files_sha256": {
+    "H232_V7B_EP3_EXPORT_ONLY_REPAIR_REPORT.md": "8bbb811ce41bdba53b7a14e7c39066cbf025c9696f2efe37bc909641b7bd470c",
+    "H232_V7B_EP3_EXPORT_R2_BUILD_RECEIPT.json": "0044e5a25e76cad768df6cacaaddd283e8ebc3980a93ebca777a96ca1bd085a6",
+    "build_export_packet.py": "02a8e5ff50a45ad4793301ac9f877c6fd91233dd87910af6748e9fa22e100dfb",
+    "export_worker.py": "e5568c871f6c918330c424dafc03ece7018e2059d019c6f87ac72352fdf82201",
+    "membership_audit.py": "3f179f00b496ff177f609d9f9f6af3a665af781fb83fd120d70b66fdd3a3dc14",
+    "tests/fixtures/v7b_ep3_membership.json": "0969acf6a50124532a64cfec6bfdf631aa0055742c2deca612270e0143c3bde1",
+    "tests/test_membership_audit.py": "63c114efd1f3c5716eccbd217aea9783d0c952620ae322757948fbc25be104f1",
+    "tests/test_packet_contract.py": "80032b01befe4745b65de39d23953fc70fdd737546f7713228e1d17e84560b6c"
+  },
+  "frozen_artifact_hashes": {
+    "checkpoint_sha256": "aaa731da1692ee5083c80296fd665b0a60815c9dc18430457f702cf779c2b829",
+    "checkpoint_source_review_sha256": "de67fb148436b055d4d63269d2849cf429671e986abffbc0e2ecb345e0c0cdbc",
+    "code_file_sha256": "a307809730010f04766cfa8c9f18923ad7df6809bd7c14ddc4c2745db2f4b1ee",
+    "external_review_sha256": "3d00f9cf9796c1511625af368fb59a3c4574a505ca9bdeaa88e4fe14a32e5949",
+    "kernel_id": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r2",
+    "packet_id": "E529_H232_V7B_EP3_FP32_EXPORT_ONLY_20261008_R2",
+    "payload_zip_sha256": "b9e14e8509dff6abc18f4e3aaffe4af031d78883e91fb98f28fb4a845ed1490e",
+    "provenance_sha256": "28372b5b9ed20b619073e1e2c7e21ac4d25c45867aa9a01b4f10bdc993fb1526",
+    "source_archive_manifest_sha256": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42",
+    "source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "terminal_receipt_sha256": "4ba1fc63e8119951b9a625f93f701a88dbac69a5b92d16c57be84d6def9c5434"
+  },
+  "local_npz_decompression": false,
+  "local_parquet_read": false,
+  "local_torch_import": false,
+  "local_provider_call_made": false,
+  "membership_regression": {
+    "cross_source_integer_alias_count": 463,
+    "evaluation_valid": 468,
+    "example": {
+      "train_component": 4,
+      "train_row_group": 4,
+      "valid_component": 2799,
+      "valid_row_group": 4
+    },
+    "fit_evaluation_component_overlap_count": 0,
+    "fit_train": 10535,
+    "fit_valid": 1405,
+    "source_qualified_group_overlap_count": 0
+  },
+  "npy_regression": {
+    "expected_array_payload_bytes": 299680000,
+    "fixture": "small float32 numpy.lib.format.open_memmap; no full prediction allocation",
+    "validation": "parsed NPY header offset plus array.nbytes equals file size"
+  },
+  "provider_push_authorized": false,
+  "resource_boundary": {
+    "cpu_quota": "100%",
+    "memory_max_bytes": 1500000000,
+    "runtime_max_seconds": 120,
+    "threads": 1
+  },
+  "ruff_check": "passed",
+  "ruff_format_check": "passed",
+  "schema": "h232-v7b-ep3-export-offline-validation-v1",
+  "status": "passed",
+  "test_command": "scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m unittest discover -s research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_only_20261008/tests -v",
+  "test_names": [
+    "actual_v7b_snapshot_passes_and_reports_integer_aliases",
+    "changed_fit_member_is_rejected",
+    "component_overlap_is_rejected_even_with_disjoint_group_ids",
+    "fit_membership_hash_tampering_is_rejected",
+    "same_valid_source_group_overlap_is_rejected",
+    "built_packet_is_hash_consistent_and_provider_push_disabled",
+    "export_worker_has_no_training_or_grading_entrypoint",
+    "kernel_identity_is_new_and_private",
+    "npy_payload_bytes_exclude_header",
+    "parent_resource_worker_changes_only_identity_and_wall_cap"
+  ],
+  "tests_passed": 10,
+  "tests_skipped": 0,
+  "worktree": "/tmp/wnn-h232-v7b-ep3-export-20261008"
+}
