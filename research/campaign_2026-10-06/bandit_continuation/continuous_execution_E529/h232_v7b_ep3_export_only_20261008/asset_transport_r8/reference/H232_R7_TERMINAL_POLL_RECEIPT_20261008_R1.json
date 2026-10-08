@@ -1,0 +1,532 @@
+{
+  "diagnosis": {
+    "exception": "ModuleNotFoundError: No module named 'wnn'",
+    "failed_step": "fixed-epoch-3 FP32 predictor subprocess startup",
+    "failure_class": "execution import-path failure",
+    "missing_runtime_path": "The child predictor process did not receive <extracted source root>/src in PYTHONPATH; direct parent sys.path insertion does not propagate to subprocess.",
+    "recovery": "Create a new identified export-only successor that adds the extracted source root src directory to the child PYTHONPATH while preserving the existing environment and all frozen source/checkpoint/recipe/data identities.",
+    "stderr_path": "h232_v7b_ep3_export_only_r2_20261008/prediction.stderr.log"
+  },
+  "export_integrity": {
+    "asset_transport_status": "payload_verified",
+    "checkpoint_relative_path": "h232_v7b_ep3_export_source_r2/artifacts/runs/bd26_h232_full_s3_f0_amp4096_v7_proactive_20261008/model_ep3.pt",
+    "checkpoint_sha256": "aaa731da1692ee5083c80296fd665b0a60815c9dc18430457f702cf779c2b829",
+    "membership_validation_status": "passed",
+    "payload_sha256": "dda776b3f9b77f143eae3642ac36c7f7b58d751557de8e440c8775b01df4857b",
+    "prediction_files_present": [],
+    "public_score_or_grade": null,
+    "source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+    "source_qualified_fit_evaluation_group_overlap_count": 0
+  },
+  "kernel": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r7",
+  "kernel_statuses": {
+    "vladkochetov07/e540-v10-export-only-20261008-runner": {
+      "error": "403 Client Error: Forbidden for url: https://api.kaggle.com/v1/kernels.KernelsApiService/GetKernelSessionStatus",
+      "error_type": "HTTPError",
+      "kernel": "vladkochetov07/e540-v10-export-only-20261008-runner"
+    },
+    "vladkochetov07/e540-v9-ple-reuse-control-20261008-runner": {
+      "failure_message": "",
+      "kernel": "vladkochetov07/e540-v9-ple-reuse-control-20261008-runner",
+      "status": "KernelWorkerStatus.ERROR"
+    },
+    "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r6": {
+      "failure_message": "",
+      "kernel": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r6",
+      "status": "KernelWorkerStatus.ERROR"
+    },
+    "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r7": {
+      "failure_message": "",
+      "kernel": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r7",
+      "status": "KernelWorkerStatus.ERROR"
+    }
+  },
+  "kernel_version": 1,
+  "latest_provider_poll_row_path": "H232_R7_TERMINAL_SHARED_POLL_ROW_R1.json",
+  "latest_provider_poll_row_sha256": "fcbee0ed175c56ae303b7203a8ac3ed74b03c8e865d91a97788905c876ad00d1",
+  "phase": {
+    "error_type": "ExportAbort",
+    "packet_id": "E529_H232_V7B_EP3_FP32_EXPORT_ONLY_20261008_R2",
+    "phase": "terminal_failure",
+    "status": "failed",
+    "updated_unix": 1791441945.2662508
+  },
+  "provider_log_snapshot": {
+    "command": [
+      "kaggle",
+      "kernels",
+      "logs",
+      "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r7/1"
+    ],
+    "exit_code": 0,
+    "stderr_bytes": 0,
+    "stderr_path": "H232_R7_TERMINAL_LOGS_STDERR_R1.txt",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 2459,
+    "stdout_path": "H232_R7_TERMINAL_LOGS_STDOUT_R1.txt",
+    "stdout_preview": "n\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":400.884847896,\"data\":\"    run_export(destination)\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":400.884850903,\"data\":\"    ~~~~~~~~~~^^^^^^^^^^^^^\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":400.884854052,\"data\":\"  File \\\"/kaggle/working/h232_v7b_ep3_verified_payload_r7/export_worker.py\\\", line 462, in main\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":400.884857668,\"data\":\"    export = _run_prediction(\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":400.884861208,\"data\":\"        source_root=source_root,\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":400.884865062,\"data\":\"    ...\\u003c3 lines\\u003e...\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":400.884869158,\"data\":\"        worker_start=started,\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":400.884873248,\"data\":\"    )\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":400.884876433,\"data\":\"  File \\\"/kaggle/working/h232_v7b_ep3_verified_payload_r7/export_worker.py\\\", line 274, in _run_prediction\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":400.884880255,\"data\":\"    raise ExportAbort(f\\\"fixed epoch-3 predictor exited with status {return_code}\\\")\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":400.884883725,\"data\":\"export_worker.ExportAbort: fixed epoch-3 predictor exited with status 1\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":403.487205689,\"data\":\"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\\\|'\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":403.487232635,\"data\":\"  cells[i][c] = re.sub('\\\\\\\\\\\\\\\\\\\\|', '|', cell)\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":403.759824265,\"data\":\"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\\\_'\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":403.759847693,\"data\":\"  text = re.sub(r'_', '\\\\_', text) # Escape underscores in display text\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":404.524546737,\"data\":\"[NbConvertApp] Converting notebook __script__.ipynb to html\\n\"}\n,{\"stream_name\":\"stderr\",\"time\":405.521728273,\"data\":\"[NbConvertApp] Writing 309112 bytes to __results__.html\\n\"}\n]\n",
+    "stdout_sha256": "82d20376955344dcba9524f49f3ecca56dbaff89384b09977d3f771ad97712e8"
+  },
+  "provider_status_observation": {
+    "command": [
+      "kaggle",
+      "kernels",
+      "status",
+      "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r7"
+    ],
+    "exit_code": 0,
+    "stderr_bytes": 0,
+    "stderr_path": "H232_R7_TERMINAL_STATUS_STDERR_R1.txt",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 92,
+    "stdout_path": "H232_R7_TERMINAL_STATUS_STDOUT_R1.txt",
+    "stdout_preview": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r7 has status \"KernelWorkerStatus.ERROR\"\n",
+    "stdout_sha256": "4ab1f50fa7fa114b53f71533dbaefb315228553a54061d8a64033783cbbf042d"
+  },
+  "quota_reconciliation": {
+    "account_remaining_seconds": 42069.467000000004,
+    "campaign_baseline_used_seconds": 37047.321,
+    "campaign_cap_seconds": 56780.516,
+    "campaign_headroom_seconds": 27897.30400000001,
+    "campaign_used_seconds": 28883.211999999992,
+    "gpu_reserved_seconds": 0.0,
+    "gpu_total_allowed_seconds": 108000.0,
+    "gpu_used_seconds": 65930.533,
+    "quota_refresh_utc": "2026-10-10T00:00:00"
+  },
+  "record_id": "H232_R7_TERMINAL_POLL_RECEIPT_20261008_R1",
+  "schema": "h232-r7-terminal-poll-receipt-v1",
+  "source_scope": "No training, refit, profile, scoring, or grading occurred in R7.",
+  "terminal_collection": {
+    "file_count": 98,
+    "files": {
+      "h232-gru384-v7b-ep3-export-20261008-r7.log": {
+        "bytes": 2458,
+        "sha256": "99d9e4983c04175d90208f442bfc2ef39ece6a735f19ea2744487f290e96c129"
+      },
+      "h232_export_asset_transport_receipt_r7.json": {
+        "bytes": 2711,
+        "sha256": "e69443592afbf3729d130800683284adc2ba559842aed68e0667b11404106f57"
+      },
+      "h232_v7b_ep3_export_only_r2_20261008/hash_io_advice.json": {
+        "bytes": 1430,
+        "sha256": "a8590a74f27ccd826fea92ed5fa2548e56eb6dcf07cab05096e6e9293f3788e8"
+      },
+      "h232_v7b_ep3_export_only_r2_20261008/input_and_membership_validation.json": {
+        "bytes": 912,
+        "sha256": "6444a54997e792347edcf92f46244dd5579b0e70102c8bd77291db6eb034f349"
+      },
+      "h232_v7b_ep3_export_only_r2_20261008/input_identity.json": {
+        "bytes": 9461,
+        "sha256": "65cf00e57bfd279ce4608fcc18c0b3ce805aaa8ccb66e0b364c7971b60ac4e8c"
+      },
+      "h232_v7b_ep3_export_only_r2_20261008/memory_stat_phases.json": {
+        "bytes": 16343,
+        "sha256": "517b80441663044b26ae79f3aa009fe59767d3b830d762deffe420e1e6f4796c"
+      },
+      "h232_v7b_ep3_export_only_r2_20261008/phase.json": {
+        "bytes": 190,
+        "sha256": "aa9d89914dd0df3e4e0677ef2a9358a287e6ff231c7f65b6bd0c56bbd009d378"
+      },
+      "h232_v7b_ep3_export_only_r2_20261008/prediction.stderr.log": {
+        "bytes": 350,
+        "sha256": "12473d4394b469bacb9c739956a3fa9b2dc09bfc44df2f157471bc4b75120727"
+      },
+      "h232_v7b_ep3_export_only_r2_20261008/prediction.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "h232_v7b_ep3_export_only_r2_20261008/resource.json": {
+        "bytes": 4199,
+        "sha256": "bd4c763d467a0bc0e3b051abf7ba8cc7afb679d6134492922508377e5c94cfd8"
+      },
+      "h232_v7b_ep3_export_only_r2_20261008/runtime_identity.json": {
+        "bytes": 2252,
+        "sha256": "7f11766fe93e7c291f003d8c4ca78163444941667e08c1274bb644e2f7cf96d2"
+      },
+      "h232_v7b_ep3_export_only_r2_20261008/source_qualified_membership_audit.json": {
+        "bytes": 625,
+        "sha256": "b1ee9559f0e7cc4342e17aa042b28bb39943d3a097765d3cdc79804ce78a57c4"
+      },
+      "h232_v7b_ep3_export_only_r2_20261008/terminal.json": {
+        "bytes": 349,
+        "sha256": "3ef60d673aa4a67043390463b24e3214e1b39f416c3cb8efdfaf5da62793278a"
+      },
+      "h232_v7b_ep3_export_source_r2/artifacts/runs/bd26_h232_full_s3_f0_amp4096_v7_proactive_20261008/export_ancestry.json": {
+        "bytes": 1055,
+        "sha256": "1566acb49cbdcadf778f07b49b8ab846d1de0827cc6502f82c11a56752e7b927"
+      },
+      "h232_v7b_ep3_export_source_r2/artifacts/runs/bd26_h232_full_s3_f0_amp4096_v7_proactive_20261008/model_ep3.pt": {
+        "bytes": 8659175,
+        "sha256": "aaa731da1692ee5083c80296fd665b0a60815c9dc18430457f702cf779c2b829"
+      },
+      "h232_v7b_ep3_export_source_r2/artifacts/runs/bd26_h232_full_s3_f0_amp4096_v7_proactive_20261008/provenance.json": {
+        "bytes": 160042,
+        "sha256": "28372b5b9ed20b619073e1e2c7e21ac4d25c45867aa9a01b4f10bdc993fb1526"
+      },
+      "h232_v7b_ep3_export_source_r2/scripts/__pycache__/train_rnn.cpython-313.pyc": {
+        "bytes": 200659,
+        "sha256": "a407e836327de947e9eb413c04884b0af19c7b843a8d569438585bbc867116ad"
+      },
+      "h232_v7b_ep3_export_source_r2/scripts/predict_run.py": {
+        "bytes": 5340,
+        "sha256": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee"
+      },
+      "h232_v7b_ep3_export_source_r2/scripts/train_rnn.py": {
+        "bytes": 154234,
+        "sha256": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/__init__.py": {
+        "bytes": 63,
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/__pycache__/__init__.cpython-313.pyc": {
+        "bytes": 233,
+        "sha256": "a91fd6f5188ce660d40aeb5962bc270ab4b1cba15ea1aeb70264eee6f2407166"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/__pycache__/portability.cpython-313.pyc": {
+        "bytes": 3489,
+        "sha256": "19c303c9d6a0a982833cf2afeb71445fed5e7c1e9f17d9313087ac2a21e20d8c"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/__pycache__/splits.cpython-313.pyc": {
+        "bytes": 15063,
+        "sha256": "9aecfae6fbab05929e94c6eb9ac77749f1fc51294fe11fb63f4798dafc73765a"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/bandit_campaign_recipe.py": {
+        "bytes": 34735,
+        "sha256": "883bc6415345ec5e4deff56be13fc0ae0be8791702e999898dfdb3557a5a6374"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/block_memory_attention.py": {
+        "bytes": 5676,
+        "sha256": "737d97e41b24eec956221d5cbf1657a27fe3029925987dbb820e8abba3888453"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/campaign.py": {
+        "bytes": 20774,
+        "sha256": "35dd701fdb33c50494a3c781a315731212da22f41cae331f2f85073af0637605"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/campaign_local.py": {
+        "bytes": 24324,
+        "sha256": "0213ff7a809ce898be5d3180c15e31d228ad6f3f03f1f08fd968f9186e91353d"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/campaign_spec.py": {
+        "bytes": 10334,
+        "sha256": "5136703299585e81a9463a253133ba7f12da2c64ea863776c005d1fc5d3e8d7b"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/conditional_readout.py": {
+        "bytes": 9120,
+        "sha256": "2930740c551f34d42e1d300e30a7f1edcb0ca46758c8355018d4a36477829426"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/csrc/symreg_screen.cpp": {
+        "bytes": 4986,
+        "sha256": "413082e20f815ce4ca41af246997d4f1e2ad019e5099a79be23af424672dd2b7"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/data.py": {
+        "bytes": 6177,
+        "sha256": "3e32781997fd01e6dd94dd559fe6885490b8158136fc61aa87a7cf2e6ea08939"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/distillation.py": {
+        "bytes": 7875,
+        "sha256": "5d68b03204b9413d2412533a7aa75ae0759276dacbbed4035b846da1d38350e2"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/distillation_cache.py": {
+        "bytes": 10084,
+        "sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/evaluation.py": {
+        "bytes": 8080,
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/event_content.py": {
+        "bytes": 7226,
+        "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/features.py": {
+        "bytes": 5421,
+        "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/gmetric.py": {
+        "bytes": 8902,
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/heuristics.py": {
+        "bytes": 9025,
+        "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/infer.py": {
+        "bytes": 2377,
+        "sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/markov.py": {
+        "bytes": 2624,
+        "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/metric.py": {
+        "bytes": 4806,
+        "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/nn.py": {
+        "bytes": 20537,
+        "sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/online_dynamics.py": {
+        "bytes": 3626,
+        "sha256": "15276c6879f770dcbb89f3dd7b10f916b7db7790f5564c7ca5fd690f25c2722b"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/optim.py": {
+        "bytes": 11736,
+        "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/outcomes.py": {
+        "bytes": 4538,
+        "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/portability.py": {
+        "bytes": 1909,
+        "sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/privileged.py": {
+        "bytes": 6608,
+        "sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/propensity.py": {
+        "bytes": 1404,
+        "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/quantization.py": {
+        "bytes": 6050,
+        "sha256": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/quantization_export.py": {
+        "bytes": 3968,
+        "sha256": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/research_features.py": {
+        "bytes": 6234,
+        "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/resources.py": {
+        "bytes": 4485,
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/run_identity.py": {
+        "bytes": 4606,
+        "sha256": "725685931dddce6c2c068f14cf51abb2dd1f67eb88c3f38f2c61ae271805b626"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/sentinel.py": {
+        "bytes": 8603,
+        "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/sentinel_calibration.py": {
+        "bytes": 8550,
+        "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/specialist.py": {
+        "bytes": 12064,
+        "sha256": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/splits.py": {
+        "bytes": 8647,
+        "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/spread_aux.py": {
+        "bytes": 7553,
+        "sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/streaming.py": {
+        "bytes": 2422,
+        "sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/structured_state.py": {
+        "bytes": 9963,
+        "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/symreg.py": {
+        "bytes": 11386,
+        "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/tcn_ref.py": {
+        "bytes": 3511,
+        "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/ticks.py": {
+        "bytes": 4946,
+        "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/training_calibration.py": {
+        "bytes": 2694,
+        "sha256": "30923120c1bd9773556556ee0fbbab5d8db4a5f4232c48b81f11fa87a5e74e52"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/training_controls.py": {
+        "bytes": 10695,
+        "sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/training_credit.py": {
+        "bytes": 2225,
+        "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/training_dynamics.py": {
+        "bytes": 14936,
+        "sha256": "902f69a4168555dc059ef0f4fdf7f6d194a8afd9dd594aa7e311141a040a4294"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/training_factorized.py": {
+        "bytes": 7615,
+        "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/training_qat.py": {
+        "bytes": 6146,
+        "sha256": "23d866801e0fef753e8af017e582a32900c40d4925c30a3083c128a2014ccf72"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/training_sampling.py": {
+        "bytes": 6540,
+        "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/training_state.py": {
+        "bytes": 8689,
+        "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/training_views.py": {
+        "bytes": 3065,
+        "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/twoclock_ref.py": {
+        "bytes": 3732,
+        "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44"
+      },
+      "h232_v7b_ep3_export_source_r2/src/wnn/viz.py": {
+        "bytes": 4297,
+        "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5"
+      },
+      "h232_v7b_ep3_verified_payload_r7/H232_AMP4096_SUCCESSOR_RECIPE.json": {
+        "bytes": 5263,
+        "sha256": "d5f418cfd4dca2501e8d95f53b7615e7cc2663ad96fd5cdd1db4a0d06e957601"
+      },
+      "h232_v7b_ep3_verified_payload_r7/H232_PROFILE_PLAN.json": {
+        "bytes": 20039,
+        "sha256": "3b20466afd1762606d02532f10d6d576e1a88fa33a087265ae532fbb76d34952"
+      },
+      "h232_v7b_ep3_verified_payload_r7/__pycache__/cache_pressure_recovery.cpython-313.pyc": {
+        "bytes": 15956,
+        "sha256": "6c6dc4b58b70348458a22c449516a96ad34148fe8e43e29e9cb115609c8adb7f"
+      },
+      "h232_v7b_ep3_verified_payload_r7/__pycache__/export_worker.cpython-313.pyc": {
+        "bytes": 28952,
+        "sha256": "6e848db7cae8eef53cade24e30e442bb6a3165db6904a721c6cb9b19b01e860f"
+      },
+      "h232_v7b_ep3_verified_payload_r7/__pycache__/gpu_memory_domains.cpython-313.pyc": {
+        "bytes": 5158,
+        "sha256": "b06af1c66b40981d3f32c4e79742c6043a8d53c88ca2ca594dada2964367f12e"
+      },
+      "h232_v7b_ep3_verified_payload_r7/__pycache__/membership_audit.cpython-313.pyc": {
+        "bytes": 9005,
+        "sha256": "7ecbb7209370a1ab359c9a70a7a763435bba772ff0921fa0a03f9ccdbf2c8aee"
+      },
+      "h232_v7b_ep3_verified_payload_r7/__pycache__/profile_worker.cpython-313.pyc": {
+        "bytes": 189861,
+        "sha256": "b82e15600fc40ee5fa2b0ae34c3b934c11679308cdebd88082be49ecde0a0d80"
+      },
+      "h232_v7b_ep3_verified_payload_r7/__pycache__/verified_digest_handoff.cpython-313.pyc": {
+        "bytes": 18800,
+        "sha256": "a892a9020c0c8299fd35192719b349c47cd6fc1435ad22742c58b83c9afdc22b"
+      },
+      "h232_v7b_ep3_verified_payload_r7/cache_pressure_recovery.py": {
+        "bytes": 12875,
+        "sha256": "ef413deb589fefec411a76b9e74a1557e3316449b81887a517844c4b2e73db2a"
+      },
+      "h232_v7b_ep3_verified_payload_r7/checkpoint_source_review.json": {
+        "bytes": 31354,
+        "sha256": "de67fb148436b055d4d63269d2849cf429671e986abffbc0e2ecb345e0c0cdbc"
+      },
+      "h232_v7b_ep3_verified_payload_r7/export_worker.py": {
+        "bytes": 23000,
+        "sha256": "e5568c871f6c918330c424dafc03ece7018e2059d019c6f87ac72352fdf82201"
+      },
+      "h232_v7b_ep3_verified_payload_r7/external_review.json": {
+        "bytes": 4519,
+        "sha256": "3d00f9cf9796c1511625af368fb59a3c4574a505ca9bdeaa88e4fe14a32e5949"
+      },
+      "h232_v7b_ep3_verified_payload_r7/gpu_memory_domains.py": {
+        "bytes": 4602,
+        "sha256": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042"
+      },
+      "h232_v7b_ep3_verified_payload_r7/membership_audit.py": {
+        "bytes": 7096,
+        "sha256": "3f179f00b496ff177f609d9f9f6af3a665af781fb83fd120d70b66fdd3a3dc14"
+      },
+      "h232_v7b_ep3_verified_payload_r7/model_ep3.pt": {
+        "bytes": 8659175,
+        "sha256": "aaa731da1692ee5083c80296fd665b0a60815c9dc18430457f702cf779c2b829"
+      },
+      "h232_v7b_ep3_verified_payload_r7/packet_meta.json": {
+        "bytes": 3784,
+        "sha256": "bd89d56514f5a18b2077cec738fc8a9d15f92b86dda6e77802305f7952e63378"
+      },
+      "h232_v7b_ep3_verified_payload_r7/parent_packet_meta.json": {
+        "bytes": 4204,
+        "sha256": "97e01d0c09a4e7dd67c13da6757e6f5bc72e2906c4232ec52415af8fdbc95e20"
+      },
+      "h232_v7b_ep3_verified_payload_r7/prior_input_identity_v2.json": {
+        "bytes": 9310,
+        "sha256": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e"
+      },
+      "h232_v7b_ep3_verified_payload_r7/profile_worker.py": {
+        "bytes": 173545,
+        "sha256": "6943a0e688af3fc320bc9809a1567e37ed576acc7f8cc92f57cd09391918c5c3"
+      },
+      "h232_v7b_ep3_verified_payload_r7/provenance.json": {
+        "bytes": 160042,
+        "sha256": "28372b5b9ed20b619073e1e2c7e21ac4d25c45867aa9a01b4f10bdc993fb1526"
+      },
+      "h232_v7b_ep3_verified_payload_r7/source_archive.tar": {
+        "bytes": 614400,
+        "sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4"
+      },
+      "h232_v7b_ep3_verified_payload_r7/source_archive_manifest.json": {
+        "bytes": 8979,
+        "sha256": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42"
+      },
+      "h232_v7b_ep3_verified_payload_r7/terminal_receipt.json": {
+        "bytes": 178421,
+        "sha256": "4ba1fc63e8119951b9a625f93f701a88dbac69a5b92d16c57be84d6def9c5434"
+      },
+      "h232_v7b_ep3_verified_payload_r7/verified_digest_handoff.py": {
+        "bytes": 13441,
+        "sha256": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
+      }
+    },
+    "kernel_log_path": "h232-gru384-v7b-ep3-export-20261008-r7.log",
+    "log_command": [
+      "kaggle",
+      "kernels",
+      "logs",
+      "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r7/1"
+    ],
+    "log_exit_code": 0,
+    "output_command": [
+      "kaggle",
+      "kernels",
+      "output",
+      "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r7/1",
+      "--path",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/downloads/h232_v7b_ep3_export_r7",
+      "--page-size",
+      "200"
+    ],
+    "output_download_receipt_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_only_20261008/asset_transport_r7/H232_R7_TERMINAL_OUTPUT_DOWNLOAD_RECEIPT_R1.json",
+    "output_download_receipt_sha256": "36e60006707e92b287046dd45da31675d94dc2fca2e7811f77275d72832fc3bd",
+    "output_exit_code": 0,
+    "total_file_bytes": 19848940
+  },
+  "terminal_observed_at_utc": "2026-10-08T06:49:26+00:00",
+  "terminal_status": "KernelWorkerStatus.ERROR",
+  "worker_terminal": {
+    "error": "fixed epoch-3 predictor exited with status 1",
+    "error_type": "ExportAbort",
+    "failed_unix": 1791441945.2659926,
+    "packet_id": "E529_H232_V7B_EP3_FP32_EXPORT_ONLY_20261008_R2",
+    "scoring_enabled": false,
+    "started_unix": 1791441545.4716883,
+    "status": "failed",
+    "training_enabled": false,
+    "worker_wall_seconds": 399.794306
+  }
+}
