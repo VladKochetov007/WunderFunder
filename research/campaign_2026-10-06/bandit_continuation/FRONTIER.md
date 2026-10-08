@@ -1,3 +1,11 @@
+## Diversity result and local/Kaggle delivery — 2026-10-08 22:00 UTC
+
+Latest user scope leaves Vast off and chooses an already planned useful experiment for TPU/GPU efficiency: matched weighted-MSE versus weighted-Huber teachers, followed by fixed blend contribution. Root's [allocation](diversity_stack_20261009/ALLOCATION_R2_LOCAL_KAGGLE.md) preserves all other arms. CPU parsed-cache packet is one-push admitted, operator executing; hardware multiplier remains unmeasured.
+
+H274 first new-pool screen is complete: equal P3/H3/P4/Z4 endpoints0.6825617501, ridge meta-crossfit0.6824590313, anchorP40.6818872533; strongest memberH30.6823084607. Root independently verified coefficients, full saved OOF predictions and official scores. Exposed development panel, no public prediction. Static blending currently beats this learned combiner, supporting informative teacher-diversity/compression follow-ups without a broad stacking rejection. [Verification](diversity_stack_20261009/LUNA_STACKING_ROOT_INDEPENDENT_CHECK_R1.json).
+
+Local faithful seed9/99 students and Z4/Z5 finishing are complete;18-job v3 queue retired cleanly when empty. New Z4/Z5 technical packages are owned by the grader/packager. Three active native agents remain Luna/max; one-off Astra proposals are committed. Public best remains0.6660; no supported expected-public improvement yet.
+
 ## Luna continuation and actual cloud admission — 2026-10-08 20:54 UTC
 
 All native subordinate roles now use Luna/max; Sol is stopped with context transferred. [ADR0026](../../../specs/adr/0026-luna-only-unattended-execution.md) records this change and the requested deterministic background manager. Existing healthy local v3 is fitting the faithful seed99 student; the bounded local successor watcher is being independently tested before installation.

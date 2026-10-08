@@ -1,0 +1,1 @@
+I'll design the experiment program from the challenge constraints, the metric, and primary sources, without reading other proposals. First I need the public facts: data contract, metric, serving limits, and the recorded Markowitz draw.
