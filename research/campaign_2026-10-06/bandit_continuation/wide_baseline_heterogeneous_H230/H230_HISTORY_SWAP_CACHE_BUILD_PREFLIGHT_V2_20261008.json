@@ -1,0 +1,317 @@
+{
+  "record_id": "H230_HISTORY_SWAP_CACHE_BUILD_PREFLIGHT_V2_20261008",
+  "schema": "h230-history-swap-cache-build-preflight-v2",
+  "created_utc": "2026-10-08T06:23:05Z",
+  "status": "metadata_and_stat_preflight_passed_pending_root_phase_authorization_and_fresh_controller_admission",
+  "launch_authorized": false,
+  "cache_build_launched": false,
+  "recipe_v1": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_SWAP_SEED3_SOURCE_CACHE_RECIPE_V1_20261008.json",
+    "sha256": "6d9d11f3116ebf61a2bc615e498d669ef4d6c080b588a2691752dc3f617cd8d1"
+  },
+  "recipe_v2": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_SWAP_SEED3_SOURCE_CACHE_RECIPE_V2_20261008.json",
+    "sha256": "986c7d6cc3023b27fc2b517eda8560cab4960b91ffc6460661b744194442fab0"
+  },
+  "correction_receipt": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_SWAP_SEED3_SOURCE_CACHE_RECIPE_CORRECTION_V1_20261008.json",
+    "sha256": "35e75e106539789fb094c644aa87a35fdf836c2b1cc397568140c641a6682d9c"
+  },
+  "source_manifest": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_HISTORY_SWAP_SOURCE_MANIFEST_V1_20261008.json",
+    "sha256": "01aa939ddb95f91b24859ddf324a66188a3254c11691cd39b40ce77865b3b2f2",
+    "file_count": 59
+  },
+  "relevant_source_files": [
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_history_swap/scripts/build_history_swap_cache.py",
+      "bytes": 4933,
+      "sha256": "09deb0fb108643369e451cc9f48f60c04e92251640025fe3ac207824b2233582",
+      "manifest_sha256": "09deb0fb108643369e451cc9f48f60c04e92251640025fe3ac207824b2233582",
+      "matches_manifest": true
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_history_swap/src/wnn/history_swap_cache.py",
+      "bytes": 36672,
+      "sha256": "ba7b56d9536097cd2452a1fc206944a9f0870d889b65725f9f92c38c967dc031",
+      "manifest_sha256": "ba7b56d9536097cd2452a1fc206944a9f0870d889b65725f9f92c38c967dc031",
+      "matches_manifest": true
+    }
+  ],
+  "base_cache": {
+    "root": "cache/bd26_h230_fold0_teacher_family_all_rows_v1",
+    "metadata_path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/metadata.json",
+    "actual_metadata_sha256": "b05e652f5fdec4e6b1e4e07d1d3a705655d4588ab8ee9d802ccdf4339fd66500",
+    "membership_mode": "all_supplied_train_valid",
+    "heldout_claim": false,
+    "train_count": 10606,
+    "train_ordered_row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+    "valid_count": 1873,
+    "valid_ordered_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+    "arrays": [
+      {
+        "metadata_key": "main_source_train",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_train.npy",
+        "metadata_sha256_reference": "d706c979f3fae46258ee9684dc754d02a70c35d142fed5ebaf785ae7e1ded165",
+        "payload_sha256_recomputed": false,
+        "expected_bytes": 1696960128,
+        "observed_bytes": 1696960128,
+        "shape": [
+          10606,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "stat_identity": {
+          "device": 57,
+          "inode": 56914639,
+          "mtime_ns": 1791424398474227455
+        }
+      },
+      {
+        "metadata_key": "main_normalized_train",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_normalized_train.npy",
+        "metadata_sha256_reference": "4c0b42b52d7e5c5ef47579297394b7d398f5424f75f6e377c40685465cecbb06",
+        "payload_sha256_recomputed": false,
+        "expected_bytes": 1696960128,
+        "observed_bytes": 1696960128,
+        "shape": [
+          10606,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "stat_identity": {
+          "device": 57,
+          "inode": 56914640,
+          "mtime_ns": 1791424398474227455
+        }
+      },
+      {
+        "metadata_key": "main_homogeneous_train",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_homogeneous_train.npy",
+        "metadata_sha256_reference": "d8a9ce5c45945c8a52faa7005cd300a0fc2aaeb4366e2ea7ffd3b9120a7aa653",
+        "payload_sha256_recomputed": false,
+        "expected_bytes": 1696960128,
+        "observed_bytes": 1696960128,
+        "shape": [
+          10606,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "stat_identity": {
+          "device": 57,
+          "inode": 56914641,
+          "mtime_ns": 1791424398474227455
+        }
+      },
+      {
+        "metadata_key": "families_train",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/families_train.npy",
+        "metadata_sha256_reference": "13ec664cf8443f43594faecfd79c8c24ffc45960b15e38c42bbc79a26fc2e25a",
+        "payload_sha256_recomputed": false,
+        "expected_bytes": 6787840128,
+        "observed_bytes": 6787840128,
+        "shape": [
+          10606,
+          20000,
+          8
+        ],
+        "dtype": "float32",
+        "stat_identity": {
+          "device": 57,
+          "inode": 56914642,
+          "mtime_ns": 1791424398474227455
+        }
+      },
+      {
+        "metadata_key": "main_source_valid",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_valid.npy",
+        "metadata_sha256_reference": "e464d29ca5ec0c3c07e70e1f8b08afb180b5d35b70b4fb3130e6a8f56d0e1a8c",
+        "payload_sha256_recomputed": false,
+        "expected_bytes": 299680128,
+        "observed_bytes": 299680128,
+        "shape": [
+          1873,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "stat_identity": {
+          "device": 57,
+          "inode": 56914689,
+          "mtime_ns": 1791424414028975322
+        }
+      },
+      {
+        "metadata_key": "main_normalized_valid",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_normalized_valid.npy",
+        "metadata_sha256_reference": "da71a981f56fbf61ae8b5d0fcc7ca0ac6861877d14a0759dc4bf10778bdf17b3",
+        "payload_sha256_recomputed": false,
+        "expected_bytes": 299680128,
+        "observed_bytes": 299680128,
+        "shape": [
+          1873,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "stat_identity": {
+          "device": 57,
+          "inode": 56914690,
+          "mtime_ns": 1791424414028975322
+        }
+      },
+      {
+        "metadata_key": "main_homogeneous_valid",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_homogeneous_valid.npy",
+        "metadata_sha256_reference": "17178136a96b49cd61f938af980afe2d6b70ad26b54f7e42c996cf0378c4cab4",
+        "payload_sha256_recomputed": false,
+        "expected_bytes": 299680128,
+        "observed_bytes": 299680128,
+        "shape": [
+          1873,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "stat_identity": {
+          "device": 57,
+          "inode": 56914691,
+          "mtime_ns": 1791424414028975322
+        }
+      },
+      {
+        "metadata_key": "families_valid",
+        "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/families_valid.npy",
+        "metadata_sha256_reference": "85e6614f6609a3a8cdb776c1003e6178ef5550d9eb5491bb5e4d1e4952438804",
+        "payload_sha256_recomputed": false,
+        "expected_bytes": 1198720128,
+        "observed_bytes": 1198720128,
+        "shape": [
+          1873,
+          20000,
+          8
+        ],
+        "dtype": "float32",
+        "stat_identity": {
+          "device": 57,
+          "inode": 56914692,
+          "mtime_ns": 1791424414032975257
+        }
+      }
+    ],
+    "array_payloads_rehashed": false,
+    "mandatory_validation": "Unchanged builder and student validator perform full source/family hash and finite-value checks. This preflight does not bypass them."
+  },
+  "parent": {
+    "run": "bd26_h230_all_data_parent_b16_ep3_retry3_v1",
+    "checkpoint_sha256": "478773bd3d0754d261f8f3c9d46a135d56c3596c269d2a856b760caef05b93c7",
+    "terminal_receipt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-all-data-parent-fit-b16-ep3-retry3-v1-20261008.json",
+    "terminal_receipt_sha256": "29baa03564f124712bd596f4132288492d549073a7acc4c9adea655c7384a216",
+    "provenance_path": "artifacts/runs/bd26_h230_all_data_parent_b16_ep3_retry3_v1/provenance.json",
+    "provenance_sha256": "3becd92c4775098cf16b9005cf6c45361bbe776eb5601a6ebe89faa8605e22dd",
+    "all_supplied_train_valid_rows_fit_exposed": true,
+    "heldout_claim": false,
+    "features_only": true,
+    "exports": {
+      "train": {
+        "prediction_path": "cache/pred_h230_history_parent_ep3_fp32_v1_train.npy",
+        "prediction_sha256": "6d6fdbdafcf99f0677372de3398fd0a76c9fcb6c5306f438281a0a3501d2bb9f",
+        "prediction_payload_rehashed_by_preflight": false,
+        "observed_file_bytes": 1696960128,
+        "stat_identity": {
+          "device": 57,
+          "inode": 57068693,
+          "mtime_ns": 1791439786765828915
+        },
+        "shape": [
+          10606,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "finite_values_checked": 424240000,
+        "ordered_group_count": 10606,
+        "ordered_row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+        "sidecar_path": "cache/pred_h230_history_parent_ep3_fp32_v1_train.json",
+        "sidecar_sha256": "e03d85ddd2b48aebccb24d1e7965db5cdc630e0c5bf36c094929447dc1c6d307",
+        "terminal_validation_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_PARENT_TRAIN_EXPORT_TERMINAL_VALIDATION_V2_20261008.json",
+        "terminal_validation_sha256": "c0168da90087031c915191e42765bec2d285d1566babc9ddc8ac8493c507996e",
+        "controller_attempt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-history-parent-train-fp32-export-v1-20261008.json",
+        "controller_attempt_sha256": "7ea124570105c974d1c5326cdd465b483f2346b40fda04fcba578a5ee22ae351",
+        "controller_attempt_exit_status": 0,
+        "worker_oom_delta": 0,
+        "parent_local_oom_delta": 0,
+        "parent_hierarchical_oom_delta": 0,
+        "scope_status": "passed_train_only_feature_export_validation_no_score"
+      },
+      "valid": {
+        "prediction_path": "cache/pred_h230_history_parent_ep3_fp32_v1_valid.npy",
+        "prediction_sha256": "5ab6be63d39fbea34d91485f0f141700b930bc9748d12a66fad2d5f015985cc1",
+        "prediction_payload_rehashed_by_preflight": false,
+        "observed_file_bytes": 299680128,
+        "stat_identity": {
+          "device": 57,
+          "inode": 57086622,
+          "mtime_ns": 1791440158017194979
+        },
+        "shape": [
+          1873,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "finite_values_checked": 74920000,
+        "ordered_group_count": 1873,
+        "ordered_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+        "sidecar_path": "cache/pred_h230_history_parent_ep3_fp32_v1_valid.json",
+        "sidecar_sha256": "1c825ececb63ab823ce647932922f36250a21fecd6fb287f88d23549eaa32d6c",
+        "terminal_validation_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_PARENT_VALID_EXPORT_TERMINAL_VALIDATION_V1_20261008.json",
+        "terminal_validation_sha256": "9e0f49021219702c7eb904a96523b7ffef8e3dd02cdfed1f06b7279fe1f998b0",
+        "controller_attempt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-history-parent-valid-fp32-export-v1-20261008.json",
+        "controller_attempt_sha256": "55bb8b2197d9fa74dc0e307b097915ebe4b73da5bdc00a0375b10c7eb3de809e",
+        "controller_attempt_exit_status": 0,
+        "worker_oom_delta": 0,
+        "parent_local_oom_delta": 0,
+        "parent_hierarchical_oom_delta": 0,
+        "scope_status": "passed_valid_feature_export_validation_no_score"
+      }
+    }
+  },
+  "output": {
+    "output_root": "cache/h230_all_data_history_swap_v1",
+    "partial_root": "cache/h230_all_data_history_swap_v1.partial",
+    "both_absent_at_preflight": true,
+    "expected_new_payload_bytes": 1996640000,
+    "atomic_partial_then_rename": true,
+    "family_arrays_copied_or_rebuilt": false
+  },
+  "disk": {
+    "filesystem_free_bytes_observed": 47354462208,
+    "new_payload_bytes": 1996640000,
+    "projected_free_bytes_after_payload": 45357822208,
+    "required_floor_bytes": 26843545600,
+    "floor_passes": true
+  },
+  "execution_boundary": {
+    "large_base_array_payload_read_or_rehashed": false,
+    "large_prediction_payload_read_or_rehashed": false,
+    "small_metadata_and_sidecars_read": true,
+    "parquet_read": false,
+    "fit_or_metric": false,
+    "gpu_worker": false,
+    "fresh_resource_admission_required": true
+  },
+  "checks": {
+    "v2_metadata_sha_matches_actual": true,
+    "v2_cli_literal_matches_actual": true,
+    "all_eight_base_array_sizes_match_metadata": true,
+    "both_parent_exports_terminal_pass": true,
+    "parent_sidecars_match_validations": true,
+    "relevant_source_files_match_manifest": true,
+    "destination_and_partial_absent": true,
+    "disk_floor_passes": true
+  }
+}
