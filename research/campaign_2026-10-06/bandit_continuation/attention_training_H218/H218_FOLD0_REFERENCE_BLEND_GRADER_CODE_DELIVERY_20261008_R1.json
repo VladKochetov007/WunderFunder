@@ -1,0 +1,68 @@
+{
+  "base_commit": "d507351cdeb6b8c5dbf6123cf93d399e1e0d94ee",
+  "bound_external_code": {
+    "campaign_scorer_sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39",
+    "h217_reference_pair_lineage_helper_sha256": "ec5b94408a7670e727718d70d2e49dbb5225f5b3c6a3fdbd6fc83b8efbfede3a",
+    "h218_export_contract_sha256": "47fafae83e7cda7c9568b73350f5f8d47b281c27adc56820e350e87b6571a652",
+    "h218_source_lock_member_count_rehashed": 42,
+    "h218_source_lock_sha256": "64696558572c4afacc99224cfa0c6a72e94b99c57cdfc04e49ef4f2e21849a64",
+    "official_metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "branch": "research/h218-independent-grader-20261008",
+  "code_closure_sha256": "5fde0e63653beeb49304e0ef01b7eedb6c117b561db6604aba522dcc8833f8b4",
+  "code_files": {
+    "research/campaign_2026-10-06/bandit_continuation/attention_training_H218/H218_FOLD0_REFERENCE_BLEND_GRADER_README_20261008_R1.md": "7fbc0ab2347dfce2d882547ecc9581843dfa8f866949d46983f5b759a141fd5e",
+    "research/campaign_2026-10-06/bandit_continuation/attention_training_H218/grade_fold0_reference_blends.py": "88034869363f8475d8030f932e7bc24af0850241e3511d276b03ce7a53e5a4bd",
+    "tests/test_h218_reference_blends.py": "9651117072cb9a8949e67e57f139e91fe7cd40ae9ae42ae4f10ec4070df871c3"
+  },
+  "created_utc": "2026-10-08T05:44:31Z",
+  "execution_scope": {
+    "actual_h218_predictions_read": false,
+    "actual_scores_computed": false,
+    "fit_or_export_launched": false,
+    "gpu_used": false,
+    "npz_decompressed": false,
+    "parquet_read": false,
+    "provider_actions": 0,
+    "root_grade_admission_file_present": false,
+    "torch_import_or_fit": false
+  },
+  "owner": "root independent grader",
+  "preregistration": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/attention_training_H218/H218_FOLD0_REFERENCE_BLEND_PREREG_20261008_R1.json",
+    "sha256": "6c52f156344c5f8d084440044d980ae8d6a7b0b8ef9f97f6dcd48c249148ae73"
+  },
+  "record_id": "H218_FOLD0_REFERENCE_BLEND_GRADER_CODE_DELIVERY_20261008_R1",
+  "root_review": "pending_re-review_after_terminal_receipt_and_sidecar_schema_corrections",
+  "ruff": {
+    "check": "passed",
+    "format": "passed"
+  },
+  "schema": "h218-fold0-reference-blend-grader-code-delivery-v1",
+  "status": "code_only_ready_for_independent_root_rereview",
+  "tests": {
+    "command": "PYTHONPATH=src:. scripts/limited .venv/bin/python -m pytest -q tests/test_h218_reference_blends.py",
+    "coverage": [
+      "reordered 468-group candidate vs 1873-group reference and target join by (valid,row_group)",
+      "equal train/valid integer aliases remain source-qualified",
+      "candidate direct evaluation and component overlap rejection",
+      "candidate prediction nonfinite rejection and masked warmup target semantics",
+      "raw mixture before official clipping",
+      "pooled score agrees with official global metric and paired bootstrap is fixed/deterministic",
+      "missing root admission blocks actual scoring",
+      "exact frozen preregistration fit_attempt_id is read from its top-level field",
+      "raw bandit fit/export attempt records parsed using finished/exit_status/terminal fields separately from root normalized attestation",
+      "export attempt identity is bound by root approval independently from the fit attempt",
+      "fixture keys match the actual H218 exporter sidecar metadata assignment and safety fields are enforced"
+    ],
+    "elapsed_seconds": 0.45,
+    "failed": 0,
+    "passed": 12,
+    "resource_cap": {
+      "cpu_cores": 1,
+      "memory_max_bytes": 1500000000,
+      "wall_max_seconds": 120
+    }
+  },
+  "worktree": "/tmp/wnn-h218-independent-grader-20261008"
+}
