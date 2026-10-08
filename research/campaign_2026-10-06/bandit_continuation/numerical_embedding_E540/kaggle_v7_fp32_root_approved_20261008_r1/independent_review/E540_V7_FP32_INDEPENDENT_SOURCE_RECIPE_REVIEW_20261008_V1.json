@@ -1,0 +1,113 @@
+{
+  "schema": "wnn.e540-independent-review.v1",
+  "review_id": "E540_V7_FP32_INDEPENDENT_SOURCE_RECIPE_REVIEW_20261008_V1",
+  "reviewed_at_local_date": "2026-10-08",
+  "reviewer_role": "independent bounded read-only critic",
+  "experiment_id": "E540_FP32_V7",
+  "packet": "kaggle_v7_fp32_20261008_r3",
+  "source_worktree": "/home/vlad/development/wunder/worktrees/wnn-e540-v7-fp32-20261008",
+  "source_commit": "1b327b4175199b36f09f852e6d11a143f8a62d95",
+  "recipe_sha256": "624cf7a8cc39319029bc23030534c801a466398f0e43c053c052fb26ba1e6f09",
+  "source_manifest_sha256": "28b6edd0a405605b91a74e6275f68a7687082b9de4cf90733a0ec777aa60fee9",
+  "bundle_manifest_sha256": "3316892e92bdd255019719efa57a6e8a935dca96c5e67ed78a1905a363a18de2",
+  "bundle_archive_sha256": "c1451f2f5bf63c054c0c9abfe1a2a32f7cee2c3e0211ec4216b05653da092c39",
+  "conclusion": {
+    "source_recipe_cli_fidelity": "pass",
+    "current_r3_launch_readiness": "blocked_pending_root_authorization",
+    "blocking_source_findings": 0,
+    "scientific_result": null,
+    "public_forecast": null,
+    "root_owns_authorization_and_launch": true
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "severity": "launch_blocking_state_expected",
+      "status": "confirmed",
+      "location": "E540_V7_ROOT_CONDITIONAL_AUTHORIZATION.json; scripts/e540_kaggle_v7_worker.py:490-518,742-784; scripts/build_e540_kaggle_v7_packet.py:91-147",
+      "finding": "The embedded receipt is pending_root_review, authorized=false, and provider_launch_authorized=false. The worker requires approved/true authorization before deferred mounted-input hashing. The receipt itself is a hash-bound local input, so approval requires rebuilding and re-reviewing a new packet; editing it inside r3 makes the input and bundle identities stale.",
+      "consequence": "The current r3 packet will fail closed before mounted-input hashing and cannot run the fit. This is expected ownership gating, not a source/recipe defect.",
+      "resolution": "Root reviews and owns any approval. If approved, build and review a new packet with the approved receipt; do not mutate r3 in place."
+    },
+    {
+      "id": "F-02",
+      "severity": "medium_nonblocking_evidence_limit",
+      "status": "confirmed_behavior_no_observed_failure",
+      "location": "scripts/e540_kaggle_v7_worker.py:120-136,196-208,995-1062; scripts/train_rnn.py:2623-2660",
+      "finding": "All 316 profile losses are checked finite, but the full-fit validator checks update counts, skips, GradStats counts/nonfinite norms, checkpoint tensors, and predictions without counting finite loss values across all 72,996 fit updates.",
+      "consequence": "A fit with a nonfinite scalar loss and finite gradients/artifacts would not be rejected solely for that loss. No V7 fit ran, so this is a contract-evidence limitation rather than an observed event.",
+      "resolution": "The current declared full-fit gate is exact updates plus finite GradStats and finite outputs. If root intends per-update finite loss as a requirement, add that evidence and gate before authorizing the fit."
+    },
+    {
+      "id": "F-03",
+      "severity": "low_documented_evidence_limit",
+      "status": "confirmed_metadata_limit",
+      "location": "scripts/e540_kaggle_v7_worker.py:826-835; scripts/train_rnn.py:1974-1983,2303-2309; src/wnn/training_sampling.py:64-111",
+      "finding": "Both arms use the same deterministic seed/epoch sampler and drop_last contract, but the worker does not persist sampled group indices or the identity of the omitted sequence; packet metadata explicitly says realized order equivalence is not independently verified.",
+      "consequence": "The source supports a shared deterministic order for the same selected group ordering, but the run receipt cannot independently demonstrate the actual dropped row.",
+      "resolution": "Retain this limitation in result interpretation. It is nonblocking for the declared paired sampler recipe."
+    }
+  ],
+  "recipe_checks": {
+    "fit_components": 512,
+    "selected_fit_sequences": 1849,
+    "expected_consumed_sequences_per_arm": 1848,
+    "expected_dropped_sequences_per_arm": 1,
+    "exposed_evaluation_groups": 468,
+    "profile_updates_per_arm": 316,
+    "full_fit_updates_per_arm": 72996,
+    "precision": "fp32_both_arms_grad_scaler_disabled",
+    "gradient_stats": "preclip_norms_observed_after_unscale_before_clipping_for_each_optimizer_attempt",
+    "training_loss": "wmse_clip2_absolute_clipped_target_weights_chunk_denominator_warmup_validity",
+    "distillation_propensity_auxiliary_losses": "disabled",
+    "checkpoint_selection": "fixed_epoch_0_no_evaluation_during_fit",
+    "prediction_contract": "feature_only_fp32_468_groups_shape_468x20000x2_finite_and_membership_hash_checked",
+    "capacity_interpretation": "equal_allocated_parameters_but_linear_control_ramp_coordinates_are_zero; effective capacity differs and is disclosed"
+  },
+  "checks_executed": [
+    {
+      "check": "Recomputed canonical code-manifest SHA-256 from all 59 code descriptors and actual source-worktree files",
+      "result": "pass",
+      "mismatched_descriptors": 0,
+      "sha256": "28b6edd0a405605b91a74e6275f68a7687082b9de4cf90733a0ec777aa60fee9"
+    },
+    {
+      "check": "Recipe, bundle archive, and bundle-manifest file hashes",
+      "result": "pass",
+      "recipe_sha256": "624cf7a8cc39319029bc23030534c801a466398f0e43c053c052fb26ba1e6f09",
+      "bundle_archive_sha256": "c1451f2f5bf63c054c0c9abfe1a2a32f7cee2c3e0211ec4216b05653da092c39",
+      "bundle_manifest_sha256": "3316892e92bdd255019719efa57a6e8a935dca96c5e67ed78a1905a363a18de2"
+    },
+    {
+      "check": "Production validate_recipe_cli() on both arms' profile, fit, and prediction argv",
+      "result": "pass",
+      "parsed_commands": 6,
+      "method": "AST-derived actual parser declarations; Python -B; no Torch import or mounted-data access"
+    },
+    {
+      "check": "Source inspection of GradStats collection, disabled-scaler branch, worker profile/fit gates, module state, checkpoint checks, prediction membership/finiteness checks, and root authorization ordering",
+      "result": "pass_with_findings",
+      "notes": "No source/recipe/CLI blocker found; findings F-02 and F-03 are evidence limits."
+    },
+    {
+      "check": "Inspect targeted V7 unit tests",
+      "result": "inspected_not_run",
+      "files": [
+        "tests/test_e540_kaggle_v7_packet.py",
+        "tests/test_profile_update_evidence.py"
+      ],
+      "notes": "Synthetic validator tests do not establish actual profile or fit behavior; no reported test count was used as recipe evidence."
+    }
+  ],
+  "limits": [
+    "No Parquet, NPZ contents, checkpoints, Torch import, GPU, cloud provider, or grader operation was used.",
+    "No tests, fit, prediction, score, or public forecast was produced.",
+    "V6 mounted-hash and membership results were accepted from the assigned task basis and not rerun."
+  ],
+  "authorization_state_preserved": {
+    "status": "pending_root_review",
+    "authorized": false,
+    "provider_launch_authorized": false,
+    "modified_by_reviewer": false
+  }
+}
