@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "report_type": "independent_fold0_served_endpoint_grade",
+  "created_utc": "2026-10-08T20:34:42Z",
+  "status": "comparison_valid_exploratory_no_improvement_observed",
+  "exposure": "The frozen 468-group fold-0 panel and its 141 connected components are repeatedly inspected development evidence. This result is not a public-score forecast.",
+  "metric": {
+    "id": "global_wp_clip2_v1",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "evaluation_groups": 468,
+    "components": 141,
+    "selected_rows": 808863
+  },
+  "candidate_endpoint": {
+    "fixed_merge": "0.5 * student core ep1 + 0.5 * student GCorr head ep0",
+    "members": [
+      {
+        "run": "f0_z3_combo_s4_student_v2_core_identity_v2",
+        "epoch": 1,
+        "weight": 0.5,
+        "checkpoint_sha256": "f3826cabbfca007a91ddaaf32c02a0c00cf51350c7e0c5fb167441326aeb0d9c",
+        "prediction_sha256": "d045c767343d7872a6eaa8ddf7ecf3402982a3d9a7df3cb10510dae4bd09e9d3"
+      },
+      {
+        "run": "f0_z3_combo_s4_student_hft_v3",
+        "epoch": 0,
+        "weight": 0.5,
+        "checkpoint_sha256": "12a6646d568cd620fe2cbad20b81030abce66f88e8cd377b676d9ac6b304b23c",
+        "prediction_sha256": "462326e735d298661abd631d995ced444962de28f8316436ceb8454cd7463c5e"
+      }
+    ],
+    "official": {
+      "t0": 0.6741951343012802,
+      "t1": 0.6890752230053219,
+      "wp": 0.681635178653301
+    }
+  },
+  "matched_control_endpoint": {
+    "fixed_merge": "0.5 * seed-4 parent ep3 + 0.5 * matched parent GCorr head ep0",
+    "members": [
+      {
+        "run": "c20261003_combo_s4_f0",
+        "epoch": 3,
+        "weight": 0.5,
+        "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+        "prediction_sha256": "f1a3b07072a62dce620dc0c90e9568093367d0aed1afa4e9ec550866f94df12b"
+      },
+      {
+        "run": "f0_z3_combo_s4_parent_hft_v2",
+        "epoch": 0,
+        "weight": 0.5,
+        "checkpoint_sha256": "a960f3695a71643239773a5d6e5941c60f8e9e1704ea1581ea242bd64d7489da",
+        "prediction_sha256": "ffd97736e444fdb457e8af8e433860e59d5b0c2e5430ace86d6e464445271d84"
+      }
+    ],
+    "official": {
+      "t0": 0.6747186617421703,
+      "t1": 0.6890558447844404,
+      "wp": 0.6818872532633053
+    }
+  },
+  "paired_component_bootstrap": {
+    "candidate_minus_control_wp": -0.0002520746100046489,
+    "bootstrap_sd": 0.0010969658387343633,
+    "ci95": [
+      -0.0027035656444596794,
+      0.001516318649977795
+    ],
+    "p_le_0": 0.554,
+    "n_boot": 2000,
+    "seed": 271828,
+    "n_sequences": 468,
+    "n_components": 141
+  },
+  "recipe_and_provenance_checks": {
+    "candidate_and_control_hft_args_equal_after_removing_name_and_initializer": true,
+    "hft_seed": 3,
+    "candidate_hft_initializer": "f0_z3_combo_s4_student_v2_core_identity_v2@ep1",
+    "candidate_hft_initializer_checkpoint_sha256": "f3826cabbfca007a91ddaaf32c02a0c00cf51350c7e0c5fb167441326aeb0d9c",
+    "control_hft_initializer": "c20261003_combo_s4_f0@ep3",
+    "control_hft_initializer_checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+    "hft_fit_membership": {
+      "train_source": "valid",
+      "full_valid": true,
+      "include_heldout_valid": false,
+      "valid_fold": 0,
+      "fit_valid_groups_per_arm": 1405,
+      "evaluation_group_overlap": 0
+    },
+    "fold0_split_membership": {
+      "fit_train": 10535,
+      "fit_valid": 1405,
+      "evaluated_valid": 468,
+      "excluded_train": 71,
+      "evaluation_components": 141
+    },
+    "student_core_derivation": {
+      "source_run": "f0_z3_combo_s4_student_v2",
+      "source_epoch": 1,
+      "source_checkpoint_sha256": "1827be79717176b111190d384130cb0ef4ae91d6057bec35d356cf098f587986",
+      "source_provenance_sha256": "f0611ec4eb40bb4085878a032ba3ae9560ad87d4cae2491f5ae2f17325c7c1b7",
+      "derived_checkpoint_sha256": "f3826cabbfca007a91ddaaf32c02a0c00cf51350c7e0c5fb167441326aeb0d9c",
+      "retained_state_entries_checked": 16,
+      "retained_tensors_exact": true,
+      "source_family_head_rows": 31,
+      "derived_core_head_rows": 23,
+      "family_rows_dropped": 8,
+      "derived_external_checkpoint_hash_matches": true,
+      "embedded_self_hash_absent": true
+    },
+    "prediction_validation": {
+      "all_members_bound_to_checkpoint_sha_and_split_sha": true,
+      "all_members_row_order_matches_valid_targets": true,
+      "all_members_full_arrays_finite_float32": true,
+      "all_members_full_array_shape": [1873, 20000, 2],
+      "score_script_fit_membership_guard_passed": true
+    }
+  },
+  "limitations_and_notes": [
+    "The source student was trained with distill_family_weight=0.1 and a family-head loss; the derived 23-row core alias clears those training-only flags in its new args while binding the actual source checkpoint/provenance hashes. The candidate is therefore a core extracted from the family-trained student, not a student trained without family supervision.",
+    "The October 3 parent prediction sidecar predates explicit inference_precision metadata. Its checkpoint precision is fp16, and the source-era predict() implementation applied CUDA fp16 autocast; the newer candidate outputs also use fp16 autocast. The comparison inference policy is thus inferred from the bound checkpoint and historical predictor source rather than recorded in that legacy sidecar.",
+    "The fold-0 result is nearly flat and slightly negative. It does not support promoting this exact candidate as an improvement, and it does not estimate public performance or rule out a materially different descendant."
+  ],
+  "grader_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python scripts/score_fold0_panel.py 'f0_z3_combo_s4_student_v2_core_identity_v2@ep1*0.5,f0_z3_combo_s4_student_hft_v3@ep0*0.5' --reference 'c20261003_combo_s4_f0@ep3*0.5,f0_z3_combo_s4_parent_hft_v2@ep0*0.5' --out reports/Z3_EXACT_FOLD0_GRADE_R1.json",
+  "independent_core_parity_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python <inline exact retained-tensor comparison>",
+  "selection_interpretation": "Valid direct fixed-endpoint comparison on the exposed fold-0 panel; no quality promotion and no universal mechanism rejection."
+}
