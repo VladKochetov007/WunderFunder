@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-10-08T03:52:00Z",
+  "attempt_id": "e529-vast-h217-pair-v4-20261008-a3",
+  "result_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/downloads/e529-vast-h217-pair-v4-20261008-a3/result.json",
+  "result_sha256": "1c583b578107854f40d2e5b454cd9aeb731ebb2f300bb9c52bb46eec31a6b902",
+  "status": "partial_delivery_ungraded",
+  "provider_instance_id": "54755890",
+  "ownership_status": "destroyed_verified",
+  "scientific_score": null,
+  "grade_owner": "/root/h232_v7_proactive_recovery",
+  "tcn": {
+    "checkpoint_sha256": "5fbb9815b17973dd790cd10ee11af63c1a241ca716df32d44a5b56f099af7dbc",
+    "fit_status": "passed",
+    "export_status": "passed",
+    "prediction": {
+      "checkpoint_sha256": "5fbb9815b17973dd790cd10ee11af63c1a241ca716df32d44a5b56f099af7dbc",
+      "dtype": "float32",
+      "epoch": 3,
+      "finite": true,
+      "inference_precision": "fp32",
+      "path": "cache/pred_h217_v3_tcn_s7_f0_ep3_valid.npy",
+      "prediction_sha256": "d178d84a0bbd74158e5788713973fd7b5c16d5d6f71e6bcc976bce44e883f3aa",
+      "row_group_count": 1873,
+      "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "sidecar": "cache/pred_h217_v3_tcn_s7_f0_ep3_valid.json"
+    },
+    "profile_gate": {
+      "outer_batch_step_wall_ms": 133.09,
+      "projected_fit_and_export_seconds": 1792.2,
+      "status": "passed",
+      "timing_unit": "one outer DataLoader batch, including its internal chunk loop",
+      "update_evidence": {
+        "amp_skipped_updates": 0,
+        "counts_consistent": true,
+        "gradient_check_basis": "GradScaler found-inf flags after unscale, before optimizer step",
+        "gradient_finite": true,
+        "loss_checks": 230,
+        "loss_finite": true,
+        "optimizer_attempts": 230,
+        "optimizer_completed_updates": 230,
+        "scaler_final_scale": 4096.0,
+        "scaler_initial_scale": 4096.0,
+        "valid_for_throughput": true
+      }
+    },
+    "fit_phase": {
+      "elapsed_seconds": 823.9716792257968,
+      "peak_rss_bytes": 9778192384,
+      "peak_vram_bytes": 2084569088,
+      "exit_code": 0
+    },
+    "export_phase": {
+      "elapsed_seconds": 22.268858873983845,
+      "peak_rss_bytes": 3108737024,
+      "peak_vram_bytes": 1514143744,
+      "exit_code": 0
+    }
+  },
+  "gru_cost_deferral": "TimeoutError: projected four-epoch fit/export exceeds fit budget: 7303.2s",
+  "interpretation": "TCN checkpoint and FP32 valid predictions delivered, ungraded. GRU profile process succeeded but projected work exceeded 7200-second fit budget; no GRU fit or scientific rejection."
+}

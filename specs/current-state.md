@@ -1,3 +1,13 @@
+## Continuous research and delivered TCN — 2026-10-08 06:52 Kyiv
+
+Research continues until explicit user stop. The active `wnn-cpu-return-five-20261008.timer` changes the aggregate local CPU quota to five cores at 10:00 Kyiv; it does not close research admission or stop GPU/cloud jobs. ADR0017 and AGENTS.md already record this authority.
+
+The normalized-target all-data student is training epoch1 with zero observed OOM/kill; Kaggle H232 is training epoch2. TPU V5 remains queued, which is execution evidence rather than a scientific result. Public best remains0.6660. Ready seed3, seed4 and equal-pair ZIPs have serving checks but no new public score.
+
+Campaign-owned Vast attempt `e529-vast-h217-pair-v4-20261008-a3` has completed collection and verified teardown. TCN128x12 fixed-epoch3 fit took823.97seconds and delivered a finite FP32 valid prediction array; independent frozen-fold grading is assigned. Its GRU sibling was deferred because projected fit/export7303.2seconds exceeded the7200-second budget, not because of AMP or a negative score. See `H217_A3_ROOT_TERMINAL_DELIVERY_20261008_R1.json`. The paid lane currently has no running instance; a successor requires a new identified runnable packet and cost admission.
+
+E540 V7 FP32 source/recipe/CLI passed independent Luna review. Root integrated the reviewed source and ran46 combined focused tests, all passing. The cloud owner is authorized to build a new approved hash-bound packet from the reviewed isolated source, preserve pending r3 unchanged, and own a single launch through terminal delivery. H218 trainer integration is included in the root regression checks; neither code review nor tests establish a scientific gain.
+
 ## All-data pair delivered; numerical representation successor — 2026-10-08 06:25 Kyiv
 
 Seed4 retry1 completed1947.66s,15580 optimizer attempts/15573updates/7 AMP skips, zeroOOM/kill. Fixedep1 checkpoint SHA `b8167fb32bd1d1759b6c8a3d0aa3642a9522a5b7897eee2facf9bf8bc6857e64`. New public-test ZIPs are `submissions/c20261008_h230_all_data_s4_i16.zip` and `submissions/c20261008_h230_all_data_pair_i16.zip`; pair weights are fixed0.5/0.5. Actor Python3.11 callback/reset/ABI/tensor checks and root delivered-byte/CRC/spec checks passed. These all-data models share an own parent; no heldout score, public forecast or upload is claimed. Publicbest remains0.6660. Approved normalized-target V2 isolates one main-target variant change and awaits fresh admission after bounded inactive cache handoff.
