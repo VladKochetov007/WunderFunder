@@ -1,3 +1,9 @@
+## Actual retry fitting observed — 2026-10-08 03:32 Kyiv
+
+H230 parent retry2 now has actual epoch0batch0–60/779 fitting logs. GPU93%/about2.08GiB, worker anon2.66GB/file5.18GB inside8GB child reserve; aggregate current12.54GB, no new OOM. The prior all-data attempt remains failed due the separate metadata-helper OOM; this corrected attempt starts from the same declared initializer and saves full training state. Scientific source/horizon/membership remain fixed. Root owns final all-data endpoint/package assessment with no heldout-score claim. No new public best.
+
+Research has no10:00 admission cutoff. Local CPU500%timer10:00Kyiv remains active; old600%timerdisabled. KaggleV6 repair and E540 numeric embedding implementation are active owned tasks; TPUV5 queued and owned VastA3Dsupervisor stillstaging. Current phase, completed scores and preserved negatives must remain separate.
+
 ## Continuous research and recovered local fit — 2026-10-08 03:30 Kyiv
 
 Research continues until explicit user stop. At10:00Kyiv/07:00UTC the aggregate local CPU quota drops to five cores; RAM18GBhigh/20GBmax, swap0, observedVRAM5GB and oneGPUworker stay unchanged. The new500%timer is active and the old600%timer disabled; observer/time-boundary/stale-quota checks16passed. [ADR0017](adr/0017-continuous-research-five-core-morning-cap.md).

@@ -6,9 +6,9 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 972 · raw hypothesis rows 288 · raw experiment rows 603 · legacy arms 18 · catalog files 62468.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 975 · raw hypothesis rows 288 · raw experiment rows 606 · legacy arms 18 · catalog files 62480.
 
-Config snapshot: [research/bandit_tree/generated/snapshots/config-3652e14a4630ef046f53047f899a140bee57876b233d23addbccd93f44c7a842.json](<snapshots/config-3652e14a4630ef046f53047f899a140bee57876b233d23addbccd93f44c7a842.json>).
+Config snapshot: [research/bandit_tree/generated/snapshots/config-ea24056dc2f687e11c21c882119c89665e4f65cc88cf9ebfdab23a900bbcaef2.json](<snapshots/config-ea24056dc2f687e11c21c882119c89665e4f65cc88cf9ebfdab23a900bbcaef2.json>).
 
 Missing or ambiguous artifact and relationship links are called out below and in `tree.json` warnings. The recursive file inventory is in `catalog.json`; generated output is excluded.
 
@@ -1545,6 +1545,9 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E535-FIXED468-STREAM-20261008 | E535-FIXED468-STREAM-20261008 | experiment · completed_exposed_descriptive_eda | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L601>) | — |
 | experiment:E-E535-H230-OUTPUT-HOLD-20261008 | Single predeclared causal output-cache transform; no fit | experiment · completed_exposed_descriptive_ablation_negative | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L602>) | — |
 | experiment:E-H232-V5-RESOURCE-ABORT-20261008 | E-H232-V5-RESOURCE-ABORT-20261008 | experiment · resource_censored_no_evaluated_result | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L603>) | — |
+| experiment:E-H230-ALLDATA-PARENT-V1-SUPPORT-OOM-20261008 | E-H230-ALLDATA-PARENT-V1-SUPPORT-OOM-20261008 | experiment · resource_censored_no_scientific_endpoint | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L604>) | — |
+| experiment:E-H230-ALLDATA-PARENT-RETRY2-LAUNCH-20261008 | E-H230-ALLDATA-PARENT-RETRY2-LAUNCH-20261008 | experiment · admitted_active_setup_membership_checked | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L605>) | — |
+| experiment:E-H230-ALLDATA-PARENT-RETRY2-FIRST-FIT-20261008 | E-H230-ALLDATA-PARENT-RETRY2-FIRST-FIT-20261008 | experiment · actual_fitting_observed | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L606>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
