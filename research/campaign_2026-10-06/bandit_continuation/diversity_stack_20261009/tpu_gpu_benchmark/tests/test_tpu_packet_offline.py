@@ -136,3 +136,17 @@ def test_shared_contract_accepts_role_triples_and_rejects_mutation(tmp_path: Pat
     resolved["initial_state"].write_bytes(b"mutated")
     with pytest.raises(ValueError, match="changed"):
         verify_shared_contract(path, admission)
+
+
+def test_actual_profile_receipt_requires_exact_batch_cache_and_normalization() -> None:
+    receipt = json.loads((HERE / "fixtures/actual_gpu_writer_profile_receipt_r1.json").read_text())
+    ids = receipt["sequence_ids"]
+    normalization_sha = receipt["normalization_sha256"]
+    runtime.check_profile_binding(receipt, ids, normalization_sha)
+    for key, value in (
+        ("cache_key", "wrong-cache"),
+        ("sequence_ids", list(reversed(ids))),
+        ("normalization_sha256", "wrong-normalization"),
+    ):
+        with pytest.raises(ValueError, match="first-batch order differs"):
+            runtime.check_profile_binding({**receipt, key: value}, ids, normalization_sha)

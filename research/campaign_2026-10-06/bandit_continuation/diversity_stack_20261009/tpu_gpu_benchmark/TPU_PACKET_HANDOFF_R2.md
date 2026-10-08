@@ -30,9 +30,10 @@ reviewing actual device evidence. Report implemented Torch/CuDNN versus JAX
 throughput at the matched recipe, one T4 versus the eight-chip TPU pod and the
 measured two-T4 aggregate separately. No hardware multiplier has been measured yet.
 
-Offline evidence: `TPU_PACKET_OFFLINE_TESTS_R2.xml` covers actual CPU producer
+Offline evidence: `TPU_PACKET_OFFLINE_TESTS_R3.xml` (four passes) covers actual CPU producer
 metadata/NPY byte accounting, the exact extracted bootstrap and both entrypoint
-imports, pending admission refusal, and artifact mutation rejection.
+imports, pending admission refusal, artifact mutation rejection and exact first-batch
+fixture cache/order/normalization identity (including three semantic mutations).
 `ACTUAL_GPU_WRITER_CONSUMER_CHECK_R1.json` records the immutable GPU R1 writer's
 real contract collector passing the TPU consumer with synthetic binary fixtures;
 this is interface evidence, not actual-data or device parity. Carry to GPU R2 only
