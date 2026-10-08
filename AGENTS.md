@@ -24,6 +24,7 @@ The latest user instruction overrides older instructions, specs and campaign all
 | Independent weights and target treatments | [ADR0004](specs/adr/0004-independent-training-and-target-variants.md) |
 | Producer/consumer compatibility and delivery recovery | [ADR0021](specs/adr/0021-validate-consumers-against-producer-artifacts.md); actual producer fixtures, source-qualified group IDs and real binary-format accounting |
 | Independent implementation of shared teammate methods | [ADR0012](specs/adr/0012-independent-teammate-method-implementation.md); inspect ideas and details, write our own code and builds |
+| Faithful method reconstruction before variants | [ADR0023](specs/adr/0023-faithful-method-reconstruction-before-variants.md); match teacher stages, seed-specific parents and student blends; optimizer, baseline, normalization and schedule changes are explicit arms |
 | End-to-end result ownership | [ADR0005](specs/adr/0005-result-ownership-and-independent-arms.md), [agent contract](specs/agent-contract.md) |
 | Continuous execution and repair | [ADR0010](specs/adr/0010-continuous-experiment-delivery.md); keep an active owner for runnable next steps and overlap the next recipe with cloud execution |
 | OOM prevention and autonomous repair | [ADR0006](specs/adr/0006-resource-safe-autonomous-execution.md), [execution](specs/experiment-execution.md) |
@@ -80,6 +81,8 @@ Mutable monitoring logs can make a generated catalog stale. Rebuild after meanin
 ## Agent roles and invocation
 
 Native subagents currently use **gpt-6-luna, reasoning effort max**. Do not use Sol or Astra unless the user changes this preference. Use isolated branches/worktrees for writers and minimal role-specific context. Keep at most three subordinate roles active; avoid recursive discussion swarms.
+
+The 2026-10-08 user instruction authorizes one Astra ideator for LR scheduling, plateau/noise alternatives and combinations (ADR0023). This scoped exception does not change the default Luna/max implementation roles.
 
 | Role | What it owes |
 |---|---|

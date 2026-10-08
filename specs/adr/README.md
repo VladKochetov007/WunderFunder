@@ -35,3 +35,4 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0021: actual producer/consumer compatibility](0021-validate-consumers-against-producer-artifacts.md): source-qualified identities, real serialized fixtures and header/payload accounting; preserve completed clean fits during delivery repairs.
 
 - [ADR0022: prepared successors and paid warm cohorts](0022-prepared-successors-and-paid-warm-cohorts.md): keep accelerator-specific executable queues ready before completion, overlap preparation/review, amortize data loading and terminate our paid workers when useful admitted work is exhausted.
+- [ADR0023: faithful method reconstruction before variants](0023-faithful-method-reconstruction-before-variants.md): reproduce teacher training, seed-specific parents and student blends with independent code; make optimizer, baseline, normalization and schedule deviations explicit comparisons.
