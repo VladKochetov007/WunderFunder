@@ -6355,7 +6355,7 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 621,
+      "experiments": 622,
       "hypotheses": 301,
       "journal": 89
     }
@@ -11976,6 +11976,7 @@
             "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/downloads/h232_profile_v2/h232_source_v2/src/wnn/online_dynamics.py",
             "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/downloads/h232_v7b_ep3_export_r6/h232_v7b_ep3_export_source_r2/src/wnn/online_dynamics.py",
             "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/downloads/h232_v7b_ep3_export_r7/h232_v7b_ep3_export_source_r2/src/wnn/online_dynamics.py",
+            "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/downloads/h232_v7b_ep3_export_r8/h232_v7b_ep3_export_source_r2/src/wnn/online_dynamics.py",
             "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/downloads/h232_v7b_shortslug/terminal_output/h232_source_v6/src/wnn/online_dynamics.py",
             "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_cloud_profile_v2/source/src/wnn/online_dynamics.py",
             "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v4/source/src/wnn/online_dynamics.py",
@@ -57982,6 +57983,48 @@
       "type": "experiment"
     },
     {
+      "classification": {
+        "matches": [
+          "H-232"
+        ],
+        "rule": "single_linked_hypothesis"
+      },
+      "id": "experiment:E-H232-FIXED-EP3-REFERENCE-BLEND-20261008-R2",
+      "latest_recorded_status": "evaluated_exposed_discovery",
+      "parent_id": "hypothesis:H-232",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-H232-FIXED-EP3-REFERENCE-BLEND-20261008-R2\",\"timestamp_utc\":\"2026-10-08T07:55:02.717896+00:00\",\"hypotheses\":[\"H-232\"],\"kind\":\"Completed own scratch GRU384 exposed-fold fixed-weight comparison\",\"status\":\"evaluated_exposed_discovery\",\"result\":\"research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H232/H232_FIXED_REFERENCE_BLEND_RESULT_20261008_R2.json\",\"result_sha256\":\"ab68c21ab62d59a2ea0374e8c2cd9abc09d7f0f072af15aecb6b79a3087c9556\",\"provider\":\"kaggle_gpu\",\"scientific_fit\":true,\"retraining_for_export\":false,\"public_forecast\":null,\"candidate_wp\":0.6685955477276566,\"reference_wp\":0.6809412068071552,\"all_nonzero_declared_blends_lower\":true,\"allocation\":\"Do not repeat exact scratch recipe; retain materially different recurrent-teacher and distillation descendants.\"}\n",
+          "record": {
+            "all_nonzero_declared_blends_lower": true,
+            "allocation": "Do not repeat exact scratch recipe; retain materially different recurrent-teacher and distillation descendants.",
+            "candidate_wp": 0.6685955477276566,
+            "hypotheses": [
+              "H-232"
+            ],
+            "id": "E-H232-FIXED-EP3-REFERENCE-BLEND-20261008-R2",
+            "kind": "Completed own scratch GRU384 exposed-fold fixed-weight comparison",
+            "provider": "kaggle_gpu",
+            "public_forecast": null,
+            "reference_wp": 0.6809412068071552,
+            "result": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H232/H232_FIXED_REFERENCE_BLEND_RESULT_20261008_R2.json",
+            "result_sha256": "ab68c21ab62d59a2ea0374e8c2cd9abc09d7f0f072af15aecb6b79a3087c9556",
+            "retraining_for_export": false,
+            "scientific_fit": true,
+            "status": "evaluated_exposed_discovery",
+            "timestamp_utc": "2026-10-08T07:55:02.717896+00:00"
+          },
+          "source": {
+            "line": 622,
+            "path": "research/experiments.jsonl",
+            "sha256": "99f1c9de8927998f2085ae1370f2c1ce205d86074064036bb8037e7f7a4c9c60"
+          }
+        }
+      ],
+      "title": "Completed own scratch GRU384 exposed-fold fixed-weight comparison",
+      "type": "experiment"
+    },
+    {
       "allocation": {
         "eligible": false,
         "launch_authorized": false,
@@ -62842,6 +62885,17 @@
       },
       "source_id": "experiment:E-529-H233-V2-REVIEW",
       "target_id": "hypothesis:H-233"
+    },
+    {
+      "relation": "ledger_hypothesis_reference",
+      "resolved": true,
+      "source": {
+        "line": 622,
+        "path": "research/experiments.jsonl",
+        "sha256": "99f1c9de8927998f2085ae1370f2c1ce205d86074064036bb8037e7f7a4c9c60"
+      },
+      "source_id": "experiment:E-H232-FIXED-EP3-REFERENCE-BLEND-20261008-R2",
+      "target_id": "hypothesis:H-232"
     },
     {
       "relation": "curated_hypothesis_membership",
