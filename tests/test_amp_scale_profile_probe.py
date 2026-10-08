@@ -98,11 +98,80 @@ def test_source_guard_rejects_a_mutated_trainer(tmp_path: Path) -> None:
 def test_recipe_binds_wrapper_source_and_exact_trainer_arguments() -> None:
     recipe_path = (
         MODULE_PATH.parents[1]
-        / "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/E529_S4_SERVED_HEAD_CLEANFOLD_CONTROL_AMP_DIAGNOSTIC_R2/diagnostic_recipe.json"
+        / "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/E529_S4_SERVED_HEAD_CLEANFOLD_CONTROL_AMP_DIAGNOSTIC_R3/diagnostic_recipe.json"
     )
     recipe = json.loads(recipe_path.read_text())
 
     assert recipe["diagnostic_source"]["wrapper_sha256"] == MODULE.sha256_file(MODULE_PATH)
     assert recipe["trainer_source_pins"] == MODULE.EXPECTED_SOURCE_HASHES
+    assert recipe["torch_runtime_pins"]["source_sha256"] == MODULE.EXPECTED_TORCH_SOURCE_HASHES
     assert recipe["execution"]["underlying_trainer_argv"][1:] == (MODULE.EXPECTED_TRAINER_ARGS)
     assert recipe["execution"]["entrypoint_argv"][2:] == MODULE.EXPECTED_TRAINER_ARGS
+
+
+def test_torch_source_guard_binds_adamw_class_and_unwrapped_step(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    scaler_path = tmp_path / "grad_scaler.py"
+    adamw_path = tmp_path / "adamw.py"
+    adam_path = tmp_path / "adam.py"
+    optimizer_wrapper_path = tmp_path / "optimizer.py"
+    scaler_path.write_bytes(b"scaler module")
+    adamw_path.write_bytes(b"AdamW class configuration")
+    adam_path.write_bytes(b"inherited Adam.step implementation")
+    optimizer_wrapper_path.write_bytes(b"decorator wrapper")
+
+    class FakeGradScaler:
+        pass
+
+    def adam_step_implementation() -> None:
+        return None
+
+    def decorated_adam_step() -> None:
+        return None
+
+    decorated_adam_step.__wrapped__ = adam_step_implementation
+
+    class FakeAdamW:
+        step = decorated_adam_step
+
+    class FakeAmp:
+        GradScaler = FakeGradScaler
+
+    class FakeOptim:
+        AdamW = FakeAdamW
+
+    class FakeTorch:
+        __version__ = MODULE.EXPECTED_TORCH_VERSION
+        amp = FakeAmp()
+        optim = FakeOptim()
+
+    source_paths = {
+        FakeGradScaler: scaler_path,
+        FakeAdamW: adamw_path,
+        decorated_adam_step: optimizer_wrapper_path,
+        adam_step_implementation: adam_path,
+    }
+
+    class FakeInspect:
+        @staticmethod
+        def getsourcefile(source_object: object) -> str:
+            return str(source_paths[source_object])
+
+        @staticmethod
+        def unwrap(source_object: object) -> object:
+            return getattr(source_object, "__wrapped__", source_object)
+
+    expected = {
+        "torch.amp.GradScaler.module": MODULE.sha256_file(scaler_path),
+        "torch.optim.AdamW.class_module": MODULE.sha256_file(adamw_path),
+        "torch.optim.AdamW.step_implementation": MODULE.sha256_file(adam_path),
+    }
+    monkeypatch.setattr(MODULE, "inspect", FakeInspect)
+    monkeypatch.setattr(MODULE, "EXPECTED_TORCH_SOURCE_HASHES", expected)
+
+    assert MODULE.verify_torch_source(FakeTorch()) == expected
+
+    adam_path.write_bytes(b"different update implementation")
+    with pytest.raises(RuntimeError, match="torch.optim.AdamW.step_implementation"):
+        MODULE.verify_torch_source(FakeTorch())

@@ -1,0 +1,78 @@
+{
+  "base_r2_source_commit": "bbe434fd15ca55a3292fe87ffc4303b50d1dbcae",
+  "base_trainer_source_commit": "fa615eb3d13a8afb9fd7cba275ef64956bdb793e",
+  "branch": "research/e529-s4-ampdiag-profile-r3a-20261008",
+  "fit_authorized": false,
+  "profile_authorized": false,
+  "r2_terminal_failure": {
+    "attempt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/e529-s4-served-head-f0-profile-r2-ampdiag-20261008.json",
+    "attempt_sha256": "128dcd82d4c2eef8907f34cc157f1f66c2e9bd99f5d53c235a3d187deba61b4a",
+    "classification": "Verifier identity mismatch only; no training evidence.",
+    "elapsed_seconds": 5.061460566997994,
+    "exit_status": 1,
+    "failure": "RuntimeError: installed source pin mismatch for torch.optim.AdamW",
+    "finished_utc": "2026-10-08T15:40:05.325286+00:00",
+    "log_path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/e529-s4-served-head-f0-profile-r2-ampdiag-20261008.log",
+    "log_sha256": "4aad0641f2da05681ad340d4a8df6f99c95a8e5a4e46a8c308afa217b81bed39",
+    "parent_hierarchical_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_local_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "peak_observed_vram_bytes": 79691776,
+    "peak_parent_ram_bytes": 9971765248,
+    "peak_worker_ram_bytes": 391684096,
+    "profile_updates": 0,
+    "started_utc": "2026-10-08T15:40:00.238008+00:00",
+    "trainer_started": false,
+    "worker_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    }
+  },
+  "recipe_id": "E529-S4-SERVED-HEAD-CLEANFOLD-AMP-DIAGNOSTIC-20261008-R3",
+  "schema": "e529-h272-s4-amp-diagnostic-source-handoff-v2",
+  "source_correction": {
+    "configured_adam_step_module_sha256": "6f4a96e7bccd5e233a66f846c39f7a9da0157cf657c2275d2a269a78a6b90921",
+    "r2_adamw_class_module_sha256": "39c5eaa04f83632285b114fd093eeb0006866e4adf59ad50cc28de12e63a8459",
+    "r2_query": "inspect.getsourcefile(torch.optim.AdamW) selected torch/optim/adamw.py, while the configured digest was the whole torch/optim/adam.py file.",
+    "r3_verifier": "Separately hashes the AdamW class module and inspect.unwrap(torch.optim.AdamW.step), which resolves to torch/optim/adam.py; retains the GradScaler module hash.",
+    "science_unchanged": "Exact trainer source, FP16 precision, parent/data/split, loss, optimizer, profile shape and step arguments; only diagnostic source selection and unique output name changed."
+  },
+  "source_files_sha256": {
+    "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/E529_S4_SERVED_HEAD_CLEANFOLD_CONTROL_AMP_DIAGNOSTIC_R3/AMP_SCALE_SEMANTICS.md": "3ad609b7c85268b2854a34122333f0f35a69ebfb3dafa113e784de484864fb1c",
+    "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/E529_S4_SERVED_HEAD_CLEANFOLD_CONTROL_AMP_DIAGNOSTIC_R3/README.md": "babe6adc8974ad07540e7591b79ca82c4e50de1d92a6cf72c58b4f49485292ae",
+    "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/E529_S4_SERVED_HEAD_CLEANFOLD_CONTROL_AMP_DIAGNOSTIC_R3/RUNTIME_VERIFIER_SMOKE.json": "19754c6c044eab6de9fd38bc03f75f39b370a15ad0bd87f0f4907aac88601274",
+    "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/E529_S4_SERVED_HEAD_CLEANFOLD_CONTROL_AMP_DIAGNOSTIC_R3/diagnostic_recipe.json": "8a8f21cdc48d934ef407c2eb49476fefb88e62e4651d0b5e9d5f8bf93229dcde",
+    "scripts/profile_amp_scale_diagnostic.py": "780504c552a213110dbb52c43b239ac1d392539b459bf441b8ee2bcb5efb652e",
+    "tests/test_amp_scale_profile_probe.py": "04cc94e10901a541ad86d5c55cd3f2174dea717facf993261588cc86a9b046d5"
+  },
+  "status": "source_prepared_pending_root_review",
+  "validation": {
+    "actual_runtime_verifier_smoke": "RUNTIME_VERIFIER_SMOKE.json; exit 0 under 1 CPU / 4 GB / 120 s with CUDA_VISIBLE_DEVICES empty and torch.cuda.is_initialized() false.",
+    "focused_test_command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 scripts/limited <main>/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_amp_scale_profile_probe.py",
+    "focused_tests": "7 passed in 0.02s; no Torch import or GPU work.",
+    "profile_admission": "Not yet authorized. Request new root review/admission; no profile or fit launched from R3.",
+    "ruff_check": "All checks passed.",
+    "ruff_format": "2 files unchanged."
+  },
+  "worktree": "/home/vlad/development/wunder/worktrees/e529-s4-ampdiag-profile-r3a-20261008"
+}

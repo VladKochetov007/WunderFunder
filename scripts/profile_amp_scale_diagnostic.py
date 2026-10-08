@@ -18,12 +18,13 @@ EXPECTED_SOURCE_HASHES = {
     "src/wnn/optim.py": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
 }
 EXPECTED_TORCH_SOURCE_HASHES = {
-    "torch.amp.GradScaler": "97c411da028daaf6a6ed15d06b9b20c017404846db68203be1a586e276e44039",
-    "torch.optim.AdamW": "6f4a96e7bccd5e233a66f846c39f7a9da0157cf657c2275d2a269a78a6b90921",
+    "torch.amp.GradScaler.module": "97c411da028daaf6a6ed15d06b9b20c017404846db68203be1a586e276e44039",
+    "torch.optim.AdamW.class_module": "39c5eaa04f83632285b114fd093eeb0006866e4adf59ad50cc28de12e63a8459",
+    "torch.optim.AdamW.step_implementation": "6f4a96e7bccd5e233a66f846c39f7a9da0157cf657c2275d2a269a78a6b90921",
 }
 EXPECTED_TRAINER_ARGS = [
     "--name",
-    "e529_s4_served_head_f0_profile_r2_scalerdiag",
+    "e529_s4_served_head_f0_profile_r3_scalerdiag",
     "--init",
     "c20261003_combo_s4_f0@ep3",
     "--train-source",
@@ -82,9 +83,15 @@ class TorchAmpProtocol(Protocol):
 
 
 class TorchOptimProtocol(Protocol):
-    """Optimizer namespace needed to bind the installed AdamW source."""
+    """Optimizer namespace needed to bind the installed AdamW sources."""
 
-    AdamW: object
+    AdamW: type[AdamWProtocol]
+
+
+class AdamWProtocol(Protocol):
+    """AdamW class surface needed to inspect its inherited step method."""
+
+    step: Callable[..., object]
 
 
 class TorchModuleProtocol(Protocol):
@@ -173,19 +180,20 @@ def verify_source(root: Path) -> dict[str, str]:
 
 
 def verify_torch_source(torch: TorchModuleProtocol) -> dict[str, str]:
-    """Bind the installed scaler and fused AdamW Python source implementations."""
+    """Bind scaler, AdamW setup, and the inherited Adam update implementation."""
     version = str(torch.__version__)
     if version != EXPECTED_TORCH_VERSION:
         raise RuntimeError(f"unexpected torch version: {version}")
-    classes = {
-        "torch.amp.GradScaler": torch.amp.GradScaler,
-        "torch.optim.AdamW": torch.optim.AdamW,
+    source_objects = {
+        "torch.amp.GradScaler.module": torch.amp.GradScaler,
+        "torch.optim.AdamW.class_module": torch.optim.AdamW,
+        "torch.optim.AdamW.step_implementation": inspect.unwrap(torch.optim.AdamW.step),
     }
     actual: dict[str, str] = {}
-    for name, cls in classes.items():
-        source_path = inspect.getsourcefile(cls)
+    for name, source_object in source_objects.items():
+        source_path = inspect.getsourcefile(source_object)
         if source_path is None:
-            raise RuntimeError(f"cannot locate source for {name}")
+            raise RuntimeError(f"cannot locate source module for {name}")
         actual[name] = sha256_file(Path(source_path))
         if actual[name] != EXPECTED_TORCH_SOURCE_HASHES[name]:
             raise RuntimeError(f"installed source pin mismatch for {name}")
