@@ -1,0 +1,146 @@
+{
+  "record_id": "VAST_OWNED_ITEMIZED_BILLING_RECONCILIATION_20261008_ROOT_R1",
+  "observed_utc": "2026-10-08T07:33:32.361345+00:00",
+  "scope": "Read-only billing/current-user; no instance mutation, adoption or settlement",
+  "account_scope_sha256": "5edaeb435fffdc8d36029206229fcf1ee9a930816996519f3c4fdeeb3d35858a",
+  "owned_rows": [
+    {
+      "attempt_id": "e529-vast-h217-pair-v4-20261008-a3",
+      "instance_id": "54755890",
+      "destroyed_verified": true,
+      "provider_charge_usd": "0.944",
+      "parts": [
+        {
+          "type": "gpu",
+          "amount_usd": "0.326",
+          "description": "1.654 hours at $0.197/hour"
+        },
+        {
+          "type": "disk",
+          "amount_usd": "0.072",
+          "description": "1.664 hours at $0.044/hour"
+        },
+        {
+          "type": "bwd",
+          "amount_usd": "0.546",
+          "description": "69.9 GB Downloaded at $0.008/GB"
+        },
+        {
+          "type": "bwu",
+          "amount_usd": "0.0",
+          "description": "1.3 GB Uploaded at $0.000/GB"
+        }
+      ]
+    },
+    {
+      "attempt_id": "e529-vast-h217-pair-v4-20261008-a2",
+      "instance_id": "54755152",
+      "destroyed_verified": true,
+      "provider_charge_usd": "0.015",
+      "parts": [
+        {
+          "type": "gpu",
+          "amount_usd": "0.012",
+          "description": "0.062 hours at $0.197/hour"
+        },
+        {
+          "type": "disk",
+          "amount_usd": "0.003",
+          "description": "0.072 hours at $0.044/hour"
+        },
+        {
+          "type": "bwd",
+          "amount_usd": "0.0",
+          "description": "Bandwidth (download)"
+        },
+        {
+          "type": "bwu",
+          "amount_usd": "0.0",
+          "description": "Bandwidth (upload)"
+        }
+      ]
+    },
+    {
+      "attempt_id": "e529-vast-h217-pair-v2-20261008-a3d",
+      "instance_id": "54734753",
+      "destroyed_verified": true,
+      "provider_charge_usd": "0.654",
+      "parts": [
+        {
+          "type": "gpu",
+          "amount_usd": "0.285",
+          "description": "1.442 hours at $0.197/hour"
+        },
+        {
+          "type": "disk",
+          "amount_usd": "0.064",
+          "description": "1.467 hours at $0.044/hour"
+        },
+        {
+          "type": "bwd",
+          "amount_usd": "0.305",
+          "description": "39.1 GB Downloaded at $0.008/GB"
+        },
+        {
+          "type": "bwu",
+          "amount_usd": "0.0",
+          "description": "0.7 GB Uploaded at $0.000/GB"
+        }
+      ]
+    },
+    {
+      "attempt_id": "e529-vast-h217-pair-v2-20261008-a2",
+      "instance_id": "54725432",
+      "destroyed_verified": true,
+      "provider_charge_usd": "0.143",
+      "parts": [
+        {
+          "type": "gpu",
+          "amount_usd": "0.102",
+          "description": "0.547 hours at $0.187/hour"
+        },
+        {
+          "type": "disk",
+          "amount_usd": "0.016",
+          "description": "0.579 hours at $0.028/hour"
+        },
+        {
+          "type": "bwd",
+          "amount_usd": "0.025",
+          "description": "23.9 GB Downloaded at $0.001/GB"
+        },
+        {
+          "type": "bwu",
+          "amount_usd": "0.0",
+          "description": "0.1 GB Uploaded at $0.000/GB"
+        }
+      ]
+    }
+  ],
+  "provider_charge_total_usd": "1.756",
+  "category_totals_usd": {
+    "gpu": "0.725",
+    "disk": "0.155",
+    "bwd": "0.876",
+    "bwu": "0.0"
+  },
+  "available_credit_usd": "17.8911454253805",
+  "current_pending_charges": 0,
+  "current_pending_service_fee": 0,
+  "private_source_sha256": {
+    "charges": "1af9629254641b1e430376d770bf85cf8e6733671b3bb5892d92edbe41749301",
+    "invoices": "994c00046a28586441119ddbd42ab9760d4fecd3383d0b8959caca32dd54af05"
+  },
+  "source_endpoints": [
+    "GET /api/v0/charges/",
+    "GET /api/v0/users/me/invoices/"
+  ],
+  "official_cli_source": "https://github.com/vast-ai/vast-cli/blob/master/vast.py",
+  "cost_limitations": [
+    "Provider lineitems rounded to0.001USD; not exact all-in settlement",
+    "1.756USD itemized charges do not alone explain credit decrease from presumed20USD baseline",
+    "Do not infer a tax/service-fee rate from numerical resemblance",
+    "No unsettled reservation released; ambiguous create remains separate unresolvedhold"
+  ],
+  "execution_recommendation": "New paidcohort should compare total usefulfit cost including dataset download: documented bandwidth0.876USD versus GPU0.725USD. Reuse oneverified dataset across multiple meaningful fits; do not rerent/refetch betweenwidths. Preflight actualpredictor filesystem/path onCPU before paying bandwidth toship fullinputs."
+}
