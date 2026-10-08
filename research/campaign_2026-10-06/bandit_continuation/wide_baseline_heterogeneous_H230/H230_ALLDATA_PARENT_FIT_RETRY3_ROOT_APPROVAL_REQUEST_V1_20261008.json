@@ -1,0 +1,83 @@
+{
+  "schema": "h230-all-data-parent-fit-root-approval-request-v1",
+  "request_id": "H230-ALLDATA-PARENT-FIT-RETRY3-ROOT-APPROVAL-REQUEST-V1-20261008",
+  "created_utc": "2026-10-08T00:44:49.562037+00:00",
+  "status": "awaiting_root_review",
+  "attempt_id": "h230-all-data-parent-fit-b16-ep3-retry3-v1-20261008",
+  "contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_PARENT_FIT_RETRY3_CONTRACT_V1_20261008.json",
+  "contract_sha256": "2d98c38c18c143175e286fcff56911aecf6516871776b9945f102e6169bb915b",
+  "launch_authorized": false,
+  "requested_action": "Review exact retry3 contract. If accepted, write a separate root approval, reconcile/open the barrier and allow one fresh controller launch.",
+  "source_manifest_sha256": "697d78e5a5ac5461e876486caa8b278298283a213ed03432c43a856fd7f1bd58",
+  "source_files_rehashed": 54,
+  "normalized_worker_argv_sha256": "94686fff8d53c592dea71a2d829485d6a2a249166df1e24fb05fee3a27fd636d",
+  "science_argv_parity_to_retry2": true,
+  "only_worker_argv_change_vs_retry2": [
+    "--name value changed to the unique retry3 output"
+  ],
+  "retry1_terminal_receipt_sha256": "85d8851fcdd22e729a2a31deb3b0809e6dde0b980a1cc4ba4e19e82de5fe0297",
+  "retry2_terminal_receipt_sha256": "e579075df17544d530aaf862a4c6ca0620b573cbe3c5b3ade12290daf25f8dff",
+  "dataset_cache_hint_receipt": "research/campaign_2026-10-06/bandit_continuation/runtime/H230_PARENT_FIT_RETRY3_DATASET_CACHE_HINT_V1_20261008.json",
+  "dataset_cache_hint_receipt_sha256": "161b5929c156e625e7b73f300bbd9994ca0498928df0dfa6fd765ffa76086f2a",
+  "controller_guard_binding": {
+    "reviewed_commit": "6618e192",
+    "reviewed_commit_full": "6618e19205edb62ce5191d46e85d90c3dd3213c6",
+    "bandit_resources_path": "scripts/bandit_resources.py",
+    "bandit_resources_sha256": "e8df7224dbaf87d11c524a23ffd490d601517d447633a6e99fc99bb2d6ba05a0",
+    "limited_wrapper_path": "scripts/limited",
+    "limited_wrapper_sha256": "589c6d0d66356fa161b057bad16a3ce133962eadf4de943457c86ec358ae3c76",
+    "independent_review": "Root reports independent critic PASS and 26 focused resource+CPU tests passed.",
+    "cpu_policy_receipt": "research/campaign_2026-10-06/bandit_continuation/runtime/LOCAL_CPU_CONTINUOUS_20261008_V2.json",
+    "cpu_policy_receipt_sha256": "75330f7369d3d55fc202729c56d474daca51048c4e5f27a0be0313080e99d51d",
+    "cpu_observer_sha256": "187504343643ed6356b68c3f5a4c54f144018b9669a2e9b108a191ad1097dc9b",
+    "effective_oom_boundary": "Worker and parent memory.events.local are distinguished; sibling support-scope OOM alone must not terminate this worker.",
+    "binding": true
+  },
+  "prelaunch_snapshot": {
+    "captured_utc": "2026-10-08T00:44:49.562037+00:00",
+    "parent_current_bytes": 3960848384,
+    "worker_reserve_bytes": 8000000000,
+    "current_plus_reserve_bytes": 11960848384,
+    "memory_high_bytes": 17999998976,
+    "headroom_after_reserve_bytes": 6039150592,
+    "memory_max_bytes": 19999997952,
+    "swap_max_bytes": 0,
+    "cpu_max": "1200000 100000",
+    "parent_local_memory_events": {
+      "low": 0,
+      "high": 1458,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0,
+      "sock_throttled": 0
+    },
+    "gpu": [
+      {
+        "memory_used_mib": 75,
+        "utilization_percent": 0
+      }
+    ],
+    "active_local_bandit_units": [],
+    "snapshot_is_not_controller_admission": true
+  },
+  "resource_request": {
+    "worker_cpu_cores": 2,
+    "worker_memory_reserve_bytes": 8000000000,
+    "allocator_cap_bytes": 4300000000,
+    "observed_vram_ceiling_bytes": 5000000000,
+    "timeout_seconds": 10800,
+    "parent_cpu_cap_now": 12,
+    "parent_cpu_cap_after_0700z": 5,
+    "parent_cpu_window_ends_utc": "2026-10-08T07:00:00+00:00",
+    "parent_memory_high_bytes": 17999998976,
+    "parent_memory_max_bytes": 19999997952,
+    "swap_max_bytes": 0
+  },
+  "prelaunch_gates": [
+    "Root approval for exact contract hash.",
+    "Fresh controller admission with barrier open.",
+    "No source or scientific argv mutation after freeze.",
+    "Fresh start from original initializer; no retry2 resume."
+  ]
+}

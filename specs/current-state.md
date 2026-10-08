@@ -1,3 +1,9 @@
+## Local retry3 fitting — 2026-10-08 03:49 Kyiv
+
+The corrected controller admitted H230 parent retry3 and actual fitting reached epoch0batch20/779. Worker OOM0, aggregate parent-local OOM0; worker file-cache reclaim pressure is recorded under the unchanged8GB reserve. Same independently trained initializer/scientific recipe/fixedep3 and full epoch-state saving. The all-supplied teacher-cache build is queued behind this fit because its proposed2GB cap is unmeasured; no cache launch is claimed.
+
+Owned VastA3D now has all37.106GB inputs verified, but its first launch failed before science because noninteractive PATH lacked `python`. The image’s `/venv/main/bin/python` has Torch/CUDA; a separately reviewed PATH-only repair preserves the failure and finite hard deadline. Kaggle V6 is being sealed under fresh GPU quota41626campaign seconds remaining, with34000worker ceiling and separate headroom. TPUV5stillqueued. E540 actual-row smoke passed at1.12GB peak; its code is complete, no model-fit result yet. No new public best.
+
 ## Local resource-controller repair — 2026-10-08 03:40 Kyiv
 
 H230 parent retry2 is terminal infrastructure failure: a sibling support-scope OOM incremented hierarchical parent counters, and the controller stopped the trainer despite trainer OOM0. Root corrected event attribution and obtained independent Luna review; focused resource/CPU checks passed26. [ADR0018](adr/0018-attribute-oom-to-resource-boundary.md). A newly identified same-recipe retry is being prepared; no running fit is claimed until its actual logs appear.

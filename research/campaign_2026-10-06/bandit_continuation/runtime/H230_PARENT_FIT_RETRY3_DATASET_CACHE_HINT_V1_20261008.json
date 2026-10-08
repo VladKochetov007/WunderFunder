@@ -1,0 +1,109 @@
+{
+  "schema": "h230-parent-fit-retry3-dataset-cache-hint-v1",
+  "status": "completed_advisory_only",
+  "observed_utc": "2026-10-08T00:42:37.451088+00:00",
+  "authorized_by": "Root explicitly authorized exact train.parquet and valid.parquet POSIX_FADV_DONTNEED under the existing exclusive GPU lock before retry3 admission.",
+  "gpu_lock": "research/campaign_2026-10-06/bandit_continuation/runtime/gpu.lock",
+  "gpu_snapshot_before": [
+    {
+      "memory_used_mib": 75,
+      "utilization_percent": 0
+    }
+  ],
+  "gpu_snapshot_after": [
+    {
+      "memory_used_mib": 75,
+      "utilization_percent": 0
+    }
+  ],
+  "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+  "limits_before_after_unchanged": {
+    "memory.high": "17999998976",
+    "memory.max": "19999997952",
+    "memory.swap.max": "0",
+    "cpu.max": "1200000 100000"
+  },
+  "parent_memory_before": {
+    "current": 9695199232,
+    "anon": 47599616,
+    "file": 9468858368,
+    "events_local": {
+      "low": 0,
+      "high": 1458,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0,
+      "sock_throttled": 0
+    }
+  },
+  "parent_memory_after": {
+    "current": 3964030976,
+    "anon": 47611904,
+    "file": 3743289344,
+    "events_local": {
+      "low": 0,
+      "high": 1458,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0,
+      "sock_throttled": 0
+    }
+  },
+  "datasets": [
+    {
+      "split": "train",
+      "path": "datasets/train.parquet",
+      "frozen_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "frozen_bytes": 29240219011,
+      "stat_before": {
+        "resolved_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/train.parquet",
+        "device": 57,
+        "inode": 50918586,
+        "bytes": 29240219011,
+        "mtime_ns": 1577826000000000000,
+        "ctime_ns": 1789416047130491282
+      },
+      "stat_after": {
+        "resolved_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/train.parquet",
+        "device": 57,
+        "inode": 50918586,
+        "bytes": 29240219011,
+        "mtime_ns": 1577826000000000000,
+        "ctime_ns": 1789416047130491282
+      },
+      "fadvise": "POSIX_FADV_DONTNEED",
+      "return_code": null
+    },
+    {
+      "split": "valid",
+      "path": "datasets/valid.parquet",
+      "frozen_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "frozen_bytes": 5615509128,
+      "stat_before": {
+        "resolved_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+        "device": 57,
+        "inode": 50919096,
+        "bytes": 5615509128,
+        "mtime_ns": 1577826000000000000,
+        "ctime_ns": 1791229412504811133
+      },
+      "stat_after": {
+        "resolved_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+        "device": 57,
+        "inode": 50919096,
+        "bytes": 5615509128,
+        "mtime_ns": 1577826000000000000,
+        "ctime_ns": 1791229412504811133
+      },
+      "fadvise": "POSIX_FADV_DONTNEED",
+      "return_code": null
+    }
+  ],
+  "full_content_rehashed": false,
+  "input_identity_receipt": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_LIVE_INPUT_IDENTITY_V1.json",
+  "input_identity_receipt_sha256": "6cc5fe8a1148cdb6b62c0e5b04c3ba7a04fff69a623e06b2e0e4be41e6ea13c4",
+  "content_mutation": "none; advisory POSIX_FADV_DONTNEED only on the two exact parquet files",
+  "retry_admission": "not performed; root approval and fresh controller admission still required"
+}
