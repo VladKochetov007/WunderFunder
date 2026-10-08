@@ -1,0 +1,31 @@
+{
+  "checks": {
+    "duplicate_import": "The successor loads the same pinned scorer again later for metric operations. This is harmless duplicate module loading, not an identity or scoring drift.",
+    "helper_api_preserved": "The shared helper still supplies sha256_file, validate_candidate_fit_membership, validate_prediction_array, source_group_index, and align_evaluation_rows used by the successor and frozen alignment helper.",
+    "scientific_contract": "No changes to preregistration, source/data hashes, masks, prediction alignment, metric, blend weights, bootstrap, admission, or artifact paths.",
+    "scorer_identity": "Official scorer SHA256 matches the frozen value b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39; its mmap_stored_npz(path) returns the target arrays required downstream.",
+    "source_diff": "Exactly one two-line replacement at target loading; AST parsing succeeds for both grader versions."
+  },
+  "failure_diagnosis": {
+    "cause": "mmap_stored_npz is defined by the pinned official campaign scorer, not by the shared fold-alignment helper.",
+    "error": "AttributeError: h272_shared_grade has no mmap_stored_npz",
+    "failed_grader_sha256": "8a88161f7d5496170770f5e014003adcbd47993b74df56d74bdcbf0f516170ec",
+    "stage": "The helper alias failed while resolving the target-cache loader, before prediction scoring."
+  },
+  "limitations": "This is a source-only review; it does not establish that the later grader invocation completes or that any score is valid.",
+  "reviewed_at_utc": "2026-10-08T10:41:53Z",
+  "schema": "h272-grader-independent-source-review-v1",
+  "scope": "Static source and diagnosis review only. No candidate outputs, prediction arrays, target cache contents, or scores were opened; the grader was not executed.",
+  "source_sha256": {
+    "frozen_comparison_helper": "c084c12ea7ad3c9af3725a532c1aad3fd76e50a015b02931e2216cea53f7e19e",
+    "official_scorer": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39",
+    "pair_scorer": "64d547a9f4f7861f5c104ebc95b6d9f8315f4d51554e092ec6cfd5076ccc5376",
+    "shared_helper": "88034869363f8475d8030f932e7bc24af0850241e3511d276b03ce7a53e5a4bd"
+  },
+  "successor": {
+    "change": "Only the target-cache loader changes: load the already pinned official scorer and call scorer.mmap_stored_npz instead of grade.mmap_stored_npz.",
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_EXPORT_ONLY_ANCHOR_GUARD_V1_20261008/grade_h272_direct_label_readouts_v2.py",
+    "sha256": "5c7f79e6c5c53351b0e7f4673137f7eb76d691c0fbb3b57e05cb6c3e2fbb546b"
+  },
+  "verdict": "PASS_NARROW_SOURCE_FIX"
+}
