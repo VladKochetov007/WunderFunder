@@ -224,3 +224,9 @@ Research continues past10:00Kyiv with five local CPUs; no time stop. Public best
 - H232 clean GRU384 fixedep3 preserved. R5 missing parent-metadata export failure collected; R6 adds only exact missing member, root full-extraction/unchanged-worker verifier tests pass. Private upload/remote verification and freshquota precede one corrected export-only push.
 - Vast TCN V5R2 remains ambiguous with2.80USD hold, no adoption/retry. Distinct ownGRU512/768 capacityteacher packet being prepared only within remaining6.80USD ledger headroom. TPU actual-device gate still pending.
 
+
+### Actual accelerator activation — 2026-10-08T13:42:28.403934+00:00
+
+Local H272S4 readout fit is in epoch1 after14920updates/head in epoch0, healthy under resource caps. Kaggle seed9 V6 providerRUNNING after4actualsealed-startup tests and independent72/57source verification; profile/fitphaseunobserved. Owned Vast3090instance54852864 isloading; creationreceiptboundV6R1scientific/source/intent/account, $2.80reserved/$20global, no new fit/qualityclaim. GRU512/768 fit-only two-T4cohort in source preparation; completed230updateprofiles retained, no repeats. [Successor queueR11](runtime/ACCELERATOR_SUCCESSOR_QUEUE_20261008_R11.json). Publicbest0.6660 and teammate0.6674unreplicated; no newexpectedpublicbest established.
+
+Public calibration 2026-10-08T13:43:12.843668+00:00: history-swapZIP **0.6644** (27t6d4ur); exact endpoint unpromoted. Best0.6660 unchanged. Do not promote history0.30 replacement alone; measure complementarity only if a concrete interaction test is allocated. Strong Muon parents/fullall-data families/finalstudents remain separate unfinished tests. [Receipt](continuous_execution_E529/H230_HISTORY_SWAP_PUBLIC_SCORE_USER_RECEIPT_20261008_R1.json).
