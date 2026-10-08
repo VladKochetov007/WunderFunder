@@ -1,0 +1,18 @@
+{
+ "id": "H230_V7R5_FUTILE_RESTART_LOOP_STOP_20261008_R1",
+ "recorded_utc": "2026-10-08T16:58:57.132388+00:00",
+ "unit": "wnn-vast-h230-seed54354-muon-v7r5-parallel1-20261008",
+ "pre_stop_properties": {
+  "ActiveState": "activating",
+  "SubState": "auto-restart",
+  "InvocationID": "36b7c3cf9c574d3d8fad9ef8945748ea",
+  "NRestarts": "316",
+  "ExecMainStatus": "2"
+ },
+ "diagnosis": "Each restart exits status 2 before any provider call: 'submitted dispatcher receipt is outside the fresh 120-second window'. Attempt id absent from private ledger, so no reservation/instance/creation exists for v7r5. Superseded by v7r6 supervisor (separately active, reconciling).",
+ "ledger_attempt_present": false,
+ "action": "systemctl --user stop + reset-failed on local unit only; no provider mutation, no ledger write",
+ "authority": "AGENTS.md: stop only a diagnosed campaign supervisor's futile restart loop, preserve its failure",
+ "journal_tail_file": "H230_V7R5_FUTILE_RESTART_LOOP_JOURNAL_TAIL_20261008_R1.txt",
+ "journal_tail_sha256": "c2914fe9b27d8585527c309d933c49373fa3208ff47dfe5fd2c66ff921772c86"
+}
