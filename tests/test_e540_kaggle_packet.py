@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 import sys
+import time
 from types import SimpleNamespace
 from pathlib import Path
 
@@ -13,11 +15,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from scripts.e540_kaggle_worker import (
     EXPECTED_PROFILE_ATTEMPTS,
     expected_fit_updates,
+    elapsed_projection_seconds,
     parse_trainer_output,
     trainer_argv,
     validate_frozen_membership,
     validate_profile,
+    worker_wall_budget_seconds,
 )
+from scripts.kaggle_kernel import terminate_process_tree, worker_timeout_for_deadline
 from scripts.kaggle_bundle import local_bundle_descriptors
 from scripts.kaggle_common import verify_files
 
@@ -72,6 +77,72 @@ def test_fit_update_count_uses_drop_last_outer_batches_and_79_chunk_updates() ->
     # Frozen V3 membership selects 1,597 train + 252 valid sequences. The
     # batch-2 drop_last loader consumes 1,848 of those 1,849 sequences.
     assert expected_fit_updates(1597, 252) == 72996
+
+
+def test_projection_does_not_add_profile_wall_twice_and_keeps_300_second_reserve() -> None:
+    profiles = {
+        "linear": {"profile_wall_seconds": 20.0, "step_wall_ms": 0.0},
+        "ple": {"profile_wall_seconds": 30.0, "step_wall_ms": 0.0},
+    }
+    assert elapsed_projection_seconds(70.0, profiles, 0, 0, 0) == 370.0
+    near_limit = elapsed_projection_seconds(4_900.0, profiles, 0, 0, 0)
+    assert near_limit == 5_200.0
+    assert near_limit <= 5_200
+
+
+def test_worker_wall_budget_shrinks_with_bootstrap_and_runner_preflight_time() -> None:
+    deadline = 6_000.0
+    assert worker_wall_budget_seconds(deadline, now_monotonic=500.0) == 5_200
+    assert worker_wall_budget_seconds(deadline, now_monotonic=800.0) == 4_900
+    assert worker_wall_budget_seconds(deadline, now_monotonic=5_700.0) == 0
+
+
+def test_kernel_timeout_is_shrunk_from_bootstrap_entry_and_leaves_finalize_reserve() -> None:
+    assert worker_timeout_for_deadline(5_200, 6_000.0, now_monotonic=500.0) == 5_200
+    assert worker_timeout_for_deadline(5_200, 6_000.0, now_monotonic=800.0) == 4_900
+    assert worker_timeout_for_deadline(5_200, 6_000.0, now_monotonic=5_700.0) == 0
+
+
+def test_kernel_deadline_cleanup_stops_runner_and_separate_session_descendant() -> None:
+    import psutil
+
+    child_code = "import time; time.sleep(60)"
+    parent_code = (
+        "import subprocess,sys,time; "
+        f"subprocess.Popen([sys.executable, '-c', {child_code!r}], start_new_session=True); "
+        "time.sleep(60)"
+    )
+    process = subprocess.Popen(
+        [sys.executable, "-c", parent_code], start_new_session=True
+    )
+    child_pids: list[int] = []
+    try:
+        deadline = time.monotonic() + 2
+        while time.monotonic() < deadline:
+            try:
+                child_pids = [child.pid for child in psutil.Process(process.pid).children(recursive=True)]
+            except psutil.NoSuchProcess:
+                break
+            if child_pids:
+                break
+            time.sleep(0.02)
+        assert child_pids, "test process did not create its separate-session child"
+        terminate_process_tree(process, grace_seconds=0.2)
+        assert process.poll() is not None
+        for pid in child_pids:
+            poll_deadline = time.monotonic() + 1
+            while psutil.pid_exists(pid) and time.monotonic() < poll_deadline:
+                try:
+                    if psutil.Process(pid).status() == psutil.STATUS_ZOMBIE:
+                        break
+                except psutil.NoSuchProcess:
+                    break
+                time.sleep(0.02)
+            if psutil.pid_exists(pid):
+                assert psutil.Process(pid).status() == psutil.STATUS_ZOMBIE
+    finally:
+        if process.poll() is None:
+            terminate_process_tree(process, grace_seconds=0.2)
 
 
 def test_external_bundle_inputs_are_not_hashed_in_the_local_controller_checkout() -> None:

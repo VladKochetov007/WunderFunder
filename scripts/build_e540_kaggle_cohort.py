@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assemble the private E540 V3 AMP4096 Kaggle packet without provider calls."""
+"""Assemble the private E540 V4 AMP4096 Kaggle packet without provider calls."""
 
 from __future__ import annotations
 
@@ -26,9 +26,9 @@ SPLIT_RELATIVE = Path("research/campaign_2026-09-29/artifacts/splits/fold0.json"
 PORTABLE_RELATIVE = Path("research/campaign_2026-10-04/portable_inputs.json")
 ASSET_MANIFEST_RELATIVE = Path("research/campaign_2026-10-04/kaggle/fold0_assets/assets-manifest.json")
 SUBSET_RELATIVE = Path(
-    "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V3.json"
+    "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V4.json"
 )
-PACKET_ID = "E540_AMP4096_V3"
+PACKET_ID = "E540_AMP4096_V4"
 ASSET_DATASET = "vladkochetov07/wnn-c20261004-fold0-assets"
 ASSET_MANIFEST_SHA256 = "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7"
 EXTERNAL_DATA_NAMES = (
@@ -39,12 +39,12 @@ EXTERNAL_DATA_NAMES = (
 )
 ARTIFACTS = [
     "e540_cohort",
-    "artifacts/runs/e540v3-linear-s540-amp4096",
-    "artifacts/runs/e540v3-ple-s540-amp4096",
-    "cache/pred_e540v3-linear-s540-amp4096-eval_valid.npy",
-    "cache/pred_e540v3-linear-s540-amp4096-eval_valid.json",
-    "cache/pred_e540v3-ple-s540-amp4096-eval_valid.npy",
-    "cache/pred_e540v3-ple-s540-amp4096-eval_valid.json",
+    "artifacts/runs/e540v4-linear-s540-amp4096",
+    "artifacts/runs/e540v4-ple-s540-amp4096",
+    "cache/pred_e540v4-linear-s540-amp4096-eval_valid.npy",
+    "cache/pred_e540v4-linear-s540-amp4096-eval_valid.json",
+    "cache/pred_e540v4-ple-s540-amp4096-eval_valid.npy",
+    "cache/pred_e540v4-ple-s540-amp4096-eval_valid.json",
 ]
 
 
@@ -93,12 +93,12 @@ def _subset_without_full_data(split_path: Path, data_root: Path) -> dict[str, ob
         raise ValueError("E540 subset manifest and campaign split identities disagree")
     if subset.get("selected_component_count") != 512:
         raise ValueError(
-            "E540 V3 requires exactly 512 selected fitting components; "
+            "E540 V4 requires exactly 512 selected fitting components; "
             f"observed {subset.get('selected_component_count')} from "
             f"{subset.get('eligible_component_count')} eligible components"
         )
     if subset.get("evaluation_group_count") != 468:
-        raise ValueError("E540 V3 requires exactly 468 frozen evaluation groups")
+        raise ValueError("E540 V4 requires exactly 468 frozen evaluation groups")
     return subset
 
 
@@ -195,9 +195,11 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
         subset_path,
         LINEAGE / "RECIPE_V2.json",
         LINEAGE / "RECIPE_V3_AMP4096.json",
+        LINEAGE / "RECIPE_V4_AMP4096.json",
         LINEAGE / "EXPERIMENT_CARD_V2.json",
         LINEAGE / "EXPERIMENT_CARD_AMP4096_V3.json",
-        LINEAGE / "README.md",
+        LINEAGE / "EXPERIMENT_CARD_AMP4096_V4.json",
+        LINEAGE / "README_V4.md",
     ]
     local_descriptors = [descriptor(path) for path in local_inputs]
     external_descriptors = expected_external_descriptors(portable)
@@ -209,10 +211,10 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
         for name in ("cache/train_targets.npz", "cache/valid_targets.npz")
     }
     packet = {
-        "schema": "wnn.e540-kaggle-cohort.v1",
+        "schema": "wnn.e540-kaggle-cohort.v2",
         "packet_id": PACKET_ID,
-        "recipe": "RECIPE_V3_AMP4096.json",
-        "experiment_card": "EXPERIMENT_CARD_AMP4096_V3.json",
+        "recipe": "RECIPE_V4_AMP4096.json",
+        "experiment_card": "EXPERIMENT_CARD_AMP4096_V4.json",
         "status": "prepared_pending_independent_root_review_live_quota_and_actual_profile",
         "fit_admitted": False,
         "provider_launch_authorized": False,
@@ -234,7 +236,7 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
             "no_full_dataset_or_parquet_footer_hash_performed_locally": True,
             "no_full_target_npz_hash_or_label_array_load_performed_locally": True,
             "subset_identity_method": "split metadata and graph caches plus only ordered row_group/seq_ix index arrays from target NPZs",
-            "v2_subset_diagnostic": "The preserved V2 10%-of-components rule selects 315 of 3,148 eligible components here, not its stated 512; V3 makes the root-approved exact 512-component selection explicit.",
+            "membership_lineage": "V4 carries forward the frozen V3 exact 512-component selection; the preserved V2 ceil(10%) rule selected 315 of 3,148 eligible components, not its stated 512.",
         },
         "membership": {
             "subset_manifest": SUBSET_RELATIVE.as_posix(),
@@ -266,9 +268,11 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
         },
         "execution": {
             "provider": "Kaggle private T4 kernel",
-            "provider_wall_seconds_max": 6000,
+            "kernel_process_wall_seconds_max": 6000,
             "worker_wall_seconds_max": 5200,
-            "provider_overhead_reserve_seconds": 800,
+            "worker_projection_margin_seconds": 300,
+            "runner_finalization_reserve_seconds": 300,
+            "timing_scope": "The 6,000-second watchdog begins at kernel.py process entry and covers bootstrap through runner completion. Kaggle queue/cold-start before process entry and provider output transport after process exit are outside packet control; no hard provider-from-push 6,000-second bound is claimed.",
             "gpu_worker_count": 1,
             "fit_schedule": "Profile both arms, then gate the paired one-epoch fits together; one process reuses each input digest.",
             "export": "FP32 feature-only predictions for exactly the 468 frozen evaluation groups; no ONNX or full-valid export.",
@@ -277,7 +281,7 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
         },
         "comparison": {
             "arms": ["linear", "ple"],
-            "run_names": ["e540v3-linear-s540-amp4096", "e540v3-ple-s540-amp4096"],
+            "run_names": ["e540v4-linear-s540-amp4096", "e540v4-ple-s540-amp4096"],
             "same_seed": 540,
             "same_subset_and_seeded_sampler_configuration": True,
             "realized_pair_order_verified": False,
@@ -297,7 +301,7 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
         "local_input_files": local_descriptors,
         "external_input_files": external_descriptors,
     }
-    packet_path = output_dir / "E540_KAGGLE_PACKET_V3.json"
+    packet_path = output_dir / "E540_KAGGLE_PACKET_V4.json"
     output_dir.mkdir(parents=True)
     packet_path.write_text(
         json.dumps(packet, sort_keys=True, indent=2, allow_nan=False) + "\n",
@@ -308,7 +312,7 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
     inputs = [*local_descriptors, *external_descriptors]
     spec = {
         "version": 1,
-        "name": "e540-v3-warm-profile-fit-20261008",
+        "name": "e540-v4-warm-profile-fit-20261008",
         "kind": "paired_profile_then_conditional_fit",
         "argv": ["{python}", "scripts/e540_kaggle_worker.py"],
         "code": code_descriptors,
@@ -331,7 +335,7 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
             "WNN_DEFERRED_IDENTITY_PATHS": ",".join(EXTERNAL_DATA_NAMES),
         },
     }
-    spec_path = output_dir / "e540-v3-warm-profile-fit.spec.json"
+    spec_path = output_dir / "e540-v4-warm-profile-fit.spec.json"
     spec_path.write_text(
         json.dumps(spec, sort_keys=True, indent=2, allow_nan=False) + "\n",
         encoding="utf-8",
@@ -350,6 +354,13 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
         external_args,
         [ASSET_DATASET],
     )
+    generated_kernel = output_dir / "bundle/kernel/kernel.py"
+    packet["generated_artifacts_sha256"] = {
+        "bundle/kernel/kernel.py": {
+            "size": generated_kernel.stat().st_size,
+            "sha256": sha256_file(generated_kernel),
+        }
+    }
     packet["bundle_manifest_sha256"] = sha256_file(output_dir / "bundle/bundle-manifest.json")
     packet["bundle_archive_sha256"] = sha256_file(output_dir / "bundle/bundle.wnn")
     packet["kernel_metadata_sha256"] = sha256_file(output_dir / "bundle/kernel/kernel-metadata.json")
@@ -377,7 +388,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--dataset", default="vladkochetov07/e540-v3-warm-20261008")
+    parser.add_argument("--dataset", default="vladkochetov07/e540-v4-warm-20261008")
     args = parser.parse_args()
     build_packet(args.data_root, args.output_dir, args.dataset)
 
