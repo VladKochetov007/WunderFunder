@@ -1,3 +1,11 @@
+## Continuous execution and owned-cloud terminal evidence — 2026-10-08 03:57 Kyiv
+
+Local H230 retry3 is fitting (epoch0batch440/779, worker and aggregate OOM0). Kaggle H232V6 was pushed once and canonical provider ID is `vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v6`; status RUNNING, no phase output yet. The canonical ID is registered in the active durable poller. TPUV5 remains queued.
+
+Owned VastA3D’s PATH-only repair reached actual TCN profiling:229completed updates/230attempts,1AMPskip at historical default scale. The strict finite profile gate rejected it; GRU profile and both fits never ran. Complete terminal artifacts were collected and instance54734753 destroyed/verified00:50:49Z. No live Vast fit is claimed. A separately identified V3 numeric-successor packet is being prepared with explicit4096scale and separate arm failures/valid-first exports; no new rental yet. [Terminal diagnosis](../research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A3D_TERMINAL_ROOT_REVIEW_V1.json).
+
+E540 implemented code and actual-row smoke landed; independent audit found the recipe wording described unclipped targets while actual WMSE clips2. Root chose an explicit clipped-target V2 for both arms, preserving the embedding comparison; narrow export/data-boundary corrections are under preparation. No E540 fit yet, no new public best (0.6660). Research continues past10:00 with scheduledfive-core local cap; memory/GPU limits unchanged.
+
 ## Local retry3 fitting — 2026-10-08 03:49 Kyiv
 
 The corrected controller admitted H230 parent retry3 and actual fitting reached epoch0batch20/779. Worker OOM0, aggregate parent-local OOM0; worker file-cache reclaim pressure is recorded under the unchanged8GB reserve. Same independently trained initializer/scientific recipe/fixedep3 and full epoch-state saving. The all-supplied teacher-cache build is queued behind this fit because its proposed2GB cap is unmeasured; no cache launch is claimed.
