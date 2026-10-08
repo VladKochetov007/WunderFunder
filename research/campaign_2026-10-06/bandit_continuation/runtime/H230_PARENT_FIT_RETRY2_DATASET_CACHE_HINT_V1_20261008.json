@@ -1,0 +1,89 @@
+{
+  "schema": "h230-parent-fit-retry2-dataset-cache-hint-v1",
+  "status": "completed_advisory_only",
+  "observed_utc": "2026-10-08T00:25:55.494627+00:00",
+  "predecessor_attempt": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-all-data-parent-fit-b16-ep3-v1-20261008.json",
+  "predecessor_failure_scope": "worker cgroup OOM=0; parent OOM/oom_kill increment was caused by bounded support scope run-p3431766-i3419441.scope, systemd Result=oom-kill at its 1.5GB cap",
+  "gpu_lock": "research/campaign_2026-10-06/bandit_continuation/runtime/gpu.lock",
+  "gpu_snapshot": {
+    "memory_used_mib": 75,
+    "utilization_percent": 0
+  },
+  "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+  "limits_before_after_unchanged": {
+    "memory_high": 17999998976,
+    "memory_max": 19999997952,
+    "memory_swap_max": 0
+  },
+  "memory_before": {
+    "current": 11847643136,
+    "file": 11597484032,
+    "anon": 52695040,
+    "oom": 9,
+    "oom_kill": 6,
+    "max_events": 5586737,
+    "high_events": 110675
+  },
+  "memory_after": {
+    "current": 5338832896,
+    "file": 5105827840,
+    "anon": 52707328,
+    "oom": 9,
+    "oom_kill": 6,
+    "max_events": 5586737,
+    "high_events": 110682
+  },
+  "datasets": [
+    {
+      "split": "train",
+      "path": "datasets/train.parquet",
+      "frozen_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "frozen_bytes": 29240219011,
+      "stat_before": {
+        "resolved_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/train.parquet",
+        "device": 57,
+        "inode": 50918586,
+        "bytes": 29240219011,
+        "mtime_ns": 1577826000000000000,
+        "ctime_ns": 1789416047130491282
+      },
+      "stat_after": {
+        "resolved_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/train.parquet",
+        "device": 57,
+        "inode": 50918586,
+        "bytes": 29240219011,
+        "mtime_ns": 1577826000000000000,
+        "ctime_ns": 1789416047130491282
+      },
+      "fadvise": "POSIX_FADV_DONTNEED returned successfully; advisory only"
+    },
+    {
+      "split": "valid",
+      "path": "datasets/valid.parquet",
+      "frozen_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "frozen_bytes": 5615509128,
+      "stat_before": {
+        "resolved_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+        "device": 57,
+        "inode": 50919096,
+        "bytes": 5615509128,
+        "mtime_ns": 1577826000000000000,
+        "ctime_ns": 1791229412504811133
+      },
+      "stat_after": {
+        "resolved_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+        "device": 57,
+        "inode": 50919096,
+        "bytes": 5615509128,
+        "mtime_ns": 1577826000000000000,
+        "ctime_ns": 1791229412504811133
+      },
+      "fadvise": "POSIX_FADV_DONTNEED returned successfully; advisory only"
+    }
+  ],
+  "full_content_rehashed": false,
+  "prior_identity_receipt": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_LIVE_INPUT_IDENTITY_V1.json",
+  "prior_identity_receipt_sha256": "6cc5fe8a1148cdb6b62c0e5b04c3ba7a04fff69a623e06b2e0e4be41e6ea13c4",
+  "content_mutation": "none; only advisory POSIX_FADV_DONTNEED was requested on the two exact parquet files",
+  "retry_admission": "not performed; fresh controller admission and root approval still required"
+}

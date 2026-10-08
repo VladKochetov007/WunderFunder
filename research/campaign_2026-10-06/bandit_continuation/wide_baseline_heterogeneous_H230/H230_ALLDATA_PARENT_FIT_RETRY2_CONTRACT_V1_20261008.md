@@ -1,0 +1,14 @@
+# H230 all-data parent fit retry2 contract V1
+
+- Attempt ID: `h230-all-data-parent-fit-b16-ep3-retry2-v1-20261008`. Status: `awaiting_root_contract_review_and_fresh_resource_admission`. This is prepared for root review; **do not launch before root approval and fresh controller admission**.
+- Scientific recipe and source remain the failed V1 recipe: source V2 (54 files), own `c20261003_combo_s3_f0@ep3` initializer, seed 3, all supplied train+valid groups, GRU256×2, batch 16/chunk 2000, FP16, four epochs, fixed epoch 3, same optimizer, schedule, loss, masks, propensity and auxiliary weights.
+- The sole worker-argv addition is `--save-training-state`; the run starts fresh from the same initializer. It does not resume the failed partial epoch, shorten the fit, or change checkpoint selection. This saves complete epoch-boundary optimizer/scheduler/scaler/loader/RNG state for recovery if this new run later fails.
+- Failed V1 is preserved at `research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-all-data-parent-fit-b16-ep3-v1-20261008.json`. The trainer worker cgroup had OOM=0; the parent counters rose when bounded support scope `run-p3431766-i3419441.scope` was OOM-killed at its 1.5GB cap. The controller then SIGTERM'd V1 on the hierarchical parent counter. This was not a fit timeout or trainer OOM.
+- The bounded cache-hint receipt `runtime/H230_PARENT_FIT_RETRY2_DATASET_CACHE_HINT_V1_20261008.json` applies POSIX_FADV_DONTNEED only to the exact train/valid parquet files while holding the GPU lock. Dataset stat identities are unchanged; parent memory dropped from 11,847,643,136 to 5,338,832,896 bytes. The 8GB reserve math is currently below 18GB high, but the receipt is not controller admission.
+- Worker remains 2 CPU / 8GB reserved RAM / zero loader workers; parent memory high/max remain 18/20GB, no swap, one GPU worker. Existing CPU window is recorded; worker request stays at 2 cores.
+- Focused full-state epoch-resume parity test passed: 8 parameter cases in 2.24s with the source-v2 `training_state.py` on `PYTHONPATH`; no dataset arrays or GPU fit. Module SHA256: `4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac`.
+- Runtime cap remains 10,800 seconds owned by the exact `/usr/bin/timeout` child. Output directory is unique: `artifacts/runs/bd26_h230_all_data_parent_b16_ep3_retry2_v1`.
+- Source-v2 rehash: 54 of 54 files match the frozen manifest. No model/data content was changed by the cache hint.
+- Machine-readable contract: `research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_PARENT_FIT_RETRY2_CONTRACT_V1_20261008.json`.
+
+- Retry contract metadata revision before approval: previous prepared JSON SHA256 `a526d19bf1a38f2b1297aa84a9a046da39c94bf6bf92bea2bab61f475d564a30`; corrected allocator cap to 4.3GB and prior-attempt ID. Source and worker argv are unchanged.

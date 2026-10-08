@@ -1,3 +1,13 @@
+## Continuous research and recovered local fit — 2026-10-08 03:30 Kyiv
+
+Research continues until explicit user stop. At10:00Kyiv/07:00UTC the aggregate local CPU quota drops to five cores; RAM18GBhigh/20GBmax, swap0, observedVRAM5GB and oneGPUworker stay unchanged. The new500%timer is active and the old600%timer disabled; observer/time-boundary/stale-quota checks16passed. [ADR0017](adr/0017-continuous-research-five-core-morning-cap.md).
+
+H230 all-data parent V1 was terminated by its strict controller after an unrelated metadata helper OOMed at its1.5GB child cap. Trainer OOM0; hierarchical parent events2OOM/1kill; no scientific result or completed parent endpoint. The helper had decompressed a1.91GB target archive for recipe metadata. This is corrected to bounded metadata-only preparation; original failed run remains. A narrow, locked cache hint on exact immutable raw parquet files reduced parent memory11.85→5.34GB without changing inputs or caps.
+
+Root approved identified retry2 with the same scientific recipe/source/seed/initializer/four-epoch horizon/fixedep3, adding only complete epoch training-state saves. Full-state tests11passed; source-pinned bitwise epoch-resume8cases passed. [Approval](../research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_PARENT_FIT_RETRY2_ROOT_APPROVAL_V1_20261008.json). The exact durable retry unit is active from00:29:43Z; initial supplied membership10606train+1873valid checked; first fitting batch is pending observation.
+
+Kaggle H232V6 cache-aware resource repair and post-fit fixedep3 FP32 export are being built with unchanged scientific training settings; root owns independent review/push/grade. TPUV5 remains queued. Owned Vast A3D54734753 remains staging; a receipt-checked read-only observation found its train parquet at the exact29,240,219,011-byte size, not a completed full-input identity or fit. E540 Luna is implementing feature-wise numerical embeddings with matched-shape linear control and raw bypass. Astra/Grok cards are integrated; no new public best, current best0.6660.
+
 ## Quant-brainteaser proposals and delivery repair — 2026-10-08 03:17 Kyiv
 
 [Native Grok quant-puzzle cards](../research/campaign_2026-10-06/bandit_continuation/quant_brainteaser_e539/CONTROLLER_REVIEW_V1.md) landed independently: five untested refinements, null priors, explicit existing parents. The Semenov excerpt was a directed fallback, not a random draw. Astra’s independent architecture/embedding/interpretability proposals are completing a separate duplicate map and implementation handoffs.

@@ -1,0 +1,33 @@
+{
+  "created_utc": "2026-10-08T00:29:17.185446+00:00",
+  "owner": "root",
+  "attempt_id": "h230-all-data-parent-fit-b16-ep3-retry2-v1-20261008",
+  "contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_PARENT_FIT_RETRY2_CONTRACT_V1_20261008.json",
+  "contract_sha256": "0b71a08f047deebd1b208aaa88da63182334731d42766c18ba876eff4cdb05b0",
+  "approved_for_exact_controller_launch_after_barrier_resume_and_fresh_preflight": true,
+  "scientific_recipe_parity": true,
+  "only_operational_argv_changes": [
+    "new output name",
+    "--save-training-state"
+  ],
+  "tests": {
+    "root_training_state_module": "11passed in2.45s; initial missing PYTHONPATH collection failure corrected",
+    "source_v2_bitwise_epoch_resume": "actor8parametercases passed; pinned training_state SHA unchanged",
+    "five_core_policy_and_resource_controller": "16passed"
+  },
+  "OOM_attribution": "Trainer cgroup OOM0; metadata helper1.5GBscope OOM and inherited parent event caused controller SIGTERM. Helper no longer loads target NPZ, bounded metadata-only <=800MB.",
+  "parent_memory_current_bytes": 6566813696,
+  "parent_current_plus_worker_reserve_bytes": 14566813696,
+  "parent_properties": {
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "CPUQuotaPerSecUSec": "12s",
+    "MemoryHigh": "18000000000",
+    "MemoryMax": "20000000000",
+    "MemorySwapMax": "0"
+  },
+  "max_runtime_seconds": 10800,
+  "unchanged_limits": true,
+  "heldout_claim": false,
+  "barrier_reopen_authorized": true,
+  "failure_behavior": "Keep strict resource observer; preserve diagnostics, full epoch state and separate retry IDs. No partial model-only resume."
+}
