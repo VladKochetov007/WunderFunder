@@ -14,9 +14,61 @@ from pathlib import Path
 import psutil
 from kaggle_common import read_spec, relative_path, sha256_file, verify_files, write_json
 
-
 WORKER_TIMEOUT_CEILING_SECONDS = 5_200
 WORKER_TIMEOUT_FINALIZATION_RESERVE_SECONDS = 300
+E540_PHASE_RECEIPT_BYTES_MAX = 64 * 1024
+E540_PHASE_RECEIPT_AGE_SECONDS_MAX = 6_000
+E540_PHASE_METRIC_SECONDS_MAX = 5_200
+E540_PHASE_PROJECTION_SECONDS_MAX = 10_000
+E540_PHASE_UPDATE_COUNT_MAX = 72_996
+E540_PHASE_STEP_WALL_MS_MAX = 100_000
+E540_V7_SPEC_NAME = "e540-v7-fp32-20261008"
+E540_V7_PACKET_ID = "E540_FP32_V7"
+E540_PHASES = {
+    "input_identity_preflight_completed_by_kaggle_gpu_runner": ("input_identity", None),
+    "membership_verified_before_profile_and_fit": ("membership", None),
+    "profile_linear": ("profile", "linear"),
+    "profile_linear_failed": ("profile", "linear"),
+    "profile_ple": ("profile", "ple"),
+    "profile_ple_failed": ("profile", "ple"),
+    "profile_gate_rejected": ("profile_gate", None),
+    "fit_linear": ("fit", "linear"),
+    "fit_linear_failed": ("fit", "linear"),
+    "fit_ple": ("fit", "ple"),
+    "fit_ple_failed": ("fit", "ple"),
+    "prediction_linear": ("prediction", "linear"),
+    "prediction_linear_failed": ("prediction", "linear"),
+    "prediction_ple": ("prediction", "ple"),
+    "prediction_ple_failed": ("prediction", "ple"),
+    "complete": ("complete", None),
+}
+E540_COHORT_STATUSES = frozenset(
+    {
+        "profile_pending",
+        "profile_failed",
+        "profile_gate_rejected",
+        "fit_running",
+        "fit_failed",
+        "prediction_failed",
+        "complete_ungraded",
+        "failed",
+    }
+)
+E540_ARM_STATUSES = frozenset(
+    {
+        "not_started",
+        "profile_running",
+        "profile_pass",
+        "profile_failed",
+        "not_started_due_to_cohort_failure",
+        "fit_running",
+        "fit_pass",
+        "fit_failed",
+        "prediction_running",
+        "prediction_pass",
+        "prediction_failed",
+    }
+)
 
 
 def resolve_worker_timeout_seconds(
@@ -47,9 +99,7 @@ def resolve_worker_timeout_seconds(
         or now < 0
     ):
         raise ValueError("kernel deadline and current monotonic time must be finite")
-    available = math.floor(
-        deadline - now - WORKER_TIMEOUT_FINALIZATION_RESERVE_SECONDS
-    )
+    available = math.floor(deadline - now - WORKER_TIMEOUT_FINALIZATION_RESERVE_SECONDS)
     resolved = min(declared_seconds, WORKER_TIMEOUT_CEILING_SECONDS, available)
     if resolved < 1:
         raise TimeoutError("kernel deadline leaves no worker time after finalization reserve")
@@ -194,6 +244,158 @@ def export_artifacts(root: Path, spec: dict, output: Path) -> dict:
     return result
 
 
+def _read_bounded_json_object(path: Path) -> dict[str, object] | None:
+    """Read a small atomic receipt without following links or exposing errors."""
+    if path.is_symlink() or path.parent.is_symlink() or path.parent.parent.is_symlink():
+        return None
+    try:
+        with path.open("rb") as source:
+            payload = source.read(E540_PHASE_RECEIPT_BYTES_MAX + 1)
+    except OSError:
+        return None
+    if len(payload) > E540_PHASE_RECEIPT_BYTES_MAX:
+        return None
+
+    def reject_constant(value: str) -> None:
+        raise ValueError(f"nonfinite JSON number: {value}")
+
+    try:
+        value = json.loads(payload, parse_constant=reject_constant)
+    except (json.JSONDecodeError, UnicodeDecodeError, ValueError, RecursionError):
+        return None
+    return value if isinstance(value, dict) else None
+
+
+def _finite_float(value: object) -> float | None:
+    """Convert only finite, non-boolean JSON numbers without overflowing."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    try:
+        number = float(value)
+    except OverflowError:
+        return None
+    return number if math.isfinite(number) else None
+
+
+def _bounded_float(value: object, upper_bound: float) -> float | None:
+    """Accept only finite non-boolean values in a small nonnegative range."""
+    number = _finite_float(value)
+    if number is None or not 0 <= number <= upper_bound:
+        return None
+    return round(number, 3)
+
+
+def _bounded_update_count(value: object) -> int | None:
+    """Accept only integer optimizer counters within the frozen E540 scale."""
+    if (
+        isinstance(value, bool)
+        or not isinstance(value, int)
+        or not 0 <= value <= E540_PHASE_UPDATE_COUNT_MAX
+    ):
+        return None
+    return value
+
+
+def _e540_worker_phase(root: Path, *, now_unix: float | None = None) -> dict[str, object]:
+    """Project the atomic E540 V7 receipts onto a strict live-safe field allowlist."""
+    cohort = _read_bounded_json_object(root / "e540_cohort" / "cohort.json")
+    if (
+        cohort is None
+        or cohort.get("packet_id") != E540_V7_PACKET_ID
+        or cohort.get("precision") != "fp32"
+    ):
+        return {"status": "unavailable"}
+
+    phase = cohort.get("phase")
+    cohort_status = cohort.get("status")
+    started_unix = cohort.get("started_unix")
+    current_unix = time.time() if now_unix is None else now_unix
+    started_number = _finite_float(started_unix)
+    current_number = _finite_float(current_unix)
+    if (
+        not isinstance(phase, str)
+        or phase not in E540_PHASES
+        or not isinstance(cohort_status, str)
+        or cohort_status not in E540_COHORT_STATUSES
+        or started_number is None
+        or current_number is None
+    ):
+        return {"status": "unavailable"}
+    elapsed = _bounded_float(
+        current_number - started_number,
+        E540_PHASE_RECEIPT_AGE_SECONDS_MAX,
+    )
+    if elapsed is None:
+        return {"status": "unavailable"}
+
+    stage, arm_id = E540_PHASES[phase]
+    summary: dict[str, object] = {
+        "status": "available",
+        "stage": stage,
+        "arm_id": arm_id,
+        "cohort_status": cohort_status,
+        "worker_elapsed_seconds": elapsed,
+    }
+    if arm_id is None:
+        return _add_e540_profile_gate_metrics(root, summary)
+
+    arm = _read_bounded_json_object(root / "e540_cohort" / "receipts" / f"{arm_id}.json")
+    if arm is None or arm.get("mode") != arm_id:
+        return _add_e540_profile_gate_metrics(root, summary)
+    arm_status = arm.get("status")
+    if isinstance(arm_status, str) and arm_status in E540_ARM_STATUSES:
+        summary["arm_status"] = arm_status
+
+    phase_wall: object = None
+    updates: object = None
+    step_wall_ms: object = None
+    if stage == "profile":
+        profile = arm.get("profile")
+        if isinstance(profile, dict):
+            phase_wall = profile.get("profile_wall_seconds")
+            step_wall_ms = profile.get("step_wall_ms")
+            evidence = profile.get("profile_update_evidence")
+            if isinstance(evidence, dict):
+                updates = evidence.get("optimizer_completed_updates")
+    elif stage == "fit":
+        phase_wall = arm.get("fit_wall_seconds")
+        diagnostics = arm.get("fit_optimizer_diagnostics")
+        if isinstance(diagnostics, dict):
+            updates = diagnostics.get("optimizer_completed_updates")
+    elif stage == "prediction":
+        phase_wall = arm.get("prediction_wall_seconds")
+
+    bounded_wall = _bounded_float(phase_wall, E540_PHASE_METRIC_SECONDS_MAX)
+    if bounded_wall is not None:
+        summary["phase_wall_seconds"] = bounded_wall
+    bounded_updates = _bounded_update_count(updates)
+    if bounded_updates is not None:
+        summary["optimizer_completed_updates"] = bounded_updates
+    bounded_step_wall = _bounded_float(step_wall_ms, E540_PHASE_STEP_WALL_MS_MAX)
+    if bounded_step_wall is not None:
+        summary["step_wall_ms"] = bounded_step_wall
+    return _add_e540_profile_gate_metrics(root, summary)
+
+
+def _add_e540_profile_gate_metrics(root: Path, summary: dict[str, object]) -> dict[str, object]:
+    """Add only finite, bounded profile-gate measurements when that receipt exists."""
+    gate = _read_bounded_json_object(root / "e540_cohort" / "profile_gate.json")
+    if gate is None:
+        return summary
+    status = gate.get("status")
+    if isinstance(status, str) and status in {"pass", "reject"}:
+        summary["profile_gate_status"] = status
+    for field, limit in (
+        ("projected_total_worker_seconds", E540_PHASE_PROJECTION_SECONDS_MAX),
+        ("maximum_worker_seconds", E540_PHASE_METRIC_SECONDS_MAX),
+        ("worker_elapsed_seconds_at_gate", E540_PHASE_RECEIPT_AGE_SECONDS_MAX),
+    ):
+        value = _bounded_float(gate.get(field), limit)
+        if value is not None:
+            summary[field] = value
+    return summary
+
+
 def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float = 30) -> None:
     """Run fixed jobs with one process per device and a fail-closed external watchdog."""
     specs = [read_spec(path) for path in spec_paths]
@@ -217,11 +419,7 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
     # streaming portable-registry check in the recipe worker before Torch loads.
     for spec in specs:
         raw_deferred = spec["environment"].get("WNN_DEFERRED_IDENTITY_PATHS", "")
-        deferred_paths = {
-            relative_path(value)
-            for value in raw_deferred.split(",")
-            if value
-        }
+        deferred_paths = {relative_path(value) for value in raw_deferred.split(",") if value}
         input_paths = {item["path"] for item in spec["inputs"]}
         code_paths = {item["path"] for item in spec["code"]}
         if deferred_paths & code_paths or not deferred_paths.issubset(input_paths):
@@ -337,6 +535,7 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
                         "cpus": cpus,
                         "output": job_output,
                         "log": log,
+                        "e540_phase_root": (root if spec["name"] == E540_V7_SPEC_NAME else None),
                         "started": launch_monotonic,
                         "worker_timeout_seconds": resolved_timeout,
                         "peak_ram_bytes": 0,
@@ -432,20 +631,24 @@ def resource_heartbeat(
     active: list[dict], finished: list[dict], queue: list[dict], now: float
 ) -> dict:
     """Expose only whitelisted operational fields to private provider stdout."""
+    active_rows = []
+    for job in active:
+        row = {
+            "name": job["spec"]["name"],
+            "gpu_index": job["device"]["index"],
+            "gpu_uuid": job["device"]["uuid"],
+            "elapsed_seconds": round(max(0, now - job["started"]), 3),
+            "worker_timeout_seconds": job["worker_timeout_seconds"],
+            "peak_ram_bytes": job["peak_ram_bytes"],
+            "peak_gpu_bytes": job["peak_gpu_bytes"],
+        }
+        phase_root = job.get("e540_phase_root")
+        if isinstance(phase_root, Path):
+            row["worker_phase"] = _e540_worker_phase(phase_root)
+        active_rows.append(row)
     return {
         "event": "campaign_resource_heartbeat",
-        "active": [
-            {
-                "name": job["spec"]["name"],
-                "gpu_index": job["device"]["index"],
-                "gpu_uuid": job["device"]["uuid"],
-                "elapsed_seconds": round(max(0, now - job["started"]), 3),
-                "worker_timeout_seconds": job["worker_timeout_seconds"],
-                "peak_ram_bytes": job["peak_ram_bytes"],
-                "peak_gpu_bytes": job["peak_gpu_bytes"],
-            }
-            for job in active
-        ],
+        "active": active_rows,
         "finished": [{"name": job["name"], "status": job["status"]} for job in finished],
         "not_started": [spec["name"] for spec in queue],
         "scope": "measured worker resource activity; not proof of epoch progress or scientific success",
