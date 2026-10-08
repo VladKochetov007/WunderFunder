@@ -1,0 +1,59 @@
+{
+  "created_utc": "2026-10-08T12:49:38.568498+00:00",
+  "status": "posthoc_profile_evidence_verified_consumer_failure_not_scientific_negative",
+  "request_sha256": "d764d5a0b7830d87cfcd099adac3357943ea2edfc69b991f4c5407b6646dee63",
+  "all_collected_manifest_files_verified": 117,
+  "profiles": {
+    "muon512": {
+      "actual_outer_batch_ms": 1845.01,
+      "updates": 230,
+      "skips": 0,
+      "policy_dtype": "float32",
+      "profile_log_sha256": "4f94e0127675546ac2bfb93ea7d2f4a8e030150bab4ad5a149789a01f9837558",
+      "peak_vram_MB": 1039
+    },
+    "muon768": {
+      "actual_outer_batch_ms": 2861.57,
+      "updates": 230,
+      "skips": 0,
+      "policy_dtype": "float32",
+      "profile_log_sha256": "3d584ce458b8fa5567fb35269d3d8dae5ee4854b61a74e0f3794e285008e61de",
+      "peak_vram_MB": 1663
+    }
+  },
+  "device": "2x TeslaT4, actualprofilesphysicalGPU0, capability7.5",
+  "producer_consumer_diagnosis": "Actual OPTIMIZER_COMPUTE_PRECISION stores selected_dtype inside groups[]; archived consumer checks absent top-level field. Bothprofiles completed before consumerfailed. Originalreceiptstatusstarting preserved; providerERROR and phasefail establishterminalfailure.",
+  "fit_projection": {
+    "pair_projected_fit_seconds": 33706.644,
+    "per_arm": {
+      "muon512": {
+        "batches_per_epoch": 1492,
+        "chunk_optimizer_updates_per_outer_batch": 10,
+        "epochs": 4,
+        "observed_fit": false,
+        "outer_batch_wall_seconds": 1.84501,
+        "projected_fit_seconds": 13213.224,
+        "projected_optimizer_attempts_per_arm": 59680,
+        "safety_multiplier": 1.2,
+        "source_formula": "step_wall_ms / 1000 * 1492 * 4 * 1.20 (capacity_worker._profile_projection_seconds)"
+      },
+      "muon768": {
+        "batches_per_epoch": 1492,
+        "chunk_optimizer_updates_per_outer_batch": 10,
+        "epochs": 4,
+        "observed_fit": false,
+        "outer_batch_wall_seconds": 2.86157,
+        "projected_fit_seconds": 20493.42,
+        "projected_optimizer_attempts_per_arm": 59680,
+        "safety_multiplier": 1.2,
+        "source_formula": "step_wall_ms / 1000 * 1492 * 4 * 1.20 (capacity_worker._profile_projection_seconds)"
+      }
+    },
+    "projection_caveat": "This reproduces the archived worker projection formula from actual profile wall times, 1492 full B8 batches/epoch, four epochs and 1.20 safety. It excludes observed full-fit time because no full fit occurred; the frozen worker would also account setup/export/finalization reserves if conditional fit authorization were enabled.",
+    "status": "posthoc projection only; no fit was authorized or started",
+    "worker_cap_seconds": 5200,
+    "worker_projection_fits_within_cap": false
+  },
+  "fit_authorized": false,
+  "next_action": "Prepare separately identified corrected consumer/startup-reviewed fit packet within fresh quota and sufficient per-arm deadlines. Do not rerun these completed B8 profiles to repair postprocessing. Prefer existing runner two-GPU independent fits if aggregatehost headroom and quota permit; evaluate batching optimization separately."
+}

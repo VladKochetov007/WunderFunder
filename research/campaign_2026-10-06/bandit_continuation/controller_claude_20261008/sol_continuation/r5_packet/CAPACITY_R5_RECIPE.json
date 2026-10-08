@@ -1,0 +1,41 @@
+{
+  "packet_id": "E529_CAPACITY_VAST_R5_SEQUENTIAL_SEED9_FOLD0_V1",
+  "base_recipe_sha256": "ddd48659785240271ce2fc42619c9347d430055a718cfbca5ab0ad4ab1eb84cb",
+  "science": "unchanged sequential fresh Muon512/Muon768 seed9 B8/four epochs/fixedep3, source/target/data/split/sampler unchanged from V5R3",
+  "device_adaptation": "3090/4090 actual-device 1warmup+2timed-batch smoke per arm, resolved native BF16 orthogonalization policy unchanged; no smoke weights carry into fit",
+  "profile_reuse": "successful 230-update T4 V4 profiles retained as producer evidence; no full profile repeat",
+  "delivery": "fixedep3 checkpoint+provenance+history; exact468 FP32 feature-only validation predictions; complete train and valid FP32 teacher predictions in actual parquet row-group order; raw receipts/logs/resources; independent grader follows",
+  "runtime": "10h hardstop from root create, bounded worker deadline; sequential arm budget from actual-device timing, preserve partials and terminate on empty useful queue",
+  "warm_data": "one verified physical input set; per-arm independent subprocess/model/optimizer; parsed loader not shared; OS cache reuse not claimed",
+  "export_reserve_seconds": 5400,
+  "max_artifact_bytes": 5000000000,
+  "export_fitting_change": false,
+  "inputs": {
+    "cache/chain_folds.npz": {
+      "bytes": 550072,
+      "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+    },
+    "cache/chains.npz": {
+      "bytes": 650142,
+      "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+    },
+    "cache/train_targets.npz": {
+      "bytes": 1909335790,
+      "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9"
+    },
+    "cache/valid_targets.npz": {
+      "bytes": 337186198,
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    },
+    "datasets/train.parquet": {
+      "bytes": 29240219011,
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+    },
+    "datasets/valid.parquet": {
+      "bytes": 5615509128,
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+    }
+  },
+  "exposure": "fold0 exposed development; no public forecast",
+  "authority": "root pending exact source/recipe/spec/admission, no provider mutation by builder"
+}
