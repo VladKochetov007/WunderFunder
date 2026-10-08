@@ -1,0 +1,64 @@
+{
+  "review_id": "GRU-CAPACITY-V3-INDEPENDENT-SOURCE-REVIEW-20261008-R1",
+  "reviewed_at_utc": "2026-10-08T10:00:07Z",
+  "reviewer_role": "independent source critic",
+  "reviewed_repository_commit": "c78faa94af9108c3d0887fc22652c49506bc7a73",
+  "packet": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru512_768_muon_capacity_v3_profile_20261008/packet",
+    "packet_id": "E529_H232_GRU512_768_MUON_SEED9_PROFILE_V3_20261008",
+    "recipe_sha256": "a73aa3c3bb31c752ecbe6a02e087a606946093384b5340d4857bb97146a186b1",
+    "worker_sha256": "e8bda2e3d077f3f2a3f4b8665158a30da63078e44407e85525db612bc4d7cea8",
+    "source_archive_sha256": "a38899dc8a51231936f32c43b6ae56b3e6e6fffde647116337adf603bd709a02",
+    "source_archive_manifest_sha256": "ae5222c925aad41079846fb26367ca8cc3a812a428e4a6995a3dfad419495631",
+    "private_source_dataset_manifest_sha256": "f7c9e2b1fb79cea0a832e089c435a7a6817631b4ec44d17f0014b82998f567c5",
+    "uploaded_kernel_driver_sha256": "df56c157f99c60b445d9ee88e891a9eb64726d943a8a3568272ae0afbf41e314",
+    "kernel_metadata_sha256": "1de601b45acaf0acead53a1d915ec6ea425fd7fd4ccba47894104609c67120a7",
+    "portable_input_manifest_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "verdict": "PASS_SOURCE_REVIEW_ONLY_PROFILE_REMAINS_PENDING_ROOT_ADMISSION",
+  "scope": [
+    "profile-only worker gate and immutable packet bindings",
+    "B8/B4 actual-device profiling loop and worker deadline",
+    "physical GPU zero selection and memory telemetry",
+    "raw/cache/split/source-archive closure",
+    "content-addressed Kaggle bootstrap and private source-dataset materialization"
+  ],
+  "checks": {
+    "packet_and_source_bindings": {
+      "status": "pass",
+      "evidence": "Independently recomputed the recipe file bindings, all 53 source-archive member sizes and hashes, and the exact uploaded private source-dataset member set and content-addressed filenames. The archive and upload manifests have no duplicate members or unlisted entries."
+    },
+    "fit_disabled": {
+      "status": "pass",
+      "evidence": "The current root authorization has authorized=false, profile_authorized=false, conditional_fit_authorized=false, and fit_arm_ids=[]. Worker _verify_packet rejects a truthy fit authorization or any fit-arm list before source preparation; the current false profile authorization returns authorization_pending. After an authorized profile, the false fit flag returns profile_complete_fit_not_authorized before _fit_arm can be called."
+    },
+    "profile_command_loop_and_deadline": {
+      "status": "pass",
+      "evidence": "The worker profiles both primary Muon arms at B8 first, using 3 warmup plus 20 timed outer batches and 10 chunk updates per batch (230 attempts). It accepts only 230 completed finite updates with zero AMP skips. Only explicit CUDA allocation OOM markers permit a complete B4 reprofile of both primary arms; other failures fail closed. AdamW512 is profiled once at the selected pair batch, and its failure is recorded without vetoing the primary pair. Commands share a 5200-second monotonic worker deadline and preserve a 300-second finalization reserve; child processes are terminated at that reserve."
+    },
+    "physical_gpu_telemetry": {
+      "status": "pass_with_runtime_identity_check_required",
+      "evidence": "Both entry paths set CUDA_VISIBLE_DEVICES=0 before importing the worker/trainer. The worker captures the full nvidia-smi inventory, queries physical index 0 separately, verifies its UUID/name/capability/total-memory match the inventory, and samples --id=0 memory every 5 seconds during each child profile. Missing memory samples fail the profile gate."
+    },
+    "input_split_and_membership_closure": {
+      "status": "pass_source_contract",
+      "evidence": "The portable manifest binds exactly train.parquet, valid.parquet, and four declared fold-0 caches. Raw files use the prior full-digest receipt only when the complete prior stat identity still matches; otherwise the worker hashes current bytes. Cache bytes are hash-checked against the approved fold-assets manifest. The embedded split hash and worker checks bind 10,535 train groups, 1,405 fit-development groups, 468 evaluation groups, and zero fit/evaluation component overlap. No raw Parquet or NPZ data were read during this review."
+    },
+    "content_addressed_driver": {
+      "status": "pass",
+      "evidence": "The outer Kaggle codefile hash matches PACKET_BUILD_RECEIPT and its metadata selects the private profile kernel, T4, GPU enabled, and network disabled. Before importing capacity_worker, the bootstrap verifies the pinned private assets-manifest hash, exact source-dataset slug/private flag, exact required-file set, SHA-named .wnn files, sizes, and copied bytes. Materialization is atomic into a fresh working directory and the mounted worker packet ID is checked."
+    }
+  },
+  "finding": {
+    "severity": "non_blocking_runtime_evidence_limitation",
+    "text": "The worker records the actual selected GPU name and capability but does not itself reject a device whose name is not Tesla T4. The Kaggle metadata requests NvidiaTeslaT4, and the recipe requires a stable T4 identity; root must compare the terminal hardware receipt with that requirement before accepting profile timings. No actual device was available to this source-only review."
+  },
+  "limitations": [
+    "This receipt is source/packet review only; it does not authorize a provider push, profile, fit, or grading.",
+    "No provider call, GPU operation, fit, raw data read, or NPZ/Parquet decode was performed.",
+    "The controller reports 21 focused packet tests passed; they were not rerun in this bounded independent review.",
+    "Fresh Kaggle quota admission and actual T4/device-memory evidence remain required before profiling.",
+    "A later fit must use a separately identified successor; this frozen packet is profile-only."
+  ]
+}
