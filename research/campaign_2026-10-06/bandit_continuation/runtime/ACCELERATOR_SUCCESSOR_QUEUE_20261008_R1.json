@@ -1,0 +1,63 @@
+{
+  "created_utc": "2026-10-08T08:03:07.545164+00:00",
+  "authority": "specs/adr/0022-prepared-successors-and-paid-warm-cohorts.md",
+  "entries": [
+    {
+      "lane": "kaggle_gpu",
+      "recipe": "E540 V12 completed-checkpoint linear/PLE export",
+      "readiness": "conditionally_admitted",
+      "owner": "/root/e540_independent_recipe_delivery_audit",
+      "next": "Exact final private-byte verification, fresh quota, onepush; no repeated fitting.",
+      "authorization": "E540_V12_ROOT_EXPORT_AUTHORIZATION_20261008_R1.json"
+    },
+    {
+      "lane": "kaggle_tpu",
+      "recipe": "E463 V6 actualdata/update/checkpointreload compatibility",
+      "readiness": "conditionally_admitted",
+      "owner": "/root/h232_v7_proactive_recovery",
+      "next": "Fresh quota/privateinput checks, onepush, actual terminalnumerical evidence.",
+      "authorization": "E463_TPU_V6_ROOT_ONE_PUSH_AUTHORIZATION_20261008_R1.json"
+    },
+    {
+      "lane": "kaggle_tpu",
+      "recipe": "E465 finite warmed FP32/BF16 ownteacher cohort",
+      "readiness": "source_preparation",
+      "owner": "/root/h232_v7_proactive_recovery",
+      "blockers": [
+        "Strict actual V6 result consumer",
+        "Precision-specific actual numerical/profile admission",
+        "Frozen exact production packet"
+      ]
+    },
+    {
+      "lane": "cloud_training",
+      "recipe": "Own all-data heterogeneous teacher families and seed-specific parent student endpoint",
+      "readiness": "source_preparation",
+      "owner": "/root/h230_actual_delivery",
+      "blockers": [
+        "Exact independently authored recipe/packet",
+        "Missing own full all-data teacherfamily checkpoints",
+        "Missing own seed4 complete parent"
+      ]
+    },
+    {
+      "lane": "vast",
+      "recipe": "Distinct capacity or all-data teacher warmcohort",
+      "readiness": "source_preparation",
+      "owner": "/root/e540_independent_recipe_delivery_audit",
+      "blockers": [
+        "Executable reviewed packet and finite queue",
+        "Bounded spend/liveoffer/device admission"
+      ],
+      "note": "Original ambiguousTCNcreation watch remains; this is not duplicate retry/adoption."
+    },
+    {
+      "lane": "local_cpu",
+      "recipe": "H230 fixedep1 offline ZIP serving checks",
+      "readiness": "running",
+      "owner": "/root/h230_actual_delivery",
+      "next": "Validated deliveredZIP thenrootrelease"
+    }
+  ],
+  "interpretation": "Queue readiness is not proof of running accelerator jobs; original recipes/auth remain authoritative."
+}
