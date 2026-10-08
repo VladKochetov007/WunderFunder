@@ -1,0 +1,106 @@
+{
+  "schema": "wnn.diversity-stacking-luna-eda.v1",
+  "role": "independent Luna/max investigation",
+  "worktree_base": "8cba3f4d87765c9d9cf8145f9063cd2439aea25d",
+  "worktree": "/home/vlad/development/wunder/worktrees/luna-diversity-stacking-20261009",
+  "status": "proposal_committed_no_new_fit_or_score",
+  "exposure": {
+    "panel": "fold0 clean 468 groups",
+    "components": 141,
+    "selected_rows": 808863,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "target_index_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "prior_exposure": "repeatedly inspected development evidence; cross-fit does not restore fresh confirmation"
+  },
+  "existing_comparisons": [
+    {
+      "id": "exact_z3_fold0",
+      "report": "reports/Z3_EXACT_FOLD0_INDEPENDENT_GRADE_R1.json",
+      "candidate_predictions": [
+        "d045c767343d7872a6eaa8ddf7ecf3402982a3d9a7df3cb10510dae4bd09e9d3",
+        "462326e735d298661abd631d995ced444962de28f8316436ceb8454cd7463c5e"
+      ],
+      "control_predictions": [
+        "f1a3b07072a62dce620dc0c90e9568093367d0aed1afa4e9ec550866f94df12b",
+        "ffd97736e444fdb457e8af8e433860e59d5b0c2e5430ace86d6e464445271d84"
+      ],
+      "candidate_wp": 0.681635178653301,
+      "control_wp": 0.6818872532633053,
+      "delta": -0.0002520746100046489,
+      "component_bootstrap_ci95": [-0.0027035656444596794, 0.001516318649977795],
+      "candidate_eval_fit_overlap": 0,
+      "interpretation": "valid matched fixed-endpoint comparison; exposed discovery; no promotion"
+    },
+    {
+      "id": "h230_seed3_fold0_endpoint",
+      "report": "reports/H230_FOLD0_ENDPOINT_GRADE_20261008_R1.json",
+      "candidate_predictions": [
+        "8f0f53f7990739847cb4ecd785b508ef32a59c982a702b5e05cf04bbd1d78e78",
+        "353b8ff61e26fd659c0a4d7e579094e63a79a9675364f9fd1fb2fb7605b5e60e"
+      ],
+      "control_predictions": [
+        "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+        "c58e4914b81bff5214f7f9b18ae1a203eb5ea2713ea3948e1d8d680b4312fede"
+      ],
+      "candidate_wp": 0.6823084606764618,
+      "control_wp": 0.6820687897054627,
+      "delta": 0.00023967097099908408,
+      "component_bootstrap_ci95": [-0.0010239600540226906, 0.0012450000186494362],
+      "interpretation": "valid matched fixed-endpoint comparison; exposed discovery; no promotion"
+    }
+  ],
+  "additional_prediction": {
+    "run": "bd26_h230_strong_parent_seed99_muon_local_v1@ep3",
+    "prediction_path": "cache/pred_h230_seed99_ep3_fp32_valid.npy",
+    "prediction_sha256": "920862971d4a3298435e58529729bbe4b607a00271189baef4d91599cf1b409b",
+    "checkpoint_sha256": "b20fbd2911b220aaefd88986f308a713d465b898c6f7050c24d019c7a4b68e86",
+    "shape": [1873, 20000, 2],
+    "dtype": "float32",
+    "bytes": 299680128,
+    "eligible_rows": "only the exact 468 fold0 evaluation groups from H230 live input identity/terminal receipt",
+    "ineligible_rows": "the 1405 fold0 fit-valid groups in this same valid array are in-sample",
+    "sidecar_split_manifest_sha256": null,
+    "receipt_status": "terminal_success_output_integrity_verified",
+    "limit": "bind exact 468 row mask through terminal input-identity receipt; do not treat entire array as OOF"
+  },
+  "meta_crossfit": {
+    "unit": "frozen feature-only connected component",
+    "outer_folds": 5,
+    "inner_selection": "grouped component split nested within outer-training components",
+    "official_metric": "global_wp_clip2_v1",
+    "base_fit_ancestry_rule": "for every meta row, every base model, teacher, initializer, source, propensity, and residual target producer must exclude that row's component",
+    "inference_inputs": "current and past features/predictions only; no labels, group ID, component ID, or future features",
+    "selection_exposure": "all component folds remain exploratory because the 468-group panel has already been inspected"
+  },
+  "executed_eda": {
+    "mmap_loaded": false,
+    "npz_loaded": false,
+    "meta_model_fitted": false,
+    "new_score_computed": false,
+    "gpu_or_provider_used": false,
+    "memory_current_bytes": null,
+    "reason": "read-only inventory and frozen reports were sufficient for this proposal; a campaign memory query did not expose MemoryCurrent"
+  },
+  "literature": [
+    {
+      "title": "Super Learner",
+      "authors": "van der Laan, Polley, Hubbard",
+      "year": 2007,
+      "doi": "10.2202/1544-6115.1309",
+      "url": "https://doi.org/10.2202/1544-6115.1309"
+    },
+    {
+      "title": "Greedy Function Approximation: A Gradient Boosting Machine",
+      "author": "Friedman",
+      "year": 2001,
+      "doi": "10.1214/aos/1013203451",
+      "url": "https://doi.org/10.1214/aos/1013203451"
+    },
+    {
+      "title": "Portfolio Selection",
+      "author": "Markowitz",
+      "year": 1952,
+      "selection": "seed 20261008; p. 5 covariance of weighted-sum variance; prior library sampling receipt"
+    }
+  ]
+}
