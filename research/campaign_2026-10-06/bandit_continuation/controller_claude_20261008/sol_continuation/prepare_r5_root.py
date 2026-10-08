@@ -134,7 +134,7 @@ def main() -> None:
         "max_upload_bytes": sum(row["size_bytes"] for row in inputs) + archive.stat().st_size,
         "max_laptop_upload_bytes": 99999999,
         "upload_timeout_seconds": 1800,
-        "worker_setup_timeout_seconds": 450,
+        "worker_setup_timeout_seconds": 750,
         "max_worker_host_ram_gb": "28",
         "max_runtime_seconds": 36000,
         "max_artifact_bytes": 5000000000,
@@ -164,7 +164,7 @@ def main() -> None:
         attempt_id=ATTEMPT,
         campaign_label=LABEL,
         frozen_inputs=inputs,
-        runtime_root=destination / "prefetch_check",
+        runtime_root=destination,
     )
     template = (
         ROOT
