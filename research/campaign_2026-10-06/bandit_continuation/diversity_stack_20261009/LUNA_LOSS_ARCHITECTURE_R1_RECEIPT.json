@@ -1,0 +1,92 @@
+{
+  "schema": "wnn.independent-ideation-receipt.v1",
+  "role": "independent loss, architecture, and sampling ideator",
+  "provider_model": "OpenAI Codex GPT-6 Luna",
+  "reasoning_effort": "max",
+  "date": "2026-10-09",
+  "status": "proposal only; no experiment admission requested",
+  "scope": {
+    "write_artifacts": [
+      "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LUNA_LOSS_ARCHITECTURE_R1.md",
+      "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LUNA_LOSS_ARCHITECTURE_R1_RECEIPT.json"
+    ],
+    "prohibited_actions_observed": [
+      "no training fit",
+      "no provider launch or mutation",
+      "no rental or spending",
+      "no kernel push or publish",
+      "no authority or allocation change",
+      "no teammate weights or source copied",
+      "no other ideator proposals read"
+    ]
+  },
+  "basis_read": [
+    "specs/README.md",
+    "specs/research-objective.md",
+    "specs/current-state.md",
+    "specs/adr/0027-diverse-models-and-second-level-learning.md",
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTRACT_R1.md",
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/INDEPENDENT_BRIEF_R1.md",
+    ".agents/skills/research-reframe/SKILL.md",
+    ".agents/skills/research-portfolio-control/SKILL.md",
+    ".agents/skills/conduct-creative-research/references/design-basis.md",
+    "AGENT_RESOURCE_RULES.md"
+  ],
+  "implementation_sources_inspected": [
+    "scripts/train_rnn.py",
+    "src/wnn/nn.py",
+    "src/wnn/gmetric.py",
+    "src/wnn/training_sampling.py",
+    "src/wnn/optim.py",
+    "src/wnn/infer.py",
+    "src/wnn/tcn_ref.py"
+  ],
+  "source_facts_and_limits": [
+    "Official evaluator uses pooled clipped weighted Pearson; metric definition was not changed.",
+    "Trainer already exposes weighted Huber, correlation/MSE objectives, AdamW/Muon/SGD, TCN, and a readout activation mixture.",
+    "The submission-side NumPy inference implementation inspected is GRU-specific; no TCN deployment support was established.",
+    "Existing stratified sampler helper accepts strata, but train_rnn currently constructs it without strata; class_balance and epoch_samples use replacement sampling.",
+    "Previously inspected folds remain exposed and were not described as fresh."
+  ],
+  "unconventional_transfer": {
+    "random_library_draw": "research/ideas/claude_20261008_round/passages_selected.json",
+    "selection_seed": 20261008,
+    "selected_source": "Harry Markowitz, Portfolio Selection (1952), p. 5",
+    "transfer": "Use fit-only residual covariance as one diagnostic for blend complementarity, then select weights by the official metric with nested group cross-fitting and shrinkage.",
+    "limitation": "Portfolio variance theory does not establish gains for this clipped weighted-correlation metric; decorrelation alone is not a promotion criterion."
+  },
+  "primary_sources": [
+    {
+      "claim_scope": "Huber robust location estimator as motivation for testing bounded residual influence; no claim of score gain",
+      "citation": "Huber (1964), Robust Estimation of a Location Parameter",
+      "url": "https://doi.org/10.1214/aoms/1177703732"
+    },
+    {
+      "claim_scope": "A published comparison of generic causal convolutional and recurrent sequence models; not evidence the TCN wins this task",
+      "citation": "Bai, Kolter, and Koltun (2018), An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling",
+      "url": "https://arxiv.org/abs/1803.01271"
+    },
+    {
+      "claim_scope": "Covariance as a portfolio-selection consideration; transfer is only a residual-covariance diagnostic",
+      "citation": "Markowitz (1952), Portfolio Selection",
+      "url": "https://onlinelibrary.wiley.com/doi/full/10.1111/j.1540-6261.1952.tb01525.x"
+    }
+  ],
+  "cost_and_execution": {
+    "fits": 0,
+    "provider_actions": 0,
+    "external_paid_api_calls": 0,
+    "tests_run": 0,
+    "data_or_model_materialization": 0,
+    "network_use": "Read-only primary-source citation lookup only",
+    "compute": "Read-only source/spec inspection; no model/data tensors loaded",
+    "resource_envelope_basis": "Root-provided 1 CPU / 1 GB support ceiling; project aggregate caps and busy GPU status from the current task context",
+    "observed_at_utc": "2026-10-08T21:26:59Z"
+  },
+  "claims": {
+    "measured_score_gain": false,
+    "expected_public_score_above_known_best": false,
+    "candidate_public_score": null,
+    "proposal_confidence": "Mechanisms are code-compatible where stated; empirical value and serving contribution remain hypotheses."
+  }
+}
