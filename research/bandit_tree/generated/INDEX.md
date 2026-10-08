@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1062 · raw hypothesis rows 309 · raw experiment rows 638 · legacy arms 18 · catalog files 66631.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1062 · raw hypothesis rows 309 · raw experiment rows 638 · legacy arms 18 · catalog files 67044.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-4ab09014a68744f4f10091a00a0dee326f5c79fcc787cf7c7ac3ee8d71d5590d.json](<snapshots/config-4ab09014a68744f4f10091a00a0dee326f5c79fcc787cf7c7ac3ee8d71d5590d.json>).
 
