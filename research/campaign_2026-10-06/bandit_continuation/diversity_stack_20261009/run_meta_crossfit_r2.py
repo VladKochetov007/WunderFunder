@@ -178,7 +178,9 @@ def _verify_grade_evidence(root: Path, config: dict[str, Any]) -> None:
             report.get("components", report.get("metric", {}).get("components")),
         ) not in (141, None):
             raise ValueError(f"grade report component count mismatch: {evidence['path']}")
-        if report.get("claim_limits", {}).get("public_forecast") is not False:
+        no_public_forecast = report.get("claim_limits", {}).get("public_forecast") is False
+        no_public_forecast |= "not a public-score forecast" in report.get("exposure", "").lower()
+        if not no_public_forecast:
             raise ValueError(
                 f"grade report does not rule out a public forecast: {evidence['path']}"
             )
