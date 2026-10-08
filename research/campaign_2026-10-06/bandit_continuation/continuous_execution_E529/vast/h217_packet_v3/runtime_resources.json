@@ -1,0 +1,28 @@
+{
+  "arrow_cpu_threads_per_process": 1,
+  "arrow_io_threads_per_process": 1,
+  "cohort_accounting": {
+    "fit_and_valid_export_seconds": 18000,
+    "phase_sum_seconds": 19800,
+    "profile_seconds": 1800,
+    "setup_reserve_seconds": 450,
+    "terminal_packaging_reserve_seconds": 600,
+    "unallocated_worker_headroom_seconds": 750
+  },
+  "cohort_max_runtime_seconds": 21600,
+  "cpu_threads": 6,
+  "cuda_allocator_max_bytes": 18000000000,
+  "expected_outer_batch_ms_from_a3d_tcn_b8": 134.61,
+  "fit_timeout_seconds": 7200,
+  "loader_rationale": "Retains reviewed V2 cloud caps after actual A3D TCN B8 profile; fresh root admission and market/account checks required.",
+  "loader_workers": 3,
+  "observed_total_vram_max_bytes": 19000000000,
+  "profile_timeout_seconds": 900,
+  "schema_version": 1,
+  "scope": "H217 V3 resource contract; only declared scientific change from V2 is explicit AMP initial scale4096; model/data/target/optimizer/schedule/split settings are unchanged.",
+  "setup_timeout_seconds": 450,
+  "terminal_packaging_reserve_seconds": 600,
+  "timing_contract": "PROFILE.step_wall is per outer DataLoader batch and includes all internal windows/chunks; never multiply by ceil(20000/2000).",
+  "valid_export_timeout_seconds": 1800,
+  "worker_memory_max_bytes": 28000000000
+}
