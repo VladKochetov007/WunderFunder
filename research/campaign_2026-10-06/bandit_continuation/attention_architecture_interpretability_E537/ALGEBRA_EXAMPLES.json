@@ -1,0 +1,116 @@
+{
+  "scope": "Deterministic algebra illustrations only; no model, training, task evaluation or empirical claim.",
+  "executor": "functions.exec V8 JavaScript",
+  "checks": {
+    "metric": {
+      "fixture": [
+        {
+          "prob": 0.3333333333333333,
+          "ys": [
+            -2,
+            0.5
+          ],
+          "ps": [
+            0.2,
+            0.8
+          ]
+        },
+        {
+          "prob": 0.3333333333333333,
+          "ys": [
+            -0.5,
+            2
+          ],
+          "ps": [
+            0.8,
+            0.2
+          ]
+        },
+        {
+          "prob": 0.3333333333333333,
+          "ys": [
+            -1,
+            1
+          ],
+          "ps": [
+            0.2,
+            0.8
+          ]
+        }
+      ],
+      "ordinary_conditional_mean": [
+        0,
+        0,
+        0.6000000000000001
+      ],
+      "weighted_conditional_mean": [
+        -0.7500000000000001,
+        0.7500000000000001,
+        0.6000000000000001
+      ],
+      "ordinary_weighted_correlation": 0.22800342007695185,
+      "tilted_weighted_correlation": 0.5130076951731417
+    },
+    "area": {
+      "forward": {
+        "endpoint": [
+          1,
+          1
+        ],
+        "area01": 0.5
+      },
+      "reverse": {
+        "endpoint": [
+          1,
+          1
+        ],
+        "area01": -0.5
+      },
+      "with_zero_increments": {
+        "endpoint": [
+          1,
+          1
+        ],
+        "area01": 0.5
+      }
+    },
+    "delta": {
+      "prior": [
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "key": [
+        1,
+        0
+      ],
+      "value": [
+        5,
+        7
+      ],
+      "alpha": 1,
+      "beta": 1,
+      "expected_updated": [
+        [
+          5,
+          0
+        ],
+        [
+          7,
+          3
+        ]
+      ],
+      "unchanged_orthogonal_key": [
+        0,
+        3
+      ]
+    }
+  },
+  "passed": true,
+  "limitations": "The delta result is a hand-evaluated expected fixture, not a tested implementation. No proposed model module has been implemented. Official gmetric was inspected but this example uses a standalone finite-distribution calculation."
+}
