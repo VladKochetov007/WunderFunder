@@ -138,6 +138,16 @@ class WorkerStartupFailure(CampaignError):
 class ApiError(CampaignError):
     """A bounded HTTPS request failed without exposing response bodies or secrets."""
 
+    def __init__(self, message: str, *, http_status: int | None = None) -> None:
+        if http_status is not None and (
+            isinstance(http_status, bool)
+            or not isinstance(http_status, int)
+            or not 100 <= http_status <= 599
+        ):
+            raise ValueError("HTTP status must be an integer from 100 through 599")
+        super().__init__(message)
+        self.http_status = http_status
+
 
 class Provider(Protocol):
     """Minimal API surface used by the lifecycle state machine and its tests."""
@@ -226,8 +236,19 @@ class VastApi:
                     raise ApiError("Vast API changed the request URL; redirects are disabled")
                 raw = response.read(5_000_001)
         except urllib.error.HTTPError as error:
+            # Preserve only a validated numeric status before closing the response.
+            http_status = error.code
+            if (
+                isinstance(http_status, bool)
+                or not isinstance(http_status, int)
+                or not 100 <= http_status <= 599
+            ):
+                http_status = None
             error.close()
-            raise ApiError(f"Vast API returned HTTP {error.code} for {method} {route}") from None
+            raise ApiError(
+                f"Vast API returned HTTP {http_status} for {method} {route}",
+                http_status=http_status,
+            ) from None
         except (urllib.error.URLError, TimeoutError, OSError) as error:
             raise ApiError(
                 f"Vast API {method} {route} failed: {type(error).__name__}; reconcile before retry"
@@ -1514,10 +1535,19 @@ class VastCampaign:
             response = self.api.create_instance(offer_id, create_payload)
         except Exception as error:
             # Any exception after the single request begins can follow a remote success.
+            # Persist only the bounded exception type and validated numeric HTTP status.
+            http_status = error.http_status if isinstance(error, ApiError) else None
+            if (
+                isinstance(http_status, bool)
+                or not isinstance(http_status, int)
+                or not 100 <= http_status <= 599
+            ):
+                http_status = None
             self._update_attempt(
                 attempt_id,
                 status="launch_uncertain",
                 last_error_type=type(error).__name__,
+                last_error_http_status=http_status,
                 updated_at_utc=utc_now(),
             )
             raise CampaignError(

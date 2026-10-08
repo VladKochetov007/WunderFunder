@@ -844,6 +844,90 @@ def test_create_timeout_is_durable_and_same_attempt_never_posts_twice(
     assert provider.create_calls == 1
 
 
+@pytest.mark.parametrize(
+    ("failure_kind", "expected_http_status"),
+    [("http_400", 400), ("http_403", 403), ("timeout", None)],
+)
+def test_create_api_failure_receipt_contains_only_safe_status_and_never_reposts(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    failure_kind: str,
+    expected_http_status: int | None,
+) -> None:
+    intent, admission, dispatch, offer = make_attempt(tmp_path, monkeypatch)
+
+    class ClosingHTTPError(urllib.error.HTTPError):
+        def close(self) -> None:
+            # Prove VastApi captured the status before closing the response.
+            self.code = None
+            super().close()
+
+    class FailureOpener:
+        def __init__(self) -> None:
+            self.calls = 0
+            self.error: ClosingHTTPError | None = None
+            self.body_stream: io.BytesIO | None = None
+
+        def open(self, request: urllib.request.Request, timeout: float) -> Never:
+            del timeout
+            self.calls += 1
+            if failure_kind == "timeout":
+                raise urllib.error.URLError(TimeoutError("secret-timeout-message"))
+            self.body_stream = io.BytesIO(b"secret-http-body")
+            self.error = ClosingHTTPError(
+                "https://secret-url.example/create",
+                expected_http_status,
+                "secret-http-error-message",
+                HTTPMessage(),
+                self.body_stream,
+            )
+            raise self.error
+
+    opener = FailureOpener()
+    monkeypatch.setattr(vast.urllib.request, "build_opener", lambda *_handlers: opener)
+
+    class ApiBackedFailureProvider(FakeProvider):
+        def __init__(self, provider_offer: dict[str, object]) -> None:
+            super().__init__(provider_offer)
+            self.api = vast.VastApi("secret-bearer-token")
+
+        def create_instance(self, offer_id: int, payload: dict[str, object]) -> dict[str, object]:
+            self.create_calls += 1
+            return self.api.create_instance(offer_id, payload)
+
+    provider = ApiBackedFailureProvider(offer)
+    controller = vast.VastCampaign(provider, tmp_path / "state" / "ledger.json")
+
+    with pytest.raises(vast.CampaignError, match="never resubmit"):
+        controller._create_one_unarmed(intent, admission, dispatch)
+
+    record = controller._get_attempt("vast-attempt-001")
+    assert record["status"] == "launch_uncertain"
+    assert record["instance_id"] is None
+    assert record["last_error_type"] == "ApiError"
+    assert record["last_error_http_status"] == expected_http_status
+    assert provider.create_calls == 1
+    assert opener.calls == 1
+    if failure_kind != "timeout":
+        assert opener.error is not None and opener.error.code is None
+        assert opener.body_stream is not None and opener.body_stream.closed
+
+    with pytest.raises(vast.CampaignError, match="never POST the same attempt twice"):
+        controller._create_one_unarmed(intent, admission, dispatch)
+    assert provider.create_calls == 1
+    assert opener.calls == 1
+
+    receipt_bytes = controller.ledger_path.read_bytes()
+    for secret in (
+        b"secret-bearer-token",
+        b"secret-http-body",
+        b"secret-http-error-message",
+        b"secret-timeout-message",
+        b"secret-url.example",
+    ):
+        assert secret not in receipt_bytes
+
+
 def test_matching_preexisting_label_is_never_adopted_or_created(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -2077,6 +2161,18 @@ def test_unverified_offer_is_rejected_regardless_of_offer_id(
     unverified = {**offer, "verification": "unverified"}
     with pytest.raises(vast.CampaignError, match="verified and rentable"):
         vast._offer_snapshot(unverified)
+
+
+@pytest.mark.parametrize("status", [None, 100, 400, 599])
+def test_api_error_accepts_only_optional_http_status(status: int | None) -> None:
+    error = vast.ApiError("sanitized failure", http_status=status)
+    assert error.http_status == status
+
+
+@pytest.mark.parametrize("status", [True, 99, 600, 400.0, "400"])
+def test_api_error_rejects_invalid_http_status(status: object) -> None:
+    with pytest.raises(ValueError, match="HTTP status must be an integer"):
+        vast.ApiError("sanitized failure", http_status=status)  # type: ignore[arg-type]
 
 
 def test_api_redirect_is_refused_without_logging_bearer_or_body(
