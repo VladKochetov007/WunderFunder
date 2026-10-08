@@ -1191,6 +1191,231 @@ def test_stage_uploads_exact_inputs_verifies_remote_hashes_and_launches_once(
     assert len(uploads) == 2
 
 
+def test_signed_prefetch_runs_only_inside_owned_pinned_stage_and_avoids_parquet_rsync(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    source = tmp_path / "data" / "valid.parquet"
+    source.parent.mkdir(parents=True)
+    contents = b"bound parquet bytes"
+    source.write_bytes(contents)
+    inputs = [
+        {
+            "source_path": "data/valid.parquet",
+            "source_sha256": digest(contents),
+            "size_bytes": len(contents),
+            "remote_path": "datasets/valid.parquet",
+        }
+    ]
+    intent, admission, dispatch, offer = make_attempt(tmp_path, monkeypatch, worker_inputs=inputs)
+    provider, controller = controller_for(tmp_path, offer)
+    controller._create_one_unarmed(intent, admission, dispatch)
+    user_calls_after_create = provider.current_user_calls
+    mock_path = mock_campaign_host_key(monkeypatch, tmp_path)
+
+    private_url = "https://storage.googleapis.com/bucket/valid?signature=do-not-log-test"
+    runtime = tmp_path / ".runtime"
+    runtime.mkdir(exist_ok=True)
+    private_path = runtime / "signed.private.json"
+    private_value = {
+        "schema_version": 1,
+        "inputs": [
+            {
+                "remote_path": "datasets/valid.parquet",
+                "sha256": digest(contents),
+                "size_bytes": len(contents),
+                "url": private_url,
+            }
+        ],
+    }
+    write_json(private_path, private_value)
+    private_path.chmod(0o600)
+    admission_path = runtime / "prefetch-admission.json"
+    write_json(
+        admission_path,
+        {
+            "schema_version": 1,
+            "attempt_id": "vast-attempt-001",
+            "campaign_label": "wnn-e529-001-run",
+            "private_plan_sha256": digest(private_path.read_bytes()),
+            "source_binding": [
+                {
+                    "remote_path": "datasets/valid.parquet",
+                    "sha256": digest(contents),
+                    "size_bytes": len(contents),
+                }
+            ],
+        },
+    )
+
+    commands: list[str] = []
+    uploads: list[str] = []
+    prefetch_called = False
+
+    def ssh_command(
+        host: str,
+        port: int,
+        command: str,
+        timeout: int,
+        *,
+        known_hosts_path: Path,
+        allowed_exit_codes: tuple[int, ...] = (),
+    ) -> int:
+        del timeout, allowed_exit_codes
+        assert (host, port, known_hosts_path) == ("ssh-proxy.example", 2200, mock_path)
+        commands.append(command)
+        if "sha256sum --check --status" in command and "mv -f" not in command:
+            if command.endswith("/inputs/datasets/valid.parquet | sha256sum --check --status"):
+                return 0 if prefetch_called else 1
+            return 1
+        return 0
+
+    def ssh_stdin(
+        host: str,
+        port: int,
+        remote_command: str,
+        timeout: int,
+        *,
+        known_hosts_path: Path,
+        input_bytes: bytes,
+        allowed_exit_codes: tuple[int, ...] = (),
+    ) -> str:
+        nonlocal prefetch_called
+        assert (host, port, known_hosts_path) == ("ssh-proxy.example", 2200, mock_path)
+        assert timeout <= 1200 and timeout > 0
+        assert allowed_exit_codes == (1,)
+        assert provider.current_user_calls > user_calls_after_create
+        assert controller._get_attempt("vast-attempt-001")["instance_id"] is not None
+        assert (
+            "StrictHostKeyChecking" not in remote_command
+        )  # SSH transport owns its pinned options.
+        payload = json.loads(input_bytes)
+        assert payload["inputs"][0]["remote_path"] == "datasets/valid.parquet"
+        assert payload["inputs"][0]["url"] == private_url
+        prefetch_called = True
+        receipt = {
+            "schema_version": 1,
+            "status": "complete",
+            "completed": [
+                {
+                    "remote_path": "datasets/valid.parquet",
+                    "sha256": digest(contents),
+                    "size_bytes": len(contents),
+                    "elapsed_ms": 12,
+                    "status": "downloaded",
+                }
+            ],
+            "error_code": None,
+        }
+        return json.dumps(receipt)
+
+    def rsync_push(
+        _host: str,
+        _port: int,
+        _source: Path,
+        remote_path: str,
+        _timeout: int,
+        _max_bytes: int,
+        _known_hosts: Path,
+    ) -> None:
+        uploads.append(remote_path)
+
+    monkeypatch.setattr(vast, "_ssh_command", ssh_command)
+    monkeypatch.setattr(vast, "_ssh_stdin", ssh_stdin)
+    monkeypatch.setattr(vast, "_rsync_push", rsync_push)
+    staged = controller._stage_and_launch(
+        "vast-attempt-001",
+        prefetch_plan_path=private_path,
+        prefetch_admission_path=admission_path,
+    )
+
+    assert prefetch_called
+    assert staged["prefetch_status"] == "complete"
+    assert staged["prefetch_bytes"] == len(contents)
+    assert len(staged["prefetch_receipt"]) == 1
+    assert len(uploads) == 1 and uploads[0].endswith("/packet.tar.part")
+    assert private_url not in json.dumps(staged)
+    assert private_url.encode() not in controller.ledger_path.read_bytes()
+    assert sum("nohup env" in command for command in commands) == 1
+
+
+def test_signed_prefetch_invalid_public_binding_fails_closed_before_stdin_or_rsync(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    source = tmp_path / "data" / "valid.parquet"
+    source.parent.mkdir(parents=True)
+    contents = b"bound parquet bytes"
+    source.write_bytes(contents)
+    inputs = [
+        {
+            "source_path": "data/valid.parquet",
+            "source_sha256": digest(contents),
+            "size_bytes": len(contents),
+            "remote_path": "datasets/valid.parquet",
+        }
+    ]
+    intent, admission, dispatch, offer = make_attempt(tmp_path, monkeypatch, worker_inputs=inputs)
+    _, controller = controller_for(tmp_path, offer)
+    controller._create_one_unarmed(intent, admission, dispatch)
+    mock_campaign_host_key(monkeypatch, tmp_path)
+    runtime = tmp_path / ".runtime"
+    runtime.mkdir(exist_ok=True)
+    private_path = runtime / "signed.private.json"
+    write_json(
+        private_path,
+        {
+            "schema_version": 1,
+            "inputs": [
+                {
+                    "remote_path": "datasets/valid.parquet",
+                    "sha256": digest(contents),
+                    "size_bytes": len(contents),
+                    "url": "https://storage.googleapis.com/bucket/valid?signature=private",
+                }
+            ],
+        },
+    )
+    private_path.chmod(0o600)
+    admission_path = runtime / "prefetch-admission.json"
+    write_json(
+        admission_path,
+        {
+            "schema_version": 1,
+            "attempt_id": "vast-attempt-001",
+            "campaign_label": "wnn-e529-001-run",
+            "private_plan_sha256": "0" * 64,
+            "source_binding": [
+                {
+                    "remote_path": "datasets/valid.parquet",
+                    "sha256": digest(contents),
+                    "size_bytes": len(contents),
+                }
+            ],
+        },
+    )
+    monkeypatch.setattr(
+        vast,
+        "_ssh_command",
+        lambda *_args, **_kwargs: 0,
+    )
+    monkeypatch.setattr(
+        vast,
+        "_ssh_stdin",
+        lambda *_args, **_kwargs: pytest.fail("invalid admission must not start remote transfer"),
+    )
+    monkeypatch.setattr(
+        vast,
+        "_rsync_push",
+        lambda *_args, **_kwargs: pytest.fail("invalid admission must not fall back to rsync"),
+    )
+    with pytest.raises(vast.WorkerStagingIntegrityError, match="public admission"):
+        controller._stage_and_launch(
+            "vast-attempt-001",
+            prefetch_plan_path=private_path,
+            prefetch_admission_path=admission_path,
+        )
+    assert controller._get_attempt("vast-attempt-001")["prefetch_status"] == "invalid_plan"
+
+
 def test_stage_refuses_launch_without_worker_and_collection_runway(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

@@ -34,6 +34,11 @@ from http.client import HTTPMessage
 from pathlib import Path, PurePosixPath
 from typing import IO, Never, Protocol, cast
 
+if __package__:
+    from . import kaggle_vast_prefetch
+else:
+    import kaggle_vast_prefetch
+
 LOG = logging.getLogger("vast_campaign")
 API_ROOT = "https://console.vast.ai"
 API_BASE = f"{API_ROOT}/api/v0"
@@ -1853,11 +1858,20 @@ class VastCampaign:
         return known_hosts_path
 
     def _stage_and_launch(
-        self, attempt_id: str, *, collection_timeout_seconds: int = 300
+        self,
+        attempt_id: str,
+        *,
+        collection_timeout_seconds: int = 300,
+        prefetch_plan_path: Path | None = None,
+        prefetch_admission_path: Path | None = None,
     ) -> dict[str, object]:
         """Stage hash-bound files and launch once on the receipt-owned worker."""
         if collection_timeout_seconds <= 0 or collection_timeout_seconds > 3600:
             raise ValueError("collection timeout must be in (0, 3600] seconds")
+        if (prefetch_plan_path is None) != (prefetch_admission_path is None):
+            raise CampaignError(
+                "private prefetch plan and public admission must be supplied together"
+            )
         record = self._get_attempt(attempt_id)
         if record.get("worker_launch_status") in {"launch_uncertain", "worker_started"}:
             return _status_view(record)
@@ -2054,6 +2068,138 @@ class VastCampaign:
                     cast(int, row["size_bytes"]),
                 )
             )
+        if prefetch_plan_path is not None and prefetch_admission_path is not None:
+            stage_record = self._get_attempt(attempt_id)
+            if stage_record.get("prefetch_status") is None:
+                try:
+                    prepared = kaggle_vast_prefetch.prepare_prefetch(
+                        prefetch_plan_path,
+                        prefetch_admission_path,
+                        attempt_id=attempt_id,
+                        campaign_label=label,
+                        frozen_inputs=inputs,
+                        runtime_root=ROOT / ".runtime",
+                    )
+                except kaggle_vast_prefetch.PrefetchPlanError:
+                    self._update_attempt(
+                        attempt_id,
+                        prefetch_status="invalid_plan",
+                        prefetch_error_type="PrefetchPlanError",
+                        updated_at_utc=utc_now(),
+                    )
+                    raise WorkerStagingIntegrityError(
+                        "private prefetch plan does not match its public admission and frozen inputs"
+                    ) from None
+                prefetch_paths = {item.remote_path for item in prepared.items}
+                non_prefetch_bytes = sum(
+                    size_bytes
+                    for _, _, remote_path, size_bytes in remote_files
+                    if not any(remote_path.endswith(f"/inputs/{path}") for path in prefetch_paths)
+                )
+                # Preserve upload runway for the packet and launch. One MiB/s is a
+                # conservative staging reserve; prefetch itself is capped at 20 minutes.
+                post_fetch_reserve = max(300, (non_prefetch_bytes + 1_048_575) // 1_048_576 + 120)
+                prefetch_timeout = min(
+                    kaggle_vast_prefetch.MAX_PREFETCH_SECONDS,
+                    remaining_seconds() - post_fetch_reserve,
+                )
+                if prefetch_timeout < 90:
+                    self._update_attempt(
+                        attempt_id,
+                        prefetch_status="skipped_insufficient_runway",
+                        prefetch_admission_sha256=prepared.admission_sha256,
+                        prefetch_private_plan_sha256=prepared.private_plan_sha256,
+                        prefetch_remote_program_sha256=kaggle_vast_prefetch.REMOTE_PROGRAM_SHA256,
+                        prefetch_elapsed_ms=0,
+                        prefetch_receipt=[],
+                        updated_at_utc=utc_now(),
+                    )
+                else:
+                    private_payload = kaggle_vast_prefetch.make_remote_payload(
+                        prepared,
+                        attempt_id=attempt_id,
+                        campaign_label=label,
+                        output_root=output_root,
+                        budget_seconds=prefetch_timeout - 20,
+                    )
+                    remote_program = "python3 -c " + shlex.quote(
+                        kaggle_vast_prefetch.REMOTE_PROGRAM
+                    )
+                    prefetch_started = time.monotonic()
+                    try:
+                        raw_result = _ssh_stdin(
+                            host,
+                            port,
+                            remote_program,
+                            prefetch_timeout,
+                            known_hosts_path=known_hosts_path,
+                            input_bytes=private_payload,
+                            allowed_exit_codes=(1,),
+                        )
+                    except (CampaignError, OSError, subprocess.SubprocessError):
+                        self._update_attempt(
+                            attempt_id,
+                            prefetch_status="transport_failed",
+                            prefetch_admission_sha256=prepared.admission_sha256,
+                            prefetch_private_plan_sha256=prepared.private_plan_sha256,
+                            prefetch_remote_program_sha256=kaggle_vast_prefetch.REMOTE_PROGRAM_SHA256,
+                            prefetch_elapsed_ms=int((time.monotonic() - prefetch_started) * 1000),
+                            prefetch_receipt=[],
+                            prefetch_error_type="SSHTransportError",
+                            updated_at_utc=utc_now(),
+                        )
+                        raise WorkerStagingIntegrityError(
+                            "signed prefetch transport failed; refusing concurrent rsync fallback"
+                        ) from None
+                    try:
+                        prefetch_result = kaggle_vast_prefetch.validate_remote_result(
+                            raw_result, prepared
+                        )
+                    except kaggle_vast_prefetch.PrefetchPlanError:
+                        self._update_attempt(
+                            attempt_id,
+                            prefetch_status="invalid_remote_receipt",
+                            prefetch_admission_sha256=prepared.admission_sha256,
+                            prefetch_private_plan_sha256=prepared.private_plan_sha256,
+                            prefetch_remote_program_sha256=kaggle_vast_prefetch.REMOTE_PROGRAM_SHA256,
+                            prefetch_elapsed_ms=int((time.monotonic() - prefetch_started) * 1000),
+                            prefetch_receipt=[],
+                            prefetch_error_type="PrefetchReceiptError",
+                            updated_at_utc=utc_now(),
+                        )
+                        raise WorkerStagingIntegrityError(
+                            "signed prefetch returned an invalid nonsecret receipt"
+                        ) from None
+                    receipt = cast(list[dict[str, object]], prefetch_result["completed"])
+                    if prefetch_result["error_code"] == "unsafe_destination":
+                        self._update_attempt(
+                            attempt_id,
+                            prefetch_status="unsafe_destination",
+                            prefetch_admission_sha256=prepared.admission_sha256,
+                            prefetch_private_plan_sha256=prepared.private_plan_sha256,
+                            prefetch_remote_program_sha256=kaggle_vast_prefetch.REMOTE_PROGRAM_SHA256,
+                            prefetch_elapsed_ms=int((time.monotonic() - prefetch_started) * 1000),
+                            prefetch_receipt=receipt,
+                            prefetch_error_type="UnsafeRemoteDestination",
+                            updated_at_utc=utc_now(),
+                        )
+                        raise WorkerStagingIntegrityError(
+                            "signed prefetch refused an unsafe remote destination"
+                        )
+                    self._update_attempt(
+                        attempt_id,
+                        prefetch_status=(
+                            "complete" if prefetch_result["status"] == "complete" else "failed"
+                        ),
+                        prefetch_admission_sha256=prepared.admission_sha256,
+                        prefetch_private_plan_sha256=prepared.private_plan_sha256,
+                        prefetch_remote_program_sha256=kaggle_vast_prefetch.REMOTE_PROGRAM_SHA256,
+                        prefetch_elapsed_ms=int((time.monotonic() - prefetch_started) * 1000),
+                        prefetch_bytes=sum(int(row["size_bytes"]) for row in receipt),
+                        prefetch_receipt=receipt,
+                        prefetch_error_type=prefetch_result["error_code"],
+                        updated_at_utc=utc_now(),
+                    )
         verified_paths: list[str] = []
         verified_bytes = 0
         for source_path, expected_sha256, remote_path, size_bytes in remote_files:
@@ -2255,6 +2401,8 @@ class VastCampaign:
         *,
         poll_interval_seconds: int = 30,
         collection_timeout_seconds: int = 300,
+        prefetch_plan_path: Path | None = None,
+        prefetch_admission_path: Path | None = None,
         downloader: Callable[[str, int, str, Path, int, int, Path], None] | None = None,
         sleep_fn: Callable[[float], None] = time.sleep,
     ) -> dict[str, object]:
@@ -2282,6 +2430,8 @@ class VastCampaign:
             destination,
             poll_interval_seconds=poll_interval_seconds,
             collection_timeout_seconds=collection_timeout_seconds,
+            prefetch_plan_path=prefetch_plan_path,
+            prefetch_admission_path=prefetch_admission_path,
             downloader=downloader,
             sleep_fn=sleep_fn,
         )
@@ -2293,6 +2443,8 @@ class VastCampaign:
         *,
         poll_interval_seconds: int = 30,
         collection_timeout_seconds: int = 300,
+        prefetch_plan_path: Path | None = None,
+        prefetch_admission_path: Path | None = None,
         downloader: Callable[[str, int, str, Path, int, int, Path], None] | None = None,
         sleep_fn: Callable[[float], None] = time.sleep,
         now_fn: Callable[[], datetime] | None = None,
@@ -2381,6 +2533,8 @@ class VastCampaign:
                                 record = self._stage_and_launch(
                                     attempt_id,
                                     collection_timeout_seconds=collection_timeout_seconds,
+                                    prefetch_plan_path=prefetch_plan_path,
+                                    prefetch_admission_path=prefetch_admission_path,
                                 )
                             except (CampaignError, subprocess.SubprocessError) as error:
                                 stage_record = self._get_attempt(attempt_id)
@@ -2892,6 +3046,14 @@ def _status_view(record: Mapping[str, object]) -> dict[str, object]:
         "upload_started_at_utc",
         "upload_verified_files",
         "upload_verified_bytes",
+        "prefetch_status",
+        "prefetch_admission_sha256",
+        "prefetch_private_plan_sha256",
+        "prefetch_remote_program_sha256",
+        "prefetch_elapsed_ms",
+        "prefetch_bytes",
+        "prefetch_receipt",
+        "prefetch_error_type",
         "worker_stage_attempts",
         "max_runtime_seconds",
         "worker_setup_timeout_seconds",
@@ -2965,30 +3127,9 @@ def _ssh_command(
     allowed_exit_codes: tuple[int, ...] = (),
 ) -> int:
     """Run a bounded strict-host-key command and return its validated exit status."""
-    if re.fullmatch(r"[A-Za-z0-9.-]{1,253}", host) is None or not 1 <= port <= 65535:
-        raise CampaignError("unsafe SSH endpoint")
+    command = _pinned_ssh_prefix(host, port, known_hosts_path) + [remote_command]
     result = subprocess.run(
-        [
-            "ssh",
-            "-p",
-            str(port),
-            "-o",
-            "BatchMode=yes",
-            "-o",
-            "StrictHostKeyChecking=yes",
-            "-o",
-            f"UserKnownHostsFile={known_hosts_path}",
-            "-o",
-            "GlobalKnownHostsFile=/dev/null",
-            "-i",
-            str(DEFAULT_SSH_PUBLIC_KEY.with_suffix("")),
-            "-o",
-            "IdentitiesOnly=yes",
-            "-o",
-            "ConnectTimeout=10",
-            "root@" + host,
-            remote_command,
-        ],
+        command,
         capture_output=True,
         text=True,
         timeout=timeout,
@@ -2998,6 +3139,68 @@ def _ssh_command(
     if result.returncode not in allowed:
         raise CampaignError(f"SSH command failed with exit status {result.returncode}")
     return result.returncode
+
+
+def _ssh_stdin(
+    host: str,
+    port: int,
+    remote_command: str,
+    timeout: int,
+    *,
+    known_hosts_path: Path,
+    input_bytes: bytes,
+    allowed_exit_codes: tuple[int, ...] = (),
+) -> str:
+    """Send bounded private input over pinned SSH stdin and return safe stdout only."""
+    if re.fullmatch(r"[A-Za-z0-9.-]{1,253}", host) is None or not 1 <= port <= 65535:
+        raise CampaignError("unsafe SSH endpoint")
+    if timeout <= 0 or timeout > kaggle_vast_prefetch.MAX_PREFETCH_SECONDS:
+        raise CampaignError("signed prefetch timeout exceeds its hard limit")
+    if len(input_bytes) > kaggle_vast_prefetch.MAX_REMOTE_PAYLOAD_BYTES:
+        raise CampaignError("signed prefetch payload exceeds its hard limit")
+    command = _pinned_ssh_prefix(host, port, known_hosts_path) + [remote_command]
+    try:
+        result = subprocess.run(
+            command,
+            input=input_bytes,
+            capture_output=True,
+            timeout=timeout,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        raise CampaignError("pinned SSH stdin transport failed") from None
+    if result.returncode not in {0, *allowed_exit_codes}:
+        raise CampaignError("pinned SSH stdin command failed")
+    try:
+        return result.stdout.decode("utf-8", errors="strict")
+    except UnicodeDecodeError:
+        raise CampaignError("pinned SSH stdin command returned a malformed receipt") from None
+
+
+def _pinned_ssh_prefix(host: str, port: int, known_hosts_path: Path) -> list[str]:
+    """Construct the shared strict-host-key SSH argv prefix for this campaign."""
+    if re.fullmatch(r"[A-Za-z0-9.-]{1,253}", host) is None or not 1 <= port <= 65535:
+        raise CampaignError("unsafe SSH endpoint")
+    return [
+        "ssh",
+        "-p",
+        str(port),
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "StrictHostKeyChecking=yes",
+        "-o",
+        f"UserKnownHostsFile={known_hosts_path}",
+        "-o",
+        "GlobalKnownHostsFile=/dev/null",
+        "-i",
+        str(DEFAULT_SSH_PUBLIC_KEY.with_suffix("")),
+        "-o",
+        "IdentitiesOnly=yes",
+        "-o",
+        "ConnectTimeout=10",
+        "root@" + host,
+    ]
 
 
 def _rsync_push(
@@ -3185,11 +3388,15 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--confirm-create", required=True)
     run.add_argument("--poll-interval", type=int, default=30)
     run.add_argument("--collection-timeout", type=int, default=300)
+    run.add_argument("--prefetch-plan", type=Path)
+    run.add_argument("--prefetch-admission", type=Path)
     supervise = commands.add_parser("supervise", help="resume one durable owned-instance monitor")
     supervise.add_argument("--attempt", required=True)
     supervise.add_argument("--destination", type=Path, required=True)
     supervise.add_argument("--poll-interval", type=int, default=30)
     supervise.add_argument("--collection-timeout", type=int, default=300)
+    supervise.add_argument("--prefetch-plan", type=Path)
+    supervise.add_argument("--prefetch-admission", type=Path)
     reconcile = commands.add_parser("reconcile", help="read-only reconcile an ambiguous create")
     reconcile.add_argument("--attempt", required=True)
     status = commands.add_parser("status", help="read-only status for one owned attempt")
@@ -3221,6 +3428,12 @@ def main(argv: list[str] | None = None) -> int:
             controller = VastCampaign(_NoApi(), args.ledger)
             _print_json(controller.settle(args.attempt, args.receipt))
             return 0
+        if args.command in {"run", "supervise"} and (
+            (args.prefetch_plan is None) != (args.prefetch_admission is None)
+        ):
+            raise CampaignError(
+                "--prefetch-plan and --prefetch-admission must be supplied together"
+            )
         if args.command in {"run", "supervise"} and not os.environ.get("INVOCATION_ID"):
             raise CampaignError(
                 "paid lifecycle commands must run inside a systemd service with automatic restart"
@@ -3238,6 +3451,8 @@ def main(argv: list[str] | None = None) -> int:
                     args.destination,
                     poll_interval_seconds=args.poll_interval,
                     collection_timeout_seconds=args.collection_timeout,
+                    prefetch_plan_path=args.prefetch_plan,
+                    prefetch_admission_path=args.prefetch_admission,
                 )
             )
             return 0
@@ -3249,6 +3464,8 @@ def main(argv: list[str] | None = None) -> int:
                     args.destination,
                     poll_interval_seconds=args.poll_interval,
                     collection_timeout_seconds=args.collection_timeout,
+                    prefetch_plan_path=args.prefetch_plan,
+                    prefetch_admission_path=args.prefetch_admission,
                 )
             )
             return 0
