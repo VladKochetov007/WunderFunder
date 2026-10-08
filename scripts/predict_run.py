@@ -26,7 +26,7 @@ from wnn.data import N_FEATURES, SEQUENCE_LENGTH, SequenceFile
 from wnn.propensity import load_propensity
 from wnn.resources import configure_torch, dataloader_budget
 from wnn.sentinel import SentinelPreprocessor
-from wnn.splits import file_sha256
+from wnn.splits import file_sha256, load_campaign_split
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -87,6 +87,19 @@ def load_e540_evaluation_groups(path: Path, checkpoint: dict[str, object]) -> li
     return groups
 
 
+def load_campaign_evaluation_groups(path: Path, checkpoint: dict[str, object]) -> list[int]:
+    """Return a checkpoint-bound clean-fold evaluation membership without reading labels."""
+    split = load_campaign_split(path, ROOT)
+    checkpoint_args = checkpoint.get("args", {})
+    checkpoint_split_hash = checkpoint_args.get("split_manifest_sha256")
+    if not checkpoint_split_hash or checkpoint_split_hash != split.sha256:
+        raise ValueError("campaign evaluation split differs from the checkpoint fit split")
+    groups = list(split.evaluation_groups)
+    if not groups or groups != sorted(set(groups)):
+        raise ValueError("campaign evaluation groups must be nonempty, unique and sorted")
+    return groups
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("name")
@@ -98,6 +111,12 @@ def main():
         type=Path,
         default=None,
         help="predict only the exact E540 evaluation groups with feature-only reads",
+    )
+    parser.add_argument(
+        "--campaign-split-manifest",
+        type=Path,
+        default=None,
+        help="predict only a checkpoint-bound clean-fold evaluation set with feature-only reads",
     )
     parser.add_argument(
         "--inference-precision",
@@ -115,17 +134,26 @@ def main():
         raise ValueError(
             "privileged teachers require component-crossfit extraction, not causal prediction export"
         )
-    feature_only = args.fit_subset_manifest is not None
+    if args.fit_subset_manifest is not None and args.campaign_split_manifest is not None:
+        parser.error("choose one feature-only evaluation manifest")
+    feature_only = args.fit_subset_manifest is not None or args.campaign_split_manifest is not None
     if feature_only:
-        if (
-            split != "valid"
-            or ck["args"].get("numeric_map", "none") == "none"
-            or ck["args"].get("fit_subset_manifest_sha256") is None
-        ):
-            parser.error("E540 fit-subset export requires a numeric-map checkpoint and valid split")
-        groups = np.asarray(
-            load_e540_evaluation_groups(args.fit_subset_manifest, ck), dtype=np.int64
-        )
+        if split != "valid":
+            parser.error("feature-only evaluation export requires the valid split")
+        if args.fit_subset_manifest is not None:
+            if (
+                ck["args"].get("numeric_map", "none") == "none"
+                or ck["args"].get("fit_subset_manifest_sha256") is None
+            ):
+                parser.error("E540 fit-subset export requires a numeric-map checkpoint")
+            groups = np.asarray(
+                load_e540_evaluation_groups(args.fit_subset_manifest, ck), dtype=np.int64
+            )
+        else:
+            groups = np.asarray(
+                load_campaign_evaluation_groups(args.campaign_split_manifest, ck),
+                dtype=np.int64,
+            )
     else:
         groups = np.load(ROOT / "cache" / f"{split}_targets.npz")["row_group"]
     quote_cache = ck.get("provenance", {}).get("quote_cache")
@@ -216,7 +244,12 @@ def main():
             else None
         ),
         "fit_subset_manifest_sha256": (
-            file_sha256(args.fit_subset_manifest) if feature_only else None
+            file_sha256(args.fit_subset_manifest) if args.fit_subset_manifest is not None else None
+        ),
+        "campaign_split_manifest_sha256": (
+            file_sha256(args.campaign_split_manifest)
+            if args.campaign_split_manifest is not None
+            else None
         ),
     }
     final.with_suffix(".json").write_text(json.dumps(metadata, indent=2) + "\n")
