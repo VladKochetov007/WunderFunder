@@ -1,0 +1,211 @@
+{
+  "admission": {
+    "current_worker_state": "No profile, fit, export, provider call, or quota reservation was performed for H272.",
+    "fit_or_profile_authorized_here": false,
+    "required_before_fit": [
+      "actual H272 profile with finite loss/gradient evidence and measured resources",
+      "root fresh GPU/quota admission",
+      "unique output/run path and durable attempt receipt"
+    ],
+    "required_before_profile": [
+      "root source review",
+      "root-selected GPU/device and fresh resource admission",
+      "preserve H230 Muon profile as first local GPU reservation"
+    ]
+  },
+  "contract_id": "H272-DIRECT-LABEL-PROFILE-FIT-CONTRACT-20261008-R1",
+  "execution_contract": {
+    "export": {
+      "argv": [
+        "PYTHONPATH=research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_READOUT_V1_RUNTIME/src",
+        ".venv/bin/python",
+        "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_READOUT_V1_RUNTIME/scripts/train_conditional_readout.py",
+        "export",
+        "--checkpoint",
+        "artifacts/runs/bd26_h272_direct_label_c1s3_rank32_f0_v1/model_ep1.pt",
+        "--split",
+        "valid",
+        "--output-dir",
+        "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/exports/H272_C1S3_DIRECT_LABEL_E1_VALID_V1"
+      ],
+      "evaluation_groups_scored": 468,
+      "fit_development_groups_exported_but_masked": 1405,
+      "max_wall_seconds": 1800,
+      "output_dir": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/exports/H272_C1S3_DIRECT_LABEL_E1_VALID_V1",
+      "resource_ceiling": {
+        "cpus": 3,
+        "cuda_allocator_max_bytes": 4300000000,
+        "loader_workers": 0,
+        "observed_total_vram_max_bytes": 5000000000,
+        "one_gpu_lock": true,
+        "rss_bytes": 5500000000,
+        "wall_timeout_seconds": 1800
+      },
+      "status": "not_run",
+      "valid_only": true
+    },
+    "fit": {
+      "argv": [
+        "PYTHONPATH=research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_READOUT_V1_RUNTIME/src",
+        ".venv/bin/python",
+        "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_READOUT_V1_RUNTIME/scripts/train_conditional_readout.py",
+        "fit",
+        "--run-name",
+        "bd26_h272_direct_label_c1s3_rank32_f0_v1",
+        "--output-dir",
+        "artifacts/runs/bd26_h272_direct_label_c1s3_rank32_f0_v1"
+      ],
+      "batch_size": 8,
+      "checkpoint": "model_ep1.pt / model.pt fixed at epoch 1",
+      "chunk_rows": 2000,
+      "chunks_per_sequence": 10,
+      "epochs": 2,
+      "fixed_checkpoint_epoch": 1,
+      "loader_batches_per_epoch": 1492,
+      "max_wall_seconds": 21600,
+      "optimizer_updates_per_epoch": 14920,
+      "overwrite_policy": "The worker fixes the H272 run path and refuses to overwrite or resume an unrelated run.",
+      "resource_ceiling": {
+        "cpus": 3,
+        "cuda_allocator_max_bytes": 4300000000,
+        "loader_workers": 0,
+        "observed_total_vram_max_bytes": 5000000000,
+        "one_gpu_lock": true,
+        "rss_bytes": 6500000000,
+        "wall_timeout_seconds": 21600
+      },
+      "resume_argv": [
+        "PYTHONPATH=research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_READOUT_V1_RUNTIME/src",
+        ".venv/bin/python",
+        "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_READOUT_V1_RUNTIME/scripts/train_conditional_readout.py",
+        "fit",
+        "--run-name",
+        "bd26_h272_direct_label_c1s3_rank32_f0_v1",
+        "--output-dir",
+        "artifacts/runs/bd26_h272_direct_label_c1s3_rank32_f0_v1",
+        "--resume-from",
+        "artifacts/runs/bd26_h272_direct_label_c1s3_rank32_f0_v1/model_ep0.pt"
+      ],
+      "run_name": "bd26_h272_direct_label_c1s3_rank32_f0_v1",
+      "seed": 3,
+      "status": "not_run",
+      "total_optimizer_updates": 29840
+    },
+    "profile": {
+      "argv": [
+        "PYTHONPATH=research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_READOUT_V1_RUNTIME/src",
+        ".venv/bin/python",
+        "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_READOUT_V1_RUNTIME/scripts/train_conditional_readout.py",
+        "profile",
+        "--warmup-chunks",
+        "2",
+        "--steps",
+        "8",
+        "--output",
+        "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/profiles/H272_C1S3_B8_DIRECT_LABEL_PROFILE_V1.json"
+      ],
+      "max_wall_seconds": 900,
+      "profile_must_precede_fit": true,
+      "resource_ceiling": {
+        "cpus": 3,
+        "cuda_allocator_max_bytes": 4300000000,
+        "loader_workers": 0,
+        "observed_total_vram_max_bytes": 5000000000,
+        "one_gpu_lock": true,
+        "rss_bytes": 6500000000,
+        "wall_timeout_seconds": 900
+      },
+      "shape": {
+        "batch_size": 8,
+        "chunk_rows": 2000,
+        "timed_chunks": 8,
+        "warmup_chunks": 2
+      },
+      "status": "not_run"
+    }
+  },
+  "hypothesis_id": "H-272",
+  "recipe": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_C1S3_DIRECT_LABEL_READOUT_V1.json",
+    "recipe_id": "E529-H272-C1S3-DIRECT-LABEL-READOUT-V1",
+    "sha256": "a5dd858598b6bf926410c80337aa8e725a809cbfee36af906d18c34d0859716f"
+  },
+  "schema": "h272-profile-fit-contract-v1",
+  "scientific_contract": {
+    "baseline_recipe_id": "E529-H233-C1S3-CONDITIONAL-READOUT-V2",
+    "fit_membership": {
+      "evaluation_groups_excluded_from_fit": 468,
+      "fit_development_valid_groups": 1405,
+      "train_groups": 10535
+    },
+    "fixed_parent": {
+      "checkpoint_sha256": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+      "epoch": 1,
+      "provenance_sha256": "60e8884d3d5886dc53dcb2b7d280fef284a702de8769ab333e07e1819d66f28a",
+      "run": "bd26_c1v2_s3_f0"
+    },
+    "heads": "The four H233 modes, all separate, rank 32, pair channels 0:2; parent trunk and auxiliary outputs remain frozen.",
+    "official_evaluation": "Same exposed 468 fold-0 groups and exact H233 evaluation mask/global_wp_clip2_v1. This is development-only; no public forecast.",
+    "readout_teacher_inputs": "Not loaded. Existing H233 auxiliary teacher prediction columns are removed; the exact pinned C1 parent and its original C1 teacher lineage remain unchanged.",
+    "single_scientific_change": "Readout target is original y clipped to [-2,2] (teacher coefficient 0.0).",
+    "target_fixture": {
+      "expected_primary_pair_wmse": 2.5,
+      "expected_target": [
+        [
+          [
+            2.0,
+            -1.0
+          ],
+          [
+            0.0,
+            -2.0
+          ]
+        ]
+      ],
+      "prediction": [
+        [
+          [
+            1.0,
+            -2.0
+          ],
+          [
+            1.0,
+            0.0
+          ]
+        ]
+      ],
+      "raw_labels": [
+        [
+          [
+            3.0,
+            -1.0
+          ],
+          [
+            0.0,
+            -4.0
+          ]
+        ]
+      ],
+      "row_weights": [
+        [
+          2.0,
+          3.0
+        ]
+      ],
+      "tests": [
+        "H272_DIRECT_LABEL_READOUT_V1_RUNTIME/tests/test_conditional_readout.py::test_direct_label_target_and_weighted_loss_match_fixed_algebra_fixture",
+        "H272_DIRECT_LABEL_READOUT_V1_RUNTIME/tests/test_h272_direct_label_contract.py::test_batch_builder_rejects_appended_teacher_columns"
+      ],
+      "weight_sum": 12.0,
+      "weighted_squared_error_sum": 30.0
+    },
+    "weighting": "unchanged: abs(clipped original label) * train_rnn.main_row_weights using the same pinned propensity caches, power 2, epsilon 0.03 and true-mask coefficient 0.03."
+  },
+  "source_lock": {
+    "member_count": 55,
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_DIRECT_LABEL_FROZEN_RUNTIME_SOURCE_LOCK_V1_20261008.json",
+    "sha256": "a8d56811e97783bcaa354a28beb992f8ce8acebc1b62f70f945c6697426aaa76"
+  },
+  "status": "source_preparation_only_no_profile_or_fit_run",
+  "test_status_at_preparation": "9 focused tests passed; Ruff check and format passed; offline _load_recipe verified all 55 frozen source hashes; no data read, profile, fit, export, or GPU use."
+}
