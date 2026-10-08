@@ -1,0 +1,34 @@
+{
+  "schema": "wnn.kaggle-provider-targets.active.v1",
+  "poll_interval_seconds": 300,
+  "source_snapshot": {
+    "path": "../../../cloud_preflight/provider_targets.json",
+    "sha256": "214e1eb91e2ab10d665e6fae6c031f43a3986a1fec4097f78555c8cc7091a5c3",
+    "target_count": 50,
+    "source_log_last_row_utc": "2026-10-08T22:06:02+00:00",
+    "classification_basis": "latest non-error provider observation per kernel in the preserved log",
+    "classification": {
+      "queued_or_running": 1,
+      "terminal_collected": 6,
+      "terminal_uncollected": 43,
+      "terminal_uncollected_action": "preserve historical status and receipts; stop polling without claiming collection"
+    }
+  },
+  "targets": [
+    {
+      "kernel": "vladkochetov07/e463-tpu-real-data-reload-v7-20261008",
+      "resource": "tpu",
+      "artifact_dir": "../../../cloud_preflight/tpu_v7_terminal_20261008_r1",
+      "terminal_receipt": "../../../cloud_preflight/E463_TPU_V7_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json"
+    },
+    {
+      "kernel": "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1",
+      "resource": "cpu",
+      "artifact_dir": "cpu_source_stage_terminal_outputs_r1",
+      "terminal_receipt": "KAGGLE_CPU_CACHE_TERMINAL_OPERATOR_RECEIPT_R1.json",
+      "root_admission": "../KAGGLE_CPU_CACHE_ROOT_ADMISSION_R1.json",
+      "root_admission_sha256": "54ac82e595b498c0c28d330c7110c59351c1277faa9b4c567a60c3fec9e475a3",
+      "kernel_version": 1
+    }
+  ]
+}

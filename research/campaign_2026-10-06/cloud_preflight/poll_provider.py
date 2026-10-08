@@ -28,6 +28,7 @@ GPU_BUDGET_SECONDS = 56780.516
 # ADR-0010 admits independent TPU recovery with the original usage baseline kept.
 TPU_BUDGET_SECONDS = 7200.0
 TERMINAL_STATES = {"COMPLETE", "COMPLETED", "ERROR", "FAILED", "CANCELED", "CANCELLED"}
+VALID_RESOURCES = {"cpu", "gpu", "tpu"}
 
 
 def _seconds(value: Any) -> float | None:
@@ -166,7 +167,7 @@ def collect(targets_path: Path) -> dict[str, Any]:
         for target in targets:
             kernel = target.get("kernel")
             resource = target.get("resource")
-            if not isinstance(kernel, str) or resource not in {"gpu", "tpu"}:
+            if not isinstance(kernel, str) or resource not in VALID_RESOURCES:
                 raise ValueError(f"invalid provider target entry: {target!r}")
             evidence = _terminal_evidence(target, targets_path.parent)
             if evidence is not None:
