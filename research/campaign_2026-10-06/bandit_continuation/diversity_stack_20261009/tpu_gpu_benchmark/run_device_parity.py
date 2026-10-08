@@ -7,12 +7,33 @@ admit its actual-device execution and bind its receipt into the fit contract.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import os
 import subprocess
 import sys
 import time
 import xml.etree.ElementTree as ET
 from pathlib import Path
+
+
+def validate_profile_receipt(
+    inputs: Path, receipt_path: Path, initial_state: Path
+) -> dict[str, object]:
+    """Consume the actual GPU writer's hash keys before touching a TPU client."""
+    receipt = json.loads(receipt_path.read_text())
+    with inputs.open("rb") as stream:
+        inputs_sha = hashlib.file_digest(stream, "sha256").hexdigest()
+    with initial_state.open("rb") as stream:
+        initial_sha = hashlib.file_digest(stream, "sha256").hexdigest()
+    if (
+        receipt.get("schema") != "wnn.loss-pair.profile-inputs-receipt.v1"
+        or receipt.get("profile_inputs_sha256") != inputs_sha
+        or receipt.get("initial_state_sha256") != initial_sha
+        or not receipt.get("cache_manifest_sha256")
+    ):
+        raise ValueError("actual GPU profile fixture byte/init/cache binding differs")
+    return receipt
 
 
 def main() -> None:
@@ -34,6 +55,11 @@ def main() -> None:
     env["WNN_PARITY_INITIAL_STATE"] = str(args.initial_state.resolve(strict=True))
     if args.profile_inputs:
         env["WNN_PARITY_PROFILE_INPUTS"] = str(args.profile_inputs.resolve(strict=True))
+        if args.profile_inputs_receipt is None:
+            raise ValueError("actual profile inputs require their producer receipt")
+        validate_profile_receipt(
+            args.profile_inputs, args.profile_inputs_receipt, args.initial_state
+        )
     started = time.perf_counter()
     with (args.output_root / "lifecycle_tests.log").open("w") as log:
         result = subprocess.run(
@@ -70,15 +96,9 @@ def main() -> None:
     if args.profile_inputs:
         if args.profile_inputs_receipt is None:
             raise ValueError("actual profile inputs require their producer receipt")
-        import json
-
-        input_receipt = json.loads(args.profile_inputs_receipt.read_text())
-        if (
-            input_receipt.get("sha256") != sha256_file(args.profile_inputs)
-            or input_receipt.get("initial_state_sha256") != sha256_file(args.initial_state)
-            or not input_receipt.get("cache_manifest_sha256")
-        ):
-            raise ValueError("actual profile fixture byte/init/cache binding is incomplete")
+        input_receipt = validate_profile_receipt(
+            args.profile_inputs, args.profile_inputs_receipt, args.initial_state
+        )
         with np.load(args.profile_inputs, allow_pickle=False) as archive:
             host_x = archive["inputs"]
             host_y = archive["targets"]
@@ -177,12 +197,15 @@ def main() -> None:
                 rtol=1e-3,
                 atol=3e-9,
             )
+        from tpu_worker import _memory_snapshot
+
         profile[loss] = {
             "compile_plus_first_update_seconds": cold,
             "warm_update_seconds": warm_seconds,
             "shape": [32, 2000, 211],
             "active_sequences": 30,
             "finite": True,
+            "memory_after_full_shape": _memory_snapshot(),
         }
     _write_json_atomic(
         args.output_root / "device_parity_receipt.json",
