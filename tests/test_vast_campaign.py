@@ -1414,6 +1414,29 @@ def test_signed_prefetch_invalid_public_binding_fails_closed_before_stdin_or_rsy
             prefetch_admission_path=admission_path,
         )
     assert controller._get_attempt("vast-attempt-001")["prefetch_status"] == "invalid_plan"
+    assert controller._get_attempt("vast-attempt-001")["worker_terminal_failure"] is True
+    # The supervisor may restart before its outer catch block adds other fields.
+    with pytest.raises(vast.WorkerStagingIntegrityError, match="persisted fatal"):
+        controller._stage_and_launch("vast-attempt-001")
+
+
+@pytest.mark.parametrize("prefetch_status", sorted(vast.FATAL_PREFETCH_STATUSES))
+def test_stage_rejects_legacy_fatal_prefetch_before_provider_or_transport(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, prefetch_status: str
+) -> None:
+    intent, admission, dispatch, offer = make_attempt(tmp_path, monkeypatch)
+    provider, controller = controller_for(tmp_path, offer)
+    controller._create_one_unarmed(intent, admission, dispatch)
+    controller._update_attempt(
+        "vast-attempt-001", prefetch_status=prefetch_status, worker_terminal_failure=False
+    )
+    monkeypatch.setattr(
+        provider,
+        "current_user",
+        lambda: pytest.fail("fatal restart must not enter provider or staging operations"),
+    )
+    with pytest.raises(vast.WorkerStagingIntegrityError, match="persisted fatal"):
+        controller._stage_and_launch("vast-attempt-001")
 
 
 def test_stage_refuses_launch_without_worker_and_collection_runway(

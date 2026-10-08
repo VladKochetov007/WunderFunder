@@ -54,6 +54,9 @@ WORKER_STARTUP_TIMEOUT_SECONDS = 1800
 MAX_UPLOAD_TIMEOUT_SECONDS = 5400
 MAX_WORKER_SETUP_TIMEOUT_SECONDS = 3600
 MAX_COLLECTION_ATTEMPTS = 2
+FATAL_PREFETCH_STATUSES = frozenset(
+    {"invalid_plan", "transport_failed", "invalid_remote_receipt", "unsafe_destination"}
+)
 DEFAULT_SSH_PUBLIC_KEY = Path.home() / ".ssh/id_ed25519.pub"
 TERMINAL_STARTUP_STATUSES = {"deleted", "exited", "failed", "offline", "stopped"}
 MIN_GPU_RAM_GIB = Decimal("24")
@@ -1873,6 +1876,8 @@ class VastCampaign:
                 "private prefetch plan and public admission must be supplied together"
             )
         record = self._get_attempt(attempt_id)
+        if record.get("prefetch_status") in FATAL_PREFETCH_STATUSES:
+            raise WorkerStagingIntegrityError("persisted fatal prefetch prevents stage retry")
         if record.get("worker_launch_status") in {"launch_uncertain", "worker_started"}:
             return _status_view(record)
         instance_id = record.get("instance_id")
@@ -2084,6 +2089,7 @@ class VastCampaign:
                     self._update_attempt(
                         attempt_id,
                         prefetch_status="invalid_plan",
+                        worker_terminal_failure=True,
                         prefetch_error_type="PrefetchPlanError",
                         updated_at_utc=utc_now(),
                     )
@@ -2140,6 +2146,7 @@ class VastCampaign:
                         self._update_attempt(
                             attempt_id,
                             prefetch_status="transport_failed",
+                            worker_terminal_failure=True,
                             prefetch_admission_sha256=prepared.admission_sha256,
                             prefetch_private_plan_sha256=prepared.private_plan_sha256,
                             prefetch_remote_program_sha256=kaggle_vast_prefetch.REMOTE_PROGRAM_SHA256,
@@ -2159,6 +2166,7 @@ class VastCampaign:
                         self._update_attempt(
                             attempt_id,
                             prefetch_status="invalid_remote_receipt",
+                            worker_terminal_failure=True,
                             prefetch_admission_sha256=prepared.admission_sha256,
                             prefetch_private_plan_sha256=prepared.private_plan_sha256,
                             prefetch_remote_program_sha256=kaggle_vast_prefetch.REMOTE_PROGRAM_SHA256,
@@ -2175,6 +2183,7 @@ class VastCampaign:
                         self._update_attempt(
                             attempt_id,
                             prefetch_status="unsafe_destination",
+                            worker_terminal_failure=True,
                             prefetch_admission_sha256=prepared.admission_sha256,
                             prefetch_private_plan_sha256=prepared.private_plan_sha256,
                             prefetch_remote_program_sha256=kaggle_vast_prefetch.REMOTE_PROGRAM_SHA256,
