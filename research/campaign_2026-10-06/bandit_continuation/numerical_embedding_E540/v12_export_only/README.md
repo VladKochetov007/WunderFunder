@@ -1,0 +1,11 @@
+# E540 V12 fixed-checkpoint export
+
+V12 is an export-only successor to V11. It reuses the same completed V8 linear and V9 PLE fixed-epoch-0 checkpoints, their 512-component fitting provenance, and the same 468 feature-only evaluation groups. It performs no fit, profile, checkpoint update, ONNX export, or grading.
+
+V11 passed authorization, source, input-identity, membership, and checkpoint/fit-metadata validation, then failed before its first prediction array was written: its extracted project did not yet contain a cache directory when the predictor opened the partial memmap path. V12 creates that worker-local directory immediately before calling the same predictor CLI. The V11 terminal receipt, worker result, output manifest, and root source/final-packet reviews are bound as predecessor evidence.
+
+The worker still predicts only the fixed 468 groups and uses the feature reader with targets=false and mask=false. The original model-fit artifacts and all scientific recipe/membership fields are immutable inputs. Root retains metric computation and scientific interpretation; these previously exposed groups are not a fresh holdout or public forecast.
+
+Root approved the source packet and exact export-only authorization `E540_V12_ROOT_EXPORT_AUTHORIZATION_20261008_R1` (SHA256 `3e6e55e5e9008619050c8fdeeea98a7191fdfe3a2aef69d210cfabfe826959d0`). The authorized rebuilt archive is `kaggle_v12_root_approved_20261008_r1/bundle/bundle.wnn` (SHA256 `ccddc41a2a0a4a0edaa3f05b52b830a3175d21e361dc787d87260acd0533d321`). It differs from the pending archive only in the approved authorization file and its corresponding spec input descriptor. The extracted final bundle passed the CPU-only real-checkpoint predictor fixture before upload.
+
+The private V12 source dataset and reused V10 checkpoint-asset dataset both reached READY, and their downloaded file sets and hashes were verified against the frozen local manifests. The single authorized push was accepted as version 1 of `vladkochetov07/e540-v12-cache-dirfix-20261008-runner` with a 6,000-second timeout and NvidiaTeslaT4. The latest provider poll reports `RUNNING`; live worker phase remains unobserved because Kaggle's log stream returned HTTP 500 and the runner redirects worker stdout/stderr to its local `worker.log`. No fit or grade is part of this packet.
