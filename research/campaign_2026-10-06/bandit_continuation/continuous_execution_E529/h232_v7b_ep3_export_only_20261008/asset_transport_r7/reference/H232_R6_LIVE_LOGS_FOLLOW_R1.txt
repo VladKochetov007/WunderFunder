@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "/kaggle/working/h232_v7b_ep3_verified_payload_r6/profile_worker.py", line 2337, in verify_and_stage_inputs
+    assets_path = _unique(input_root, "assets-manifest.json")
+  File "/kaggle/working/h232_v7b_ep3_verified_payload_r6/profile_worker.py", line 2209, in _unique
+    raise ProfileAbort(f"expected one mounted {name}, found {len(matches)}")
+profile_worker.ProfileAbort: expected one mounted assets-manifest.json, found 2
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/kaggle/src/script.py", line 216, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/src/script.py", line 212, in main
+    run_export(destination)
+    ~~~~~~~~~~^^^^^^^^^^^^^
+  File "/kaggle/working/h232_v7b_ep3_verified_payload_r6/export_worker.py", line 395, in main
+    mounted = verify_and_stage_inputs(
+        Path("/kaggle/input"),
+    ...<2 lines>...
+        packet_root / "prior_input_identity_v2.json",
+    )
+  File "/kaggle/working/h232_v7b_ep3_verified_payload_r6/profile_worker.py", line 2339, in verify_and_stage_inputs
+    persist_identity_check(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        receipt_path,
+        ^^^^^^^^^^^^^
+    ...<3 lines>...
+        {"status": "unavailable", "diagnostic": str(error)},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/kaggle/working/h232_v7b_ep3_verified_payload_r6/profile_worker.py", line 2226, in persist_identity_check
+    raise ProfileAbort(f"identity mismatch for {logical_name}: fields={','.join(mismatches)}")
+profile_worker.ProfileAbort: identity mismatch for assets-manifest.json: fields=sha256,bytes
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 309095 bytes to __results__.html
