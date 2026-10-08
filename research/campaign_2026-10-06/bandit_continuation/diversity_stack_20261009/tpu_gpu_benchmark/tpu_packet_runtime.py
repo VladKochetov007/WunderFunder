@@ -127,6 +127,18 @@ def check_admission(admission: Record, source_manifest_sha: str) -> None:
         raise ValueError("worker runtime exceeds finite packet envelope")
 
 
+def check_profile_binding(receipt: Record, first_ids: list[str], normalization_sha: str) -> None:
+    """Require the pre-update fixture to belong to this exact ordered fit batch."""
+    expected = {
+        "cache_manifest_sha256": CACHE_MANIFEST_SHA,
+        "cache_key": CACHE_KEY,
+        "normalization_sha256": normalization_sha,
+        "sequence_ids": first_ids,
+    }
+    if len(first_ids) != 32 or any(receipt.get(key) != value for key, value in expected.items()):
+        raise ValueError("GPU profile fixture cache/normalization/first-batch order differs")
+
+
 def main() -> None:
     """Validate mounted inputs, profile actual TPU arithmetic, then conditional fit."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -185,6 +197,11 @@ def main() -> None:
     membership = read_json(cache_manifest.parent / cache_metadata["membership_artifact"]["path"])
     _read_orders(shared["sample_orders"], membership)
     _read_onecycle_trace(shared["onecycle_trace"])
+    check_profile_binding(
+        read_json(shared["profile_inputs_receipt"]),
+        read_json(shared["sample_orders"])["epochs"]["0"][:32],
+        digest(shared["normalization"]),
+    )
     with np.load(shared["initial_state"], allow_pickle=False) as initial:
         validate_state_dict(initial, 211, 256, 2, 2)
         if any(initial[name].dtype != np.dtype("<f4") for name in initial.files):
