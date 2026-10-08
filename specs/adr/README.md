@@ -41,3 +41,4 @@ For a new decision, copy [the template](template.md), choose the next unused num
 
 - [ADR0025: bounded Sol continuation delivery](0025-sol-continuation-delivery.md): one authorized Sol lead, independent Luna verification, exact Z3 comparisons, serialized support, and signed-input capacity cohort with capped staging/spend.
 - [ADR0026: Luna-only unattended execution](0026-luna-only-unattended-execution.md): withdraw premium-agent exception; transfer context to Luna/max and deliver a bounded persistent experiment manager.
+- [ADR0027: diverse models and second-level learning](0027-diverse-models-and-second-level-learning.md): prioritize diverse own teachers/students and learned combinations for24h; one new explicitly authorized Astra/xhigh ideator, independent Luna/max investigations and requested external providers within existing caps.

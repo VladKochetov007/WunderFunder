@@ -1,3 +1,17 @@
+# Live continuation — 2026-10-08 21:22 UTC
+
+The user's latest priority is heterogeneous own teachers/students, optimizer/activation/loss/architecture/sample diversity, and static or learned combinations including neural boosting, for at least the next24hours. [ADR0027](adr/0027-diverse-models-and-second-level-learning.md) records one explicitly authorized Astra/xhigh ideator plus three independent Luna/max investigations in waves and requested external providers. Sol remains stopped. Existing healthy fits/scoring drain unchanged; this does not raise compute or spending caps. [Contract and independent brief](../research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/CONTRACT_R1.md).
+
+Local seed99 faithful student completed; seed9 student is the current fit. Root installed the independently reviewed Kaggle terminal collector timer; its first actual execution succeeded at21:21:08UTC, verified smoke4's37 artifact hashes and found TPUv7 stillQUEUED. Smoke4 failed during data staging with low cgroup headroom before a completed model update/result; shared source verification/parsed-cache repair is owned, no scientific loss inferred. Vast r5 downloaded and verified both2.246GB target caches, then failed its bounded raw-parquet staging deadline. The guardian destroyed owned54909827 at20:59:42UTC, and root settled0.11USD from itemized billing; cumulative settled2.05USD, no live rental or outstanding hold. A new rental requires measured download feasibility, not advertised bandwidth. [Settlement](../research/campaign_2026-10-06/bandit_continuation/vast_warm_cohort/SETTLEMENT_R5_ROOT_20261008_R1.json).
+
+Public best remains0.6660; technically validated Z1/Z2/Z3 ZIPs are exploratory, with no supported expected-public improvement above Maxim's reported0.6674. ExactZ3 is nearly flat/slightly negative on exposedfold0. Earlier snapshots below are historical.
+
+# Live continuation — 2026-10-08 20:54 UTC
+
+All three active subagents use Luna/max; premium context migration is complete. Owned Vast54909827 is staging the reviewed512/768 capacity cohort,≤5USD and hardstopOctober9 06:45:52UTC; [root creation/startup receipt](../research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/R5_OWNED_LAUNCH_ROOT_RECEIPT_R1.json). TPUv7 has one accepted version under canonical `vladkochetov07/e463-tpu-real-data-reload-v7-20261008`, last QUEUED. Smoke4 is independently reviewed and one-push admitted after closing terminal smoke3/H230v4 holds; actual GPU fit evidence remains pending. Local faithful seed99 student continues; narrow persistent watcher testing is underway. User lingering enabled so user services survive Codex/session exit while the machine remains running. Parent limits rechecked5CPU/18GB memory-high/20GB maximum/no swap.
+
+Exact Z3 independent result below is nearly flat/slightly negative; no new expected-public best. [Three technically validated ZIPs and receipts](../research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/Z1_Z2_Z3_ROOT_RELEASE_INDEX_R3.json) remain exploratory. All prior snapshots below are historical.
+
 # Live continuation — 2026-10-08 20:41 UTC
 
 All three active subordinate roles now use Luna/max; Sol was stopped and its context transferred under [ADR0026](adr/0026-luna-only-unattended-execution.md). The user's durable background experiment manager is being implemented against the existing guarded queue. No new premium agent authorization remains.

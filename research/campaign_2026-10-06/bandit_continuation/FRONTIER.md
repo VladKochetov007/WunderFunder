@@ -1,3 +1,11 @@
+## Luna continuation and actual cloud admission — 2026-10-08 20:54 UTC
+
+All native subordinate roles now use Luna/max; Sol is stopped with context transferred. [ADR0026](../../../specs/adr/0026-luna-only-unattended-execution.md) records this change and the requested deterministic background manager. Existing healthy local v3 is fitting the faithful seed99 student; the bounded local successor watcher is being independently tested before installation.
+
+Exact Z3 endpoint is independently graded: candidate0.68163518/control0.68188725, delta−0.00025207 and component-bootstrap95%[−0.00270357,+0.00151632] on exposed468groups/141components. No expected-public promotion; capacity-teacher, disagreement-selection and fold1 robustness directions remain eligible. [Grade](../../../reports/Z3_EXACT_FOLD0_INDEPENDENT_GRADE_R1.json). All three technically validated ZIPs and receipts are indexed in [release R3](controller_claude_20261008/Z1_Z2_Z3_ROOT_RELEASE_INDEX_R3.json).
+
+Owned Vast instance54909827 is staging the sequential512/768 cohort under the durable guardian,≤5USD,10h hardstop06:45:52UTC October9; source/ledger/staging admission passed. TPUv7 is accepted version1 and QUEUED under canonical real-data slug; full inventory repair independently verified. Smoke3 reached two T4s but failed before fitting on missing portable-manifest environment; smoke4 fixes that exact integration failure and is one-push admitted after independent review and quota reconciliation. Parsed per-fold cache reuse and distinct mechanism screens follow actual runner validation; no measured throughput target achieved yet. Preserve the full research backlog and original failures.
+
 ## Delivered candidates and next comparisons — 2026-10-08 20:07 UTC
 
 Z1c and Z2c are technically validated exploratory packages; [release index](../../../research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/Z1_Z2_ROOT_RELEASE_INDEX_R1.json) binds ZIPs and receipts. Independent H230 seed3 finished endpoint WP0.6823084607 versus matched control0.6820687897, delta+0.0002396710, component-bootstrap95%[-0.00102396,+0.00124500] on exposed468groups/141components. No public forecast or new expected best. This is not exactZ3.
@@ -250,3 +258,8 @@ Public calibration 2026-10-08T13:43:12.843668+00:00: history-swapZIP **0.6644** 
 ### Completed S4 readout and pending complete comparator — 2026-10-08T14:46:51.718132+00:00
 
 Relative to own cleanfold S4 parent; missing served-head control now admitted for profile; no incumbent endpoint improvement claim. Fixed half-readout delta +0.0003717; independently reproduced point metric. Kaggle V7 provider RUNNING; capacity V5R1 private upload follows root conditional review. Vast predecessor safely destroyed after startup failure; corrected V7 fresh market review pending.
+# Latest continuation — 2026-10-08 21:22 UTC
+
+Latest user priority: heterogeneous teachers/students and loss/optimizer/activation/architecture/sample diversity feeding blends, causal stacking or residual boosting, for at least24h; ADR0027 and `diversity_stack_20261009/CONTRACT_R1.md` bind the allocation. One Astra/xhigh ideator explicitly authorized, three independent Luna/max roles in waves, external Grok/Freebuff/Muse routes verified before use. Keep current fits/scoring healthy. Existing local/paid caps unchanged.
+
+Seed99 faithful student complete, seed9 fitting. Kaggle collector installed and first actual check succeeded21:21:08UTC; smoke4ERROR artifacts37files hash-verified, TPUv7QUEUED. Smoke4 data-stage memory pressure needs shared verification/parsed-cache successor, no scientific conclusion. Vast54909827 destroyed_verified after raw-data staging timeout, both target caches verified; r5settled0.11USD, campaignsettled2.05USD/no active hold. No paid successor before measured staging feasibility. Own publicbest0.6660, Z1/Z2/Z3 technically validated exploratory ZIPs, no new expected-publicbest.
