@@ -1,4 +1,20 @@
+## Quant-brainteaser proposals and delivery repair — 2026-10-08 03:17 Kyiv
+
+[Native Grok quant-puzzle cards](../research/campaign_2026-10-06/bandit_continuation/quant_brainteaser_e539/CONTROLLER_REVIEW_V1.md) landed independently: five untested refinements, null priors, explicit existing parents. The Semenov excerpt was a directed fallback, not a random draw. Astra’s independent architecture/embedding/interpretability proposals are completing a separate duplicate map and implementation handoffs.
+
+The predeclared E535 causal output hold landed: baseline0.6817195017 versus held0.5581720934 over808863rows. It rejects this output-cache heuristic on this exposed model, not event-aware hidden-state updates. [Report](../research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_H230_OUTPUT_HOLD_REPORT_V1_20261008.md).
+
+Kaggle H232V5 actually passed profile and fitted through epoch0batch660/1492, then the cgroup25%available guard terminated it at726fit seconds. Snapshot available8.03GB/RSS2.88GB; cache accounting is under investigation, no OOM or scientific failure inferred. Root collected terminal artifacts/logs; Luna owns bounded V6 resource repair, root owns independent review/relaunch. Local all-data parent advanced to epoch1batch20/779, about45minutes fit-only remaining at measured epoch0rate. Its healthy frozen recipe continues. Owned Vast A3D supervisor remains active staging; TPUV5queued. No new public best; best0.6660.
+
 # Evidence basis and current state
+
+## Useful lanes and fresh quant framing — 2026-10-08 03:03 Kyiv
+
+Own all-data parent fit is running with actual epoch0 batches,2CPU/8GB worker and observedGPU2.08GB; noOOM, but workermax-event cache-reclaim pressure is recorded. Rolling fit estimates vary roughly49–68min remaining, not a guaranteed ETA. Source/contract/approval/cache-reclaim receipts are committed. Existing H230family cache covers10535train+1405valid rows; it must be rebuilt with explicit full membership before finalall-data students, not silently indexed or zero-filled.
+
+H232V5 Kaggle remains providerRUNNING with payload fit not yet observed; TPUV5 queued; Vastowned54734753 is staging under finite deadline. Native Astra/xhigh fresh attention/quant ideator successfully started after earlier harness rejection; native Grok4.7 independent quant-brainteaser task is active under20min/1CPU/1GB. Their proposals are pending, not measured results. The full468group Marimo EDA has landed with plots and narrows the event-clock hypothesis to feature-equivalent state dynamics. A predeclared causal output-hold diagnostic is assigned using exact previously graded float32-stored/fp16-inferred predictions; no new fit is required.
+
+[Research pipeline](research-pipeline.md) and two validated project skills now specify diversity, explicit interactions, fresh-context renewal, warmed cohorts and scaling from useful ready work. Root is inspecting bounded multi-GPU market options for the next diverse ready cohort; no additional rental is claimed. Publicbest remains0.6660.
 
 ## Corrected Kaggle fit submitted — 2026-10-08 02:55 Kyiv
 

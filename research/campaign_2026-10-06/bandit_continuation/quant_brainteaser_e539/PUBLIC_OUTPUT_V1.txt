@@ -1,0 +1,135 @@
+I'll treat this as a fresh-context ideator pass under conduct-creative-research: read the skill and the two workspace sources, then pull primary literature before writing independent mechanism cards. No fits, no repository writes.These are untested ideator proposals. The numerical prior and the public-score gain are null on every card. Nothing here was fit, and the exposed validation file is not a fresh holdout.
+
+**Contract.** Objective mode is competition: long-term expected performance under the official pooled weighted Pearson, with a causal deterministic serving path. Verification tier of this note is C (literature plus a specified measurement). A later fit would be tier B on already exposed `train`/`valid`, so a local score stays exploratory. Root keeps allocation. A confidence interval through zero is not a kill switch, and there is no universal model-size ceiling. A research teacher may be larger than the served model if it has its own weights and a student or compression path.
+
+**Sources actually used.** Directed: Cont, Kukanov, and Stoikov, order-flow imbalance, https://arxiv.org/abs/1011.6402 and the event definition in https://ar5iv.labs.arxiv.org/html/1011.6402. Stoikov, micro-price as the martingale limit of expected mid, an adjustment by spread and imbalance, https://ssrn.com/abstract=2970694 and https://github.com/sstoikov/microprice. Katharopoulos, Vyas, Pappas, and Fleuret, causal linear attention as a constant-size recurrent state, https://arxiv.org/abs/2006.16236, equations (7) and (16)–(20) in https://ar5iv.labs.arxiv.org/html/2006.16236. Hoffmann, Rosenbaum, and Yoshida, lead-lag contrast, https://arxiv.org/abs/1303.4871. Hayashi and Yoshida, overlap covariation, https://doi.org/10.3150/bj/1116340299. Bacry, Jaisson, and Muzy, Hawkes kernels on order-book events, https://arxiv.org/abs/1412.7096. Zaheer et al., Deep Sets, https://arxiv.org/abs/1703.06114, Theorem 2. Sirignano and Cont, path dependence of price formation, https://arxiv.org/abs/1803.06917. Random-passage component below.
+
+**Passage transfer.** The workspace text is a truncated Russian talk by Stas about the BNP Paribas competition. He says Kazanova invited him, Faron came along, and Faron wrote an inconvenient wrapper that computes a large number of important features. He does not name the library before the cutoff. The public tool that matches that description is Faron's Xgbfi dump parser, https://github.com/Far0n/xgbfi, which needs a Windows or mono runtime, and the Linux port https://github.com/limexp/xgbfir. Faron's own note on split-value histograms is at https://www.kaggle.com/general/22733. The component taken from that tool is the training-only artifact: per-feature split-value histograms, plus interactions at depth 0, 1, and 2 ranked by Gain, FScore, wFScore, Average Gain, Expected Gain, and Average Tree Depth. That is a probe of anonymous coordinates. It is not a proposal to submit a boosted tree, and the passage does not support a missing-value story.
+
+Column indexes are stable component ids. A serving update runs on every row, including warm-up and unscored rows, and the state resets when `seq_ix` changes. `is_scored` and the labels are absent at the callback.
+
+## Card 1 — Label inverse and the weighted-Pearson geometry
+
+**Mechanism family.** Inverse measurement of the two targets.
+
+**Transferable component.** The metric itself, read as a geometry. After the clip to `[-2, 2]`, Pearson is no longer affine-invariant, and the weight `|clip(y)|` gives near-zero labels no vote. Sirignano and Cont supply the neighboring fact that a long history of price and order flow improved forecasts when a one-shot book snapshot was not enough (https://arxiv.org/abs/1803.06917). Their negative result on volatility, price-level, and spread normalization was on identified equity books. It does not decide the anonymous case.
+
+**Assumptions.** `t0` and `t1` are two different functionals of future `i0` price, possibly two horizons, a raw move and a move normalized by a causal scale, or a raw move and a residual against `i1`. Both are functions of the same instrument. Rows inside one sequence are ordered by `step_in_seq`. That index may be a snapshot clock rather than an event clock.
+
+**Intervention.** On `train` only, build a label dossier per target: weight share by `|clip(y)|` decile, mass outside `[-2, 2]` before clipping, lag-0 cross-weight correlation, and autocorrelation along `step_in_seq`. Then a horizon scan: for a candidate causal price reconstructed from past and present features only, correlate the label at `t` with the later change of that reconstruction at lags `h` inside the same sequence. Repeat the scan on an event clock defined by nonzero trade-volume coordinates. Mark every use of a row `t+h` as training-only.
+
+**Predicted observable.** Each label has a sharp peak at its own lag and clock. A large share of total weight sits in a small tail. `t0` and `t1` are not scalar multiples of each other under the weighted inner product.
+
+**Cheapest experiment.** A few dozen complete row groups on CPU. Report the lag-clock argmax and the top-decile weight share. No model.
+
+**Falsifier.** Both labels peak at the same lag on both clocks, and their weighted cross-correlation is essentially one. The two-head structure is then a duplicate output, and separate horizon or numeraire stories stop.
+
+**Compute and artifact.** Minutes to a couple of hours for a declared sample. Reusable artifact: `label_geometry.json` with weight mass, lag curves, and the exact sequence ids. A later loss can minimize one minus the batch weighted correlation, with the clip inside the graph, because a pure squared error fits the unweighted center that the metric ignores.
+
+**Combination path.** The dossier chooses the head structure for every later card. A descendant is a calibrator that only rescales a frozen strong predictor so less mass is destroyed by the clip. That calibrator is allowed to be weak as a standalone score.
+
+## Card 2 — Anonymous codebook from split histograms and co-jumps
+
+**Mechanism family.** Redundant codebook and numeraire.
+
+**Transferable component.** Xgbfi's split-value histogram and interaction-depth table (https://github.com/Far0n/xgbfi, https://github.com/limexp/xgbfir). Histograms estimate the atoms and the scale of each anonymous column. Depth, Average Tree Depth, and Expected Gain say which pairs co-split. Matching histogram supports are a candidate common numeraire. This is the sampling and normalization piece of the passage, applied to the 112 columns.
+
+**Assumptions.** A shallow tree fit on `train` labels, with features lagged to be causal, recovers thresholds of the host transform. Trees will also fit noise, so a pair is kept only if the same histogram shape and the same co-jump cluster appear on disjoint sequence blocks. `a0`–`a7` and the four trade channels stay unidentified until their histograms, sparsity, and within-sequence smoothness are measured.
+
+**Intervention.** Fit a small causal gradient-boosted dump on a sequence sample and export histograms and depth-0/1/2 tables. In parallel, within each sequence, record the numerical rank of the 22 `i0` price-like columns and of the 22 `i1` columns, and cluster columns that jump on the same rows. Quotient a served representation by subtracting a robust per-instrument location only for columns that share a histogram support. Keep the raw columns beside the quotients so the quotient can lose.
+
+**Predicted observable.** Far fewer than 112 distinct scales. Some price-like columns are affine images of others, or the within-sequence rank is well below 22. High-gain pairs concentrate inside a column group (same slot across price and volume, or a cross-instrument pair), which becomes an interaction constraint for a later model.
+
+**Cheapest experiment.** One shallow dump on tens of sequences, plus the rank and co-jump pass on the same sequences. No sequence model.
+
+**Falsifier.** Histograms are all continuous and on incompatible scales, co-jump clusters are singletons, and the rank stays full on every block. The codebook is then not redundant, and the quotient is dropped. A tree that ranks pairs only on one sequence block is also discarded.
+
+**Compute and artifact.** CPU, well under a day for the sample. Artifacts: histogram parquet, interaction xlsx or parquet, column-equivalence classes, and a frozen allowed-pair list. The boosted model itself is disposable.
+
+**Combination path.** The equivalence classes are the coordinate chart for cards 3 and 5. A descendant compresses a wide teacher by deleting columns outside the stable classes and distilling into a student that sees only those classes.
+
+## Card 3 — Conditional sufficient statistic, only after an inside quote exists
+
+**Mechanism family.** Identified book imbalance.
+
+**Transferable component.** Cont, Kukanov, and Stoikov's event contribution `e_n`: when the candidate bid price does not fall, add the new bid size; when it does not rise, subtract the previous bid size; mirror the ask with the opposite sign; sum over the interval to get order-flow imbalance. They report a linear link from that imbalance to the mid change, with slope inversely related to depth (https://ar5iv.labs.arxiv.org/html/1011.6402, section 2.1). Stoikov's micro-price is the related one-step adjustment of mid by spread and size imbalance (https://ssrn.com/abstract=2970694). Both formulas need a real bid, a real ask, and nonnegative sizes.
+
+**Assumptions.** Some unknown pair of price columns and the matching volume columns behave as a level-1 quote. The host may have differenced, ranked, or residualized the book, in which case no pair will pass and the formula stays inapplicable. Index 0 is only a column id.
+
+**Intervention.** Training-only search over the `11 × 11` bid-index by ask-index pairs. A pair is eligible only if the ask-like series stays strictly above the bid-like series, both volume series stay nonnegative, and the gap has a discrete atom structure consistent with a tick. Among eligible pairs, prefer the tightest stable gap. Only then compute causal `e_n`, a depth normalizer, and a micro-price imbalance from past and current rows. Compare those series with `t0` and `t1` under the weighted inner product, on the row clock and on a short sum of events.
+
+**Predicted observable.** At most a few pairs pass. For a passing pair, weighted correlation of the causal imbalance with at least one label exceeds the same correlation using trade-volume alone, which is the comparison Cont, Kukanov, and Stoikov argue for.
+
+**Cheapest experiment.** The pair screen is a vectorized pass over the card 2 sample. Stop if zero pairs pass. If one passes, a linear weighted projection is the model. No network.
+
+**Falsifier.** No pair is ordered with nonnegative sizes. Alternatively a pair passes but its imbalance loses to a same-scale trade-only imbalance on every sequence block. Micro-price features are then not identified, and later models keep treating the eleven slots as unidentified atoms.
+
+**Compute and artifact.** CPU, same sample as card 2. Artifact: eligible-pair table, the exact column map, and the weighted-projection coefficient. A descendant feeds only the accepted `e_n` stream as an extra causal channel into card 5. A student can be the linear imbalance itself if the network does not beat it by a margin the root cares about.
+
+## Card 4 — Lead-lag and a trade-mark intensity state
+
+**Mechanism family.** Cross-instrument marked point process.
+
+**Transferable component.** Hoffmann, Rosenbaum, and Yoshida estimate a shift `θ` by a contrast built from a Hayashi-Yoshida overlap covariation (https://arxiv.org/abs/1303.4871, https://doi.org/10.3150/bj/1116340299). On this file both instruments are already printed on every row, so the classical nonsynchronous bias is small on raw rows. The useful piece is the lag contrast. It becomes a real nonsynchronous estimator if event times are the rows where a trade-volume coordinate is nonzero. From Bacry, Jaisson, and Muzy, the small component is an exponential kernel: a causal intensity is a finite state, `λ_t = μ + e^{-βΔ}(λ_{t-1} - μ) + jump`, not the full eight-type first-level taxonomy in https://arxiv.org/abs/1412.7096. We do not observe their limit, cancel, and trade labels separately. The four `dp`/`dv` channels are the only marks.
+
+**Assumptions.** `i1` can lead, coincide, or lag `i0`. A negative `θ` means `i1` is a poor standalone predictor of future `i0` and may still be the hedge inside one of the two labels. The four trade channels may be sides, lags, or venues. Sparsity has to be measured before any of those names is used. `a0`–`a7` enter only if they behave like a clock or a regime flag under card 2.
+
+**Intervention.** Form causal increments of the card 2 price representatives for `i0` and `i1`. Compute the lagged product contrast for `θ` in a predeclared window of row shifts, and again on the trade-event clock. Separately maintain one exponential intensity per trade channel, reset at each sequence, and treat `(λ, last mark, age)` as the state. The served features at `t` use events at times `≤ t` only.
+
+**Predicted observable.** The contrast peaks at a nonzero `θ` that is stable across sequence blocks, or one label's partial weighted association with `i0` collapses once a causal `i1` increment is partialled out. The intensity state is bursty where labels have heavy `|y|`.
+
+**Cheapest experiment.** CPU contrast on the same sample. No fit beyond the lag profile and a one-state exponential smoother on a grid of `β`.
+
+**Falsifier.** The contrast peaks only at `θ = 0` on both clocks and on every block, and partialling `i1` does not change either label's weighted association with the `i0` increment. The cross-instrument branch is then a companion series with no measured lead or hedge role. An intensity that is constant whenever `dv` is sparse is also a null.
+
+**Compute and artifact.** CPU, minutes to hours. Artifact: `θ` profile, event-time definition, and the `(β, channel)` state specification. Descendant: the intensity and the lagged `i1` increment are extra inputs to a strong `i0` model, tested by the residual harness below. This branch is the one most likely to be weak alone and useful conditionally.
+
+## Card 5 — Causal linear attention on slot embeddings
+
+**Mechanism family.** Efficient attention-like memory, plus a set embedding of the book. This is the departure from a gated-recurrent width or seed sweep.
+
+**Transferable component.** Katharopoulos et al. replace causal softmax attention by a kernel feature map `φ(x) = elu(x) + 1` and the recurrent state
+
+`s_i = s_{i-1} + φ(x_i W_K) (x_i W_V)^T`, `z_i = z_{i-1} + φ(x_i W_K)`,
+
+with `s_0 = z_0 = 0` and the readout `φ(q)^T s / φ(q)^T z` (equations (7), (16)–(20), https://ar5iv.labs.arxiv.org/html/2006.16236). Memory is constant in the 20,000 steps. Reset `s` and `z` on every new `seq_ix`, and update them on warm-up rows. Zaheer et al., Theorem 2, say a permutation-invariant function of a set is `ρ` of a sum of `φ` on the elements (https://ar5iv.labs.arxiv.org/html/1703.06114). The eleven `(price, volume)` atoms are the set. The column id is a stable tag, so the embedding is `φ(atom) + e_{slot}`, which can fall back to a pure sum by zeroing `e_{slot}`.
+
+**Assumptions.** The long horizon inside a sequence matters, as in the path-dependence result of Sirignano and Cont, and a constant state can carry it. Slots are similar objects, so a shared atom encoder is justified. They are not assumed to be sorted by price. If card 3 finds a true inside quote, that pair can be passed in as an extra marked atom. The linear map forgets in a way softmax attention does not. That is a modeled risk, checked by a short-window ablation, not a reason to start from a quadratic transformer.
+
+**Intervention.** Encode `i0` as eleven atoms, `i1` as eleven atoms, and the trade channels as up to four marks. Run a small causal linear-attention stack on that sequence. Train against the clipped weighted-correlation surrogate from card 1. The research teacher is a wider map or more heads, trained independently. The student is the same recurrence with a smaller `C × M` state, distilled from the teacher's causal predictions on `train`. A noncausal teacher is a training diagnostic and does not initialize the served weights.
+
+**Predicted observable.** On a frozen screened subset, the recurrent attention state beats a same-parameter exponential moving average of the slot embedding, and it survives a causality unit test: editing a future row leaves the prediction at `t` unchanged. The slot-embedding variant and the pure-sum variant separate in weighted Pearson, which tells us whether slot identity carries information beyond the empirical measure.
+
+**Cheapest experiment.** A deterministic state-reset and future-perturbation test before any long fit. Then one small-data screen under the subset protocol: complete sequences, fixed evaluation membership, a declared step budget. Compare three embeddings only: raw 112-vector, slot embedding, and pure Deep Sets sum. One width. No seed farm.
+
+**Falsifier.** The future-row test fails, or the constant state does not beat the moving average of the same embedding on the predeclared screen by a margin outside block-to-block variation. If pure sum and slot embedding tie, drop the slot table. If both lose to the raw vector, the set rewrite is the wrong coordinate chart and the attention state can still be retried on the raw vector. A screen failure stops that recipe. It does not declare attention memory impossible at a larger width the root has not run.
+
+**Compute and artifact.** The unit test is CPU and cheap. The screen is a GPU job whose step budget the root sets. Full `train` is a later allocation. Artifacts: a streaming cell with an explicit reset, a state-size table, and teacher and student checkpoints with ancestry. Serving state is the pair `(s, z)` per layer, independent of how long the sequence has run.
+
+## A weaker model conditional on a strong one
+
+Judge this in the weighted inner product, not by the weak model's raw correlation with `y`. Let `w = |clip(y)|` on the fixed mask. For a frozen strong prediction `ŷ_S` and a weak prediction `ŷ_W`, estimate the weighted projection of `ŷ_W` onto `ŷ_S` and keep the residual direction. The comparison is official `S` for `ŷ_S` against official `S` for the clip of `ŷ_S + α r̂_W`. Choose `α` on one predeclared block of sequences and report the complement separately. Both numbers are exposed-validation numbers.
+
+The natural weak arms are the card 3 imbalance, once a pair exists, and the card 4 `i1` lag or intensity. Either can lose as a standalone score and still move `S` if it explains weight that sits in the tails where the strong model is clipped or hedged wrong. The falsifier is a Frisch-Waugh coefficient near zero on every block: after removing the strong direction, the weak direction does not change pooled weighted correlation. A positive raw correlation between the weak model and the label is not evidence for the blend.
+
+## Training-only diagnostics versus causal features
+
+Training-only, and forbidden in the callback: future feature rows in the horizon scan, any fit that sees `t0` or `t1` at time `t` while reading the book at `t+h`, `is_scored` as an input, `seq_ix` as a clock, and Xgbfi thresholds refit on the evaluation labels. The split histograms, eligible bid-ask map, `θ`, and `β` may be frozen from `train` and then applied causally.
+
+Causal features are functions of the current row and earlier rows of the same sequence: quotients, accepted `e_n`, intensities, lagged `i1` increments, and `(s, z)`. The state still updates on rows that are not scored.
+
+## What a later fresh-context task must leave out
+
+Pass the contract facts: column layout, the warning that an index is a stable id, the metric, causality, sequence reset, exposed validation, independent weights, and a null numerical prior.
+
+Leave out this note's hypotheses and rankings. In particular, leave out the guesses that the two labels are different horizons or a hedge pair, that a bid-ask pair exists, that `i1` leads, that split histograms will show a low-rank codebook, and that linear attention on slot embeddings is the preferred memory. Leave out any screen number this session did not measure. A later ideator should be able to reject the ladder, the set embedding, and the attention state without arguing with this list.
+
+## Three Luna-ready handoffs
+
+Root decides whether any of these run, and with what budget. They are implementation and test tasks. They are not permission to launch a full fit.
+
+**Handoff A, measurement audit.** Owner: one actor, CPU only. Deliverable: a streaming script over complete Parquet row groups that writes `label_geometry.json`, split histograms, interaction tables, within-sequence rank, co-jump classes, the bid-ask eligibility matrix, and the lead-lag contrast. Inputs are `train` sequences only for anything involving labels. A separate pass may describe `valid` `is_scored` as an exposed diagnostic and must not emit it as a feature. Budget: tens of sequences first, then a predeclared larger sample. Tests: row-group length is 20,000, state of the script resets per `seq_ix`, horizon scans cannot be imported by a feature builder, and a shuffled-column control changes the eligibility matrix. Falsifiers are the ones in cards 1–4, stored next to the tables.
+
+**Handoff B, causal linear-attention cell.** Owner: one actor, after A has frozen the coordinate chart it actually found, or on the raw 112-vector if A is inconclusive. Deliverable: a streaming module implementing equations (16)–(20) with `φ(x) = elu(x)+1`, reset on sequence change, update on every row, and a same-interface Deep Sets slot encoder with a switch to pure sum. Tests before training: determinism, reset, future-row invariance, finite outputs on the warm-up prefix, and a state size independent of step number. The weighted-correlation surrogate is a separate checked function against a tiny hand-computed pool, including a constant prediction, which makes the official denominator zero and must follow the official scorer's convention rather than a private one. Distillation, if used, consumes causal teacher outputs and records checkpoint ancestry. Screen size and hardware stay with the root. A failed screen is recorded against that width and that coordinate chart.
+
+**Handoff C, residual combination grader.** Owner: a grader who does not edit the models. Deliverable: a function of two aligned prediction streams and the frozen mask that returns official pooled `S` for the strong stream, the weak stream, and the blended stream, plus the weighted residual coefficient. Controls: constant predictions, a permutation of `ŷ_W` inside each sequence, and a blend with `α = 0`. The grader uses the clip, the weight `|clip(y)|`, and one pool over rows, not a mean of per-sequence correlations. It does not refit, does not drop unscored rows from the state, and does not treat the complement block as an untouched holdout. Promotion of a blend is a root decision after this report.

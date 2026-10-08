@@ -1,0 +1,228 @@
+{
+  "id": "E535_H230_OUTPUT_HOLD_EXECUTION_RECEIPT_V1_20261008",
+  "observed_utc": "2026-10-08T00:12:41+00:00",
+  "diagnostic": "one predeclared output-cache hold transform; no parameter search, model fit, or prediction export",
+  "commands": {
+    "marimo_scope": "systemd-run --user --scope --unit=wnn-e535-h230-output-hold-marimo-20261008-r1.scope --slice=wnn-campaign.slice --working-directory=/home/vlad/development/wunder/worktrees/wnn-model-data-forensics-E535 -p CPUQuota=100% -p MemoryHigh=800000000 -p MemoryMax=1000000000 -p MemorySwapMax=0 /usr/bin/timeout --signal=TERM --kill-after=10s 480s /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/marimo edit --no-token --no-sandbox --skip-update-check --port 2724 /home/vlad/development/wunder/worktrees/wnn-model-data-forensics-E535/research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_H230_OUTPUT_HOLD_20261008.py",
+    "cell_execution": "bash /home/vlad/.agents/skills/marimo-pair/scripts/execute-code.sh --port 2724 <<'EOF'\nimport marimo._code_mode as cm\nasync with cm.get_context() as ctx:\n    cell = ctx.cells[0]\n    ctx.run_cell(cell.id)\nEOF",
+    "server_discovery": "bash /home/vlad/.agents/skills/marimo-pair/scripts/discover-servers.sh"
+  },
+  "marimo": {
+    "version": "0.25.0",
+    "server_id": "127.0.0.1:2724",
+    "pid_at_discovery": 3386489,
+    "systemd_unit": "wnn-e535-h230-output-hold-marimo-20261008-r1.scope",
+    "invocation_id": "584d7001fbd843ddb8bc1212247a4008",
+    "execute_code_session_id": 38222,
+    "server_exec_session_id": 87034,
+    "status_at_receipt": "inactive/dead after intentional post-result stop; no other Marimo sessions discovered",
+    "terminal_scope": {
+      "stop_command": "systemctl --user stop wnn-e535-h230-output-hold-marimo-20261008-r1.scope",
+      "stop_command_exit_status": 0,
+      "systemd_state": "inactive/dead",
+      "systemd_result": "success",
+      "server_session_exit_status": 143,
+      "termination": "SIGTERM after result, progress, and plots were written and verified",
+      "post_stop_discovery": [],
+      "shutdown_warning": "Python resource_tracker warned of 12 leaked semaphore objects during SIGTERM shutdown. The complete output-hold cell had already returned exit 0 and persisted all artifacts; this is recorded as shutdown evidence, not a scientific failure."
+    }
+  },
+  "resource_usage": {
+    "cpu_quota": "100% / 1 CPU",
+    "memory_high_bytes": 800000000,
+    "memory_max_bytes": 1000000000,
+    "memory_swap_max_bytes": 0,
+    "internal_wall_limit_seconds": 420,
+    "outer_wall_limit_seconds": 480,
+    "scan_elapsed_seconds": 6.964729657993303,
+    "scope_memory_peak_bytes": 426180608,
+    "scope_memory_current_at_receipt_bytes": 413421568,
+    "scope_cpu_usage_nsec_at_receipt": 11318378000,
+    "scope_memory_events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "fit_or_gpu_work": false,
+    "parent_campaign_memory_before_launch_bytes": 15669035008,
+    "parent_campaign_high_bytes": 18000000000,
+    "parent_campaign_max_bytes": 20000000000,
+    "scope_memory_current_before_stop_bytes": 413421568,
+    "scope_cpu_usage_nsec_before_stop": 11318378000,
+    "scope_memory_events_captured_before_stop": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "inputs": {
+    "root_grade_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_MATCHED_CONTROL_GRADE_V1_20261008.json",
+    "root_grade_sha256": "82aa53f4eafc26dffe286bae9ab2d3ef4bac5189246f3bf1dcdb04b11cbc7db9",
+    "root_grade_source_sha256": "849029fb121aca7c75a4b25b38acb896c684a9783af6a8f0bc1622f967a02a94",
+    "export_receipt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_EXPORT_TERMINAL_RECEIPT_V1_SOURCEV2_20261008.json",
+    "export_receipt_sha256": "bffaac7584fa337dc7cd0a3fb4cb61f7fca900006218fc236cb4a7d6db4616d9",
+    "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_h230_hetero_s3_ep1_20261008_v1_valid.npy",
+    "prediction_sha256_bound_by_grade_and_export": "8f0f53f7990739847cb4ecd785b508ef32a59c982a702b5e05cf04bbd1d78e78",
+    "prediction_bytes": 299680128,
+    "prediction_shape": [
+      1873,
+      20000,
+      2
+    ],
+    "prediction_stored_dtype": "float32",
+    "prediction_inference_precision": "fp16",
+    "prediction_sidecar_sha256": "71feb03d21843c396ded01664b6f160198910c86935cf3fb9d77e8bf5717b4f4",
+    "checkpoint_sha256": "59718b92befe647dde74335a17dc00d264e668ff8177201a1c636e7e194d72c9",
+    "row_group_order_sha256": "73e879bb572abbab3d4b1af9bb6ab179c54c8b2c2ee8485242bbb153fe5ef84e",
+    "metric_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/gmetric.py",
+    "metric_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "split_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "evaluation_group_count": 468,
+    "sorted_evaluation_group_ids_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+    "parquet_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+    "parquet_bytes": 5615509128,
+    "parquet_mtime_ns": 1577826000000000000,
+    "parquet_whole_file_hash": null
+  },
+  "outputs": {
+    "helper_path": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_H230_OUTPUT_HOLD_DIAGNOSTIC_V1.py",
+    "helper_sha256": "21e25d6f4023d58a3232f7cb9d887a2faf25a74353d6909bdfd23ac51f7d91f6",
+    "notebook_path": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_H230_OUTPUT_HOLD_20261008.py",
+    "notebook_sha256": "859ed6fabd3c99446514bd19b4a1232493d2be2e0f62a40fe8f3b645f46aae53",
+    "result_path": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_H230_OUTPUT_HOLD_RESULT_V1_20261008.json",
+    "result_sha256": "33b3878a7ca8ec71d5db05cb0c0eb65d2ee4cdd15c66138519d5eb56a96b0a21",
+    "progress_path": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_H230_OUTPUT_HOLD_PROGRESS_V1_20261008.json",
+    "progress_sha256": "a633f9bc7b268b6453ef63f8a0967e324b8164218d20a471a217c17090b7d7f5",
+    "plot_png_path": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/plots/E535_H230_seed3_ep1_event_output_hold_V1.png",
+    "plot_png_sha256": "cded1ee3d77a46ef54044adf2ec5c98b605704705a9231ab93aad9eab439967c",
+    "plot_svg_path": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/plots/E535_H230_seed3_ep1_event_output_hold_V1.svg",
+    "plot_svg_sha256": "375d8977326e924f54c72e34e310e4817d5469fef4963b1acbf99ced8cea508d",
+    "prior_kernel_failure_receipt_path": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_OUTPUT_HOLD_PRIOR_KERNEL_FAILURE_V1_20261008.json",
+    "prior_kernel_failure_receipt_sha256": "e6d15ddb569ca985c38fc881e5ee7ca97ed3d390fd04b93b7b0d26e12bbdb0a1",
+    "group_hash_algorithm": "sha256",
+    "group_hash_count": 468,
+    "aggregate_held_group_hash_sha256": "fcbb4e61bfd0155d47e426e4b12651b8e5ba3ffe3225618e3b8130e29420a182",
+    "metric_result": {
+      "baseline": {
+        "t0": 0.6749096647889434,
+        "t1": 0.6885293385742314,
+        "wp": 0.6817195016815873,
+        "selected_rows": 808863,
+        "metric_id": "global_wp_clip2_v1"
+      },
+      "held": {
+        "t0": 0.5523761538736588,
+        "t1": 0.5639680328670715,
+        "wp": 0.5581720933703651,
+        "selected_rows": 808863,
+        "metric_id": "global_wp_clip2_v1"
+      },
+      "delta_held_minus_baseline": {
+        "t0": -0.12253351091528464,
+        "t1": -0.12456130570715984,
+        "wp": -0.12354740831122224
+      },
+      "event_and_stale_subsets": {
+        "event": {
+          "baseline": {
+            "t0": 0.8290740754101814,
+            "t1": 0.8341834857008003,
+            "wp": 0.8316287805554908,
+            "selected_rows": 156106,
+            "metric_id": "global_wp_clip2_v1"
+          },
+          "held": {
+            "t0": 0.8290740754101814,
+            "t1": 0.8341834857008003,
+            "wp": 0.8316287805554908,
+            "selected_rows": 156106,
+            "metric_id": "global_wp_clip2_v1"
+          },
+          "selected_rows": 156106,
+          "clipped_abs_target_mass": [
+            93871.74341629446,
+            96306.89679208398
+          ]
+        },
+        "stale": {
+          "baseline": {
+            "t0": 0.6443515408846379,
+            "t1": 0.6588092799899699,
+            "wp": 0.6515804104373039,
+            "selected_rows": 652757,
+            "metric_id": "global_wp_clip2_v1"
+          },
+          "held": {
+            "t0": 0.48990795266402754,
+            "t1": 0.5019901809360775,
+            "wp": 0.4959490668000525,
+            "selected_rows": 652757,
+            "metric_id": "global_wp_clip2_v1"
+          },
+          "selected_rows": 652757,
+          "clipped_abs_target_mass": [
+            467371.8987092972,
+            479007.9142886251
+          ]
+        }
+      },
+      "selected_rows": 808863,
+      "event_rows": 156106,
+      "stale_rows": 652757,
+      "changed_prediction_row_fraction": {
+        "all_scored": 0.8070006910935473,
+        "event_scored": 0.0,
+        "stale_scored": 0.9999938721453773
+      },
+      "mean_absolute_prediction_delta": {
+        "all_scored_by_target": [
+          0.291172939330422,
+          0.29795416165156724
+        ],
+        "event_scored_by_target": [
+          0.0,
+          0.0
+        ],
+        "stale_scored_by_target": [
+          0.36080657461447846,
+          0.36920951756315384
+        ]
+      }
+    },
+    "hypothesis_card_path": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_H230_OUTPUT_HOLD_HYPOTHESIS_CARD_V1_20261008.json",
+    "hypothesis_card_sha256": "c75a19036d0b663e65cf8729e70573b85b5c395afffcb957ee9d863f780fc0d4",
+    "report_path": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_H230_OUTPUT_HOLD_REPORT_V1_20261008.md",
+    "report_sha256": "4fbf6aed68dfae69cdca106696d8ea0715e1dd35565e2cfd25009109b0ed0d72",
+    "hypothesis_registry_record_id": "H-E535-HYP-06",
+    "experiment_registry_record_id": "E-E535-H230-OUTPUT-HOLD-20261008",
+    "plot_svg_postprocessing": "Removed trailing whitespace from generated SVG lines only; path coordinates/content are unchanged."
+  },
+  "verification": {
+    "baseline_score_identity": "exactly matches root grade: 0.6817195016815873",
+    "selected_rows_identity": "exactly matches root grade: 808863",
+    "all_468_fixed_groups_streamed": true,
+    "per_group_baseline_and_held_hashes_saved": true,
+    "event_rows_preserved_exactly": true,
+    "full_prediction_array_materialized": false,
+    "full_parquet_materialized": false,
+    "ruff_format_and_check": "passed before Marimo cell execution",
+    "aggregate_held_group_hash_recomputed_from_records": "fcbb4e61bfd0155d47e426e4b12651b8e5ba3ffe3225618e3b8130e29420a182",
+    "marimo_scope_stopped_after_completion": true,
+    "post_stop_discovery_empty": true
+  },
+  "stdout_summary": {
+    "baseline_wp": 0.6817195016815873,
+    "held_wp": 0.5581720933703651,
+    "delta_wp": -0.12354740831122224,
+    "selected_rows": 808863,
+    "event_rows": 156106,
+    "stale_rows": 652757
+  }
+}

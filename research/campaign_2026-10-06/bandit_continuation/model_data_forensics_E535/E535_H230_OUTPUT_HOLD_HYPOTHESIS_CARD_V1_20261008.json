@@ -1,0 +1,22 @@
+{
+  "id": "E535-HYP-06",
+  "objective": "Improve expected competition score through causal event-time representations",
+  "mechanism_family": "event-conditioned output representation",
+  "direction": "paired i0_p0/i0_p11 output hold on frozen H230 emissions",
+  "hypothesis": "If prediction variation between simultaneous i0_p0 and i0_p11 changes is mostly unnecessary output noise, holding the latest paired-event prediction should preserve or improve official WP.",
+  "numerical_prior": null,
+  "status": "tested_exposed_descriptive_negative_for_this_transform",
+  "evidence_basis": [
+    "Root-bound H230 seed3 epoch1 baseline reproduced exactly at WP 0.681719501682 over 808863 scored rows.",
+    "Predeclared paired-event output hold scored WP 0.558172093370; delta -0.123547408311.",
+    "Held outputs differ on 99.999387% of scored between-event rows; event rows are unchanged by construction."
+  ],
+  "falsifiers": [
+    "A clean, independently trained matched endpoint on an untouched evaluation outcome shows no degradation or a benefit from the same declared output cache.",
+    "A separate causal hidden-state event gate with matched-rate random gating does not benefit; this output-only result alone is not such a test."
+  ],
+  "discriminating_test": "If reopened, fit a matched own-weight pair comparing continuous row updates, paired-event state gating/decay, and matched-rate random-gate control. Pin membership, cache, target treatment, optimizer, update budget, reset behavior, and endpoint aggregation; evaluate on an untouched outcome when available.",
+  "exposure": "Previously exposed fold0 468-group panel and one graded H230 checkpoint; no public-transfer claim.",
+  "allocation": "Do not carry this exact output-cache heuristic into production. Preserve null prior for broader event-time/state-memory mechanisms; controller review required before any follow-up fit.",
+  "result_artifact": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_H230_OUTPUT_HOLD_RESULT_V1_20261008.json"
+}
