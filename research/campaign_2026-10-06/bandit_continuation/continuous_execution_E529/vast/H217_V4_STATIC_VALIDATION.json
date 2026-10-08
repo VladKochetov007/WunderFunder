@@ -1,0 +1,63 @@
+{
+  "created_utc": "2026-10-08T01:38:13Z",
+  "focused_test_command": "pytest -q research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/test_h217_v4_worker.py",
+  "focused_test_result": "19 passed",
+  "identity": "E529-H217-TCN-RAW-SCRATCH-V4-AMP4096-BOUNDED-DEADLINE",
+  "launch_authorized": false,
+  "owner": "H230 actual-delivery actor",
+  "packet_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v4.tar",
+  "packet_sha256": "38bb1893b946c85850268a95afcf88c40593f06f0f5a956f71eafd599e681656",
+  "predecessor": {
+    "v3_packet_sha256": "d58a175d25ebd959fa3523eb3d9d7305a1dc84e36f1f2663355d7eebf4dbda3a",
+    "v3_root_review_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_V3_ROOT_STATIC_REVIEW_V1.json",
+    "v3_root_review_sha256": "ace9bc64b291eee18387bd7461e4837f038f77cadb05fad39e9d96e947d1f994",
+    "v3_root_review_status": "static_recipe_review_passed_not_provider_admitted"
+  },
+  "profile_fit_export_or_grade_performed": false,
+  "profile_gate": {
+    "boolean_counts_rejected": true,
+    "exact_230_evidence_test_passed": true,
+    "existing_loss_gradient_count_consistency_amp_scale_and_zero_skip_checks_preserved": true,
+    "missing_zero_boolean_and_mismatched_counter_tests_passed": true,
+    "required_exact_integer_counts": {
+      "amp_skipped_updates": 0,
+      "loss_checks": 230,
+      "optimizer_attempts": 230,
+      "optimizer_completed_updates": 230
+    }
+  },
+  "provider_action_performed": false,
+  "python_compile": "py_compile V4 worker and builder passed",
+  "ruff": "ruff check passed for V4 worker, builder and tests; ruff format applied to changed Python files",
+  "runtime_checks": {
+    "deadline_test": "actual incoming 5400 minus 450 setup and 600 packaging yields 4450 seconds after start",
+    "fit_admission": "each profiled arm must fit its profile-projected delivery estimate plus 1800-second valid-export cap; subsequent arm is independently rechecked using actual remaining time",
+    "incoming_runtime_acceptance": "positive integer seconds, inclusive upper bound 21600",
+    "incoming_runtime_tests": "1, 600, 7200 and 21600 accepted; 0, -1, 21601, empty and nonnumeric rejected",
+    "phase_caps_seconds": {
+      "fit": 7200,
+      "profile": 900,
+      "valid_export": 1800
+    },
+    "short_runtime_behavior": "1 positive incoming second is accepted and yields a packaged deferred result; both arms explicitly deferred; no profile, fit or input/Torch preflight starts"
+  },
+  "schema_version": 1,
+  "shell_syntax": "bash -n h217_packet_v4/run.sh passed",
+  "source_manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_V4_SOURCE_MANIFEST.json",
+  "source_manifest_sha256": "7ea2bf3cfb6fee065148dfb1c4834d15b5cc92058bb4119153b814b6a940a8dc",
+  "source_recipe_checks": {
+    "amp_helper_sha256": "190688ecc856fedf9698ef82d79864f33566bb5f6f1f7a92ce77ae27fcd4ed53",
+    "amp_initial_scale": 4096,
+    "expected_runtime_only_diff_passed": true,
+    "packet_member_diff": [
+      "run.sh",
+      "runtime_resources.json",
+      "worker.py"
+    ],
+    "predecessor_v3_archive_byte_comparison": "all 60 member paths matched; only worker.py, run.sh and runtime_resources.json differ",
+    "recipe_sha256": "193c116797e6182c1918bd38603e9f8a6c06969e423c08c963dc77cefcb9cec8",
+    "trainer_sha256": "affae686fb97e39a2bfe49a96c2124ee2a66d30374a24ab1fe0a8ede9824bf5b",
+    "training_recipe_and_argv_unchanged_from_v3": true
+  },
+  "status": "source_and_runtime_validation_passed_not_provider_admitted"
+}
