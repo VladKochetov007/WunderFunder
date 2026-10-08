@@ -1,5 +1,13 @@
 # Live frontier — resumed independent training
 
+## Actual delivery and refreshed allocation — 2026-10-08 05:09 Kyiv
+
+Own all-data parent and complete teacher cache landed with zero OOM; first V4 student has actual epoch0batch140/779 progress, about12sequences/s and97% sampled GPU utilization. Preserve the common-parent ancestry and clean-fold teacher-history limitation. Fixedep1 plus terminal verification precedes the second seed, then valid deterministic package checks and human-upload candidates. This is fitting all supplied validation membership; no held-out claim or public forecast. Public best remains0.6660 and teammate0.6674 remains unreplicated.
+
+Allocation keeps heterogeneous distillation as the local endpoint, full-feature GRU384 teacher as H232, independent raw TCN/GRU scratch comparison as H217, and feature-wise numeric embeddings as E540. Owned VastA3 instance54755890 is supervised in staging. H232V7A terminal error was an embedded pending-review placeholder, not a model failure; V7B is the authorized repair. E540V4 independent review blocked its stale post-preflight runner watchdog; V5 is the runtime-only repair. TPUV5 remains queued. Root retains export/grade authority; each actor owns corrected delivery. Earlier rental54755152 was promptly destroyed after URL-schema rejection; successor plan passed local validation before rental. See [current state](../../../specs/current-state.md) and its bound receipts for live ancestry, caps and failure history.
+
+Do not spend this cycle on another seed sweep or generic runner rewrite: finish the admitted endpoint and the three distinct cloud mechanisms. Reassess after the first valid cloud profile/fit or a repeated diagnosed delivery failure; substitute a concrete execution route when necessary rather than interpreting infrastructure errors as negative science. Stronger all-data heterogeneous teacher histories remain a separately eligible successor after the useful first student endpoint.
+
 ## Matched result and delivery repair — 2026-10-08 02:48 Kyiv
 
 H230's matched family-on/off fixed-seed comparison landed:0.681719502 versus0.681658487,delta+0.000061015, exposed468-group chain-bootstrap interval[-0.000091445,0.000210497]. This small positive effect keeps the family eligible; priority shifts toward the independent all-data paired endpoint and stronger diverse teachers. Own public best remains0.6660; H230 public0.6649; teammate0.6674 unreplicated. [Controller reflection](CONTROLLER_REFLECTION_20261008_0248.md) links the independent forensic report, Astra critique, matched grade and allocation decisions.
