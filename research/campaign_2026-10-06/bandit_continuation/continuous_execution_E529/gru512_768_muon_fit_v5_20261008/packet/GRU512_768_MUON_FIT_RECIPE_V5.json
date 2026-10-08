@@ -1,0 +1,362 @@
+{
+  "arms": [
+    {
+      "hidden": 512,
+      "id": "muon512",
+      "layers": 2,
+      "optimizer": "muon"
+    },
+    {
+      "hidden": 768,
+      "id": "muon768",
+      "layers": 2,
+      "optimizer": "muon"
+    }
+  ],
+  "authorization": {
+    "fit": "disabled until an exact root conditional-fit receipt is embedded",
+    "grading": "root-owned; only the frozen 468-group evaluation population is exported",
+    "provider_push": "pending root packet review and fresh quota admission",
+    "source_review": "pending independent root review"
+  },
+  "comparison_scope": {
+    "all_data_teacher_family": "not tested by this clean-fold capacity pair",
+    "claim_scope": "bounded clean-fold fit screen; not a public-score forecast or submission claim",
+    "pairing": "same seed-9 initialization protocol, ordered clean-fold fit pools, seeded epoch order, B8, loss, clipping, schedule, precision and four epochs; independent fresh model and optimizer per process",
+    "primary_pair": [
+      "muon512",
+      "muon768"
+    ],
+    "profile_reuse": "reuse only the successful actual V4 full-shape B8 Muon profiles; do not rerun profiles"
+  },
+  "fit_and_export_gate": {
+    "artifact_delivery": "checkpoint, fit/provenance receipts, prediction array and sidecar are required per arm; each arm is independently preserved if its pair mate fails",
+    "fit": "fresh seed-9 initialization; exactly four epochs; fixed epoch-3 checkpoint; no profile rerun; B8 has 1492 outer batches per epoch and ten optimizer updates per batch",
+    "fit_arms": [
+      "muon512",
+      "muon768"
+    ],
+    "prediction_export": "FP32 feature-only inference on exactly the frozen 468 clean-fold evaluation groups; no labels or scoring masks are read; no score is computed in the worker",
+    "strict_fit_contract": "exact per-epoch attempt and batch counts, zero AMP skips, finite checkpoint parameters, same frozen split/membership/sampler receipts and exact command arguments in both arms"
+  },
+  "fit_membership": {
+    "evaluation_groups_excluded": 468,
+    "fit_evaluation_component_overlap": 0,
+    "fit_groups_total": 11940,
+    "source": "train+valid through the frozen clean fold-0 component split",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "train_groups": 10535,
+    "valid_fit_groups": 1405
+  },
+  "hypothesis_parent": "H-232",
+  "initialization": "fresh seed-9 initialization; no checkpoint, teacher, or teammate weights",
+  "input_view": {
+    "causal_event_features": 99,
+    "encoder": "linear",
+    "features": 211,
+    "no_future_or_teacher_inputs": true,
+    "raw_features": 112
+  },
+  "inputs": {
+    "mount_use": "Raw train/valid come from the approved raw dataset. Only the four named fold0 cache files are linked from the reusable asset mount. Other model/teacher files in that mount are not read. One read-only mounted copy is shared by every arm.",
+    "mounted_sources": [
+      "vladkochetov07/wunder-funder",
+      "vladkochetov07/wnn-c20261004-fold0-assets"
+    ],
+    "portable_manifest": {
+      "bytes": 2104,
+      "path": "portable_inputs.json",
+      "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+    },
+    "prior_input_identity": {
+      "bytes": 9310,
+      "path": "prior_input_identity_v2.json",
+      "sha256": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e"
+    },
+    "source_members": {
+      "cache/chain_folds.npz": {
+        "bytes": 550072,
+        "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+      },
+      "cache/chains.npz": {
+        "bytes": 650142,
+        "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+      },
+      "cache/train_targets.npz": {
+        "bytes": 1909335790,
+        "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9"
+      },
+      "cache/valid_targets.npz": {
+        "bytes": 337186198,
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+      },
+      "datasets/train.parquet": {
+        "bytes": 29240219011,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+      },
+      "datasets/valid.parquet": {
+        "bytes": 5615509128,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+      }
+    },
+    "split_manifest": {
+      "bytes": 1388846,
+      "path": "fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "total_bytes": 37103450341
+  },
+  "objective": {
+    "EMA_or_SWA": false,
+    "auxiliary_losses": false,
+    "chunk_rows": 2000,
+    "distillation": false,
+    "global_gradient_clip_norm": 1.0,
+    "loss": "weighted MSE on two primary targets",
+    "normalization": "chunk",
+    "propensity_weighting": false,
+    "target_clip": [
+      -2.0,
+      2.0
+    ],
+    "weight": "absolute magnitude of the clipped target"
+  },
+  "optimizer": {
+    "adam_beta2": 0.999,
+    "adamw_control": "torch AdamW on all trainable parameters; same LR, WD and OneCycle schedule",
+    "learning_rate": 0.001,
+    "muon": {
+      "implementation": "independently maintained project MuonAdamW",
+      "new_numeric_policy": "native_bf16_if_supported_else_fp32_v1",
+      "other_parameters": "project AdamW update for input projection, head, and biases",
+      "policy": "FP32 Newton-Schulz matrix products except native CUDA BF16 when compute capability major >= 8 and torch.cuda.is_bf16_supported() both hold. This is independent of the model's FP16 autocast and GradScaler. T4/P100 use FP32.",
+      "scope": "GRU weight_ih_l* and weight_hh_l* only; three separate GRU gate blocks"
+    },
+    "schedule": "OneCycle",
+    "weight_decay": 0.01
+  },
+  "packet_id": "E529_H232_GRU512_768_MUON_SEED9_FIT_V5_20261008",
+  "parent_packet": "E529_H232_GRU512_768_MUON_SEED9_PROFILE_V4_20261008",
+  "profile": {
+    "actual_cli_note": "The trainer supports --profile-warmup and --profile-steps; it does not support the older V1 draft's --profile-trace-output token, which is intentionally absent.",
+    "chunks_per_outer_batch": 10,
+    "precision_note": "The trainer command used FP16 autocast with GradScaler init scale 4096. OPTIMIZER_COMPUTE_PRECISION.selected_dtype records Muon orthogonalization dtype separately; the measured T4 policy selected FP32 orthogonalization.",
+    "profile_rerun_in_this_packet": false,
+    "profile_reused_from_parent": true,
+    "required_evidence": [
+      "actual V4 PROFILE and PROFILE_UPDATE_EVIDENCE from the exact archived trainer",
+      "230 attempts, 230 completed updates, 0 AMP skips and 230 loss checks per required arm",
+      "actual V4 argv records bind FP16 autocast, GradScaler scale 4096, B8, 3 warmup and 20 timed batches",
+      "finite profile losses and gradients with GradScaler enabled",
+      "Muon orthogonalization precision metadata matches the declared hardware policy; it is distinct from model autocast precision",
+      "stable one-device T4 identity, positive finite timing, measured GPU memory and host headroom"
+    ],
+    "timed_attempts": 200,
+    "timed_outer_batches": 20,
+    "total_optimizer_attempts": 230,
+    "warmup_attempts": 30,
+    "warmup_outer_batches": 3
+  },
+  "profile_evidence": {
+    "manifest_path": "producer_evidence/v4/manifest.json",
+    "manifest_sha256": "911fcfc9a3caf1ec0030b74293644946dc9de897e2a38f7055dd62fe6f19c262",
+    "profile_status": "both actual B8 profiles completed 230 updates with zero skips; V4 failed only in its post-profile consumer and did not fit either arm",
+    "profile_values": {
+      "muon512": {
+        "amp_init_scale": 4096.0,
+        "amp_skips": 0,
+        "completed_updates": 230,
+        "grad_scaler_enabled": true,
+        "model_precision": "fp16_autocast",
+        "native_bf16_selected": false,
+        "observed_peak_gpu_used_mb": 1039,
+        "orthogonalization_dtype": "float32",
+        "orthogonalization_policy": "native_bf16_if_supported_else_fp32_v1",
+        "outer_batch_median_ms": 1845.01
+      },
+      "muon768": {
+        "amp_init_scale": 4096.0,
+        "amp_skips": 0,
+        "completed_updates": 230,
+        "grad_scaler_enabled": true,
+        "model_precision": "fp16_autocast",
+        "native_bf16_selected": false,
+        "observed_peak_gpu_used_mb": 1663,
+        "orthogonalization_dtype": "float32",
+        "orthogonalization_policy": "native_bf16_if_supported_else_fp32_v1",
+        "outer_batch_median_ms": 2861.57
+      }
+    }
+  },
+  "profile_projection": {
+    "admission": "require actual two-T4 and host 8-CPU/16-GiB simultaneous-worker preflight for the pair; a root-authorized muon512-only fallback is allowed if the actual host cannot admit concurrency two",
+    "basis": "actual V4 full-shape PROFILE median outer-sequence-batch wall time; B8 has 1492 batches per epoch, ten chunk updates per batch, four epochs, and 1.20 safety multiplier",
+    "fit_seconds": {
+      "muon512": 13213.224,
+      "muon768": 20493.42
+    },
+    "max_arm_seconds": {
+      "muon512": 15500,
+      "muon768": 22500
+    },
+    "max_kernel_seconds": 26000,
+    "reserves_per_arm_seconds": {
+      "checkpoint_prediction_export": 420,
+      "runner_finalization": 300,
+      "startup": 60
+    },
+    "source": "V4 root-reviewed profile evidence manifest and logs, preserved unchanged under producer_evidence/v4"
+  },
+  "runtime": {
+    "all_in_vast_cost_cap_usd": 0.0,
+    "cpu_threads": 4,
+    "gpu_allocator_fraction": 0.75,
+    "initial_execution_scope": "fixed-B8 fit-only; reuse reviewed V4 profiles, with no profile rerun",
+    "loader_workers": 0,
+    "max_arm_deadline_seconds": {
+      "muon512": 15500,
+      "muon768": 22500
+    },
+    "network": "disabled",
+    "physical_devices": "one UUID-bound physical T4 per independent arm process",
+    "provider": "Kaggle with actual Tesla T4 device identities measured at startup",
+    "provider_timeout_seconds": 26000,
+    "requested_kernel": "vladkochetov07/e529-gru512-768-muon-fit-v5-20261008",
+    "requested_source_dataset": "vladkochetov07/e529-gru512-768-muon-fit-v5-source-20261008",
+    "root_fit_authorization": "required and hash-bound; no implicit fallback or profile-only authorization",
+    "worker_finalization_reserve_seconds": 300,
+    "worker_wall_cap_seconds": 26000
+  },
+  "sampler": {
+    "drop_last_disclosure": "B8 selects all 11940 fit groups but consumes 11936 per epoch (4 not consumed); B4 consumes all 11940. The worker records counts and seed/epoch provenance. It does not claim an exact dropped group identity because the trainer does not persist the realized batch row-group sequence.",
+    "epoch_seed_formula": "(seed + 1009 * (epoch + 1)) mod 2^32",
+    "historical_comparison_limit": "H232 used PyTorch RandomSampler/global CPU RNG. This explicit seeded sampler is a declared change, so this is not a pure width-only replay of historical H232.",
+    "implementation": "EpochOrderSampler with independent torch.Generator per epoch",
+    "mode": "seeded",
+    "normalization_epoch": -1,
+    "pairing": "All arms use the same ordered fit pools, seed, batch size, drop_last and epoch seed; the sampler does not consume model-initialization global RNG.",
+    "seed": 9
+  },
+  "schema": "wnn-gru-optimizer-capacity-fit-recipe-v1",
+  "scientific_question": "At fixed seed, clean-fold membership, B8 objective and four-epoch budget, does the independently implemented Muon recurrent update support a useful GRU width ladder from 512 to 768?",
+  "source": {
+    "build_scope": "own-project frozen V4 archive plus reviewed V5 launch-only fixes; no mutable-main trainer source or teammates' code/weights",
+    "entry_modules": [
+      "capacity_fit_worker.py",
+      "capacity_arm_worker.py",
+      "capacity_worker.py",
+      "train_entry.py",
+      "verified_digest_handoff.py"
+    ],
+    "file_bindings": {
+      "README.md": {
+        "bytes": 1520,
+        "sha256": "c824d9b51a6f8ed65c241df7f1430df51d242ced862462ed99b448d0f048ee21"
+      },
+      "capacity_arm_worker.py": {
+        "bytes": 8018,
+        "sha256": "a15c04b756aacc6564823b7ed4c26d4613d02fa6e7c6d49c9abe565f9e72b5a5"
+      },
+      "capacity_fit_worker.py": {
+        "bytes": 34484,
+        "sha256": "e5f7db1223828b54632e63c0e69e18aa68deb5737c41cb583624682f9d651d12"
+      },
+      "capacity_worker.py": {
+        "bytes": 95657,
+        "sha256": "5590ed8e3eb00367741fe2ae5cf72256979a8d31af6fc2238b7e05ad924738e5"
+      },
+      "fold0.json": {
+        "bytes": 1388846,
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "kernel-metadata.json": {
+        "bytes": 535,
+        "sha256": "70cb0a8ffb62c8ee496b2429c6318234e00d9a752f929beb4168af8f5a552c56"
+      },
+      "kernel.py": {
+        "bytes": 280,
+        "sha256": "7bd225fae8deace0d8a7a2729f0f9fb88416e227ad4472a1c1d77e3889907d04"
+      },
+      "portable_inputs.json": {
+        "bytes": 2104,
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+      },
+      "prior_input_identity_v2.json": {
+        "bytes": 9310,
+        "sha256": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e"
+      },
+      "producer_evidence/v4/manifest.json": {
+        "bytes": 2442,
+        "sha256": "911fcfc9a3caf1ec0030b74293644946dc9de897e2a38f7055dd62fe6f19c262"
+      },
+      "source/source_archive.tar": {
+        "bytes": 665600,
+        "sha256": "7f2c66242415710ddf3c025bd77f00eff0c547d04a926036ee3498096e117fbb"
+      },
+      "source/source_archive_manifest.json": {
+        "bytes": 9388,
+        "sha256": "8eb5b1f20833ec6ca24c1e15b24b2fd448e62cd8cf15e5246ebbd07ffc3107fa"
+      },
+      "train_entry.py": {
+        "bytes": 4288,
+        "sha256": "a77a86d8a042fc0c2951dd94640354fafd9d3c7f68b5dc8c01e91a5feaa278e2"
+      },
+      "verified_digest_handoff.py": {
+        "bytes": 13441,
+        "sha256": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
+      }
+    },
+    "parent_source_archive_sha256": "a38899dc8a51231936f32c43b6ae56b3e6e6fffde647116337adf603bd709a02",
+    "parent_source_commit": "ead2eb7ce4108bd1ae4fa1fd04b2d5469cfe656c",
+    "source_archive": {
+      "bytes": 665600,
+      "path": "source/source_archive.tar",
+      "sha256": "7f2c66242415710ddf3c025bd77f00eff0c547d04a926036ee3498096e117fbb"
+    },
+    "source_manifest": {
+      "bytes": 9388,
+      "path": "source/source_archive_manifest.json",
+      "sha256": "8eb5b1f20833ec6ca24c1e15b24b2fd448e62cd8cf15e5246ebbd07ffc3107fa"
+    }
+  },
+  "status": "fixed-b8-fit-only-source-prepared-pending-root-review-and-conditional-authorization",
+  "training": {
+    "amp_init_scale": 4096.0,
+    "amp_skip_gate": "exactly zero skips; every attempted update is counted and completed",
+    "batch_budgets": {
+      "4": {
+        "attempts_four_epochs": 119400,
+        "attempts_per_epoch": 29850,
+        "batches_per_epoch": 2985,
+        "groups_consumed_per_epoch": 11940,
+        "unconsumed_selected_groups_per_epoch": 0
+      },
+      "8": {
+        "attempts_four_epochs": 59680,
+        "attempts_per_epoch": 14920,
+        "batches_per_epoch": 1492,
+        "groups_consumed_per_epoch": 11936,
+        "unconsumed_selected_groups_per_epoch": 4
+      }
+    },
+    "batch_selection_rule": "Fixed B8 for both fit arms, selected by the two completed actual V4 B8 profiles. V5 performs no profile rerun and has no B4 fallback.",
+    "checkpoint_epoch_zero_based": 3,
+    "checkpoint_policy": "fixed",
+    "epochs": 4,
+    "evaluation_during_fit": false,
+    "fallback_batch": null,
+    "initial_batch": 8,
+    "model_precision": "fp16 autocast",
+    "seed": 9
+  },
+  "transport": {
+    "dataset": "vladkochetov07/e529-gru512-768-muon-fit-v5-source-20261008",
+    "dataset_manifest": "source_dataset_upload/assets-manifest.json",
+    "kernel_entrypoint": "kernel_upload/kernel.py",
+    "mounted_cache_bytes": 2247722202,
+    "mounted_raw_bytes": 34855728139,
+    "raw_data_copy": false,
+    "shared_identity_passes": 1,
+    "shared_loader": false
+  }
+}
