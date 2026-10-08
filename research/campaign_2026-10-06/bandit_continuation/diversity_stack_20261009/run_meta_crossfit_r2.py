@@ -385,13 +385,34 @@ def _load_targets(
     """Read only the selected target/mask columns for frozen evaluation row groups."""
     source = _read_json(HERE / "LUNA_STACKING_META_CROSSFIT_R2.json")["target_source"]
     parquet_path = root / source["parquet_path"]
-    file_size = parquet_path.stat().st_size
-    footer_bytes = int(source["parquet_footer_size_bytes"])
+    split_path = root / "research/campaign_2026-09-29/artifacts/splits/fold0.json"
+    split_bytes = split_path.read_bytes()
+    if hashlib.sha256(split_bytes).hexdigest() != EXPECTED_SPLIT_SHA256:
+        raise ValueError("target source split manifest hash mismatch")
+    split = json.loads(split_bytes)
+    parquet_identity = split["sources"][source["parquet_path"]]
+    parquet_stat = parquet_path.stat()
+    file_size = parquet_stat.st_size
+    footer_bytes = int(parquet_identity["footer_bytes"])
+    if file_size != int(parquet_identity["bytes"]) or parquet_stat.st_mtime_ns != int(
+        parquet_identity["mtime_ns"]
+    ):
+        raise ValueError("valid parquet size or mtime differs from the frozen split identity")
+    if footer_bytes != int(source["parquet_footer_size_bytes"]):
+        raise ValueError("valid parquet footer size differs from the frozen target source")
     with parquet_path.open("rb") as stream:
-        stream.seek(file_size - footer_bytes)
-        footer = stream.read(footer_bytes)
-    observed_footer_sha = hashlib.sha256(footer).hexdigest()
-    if observed_footer_sha != source["parquet_footer_sha256"]:
+        stream.seek(-8, 2)
+        trailer = stream.read(8)
+        actual_footer_bytes = int.from_bytes(trailer[:4], "little")
+        if trailer[4:] != b"PAR1" or actual_footer_bytes != footer_bytes:
+            raise ValueError("valid parquet trailer does not match its frozen footer size")
+        stream.seek(-8 - footer_bytes, 2)
+        footer_and_trailer = stream.read(footer_bytes + 8)
+    observed_footer_sha = hashlib.sha256(footer_and_trailer).hexdigest()
+    if (
+        observed_footer_sha != source["parquet_footer_sha256"]
+        or observed_footer_sha != parquet_identity["footer_sha256"]
+    ):
         raise ValueError(
             f"valid parquet footer identity differs from the frozen split; expected={source['parquet_footer_sha256']}; observed={observed_footer_sha}"
         )
@@ -401,9 +422,6 @@ def _load_targets(
     targets = np.zeros((len(groups), SEQUENCE_ROWS, 2), dtype=np.float32)
     is_scored = np.zeros((len(groups), SEQUENCE_ROWS), dtype=bool)
     sequence_ids = np.zeros(len(groups), dtype=np.int64)
-    split = json.loads(
-        (root / "research/campaign_2026-09-29/artifacts/splits/fold0.json").read_text()
-    )
     seq_by_group = {
         int(row["row_group"]): int(row["seq_ix"]) for row in split["sequences"]["valid"]
     }
