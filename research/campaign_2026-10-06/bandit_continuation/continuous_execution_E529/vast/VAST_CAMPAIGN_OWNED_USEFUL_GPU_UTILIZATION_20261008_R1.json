@@ -1,0 +1,150 @@
+{
+  "billing_note": "Reserved or held dollars are excluded from this time calculation. The root billing reconciliation identifies the four H217 instances as campaign-owned and destroyed; H230 V6R1 has its own creation and verified-destruction receipts. Exact invoice amounts are not used as time.",
+  "created_utc": "2026-10-08T14:39:58Z",
+  "denominator_definition": "Documented time from provider creation or first located creation/ownership observation through verified destruction. If the provider create timestamp is unavailable, that instance interval and aggregate are lower bounds.",
+  "documented_lifetime_seconds_lower_bound": 11408.557792,
+  "interpretation": "Provisional share for only the two timed H217 A3 TCN fit/export worker phases. The phase timer encloses the trainer subprocess and data loading/setup is not separated, so this is not pure GPU-active utilization and loader time cannot be subtracted from the current receipt. The passed TCN profile duration is missing, so the ratio is not a bound on total useful work. No profile/fit/export elapsed time is recorded for the other four lifecycles.",
+  "known_model_phase_seconds": {
+    "fit_wall_seconds": 823.9716792257968,
+    "profile_note": "H217 A3 TCN profile passed but terminal evidence has no elapsed duration; unknown, not zero.",
+    "profile_wall_seconds": null,
+    "sum_seconds": 846.2405380997807,
+    "valid_export_wall_seconds": 22.268858873983845
+  },
+  "lifecycles": [
+    {
+      "attempt_id": "e529-vast-h217-pair-v2-20261008-a2",
+      "destroy_basis": "successful account inventory absence; destroyed_verified",
+      "destroy_verified_utc": "2026-10-07T22:40:30Z",
+      "documented_interval_seconds": 1937.0,
+      "documented_start_utc": "2026-10-07T22:08:13Z",
+      "instance_id": "54725432",
+      "interval_role": "exact",
+      "notes": "Input staging occurred; no fit/evaluation began.",
+      "phase_evidence": [],
+      "recorded_model_phases": "none; scientific_outcome=none",
+      "start_basis": "creation receipt created_utc",
+      "start_is_provider_creation_time": true
+    },
+    {
+      "attempt_id": "e529-vast-h217-pair-v2-20261008-a3d",
+      "destroy_basis": "successful account inventory absence; destroyed_verified",
+      "destroy_verified_utc": "2026-10-08T00:50:49+00:00",
+      "documented_interval_seconds": 1698.872795,
+      "documented_start_utc": "2026-10-08T00:22:30.127205+00:00",
+      "instance_id": "54734753",
+      "interval_role": "lower_bound",
+      "notes": "Provider creation timestamp was not located; interval is a lower bound. A3D ended as execution failure.",
+      "phase_evidence": [
+        {
+          "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A3D_TERMINAL_ROOT_REVIEW_V1.json",
+          "sha256": "8908d79acedf6e2e81e15bb83d221db676870fc003314164ba617083577f9c4c"
+        }
+      ],
+      "recorded_model_phases": "no recorded profile/fit/export; terminal result.phases is empty",
+      "start_basis": "earliest located owned-instance staging observation",
+      "start_is_provider_creation_time": false
+    },
+    {
+      "attempt_id": "e529-vast-h217-pair-v4-20261008-a2",
+      "destroy_basis": "successful account inventory absence; destroyed_verified",
+      "destroy_verified_utc": "2026-10-08T01:57:31+00:00",
+      "documented_interval_seconds": 39.684997,
+      "documented_start_utc": "2026-10-08T01:56:51.315003+00:00",
+      "instance_id": "54755152",
+      "interval_role": "lower_bound",
+      "notes": "Start is first observed creation status, not provider create timestamp; interval is a lower bound.",
+      "phase_evidence": [],
+      "recorded_model_phases": "prefetch only; no fit/profile/export recorded",
+      "start_basis": "first located creation-receipt observation",
+      "start_is_provider_creation_time": false
+    },
+    {
+      "attempt_id": "e529-vast-h217-pair-v4-20261008-a3",
+      "destroy_basis": "successful account inventory absence; destroyed_verified",
+      "destroy_verified_utc": "2026-10-08T03:39:53+00:00",
+      "documented_interval_seconds": 5927.0,
+      "documented_start_utc": "2026-10-08T02:01:06+00:00",
+      "instance_id": "54755890",
+      "interval_role": "lower_bound",
+      "notes": "Creation response may follow provider creation; interval is a lower bound. Profile timing is not reported.",
+      "phase_evidence": [
+        {
+          "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A3_ROOT_TERMINAL_DELIVERY_20261008_R1.json",
+          "sha256": "24ae04f454c43e678fc5dae645b6cbec2f836ac0a1664e9ef283b0936a9ce961"
+        }
+      ],
+      "recorded_model_phases": "TCN profile passed (duration missing); fit and valid export passed",
+      "start_basis": "provider creation response received",
+      "start_is_provider_creation_time": false
+    },
+    {
+      "attempt_id": "h230-vast-strong-parent-seed54354-muon-v6r1-20261008",
+      "destroy_basis": "successful account inventory absence; destroyed_verified",
+      "destroy_verified_utc": "2026-10-08T14:05:51+00:00",
+      "documented_interval_seconds": 1806.0,
+      "documented_start_utc": "not_separately_recorded",
+      "instance_id": "54852864",
+      "interval_role": "exact_elapsed_from_receipt",
+      "notes": "Startup failed before worker launch; no profile/fit/export phase. Exact 1,806-second lifetime is reported by terminal receipt.",
+      "phase_evidence": [
+        {
+          "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_V6R1_PRELAUNCH_TERMINAL_DESTROY_RECEIPT_20261008_R1.json",
+          "sha256": "c32dd1103974f7e7d623feb084dd89a5350ff9ca37a158409e9cca0e904eeeb4"
+        }
+      ],
+      "recorded_model_phases": "0 recorded; worker_started_at_utc=null, worker_launch_status=null",
+      "start_basis": "terminal receipt created_to_destroyed_elapsed_seconds",
+      "start_is_provider_creation_time": null
+    }
+  ],
+  "recorded_fit_export_phase_share_percent_of_documented_lifetime_lower_bound": 7.4176,
+  "schema": "vast_campaign_owned_useful_gpu_utilization_v1",
+  "scope": "Vast campaign-owned instances only, bound to the campaign account scope and creation/ownership receipts. Unproven machines and reservations/holds are excluded.",
+  "source_receipts": [
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A2_TERMINAL_FAILURE_SPEND_RECONCILIATION_V1_20261008.json",
+      "sha256": "c3c76cadee23c5de99ef2d207fc9fea87e282b09ab5dde91726a540150afa29a"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A3D_STAGING_PROGRESS_20261008_V2.json",
+      "sha256": "fa4d2ee892359b72a7b42349788a4ec1be5bc0d0a5ffae24a533ee72cebeeb52"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A3D_TERMINAL_ROOT_REVIEW_V1.json",
+      "sha256": "8908d79acedf6e2e81e15bb83d221db676870fc003314164ba617083577f9c4c"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_V4_OWNED_CREATION_ROOT_RECEIPT_20261008_A2.json",
+      "sha256": "8401d6c50ec4691413de7772e225146e6c9eb62046da20cc00b453e350694557"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_V4_A2_TERMINAL_PREFETCH_ROOT_RECEIPT_20261008.json",
+      "sha256": "d2c0ee260ef58369d12124051dbaec6a2a33d8367279210865c8fc315ca4622b"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_V4_A3_ROOT_TERMINAL_LEDGER_EXTRACT_20261008_R1.json",
+      "sha256": "5219ff2b66a82971f56251fdbdf9543a607aabd9a5a7bad4927ca0c0be5bf15b"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A3_ROOT_TERMINAL_DELIVERY_20261008_R1.json",
+      "sha256": "24ae04f454c43e678fc5dae645b6cbec2f836ac0a1664e9ef283b0936a9ce961"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_V6R1_CREATION_STARTUP_RECEIPT_20261008_R1.json",
+      "sha256": "bcc94b0f47af0c4ef5cba6c5984b72a90faa903cb6ada3deef3effb2bf2c0666"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_V6R1_PRELAUNCH_TERMINAL_DESTROY_RECEIPT_20261008_R1.json",
+      "sha256": "c32dd1103974f7e7d623feb084dd89a5350ff9ca37a158409e9cca0e904eeeb4"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/VAST_OWNED_ITEMIZED_BILLING_RECONCILIATION_20261008_ROOT_R1.json",
+      "sha256": "adfc4960a50e15bd7816bcf23506f37bb4f21a36bbdb0817fe953859c11e5968"
+    }
+  ],
+  "v7_state_at_report_time": {
+    "fresh_create_admission_or_dispatch_receipt_found": false,
+    "note": "Prepared V7 quote/intent/queue are not counted as provider runtime; no reservation or hold is treated as spent instance time."
+  }
+}

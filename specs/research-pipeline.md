@@ -91,6 +91,25 @@ renting capacity; CPU data throughput and RAM can bottleneck additional GPUs.
 The target of 5–6 completed distinct screens/hour is an allocation objective, not
 an achieved rate or a requirement to truncate full-model training.
 
+## Useful accelerator time accounting
+
+The user-defined long-term utilization denominator is local wall time over a
+declared research window, and cloud allocated/rented accelerator time over the
+same declared reporting scope. Sum device-seconds across simultaneous cloud GPUs;
+an allocated second GPU contributes to the denominator even when it is idle.
+For campaign-owned Vast instances, include the full creation-to-verified-release
+lifetime, including startup, transfer, loading and idle time. Queue time before
+allocation is separate. Never substitute quota reservations or launch intent for
+actual allocation time.
+
+The numerator excludes data loading, staging, hashing, startup and idle time.
+Report useful training, profiling and inference/export separately, alongside
+valid completed scientific comparisons. Epoch/subprocess wall time that includes
+loading is a phase-accounting proxy, not measured compute-only time. Preserve
+missing timing as unknown; do not assign it zero or extrapolate short GPU samples
+to a whole campaign. Publish the reporting window, covered jobs, numerator,
+denominator, device count and coverage limitations with every percentage.
+
 ## Skills and concrete handoffs
 
 | Need | Skill / deliverable |
