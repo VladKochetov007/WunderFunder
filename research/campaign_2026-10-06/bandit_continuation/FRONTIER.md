@@ -1,3 +1,7 @@
+## Delivered endpoint — 2026-10-08 08:08 UTC
+
+H230 history-swap all-data seed3 fixedep1 ZIP is independently root-released for human public testing: submissions/c20261008_h230_all_data_s3_history_swap_i16.zip,4674718bytes/SHA0fdf58db31e7c8b0b9050c6b4274eda80626a47bbd8fd35b4441d5edb07b27b0. All16checkpoint tensors exact after mainheadslice; offlinePython3.11/reset/nativeparityPASS. Publicbest remains0.6660; no newpublicscore/forecast. E540V12 andTPUV6 onepushadmissions are conditional on actual freshquota/privatebytes/durablemonitor; actualpushreceipts determine running.
+
 ## Live result — 2026-10-08 07:55 UTC
 
 H232 own scratch GRU384 fixedep3 export and root exposed-fold comparison complete: standalone WP0.668595548 vs reference0.680941207; all preregistered nonzero blends lower. No publicforecast/familykill. Source/metric/predictions fixed, root repaired full-export/subset row join before actual score, with independent review. H230 history-swap fit nearing terminal; E540 V12 cachemkdir repair passed root actual checkpoint CPU fixture (2 tests), final identified packet owner active. TPU actual-data/reload source owner active. Cloud underutilization is a delivery problem: prioritize ready warm multi-model cloud cohorts and closer heterogeneous-distillation endpoint over repeating completed fits/profiles.

@@ -1,0 +1,88 @@
+{
+  "checkpoint": {
+    "expected_path": "artifacts/runs/bd26_h230_all_data_student_gru256_seed3_history_swap_v2/model_ep1.pt",
+    "expected_zero_based_epoch": 1,
+    "no_warmstart_or_epoch_substitution": true,
+    "sha256": "pending_successful_terminal_validation"
+  },
+  "claim_scope": "all supplied train+valid used for fitting; no local held-out claim or scored comparison; no public forecast; no automatic upload",
+  "created_utc": "2026-10-08T07:27:25.690368+00:00",
+  "execution_policy": "Run package build and offline callback gates only after fit terminal success, fixed ep1 checkpoint verification and fresh CPU support admission. Root retains independent artifact/release review; do not upload.",
+  "fit_attempt_id": "h230-all-data-student-gru256-seed3-history-swap-v2-20261008",
+  "fit_contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_SWAP_STUDENT_SEED3_PHASE_CONTRACT_V2_20261008.json",
+  "fit_contract_sha256": "c099ae15bfcd5c3a54fb4ef356ac8acec138d4e658d7c0dadac3a00851f70710",
+  "member": {
+    "coefficient": 1.0,
+    "member_count": 1,
+    "precision": "i16",
+    "run": "bd26_h230_all_data_student_gru256_seed3_history_swap_v2@ep1"
+  },
+  "offline_serving_gates": {
+    "checks": [
+      "exact ZIP CRC and safe member paths",
+      "size below 20MB",
+      "single member/coef 1.0/precision i16",
+      "checkpoint tensor-to-package identity",
+      "offline Python 3.11 CPU inference",
+      "warmup/prediction mask correctness",
+      "reset/replay determinism",
+      "bitwise parity across all packaged native levels"
+    ],
+    "container_image": "wnn-python311-submission-check:latest",
+    "container_image_id": "sha256:949c72c9cf887a68e25dc00955ab030f1e528c21f1049459330ff022a7d51317",
+    "data_path": "cache/valid_subset20.parquet",
+    "data_sha256": "cd6a349b3655bb6f98314e5db391e69b1e1ea7f12ab18f1d15c61cefd28daa37",
+    "levels": [
+      "v2",
+      "avx2",
+      "v3"
+    ],
+    "not_a_full_dataset_runtime_measurement": true,
+    "not_a_score_or_grade": true,
+    "python": "3.11.16",
+    "rows_per_sequence": 20000,
+    "runner": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/make_python311_native_reference.py",
+    "runner_sha256": "16533874b80bfd843489eed201c7b873bdc95e575522d01c0d0332a3d34ba99b",
+    "sequence_count": 2,
+    "support_resource_cap": {
+      "cpu_cores": 1,
+      "ram_bytes": 1500000000,
+      "runtime_seconds": 180
+    },
+    "threads": 1
+  },
+  "package_build": {
+    "builder": "scripts/package_submission.py",
+    "builder_sha256": "cc609367b4aba93a7ba6d022fe0ad44625b1e63b898232e762c8e53532897bb2",
+    "candidate_zip_relative_path": "submissions/h230_history_swap_student_seed3_ep1_i16_native_ensembleapi_provisional/submission.zip",
+    "command_argv": [
+      ".venv/bin/python",
+      "scripts/package_submission.py",
+      "h230_history_swap_student_seed3_ep1_i16_native_ensembleapi_provisional",
+      "bd26_h230_all_data_student_gru256_seed3_history_swap_v2@ep1:1.0",
+      "--native-from",
+      "submissions/c20261004_combo_s4_i16/pkg",
+      "--solution",
+      "submission/solution_native.py",
+      "--precision",
+      "i16"
+    ],
+    "human_review_zip_relative_path": "submissions/c20261008_h230_all_data_s3_history_swap_i16.zip",
+    "native_package_source": "submissions/c20261004_combo_s4_i16/pkg",
+    "native_package_source_basis": "Previously validated H230 own EnsemblePredictor package; root validation cited below confirms native libraries byte-identical to this source.",
+    "prior_own_package_validation_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_SEED3_NORMALIZED_FIXED_EP1_PACKAGE_VALIDATION_V1_20261008.json",
+    "prior_own_package_validation_sha256": "003898d08b2853787b60bb692020b18e6a6233e007b014fdbb673433e7ffc3a0",
+    "solution_wrapper": "submission/solution_native.py",
+    "solution_wrapper_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54"
+  },
+  "record_id": "H230_HISTORY_SWAP_STUDENT_SEED3_FIXED_EP1_PACKAGE_PLAN_V1_20261008",
+  "root_fit_authorization_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_SWAP_STUDENT_ROOT_AUTHORIZATION_20261008_R1.json",
+  "root_fit_authorization_sha256": "e4caa445506fa0e35b42325800cf571744cf4fce1780fa9b5b3a832a78734652",
+  "schema": "h230-history-swap-student-package-continuation-v1",
+  "source_hashes": {
+    "package_builder_sha256": "cc609367b4aba93a7ba6d022fe0ad44625b1e63b898232e762c8e53532897bb2",
+    "python311_reference_runner_sha256": "16533874b80bfd843489eed201c7b873bdc95e575522d01c0d0332a3d34ba99b",
+    "solution_wrapper_sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54"
+  },
+  "status": "prepared_checkpoint_and_fit_terminal_pending"
+}
