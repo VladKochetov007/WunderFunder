@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assemble the private E540 V4 AMP4096 Kaggle packet without provider calls."""
+"""Assemble the private E540 V5 AMP4096 Kaggle packet without provider calls."""
 
 from __future__ import annotations
 
@@ -26,9 +26,9 @@ SPLIT_RELATIVE = Path("research/campaign_2026-09-29/artifacts/splits/fold0.json"
 PORTABLE_RELATIVE = Path("research/campaign_2026-10-04/portable_inputs.json")
 ASSET_MANIFEST_RELATIVE = Path("research/campaign_2026-10-04/kaggle/fold0_assets/assets-manifest.json")
 SUBSET_RELATIVE = Path(
-    "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V4.json"
+    "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V5.json"
 )
-PACKET_ID = "E540_AMP4096_V4"
+PACKET_ID = "E540_AMP4096_V5"
 ASSET_DATASET = "vladkochetov07/wnn-c20261004-fold0-assets"
 ASSET_MANIFEST_SHA256 = "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7"
 EXTERNAL_DATA_NAMES = (
@@ -39,12 +39,12 @@ EXTERNAL_DATA_NAMES = (
 )
 ARTIFACTS = [
     "e540_cohort",
-    "artifacts/runs/e540v4-linear-s540-amp4096",
-    "artifacts/runs/e540v4-ple-s540-amp4096",
-    "cache/pred_e540v4-linear-s540-amp4096-eval_valid.npy",
-    "cache/pred_e540v4-linear-s540-amp4096-eval_valid.json",
-    "cache/pred_e540v4-ple-s540-amp4096-eval_valid.npy",
-    "cache/pred_e540v4-ple-s540-amp4096-eval_valid.json",
+    "artifacts/runs/e540v5-linear-s540-amp4096",
+    "artifacts/runs/e540v5-ple-s540-amp4096",
+    "cache/pred_e540v5-linear-s540-amp4096-eval_valid.npy",
+    "cache/pred_e540v5-linear-s540-amp4096-eval_valid.json",
+    "cache/pred_e540v5-ple-s540-amp4096-eval_valid.npy",
+    "cache/pred_e540v5-ple-s540-amp4096-eval_valid.json",
 ]
 
 
@@ -93,12 +93,12 @@ def _subset_without_full_data(split_path: Path, data_root: Path) -> dict[str, ob
         raise ValueError("E540 subset manifest and campaign split identities disagree")
     if subset.get("selected_component_count") != 512:
         raise ValueError(
-            "E540 V4 requires exactly 512 selected fitting components; "
+            "E540 V5 requires exactly 512 selected fitting components; "
             f"observed {subset.get('selected_component_count')} from "
             f"{subset.get('eligible_component_count')} eligible components"
         )
     if subset.get("evaluation_group_count") != 468:
-        raise ValueError("E540 V4 requires exactly 468 frozen evaluation groups")
+        raise ValueError("E540 V5 requires exactly 468 frozen evaluation groups")
     return subset
 
 
@@ -196,10 +196,13 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
         LINEAGE / "RECIPE_V2.json",
         LINEAGE / "RECIPE_V3_AMP4096.json",
         LINEAGE / "RECIPE_V4_AMP4096.json",
+        LINEAGE / "RECIPE_V5_AMP4096.json",
         LINEAGE / "EXPERIMENT_CARD_V2.json",
         LINEAGE / "EXPERIMENT_CARD_AMP4096_V3.json",
         LINEAGE / "EXPERIMENT_CARD_AMP4096_V4.json",
+        LINEAGE / "EXPERIMENT_CARD_AMP4096_V5.json",
         LINEAGE / "README_V4.md",
+        LINEAGE / "README_V5.md",
     ]
     local_descriptors = [descriptor(path) for path in local_inputs]
     external_descriptors = expected_external_descriptors(portable)
@@ -211,10 +214,10 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
         for name in ("cache/train_targets.npz", "cache/valid_targets.npz")
     }
     packet = {
-        "schema": "wnn.e540-kaggle-cohort.v2",
+        "schema": "wnn.e540-kaggle-cohort.v3",
         "packet_id": PACKET_ID,
-        "recipe": "RECIPE_V4_AMP4096.json",
-        "experiment_card": "EXPERIMENT_CARD_AMP4096_V4.json",
+        "recipe": "RECIPE_V5_AMP4096.json",
+        "experiment_card": "EXPERIMENT_CARD_AMP4096_V5.json",
         "status": "prepared_pending_independent_root_review_live_quota_and_actual_profile",
         "fit_admitted": False,
         "provider_launch_authorized": False,
@@ -236,7 +239,7 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
             "no_full_dataset_or_parquet_footer_hash_performed_locally": True,
             "no_full_target_npz_hash_or_label_array_load_performed_locally": True,
             "subset_identity_method": "split metadata and graph caches plus only ordered row_group/seq_ix index arrays from target NPZs",
-            "membership_lineage": "V4 carries forward the frozen V3 exact 512-component selection; the preserved V2 ceil(10%) rule selected 315 of 3,148 eligible components, not its stated 512.",
+            "membership_lineage": "V5 carries forward V4's frozen exact 512-component selection; the preserved V2 ceil(10%) rule selected 315 of 3,148 eligible components, not its stated 512.",
         },
         "membership": {
             "subset_manifest": SUBSET_RELATIVE.as_posix(),
@@ -272,6 +275,8 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
             "worker_wall_seconds_max": 5200,
             "worker_projection_margin_seconds": 300,
             "runner_finalization_reserve_seconds": 300,
+            "runner_timeout_resolution": "Immediately before each worker Popen, recompute min(spec timeout, 5,200 seconds, inherited kernel deadline - current monotonic time - 300 seconds); persist the resolved limit in spec.json, timeout_resolution.json, heartbeat and terminal/failure receipt.",
+            "runner_timeout_regression": "A spec timeout computed at t=200 from a 6,000-second deadline is 5,200 seconds; actual launch at t=700 resolves to 5,000 seconds.",
             "timing_scope": "The 6,000-second watchdog begins at kernel.py process entry and covers bootstrap through runner completion. Kaggle queue/cold-start before process entry and provider output transport after process exit are outside packet control; no hard provider-from-push 6,000-second bound is claimed.",
             "gpu_worker_count": 1,
             "fit_schedule": "Profile both arms, then gate the paired one-epoch fits together; one process reuses each input digest.",
@@ -281,7 +286,7 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
         },
         "comparison": {
             "arms": ["linear", "ple"],
-            "run_names": ["e540v4-linear-s540-amp4096", "e540v4-ple-s540-amp4096"],
+            "run_names": ["e540v5-linear-s540-amp4096", "e540v5-ple-s540-amp4096"],
             "same_seed": 540,
             "same_subset_and_seeded_sampler_configuration": True,
             "realized_pair_order_verified": False,
@@ -301,7 +306,7 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
         "local_input_files": local_descriptors,
         "external_input_files": external_descriptors,
     }
-    packet_path = output_dir / "E540_KAGGLE_PACKET_V4.json"
+    packet_path = output_dir / "E540_KAGGLE_PACKET_V5.json"
     output_dir.mkdir(parents=True)
     packet_path.write_text(
         json.dumps(packet, sort_keys=True, indent=2, allow_nan=False) + "\n",
@@ -312,7 +317,7 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
     inputs = [*local_descriptors, *external_descriptors]
     spec = {
         "version": 1,
-        "name": "e540-v4-warm-profile-fit-20261008",
+        "name": "e540-v5-warm-profile-fit-20261008",
         "kind": "paired_profile_then_conditional_fit",
         "argv": ["{python}", "scripts/e540_kaggle_worker.py"],
         "code": code_descriptors,
@@ -335,7 +340,7 @@ def build_packet(data_root: Path, output_dir: Path, dataset: str) -> dict[str, o
             "WNN_DEFERRED_IDENTITY_PATHS": ",".join(EXTERNAL_DATA_NAMES),
         },
     }
-    spec_path = output_dir / "e540-v4-warm-profile-fit.spec.json"
+    spec_path = output_dir / "e540-v5-warm-profile-fit.spec.json"
     spec_path.write_text(
         json.dumps(spec, sort_keys=True, indent=2, allow_nan=False) + "\n",
         encoding="utf-8",
@@ -388,7 +393,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--dataset", default="vladkochetov07/e540-v4-warm-20261008")
+    parser.add_argument("--dataset", default="vladkochetov07/e540-v5-warm-20261008")
     args = parser.parse_args()
     build_packet(args.data_root, args.output_dir, args.dataset)
 

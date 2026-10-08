@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import importlib.metadata
 import json
+import math
 import os
 import signal
 import subprocess
@@ -12,6 +13,47 @@ from pathlib import Path
 
 import psutil
 from kaggle_common import read_spec, relative_path, sha256_file, verify_files, write_json
+
+
+WORKER_TIMEOUT_CEILING_SECONDS = 5_200
+WORKER_TIMEOUT_FINALIZATION_RESERVE_SECONDS = 300
+
+
+def resolve_worker_timeout_seconds(
+    declared_seconds: int,
+    kernel_deadline_value: str | None,
+    *,
+    now_monotonic: float | None = None,
+) -> int:
+    """Recompute an E540 worker timeout at launch; legacy specs retain their limit."""
+    if (
+        isinstance(declared_seconds, bool)
+        or not isinstance(declared_seconds, int)
+        or declared_seconds < 1
+    ):
+        raise ValueError("declared worker timeout must be a positive integer")
+    if kernel_deadline_value is None:
+        return declared_seconds
+    try:
+        deadline = float(kernel_deadline_value)
+    except (TypeError, ValueError) as error:
+        raise ValueError("kernel deadline must be a finite monotonic timestamp") from error
+    now = time.monotonic() if now_monotonic is None else now_monotonic
+    if (
+        isinstance(now, bool)
+        or not isinstance(now, (int, float))
+        or not math.isfinite(deadline)
+        or not math.isfinite(now)
+        or now < 0
+    ):
+        raise ValueError("kernel deadline and current monotonic time must be finite")
+    available = math.floor(
+        deadline - now - WORKER_TIMEOUT_FINALIZATION_RESERVE_SECONDS
+    )
+    resolved = min(declared_seconds, WORKER_TIMEOUT_CEILING_SECONDS, available)
+    if resolved < 1:
+        raise TimeoutError("kernel deadline leaves no worker time after finalization reserve")
+    return resolved
 
 
 def gpu_inventory() -> list[dict]:
@@ -250,8 +292,34 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
                         "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
                     }
                 )
-                log = (job_output / "worker.log").open("w")
                 argv = [sys.executable, *spec["argv"][1:]]
+                log = (job_output / "worker.log").open("w")
+                declared_timeout = spec["limits"]["timeout_seconds"]
+                deadline_value = os.environ.get("WNN_KERNEL_DEADLINE_MONOTONIC")
+                launch_monotonic = time.monotonic()
+                resolved_timeout = resolve_worker_timeout_seconds(
+                    declared_timeout,
+                    deadline_value,
+                    now_monotonic=launch_monotonic,
+                )
+                spec["limits"]["timeout_seconds"] = resolved_timeout
+                timeout_resolution = {
+                    "status": "resolved_before_worker_launch",
+                    "declared_spec_timeout_seconds": declared_timeout,
+                    "resolved_worker_timeout_seconds": resolved_timeout,
+                    "kernel_deadline_monotonic": deadline_value,
+                    "computed_at_monotonic": launch_monotonic,
+                    "finalization_reserve_seconds": (
+                        WORKER_TIMEOUT_FINALIZATION_RESERVE_SECONDS
+                        if deadline_value is not None
+                        else None
+                    ),
+                    "scope": (
+                        "inherited kernel-process deadline"
+                        if deadline_value is not None
+                        else "legacy spec timeout; no kernel deadline inherited"
+                    ),
+                }
                 process = subprocess.Popen(
                     argv,
                     cwd=root,
@@ -269,13 +337,17 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
                         "cpus": cpus,
                         "output": job_output,
                         "log": log,
-                        "started": now,
+                        "started": launch_monotonic,
+                        "worker_timeout_seconds": resolved_timeout,
                         "peak_ram_bytes": 0,
                         "peak_gpu_bytes": 0,
                     }
                 )
+                # Persist after Popen so the timeout computation stays adjacent to
+                # launch; the active watchdog already holds this same resolved value.
                 write_json(job_output / "spec.json", spec)
-                last_launch = now
+                write_json(job_output / "timeout_resolution.json", timeout_resolution)
+                last_launch = launch_monotonic
             samples = {device["index"]: device for device in gpu_inventory()}
             total_rss = 0
             for job in list(active):
@@ -302,6 +374,7 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
                         "name": spec["name"],
                         "returncode": process.returncode,
                         "wall_seconds": now - job["started"],
+                        "worker_timeout_seconds": spec["limits"]["timeout_seconds"],
                         "device": job["device"],
                         "peak_ram_bytes": job["peak_ram_bytes"],
                         "peak_gpu_bytes": job["peak_gpu_bytes"],
@@ -336,6 +409,7 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
                     "incident": incident,
                     "peak_ram_bytes": job["peak_ram_bytes"],
                     "peak_gpu_bytes": job["peak_gpu_bytes"],
+                    "worker_timeout_seconds": job["spec"]["limits"]["timeout_seconds"],
                     "artifacts": export_artifacts(root, job["spec"], job["output"]),
                 },
             )
@@ -366,6 +440,7 @@ def resource_heartbeat(
                 "gpu_index": job["device"]["index"],
                 "gpu_uuid": job["device"]["uuid"],
                 "elapsed_seconds": round(max(0, now - job["started"]), 3),
+                "worker_timeout_seconds": job["worker_timeout_seconds"],
                 "peak_ram_bytes": job["peak_ram_bytes"],
                 "peak_gpu_bytes": job["peak_gpu_bytes"],
             }
