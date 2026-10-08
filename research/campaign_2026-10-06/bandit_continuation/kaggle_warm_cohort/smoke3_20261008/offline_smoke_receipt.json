@@ -2,9 +2,9 @@
   "exit_code": 0,
   "boot_marker": {
     "event": "kernel_boot",
-    "input_root": "/tmp/wnn-smoke3-fixture-final-8ob801nz",
-    "pid": 2462576,
-    "utc": "2026-10-08T20:00:47Z"
+    "input_root": "/tmp/wnn-smoke3-fixture-final-8ob801nz/nested/vladkochetov07",
+    "pid": 2502113,
+    "utc": "2026-10-08T20:13:23Z"
   },
   "phase_names": [
     "start",
@@ -16,17 +16,31 @@
     "dry_run_specs_valid"
   ],
   "stdout_tail": [
-    "{\"event\": \"kernel_boot\", \"input_root\": \"/tmp/wnn-smoke3-fixture-final-8ob801nz\", \"pid\": 2462576, \"utc\": \"2026-10-08T20:00:47Z\"}",
-    "{\"dry_run\": true, \"input\": \"/tmp/wnn-smoke3-fixture-final-8ob801nz\", \"phase\": \"start\", \"python\": \"3.13.9\", \"utc\": \"2026-10-08T20:00:47Z\"}",
-    "{\"dataset_dir\": \"/tmp/wnn-smoke3-fixture-final-8ob801nz/nested/vladkochetov07/wnn-c20261004-fold0-assets\", \"files\": 23, \"phase\": \"manifest_mounted\", \"utc\": \"2026-10-08T20:00:47Z\"}",
-    "{\"dataset_dir\": \"/tmp/wnn-smoke3-fixture-final-8ob801nz/nested/vladkochetov07/wnn-warm-cohort-src-20261008-v2\", \"files\": 3, \"phase\": \"manifest_mounted\", \"utc\": \"2026-10-08T20:00:47Z\"}",
-    "{\"archive\": \"/tmp/wnn-smoke3-fixture-final-8ob801nz/repo/wnn_src.tar.gz\", \"phase\": \"source_unpacked\", \"sha256\": \"2d64aaf9b3f416db460e41684def3b511462283aec588bc94f536b8db1f66930\", \"utc\": \"2026-10-08T20:00:47Z\"}",
-    "{\"phase\": \"raw_data_mounted\", \"root\": \"/tmp/wnn-smoke3-fixture-final-8ob801nz/nested/vladkochetov07/wunder-funder\", \"utc\": \"2026-10-08T20:00:47Z\"}",
-    "{\"manifest_files\": 26, \"phase\": \"inputs_ready\", \"utc\": \"2026-10-08T20:00:47Z\"}",
-    "{\"phase\": \"dry_run_specs_valid\", \"specs\": 2, \"utc\": \"2026-10-08T20:00:47Z\"}"
+    "{\"event\": \"kernel_boot\", \"input_root\": \"/tmp/wnn-smoke3-fixture-final-8ob801nz/nested/vladkochetov07\", \"pid\": 2502113, \"utc\": \"2026-10-08T20:13:23Z\"}",
+    "{\"dry_run\": true, \"input\": \"/tmp/wnn-smoke3-fixture-final-8ob801nz/nested/vladkochetov07\", \"max_wall_seconds\": 7800, \"phase\": \"start\", \"python\": \"3.13.9\", \"runtime_available_min_bytes\": 2000000000, \"startup_available_min_bytes\": 20000000000, \"utc\": \"2026-10-08T20:13:23Z\", \"worker_rss_limit_bytes\": 24000000000}",
+    "{\"dataset_dir\": \"/tmp/wnn-smoke3-fixture-final-8ob801nz/nested/vladkochetov07/wnn-c20261004-fold0-assets\", \"files\": 23, \"phase\": \"manifest_mounted\", \"utc\": \"2026-10-08T20:13:23Z\"}",
+    "{\"dataset_dir\": \"/tmp/wnn-smoke3-fixture-final-8ob801nz/nested/vladkochetov07/wnn-warm-cohort-src-20261008-v2\", \"files\": 3, \"phase\": \"manifest_mounted\", \"utc\": \"2026-10-08T20:13:23Z\"}",
+    "{\"archive\": \"/tmp/wnn-smoke3-hardwall-20261008-luna2/repo/wnn_src.tar.gz\", \"phase\": \"source_unpacked\", \"sha256\": \"2d64aaf9b3f416db460e41684def3b511462283aec588bc94f536b8db1f66930\", \"utc\": \"2026-10-08T20:13:23Z\"}",
+    "{\"phase\": \"raw_data_mounted\", \"root\": \"/tmp/wnn-smoke3-fixture-final-8ob801nz/nested/vladkochetov07/wunder-funder\", \"utc\": \"2026-10-08T20:13:23Z\"}",
+    "{\"manifest_files\": 26, \"phase\": \"inputs_ready\", \"utc\": \"2026-10-08T20:13:23Z\"}",
+    "{\"phase\": \"dry_run_specs_valid\", \"specs\": 2, \"utc\": \"2026-10-08T20:13:23Z\"}"
   ],
   "stderr_tail": [],
   "source_worker_mounted": true,
   "source_archive_sha256": "2d64aaf9b3f416db460e41684def3b511462283aec588bc94f536b8db1f66930",
-  "spec_count": 2
+  "spec_count": 2,
+  "kernel_script_sha256": "caad47a642060a73d70098e5a92969c289ba0093a3716a3af6fda22c1cd8c54f",
+  "kernel_script_size_bytes": 26787,
+  "runtime_hard_wall_seconds": 7800,
+  "worker_startup_resource_gate": {
+    "min_effective_available_bytes": 20000000000,
+    "min_visible_gpus": 2
+  },
+  "worker_runtime_resource_gate": {
+    "heartbeat_interval_seconds": 30,
+    "max_aggregate_worker_rss_bytes": 24000000000,
+    "min_effective_available_bytes": 2000000000,
+    "min_visible_gpus": 2
+  },
+  "execution_mode": "dry_run_no_training_no_device_profile"
 }
