@@ -1,0 +1,76 @@
+{
+  "schema": "wnn.independent-packet-review.v1",
+  "record_id": "TPUV7_PACKET_INDEPENDENT_REVIEW_20261008_R1",
+  "reviewed_at_utc": "2026-10-08T20:41:28Z",
+  "reviewer_role": "independent sealed-packet reviewer",
+  "scope": "Read-only static and offline validation of the source-only E463 TPU V7 inventory-repair packet. No provider operation or source edit was performed.",
+  "candidate": {
+    "worktree": "/home/vlad/development/wunder/worktrees/luna-runner-20261008",
+    "commit": "508ddba5eaa9917c9547b397b5882661be40d7ad",
+    "directory": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v7_inventory_repair_20261008",
+    "packet_id": "vladkochetov07/e463-tpu-realdata-reload-v7-20261008",
+    "bundle_sha256": "053638cf52a82f00b2da8fce82fcb63f21f7bfaccaf1b766b64e0ffd8ab1c528",
+    "probe_sha256": "d22947623bbe638280183ab019d4159ea37038b73840f3058e0137379bb4dad7",
+    "kernel_metadata_sha256": "23e67bce8659cbd98bcc9c985c73637e8e3b161e17f56f5cdb185e030714c4ef",
+    "packet_manifest_sha256": "eb332ac3c1dc4913f8c0f457a1fda5bdc7ea2f4118eb921e485021d519d12c82",
+    "assets_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7"
+  },
+  "verdict": "source_only_packet_integrity_pass; live_mount_inventory_check_pending",
+  "provider_push_authorized": false,
+  "checks": [
+    {
+      "name": "sealed packet identity and bundle contents",
+      "status": "pass",
+      "evidence": "The packet manifest binds probe.py, kernel-metadata.json, the deterministic ZIP, README, builder, test file, and frozen V6 references. The six packet tests passed; they verify the ZIP contains exactly kernel-metadata.json and probe.py, and that their bytes match the staged files."
+    },
+    {
+      "name": "Python 3.11 source syntax",
+      "status": "pass",
+      "evidence": "The sealed probe source compiled in memory with the discovered Python 3.11 interpreter. No bytecode was written."
+    },
+    {
+      "name": "frozen repair scope",
+      "status": "pass",
+      "evidence": "Diff against the hash-pinned V6 source contains the V7 packet/output identifiers, two required checkpoint-path corrections, and the fail-closed inventory validator; there is no training, objective, optimizer, schedule, batch, or selected-sequence change. The V6 packet manifest, probe, terminal receipt, and reviewed asset manifest hashes are pinned by the builder and tests."
+    },
+    {
+      "name": "actual producer asset manifest and checkpoint paths",
+      "status": "pass",
+      "evidence": "The packet's fold0_assets_manifest.json is byte-identical to the main campaign producer's assets-manifest.json at SHA-256 19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7. It has 23 unique payload paths and filenames. Both since checkpoints are manifested as artifacts/runs/c20260929_since_s3_f0/model.pt and artifacts/runs/c20260929_since_s4_f0/model.pt; neither corresponding model_ep3.pt path exists in that manifest. V7 stages and verifies the manifested model.pt paths without assigning them an epoch label."
+    },
+    {
+      "name": "inventory validator behavior",
+      "status": "pass",
+      "evidence": "The validator requires 23 payload records, unique safe relative paths and flat filenames, valid SHA-256/positive-size fields, all required members, and an exact direct-regular-file mount set equal to the 23 manifest filenames plus assets-manifest.json. It rejects symlinks, directories, missing or extra names. The V7 asset discovery pins the manifest hash before this check; staged required payloads retain their content-hash and byte-size checks."
+    },
+    {
+      "name": "offline test suite",
+      "status": "pass",
+      "command": "flock -w 10 /tmp/wnn-codex-support.lock env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/pytest -q /home/vlad/development/wunder/worktrees/luna-runner-20261008/research/campaign_2026-10-06/cloud_preflight/tpu_packet_v7_inventory_repair_20261008/tests/test_v7_inventory_packet.py",
+      "result": "6 passed in 0.28s"
+    }
+  ],
+  "live_mount_inventory_evidence": {
+    "expected_payload_entries": 23,
+    "expected_direct_regular_files": 24,
+    "producer_listing_page_rows": 20,
+    "producer_listing_has_pagination_token": true,
+    "listed_names_and_sizes_match_manifest_subset": true,
+    "complete_current_mount_names_independently_observed": false,
+    "reason": "The saved provider_files.csv is a paginated first page of 20 rows. The V6 terminal mount receipt records only first_children (also capped at 20). Neither receipt proves the complete current mount inventory. V7 performs the exact 24-name check at runtime before materializing data or launching its TPU worker."
+  },
+  "packet_metadata": {
+    "private": true,
+    "gpu": false,
+    "tpu": true,
+    "internet": false,
+    "machine_shape": "TpuV5E8",
+    "bundle_source_files": ["kernel-metadata.json", "probe.py"],
+    "provider_push_authorized": false
+  },
+  "limitations": [
+    "This review establishes offline packet integrity and a plausible fail-closed correction to V6 host admission; it does not establish that a future Kaggle mount contains exactly 24 files.",
+    "No provider push, TPU initialization, device numerical/parity check, real-data update, or scientific result was run or inferred.",
+    "The first Python 3.11 pytest attempt was unavailable because that isolated environment had no pytest package; the frozen tests passed in the existing project pytest environment, and source syntax was separately checked with Python 3.11."
+  ]
+}
