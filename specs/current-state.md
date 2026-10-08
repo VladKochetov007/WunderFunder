@@ -1,3 +1,13 @@
+## Continuous morning policy and admitted-source preparation — 2026-10-08 04:18 Kyiv
+
+Research continues until explicit user stop. The verified active timer changes aggregate local CPU from the temporary twelve-core window to five cores at2026-10-08 10:00Kyiv/07:00UTC; it does not stop GPU/cloud jobs. Parent properties remain18GB memory-high/20GBmaximum/no swap. [ADR0017](adr/0017-continuous-research-five-core-morning-cap.md).
+
+H230 parent retry3 completed epoch0 and persisted both its checkpoint and full training state; latest observed epoch1batch600/779 at01:14Z, worker and parent-local OOM/kill0. This all-supplied-data fit is not held-out evidence. Kaggle H232V6 remains providerRUNNING at01:10Z with phase outputs unavailable; TPUV5 remains queued. Owned VastA3D is terminal and destroyed, not a running fit.
+
+H217 V3 is integrated and root statically reviewed: all12 recorded file hashes and exact two-source project diff verified, seven focused tests independently rerun. Explicit4096AMP scale, arm-local profile/failure handling and valid-first FP32 exports are frozen. It is not yet provider-admitted or rented. A bounded owned-only direct-object staging helper is being prepared to avoid the prior80-minute upload; root verified signed Kaggle object headers and a four-byte ranged response, not full-transfer throughput. [Root review](../research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_V3_ROOT_STATIC_REVIEW_V1.json).
+
+E540 V2 recipe/export corrections landed with eleven focused tests independently rerun. Its warmed two-arm Kaggle delivery packet is being prepared with a6000-second ceiling pending root review and fresh quota. No E540 fit or new public best is claimed; own public best remains0.6660. Next local successor is the queued full-membership teacher cache after parent fit, followed by independently trained paired students and serving/package checks.
+
 ## Continuous execution and owned-cloud terminal evidence — 2026-10-08 03:57 Kyiv
 
 Local H230 retry3 is fitting (epoch0batch440/779, worker and aggregate OOM0). Kaggle H232V6 was pushed once and canonical provider ID is `vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v6`; status RUNNING, no phase output yet. The canonical ID is registered in the active durable poller. TPUV5 remains queued.
