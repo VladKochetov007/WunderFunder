@@ -1,3 +1,9 @@
+## Faithful reconstruction and optimizer exploration — 2026-10-08 08:46 UTC
+
+Latest user priority is complete independently implemented teacher/parent/students-and-blend method, not a single compatible student. Seed9/99 strong parents target source-matched Muon, C1000/boot8/distillation/EMA; later54354/7753191 extend the blend. Final reference student AdamW+OneCycle is separate from Muon parent training. Whole-matrix versus own per-gate geometry and optimizer BF16/device compatibility are explicit treatments. [ADR0023](../../../specs/adr/0023-faithful-method-reconstruction-before-variants.md). No new close-recipe fit claimed yet.
+
+E540 matched one-epoch linear/PLE screen fully graded: WP0.6361859352/0.6254095463, fixed equal blend0.6349392976. Exact endpoints lower; preserve representation-scale/teacher descendants. Normalized H230 single public0.6653; incumbent0.6660 unchanged. H233 actual epoch0 checkpoint delivered; epoch1 active, no current OOM. TPUV6 canonical status freshly QUEUED. [Luna optimizer paper scout](continuous_execution_E529/GRU_OPTIMIZER_FAMILY_SCOUT_20261008.md) motivates separate bounded arms, not a combinatorial prerequisite. Earlier snapshots below are historical.
+
 ## Delivered endpoint — 2026-10-08 08:08 UTC
 
 H230 history-swap all-data seed3 fixedep1 ZIP is independently root-released for human public testing: submissions/c20261008_h230_all_data_s3_history_swap_i16.zip,4674718bytes/SHA0fdf58db31e7c8b0b9050c6b4274eda80626a47bbd8fd35b4441d5edb07b27b0. All16checkpoint tensors exact after mainheadslice; offlinePython3.11/reset/nativeparityPASS. Publicbest remains0.6660; no newpublicscore/forecast. E540V12 andTPUV6 onepushadmissions are conditional on actual freshquota/privatebytes/durablemonitor; actualpushreceipts determine running.

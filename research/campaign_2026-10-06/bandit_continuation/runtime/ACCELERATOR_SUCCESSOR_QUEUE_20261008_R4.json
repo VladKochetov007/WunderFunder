@@ -1,0 +1,89 @@
+{
+  "created_utc": "2026-10-08T08:46:05.617697+00:00",
+  "authority": "specs/adr/0022-prepared-successors-and-paid-warm-cohorts.md",
+  "entries": [
+    {
+      "lane": "kaggle_gpu",
+      "recipe": "E540 V12 completed-checkpoint linear/PLE export",
+      "readiness": "completed_collected_independently_graded",
+      "owner": "/root/e540_independent_recipe_delivery_audit",
+      "next": "No repeat; exact PLE endpoint negative. Successor capacity cohort separately owned.",
+      "authorization": "E540_V12_ROOT_EXPORT_AUTHORIZATION_20261008_R1.json",
+      "handle": "vladkochetov07/e540-v12-cache-dirfix-20261008-runner",
+      "provider_version": 1
+    },
+    {
+      "lane": "kaggle_tpu",
+      "recipe": "E463 V6 actualdata/update/checkpointreload compatibility",
+      "readiness": "provider_queued",
+      "owner": "/root",
+      "next": "Actualdevice terminaldata/update/reload/numerical evidence; no duplicatepush.",
+      "authorization": "E463_TPU_V6_ROOT_ONE_PUSH_AUTHORIZATION_20261008_R1.json",
+      "handle": "vladkochetov07/e463-tpu-real-data-reload-v6-20261008",
+      "provider_version": 1
+    },
+    {
+      "lane": "kaggle_tpu",
+      "recipe": "E465 finite warmed FP32/BF16 ownteacher cohort",
+      "readiness": "source_preparation",
+      "owner": "/root",
+      "blockers": [
+        "Strict actual V6 result consumer",
+        "Precision-specific actual numerical/profile admission",
+        "Frozen exact production packet"
+      ]
+    },
+    {
+      "lane": "cloud_training",
+      "recipe": "Faithful independently authored teacher stages, Muon strong parents and equal seed9/99 student endpoint",
+      "readiness": "source_preparation",
+      "owner": "/root/h230_actual_delivery",
+      "blockers": [
+        "Reviewed V4 source for Muon geometry/group LR and actual-device dtype profile",
+        "All-data teacher-family checkpoints and seed-specific parents",
+        "Frozen runnable cloud cohort and exact input hashes"
+      ]
+    },
+    {
+      "lane": "cloud_training",
+      "recipe": "Distinct GRU512/768 finite warm capacity cohort",
+      "readiness": "source_preparation",
+      "owner": "/root/e540_independent_recipe_delivery_audit",
+      "blockers": [
+        "Executable reviewed packet and finite queue",
+        "Bounded spend/liveoffer/device admission"
+      ],
+      "note": "Kaggle-first transport using exact 37,103,450,341-byte input manifest; bounded Vast alternative requires independent admission and creation proof. Original ambiguous TCN watch remains."
+    },
+    {
+      "lane": "local_cpu",
+      "recipe": "H230 fixedep1 offline ZIP serving checks",
+      "readiness": "completed_root_released",
+      "owner": "/root/h230_actual_delivery",
+      "next": "Human publictest upload/results; no automaticupload."
+    },
+    {
+      "lane": "local_gpu",
+      "recipe": "H233 four fixed conditionalreadout variants",
+      "readiness": "actual_fit_epoch0_completed_epoch1_running",
+      "owner": "/root/h230_actual_delivery",
+      "limits": {
+        "cpu": 1,
+        "ram_bytes": 6500000000,
+        "wall_seconds": 5400
+      },
+      "next": "Monitor actual epoch evidence and resource pressure; preserve healthy fit. Source/stack confirms epoch execution, not setup.",
+      "handle": "wnn-bandit-h233-c1s3-readout-v2-fit-20261008.service",
+      "checkpoint": "artifacts/runs/bd26_h233_c1s3_rank32_f0_v2/model_ep0.pt"
+    },
+    {
+      "lane": "scientific_ideation",
+      "recipe": "Schedule/noise/teacher-combination source-grounded cards",
+      "readiness": "active_astra_scoped_user_exception",
+      "owner": "/root/astra_schedule_combination_reframe",
+      "authority": "specs/adr/0023-faithful-method-reconstruction-before-variants.md"
+    }
+  ],
+  "interpretation": "Queue readiness is not proof of running accelerator jobs; original recipes/auth remain authoritative.",
+  "supersedes_readiness_snapshot": "ACCELERATOR_SUCCESSOR_QUEUE_20261008_R3.json"
+}

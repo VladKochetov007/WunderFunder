@@ -1,0 +1,34 @@
+{
+  "id": "H233-FIXED-EP1-COMPARISON-20261008-R1",
+  "created_utc": "2026-10-08T08:47:42.343067+00:00",
+  "status": "preregistered_before_candidate_export_and_score",
+  "recipe_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+  "recipe_sha256": "a97bf67c68e2988044778f39254122683ef37899dd4384cc6e3571240c373022",
+  "checkpoint_epoch": 1,
+  "metric": "global_wp_clip2_v1",
+  "evaluation": "fixed excluded468 VALID groups on exposed fold0; source-qualified row joins and exact recipe evaluation-only masks required",
+  "primary": "Each additive/multiplicative/conditional_residual standalone versus trained hidden_only control",
+  "modes": [
+    "hidden_only",
+    "additive",
+    "multiplicative",
+    "conditional_residual"
+  ],
+  "secondary": "Each mode standalone and fixed raw mixtures with own frozen C1 parent; official clipping only after blending",
+  "weights_on_readout": [
+    0,
+    0.1,
+    0.25,
+    0.5,
+    1
+  ],
+  "bootstrap": {
+    "unit": "paired frozen connected components",
+    "replicates": 2000,
+    "seed": 271828
+  },
+  "selection": "Report all declared comparisons; no hyperparameter/epoch/weight selection from evaluation",
+  "parent_export_comparison_limit": "Parent reference and current trunk numerical paths must be disclosed. Require frozen exporter parent-anchor parity gate; this tolerance does not establish bitwise matched precision. Primary mode-versus-hidden_only comparison shares identical trunk path.",
+  "serving": "Any gain needs independent serving implementation, delivered ZIP reset/determinism/runtime checks; no immediate public forecast",
+  "admission": "Actual fit terminal/checkpoint/source/export/masks/sidecars and separate root grader admission required. This preregistration is not export or fit launch authority."
+}
