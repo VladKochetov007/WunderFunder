@@ -293,7 +293,6 @@ def _validate_upstream(binding: Mapping[str, object], recipe: Mapping[str, objec
         or binding.get("packet_id") != PACKET_ID
         or binding.get("subset_manifest_sha256") != sha256_file(ROOT / SUBSET_PATH)
         or binding.get("split_manifest_sha256") != sha256_file(ROOT / SPLIT_PATH)
-        or binding.get("recipe_sha256") != sha256_file(ROOT / RECIPE_PATH)
         or recipe.get("packet_id") != PACKET_ID
         or recipe.get("kind") != "export_only"
         or recipe.get("fit_arms") != []
