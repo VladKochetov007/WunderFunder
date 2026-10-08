@@ -1,0 +1,59 @@
+{
+  "record_id": "E540_FIXED_PAIR_GRADER_INDEPENDENT_REVIEW_20261008_R1",
+  "created_utc": "2026-10-08T08:16:12Z",
+  "status": "pass_source_review_no_candidate_read_no_score",
+  "reviewer_role": "independent_source_reviewer",
+  "reviewed_root_commit": "581d9a0b62232f78214f93c9b213e56ae47fd762",
+  "scope": [
+    "exact preregistered mixture weights 0.0, 0.5, 1.0",
+    "raw blending before official clipping",
+    "official mask, warmup, clipping, target-magnitude weights, pooled metric",
+    "paired connected-component bootstrap against fixed linear baseline",
+    "source-qualified fit subset membership and evaluation-row alignment",
+    "root artifact admission and exact source/artifact hash binding"
+  ],
+  "source_identities": {
+    "grader": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/grade_fixed_embedding_pair.py",
+      "sha256": "64d547a9f4f7861f5c104ebc95b6d9f8315f4d51554e092ec6cfd5076ccc5376"
+    },
+    "grader_test": {
+      "path": "tests/test_e540_fixed_pair_grade.py",
+      "sha256": "19bb59752dbfaa6f9aa8cf8eb3cd62d1af8791f0c888954f7b6035d15e8f9053"
+    },
+    "shared_qualified_membership_and_alignment_helpers": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/attention_training_H218/grade_fold0_reference_blends.py",
+      "sha256": "88034869363f8475d8030f932e7bc24af0850241e3511d276b03ce7a53e5a4bd"
+    },
+    "shared_helper_tests": {
+      "path": "tests/test_h218_reference_blends.py",
+      "sha256": "9651117072cb9a8949e67e57f139e91fe7cd40ae9ae42ae4f10ec4070df871c3"
+    },
+    "campaign_scorer": {
+      "path": "research/campaign_2026-09-30/audit/campaign_score.py",
+      "sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39"
+    },
+    "official_metric": {
+      "path": "src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    },
+    "preregistration": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIXED_EP0_MATCHED_EMBEDDING_COMPARISON_PREREG_20261008_R1.json",
+      "sha256": "24ec8e827a344bddc8fede204e384c190701b5b59fac1b6c3cfc828fb88b6903"
+    }
+  },
+  "validation": {
+    "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q tests/test_e540_fixed_pair_grade.py tests/test_h218_reference_blends.py",
+    "result": "13 passed in 0.34s",
+    "resource_bound": "1 CPU, 1.5 GB memory, 120 seconds",
+    "candidate_predictions_opened": false,
+    "actual_scoring_performed": false
+  },
+  "findings": [],
+  "limitations": [
+    "The E540-specific fixture does not execute the full root-admission and actual-artifact path.",
+    "Root-reported actual producer-provenance fixture was not independently reproduced; its 1597 train / 252 valid / 468 evaluation and zero-overlap result is controller evidence only.",
+    "No candidate predictions or actual scores were read or produced."
+  ],
+  "conclusion": "No blocking correctness issue found for the reviewed source/test contract; actual-artifact admission and scoring remain root-owned."
+}
