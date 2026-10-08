@@ -1,0 +1,48 @@
+2026-10-08T18:31:24Z seed9 status=failed
+2026-10-08T18:31:28Z reclaim try=1 before=14476414976 requested=6476414976 after=8033296384
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py", line 1347, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py", line 1325, in main
+    print(json.dumps(launch(args), indent=2))
+                     ~~~~~~^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py", line 593, in launch
+    ensure_admission_open(state)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py", line 343, in ensure_admission_open
+    raise RuntimeError(
+        f"new admission is closed: {read_json(marker).get('reason', 'no reason')}"
+    )
+RuntimeError: new admission is closed: resource budget breach in h230-strong-parent-seed9-muon-local-v1-20261008: aggregate working RAM exceeded 18000000000 bytes
+2026-10-08T18:31:28Z launch refused; retry in 120s
+2026-10-08T18:33:30Z reclaim try=2 before=9225314304 requested=1225314304 after=7986794496
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py", line 1347, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py", line 1325, in main
+    print(json.dumps(launch(args), indent=2))
+                     ~~~~~~^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py", line 627, in launch
+    resources = verify_capacity(
+        state,
+    ...<4 lines>...
+        current_memory_bytes=measured,
+    )
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py", line 436, in verify_capacity
+    raise RuntimeError(f"CPU reservation would exceed {cpu_cap} aggregate cores")
+RuntimeError: CPU reservation would exceed 5 aggregate cores
+2026-10-08T18:33:30Z launch refused; retry in 120s
+2026-10-08T18:35:30Z reclaim try=3 before=6179487744 requested=-1820512256 after=6180397056
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py", line 1347, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py", line 1325, in main
+    print(json.dumps(launch(args), indent=2))
+                     ~~~~~~^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/bandit_resources.py", line 595, in launch
+    raise FileExistsError(f"attempt evidence already exists: {record_path}")
+FileExistsError: attempt evidence already exists: /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/attempts/warm-queue-local-v1-20261008.json
+2026-10-08T18:35:30Z launch refused; retry in 120s

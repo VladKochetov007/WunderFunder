@@ -1,16 +1,16 @@
 {
- "run_id": "z1_h230s4_student_hft_alldata_v1",
- "priority": 1,
- "arm": "Z1",
+ "run_id": "z2b_h230s3_student_hft_alldata_v2",
+ "priority": 4,
+ "arm": "Z2",
  "hypothesis": "H-277 student x GCorr head-FT finishing (exact c20261004_combo_head_s4_final recipe: valid full, mask-weight, gcorr, freeze inp,gru, lr5e-4, 1 ep)",
- "notes": "All-data H230 S4 student (public single not tested; pair 0.6653) + incumbent head recipe -> merged-head combo candidate",
+ "notes": "All-data H230 S3 student (public 0.6649) + head-FT -> merged-head combo candidate | family-head model build (alpha 0, family weight 0): objective identical to incumbent pure-label GCorr head-FT",
  "steps": [
   {
    "name": "input_check",
    "argv": [
     "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
     "-c",
-    "import pathlib,sys; sys.exit(0 if pathlib.Path('/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_all_data_student_gru256_seed4_retry1_v1/model_ep1.pt').is_file() else 3)"
+    "import pathlib,sys; sys.exit(0 if pathlib.Path('/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_all_data_student_gru256_seed3_v1/model_ep1.pt').is_file() else 3)"
    ],
    "timeout_seconds": 60
   },
@@ -20,9 +20,9 @@
     "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
     "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/train_rnn.py",
     "--name",
-    "z1_h230s4_student_hft_alldata_v1",
+    "z2b_h230s3_student_hft_alldata_v2",
     "--init",
-    "bd26_h230_all_data_student_gru256_seed4_retry1_v1@ep1",
+    "bd26_h230_all_data_student_gru256_seed3_v1@ep1",
     "--train-source",
     "valid",
     "--full-valid",
@@ -52,7 +52,18 @@
     "--checkpoint-epoch",
     "0",
     "--save-training-state",
-    "--no-eval-during-fit"
+    "--no-eval-during-fit",
+    "--distill-family-head",
+    "--distill-cache-root",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_fold0_teacher_family_all_rows_v1",
+    "--distill-cache-variant",
+    "source",
+    "--distill-alpha",
+    "0.0",
+    "--distill-family-weight",
+    "0.0",
+    "--distill-family-target-mode",
+    "raw"
    ],
    "timeout_seconds": 1800,
    "env": {
@@ -68,7 +79,7 @@
   }
  ],
  "expected_outputs": [
-  "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/z1_h230s4_student_hft_alldata_v1/model_ep0.pt",
-  "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/z1_h230s4_student_hft_alldata_v1/provenance.json"
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/z2b_h230s3_student_hft_alldata_v2/model_ep0.pt",
+  "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/z2b_h230s3_student_hft_alldata_v2/provenance.json"
  ]
 }

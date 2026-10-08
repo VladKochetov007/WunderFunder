@@ -56,3 +56,21 @@ Plan:
 - 2. If any member adds value: train complementary versions (residual/negative-correlation objective vs frozen GRU256 trunk, H-276) at cheap serving size; measure fold0 panel + runtime.
 - 3. Serving routes: (a) <=1 extra small trunk within ~20 min headroom (f16 engine ~15% faster); (b) distill the diverse ensemble into the GRU256 student via the teacher cache (H230 family) so serving cost is unchanged.
 - 4. Confirm on fold1 before any public package; human upload gate.
+
+## H-281 — delayed_label_reveal_feedback
+Family `causal_online_adaptation`; parents H-205, H-190.
+
+Targets are functions of future prices (t0 = F - ask, t1 = bid - F), so after the target horizon the realized past targets become causally observable from the input stream. Feeding the model its own lagged predictions and realized residuals (or a per-sequence online affine recalibration fitted causally on revealed targets) corrects sequence-specific bias/scale that a fixed GRU cannot, which matters for the pooled Pearson metric.
+
+Cheapest test: CPU on fold0 panel: estimate the target horizon from data (lag at which t0/t1 become reconstructible from prices); then apply a causal per-sequence online affine recalibration of existing fold0 predictions using only revealed targets (lag >= horizon); score with score_fold0_panel blend-free variant. If positive, implement as input feature (lagged pred + residual) for a student.
+
+Risk: Must prove strict causality (only rows <= t used, reset per sequence); if horizon is long relative to 20k steps gain may be small.
+
+## H-282 — fast_engine_enables_capacity
+Family `serving_engineering_x_capacity`; parents H-174, H-175, H-068, H-280.
+
+An int8 (VNNI/AVX2 maddubs) or better-blocked native GRU kernel roughly halves per-row cost, which converts the runtime budget into either a wider served trunk (GRU320-384 student) or a diverse second trunk within 60 min; capacity/diversity then becomes servable.
+
+Cheapest test: Microbenchmark current i16 vs f16 vs prototype int8 kernel on the incumbent weights for 20 sequences (1 thread); measure |delta| and projected 37.46M-row runtime; only then train capacity.
+
+Risk: Engineering time; scorer CPU flags unknown (AVX-VNNI may be absent; keep fallbacks bit-identical).
