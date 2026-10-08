@@ -189,22 +189,17 @@ def already_collected() -> bool:
     )
 
 
-def parse_selected_file_listing(csv_text: str) -> tuple[list[dict[str, object]], int]:
-    """Select only allowed small outputs from Kaggle's metadata-only file listing."""
+def parse_selected_file_listing(csv_text: str) -> list[str]:
+    """Select allowed basenames from Kaggle's metadata-only file listing."""
     reader = csv.DictReader(io.StringIO(csv_text))
     if not reader.fieldnames:
         raise ValueError("Kaggle file listing has no CSV header")
     fields = {re.sub(r"[^a-z0-9]", "", name.lower()): name for name in reader.fieldnames}
     name_field = next((fields[key] for key in ("name", "filename", "file") if key in fields), None)
-    size_field = next(
-        (fields[key] for key in ("size", "sizebytes", "bytes", "totalbytes") if key in fields),
-        None,
-    )
-    if name_field is None or size_field is None:
-        raise ValueError(f"Kaggle file listing lacks filename/size fields: {reader.fieldnames!r}")
-    selected: list[dict[str, object]] = []
+    if name_field is None:
+        raise ValueError(f"Kaggle file listing lacks a filename field: {reader.fieldnames!r}")
+    selected: list[str] = []
     selected_names: set[str] = set()
-    total_bytes = 0
     listing_rows = 0
     for row in reader:
         listing_rows += 1
@@ -218,23 +213,18 @@ def parse_selected_file_listing(csv_text: str) -> tuple[list[dict[str, object]],
             raise ValueError(f"Kaggle file listing contains an unsafe path: {name!r}")
         if not name or not ALLOWED_OUTPUT_NAME.search(name):
             continue
-        if name in selected_names:
-            raise ValueError(f"Kaggle file listing contains a duplicate output path: {name!r}")
-        selected_names.add(name)
-        raw_size = str(row.get(size_field, "")).strip()
-        try:
-            size_bytes = int(raw_size)
-        except ValueError as error:
-            raise ValueError(f"Kaggle file listing has an invalid size for {name!r}") from error
-        if size_bytes < 0:
-            raise ValueError(f"Kaggle file listing has a negative size for {name!r}")
-        selected.append({"name": name, "size_bytes": size_bytes})
-        total_bytes += size_bytes
-    return selected, total_bytes
+        basename = Path(name).name
+        if basename in selected_names:
+            raise ValueError(
+                f"Kaggle file listing contains a duplicate output basename: {basename!r}"
+            )
+        selected_names.add(basename)
+        selected.append(basename)
+    return selected
 
 
-def preflight_selected_output_bytes() -> tuple[list[dict[str, object]], int]:
-    """Read provider metadata before any output bytes are downloaded."""
+def preflight_selected_output_files() -> list[str]:
+    """Read provider filenames before any output bytes are downloaded."""
     result = subprocess.run(
         [
             str(KAGGLE),
@@ -254,12 +244,7 @@ def preflight_selected_output_bytes() -> tuple[list[dict[str, object]], int]:
         raise RuntimeError(
             f"Kaggle output inventory failed before download: {result.stderr[-2000:]}"
         )
-    selected, expected_bytes = parse_selected_file_listing(result.stdout)
-    if expected_bytes > MAX_OUTPUT_BYTES:
-        raise RuntimeError(
-            f"selected provider outputs total {expected_bytes} bytes, above {MAX_OUTPUT_BYTES}-byte cap"
-        )
-    return selected, expected_bytes
+    return parse_selected_file_listing(result.stdout)
 
 
 def tree_bytes(root: Path) -> int:
@@ -272,6 +257,14 @@ def tree_bytes(root: Path) -> int:
             if path.is_file():
                 total += path.stat().st_size
     return total
+
+
+def output_names_match(files: dict[str, object], selected_names: list[str]) -> bool:
+    """Compare provider listing names with local output paths after CLI nesting."""
+    observed_names = [Path(name).name for name in files]
+    return len(observed_names) == len(set(observed_names)) and sorted(observed_names) == sorted(
+        selected_names
+    )
 
 
 def run_capped_download(command: list[str], provider_dir: Path, attempt: Path) -> tuple[int, str]:
@@ -318,12 +311,12 @@ def collect() -> int:
     if observation is None:
         logging.info("waiting for a terminal status in the active provider poll log")
         return 0
-    selected_files, expected_download_bytes = preflight_selected_output_bytes()
+    selected_files = preflight_selected_output_files()
     OUTPUT_ROOT.mkdir(parents=True, exist_ok=True, mode=0o700)
-    required_free_bytes = MIN_FREE_BYTES + expected_download_bytes
+    required_free_bytes = MIN_FREE_BYTES + MAX_OUTPUT_BYTES
     if shutil.disk_usage(OUTPUT_ROOT).free < required_free_bytes:
         raise RuntimeError(
-            "refusing terminal collection without the 4 GiB reserve plus preflight output bytes"
+            "refusing terminal collection without the 4 GiB reserve plus the full output cap"
         )
     attempt = OUTPUT_ROOT / "attempt_001"
     if attempt.exists():
@@ -339,7 +332,6 @@ def collect() -> int:
             "terminal_observation": observation,
             "file_pattern": FILE_PATTERN,
             "preflight_selected_files": selected_files,
-            "preflight_selected_bytes": expected_download_bytes,
             "max_output_bytes": MAX_OUTPUT_BYTES,
             "minimum_free_bytes": MIN_FREE_BYTES,
         },
@@ -360,12 +352,9 @@ def collect() -> int:
     process_exit_code, stderr_tail = run_capped_download(command, provider_dir, attempt)
     try:
         files, downloaded_bytes = file_inventory(provider_dir)
-        observed_sizes = {name: metadata["size_bytes"] for name, metadata in files.items()}
-        expected_sizes = {
-            str(metadata["name"]): metadata["size_bytes"] for metadata in selected_files
-        }
-        output_valid = downloaded_bytes <= MAX_OUTPUT_BYTES and observed_sizes == expected_sizes
-        if observed_sizes != expected_sizes:
+        names_match = output_names_match(files, selected_files)
+        output_valid = downloaded_bytes <= MAX_OUTPUT_BYTES and names_match
+        if not names_match:
             stderr_tail = (
                 f"{stderr_tail}\nprovider output file inventory differed from metadata preflight"
             )[-4000:]
@@ -388,7 +377,6 @@ def collect() -> int:
             "cache_payload_downloaded": False,
             "cache_payload_bytes": 0,
             "maximum_download_bytes": MAX_OUTPUT_BYTES,
-            "preflight_selected_bytes": expected_download_bytes,
             "preflight_selected_files": selected_files,
             "downloaded_bytes": downloaded_bytes,
             "provider_output_exit_code": process_exit_code,

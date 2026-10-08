@@ -60,8 +60,8 @@ def test_output_filter_keeps_small_receipts_and_rejects_cache_arrays(tmp_path: P
         collector.file_inventory(provider_dir)
 
 
-def test_listing_preflight_sums_only_allowed_files_and_accepts_cli_headers() -> None:
-    """Metadata inventory accepts Kaggle CSV headers and excludes cache arrays."""
+def test_listing_preflight_selects_allowed_basenames_without_trusting_size() -> None:
+    """The listing size column is metadata, while actual bytes are live-capped."""
     listing = (
         "File Name,Total Bytes,Date\n"
         "out/boot_marker.json,120,2026-10-09\n"
@@ -69,32 +69,17 @@ def test_listing_preflight_sums_only_allowed_files_and_accepts_cli_headers() -> 
         "out/parsed_cache/train_features.npy,7732440000,2026-10-09\n"
     )
 
-    files, total = collector.parse_selected_file_listing(listing)
+    files = collector.parse_selected_file_listing(listing)
 
-    assert files == [
-        {"name": "out/boot_marker.json", "size_bytes": 120},
-        {"name": "out/parsed_cache/manifest.json", "size_bytes": 450},
-    ]
-    assert total == 570
+    assert files == ["boot_marker.json", "manifest.json"]
 
 
-def test_listing_preflight_rejects_oversized_selected_outputs(
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    """The provider metadata cap must reject before output-download is invoked."""
-    monkeypatch.setattr(collector, "MAX_OUTPUT_BYTES", 100)
-    monkeypatch.setattr(
-        collector.subprocess,
-        "run",
-        lambda *args, **kwargs: type(
-            "Completed",
-            (),
-            {"returncode": 0, "stdout": "name,size\nout/boot_marker.json,101\n", "stderr": ""},
-        )(),
-    )
+def test_listing_preflight_rejects_duplicate_basenames() -> None:
+    """Flattened provider names cannot ambiguously match nested local paths."""
+    listing = "name,size\nboot_marker.json,880\nout/boot_marker.json,881\n"
 
-    with pytest.raises(RuntimeError, match="above .*byte cap"):
-        collector.preflight_selected_output_bytes()
+    with pytest.raises(ValueError, match="duplicate output basename"):
+        collector.parse_selected_file_listing(listing)
 
 
 def test_listing_preflight_fails_closed_on_truncated_page() -> None:
@@ -149,6 +134,20 @@ def test_live_download_terminates_when_provider_directory_crosses_cap(
     assert exit_code == 75
     assert "live byte cap" in tail
     assert fake_process.returncode == -15
+
+
+def test_inventory_match_uses_unique_basenames_for_nested_cli_paths() -> None:
+    """Kaggle output downloads may restore directories omitted by its listing."""
+    inventory = {
+        "out/parsed_cache/manifest.json": {},
+        "out/source_stage_receipt.json": {},
+    }
+
+    assert collector.output_names_match(inventory, ["manifest.json", "source_stage_receipt.json"])
+    assert not collector.output_names_match(
+        {**inventory, "other/source_stage_receipt.json": {}},
+        ["manifest.json", "source_stage_receipt.json"],
+    )
 
 
 def test_receipt_hash_recheck_rejects_changed_bytes(
