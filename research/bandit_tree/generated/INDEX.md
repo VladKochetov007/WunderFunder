@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 980 · raw hypothesis rows 289 · raw experiment rows 610 · legacy arms 18 · catalog files 62960.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 984 · raw hypothesis rows 293 · raw experiment rows 610 · legacy arms 18 · catalog files 63220.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-ea24056dc2f687e11c21c882119c89665e4f65cc88cf9ebfdab23a900bbcaef2.json](<snapshots/config-ea24056dc2f687e11c21c882119c89665e4f65cc88cf9ebfdab23a900bbcaef2.json>).
 
@@ -993,6 +993,10 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-E537-G | Training-only observation grammar | hypothesis · proposed_untested_refinement | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L287>) | — |
 | hypothesis:H-E537-H | Matched-donor causal-state patching | hypothesis · proposed_untested_refinement | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L288>) | — |
 | hypothesis:H-E540-A | H-E540-A | hypothesis · implementation_complete_recipe_audit_pending | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L289>) | — |
+| hypothesis:H-QG-20261008-1 | H-QG-20261008-1 | hypothesis · proposed_requires_causal_control_review | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L290>) | — |
+| hypothesis:H-QG-20261008-2 | H-QG-20261008-2 | hypothesis · proposed_requires_causal_control_review | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L291>) | — |
+| hypothesis:H-QG-20261008-3 | H-QG-20261008-3 | hypothesis · proposed_requires_causal_control_review | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L292>) | — |
+| hypothesis:H-QG-20261008-4 | H-QG-20261008-4 | hypothesis · proposed_requires_causal_control_review | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L293>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |

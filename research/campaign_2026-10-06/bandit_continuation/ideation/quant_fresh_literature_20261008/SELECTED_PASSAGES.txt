@@ -1,0 +1,70 @@
+--- Page 4 ---
+11/2/23, 10:41 AM
+
+Small Trader Alpha - Another Real Strategy - by Quant Arb
+
+USDT to arrive from our liquid exchange account - risking the arbitrage disappearing
+whilst we wait. At the end of this, we will need to transfer USDT back to the illiquid
+exchange to replenish our stock of USDT for the next arb, that is, unless we keep all
+our USDT on the liquid exchange beforehand.
+It is rarely the case that counterparty risk is great enough for us to refuse to hold
+USDT on the illiquid exchange when we aren’t doing a trade because we pay for this
+counterparty risk aversion by losing opportunities waiting for our USDT to arrive on
+the illiquid exchange.
+Some of these opportunities can make double-digit daily returns on our admittedly
+small capital, so counterparty risk is less of a concern unless the opportunity exists
+because everyone thinks the exchange is about to blow up.
+
+Two Types, One Favorite
+
+Below is a table of real opportunities between Binance & Poloniex sampled at 22:38
+UTC 7/1/2023:
+
+https://www.algos.org/p/small-trader-alpha-another-real-strategy
+
+4/17
+
+
+--- Page 10 ---
+11/2/23, 10:41 AM
+
+Small Trader Alpha - Another Real Strategy - by Quant Arb
+
+Risks - Sweep Risk
+
+This tends to be the reason why we see small arbitrages for major liquid names.
+There is always the risk that someone will slam our limit order, giving us inventory,
+and then slam the book on Binance - taking away our hedge and forcing us to exit at a
+loss.
+Sweep risk is typically not something we need to consider because we are
+transferring liquidity to ultra-illiquid exchanges where people aren’t going to source
+liquidity from and also because we are quoting so wide that someone would need to
+absolutely wipe out every inch of liquidity on the liquid exchanges before they come
+looking for liquidity on illiquid exchanges. If you have enough impact to start picking
+up 5% wide limit orders on Poloniex, then you should also be smart enough to VWAP
+instead of taker dumping, so it isn’t extremely relevant.
+If we are transferring liquidity between liquid exchanges, say Binance to KuCoin,
+then we will face this risk because KuCoin is actually a reasonable place to source
+liquidity if we are using an aggregator to execute against the global orderbook. The
+difference between KuCoin and Binance for most assets will be so small it doesn’t
+overcome costs, so we only see this risk become a big issue when liquidity gets
+sparse. This is either because someone is executing huge size or if volatility has
+spiked massively. Otherwise, we won’t see enough of a mispricing to start doing
+liquid-to-liquid arbitrages. Liquid-to-liquid arbitrage typically exists as a risk
+management solution to prevent large inventory balances from building up during
+said tail events whilst doing normal liquid exchange market making, so isn’t very
+relevant to our shitcoin arbitrage strategy. We note it down anyways.
+
+Risks - Transfer Risk
+
+This isn’t a large risk and is a mix of a few risks I have lumped into one here. The first
+is that we may not be able to withdraw the asset because it has been disabled.
+Checking this in the API is important, but the API can be incorrect, so it does still
+exist. Usually, we can just double-check that withdrawals are enabled and be done
+with it.
+
+https://www.algos.org/p/small-trader-alpha-another-real-strategy
+
+10/17
+
+

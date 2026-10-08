@@ -6164,7 +6164,7 @@
     },
     "source_rows": {
       "experiments": 610,
-      "hypotheses": 289,
+      "hypotheses": 293,
       "journal": 82
     }
   },
@@ -11786,6 +11786,8 @@
             "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v4/source/src/wnn/online_dynamics.py",
             "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v6/source/src/wnn/online_dynamics.py",
             "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v7/src/wnn/online_dynamics.py",
+            "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v7_proactive_20261008/source/src/wnn/online_dynamics.py",
+            "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_conditional_v7b_reviewed_20261008/source/src/wnn/online_dynamics.py",
             "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_profile_v3_serialization_repair/source/src/wnn/online_dynamics.py",
             "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v1/project/src/wnn/online_dynamics.py",
             "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v2/project/src/wnn/online_dynamics.py",
@@ -27121,6 +27123,180 @@
         }
       ],
       "title": "H-E540-A",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:temporal",
+          "family:objective",
+          "family:optimization",
+          "family:deployment"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-QG-20261008-1",
+      "latest_recorded_status": "proposed_requires_causal_control_review",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-QG-20261008-1\", \"title\": \"Delay expiry and inventory location\", \"status\": \"proposed_requires_causal_control_review\", \"objective_mode\": \"competition\", \"mechanism_family\": \"causal-age-state\", \"parents\": [], \"source_basis\": \"research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/SOURCE_SELECTION_V1.json\", \"evidence_ref\": \"research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/GROK_PUBLIC_HYPOTHESIS_CARDS_V1.md#card-1\", \"provider\": \"nativeGrok4.7\", \"numerical_prior\": null, \"expected_public_score\": null, \"fit_admitted\": false, \"review\": \"Within-sequence circular-shift control can introduce future information and is NOT admitted. Replace with a training-frozen constant/zero ablation or strictly past lag before a causal experiment. Proposed CPU ridge fits require bounded row sampling, not full-data CPU fitting. Slice definitions and source analogies are hypotheses, not established semantics. No numerical priors or public forecast.\", \"timestamp_utc\": \"2026-10-08T02:30:07.893892+00:00\"}\n",
+          "record": {
+            "evidence_ref": "research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/GROK_PUBLIC_HYPOTHESIS_CARDS_V1.md#card-1",
+            "expected_public_score": null,
+            "fit_admitted": false,
+            "id": "H-QG-20261008-1",
+            "mechanism_family": "causal-age-state",
+            "numerical_prior": null,
+            "objective_mode": "competition",
+            "parents": [],
+            "provider": "nativeGrok4.7",
+            "review": "Within-sequence circular-shift control can introduce future information and is NOT admitted. Replace with a training-frozen constant/zero ablation or strictly past lag before a causal experiment. Proposed CPU ridge fits require bounded row sampling, not full-data CPU fitting. Slice definitions and source analogies are hypotheses, not established semantics. No numerical priors or public forecast.",
+            "source_basis": "research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/SOURCE_SELECTION_V1.json",
+            "status": "proposed_requires_causal_control_review",
+            "timestamp_utc": "2026-10-08T02:30:07.893892+00:00",
+            "title": "Delay expiry and inventory location"
+          },
+          "source": {
+            "line": 290,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "17ef64bed2e2a64080cd0295ab463f93573eef9cff0ecdb0ff292f93f6023138"
+          }
+        }
+      ],
+      "title": "H-QG-20261008-1",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:temporal",
+          "family:objective",
+          "family:optimization",
+          "family:deployment"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-QG-20261008-2",
+      "latest_recorded_status": "proposed_requires_causal_control_review",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-QG-20261008-2\", \"title\": \"Isolated-shock inventory\", \"status\": \"proposed_requires_causal_control_review\", \"objective_mode\": \"competition\", \"mechanism_family\": \"causal-shock-memory\", \"parents\": [], \"source_basis\": \"research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/SOURCE_SELECTION_V1.json\", \"evidence_ref\": \"research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/GROK_PUBLIC_HYPOTHESIS_CARDS_V1.md#card-2\", \"provider\": \"nativeGrok4.7\", \"numerical_prior\": null, \"expected_public_score\": null, \"fit_admitted\": false, \"review\": \"Within-sequence circular-shift control can introduce future information and is NOT admitted. Replace with a training-frozen constant/zero ablation or strictly past lag before a causal experiment. Proposed CPU ridge fits require bounded row sampling, not full-data CPU fitting. Slice definitions and source analogies are hypotheses, not established semantics. No numerical priors or public forecast.\", \"timestamp_utc\": \"2026-10-08T02:30:07.893892+00:00\"}\n",
+          "record": {
+            "evidence_ref": "research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/GROK_PUBLIC_HYPOTHESIS_CARDS_V1.md#card-2",
+            "expected_public_score": null,
+            "fit_admitted": false,
+            "id": "H-QG-20261008-2",
+            "mechanism_family": "causal-shock-memory",
+            "numerical_prior": null,
+            "objective_mode": "competition",
+            "parents": [],
+            "provider": "nativeGrok4.7",
+            "review": "Within-sequence circular-shift control can introduce future information and is NOT admitted. Replace with a training-frozen constant/zero ablation or strictly past lag before a causal experiment. Proposed CPU ridge fits require bounded row sampling, not full-data CPU fitting. Slice definitions and source analogies are hypotheses, not established semantics. No numerical priors or public forecast.",
+            "source_basis": "research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/SOURCE_SELECTION_V1.json",
+            "status": "proposed_requires_causal_control_review",
+            "timestamp_utc": "2026-10-08T02:30:07.893892+00:00",
+            "title": "Isolated-shock inventory"
+          },
+          "source": {
+            "line": 291,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "e8760a4f7c70f2f115b882d71fd8d10b2f56aefb4fcccd7cb4610cda75dae28e"
+          }
+        }
+      ],
+      "title": "H-QG-20261008-2",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:objective",
+          "family:optimization",
+          "family:deployment"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-QG-20261008-3",
+      "latest_recorded_status": "proposed_requires_causal_control_review",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-QG-20261008-3\", \"title\": \"Activity-tier quotient and sparsity-gated gap\", \"status\": \"proposed_requires_causal_control_review\", \"objective_mode\": \"competition\", \"mechanism_family\": \"activity-factorization\", \"parents\": [], \"source_basis\": \"research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/SOURCE_SELECTION_V1.json\", \"evidence_ref\": \"research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/GROK_PUBLIC_HYPOTHESIS_CARDS_V1.md#card-3\", \"provider\": \"nativeGrok4.7\", \"numerical_prior\": null, \"expected_public_score\": null, \"fit_admitted\": false, \"review\": \"Within-sequence circular-shift control can introduce future information and is NOT admitted. Replace with a training-frozen constant/zero ablation or strictly past lag before a causal experiment. Proposed CPU ridge fits require bounded row sampling, not full-data CPU fitting. Slice definitions and source analogies are hypotheses, not established semantics. No numerical priors or public forecast.\", \"timestamp_utc\": \"2026-10-08T02:30:07.893892+00:00\"}\n",
+          "record": {
+            "evidence_ref": "research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/GROK_PUBLIC_HYPOTHESIS_CARDS_V1.md#card-3",
+            "expected_public_score": null,
+            "fit_admitted": false,
+            "id": "H-QG-20261008-3",
+            "mechanism_family": "activity-factorization",
+            "numerical_prior": null,
+            "objective_mode": "competition",
+            "parents": [],
+            "provider": "nativeGrok4.7",
+            "review": "Within-sequence circular-shift control can introduce future information and is NOT admitted. Replace with a training-frozen constant/zero ablation or strictly past lag before a causal experiment. Proposed CPU ridge fits require bounded row sampling, not full-data CPU fitting. Slice definitions and source analogies are hypotheses, not established semantics. No numerical priors or public forecast.",
+            "source_basis": "research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/SOURCE_SELECTION_V1.json",
+            "status": "proposed_requires_causal_control_review",
+            "timestamp_utc": "2026-10-08T02:30:07.893892+00:00",
+            "title": "Activity-tier quotient and sparsity-gated gap"
+          },
+          "source": {
+            "line": 292,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "161c3eeb0cecc4307d11478d6a9e115fd749cac4e78b99c0043574a9aab76797"
+          }
+        }
+      ],
+      "title": "H-QG-20261008-3",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:objective",
+          "family:optimization",
+          "family:deployment"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-QG-20261008-4",
+      "latest_recorded_status": "proposed_requires_causal_control_review",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-QG-20261008-4\", \"title\": \"Toxic edge and stale-flag disagreement\", \"status\": \"proposed_requires_causal_control_review\", \"objective_mode\": \"competition\", \"mechanism_family\": \"conditional-stress-mixture\", \"parents\": [], \"source_basis\": \"research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/SOURCE_SELECTION_V1.json\", \"evidence_ref\": \"research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/GROK_PUBLIC_HYPOTHESIS_CARDS_V1.md#card-4\", \"provider\": \"nativeGrok4.7\", \"numerical_prior\": null, \"expected_public_score\": null, \"fit_admitted\": false, \"review\": \"Within-sequence circular-shift control can introduce future information and is NOT admitted. Replace with a training-frozen constant/zero ablation or strictly past lag before a causal experiment. Proposed CPU ridge fits require bounded row sampling, not full-data CPU fitting. Slice definitions and source analogies are hypotheses, not established semantics. No numerical priors or public forecast.\", \"timestamp_utc\": \"2026-10-08T02:30:07.893892+00:00\"}\n",
+          "record": {
+            "evidence_ref": "research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/GROK_PUBLIC_HYPOTHESIS_CARDS_V1.md#card-4",
+            "expected_public_score": null,
+            "fit_admitted": false,
+            "id": "H-QG-20261008-4",
+            "mechanism_family": "conditional-stress-mixture",
+            "numerical_prior": null,
+            "objective_mode": "competition",
+            "parents": [],
+            "provider": "nativeGrok4.7",
+            "review": "Within-sequence circular-shift control can introduce future information and is NOT admitted. Replace with a training-frozen constant/zero ablation or strictly past lag before a causal experiment. Proposed CPU ridge fits require bounded row sampling, not full-data CPU fitting. Slice definitions and source analogies are hypotheses, not established semantics. No numerical priors or public forecast.",
+            "source_basis": "research/campaign_2026-10-06/bandit_continuation/ideation/quant_fresh_literature_20261008/SOURCE_SELECTION_V1.json",
+            "status": "proposed_requires_causal_control_review",
+            "timestamp_utc": "2026-10-08T02:30:07.893892+00:00",
+            "title": "Toxic edge and stale-flag disagreement"
+          },
+          "source": {
+            "line": 293,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "e71325ca5894fc861bbb77f00caa2fdca34faaaf9bd90fc604db5a9693312ee8"
+          }
+        }
+      ],
+      "title": "H-QG-20261008-4",
       "type": "hypothesis"
     },
     {
