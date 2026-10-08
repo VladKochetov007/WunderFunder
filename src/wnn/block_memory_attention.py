@@ -92,7 +92,12 @@ class BlockMemoryLayer(nn.Module):
 
 
 class BlockMemoryAttention(nn.Module):
-    """Independent H218 teacher prototype; no production fit or serving claim."""
+    """Independent H218 teacher prototype; no production fit or serving claim.
+
+    The readout is a two-linear GELU head so ordinary ``head.2.weight`` export
+    and output-width reloads apply. Completed-block memory and the unfinished
+    block stay in each layer's ``BlockState``.
+    """
 
     def __init__(
         self,
@@ -112,7 +117,10 @@ class BlockMemoryAttention(nn.Module):
         self.layers = nn.ModuleList(
             BlockMemoryLayer(width, heads, block_rows) for _ in range(layers)
         )
-        self.head = nn.Sequential(nn.LayerNorm(width), nn.Linear(width, n_out))
+        # Fixed checkpoints and predict_run read the output width from head.2.weight.
+        self.head = nn.Sequential(
+            nn.Linear(width, width), nn.GELU(), nn.Linear(width, n_out)
+        )
 
     def forward(
         self, values: torch.Tensor, states: tuple[BlockState, ...] | None = None

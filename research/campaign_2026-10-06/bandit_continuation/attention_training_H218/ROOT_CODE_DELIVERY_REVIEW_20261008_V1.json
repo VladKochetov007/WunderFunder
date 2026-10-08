@@ -1,0 +1,53 @@
+{
+  "schema": "wnn.h218-code-delivery-review.v1",
+  "created_utc": "2026-10-08T03:37:33.565841+00:00",
+  "owner": "root",
+  "actor_provider": "Native Grok CLI1.0.46 (2765805b9442) stable / grok-4.7",
+  "source_worktree": "/tmp/wnn-h218-grok-training-integration",
+  "status": "experimental_trainer_integration_cpu_protocol_checked_not_device_profiled",
+  "scope": "Own causal block-memory prototype plus smallest trainer integration; no teammate code/weights.",
+  "provider_attempts": [
+    {
+      "max_turns": 12,
+      "exit_status": 1,
+      "reason": "max turns reached before edits"
+    },
+    {
+      "exit_status": 2,
+      "reason": "root used unsupported --prompt flag; corrected invocation used --prompt-file"
+    },
+    {
+      "max_turns": 36,
+      "exit_status": 0,
+      "reason": "bounded native CLI continuation delivered scoped code/handoff"
+    }
+  ],
+  "root_checks": [
+    "Inspected scoped trainer/head/state/default/rejection changes.",
+    "Preserved original own untracked prototype/test in baseline commit5e60127e before head integration.",
+    "27 focused causal/reset/gradient/checkpoint/CLI protocol tests passed in isolated worktree2.29s.",
+    "Mainline verification rerun with PYTHONPATH=src:. after correcting missing Pythonpath test invocation; recorded final result separately.",
+    "Ruff import checks passed for new module/test; whole trainer has preexisting unsorted import block, not broadly reformatted."
+  ],
+  "tested_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=180s PYTHONPATH=src:. scripts/limited .venv/bin/python -m pytest -q tests/test_block_memory_attention.py tests/test_block_memory_trainer_integration.py",
+  "mainline_tests": {
+    "passed": 27,
+    "claim_scope": "tiny CPU protocol tests only"
+  },
+  "files": {
+    "scripts/train_rnn.py": "afd5cf47910faf2b3b54fb31964d8fa2668f18b6881848f5b8f246c26e16e81b",
+    "src/wnn/block_memory_attention.py": "a05c04d49f258d808ddb4fc4f7373a7bef57963050619f96698822e61840cc39",
+    "tests/test_block_memory_attention.py": "2a595201aaa23a347619478c2e7c9a41b1fb92fa99c3766537efb2ec98dc7666",
+    "tests/test_block_memory_trainer_integration.py": "2397808e8376465d1d11fc023e473c0c564b65aaac22a56d51a67f87fa81a4e8",
+    "research/campaign_2026-10-06/bandit_continuation/attention_training_H218/GROK_IMPLEMENTATION_HANDOFF_20261008_V1.md": "55e1d2f786c2ea16bda7531b0a1fe815a11b00ebad9bf0921b8d02357429f405"
+  },
+  "fit_admitted": false,
+  "actual_device_profile": null,
+  "score": null,
+  "limits": [
+    "No real-device numerical/gradient/profile/full-shape test yet.",
+    "No competition data read, model fit, native serving support or package for this architecture.",
+    "Code-only delivery does not establish hardware efficiency or teacher/student gain.",
+    "No private CLI reasoning/tool transcripts are archived."
+  ]
+}

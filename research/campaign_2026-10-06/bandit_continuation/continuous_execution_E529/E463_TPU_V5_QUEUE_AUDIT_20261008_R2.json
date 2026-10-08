@@ -1,0 +1,148 @@
+{
+  "assessment": {
+    "next_action": "Keep version 1 under read-only status/log/quota monitoring; do not restart or switch machine shape solely because it is queued. If a future packet is admitted, pass an explicit provider --timeout matching its outer cap; this omission alone is not grounds to restart the current queued job.",
+    "provider_mutations_during_audit": [],
+    "job_specific_compute_proven": false,
+    "quota_attribution": "Kaggle TPU quota is account-level, not job-attributed; do not assign the aggregate campaign usage delta to this queued kernel.",
+    "worker_started_proven": false
+  },
+  "created_at_utc": "2026-10-08T03:29:30+00:00",
+  "kernel": {
+    "canonical_slug": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v5",
+    "first_queued_poll_at_utc": "2026-10-07T21:31:08+00:00",
+    "provider": "Kaggle",
+    "push_command": "kaggle kernels push -p research/campaign_2026-10-06/cloud_preflight/tpu_packet_v5_candidate_v1/packet",
+    "push_exit_code": 0,
+    "pushed_at_utc": "2026-10-07T21:30:06+00:00",
+    "seconds_since_push_at_first_queued_poll": 62.0,
+    "version": 1
+  },
+  "queue_evidence": {
+    "all_failure_messages_blank": true,
+    "all_matching_rows_queued": true,
+    "durable_log": "research/campaign_2026-10-06/cloud_preflight/provider_poll_log.jsonl",
+    "first_poll": {
+      "at_utc": "2026-10-07T21:31:08+00:00",
+      "campaign_tpu_quota": {
+        "campaign_baseline_used_seconds": 134.623,
+        "campaign_cap_seconds": 7200.0,
+        "campaign_headroom_seconds": 7041.548,
+        "campaign_used_seconds": 158.452,
+        "reserved_seconds": 0.0,
+        "total_allowed_seconds": 72000.0,
+        "used_seconds": 293.075
+      },
+      "failure_message": "",
+      "status": "KernelWorkerStatus.QUEUED"
+    },
+    "fresh_exact_version_logs": {
+      "command": "kaggle kernels logs vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v5/1",
+      "exit_code": 0,
+      "interpretation": "stdout contains one newline and no substantive worker log text",
+      "observed_end_utc": "2026-10-08T03:28:23+00:00",
+      "observed_start_utc": "2026-10-08T03:28:22+00:00",
+      "stderr_bytes": 0,
+      "stdout_bytes": 1,
+      "stdout_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    "fresh_exact_version_status": {
+      "command": "kaggle kernels status vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v5/1",
+      "exit_code": 0,
+      "observed_end_utc": "2026-10-08T03:28:22+00:00",
+      "observed_start_utc": "2026-10-08T03:28:21+00:00",
+      "stderr_bytes": 0,
+      "stdout": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v5/1 has status \"KernelWorkerStatus.QUEUED\""
+    },
+    "latest_elapsed_since_push_seconds": 21552.0,
+    "latest_poll": {
+      "at_utc": "2026-10-08T03:29:18+00:00",
+      "campaign_tpu_quota": {
+        "campaign_baseline_used_seconds": 134.623,
+        "campaign_cap_seconds": 7200.0,
+        "campaign_headroom_seconds": 7041.548,
+        "campaign_used_seconds": 158.452,
+        "reserved_seconds": 0.0,
+        "total_allowed_seconds": 72000.0,
+        "used_seconds": 293.075
+      },
+      "failure_message": "",
+      "status": "KernelWorkerStatus.QUEUED"
+    },
+    "matching_poll_count_as_of_latest": 356,
+    "poll_350": {
+      "at_utc": "2026-10-08T03:23:06+00:00",
+      "campaign_tpu_quota": {
+        "campaign_baseline_used_seconds": 134.623,
+        "campaign_cap_seconds": 7200.0,
+        "campaign_headroom_seconds": 7041.548,
+        "campaign_used_seconds": 158.452,
+        "reserved_seconds": 0.0,
+        "total_allowed_seconds": 72000.0,
+        "used_seconds": 293.075
+      },
+      "failure_message": "",
+      "status": "KernelWorkerStatus.QUEUED"
+    },
+    "poll_350_elapsed_since_push_seconds": 21180.0,
+    "prior_queue_receipt": {
+      "logs_exit_code": 0,
+      "logs_stdout_bytes": 0,
+      "observed_at_utc": "2026-10-07T22:30:42+00:00",
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/E463_TPU_V5_QUEUE_OBSERVATION_20261008_R1.json",
+      "queued_seconds_at_status_poll": 3597
+    }
+  },
+  "quota": {
+    "account_tpu": {
+      "remaining_seconds": 71706.925,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 72000.0,
+      "used_seconds": 293.075
+    },
+    "campaign_tpu": {
+      "baseline_used_seconds": 134.623,
+      "campaign_cap_seconds": 7200.0,
+      "campaign_headroom_seconds": 7041.548,
+      "campaign_used_seconds": 158.452
+    },
+    "observed_at_utc": "2026-10-08T03:28:34+00:00",
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "source": "direct Kaggle GetAcceleratorQuotaStatistics API call using installed kaggle 2.2.4 SDK"
+  },
+  "receipt_id": "E463_TPU_V5_QUEUE_AUDIT_20261008_R2",
+  "requested_machine": {
+    "enable_gpu": false,
+    "enable_internet": false,
+    "enable_tpu": true,
+    "machine_shape": "TpuV5E8",
+    "metadata_sha256": "d539858c252e6e9769435db8128d2b3a9ede0816b95e9e6bca511b2b2e246100"
+  },
+  "route_discovery": {
+    "documented_routes": {
+      "TpuV232_or_TpuV2256": "documented as mapping to CPU, not a TPU route.",
+      "TpuV38_or_Tpu1VmV38": "legacy aliases to default TPU TpuV5E8, not a different TPU route.",
+      "TpuV5E8": "TPU v5e-8; packet target."
+    },
+    "installed_cli_version": "2.2.4",
+    "installed_client_surface": "Kaggle API has quota/status/logs and passes machine_shape as a string; no accelerator inventory or live route-capacity method is exposed.",
+    "live_route_capacity": "Not exposed by the inspected CLI/API; current QUEUED status does not establish capacity or route unavailability.",
+    "official_cli_reference": "https://github.com/Kaggle/kaggle-cli/blob/main/skills/references/kernels.md",
+    "official_metadata_reference": "https://github.com/Kaggle/kaggle-cli/blob/main/docs/kernels_metadata.md",
+    "push_help": "kaggle kernels push --help exposes generic --accelerator ACC, without enumerated route choices."
+  },
+  "schema_version": 1,
+  "scope": "Read-only queue, timeout, quota, and accelerator-route audit; no push/restart/cancel/output download.",
+  "timeouts": {
+    "basis": "The recorded push command omitted --timeout. Installed Kaggle 2.2.4 kernels_push leaves session_timeout_seconds unset unless the CLI timeout argument is truthy; server default is not exposed by this receipt/status response.",
+    "cli_source": ".venv/lib/python3.13/site-packages/kaggle/api/kaggle_api_extended.py:6319-6450",
+    "internal_parent_timeout_seconds": 1650,
+    "internal_worker_timeout_seconds": 1500,
+    "provider_session_timeout_explicitly_passed": false,
+    "provider_timeout_seconds": null,
+    "source": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v5_candidate_v1/packet/probe.py",
+    "source_locations": [
+      "lines 35-36",
+      "lines 1127-1195"
+    ]
+  }
+}

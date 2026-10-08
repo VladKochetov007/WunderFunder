@@ -23,6 +23,7 @@ import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 
+from wnn.block_memory_attention import BlockMemoryAttention
 from wnn.data import (
     CORRUPT_TRAIN_ROW_GROUPS,
     N_FEATURES,
@@ -889,6 +890,75 @@ def detach_state(state):
     return state.detach()
 
 
+def apply_block_memory_defaults(args: argparse.Namespace, argv: list[str]) -> None:
+    """Use four block-memory layers unless the command explicitly sets --layers."""
+    if args.arch != "block-memory":
+        return
+    if any(token == "--layers" or token.startswith("--layers=") for token in argv):
+        return
+    args.layers = 4
+
+
+def block_memory_rejection(args: argparse.Namespace) -> str | None:
+    """Reject modifiers that this raw-scratch teacher would ignore or crash on.
+
+    Numeric maps, QAT, factorization, sentinel preprocessing, fixed readout
+    mixtures and QMC initialization are also rejected later for non-GRU models.
+    Privileged inputs, parent ``--init``, GRU ``--rnn-init``, Muon and random
+    credit scaling are not, so this arch names them here.
+
+    Returns:
+        A parser error message, or None when the recipe can be constructed.
+    """
+    if args.arch != "block-memory":
+        return None
+    rejected: list[str] = []
+    if args.numeric_map != "none":
+        rejected.append("--numeric-map")
+    if args.qat != "none":
+        rejected.append("--qat")
+    if args.recurrent_rank:
+        rejected.append("--recurrent-rank")
+    if args.privileged_mode != "none":
+        rejected.append("--privileged-mode")
+    if args.init:
+        rejected.append("--init")
+    if args.rnn_init != "default":
+        rejected.append("--rnn-init")
+    if args.cell != "gru":
+        rejected.append("--cell")
+    if args.enc != "linear":
+        rejected.append("--enc")
+    if args.dropout != 0:
+        rejected.append("--dropout")
+    if args.optim == "muon" or args.optim_switch:
+        rejected.append("Muon or --optim-switch")
+    if args.credit_mode != "deterministic":
+        rejected.append("--credit-mode")
+    if args.readout_activation != "gelu":
+        rejected.append("--readout-activation")
+    if (
+        args.sentinel_indicators != "none"
+        or args.sentinel_values != "unchanged"
+        or args.sentinel_base_width
+    ):
+        rejected.append("sentinel preprocessing")
+    if args.init_qmc:
+        rejected.append("--init-qmc")
+    if (
+        args.block_heads <= 0
+        or args.block_rows <= 0
+        or args.hidden <= 0
+        or args.layers <= 0
+    ):
+        rejected.append("non-positive hidden, layers, heads or block rows")
+    elif args.hidden % args.block_heads:
+        rejected.append("--hidden not divisible by --block-heads")
+    if not rejected:
+        return None
+    return "block-memory raw scratch rejects " + ", ".join(rejected)
+
+
 def make_model(args_dict, n_in, n_out):
     numeric_map = args_dict.get("numeric_map", "none")
     if numeric_map != "none" and (
@@ -982,6 +1052,28 @@ def make_model(args_dict, n_in, n_out):
             args_dict["dropout"],
             n_out=n_out,
         )
+    if args_dict.get("arch") == "block-memory":
+        if (
+            args_dict.get("cell", "gru") != "gru"
+            or args_dict.get("enc", "linear") != "linear"
+            or args_dict.get("dropout", 0) != 0
+        ):
+            raise ValueError("block-memory needs gru cell, linear encoder, dropout 0")
+        heads = args_dict.get("block_heads", 8)
+        block_rows = args_dict.get("block_rows", 256)
+        hidden = args_dict["hidden"]
+        if heads <= 0 or block_rows <= 0 or hidden <= 0 or hidden % heads:
+            raise ValueError("block-memory hidden must be divisible by positive heads")
+        model = BlockMemoryAttention(
+            n_in, hidden, args_dict["layers"], heads, block_rows, n_out=n_out
+        )
+        for prefix in filter(None, args_dict.get("freeze", "").split(",")):
+            if not any(name.startswith(prefix) for name, _ in model.named_parameters()):
+                raise ValueError(
+                    f"unknown block-memory freeze prefix {prefix!r}; "
+                    "trunk is project,layers"
+                )
+        return model
     model = RNNModel(
         n_in,
         args_dict["hidden"],
@@ -1366,11 +1458,25 @@ def main():
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
     ap.add_argument("--arch", choices=["gru", "dual", "gated", "structured", "event-content", "tcn", "twoclock",
-                                       "specialist", "prefix-adapter"],
+                                       "specialist", "prefix-adapter", "block-memory"],
                     default="gru",
                     help="tcn: causal dilated conv stack, --hidden channels, --layers blocks (receptive field 2^layers); "
                          "twoclock: --layers x GRU(--hidden) on rows + GRU(--event-hidden) stepping on a6 endpoint rows; "
-                         "specialist: shared GRU plus always-updated expert GRUs; prefix-adapter: matched low-rank arms")
+                         "specialist: shared GRU plus always-updated expert GRUs; prefix-adapter: matched low-rank arms; "
+                         "block-memory: causal block attention; width is --hidden; "
+                         "layers default 4; --block-heads 8; --block-rows 256")
+    ap.add_argument(
+        "--block-heads",
+        type=int,
+        default=8,
+        help="--arch block-memory: attention heads; --hidden must be divisible by this",
+    )
+    ap.add_argument(
+        "--block-rows",
+        type=int,
+        default=256,
+        help="--arch block-memory: rows in one completed causal block",
+    )
     ap.add_argument("--tcn-mix", type=int, default=0, help="--arch tcn: GELU + 1x1 conv after each block's conv")
     ap.add_argument("--decay-init", choices=["multi", "single"], default="multi",
                     help="structured-state initial half-lives; identical learned bounds and phases")
@@ -1495,6 +1601,10 @@ def main():
     perf.add_argument("--deterministic", action="store_true", help="cudnn deterministic, no benchmark (parity runs)")
     add_dynamics_arguments(ap)
     args = ap.parse_args()
+    apply_block_memory_defaults(args, sys.argv[1:])
+    block_memory_error = block_memory_rejection(args)
+    if block_memory_error is not None:
+        ap.error(block_memory_error)
     if args.numeric_map != "none":
         if (
             args.arch != "gru" or args.cell != "gru" or args.enc != "linear"
