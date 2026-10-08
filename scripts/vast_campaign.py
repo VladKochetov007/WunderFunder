@@ -731,6 +731,14 @@ def _validate_intent(intent: Mapping[str, object], path: Path) -> dict[str, obje
         raise CampaignError("intent must set a positive total upload byte ceiling")
     if total_upload_bytes > max_upload_bytes:
         raise CampaignError("frozen packet and inputs exceed the total upload byte ceiling")
+    laptop_ceiling = intent.get("max_laptop_upload_bytes", max_upload_bytes)
+    if (
+        isinstance(laptop_ceiling, bool)
+        or not isinstance(laptop_ceiling, int)
+        or laptop_ceiling <= 0
+        or laptop_ceiling > max_upload_bytes
+    ):
+        raise CampaignError("laptop upload ceiling must be positive and within total inputs")
     upload_timeout = intent.get("upload_timeout_seconds")
     if isinstance(upload_timeout, bool) or not isinstance(upload_timeout, int):
         raise CampaignError("intent upload_timeout_seconds must be an integer")
@@ -848,6 +856,7 @@ def _validate_intent(intent: Mapping[str, object], path: Path) -> dict[str, obje
         "worker_inputs": worker_inputs,
         "worker_inputs_sha256": canonical_sha256(worker_inputs),
         "max_upload_bytes": max_upload_bytes,
+        "max_laptop_upload_bytes": laptop_ceiling,
         "upload_timeout_seconds": upload_timeout,
         "expected_artifacts": normalized_files,
         "remote_output_dir": _valid_remote_root(intent.get("remote_output_dir")),
@@ -856,6 +865,42 @@ def _validate_intent(intent: Mapping[str, object], path: Path) -> dict[str, obje
         "max_artifact_bytes": max_bytes,
         "max_worker_host_ram_gb": worker_ram,
     }
+
+
+def _validate_staging_plan(
+    normalized: Mapping[str, object],
+    private_plan: Path | None,
+    public_admission: Path | None,
+) -> None:
+    """Reject an unaffordable laptop transfer or impossible runway before rental."""
+    if (private_plan is None) != (public_admission is None):
+        raise CampaignError("private prefetch plan and public admission must be supplied together")
+    inputs = cast(list[dict[str, object]], normalized["worker_inputs"])
+    prefetched: set[str] = set()
+    if private_plan is not None and public_admission is not None:
+        try:
+            prepared = kaggle_vast_prefetch.prepare_prefetch(
+                private_plan,
+                public_admission,
+                attempt_id=str(normalized["attempt_id"]),
+                campaign_label=str(normalized["campaign_label"]),
+                frozen_inputs=inputs,
+                runtime_root=ROOT / ".runtime",
+            )
+        except kaggle_vast_prefetch.PrefetchPlanError:
+            raise CampaignError("signed-download plan failed pre-rental validation") from None
+        prefetched = {item.remote_path for item in prepared.items}
+    laptop_bytes = Path(str(normalized["packet_path"])).stat().st_size + sum(
+        int(row["size_bytes"]) for row in inputs if row["remote_path"] not in prefetched
+    )
+    if laptop_bytes > int(normalized["max_laptop_upload_bytes"]):
+        raise CampaignError("staging plan exceeds laptop upload byte ceiling before rental")
+    if prefetched:
+        reserve = max(300, (laptop_bytes + 1_048_575) // 1_048_576 + 120)
+        reserve += int(normalized["worker_setup_timeout_seconds"])
+        runway = min(int(normalized["upload_timeout_seconds"]), WORKER_STARTUP_TIMEOUT_SECONDS)
+        if runway - reserve < 90:
+            raise CampaignError("signed downloads lack startup runway before rental")
 
 
 def _parse_time(value: object, field: str) -> datetime:
@@ -1458,6 +1503,7 @@ class VastCampaign:
                 "worker_inputs": normalized["worker_inputs"],
                 "worker_inputs_sha256": normalized["worker_inputs_sha256"],
                 "max_upload_bytes": normalized["max_upload_bytes"],
+                "max_laptop_upload_bytes": normalized["max_laptop_upload_bytes"],
                 "upload_timeout_seconds": normalized["upload_timeout_seconds"],
                 "intent_sha256": normalized["intent_sha256"],
                 "request_sha256": normalized["request_sha256"],
@@ -2034,7 +2080,10 @@ class VastCampaign:
         hard_stop_value = record.get("hard_stop_utc")
         hard_stop = _parse_time(hard_stop_value, "hard_stop_utc")
         remaining_hard_stop = max(0, int((hard_stop - datetime.now(UTC)).total_seconds()))
-        remaining_upload = min(upload_timeout - elapsed_upload, remaining_hard_stop)
+        remaining_startup = max(0, int((startup_deadline - datetime.now(UTC)).total_seconds()))
+        remaining_upload = min(
+            upload_timeout - elapsed_upload, remaining_hard_stop, remaining_startup
+        )
         if remaining_upload <= 0:
             raise CampaignError(
                 "frozen packet and input upload deadline expired or cohort hard stop reached"
@@ -2104,7 +2153,9 @@ class VastCampaign:
                 )
                 # Preserve upload runway for the packet and launch. One MiB/s is a
                 # conservative staging reserve; prefetch itself is capped at 20 minutes.
-                post_fetch_reserve = max(300, (non_prefetch_bytes + 1_048_575) // 1_048_576 + 120)
+                post_fetch_reserve = max(
+                    300, (non_prefetch_bytes + 1_048_575) // 1_048_576 + 120
+                ) + int(record.get("worker_setup_timeout_seconds", 0))
                 prefetch_timeout = min(
                     kaggle_vast_prefetch.MAX_PREFETCH_SECONDS,
                     remaining_seconds() - post_fetch_reserve,
@@ -2120,6 +2171,10 @@ class VastCampaign:
                         prefetch_receipt=[],
                         updated_at_utc=utc_now(),
                     )
+                    if record.get("max_laptop_upload_bytes", max_upload_bytes) < total_upload_bytes:
+                        raise WorkerStartupFailure(
+                            "signed prefetch has insufficient startup runway; laptop fallback forbidden"
+                        )
                 else:
                     private_payload = kaggle_vast_prefetch.make_remote_payload(
                         prepared,
@@ -2233,6 +2288,22 @@ class VastCampaign:
                 known_hosts_path=known_hosts_path,
             )
             if existing_status != 0:
+                # Reserve the full file before transport, including uncertain failed
+                # transfers. A supervisor retry must not reset the laptop budget.
+                transfer_record = self._get_attempt(attempt_id)
+                laptop_bytes = int(transfer_record.get("laptop_upload_reserved_bytes", 0))
+                laptop_ceiling = int(
+                    transfer_record.get("max_laptop_upload_bytes", max_upload_bytes)
+                )
+                if laptop_bytes + size_bytes > laptop_ceiling:
+                    raise WorkerStagingIntegrityError(
+                        "laptop upload byte ceiling exceeded; signed-download fallback forbidden"
+                    )
+                self._update_attempt(
+                    attempt_id,
+                    laptop_upload_reserved_bytes=laptop_bytes + size_bytes,
+                    updated_at_utc=utc_now(),
+                )
                 temporary_path = f"{remote_path}.part"
                 _rsync_push(
                     host,
@@ -2423,6 +2494,7 @@ class VastCampaign:
             existing = _attempts(state).get(attempt_id)
             existing_record = None if existing is None else dict(existing)
         if existing_record is None:
+            _validate_staging_plan(normalized, prefetch_plan_path, prefetch_admission_path)
             try:
                 self._create_one_unarmed(intent_path, admission_path, dispatch_receipt_path)
             except CampaignError:

@@ -309,6 +309,32 @@ def test_frozen_worker_inputs_bind_size_hash_and_upload_ceiling(
         vast._validate_intent(vast._read_object(intent_path), intent_path)
 
 
+def test_laptop_budget_rejects_missing_cloud_route_before_provider_create(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    intent_path, admission_path, dispatch_path, offer = make_attempt(tmp_path, monkeypatch)
+    intent = vast._read_object(intent_path)
+    intent["max_laptop_upload_bytes"] = 1
+    write_json(intent_path, intent)
+    provider, controller = controller_for(tmp_path, offer)
+    with pytest.raises(vast.CampaignError, match="before rental"):
+        controller.run_attempt(intent_path, admission_path, dispatch_path, tmp_path / "out")
+    assert provider.current_user_calls == 0
+    assert provider.create_calls == 0
+    assert not vast._read_object(controller.ledger_path)["attempts"]
+
+
+@pytest.mark.parametrize("ceiling", [0, -1, True, "100", 1_000_001])
+def test_invalid_laptop_budget_is_rejected(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, ceiling: object
+) -> None:
+    intent_path, _, _, _ = make_attempt(tmp_path, monkeypatch)
+    intent = vast._read_object(intent_path)
+    intent["max_laptop_upload_bytes"] = ceiling
+    with pytest.raises(vast.CampaignError, match="laptop upload ceiling"):
+        vast._validate_intent(intent, intent_path)
+
+
 def test_upload_resume_window_is_bounded_and_root_admission_binds_it(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -1191,8 +1217,9 @@ def test_stage_uploads_exact_inputs_verifies_remote_hashes_and_launches_once(
     assert len(uploads) == 2
 
 
+@pytest.mark.parametrize("prefetch_complete", [True, False, None])
 def test_signed_prefetch_runs_only_inside_owned_pinned_stage_and_avoids_parquet_rsync(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, prefetch_complete: bool | None
 ) -> None:
     source = tmp_path / "data" / "valid.parquet"
     source.parent.mkdir(parents=True)
@@ -1209,6 +1236,8 @@ def test_signed_prefetch_runs_only_inside_owned_pinned_stage_and_avoids_parquet_
     intent, admission, dispatch, offer = make_attempt(tmp_path, monkeypatch, worker_inputs=inputs)
     provider, controller = controller_for(tmp_path, offer)
     controller._create_one_unarmed(intent, admission, dispatch)
+    packet_size = (tmp_path / "packet.tar").stat().st_size
+    controller._update_attempt("vast-attempt-001", max_laptop_upload_bytes=packet_size)
     user_calls_after_create = provider.current_user_calls
     mock_path = mock_campaign_host_key(monkeypatch, tmp_path)
 
@@ -1251,6 +1280,13 @@ def test_signed_prefetch_runs_only_inside_owned_pinned_stage_and_avoids_parquet_
     uploads: list[str] = []
     prefetch_called = False
 
+    normalized = vast._validate_intent(vast._read_object(intent), intent)
+    normalized["max_laptop_upload_bytes"] = packet_size
+    vast._validate_staging_plan(normalized, private_path, admission_path)
+    normalized["worker_setup_timeout_seconds"] = 1800
+    with pytest.raises(vast.CampaignError, match="startup runway before rental"):
+        vast._validate_staging_plan(normalized, private_path, admission_path)
+
     def ssh_command(
         host: str,
         port: int,
@@ -1265,7 +1301,7 @@ def test_signed_prefetch_runs_only_inside_owned_pinned_stage_and_avoids_parquet_
         commands.append(command)
         if "sha256sum --check --status" in command and "mv -f" not in command:
             if command.endswith("/inputs/datasets/valid.parquet | sha256sum --check --status"):
-                return 0 if prefetch_called else 1
+                return 0 if prefetch_called and prefetch_complete else 1
             return 1
         return 0
 
@@ -1322,6 +1358,36 @@ def test_signed_prefetch_runs_only_inside_owned_pinned_stage_and_avoids_parquet_
     monkeypatch.setattr(vast, "_ssh_command", ssh_command)
     monkeypatch.setattr(vast, "_ssh_stdin", ssh_stdin)
     monkeypatch.setattr(vast, "_rsync_push", rsync_push)
+    if prefetch_complete is None:
+        controller._update_attempt("vast-attempt-001", upload_timeout_seconds=100)
+        with pytest.raises(vast.WorkerStartupFailure, match="insufficient startup runway"):
+            controller._stage_and_launch(
+                "vast-attempt-001",
+                prefetch_plan_path=private_path,
+                prefetch_admission_path=admission_path,
+            )
+        assert not prefetch_called and not uploads
+        return
+    if not prefetch_complete:
+        with pytest.raises(vast.WorkerStagingIntegrityError, match="laptop upload byte ceiling"):
+            controller._stage_and_launch(
+                "vast-attempt-001",
+                prefetch_plan_path=private_path,
+                prefetch_admission_path=admission_path,
+            )
+        assert len(uploads) == 1 and uploads[0].endswith("/packet.tar.part")
+        assert (
+            controller._get_attempt("vast-attempt-001")["laptop_upload_reserved_bytes"]
+            == packet_size
+        )
+        with pytest.raises(vast.WorkerStagingIntegrityError, match="laptop upload byte ceiling"):
+            controller._stage_and_launch(
+                "vast-attempt-001",
+                prefetch_plan_path=private_path,
+                prefetch_admission_path=admission_path,
+            )
+        assert len(uploads) == 1
+        return
     staged = controller._stage_and_launch(
         "vast-attempt-001",
         prefetch_plan_path=private_path,
