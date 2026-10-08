@@ -1,3 +1,13 @@
+## Continuous execution and confirmed cloud fit — 2026-10-08 06:02 Kyiv
+
+Research continues until explicit user stop. The active user timer changes local aggregate CPU from 12 to 5 cores at 10:00 Kyiv; verified parent limits remain 18 GB memory-high, 20 GB maximum and no swap. This is a CPU allocation change, not a research cutoff (ADR0017).
+
+H232 V7B-shortslug live Kaggle logs confirm actual epoch0 training through batch1100/1492 at approximately7.3 sequences/second, with finite logged losses. H230 all-data seed4 retry1 finished epoch0 in972.8seconds and is training its fixed-export epoch1; reported OOM/kill deltas remain zero. Its seed3 public-test ZIP remains `submissions/c20261008_h230_all_data_s3_i16.zip`; public best remains0.6660 with no new public score.
+
+E540 V6 passed root independent 19-test CLI/authentication preflight and exact archive verification. The private dataset is ready; root pushed canonical `vladkochetov07/e540-v6-argv-20261008-runner` once as version1 and provider reports RUNNING. Actual profiling/fitting remains unconfirmed pending worker logs. Source, root approval, final packet and provider receipt are preserved separately; see `E540_V6_ROOT_PUSH_ADMISSION_20261008_R1.json` and `E540_V6_PROVIDER_PUSH_20261008_R1.json` in the campaign's continuous_execution_E529 directory. A dedicated Luna/max operator owns phase checks and terminal collection.
+
+Owned Vast instance54755890 continues verified-ownership fallback input upload:19.4GB of the29.2GB training file was observed at02:54UTC; full training/validation input hashes and fitting are not yet complete. No unrelated instance is touched.
+
 ## First all-data student fitting; cloud correction owners — 2026-10-08 05:09 Kyiv
 
 
