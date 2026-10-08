@@ -1,3 +1,7 @@
+## Live delivery update — 2026-10-08 07:24 UTC
+
+H230 history-swap student is actually fitting: first reported ep0 batch20/779, 6.4seq/s, VRAMpeak2.21GB/current2.06GB, current-run OOM/kill0. 2CPU/9GBworker under effective5CPU aggregate. Fixedep1/end-to-end artifact remains owed; no publicforecast. H232R8 and E540V11 export-only repairs are root approved conditional on fresh quota/private-byte checks/durable onepush monitoring; no prediction gain claimed. TPUV5 COMPLETE and24outputs fully collected: actual8device synthetic gradient/fullshapePASS, no realdatafit/save/reload. H232cloudoperator owns its separatelyreviewed realdata/reload successor afterR8launch. Distinct GRU512/768 capacity pair uses explicitlydeclared seeded epoch sampler so widths share order; this differs from H232 randomdefault and is not a purewidth-only comparison to H232. Priorrecordsbelowremain historical.
+
 ## Live delivery frontier — 2026-10-08 06:48 UTC
 
 Research continues until explicit stop; five aggregate local CPU cores after10:00Kyiv. Public best0.6660, teammate0.6674 unreplicated. [Current state](../../../specs/current-state.md) and original receipts distinguish actual scientific delivery from provider status.
