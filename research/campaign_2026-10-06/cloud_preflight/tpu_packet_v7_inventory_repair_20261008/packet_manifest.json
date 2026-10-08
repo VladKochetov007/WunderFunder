@@ -1,0 +1,99 @@
+{
+  "assets_manifest_payload_entries": 23,
+  "assets_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+  "assets_mount_expected_regular_files": 24,
+  "base_v5_packet": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v5/1",
+  "base_v5_probe_sha256": "258590e4a1213a3c4a844a62b928efd82bbb32bef46109d01f67984867204d8f",
+  "base_v6_packet": "vladkochetov07/e463-tpu-realdata-reload-v6-20261008/1",
+  "base_v6_packet_manifest_sha256": "a609e728b212065a53459b1c2630bced018cb80614d7eea55ebc5ecce3401448",
+  "base_v6_probe_sha256": "3392ed77b9000c7bab9b236531c9a16734325152b95a60c955408df1b9bb02f2",
+  "base_v6_terminal_receipt_sha256": "96bbb2ab216973018e7e50e5a2c315ce845447d7cd1bcc4e715f5433f1445596",
+  "builder_sha256": "bc957706232d24b5ea613b03b2fb66795982d69ea492a8933226285a7df3de9b",
+  "bundle_sha256": "053638cf52a82f00b2da8fce82fcb63f21f7bfaccaf1b766b64e0ffd8ab1c528",
+  "checkpoint_npz_sha256": "677f604fd86d993c3d4a66a10638755253bfe52f1f578009dbd781c73fe6d04a",
+  "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+  "checkpoint_sidecar_sha256": "3e65d2a88352d22bc90d88b829f05beee3faa7a66b9de41c7507f521aab12668",
+  "code_bytes": 340037,
+  "code_sha256": "d22947623bbe638280183ab019d4159ea37038b73840f3058e0137379bb4dad7",
+  "execution": {
+    "chunk_rows": 2000,
+    "evaluation_groups": 468,
+    "fit_valid_groups": 1405,
+    "global_batch": 16,
+    "gpu": false,
+    "heldout_claim": null,
+    "internet": false,
+    "local_batch_per_tpu": 2,
+    "machine_shape": "TpuV5E8",
+    "model_dimensions": [
+      211,
+      256,
+      2,
+      23
+    ],
+    "parent_timeout_seconds": 1650,
+    "profile_updates_are_synthetic": 4,
+    "real_optimizer_updates": 1,
+    "scoring": false,
+    "selected_probe_groups": 16,
+    "selected_probe_split": "valid-fit only; exposed",
+    "sequence_rows": 20000,
+    "training_groups": 10535,
+    "worker_timeout_seconds": 1500
+  },
+  "fold_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "helper_modules": {
+    "distributed_combo.py": {
+      "bytes": 4700,
+      "sha256": "24e4ea77a3c2524d3c62b2beb5e83e48a9789c7dc5bad24faabd7fd52501cb68"
+    },
+    "e465_host_contract.py": {
+      "bytes": 6977,
+      "sha256": "a40807275271d5ccbb1a38867bf8c9328756e9e663b89c278bf6439126213370"
+    },
+    "onecycle.py": {
+      "bytes": 3851,
+      "sha256": "f857fe857a361249c2742e3486cd32b846e0f47413a5c4db2ae1fb6c65509ded"
+    }
+  },
+  "inventory_repair": {
+    "additional_consumer_path_correction": "the V6 required-path list used model_ep3.pt names absent from the pinned manifest; V7 stages the exact manifested model.pt paths without asserting an epoch label",
+    "change": "count the 23 manifest payload entries and verify the separate assets-manifest.json in the 24-file mount",
+    "classification": "provider host-admission inventory correction",
+    "no_full_asset_hash_scan_added": true,
+    "no_scientific_recipe_change": true,
+    "source_only": true
+  },
+  "metadata_sha256": "23e67bce8659cbd98bcc9c985c73637e8e3b161e17f56f5cdb185e030714c4ef",
+  "model_source_sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc",
+  "packet_code_file": "probe.py",
+  "packet_id": "vladkochetov07/e463-tpu-realdata-reload-v7-20261008",
+  "packet_title": "E463 TPU Real Data Reload V7 20261008",
+  "parent_provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+  "portable_inputs_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+  "provider_push_authorized": false,
+  "raw_parquet": {
+    "train": {
+      "bytes": 29240219011,
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+    },
+    "valid": {
+      "bytes": 5615509128,
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+    }
+  },
+  "readme_sha256": "1ce4dad454d254bf604e2ed3950b220fe788144005400bcd58675141498fdf23",
+  "recipe_audit_sha256": "469f1a8cc4164eceb1f026e3e05841f9102e2e2be342ee6bc9dc09891dd649b3",
+  "requested_inputs": [
+    "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+    "vladkochetov07/wnn-c20261004-fold0-assets",
+    "vladkochetov07/wunder-funder"
+  ],
+  "runtime_additions_sha256": "a1c1e5698bb3d7033250ec28aa6e59c333173038efaeed29417f56807692c0b4",
+  "schema_version": 1,
+  "source_archive_sha256": "a29bdf21a910a6d7b403d9ed8c52cf0761618f5ef6576b5f06d70d0a8fd5ec9e",
+  "source_manifest_sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb",
+  "source_only": true,
+  "support_path": "research/campaign_2026-10-04/staging/jax_tpu_e465/src/wnn_jax",
+  "test_sha256": "b3d53212554984d93dc178772096ece3495f3836e5aee3116f068b244fae582e"
+}
