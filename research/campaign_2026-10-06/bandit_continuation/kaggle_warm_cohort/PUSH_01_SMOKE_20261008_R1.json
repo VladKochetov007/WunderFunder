@@ -1,0 +1,34 @@
+{
+  "schema": "kaggle-warm-cohort-push-receipt-v1",
+  "push_index": 1,
+  "purpose": "D smoke push: one fold-0 continuation per T4 (capped 30 batches per epoch), predict on valid, official grade on the 468 frozen evaluation groups",
+  "kernel": {
+    "slug": "vladkochetov07/wnn-warm-cohort-smoke-20261008-v1",
+    "title": "wnn warm cohort smoke 20261008 v1",
+    "version": 1,
+    "url": "https://www.kaggle.com/code/vladkochetov07/wnn-warm-cohort-smoke-20261008-v1",
+    "pushed_utc": "2026-10-08T18:22Z",
+    "gpu": true,
+    "internet": false,
+    "private": true
+  },
+  "datasets": [
+    {"ref": "vladkochetov07/wunder-funder", "role": "raw train.parquet, valid.parquet, valid_mask.parquet", "last_updated": "2026-10-04 00:36:57", "version_note": "current version at push; Kaggle CLI does not print a version number"},
+    {"ref": "vladkochetov07/wnn-c20261004-fold0-assets", "role": "fold-0 split manifest, propensity model and caches, valid/train targets, chains, portable inputs", "last_updated": "2026-10-04 01:57:36", "version_note": "v1 per scout inventory"},
+    {"ref": "vladkochetov07/wnn-warm-cohort-src-20261008", "role": "new private source dataset: wnn_src.tar.gz (scripts/, src/, warm_specs/, kaggle_warm_cohort/) and parent checkpoint artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt plus provenance.json", "created_utc": "2026-10-08T18:20:25Z", "version": 1, "note": "Kaggle auto-extracted the tar.gz into a wnn_src/ folder; the driver accepts both layouts"}
+  ],
+  "staging": {
+    "stage_dir": "/tmp/kc2/stage/src",
+    "stage_script": "scripts/kaggle_warm_cohort/stage_warm_cohort.py",
+    "spec_dir": "/tmp/kc2/stage/specs",
+    "dry_run": "local fake /kaggle/input tree (symlinks into the main checkout), WARM_DRY_RUN=1: both source layouts pass; 2 specs pass path and flag checks against train_rnn.py add_argument names",
+    "dry_run_status": "passed"
+  },
+  "smoke_specs": ["smoke-f0-s3-gpu0-v1 (gpu0, seed 3)", "smoke-f0-s13-gpu1-v1 (gpu1, seed 13)"],
+  "deviations_from_brief": [
+    "The repository is assembled at /tmp/wnn_repo rather than /kaggle/working/repo so that only small outputs land in /kaggle/working/out.",
+    "The fit is the E511 C1 fold-0 argv (init c20261003_combo_s3_f0@ep3, valid-fold 0, train+valid) minus the --distill teacher-prediction arguments, because the fold-0 teacher prediction files (pred_c20261003_combo_s{3,4}_f0_train.npy, 1.7 GB each) are not in any private dataset; plus --max-batches 30.",
+    "The H230 distill cache (vladkochetov07/h230-seed9-parent-source-cache-v2) was not mounted: its metadata is all-data membership (no fold-0 split) and the family-target files it needs (families_*.npy, about 8 GB) are absent."
+  ],
+  "status": "pending_terminal_status"
+}
