@@ -1,0 +1,211 @@
+{
+  "record_id": "E540_V10_ROOT_ACTUAL_CHECKPOINT_CONSUMER_CHECK_20261008_R1",
+  "created_utc": "2026-10-08T06:34:46.625312+00:00",
+  "status": "pass",
+  "source_commit": "c58b8f3b91076ac7e9bcbd8b131aa9214006f979",
+  "scope": "Actual unchanged worker asset and checkpoint validators on both collected checkpoint pairs in a disposable CPU-only root; no predictor/fit/GPU/provider execution",
+  "observations": {
+    "linear_control_manifest": {
+      "path": "e540_assets/linear_control_manifest.json",
+      "size": 4728,
+      "sha256": "af50c15d3b63f9a6eff9680b0d24be15969360feb95e073cfd24b8c5da799198"
+    },
+    "linear_epoch0": {
+      "path": "e540_assets/linear_epoch0.pt",
+      "size": 1130595,
+      "sha256": "17c91be768a7f41cd4c6ae0b2bbce26bcf7d6fbf5e4f6509e38c4be6bd44403a"
+    },
+    "linear_history": {
+      "path": "e540_assets/linear_history.json",
+      "size": 2174,
+      "sha256": "679b6c7bf3d8b93027c6076ab8bbe6216a9c76d94885a7a06ffeaa64929aaba0"
+    },
+    "linear_model": {
+      "path": "e540_assets/linear_model.pt",
+      "size": 1129947,
+      "sha256": "73880506cf241502d961ce2cba20819085056fef05f5ea8e56d586535bbfb946"
+    },
+    "linear_provenance": {
+      "path": "e540_assets/linear_provenance.json",
+      "size": 62599,
+      "sha256": "ef342abcc11b94eabed66bd4d1e29009fc645079bb17bb95f5f63d83b7e82794"
+    },
+    "ple_epoch0": {
+      "path": "e540_assets/ple_epoch0.pt",
+      "size": 1131555,
+      "sha256": "397b1666000c82534da8196298233786947c317f71dad8adfa2af360c593aa3d"
+    },
+    "ple_history": {
+      "path": "e540_assets/ple_history.json",
+      "size": 2174,
+      "sha256": "4f99ee2e91f41abcbd28ab1466b76e14bce318fdbc1aff2bd7d241ada3b7a090"
+    },
+    "ple_model": {
+      "path": "e540_assets/ple_model.pt",
+      "size": 1130907,
+      "sha256": "04feca17c7961d7071c74e5a1028d4e9753cab35599464b61daf1f2966b513da"
+    },
+    "ple_provenance": {
+      "path": "e540_assets/ple_provenance.json",
+      "size": 64332,
+      "sha256": "8e68f7c7387440dcdfaf16dca5dd532b1cc3a274c67998f8d4cd6f626e52eac2"
+    }
+  },
+  "checkpoint_receipts": {
+    "linear": {
+      "status": "checkpoint_and_fit_metadata_pass",
+      "run_name": "e540v8-linear-s540-fp32",
+      "metadata": {
+        "run_name": "e540v8-linear-s540-fp32",
+        "mode": "linear",
+        "epoch": 0,
+        "evaluation": "withheld",
+        "updates": 72996,
+        "completed_batches": 924,
+        "duration": {
+          "history_train_seconds": 421.4,
+          "provenance_fitting_seconds": 421.4,
+          "observed_post_history_seconds": 0.0,
+          "rounding_tolerance_seconds": 0.11,
+          "checkpoint_write_allowance_seconds": 30.0
+        },
+        "sample_order_identity": {
+          "sampler_class": "EpochOrderSampler",
+          "batch_size": 2,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "123f74258a13b705296308d3fc69b0bff6d5a9e620dab9015574596089e33f4f"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "123f74258a13b705296308d3fc69b0bff6d5a9e620dab9015574596089e33f4f"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": null,
+          "sampler_num_samples": null,
+          "seeded_order": {
+            "seed": 540,
+            "epoch": 0,
+            "antithetic": false,
+            "shared_dropped_tail": true
+          }
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "7416158fd94418cb9f1396866f675da7ad46636ebc411d8517d008b76d93b579"
+          },
+          "std": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "fbacccb5d199aa70ee9d1ae571a1297619bfd715e93bc883449a6593348a65d9"
+          }
+        }
+      },
+      "checkpoint_sha256": "17c91be768a7f41cd4c6ae0b2bbce26bcf7d6fbf5e4f6509e38c4be6bd44403a",
+      "model_sha256": "73880506cf241502d961ce2cba20819085056fef05f5ea8e56d586535bbfb946",
+      "parameter_finiteness": {
+        "status": "finite",
+        "tensor_count": 15
+      },
+      "history_sha256": "679b6c7bf3d8b93027c6076ab8bbe6216a9c76d94885a7a06ffeaa64929aaba0",
+      "provenance_sha256": "ef342abcc11b94eabed66bd4d1e29009fc645079bb17bb95f5f63d83b7e82794",
+      "numeric_preprocessing_sha256": "89f1db2f39dffe935f68ad6e8103cb7a58326ef772d3d3bd3cf12c72ca1637da"
+    },
+    "ple": {
+      "status": "checkpoint_and_fit_metadata_pass",
+      "run_name": "e540v9-ple-s540-fp32",
+      "metadata": {
+        "run_name": "e540v9-ple-s540-fp32",
+        "mode": "ple",
+        "epoch": 0,
+        "evaluation": "withheld",
+        "updates": 72996,
+        "completed_batches": 924,
+        "duration": {
+          "history_train_seconds": 559.7,
+          "provenance_fitting_seconds": 559.8,
+          "observed_post_history_seconds": 0.09999999999990905,
+          "rounding_tolerance_seconds": 0.11,
+          "checkpoint_write_allowance_seconds": 30.0
+        },
+        "sample_order_identity": {
+          "sampler_class": "EpochOrderSampler",
+          "batch_size": 2,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "123f74258a13b705296308d3fc69b0bff6d5a9e620dab9015574596089e33f4f"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "123f74258a13b705296308d3fc69b0bff6d5a9e620dab9015574596089e33f4f"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": null,
+          "sampler_num_samples": null,
+          "seeded_order": {
+            "seed": 540,
+            "epoch": 0,
+            "antithetic": false,
+            "shared_dropped_tail": true
+          }
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "7416158fd94418cb9f1396866f675da7ad46636ebc411d8517d008b76d93b579"
+          },
+          "std": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "fbacccb5d199aa70ee9d1ae571a1297619bfd715e93bc883449a6593348a65d9"
+          }
+        }
+      },
+      "checkpoint_sha256": "397b1666000c82534da8196298233786947c317f71dad8adfa2af360c593aa3d",
+      "model_sha256": "04feca17c7961d7071c74e5a1028d4e9753cab35599464b61daf1f2966b513da",
+      "parameter_finiteness": {
+        "status": "finite",
+        "tensor_count": 15
+      },
+      "history_sha256": "4f99ee2e91f41abcbd28ab1466b76e14bce318fdbc1aff2bd7d241ada3b7a090",
+      "provenance_sha256": "8e68f7c7387440dcdfaf16dca5dd532b1cc3a274c67998f8d4cd6f626e52eac2",
+      "numeric_preprocessing_sha256": "d7190039c6b3136a32ad4fe1fdaabb652d432d3059c5bf92fec14e9c572f4ef7"
+    },
+    "paired_fit_identity": {
+      "sample_order_identity_sha256": "9d36712ef22608bd693c8d31480760f2e0c4e71ea97ae5a1ea01f8d8a8f362df",
+      "normalization_identity_sha256": "3e2de732a4983ff4a63f79982ea6a052fb4945834fb01fc53161b3bfb2d3518b",
+      "status": "matched_sampler_normalization_and_recipe"
+    }
+  }
+}
