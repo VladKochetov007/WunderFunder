@@ -1,0 +1,119 @@
+# V7B delivery-only metadata and review correction against immutable V7A.
+# The generated Kaggle wrapper is omitted; rebuild it with build_h232_bundle.py.
+# Scientific source, recipe, split, profile, fit, and execution guard files are byte-identical.
+--- V7A/packet/external_review.json
++++ V7B/packet/external_review.json
+@@ -2 +2 @@
+-  "conditional_fit_authorized": false,
++  "conditional_fit_authorized": true,
+@@ -4,2 +4,2 @@
+-  "fit_admission": "not_admitted",
+-  "note": "No V6 approval transfers to this V7 attempt. Root must independently review the exact V7 diff and replace this placeholder before any provider push.",
++  "fit_admission": "same-worker-only-after-profile-gate",
++  "note": "This receipt authorizes only same-worker conditional fit after the unchanged strict profile gate. It does not authorize provider push; the V7A placeholder-review error is preserved as execution evidence.",
+@@ -7,2 +7,55 @@
+-  "reviewed_hashes": {},
+-  "reviewer": null,
++  "qualified_independent_review": {
++    "basis": "V7A root push admission and independent reviewer finding",
++    "focused_tests_passed": 24,
++    "result": "qualified_pass",
++    "scope": [
++      "all V7A packet hashes and unchanged scientific source archive",
++      "identity-bound recent rowgroup ranges and bounded file-cache advice",
++      "28% proactive trigger, unchanged 25% and 6.5 GB hard gates, and 512 MB target margin"
++    ]
++  },
++  "resource_review": {
++    "hard_cgroup_headroom_bytes": 6500000000,
++    "hard_cgroup_headroom_fraction": 0.25,
++    "max_advice_bytes_per_event": 768000000,
++    "max_cumulative_advice_bytes": 245760000000,
++    "max_relief_events": 320,
++    "minimum_relief_interval_seconds": 20,
++    "post_recovery_margin_bytes": 512000000,
++    "proactive_cgroup_headroom_fraction": 0.28,
++    "range_policy": "recent traced rowgroups bound to the existing raw-file identity; no system-wide cache flush"
++  },
++  "reviewed_hashes": {
++    "H232_AMP4096_SUCCESSOR_RECIPE.json": "d5f418cfd4dca2501e8d95f53b7615e7cc2663ad96fd5cdd1db4a0d06e957601",
++    "H232_PROFILE_PLAN.json": "3b20466afd1762606d02532f10d6d576e1a88fa33a087265ae532fbb76d34952",
++    "cache_pressure_recovery.py": "ef413deb589fefec411a76b9e74a1557e3316449b81887a517844c4b2e73db2a",
++    "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
++    "prior_input_identity_v2.json": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e",
++    "profile_kernel.py": "fa8307541fee254f75624fc06db751aa42ad4a3547e6eba80b1ee9cbbf2c874c",
++    "profile_worker.py": "706af99ab1e966f76510ce996972a12e0ebc9445a91d53c6fb4e163b60b241ef",
++    "source_archive.tar": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
++    "source_archive_manifest.json": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42",
++    "verified_digest_handoff.py": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
++  },
++  "reviewer": {
++    "id": "independent-luna-max-reviewer-qualified-pass-24-tests",
++    "model": "gpt-6-luna",
++    "reasoning_effort": "max",
++    "role": "independent-controller"
++  },
++  "root_approval": {
++    "prior_v7a_admission_path": "basis/H232_V7_ROOT_PUSH_ADMISSION_20261008_R1.json",
++    "prior_v7a_admission_sha256": "951c7b281d99dad133f9cf72b2d16688f0777532152600c126b90370b90efb4a",
++    "prior_v7a_packet_commit": "7a7c87de",
++    "prior_v7a_push_receipt_path": "basis/H232_V7_PROVIDER_PUSH_20261008_R1.json",
++    "prior_v7a_push_receipt_sha256": "58f31b629d72ad1a57bc33c2e71c5a1d12a36dc1618fab2602c46991f50006fd",
++    "provider_push_authorized": false,
++    "v7b_delivery_authorization_path": "V7B_ROOT_DELIVERY_AUTHORIZATION_20261008_R1.json",
++    "v7b_delivery_authorization_sha256": "12c1eaf546e3087ce2c87de6ac40f9a72b41f5b3235a178f4f365c283e7de2fb",
++    "v7b_scope": "delivery-only review receipt correction; a separate fresh root admission is required before V7B push"
++  },
++  "runtime_accounting_limitation": {
++    "note": "Root's review records a zero-second CUDA-cleanup phase and a pre-cleanup projection. The 16000-second worker hard wall remains enforced; do not promote the prior duration estimate.",
++    "provider_quota_and_startup": "must be freshly admitted by root before V7B push",
++    "status": "nonblocking_but_unresolved"
++  },
+@@ -11 +64,16 @@
+-  "status": "pending_independent_review"
++  "status": "approved",
++  "v7a_terminal_basis": {
++    "failure": {
++      "checkpoint_or_prediction_outputs": [],
++      "error": "ProfileAbort: external review receipt lacks conditional fit authorization",
++      "evidence": "provider_execution.log and downloaded provider kernel log",
++      "gpu_profile_started": false,
++      "input_identity_or_data_stage_started": false,
++      "profile_or_fit_started": false,
++      "score_claim": null,
++      "stage": "review_gate"
++    },
++    "path": "delivery/h232_v7_proactive/version1/V7A_TERMINAL_RECEIPT.json",
++    "sha256": "9d60eb07b79ae2de6a2afa2d1d7b331d4bd3435caedcde2b0d0759e3ea1715db",
++    "status": "KernelWorkerStatus.ERROR"
++  }
+--- V7A/packet/packet_meta.json
++++ V7B/packet/packet_meta.json
+@@ -15 +15 @@
+-  "external_review_sha256": "ef071d18106e8e736e5a274440ee174aca444e4493a7857990b7c7d95a1d65eb",
++  "external_review_sha256": "3d00f9cf9796c1511625af368fb59a3c4574a505ca9bdeaa88e4fe14a32e5949",
+@@ -28 +28,12 @@
+-  "reviewed_hashes": {},
++  "reviewed_hashes": {
++    "H232_AMP4096_SUCCESSOR_RECIPE.json": "d5f418cfd4dca2501e8d95f53b7615e7cc2663ad96fd5cdd1db4a0d06e957601",
++    "H232_PROFILE_PLAN.json": "3b20466afd1762606d02532f10d6d576e1a88fa33a087265ae532fbb76d34952",
++    "cache_pressure_recovery.py": "ef413deb589fefec411a76b9e74a1557e3316449b81887a517844c4b2e73db2a",
++    "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
++    "prior_input_identity_v2.json": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e",
++    "profile_kernel.py": "fa8307541fee254f75624fc06db751aa42ad4a3547e6eba80b1ee9cbbf2c874c",
++    "profile_worker.py": "706af99ab1e966f76510ce996972a12e0ebc9445a91d53c6fb4e163b60b241ef",
++    "source_archive.tar": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
++    "source_archive_manifest.json": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42",
++    "verified_digest_handoff.py": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
++  },
+@@ -36 +47 @@
+-  "status": "assembled_pending_independent_review_and_fresh_admission",
++  "status": "v7b_review_bound_pending_fresh_root_push_admission",
+--- V7A/packet/kernel-metadata.json
++++ V7B/packet/kernel-metadata.json
+@@ -10 +10 @@
+-  "id": "vladkochetov07/h232-gru384-b8-amp4096-v7-proactive",
++  "id": "vladkochetov07/h232-gru384-b8-amp4096-v7b-proactive-cache-recovery",
+@@ -15 +15 @@
+-  "title": "H232 GRU384 B8 AMP4096 V7 Proactive Cache Recovery"
++  "title": "H232 GRU384 B8 AMP4096 V7B Proactive Cache Recovery"
