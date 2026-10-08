@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "record_id": "H218_FOLD0_REFERENCE_BLEND_PREREG_20261008_R1",
+  "created_utc": "2026-10-08T05:26:19.297910+00:00",
+  "owner": "root independent grader",
+  "status": "registered_before_candidate_prediction_or_score",
+  "hypothesis_id": "H-218",
+  "fit_attempt_id": "h218-block-memory-b128-l2-h4-r256-b4-c2000-fold0-seed7-4ep-fixedep3-v1-20261008",
+  "candidate": {
+    "prediction_path": "cache/pred_h218_block_memory_cleanfold0_seed7_ep3_fp32_eval468_v1_valid.npy",
+    "prediction_sidecar_path": "cache/pred_h218_block_memory_cleanfold0_seed7_ep3_fp32_eval468_v1_valid.json",
+    "checkpoint_path": "artifacts/runs/h218_block_memory_b128_l2_h4_r256_b4_c2000_fold0_seed7_4ep_fixedep3_v1_20261008/model_ep3.pt",
+    "fixed_epoch_zero_based": 3,
+    "shape": [
+      468,
+      20000,
+      2
+    ],
+    "row_groups_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "precision": "fp32",
+    "checkpoint_prediction_hashes": "Bind actual terminal/export hashes before evaluating; do not alter the selected epoch"
+  },
+  "reference": {
+    "role": "own public-incumbent-lineage parent prediction; this is not the full public submission endpoint",
+    "run": "c20261003_combo_s3_f0",
+    "seed": 3,
+    "epoch_zero_based": 3,
+    "architecture": "GRU256x2",
+    "checkpoint_path": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+    "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "provenance_path": "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+    "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+    "prediction_path": "cache/pred_c20261003_combo_s3_f0_valid.npy",
+    "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+    "sidecar_path": "cache/pred_c20261003_combo_s3_f0_valid.json",
+    "sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+    "fit_membership": {
+      "train_source_groups": 10535,
+      "valid_source_groups": 1405,
+      "exact_frozen_fold0_fit_match": true,
+      "evaluation_groups": 468,
+      "fit_evaluation_component_overlap": 0
+    },
+    "own_ancestors": [
+      {
+        "run": "c20260929_since_s3_f0",
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      },
+      {
+        "run": "c20260929_since_s4_f0",
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      },
+      {
+        "run": "c20260929_prop_f0",
+        "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+        "fit_groups": {
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      }
+    ],
+    "ancestry_manifest": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/SOURCE_FAMILIES.json",
+      "sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d"
+    }
+  },
+  "comparison_design": {
+    "split_manifest": {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "evaluation_groups": 468,
+      "exposure": "exposed discovery fold; not fresh confirmation"
+    },
+    "target_cache": {
+      "path": "cache/valid_targets.npz",
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    },
+    "official_metric": "global_wp_clip2_v1",
+    "mask": "need_prediction AND is_scored; need_prediction is row index >= 99 in every sequence",
+    "metric_formula": "For each target, clip target and prediction to [-2, 2], weight rows by abs(clipped target), pool all selected rows, compute weighted Pearson correlation; wp is the arithmetic mean of t0 and t1.",
+    "blend_formula": "p=(1-alpha)*reference+alpha*H218 raw predictions, then official metric clipping",
+    "reporting_rule": "Report the official score and delta from alpha=0 for every alpha; do not choose or promote the best weight.",
+    "pair_covariance_and_correlation": "Per target clipped member predictions and original clipped-target magnitude weights on official scored/prediction mask",
+    "uncertainty": {
+      "method": "paired component bootstrap over frozen group-level official metric moments",
+      "replicates": 2000,
+      "seed": 271828,
+      "comparisons": "Every fixed blend versus alpha0reference",
+      "interpretation": "Conditional on fixed predictions and exposed fold-0 components; excludes training-seed and public-transfer uncertainty."
+    },
+    "all_data_comparison": false,
+    "public_forecast": false,
+    "posthoc_slices": [],
+    "other_reference_predictions": [],
+    "blend_weights_on_candidate": [
+      0.0,
+      0.1,
+      0.25,
+      0.5,
+      1.0
+    ]
+  },
+  "comparability_limits": [
+    "H218 is full-feature attention128x2 scratchseed7; reference is own GRU256x2seed3 with since teachers and propensity ancestry",
+    "Not a matched architecture or compute-controlled contrast; report conditional model/ensemble value",
+    "Fold0 is exposed discovery; no fresh-confirmation or public-transfer claim"
+  ],
+  "admission": {
+    "cpu_cores": 1,
+    "ram_max_bytes": 1500000000,
+    "wall_max_seconds": 120,
+    "model_fits": 0,
+    "provider_actions": 0
+  },
+  "required_checks": [
+    "Actual candidate shape468x20000x2/dtype/finiteness and source-qualified group mapping",
+    "Candidate and all reference/source/propensity fitting components excluded from eval",
+    "Reference rows mapped through its1873-row sidecar; candidate already contains only468 excluded groups",
+    "TargetNPZ memory-map and frozen official scorer/source hashes",
+    "Raw blend then officialclip2, fixed scored/prediction mask, originallabelweights",
+    "Every fixed blend and component-bootstrap interval reported"
+  ],
+  "interpretation": "Positive uncertain effects can support bounded follow-up; confidence intervals are not universal kill rules. A weak standalone can have conditional value. No public/local additive forecast.",
+  "scoring_sources": {
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "research/campaign_2026-09-30/audit/campaign_score.py": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39"
+  }
+}
