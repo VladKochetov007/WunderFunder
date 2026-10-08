@@ -54,3 +54,5 @@ CapacityV3 Kaggle job reached ERROR before any profiling: input-receipt consumer
 
 “New best” means an expected stronger candidate, separate from verified public0.6660. No new expected best is established by these profiles or the not-yet-graded H272fit. All previous snapshots below remain historical.
 
+
+H272 graded10:42Z: multiplicativeWP0.6817322281 vsparent0.6816181422 (+0.000114086), all4fixednonzero blendweightspositive; other3headmodeslowerthanparent. Independent direct metric agrees1e-12. Positive bounded followup, not yet expected-publicbest/ZIP. Original grader namespace failure retained; independently reviewed V2 used pinned official NPZloader. [Complete result](../research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_FIXED_EP1_RESULT_20261008_R2.md).

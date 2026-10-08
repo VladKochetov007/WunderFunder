@@ -1,0 +1,16 @@
+{
+  "schema": "h272-grader-execution-failure-diagnosis-v1",
+  "created_utc": "2026-10-08T10:40:46.308084+00:00",
+  "failed_grader_sha256": "8a88161f7d5496170770f5e014003adcbd47993b74df56d74bdcbf0f516170ec",
+  "authorization_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H272_ROOT_FIXED_EP1_GRADE_AUTHORIZATION_20261008_R1.json",
+  "authorization_sha256": "6c34d16e070a2b74c5bfe087b1196cb7706fb4b0a96c203399514073c2ce1a8a",
+  "exit_status": 1,
+  "error": "AttributeError: h272_shared_grade has no mmap_stored_npz",
+  "stage": "source/artifact/membership checks completed, before prediction scoring",
+  "cause": "NPZ loader is in pinned official campaign scorer, not shared fold alignment helper. Frozen H233 uses scorer.mmap_stored_npz.",
+  "successor_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H272_EXPORT_ONLY_ANCHOR_GUARD_V1_20261008/grade_h272_direct_label_readouts_v2.py",
+  "successor_sha256": "5c7f79e6c5c53351b0e7f4673137f7eb76d691c0fbb3b57e05cb6c3e2fbb546b",
+  "change": "Resolve existing pinned official scorer before targets and use its NPZ loader. No metric, masks, comparisons, preregistration or artifacts changed.",
+  "results_produced": false,
+  "independent_review_pending": true
+}
