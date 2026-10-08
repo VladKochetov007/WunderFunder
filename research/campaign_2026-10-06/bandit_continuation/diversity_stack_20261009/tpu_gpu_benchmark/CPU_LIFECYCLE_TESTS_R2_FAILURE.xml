@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="32.001" timestamp="2026-10-09T01:29:52.053085+03:00" hostname="nitro"><testcase classname="research.campaign_2026-10-06.bandit_continuation.diversity_stack_20261009.tpu_gpu_benchmark.tests.test_feature_transform_contract" name="test_numpy_and_trainer_event_features_have_same_211_wide_input" time="0.030" /><testcase classname="research.campaign_2026-10-06.bandit_continuation.diversity_stack_20261009.tpu_gpu_benchmark.tests.test_feature_transform_contract" name="test_event_features_do_not_depend_on_future_rows" time="0.001" /><testcase classname="research.campaign_2026-10-06.bandit_continuation.diversity_stack_20261009.tpu_gpu_benchmark.tests.test_gru256_feature_adapter_parity" name="test_211_input_gru256_forward_and_chunk_state_match_torch" time="1.186" /><testcase classname="research.campaign_2026-10-06.bandit_continuation.diversity_stack_20261009.tpu_gpu_benchmark.tests.test_gru256_feature_adapter_parity" name="test_jax_checkpoint_reload_state_reset_and_prefix_causality" time="1.208"><failure message="AssertionError: &#10;Not equal to tolerance rtol=0, atol=0&#10;&#10;Mismatched elements: 30 / 44 (68.2%)&#10;First 5 mismatches are at indices:&#10; [0, 0, 1]: 0.009947818703949451 (ACTUAL), 0.009947823360562325 (DESIRED)&#10; [0, 1, 1]: 0.03780987113714218 (ACTUAL), 0.03780987858772278 (DESIRED)&#10; [0, 2, 0]: -0.04597187042236328 (ACTUAL), -0.04597187787294388 (DESIRED)&#10; [0, 2, 1]: -0.0432715006172657 (ACTUAL), -0.0432715080678463 (DESIRED)&#10; [0, 3, 1]: -0.022751647979021072 (ACTUAL), -0.02275163307785988 (DESIRED)&#10;Max absolute difference among violations: 2.9802322e-08&#10;Max relative difference among violations: 5.2848814e-06&#10; ACTUAL: array([[[ 0.068058,  0.009948],&#10;        [ 0.056021,  0.03781 ],&#10;        [-0.045972, -0.043272],...&#10; DESIRED: array([[[ 0.068058,  0.009948],&#10;        [ 0.056021,  0.03781 ],&#10;        [-0.045972, -0.043272],...">tmp_path = PosixPath('/tmp/pytest-of-vlad/pytest-580/test_jax_checkpoint_reload_sta0')
+
+    def test_jax_checkpoint_reload_state_reset_and_prefix_causality(tmp_path: Path) -&gt; None:
+        torch_model, original_params = _paired_model(tmp_path)
+        inputs = _features()
+        checkpoint = tmp_path / "jax_state.npz"
+        np.savez(
+            checkpoint,
+            **{name: np.asarray(value) for name, value in original_params.items()},
+        )
+        reloaded = load_npz_state(checkpoint, 211, 256, 2, 2)
+        original, original_state = forward_chunk(original_params, jax.numpy.asarray(inputs))
+        restored, restored_state = forward_chunk(reloaded, jax.numpy.asarray(inputs))
+        np.testing.assert_array_equal(np.asarray(original), np.asarray(restored))
+        np.testing.assert_array_equal(np.asarray(original_state), np.asarray(restored_state))
+    
+        # A new sequence must start from zero state, not the preceding sequence's carry.
+        first, _ = forward_chunk(reloaded, jax.numpy.asarray(inputs[:1]))
+        second, _ = forward_chunk(reloaded, jax.numpy.asarray(inputs[1:]))
+        paired, _ = forward_chunk(reloaded, jax.numpy.asarray(inputs))
+&gt;       np.testing.assert_allclose(
+            np.concatenate((np.asarray(first), np.asarray(second))),
+            np.asarray(paired),
+            rtol=0.0,
+            atol=0.0,
+        )
+E       AssertionError: 
+E       Not equal to tolerance rtol=0, atol=0
+E       
+E       Mismatched elements: 30 / 44 (68.2%)
+E       First 5 mismatches are at indices:
+E        [0, 0, 1]: 0.009947818703949451 (ACTUAL), 0.009947823360562325 (DESIRED)
+E        [0, 1, 1]: 0.03780987113714218 (ACTUAL), 0.03780987858772278 (DESIRED)
+E        [0, 2, 0]: -0.04597187042236328 (ACTUAL), -0.04597187787294388 (DESIRED)
+E        [0, 2, 1]: -0.0432715006172657 (ACTUAL), -0.0432715080678463 (DESIRED)
+E        [0, 3, 1]: -0.022751647979021072 (ACTUAL), -0.02275163307785988 (DESIRED)
+E       Max absolute difference among violations: 2.9802322e-08
+E       Max relative difference among violations: 5.2848814e-06
+E        ACTUAL: array([[[ 0.068058,  0.009948],
+E               [ 0.056021,  0.03781 ],
+E               [-0.045972, -0.043272],...
+E        DESIRED: array([[[ 0.068058,  0.009948],
+E               [ 0.056021,  0.03781 ],
+E               [-0.045972, -0.043272],...
+
+research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/tests/test_gru256_feature_adapter_parity.py:101: AssertionError</failure></testcase><testcase classname="research.campaign_2026-10-06.bandit_continuation.diversity_stack_20261009.tpu_gpu_benchmark.tests.test_gru256_feature_adapter_parity" name="test_weighted_mse_matches_torch_on_synthetic_rows" time="0.132" /><testcase classname="research.campaign_2026-10-06.bandit_continuation.diversity_stack_20261009.tpu_gpu_benchmark.tests.test_gru256_feature_adapter_parity" name="test_matched_loss_gradient_adamw_updates_and_detached_carry[wmse]" time="12.846" /><testcase classname="research.campaign_2026-10-06.bandit_continuation.diversity_stack_20261009.tpu_gpu_benchmark.tests.test_gru256_feature_adapter_parity" name="test_matched_loss_gradient_adamw_updates_and_detached_carry[huber]" time="10.432" /><testcase classname="research.campaign_2026-10-06.bandit_continuation.diversity_stack_20261009.tpu_gpu_benchmark.tests.test_gru256_feature_adapter_parity" name="test_resume_checkpoint_drops_replica_axis_and_preserves_optimizer" time="0.282" /></testsuite></testsuites>
