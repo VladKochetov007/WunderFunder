@@ -1,0 +1,301 @@
+{
+  "arms": [
+    {
+      "hidden": 512,
+      "id": "muon512",
+      "layers": 2,
+      "optimizer": "muon"
+    },
+    {
+      "hidden": 768,
+      "id": "muon768",
+      "layers": 2,
+      "optimizer": "muon"
+    },
+    {
+      "hidden": 512,
+      "id": "adamw512",
+      "layers": 2,
+      "optimizer": "adamw",
+      "optional": true
+    }
+  ],
+  "authorization": {
+    "conditional_fit": "disabled in this profile-only packet; requires a separately authorized successor",
+    "grading": false,
+    "profile": "requires independent root source review and fresh Kaggle quota admission",
+    "provider_push": false
+  },
+  "comparison_scope": {
+    "claim_scope": "bounded clean-fold screen; not a public-score forecast or submission claim",
+    "optional_control_rule": "Profile AdamW512 once at the batch selected by the required Muon pair. A failed or missing optional-control profile cannot block the Muon pair and cannot be overridden by authorization. Fit AdamW512 only if its profile passes and measured remaining worker budget covers its complete fit and feature-only export after the Muon pair. No score or validation result may affect admission.",
+    "optional_same_width_optimizer_control": "adamw512",
+    "primary_pair": [
+      "muon512",
+      "muon768"
+    ]
+  },
+  "fit_and_export_gate": {
+    "grading": "root-owned grader consumes only the frozen 468 groups in sidecar order",
+    "optional_fit_arm": "adamw512",
+    "prediction_export": "FP32 feature-only inference over exactly the frozen 468 clean-fold evaluation groups; targets and scoring masks are not requested. No score is computed in the worker.",
+    "primary_fit_arms": [
+      "muon512",
+      "muon768"
+    ],
+    "profile_projection": "For each fitted arm, use its actual PROFILE median outer-batch wall time times the selected full batches-per-epoch times four epochs, with a 1.20 safety factor; add measured elapsed setup/hash/profile time, fixed checkpoint and feature-only export reserves, and a 300-second worker finalization reserve. Reject if this does not fit the root-authorized 5200-second internal deadline. No extrapolation from H232 or TFLOPS.",
+    "strict_fit_contract": "Four completed epochs, exact per-epoch attempts and batches, zero skips, finite checkpoint parameters, matching source/split/membership/args and fixed epoch-3 output."
+  },
+  "fit_membership": {
+    "evaluation_groups_excluded": 468,
+    "fit_evaluation_component_overlap": 0,
+    "fit_groups_total": 11940,
+    "source": "train+valid through the frozen clean fold-0 component split",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "train_groups": 10535,
+    "valid_fit_groups": 1405
+  },
+  "hypothesis_parent": "H-232",
+  "initialization": "fresh seed-9 initialization; no checkpoint, teacher, or teammate weights",
+  "input_view": {
+    "causal_event_features": 99,
+    "encoder": "linear",
+    "features": 211,
+    "no_future_or_teacher_inputs": true,
+    "raw_features": 112
+  },
+  "inputs": {
+    "mount_use": "Raw train/valid come from the approved raw dataset. Only the four named fold0 cache files are linked from the reusable asset mount. Other model/teacher files in that mount are not read. One read-only mounted copy is shared by every arm.",
+    "mounted_sources": [
+      "vladkochetov07/wunder-funder",
+      "vladkochetov07/wnn-c20261004-fold0-assets"
+    ],
+    "portable_manifest": {
+      "bytes": 2104,
+      "path": "portable_inputs.json",
+      "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+    },
+    "prior_input_identity": {
+      "bytes": 9310,
+      "path": "prior_input_identity_v2.json",
+      "sha256": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e"
+    },
+    "source_members": {
+      "cache/chain_folds.npz": {
+        "bytes": 550072,
+        "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+      },
+      "cache/chains.npz": {
+        "bytes": 650142,
+        "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+      },
+      "cache/train_targets.npz": {
+        "bytes": 1909335790,
+        "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9"
+      },
+      "cache/valid_targets.npz": {
+        "bytes": 337186198,
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+      },
+      "datasets/train.parquet": {
+        "bytes": 29240219011,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+      },
+      "datasets/valid.parquet": {
+        "bytes": 5615509128,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+      }
+    },
+    "split_manifest": {
+      "bytes": 1388846,
+      "path": "fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "total_bytes": 37103450341
+  },
+  "objective": {
+    "EMA_or_SWA": false,
+    "auxiliary_losses": false,
+    "chunk_rows": 2000,
+    "distillation": false,
+    "global_gradient_clip_norm": 1.0,
+    "loss": "weighted MSE on two primary targets",
+    "normalization": "chunk",
+    "propensity_weighting": false,
+    "target_clip": [
+      -2.0,
+      2.0
+    ],
+    "weight": "absolute magnitude of the clipped target"
+  },
+  "optimizer": {
+    "adam_beta2": 0.999,
+    "adamw_control": "torch AdamW on all trainable parameters; same LR, WD and OneCycle schedule",
+    "learning_rate": 0.001,
+    "muon": {
+      "implementation": "independently maintained project MuonAdamW",
+      "new_numeric_policy": "native_bf16_if_supported_else_fp32_v1",
+      "other_parameters": "project AdamW update for input projection, head, and biases",
+      "policy": "FP32 Newton-Schulz matrix products except native CUDA BF16 when compute capability major >= 8 and torch.cuda.is_bf16_supported() both hold. This is independent of the model's FP16 autocast and GradScaler. T4/P100 use FP32.",
+      "scope": "GRU weight_ih_l* and weight_hh_l* only; three separate GRU gate blocks"
+    },
+    "schedule": "OneCycle",
+    "weight_decay": 0.01
+  },
+  "packet_id": "E529_H232_GRU512_768_MUON_SEED9_PROFILE_V3_20261008",
+  "profile": {
+    "actual_cli_note": "The trainer supports --profile-warmup and --profile-steps; it does not support the older V1 draft's --profile-trace-output token, which is intentionally absent.",
+    "chunks_per_outer_batch": 10,
+    "required_evidence": [
+      "PROFILE and PROFILE_UPDATE_EVIDENCE emitted by the exact archived trainer",
+      "230 attempts, 230 completed updates, 0 AMP skips and 230 loss checks",
+      "finite profile losses and gradients with the GradScaler enabled at scale4096",
+      "Muon compute-precision metadata matches the declared hardware policy",
+      "stable one-device T4 identity, positive finite timing, measured GPU memory and host headroom"
+    ],
+    "timed_attempts": 200,
+    "timed_outer_batches": 20,
+    "total_optimizer_attempts": 230,
+    "warmup_attempts": 30,
+    "warmup_outer_batches": 3
+  },
+  "runtime": {
+    "all_in_vast_cost_cap_usd": 0.0,
+    "cpu_threads": 4,
+    "gpu_allocator_fraction": 0.75,
+    "initial_execution_scope": "profile-only; conditional fit authorization is false",
+    "loader_workers": 0,
+    "network": "disabled",
+    "provider": "Kaggle T4; one visible GPU (device zero)",
+    "provider_timeout_seconds": 6000,
+    "requested_kernel": "vladkochetov07/e529-gru512-768-muon-capacity-v3-profile-20261008-runner",
+    "requested_source_dataset": "vladkochetov07/e529-gru512-768-muon-capacity-v3-source-20261008",
+    "worker_finalization_reserve_seconds": 300,
+    "worker_wall_cap_seconds": 5200
+  },
+  "sampler": {
+    "drop_last_disclosure": "B8 selects all 11940 fit groups but consumes 11936 per epoch (4 not consumed); B4 consumes all 11940. The worker records counts and seed/epoch provenance. It does not claim an exact dropped group identity because the trainer does not persist the realized batch row-group sequence.",
+    "epoch_seed_formula": "(seed + 1009 * (epoch + 1)) mod 2^32",
+    "historical_comparison_limit": "H232 used PyTorch RandomSampler/global CPU RNG. This explicit seeded sampler is a declared change, so this is not a pure width-only replay of historical H232.",
+    "implementation": "EpochOrderSampler with independent torch.Generator per epoch",
+    "mode": "seeded",
+    "normalization_epoch": -1,
+    "pairing": "All arms use the same ordered fit pools, seed, batch size, drop_last and epoch seed; the sampler does not consume model-initialization global RNG.",
+    "seed": 9
+  },
+  "schema": "wnn-gru-optimizer-capacity-recipe-v2",
+  "scientific_question": "At a fixed seed, data membership, objective and update budget, does the independent Muon recurrent update support a useful GRU width ladder from 512 to 768?",
+  "source": {
+    "file_bindings": {
+      "README.md": {
+        "bytes": 743,
+        "sha256": "93ba6dac8a64bace0849897268f56df3e1d5bd01c823e2bf589c4d4d1d347938"
+      },
+      "capacity_worker.py": {
+        "bytes": 79219,
+        "sha256": "e8bda2e3d077f3f2a3f4b8665158a30da63078e44407e85525db612bc4d7cea8"
+      },
+      "fold0.json": {
+        "bytes": 1388846,
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "kernel-metadata.json": {
+        "bytes": 555,
+        "sha256": "1de601b45acaf0acead53a1d915ec6ea425fd7fd4ccba47894104609c67120a7"
+      },
+      "kernel.py": {
+        "bytes": 866,
+        "sha256": "7c0f6a254c95a19a88728b2a5592e6b6de7b4e6cac1ddbc1cdea2c0f07697fd8"
+      },
+      "portable_inputs.json": {
+        "bytes": 2104,
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+      },
+      "prior_input_identity_v2.json": {
+        "bytes": 9310,
+        "sha256": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e"
+      },
+      "source/source_archive.tar": {
+        "bytes": 624640,
+        "sha256": "a38899dc8a51231936f32c43b6ae56b3e6e6fffde647116337adf603bd709a02"
+      },
+      "source/source_archive_manifest.json": {
+        "bytes": 8453,
+        "sha256": "ae5222c925aad41079846fb26367ca8cc3a812a428e4a6995a3dfad419495631"
+      },
+      "train_entry.py": {
+        "bytes": 3303,
+        "sha256": "4b7e7364bfeb8c104e23e06aa57e62d65bbbf21309e1de3b129d61645070476e"
+      },
+      "verified_digest_handoff.py": {
+        "bytes": 13441,
+        "sha256": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
+      }
+    },
+    "independent_source_commit": "59d89b86d72b6d6948a10c383042d268cda3962d",
+    "lineage": "V2 seed-9 scientific recipe with V3 physical-GPU, producer-verifier and Kaggle transport corrections",
+    "omitted_members": [
+      {
+        "path": "src/wnn/conditional_readout.py",
+        "reason": "present in the archived V1 manifest but absent from this frozen source branch; no imports or references occur in the included runtime source"
+      },
+      {
+        "path": "src/wnn/online_dynamics.py",
+        "reason": "present in the archived V1 manifest but absent from this frozen source branch; no imports or references occur in the included runtime source"
+      }
+    ],
+    "optimizer_sha256": "f78c9412623df3300cf6720634775467270348b3b02aeeba41e13c48ba916f38",
+    "predictor_sha256": "73f6cb0cbce1566454e1183bdc6a5616e6ee04e16ac7a68f97608fcda649d37b",
+    "runtime_dependency_additions": {
+      "src/wnn/numeric_ple.py": {
+        "reason": "imported by scripts/train_rnn.py and src/wnn/nn.py at module load",
+        "sha256": "229a7e0f032cd65bbf6700fa9372c08016b20e4719cb2f9eddd540ff8c468720",
+        "source_main_commit": "83b97650270c8bb8fdbbe5715f659b59bd20316c"
+      }
+    },
+    "sampling_sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2",
+    "source_archive": {
+      "bytes": 624640,
+      "path": "source/source_archive.tar",
+      "sha256": "a38899dc8a51231936f32c43b6ae56b3e6e6fffde647116337adf603bd709a02"
+    },
+    "source_manifest": {
+      "bytes": 8453,
+      "member_count": 53,
+      "path": "source/source_archive_manifest.json",
+      "sha256": "ae5222c925aad41079846fb26367ca8cc3a812a428e4a6995a3dfad419495631"
+    },
+    "source_restrictions": "no teammate code or weights; all arms initialize from scratch",
+    "trainer_sha256": "5b6df4cc0a89fa78a803889a873c971b832bb604dca4010115c10a7ab756235f"
+  },
+  "status": "profile-only-source-prepared-pending-root-review-and-admission",
+  "training": {
+    "amp_init_scale": 4096.0,
+    "amp_skip_gate": "exactly zero skips; every attempted update is counted and completed",
+    "batch_budgets": {
+      "4": {
+        "attempts_four_epochs": 119400,
+        "attempts_per_epoch": 29850,
+        "batches_per_epoch": 2985,
+        "groups_consumed_per_epoch": 11940,
+        "unconsumed_selected_groups_per_epoch": 0
+      },
+      "8": {
+        "attempts_four_epochs": 59680,
+        "attempts_per_epoch": 14920,
+        "batches_per_epoch": 1492,
+        "groups_consumed_per_epoch": 11936,
+        "unconsumed_selected_groups_per_epoch": 4
+      }
+    },
+    "batch_selection_rule": "Profile both required Muon arms at B8 first. Only an explicit CUDA allocation OOM on a required arm may trigger a complete B4 reprofile of both required arms. Select B8 only if both required profiles pass; otherwise select B4 only if both B4 profiles pass. Profile the optional AdamW control once at the selected pair batch; its failure is recorded and cannot veto the primary pair. No numerical, data, or score-driven fallback.",
+    "checkpoint_epoch_zero_based": 3,
+    "checkpoint_policy": "fixed",
+    "epochs": 4,
+    "evaluation_during_fit": false,
+    "fallback_batch": 4,
+    "initial_batch": 8,
+    "model_precision": "fp16 autocast",
+    "seed": 9
+  }
+}

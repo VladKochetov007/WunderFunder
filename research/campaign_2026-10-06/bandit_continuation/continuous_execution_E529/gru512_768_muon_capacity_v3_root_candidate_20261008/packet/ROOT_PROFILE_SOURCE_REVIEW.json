@@ -1,0 +1,29 @@
+{
+  "schema": "wnn-gru-capacity-independent-profile-source-review-v1",
+  "packet_id": "E529_H232_GRU512_768_MUON_SEED9_PROFILE_V3_20261008",
+  "reviewer": "root",
+  "created_utc": "2026-10-08T09:57:50.799089+00:00",
+  "status": "root_source_review_pass_profile_only_conditional_on_independent_review_and_fresh_admission",
+  "authorized": true,
+  "scope": "Three bounded actual-device capacity profiles; no scientific fits, predictions or scores. Required Muon512/768 B8 with B4 OOM fallback, optional AdamW512. Worker5200seconds/providerreservation6000seconds.",
+  "recipe_sha256": "a73aa3c3bb31c752ecbe6a02e087a606946093384b5340d4857bb97146a186b1",
+  "worker_sha256": "e8bda2e3d077f3f2a3f4b8665158a30da63078e44407e85525db612bc4d7cea8",
+  "source_archive_sha256": "a38899dc8a51231936f32c43b6ae56b3e6e6fffde647116337adf603bd709a02",
+  "source_manifest_sha256": "ae5222c925aad41079846fb26367ca8cc3a812a428e4a6995a3dfad419495631",
+  "tests": "Root frozen-archive clean-subprocess CLI and V3consumer/transport suite21passed11.71s. Original3workspaceparserfails preserved as diagnostic; test-only correction.",
+  "checks": [
+    "V3 _verify_packet rejects anyfitarm/conditionalfit authorization.",
+    "PhysicalGPU0 UUID inventory and sampledGPU0 memory despite dualT4visibleinventory.",
+    "Source-qualified train/valid foldmembership; cross-source IDaliases are not falseoverlap.",
+    "Distinct producer filehashes with bitwise checkpoint tensor/config parity.",
+    "Private14blob manifest and streamed content-addressed driver; no rawupload.",
+    "Exact recipe/source/inputhash bindings and remainingdeadline profile loop."
+  ],
+  "independent_critic": "H232 separateactor source critic pending; onepush finalauthorization requires its pass and exact approved-copy transport hashes.",
+  "fit_authorized": false,
+  "conditions": [
+    "Preserve original pending packet; rebuildtransport in identified approved-copy with thesebytes.",
+    "Root exactfinalhash review plus independentcriticpass and freshquota/holdadmission before upload/push.",
+    "No source/runtime/recipe scientific edits and nofitenable."
+  ]
+}
