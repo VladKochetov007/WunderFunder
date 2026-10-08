@@ -1,3 +1,7 @@
+# Session handoff — 2026-10-08 19:45 Kyiv
+
+[Resume snapshot and execution priorities](../.claude/chains/connectome-research/2026-10-08-1945-research-handoff.md). This is a handoff, not a stop. Public pair submission20o154uy scored **0.6653**; public best remains **0.6660**. Independent S4 endpoint grading now shows ordinary GCorr fixedhalf0.6818613275 exceeds the tested H272 hidden0.6814010973 and multiplicative0.6810719865 endpoints on the exposed fold; preserve method/fit-population caveats. Local fit/export and grade are complete, GPU idle at16:44UTC; corrected cloudfit packets are prepared but not launched, TPUV6 QUEUED, Vast create remains ambiguous with no proven instance. Read snapshot and refresh live state before claiming utilization.
+
 # Current research state — 2026-10-08T09:16:56.185791+00:00
 
 Research remains active until explicit user stop. Prior detail is preserved byte-for-byte in [the previous snapshot](current-state-archive-20261008T0915Z.md), SHA256 `1acaa4ec3c79735adea1e87084743989d499fa678609c49f4806f3179c63eee7`; follow its earlier archive links for older evidence. Frozen recipes, original artifacts and append-only ledgers remain authoritative.

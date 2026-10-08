@@ -1,3 +1,7 @@
+## Session handoff — 2026-10-08 16:45 UTC
+
+[Current handoff](../../../.claude/chains/connectome-research/2026-10-08-1945-research-handoff.md) records live-state qualification, CV-first/public-confirmation policy, new public pair0.6653 and independently graded GCorr-control comparison. Neither tested H272 S4 half-blend beat that control; no family-wide rejection or public forecast. Preserve queued TPU and ambiguous Vast attempt; do not stop experiments for this handoff.
+
 ## Live delivery frontier — 2026-10-08 11:24 UTC
 
 H272 fixed-epoch direct-label readout has landed: multiplicative WP0.6817322281 versus parent0.6816181422, delta+0.000114086 on exposed468groups. Independent direct official-metric recomputation agrees within1e-12. All declared multiplicative blend weights improve this parent; other three readouts do not. This warrants a bounded fresh-parent/control follow-up, not a public-score forecast. Isolated native-serving implementation is underway. [Complete result](continuous_execution_E529/H272_FIXED_EP1_RESULT_20261008_R2.md).

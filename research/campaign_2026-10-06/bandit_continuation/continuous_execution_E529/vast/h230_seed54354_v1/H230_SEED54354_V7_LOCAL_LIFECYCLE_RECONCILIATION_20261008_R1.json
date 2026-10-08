@@ -1,0 +1,88 @@
+{
+  "attempt_id": "h230-vast-strong-parent-seed54354-muon-v7r6-20261008",
+  "conflicting_observations": [
+    {
+      "observed_at_utc": "2026-10-08T16:43:54Z",
+      "source": "root-reported local snapshot",
+      "state": "v7r6 active/running; v7r5 activating/auto-restart"
+    },
+    {
+      "observed_at_utc": "2026-10-08T16:47:38Z",
+      "source": "actor systemctl show",
+      "state": "both inactive/dead; Result=success; ExecMainStatus=0; MainPID=0; NRestarts=0; InvocationID empty"
+    }
+  ],
+  "dispatch": {
+    "job_sha256": "8445e4bb43f7977cf7d8eb8f7a45e9da88079d17e636f73ee8cea243003d904f",
+    "journal_events": [
+      "submit_intent:launch_uncertain",
+      "submit_returned:submitted"
+    ],
+    "journal_path": ".runtime/vast_dispatch_h230_v7r6_parallel1/journal.jsonl",
+    "receipt_path": ".runtime/vast_dispatch_h230_v7r6_parallel1/attempts/h230-vast-strong-parent-seed54354-muon-v7r6-20261008.json",
+    "receipt_sha256": "70630981b0a2cc030edb34b1d272a0dd17e4978158b47a87e6e107c211e8378b",
+    "status": "submitted"
+  },
+  "interpretation": "Local supervisor/ledger evidence is inconsistent and does not establish a provider instance or prove that none exists. Do not retry creation or act on any machine until root reconciles provider ownership.",
+  "ledger": {
+    "account_scope_sha256": "5edaeb435fffdc8d36029206229fcf1ee9a930816996519f3c4fdeeb3d35858a",
+    "actual_all_in_usd": null,
+    "cleanup_deadline_utc": "2026-10-08T23:42:39.949281+00:00",
+    "cumulative_limit_usd": 20.0,
+    "hard_stop_utc": "2026-10-08T23:27:39.949281+00:00",
+    "instance_id": null,
+    "last_error_type": "ApiError",
+    "machine_id": 114484,
+    "offer_id": 36949279,
+    "ownership_proven": false,
+    "path": "~/.local/state/wnn-campaign/vast/ledger.json",
+    "reconcile_result": "no_unambiguous_instance_match",
+    "reserved_all_in_usd": "2.80",
+    "status": "needs_review",
+    "supervisor_last_phase": "monitoring",
+    "updated_at_utc": "2026-10-08T16:47:25+00:00",
+    "worker_startup_deadline_utc": "2026-10-08T16:45:11+00:00"
+  },
+  "local_supervisors": {
+    "wnn-vast-h230-seed54354-muon-v7r5-parallel1-20261008.service": {
+      "ActiveState": "inactive",
+      "ExecMainStatus": "0",
+      "Id": "wnn-vast-h230-seed54354-muon-v7r5-parallel1-20261008.service",
+      "InvocationID": "",
+      "MainPID": "0",
+      "NRestarts": "0",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "wnn-vast-h230-seed54354-muon-v7r6-parallel1-20261008.service": {
+      "ActiveState": "inactive",
+      "ExecMainStatus": "0",
+      "Id": "wnn-vast-h230-seed54354-muon-v7r6-parallel1-20261008.service",
+      "InvocationID": "",
+      "MainPID": "0",
+      "NRestarts": "0",
+      "Result": "success",
+      "SubState": "dead"
+    }
+  },
+  "observed_at_utc": "2026-10-08T16:47:38Z",
+  "other_supervisor_attempt": {
+    "matching_v7r5_attempt_found_in_local_ledger": false,
+    "provider_ownership_inferred": false,
+    "unit": "wnn-vast-h230-seed54354-muon-v7r5-parallel1-20261008.service"
+  },
+  "public_result_context": {
+    "new_pair_submission": "portal20o154uy",
+    "reported_artifact_bytes": 633000000,
+    "reported_public_score": 0.6653,
+    "reported_wall_time": "61m22s",
+    "verified_by_actor": false
+  },
+  "root_admission": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h230_seed54354_v1/H230_SEED54354_V7_ROOT_CREATE_ADMISSION_20261008_R8.json",
+    "present": true,
+    "sha256": "07c8ecbc1a4ba49e43fb512771d926e9d7adb95b5396891ec5d3da5934d905ff"
+  },
+  "schema": "h230-vast-local-lifecycle-reconciliation-v1",
+  "scope": "read-only local receipt reconciliation; no provider/API calls, dispatch retries, creation, SSH or instance mutation"
+}
