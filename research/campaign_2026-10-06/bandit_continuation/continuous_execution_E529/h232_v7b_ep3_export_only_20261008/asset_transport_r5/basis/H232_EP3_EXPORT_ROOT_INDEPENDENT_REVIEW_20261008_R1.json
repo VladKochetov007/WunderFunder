@@ -1,0 +1,29 @@
+{
+  "schema": "wnn.independent-source-review.v1",
+  "reviewer": "root",
+  "actor": "h232_v7_proactive_recovery",
+  "time_utc": "2026-10-08T04:53:03.346614+00:00",
+  "status": "export_only_source_approved_fresh_quota_admission_required",
+  "packet_directory": "/tmp/wnn-h232-v7b-ep3-export-20261008/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_only_20261008/packet_r3",
+  "canonical_kernel": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r2",
+  "worker_sha256": "e5568c871f6c918330c424dafc03ece7018e2059d019c6f87ac72352fdf82201",
+  "checkpoint_sha256": "aaa731da1692ee5083c80296fd665b0a60815c9dc18430457f702cf779c2b829",
+  "source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+  "actual_embedded_payload_hashes_verified": 17,
+  "root_executed_tests_passed": 10,
+  "training_authorized": false,
+  "grading_authorized": false,
+  "checks": [
+    "Exact own fixedepoch3 checkpoint and original prediction source retained",
+    "Qualified fit groups10535train/1405valid and468eval exclude component overlap",
+    "FP32 epoch3 allvalid export, only468excluded used by latergrader",
+    "Parsed NPY header separates299680000payload bytes from header; root actualsmallmemmap regression passes",
+    "No trainer, profiling or scoring entrypoint; bounded1800sexport/4500sworker"
+  ],
+  "provider_launch_authorized": false,
+  "conditions": [
+    "Fresh quota admission retaining6000seconds for liveE540V8",
+    "One new canonical kernel push under6000seconds, after final packet-byte verification",
+    "Collect complete terminal logs/predictions/source/receipts; preserve original failed packet and fit"
+  ]
+}
