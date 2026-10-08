@@ -1,4 +1,10 @@
-## Parent completed; continuous research and five-core morning cap — 2026-10-08 04:53 Kyiv
+## Parent/cache delivered and owned Vast successor — 2026-10-08 04:57 Kyiv
+
+H230 complete-membership teacher cache finished successfully in66.48seconds with zero worker/parent-local OOM or kill deltas. All eight arrays passed full SHA256, finite-chunk and metadata/membership validation in16.69seconds. Cache size is13,976,480,000bytes; metadata SHA256 is `b05e652f5fdec4e6b1e4e07d1d3a705655d4588ab8ee9d802ccdf4339fd66500`. This retains independently trained clean-fold teacher histories with full prediction coverage; it does not establish all-data teacher replication. Root authorized the exact V3 student pair sequentially after actual parent-load/head-extension checks and fresh admission,9GB/2CPU/3000seconds each, common own parent and seed-specific fresh family heads. No held-out or public-score claim.
+
+Corrected H217V4 now has newly receipt-owned Vast instance54755152, attempt `e529-vast-h217-pair-v4-20261008-a2`, all-in reservation$2.80 within the cumulative$20 ceiling. Actual profiles/fits have not started at the creation observation. The bounded supervisor stages, collects and tears down only this receipt-owned instance. [Creation receipt](../research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_V4_OWNED_CREATION_ROOT_RECEIPT_20261008_A2.json). Earlier precreate offer-ID mismatch was preserved; no instance was created for A1. The A2 command reused the local A1 unit name, explicitly recorded in the receipt; provider ownership comes from the durable creation receipt. E540V4 and H232V7 actors are correcting independently diagnosed delivery defects. No new public best.
+
+## Parent completed; continuous research and five-core morning cap — 2026-10-08 04:51 Kyiv
 
 Research continues until explicit user stop. The active `wnn-cpu-return-five-20261008.timer` changes the aggregate campaign CPU quota to500% at10:00Kyiv/07:00UTC; it does not stop research. Root rechecked12s CPU quota before the boundary,18GB memory-high/20GB maximum and swap0. [ADR0017](adr/0017-continuous-research-five-core-morning-cap.md).
 
