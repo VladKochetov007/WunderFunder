@@ -82,7 +82,7 @@ Mutable monitoring logs can make a generated catalog stale. Rebuild after meanin
 
 Native subagents currently use **gpt-6-luna, reasoning effort max**. Do not use Sol or Astra unless the user changes this preference. Use isolated branches/worktrees for writers and minimal role-specific context. Keep at most three subordinate roles active; avoid recursive discussion swarms.
 
-The 2026-10-08 user instruction authorizes one Astra ideator for LR scheduling, plateau/noise alternatives and combinations (ADR0023). This scoped exception does not change the default Luna/max implementation roles.
+The 2026-10-08 user instruction authorized one Astra ideator for LR scheduling, plateau/noise alternatives and combinations (ADR0023); that task completed. The latest user instruction requires explicit confirmation before any further Astra task. Let an already-running Astra task finish; do not spawn or restart an Astra task autonomously. Default native implementation/ideation roles remain Luna/max.
 
 | Role | What it owes |
 |---|---|

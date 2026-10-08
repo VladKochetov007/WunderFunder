@@ -1,0 +1,114 @@
+{
+  "checkpoint": {
+    "fixed_epoch": 1,
+    "path": "artifacts/runs/bd26_h233_c1s3_rank32_f0_v2/model_ep1.pt",
+    "provenance_sha256": "61a3c35db51e4531459a66dd7127cb6249bd90e9cbd05772224b8db7f41684f7",
+    "sha256": "11b3e72d6f61acd0a45b68fe7edf0b66ccea4fa39a1492e8101821b154ba86ee"
+  },
+  "comparison_preregistration_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H233_FIXED_EP1_COMPARISON_PREREG_20261008_R1.json",
+  "comparison_preregistration_sha256": "e59c74763f764b3b57893d8873ae64ea687d57c9c1579b5ad3450c8e0d0f1b5a",
+  "created_utc": "2026-10-08T09:02:50.006331+00:00",
+  "execution": {
+    "frozen_runtime_root": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME",
+    "launch_requirements": [
+      "root hash-bound review of terminal/source/anchor gate",
+      "fresh parent aggregate memory/swap/CPU check",
+      "fresh no-other-GPU-worker check",
+      "fresh destination absence and disk headroom check",
+      "durable bandit_resources admission",
+      "single GPU lock"
+    ],
+    "resource_request": {
+      "fresh_durable_controller_admission_required": true,
+      "gpu_workers_max": 1,
+      "loader_workers": 0,
+      "observed_vram_ceiling_bytes": 5000000000,
+      "runtime_timeout_seconds": 600,
+      "worker_cpu_cores": 1,
+      "worker_memory_reserve_bytes": 4000000000,
+      "worker_swap_bytes": 0,
+      "worker_threads": 1
+    },
+    "runtime_timeout_enforced_by": "explicit /usr/bin/timeout wrapper around the exact absolute exporter argv; bandit_resources worker itself does not impose a wall-time limit",
+    "worker_argv_template": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=10s",
+      "600s",
+      "/usr/bin/env",
+      "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/src",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/scripts/train_conditional_readout.py",
+      "export",
+      "--recipe",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+      "--device",
+      "cuda",
+      "--checkpoint",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h233_c1s3_rank32_f0_v2/model_ep1.pt",
+      "--split",
+      "valid",
+      "--batch-size",
+      "8",
+      "--output-dir",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/exports/H233_C1S3_E1_VALID_V2"
+    ],
+    "working_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+  },
+  "fit_terminal_receipt_hash_kind": "sha256_of_file_bytes",
+  "fit_terminal_receipt_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H233_C1S3_FIT_TERMINAL_DELIVERY_V1_20261008.json",
+  "fit_terminal_receipt_sha256": "73f1d03075d637f342e375af2c346ddf1883d8f31029557b94fe886058c0f958",
+  "frozen_parent_and_anchor_guard": {
+    "exporter_must_rehash_parent_prediction_and_check_alias_parity": true,
+    "parent_checkpoint_sha256": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+    "parent_epoch": 1,
+    "parent_prediction_sha256": "cb832b1397c75e318551fd6d6f0e22d09f3c4230c3c5ad56cab1a4c4e603c7e8",
+    "parent_prediction_sidecar_sha256": "bb335392edc599f181c0bbcb6523fd430b036647454bc0d76facf5b592211ad3",
+    "parent_provenance_sha256": "60e8884d3d5886dc53dcb2b7d280fef284a702de8769ab333e07e1819d66f28a",
+    "parent_run": "bd26_c1v2_s3_f0",
+    "preflight_rehashed_parent_prediction_array": false,
+    "preflight_verified_parent_checkpoint_and_sidecar": true
+  },
+  "launch_authorized": false,
+  "membership": {
+    "evaluation_group_ids_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "evaluation_groups": 468,
+    "exporter_does_not_score_or_calibrate": true,
+    "fit_development_groups_exported_but_never_selected_for_grade": 1405,
+    "full_valid_prediction_groups": 1873,
+    "official_grade_metric": "global_wp_clip2_v1",
+    "selected_mask_source": "existing frozen exporter constructs from scored rows, 99-row warmup, and exact excluded-group IDs",
+    "split": "valid",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "outputs": {
+    "actual_preparation_observation": "absolute destination and sibling .partial absent at contract sealing; worker must refuse if either exists at launch",
+    "directory": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/exports/H233_C1S3_E1_VALID_V2",
+    "expected_absent_at_preparation": true,
+    "expected_members": [
+      "pred_hidden_only.npy",
+      "pred_additive.npy",
+      "pred_multiplicative.npy",
+      "pred_conditional_residual.npy",
+      "provenance.json",
+      "evaluation_group_mask.npy",
+      "selected_mask.npy"
+    ]
+  },
+  "purpose": "Stream the four fixed-epoch-1 readout predictions over the full ordered valid cache; retain masks so only the preregistered 468 excluded groups can be graded.",
+  "recipe_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+  "recipe_sha256": "a97bf67c68e2988044778f39254122683ef37899dd4384cc6e3571240c373022",
+  "revision_note": "Metadata-only runtime-bound correction. The absolute interpreter, frozen source/runtime, recipe, checkpoint, split, batch size, destination, scientific recipe, membership, source lock and resource caps are unchanged. launch_authorized remains false pending root hash-bound review and fresh durable admission.",
+  "schema": "H233_C1S3_FIXED_EP1_VALID_EXPORT_PHASE_CONTRACT_V4",
+  "scientific_status": "export only; no score, promotion, or public forecast; root owns independent grade after export validation",
+  "source_lock_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_FROZEN_RUNTIME_SOURCE_LOCK_V2_20261008.json",
+  "source_lock_sha256": "831c3de1ea5ae48a9330f82a2cc829fb93021c8ac82f5dff9e1da40ea8bf1b3b",
+  "source_member_rehash_count": 11,
+  "source_member_rehashes_match": true,
+  "status": "prepared_pending_root_hash_bound_review_and_fresh_controller_admission",
+  "supersedes": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H233_C1S3_FIXED_EP1_VALID_EXPORT_PHASE_CONTRACT_V3_20261008.json",
+    "reason": "V3 bound a 600-second requested cap but the controller worker does not enforce wall time. V4 adds the explicit absolute timeout wrapper so the cap is real.",
+    "sha256": "9ec5a298c979f79438ec7eb23522c235cc2c7a9481f46794f49eeda67b347472"
+  }
+}

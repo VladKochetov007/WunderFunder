@@ -1,0 +1,209 @@
+{
+  "attempt": {
+    "attempt_record_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h233-c1s3-readout-v2-fit-20261008.json",
+    "attempt_record_sha256": "0cbe0a71f22a239eb45e446f3e5be511a971b2cbafb8d1055c7fd23b7b1ee03c",
+    "attempt_status": "finished",
+    "contract_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_FIT_ATTEMPT_V2_20261008.json",
+    "contract_sha256": "9c315a8916703b6068c289c79d746dc083d6636e5cf603049835993fa8151b3b",
+    "elapsed_seconds": 1991.7294487820036,
+    "exit_status": 0,
+    "finished_utc": "2026-10-08T08:54:27.537732+00:00",
+    "id": "h233-c1s3-readout-v2-fit-20261008",
+    "phase": "terminal",
+    "started_utc": "2026-10-08T08:21:15.764090+00:00",
+    "systemd_terminal_observation": {
+      "active_state": "inactive",
+      "exec_main_status": 0,
+      "note": "Current canonical user-unit observation; the preserved attempt record field attempt_active_state remains stale at active.",
+      "result": "success",
+      "sub_state": "dead"
+    }
+  },
+  "fixed_checkpoint": {
+    "bytes": 5076525,
+    "epoch_losses": [
+      {
+        "additive": 0.10154631733894348,
+        "conditional_residual": 0.10154450684785843,
+        "hidden_only": 0.10155177116394043,
+        "multiplicative": 0.10155369341373444
+      },
+      {
+        "additive": 0.10127057135105133,
+        "conditional_residual": 0.10127221047878265,
+        "hidden_only": 0.1012718677520752,
+        "multiplicative": 0.10128813982009888
+      }
+    ],
+    "epoch_seconds": [
+      934.8261289340007,
+      1045.7851459779922
+    ],
+    "epoch_update_evidence": [
+      {
+        "amp_skipped_updates": 0,
+        "gradient_checks": 59680,
+        "gradient_finite": true,
+        "loss_checks": 59680,
+        "loss_finite": true,
+        "optimizer_attempts": 14920,
+        "optimizer_completed_updates": 14920
+      },
+      {
+        "amp_skipped_updates": 0,
+        "gradient_checks": 59680,
+        "gradient_finite": true,
+        "loss_checks": 59680,
+        "loss_finite": true,
+        "optimizer_attempts": 14920,
+        "optimizer_completed_updates": 14920
+      }
+    ],
+    "model_alias_path": "artifacts/runs/bd26_h233_c1s3_rank32_f0_v2/model.pt",
+    "model_alias_sha256": "ae30ed3df20ad7cab9270b253187a4460db2dcf32e79d9f5b6af5a94de9d62aa",
+    "parent_checkpoint_sha256": "7d34ee5649e124948f0b651aa786083fa9ee66a01c439b034345a1d9df9ec3f0",
+    "parent_epoch": 1,
+    "parent_run": "bd26_c1v2_s3_f0",
+    "path": "artifacts/runs/bd26_h233_c1s3_rank32_f0_v2/model_ep1.pt",
+    "provenance_path": "artifacts/runs/bd26_h233_c1s3_rank32_f0_v2/provenance.json",
+    "provenance_sha256": "61a3c35db51e4531459a66dd7127cb6249bd90e9cbd05772224b8db7f41684f7",
+    "sha256": "11b3e72d6f61acd0a45b68fe7edf0b66ccea4fa39a1492e8101821b154ba86ee"
+  },
+  "no_grade_claim": true,
+  "recipe": {
+    "evaluation_group_ids_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "fit_group_counts": {
+      "evaluation_not_fit": 468,
+      "train": 10535,
+      "valid": 1405
+    },
+    "last_epoch_completed": 1,
+    "no_fit_rows_from_evaluation_groups": true,
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+    "recipe_id": "E529-H233-C1S3-CONDITIONAL-READOUT-V2",
+    "selected_epoch": 1,
+    "sha256": "a97bf67c68e2988044778f39254122683ef37899dd4384cc6e3571240c373022",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "recorded_utc": "2026-10-08T08:59:17.663823+00:00",
+  "resource_observation": {
+    "effective_parent_memory_high_bytes": "18000000000",
+    "effective_parent_memory_max_bytes": "20000000000",
+    "effective_parent_swap_max_bytes": "0",
+    "parent_cgroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "parent_hierarchical_memory_event_baseline": {
+      "high": 194296,
+      "low": 0,
+      "max": 12782416,
+      "oom": 16,
+      "oom_group_kill": 0,
+      "oom_kill": 12,
+      "sock_throttled": 34
+    },
+    "parent_hierarchical_memory_event_delta": {
+      "high": 0,
+      "low": 0,
+      "max": 822612,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_local_memory_event_delta": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_peak_ram_bytes": 16747024384,
+    "peak_observed_vram_bytes": 1236271104,
+    "worker_cgroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-bandit-h233-c1s3-readout-v2-fit-20261008.service",
+    "worker_memory_event_delta": {
+      "high": 0,
+      "low": 0,
+      "max": 822612,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "worker_memory_events_scope": "memory.events (includes worker descendants)",
+    "worker_peak_ram_bytes": 6499999744
+  },
+  "schema": "H233_C1S3_FIT_TERMINAL_DELIVERY_V1",
+  "source": {
+    "base_git_commit": "f40bff87304db1fa3bd727bfd096035c958bba4b",
+    "implementation_source_sha256": {
+      "scripts/train_conditional_readout.py": "fd74eb03deb0cea24f89dc5d330fdca6c3135f7f3f48cccb31ac5be84ec9c645",
+      "scripts/train_rnn.py": "b49233a7ed7e7e44d1a67cd765879a96e9294a5934071840b77da0d37d7424c7",
+      "src/wnn/conditional_readout.py": "2930740c551f34d42e1d300e30a7f1edcb0ca46758c8355018d4a36477829426"
+    },
+    "pinned_runtime_member_count": 11,
+    "pinned_runtime_members_rehashed_and_matching": 11,
+    "runtime_member_rechecks": {
+      "scripts/train_conditional_readout.py": {
+        "actual_sha256": "fd74eb03deb0cea24f89dc5d330fdca6c3135f7f3f48cccb31ac5be84ec9c645",
+        "expected_sha256": "fd74eb03deb0cea24f89dc5d330fdca6c3135f7f3f48cccb31ac5be84ec9c645",
+        "match": true
+      },
+      "scripts/train_rnn.py": {
+        "actual_sha256": "b49233a7ed7e7e44d1a67cd765879a96e9294a5934071840b77da0d37d7424c7",
+        "expected_sha256": "b49233a7ed7e7e44d1a67cd765879a96e9294a5934071840b77da0d37d7424c7",
+        "match": true
+      },
+      "src/wnn/conditional_readout.py": {
+        "actual_sha256": "2930740c551f34d42e1d300e30a7f1edcb0ca46758c8355018d4a36477829426",
+        "expected_sha256": "2930740c551f34d42e1d300e30a7f1edcb0ca46758c8355018d4a36477829426",
+        "match": true
+      },
+      "src/wnn/data.py": {
+        "actual_sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+        "expected_sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+        "match": true
+      },
+      "src/wnn/features.py": {
+        "actual_sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "expected_sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "match": true
+      },
+      "src/wnn/gmetric.py": {
+        "actual_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "expected_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "match": true
+      },
+      "src/wnn/metric.py": {
+        "actual_sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+        "expected_sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+        "match": true
+      },
+      "src/wnn/nn.py": {
+        "actual_sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+        "expected_sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+        "match": true
+      },
+      "src/wnn/propensity.py": {
+        "actual_sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+        "expected_sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+        "match": true
+      },
+      "src/wnn/splits.py": {
+        "actual_sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+        "expected_sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+        "match": true
+      },
+      "tests/test_conditional_readout.py": {
+        "actual_sha256": "03ef71e9a8be106625ecc9ac9adec74fb25ff9637c3225230118ae604c8a7bdd",
+        "expected_sha256": "03ef71e9a8be106625ecc9ac9adec74fb25ff9637c3225230118ae604c8a7bdd",
+        "match": true
+      }
+    },
+    "runtime_root": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME",
+    "source_lock_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_FROZEN_RUNTIME_SOURCE_LOCK_V2_20261008.json",
+    "source_lock_sha256": "831c3de1ea5ae48a9330f82a2cc829fb93021c8ac82f5dff9e1da40ea8bf1b3b",
+    "source_manifest_sha256_recorded_by_controller": "f98b962583e8b3c1de0ebb2c35977aa656a3ce0d9679bfa9ed42ccca40c4b04c"
+  },
+  "status": "successful_fit_terminal"
+}

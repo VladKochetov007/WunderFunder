@@ -1,0 +1,51 @@
+{
+  "schema": "h233-fixed-ep1-export-root-authorization-v1",
+  "approved_by": "root",
+  "status": "approved_conditional_on_fresh_durable_admission",
+  "created_utc": "2026-10-08T09:03:04.163220+00:00",
+  "contract_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H233_C1S3_FIXED_EP1_VALID_EXPORT_PHASE_CONTRACT_V3_20261008.json",
+  "contract_sha256": "9ec5a298c979f79438ec7eb23522c235cc2c7a9481f46794f49eeda67b347472",
+  "fit_terminal_receipt_sha256": "73f1d03075d637f342e375af2c346ddf1883d8f31029557b94fe886058c0f958",
+  "root_tensor_source_check_sha256": "07decf6e3de3f3274fb26ea1d01cbae801f842dacd83da025537fb0ac4bfebb1",
+  "checkpoint_sha256": "11b3e72d6f61acd0a45b68fe7edf0b66ccea4fa39a1492e8101821b154ba86ee",
+  "source_lock_sha256": "831c3de1ea5ae48a9330f82a2cc829fb93021c8ac82f5dff9e1da40ea8bf1b3b",
+  "resource_limits": {
+    "fresh_durable_controller_admission_required": true,
+    "gpu_workers_max": 1,
+    "loader_workers": 0,
+    "observed_vram_ceiling_bytes": 5000000000,
+    "runtime_timeout_seconds": 600,
+    "worker_cpu_cores": 1,
+    "worker_memory_reserve_bytes": 4000000000,
+    "worker_swap_bytes": 0,
+    "worker_threads": 1
+  },
+  "exact_argv": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/src",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/scripts/train_conditional_readout.py",
+    "export",
+    "--recipe",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+    "--device",
+    "cuda",
+    "--checkpoint",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h233_c1s3_rank32_f0_v2/model_ep1.pt",
+    "--split",
+    "valid",
+    "--batch-size",
+    "8",
+    "--output-dir",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/exports/H233_C1S3_E1_VALID_V2"
+  ],
+  "working_directory": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "conditions": [
+    "Fresh aggregate memory/CPU/no-swap admission below current five-core/18GB-high/20GB-max boundaries",
+    "Exclusive durable GPU admission, observed VRAM <=5GB",
+    "Exact original source pins/checkpoint and absent final/.partial output",
+    "No live source modifications or scoring in exporter; parent-anchor gate remains required"
+  ],
+  "review": "Actual fixedep1 checkpoint16 parent tensors bitwise match;24 finite readout state tensors;29840 completed updates;source11/11 hash checks. Frozen exporter streams four predictions, atomically publishes after original alias/anchor parity and membership gates. V3 fixes exact absolute launch paths; V1/V2 preserved.",
+  "science_scope": "Export only; no public forecast or promotion. Independent grader review/admission remains separate."
+}
