@@ -1,0 +1,111 @@
+{
+  "schema": "wnn.matched-gru256-device-benchmark.v1",
+  "status": "source-only-review-required",
+  "authorized_for_provider_dispatch": false,
+  "objective": "Measure per-fit wall ratio, short-window spread, fit throughput, and fixed-fold validation quality on Kaggle GPU and TPU using the same admitted loss-pair recipe.",
+  "recipe": {
+    "source_packet": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LOSS_PAIR_R1.md",
+    "corrected_feature_contract": {
+      "cache_features": {"shape_per_sequence": [20000, 112], "dtype": "float32"},
+      "trainer_feature_transform": "concatenate(raw112, causal_event_features99(raw112))",
+      "model_input_width": 211,
+      "event_feature_source": "src/wnn/features.py",
+      "event_feature_source_sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+      "raw_only": false
+    },
+    "model": {"cell": "pytorch_reset_after_gru", "hidden": 256, "layers": 2, "encoder": "linear", "activation": "GELU_exact", "outputs": 2, "dropout": 0},
+    "data": {
+      "fold": 0,
+      "membership_sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+      "fit_train_sequences": 350,
+      "fit_valid_sequences_not_used": 28,
+      "fixed_evaluation_sequences": 468,
+      "cache_manifest_sha256": null,
+      "cache_validation_receipt_sha256": null,
+      "cache_key": null,
+      "source_stage_candidate": "vladkochetov07/wnn-parsed-cache-source-stage-20261009-v1",
+      "source_stage_outputs": [
+        "/kaggle/working/out/parsed_cache/manifest.json",
+        "/kaggle/working/out/parsed_cache/reader_validation.json",
+        "/kaggle/working/out/parsed_cache/reader_profile.json",
+        "source-stage receipt (exact filename pending)"
+      ],
+      "source_stage_root_admission": "pending",
+      "fit_row_mask": "row_index >= WARMUP (99); scored mask does not enter fit weights for these commands",
+      "evaluation_mask": "cached is_scored mask after 99-row warmup"
+    },
+    "optimization": {
+      "batch_order": "PyTorch EpochOrderSampler(seed=20261009, epoch=-1 for shared 2-batch normalization prepass; epoch 0/1 for fit)",
+      "global_batch": 32,
+      "chunk_rows": 2000,
+      "epochs": 2,
+      "updates_per_run": 220,
+      "drop_last": false,
+      "optimizer": "AdamW",
+      "learning_rate_max": 0.001,
+      "weight_decay": 0.01,
+      "beta2": 0.999,
+      "betas": "AdamW default beta1 schedule from OneCycleLR; preserve per-update beta1 and LR traces",
+      "scheduler": "OneCycleLR, total_steps=220, pct_start=0.05, final_div_factor=100, cycle_momentum=true",
+      "gradient_clip_norm": 1.0,
+      "normalization": "trainer fit_normalization over first two epoch=-1 batches after causal feature build; sample flattened rows [::7], then mean and std clamped to >=1e-3",
+      "checkpoint_epoch_zero_indexed": 1
+    },
+    "arms": {
+      "wmse": {"loss": "sum(abs(clip(y,-2,2))*valid*(prediction-clip(y,-2,2))^2)/sum(weights)", "delta": null},
+      "huber": {"loss": "sum(abs(clip(y,-2,2))*valid*Huber_delta_1(prediction-clip(y,-2,2)))/sum(weights)", "delta": 1.0}
+    }
+  },
+  "source_pins": {
+    "base_commit": "d5daaa0f90b0362877522703c7e17aa78c19cac9",
+    "torch_trainer": {"path": "scripts/train_rnn.py", "sha256": "b173e46993a3b5e59aec966c6c1e5c6cdde1c5e4c0b0e64b71de5c0c0b91b5ed"},
+    "torch_model": {"path": "src/wnn/nn.py", "sha256": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181"},
+    "parsed_cache_reader": {"path": "src/wnn/parsed_sequence_cache_reader.py", "sha256": "4717eebf950cc82575bd5f79608fa95ecf79faec4515e07c1e46f6e4135be205"},
+    "jax_gru_core": {"path": "research/campaign_2026-10-04/staging/jax_tpu_e465/src/wnn_jax/rnn.py", "sha256": "294eff11d906fe434dba2c4d0ed4741ad2191f756c4a35204474cb229ff939dc", "note": "Generic owned JAX GRU/AdamW core; V7 packet recipe itself is not reused."}
+  },
+  "device_matrix": {
+    "backends": ["torch.cuda.T4", "jax.tpu.v5e-8"],
+    "actual_inventory_required": true,
+    "precision_rows": ["fp32_matched", "native_t4_fp16_gradscaler", "native_tpu_bf16"],
+    "loss_rows": ["wmse", "huber_delta_1"],
+    "expected_full_fit_count_if_all_rows_admitted": 8,
+    "timed_windows": {"warmup_updates": 5, "windows": 3, "updates_per_window": 20, "full_fit_updates": 220}
+  },
+  "throughput_metrics": {
+    "per_fit_seconds": "full fit wall, excluding separately reported setup/cache verification but including all training updates",
+    "gpu_tpu_ratio": "median(T4 full_fit_seconds) / median(TPU full_fit_seconds) per identical arm/precision",
+    "per_lane_fit_jobs_per_hour": "3600 / median(per_fit_seconds)",
+    "two_t4_aggregate_fit_jobs_per_hour": "2 * 3600 / median(T4 per_fit_seconds), only if concurrent jobs both finish and shared host/input resources do not throttle",
+    "tpu8_fit_jobs_per_hour": "3600 / median(TPU per_fit_seconds) for one eight-chip pod",
+    "examples_per_second": "fit_sequences_consumed * epochs / full_fit_wall_seconds; report rows/sec separately"
+  },
+  "prior_evidence": {
+    "local_gpu": {
+      "device": "NVIDIA GeForce RTX 3060 Laptop GPU, capability 8.6, 6,141,509,632 bytes VRAM",
+      "synthetic_profile": {"elapsed_seconds": 0.46601402599480934, "shape": "211-input GRU256x2, 2+19+2 outputs, B16/C1000, Muon, one update", "torch_cuda_allocator_peak_bytes": 535250432, "artifact": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_MUON_DEVICE_PROFILE_ATTEMPT1_RESULT_V1_20261008.json"},
+      "actual_data_profile": {"elapsed_seconds": 20.22041774399986, "worker_peak_ram_bytes": 5909221376, "sampled_vram_peak_bytes": 1786773504, "shape": "211-input GRU256x2, 23 outputs, B16/C1000, Muon, one timed batch", "artifact": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_STRONG_PARENT_REALDATA_PROFILE_ROOT_OBSERVED_TERMINAL_20261008_R1.json"},
+      "valid_speed_estimate_for_this_task": false
+    },
+    "kaggle_gpu_smoke3": {"status": "failed_before_fit", "valid_speed_estimate_for_this_task": false, "artifact": "research/campaign_2026-10-06/bandit_continuation/kaggle_warm_cohort/smoke3_20261008/terminal_collect_r1/queues/gpu0/results.jsonl"},
+    "tpu_v7": {"status": "queued-last-reported-429; do not cancel or retry blindly", "provider_push_authorized": false, "recipe": "211-input, 23-output diagnostic; one real update + four synthetic updates; raw Parquet", "valid_speed_estimate_for_this_task": false, "artifact": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v7_inventory_repair_20261008/packet_manifest.json"}
+  },
+  "required_outputs_on_ssd": [
+    "source and exact environment/hardware inventory hashes",
+    "cache manifest, source verification, validation receipt, membership and cache reader profile hashes",
+    "initial model/normalization state hash, exact per-epoch sequence-order hashes, LR/beta1 traces",
+    "per-window raw update timings, complete fit phase/resource/cost receipts and terminal status",
+    "per-arm checkpoint and resumable state hashes",
+    "full evaluation predictions with source-qualified sequence order and checkpoint/cache/split sidecars",
+    "independent official metric results, per-target scores, prediction correlation and fixed-combination blend contribution"
+  ],
+  "blocking_gates": [
+    "run the focused 211-input synthetic Torch/JAX forward, state-carry/reset, checkpoint reload and prefix-causality tests",
+    "extend tests to gradients and one matched AdamW update with the exact schedule, clipping and 211-channel normalization",
+    "produce the CPU cache manifest/validation/profile receipt and root-pin their actual hashes",
+    "validate the JAX adapter on actual held-out cache rows and an actual-data short update profile",
+    "observe current TPU v7 terminal status and root admits a separately identified exact benchmark packet"
+  ],
+  "current_measurements": {"gpu_tpu_time_ratio": null, "t4_full_fit_seconds": null, "tpu_full_fit_seconds": null, "prediction_correlation": null, "blend_contribution": null, "public_score_claim": null}
+}
