@@ -1,0 +1,45 @@
+{
+  "schema": "h230-history-parent-valid-export-root-authorization-v1",
+  "created_utc": "2026-10-08T06:11:29.637536+00:00",
+  "approved_by": "root",
+  "status": "approved_conditional_fresh_resource_admission",
+  "proposal": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_PARENT_VALID_EXPORT_PHASE_CONTRACT_V1_20261008.json",
+    "sha256": "932a87276c08e2b12bdeed54fac5e81e423e777758e83b9300344d2dd748376e"
+  },
+  "root_train_checks": {
+    "exact_shape_dtype_finiteness": true,
+    "exact_npz_row_group_order": true,
+    "prediction_sha256": "6d6fdbdafcf99f0677372de3398fd0a76c9fcb6c5306f438281a0a3501d2bb9f",
+    "sidecar_sha256": "e03d85ddd2b48aebccb24d1e7965db5cdc630e0c5bf36c094929447dc1c6d307",
+    "train_terminal_receipt_sha256": "7ea124570105c974d1c5326cdd465b483f2346b40fda04fcba578a5ee22ae351",
+    "terminal_status": "finished",
+    "exit_status": 0,
+    "total_export_wall_seconds": 496.51762438401056,
+    "actual_io_plus_prediction_sequences_per_second": 21.36077244088246
+  },
+  "scope": "One valid-split FP32 feature-only parent export, exact reviewed source-v4 recipe. No cache/studentfit admission.",
+  "parent_checkpoint_sha256": "478773bd3d0754d261f8f3c9d46a135d56c3596c269d2a856b760caef05b93c7",
+  "expected_shape": [
+    1873,
+    20000,
+    2
+  ],
+  "limits": {
+    "cpu": 2,
+    "worker_ram_reserve_bytes": 9000000000,
+    "allocator_admission_bytes": 4300000000,
+    "observed_vram_ceiling_bytes": 5000000000,
+    "loader_workers": 0,
+    "one_gpu_worker": true,
+    "timeout_seconds": 600
+  },
+  "conditions": [
+    "Actor final train-export/current-runOOM counters and sidecar closure validated",
+    "Fresh controller admission after idle-lock exact-known-file cache handoff if needed",
+    "Output absence/free disk and immutable source/parent/index order checks",
+    "Terminal fixed FP32 full output/hash/sidecar/order/finiteness; no scoredclaim"
+  ],
+  "heldout_claim": false,
+  "public_forecast": null
+}

@@ -1,0 +1,155 @@
+{
+  "schema": "h232-fixed-ep3-exposed-fold-reference-blend-preregistration-v1",
+  "record_id": "H232_FIXED_EP3_REFERENCE_BLEND_PREREG_20261008_R2",
+  "created_utc": "2026-10-08T06:14:00.423455+00:00",
+  "hypothesis": "H-232",
+  "candidate": {
+    "run": "bd26_h232_full_s3_f0_amp4096_v7_proactive_20261008",
+    "fixed_epoch_zero_based": 3,
+    "checkpoint_sha256": "aaa731da1692ee5083c80296fd665b0a60815c9dc18430457f702cf779c2b829",
+    "arch": "GRU384x2",
+    "initialization": "own scratch",
+    "full_feature_width": 211,
+    "seed": 3,
+    "fit_groups": {
+      "train": 10535,
+      "valid": 1405
+    },
+    "prediction_filename": "pred_h232_v7b_ep3_export_only_r2_20261008_valid.npy",
+    "prediction_sidecar_filename": "pred_h232_v7b_ep3_export_only_r2_20261008_valid.json",
+    "prediction_shape": [
+      1873,
+      20000,
+      2
+    ],
+    "prediction_dtype": "float32",
+    "inference_precision": "fp32",
+    "source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+    "source_manifest_sha256": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42",
+    "delivery_transport": "Export-only recoveries retain original scientific checkpoint and predictor. Root binds exact terminal artifact path/hashes separately before scoring; transport identity is not model selection."
+  },
+  "reference": {
+    "role": "own public-incumbent-lineage parent prediction; this is not the full public submission endpoint",
+    "run": "c20261003_combo_s3_f0",
+    "seed": 3,
+    "epoch_zero_based": 3,
+    "architecture": "GRU256x2",
+    "checkpoint_path": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+    "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "provenance_path": "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+    "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+    "prediction_path": "cache/pred_c20261003_combo_s3_f0_valid.npy",
+    "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+    "sidecar_path": "cache/pred_c20261003_combo_s3_f0_valid.json",
+    "sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+    "fit_membership": {
+      "train_source_groups": 10535,
+      "valid_source_groups": 1405,
+      "exact_frozen_fold0_fit_match": true,
+      "evaluation_groups": 468,
+      "fit_evaluation_component_overlap": 0
+    },
+    "own_ancestors": [
+      {
+        "run": "c20260929_since_s3_f0",
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      },
+      {
+        "run": "c20260929_since_s4_f0",
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      },
+      {
+        "run": "c20260929_prop_f0",
+        "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+        "fit_groups": {
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      }
+    ],
+    "ancestry_manifest": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/SOURCE_FAMILIES.json",
+      "sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d"
+    }
+  },
+  "comparison_design": {
+    "split_manifest": {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "evaluation_groups": 468,
+      "exposure": "exposed discovery fold; not fresh confirmation"
+    },
+    "target_cache": {
+      "path": "cache/valid_targets.npz",
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    },
+    "official_metric": "global_wp_clip2_v1",
+    "mask": "need_prediction AND is_scored; need_prediction is row index >= 99 in every sequence",
+    "metric_formula": "For each target, clip target and prediction to [-2, 2], weight rows by abs(clipped target), pool all selected rows, compute weighted Pearson correlation; wp is the arithmetic mean of t0 and t1.",
+    "blend_formula": "p=(1-alpha)*reference+alpha*H232 raw predictions, then official metric clipping",
+    "reporting_rule": "Report the official score and delta from alpha=0 for every alpha; do not choose or promote the best weight.",
+    "pair_covariance_and_correlation": "Per target clipped member predictions and original clipped-target magnitude weights on official scored/prediction mask",
+    "uncertainty": {
+      "method": "paired component bootstrap over frozen group-level official metric moments",
+      "replicates": 2000,
+      "seed": 271828,
+      "comparisons": "Every fixed blend versus alpha0reference",
+      "interpretation": "Conditional on fixed predictions and exposed fold-0 components; excludes training-seed and public-transfer uncertainty."
+    },
+    "all_data_comparison": false,
+    "public_forecast": false,
+    "posthoc_slices": [],
+    "other_reference_predictions": [],
+    "blend_weights_on_candidate": [
+      0.0,
+      0.1,
+      0.25,
+      0.5,
+      1.0
+    ]
+  },
+  "fixed_weights_on_candidate": [
+    0,
+    0.1,
+    0.25,
+    0.5,
+    1
+  ],
+  "evaluation": "Exactly468 original exposed fold0 groups; source-qualified valid,row_group join full1873candidate and reference against targets. Same official global_wp_clip2_v1 mask/clipped-label magnitude weights, raw blend before officialclip2.",
+  "bootstrap": {
+    "unit": "paired connected components",
+    "replicates": 2000,
+    "seed": 271828,
+    "conditional_on_fixed_predictions": true
+  },
+  "comparability_limits": [
+    "Candidate own scratchGRU384 with four-epochFP16/AMP4096 training versus referenceGRU256 with since-teacher/propensity ancestry; not matched-objective/initialization/compute architectureablation",
+    "Previously exposed discoveryfold; no freshconfirmation/trainingseed/publictransfer estimate",
+    "All fiveweights reported; no winnerselection or publicforecast"
+  ],
+  "before_candidate_predictions": {
+    "observed_candidate_prediction_artifact": false,
+    "current_export_delivery": "R6terminal pre-inference manifest collision; no delivered candidate predictions read by root"
+  },
+  "grade_admission": "Rootreview actual complete/export terminal/sourcequalified ancestry/checkpoint/source/output locks and bounded grader before scores. No fit or provider admission.",
+  "supersedes": {
+    "record": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H232/H232_FIXED_EP3_REFERENCE_BLEND_PREREG_20261008_R1.json",
+    "sha256": "6198e606644a1992f48c11687ac09854fe907f8f2102e69f18a9bab94d38e84f",
+    "reason": "Original shared comparison-description text retained the old H218 candidate label. Correct only the formula label to H232 before scoring; weights, references, metric, bootstrap, candidate and other scientific fields unchanged. Original retained."
+  }
+}
