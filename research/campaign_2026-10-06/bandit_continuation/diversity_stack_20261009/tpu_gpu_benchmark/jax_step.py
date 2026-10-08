@@ -7,13 +7,13 @@ gradient clipping and optional replica reduction required by LOSS_PAIR_R2.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from functools import partial
-from typing import Literal, Mapping
+from typing import Literal
 
 import jax
 import jax.numpy as jnp
 from jax import lax
-
 from wnn_jax.rnn import AdamWState, ComputePrecision, adamw_update, forward_chunk
 
 LossKind = Literal["wmse", "huber"]
@@ -102,9 +102,7 @@ def train_chunk_step(
         )
         return numerator / global_den, next_state
 
-    (local_loss, next_state), local_gradients = jax.value_and_grad(
-        objective, has_aux=True
-    )(params)
+    (local_loss, next_state), local_gradients = jax.value_and_grad(objective, has_aux=True)(params)
     if replica_axis_name is not None:
         gradients = jax.tree_util.tree_map(
             lambda gradient: lax.psum(gradient, replica_axis_name), local_gradients
@@ -123,9 +121,7 @@ def train_chunk_step(
         jnp.asarray(gradient_clip_norm, dtype=jnp.float32)
         / (gradient_norm + jnp.asarray(1e-6, dtype=jnp.float32)),
     )
-    clipped_gradients = jax.tree_util.tree_map(
-        lambda gradient: gradient * scale, gradients
-    )
+    clipped_gradients = jax.tree_util.tree_map(lambda gradient: gradient * scale, gradients)
     finite = jnp.isfinite(reported_loss) & jnp.isfinite(gradient_norm)
     finite = finite & jnp.all(
         jnp.stack(

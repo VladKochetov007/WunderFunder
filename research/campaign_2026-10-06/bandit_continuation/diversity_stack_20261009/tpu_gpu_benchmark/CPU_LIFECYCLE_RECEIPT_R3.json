@@ -1,0 +1,43 @@
+{
+  "status": "cpu_lifecycle_pass_device_gate_pending",
+  "tests_passed": 8,
+  "tests_skipped": 0,
+  "junit_sha256": "70111c729f25cda9a62b136b3b230225bdb4dcc3abce3d9b93acd916b9c197d6",
+  "elapsed_test_seconds": 26.443,
+  "jax_version": "0.6.2",
+  "jaxlib_version": "0.6.2",
+  "backend": "cpu",
+  "temporary_dependency_target": "/tmp/wnn-sol-jax-deps",
+  "temporary_installed_bytes": 510983134,
+  "main_venv_mutated": false,
+  "limits": {
+    "cpu_cores": 1,
+    "memory_bytes": 2000000000,
+    "runtime_seconds": 120
+  },
+  "code_sha256": {
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/jax_step.py": "885c35792aaa5f7cf17b444956a410c11e457cea0bee4f4c0978510ea031f5fd",
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/tpu_worker.py": "dcacbee368c2baf9d37e54bdd30067eba9ade1aa2e9781339a5bd36fe56a9db3",
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/run_device_parity.py": "1da55a5a7d75a405ac29d7f43fe9729da6c11888ca23c078ed6e3faaa3c1bb25",
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/tpu_gpu_benchmark/tests/test_gru256_feature_adapter_parity.py": "688f598ab6e8c7f9139359e6a0eaa685b01422c4c6daede56b60ab7a7f0923ff"
+  },
+  "checks": [
+    "211-feature parity",
+    "forward and chunk state",
+    "checkpoint reload",
+    "explicit reset",
+    "prefix causality",
+    "weighted loss",
+    "wmse/huber gradients",
+    "two scheduled AdamW updates",
+    "global gradient clipping",
+    "writer-reader resume checkpoint"
+  ],
+  "not_established": [
+    "TPU numerical parity",
+    "TPU replica reduction",
+    "actual producer schema compatibility",
+    "full B32/C2000 memory/timing",
+    "model quality or multiplier"
+  ]
+}
