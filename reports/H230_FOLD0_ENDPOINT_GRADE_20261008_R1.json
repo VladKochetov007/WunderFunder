@@ -1,0 +1,99 @@
+{
+  "schema": "wnn.independent-fold0-endpoint-grade.v1",
+  "status": "graded_exposed_discovery_panel",
+  "metric_id": "global_wp_clip2_v1",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+  "evaluation_groups": 468,
+  "evaluation_components": 141,
+  "selected_rows": 808863,
+  "candidate": {
+    "endpoint": "0.5 * candidate core + 0.5 * head fine-tune",
+    "members": [
+      "bd26_h230_hetero_s3_f0@ep1",
+      "f0_h230_hetero_s3_hft_v1@ep0"
+    ],
+    "member_bindings": [
+      {
+        "run_at": "bd26_h230_hetero_s3_f0@ep1",
+        "checkpoint_sha256": "59718b92befe647dde74335a17dc00d264e668ff8177201a1c636e7e194d72c9",
+        "prediction_sha256": "8f0f53f7990739847cb4ecd785b508ef32a59c982a702b5e05cf04bbd1d78e78",
+        "prediction_sidecar_sha256": "71feb03d21843c396ded01664b6f160198910c86935cf3fb9d77e8bf5717b4f4",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+        "fit_membership_status": "passed",
+        "inference_precision": "fp16"
+      },
+      {
+        "run_at": "f0_h230_hetero_s3_hft_v1@ep0",
+        "checkpoint_sha256": "887fd88dde75e1514e05f505e7f3a5432dc1b7a6109892e3893b2d706340314e",
+        "prediction_sha256": "353b8ff61e26fd659c0a4d7e579094e63a79a9675364f9fd1fb2fb7605b5e60e",
+        "prediction_sidecar_sha256": "107b5eaf2a8714dbeab2cde7ff54c4228b41024c0fa91f32a8a4884353ef5379",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+        "fit_membership_status": "passed",
+        "inference_precision": "fp16"
+      }
+    ],
+    "t0_wp": 0.6752912679669208,
+    "t1_wp": 0.6893256533860026,
+    "wp": 0.6823084606764618
+  },
+  "control": {
+    "endpoint": "0.5 * matched parent + 0.5 * parent head fine-tune",
+    "members": [
+      "c20261003_combo_s3_f0@ep3",
+      "f0_combo_s3_parent_hft_v1@ep0"
+    ],
+    "member_bindings": [
+      {
+        "run_at": "c20261003_combo_s3_f0@ep3",
+        "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+        "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+        "prediction_sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+        "fit_membership_status": "passed",
+        "inference_precision": null
+      },
+      {
+        "run_at": "f0_combo_s3_parent_hft_v1@ep0",
+        "checkpoint_sha256": "92d4d67d8f2a8d74dfcdd7622be355ad91dd67629d1adea101c90281be47a583",
+        "prediction_sha256": "c58e4914b81bff5214f7f9b18ae1a203eb5ea2713ea3948e1d8d680b4312fede",
+        "prediction_sidecar_sha256": "66de813620cfd68909d72b21e55e2304fc2767f5886375887a51641ab64b2f87",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+        "fit_membership_status": "passed",
+        "inference_precision": "fp16"
+      }
+    ],
+    "t0_wp": 0.6753549771172501,
+    "t1_wp": 0.6887826022936753,
+    "wp": 0.6820687897054627
+  },
+  "paired_component_bootstrap": {
+    "unit": "connected feature-only successor component",
+    "components": 141,
+    "replicates": 2000,
+    "seed": 271828,
+    "delta_candidate_minus_control": 0.00023967097099908408,
+    "percentile_95_interval": [
+      -0.0010239600540226906,
+      0.0012450000186494362
+    ],
+    "bootstrap_median": 0.00030355837119816487,
+    "probability_delta_positive_in_bootstrap": 0.687,
+    "scope": "fixed predictions; does not include training-seed or public-transfer uncertainty"
+  },
+  "exposure": "fold0 evaluation groups have been repeatedly inspected; fold1 robustness remains exposed and is not pristine confirmation",
+  "claim_limits": {
+    "public_forecast": false,
+    "heldout_claim": false,
+    "public_upload": false
+  },
+  "independent_implementation": {
+    "equation": "pool clipped targets/predictions, use weight abs(clipped target), compute weighted Pearson per target, then average t0/t1",
+    "does_not_call_score_fold0_panel": true,
+    "component_resampling_uses_centered_moments": true
+  }
+}
