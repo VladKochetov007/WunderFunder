@@ -1,5 +1,13 @@
 # Live frontier — resumed independent training
 
+## Delivered student and live mechanism lanes — 2026-10-08 06:09 Kyiv
+
+H230 seed3 public-test ZIP is ready: `submissions/c20261008_h230_all_data_s3_i16.zip`, SHA `181d84b094343c541ca5af103dac74e225642d0bba14e00c275a153c7422aa88`. The corrected own native build passes actual Python3.11 callback/reset and ABI checks. No public result has arrived; best remains0.6660. Seed4 retry1 is healthy in epoch1; its single and predeclared equal-pair packages follow terminal checks.
+
+H232 V7B-shortslug completed its actual-device profile with230/230 completed updates and no skips, then completed fit epoch0 in1632.8seconds with14914/14920 updates and6 AMP skips. Live logs confirm epoch1 began. E540 V6 is pushed once, providerRUNNING, with explicit embedded root approval and repaired CLI construction; observed worker resource heartbeats do not yet establish profile/fit phase. Owned Vast54755890 fallback upload reached25.3GB of training data; fitting awaits complete input verification. TPU V5 remains queued.
+
+Next local distinct mechanism is H-ADH-20261008-S: source versus normalized teacher target, same seed/model/family targets/recipe. Existing normalized cache passed a root sampled algebra audit on1.28million values; no rebuild is needed. Its actor prepares the variant-only successor contract for root review after endpoint packaging. Full teacher-history and TCN-residual branches remain separate eligible follow-ups. Research continues after10:00Kyiv with local CPU limited to5cores.
+
 
 ## All-data endpoint landed; serving and cloud repair — 2026-10-08 05:44 Kyiv
 
