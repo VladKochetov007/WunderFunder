@@ -13,16 +13,19 @@ results, logs, grades, held-out 468-group predictions and small checkpoints are 
 
 Environment overrides (used by the local dry run): WARM_INPUT, WARM_WORK, WARM_REPO,
 WARM_DRY_RUN=1 (validate paths and argv only; no training), WARM_MAX_WALL_SECONDS,
-WARM_IDLE_EXIT_SECONDS.
+WARM_IDLE_EXIT_SECONDS. Runtime is hard-capped at 7800 seconds from Python entry.
 """
 
 from __future__ import annotations
 
+import contextlib
+import csv
 import hashlib
 import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import tarfile
@@ -39,9 +42,21 @@ SRC_ARCHIVE = "wnn_src.tar.gz"
 MANIFEST = "assets-manifest.json"
 SMALL_BYTES = 50 << 20
 DRY_RUN = os.environ.get("WARM_DRY_RUN") == "1"
-MAX_WALL = int(os.environ.get("WARM_MAX_WALL_SECONDS", str(8 * 3600)))
-IDLE_EXIT = os.environ.get("WARM_IDLE_EXIT_SECONDS", "180")
+MAX_WALL_CEILING_SECONDS = 7800
+MAX_WALL = min(
+    int(os.environ.get("WARM_MAX_WALL_SECONDS", str(MAX_WALL_CEILING_SECONDS))),
+    MAX_WALL_CEILING_SECONDS,
+)
+if MAX_WALL <= 0:
+    raise ValueError("WARM_MAX_WALL_SECONDS must be positive")
+IDLE_EXIT = str(min(max(int(os.environ.get("WARM_IDLE_EXIT_SECONDS", "180")), 30), 60))
 GPUS = (0, 1)
+MIN_START_AVAILABLE_BYTES = 20_000_000_000
+MIN_RUNTIME_AVAILABLE_BYTES = 2_000_000_000
+MAX_WORKER_RSS_BYTES = 24_000_000_000
+SUPERVISOR_HEARTBEAT_SECONDS = 30
+SUPERVISOR_SHUTDOWN_RESERVE_SECONDS = 60
+WORKER_STOP_GRACE_SECONDS = 8
 PLACEHOLDERS = {"{python}": sys.executable, "{repo}": str(REPO), "{out}": str(OUT)}
 
 
@@ -247,49 +262,302 @@ def write_queues(specs: list[dict[str, object]]) -> dict[int, int]:
     return counts
 
 
-def start_workers() -> dict[int, subprocess.Popen[bytes]]:
-    workers: dict[int, subprocess.Popen[bytes]] = {}
-    for gpu in GPUS:
-        env = os.environ.copy()
-        env.update(
+def gpu_inventory() -> list[dict[str, object]]:
+    """Sample every visible GPU and its memory usage with nvidia-smi."""
+    result = subprocess.run(
+        [
+            "nvidia-smi",
+            "--query-gpu=index,uuid,name,memory.used,memory.total",
+            "--format=csv,noheader,nounits",
+        ],
+        capture_output=True,
+        text=True,
+        timeout=60,
+        check=True,
+    )
+    devices: list[dict[str, object]] = []
+    for row in csv.reader(result.stdout.splitlines()):
+        if len(row) != 5:
+            raise RuntimeError(f"unexpected nvidia-smi GPU row: {row!r}")
+        try:
+            index = int(row[0].strip())
+            memory_used_mib = int(row[3].strip())
+            memory_total_mib = int(row[4].strip())
+        except ValueError as error:
+            raise RuntimeError(f"nvidia-smi returned nonnumeric GPU memory: {row!r}") from error
+        devices.append(
             {
-                "CUDA_VISIBLE_DEVICES": str(gpu),
-                "PYTHONPATH": f"{REPO / 'src'}:{REPO}",
-                "WNN_PROJECT_ROOT": str(REPO),
-                "WNN_THREADS": "2",
-                "WNN_LOADER_WORKERS": "0",
-                "OMP_NUM_THREADS": "2",
+                "index": index,
+                "uuid": row[1].strip(),
+                "name": row[2].strip(),
+                "memory_used_mib": memory_used_mib,
+                "memory_total_mib": memory_total_mib,
             }
         )
-        queue = WORK / "queues" / f"gpu{gpu}"
-        log = (WORK / f"worker_gpu{gpu}.log").open("ab")
-        workers[gpu] = subprocess.Popen(
-            [sys.executable, str(REPO / "scripts/warm_queue_worker.py"), "--queue", str(queue),
-             "--poll-seconds", "10", "--idle-exit-seconds", IDLE_EXIT],
-            cwd=REPO, env=env, stdout=log, stderr=subprocess.STDOUT, start_new_session=True,
-        )
-        phase("worker_started", gpu=gpu, pid=workers[gpu].pid)
-        time.sleep(30)  # stagger the two startups so mounts and parquet hashing do not collide
+    if not devices:
+        raise RuntimeError("nvidia-smi reported no visible GPUs")
+    return devices
+
+
+def _host_available_bytes() -> int:
+    """Read Linux MemAvailable, failing closed if host memory telemetry is absent."""
+    for line in Path("/proc/meminfo").read_text().splitlines():
+        if line.startswith("MemAvailable:"):
+            return int(line.split()[1]) * 1024
+    raise RuntimeError("MemAvailable is missing from /proc/meminfo")
+
+
+def _cgroup_available_bytes() -> int | None:
+    """Return cgroup memory headroom when a finite limit is exposed."""
+    candidates = (
+        (Path("/sys/fs/cgroup/memory.max"), Path("/sys/fs/cgroup/memory.current")),
+        (
+            Path("/sys/fs/cgroup/memory/memory.limit_in_bytes"),
+            Path("/sys/fs/cgroup/memory/memory.usage_in_bytes"),
+        ),
+    )
+    for limit_path, current_path in candidates:
+        if not limit_path.is_file() or not current_path.is_file():
+            continue
+        limit_text = limit_path.read_text().strip()
+        if limit_text == "max":
+            return None
+        limit = int(limit_text)
+        if limit >= 1 << 60:
+            return None
+        current = int(current_path.read_text().strip())
+        return max(0, limit - current)
+    return None
+
+
+def _process_memory_table() -> dict[int, tuple[int, int]]:
+    """Map each visible PID to its parent PID and resident bytes."""
+    table: dict[int, tuple[int, int]] = {}
+    for status_path in Path("/proc").glob("[0-9]*/status"):
+        try:
+            pid = int(status_path.parent.name)
+            parent_pid: int | None = None
+            rss_bytes = 0
+            for line in status_path.read_text().splitlines():
+                if line.startswith("PPid:"):
+                    parent_pid = int(line.split()[1])
+                elif line.startswith("VmRSS:"):
+                    rss_bytes = int(line.split()[1]) * 1024
+            if parent_pid is not None:
+                table[pid] = (parent_pid, rss_bytes)
+        except (OSError, ValueError, IndexError):
+            continue
+    return table
+
+
+def _descendants(root_pid: int, process_table: dict[int, tuple[int, int]]) -> set[int]:
+    """Return one process root and every visible descendant PID."""
+    descendants = {root_pid}
+    while True:
+        children = {pid for pid, (parent, _) in process_table.items() if parent in descendants}
+        updated = descendants | children
+        if updated == descendants:
+            return descendants
+        descendants = updated
+
+
+def resource_snapshot(
+    workers: dict[int, subprocess.Popen[bytes]],
+) -> dict[str, object]:
+    """Sample host/cgroup memory, worker-tree RSS, and per-GPU memory."""
+    host_available = _host_available_bytes()
+    cgroup_available = _cgroup_available_bytes()
+    available_candidates = [host_available]
+    if cgroup_available is not None:
+        available_candidates.append(cgroup_available)
+    effective_available = min(available_candidates)
+
+    process_table = _process_memory_table()
+    worker_rss_by_gpu: dict[str, int] = {}
+    worker_pids_by_gpu: dict[str, list[int]] = {}
+    for gpu, process in workers.items():
+        if process.poll() is not None:
+            worker_rss_by_gpu[str(gpu)] = 0
+            worker_pids_by_gpu[str(gpu)] = []
+            continue
+        if process.pid not in process_table:
+            raise RuntimeError(f"cannot sample RSS for live worker PID {process.pid}")
+        pids = _descendants(process.pid, process_table)
+        worker_pids_by_gpu[str(gpu)] = sorted(pids)
+        worker_rss_by_gpu[str(gpu)] = sum(process_table[pid][1] for pid in pids)
+
+    gpu_rows = gpu_inventory()
+    return {
+        "host_available_bytes": host_available,
+        "cgroup_available_bytes": cgroup_available,
+        "effective_available_bytes": effective_available,
+        "worker_rss_bytes_by_gpu": worker_rss_by_gpu,
+        "worker_pids_by_gpu": worker_pids_by_gpu,
+        "worker_aggregate_rss_bytes": sum(worker_rss_by_gpu.values()),
+        "gpu_count": len(gpu_rows),
+        "gpus": gpu_rows,
+    }
+
+
+def _startup_resource_issues(snapshot: dict[str, object]) -> list[str]:
+    issues = []
+    available = snapshot.get("effective_available_bytes")
+    gpu_count = snapshot.get("gpu_count")
+    if not isinstance(available, int) or available < MIN_START_AVAILABLE_BYTES:
+        issues.append("effective available memory is below 20 GB")
+    if not isinstance(gpu_count, int) or gpu_count < len(GPUS):
+        issues.append(f"fewer than {len(GPUS)} GPUs are visible")
+    return issues
+
+
+def _runtime_resource_issues(snapshot: dict[str, object]) -> list[str]:
+    issues = []
+    available = snapshot.get("effective_available_bytes")
+    aggregate_rss = snapshot.get("worker_aggregate_rss_bytes")
+    gpu_count = snapshot.get("gpu_count")
+    if not isinstance(available, int) or available < MIN_RUNTIME_AVAILABLE_BYTES:
+        issues.append("effective available memory is below 2 GB")
+    if not isinstance(aggregate_rss, int) or aggregate_rss > MAX_WORKER_RSS_BYTES:
+        issues.append("worker-tree RSS exceeds 24 GB or is unavailable")
+    if not isinstance(gpu_count, int) or gpu_count < len(GPUS):
+        issues.append(f"fewer than {len(GPUS)} GPUs remain visible")
+    return issues
+
+
+def _terminate_workers(
+    workers: dict[int, subprocess.Popen[bytes]], reason: str
+) -> None:
+    """Stop worker groups and, after a short grace period, all tracked descendants."""
+    active = {gpu: proc for gpu, proc in workers.items() if proc.poll() is None}
+    phase("workers_stop_requested", reason=reason, pids={str(gpu): proc.pid for gpu, proc in active.items()})
+    for process in active.values():
+        with contextlib.suppress(ProcessLookupError):
+            os.killpg(process.pid, signal.SIGTERM)
+
+    deadline = time.monotonic() + WORKER_STOP_GRACE_SECONDS
+    while active and time.monotonic() < deadline:
+        active = {gpu: proc for gpu, proc in active.items() if proc.poll() is None}
+        if active:
+            time.sleep(0.2)
+
+    if active:
+        process_table = _process_memory_table()
+        descendant_pids = set()
+        for process in active.values():
+            descendant_pids |= _descendants(process.pid, process_table)
+        for pid in sorted(descendant_pids - {proc.pid for proc in active.values()}, reverse=True):
+            with contextlib.suppress(ProcessLookupError):
+                os.kill(pid, signal.SIGKILL)
+    # The worker leader may exit on SIGTERM while a child remains in its session.
+    # Kill every owned process group after the grace period, including those whose
+    # Popen leader has already exited, then reap each leader.
+    for process in workers.values():
+        with contextlib.suppress(ProcessLookupError):
+            os.killpg(process.pid, signal.SIGKILL)
+        process.wait()
+    phase(
+        "workers_stopped",
+        reason=reason,
+        returncodes={str(gpu): proc.returncode for gpu, proc in workers.items()},
+    )
+
+
+def start_workers() -> dict[int, subprocess.Popen[bytes]]:
+    snapshot = resource_snapshot({})
+    phase("resource_preflight", stage="before_workers", **snapshot)
+    issues = _startup_resource_issues(snapshot)
+    if issues:
+        raise RuntimeError("startup resource gate rejected packet: " + "; ".join(issues))
+
+    workers: dict[int, subprocess.Popen[bytes]] = {}
+    try:
+        for gpu in GPUS:
+            env = os.environ.copy()
+            env.update(
+                {
+                    "CUDA_VISIBLE_DEVICES": str(gpu),
+                    "PYTHONPATH": f"{REPO / 'src'}:{REPO}",
+                    "WNN_PROJECT_ROOT": str(REPO),
+                    "WNN_THREADS": "2",
+                    "WNN_LOADER_WORKERS": "0",
+                    "OMP_NUM_THREADS": "2",
+                }
+            )
+            queue = WORK / "queues" / f"gpu{gpu}"
+            log = (WORK / f"worker_gpu{gpu}.log").open("ab")
+            workers[gpu] = subprocess.Popen(
+                [sys.executable, str(REPO / "scripts/warm_queue_worker.py"), "--queue", str(queue),
+                 "--poll-seconds", "10", "--idle-exit-seconds", IDLE_EXIT],
+                cwd=REPO, env=env, stdout=log, stderr=subprocess.STDOUT, start_new_session=True,
+            )
+            phase("worker_started", gpu=gpu, pid=workers[gpu].pid)
+            if gpu != GPUS[-1]:
+                time.sleep(30)
+                snapshot = resource_snapshot(workers)
+                next_gpu = GPUS[GPUS.index(gpu) + 1]
+                phase("resource_preflight", stage=f"before_gpu_{next_gpu}", **snapshot)
+                issues = _startup_resource_issues(snapshot)
+                if issues:
+                    raise RuntimeError(
+                        "second-worker resource gate rejected packet: " + "; ".join(issues)
+                    )
+    except Exception:
+        if workers:
+            _terminate_workers(workers, "worker_startup_failed")
+        raise
     return workers
 
 
-def supervise(workers: dict[int, subprocess.Popen[bytes]]) -> None:
-    started = time.time()
-    while any(p.poll() is None for p in workers.values()):
-        time.sleep(60)
-        for gpu, proc in workers.items():
+def supervise(
+    workers: dict[int, subprocess.Popen[bytes]], started_monotonic: float
+) -> None:
+    deadline = started_monotonic + MAX_WALL
+    stop_at = deadline - SUPERVISOR_SHUTDOWN_RESERVE_SECONDS
+    while any(process.poll() is None for process in workers.values()):
+        remaining = stop_at - time.monotonic()
+        if remaining <= 0:
+            phase("wall_limit_reached", max_wall_seconds=MAX_WALL)
+            _terminate_workers(workers, "hard_wall_limit")
+            break
+        time.sleep(min(SUPERVISOR_HEARTBEAT_SECONDS, remaining))
+        if not any(process.poll() is None for process in workers.values()):
+            break
+        try:
+            snapshot = resource_snapshot(workers)
+        except Exception as error:
+            phase("resource_telemetry_failed", error=repr(error))
+            _terminate_workers(workers, "resource_telemetry_failed")
+            break
+
+        worker_states = {}
+        for gpu, process in workers.items():
             heartbeat = WORK / "queues" / f"gpu{gpu}" / "worker_heartbeat.json"
             beat = json.loads(heartbeat.read_text()) if heartbeat.exists() else {}
             results = WORK / "queues" / f"gpu{gpu}" / "results.jsonl"
             done = len(results.read_text().splitlines()) if results.exists() else 0
-            phase("heartbeat", gpu=gpu, alive=proc.poll() is None, current_run=beat.get("current_run_id"),
-                  current_step=beat.get("current_step"), results=done)
-        if time.time() - started > MAX_WALL:
-            phase("wall_limit_reached", seconds=MAX_WALL)
-            for proc in workers.values():
-                if proc.poll() is None:
-                    os.killpg(proc.pid, 15)
+            worker_states[str(gpu)] = {
+                "alive": process.poll() is None,
+                "current_run": beat.get("current_run_id"),
+                "current_step": beat.get("current_step"),
+                "results": done,
+            }
+        phase(
+            "heartbeat",
+            elapsed_seconds=round(time.monotonic() - started_monotonic, 3),
+            workers=worker_states,
+            resources=snapshot,
+        )
+        issues = _runtime_resource_issues(snapshot)
+        if issues:
+            phase("resource_limit_reached", reasons=issues, resources=snapshot)
+            _terminate_workers(workers, "resource_limit_reached")
             break
+
+    phase(
+        "supervisor_complete",
+        elapsed_seconds=round(time.monotonic() - started_monotonic, 3),
+        max_wall_seconds=MAX_WALL,
+    )
 
 
 def collect() -> dict[str, object]:
@@ -333,17 +601,19 @@ def dry_run_checks(specs: list[dict[str, object]]) -> None:
     phase("dry_run_specs_valid", specs=len(specs))
 
 
-def gpu_inventory() -> str:
-    try:
-        result = subprocess.run(["nvidia-smi", "-L"], capture_output=True, text=True, timeout=60, check=False)
-        return result.stdout.strip() or result.stderr.strip()
-    except (OSError, subprocess.TimeoutExpired) as error:
-        return f"nvidia-smi unavailable: {error}"
-
-
 def main() -> int:
+    started_monotonic = time.monotonic()
     write_boot_marker()
-    phase("start", dry_run=DRY_RUN, python=sys.version.split()[0], input=str(INPUT))
+    phase(
+        "start",
+        dry_run=DRY_RUN,
+        python=sys.version.split()[0],
+        input=str(INPUT),
+        max_wall_seconds=MAX_WALL,
+        worker_rss_limit_bytes=MAX_WORKER_RSS_BYTES,
+        startup_available_min_bytes=MIN_START_AVAILABLE_BYTES,
+        runtime_available_min_bytes=MIN_RUNTIME_AVAILABLE_BYTES,
+    )
     if not DRY_RUN:
         phase("gpus", inventory=gpu_inventory())
     OUT.mkdir(parents=True, exist_ok=True)
@@ -360,8 +630,24 @@ def main() -> int:
     dry_run_checks(specs)
     counts = write_queues(specs)
     phase("queues_written", counts={str(k): v for k, v in counts.items()})
-    workers = start_workers()
-    supervise(workers)
+    worker_start_reserve = SUPERVISOR_SHUTDOWN_RESERVE_SECONDS + 30
+    if time.monotonic() >= started_monotonic + MAX_WALL - worker_start_reserve:
+        phase(
+            "wall_limit_before_workers",
+            max_wall_seconds=MAX_WALL,
+            worker_start_reserve_seconds=worker_start_reserve,
+        )
+        summary = collect()
+        phase("collected", summary=summary)
+        return 1
+    try:
+        workers = start_workers()
+    except Exception as error:
+        phase("startup_resource_gate_failed", error=repr(error))
+        summary = collect()
+        phase("collected", summary=summary)
+        return 1
+    supervise(workers, started_monotonic)
     summary = collect()
     phase("collected", summary=summary)
     return 0 if all(p.returncode == 0 for p in workers.values()) else 1

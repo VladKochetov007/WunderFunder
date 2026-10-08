@@ -2,15 +2,15 @@
   "kernel_id": "vladkochetov07/wnn-warm-cohort-smoke-20261008-v3",
   "kernel_metadata_sha256": "5acf10516c363e34bcf416a4e7edacc91313cf3873a9faedae85a39014c736fc",
   "kernel_script": "wnn-warm-cohort-smoke-20261008-v3.py",
-  "kernel_script_sha256": "750a30261a8e550691ed110695a0088487006612acb57ed2a1bbe61ec29b8ec2",
-  "kernel_script_size_bytes": 15475,
+  "kernel_script_sha256": "caad47a642060a73d70098e5a92969c289ba0093a3716a3af6fda22c1cd8c54f",
+  "kernel_script_size_bytes": 26787,
   "offline_smoke_boot_marker": {
     "event": "kernel_boot",
-    "input_root": "/tmp/wnn-smoke3-fixture-final-8ob801nz",
-    "pid": 2462576,
-    "utc": "2026-10-08T20:00:47Z"
+    "input_root": "fixture nested owner mount",
+    "utc": "2026-10-08T20:13:23Z"
   },
   "offline_smoke_exit_code": 0,
+  "offline_smoke_mode": "dry_run_no_training_no_device_profile",
   "offline_smoke_phase_names": [
     "start",
     "manifest_mounted",
@@ -20,6 +20,7 @@
     "inputs_ready",
     "dry_run_specs_valid"
   ],
+  "runtime_hard_wall_seconds": 7800,
   "source_dataset": "vladkochetov07/wnn-warm-cohort-src-20261008-v2",
   "source_files": [
     {
@@ -1683,5 +1684,15 @@
     }
   ],
   "source_tar_total_uncompressed_bytes": 3130877,
-  "source_worker_sha256": "640a4c884789998a056c542a662385a164c5b810a8bc45e9c6e109b39604f04a"
+  "source_worker_sha256": "640a4c884789998a056c542a662385a164c5b810a8bc45e9c6e109b39604f04a",
+  "worker_runtime_resource_gate": {
+    "heartbeat_interval_seconds": 30,
+    "max_aggregate_worker_rss_bytes": 24000000000,
+    "min_effective_available_bytes": 2000000000,
+    "min_visible_gpus": 2
+  },
+  "worker_startup_resource_gate": {
+    "min_effective_available_bytes": 20000000000,
+    "min_visible_gpus": 2
+  }
 }
