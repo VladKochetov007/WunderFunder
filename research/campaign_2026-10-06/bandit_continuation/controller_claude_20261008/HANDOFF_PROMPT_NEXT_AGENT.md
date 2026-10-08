@@ -75,5 +75,15 @@ Bold bets:
 31. Native engine rewrite to fit 3 trunks (diverse ensemble).
 32. Test-time per-sequence adaptation that is causal and label-free (e.g. normalization stats updated online, entropy-style objectives).
 
+External ideation (Grok 4.7 + OpenCode Muse, 2026-10-08): `research/ideas/claude_20261008_round/PLAN_TO_0700.md`, registered as H-284..H-290:
+33. Class-3 analytic latent-F readout (t0+t1 consistency) — CPU identity audit first (H-284).
+34. Disagreement-selected teacher pool instead of seeds (H-285).
+35. Causal i0/i1 cointegrating residual feature (H-286).
+36. Rank-4 innovation basis latent dynamics (H-287).
+37. Low-rank wide recurrent student via --recurrent-rank (H-288).
+38. Top-K/threshold prediction gate for pooled WP (H-289, CPU).
+39. Late optimizer switch from mid checkpoint (H-290).
+Engine timing: `ENGINE_TIMING_20261008.json` (2 trunks ≈ 64–72 min → not servable without H-282).
+
 ## How to decide a submission
 Fold0 analogue gain vs the incumbent analogue (`f0_combo_s3_parent_hft_v1`) and vs C1, consistent across 2 seeds, then fold1, then package single trunk merged heads, pass ABI/py311/determinism/reset/timing (<55 min projected), give the ZIP path + RELEASE_CHECK to the user for manual upload. Report public result receipts in `continuous_execution_E529/` or controller notes.
