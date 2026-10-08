@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 994 · raw hypothesis rows 298 · raw experiment rows 615 · legacy arms 18 · catalog files 63911.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 996 · raw hypothesis rows 300 · raw experiment rows 617 · legacy arms 18 · catalog files 64204.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-ea24056dc2f687e11c21c882119c89665e4f65cc88cf9ebfdab23a900bbcaef2.json](<snapshots/config-ea24056dc2f687e11c21c882119c89665e4f65cc88cf9ebfdab23a900bbcaef2.json>).
 
@@ -1002,6 +1002,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-ADH-20261008-N | H-ADH-20261008-N | hypothesis · proposed_recipe_audit_pending | family:objective | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L296>) | — |
 | hypothesis:H217-FULLFEATURE-128 | H217-FULLFEATURE-128 | hypothesis · code_only_preparation | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L297>) | — |
 | hypothesis:H217-FULLFEATURE-CAPACITY-256 | H217-FULLFEATURE-CAPACITY-256 | hypothesis · code_only_preparation | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L298>) | — |
+| hypothesis:H-GRAD-BUDGET-20261008 | H-GRAD-BUDGET-20261008 | hypothesis · proposed_unrun | family:optimization | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L299>), [research/hypotheses.jsonl](<../../hypotheses.jsonl#L300>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -1567,6 +1568,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-H230-ALLDATA-STUDENT-S4-AND-PAIR-DELIVERED-20261008 | E-H230-ALLDATA-STUDENT-S4-AND-PAIR-DELIVERED-20261008 | experiment · fit_complete_public_test_zips_ready_not_uploaded | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L613>) | — |
 | experiment:E-H217-A3-TCN-FOLD0-GRADED-20261008 | E-H217-A3-TCN-FOLD0-GRADED-20261008 | experiment · fit_export_complete_exposed_fold_grade | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L614>) | — |
 | experiment:E-H230-NORMALIZED-ALLDATA-DELIVERED-20261008 | E-H230-NORMALIZED-ALLDATA-DELIVERED-20261008 | experiment · fit_complete_public_test_zip_ready_not_uploaded | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L615>) | — |
+| experiment:E-E540-V8-CONTROL-PRESERVED-20261008 | E-E540-V8-CONTROL-PRESERVED-20261008 | experiment · control_fit_complete_delivery_validator_failed | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L616>), [research/experiments.jsonl](<../../experiments.jsonl#L617>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |

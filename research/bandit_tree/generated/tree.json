@@ -6281,8 +6281,8 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 615,
-      "hypotheses": 298,
+      "experiments": 617,
+      "hypotheses": 300,
       "journal": 87
     }
   },
@@ -27625,6 +27625,75 @@
         }
       ],
       "title": "H217-FULLFEATURE-CAPACITY-256",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:optimization",
+        "matches": [
+          "family:optimization"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-GRAD-BUDGET-20261008",
+      "latest_recorded_status": "proposed_unrun",
+      "parent_id": "family:optimization",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-GRAD-BUDGET-20261008\", \"title\": \"Head-dominated global clipping and numeric representation interaction\", \"status\": \"proposed_unrun\", \"mechanism_family\": \"optimization\", \"parents\": [\"H-540\"], \"objective_mode\": \"competition\", \"evidence_ref\": \"research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/GRADIENT_BUDGET_HYPOTHESIS_20261008_R1.md\", \"numerical_prior\": null, \"expected_public_score\": null, \"fit_admitted\": false, \"timestamp_utc\": \"2026-10-08T05:14:59.183941+00:00\", \"counterargument\": \"Adam constant-scale invariance; long-duration ordinary training alternative\", \"allocation\": \"After original paired PLE endpoint; no active-fit mutation\"}\n",
+          "record": {
+            "allocation": "After original paired PLE endpoint; no active-fit mutation",
+            "counterargument": "Adam constant-scale invariance; long-duration ordinary training alternative",
+            "evidence_ref": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/GRADIENT_BUDGET_HYPOTHESIS_20261008_R1.md",
+            "expected_public_score": null,
+            "fit_admitted": false,
+            "id": "H-GRAD-BUDGET-20261008",
+            "mechanism_family": "optimization",
+            "numerical_prior": null,
+            "objective_mode": "competition",
+            "parents": [
+              "H-540"
+            ],
+            "status": "proposed_unrun",
+            "timestamp_utc": "2026-10-08T05:14:59.183941+00:00",
+            "title": "Head-dominated global clipping and numeric representation interaction"
+          },
+          "source": {
+            "line": 299,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "fa483c4b292db2c7fd057866936fef61aebc2d7475cf39905c831d3aeadd8e0c"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"H-GRAD-BUDGET-20261008\", \"title\": \"Head-dominated global clipping and numeric representation interaction\", \"status\": \"proposed_unrun\", \"mechanism_family\": \"optimization\", \"parents\": [\"H-E540-A\"], \"objective_mode\": \"competition\", \"evidence_ref\": \"research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/GRADIENT_BUDGET_HYPOTHESIS_20261008_R1.md\", \"numerical_prior\": null, \"expected_public_score\": null, \"fit_admitted\": false, \"timestamp_utc\": \"2026-10-08T05:21:04.757960+00:00\", \"counterargument\": \"Adam constant-scale invariance; long-duration ordinary training alternative\", \"allocation\": \"After original paired PLE endpoint; no active-fit mutation\", \"record_kind\": \"correction\", \"correction_reason\": \"Correct parent locator H-540 to registered H-E540-A; preserve original proposal.\"}\n",
+          "record": {
+            "allocation": "After original paired PLE endpoint; no active-fit mutation",
+            "correction_reason": "Correct parent locator H-540 to registered H-E540-A; preserve original proposal.",
+            "counterargument": "Adam constant-scale invariance; long-duration ordinary training alternative",
+            "evidence_ref": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/GRADIENT_BUDGET_HYPOTHESIS_20261008_R1.md",
+            "expected_public_score": null,
+            "fit_admitted": false,
+            "id": "H-GRAD-BUDGET-20261008",
+            "mechanism_family": "optimization",
+            "numerical_prior": null,
+            "objective_mode": "competition",
+            "parents": [
+              "H-E540-A"
+            ],
+            "record_kind": "correction",
+            "status": "proposed_unrun",
+            "timestamp_utc": "2026-10-08T05:21:04.757960+00:00",
+            "title": "Head-dominated global clipping and numeric representation interaction"
+          },
+          "source": {
+            "line": 300,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "2709c441b188f80b6fbb9442bcbd39f6a691f245ffd87df0667005111cb6eb1d"
+          }
+        }
+      ],
+      "title": "H-GRAD-BUDGET-20261008",
       "type": "hypothesis"
     },
     {
@@ -57130,6 +57199,149 @@
         }
       ],
       "title": "E-H230-NORMALIZED-ALLDATA-DELIVERED-20261008",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-E540-V8-CONTROL-PRESERVED-20261008",
+      "latest_recorded_status": "control_fit_complete_delivery_validator_failed",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-E540-V8-CONTROL-PRESERVED-20261008\", \"timestamp_utc\": \"2026-10-08T05:13:37.361866+00:00\", \"owner\": \"root; cloud_operator e540_independent_recipe_delivery_audit\", \"hypothesis_id\": \"H-540\", \"status\": \"control_fit_complete_delivery_validator_failed\", \"kernel\": \"vladkochetov07/e540-v8-fp32-20261008-r1-runner\", \"worker_seconds\": 1048.4, \"root_rehashed_external_checkpoint_table\": true, \"checkpoint_sha256\": {\"model_ep0.pt\": \"17c91be768a7f41cd4c6ae0b2bbce26bcf7d6fbf5e4f6509e38c4be6bd44403a\", \"model.pt\": \"73880506cf241502d961ce2cba20819085056fef05f5ea8e56d586535bbfb946\"}, \"optimizer_epoch_diagnostics\": {\"optimizer_attempts\": 72996, \"amp_skipped_updates\": 0, \"optimizer_completed_updates\": 72996, \"ema_updates\": 0, \"completed_batches\": 924}, \"gradient_stats\": {\"epoch\": 0, \"steps\": 72996, \"nonfinite_steps\": 0, \"clip\": 1.0, \"total_q05_q50_q95\": [0.99179, 5.11971, 15.9991], \"clip_rate\": 0.9492, \"mean_clip_factor\": 0.289, \"family_median\": {\"rnn_hh\": 0.06741, \"rnn_ih\": 0.19739, \"inp\": 0.55168, \"head\": 4.97778, \"bias\": 0.75869}, \"family_sq_share_mean\": {\"rnn_hh\": 0.0008, \"rnn_ih\": 0.0031, \"inp\": 0.031, \"head\": 0.9323, \"bias\": 0.0329}}, \"ple_fit_started\": false, \"predictions_delivered\": false, \"scientific_score\": null, \"expected_public_score\": null, \"failure\": \"Consumer looked for checkpoint hashes in embedded provenance instead of external producer provenance.json\", \"next_action\": \"V9 preserves verified linear control and fits only PLE; independent source review and quota admission pending\", \"evidence_ref\": \"research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/kaggle_v8_terminal_20261008_r1/E540_V8_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json\", \"evidence_sha256\": \"93a6956dffc9f12fd480b0e9374be9e67654767456f6a7edbfe51e4f680ad5f9\"}\n",
+          "record": {
+            "checkpoint_sha256": {
+              "model.pt": "73880506cf241502d961ce2cba20819085056fef05f5ea8e56d586535bbfb946",
+              "model_ep0.pt": "17c91be768a7f41cd4c6ae0b2bbce26bcf7d6fbf5e4f6509e38c4be6bd44403a"
+            },
+            "evidence_ref": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/kaggle_v8_terminal_20261008_r1/E540_V8_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json",
+            "evidence_sha256": "93a6956dffc9f12fd480b0e9374be9e67654767456f6a7edbfe51e4f680ad5f9",
+            "expected_public_score": null,
+            "failure": "Consumer looked for checkpoint hashes in embedded provenance instead of external producer provenance.json",
+            "gradient_stats": {
+              "clip": 1.0,
+              "clip_rate": 0.9492,
+              "epoch": 0,
+              "family_median": {
+                "bias": 0.75869,
+                "head": 4.97778,
+                "inp": 0.55168,
+                "rnn_hh": 0.06741,
+                "rnn_ih": 0.19739
+              },
+              "family_sq_share_mean": {
+                "bias": 0.0329,
+                "head": 0.9323,
+                "inp": 0.031,
+                "rnn_hh": 0.0008,
+                "rnn_ih": 0.0031
+              },
+              "mean_clip_factor": 0.289,
+              "nonfinite_steps": 0,
+              "steps": 72996,
+              "total_q05_q50_q95": [
+                0.99179,
+                5.11971,
+                15.9991
+              ]
+            },
+            "hypothesis_id": "H-540",
+            "id": "E-E540-V8-CONTROL-PRESERVED-20261008",
+            "kernel": "vladkochetov07/e540-v8-fp32-20261008-r1-runner",
+            "next_action": "V9 preserves verified linear control and fits only PLE; independent source review and quota admission pending",
+            "optimizer_epoch_diagnostics": {
+              "amp_skipped_updates": 0,
+              "completed_batches": 924,
+              "ema_updates": 0,
+              "optimizer_attempts": 72996,
+              "optimizer_completed_updates": 72996
+            },
+            "owner": "root; cloud_operator e540_independent_recipe_delivery_audit",
+            "ple_fit_started": false,
+            "predictions_delivered": false,
+            "root_rehashed_external_checkpoint_table": true,
+            "scientific_score": null,
+            "status": "control_fit_complete_delivery_validator_failed",
+            "timestamp_utc": "2026-10-08T05:13:37.361866+00:00",
+            "worker_seconds": 1048.4
+          },
+          "source": {
+            "line": 616,
+            "path": "research/experiments.jsonl",
+            "sha256": "c456eb27b02e97af3698ee7a51b41f526d0cc2288a32e01f107a9e04b8364eac"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-E540-V8-CONTROL-PRESERVED-20261008\", \"timestamp_utc\": \"2026-10-08T05:21:04.757960+00:00\", \"owner\": \"root; cloud_operator e540_independent_recipe_delivery_audit\", \"hypothesis_id\": \"H-E540-A\", \"status\": \"control_fit_complete_delivery_validator_failed\", \"kernel\": \"vladkochetov07/e540-v8-fp32-20261008-r1-runner\", \"worker_seconds\": 1048.4, \"root_rehashed_external_checkpoint_table\": true, \"checkpoint_sha256\": {\"model_ep0.pt\": \"17c91be768a7f41cd4c6ae0b2bbce26bcf7d6fbf5e4f6509e38c4be6bd44403a\", \"model.pt\": \"73880506cf241502d961ce2cba20819085056fef05f5ea8e56d586535bbfb946\"}, \"optimizer_epoch_diagnostics\": {\"optimizer_attempts\": 72996, \"amp_skipped_updates\": 0, \"optimizer_completed_updates\": 72996, \"ema_updates\": 0, \"completed_batches\": 924}, \"gradient_stats\": {\"epoch\": 0, \"steps\": 72996, \"nonfinite_steps\": 0, \"clip\": 1.0, \"total_q05_q50_q95\": [0.99179, 5.11971, 15.9991], \"clip_rate\": 0.9492, \"mean_clip_factor\": 0.289, \"family_median\": {\"rnn_hh\": 0.06741, \"rnn_ih\": 0.19739, \"inp\": 0.55168, \"head\": 4.97778, \"bias\": 0.75869}, \"family_sq_share_mean\": {\"rnn_hh\": 0.0008, \"rnn_ih\": 0.0031, \"inp\": 0.031, \"head\": 0.9323, \"bias\": 0.0329}}, \"ple_fit_started\": false, \"predictions_delivered\": false, \"scientific_score\": null, \"expected_public_score\": null, \"failure\": \"Consumer looked for checkpoint hashes in embedded provenance instead of external producer provenance.json\", \"next_action\": \"V9 preserves verified linear control and fits only PLE; independent source review and quota admission pending\", \"evidence_ref\": \"research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/kaggle_v8_terminal_20261008_r1/E540_V8_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json\", \"evidence_sha256\": \"93a6956dffc9f12fd480b0e9374be9e67654767456f6a7edbfe51e4f680ad5f9\", \"record_kind\": \"correction\", \"correction_reason\": \"Correct hypothesis locator H-540 to registered H-E540-A; no additional execution or scientific result.\"}\n",
+          "record": {
+            "checkpoint_sha256": {
+              "model.pt": "73880506cf241502d961ce2cba20819085056fef05f5ea8e56d586535bbfb946",
+              "model_ep0.pt": "17c91be768a7f41cd4c6ae0b2bbce26bcf7d6fbf5e4f6509e38c4be6bd44403a"
+            },
+            "correction_reason": "Correct hypothesis locator H-540 to registered H-E540-A; no additional execution or scientific result.",
+            "evidence_ref": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/kaggle_v8_terminal_20261008_r1/E540_V8_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json",
+            "evidence_sha256": "93a6956dffc9f12fd480b0e9374be9e67654767456f6a7edbfe51e4f680ad5f9",
+            "expected_public_score": null,
+            "failure": "Consumer looked for checkpoint hashes in embedded provenance instead of external producer provenance.json",
+            "gradient_stats": {
+              "clip": 1.0,
+              "clip_rate": 0.9492,
+              "epoch": 0,
+              "family_median": {
+                "bias": 0.75869,
+                "head": 4.97778,
+                "inp": 0.55168,
+                "rnn_hh": 0.06741,
+                "rnn_ih": 0.19739
+              },
+              "family_sq_share_mean": {
+                "bias": 0.0329,
+                "head": 0.9323,
+                "inp": 0.031,
+                "rnn_hh": 0.0008,
+                "rnn_ih": 0.0031
+              },
+              "mean_clip_factor": 0.289,
+              "nonfinite_steps": 0,
+              "steps": 72996,
+              "total_q05_q50_q95": [
+                0.99179,
+                5.11971,
+                15.9991
+              ]
+            },
+            "hypothesis_id": "H-E540-A",
+            "id": "E-E540-V8-CONTROL-PRESERVED-20261008",
+            "kernel": "vladkochetov07/e540-v8-fp32-20261008-r1-runner",
+            "next_action": "V9 preserves verified linear control and fits only PLE; independent source review and quota admission pending",
+            "optimizer_epoch_diagnostics": {
+              "amp_skipped_updates": 0,
+              "completed_batches": 924,
+              "ema_updates": 0,
+              "optimizer_attempts": 72996,
+              "optimizer_completed_updates": 72996
+            },
+            "owner": "root; cloud_operator e540_independent_recipe_delivery_audit",
+            "ple_fit_started": false,
+            "predictions_delivered": false,
+            "record_kind": "correction",
+            "root_rehashed_external_checkpoint_table": true,
+            "scientific_score": null,
+            "status": "control_fit_complete_delivery_validator_failed",
+            "timestamp_utc": "2026-10-08T05:21:04.757960+00:00",
+            "worker_seconds": 1048.4
+          },
+          "source": {
+            "line": 617,
+            "path": "research/experiments.jsonl",
+            "sha256": "de48435baa02f35d7e43209ad62a6b0d4c0a8af6e99d495b139a04af969aa7e2"
+          }
+        }
+      ],
+      "title": "E-E540-V8-CONTROL-PRESERVED-20261008",
       "type": "experiment"
     },
     {

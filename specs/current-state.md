@@ -1,4 +1,4 @@
-# Current research state — 2026-10-08 05:27 UTC / 08:27 Kyiv
+# Current research state — 2026-10-08 05:24 UTC / 08:24 Kyiv
 
 Research is active until explicit user stop. This compact entry replaces accumulated status snapshots without losing their information: [complete byte-identical archive](current-state-archive-20261008T0507Z.md), SHA256 `1c341ea9ada2cd84d0b4e7caba4bd4c10a52939cd0e1ece204c973007885392d`. Original experiment records, frozen sources and receipts remain authoritative.
 
