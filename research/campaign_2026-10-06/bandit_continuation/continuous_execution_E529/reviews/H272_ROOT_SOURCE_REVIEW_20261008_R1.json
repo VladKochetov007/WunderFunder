@@ -1,0 +1,18 @@
+{
+  "schema": "h272-root-source-review-v1",
+  "created_utc": "2026-10-08T09:56:06.059092+00:00",
+  "recipe_sha256": "a5dd858598b6bf926410c80337aa8e725a809cbfee36af906d18c34d0859716f",
+  "source_members_verified": 55,
+  "objective_review": "Original clipped two-channel labels, alpha0, no readout teacher arrays. Parent ancestry, fit membership/order, four independent control heads, propensity/label-magnitude weighting and fixed update/epoch policy preserved.",
+  "independent_tests": "9 passed in2.46s under1CPU/1.6GB, frozen-runtime scripts/src PYTHONPATH.",
+  "profile_status": "source_valid_pending_separate_resource_admission_after_H230_profile",
+  "fit_authorized": false,
+  "export_findings": [
+    {
+      "severity": "export_blocker_not_profile_or_fit",
+      "path": "scripts/train_conditional_readout.py:526",
+      "finding": "Inherited H233 sidecar consumer expects model.pt alias hash rather than actual producer model_ep1.pt hash. Exact same previously diagnosed defect; use separately frozen export-only adapter with producer-sidecar fixture before export. Preserve V1 source/recipe; no refit needed."
+    }
+  ],
+  "limits": "No GPU profile, fits, checkpoint changes, data-array reads or score from this review."
+}
