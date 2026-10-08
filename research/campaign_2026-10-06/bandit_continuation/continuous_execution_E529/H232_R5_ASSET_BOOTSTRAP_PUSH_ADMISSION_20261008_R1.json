@@ -1,0 +1,88 @@
+{
+  "schema": "h232-r5-asset-bootstrap-push-admission-v1",
+  "recorded_utc": "2026-10-08T05:24:39Z",
+  "status": "admitted_single_identified_push",
+  "authorization": {
+    "authority": "root",
+    "scope": "Exactly one new R5 export-only Kaggle kernel push, after fresh quota supports the 6000-second kernel and retains at least 6000 seconds for the E540 successor.",
+    "no_fit_profile_or_score": true,
+    "no_retry_without_diagnosed_identified_correction": true,
+    "execution_instruction": "H232_R5_ASSET_BOOTSTRAP_EXECUTION_INSTRUCTION_20261008_R1.md",
+    "execution_instruction_sha256": "cd9c8e558e1ce08798a4e3c04e8c42ce54948e30ff852678de57dae39097a6b1"
+  },
+  "kernel": {
+    "id": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r5-asset",
+    "title": "H232 GRU384 V7B EP3 Export 20261008 R5 Asset",
+    "packet": "h232_v7b_ep3_export_only_20261008/asset_transport_r5/kernel_packet_r5_v1",
+    "source_sha256": "41e74fa87658139bcd0096731a878d0285d053512b4b0215cd862c978d7b5442",
+    "source_bytes": 9509,
+    "metadata_sha256": "e7761837b2806676d7325ab4c8a6e055bc96fee27edd646466f6a6a44f855226",
+    "metadata_bytes": 566,
+    "accelerator": "NvidiaTeslaT4",
+    "provider_timeout_seconds": 6000,
+    "worker_timeout_seconds": 4500,
+    "prediction_timeout_seconds": 1800
+  },
+  "frozen_science": {
+    "fit_enabled": false,
+    "profile_enabled": false,
+    "scoring_enabled": false,
+    "operation": "Export finite FP32 predictions from the already completed own fixed epoch-3 checkpoint; later root-owned grading may use only the 468 source-qualified exposed evaluation groups.",
+    "checkpoint_sha256": "aaa731da1692ee5083c80296fd665b0a60815c9dc18430457f702cf779c2b829",
+    "payload_sha256": "b9e14e8509dff6abc18f4e3aaffe4af031d78883e91fb98f28fb4a845ed1490e",
+    "payload_member_count": 17,
+    "science_profile_checkpoint_payload_changed": false
+  },
+  "private_asset": {
+    "dataset_id": "vladkochetov07/h232-v7b-ep3-payload-b9e14e8509df",
+    "version": 1,
+    "version_pin": "vladkochetov07/h232-v7b-ep3-payload-b9e14e8509df/1",
+    "status_at_verification": "ready",
+    "manifest_sha256": "d777e41460190e1355f8d5e48a41ee78c2a15fd538bc3c4768c505371ffb0578",
+    "payload_bytes": 8321018,
+    "remote_member_hashes_match_build_receipt": true
+  },
+  "review_and_build_evidence": {
+    "root_independent_review": "H232_R5_ASSET_BOOTSTRAP_ROOT_REVIEW_20261008_R1.json",
+    "root_independent_review_sha256": "dc37cb915a7e8298d65184d28acfe6d784634892a9a4e787a012b9534ccfba1b",
+    "build_receipt": "h232_v7b_ep3_export_only_20261008/asset_transport_r5/H232_V7B_EP3_ASSET_TRANSPORT_R5_BUILD_RECEIPT_R1.json",
+    "build_receipt_sha256": "54c80a7b9bddaf58630e9fc21802c2aee2d1882c009025f385624d4673e90c71",
+    "verification_receipt": "h232_v7b_ep3_export_only_20261008/asset_transport_r5/H232_V7B_EP3_ASSET_TRANSPORT_R5_VERIFICATION_RECEIPT.json",
+    "verification_receipt_sha256": "cd9f06aff1a6977dda148c0f5a2279c680e39e62832063196a054ab7f78bb4ad",
+    "bootstrap_unit_tests_passed": 6,
+    "actual_rendered_environment_order_checked": true
+  },
+  "fresh_live_quota": {
+    "observed_at_utc": "2026-10-08T05:24:39Z",
+    "source": "read-only Kaggle SDK accelerator quota call; CLI 2.2.4",
+    "gpu_total_allowed_seconds": 108000.0,
+    "gpu_used_seconds": 64075.339,
+    "gpu_remaining_seconds": 43924.661,
+    "gpu_provider_reserved_seconds": 0.0,
+    "campaign_baseline_used_seconds": 37047.321,
+    "campaign_used_seconds": 27028.018,
+    "campaign_cap_seconds": 56780.516,
+    "campaign_headroom_seconds": 29752.498,
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "conservative_internal_holds_seconds": {
+      "r5_h232_export": 6000,
+      "e540_successor": 6000,
+      "total": 12000
+    },
+    "campaign_headroom_after_holds_seconds": 17752.498,
+    "account_remaining_after_holds_seconds": 31924.661,
+    "e540_v8_status": "KernelWorkerStatus.ERROR"
+  },
+  "pre_push_inventory": {
+    "read_only_command_result": "Not found",
+    "kernel_session_status_api": "403 Client Error; no evidence of accepted kernel",
+    "push_attempted_before_admission": false,
+    "source": "kaggle kernels list --mine --search h232-gru384-v7b-ep3-export-20261008-r5-asset"
+  },
+  "durable_monitor_target": {
+    "config": "research/campaign_2026-10-06/cloud_preflight/provider_targets.json",
+    "artifact_dir": "../bandit_continuation/continuous_execution_E529/downloads/h232_v7b_ep3_export_r5",
+    "terminal_receipt": "../bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_r5_terminal_poll_receipt.json"
+  },
+  "push_attempted": false
+}
