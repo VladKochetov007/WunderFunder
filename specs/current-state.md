@@ -1,6 +1,13 @@
 ## First all-data student fitting; cloud correction owners — 2026-10-08 05:09 Kyiv
 
 
+## First all-data public-test ZIP ready — 2026-10-08 05:49 Kyiv
+
+Corrected independently trained single-student candidate: `submissions/c20261008_h230_all_data_s3_i16.zip`,4,674,719bytes,SHA `181d84b094343c541ca5af103dac74e225642d0bba14e00c275a153c7422aa88`. Actual deliveredZIP passes rootCRC/weight-identity/ABI checks and Python3.11v2+v3offline40000-row callback/reset gates. OneCPU/oneThread completegate4.57s is a bounded runtime screen, not fullpublicruntime proof. It is offered for human publictesting with no forecast or heldoutclaim; bad API-mismatched draft remains preserved/rejected. Seed4retry1 now has actualep0batch200/779 progress,~12seq/s,zeroOOM/kill. Expected siblingterminal roughly30minutes from this observation plus packagechecks, contingent on measuredremainingrate.
+
+Grok4.7 delivered3next-wave cards: unit-scale cache contrast, existing own all-data parent target swap, and all-dataTCNresidual versus scalecontrol. They remain unadmitted/nullprior; existing normalizedcache is reusable, and heuristic numerical rejection thresholds are not adopted. E540V6 parser/prehash authorization repair is under rootreview; H232providerRUNNING/fitphaseunobserved; ownedVaststaging continues. Publicbest remains0.6660.
+
+
 ## First all-data student delivered; H232 corrected push accepted — 2026-10-08 05:40 Kyiv
 
 H230 seed3 completed1988.34seconds with zeroOOM/kill,15580AMPattempts and4skippedupdates. Own fixedep1 checkpoint SHA `76e4c4e441ebebf623e8119eff881b86eb7ad5eec18d0623910ae0f6e8adbae6`. Provisional4,148,503-byte i16ZIP is built; CRC/member/spec checks and staticABI pass, Python3.11callback/reset/determinism pending. All supplied train+valid were fitted, so no held-out score/publicforecast. Seed4 fresh admission initially refused parent10.06GB+9GBreserve above18GBhigh; actor owns bounded known-cache handoff before retry.
