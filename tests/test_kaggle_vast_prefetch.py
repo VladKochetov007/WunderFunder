@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import hashlib
+import http.client
 import io
 import json
+import socket
 import sys
 from pathlib import Path
 from types import SimpleNamespace
@@ -356,3 +358,33 @@ def test_pinned_ssh_stdin_keeps_private_url_out_of_argv_and_errors(
     assert "StrictHostKeyChecking=yes" in command
     assert f"UserKnownHostsFile={tmp_path / 'known_hosts'}" in command
     assert result == '{"safe":true}'
+
+
+def test_remote_accepts_http_response_that_closes_at_content_length(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    contents = b"complete real HTTP response"
+    reader, writer = socket.socketpair()
+    try:
+        writer.sendall(
+            b"HTTP/1.1 200 OK\r\nContent-Length: "
+            + str(len(contents)).encode()
+            + b"\r\n\r\n"
+            + contents
+        )
+        writer.shutdown(socket.SHUT_WR)
+        response = http.client.HTTPResponse(reader)
+        response.begin()
+        monkeypatch.setattr(response, "geturl", lambda: URL, raising=False)
+        code, output = _run_remote(
+            _remote_payload(tmp_path, contents), monkeypatch, _Opener(response)
+        )
+        receipt = json.loads(output)
+        destination = tmp_path / "results" / ".worker" / LABEL / "inputs" / REMOTE_PATH
+        assert code == 0, receipt
+        assert receipt["status"] == "complete"
+        assert destination.read_bytes() == contents
+        assert receipt["completed"][0]["sha256"] == _sha256(contents)
+    finally:
+        reader.close()
+        writer.close()

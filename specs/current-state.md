@@ -1,6 +1,13 @@
 ## First all-data student fitting; cloud correction owners — 2026-10-08 05:09 Kyiv
 
 
+## Direct-transfer EOF defect reproduced and repaired — 2026-10-08 05:32 Kyiv
+
+VastA3 direct prefetch consumed766seconds but finalized zero files because exact HTTP Content-Length completion closes the response stream; the downloader then attempted another socket timeout and raised `deadline_control`. A real `http.client.HTTPResponse` regression reproduced this failure. The narrow EOF correction retains exact size/hash and private atomic finalization;83combined tests passed and independent Luna review passed12prefetch tests. The existing fallback upload remains active, with2.25GB verified and5.27GB partial train bytes observed at02:29UTC. The running controller was not modified. This repair reduces future staging waste; it is not model evidence.
+
+Native Grok4.7 delivered four fresh-context quant hypothesis cards from seeded random library pages. They are registered as untested arms with null numerical priors. Its circular-shift control is not admitted because it can introduce future information; causal controls must be frozen before experiments. Public best remains0.6660.
+
+
 ## Continuous research reaffirmed — 2026-10-08 05:28 Kyiv
 
 The latest user instruction keeps research active until explicit stop. The verified active user timer changes aggregate local CPU from12 to5cores at10:00Kyiv; it does not stop local GPU or cloud research. Parent memory remains18GBhigh/20GBmaximum/no swap and observedVRAM5GB, one local GPU worker. See [ADR0017](adr/0017-continuous-research-five-core-morning-cap.md).

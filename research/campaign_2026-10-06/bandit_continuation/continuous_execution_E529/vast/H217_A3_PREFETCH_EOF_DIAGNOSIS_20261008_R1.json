@@ -1,0 +1,20 @@
+{
+  "recorded_utc": "2026-10-08T02:31:23.759989+00:00",
+  "attempt_id": "e529-vast-h217-pair-v4-20261008-a3",
+  "owned_instance_id": "54755890",
+  "ledger_observation": {
+    "prefetch_status": "failed",
+    "error_code": "deadline_control",
+    "elapsed_ms": 766020,
+    "verified_prefetch_bytes": 0,
+    "fallback_upload_verified_bytes": 2249770202
+  },
+  "read_only_owned_remote_observation": "At02:29UTC fallback train.parquet.part measured5267259392bytes; creation/account/provider ownership and pinned SSH revalidated before inspection",
+  "reproduction": "Real http.client.HTTPResponse over socketpair consumes exactContent-Length, closes fp, then pre-fix loop tries another socket timeout: regression fails withdeadline_control",
+  "correction": "Stop reading when exact expected bytes consumed and fpclosed; retain exact size/SHA256/private temp/atomic finalized file gates",
+  "focused_checks": "83 prefetch/controller tests passed; Ruff check and format passed",
+  "independent_review": "Luna/max read-only PASS:12independently run prefetch tests+Ruff; exact byte/hash/atomic/private-path/URL/cleanup boundaries preserved",
+  "active_controller_modified": false,
+  "new_rental_authorized_by_this_receipt": false,
+  "scientific_result_claim": false
+}

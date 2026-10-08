@@ -205,6 +205,10 @@ def fetch_one(
                 if content_length is not None and content_length != str(expected_size):
                     raise SafeFailure("size_mismatch")
                 while True:
+                    # HTTPResponse closes its stream at the declared body length.
+                    # Hash/size checks below still decide whether the file is valid.
+                    if total_bytes == expected_size and response.fp is None:
+                        break
                     remaining = deadline - time.monotonic()
                     if remaining <= 0:
                         raise SafeFailure("deadline")
