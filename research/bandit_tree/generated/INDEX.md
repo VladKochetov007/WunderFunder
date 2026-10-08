@@ -6,9 +6,9 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 953 · raw hypothesis rows 273 · raw experiment rows 598 · legacy arms 18 · catalog files 62222.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 972 · raw hypothesis rows 288 · raw experiment rows 603 · legacy arms 18 · catalog files 62468.
 
-Config snapshot: [research/bandit_tree/generated/snapshots/config-7d64fe4e922a93e375a0a6a4fb9b014e705aa784ef9e6e63145984cb1cdb8c00.json](<snapshots/config-7d64fe4e922a93e375a0a6a4fb9b014e705aa784ef9e6e63145984cb1cdb8c00.json>).
+Config snapshot: [research/bandit_tree/generated/snapshots/config-3652e14a4630ef046f53047f899a140bee57876b233d23addbccd93f44c7a842.json](<snapshots/config-3652e14a4630ef046f53047f899a140bee57876b233d23addbccd93f44c7a842.json>).
 
 Missing or ambiguous artifact and relationship links are called out below and in `tree.json` warnings. The recursive file inventory is in `catalog.json`; generated output is excluded.
 
@@ -973,11 +973,25 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-261 | Privileged smoothed belief teacher to causal student | hypothesis · proposed_untested | arm:privileged-belief-distillation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L266>) | — |
 | hypothesis:H-262 | Matched robust point-loss and target-range comparison | hypothesis · proposed_untested | arm:matched-huber-target-range | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L267>) | — |
 | hypothesis:H-263 | Representative nested-data multi-fidelity screens | hypothesis · proposed_untested | arm:representative-data-fidelity | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L268>) | — |
-| hypothesis:H-E535-HYP-01 | row-clock plus price-code event-clock gating | hypothesis · proposed_untested | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L269>) | — |
+| hypothesis:H-E535-HYP-01 | Feature-equivalent event-age-conditioned hidden-state decay | hypothesis · reframed_after_descriptive_eda | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L269>), [research/hypotheses.jsonl](<../../hypotheses.jsonl#L274>) | — |
 | hypothesis:H-E535-HYP-02 | single fixed-fold student versus equal two-seed prediction mean | hypothesis · proposed_untested | family:optimization | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L270>) | — |
 | hypothesis:H-E535-HYP-03 | two-epoch versus longer fixed schedule, family head on/off matched | hypothesis · proposed_untested | family:optimization | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L271>) | — |
 | hypothesis:H-E535-HYP-04 | reference-inspired source mixture versus H230 same-fold wide-baseline substitution | hypothesis · proposed_untested | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L272>) | — |
 | hypothesis:H-E535-HYP-05 | reference-versus-H230 deterministic weight/reset probe | hypothesis · audit_probe_optional | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L273>) | — |
+| hypothesis:H-E539-01 | Inverse measurement of target geometry | hypothesis · proposed_untested_refinement | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L275>) | — |
+| hypothesis:H-E539-02 | Anonymous coordinate codebook and interaction structure | hypothesis · proposed_untested_refinement | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L276>) | — |
+| hypothesis:H-E539-03 | Conditional imbalance after coordinate identification | hypothesis · proposed_untested_refinement | family:representation | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L277>) | — |
+| hypothesis:H-E539-04 | Marked event intensity and conditional lead-lag | hypothesis · proposed_untested_refinement | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L278>) | — |
+| hypothesis:H-E539-05 | Slot embedding × causal linear-attention memory | hypothesis · proposed_untested_refinement | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L279>) | — |
+| hypothesis:H-E535-HYP-06 | If prediction variation between simultaneous i0_p0 and i0_p11 changes is mostly unnecessary output noise, holding the latest paired-event prediction should preserve or improve official WP. | hypothesis · tested_exposed_descriptive_negative_for_this_transform | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L280>) | — |
+| hypothesis:H-E537-A | Content-addressed innovation memory | hypothesis · proposed_untested_refinement | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L281>) | — |
+| hypothesis:H-E537-B | Causal prefix channel attention | hypothesis · proposed_untested_refinement | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L282>) | — |
+| hypothesis:H-E537-C | Feature-wise numerical basis before temporal mixing | hypothesis · proposed_untested_refinement | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L283>) | — |
+| hypothesis:H-E537-D | Grouped causal dual-clock Transformer | hypothesis · proposed_untested_refinement | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L284>) | — |
+| hypothesis:H-E537-E | Trailing event-window signed path areas | hypothesis · proposed_untested_refinement | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L285>) | — |
+| hypothesis:H-E537-F | Metric-weighted distributional readout | hypothesis · proposed_untested_refinement | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L286>) | — |
+| hypothesis:H-E537-G | Training-only observation grammar | hypothesis · proposed_untested_refinement | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L287>) | — |
+| hypothesis:H-E537-H | Matched-donor causal-state patching | hypothesis · proposed_untested_refinement | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L288>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -1526,6 +1540,11 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-H232-AMP4096-CONDITIONAL-V4-PUSH-20261008 | E-H232-AMP4096-CONDITIONAL-V4-PUSH-20261008 | experiment · provider_running_payload_phase_unknown | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L596>) | — |
 | experiment:E-H230-MATCHED-FAMILY-GRADE-20261008 | E-H230-MATCHED-FAMILY-GRADE-20261008 | experiment · completed_exposed_matched_comparison | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L597>) | — |
 | experiment:E-H232-V4-TERMINAL-GATE-BUG-20261008 | E-H232-V4-TERMINAL-GATE-BUG-20261008 | experiment · execution_censored_admission_bug_no_fit | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L598>) | — |
+| experiment:E-H232-V5-CORRECTED-GATE-PUSH-20261008 | E-H232-V5-CORRECTED-GATE-PUSH-20261008 | experiment · provider_submitted_payload_phase_unknown | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L599>) | — |
+| experiment:E-H230-ALLDATA-PARENT-LAUNCH-20261008 | E-H230-ALLDATA-PARENT-LAUNCH-20261008 | experiment · fitting_actual_batches_observed | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L600>) | — |
+| experiment:E535-FIXED468-STREAM-20261008 | E535-FIXED468-STREAM-20261008 | experiment · completed_exposed_descriptive_eda | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L601>) | — |
+| experiment:E-E535-H230-OUTPUT-HOLD-20261008 | Single predeclared causal output-cache transform; no fit | experiment · completed_exposed_descriptive_ablation_negative | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L602>) | — |
+| experiment:E-H232-V5-RESOURCE-ABORT-20261008 | E-H232-V5-RESOURCE-ABORT-20261008 | experiment · resource_censored_no_evaluated_result | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L603>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
@@ -1629,6 +1648,9 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 
 ## Link and artifact warnings
 
+- Unresolved ledger_parent_id link: hypothesis:H-E537-G -> E534
+- Unresolved ledger_parent_id link: hypothesis:H-E537-G -> E535
+- Unresolved ledger_parent_id link: hypothesis:H-E537-H -> E535
 - ambiguous artifact for arm:online-feature-dynamics: src/wnn/online_dynamics.py
 - missing artifact for arm:disagreement-gated-weak-blend: tests/test_metric_aligned_gate.py
 - missing artifact for arm:disagreement-gated-weak-blend: tests/test_weak_model_complementarity.py
