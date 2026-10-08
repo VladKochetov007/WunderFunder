@@ -1,6 +1,6 @@
 # H232 V6 bounded resource repair packet
 
-**Status:** packet assembled and tested; pending independent review and fresh root admission. No profile, fit, export, provider push, quota mutation, or cloud launch was performed for V6.
+**Status:** root approved one conditional V6 attempt, pending root confirmation of the exact sealed hashes in `V6_ROOT_FINAL_ADMISSION_RECEIPT_V1.json`. The embedded review binds source inputs and the noncyclic metadata projection; the outer receipt binds exact review, metadata, bundle, and quota hashes. No V6 profile, fit, export, or provider push has been performed.
 
 V5 is resource-censored, not a scientific negative. Its fit started and ran 726.240894 seconds, then received SIGTERM (signal 15) at epoch 0, batch 660/1492. The abort receipt reports cgroup available memory 8,033,509,376 / 32,212,254,720 bytes (fraction 0.2493929545), just 19,554,304 bytes below the 25% gate; the separate 6.5 GB floor passed. Host available memory was 27,102,777,344 / 33,658,314,752 bytes (fraction 0.8052), and RSS peak was 2,954,981,376 bytes. The receipt contains no abort-time `memory.stat` or OOM counters, so it does not establish whether anonymous memory, file cache, or another charge caused the gate. V5 produced no graded result.
 
@@ -18,12 +18,14 @@ The prepared packet adds one ungraded delivery stage after a successful fit: fix
 
 ## Evidence, limits, and next discriminating test
 
+The B8 clock is fixed at 1,492 outer batches per epoch and 5,968 scheduled optimizer batches over four epochs. V5 reached 660/1,492 in epoch 0 before the resource abort, so it provides neither a full-epoch nor score result. Comparing B8 with another batch size or a different wall-time exposure would conflate batch size, update count, and elapsed training; V6 leaves B8 and the four-epoch schedule unchanged.
+
 The synthetic tests exercise unsupported advice, malformed/out-of-range trace, changed file identity, inconsistent snapshots, insufficient/active-dominant file cache, anon growth, refault spikes, budget/rate/cumulative exhaustion, and the row-group trace hook. They validate fail-closed control flow; they do not show that a Kaggle kernel honors a cache hint or that V5's unobserved abort-time memory was reclaimable. The packet records `memory_stat_phases.json`, `rowgroup_reads.tsv`, and `cache_pressure_relief.jsonl` in the next run so eligibility, actual advised ranges, and post-advice response can be distinguished. If V6 reaches the same gate without qualifying inactive-file evidence, that falsifies this repair for the observed failure mode and should be recorded as resource-censored; no scientific conclusion about H232 follows.
 
 Validation under the local 1 CPU / 1 GB wrapper:
 
-- `pytest -q .../h232_conditional_v6/tests`: 18 passed in 0.21 s.
-- `ruff check` on `cache_pressure_recovery.py`, `profile_worker.py`, and the V6 `data.py`: all checks passed.
-- The deterministic source archive, packet metadata, and Kaggle wrapper were rebuilt in dependency order. Hashes are in `V6_RESOURCE_REPAIR_RECEIPT_V1.json` and packet metadata. The external review remains pending, with fit admission and provider push explicitly false.
+- The updated V6 suite: 19 passed in 0.22 s; Ruff checks passed for the cache helper, worker, traced data reader, and tests. The approved-receipt test now checks the sealed conditional V6 review while a separate synthetic pending receipt must still fail closed.
+- Root independently reviewed the cache range identity, eligibility, budgets, post-advice recheck, export contract, and the prior 18-test suite. The new test-file hashes are included in the sealed review map.
+- The source archive, packet metadata, and Kaggle wrapper were rebuilt after sealing. The exact quota row and final artifact hashes are in `V6_ROOT_FINAL_ADMISSION_RECEIPT_V1.json`. Root-reported provider GPU headroom before this one attempt was 55,798.614 seconds; after the 34,000-second worker ceiling it is 21,798.614 seconds. Campaign headroom after the worker is 7,626.451 seconds.
 
-The next decision belongs to the independent reviewer and root admission owner. In particular, review should assess whether this evidence-gated recovery is worth a V6 cloud attempt despite the V5 early-boundary active-file signal; it must not treat the prepared packet or prior V5 approval as authorization to launch.
+The single push remains blocked until root confirms the exact final receipt hashes. The worker still must pass its profile gate before fitting; V6 may fail closed at the same memory threshold if the later cache state does not qualify.
