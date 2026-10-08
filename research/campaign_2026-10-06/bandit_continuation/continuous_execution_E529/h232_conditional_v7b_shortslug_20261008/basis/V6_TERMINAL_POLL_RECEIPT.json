@@ -1,0 +1,859 @@
+{
+  "controller_and_grader_owner": "root-controller-20261008",
+  "execution_result": {
+    "checkpoint_or_prediction_files_written": false,
+    "conditional_fit_seconds": 1150.195289,
+    "fit_batches_per_epoch": 1492,
+    "fit_epochs_requested": 4,
+    "fit_run_name": "bd26_h232_full_s3_f0_amp4096_v6",
+    "fit_started": true,
+    "fit_started_at_utc": "2026-10-08T01:04:43Z",
+    "last_fit_log_line": "ep 0 batch 1060/1492 loss 0.8830 lr 9.56e-04 seq/s 7.4\n",
+    "last_fit_log_time_seconds": 1452.986872378,
+    "matching_terminal_files_found": [],
+    "profile_gate_status": "pass",
+    "reason": "SystemExit: 143",
+    "scientific_status": "resource_censored_fit_no_score",
+    "score_or_grade_computed": false,
+    "signal": 15,
+    "terminal_phase": "failed",
+    "terminal_status": "aborted",
+    "timed_profile_amp_skipped_updates": 0,
+    "timed_profile_gradient_finite": true,
+    "timed_profile_loss_finite": true,
+    "timed_profile_optimizer_updates": 200,
+    "traceback": "Traceback (most recent call last):\n  File \"/kaggle/working/h232_cloud_packet_v6/profile_worker.py\", line 3666, in run_profile\n    module.main()\n    ~~~~~~~~~~~^^\n  File \"/kaggle/working/h232_source_v6/scripts/train_rnn.py\", line 2365, in main\n    scaler.scale(loss).backward()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/usr/local/lib/python3.13/dist-packages/torch/_tensor.py\", line 631, in backward\n    torch.autograd.backward(\n    ~~~~~~~~~~~~~~~~~~~~~~~^\n        self, gradient, retain_graph, create_graph, inputs=inputs\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/usr/local/lib/python3.13/dist-packages/torch/autograd/__init__.py\", line 381, in backward\n    _engine_run_backward(\n    ~~~~~~~~~~~~~~~~~~~~^\n        tensors,\n        ^^^^^^^^\n    ...<5 lines>...\n        accumulate_grad=True,\n        ^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/usr/local/lib/python3.13/dist-packages/torch/autograd/graph.py\", line 869, in _engine_run_backward\n    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        t_outputs, *args, **kwargs\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )  # Calls into the C++ engine to run the backward pass\n    ^\n  File \"/kaggle/working/h232_cloud_packet_v6/profile_worker.py\", line 3023, in handle_termination\n    raise SystemExit(128 + signum)\nSystemExit: 143\n",
+    "worker_wall_seconds": 1456.1975852710002
+  },
+  "input_identity": {
+    "profile_gate_raw_input_unchanged": true,
+    "raw_identity_sha256": "d7232ba0e8a0fa4f40c84650b2cf80f45627af81083a3f2ddb4d549dc1498f75",
+    "train": {
+      "bytes": 29240219011,
+      "bytes_hashed_this_attempt": 29240219011,
+      "current_digest_resolution_seconds": 188.465008,
+      "digest_source": "current_full_content_hash",
+      "full_content_hash_elapsed_seconds": 188.459681,
+      "full_hash_fallback_used": true,
+      "prior_identity_status": "full_hash_fallback",
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "stat_binding": {
+        "canonical_path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/train.parquet",
+        "ctime_ns": 1791421480642179171,
+        "device": 52,
+        "inode": 102793270424,
+        "mode": 33188,
+        "mode_has_write_bits": true,
+        "mtime_ns": 1791421480642179171,
+        "size": 29240219011
+      }
+    },
+    "valid": {
+      "bytes": 5615509128,
+      "bytes_hashed_this_attempt": 5615509128,
+      "current_digest_resolution_seconds": 37.748565,
+      "digest_source": "current_full_content_hash",
+      "full_content_hash_elapsed_seconds": 37.742621,
+      "full_hash_fallback_used": true,
+      "prior_identity_status": "full_hash_fallback",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "stat_binding": {
+        "canonical_path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/valid.parquet",
+        "ctime_ns": 1791420889577514262,
+        "device": 52,
+        "inode": 102778260059,
+        "mode": 33188,
+        "mode_has_write_bits": true,
+        "mtime_ns": 1791420889577514262,
+        "size": 5615509128
+      }
+    }
+  },
+  "kernel": "vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v6",
+  "next_owner_action": "Root owns scientific interpretation and any separately identified bounded repair/admission. This terminal delivery did not grade, retry, push, or restart the kernel.",
+  "owner": "h232_v6_terminal_delivery",
+  "provider_status": "KernelWorkerStatus.ERROR",
+  "receipt_created_at_utc": "2026-10-08T01:39:12Z",
+  "resource_diagnosis": {
+    "abort_at_utc": "2026-10-08T01:28:59.586688Z",
+    "abort_snapshot": {
+      "cgroup_available_bytes": 8036401152,
+      "cgroup_available_fraction": 0.24948272705078126,
+      "cgroup_memory_current_bytes": 24175853568,
+      "cgroup_memory_limit_bytes": 32212254720,
+      "cuda_allocated_bytes": 647515648,
+      "cuda_allocated_peak_bytes": 689098752,
+      "cuda_reserved_bytes": 1107296256,
+      "gpu_device_used_upper_bound_bytes": 1752367104,
+      "gpu_process_bytes": 1279262720,
+      "host_available_bytes": 27049984000,
+      "host_available_fraction": 0.8036641438378711,
+      "host_total_bytes": 33658318848,
+      "memory_stat": {
+        "active_anon": 24576,
+        "active_file": 3485196288,
+        "anon": 4972933120,
+        "file": 19109015552,
+        "file_dirty": 28672,
+        "file_mapped": 683061248,
+        "inactive_anon": 5262573568,
+        "inactive_file": 15336452096,
+        "pgmajfault": 8742,
+        "pgscan": 0,
+        "pgsteal": 0,
+        "pswpin": 0,
+        "pswpout": 0,
+        "workingset_activate_file": 0,
+        "workingset_refault_file": 0,
+        "workingset_restore_file": 0
+      },
+      "rss_current_bytes": 2884435968,
+      "rss_peak_bytes": 2957316096
+    },
+    "abort_snapshot_is_before_final_advice_recheck": true,
+    "cache_relief_events": 14,
+    "cache_relief_status_counts": {
+      "failed_closed": 1,
+      "recovered": 13
+    },
+    "cgroup_memory_stat_has_no_oom_counters": true,
+    "failure_reason": "bounded raw-input page-cache advice did not restore host and cgroup headroom",
+    "interpretation": "The CUDA/profile gate passed and the fit reached training backward. The worker raised SystemExit 143 from its explicit resource termination handler when cgroup available memory fell below the 25% threshold. Bounded POSIX_FADV_DONTNEED advice on recent raw-Parquet row-group byte ranges increased cgroup availability, and the host hard gates passed, but the final post-advice value remained below the configured recovery target. This is a resource-censored attempt; no kernel OOM, AMP overflow/profile failure, checkpoint, or prediction result is recorded.",
+    "last_cache_relief_event": {
+      "advice": "POSIX_FADV_DONTNEED",
+      "after_advice": {
+        "cgroup_available_bytes": 8467537920,
+        "cgroup_available_fraction": 0.2628669738769531,
+        "cgroup_memory_current_bytes": 23744716800,
+        "cgroup_memory_limit_bytes": 32212254720,
+        "cuda_allocated_bytes": 688208896,
+        "cuda_allocated_peak_bytes": 689098752,
+        "cuda_reserved_bytes": 1107296256,
+        "gpu_device_used_upper_bound_bytes": 1752367104,
+        "gpu_process_bytes": 1279262720,
+        "host_available_bytes": 27006734336,
+        "host_available_fraction": 0.8023791817399328,
+        "host_total_bytes": 33658318848,
+        "memory_stat": {
+          "active_anon": 24576,
+          "active_file": 3479199744,
+          "anon": 4990873600,
+          "file": 18660413440,
+          "file_dirty": 28672,
+          "file_mapped": 701554688,
+          "inactive_anon": 5352161280,
+          "inactive_file": 14822166528,
+          "pgmajfault": 8742,
+          "pgscan": 0,
+          "pgsteal": 0,
+          "pswpin": 0,
+          "pswpout": 0,
+          "workingset_activate_file": 0,
+          "workingset_refault_file": 0,
+          "workingset_restore_file": 0
+        },
+        "rss_current_bytes": 2884456448,
+        "rss_peak_bytes": 2957316096
+      },
+      "at_utc": "2026-10-08T01:28:59.459544Z",
+      "before_advice": {
+        "cgroup_available_bytes": 8036401152,
+        "cgroup_available_fraction": 0.24948272705078126,
+        "cgroup_memory_current_bytes": 24175853568,
+        "cgroup_memory_limit_bytes": 32212254720,
+        "cuda_allocated_bytes": 647515648,
+        "cuda_allocated_peak_bytes": 689098752,
+        "cuda_reserved_bytes": 1107296256,
+        "gpu_device_used_upper_bound_bytes": 1752367104,
+        "gpu_process_bytes": 1279262720,
+        "host_available_bytes": 27049984000,
+        "host_available_fraction": 0.8036641438378711,
+        "host_total_bytes": 33658318848,
+        "memory_stat": {
+          "active_anon": 24576,
+          "active_file": 3485196288,
+          "anon": 4972933120,
+          "file": 19109015552,
+          "file_dirty": 28672,
+          "file_mapped": 683061248,
+          "inactive_anon": 5262573568,
+          "inactive_file": 15336452096,
+          "pgmajfault": 8742,
+          "pgscan": 0,
+          "pgsteal": 0,
+          "pswpin": 0,
+          "pswpout": 0,
+          "workingset_activate_file": 0,
+          "workingset_refault_file": 0,
+          "workingset_restore_file": 0
+        },
+        "rss_current_bytes": 2884435968,
+        "rss_peak_bytes": 2957316096
+      },
+      "budget_after_advice": {
+        "bytes_reserved": 10752000000,
+        "events": 14,
+        "last_reservation_monotonic_seconds": 2430.961300985,
+        "maximum_episode_bytes": 768000000,
+        "maximum_events": 320,
+        "maximum_total_bytes": 245760000000,
+        "minimum_interval_seconds": 20.0
+      },
+      "file_identity_basis": "rowgroup_reads.tsv plus verified train/valid immutable raw-input identity",
+      "host_hard_gates_passed_after_advice": true,
+      "pressure_eligible": true,
+      "pressure_reasons": [],
+      "range_bytes_cap": 768000000,
+      "range_bytes_requested": 768000000,
+      "range_count": 280,
+      "recovery_shortfall_bytes": 97525760,
+      "recovery_target_bytes": 8565063680,
+      "status": "failed_closed",
+      "status_of_advice": "advised",
+      "sum_of_range_lengths": 768000000,
+      "workingset_refault_file_pages": 0
+    },
+    "last_gpu_telemetry": [
+      {
+        "driver_version": "580.178.04",
+        "index": 0,
+        "memory_total_mib": 15360,
+        "memory_used_mib": 1223,
+        "name": "Tesla T4",
+        "utilization_gpu_percent": 21,
+        "utilization_memory_percent": 3,
+        "uuid": "GPU-dc420ef5-a3fb-1ce6-c4ad-d4d2004446c7"
+      },
+      {
+        "driver_version": "580.178.04",
+        "index": 1,
+        "memory_total_mib": 15360,
+        "memory_used_mib": 0,
+        "name": "Tesla T4",
+        "utilization_gpu_percent": 0,
+        "utilization_memory_percent": 0,
+        "uuid": "GPU-3afd8354-6aff-6220-2c46-bd6bb6a05fe7"
+      }
+    ],
+    "last_gpu_telemetry_phase": "after_trainer_main",
+    "last_gpu_telemetry_sample_at_utc": "2026-10-08T01:28:59.744184Z",
+    "recorded_kernel_oom": false,
+    "recorded_resource_scans_or_file_refaults": {
+      "pgscan": 0,
+      "pgsteal": 0,
+      "pswpin": 0,
+      "pswpout": 0,
+      "workingset_refault_file": 0
+    },
+    "resource_phase": "cache_pressure",
+    "resource_snapshot_at_utc": "2026-10-08T01:28:59.579498Z"
+  },
+  "schema": "h232-v6-terminal-delivery-receipt-v1",
+  "source_bindings": {
+    "admission_commit": "a3379fcb",
+    "authorized_push_count": 1,
+    "canonical_provider_url": "https://www.kaggle.com/code/vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v6",
+    "fit_result_source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+    "fit_result_source_manifest_sha256": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42",
+    "fit_result_trainer_sha256": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a",
+    "packet_commit_at_submission": "f1145948",
+    "packet_id": "E529_H232_FULLFEATURE_GRU384_B8_AMP4096_CONDITIONAL_PROFILE_FIT_V6",
+    "payload_hashes_actual": {
+      "H232_AMP4096_SUCCESSOR_RECIPE.json": "c4bb48589f07b32226e486b6db00d197686be3abf260583e443e8af89587190b",
+      "H232_PROFILE_PLAN.json": "a6ca08439f5cf850f55c2b454671f21853614b2eb7a72463bebac454dceca284",
+      "cache_pressure_recovery.py": "a33b100c38dfd61b8ac0b5196a6b7c52e24b2764fe3761d0f8660fc94d7ee5db",
+      "external_review.json": "5456139bd40ae4740635bbecdeb9f9e2eafe0fe42941a2b958f1f54f356565a7",
+      "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+      "packet_meta.json": "3d6098378049a153899bd2d3bfbd949a9643e3c51dec3f9e278c1dae6f3bb667",
+      "prior_input_identity_v2.json": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e",
+      "profile_kernel.py": "fa8307541fee254f75624fc06db751aa42ad4a3547e6eba80b1ee9cbbf2c874c",
+      "profile_worker.py": "915fc9d49dd765f271c5a625064462e733abb4d8771f9feeb7f26c9239b348a7",
+      "source_archive.tar": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+      "source_archive_manifest.json": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42",
+      "verified_digest_handoff.py": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
+    },
+    "payload_hashes_expected": {
+      "H232_AMP4096_SUCCESSOR_RECIPE.json": "c4bb48589f07b32226e486b6db00d197686be3abf260583e443e8af89587190b",
+      "H232_PROFILE_PLAN.json": "a6ca08439f5cf850f55c2b454671f21853614b2eb7a72463bebac454dceca284",
+      "cache_pressure_recovery.py": "a33b100c38dfd61b8ac0b5196a6b7c52e24b2764fe3761d0f8660fc94d7ee5db",
+      "external_review.json": "5456139bd40ae4740635bbecdeb9f9e2eafe0fe42941a2b958f1f54f356565a7",
+      "gpu_memory_domains.py": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+      "packet_meta.json": "3d6098378049a153899bd2d3bfbd949a9643e3c51dec3f9e278c1dae6f3bb667",
+      "prior_input_identity_v2.json": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e",
+      "profile_kernel.py": "fa8307541fee254f75624fc06db751aa42ad4a3547e6eba80b1ee9cbbf2c874c",
+      "profile_worker.py": "915fc9d49dd765f271c5a625064462e733abb4d8771f9feeb7f26c9239b348a7",
+      "source_archive.tar": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+      "source_archive_manifest.json": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42",
+      "verified_digest_handoff.py": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
+    },
+    "payload_hashes_verified": {
+      "H232_AMP4096_SUCCESSOR_RECIPE.json": true,
+      "H232_PROFILE_PLAN.json": true,
+      "cache_pressure_recovery.py": true,
+      "external_review.json": true,
+      "gpu_memory_domains.py": true,
+      "packet_meta.json": true,
+      "prior_input_identity_v2.json": true,
+      "profile_kernel.py": true,
+      "profile_worker.py": true,
+      "source_archive.tar": true,
+      "source_archive_manifest.json": true,
+      "verified_digest_handoff.py": true
+    },
+    "source_hashes_actual": {
+      "data.py": "3e32781997fd01e6dd94dd559fe6885490b8158136fc61aa87a7cf2e6ea08939",
+      "predict_run.py": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee",
+      "train_rnn.py": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a"
+    },
+    "source_hashes_expected": {
+      "data.py": "3e32781997fd01e6dd94dd559fe6885490b8158136fc61aa87a7cf2e6ea08939",
+      "predict_run.py": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee",
+      "train_rnn.py": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a"
+    },
+    "source_hashes_verified": {
+      "data.py": true,
+      "predict_run.py": true,
+      "train_rnn.py": true
+    },
+    "submitted_push_count": 1
+  },
+  "status_observation": {
+    "command": "kaggle kernels status vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v6",
+    "exit_code": 0,
+    "observed_at_utc": "2026-10-08T01:39:12Z",
+    "stderr_path": "H232_V6_TERMINAL_STATUS_20261008_R1.stderr.txt",
+    "stdout": "vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v6 has status \"KernelWorkerStatus.ERROR\"",
+    "stdout_path": "H232_V6_TERMINAL_STATUS_20261008_R1.stdout.txt"
+  },
+  "terminal_collection": {
+    "all_outputs_and_separate_logs_downloaded": true,
+    "collection_query_files": {
+      "logs_stderr": {
+        "path": "H232_V6_TERMINAL_LOGS_20261008_R1.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "logs_stdout": {
+        "path": "H232_V6_TERMINAL_LOGS_20261008_R1.stdout.txt",
+        "sha256": "beced282fed9710ea59a78a785c65964dfb9b3255f9a6ed0861ef359608fd3d3",
+        "size_bytes": 18239
+      },
+      "outputs_stderr": {
+        "path": "H232_V6_TERMINAL_OUTPUTS_20261008_R1.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "outputs_stdout": {
+        "path": "H232_V6_TERMINAL_OUTPUTS_20261008_R1.stdout.txt",
+        "sha256": "ce90890c53b25bd5119c2bff71e3f9215a92871f7e9f13bb5964f73c789444f7",
+        "size_bytes": 21443
+      },
+      "status_stderr": {
+        "path": "H232_V6_TERMINAL_STATUS_20261008_R1.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "status_stdout": {
+        "path": "H232_V6_TERMINAL_STATUS_20261008_R1.stdout.txt",
+        "sha256": "08ae59e3820eb18acdd369b604e2814361ddd04b70a7bce1f0463adc9d39d68e",
+        "size_bytes": 103
+      }
+    },
+    "downloaded_file_count": 120,
+    "downloaded_files": {
+      "h232-gru384-b8-amp4096-conditional-profile-fit-v6.log": {
+        "sha256": "db417ab3d1281052b83dfb341587bb486105e8c574c9ac5e50c5b96cfdc722c5",
+        "size_bytes": 18238
+      },
+      "h232_cloud_packet_v6/H232_AMP4096_SUCCESSOR_RECIPE.json": {
+        "sha256": "c4bb48589f07b32226e486b6db00d197686be3abf260583e443e8af89587190b",
+        "size_bytes": 4970
+      },
+      "h232_cloud_packet_v6/H232_PROFILE_PLAN.json": {
+        "sha256": "a6ca08439f5cf850f55c2b454671f21853614b2eb7a72463bebac454dceca284",
+        "size_bytes": 18418
+      },
+      "h232_cloud_packet_v6/__pycache__/cache_pressure_recovery.cpython-313.pyc": {
+        "sha256": "8d9117ddcb3f19a9dc9081b101cf9703ad98395835debe80360026d1594ce684",
+        "size_bytes": 14523
+      },
+      "h232_cloud_packet_v6/__pycache__/gpu_memory_domains.cpython-313.pyc": {
+        "sha256": "5684fb661429780856a22184514d6845edfadc6d09e32271b0944a1764b3b070",
+        "size_bytes": 5146
+      },
+      "h232_cloud_packet_v6/__pycache__/profile_kernel.cpython-313.pyc": {
+        "sha256": "27289f0c3f03f0a58435591732fd5d3dc55e4ea4990b6a178316505d7f9ffb7f",
+        "size_bytes": 1548
+      },
+      "h232_cloud_packet_v6/__pycache__/profile_worker.cpython-313.pyc": {
+        "sha256": "51a6c457dcf28d47a00251021961e537053360cc95af44765409f879a2cb38d4",
+        "size_bytes": 188325
+      },
+      "h232_cloud_packet_v6/__pycache__/verified_digest_handoff.cpython-313.pyc": {
+        "sha256": "2d60ccd92c04b66fb5c59db3c1b78551d9e6a75211c54940ddd078eda3efc018",
+        "size_bytes": 18788
+      },
+      "h232_cloud_packet_v6/cache_pressure_recovery.py": {
+        "sha256": "a33b100c38dfd61b8ac0b5196a6b7c52e24b2764fe3761d0f8660fc94d7ee5db",
+        "size_bytes": 11647
+      },
+      "h232_cloud_packet_v6/external_review.json": {
+        "sha256": "5456139bd40ae4740635bbecdeb9f9e2eafe0fe42941a2b958f1f54f356565a7",
+        "size_bytes": 12446
+      },
+      "h232_cloud_packet_v6/gpu_memory_domains.py": {
+        "sha256": "285b42f24630cea7b033d97f9fd3b70236eca508f1fc8bad38fc291259260042",
+        "size_bytes": 4602
+      },
+      "h232_cloud_packet_v6/packet_meta.json": {
+        "sha256": "3d6098378049a153899bd2d3bfbd949a9643e3c51dec3f9e278c1dae6f3bb667",
+        "size_bytes": 10309
+      },
+      "h232_cloud_packet_v6/prior_input_identity_v2.json": {
+        "sha256": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e",
+        "size_bytes": 9310
+      },
+      "h232_cloud_packet_v6/profile_kernel.py": {
+        "sha256": "fa8307541fee254f75624fc06db751aa42ad4a3547e6eba80b1ee9cbbf2c874c",
+        "size_bytes": 928
+      },
+      "h232_cloud_packet_v6/profile_worker.py": {
+        "sha256": "915fc9d49dd765f271c5a625064462e733abb4d8771f9feeb7f26c9239b348a7",
+        "size_bytes": 171275
+      },
+      "h232_cloud_packet_v6/source_archive.tar": {
+        "sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+        "size_bytes": 614400
+      },
+      "h232_cloud_packet_v6/source_archive_manifest.json": {
+        "sha256": "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42",
+        "size_bytes": 8979
+      },
+      "h232_cloud_packet_v6/verified_digest_handoff.py": {
+        "sha256": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f",
+        "size_bytes": 13441
+      },
+      "h232_conditional_v6/cache_pressure_relief.jsonl": {
+        "sha256": "824df5023fa3615998952834a862d81de1c373aefa662b0e5c608c806a105637",
+        "size_bytes": 438493
+      },
+      "h232_conditional_v6/environment.json": {
+        "sha256": "54c9c74b85425a1aa4330ea50d74ca354547bdb56f17cb9a04f61123c1521e8f",
+        "size_bytes": 6676
+      },
+      "h232_conditional_v6/fit_result.json": {
+        "sha256": "8ead6878813fc1c21a4f89c594ae14b9f2dc431d6ca338515ba6158498e810f7",
+        "size_bytes": 5943
+      },
+      "h232_conditional_v6/gpu_telemetry.json": {
+        "sha256": "4426501096361604119c4f418a2fd3b94b03687b72a2010b2abf33cc742bdda0",
+        "size_bytes": 13682
+      },
+      "h232_conditional_v6/gpu_telemetry_fit.json": {
+        "sha256": "ff9962f3130d0f7a203a05a399b8c272a019c82d22a23b64b439683cdba0cf43",
+        "size_bytes": 36248
+      },
+      "h232_conditional_v6/hash_io_advice.json": {
+        "sha256": "a8590a74f27ccd826fea92ed5fa2548e56eb6dcf07cab05096e6e9293f3788e8",
+        "size_bytes": 1430
+      },
+      "h232_conditional_v6/input_identity.json": {
+        "sha256": "d7232ba0e8a0fa4f40c84650b2cf80f45627af81083a3f2ddb4d549dc1498f75",
+        "size_bytes": 9419
+      },
+      "h232_conditional_v6/memory_stat_phases.json": {
+        "sha256": "eb7e3c8b2dd1f69d37977804894f61703a4de49047196b02450a8fe312029ad9",
+        "size_bytes": 16233
+      },
+      "h232_conditional_v6/phase.json": {
+        "sha256": "c92d72380597f70fdc335f2d409ff5b3c661a871df7e35b1267a01fa9d297df3",
+        "size_bytes": 789
+      },
+      "h232_conditional_v6/profile_gate_result.json": {
+        "sha256": "d5148244e6c5d05498551cea1857200d71d89546315ff810ec90035215f29ee5",
+        "size_bytes": 6893
+      },
+      "h232_conditional_v6/profile_update_trace.json": {
+        "sha256": "fb8ddee653433341b6eda1becc820acb9249126d1688efb22491369ef406bcd1",
+        "size_bytes": 62820
+      },
+      "h232_conditional_v6/resource.json": {
+        "sha256": "c30c43ac965cbbe6d0bc7a7a64aac8ed3051bce47a9dc29defa5a6d8e386fd7d",
+        "size_bytes": 4260
+      },
+      "h232_conditional_v6/resource_abort.json": {
+        "sha256": "ec4ee0c5b34be7eb48ac7d3945cc777d4e485e725a37b943316e4af8f8e4103e",
+        "size_bytes": 4346
+      },
+      "h232_conditional_v6/rowgroup_reads.tsv": {
+        "sha256": "5d075a4a0babd0bbc99870748cdb2027c42d383f6b4fa2ce8e9fca566bf6f49a",
+        "size_bytes": 300523
+      },
+      "h232_conditional_v6/training_profile_peak.json": {
+        "sha256": "3a82003c72cbf5afa2d570be0aadca9a3f7c505a9e4c93f4f3379c770facf03d",
+        "size_bytes": 4781
+      },
+      "h232_source_v6/scripts/__pycache__/train_rnn.cpython-313.pyc": {
+        "sha256": "bd9e65d20f64d3311aad9d86d07f9878b36b504e92745f74870dd986f99f77eb",
+        "size_bytes": 200644
+      },
+      "h232_source_v6/scripts/predict_run.py": {
+        "sha256": "de4da30aebba33cb72a535b516839e4e627d00f6d6943cb4b2acbca7440b7fee",
+        "size_bytes": 5340
+      },
+      "h232_source_v6/scripts/train_rnn.py": {
+        "sha256": "cc0821a144fbea572dfaa03832fbbf31cf1ea605a917b0943c3db5da6b763e1a",
+        "size_bytes": 154234
+      },
+      "h232_source_v6/src/wnn/__init__.py": {
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+        "size_bytes": 63
+      },
+      "h232_source_v6/src/wnn/__pycache__/__init__.cpython-313.pyc": {
+        "sha256": "efaa84f27ab4fe9843f8d1ac38a076ffcbafe09f1866f81ca24fa2b5fd8d8b46",
+        "size_bytes": 218
+      },
+      "h232_source_v6/src/wnn/__pycache__/data.cpython-313.pyc": {
+        "sha256": "b339d4d8ab34e55819b510e597e49cef4e7c5b2c726448153df5ea0d16568bdc",
+        "size_bytes": 10816
+      },
+      "h232_source_v6/src/wnn/__pycache__/distillation.cpython-313.pyc": {
+        "sha256": "1bb417a4fa14b62109071a702ca5f6739db088f699e81d41177fbfea458ce1eb",
+        "size_bytes": 11785
+      },
+      "h232_source_v6/src/wnn/__pycache__/distillation_cache.cpython-313.pyc": {
+        "sha256": "24f217a56454b1a9521d08a983a2262e09e55b69c28b7f13b73b121bbb5cb4eb",
+        "size_bytes": 14919
+      },
+      "h232_source_v6/src/wnn/__pycache__/event_content.cpython-313.pyc": {
+        "sha256": "9dbd4ba48565cf0d18f65c4651672424cf4d8240c23cdaf9e6d03ae93714af0f",
+        "size_bytes": 12395
+      },
+      "h232_source_v6/src/wnn/__pycache__/features.cpython-313.pyc": {
+        "sha256": "b8d0e5e67e1747979d95ae45787d38567091a215bcc90e2e3336ae6aed02cdd8",
+        "size_bytes": 10933
+      },
+      "h232_source_v6/src/wnn/__pycache__/gmetric.cpython-313.pyc": {
+        "sha256": "206613373245107cb088a95577ec9213a2d218864088cba183b38a51a9bd2301",
+        "size_bytes": 15745
+      },
+      "h232_source_v6/src/wnn/__pycache__/metric.cpython-313.pyc": {
+        "sha256": "22b699645198b47f77c20489ee4b8a0b4cc656224863304029b86dd509fba768",
+        "size_bytes": 8672
+      },
+      "h232_source_v6/src/wnn/__pycache__/nn.cpython-313.pyc": {
+        "sha256": "793e89d642c694d2b0ba3b37c663f0cebcea43c511b83ea692967c3184403179",
+        "size_bytes": 36967
+      },
+      "h232_source_v6/src/wnn/__pycache__/optim.cpython-313.pyc": {
+        "sha256": "adfe891ebfbac64cf1998ee2fb9d164b1562dba5e362ec6affebc4b93e235697",
+        "size_bytes": 18706
+      },
+      "h232_source_v6/src/wnn/__pycache__/outcomes.cpython-313.pyc": {
+        "sha256": "e8d86753c589e1ae61907b1a783e3c473eb6d238e0f0ce7bc8e49f619428d20a",
+        "size_bytes": 8077
+      },
+      "h232_source_v6/src/wnn/__pycache__/portability.cpython-313.pyc": {
+        "sha256": "1d33db21ec4614522d506927c709b0d55854979f2dfa1ceef91a9e181a518df0",
+        "size_bytes": 3474
+      },
+      "h232_source_v6/src/wnn/__pycache__/privileged.cpython-313.pyc": {
+        "sha256": "a8c25bacae39cca992ecabeb8928a2caa53ff652fd2c369e22b669c0ca287bec",
+        "size_bytes": 9356
+      },
+      "h232_source_v6/src/wnn/__pycache__/propensity.cpython-313.pyc": {
+        "sha256": "ef1f11d60269f34a8e65f9b6d1d82c56cff8b6a279dd8ba1d045a71657e36d6a",
+        "size_bytes": 3572
+      },
+      "h232_source_v6/src/wnn/__pycache__/quantization.cpython-313.pyc": {
+        "sha256": "68b3f47c638eb95db2caec42b903fe6ce77b079fc4e5b2802ab2163542d8c310",
+        "size_bytes": 9911
+      },
+      "h232_source_v6/src/wnn/__pycache__/research_features.cpython-313.pyc": {
+        "sha256": "a4faea98ab0cde90979d517a64e15786db39e5d5bd36b95a2576caed5bdd290d",
+        "size_bytes": 12140
+      },
+      "h232_source_v6/src/wnn/__pycache__/resources.cpython-313.pyc": {
+        "sha256": "5361fd449ee1da0c287cd790543757d7ea9da55bcf963f42e375cee8ad2411c6",
+        "size_bytes": 6560
+      },
+      "h232_source_v6/src/wnn/__pycache__/run_identity.cpython-313.pyc": {
+        "sha256": "43aef35cd3221f799c32b70efebff84d5bb52f3fe9242ad0e9b5303cdccb294e",
+        "size_bytes": 7982
+      },
+      "h232_source_v6/src/wnn/__pycache__/sentinel.cpython-313.pyc": {
+        "sha256": "57a1a1777b0385fdb940fd59bcf6805041b88e048da9e789135e5875cdcb30da",
+        "size_bytes": 12700
+      },
+      "h232_source_v6/src/wnn/__pycache__/sentinel_calibration.cpython-313.pyc": {
+        "sha256": "09937b4a9da010af15fbe63481093b8c71823ab7defb4f96c422093d9ebf24d6",
+        "size_bytes": 13323
+      },
+      "h232_source_v6/src/wnn/__pycache__/specialist.cpython-313.pyc": {
+        "sha256": "c1fb52cab5fadcb51980b1505a855a78225b5644c2be2239115c5dff071b8ab1",
+        "size_bytes": 18451
+      },
+      "h232_source_v6/src/wnn/__pycache__/splits.cpython-313.pyc": {
+        "sha256": "f373546a6bff9dfd5e667efedd05e07b64f7fe81581c8b52bd11a410692077b8",
+        "size_bytes": 15048
+      },
+      "h232_source_v6/src/wnn/__pycache__/spread_aux.cpython-313.pyc": {
+        "sha256": "3b416b7aebeca61778f872e28e7432602aedd49cc8928eeb379e14bbde39428a",
+        "size_bytes": 11300
+      },
+      "h232_source_v6/src/wnn/__pycache__/structured_state.cpython-313.pyc": {
+        "sha256": "1dabaaa4ee306684a1ffb6493f95ef4d77b03c21582124b432ca707c9de29a42",
+        "size_bytes": 18358
+      },
+      "h232_source_v6/src/wnn/__pycache__/training_controls.cpython-313.pyc": {
+        "sha256": "ed7c79af1387d0ffe7307fc3891ed5e5b39aa43e511f53edd63c0d4499a0ceea",
+        "size_bytes": 14531
+      },
+      "h232_source_v6/src/wnn/__pycache__/training_credit.cpython-313.pyc": {
+        "sha256": "5f2fd2258765f9cf794c006309c916c57436e6f37944a11e8fc8b98e9a9aa77f",
+        "size_bytes": 4132
+      },
+      "h232_source_v6/src/wnn/__pycache__/training_dynamics.cpython-313.pyc": {
+        "sha256": "a761e0c2b79a718ffe2657b2edb1228639bdf95d5fd7718b68e210917740b80d",
+        "size_bytes": 21785
+      },
+      "h232_source_v6/src/wnn/__pycache__/training_factorized.cpython-313.pyc": {
+        "sha256": "c1616f8c012cbc633689e5dc4be649cca88a4e89da154a0bc4908544f70a42f7",
+        "size_bytes": 13153
+      },
+      "h232_source_v6/src/wnn/__pycache__/training_qat.cpython-313.pyc": {
+        "sha256": "bb204744995b0caf978ee9de94fab7cf1c3b105582ada2dcba524bcb7e9adcb3",
+        "size_bytes": 9749
+      },
+      "h232_source_v6/src/wnn/__pycache__/training_sampling.cpython-313.pyc": {
+        "sha256": "188e07faa11a852f7198f78f8a11ffb6600828a7a432e129a39d6bfddd33f9e8",
+        "size_bytes": 10931
+      },
+      "h232_source_v6/src/wnn/__pycache__/training_state.cpython-313.pyc": {
+        "sha256": "6359dfbb670bb42c4a24c594ff2e725cba0ee85c46349d8f2d343088a2cf685d",
+        "size_bytes": 13156
+      },
+      "h232_source_v6/src/wnn/__pycache__/training_views.cpython-313.pyc": {
+        "sha256": "eb0f4ff6ac9e31a171eee1a611c9b56643ee39662097327825fd50cf51b6e61b",
+        "size_bytes": 4252
+      },
+      "h232_source_v6/src/wnn/bandit_campaign_recipe.py": {
+        "sha256": "883bc6415345ec5e4deff56be13fc0ae0be8791702e999898dfdb3557a5a6374",
+        "size_bytes": 34735
+      },
+      "h232_source_v6/src/wnn/block_memory_attention.py": {
+        "sha256": "737d97e41b24eec956221d5cbf1657a27fe3029925987dbb820e8abba3888453",
+        "size_bytes": 5676
+      },
+      "h232_source_v6/src/wnn/campaign.py": {
+        "sha256": "35dd701fdb33c50494a3c781a315731212da22f41cae331f2f85073af0637605",
+        "size_bytes": 20774
+      },
+      "h232_source_v6/src/wnn/campaign_local.py": {
+        "sha256": "0213ff7a809ce898be5d3180c15e31d228ad6f3f03f1f08fd968f9186e91353d",
+        "size_bytes": 24324
+      },
+      "h232_source_v6/src/wnn/campaign_spec.py": {
+        "sha256": "5136703299585e81a9463a253133ba7f12da2c64ea863776c005d1fc5d3e8d7b",
+        "size_bytes": 10334
+      },
+      "h232_source_v6/src/wnn/conditional_readout.py": {
+        "sha256": "2930740c551f34d42e1d300e30a7f1edcb0ca46758c8355018d4a36477829426",
+        "size_bytes": 9120
+      },
+      "h232_source_v6/src/wnn/csrc/symreg_screen.cpp": {
+        "sha256": "413082e20f815ce4ca41af246997d4f1e2ad019e5099a79be23af424672dd2b7",
+        "size_bytes": 4986
+      },
+      "h232_source_v6/src/wnn/data.py": {
+        "sha256": "3e32781997fd01e6dd94dd559fe6885490b8158136fc61aa87a7cf2e6ea08939",
+        "size_bytes": 6177
+      },
+      "h232_source_v6/src/wnn/distillation.py": {
+        "sha256": "5d68b03204b9413d2412533a7aa75ae0759276dacbbed4035b846da1d38350e2",
+        "size_bytes": 7875
+      },
+      "h232_source_v6/src/wnn/distillation_cache.py": {
+        "sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19",
+        "size_bytes": 10084
+      },
+      "h232_source_v6/src/wnn/evaluation.py": {
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+        "size_bytes": 8080
+      },
+      "h232_source_v6/src/wnn/event_content.py": {
+        "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+        "size_bytes": 7226
+      },
+      "h232_source_v6/src/wnn/features.py": {
+        "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+        "size_bytes": 5421
+      },
+      "h232_source_v6/src/wnn/gmetric.py": {
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "size_bytes": 8902
+      },
+      "h232_source_v6/src/wnn/heuristics.py": {
+        "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e",
+        "size_bytes": 9025
+      },
+      "h232_source_v6/src/wnn/infer.py": {
+        "sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9",
+        "size_bytes": 2377
+      },
+      "h232_source_v6/src/wnn/markov.py": {
+        "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2",
+        "size_bytes": 2624
+      },
+      "h232_source_v6/src/wnn/metric.py": {
+        "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+        "size_bytes": 4806
+      },
+      "h232_source_v6/src/wnn/nn.py": {
+        "sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+        "size_bytes": 20537
+      },
+      "h232_source_v6/src/wnn/online_dynamics.py": {
+        "sha256": "15276c6879f770dcbb89f3dd7b10f916b7db7790f5564c7ca5fd690f25c2722b",
+        "size_bytes": 3626
+      },
+      "h232_source_v6/src/wnn/optim.py": {
+        "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+        "size_bytes": 11736
+      },
+      "h232_source_v6/src/wnn/outcomes.py": {
+        "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+        "size_bytes": 4538
+      },
+      "h232_source_v6/src/wnn/portability.py": {
+        "sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+        "size_bytes": 1909
+      },
+      "h232_source_v6/src/wnn/privileged.py": {
+        "sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4",
+        "size_bytes": 6608
+      },
+      "h232_source_v6/src/wnn/propensity.py": {
+        "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+        "size_bytes": 1404
+      },
+      "h232_source_v6/src/wnn/quantization.py": {
+        "sha256": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077",
+        "size_bytes": 6050
+      },
+      "h232_source_v6/src/wnn/quantization_export.py": {
+        "sha256": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0",
+        "size_bytes": 3968
+      },
+      "h232_source_v6/src/wnn/research_features.py": {
+        "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8",
+        "size_bytes": 6234
+      },
+      "h232_source_v6/src/wnn/resources.py": {
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+        "size_bytes": 4485
+      },
+      "h232_source_v6/src/wnn/run_identity.py": {
+        "sha256": "725685931dddce6c2c068f14cf51abb2dd1f67eb88c3f38f2c61ae271805b626",
+        "size_bytes": 4606
+      },
+      "h232_source_v6/src/wnn/sentinel.py": {
+        "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec",
+        "size_bytes": 8603
+      },
+      "h232_source_v6/src/wnn/sentinel_calibration.py": {
+        "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599",
+        "size_bytes": 8550
+      },
+      "h232_source_v6/src/wnn/specialist.py": {
+        "sha256": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400",
+        "size_bytes": 12064
+      },
+      "h232_source_v6/src/wnn/splits.py": {
+        "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+        "size_bytes": 8647
+      },
+      "h232_source_v6/src/wnn/spread_aux.py": {
+        "sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512",
+        "size_bytes": 7553
+      },
+      "h232_source_v6/src/wnn/streaming.py": {
+        "sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e",
+        "size_bytes": 2422
+      },
+      "h232_source_v6/src/wnn/structured_state.py": {
+        "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+        "size_bytes": 9963
+      },
+      "h232_source_v6/src/wnn/symreg.py": {
+        "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849",
+        "size_bytes": 11386
+      },
+      "h232_source_v6/src/wnn/tcn_ref.py": {
+        "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa",
+        "size_bytes": 3511
+      },
+      "h232_source_v6/src/wnn/ticks.py": {
+        "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8",
+        "size_bytes": 4946
+      },
+      "h232_source_v6/src/wnn/training_calibration.py": {
+        "sha256": "30923120c1bd9773556556ee0fbbab5d8db4a5f4232c48b81f11fa87a5e74e52",
+        "size_bytes": 2694
+      },
+      "h232_source_v6/src/wnn/training_controls.py": {
+        "sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39",
+        "size_bytes": 10695
+      },
+      "h232_source_v6/src/wnn/training_credit.py": {
+        "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd",
+        "size_bytes": 2225
+      },
+      "h232_source_v6/src/wnn/training_dynamics.py": {
+        "sha256": "902f69a4168555dc059ef0f4fdf7f6d194a8afd9dd594aa7e311141a040a4294",
+        "size_bytes": 14936
+      },
+      "h232_source_v6/src/wnn/training_factorized.py": {
+        "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2",
+        "size_bytes": 7615
+      },
+      "h232_source_v6/src/wnn/training_qat.py": {
+        "sha256": "23d866801e0fef753e8af017e582a32900c40d4925c30a3083c128a2014ccf72",
+        "size_bytes": 6146
+      },
+      "h232_source_v6/src/wnn/training_sampling.py": {
+        "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2",
+        "size_bytes": 6540
+      },
+      "h232_source_v6/src/wnn/training_state.py": {
+        "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac",
+        "size_bytes": 8689
+      },
+      "h232_source_v6/src/wnn/training_views.py": {
+        "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142",
+        "size_bytes": 3065
+      },
+      "h232_source_v6/src/wnn/twoclock_ref.py": {
+        "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44",
+        "size_bytes": 3732
+      },
+      "h232_source_v6/src/wnn/viz.py": {
+        "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5",
+        "size_bytes": 4297
+      }
+    },
+    "downloaded_total_bytes": 3189733,
+    "local_resource_envelope": {
+      "cpu_quota": "100%",
+      "memory_max_bytes": 1500000000,
+      "runtime_max_seconds_per_api": 120,
+      "slice": "wnn-campaign.slice",
+      "threads": 1
+    },
+    "no_checkpoint_or_fp32_prediction_artifact": true,
+    "outputs_command": "kaggle kernels output vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v6 -p research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/downloads/h232_conditional_v6",
+    "outputs_exit_code": 0,
+    "provider_logs_command": "kaggle kernels logs vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v6",
+    "provider_logs_exit_code": 0
+  }
+}
