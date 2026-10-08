@@ -171,9 +171,46 @@ def run(root: Path, spec_paths: list[Path], output: Path, stagger_seconds: float
         ),
         flush=True,
     )
-    # Validate the complete batch before any worker can start.
+    # Validate sealed code locally. Explicitly deferred mounted data receive a
+    # streaming portable-registry check in the recipe worker before Torch loads.
     for spec in specs:
-        verify_files(root, spec["code"] + spec["inputs"])
+        raw_deferred = spec["environment"].get("WNN_DEFERRED_IDENTITY_PATHS", "")
+        deferred_paths = {
+            relative_path(value)
+            for value in raw_deferred.split(",")
+            if value
+        }
+        input_paths = {item["path"] for item in spec["inputs"]}
+        code_paths = {item["path"] for item in spec["code"]}
+        if deferred_paths & code_paths or not deferred_paths.issubset(input_paths):
+            raise ValueError("deferred identity paths must name declared mounted inputs only")
+        verify_files(
+            root,
+            spec["code"] + [item for item in spec["inputs"] if item["path"] not in deferred_paths],
+            identity_receipt=output / f"{spec['name']}.input_identity.json",
+        )
+        if deferred_paths:
+            receipt_path = output / f"{spec['name']}.input_identity.json"
+            receipt = json.loads(receipt_path.read_text())
+            for name in sorted(deferred_paths):
+                descriptor = next(item for item in spec["inputs"] if item["path"] == name)
+                path = root / name
+                observed_size = path.stat().st_size if path.is_file() else None
+                matches = path.is_symlink() and observed_size == descriptor["size"]
+                receipt["observations"].append(
+                    {
+                        "path": name,
+                        "expected": {"size": descriptor["size"], "sha256": descriptor["sha256"]},
+                        "observed": {"size": observed_size, "sha256": None},
+                        "status": "deferred_to_worker_preflight" if matches else "mount_mismatch",
+                    }
+                )
+                if not matches:
+                    receipt["status"] = "failed"
+                    write_json(receipt_path, receipt)
+                    raise ValueError(f"Deferred mounted input size mismatch: {name}")
+            receipt["status"] = "verified_internal_deferred_external"
+            write_json(receipt_path, receipt)
     active, finished = [], []
     queue = list(specs)
     last_launch = -float("inf")

@@ -92,16 +92,36 @@ def read_spec(path: Path) -> dict:
     return spec
 
 
-def verify_files(root: Path, descriptors: list[dict]) -> None:
-    """Require exact bytes for every declared dependency before launch."""
+def verify_files(
+    root: Path,
+    descriptors: list[dict],
+    *,
+    identity_receipt: Path | None = None,
+) -> list[dict]:
+    """Require exact bytes for dependencies and optionally persist each observation."""
+    observations: list[dict] = []
     for item in descriptors:
         path = root / relative_path(item["path"])
-        if (
-            not path.is_file()
-            or path.stat().st_size != item["size"]
-            or sha256_file(path) != item["sha256"]
-        ):
+        observed_size = path.stat().st_size if path.is_file() else None
+        observed_sha256 = sha256_file(path) if path.is_file() else None
+        matched = observed_size == item["size"] and observed_sha256 == item["sha256"]
+        observation = {
+            "path": item["path"],
+            "expected": {"size": item["size"], "sha256": item["sha256"]},
+            "observed": {"size": observed_size, "sha256": observed_sha256},
+            "status": "match" if matched else "mismatch",
+        }
+        observations.append(observation)
+        if identity_receipt is not None:
+            write_json(
+                identity_receipt,
+                {"status": "validating", "observations": observations},
+            )
+        if not matched:
             raise ValueError(f"Dependency identity mismatch: {item['path']}")
+    if identity_receipt is not None:
+        write_json(identity_receipt, {"status": "verified", "observations": observations})
+    return observations
 
 
 def write_json(path: Path, value: object) -> None:

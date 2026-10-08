@@ -39,8 +39,25 @@ python scripts/build_e540_packet.py \
 
 The builder refuses a split unless it yields exactly 512 selected fitting components and the frozen 468 evaluation groups. It writes those exact evaluation group IDs into the V2 subset manifest, binds the code and data identities, and serializes profile, fit, feature-only 468-group prediction export and causal ONNX export commands. The ONNX parity sample is the first selected train group. The builder launches none of them. The `grade_command` remains unset: root supplies the independent grader and verifies the prediction row-group index before scoring.
 
+## AMP4096 V3 private cohort
+
+`RECIPE_V3_AMP4096.json` and `EXPERIMENT_CARD_AMP4096_V3.json` preserve V2 as an unfitted historical recipe and register a separate numeric successor. Both arms use an explicit GradScaler initial scale of 4096 for the actual-device profile and conditional fit. The clip2-target WMSE, 512 complete fitting components, fixed 468 exposed evaluation groups, initialization, sample order, model shape, and one-epoch fixed ep0 schedule remain shared. An AMP skip fails the profile and fit validity gates; the worker does not silently adjust scale.
+
+V3 makes one separately recorded membership-protocol correction: the frozen split has 3,148 eligible fitting components, so V2's preserved `ceil(10%)` rule selects 315 components rather than its stated 512. V3 instead takes exactly the first 512 component IDs from the seed-540 permutation of sorted eligible IDs (about 16.3% on this split). It is not described as a 10% subset or as the same-size V2 realization. Before importing Torch or profiling, the worker recomputes the exact selection from the frozen split, checks complete-component closure and fit/evaluation disjointness, and writes component, train-group, valid-group, fit-member and 468-group digests. Those selected groups total 1,849. The existing batch-2, `drop_last=True` loader consumes 1,848 sequences per epoch and drops one; this packet does not record actual batch indices, so the omitted row and consumed-component count are left unknown. Both arms pin the same sampler configuration, but this packet does not claim an observed identical order. Checkpoints are checked against the exact selected fit groups; the PLE receipt also verifies stored knot buffers against the recorded knot digest. Separate arm receipts preserve each profile/fit/prediction failure.
+
+Build the private Kaggle transport packet from an isolated checkout that contains the small graph caches, while pointing `--data-root` at the authorized data/cache checkout:
+
+```sh
+python scripts/build_e540_kaggle_cohort.py \
+  --data-root /path/to/authorized/data-checkout \
+  --output-dir research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/kaggle_v3 \
+  --dataset vladkochetov07/e540-v3-warm-20261008
+```
+
+Packet construction reads the frozen split/graph metadata and only the `row_group` and `seq_ix` arrays from the target NPZ indexes. It does not hash the full local parquet or target archives. At worker start, the recipe records one streaming SHA-256 pass for each mounted raw parquet and target archive before importing Torch; the trainer reuses those exact source identities. Hashing counts against the 5,200-second worker deadline. The profile uses one warmup and three timed outer batches so `step_wall` is finite, and requires 316 completed finite updates with zero AMP skips in both arms. A conservative projection must fit the pair and two FP32 feature-only 468-group exports inside that worker deadline. The additional 800 seconds in the 6,000-second provider proposal are for kernel startup, bundle mount/extraction and terminal artifact transport. Root must review the generated source, exact subset/group hashes, live quota and observed input-hash throughput before any push. The packet performs no provider mutation, grading, ONNX export, or full-valid prediction export.
+
 The original implementation came from commit `976a4d07b677544c0a4a289d29b4b1176141870b`; root integrated it as `e2a33b75` and recorded that integration in `4c09ac01`. V2 adds the delivery guards and feature-only subset export described in [the independent audit](E540_INDEPENDENT_RECIPE_DELIVERY_REVIEW_V2_20261008.md). The isolated audit worktree has no dataset copy or symlink.
 
 ## Current status
 
-The prior actual-data shape read and the original eight focused tests are preserved evidence. The V2 packet/code changes are under independent root review. GPU profiling, fits, grading and provider work remain pending root admission; this handoff reports no model result or competition claim.
+The prior actual-data shape read and focused synthetic tests are preserved evidence. V2 is integrated but remains unfitted. The separately identified V3 packet is prepared for independent root review; GPU profiling, fits, grading and provider work remain pending root admission. This handoff reports no model result or competition claim.
