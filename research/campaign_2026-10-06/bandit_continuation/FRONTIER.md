@@ -1,3 +1,13 @@
+## Sol delivery and cache reuse — 2026-10-08 22:46 UTC
+
+The user now authorizes one Sol6.1/medium research and implementation lead, with two Luna/max execution roles; no Astra and no Vast. [ADR0028](../../../specs/adr/0028-sol-medium-diversity-delivery.md). The [experiment matrix](diversity_stack_20261009/matrix/experiment_matrix.html) covers254 recorded runs,23 planned contrasts and6 reviewed endpoints. Keep both weights and evaluation predictions, with actual gradient/LR traces, under the [retention policy](diversity_stack_20261009/ARTIFACT_RETENTION_R1.md).
+
+Local fold1 GRU384 seed3 is actively fitting; a deterministic postfit gate for the admitted seed4 successor is in independent review. User confirmed the earlier disk drop was an unrelated archive; free space is now31.14GB. Missing fold1 prediction exports can be prepared for fresh disk-budget review. No unrelated archive or data was changed.
+
+Kaggle parsed-cache artifacts report successful completion:570.93s,7.733GB reusable output,846 unique source row groups parsed once,9.316GB peakRAM. Twelve small receipt hashes independently verified; cache arrays stay on Kaggle. Two-T4 WMSE/Huber packet and actual-TPU parity/fit successor are being sealed. Provider status429 remains distinct from artifact completion; no measured TPU/GPU ratio yet. [Independent cache/package review](diversity_stack_20261009/ROOT_CACHE_AND_RELEASE_REVIEW_R1.json).
+
+New Z4/Z5 ZIPs passed technical release checks, including Python3.11 ABI, causal reset and matched runtime; public upload remains with the user. They have no held-out quality or expected-public-best promotion. The strongest completed new diversity result remains the exposed-panel equal blend below; fold1 and compressed-serving follow-ups are owed.
+
 ## Diversity result and local/Kaggle delivery — 2026-10-08 22:00 UTC
 
 Latest user scope leaves Vast off and chooses an already planned useful experiment for TPU/GPU efficiency: matched weighted-MSE versus weighted-Huber teachers, followed by fixed blend contribution. Root's [allocation](diversity_stack_20261009/ALLOCATION_R2_LOCAL_KAGGLE.md) preserves all other arms. CPU parsed-cache packet is one-push admitted, operator executing; hardware multiplier remains unmeasured.
