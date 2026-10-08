@@ -1,0 +1,58 @@
+{
+  "allocation_state": "remote_dataset_verified; awaiting root reconciliation of V3 terminal collection/hold and remaining campaign headroom before V4 provider target registration and single kernel push",
+  "campaign_headroom_after_preexisting_and_proposed_v4_hold_seconds": 5093.52,
+  "create_command": "kaggle datasets create -p /tmp/h230_seed9_parent_fit_v4_dataset_upload_20261008 --dir-mode skip",
+  "create_exit_code": 0,
+  "dataset_id": "vladkochetov07/h230-seed9-parent-fit-v4",
+  "fresh_quota_after_remote_verification": {
+    "account_gpu_remaining_seconds": 41265.683,
+    "campaign_baseline_used_seconds": 37047.321,
+    "campaign_cap_seconds": 56780.516,
+    "campaign_headroom_before_internal_holds_seconds": 27093.52,
+    "campaign_used_seconds": 29686.996,
+    "gpu_used_seconds": 66734.317,
+    "observed_at_utc": "2026-10-08T11:17:00Z",
+    "provider_reserved_seconds": 0.0,
+    "quota_refresh_utc": "2026-10-10T00:00:00"
+  },
+  "is_private": true,
+  "kernel_push_performed": false,
+  "observed_at_utc": "2026-10-08T11:18:08+00:00",
+  "preexisting_campaign_gpu_holds": [
+    {
+      "hold_reconciled": false,
+      "kernel": "vladkochetov07/gru512-768-muon-v3-profile-only",
+      "observed_provider_status": "KernelWorkerStatus.ERROR",
+      "seconds": 6000,
+      "terminal_collection_receipt_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_CAPACITY_V3_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json"
+    },
+    {
+      "hold_reconciled": false,
+      "kernel": "vladkochetov07/gru-capacity-v4-manifest-profile-20261008",
+      "observed_provider_status": "KernelWorkerStatus.QUEUED",
+      "seconds": 6000
+    }
+  ],
+  "provider_report": "Your private Dataset is being created",
+  "remote_files": [
+    {
+      "name": "bundle.wnn",
+      "remote_downloaded_and_verified": true,
+      "sha256": "577c4c10b543f23695f3a6bbb99e0c30f4dd939d70e3fb21769b6d27bd271217",
+      "size_bytes": 208993
+    },
+    {
+      "name": "bundle-manifest.json",
+      "remote_downloaded_and_verified": true,
+      "sha256": "d5ed87937b6a1dcd6d12366c80aea8e1fefe2d0f9bf08beec862d5c8f435b612",
+      "size_bytes": 16836
+    }
+  ],
+  "remote_inventory": [
+    "bundle-manifest.json",
+    "bundle.wnn"
+  ],
+  "root_authorization_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_SEED9_CLOUD_V4_ROOT_ONE_PUSH_AUTHORIZATION_20261008_R1.json",
+  "root_authorization_sha256": "c6e39bc274519ec1a729a3bdbcf4fcc246556963d0ba65d476db9668cd020eba",
+  "schema": "h230-kaggle-private-code-dataset-create-remote-verification-v1"
+}

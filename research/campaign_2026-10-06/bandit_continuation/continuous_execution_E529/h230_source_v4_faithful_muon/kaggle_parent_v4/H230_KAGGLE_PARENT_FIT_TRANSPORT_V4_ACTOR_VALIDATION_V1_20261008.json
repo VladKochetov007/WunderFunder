@@ -1,0 +1,73 @@
+{
+  "artifact_sha256": {
+    "build_failure_receipt": "f87792c1f6e038c5efb4d624c3e33187603749e5b965eaec4a7a44bbf1e5b2f0",
+    "deadline_test": "5048128d38608b5eba6ffa0bb711562fa3a04205e21df921ff289743504a6337",
+    "profile_gate_test": "632925f8fa765501596aab8f5d1a2bbe6b5d0ee6dfe7eba3611add0a4d136911",
+    "source_manifest": "49a4048f559fb6092e71fa2b447069fbce4956bdf8f062924df0d1f81c1e3ff6",
+    "v3_transport": "498d0ea6bad9d60b49537c2601e5df3a21be959f16b0cd06e77d5644a41cd518",
+    "v4_builder": "a354a78248723db28411b12cd877a3d6675cb3fda0cc39c0aa3ecc45560be81b",
+    "v4_bundle": "577c4c10b543f23695f3a6bbb99e0c30f4dd939d70e3fb21769b6d27bd271217",
+    "v4_bundle_manifest": "d5ed87937b6a1dcd6d12366c80aea8e1fefe2d0f9bf08beec862d5c8f435b612",
+    "v4_kernel": "3e624c131ace810e76c841be4df5496b113884832945ac7b587b1492af450b5b",
+    "v4_kernel_metadata": "a2559beba63249c6be256dd862d81b9c5eb11f9540c62b7db6fcd8381d4cfd3b",
+    "v4_profile_plan": "177905f9705e23e05494b1a1632f32e989209519d55a851cf3d1ff82a2c3b12b",
+    "v4_runner_source": "cefef7517331824557e1daa6d6bf590a98848dfbdae83e208996064fe6152990",
+    "v4_sequence": "fbdf9a188348c9687fc7d0f1944705377f0affd53d1d2e66457154cccd7bbba2",
+    "v4_spec": "4a9aa48eee81facdf86a7abd0c305f96bc4c529e7915918a21932f3d00f593cc",
+    "v4_transport": "9d38d7733a3659ffb6dfeb42b3d7db9d08ab23279f3fbb90406c3869cb3f94b9"
+  },
+  "attempt_id": "h230-strong-parent-seed9-kaggle-profilefit-v4-packet-validation-v1-20261008",
+  "authorization_basis": "Root message authorizing a resource-only V4 bootstrap deadline successor: 9,000-second worker, 10,000-second kernel-process/provider hold, same V3 science/profile gate/source pins; source and packet require root review before push.",
+  "checks": {
+    "V3_and_V4_scientific_fit_and_profile_argv_equal_after_run_name_normalization": "passed",
+    "V3_source_manifest_recipe_and_real_profile_receipt_hashes_unchanged": "passed",
+    "V4_kernel_deadline_10000_and_worker_ceiling_9000": "passed",
+    "V4_spec_and_profile_projection_timeout_9000": "passed",
+    "bundle_archive_manifest_kernel_sha_and_metadata_consistent": "passed",
+    "focused_pytest": "5 passed in 0.21s",
+    "ruff_check": "passed",
+    "source_57_pins_stream_hashed_against_staged_payload": "passed"
+  },
+  "recorded_at_utc": "2026-10-08T11:04:09.476872+00:00",
+  "root_review_required": true,
+  "schema": "h230-kaggle-parent-v4-transport-actor-validation-v1",
+  "status": "prepared_for_root_independent_review_no_upload_or_launch",
+  "v3": {
+    "old_kernel_process_timeout_seconds": 6000,
+    "old_worker_timeout_seconds": 5200,
+    "packet_sha256": "498d0ea6bad9d60b49537c2601e5df3a21be959f16b0cd06e77d5644a41cd518",
+    "preserved_unchanged": true
+  },
+  "v4": {
+    "attempt_id": "h230-strong-parent-seed9-kaggle-profilefit-v4-20261008",
+    "bootstrap_start_reserve_seconds": 700,
+    "bundle_archive_bytes": 208993,
+    "code_members": 72,
+    "fit_authorized": false,
+    "kernel_process_wall_seconds_max": 10000,
+    "kernel_push_performed": false,
+    "packet_id": "H230_STRONG_PARENT_SEED9_KAGGLE_PROFILEFIT_V4_20261008",
+    "profile_or_fit_performed": false,
+    "provider_hold_seconds": 10000,
+    "provider_operations_performed": false,
+    "runner_finalization_reserve_seconds": 300,
+    "scientific_source_members": 57,
+    "source_57_members_byte_identical_to_v4": true,
+    "source_manifest_sha256": "49a4048f559fb6092e71fa2b447069fbce4956bdf8f062924df0d1f81c1e3ff6",
+    "worker_timeout_seconds": 9000
+  },
+  "validation_history": [
+    {
+      "attempt": 1,
+      "provider_or_fit_effect": false,
+      "receipt": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_faithful_muon/kaggle_parent_v4/H230_KAGGLE_PARENT_V4_PACKET_BUILD_ATTEMPT1_FAILURE_20261008.json",
+      "status": "offline_build_failed"
+    },
+    {
+      "attempt": 2,
+      "detail": "The first test expectation crossed the 300-second finalization boundary by one second and a float-monotonic case was nondeterministic; tests now use an injected fixed monotonic clock and match floor-based clamping. The code path remained unchanged.",
+      "final_status": "5 focused tests passed.",
+      "status": "focused_test_oracle_failed_then_corrected"
+    }
+  ]
+}

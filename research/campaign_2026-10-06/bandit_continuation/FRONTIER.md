@@ -1,3 +1,15 @@
+## Live delivery frontier — 2026-10-08 11:24 UTC
+
+H272 fixed-epoch direct-label readout has landed: multiplicative WP0.6817322281 versus parent0.6816181422, delta+0.000114086 on exposed468groups. Independent direct official-metric recomputation agrees within1e-12. All declared multiplicative blend weights improve this parent; other three readouts do not. This warrants a bounded fresh-parent/control follow-up, not a public-score forecast. Isolated native-serving implementation is underway. [Complete result](continuous_execution_E529/H272_FIXED_EP1_RESULT_20261008_R2.md).
+
+Local seed99 whole-hidden-matrix Muon parent is confirmed active in the **user** systemd manager, PID1051841. Epoch0 took1586.2s:15573 completed updates and7AMP skips; epoch1 is progressing. Start-to-current OOM/kill deltas are0. Extrapolating four similar epochs gives about106minutes total, roughly12:35–12:45UTC terminal plus export overhead; this is an estimate, not a completion promise. The all-data fit has no held-out evaluation claim and retains the declared approximate clean-fold teacher-cache ancestry.
+
+Kaggle accepted version1 of both corrected packets: `vladkochetov07/h230-seed9-parent-fit-v4-runner` (actual-device profile then conditional fresh full fit;9000s worker/10000s kernel) and `vladkochetov07/gru-capacity-v4-manifest-profile-20261008` (profile only;fits disabled). First observations are QUEUED; acceptance is not evidence of fitting. CapacityV3's manifest-consumer failure and V4's rejected long-slug push remain preserved. No duplicate creates or pushes. [Successor queueR8](runtime/ACCELERATOR_SUCCESSOR_QUEUE_20261008_R8.json).
+
+Vast's next useful cohort is in preparation: missing independent all-data heterogeneous teacher family first, not another seed-only model. No new rental yet; ambiguous earlier TCN creation remains unproven and cannot be adopted. Current known owned charges1.756USD differ from credit decline2.10885USD; unsettled reservations are not spending. Root review of runnable transport precedes any new paid creation.
+
+“New best” means **expected stronger candidate before browser upload**. No current candidate yet has enough evidence to assert expected public improvement over0.6660. Verified publicbest0.6660 and teammate0.6674 remain separate. Preserve the historical snapshots below.
+
 ## Live delivery frontier — 2026-10-08 10:36 UTC
 
 H272 direct-label readout fit completed successfully in 1941.25s:29,840 updates, no skipped updates or new OOM/kill, fixedepoch1 checkpoint528f2713…543d3. Root independently verified16 unchanged parent tensors and24 finite readout tensors. Export is admitted under1CPU/4GB/1800s, grading follows actual export closure; no quality or expected-public improvement claimed yet. [Fit review](continuous_execution_E529/reviews/H272_ROOT_FIXED_EP1_TERMINAL_REVIEW_20261008_R1.json).
