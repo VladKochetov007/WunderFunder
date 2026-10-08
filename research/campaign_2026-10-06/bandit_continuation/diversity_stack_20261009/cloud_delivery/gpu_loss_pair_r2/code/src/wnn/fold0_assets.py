@@ -95,21 +95,25 @@ def _stat_identity(path: Path) -> dict[str, int]:
     }
 
 
-def _hash_file(path: Path) -> tuple[str, int, bool]:
+def _hash_file(path: Path) -> tuple[str, int, int, int]:
     digest = hashlib.sha256()
     byte_count = 0
-    advised = False
+    advised_bytes = 0
+    advised_calls = 0
     with path.open("rb", buffering=0) as stream:
         while block := stream.read(_HASH_BLOCK_BYTES):
             digest.update(block)
+            if hasattr(os, "posix_fadvise") and hasattr(os, "POSIX_FADV_DONTNEED"):
+                try:
+                    os.posix_fadvise(
+                        stream.fileno(), byte_count, len(block), os.POSIX_FADV_DONTNEED
+                    )
+                    advised_bytes += len(block)
+                    advised_calls += 1
+                except OSError:
+                    pass
             byte_count += len(block)
-        if hasattr(os, "posix_fadvise") and hasattr(os, "POSIX_FADV_DONTNEED"):
-            try:
-                os.posix_fadvise(stream.fileno(), 0, 0, os.POSIX_FADV_DONTNEED)
-                advised = True
-            except OSError:
-                advised = False
-    return digest.hexdigest(), byte_count, advised
+    return digest.hexdigest(), byte_count, advised_bytes, advised_calls
 
 
 def _read_pinned_json(path: Path, expected_sha256: str, name: str) -> tuple[dict[str, Any], bytes]:
@@ -175,6 +179,7 @@ def verify_and_link_fold0_assets(
     files: dict[str, Any] = {}
     total_bytes = 0
     advised_bytes = 0
+    advised_calls = 0
     io_before, memory_before = _process_io(), _memory_snapshot()
     started = time.monotonic()
     for logical_name, expected in _AUXILIARY_FILES.items():
@@ -183,7 +188,7 @@ def verify_and_link_fold0_assets(
         before = _stat_identity(source)
         if before["size_bytes"] != expected["size_bytes"]:
             raise ValueError(f"fold-0 asset size differs from its pin: {logical_name}")
-        digest, bytes_hashed, fadvise_succeeded = _hash_file(source)
+        digest, bytes_hashed, file_advised_bytes, file_advised_calls = _hash_file(source)
         after = _stat_identity(source)
         if before != after or bytes_hashed != expected["size_bytes"] or digest != expected["sha256"]:
             raise ValueError(f"fold-0 asset changed or hash differs: {logical_name}")
@@ -197,8 +202,8 @@ def verify_and_link_fold0_assets(
         if link_stat != after:
             raise ValueError(f"fold-0 asset changed while its cache link was created: {logical_name}")
         total_bytes += bytes_hashed
-        if fadvise_succeeded:
-            advised_bytes += bytes_hashed
+        advised_bytes += file_advised_bytes
+        advised_calls += file_advised_calls
         files[logical_name] = {
             "filename": expected["filename"],
             "sha256": digest,
@@ -209,7 +214,8 @@ def verify_and_link_fold0_assets(
             "resolved_target": str(source_resolved),
             "cache_link": str(destination),
             "cache_link_is_symlink": destination.is_symlink(),
-            "fadvise_dontneed_succeeded": fadvise_succeeded,
+            "fadvise_dontneed_advised_bytes": file_advised_bytes,
+            "fadvise_dontneed_advised_calls": file_advised_calls,
         }
 
     receipt = {
@@ -226,6 +232,7 @@ def verify_and_link_fold0_assets(
             "elapsed_seconds": time.monotonic() - started,
             "total_bytes_hashed": total_bytes,
             "fadvise_dontneed_advised_bytes": advised_bytes,
+            "fadvise_dontneed_advised_calls": advised_calls,
             "process_io_before": io_before,
             "process_io_after": _process_io(),
             "memory_before": memory_before,
