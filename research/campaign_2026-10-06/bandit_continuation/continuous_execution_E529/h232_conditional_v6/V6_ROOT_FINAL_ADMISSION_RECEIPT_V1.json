@@ -70,10 +70,33 @@
     "id": "root-controller-20261008",
     "role": "independent-controller"
   },
-  "root_confirmation_required_before_push": true,
-  "root_hash_confirmation": null,
+  "root_confirmation_required_before_push": false,
+  "root_hash_confirmation": {
+    "captured_at_utc": "2026-10-08T00:50:19Z",
+    "confirmed_hashes": {
+      "external_review_sha256": "5456139bd40ae4740635bbecdeb9f9e2eafe0fe42941a2b958f1f54f356565a7",
+      "kernel_metadata_sha256": "6e73379e1138f868d5df732d65be84710013dca43b1be48bdac2df8eb7293a2e",
+      "packet_meta_sha256": "3d6098378049a153899bd2d3bfbd949a9643e3c51dec3f9e278c1dae6f3bb667",
+      "profile_worker_sha256": "915fc9d49dd765f271c5a625064462e733abb4d8771f9feeb7f26c9239b348a7",
+      "source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+      "wrapper_code_file_sha256": "6c5fd9baa365e0689583cadff134ed6512c086e59a270f92ae9c3cffe6707abb"
+    },
+    "grader_owner": "root-controller-20261008",
+    "provider_push_authorized": true,
+    "push_count_authorized": 1,
+    "reviewer_id": "root-controller-20261008",
+    "source": "root-controller message in parent coordination thread",
+    "statement": "Root independently hashed the exact six final files and confirmed all matched: review, packet metadata, wrapper code, kernel metadata, worker, and source archive. Root also confirmed the final private kernel metadata targets the full-feature V6 kernel and the approved private supplied datasets."
+  },
   "schema": "h232-v6-root-final-admission-receipt-v1",
-  "status": "root_approved_pending_exact_hash_confirmation_before_push",
+  "status": "root_confirmed_one_push_authorized",
+  "target_collision_check": {
+    "checked_at_utc": "2026-10-08T00:51:03Z",
+    "command": "kaggle kernels list --user vladkochetov07 --search h232-full-feature-gru384-b8-amp4096-conditional-profile-fit-v6 --page-size 200 --format json",
+    "exit_code": 0,
+    "interpretation": "No matching owner/search-slug kernel was listed immediately before the planned single push.",
+    "result": "Not found"
+  },
   "validation": {
     "production_source_and_recipe_unchanged_after_seal": true,
     "ruff": "All checks passed",
