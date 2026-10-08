@@ -5,27 +5,35 @@ import json
 import subprocess
 import sys
 import time
-from types import SimpleNamespace
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
+import scripts.e540_kaggle_worker as e540_worker
+from scripts.e540_cli_preflight import normalize_entry_argv, parse_project_cli
 from scripts.e540_kaggle_worker import (
+    AUTHORIZATION_PATH,
     EXPECTED_PROFILE_ATTEMPTS,
-    expected_fit_updates,
+    PACKET_ID,
+    RUN_NAMES,
+    call_main,
     elapsed_projection_seconds,
+    expected_fit_updates,
     parse_trainer_output,
     trainer_argv,
+    validate_conditional_authorization,
     validate_frozen_membership,
     validate_profile,
+    validate_recipe_cli,
     worker_wall_budget_seconds,
 )
-from scripts.kaggle_kernel import terminate_process_tree, worker_timeout_for_deadline
 from scripts.kaggle_bundle import local_bundle_descriptors
 from scripts.kaggle_common import verify_files
 from scripts.kaggle_gpu_runner import resolve_worker_timeout_seconds
+from scripts.kaggle_kernel import terminate_process_tree, worker_timeout_for_deadline
 
 
 def _profile_output(*, step_wall: str = "12.5", skipped: int = 0) -> str:
@@ -70,6 +78,135 @@ def test_v3_profile_and_fit_pin_the_same_amp_scale_and_no_auxiliary_paths() -> N
         assert argv[argv.index("--distill") + 1] == ""
         assert "--no-eval-during-fit" in argv
     assert "--profile-steps" not in fit
+
+
+def test_actual_recipe_parsers_accept_both_profiles_fits_and_predictions_without_torch() -> None:
+    import builtins
+
+    prior_torch_loaded = "torch" in sys.modules
+    original_import = builtins.__import__
+
+    def no_torch(name, *args, **kwargs):
+        if name == "torch" or name.startswith("torch."):
+            raise AssertionError("E540 CLI preflight imported Torch")
+        return original_import(name, *args, **kwargs)
+
+    builtins.__import__ = no_torch
+    try:
+        checks = validate_recipe_cli()
+    finally:
+        builtins.__import__ = original_import
+    assert len(checks) == 6
+    assert all(check["status"] == "parsed" for check in checks)
+    assert all(check["script_token_removed"] is True for check in checks)
+    assert prior_torch_loaded or "torch" not in sys.modules
+
+
+def test_duplicate_script_token_would_fail_actual_trainer_parser() -> None:
+    root = Path(__file__).resolve().parents[1]
+    argv = trainer_argv("linear", profile=True)
+    with pytest.raises(SystemExit):
+        parse_project_cli(
+            root / "scripts/train_rnn.py",
+            argv,
+            parser_name="ap",
+            dynamics_path=root / "src/wnn/training_dynamics.py",
+        )
+    normalized = normalize_entry_argv("train_rnn.py", argv)
+    parsed = parse_project_cli(
+        root / "scripts/train_rnn.py",
+        normalized,
+        parser_name="ap",
+        dynamics_path=root / "src/wnn/training_dynamics.py",
+    )
+    assert parsed.name == RUN_NAMES["linear"]
+    assert parsed.numeric_map == "linear"
+
+
+def test_in_process_entry_point_strips_exact_logged_script_token(tmp_path: Path) -> None:
+    observed: list[list[str]] = []
+    module = SimpleNamespace(main=lambda: observed.append(sys.argv.copy()))
+    call_main(
+        module,
+        "train_rnn.py",
+        ["scripts/train_rnn.py", "--name", "parser-smoke"],
+        tmp_path / "train.log",
+    )
+    assert observed == [["train_rnn.py", "--name", "parser-smoke"]]
+    with pytest.raises(ValueError, match="declared entry point"):
+        normalize_entry_argv("train_rnn.py", ["--name", "parser-smoke"])
+
+
+def test_conditional_authorization_fails_closed_and_binds_packet_hashes(tmp_path: Path) -> None:
+    expected = {
+        "packet_id": PACKET_ID,
+        "code_manifest_sha256": "a" * 64,
+        "recipe_sha256": "b" * 64,
+        "subset_manifest_sha256": "c" * 64,
+        "kernel_process_wall_seconds_max": 6000,
+        "worker_wall_seconds_max": 5200,
+    }
+    receipt_path = tmp_path / AUTHORIZATION_PATH.name
+    pending = {
+        "schema": "wnn.e540-conditional-fit-authorization.v1",
+        "owner": "root",
+        "status": "pending_root_review",
+        "authorized": False,
+    }
+    receipt_path.write_text(json.dumps(pending))
+    with pytest.raises(ValueError, match="valid status"):
+        validate_conditional_authorization(receipt_path, expected)
+
+    approved = {
+        **pending,
+        "status": "approved",
+        "authorized": True,
+        "conditional_fit_after_profile_gate": True,
+        "authorization_id": "root-e540-v6-review-1",
+        **expected,
+    }
+    receipt_path.write_text(json.dumps(approved))
+    assert validate_conditional_authorization(receipt_path, expected) == approved
+
+    approved["code_manifest_sha256"] = "d" * 64
+    receipt_path.write_text(json.dumps(approved))
+    with pytest.raises(ValueError, match="does not bind code_manifest_sha256"):
+        validate_conditional_authorization(receipt_path, expected)
+
+
+def test_startup_parses_all_recipe_commands_then_rejects_pending_auth_before_data_hash(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    authorization_path = tmp_path / "root-auth.json"
+    authorization_path.write_text(json.dumps({
+        "schema": "wnn.e540-conditional-fit-authorization.v1",
+        "owner": "root",
+        "status": "pending_root_review",
+        "authorized": False,
+    }))
+    runtime = tmp_path / "e540_cohort"
+    monkeypatch.setattr(e540_worker, "AUTHORIZATION_PATH", authorization_path)
+    monkeypatch.setattr(e540_worker, "RUNTIME", runtime)
+    monkeypatch.setattr(
+        e540_worker,
+        "verify_mounted_data",
+        lambda: pytest.fail("large mounted-input hashing started before the auth gate"),
+    )
+    monkeypatch.setenv("WNN_KERNEL_DEADLINE_MONOTONIC", str(time.monotonic() + 6_000))
+    monkeypatch.setenv("WNN_E540_PACKET_ID", PACKET_ID)
+    monkeypatch.setenv("WNN_E540_AUTHORIZATION_PATH", authorization_path.as_posix())
+    monkeypatch.setenv("WNN_E540_CODE_MANIFEST_SHA256", "a" * 64)
+    monkeypatch.setenv("WNN_E540_RECIPE_SHA256", "b" * 64)
+    monkeypatch.setenv("WNN_E540_SUBSET_SHA256", "c" * 64)
+    monkeypatch.setenv("WNN_E540_KERNEL_WALL_SECONDS", "6000")
+    monkeypatch.setenv("WNN_E540_WORKER_WALL_SECONDS", "5200")
+
+    with pytest.raises(ValueError, match="valid status"):
+        e540_worker.run()
+
+    receipt = json.loads((runtime / "startup_preflight.json").read_text())
+    assert receipt["status"] == "failed_before_mounted_data_hashing"
+    assert len(receipt["cli_checks"]) == 6
 
 
 def test_fit_update_count_uses_drop_last_outer_batches_and_79_chunk_updates() -> None:

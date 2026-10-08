@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the gated E540 V5 AMP4096 profile, paired fits, and frozen-group exports."""
+"""Run the gated E540 V6 AMP4096 profile, paired fits, and frozen-group exports."""
 
 from __future__ import annotations
 
@@ -20,8 +20,11 @@ from typing import TextIO
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "src"))
-PACKET_ID = "E540_AMP4096_V5"
+from e540_cli_preflight import normalize_entry_argv, parse_project_cli  # noqa: E402, I001
+
+PACKET_ID = "E540_AMP4096_V6"
 AMP_INIT_SCALE = 4096.0
 MAX_WALL_SECONDS = 5_200
 PROJECTION_MARGIN_SECONDS = 300
@@ -32,9 +35,13 @@ UPDATES_PER_OUTER_BATCH = math.ceil(20_000 / 256)
 EXPECTED_PROFILE_ATTEMPTS = (PROFILE_WARMUP_BATCHES + PROFILE_TIMED_BATCHES) * UPDATES_PER_OUTER_BATCH
 ALLOCATOR_LIMIT_BYTES = 4_300_000_000
 RUN_NAMES = {
-    "linear": "e540v5-linear-s540-amp4096",
-    "ple": "e540v5-ple-s540-amp4096",
+    "linear": "e540v6-linear-s540-amp4096",
+    "ple": "e540v6-ple-s540-amp4096",
 }
+AUTHORIZATION_PATH = Path(
+    "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/"
+    "E540_V6_ROOT_CONDITIONAL_AUTHORIZATION.json"
+)
 SPLIT_MANIFEST = Path("research/campaign_2026-09-29/artifacts/splits/fold0.json")
 SUBSET_MANIFEST = Path(
     "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V5.json"
@@ -151,7 +158,7 @@ def validate_numeric_checkpoint(
         raise ValueError("checkpoint numeric preprocessing is not bound to the frozen fit membership")
     if mode == "linear":
         if numeric.get("control_definition") != "same K+1 slots; only raw bypass coordinate is active":
-            raise ValueError("linear control numeric-map definition differs from E540 V5")
+            raise ValueError("linear control numeric-map definition differs from E540 V6")
         return {
             "mode": mode,
             "fit_members_sha256": numeric["fit_members_sha256"],
@@ -229,7 +236,7 @@ def worker_wall_budget_seconds(
 
 
 def trainer_argv(mode: str, *, profile: bool) -> list[str]:
-    """Return the same explicit V5 recipe in both arms, adding profile diagnostics only."""
+    """Return the same explicit V6 recipe in both arms, adding profile diagnostics only."""
     argv = [
         "scripts/train_rnn.py",
         "--device", "cuda",
@@ -299,13 +306,127 @@ def call_main(module: object, script_name: str, argv: list[str], log_path: Path)
     capture = io.StringIO()
     old_argv = sys.argv
     try:
-        sys.argv = [script_name, *argv]
-        with log_path.open("w", encoding="utf-8") as log:
-            with contextlib.redirect_stdout(Tee(log, capture)):
-                module.main()
+        cli_arguments = normalize_entry_argv(script_name, argv)
+        sys.argv = [script_name, *cli_arguments]
+        with log_path.open("w", encoding="utf-8") as log, contextlib.redirect_stdout(
+            Tee(log, capture)
+        ):
+            module.main()
     finally:
         sys.argv = old_argv
     return capture.getvalue()
+
+
+def validate_recipe_cli() -> list[dict[str, object]]:
+    """Parse the real profile, fit and prediction CLIs before mounted-data hashing."""
+    trainer_path = ROOT / "scripts/train_rnn.py"
+    dynamics_path = ROOT / "src/wnn/training_dynamics.py"
+    predictor_path = ROOT / "scripts/predict_run.py"
+    checks: list[dict[str, object]] = []
+    for mode in ("linear", "ple"):
+        for stage in ("profile", "fit"):
+            logged = trainer_argv(mode, profile=stage == "profile")
+            cli = normalize_entry_argv("train_rnn.py", logged)
+            parsed = parse_project_cli(
+                trainer_path, cli, parser_name="ap", dynamics_path=dynamics_path
+            )
+            expected_steps = PROFILE_TIMED_BATCHES if stage == "profile" else 0
+            if (
+                parsed.name != RUN_NAMES[mode]
+                or parsed.numeric_map != mode
+                or parsed.amp_init_scale != AMP_INIT_SCALE
+                or parsed.loss != "wmse"
+                or parsed.loss_norm != "chunk"
+                or parsed.profile_steps != expected_steps
+                or (stage == "profile" and parsed.profile_warmup != PROFILE_WARMUP_BATCHES)
+            ):
+                raise ValueError(f"E540 {mode} {stage} CLI differs from the frozen recipe")
+            checks.append({
+                "entry_point": "scripts/train_rnn.py",
+                "mode": mode,
+                "stage": stage,
+                "status": "parsed",
+                "script_token_removed": logged[1:] == cli,
+            })
+        logged = predict_argv(mode)
+        cli = normalize_entry_argv("predict_run.py", logged)
+        parsed = parse_project_cli(predictor_path, cli, parser_name="parser")
+        if (
+            parsed.name != RUN_NAMES[mode]
+            or parsed.split != "valid"
+            or parsed.epoch != 0
+            or parsed.inference_precision != "fp32"
+            or parsed.fit_subset_manifest != SUBSET_MANIFEST
+        ):
+            raise ValueError(f"E540 {mode} prediction CLI differs from the frozen recipe")
+        checks.append({
+            "entry_point": "scripts/predict_run.py",
+            "mode": mode,
+            "stage": "prediction",
+            "status": "parsed",
+            "script_token_removed": logged[1:] == cli,
+        })
+    return checks
+
+
+def validate_conditional_authorization(
+    receipt_path: Path, expected: dict[str, object]
+) -> dict[str, object]:
+    """Require root's packet-bound fit authorization before hashing mounted data."""
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    required = {
+        "schema": "wnn.e540-conditional-fit-authorization.v1",
+        "owner": "root",
+        "status": "approved",
+        "authorized": True,
+        "conditional_fit_after_profile_gate": True,
+    }
+    for key, value in required.items():
+        if receipt.get(key) != value:
+            raise ValueError(f"root conditional authorization missing valid {key}")
+    for key in (
+        "packet_id",
+        "code_manifest_sha256",
+        "recipe_sha256",
+        "subset_manifest_sha256",
+        "kernel_process_wall_seconds_max",
+        "worker_wall_seconds_max",
+    ):
+        if receipt.get(key) != expected.get(key):
+            raise ValueError(f"root conditional authorization does not bind {key}")
+    authorization_id = receipt.get("authorization_id")
+    if not isinstance(authorization_id, str) or not authorization_id.strip():
+        raise ValueError("root conditional authorization requires a nonempty authorization_id")
+    return receipt
+
+
+def _conditional_authorization_contract() -> dict[str, object]:
+    """Load expected identity from the runner's hash-bound spec environment."""
+    fields = {
+        "packet_id": "WNN_E540_PACKET_ID",
+        "code_manifest_sha256": "WNN_E540_CODE_MANIFEST_SHA256",
+        "recipe_sha256": "WNN_E540_RECIPE_SHA256",
+        "subset_manifest_sha256": "WNN_E540_SUBSET_SHA256",
+    }
+    contract: dict[str, object] = {}
+    for field, environment_name in fields.items():
+        value = os.environ.get(environment_name)
+        if not value:
+            raise RuntimeError(f"missing required authorization setting {environment_name}")
+        contract[field] = value
+    if contract["packet_id"] != PACKET_ID:
+        raise RuntimeError("conditional-authorization packet ID differs from the worker")
+    if os.environ.get("WNN_E540_AUTHORIZATION_PATH") != AUTHORIZATION_PATH.as_posix():
+        raise RuntimeError("conditional-authorization receipt path differs from the worker")
+    for field, environment_name in (
+        ("kernel_process_wall_seconds_max", "WNN_E540_KERNEL_WALL_SECONDS"),
+        ("worker_wall_seconds_max", "WNN_E540_WORKER_WALL_SECONDS"),
+    ):
+        raw = os.environ.get(environment_name)
+        if raw is None or not raw.isdecimal():
+            raise RuntimeError(f"invalid required authorization setting {environment_name}")
+        contract[field] = int(raw)
+    return contract
 
 
 def resident_memory_bytes() -> int:
@@ -393,11 +514,11 @@ def validate_frozen_membership(
     )
     for key in required:
         if subset.get(key) != expected.get(key):
-            raise ValueError(f"mounted E540 V5 subset differs from deterministic selection: {key}")
+            raise ValueError(f"mounted E540 V6 subset differs from deterministic selection: {key}")
     if subset.get("selected_component_count") != 512 or subset.get("evaluation_group_count") != 468:
-        raise ValueError("E540 V5 requires exactly 512 fitting components and 468 evaluation groups")
+        raise ValueError("E540 V6 requires exactly 512 fitting components and 468 evaluation groups")
     if subset.get("selection_seed") != 540:
-        raise ValueError("E540 V5 component selection seed differs from the frozen recipe")
+        raise ValueError("E540 V6 component selection seed differs from the frozen recipe")
 
     train_groups = list(map(int, subset["selected_groups"]["train"]))
     valid_groups = list(map(int, subset["selected_groups"]["valid"]))
@@ -409,10 +530,10 @@ def validate_frozen_membership(
         or evaluation_groups != sorted(set(evaluation_groups))
         or selected_components != sorted(set(selected_components))
     ):
-        raise ValueError("E540 V5 group and component lists must be sorted and unique")
+        raise ValueError("E540 V6 group and component lists must be sorted and unique")
     campaign.assert_fit_groups(train_groups, valid_groups)
     if evaluation_groups != sorted(map(int, campaign.evaluation_groups)):
-        raise ValueError("E540 V5 evaluation membership differs from the frozen split")
+        raise ValueError("E540 V6 evaluation membership differs from the frozen split")
 
     component_of = {
         (split, int(group)): int(component)
@@ -422,7 +543,7 @@ def validate_frozen_membership(
         component_of[("train", group)] for group in train_groups
     } | {component_of[("valid", group)] for group in valid_groups}
     if fitting_component_ids != set(selected_components):
-        raise ValueError("E540 V5 selected component list differs from its fitting groups")
+        raise ValueError("E540 V6 selected component list differs from its fitting groups")
     for split, selected in (("train", train_groups), ("valid", valid_groups)):
         complete = sorted(
             group
@@ -430,10 +551,10 @@ def validate_frozen_membership(
             if member_split == split and component in fitting_component_ids
         )
         if selected != complete:
-            raise ValueError(f"E540 V5 fitting groups are not component-complete for {split}")
+            raise ValueError(f"E540 V6 fitting groups are not component-complete for {split}")
         digest = hashlib.sha256(np.asarray(selected, dtype="<i8").tobytes()).hexdigest()
         if subset["selected_group_sha256"].get(split) != digest:
-            raise ValueError(f"E540 V5 {split} fitting group digest mismatch")
+            raise ValueError(f"E540 V6 {split} fitting group digest mismatch")
 
     component_digest = hashlib.sha256(
         np.asarray(selected_components, dtype="<i8").tobytes()
@@ -497,7 +618,7 @@ def run() -> None:
     started = time.monotonic()
     deadline_value = os.environ.get("WNN_KERNEL_DEADLINE_MONOTONIC")
     if deadline_value is None:
-        raise RuntimeError("E540 V5 requires the bounded Kaggle kernel bootstrap")
+        raise RuntimeError("E540 V6 requires the bounded Kaggle kernel bootstrap")
     try:
         kernel_deadline = float(deadline_value)
     except ValueError as error:
@@ -510,6 +631,29 @@ def run() -> None:
     if worker_wall_seconds < 1:
         raise TimeoutError("kernel deadline leaves no worker time after finalization reserve")
     RUNTIME.mkdir(parents=True, exist_ok=False)
+    preflight_path = RUNTIME / "startup_preflight.json"
+    preflight: dict[str, object] = {"packet_id": PACKET_ID, "status": "running"}
+    write_json(preflight_path, preflight)
+    try:
+        cli_checks = validate_recipe_cli()
+        preflight["cli_checks"] = cli_checks
+        preflight["status"] = "cli_passed_authorization_pending_before_data_hashing"
+        write_json(preflight_path, preflight)
+        authorization = validate_conditional_authorization(
+            ROOT / AUTHORIZATION_PATH, _conditional_authorization_contract()
+        )
+    except BaseException as error:
+        preflight.update({
+            "status": "failed_before_mounted_data_hashing",
+            "failure": f"{type(error).__name__}: {error}",
+        })
+        write_json(preflight_path, preflight)
+        raise
+    preflight.update({
+        "status": "passed_before_mounted_data_hashing",
+        "authorization_id": authorization["authorization_id"],
+    })
+    write_json(preflight_path, preflight)
     receipts = RUNTIME / "receipts"
     logs = RUNTIME / "logs"
     logs.mkdir()
@@ -572,10 +716,10 @@ def run() -> None:
     import scripts.train_rnn as train_rnn
 
     if not torch.cuda.is_available() or torch.cuda.device_count() != 1:
-        raise RuntimeError("E540 V5 requires exactly one visible CUDA device")
+        raise RuntimeError("E540 V6 requires exactly one visible CUDA device")
     device_name = torch.cuda.get_device_name(0)
     if "T4" not in device_name:
-        raise RuntimeError(f"E540 V5 packet requires the reviewed Kaggle T4, observed {device_name}")
+        raise RuntimeError(f"E540 V6 packet requires the reviewed Kaggle T4, observed {device_name}")
     hardware = {
         "device_name": device_name,
         "device_capability": list(torch.cuda.get_device_capability(0)),
@@ -650,7 +794,7 @@ def run() -> None:
         or subset.get("evaluation_group_count") != 468
         or len(evaluation_groups) != 468
     ):
-        raise ValueError("the mounted E540 V5 membership is not the frozen 512/468 contract")
+        raise ValueError("the mounted E540 V6 membership is not the frozen 512/468 contract")
     projected_seconds = elapsed_projection_seconds(
         time.monotonic() - started,
         profiles,
@@ -783,7 +927,7 @@ def run() -> None:
         cohort["phase"] = "fit_ple" if mode == "linear" else "prediction_linear"
         write_json(RUNTIME / "cohort.json", cohort)
         if time.monotonic() - started > worker_wall_seconds:
-            raise TimeoutError("E540 V5 worker exceeded its dynamically reduced deadline")
+            raise TimeoutError("E540 V6 worker exceeded its dynamically reduced deadline")
 
     for mode in ("linear", "ple"):
         arm_path = receipts / f"{mode}.json"
@@ -844,7 +988,7 @@ def run() -> None:
         cohort["phase"] = "prediction_ple" if mode == "linear" else "complete"
         write_json(RUNTIME / "cohort.json", cohort)
         if time.monotonic() - started > worker_wall_seconds:
-            raise TimeoutError("E540 V5 worker exceeded its dynamically reduced deadline")
+            raise TimeoutError("E540 V6 worker exceeded its dynamically reduced deadline")
     cohort.update(
         {
             "status": "complete_ungraded",
@@ -860,7 +1004,7 @@ def run() -> None:
 
 
 def main() -> None:
-    """Start the explicitly scoped E540 V5 warm cohort after controller review."""
+    """Start the explicitly scoped E540 V6 warm cohort after controller review."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.parse_args()
     try:
