@@ -38,6 +38,7 @@ _ARRAY_DTYPES = {
     "scored": np.dtype("|b1"),
 }
 _METADATA_RESERVE_BYTES = 1 << 20
+_OUTPUT_RECLAIM_INTERVAL_BYTES = 64 << 20
 
 
 class CacheAdmissionError(ValueError):
@@ -305,26 +306,43 @@ def _proc_io() -> dict[str, int] | None:
 
 def _memory_snapshot() -> dict[str, Any]:
     result: dict[str, Any] = {}
-    for key, path in (
-        ("cgroup_current_bytes", Path("/sys/fs/cgroup/memory.current")),
-        ("cgroup_max_bytes", Path("/sys/fs/cgroup/memory.max")),
-    ):
+    cgroup_dirs = []
+    try:
+        for line in Path("/proc/self/cgroup").read_text().splitlines():
+            hierarchy, _, relative = line.partition("::")
+            if hierarchy == "0" and relative.startswith("/"):
+                parts = Path(relative.lstrip("/")).parts
+                if ".." not in parts:
+                    cgroup_dirs.append(Path("/sys/fs/cgroup").joinpath(*parts))
+                break
+    except OSError:
+        pass
+    cgroup_dirs.extend([Path("/sys/fs/cgroup/wnn-campaign.slice"), Path("/sys/fs/cgroup")])
+    for directory in cgroup_dirs:
         try:
-            value = path.read_text().strip()
-            if value != "max":
-                result[key] = int(value)
-        except (OSError, ValueError):
-            pass
-    for path in (
-        Path("/sys/fs/cgroup/memory.stat"),
-        Path("/sys/fs/cgroup/wnn-campaign.slice/memory.stat"),
-    ):
-        try:
-            for line in path.read_text().splitlines():
+            for key, filename in (
+                ("cgroup_current_bytes", "memory.current"),
+                ("cgroup_max_bytes", "memory.max"),
+            ):
+                value = (directory / filename).read_text().strip()
+                if value != "max":
+                    result[key] = int(value)
+            fields = set()
+            for line in (directory / "memory.stat").read_text().splitlines():
                 key, value = line.split()
-                if key in {"anon", "file", "inactive_file", "active_file", "slab"}:
+                if key in {
+                    "anon",
+                    "file",
+                    "file_dirty",
+                    "file_writeback",
+                    "inactive_file",
+                    "active_file",
+                    "slab",
+                }:
                     result[f"cgroup_{key}_bytes"] = int(value)
-            if result:
+                    fields.add(key)
+            if fields:
+                result["cgroup_path"] = str(directory)
                 break
         except (OSError, ValueError):
             continue
@@ -492,6 +510,10 @@ class _NpyStreamWriter:
         self._file = path.open("xb")
         self._digest = hashlib.sha256()
         self._written = 0
+        self._reclaim_offset = 0
+        self._fdatasync_count = 0
+        self._fadvise_calls = 0
+        self._fadvise_bytes = 0
         header = _npy_header(dtype, shape)
         self._file.write(header)
         self._digest.update(header)
@@ -510,12 +532,26 @@ class _NpyStreamWriter:
         self._digest.update(raw)
         self._written += len(raw)
         self._index += 1
+        if self._written - self._reclaim_offset >= _OUTPUT_RECLAIM_INTERVAL_BYTES:
+            self._sync_and_reclaim()
+
+    def _sync_and_reclaim(self) -> None:
+        if self._written == self._reclaim_offset and self._fdatasync_count:
+            return
+        self._file.flush()
+        sync = getattr(os, "fdatasync", os.fsync)
+        sync(self._file.fileno())
+        self._fdatasync_count += 1
+        length = self._written - self._reclaim_offset
+        if length > 0 and _advise_dontneed(self._file.fileno(), self._reclaim_offset, length):
+            self._fadvise_calls += 1
+            self._fadvise_bytes += length
+        self._reclaim_offset = self._written
 
     def close(self) -> dict[str, Any]:
         if self._index != self.shape[0]:
             raise CacheAdmissionError(f"incomplete array file: {self.path.name}")
-        self._file.flush()
-        os.fsync(self._file.fileno())
+        self._sync_and_reclaim()
         self._file.close()
         expected_size = (
             len(_npy_header(self.dtype, self.shape)) + math.prod(self.shape) * self.dtype.itemsize
@@ -529,6 +565,14 @@ class _NpyStreamWriter:
             "size_bytes": self._written,
             "sha256": self._digest.hexdigest(),
             "hash_method": "incremental-header-and-row-write-v1",
+            "writeback": {
+                "sync_method": "fdatasync" if hasattr(os, "fdatasync") else "fsync",
+                "sync_interval_bytes": _OUTPUT_RECLAIM_INTERVAL_BYTES,
+                "sync_count": self._fdatasync_count,
+                "fadvise_dontneed_calls": self._fadvise_calls,
+                "fadvise_dontneed_bytes": self._fadvise_bytes,
+                "fadvise_is_advisory": True,
+            },
         }
 
 

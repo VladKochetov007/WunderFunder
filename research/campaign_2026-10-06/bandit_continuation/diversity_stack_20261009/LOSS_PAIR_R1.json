@@ -1,0 +1,130 @@
+{
+  "schema": "wnn.diversity-loss-pair.v1",
+  "status": "root-review-required-code-only",
+  "authorized_for_execution": false,
+  "owner": "luna/max",
+  "objective": "Measure a supervised weighted-MSE versus weighted-Huber loss contrast with all other fit factors paired.",
+  "exposure": {
+    "fold": 0,
+    "exposed_development_evidence": true,
+    "fresh_evaluation_claim": false,
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "portable_registry": "research/campaign_2026-10-04/portable_inputs.json",
+    "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+  },
+  "membership": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/loss_pair_r1_membership_fold0_f03_s20261009.json",
+    "sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+    "selection": {
+      "method": "sha256-sort-whole-component-v1",
+      "seed": 20261009,
+      "fraction": 0.03,
+      "eligible_components": 3148,
+      "selected_components": 95,
+      "selected_component_ids_sha256": "2d4defe1161de3c0672b4cc5e72e4e677a7071af082e194eb63d345c8ee06b65"
+    },
+    "member_counts": {
+      "fit_train": 350,
+      "fit_valid": 28,
+      "evaluation_valid": 468
+    },
+    "array_shapes": {
+      "train": [350, 20000, 112],
+      "valid": [496, 20000, 112]
+    },
+    "array_payload_bytes_decimal": 7732440000,
+    "required_fit_train_minimum": 256
+  },
+  "cache_admission": {
+    "builder": "scripts/parsed_sequence_cache.py build",
+    "source_root": "root-must-bind-to-discovered-mounted-datasets-root",
+    "output_root": "root-must-admit-new-cache-directory-and-disk-reserves",
+    "raw_source_bytes_hashed_once": 34855728139,
+    "expected_manifest_sha256": null,
+    "expected_cache_key": null,
+    "validation_receipt_sha256": null,
+    "reader_profile_sha256": null,
+    "measured_wall_seconds": null,
+    "measured_peak_memory_bytes": null,
+    "measured_disk_free_bytes_before": null,
+    "measured_disk_free_bytes_after": null
+  },
+  "source_stage": {
+    "profile_command": "PYTHONPATH=src python scripts/profile_parsed_sequence_cache.py --manifest $WNN_CACHE_ROOT/manifest.json --expected-manifest-sha256 $WNN_CACHE_MANIFEST_SHA256 --validation-receipt $WNN_CACHE_ROOT/reader_validation.json --profile-output $WNN_CACHE_ROOT/reader_profile.json --per-role 2 --seed 20261009",
+    "profile_is_cpu_only": true,
+    "profile_hashes_arrays_once": true,
+    "profile_samples_per_role": 2,
+    "must_capture": [
+      "producer source_verification.json and its sha256",
+      "producer manifest.json and its sha256",
+      "producer full-source hash and parse/decode/write/mmap phase telemetry",
+      "process /proc/self/io deltas",
+      "cgroup memory.current, anon, file, file_dirty, file_writeback",
+      "process RSS, PSS, private clean and dirty memory",
+      "actual disk headroom and measured output bytes"
+    ]
+  },
+  "paired_recipe": {
+    "common": [
+      "--device cuda",
+      "--arch gru",
+      "--cell gru",
+      "--enc linear",
+      "--hidden 256",
+      "--layers 2",
+      "--train-source train",
+      "--valid-fold 0",
+      "--full-valid",
+      "--seed 20261009",
+      "--batch-order seeded",
+      "--batch 32",
+      "--chunk 2000",
+      "--epochs 2",
+      "--optim adamw",
+      "--sched onecycle",
+      "--lr 0.001",
+      "--wd 0.01",
+      "--clip 1.0",
+      "--precision fp16",
+      "--loss-norm chunk",
+      "--huber-delta 1.0",
+      "--checkpoint-policy fixed",
+      "--checkpoint-epoch 1",
+      "--no-eval-during-fit",
+      "--save-training-state",
+      "--same parsed-cache manifest, validation receipt, cache key and split pins"
+    ],
+    "control": {
+      "run_name": "loss_pair_r1_wmse",
+      "only_treatment_flag": "--loss wmse"
+    },
+    "treatment": {
+      "run_name": "loss_pair_r1_huber_d1",
+      "only_treatment_flag": "--loss huber"
+    },
+    "fit_group_count": 350,
+    "batch_drop_last": false,
+    "updates_per_arm": 220,
+    "checkpoint_epoch_zero_indexed": 1,
+    "prediction_membership_role": "evaluation_valid",
+    "optimizer_scope_note": "AdamW control only; Muon is a separate later arm."
+  },
+  "artifacts_required_on_ssd": [
+    "frozen trainer and cache-consumer source hashes",
+    "producer manifest, source verification receipt, membership, and writer telemetry",
+    "reader validation receipt and bounded mmap replay profile",
+    "both run configs/argv, checkpoint and resumable state hashes",
+    "per-epoch update, loss, skipped-step and resource logs",
+    "full 468-group prediction arrays and row-order sidecars",
+    "independent official-metric grade and per-target pooled result",
+    "provider phase/resource/cost receipt"
+  ],
+  "unmeasured": [
+    "Kaggle source-hash, parse/decode, cache-write and replay wall time",
+    "Kaggle dirty-page/cgroup and peak process memory",
+    "GPU runtime and peak CUDA allocation",
+    "artifact collection time and all-in cost",
+    "standalone contribution, blend value, and public transfer"
+  ]
+}

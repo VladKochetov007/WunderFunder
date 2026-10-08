@@ -18,6 +18,11 @@ from wnn.parsed_sequence_cache import (
     prepare_membership,
     sha256_file,
 )
+from wnn.parsed_sequence_cache_reader import (
+    ParsedCacheError,
+    ParsedSequenceCache,
+    verify_parsed_cache,
+)
 
 
 def _write_json(path: Path, value: dict) -> str:
@@ -172,6 +177,7 @@ def test_cache_is_source_qualified_component_preserving_and_mmap_readable(
         == "all_false_as_train_rnn_Sequences_getitem"
     )
     assert manifest["telemetry"]["mmap_validation"]["mapped_npy_file_count"] == 6
+    assert all(entry["writeback"]["sync_count"] >= 1 for entry in manifest["arrays"].values())
     assert manifest["disk_admission"]["array_bytes"] == estimate_array_bytes(membership)
     assert sha256_file(output / "membership.json") == membership_sha
     assert (
@@ -216,3 +222,103 @@ def test_disk_guard_rejects_before_creating_cache_directory(
             free_reserve_bytes=0,
         )
     assert not output.exists()
+
+
+def test_parsed_cache_reader_reuses_verified_producer_arrays_and_enforces_roles(
+    tmp_path: Path, cache_inputs: tuple[Path, Path, Path, str, str]
+) -> None:
+    source_root, split_path, registry_path, split_sha, registry_sha = cache_inputs
+    membership_path, membership_sha, membership = _make_membership(
+        tmp_path, split_path, registry_path, split_sha, registry_sha
+    )
+    output = tmp_path / "cache"
+    manifest = build_parsed_cache(
+        membership_path=membership_path,
+        expected_membership_sha256=membership_sha,
+        source_root=source_root,
+        output_dir=output,
+        output_reserve_bytes=0,
+        checkpoint_reserve_bytes=0,
+        free_reserve_bytes=0,
+    )
+    manifest_path = output / "manifest.json"
+    manifest_sha = sha256_file(manifest_path)
+    validation_path = tmp_path / "cache-validation.json"
+    receipt, receipt_sha = verify_parsed_cache(manifest_path, manifest_sha, validation_path)
+    reader = ParsedSequenceCache.open(
+        manifest_path,
+        expected_manifest_sha256=manifest_sha,
+        validation_receipt_path=validation_path,
+        expected_validation_receipt_sha256=receipt_sha,
+        expected_cache_key=receipt["cache_key"],
+        expected_split_manifest_sha256=split_sha,
+        expected_fold=0,
+    )
+    try:
+        assert reader.groups("fit_train") == [0, 1]
+        assert set(reader.preverified_sources.sources) == {
+            "datasets/train.parquet",
+            "datasets/valid.parquet",
+        }
+        assert (
+            reader.preverified_sources.sources["datasets/train.parquet"]["sha256"]
+            == manifest["sources"]["train"]["sha256"]
+        )
+        assert reader.preverified_sources.split_manifest_sha256 == split_sha
+        assert reader.preverified_sources.cache_manifest_sha256 == manifest_sha
+        assert isinstance(reader.arrays["train_features"], np.memmap)
+        assert not reader.arrays["train_features"].flags.writeable
+        train = reader.read("train", 0, "fit_train")
+        evaluation = reader.read("valid", 2, "evaluation_valid")
+        assert train.seq_ix == 100
+        assert train.features.shape == (SEQUENCE_LENGTH, len(FEATURE_COLUMNS))
+        assert not train.scored.any()
+        assert evaluation.seq_ix == 202
+        assert evaluation.targets is not None
+        assert np.allclose(evaluation.targets[0], [0.2, -0.2], rtol=0, atol=1e-7)
+        assert evaluation.scored is not None
+        assert evaluation.scored[:4].tolist() == [True, False, True, False]
+        with pytest.raises(ParsedCacheError, match="not in role"):
+            reader.read("valid", 2, "fit_valid")
+    finally:
+        reader.close()
+
+
+def test_parsed_cache_reader_rejects_array_mutation_after_cohort_validation(
+    tmp_path: Path, cache_inputs: tuple[Path, Path, Path, str, str]
+) -> None:
+    source_root, split_path, registry_path, split_sha, registry_sha = cache_inputs
+    membership_path, membership_sha, _ = _make_membership(
+        tmp_path, split_path, registry_path, split_sha, registry_sha
+    )
+    output = tmp_path / "cache"
+    build_parsed_cache(
+        membership_path=membership_path,
+        expected_membership_sha256=membership_sha,
+        source_root=source_root,
+        output_dir=output,
+        output_reserve_bytes=0,
+        checkpoint_reserve_bytes=0,
+        free_reserve_bytes=0,
+    )
+    manifest_path = output / "manifest.json"
+    manifest_sha = sha256_file(manifest_path)
+    validation_path = tmp_path / "cache-validation.json"
+    receipt, receipt_sha = verify_parsed_cache(manifest_path, manifest_sha, validation_path)
+    array_path = output / "train_features.npy"
+    with array_path.open("r+b") as stream:
+        stream.seek(-1, 2)
+        last = stream.read(1)
+        stream.seek(-1, 2)
+        stream.write(bytes([last[0] ^ 1]))
+        stream.flush()
+    with pytest.raises(ParsedCacheError, match="changed after cohort validation"):
+        ParsedSequenceCache.open(
+            manifest_path,
+            expected_manifest_sha256=manifest_sha,
+            validation_receipt_path=validation_path,
+            expected_validation_receipt_sha256=receipt_sha,
+            expected_cache_key=receipt["cache_key"],
+            expected_split_manifest_sha256=split_sha,
+            expected_fold=0,
+        )

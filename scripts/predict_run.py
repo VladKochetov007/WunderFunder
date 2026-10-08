@@ -23,6 +23,7 @@ else:
     from train_rnn import Sequences, make_model, predict
 
 from wnn.data import N_FEATURES, SEQUENCE_LENGTH, SequenceFile
+from wnn.parsed_sequence_cache_reader import ParsedCacheError, ParsedSequenceCache
 from wnn.propensity import load_propensity
 from wnn.resources import configure_torch, dataloader_budget
 from wnn.sentinel import SentinelPreprocessor
@@ -34,15 +35,31 @@ ROOT = Path(__file__).resolve().parents[1]
 class FeatureOnlySequences(Dataset[torch.Tensor]):
     """Read only features for an explicit, frozen sequence membership."""
 
-    def __init__(self, split: str, groups: list[int]) -> None:
+    def __init__(
+        self,
+        split: str,
+        groups: list[int],
+        parsed_cache: ParsedSequenceCache | None = None,
+        parsed_cache_role: str | None = None,
+    ) -> None:
         self.path = ROOT / "datasets" / f"{split}.parquet"
+        self.split = split
         self.groups = groups
         self._file: SequenceFile | None = None
+        self.parsed_cache = parsed_cache
+        self.parsed_cache_role = parsed_cache_role
 
     def __len__(self) -> int:
         return len(self.groups)
 
     def __getitem__(self, index: int) -> torch.Tensor:
+        if self.parsed_cache is not None:
+            features = self.parsed_cache.read_features(
+                self.split,
+                self.groups[index],
+                self.parsed_cache_role,
+            )
+            return torch.from_numpy(features)
         if self._file is None:
             self._file = SequenceFile(self.path)
         sequence = self._file.read(self.groups[index], targets=False, mask=False)
@@ -99,6 +116,11 @@ def main():
         default=None,
         help="predict only the exact E540 evaluation groups with feature-only reads",
     )
+    parser.add_argument("--parsed-cache-manifest", type=Path)
+    parser.add_argument("--parsed-cache-validation-receipt", type=Path)
+    parser.add_argument("--expected-parsed-cache-manifest-sha256", default="")
+    parser.add_argument("--expected-parsed-cache-validation-sha256", default="")
+    parser.add_argument("--expected-parsed-cache-key", default="")
     parser.add_argument(
         "--inference-precision",
         choices=["checkpoint", "fp32"],
@@ -115,8 +137,56 @@ def main():
         raise ValueError(
             "privileged teachers require component-crossfit extraction, not causal prediction export"
         )
-    feature_only = args.fit_subset_manifest is not None
-    if feature_only:
+    parsed_cache = None
+    cache_arguments = (
+        args.parsed_cache_manifest,
+        args.parsed_cache_validation_receipt,
+        args.expected_parsed_cache_manifest_sha256,
+        args.expected_parsed_cache_validation_sha256,
+        args.expected_parsed_cache_key,
+    )
+    if any(cache_arguments):
+        if not all(cache_arguments) or args.fit_subset_manifest is not None or split != "valid":
+            parser.error(
+                "parsed-cache export requires its full pins and valid feature-only inference"
+            )
+        provenance = ck.get("provenance", {})
+        try:
+            parsed_cache = ParsedSequenceCache.open(
+                args.parsed_cache_manifest,
+                expected_manifest_sha256=args.expected_parsed_cache_manifest_sha256,
+                validation_receipt_path=args.parsed_cache_validation_receipt,
+                expected_validation_receipt_sha256=args.expected_parsed_cache_validation_sha256,
+                expected_cache_key=args.expected_parsed_cache_key,
+                expected_split_manifest_sha256=provenance["split_manifest_sha256"],
+                expected_fold=int(ck["args"]["valid_fold"]),
+            )
+        except (ParsedCacheError, OSError, json.JSONDecodeError, KeyError) as exc:
+            parser.error(f"parsed-cache inference validation failed: {exc}")
+        cache_provenance = provenance.get("parsed_sequence_cache", {})
+        if (
+            cache_provenance.get("cache_key") != parsed_cache.manifest["cache_key"]
+            or cache_provenance.get("manifest_sha256") != args.expected_parsed_cache_manifest_sha256
+            or cache_provenance.get("validation_receipt_sha256")
+            != args.expected_parsed_cache_validation_sha256
+            or cache_provenance.get("membership_sha256")
+            != parsed_cache.manifest["membership_artifact"]["sha256"]
+        ):
+            parser.error("checkpoint parsed-cache provenance differs from the inference cache")
+        trained_groups = set(map(int, provenance.get("fit_row_groups", {}).get("train", [])))
+        cache_groups = set(parsed_cache.groups("fit_train"))
+        eval_groups = set(map(int, provenance.get("evaluation_row_groups", [])))
+        if trained_groups != cache_groups or eval_groups != set(
+            parsed_cache.groups("evaluation_valid")
+        ):
+            parser.error(
+                "checkpoint fit/evaluation membership differs from parsed-cache membership"
+            )
+        groups = np.asarray(parsed_cache.groups("evaluation_valid"), dtype=np.int64)
+        feature_only = True
+    else:
+        feature_only = args.fit_subset_manifest is not None
+    if parsed_cache is None and feature_only:
         if (
             split != "valid"
             or ck["args"].get("numeric_map", "none") == "none"
@@ -126,7 +196,7 @@ def main():
         groups = np.asarray(
             load_e540_evaluation_groups(args.fit_subset_manifest, ck), dtype=np.int64
         )
-    else:
+    elif parsed_cache is None:
         groups = np.load(ROOT / "cache" / f"{split}_targets.npz")["row_group"]
     quote_cache = ck.get("provenance", {}).get("quote_cache")
     if ck["args"].get("quote_cache_root") and quote_cache is None:
@@ -165,7 +235,14 @@ def main():
         train_rnn.READOUT = [t.to(device) for t in ck["readout"]]
         train_rnn.READOUT_TILTED = ck.get("readout_tilted", False)
     dataset = (
-        FeatureOnlySequences(split, groups.tolist()) if feature_only else Sequences(split, groups)
+        FeatureOnlySequences(
+            split,
+            groups.tolist(),
+            parsed_cache=parsed_cache,
+            parsed_cache_role="evaluation_valid" if parsed_cache is not None else None,
+        )
+        if feature_only
+        else Sequences(split, groups)
     )
     workers, prefetch = dataloader_budget(dataset.batch_tensor_bytes(16), max_workers=2)
     loader = DataLoader(
@@ -216,7 +293,17 @@ def main():
             else None
         ),
         "fit_subset_manifest_sha256": (
-            file_sha256(args.fit_subset_manifest) if feature_only else None
+            file_sha256(args.fit_subset_manifest) if args.fit_subset_manifest is not None else None
+        ),
+        "parsed_sequence_cache": (
+            {
+                "cache_key": parsed_cache.manifest["cache_key"],
+                "manifest_sha256": args.expected_parsed_cache_manifest_sha256,
+                "validation_receipt_sha256": args.expected_parsed_cache_validation_sha256,
+                "membership_sha256": parsed_cache.manifest["membership_artifact"]["sha256"],
+            }
+            if parsed_cache is not None
+            else None
         ),
     }
     final.with_suffix(".json").write_text(json.dumps(metadata, indent=2) + "\n")

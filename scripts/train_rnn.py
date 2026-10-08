@@ -39,6 +39,7 @@ from wnn.distillation import (
     four_family_weighted_mse,
 )
 from wnn.distillation_cache import validate_distillation_cache
+from wnn.event_content import EventContentModel
 from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch, online_zscore_torch
 from wnn.metric import block_aggregate_score, block_scores, score
 from wnn.nn import (
@@ -64,36 +65,70 @@ from wnn.outcomes import (
     sequence_class,
     structure_labels,
 )
+from wnn.parsed_sequence_cache_reader import ParsedCacheError, ParsedSequenceCache
+from wnn.privileged import (
+    PRIVILEGED_MODES,
+    load_inner_manifest,
+    privileged_inputs,
+    validate_crossfit_cache,
+)
 from wnn.propensity import load_propensity, propensity
-from wnn.privileged import (PRIVILEGED_MODES, load_inner_manifest, privileged_inputs,
-                            validate_crossfit_cache)
-from wnn.structured_state import StructuredStateModel
-from wnn.event_content import EventContentModel
+from wnn.research_features import (
+    RESEARCH_FEATURE_MODES,
+    research_feature_names,
+    research_features_torch,
+)
 from wnn.resources import configure_torch, cpu_threads, dataloader_budget
-from wnn.research_features import (RESEARCH_FEATURE_MODES, research_feature_names,
-                                   research_features_torch)
-from wnn.run_identity import (EpochUpdateCounter, group_identity, normalization_identity,
-                              sample_order_identity, scaler_source_identity)
-from wnn.splits import CampaignSplit, dev_halves, file_sha256, load_campaign_split, valid_row_groups
-from wnn.spread_aux import (PackedSpreadCache, structural_loss, validate_spread_cache,
-                            validate_spread_parent)
-from wnn.training_controls import (DistilledLoss, blended_target, distilled_macro_losses,
-                                   detach_boundary_offset, ema_decay_per_update, shuffled_masses)
-from wnn.training_credit import credit_edge_scales
-from wnn.training_dynamics import (Dynamics, add_arguments as add_dynamics_arguments,
-                                   build_optimizer, build_scheduler, switch_optimizer)
-from wnn.training_sampling import EpochOrderSampler, init_qmc_
-from wnn.training_factorized import (configure_factorized, factorized_forward,
-                                      factorized_inference_state)
-from wnn.sentinel import (INDICATOR_MODES, VALUE_MODES, SentinelInputProjection,
-                          SentinelPreprocessor)
+from wnn.run_identity import (
+    EpochUpdateCounter,
+    group_identity,
+    normalization_identity,
+    sample_order_identity,
+    scaler_source_identity,
+)
+from wnn.sentinel import INDICATOR_MODES, VALUE_MODES, SentinelInputProjection, SentinelPreprocessor
 from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
 from wnn.specialist import PrefixAdapterGRUModel, SpecialistGRUModel
-from wnn.training_qat import (QAT_MODES, configure_qat, inference_state,
-                              invalidate_qat_cache, qat_forward)
-from wnn.training_state import (atomic_save_training_state, capture_training_state,
-                                load_training_state, loader_state, restore_rng,
-                                restore_training_state)
+from wnn.splits import CampaignSplit, dev_halves, file_sha256, load_campaign_split, valid_row_groups
+from wnn.spread_aux import (
+    PackedSpreadCache,
+    structural_loss,
+    validate_spread_cache,
+    validate_spread_parent,
+)
+from wnn.structured_state import StructuredStateModel
+from wnn.training_controls import (
+    DistilledLoss,
+    blended_target,
+    detach_boundary_offset,
+    distilled_macro_losses,
+    ema_decay_per_update,
+    shuffled_masses,
+)
+from wnn.training_credit import credit_edge_scales
+from wnn.training_dynamics import Dynamics, build_optimizer, build_scheduler, switch_optimizer
+from wnn.training_dynamics import add_arguments as add_dynamics_arguments
+from wnn.training_factorized import (
+    configure_factorized,
+    factorized_forward,
+    factorized_inference_state,
+)
+from wnn.training_qat import (
+    QAT_MODES,
+    configure_qat,
+    inference_state,
+    invalidate_qat_cache,
+    qat_forward,
+)
+from wnn.training_sampling import EpochOrderSampler, init_qmc_
+from wnn.training_state import (
+    atomic_save_training_state,
+    capture_training_state,
+    load_training_state,
+    loader_state,
+    restore_rng,
+    restore_training_state,
+)
 from wnn.training_views import origin_windows, update_ema_for_rows
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -197,12 +232,22 @@ class Sequences(Dataset):
                  distill_cache_root: str | Path | None = None,
                  distill_cache_variant: str = "source",
                  distill_cache_metadata: dict[str, Any] | None = None,
-                 include_family_targets: bool = False):
+                 include_family_targets: bool = False,
+                 parsed_cache: ParsedSequenceCache | None = None,
+                 parsed_cache_role: str | None = None):
         self.path = ROOT / "datasets" / f"{split}.parquet"
         # thin = (probability, low, high[, mode]): paired event-preserving training views.
         self.thin = thin
         self.indices = list(indices)
         self._file = None
+        self.parsed_cache = parsed_cache
+        self.parsed_cache_role = parsed_cache_role
+        if parsed_cache is not None and parsed_cache_role not in (
+            "fit_train",
+            "fit_valid",
+            "evaluation_valid",
+        ):
+            raise ValueError("parsed-cache sequences require an explicit membership role")
         # prop_cache: path of cache/propcache_<name>_<split>.npy (row group x 20000 float32), or None
         self.prop_cache, self._prop = prop_cache, None
         # teachers: list of (name, scale); predictions are appended to targets as columns 2..3
@@ -289,9 +334,12 @@ class Sequences(Dataset):
         return batch_size * sequence_bytes
 
     def __getitem__(self, i):
-        if self._file is None:
-            self._file = SequenceFile(self.path)
-        seq = self._file.read(self.indices[i])
+        if self.parsed_cache is not None:
+            seq = self.parsed_cache.read(self.split, int(self.indices[i]), self.parsed_cache_role)
+        else:
+            if self._file is None:
+                self._file = SequenceFile(self.path)
+            seq = self._file.read(self.indices[i])
         scored = seq.scored if seq.scored is not None else np.zeros(len(seq.features), bool)
         x = seq.features
         if HEURISTICS:
@@ -1290,19 +1338,26 @@ def resume_contract(args: argparse.Namespace, provenance: dict, loader: DataLoad
     sources["trainer"] = file_sha256(Path(__file__))
     data = {}
     used_splits = {split for split, groups in provenance["fit_row_groups"].items() if groups}
-    for split in used_splits | {"valid"}:
-        path = ROOT / "datasets" / f"{split}.parquet"
-        registry_path = os.environ.get("WNN_PORTABLE_DATA_MANIFEST")
-        if registry_path:
-            from wnn.portability import verify_portable_source
+    if args.parsed_cache_manifest:
+        data["parsed_sequence_cache"] = {
+            "manifest_sha256": args.expected_parsed_cache_manifest_sha256,
+            "validation_receipt_sha256": args.expected_parsed_cache_validation_sha256,
+            "cache_key": args.expected_parsed_cache_key,
+        }
+    else:
+        for split in used_splits | {"valid"}:
+            path = ROOT / "datasets" / f"{split}.parquet"
+            registry_path = os.environ.get("WNN_PORTABLE_DATA_MANIFEST")
+            if registry_path:
+                from wnn.portability import verify_portable_source
 
-            registry = Path(registry_path)
-            logical_name = f"datasets/{split}.parquet"
-            entry = json.loads(registry.read_text())["sources"][logical_name]
-            verify_portable_source(path, logical_name, entry["original_identity"], registry)
-            data[split] = {"bytes": path.stat().st_size, "sha256": entry["sha256"]}
-        else:
-            data[split] = {"bytes": path.stat().st_size, "sha256": file_sha256(path)}
+                registry = Path(registry_path)
+                logical_name = f"datasets/{split}.parquet"
+                entry = json.loads(registry.read_text())["sources"][logical_name]
+                verify_portable_source(path, logical_name, entry["original_identity"], registry)
+                data[split] = {"bytes": path.stat().st_size, "sha256": entry["sha256"]}
+            else:
+                data[split] = {"bytes": path.stat().st_size, "sha256": file_sha256(path)}
     teachers = {}
     for teacher in filter(None, args.distill.split(",")):
         name = teacher.partition("*")[0]
@@ -1401,6 +1456,12 @@ def main():
     ap.add_argument("--checkpoint-epoch", type=int, default=None, help="zero-based fixed checkpoint epoch")
     ap.add_argument("--no-eval-during-fit", action="store_true", help="never construct or read an evaluation loader")
     ap.add_argument("--split-manifest", type=Path, default=None, help="frozen component-excluded outer-fold manifest")
+    ap.add_argument("--parsed-cache-manifest", type=Path, default=None,
+                    help="cohort parsed-cache manifest; requires pinned validation receipt and fold")
+    ap.add_argument("--parsed-cache-validation-receipt", type=Path, default=None)
+    ap.add_argument("--expected-parsed-cache-manifest-sha256", default="")
+    ap.add_argument("--expected-parsed-cache-validation-sha256", default="")
+    ap.add_argument("--expected-parsed-cache-key", default="")
     ap.add_argument("--save-training-state", action="store_true",
                     help="atomically save full training_state.pt at each epoch boundary; fixed final checkpoint only")
     ap.add_argument("--resume-state", type=Path, default=None,
@@ -1724,7 +1785,46 @@ def main():
     saved_training = load_training_state(args.resume_state) if args.resume_state else None
     if args.resume_state:
         args.resume_state = str(args.resume_state)
-    campaign_split = load_campaign_split(args.split_manifest, ROOT) if args.split_manifest else None
+    cache_arguments = (
+        args.parsed_cache_manifest,
+        args.parsed_cache_validation_receipt,
+        args.expected_parsed_cache_manifest_sha256,
+        args.expected_parsed_cache_validation_sha256,
+        args.expected_parsed_cache_key,
+    )
+    parsed_cache = None
+    if any(cache_arguments):
+        if not all(cache_arguments):
+            ap.error("parsed-cache use requires manifest, validation receipt, and all three SHA/cache pins")
+        if args.split_manifest is None or args.valid_fold < 0:
+            ap.error("parsed-cache use requires --split-manifest and its explicit --valid-fold")
+        split_path = args.split_manifest
+        if not split_path.is_absolute():
+            split_path = ROOT / split_path
+        split_path = split_path.resolve()
+        try:
+            parsed_cache = ParsedSequenceCache.open(
+                args.parsed_cache_manifest,
+                expected_manifest_sha256=args.expected_parsed_cache_manifest_sha256,
+                validation_receipt_path=args.parsed_cache_validation_receipt,
+                expected_validation_receipt_sha256=args.expected_parsed_cache_validation_sha256,
+                expected_cache_key=args.expected_parsed_cache_key,
+                expected_split_manifest_sha256=file_sha256(split_path),
+                expected_fold=args.valid_fold,
+            )
+        except (ParsedCacheError, OSError, json.JSONDecodeError) as exc:
+            ap.error(f"parsed-cache validation failed: {exc}")
+        args.parsed_cache_manifest = str(args.parsed_cache_manifest.resolve())
+        args.parsed_cache_validation_receipt = str(args.parsed_cache_validation_receipt.resolve())
+    campaign_split = (
+        load_campaign_split(
+            args.split_manifest,
+            ROOT,
+            preverified_sources=parsed_cache.preverified_sources if parsed_cache is not None else None,
+        )
+        if args.split_manifest
+        else None
+    )
     fit_subset = None
     if args.fit_subset_manifest is not None:
         if campaign_split is None:
@@ -1760,6 +1860,39 @@ def main():
         args.eval_source = "vfold"
         args.split_manifest = str(campaign_split.path)
         args.split_manifest_sha256 = campaign_split.sha256
+    if parsed_cache is not None:
+        if campaign_split is None:
+            ap.error("parsed-cache use requires a frozen --split-manifest")
+        if (
+            args.train_source != "train"
+            or args.eval_source != "vfold"
+            or not args.full_valid
+            or args.fit_subset_manifest is not None
+            or args.fit_groups_manifest is not None
+            or args.train_classes
+            or args.class_balance
+            or args.epoch_samples
+            or args.init
+            or distillation_requested
+            or args.distill_cache_root
+            or args.propensity
+            or args.prop_input
+            or args.numeric_map != "none"
+        ):
+            ap.error("parsed-cache v1 trainer path is limited to fresh raw GRU teachers on train groups")
+        cached_fit_train = set(parsed_cache.groups("fit_train"))
+        cached_fit_valid = set(parsed_cache.groups("fit_valid"))
+        cached_evaluation = set(parsed_cache.groups("evaluation_valid"))
+        try:
+            campaign_split.assert_complete_component_subset(
+                cached_fit_train,
+                cached_fit_valid,
+                parsed_cache.membership["selection"]["selected_component_ids"],
+            )
+        except ValueError as exc:
+            ap.error(f"parsed-cache fit subset is not a complete component subset: {exc}")
+        if cached_evaluation != set(campaign_split.evaluation_groups):
+            ap.error("parsed-cache membership differs from the frozen campaign fold")
     if args.loss == "gcorr_pool" and args.aux:
         ap.error("--loss gcorr_pool keeps one pooled memory for the main head; --aux shift heads would share it")
     if args.distill_cache_root and campaign_split is None:
@@ -1920,7 +2053,14 @@ def main():
         valid_pool = valid_pool[np.isin(pool_chains, selected_chains)]
         if args.train_source == "train+valid":
             extra_valid = valid_pool
-    if fit_subset is not None:
+    if parsed_cache is not None:
+        train_split = "train"
+        train_idx = np.asarray(parsed_cache.groups("fit_train"), dtype=np.int64)
+        extra_valid = None
+        valid_pool = None
+        eligible_valid_count = 0
+        args.train_seqs = len(train_idx)
+    elif fit_subset is not None:
         train_split = "train"
         train_idx = np.asarray(fit_subset["train_groups"], dtype=np.int64)
         extra_valid = np.asarray(fit_subset["valid_groups"], dtype=np.int64)
@@ -1949,6 +2089,11 @@ def main():
         campaign_split.assert_fit_groups(train_idx if train_split == "train" else (),
                                         train_idx if train_split == "valid" else extra_valid if extra_valid is not None else ())
     eval_groups = {"devB": dev_b, "holdout": hold_groups, "vfold": fold_groups}.get(args.eval_source, dev_groups)
+    if parsed_cache is not None:
+        cached_eval_groups = np.asarray(parsed_cache.groups("evaluation_valid"), dtype=np.int64)
+        if set(map(int, eval_groups)) != set(map(int, cached_eval_groups)):
+            raise ValueError("parsed-cache evaluation membership differs from the campaign split")
+        eval_groups = cached_eval_groups
     n_valid = len(eval_groups) if args.full_valid else min(args.valid_seqs, len(eval_groups))
     valid_idx = np.random.default_rng(12345).permutation(eval_groups)[:n_valid]
 
@@ -2051,7 +2196,9 @@ def main():
                          distill_cache_root=args.distill_cache_root,
                          distill_cache_variant=args.distill_cache_variant,
                          distill_cache_metadata=distill_cache_validation,
-                         include_family_targets=args.distill_family_weight > 0)
+                         include_family_targets=args.distill_family_weight > 0,
+                         parsed_cache=parsed_cache,
+                         parsed_cache_role="fit_train" if parsed_cache is not None else None)
     train_batch_bytes = train_ds.batch_tensor_bytes(args.batch, heuristics=args.heuristics)
     if extra_valid is not None:
         valid_ds = Sequences("valid", extra_valid, teachers, prop_cache.get("valid"),
@@ -2060,7 +2207,9 @@ def main():
                              distill_cache_root=args.distill_cache_root,
                              distill_cache_variant=args.distill_cache_variant,
                              distill_cache_metadata=distill_cache_validation,
-                             include_family_targets=args.distill_family_weight > 0)
+                             include_family_targets=args.distill_family_weight > 0,
+                             parsed_cache=parsed_cache,
+                             parsed_cache_role="fit_valid" if parsed_cache is not None else None)
         train_batch_bytes = max(
             train_batch_bytes, valid_ds.batch_tensor_bytes(args.batch, heuristics=args.heuristics)
         )
@@ -2071,7 +2220,12 @@ def main():
             sample_weights[len(train_idx):] = eligible_valid_count / len(extra_valid)
         sampler = WeightedRandomSampler(torch.from_numpy(sample_weights), args.epoch_samples,
                                         replacement=True, generator=torch.Generator().manual_seed(args.seed))
-    valid_ds = None if args.no_eval_during_fit else Sequences("valid", valid_idx)
+    valid_ds = None if args.no_eval_during_fit else Sequences(
+        "valid",
+        valid_idx,
+        parsed_cache=parsed_cache,
+        parsed_cache_role="evaluation_valid" if parsed_cache is not None else None,
+    )
     valid_batch_bytes = (
         0 if valid_ds is None else valid_ds.batch_tensor_bytes(16, heuristics=args.heuristics)
     )
@@ -2085,10 +2239,10 @@ def main():
         if sampler is not None:
             ap.error("seeded/antithetic order cannot replace weighted or replacement sampling")
         sampler = EpochOrderSampler(len(train_ds), args.seed, args.antithetic,
-                                    batch_size=args.batch, drop_last=True)
+                                    batch_size=args.batch, drop_last=parsed_cache is None)
         sampler.set_epoch(-1)  # identical normalization order in both paired arms
     train_loader = DataLoader(train_ds, batch_size=args.batch, shuffle=sampler is None,
-                              sampler=sampler, drop_last=True, num_workers=workers,
+                              sampler=sampler, drop_last=parsed_cache is None, num_workers=workers,
                               prefetch_factor=prefetch if workers else None,
                               pin_memory=args.pin_memory)  # no persistent workers: they change the shuffle order (parity E-169)
     valid_loader = None if valid_ds is None else DataLoader(
@@ -2101,6 +2255,15 @@ def main():
                                      "valid": train_idx.tolist() if train_split == "valid" else
                                      extra_valid.tolist() if extra_valid is not None else []},
                   "evaluation_row_groups": valid_idx.tolist(), "checkpoint_sha256": {}}
+    if parsed_cache is not None:
+        provenance["parsed_sequence_cache"] = {
+            "cache_key": parsed_cache.manifest["cache_key"],
+            "manifest_sha256": args.expected_parsed_cache_manifest_sha256,
+            "validation_receipt_sha256": args.expected_parsed_cache_validation_sha256,
+            "membership_sha256": parsed_cache.manifest["membership_artifact"]["sha256"],
+            "selection": parsed_cache.membership["selection"],
+            "role": "fit_train",
+        }
     if fit_subset is not None:
         provenance["fit_subset_manifest_sha256"] = args.fit_subset_manifest_sha256
         provenance["fit_subset_members_sha256"] = fit_subset["manifest"]["selected_members_sha256"]

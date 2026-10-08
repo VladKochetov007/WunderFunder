@@ -11,13 +11,25 @@ import hashlib
 import json
 import os
 from collections.abc import Iterable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import NamedTuple
+from typing import Any, NamedTuple
 
 import numpy as np
 import pyarrow.parquet as pq
 
 HOLDOUT_MODULUS = 5
+
+
+@dataclass(frozen=True)
+class VerifiedParsedCacheSources:
+    """Raw input identities already validated through a pinned parsed cache."""
+
+    split_manifest_sha256: str
+    cache_manifest_sha256: str
+    validation_receipt_sha256: str
+    source_verification_sha256: str
+    sources: dict[str, dict[str, Any]]
 
 
 def is_holdout(seq_ix: int) -> bool:
@@ -103,21 +115,85 @@ class CampaignSplit(NamedTuple):
         if fitted & evaluated:
             raise ValueError("fit/evaluation component overlap")
 
+    def assert_complete_component_subset(
+        self,
+        train: Iterable[int],
+        valid: Iterable[int],
+        selected_components: Iterable[int],
+    ) -> None:
+        """Require cached fit rows to include every manifest row in selected components."""
+        training, validation = set(map(int, train)), set(map(int, valid))
+        selected = set(map(int, selected_components))
+        self.assert_fit_groups(training, validation)
+        component_of = {(split, group): component for split, group, component in self.components}
+        observed = {component_of[("train", group)] for group in training}
+        observed.update(component_of[("valid", group)] for group in validation)
+        if not selected or observed != selected:
+            raise ValueError("cached fit rows disagree with their selected components")
+        expected_train = {
+            group for group in self.train_groups if component_of[("train", group)] in selected
+        }
+        expected_valid = {
+            group for group in self.valid_groups if component_of[("valid", group)] in selected
+        }
+        if training != expected_train or validation != expected_valid:
+            raise ValueError("cached fit membership is not complete by component")
 
-def load_campaign_split(path: Path, root: Path) -> CampaignSplit:
+
+def load_campaign_split(
+    path: Path,
+    root: Path,
+    *,
+    preverified_sources: VerifiedParsedCacheSources | None = None,
+) -> CampaignSplit:
     """Validate frozen source identities and return component-disjoint membership.
 
     Dataset identities use file size, nanosecond mtime and a recorded footer hash;
     the footer hash is generated once, while fitting checks the immutable file
-    metadata. Small chain caches are also hashed on every read.
+    metadata. Small chain caches are also hashed on every read. An explicit
+    ``preverified_sources`` may skip filesystem verification only when a parsed
+    cache reader has validated a pinned cache manifest, source receipt, and
+    array-validation receipt bound to this exact split. Those source files are
+    not consumed after the cache is opened.
     """
     path = path.resolve()
     raw = path.read_bytes()
     manifest = json.loads(raw)
     if manifest.get("version") != 1:
         raise ValueError("unsupported campaign split version")
+    if preverified_sources is not None:
+        pin_fields = (
+            preverified_sources.split_manifest_sha256,
+            preverified_sources.cache_manifest_sha256,
+            preverified_sources.validation_receipt_sha256,
+            preverified_sources.source_verification_sha256,
+        )
+        if hashlib.sha256(raw).hexdigest() != preverified_sources.split_manifest_sha256 or any(
+            len(pin) != 64 or any(char not in "0123456789abcdef" for char in pin)
+            for pin in pin_fields
+        ):
+            raise ValueError("preverified cache receipt is not pinned to this split")
+        if set(preverified_sources.sources) != {
+            "datasets/train.parquet",
+            "datasets/valid.parquet",
+        }:
+            raise ValueError("preverified cache receipt must bind both dataset Parquet sources")
     for name, identity in manifest["sources"].items():
         source = root / name
+        preverified = (
+            preverified_sources.sources.get(name) if preverified_sources is not None else None
+        )
+        if preverified is not None:
+            digest = preverified.get("sha256")
+            if (
+                name not in {"datasets/train.parquet", "datasets/valid.parquet"}
+                or preverified.get("bytes") != identity.get("bytes")
+                or not isinstance(digest, str)
+                or len(digest) != 64
+                or any(char not in "0123456789abcdef" for char in digest)
+            ):
+                raise ValueError(f"preverified source receipt disagrees with split: {name}")
+            continue
         stat = source.stat()
         portable_registry = os.environ.get("WNN_PORTABLE_DATA_MANIFEST")
         if portable_registry:

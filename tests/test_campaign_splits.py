@@ -11,7 +11,12 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import pytest
 
-from wnn.splits import connected_components, load_campaign_split
+from wnn.splits import (
+    VerifiedParsedCacheSources,
+    connected_components,
+    file_sha256,
+    load_campaign_split,
+)
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from build_campaign_splits import build_manifests  # noqa: E402
@@ -75,6 +80,71 @@ def test_manifest_rejects_component_leakage_and_source_changes(campaign_root: Pa
         stream.write(b"changed")
     with pytest.raises(ValueError, match="source changed"):
         load_campaign_split(path, campaign_root)
+
+
+def test_preverified_source_pin_is_explicit_and_must_match_split_identity(
+    campaign_root: Path,
+) -> None:
+    path = build_manifests(campaign_root, campaign_root / "splits")[0]
+    manifest = json.loads(path.read_text())
+    source = campaign_root / "datasets/train.parquet"
+    identity = manifest["sources"]["datasets/train.parquet"]
+    original_size = source.stat().st_size
+    source.write_bytes(b"x" * original_size)
+    pinned = VerifiedParsedCacheSources(
+        split_manifest_sha256=file_sha256(path),
+        cache_manifest_sha256="a" * 64,
+        validation_receipt_sha256="b" * 64,
+        source_verification_sha256="c" * 64,
+        sources={
+            name: {
+                "bytes": manifest["sources"][name]["bytes"],
+                "sha256": "d" * 64,
+            }
+            for name in ("datasets/train.parquet", "datasets/valid.parquet")
+        },
+    )
+    assert load_campaign_split(path, campaign_root, preverified_sources=pinned).fold == 0
+    wrong_size = VerifiedParsedCacheSources(
+        split_manifest_sha256=pinned.split_manifest_sha256,
+        cache_manifest_sha256=pinned.cache_manifest_sha256,
+        validation_receipt_sha256=pinned.validation_receipt_sha256,
+        source_verification_sha256=pinned.source_verification_sha256,
+        sources={
+            **pinned.sources,
+            "datasets/train.parquet": {"bytes": identity["bytes"] + 1, "sha256": "d" * 64},
+        },
+    )
+    with pytest.raises(ValueError, match="preverified source receipt"):
+        load_campaign_split(path, campaign_root, preverified_sources=wrong_size)
+    wrong_split = VerifiedParsedCacheSources(
+        split_manifest_sha256="e" * 64,
+        cache_manifest_sha256=pinned.cache_manifest_sha256,
+        validation_receipt_sha256=pinned.validation_receipt_sha256,
+        source_verification_sha256=pinned.source_verification_sha256,
+        sources=pinned.sources,
+    )
+    with pytest.raises(ValueError, match="not pinned to this split"):
+        load_campaign_split(path, campaign_root, preverified_sources=wrong_split)
+
+
+def test_cached_fit_subset_must_include_every_row_in_selected_components(
+    campaign_root: Path,
+) -> None:
+    split = load_campaign_split(
+        build_manifests(campaign_root, campaign_root / "splits")[0], campaign_root
+    )
+    component_of = {(source, group): component for source, group, component in split.components}
+    train_components = {component_of[("train", group)] for group in split.train_groups}
+    valid_components = {component_of[("valid", group)] for group in split.valid_groups}
+    shared = train_components & valid_components
+    assert shared
+    component = min(shared)
+    train = {group for group in split.train_groups if component_of[("train", group)] == component}
+    valid = {group for group in split.valid_groups if component_of[("valid", group)] == component}
+    split.assert_complete_component_subset(train, valid, [component])
+    with pytest.raises(ValueError, match="not complete by component"):
+        split.assert_complete_component_subset(train - {min(train)}, valid, [component])
 
 
 def test_builder_rejects_a_component_crossing_validation_folds(campaign_root: Path) -> None:
