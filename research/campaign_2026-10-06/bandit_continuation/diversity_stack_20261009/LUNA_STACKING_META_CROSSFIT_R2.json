@@ -1,100 +1,185 @@
 {
-  "schema": "wnn.luna-meta-crossfit-admission-candidate.v1",
-  "experiment_id": "LUNA-STACK-R2-20261009",
-  "proposal_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LUNA_STACKING_EDA_R2.md",
-  "status": "prepared_pending_exact_component_assignment_and_root_admission",
-  "source_commit_base": "8cba3f4d87765c9d9cf8145f9063cd2439aea25d",
-  "metric": {
-    "id": "global_wp_clip2_v1",
-    "source": "src/wnn/gmetric.py",
-    "targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
-    "selected_mask": "unchanged official mask after 99-row warmup",
-    "prediction_clip": [-2.0, 2.0],
-    "target_clip": [-2.0, 2.0],
-    "row_weight": "abs(clipped target)",
-    "pooling": "pooled weighted correlation per target; arithmetic mean t0/t1"
+  "ancestry_evidence": {
+    "reports": [
+      {
+        "kind": "h230",
+        "path": "reports/H230_FOLD0_ENDPOINT_GRADE_20261008_R1.json",
+        "sha256": "76e78aa561f0c998dd11515183432b5ba088f8bd873074795ac136f3b3835fad"
+      },
+      {
+        "kind": "z3",
+        "path": "reports/Z3_EXACT_FOLD0_INDEPENDENT_GRADE_R1.json",
+        "sha256": "325118f7863064a327d3b901e5e13e0ab1a7d2acdfaf98dbd0105b1dd2d0c40c"
+      }
+    ],
+    "required_claims": [
+      "H230 and exact-Z3 report member hashes match the four frozen endpoints",
+      "all eight direct provenance records exclude the 468 evaluation groups",
+      "independent report membership guards pass; seed99 all-data endpoints excluded"
+    ]
   },
-  "population": {
-    "split_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
-    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
-    "split_key": "evaluation.valid",
-    "groups": 468,
-    "components": 141,
-    "component_method": "undirected connected components of feature-only successor graph",
-    "selected_rows": 808863,
-    "exposure": "repeatedly inspected fold0 development data; no fresh/confirmation claim"
+  "authorization": {
+    "owner": "root",
+    "required_before_scoring": true,
+    "status": "pending_root_admission"
   },
   "base_prediction_sources": [
     {
       "column": "P3",
       "endpoint": "0.5*c20261003_combo_s3_f0@ep3+0.5*f0_combo_s3_parent_hft_v1@ep0",
-      "role": "seed3 matched control",
       "members": [
-        {"run": "c20261003_combo_s3_f0", "epoch": 3, "weight": 0.5, "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e", "prediction_path": "cache/pred_c20261003_combo_s3_f0_valid.npy", "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19"},
-        {"run": "f0_combo_s3_parent_hft_v1", "epoch": 0, "weight": 0.5, "checkpoint_sha256": "92d4d67d8f2a8d74dfcdd7622be355ad91dd67629d1adea101c90281be47a583", "prediction_path": "cache/pred_f0_combo_s3_parent_hft_v1_valid.npy", "prediction_sha256": "c58e4914b81bff5214f7f9b18ae1a203eb5ea2713ea3948e1d8d680b4312fede"}
-      ]
+        {
+          "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+          "epoch": 3,
+          "prediction_path": "cache/pred_c20261003_combo_s3_f0_valid.npy",
+          "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+          "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+          "run": "c20261003_combo_s3_f0",
+          "sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2",
+          "weight": 0.5
+        },
+        {
+          "checkpoint_sha256": "92d4d67d8f2a8d74dfcdd7622be355ad91dd67629d1adea101c90281be47a583",
+          "epoch": 0,
+          "prediction_path": "cache/pred_f0_combo_s3_parent_hft_v1_valid.npy",
+          "prediction_sha256": "c58e4914b81bff5214f7f9b18ae1a203eb5ea2713ea3948e1d8d680b4312fede",
+          "provenance_sha256": "c813640f9660dbb5d0252db4eff86ad943c3b2546d1e406c8b7dbc5124e6b452",
+          "run": "f0_combo_s3_parent_hft_v1",
+          "sidecar_sha256": "66de813620cfd68909d72b21e55e2304fc2767f5886375887a51641ab64b2f87",
+          "weight": 0.5
+        }
+      ],
+      "role": "seed3 matched control"
     },
     {
       "column": "H3",
       "endpoint": "0.5*bd26_h230_hetero_s3_f0@ep1+0.5*f0_h230_hetero_s3_hft_v1@ep0",
-      "role": "seed3 H230 candidate",
       "members": [
-        {"run": "bd26_h230_hetero_s3_f0", "epoch": 1, "weight": 0.5, "checkpoint_sha256": "59718b92befe647dde74335a17dc00d264e668ff8177201a1c636e7e194d72c9", "prediction_path": "cache/pred_h230_hetero_s3_ep1_20261008_v1_valid.npy", "prediction_sha256": "8f0f53f7990739847cb4ecd785b508ef32a59c982a702b5e05cf04bbd1d78e78"},
-        {"run": "f0_h230_hetero_s3_hft_v1", "epoch": 0, "weight": 0.5, "checkpoint_sha256": "887fd88dde75e1514e05f505e7f3a5432dc1b7a6109892e3893b2d706340314e", "prediction_path": "cache/pred_f0_h230_hetero_s3_hft_v1_valid.npy", "prediction_sha256": "353b8ff61e26fd659c0a4d7e579094e63a79a9675364f9fd1fb2fb7605b5e60e"}
-      ]
+        {
+          "checkpoint_sha256": "59718b92befe647dde74335a17dc00d264e668ff8177201a1c636e7e194d72c9",
+          "epoch": 1,
+          "prediction_path": "cache/pred_h230_hetero_s3_ep1_20261008_v1_valid.npy",
+          "prediction_sha256": "8f0f53f7990739847cb4ecd785b508ef32a59c982a702b5e05cf04bbd1d78e78",
+          "provenance_sha256": "12ef3404fd6c73abf08a33ce99f4364b03d09421b7a761ed3eb7bbcc3ae1b04a",
+          "run": "bd26_h230_hetero_s3_f0",
+          "sidecar_sha256": "71feb03d21843c396ded01664b6f160198910c86935cf3fb9d77e8bf5717b4f4",
+          "weight": 0.5
+        },
+        {
+          "checkpoint_sha256": "887fd88dde75e1514e05f505e7f3a5432dc1b7a6109892e3893b2d706340314e",
+          "epoch": 0,
+          "prediction_path": "cache/pred_f0_h230_hetero_s3_hft_v1_valid.npy",
+          "prediction_sha256": "353b8ff61e26fd659c0a4d7e579094e63a79a9675364f9fd1fb2fb7605b5e60e",
+          "provenance_sha256": "5fb2cc96eb16571616c0569dd2fcca99f312666e4a79f43082b68ddeef06f5fd",
+          "run": "f0_h230_hetero_s3_hft_v1",
+          "sidecar_sha256": "107b5eaf2a8714dbeab2cde7ff54c4228b41024c0fa91f32a8a4884353ef5379",
+          "weight": 0.5
+        }
+      ],
+      "role": "seed3 H230 candidate"
     },
     {
       "column": "P4",
       "endpoint": "0.5*c20261003_combo_s4_f0@ep3+0.5*f0_z3_combo_s4_parent_hft_v2@ep0",
-      "role": "seed4 anchor/control and shrinkage prior",
       "members": [
-        {"run": "c20261003_combo_s4_f0", "epoch": 3, "weight": 0.5, "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d", "prediction_path": "cache/pred_c20261003_combo_s4_f0_valid.npy", "prediction_sha256": "f1a3b07072a62dce620dc0c90e9568093367d0aed1afa4e9ec550866f94df12b"},
-        {"run": "f0_z3_combo_s4_parent_hft_v2", "epoch": 0, "weight": 0.5, "checkpoint_sha256": "a960f3695a71643239773a5d6e5941c60f8e9e1704ea1581ea242bd64d7489da", "prediction_path": "cache/pred_f0_z3_combo_s4_parent_hft_v2_valid.npy", "prediction_sha256": "ffd97736e444fdb457e8af8e433860e59d5b0c2e5430ace86d6e464445271d84"}
-      ]
+        {
+          "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+          "epoch": 3,
+          "prediction_path": "cache/pred_c20261003_combo_s4_f0_valid.npy",
+          "prediction_sha256": "f1a3b07072a62dce620dc0c90e9568093367d0aed1afa4e9ec550866f94df12b",
+          "provenance_sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332",
+          "run": "c20261003_combo_s4_f0",
+          "sidecar_sha256": "ad1257c7278c5402c409ec0e273c2202525bd1d6173699438efb6627262b9750",
+          "weight": 0.5
+        },
+        {
+          "checkpoint_sha256": "a960f3695a71643239773a5d6e5941c60f8e9e1704ea1581ea242bd64d7489da",
+          "epoch": 0,
+          "prediction_path": "cache/pred_f0_z3_combo_s4_parent_hft_v2_valid.npy",
+          "prediction_sha256": "ffd97736e444fdb457e8af8e433860e59d5b0c2e5430ace86d6e464445271d84",
+          "provenance_sha256": "b6d44a9b4a2143815df11a534adc09210259dc9d25a688e70e20362920f8a8f8",
+          "run": "f0_z3_combo_s4_parent_hft_v2",
+          "sidecar_sha256": "f910d6733faa1269a298fbf85c57aa784f5e448a6f386a9c68803bdc584db00a",
+          "weight": 0.5
+        }
+      ],
+      "role": "seed4 anchor/control and shrinkage prior"
     },
     {
       "column": "Z4",
       "endpoint": "0.5*f0_z3_combo_s4_student_v2_core_identity_v2@ep1+0.5*f0_z3_combo_s4_student_hft_v3@ep0",
-      "role": "seed4 exact-Z3 candidate",
       "members": [
-        {"run": "f0_z3_combo_s4_student_v2_core_identity_v2", "epoch": 1, "weight": 0.5, "checkpoint_sha256": "f3826cabbfca007a91ddaaf32c02a0c00cf51350c7e0c5fb167441326aeb0d9c", "prediction_path": "cache/pred_f0_z3_combo_s4_student_v2_core_identity_v2_valid.npy", "prediction_sha256": "d045c767343d7872a6eaa8ddf7ecf3402982a3d9a7df3cb10510dae4bd09e9d3"},
-        {"run": "f0_z3_combo_s4_student_hft_v3", "epoch": 0, "weight": 0.5, "checkpoint_sha256": "12a6646d568cd620fe2cbad20b81030abce66f88e8cd377b676d9ac6b304b23c", "prediction_path": "cache/pred_f0_z3_combo_s4_student_hft_v3_valid.npy", "prediction_sha256": "462326e735d298661abd631d995ced444962de28f8316436ceb8454cd7463c5e"}
-      ]
+        {
+          "checkpoint_sha256": "f3826cabbfca007a91ddaaf32c02a0c00cf51350c7e0c5fb167441326aeb0d9c",
+          "epoch": 1,
+          "prediction_path": "cache/pred_f0_z3_combo_s4_student_v2_core_identity_v2_valid.npy",
+          "prediction_sha256": "d045c767343d7872a6eaa8ddf7ecf3402982a3d9a7df3cb10510dae4bd09e9d3",
+          "provenance_sha256": "5975c0d113910f7fe53544e3ee72b561e45ae024df65d87ea9baf9c63536c0ea",
+          "run": "f0_z3_combo_s4_student_v2_core_identity_v2",
+          "sidecar_sha256": "beaa03c5f5ab2a3a559100bf7de8330461c8d17fcdbfccf9c0d74ebb66bca8fe",
+          "weight": 0.5
+        },
+        {
+          "checkpoint_sha256": "12a6646d568cd620fe2cbad20b81030abce66f88e8cd377b676d9ac6b304b23c",
+          "epoch": 0,
+          "prediction_path": "cache/pred_f0_z3_combo_s4_student_hft_v3_valid.npy",
+          "prediction_sha256": "462326e735d298661abd631d995ced444962de28f8316436ceb8454cd7463c5e",
+          "provenance_sha256": "cc14027f02163165fd78ab3f554181f5bea8231cc1d84a2973652e8e8b6320e4",
+          "run": "f0_z3_combo_s4_student_hft_v3",
+          "sidecar_sha256": "0627bd414926cd4ad97f982f636556f0ae2970a796776d973c5d8ebdf24340bb",
+          "weight": 0.5
+        }
+      ],
+      "role": "seed4 exact-Z3 candidate"
     }
   ],
-  "excluded_sources": [
-    {
-      "run_family": "bd26_h230_faithful_student_seed99_muonparent_v1 / bd26_h230_strong_parent_seed99_muon_local_v1",
-      "reason": "ALL-DATA ancestry; an evaluation-row slice does not make its predictions OOF",
-      "archival_prediction_sha256": "920862971d4a3298435e58529729bbe4b607a00271189baef4d91599cf1b409b"
-    }
-  ],
-  "outer_component_assignment": {
-    "seed": "LUNA-STACK-R2-20261009",
-    "digest": "SHA256(UTF8(seed) || NUL || ASCII(decimal(component_id)))",
-    "sort": "ascending (digest hex, component_id)",
-    "fold_assignment": "rank 0-46 => fold0; 47-93 => fold1; 94-140 => fold2",
-    "components_per_fold": [47, 47, 47],
-    "training_components_per_fold": 94,
-    "assignment_generator": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/make_component_assignment_r2.py",
-    "assignment_membership_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LUNA_STACKING_COMPONENT_FOLDS_R2.json",
-    "assignment_sha256": null
-  },
-  "primary_candidate": {
-    "name": "targetwise_ridge_residual_shrunk_to_seed4_parent_head",
-    "anchor": "P4",
-    "difference_columns": ["P3-P4", "H3-P4", "Z4-P4"],
-    "target_treatment": "clip label to [-2,2]; fixed row weights abs(clipped label)",
-    "fit": "per target; weighted-center D and R=clipped_y-P4 on outer training components; C=weighted covariance(D); c=weighted covariance(D,R); theta=solve(C+lambda*I,c); lambda=0.5*trace(C)/3+1e-12; no intercept and no search",
-    "outer_prediction": "raw P4 + (D - training_weighted_mean(D)) @ theta; official evaluator clips final prediction",
-    "shrinkage_center": "theta=0 exactly recovers P4"
-  },
   "controls": [
     "P4 seed4 parent/head anchor",
     "fixed equal-weight (P3+H3+P4+Z4)/4",
     "standalone P3, H3, P4, Z4",
     "frozen reported H230 and Z3 matched candidate/control endpoints as input-integrity checks only"
   ],
+  "excluded_sources": [
+    {
+      "archival_prediction_sha256": "920862971d4a3298435e58529729bbe4b607a00271189baef4d91599cf1b409b",
+      "reason": "ALL-DATA ancestry; an evaluation-row slice does not make its predictions OOF",
+      "run_family": "bd26_h230_faithful_student_seed99_muonparent_v1 / bd26_h230_strong_parent_seed99_muon_local_v1"
+    }
+  ],
+  "experiment_id": "LUNA-STACK-R2-20261009",
+  "metric": {
+    "id": "global_wp_clip2_v1",
+    "pooling": "pooled weighted correlation per target; arithmetic mean t0/t1",
+    "prediction_clip": [
+      -2.0,
+      2.0
+    ],
+    "row_weight": "abs(clipped target)",
+    "selected_mask": "unchanged official mask after 99-row warmup",
+    "source": "src/wnn/gmetric.py",
+    "implementation_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "target_clip": [
+      -2.0,
+      2.0
+    ],
+    "valid_targets_artifact_identity_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "outer_component_assignment": {
+    "assignment_generator": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/make_component_assignment_r2.py",
+    "assignment_membership_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LUNA_STACKING_COMPONENT_FOLDS_R2.json",
+    "assignment_sha256": "4b2c21fa1f964ea798f576f5219d8d09ea1f514fd445102da4ec54a80e65f1a6",
+    "components_per_fold": [
+      47,
+      47,
+      47
+    ],
+    "digest": "SHA256(UTF8(seed) || NUL || ASCII(decimal(component_id)))",
+    "fold_assignment": "rank 0-46 => fold0; 47-93 => fold1; 94-140 => fold2",
+    "membership_file_sha256": "7ecc44abe4f363408189d5fd03b9c289acdead0786f62fa9ebcfb9760134524a",
+    "seed": "LUNA-STACK-R2-20261009",
+    "sort": "ascending (digest hex, component_id)",
+    "training_components_per_fold": 94
+  },
   "outputs": [
     "rowwise out-of-meta-fold ridge predictions",
     "anchor/equal/standalone prediction score summaries",
@@ -102,21 +187,71 @@
     "three target-specific coefficient vectors and covariance moments",
     "input/source/output hashes and exit/resource receipt"
   ],
+  "population": {
+    "component_method": "undirected connected components of feature-only successor graph",
+    "components": 141,
+    "exposure": "repeatedly inspected fold0 development data; no fresh/confirmation claim",
+    "groups": 468,
+    "selected_rows": 808863,
+    "split_key": "evaluation.valid",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "split_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json"
+  },
+  "primary_candidate": {
+    "anchor": "P4",
+    "difference_columns": [
+      "P3-P4",
+      "H3-P4",
+      "Z4-P4"
+    ],
+    "fit": "per target; weighted-center D and R=clipped_y-P4 on outer training components; C=weighted covariance(D); c=weighted covariance(D,R); theta=solve(C+lambda*I,c); lambda=0.5*trace(C)/3+1e-12; no intercept and no search",
+    "name": "targetwise_ridge_residual_shrunk_to_seed4_parent_head",
+    "outer_prediction": "raw P4 + (D - training_weighted_mean(D)) @ theta; official evaluator clips final prediction",
+    "shrinkage_center": "theta=0 exactly recovers P4",
+    "target_treatment": "clip label to [-2,2]; fixed row weights abs(clipped label)"
+  },
+  "proposal_path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/LUNA_STACKING_EDA_R2.md",
   "resources": {
     "cpu_cores": 1,
-    "memory_max_bytes": 1000000000,
-    "runtime_max_seconds": 600,
-    "gpu": false,
-    "provider_or_kernel": false,
-    "paid_spend": false,
     "full_parquet_materialization": false,
+    "gpu": false,
     "huge_npz_loading": false,
+    "memory_max_bytes": 1000000000,
+    "paid_spend": false,
     "prediction_io": "mmap_mode=r; selected 468 group rows only",
+    "provider_or_kernel": false,
+    "runtime_max_seconds": 600,
     "target_io": "selected target/mask columns and evaluation row groups only"
   },
-  "authorization": {
-    "status": "pending_root_admission",
-    "required_before_scoring": true,
-    "owner": "root"
+  "schema": "wnn.luna-meta-crossfit-admission-candidate.v1",
+  "source_commit_base": "8cba3f4d87765c9d9cf8145f9063cd2439aea25d",
+  "source_endpoint_scores": {
+    "H3": {
+      "wp": 0.6823084606764618
+    },
+    "P3": {
+      "wp": 0.6820687897054627
+    },
+    "P4": {
+      "wp": 0.6818872532633053
+    },
+    "Z4": {
+      "wp": 0.681635178653301
+    }
+  },
+  "status": "ready_for_root_admission",
+  "target_source": {
+    "full_parquet_or_npz_materialization": false,
+    "parquet_footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+    "parquet_footer_size_bytes": 10686926,
+    "parquet_path": "datasets/valid.parquet",
+    "read_columns": [
+      "seq_ix",
+      "t0",
+      "t1",
+      "is_scored"
+    ],
+    "read_row_groups": "only 468 evaluation.valid row groups from the frozen split manifest",
+    "valid_targets_cache_index_sha256": "ed030f767a6c650db666844ecffef21f0e96cc9fa2d7e77a0872bdf26c5bed38"
   }
 }
