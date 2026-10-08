@@ -7,10 +7,13 @@ seed9, Z4 and Z5 specs. Root authorization is required in the contract, policy,
 review receipt and installed service hash. The checked-in `*_DRAFT.json` files
 are deliberately unauthorized and cannot start this service.
 
-The user service has its own lock, durable heartbeat/state/journal, stop barrier,
-single-launch dispatcher receipt, bounded terminal collection retries and
-artifact hashes. The finite worker stays under the existing campaign resource
-guardian. The service remains alive while a healthy v3/v4 worker drains, then
+The user service runs Python directly inside its bounded systemd unit, not
+through the short-lived support-command wrapper. Its cgroup limits bound the
+long-lived daemon without a wrapper runtime timeout. It has its own lock,
+durable heartbeat/state/journal, stop barrier, single-launch dispatcher receipt,
+bounded terminal collection retries and artifact hashes. The finite worker
+stays under the existing campaign resource guardian. The service remains alive
+while a healthy v3/v4 worker drains, then
 exits on terminal collection, queue exhaustion, policy expiry, or a review
 error. Systemd restart cannot duplicate a launch: the dispatcher attempt receipt
 is durable and uncertain launches fail closed. Existing specs declare no
