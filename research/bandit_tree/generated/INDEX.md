@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 996 · raw hypothesis rows 300 · raw experiment rows 617 · legacy arms 18 · catalog files 64204.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 997 · raw hypothesis rows 300 · raw experiment rows 618 · legacy arms 18 · catalog files 64265.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-ea24056dc2f687e11c21c882119c89665e4f65cc88cf9ebfdab23a900bbcaef2.json](<snapshots/config-ea24056dc2f687e11c21c882119c89665e4f65cc88cf9ebfdab23a900bbcaef2.json>).
 
@@ -1569,6 +1569,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-H217-A3-TCN-FOLD0-GRADED-20261008 | E-H217-A3-TCN-FOLD0-GRADED-20261008 | experiment · fit_export_complete_exposed_fold_grade | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L614>) | — |
 | experiment:E-H230-NORMALIZED-ALLDATA-DELIVERED-20261008 | E-H230-NORMALIZED-ALLDATA-DELIVERED-20261008 | experiment · fit_complete_public_test_zip_ready_not_uploaded | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L615>) | — |
 | experiment:E-E540-V8-CONTROL-PRESERVED-20261008 | E-E540-V8-CONTROL-PRESERVED-20261008 | experiment · control_fit_complete_delivery_validator_failed | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L616>), [research/experiments.jsonl](<../../experiments.jsonl#L617>) | — |
+| experiment:E-H232-V7B-R5-EXPORT-ACCEPTED-20261008 | E-H232-V7B-R5-EXPORT-ACCEPTED-20261008 | experiment · kaggle_running_export_phase_unverified | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L618>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
