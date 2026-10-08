@@ -1,0 +1,93 @@
+{
+  "checkpoint_contract": {
+    "checkpoint": "model_ep0.pt",
+    "epoch": 0,
+    "input_width": 211,
+    "linear_source": "E540 V8 completed fixed epoch-0 run; reused without refit",
+    "paired_normalization_identity": "must exactly match both saved provenance records",
+    "paired_sampler_identity": "must exactly match both saved provenance records",
+    "paired_seed": 540,
+    "ple_knot_buffers": "must match the original fitted preprocessing digest and 512-component membership",
+    "ple_source": "E540 V9 completed fixed epoch-0 run; reused without refit",
+    "precision": "fp32"
+  },
+  "evaluation": {
+    "claim_limit": "Previously exposed fixed evaluation groups; exports enable the declared comparison only and do not establish a fresh holdout or public forecast.",
+    "evaluation_group_count": 468,
+    "grader": "root independent grader",
+    "inference_precision": "fp32",
+    "prediction_shape": [
+      468,
+      20000,
+      2
+    ],
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "subset_manifest": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V5.json",
+    "subset_manifest_sha256": "ce84816336bc457d487cbddf2f7214ef4d8b0b02e83f9c8e60921b9ce2374d4d"
+  },
+  "execution": {
+    "device": "one Kaggle Tesla T4",
+    "kernel_process_wall_seconds_max": 6000,
+    "loader_workers": 0,
+    "no_onnx_export": true,
+    "no_training_or_profile": true,
+    "provider_push_performed": false,
+    "runner_finalization_reserve_seconds": 300,
+    "worker_wall_seconds_max": 5200
+  },
+  "fit_arms": [],
+  "fit_recipe_ancestry": {
+    "amp": "disabled",
+    "checkpoint_epoch": 0,
+    "clip": 1.0,
+    "epochs": 1,
+    "evaluation_during_fit": "withheld",
+    "evaluation_groups": 468,
+    "loss": "wmse",
+    "loss_norm": "chunk",
+    "precision": "fp32",
+    "selected_components": 512,
+    "training_source": "train+valid"
+  },
+  "input_data": {
+    "dataset": "vladkochetov07/wunder-funder",
+    "mask_column_requested": false,
+    "path": "datasets/valid.parquet",
+    "read_columns": "seq_ix and 112 feature columns for exact evaluation_groups only",
+    "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "size_bytes": 5615509128,
+    "target_columns_requested": false,
+    "target_npz_mounted": false
+  },
+  "kind": "export_only",
+  "objective": "Produce fixed-membership FP32 predictions from the already completed V8 linear control and V9 PLE fixed-epoch-0 checkpoints.",
+  "packet_id": "E540_FP32_V11_FIXED_CHECKPOINT_EXPORT_ONLY",
+  "parent_experiment": "E540_FP32_V9_REUSE_CONTROL",
+  "prediction_arms": [
+    "e540v8-linear-s540-fp32",
+    "e540v9-ple-s540-fp32"
+  ],
+  "prior_delivery_failure": {
+    "diagnosis": "V10 rejected an absent binding.recipe_sha256 field even though the recipe hash is separately bound and checked by the exact runtime-spec environment.",
+    "predecessor_packet_id": "E540_FP32_V10_FIXED_CHECKPOINT_EXPORT_ONLY",
+    "scientific_interpretation": "Consumer preflight failure before data loading; no fit, prediction, or grade occurred.",
+    "terminal_receipt_sha256": "4b5b0858523380792123850b7407c2794ceaebd4e063064b9363265673c5c90c",
+    "worker_result_sha256": "cd6a3b14ceb8e497f3373d81419e9b1c606cb9e0c9fa322be1947e190675dc24"
+  },
+  "producer_clock_validation": {
+    "actual_v9_fixture": {
+      "accepted": true,
+      "history_train_seconds": 559.7,
+      "provenance_fitting_seconds": 559.8
+    },
+    "constraint": "provenance may trail history only within rounding tolerance; provenance may exceed history only by the declared checkpoint-write allowance plus rounding tolerance",
+    "history_rounding_tolerance_seconds": 0.11,
+    "maximum_checkpoint_write_allowance_seconds": 30.0,
+    "source_semantics": "history train_seconds is rounded and recorded before epoch checkpoint saves; sibling provenance fitting_seconds is rounded and written after saves."
+  },
+  "profile_arms": [],
+  "schema": "wnn.e540-export-only-recipe.v1",
+  "scientific_status": "No new fit or profile; V11 reuses the identical completed V8 linear and V9 PLE source fits and changes only the failed V10 delivery validator packet identity/check.",
+  "successor_packet_id": "E540_FP32_V10_FIXED_CHECKPOINT_EXPORT_ONLY"
+}
