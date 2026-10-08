@@ -25,6 +25,7 @@ from scripts.e540_kaggle_worker import (
 from scripts.kaggle_kernel import terminate_process_tree, worker_timeout_for_deadline
 from scripts.kaggle_bundle import local_bundle_descriptors
 from scripts.kaggle_common import verify_files
+from scripts.kaggle_gpu_runner import resolve_worker_timeout_seconds
 
 
 def _profile_output(*, step_wall: str = "12.5", skipped: int = 0) -> str:
@@ -101,6 +102,28 @@ def test_kernel_timeout_is_shrunk_from_bootstrap_entry_and_leaves_finalize_reser
     assert worker_timeout_for_deadline(5_200, 6_000.0, now_monotonic=500.0) == 5_200
     assert worker_timeout_for_deadline(5_200, 6_000.0, now_monotonic=800.0) == 4_900
     assert worker_timeout_for_deadline(5_200, 6_000.0, now_monotonic=5_700.0) == 0
+
+
+def test_runner_recomputes_timeout_at_actual_launch_after_preflight_delay() -> None:
+    # Kernel writes the initial runtime spec at t=200, before runner preflight.
+    spec_timeout = worker_timeout_for_deadline(5_200, 6_000.0, now_monotonic=200.0)
+    assert spec_timeout == 5_200
+    # Runner launches the worker at t=700 and must preserve the 300s finalization reserve.
+    assert resolve_worker_timeout_seconds(
+        spec_timeout, "6000.0", now_monotonic=700.0
+    ) == 5_000
+
+
+def test_runner_keeps_legacy_timeout_without_deadline_and_rejects_invalid_deadlines() -> None:
+    assert resolve_worker_timeout_seconds(7_000, None, now_monotonic=700.0) == 7_000
+    assert resolve_worker_timeout_seconds(7_000, "10000.0", now_monotonic=700.0) == 5_200
+    assert resolve_worker_timeout_seconds(1_000, "10000.0", now_monotonic=700.0) == 1_000
+    with pytest.raises(ValueError, match="must be finite"):
+        resolve_worker_timeout_seconds(5_200, "NaN", now_monotonic=700.0)
+    with pytest.raises(ValueError, match="current monotonic time must be finite"):
+        resolve_worker_timeout_seconds(5_200, "6000", now_monotonic="700")
+    with pytest.raises(TimeoutError, match="no worker time"):
+        resolve_worker_timeout_seconds(5_200, "6000", now_monotonic=5_700.0)
 
 
 def test_kernel_deadline_cleanup_stops_runner_and_separate_session_descendant() -> None:
