@@ -1,5 +1,12 @@
 ## First all-data student fitting; cloud correction owners — 2026-10-08 05:09 Kyiv
 
+
+## Continuous research reaffirmed — 2026-10-08 05:28 Kyiv
+
+The latest user instruction keeps research active until explicit stop. The verified active user timer changes aggregate local CPU from12 to5cores at10:00Kyiv; it does not stop local GPU or cloud research. Parent memory remains18GBhigh/20GBmaximum/no swap and observedVRAM5GB, one local GPU worker. See [ADR0017](adr/0017-continuous-research-five-core-morning-cap.md).
+
+H230 seed3 is healthy in epoch1, with zero reported worker/parent-local OOM or kill deltas; seed4 follows valid terminal evidence. E540V5 was pushed once, version1, and is RUNNING in mounted-input identity verification before GPU profiling. H232V7B SaveKernel returnedHTTP400; no accepted execution is established. A shorter-title metadata-only successor is being prepared, preserving the reviewed scientific recipe. Owned VastA3 supervision remains active. These are execution observations, not new scores; public best remains0.6660.
+
 H230 seed3 has actual epoch0 batch140/779 progress, approximately12sequences/second and97% sampled GPU utilization. Worker/parent-local OOM and kill deltas remain zero; observed VRAM peak2.21GB. The V4 contract corrects the actual parent23→student31output-row mapping without changing training argv. Cache-only DONTNEED handoff reduced parent memory10.46→5.58GB before the fresh9GB student reservation. Fixedep1 terminal evidence precedes seed4 admission; planning estimate roughly35–40minutes per student, not a measured completed-fit duration.
 
 H232V7A was pushed once to canonical `vladkochetov07/h232-gru384-b8-amp4096-v7-proactive-cache-recovery` and is terminal ERROR before science: its embedded external-review receipt remained a pending placeholder. Root's outside approval did not populate that artifact. The delivery actor is collecting all outputs and producing review-bound V7B, preserving V7A. E540V4 remains unpushed: independent review found the runner watchdog did not recalculate the remaining deadline after preflight; V5 fixes only launch-time runtime accounting. Both actors own the corrected delivery paths. VastA3 newly owned54755890 has a live supervised SSH staging process; fitting or completed direct transfer is not yet claimed. TPUV5 remains queued. Public best remains0.6660.
