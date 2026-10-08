@@ -6,6 +6,7 @@ import hashlib
 import json
 from functools import lru_cache
 from pathlib import Path
+from typing import Callable
 
 
 def sha256_file(path: Path) -> str:
@@ -25,8 +26,13 @@ def _content_digest(
 
 
 def verify_portable_source(
-    source: Path, name: str, original_identity: dict, registry: Path
-) -> None:
+    source: Path,
+    name: str,
+    original_identity: dict,
+    registry: Path,
+    *,
+    observation_callback: Callable[[int, str | None], None] | None = None,
+) -> str:
     """Accept relocated bytes only against the controller's sealed source registry.
 
     The original split manifest stays unchanged. Its metadata must be reproduced
@@ -41,6 +47,8 @@ def verify_portable_source(
         raise ValueError(f"portable identity disagrees with frozen split: {name}")
     stat = source.stat()
     if stat.st_size != original_identity["bytes"]:
+        if observation_callback is not None:
+            observation_callback(stat.st_size, None)
         raise ValueError(f"portable source size changed: {name}")
     digest = _content_digest(
         str(source.resolve()),
@@ -50,5 +58,8 @@ def verify_portable_source(
         stat.st_mtime_ns,
         stat.st_ctime_ns,
     )
+    if observation_callback is not None:
+        observation_callback(stat.st_size, digest)
     if digest != entry.get("sha256"):
         raise ValueError(f"portable source content changed: {name}")
+    return digest

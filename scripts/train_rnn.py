@@ -1485,6 +1485,8 @@ def main():
                       help="read propensity from cache/propcache_<name>_<split>.npy (scripts/cache_propensity.py)")
     perf.add_argument("--precision", choices=["fp16", "bf16", "fp32"], default="fp16",
                       help="autocast dtype; bf16 trains without GradScaler")
+    perf.add_argument("--amp-init-scale", type=float, default=65536.0,
+                      help="initial GradScaler scale for fp16; default preserves PyTorch's current training scale")
     perf.add_argument("--max-batches", type=int, default=0, help="stop each epoch after this many batches (harness)")
     perf.add_argument("--profile-steps", type=int, default=0,
                       help="time this many batches per stage (after --profile-warmup), print a table and exit")
@@ -1660,6 +1662,8 @@ def main():
         ap.error("--include-heldout-valid is only for a final train+valid or valid fit")
     if not 0 < args.valid_train_fraction <= 1:
         ap.error("--valid-train-fraction must be in (0, 1]")
+    if not math.isfinite(args.amp_init_scale) or args.amp_init_scale <= 0:
+        ap.error("--amp-init-scale must be finite and positive")
     if args.valid_train_fraction < 1 and args.train_source not in ("train+valid", "valid"):
         ap.error("--valid-train-fraction requires a validation training source")
     if args.epoch_samples < 0 or (args.epoch_samples and args.valid_repeat != 1):
@@ -2159,7 +2163,11 @@ def main():
     provenance["optimizer_switch_events"] = dynamics.events
     amp_dtype = torch.bfloat16 if args.precision == "bf16" else torch.float16
     use_autocast = device.type == "cuda" and args.precision != "fp32"
-    scaler = torch.amp.GradScaler(device.type, enabled=args.precision == "fp16")
+    scaler = torch.amp.GradScaler(
+        device.type,
+        enabled=args.precision == "fp16",
+        init_scale=args.amp_init_scale,
+    )
     grad_stats = GradStats(model, args.clip) if args.grad_stats else None
     swa_model = torch.optim.swa_utils.AveragedModel(model) if args.swa_frac > 0 else None
     ema_model = None

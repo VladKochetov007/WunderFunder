@@ -12,6 +12,11 @@ from pathlib import Path
 from kaggle_common import read_spec, relative_path, sha256_file, verify_files, write_json
 
 
+def local_bundle_descriptors(files: dict[str, dict], external_map: dict[str, object]) -> list[dict]:
+    """Return dependencies present in the controller checkout for local packaging checks."""
+    return [item for name, item in files.items() if name not in external_map]
+
+
 def build_bundle(
     root: Path,
     specs: list[Path],
@@ -54,7 +59,9 @@ def build_bundle(
             if previous != item:
                 raise ValueError(f"Conflicting dependency: {item['path']}")
         payload_specs.append(spec)
-    verify_files(root, list(files.values()))
+    # Raw datasets and private asset mounts are absent from the code checkout;
+    # the worker runner verifies their exact bytes before starting any recipe.
+    verify_files(root, local_bundle_descriptors(files, external_map))
     if len({spec["name"] for spec in payload_specs}) != len(payload_specs):
         raise ValueError("Experiment names must be unique")
     if set(external_map) - set(files):
