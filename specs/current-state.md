@@ -1,4 +1,4 @@
-# Current research state — 2026-10-08 08:05 UTC / 11:05 Kyiv
+# Current research state — 2026-10-08 08:33 UTC / 11:33 Kyiv
 
 Research is active until explicit user stop. This compact entry replaces accumulated status snapshots without losing their information: [complete byte-identical archive](current-state-archive-20261008T0507Z.md), SHA256 `1c341ea9ada2cd84d0b4e7caba4bd4c10a52939cd0e1ece204c973007885392d`. Original experiment records, frozen sources and receipts remain authoritative.
 
@@ -19,6 +19,8 @@ Public best remains0.6660; teammate-reported0.6674 remains unreplicated;0.700/to
 - Source-target seed3,seed4 and fixed0.5/0.5pair packages also delivered. Common own parent ancestry is explicit; these are not independent whole-model draws. [Root normalized release](../research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_NORMALIZED_ROOT_RELEASE_CHECK_20261008_R1.json).
 
 ## Actual execution and owners
+
+Latest observed lanes: **H233 is actually executing its fit loop**, confirmed by live process stacks in frozen GRU forward and fit-loop Parquet loading; no completed epoch yet. Worker remains bounded at6.5GB; low instantaneous GPU use and heavy reads require phase measurements rather than a startup-failure claim. **E540V12 provider COMPLETE**, output collection/semantic review and the independently reviewed fixed-pair grader remain next. **E463V6 TPU QUEUED**, no duplicate push. Capacity512/768 and independently authored all-data teacher stages are prepared concurrently; they are not running fits. [Live phase receipt](../research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H233_LOCAL_AND_CLOUD_PHASE_OBSERVATION_20261008_R1.json); [successor queueR3](../research/campaign_2026-10-06/bandit_continuation/runtime/ACCELERATOR_SUCCESSOR_QUEUE_20261008_R3.json).
 
 Latest delivery admissions: E540 V12 root actual87-member/86-descriptor audit and extracted real-checkpoint fixture passed; one export-only6000s launch conditionally authorized, operator verifies final private bytes/quota/monitor. E463 TPU V6 one actual B16/C2000 update+reload gate root-reviewed and six contract tests passed; one1650s8TPUv5e launch conditionally authorized. Neither admission alone proves running. [Explicit lane queue/readiness](../research/campaign_2026-10-06/bandit_continuation/runtime/ACCELERATOR_SUCCESSOR_QUEUE_20261008_R1.json); [ADR0022](adr/0022-prepared-successors-and-paid-warm-cohorts.md) requires successors prepared during execution and productive finite paid warm cohorts.
 

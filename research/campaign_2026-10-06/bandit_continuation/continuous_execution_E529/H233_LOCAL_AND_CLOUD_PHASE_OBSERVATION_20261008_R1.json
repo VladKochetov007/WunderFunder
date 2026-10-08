@@ -1,0 +1,31 @@
+{
+  "schema": "wnn-live-phase-observation-v1",
+  "observed_utc": "2026-10-08T08:33:27.957421+00:00",
+  "unit": "wnn-bandit-h233-c1s3-readout-v2-fit-20261008.service",
+  "unit_actual_properties": "ActiveState=active\nSubState=running\nMainPID=634819\nExecMainStatus=0\nMemoryCurrent=6372012032\nCPUUsageNSec=685423130000\n",
+  "process_pid": 634826,
+  "process_io": "rchar: 30913225725\nwchar: 159133\nsyscr: 1093409\nsyscw: 55\nread_bytes: 84596383744\nwrite_bytes: 32768\ncancelled_write_bytes: 0\n",
+  "stack_exit_code": 0,
+  "stack": "Process 634826: /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/scripts/train_conditional_readout.py fit --recipe /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_EXECUTED_SOURCES_V2_RUNTIME/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json --device cuda --run-name bd26_h233_c1s3_rank32_f0_v2 --output-dir /home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h233_c1s3_rank32_f0_v2 --cpu-threads 1\nPython v3.13.9 (/home/vlad/.local/share/uv/python/cpython-3.13.9-linux-x86_64-gnu/bin/python3.13)\n\nThread 634826 (active): \"MainThread\"\n    read_row_group (pyarrow/parquet/core.py:467)\n    read (wnn/data.py:97)\n    __getitem__ (train_rnn.py:274)\n    __getitem__ (torch/utils/data/dataset.py:345)\n    fetch (torch/utils/data/_utils/fetch.py:54)\n    _next_data (torch/utils/data/dataloader.py:785)\n    __next__ (torch/utils/data/dataloader.py:725)\n    _run_fit (train_conditional_readout.py:932)\n    main (train_conditional_readout.py:1050)\n    <module> (train_conditional_readout.py:1054)\nThread 635218 (idle)\n",
+  "stack_stderr": "",
+  "latest_provider_poll_entries": [
+    {
+      "failure_message": "",
+      "kernel": "vladkochetov07/e463-tpu-real-data-reload-v6-20261008",
+      "monitoring_state": "polling_until_terminal_evidence_downloaded",
+      "resource": "tpu",
+      "status": "KernelWorkerStatus.QUEUED",
+      "terminal_evidence_receipt": "E463_TPU_V6_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json"
+    },
+    {
+      "failure_message": "",
+      "kernel": "vladkochetov07/e540-v12-cache-dirfix-20261008-runner",
+      "monitoring_state": "polling_until_terminal_evidence_downloaded",
+      "resource": "gpu",
+      "status": "KernelWorkerStatus.COMPLETE",
+      "terminal_evidence_receipt": "../bandit_continuation/numerical_embedding_E540/kaggle_v12_root_approved_20261008_r1/E540_V12_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json"
+    }
+  ],
+  "interpretation": "Live fit confirmed by actual Python stack when _run_fit is present; instantaneous utilization alone is not phase evidence. No completed epoch/checkpoint or scientific score inferred. Provider COMPLETE awaits downloaded artifact review.",
+  "source": "scripts/train_conditional_readout.py:_run_fit creates output directory after data initialization, writes checkpoints only after each epoch."
+}
