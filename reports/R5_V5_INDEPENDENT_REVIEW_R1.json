@@ -34,12 +34,12 @@
   ],
   "required_admission_correction": {
     "status": "must_bind_before_provider_create",
-    "finding": "The exact launch path gives run.sh up to 450 seconds for pinned dependency setup and then runs terminal.py under a separate 300-second timeout after WNN_MAX_RUNTIME_SECONDS expires. vast_campaign.py subtracts worker_setup_timeout_seconds and collection_timeout_seconds when deriving WNN_MAX_RUNTIME_SECONDS, but the current intent reserves only 450 seconds for setup. In the worst case, the run.sh setup plus terminal phase can therefore exceed the 10-hour hard stop by up to 300 seconds.",
-    "correction": "Reserve 750 seconds in worker_setup_timeout_seconds (the campaign validator permits up to 3600), or explicitly reduce WNN_MAX_RUNTIME_SECONDS by 300 seconds. Preserve the 900-second post-terminal collection reserve. Recompute and rehash the intent/admission receipt before dispatch."
+    "finding": "The reviewed R2 intent reserves only 450 seconds for worker setup, while the exact launch path permits up to 450 seconds for pinned dependency setup and then runs terminal.py under a separate 300-second timeout after WNN_MAX_RUNTIME_SECONDS expires. vast_campaign.py subtracts worker_setup_timeout_seconds and collection_timeout_seconds when deriving WNN_MAX_RUNTIME_SECONDS. If setup and terminal consume their full individual timeouts, R2 can exceed the 10-hour hard stop by up to 300 seconds.",
+    "correction": "Final R3 must set worker_setup_timeout_seconds=750 (the validator permits up to 3600) to cover both the 450-second install and 300-second terminal phases, and invoke collection with collection_timeout_seconds=1800 for the approximately 4 GB download. Recompute and rehash the intent/admission receipt, then run exact schema/current-ledger validation against the fresh live offer before dispatch."
   },
   "limitations": [
     "No provider operation, GPU execution, fit, or data/weight mutation was performed. Actual 3090 numerical, precision, memory and timing gates remain worker-time admission checks.",
-    "The existing sealed preflight is intentionally a pending-authority fail-closed test. The authorized final archive was independently checked for exact member parity and authorization hash closure; root must still run its exact final admission validator against this final archive and corrected intent before any provider create."
+    "The existing sealed preflight is intentionally a pending-authority fail-closed test. The authorized final archive was independently checked for exact member parity and authorization hash closure; R3 setup/collection timing, fresh-offer/current-ledger receipts and exact final admission validation remain pending before any provider create."
   ],
   "verification_commands": [
     "sha256sum .runtime/r5-root-sealed-20261008T2018-r2/r5_capacity_root_sealed.tar.gz",
