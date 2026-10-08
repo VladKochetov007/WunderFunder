@@ -1,0 +1,60 @@
+{
+  "schema": "h232-v7b-push-failure-diagnosis-v1",
+  "observed_utc": "2026-10-08T02:25:41Z",
+  "owner": "h232_v7_proactive_recovery",
+  "variant": "V7B",
+  "basis": {
+    "single_push_attempt": {
+      "reported_by": "root",
+      "http_status": 400,
+      "operation": "SaveKernel",
+      "timeout_seconds": 17000,
+      "accelerator": "NvidiaTeslaT4",
+      "push_count": 1
+    },
+    "expected_kernel": "vladkochetov07/h232-gru384-b8-amp4096-v7b-proactive-cache-recovery"
+  },
+  "read_only_observations": {
+    "exact_owned_kernel_search": {
+      "command": "kaggle kernels list --mine --page-size 200 --format json --search h232-gru384-b8-amp4096-v7b-proactive-cache-recovery",
+      "result": "Not found",
+      "exit_code": 0
+    },
+    "owned_kernel_family_search": {
+      "command": "kaggle kernels list --mine --page-size 200 --format json --search h232-gru384-b8-amp4096",
+      "result_refs": [
+        "vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v6",
+        "vladkochetov07/h232-gru384-b8-amp4096-v7-proactive-cache-recovery",
+        "vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v5",
+        "vladkochetov07/h232-gru384-b8-amp4096-conditional-profile-fit-v4"
+      ],
+      "expected_v7b_present": false,
+      "exit_code": 0
+    },
+    "canonical_status": {
+      "command": "kaggle kernels status vladkochetov07/h232-gru384-b8-amp4096-v7b-proactive-cache-recovery",
+      "result": "Permission 'kernels.get' was denied",
+      "exit_code": 1,
+      "interpretation": "Inconclusive alone; consistent with an absent or inaccessible slug."
+    }
+  },
+  "sdk_error_body": {
+    "status": "not_available_to_diagnosing_agent",
+    "note": "The single push response body was not present in the shared packet/receipt files. The Kaggle SDK kernels_push implementation forwards ApiSaveKernelRequest to save_kernel and may expose a response error or an HTTP exception body; neither can be reconstructed from subsequent read-only calls.",
+    "headers_or_credentials_recorded": false
+  },
+  "candidate_metadata_issue": {
+    "status": "unconfirmed_hypothesis",
+    "v7b_slug_characters": 51,
+    "accepted_v7a_slug_characters": 50,
+    "difference": "V7B inserts 'b' after the version digit.",
+    "interpretation": "A provider slug-length constraint could explain SaveKernel HTTP 400, but the original public response body is required to confirm this diagnosis."
+  },
+  "decision": {
+    "accepted_job_claimed": false,
+    "retry_attempted": false,
+    "new_provider_action": "none",
+    "next_required_evidence": "Root-provided public SaveKernel HTTP 400 response body, with authorization headers and credentials omitted.",
+    "scientific_packet_changed": false
+  }
+}
