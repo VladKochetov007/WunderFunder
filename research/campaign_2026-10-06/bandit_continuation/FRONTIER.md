@@ -1,3 +1,15 @@
+## Live delivery frontier — 2026-10-08 05:47 UTC
+
+Research continues past10:00Kyiv with five local CPUs after that boundary; no time stop. Public best0.6660 and teammate0.6674 unreplicated. Latest details and original receipts: [current state](../../../specs/current-state.md).
+
+- H218 block-memory scratch fit completed119400attempts/119352updates/48AMPskips, zero current OOM/kill; fixedep3 checkpoint preserved. Excluded468 export and preregistered standalone/five-blend grade are next.
+- E540 V9 accepted once on Kaggle T4; input validation observed. Reuses completed own linear control, fits only PLE. No embedding comparison score yet.
+- H232 GRU384 completed clean fixedep3; R5 export aborts on parent-packet metadata hash mismatch. Operator collects/diagnoses export-only successor; no refit.
+- H230 history swap source/profile-V3 reviewed; raw112/model211 distinguished. Profile/cache/student fit await H218 handoff and fresh admissions. All-data normalized seed3 and source/pair ZIPs delivered, unscored publicly.
+- Vast V5R2 create unresolved/no proven instance; no blind retry/adoption. Initial runtype diagnosis retracted against current official CLI. TPU actual-device gate remains queued.
+
+The following snapshots are historical and preserved; use original terminal receipts for claims.
+
 # Live frontier — resumed independent training
 
 ## Delivery corrections — 2026-10-08 08:15 Kyiv
