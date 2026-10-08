@@ -39,7 +39,7 @@ python scripts/build_e540_packet.py \
 
 The builder validates the source split, writes the exact component-complete 10% fit membership, binds the code and data identity metadata, and serializes profile, fit, prediction export and causal ONNX export commands. It launches none of them. The `grade_command` remains unset by design: root supplies the independent grader over the exact evaluation components and owns the result handoff.
 
-The active branch is `research/e540-feature-wise-ple-20261008`. Root should integrate the commit into the main project checkout before running the builder because the trainer resolves datasets and artifacts relative to its own checkout root. The isolated worktree intentionally has no dataset copy or symlink.
+The implementation and recipe are in commit `976a4d07b677544c0a4a289d29b4b1176141870b` on branch `research/e540-feature-wise-ple-20261008`. Root should integrate the commit into the main project checkout before running the builder because the trainer resolves datasets and artifacts relative to its own checkout root. The isolated worktree intentionally has no dataset copy or symlink.
 
 ## Current status
 
