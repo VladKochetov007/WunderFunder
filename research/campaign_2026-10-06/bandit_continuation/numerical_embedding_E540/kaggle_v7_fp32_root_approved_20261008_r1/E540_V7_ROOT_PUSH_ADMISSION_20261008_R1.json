@@ -1,0 +1,86 @@
+{
+  "authorized": true,
+  "execution": {
+    "actual_fit_started": false,
+    "private_dataset_upload_status": "not_started",
+    "provider_cli_exit_code": null,
+    "provider_push_status": "not_started",
+    "provider_version": null,
+    "terminal_outputs_collected": false
+  },
+  "independent_review": {
+    "acknowledged_limits": {
+      "dropped_sequence_identity": "1,849 selected groups and 1,848 consumed with batch-2 drop_last; the actual omitted group is not captured and is not inferred",
+      "full_fit_per_update_loss_finiteness": "not recorded for all 72,996 fit updates; all 316 profile losses are checked, and final checkpoint/prediction tensors are checked separately",
+      "paired_sampler_order": "same source-level seed/order contract; realized batch order not independently persisted"
+    },
+    "blocking_source_findings": 0,
+    "decision": "source_recipe_cli_fidelity_pass",
+    "id": "E540_V7_FP32_INDEPENDENT_SOURCE_RECIPE_REVIEW_20261008_V1",
+    "json_sha256": "e67d66dc617f7bcf93f265e6ea2cfcbfc2ea857f4a2124ab90a53345461c33e2",
+    "markdown_sha256": "5f14b76d29aca9b21df78e3ed59351c296fb83f437316792d7b30ca460d12796"
+  },
+  "limits": {
+    "accelerator": "NvidiaTeslaT4",
+    "dataset_create_attempts_authorized": 1,
+    "kernel_push_attempts_authorized": 1,
+    "local_fit_authorized": false,
+    "private_dataset": true,
+    "provider_timeout_seconds": 6000,
+    "vast_authorized": false,
+    "worker_timeout_seconds": 5200
+  },
+  "owner": "root",
+  "packet": {
+    "archive_bytes": 530936,
+    "archive_sha256": "131d5599226195b1a573a9faa2d5766b28a417d79d35e1967323a5dc978184c5",
+    "bundle_manifest_sha256": "af5f3e2f995079a43df6fa2bf5bd5b580d98d109428d1798ffbb7923b8654395",
+    "dataset": "vladkochetov07/e540-v7-fp32-20261008-r1",
+    "embedded_conditional_authorization_sha256": "c5575889d773d596bef97ef20c35ea723680174be8dd1758d16c8b901aabd461",
+    "fit_admitted_by_prelaunch_packet": false,
+    "fit_condition": "only after both actual FP32 profiles pass the exact gates embedded in the approved receipt",
+    "kernel": "vladkochetov07/e540-v7-fp32-20261008-r1-runner",
+    "kernel_sha256": "6d2fdbcb101158eabf8484f6f489b21300a26b70052eb88ff2096dd7444999a7",
+    "packet_json_sha256": "2152e3c5038dc472e71d7aa3c89de16c56f2edf7eb00562f5fb30a34ee4414f5",
+    "path": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/kaggle_v7_fp32_root_approved_20261008_r1/E540_KAGGLE_PACKET_V7.json"
+  },
+  "provider_identity_preflight": {
+    "cli_package_version": "2.2.4",
+    "dataset": "vladkochetov07/e540-v7-fp32-20261008-r1",
+    "dataset_list_result": "No datasets found",
+    "kernel": "vladkochetov07/e540-v7-fp32-20261008-r1-runner",
+    "kernel_list_result": "Not found",
+    "observed_at_utc": "2026-10-08T03:57:08+00:00",
+    "provider_mutations": 0
+  },
+  "provider_launch_authorized": true,
+  "push_count_authorized": 1,
+  "quota_admission": {
+    "additional_headroom_seconds": 5000,
+    "gpu_campaign_headroom_seconds": 33448.191637,
+    "gpu_reserved_seconds": 0.0,
+    "gpu_used_seconds": 60379.645363,
+    "observed_at_utc": "2026-10-08T03:57:08+00:00",
+    "other_gpu_reservation_seconds": 17000,
+    "other_running_gpu_kernel": "vladkochetov07/h232-gru384-b8-amp4096-v7b-shortslug",
+    "other_running_gpu_status": "KernelWorkerStatus.RUNNING",
+    "provider_reported_reservation_is_zero_but_campaign_reserve_is_retained": true,
+    "provider_targets_snapshot_sha256": "3b19bbbafcd9d8efce87ed0057e3c88030d48df8cf7e2110cb5a095f01ceb5bb",
+    "quota_poll_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/E540_V7_PRELAUNCH_QUOTA_POLL_20261008_R2.jsonl",
+    "quota_poll_sha256": "64d1318703f787064d2ce5bcaa2075e40d9266710957b810c699a82ed51a1b64",
+    "remaining_campaign_seconds_after_reserves": 5448.1916370000035,
+    "this_kernel_provider_cap_seconds": 6000
+  },
+  "receipt_id": "E540_V7_ROOT_PUSH_ADMISSION_20261008_R1",
+  "recorded_at_utc": "2026-10-08T03:54:08+00:00",
+  "recorded_by": "E540 V7 cloud-delivery actor",
+  "root_instruction_summary": "Root authorizes a new hash-bound approved E540 V7 packet from source commit 1b327b4175199b36f09f852e6d11a143f8a62d95 and recipe SHA-256 624cf7a8cc39319029bc23030534c801a466398f0e43c053c052fb26ba1e6f09; bind the independent Luna source/recipe review; refresh quota/admission; upload one private packet dataset; push one canonical V7 T4 kernel with a 6000-second provider timeout; own monitoring and complete collection; do not run a local fit or Vast job.",
+  "root_instruction_summary_sha256": "6a128ad0fd9295db913ad914bfbf61d967af67e966064c145af3c22798eba423",
+  "schema": "wnn.e540-root-provider-push-admission.v1",
+  "source": {
+    "code_manifest_sha256": "28b6edd0a405605b91a74e6275f68a7687082b9de4cf90733a0ec777aa60fee9",
+    "commit": "1b327b4175199b36f09f852e6d11a143f8a62d95",
+    "recipe_sha256": "624cf7a8cc39319029bc23030534c801a466398f0e43c053c052fb26ba1e6f09",
+    "subset_manifest_sha256": "ce84816336bc457d487cbddf2f7214ef4d8b0b02e83f9c8e60921b9ce2374d4d"
+  }
+}
