@@ -75,3 +75,27 @@ def test_missing_staged_cache_fails_before_child_launch(
         packet.prepare_project(
             output, {"inputs": {"cache/train_targets.npz": {"bytes": 1, "sha256": "0" * 64}}}
         )
+
+
+def test_terminal_failure_still_produces_exact_collection_manifest(
+    packet, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    terminal = importlib.import_module("terminal")
+    output = tmp_path / "outputs"
+    output.mkdir()
+    (output / "worker.log").write_text("preserved failure log\n")
+    expected = ["artifact_bundle.tar", "result.json", "worker.log", "image_preflight.json"]
+    monkeypatch.setenv("WNN_OUTPUT_DIR", str(output))
+    monkeypatch.setenv("WNN_ATTEMPT_ID", "r5-fixture")
+    monkeypatch.setenv("WNN_PACKET_SHA256", "a" * 64)
+    monkeypatch.setenv("WNN_EXPECTED_ARTIFACTS", json.dumps(expected))
+    monkeypatch.setenv("WNN_WORKER_EXIT", "1")
+    terminal.main()
+    manifest = json.loads((output / "artifact_manifest.json").read_text())
+    assert manifest["worker_terminal"] is True
+    assert manifest["attempt_id"] == "r5-fixture"
+    assert {row["path"] for row in manifest["files"]} == set(expected)
+    for row in manifest["files"]:
+        path = output / row["path"]
+        assert row["size_bytes"] == path.stat().st_size
+        assert row["sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
