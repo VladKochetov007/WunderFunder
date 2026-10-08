@@ -1,0 +1,205 @@
+{
+  "schema": "h272-parent-readout-recipe-v2",
+  "recipe_id": "E529-H272-PARENT-READOUT-V2-CLEANFOLD-20261008",
+  "mode": "cleanfold",
+  "status": "source_only_pending_root_review_and_gpu_admission",
+  "parent": {
+    "run": "c20261003_combo_s4_f0",
+    "epoch": 3,
+    "checkpoint": "artifacts/runs/c20261003_combo_s4_f0/model_ep3.pt",
+    "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+    "provenance": "artifacts/runs/c20261003_combo_s4_f0/provenance.json",
+    "provenance_sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332",
+    "alias_checkpoint": "artifacts/runs/c20261003_combo_s4_f0/model.pt",
+    "alias_checkpoint_sha256": "adc1cc425c1f762ab34cc50c0e027786eb087f1955227bf4bc3d93bc334e94de",
+    "source_identity_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+    "seed": 4,
+    "expected_n_out": 23,
+    "args_fields": {
+      "arch": "gru",
+      "cell": "gru",
+      "enc": "linear",
+      "hidden": 256,
+      "layers": 2,
+      "raw_only": false,
+      "heuristics": false,
+      "online_norm": false,
+      "research_features": null,
+      "seed": 4,
+      "train_source": "train+valid",
+      "checkpoint_policy": "fixed",
+      "checkpoint_epoch": 3,
+      "propensity": "c20260929_prop_f0",
+      "prop_power": 2.0,
+      "prop_eps": 0.03,
+      "valid_true_mask": 0.03,
+      "distill": "c20260929_since_s3_f0,c20260929_since_s4_f0",
+      "distill_alpha": 0.5
+    },
+    "membership": {
+      "train": {
+        "count": 10535,
+        "ordered_int64_le_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49"
+      },
+      "valid": {
+        "count": 1405,
+        "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      }
+    },
+    "teacher_ancestry": [
+      {
+        "run": "c20260929_since_s3_f0",
+        "epoch": 3,
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "fold0_valid_overlap_groups": 0,
+        "fold0_component_overlap": 0
+      },
+      {
+        "run": "c20260929_since_s4_f0",
+        "epoch": 3,
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "fold0_valid_overlap_groups": 0,
+        "fold0_component_overlap": 0
+      }
+    ],
+    "teacher_prediction_ancestry": [
+      {
+        "run": "c20260929_since_s3_f0",
+        "epoch": 3,
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "prediction_sha256": "2e74e44773d3d6d3e7c48c245a71f281b1659e6f6592ea2a9a2e4f96d37d19dc",
+        "split": "train",
+        "scale": 1.0
+      },
+      {
+        "run": "c20260929_since_s3_f0",
+        "epoch": 3,
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "prediction_sha256": "7a01c040849d9455016dee51a1f9c82c1079be085a0e6be23c99c23bddb3fba9",
+        "split": "valid",
+        "scale": 1.0
+      },
+      {
+        "run": "c20260929_since_s4_f0",
+        "epoch": 3,
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "prediction_sha256": "819ab8ef0b1303b289af3475e173da8e9e7ff404ca7a8d8e7e10a3d443648241",
+        "split": "train",
+        "scale": 1.0
+      },
+      {
+        "run": "c20260929_since_s4_f0",
+        "epoch": 3,
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "prediction_sha256": "6aa7b150097ebdf43ddbea8c3a52f8d705ebd2dbd01470e3c45b7eb2dbcfc430",
+        "split": "valid",
+        "scale": 1.0
+      }
+    ],
+    "output_shape_contract": {
+      "allowed_parent_outputs": [23, 31],
+      "actual_parent_outputs": 23,
+      "parent_hidden": 256,
+      "parent_layers": 2,
+      "parent_projection": 256,
+      "concatenated_readout_width": 512,
+      "raw_input_width": 112,
+      "causal_event_context_width": 99
+    }
+  },
+  "split_manifest": {
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "fold": 0,
+    "fit_train_groups": 10535,
+    "fit_valid_groups": 1405,
+    "evaluation_groups": 468,
+    "evaluation_components": 141,
+    "fit_evaluation_component_overlap": 0,
+    "train_source_integer_aliases_with_evaluation": 463,
+    "identity_rule": "Always compare (source,row_group). The 463 train-source integer aliases are not leakage."
+  },
+  "propensity": {
+    "run": "c20260929_prop_f0",
+    "checkpoint": "artifacts/runs/c20260929_prop_f0/model.pt",
+    "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "provenance": "artifacts/runs/c20260929_prop_f0/provenance.json",
+    "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+    "caches": {
+      "train": {
+        "path": "cache/propcache_c20260929_prop_f0_train.npy",
+        "sha256": "811ce4328be739b039bc62ba1f696386e59b168fbe3733be81783a41417da174",
+        "sidecar_sha256": "b90e502506c4c93903057f5e8f15485f8e3af9148024055ecf77110f1f0155f9",
+        "shape": [10607, 20000],
+        "n_filled": 10606
+      },
+      "valid": {
+        "path": "cache/propcache_c20260929_prop_f0_valid.npy",
+        "sha256": "9f3e09f04b9fadfd142d4ecbaba8b4d17d6d1ae04ea40e2cb8d4b64ecd0a718c",
+        "sidecar_sha256": "775ee227b15d0b5510c9eeee5012b23d674fed227a343e4581344568eacfb82a",
+        "shape": [1873, 20000],
+        "n_filled": 1873
+      }
+    },
+    "row_weight_formula": "p^2 + 0.03, with valid_true_mask=0.03; cache is model-bound"
+  },
+  "training": {
+    "seed": 3,
+    "batch_size": 8,
+    "chunk_rows": 2000,
+    "epochs": 2,
+    "selected_checkpoint_epoch": 1,
+    "rank": 32,
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "modes": ["hidden_only", "multiplicative"],
+    "readout_teacher_coefficient": 0.0,
+    "expected_batches_per_epoch": 1492,
+    "expected_updates_per_epoch_per_head": 14920,
+    "expected_total_updates_per_head": 29840,
+    "optimizer": "AdamW",
+    "schedule": "constant",
+    "gradient_clip_norm": 1.0,
+    "workers": 0,
+    "drop_last": true,
+    "head_initialization": "Seed 3; instantiate the copied H272 four-control module in its original order; train only hidden_only and multiplicative parameters."
+  },
+  "objective": {
+    "target": "clip(original primary pair, -2, 2)",
+    "loss": "H272 primary_pair_wmse, denominator per 2000-row chunk",
+    "weight": "abs(clipped original label) * train_rnn.main_row_weights",
+    "teacher_inputs": "none",
+    "parent": "full parent frozen in eval mode; no parent tensors update",
+    "readout_equation": "multiplicative: parent_pair * (1 + tanh(output(GELU(fusion(hidden_rank * context_rank)))))"
+  },
+  "paths": {
+    "fit_output": "artifacts/runs/h272s4_parent_readout_v2_cleanscreen",
+    "profile_output": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/profiles/H272_PARENT_V2_CLEANFOLD_PROFILE.json",
+    "prediction_export": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/exports/H272_PARENT_V2_CLEANFOLD_VALID",
+    "serving_head_export": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/exports/H272_PARENT_V2_CLEANFOLD_HEAD"
+  },
+  "screen_and_grader": {
+    "prediction_order": "valid row groups 0..1872, frozen source order",
+    "prediction_shape": [1873, 20000, 2],
+    "prediction_dtype": "float32",
+    "grader_mask": "only the frozen 468 evaluation groups AND official selected rows",
+    "metric": "global_wp_clip2_v1",
+    "fixed_readout_alphas": [0.0, 0.1, 0.25, 0.5, 1.0],
+    "alpha_semantics": "raw preclip blend (1-alpha)*parent + alpha*readout; no selection",
+    "bootstrap": {"unit": "141 frozen connected components", "replicates": 2000, "seed": 271828},
+    "exposure": "Previously exposed fold 0; development evidence only."
+  },
+  "execution_gate": {
+    "profile_cap_seconds": 900,
+    "fit_authorization": "closed until root review, actual-device profile, source/data identity, memory, quota, and whole-worker admission",
+    "no_profile_or_fit_authorized_by_this_recipe": true
+  },
+  "copied_h272_runtime": {
+    "trainer_sha256": "a98d551ea824569ed4fd4614cea537c382cefc5303d89b9cb76a43a10e283897",
+    "conditional_readout_sha256": "6935636ebe90ef1bac8b74756a99aba22bc82f9454bd9d8b8b40b9bb0112cd64",
+    "recipe_sha256": "a5dd858598b6bf926410c80337aa8e725a809cbfee36af906d18c34d0859716f",
+    "runtime_source_lock_sha256": "a8d56811e97783bcaa354a28beb992f8ce8acebc1b62f70f945c6697426aaa76"
+  }
+}

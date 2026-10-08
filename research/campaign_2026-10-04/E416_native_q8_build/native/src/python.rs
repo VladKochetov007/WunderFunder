@@ -9,6 +9,7 @@ use pyo3::prelude::*;
 
 use crate::rnn::{GruLayer, RnnModel, RnnWeights};
 use crate::rnn_fast::{Activations, FastRnn, Precision};
+use crate::readout::MultiplicativeReadout;
 
 type Q8Codes = HashMap<String, Py<PyAny>>;
 
@@ -158,6 +159,57 @@ fn weights_from_dict(
     })
 }
 
+fn readout_from_dict(
+    weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+) -> PyResult<MultiplicativeReadout> {
+    let take = |values: &HashMap<String, PyReadonlyArrayDyn<'_, f32>>, name: &str| {
+        values
+            .get(name)
+            .map(|value| value.as_array().iter().copied().collect::<Vec<f32>>())
+            .ok_or_else(|| PyValueError::new_err(format!("missing readout weight {name}")))
+    };
+    let matrix = |values: &HashMap<String, PyReadonlyArrayDyn<'_, f32>>, name: &str, rows: usize, cols: usize| {
+        let value = values
+            .get(name)
+            .ok_or_else(|| PyValueError::new_err(format!("missing readout weight {name}")))?;
+        if value.shape() != [rows, cols] {
+            return Err(PyValueError::new_err(format!(
+                "{name}: expected shape ({rows}, {cols}), got {:?}",
+                value.shape()
+            )));
+        }
+        Ok(value.as_array().iter().copied().collect::<Vec<f32>>())
+    };
+    let vector = |values: &HashMap<String, PyReadonlyArrayDyn<'_, f32>>, name: &str, width: usize| {
+        let value = values
+            .get(name)
+            .ok_or_else(|| PyValueError::new_err(format!("missing readout weight {name}")))?;
+        if value.shape() != [width] {
+            return Err(PyValueError::new_err(format!(
+                "{name}: expected shape ({width},), got {:?}",
+                value.shape()
+            )));
+        }
+        take(values, name)
+    };
+    let _ = take; // Keep all tensor extraction centralized in the shape-checked helpers below.
+    let hidden_projection = matrix(&weights, "hidden_projection.weight", 32, 512)?;
+    let context_projection = matrix(&weights, "context_projection.weight", 32, 99)?;
+    let fusion = matrix(&weights, "fusion.weight", 32, 96)?;
+    let fusion_bias = vector(&weights, "fusion.bias", 32)?;
+    let output = matrix(&weights, "output.weight", 2, 32)?;
+    let output_bias = vector(&weights, "output.bias", 2)?;
+    MultiplicativeReadout::new(
+        hidden_projection,
+        context_projection,
+        fusion,
+        fusion_bias,
+        output,
+        output_bias,
+    )
+    .map_err(PyValueError::new_err)
+}
+
 /// Stateful twin of wnn.nn.RNNModel. Construct from `model.state_dict()` arrays.
 #[pyclass(name = "GruStepper")]
 struct PyGruStepper {
@@ -201,8 +253,143 @@ fn wnn_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyGruStepper>()?;
     m.add_class::<PyPredictor>()?;
     m.add_class::<PyEnsemblePredictor>()?;
+    m.add_class::<PyConditionalPredictor>()?;
     m.add_class::<PyModelStepper>()?;
     Ok(())
+}
+
+/// Frozen GRU predictor with the H272 rank-32 multiplicative contextual head.
+/// The input stream and reset behavior match Predictor; the event context is
+/// reused and the 512-wide representation comes from the same FastRnn step.
+#[pyclass(name = "ConditionalPredictor")]
+struct PyConditionalPredictor {
+    features: crate::stream::StreamFeatures,
+    model: FastRnn,
+    readout: MultiplicativeReadout,
+    input: Vec<f32>,
+    parent_out: Vec<f32>,
+    out: [f32; 2],
+    seq: Option<i64>,
+}
+
+#[pymethods]
+impl PyConditionalPredictor {
+    #[new]
+    #[pyo3(signature = (weights, readout, fast_activations=false, precision="f32", q8_codes=None))]
+    fn new(
+        py: Python<'_>,
+        weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+        readout: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+        fast_activations: bool,
+        precision: &str,
+        q8_codes: Option<Q8Codes>,
+    ) -> PyResult<Self> {
+        let rnn_weights = weights_from_dict(weights)?;
+        if rnn_weights.mean.len() != crate::stream::N_RAW + crate::stream::N_EVENT {
+            return Err(PyValueError::new_err(format!(
+                "H272 parent must have 211 inputs, got {}",
+                rnn_weights.mean.len()
+            )));
+        }
+        if !matches!(rnn_weights.b2.len(), 23 | 31) {
+            return Err(PyValueError::new_err(format!(
+                "H272 parent output count must be 23 or 31, got {}",
+                rnn_weights.b2.len()
+            )));
+        }
+        let activation = if fast_activations {
+            Activations::Fast
+        } else {
+            Activations::Exact
+        };
+        let mut model = FastRnn::with_precision(rnn_weights, activation, parse_precision(precision)?)
+            .map_err(|e| PyValueError::new_err(e.0))?;
+        if let Some(codes) = q8_codes {
+            import_q8(py, &mut model, codes)?;
+        }
+        if model.representation().len() != 512 {
+            return Err(PyValueError::new_err(format!(
+                "H272 parent representation must be 512 wide, got {}",
+                model.representation().len()
+            )));
+        }
+        let readout = readout_from_dict(readout)?;
+        let parent_out = vec![0.0f32; model.n_out()];
+        Ok(Self {
+            features: Default::default(),
+            input: vec![0.0; model.n_in()],
+            parent_out,
+            out: [0.0; 2],
+            model,
+            readout,
+            seq: None,
+        })
+    }
+
+    fn reset(&mut self) {
+        self.features.reset();
+        self.model.reset();
+        self.seq = None;
+    }
+
+    fn advance(&mut self) -> PyResult<()> {
+        let (raw, _) = self.input.split_at_mut(crate::stream::N_RAW);
+        self.features.sanitize(raw);
+        let (raw, event) = self.input.split_at_mut(crate::stream::N_RAW);
+        self.features.update(raw, event);
+        self.model.step(&self.input, &mut self.parent_out);
+        self.out = self
+            .readout
+            .apply(&self.parent_out[..2], self.model.representation(), &self.input[crate::stream::N_RAW..])
+            .map_err(PyValueError::new_err)?;
+        Ok(())
+    }
+
+    fn step<'py>(
+        &mut self,
+        py: Python<'py>,
+        row: &Bound<'py, PyAny>,
+    ) -> PyResult<Bound<'py, PyArray1<f32>>> {
+        read_row(py, row, &mut self.input[..crate::stream::N_RAW])?;
+        self.advance()?;
+        Ok(PyArray1::from_slice(py, &self.out))
+    }
+
+    /// Callback-compatible path: reset recurrent and event state when seq_ix changes.
+    fn predict<'py>(
+        &mut self,
+        py: Python<'py>,
+        data_point: &Bound<'py, PyAny>,
+    ) -> PyResult<Option<Bound<'py, PyArray1<f32>>>> {
+        let seq: i64 = data_point.getattr(intern!(py, "seq_ix"))?.extract()?;
+        if self.seq != Some(seq) {
+            self.seq = Some(seq);
+            self.features.reset();
+            self.model.reset();
+        }
+        let state = data_point.getattr(intern!(py, "state"))?;
+        read_row(py, &state, &mut self.input[..crate::stream::N_RAW])?;
+        self.advance()?;
+        if data_point
+            .getattr(intern!(py, "need_prediction"))?
+            .is_truthy()?
+        {
+            Ok(Some(PyArray1::from_slice(py, &self.out)))
+        } else {
+            Ok(None)
+        }
+    }
+
+    #[getter]
+    fn precision(&self) -> &'static str {
+        precision_name(self.model.precision())
+    }
+
+    #[getter]
+    fn weight_bytes(&self) -> usize {
+        self.model.weight_bytes()
+            + 4 * (32 * 512 + 32 * 99 + 32 * 96 + 32 + 2 * 32 + 2)
+    }
 }
 
 /// One `FastRnn` on precomputed model inputs (no stream features), for parity checks against

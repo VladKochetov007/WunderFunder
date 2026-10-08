@@ -1,0 +1,176 @@
+{
+  "schema": "h272-parent-readout-recipe-v2",
+  "recipe_id": "E529-H272-PARENT-READOUT-V2-FULL_DATA-20261008",
+  "mode": "full_data",
+  "status": "source_only_pending_root_review_and_gpu_admission",
+  "parent": {
+    "run": "c20261004_combo_s4_final",
+    "epoch": 3,
+    "checkpoint": "artifacts/runs/c20261004_combo_s4_final/model_ep3.pt",
+    "checkpoint_sha256": "87bafd489d7d6e5212589154f07fef96c447777f75f949ab4dadc1a6efe4caaf",
+    "provenance": "artifacts/runs/c20261004_combo_s4_final/provenance.json",
+    "provenance_sha256": "e7c43468e4da2a423b3fe880fbe2e1f0ae79a4dda134aceef5dd28717f873460",
+    "alias_checkpoint": "artifacts/runs/c20261004_combo_s4_final/model.pt",
+    "alias_checkpoint_sha256": "20997b0817875f8d6ddaabbd0ae0fd2c7c6d3e062c89f4b49b1dd0114dd36dd1",
+    "source_identity_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+    "seed": 4,
+    "expected_n_out": 23,
+    "args_fields": {
+      "arch": "gru",
+      "cell": "gru",
+      "enc": "linear",
+      "hidden": 256,
+      "layers": 2,
+      "raw_only": false,
+      "heuristics": false,
+      "online_norm": false,
+      "research_features": "none",
+      "seed": 4,
+      "train_source": "train+valid",
+      "checkpoint_policy": "fixed",
+      "checkpoint_epoch": 3,
+      "propensity": "prop_v1",
+      "prop_power": 2.0,
+      "prop_eps": 0.03,
+      "valid_true_mask": 0.03,
+      "distill": "ab67_final_since_s3,ab67_final_since_s4",
+      "distill_alpha": 0.5,
+      "split_manifest": null,
+      "fit_groups_manifest": null
+    },
+    "membership": {
+      "train": {
+        "count": 10606,
+        "ordered_int64_le_sha256": "a7e2f3210c69cd8e01c811fb66cf1f81816141ad21c4262e9892ff69c355ad56"
+      },
+      "valid": {
+        "count": 1505,
+        "ordered_int64_le_sha256": "dfc372608d23c8ac46c4b6c37c276182e0352e7ac06ba20f6b5dd8d8063a1253"
+      },
+      "train_group_count": 10606,
+      "valid_group_count": 1505
+    },
+    "fold0_exposed_valid_overlap_groups": 374,
+    "upstream_ancestry_note": "The parent checkpoint and provenance hashes bind the recorded training output. Its args name ab67_final_since_s3/ab67_final_since_s4, while distill_provenance is null; do not infer unrecorded teacher artifact hashes.",
+    "output_shape_contract": {
+      "allowed_parent_outputs": [
+        23,
+        31
+      ],
+      "actual_parent_outputs": 23,
+      "parent_hidden": 256,
+      "parent_layers": 2,
+      "parent_projection": 256,
+      "concatenated_readout_width": 512,
+      "raw_input_width": 112,
+      "causal_event_context_width": 99
+    }
+  },
+  "split_manifest": {
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "role": "source identity and exposure audit only; not a clean grading split for this parent",
+    "fold0_evaluation_overlap_groups": 374,
+    "fit_valid_source_groups": 1505,
+    "no_local_score": true
+  },
+  "propensity": {
+    "run": "prop_v1",
+    "checkpoint": "artifacts/runs/prop_v1/model.pt",
+    "checkpoint_sha256": "71889202ec172f4118bd26813a10a26f4358ecd1a256c7f884c38ff5c840617f",
+    "run_record": {
+      "experiment": "E-031",
+      "path": "research/experiments.jsonl",
+      "line": 31,
+      "reported_commit": "44f7eff5f999581f6043f30909e84de23f85fc09",
+      "reported_data": "fit on valid devA (741 sequence groups) and monitored devB (764)",
+      "reported_history": "four epochs; final checkpoint saved after epoch 3 history entry",
+      "best_available_saved_source": "scripts/train_propensity.py first tracked in child commit 9833919b3611f4d62b00c358d6991e4018c790a6",
+      "saved_source_sha256": "5fcbff9151d42b46b4adc604ac55100b9c3751518701f54335f6614a40ecc48f",
+      "runtime_source_bytes_attested": false,
+      "uncertainty": "E031 predates the first tracked copy of the matching save-schema script; exact runtime source bytes cannot be proven. The independently trained checkpoint and model-bound cache identities are exact."
+    },
+    "provenance": null,
+    "provenance_gap": "No artifacts/runs/prop_v1/provenance.json exists. Preserve this as a known gap; do not claim an exact source reproduction or held-out propensity claim.",
+    "caches": {
+      "train": {
+        "path": "cache/propcache_prop_v1_train.npy",
+        "sha256": "726ac00cad9cf74a18616aecb07fa9515636caee7513a0de42497e5df557d2ab",
+        "sidecar_sha256": "c675cf540162ebc211d327bb3ff171da26c5fe40cf2581e3ab415467c8b5acb9",
+        "shape": [
+          10607,
+          20000
+        ],
+        "n_filled": 10606
+      },
+      "valid": {
+        "path": "cache/propcache_prop_v1_valid.npy",
+        "sha256": "31fd04fbacfb58b074e768e6efc85e4713ac7388b4cdd64acc8a97c93e04f3bf",
+        "sidecar_sha256": "b02f4a8330a9690797c3705018dcd1f20d02122408f699eea1e9a84432216dfe",
+        "shape": [
+          1873,
+          20000
+        ],
+        "n_filled": 1873
+      }
+    },
+    "row_weight_formula": "p^2 + 0.03, with valid_true_mask=0.03; these are the existing model-bound prop_v1 arrays",
+    "ancestry_rule": "The head uses this exact propensity model/cache pair. It does not substitute the fold-0 propensity model."
+  },
+  "training": {
+    "seed": 3,
+    "batch_size": 8,
+    "chunk_rows": 2000,
+    "epochs": 2,
+    "selected_checkpoint_epoch": 1,
+    "rank": 32,
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "modes": [
+      "hidden_only",
+      "multiplicative"
+    ],
+    "readout_teacher_coefficient": 0.0,
+    "expected_batches_per_epoch": 1513,
+    "expected_updates_per_epoch_per_head": 15130,
+    "expected_total_updates_per_head": 30260,
+    "optimizer": "AdamW",
+    "schedule": "constant",
+    "gradient_clip_norm": 1.0,
+    "workers": 0,
+    "drop_last": true,
+    "head_initialization": "Seed 3; instantiate the copied H272 four-control module in its original order; train only hidden_only and multiplicative parameters."
+  },
+  "objective": {
+    "target": "clip(original primary pair, -2, 2)",
+    "loss": "H272 primary_pair_wmse, denominator per 2000-row chunk",
+    "weight": "abs(clipped original label) * train_rnn.main_row_weights",
+    "teacher_inputs": "none",
+    "parent": "full parent frozen in eval mode; no parent tensors update",
+    "readout_equation": "multiplicative: parent_pair * (1 + tanh(output(GELU(fusion(hidden_rank * context_rank)))))"
+  },
+  "paths": {
+    "fit_output": "artifacts/runs/h272s4_parent_readout_v2_fulldata",
+    "profile_output": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/profiles/H272_PARENT_V2_FULL_DATA_PROFILE.json",
+    "prediction_export": null,
+    "serving_head_export": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/exports/H272_PARENT_V2_FULL_DATA_HEAD"
+  },
+  "deployment_only": {
+    "score_allowed": false,
+    "fold0_grade_allowed": false,
+    "public_forecast_allowed": false,
+    "fit_membership": "exact parent 10,606 train-source plus 1,505 valid-source groups (12,111 total); 374 overlap the previously exposed fold-0 valid evaluation groups",
+    "artifact_use": "Only a fixed epoch-1 head parameter file may be exported for a future native package review."
+  },
+  "execution_gate": {
+    "profile_cap_seconds": 900,
+    "fit_authorization": "closed until root review, actual-device profile, source/data identity, memory, quota, and whole-worker admission",
+    "no_profile_or_fit_authorized_by_this_recipe": true
+  },
+  "copied_h272_runtime": {
+    "trainer_sha256": "a98d551ea824569ed4fd4614cea537c382cefc5303d89b9cb76a43a10e283897",
+    "conditional_readout_sha256": "6935636ebe90ef1bac8b74756a99aba22bc82f9454bd9d8b8d40b9bb0112cd64",
+    "recipe_sha256": "a5dd858598b6bf926410c80337aa8e725a809cbfee36af906d18c34d0859716f",
+    "runtime_source_lock_sha256": "a8d56811e97783bcaa354a28beb992f8ce8acebc1b62f70f945c6697426aaa76"
+  }
+}
