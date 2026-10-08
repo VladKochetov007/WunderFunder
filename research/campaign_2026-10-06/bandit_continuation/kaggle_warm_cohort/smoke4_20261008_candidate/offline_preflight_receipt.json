@@ -1,0 +1,37 @@
+{
+  "schema": "wnn.kaggle-smoke-candidate-offline-preflight.v1",
+  "observed_utc": "2026-10-08T20:46:42Z",
+  "kernel_id": "vladkochetov07/wnn-warm-cohort-smoke-20261008-v4",
+  "status": "passed",
+  "validation_scope": "offline hash binding and child environment handoff; no full kernel launch, provider operation, parquet read, or GPU use",
+  "checks": {
+    "pytest_passed": 6,
+    "ruff_passed": true,
+    "py_compile_passed": true,
+    "title_slug_matches_metadata_id": true,
+    "asset_manifest_hashes_match_reviewed_inputs": true,
+    "portable_registry_hash_matches_reviewed_input": true,
+    "registry_is_listed_in_fold0_asset_manifest": true,
+    "registry_path_is_injected_into_every_child_step": true,
+    "manifest_or_registry_mismatch_fails_closed": true
+  },
+  "candidate_file_hashes": {
+    "kernel_script_sha256": "5e75bdeade37964848e8e4f1023566e979ce29545edbd75ef64a59bb4204c538",
+    "kernel_metadata_sha256": "246c8415fd195827ef2432fabf6ac664858f27a6e3ee7281596abf42f043fae6",
+    "tests_sha256": "d9ab14717aa9a60c7a0e1c458c449e1b895089aaaa5a9fe5bfad3395780747a1"
+  },
+  "reviewed_input_hashes": {
+    "source_v2_assets_manifest_sha256": "96fa0dcbd2c0a56f8ef9d23620080337799022290ffee87196d52de58aca4f70",
+    "fold0_assets_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+    "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "fold0_split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "source_archive_sha256": "2d64aaf9b3f416db460e41684def3b511462283aec588bc94f536b8db1f66930"
+  },
+  "predecessor": {
+    "kernel_id": "vladkochetov07/wnn-warm-cohort-smoke-20261008-v3",
+    "packet_sha256": "d098464599041526340206b58649c95cc1d3adcacf3cec4b949bd6d7bcaea693",
+    "terminal_receipt_sha256": "f9934d493eebcc7f8e6250425be6cd27bd94769741213c766f5a924eed25780f",
+    "failure": "Both fit children failed before training because WNN_PORTABLE_DATA_MANIFEST was absent; campaign split mtime validation rejected the relocated chain_folds asset."
+  },
+  "provider_push_authorized": false
+}
