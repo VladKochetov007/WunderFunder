@@ -7,7 +7,10 @@ import pytest
 torch = pytest.importorskip("torch")
 
 from wnn.nn import RNNModel  # noqa: E402
-from wnn.optim import GradStats, MuonAdamW, muon_param_groups, orthogonalize, rnn_init_, wsd_lambda  # noqa: E402
+from wnn.optim import (  # noqa: E402
+                       MUON_ORTHO_DTYPE_POLICY, GradStats, MuonAdamW, muon_param_groups,
+                       orthogonalize, resolve_muon_orthogonalization_precision, rnn_init_,
+                       wsd_lambda)
 
 
 def _model(cell="gru", hidden=16, n_in=7, n_out=4, seed=0):
@@ -88,6 +91,35 @@ def test_muon_step_is_scaled_blockwise_polar_factor():
     assert (delta - other_gate_mix).abs().max() > 100 * (delta - expected).abs().max()
     top = torch.linalg.svdvals(delta / (1e-2 * 0.2 * math.sqrt(32)))[:, 0]
     assert ((top > 0.7) & (top < 1.3)).all()
+
+
+def test_muon_orthogonalization_policy_uses_fp32_on_pre_ampere_cuda(monkeypatch):
+    monkeypatch.setattr(torch.cuda, "get_device_capability", lambda device: (7, 5))
+    monkeypatch.setattr(torch.cuda, "is_bf16_supported", lambda: True)
+    metadata = resolve_muon_orthogonalization_precision(torch.device("cuda:0"))
+    assert metadata["policy"] == MUON_ORTHO_DTYPE_POLICY
+    assert metadata["device_capability"] == (7, 5)
+    assert metadata["torch_cuda_bf16_supported"] is True
+    assert metadata["native_bf16_selected"] is False
+    assert metadata["selected_dtype"] == "float32"
+
+
+def test_muon_orthogonalization_policy_selects_native_bf16(monkeypatch):
+    monkeypatch.setattr(torch.cuda, "get_device_capability", lambda device: (8, 0))
+    monkeypatch.setattr(torch.cuda, "is_bf16_supported", lambda: True)
+    metadata = resolve_muon_orthogonalization_precision(torch.device("cuda:0"))
+    assert metadata["policy"] == MUON_ORTHO_DTYPE_POLICY
+    assert metadata["native_bf16_selected"] is True
+    assert metadata["selected_dtype"] == "bfloat16"
+
+
+def test_muon_optimizer_records_fp32_cpu_precision():
+    parameter = torch.nn.Parameter(torch.ones(6, 4))
+    optimizer = MuonAdamW([{"params": [parameter], "muon": True, "blocks": 3}])
+    assert optimizer.orthogonalization_precision["groups"][0]["selected_dtype"] == "float32"
+    parameter.grad = torch.ones_like(parameter)
+    optimizer.step()
+    assert torch.isfinite(parameter).all()
 
 
 def test_muon_trains_a_small_gru_with_scaler_and_onecycle():

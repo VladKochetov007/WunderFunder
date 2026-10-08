@@ -54,7 +54,7 @@ from wnn.nn import (
     weighted_pooled_corr_loss,
 )
 from wnn.numeric_ple import NumericFeatureMap, fit_training_quantile_knots
-from wnn.optim import GradStats, rnn_init_
+from wnn.optim import MUON_ORTHO_DTYPE_POLICY, GradStats, rnn_init_
 from wnn.outcomes import (
     N_CODES,
     N_SP_AUX,
@@ -1412,6 +1412,9 @@ def main():
                           help="muon: orthogonalised per-gate updates on the recurrent matrices, AdamW elsewhere")
     research.add_argument("--muon-scope", choices=["rnn", "hidden"], default="rnn",
                           help="hidden: Muon also on head.0.weight")
+    research.add_argument("--muon-ortho-dtype-policy", choices=[MUON_ORTHO_DTYPE_POLICY],
+                          default=MUON_ORTHO_DTYPE_POLICY,
+                          help="use native CUDA BF16 for Muon only when supported, else FP32")
     research.add_argument("--beta2", type=float, default=0.999, help="Adam second-moment decay")
     research.add_argument("--sched", choices=["onecycle", "wsd", "sgdr"], default="onecycle",
                           help="wsd: 5%% linear warmup, constant lr, (1 - sqrt) cooldown over the last --wsd-decay")
@@ -2284,6 +2287,10 @@ def main():
         calibrate_distill_reference(args, train_loader, prop_model, provenance, device, total)
         return
     opt = build_optimizer(model, args)
+    optimizer_precision = getattr(opt, "orthogonalization_precision", None)
+    if optimizer_precision is not None:
+        provenance["orthogonalization_precision"] = optimizer_precision
+        print("OPTIMIZER_COMPUTE_PRECISION", json.dumps(optimizer_precision), flush=True)
     sched = build_scheduler(opt, args, total)
     dynamics = Dynamics(model, args, total)
     provenance["optimizer_switch_events"] = dynamics.events

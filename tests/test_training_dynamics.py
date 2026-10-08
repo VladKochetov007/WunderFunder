@@ -362,7 +362,22 @@ def test_resume_preserves_switch_and_private_noise(
     resumed = run((model, opt, sched, dynamics, scaler, loader), boundary, 12)
     for first, second in zip(reference[0].parameters(), resumed[0].parameters(), strict=True):
         assert torch.equal(first, second)
-    torch.testing.assert_close(reference[1].state_dict(), resumed[1].state_dict(), rtol=0, atol=0)
+    def assert_nested_exact(first, second):
+        if isinstance(first, torch.Tensor):
+            assert isinstance(second, torch.Tensor)
+            assert torch.equal(first, second)
+        elif isinstance(first, dict):
+            assert isinstance(second, dict) and first.keys() == second.keys()
+            for key in first:
+                assert_nested_exact(first[key], second[key])
+        elif isinstance(first, (list, tuple)):
+            assert isinstance(second, type(first)) and len(first) == len(second)
+            for left, right in zip(first, second, strict=True):
+                assert_nested_exact(left, right)
+        else:
+            assert first == second
+
+    assert_nested_exact(reference[1].state_dict(), resumed[1].state_dict())
     assert reference[2].state_dict() == resumed[2].state_dict()
     assert reference[4].state_dict() == resumed[4].state_dict()
     assert reference[3].events == resumed[3].events

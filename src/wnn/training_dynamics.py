@@ -8,7 +8,7 @@ from collections.abc import Callable
 import torch
 from torch import nn
 
-from wnn.optim import MuonAdamW, muon_param_groups, wsd_lambda
+from wnn.optim import MUON_ORTHO_DTYPE_POLICY, MuonAdamW, muon_param_groups, wsd_lambda
 
 
 def add_arguments(parser: argparse.ArgumentParser) -> None:
@@ -98,7 +98,13 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
     is_grouped = bool(args.optim_switch) or args.head_lr_mult != 1
     if not is_grouped:
         if args.optim == "muon":
-            return MuonAdamW(muon_param_groups(model, args.muon_scope), **common)
+            return MuonAdamW(
+                muon_param_groups(model, args.muon_scope),
+                orthogonalization_dtype_policy=getattr(
+                    args, "muon_ortho_dtype_policy", MUON_ORTHO_DTYPE_POLICY
+                ),
+                **common,
+            )
         return torch.optim.AdamW(
             [p for p in model.parameters() if p.requires_grad],
             fused=bool(args.fused_adam),
@@ -127,7 +133,13 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
                 }
             )
     if args.optim == "muon":
-        return MuonAdamW(split, **common)
+        return MuonAdamW(
+            split,
+            orthogonalization_dtype_policy=getattr(
+                args, "muon_ortho_dtype_policy", MUON_ORTHO_DTYPE_POLICY
+            ),
+            **common,
+        )
     return torch.optim.AdamW(split, fused=bool(args.fused_adam), **common)
 
 

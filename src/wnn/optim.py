@@ -16,15 +16,51 @@ import torch
 from torch import nn
 
 NS_COEFFS = (3.4445, -4.7750, 2.0315)  # quintic Newton-Schulz, K. Jordan's Muon
+MUON_ORTHO_DTYPE_POLICY = "native_bf16_if_supported_else_fp32_v1"
 
 
-def orthogonalize(g: torch.Tensor, steps: int = 5, eps: float = 1e-7) -> torch.Tensor:
+def resolve_muon_orthogonalization_precision(
+    device: torch.device, policy: str = MUON_ORTHO_DTYPE_POLICY
+) -> dict[str, object]:
+    """Resolve Muon's matrix-multiply dtype separately from model autocast."""
+    if policy != MUON_ORTHO_DTYPE_POLICY:
+        raise ValueError(f"unsupported Muon orthogonalization dtype policy: {policy}")
+    capability = None
+    torch_bf16_support = False
+    native_bf16 = False
+    if device.type == "cuda":
+        capability = tuple(int(part) for part in torch.cuda.get_device_capability(device))
+        torch_bf16_support = bool(torch.cuda.is_bf16_supported())
+        native_bf16 = capability[0] >= 8 and torch_bf16_support
+    return {
+        "policy": policy,
+        "device_type": device.type,
+        "device_capability": capability,
+        "torch_cuda_bf16_supported": torch_bf16_support,
+        "native_bf16_selected": native_bf16,
+        "selected_dtype": "bfloat16" if native_bf16 else "float32",
+    }
+
+
+def orthogonalize(
+    g: torch.Tensor, steps: int = 5, eps: float = 1e-7, compute_dtype: str | None = None
+) -> torch.Tensor:
     """Approximate U V^T of every trailing (m, n) matrix of ``g`` (singular values pushed into ~[0.7, 1.2]).
 
     bf16 on CUDA as in Muon; fp32 on CPU (bf16 matmuls there are slow and the tests compare against an SVD).
     """
     a, b, c = NS_COEFFS
-    x = g.to(torch.bfloat16 if g.is_cuda else torch.float32)
+    if compute_dtype is None:
+        resolved_dtype = torch.bfloat16 if g.is_cuda else torch.float32
+    elif compute_dtype == "bfloat16":
+        if not g.is_cuda:
+            raise ValueError("BF16 orthogonalization requires a CUDA tensor")
+        resolved_dtype = torch.bfloat16
+    elif compute_dtype == "float32":
+        resolved_dtype = torch.float32
+    else:
+        raise ValueError(f"unsupported orthogonalization compute dtype: {compute_dtype}")
+    x = g.to(resolved_dtype)
     tall = x.size(-2) > x.size(-1)
     if tall:
         x = x.mT
@@ -45,15 +81,25 @@ class MuonAdamW(torch.optim.Optimizer):
     """
 
     def __init__(self, params, lr: float = 1e-3, betas: tuple[float, float] = (0.9, 0.999), eps: float = 1e-8,
-                 weight_decay: float = 1e-2, ns_steps: int = 5, rms: float = 0.2):
+                 weight_decay: float = 1e-2, ns_steps: int = 5, rms: float = 0.2,
+                 orthogonalization_dtype_policy: str = MUON_ORTHO_DTYPE_POLICY):
         defaults = dict(lr=lr, betas=betas, eps=eps, weight_decay=weight_decay, ns_steps=ns_steps, rms=rms,
-                        muon=False, blocks=1)
+                        muon=False, blocks=1,
+                        orthogonalization_dtype_policy=orthogonalization_dtype_policy)
         super().__init__(params, defaults)
+        precision_by_group = []
         for group in self.param_groups:
             if group["muon"]:
                 for p in group["params"]:
                     if p.ndim != 2 or p.shape[0] % group["blocks"]:
                         raise ValueError(f"Muon needs 2-D weights with rows divisible by {group['blocks']}")
+                precision = resolve_muon_orthogonalization_precision(
+                    group["params"][0].device, group["orthogonalization_dtype_policy"]
+                )
+                group["orthogonalization_compute_dtype"] = precision["selected_dtype"]
+                precision_by_group.append(precision)
+        self.orthogonalization_precision = {"policy": orthogonalization_dtype_policy,
+                                            "groups": precision_by_group}
 
     @torch.no_grad()
     def step(self, closure=None):
@@ -76,7 +122,9 @@ class MuonAdamW(torch.optim.Optimizer):
                     buf.lerp_(g, 1 - beta1)
                     k = group["blocks"]
                     rows, cols = p.shape[0] // k, p.shape[1]
-                    update = orthogonalize(g.lerp(buf, beta1).reshape(k, rows, cols), group["ns_steps"])
+                    update = orthogonalize(
+                        g.lerp(buf, beta1).reshape(k, rows, cols), group["ns_steps"],
+                        compute_dtype=group["orthogonalization_compute_dtype"])
                     p.mul_(1 - lr * wd)
                     p.add_(update.reshape(p.shape), alpha=-lr * group["rms"] * math.sqrt(max(rows, cols)))
                     continue
