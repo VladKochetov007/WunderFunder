@@ -93,6 +93,8 @@ def create_fixture(root: Path, *, contract_authorized: bool = True) -> dict[str,
             shutil.copyfile(spec_path, destination)
     contract["pending_spec_hashes"] = pending_hashes
     write_json(contract_path, contract)
+    allowed_manifest_path = base / "LOCAL_V4_ALLOWED_SPECS.json"
+    write_json(allowed_manifest_path, pending_hashes)
 
     dependency_model = root / "artifacts/runs/seed99/model_ep1.pt"
     dependency_provenance = root / "artifacts/runs/seed99/provenance.json"
@@ -132,6 +134,8 @@ def create_fixture(root: Path, *, contract_authorized: bool = True) -> dict[str,
     write_json(state_path, {"status": "finished"})
 
     source_hashes = {relative: digest(root / relative) for relative in REQUIRED_SOURCES}
+    allowed_manifest_relative = str(allowed_manifest_path.relative_to(root))
+    source_hashes[allowed_manifest_relative] = digest(allowed_manifest_path)
     job = {
         "attempt_id": "warm-queue-local-v4-autopilot-20261008",
         "lane": "local_gpu",
@@ -141,11 +145,16 @@ def create_fixture(root: Path, *, contract_authorized: bool = True) -> dict[str,
         "completion_receipt": "research/campaign/test/autopilot/runtime/completion.json",
         "expected_artifacts": ["local-v4-results.json", "local-v4-cost.json"],
         "cost_artifact_name": "local-v4-cost.json",
-        "launch_command": ["/bin/false"],
+        "launch_command": [
+            "/bin/false",
+            "--allowed-spec-manifest",
+            str(allowed_manifest_path),
+        ],
         "source_hashes": source_hashes,
         "local_queue": {
             "queue_dir": "runtime/warm_queue_local_v1",
             "bandit_state": "runtime/bandit",
+            "allowed_spec_manifest": allowed_manifest_relative,
             "root_contract": str(contract_path.relative_to(root)),
             "prior_attempt_id": "warm-queue-local-v3-20261008",
             "prior_unit": "warm-queue-local-v3.service",
@@ -210,6 +219,51 @@ def create_fixture(root: Path, *, contract_authorized: bool = True) -> dict[str,
         "all_hashes": all_hashes,
         "pending_hashes": pending_hashes,
     }
+
+
+def test_checked_in_local_queue_binds_allowlist_worker_and_closed_drafts() -> None:
+    root = SCRIPTS.parent
+    queue_path = AUTOPILOT_DIR / "LOCAL_V4_FINITE_QUEUE.json"
+    policy_path = AUTOPILOT_DIR / "LOCAL_V4_POLICY_DRAFT.json"
+    review_path = AUTOPILOT_DIR / "LOCAL_V4_ROOT_REVIEW_DRAFT.json"
+    queue = json.loads(queue_path.read_text(encoding="utf-8"))
+    policy = json.loads(policy_path.read_text(encoding="utf-8"))
+    review = json.loads(review_path.read_text(encoding="utf-8"))
+    assert len(queue["jobs"]) == 1
+    job = queue["jobs"][0]
+    local = job["local_queue"]
+    manifest_path = root / local["allowed_spec_manifest"]
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    contract = json.loads((root / local["root_contract"]).read_text(encoding="utf-8"))
+    worker_command = job["launch_command"]
+    manifest_flag_positions = [
+        index for index, part in enumerate(worker_command) if part == "--allowed-spec-manifest"
+    ]
+
+    assert manifest == local["pending_spec_hashes"] == contract["pending_spec_hashes"]
+    assert len(manifest_flag_positions) == 1
+    command_manifest = Path(worker_command[manifest_flag_positions[0] + 1])
+    assert command_manifest.is_absolute()
+    assert command_manifest.as_posix().endswith(local["allowed_spec_manifest"])
+    assert job["source_hashes"][local["allowed_spec_manifest"]] == digest(manifest_path)
+    assert job["source_hashes"]["scripts/warm_queue_worker.py"] == digest(
+        root / "scripts/warm_queue_worker.py"
+    )
+    assert review["source_hashes"]["scripts/research_autopilot.py"] == digest(
+        root / "scripts/research_autopilot.py"
+    )
+    assert review["source_hashes"]["scripts/warm_queue_worker.py"] == digest(
+        root / "scripts/warm_queue_worker.py"
+    )
+    assert review["source_hashes"][local["allowed_spec_manifest"]] == digest(manifest_path)
+    unit_path = AUTOPILOT_DIR / "systemd/wnn-research-autopilot-local-v4.service"
+    assert review["source_hashes"][str(unit_path.relative_to(root))] == digest(unit_path)
+    assert policy["queue_sha256"] == review["queue_sha256"] == digest(queue_path)
+    assert review["policy_sha256"] == digest(policy_path)
+    assert review["local_contract_sha256"] == digest(root / local["root_contract"])
+    assert policy["authorized"] is False
+    assert review["authorized"] is False
+    assert contract["authorized"] is False
 
 
 def test_root_authorization_must_be_enabled_before_config_load(tmp_path: Path) -> None:

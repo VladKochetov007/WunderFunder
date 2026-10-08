@@ -24,6 +24,7 @@ from typing import Any
 LOG = logging.getLogger(__name__)
 HEARTBEAT_INTERVAL_SECONDS = 30
 PROGRESS_SCHEMA_VERSION = 1
+SPEC_SHA256_RE = re.compile(r"[a-f0-9]{64}\Z")
 
 
 def _atomic_json_write(path: Path, obj: Any) -> None:
@@ -63,6 +64,7 @@ class QueueWorker:
         idle_exit_seconds: int | None = None,
         once: bool = False,
         max_runs: int | None = None,
+        allowed_spec_manifest: Path | None = None,
     ) -> None:
         """Initialize worker with queue directory and exit conditions."""
         self.queue_dir = queue_dir.resolve()
@@ -80,6 +82,13 @@ class QueueWorker:
         self.idle_exit_seconds = idle_exit_seconds
         self.once = once
         self.max_runs = max_runs
+        self.allowed_spec_hashes = (
+            None
+            if allowed_spec_manifest is None
+            else self._load_allowed_spec_manifest(allowed_spec_manifest)
+        )
+        self.admission_hold_path = self.queue_dir / "admission_hold.json"
+        self._last_admission_hold: tuple[str, str | None, str | None] | None = None
 
         self.pid = os.getpid()
         self.host = socket.gethostname()
@@ -93,6 +102,85 @@ class QueueWorker:
 
         self._ensure_dirs()
         self._recover_orphans()
+
+    @staticmethod
+    def _load_allowed_spec_manifest(path: Path) -> dict[str, str]:
+        """Load a strict run-id-to-SHA256 admission allowlist."""
+        try:
+            value = json.loads(path.read_bytes())
+        except (OSError, ValueError) as error:
+            raise ValueError(f"cannot load allowed spec manifest: {path}") from error
+        if not isinstance(value, dict) or not value:
+            raise ValueError("allowed spec manifest must be a non-empty run-id-to-SHA256 object")
+        allowed: dict[str, str] = {}
+        for run_id, digest in value.items():
+            if not isinstance(run_id, str) or not _validate_run_id(run_id):
+                raise ValueError("allowed spec manifest contains an invalid run_id")
+            if not isinstance(digest, str) or not SPEC_SHA256_RE.fullmatch(digest):
+                raise ValueError(f"allowed spec manifest has an invalid SHA256 for {run_id}")
+            allowed[run_id] = digest
+        return allowed
+
+    def _hold_unreviewed_spec(
+        self, spec_path: Path, expected_sha256: str | None, observed_sha256: str | None
+    ) -> None:
+        """Leave an unreviewed pending spec untouched and persist its admission block."""
+        signature = (spec_path.name, expected_sha256, observed_sha256)
+        if signature == self._last_admission_hold:
+            return
+        self._last_admission_hold = signature
+        _atomic_json_write(
+            self.admission_hold_path,
+            {
+                "status": "held_unreviewed",
+                "run_id": spec_path.stem,
+                "path": str(spec_path),
+                "expected_sha256": expected_sha256,
+                "observed_sha256": observed_sha256,
+                "observed_utc": datetime.now(UTC).isoformat(),
+            },
+        )
+        LOG.error(
+            "Holding unreviewed queue spec %s (expected=%s observed=%s)",
+            spec_path.name,
+            expected_sha256,
+            observed_sha256,
+        )
+
+    def _read_admitted_spec(self, spec_path: Path) -> bytes | None:
+        """Return only bytes matching this worker's frozen per-run admission hash."""
+        try:
+            spec_bytes = spec_path.read_bytes()
+        except OSError:
+            self._hold_unreviewed_spec(spec_path, None, None)
+            return None
+        if self.allowed_spec_hashes is None:
+            return spec_bytes
+        expected = self.allowed_spec_hashes.get(spec_path.stem)
+        observed = _compute_sha256(spec_bytes)
+        if expected is None or observed != expected:
+            self._hold_unreviewed_spec(spec_path, expected, observed)
+            return None
+        return spec_bytes
+
+    def _clear_admission_hold(self) -> None:
+        """Persist resolution when all current pending specs match the allowlist."""
+        if not self.admission_hold_path.is_file():
+            return
+        prior = json.loads(self.admission_hold_path.read_bytes())
+        if prior.get("status") == "cleared":
+            return
+        _atomic_json_write(
+            self.admission_hold_path,
+            {
+                "status": "cleared",
+                "prior_run_id": prior.get("run_id"),
+                "prior_expected_sha256": prior.get("expected_sha256"),
+                "prior_observed_sha256": prior.get("observed_sha256"),
+                "observed_utc": datetime.now(UTC).isoformat(),
+            },
+        )
+        self._last_admission_hold = None
 
     def _ensure_dirs(self) -> None:
         """Create queue directories if missing."""
@@ -132,13 +220,10 @@ class QueueWorker:
                             and record.get("status") == "succeeded"
                             and isinstance(record.get("name"), str)
                         ]
-                        completed_names = {
-                            name for name in completed_name_list
-                        }
-                        completed_history_valid = (
-                            len(completed_name_list) == len(completed_records)
-                            and len(completed_name_list) == len(completed_names)
-                        )
+                        completed_names = {name for name in completed_name_list}
+                        completed_history_valid = len(completed_name_list) == len(
+                            completed_records
+                        ) and len(completed_name_list) == len(completed_names)
                         current_step = progress.get("current_step")
                         if current_step is None:
                             completed_prefix = ordered_names[: len(completed_names)]
@@ -155,9 +240,7 @@ class QueueWorker:
                                 None,
                             )
                             current = (
-                                None
-                                if current_index is None
-                                else ordered_steps[current_index][0]
+                                None if current_index is None else ordered_steps[current_index][0]
                             )
                             checkpoint = (
                                 None if current is None else self._resume_checkpoint(current)
@@ -355,7 +438,14 @@ class QueueWorker:
             return None
         specs = list(self.pending_dir.glob("*.json"))
         if not specs:
+            if self.allowed_spec_hashes is not None:
+                self._clear_admission_hold()
             return None
+        if self.allowed_spec_hashes is not None:
+            for spec_path in sorted(specs, key=lambda path: path.name):
+                if self._read_admitted_spec(spec_path) is None:
+                    return None
+            self._clear_admission_hold()
         specs.sort(key=lambda p: (self._get_priority(p), p.name))
         return specs[0]
 
@@ -367,9 +457,9 @@ class QueueWorker:
         except Exception:
             return 100
 
-    def _run_spec(self, spec_path: Path) -> tuple[str, bool]:
+    def _run_spec(self, spec_path: Path, spec_bytes: bytes | None = None) -> tuple[str, bool]:
         """Execute a run spec file. Returns (run_id, success)."""
-        spec_bytes = spec_path.read_bytes()
+        spec_bytes = spec_path.read_bytes() if spec_bytes is None else spec_bytes
         spec_sha256 = _compute_sha256(spec_bytes)
         try:
             spec = json.loads(spec_bytes)
@@ -586,11 +676,7 @@ class QueueWorker:
             arm=arm,
             hypothesis=hypothesis,
             status=(
-                "succeeded"
-                if success
-                else "worker_terminated"
-                if worker_terminated
-                else "failed"
+                "succeeded" if success else "worker_terminated" if worker_terminated else "failed"
             ),
             steps=steps_records,
             expected_outputs=expected_outputs_records,
@@ -603,9 +689,7 @@ class QueueWorker:
         return run_id, success
 
     @staticmethod
-    def _step_with_resume_state(
-        step_spec: dict[str, Any], checkpoint: Path
-    ) -> dict[str, Any]:
+    def _step_with_resume_state(step_spec: dict[str, Any], checkpoint: Path) -> dict[str, Any]:
         """Return a step copy with the trainer's explicit resume flag appended."""
         argv = step_spec.get("argv")
         if not isinstance(argv, list) or any(not isinstance(arg, str) for arg in argv):
@@ -801,7 +885,22 @@ class QueueWorker:
                     time.sleep(1)
                     continue
 
-                run_id, success = self._run_spec(running_path)
+                if self.allowed_spec_hashes is None:
+                    run_id, success = self._run_spec(running_path)
+                else:
+                    admitted_bytes = self._read_admitted_spec(running_path)
+                    if admitted_bytes is None:
+                        try:
+                            running_path.rename(self.pending_dir / running_path.name)
+                        except OSError:
+                            LOG.exception(
+                                "Failed to return held spec to pending: %s", running_path.name
+                            )
+                            return 1
+                        self._write_heartbeat()
+                        time.sleep(self.poll_seconds)
+                        continue
+                    run_id, success = self._run_spec(running_path, spec_bytes=admitted_bytes)
 
                 if success:
                     dest = self.done_dir / running_path.name
@@ -867,6 +966,11 @@ def main() -> None:
     parser.add_argument("--idle-exit-seconds", type=int, help="Exit after idle this long (seconds)")
     parser.add_argument("--once", action="store_true", help="Process at most one run")
     parser.add_argument("--max-runs", type=int, help="Exit after N runs")
+    parser.add_argument(
+        "--allowed-spec-manifest",
+        type=Path,
+        help="Optional exact JSON map of admitted run_id to spec SHA256",
+    )
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
@@ -877,6 +981,7 @@ def main() -> None:
         idle_exit_seconds=args.idle_exit_seconds,
         once=args.once,
         max_runs=args.max_runs,
+        allowed_spec_manifest=args.allowed_spec_manifest,
     )
 
     sys.exit(worker.run())

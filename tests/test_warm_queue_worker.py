@@ -457,6 +457,57 @@ def _results(queue: Path) -> list[dict]:
     return [json.loads(line) for line in (queue / "results.jsonl").read_text().splitlines()]
 
 
+def test_allowlist_holds_unknown_pending_spec_without_running_anything(tmp_path: Path) -> None:
+    queue = tmp_path / "queue"
+    approved_marker = tmp_path / "approved-ran"
+    unknown_marker = tmp_path / "unknown-ran"
+    _spec(queue, "approved", f"open({str(approved_marker)!r}, 'w').write('bad')")
+    _spec(queue, "unknown", f"open({str(unknown_marker)!r}, 'w').write('bad')")
+    approved_path = queue / "pending" / "approved.json"
+    manifest = tmp_path / "allowed.json"
+    manifest.write_text(json.dumps({"approved": _compute_sha256(approved_path.read_bytes())}))
+
+    assert (
+        QueueWorker(
+            queue,
+            poll_seconds=0,
+            once=True,
+            allowed_spec_manifest=manifest,
+        ).run()
+        == 0
+    )
+
+    assert approved_path.is_file()
+    assert (queue / "pending" / "unknown.json").is_file()
+    assert not approved_marker.exists()
+    assert not unknown_marker.exists()
+    hold = json.loads((queue / "admission_hold.json").read_text())
+    assert hold["status"] == "held_unreviewed"
+    assert hold["run_id"] == "unknown"
+    assert not (queue / "results.jsonl").exists()
+
+
+def test_allowlist_rechecks_mutated_bytes_at_each_admission(tmp_path: Path) -> None:
+    queue = tmp_path / "queue"
+    marker = tmp_path / "mutated-ran"
+    _spec(queue, "approved", f"open({str(marker)!r}, 'w').write('old')")
+    spec_path = queue / "pending" / "approved.json"
+    manifest = tmp_path / "allowed.json"
+    manifest.write_text(json.dumps({"approved": _compute_sha256(spec_path.read_bytes())}))
+    worker = QueueWorker(queue, poll_seconds=0, once=True, allowed_spec_manifest=manifest)
+    _spec(queue, "approved", f"open({str(marker)!r}, 'w').write('new')")
+
+    assert worker.run() == 0
+
+    assert spec_path.is_file()
+    assert not marker.exists()
+    hold = json.loads((queue / "admission_hold.json").read_text())
+    assert hold["status"] == "held_unreviewed"
+    assert hold["run_id"] == "approved"
+    assert hold["expected_sha256"] != hold["observed_sha256"]
+    assert not (queue / "results.jsonl").exists()
+
+
 def test_malformed_json_does_not_kill_worker(tmp_path: Path) -> None:
     (tmp_path / "pending").mkdir(parents=True)
     (tmp_path / "pending" / "a_bad.json").write_text("{not json")
