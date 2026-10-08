@@ -1,0 +1,44 @@
+{
+  "schema": "h232-v7b-root-delivery-only-authorization-v1",
+  "owner": "root",
+  "authorized": true,
+  "scope": "delivery-only correction of the V7A placeholder external review receipt",
+  "experiment_id": "E529_H232_GRU384_B8_S3_AMP4096_PROACTIVE_CACHE_RECOVERY_20261008_V7A",
+  "variant": "V7B",
+  "source": "Root NEW_TASK instruction after V7A terminal collection",
+  "authorized_changes": [
+    "Set the external review receipt fields required by profile_worker.validate_external_review using the qualified independent V7A review and root admission evidence.",
+    "Update the packet metadata review hash map and external review digest.",
+    "Use a new canonical private kernel title and slug for V7B.",
+    "Regenerate the transport wrapper and 14-file packet hashes."
+  ],
+  "preserve_exactly": [
+    "scientific source archive and manifest",
+    "training recipe and split membership",
+    "profile and fit arguments",
+    "execution and resource guards",
+    "rowgroup tracing and advice bounds"
+  ],
+  "v7a_terminal": "delivery/h232_v7_proactive/version1/V7A_TERMINAL_RECEIPT.json",
+  "independent_review_basis": {
+    "result": "qualified_pass",
+    "reviewer": "Luna max reviewer",
+    "focused_tests_passed": 24,
+    "coverage": [
+      "V7 source/archive and payload identities",
+      "proactive 28% trigger with unchanged 25% and 6.5 GB hard gates",
+      "512 MB recovery margin",
+      "identity-bound recent rowgroup ranges and bounded advice"
+    ],
+    "root_v7a_admission": "basis/H232_V7_ROOT_PUSH_ADMISSION_20261008_R1.json"
+  },
+  "runtime_accounting_limitation": {
+    "status": "nonblocking_but_unresolved",
+    "known_issue": "CUDA cleanup phase receipt recorded zero seconds and the prior fit projection was pre-cleanup.",
+    "guard": "The worker retains its 16000-second hard wall; do not promote the prior duration estimate.",
+    "fresh_provider_quota_and_startup": "must be checked in a fresh V7B root admission before push"
+  },
+  "provider_push_authorized": false,
+  "provider_push_count_authorized": 0,
+  "required_next_gate": "Root independently verifies the V7B external review, 14 packet hashes, bundle and focused preflight, then writes a fresh push admission."
+}
