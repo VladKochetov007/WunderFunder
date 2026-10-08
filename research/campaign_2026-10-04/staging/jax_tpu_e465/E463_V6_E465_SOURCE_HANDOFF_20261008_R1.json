@@ -1,0 +1,65 @@
+{
+  "schema": "wnn.e463-v6-e465-source-handoff.v1",
+  "record_id": "E463_V6_E465_SOURCE_HANDOFF_20261008_R1",
+  "recorded_at_utc": "2026-10-08T08:54:28Z",
+  "source": {
+    "base_commit": "515d49af800bfad920bf4d7bbdaa6423d9aad649",
+    "code_commit": "22e9b49a997ed5256fcac177d7465b53b1ebb3bf",
+    "audit_manifest_commit": "f9ba941a00b95c38b9dc4c708e9a0f1f7f4e5d05",
+    "packet_id": "e465-v6-realdata-precision-gate-v1",
+    "packet_path": "research/campaign_2026-10-04/staging/jax_tpu_e465/v6_realdata_precision_gate_v1",
+    "source_manifest_sha256": "ac652df0fa6d9596e3a91f2b35b0109a2b6052a2eace83f05e652f753b0b8f89",
+    "source_member_count": 14,
+    "source_member_hashes_verified": true,
+    "scientific_recipe_changed": false,
+    "profile_or_fit_launched": false,
+    "provider_mutation_performed": false
+  },
+  "actual_v6_delivery": {
+    "receipt_path": "research/campaign_2026-10-06/cloud_preflight/E463_TPU_V6_OPERATOR_DELIVERY_20261008_R1.json",
+    "receipt_sha256": "665e69d1168e5d544ad8d04bdf7bc8e01287cdd3e9e39e6fefb0b3a7ba8d009c",
+    "consumer_strict_validation": "passed against the actual receipt",
+    "submitted_kernel_id": "vladkochetov07/e463-tpu-realdata-reload-v6-20261008",
+    "provider_canonical_id": "vladkochetov07/e463-tpu-real-data-reload-v6-20261008",
+    "accepted_version": 1,
+    "root_push_authorization_sha256": "4aa5422e39adf313245f46b4954b813b4ccfcb1665c8df1bbec578c5c65316c7"
+  },
+  "frozen_v6_producer": {
+    "packet_path": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v6_realdata_reload_candidate_v1",
+    "packet_manifest_sha256": "a609e728b212065a53459b1c2630bced018cb80614d7eea55ebc5ecce3401448",
+    "producer_code_sha256": "3392ed77b9000c7bab9b236531c9a16734325152b95a60c955408df1b9bb02f2",
+    "actual_asset_closure_matches_consumer": true,
+    "validation": "actual producer manifest/code constants and required asset closure tested"
+  },
+  "latest_read_only_provider_observation": {
+    "observed_at_utc": "2026-10-08T08:54:28+00:00",
+    "source": "Kaggle CLI status plus read-only Kaggle SDK quota/status poll",
+    "kernel": "vladkochetov07/e463-tpu-real-data-reload-v6-20261008",
+    "status": "KernelWorkerStatus.QUEUED",
+    "failure_message": "",
+    "terminal_receipt_present": false,
+    "durable_monitor_timer_active": true,
+    "monitoring_state": "polling_until_terminal_evidence_downloaded",
+    "quota_refresh_utc": "2026-10-10T00:00:00",
+    "tpu_quota": {
+      "account_used_seconds": 378.665,
+      "account_reserved_seconds": 0.0,
+      "account_total_allowed_seconds": 72000.0,
+      "campaign_baseline_used_seconds": 134.623,
+      "campaign_used_seconds": 244.04200000000003,
+      "campaign_cap_seconds": 7200.0,
+      "campaign_headroom_seconds": 6955.958
+    },
+    "durable_observation_log": "research/campaign_2026-10-06/cloud_preflight/provider_poll_log.jsonl",
+    "collection": "no terminal outputs available; retain the accepted handle and collect after terminal status"
+  },
+  "validation": {
+    "focused_actual_receipt_and_contract_tests": "15 passed in 0.43s",
+    "ruff_changed_packet_modules": "passed",
+    "whole_packet_ruff": "two findings I001 and UP035 in byte-identical preserved src/wnn_jax/bridge.py; unchanged source hash 788e83eb24759e63c1dc877252ae4ad4a400f1f7f64af2dce8611e844d1990bb",
+    "jax_distributed_tests": "not run; local environment has no JAX package",
+    "tpu_profile": "not run",
+    "scientific_fit": "not run"
+  },
+  "next_action": "Continue monitoring this same accepted V6 kernel. At terminal status, collect and hash all logs and outputs and validate the real update/reload/numerical evidence. Request root review and profile-bound resource admission before running the E465 FP32/BF16 actual-data profile. A fit requires a separate root-bound authorization."
+}
