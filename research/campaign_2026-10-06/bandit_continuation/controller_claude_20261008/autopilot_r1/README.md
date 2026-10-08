@@ -28,7 +28,11 @@ the live v3 service and worker are still healthy and that the three expected
 pending hashes have not changed. The autopilot waits for v3's terminal receipt,
 no running jobs or live worker, verified seed99 outputs, exact pending recipe
 hashes, free disk, current parent quota/RAM and observed GPU headroom before it
-mints the dispatcher's short-lived admission.
+mints the dispatcher's short-lived admission. The v4 worker also receives
+`LOCAL_V4_ALLOWED_SPECS.json` and hashes each pending spec immediately before
+claiming it; any changed or unknown pending file is left untouched and recorded
+as `admission_hold.json`. The autopilot rechecks the allowlist and current
+pending hashes before dispatch as well.
 
 After reviewing and finalizing the root policy/review files, update the service
 unit paths if root renames those files. Create the root-only service environment

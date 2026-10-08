@@ -204,15 +204,38 @@ def load_config(
         raise AutopilotError("unexpected local v4 attempt id")
     if not isinstance(job.get("local_queue"), dict):
         raise AutopilotError("finite job has no local queue contract")
+    local = job["local_queue"]
+    allowed_manifest_name = local.get("allowed_spec_manifest")
+    allowed_manifest_path = project_path(
+        root, allowed_manifest_name, "local_queue.allowed_spec_manifest", must_exist=True
+    )
+    allowed_manifest = read_json(allowed_manifest_path, "allowed spec manifest")
+    if allowed_manifest != local.get("pending_spec_hashes"):
+        raise AutopilotError("worker allowlist differs from the reviewed pending spec hashes")
     contract_path = project_path(
         root,
-        job["local_queue"].get("root_contract"),
+        local.get("root_contract"),
         "local_queue.root_contract",
         must_exist=True,
     )
     if review.get("local_contract_sha256") != sha256_file(contract_path):
         raise AutopilotError("root contract hash differs from root review")
-    verify_hash_map(root, job.get("source_hashes"), "job.source_hashes")
+    job_sources = verify_hash_map(root, job.get("source_hashes"), "job.source_hashes")
+    allowed_manifest_relative = str(allowed_manifest_path.relative_to(root))
+    if allowed_manifest_relative not in job_sources:
+        raise AutopilotError("job source pins do not include the worker allowlist")
+    command = job.get("launch_command")
+    positions = [
+        index
+        for index, part in enumerate(command if isinstance(command, list) else [])
+        if part == "--allowed-spec-manifest"
+    ]
+    if (
+        len(positions) != 1
+        or positions[0] + 1 >= len(command)
+        or command[positions[0] + 1] != str(allowed_manifest_path)
+    ):
+        raise AutopilotError("worker command does not pass the exact reviewed spec allowlist")
     return policy, review, jobs
 
 
