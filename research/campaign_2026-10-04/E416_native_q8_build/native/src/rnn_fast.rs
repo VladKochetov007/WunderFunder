@@ -858,6 +858,13 @@ impl FastRnn {
         self.n_out
     }
 
+    /// The representation consumed by head.0 after the most recent step:
+    /// [last recurrent layer, input projection]. It remains in the model's
+    /// scratch arena until the next call to step.
+    pub fn representation(&self) -> &[f32] {
+        &self.state.as_ref()[self.cat.clone()]
+    }
+
     pub fn hidden(&self) -> usize {
         self.hidden
     }
