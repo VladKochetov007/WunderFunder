@@ -1,0 +1,44 @@
+{
+  "schema": "wnn.fold1_gru384_postfit_gate_packet.r1",
+  "status": "prepared_for_root_review_not_enabled",
+  "root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "queue_path": "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_CHECKPOINT_FIT_QUEUE_R1.json",
+  "queue_sha256": "fd46f7533b209297241b0b0f924b8cc3a795a609232f18c3cae3bee3bbb4d272",
+  "authority_path": "scratch/fold1_gru384_successor_20261009/ROOT_CHECKPOINT_FIT_ALLOCATION_R2.json",
+  "authority_sha256": "c04714f11840f44fca43ef4d59e35646c07b23fc1dfc2eaf740ba586458d1dd8",
+  "profile_plan_path": "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_PROFILE_PLAN_R1.json",
+  "base_recipe_plan_sha256": "79dd4fafdef7e302f505bc1e7d8782baadb0c159e15043eba1b592b5494bd8f4",
+  "profile_authority_sha256": "48779c2b9a29cb555f7ee0883873c5dc684a0aa7fdb12ade2d2ffa9126d9d0f4",
+  "profile_attempt": "fold1-gru384-b16-profile-r1",
+  "attempt_ids": [
+    "fold1-gru384-s3-fit-r1",
+    "fold1-gru384-s4-fit-r1"
+  ],
+  "command_sha256_canonical_json": [
+    "c4681e21209328d4344ce48d6838930c2333a1a7e0fde67c03ced37610300c26",
+    "b206c776f765711ebc7b1fa91460dab5bb4dfa0e657e2121fce539909b9fe959"
+  ],
+  "source_pins_sha256": {
+    "scripts/train_rnn.py": "4de1f29b18aa7f9371010816cac04d986b0fcf881415ca562a89c22f1afbd207",
+    "src/wnn/nn.py": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181",
+    "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+    "src/wnn/optim.py": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+    "src/wnn/run_identity.py": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+    "research/campaign_2026-09-29/artifacts/splits/fold1.json": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/sol_continuation/FOLD1_DEPENDENCY_INVENTORY_R1.json": "ff844bab24cacd6345019469ce77af544bc47b24863faf6beedec2cbd5bb08a1"
+  },
+  "control_source_pins_sha256": {
+    "scripts/bandit_resources.py": "e8df7224dbaf87d11c524a23ffd490d601517d447633a6e99fc99bb2d6ba05a0",
+    "scripts/bandit_sequence.py": "7c202c7654ca720047d87bc3421c1463e0d2c38371b790312517730a50764189",
+    "scripts/limited": "589c6d0d66356fa161b057bad16a3ce133962eadf4de943457c86ec358ae3c76"
+  },
+  "gate_source_relative": "scratch/fold1_gru384_successor_20261009/fold1_gru384_postfit_gate.py",
+  "gate_source_sha256": "39625aa33394b05756cec8937d0907551fd2196c9597347c8cfd443635e8c859",
+  "test_source_relative": "scratch/fold1_gru384_successor_20261009/test_fold1_gru384_postfit_gate.py",
+  "test_source_sha256": "4b5f7d6c14c67e09c82b015ac2d230adfc70bbfcb1725c893c2c21ccae25f692",
+  "runtime_relative": "research/campaign_2026-10-06/bandit_continuation/runtime",
+  "receipt_relative": "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_SEED3_POSTFIT_GATE_R1.json",
+  "disk_pressure_context": "Root confirmed the temporary disk drop came from a completed unrelated archive/data spot tar|zstd operation; this gate performs no cleanup. A fresh df check reported 31,144,849,408 bytes free. Recheck actual free bytes immediately before seed4; require at least 2,000,000,000 and cap each fit's new output at 500,000,000 bytes.",
+  "profile_result_binding": "profile command comes from the SHA-pinned profile plan; terminal attempt, systemd result, source manifest, actual PROFILE_UPDATE_EVIDENCE log, and root allocation result are cross-checked.",
+  "producer_snapshot_note": "Actual fixed-epoch trainer snapshots embedded provenance before setting selected_epoch on the sidecar. The gate requires sidecar selected_epoch=3 and model_ep3.pt epoch=3, while requiring embedded provenance recipe/membership identities only."
+}

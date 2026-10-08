@@ -1,0 +1,75 @@
+{
+  "schema": "wnn.fold1_gru384_durable_sequence_review_packet.r1",
+  "status": "prepared_for_root_review_not_installed_or_started",
+  "created_utc": "2026-10-08T22:57:17Z",
+  "root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "authority": {
+    "queue_path": "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_CHECKPOINT_FIT_QUEUE_R1.json",
+    "queue_sha256": "fd46f7533b209297241b0b0f924b8cc3a795a609232f18c3cae3bee3bbb4d272",
+    "root_allocation_path": "scratch/fold1_gru384_successor_20261009/ROOT_CHECKPOINT_FIT_ALLOCATION_R2.json",
+    "root_allocation_sha256": "c04714f11840f44fca43ef4d59e35646c07b23fc1dfc2eaf740ba586458d1dd8",
+    "base_recipe_plan_sha256": "79dd4fafdef7e302f505bc1e7d8782baadb0c159e15043eba1b592b5494bd8f4",
+    "profile_authority_sha256": "48779c2b9a29cb555f7ee0883873c5dc684a0aa7fdb12ade2d2ffa9126d9d0f4"
+  },
+  "sequence": {
+    "plan_path": "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_DURABLE_SEQUENCE_PLAN_R1.json",
+    "plan_sha256": "b7c4ec585f9f00e7c7db77c16dbcc1511fa99aeff20e81bd66f00b88818605e4",
+    "helper_path": "scripts/bandit_sequence.py",
+    "helper_sha256": "7c202c7654ca720047d87bc3421c1463e0d2c38371b790312517730a50764189",
+    "service_path": "scratch/fold1_gru384_successor_20261009/wnn-fold1-gru384-postfit-sequence-r1.service",
+    "service_sha256": "37e2a12723a593e8d1181d2955c6af0d80354444f0322e10504e9c383b62cd1b",
+    "receipt_path": "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_DURABLE_SEQUENCE_RECEIPT_R1.json",
+    "resource_limits": {
+      "cpu_quota_percent": 5,
+      "memory_max_bytes": 256000000,
+      "swap_bytes": 0,
+      "runtime_max_seconds": 15000,
+      "restart": "no",
+      "kill_mode": "control-group",
+      "oom_policy": "stop"
+    },
+    "sequence_behavior": [
+      "Step 1 observes the already admitted seed3 attempt; it has no launch_command and cannot restart seed3 if its attempt record is absent.",
+      "Step 1 requires the exact frozen command, terminal success, fresh heartbeat while active, and successful worker exit.",
+      "Step 2 invokes the gate helper, which rechecks the exact queue, root authorities, source pins, profile evidence, actual split membership, fixed epoch-3 checkpoint and producer provenance before launching seed4 through bandit_resources.py.",
+      "STOP_ADMISSION, missing/stale/failed predecessor, source drift, invalid outputs, output overage or insufficient free disk fail closed; no retry is scheduled.",
+      "The next fit is checkpoint-only; prediction and cache exports remain excluded from this allocation."
+    ],
+    "activation": "Root review first. Then install/link the exact service file, daemon-reload, and start once. Do not manually launch either fit or gate outside this sequence."
+  },
+  "gate": {
+    "script_path": "scratch/fold1_gru384_successor_20261009/fold1_gru384_postfit_gate.py",
+    "script_sha256": "39625aa33394b05756cec8937d0907551fd2196c9597347c8cfd443635e8c859",
+    "script_tests_path": "scratch/fold1_gru384_successor_20261009/test_fold1_gru384_postfit_gate.py",
+    "script_tests_sha256": "4b5f7d6c14c67e09c82b015ac2d230adfc70bbfcb1725c893c2c21ccae25f692",
+    "gate_packet_path": "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_POSTFIT_GATE_PACKET_R1.json",
+    "gate_packet_sha256": "9743f77f4c40da6c999e1904998cff79b0700c76ba8b43b8917d0e80d9d6ea23",
+    "guarded_launch": "The helper writes a durable launch-intent receipt before invoking the existing bandit_resources.py guardian for the exact queue-pinned seed4 command. A failed/uncertain launch becomes needs_review and is never retried automatically."
+  },
+  "preflight": {
+    "path": "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_POSTFIT_STATIC_PREFLIGHT_R2.json",
+    "sha256": "e27a86e7918dff0d9aa72dab7c27c1d1a94694a3270610592d19c9d51bccd646",
+    "status": "static_preflight_passed_no_launch",
+    "seed3_status_at_preflight": "running",
+    "seed3_command_sha256": "c4681e21209328d4344ce48d6838930c2333a1a7e0fde67c03ced37610300c26",
+    "seed4_attempt_absent": true,
+    "seed4_output_absent": true,
+    "disk_free_bytes_at_preflight": 50444972032,
+    "profile_evidence": "100/100 optimizer attempts completed; finite loss and gradients; consistent counters; profile unit and root resource receipt passed; zero OOM."
+  },
+  "validation": {
+    "tests": "flock /tmp/wnn-codex-support.lock env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python -m pytest -q scratch/fold1_gru384_successor_20261009/test_fold1_gru384_postfit_gate.py",
+    "test_result": "4 passed in 1.76s",
+    "test_scope": "Includes actual prior fixed-epoch producer checkpoint/sidecar snapshot-order fixture, exact epoch-3 model tensor parity, OOM fail-closed, synthetic connected-component leakage rejection, non-finite tensor and output-cap rejection.",
+    "unit_check": "flock /tmp/wnn-codex-support.lock env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited systemd-analyze verify scratch/fold1_gru384_successor_20261009/wnn-fold1-gru384-postfit-sequence-r1.service",
+    "unit_check_result": "passed",
+    "execution_state": "No service installation/start, seed4 launch, prediction export, or cache export has occurred."
+  },
+  "known_limits": [
+    "Static preflight observes the in-flight seed3 command and current disk headroom only; the terminal postfit gate must remeasure all conditions after seed3 finishes.",
+    "The successful seed3 postfit validation itself has not run yet because seed3 is still active.",
+    "If the helper takes longer than bandit_sequence's existing 60-second launch timeout, the sequence stops in needs_review and does not retry; the guarded launch's admission timeout is 45 seconds and expected work is bounded, but this path remains fail-closed rather than autonomous recovery.",
+    "The controller's sequence plan hash is captured by bandit_sequence when it starts and the plan is checked for mutation during execution; root should verify the plan and service hashes in this packet immediately before activation."
+  ],
+  "superseded_issue": "An earlier static preflight rejected the queue profile_attempt field because it stores the attempt-record path rather than the attempt ID. The helper now resolves and checks the exact expected path, and the current R2 static preflight passes."
+}

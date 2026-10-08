@@ -1,0 +1,61 @@
+{
+  "observed_at_utc": "2026-10-08T22:59:38.183659+00:00",
+  "owner": "root",
+  "status": "exact_waiter_activation_authorized",
+  "review_packet_sha256": "d0e1153a1c1b38de805597b2c504cbc67c6458b7a73a6455bc9f5ab161f569dc",
+  "checks": [
+    "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_DURABLE_SEQUENCE_PLAN_R1.json",
+    "scripts/bandit_sequence.py",
+    "scratch/fold1_gru384_successor_20261009/wnn-fold1-gru384-postfit-sequence-r1.service",
+    "scratch/fold1_gru384_successor_20261009/fold1_gru384_postfit_gate.py",
+    "scratch/fold1_gru384_successor_20261009/test_fold1_gru384_postfit_gate.py",
+    "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_POSTFIT_GATE_PACKET_R1.json",
+    "scratch/fold1_gru384_successor_20261009/FOLD1_GRU384_POSTFIT_STATIC_PREFLIGHT_R2.json"
+  ],
+  "tests": {
+    "passed": 4,
+    "elapsed_seconds": 1.41,
+    "actual_previous_fixed_checkpoint_fixture": true
+  },
+  "static_preflight": {
+    "status": "static_preflight_passed_no_launch",
+    "seed3_status": "running",
+    "seed3_command_sha256": "c4681e21209328d4344ce48d6838930c2333a1a7e0fde67c03ced37610300c26",
+    "profile_update_evidence": {
+      "optimizer_attempts": 100,
+      "optimizer_completed_updates": 100,
+      "amp_skipped_updates": 0,
+      "grad_scaler_enabled": true,
+      "loss_checks": 100,
+      "loss_finite": true,
+      "gradient_finite": true,
+      "gradient_check_basis": "GradScaler found-inf flags after unscale, before optimizer step",
+      "gradient_stats_steps": null,
+      "gradient_stats_nonfinite_steps": null,
+      "counts_consistent": true,
+      "valid_for_throughput": true
+    },
+    "source_pins_sha256": {
+      "scripts/train_rnn.py": "4de1f29b18aa7f9371010816cac04d986b0fcf881415ca562a89c22f1afbd207",
+      "src/wnn/nn.py": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181",
+      "src/wnn/splits.py": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+      "src/wnn/optim.py": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+      "src/wnn/run_identity.py": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+      "research/campaign_2026-09-29/artifacts/splits/fold1.json": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/sol_continuation/FOLD1_DEPENDENCY_INVENTORY_R1.json": "ff844bab24cacd6345019469ce77af544bc47b24863faf6beedec2cbd5bb08a1"
+    },
+    "control_source_pins_sha256": {
+      "scripts/bandit_resources.py": "e8df7224dbaf87d11c524a23ffd490d601517d447633a6e99fc99bb2d6ba05a0",
+      "scripts/bandit_sequence.py": "7c202c7654ca720047d87bc3421c1463e0d2c38371b790312517730a50764189",
+      "scripts/limited": "589c6d0d66356fa161b057bad16a3ce133962eadf4de943457c86ec358ae3c76"
+    },
+    "disk_free_bytes": 50446671872,
+    "seed4_attempt_absent": true,
+    "seed4_output_absent": true,
+    "disk_pressure_context": "Root confirmed the temporary disk drop came from a completed unrelated archive/data spot tar|zstd operation; this gate performs no cleanup. A fresh df check reported 31,144,849,408 bytes free. Recheck actual free bytes immediately before seed4; require at least 2,000,000,000 and cap each fit's new output at 500,000,000 bytes."
+  },
+  "unit_verify": "pass",
+  "service_sha256": "37e2a12723a593e8d1181d2955c6af0d80354444f0322e10504e9c383b62cd1b",
+  "scope": "Activate exact finite waiter once; preserve existing seed3. Only seed4 after successful deterministic gate under existing ROOT_CHECKPOINT_FIT_ALLOCATION_R2. No exports/retries/new recipes.",
+  "known_limit": "Shared support lock or checks exceeding existing60s launcher timeout fail closed; actual terminal seed3 gate remains pending."
+}
