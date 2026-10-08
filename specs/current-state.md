@@ -1,4 +1,4 @@
-## Continuous research and delivered TCN — 2026-10-08 06:52 Kyiv
+## Continuous research and delivered TCN — 2026-10-08 06:50 Kyiv
 
 Research continues until explicit user stop. The active `wnn-cpu-return-five-20261008.timer` changes the aggregate local CPU quota to five cores at 10:00 Kyiv; it does not close research admission or stop GPU/cloud jobs. ADR0017 and AGENTS.md already record this authority.
 
