@@ -167,6 +167,8 @@ Use existing authorized Kaggle credentials privately; CLI 2.2.4 was verified. Us
 
 Existing tooling: `scripts/kaggle_bundle.py`, `kaggle_assets.py`, `kaggle_gpu_runner.py`, `kaggle_kernel.py`, `kaggle_sequence.py`, `kaggle_prepare_probe.py`, `kaggle_tpu_probe.py`. The current campaign has reviewed E508 actual-data profile and E510 own-baseline packet builders. Read their manifests/README before reuse; old broken packets remain evidence, not current launch templates.
 
+Kaggle delivery preflight must check the actual title-derived slug against the intended new ID. Keep kernel bootstrap source below1MB as a conservative project envelope and mount larger source/checkpoint payloads through private, versioned, hash-bound assets. Validate the exact mounted payload and nested path offline; do not embed multi-megabyte model bytes in kernel source.
+
 Each admitted cloud cohort needs:
 
 1. A new identified packet with exact source/config/data/recipe hashes, private inputs and output path. Run the packet's own offline startup validators against the final embedded payload, including conditional-fit authorization receipts; an external controller approval does not populate a pending embedded receipt.
