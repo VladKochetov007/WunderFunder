@@ -1,6 +1,13 @@
 ## First all-data student fitting; cloud correction owners — 2026-10-08 05:09 Kyiv
 
 
+## First all-data student delivered; H232 corrected push accepted — 2026-10-08 05:40 Kyiv
+
+H230 seed3 completed1988.34seconds with zeroOOM/kill,15580AMPattempts and4skippedupdates. Own fixedep1 checkpoint SHA `76e4c4e441ebebf623e8119eff881b86eb7ad5eec18d0623910ae0f6e8adbae6`. Provisional4,148,503-byte i16ZIP is built; CRC/member/spec checks and staticABI pass, Python3.11callback/reset/determinism pending. All supplied train+valid were fitted, so no held-out score/publicforecast. Seed4 fresh admission initially refused parent10.06GB+9GBreserve above18GBhigh; actor owns bounded known-cache handoff before retry.
+
+H232V7B-shortslug version1 was accepted and is providerRUNNING; only title/slug differ from reviewedV7B, with actual offline validator PASS. E540V5 collected terminal evidence proves an argv construction defect: duplicate scriptpath was rejected by argparse before either profile/fit. All four mounted input hashes and512/468disjoint membership passed. Actor owns V6 parser/preflight correction with explicit embedded conditional authorization. Owned VastA3 fallbackupload reached9.11GBpartialtrain at02:36UTC after the independently repaired direct-prefetchEOF defect. Public best remains0.6660.
+
+
 ## Direct-transfer EOF defect reproduced and repaired — 2026-10-08 05:32 Kyiv
 
 VastA3 direct prefetch consumed766seconds but finalized zero files because exact HTTP Content-Length completion closes the response stream; the downloader then attempted another socket timeout and raised `deadline_control`. A real `http.client.HTTPResponse` regression reproduced this failure. The narrow EOF correction retains exact size/hash and private atomic finalization;83combined tests passed and independent Luna review passed12prefetch tests. The existing fallback upload remains active, with2.25GB verified and5.27GB partial train bytes observed at02:29UTC. The running controller was not modified. This repair reduces future staging waste; it is not model evidence.
