@@ -3,7 +3,7 @@
  "priority": 6,
  "arm": "Z3H",
  "hypothesis": "H-277 student x GCorr head-FT finishing (exact c20261004_combo_head_s4_final recipe: valid full, mask-weight, gcorr, freeze inp,gru, lr5e-4, 1 ep)",
- "notes": "Head-FT on Z3 student | family-head model build (alpha 0, family weight 0): objective identical to incumbent pure-label GCorr head-FT",
+ "notes": "Head-FT on Z3 student | head-FT on family-free core checkpoint (head.2[:23]); exact incumbent recipe on main trainer",
  "steps": [
   {
    "name": "input_check",
@@ -15,6 +15,25 @@
    "timeout_seconds": 60
   },
   {
+   "name": "make_core",
+   "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "-c",
+    "import pathlib,subprocess,sys; p=pathlib.Path('/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/z3_combo_s4_parent_student_v1_core/model_ep1.pt'); sys.exit(0 if p.is_file() else subprocess.call([sys.executable,'/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/make_core_checkpoint.py','z3_combo_s4_parent_student_v1','1','z3_combo_s4_parent_student_v1_core']))"
+   ],
+   "timeout_seconds": 300,
+   "env": {
+    "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+    "OMP_NUM_THREADS": "2",
+    "MKL_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "WNN_LOADER_WORKERS": "0",
+    "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "PYTHONHASHSEED": "0"
+   },
+   "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+  },
+  {
    "name": "fit",
    "argv": [
     "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
@@ -22,7 +41,7 @@
     "--name",
     "z3h_combo_s4_parent_student_hft_alldata_v1",
     "--init",
-    "z3_combo_s4_parent_student_v1@ep1",
+    "z3_combo_s4_parent_student_v1_core@ep1",
     "--train-source",
     "valid",
     "--full-valid",
@@ -52,18 +71,7 @@
     "--checkpoint-epoch",
     "0",
     "--save-training-state",
-    "--no-eval-during-fit",
-    "--distill-family-head",
-    "--distill-cache-root",
-    "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_fold0_teacher_family_all_rows_v1",
-    "--distill-cache-variant",
-    "source",
-    "--distill-alpha",
-    "0.0",
-    "--distill-family-weight",
-    "0.0",
-    "--distill-family-target-mode",
-    "raw"
+    "--no-eval-during-fit"
    ],
    "timeout_seconds": 1800,
    "env": {
