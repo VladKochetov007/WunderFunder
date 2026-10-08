@@ -1,0 +1,136 @@
+{
+  "attempt": {
+    "elapsed_seconds": 10.115898269010358,
+    "exit_status": 0,
+    "log": {
+      "bytes": 4070,
+      "path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/h230-all-data-parent-profile-b16-r1-20261008.log",
+      "sha256": "aee6e5d9697467a127c5cd3a61c2151b7281b8a41de0d5b1f03a56212739f7a7"
+    },
+    "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-all-data-parent-profile-b16-r1-20261008.json",
+    "phase": "terminal",
+    "sha256": "19dfb4088f5ae74cfc9b78a822c5fe75a0d29d6c2d62723cb9b54e08ba356d87",
+    "source_manifest_sha256": "df05fb8e6c0c5a4e8e8ba9481867cd6462a80a05de038e7db4de75e1a26da1ce",
+    "unit": "wnn-bandit-h230-all-data-parent-profile-b16-r1-20261008.service"
+  },
+  "contract": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_PARENT_PROFILE_CONTRACT_V2_20261008.json",
+    "sha256": "7a1905c3a901e165ab8602885dd7b9587f69ef4cf86a7e4dc02666754c497a04"
+  },
+  "created_utc": "2026-10-07T23:39:54Z",
+  "failed_predecessor": {
+    "attempt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-all-data-parent-profile-b16-v1-20261008.json",
+    "contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_PARENT_PROFILE_CONTRACT_V1_20261008.json",
+    "failure": "Pre-batch FileNotFoundError: isolated WNN_PROJECT_ROOT overlay lacked artifacts/runs/c20260929_prop_f0/model.pt. Preserved; no update or GPU allocation."
+  },
+  "full_fit_authorized_or_launched": false,
+  "grade_freezes": {
+    "pre_score_grade_freeze": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PRE_SCORE_GRADE_FREEZE_V1_20261008.json",
+      "sha256": "210cc9ec2e2a7181bd25ff6f5618941630926a2314386cfa8a5475f3256b1b16"
+    },
+    "primary_incumbent_freeze": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_PRE_SCORE_PRIMARY_INCUMBENT_FREEZE_V1_20261008.json",
+      "sha256": "1d62c65412a504b9d8a596eb546ce9a484a22274e64b6574b3e33f6ff79317b1"
+    }
+  },
+  "id": "h230-all-data-parent-profile-b16-r1-20261008",
+  "independent_matched_grade": {
+    "bootstrap_replicates": 2000,
+    "candidate_wp": 0.6817195016815873,
+    "evaluation_groups": 468,
+    "family_off_control_wp": 0.6816584867089066,
+    "interpretation": "Exposed fold-0 comparison. The interval includes zero and conditions on the fixed trained checkpoints; it is not evidence of public-transfer improvement.",
+    "metric_id": "global_wp_clip2_v1",
+    "owner": "root controller / independent grader",
+    "paired_cluster_bootstrap_ci95": [
+      -9.144495175218147e-05,
+      0.00021049735609290627
+    ],
+    "paired_mean_delta": 6.1014972680961677e-05,
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_MATCHED_CONTROL_GRADE_V1_20261008.json",
+    "resampled_components": 141,
+    "sha256": "82aa53f4eafc26dffe286bae9ab2d3ef4bac5189246f3bf1dcdb04b11cbc7db9",
+    "status": "completed_exposed_matched_comparison"
+  },
+  "next_owner_action": "Root reviews the all-data source/recipe ancestry gaps and profile. No full fit until that review. EDA scan has fresh headroom release.",
+  "profile_only": {
+    "architecture": {
+      "family": "GRU",
+      "hidden": 256,
+      "layers": 2,
+      "outputs": 23
+    },
+    "checkpoint_or_prediction_written": false,
+    "loader_summary": "loader workers 0 prefetch 0; params 0.98M; steps 31160",
+    "measurement_limit": "One timed update yields null step_wall and seq_per_s; stage events and loader wait are recorded, but this does not support an end-to-end throughput projection or full-fit ETA.",
+    "membership_observed": {
+      "eligible_valid_train_sequences": 1873,
+      "eval_sequences": 600,
+      "source_train_sequences": 10606,
+      "used_valid_train_sequences": 1873
+    },
+    "metrics_ms_or_rate": {
+      "backward": 413.27,
+      "forward": 418.46,
+      "gpu_total": 1141.43,
+      "h2d": 0.02,
+      "inputs": 74.93,
+      "labels": 48.9,
+      "loader_wait": 655.64,
+      "loss": 30.46,
+      "optimizer": 97.12,
+      "seq_per_s": null,
+      "step_wall": null,
+      "syncs_per_step": 2.0,
+      "weights": 58.27
+    },
+    "no_evaluation_metric_emitted": true,
+    "run_directory": "/tmp/h230_all_data_parent_profile_root_v2/artifacts/runs/bd26_h230_all_data_parent_profile_b16_v1_retry1",
+    "run_directory_file_count": 0,
+    "schedule_shape": {
+      "checkpoint_epoch_zero_based": 3,
+      "checkpoint_policy": "fixed",
+      "epochs": 4
+    },
+    "shape": {
+      "batch": 16,
+      "chunk_rows": 2000
+    },
+    "timed_update_count": 1,
+    "warmup_update_count": 0
+  },
+  "resource_observation": {
+    "observed_vram_cap_bytes": 5000000000,
+    "parent_memory_event_deltas": {
+      "high": 112,
+      "low": 0,
+      "max": 1121,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "parent_memory_high_bytes": 18000000000,
+    "parent_peak_headroom_bytes": 2836259840,
+    "parent_peak_ram_bytes": 15163740160,
+    "peak_observed_vram_bytes": 1635778560,
+    "resource_interpretation": "No OOM event; the worker peak was effectively at its 3 GB reservation, so no worker-RAM headroom is claimed. Parent peak stayed below 18 GB high. GPU was idle after terminal.",
+    "worker_initial_observed_vram_bytes": 79691776,
+    "worker_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 1121,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "worker_peak_at_or_near_reserve": true,
+    "worker_peak_ram_bytes": 2999996416,
+    "worker_ram_reserve_bytes": 3000000000
+  },
+  "schema": "h230-all-data-parent-profile-terminal-v1",
+  "scientific_score_claim": null,
+  "status": "finished_exit_0_profile_only"
+}
