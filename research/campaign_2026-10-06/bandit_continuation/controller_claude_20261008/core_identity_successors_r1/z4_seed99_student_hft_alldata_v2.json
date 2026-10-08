@@ -1,0 +1,98 @@
+{
+  "run_id": "z4_seed99_student_hft_alldata_v2",
+  "priority": 11,
+  "arm": "Z4",
+  "hypothesis": "H-277 student x GCorr head-FT finishing (exact c20261004_combo_head_s4_final recipe: valid full, mask-weight, gcorr, freeze inp,gru, lr5e-4, 1 ep)",
+  "notes": "Faithful seed99 Muon-parent student + head-FT | head-FT on family-free core checkpoint (head.2[:23]); exact incumbent recipe on main trainer | Transport/provenance successor only: actual derived checkpoint SHA in sidecar; original source and failed/stale metadata preserved; science flags unchanged.",
+  "steps": [
+    {
+      "name": "input_check",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "-c",
+        "import pathlib,sys; sys.exit(0 if pathlib.Path('/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_faithful_student_seed99_muonparent_v1/model_ep1.pt').is_file() else 3)"
+      ],
+      "timeout_seconds": 60
+    },
+    {
+      "name": "make_core",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/make_core_checkpoint.py",
+        "bd26_h230_faithful_student_seed99_muonparent_v1",
+        "1",
+        "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2"
+      ],
+      "timeout_seconds": 300,
+      "env": {
+        "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+        "OMP_NUM_THREADS": "2",
+        "MKL_NUM_THREADS": "2",
+        "OPENBLAS_NUM_THREADS": "2",
+        "WNN_LOADER_WORKERS": "0",
+        "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONHASHSEED": "0"
+      },
+      "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+    },
+    {
+      "name": "fit",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/train_rnn.py",
+        "--name",
+        "z4_seed99_student_hft_alldata_v2",
+        "--init",
+        "bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2@ep1",
+        "--train-source",
+        "valid",
+        "--full-valid",
+        "--mask-weight",
+        "--seed",
+        "3",
+        "--epochs",
+        "1",
+        "--batch",
+        "16",
+        "--chunk",
+        "2000",
+        "--fast",
+        "--inherit-init-preprocessing",
+        "--loss",
+        "gcorr",
+        "--optim",
+        "adamw",
+        "--freeze",
+        "inp,gru",
+        "--lr",
+        "0.0005",
+        "--wd",
+        "0.01",
+        "--checkpoint-policy",
+        "fixed",
+        "--checkpoint-epoch",
+        "0",
+        "--save-training-state",
+        "--no-eval-during-fit"
+      ],
+      "timeout_seconds": 1800,
+      "env": {
+        "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src",
+        "OMP_NUM_THREADS": "2",
+        "MKL_NUM_THREADS": "2",
+        "OPENBLAS_NUM_THREADS": "2",
+        "WNN_LOADER_WORKERS": "0",
+        "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONHASHSEED": "0"
+      },
+      "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack"
+    }
+  ],
+  "expected_outputs": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/z4_seed99_student_hft_alldata_v2/model_ep0.pt",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/z4_seed99_student_hft_alldata_v2/provenance.json",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2/model_ep1.pt",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/bd26_h230_faithful_student_seed99_muonparent_v1_core_identity_v2/provenance.json"
+  ],
+  "supersedes_run_id": "z4_seed99_student_hft_alldata_v1"
+}

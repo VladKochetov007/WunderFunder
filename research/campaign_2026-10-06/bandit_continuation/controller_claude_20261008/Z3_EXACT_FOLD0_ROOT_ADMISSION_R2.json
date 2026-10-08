@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "authorized_by": "root_controller",
+  "created_utc": "2026-10-08T19:45:44Z",
+  "decision": "admit_three_exact_R2_specs_to_existing_local_queue",
+  "worker_attempt": "warm-queue-local-v3-20261008",
+  "owner": "claude_research_continuation",
+  "independent_grader": "independent_grader_packager",
+  "spec_hashes": {
+    "f0_z3_combo_s4_student_v2.json": "177ddefbf4dbfcddf8cb20b7b0d313b63d50fafe504c2b8ac7a372475d8bf3af",
+    "f0_z3_combo_s4_parent_hft_v2.json": "0353819665146b13eed18adb09eee519b4292cf7952bec06904872a7f7aecec0",
+    "f0_z3_combo_s4_student_hft_v2.json": "488911005c1af53096c2b0e356e1cba125de5c03556d61a7ce049da4170541ad"
+  },
+  "source_hashes": {
+    "scripts/train_rnn.py": "4de1f29b18aa7f9371010816cac04d986b0fcf881415ca562a89c22f1afbd207",
+    "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/scripts/train_rnn.py": "09902e4b4d886f863d5090ff58ba9ec4b7c677f995bb0192f0538c819a693bbb"
+  },
+  "comparison": "fixedhalf studentcore@ep1+studentGCorr@ep0 versus fixedhalf matched parent@ep3+parentGCorr@ep0; official global_wp_clip2_v1; paired component bootstrap",
+  "seed_clarification": "Both backbone and distilled student use seed4; both GCorr finishing fits use seed3, exactly as actual queued Z3h. R2 shorthand matchedseed4 refers to backbone ancestry; actual argv and hypotheses bind finishingseed3. R1 remains unadmitted.",
+  "exposure": "fold0 repeatedly exposed development, no public forecast; fold1 robustness owed with separate valid ancestry",
+  "review": "Independent grader traced complete parsed flag comparison, split source-qualified membership, parent and propensity actual checkpoint/provenance hashes, eight teachers and ancestor closures, and four actual cache NPY hashes. 10535train+1405valid fitting groups exclude 468evaluated groups/141components; full-valid HFT does not override fit exclusion. PASS received before queue insertion.",
+  "resource_basis": "Same shapes and smaller membership than measured admitted H230/Z3 student; Z3 completed2192.53s within9GBworker/5GBVRAM. Same existing GCorr finish/export shape. Reuse existing worker2CPU/9GB, aggregate5CPU/20GB/5GBVRAM, no new GPU process.",
+  "limits": {"student_step_seconds": 3100, "each_finish_seconds": 1800, "each_export_seconds": 1800, "new_paid_spend_usd": 0},
+  "conditions": ["Validate exact hashes on insertion", "Preserve running queue/source", "No actor self-grade", "Root approves identified successor worker only if current six-hour deadline cannot finish", "Missing artifacts are failure even under legacy worker success status"]
+}

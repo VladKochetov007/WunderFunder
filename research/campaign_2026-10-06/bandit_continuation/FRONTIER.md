@@ -1,3 +1,9 @@
+## Delivered candidates and next comparisons — 2026-10-08 20:07 UTC
+
+Z1c and Z2c are technically validated exploratory packages; [release index](../../../research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/Z1_Z2_ROOT_RELEASE_INDEX_R1.json) binds ZIPs and receipts. Independent H230 seed3 finished endpoint WP0.6823084607 versus matched control0.6820687897, delta+0.0002396710, component-bootstrap95%[-0.00102396,+0.00124500] on exposed468groups/141components. No public forecast or new expected best. This is not exactZ3.
+
+Exact Z3 seed4 fold0 student is fitting; matched seed3 finishing follows under R2 admission and corrected core-identity successor. Fold1 robustness is owed. Existing local v3 jobs preserved. Kaggle raw/fold0 mounts worked; source-v1 mount isolated the failing configuration, exact failure stage remains unknown. Private opaque-source v2 is READY, remote verification and bounded smoke3 follow. Vast r4 settled0.15USD; r5 sequential512/768 packet needs final resource/consistency corrections before root rental. Large signed inputs37.102GB have matching HEAD lengths, actual remote content hashes remain required. Local caps5CPU/20GBRAM/5GBVRAM and one support process remain binding.
+
 ## Live continuation — 2026-10-08 19:32 UTC
 
 [Sol continuation contract](controller_claude_20261008/SOL_CONTINUATION_CONTRACT_20261008_R1.md) owns delivery with independent Luna verification. Priorities: finish Z candidates and exact Z3 fold comparisons; capacity teachers and disagreement-selected distillation; preserve representation and serving-acceleration exploration in the handoff backlog. No new numerical prior or public forecast.

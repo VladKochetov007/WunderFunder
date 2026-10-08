@@ -1,0 +1,46 @@
+{
+  "created_utc": "2026-10-08T20:05:17.328061+00:00",
+  "source": "src/wnn/data.py SequenceFile.read",
+  "fixture": {
+    "file": "datasets/valid.parquet",
+    "row_groups": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "columns": "seq_ix +112features only",
+    "targets_or_masks_read": false
+  },
+  "open_metadata_seconds": 0.16227541302214377,
+  "read_decode_materialize_passes": [
+    {
+      "pass": 0,
+      "seconds": 0.3273747019993607,
+      "kernel_read_bytes": 20045824,
+      "process_read_chars": 22897834,
+      "parsed_feature_bytes": 35840000
+    },
+    {
+      "pass": 1,
+      "seconds": 0.07488596701296046,
+      "kernel_read_bytes": 0,
+      "process_read_chars": 13288788,
+      "parsed_feature_bytes": 35840000
+    },
+    {
+      "pass": 2,
+      "seconds": 0.08212666699546389,
+      "kernel_read_bytes": 0,
+      "process_read_chars": 13288788,
+      "parsed_feature_bytes": 35840000
+    }
+  ],
+  "retained_parsed_reuse": {
+    "1000_four_sequence_index_access_seconds": 0.0007790880044922233,
+    "kernel_read_bytes": 0,
+    "checksum": -5998.549461364746
+  },
+  "peak_process_rss_bytes": 400830464,
+  "interpretation": "First pass has uncontrolled OS cache state; this is not a cold-cache benchmark. Repeated SequenceFile.read still decodes/materializes independent arrays. Retained-array indexing excludes preprocessing/fit and is not an end-to-end speedup claim. Warm cohort subprocesses reuse physical files but do not share parsed arrays."
+}
