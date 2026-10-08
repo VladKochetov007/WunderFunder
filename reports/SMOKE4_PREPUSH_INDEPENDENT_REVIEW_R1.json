@@ -1,0 +1,80 @@
+{
+  "schema": "wnn.independent-kaggle-packet-review.v1",
+  "record_id": "SMOKE4_PREPUSH_INDEPENDENT_REVIEW_20261008_R1",
+  "reviewed_at_utc": "2026-10-08T20:50:09Z",
+  "reviewer_role": "independent pre-push packet reviewer",
+  "scope": "Read-only review of the frozen smoke4 candidate's predecessor diagnosis, source and registry identity, slug preflight, child environment handoff, and scientific-source invariance. No Kaggle push or provider mutation was performed.",
+  "candidate": {
+    "worktree": "/home/vlad/development/wunder/worktrees/luna-runner-20261008",
+    "worktree_head": "508ddba5eaa9917c9547b397b5882661be40d7ad",
+    "directory": "research/campaign_2026-10-06/bandit_continuation/kaggle_warm_cohort/smoke4_20261008_candidate",
+    "packet_id": "vladkochetov07/wnn-warm-cohort-smoke-20261008-v4",
+    "packet_sha256": "f7472dfd64f505de7e65a080691ae24917a4504c35e033f74084e88505e26179",
+    "packet_sha256_scope": "SHA-256 of smoke4.packet.json; it binds the exact kernel, metadata, offline receipt, tests, source input identities, and frozen run-spec hashes.",
+    "kernel_sha256": "5e75bdeade37964848e8e4f1023566e979ce29545edbd75ef64a59bb4204c538",
+    "metadata_sha256": "246c8415fd195827ef2432fabf6ac664858f27a6e3ee7281596abf42f043fae6",
+    "offline_preflight_sha256": "2c4512126b9b594832c1436f5024904c8339a0205cb1f521ccc48f5818986151",
+    "test_sha256": "d9ab14717aa9a60c7a0e1c458c449e1b895089aaaa5a9fe5bfad3395780747a1"
+  },
+  "verdict": "conditional_pass_for_root_admission; provider_push_not_authorized",
+  "provider_push_authorized": false,
+  "checks": [
+    {
+      "name": "smoke3 failure diagnosis",
+      "status": "pass",
+      "evidence": "The bound smoke3 terminal receipt (SHA-256 f9934d493eebcc7f8e6250425be6cd27bd94769741213c766f5a924eed25780f) records both fit children failing in load_campaign_split with 'campaign source changed: .../cache/chain_folds.npz'; prediction and grade were blocked. The recorded failure was before training, with no prediction, grade, or scientific-result claim. The split source's bytes are content-addressed, but its mounted mtime differs, and smoke3 did not pass WNN_PORTABLE_DATA_MANIFEST to child commands."
+    },
+    {
+      "name": "exact source and registry bindings",
+      "status": "pass",
+      "evidence": "Candidate references match the producer artifacts: source-v2 assets manifest 96fa0dcbd2c0a56f8ef9d23620080337799022290ffee87196d52de58aca4f70; source archive 2d64aaf9b3f416db460e41684def3b511462283aec588bc94f536b8db1f66930; fold0 assets manifest 19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7; portable registry 90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c. The fold0 manifest contains the portable registry at the stated path and hash. The smoke3 terminal-receipt and packet hashes in the candidate match the actual predecessor files."
+    },
+    {
+      "name": "portable registry verification and worker handoff",
+      "status": "pass",
+      "evidence": "Before queue creation or worker startup, mount_manifests accepts only the two reviewed dataset manifest hashes, verifies each manifest and staged-file size, hashes files at or below 50 MiB, rejects duplicate mounted dataset/path identities, and requires both datasets. bind_portable_registry then checks the registry file SHA-256, rejects a conflicting preexisting step environment value, and assigns WNN_PORTABLE_DATA_MANIFEST to each of the six child steps. write_queues serializes those mutated specs. The exact source archive's warm_queue_worker.py overlays step.env on its inherited process environment before launching argv, so both fit and prediction receive the bound registry path. The exact source archive's splits.py consumes the variable in load_campaign_split and checks each source against the registry."
+    },
+    {
+      "name": "prediction-consumer nuance",
+      "status": "limitation",
+      "evidence": "The variable is injected into the prediction child environment, but the frozen predict_run.py does not itself read WNN_PORTABLE_DATA_MANIFEST or call load_campaign_split; it obtains row groups from cache/<split>_targets.npz. Thus the repair fixes the observed fit-loader failure and supplies the requested environment to prediction, but the registry is not an active prediction-side split validator in this source revision."
+    },
+    {
+      "name": "title-derived kernel slug",
+      "status": "pass",
+      "evidence": "The metadata id suffix wnn-warm-cohort-smoke-20261008-v4 equals the slug derived from title 'wnn warm cohort smoke 20261008 v4'; the offline test independently recomputes this equality."
+    },
+    {
+      "name": "scientific recipe and source invariance",
+      "status": "pass",
+      "evidence": "The two candidate run-spec files are byte-identical to the smoke3 specs (SHA-256 bf2229b2481db8cb7c7281c7abd73289a97001d5713c9520f2b49235033ec95c and 4ff2bb5c49d1912aa008f2cfde7b65fd08a99e144d623ee1c4ecd240c8380bfc). The source archive and its asset manifest are unchanged. The smoke3-to-smoke4 kernel diff is limited to reviewed asset-manifest pins/checks, the portable-registry verifier and child env injection, and the registry phase receipt. Fit hyperparameters, membership, seeds, checkpoint rule, prediction, and grading commands are unchanged."
+    },
+    {
+      "name": "offline tests",
+      "status": "pass",
+      "command": "flock -w 10 /tmp/wnn-codex-support.lock env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited env PYTHONDONTWRITEBYTECODE=1 /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/pytest -p no:cacheprovider -q /home/vlad/development/wunder/worktrees/luna-runner-20261008/research/campaign_2026-10-06/bandit_continuation/kaggle_warm_cohort/smoke4_20261008_candidate/tests/test_smoke4_mount_bindings.py",
+      "result": "6 passed in 0.23s"
+    },
+    {
+      "name": "lint and Python 3.11 syntax",
+      "status": "pass",
+      "evidence": "ruff check --no-cache passed for the kernel and tests. The kernel source compiled in memory with the discovered Python 3.11 interpreter; no bytecode was written."
+    }
+  ],
+  "packet_metadata": {
+    "private": true,
+    "gpu": true,
+    "tpu": false,
+    "internet": false,
+    "machine_shape": "NvidiaTeslaT4",
+    "provider_timeout_seconds": 7800,
+    "max_simultaneous_gpu_workers": 2,
+    "root_admission_required_before_push": true,
+    "no_training_authorized_by_packet": true
+  },
+  "limitations": [
+    "This is a source-only integration diagnostic; it does not establish that either worker trains successfully, that prediction or grading completes, or that a scientific result exists.",
+    "The portable registry is explicitly used by the fit split loader; prediction receives the environment variable but the frozen prediction program does not consume it directly.",
+    "No Kaggle push, provider status check, GPU execution, data read, fit, prediction, or grade was run. Root admission remains required."
+  ]
+}
