@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import os
@@ -17,6 +18,16 @@ PACKET = Path(
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Read-only fresh signed URL retrieval; never downloads payload bodies"
+    )
+    parser.add_argument(
+        "--runtime", type=Path, default=OUT.parents[4] / ".runtime/r5-signed-feasibility"
+    )
+    parser.add_argument("--attempt-id", default="e529-vast-capacity-r5-feasibility")
+    parser.add_argument("--campaign-label", default="wnn-e529-capacity-r5-feasibility")
+    parser.add_argument("--receipt", type=Path, default=OUT / "R5_SIGNED_INPUT_FEASIBILITY_R1.json")
+    args = parser.parse_args()
     sys.path.insert(0, str(OUT.parents[4]))
     from scripts import kaggle_vast_prefetch as prefetch
 
@@ -68,7 +79,7 @@ def main() -> None:
                     "signed_url_schema_pass": True,
                 }
             )
-    runtime = OUT.parents[4] / ".runtime/r5-signed-feasibility"
+    runtime = args.runtime
     runtime.mkdir(parents=True, exist_ok=True, mode=0o700)
     raw = json.dumps(
         {"schema_version": 1, "inputs": inputs}, sort_keys=True, separators=(",", ":")
@@ -82,8 +93,8 @@ def main() -> None:
         json.dumps(
             {
                 "schema_version": 1,
-                "attempt_id": "e529-vast-capacity-r5-feasibility",
-                "campaign_label": "wnn-e529-capacity-r5-feasibility",
+                "attempt_id": args.attempt_id,
+                "campaign_label": args.campaign_label,
                 "private_plan_sha256": hashlib.sha256(raw).hexdigest(),
                 "source_binding": [
                     {key: row[key] for key in ("remote_path", "sha256", "size_bytes")}
@@ -103,8 +114,8 @@ def main() -> None:
     prepared = prefetch.prepare_prefetch(
         plan,
         admission,
-        attempt_id="e529-vast-capacity-r5-feasibility",
-        campaign_label="wnn-e529-capacity-r5-feasibility",
+        attempt_id=args.attempt_id,
+        campaign_label=args.campaign_label,
         frozen_inputs=frozen,
         runtime_root=runtime,
     )
@@ -118,7 +129,7 @@ def main() -> None:
         "private_plan_location": str(plan),
         "scope": "read-only URL retrieval and exact local schema; no byte downloads/provider creation. Refresh signed URLs after final intent before dispatch; hash verification only on remote actual bytes.",
     }
-    (OUT / "R5_SIGNED_INPUT_FEASIBILITY_R1.json").write_text(json.dumps(receipt, indent=2) + "\n")
+    args.receipt.write_text(json.dumps(receipt, indent=2) + "\n")
     print(
         json.dumps(
             {

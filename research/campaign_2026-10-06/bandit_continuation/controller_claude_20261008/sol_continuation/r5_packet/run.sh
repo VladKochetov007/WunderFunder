@@ -10,7 +10,7 @@ else
   timeout --signal=TERM --kill-after=10s 450s "$PYTHON" -m pip install --disable-pip-version-check numpy==2.2.6 pyarrow==19.0.1 psutil==7.0.0 > "$WNN_OUTPUT_DIR/dependencies.log" 2>&1
   worker_exit=$?
   if [[ "$worker_exit" -eq 0 ]]; then
-    timeout --signal=TERM --kill-after=60s "${WNN_MAX_RUNTIME_SECONDS}s" "$PYTHON" worker.py
+    timeout --signal=TERM --kill-after=60s "${WNN_MAX_RUNTIME_SECONDS}s" "$PYTHON" resource_supervisor.py
     worker_exit=$?
   fi
 fi

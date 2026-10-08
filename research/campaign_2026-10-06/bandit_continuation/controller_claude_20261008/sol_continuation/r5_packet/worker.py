@@ -320,9 +320,13 @@ def main() -> int:
                 not math.isfinite(projection)
                 or projection <= 0
                 or not profile["gpu_samples"].get("gpu_peak_used_mb")
+                or profile["gpu_samples"].get("gpu_min_free_mb", 0) < 1024
             ):
                 raise ValueError("r5 actual-device timing/memory evidence invalid")
-            if projection + 6300 > deadline - time.monotonic():
+            export_budget = 5400 - float(result.get("teacher_export_wall_seconds", 0))
+            if export_budget <= 0:
+                raise TimeoutError("r5 aggregate teacher export budget exhausted")
+            if projection + 900 + export_budget > deadline - time.monotonic():
                 raise TimeoutError("r5 actual-device projection exceeds remaining hard stop")
             runtime.write_json(output / "result.json", result)
             fit = runtime._fit_arm(
@@ -337,11 +341,25 @@ def main() -> int:
             runtime.write_json(output / "result.json", result)
             if fit["status"] != "complete":
                 raise RuntimeError("r5 arm fit/export failed; preserve partial delivery")
-            fit["teacher_exports"] = export_teacher_arrays(
-                arm, common, output, fit["fit_validation"]["checkpoint_sha256"]
+            export_started = time.monotonic()
+            export_common = dict(common)
+            export_common["worker_deadline"] = min(
+                deadline, export_started + export_budget + runtime.FINALIZATION_RESERVE_SECONDS
             )
+            try:
+                fit["teacher_exports"] = export_teacher_arrays(
+                    arm, export_common, output, fit["fit_validation"]["checkpoint_sha256"]
+                )
+            finally:
+                result["teacher_export_wall_seconds"] = (
+                    float(result.get("teacher_export_wall_seconds", 0))
+                    + time.monotonic()
+                    - export_started
+                )
             runtime.write_json(output / "result.json", result)
         result["paired_fit_consistency"] = runtime._validate_pair_consistency(result["arm_results"])
+        if result["paired_fit_consistency"].get("status") != "pass":
+            raise ValueError("r5 paired fit consistency failed")
         result["status"] = "delivered_capacity_pair"
     except Exception as error:
         result["error_type"] = type(error).__name__
