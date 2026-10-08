@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "record_id": "H217_A3_TCN_FOLD0_REFERENCE_BLEND_PREREG_20261008_R1",
+  "created_utc": "2026-10-08T03:57:45Z",
+  "owner": "independent grader",
+  "continuation_of": "H217_A3_TCN_FOLD0_INDEPENDENT_GRADE_20261008_R1",
+  "attempt_id": "e529-vast-h217-pair-v4-20261008-a3",
+  "claim_scope": "conditional prediction complementarity of the delivered seed-7 TCN with one own fold-0 lineage-parent GRU prediction, measured only on the frozen exposed fold-0 evaluation groups",
+  "selection_history": {
+    "selection_reason": "Root requested a conditional-value check after the TCN standalone grade was seen.",
+    "previously_seen_candidate_outcome": 0.6714968035930315,
+    "reference_or_blend_scores_seen_before_this_registration": false,
+    "interpretation": "This is adaptive discovery analysis on an exposed fold, not confirmation. Every preregistered blend outcome will be reported without selecting a winner."
+  },
+  "candidate": {
+    "name": "H217 A3 raw TCN",
+    "run": "bd26_h217_tcn_raw_s7_f0_v3_amp4096",
+    "seed": 7,
+    "epoch_zero_based": 3,
+    "checkpoint_sha256": "5fbb9815b17973dd790cd10ee11af63c1a241ca716df32d44a5b56f099af7dbc",
+    "prediction_sha256": "d178d84a0bbd74158e5788713973fd7b5c16d5d6f71e6bcc976bce44e883f3aa",
+    "prediction_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+    "inference_precision": "fp32",
+    "standalone_grade_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A3_TCN_FOLD0_INDEPENDENT_GRADE_20261008_R1.json",
+    "standalone_grade_sha256": "b748e0fc6ea0e2f715c2f9ccd087ccc4209851e6b896252dec0b424fd384df39"
+  },
+  "reference": {
+    "role": "own public-incumbent-lineage parent prediction; this is not the full public submission endpoint",
+    "run": "c20261003_combo_s3_f0",
+    "seed": 3,
+    "epoch_zero_based": 3,
+    "architecture": "GRU256x2",
+    "checkpoint_path": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+    "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "provenance_path": "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+    "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+    "prediction_path": "cache/pred_c20261003_combo_s3_f0_valid.npy",
+    "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+    "sidecar_path": "cache/pred_c20261003_combo_s3_f0_valid.json",
+    "sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+    "fit_membership": {
+      "train_source_groups": 10535,
+      "valid_source_groups": 1405,
+      "exact_frozen_fold0_fit_match": true,
+      "evaluation_groups": 468,
+      "fit_evaluation_component_overlap": 0
+    },
+    "own_ancestors": [
+      {
+        "run": "c20260929_since_s3_f0",
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      },
+      {
+        "run": "c20260929_since_s4_f0",
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      },
+      {
+        "run": "c20260929_prop_f0",
+        "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+        "fit_groups": {
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      }
+    ],
+    "ancestry_manifest": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/SOURCE_FAMILIES.json",
+      "sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d"
+    }
+  },
+  "comparison_design": {
+    "split_manifest": {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "evaluation_groups": 468,
+      "exposure": "exposed discovery fold; not fresh confirmation"
+    },
+    "target_cache": {
+      "path": "cache/valid_targets.npz",
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    },
+    "official_metric": "global_wp_clip2_v1",
+    "mask": "need_prediction AND is_scored; need_prediction is row index >= 99 in every sequence",
+    "metric_formula": "For each target, clip target and prediction to [-2, 2], weight rows by abs(clipped target), pool all selected rows, compute weighted Pearson correlation; wp is the arithmetic mean of t0 and t1.",
+    "blend_weights_on_tcn": [
+      0.0,
+      0.1,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "blend_formula": "p = (1 - alpha) * parent_prediction + alpha * tcn_prediction; blend raw outputs first, then apply the official metric clipping.",
+    "reporting_rule": "Report the official score and delta from alpha=0 for every alpha; do not choose or promote the best weight.",
+    "pair_covariance_and_correlation": "For each target separately on the same selected rows, clip each member prediction to [-2, 2], weight by abs(clipped target), and report weighted population covariance and Pearson correlation between TCN and parent outputs.",
+    "uncertainty": {
+      "method": "paired component bootstrap over frozen group-level official metric moments",
+      "replicates": 2000,
+      "seed": 271828,
+      "comparisons": "Each alpha blend versus the alpha=0 parent; report every interval, including the zero self-comparison.",
+      "interpretation": "Conditional on fixed predictions and exposed fold-0 components; excludes training-seed and public-transfer uncertainty."
+    },
+    "all_data_comparison": false,
+    "public_forecast": false,
+    "posthoc_slices": [],
+    "other_reference_predictions": []
+  },
+  "comparability_limits": [
+    "The TCN is a fresh raw-only scratch model; the parent is a GRU256x2 trained with the team's own since teachers and fold-0 propensity model.",
+    "This measures conditional prediction complementarity against one own lineage parent on an exposed fold; it is not a matched family or compute-controlled comparison."
+  ],
+  "analysis_budget": {
+    "candidate_predictions": 1,
+    "reference_predictions": 1,
+    "predeclared_blend_weights": 5,
+    "reference_selection_budget": 1,
+    "posthoc_variant_count": 0,
+    "training_or_provider_actions": 0
+  },
+  "stopping_rule": "Verify prediction and lineage hashes, evaluate only the exact frozen fold-0 468-group mask, report all five fixed blends, per-target weighted pair covariance/correlation, and paired component bootstrap versus alpha=0; do not tune, add slices, or report an all-data/public forecast."
+}

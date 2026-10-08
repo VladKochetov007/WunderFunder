@@ -1,5 +1,9 @@
 # Live frontier — resumed independent training
 
+## Active delivery — 2026-10-08 07:48 Kyiv
+
+H230 normalized all-data seed3 ZIP is delivered and committed, with no held-out/public forecast; public best remains0.6660. H218 block-memory attention is training locally in epoch1, about9.3 sequences/second, no current-run OOM/kill. H232 completed four epochs; clean fixedepoch3 export-only recovery addresses false train/valid integer aliases. E540 completed FP32 linear control then failed a sibling-GradStats receipt read; V8 correction independently passed17tests and is admitted to one quota-bound push with6000seconds reserved for H232 export. TPU probe remains queued. Prior Vast is destroyed; full-feature TCN128/256 V5R2 exact-recipe guard passed36tests/root byte comparison and is assigned new owned-rental lifecycle under$2.80/$20 limits. Five-core local transition at10:00 does notstop research.
+
 ## Delivered student and live mechanism lanes — 2026-10-08 06:09 Kyiv
 
 H230 seed3 public-test ZIP is ready: `submissions/c20261008_h230_all_data_s3_i16.zip`, SHA `181d84b094343c541ca5af103dac74e225642d0bba14e00c275a153c7422aa88`. The corrected own native build passes actual Python3.11 callback/reset and ABI checks. No public result has arrived; best remains0.6660. Seed4 retry1 is healthy in epoch1; its single and predeclared equal-pair packages follow terminal checks.

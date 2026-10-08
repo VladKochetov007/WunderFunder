@@ -1,0 +1,354 @@
+{
+  "schema_version": 1,
+  "record_id": "H217_A3_TCN_FOLD0_REFERENCE_BLEND_20261008_R1",
+  "created_utc": "2026-10-08T04:01:28.982203+00:00",
+  "attempt_id": "e529-vast-h217-pair-v4-20261008-a3",
+  "grade_status": "conditional_exposed_discovery_comparison",
+  "claim_scope": "conditional prediction complementarity of the delivered seed-7 TCN with one own fold-0 lineage-parent GRU prediction, measured only on the frozen exposed fold-0 evaluation groups",
+  "metric_id": "global_wp_clip2_v1",
+  "evaluation": {
+    "fold": 0,
+    "evaluation_groups": 468,
+    "components": 141,
+    "selected_rows": 808863,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "selection": "need_prediction AND is_scored; need_prediction is row index >= 99",
+    "exposure": "exposed discovery fold; no fresh confirmation"
+  },
+  "candidate": {
+    "name": "H217 A3 raw TCN",
+    "run": "bd26_h217_tcn_raw_s7_f0_v3_amp4096",
+    "seed": 7,
+    "epoch_zero_based": 3,
+    "checkpoint_sha256": "5fbb9815b17973dd790cd10ee11af63c1a241ca716df32d44a5b56f099af7dbc",
+    "prediction_sha256": "d178d84a0bbd74158e5788713973fd7b5c16d5d6f71e6bcc976bce44e883f3aa",
+    "prediction_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+    "inference_precision": "fp32",
+    "standalone_grade_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_A3_TCN_FOLD0_INDEPENDENT_GRADE_20261008_R1.json",
+    "standalone_grade_sha256": "b748e0fc6ea0e2f715c2f9ccd087ccc4209851e6b896252dec0b424fd384df39"
+  },
+  "reference": {
+    "role": "own public-incumbent-lineage parent prediction; this is not the full public submission endpoint",
+    "run": "c20261003_combo_s3_f0",
+    "seed": 3,
+    "epoch_zero_based": 3,
+    "architecture": "GRU256x2",
+    "checkpoint_path": "artifacts/runs/c20261003_combo_s3_f0/model_ep3.pt",
+    "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+    "provenance_path": "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+    "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+    "prediction_path": "cache/pred_c20261003_combo_s3_f0_valid.npy",
+    "prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+    "sidecar_path": "cache/pred_c20261003_combo_s3_f0_valid.json",
+    "sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+    "fit_membership": {
+      "train_source_groups": 10535,
+      "valid_source_groups": 1405,
+      "exact_frozen_fold0_fit_match": true,
+      "evaluation_groups": 468,
+      "fit_evaluation_component_overlap": 0
+    },
+    "own_ancestors": [
+      {
+        "run": "c20260929_since_s3_f0",
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      },
+      {
+        "run": "c20260929_since_s4_f0",
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      },
+      {
+        "run": "c20260929_prop_f0",
+        "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+        "fit_groups": {
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0
+      }
+    ],
+    "ancestry_manifest": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/SOURCE_FAMILIES.json",
+      "sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d"
+    }
+  },
+  "reference_baseline_official_score": {
+    "t0": 0.6744630336944983,
+    "t1": 0.687419379919812,
+    "wp": 0.6809412068071552
+  },
+  "predeclared_blends_all_reported": [
+    {
+      "alpha_on_tcn": 0.0,
+      "score": {
+        "t0": 0.6744630336944983,
+        "t1": 0.687419379919812,
+        "wp": 0.6809412068071552
+      },
+      "delta_vs_parent": {
+        "t0": 0.0,
+        "t1": 0.0,
+        "wp": 0.0
+      },
+      "paired_component_bootstrap_vs_parent": {
+        "candidate_wp": 0.6809412068071548,
+        "reference_wp": 0.6809412068071548,
+        "mean_diff": 0.0,
+        "bootstrap_sd": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "p_le_0": 1.0,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    },
+    {
+      "alpha_on_tcn": 0.1,
+      "score": {
+        "t0": 0.6740751722618968,
+        "t1": 0.687543684664928,
+        "wp": 0.6808094284634124
+      },
+      "delta_vs_parent": {
+        "t0": -0.0003878614326014995,
+        "t1": 0.00012430474511604395,
+        "wp": -0.0001317783437427833
+      },
+      "paired_component_bootstrap_vs_parent": {
+        "candidate_wp": 0.6808094284634123,
+        "reference_wp": 0.6809412068071548,
+        "mean_diff": -0.00013177834374245023,
+        "bootstrap_sd": 0.00017710979977471477,
+        "ci95": [
+          -0.00047631366752643177,
+          0.00021242209051887604
+        ],
+        "p_le_0": 0.769,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    },
+    {
+      "alpha_on_tcn": 0.25,
+      "score": {
+        "t0": 0.6731395843724411,
+        "t1": 0.6874203936648615,
+        "wp": 0.6802799890186513
+      },
+      "delta_vs_parent": {
+        "t0": -0.0013234493220571908,
+        "t1": 1.013745049571746e-06,
+        "wp": -0.0006612177885039205
+      },
+      "paired_component_bootstrap_vs_parent": {
+        "candidate_wp": 0.6802799890186513,
+        "reference_wp": 0.6809412068071548,
+        "mean_diff": -0.0006612177885034765,
+        "bootstrap_sd": 0.00044996102350188704,
+        "ci95": [
+          -0.0015424727086285118,
+          0.00021103276809037981
+        ],
+        "p_le_0": 0.929,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    },
+    {
+      "alpha_on_tcn": 0.5,
+      "score": {
+        "t0": 0.6706198272551415,
+        "t1": 0.6863723983489595,
+        "wp": 0.6784961128020505
+      },
+      "delta_vs_parent": {
+        "t0": -0.003843206439356872,
+        "t1": -0.0010469815708524788,
+        "wp": -0.002445094005104731
+      },
+      "paired_component_bootstrap_vs_parent": {
+        "candidate_wp": 0.6784961128020504,
+        "reference_wp": 0.6809412068071548,
+        "mean_diff": -0.002445094005104398,
+        "bootstrap_sd": 0.0009248322508561015,
+        "ci95": [
+          -0.004274730502006307,
+          -0.0006842191036699865
+        ],
+        "p_le_0": 0.998,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    },
+    {
+      "alpha_on_tcn": 1.0,
+      "score": {
+        "t0": 0.6619325494909355,
+        "t1": 0.6810610576951277,
+        "wp": 0.6714968035930315
+      },
+      "delta_vs_parent": {
+        "t0": -0.012530484203562842,
+        "t1": -0.006358322224684243,
+        "wp": -0.009444403214123653
+      },
+      "paired_component_bootstrap_vs_parent": {
+        "candidate_wp": 0.6714968035930311,
+        "reference_wp": 0.6809412068071548,
+        "mean_diff": -0.009444403214123653,
+        "bootstrap_sd": 0.001953274942749122,
+        "ci95": [
+          -0.013408911386169908,
+          -0.005920220141577561
+        ],
+        "p_le_0": 1.0,
+        "n_sequences": 468,
+        "n_components": 141,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    }
+  ],
+  "pair_prediction_covariance_correlation": {
+    "definition": "For each target separately on the same selected rows, clip each member prediction to [-2, 2], weight by abs(clipped target), and report weighted population covariance and Pearson correlation between TCN and parent outputs.",
+    "per_target": {
+      "t0": {
+        "total_weight": 561243.6421255916,
+        "weighted_population_covariance": 0.8264408670624559,
+        "weighted_pearson_correlation": 0.9858406015685549
+      },
+      "t1": {
+        "total_weight": 575314.8110807091,
+        "weighted_population_covariance": 0.8777886775397243,
+        "weighted_pearson_correlation": 0.9877085080450878
+      }
+    }
+  },
+  "lineage_validation": {
+    "reference_run": "c20261003_combo_s3_f0",
+    "reference_fit_groups_match_frozen_manifest": true,
+    "reference_evaluation_groups": 468,
+    "fit_evaluation_component_overlap": 0,
+    "ancestry_runs": {
+      "c20261003_combo_s3_f0": {
+        "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+        "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "selected_epoch": 3,
+        "init": "",
+        "distill": "c20260929_since_s3_f0,c20260929_since_s4_f0",
+        "propensity": "c20260929_prop_f0"
+      },
+      "c20260929_since_s3_f0": {
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "selected_epoch": 3,
+        "init": "",
+        "distill": "",
+        "propensity": "c20260929_prop_f0"
+      },
+      "c20260929_since_s4_f0": {
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "fit_groups": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "selected_epoch": 3,
+        "init": "",
+        "distill": "",
+        "propensity": "c20260929_prop_f0"
+      },
+      "c20260929_prop_f0": {
+        "checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+        "provenance_sha256": "f6d6cf68db53c728556c1750e869e65d5d4813d622399aec768809a47985e812",
+        "fit_groups": {
+          "valid": 1405
+        },
+        "fit_evaluation_component_overlap": 0,
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "selected_epoch": 3,
+        "init": null,
+        "distill": null,
+        "propensity": null
+      }
+    },
+    "source_families_sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d"
+  },
+  "uncertainty_and_limits": {
+    "bootstrap": "paired component bootstrap over the same 468 frozen groups, fixed predictions, 2,000 replicates, seed 271828",
+    "conditional_on_fixed_predictions": true,
+    "training_seed_uncertainty_estimated": false,
+    "public_transfer_estimated": false,
+    "blend_weight_selection": "none; all five prespecified weights are reported",
+    "all_data_comparison": null,
+    "public_forecast": null,
+    "comparability_limits": [
+      "The TCN is a fresh raw-only scratch model; the parent is a GRU256x2 trained with the team's own since teachers and fold-0 propensity model.",
+      "This measures conditional prediction complementarity against one own lineage parent on an exposed fold; it is not a matched family or compute-controlled comparison."
+    ]
+  },
+  "verified_artifacts": {
+    "grader_script_sha256": "ec5b94408a7670e727718d70d2e49dbb5225f5b3c6a3fdbd6fc83b8efbfede3a",
+    "pre_registration_sha256": "2db5452bc365d192ca6a461d364a946d307e0279cf8b800e2296a957e75119d7",
+    "base_grade_sha256": "b748e0fc6ea0e2f715c2f9ccd087ccc4209851e6b896252dec0b424fd384df39",
+    "candidate_bundle_sha256": "e1b244d26dc3dee02089580b09aefaa3e57012a73f5a086c4b9d4de7863278e8",
+    "candidate_checkpoint_sha256": "5fbb9815b17973dd790cd10ee11af63c1a241ca716df32d44a5b56f099af7dbc",
+    "candidate_prediction_sha256": "d178d84a0bbd74158e5788713973fd7b5c16d5d6f71e6bcc976bce44e883f3aa",
+    "reference_prediction_sha256": "aa38f384907e1ad1122e410c2f5a6fb9353da387bbab788b3e9978b05f646d19",
+    "reference_sidecar_sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2",
+    "valid_targets_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "source_families_sha256": "499a66270d71db6e8721a7e20b42be8704cbc3c47c31b55d3eef2ebe8846b24d",
+    "frozen_campaign_scorer_sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39",
+    "official_metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "method": "Frozen campaign scorer with stored target NPY members memory-mapped from NPZ and both FP32 prediction arrays memory-mapped; no Parquet footer, compressed NPZ member, fit, GPU or provider operation."
+}
