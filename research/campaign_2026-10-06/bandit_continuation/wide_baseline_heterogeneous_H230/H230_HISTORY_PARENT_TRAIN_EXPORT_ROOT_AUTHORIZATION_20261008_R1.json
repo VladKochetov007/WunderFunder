@@ -1,0 +1,47 @@
+{
+  "schema": "h230-history-parent-export-root-authorization-v1",
+  "created_utc": "2026-10-08T05:54:04.294144+00:00",
+  "approved_by": "root",
+  "status": "approved_conditional_fresh_resource_admission",
+  "profile_result": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_PARENT_INFERENCE_PROFILE_ATTEMPT3_RESULT_V3_20261008.json",
+    "sha256": "37936f99a16648a86b3574f045a30933059c546c205df28b074b845aa4392a4c"
+  },
+  "profile_terminal": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-history-parent-inference-profile-attempt3-v3-20261008.json",
+    "sha256": "f0d8001f6dc16d997e8d0cb60d0c0e7f72cfcfb36c230381d437e606d8afa63e"
+  },
+  "source_manifest_sha256": "01aa939ddb95f91b24859ddf324a66188a3254c11691cd39b40ce77865b3b2f2",
+  "parent_checkpoint_sha256": "478773bd3d0754d261f8f3c9d46a135d56c3596c269d2a856b760caef05b93c7",
+  "scope": "Exactly one train-split full FP32 feature-only parent export under already-reviewed source-v4 recipe. No valid-export/cache/student fit authority in this record.",
+  "expected_shape": [
+    10606,
+    20000,
+    2
+  ],
+  "observed_small_profile": {
+    "train_forward_sequences_per_second": 46.8453045601269,
+    "valid_forward_sequences_per_second": 46.578958921006674,
+    "profile_wall_seconds": 10.084,
+    "worker_ram_peak_bytes": 4142000000,
+    "observed_vram_peak_bytes": 1323000000
+  },
+  "limits": {
+    "cpu": 2,
+    "worker_ram_reserve_bytes": 9000000000,
+    "allocator_admission_bytes": 4300000000,
+    "observed_vram_ceiling_bytes": 5000000000,
+    "loader_workers": 0,
+    "timeout_seconds": 1800,
+    "one_gpu_worker": true
+  },
+  "conditions": [
+    "Fresh durable admission; parent18GBhigh/20GBmax/no swap",
+    "Exact source/recipe/parent/data-order checks, output absent/free disk",
+    "Bounded known-file cache handoff only if needed for headroom",
+    "Record actual first100 wall/throughput and full terminal NPY/sidecar identities; profile forward timing alone is not full-export ETA",
+    "Separate review required before valid export/cache/student fit"
+  ],
+  "heldout_claim": false,
+  "public_forecast": null
+}
