@@ -12,6 +12,7 @@ import pytest
 
 # Import the worker module
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+import warm_queue_worker as worker_module
 from warm_queue_worker import QueueWorker, _compute_sha256, _validate_run_id
 
 
@@ -243,7 +244,8 @@ class TestQueueWorker:
         result_line = (queue_dir / "results.jsonl").read_text().strip()
         result = json.loads(result_line)
         assert result["status"] == "failed"
-        assert len(result["steps"]) == 1
+        assert [step["status"] for step in result["steps"]] == ["failed", "blocked"]
+        assert result["steps"][1]["blocked_by"] == ["step1"]
         assert result["steps"][0]["status"] == "failed"
 
     def test_timeout_kills_child(self, tmp_path):
@@ -470,6 +472,227 @@ def test_stop_file_exits_zero(tmp_path: Path) -> None:
     (tmp_path / "STOP").write_text("")
     assert QueueWorker(tmp_path, poll_seconds=0).run() == 0
     assert (tmp_path / "pending" / "r1.json").exists()
+
+
+def test_missing_expected_artifact_fails_run(tmp_path: Path) -> None:
+    _spec(tmp_path, "missing_output", "pass")
+    spec_path = tmp_path / "pending" / "missing_output.json"
+    spec = json.loads(spec_path.read_text())
+    missing = tmp_path / "missing-artifact.bin"
+    spec["expected_outputs"] = [str(missing)]
+    spec_path.write_text(json.dumps(spec))
+
+    assert QueueWorker(tmp_path, poll_seconds=0, once=True).run() == 0
+
+    result = _results(tmp_path)[-1]
+    assert result["status"] == "failed"
+    assert result["expected_outputs"] == [{"path": str(missing), "exists": False}]
+    assert result["steps"][-1]["name"] == "expected_outputs"
+    assert (tmp_path / "failed" / "missing_output.json").exists()
+
+
+def test_dependencies_reorder_and_block_failed_dependents(tmp_path: Path) -> None:
+    output = tmp_path / "order.txt"
+    spec = {
+        "run_id": "dependencies",
+        "steps": [
+            {
+                "name": "child",
+                "depends_on": ["parent"],
+                "argv": [sys.executable, "-c", f"open({str(output)!r}, 'a').write('child')"],
+            },
+            {
+                "name": "parent",
+                "depends_on": [],
+                "argv": [sys.executable, "-c", f"open({str(output)!r}, 'a').write('parent;')"],
+            },
+            {
+                "name": "failed_parent",
+                "depends_on": [],
+                "argv": [sys.executable, "-c", "raise SystemExit(2)"],
+            },
+            {
+                "name": "blocked_child",
+                "depends_on": ["failed_parent"],
+                "argv": [sys.executable, "-c", f"open({str(output)!r}, 'a').write('bad')"],
+            },
+            {
+                "name": "independent",
+                "depends_on": [],
+                "argv": [sys.executable, "-c", f"open({str(output)!r}, 'a').write(';independent')"],
+            },
+        ],
+    }
+    pending = tmp_path / "pending"
+    pending.mkdir(parents=True)
+    (pending / "dependencies.json").write_text(json.dumps(spec))
+
+    assert QueueWorker(tmp_path, poll_seconds=0, once=True).run() == 0
+
+    result = _results(tmp_path)[-1]
+    assert result["status"] == "failed"
+    assert [step["name"] for step in result["steps"]] == [
+        "parent",
+        "child",
+        "failed_parent",
+        "blocked_child",
+        "independent",
+    ]
+    assert result["steps"][3]["status"] == "blocked"
+    assert result["steps"][3]["blocked_by"] == ["failed_parent"]
+    assert output.read_text() == "parent;child;independent"
+
+
+def test_long_step_refreshes_heartbeat_while_child_runs(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import time
+
+    monkeypatch.setattr(worker_module, "HEARTBEAT_INTERVAL_SECONDS", 0.05)
+    queue = tmp_path / "queue"
+    spec_path = queue / "pending" / "heartbeat.json"
+    spec_path.parent.mkdir(parents=True)
+    spec_path.write_text(
+        json.dumps(
+            {
+                "run_id": "heartbeat",
+                "steps": [
+                    {
+                        "name": "sleep",
+                        "argv": [sys.executable, "-c", "import time; time.sleep(0.3)"],
+                        "timeout_seconds": 2,
+                    }
+                ],
+            }
+        )
+    )
+    worker = QueueWorker(queue)
+    original_write = worker._write_heartbeat
+    live_updates: list[float] = []
+
+    def record_heartbeat() -> None:
+        if worker.current_proc is not None and worker.current_proc.poll() is None:
+            live_updates.append(time.monotonic())
+        original_write()
+
+    monkeypatch.setattr(worker, "_write_heartbeat", record_heartbeat)
+    _, success = worker._run_spec(spec_path)
+
+    assert success
+    assert len(live_updates) >= 2
+
+
+def test_orphan_with_checkpoint_is_requeued_and_resumed(tmp_path: Path) -> None:
+    queue = tmp_path / "queue"
+    running = queue / "running"
+    running.mkdir(parents=True)
+    checkpoint = tmp_path / "training_state.pt"
+    checkpoint.write_bytes(b"checkpoint")
+    resumed_args = tmp_path / "resumed-args.txt"
+    spec = {
+        "run_id": "resume_fit",
+        "steps": [
+            {
+                "name": "fit",
+                "argv": [
+                    sys.executable,
+                    "-c",
+                    f"from pathlib import Path; import sys; Path({str(resumed_args)!r}).write_text(' '.join(sys.argv[1:]))",
+                ],
+                "timeout_seconds": 10,
+                "resume_state_path": str(checkpoint),
+            }
+        ],
+    }
+    spec_path = running / "resume_fit.json"
+    spec_bytes = json.dumps(spec).encode()
+    spec_path.write_bytes(spec_bytes)
+    progress_dir = queue / "progress"
+    progress_dir.mkdir()
+    (progress_dir / "resume_fit.json").write_text(
+        json.dumps(
+            {
+                "schema_version": worker_module.PROGRESS_SCHEMA_VERSION,
+                "run_id": "resume_fit",
+                "spec_sha256": _compute_sha256(spec_bytes),
+                "completed_steps": [],
+                "current_step": "fit",
+                "resume_current_step": False,
+            }
+        )
+    )
+
+    worker = QueueWorker(queue, poll_seconds=0, once=True)
+    assert (queue / "pending" / spec_path.name).is_file()
+    assert json.loads((progress_dir / spec_path.name).read_text())["resume_current_step"]
+    assert worker.run() == 0
+
+    assert "--resume-state" in resumed_args.read_text()
+    assert checkpoint.as_posix() in resumed_args.read_text()
+    assert _results(queue)[-1]["status"] == "succeeded"
+    assert (queue / "done" / spec_path.name).is_file()
+
+
+def test_orphan_between_steps_requeues_after_completed_prefix(tmp_path: Path) -> None:
+    queue = tmp_path / "queue"
+    running = queue / "running"
+    running.mkdir(parents=True)
+    first_marker = tmp_path / "first-ran"
+    first_marker.write_text("already completed")
+    second_marker = tmp_path / "second-ran"
+    spec = {
+        "run_id": "step_boundary",
+        "steps": [
+            {
+                "name": "first",
+                "argv": [
+                    sys.executable,
+                    "-c",
+                    f"from pathlib import Path; Path({str(first_marker)!r}).touch(exist_ok=False)",
+                ],
+            },
+            {
+                "name": "second",
+                "argv": [
+                    sys.executable,
+                    "-c",
+                    f"from pathlib import Path; Path({str(second_marker)!r}).write_text('done')",
+                ],
+            },
+        ],
+    }
+    spec_path = running / "step_boundary.json"
+    spec_bytes = json.dumps(spec).encode()
+    spec_path.write_bytes(spec_bytes)
+    progress_dir = queue / "progress"
+    progress_dir.mkdir()
+    first_record = {
+        "name": "first",
+        "status": "succeeded",
+        "start_utc": "2026-01-01T00:00:00+00:00",
+        "end_utc": "2026-01-01T00:00:01+00:00",
+    }
+    (progress_dir / spec_path.name).write_text(
+        json.dumps(
+            {
+                "schema_version": worker_module.PROGRESS_SCHEMA_VERSION,
+                "run_id": "step_boundary",
+                "spec_sha256": _compute_sha256(spec_bytes),
+                "completed_steps": [first_record],
+                "current_step": None,
+                "resume_current_step": False,
+            }
+        )
+    )
+
+    worker = QueueWorker(queue, poll_seconds=0, once=True)
+    assert (queue / "pending" / spec_path.name).is_file()
+    assert worker.run() == 0
+
+    assert first_marker.read_text() == "already completed"
+    assert second_marker.read_text() == "done"
+    assert _results(queue)[-1]["status"] == "succeeded"
+    assert (queue / "done" / spec_path.name).is_file()
 
 
 def test_sigterm_kills_running_child_group(tmp_path: Path) -> None:
