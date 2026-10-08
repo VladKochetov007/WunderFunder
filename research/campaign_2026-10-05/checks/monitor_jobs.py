@@ -192,6 +192,9 @@ def local(now: float) -> dict[str, object]:
     attempt_paths.extend(
         (ROOT / "research/campaign_2026-10-05/continuation_night/runner/attempts").glob("*.json")
     )
+    attempt_paths.extend(
+        (ROOT / "research/campaign_2026-10-06/bandit_continuation/runtime/attempts").glob("*.json")
+    )
     for path in attempt_paths:
         value = read_json(path)
         state = value.get("status")

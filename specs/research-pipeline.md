@@ -128,3 +128,10 @@ layers or generic runner frameworks. Read only the relevant skill references.
 Use existing tooling first; write a helper only for a concrete gap. Commit source,
 recipes, evidence and decisions at meaningful steps. Preserve immutable originals;
 keep current summaries compact and link the archive/tree for detail.
+
+
+## Validation evidence and public confirmation
+
+The user clarified on October 8 that valid local, Kaggle and Vast cross-validation is the primary evidence for scientific selection; public validation confirms transfer. Hardware location does not change statistical validity. Declare fitting membership, teacher/initializer ancestry, exposed folds and checkpoint selection for every comparison. All-data fits require a separate valid comparison; they cannot claim held-out performance on fitted rows.
+
+Use public feedback to audit distribution, serving and validation mismatch, rather than automatically reject a mechanism. Neither an isolated public score nor an exposed local fold establishes universal superiority. Preserve mixed evidence and investigate materially different descendants and combinations. Report expected-public claims only when supported; the long-term objective does not require inventing a forecast.
