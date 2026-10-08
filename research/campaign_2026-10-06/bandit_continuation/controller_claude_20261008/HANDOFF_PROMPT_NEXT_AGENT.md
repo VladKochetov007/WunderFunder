@@ -1,89 +1,96 @@
-# Handoff prompt for the next research agent (living file — last updated 2026-10-08 ~19:00 UTC)
+# Continuation prompt for the next research agent (Codex or other) — written 2026-10-08 19:15 UTC by the Claude Code controller
 
-Paste everything below the line into the next agent. Re-check every "live" item; this file is an index, not proof.
+Paste everything below the line into the next agent. Every "live" fact must be re-verified; this is an index, not proof. When Claude returns it will read `CODEX_CONTINUATION_LOG.md` (see §9) and continue from there.
 
 ---
 
-You are the research controller for **Wunder Connectome Challenge2** in `/home/vlad/development/wunder/wnn_connectome_starterpack`. Goal: a valid deterministic submission above our public best **0.6660** and teammate Maxim's **0.6674**; a real public **0.700** exists, so pursue it. Research continues until the user explicitly says stop. Be autonomous, plan, delegate bounded tasks, verify, record evidence.
+## 0. Mission and authority
 
-## Read first (binding)
-1. `AGENTS.md` (= `CLAUDE.md`): rules — independent code & weights (no teammate weights/code copies), official metric `global_wp_clip2_v1` (`src/wnn/gmetric.py`), causal per-row serving with state reset per sequence, human-only public upload, Vast strict ownership ("touch only machines you rented"), no top-up.
-2. `specs/README.md`, `specs/research-objective.md`, `specs/current-state.md`, `research/RESEARCH_METHODS.md`.
-3. Controller notes for this session: `research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/` — `CONTROLLER_PLAN_20261008.md` (decisions/timeline), `AGENT_RESOURCE_RULES.md` (MANDATORY for any subprocess/agent), `NEW_HYPOTHESES_20261008.md` (H-274..H-283), `PIPELINE_MAP_20261008.md`, `PUBLIC_CV_HISTORY_20261008.md`, `SCREEN_PROTOCOL_20261008.md`, `STUDENT_READINESS_20261008.md`, `KAGGLE_SCOUT_20261008.md`, `WARM_RUNNER_SCOUT_20261008.md`, `ENGINE_TIMING_20261008.json`, `COHORT1_FOLD0_STUDENT_ARMS.json`.
-4. Ledgers (append-only): `research/hypotheses.jsonl`, `research/experiments.jsonl`. Tree: `research/bandit_tree/generated/INDEX.md` (rebuild with `scripts/research_tree.py --root . build`).
+You are the root research controller for **Wunder Connectome Challenge2**, repo `/home/vlad/development/wunder/wnn_connectome_starterpack`. Goal: a valid deterministic submission above our public best **0.6660** and teammate Maxim's **0.6674**; the user reports a real public **0.700** exists — plan toward it, try many ideas, do not reject directions because one component was weak (interactions matter). Research continues until the user explicitly says stop. Be autonomous within the rules; keep every paid/quota resource busy with useful work.
 
-## Hard-won operational rules
-- **Memory:** campaign cgroup `wnn-campaign.slice` = 5 CPU, 18 GB high / 20 GB max, no swap; the local GPU worker guard (`scripts/bandit_resources.py`) KILLS fits when the whole slice (incl. page cache) exceeds 18 GB. Two incidents today: a subagent's unwrapped 15.8 GB python caused a host OOM that killed the whole session; page cache + support scopes killed the seed9 fit. Mitigations live: `wnn-slice-filecache-guard-v1` (file-cache reclaim above 15.5 GB). Every python/CLI via `scripts/limited` with `WNN_SLICE=wnn-campaign.slice WNN_MEM_MAX≤2.5e9` while a GPU fit runs; never read whole parquet; long work only as systemd units.
-- **Local GPU launch:** `scripts/bandit_resources.py --root $PWD --state $PWD/research/campaign_2026-10-06/bandit_continuation/runtime launch --attempt <NEW id> --kind gpu --cpus 2 --reserve-bytes 9000000000 --profile <id> --contract <auth json> --admission-timeout 1800 -- <argv>` (run it via scripts/limited). Attempt ids are single-use (a refused launch burns the id). Launch needs measured slice ≤ 9 GB: reclaim file cache first (`echo "<bytes> swappiness=0" > /sys/fs/cgroup/.../wnn-campaign.slice/memory.reclaim`). Support CPU quotas count toward 5 cores.
-- **Local warm queue (load-once, run-many):** worker attempt `warm-queue-local-v3-20261008` runs `scripts/warm_queue_worker.py` over `research/campaign_2026-10-06/bandit_continuation/runtime/warm_queue_local_v1/` (pending/ → running/ → done|failed/, `results.jsonl`, `logs/`, `worker_heartbeat.json`, STOP file). Add work by dropping spec JSON into `pending/` (lowest priority first). Generate fold0 cohort specs with `scripts/make_cohort_specs.py ARMS.json --root ... --python ... --queue ...`. Worker idle-exits after 30 min empty.
-- **Scoring:** `scripts/score_fold0_panel.py RUN@epE [--reference RUN@EPOCH | blend "A@ep1*0.5,B@ep0*0.5"] --out X.json` — official metric on the frozen fold0 468-group panel (repeatedly exposed: development evidence only; confirm on fold1 before claims). Reproduces E511 grades exactly.
-- **Packaging:** `scripts/package_submission.py NAME "PARENT@epN|HEADFT@ep0":1.0` (merged heads on one trunk = incumbent format); gates: `scripts/check_submission_abi.py`, `scripts/check_submission_python311.py` (py311 env built by packager in its scratchpad), timed replay on `cache/valid_subset20.parquet`. Runtime: single trunk ≈ 37–38 min, two GRU256 trunks ≈ 61–72 min (over 60-min limit; f16 only 4% faster).
-- **Vast:** `scripts/vast_campaign.py --ledger ~/.local/state/wnn-campaign/vast/ledger.json {inspect,search,run,status,settle,...}`. Run path needs intent + root admission (120 s expiry, fresh offer snapshot via `_offer_snapshot`, `spending_authority_sha256`, ADR0015) + dispatcher receipt; then `systemd-run` supervisor (see `research/campaign_2026-10-06/bandit_continuation/vast_warm_cohort/`). Offers vanish within minutes — bind at dispatch. Never retry after ambiguous create. Settle finished attempts with root receipts (billing via campaign client GET `/users/me/invoices/`). Credit ≈ $17.9, committed ≈ $1.79 + live reservations. No extend path for hard stop: set long hard stop + long idle-exit at creation; keep paid GPUs busy (hold spec trick: self-requeueing low-priority wait spec).
-- **Kaggle:** CLI `.venv/bin/kaggle` (2.2.4). Warm-cohort kernel code on branch `worktree-agent-abc36427758e3823c` (`scripts/kaggle_warm_cohort/`, receipt `research/.../kaggle_warm_cohort/PUSH_01_SMOKE_20261008_R1.json`); private datasets `vladkochetov07/wunder-funder` (raw parquet), `wnn-c20261004-fold0/1-assets`, `wnn-warm-cohort-src-20261008`. Quota: GPU ~11 h until 2026-10-10 00:00 UTC (lost if unused), TPU ~20 h (TPU V6 failed on an over-strict input-inventory check; JAX path unproven). Most past pushes failed on transport validators — smoke first.
-- **Agents:** Haiku subagents only (user), caveman-terse, minimal tool calls, ≤3 active, each prompt must include AGENT_RESOURCE_RULES.md. Root approves admissions/spend; agents never approve themselves.
+Binding rules (read in this order): `AGENTS.md` (= `CLAUDE.md`), `specs/README.md`, `specs/research-objective.md`, `specs/current-state.md`, `research/RESEARCH_METHODS.md`. Key points: our own independently trained weights and independently written code only (teammate code may be read, never copied); official metric `global_wp_clip2_v1` (`src/wnn/gmetric.py`, fixed mask, clip ±2); causal per-row serving with state reset per sequence; 1 vCPU / 60 min / 16 GB / 20 MB ZIP serving limits; public upload is done by the user only; Vast strict ownership — "touch only machines you rented. do not hurt existing, they are not mine"; existing Vast credit only, no top-up; Kaggle within quota.
 
-## State at handoff (verify live)
-- Local queue order: seed9 strong-parent epoch-3 resume → Z1b/Z2b GCorr head-FT on H230 S4/S3 all-data students → Z3 student from incumbent parent `c20261004_combo_s4_final@ep3` (+Z3H head-FT) → faithful seed99/seed9 Muon-parent students (+Z4/Z5 head-FT) → fold0 evidence: `f0_combo_s3_parent_hft_v1` (incumbent analogue), A00 (C3 analogue, never-run heterogeneous teachers + family head on fold0) + A00 head-FT, A01, A04.
-- Packager agent packages `c20261008_<zN>_combo_i16` (merged-head combos) and writes `RELEASE_CHECK.json`.
-- Vast r4 smoke: attempt `e529-vast-warm-smoke-c1v2-f0-20261008-r4`, instance 54894762 (RTX 3090 TH $0.305/h), hard stop 21:59 UTC; cohort V00–V09 (C1v2 variants + head-FT) prepared at `.runtime/e529-vast-warm-smoke-c1v2-f0-20261008-r4/cohort_v1/`.
-- Kaggle smoke `vladkochetov07/wnn-warm-cohort-smoke-20261008-v1`: running at handoff.
-- Ideation: `research/ideas/claude_20261008_round/` (Grok 4.7, OpenCode Muse, Nemotron raw outputs; PLAN_TO_0700.md when synthesized).
+## 1. Where the notes are
 
-## Evidence so far (fold0 468 panel unless noted)
-- Public: combo_s4 (Muon/chunk1000/boot parent + GCorr head merged) 0.6660; H230 students 0.6644–0.6653 (never head-finished); same-recipe pair +0.0004; head-FT +0.0013 public on parents.
-- C1 s3 0.681618, C1 pair 0.682176; H272S4 hidden 0.681363; best equal 2-trunk pair 0.682231.
-- Blend-lab: learned stackers/booster negative; diverse existing architectures add ~0; only a 2nd GRU256 trunk helps (+0.0003..0.0008).
-- H-281: labels are NOT causally revealed (R² ≤ 0.19 for y_t from features at t+L ≤ 100); recalibration using past labels is a leakage oracle (+0.06..0.18) — invalid, but shows per-sequence target bias/scale tracking is valuable if done label-free (H-283 testing).
+- Session controller dir: `research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/`
+  - `CONTROLLER_PLAN_20261008.md` — decisions and timeline (append updates there).
+  - `AGENT_RESOURCE_RULES.md` — **mandatory** for you and every subagent (memory caps, no whole-parquet reads, no docker, terse output).
+  - `HOST_OOM_SESSION_CRASH_20261008_R1.json`, `SEED9_PARENT_AGGREGATE_BREACH_REVIEW_20261008_R1.json` — the two memory incidents of today and their fixes.
+  - `NEW_HYPOTHESES_20261008.md` — H-274..H-283 cards; ideation round `research/ideas/claude_20261008_round/PLAN_TO_0700.md` (H-284..H-290).
+  - Scout reports: `PIPELINE_MAP_20261008.md`, `PUBLIC_CV_HISTORY_20261008.md`, `SCREEN_PROTOCOL_20261008.md`, `STUDENT_READINESS_20261008.md`, `KAGGLE_SCOUT_20261008.md`, `WARM_RUNNER_SCOUT_20261008.md`, `ENGINE_TIMING_20261008.json`.
+  - `COHORT1_FOLD0_STUDENT_ARMS.json`, `make_core_checkpoint.py`, `slice_filecache_guard_v1.sh`, `USER_AUTHORIZATION_AUTONOMOUS_COMPUTE_20261008_R1.json`.
+- Append-only ledgers: `research/hypotheses.jsonl`, `research/experiments.jsonl`. Tree: `research/bandit_tree/generated/INDEX.md` (rebuild: `scripts/limited .venv/bin/python scripts/research_tree.py --root . build`).
+- Analysis results today: `research/campaign_2026-10-06/bandit_continuation/blend_lab_H274/BLEND_LAB_RESULT_20261008.md`, `.../delayed_label_H281/H281_RESULT_*.md, H283_*, H284_*, H285_H289_*`.
 
-## Idea backlog (register each as a hypothesis/arm before running; one-flag matched controls; promote only after fold1)
-Finishing/serving (cheap, near-term):
-1. Student × GCorr head-FT merged combo (Z1–Z5) — main candidate.
-2. 3–4 merged heads on one trunk (GCorr, wmse-FT, multiplicative readout, per-class head), weights by component-CV.
-3. Head-FT objective variants: gcorr_pool, wmse_gcorr mix, per-market-class GCorr, longer FT (2–3 ep), lr sweep {2e-4,1e-3}.
-4. EMA/SWA of student checkpoints (ep0+ep1) before head-FT.
-5. Int8/AVX-VNNI or better-blocked native kernel → 2 trunks or GRU320/384 within 60 min (H-282).
-6. f16 storage + pruning low-norm hidden units to cut runtime.
-Distillation/teachers:
-7. A00–A13 fold0 arms (alpha 0.5/0.9, family head on/off, raw vs clip2 family targets, normalized vs source teacher sum, lr, epochs 3, chunk 1000, boot-h 8, Muon student).
-8. Organizer baseline in the 0.0625 teacher slot (H-279; `cache/pred_baseline_*` exist).
-9. Capacity teachers GRU512/768 fold0-clean on Vast 3090/4090 → distill into GRU256 (packets exist: gru512_768_muon_fit_v5r3).
-10. Teacher ensembles of different seeds + architectures (attention/TCN as teachers, not served) — H-280 via distillation.
-11. Distill a 2-trunk pair into one student (pair-to-single).
-12. Born-again / iterated self-distillation (student → teacher → student).
-13. Teacher-target temperature / amplitude rescale; teacher disagreement as sample weight.
-14. Relational/structural distillation of hidden states (H196 code exists, unadmitted).
-Representation/features:
-15. Label-free per-sequence scale/bias tracking features (H-283): EW volatility of price/spread/volume, own-prediction running stats.
-16. Cross-instrument lead–lag features (i1 → i0), order-flow imbalance, microprice, queue imbalance.
-17. True raw-feature teacher family (H-273, raw-weight parity fix).
-18. Numeric embeddings (PLE) on selected features only; feature-group dropout.
-19. Market-class routing / class-conditional heads; class-weighted loss matching public class mix [0.183,0.16,0.198,0.459].
-20. Event-time (activity clock) inputs: time since last trade/quote change, event counts.
-Objective/optimization:
-21. Muon vs AdamW at student stage; whole-matrix vs per-gate Muon; LR multipliers.
-22. WSD schedule / cooldown, SGDR restarts + noise (H-266/267).
-23. Loss: wmse vs gcorr vs mix; chunk-level vs global correlation surrogate; |y|-weighting exponent.
-24. TBPTT chunk 1000 vs 2000 vs 4000; stateful chunk carry; detach jitter.
-25. Larger batch + LR scaling on 3090/4090; gradient accumulation.
-26. Auxiliary targets: future multi-horizon targets, realized-target statistics (offline-computed) as aux heads.
-Data/validation:
-27. Fold1 confirmation of every promoted arm (fold1 assets exist on Kaggle).
-28. Train on more data epochs (5–6) for parents; all-data final fits for winners.
-29. Small-data screens (`specs/plans/2026-10-08-small-data-screening.md`) for fast ranking, then full confirmation.
-Bold bets:
-30. Much larger teacher (GRU1024 / Transformer) on rented 4090 + aggressive distillation.
-31. Native engine rewrite to fit 3 trunks (diverse ensemble).
-32. Test-time per-sequence adaptation that is causal and label-free (e.g. normalization stats updated online, entropy-style objectives).
+## 2. Evidence you must not re-derive (fold0 468-group panel = repeatedly exposed development evidence; confirm on fold1 before claims)
 
-External ideation (Grok 4.7 + OpenCode Muse, 2026-10-08): `research/ideas/claude_20261008_round/PLAN_TO_0700.md`, registered as H-284..H-290:
-33. Class-3 analytic latent-F readout (t0+t1 consistency) — CPU identity audit first (H-284).
-34. Disagreement-selected teacher pool instead of seeds (H-285).
-35. Causal i0/i1 cointegrating residual feature (H-286).
-36. Rank-4 innovation basis latent dynamics (H-287).
-37. Low-rank wide recurrent student via --recurrent-rank (H-288).
-38. Top-K/threshold prediction gate for pooled WP (H-289, CPU).
-39. Late optimizer switch from mid checkpoint (H-290).
-Engine timing: `ENGINE_TIMING_20261008.json` (2 trunks ≈ 64–72 min → not servable without H-282).
+| Fact | Number / source |
+|---|---|
+| Public best | 0.6660 `c20261004_combo_s4_i16` = one GRU256x2 trunk (`c20261004_combo_s4_final@ep3`, Muon+chunk1000+bootstrap, all data) + merged GCorr head-FT (`c20261004_combo_head_s4_final@ep0`), runtime 37m07s |
+| Head-FT finishing | +0.0013 public on combo parents (E-457); +0.00083 local on S4 parent |
+| H230 distilled students (never head-finished) | public 0.6644–0.6653; same-recipe seed pair +0.0004 public (61m22s runtime) |
+| Fold0 students | C1 s3 0.681618, C1 pair 0.682176, H230 hetero+family s3 0.68172, family-off control 0.681658 |
+| Blend lab | learned stackers/booster negative; diverse existing architectures (GRU384, attention, PLE, GRU128) add 0; only a 2nd GRU256 trunk helps (+0.0003..0.0008, CI crosses 0) |
+| Runtime | single trunk ≈ 37–38 min; 2 GRU256 trunks ≈ 61–72 min (over limit; f16 only 4% faster) |
+| H-281 | labels are NOT causally revealed (R² ≤ 0.19 for y_t from features at t+L≤100) — recalibration using past labels is a leakage oracle; invalid |
+| H-283 / H-284 / H-289 | label-free post-hoc calibration −0.002..−0.005; class-3 spread identity not found in features (projection −0.011); shrink gate null |
+| H-285 | strong-heavy teacher mix +0.0004 (component-CV, CI crosses 0) |
 
-## How to decide a submission
-Fold0 analogue gain vs the incumbent analogue (`f0_combo_s3_parent_hft_v1`) and vs C1, consistent across 2 seeds, then fold1, then package single trunk merged heads, pass ABI/py311/determinism/reset/timing (<55 min projected), give the ZIP path + RELEASE_CHECK to the user for manual upload. Report public result receipts in `continuous_execution_E529/` or controller notes.
+## 3. How to run and monitor each lane
+
+### Local (RTX 3060 6 GB; campaign cgroup 5 CPU / 18 GB high / 20 GB max)
+- Guard rules: `scripts/bandit_resources.py` kills a GPU fit if the whole `wnn-campaign.slice` (incl. page cache) exceeds 18 GB. `wnn-slice-filecache-guard-v1.service` reclaims file cache above 15.5 GB. Keep support processes ≤ 2.5 GB each, one at a time, always via `WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=2500000000 WNN_RUNTIME_MAX=900s scripts/limited <cmd>`.
+- **Warm queue (load-once, run-many):** worker attempt `warm-queue-local-v3-20261008` (unit `wnn-bandit-warm-queue-local-v3-20261008.service`, 2 CPU / 9 GB / 6 h from 18:37Z, idle-exit 30 min) runs `scripts/warm_queue_worker.py` over `research/campaign_2026-10-06/bandit_continuation/runtime/warm_queue_local_v1/` (`pending/ running/ done/ failed/ withdrawn/ logs/ results.jsonl worker_heartbeat.json`, `STOP` file stops claiming). Add work = drop a spec JSON in `pending/` (lowest `priority` first; steps = argv lists). Check: `cat .../worker_heartbeat.json; tail results.jsonl; tail logs/<run>.<step>.log`.
+- Queue at handoff: running `z3-combo-s4-parent-student-v1` (student from incumbent parent, ETA ~19:45Z) → `z1c`/`z2c` head-FT on H230 S4/S3 students (core checkpoints) → `z3h` → `f0_combo_s3_parent_hft_v1` (fold0 incumbent analogue) → `f0_h230_hetero_s3_hft_v1` (fold0 student+head-FT) → seed99 faithful student → `z4` → seed9 faithful student → `z5`.
+- Relaunching a worker when it exits: new attempt id (ids are single-use), reclaim file cache so slice ≤ 9 GB (`echo "6000000000 swappiness=0" > /sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/memory.reclaim`), then `scripts/limited .venv/bin/python scripts/bandit_resources.py --root $PWD --state $PWD/research/campaign_2026-10-06/bandit_continuation/runtime launch --attempt warm-queue-local-v4-<date> --kind gpu --cpus 2 --reserve-bytes 9000000000 --profile H230-ALLDATA-STUDENT-GRU256-SEED3-FIT --contract research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/WARM_QUEUE_LOCAL_V1_ROOT_AUTHORIZATION_20261008_R1.json --admission-timeout 1800 -- /usr/bin/timeout --signal=TERM --kill-after=30s 21600s $PWD/.venv/bin/python $PWD/scripts/warm_queue_worker.py --queue $PWD/research/campaign_2026-10-06/bandit_continuation/runtime/warm_queue_local_v1 --poll-seconds 20 --idle-exit-seconds 1800` (edit the authorization's attempt_id first). If admission is closed after a breach: write a review, then `bandit_resources.py ... resume --review "<text>"`.
+- Head-FT on family-head students: main `scripts/train_rnn.py` has no family-head flags → first `python .../controller_claude_20261008/make_core_checkpoint.py SRC_RUN 1 SRC_RUN_core` (drops the 8 appended family rows of head.2, trunk bitwise identical), then the incumbent head-FT recipe: `--init CORE@ep1 --train-source valid --full-valid --mask-weight --seed 3 --epochs 1 --batch 16 --chunk 2000 --fast --inherit-init-preprocessing --loss gcorr --optim adamw --freeze inp,gru --lr 0.0005 --wd 0.01 --checkpoint-policy fixed --checkpoint-epoch 0 --save-training-state --no-eval-during-fit` (+ `--split-manifest research/campaign_2026-09-29/artifacts/splits/fold0.json` for fold0).
+- Scoring: `scripts/score_fold0_panel.py RUN@epE --reference RUN@EPOCH --reference "A@ep1*0.5,B@ep0*0.5" --out X.json` (needs `cache/pred_<run>_valid.{npy,json}` from `scripts/predict_run.py RUN valid --epoch E`; aliases by symlink allowed when sidecar run/epoch match). Cohort spec generator: `scripts/make_cohort_specs.py ARMS.json --root R --python PY --queue Q`.
+- Monitors: `wnn-campaign-kaggle-poller.timer` (60 s Kaggle status/quota → `research/campaign_2026-10-06/cloud_preflight/provider_poll_log.jsonl`), `wnn-research-monitor.timer`. Your own session monitors die with your session.
+
+### Vast (paid; must never idle)
+- Tool: `.venv/bin/python scripts/vast_campaign.py --ledger /home/vlad/.local/state/wnn-campaign/vast/ledger.json {inspect|search|status --attempt|reconcile --attempt|settle --attempt --receipt|run ...}` (credential loaded internally from `.env`; never print secrets/URLs).
+- Live: attempt `e529-vast-warm-smoke-c1v2-f0-20261008-r4`, instance **54894762** (RTX 3090, Thailand, $0.3053/h, 64 GB), reserved $2.00, supervisor unit `wnn-vast-warm-smoke-c1v2-r4-v2-20261008`, **hard stop 21:59:24Z**, phase at handoff: `staging_inputs` since 18:49Z (35 GB parquet over plain upload because signed prefetch was skipped for "insufficient runway" — slow). Packet: `research/campaign_2026-10-06/bandit_continuation/vast_warm_cohort/` (smoke spec + intent + admissions r2/r3/r4). Cohort specs V00–V09 (C1v2 fold0 variants + GCorr head-FT V09) and a self-requeueing HOLD spec (keeps the worker from idle-exiting until hard stop − 30 min) at `.runtime/e529-vast-warm-smoke-c1v2-f0-20261008-r4/cohort_v1/`; push them into the remote queue `pending/` over the supervisor's SSH key as soon as staging completes (read host/port via read-only provider instance details for our receipt-owned instance only). Make cohort specs copy grade/pred/provenance into the bundled directory so collection brings them home.
+- Monitor: `systemctl --user status wnn-vast-warm-smoke-c1v2-r4-v2-20261008`, `journalctl --user -u <unit> -n 30`, ledger status for the attempt, `vast_campaign.py inspect` (instance list, credit). After terminal: verify `destroyed_verified`, read billing (campaign client GET `/users/me/invoices/` → private file under `~/.local/state/wnn-campaign/vast/`), settle with a root receipt (`settle`; schema in `continuous_execution_E529/vast/SETTLEMENT_*_20261008_R1.json`).
+- Lessons: offers vanish within minutes → bind the offer at dispatch time (normalized `vc._offer_snapshot`), admission expires in 120 s, include `spending_authority_sha256` (ADR0015); never retry after an ambiguous/ApiError create (reconcile only); no extend path → choose a long hard stop and long idle-exit at creation; prefer signed Kaggle prefetch for staging (fast, cheap) over laptop upload; worker host RAM ≥ 1.25 × worker ceiling.
+- **Next rental (r5, long-lived):** hard stop ≥ 10 h, idle-exit ≥ 2 h, HOLD spec, signed prefetch staging, one 3090/4090 ≤ $0.35/h (or two machines with disjoint queues), reservation ≈ $4–5. Ledger committed was $1.79 before r4; credit ≈ $17.9. Queue it with the Vast cohort list in §5 (≈ 20–30 runs) so it stays busy for many hours.
+
+### Kaggle (GPU quota ≈ 11 h until 2026-10-10 00:00 UTC; TPU ≈ 20 h)
+- CLI `.venv/bin/kaggle` 2.2.4 (credentials configured). Warm-cohort kernel code `scripts/kaggle_warm_cohort/` (merged), source dataset `vladkochetov07/wnn-warm-cohort-src-20261008`, data `vladkochetov07/wunder-funder` (33.7 GB raw parquet), assets `wnn-c20261004-fold0-assets`, `wnn-c20261004-fold1-assets`.
+- Live: smoke `vladkochetov07/wnn-warm-cohort-smoke-20261008-v1` v1 and v2 ended ERROR with EMPTY logs and null failureMessage (never started); probe kernel `vladkochetov07/wnn-warm-cohort-probe-20261008-v1` (no datasets, trivial script) queued to isolate mount vs account/kernel-setting causes. Compare `kernel-metadata.json` with the last COMPLETED kernel `h232-gru384-b8-amp4096-conditional-profile-fit-v4` (packet `continuous_execution_E529/h232_conditional_v4/packet`). If the probe completes, reduce mounts (fold assets + valid only) and stage train parquet differently; if it fails, check accelerator/visibility settings and account phone verification.
+- Monitor: `kaggle kernels status <slug>`, `kaggle kernels output <slug> -p <dir>` (via scripts/limited), poller log. TPU V6 failed on an over-strict input-inventory check (`continuous_execution_E529/E463_TPU_V6_TERMINAL_OUTPUTS_20261008_R1/`); JAX TPU path is unproven — low priority.
+
+### Marimo
+- Server `wnn-marimo-blend-lab-20261008` was stopped to free 1.7 GB for the GPU fit; agents could not discover its session. Notebook to continue: `research/campaign_2026-10-06/bandit_continuation/blend_lab_H274/blend_lab.py`; the real analysis lives in `blend_lab_analysis.py`, `blend_lab_architecture.py`, `delayed_label_H281/*.py`. Restart only when no local fit is near the memory limit: `systemd-run --user --unit=wnn-marimo-blend-lab-<date> --slice=wnn-campaign.slice -p MemoryMax=3000000000 -p CPUQuota=50% -p MemorySwapMax=0 --working-directory=$PWD .venv/bin/marimo edit --headless --no-token --host 127.0.0.1 --port 2718 research/campaign_2026-10-06/bandit_continuation/blend_lab_H274/blend_lab.py`, then open http://localhost:2718 (a browser tab must connect before a kernel session exists). Save plots in the lineage `plots/` folders.
+
+## 4. Submission candidates and decision rule
+- Packager output: `submissions/c20261008_<zN>_combo_i16/` (pkg, submission.zip, `RELEASE_CHECK.json`). Members are `CORE@ep1|HFT@ep0`, merged heads, i16, incumbent native builds and solution.py. Gates: tensor check, `scripts/check_submission_abi.py`, `scripts/check_submission_python311.py` (py311 env in the packager's scratchpad; rebuild with `/usr/bin/python3.11 -m venv` + numpy/pyarrow if missing), timed replay on `cache/valid_subset20.parquet` (incumbent 2.21 s/seq ↔ 37m07s).
+  - Z1 = H230 S4 student core + head-FT; Z2 = H230 S3; Z3 = student from incumbent parent `c20261004_combo_s4_final@ep3` + head-FT; Z4/Z5 = faithful seed99/seed9 Muon-parent students + head-FT.
+- Decide with fold0 analogues: `artifacts/runs/f0_h230_hetero_s3_hft_v1/grade_fold0.json` (student+head-FT) vs `f0_combo_s3_parent_hft_v1` (incumbent analogue: parent+head-FT). If student+head-FT ≥ parent+head-FT (paired component bootstrap), recommend Z3 first (strongest parent), then Z4/Z1; else keep incumbent and prioritize teacher/capacity work. Give the user ZIP path + sha + RELEASE_CHECK; the user uploads (≤5/day). Record public results as receipts.
+
+## 5. Experiment backlog (register each as hypothesis/experiment; one-flag matched controls; promote only after fold1)
+
+**Local queue additions (after current queue):** head-FT variants on the best student core (lr 2e-4/1e-3; 2 epochs; `--loss gcorr_pool`; `--loss wmse_gcorr`); 3-head merge (parent head + GCorr head + wmse-FT head) packaged and timed; fold0 incumbent analogue seed4 (`c20261003_combo_s4_f0` + head-FT); strong-heavy teacher cache variant (0.73125 strong / 0.08125 full, H-285) + one all-data student; organizer-baseline teacher slot (H-279; `cache/pred_baseline_*`).
+
+**Vast long cohort (fold0, inputs: combo_s3_f0/s4_f0 inits + teacher preds + propensity + split + valid_targets; ~18–25 min each on a 3090):**
+1–10. V00–V09 (C1v2 control, seed4, alpha 0.5/0.9, lr 2e-4, 3 epochs, chunk 1000, boot-h 8, Muon student, GCorr head-FT on V00).
+11. V00 + head-FT with lr 1e-3; 12. head-FT 2 epochs; 13. head-FT `gcorr_pool`; 14. `wmse_gcorr` student loss; 15. EMA/SWA of student ep0+ep1 then head-FT; 16. distill-alpha far/near schedule (`--distill-alpha-far`); 17. student from combo_s3_f0 with 4 epochs at lr 5e-5 (longer finish); 18. batch 32 + lr ×1.4; 19. `--update-rows`/detach variants (truncated BPTT 500); 20. seed4 versions of the best three arms (pairing for confidence); 21–24. fold1 confirmations of the two best arms (upload fold1 assets: `wnn-c20261004-fold1-assets` contents); 25. capacity teacher GRU512 fold0 (4 epochs, Muon, chunk1000; ~2–3 h) for later distillation; 26. GRU384 student distilled from the same teachers (capacity in the student; check runtime with H-282).
+
+**Kaggle (once a kernel actually starts):** mirror Vast arms 11–20 on the two T4s, or run fold1 confirmations.
+
+**Bigger ideas (need code; delegate to builders):** H-282 int8/AVX2-VNNI native kernel to fit 2 trunks (then a diverse pair or GRU320 student); H-280 diverse-ensemble distillation into the served GRU (teachers: GRU512/768, attention, TCN — teachers only); H-286 i0/i1 cointegrating-residual feature; H-288 low-rank wide student (`--recurrent-rank`); H-290 late optimizer switch; H-287 rank-4 innovation basis; cross-instrument lead–lag, order-flow imbalance, event-time features; class-weighted loss matching public class mix [0.183,0.16,0.198,0.459]; born-again self-distillation; teacher-disagreement sample weights; pair-to-single distillation.
+
+## 6. Subagents (Codex harness)
+Follow AGENTS.md "Agent roles and invocation": spawn with `collaboration.spawn_agent`, distinct task name, `model="gpt-6-luna"`, `reasoning_effort="max"`, `fork_turns="none"`; ≤ 3 active subordinates; no Sol/Astra without explicit user confirmation. Give each a self-contained assignment (basis, scope, owner, deliverable, budget) and paste `AGENT_RESOURCE_RULES.md` rules verbatim. Suggested roles: (1) **cloud operator** — owns Vast r4→r5 lifecycle (push cohort, hold spec, collect, destroy, settle) and Kaggle probe/fix/cohort; (2) **packager/grader** — packages Z-candidates, runs gates, grades fold0/fold1 contrasts with `score_fold0_panel.py`; (3) **builder** — one code task at a time from §5 "Bigger ideas" (start with H-282 microbenchmark or the strong-heavy cache variant). Root keeps admission, spending approval and synthesis; agents never approve themselves.
+
+## 7. Safety checklist (every hour)
+`systemctl --user list-units 'wnn-*'`; slice memory `cat /sys/fs/cgroup/.../wnn-campaign.slice/memory.current` and `memory.events` (oom_kill count was 16 at handoff); `nvidia-smi`; `df -h /home` (**98% full, ~32 GB free** — keep big outputs on cloud, ask the user before deleting anything); Vast `inspect`; Kaggle poller tail.
+
+## 8. Immediate next actions (in order)
+1. Verify local worker v3 is running and the queue is advancing; when Z1c/Z2c/Z3H land, make sure the packager produces ZIPs and RELEASE_CHECKs.
+2. Watch r4 staging; the moment it reaches the worker phase, push HOLD + V00, V09, V01 … over SSH; collect before 21:59Z; verify destroy; settle.
+3. Prepare r5 (long-lived) with the §5 Vast cohort and signed prefetch; dispatch right after r4 is collected.
+4. Resolve the Kaggle empty-log failure via the probe; then run arms 11–20 or fold1 confirmations.
+5. When both fold0 head-FT grades land, apply §4 and hand the user the best ZIP.
+
+## 9. Catch-up protocol for Claude
+Append every action/result (UTC time, what, where, outcome) to `research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/CODEX_CONTINUATION_LOG.md`; append durable results to `research/experiments.jsonl`; update `specs/current-state.md` at meaningful results; commit scoped files (never `git add -A`; ~1270 unrelated dirty entries exist). Keep attempt ids, unit names and receipt paths in the log so Claude can resume without re-deriving.
