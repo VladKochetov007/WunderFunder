@@ -90,7 +90,7 @@ def prepare_worker_observers(
     monkeypatch.setattr(
         resources,
         "memory_events",
-        lambda _path: {"oom": 0, "oom_kill": 0, "oom_group_kill": 0},
+        lambda _path, **_kwargs: {"oom": 0, "oom_kill": 0, "oom_group_kill": 0},
     )
     monkeypatch.setattr(resources, "support_cpu_reservations", lambda *_args: {})
     monkeypatch.setattr(resources.time, "sleep", lambda _seconds: None)
@@ -152,7 +152,7 @@ def test_launch_preflight_excludes_its_own_unresolved_record(
     monkeypatch.setattr(
         resources,
         "memory_events",
-        lambda _group: {"oom": 0, "oom_kill": 0, "oom_group_kill": 0},
+        lambda _group, **_kwargs: {"oom": 0, "oom_kill": 0, "oom_group_kill": 0},
     )
     monkeypatch.setattr(resources, "support_cpu_reservations", lambda *_args: {})
     monkeypatch.setattr(
@@ -234,6 +234,83 @@ def test_gpu_service_is_directly_bounded_under_campaign_parent(tmp_path: Path) -
     assert "--setenv=WNN_GPU_MEMORY_BYTES=4300000000" in command
     assert "--setenv=WNN_VRAM_GB=4.3" in command
     assert "--setenv=WNN_LOADER_WORKERS=0" in command
+
+
+def test_local_parent_events_exclude_sibling_oom(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (tmp_path / "memory.events").write_text("oom 3\noom_kill 1\noom_group_kill 0\n")
+    (tmp_path / "memory.events.local").write_text("oom 0\noom_kill 0\noom_group_kill 0\n")
+    monkeypatch.setattr(resources, "cgroup_dir", lambda _group: tmp_path)
+    assert resources.memory_events("parent")["oom"] == 3
+    assert resources.memory_events("parent", local=True)["oom"] == 0
+    (tmp_path / "memory.events.local").unlink()
+    with pytest.raises(FileNotFoundError):
+        resources.memory_events("parent", local=True)
+
+
+@pytest.mark.parametrize("affected", ["sibling", "parent", "worker"])
+@pytest.mark.parametrize("event", ["oom", "oom_kill", "oom_group_kill"])
+def test_oom_attribution_keeps_healthy_sibling_fit_but_stops_own_breach(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, affected: str, event: str
+) -> None:
+    root, state, group, _ = worker_workspace(tmp_path)
+    prepare_worker_observers(monkeypatch, group, gpu_reads=[100_000_000] * 3)
+    monkeypatch.setattr(resources, "memory_peak", lambda _group: 100_000_000)
+    parent = parent_properties()["ControlGroup"]
+    reads: dict[str, int] = {}
+
+    def events(path: str, *, local: bool = False) -> dict[str, int]:
+        scope = (
+            "parent" if path == parent and local else "hierarchy" if path == parent else "worker"
+        )
+        reads[scope] = reads.get(scope, 0) + 1
+        counters = {"oom": 0, "oom_kill": 0, "oom_group_kill": 0}
+        if reads[scope] > 1 and (scope == affected or scope == "hierarchy"):
+            counters[event] = 1
+        return counters
+
+    monkeypatch.setattr(resources, "memory_events", events)
+
+    class Child:
+        pid = os.getpid()
+        returncode: int | None = None
+        polls = 0
+
+        def poll(self) -> int | None:
+            self.polls += 1
+            if self.returncode is None and self.polls > 1:
+                self.returncode = 0
+            return self.returncode
+
+        def wait(self, timeout: float | None = None) -> int:
+            return self.returncode or 0
+
+    child = Child()
+    stopped: list[Child] = []
+
+    def stop(actual: Child) -> None:
+        stopped.append(actual)
+        actual.returncode = -15
+
+    monkeypatch.setattr(resources.subprocess, "Popen", lambda *_args, **_kwargs: child)
+    monkeypatch.setattr(resources, "stop_child", stop)
+    monkeypatch.setattr(resources, "POLL_SECONDS", 0)
+    result = resources.worker(root, state, "a1", 2)
+    receipt = resources.read_json(resources.attempt_path(state, "a1"))
+    assert receipt["parent_memory_events_scope"] == "memory.events.local"
+    assert receipt["final_parent_hierarchical_memory_event_deltas"][event] == 1
+    if affected == "sibling":
+        assert result == 0
+        assert receipt["status"] == "finished"
+        assert not stopped
+        assert not (state / "STOP_ADMISSION.json").exists()
+        assert receipt["final_parent_memory_event_deltas"][event] == 0
+    else:
+        assert result == 1
+        assert receipt["status"] == "failed"
+        assert stopped == [child]
+        assert (state / "STOP_ADMISSION.json").exists()
 
 
 def test_gpu_observer_timeout_is_unknown_and_does_not_kill_healthy_child(

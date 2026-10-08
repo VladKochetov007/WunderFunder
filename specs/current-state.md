@@ -1,3 +1,9 @@
+## Local resource-controller repair — 2026-10-08 03:40 Kyiv
+
+H230 parent retry2 is terminal infrastructure failure: a sibling support-scope OOM incremented hierarchical parent counters, and the controller stopped the trainer despite trainer OOM0. Root corrected event attribution and obtained independent Luna review; focused resource/CPU checks passed26. [ADR0018](adr/0018-attribute-oom-to-resource-boundary.md). A newly identified same-recipe retry is being prepared; no running fit is claimed until its actual logs appear.
+
+Research continues past10:00; the scheduled local CPU cap is five cores, without a research cutoff. Kaggle H232V6 repair and fixed-checkpoint export are being completed, TPUV5 remains queued, and owned VastA3D remains under its finite staging supervisor. E540 numerical embeddings and the metadata-only all-supplied teacher-cache packet are active; a proposed low cache-build memory cap is not yet measured or admitted. No new public best; best0.6660.
+
 ## Actual retry fitting observed — 2026-10-08 03:32 Kyiv
 
 H230 parent retry2 now has actual epoch0batch0–60/779 fitting logs. GPU93%/about2.08GiB, worker anon2.66GB/file5.18GB inside8GB child reserve; aggregate current12.54GB, no new OOM. The prior all-data attempt remains failed due the separate metadata-helper OOM; this corrected attempt starts from the same declared initializer and saves full training state. Scientific source/horizon/membership remain fixed. Root owns final all-data endpoint/package assessment with no heldout-score claim. No new public best.

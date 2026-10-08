@@ -208,9 +208,9 @@ def memory_peak(group: str) -> int:
     return int(value)
 
 
-def memory_events(group: str) -> dict[str, int]:
-    """Read OOM counters from the parent or attempt cgroup."""
-    path = cgroup_dir(group) / "memory.events"
+def memory_events(group: str, *, local: bool = False) -> dict[str, int]:
+    """Read local limit events or hierarchical attempt/descendant events."""
+    path = cgroup_dir(group) / ("memory.events.local" if local else "memory.events")
     values = {
         name: int(count) for name, count in (line.split() for line in path.read_text().splitlines())
     }
@@ -848,7 +848,10 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
         "attempt_memory_events_start", lambda: memory_events(group), record, record_path
     )
     parent_start_events = observe(
-        "parent_memory_events_start", lambda: memory_events(parent_group), record, record_path
+        "parent_memory_events_start",
+        lambda: memory_events(parent_group, local=True),
+        record,
+        record_path,
     )
     if start_events is None or parent_start_events is None:
         record.update(
@@ -864,7 +867,16 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
     record.update(
         initial_memory_events=start_events,
         initial_parent_memory_events=parent_start_events,
+        parent_memory_events_scope="memory.events.local",
+        attempt_memory_events_scope="memory.events (includes worker descendants)",
     )
+    parent_hierarchical_start = observe(
+        "parent_hierarchical_memory_events_start",
+        lambda: memory_events(parent_group),
+        record,
+        record_path,
+    )
+    record["initial_parent_hierarchical_memory_events"] = parent_hierarchical_start
     if source_manifest(root, command, contract) != manifest:
         record.update(
             status="not_started",
@@ -970,10 +982,20 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
                 )
                 parent_events = observe(
                     "parent_memory_events",
+                    lambda group_path=parent_group: memory_events(group_path, local=True),
+                    record,
+                    record_path,
+                )
+                parent_hierarchical_events = observe(
+                    "parent_hierarchical_memory_events",
                     lambda group_path=parent_group: memory_events(group_path),
                     record,
                     record_path,
                 )
+                if parent_hierarchical_start is not None and parent_hierarchical_events is not None:
+                    record["parent_hierarchical_memory_event_deltas"] = deltas(
+                        parent_hierarchical_start, parent_hierarchical_events
+                    )
                 observed_vram = None
                 if kind == "gpu":
                     observed_vram = observe(
@@ -1059,8 +1081,21 @@ def _run_worker(root: Path, state: Path, attempt: str, admission_timeout: int) -
             "attempt_memory_events_final", lambda: memory_events(group), record, record_path
         )
         final_parent_events = observe(
-            "parent_memory_events_final", lambda: memory_events(parent_group), record, record_path
+            "parent_memory_events_final",
+            lambda: memory_events(parent_group, local=True),
+            record,
+            record_path,
         )
+        final_parent_hierarchical_events = observe(
+            "parent_hierarchical_memory_events_final",
+            lambda: memory_events(parent_group),
+            record,
+            record_path,
+        )
+        if parent_hierarchical_start is not None and final_parent_hierarchical_events is not None:
+            record["final_parent_hierarchical_memory_event_deltas"] = deltas(
+                parent_hierarchical_start, final_parent_hierarchical_events
+            )
         if final_events is not None:
             final_delta = deltas(start_events, final_events)
             record["final_memory_event_deltas"] = final_delta
