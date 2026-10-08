@@ -64,6 +64,13 @@ family asymptote is a universal rejection rule.
 
 ## Compute continuity and scaling
 
+[ADR0022](adr/0022-prepared-successors-and-paid-warm-cohorts.md) makes successor
+readiness an explicit controller responsibility: prepare/review an executable
+next recipe and independent fallback while the current accelerator job runs.
+Start an admitted successor on valid completion without another user prompt.
+Keep finite paid warm cohorts productive, then collect and tear down our proven
+worker rather than pay to hold data while awaiting code or ideas.
+
 Local GPU, Kaggle GPU/TPU and owned Vast lanes need useful work or an active owner
 preparing/repairing their next runnable step within actual access and constraints.
 Queueing and staging are real phases, not fitting. Do not claim achieved utilization
