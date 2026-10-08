@@ -1,0 +1,46 @@
+{
+  "schema": "gru-capacity-v2-root-prelaunch-findings-v1",
+  "created_utc": "2026-10-08T09:29:42.175916+00:00",
+  "status": "source_findings_require_identified_successor",
+  "reviewed_packet_commit": "fd2eccb3a68002d96c01312d981b7ba5df6bd692",
+  "recipe_sha256": "69954a6efa16fa0812a41254e131c5a40cee4db8cb911a52d0eca36db0eecde6",
+  "worker_sha256": "15112b6af940546b3b24cae6a656be191c9791e9f577172a9d3288d25efaa9fa",
+  "source_archive_sha256": "a38899dc8a51231936f32c43b6ae56b3e6e6fffde647116337adf603bd709a02",
+  "scientific_negative": false,
+  "profile_or_fit_admitted": false,
+  "review_scope": "Concrete targeted source/actual-manifest prelaunch findings; not full source approval or device admission.",
+  "findings": [
+    {
+      "path": "capacity_worker.py:_gpu_hardware and GpuMemorySampler._sample",
+      "trigger": "Two physical Kaggle T4 GPUs remain visible to unfiltered nvidia-smi although CUDA_VISIBLE_DEVICES=0 limits CUDA runtime.",
+      "consequence": "Hardwarequery fails before profiles; sampler otherwise records no memory telemetry.",
+      "correction": "Explicit chosen physical GPU index/UUID query plus separate device inventory, dual-device actual-output parser fixtures."
+    },
+    {
+      "path": "capacity_worker.py:_verify_fit_artifacts",
+      "trigger": "Frozen trainer separately torch.save checkpoint to model_ep3.pt and model.pt. Archive filename differences can change file bytes while tensor/state/epoch remain equal.",
+      "consequence": "Valid completed fit falsely rejected before export.",
+      "correction": "Check separately producer-bound hashes and actual fixedepoch/config/tensor identity, producer-style two-file save fixture and wrongstate negative."
+    },
+    {
+      "path": "capacity_worker.py:_verify_fit_artifacts",
+      "trigger": "Bare TRAIN fit IDs intersect VALID evaluation IDs across distinct source namespaces.",
+      "actual_cross_source_aliases": 463,
+      "actual_same_source_train_excluded_overlap": 0,
+      "actual_same_source_valid_excluded_overlap": 0,
+      "actual_manifest_evaluation_keys": [
+        "valid"
+      ],
+      "consequence": "Valid clean split falsely rejected after fit.",
+      "correction": "Exact ordered pools; compare each source against its actual excluded set, source-qualified component overlap checks and alias/true-overlap fixtures."
+    },
+    {
+      "path": "kernel.py and kernel-metadata.json",
+      "trigger": "Entrypoint imports sibling capacity_worker.py, whereas direct Kaggle codefile push does not mount the whole packet automatically; metadata names only raw and fold datasets.",
+      "consequence": "Unassembled transport cannot import or verify packet.",
+      "correction": "Private hash-bound source-packet dataset plus minimal pinned driver, actual final asset download verification before one push."
+    }
+  ],
+  "preserve": "V2 source/packet commit remains frozen. Actor owns narrowly identified V3 corrections and extracted producer fixtures; profile-only first under root review, separate fit admission.",
+  "basis": "ADR0021 actual-producer consumers and source-qualified identity; ADR0022 finite warm cohorts."
+}
