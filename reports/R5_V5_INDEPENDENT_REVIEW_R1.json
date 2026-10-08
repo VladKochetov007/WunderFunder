@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "review": "independent_sealed_packet_review",
+  "reviewed_at_utc": "2026-10-08",
+  "source_packet": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/sol_continuation/r5_capacity_packet_v5.tar.gz",
+    "sha256": "8e8258125b02fbbc859511e0b76f7d372b7d2cd5ceb9a8a52c7e53965e22f265",
+    "source_commit": "4a25ef70"
+  },
+  "root_sealed_packet": {
+    "path": ".runtime/r5-root-sealed-20261008T2018-r2/r5_capacity_root_sealed.tar.gz",
+    "sha256": "e073365d0565a734879b47aef0c6e68e668f0f7dff0d2a7db0684a59024e4b6c",
+    "bytes": 424888,
+    "attempt_id": "e529-vast-capacity-muon-f0-20261008-r5",
+    "embedded_authorization": true,
+    "paid_admission": false
+  },
+  "verdict": "conditional_pass",
+  "passed_checks": [
+    "Root-sealed archive SHA matches r5_intent.json; embedded authorization names the exact attempt and binds recipe SHA bb1435bac473c48113fc3f53fd3cf79d982171d62bc4aa229ac5c4c034505ae6 and worker_spec SHA 92a5fda46ed650549432838c19491b6de0e56c6e0f37cd120b4e51df5ed794f2.",
+    "All 30 sealed archive members byte-match the prepared authorized packet directory; all non-authorization members byte-match the source packet tree after excluding only generated __pycache__ files. The only source-to-authorized payload change is ROOT_AUTHORIZATION.json.",
+    "Intent binds offer 51518831 (one RTX 3090, 24 GB VRAM, 64 GB host RAM), 36,000-second create hard stop, 28 GB worker RSS cap, 5 GB artifact cap, and the four expected terminal artifacts. The root admission draft remains authorized=false.",
+    "Paired-fit gate requires both primary arms and equality of ordered train/fit-valid membership, sample-order receipts, normalization identity, and per-epoch update receipts before a pair passes.",
+    "A descendant-process RSS supervisor samples every second, counts shared pages conservatively, and kills worker process groups above 28,000,000,000 bytes while retaining terminal receipts.",
+    "The actual-device 3090/4090 smoke gate requires 30 completed optimizer updates, zero AMP skips, finite losses and gradients, a valid throughput marker, measured GPU peak, and at least 1,024 MiB free before either fit.",
+    "Aggregate teacher export time is capped at 5,400 seconds across both arms; per-arm exports bind the fixed ep3 checkpoint, validate complete train/valid array shapes and FP32 finiteness, and preserve partial results on failure.",
+    "The archived V4 producer evidence consumer validates manifest hashes, all collected producer files, root review binding, actual argv/log markers, 230 successful updates per profile, precision policy and measured GPU peaks. Its sealed preflight passed for both fit parsers without GPU use.",
+    "The root launcher passes WNN_EXPECTED_ARTIFACTS to terminal.py, and terminal verifies each expected artifact exists and writes an attempt/packet-bound artifact manifest."
+  ],
+  "deployment_adaptations": [
+    "Vast execution intentionally uses the root-authorized bounded 450-second install step for pinned numpy, pyarrow and psutil; the network-disabled setting belongs to the earlier Kaggle recipe and is not the current Vast deployment policy.",
+    "The 26,000-second worker cap in the embedded Kaggle fit recipe is superseded for this Vast packet by the 36,000-second root hard stop and the controller-derived remaining WNN_MAX_RUNTIME_SECONDS. The fit argv and scientific recipe remain unchanged.",
+    "Orthogonalization uses the packet's explicit native BF16-if-supported policy on suitable GPUs and FP32 otherwise; the actual T4 profile was FP32 and the fresh hardware smoke checks the selected device's numeric and memory behavior before fitting."
+  ],
+  "required_admission_correction": {
+    "status": "must_bind_before_provider_create",
+    "finding": "The exact launch path gives run.sh up to 450 seconds for pinned dependency setup and then runs terminal.py under a separate 300-second timeout after WNN_MAX_RUNTIME_SECONDS expires. vast_campaign.py subtracts worker_setup_timeout_seconds and collection_timeout_seconds when deriving WNN_MAX_RUNTIME_SECONDS, but the current intent reserves only 450 seconds for setup. In the worst case, the run.sh setup plus terminal phase can therefore exceed the 10-hour hard stop by up to 300 seconds.",
+    "correction": "Reserve 750 seconds in worker_setup_timeout_seconds (the campaign validator permits up to 3600), or explicitly reduce WNN_MAX_RUNTIME_SECONDS by 300 seconds. Preserve the 900-second post-terminal collection reserve. Recompute and rehash the intent/admission receipt before dispatch."
+  },
+  "limitations": [
+    "No provider operation, GPU execution, fit, or data/weight mutation was performed. Actual 3090 numerical, precision, memory and timing gates remain worker-time admission checks.",
+    "The existing sealed preflight is intentionally a pending-authority fail-closed test. The authorized final archive was independently checked for exact member parity and authorization hash closure; root must still run its exact final admission validator against this final archive and corrected intent before any provider create."
+  ],
+  "verification_commands": [
+    "sha256sum .runtime/r5-root-sealed-20261008T2018-r2/r5_capacity_root_sealed.tar.gz",
+    "jq selected non-secret fields from .runtime/r5-root-sealed-20261008T2018-r2/r5_intent.json and r5_root_admission.DRAFT.json",
+    "tar -xOf <sealed archive> CAPACITY_R5_RECIPE.json|worker_spec.json|ROOT_AUTHORIZATION.json",
+    "tar -tzf <sealed archive>; byte-compare all 30 members against the prepared authorized packet; byte-compare all non-authorization members against source packet",
+    "sed/rg review of worker.py, resource_supervisor.py, terminal.py, run.sh, capacity_fit_worker.py and scripts/vast_campaign.py deadline derivation"
+  ]
+}
