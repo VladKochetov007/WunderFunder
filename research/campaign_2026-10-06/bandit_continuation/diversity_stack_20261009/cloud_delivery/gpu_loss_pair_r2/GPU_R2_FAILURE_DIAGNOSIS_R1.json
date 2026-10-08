@@ -1,0 +1,71 @@
+{
+  "schema": "wnn.kaggle-gpu-terminal-diagnosis.v1",
+  "format_version": 1,
+  "recorded_utc": "2026-10-08T23:51:44Z",
+  "kernel": "vladkochetov07/wnn-loss-pair-gpu-20261009-v2",
+  "kernel_version": 1,
+  "provider_terminal_status": "KernelWorkerStatus.ERROR",
+  "root_admission_sha256": "df7e5265f8deabb407253427d4924f6f0e638b126efbd8f197b9087a66a4d14d",
+  "push_receipt_sha256": "d3c9ce15e2de612ed604e750008bc699d94df1fcd530c2337289cf7304fa59ef",
+  "root_terminal_receipt": {
+    "path_from_cloud_delivery": "GPU_R2_TERMINAL_OPERATOR_RECEIPT_R1.json",
+    "sha256": "9049b7957db2495caac45b439ce6072e17f287bf3c5bca9f258e94446060e003",
+    "collection_complete": true,
+    "provider_output_file_count": 77,
+    "recorded_utc": "2026-10-08T23:49:17+00:00"
+  },
+  "worker": {
+    "state": "failed",
+    "elapsed_seconds": 82.13078482999998,
+    "fit_started": false,
+    "scientific_updates_completed": 0,
+    "checkpoints_produced": false,
+    "predictions_produced": false
+  },
+  "phases": {
+    "boot_utc": "2026-10-08T23:25:10Z",
+    "producer_and_auxiliary_verified_utc": "2026-10-08T23:25:34Z",
+    "pre_fit_gate_pass_utc": "2026-10-08T23:26:49Z",
+    "device_shape_gate_start_utc": "2026-10-08T23:26:49Z",
+    "worker_failed_utc": "2026-10-08T23:26:56Z",
+    "device_shape_child_returncode": 2,
+    "device_shape_child_wall_seconds": 6.417046572000004,
+    "gate_recipe": "B32/C2000/H256 two-layer FP32 GRU; two batches; twenty chunk updates"
+  },
+  "failure": {
+    "classification": "trainer_argument_rejection_before_any_update",
+    "message": "profiling/parity early exits cannot save epoch continuation state",
+    "cause": "The disposable device-profile argv inherited --save-training-state from the common fit argv and then added --profile-steps 2 --profile-warmup 0.",
+    "trainer_guard": "continuation and (profile_steps or parity_dump) is rejected",
+    "repair": "Remove --save-training-state only from the device-profile argv; retain it on both scientific fit argv.",
+    "superseded_by_candidate": "vladkochetov07/wnn-loss-pair-gpu-20261009-v3"
+  },
+  "actual_device_and_resource_evidence": {
+    "devices": [
+      {"name": "Tesla T4", "compute_capability": [7, 5], "total_memory_bytes": 15636037632},
+      {"name": "Tesla T4", "compute_capability": [7, 5], "total_memory_bytes": 15636037632}
+    ],
+    "pre_fit_cgroup_current_bytes": 831840256,
+    "pre_fit_cgroup_max_bytes": 32212254720,
+    "pre_fit_mem_available_bytes": 32166785024,
+    "pre_fit_working_disk_free_bytes": 20937834496
+  },
+  "verified_inputs": {
+    "cache_manifest_sha256": "7400b75504f592011577dd3b126e9813749c21ce9126e5c4fa04c8e6b61e8f3b",
+    "cache_key": "949587f77794935c08589bd5d5e81641062de547526b92fc1b01bc4109cd82a6",
+    "cache_validation_receipt_sha256": "cf24e784f2ca2281ac6cdaeb8fb2fc57e224ac441ef24a7fe5db7eaa92a3db3a",
+    "cache_profile_receipt_sha256": "45cc323597a85e8aed5b5a5ad7ee8c5c686ec8de86bf703d8d3a180b1f04dfc4",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "membership_sha256": "dbd9ea6d7b0b752495745ea1ebd4bd858af9305c40f0ada7de7386c5359f3acd",
+    "fold0_asset_manifest_sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7",
+    "fold0_asset_validation_receipt_sha256": "184b0e921ac9a70e127382f9f4f510e767447f3b79875dcf153b204dda927487",
+    "fold0_auxiliary_bytes_hashed": 2247722202,
+    "fold0_auxiliary_hash_elapsed_seconds": 23.229001482,
+    "cache_streamed_read_bytes": 7784849408,
+    "cache_reader_sequences_read": 6,
+    "cache_reader_owned_copy_bytes": 54840000
+  },
+  "diagnostic_evidence_dir": "terminal_evidence_r1/outputs",
+  "full_collection_location_from_cloud_delivery": "gpu_loss_pair_r2_terminal/attempt_001/outputs",
+  "copied_evidence_is_complete_collection": false
+}
