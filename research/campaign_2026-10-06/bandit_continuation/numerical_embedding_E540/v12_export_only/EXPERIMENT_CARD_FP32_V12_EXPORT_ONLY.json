@@ -1,0 +1,46 @@
+{
+  "claim_limits": [
+    "No score exists until root independently grades both delivered prediction arrays.",
+    "The fixed evaluation groups are previously exposed; this is not a fresh holdout or public forecast."
+  ],
+  "experiment_id": "E540_V12_FIXED_CHECKPOINT_EXPORT_ONLY",
+  "parent_experiment_ids": [
+    "E540_FP32_V8",
+    "E540_FP32_V9_REUSE_CONTROL",
+    "E540_FP32_V10_FIXED_CHECKPOINT_EXPORT_ONLY",
+    "E540_FP32_V11_FIXED_CHECKPOINT_EXPORT_ONLY"
+  ],
+  "prior_consumer_failure": {
+    "attempt": "E540_FP32_V11_FIXED_CHECKPOINT_EXPORT_ONLY",
+    "failure": "After all authorization, source, membership, input, checkpoint and fit-metadata checks passed, the V11 worker called the predictor before creating the extracted project's cache directory. open_memmap failed with FileNotFoundError for the linear prediction partial path.",
+    "fit_or_profile_performed": false,
+    "grade_produced": false,
+    "interpretation": "Packet filesystem setup failure before a prediction array was written; no scientific result or negative score.",
+    "output_manifest_sha256": "90f59b9858acb2d6c9e4504d232c8350dadccb413959a018d24bf8f423a935c5",
+    "predictions_produced": false,
+    "terminal_receipt_sha256": "b9f3496861968e114bf05572c6978be48b7d8150b53b32d815c91d3ae67a517f",
+    "worker_result_sha256": "26a0f907c476c00393bfab1e684cc81969bef30d6a98ac7f2c650a8a8621010c"
+  },
+  "purpose": "Complete fixed 468 feature-only FP32 predictions from the already completed V8 linear control and V9 PLE checkpoint pair after V11 failed before its first prediction write.",
+  "schema": "wnn.e540-export-handoff-card.v1",
+  "scientific_hypothesis": null,
+  "source_fit_status": {
+    "linear_v8": "checkpoint and 72996 finite FP32 updates were independently revalidated by the V9 consumer and then reused",
+    "ple_v9": "72996 of 72996 updates, zero skipped updates, finite gradient diagnostics; root independently checked 15 fixed epoch-0 tensors finite"
+  },
+  "status": "prepared_pending_root_review_and_authorization",
+  "v12_scope": {
+    "checkpoint_mutation": false,
+    "feature_only": true,
+    "fix": "Create the extracted worker-local cache directory before invoking predict_run.",
+    "fixed_evaluation_group_count": 468,
+    "grader_owner": "root independent grader",
+    "new_fit": false,
+    "new_profile": false,
+    "prediction_arms": [
+      "e540v8-linear-s540-fp32",
+      "e540v9-ple-s540-fp32"
+    ],
+    "source_change_limit": "Only the reviewed cache-parent mkdir behavior plus distinct V12 packet identity/path labels."
+  }
+}

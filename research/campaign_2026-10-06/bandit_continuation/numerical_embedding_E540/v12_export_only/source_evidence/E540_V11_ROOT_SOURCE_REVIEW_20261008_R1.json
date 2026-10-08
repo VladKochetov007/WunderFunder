@@ -1,0 +1,29 @@
+{
+  "record_id": "E540_V11_ROOT_INDEPENDENT_SOURCE_PACKET_REVIEW_20261008_R1",
+  "created_utc": "2026-10-08T07:16:12.575553+00:00",
+  "status": "approved_source_recipe_pending_final_authorized_packet",
+  "controller": "root",
+  "source_commit": "b0724433bd627eaa8667f35c30d39b476c5199ef",
+  "checks": {
+    "59_code_descriptors_byte_identical": true,
+    "worker_identical_to_root_reviewed_patched_V10_after_identity_normalization": true,
+    "frozen_fit_trainer_preserved": true,
+    "archive_members": 82,
+    "actual_member_hashes_checked": 81,
+    "prior_actual_consumer_regression_tests": 13
+  },
+  "pending_archive_sha256": "9b910af16c85bda90da2031223c2cadbd8b359729958ab0515b190b7d8c0232a",
+  "spec_sha256": "bb820936f454e717644645af0c3b506312e8aadae7af26b3e3ffe75c13e38172",
+  "limits": {
+    "gpu_seconds": 6000,
+    "worker_seconds": 5200,
+    "push_count": 1
+  },
+  "conditions": [
+    "Root authorization binds current code/recipe/binding/checkpoints",
+    "Rebuild new identified final packet with approved root authorization, preserve pending packet",
+    "Actual final bundle/spec/auth consumer preflight and final byte bindings",
+    "Existing private exact V10 assets READY/version/hash verification; new private source READY/download verification",
+    "Fresh reconciled quota/reservation and durable target before one push; no fit/profile repeated"
+  ]
+}

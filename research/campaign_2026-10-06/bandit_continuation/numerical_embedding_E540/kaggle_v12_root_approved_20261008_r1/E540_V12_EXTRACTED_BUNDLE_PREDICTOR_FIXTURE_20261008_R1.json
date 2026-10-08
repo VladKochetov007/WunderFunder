@@ -1,0 +1,65 @@
+{
+  "cache_directory_absent_before_call": true,
+  "cache_directory_created_by_worker_call_predictor": true,
+  "checkpoint_sha256": "17c91be768a7f41cd4c6ae0b2bbce26bcf7d6fbf5e4f6509e38c4be6bd44403a",
+  "cuda_available": false,
+  "cuda_visible_devices": "",
+  "device": "CPU",
+  "evaluation_group_id": 4,
+  "full_evaluation_group_count": 468,
+  "full_evaluation_membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+  "inference_precision": "fp32",
+  "normalized_sys_argv": [
+    "predict_run.py",
+    "e540v8-linear-s540-fp32",
+    "valid",
+    "--epoch",
+    "0",
+    "--inference-precision",
+    "fp32",
+    "--output-name",
+    "e540v8-linear-s540-fp32-eval",
+    "--fit-subset-manifest",
+    "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V5.json"
+  ],
+  "partial_path_absent_after_atomic_rename": true,
+  "prediction_dtype": "float32",
+  "prediction_finite": true,
+  "prediction_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "prediction_sha256": "c019136f54252c022dc3b8c620504b41a352c415eee77368a1ddd833f307776d",
+  "prediction_shape": [
+    1,
+    20000,
+    2
+  ],
+  "predictor_argv": [
+    "scripts/predict_run.py",
+    "e540v8-linear-s540-fp32",
+    "valid",
+    "--epoch",
+    "0",
+    "--inference-precision",
+    "fp32",
+    "--output-name",
+    "e540v8-linear-s540-fp32-eval",
+    "--fit-subset-manifest",
+    "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V5.json"
+  ],
+  "production_source_sha256": {
+    "predictor": "fee58a359c24208116cbf3b86e7d4dcf90ba285494582ab2f760edd9f8e1d0aa",
+    "trainer": "31b72e53ae81a771d6cff42d8a48a4c06cdc523fabc8c7d00e51d20710942853",
+    "worker": "2d126442b78dff5b4466f64eb1449f21ccc74c899b728aeca18902254a81694b"
+  },
+  "reader_requests": {
+    "mask": false,
+    "targets": false
+  },
+  "schema": "wnn.e540-v12-real-predictor-write-fixture.v1",
+  "sidecar_sha256": "236c386792841766f32395a8e4591c21b2925bd10fa03ae1c50616f71f414bff",
+  "status": "PASS",
+  "subset_manifest_sha256": "ce84816336bc457d487cbddf2f7214ef4d8b0b02e83f9c8e60921b9ce2374d4d",
+  "synthetic_parquet_has_no_targets_or_mask": true,
+  "synthetic_parquet_sha256": "c056e9334d5adeea38ee60210e235a07c1e8639cc6436879006888bc94d6b9f6",
+  "synthetic_row_groups": 1,
+  "test_adaptation": "The production predictor authenticated the complete frozen subset and checkpoint first; a test-only selector then retained one actual eligible group ID and mapped that ID to synthetic Parquet row group 0."
+}

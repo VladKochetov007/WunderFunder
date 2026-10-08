@@ -1,0 +1,59 @@
+{
+  "action": "Continue read-only status and bounded output collection; preserve V12 bytes and do not restart.",
+  "interpretation_limits": [
+    "RUNNING plus aggregate quota use does not identify the inner worker phase.",
+    "Account quota deltas are not attributed to E540 individually.",
+    "No fit, validation score, or scientific result is claimed."
+  ],
+  "kernel": "vladkochetov07/e540-v12-cache-dirfix-20261008-runner",
+  "log_access": {
+    "bounded_follow_attempt": "kaggle kernels logs --follow <canonical kernel> under1CPU/600MB/120s",
+    "non_follow_logs": "empty",
+    "result": "HTTP 500 Internal Server Error from /v1/kernels/logs/stream; no phase text delivered"
+  },
+  "observations": [
+    {
+      "gpu_account_reserved_seconds": 0.0,
+      "gpu_account_used_seconds": 66621.404193,
+      "gpu_campaign_headroom_seconds": 27206.432807000012,
+      "gpu_campaign_used_seconds": 29574.08319299999,
+      "kernel_status": "KernelWorkerStatus.RUNNING",
+      "observed_at_utc": "2026-10-08T08:07:03+00:00",
+      "raw_poll_line_sha256": "d1f54059818302e7e728902eb39f655b5acefb8cc66c30ec200871ddee15ba16"
+    },
+    {
+      "gpu_account_reserved_seconds": 0.0,
+      "gpu_account_used_seconds": 66786.223024,
+      "gpu_campaign_headroom_seconds": 27041.613976,
+      "gpu_campaign_used_seconds": 29738.902024000003,
+      "kernel_status": "KernelWorkerStatus.RUNNING",
+      "observed_at_utc": "2026-10-08T08:09:48+00:00",
+      "raw_poll_line_sha256": "d0c4fa1c58b4a283977c037f05d2502ed84fb9c1bde6e64fcf473a53855ce98b"
+    },
+    {
+      "gpu_account_reserved_seconds": 0.0,
+      "gpu_account_used_seconds": 67029.368979,
+      "gpu_campaign_headroom_seconds": 26798.468021,
+      "gpu_campaign_used_seconds": 29982.047979000003,
+      "kernel_status": "KernelWorkerStatus.RUNNING",
+      "observed_at_utc": "2026-10-08T08:13:51+00:00",
+      "raw_poll_line_sha256": "7ce8d739af676ee7de4a0e42ef03312635f49ff4817920bf1950fbdd263089fe"
+    }
+  ],
+  "observed_utc": "2026-10-08T08:13:51Z",
+  "partial_phase_output_probe": {
+    "command": "kaggle kernels output <canonical kernel> --file-pattern phase\\.json$",
+    "result": "no partial phase.json delivered while RUNNING"
+  },
+  "provider_state": "RUNNING",
+  "record_id": "E540_V12_LIVE_PHASE_VISIBILITY_20261008_R1",
+  "schema": "wnn.e540-v12-live-phase-visibility.v1",
+  "source_grounded_visibility_cause": {
+    "behavior": "Kernel bootstrap inherits the runner stdout. The runner opens job_output/worker.log and redirects the child worker stdout and stderr to that file (scripts/kaggle_gpu_runner.py lines 296-328), so worker phase receipts are not streamed to live Kaggle logs.",
+    "bootstrap_sha256": "b03ef1a0a2ed3e2057c5d7879cb5457e09fc96cc28f29b6f23146f856b50b17e",
+    "bootstrap_source": "scripts/kaggle_kernel.py",
+    "runner_sha256": "4576c460764ec947e9d61867a3f418e1b6a7a4665e1ca4b67a523b5f8c892e8f",
+    "runner_source": "scripts/kaggle_gpu_runner.py"
+  },
+  "worker_inner_phase": "UNOBSERVED"
+}
