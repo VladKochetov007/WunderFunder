@@ -1,0 +1,49 @@
+{
+  "build_receipt": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h232_v7b_ep3_export_only_20261008/H232_V7B_EP3_EXPORT_R3_BUILD_RECEIPT.json",
+    "sha256": "088d84ee349024105521872aec54dbfe79c5316cb38a71b4b6828d195982fa9b"
+  },
+  "canonical_kernel_id": "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r3",
+  "focused_tests": {
+    "failed": 0,
+    "passed": 11
+  },
+  "kernel_title": "H232 GRU384 V7B EP3 Export 20261008 R3",
+  "lints": {
+    "ruff_check": "PASS",
+    "ruff_format_check": "PASS"
+  },
+  "metadata_only_byte_comparison": {
+    "changed_packet_file": [
+      "kernel-metadata.json"
+    ],
+    "checkpoint_sha256": "aaa731da1692ee5083c80296fd665b0a60815c9dc18430457f702cf779c2b829",
+    "payload_zip_sha256": "b9e14e8509dff6abc18f4e3aaffe4af031d78883e91fb98f28fb4a845ed1490e",
+    "result": "PASS",
+    "source_archive_sha256": "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4",
+    "unchanged_embedded_payload_members": 17,
+    "worker_code_sha256": "a307809730010f04766cfa8c9f18923ad7df6809bd7c14ddc4c2745db2f4b1ee"
+  },
+  "new_regression": "The old R2 title fails title-to-ID slug validation; the root-prescribed R3 title passes.",
+  "observed_at_utc": "2026-10-08T05:00:01+00:00",
+  "offline_build_and_tests_used_no_provider_or_data_access": true,
+  "offline_packet_contract": "PASS",
+  "packet_id": "E529_H232_V7B_EP3_FP32_EXPORT_ONLY_20261008_R2",
+  "provider_observations_outside_tests": "Read-only exact-ID inventory and Kaggle quota/status poll only; no provider mutation until the separately authorized corrected push.",
+  "resource_bounds": {
+    "cpu_cores": 1,
+    "memory_bytes": 1500000000,
+    "runtime_seconds": 120
+  },
+  "result": "PASS",
+  "root_admission_receipt": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H232_EP3_EXPORT_PUSH_ADMISSION_20261008_R2.json",
+    "sha256": "2d31dbbf049ca2245e4c25b0d488f68d98b87e8843843a6a4f7f3ab4b6513d21"
+  },
+  "schema": "h232-export-only-metadata-repair-test-receipt-v1",
+  "source_files": {
+    "build_export_packet.py": "dd2b499b52c7f7f5ad435b470bc76f6da2b1f12c610a798b124a3477b9fb9744",
+    "test_packet_contract.py": "bb48ec74008ad59d99d81ceb01ebb4654f3499bf90fdbaa2a728938cb23c8d92"
+  },
+  "test_command": "python -m unittest discover -s <packet>/tests -v"
+}

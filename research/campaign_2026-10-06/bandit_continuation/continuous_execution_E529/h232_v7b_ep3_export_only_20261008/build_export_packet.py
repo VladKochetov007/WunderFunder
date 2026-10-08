@@ -15,8 +15,8 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 
 PACKET_ID = "E529_H232_V7B_EP3_FP32_EXPORT_ONLY_20261008_R2"
-KERNEL_ID = "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r2"
-KERNEL_TITLE = "H232 GRU384 V7B EP3 Export R2"
+KERNEL_ID = "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r3"
+KERNEL_TITLE = "H232 GRU384 V7B EP3 Export 20261008 R3"
 CHECKPOINT_SHA256 = "aaa731da1692ee5083c80296fd665b0a60815c9dc18430457f702cf779c2b829"
 SOURCE_ARCHIVE_SHA256 = "f1333c63eca38e69149e14dbc94c6a701ba97e113d6679b8939d7c860f1a95e4"
 SOURCE_MANIFEST_SHA256 = "6ee80717ab4cec6da8b9ef3f124439a7598c2dfde2fa25de9fb35bf47a0adc42"
@@ -89,6 +89,14 @@ def sha256_file(path: Path) -> str:
         for block in iter(lambda: stream.read(1 << 20), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def validate_kernel_identity(kernel_id: str, title: str) -> None:
+    """Reject provider metadata whose title-derived slug differs from its ID."""
+    owner, separator, slug = kernel_id.partition("/")
+    title_slug = "-".join(re.findall(r"[a-z0-9]+", title.casefold()))
+    if not separator or not owner or not slug or title_slug != slug:
+        raise ValueError(f"kernel title slug {title_slug!r} does not match kernel ID {kernel_id!r}")
 
 
 def _json(path: Path) -> dict[str, Any]:
@@ -398,7 +406,7 @@ def build(basis: Path, packet: Path) -> dict[str, Any]:
         "profile_worker_allowed_changes": ["PACKET_ID literal", "WORKER_WALL_CAP_S:16000→4500"],
         "no_local_provider_or_torch_or_parquet_or_npz_execution": True,
     }
-    receipt_path = packet.parent / "H232_V7B_EP3_EXPORT_R2_BUILD_RECEIPT.json"
+    receipt_path = packet.parent / "H232_V7B_EP3_EXPORT_R3_BUILD_RECEIPT.json"
     receipt_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
     return receipt
 
@@ -408,6 +416,7 @@ def verify_packet(packet: Path, payload_zip: bytes, payload_hashes: dict[str, st
     metadata = _json(packet / "kernel-metadata.json")
     if metadata.get("id") != KERNEL_ID or metadata.get("title") != KERNEL_TITLE:
         raise ValueError("kernel metadata differs from the new export-only identity")
+    validate_kernel_identity(metadata["id"], metadata["title"])
     if metadata.get("enable_internet") is not False or metadata.get("enable_gpu") is not True:
         raise ValueError("kernel provider flags differ from the admitted offline GPU lane")
     meta = _json(packet / "packet_meta.json")
@@ -466,7 +475,9 @@ def main() -> None:
     """Build a unique packet using the precollected private terminal evidence."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--basis", type=Path, default=Path(__file__).parent / "basis")
-    parser.add_argument("--packet", type=Path, default=Path(__file__).parent / "packet_r3")
+    parser.add_argument(
+        "--packet", type=Path, default=Path(__file__).parent / "packet_r4_metadata_slugfix"
+    )
     args = parser.parse_args()
     receipt = build(args.basis.resolve(), args.packet.resolve())
     print(json.dumps(receipt, indent=2, sort_keys=True))

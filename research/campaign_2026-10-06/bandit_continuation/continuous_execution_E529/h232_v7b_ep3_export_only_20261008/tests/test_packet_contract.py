@@ -58,7 +58,7 @@ class ExportPacketContractTests(unittest.TestCase):
         path.unlink()
 
     def test_built_packet_is_hash_consistent_and_provider_push_disabled(self) -> None:
-        packet = PACKET_ROOT / "packet_r3"
+        packet = PACKET_ROOT / "packet_r4_metadata_slugfix"
         if not (packet / "kernel-metadata.json").is_file():
             self.skipTest("packet build has not been materialized")
         payload_zip, payload_hashes = builder._zip_payload(packet)
@@ -68,6 +68,18 @@ class ExportPacketContractTests(unittest.TestCase):
         self.assertLess(len(builder.KERNEL_TITLE), 50)
         self.assertIn("20261008", builder.KERNEL_ID)
         self.assertTrue(builder.KERNEL_ID.startswith("vladkochetov07/"))
+        builder.validate_kernel_identity(builder.KERNEL_ID, builder.KERNEL_TITLE)
+
+    def test_kernel_title_slug_must_match_the_id(self) -> None:
+        with self.assertRaisesRegex(ValueError, "does not match kernel ID"):
+            builder.validate_kernel_identity(
+                "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r2",
+                "H232 GRU384 V7B EP3 Export R2",
+            )
+        builder.validate_kernel_identity(
+            "vladkochetov07/h232-gru384-v7b-ep3-export-20261008-r3",
+            "H232 GRU384 V7B EP3 Export 20261008 R3",
+        )
 
 
 if __name__ == "__main__":
