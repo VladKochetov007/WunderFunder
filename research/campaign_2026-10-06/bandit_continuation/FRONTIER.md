@@ -1,5 +1,14 @@
 # Live frontier — resumed independent training
 
+
+## All-data endpoint landed; serving and cloud repair — 2026-10-08 05:44 Kyiv
+
+First H230 all-data student fixedep1 completed1988.34s/zeroOOM, with4AMPskippedupdates of15580attempts. Root verified actualZIP export:16tensors,31trainingrows→2servedtargetrows, exact values andfinite tensors. ProvisionalZIP is not upload-ready: old nativebinary lacks `EnsemblePredictor` required bywrapper. Actor owns a separately identified own-build repair and Python3.11callback/reset/determinism gate. Seed4 initially refused stale file-cache headroom; receipt preserved, bounded known-file handoff loweredparent10.04→7.38GB. Approved metadata-onlyV5retry changes only attempt/run/name and retains2CPU9GB/3000s/science/ancestry.
+
+H232V7B-shortslug version1 is accepted/providerRUNNING; actualfitphase notobserved. E540V5 verified allmountedidentities/membership then failed on duplicate scriptpath inargv, beforeprofile/fit; V6 owns actualparser-preflight correction. VastA3 fallbacktraining-parquet upload is active after identifiedHTTP EOF bug; reviewedfix is committed for futuretransfer. No scientific rejection follows these delivery failures. Publicbest remains0.6660.
+
+Allocation retains endpointdelivery/serving,GRU384,H217TCNvsGRU,andPLEpair. Grok4.7 separately designs a2–3model all-data teacher-history wave, rather than blocking the first endpoint on eight rebuiltteachers; deliveredcards and actualrunnable recipes determine laterallocation. Four random-literature quantarms are registeredunknown/null priors with their causal-control caveat.
+
 ## Actual delivery and refreshed allocation — 2026-10-08 05:09 Kyiv
 
 Own all-data parent and complete teacher cache landed with zero OOM; first V4 student has actual epoch0batch140/779 progress, about12sequences/s and97% sampled GPU utilization. Preserve the common-parent ancestry and clean-fold teacher-history limitation. Fixedep1 plus terminal verification precedes the second seed, then valid deterministic package checks and human-upload candidates. This is fitting all supplied validation membership; no held-out claim or public forecast. Public best remains0.6660 and teammate0.6674 remains unreplicated.
