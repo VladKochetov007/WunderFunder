@@ -1,0 +1,7 @@
+# H230 all-data student pair recipe contract V4
+
+V4 supersedes [V3](./H230_ALLDATA_STUDENT_PAIR_RECIPE_CONTRACT_V3_20261008.json) (SHA256 `5827127486542036a00c82b1957ed1788fff48ab84f36ca454beea2817d256d0`), preserving it unchanged. V3's student head dimensions were stale. The actual parent ep3 checkpoint has 23 main/auxiliary output rows; the exact source-v3 trainer builds those 23 rows and appends eight family rows, giving 31 student outputs. The actual source-v3 model construction, family-head append, extension helper, and strict load passed for both seeds; see [the load-check receipt](./H230_ALLDATA_STUDENT_PARENT_LOAD_CHECK_V1_20261008.json) (SHA256 `0d784393eb1b05ab99a90fe582461f5c67c5f1c85e66e49989c89a73c24e3d77`).
+
+All scientific worker arguments and the fixed two-epoch/fixed-ep1 schedule are unchanged from V3. The completed all-data cache's metadata and eight array hashes are bound in the JSON contract. Root authorized the sequential pair after these checks; each fit still requires a separate fresh resource-controller admission. Seed4 may launch only after seed3 reaches terminal status. The students share the same parent and teacher cache and are not independent whole-model draws. All supplied train+valid groups, including exposed valid groups, are fit data; there is no heldout or public-score claim.
+
+Contract SHA256: `6b34fd4f65391ca09561cafca8437d85c54a0d446137a79b314adc2e5bd64ddb`. Root authorization record: `H230_ALLDATA_STUDENT_PAIR_ROOT_AUTHORIZATION_V4_20261008.json`.

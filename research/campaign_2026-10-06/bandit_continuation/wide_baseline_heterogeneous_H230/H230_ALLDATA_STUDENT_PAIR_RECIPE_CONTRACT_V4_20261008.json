@@ -1,0 +1,794 @@
+{
+  "schema": "h230-all-data-student-pair-recipe-contract-v2",
+  "contract_id": "H230_ALLDATA_STUDENT_PAIR_RECIPE_V4_20261008",
+  "created_utc": "2026-10-08T02:02:25Z",
+  "status": "root_authorized_metadata_corrected_pending_fresh_per_student_resource_admission",
+  "science_recipe_frozen": true,
+  "launch_authorized": true,
+  "actor_may_not_launch_before_all_dependencies_and_fresh_root_admission": true,
+  "authorization_basis": [
+    "Root explicitly authorized a V4 metadata-only successor correcting the actual source/checkpoint-proven parent-to-student output width, after the complete all-data cache and real checkpoint-load/head-extension checks pass.",
+    "Root authorized launching the exact student pair sequentially after those checks and fresh admission, with no additional confirmation required; current resource admission remains a hard per-student controller gate.",
+    "V3 is preserved as historical evidence of the stale output-row metadata. Scientific training argv, targets, losses, optimizer, precision, sampler, checkpoint epoch, and runtime caps are unchanged."
+  ],
+  "scope": {
+    "purpose": "Train an own all-supplied-data GRU256 student pair from the newly fitted own all-data parent using the four-family source-sum distillation cache.",
+    "fit_only": true,
+    "predictions_export_grade_package_or_public_submission_included": false,
+    "fit_membership": "The all-data validator and dataset pool include every supplied train and valid target group. Per-epoch optimizer exposure is a shuffled drop-last sample of this pool; 15 groups are omitted from each epoch.",
+    "heldout_claim": false,
+    "member_independence_claim": false,
+    "member_independence_note": "Students use seeds3 and4 for separate training-order/dropout randomness and fresh seed-specific initialization of the added 8-row family head, but share the same seed3 all-data parent recurrent/main/auxiliary parameters and identical teacher cache. Do not claim independently initialized whole models.",
+    "teacher_history_limit": "Current teacher family fits use clean fold0 membership; all-data student fitting includes groups outside those teacher-fit populations. This is a declared heterogeneous-teacher analogue, not a full-data-teacher reference replication. Queue a separate own all-data heterogeneous teacher cohort after this endpoint.",
+    "teammate_weights_or_code_used": false,
+    "population_membership": "The complete pool is 10,606 train groups plus1,873 valid groups (12,479 total), with the 468 exposed valid groups included. Complete pool membership is not a claim that every group is consumed by every epoch.",
+    "epoch_exposure": {
+      "sampler": "Default PyTorch RandomSampler because batch-order remains random and DataLoader shuffle=True.",
+      "batch_size": 16,
+      "drop_last": true,
+      "population_groups": 12479,
+      "full_batches_per_epoch": 779,
+      "sequences_consumed_per_epoch": 12464,
+      "groups_omitted_per_epoch": 15,
+      "replacement": false,
+      "omitted_group_ids": "Not materialized by the frozen trainer; the omitted identities vary with each student's seed/order. Per-epoch sample_order_identity records the sampler/RNG state, batch size and drop_last flag.",
+      "claim_limit": "Do not claim every pool group is trained in each epoch or that all groups are observed over the two-epoch horizon."
+    }
+  },
+  "parent_dependency": {
+    "contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_PARENT_FIT_RETRY3_CONTRACT_V1_20261008.json",
+    "contract_sha256": "2d98c38c18c143175e286fcff56911aecf6516871776b9945f102e6169bb915b",
+    "attempt_id": "h230-all-data-parent-fit-b16-ep3-retry3-v1-20261008",
+    "run_name": "bd26_h230_all_data_parent_b16_ep3_retry3_v1",
+    "fit_status_at_packet_freeze": "finished_successful_fixed_ep3",
+    "output_directory": "artifacts/runs/bd26_h230_all_data_parent_b16_ep3_retry3_v1",
+    "required_initializer": "bd26_h230_all_data_parent_b16_ep3_retry3_v1@ep3",
+    "required_checkpoint_file": "model_ep3.pt",
+    "required_checkpoint_policy": "fixed zero-based epoch3 from the frozen four-epoch parent run.",
+    "checkpoint_sha256": "478773bd3d0754d261f8f3c9d46a135d56c3596c269d2a856b760caef05b93c7",
+    "terminal_receipt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-all-data-parent-fit-b16-ep3-retry3-v1-20261008.json",
+    "binding_rule": "After successful terminal fit, root must verify run provenance, all-supplied membership, fixed epoch3, source ancestry and checkpoint bytes; a root-approved successor must bind the terminal receipt and model_ep3.pt SHA256 before cache/student admission.",
+    "common_parent_for_both_students": true,
+    "initialization_independence_note": "Both students share this one own all-data parent checkpoint for their recurrent trunk and compatible main/auxiliary parameters. Each student creates a fresh seed-specific 8-row family head. Different family-head initialization and training RNG do not make the pair independent whole-model initializations.",
+    "source_compatibility_receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_PARENT_STUDENT_SOURCE_COMPATIBILITY_V1_20261008.json",
+    "source_compatibility_receipt_sha256": "2b2856eb2f9ed41acab4fb18a8def3dc00a90bca4855f8140bf33c95e967905f",
+    "source_compatibility_status": "static_module_compatibility_pass_only_actual_checkpoint_load_not_performed",
+    "checkpoint_load_status": "passed_actual_source_v3_load_for_both_student_seeds",
+    "model_output_layout": {
+      "inheritance": "All 23 ordinary main/auxiliary rows and the full recurrent trunk are copied from the shared parent; the appended eight family output rows remain freshly initialized per student seed.",
+      "parent_source_v2": "family_head=false; actual head.2 weight shape (23,256) and bias shape (23,); 23 ordinary main/auxiliary output rows.",
+      "student_source_v3": "family_head=true; actual student head.2 weight shape (31,256) and bias shape (31,); 23 ordinary main/auxiliary rows plus eight appended family rows.",
+      "verification_gate": "Passed; see research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_PARENT_LOAD_CHECK_V1_20261008.json SHA256 0d784393eb1b05ab99a90fe582461f5c67c5f1c85e66e49989c89a73c24e3d77. Exact source-v3 functions were replayed for seeds3 and4 against the fixed parent ep3 checkpoint."
+    },
+    "terminal_receipt_sha256": "29baa03564f124712bd596f4132288492d549073a7acc4c9adea655c7384a216",
+    "actual_load_check_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_PARENT_LOAD_CHECK_V1_20261008.json",
+    "actual_load_check_sha256": "0d784393eb1b05ab99a90fe582461f5c67c5f1c85e66e49989c89a73c24e3d77"
+  },
+  "source": {
+    "snapshot_directory": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill",
+    "manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/H230_ALLDATA_DISTILL_SOURCE_MANIFEST_V1_20261008.json",
+    "manifest_sha256": "9938cf880addd22467dd71fc81fc550ea3ab9c7ba792c84cbd73f7073e7de15d",
+    "file_count": 55,
+    "all_source_files_rehashed_at_contract_freeze": true,
+    "source_bytes_verified": 591467,
+    "all_source_file_hashes_match_manifest": true,
+    "trainer_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/scripts/train_rnn.py",
+    "trainer_sha256": "09902e4b4d886f863d5090ff58ba9ec4b7c677f995bb0192f0538c819a693bbb",
+    "cache_builder_sha256": "0ae5cc7000e25f36a2d428f7c543b13b75a3fd04aaa372664e977e7b908a7dc9",
+    "all_data_cache_validator_sha256": "c46e309428fd096e00ac20767adfaf391362b93798deac37ee6befcc77886039",
+    "distillation_cache_validator_sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19",
+    "training_state_module_sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac",
+    "training_controls_sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39",
+    "source_relation_to_parent": "Students use sealed source-v3. Parent retry3 was trained from sealed source-v2. The actual model_ep3.pt was loaded through source-v3 make_model, append_family_output_head, extend_family_output_head, and strict load_state_dict for both student seeds. The 23 compatible parent rows are preserved exactly and eight seed-specific family rows remain freshly initialized.",
+    "source_independence": "Project-owned implementation and weights; no teammate code or model weights.",
+    "source_compatibility_receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_PARENT_STUDENT_SOURCE_COMPATIBILITY_V1_20261008.json",
+    "source_compatibility_receipt_sha256": "2b2856eb2f9ed41acab4fb18a8def3dc00a90bca4855f8140bf33c95e967905f",
+    "actual_parent_load_check_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_PARENT_LOAD_CHECK_V1_20261008.json",
+    "actual_parent_load_check_sha256": "0d784393eb1b05ab99a90fe582461f5c67c5f1c85e66e49989c89a73c24e3d77",
+    "actual_parent_load_check_status": "passed_actual_source_v3_checkpoint_load_and_seed_specific_head_extension"
+  },
+  "teacher_cache_dependency": {
+    "build_contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_TEACHER_CACHE_BUILD_CONTRACT_V2_20261008.json",
+    "build_contract_sha256": "3b571613e806c23056c855d79b71917b4287a631e0a8ea08c5342f5f5ddeb92c",
+    "launch_authorized": true,
+    "cache_output_path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1",
+    "cache_metadata_sha256": "b05e652f5fdec4e6b1e4e07d1d3a705655d4588ab8ee9d802ccdf4339fd66500",
+    "cache_build_receipt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-all-data-teacher-cache-v2-20261008.json",
+    "build_packet_source_manifest_sha256": "9938cf880addd22467dd71fc81fc550ea3ab9c7ba792c84cbd73f7073e7de15d",
+    "build_command": "/usr/bin/timeout --signal=TERM --kill-after=20s 7200 /usr/bin/env PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/src /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/scripts/build_distill_cache.py --data-root /home/vlad/development/wunder/wnn_connectome_starterpack --teacher-cache-root /home/vlad/development/wunder/wnn_connectome_starterpack/cache --checkpoint-root /home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs --split-manifest /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json --output /home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_fold0_teacher_family_all_rows_v1 --teacher strong=c20261003_combo_s3_f0@ep3*0.15 --teacher strong=c20261003_combo_s4_f0@ep3*0.15 --teacher full_finetuned=c20260929_ft_since_s3_f0@ep0*0.1 --teacher full_finetuned=c20260929_ft_since_s4_f0@ep0*0.1 --teacher raw_wmse=c20260929_since_s3_f0@ep3*0.125 --teacher raw_wmse=c20260929_since_s4_f0@ep3*0.125 --teacher samefold_baseline=bd26_w384raw_s3_f0@ep3*0.03125 --teacher samefold_baseline=bd26_w384raw_s4_f0@ep3*0.03125 --homogeneous-family strong --expected-coefficient-sum 0.8125 --all-supplied-train-valid --chunk-sequences 1 --output-budget-gb 30 --min-free-gb 25",
+    "cache_membership": {
+      "mode": "all_supplied_train_valid",
+      "teacher_training_scope": "clean_fold_fit_only",
+      "teacher_prediction_coverage": "complete_train_valid_target_index",
+      "fold": 0,
+      "split_manifest_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "train_group_count": 10606,
+      "train_row_groups_sha256": "658498ef9fb3ad7f4dab9dea249da809168be595171099406795f72b63554fbe",
+      "valid_group_count": 1873,
+      "valid_row_groups_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+      "exposed_validation_groups": 468,
+      "heldout_claim": false,
+      "membership_gate": "Cache builder and validator require each supplied train/valid target row exactly once in target-index order, with no fill/sort/positional fallback. This is cache coverage; it does not change student DataLoader drop_last exposure."
+    },
+    "teacher_sources": [
+      {
+        "family": "strong",
+        "run": "c20261003_combo_s3_f0",
+        "epoch_zero_based": 3,
+        "coefficient": 0.15,
+        "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+      },
+      {
+        "family": "strong",
+        "run": "c20261003_combo_s4_f0",
+        "epoch_zero_based": 3,
+        "coefficient": 0.15,
+        "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d"
+      },
+      {
+        "family": "full_finetuned",
+        "run": "c20260929_ft_since_s3_f0",
+        "epoch_zero_based": 0,
+        "coefficient": 0.1,
+        "checkpoint_sha256": "fa9f0353cf6cdd3c85fc56efc1e8a3f3dae0048fb1ccd995eeb7026afd269dc7"
+      },
+      {
+        "family": "full_finetuned",
+        "run": "c20260929_ft_since_s4_f0",
+        "epoch_zero_based": 0,
+        "coefficient": 0.1,
+        "checkpoint_sha256": "e06b712decb62799c84be6907b8b5285724bbd6efe1f58a4aa1bf4a92f3b11b7"
+      },
+      {
+        "family": "raw_wmse",
+        "run": "c20260929_since_s3_f0",
+        "epoch_zero_based": 3,
+        "coefficient": 0.125,
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38"
+      },
+      {
+        "family": "raw_wmse",
+        "run": "c20260929_since_s4_f0",
+        "epoch_zero_based": 3,
+        "coefficient": 0.125,
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8"
+      },
+      {
+        "family": "samefold_baseline",
+        "run": "bd26_w384raw_s3_f0",
+        "epoch_zero_based": 3,
+        "coefficient": 0.03125,
+        "checkpoint_sha256": "90b7357c8d5cf01219764ae58373099710f11d041a01ef5400e683bf854eb08f"
+      },
+      {
+        "family": "samefold_baseline",
+        "run": "bd26_w384raw_s4_f0",
+        "epoch_zero_based": 3,
+        "coefficient": 0.03125,
+        "checkpoint_sha256": "7e83bebaab7f5de9601b9612ac637a53edd044aec4570d1cf787026b77b43e73"
+      }
+    ],
+    "family_order": [
+      "strong",
+      "full_finetuned",
+      "raw_wmse",
+      "samefold_baseline"
+    ],
+    "source_coefficient_sum": 0.8125,
+    "main_target": "source variant: unnormalized weighted sum of the eight teacher predictions (coefficient sum0.8125).",
+    "family_targets": "Mean raw predictions per family in declared family order; each family's own pair is averaged; no clip2.",
+    "expected_metadata": {
+      "membership_mode": "all_supplied_train_valid",
+      "teacher_training_scope": "clean_fold_fit_only",
+      "teacher_prediction_coverage": "complete_train_valid_target_index",
+      "family_order": [
+        "strong",
+        "full_finetuned",
+        "raw_wmse",
+        "samefold_baseline"
+      ],
+      "coefficient_sum": 0.8125,
+      "evaluation_valid_groups": [],
+      "heldout_claim": false,
+      "teacher_source_split_teachers_fit_evaluation_groups": false
+    },
+    "expected_arrays": [
+      {
+        "file": "main_source_train.npy",
+        "shape": [
+          10606,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "sha256": "d706c979f3fae46258ee9684dc754d02a70c35d142fed5ebaf785ae7e1ded165",
+        "bytes": 1696960128
+      },
+      {
+        "file": "main_normalized_train.npy",
+        "shape": [
+          10606,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "sha256": "4c0b42b52d7e5c5ef47579297394b7d398f5424f75f6e377c40685465cecbb06",
+        "bytes": 1696960128
+      },
+      {
+        "file": "main_homogeneous_train.npy",
+        "shape": [
+          10606,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "sha256": "d8a9ce5c45945c8a52faa7005cd300a0fc2aaeb4366e2ea7ffd3b9120a7aa653",
+        "bytes": 1696960128
+      },
+      {
+        "file": "families_train.npy",
+        "shape": [
+          10606,
+          20000,
+          8
+        ],
+        "dtype": "float32",
+        "sha256": "13ec664cf8443f43594faecfd79c8c24ffc45960b15e38c42bbc79a26fc2e25a",
+        "bytes": 6787840128
+      },
+      {
+        "file": "main_source_valid.npy",
+        "shape": [
+          1873,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "sha256": "e464d29ca5ec0c3c07e70e1f8b08afb180b5d35b70b4fb3130e6a8f56d0e1a8c",
+        "bytes": 299680128
+      },
+      {
+        "file": "main_normalized_valid.npy",
+        "shape": [
+          1873,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "sha256": "da71a981f56fbf61ae8b5d0fcc7ca0ac6861877d14a0759dc4bf10778bdf17b3",
+        "bytes": 299680128
+      },
+      {
+        "file": "main_homogeneous_valid.npy",
+        "shape": [
+          1873,
+          20000,
+          2
+        ],
+        "dtype": "float32",
+        "sha256": "17178136a96b49cd61f938af980afe2d6b70ad26b54f7e42c996cf0378c4cab4",
+        "bytes": 299680128
+      },
+      {
+        "file": "families_valid.npy",
+        "shape": [
+          1873,
+          20000,
+          8
+        ],
+        "dtype": "float32",
+        "sha256": "85e6614f6609a3a8cdb776c1003e6178ef5550d9eb5491bb5e4d1e4952438804",
+        "bytes": 1198720128
+      }
+    ],
+    "expected_array_count": 8,
+    "estimated_output_bytes": 13976480000,
+    "disk_floor_prebuild_bytes": 40820025600,
+    "resource_status": "Successor cache contract requests 1 CPU/8GB after parent terminal; it is not approved or launched. Require complete cache metadata/arrays and fresh root admission.",
+    "student_parquets_are_not_read_by_cache_builder": true,
+    "cache_build_receipt_sha256": "85e2aaaf716ce2bd575d5f43d3f0e6497de5b4c0aa9233e1b5c21802219273f1",
+    "cache_validation": {
+      "status": "passed_all_arrays_and_three_target_variants",
+      "variants": [
+        "source",
+        "normalized",
+        "homogeneous"
+      ],
+      "array_count": 8,
+      "validation_method": "source-v3 validate_all_data_distillation_cache; full output hashes, metadata/shape/dtype, row-group identity/order, ancestry, and finite chunk checks passed.",
+      "execution": "CPU-only, one thread, 1.5GB memory cap; previous completed check wall time 16.687 seconds."
+    },
+    "finalized_array_hashes": {
+      "main_source_train": {
+        "path": "main_source_train.npy",
+        "sha256": "d706c979f3fae46258ee9684dc754d02a70c35d142fed5ebaf785ae7e1ded165",
+        "bytes": 1696960128,
+        "shape": [
+          10606,
+          20000,
+          2
+        ],
+        "dtype": "float32"
+      },
+      "main_normalized_train": {
+        "path": "main_normalized_train.npy",
+        "sha256": "4c0b42b52d7e5c5ef47579297394b7d398f5424f75f6e377c40685465cecbb06",
+        "bytes": 1696960128,
+        "shape": [
+          10606,
+          20000,
+          2
+        ],
+        "dtype": "float32"
+      },
+      "main_homogeneous_train": {
+        "path": "main_homogeneous_train.npy",
+        "sha256": "d8a9ce5c45945c8a52faa7005cd300a0fc2aaeb4366e2ea7ffd3b9120a7aa653",
+        "bytes": 1696960128,
+        "shape": [
+          10606,
+          20000,
+          2
+        ],
+        "dtype": "float32"
+      },
+      "families_train": {
+        "path": "families_train.npy",
+        "sha256": "13ec664cf8443f43594faecfd79c8c24ffc45960b15e38c42bbc79a26fc2e25a",
+        "bytes": 6787840128,
+        "shape": [
+          10606,
+          20000,
+          8
+        ],
+        "dtype": "float32"
+      },
+      "main_source_valid": {
+        "path": "main_source_valid.npy",
+        "sha256": "e464d29ca5ec0c3c07e70e1f8b08afb180b5d35b70b4fb3130e6a8f56d0e1a8c",
+        "bytes": 299680128,
+        "shape": [
+          1873,
+          20000,
+          2
+        ],
+        "dtype": "float32"
+      },
+      "main_normalized_valid": {
+        "path": "main_normalized_valid.npy",
+        "sha256": "da71a981f56fbf61ae8b5d0fcc7ca0ac6861877d14a0759dc4bf10778bdf17b3",
+        "bytes": 299680128,
+        "shape": [
+          1873,
+          20000,
+          2
+        ],
+        "dtype": "float32"
+      },
+      "main_homogeneous_valid": {
+        "path": "main_homogeneous_valid.npy",
+        "sha256": "17178136a96b49cd61f938af980afe2d6b70ad26b54f7e42c996cf0378c4cab4",
+        "bytes": 299680128,
+        "shape": [
+          1873,
+          20000,
+          2
+        ],
+        "dtype": "float32"
+      },
+      "families_valid": {
+        "path": "families_valid.npy",
+        "sha256": "85e6614f6609a3a8cdb776c1003e6178ef5550d9eb5491bb5e4d1e4952438804",
+        "bytes": 1198720128,
+        "shape": [
+          1873,
+          20000,
+          8
+        ],
+        "dtype": "float32"
+      }
+    }
+  },
+  "recipe": {
+    "student_architecture": {
+      "family": "GRU",
+      "hidden": 256,
+      "layers": 2,
+      "dropout": 0.0,
+      "ordinary_main_target_outputs": 23,
+      "four_family_outputs": 8,
+      "family_heads": 4,
+      "parent_family_head": false,
+      "parent_main_aux_outputs": 23,
+      "new_student_family_outputs": 8,
+      "family_head_initialization": "fresh seed-specific eight-row head; actual source-v3 initialization and parent extension verified for seeds3 and4",
+      "family_outputs_appended_after_parent": 8,
+      "student_total_outputs": 31
+    },
+    "pair_seeds": [
+      3,
+      4
+    ],
+    "shared_initializer": "bd26_h230_all_data_parent_b16_ep3_retry3_v1@ep3",
+    "batch_size": 16,
+    "chunk_rows": 2000,
+    "epochs": 2,
+    "checkpoint_policy": "fixed",
+    "checkpoint_epoch_zero_based": 1,
+    "fit_time_evaluation": "disabled",
+    "optimizer": "AdamW",
+    "schedule": "OneCycle",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.01,
+    "precision": "fp16",
+    "loss": "wmse",
+    "loss_normalization": "chunk",
+    "main_distillation_alpha": 0.7,
+    "main_target_variant": "source",
+    "main_target_formula": "0.3*original label + 0.7*unnormalized teacher source-sum (teacher coefficients sum0.8125).",
+    "family_loss_weight": 0.1,
+    "family_target_mode": "raw",
+    "family_loss": "Equal four-family weighted-MSE heads with raw per-family mean teacher targets.",
+    "propensity_checkpoint": {
+      "run": "c20260929_prop_f0",
+      "path": "artifacts/runs/c20260929_prop_f0/model.pt",
+      "sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+      "power": 2.0,
+      "epsilon": 0.03,
+      "valid_true_mask_epsilon": 0.03
+    },
+    "auxiliary_weights": {
+      "structural": 0.3,
+      "next_event": 0.3
+    },
+    "throughput_mode": "--fast; zero loader workers; source fast mode uses verified pinned/prefetch/fused optimizer/propensity-cache path.",
+    "full_state_save": true,
+    "expected_outer_batches_per_epoch": 779,
+    "expected_total_outer_batches_per_student": 1558,
+    "expected_optimizer_attempts_per_student": 15580,
+    "student_pair_ancestry": "Both train from the same own all-data parent ep3 and same all-data teacher cache. The actual source-v3 loader copies the parent's 23 recurrent/main/auxiliary output rows into each 31-row student and retains a fresh, separately initialized eight-row family head per seed. Pair members are not independent whole-model draws.",
+    "data_loader": {
+      "pool_size": 12479,
+      "sampler": "RandomSampler via DataLoader shuffle=True; source batch-order default random",
+      "batch_size": 16,
+      "drop_last": true,
+      "full_batches_per_epoch": 779,
+      "unique_sequences_consumed_per_epoch": 12464,
+      "remainder_omitted_each_epoch": 15,
+      "omitted_ids_vary_by_student_seed_and_epoch": true,
+      "trainer_records": "sample_order_identity binds sampler class, batch size, drop_last and pre-iteration RNG state; it does not list omitted group IDs."
+    },
+    "expected_sampled_sequences_per_epoch": 12464,
+    "population_groups_not_sampled_per_epoch": 15
+  },
+  "data": {
+    "train": {
+      "path": "datasets/train.parquet",
+      "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "bytes": 29240219011,
+      "expected_groups": 10606
+    },
+    "valid": {
+      "path": "datasets/valid.parquet",
+      "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "bytes": 5615509128,
+      "expected_groups": 1873
+    },
+    "input_identity_receipt": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_LIVE_INPUT_IDENTITY_V1.json",
+    "input_identity_receipt_sha256": "6cc5fe8a1148cdb6b62c0e5b04c3ba7a04fff69a623e06b2e0e4be41e6ea13c4",
+    "input_identity_receipt_status": "passed",
+    "fresh_launch_requires": "Recheck file/stat bindings against the current source before cache materialization and student admission; do not read/re-hash full Parquet during this recipe freeze."
+  },
+  "resource_request": {
+    "proposed_worker_cpu_cores": 2,
+    "worker_loader_workers": 0,
+    "worker_threads": 2,
+    "proposed_worker_memory_reserve_bytes": 9000000000,
+    "proposed_allocator_admission_bytes": 4300000000,
+    "proposed_parent_memory_high_bytes": 18000000000,
+    "proposed_parent_memory_max_bytes": 20000000000,
+    "proposed_parent_swap_bytes": 0,
+    "one_local_gpu_worker_max": 1,
+    "observed_vram_ceiling_bytes": 5000000000,
+    "fresh_admission_required_for_each_student": true,
+    "sequential_only": true,
+    "resource_basis": "Closest completed H230 batch16/chunk2000 family student and family-off control used 9,000,000,000-byte worker reservations; both peaked at8,999,997,440 bytes with zero worker OOM/kill. This is a proposed measured bound, not a fit authorization.",
+    "controller": "scripts/bandit_resources.py launch; one GPU lock; parent CPU cap and RAM headroom must be measured afresh after cache build; root admission required.",
+    "current_slice_policy": "Preserve corrected live CPU policy, memory.high18GB, memory.max20GB, swap0 and one-GPU-worker ceiling; no limit increases in this packet."
+  },
+  "runtime_estimate": {
+    "closest_matched_student_fits": [
+      {
+        "attempt": "H230 seed3 family candidate",
+        "fit_wall_seconds": 2000.2758969319984,
+        "completed_batches": 1492,
+        "batches_per_epoch": 746,
+        "worker_peak_ram_bytes": 8999997440,
+        "worker_oom_delta": 0,
+        "receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_FIT_TERMINAL_RECEIPT_V1_SOURCEV2_20261008.json"
+      },
+      {
+        "attempt": "H230 seed3 matched family-off control",
+        "fit_wall_seconds": 2004.929489369999,
+        "completed_batches": 1492,
+        "batches_per_epoch": 746,
+        "worker_peak_ram_bytes": 8999997440,
+        "worker_oom_delta": 0,
+        "receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_SEED3_CONTROL_RETRY1_FIT_TERMINAL_RECEIPT_V1_SOURCEV2_20261008.json"
+      }
+    ],
+    "all_data_batch_scale": "779/746 = 1.0442359, based on observed all-data parent outer batches per epoch versus clean-fold student fits.",
+    "estimated_fit_seconds_seed3": 2088.8,
+    "estimated_fit_seconds_seed4": 2093.6,
+    "estimated_pair_fit_seconds_sequential": 4182.4,
+    "per_student_runtime_cap_seconds": 3000,
+    "pair_fit_cap_seconds_sequential": 6000,
+    "estimate_limit": "Linear row-count scaling is a planning estimate, not observed all-data student throughput; no cache-build or export time included.",
+    "cache_build_budget": {
+      "exact_build_runtime_cap_seconds": 7200,
+      "measured_all_data_runtime": null,
+      "nearest_clean_fold_cache_elapsed_seconds": 67.06789127500087,
+      "nearest_clean_fold_cache_peak_ram_bytes": 6499999744,
+      "note": "Comparable cache was clean-fold and chunk size2; it does not establish all-data chunk-size1 memory or runtime."
+    }
+  },
+  "student_runs": [
+    {
+      "seed": 3,
+      "run_name": "bd26_h230_all_data_student_gru256_seed3_v1",
+      "attempt_id": "h230-all-data-student-gru256-seed3-v1-20261008",
+      "output_directory": "artifacts/runs/bd26_h230_all_data_student_gru256_seed3_v1",
+      "output_directory_absent_at_packet_freeze": true,
+      "worker_timeout_seconds": 3000,
+      "worker_argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "3000",
+        "/usr/bin/env",
+        "WNN_THREADS=2",
+        "WNN_LOADER_WORKERS=0",
+        "ARROW_NUM_THREADS=1",
+        "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/src",
+        "OMP_NUM_THREADS=2",
+        "MKL_NUM_THREADS=2",
+        "OPENBLAS_NUM_THREADS=2",
+        "NUMEXPR_NUM_THREADS=2",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/scripts/train_rnn.py",
+        "--name",
+        "bd26_h230_all_data_student_gru256_seed3_v1",
+        "--device",
+        "cuda",
+        "--arch",
+        "gru",
+        "--cell",
+        "gru",
+        "--hidden",
+        "256",
+        "--layers",
+        "2",
+        "--dropout",
+        "0",
+        "--seed",
+        "3",
+        "--valid-fold",
+        "-1",
+        "--train-source",
+        "train+valid",
+        "--include-heldout-valid",
+        "--init",
+        "bd26_h230_all_data_parent_b16_ep3_retry3_v1@ep3",
+        "--epochs",
+        "2",
+        "--checkpoint-policy",
+        "fixed",
+        "--checkpoint-epoch",
+        "1",
+        "--no-eval-during-fit",
+        "--batch",
+        "16",
+        "--chunk",
+        "2000",
+        "--loss",
+        "wmse",
+        "--loss-norm",
+        "chunk",
+        "--lr",
+        "0.0001",
+        "--wd",
+        "0.01",
+        "--optim",
+        "adamw",
+        "--sched",
+        "onecycle",
+        "--precision",
+        "fp16",
+        "--propensity",
+        "c20260929_prop_f0",
+        "--prop-power",
+        "2",
+        "--prop-eps",
+        "0.03",
+        "--valid-true-mask",
+        "0.03",
+        "--aux-struct",
+        "0.3",
+        "--aux-next",
+        "0.3",
+        "--fast",
+        "--save-training-state",
+        "--distill-cache-root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_fold0_teacher_family_all_rows_v1",
+        "--distill-cache-all-data",
+        "--distill-cache-variant",
+        "source",
+        "--distill-alpha",
+        "0.7",
+        "--distill-family-weight",
+        "0.1",
+        "--distill-family-head",
+        "--distill-family-target-mode",
+        "raw"
+      ],
+      "worker_command": "/usr/bin/timeout --signal=TERM --kill-after=20s 3000 /usr/bin/env WNN_THREADS=2 WNN_LOADER_WORKERS=0 ARROW_NUM_THREADS=1 WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/src OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 NUMEXPR_NUM_THREADS=2 /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/scripts/train_rnn.py --name bd26_h230_all_data_student_gru256_seed3_v1 --device cuda --arch gru --cell gru --hidden 256 --layers 2 --dropout 0 --seed 3 --valid-fold -1 --train-source train+valid --include-heldout-valid --init bd26_h230_all_data_parent_b16_ep3_retry3_v1@ep3 --epochs 2 --checkpoint-policy fixed --checkpoint-epoch 1 --no-eval-during-fit --batch 16 --chunk 2000 --loss wmse --loss-norm chunk --lr 0.0001 --wd 0.01 --optim adamw --sched onecycle --precision fp16 --propensity c20260929_prop_f0 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --aux-struct 0.3 --aux-next 0.3 --fast --save-training-state --distill-cache-root /home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_fold0_teacher_family_all_rows_v1 --distill-cache-all-data --distill-cache-variant source --distill-alpha 0.7 --distill-family-weight 0.1 --distill-family-head --distill-family-target-mode raw",
+      "resource_controller_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python scripts/bandit_resources.py --root . launch --attempt h230-all-data-student-gru256-seed3-v1-20261008 --kind gpu --cpus 2 --reserve-bytes 9000000000 --profile H230-ALLDATA-STUDENT-GRU256-SEED3-FIT --contract research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_PAIR_RECIPE_CONTRACT_V4_20261008.json --admission-timeout 900 -- /usr/bin/timeout --signal=TERM --kill-after=20s 3000 /usr/bin/env WNN_THREADS=2 WNN_LOADER_WORKERS=0 ARROW_NUM_THREADS=1 WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/src OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 NUMEXPR_NUM_THREADS=2 /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/scripts/train_rnn.py --name bd26_h230_all_data_student_gru256_seed3_v1 --device cuda --arch gru --cell gru --hidden 256 --layers 2 --dropout 0 --seed 3 --valid-fold -1 --train-source train+valid --include-heldout-valid --init bd26_h230_all_data_parent_b16_ep3_retry3_v1@ep3 --epochs 2 --checkpoint-policy fixed --checkpoint-epoch 1 --no-eval-during-fit --batch 16 --chunk 2000 --loss wmse --loss-norm chunk --lr 0.0001 --wd 0.01 --optim adamw --sched onecycle --precision fp16 --propensity c20260929_prop_f0 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --aux-struct 0.3 --aux-next 0.3 --fast --save-training-state --distill-cache-root /home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_fold0_teacher_family_all_rows_v1 --distill-cache-all-data --distill-cache-variant source --distill-alpha 0.7 --distill-family-weight 0.1 --distill-family-head --distill-family-target-mode raw",
+      "expected_outputs": [
+        "model_ep0.pt",
+        "model_ep1.pt",
+        "model.pt",
+        "provenance.json",
+        "history.json",
+        "training_state.pt"
+      ],
+      "worker_argv_sha256": "0deda0f9fc8ca67f4b06216f7a104dcf0424a2fedd018c55cf4c919cef72a042"
+    },
+    {
+      "seed": 4,
+      "run_name": "bd26_h230_all_data_student_gru256_seed4_v1",
+      "attempt_id": "h230-all-data-student-gru256-seed4-v1-20261008",
+      "output_directory": "artifacts/runs/bd26_h230_all_data_student_gru256_seed4_v1",
+      "output_directory_absent_at_packet_freeze": true,
+      "worker_timeout_seconds": 3000,
+      "worker_argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=20s",
+        "3000",
+        "/usr/bin/env",
+        "WNN_THREADS=2",
+        "WNN_LOADER_WORKERS=0",
+        "ARROW_NUM_THREADS=1",
+        "WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/src",
+        "OMP_NUM_THREADS=2",
+        "MKL_NUM_THREADS=2",
+        "OPENBLAS_NUM_THREADS=2",
+        "NUMEXPR_NUM_THREADS=2",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/scripts/train_rnn.py",
+        "--name",
+        "bd26_h230_all_data_student_gru256_seed4_v1",
+        "--device",
+        "cuda",
+        "--arch",
+        "gru",
+        "--cell",
+        "gru",
+        "--hidden",
+        "256",
+        "--layers",
+        "2",
+        "--dropout",
+        "0",
+        "--seed",
+        "4",
+        "--valid-fold",
+        "-1",
+        "--train-source",
+        "train+valid",
+        "--include-heldout-valid",
+        "--init",
+        "bd26_h230_all_data_parent_b16_ep3_retry3_v1@ep3",
+        "--epochs",
+        "2",
+        "--checkpoint-policy",
+        "fixed",
+        "--checkpoint-epoch",
+        "1",
+        "--no-eval-during-fit",
+        "--batch",
+        "16",
+        "--chunk",
+        "2000",
+        "--loss",
+        "wmse",
+        "--loss-norm",
+        "chunk",
+        "--lr",
+        "0.0001",
+        "--wd",
+        "0.01",
+        "--optim",
+        "adamw",
+        "--sched",
+        "onecycle",
+        "--precision",
+        "fp16",
+        "--propensity",
+        "c20260929_prop_f0",
+        "--prop-power",
+        "2",
+        "--prop-eps",
+        "0.03",
+        "--valid-true-mask",
+        "0.03",
+        "--aux-struct",
+        "0.3",
+        "--aux-next",
+        "0.3",
+        "--fast",
+        "--save-training-state",
+        "--distill-cache-root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_fold0_teacher_family_all_rows_v1",
+        "--distill-cache-all-data",
+        "--distill-cache-variant",
+        "source",
+        "--distill-alpha",
+        "0.7",
+        "--distill-family-weight",
+        "0.1",
+        "--distill-family-head",
+        "--distill-family-target-mode",
+        "raw"
+      ],
+      "worker_command": "/usr/bin/timeout --signal=TERM --kill-after=20s 3000 /usr/bin/env WNN_THREADS=2 WNN_LOADER_WORKERS=0 ARROW_NUM_THREADS=1 WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/src OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 NUMEXPR_NUM_THREADS=2 /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/scripts/train_rnn.py --name bd26_h230_all_data_student_gru256_seed4_v1 --device cuda --arch gru --cell gru --hidden 256 --layers 2 --dropout 0 --seed 4 --valid-fold -1 --train-source train+valid --include-heldout-valid --init bd26_h230_all_data_parent_b16_ep3_retry3_v1@ep3 --epochs 2 --checkpoint-policy fixed --checkpoint-epoch 1 --no-eval-during-fit --batch 16 --chunk 2000 --loss wmse --loss-norm chunk --lr 0.0001 --wd 0.01 --optim adamw --sched onecycle --precision fp16 --propensity c20260929_prop_f0 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --aux-struct 0.3 --aux-next 0.3 --fast --save-training-state --distill-cache-root /home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_fold0_teacher_family_all_rows_v1 --distill-cache-all-data --distill-cache-variant source --distill-alpha 0.7 --distill-family-weight 0.1 --distill-family-head --distill-family-target-mode raw",
+      "resource_controller_command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python scripts/bandit_resources.py --root . launch --attempt h230-all-data-student-gru256-seed4-v1-20261008 --kind gpu --cpus 2 --reserve-bytes 9000000000 --profile H230-ALLDATA-STUDENT-GRU256-SEED4-FIT --contract research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_PAIR_RECIPE_CONTRACT_V4_20261008.json --admission-timeout 900 -- /usr/bin/timeout --signal=TERM --kill-after=20s 3000 /usr/bin/env WNN_THREADS=2 WNN_LOADER_WORKERS=0 ARROW_NUM_THREADS=1 WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/src OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 NUMEXPR_NUM_THREADS=2 /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v3_all_data_distill/scripts/train_rnn.py --name bd26_h230_all_data_student_gru256_seed4_v1 --device cuda --arch gru --cell gru --hidden 256 --layers 2 --dropout 0 --seed 4 --valid-fold -1 --train-source train+valid --include-heldout-valid --init bd26_h230_all_data_parent_b16_ep3_retry3_v1@ep3 --epochs 2 --checkpoint-policy fixed --checkpoint-epoch 1 --no-eval-during-fit --batch 16 --chunk 2000 --loss wmse --loss-norm chunk --lr 0.0001 --wd 0.01 --optim adamw --sched onecycle --precision fp16 --propensity c20260929_prop_f0 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --aux-struct 0.3 --aux-next 0.3 --fast --save-training-state --distill-cache-root /home/vlad/development/wunder/wnn_connectome_starterpack/cache/bd26_h230_fold0_teacher_family_all_rows_v1 --distill-cache-all-data --distill-cache-variant source --distill-alpha 0.7 --distill-family-weight 0.1 --distill-family-head --distill-family-target-mode raw",
+      "expected_outputs": [
+        "model_ep0.pt",
+        "model_ep1.pt",
+        "model.pt",
+        "provenance.json",
+        "history.json",
+        "training_state.pt"
+      ],
+      "worker_argv_sha256": "fb4a3e434e574e65e643eb51e3f5c8d48fc4f2c8f664aeee7f98b95b0c84e10d"
+    }
+  ],
+  "completion_checks": [
+    "Require successful controller terminal receipt, worker exit0, heartbeat and zero worker/parent-local OOM/kill deltas.",
+    "Verify provenance contains exact source-v3 trainer hash, exact argv, common parent run plus checkpoint SHA, propensity checkpoint SHA and all-data cache metadata SHA.",
+    "Verify fixed model_ep1.pt and model.pt match selected fixed epoch and provenance hashes.",
+    "Require training history epochs0 and1 only, both with evaluation withheld; training_state.pt present.",
+    "Verify full loader pool identity and row-group hashes: 10,606 train and1,873 valid, including all exposed evaluation groups. Separately verify 779 completed batches and12,464 unique sequences consumed per epoch with drop_last=True;15 pool rows are omitted by the seeded shuffle each epoch. Do not claim every pool row is trained per epoch.",
+    "Make no heldout score claim; independent grader/root owns any later prediction comparison."
+  ],
+  "launch_preconditions": [
+    "Passed parent dependency: successful fixed ep3 terminal research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-all-data-parent-fit-b16-ep3-retry3-v1-20261008.json and exact checkpoint SHA256 478773bd3d0754d261f8f3c9d46a135d56c3596c269d2a856b760caef05b93c7.",
+    "Passed actual source-v3 parent/student checkpoint load and seed-specific family-head extension for seeds3 and4; receipt research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_PARENT_LOAD_CHECK_V1_20261008.json SHA256 0d784393eb1b05ab99a90fe582461f5c67c5f1c85e66e49989c89a73c24e3d77.",
+    "Passed complete all-data cache build and validation; terminal research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-all-data-teacher-cache-v2-20261008.json, metadata SHA256 b05e652f5fdec4e6b1e4e07d1d3a705655d4588ab8ee9d802ccdf4339fd66500, all eight finalized array hashes are embedded in this contract.",
+    "Before each student, the durable resource controller must perform fresh admission: no active GPU worker, effective slice limits intact, aggregate CPU/RAM/swap/VRAM and disk headroom pass, worker reservation 9GB, two CPU cores, zero loader workers, and one GPU lock.",
+    "Launch seed3 first, preserve its terminal receipt and fixed ep1 artifact; only then perform a separate fresh admission for seed4. Do not launch concurrently.",
+    "All supplied train and valid groups are fitting data. The 468 exposed valid groups are not held out; no local heldout or public-score claim is authorized."
+  ],
+  "failure_policy": "Preserve every terminal attempt, receipt, log, checkpoint and state file. Infrastructure failure is not negative scientific evidence. Any retry requires a new run/attempt ID and root-reviewed contract; no silent seed, parent, cache, epoch, recipe or checkpoint substitution.",
+  "supersedes_contract": {
+    "path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_STUDENT_PAIR_RECIPE_CONTRACT_V3_20261008.json",
+    "sha256": "5827127486542036a00c82b1957ed1788fff48ab84f36ca454beea2817d256d0",
+    "reason": "V4 corrects only the parent/student output-width metadata using the actual ep3 checkpoint and source-v3 trainer/helper replay. The exact worker science argv is unchanged."
+  },
+  "decision_basis": {
+    "adr_path": "specs/adr/0019-common-parent-final-student-pair.md",
+    "adr_sha256": "15466c26e37a6fb9a7106f47db3811e795338ad77f98a609cd01a33dc42f3ba8",
+    "decision": "Use the common own seed3 all-data parent ep3 for both students seeds3/4; describe the shared ancestry and retain the separate teacher-history follow-up."
+  },
+  "worker_science_argv_unchanged_from_v1": true,
+  "worker_science_argv_sha256_by_seed": {
+    "3": "0deda0f9fc8ca67f4b06216f7a104dcf0424a2fedd018c55cf4c919cef72a042",
+    "4": "fb4a3e434e574e65e643eb51e3f5c8d48fc4f2c8f664aeee7f98b95b0c84e10d"
+  },
+  "worker_science_argv_unchanged_from_v2": true
+}
