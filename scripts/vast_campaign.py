@@ -3344,15 +3344,15 @@ def _rsync_push(
 
 
 def _validate_worker_bundle(path: Path, max_unpacked_bytes: int) -> int:
-    """Require a plain tar bundle with one root run.sh and no path escapes or secrets."""
+    """Require a tar bundle with one root run.sh and no path escapes or secrets."""
     secret_names = {".env", ".vast_api_key", "id_rsa", "id_ed25519", "credentials.json"}
     unpacked_bytes = 0
     run_script_count = 0
     try:
-        with tarfile.open(path, mode="r:") as archive:
+        with tarfile.open(path, mode="r:*") as archive:
             members = archive.getmembers()
     except (OSError, tarfile.TarError) as error:
-        raise CampaignError("worker packet must be an uncompressed tar archive") from error
+        raise CampaignError("worker packet must be a readable tar archive") from error
     if not members:
         raise CampaignError("worker packet archive is empty")
     for member in members:

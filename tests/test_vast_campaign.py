@@ -493,6 +493,27 @@ def test_worker_bundle_requires_a_safe_root_run_script(
         vast._validate_worker_bundle(secret_packet, 1_000_000)
 
 
+@pytest.mark.parametrize("mode", ["w:", "w:gz"])
+def test_compressed_transport_retains_unpacked_budget_and_path_guards(
+    tmp_path: Path, mode: str
+) -> None:
+    packet = tmp_path / "packet.tar"
+    payload = b"#!/bin/sh\n" + b"# padding\n" * 1000
+    with tarfile.open(packet, mode) as archive:
+        entry = tarfile.TarInfo("run.sh")
+        entry.size = len(payload)
+        archive.addfile(entry, io.BytesIO(payload))
+    assert vast._validate_worker_bundle(packet, len(payload)) == len(payload)
+    with pytest.raises(vast.CampaignError, match="unpacked bytes"):
+        vast._validate_worker_bundle(packet, len(payload) - 1)
+    with tarfile.open(packet, mode) as archive:
+        entry = tarfile.TarInfo("../run.sh")
+        entry.size = len(payload)
+        archive.addfile(entry, io.BytesIO(payload))
+    with pytest.raises(vast.CampaignError, match="unsafe archive path"):
+        vast._validate_worker_bundle(packet, len(payload))
+
+
 def test_live_offer_memory_fields_are_mib_and_worker_limit_uses_decimal_bytes(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
