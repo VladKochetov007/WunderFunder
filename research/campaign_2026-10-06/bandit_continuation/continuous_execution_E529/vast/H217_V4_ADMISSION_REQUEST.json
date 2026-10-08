@@ -1,0 +1,21 @@
+{
+  "attempt_id": "e529-vast-h217-v4-20261008",
+  "fit_eligibility": "Each arm requires a passing strict finite-update profile. Use that arm's profile-projected fit estimate plus its valid-export phase cap against actual time remaining; later arms are rechecked after each terminal phase. Per-profile, fit and export caps stay 900, 7200 and 1800 seconds.",
+  "identity": "E529-H217-TCN-RAW-SCRATCH-V4-AMP4096-BOUNDED-DEADLINE",
+  "incoming_runtime_policy": "Supervisor may pass any positive integer no greater than 21600 seconds; worker computes its phase deadline from that actual incoming value after setup and terminal-packaging reserves.",
+  "packet_sha256": "38bb1893b946c85850268a95afcf88c40593f06f0f5a956f71eafd599e681656",
+  "recipe": "h217_packet_v4/recipe.json",
+  "requested_worker_max_seconds": 21600,
+  "required_independent_checks": [
+    "Root verifies the V3-to-V4 diff contains only worker/run-shell/runtime-accounting changes and confirms exact AMP4096 training sources and recipe.",
+    "Fresh market/account/owned-instance/quota/headroom and staging-duration admission before any provider create.",
+    "Pass the actual post-staging remaining runtime unchanged to WNN_MAX_RUNTIME_SECONDS; it must be positive and no greater than 21600.",
+    "Preserve V3 strict profile/failure isolation, fixed-epoch3 valid-only FP32 prediction exports and root-owned grading."
+  ],
+  "resource_scope": "Prepared packet only. No rental, provider action, quota change, or launch authorization.",
+  "runtime_contract": "h217_packet_v4/runtime_resources.json",
+  "schema_version": 1,
+  "scientific_change": "None in V4. V3 AMP initial scale 4096, both raw-only scratch arms, sources, data, targets, optimizer, schedule, batch, precision and fixed epoch3 remain unchanged.",
+  "source_manifest_sha256": "7ea2bf3cfb6fee065148dfb1c4834d15b5cc92058bb4119153b814b6a940a8dc",
+  "status": "not_admitted"
+}
