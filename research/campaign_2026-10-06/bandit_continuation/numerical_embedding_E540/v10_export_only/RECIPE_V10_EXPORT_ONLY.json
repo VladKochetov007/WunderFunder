@@ -1,0 +1,81 @@
+{
+  "schema": "wnn.e540-export-only-recipe.v1",
+  "packet_id": "E540_FP32_V10_FIXED_CHECKPOINT_EXPORT_ONLY",
+  "parent_experiment": "E540_FP32_V9_REUSE_CONTROL",
+  "kind": "export_only",
+  "objective": "Produce fixed-membership FP32 predictions from the already completed V8 linear control and V9 PLE fixed-epoch-0 checkpoints.",
+  "scientific_status": "No new fit or profile; V8 linear and V9 PLE source fits remain the scientific treatments.",
+  "fit_arms": [],
+  "profile_arms": [],
+  "prediction_arms": [
+    "e540v8-linear-s540-fp32",
+    "e540v9-ple-s540-fp32"
+  ],
+  "checkpoint_contract": {
+    "checkpoint": "model_ep0.pt",
+    "epoch": 0,
+    "input_width": 211,
+    "precision": "fp32",
+    "linear_source": "E540 V8 completed fixed epoch-0 run; reused without refit",
+    "ple_source": "E540 V9 completed fixed epoch-0 run; reused without refit",
+    "paired_seed": 540,
+    "paired_sampler_identity": "must exactly match both saved provenance records",
+    "paired_normalization_identity": "must exactly match both saved provenance records",
+    "ple_knot_buffers": "must match the original fitted preprocessing digest and 512-component membership"
+  },
+  "fit_recipe_ancestry": {
+    "selected_components": 512,
+    "evaluation_groups": 468,
+    "loss": "wmse",
+    "loss_norm": "chunk",
+    "clip": 1.0,
+    "epochs": 1,
+    "checkpoint_epoch": 0,
+    "training_source": "train+valid",
+    "evaluation_during_fit": "withheld",
+    "precision": "fp32",
+    "amp": "disabled"
+  },
+  "input_data": {
+    "dataset": "vladkochetov07/wunder-funder",
+    "path": "datasets/valid.parquet",
+    "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "size_bytes": 5615509128,
+    "read_columns": "seq_ix and 112 feature columns for exact evaluation_groups only",
+    "target_npz_mounted": false,
+    "target_columns_requested": false,
+    "mask_column_requested": false
+  },
+  "evaluation": {
+    "subset_manifest": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V5.json",
+    "subset_manifest_sha256": "ce84816336bc457d487cbddf2f7214ef4d8b0b02e83f9c8e60921b9ce2374d4d",
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "evaluation_group_count": 468,
+    "prediction_shape": [468, 20000, 2],
+    "inference_precision": "fp32",
+    "grader": "root independent grader",
+    "claim_limit": "Previously exposed fixed evaluation groups; exports enable the declared comparison only and do not establish a fresh holdout or public forecast."
+  },
+  "producer_clock_validation": {
+    "source_semantics": "history train_seconds is rounded and recorded before epoch checkpoint saves; sibling provenance fitting_seconds is rounded and written after saves.",
+    "history_rounding_tolerance_seconds": 0.11,
+    "maximum_checkpoint_write_allowance_seconds": 30.0,
+    "constraint": "provenance may trail history only within rounding tolerance; provenance may exceed history only by the declared checkpoint-write allowance plus rounding tolerance",
+    "actual_v9_fixture": {
+      "history_train_seconds": 559.7,
+      "provenance_fitting_seconds": 559.8,
+      "accepted": true
+    }
+  },
+  "execution": {
+    "device": "one Kaggle Tesla T4",
+    "loader_workers": 0,
+    "kernel_process_wall_seconds_max": 6000,
+    "worker_wall_seconds_max": 5200,
+    "runner_finalization_reserve_seconds": 300,
+    "no_training_or_profile": true,
+    "no_onnx_export": true,
+    "provider_push_performed": false
+  }
+}
