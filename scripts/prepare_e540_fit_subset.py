@@ -79,6 +79,8 @@ def build_manifest(
         "selected_groups": selected,
         "selected_group_counts": {key: len(value) for key, value in selected.items()},
         "selected_members_sha256": hashlib.sha256(member_bytes).hexdigest(),
+        "evaluation_groups": sorted(campaign.evaluation_groups),
+        "evaluation_group_count": len(campaign.evaluation_groups),
         "evaluation_membership_sha256": hashlib.sha256(
             np.asarray(sorted(campaign.evaluation_groups), dtype="<i8").tobytes()
         ).hexdigest(),

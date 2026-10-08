@@ -9,6 +9,8 @@ import numpy as np
 import pytest
 import torch
 
+import scripts.export_onnx as export_onnx
+import scripts.predict_run as predict_run
 import scripts.train_rnn as train_rnn
 from scripts.train_rnn import load_e540_fit_subset
 from wnn.features import event_features_torch
@@ -273,6 +275,8 @@ def _subset_manifest(
         "selected_component_sha256": hashlib.sha256(
             np.asarray(components, dtype="<i8").tobytes()
         ).hexdigest(),
+        "evaluation_groups": evaluation,
+        "evaluation_group_count": len(evaluation),
         "evaluation_membership_sha256": hashlib.sha256(
             np.asarray(evaluation, dtype="<i8").tobytes()
         ).hexdigest(),
@@ -313,6 +317,78 @@ def test_fit_subset_requires_complete_non_evaluation_components(tmp_path: Path) 
     assert subset["train_groups"] == [1, 2]
     assert subset["valid_groups"] == [10]
 
+    invalid_evaluation = _subset_manifest([1, 2], [10], [100], [14])
+    invalid_evaluation["evaluation_groups"] = [13]
+    invalid_evaluation["evaluation_group_count"] = 1
+    invalid_evaluation["evaluation_membership_sha256"] = hashlib.sha256(
+        np.asarray([13], dtype="<i8").tobytes()
+    ).hexdigest()
+    path.write_text(json.dumps(invalid_evaluation))
+    with pytest.raises(ValueError, match="exact evaluation groups"):
+        load_e540_fit_subset(path, split)
+
     path.write_text(json.dumps(_subset_manifest([1, 2], [14], [100], [14])))
     with pytest.raises(ValueError, match="outside the fit split"):
         load_e540_fit_subset(path, split)
+
+
+def test_e540_prediction_uses_frozen_evaluation_membership(tmp_path: Path) -> None:
+    groups = [14, 18]
+    manifest = {
+        "version": 1,
+        "experiment_id": "E540",
+        "split_manifest_sha256": "split-sha",
+        "evaluation_groups": groups,
+        "evaluation_group_count": len(groups),
+        "evaluation_membership_sha256": hashlib.sha256(
+            np.asarray(groups, dtype="<i8").tobytes()
+        ).hexdigest(),
+    }
+    path = tmp_path / "subset.json"
+    path.write_text(json.dumps(manifest))
+    checkpoint = {
+        "args": {"fit_subset_manifest_sha256": hashlib.sha256(path.read_bytes()).hexdigest()},
+        "provenance": {"split_manifest_sha256": "split-sha"},
+    }
+
+    assert predict_run.load_e540_evaluation_groups(path, checkpoint) == groups
+
+    manifest["evaluation_groups"] = [14, 19]
+    path.write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match="training manifest"):
+        predict_run.load_e540_evaluation_groups(path, checkpoint)
+
+
+def test_e540_prediction_reader_does_not_request_targets_or_masks(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    reads: list[tuple[int, bool, bool]] = []
+
+    class FeatureOnlyReader:
+        def __init__(self, path: Path) -> None:
+            assert path == tmp_path / "datasets" / "valid.parquet"
+
+        def read(self, group: int, *, targets: bool, mask: bool) -> SimpleNamespace:
+            reads.append((group, targets, mask))
+            return SimpleNamespace(features=np.zeros((1, 112), dtype=np.float32))
+
+    monkeypatch.setattr(predict_run, "ROOT", tmp_path)
+    monkeypatch.setattr(predict_run, "SequenceFile", FeatureOnlyReader)
+    dataset = predict_run.FeatureOnlySequences("valid", [14, 18])
+
+    assert dataset[1].shape == (1, 112)
+    assert reads == [(18, False, False)]
+
+
+def test_numeric_map_onnx_parity_must_be_declared_fit_train_group() -> None:
+    checkpoint = {
+        "args": {"numeric_map": "ple"},
+        "provenance": {"fit_row_groups": {"train": [14, 18], "valid": [20]}},
+    }
+
+    export_onnx.validate_parity_membership(checkpoint, "train", 18)
+
+    with pytest.raises(ValueError, match="fitting train group"):
+        export_onnx.validate_parity_membership(checkpoint, "valid", 20)
+    with pytest.raises(ValueError, match="outside checkpoint fitting membership"):
+        export_onnx.validate_parity_membership(checkpoint, "train", 20)

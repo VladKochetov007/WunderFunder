@@ -769,6 +769,16 @@ def load_e540_fit_subset(path: Path, campaign_split: CampaignSplit) -> dict[str,
     if selected_components.intersection(evaluation_components):
         raise ValueError("E540 fit subset overlaps an evaluated component")
     evaluation_bytes = np.asarray(sorted(campaign_split.evaluation_groups), dtype="<i8").tobytes()
+    evaluation_groups = manifest.get("evaluation_groups")
+    if (
+        not isinstance(evaluation_groups, list)
+        or any(type(group) is not int or group < 0 for group in evaluation_groups)
+        or evaluation_groups != sorted(set(evaluation_groups))
+        or evaluation_groups != sorted(campaign_split.evaluation_groups)
+        or type(manifest.get("evaluation_group_count")) is not int
+        or manifest.get("evaluation_group_count") != len(evaluation_groups)
+    ):
+        raise ValueError("E540 exact evaluation groups differ from the campaign split")
     if hashlib.sha256(evaluation_bytes).hexdigest() != manifest.get(
         "evaluation_membership_sha256"
     ):

@@ -1,0 +1,100 @@
+{
+  "version": 2,
+  "experiment_id": "E540",
+  "status": "provisional_recipe_v2_pending_independent_root_review_and_admission",
+  "predecessor": {
+    "recipe": "RECIPE_V1.json",
+    "status": "preserved_not_admitted",
+    "reason": "V1 declared unclipped-target WMSE, while the existing trainer clips both targets and WMSE weights at ±2. No fit occurred."
+  },
+  "hypothesis_ids": ["H-234", "H-E537-C", "H-E540-A"],
+  "parent_experiment": "H234",
+  "mechanism": "feature-wise n_intervals=8 piecewise-linear input basis with raw bypass",
+  "data": {
+    "allowed_files": ["datasets/train.parquet", "datasets/valid.parquet"],
+    "split_manifest": "root supplies the existing component-separated campaign split before packet build",
+    "fitting_subset": "seeded nested 10% of eligible components; expected 512 selected components; complete sequences preserved",
+    "subset_selection_seed": 540,
+    "fit_membership": "selected train and non-evaluation valid groups only",
+    "evaluation_membership": "the exact frozen 468 valid row groups from the supplied split",
+    "knot_fit": {
+      "coordinates": "existing model mean/std fitted from the first two batches of the selected training loader only; identical seeded order in both arms",
+      "rows_per_sequence": 128,
+      "row_selection": "evenly spaced positions including sequence endpoints",
+      "maximum_reservoir_rows": 65536,
+      "reservoir_seed": 20261008,
+      "quantiles": "n_intervals+1 equally spaced empirical quantiles; duplicate values dropped per feature",
+      "constant_feature": "one repeated knot, zero ramp coordinates, raw bypass retained",
+      "sentinel": "finite -5.19934 follows the current unchanged-input policy as an ordinary scalar",
+      "labels_or_scored_mask": "never read for knot fitting"
+    }
+  },
+  "shared_model": {
+    "raw_feature_count": 112,
+    "event_feature_count": 99,
+    "input_width": 211,
+    "expanded_width": 1107,
+    "hidden": 128,
+    "layers": 1,
+    "dropout": 0.0,
+    "allocated_trainable_parameters_per_arm": 274050,
+    "batch_size": 2,
+    "chunk_rows": 256,
+    "update_rows": 256,
+    "detach_rows": 256,
+    "epochs": 1,
+    "seed": 540,
+    "batch_order": "seeded; same group order and sequence batches in both arms",
+    "initialization": "from scratch; same seed and identical parameter layouts",
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "schedule": "OneCycle",
+    "precision": "fp16 autocast",
+    "loss": {
+      "name": "wmse",
+      "training_target_clip": [-2.0, 2.0],
+      "weight": "absolute clipped target magnitude",
+      "denominator": "sum of both target weights over each 256-row update chunk",
+      "validity_mask": "repository warmup validity; same for both arms"
+    },
+    "checkpoint": "fixed epoch 0; evaluation withheld during fitting",
+    "evaluation_metric": "global_wp_clip2_v1; official clipping and original clipped-label magnitude weights unchanged"
+  },
+  "arms": {
+    "linear": {
+      "numeric_map": "linear",
+      "basis": "8 zero ramp coordinates and one active raw bypass coordinate per feature"
+    },
+    "ple": {
+      "numeric_map": "ple",
+      "basis": "8 clamped cumulative linear ramps from at most 9 train-only quantile knots plus unbounded standardized raw bypass"
+    }
+  },
+  "capacity_disclosure": {
+    "allocated_parameters": "exactly equal by construction for the paired E540 arms",
+    "effective_capacity": "not equal: all 896 linear-control ramp input coordinates are zero, so their connected projection weights do not add data-dependent expressivity",
+    "interpretation": "This first pair isolates the declared linear-map versus PLE treatment under a shared outer model, but a future PLE gain cannot be attributed solely to geometry. A matched ordinary input MLP is a declared later descendant, not part of E540."
+  },
+  "prediction_and_grade": {
+    "prediction_membership": "exact sorted evaluation_groups from the frozen E540 fit-subset manifest; expected 468 valid row groups",
+    "prediction_reads": "features only; target and scored-mask columns are not requested",
+    "prediction_index": "row_groups array and evaluation_membership_sha256 accompany each prediction file; grader must verify both before scoring",
+    "onnx_parity_sequence": "the first declared fitting train group from the same subset manifest; feature-only read",
+    "exposure": "These previously inspected evaluation groups remain exposed; no holdout or public forecast is implied."
+  },
+  "profile": {
+    "provisional_shape": "batch 2, chunk 256, hidden 128, one layer",
+    "profile_steps": 2,
+    "warmup_steps": 1,
+    "measure": ["GPU peak memory", "steady update time", "knot preprocessing time", "fit/export time"],
+    "target_pair_gpu_minutes": 20,
+    "target_status": "unmeasured proposal from E537, not admission authority or a hard gate"
+  },
+  "tails_factor": {
+    "status": "held fixed at clip2 for this pair",
+    "raw_target_wmse": "separate future recipe; not tested by E540 V2"
+  },
+  "expected_public_score": null,
+  "promotion": "A one-seed small-data screen can allocate a larger fidelity test; it cannot establish training-seed robustness, public transfer or final submission value."
+}
