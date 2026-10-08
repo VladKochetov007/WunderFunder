@@ -1,0 +1,18 @@
+{
+ "id": "SEED9_PARENT_AGGREGATE_BREACH_REVIEW_20261008_R1",
+ "recorded_utc": "2026-10-08T18:32:50.526581+00:00",
+ "attempt": "h230-strong-parent-seed9-muon-local-v1-20261008",
+ "terminated_utc": "2026-10-08T18:31:06Z",
+ "elapsed_seconds": 5235,
+ "progress_at_kill": "epoch3 batch ~430/779; epochs 0-2 checkpoints + training_state.pt (end of ep2) intact",
+ "worker_peak_ram": 8999997440,
+ "parent_peak_ram": 18000093184,
+ "worker_oom_kill": 0,
+ "cause": "Campaign-slice aggregate (counts page cache) crossed 18e9: fit 9.0e9 (incl. its file cache) + concurrent support scopes ~2.8e9 + 0.35e9 (Haiku packager/blend-lab analysis) + marimo kernel 1.7e9 + reparented slice file cache ~4.8e9. Controller guard terminated the fit as designed; no OOM.",
+ "corrections": [
+  "Durable file-cache-only reclaim guard wnn-slice-filecache-guard-v1 keeps slice current <15.5e9 (swappiness=0, no limit change)",
+  "Support agents capped at 2.5e9 while a 9e9 fit runs (AGENT_RESOURCE_RULES updated)",
+  "Resume seed9 from training_state.pt epoch-2 state inside the guarded warm queue worker (same argv + --resume-state); no science change"
+ ],
+ "scientific_status": "execution failure only; no scientific evidence"
+}

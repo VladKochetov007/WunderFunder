@@ -4,7 +4,7 @@ A previous subagent ran an unwrapped `python3` that reached 15.8 GB RSS outside 
 
 1. Run EVERY python, kaggle, pytest, ruff or other non-trivial command through the memory-capped wrapper, from the main checkout:
    `WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=3000000000 WNN_RUNTIME_MAX=600s /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited <command...>`
-   Raise WNN_MEM_MAX only up to 4500000000 and WNN_CPU_QUOTA up to 200% when needed. Plain `ls`, `cat`, `head`, `rg`, `git` are fine without it.
+   While a local GPU fit is running keep WNN_MEM_MAX ≤ 2500000000 and run only ONE such support process at a time; otherwise raise WNN_MEM_MAX only up to 4500000000 and WNN_CPU_QUOTA up to 200% when needed. Plain `ls`, `cat`, `head`, `rg`, `git` are fine without it.
 2. Never load a whole parquet file. `datasets/train.parquet` (29 GB) and `datasets/valid.parquet` (5.6 GB) have one row group per sequence (20,000 rows): read only needed row groups and columns with pyarrow (`ParquetFile.read_row_group(i, columns=[...])`).
 3. Never read multi-GB `.npy` caches fully; use `np.load(..., mmap_mode="r")` and slice.
 4. No docker/podman. No GPU use unless your task explicitly says so. Never start long jobs as session background shells; root launches long work as systemd units.
