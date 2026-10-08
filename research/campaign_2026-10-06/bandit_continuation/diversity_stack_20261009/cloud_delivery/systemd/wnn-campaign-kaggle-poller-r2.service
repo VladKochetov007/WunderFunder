@@ -1,0 +1,19 @@
+[Unit]
+Description=Poll bounded private Kaggle preflight status and accelerator quota
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+Slice=wnn-campaign.slice
+CPUQuota=10%
+MemoryMax=512M
+MemorySwapMax=0
+TimeoutStartSec=65s
+TimeoutStopSec=3s
+Environment=WNN_SLICE=wnn-campaign.slice
+Environment=WNN_CPU_QUOTA=10%
+Environment=WNN_THREADS=1
+Environment=WNN_MEM_MAX=536870912
+Environment=WNN_RUNTIME_MAX=55s
+ExecStart=/usr/bin/flock -n /tmp/wnn-codex-support.lock /home/vlad/development/wunder/wnn_connectome_starterpack/scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python3 /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/cloud_preflight/poll_provider.py --targets /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_targets_active_20261009_r2.json --log /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_poll_log_active_20261009_r1.jsonl

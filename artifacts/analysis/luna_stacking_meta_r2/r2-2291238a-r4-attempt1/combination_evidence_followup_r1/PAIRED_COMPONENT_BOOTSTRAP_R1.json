@@ -1,0 +1,46 @@
+{
+  "bootstrap": {
+    "bootstrap_sd": 0.00028711263457895824,
+    "candidate": "equal_four_way",
+    "candidate_wp": 0.6825617501427188,
+    "ci95_percentile": [
+      -0.000315872299795289,
+      0.0008065693936580544
+    ],
+    "n_resamples": 2000,
+    "p_boot_delta_le_zero": 0.1875,
+    "point_delta": 0.00025328946625791104,
+    "reference": "H3 (strongest member selected on this panel)",
+    "reference_wp": 0.6823084606764609,
+    "resampling_unit": "whole evaluation component, paired across models, with replacement",
+    "seed": 20261009
+  },
+  "comparison": "equal_four_way_minus_H3",
+  "evaluation_components": 141,
+  "evaluation_groups": 468,
+  "expected_point_metrics_verified": {
+    "candidate_wp": 0.6825617501427197,
+    "reference_wp": 0.682308460676462
+  },
+  "input_result": "artifacts/analysis/luna_stacking_meta_r2/r2-2291238a-r4-attempt1/LUNA_META_CROSSFIT_R2_RESULT.json",
+  "input_result_sha256": "ae8c337f29b6f4f3b4dea27ce9e16a935a4963857bc32be957f7d87b42749839",
+  "limitations": [
+    "The evaluation panel is exposed; this is a descriptive resampling interval, not fresh confirmation.",
+    "H3 is the strongest member selected using this same panel, so the comparison is post-hoc and selection-biased.",
+    "This local delta does not estimate public score gain and is not a forecast."
+  ],
+  "metric_id": "global_wp_clip2_v1",
+  "panel_exposure": "repeatedly inspected fold0 development panel; not fresh confirmation or public forecast",
+  "pool_moments": "Frozen per-component centered weighted moments; no full prediction arrays loaded",
+  "resource_observation": {
+    "peak_rss_mib": 37.13671875,
+    "prediction_arrays_loaded": false,
+    "process_cpu_seconds": 14.311340999999999,
+    "wall_seconds": 13.597187534003751
+  },
+  "source_code_sha256": {
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "status": "complete"
+}
