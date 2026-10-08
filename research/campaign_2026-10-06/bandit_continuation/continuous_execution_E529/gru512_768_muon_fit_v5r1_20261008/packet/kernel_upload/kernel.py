@@ -12,7 +12,7 @@ import time
 from pathlib import Path, PurePosixPath
 
 SOURCE_DATASET = 'vladkochetov07/e529-gru512-768-muon-fit-v5r1-source-20261008'
-EXPECTED_MANIFEST_SHA256 = '717727f4947e150204f8b6c3bc58e4bb2c4576e4cb1e20190e5f88c7e49c1377'
+EXPECTED_MANIFEST_SHA256 = 'ab7d84b3c0f38697bada309f324182abd0b393ca1e5abcfde7bbe46e89eff0cc'
 REQUIRED_FILES = ('GRU512_768_MUON_FIT_RECIPE_V5R1.json', 'README.md', 'ROOT_FIT_AUTHORIZATION.json', 'ROOT_FIT_SOURCE_REVIEW.json', 'capacity_arm_worker.py', 'capacity_fit_worker.py', 'capacity_worker.py', 'fold0.json', 'kernel-metadata.json', 'kernel.py', 'portable_inputs.json', 'prior_input_identity_v2.json', 'producer_evidence/v4/cohort_terminal_receipt.json', 'producer_evidence/v4/input_identity_receipt.json', 'producer_evidence/v4/manifest.json', 'producer_evidence/v4/muon512-profile-argv.json', 'producer_evidence/v4/muon512-profile-digest-metrics.json', 'producer_evidence/v4/muon512-profile-gpu-samples.json', 'producer_evidence/v4/muon512-profile.log', 'producer_evidence/v4/muon768-profile-argv.json', 'producer_evidence/v4/muon768-profile-digest-metrics.json', 'producer_evidence/v4/muon768-profile-gpu-samples.json', 'producer_evidence/v4/muon768-profile.log', 'producer_evidence/v4/provider_kernel_log.log', 'producer_evidence/v4/root_posthoc_profile_review.json', 'producer_evidence/v4/terminal_collection_review_request.json', 'source/source_archive.tar', 'source/source_archive_manifest.json', 'train_entry.py', 'verified_digest_handoff.py')
 PACKET_ID = 'E529_H232_GRU512_768_MUON_SEED9_FIT_V5R1_20261008'
 WORKER_CAP_SECONDS = 26000
