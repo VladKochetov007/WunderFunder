@@ -1,0 +1,32 @@
+{
+  "id": "E535_FIXED468_MARIMO_SESSION_FAILURE_V1_20261008",
+  "phase": "pre_scan_harness_failure",
+  "observed_local_time": "2026-10-08T02:51:42+03:00",
+  "old_server": {
+    "server_id": "127.0.0.1:2718",
+    "pid": 3249318,
+    "started_at": "2026-10-07T23:20:55.661447+00:00",
+    "scope": "run-p3249318-i3245829.scope",
+    "cgroup": "user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/run-p3249318-i3245829.scope",
+    "last_observed_cpu_max": "100000 100000",
+    "last_observed_memory_max_bytes": 1499996160,
+    "last_observed_memory_current_bytes": 452399104,
+    "terminal": {
+      "active_state": "failed",
+      "result": "timeout",
+      "runtime_max": "30min",
+      "inactive_enter_local_time": "2026-10-08T02:50:54+03:00"
+    }
+  },
+  "recovery_attempt": {
+    "tool": "marimo-pair execute-code",
+    "url": "http://127.0.0.1:2718",
+    "failure": "Failed to connect to marimo server",
+    "elapsed_seconds": 0.085,
+    "scan_started": false,
+    "parquet_groups_read": 0
+  },
+  "diagnosis": "The prior marimo process/scope expired at its 30-minute RuntimeMaxSec. The process was absent from discovery and had no listener. The transient cgroup had been removed, so terminal memory events are unavailable. No OOM is confirmed.",
+  "next_action": "Create an identified replacement Marimo session under wnn-campaign.slice with one CPU, 1.5 GB memory max, and 1200-second runtime max; continue the same bounded scan through that kernel.",
+  "owner": "independent_model_data_forensics"
+}

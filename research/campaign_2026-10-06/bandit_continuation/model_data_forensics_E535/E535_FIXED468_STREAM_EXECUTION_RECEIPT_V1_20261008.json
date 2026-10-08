@@ -1,0 +1,202 @@
+{
+  "id": "E535_FIXED468_STREAM_EXECUTION_RECEIPT_V1_20261008",
+  "observed_at_local": "2026-10-08T02:57:46+0300",
+  "owner": "independent_model_data_forensics",
+  "branch": "research/model-data-forensics-E535",
+  "git_head_before_receipt_commit": "67c2ed92ac763e0cf3830822c99c7cf434ca89ed",
+  "status": "complete_descriptive_scan_no_score",
+  "scope": {
+    "project": "rootChallenge2",
+    "lineage": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535",
+    "no_fits": true,
+    "no_predictions": true,
+    "no_official_grade": true,
+    "no_public_score_claim": true
+  },
+  "execution": {
+    "notebook": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/model_data_forensics.py",
+    "notebook_cell_lines": "187-194; appended hidden Marimo cell invokes runpy.run_path(helper, run_name=\"__main__\") and returns the figure",
+    "kernel_action": "marimo-pair execute-code in the live kernel at http://127.0.0.1:2723",
+    "helper": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_FIXED468_SCAN_V1.py",
+    "helper_invocation": "runpy.run_path(\"research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_FIXED468_SCAN_V1.py\", run_name=\"__main__\")",
+    "server_process_argv": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python3 /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/marimo edit --no-token --no-sandbox --port 2723 research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/model_data_forensics.py",
+    "server_pid": 3338626,
+    "server_port": 2723,
+    "systemd_scope": "wnn-e535-fixed468-marimo-20261008-r2.scope",
+    "systemd_invocation_id": "74b70932de174c6cb1cccf9ddc82a4b9",
+    "scope_observation": {
+      "ActiveState": "active",
+      "InvocationID": "74b70932de174c6cb1cccf9ddc82a4b9",
+      "Result": "success",
+      "RuntimeMaxUSec": "20min",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-e535-fixed468-marimo-20261008-r2.scope",
+      "MemoryCurrent": "450002944",
+      "MemoryPeak": "464908288",
+      "CPUUsageNSec": "10080221000",
+      "MemoryMax": "1500000000",
+      "MemorySwapMax": "0"
+    },
+    "scope_cgroup": {
+      "memory_events": [
+        "low 0",
+        "high 0",
+        "max 0",
+        "oom 0",
+        "oom_kill 0",
+        "oom_group_kill 0",
+        "sock_throttled 0"
+      ],
+      "memory_peak_bytes": 464908288,
+      "cpu_stat": [
+        "usage_usec 10080357",
+        "user_usec 9450010",
+        "system_usec 630347",
+        "nice_usec 9277089",
+        "core_sched.force_idle_usec 0",
+        "nr_periods 935",
+        "nr_throttled 6",
+        "throttled_usec 58545",
+        "nr_bursts 0",
+        "burst_usec 0"
+      ],
+      "note": "Cgroup totals cover the whole Marimo server lifetime at observation, not only the 1.82-second data scan."
+    },
+    "limits": {
+      "outer_eda_cpu": "100% of one CPU",
+      "outer_eda_memory_max_bytes": 1500000000,
+      "outer_eda_runtime_max_seconds": 900,
+      "helper_internal_loop_cutoff_seconds": 780,
+      "threads": 1,
+      "parquet_arrow_use_threads": false,
+      "one_complete_row_group_at_a_time": true,
+      "scope_runtime_max": "20min",
+      "swap_max_bytes": 0
+    },
+    "scan_elapsed_seconds": 1.8202027859952068,
+    "read_method": "pyarrow ParquetFile.read_row_group, use_threads=False, one complete row group at a time",
+    "columns": [
+      "seq_ix",
+      "i0_p0",
+      "i0_p11",
+      "t0",
+      "t1",
+      "is_scored"
+    ],
+    "groups_completed": 468,
+    "rows_read": 9360000,
+    "scored_rows": 808863,
+    "full_parquet_loaded": false,
+    "full_prediction_copy_created": false,
+    "fitting_set_scan": false
+  },
+  "data": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/datasets/valid.parquet",
+    "bytes": 5615509128,
+    "mtime_ns": 1577826000000000000,
+    "row_groups": 1873,
+    "rows": 37460000,
+    "projected_schema": {
+      "seq_ix": "int32",
+      "i0_p0": "float",
+      "i0_p11": "float",
+      "t0": "float",
+      "t1": "float",
+      "is_scored": "bool"
+    },
+    "whole_file_sha256": null,
+    "whole_file_hash_note": "Not computed; only six projected columns from 468 row groups were read."
+  },
+  "membership": {
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "current_reference_crosswalk": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_REFERENCE_PANEL_RECONSTRUCTION_V1.json",
+    "current_reference_crosswalk_sha256": "7222ca85c7cc1031d3378f83ddd08648b37f06cc4faeae62d33d8830bfde03e6",
+    "current_reference_groups_sha256": "c0eb0c155360df6938ab9bb996bcd275855dabdc0671ca3c4d62069b782b7d90",
+    "H230_evaluation_groups_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+    "H230_groups": 468,
+    "current_reference_reconstruction_groups": 432,
+    "H230_only_extra_groups": 36
+  },
+  "result_summary": {
+    "target_pair_changes_postwarm": 1566172,
+    "paired_price_code_changes_postwarm": 2511082,
+    "same_row_events": 1566082,
+    "same_row_fraction": 0.9999425350472362,
+    "within_one_row_fraction": 1.0,
+    "t0_clipped_abs_target_mass": 561243.6421255916,
+    "t1_clipped_abs_target_mass": 575314.8110807091,
+    "panel_comparison": {
+      "current_reconstructed_reference_432": {
+        "groups": 432,
+        "scored_rows": 726251,
+        "target_pair_changes_postwarm": 1415959,
+        "paired_price_code_changes_postwarm": 2276689,
+        "t0_abs_clipped_target_weight": 501154.09650436044,
+        "t1_abs_clipped_target_weight": 510528.8095344752,
+        "mean_scored_rows_per_group": 1681.1365740740741,
+        "median_target_run_rows_per_group": 2.0
+      },
+      "H230_only_extra_36": {
+        "groups": 36,
+        "scored_rows": 82612,
+        "target_pair_changes_postwarm": 150213,
+        "paired_price_code_changes_postwarm": 234393,
+        "t0_abs_clipped_target_weight": 60089.5456212312,
+        "t1_abs_clipped_target_weight": 64786.00154623389,
+        "mean_scored_rows_per_group": 2294.777777777778,
+        "median_target_run_rows_per_group": 2.0
+      }
+    },
+    "interpretation_limit": "Previously exposed fold0 validation; descriptive target/activity diagnostics only. No heldout score, public forecast, causal result, or target-law claim. p0/p11 are column identifiers; paired changes are an event proxy, not verified best-quote updates."
+  },
+  "preserved_pre_run_failures": [
+    {
+      "artifact": "E535_FIXED468_MARIMO_SESSION_FAILURE_V1_20261008",
+      "path": "research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_FIXED468_MARIMO_SESSION_FAILURE_V1_20261008.json",
+      "status": "old kernel expired at RuntimeMax; no parquet rows read"
+    },
+    {
+      "phase": "replacement server launch",
+      "observation": "first attempt used a worktree-local .venv/bin/marimo that was absent; corrected attempt used the project .venv; no server or data scan from the failed attempt"
+    },
+    {
+      "phase": "first replacement notebook preflight",
+      "observation": "initial worktree-relative datasets/valid.parquet path was absent; preflight failed before any row group read; corrected to the existing supplied valid.parquet"
+    }
+  ],
+  "post_scan_validation": {
+    "row_count_equals_468_times_20000": true,
+    "records_unique_row_groups": true,
+    "records_unique_seq_ix": true,
+    "scored_rows_match_age_table": true,
+    "target_weight_shares_conserve": [
+      true,
+      true
+    ],
+    "tertile_weight_shares_conserve": [
+      true,
+      true
+    ]
+  },
+  "artifact_sha256": {
+    "E535_FIXED468_SCAN_V1.py": "ffd8a96a4af5f84700019b72e2f13a81351baec153a9385a34de729a0b0bc505",
+    "model_data_forensics.py": "f4f44b014a4cd591dc9ac4974914010a981d711966ea1c807df8f6ef76b1a27c",
+    "E535_FIXED468_VALID_ROW_GROUP_STREAM_V1.json": "7645bc9db4d0367e906af6b0c903e154ce097b721fec799ab016e7d2663445d6",
+    "E535_FIXED468_MARIMO_SESSION_FAILURE_V1_20261008.json": "94693d120a9adc52038d8099ca67edc59335d1171cdf168c6c9c879831da2193",
+    "E535_FIXED468_STREAM_REPORT_V1_20261008.md": "bb5574ec60c5fba5f5608dce14120299db4987b9521e49a09b3864a09186d2c4",
+    "E535_FIXED468_HYPOTHESIS_UPDATE_V1_20261008.json": "6eaec159d15831d7f875b862593e06eec15e962d8875405431ebf1345242855a",
+    "E535_REFERENCE_PANEL_RECONSTRUCTION_V1.json": "7222ca85c7cc1031d3378f83ddd08648b37f06cc4faeae62d33d8830bfde03e6",
+    "plots/E535_FIXED468_event_target_weight_diagnostic_V1.png": "5b2891e8db9f42e4b764db875e93c2ae87bff63087e6e31bc193fff7f67f3d40",
+    "plots/E535_FIXED468_event_target_weight_diagnostic_V1.svg": "722728526b3022c814eaf5acaaee8e289c6a39a652a6ae6a956f3d692a8d7637"
+  },
+  "dirty_paths_at_receipt_creation": [
+    " M research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/model_data_forensics.py",
+    "?? research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_FIXED468_HYPOTHESIS_UPDATE_V1_20261008.json",
+    "?? research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_FIXED468_MARIMO_SESSION_FAILURE_V1_20261008.json",
+    "?? research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_FIXED468_SCAN_V1.py",
+    "?? research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_FIXED468_STREAM_REPORT_V1_20261008.md",
+    "?? research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/E535_FIXED468_VALID_ROW_GROUP_STREAM_V1.json",
+    "?? research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/plots/E535_FIXED468_event_target_weight_diagnostic_V1.png",
+    "?? research/campaign_2026-10-06/bandit_continuation/model_data_forensics_E535/plots/E535_FIXED468_event_target_weight_diagnostic_V1.svg"
+  ]
+}

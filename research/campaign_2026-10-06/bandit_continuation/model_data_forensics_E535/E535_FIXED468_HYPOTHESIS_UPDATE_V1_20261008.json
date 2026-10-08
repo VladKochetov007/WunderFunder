@@ -1,0 +1,43 @@
+{
+  "id": "E535_FIXED468_HYPOTHESIS_UPDATE_V1_20261008",
+  "related_card_id": "E535-HYP-01",
+  "source_card": "E535_HYPOTHESIS_CARDS_V1_20261008.jsonl",
+  "numerical_prior": null,
+  "status": "descriptive_full_panel_evidence_hypothesis_narrowed_no_fit",
+  "exposure": "Previously exposed fold0 validation; descriptive only; no score or public forecast.",
+  "diagnostic": {
+    "result": "E535_FIXED468_VALID_ROW_GROUP_STREAM_V1.json",
+    "declared_groups": 468,
+    "rows": 9360000,
+    "scored_rows": 808863,
+    "target_pair_transitions": 1566172,
+    "same_row_paired_i0_p0_i0_p11_changes": 1566082,
+    "same_row_fraction": 0.9999425350472362,
+    "within_one_row_fraction": 1.0,
+    "rows_age_21_plus_after_both_events": 357279,
+    "scored_row_share_age_21_plus_both": 0.4417,
+    "t0_clipped_absolute_target_weight_share_age_21_plus_both": 0.4914995042550878,
+    "t1_clipped_absolute_target_weight_share_age_21_plus_both": 0.493929338008117
+  },
+  "interpretation": [
+    "Full-panel event/label alignment supports the observed data pattern, but is mechanically related to existing ev_i0px, whose definition uses the same two price-like inputs (src/wnn/features.py:44-56).",
+    "Do not treat separate price-event and target-event clocks as independent new information.",
+    "Long stale intervals carry substantial official clipped-target weight mass; a memory-persistence/decay mechanism is still testable while retaining row-by-row causal updates."
+  ],
+  "usable_unconventional_descendant": {
+    "name": "feature-equivalent semi-Markov state decay",
+    "mechanism": "Keep baseline and candidate inputs identical, including ev_i0px and since_i0px; alter only a learned hidden-state decay/update gate conditioned on event age while processing every row.",
+    "falsifier": "No complete-endpoint improvement over the feature-equivalent row-wise GRU at the same own-weight ancestry, budget, fixed checkpoint and member count, or a gain erased by a gate-shuffle/age-ablation control."
+  },
+  "comparator_audit": {
+    "current_reference_groups": 432,
+    "H230_only_extra_groups": 36,
+    "extra_group_share_of_H230_panel": 0.07692307692307693,
+    "extra_scored_row_share": 0.10212685476630991,
+    "extra_t0_weight_share": 0.10706531908402813,
+    "extra_t1_weight_share": 0.11260787402630589,
+    "historical_425_membership_reconstructed": false,
+    "finding": "Membership and metric-weight exposure differ; this invalidates a direct matched-grade interpretation but does not show an implementation bug."
+  },
+  "next_test": "Fresh own-weight fold-safe paired comparison on identical fit groups and 468 evaluation members: feature-equivalent row-wise GRU versus event-age-conditioned semi-Markov decay, fixed seed ancestry/checkpoint/optimizer/update count/cache/targets/serving; evaluate complete endpoints and a frozen equal pair mean with the official metric. Validation remains exposed."
+}
