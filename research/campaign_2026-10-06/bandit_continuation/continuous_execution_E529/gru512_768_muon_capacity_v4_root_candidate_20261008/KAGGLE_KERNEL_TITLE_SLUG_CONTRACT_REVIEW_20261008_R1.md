@@ -1,0 +1,9 @@
+# Kaggle kernel title/slug contract check
+
+Checked 2026-10-08 after the V4 `SaveKernel` request returned HTTP 400.
+
+The actual push used `/tmp/e5v4.h8v6jwdl/k` (recorded in `GRU_CAPACITY_V4_PROVIDER_PUSH_20261008_R1.json`). The staged metadata was 580 bytes with SHA-256 `83189b9f0d8ec3d4f72c3ecf52404709503dbc52326355e51bc2e950a4f5eae7`; its title and 56-character ID slug were the same string. The staged driver was 5,886 bytes with SHA-256 `b7dcaf47a4a0e4491341b960ede845ac83724f57f11ae3c0cb014c19f859797e`. `GRU_CAPACITY_V4_SHORT_STAGE_VERIFICATION_20261008_R1.json` records both exact staged files. The 47-character descriptive title belongs to the packet-root metadata and was not sent in this `SaveKernel` request.
+
+The [official kernel metadata documentation](https://github.com/Kaggle/kaggle-cli/blob/main/docs/kernels_metadata.md) says the title and slug are linked and describes the slug as the lowercased title with spaces replaced by dashes. It publishes no maximum length. The [current official CLI implementation](https://github.com/Kaggle/kaggle-cli/blob/main/src/kaggle/api/kaggle_api_extended.py#L6546-L6673) checks that a supplied title is at least five characters, warns when the slugified title differs from the ID slug, then sends the slug and title as `SaveKernel` request fields. That path contains no maximum-length check. The [CLI changelog](https://github.com/Kaggle/kaggle-cli/blob/main/CHANGELOG.md) notes that title/slug length validation was added in 2018 but does not state a limit.
+
+Therefore, available primary evidence does not establish slug length as the cause of this 400. The failed request already had matching title and slug; a server-side limit remains possible but unproven. The distinct short-slug candidate is a bounded transport recovery with a new ID and matching title, not a claim about the original cause. The original rejection receipt remains immutable and was not retried.

@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1059 · raw hypothesis rows 309 · raw experiment rows 635 · legacy arms 18 · catalog files 66270.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1061 · raw hypothesis rows 309 · raw experiment rows 637 · legacy arms 18 · catalog files 66578.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-4ab09014a68744f4f10091a00a0dee326f5c79fcc787cf7c7ac3ee8d71d5590d.json](<snapshots/config-4ab09014a68744f4f10091a00a0dee326f5c79fcc787cf7c7ac3ee8d71d5590d.json>).
 
@@ -1828,6 +1828,8 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-H272-DIRECT-LABEL-FIT-20261008-R1 | Direct-label four matched readouts over independently trained frozen parent | experiment · running | arm:direct-label-contextual-readout | [research/experiments.jsonl](<../../experiments.jsonl#L633>) | — |
 | experiment:E-H272-DIRECT-LABEL-FIT-TERMINAL-20261008-R1 | E-H272-DIRECT-LABEL-FIT-TERMINAL-20261008-R1 | experiment · complete | arm:direct-label-contextual-readout | [research/experiments.jsonl](<../../experiments.jsonl#L634>) | — |
 | experiment:E-H272-DIRECT-LABEL-GRADE-20261008-R2 | E-H272-DIRECT-LABEL-GRADE-20261008-R2 | experiment · complete | arm:direct-label-contextual-readout | [research/experiments.jsonl](<../../experiments.jsonl#L635>) | — |
+| experiment:E-H230-FAITHFUL-MUON-SEED99-LOCAL-20261008-R1 | E-H230-FAITHFUL-MUON-SEED99-LOCAL-20261008-R1 | experiment · running | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L636>) | — |
+| experiment:E-H230-FAITHFUL-MUON-SEED9-KAGGLE-V4-PUSH-20261008-R1 | E-H230-FAITHFUL-MUON-SEED9-KAGGLE-V4-PUSH-20261008-R1 | experiment · provider_queued | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L637>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
