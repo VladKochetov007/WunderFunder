@@ -1,0 +1,176 @@
+{
+  "schema": "wnn.normalized-cache-sampled-audit.v1",
+  "created_utc": "2026-10-08T03:04:38.124505+00:00",
+  "owner": "root",
+  "hypothesis_id": "H-ADH-20261008-S",
+  "status": "passed_sampled_formula_source_trace",
+  "metadata_sha256": "b05e652f5fdec4e6b1e4e07d1d3a705655d4588ab8ee9d802ccdf4339fd66500",
+  "selection_seed": 202610080303,
+  "normalization_formula": "main_source / float32(13/16)",
+  "source_trace": {
+    "producer": "sealed sourceV3 src/wnn/distillation.py:78",
+    "consumer": "sealed sourceV3 scripts/train_rnn.py:259; selects main_{variant}_{split} and retains families_{split}"
+  },
+  "observations": {
+    "train": {
+      "positions": [
+        29,
+        421,
+        924,
+        2173,
+        4884,
+        6047,
+        6520,
+        6674,
+        6856,
+        7371,
+        7861,
+        9275,
+        9505,
+        9742,
+        10037,
+        10217
+      ],
+      "row_group_ids": [
+        29,
+        421,
+        925,
+        2174,
+        4885,
+        6048,
+        6521,
+        6675,
+        6857,
+        7372,
+        7862,
+        9276,
+        9506,
+        9743,
+        10038,
+        10218
+      ],
+      "sample_values": 640000,
+      "bitwise_formula_match": true,
+      "max_absolute_difference": 0.0,
+      "source_abs_over2_by_target": [
+        1,
+        0
+      ],
+      "normalized_abs_over2_by_target": [
+        55,
+        40
+      ],
+      "normalized_clip_shell_by_target": [
+        54,
+        40
+      ],
+      "files": {
+        "source": {
+          "path": "main_source_train.npy",
+          "sha256": "d706c979f3fae46258ee9684dc754d02a70c35d142fed5ebaf785ae7e1ded165",
+          "bytes": 1696960128,
+          "shape": [
+            10606,
+            20000,
+            2
+          ],
+          "dtype": "float32"
+        },
+        "normalized": {
+          "path": "main_normalized_train.npy",
+          "sha256": "4c0b42b52d7e5c5ef47579297394b7d398f5424f75f6e377c40685465cecbb06",
+          "bytes": 1696960128,
+          "shape": [
+            10606,
+            20000,
+            2
+          ],
+          "dtype": "float32"
+        }
+      }
+    },
+    "valid": {
+      "positions": [
+        379,
+        410,
+        447,
+        743,
+        1022,
+        1125,
+        1169,
+        1226,
+        1281,
+        1431,
+        1585,
+        1590,
+        1708,
+        1744,
+        1804,
+        1815
+      ],
+      "row_group_ids": [
+        379,
+        410,
+        447,
+        743,
+        1022,
+        1125,
+        1169,
+        1226,
+        1281,
+        1431,
+        1585,
+        1590,
+        1708,
+        1744,
+        1804,
+        1815
+      ],
+      "sample_values": 640000,
+      "bitwise_formula_match": true,
+      "max_absolute_difference": 0.0,
+      "source_abs_over2_by_target": [
+        1,
+        10
+      ],
+      "normalized_abs_over2_by_target": [
+        61,
+        39
+      ],
+      "normalized_clip_shell_by_target": [
+        60,
+        29
+      ],
+      "files": {
+        "source": {
+          "path": "main_source_valid.npy",
+          "sha256": "e464d29ca5ec0c3c07e70e1f8b08afb180b5d35b70b4fb3130e6a8f56d0e1a8c",
+          "bytes": 299680128,
+          "shape": [
+            1873,
+            20000,
+            2
+          ],
+          "dtype": "float32"
+        },
+        "normalized": {
+          "path": "main_normalized_valid.npy",
+          "sha256": "da71a981f56fbf61ae8b5d0fcc7ca0ac6861877d14a0759dc4bf10778bdf17b3",
+          "bytes": 299680128,
+          "shape": [
+            1873,
+            20000,
+            2
+          ],
+          "dtype": "float32"
+        }
+      }
+    }
+  },
+  "limits": [
+    "32 complete sampled sequences, not a new full-array hash pass or universal bitwise proof.",
+    "Prior complete cache validation supplies immutable expected hashes; fresh admission checks remain required.",
+    "Shell counts are sampled diagnostics, not official score or public forecast.",
+    "Preparation only; no GPU fit admitted by this receipt."
+  ]
+}
