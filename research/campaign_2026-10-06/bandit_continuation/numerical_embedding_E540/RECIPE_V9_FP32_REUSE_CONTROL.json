@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E540_FP32_V9_REUSE_CONTROL",
+  "status": "prepared_pending_independent_root_review_and_conditional_authorization",
+  "objective": "Test whether the frozen numerical PLE feature map improves the fixed E540 one-epoch FP32 model relative to the previously completed, same-recipe linear control. This is a bounded mechanism screen, not a public-forecast claim.",
+  "hypothesis_ids": [
+    "H_E540_NUMERICAL_FEATURE_MAP"
+  ],
+  "changed_factor": {
+    "name": "candidate numeric map: linear to train-only PLE",
+    "reason": "The V8 linear fixed-epoch-0 control completed all updates but the V8 worker stopped on a provenance-hash source mismatch before candidate fitting. V9 reuses that control and freshly fits only PLE.",
+    "control": "Reuse own independently trained E540 V8 linear epoch-0 checkpoint, validated against its sibling provenance.json and V8 source/recipe/subset receipts.",
+    "candidate": "Fresh PLE fit from scratch under the same fixed one-epoch FP32 training recipe and seed."
+  },
+  "reuse_control": {
+    "run_name": "e540v8-linear-s540-fp32",
+    "source_packet_id": "E540_FP32_V8",
+    "source_commit": "942178ef647fd4f49c90d1f6846dbd927cfab4fa",
+    "source_review_sha256": "34c2d33457035bf338d3191ae01b590f8593c9b31f226f99902558023a4052b4",
+    "worker_sha256": "2a76f211620640b896f404d69817f991c7c35f7ec3c75129878aa388593efe39",
+    "source_manifest_sha256": "c1396bb5fd29a0d4c85216bdfa63e3b9e84204b3369aeb98cd1634a80e1ed8fc",
+    "source_recipe_sha256": "00f5ddfaa7d97f147d97d7cc4d7d2ec15a976c052985be12026686cfb266dedb",
+    "source_conditional_authorization_sha256": "4823742074306346b934ac0474e029553318ad40df8ee2c20ecc79d55e0444a0",
+    "source_terminal_receipt_sha256": "93a6956dffc9f12fd480b0e9374be9e67654767456f6a7edbfe51e4f680ad5f9",
+    "source_result_sha256": "88a415b843966c3f8f1ef4e4551759f9698bdc5658479cfb6ca1c0814dc16493",
+    "source_provenance_sha256": "ef342abcc11b94eabed66bd4d1e29009fc645079bb17bb95f5f63d83b7e82794",
+    "source_args_sha256": "931dccef9138bf3a41fc18c27b24af5202a3c842fc017f95af84d6b4f3e169d4",
+    "model_sha256": "73880506cf241502d961ce2cba20819085056fef05f5ea8e56d586535bbfb946",
+    "model_ep0_sha256": "17c91be768a7f41cd4c6ae0b2bbce26bcf7d6fbf5e4f6509e38c4be6bd44403a",
+    "history_sha256": "679b6c7bf3d8b93027c6076ab8bbe6216a9c76d94885a7a06ffeaa64929aaba0",
+    "control_fitting_updates": 72996,
+    "control_completed_batches": 924,
+    "control_skipped_updates": 0,
+    "control_grad_stats_steps": 72996,
+    "control_grad_stats_nonfinite_steps": 0,
+    "control_fit_seconds": 421.4,
+    "fit_subset_manifest_sha256": "ce84816336bc457d487cbddf2f7214ef4d8b0b02e83f9c8e60921b9ce2374d4d",
+    "fit_members_sha256": "28747d40caefee2b559d16d7d05ec57e7c4b5079965acb2e590fa0cefec9580e",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "v8_terminal_status": "worker failed after linear training on receipt hash-source mismatch; checkpoint artifacts were downloaded and SHA-256-verified",
+    "own_weights": true,
+    "checkpoint_retrained": false,
+    "checkpoint_resume": false
+  },
+  "data": {
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "subset_manifest": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_FIT_SUBSET_V5.json",
+    "subset_manifest_sha256": "ce84816336bc457d487cbddf2f7214ef4d8b0b02e83f9c8e60921b9ce2374d4d",
+    "components": 512,
+    "component_fraction_of_eligible_pool": 0.16264294790343076,
+    "fitting_groups": {
+      "train": 1597,
+      "valid": 252
+    },
+    "selected_sequence_count": 1849,
+    "evaluation_groups": 468,
+    "evaluation_membership_order": "V8 training provenance records the same 468 members in source row order; worker requires unique-set equality and both V9 feature-only predictions follow the frozen subset manifest order",
+    "evaluation_membership_is_previously_exposed": true,
+    "fitting_and_evaluation_membership_disjoint": true,
+    "loader": {
+      "batch_size": 2,
+      "drop_last": true,
+      "expected_batches_per_epoch": 924,
+      "expected_consumed_sequences_per_epoch": 1848,
+      "expected_omitted_sequence_count": 1,
+      "omitted_sequence_identity": "unknown; actual sampler row indices were not saved",
+      "sampler_order": "same seed/configuration; V9 requires the PLE provenance sample_order_identity to exactly equal the reused V8 control identity"
+    },
+    "prediction_reads": "features only; target and is_scored mask columns are not requested"
+  },
+  "shared_model": {
+    "seed": 540,
+    "input_width": 211,
+    "raw_feature_count": 112,
+    "event_feature_count": 99,
+    "numeric_map": {
+      "candidate": "PLE: eight train-only quantile intervals per raw channel, 1,008 cumulative ramp coordinates plus 112 unbounded standardized raw bypass coordinates, followed by 99 event coordinates; expanded input width 1,107",
+      "control": "linear allocation with the same 1,008 ramp slots and raw bypass, but only the bypass coordinates are active"
+    },
+    "hidden": 128,
+    "layers": 1,
+    "dropout": 0.0,
+    "batch_size": 2,
+    "chunk_rows": 256,
+    "epochs": 1,
+    "checkpoint_epoch": 0,
+    "precision": "fp32",
+    "grad_scaler_enabled": false,
+    "amp_init_scale_argument": 1.0,
+    "amp_init_scale_applied": false,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "schedule": "OneCycle",
+    "loss": {
+      "name": "wmse",
+      "target_clip": [-2.0, 2.0],
+      "weight": "absolute magnitude of clipped target",
+      "denominator": "sum of both target weights over each 256-row chunk",
+      "validity_mask": "existing repository warmup validity; identical in both arms"
+    },
+    "auxiliary_objectives": "disabled",
+    "distillation": "disabled",
+    "propensity": "disabled",
+    "allocated_trainable_parameters_per_arm": 274050,
+    "effective_capacity_caveat": "The allocated parameter shapes match, while the effective numeric-map capacity differs; this remains an explicit comparison confound."
+  },
+  "profile_and_fit": {
+    "profile_only_arm": "ple",
+    "profile_warmup_batches": 1,
+    "profile_timed_batches": 3,
+    "profile_optimizer_attempts": 316,
+    "fit_only_arm": "ple",
+    "expected_ple_optimizer_attempts": 72996,
+    "expected_ple_completed_updates": 72996,
+    "allowed_ple_skips": 0,
+    "grad_stats": "--grad-stats records every pre-clip gradient norm; profile and fit require exact count and zero nonfinite steps",
+    "finite_loss_gate": "All 316 profile losses must be finite; trainer fit and history must complete fixed epoch 0",
+    "allocator_reserved_bytes_max": 4300000000,
+    "projected_work_gate": "Fresh V9 PLE profile projects its one full fit plus both 468-group exports and 300-second margin within the actual worker cap; no profile speed is imputed from V8.",
+    "gate_failure": "No PLE fitting if the profile or projection gate fails."
+  },
+  "prediction_and_grade": {
+    "arms": ["reused_v8_linear", "fresh_v9_ple"],
+    "groups": 468,
+    "checkpoint": "fixed epoch 0 for both arms",
+    "inference_precision": "fp32",
+    "export": "feature-only prediction arrays and sidecars; no ONNX or full-training export on this screen path",
+    "grade_owner": "root independent grader",
+    "grade_included": false,
+    "public_forecast": null
+  },
+  "authorization": {
+    "receipt": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/E540_V9_ROOT_CONDITIONAL_AUTHORIZATION.json",
+    "status": "pending_root_review",
+    "fit_admitted": false,
+    "provider_launch_authorized": false,
+    "scope": "Permit only the PLE fit after its exact-update, finite-loss, complete GradStats, allocator-memory and projected-runtime profile gate passes. The V8 linear control is already trained and only undergoes validation plus feature-only export."
+  },
+  "execution": {
+    "kernel_process_wall_seconds_max": 6000,
+    "worker_wall_seconds_max": 5200,
+    "runner_finalization_reserve_seconds": 300,
+    "worker_projection_margin_seconds": 300,
+    "startup": "actual PLE profile/fit and both prediction parsers, root authorization, and private-control identity are validated before mounted training-data hashing; no Torch import before data/split/membership identity checks",
+    "provider": "private Kaggle Tesla T4",
+    "provider_mutations_performed": 0,
+    "source_and_control_assets_private": true
+  }
+}
