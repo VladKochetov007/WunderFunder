@@ -1,0 +1,33 @@
+{
+  "record_id": "H230_HISTORY_SWAP_CACHE_BUILD_ATTEMPT_V2_FAILURE_RECEIPT_V1_20261008",
+  "schema": "h230-history-swap-cache-build-attempt-failure-v1",
+  "created_utc": "2026-10-08T06:37:15.189338+00:00",
+  "status": "preserved_execution_failure_provenance_validation_no_cache_output",
+  "attempt_id": "h230-history-swap-cache-seed3-v2-20261008",
+  "attempt_path": "research/campaign_2026-10-06/bandit_continuation/runtime/attempts/h230-history-swap-cache-seed3-v2-20261008.json",
+  "attempt_sha256": "316da008dad80b4eccc4337a1690b2e0a71c55ed0bc774f80b4d39329d5172c0",
+  "controller_source_manifest_sha256": "419d2e1c34274dba4c0e648a650571fce150b36507ffda85d40d9061a1232eda",
+  "contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_SWAP_CACHE_BUILD_PHASE_CONTRACT_V2_20261008.json",
+  "contract_sha256": "25bb0d1f0319b75d38d7fa19a178d044f13465dd258c99075dc5754e99611032",
+  "started_utc": "2026-10-08T06:31:50.461663+00:00",
+  "finished_utc": "2026-10-08T06:32:05.531883+00:00",
+  "elapsed_seconds": 15.069835835005506,
+  "exit_status": 1,
+  "failure": "worker exited with status 1",
+  "log_path": "research/campaign_2026-10-06/bandit_continuation/runtime/logs/h230-history-swap-cache-seed3-v2-20261008.log",
+  "log_sha256": "c01bb0dbc7beb5245bfae0a29446827caa6d79f50b9b107a295728635d3ac1bd",
+  "failure_point": "V4 validate_prediction_export rejected a source teacher sidecar with missing inference_precision at history_swap_cache.py:137; base-cache and FP32 parent provenance checks preceded it.",
+  "failure_classification": "source-provenance-validation failure; not a scientific outcome, not fit, not metric, not OOM",
+  "worker_oom_delta": 0,
+  "parent_local_oom_delta": 0,
+  "parent_hierarchical_oom_delta": 0,
+  "parent_limits_changed": false,
+  "oom_counters_reset": false,
+  "outputs": {
+    "cache/h230_all_data_history_swap_v1": false,
+    "cache/h230_all_data_history_swap_v1.partial": false
+  },
+  "source_v4_unchanged": true,
+  "base_cache_and_parent_exports_unchanged": true,
+  "next_step": "Prepare a new V5 source and unique cache output/attempt ID that accepts only exact audited legacy valid sidecar identities as legacy_unspecified; preserve explicit train fp16 and strict parent FP32."
+}

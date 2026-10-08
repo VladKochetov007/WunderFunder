@@ -1,0 +1,77 @@
+{
+  "record_id": "H230_HISTORY_SWAP_CACHE_BUILD_DATASET_FADVISE_HANDOFF_V1_20261008",
+  "schema": "h230-history-swap-cache-build-dataset-fadvise-handoff-v1",
+  "created_utc": "2026-10-08T06:30:57.613231+00:00",
+  "status": "ready_for_fresh_controller_admission",
+  "prior_exact_cache_input_handoff_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_SWAP_CACHE_BUILD_INPUT_FADVISE_HANDOFF_V1_20261008.json",
+  "prior_exact_cache_input_handoff_sha256": "c970257658655d62f0a659e37168ab9f621ef0471983a58b58b27348f6ffaab1",
+  "source_identity_receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_LIVE_INPUT_IDENTITY_V1.json",
+  "source_identity_receipt_sha256": "6cc5fe8a1148cdb6b62c0e5b04c3ba7a04fff69a623e06b2e0e4be41e6ea13c4",
+  "source_fit_contract_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_ALLDATA_PARENT_FIT_RETRY3_CONTRACT_V1_20261008.json",
+  "source_fit_contract_sha256": "2d98c38c18c143175e286fcff56911aecf6516871776b9945f102e6169bb915b",
+  "cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+  "limits": {
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "CPUQuotaPerSecUSec": "12s",
+    "MemoryHigh": "18000000000",
+    "MemoryMax": "20000000000",
+    "MemorySwapMax": "0"
+  },
+  "before": {
+    "current": 10917322752,
+    "anon": 56840192,
+    "file": 10643689472,
+    "oom": 0,
+    "oom_kill": 0,
+    "high": 1458,
+    "max": 0
+  },
+  "after": {
+    "current": 5432131584,
+    "anon": 55791616,
+    "file": 5158502400,
+    "oom": 0,
+    "oom_kill": 0,
+    "high": 1458,
+    "max": 0
+  },
+  "files": [
+    {
+      "split": "train",
+      "path": "datasets/train.parquet",
+      "content_sha256_reference": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "content_read_or_rehashed": false,
+      "bytes": 29240219011,
+      "stat_identity_before_and_after": {
+        "device": 57,
+        "inode": 50918586,
+        "mtime_ns": 1577826000000000000
+      },
+      "advice": "POSIX_FADV_DONTNEED",
+      "file_mutated": false
+    },
+    {
+      "split": "valid",
+      "path": "datasets/valid.parquet",
+      "content_sha256_reference": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "content_read_or_rehashed": false,
+      "bytes": 5615509128,
+      "stat_identity_before_and_after": {
+        "device": 57,
+        "inode": 50919096,
+        "mtime_ns": 1577826000000000000
+      },
+      "advice": "POSIX_FADV_DONTNEED",
+      "file_mutated": false
+    }
+  ],
+  "operation": "POSIX_FADV_DONTNEED on only the exact datasets/train.parquet and datasets/valid.parquet identities bound by the successful all-data parent contract; no global cache drop or other paths",
+  "file_content_read_or_rehashed": false,
+  "file_content_modified": false,
+  "limits_changed": false,
+  "oom_counter_reset": false,
+  "fresh_cache_reservation_bytes": 8000000000,
+  "memory_high_bytes": 18000000000,
+  "capacity_condition_passed": true,
+  "note": "Page-cache advice is a hint. Fresh durable admission performs its own current resource/controller checks."
+}

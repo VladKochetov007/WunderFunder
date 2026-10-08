@@ -1,0 +1,572 @@
+{
+  "added_since_v4": 4,
+  "changes": [
+    {
+      "change": "Add a hash-pinned allowlist for the two legacy valid exports; record their precision as legacy_unspecified; retain strict parent FP32/features-only validation and reject noncanonical bindings.",
+      "path": "src/wnn/history_swap_cache.py"
+    },
+    {
+      "change": "Add fixtures/tests for both actual legacy valid and explicit-FP16 train sidecars, plus rejection tests for strict-parent missing/null precision, generic legacy absence, noncanonical binding, and changed/null/extra-key legacy sidecars.",
+      "path": "tests/test_history_swap_cache.py"
+    },
+    {
+      "change": "Describe the V5 compatibility boundary and state that no retry is authorized by the source snapshot.",
+      "path": "README.md"
+    }
+  ],
+  "failed_v2_cache_attempt": {
+    "diagnosis": "V4 source validator rejected the exact legacy valid teacher sidecars because their old nine-key schema has no inference_precision field.",
+    "receipt_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_SWAP_CACHE_BUILD_ATTEMPT_V2_FAILURE_RECEIPT_V1_20261008.json",
+    "receipt_sha256": "bcce037f8ea63d01889fe5d11d23b4d53ae5c870e2afaa98d3e29d7e0db59aa9",
+    "science_result": "none; cache build exited before producing a cache"
+  },
+  "file_count": 63,
+  "files": [
+    {
+      "bytes": 1312,
+      "path": "README.md",
+      "relation_to_v4": "modified",
+      "role": "documentation",
+      "sha256": "16cd680e6a6140d3208b2f63c5d544d767ab467bb6a59e4e04e9b81c04540776",
+      "v4_sha256": "94f1be04db04f3d17285f5f9db51c03388cf8b468e7280f5ff7165aa11b123e0"
+    },
+    {
+      "bytes": 24597,
+      "path": "scripts/build_distill_cache.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "0ae5cc7000e25f36a2d428f7c543b13b75a3fd04aaa372664e977e7b908a7dc9",
+      "v4_sha256": "0ae5cc7000e25f36a2d428f7c543b13b75a3fd04aaa372664e977e7b908a7dc9"
+    },
+    {
+      "bytes": 4933,
+      "path": "scripts/build_history_swap_cache.py",
+      "relation_to_v4": "unchanged",
+      "role": "new_source_or_test",
+      "sha256": "09deb0fb108643369e451cc9f48f60c04e92251640025fe3ac207824b2233582",
+      "v4_sha256": "09deb0fb108643369e451cc9f48f60c04e92251640025fe3ac207824b2233582"
+    },
+    {
+      "bytes": 12928,
+      "path": "scripts/export_all_data_parent.py",
+      "relation_to_v4": "unchanged",
+      "role": "new_source_or_test",
+      "sha256": "c97e2c33363898b9db432013eca05d7e4421200ded012d4b72b7bc622fbe7cbd",
+      "v4_sha256": "c97e2c33363898b9db432013eca05d7e4421200ded012d4b72b7bc622fbe7cbd"
+    },
+    {
+      "bytes": 147876,
+      "path": "scripts/train_rnn.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "118b12fe2e834f43018c2ca7251ef657795eb53808352efde95c8185d533b772",
+      "v4_sha256": "118b12fe2e834f43018c2ca7251ef657795eb53808352efde95c8185d533b772"
+    },
+    {
+      "bytes": 63,
+      "path": "src/wnn/__init__.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+      "v4_sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+    },
+    {
+      "bytes": 16762,
+      "path": "src/wnn/all_data_distillation_cache.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "e7e6995f8375323661422e4d86ddc7c0585547ec0a1d18c0f3dd9ee022a6ecc0",
+      "v4_sha256": "e7e6995f8375323661422e4d86ddc7c0585547ec0a1d18c0f3dd9ee022a6ecc0"
+    },
+    {
+      "bytes": 34735,
+      "path": "src/wnn/bandit_campaign_recipe.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "883bc6415345ec5e4deff56be13fc0ae0be8791702e999898dfdb3557a5a6374",
+      "v4_sha256": "883bc6415345ec5e4deff56be13fc0ae0be8791702e999898dfdb3557a5a6374"
+    },
+    {
+      "bytes": 20774,
+      "path": "src/wnn/campaign.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "35dd701fdb33c50494a3c781a315731212da22f41cae331f2f85073af0637605",
+      "v4_sha256": "35dd701fdb33c50494a3c781a315731212da22f41cae331f2f85073af0637605"
+    },
+    {
+      "bytes": 24324,
+      "path": "src/wnn/campaign_local.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "0213ff7a809ce898be5d3180c15e31d228ad6f3f03f1f08fd968f9186e91353d",
+      "v4_sha256": "0213ff7a809ce898be5d3180c15e31d228ad6f3f03f1f08fd968f9186e91353d"
+    },
+    {
+      "bytes": 10334,
+      "path": "src/wnn/campaign_spec.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "5136703299585e81a9463a253133ba7f12da2c64ea863776c005d1fc5d3e8d7b",
+      "v4_sha256": "5136703299585e81a9463a253133ba7f12da2c64ea863776c005d1fc5d3e8d7b"
+    },
+    {
+      "bytes": 4986,
+      "path": "src/wnn/csrc/symreg_screen.cpp",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "413082e20f815ce4ca41af246997d4f1e2ad019e5099a79be23af424672dd2b7",
+      "v4_sha256": "413082e20f815ce4ca41af246997d4f1e2ad019e5099a79be23af424672dd2b7"
+    },
+    {
+      "bytes": 4000,
+      "path": "src/wnn/data.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "v4_sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+    },
+    {
+      "bytes": 8577,
+      "path": "src/wnn/distillation.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "352a0c5b782f9e68fc7153783d20b04825e0c764b94f589cd71993580b7857c7",
+      "v4_sha256": "352a0c5b782f9e68fc7153783d20b04825e0c764b94f589cd71993580b7857c7"
+    },
+    {
+      "bytes": 10084,
+      "path": "src/wnn/distillation_cache.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19",
+      "v4_sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19"
+    },
+    {
+      "bytes": 8080,
+      "path": "src/wnn/evaluation.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+      "v4_sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+    },
+    {
+      "bytes": 7226,
+      "path": "src/wnn/event_content.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+      "v4_sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd"
+    },
+    {
+      "bytes": 5421,
+      "path": "src/wnn/features.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee",
+      "v4_sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee"
+    },
+    {
+      "bytes": 8902,
+      "path": "src/wnn/gmetric.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "v4_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    },
+    {
+      "bytes": 9025,
+      "path": "src/wnn/heuristics.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e",
+      "v4_sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e"
+    },
+    {
+      "bytes": 43379,
+      "path": "src/wnn/history_swap_cache.py",
+      "relation_to_v4": "modified",
+      "role": "new_source_or_test",
+      "sha256": "b5110ef179324a77e0d1af2601d3447ae5047d8a2fd5998a98043548e934dc84",
+      "v4_sha256": "ba7b56d9536097cd2452a1fc206944a9f0870d889b65725f9f92c38c967dc031"
+    },
+    {
+      "bytes": 2377,
+      "path": "src/wnn/infer.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9",
+      "v4_sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9"
+    },
+    {
+      "bytes": 2624,
+      "path": "src/wnn/markov.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2",
+      "v4_sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2"
+    },
+    {
+      "bytes": 4806,
+      "path": "src/wnn/metric.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+      "v4_sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc"
+    },
+    {
+      "bytes": 20537,
+      "path": "src/wnn/nn.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca",
+      "v4_sha256": "9293f8f4e2a2f3bd9f0157f8f83f12a6a758608dd03c7e141c290d82d4d5aeca"
+    },
+    {
+      "bytes": 11736,
+      "path": "src/wnn/optim.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991",
+      "v4_sha256": "620569a752fb611adf69976f1dbed1b7882e641672c58175005f5d3f819d2991"
+    },
+    {
+      "bytes": 4538,
+      "path": "src/wnn/outcomes.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75",
+      "v4_sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75"
+    },
+    {
+      "bytes": 1909,
+      "path": "src/wnn/portability.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a",
+      "v4_sha256": "51ef5c1462bf6fa18b5235b4616e178251394022db9f88e4163282524f2bf81a"
+    },
+    {
+      "bytes": 6608,
+      "path": "src/wnn/privileged.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4",
+      "v4_sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4"
+    },
+    {
+      "bytes": 1404,
+      "path": "src/wnn/propensity.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d",
+      "v4_sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d"
+    },
+    {
+      "bytes": 6050,
+      "path": "src/wnn/quantization.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077",
+      "v4_sha256": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077"
+    },
+    {
+      "bytes": 3968,
+      "path": "src/wnn/quantization_export.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0",
+      "v4_sha256": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0"
+    },
+    {
+      "bytes": 6234,
+      "path": "src/wnn/research_features.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8",
+      "v4_sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8"
+    },
+    {
+      "bytes": 4485,
+      "path": "src/wnn/resources.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09",
+      "v4_sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+    },
+    {
+      "bytes": 4488,
+      "path": "src/wnn/run_identity.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+      "v4_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76"
+    },
+    {
+      "bytes": 8603,
+      "path": "src/wnn/sentinel.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec",
+      "v4_sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec"
+    },
+    {
+      "bytes": 8550,
+      "path": "src/wnn/sentinel_calibration.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599",
+      "v4_sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599"
+    },
+    {
+      "bytes": 12064,
+      "path": "src/wnn/specialist.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400",
+      "v4_sha256": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400"
+    },
+    {
+      "bytes": 8647,
+      "path": "src/wnn/splits.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4",
+      "v4_sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4"
+    },
+    {
+      "bytes": 7553,
+      "path": "src/wnn/spread_aux.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512",
+      "v4_sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512"
+    },
+    {
+      "bytes": 2422,
+      "path": "src/wnn/streaming.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e",
+      "v4_sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e"
+    },
+    {
+      "bytes": 9963,
+      "path": "src/wnn/structured_state.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756",
+      "v4_sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756"
+    },
+    {
+      "bytes": 11386,
+      "path": "src/wnn/symreg.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849",
+      "v4_sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849"
+    },
+    {
+      "bytes": 3511,
+      "path": "src/wnn/tcn_ref.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa",
+      "v4_sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa"
+    },
+    {
+      "bytes": 4946,
+      "path": "src/wnn/ticks.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8",
+      "v4_sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8"
+    },
+    {
+      "bytes": 2694,
+      "path": "src/wnn/training_calibration.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "30923120c1bd9773556556ee0fbbab5d8db4a5f4232c48b81f11fa87a5e74e52",
+      "v4_sha256": "30923120c1bd9773556556ee0fbbab5d8db4a5f4232c48b81f11fa87a5e74e52"
+    },
+    {
+      "bytes": 10695,
+      "path": "src/wnn/training_controls.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39",
+      "v4_sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39"
+    },
+    {
+      "bytes": 2225,
+      "path": "src/wnn/training_credit.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd",
+      "v4_sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd"
+    },
+    {
+      "bytes": 14936,
+      "path": "src/wnn/training_dynamics.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "902f69a4168555dc059ef0f4fdf7f6d194a8afd9dd594aa7e311141a040a4294",
+      "v4_sha256": "902f69a4168555dc059ef0f4fdf7f6d194a8afd9dd594aa7e311141a040a4294"
+    },
+    {
+      "bytes": 7615,
+      "path": "src/wnn/training_factorized.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2",
+      "v4_sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2"
+    },
+    {
+      "bytes": 6146,
+      "path": "src/wnn/training_qat.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "23d866801e0fef753e8af017e582a32900c40d4925c30a3083c128a2014ccf72",
+      "v4_sha256": "23d866801e0fef753e8af017e582a32900c40d4925c30a3083c128a2014ccf72"
+    },
+    {
+      "bytes": 6540,
+      "path": "src/wnn/training_sampling.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2",
+      "v4_sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2"
+    },
+    {
+      "bytes": 8689,
+      "path": "src/wnn/training_state.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac",
+      "v4_sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+    },
+    {
+      "bytes": 3065,
+      "path": "src/wnn/training_views.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142",
+      "v4_sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142"
+    },
+    {
+      "bytes": 3732,
+      "path": "src/wnn/twoclock_ref.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44",
+      "v4_sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44"
+    },
+    {
+      "bytes": 4297,
+      "path": "src/wnn/viz.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5",
+      "v4_sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5"
+    },
+    {
+      "bytes": 106098,
+      "path": "tests/fixtures/legacy_strong_s3_train.json",
+      "relation_to_v4": "added",
+      "role": "actual_legacy_sidecar_test_fixture",
+      "sha256": "d9fa1459057e93d481db28aa6388cc7e801242ddcc6eb3e658cf83a559068837",
+      "source_artifact_path": "cache/pred_c20261003_combo_s3_f0_train.json"
+    },
+    {
+      "bytes": 18036,
+      "path": "tests/fixtures/legacy_strong_s3_valid.json",
+      "relation_to_v4": "added",
+      "role": "actual_legacy_sidecar_test_fixture",
+      "sha256": "aac2f8ffdc72efd0cb8e5af197d18924e7b166b2f650c1e8ac94c5bc6875cfc2",
+      "source_artifact_path": "cache/pred_c20261003_combo_s3_f0_valid.json"
+    },
+    {
+      "bytes": 106098,
+      "path": "tests/fixtures/legacy_strong_s4_train.json",
+      "relation_to_v4": "added",
+      "role": "actual_legacy_sidecar_test_fixture",
+      "sha256": "ea462accb17312f12c5a254df9aa94989952562f948234b5ebe2bcc6d5f8401e",
+      "source_artifact_path": "cache/pred_c20261003_combo_s4_f0_train.json"
+    },
+    {
+      "bytes": 18036,
+      "path": "tests/fixtures/legacy_strong_s4_valid.json",
+      "relation_to_v4": "added",
+      "role": "actual_legacy_sidecar_test_fixture",
+      "sha256": "ad1257c7278c5402c409ec0e273c2202525bd1d6173699438efb6627262b9750",
+      "source_artifact_path": "cache/pred_c20261003_combo_s4_f0_valid.json"
+    },
+    {
+      "bytes": 7791,
+      "path": "tests/test_all_data_distillation_cache.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "39cf1a8445bef79a5aa103664e76a56e39d2b9d6fd246f9b935d61dcef357d79",
+      "v4_sha256": "39cf1a8445bef79a5aa103664e76a56e39d2b9d6fd246f9b935d61dcef357d79"
+    },
+    {
+      "bytes": 7675,
+      "path": "tests/test_family_head_control.py",
+      "relation_to_v4": "unchanged",
+      "role": "source_or_test",
+      "sha256": "8720102e0d4a8a91b2acd49e2bc2fe7d2c30b9738136e7529ec6c59d92398a3d",
+      "v4_sha256": "8720102e0d4a8a91b2acd49e2bc2fe7d2c30b9738136e7529ec6c59d92398a3d"
+    },
+    {
+      "bytes": 16233,
+      "path": "tests/test_history_swap_cache.py",
+      "relation_to_v4": "modified",
+      "role": "new_source_or_test",
+      "sha256": "d882c1b475bf1478c199ed175580cad58388f763b96523e8e72fd2783b19e8c9",
+      "v4_sha256": "2032b58dff22c53843ed881919dc67ad3c679abe8065792e28da36c7ec621ea5"
+    }
+  ],
+  "modified_from_v4": 3,
+  "parent_source": {
+    "file_count": 59,
+    "manifest_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_HISTORY_SWAP_SOURCE_MANIFEST_V1_20261008.json",
+    "manifest_revision_receipt_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H230_HISTORY_SWAP_SOURCE_MANIFEST_REVISION_V1_20261008.json",
+    "manifest_revision_receipt_sha256": "4ffdb58e085407d326fdb5efc25824475485973b3e81879ba553bb232f931be5",
+    "manifest_sha256": "01aa939ddb95f91b24859ddf324a66188a3254c11691cd39b40ce77865b3b2f2",
+    "source_root": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v4_history_swap"
+  },
+  "precision_policy": {
+    "all_data_parent_exports": "Remain required to declare fp32 and features_only.",
+    "generic_missing_null_or_changed_sidecars": "Rejected.",
+    "legacy_exporter_code_hash": "Unavailable in the exact historical nine-key sidecar schema; recorded as absent rather than inferred.",
+    "legacy_train_exports": "Both train sidecars explicitly declare fp16 and are validated as fp16.",
+    "legacy_valid_exports": "Only the two literal allowlisted valid sidecars bound to exact base metadata, sidecar, prediction, checkpoint, split, epoch and row-group identities are classified legacy_unspecified."
+  },
+  "receipt_id": "H230_HISTORY_SWAP_SOURCE_MANIFEST_V2_20261008",
+  "recorded_utc": "2026-10-08T06:42:54Z",
+  "schema": "h230-history-swap-source-manifest-v2",
+  "source_root": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/h230_source_v5_history_swap_precision",
+  "status": "prepared_for_independent_review_no_cache_retry_authorized",
+  "unchanged_from_v4": 56,
+  "verification": {
+    "actual_sidecar_fixture_hashes_match_frozen_cache_metadata": true,
+    "all_v4_manifest_members_rehashed_before_copy_comparison": true,
+    "cache_retry_launched": false,
+    "changed_v4_members": [
+      "README.md",
+      "src/wnn/history_swap_cache.py",
+      "tests/test_history_swap_cache.py"
+    ],
+    "focused_tests": "31 passed across V5 history-swap tests, copied V3 all-data cache tests, and family-head-control tests.",
+    "launch_authorized": false,
+    "resource_cap_for_checks": {
+      "cpu_cores": 1,
+      "memory_bytes": 1500000000,
+      "runtime_seconds": 120
+    },
+    "ruff_check": "passed on the two changed Python files",
+    "ruff_format_check": "passed on the two changed Python files",
+    "scope": "The inherited family-head test read one first row from its existing cache and one initializer checkpoint; no parquet read, full cache/prediction scan, prediction export, cache creation, or fit was performed."
+  }
+}

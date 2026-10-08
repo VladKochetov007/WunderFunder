@@ -1,0 +1,167 @@
+{
+  "record_id": "H230_HISTORY_SWAP_CACHE_BUILD_INPUT_FADVISE_HANDOFF_V1_20261008",
+  "schema": "h230-history-swap-cache-build-input-fadvise-handoff-v1",
+  "created_utc": "2026-10-08T06:30:22.915808+00:00",
+  "status": "needs_review_capacity_still_insufficient",
+  "preflight_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_SWAP_CACHE_BUILD_PREFLIGHT_V2_20261008.json",
+  "preflight_sha256": "d0f777c066b570cbb4920fd0da53cafc9767d7074c90d17a4156c4feb14012d1",
+  "root_authorization_path": "research/campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_HISTORY_SWAP_CACHE_BUILD_ROOT_AUTHORIZATION_20261008_R1.json",
+  "root_authorization_sha256": "4e7094d1fa3fbdac420241e6e565641a1b1941bcf2ee217c1eeaf40057d7878a",
+  "cgroup": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+  "limits": {
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+    "CPUQuotaPerSecUSec": "12s",
+    "MemoryHigh": "18000000000",
+    "MemoryMax": "20000000000",
+    "MemorySwapMax": "0"
+  },
+  "before": {
+    "current": 13013913600,
+    "anon": 181641216,
+    "file": 12614893568,
+    "oom": 0,
+    "oom_kill": 0,
+    "high": 1458,
+    "max": 0
+  },
+  "after": {
+    "current": 11017269248,
+    "anon": 180592640,
+    "file": 10618249216,
+    "oom": 0,
+    "oom_kill": 0,
+    "high": 1458,
+    "max": 0
+  },
+  "files": [
+    {
+      "label": "base_cache",
+      "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_train.npy",
+      "bytes": 1696960128,
+      "stat_identity_before_and_after": {
+        "device": 57,
+        "inode": 56914639,
+        "mtime_ns": 1791424398474227455
+      },
+      "advice": "POSIX_FADV_DONTNEED",
+      "data_mutated": false
+    },
+    {
+      "label": "base_cache",
+      "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_normalized_train.npy",
+      "bytes": 1696960128,
+      "stat_identity_before_and_after": {
+        "device": 57,
+        "inode": 56914640,
+        "mtime_ns": 1791424398474227455
+      },
+      "advice": "POSIX_FADV_DONTNEED",
+      "data_mutated": false
+    },
+    {
+      "label": "base_cache",
+      "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_homogeneous_train.npy",
+      "bytes": 1696960128,
+      "stat_identity_before_and_after": {
+        "device": 57,
+        "inode": 56914641,
+        "mtime_ns": 1791424398474227455
+      },
+      "advice": "POSIX_FADV_DONTNEED",
+      "data_mutated": false
+    },
+    {
+      "label": "base_cache",
+      "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/families_train.npy",
+      "bytes": 6787840128,
+      "stat_identity_before_and_after": {
+        "device": 57,
+        "inode": 56914642,
+        "mtime_ns": 1791424398474227455
+      },
+      "advice": "POSIX_FADV_DONTNEED",
+      "data_mutated": false
+    },
+    {
+      "label": "base_cache",
+      "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_source_valid.npy",
+      "bytes": 299680128,
+      "stat_identity_before_and_after": {
+        "device": 57,
+        "inode": 56914689,
+        "mtime_ns": 1791424414028975322
+      },
+      "advice": "POSIX_FADV_DONTNEED",
+      "data_mutated": false
+    },
+    {
+      "label": "base_cache",
+      "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_normalized_valid.npy",
+      "bytes": 299680128,
+      "stat_identity_before_and_after": {
+        "device": 57,
+        "inode": 56914690,
+        "mtime_ns": 1791424414028975322
+      },
+      "advice": "POSIX_FADV_DONTNEED",
+      "data_mutated": false
+    },
+    {
+      "label": "base_cache",
+      "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/main_homogeneous_valid.npy",
+      "bytes": 299680128,
+      "stat_identity_before_and_after": {
+        "device": 57,
+        "inode": 56914691,
+        "mtime_ns": 1791424414028975322
+      },
+      "advice": "POSIX_FADV_DONTNEED",
+      "data_mutated": false
+    },
+    {
+      "label": "base_cache",
+      "path": "cache/bd26_h230_fold0_teacher_family_all_rows_v1/families_valid.npy",
+      "bytes": 1198720128,
+      "stat_identity_before_and_after": {
+        "device": 57,
+        "inode": 56914692,
+        "mtime_ns": 1791424414032975257
+      },
+      "advice": "POSIX_FADV_DONTNEED",
+      "data_mutated": false
+    },
+    {
+      "label": "parent_prediction_train",
+      "path": "cache/pred_h230_history_parent_ep3_fp32_v1_train.npy",
+      "bytes": 1696960128,
+      "stat_identity_before_and_after": {
+        "device": 57,
+        "inode": 57068693,
+        "mtime_ns": 1791439786765828915
+      },
+      "advice": "POSIX_FADV_DONTNEED",
+      "data_mutated": false
+    },
+    {
+      "label": "parent_prediction_valid",
+      "path": "cache/pred_h230_history_parent_ep3_fp32_v1_valid.npy",
+      "bytes": 299680128,
+      "stat_identity_before_and_after": {
+        "device": 57,
+        "inode": 57086622,
+        "mtime_ns": 1791440158017194979
+      },
+      "advice": "POSIX_FADV_DONTNEED",
+      "data_mutated": false
+    }
+  ],
+  "requested_operation": "POSIX_FADV_DONTNEED over exact eight base-cache NPYs named by metadata and exact two parent prediction NPYs bound by successful export receipts; no other paths",
+  "files_read_or_hashed": false,
+  "file_content_modified": false,
+  "limits_changed": false,
+  "oom_counter_reset": false,
+  "fresh_reservation_bytes": 8000000000,
+  "memory_high_bytes": 18000000000,
+  "capacity_condition_passed": false,
+  "note": "Page-cache advice is a hint. Fresh durable admission still performs its own resource and controller checks."
+}
