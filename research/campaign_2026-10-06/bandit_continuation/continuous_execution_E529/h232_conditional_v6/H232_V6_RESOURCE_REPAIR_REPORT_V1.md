@@ -1,6 +1,6 @@
 # H232 V6 bounded resource repair packet
 
-**Status:** root approved one conditional V6 attempt, pending root confirmation of the exact sealed hashes in `V6_ROOT_FINAL_ADMISSION_RECEIPT_V1.json`. The embedded review binds source inputs and the noncyclic metadata projection; the outer receipt binds exact review, metadata, bundle, and quota hashes. No V6 profile, fit, export, or provider push has been performed.
+**Status:** root independently confirmed the exact sealed hashes in `V6_ROOT_FINAL_ADMISSION_RECEIPT_V1.json` and authorized one conditional V6 provider push. The embedded review binds source inputs and the noncyclic metadata projection; the outer receipt binds exact review, metadata, bundle, and quota hashes. At this receipt revision no V6 profile, fit, export, or provider push has been performed.
 
 V5 is resource-censored, not a scientific negative. Its fit started and ran 726.240894 seconds, then received SIGTERM (signal 15) at epoch 0, batch 660/1492. The abort receipt reports cgroup available memory 8,033,509,376 / 32,212,254,720 bytes (fraction 0.2493929545), just 19,554,304 bytes below the 25% gate; the separate 6.5 GB floor passed. Host available memory was 27,102,777,344 / 33,658,314,752 bytes (fraction 0.8052), and RSS peak was 2,954,981,376 bytes. The receipt contains no abort-time `memory.stat` or OOM counters, so it does not establish whether anonymous memory, file cache, or another charge caused the gate. V5 produced no graded result.
 
@@ -28,4 +28,4 @@ Validation under the local 1 CPU / 1 GB wrapper:
 - Root independently reviewed the cache range identity, eligibility, budgets, post-advice recheck, export contract, and the prior 18-test suite. The new test-file hashes are included in the sealed review map.
 - The source archive, packet metadata, and Kaggle wrapper were rebuilt after sealing. The exact quota row and final artifact hashes are in `V6_ROOT_FINAL_ADMISSION_RECEIPT_V1.json`. Root-reported provider GPU headroom before this one attempt was 55,798.614 seconds; after the 34,000-second worker ceiling it is 21,798.614 seconds. Campaign headroom after the worker is 7,626.451 seconds.
 
-The single push remains blocked until root confirms the exact final receipt hashes. The worker still must pass its profile gate before fitting; V6 may fail closed at the same memory threshold if the later cache state does not qualify.
+The exact final hashes are confirmed by root; one provider push is authorized after a fresh target-collision check. The worker still must pass its profile gate before fitting; V6 may fail closed at the same memory threshold if the later cache state does not qualify.
