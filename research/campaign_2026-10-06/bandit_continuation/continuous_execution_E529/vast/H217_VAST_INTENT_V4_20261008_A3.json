@@ -1,0 +1,104 @@
+{
+  "account_scope_sha256": "5edaeb435fffdc8d36029206229fcf1ee9a930816996519f3c4fdeeb3d35858a",
+  "attempt_id": "e529-vast-h217-pair-v4-20261008-a3",
+  "campaign_label": "wnn-e529-h217-pair-v4-20261008-a3",
+  "create_payload": {
+    "cancel_unavail": true,
+    "client_id": "me",
+    "disk": 100,
+    "image": "vastai/pytorch@sha256:450710d89268fcd55632f28fdd80508ee920a53075b3f8e9f828bdc154e3d856",
+    "label": "wnn-e529-h217-pair-v4-20261008-a3",
+    "onstart": "sleep infinity",
+    "runtype": "ssh_direc ssh_proxy"
+  },
+  "expected_artifacts": [
+    "artifact_bundle.tar",
+    "result.json",
+    "worker.log"
+  ],
+  "max_artifact_bytes": 5000000000,
+  "max_runtime_seconds": 21600,
+  "max_upload_bytes": 37200000000,
+  "max_worker_host_ram_gb": 28,
+  "min_offer_reliability": "0.97",
+  "offer": {
+    "cpu_cores": 48,
+    "cpu_cores_effective": 8.0,
+    "cpu_ram": 42930,
+    "cpu_ram_gib": "41.924",
+    "cuda_max_good": 13.2,
+    "disk_space": 390.5,
+    "dph_cpu": null,
+    "dph_disk": null,
+    "dph_gpu": null,
+    "dph_ram": null,
+    "dph_total": 0.24085185185185184,
+    "external": null,
+    "geolocation": "Germany, DE",
+    "gpu_name": "RTX 3090",
+    "gpu_ram": 24576,
+    "gpu_ram_gib": "24.000",
+    "id": 53232335,
+    "inet_down": 797.7,
+    "inet_down_cost": 0.0078125,
+    "inet_up": 423.1,
+    "inet_up_cost": 1.3020833333333334e-05,
+    "is_vm_deverified": false,
+    "machine_id": 146617,
+    "num_gpus": 1,
+    "query_type": "on-demand",
+    "reliability": 0.9943403,
+    "reliability2": 0.9943403,
+    "rentable": true,
+    "rented": false,
+    "storage_cost": 0.3133333333333333,
+    "type": null,
+    "verification": "verified",
+    "verified": null,
+    "verified_for_admission": true
+  },
+  "packet_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v4.tar",
+  "packet_sha256": "38bb1893b946c85850268a95afcf88c40593f06f0f5a956f71eafd599e681656",
+  "remote_output_dir": "/workspace/results",
+  "schema_version": 1,
+  "upload_timeout_seconds": 5400,
+  "worker_inputs": [
+    {
+      "remote_path": "cache/chain_folds.npz",
+      "size_bytes": 550072,
+      "source_path": "cache/chain_folds.npz",
+      "source_sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+    },
+    {
+      "remote_path": "cache/chains.npz",
+      "size_bytes": 650142,
+      "source_path": "cache/chains.npz",
+      "source_sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+    },
+    {
+      "remote_path": "cache/train_targets.npz",
+      "size_bytes": 1909335790,
+      "source_path": "cache/train_targets.npz",
+      "source_sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9"
+    },
+    {
+      "remote_path": "cache/valid_targets.npz",
+      "size_bytes": 337186198,
+      "source_path": "cache/valid_targets.npz",
+      "source_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+    },
+    {
+      "remote_path": "datasets/train.parquet",
+      "size_bytes": 29240219011,
+      "source_path": "datasets/train.parquet",
+      "source_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+    },
+    {
+      "remote_path": "datasets/valid.parquet",
+      "size_bytes": 5615509128,
+      "source_path": "datasets/valid.parquet",
+      "source_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+    }
+  ],
+  "worker_setup_timeout_seconds": 450
+}
