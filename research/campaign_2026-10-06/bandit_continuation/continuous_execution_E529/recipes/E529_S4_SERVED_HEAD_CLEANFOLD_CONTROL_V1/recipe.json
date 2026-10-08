@@ -1,0 +1,406 @@
+{
+  "comparison_scope": "Development-only cleanfold control; fold0 was previously exposed and cannot support a fresh test claim or public-score forecast.",
+  "data": {
+    "portable_manifest_path": "research/campaign_2026-10-04/portable_inputs.json",
+    "portable_manifest_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "training_source": "datasets/valid.parquet only; no train.parquet fitting",
+    "valid_parquet_bytes": 5615509128,
+    "valid_parquet_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+  },
+  "execution_worktree": {
+    "git_commit": "fa615eb3d13a8afb9fd7cba275ef64956bdb793e",
+    "output_names_must_be_absent_before_launch": [
+      "artifacts/runs/e529_s4_served_head_f0_profile_v1",
+      "artifacts/runs/e529_s4_served_head_f0_control_v1",
+      "submissions/e529_s4_served_head_f0_control_i16"
+    ],
+    "required_campaign_mounts": [
+      {
+        "access": "read-only",
+        "path": "datasets",
+        "source": "the campaign data root"
+      },
+      {
+        "access": "read/write only for the two new prediction exports; all existing files preserved",
+        "path": "cache",
+        "source": "the campaign cache root"
+      },
+      {
+        "access": "read existing parent; write only the new unique fit output",
+        "path": "artifacts",
+        "source": "the campaign artifact root"
+      },
+      {
+        "access": "read native builds; write only the new unique control package",
+        "path": "submissions",
+        "source": "the campaign submissions root"
+      }
+    ],
+    "required_commit_files": {
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json": {
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "research/campaign_2026-10-04/portable_inputs.json": {
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+      }
+    },
+    "source_identity_note": "Use the parent-compatible E503 source commit. The E450 reference differs in seven code files; its head helper/commands are unchanged, and the only model branch added is optional fixed_mix readout (default GELU) plus optional distill_reanchor (inactive because this head uses no distillation). The original fold parent checkpoint and prediction remain on their exact parent runtime.",
+    "working_directory": "a fresh detached worktree at this exact commit; the trainer and split/portable manifests must resolve from that source tree"
+  },
+  "export": {
+    "exact_equal_merge": {
+      "argv": [
+        "{python}",
+        "scripts/package_submission.py",
+        "e529_s4_served_head_f0_control_i16",
+        "c20261003_combo_s4_f0@ep3|e529_s4_served_head_f0_control_v1@ep0:1.0",
+        "--precision",
+        "i16"
+      ],
+      "expected_package_member": {
+        "coefficient": 1.0,
+        "source": "c20261003_combo_s4_f0@ep3|e529_s4_served_head_f0_control_v1@ep0"
+      },
+      "merge_math": "Exact pre-quantization 0.5*parent_head + 0.5*new_head; package_submission.py rejects any bitwise change outside head.* and scales stacked primary outputs by 1/2.",
+      "quantization": "i16 package metadata matches actual public package. Record package bytes/hash. Do not claim native callback score from the FP32 component blend."
+    },
+    "head_prediction": {
+      "all_required_rows_finite": true,
+      "argv": [
+        "{python}",
+        "scripts/predict_run.py",
+        "e529_s4_served_head_f0_control_v1",
+        "valid",
+        "--epoch",
+        "0",
+        "--output-name",
+        "e529_s4_served_head_f0_control_v1_fp32",
+        "--inference-precision",
+        "fp32"
+      ],
+      "dtype": "float32",
+      "expected_shape": [
+        1873,
+        20000,
+        2
+      ],
+      "row_order": "cache/valid_targets.npz frozen valid row-group order 0..1872"
+    },
+    "parent_prediction": {
+      "existing_path": "cache/pred_c20261003_combo_s4_f0_valid.npy",
+      "expected_prediction_sha256": "f1a3b07072a62dce620dc0c90e9568093367d0aed1afa4e9ec550866f94df12b",
+      "expected_sidecar_sha256": "ad1257c7278c5402c409ec0e273c2202525bd1d6173699438efb6627262b9750",
+      "reuse_condition": "Only reuse after sidecar binds this parent checkpoint, FP32 inference, full valid row-group order 0..1872, shape (1873,20000,2), and streamed file SHA."
+    }
+  },
+  "grade_contract": {
+    "blend_applied": "raw predictions before official \u00b12 prediction clipping; do not select a coefficient.",
+    "blend_weight": 0.5,
+    "bootstrap": {
+      "replicates": 2000,
+      "seed": 271828,
+      "unit": "141 frozen connected components"
+    },
+    "exposure": "fold0 is previously exposed development evidence; report exposed-fold result, no public-score forecast, no untouched-test claim.",
+    "mask": "only need_prediction AND is_scored rows within the 468 fold groups",
+    "metric_id": "global_wp_clip2_v1",
+    "no_grade_until": "root review of profile/fit terminal, parent/checkpoint ancestry and complete FP32 predictions/package output.",
+    "official_metric_source": "src/wnn/gmetric.py",
+    "primary_fixed_comparison": "exact 0.5 parent/head output mean versus cleanfold parent on only the 468 frozen fold0 valid evaluation groups"
+  },
+  "parent": {
+    "checkpoint": "artifacts/runs/c20261003_combo_s4_f0/model_ep3.pt",
+    "checkpoint_sha256": "0203b109a1f25f3c82794ad3684b83fe4a4bc815f4b5c1bc4bc1ea450dba0a8d",
+    "epoch": 3,
+    "expected_output_count": 23,
+    "expected_parent_hidden": 256,
+    "expected_parent_layers": 2,
+    "fit_membership": {
+      "train": {
+        "count": 10535,
+        "ordered_int64_le_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49"
+      },
+      "valid": {
+        "count": 1405,
+        "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      }
+    },
+    "provenance": "artifacts/runs/c20261003_combo_s4_f0/provenance.json",
+    "provenance_sha256": "c9fb263175f9b13c5b897f8c24d8f2dbe1164415bfd5adcb22f59dc95a72b332",
+    "run": "c20261003_combo_s4_f0",
+    "source_identity_sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+    "teacher_ancestry": [
+      {
+        "checkpoint_sha256": "e3da529a7afe8d78a8cadf4940acacd7ee08c5582e803da7359a7cd9677d3a38",
+        "epoch": 3,
+        "fold0_component_overlap": 0,
+        "fold0_valid_overlap_groups": 0,
+        "provenance_sha256": "52438c2c9d1a551251aee7a18cc1cca5fce2b9aed55bc558d1adafcae29c166a",
+        "run": "c20260929_since_s3_f0"
+      },
+      {
+        "checkpoint_sha256": "a1d53aecdef183c94098ffe5fe2422a377a775b022dcc101c48efef5778417e8",
+        "epoch": 3,
+        "fold0_component_overlap": 0,
+        "fold0_valid_overlap_groups": 0,
+        "provenance_sha256": "5ec060b96a202bdd13dc7ec6b03bf1b878ea70811b99d82844a99ce164d8a99c",
+        "run": "c20260929_since_s4_f0"
+      }
+    ]
+  },
+  "recipe_id": "E529-S4-SERVED-HEAD-CLEANFOLD-CONTROL-20261008-R1",
+  "reference_actual_endpoint": {
+    "members": [
+      {
+        "coef": 1.0,
+        "source": "c20261004_combo_s4_final@ep3|c20261004_combo_head_s4_final@ep0",
+        "weights": "weights_0.npz"
+      }
+    ],
+    "members_json_sha256": "9b07d091261c0d78a077c7427523503f66a436af490007d99531328695b53a3c",
+    "merge_semantics": {
+      "formula": "mean of the two primary head functions; stack head.0 rows/biases, scale concatenated head.2 columns and biases by 1/2",
+      "result": "the actual public package is the 50/50 parent/head served endpoint, encoded as one merged member with coefficient 1.0",
+      "shared_non_head_tensors": "bitwise equal; exporter rejects mismatch",
+      "source": "scripts/package_submission.py::merged_heads at the E450 source commit"
+    },
+    "precision": "i16",
+    "submission_name": "c20261004_combo_s4_i16",
+    "weights_0_npz_sha256": "004d82067af773fc8ed5191b63ed552565b4cde6f521b198127cf02ab8216dbe",
+    "zip_path": "submissions/c20261004_combo_s4_i16/c20261004_combo_s4_i16.zip",
+    "zip_sha256": "c4dc258b529a52267a5e108ef0936f7919221cbdd17913270c8eb3482557f94a"
+  },
+  "reference_head_method": {
+    "actual_effective_args": {
+      "aux_mask": 0.0,
+      "aux_next": 0.3,
+      "aux_next_k": "",
+      "aux_quote": 0.0,
+      "aux_sign": 0.0,
+      "aux_struct": 0.3,
+      "aux_tier": 0.0,
+      "batch": 16,
+      "checkpoint_epoch": 0,
+      "checkpoint_policy": "fixed",
+      "chunk": 2000,
+      "distill": "",
+      "epochs": 1,
+      "eval_source": "holdout",
+      "fast": true,
+      "freeze": "inp,gru",
+      "full_valid": true,
+      "inherit_init_preprocessing": true,
+      "init": "c20261004_combo_s4_final@ep3",
+      "loss": "gcorr",
+      "lr": 0.0005,
+      "mask_weight": true,
+      "no_eval_during_fit": false,
+      "optim": "adamw",
+      "precision": "fp16",
+      "save_training_state": true,
+      "seed": 3,
+      "train_source": "valid",
+      "wd": 0.01
+    },
+    "actual_full_data_head_checkpoint_sha256": "f331b218b5d08626f01c56fae484b895b2b57df3ca90592ad0d71a9fd53985df",
+    "attempt_path": "research/campaign_2026-10-04/runner/attempts/e450-combo-head-seed4-final-v1.json",
+    "attempt_sha256": "9bef155ccb16a3c705893d0f224a59a13f162bc0d94eef211bfc98da86ccd6bb",
+    "source_code_manifest_matches": 48,
+    "source_commit": "756df1cbd27074a4239ff49e1eb0f1044c44dbf2"
+  },
+  "resource_contract": {
+    "authorization": "No profile, fit, export or grade is authorized by this source-only packet.",
+    "export_each": {
+      "allocator_bytes": 4200000000,
+      "cpu_cores": 1,
+      "observed_vram_bytes_max": 5000000000,
+      "ram_bytes": 4000000000,
+      "wall_seconds": 1800
+    },
+    "fit": {
+      "allocator_bytes": 4200000000,
+      "cpu_cores": 1,
+      "observed_vram_bytes_max": 5000000000,
+      "ram_bytes": 8000000000,
+      "wall_seconds": 900
+    },
+    "grade": {
+      "cpu_cores": 1,
+      "gpu": false,
+      "ram_bytes": 4000000000,
+      "wall_seconds": 1200
+    },
+    "profile": {
+      "allocator_bytes": 4200000000,
+      "cpu_cores": 1,
+      "observed_vram_bytes_max": 5000000000,
+      "ram_bytes": 8000000000,
+      "wall_seconds": 900
+    }
+  },
+  "schema": "e529-s4-served-head-cleanfold-control-v1",
+  "scientific_question": "Does the directly fine-tuned head that formed the actual S4 public endpoint improve the same cleanfold S4 parent on previously exposed fold0 evaluation groups when fit membership is cleanly excluded?",
+  "source_audit": "source_audit.json",
+  "source_lock": "source_lock.json",
+  "split": {
+    "evaluation_during_fit": "disabled by --no-eval-during-fit; fixed epoch0 checkpoint is selected without validation reads.",
+    "excluded_evaluation": {
+      "component_overlap_with_fit": 0,
+      "connected_components": 141,
+      "count": 468,
+      "identity_rule": "Compare (source,row_group); integer-only aliases across train and valid are not overlap.",
+      "integer_only_train_aliases": 463,
+      "source": "valid",
+      "source_group_overlap_with_fit": 0
+    },
+    "fit_source_qualified_membership": {
+      "count": 1405,
+      "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "selection_rule": "train_source=valid with this campaign split sets fold_groups=evaluation_groups, then valid_pool=setdiff1d(all_valid,fold_groups); campaign_split.assert_fit_groups validates membership.",
+      "source": "valid"
+    },
+    "fold": 0,
+    "manifest_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "status": "source_only_pending_root_review_and_gpu_profile_authorization",
+  "training": {
+    "effective_inherited_aux": {
+      "aux_mask": 0.0,
+      "aux_next": 0.3,
+      "aux_next_k": "",
+      "aux_quote": 0.0,
+      "aux_sign": 0.0,
+      "aux_struct": 0.3,
+      "aux_tier": 0.0
+    },
+    "environment": {
+      "ARROW_NUM_THREADS": "1",
+      "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+      "CUDA_VISIBLE_DEVICES": "0",
+      "MKL_NUM_THREADS": "1",
+      "NUMBA_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "POLARS_MAX_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONHASHSEED": "0",
+      "PYTHONUNBUFFERED": "1",
+      "WNN_GPU_MEMORY_BYTES": "4200000000",
+      "WNN_LOADER_RAM_GB": "3",
+      "WNN_LOADER_WORKERS": "0",
+      "WNN_PORTABLE_DATA_MANIFEST": "research/campaign_2026-10-04/portable_inputs.json",
+      "WNN_THREADS": "1"
+    },
+    "fit": {
+      "argv": [
+        "{python}",
+        "scripts/train_rnn.py",
+        "--name",
+        "e529_s4_served_head_f0_control_v1",
+        "--init",
+        "c20261003_combo_s4_f0@ep3",
+        "--train-source",
+        "valid",
+        "--full-valid",
+        "--mask-weight",
+        "--seed",
+        "3",
+        "--epochs",
+        "1",
+        "--batch",
+        "16",
+        "--chunk",
+        "2000",
+        "--fast",
+        "--inherit-init-preprocessing",
+        "--loss",
+        "gcorr",
+        "--optim",
+        "adamw",
+        "--freeze",
+        "inp,gru",
+        "--lr",
+        "0.0005",
+        "--wd",
+        "0.01",
+        "--checkpoint-policy",
+        "fixed",
+        "--checkpoint-epoch",
+        "0",
+        "--save-training-state",
+        "--split-manifest",
+        "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--no-eval-during-fit"
+      ],
+      "epochs": 1,
+      "expected_batches": 87,
+      "expected_optimizer_attempts": 870,
+      "selected_checkpoint_epoch": 0,
+      "selection": "fixed epoch0; evaluation is not opened during fit."
+    },
+    "head_method": "Apply the E450 fixed direct-head settings on the fold-0 parent using the parent-compatible source snapshot: freeze inp,gru; AdamW; gcorr; one epoch; seed3; batch16; chunk2000; inherit parent preprocessing and auxiliary settings; fixed checkpoint ep0.",
+    "init": "c20261003_combo_s4_f0@ep3",
+    "must_be_absent_before_profile_and_fit": true,
+    "output_path": "artifacts/runs/e529_s4_served_head_f0_control_v1",
+    "profile": {
+      "acceptance": "Profile must finish within cap; PROFILE timings must be finite; GRAD_STATS must report 60 steps and zero nonfinite steps; worker receipt must show zero OOM kills; observed VRAM must be at most 5,000,000,000 bytes.",
+      "argv": [
+        "{python}",
+        "scripts/train_rnn.py",
+        "--name",
+        "e529_s4_served_head_f0_profile_v1",
+        "--init",
+        "c20261003_combo_s4_f0@ep3",
+        "--train-source",
+        "valid",
+        "--full-valid",
+        "--mask-weight",
+        "--seed",
+        "3",
+        "--epochs",
+        "1",
+        "--batch",
+        "16",
+        "--chunk",
+        "2000",
+        "--fast",
+        "--inherit-init-preprocessing",
+        "--loss",
+        "gcorr",
+        "--optim",
+        "adamw",
+        "--freeze",
+        "inp,gru",
+        "--lr",
+        "0.0005",
+        "--wd",
+        "0.01",
+        "--checkpoint-policy",
+        "fixed",
+        "--checkpoint-epoch",
+        "0",
+        "--split-manifest",
+        "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--no-eval-during-fit",
+        "--profile-steps",
+        "4",
+        "--profile-warmup",
+        "2",
+        "--grad-stats"
+      ],
+      "checkpoint_written": false,
+      "chunk_updates_per_batch": 10,
+      "expected_optimizer_attempts": 60,
+      "profile_only_diagnostics": [
+        "--grad-stats; omit --save-training-state because this source rejects profile early-exit together with continuation saving. These flags affect only the disposable profile run."
+      ],
+      "run_name": "e529_s4_served_head_f0_profile_v1",
+      "timed_batches": 4,
+      "warmup_batches": 2
+    },
+    "run_name": "e529_s4_served_head_f0_control_v1",
+    "source_commit": "fa615eb3d13a8afb9fd7cba275ef64956bdb793e",
+    "teachers": "none; parent preprocessing and auxiliary weights are inherited, but no distillation predictions are consumed."
+  }
+}
