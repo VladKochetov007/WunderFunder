@@ -246,7 +246,7 @@ def test_built_archive_extracts_exact_manifest_and_imports_runtime(
             "    try:",
             "        module.main()",
             "    except Stop as result:",
-            "        captured.append({'kind': kind, 'args': result.args, 'file': module.__file__})",
+            "        captured.append({'kind': kind, 'args': result.args[0], 'file': module.__file__})",
             "print(json.dumps(captured, default=str))",
         ]
     )
