@@ -1,0 +1,423 @@
+{
+  "amp_skip_interpretation": {
+    "cross_arm_interpretation": "report realized completed updates and skip counts per arm; equal attempt budgets do not imply equal realized optimizer updates when skip counts differ",
+    "per_epoch_validity": "optimizer_attempts equals the recipe count; completed_updates and amp_skipped_updates are nonnegative; completed_updates plus amp_skipped_updates equals optimizer_attempts; completed_updates is positive",
+    "policy": "GradScaler skips are recorded outcomes, not an automatic fit rejection",
+    "scaler_or_schedule_change": false,
+    "scientific_change": false
+  },
+  "arms": [
+    {
+      "hidden": 512,
+      "id": "muon512",
+      "layers": 2,
+      "optimizer": "muon"
+    },
+    {
+      "hidden": 768,
+      "id": "muon768",
+      "layers": 2,
+      "optimizer": "muon"
+    }
+  ],
+  "authorization": {
+    "fit": "disabled until an exact root conditional-fit receipt is embedded",
+    "grading": "root-owned; only the frozen 468-group evaluation population is exported",
+    "provider_push": "pending root packet review and fresh quota admission",
+    "source_review": "pending independent root review"
+  },
+  "comparison_scope": {
+    "all_data_teacher_family": "not tested by this clean-fold capacity pair",
+    "claim_scope": "bounded clean-fold fit screen; not a public-score forecast or submission claim",
+    "pairing": "same seed-9 initialization protocol, ordered clean-fold fit pools, seeded epoch order, B8, loss, clipping, schedule, precision and four epochs; independent fresh model and optimizer per process",
+    "primary_pair": [
+      "muon512",
+      "muon768"
+    ],
+    "profile_reuse": "reuse only the successful actual V4 full-shape B8 Muon profiles; do not rerun profiles",
+    "selection_policy": "valid local/cloud cross-validation is the primary model-selection evidence; public evaluation is confirmation, and a public mismatch alone does not automatically kill a direction"
+  },
+  "fit_and_export_gate": {
+    "artifact_delivery": "checkpoint, fit/provenance receipts with raw attempt/completed/skip counters and their validator interpretation, periodic loss-sample summary, prediction array and sidecar are required per arm; each arm is independently preserved if its pair mate fails",
+    "fit": "fresh seed-9 initialization; exactly four epochs; fixed epoch-3 checkpoint; no profile rerun; B8 has 1492 outer batches per epoch and ten optimizer updates per batch",
+    "fit_arms": [
+      "muon512",
+      "muon768"
+    ],
+    "prediction_export": "FP32 feature-only inference on exactly the frozen 468 clean-fold evaluation groups; no labels or scoring masks are read; no score is computed in the worker",
+    "strict_fit_contract": "exact per-epoch attempt and completed-batch counts; nonnegative AMP skips accepted only when completed updates plus skips exactly equal attempts and completed updates are positive; finite checkpoint tensors, all periodic fit-loss log samples finite and complete, finite FP32 predictions, same frozen split/membership/sampler receipts and exact command arguments in both arms"
+  },
+  "fit_membership": {
+    "evaluation_groups_excluded": 468,
+    "fit_evaluation_component_overlap": 0,
+    "fit_groups_total": 11940,
+    "source": "train+valid through the frozen clean fold-0 component split",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "train_groups": 10535,
+    "valid_fit_groups": 1405
+  },
+  "hypothesis_parent": "H-232",
+  "initialization": "fresh seed-9 initialization; no checkpoint, teacher, or teammate weights",
+  "input_cache_repair": {
+    "admission": "after hashing, remeasure cgroup current/maximum/available and system MemAvailable in the actual Kaggle runner inventory; preserve the existing host RAM reservation gate and reject before worker launch if capacity is insufficient",
+    "changed_fit_membership_or_recipe": false,
+    "changed_science": false,
+    "effect_claim": "advice is a kernel hint and does not establish that pages were evicted",
+    "parent_failure_evidence": "producer_evidence/v5r1/repair_evidence_manifest.json",
+    "parent_failure_evidence_sha256": "984a7f1564e5261c1d26514fab6b34eaf0862d7c46ad7f703818e316bf341798",
+    "repair": "during each required full SHA-256 fallback, advise only already-read page-aligned windows of the same exact mounted regular file with POSIX_FADV_DONTNEED; use 64 MiB windows and persist bounded progress/memory receipts every 1 GiB",
+    "scope": "exactly the two raw parquet and four frozen fold0 cache paths named by portable_inputs.json; no copied data, path discovery, or unrelated file advice"
+  },
+  "input_view": {
+    "causal_event_features": 99,
+    "encoder": "linear",
+    "features": 211,
+    "no_future_or_teacher_inputs": true,
+    "raw_features": 112
+  },
+  "inputs": {
+    "mount_use": "Raw train/valid come from the approved raw dataset. Only the four named fold0 cache files are linked from the reusable asset mount. Other model/teacher files in that mount are not read. One read-only mounted copy is shared by every arm.",
+    "mounted_sources": [
+      "vladkochetov07/wunder-funder",
+      "vladkochetov07/wnn-c20261004-fold0-assets"
+    ],
+    "portable_manifest": {
+      "bytes": 2104,
+      "path": "portable_inputs.json",
+      "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+    },
+    "prior_input_identity": {
+      "bytes": 9310,
+      "path": "prior_input_identity_v2.json",
+      "sha256": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e"
+    },
+    "source_members": {
+      "cache/chain_folds.npz": {
+        "bytes": 550072,
+        "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+      },
+      "cache/chains.npz": {
+        "bytes": 650142,
+        "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+      },
+      "cache/train_targets.npz": {
+        "bytes": 1909335790,
+        "sha256": "ead1a05e7aa5ac3d1c10cde65986be9f48fd342cadb95330611e58c3a8f817e9"
+      },
+      "cache/valid_targets.npz": {
+        "bytes": 337186198,
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+      },
+      "datasets/train.parquet": {
+        "bytes": 29240219011,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+      },
+      "datasets/valid.parquet": {
+        "bytes": 5615509128,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+      }
+    },
+    "split_manifest": {
+      "bytes": 1388846,
+      "path": "fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "total_bytes": 37103450341
+  },
+  "objective": {
+    "EMA_or_SWA": false,
+    "auxiliary_losses": false,
+    "chunk_rows": 2000,
+    "distillation": false,
+    "global_gradient_clip_norm": 1.0,
+    "loss": "weighted MSE on two primary targets",
+    "normalization": "chunk",
+    "propensity_weighting": false,
+    "target_clip": [
+      -2.0,
+      2.0
+    ],
+    "weight": "absolute magnitude of the clipped target"
+  },
+  "optimizer": {
+    "adam_beta2": 0.999,
+    "adamw_control": "torch AdamW on all trainable parameters; same LR, WD and OneCycle schedule",
+    "learning_rate": 0.001,
+    "muon": {
+      "implementation": "independently maintained project MuonAdamW",
+      "new_numeric_policy": "native_bf16_if_supported_else_fp32_v1",
+      "other_parameters": "project AdamW update for input projection, head, and biases",
+      "policy": "FP32 Newton-Schulz matrix products except native CUDA BF16 when compute capability major >= 8 and torch.cuda.is_bf16_supported() both hold. This is independent of the model's FP16 autocast and GradScaler. T4/P100 use FP32.",
+      "scope": "GRU weight_ih_l* and weight_hh_l* only; three separate GRU gate blocks"
+    },
+    "schedule": "OneCycle",
+    "weight_decay": 0.01
+  },
+  "packet_id": "E529_H232_GRU512_768_MUON_SEED9_FIT_V5R3_20261008",
+  "parent_packet": "E529_H232_GRU512_768_MUON_SEED9_FIT_V5R2_20261008",
+  "profile": {
+    "actual_cli_note": "The trainer supports --profile-warmup and --profile-steps; it does not support the older V1 draft's --profile-trace-output token, which is intentionally absent.",
+    "chunks_per_outer_batch": 10,
+    "precision_note": "The trainer command used FP16 autocast with GradScaler init scale 4096. OPTIMIZER_COMPUTE_PRECISION.selected_dtype records Muon orthogonalization dtype separately; the measured T4 policy selected FP32 orthogonalization.",
+    "profile_rerun_in_this_packet": false,
+    "profile_reused_from_parent": true,
+    "required_evidence": [
+      "actual V4 PROFILE and PROFILE_UPDATE_EVIDENCE from the exact archived trainer",
+      "230 attempts, 230 completed updates, 0 AMP skips and 230 loss checks per required arm",
+      "actual V4 argv records bind FP16 autocast, GradScaler scale 4096, B8, 3 warmup and 20 timed batches",
+      "finite profile losses and gradients with GradScaler enabled",
+      "Muon orthogonalization precision metadata matches the declared hardware policy; it is distinct from model autocast precision",
+      "stable one-device T4 identity, positive finite timing, measured GPU memory and host headroom"
+    ],
+    "timed_attempts": 200,
+    "timed_outer_batches": 20,
+    "total_optimizer_attempts": 230,
+    "warmup_attempts": 30,
+    "warmup_outer_batches": 3
+  },
+  "profile_evidence": {
+    "manifest_path": "producer_evidence/v4/manifest.json",
+    "manifest_sha256": "911fcfc9a3caf1ec0030b74293644946dc9de897e2a38f7055dd62fe6f19c262",
+    "profile_status": "both actual B8 profiles completed 230 updates with zero skips; V4 failed only in its post-profile consumer and did not fit either arm",
+    "profile_values": {
+      "muon512": {
+        "amp_init_scale": 4096.0,
+        "amp_skips": 0,
+        "completed_updates": 230,
+        "grad_scaler_enabled": true,
+        "model_precision": "fp16_autocast",
+        "native_bf16_selected": false,
+        "observed_peak_gpu_used_mb": 1039,
+        "orthogonalization_dtype": "float32",
+        "orthogonalization_policy": "native_bf16_if_supported_else_fp32_v1",
+        "outer_batch_median_ms": 1845.01
+      },
+      "muon768": {
+        "amp_init_scale": 4096.0,
+        "amp_skips": 0,
+        "completed_updates": 230,
+        "grad_scaler_enabled": true,
+        "model_precision": "fp16_autocast",
+        "native_bf16_selected": false,
+        "observed_peak_gpu_used_mb": 1663,
+        "orthogonalization_dtype": "float32",
+        "orthogonalization_policy": "native_bf16_if_supported_else_fp32_v1",
+        "outer_batch_median_ms": 2861.57
+      }
+    }
+  },
+  "profile_evidence_parent_packet": "E529_H232_GRU512_768_MUON_SEED9_PROFILE_V4_20261008",
+  "profile_projection": {
+    "admission": "require actual two-T4 and host 4-CPU/16-GiB simultaneous-worker preflight for the pair; each worker is allocated 2 CPU threads, using the observed dual-T4 host's full 4-CPU affinity",
+    "basis": "actual V4 full-shape PROFILE median outer-sequence-batch wall time measured with 4 CPU threads per arm; B8 has 1492 batches per epoch, ten chunk updates per batch, four epochs, and 1.20 safety multiplier. V5R3 shares the observed 4-CPU host across two workers at 2 threads each, so this is a projection reference, not a timing guarantee.",
+    "fit_seconds": {
+      "muon512": 13213.224,
+      "muon768": 20493.42
+    },
+    "max_arm_seconds": {
+      "muon512": 15500,
+      "muon768": 22500
+    },
+    "max_kernel_seconds": 26000,
+    "reserves_per_arm_seconds": {
+      "checkpoint_prediction_export": 420,
+      "runner_finalization": 300,
+      "startup": 60
+    },
+    "source": "V4 root-reviewed profile evidence manifest and logs, preserved unchanged under producer_evidence/v4"
+  },
+  "runtime": {
+    "aggregate_cpu_threads": 4,
+    "all_in_vast_cost_cap_usd": 0.0,
+    "cpu_allocation_change": "V4 profile timings used 4 CPU threads per arm; this fit-only successor uses 2 threads per arm so both independently bound T4 workers fit the measured 4-CPU Kaggle host. Fit wall projections are not guaranteed under this shared CPU allocation.",
+    "cpu_threads": 2,
+    "gpu_allocator_fraction": 0.75,
+    "initial_execution_scope": "fixed-B8 fit-only; reuse reviewed V4 profiles, with no profile rerun",
+    "loader_workers": 0,
+    "max_arm_deadline_seconds": {
+      "muon512": 15500,
+      "muon768": 22500
+    },
+    "network": "disabled",
+    "physical_devices": "one UUID-bound physical T4 per independent arm process",
+    "provider": "Kaggle with actual Tesla T4 device identities measured at startup",
+    "provider_timeout_seconds": 26000,
+    "requested_kernel": "vladkochetov07/e529-gru512-768-muon-fit-v5r3-20261008",
+    "requested_source_dataset": "vladkochetov07/e529-gru512-768-muon-fit-v5r3-skip-accounting-20261008",
+    "root_fit_authorization": "required and hash-bound; no implicit fallback or profile-only authorization",
+    "worker_finalization_reserve_seconds": 300,
+    "worker_wall_cap_seconds": 26000
+  },
+  "sampler": {
+    "drop_last_disclosure": "B8 selects all 11940 fit groups but consumes 11936 per epoch (4 not consumed); B4 consumes all 11940. The worker records counts and seed/epoch provenance. It does not claim an exact dropped group identity because the trainer does not persist the realized batch row-group sequence.",
+    "epoch_seed_formula": "(seed + 1009 * (epoch + 1)) mod 2^32",
+    "historical_comparison_limit": "H232 used PyTorch RandomSampler/global CPU RNG. This explicit seeded sampler is a declared change, so this is not a pure width-only replay of historical H232.",
+    "implementation": "EpochOrderSampler with independent torch.Generator per epoch",
+    "mode": "seeded",
+    "normalization_epoch": -1,
+    "pairing": "All arms use the same ordered fit pools, seed, batch size, drop_last and epoch seed; the sampler does not consume model-initialization global RNG.",
+    "seed": 9
+  },
+  "schema": "wnn-gru-optimizer-capacity-fit-recipe-v1",
+  "scientific_question": "At fixed seed, clean-fold membership, B8 objective and four-epoch budget, does the independently implemented Muon recurrent update support a useful GRU width ladder from 512 to 768?",
+  "source": {
+    "build_scope": "reuse the byte-identical V5R2 source archive, trainer, optimizer, input closure, membership, profiles, objective and CLI; V5R3 changes only fit-artifact validation to distinguish attempts, completed updates and valid GradScaler skips, and records finite periodic trainer loss samples",
+    "entry_modules": [
+      "capacity_fit_worker.py",
+      "capacity_arm_worker.py",
+      "capacity_worker.py",
+      "train_entry.py",
+      "verified_digest_handoff.py"
+    ],
+    "file_bindings": {
+      "README.md": {
+        "bytes": 2880,
+        "sha256": "4bb976fa49137b6522f7fdeb891bdd86ead6c06b718ac07b81047437f0045a07"
+      },
+      "capacity_arm_worker.py": {
+        "bytes": 8024,
+        "sha256": "131162936c86e169dc5986183b753b136c196d95877d7be8bfe055aaaddd90ce"
+      },
+      "capacity_fit_worker.py": {
+        "bytes": 34790,
+        "sha256": "177d23208dd93c9af36b91b0afe035fe642135fee13a96f7cb066894f0dc41eb"
+      },
+      "capacity_worker.py": {
+        "bytes": 114638,
+        "sha256": "c9c39e3517ef0930395e86ed9e2a66dd48c2eebd4c577e6d41edaf27de9e4642"
+      },
+      "fold0.json": {
+        "bytes": 1388846,
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "kernel-metadata.json": {
+        "bytes": 550,
+        "sha256": "3d6fdfefa139df89594d1a73dc6c131b2042f7ca87bb25fd158a2aa649a6865d"
+      },
+      "kernel.py": {
+        "bytes": 280,
+        "sha256": "7bd225fae8deace0d8a7a2729f0f9fb88416e227ad4472a1c1d77e3889907d04"
+      },
+      "portable_inputs.json": {
+        "bytes": 2104,
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+      },
+      "prior_input_identity_v2.json": {
+        "bytes": 9310,
+        "sha256": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e"
+      },
+      "producer_evidence/v4/manifest.json": {
+        "bytes": 2442,
+        "sha256": "911fcfc9a3caf1ec0030b74293644946dc9de897e2a38f7055dd62fe6f19c262"
+      },
+      "producer_evidence/v5r1/V5R1_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json": {
+        "bytes": 24647,
+        "sha256": "295b4580ecf7c2bd662f3e9c5ef9b78fe5dd8aee5d843191fa5e5faa2b942007"
+      },
+      "producer_evidence/v5r1/gru_capacity_v5r1_phase_timings.json": {
+        "bytes": 320,
+        "sha256": "4b7abea43018829b1878ae5618e7cde1802795042a7a75524238e79daf258983"
+      },
+      "producer_evidence/v5r1/gru_capacity_v5r1_terminal.json": {
+        "bytes": 2791,
+        "sha256": "3c749be6ccac95fd46e1bd7e89b7ef98ace6714fcfe5cd9fa46ef4c3d461115e"
+      },
+      "producer_evidence/v5r1/inventory.json": {
+        "bytes": 709,
+        "sha256": "bb9ea92ad30c07b0d0d792ebf0a70087db6834d06b0e74bcf13f7a46fc3bf61c"
+      },
+      "producer_evidence/v5r1/repair_evidence_manifest.json": {
+        "bytes": 1550,
+        "sha256": "984a7f1564e5261c1d26514fab6b34eaf0862d7c46ad7f703818e316bf341798"
+      },
+      "producer_evidence/v5r1/source_archive.tar": {
+        "bytes": 665600,
+        "sha256": "f175c2d364d982a883e0c7be9a6341dbdeb8e60a652aa1296eb65fa9fe80ad9e"
+      },
+      "producer_evidence/v5r1/source_archive_manifest.json": {
+        "bytes": 9388,
+        "sha256": "810abc97023da84b623a8752cb60719dcb2199c066695aaa0fa495a883a3dfcd"
+      },
+      "producer_evidence/v5r2/page_cache_probe_20261008_r1.json": {
+        "bytes": 2033,
+        "sha256": "00683f1cc1949d3ac16a772fbcf71bc4cc0442abfd98ca34c1b877464cfc0f7c"
+      },
+      "producer_evidence/v5r2/source_archive.tar": {
+        "bytes": 665600,
+        "sha256": "338443c53d63be1b7a1e9c06ba6f8545524c25626ac3aefeb881c130afa3a618"
+      },
+      "producer_evidence/v5r2/source_archive_manifest.json": {
+        "bytes": 9590,
+        "sha256": "0d4a828d940111758aba8108d8245f25aa20cbd21567ccd98e47bf67f2fe7b6f"
+      },
+      "source/source_archive.tar": {
+        "bytes": 665600,
+        "sha256": "338443c53d63be1b7a1e9c06ba6f8545524c25626ac3aefeb881c130afa3a618"
+      },
+      "source/source_archive_manifest.json": {
+        "bytes": 9590,
+        "sha256": "0d4a828d940111758aba8108d8245f25aa20cbd21567ccd98e47bf67f2fe7b6f"
+      },
+      "train_entry.py": {
+        "bytes": 4288,
+        "sha256": "a77a86d8a042fc0c2951dd94640354fafd9d3c7f68b5dc8c01e91a5feaa278e2"
+      },
+      "verified_digest_handoff.py": {
+        "bytes": 13441,
+        "sha256": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
+      }
+    },
+    "parent_source_archive_sha256": "338443c53d63be1b7a1e9c06ba6f8545524c25626ac3aefeb881c130afa3a618",
+    "parent_source_commit": "b98ed5dfec9052f4a8ae310b31b531ce26cae96f",
+    "source_archive": {
+      "bytes": 665600,
+      "path": "source/source_archive.tar",
+      "sha256": "338443c53d63be1b7a1e9c06ba6f8545524c25626ac3aefeb881c130afa3a618"
+    },
+    "source_manifest": {
+      "bytes": 9590,
+      "path": "source/source_archive_manifest.json",
+      "sha256": "0d4a828d940111758aba8108d8245f25aa20cbd21567ccd98e47bf67f2fe7b6f"
+    }
+  },
+  "status": "fixed-b8-fit-only-source-prepared-pending-root-review-and-conditional-authorization",
+  "training": {
+    "amp_init_scale": 4096.0,
+    "amp_skip_gate": "Accept nonnegative GradScaler skips only when completed updates plus skips equal the exact attempt count and at least one update completes; persist counts for interpretation.",
+    "batch_budgets": {
+      "4": {
+        "attempts_four_epochs": 119400,
+        "attempts_per_epoch": 29850,
+        "batches_per_epoch": 2985,
+        "groups_consumed_per_epoch": 11940,
+        "unconsumed_selected_groups_per_epoch": 0
+      },
+      "8": {
+        "attempts_four_epochs": 59680,
+        "attempts_per_epoch": 14920,
+        "batches_per_epoch": 1492,
+        "groups_consumed_per_epoch": 11936,
+        "unconsumed_selected_groups_per_epoch": 4
+      }
+    },
+    "batch_selection_rule": "Fixed B8 for both fit arms, selected by the two completed actual V4 B8 profiles. V5R3 performs no profile rerun and has no batch or single-arm fallback.",
+    "checkpoint_epoch_zero_based": 3,
+    "checkpoint_policy": "fixed",
+    "epochs": 4,
+    "evaluation_during_fit": false,
+    "fallback_batch": null,
+    "initial_batch": 8,
+    "model_precision": "fp16 autocast",
+    "seed": 9
+  },
+  "transport": {
+    "dataset": "vladkochetov07/e529-gru512-768-muon-fit-v5r3-skip-accounting-20261008",
+    "dataset_manifest": "source_dataset_upload/assets-manifest.json",
+    "kernel_entrypoint": "kernel_upload/kernel.py",
+    "mounted_cache_bytes": 2247722202,
+    "mounted_raw_bytes": 34855728139,
+    "raw_data_copy": false,
+    "shared_identity_passes": 1,
+    "shared_loader": false
+  }
+}

@@ -1,0 +1,1202 @@
+{
+  "device_and_host": {
+    "gpu_inventory": [
+      {
+        "compute_capability": "7.5",
+        "free_memory_mb": 14912,
+        "index": 0,
+        "name": "Tesla T4",
+        "total_memory_mb": 15360,
+        "uuid": "GPU-a724a391-a16d-2453-3b9c-efa6f36b7010"
+      },
+      {
+        "compute_capability": "7.5",
+        "free_memory_mb": 14912,
+        "index": 1,
+        "name": "Tesla T4",
+        "total_memory_mb": 15360,
+        "uuid": "GPU-8e1e903f-7e9f-ad7d-d093-d8293a2f9775"
+      }
+    ],
+    "host_before_profile": {
+      "disk_free_bytes": 20936040448,
+      "disk_total_bytes": 20957446144,
+      "memory": {
+        "available_bytes": 32587264000,
+        "total_bytes": 33658306560
+      }
+    },
+    "profile_memory_samples": {
+      "muon512": {
+        "gpu_min_free_mb": 13873,
+        "gpu_peak_used_mb": 1039,
+        "gpu_total_mb": 15360
+      },
+      "muon768": {
+        "gpu_min_free_mb": 13249,
+        "gpu_peak_used_mb": 1663,
+        "gpu_total_mb": 15360
+      }
+    },
+    "selected_gpu": {
+      "compute_capability": "7.5",
+      "free_memory_mb": 14912,
+      "index": 0,
+      "name": "Tesla T4",
+      "total_memory_mb": 15360,
+      "uuid": "GPU-a724a391-a16d-2453-3b9c-efa6f36b7010"
+    }
+  },
+  "fit_projection_from_frozen_formula": {
+    "pair_projected_fit_seconds": 33706.644,
+    "per_arm": {
+      "muon512": {
+        "batches_per_epoch": 1492,
+        "chunk_optimizer_updates_per_outer_batch": 10,
+        "epochs": 4,
+        "observed_fit": false,
+        "outer_batch_wall_seconds": 1.84501,
+        "projected_fit_seconds": 13213.224,
+        "projected_optimizer_attempts_per_arm": 59680,
+        "safety_multiplier": 1.2,
+        "source_formula": "step_wall_ms / 1000 * 1492 * 4 * 1.20 (capacity_worker._profile_projection_seconds)"
+      },
+      "muon768": {
+        "batches_per_epoch": 1492,
+        "chunk_optimizer_updates_per_outer_batch": 10,
+        "epochs": 4,
+        "observed_fit": false,
+        "outer_batch_wall_seconds": 2.86157,
+        "projected_fit_seconds": 20493.42,
+        "projected_optimizer_attempts_per_arm": 59680,
+        "safety_multiplier": 1.2,
+        "source_formula": "step_wall_ms / 1000 * 1492 * 4 * 1.20 (capacity_worker._profile_projection_seconds)"
+      }
+    },
+    "projection_caveat": "This reproduces the archived worker projection formula from actual profile wall times, 1492 full B8 batches/epoch, four epochs and 1.20 safety. It excludes observed full-fit time because no full fit occurred; the frozen worker would also account setup/export/finalization reserves if conditional fit authorization were enabled.",
+    "status": "posthoc projection only; no fit was authorized or started",
+    "worker_cap_seconds": 5200,
+    "worker_projection_fits_within_cap": false
+  },
+  "generated_utc": "2026-10-08T12:43:19+00:00",
+  "input_identity": {
+    "caveat": "The worker hashed/verified the declared input closure and executed real profile batches; no claim that it avoided data reads.",
+    "input_mount_phase": "pass",
+    "portable_manifest_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+    "raw_inputs": [
+      {
+        "bytes": 29240219011,
+        "identity": {
+          "changed_ns": 1791103235523599835,
+          "device": 52,
+          "inode": 101726090503,
+          "mode": 33188,
+          "modified_ns": 1791103235523599835,
+          "size": 29240219011
+        },
+        "path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/train.parquet",
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+      },
+      {
+        "bytes": 5615509128,
+        "identity": {
+          "changed_ns": 1791101681739823113,
+          "device": 52,
+          "inode": 101721042171,
+          "mode": 33188,
+          "modified_ns": 1791101681739823113,
+          "size": 5615509128
+        },
+        "path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/valid.parquet",
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+      }
+    ],
+    "receipt_embedded_sha256": "99d04b027787987107397b5b151c82c049d35af320da170ced9a5f25aa8b1019",
+    "receipt_path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/input_identity_receipt.json",
+    "receipt_sha256": "99d04b027787987107397b5b151c82c049d35af320da170ced9a5f25aa8b1019"
+  },
+  "output_collection": {
+    "all_paths_unique_and_present": true,
+    "final_download_capture": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/provider_output_force_download.stdout.txt",
+    "not_downloaded_or_not_present_as_outputs": [
+      "model checkpoints",
+      "prediction arrays",
+      "full fit histories",
+      "parquet datasets"
+    ],
+    "remote_artifact_hash_manifest": [
+      {
+        "bytes": 5643,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru-capacity-v4-manifest-profile-20261008.log",
+        "sha256": "bbc52d7e231b9e301f342f5abc90aef6f83daa4a9fe87813fe90f51b0c97a1bb"
+      },
+      {
+        "bytes": 14144,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/GRU512_768_MUON_PROFILE_RECIPE_V4.json",
+        "sha256": "8ee3e380def33bf1e180b44e1c707555b822b5a4560b3cfde03ae5daeb7331b3"
+      },
+      {
+        "bytes": 623,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/README.md",
+        "sha256": "abb05b2c86f82ccb19e5249a69bf9ea808a1c47c13538ff348d6f3995f1f4af8"
+      },
+      {
+        "bytes": 1757,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/ROOT_PROFILE_AUTHORIZATION.json",
+        "sha256": "0d87df5ab383e1569ec8c394475fe5a50ee827863bad167011cd30fc09b8144c"
+      },
+      {
+        "bytes": 1397,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/ROOT_PROFILE_SOURCE_REVIEW.json",
+        "sha256": "27d2807104b62337a5d4e5dddad6a65240f3a075b5b21684e03635d806ae5c7f"
+      },
+      {
+        "bytes": 95818,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/__pycache__/capacity_worker.cpython-313.pyc",
+        "sha256": "2e1dcb2d2f5ca54c78969ac53215f6fcba4affffb3ce8e8dac69a0dd2c911e81"
+      },
+      {
+        "bytes": 18819,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/__pycache__/verified_digest_handoff.cpython-313.pyc",
+        "sha256": "a383fd42538bb29d3255bc7c124c9bbb2ff5590644c8c64a3fe98d10033c9a16"
+      },
+      {
+        "bytes": 80850,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/capacity_worker.py",
+        "sha256": "c4d4d5f4a1e18107a4c3e4f0c7b9b38ae0ec8caa83d1fca24167274f8a988390"
+      },
+      {
+        "bytes": 1388846,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/fold0.json",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      {
+        "bytes": 571,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/kernel-metadata.json",
+        "sha256": "94497025f8bc3a6246450a3c4f354d0663f5d5f8923f2b9f620018bbcfc69715"
+      },
+      {
+        "bytes": 866,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/kernel.py",
+        "sha256": "7c0f6a254c95a19a88728b2a5592e6b6de7b4e6cac1ddbc1cdea2c0f07697fd8"
+      },
+      {
+        "bytes": 2104,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/portable_inputs.json",
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+      },
+      {
+        "bytes": 9310,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/prior_input_identity_v2.json",
+        "sha256": "cbea42868303968f7ee84105990a25848ce17add175b7161e116c80dfa63e46e"
+      },
+      {
+        "bytes": 624640,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/source/source_archive.tar",
+        "sha256": "a38899dc8a51231936f32c43b6ae56b3e6e6fffde647116337adf603bd709a02"
+      },
+      {
+        "bytes": 8453,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/source/source_archive_manifest.json",
+        "sha256": "ae5222c925aad41079846fb26367ca8cc3a812a428e4a6995a3dfad419495631"
+      },
+      {
+        "bytes": 3303,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/train_entry.py",
+        "sha256": "4b7e7364bfeb8c104e23e06aa57e62d65bbbf21309e1de3b129d61645070476e"
+      },
+      {
+        "bytes": 13441,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/verified_digest_handoff.py",
+        "sha256": "c351f88ab9f040867da8e30f767133b8017cc8d15aefdf4c8af65040fb51688f"
+      },
+      {
+        "bytes": 7839,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/input_identity_receipt.json",
+        "sha256": "99d04b027787987107397b5b151c82c049d35af320da170ced9a5f25aa8b1019"
+      },
+      {
+        "bytes": 1388846,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      {
+        "bytes": 2104,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/research/campaign_2026-10-04/portable_inputs.json",
+        "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c"
+      },
+      {
+        "bytes": 215164,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/scripts/__pycache__/train_rnn.cpython-313.pyc",
+        "sha256": "cceab2cea8daba573bbce7a48e01f847bcbc6bd967fe56254a424fa49b1695b6"
+      },
+      {
+        "bytes": 11254,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/scripts/predict_run.py",
+        "sha256": "73f6cb0cbce1566454e1183bdc6a5616e6ee04e16ac7a68f97608fcda649d37b"
+      },
+      {
+        "bytes": 164606,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/scripts/train_rnn.py",
+        "sha256": "5b6df4cc0a89fa78a803889a873c971b832bb604dca4010115c10a7ab756235f"
+      },
+      {
+        "bytes": 63,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+      },
+      {
+        "bytes": 256,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/__init__.cpython-313.pyc",
+        "sha256": "9b1908c6a6f6b51484e9e9f2a78a8f6258e9f1605dd4500193c711a134e5c0c3"
+      },
+      {
+        "bytes": 10074,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/block_memory_attention.cpython-313.pyc",
+        "sha256": "36ff51db5b7de377de3d8997c231a4d741b0bb08de7e736d8ccf434a7fe5b433"
+      },
+      {
+        "bytes": 7585,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/data.cpython-313.pyc",
+        "sha256": "be9e749979c83d1075c8453d82b0ceaa5658417b01a8e6317aa4f85db2b89741"
+      },
+      {
+        "bytes": 11823,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/distillation.cpython-313.pyc",
+        "sha256": "3ae00fb2e9aaf92db6787b38dea13399ca03177b51dd55f75b8aeb49b0c78529"
+      },
+      {
+        "bytes": 14957,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/distillation_cache.cpython-313.pyc",
+        "sha256": "2a8aa0de52515a5c603ea5d5580ea5d267c13749f525d70413a4185b3620b034"
+      },
+      {
+        "bytes": 12433,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/event_content.cpython-313.pyc",
+        "sha256": "9f3b2eb8725ea355cb56c84feb8069a0c82fbb77819a0cabb96f8a3fd0baa876"
+      },
+      {
+        "bytes": 10971,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/features.cpython-313.pyc",
+        "sha256": "e8a625ccb6e4504996a6cd150f27d5ca495beea2f183bff688021d994640eac5"
+      },
+      {
+        "bytes": 15783,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/gmetric.cpython-313.pyc",
+        "sha256": "9cca2265a08121968900a9fc80c98fec832a526c2564d281f554b3f05d29c31a"
+      },
+      {
+        "bytes": 8710,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/metric.cpython-313.pyc",
+        "sha256": "ea37fc0b6ff1153f3ad8ceb79c57198564ea23619fd65046b9e94a65a3e2e14f"
+      },
+      {
+        "bytes": 37648,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/nn.cpython-313.pyc",
+        "sha256": "e539c61bbf49fe9baa3bdbc977476c9e180f1b8522845d79d59dc62dbf99c11d"
+      },
+      {
+        "bytes": 15011,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/numeric_ple.cpython-313.pyc",
+        "sha256": "b0660c9bcda2e66d6b54cb4ab00860382eceefbf2420bf4f169ec8fb9385a8bc"
+      },
+      {
+        "bytes": 21201,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/optim.cpython-313.pyc",
+        "sha256": "52e4f53d7cc4ef3bfa50fc1bce709d380f3e01b38a8eb61a6560f9cec7c4a769"
+      },
+      {
+        "bytes": 8115,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/outcomes.cpython-313.pyc",
+        "sha256": "105fe342ab44c6f3f6a7488b6817b73c245926917907c608ffa57a059fff18da"
+      },
+      {
+        "bytes": 3786,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/portability.cpython-313.pyc",
+        "sha256": "d0c54723a8ec65ad47b55400b8ea648399d806bf88daf95b6b8bebc222085fea"
+      },
+      {
+        "bytes": 9394,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/privileged.cpython-313.pyc",
+        "sha256": "a6ca573f3b7bfe20413bed93fa2e51543dc4ae6c58f1d188a29bbd879167b400"
+      },
+      {
+        "bytes": 3610,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/propensity.cpython-313.pyc",
+        "sha256": "382e88ed6d532af40036f17b10f76769cecc3aa1b8deb8b0b9d5f155ba60e730"
+      },
+      {
+        "bytes": 9949,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/quantization.cpython-313.pyc",
+        "sha256": "5d1cd94e2e7362a3af2444ab76d7a98cb58d02fff0f3f5f2dc964b94d72307de"
+      },
+      {
+        "bytes": 12178,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/research_features.cpython-313.pyc",
+        "sha256": "7b6b322eddd7dfb885744e9d6078b05986fef383ec676252e515e6c25d221a86"
+      },
+      {
+        "bytes": 6598,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/resources.cpython-313.pyc",
+        "sha256": "fd51526bb54b83cb98de36bf9bb41b2e8a602fe8e5e9b6785efc5201aee4caa7"
+      },
+      {
+        "bytes": 7847,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/run_identity.cpython-313.pyc",
+        "sha256": "e2dad934b8c0fb9b630523158c2424cf5e88d23939e9fccae0f0855180fee87f"
+      },
+      {
+        "bytes": 12738,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/sentinel.cpython-313.pyc",
+        "sha256": "6324b23d9d3a44b78f94b49c2178b340b38f65ec60479a7da916655e50f475cd"
+      },
+      {
+        "bytes": 13361,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/sentinel_calibration.cpython-313.pyc",
+        "sha256": "9ec39161a97a1ff2d751222fc832daf2e1414592635659c0eb502148525a981c"
+      },
+      {
+        "bytes": 18489,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/specialist.cpython-313.pyc",
+        "sha256": "9faaeae7b238fbc1850fc6b307564ec735a6718ffd5eb3e20fd7acc9e0616b7c"
+      },
+      {
+        "bytes": 15086,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/splits.cpython-313.pyc",
+        "sha256": "f670c22d00f624198b7ac1ab4cb9aff4610bf3bf675bf5de21aee17344617b6a"
+      },
+      {
+        "bytes": 11338,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/spread_aux.cpython-313.pyc",
+        "sha256": "4079831fd4d701b4739fc3ca740dc884e3b8458254e9f24af6ccce911fa29b5e"
+      },
+      {
+        "bytes": 18396,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/structured_state.cpython-313.pyc",
+        "sha256": "5568a1cd264edb34450b4e632e15a2f7371b262e269cfe6cbb7cf0c2e0e2f4a5"
+      },
+      {
+        "bytes": 14569,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/training_controls.cpython-313.pyc",
+        "sha256": "d2ce5459bbca21d484ba0f3cfb682fc899bb496f93581c872e7858ab915a2c5f"
+      },
+      {
+        "bytes": 4170,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/training_credit.cpython-313.pyc",
+        "sha256": "7d30a32adcc0d612af6435543d3374fc60623eedc3d5d64d180177ec1baddecd"
+      },
+      {
+        "bytes": 22055,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/training_dynamics.cpython-313.pyc",
+        "sha256": "2a6ed8e4eba87583f48de72b9be0d1daaf001e1cd32913d2b8effcfb2da6724f"
+      },
+      {
+        "bytes": 13191,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/training_factorized.cpython-313.pyc",
+        "sha256": "68efded3a5609e1b6c883a4cad1e31369b520327414aec9dc85d3c35e660645c"
+      },
+      {
+        "bytes": 9787,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/training_qat.cpython-313.pyc",
+        "sha256": "4ff296d37ca5ccdb669cded0dbfb4ffde817f7f434371dcfac68dfb4a40f3144"
+      },
+      {
+        "bytes": 10969,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/training_sampling.cpython-313.pyc",
+        "sha256": "a91cf422d783725010d1ef01d947591daf26dbb92d065ac25beeb0fba4b9c9af"
+      },
+      {
+        "bytes": 13194,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/training_state.cpython-313.pyc",
+        "sha256": "e4201a34f2e5bcffecdf333734dfc43bfcfcf0294394e61151d1df9d757b5b85"
+      },
+      {
+        "bytes": 4290,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/__pycache__/training_views.cpython-313.pyc",
+        "sha256": "8f28dfb1f66d048f00b40221074ed2dccdc9063e75db4a17cbd1362001a29d6f"
+      },
+      {
+        "bytes": 34735,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/bandit_campaign_recipe.py",
+        "sha256": "883bc6415345ec5e4deff56be13fc0ae0be8791702e999898dfdb3557a5a6374"
+      },
+      {
+        "bytes": 6009,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/block_memory_attention.py",
+        "sha256": "a05c04d49f258d808ddb4fc4f7373a7bef57963050619f96698822e61840cc39"
+      },
+      {
+        "bytes": 20774,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/campaign.py",
+        "sha256": "35dd701fdb33c50494a3c781a315731212da22f41cae331f2f85073af0637605"
+      },
+      {
+        "bytes": 24324,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/campaign_local.py",
+        "sha256": "0213ff7a809ce898be5d3180c15e31d228ad6f3f03f1f08fd968f9186e91353d"
+      },
+      {
+        "bytes": 10334,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/campaign_spec.py",
+        "sha256": "5136703299585e81a9463a253133ba7f12da2c64ea863776c005d1fc5d3e8d7b"
+      },
+      {
+        "bytes": 4986,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/csrc/symreg_screen.cpp",
+        "sha256": "413082e20f815ce4ca41af246997d4f1e2ad019e5099a79be23af424672dd2b7"
+      },
+      {
+        "bytes": 4000,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/data.py",
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      {
+        "bytes": 7875,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/distillation.py",
+        "sha256": "5d68b03204b9413d2412533a7aa75ae0759276dacbbed4035b846da1d38350e2"
+      },
+      {
+        "bytes": 10084,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/distillation_cache.py",
+        "sha256": "403fd74db91f08bb255db147fb50f7f6b6b9702280350aaa2479c01a7f972f19"
+      },
+      {
+        "bytes": 8080,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/evaluation.py",
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+      },
+      {
+        "bytes": 7226,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/event_content.py",
+        "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd"
+      },
+      {
+        "bytes": 5421,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/features.py",
+        "sha256": "284c119d150b74bff0ccc2628bc2a195ca61c351a628b085b7d9dd85512bfeee"
+      },
+      {
+        "bytes": 8902,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      },
+      {
+        "bytes": 9025,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/heuristics.py",
+        "sha256": "b3c133c6f8a4c4dab2629cfac1b5b736faf0915f525e96d7bb2510b34cf6b43e"
+      },
+      {
+        "bytes": 2377,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/infer.py",
+        "sha256": "21575db39a86268036f18297f315e05466a9e24e879a6289a69b719a124ae9d9"
+      },
+      {
+        "bytes": 2624,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/markov.py",
+        "sha256": "483385e1194215fff3048919094a2cd410e6124faff22ed693ea295881f707b2"
+      },
+      {
+        "bytes": 4806,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/metric.py",
+        "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc"
+      },
+      {
+        "bytes": 21127,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/nn.py",
+        "sha256": "874fbf1ab5756c7dabe9e388d9d619c0a29c218d28db36a7f8747957df453181"
+      },
+      {
+        "bytes": 9598,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/numeric_ple.py",
+        "sha256": "229a7e0f032cd65bbf6700fa9372c08016b20e4719cb2f9eddd540ff8c468720"
+      },
+      {
+        "bytes": 14013,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/optim.py",
+        "sha256": "f78c9412623df3300cf6720634775467270348b3b02aeeba41e13c48ba916f38"
+      },
+      {
+        "bytes": 4538,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/outcomes.py",
+        "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75"
+      },
+      {
+        "bytes": 2239,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/portability.py",
+        "sha256": "a35f84ee5c95fd45cd76aa5f34f7013c8e1c5963a6306b0e4049386515589a44"
+      },
+      {
+        "bytes": 6608,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/privileged.py",
+        "sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4"
+      },
+      {
+        "bytes": 1404,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/propensity.py",
+        "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d"
+      },
+      {
+        "bytes": 6050,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/quantization.py",
+        "sha256": "3382044f61b71a7389f4fee3d9815e902e2fd5ec914dfcd00a9ffa8a2a24d077"
+      },
+      {
+        "bytes": 3968,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/quantization_export.py",
+        "sha256": "b4809feaeff34a9d9419cea7974744249f54d813056856190f9b2ee3d1ab40e0"
+      },
+      {
+        "bytes": 6234,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/research_features.py",
+        "sha256": "58dbbf147b5dddfda1bf31f9f4b48b421869c665cc94cda9d4b9196031fb7fa8"
+      },
+      {
+        "bytes": 4485,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/resources.py",
+        "sha256": "06a624ad963dfc2b0c75ce717278de5f1bb85f48518a99e519b697a371d4cf09"
+      },
+      {
+        "bytes": 4488,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/run_identity.py",
+        "sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76"
+      },
+      {
+        "bytes": 8603,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/sentinel.py",
+        "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec"
+      },
+      {
+        "bytes": 8550,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/sentinel_calibration.py",
+        "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599"
+      },
+      {
+        "bytes": 12064,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/specialist.py",
+        "sha256": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400"
+      },
+      {
+        "bytes": 8647,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/splits.py",
+        "sha256": "b62797867647cc2244349700bdcf3b2e5c44fd2317b80b39a340edbbed77fec4"
+      },
+      {
+        "bytes": 7553,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/spread_aux.py",
+        "sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512"
+      },
+      {
+        "bytes": 2422,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/streaming.py",
+        "sha256": "1ffc590527d751d02ae1b3fac5456638af47f5ed7c10257496e5aae6c886651e"
+      },
+      {
+        "bytes": 9963,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/structured_state.py",
+        "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756"
+      },
+      {
+        "bytes": 11386,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/symreg.py",
+        "sha256": "32ad7e1cebde6e4f4a21b46bf8507c4564b4e758348785aafdfb917b584b1849"
+      },
+      {
+        "bytes": 3511,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/tcn_ref.py",
+        "sha256": "493c77505cef827054e623fd7c23eb13e16c5aa776bad04edeb25e3dae045eaa"
+      },
+      {
+        "bytes": 4946,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/ticks.py",
+        "sha256": "09d97c79b63fc7927f56ac4d0ac6139033bd782c45a29dffbfce6b35a6de7dd8"
+      },
+      {
+        "bytes": 2694,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/training_calibration.py",
+        "sha256": "30923120c1bd9773556556ee0fbbab5d8db4a5f4232c48b81f11fa87a5e74e52"
+      },
+      {
+        "bytes": 10695,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/training_controls.py",
+        "sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39"
+      },
+      {
+        "bytes": 2225,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/training_credit.py",
+        "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd"
+      },
+      {
+        "bytes": 15335,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/training_dynamics.py",
+        "sha256": "7c9d17f705f4589aeb2e67a26e28bb072b88dce86e985cf49345d626bcbc313b"
+      },
+      {
+        "bytes": 7615,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/training_factorized.py",
+        "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2"
+      },
+      {
+        "bytes": 6146,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/training_qat.py",
+        "sha256": "23d866801e0fef753e8af017e582a32900c40d4925c30a3083c128a2014ccf72"
+      },
+      {
+        "bytes": 6540,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/training_sampling.py",
+        "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2"
+      },
+      {
+        "bytes": 8689,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/training_state.py",
+        "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+      },
+      {
+        "bytes": 3065,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/training_views.py",
+        "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142"
+      },
+      {
+        "bytes": 3732,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/twoclock_ref.py",
+        "sha256": "07d351febc2b4a441d74ce1f029bb4059865b507410892a9ad76cfe83983af44"
+      },
+      {
+        "bytes": 4297,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_project/src/wnn/viz.py",
+        "sha256": "bd65d6fd9b362ccf16efbde4b0105e5739cd3def43a00920f0e3a98d4eb241f5"
+      },
+      {
+        "bytes": 1941,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/cohort_terminal_receipt.json",
+        "sha256": "fa28d607187aa5427cc88c8cd97693d4b694db28fcbb3a6fc3d4b03a3654a150"
+      },
+      {
+        "bytes": 1252,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/muon512-profile-argv.json",
+        "sha256": "aeb0ef7f3aa669bb13d276ab51f19f7b9a713c54f8fa9973257625b565a04bdb"
+      },
+      {
+        "bytes": 102,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/muon512-profile-digest-metrics.json",
+        "sha256": "6d5d7a6dfda8eb2441222945cdcaa83cfa3f6b646d38a845239c8c3493c7e59e"
+      },
+      {
+        "bytes": 84,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/muon512-profile-gpu-samples.json",
+        "sha256": "65a13ce46595af91d3969128dcd1efdee536b5860dda8d00e25898907489038e"
+      },
+      {
+        "bytes": 5136,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/muon512-profile.log",
+        "sha256": "4f94e0127675546ac2bfb93ea7d2f4a8e030150bab4ad5a149789a01f9837558"
+      },
+      {
+        "bytes": 1252,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/muon768-profile-argv.json",
+        "sha256": "cd2dac7d9482ded5c8e0738390cf11e9509170a3418c020ffd934e1d0d229ca6"
+      },
+      {
+        "bytes": 102,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/muon768-profile-digest-metrics.json",
+        "sha256": "6d5d7a6dfda8eb2441222945cdcaa83cfa3f6b646d38a845239c8c3493c7e59e"
+      },
+      {
+        "bytes": 84,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/muon768-profile-gpu-samples.json",
+        "sha256": "053ff306b839c65ad02a9404c93b3b2c4a6f539aadaf76a5f833537fabda6889"
+      },
+      {
+        "bytes": 5137,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/muon768-profile.log",
+        "sha256": "3d584ce458b8fa5567fb35269d3d8dae5ee4854b61a74e0f3794e285008e61de"
+      }
+    ],
+    "remote_artifacts": {
+      "extensions": {
+        ".cpp": 1,
+        ".json": 18,
+        ".log": 3,
+        ".md": 1,
+        ".py": 56,
+        ".pyc": 37,
+        ".tar": 1
+      },
+      "model_or_prediction_output_extensions_present": [],
+      "remote_artifact_count": 117,
+      "total_bytes": 4890125
+    },
+    "remote_output_listing_lines": 117
+  },
+  "packet_authority": {
+    "authorization_sha256": "0d87df5ab383e1569ec8c394475fe5a50ee827863bad167011cd30fc09b8144c",
+    "frozen_runtime": [
+      {
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/capacity_worker.py",
+        "sha256": "c4d4d5f4a1e18107a4c3e4f0c7b9b38ae0ec8caa83d1fca24167274f8a988390"
+      },
+      {
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/source/source_archive.tar",
+        "sha256": "a38899dc8a51231936f32c43b6ae56b3e6e6fffde647116337adf603bd709a02"
+      },
+      {
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/source/source_archive_manifest.json",
+        "sha256": "ae5222c925aad41079846fb26367ca8cc3a812a428e4a6995a3dfad419495631"
+      },
+      {
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_packet/GRU512_768_MUON_PROFILE_RECIPE_V4.json",
+        "sha256": "8ee3e380def33bf1e180b44e1c707555b822b5a4560b3cfde03ae5daeb7331b3"
+      }
+    ],
+    "one_push_authorization": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/GRU_CAPACITY_V4_SHORTSLUG_ROOT_ONE_PUSH_AUTHORIZATION_20261008_R1.json",
+      "sha256": "8e5f4336415f4cd90cc50831782d5ed6ee7da2745a0eb3886ad671b09cbf4322"
+    },
+    "packet_id": "E529_H232_GRU512_768_MUON_SEED9_PROFILE_V4_20261008",
+    "profile_only_embedded_authorization": {
+      "conditional_fit_authorized": false,
+      "fit_arm_ids": [],
+      "selected_batch": null,
+      "status": "approved_profile_only_conditional_on_fresh_quota_and_one_push_review"
+    },
+    "profile_source_review": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/reviews/GRU_CAPACITY_V4_ROOT_SOURCE_REVIEW_20261008_R1.json",
+      "sha256": "27d2807104b62337a5d4e5dddad6a65240f3a075b5b21684e03635d806ae5c7f"
+    },
+    "recipe_sha256": "8ee3e380def33bf1e180b44e1c707555b822b5a4560b3cfde03ae5daeb7331b3",
+    "source_archive_sha256": "a38899dc8a51231936f32c43b6ae56b3e6e6fffde647116337adf603bd709a02",
+    "source_manifest_sha256": "ae5222c925aad41079846fb26367ca8cc3a812a428e4a6995a3dfad419495631"
+  },
+  "profile_only_evidence": {
+    "arms": {
+      "muon512": {
+        "argv_receipt": {
+          "argv": [
+            "--name",
+            "bd26_gru512_full_s9_f0_muon_seeded_b8_amp4096_capacityv4manifestprofile_20261008",
+            "--device",
+            "cuda",
+            "--arch",
+            "gru",
+            "--cell",
+            "gru",
+            "--enc",
+            "linear",
+            "--hidden",
+            "512",
+            "--layers",
+            "2",
+            "--dropout",
+            "0",
+            "--seed",
+            "9",
+            "--loss",
+            "wmse",
+            "--loss-norm",
+            "chunk",
+            "--train-source",
+            "train+valid",
+            "--train-seqs",
+            "10607",
+            "--split-manifest",
+            "/kaggle/working/gru512_768_muon_capacity_v4_manifest_profile_project/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+            "--valid-fold",
+            "0",
+            "--epochs",
+            "4",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "3",
+            "--no-eval-during-fit",
+            "--batch",
+            "8",
+            "--batch-order",
+            "seeded",
+            "--chunk",
+            "2000",
+            "--lr",
+            "0.001",
+            "--wd",
+            "0.01",
+            "--optim",
+            "muon",
+            "--muon-scope",
+            "rnn",
+            "--sched",
+            "onecycle",
+            "--precision",
+            "fp16",
+            "--amp-init-scale",
+            "4096.0",
+            "--profile-warmup",
+            "3",
+            "--profile-steps",
+            "20",
+            "--muon-ortho-dtype-policy",
+            "native_bf16_if_supported_else_fp32_v1"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/muon512-profile-argv.json",
+          "sha256": "aeb0ef7f3aa669bb13d276ab51f19f7b9a713c54f8fa9973257625b565a04bdb"
+        },
+        "gpu_samples": {
+          "gpu_min_free_mb": 13873,
+          "gpu_peak_used_mb": 1039,
+          "gpu_total_mb": 15360
+        },
+        "optimizer_precision": {
+          "groups": [
+            {
+              "device_capability": [
+                7,
+                5
+              ],
+              "device_type": "cuda",
+              "native_bf16_selected": false,
+              "policy": "native_bf16_if_supported_else_fp32_v1",
+              "selected_dtype": "float32",
+              "torch_cuda_bf16_supported": true
+            }
+          ],
+          "policy": "native_bf16_if_supported_else_fp32_v1"
+        },
+        "posthoc_nested_policy_check": {
+          "all_group_device_capability_matches": true,
+          "all_group_native_bf16_selection_matches": true,
+          "all_group_policy_matches": true,
+          "all_group_reports_cuda_bf16_support": true,
+          "all_group_selected_dtype_matches": true,
+          "expected_dtype_by_frozen_policy": "float32",
+          "top_level_selected_dtype_present": false
+        },
+        "profile": {
+          "backward": 645.82,
+          "forward": 438.15,
+          "gpu_total": 1250.56,
+          "h2d": 16.21,
+          "inputs": 7.64,
+          "labels": 0.0,
+          "loader_wait": 0.0,
+          "loss": 0.5,
+          "optimizer": 139.66,
+          "seq_per_s": 4.34,
+          "step_wall": 1845.01,
+          "syncs_per_step": 10.05,
+          "weights": 0.01
+        },
+        "profile_args_summary": {
+          "amp_init_scale": 4096.0,
+          "batch": 8,
+          "batch_order": "seeded",
+          "checkpoint_epoch": 3,
+          "checkpoint_policy": "fixed",
+          "chunk": 2000,
+          "epochs_argument": 4,
+          "hidden": 512,
+          "layers": 2,
+          "loss": "wmse",
+          "loss_norm": "chunk",
+          "max_outer_batches": 23,
+          "optimizer": "muon",
+          "precision": "fp16",
+          "profile_timed_outer_batches": 20,
+          "profile_warmup_outer_batches": 3,
+          "seed": 9,
+          "train_seqs_arg": 10607,
+          "train_source": "train+valid"
+        },
+        "profile_log": {
+          "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/muon512-profile.log",
+          "sha256": "4f94e0127675546ac2bfb93ea7d2f4a8e030150bab4ad5a149789a01f9837558"
+        },
+        "sequence_counts": {
+          "eligible_valid_train_sequences": 1405,
+          "eval_sequences": 468,
+          "source_train_sequences": 10535,
+          "used_valid_train_sequences": 1405
+        },
+        "update_evidence": {
+          "amp_skipped_updates": 0,
+          "counts_consistent": true,
+          "grad_scaler_enabled": true,
+          "gradient_check_basis": "GradScaler found-inf flags after unscale, before optimizer step",
+          "gradient_finite": true,
+          "gradient_stats_nonfinite_steps": null,
+          "gradient_stats_steps": null,
+          "loss_checks": 230,
+          "loss_finite": true,
+          "optimizer_attempts": 230,
+          "optimizer_completed_updates": 230,
+          "valid_for_throughput": true
+        }
+      },
+      "muon768": {
+        "argv_receipt": {
+          "argv": [
+            "--name",
+            "bd26_gru768_full_s9_f0_muon_seeded_b8_amp4096_capacityv4manifestprofile_20261008",
+            "--device",
+            "cuda",
+            "--arch",
+            "gru",
+            "--cell",
+            "gru",
+            "--enc",
+            "linear",
+            "--hidden",
+            "768",
+            "--layers",
+            "2",
+            "--dropout",
+            "0",
+            "--seed",
+            "9",
+            "--loss",
+            "wmse",
+            "--loss-norm",
+            "chunk",
+            "--train-source",
+            "train+valid",
+            "--train-seqs",
+            "10607",
+            "--split-manifest",
+            "/kaggle/working/gru512_768_muon_capacity_v4_manifest_profile_project/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+            "--valid-fold",
+            "0",
+            "--epochs",
+            "4",
+            "--checkpoint-policy",
+            "fixed",
+            "--checkpoint-epoch",
+            "3",
+            "--no-eval-during-fit",
+            "--batch",
+            "8",
+            "--batch-order",
+            "seeded",
+            "--chunk",
+            "2000",
+            "--lr",
+            "0.001",
+            "--wd",
+            "0.01",
+            "--optim",
+            "muon",
+            "--muon-scope",
+            "rnn",
+            "--sched",
+            "onecycle",
+            "--precision",
+            "fp16",
+            "--amp-init-scale",
+            "4096.0",
+            "--profile-warmup",
+            "3",
+            "--profile-steps",
+            "20",
+            "--muon-ortho-dtype-policy",
+            "native_bf16_if_supported_else_fp32_v1"
+          ],
+          "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/muon768-profile-argv.json",
+          "sha256": "cd2dac7d9482ded5c8e0738390cf11e9509170a3418c020ffd934e1d0d229ca6"
+        },
+        "gpu_samples": {
+          "gpu_min_free_mb": 13249,
+          "gpu_peak_used_mb": 1663,
+          "gpu_total_mb": 15360
+        },
+        "optimizer_precision": {
+          "groups": [
+            {
+              "device_capability": [
+                7,
+                5
+              ],
+              "device_type": "cuda",
+              "native_bf16_selected": false,
+              "policy": "native_bf16_if_supported_else_fp32_v1",
+              "selected_dtype": "float32",
+              "torch_cuda_bf16_supported": true
+            }
+          ],
+          "policy": "native_bf16_if_supported_else_fp32_v1"
+        },
+        "posthoc_nested_policy_check": {
+          "all_group_device_capability_matches": true,
+          "all_group_native_bf16_selection_matches": true,
+          "all_group_policy_matches": true,
+          "all_group_reports_cuda_bf16_support": true,
+          "all_group_selected_dtype_matches": true,
+          "expected_dtype_by_frozen_policy": "float32",
+          "top_level_selected_dtype_present": false
+        },
+        "profile": {
+          "backward": 1096.49,
+          "forward": 1007.41,
+          "gpu_total": 2651.94,
+          "h2d": 16.43,
+          "inputs": 7.66,
+          "labels": 0.0,
+          "loader_wait": 0.0,
+          "loss": 0.75,
+          "optimizer": 523.4,
+          "seq_per_s": 2.8,
+          "step_wall": 2861.57,
+          "syncs_per_step": 10.05,
+          "weights": 0.01
+        },
+        "profile_args_summary": {
+          "amp_init_scale": 4096.0,
+          "batch": 8,
+          "batch_order": "seeded",
+          "checkpoint_epoch": 3,
+          "checkpoint_policy": "fixed",
+          "chunk": 2000,
+          "epochs_argument": 4,
+          "hidden": 768,
+          "layers": 2,
+          "loss": "wmse",
+          "loss_norm": "chunk",
+          "max_outer_batches": 23,
+          "optimizer": "muon",
+          "precision": "fp16",
+          "profile_timed_outer_batches": 20,
+          "profile_warmup_outer_batches": 3,
+          "seed": 9,
+          "train_seqs_arg": 10607,
+          "train_source": "train+valid"
+        },
+        "profile_log": {
+          "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru512_768_muon_capacity_v4_manifest_profile_receipts/muon768-profile.log",
+          "sha256": "3d584ce458b8fa5567fb35269d3d8dae5ee4854b61a74e0f3794e285008e61de"
+        },
+        "sequence_counts": {
+          "eligible_valid_train_sequences": 1405,
+          "eval_sequences": 468,
+          "source_train_sequences": 10535,
+          "used_valid_train_sequences": 1405
+        },
+        "update_evidence": {
+          "amp_skipped_updates": 0,
+          "counts_consistent": true,
+          "grad_scaler_enabled": true,
+          "gradient_check_basis": "GradScaler found-inf flags after unscale, before optimizer step",
+          "gradient_finite": true,
+          "gradient_stats_nonfinite_steps": null,
+          "gradient_stats_steps": null,
+          "loss_checks": 230,
+          "loss_finite": true,
+          "optimizer_attempts": 230,
+          "optimizer_completed_updates": 230,
+          "valid_for_throughput": true
+        }
+      }
+    },
+    "common_shape": {
+      "architecture": "2-layer GRU",
+      "batch": 8,
+      "chunk_rows": 2000,
+      "eligible_valid_train_sequences": 1405,
+      "heldout_eval_sequences": 468,
+      "loader_workers": 0,
+      "split_train_sequences": 10535,
+      "train_sequences_argument": 10607,
+      "used_valid_train_sequences": 1405,
+      "worker_projected_training_sequence_count": 11940
+    },
+    "measurement_unit": "PROFILE.step_wall is median milliseconds per outer sequence batch (batch=8); each outer batch performs 10 optimizer updates because sequence length 20,000 / chunk 2,000. It is not milliseconds per optimizer update.",
+    "nested_precision_policy_posthoc_check": {
+      "consumer_mismatch": "capacity_worker._validate_precision_policy reads metadata.get(\"selected_dtype\") at the top level before validating groups[].",
+      "frozen_worker_expected_dtype_rule": "float32 on T4 compute capability 7.5; native BF16 is selected only when capability major >= 8 and the group reports BF16 support.",
+      "posthoc_consistency": "Both arms report policy native_bf16_if_supported_else_fp32_v1; group capability [7,5]; torch_cuda_bf16_supported=true; native_bf16_selected=false; selected_dtype=float32. These nested records match the declared T4 policy.",
+      "producer_schema": "OPTIMIZER_COMPUTE_PRECISION emits selected_dtype only in each groups[] entry; no top-level selected_dtype is present.",
+      "review_limit": "This is a deterministic source/receipt consistency check. It does not change the frozen worker or independently approve a successor."
+    },
+    "profile_schedule": {
+      "optimizer_attempts_per_arm": 230,
+      "timed_outer_batches": 20,
+      "total_outer_batches": 23,
+      "updates_per_outer_batch": 10,
+      "warmup_outer_batches": 3
+    }
+  },
+  "provider": {
+    "canonical_kernel": "vladkochetov07/gru-capacity-v4-manifest-profile-20261008",
+    "captured_cli_exit_codes": {
+      "forced_output_download": 0,
+      "initial_output_download": 0,
+      "logs": 0,
+      "status": 0
+    },
+    "local_cli_captures": [
+      {
+        "bytes": 95,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/provider_status.stdout.txt",
+        "sha256": "baca5be47f268c0d1999452a3917d9bf34a7e33a47c2685f4c7e77e7c8ca6f12"
+      },
+      {
+        "bytes": 0,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/provider_status.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 5644,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/provider_logs.stdout.txt",
+        "sha256": "c94a0fd5c2b7aa5f0a1409cc0c9b336a79d67b3e4648c7871d3a1009ac0c6fe4"
+      },
+      {
+        "bytes": 0,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/provider_logs.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 12344,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/provider_output_download.stdout.txt",
+        "sha256": "2c414be7ede98d6f58fe3a0e9349615a0a5b29e8bce3e2d17428103072d8cc50"
+      },
+      {
+        "bytes": 0,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/provider_output_download.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 27035,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/provider_output_force_download.stdout.txt",
+        "sha256": "6dbd45fb38a6fd34d4b3c214445645160de0085d791580174278c1a12754a700"
+      },
+      {
+        "bytes": 0,
+        "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/provider_output_force_download.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "provider_status": "KernelWorkerStatus.ERROR",
+    "status_capture": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/provider_status.stdout.txt",
+    "terminal_log": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/gru_capacity_v4_terminal_collect_20261008_R1/gru-capacity-v4-manifest-profile-20261008.log",
+    "terminal_worker_seconds": 175.16634030100022
+  },
+  "purpose": "Immutable terminal output inventory and posthoc evidence request for the V4 profile-only cohort.",
+  "report_id": "GRU_CAPACITY_V4_TERMINAL_COLLECTION_POSTHOC_REVIEW_REQUEST_20261008_R1",
+  "requested_independent_review": [
+    "Confirm the archived producer/consumer schema diagnosis against the exact source and profile output hashes.",
+    "Confirm both posthoc nested per-group precision records satisfy the declared T4 device policy and the 230-update/finite profile gates.",
+    "Confirm terminal-state correction from the ERROR provider status and terminal failure log while preserving the original receipt.",
+    "Decide a separate successor/fitting admission; this V4 profile-only authorization does not grant fit authority."
+  ],
+  "review_state": "prepared_for_independent_root_posthoc_review",
+  "schema_version": 1,
+  "terminal_outcome": {
+    "exact_exception": "ValueError: Muon resolved dtype disagrees with the current device policy",
+    "failure_stage": "After both B8 Muon profiles completed and passed their strict profile-update gates, while evaluating common-batch optimizer precision metadata; before fitting and before the profile-only early return.",
+    "fit_started": false,
+    "provider_and_phase_evidence_status": "terminal error; provider status and phase log report failure",
+    "receipt_status_correction": "The frozen worker except block calls outcome.setdefault(\"status\", \"worker_error\"). Because outcome already contains \"starting\", the downloaded terminal receipt retains \"starting\". Preserve it unchanged; interpret terminal state from provider status plus GRU_CAPACITY_PHASE terminal=fail and the traceback.",
+    "scientific_result": "No full fit, checkpoint, predictions, or score. This is profile evidence and a consumer metadata-shape failure, not a scientific negative.",
+    "traceback_tail": [
+      "capacity_worker.py:1679 _evaluate_batch_profiles(profiles, arms_at_batch, hardware)",
+      "capacity_worker.py:1469 _validate_precision_policy(arm, profiles[str(arm[\"id\"])], hardware)",
+      "capacity_worker.py:858-859 metadata.get(\"selected_dtype\") != expected_dtype -> ValueError"
+    ],
+    "worker_receipt_error_type": "ValueError",
+    "worker_receipt_status": "starting"
+  }
+}
