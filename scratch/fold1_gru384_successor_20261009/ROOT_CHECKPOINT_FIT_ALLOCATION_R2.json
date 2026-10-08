@@ -1,0 +1,28 @@
+{
+  "status": "conditional_exact_successor_authorized",
+  "owner": "root",
+  "operator": "/root/independent_grader_packager",
+  "basis_plan_sha256": "79dd4fafdef7e302f505bc1e7d8782baadb0c159e15043eba1b592b5494bd8f4",
+  "profile_attempt": "fold1-gru384-b16-profile-r1",
+  "profile_result": {"status": "passed", "wall_seconds": 20.17, "completed_updates": 100, "skipped_updates": 0, "ram_peak_bytes": 4099588096, "observed_vram_peak_bytes": 2610954240, "oom_events": 0},
+  "fit_commands": "Plan sequence indices1and2, in order, each with --save-training-state appended. Preserve all scientific settings and source pins; bind new exact command hashes before dispatch.",
+  "recipe_change": "Saving resumable optimizer/scheduler/scaler/RNG state is an output-policy successor, not a changed objective, optimizer schedule or data membership. Explicitly record it in provenance and retain the original packet.",
+  "maximum_fits": 2,
+  "cpu_cores": 2,
+  "memory_max_bytes": 9000000000,
+  "observed_total_vram_max_bytes": 5000000000,
+  "swap_bytes": 0,
+  "exclusive_gpu": true,
+  "runtime_seconds_per_fit": 7200,
+  "aggregate_fit_runtime_seconds": 14400,
+  "disk_allocation": {
+    "observed_free_bytes": 6910541824,
+    "maximum_new_bytes_per_fit": 500000000,
+    "minimum_free_bytes_before_each_fit": 2000000000,
+    "fit_count": 2,
+    "large_predictions_or_cache_exports": false,
+    "reason_for_specific_successor": "The earlier10GBfloor was a blanket preparation reserve. The measured read-mostly profile passed. These two checkpoint-only fits need at most1GB total and can run within currently available6.9GB. The10.8GB prediction/cache stage remains deferred; do not delete unrelated work or old evidence."
+  },
+  "admission_conditions": ["profile terminal source/resource/finite-update pass rechecked", "exact current source hashes unchanged", "new command hashes and finite queue persisted before launch", "output paths absent", "current free disk meets explicit per-fit bound", "seed4 starts only after seed3 terminal output/provenance validation"],
+  "delivery": "Use existing durable guarded sequence/queue, no new scheduler. Checkpoint/provenance/update diagnostics and actual terminal/resource receipts are required. No score or held-out quality claim from fitting alone."
+}

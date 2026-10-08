@@ -1,0 +1,24 @@
+{
+  "status": "admitted_profile_only",
+  "owner": "root",
+  "result_owner": "/root/independent_grader_packager",
+  "plan_sha256": "79dd4fafdef7e302f505bc1e7d8782baadb0c159e15043eba1b592b5494bd8f4",
+  "audit_sha256": "4b2b897f62be0dd75091938ae798dfb19e54b4f732fb85820739334c2bc759cc",
+  "attempt_id": "fold1-gru384-b16-profile-r1",
+  "admitted_sequence_indices": [0],
+  "cpu_cores": 2,
+  "memory_max_bytes": 9000000000,
+  "observed_total_vram_max_bytes": 5000000000,
+  "runtime_max_seconds": 600,
+  "swap_bytes": 0,
+  "exclusive_gpu": true,
+  "large_exports_and_fits_admitted": false,
+  "root_review": "Exact source pins, fold1 exclusion and current-source compatibility audited; command keeps historical batch16/chunk2000/GRU384/AdamW/FP16 shape. Repeated identical profile flags are harmless argparse duplicates. Verify current pins and unique absent output before launch; collect finite-update timing and actual resource/exit receipts.",
+  "profile_disk_exception": {
+    "basis": "Other disk activity reduced free space below the checkpoint/export10GBreserve. This bounded profile returns before checkpoint/prediction creation and writes only small receipts/logs.",
+    "maximum_new_output_bytes": 16000000,
+    "minimum_free_bytes_at_launch": 1000000000,
+    "scope": "This exact read-mostly600sprofile only; full fits and exports retain separate disk admission. Do not terminate or delete unrelated work."
+  },
+  "acceptance": ["no OOM/kill/timeout", "finite completed updates", "measured memory and observed VRAM remain within caps", "unchanged fold1/source identities", "no score claim or checkpoint export"]
+}

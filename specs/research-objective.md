@@ -14,6 +14,6 @@ Requirements:
 - Separate competition rules from submission engineering limits. Data/weight provenance and official evaluation rules remain binding. During research, model size, architecture, context, precision, ensemble size and inference cost may exceed the final submission envelope; test whether the resulting signal can become a compliant student or blend.
 - State evaluation exposure and uncertainty. Local deltas are not public-score forecasts; different agents or repartitioning do not create fresh data.
 - Preserve all original notes, source snapshots, failed attempts, plots and results. New summaries must link evidence, not replace it.
-- Honor current user resource, provider and model constraints. All native subagents currently use gpt-6-luna with max reasoning under ADR0026; the user withdrew premium-agent exceptions. Record actual external model access and fallbacks honestly.
+- Honor current user resource, provider and model constraints. The latest user authorizes one gpt-6.1-sol/medium research and implementation lead under ADR0028; two execution/verification roles remain gpt-6-luna/max. No Astra task is currently authorized. Record actual external model access and fallbacks honestly.
 
 Research is authorized to run autonomously within the recorded allocation. Diagnose failures and prepare corrected attempts without repeatedly asking the user for routine implementation choices. An explicit stop closes new admission and drains healthy jobs; an explicit resume supersedes that stop while preserving its record.
