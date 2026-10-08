@@ -1,0 +1,68 @@
+{
+  "schema": "wnn.h233-readout-grader-independent-source-review.v1",
+  "record_id": "H233_READOUTS_GRADER_SOURCE_REVIEW_20261008_R1",
+  "reviewer_role": "independent_source_critic",
+  "review_scope": "source-only; no candidate or parent prediction arrays, fit outputs, or grade results read",
+  "verdict": "pass_with_root_parent_sidecar_admission_check",
+  "reviewed_artifacts": {
+    "grader": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/grade_h233_readouts.py",
+      "sha256": "c084c12ea7ad3c9af3725a532c1aad3fd76e50a015b02931e2216cea53f7e19e"
+    },
+    "preregistration": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/H233_FIXED_EP1_COMPARISON_PREREG_20261008_R1.json",
+      "sha256": "e59c74763f764b3b57893d8873ae64ea687d57c9c1579b5ad3450c8e0d0f1b5a"
+    },
+    "recipe": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/recipes/H233_C1S3_CONDITIONAL_READOUT_V2.json",
+      "sha256": "a97bf67c68e2988044778f39254122683ef37899dd4384cc6e3571240c373022"
+    },
+    "focused_tests": [
+      {
+        "path": "tests/test_h233_readout_grade.py",
+        "sha256": "97538089a7c8d12d2542d3bad2e55d6e2a075258609a26949131d027b013ee7c"
+      },
+      {
+        "path": "tests/test_e540_fixed_pair_grade.py",
+        "sha256": "19bb59752dbfaa6f9aa8cf8eb3cd62d1af8791f0c888954f7b6035d15e8f9053"
+      }
+    ],
+    "scoring_helpers": [
+      {
+        "path": "research/campaign_2026-10-06/bandit_continuation/numerical_embedding_E540/grade_fixed_embedding_pair.py",
+        "sha256": "64d547a9f4f7861f5c104ebc95b6d9f8315f4d51554e092ec6cfd5076ccc5376"
+      },
+      {
+        "path": "research/campaign_2026-10-06/bandit_continuation/attention_training_H218/grade_fold0_reference_blends.py",
+        "sha256": "88034869363f8475d8030f932e7bc24af0850241e3511d276b03ce7a53e5a4bd"
+      },
+      {
+        "path": "research/campaign_2026-09-30/audit/campaign_score.py",
+        "sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39"
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      }
+    ]
+  },
+  "checks": {
+    "fit_membership": "PASS: exact source-qualified provenance sets and connected-component separation are required by the frozen-split helper",
+    "fit_development_mask": "PASS: the 1,405 valid fit-development rows must have zero selected score rows; the selected mask is exact for the 468 excluded groups after warmup",
+    "candidate_full_export_alignment": "PASS: candidate row order must equal the frozen 1,873-row valid target order, with source-qualified actual-position joins",
+    "row_reordering_and_duplicates": "PASS: synthetic tests exercise different physical orders and duplicate rejection",
+    "official_metric_and_raw_blend": "PASS: shared E540 score_pair mixes raw members before official clipping; synthetic direct-metric test rejects premature member clipping",
+    "predeclared_comparisons": "PASS: all four modes and every preregistered parent weight are emitted without weight/epoch selection or public forecast",
+    "parent_precision_limit": "PASS_WITH_LIMIT: primary readout comparisons share the same trunk path; parent comparisons rely on the declared <=1e-3 anchor parity gate and are not bitwise precision matched",
+    "parent_sidecar_source_and_extent": "ROOT_ADMISSION_CHECK: scorer hashes the sidecar and fixed prediction, but source code does not itself require sidecar split=valid or a full 1,873-row parent group set; root must verify those semantics from the exact admitted sidecar before grading"
+  },
+  "validation": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 scripts/limited .venv/bin/python -m pytest -q tests/test_h233_readout_grade.py tests/test_e540_fixed_pair_grade.py",
+    "result": "9 passed in 0.27s",
+    "ruff": "passed for grader, tests, and imported scoring helpers",
+    "resource_limit": "1 CPU, 1.5 GB memory, 120 seconds",
+    "candidate_artifact_reads": false,
+    "fit_or_scoring_performed": false
+  },
+  "claim_boundary": "Supports source-level review of mask, fit membership, alignment, official blend/scoring, bootstrap, and preregistration only. Root retains actual terminal artifact admission and candidate grading."
+}
