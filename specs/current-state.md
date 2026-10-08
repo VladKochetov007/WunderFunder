@@ -1,3 +1,11 @@
+# Live continuation — 2026-10-08 20:41 UTC
+
+All three active subordinate roles now use Luna/max; Sol was stopped and its context transferred under [ADR0026](adr/0026-luna-only-unattended-execution.md). The user's durable background experiment manager is being implemented against the existing guarded queue. No new premium agent authorization remains.
+
+Exact Z3 fold0 is delivered and independently graded: candidate0.68163518 versus matched control0.68188725; delta−0.00025207, component-bootstrap95%[−0.00270357,+0.00151632],468groups/141components. This is nearly flat/slightly negative on an exposed fold, with no expected-public-best promotion; the family remains eligible. [Independent grade](../reports/Z3_EXACT_FOLD0_INDEPENDENT_GRADE_R1.json). Public best remains0.6660; no supported forecast above Maxim's reported0.6674.
+
+Local v3 continues the existing faithful student queue. Kaggle smoke3 completed its bootstrap and saw both T4s, but both fit children failed before updates: portable input manifest environment was omitted and unchanged mounted bytes failed an mtime check. Operator owns a separately identified repair; no scientific result from smoke3. TPUv6 failed inventory validation before device work; v7 is prepared for independent review. Vast still has zero proven live workers; final signed-input capacity staging and fresh-offer admission remain root-owned. Local caps and paid limits are unchanged.
+
 # Live continuation — 2026-10-08 20:07 UTC
 
 Z1c and Z2c are technically validated exploratory packages; [release index](../research/campaign_2026-10-06/bandit_continuation/controller_claude_20261008/Z1_Z2_ROOT_RELEASE_INDEX_R1.json) binds ZIPs and receipts. Independent H230 seed3 finished endpoint WP0.6823084607 versus matched control0.6820687897, delta+0.0002396710, component-bootstrap95%[-0.00102396,+0.00124500] on exposed468groups/141components. No public forecast or new expected best. This is not exactZ3.

@@ -2,6 +2,8 @@
 
 Status: accepted, 2026-10-08. Basis: user's explicit continuation implementation plan and conduct-creative-research invocation.
 
+Model exception superseded by [ADR0026](0026-luna-only-unattended-execution.md): the user withdrew premium-agent authorization; the Sol lead was stopped and its context transferred to Luna/max. Other experiment, resource and delivery requirements below remain binding.
+
 The user authorizes one `gpt-6.1-sol` continuation lead at medium reasoning. Root retains admission, spending and synthesis; independent grader/packager and scoped builder use `gpt-6-luna` at max. Subsequent cost guidance reinforces Luna/max as the usual default. The available provider route does not name a separate Luna6.1 model. No additional Sol/Astra role is authorized by this exception.
 
 The lead owes evaluated artifacts and submission delivery, including recovery, rather than source preparation alone. Isolated writer scopes and one serialized bounded support process protect the healthy local queue under five CPU cores, 20GB RAM and 5GB observed VRAM. Existing local v3 source is not hot-patched. Fixes are reviewed and applied through identified successors.
