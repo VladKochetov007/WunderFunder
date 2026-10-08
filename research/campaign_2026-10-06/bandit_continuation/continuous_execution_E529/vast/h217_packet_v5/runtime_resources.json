@@ -1,0 +1,50 @@
+{
+  "arrow_cpu_threads_per_process": 1,
+  "arrow_io_threads_per_process": 1,
+  "cohort_accounting": {
+    "fit_and_valid_export_seconds": 18000,
+    "phase_sum_seconds": 19800,
+    "profile_seconds": 1800,
+    "setup_reserve_seconds": 450,
+    "terminal_packaging_reserve_seconds": 600,
+    "unallocated_worker_headroom_seconds": 750
+  },
+  "cohort_max_runtime_seconds": 21600,
+  "cpu_threads": 6,
+  "cuda_allocator_max_bytes": 18000000000,
+  "expected_outer_batch_ms_from_a3d_tcn_b8": 134.61,
+  "historical_timing_not_v5_admission": {
+    "admits_v5_fit": false,
+    "fit_elapsed_seconds": 823.9716792257968,
+    "paired_factor": false,
+    "quality_graded": false,
+    "source": "A3 raw-only TCN128x12 fixed-epoch3 fit on an RTX 3090",
+    "use": "Exposed historical reference only. Each V5 full-feature arm needs its own measured profile."
+  },
+  "fit_timeout_seconds": 7200,
+  "incoming_runtime_policy": {
+    "accepted_values": "Positive integer seconds from the actual supervisor admission, up to and including the reviewed cohort maximum.",
+    "insufficient_time": "Record explicit per-arm deferred status when the profile-projected fit plus valid-export budget cannot fit; retain per-phase caps and never report a fit that did not run.",
+    "maximum_seconds": 21600,
+    "phase_deadline": "Worker start plus actual incoming runtime minus setup_timeout_seconds and terminal_packaging_reserve_seconds."
+  },
+  "loader_rationale": "Retains reviewed cloud caps. Fresh root admission is required. Raw-only A3 timing does not admit either full-feature arm.",
+  "loader_workers": 3,
+  "observed_total_vram_max_bytes": 19000000000,
+  "profile_timeout_seconds": 900,
+  "schema_version": 1,
+  "pending_root_review": {
+    "fit_authorized": false,
+    "grade_authorized": false,
+    "profile_authorized": false,
+    "provider_create_authorized": false,
+    "push_authorized": false,
+    "status": "pending_root_review"
+  },
+  "scope": "H217 V5 resource contract for two scratch full-feature TCNs. Phase ceilings match the reviewed cohort. A positive supervisor runtime no greater than 21600 seconds is accepted. Each fit waits for that arm's measured profile.",
+  "setup_timeout_seconds": 450,
+  "terminal_packaging_reserve_seconds": 600,
+  "timing_contract": "PROFILE.step_wall is per outer DataLoader batch and includes all internal windows/chunks; never multiply by ceil(20000/2000).",
+  "valid_export_timeout_seconds": 1800,
+  "worker_memory_max_bytes": 28000000000
+}
