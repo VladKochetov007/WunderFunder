@@ -197,6 +197,13 @@ def local(now: float) -> dict[str, object]:
     )
     for path in attempt_paths:
         value = read_json(path)
+        if "exit_status" in value:
+            value["exit_code"] = value["exit_status"]
+        for field in ("finished", "heartbeat", "created"):
+            if value.get(f"{field}_utc"):
+                value[f"{field}_unix"] = datetime.fromisoformat(
+                    str(value[f"{field}_utc"])
+                ).timestamp()
         state = value.get("status")
         terminal = state in {"finished", "failed", "lost", "cancelled"}
         if terminal and value.get("exit_code") == 0:
@@ -232,7 +239,10 @@ def local(now: float) -> dict[str, object]:
         entry["path"] = str(path.relative_to(ROOT))
         if not terminal:
             entry["heartbeat_age_seconds"] = now - float(
-                value.get("heartbeat_unix", value.get("reserved_unix", now))
+                value.get(
+                    "heartbeat_unix",
+                    value.get("reserved_unix", value.get("created_unix", now)),
+                )
             )
             if value.get("unit"):
                 entry["service"] = command(
