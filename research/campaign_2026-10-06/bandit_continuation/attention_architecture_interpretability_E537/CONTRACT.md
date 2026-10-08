@@ -1,0 +1,19 @@
+# E537 independent architecture and interpretation reframing
+
+Scope: root Wunder Connectome Challenge 2 only. Date: 2026-10-08. Owner: native ideator task `attention_quant_reframe_e537`; controller/root retains experiment allocation and admission. This is a proposal/source-review assignment, with no fitting or provider operations.
+
+The latest assignment explicitly requests Astra/xhigh ideation and later Luna/max implementation, superseding the older generic no-Astra preference for this task. Requested route: `gpt-6-astra`, xhigh, native Codex collaboration. Runtime model version is not independently introspectable here; root must bind its spawn receipt. No external-model CLI has been invoked.
+
+Objective mode is competition: improve long-term expected performance through independently trained models and complementary teachers. Current public best 0.6660 and teammate 0.6674 are context supplied by root; the latter is unreplicated. Neither a forecast nor a quality ceiling follows. The successful teammate reference is heterogeneous recurrent-teacher distillation, with no established Transformer teacher.
+
+Budget: 45 minutes of ideation; at most 1 CPU, 1.5 decimal GB for bounded local support; no GPU/TPU use, model fits, paid provider operations, secrets or edits in main. Isolated worktree is `/home/vlad/development/wunder/worktrees/wnn-attention-architecture-interpretability-E537`, branch `research/attention-architecture-interpretability-E537`, starting commit `39f34623e5326bd42a09eeaae043ec723dd3c0e9`. Initial resource observation: parent slice 12 CPU quota, 16.05 GB resident/accounted memory against 20 GB maximum; GPU 2,077 MiB and 1% utilization. This is not capacity admission. Live provider quota checks are outside this read-only assignment and remain root's responsibility before fits.
+
+Deliverables: committed independent proposals, primary-source review, explicit duplicate/difference map, three Luna-ready implementation/test handoffs, and machine-readable hypothesis cards with null numerical priors. Initial proposals must be committed before reading other cards or the scientific tree. The mandatory frontier scientific-content inspection is deliberately deferred until that commitment to preserve the assigned context boundary. Only entry specifications, metric implementation, role/ADR rules and root's decisive observations are initially admitted.
+
+Verification tier now is C: source-grounded proposals and derivations; no empirical performance claims. Later local screens are exploratory empirical tier B conditional on exposed/unknown evaluation membership, and cannot establish public transfer. All local partitions already inspected retain their exposure.
+
+Binding invariants: official `global_wp_clip2_v1`; both label and prediction clipped to ±2, weight the original clipped label magnitude, fixed scored mask, mean of two separately pooled target correlations. Causal streaming state and reset; no full-sequence normalization of a prefix prediction; permitted supplied data only; own model/teacher weights; independently written code. Training-target treatment is a separate variable. Research teachers may exceed serving limits with declared compression/student paths.
+
+No score priors or independent experimental results are invented. Hardware/time figures in proposals are requested screen ceilings or analytic scaling estimates, never measured runtimes. Confidence intervals spanning zero do not universally close an arm. A failed resource guard is execution evidence. Root chooses the next admitted test and assigns an actor through checkpoints, predictions and independent grading.
+
+Skills read/applied: `conduct-creative-research`, its `empirical-validation` reference, `research-reframe`, and root-specific `wnn-connectome-top1`; latest user scope controls historical defaults. No skill approval gate is introduced. No further agents are spawned.
