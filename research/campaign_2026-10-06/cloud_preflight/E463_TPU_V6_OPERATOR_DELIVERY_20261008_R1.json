@@ -1,0 +1,152 @@
+{
+  "authorization": {
+    "path": "E463_TPU_V6_ROOT_ONE_PUSH_AUTHORIZATION_20261008_R1.json",
+    "sha256": "4aa5422e39adf313245f46b4954b813b4ccfcb1665c8df1bbec578c5c65316c7",
+    "status": "approved_conditional_one_push"
+  },
+  "input_readiness": {
+    "fold_assets_dataset": {
+      "id": "vladkochetov07/wnn-c20261004-fold0-assets",
+      "manifest": {
+        "bytes": 6268,
+        "name": "assets-manifest.json",
+        "remote_download_verified": true,
+        "sha256": "19fe0eb6445553c2adff00e821a4fa16ca5969473ca8be420c32cb8e4b4b72c7"
+      },
+      "remote_file_count": 24,
+      "remote_total_bytes": 7243695289,
+      "status": "ready"
+    },
+    "raw_dataset": {
+      "id": "vladkochetov07/wunder-funder",
+      "pinned_parquet_sha256": {
+        "train": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "valid": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+      },
+      "remote_files": {
+        "train.parquet": 29240219011,
+        "valid.parquet": 5615509128,
+        "valid_mask.parquet": 91972846
+      },
+      "runtime_sha256_check_required": true,
+      "status": "ready"
+    },
+    "source_dataset": {
+      "id": "vladkochetov07/wnn-jax-realdata-e463-tpu-20261004-v1",
+      "manifest": {
+        "bytes": 11621,
+        "name": "source-manifest.json",
+        "remote_download_verified": true,
+        "sha256": "851898475dfa701f2089ec76cfe9592538aa2e7f9b70ebcb68c0a614e332d6fb"
+      },
+      "remote_file_count": 18,
+      "remote_total_bytes": 10219238,
+      "status": "ready"
+    }
+  },
+  "observations": {
+    "interpretation": "QUEUED is the latest verified phase; worker startup and scientific result are not yet evidenced.",
+    "latest_verified_provider_state": "KernelWorkerStatus.QUEUED",
+    "live_log_follow": {
+      "command": "kaggle kernels logs --follow vladkochetov07/e463-tpu-real-data-reload-v6-20261008",
+      "elapsed_seconds_approx": 37,
+      "error": "HTTP 500 from kernels/logs/stream",
+      "exit_code": 1,
+      "output_bytes": 0
+    },
+    "observed_at_utc": "2026-10-08T08:08:49+00:00",
+    "targeted_output_listing": {
+      "exit_code": 0,
+      "selected_phase_files_found": 0
+    }
+  },
+  "packet": {
+    "bundle_sha256": "3714c638b4548cb9b13826e0f15fbe9a98cfb21314b647bcf83e772d7e512325",
+    "code_sha256": "3392ed77b9000c7bab9b236531c9a16734325152b95a60c955408df1b9bb02f2",
+    "manifest_sha256": "a609e728b212065a53459b1c2630bced018cb80614d7eea55ebc5ecce3401448",
+    "metadata_sha256": "5d4d5d9606c71302ca1985bbc95fb70220a68821c5b127110e8380d8d4704e92",
+    "path": "research/campaign_2026-10-06/cloud_preflight/tpu_packet_v6_realdata_reload_candidate_v1",
+    "source_commit": "22aff7b3e733a20ec42637f76110bbd248d84452"
+  },
+  "postlaunch_quota": {
+    "canonical_status": {
+      "failure_message": "",
+      "kernel": "vladkochetov07/e463-tpu-real-data-reload-v6-20261008",
+      "monitoring_state": "polling_until_terminal_evidence_downloaded",
+      "resource": "tpu",
+      "status": "KernelWorkerStatus.QUEUED",
+      "terminal_evidence_receipt": "E463_TPU_V6_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json"
+    },
+    "observed_at_utc": "2026-10-08T08:08:49+00:00",
+    "source": "shared poll_provider.py exact Kaggle SDK quota_view",
+    "tpu": {
+      "campaign_baseline_used_seconds": 134.623,
+      "campaign_cap_seconds": 7200.0,
+      "campaign_headroom_seconds": 6955.958,
+      "campaign_used_seconds": 244.04200000000003,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 72000.0,
+      "used_seconds": 378.665
+    }
+  },
+  "prelaunch_quota": {
+    "account_headroom_after_reservation_seconds": 69971.335,
+    "campaign_headroom_after_reservation_seconds": 5305.958,
+    "observed_at_utc": "2026-10-08T08:06:44+00:00",
+    "planned_reservation_seconds": 1650.0,
+    "prior_e463_tpu_statuses": [
+      {
+        "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261006-v1",
+        "status": "KernelWorkerStatus.ERROR"
+      },
+      {
+        "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v2",
+        "status": "KernelWorkerStatus.ERROR"
+      },
+      {
+        "kernel": "vladkochetov07/wnn-e463-real-tpu-fullshape-preflight-20261007-v3",
+        "status": "KernelWorkerStatus.COMPLETE"
+      },
+      {
+        "kernel": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v4",
+        "status": "KernelWorkerStatus.ERROR"
+      },
+      {
+        "kernel": "vladkochetov07/wnn-e463-combo-reduction-tpu-v5e8-20261007-v5",
+        "status": "KernelWorkerStatus.COMPLETE"
+      }
+    ],
+    "source": "shared poll_provider.py exact Kaggle SDK quota_view",
+    "tpu": {
+      "campaign_baseline_used_seconds": 134.623,
+      "campaign_cap_seconds": 7200.0,
+      "campaign_headroom_seconds": 6955.958,
+      "campaign_used_seconds": 244.04200000000003,
+      "reserved_seconds": 0.0,
+      "total_allowed_seconds": 72000.0,
+      "used_seconds": 378.665
+    }
+  },
+  "provider_target": {
+    "canonical_kernel_id": "vladkochetov07/e463-tpu-real-data-reload-v6-20261008",
+    "registry_path": "provider_targets.json",
+    "registry_sha256_recorded": "4bbc87b094873dcbb492ffa844dfd4c0cdf7d8fb047e3cd6a672248e77efba80",
+    "terminal_receipt": "E463_TPU_V6_TERMINAL_OPERATOR_RECEIPT_20261008_R1.json",
+    "user_timer_active": true
+  },
+  "push": {
+    "accepted": true,
+    "command": "kaggle kernels push --path <reviewed-packet>/packet --timeout 1650 --accelerator TpuV5E8",
+    "duplicate_pushes": 0,
+    "exit_code": 0,
+    "provider_canonical_kernel_id": "vladkochetov07/e463-tpu-real-data-reload-v6-20261008",
+    "provider_returned_url": "https://www.kaggle.com/code/vladkochetov07/e463-tpu-real-data-reload-v6-20261008",
+    "provider_slug_warning": "The title-derived slug normalized realdata to real-data.",
+    "scope": "One real-data B16/C2000 compatibility update with checkpoint/reload and causal/reset checks; no production fit or score.",
+    "submitted_kernel_id": "vladkochetov07/e463-tpu-realdata-reload-v6-20261008",
+    "version_number": 1
+  },
+  "record_id": "E463_TPU_V6_OPERATOR_DELIVERY_20261008_R1",
+  "recorded_utc": "2026-10-08T08:10:44+00:00",
+  "schema": "wnn.e463-tpu-v6-operator-delivery.v1"
+}
