@@ -1,0 +1,15 @@
+# ADR0027: Diverse teachers, students and second-level learning
+
+Status: accepted, 2026-10-08 UTC / 2026-10-09 Kyiv.
+
+The latest user prioritizes this direction for at least the next 24 hours: independently trained teacher/student families with different architectures, optimizers, activations, losses, target treatments, folds and complete-sequence samples; evaluate their contribution to blends, stacking and neural boosting. Existing admitted training and scoring must finish. Preserve other research arms in the backlog. Allocation is based on conditional contribution to a complete endpoint, not standalone score or disagreement alone.
+
+The user explicitly authorizes one new `gpt-6-astra`, `xhigh` ideation task and three independent `gpt-6-luna`, `max` investigations, plus native Grok 4.7, several available Freebuff models and OpenCode Muse. This is a one-task exception to ADR0026, not permission to restart Sol or use additional premium native agents. Run native roles in waves within three subordinate slots. Verify external model access, record the actual model and preserve public proposals in Markdown; no paid API fallback or subscription purchase is authorized. Initial proposals remain independent until committed.
+
+Root retains spending, recipe admission and synthesis. Existing local 5 CPU / 20 decimal GB RAM / 5 decimal GB VRAM limits, one GPU worker, bounded support process, existing credit and $20 cumulative Vast cap remain unchanged. Research-time teachers may exceed serving constraints if separately admitted. Final candidates must satisfy the actual deterministic CPU submission interface and measured time/memory/size envelope. A reported 36-minute runtime implies only provisional headroom; benchmark the complete endpoint and reserve margin.
+
+Meta-model fitting and teacher selection require source-qualified group/component cross-fitting, with all initializer/teacher/target ancestry excluded from the evaluated fitting groups. Cross-fitting within previously examined data does not make it untouched. No inference-time labels, future features, sequence-ID shortcut or cross-sequence state leakage is permitted. Keep the official `global_wp_clip2_v1` evaluator unchanged. Training losses and target treatments are experimental variables.
+
+Compare a few informative mechanisms before expanding a factorial sweep: matched training recipe controls, robust-loss diversity, optimizer diversity, architecture/history diversity, constrained static blending, small causal gates and cross-fitted residual learners. Freeze outer evaluation membership and retain OOF predictions, membership, ancestry, runtime and residual diagnostics on the SSD. Small or uncertain standalone effects can justify a bounded interaction test. They neither guarantee a public improvement nor universally reject a family.
+
+Implementation follows independent proposals and review. The background manager may run only finite, exact, root-admitted successor jobs; this priority change does not authorize it to invent future recipes or expand resources.
