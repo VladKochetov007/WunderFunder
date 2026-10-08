@@ -1,0 +1,29 @@
+{
+  "arms": [
+    "TCN128x12 raw-only seed7 fold0 B8 scratch",
+    "GRU256x2 raw-only seed7 fold0 B8 scratch"
+  ],
+  "attempt_id": "e529-vast-h217-v3-20261008",
+  "identity": "E529-H217-TCN-RAW-SCRATCH-V3-AMP4096",
+  "maximum_worker_seconds": 21600,
+  "packet_sha256": "d58a175d25ebd959fa3523eb3d9d7305a1dc84e36f1f2663355d7eebf4dbda3a",
+  "per_arm_budget_seconds": {
+    "fit": 7200,
+    "profile": 900,
+    "valid_export": 1800
+  },
+  "recipe": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v3/recipe.json",
+  "requested_worker_max_seconds": 21600,
+  "required_independent_checks": [
+    "Verify frozen packet/source hashes and root-reviewed fit source.",
+    "Confirm environment and data/fold membership, actual market/account headroom, and sufficient worker plus provider quota.",
+    "Run each arm's B8 profile independently; retain failure evidence and allow a passing arm to proceed within fixed cohort headroom.",
+    "Export only fixed epoch3 valid predictions in FP32. No train export, fit-time grade, public forecast, or teammate weights."
+  ],
+  "resource_scope": "One campaign-owned Vast worker only after separate root review and fresh account/market/quota/headroom checks. No retry is implied by this prepared request.",
+  "runtime_contract": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v3/runtime_resources.json",
+  "schema_version": 1,
+  "scientific_change": "Explicit FP16 GradScaler initial scale4096 in profile and fit, an intentional numerical successor to V2's default65536; no finite-check relaxation.",
+  "source_manifest_sha256": "9548066a449cb21f021524279f406daeea4638b9acb9d2cbd7f78d0f00565c6f",
+  "status": "not_admitted"
+}

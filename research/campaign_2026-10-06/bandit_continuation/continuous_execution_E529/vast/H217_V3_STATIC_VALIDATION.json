@@ -1,0 +1,124 @@
+{
+  "attempt_id": "e529-vast-h217-v3-20261008",
+  "basis": {
+    "a3d_artifact_sha256": "5ba1f584b73b12546e34b6c511166ad1194bc8e69e59473e3dce587eecc11dbb",
+    "a3d_result_sha256": "dc41c1ce61da0d6f7f8dd70a76f1ad1c3bb7531254b8145d9ba3c1035973729b",
+    "observed_tcn_profile": {
+      "amp_skipped_updates": 1,
+      "completed_updates": 229,
+      "gradient_finite": false,
+      "loss_finite": true,
+      "optimizer_attempts": 230,
+      "step_wall_ms": 134.61,
+      "timing_unit": "one outer B8 DataLoader batch including all internal chunks; source timer starts outside and stops after chunk loop",
+      "valid_for_throughput": false
+    },
+    "terminal_arm_scope": "TCN profile aborted on strict nonfinite/skipped-update evidence; the V2 worker stopped before GRU profile/fit. This is profile execution evidence, not a model-quality grade.",
+    "v2_packet_sha256": "401e3a7e5315ad851f3b7aae3135fcf81e9dda71420d1fd26a6b595f197745b6"
+  },
+  "commands": {
+    "build": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=120s scripts/limited python3 research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/build_h217_v3_packet.py",
+    "source_diff": "diff -qr /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v2/project research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v3/project"
+  },
+  "independent_review_and_fresh_market_quota_check_required_before_any_provider_create": true,
+  "packet_sha256": "d58a175d25ebd959fa3523eb3d9d7305a1dc84e36f1f2663355d7eebf4dbda3a",
+  "runtime_accounting": {
+    "external_max_seconds": 21600,
+    "formula": "2*900 profile + 2*(7200 fit + 1800 valid export) + 450 setup + 600 package + 750 headroom = 21600.",
+    "phase_worst_case_seconds": 19800,
+    "remaining_headroom_seconds": 750,
+    "setup_reserve_seconds": 450,
+    "terminal_packaging_reserve_seconds": 600
+  },
+  "schema_version": 1,
+  "scientific_successor": {
+    "delivery": "Valid split only at fixed epoch3 in FP32; phases are arm-local; no worker-side score.",
+    "only_scientific_factor": "Explicit FP16 GradScaler initial scale4096 in TCN/GRU profile and fit; V2 historical effective default was65536.",
+    "strict_gate_preserved": "Requires zero skipped updates, finite loss and gradient evidence, consistent counts and exact effective initial scale; no overflow suppression or profile bypass.",
+    "unchanged": "TCN C128/L12 mix1 and GRU256x2 raw-only, seed7, fold0, B8, scratch, train+valid pool, WMSE/chunk, AdamW lr0.001 wd0.01, OneCycle, four epochs, fixed epoch3."
+  },
+  "scope": "Static H217 V3 packet construction, source/recipe audit, and focused local tests only. No fit, provider create, rental, quota mutation, or A3D reuse.",
+  "sha256": {
+    "admission_request": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_V3_ADMISSION_REQUEST.json",
+      "sha256": "ca76766561637226afcd84c445c56a01eeb44226acae7cbec2982e7b63f1bd9e",
+      "size_bytes": 1748
+    },
+    "amp_helper": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v3/project/src/wnn/amp.py",
+      "sha256": "190688ecc856fedf9698ef82d79864f33566bb5f6f1f7a92ce77ae27fcd4ed53",
+      "size_bytes": 1249
+    },
+    "build_receipt": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_V3_BUILD_RECEIPT.json",
+      "sha256": "1104e3be707bc7cce754fbdb29f445a53d73871ed4558699971df51ecb30f5a1",
+      "size_bytes": 10838
+    },
+    "builder": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/build_h217_v3_packet.py",
+      "sha256": "2c100b778c01acdcdaf073d643ca7a769732ebd50e4bfe57abe98800360301cb",
+      "size_bytes": 7519
+    },
+    "focused_tests": {
+      "path": "tests/test_h217_v3_packet.py",
+      "sha256": "a30b9920b702a542780de4206f284e25b249a25a82d0cacd2a47d5114353e9b0",
+      "size_bytes": 8457
+    },
+    "packet_tar": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v3.tar",
+      "sha256": "d58a175d25ebd959fa3523eb3d9d7305a1dc84e36f1f2663355d7eebf4dbda3a",
+      "size_bytes": 2048000
+    },
+    "recipe": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v3/recipe.json",
+      "sha256": "193c116797e6182c1918bd38603e9f8a6c06969e423c08c963dc77cefcb9cec8",
+      "size_bytes": 21981
+    },
+    "run_script": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v3/run.sh",
+      "sha256": "28c097bfe91d3617fcf22d9caaed6005cf7ff01ed7d034832a5fcc3a249ef8de",
+      "size_bytes": 3934
+    },
+    "runtime_resources": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v3/runtime_resources.json",
+      "sha256": "708aebd496b5eda4e68ecfd98f63d3af369cea3a6c6d85031866362a155cd0f8",
+      "size_bytes": 1292
+    },
+    "source_manifest": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/H217_V3_SOURCE_MANIFEST.json",
+      "sha256": "9548066a449cb21f021524279f406daeea4638b9acb9d2cbd7f78d0f00565c6f",
+      "size_bytes": 11870
+    },
+    "trainer": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v3/project/scripts/train_rnn.py",
+      "sha256": "affae686fb97e39a2bfe49a96c2124ee2a66d30374a24ab1fe0a8ede9824bf5b",
+      "size_bytes": 146823
+    },
+    "worker": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/continuous_execution_E529/vast/h217_packet_v3/worker.py",
+      "sha256": "4444a4ede15e13b8411e83f1b46dd4b0380f3a7d91415a2fcddc7afb3a8f0c15",
+      "size_bytes": 24807
+    }
+  },
+  "source_diff_audit": {
+    "audit_command": "diff -qr <V2 project> <V3 project>, excluding local __pycache__ created by static compilation.",
+    "expected_changes_only": [
+      "project/scripts/train_rnn.py (explicit AMP-scale CLI and profile scale receipts)",
+      "project/src/wnn/amp.py (new GradScaler constructor)"
+    ],
+    "other_sources": "All other model/data/objective/split sources are byte-identical to V2.",
+    "reference": "V2 packet project tree copied into isolated V3 project."
+  },
+  "source_manifest_sha256": "9548066a449cb21f021524279f406daeea4638b9acb9d2cbd7f78d0f00565c6f",
+  "status": "prepared_for_root_review_not_admitted",
+  "validation": {
+    "bundle": "60 deterministic members; archive SHA matches source manifest; no data arrays, parquet, cache, run or checkpoint files embedded.",
+    "pytest": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_MEM_MAX=1000000000 WNN_RUNTIME_MAX=180s scripts/limited python3 -m pytest -q tests/test_h217_v3_packet.py",
+      "result": "7 passed"
+    },
+    "ruff_packet_sources": "ruff format --check and ruff check passed for worker.py, amp.py, builder, and focused tests.",
+    "syntax": "bash -n run.sh passed; py_compile passed for trainer, AMP helper, worker and builder.",
+    "trainer_lint": "ruff check --select F passed on V3 trainer. Full Ruff reports the same eight findings on the V2 trainer baseline and V3 copy (I001, SIM102, B023\u00d72, B020\u00d72, B007\u00d72); no broad cleanup was included."
+  }
+}
